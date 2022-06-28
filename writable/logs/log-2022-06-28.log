@@ -1,0 +1,18 @@
+CRITICAL - 2022-06-28 02:24:18 --> The framework needs the following extension(s) installed and loaded: curl, intl, mbstring.
+in SYSTEMPATH\CodeIgniter.php on line 231.
+ 1 SYSTEMPATH\CodeIgniter.php(231): CodeIgniter\Exceptions\FrameworkException::forMissingExtension('curl, intl, mbstring')
+ 2 SYSTEMPATH\CodeIgniter.php(189): CodeIgniter\CodeIgniter->resolvePlatformExtensions()
+ 3 ROOTPATH\spark(71): CodeIgniter\CodeIgniter->initialize()
+CRITICAL - 2022-06-28 02:24:18 --> Uncaught Error: Call to undefined function CodeIgniter\CLI\mb_strpos() in D:\Projeto\www\Brapci3.1\system\CLI\CLI.php:776
+Stack trace:
+#0 D:\Projeto\www\Brapci3.1\system\CLI\CLI.php(161): CodeIgniter\CLI\CLI::parseCommandLine()
+#1 D:\Projeto\www\Brapci3.1\system\CLI\CLI.php(1018): CodeIgniter\CLI\CLI::init()
+#2 D:\Projeto\www\Brapci3.1\system\Autoloader\Autoloader.php(284): include_once('D:\\Projeto\\www\\...')
+#3 D:\Projeto\www\Brapci3.1\system\Autoloader\Autoloader.php(261): CodeIgniter\Autoloader\Autoloader->includeFile('D:\\Projeto\\www\\...')
+#4 D:\Projeto\www\Brapci3.1\system\Autoloader\Autoloader.php(239): CodeIgniter\Autoloader\Autoloader->loadInNamespace('CodeIgniter\\CLI...')
+#5 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('CodeIgniter\\CLI...')
+#6 D:\Projeto\www\Brapci3.1\app\Views\errors\cli\error_exception.php(6): spl_autoload_call('CodeIgniter\\CLI...')
+#7 D:\Projeto\www\Brapci3.1\app\Views\errors\cli\production.php(5): include('D:\\Projeto\\www\\...')
+#8 D:\Projeto\www\Brap
+in SYSTEMPATH\CLI\CLI.php on line 776.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
