@@ -41,6 +41,7 @@ $routes->get('/', 'Main::index');
 $routes->get('/benancib', 'Benancib::index');
 
 /********* PQ */
+$routes->get('/pq/(:any)', 'Pq::index/$1');
 $routes->get('/pq', 'Pq::index');
 
 /********** Others */

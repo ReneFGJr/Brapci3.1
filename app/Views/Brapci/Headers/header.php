@@ -19,6 +19,6 @@
     
     <!---- CSS -->    
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/brapci.css">
+    <link rel="stylesheet" href="/css/brapci.css?v0.0.1">
 </head>
 <body style="min-height: 500px;" >
