@@ -245,3 +245,220 @@ in APPPATH\Models\PQ\Bolsas.php on line 52.
  8 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pq))
  9 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
 10 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:09:06 --> Call to undefined method App\Models\PQ\Bolsas::edit
+in SYSTEMPATH\Model.php on line 773.
+ 1 APPPATH\Models\PQ\Index.php(60): CodeIgniter\Model->__call('edit', [...])
+ 2 APPPATH\Controllers\Pq.php(29): App\Models\PQ\Index->index('bolsa_edit', 'ROOTPATH\\public', 'ROOTPATH\\public', 'ROOTPATH\\public')
+ 3 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Pq->index('bolsa_edit')
+ 4 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pq))
+ 5 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:10:17 --> count(): Parameter must be an array or an object that implements Countable
+in APPPATH\Helpers\sisdoc_form_1.php on line 66.
+ 1 APPPATH\Helpers\sisdoc_form_1.php(66): CodeIgniter\Debug\Exceptions->errorHandler(2, 'count(): Parameter must be an array or an object that implements Countable', 'APPPATH\\Helpers\\sisdoc_form_1.php', 66, [...])
+ 2 APPPATH\Models\PQ\Bolsas.php(47): form(Object(App\Models\PQ\Bolsas))
+ 3 APPPATH\Models\PQ\Index.php(60): App\Models\PQ\Bolsas->edit('17')
+ 4 APPPATH\Controllers\Pq.php(29): App\Models\PQ\Index->index('bolsa_edit', 'ROOTPATH\\public', 'ROOTPATH\\public', 'ROOTPATH\\public')
+ 5 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Pq->index('bolsa_edit')
+ 6 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pq))
+ 7 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:32:53 --> Call to undefined function App\Controllers\get()
+in APPPATH\Controllers\Popup.php on line 20.
+ 1 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+ 2 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+ 3 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:33:23 --> Undefined variable: Bolsa
+in APPPATH\Controllers\Popup.php on line 27.
+ 1 APPPATH\Controllers\Popup.php(27): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined variable: Bolsa', 'APPPATH\\Controllers\\Popup.php', 27, [...])
+ 2 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+ 3 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+ 4 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:33:52 --> Use of undefined constant PATH - assumed 'PATH' (this will throw an Error in a future version of PHP)
+in APPPATH\Models\PQ\Bolsas.php on line 54.
+ 1 APPPATH\Models\PQ\Bolsas.php(54): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Use of undefined constant PATH - assumed \'PATH\' (this will throw an Error in a future version of PHP)', 'APPPATH\\Models\\PQ\\Bolsas.php', 54, [...])
+ 2 APPPATH\Controllers\Popup.php(27): App\Models\PQ\Bolsas->edit('17')
+ 3 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+ 4 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+ 5 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 12:36:45 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from modalidades' at line 1
+CRITICAL - 2022-06-28 12:36:45 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from modalidades' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('select * from select  from modalidades', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('select * from select  from modalidades')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('select * from select  from modalidades')
+ 4 SYSTEMPATH\Model.php(767): CodeIgniter\Database\BaseConnection->query('select * from select  from modalidades')
+ 5 APPPATH\Helpers\sisdoc_form_1.php(401): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('sql:id_mod:mod_silga:select  from modalidades', 'bs_tipo', '1', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 7 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 8 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 12:37:31 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapic_pq.modalidades' at line 1
+CRITICAL - 2022-06-28 12:37:31 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapic_pq.modalidades' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('select * from select  from brapic_pq.modalidades', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('select * from select  from brapic_pq.modalidades')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('select * from select  from brapic_pq.modalidades')
+ 4 SYSTEMPATH\Model.php(767): CodeIgniter\Database\BaseConnection->query('select * from select  from brapic_pq.modalidades')
+ 5 APPPATH\Helpers\sisdoc_form_1.php(401): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('sql:id_mod:mod_silga:select  from brapic_pq.modalidades', 'bs_tipo', '1', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 7 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 8 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 12:37:42 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+CRITICAL - 2022-06-28 12:37:42 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('select * from select  from brapci_pq.modalidades', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('select * from select  from brapci_pq.modalidades')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('select * from select  from brapci_pq.modalidades')
+ 4 SYSTEMPATH\Model.php(767): CodeIgniter\Database\BaseConnection->query('select * from select  from brapci_pq.modalidades')
+ 5 APPPATH\Helpers\sisdoc_form_1.php(401): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('sql:id_mod:mod_silga:select  from brapci_pq.modalidades', 'bs_tipo', '1', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 7 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 8 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 12:38:25 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+CRITICAL - 2022-06-28 12:38:25 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('select * from select  from brapci_pq.modalidades', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('select * from select  from brapci_pq.modalidades')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('select * from select  from brapci_pq.modalidades')
+ 4 SYSTEMPATH\Model.php(767): CodeIgniter\Database\BaseConnection->query('select * from select  from brapci_pq.modalidades')
+ 5 APPPATH\Helpers\sisdoc_form_1.php(401): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('sql:id_mod:mod_sigla:select  from brapci_pq.modalidades', 'bs_tipo', '1', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 7 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 8 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 12:38:26 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+CRITICAL - 2022-06-28 12:38:26 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('select * from select  from brapci_pq.modalidades', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('select * from select  from brapci_pq.modalidades')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('select * from select  from brapci_pq.modalidades')
+ 4 SYSTEMPATH\Model.php(767): CodeIgniter\Database\BaseConnection->query('select * from select  from brapci_pq.modalidades')
+ 5 APPPATH\Helpers\sisdoc_form_1.php(401): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('sql:id_mod:mod_sigla:select  from brapci_pq.modalidades', 'bs_tipo', '1', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 7 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 8 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 12:38:26 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+CRITICAL - 2022-06-28 12:38:26 --> You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from brapci_pq.modalidades' at line 1
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('select * from select  from brapci_pq.modalidades', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('select * from select  from brapci_pq.modalidades')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('select * from select  from brapci_pq.modalidades')
+ 4 SYSTEMPATH\Model.php(767): CodeIgniter\Database\BaseConnection->query('select * from select  from brapci_pq.modalidades')
+ 5 APPPATH\Helpers\sisdoc_form_1.php(401): CodeIgniter\Model->__call('query', [...])
+ 6 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('sql:id_mod:mod_sigla:select  from brapci_pq.modalidades', 'bs_tipo', '1', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 7 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 8 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:39:26 --> Undefined offset: 1
+in APPPATH\Helpers\sisdoc_form_1.php on line 381.
+ 1 APPPATH\Helpers\sisdoc_form_1.php(381): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offset: 1', 'APPPATH\\Helpers\\sisdoc_form_1.php', 381, [...])
+ 2 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('op:2:2&1A:1A', 'bs_nivel', '2', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 3 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 4 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 5 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+ 6 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+ 7 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 12:39:46 --> Undefined offset: 1
+in APPPATH\Helpers\sisdoc_form_1.php on line 381.
+ 1 APPPATH\Helpers\sisdoc_form_1.php(381): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined offset: 1', 'APPPATH\\Helpers\\sisdoc_form_1.php', 381, [...])
+ 2 APPPATH\Helpers\sisdoc_form_1.php(165): form_fields('op:2:2', 'bs_nivel', '2', Object(App\Models\PQ\Bolsas), 0, 'ROOTPATH\\public')
+ 3 APPPATH\Models\PQ\Bolsas.php(56): form(Object(App\Models\PQ\Bolsas))
+ 4 APPPATH\Controllers\Popup.php(32): App\Models\PQ\Bolsas->edit('17')
+ 5 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Popup->index('pq_bolsa_edit')
+ 6 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Popup))
+ 7 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 13:25:08 --> Undefined variable: data
+in APPPATH\Controllers\Social.php on line 11.
+ 1 APPPATH\Controllers\Social.php(11): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined variable: data', 'APPPATH\\Controllers\\Social.php', 11, [])
+ 2 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Social->index()
+ 3 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Social))
+ 4 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 13:26:19 --> Undefined variable: sx
+in APPPATH\Controllers\Social.php on line 12.
+ 1 APPPATH\Controllers\Social.php(12): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined variable: sx', 'APPPATH\\Controllers\\Social.php', 12, [...])
+ 2 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Social->index()
+ 3 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Social))
+ 4 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2022-06-28 13:26:29 --> Use of undefined constant PATH - assumed 'PATH' (this will throw an Error in a future version of PHP)
+in APPPATH\Views\Brapci\Headers\navbar.php on line 43.
+ 1 APPPATH\Views\Brapci\Headers\navbar.php(43): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Use of undefined constant PATH - assumed \'PATH\' (this will throw an Error in a future version of PHP)', 'APPPATH\\Views\\Brapci\\Headers\\navbar.php', 43, [...])
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\Brapci\\Headers\\navbar.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1135): CodeIgniter\View\View->render('Brapci/Headers/navbar', [], true)
+ 5 APPPATH\Controllers\Social.php(13): view('Brapci/Headers/navbar', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Social->index()
+ 7 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Social))
+ 8 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 14:06:18 --> Error connecting to the database: Access denied for user ''@'localhost' (using password: NO)
+CRITICAL - 2022-06-28 14:06:18 --> Unable to connect to the database.
+Main connection [MySQLi]: Access denied for user ''@'localhost' (using password: NO)
+in SYSTEMPATH\Database\BaseConnection.php on line 416.
+ 1 SYSTEMPATH\Database\BaseConnection.php(586): CodeIgniter\Database\BaseConnection->initialize()
+ 2 SYSTEMPATH\Database\BaseBuilder.php(1585): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `users2`
+WHERE `us_email` = :us_email:', [...], false)
+ 3 SYSTEMPATH\Model.php(222): CodeIgniter\Database\BaseBuilder->get()
+ 4 SYSTEMPATH\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+ 5 APPPATH\Models\Socials.php(1105): CodeIgniter\BaseModel->findAll()
+ 6 APPPATH\Models\Socials.php(1016): App\Models\Socials->user_exists('asd')
+ 7 APPPATH\Models\Socials.php(588): App\Models\Socials->signin()
+ 8 APPPATH\Controllers\Social.php(23): App\Models\Socials->ajax('signin')
+ 9 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Social->ajax('signin')
+10 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Social))
+11 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+12 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()
+ERROR - 2022-06-28 14:07:30 --> Table 'brapci.users2' doesn't exist
+CRITICAL - 2022-06-28 14:07:30 --> Table 'brapci.users2' doesn't exist
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 292.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(292): mysqli->query('SELECT *
+FROM `users2`
+WHERE `us_email` = \'asd\'', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(695): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *
+FROM `users2`
+WHERE `us_email` = \'asd\'')
+ 3 SYSTEMPATH\Database\BaseConnection.php(609): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *
+FROM `users2`
+WHERE `us_email` = \'asd\'')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1585): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `users2`
+WHERE `us_email` = :us_email:', [...], false)
+ 5 SYSTEMPATH\Model.php(222): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\BaseModel.php(584): CodeIgniter\Model->doFindAll(0, 0)
+ 7 APPPATH\Models\Socials.php(1105): CodeIgniter\BaseModel->findAll()
+ 8 APPPATH\Models\Socials.php(1016): App\Models\Socials->user_exists('asd')
+ 9 APPPATH\Models\Socials.php(588): App\Models\Socials->signin()
+10 APPPATH\Controllers\Social.php(23): App\Models\Socials->ajax('signin')
+11 SYSTEMPATH\CodeIgniter.php(896): App\Controllers\Social->ajax('signin')
+12 SYSTEMPATH\CodeIgniter.php(466): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Social))
+13 SYSTEMPATH\CodeIgniter.php(349): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+14 FCPATH\index.php(55): CodeIgniter\CodeIgniter->run()

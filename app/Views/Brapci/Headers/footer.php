@@ -2,7 +2,7 @@
 <?php
 if (!isset($bg)) { $bg = 'bg-primary'; }
 ?>
-<footer class="<?=$bg;?> text-white text-center text-lg-start">
+<footer class="<?=$bg;?> text-white text-center text-lg-start" style="margin-top: 120px;">
   <!-- Grid container -->
   <div class="container p-4">
     <!--Grid row-->
@@ -10,7 +10,6 @@ if (!isset($bg)) { $bg = 'bg-primary'; }
       <!--Grid column-->
       <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
         <h5 class="text-uppercase">Coleções Brapci</h5>
-
         <p>
           A Brapci é um agregador que reune fontes de informação da área de Ciência da Informação, Biblioteconomia, Arquivologia e Museologia. É um base de dados mantida com a colaboração de difersas instituições de ensino e pesquisa. Tem como mantenedora a Universidade Federal do Rio Grando do Sul e ao Programa de Pós-Graduação em Ciência da Informação (PPGCIN).
         </p>

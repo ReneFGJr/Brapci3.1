@@ -54,6 +54,11 @@ class Index extends Model
 
 		switch($d1)
 			{
+				case 'bolsa_edit':
+					$Bolsa = new \App\Models\PQ\Bolsas();
+					$id = get('id');
+					$sx .= $Bolsa->edit($id);
+					break;
 				case 'export':
 					$Export = new \App\Models\PQ\Export();
 					$sx .= $Export->brapci();

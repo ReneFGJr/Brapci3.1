@@ -15,21 +15,23 @@ define("PATH",getenv("app.baseURL").'/');
 define("MODULE",'');
 define("PREFIX",'');
 
-class Pq extends BaseController
+class Popup extends BaseController
 {
-    public function index($d1='',$d2='',$d3='',$d4='')
+    public function index($act='')
     {
-        $PQ = new \App\Models\PQ\Index();
-        $data['page_title'] = 'Brapci - Pesquisadores Produtividade PQ CNPq';
+        $data['page_title'] = 'Brapci - POPUP - '.ucfirst($act);
         $data['bg'] = 'bg-pq';
         $sx = '';
         $sx .= view('Brapci/Headers/header',$data);
-        $sx .= view('Brapci/Headers/navbar',$data);
-        $sa = view('Pq/logo',$data);
-        $sb = $PQ->index($d1,$d2,$d3,$d4);
-        $sx .= bs(bsc($sa,2).bsc($sb,10));
-        $sx .= view('Brapci/Headers/footer',$data);
-        $sx .= '<div style="height: 80px; wdith: 100%;">X</div>';
+
+        switch($act)
+            {
+                case 'pq_bolsa_edit':
+                    $Bolsas = new \App\Models\PQ\Bolsas();
+                    $id = get('id');
+                    $sx .= $Bolsas->edit($id);
+                    break;
+            }
         return $sx;
     }
 }

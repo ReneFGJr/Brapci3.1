@@ -14,7 +14,15 @@ class Bolsas extends Model
 	protected $returnType           = 'array';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
-	protected $allowedFields        = [];
+	protected $allowedFields        = [
+		'id_bb','bs_tipo','bs_nivel'
+		,'bs_start','bs_finish','BS_IES'
+
+	];
+	protected $typeFields        = [
+		'hidden','sql:id_mod:mod_sigla:brapci_pq.modalidades','op:2&2:1D&1D:1C&1C:1B&1B:1A&1A',
+		'string','string','string'
+	];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -40,6 +48,18 @@ class Bolsas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function edit($id)
+		{
+			$this->id = $id;
+			$this->path = PATH.'popup/pq_bolsa_edit?id='.$id.'&'	;
+			$this->path_back = 'wclose';	
+			$sx = h(lang('pq.pq_editar'),2);
+			$sx .= form($this);
+
+			$sx = bs(bsc($sx,12));
+			return ($sx);
+		}
+
 	function historic_researcher($id)
 		{
 			$dt = $this
@@ -53,7 +73,7 @@ class Bolsas extends Model
 				{
 					$line = $dt[$r];
 					$year = substr($line['bs_start'],0,4);
-					$link = onclick('NEW');
+					$link = onclick(PATH.'popup/pq_bolsa_edit/?id='.$line['id_bb'],800,400);
 					$linka = '</span>';
 					$edit = '<div style="float: right;">'.$link.bsicone('edit',20).$linka.'</div>';
 					$sx .= '
@@ -61,7 +81,7 @@ class Bolsas extends Model
 					
 					<div class="card-body"> 
 						'.$edit.'
-						<img class="img-thumbnail rounded float-left" style="height: 50px;" src="'.URL.'/img/logo/logo_cnpq.png'.'" alt="CNPq">
+						<img style="margin-right: 25px; height: 50px; float: left;"" src="'.URL.'/img/logo/logo_cnpq.png'.'" alt="CNPq">
 						<h5 class="card-title">'.$line['mod_descricao'].' '.$line['mod_sigla'].$line['bs_nivel']. '('.$year.')</h5>
 						<p class="card-text"><b>'.$line['BS_IES'].'</b>'.
 						' - '.

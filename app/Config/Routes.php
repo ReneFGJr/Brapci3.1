@@ -37,8 +37,17 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Main::index');
 
+/********* SOCIAL */
+$routes->get('/social', 'Social::index');
+$routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
+
+
 /********* BENANCIB */
 $routes->get('/benancib', 'Benancib::index');
+
+/********* POPUP */
+$routes->get('/popup/(:any)', 'Popup::index/$1');
+$routes->post('/popup/(:any)', 'Popup::index/$1');
 
 /********* PQ */
 $routes->get('/pq/(:any)', 'Pq::index/$1');
