@@ -1,5 +1,8 @@
 </body>
-<footer class="bg-primary text-white text-center text-lg-start">
+<?php
+if (!isset($bg)) { $bg = 'bg-primary'; }
+?>
+<footer class="<?=$bg;?> text-white text-center text-lg-start">
   <!-- Grid container -->
   <div class="container p-4">
     <!--Grid row-->
@@ -22,16 +25,19 @@
 
         <ul class="list-unstyled mb-0">
           <li>
-            <a href="#!" class="text-white">Link 1</a>
+            <a href="/" class="text-white">Brapci Revistas</a>
           </li>
           <li>
-            <a href="#!" class="text-white">Link 2</a>
+            <a href="/benancib" class="text-white">Benancib</a>
           </li>
           <li>
-            <a href="#!" class="text-white">Link 3</a>
+            <a href="/proceedings" class="text-white">Brapci Eventos</a>
+          </li>          
+          <li>
+            <a href="/pq" class="text-white">Pesquisadores PQ</a>
           </li>
           <li>
-            <a href="#!" class="text-white">Link 4</a>
+            <a href="/Livros" class="text-white">Brapci Livros</a>
           </li>
         </ul>
       </div>
@@ -43,16 +49,13 @@
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!" class="text-white">Link 1</a>
+            <a href="/about" class="text-white">Sobre a Brapci</a>
           </li>
           <li>
-            <a href="#!" class="text-white">Link 2</a>
+            <a href="/contact" class="text-white">Contato</a>
           </li>
           <li>
-            <a href="#!" class="text-white">Link 3</a>
-          </li>
-          <li>
-            <a href="#!" class="text-white">Link 4</a>
+            <a href="/cited" class="text-white">Como citar</a>
           </li>
         </ul>
       </div>
