@@ -40,6 +40,42 @@ class Bolsas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function historic_researcher($id)
+		{
+			$dt = $this
+				->join('modalidades','id_mod = bs_tipo', STR_PAD_LEFT)
+				->where('bb_person',$id)
+				->orderBy('bs_start')
+				->findAll();
+
+			$sx = '';
+			for ($r=0;$r < count($dt);$r++)
+				{
+					$line = $dt[$r];
+					$year = substr($line['bs_start'],0,4);
+					$link = onclick('NEW');
+					$linka = '</span>';
+					$edit = '<div style="float: right;">'.$link.bsicone('edit',20).$linka.'</div>';
+					$sx .= '
+					<div class="card mb-2" style="width: 100%;">
+					
+					<div class="card-body"> 
+						'.$edit.'
+						<img class="img-thumbnail rounded float-left" style="height: 50px;" src="'.URL.'/img/logo/logo_cnpq.png'.'" alt="CNPq">
+						<h5 class="card-title">'.$line['mod_descricao'].' '.$line['mod_sigla'].$line['bs_nivel']. '('.$year.')</h5>
+						<p class="card-text"><b>'.$line['BS_IES'].'</b>'.
+						' - '.
+						stodbr(sonumero($line['bs_start'])).
+						' - '.
+						stodbr(sonumero($line['bs_finish'])).
+						'</p>						
+					</div>
+					</div>
+					';
+				}
+			return $sx;
+		}
+
 	function resume()
 	{
 		helper('highchart');

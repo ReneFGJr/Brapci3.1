@@ -20,7 +20,7 @@ class Pq extends BaseController
     public function index($d1='',$d2='',$d3='',$d4='')
     {
         $PQ = new \App\Models\PQ\Index();
-        $data['page_title'] = 'Brapci-Benancib';
+        $data['page_title'] = 'Brapci - Pesquisadores Produtividade PQ CNPq';
         $data['bg'] = 'bg-pq';
         $sx = '';
         $sx .= view('Brapci/Headers/header',$data);

@@ -101,11 +101,18 @@ class Index extends Model
 			if ($id <= 0) { return redirect('pq:index'); }
 			$RDF = new \App\Models\Rdf\RDF();
 			$Bolsistas = new \App\Models\PQ\Bolsistas();
-			$dt = $Bolsistas->find($id);
+			$Bolsas = new \App\Models\PQ\Bolsas();
+			$dt = $Bolsistas->le($id);
 
-			$sx = view('Pq/bolsista',$dt);
+			$sa = view('Pq/bolsista',$dt);
+			$sb = $Bolsas->historic_researcher($id);
 
-			pre($dt);
+			$sx = bs(bsc($sa,4).bsc($sb,9));
+
+
+			//$sx .= '<style> div { border: 1px solid #000;"} </style>';
+
+			return $sx;
 
 			if ($dt['bs_rdf_id'] == 0)
 				{
