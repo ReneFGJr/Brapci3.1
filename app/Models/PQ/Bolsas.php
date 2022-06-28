@@ -45,7 +45,7 @@ class Bolsas extends Model
 			$dt = $this
 				->join('modalidades','id_mod = bs_tipo', STR_PAD_LEFT)
 				->where('bb_person',$id)
-				->orderBy('bs_start')
+				->orderBy('bs_start DESC')
 				->findAll();
 
 			$sx = '';
