@@ -40,7 +40,7 @@
       </form>
       <ul class="navbar-nav mb-2 mb-lg-0">
       <li class="nav-item">
-        <button class="btn btn-outline-danger" onclick="location.href = '<?=PATH.'/social/login';?>';" style="margin-left: 7px;" type="submit">ACESSO</button>
+        <button class="btn btn-outline-danger" onclick="location.href = '<?=PATH.'/social';?>';" style="margin-left: 7px;" type="submit">ACESSO</button>
         </li>
       </ul>
     </div>
