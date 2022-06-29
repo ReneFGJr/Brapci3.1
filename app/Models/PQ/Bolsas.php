@@ -22,7 +22,7 @@ class Bolsas extends Model
 	];
 	protected $typeFields        = [
 		'hidden', 'sql:id_mod:mod_sigla:brapci_pq.modalidades*', 'op:2&2:1D&1D:1C&1C:1B&1B:1A&1A*',
-		'date*', 'date*', 'string*',
+		'string*', 'string*', 'string*',
 		'hidden'
 	];
 
