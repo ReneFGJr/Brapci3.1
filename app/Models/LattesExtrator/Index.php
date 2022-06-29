@@ -104,7 +104,6 @@ class Index extends Model
 
                                     /***** Processar Dados */
                                     $myXMLData = file_get_contents($filename);
-                                    pre ($myXMLData);
                                     $xml = simplexml_load_string($myXMLData);
                                     $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
                                     $LattesProducao->producao_xml($id);
