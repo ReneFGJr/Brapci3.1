@@ -26,11 +26,24 @@ class Popup extends BaseController
 
         switch($act)
             {
+                case 'pq_bolsista_edit':
+                    $Bolsistas = new \App\Models\PQ\Bolsistas();
+                    $id = get('id');
+                    $sx .= $Bolsistas->edit($id);
+                    break;
+
                 case 'pq_bolsa_edit':
                     $Bolsas = new \App\Models\PQ\Bolsas();
                     $id = get('id');
                     $sx .= $Bolsas->edit($id);
                     break;
+
+                case 'pq_bolsa_delete':
+                    $Bolsas = new \App\Models\PQ\Bolsas();
+                    $id = get('id');
+                    $Bolsas->delete($id);
+                    $sx = wclose();
+                    break;                    
             }
         return $sx;
     }

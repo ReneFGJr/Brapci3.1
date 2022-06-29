@@ -10,13 +10,13 @@
 * @version     v0.21+12.03
 */
 
-function bsicone($type='',$w=16)
+function bsicone($type='',$w=16,$class='')
     {
 		if ($type == 'config') { $type = 'gear'; }
 		if ($type == 'return') { $type = 'back'; }
         if ($type == 'import') { $type = 'upload'; }
 
-        $sx = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$w.'" height="'.$w.'" fill="currentColor" class="bi" viewBox="0 0 16 16">';
+        $sx = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$w.'" height="'.$w.'" fill="currentColor" class="bi '.$class.'" viewBox="0 0 16 16">';
         switch($type)
             {   
                 case 'eye':
