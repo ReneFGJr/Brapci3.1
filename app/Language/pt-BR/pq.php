@@ -1,5 +1,6 @@
 <?php
 return[
         'bolsista' => "Bolsista PQ",
-        'year'=>'Ano'
+        'year'=>'Ano',
+        'bs_lattes'=>'ID do Lattes',
 ];
