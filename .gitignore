@@ -1,3 +1,4 @@
 /writable/debugbar/*
 /writable/
 /.env
+.env
