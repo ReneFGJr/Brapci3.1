@@ -96,10 +96,11 @@ class Index extends Model
                                 $zip = new \ZipArchive();
                                 $res = $zip->open($fileZip);
                                 if ($res === TRUE) {
-                                $zip->extractTo('../.tmp/Lattes/');
-                                $zip->close();
+                                    $zip->extractTo('../.tmp/Lattes/');
+                                    $zip->close();
                                 } else {
-                                echo "ERRO";
+                                    echo bsmessage("ERRO na descompactação",3);
+                                    pre($zip);
                                 }
 
                                 file_put_contents($fileZip,$txt);                                
