@@ -107,6 +107,7 @@ class Index extends Model
 			$RDF = new \App\Models\Rdf\RDF();
 			$Bolsistas = new \App\Models\PQ\Bolsistas();
 			$Bolsas = new \App\Models\PQ\Bolsas();
+			$LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
 
 			$dt = $Bolsistas->le($id);
 
@@ -116,6 +117,8 @@ class Index extends Model
 			/***** */
 			$sb .= onclick(URL.'/popup/pq_bolsa_edit?id=0&pq='.$id,800,600).bsicone('plus',16,'float-end').'</span>';			
 			$sb .= $Bolsas->historic_researcher($id);
+
+			$sb .= $LattesProducao->producao($dt['bs_lattes']);
 
 			$sx = bs(bsc($sa,4).bsc($sb,9));
 

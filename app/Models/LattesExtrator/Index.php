@@ -86,27 +86,37 @@ class Index extends Model
                     {
                         $filename = $this->fileName($id);
                         $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q='.trim($id);
-                        echo h($filename);
                         if (!$this->fileNameUpdated($id))
                             {
-                                echo "Harvesting";
+                                $data = array();
+                                echo view('Brapci/Headers/header',$data);
                                 $txt = file_get_contents($url);
                                 $fileZip = '../.tmp/Zip/lattes.zip';
 
                                 $zip = new \ZipArchive();
                                 $res = $zip->open($fileZip);
-                                if ($res === TRUE) {
+                                if ($res === TRUE) 
+                                {
                                     $zip->extractTo('../.tmp/Lattes/');
                                     $zip->close();
+
+                                    /***** Processar Dados */
+                                    $myXMLData = file_get_contents($filename);
+                                    pre ($myXMLData);
+                                    $xml = simplexml_load_string($myXMLData);
+                                    $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+                                    $LattesProducao->producao_xml($id);
                                     return wclose();
                                 } else {
                                     echo bsmessage("ERRO na descompactação",3);
-                                    pre($zip);
+                                    exit;
                                 }
 
                                 file_put_contents($fileZip,$txt);                                
                             } else {
-                                echo "CHACKED";
+                                echo "CACHED";
+                                $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+                                $LattesProducao->producao_xml($id);
                             }
                     }
             }
