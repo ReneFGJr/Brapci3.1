@@ -22,7 +22,7 @@ class Bolsas extends Model
 	];
 	protected $typeFields        = [
 		'hidden', 'sql:id_mod:mod_sigla:brapci_pq.modalidades*', 'op:2&2:1D&1D:1C&1C:1B&1B:1A&1A*',
-		'string', 'string*', 'string*',
+		'date*', 'date*', 'string*',
 		'hidden'
 	];
 
@@ -49,6 +49,17 @@ class Bolsas extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
+
+	function selo($dt)
+		{
+			$sx = '';
+			$sx .= '<div class="text-center p-1" style="width: 100%; border: 1px solid #000; border-radius: 10px;  line-height: 80%;">';
+			$sx .= '<span style="font-size: 16px;">'.$dt['bs_nivel'].'</span>';
+			$sx .= '<br>';
+			$sx .= '<b style="font-size: 12px; ">'.$dt['bs_ano'].'</b>';
+			$sx .= '</div>';
+			return $sx;
+		}
 
 	function edit($id)
 	{
@@ -203,11 +214,7 @@ class Bolsas extends Model
 			$nr++;
 
 			$linka = '</a>';
-			if ($line['bs_rdf_id'] > 0) {
-				$link = $RDF->link(array('id_cc' => $line['bs_rdf_id']), 'text-secondary');
-			} else {
-				$link = '<a href="' . PATH . MODULE . 'pq/viewid/' . $line['id_bs'] . '" class="text-secondary">*';
-			}
+			$link = '<a href="' . PATH . MODULE . 'pq/viewid/?id=' . $line['id_bs'] . '" class="text-secondary">*';
 
 			$sx .= '<tr>';
 			$sx .= '<td>' . $nr . '</td>';
@@ -225,11 +232,31 @@ class Bolsas extends Model
 
 	function bolsista_list()
 	{
+		$sx = '';
 		$dt = (array)$this->resume_data(1);
 		$person = (array)$dt['person'];
 		$bolsista = (array)$person['bolsista'];
 		$bolsa = array();
 		ksort($bolsista);
+
+		foreach ($bolsista as $name => $data) {
+			$nome = (string)$name;
+			$sx .= '<div class="row">';
+			$sx .= bsc($nome,5);
+			foreach ($data as $mod => $years) {
+				$dd['bs_nivel'] = $mod;
+
+				foreach($years as $year => $t)
+					{
+						$dd['bs_ano'] = $year;
+						$sx .= bsc($this->selo($dd),1);
+					}
+			}
+			$sx .= '</div>';
+		}
+		return $sx;
+
+		pre($bolsista);
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
 			$bs = '';

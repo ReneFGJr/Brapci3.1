@@ -189,9 +189,11 @@ class Index extends Model
 
 			$sx .= '<ul>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_bolsasistas' . '">' . lang('pq.bolsista') . '</a></li>';
+			$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_vigentes' . '">' . lang('pq.bolsista_vigentes') . '</a></li>';
+			
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_bolsas' . '">' . lang('pq.bolsista_list') . '</a></li>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_ano' . '">' . lang('pq.bolsista_ano_list') . '</a></li>';
-			$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_vigentes' . '">' . lang('pq.bolsista_vigentes') . '</a></li>';
+			
 			$sx .= '<li><a href="http://memoria2.cnpq.br/bolsistas-vigentes" target="_new">' . lang('pq.bolsista_ativos_cnpq') . '</a></li>';		
 			if  ($this->Socials->getAccess("#ADM"))
 				{
