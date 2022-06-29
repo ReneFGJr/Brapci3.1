@@ -98,6 +98,7 @@ class Index extends Model
                                 if ($res === TRUE) {
                                     $zip->extractTo('../.tmp/Lattes/');
                                     $zip->close();
+                                    return wclose();
                                 } else {
                                     echo bsmessage("ERRO na descompactação",3);
                                     pre($zip);
@@ -108,6 +109,5 @@ class Index extends Model
                                 echo "CHACKED";
                             }
                     }
-                pre($_GET);
             }
 }
