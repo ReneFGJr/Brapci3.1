@@ -90,8 +90,10 @@ class Index extends Model
                             {
                                 $data = array();
                                 echo view('Brapci/Headers/header',$data);
-                                $txt = file_get_contents($url);
+                                $txt = file_get_contents($url);                              
+
                                 $fileZip = '../.tmp/Zip/lattes.zip';
+                                file_put_contents($fileZip,$txt);
 
                                 $zip = new \ZipArchive();
                                 $res = $zip->open($fileZip);
@@ -110,9 +112,7 @@ class Index extends Model
                                 } else {
                                     echo bsmessage("ERRO na descompactação",3);
                                     exit;
-                                }
-
-                                file_put_contents($fileZip,$txt);                                
+                                }                                
                             } else {
                                 echo "CACHED";
                                 $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
