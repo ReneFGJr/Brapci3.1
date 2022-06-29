@@ -60,10 +60,14 @@ class Bolsistas extends Model
 
 	function le($id)
 	{
+		$LattesExtrator = new \App\Models\LattesExtrator\Index();
+
 		$dt = $this->find($id);
 		$dt['bs_image'] = URL . '/img/genre/no_image_he.jpg';
 		$dt['bs_content'] = 'Sem biografia identificada';
-		$dt['bs_brapci'] = anchor(PATH . 'autoriry/v/' . $dt['bs_rdf_id'], 'ver prefil na Brapci', 'class="btn btn-outline-primary"');
+		$dt['bs_content'] .= $LattesExtrator->btn_coletor($dt['bs_lattes']);
+
+		$dt['bs_brapci'] = anchor(PATH . '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
 
 		return $dt;
 	}

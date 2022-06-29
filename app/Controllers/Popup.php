@@ -26,6 +26,11 @@ class Popup extends BaseController
 
         switch($act)
             {
+                case 'lattesextrator':
+                    $LattesExtrator = new \App\Models\LattesExtrator\Index();
+                    $LattesExtrator->harvesting();
+                    $sx = wclose();
+                    break;
                 case 'pq_bolsista_edit':
                     $Bolsistas = new \App\Models\PQ\Bolsistas();
                     $id = get('id');

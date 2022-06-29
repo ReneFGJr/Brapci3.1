@@ -11,3 +11,11 @@ a:hover
     {
         text-decoration: underline;
     }
+
+/******* ICONES *************/
+.cnpq
+{
+    background: url(/img/icons/lattes.png) no-repeat scroll -100px 0px transparent;
+    display: block; float: left; height: 27px; margin: -4px 6px 0 4px;
+    overflow: hidden!important; text-indent: -9999px; width: 32px;
+}
