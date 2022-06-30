@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Models\Base;
+
+use CodeIgniter\Model;
+
+class Issues extends Model
+{
+    protected $DBGroup          = 'default';
+    protected $table            = 'source_issue';
+    protected $primaryKey       = 'id_is';
+    protected $useAutoIncrement = true;
+    protected $insertID         = 0;
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = false;
+    protected $protectFields    = true;
+    protected $allowedFields    = [
+        'id_is','is_source_rdf','is_source_issue',
+        'is_year','is_issue','is_vol',
+        'is_nr','is_place','is_thema',
+        'is_cover','is_url_oai','is_works'
+    ];
+
+    // Dates
+    protected $useTimestamps = false;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
+
+    // Validation
+    protected $validationRules      = [];
+    protected $validationMessages   = [];
+    protected $skipValidation       = false;
+    protected $cleanValidationRules = true;
+
+    // Callbacks
+    protected $allowCallbacks = true;
+    protected $beforeInsert   = [];
+    protected $afterInsert    = [];
+    protected $beforeUpdate   = [];
+    protected $afterUpdate    = [];
+    protected $beforeFind     = [];
+    protected $afterFind      = [];
+    protected $beforeDelete   = [];
+    protected $afterDelete    = [];
+
+    function show_list_cards($id)
+        {
+            $dt = $this
+            ->where('is_source',$id)
+            ->orderBy('is_year desc, is_nr desc')
+            ->findAll();
+            
+            $sx = '<div class="container"><div class="row">';
+            for ($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $sa = '';
+                    //$sa .= bsc($line['is_year'],2);
+                    //$sa .= bsc($line['is_vol'],2);
+                    //$sa .= bsc($line['is_place'],2);
+                    //$sa .= bsc($line['is_thema'],6);
+                    //$sx .= bs($sa);
+                    $img = $line['is_card'];
+                    $link = PATH.COLLECTION.'/issue?id='.$line['id_is'];
+                    if (!file_exists($img))
+                        {
+                            $img = '/img/issue/issue_enancib_ancib.png';
+                        }
+
+                    $sx .= '
+                    <div class="card  m-3" style="width: 18rem; cursor: pointer;" onclick="location.href = \''.$link.'\';">
+                    <img src="'.$img.'" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">'.$line['is_year']. ' - '.$line['is_place'].'</h5>
+                        <p class="card-text">'.$line['is_thema'].'</p>
+                    </div>
+                    </div>
+                    ';
+                }
+                $sx .= '</div></div>';
+            return $sx;
+        }
+}
+

@@ -126,7 +126,9 @@ class Index extends Model
 			$sc .= bsc($LattesProducao->selo($p2,'LIVROS'),3);
 			$sc .= bsc($LattesProducao->selo($p2,'CAPÍTULOS'),3);
 			$sc .= bsc($LattesProducao->selo($p2,'ANAIS'),3);
+			$sc .= bsc('Produção Científica',12);
 			$sc .= bsc($LattesProducao->selo($p2,'PATENTES'),3);
+			$sc .= bsc($LattesProducao->selo($p2,'SOFTWARES'),3);
 			$sc .= bsc('Orientações',12);
 			$sc .= bsc($LattesProducao->selo($p2,'GRADUAÇÃO'),2);
 			$sc .= bsc($LattesProducao->selo($p2,'IC/IT'),2);
