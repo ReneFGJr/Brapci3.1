@@ -11,7 +11,7 @@ use function App\Models\AI\Authority\check;
 class Socials extends Model
 {
 	protected $DBGroup              = 'default';
-	var $table                		= 'users';
+	var $table                		= 'users2';
 	var $primaryKey          		 = 'id_us';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;

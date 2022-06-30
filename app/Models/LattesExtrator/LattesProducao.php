@@ -46,6 +46,30 @@ class LattesProducao extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function selo($total,$desc)
+		{
+			$sx = '';
+			$sx .= '<div class="text-center p-1 mb-3" style="width: 100%; border: 1px solid #000; border-radius: 10px;  line-height: 80%;">';
+			$sx .= '<span style="font-size: 16px;">'.$total.'</span>';
+			$sx .= '<br>';
+			$sx .= '<b style="font-size: 12px; ">'.$desc.'</b>';
+			$sx .= '</div>';
+			return $sx;
+		}	
+
+	function resume($id)
+		{
+			$dt = $this->select('count(*) as total, lp_author')
+			->where('lp_author',$id)
+			->groupBy('lp_author')
+			->findAll();
+			if (count($dt) > 0)
+				{
+					return $dt[0]['total'];
+				}
+			return 0;
+		}
+
 function producao($id)
 	{
 		$tela = '';

@@ -118,6 +118,21 @@ class Index extends Model
 			$sb .= onclick(URL.'/popup/pq_bolsa_edit?id=0&pq='.$id,800,600).bsicone('plus',16,'float-end').'</span>';			
 			$sb .= $Bolsas->historic_researcher($id);
 
+			$p1 = $LattesProducao->resume($dt['bs_lattes']);
+			$p2 = 0;
+			$sc = '';
+			$sc .= bsc('Produção Científica',12);
+			$sc .= bsc($LattesProducao->selo($p1,'ARTIGOS'),3);
+			$sc .= bsc($LattesProducao->selo($p2,'LIVROS'),3);
+			$sc .= bsc($LattesProducao->selo($p2,'CAPÍTULOS'),3);
+			$sc .= bsc($LattesProducao->selo($p2,'ANAIS'),3);
+			$sc .= bsc($LattesProducao->selo($p2,'PATENTES'),3);
+			$sc .= bsc('Orientações',12);
+			$sc .= bsc($LattesProducao->selo($p2,'GRADUAÇÃO'),2);
+			$sc .= bsc($LattesProducao->selo($p2,'IC/IT'),2);
+			$sc .= bsc($LattesProducao->selo($p2,'MESTRADO'),2);
+			$sc .= bsc($LattesProducao->selo($p2,'DOUTORADO'),2);
+			$sb .= bs($sc);
 			$sb .= $LattesProducao->producao($dt['bs_lattes']);
 
 			$sx = bs(bsc($sa,4).bsc($sb,9));

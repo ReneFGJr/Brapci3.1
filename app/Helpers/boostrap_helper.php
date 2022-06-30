@@ -10,13 +10,13 @@
 * @version     v0.21+12.03
 */
 
-function bsicone($type='',$w=16,$class='')
+function bsicone($type='',$w=16)
     {
 		if ($type == 'config') { $type = 'gear'; }
 		if ($type == 'return') { $type = 'back'; }
         if ($type == 'import') { $type = 'upload'; }
 
-        $sx = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$w.'" height="'.$w.'" fill="currentColor" class="bi '.$class.'" viewBox="0 0 16 16">';
+        $sx = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$w.'" height="'.$w.'" fill="currentColor" class="bi" viewBox="0 0 16 16">';
         switch($type)
             {   
                 case 'eye':
@@ -59,7 +59,12 @@ function bsicone($type='',$w=16,$class='')
                 case 'upload':
                     $sx .= '<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                             <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>';
-                    break;                 
+                    break;  
+                /* upload */
+                case 'upload2':
+                    $sx .= '<path fill-rule="evenodd" d="M6.364 2.5a.5.5 0 0 1 .5-.5H13.5A1.5 1.5 0 0 1 15 3.5v10a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 2 13.5V6.864a.5.5 0 1 1 1 0V13.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5H6.864a.5.5 0 0 1-.5-.5z"/>
+                            <path fill-rule="evenodd" d="M11 10.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1 0-1h3.793L1.146 1.854a.5.5 0 1 1 .708-.708L10 9.293V5.5a.5.5 0 0 1 1 0v5z"/>';
+                    break;                                    
                 /* config */
                 case 'trash':
                     $sx .= '<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>

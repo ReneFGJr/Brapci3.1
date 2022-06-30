@@ -44,8 +44,8 @@ class Index extends Model
         {
             if (strlen($id) == 16)
                 {
-                    $a = onclick(URL.'/popup/lattesextrator/?id='.$id,400,100);
-                    $a .= '<span class="cnpq">icone</span>';
+                    $a = onclick(URL.'/popup/lattesextrator/?id='.$id,400,100);                    
+                    $a .= bsicone('upload2',24);
                     $a .= '</span>';        
                 }
             return $a;
