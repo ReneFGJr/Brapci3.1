@@ -43,8 +43,9 @@ $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
 
 
 /********* BENANCIB */
+$routes->get('/benancib/(:any)/', 'Benancib::index/$1');
 $routes->get('/benancib', 'Benancib::index');
-$routes->get('/benancib/(:any)', 'Benancib::index/$1');
+
 
 /********* POPUP */
 $routes->get('/popup/(:any)', 'Popup::index/$1');

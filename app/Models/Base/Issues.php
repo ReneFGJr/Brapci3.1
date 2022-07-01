@@ -82,5 +82,35 @@ class Issues extends Model
                 $sx .= '</div></div>';
             return $sx;
         }
+
+        function issue($id)
+            {
+                $IssuesWorks = new \App\Models\Base\IssuesWorks();
+
+                $dt = $this
+                    ->join('source_source','is_source = id_jnl')
+                    ->where('id_is',round($id))
+                    ->findAll();
+                $sx = '';
+                $sx .= $this->header_issue($dt[0]);
+                //pre($dt);
+                $sx .= $IssuesWorks->check($dt[0]);
+                return $sx;
+            }
+
+        function header_issue($dt)
+            {
+                $sx = '';
+                $sx .= bsc(h($dt['jnl_name'],3),12);
+                $sx .= bsc($dt['is_vol'],1);
+                $sx .= bsc($dt['is_year'],1);
+                $sx .= bsc($dt['is_place'],2);
+                $sx .= bsc($dt['is_thema'],8);
+                
+                /**************************** */
+                $sx = bs($sx);
+                $id_issue_rdf = $dt['is_source_issue'];
+                return $sx;
+            }
 }
 

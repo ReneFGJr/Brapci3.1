@@ -13,6 +13,7 @@ $session = \Config\Services::session();
 define("URL",getenv("app.baseURL"));
 define("PATH",getenv("app.baseURL").'/');
 define("MODULE",'');
+define("PREFIX",'');
 define("COLLECTION",'benancib');
 
 class Benancib extends BaseController
@@ -30,18 +31,18 @@ class Benancib extends BaseController
         switch($act)
             {
                 case 'issue':
-                $sx .= 'ISSUE';
-                break;
+                    $Base = new \App\Models\Base\Issues();
+                    $id = get("id");
+                    $sx .= bsc($Base->issue($id));
+                    break;
                 default:
-                $data['logo'] = view('Benancib/Svg/logo_benancib');
-                $data['issues'] = $Issues->show_list_cards($id);
-                $sx .= view('Benancib/Welcome',$data);
+                    $data['logo'] = view('Benancib/Svg/logo_benancib');
+                    $data['issues'] = $Issues->show_list_cards($id);
+                    $sx .= view('Benancib/Welcome',$data);
                 break;
             }
 
         $sx .= view('Brapci/Headers/footer',$data);
         return $sx;
     }
-
-
 }
