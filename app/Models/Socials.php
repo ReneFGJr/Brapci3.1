@@ -11,7 +11,7 @@ use function App\Models\AI\Authority\check;
 class Socials extends Model
 {
 	protected $DBGroup              = 'default';
-	var $table                		= 'users2';
+	var $table                		= 'users';
 	var $primaryKey          		 = 'id_us';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -887,7 +887,7 @@ class Socials extends Model
 	function log_insert($id)
 		{
 			$ip = ip();
-			$sql = "insert into brapci_click.users_log 
+			$sql = "insert into users_log 
 				(ul_user, ul_ip)
 				values
 				($id,'$ip')";

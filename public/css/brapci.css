@@ -15,7 +15,48 @@ a:hover
         text-decoration: none;
     }
 
+.text_75
+    {
+        font-size: 75%;
+    }
+.text_65
+    {
+        font-size: 65%;
+    }
+.text_50
+    {
+        font-size: 50%;
+    }
+.text_35
+    {
+        font-size: 35%;
+    }
 
+.href
+    {
+        color: #888;
+        text-decoration: none;
+    }
+
+.href:hover
+    {
+        color: #000;
+        text-decoration: none;
+    }
+
+.view_more
+    {
+        color:blue;
+        text-align: end;
+    }
+
+.bullet
+    {
+       border-radius: 10px;
+       border: 1px solid #AAA;
+       background-color: #DDD; 
+       padding: 0px 5px;
+    }
 /******* ICONES *************/
 .cnpq
 {

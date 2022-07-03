@@ -43,34 +43,73 @@ class IssuesWorks extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function saving($dt)
+    function show_issue_works($id_rdf)
         {
-            $dt = $this->where('siw_work_rdf',$dd['idw'])->findAll();
-            if (count($dt) == 0)
-                {
-                    $this->set($dt)->insert();
-                }
+                $Work = new \App\Models\Base\Work();
+                $Keywords = new \App\Models\Base\Keywords();
+                $Authors = new \App\Models\Base\Authors();
+
+                $dt = $this
+                    ->where('siw_issue',$id_rdf)
+                    ->orderBy('siw_order, siw_pag_ini')
+                    ->findAll();  
+                $sx = '';
+
+                /******************************* */
+                /* Index */
+                $auth = array();
+                $keys = array();
+
+                for ($r=0;$r < count($dt);$r++)
+                    {
+                        $line = $dt[$r];
+                        $sx .= '<p>'.$Work->show_reference($line['siw_work_rdf']).'</p>';
+
+                        $keys = $Keywords->index_keys($keys,$line['siw_work_rdf']);
+                        $auth = $Authors->index_auths($auth,$line['siw_work_rdf']);
+                    }  
+                $key_index = $Keywords->show_index($auth,'authors');
+                $key_index .= '<br>';
+                $key_index .= $Keywords->show_index($keys);
+                $sx = bs(
+                    bsc($key_index,4,'text_indexes').
+                    bsc($sx,8)
+                    );  
+                return $sx;    
         }
 
-    function check($dt)
+    function saving($da)
+        {
+            $dt = $this->where('siw_work_rdf',$da['siw_work_rdf'])->findAll();
+            if (count($dt) == 0)
+                {
+                    echo "O";
+                    $id = $this->insert($da);
+                    return 1;
+                }
+            return 0;
+        }
+
+    function check($dd)
         {
             $RDF = new \App\Models\Rdf\RDF();
-            $idr = $dt['is_source_issue'];
+            $idr = $dd['is_source_issue'];
 
             $dt = $RDF->le_data($idr);
             $dt = $dt['data'];
             for ($r=0;$r < count($dt);$r++)
                 {
-                    $line = $dt[$r];                    
+                    $line = $dt[$r];              
                     $class = trim($line['c_class']);
-                    if ($class == 'hasIssueOf')
+                    if ($class == 'hasIssueProceedingOf')
                         {           
-                            $dd['siw_work_rdf'] = $line['d_r2'];
-                            $dd['siw_journal'] = $dt['is_source'];
-                            $dd['siw_journal_rdf'] = $dt['is_source_rdf'];
-                            $dd['siw_section'] = 0;
-                            $dd['siw_issue'] = $idr;
-                            $this->saving($dd);
+                            $da = array();
+                            $da['siw_work_rdf'] = $line['d_r2'];
+                            $da['siw_journal'] = $dd['is_source'];
+                            $da['siw_journal_rdf'] = $dd['is_source_rdf'];
+                            $da['siw_section'] = 0;
+                            $da['siw_issue'] = $idr;
+                            $this->saving($da);
                         }
                 }
         }

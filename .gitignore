@@ -1,6 +1,7 @@
-/writable/debugbar/*
+.env
+.tmp/
 /writable/
-
-.env
-.tmp/*
-.env
+public/.c/
+,c/
+public/.c/00/
+public/.c/00/*

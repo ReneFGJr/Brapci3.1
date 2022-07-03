@@ -99,11 +99,13 @@ class RDFExport extends Model
 
 		/* EMPTY */
 		if (!isset($issue[0])) {
-			return 'NoN';
+			pre($dt);
+			return array('NoN',0);
 		}
 
 		$issues = array();
 		for ($r = 0; $r < count($issue); $r++) {
+			echo ".";
 			$line = $issue[$r];
 			$id1 = $line[0];
 			$id2 = $line[1];
@@ -112,8 +114,14 @@ class RDFExport extends Model
 			} else {
 				$idx = $id1;
 			}
-			array_push($issues, $this->RDF->c($idx));
+			$issues = array($this->RDF->c($idx),$idx);
 		}
+		if (count($issues) == 0)
+			{
+				echo "OPS ISSUE";
+				pre($issue);
+			}
+			
 		return $issues;
 	}
 	function export_article($dt, $id, $tp = 'A')
@@ -121,6 +129,7 @@ class RDFExport extends Model
 		$ABNT = new \App\Models\Metadata\Abnt();
 		$publisher = '';
 		$tela = 'Export Article';
+		$dta['id'] = $id;
 		/*************************************************** Authors */
 		$auths = $this->recover_authors($dt);
 		$auths_text = '';
@@ -139,26 +148,39 @@ class RDFExport extends Model
 
 		/***************************************************** Issue */
 		$issue = $this->recover_issue($dt, $id, $tp);
-		$issue = $this->RDF->string($issue, 1);
+		echo '<hr>';
+		print_r($issue);
+		$dta['issueRDF'] = $issue[1];
+		$issue = $this->RDF->string($issue[0], 1);		
 
 		/************************************************ Proceeding */
+		$dta['journal'] = $issue;
 		if ($tp == 'P') {
 			$issue = '<b>Anais...</b> ' . $issue;
 		}
+		$dta['issue'] = $issue;
 
 		/**************************************************** PAGE */
 		$abs =  $this->RDF->recovery($dt['data'], 'hasAbstract');
 		$abs = $this->RDF->string_array($abs, 1);
+		$abs = strip_tags($abs);
+		$abs = troca($abs,chr(13),' ');
+		$abs = troca($abs,chr(10),' ');
+		$abs = trim($abs);
+		$dta['abstract'] = $abs;
 
 		/**************************************************** PAGE */
 		$subj =  $this->RDF->recovery($dt['data'], 'hasSubject');
 		$subj_text = $this->RDF->string_array($subj);
+		$dta['subject'] = $subj;
 
 		/**************************************************** PAGE */
 		$pagf =  $this->RDF->recovery($dt['data'], 'hasPageEnd');
 		$pagi =  $this->RDF->recovery($dt['data'], 'hasPageStart');
 		$pagf = $this->RDF->string($pagf, 1);
 		$pagi = $this->RDF->string($pagi, 1);
+		$dta['pagi'] = $pagi;
+		$dta['pagf'] = $pagf;		
 
 		if (strlen($pagf . $pagi) > 0) {
 			$issue = substr($issue, 0, strlen($issue) - 5) .
@@ -188,11 +210,15 @@ class RDFExport extends Model
 				substr($issue, strpos($issue, ','), strlen($issue));
 		}
 		$name = strip_tags($auths_text . '. ');
-		$name .= '<a href="' . (URL . 'v/' . $id) . '" class="article">' . $title . '</a>';
+		$name .= '<a href="' . (URL . '$COLLECTION/v/' . $id) . '" class="article">' . $title . '</a>';
 		$name .= '. $b$' . $publisher . '$/b$' . $issue;
 		$name = troca($name, '$b$', '<b>');
 		$name = troca($name, '$/b$', '</b>');
 		$this->saveRDF($id, $name, 'name.nm');
+
+		/******************************** Authors */
+		$journal = json_encode($dta['journal']);
+		$this->saveRDF($id, $journal, 'journal.name');		
 
 		/******************************** Authors */
 		$autores = json_encode($dta['author']);
@@ -211,6 +237,8 @@ class RDFExport extends Model
 		}
 		$this->saveRDF($id, $dt['concept']['c_class'], 'class.nm');
 
+		$this->saveRDF($id, json_encode($dta), 'name.json');
+
 		return '';
 	}
 
@@ -219,7 +247,7 @@ class RDFExport extends Model
 		$sx = '';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 1);
-		$name = '<a href="' . (URL . MODULE . 'v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (URL . '$COLLECTION' . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -229,7 +257,7 @@ class RDFExport extends Model
 		$sx = 'JOURNAL';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 7);
-		$name = '<a href="' . (URL . MODULE .'v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (URL . '$COLLECTION' .'/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -516,7 +544,7 @@ class RDFExport extends Model
 				$this->export_geral($dt, $id);
 				break;
 		}
-		$tela .= '<a href="' . (PATH . MODULE . 'v/' . $id) . '">' . $name . '</a>';
+		$tela .= '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '">' . $name . '</a>';
 		return $tela;
 	}
 
@@ -546,7 +574,7 @@ class RDFExport extends Model
 			fwrite($hdl, $txt);
 			fclose($hdl);
 			$sx .= bs_alert('success', msg('Export_author') . ' #' . $ltx . '<br>');
-			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . MODULE. 'rdf/export/'.$url.'/' . ($lt + 1)) . '">';
+			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . '$COLLECTION'. 'rdf/export/'.$url.'/' . ($lt + 1)) . '">';
 		} else {
 			$sx .= bsmessage('rdf.export_success',1);
 			$sx .= $this->RDF->btn_return();

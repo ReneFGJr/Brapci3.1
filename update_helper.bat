@@ -16,6 +16,10 @@ echo "RDF"
 mkdir app\Models\Rdf
 copy ..\Brapci3.0\app\Models\RDF\RDF*.php app\Models\RDF\*.* 
 
+echo "Metadata"
+mkdir app\Models\Metadata
+copy ..\Brapci3.0\app\Models\Metadata\*.php app\Models\Metadata\*.* 
+
 echo "IO"
 mkdir app\Models\Io
 copy ..\Brapci3.0\app\Models\Io\*.php app\Models\Io\*.* 

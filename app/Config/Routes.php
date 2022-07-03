@@ -35,6 +35,8 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+/********** DEFAULR */
 $routes->get('/', 'Main::index');
 
 /********* SOCIAL */
@@ -43,9 +45,14 @@ $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
 
 
 /********* BENANCIB */
+$routes->get('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
 $routes->get('/benancib/(:any)/', 'Benancib::index/$1');
 $routes->get('/benancib', 'Benancib::index');
 
+/********* TOOLS */
+$routes->get('/Elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
+$routes->get('/Elasticsearch/(:any)/', 'Elasticsearch::index/$1');
+$routes->get('/Elasticsearch', 'Elasticsearch::index');
 
 /********* POPUP */
 $routes->get('/popup/(:any)', 'Popup::index/$1');
@@ -57,6 +64,8 @@ $routes->get('/pq', 'Pq::index');
 
 /********** Others */
 $routes->get('(:any)', 'MainPages::index/$1');
+
+
 
 /*
  * --------------------------------------------------------------------
