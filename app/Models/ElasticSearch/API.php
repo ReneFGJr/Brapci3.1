@@ -63,8 +63,7 @@ class API extends Model
         }
 
         $url = $this -> server . '/' . $path;     
-		echo $url;           
-        $headers = array('Accept: application/json', 'Content-Type: application/json', );
+		$headers = array('Accept: application/json', 'Content-Type: application/json', );
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -78,7 +77,7 @@ class API extends Model
                 break;
             case 'POST' :
                 curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                 break;
             case 'PUT' :
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');

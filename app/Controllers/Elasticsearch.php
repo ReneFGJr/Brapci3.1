@@ -24,7 +24,7 @@ class Elasticsearch extends BaseController
         $data['bg'] = 'bg-tools';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Benancib/Headers/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
 
         $act = trim($act);
         
@@ -38,21 +38,67 @@ class Elasticsearch extends BaseController
                 $dt = $API->status();
                 $sx .= $API->showList($dt);
             break;
-            default:
+
+            case 'search':
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
-                $sx .= view('Tools/WelcomeElasticSearch', $data);
-                $sx .= $this->menu();
+                $sx .= view('Tools/WelcomeElasticSearch', $data);            
+                $sx .= $this->search();
                 break;
-        }
-        $sx .= h($act);
+
+            default:
+                $sx .= h($act);
+                $data['logo'] = view('Tools/Svg/logo_elasticsearch');
+                $sx .= bs(bsc(view('Tools/WelcomeElasticSearch', $data),12));
+                $sx .= bs(bsc($this->menu(),12));
+                break;
+        }        
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
-    }    
+    }  
+
+    function show_works($dt)
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $sx = '';
+            if (!isset($dt['total'])) { return ''; }
+
+            $sx .= 'Total '.$dt['total'];
+            $sx .= ', mostrando '.$dt['start'].'/'.$dt['offset'];
+
+            for ($r=0;$r < count($dt['works']);$r++)
+                {
+                    $line = $dt['works'][$r];
+                    $sx .= bsc($RDF->c($line['id']).' <sup>(Score: '.number_format($line['score'],3,'.',',').')</sup>');
+                }
+            $sx = bs($sx);
+            return $sx;
+        }
+
+    function search()
+        {            
+            $sx = '';
+            $sx .= form_open();
+            $sx .= 'Termo de busca';
+            $sx .= form_input(array('name'=>'search','class'=>"form-control"));
+            $sx .= form_submit(array('name'=>'action','value'=>'busca'));
+            $sx .= form_close();
+            $sx = bs(bsc($sx,12));
+
+            if (get("search") != '')
+                {
+                    $q = get("search");
+                    $Search = new \App\Models\ElasticSearch\Search();
+                    $sx .= $this->show_works($Search->search($q));
+                }
+            return $sx;
+
+        } 
 
     private function  menu()
         {
-            $menu[URL.'/Elasticsearch/status'] = lang('elastic.status');
-            $menu[URL.'/Elasticsearch/register/1'] = lang('elastic.register_test');
+            $menu[URL.'/elasticsearch/status'] = lang('elastic.status');
+            $menu[URL.'/elasticsearch/register/1'] = lang('elastic.register_test');
+            $menu[URL.'/elasticsearch/search/'] = lang('elastic.search');
             $sx = menu($menu);
             return $sx;
         }

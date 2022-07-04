@@ -52,11 +52,10 @@ class Register extends Model
             $API = new \App\Models\ElasticSearch\API();
             echo "Article";
             $type = 'work';
-            $id = 1;
+            $id = 2;
             $dt = array();
-            $dt['id'] = 1;
-            $dt = json_encode($dt);
-            $rst = $API -> call($type . '/' . $id, 'PUT', $dt);
-            pre($rst);
+            $dt['id'] = $id;
+            $dt['nome'] = 'Rene Faustino Gabriel Jubior';
+            $rst = $API -> call($type . '/' . $id, 'POST', $dt);
         }
 }

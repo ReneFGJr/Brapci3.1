@@ -50,9 +50,12 @@ $routes->get('/benancib/(:any)/', 'Benancib::index/$1');
 $routes->get('/benancib', 'Benancib::index');
 
 /********* TOOLS */
-$routes->get('/Elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
-$routes->get('/Elasticsearch/(:any)/', 'Elasticsearch::index/$1');
-$routes->get('/Elasticsearch', 'Elasticsearch::index');
+$routes->get('/elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
+$routes->get('/elasticsearch/(:any)/', 'Elasticsearch::index/$1');
+$routes->get('/elasticsearch', 'Elasticsearch::index');
+
+$routes->post('/elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
+$routes->post('/elasticsearch/(:any)/', 'Elasticsearch::index/$1');
 
 /********* POPUP */
 $routes->get('/popup/(:any)', 'Popup::index/$1');
