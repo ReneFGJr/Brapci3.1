@@ -16,10 +16,17 @@ class Issues extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_is', 'is_source_rdf', 'is_source_issue',
-        'is_year', 'is_issue', 'is_vol',
+        'is_year', 'is_issue', 'is_vol', 'is_vol_roman',
         'is_nr', 'is_place', 'is_thema',
         'is_cover', 'is_url_oai', 'is_works'
     ];
+
+    protected $typeFields    = [
+        'hidden', 'string', 'string',
+        'string', 'string', 'string', 'string',
+        'string', 'string', 'string',
+        'string', 'string', 'string'
+    ];    
 
     // Dates
     protected $useTimestamps = false;
@@ -44,6 +51,14 @@ class Issues extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function edit($id)
+        {
+            $this->id = $id;
+            $this->path = URL.COLLECTION.'/issue_edit/?id='.$id;
+            $this->path_back = URL.COLLECTION.'/issue/?id='.$id;
+            $sx = form($this);
+        }
 
     function show_list_cards($id)
     {
@@ -70,6 +85,7 @@ class Issues extends Model
             $sx .= '
                     <div class="card  m-3" style="width: 18rem; cursor: pointer;" onclick="location.href = \'' . $link . '\';">
                     <img src="' . $img . '" class="card-img-top" alt="...">
+                    <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>'.$line['is_vol_roman'].'</b></span>
                     <div class="card-body">
                         <h5 class="card-title">' . $line['is_year'] . ' - ' . $line['is_place'] . '</h5>
                         <p class="card-text">' . $line['is_thema'] . '</p>
