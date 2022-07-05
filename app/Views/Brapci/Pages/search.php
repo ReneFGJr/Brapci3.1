@@ -81,7 +81,7 @@
 <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
     <h3 class="" style="">O que você está procurando?</h3>
 </div>
-<div class="container" style="margin-bottom: 250px";>
+<div class="container" style="margin-bottom: 20px";>
     <div class="row ">
         <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
             <form method="get">
@@ -105,3 +105,13 @@
         </div>
     </div>
 </div>
+<div class="container" style="margin-bottom: 250px";>
+    <div class="row ">
+        <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
+            <span class="a" style="cursor: pointer" onclick="$('#advanced_search').toggle('slow');">Busca avançada</span>
+        </div>
+    </div>
+    <div class="row" id=""advanced_search" style="display: none;">
+                    Busca avançada form
+    </div>
+</div>            
