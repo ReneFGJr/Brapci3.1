@@ -28,9 +28,15 @@ class Benancib extends BaseController
         $sx .= view('Benancib/Headers/navbar', $data);
 
         $act = trim($act);
+        echo h($act);
         switch ($act) {
             case 'v':
                 $sx .= $this->v($id);
+                break;
+            case 'issue_edit':
+                $Issues = new \App\Models\Base\Issues();
+                $id = get("id");
+                $sx .= bsc($Issues->edit($id));
                 break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();

@@ -55,9 +55,12 @@ class Issues extends Model
     function edit($id)
         {
             $this->id = $id;
-            $this->path = URL.COLLECTION.'/issue_edit/?id='.$id;
-            $this->path_back = URL.COLLECTION.'/issue/?id='.$id;
+            $this->path = URL.'/'.COLLECTION.'/issue_edit/?id='.$id.'&';
+            $this->path_back = URL.'/'.COLLECTION.'/issue/?id='.$id;
             $sx = form($this);
+            $sx .= '==>'.$this->id;
+            $sx = bs(bsc($sx,12));
+            return $sx;
         }
 
     function show_list_cards($id)
@@ -132,6 +135,7 @@ class Issues extends Model
     function header_issue($dt)
     {
         $tools = anchor(URL.'/'.COLLECTION.'/issue/?id='.$dt['id_is'].'&reindex=1',bsicone('reload'));
+        $tools .= anchor(URL.'/'.COLLECTION.'/issue_edit/?id='.$dt['id_is'].'',bsicone('edit'));
         $sx = '';
         $sx .= bsc(h($dt['jnl_name'], 3), 12);
         $sx .= bsc($dt['is_vol'], 1);
