@@ -41,7 +41,8 @@ class Elasticsearch extends BaseController
 
             case 'search':
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
-                $sx .= view('Tools/WelcomeElasticSearch', $data);            
+                $sx .= view('Tools/Elasticsearch/WelcomeElasticSearch', $data);
+                $sx .= view('Tools/Elasticsearch/Form', $data);
                 $sx .= $this->search();
                 break;
 
@@ -62,13 +63,14 @@ class Elasticsearch extends BaseController
             $sx = '';
             if (!isset($dt['total'])) { return ''; }
 
-            $sx .= 'Total '.$dt['total'];
-            $sx .= ', mostrando '.$dt['start'].'/'.$dt['offset'];
+            $sa = 'Total '.$dt['total'];
+            $sa .= ', mostrando '.$dt['start'].'/'.$dt['offset'];
+            $sx = bsc($sa,12);
 
             for ($r=0;$r < count($dt['works']);$r++)
                 {
                     $line = $dt['works'][$r];
-                    $sx .= bsc($RDF->c($line['id']).' <sup>(Score: '.number_format($line['score'],3,'.',',').')</sup>');
+                    $sx .= bsc($RDF->c($line['id']).' <sup>(Score: '.number_format($line['score'],3,'.',',').')</sup>',6,'mb-3');
                 }
             $sx = bs($sx);
             return $sx;
@@ -77,12 +79,7 @@ class Elasticsearch extends BaseController
     function search()
         {            
             $sx = '';
-            $sx .= form_open();
-            $sx .= 'Termo de busca';
-            $sx .= form_input(array('name'=>'search','class'=>"form-control"));
-            $sx .= form_submit(array('name'=>'action','value'=>'busca'));
-            $sx .= form_close();
-            $sx = bs(bsc($sx,12));
+
 
             if (get("search") != '')
                 {

@@ -57,7 +57,7 @@ class Search extends Model
 
             /***************************************************************** MULTI MATCH **/
             $data = array();
-            $data['query']['bool']['must'] = array();
+            $data['query']['bool']['must'] = array();            
             
             $query['multi_match']['query'] = $qs;
             $query['multi_match']['fields'] = array("title","abstract","subject","year"); 
@@ -68,6 +68,14 @@ class Search extends Model
             array_push($data['query']['bool']['must'],$query);
             array_push($data['query']['bool']['must'],$range);
 
+
+            /********************************************************************** FILTER  */
+            /* FILTER ******************************************* Only one */
+            $data['query']['bool']['filter'] = array();
+            $term = [1];
+            $filter['terms']['id_jnl'] = $term;
+            array_push($data['query']['bool']['filter'],$filter);
+            
             /******************** Sources */
             $data['_source'] = array("article_id","id_jnl","title","abstract","subject","year");
 
@@ -78,9 +86,9 @@ class Search extends Model
             $sx =  $q;
             $url = 'brp2/_search';
 
-            //echo '<pre>';
-            //print_r($data);
             $dt = $API->call($url,$method,$data);
+
+            /* Mostra resultados ****************************************************/
 
             $rsp = array();
             $total = 0;
