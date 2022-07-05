@@ -15,7 +15,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != ''))
 ?>
 <nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">BRAPCI</a>
+    <a class="navbar-brand" href="<?= URL;?>">BRAPCI</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"><a class="navbar-brand" href="#"><img src="/favicon.png" style="height: 32px;"></a></span>
     </button>
@@ -24,6 +24,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != ''))
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="<?= URL; ?>">Home</a>
         </li>
+        <!--
         <li class="nav-item">
           <a class="nav-link" href="#">Link</a>
         </li>
@@ -40,11 +41,12 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != ''))
         </li>
         <li class="nav-item">
           <a class="nav-link disabled">Disabled</a>
-        </li>
+        </li>      
+      -->
       </ul>
       <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+        <button name="action" class="btn btn-outline-success" name="ac type="submit">Search</button>
       </form>
       <?php echo $acesso;?>
     </div>

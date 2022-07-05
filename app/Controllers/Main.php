@@ -23,7 +23,7 @@ class Main extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header',$data);
         $sx .= view('Brapci/Headers/navbar',$data);
-        $sx .= view('Brapci/Svg/logo_brapci',$data);
+        $sx .= view('Brapci/Pages/search',$data);
         $sx .= view('Brapci/Headers/footer',$data);
         return $sx;
     }
