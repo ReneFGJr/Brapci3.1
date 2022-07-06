@@ -1,3 +1,72 @@
+<?php
+$submit = '<input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="' . lang('main.search') . '">';
+$input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="O que você está procurando?">';
+$types = array('all', 'article', 'proceeding', 'bnancib', 'authorirty');
+$select_type = '<select id="type" name="collection" class="form-control shadow" style="border: 1px solid #ccc; font-size: 130%; line-hight: 150%; max-width: 250px;">';
+for ($r = 0; $r < count($types); $r++) {
+    $select_type .= '<option value="all">' . lang('main.' . $types[$r]) . '</option>' . cr();
+}
+$select_type .= '</select>';
+
+/*********************************** ORDER */
+$order = array('relevance', 'newest', 'older');
+$sord = '';
+$ord = get("ord");
+if ($ord == '') {
+    $ord = '1';
+}
+for ($r = 0; $r < count($order); $r++) {
+    $check = '';
+    if ($ord == $r) {
+        $check = 'checked';
+    }
+    $sord .= '<option value="' . $r . '" ' . $check . '">' . lang('brapci.' . $order[$r]) . '</option>' . cr();
+}
+
+/*********************************** ORDER */
+$fields = array('all', 'title', 'abstract', 'keyword');
+$sfield = '';
+$field = get("field");
+if ($ord == '') {
+    $ord = '1';
+}
+for ($r = 0; $r < count($fields); $r++) {
+    $check = '';
+    if ($ord == $r) {
+        $check = 'checked';
+    }
+    $sfield .= '<option value="' . $r . '" ' . $check . '">' . lang('brapci.' . $fields[$r]) . '</option>' . cr();
+}
+
+/*********************************** SDI */
+$ini = 1960;
+$di = get("di");
+if ($di == '') {
+    $di = $ini;
+}
+$sdi = '';
+for ($r = $ini; $r <= (date("Y") + 1); $r++) {
+    $check = '';
+    if ($r == $di) {
+        $check = 'checked';
+    }
+    $sdi .= '<option value="' . $r . '" ' . $check . '>' . $r . '</option>' . cr();
+}
+/*********************************** SDF */
+$df = get("df");
+if ($df == '') {
+    $df = date("Y");
+}
+$sdf = '';
+for ($r = (date("Y") + 1); $r >= $ini; $r--) {
+    $check = '';
+    if ($r == $df) {
+        $check = 'checked';
+    }
+    $sdf .= '<option value="' . $r . '" ' . $check . '>' . $r . '</option>' . cr();
+}
+
+?>
 <div class="container" style="margin-top: 100px;">
     <div class="row ">
         <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
@@ -42,11 +111,11 @@
 
                     }
                 </style>
-                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" height="150pt" viewBox="0 0 649.000000 150.000000" preserveAspectRatio="xMidYMid meet">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75%" viewBox="0 0 649.000000 150.000000" preserveAspectRatio="xMidYMid meet">
                     <metadata>
                         Logo Brapci SVG (2022)
                     </metadata>
-                    <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                    <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none" style="width: 100%;">
                         <path id="logoB" d="M260 745 l0 -555 293 0 c502 1 590 22 660 155 26 50 35 176 17 240
            -15 53 -64 113 -114 140 -34 18 -47 35 -27 35 18 0 103 85 123 124 49 95 30
            240 -40 318 -81 89 -132 98 -569 98 l-343 0 0 -555z m659 352 c49 -17 73 -55
@@ -81,37 +150,247 @@
 <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
     <h3 class="" style="">O que você está procurando?</h3>
 </div>
-<div class="container" style="margin-bottom: 20px";>
-    <div class="row ">
+<div class="container" style="margin-bottom: 20px" ;>
+    <!-------------------------- SMALL SCREEN ----------->
+    <div class="row d-lg-none">
+        <div class="col-12">
+            <div class="input-group input-group-lg mb-0 p-3" style="border: 0px solid #0093DD;">
+                <?= $input_field; ?>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="input-group input-group-lg mb-0 p-3" style="border: 0px solid #0093DD;">
+                <?= $select_type; ?>
+            </div>
+            <div class="input-group input-group-lg mb-0 p-3" style="border: 0px solid #0093DD;">
+                <?= $submit; ?>
+            </div>
+        </div>
+    </div>
+    <!-------------------------- BIG SCREEN ----------->
+    <div class="row d-none d-lg-block">
         <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
             <form method="get">
                 <div class="input-group input-group-lg mb-0 p-3" style="border: 0px solid #0093DD;">
-                    <input type="text" name="query" value="" class="form-control shadow" placeholder="O que você está procurando?">
-                    <select id="type" name="collection" class="form-control-2 shadow" style="border: 1px solid #ccc; font-size: 130%; line-hight: 150%; width: 250px; margin: 0px 10px;">
-                        <option value="all"><?= lang('main.all');?></option>
-                        <option value="article"><?= lang('main.article');?></option>
-                        <option value="procceding"><?= lang('main.proceeding');?></option>
-                        <option value="benancib"><?= lang('main.benancib');?></option>
-                        <option value="authority"><?= lang('main.authority');?></option>
-                        <!--
-                        <option value="book"><?= lang('main.book');?></option>
-                        
-                        <option value="thesis"><?= lang('main.thesis');?></option>
-                        -->
-                    </select>
-                    <input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="<?= lang('main.search');?>">
+                    <?= $input_field; ?>
+                    <?= $select_type; ?>
+                    <?= $submit; ?>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<div class="container" style="margin-bottom: 250px";>
+<div class="container" style="margin-bottom: 250px" ;>
+    <!-------------------------- ADVANCED SCREEN ----------->
     <div class="row ">
-        <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
-            <span class="a" style="cursor: pointer" onclick="$('#advanced_search').toggle('slow');">Busca avançada</span>
+        <div id="search_type" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <span class="a" style="cursor: pointer" onclick="$('#search_type').toggle(); $('#advanced_search').toggle('slow');">Busca avançada</span>
         </div>
     </div>
-    <div class="row" id=""advanced_search" style="display: none;">
-                    Busca avançada form
+
+    <div class="row border border-secondary p-2 mb-2 rounded-3 m-3 shadow" id="advanced_search" style="display: none;">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-2">
+            <?= lang('brapci.delimitation'); ?>&nbsp;
+            <select name="di" class="border-0 fw-bold"><?= $sdi; ?></select>&nbsp;
+            <select name="df" class="border-0 fw-bold"><?= $sdf; ?></select>&nbsp;
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-2">
+            <?= lang('brapci.ordenation'); ?>&nbsp;
+            <select name="ord" class="border-0 fw-bold"><?= $sord; ?></select>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-2">
+            <?= lang('brapci.fields'); ?>&nbsp;
+            <select name="ord" class="border-0 fw-bold"><?= $sfield; ?></select>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
+            <select name="publication" id="publication" class="form-control">
+                <option value="1">American Black Bear</option>
+                <option value="2">Asiatic Black Bear</option>
+                <option value="3">Brown Bear</option>
+                <option value="4">Giant Panda</option>
+                <option value="5">Sloth Bear</option>
+                <option value="6">Sun Bear</option>
+                <option value="7">Polar Bear</option>
+                <option value="8">Spectacled Bear</option>
+            </select>
+        </div>
     </div>
-</div>            
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#publication").CreateMultiCheckBox({
+            width: '600px',
+            defaultText: 'Select Below',
+            height: '250px'
+        });
+    });
+
+    $(document).ready(function() {
+        $(document).on("click", ".MultiCheckBox", function() {
+            var detail = $(this).next();
+            detail.show();
+        });
+
+        $(document).on("click", ".MultiCheckBoxDetailHeader input", function(e) {
+            e.stopPropagation();
+            var hc = $(this).prop("checked");
+            $(this).closest(".MultiCheckBoxDetail").find(".MultiCheckBoxDetailBody input").prop("checked", hc);
+            $(this).closest(".MultiCheckBoxDetail").next().UpdateSelect();
+        });
+
+        $(document).on("click", ".MultiCheckBoxDetailHeader", function(e) {
+            var inp = $(this).find("input");
+            var chk = inp.prop("checked");
+            inp.prop("checked", !chk);
+            $(this).closest(".MultiCheckBoxDetail").find(".MultiCheckBoxDetailBody input").prop("checked", !chk);
+            $(this).closest(".MultiCheckBoxDetail").next().UpdateSelect();
+        });
+
+        $(document).on("click", ".MultiCheckBoxDetail .cont input", function(e) {
+            e.stopPropagation();
+            $(this).closest(".MultiCheckBoxDetail").next().UpdateSelect();
+
+            var val = ($(".MultiCheckBoxDetailBody input:checked").length == $(".MultiCheckBoxDetailBody input").length)
+            $(".MultiCheckBoxDetailHeader input").prop("checked", val);
+        });
+
+        $(document).on("click", ".MultiCheckBoxDetail .cont", function(e) {
+            var inp = $(this).find("input");
+            var chk = inp.prop("checked");
+            inp.prop("checked", !chk);
+
+            var multiCheckBoxDetail = $(this).closest(".MultiCheckBoxDetail");
+            var multiCheckBoxDetailBody = $(this).closest(".MultiCheckBoxDetailBody");
+            multiCheckBoxDetail.next().UpdateSelect();
+
+            var val = ($(".MultiCheckBoxDetailBody input:checked").length == $(".MultiCheckBoxDetailBody input").length)
+            $(".MultiCheckBoxDetailHeader input").prop("checked", val);
+        });
+
+        $(document).mouseup(function(e) {
+            var container = $(".MultiCheckBoxDetail");
+            if (!container.is(e.target) && container.has(e.target).length === 0) {
+                container.hide();
+            }
+        });
+    });
+
+    var defaultMultiCheckBoxOption = {
+        width: '220px',
+        defaultText: 'Select Below',
+        height: '200px'
+    };
+
+    jQuery.fn.extend({
+        CreateMultiCheckBox: function(options) {
+
+            var localOption = {};
+            localOption.width = (options != null && options.width != null && options.width != undefined) ? options.width : defaultMultiCheckBoxOption.width;
+            localOption.defaultText = (options != null && options.defaultText != null && options.defaultText != undefined) ? options.defaultText : defaultMultiCheckBoxOption.defaultText;
+            localOption.height = (options != null && options.height != null && options.height != undefined) ? options.height : defaultMultiCheckBoxOption.height;
+
+            this.hide();
+            this.attr("multiple", "multiple");
+            var divSel = $("<div class='MultiCheckBox'>" + localOption.defaultText + "<span class='k-icon k-i-arrow-60-down'><svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='sort-down' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' class='svg-inline--fa fa-sort-down fa-w-10 fa-2x'><path fill='currentColor' d='M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z' class=''></path></svg></span></div>").insertBefore(this);
+            divSel.css({
+                "width": localOption.width
+            });
+
+            var detail = $("<div class='MultiCheckBoxDetail'><div class='MultiCheckBoxDetailHeader'><input type='checkbox' class='mulinput' value='-1982' /><div>Select All</div></div><div class='MultiCheckBoxDetailBody'></div></div>").insertAfter(divSel);
+            detail.css({
+                "width": parseInt(options.width) + 10,
+                "max-height": localOption.height
+            });
+            var multiCheckBoxDetailBody = detail.find(".MultiCheckBoxDetailBody");
+
+            this.find("option").each(function() {
+                var val = $(this).attr("value");
+
+                if (val == undefined)
+                    val = '';
+
+                multiCheckBoxDetailBody.append("<div class='cont'><div><input type='checkbox' class='mulinput' value='" + val + "' /></div><div>" + $(this).text() + "</div></div>");
+            });
+
+            multiCheckBoxDetailBody.css("max-height", (parseInt($(".MultiCheckBoxDetail").css("max-height")) - 28) + "px");
+        },
+        UpdateSelect: function() {
+            var arr = [];
+
+            this.prev().find(".mulinput:checked").each(function() {
+                arr.push($(this).val());
+            });
+
+            this.val(arr);
+        },
+    });
+</script>
+
+<style>
+    .MultiCheckBox {
+        border: 1px solid #e2e2e2;
+        padding: 5px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .MultiCheckBox .k-icon {
+        font-size: 15px;
+        float: right;
+        font-weight: bolder;
+        margin-top: -7px;
+        height: 10px;
+        width: 14px;
+        color: #787878;
+    }
+
+    .MultiCheckBoxDetail {
+        display: none;
+        position: absolute;
+        border: 1px solid #e2e2e2;
+        overflow-y: hidden;
+    }
+
+    .MultiCheckBoxDetailBody {
+        overflow-y: scroll;
+    }
+
+    .MultiCheckBoxDetail .cont {
+        clear: both;
+        overflow: hidden;
+        padding: 2px;
+    }
+
+    .MultiCheckBoxDetail .cont:hover {
+        background-color: #cfcfcf;
+    }
+
+    .MultiCheckBoxDetailBody>div>div {
+        float: left;
+    }
+
+    .MultiCheckBoxDetail>div>div:nth-child(1) {}
+
+    .MultiCheckBoxDetailHeader {
+        overflow: hidden;
+        position: relative;
+        height: 28px;
+        background-color: #3d3d3d;
+    }
+
+    .MultiCheckBoxDetailHeader>input {
+        position: absolute;
+        top: 4px;
+        left: 3px;
+    }
+
+    .MultiCheckBoxDetailHeader>div {
+        position: absolute;
+        top: 5px;
+        left: 24px;
+        color: #fff;
+    }
+</style>
