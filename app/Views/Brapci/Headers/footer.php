@@ -8,16 +8,16 @@ if (!isset($bg)) { $bg = 'bg-primary'; }
     <!--Grid row-->
     <div class="row">
       <!--Grid column-->
-      <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+      <div class="col-lg-5 col-md-12 mb-5 mb-md-0">
         <h5 class="text-uppercase">Coleções Brapci</h5>
         <p>
-          A Brapci é um agregador que reune fontes de informação da área de Ciência da Informação, Biblioteconomia, Arquivologia e Museologia. É um base de dados mantida com a colaboração de difersas instituições de ensino e pesquisa. Tem como mantenedora a Universidade Federal do Rio Grando do Sul e ao Programa de Pós-Graduação em Ciência da Informação (PPGCIN).
+          A Brapci é um agregador que reune fontes de informação da área de Ciência da Informação, Biblioteconomia, Arquivologia e Museologia. É um base de dados mantida com a colaboração de difersas instituições de ensino e pesquisa. Tem como mantenedora a Universidade Federal do Rio Grando do Sul e o Programa de Pós-Graduação em Ciência da Informação (PPGCIN).
         </p>
       </div>
       <!--Grid column-->
 
       <!--Grid column-->
-      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+      <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
         <h5 class="text-uppercase">Bases de Dados</h5>
 
         <ul class="list-unstyled mb-0">
@@ -41,7 +41,7 @@ if (!isset($bg)) { $bg = 'bg-primary'; }
       <!--Grid column-->
 
       <!--Grid column-->
-      <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+      <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
         <h5 class="text-uppercase mb-0">Links</h5>
 
         <ul class="list-unstyled">
@@ -56,6 +56,15 @@ if (!isset($bg)) { $bg = 'bg-primary'; }
           </li>
         </ul>
       </div>
+
+      <!--Grid column-->
+      <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+        <ul class="list-unstyled">
+          <li>
+            <a href="/about" class="text-white">Logos</a>
+          </li>
+        </ul>
+      </div>      
       <!--Grid column-->
     </div>
     <!--Grid row-->

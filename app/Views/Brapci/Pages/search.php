@@ -1,7 +1,7 @@
 <?php
 $submit = '<input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="' . lang('main.search') . '">';
 $input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="O que você está procurando?">';
-$types = array('all', 'article', 'proceeding', 'bnancib', 'authorirty');
+$types = array('all', 'article', 'proceeding', 'benancib', 'authority');
 $select_type = '<select id="type" name="collection" class="form-control shadow" style="border: 1px solid #ccc; font-size: 130%; line-hight: 150%; max-width: 250px;">';
 for ($r = 0; $r < count($types); $r++) {
     $select_type .= '<option value="all">' . lang('main.' . $types[$r]) . '</option>' . cr();
@@ -183,13 +183,7 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
 </div>
 <div class="container" style="margin-bottom: 250px" ;>
     <!-------------------------- ADVANCED SCREEN ----------->
-    <div class="row ">
-        <div id="search_type" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <span class="a" style="cursor: pointer" onclick="$('#search_type').toggle(); $('#advanced_search').toggle('slow');">Busca avançada</span>
-        </div>
-    </div>
-
-    <div class="row border border-secondary p-2 mb-2 rounded-3 m-3 shadow" id="advanced_search" style="display: none;">
+    <div class="row border p-2 mb-2 rounded-3 m-3 shadow" id="advanced_search" style="border-color: #FFF;">
         <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-2">
             <?= lang('brapci.delimitation'); ?>&nbsp;
             <select name="di" class="border-0 fw-bold"><?= $sdi; ?></select>&nbsp;
@@ -205,16 +199,12 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
         </div>
 
         <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
-            <select name="publication" id="publication" class="form-control">
-                <option value="1">American Black Bear</option>
-                <option value="2">Asiatic Black Bear</option>
-                <option value="3">Brown Bear</option>
-                <option value="4">Giant Panda</option>
-                <option value="5">Sloth Bear</option>
-                <option value="6">Sun Bear</option>
-                <option value="7">Polar Bear</option>
-                <option value="8">Spectacled Bear</option>
+            <nobr><?=lang('main.sources');?>: 
+            <select name="publication" id="publication" class="border-0 fw-bold">
+                <option value="1"> American Black Bear</option>
+                <option value="2"> Asiatic Black Bear</option>
             </select>
+            </nobr>
         </div>
     </div>
 </div>
@@ -222,9 +212,9 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
 <script>
     $(document).ready(function() {
         $("#publication").CreateMultiCheckBox({
-            width: '600px',
-            defaultText: 'Select Below',
-            height: '250px'
+            width: '700px',
+            defaultText: '<?=lang('main.select_source');?>',
+            height: '350px'
         });
     });
 

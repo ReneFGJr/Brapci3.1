@@ -7,5 +7,7 @@ return[
         'book'=>'Livros',
         'thesis'=>'Teses e Dissertações',
         'authority'=>'Autores & Instituições',
-        'benancib'=>'Base Benancib'
+        'benancib'=>'Base Benancib',
+        'sources'=>'Fontes de informação',
+        'select_source'=>'Selecione as fontes',
 ];
