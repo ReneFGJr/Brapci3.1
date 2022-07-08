@@ -35,7 +35,7 @@ if ($ord == '') {
 }
 for ($r = 0; $r < count($fields); $r++) {
     $check = '';
-    if ($ord == $r) {
+    if ($field == $r) {
         $check = 'selected';
     }
     $sfield .= '<option value="' . $r . '" ' . $check . '>' . lang('brapci.' . $fields[$r]) . '</option>' . cr();
