@@ -48,7 +48,7 @@ class Sources extends Model
             $sj = (array)json_decode($_SESSION['sj']);
         }
         $lst = '';
-        $max = 10;
+        $max = 15;
         $nr = 0;
         $sx = '';
         $more = 0;
