@@ -48,9 +48,10 @@ class Sources extends Model
             $sj = (array)json_decode($_SESSION['sj']);
         }
         $lst = '';
-        $max = 6;
+        $max = 10;
         $nr = 0;
         $sx = '';
+        $more = 0;
         foreach ($sj as $jid => $active)
             if ($active == 1) {
                 $dt = $this->find($jid);
@@ -61,11 +62,16 @@ class Sources extends Model
                     $sx .= $dt['jnl_name_abrev'];
                     $nr++;
                 } else {
-                    $sx .= '.';
+                    $more++;
                 }
             }
+        if ($more > 0) {
+            $sx .= lang('brapci.more') . ' +' . ($more);
+        }
         if ($sx == '') {
             $sx = lang('brapci.select_sources') . ' ' . bsicone('folder-1');
+        } else {
+            $sx .= '.';
         }
         return $sx;
     }
