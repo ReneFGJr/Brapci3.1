@@ -40,12 +40,6 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                     <a class="nav-link"
                         href="<?= URL . '/' . COLLECTION . '/about'; ?>"><?= lang('benancib.about'); ?></a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link disabled">Benancib</a>
                 </li>
