@@ -47,6 +47,6 @@ class Ajax extends BaseController
             }
         }
         $_SESSION['sj'] = json_encode($sj);
-        print_r($_SESSION);
+        echo "Ciência da Informação";
     }
 }

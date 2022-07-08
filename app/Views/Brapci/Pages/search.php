@@ -206,12 +206,13 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
 
         <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
             <!-- Button trigger modal -->
-            <span class="fw-bold" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <span class="fw-bold" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                id="label_select_source">
                 <?= lang('brapci.select_sources'); ?> <?= bsicone('folder-1'); ?>
             </span>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <?= view('Brapci/Pages/search_sources'); ?>
             </div>

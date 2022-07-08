@@ -6,5 +6,6 @@ function markSource(ms, ta) {
     data: { dd1: ms, dd2: ok },
   }).done(function (data) {
     console.log(data);
+    $("label_select_source").html(data);
   });
 }
