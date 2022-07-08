@@ -72,50 +72,52 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
         <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
             <div style="height: 150px;" class="text-center">
                 <style>
-                    #logoB {
-                        fill: green;
-                        animation: col 1s alternate infinite;
+                #logoB {
+                    fill: green;
+                    animation: col 1s alternate infinite;
+                }
+
+                #logoR {
+                    animation: col 1s alternate infinite;
+                }
+
+                #logoA {
+                    animation: col 1s alternate infinite;
+                }
+
+                #logoP {
+                    animation: col 1s alternate infinite;
+                }
+
+                #logoC {
+                    fill: brown;
+                    animation: col 1s alternate infinite;
+                }
+
+                #logoI {
+                    fill: green;
+                    animation: col 1s alternate infinite;
+                }
+
+                @keyframes col {
+                    from {
+                        fill: #0d6efd;
                     }
 
-                    #logoR {
-                        animation: col 1s alternate infinite;
+                    to {
+                        fill: #2daefd;
                     }
+                }
 
-                    #logoA {
-                        animation: col 1s alternate infinite;
-                    }
-
-                    #logoP {
-                        animation: col 1s alternate infinite;
-                    }
-
-                    #logoC {
-                        fill: brown;
-                        animation: col 1s alternate infinite;
-                    }
-
-                    #logoI {
-                        fill: green;
-                        animation: col 1s alternate infinite;
-                    }
-
-                    @keyframes col {
-                        from {
-                            fill: #0d6efd;
-                        }
-
-                        to {
-                            fill: #2daefd;
-                        }
-                    }
-
-                    }
+                }
                 </style>
-                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75%" viewBox="0 0 649.000000 150.000000" preserveAspectRatio="xMidYMid meet">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75%" viewBox="0 0 649.000000 150.000000"
+                    preserveAspectRatio="xMidYMid meet">
                     <metadata>
                         Logo Brapci SVG (2022)
                     </metadata>
-                    <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none" style="width: 100%;">
+                    <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"
+                        style="width: 100%;">
                         <path id="logoB" d="M260 745 l0 -555 293 0 c502 1 590 22 660 155 26 50 35 176 17 240
            -15 53 -64 113 -114 140 -34 18 -47 35 -27 35 18 0 103 85 123 124 49 95 30
            240 -40 318 -81 89 -132 98 -569 98 l-343 0 0 -555z m659 352 c49 -17 73 -55
@@ -198,189 +200,21 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
             <select name="ord" class="border-0 fw-bold"><?= $sfield; ?></select>
         </div>
 
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-2">
-            <nobr><?=lang('main.sources');?>: 
-            <select name="publication" id="publication" class="border-0 fw-bold">
-                <option value="1"> American Black Bear</option>
-                <option value="2"> Asiatic Black Bear</option>
-            </select>
-            </nobr>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-2">
+            <?= lang('main.sources'); ?>:
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <!-- Button trigger modal -->
+            <span class="fw-bold" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <?= lang('brapci.select_sources'); ?> <?= bsicone('folder-1'); ?>
+            </span>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <?= view('Brapci/Pages/search_sources'); ?>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $("#publication").CreateMultiCheckBox({
-            width: '700px',
-            defaultText: '<?=lang('main.select_source');?>',
-            height: '350px'
-        });
-    });
-
-    $(document).ready(function() {
-        $(document).on("click", ".MultiCheckBox", function() {
-            var detail = $(this).next();
-            detail.show();
-        });
-
-        $(document).on("click", ".MultiCheckBoxDetailHeader input", function(e) {
-            e.stopPropagation();
-            var hc = $(this).prop("checked");
-            $(this).closest(".MultiCheckBoxDetail").find(".MultiCheckBoxDetailBody input").prop("checked", hc);
-            $(this).closest(".MultiCheckBoxDetail").next().UpdateSelect();
-        });
-
-        $(document).on("click", ".MultiCheckBoxDetailHeader", function(e) {
-            var inp = $(this).find("input");
-            var chk = inp.prop("checked");
-            inp.prop("checked", !chk);
-            $(this).closest(".MultiCheckBoxDetail").find(".MultiCheckBoxDetailBody input").prop("checked", !chk);
-            $(this).closest(".MultiCheckBoxDetail").next().UpdateSelect();
-        });
-
-        $(document).on("click", ".MultiCheckBoxDetail .cont input", function(e) {
-            e.stopPropagation();
-            $(this).closest(".MultiCheckBoxDetail").next().UpdateSelect();
-
-            var val = ($(".MultiCheckBoxDetailBody input:checked").length == $(".MultiCheckBoxDetailBody input").length)
-            $(".MultiCheckBoxDetailHeader input").prop("checked", val);
-        });
-
-        $(document).on("click", ".MultiCheckBoxDetail .cont", function(e) {
-            var inp = $(this).find("input");
-            var chk = inp.prop("checked");
-            inp.prop("checked", !chk);
-
-            var multiCheckBoxDetail = $(this).closest(".MultiCheckBoxDetail");
-            var multiCheckBoxDetailBody = $(this).closest(".MultiCheckBoxDetailBody");
-            multiCheckBoxDetail.next().UpdateSelect();
-
-            var val = ($(".MultiCheckBoxDetailBody input:checked").length == $(".MultiCheckBoxDetailBody input").length)
-            $(".MultiCheckBoxDetailHeader input").prop("checked", val);
-        });
-
-        $(document).mouseup(function(e) {
-            var container = $(".MultiCheckBoxDetail");
-            if (!container.is(e.target) && container.has(e.target).length === 0) {
-                container.hide();
-            }
-        });
-    });
-
-    var defaultMultiCheckBoxOption = {
-        width: '220px',
-        defaultText: 'Select Below',
-        height: '200px'
-    };
-
-    jQuery.fn.extend({
-        CreateMultiCheckBox: function(options) {
-
-            var localOption = {};
-            localOption.width = (options != null && options.width != null && options.width != undefined) ? options.width : defaultMultiCheckBoxOption.width;
-            localOption.defaultText = (options != null && options.defaultText != null && options.defaultText != undefined) ? options.defaultText : defaultMultiCheckBoxOption.defaultText;
-            localOption.height = (options != null && options.height != null && options.height != undefined) ? options.height : defaultMultiCheckBoxOption.height;
-
-            this.hide();
-            this.attr("multiple", "multiple");
-            var divSel = $("<div class='MultiCheckBox'>" + localOption.defaultText + "<span class='k-icon k-i-arrow-60-down'><svg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='sort-down' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512' class='svg-inline--fa fa-sort-down fa-w-10 fa-2x'><path fill='currentColor' d='M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z' class=''></path></svg></span></div>").insertBefore(this);
-            divSel.css({
-                "width": localOption.width
-            });
-
-            var detail = $("<div class='MultiCheckBoxDetail'><div class='MultiCheckBoxDetailHeader'><input type='checkbox' class='mulinput' value='-1982' /><div>Select All</div></div><div class='MultiCheckBoxDetailBody'></div></div>").insertAfter(divSel);
-            detail.css({
-                "width": parseInt(options.width) + 10,
-                "max-height": localOption.height
-            });
-            var multiCheckBoxDetailBody = detail.find(".MultiCheckBoxDetailBody");
-
-            this.find("option").each(function() {
-                var val = $(this).attr("value");
-
-                if (val == undefined)
-                    val = '';
-
-                multiCheckBoxDetailBody.append("<div class='cont'><div><input type='checkbox' class='mulinput' value='" + val + "' /></div><div>" + $(this).text() + "</div></div>");
-            });
-
-            multiCheckBoxDetailBody.css("max-height", (parseInt($(".MultiCheckBoxDetail").css("max-height")) - 28) + "px");
-        },
-        UpdateSelect: function() {
-            var arr = [];
-
-            this.prev().find(".mulinput:checked").each(function() {
-                arr.push($(this).val());
-            });
-
-            this.val(arr);
-        },
-    });
-</script>
-
-<style>
-    .MultiCheckBox {
-        border: 1px solid #e2e2e2;
-        padding: 5px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .MultiCheckBox .k-icon {
-        font-size: 15px;
-        float: right;
-        font-weight: bolder;
-        margin-top: -7px;
-        height: 10px;
-        width: 14px;
-        color: #787878;
-    }
-
-    .MultiCheckBoxDetail {
-        display: none;
-        position: absolute;
-        border: 1px solid #e2e2e2;
-        overflow-y: hidden;
-    }
-
-    .MultiCheckBoxDetailBody {
-        overflow-y: scroll;
-    }
-
-    .MultiCheckBoxDetail .cont {
-        clear: both;
-        overflow: hidden;
-        padding: 2px;
-    }
-
-    .MultiCheckBoxDetail .cont:hover {
-        background-color: #cfcfcf;
-    }
-
-    .MultiCheckBoxDetailBody>div>div {
-        float: left;
-    }
-
-    .MultiCheckBoxDetail>div>div:nth-child(1) {}
-
-    .MultiCheckBoxDetailHeader {
-        overflow: hidden;
-        position: relative;
-        height: 28px;
-        background-color: #3d3d3d;
-    }
-
-    .MultiCheckBoxDetailHeader>input {
-        position: absolute;
-        top: 4px;
-        left: 3px;
-    }
-
-    .MultiCheckBoxDetailHeader>div {
-        position: absolute;
-        top: 5px;
-        left: 24px;
-        color: #fff;
-    }
-</style>

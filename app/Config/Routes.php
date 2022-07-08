@@ -36,8 +36,12 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-/********** DEFAULR */
+/********** DEFAULT */
 $routes->get('/', 'Main::index');
+
+/********* AJAX */
+$routes->get('/ajax/(:any)', 'Ajax::index/$1');
+$routes->post('/ajax/(:any)', 'Ajax::index/$1');
 
 /********* SOCIAL */
 $routes->get('/social', 'Social::index');
