@@ -1,15 +1,15 @@
 <?php
 $Socials = new \App\Models\Socials();
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
-  $acesso = $Socials->nav_user();
+    $acesso = $Socials->nav_user();
 } else {
-  $acesso = '<li class="nav-item" style="list-style-type: none;">';
-  $acesso .= '<button class="btn btn-outline-danger" ';
-  $acesso .= 'onclick="location.href=/social" ';
-  $acesso .= 'style="margin-left: 7px;" type="submit">';
-  $acesso .= 'ACESSO';
-  $acesso .= '</button>';
-  $acesso .= '</li>';
+    $acesso = '<li class="nav-item" style="list-style-type: none;">';
+    $acesso .= '<button class="btn btn-outline-danger" ';
+    $acesso .= 'onclick="location.href=/social" ';
+    $acesso .= 'style="margin-left: 7px;" type="submit">';
+    $acesso .= 'ACESSO';
+    $acesso .= '</button>';
+    $acesso .= '</li>';
 }
 ?>
 <nav class="navbar navbar-expand-lg bg-light fixed-top">
@@ -40,16 +40,28 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                     <a class="nav-link"
                         href="<?= URL . '/' . COLLECTION . '/about'; ?>"><?= lang('benancib.about'); ?></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Benancib</a>
-                </li>
+
             </ul>
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input class="form-control me-2" type="search" placeholder="<?= lang('benancib.search_placeholder'); ?>"
+                    aria-label="<?= lang('benancib.search'); ?>">
+                <button class="btn btn-outline-success" type="submit"><?= lang('benancib.search'); ?></button>
             </form>
             <?php echo $acesso; ?>
         </div>
     </div>
 </nav>
-<div class="mb-5">X</div>
+<div style=" height: 100px; width: 100%">
+</div>
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 120%;
+}
+</style>

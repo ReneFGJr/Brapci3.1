@@ -27,7 +27,7 @@ class Elasticsearch extends BaseController
         $sx .= view('Brapci/Headers/navbar', $data);
 
         $act = trim($act);
-        
+
         switch ($act) {
             case 'register':
                 $APIRegister = new \App\Models\ElasticSearch\Register();
@@ -37,7 +37,7 @@ class Elasticsearch extends BaseController
                 $API = new \App\Models\ElasticSearch\API();
                 $dt = $API->status();
                 $sx .= $API->showList($dt);
-            break;
+                break;
 
             case 'search':
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
@@ -49,54 +49,53 @@ class Elasticsearch extends BaseController
             default:
                 $sx .= h($act);
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
-                $sx .= bs(bsc(view('Tools/WelcomeElasticSearch', $data),12));
-                $sx .= bs(bsc($this->menu(),12));
+                $sx .= bs(bsc(view('Tools/WelcomeElasticSearch', $data), 12));
+                $sx .= bs(bsc($this->menu(), 12));
                 break;
-        }        
+        }
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
-    }  
+    }
 
     function show_works($dt)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $sx = '';
-            if (!isset($dt['total'])) { return ''; }
-
-            $sa = 'Total '.$dt['total'];
-            $sa .= ', mostrando '.$dt['start'].'/'.$dt['offset'];
-            $sx = bsc($sa,12);
-
-            for ($r=0;$r < count($dt['works']);$r++)
-                {
-                    $line = $dt['works'][$r];
-                    $sx .= bsc($RDF->c($line['id']).' <sup>(Score: '.number_format($line['score'],3,'.',',').')</sup>',6,'mb-3');
-                }
-            $sx = bs($sx);
-            return $sx;
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $sx = '';
+        if (!isset($dt['total'])) {
+            return '';
         }
+
+        $sa = 'Total ' . $dt['total'];
+        $sa .= ', mostrando ' . $dt['start'] . '/' . $dt['offset'];
+        $sx = bsc($sa, 12);
+
+        for ($r = 0; $r < count($dt['works']); $r++) {
+            $line = $dt['works'][$r];
+            $sx .= bsc($RDF->c($line['id']) . ' <sup>(Score: ' . number_format($line['score'], 3, '.', ',') . ')</sup>', 6, 'mb-3');
+        }
+        $sx = bs($sx);
+        return $sx;
+    }
 
     function search()
-        {            
-            $sx = '';
+    {
+        $sx = '';
 
 
-            if (get("search") != '')
-                {
-                    $q = get("search");
-                    $Search = new \App\Models\ElasticSearch\Search();
-                    $sx .= $this->show_works($Search->search($q));
-                }
-            return $sx;
-
-        } 
+        if (get("search") != '') {
+            $q = get("search");
+            $Search = new \App\Models\ElasticSearch\Search();
+            $sx .= $this->show_works($Search->search($q));
+        }
+        return $sx;
+    }
 
     private function  menu()
-        {
-            $menu[URL.'/elasticsearch/status'] = lang('elastic.status');
-            $menu[URL.'/elasticsearch/register/1'] = lang('elastic.register_test');
-            $menu[URL.'/elasticsearch/search/'] = lang('elastic.search');
-            $sx = menu($menu);
-            return $sx;
-        }
+    {
+        $menu[URL . '/elasticsearch/status'] = lang('elastic.status');
+        $menu[URL . '/elasticsearch/register/1'] = lang('elastic.register_test');
+        $menu[URL . '/elasticsearch/search/'] = lang('elastic.search');
+        $sx = menu($menu);
+        return $sx;
+    }
 }

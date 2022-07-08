@@ -1,0 +1,1 @@
+<img src="/img/logo/logo_ppgci_uff.png" height="<?= $height; ?>" class="img-fluid">

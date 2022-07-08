@@ -28,7 +28,6 @@ class Benancib extends BaseController
         $sx .= view('Benancib/Headers/navbar', $data);
 
         $act = trim($act);
-        echo h($act);
         switch ($act) {
             case 'v':
                 $sx .= $this->v($id);
@@ -45,9 +44,20 @@ class Benancib extends BaseController
                 $sx .= '<hr>';
                 $sx .= bsc($Issues->issue_section_works($id));
                 break;
+            case 'about':
+                $sa = '';
+                $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
+                $sa .= bsc(view('Benancib/Pages/About', $data), 12);
+                $data['height'] = 100;
+                $sb = '';
+                $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
+                $sb .= bsc('', 4, 'mt-5');
+                $sb .= bsc(view('Logos/logo_ppgcin_ufrgs.php', $data), 4, 'text-center mt-5');
+                $sx .= bs($sa . $sb);
+                break;
             default:
                 $id = 75;
-                $data['logo'] = view('Benancib/Svg/logo_benancib');
+                $data['logo'] = view('Logos/logo_benancib');
                 $data['issues'] = $Issues->show_list_cards($id);
                 $data['search'] = view('Benancib/Pages/search');
                 $sx .= view('Benancib/Welcome', $data);
