@@ -49,6 +49,7 @@ class Benancib extends BaseController
                 $id = 75;
                 $data['logo'] = view('Benancib/Svg/logo_benancib');
                 $data['issues'] = $Issues->show_list_cards($id);
+                $data['search'] = view('Benancib/Pages/search');
                 $sx .= view('Benancib/Welcome', $data);
                 break;
         }
@@ -73,7 +74,7 @@ class Benancib extends BaseController
             case 'Proceeding':
                 $Proceeding = new \App\Models\Base\Proceeding();
                 $sx .= $Proceeding->showHTML($dt);
-                break;                
+                break;
 
             case 'work':
                 $Work = new \App\Models\Base\Work();

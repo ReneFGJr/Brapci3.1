@@ -4,6 +4,10 @@
             <?= $logo; ?>
         </div>
 
+        <div class="col-12 text-center">
+            <?= $search; ?>
+        </div>
+
         <div class="col-12">
             <?= $issues; ?>
         </div>
