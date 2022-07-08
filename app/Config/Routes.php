@@ -38,6 +38,7 @@ $routes->set404Override();
 
 /********** DEFAULT */
 $routes->get('/', 'Main::index');
+$routes->post('/', 'Main::index');
 
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');
