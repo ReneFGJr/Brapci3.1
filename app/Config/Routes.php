@@ -67,6 +67,13 @@ $routes->post('/elasticsearch/(:any)/', 'Elasticsearch::index/$1');
 $routes->get('/popup/(:any)', 'Popup::index/$1');
 $routes->post('/popup/(:any)', 'Popup::index/$1');
 
+/********* POPUP */
+$routes->get('/admin/(:any)', 'Admin::index/$1');
+$routes->post('/admin/(:any)', 'Admin::index/$1');
+$routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
+$routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
+$routes->get('/admin', 'Admin::index');
+
 /********* PQ */
 $routes->get('/pq/(:any)', 'Pq::index/$1');
 $routes->get('/pq', 'Pq::index');

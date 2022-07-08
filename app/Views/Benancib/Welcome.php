@@ -1,14 +1,11 @@
 <div class="container">
     <div class="row">
-        <div class="col-2">
-            <?= $logo;?>
-        </div>
-
-        <div class="col-10">
+        <div class="col-12 text-center">
+            <?= $logo; ?>
         </div>
 
         <div class="col-12">
-            <?= $issues;?>
-        </div>                    
+            <?= $issues; ?>
+        </div>
     </div>
 </div>
