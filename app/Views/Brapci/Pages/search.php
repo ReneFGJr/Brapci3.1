@@ -1,4 +1,5 @@
 <?php
+$Source = new \App\Models\Base\Sources();
 $submit = '<input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="' . lang('main.search') . '">';
 $input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="O que você está procurando?">';
 $types = array('all', 'article', 'proceeding', 'benancib', 'authority');
@@ -208,7 +209,7 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
             <!-- Button trigger modal -->
             <span class="fw-bold" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"
                 id="label_select_source">
-                <?= lang('brapci.select_sources'); ?> <?= bsicone('folder-1'); ?>
+                <?= $Source->list_selected(); ?>
             </span>
 
             <!-- Modal -->

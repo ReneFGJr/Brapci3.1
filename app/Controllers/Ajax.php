@@ -16,37 +16,19 @@ class Ajax extends BaseController
 {
     public function index($act = '')
     {
-        echo '==>' . $act;
         switch ($act) {
             case 'mark':
                 $this->mark();
                 break;
             default:
+                echo '==>' . $act;
                 break;
         }
     }
 
     function mark()
     {
-        $id = get("id");
-        $ok = get("ok");
-        if (!isset($_SESSION['sj'])) {
-            $sj = array();
-        } else {
-            $sj = (array)json_decode($_SESSION['sj']);
-        }
-
-        /********************************* CHECK */
-        if (!isset($sj[$id])) {
-            $sj[$id] = 1;
-        } else {
-            if ($sj[$id] == 1) {
-                $sj[$id] = 0;
-            } else {
-                $sj[$id] = 1;
-            }
-        }
-        $_SESSION['sj'] = json_encode($sj);
-        echo "Ciência da Informação";
+        $Source = new \App\Models\Base\Sources();
+        echo $Source->ajax();
     }
 }

@@ -8,7 +8,7 @@ class Sources extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'source_source';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'id_jnl';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -39,6 +39,61 @@ class Sources extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function list_selected()
+    {
+        if (!isset($_SESSION['sj'])) {
+            $sj = array();
+        } else {
+            $sj = (array)json_decode($_SESSION['sj']);
+        }
+        $lst = '';
+        $max = 6;
+        $nr = 0;
+        $sx = '';
+        foreach ($sj as $jid => $active)
+            if ($active == 1) {
+                $dt = $this->find($jid);
+                if ($nr < $max) {
+                    if (strlen($sx) > 0) {
+                        $sx .= '; ';
+                    }
+                    $sx .= $dt['jnl_name_abrev'];
+                    $nr++;
+                } else {
+                    $sx .= '.';
+                }
+            }
+        if ($sx == '') {
+            $sx = lang('brapci.select_sources') . ' ' . bsicone('folder-1');
+        }
+        return $sx;
+    }
+
+    function ajax()
+    {
+        $id = get("id");
+        $ok = get("ok");
+        if (!isset($_SESSION['sj'])) {
+            $sj = array();
+        } else {
+            $sj = (array)json_decode($_SESSION['sj']);
+        }
+
+        /********************************* CHECK */
+        if (!isset($sj[$id])) {
+            $sj[$id] = 1;
+        } else {
+            if ($sj[$id] == 1) {
+                $sj[$id] = 0;
+            } else {
+                $sj[$id] = 1;
+            }
+        }
+        $_SESSION['sj'] = json_encode($sj);
+
+        return $this->list_selected();
+    }
 
     function search_source()
     {

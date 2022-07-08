@@ -5,7 +5,7 @@ function markSource(ms, ta) {
     url: "/ajax/mark/?id=" + ms,
     data: { dd1: ms, dd2: ok },
   }).done(function (data) {
+    $("#label_select_source").html(data);
     console.log(data);
-    $("label_select_source").html(data);
   });
 }
