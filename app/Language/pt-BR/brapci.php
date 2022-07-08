@@ -21,5 +21,6 @@ return [
         'sources_all_je' => 'Rev. Estrangeiras',
         'sources_all_ev' => 'Eventos',
         'sources_all' => 'Todos:',
-        'select_sources' => 'selecione as fontes'
+        'select_sources' => 'selecione as fontes',
+        'more' => ' mais'
 ];
