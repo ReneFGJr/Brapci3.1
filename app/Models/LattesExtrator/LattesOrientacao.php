@@ -61,7 +61,7 @@ class LattesOrientacao extends Model
 
 	function resume($id)
 	{
-		$rst = array(0, 0, 0, 0, 0);
+		$rst = array(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 		$dt = $this->select('count(*) as total, lo_natureza')
 			->where('lo_author', $id)
@@ -86,6 +86,12 @@ class LattesOrientacao extends Model
 						break;
 					case 'PD':
 						$rst[4] = $line['total'];
+						break;
+					case 'EP':
+						$rst[5] = $line['total'];
+						break;
+					case 'OT':
+						$rst[6] = $line['total'];
 						break;
 					default:
 						echo "<br>OPS->" . $tp;
