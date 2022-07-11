@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class LattesOrientacao extends Model
 {
 	protected $DBGroup              = 'lattes';
-	protected $table                = 'LattesOrientacaoes';
+	protected $table                = 'LattesOrientacoes';
 	protected $primaryKey           = 'id_lo';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
