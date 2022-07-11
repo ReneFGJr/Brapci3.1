@@ -57,7 +57,7 @@ class Benancib extends BaseController
             case 'about':
                 $sa = '';
                 $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
-                $sa .= bsc(view('Benancib/Pages/About', $data), 12);
+                $sa .= bsc(view('Benancib/Pages/about', $data), 12);
                 $data['height'] = 100;
                 $sb = '';
                 $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
