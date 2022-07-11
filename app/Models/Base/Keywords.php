@@ -101,7 +101,17 @@ class Keywords extends Model
             $dt = json_decode($dt);
 
             for ($r = 0; $r < count($dt); $r++) {
-                $t = trim($dt[$r]);
+                $tt = (array)$dt[$r];
+                if (isset($tt['term']))
+                    {
+                        $t = (string)$tt['term'];
+                    } else {
+                        $tt = $dt[$r];
+                        $t = trim($tt);
+                    }
+
+                
+                
                 if (strlen($t) > 0) {
                     $term = strip_tags($t);
                     $id = substr($t, strpos($t, 'v/') + 2, strlen($t));

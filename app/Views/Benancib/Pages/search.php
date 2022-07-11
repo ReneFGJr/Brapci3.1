@@ -2,7 +2,7 @@
 
 $Source = new \App\Models\Base\Sources();
 $submit = '<input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="' . lang('main.search') . '">';
-$input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="O que você está procurando?">';
+$input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="Digite aqui!">';
 $types = array('all', 'article', 'proceeding', 'benancib', 'authority');
 $select_type = '<input type="hidden" id="type" name="collection" value="75">';
 
@@ -70,7 +70,7 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
 ?>
 
 <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-    <h3 class="" style="">O que você está procurando no Benancib?</h3>
+    <h3 class="" style="">O que você está procurando na Benancib?</h3>
 </div>
 <form method="get">
     <div class="container" style="margin-bottom: 20px" ;>

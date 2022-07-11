@@ -55,7 +55,7 @@ class Issues extends Model
     function edit($id)
         {
             $this->id = $id;
-            $this->path = URL.'/'.COLLECTION.'/issue_edit/?id='.$id.'&';
+            $this->path = URL.'/'.COLLECTION.'/issue/';
             $this->path_back = URL.'/'.COLLECTION.'/issue/?id='.$id;
             $sx = form($this);
             $sx .= '==>'.$this->id;
@@ -63,7 +63,7 @@ class Issues extends Model
             return $sx;
         }
 
-    function show_list_cards($id)
+    function show_list_cards($id,$default_img='/img/issue/issue_enancib_ancib.png')
     {
         $dt = $this
             ->where('is_source', $id)
@@ -82,7 +82,7 @@ class Issues extends Model
             $img = $line['is_card'];
             $link = PATH . COLLECTION . '/issue?id=' . $line['id_is'];
             if (!file_exists($img)) {
-                $img = '/img/issue/issue_enancib_ancib.png';
+                $img = $default_img;
             }
 
             $sx .= '
@@ -91,7 +91,9 @@ class Issues extends Model
                     <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>'.$line['is_vol_roman'].'</b></span>
                     <div class="card-body">
                         <h5 class="card-title">' . $line['is_year'] . ' - ' . $line['is_place'] . '</h5>
+                        <!---
                         <p class="card-text">' . $line['is_thema'] . '</p>
+                        --->
                     </div>
                     </div>
                     ';
@@ -134,11 +136,18 @@ class Issues extends Model
 
     function header_issue($dt)
     {
-        $tools = anchor(URL.'/'.COLLECTION.'/issue/?id='.$dt['id_is'].'&reindex=1',bsicone('reload'));
-        $tools .= anchor(URL.'/'.COLLECTION.'/issue_edit/?id='.$dt['id_is'].'',bsicone('edit'));
+        $tools = anchor(URL.'/'.COLLECTION.'/issue/?id='.$dt['id_is'].'&reindex=1',bsicone('reload',32));
+        $tools .= '<span class="p-2"></span>';
+        $tools .= anchor(URL.'/'.COLLECTION.'/issue/edit/'.$dt['id_is'].'',bsicone('edit',32));
         $sx = '';
+        $vol = $dt['is_vol'];
+        $roman = trim($dt['is_vol_roman']);
+        if (strlen($roman) > 0)
+            {
+                $vol .= ' ('.$roman.')';
+            }
         $sx .= bsc(h($dt['jnl_name'], 3), 12);
-        $sx .= bsc($dt['is_vol'], 1);
+        $sx .= bsc($vol, 1);
         $sx .= bsc($dt['is_year'], 1);
         $sx .= bsc($dt['is_place'], 2);
         $sx .= bsc($dt['is_thema'], 7);

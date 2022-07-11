@@ -68,3 +68,56 @@ a:hover
     display: block; float: left; height: 27px; margin: -4px 6px 0 4px;
     overflow: hidden!important; text-indent: -9999px; width: 32px;
 }
+
+input.form-control, textarea.form-control, select.form-control
+    {
+        color: #000;
+        font-weight: bold;
+        border: 1px solid #0000;
+        background: #EEE;
+    }
+/************************ PGCD *******/
+a.pgcd_view_plans
+    {
+        color: #000;
+        font-weight: 400;
+    }
+a.pgcd_view_plans:hover
+    {
+        color: #000;
+        font-weight: bold;
+    }    
+.pgcd_edit_plans, a.pgcd_edit_plans, a.pgcd_trash_plans
+    {
+        color: #000;
+        font-weight: bold;
+    }
+
+.pgcd_nav-item-active, a.pgcd_nav-item-active, a.pgcd_nav-item-active:hover
+    {
+        background-color: #0D6EFD;
+        border-radius: 20px 20px 0px 0px;
+        /* font-weight: bold; */
+        color: white;
+    }
+.pgcd_border
+    {
+        background: #AAA;
+        height: 2px;
+    }
+
+.pgcd_table_th
+    {
+        background-color: #0D6EFD;;
+        color: white;
+    }
+.pgcd_table
+    {
+        border: 1px solid #0D6EFD;
+    }
+
+.pgcd_h
+    {
+         border-top: 2px solid #AAA;
+         padding-top: 5px;
+    }

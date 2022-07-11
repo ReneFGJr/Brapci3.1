@@ -43,12 +43,15 @@ class Index extends Model
     function index($act = '', $subact = '', $id = '')
     {
         switch ($act) {
+            case 'socials':
+                $Socials = new \App\Models\Socials();
+                $sx = $Socials->index($subact,$id);
+                break;
+
             case 'source':
                 $Sources = new \App\Models\Base\Sources();
-                echo '===>' . $subact;
                 switch ($subact) {
                     case 'edit':
-                        echo '===>' . $id;
                         $sx = $Sources->editar($id);
                         break;
                     default:
@@ -58,7 +61,11 @@ class Index extends Model
 
                 break;
             default:
-                $sx = h($act, 1);
+                $sx = '';
+                $user_name = $_SESSION['user'];
+                $sx .= h(lang('brapci.Hello').' '.$user_name.' !',2);
+                print_r($_SESSION);
+                $sx .= h($act, 1);
                 $sx .= $this->menu();
                 $sx = bs(bsc($sx, 12));
         }
@@ -68,6 +75,7 @@ class Index extends Model
     function menu()
     {
         $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');
+        $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
         $sx = menu($m);
         return $sx;
     }

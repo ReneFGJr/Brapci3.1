@@ -40,6 +40,11 @@ $routes->set404Override();
 $routes->get('/', 'Main::index');
 $routes->post('/', 'Main::index');
 
+/********* PGCD */
+$routes->get('/pgcd/', 'Pgcd::index/');
+$routes->get('/pgcd/(:any)', 'Pgcd::index/$1');
+$routes->post('/pgcd/(:any)', 'Pgcd::index/$1');
+
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');
 $routes->post('/ajax/(:any)', 'Ajax::index/$1');
@@ -47,10 +52,13 @@ $routes->post('/ajax/(:any)', 'Ajax::index/$1');
 /********* SOCIAL */
 $routes->get('/social', 'Social::index');
 $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
+$routes->get('/social/(:any)', 'Social::index/$1');
+$routes->post('/social/(:any)', 'Social::index/$1');
 
 
 /********* BENANCIB */
 $routes->get('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
+$routes->post('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
 $routes->get('/benancib/(:any)/', 'Benancib::index/$1');
 $routes->post('/benancib/(:any)/', 'Benancib::index/$1');
 $routes->get('/benancib', 'Benancib::index');
@@ -79,8 +87,10 @@ $routes->get('/pq/(:any)', 'Pq::index/$1');
 $routes->get('/pq', 'Pq::index');
 
 /********** Others */
+//$routes->get('(:any)', 'MainPages::index/$1');
 $routes->get('(:any)', 'MainPages::index/$1');
-
+$routes->get('(:any)/(:any)', 'MainPages::index/$1/$2');
+$routes->get('(:any)/(:any)/(:any)', 'MainPages::index/$1/$2/$3');
 
 
 /*

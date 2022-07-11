@@ -14,6 +14,7 @@ define("URL",getenv("app.baseURL"));
 define("PATH",getenv("app.baseURL").'/');
 define("MODULE",'');
 define("PREFIX",'');
+define("COLLECTION",'');
 
 class Social extends BaseController
 {
@@ -23,13 +24,26 @@ class Social extends BaseController
             $sx = $Socials->ajax($act);
             return $sx;
         }
-    public function index()
+    public function index($act='',$subact='',$id='')
     {
+        $act .= get("cmd");
         $data['page_title'] = 'Brapci - Login IDP';
         $sx = view('Brapci/Headers/header',$data);
         $sx .= view('Brapci/Headers/navbar',$data);        
         $Socials = new \App\Models\Socials();
-        $sa = $Socials->login();
+        switch ($act)
+            {
+                case 'logout':
+                    $Socials->logout();
+                    return redirect('Main::index');
+                break;
+
+                default:
+                    $sa = h($act.'.'.$subact);
+                    $sa .= $Socials->index($act,$subact,$id);
+                    break;
+            }
+       
         $sx .= bs(bsc($sa,12));
         $sx .= view('Brapci/Headers/footer',$data);
 

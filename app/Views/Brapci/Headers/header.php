@@ -17,7 +17,7 @@ if (!isset($page_title)) {
     <!---- JS -->
     <script src="/js/popper.min.js" crossorigin="anonymous"></script>
     <script src="/js/bootstrap.js" crossorigin="anonymous"></script>
-    <script src="/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<!--    <script src="/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> -->
     <script src="/js/jquery.min.js?v3.6" crossorigin="anonymous"></script>
     <script src="/js/brapci.js?v0.1" crossorigin="anonymous"></script>
 

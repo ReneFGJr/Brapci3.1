@@ -39,12 +39,19 @@
 # DATABASE
 #--------------------------------------------------------------------
 
-# database.default.hostname = localhost
-# database.default.database = ci4
-# database.default.username = root
-# database.default.password = root
-# database.default.DBDriver = MySQLi
-# database.default.DBPrefix =
+database.default.hostname = localhost
+database.default.database = brapci
+database.default.username = root
+database.default.password = 
+database.default.DBDriver = MySQLi
+database.default.DBPrefix =
+
+database.pgcd .hostname = localhost
+database.pgcd .database = pgcd 
+database.pgcd .username = root
+database.pgcd .password = 
+database.pgcd .DBDriver = MySQLi
+database.pgcd .DBPrefix =
 
 # database.tests.hostname = localhost
 # database.tests.database = ci4

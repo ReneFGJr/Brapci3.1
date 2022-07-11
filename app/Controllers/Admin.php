@@ -20,13 +20,19 @@ class Admin extends BaseController
 {
     public function index($act = '', $sub = '', $id = '')
     {
-        $ADMIN = new \App\Models\Base\Admin\Index();
-        $data['page_title'] = 'Brapci';
-        $sx = '';
-        $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Brapci/Headers/navbar', $data);
-        $sx .= $ADMIN->index($act, $sub, $id);
-        $sx .= view('Brapci/Headers/footer', $data);
+        $Socials = new \App\Models\Socials();
+        if ($Socials->getAccess("#ADM"))
+            {
+                $ADMIN = new \App\Models\Base\Admin\Index();
+                $data['page_title'] = 'Brapci';
+                $sx = '';
+                $sx .= view('Brapci/Headers/header', $data);
+                $sx .= view('Brapci/Headers/navbar', $data);
+                $sx .= $ADMIN->index($act, $sub, $id);
+                $sx .= view('Brapci/Headers/footer', $data);
+            } else {
+                return redirect('Main::index');
+            }
         return $sx;
     }
 }

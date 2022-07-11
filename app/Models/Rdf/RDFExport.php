@@ -278,7 +278,7 @@ class RDFExport extends Model
 		}
 		$this->saveRDF($id, $dt['concept']['c_class'], 'class.nm');
 
-		pre($dta);
+		//pre($dta);
 
 		$this->saveRDF($id, json_encode($dta), 'name.json');
 
