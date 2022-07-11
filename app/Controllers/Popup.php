@@ -7,49 +7,48 @@ use App\Controllers\BaseController;
 $this->session = \Config\Services::session();
 $language = \Config\Services::language();
 
-helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr','sessions','cookie']);
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
 $session = \Config\Services::session();
 
-define("URL",getenv("app.baseURL"));
-define("PATH",getenv("app.baseURL").'/');
-define("MODULE",'');
-define("PREFIX",'');
+define("URL", getenv("app.baseURL"));
+define("PATH", getenv("app.baseURL") . '/');
+define("MODULE", '');
+define("PREFIX", '');
 
 class Popup extends BaseController
 {
-    public function index($act='')
+    public function index($act = '')
     {
-        $data['page_title'] = 'Brapci - POPUP - '.ucfirst($act);
+        $data['page_title'] = 'Brapci - POPUP - ' . ucfirst($act);
         $data['bg'] = 'bg-pq';
         $sx = '';
-        $sx .= view('Brapci/Headers/header',$data);
+        $sx .= view('Brapci/Headers/header', $data);
 
-        switch($act)
-            {
-                case 'lattesextrator':
-                    $LattesExtrator = new \App\Models\LattesExtrator\Index();
-                    $LattesExtrator->harvesting();
-                    $sx = wclose();
-                    break;
-                case 'pq_bolsista_edit':
-                    $Bolsistas = new \App\Models\PQ\Bolsistas();
-                    $id = get('id');
-                    $sx .= $Bolsistas->edit($id);
-                    break;
+        switch ($act) {
+            case 'lattesextrator':
+                $LattesExtrator = new \App\Models\LattesExtrator\Index();
+                $LattesExtrator->harvesting();
+                $sx = wclose();
+                break;
+            case 'pq_bolsista_edit':
+                $Bolsistas = new \App\Models\PQ\Bolsistas();
+                $id = get('id');
+                $sx .= $Bolsistas->edit($id);
+                break;
 
-                case 'pq_bolsa_edit':
-                    $Bolsas = new \App\Models\PQ\Bolsas();
-                    $id = get('id');
-                    $sx .= $Bolsas->edit($id);
-                    break;
+            case 'pq_bolsa_edit':
+                $Bolsas = new \App\Models\PQ\Bolsas();
+                $id = get('id');
+                $sx .= $Bolsas->edit($id);
+                break;
 
-                case 'pq_bolsa_delete':
-                    $Bolsas = new \App\Models\PQ\Bolsas();
-                    $id = get('id');
-                    $Bolsas->delete($id);
-                    $sx = wclose();
-                    break;                    
-            }
+            case 'pq_bolsa_delete':
+                $Bolsas = new \App\Models\PQ\Bolsas();
+                $id = get('id');
+                $Bolsas->delete($id);
+                $sx = wclose();
+                break;
+        }
         return $sx;
     }
 }
