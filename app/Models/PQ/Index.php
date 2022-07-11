@@ -140,6 +140,7 @@ class Index extends Model
 		$sc .= bsc($LattesProducao->selo($p3[2], 'MESTRADO'), 2);
 		$sc .= bsc($LattesProducao->selo($p3[3], 'DOUTORADO'), 2);
 		$sc .= bsc($LattesProducao->selo($p3[4], 'POS-DOUT.'), 2);
+		$sc .= bsc($LattesProducao->selo($p3[5], 'OUTROS'), 2);
 		$sb .= bs($sc);
 		$sb .= $LattesProducao->producao($dt['bs_lattes']);
 

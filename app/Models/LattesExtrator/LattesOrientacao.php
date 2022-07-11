@@ -91,7 +91,7 @@ class LattesOrientacao extends Model
 						$rst[5] = $line['total'];
 						break;
 					case 'OT':
-						$rst[6] = $line['total'];
+						$rst[5] = $line['total'];
 						break;
 					default:
 						echo "<br>OPS->" . $tp;
