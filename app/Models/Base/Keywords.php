@@ -60,9 +60,9 @@ class Keywords extends Model
             if ($bln == 0) {
                 $sw = '';
                 if ($block > 0) {
-                    $sx .= '<span id="nblock'.$block.'" class="view_more" 
-                            onclick="$(\'#block' . $block . '\').toggle(\'slow\'); $(\'#nblock' . $block . '\').toggle(\'slow\');" 
-                            style="cursor: pointer;">view more ' . $block . '</span>';
+                    $sx .= '<span id="nblock'.$title.$block.'" class="view_more" 
+                            onclick="$(\'#block'.$title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');" 
+                            style="cursor: pointer;">view more ' .$title . $block . '</span>';
                     $sx .= $ulu;
                     $block_nr = $block_nr * 2;
                 }
@@ -70,7 +70,7 @@ class Keywords extends Model
                 if ($block > 0) {
                     $sw = 'style="display: none;';
                 }
-                $sx .= '<div id="block' . $block . '" ' . $sw . '">';
+                $sx .= '<div id="block' .$title . $block . '" ' . $sw . '">';
                 $sx .= $ul;
             }
             $nkey = substr($key, 0, strpos($key, ';'));

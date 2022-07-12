@@ -66,6 +66,7 @@ class Bolsistas extends Model
 		$dt['bs_image'] = URL . '/img/genre/no_image_he.jpg';
 		$dt['bs_content'] = 'Sem biografia identificada<br>';
 		$dt['bs_content'] .= $LattesExtrator->btn_coletor($dt['bs_lattes']);
+		$dt['bs_content'] .= $LattesExtrator->btn_lattes($dt['bs_lattes']);
 
 		$dt['bs_brapci'] = anchor(PATH . '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
 

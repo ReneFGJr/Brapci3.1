@@ -59,8 +59,8 @@ $routes->post('/social/(:any)', 'Social::index/$1');
 /********* BENANCIB */
 $routes->get('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
 $routes->post('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
-$routes->get('/benancib/(:any)/', 'Benancib::index/$1');
-$routes->post('/benancib/(:any)/', 'Benancib::index/$1');
+$routes->get('/benancib/(:any)', 'Benancib::index/$1');
+$routes->post('/benancib/(:any)', 'Benancib::index/$1');
 $routes->get('/benancib', 'Benancib::index');
 
 /********* TOOLS */

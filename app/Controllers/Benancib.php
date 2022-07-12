@@ -34,7 +34,7 @@ class Benancib extends BaseController
                 $sx .= bs(bsc($Socials->index($subact,$id),12));
                 break;
             case 'v':
-                $sx .= $this->v($id);
+                $sx .= $this->v($subact);
                 break;
             case 'issue':
                 switch ($subact)
@@ -84,6 +84,7 @@ class Benancib extends BaseController
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
+        echo h($class);
 
         switch ($class) {
             case 'Subject':
@@ -93,13 +94,13 @@ class Benancib extends BaseController
 
             case 'Proceeding':
                 $Proceeding = new \App\Models\Base\Proceeding();
-                $sx .= $Proceeding->showHTML($dt);
+                $sx .= $Proceeding->show($dt);
                 break;
 
-            case 'work':
+            case 'Work':
+                echo "OK";
                 $Work = new \App\Models\Base\Work();
-                $RDF =
-                    $sx .= $Work->show($id);
+                $sx .= $Work->show($id);
                 break;
             default:
                 $sx .= h($class, 1);
