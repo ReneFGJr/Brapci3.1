@@ -48,6 +48,7 @@ class IssuesWorks extends Model
                 $Work = new \App\Models\Base\Work();
                 $Keywords = new \App\Models\Base\Keywords();
                 $Authors = new \App\Models\Base\Authors();
+                $Sections = new \App\Models\Base\Sections();
 
                 $dt = $this
                     ->where('siw_issue',$id_rdf)
@@ -59,6 +60,7 @@ class IssuesWorks extends Model
                 /* Index */
                 $auth = array();
                 $keys = array();
+                $sect = array();
 
                 for ($r=0;$r < count($dt);$r++)
                     {
@@ -67,8 +69,11 @@ class IssuesWorks extends Model
 
                         $keys = $Keywords->index_keys($keys,$line['siw_work_rdf']);
                         $auth = $Authors->index_auths($auth,$line['siw_work_rdf']);
+                        $sect = $Sections->index_sections($sect,$line['siw_work_rdf']);
                     }  
                 $key_index = $Keywords->show_index($auth,'authors');
+                $key_index .= '<br>';
+                $key_index .= $Sections->show_index($sect);
                 $key_index .= '<br>';
                 $key_index .= $Keywords->show_index($keys);
                 $sx = bs(

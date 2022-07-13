@@ -21,7 +21,7 @@ class Ajax extends BaseController
                 $this->mark();
                 break;
             default:
-                echo '==>' . $act;
+                echo '=AJAX=>' . $act;
                 break;
         }
     }

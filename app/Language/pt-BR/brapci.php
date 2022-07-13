@@ -29,7 +29,7 @@ return [
         'keywords_en'=>'Keywords',
         'download_full_text'=>'Texto Completo',
         'download'=>'Download',
-        ''=>'',
+        'sections'=>'Seções',
         ''=>'',
         ''=>'',
         ''=>'',

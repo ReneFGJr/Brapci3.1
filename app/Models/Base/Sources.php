@@ -268,11 +268,11 @@ class Sources extends Model
         switch ($id) {
             case '0':
                 $idr = $OaipmhRegister->process_00($jnl);
-                $sx .= '==>' . $idr;
+                $sx .= '=OAI=>' . $idr;
 
             case '1':
                 $idr = $OaipmhRegister->process_01($jnl);
-                $sx .= '==>' . $idr;
+                $sx .= '=OAI=>' . $idr;
                 break;
         }
 

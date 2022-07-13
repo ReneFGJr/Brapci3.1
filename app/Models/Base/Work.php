@@ -55,7 +55,7 @@ class Work extends Model
                 {
                     $line = $dd[$r];
                     $class = $line['c_class'];
-                    echo '==>'.$class;
+                    //echo '==>'.$class;
                 }
         }
 

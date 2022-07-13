@@ -259,6 +259,10 @@ class RDFExport extends Model
 		$name = troca($name, '$/b$', '</b>');
 		$this->saveRDF($id, $name, 'name.nm');
 
+		/******************************** Section */
+		$section = json_encode($dta['section']);
+		$this->saveRDF($id, $section, 'section.json');
+
 		/******************************** Authors */
 		$journal = json_encode($dta['journal']);
 		$this->saveRDF($id, $journal, 'journal.name');		

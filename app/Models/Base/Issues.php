@@ -58,7 +58,7 @@ class Issues extends Model
             $this->path = URL.'/'.COLLECTION.'/issue/';
             $this->path_back = URL.'/'.COLLECTION.'/issue/?id='.$id;
             $sx = form($this);
-            $sx .= '==>'.$this->id;
+            $sx .= '=edit=>'.$this->id;
             $sx = bs(bsc($sx,12));
             return $sx;
         }

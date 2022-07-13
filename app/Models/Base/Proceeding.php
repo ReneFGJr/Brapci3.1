@@ -60,6 +60,8 @@ class Proceeding extends Model
 
         $da['authors'] = array();
         $da['keywords'] = array();
+        $da['PDF'] = '';
+
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
@@ -68,15 +70,14 @@ class Proceeding extends Model
             $class = $line['c_class'];
             switch ($class) {
                 case 'hasIssueProceedingOf':
-                    //pre($line);
+                    $da['issue'] = $RDF->c($line['d_r1']);
                     break;
                 case 'hasSectionOf':
-                    if (isset($da['Section'][$lang]))
+                    if (!isset($da['Section']))
                     {
-                        $da['Section'][$lang] .= ' - '.$line['n_name2'];
-                    } else {
-                        $da['Section'][$lang] = $line['n_name2'];
-                    }                    
+                        $da['Section']  = array();
+                    }   
+                    array_push($da['Section'],$line['n_name2']);                 
                     break;
                 case 'hasFileStorage':
                     $da['PDF'] = $line['n_name2'];
@@ -97,12 +98,14 @@ class Proceeding extends Model
                         { $da['keywords'][$lang2] = array(); }
                     array_push($da['keywords'][$lang2],$name);
                     break;
+                case 'prefLabel':
+                    break;
                 default:
-                    echo '<br>==>' . $class;
+                    $sx .= bsmessage('Class not found - '.$class,3);
                     break;
             }
         }
-        $sx = view('Benancib/Base/Work',$da);
+        $sx .= view('Benancib/Base/Work',$da);
         return $sx;
     }
 

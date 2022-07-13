@@ -97,6 +97,11 @@ class Benancib extends BaseController
                 $sx .= $Proceeding->show($dt);
                 break;
 
+            case 'ProceedingSection':
+                $ProceedingSection = new \App\Models\Base\ProceedingSection();
+                $sx .= $ProceedingSection->show($dt);
+                break;
+
             case 'Work':
                 echo "OK";
                 $Work = new \App\Models\Base\Work();
