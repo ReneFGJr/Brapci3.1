@@ -54,7 +54,7 @@ class Search extends Model
 
         $API = new \App\Models\ElasticSearch\API();
 
-        $qs = get("search");
+        $qs = get("query");
 
         /*************** SOURCE **********************************************************/
         $method = "POST";
