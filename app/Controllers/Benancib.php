@@ -11,7 +11,7 @@ helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie'])
 $session = \Config\Services::session();
 
 define("URL", getenv("app.baseURL"));
-define("PATH", getenv("app.baseURL") . '/' . getenv("app.baseURL.prefix"));
+define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
 define("COLLECTION", 'benancib');
