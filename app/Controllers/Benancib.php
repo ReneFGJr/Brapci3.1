@@ -27,8 +27,22 @@ class Benancib extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Benancib/Headers/navbar', $data);
 
+        $q = get("query");
+        if (strlen($q) > 0) {
+            $sx .= 'Busca';
+            $act = 'search';
+        }
+
         $act = trim($act);
         switch ($act) {
+            case 'search':
+                $data['logo'] = view('Logos/logo_benancib');
+                $data['issues'] = $Issues->show_list_cards($id);
+                $data['search'] = view('Benancib/Pages/search');
+                $sx .= view('Benancib/Welcome', $data);
+                $SEARCH = new \App\Models\ElasticSearch\Index();
+                $sx .= $SEARCH->index('search');
+                break;
             case 'social':
                 $Socials = new \App\Models\Socials();
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
@@ -53,10 +67,28 @@ class Benancib extends BaseController
                         break;
                 }
                 break;
+            case 'admin':
+                $ADMIN = new \App\Models\Base\Admin\Index();
+                $sx .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
+                $sx .= $ADMIN->index($subact, $id);
+                break;
+
             case 'about':
                 $sa = '';
                 $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
                 $sa .= bsc(view('Benancib/Pages/about', $data), 12);
+                $data['height'] = 100;
+                $sb = '';
+                $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
+                $sb .= bsc('', 4, 'mt-5');
+                $sb .= bsc(view('Logos/logo_ppgcin_ufrgs.php', $data), 4, 'text-center mt-5');
+                $sx .= bs($sa . $sb);
+                break;
+
+            case 'statistics':
+                $sa = '';
+                $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
+                $sa .= bsc(view('Benancib/Pages/statistics', $data), 12);
                 $data['height'] = 100;
                 $sb = '';
                 $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');

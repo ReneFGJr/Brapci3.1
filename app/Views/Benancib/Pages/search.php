@@ -2,7 +2,7 @@
 
 $Source = new \App\Models\Base\Sources();
 $submit = '<input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="' . lang('main.search') . '">';
-$input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="Digite aqui!">';
+$input_field = '<input type="text" name="query" value="' . get("query") . '" class="form-control shadow" placeholder="Digite aqui!">';
 $types = array('all', 'article', 'proceeding', 'benancib', 'authority');
 $select_type = '<input type="hidden" id="type" name="collection" value="75">';
 

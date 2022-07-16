@@ -5,7 +5,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
 } else {
     $acesso = '<li class="nav-item" style="list-style-type: none;">';
     $acesso .= '<button class="btn btn-outline-danger" ';
-    $acesso .= 'onclick="location.href=\'/' . COLLECTION . '/social/login\'" ';
+    $acesso .= 'onclick="location.href=\'' . PATH . COLLECTION . '/social/login\'" ';
     $acesso .= 'style="margin-left: 7px;" type="submit">';
     $acesso .= 'ACESSO';
     $acesso .= '</button>';
@@ -34,11 +34,14 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?= URL . '/' . COLLECTION; ?>">Home</a>
+                    <a class="nav-link active" aria-current="page" href="<?= PATH . COLLECTION; ?>">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= PATH . COLLECTION . '/about'; ?>"><?= lang('benancib.about'); ?></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link"
-                        href="<?= URL . '/' . COLLECTION . '/about'; ?>"><?= lang('benancib.about'); ?></a>
+                        href="<?= PATH . COLLECTION . '/statistics'; ?>"><?= lang('benancib.statistics'); ?></a>
                 </li>
 
             </ul>

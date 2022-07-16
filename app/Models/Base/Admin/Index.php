@@ -45,7 +45,7 @@ class Index extends Model
         switch ($act) {
             case 'socials':
                 $Socials = new \App\Models\Socials();
-                $sx = $Socials->index($subact,$id);
+                $sx = $Socials->index($subact, $id);
                 break;
 
             case 'source':
@@ -62,13 +62,33 @@ class Index extends Model
                 break;
             default:
                 $sx = '';
-                $user_name = $_SESSION['user'];
-                $sx .= h(lang('brapci.Hello').' '.$user_name.' !',2);
-                print_r($_SESSION);
-                $sx .= h($act, 1);
-                $sx .= $this->menu();
-                $sx = bs(bsc($sx, 12));
+
+
+                if (isset($_SESSION['user'])) {
+                    $user_name = $_SESSION['user'];
+                    $sx .= h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2);
+                    $COLLECTION = troca(COLLECTION, '/', '');
+                    $sx .= '<h1>' . $COLLECTION . '</h1>';
+                    switch ($COLLECTION) {
+                        case '':
+                            break;
+                        default:
+                            $sx .= $this->benancib_admin();
+                            break;
+                    }
+                    $sx = bs(bsc($sx, 12));
+                } else {
+                    $sx .= metarefresh(PATH . COLLECTION);
+                }
         }
+        return $sx;
+    }
+
+    function benancib_admin()
+    {
+        $m['#' . 'benancib.admin.statistics'] =  '';
+        $m[PATH .  COLLECTION . '/admin/statistics'] =  lang('benancib.statistics_make');
+        $sx = menu($m);
         return $sx;
     }
 

@@ -35,39 +35,46 @@ function read_link($url, $read = 'CURL')
 }
 
 function menu($menu)
-    {
-        $sx = '<ul>';
-        foreach($menu as $link=>$name)
-            {
-                $sx .= '<li><a href="' . $link . '">' . $name . '</a></li>';
-            }
-        $sx .= '</ul>';
-        return $sx;
+{
+    $sx = '<ul>';
+    foreach ($menu as $link => $name) {
+        if (substr($link, 0, 1) == '#') {
+            $link = troca($link, '#', '');
+            $link = lang($link);
+            $sx .= '<h4>' . $link . '</h4>';
+        } else {
+            $sx .= '<li><a href="' . $link . '">' . $name . '</a></li>';
+        }
     }
+    $sx .= '</ul>';
+    return $sx;
+}
 
 function check_email($email)
-    {
-            $emailArray = explode("@", $email);
-            if (checkdnsrr(array_pop($emailArray), "MX")) {
-                return true;
-            } else {
-                return false;
-            }        
+{
+    $emailArray = explode("@", $email);
+    if (checkdnsrr(array_pop($emailArray), "MX")) {
+        return true;
+    } else {
+        return false;
     }
+}
 
-function pre($dt,$force=true)
+function pre($dt, $force = true)
 {
     echo '<pre>';
     print_r($dt);
     echo '</pre>';
-    if ($force) { exit; }
+    if ($force) {
+        exit;
+    }
 }
 
 if (!function_exists("current_url")) {
     function current_url()
     {
         $url = getenv('app.baseURL');
-        return $url;    
+        return $url;
     }
 }
 
@@ -75,7 +82,7 @@ if (!function_exists("site_url")) {
     function site_url()
     {
         $url = getenv('app.baseURL');
-        return $url;    
+        return $url;
     }
 }
 
@@ -91,12 +98,16 @@ function hexdump($string)
 }
 
 function geturl()
-    {
-        $path = $_SERVER['REQUEST_URI'];
-        if (strlen($path) == 0) { $path = $_SERVER['PATH_INFO']; }
-        if (strlen($path) == 0) { $path = $_SERVER['PHP_SELF']; }
-        return $path;
+{
+    $path = $_SERVER['REQUEST_URI'];
+    if (strlen($path) == 0) {
+        $path = $_SERVER['PATH_INFO'];
     }
+    if (strlen($path) == 0) {
+        $path = $_SERVER['PHP_SELF'];
+    }
+    return $path;
+}
 
 function romano($n)
 {

@@ -46,6 +46,12 @@ class Index extends Model
 		$sx = '';
 		$sx .= breadcrumbs();
 		switch ($d1) {
+			case 'search':
+				$SEARCH = new \App\Models\ElasticSearch\Search();
+				$dt = $SEARCH->search(GET("query"));
+				pre($dt);
+				$sx .= 'Busca';
+				break;
 			case 'formTest':
 				$sx .= $API->formTest();
 				break;
