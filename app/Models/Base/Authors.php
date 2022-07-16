@@ -40,7 +40,7 @@ class Authors extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index_auths($auth = array(), $id)
+    function index_auths($auth = array(), $id = '')
     {
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
@@ -64,5 +64,5 @@ class Authors extends Model
             }
         }
         return $auth;
-    }    
+    }
 }

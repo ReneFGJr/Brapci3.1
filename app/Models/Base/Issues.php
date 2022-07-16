@@ -26,7 +26,7 @@ class Issues extends Model
         'string', 'string', 'string', 'string',
         'string', 'string', 'string',
         'string', 'string', 'string'
-    ];    
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -53,17 +53,17 @@ class Issues extends Model
     protected $afterDelete    = [];
 
     function edit($id)
-        {
-            $this->id = $id;
-            $this->path = URL.'/'.COLLECTION.'/issue/';
-            $this->path_back = URL.'/'.COLLECTION.'/issue/?id='.$id;
-            $sx = form($this);
-            $sx .= '=edit=>'.$this->id;
-            $sx = bs(bsc($sx,12));
-            return $sx;
-        }
+    {
+        $this->id = $id;
+        $this->path = URL . '/' . COLLECTION . '/issue/';
+        $this->path_back = URL . '/' . COLLECTION . '/issue/?id=' . $id;
+        $sx = form($this);
+        $sx .= '=edit=>' . $this->id;
+        $sx = bs(bsc($sx, 12));
+        return $sx;
+    }
 
-    function show_list_cards($id,$default_img='/img/issue/issue_enancib_ancib.png')
+    function show_list_cards($id, $default_img = URL . '/img/issue/issue_enancib_ancib.png')
     {
         $dt = $this
             ->where('is_source', $id)
@@ -88,7 +88,7 @@ class Issues extends Model
             $sx .= '
                     <div class="card  m-3" style="width: 18rem; cursor: pointer;" onclick="location.href = \'' . $link . '\';">
                     <img src="' . $img . '" class="card-img-top" alt="...">
-                    <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>'.$line['is_vol_roman'].'</b></span>
+                    <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>' . $line['is_vol_roman'] . '</b></span>
                     <div class="card-body">
                         <h5 class="card-title">' . $line['is_year'] . ' - ' . $line['is_place'] . '</h5>
                         <!---
@@ -121,8 +121,7 @@ class Issues extends Model
         $dt = $this->find($id);
         $id_rdf = $dt['is_source_issue'];
 
-        if (get("reindex") != '')
-        {
+        if (get("reindex") != '') {
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
             $IssuesWorks->check($dt);
         }
@@ -136,16 +135,15 @@ class Issues extends Model
 
     function header_issue($dt)
     {
-        $tools = anchor(URL.'/'.COLLECTION.'/issue/?id='.$dt['id_is'].'&reindex=1',bsicone('reload',32));
+        $tools = anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32));
         $tools .= '<span class="p-2"></span>';
-        $tools .= anchor(URL.'/'.COLLECTION.'/issue/edit/'.$dt['id_is'].'',bsicone('edit',32));
+        $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32));
         $sx = '';
         $vol = $dt['is_vol'];
         $roman = trim($dt['is_vol_roman']);
-        if (strlen($roman) > 0)
-            {
-                $vol .= ' ('.$roman.')';
-            }
+        if (strlen($roman) > 0) {
+            $vol .= ' (' . $roman . ')';
+        }
         $sx .= bsc(h($dt['jnl_name'], 3), 12);
         $sx .= bsc($vol, 1);
         $sx .= bsc($dt['is_year'], 1);

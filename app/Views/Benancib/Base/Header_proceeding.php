@@ -1,1 +1,1 @@
-<img src="/img/headers/Benancib/000000.jpg" class="img-fluid mb-4">
+<img src="<?= URL; ?>/img/headers/Benancib/000000.jpg" class="img-fluid mb-4">

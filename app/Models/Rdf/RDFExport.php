@@ -100,7 +100,7 @@ class RDFExport extends Model
 		/* EMPTY */
 		if (!isset($issue[0])) {
 			pre($dt);
-			return array('NoN',0);
+			return array('NoN', 0);
 		}
 
 		$issues = array();
@@ -114,14 +114,13 @@ class RDFExport extends Model
 			} else {
 				$idx = $id1;
 			}
-			$issues = array($this->RDF->c($idx),$idx);
+			$issues = array($this->RDF->c($idx), $idx);
 		}
-		if (count($issues) == 0)
-			{
-				echo "OPS ISSUE";
-				pre($issue);
-			}
-			
+		if (count($issues) == 0) {
+			echo "OPS ISSUE";
+			pre($issue);
+		}
+
 		return $issues;
 	}
 
@@ -151,27 +150,24 @@ class RDFExport extends Model
 		/***************************************************** Issue */
 		$issue = $this->recover_issue($dt, $id, $tp);
 		$dta['issueRDF'] = $issue[1];
-		if ($dta['issueRDF'] > 0)
-			{
-				$dti = $this->RDF->le($dta['issueRDF']);
-				for ($r=0;$r < count($dti['data']);$r++)
-					{
-						$line = $dti['data'][$r];
-						switch($line['c_class'])
-							{
-								case 'hasDateTime':
-									$dta['year'] = $line['n_name2'];
-									break;
-								case 'hasPlace':
-									$dta['place'] = $line['n_name2'];
-									break;	
-								case 'prefLabel':
-									$dta['Source'] = $line['n_name'];
-									break;																
-							}
-					}
+		if ($dta['issueRDF'] > 0) {
+			$dti = $this->RDF->le($dta['issueRDF']);
+			for ($r = 0; $r < count($dti['data']); $r++) {
+				$line = $dti['data'][$r];
+				switch ($line['c_class']) {
+					case 'hasDateTime':
+						$dta['year'] = $line['n_name2'];
+						break;
+					case 'hasPlace':
+						$dta['place'] = $line['n_name2'];
+						break;
+					case 'prefLabel':
+						$dta['Source'] = $line['n_name'];
+						break;
+				}
 			}
-		$issue = $this->RDF->string($issue[0], 1);		
+		}
+		$issue = $this->RDF->string($issue[0], 1);
 
 		/************************************************ Proceeding */
 		$dta['journal'] = $issue;
@@ -184,24 +180,22 @@ class RDFExport extends Model
 		$abs =  $this->RDF->recovery($dt['data'], 'hasAbstract');
 		$abs = $this->RDF->string_array($abs, 1);
 		$abs = strip_tags($abs);
-		$abs = troca($abs,chr(13),' ');
-		$abs = troca($abs,chr(10),' ');
+		$abs = troca($abs, chr(13), ' ');
+		$abs = troca($abs, chr(10), ' ');
 		$abs = trim($abs);
 		$dta['abstract'] = $abs;
 
 		/************************************************ SUBJECT */
 		$subject = array();
-		for ($r=0;$r < count($dt['data']);$r++)
-			{
-				$line = $dt['data'][$r];
-				if ($line['c_class'] == 'hasSubject')
-					{
-						$s_name = $line['n_name2'];
-						$s_lange = $line['n_lang2'];
-						$s_id = $line['d_r2'];
-						array_push($subject,array('term'=>$s_name,'lang'=>$s_lange,'ID'=>$s_id));
-					}
+		for ($r = 0; $r < count($dt['data']); $r++) {
+			$line = $dt['data'][$r];
+			if ($line['c_class'] == 'hasSubject') {
+				$s_name = $line['n_name2'];
+				$s_lange = $line['n_lang2'];
+				$s_id = $line['d_r2'];
+				array_push($subject, array('term' => $s_name, 'lang' => $s_lange, 'ID' => $s_id));
 			}
+		}
 		$dta['subject'] = $subject;
 
 		/**************************************************** PAGE */
@@ -210,7 +204,7 @@ class RDFExport extends Model
 		$pagf = $this->RDF->string($pagf, 1);
 		$pagi = $this->RDF->string($pagi, 1);
 		$dta['pagi'] = $pagi;
-		$dta['pagf'] = $pagf;		
+		$dta['pagf'] = $pagf;
 
 		if (strlen($pagf . $pagi) > 0) {
 			$issue = substr($issue, 0, strlen($issue) - 5) .
@@ -228,19 +222,17 @@ class RDFExport extends Model
 
 		/************************************************ Section */
 		$section = array();
-		for ($r=0;$r < count($dt['data']);$r++)
-			{
-				$line = $dt['data'][$r];
+		for ($r = 0; $r < count($dt['data']); $r++) {
+			$line = $dt['data'][$r];
 
-				if ($line['c_class'] == 'hasSectionOf')
-					{
-						$s_name = $line['n_name2'];
-						$s_lange = $line['n_lang2'];
-						$s_id = $line['d_r2'];
-						array_push($section,array('section'=>$s_name,'ID'=>$s_id));
-					}
+			if ($line['c_class'] == 'hasSectionOf') {
+				$s_name = $line['n_name2'];
+				$s_lange = $line['n_lang2'];
+				$s_id = $line['d_r2'];
+				array_push($section, array('section' => $s_name, 'ID' => $s_id));
 			}
-		$dta['section'] = $section;		
+		}
+		$dta['section'] = $section;
 
 		/****************************************************** MOUNT */
 		$publisher = '';
@@ -253,7 +245,7 @@ class RDFExport extends Model
 				substr($issue, strpos($issue, ','), strlen($issue));
 		}
 		$name = strip_tags($auths_text . '. ');
-		$name .= '<a href="' . (URL . '$COLLECTION/v/' . $id) . '" class="article">' . $title . '</a>';
+		$name .= '<a href="' . (PATH . '$COLLECTION/v/' . $id) . '" class="article">' . $title . '</a>';
 		$name .= '. $b$' . $publisher . '$/b$' . $issue;
 		$name = troca($name, '$b$', '<b>');
 		$name = troca($name, '$/b$', '</b>');
@@ -265,7 +257,7 @@ class RDFExport extends Model
 
 		/******************************** Authors */
 		$journal = json_encode($dta['journal']);
-		$this->saveRDF($id, $journal, 'journal.name');		
+		$this->saveRDF($id, $journal, 'journal.name');
 
 		/******************************** Authors */
 		$autores = json_encode($dta['author']);
@@ -294,7 +286,7 @@ class RDFExport extends Model
 		$sx = '';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 1);
-		$name = '<a href="' . (URL . '$COLLECTION' . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -304,7 +296,7 @@ class RDFExport extends Model
 		$sx = 'JOURNAL';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 7);
-		$name = '<a href="' . (URL . '$COLLECTION' .'/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -434,7 +426,7 @@ class RDFExport extends Model
 		$this->saveRDF($id, json_encode($dc), 'issue.json');
 		return "";
 	}
-	
+
 	function export_geral($dt, $id)
 	{
 		$name = trim($dt['concept']['n_name']);
@@ -460,26 +452,26 @@ class RDFExport extends Model
 		/*****************************************************************/
 		switch ($id) {
 			case 'index_authors':
-				$tela .= $this->export_index_list_all($FORCE,'Person',$id);
+				$tela .= $this->export_index_list_all($FORCE, 'Person', $id);
 				return $tela;
 				break;
 			case 'index_subject':
-				$tela .= $this->export_index_list_all($FORCE,'Subject',$id);
+				$tela .= $this->export_index_list_all($FORCE, 'Subject', $id);
 				return $tela;
-				break;	
+				break;
 			case 'index_corporatebody':
-				$tela .= $this->export_index_list_all($FORCE,'CorporateBody',$id);
+				$tela .= $this->export_index_list_all($FORCE, 'CorporateBody', $id);
 				return $tela;
-				break;		
+				break;
 			case 'index_journal':
-				$tela .= $this->export_index_list_all($FORCE,'Journal',$id);
+				$tela .= $this->export_index_list_all($FORCE, 'Journal', $id);
 				return $tela;
-				break;	
+				break;
 			case 'index_proceeding':
-				$tela .= $this->export_index_list_all($FORCE,'Proceeding',$id);
+				$tela .= $this->export_index_list_all($FORCE, 'Proceeding', $id);
 				return $tela;
-				break;													
-			}
+				break;
+		}
 
 		$this->RDF = new \App\Models\RDF\RDF();
 		$dir = $this->RDF->directory($id);
@@ -498,7 +490,7 @@ class RDFExport extends Model
 				/*************************************** SERIE NAME */
 			case 'brapci:hasSerieName':
 				$this->export_geral($dt, $id);
-				break;			
+				break;
 				/*************************************** ARTICLE */
 			case 'brapci:Article':
 				$this->export_article($dt, $id, 'A');
@@ -595,7 +587,7 @@ class RDFExport extends Model
 		return $tela;
 	}
 
-	function export_index_list_all($lt = 0, $class = 'Person',$url='')
+	function export_index_list_all($lt = 0, $class = 'Person', $url = '')
 	{
 		$this->RDF = new \App\Models\Rdf\RDF();
 		$this->RDFConcept = new \App\Models\Rdf\RDFConcept();
@@ -604,7 +596,7 @@ class RDFExport extends Model
 		dircheck($dir);
 		$dir = '../.tmp/indexes/';
 		dircheck($dir);
-		$dir = '../.tmp/indexes/'.$class.'/';
+		$dir = '../.tmp/indexes/' . $class . '/';
 		dircheck($dir);
 
 		$sx = h('Index ' . $class . ' List', 1);
@@ -621,14 +613,14 @@ class RDFExport extends Model
 			fwrite($hdl, $txt);
 			fclose($hdl);
 			$sx .= bs_alert('success', msg('Export_author') . ' #' . $ltx . '<br>');
-			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . '$COLLECTION'. 'rdf/export/'.$url.'/' . ($lt + 1)) . '">';
+			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . '$COLLECTION' . 'rdf/export/' . $url . '/' . ($lt + 1)) . '">';
 		} else {
-			$sx .= bsmessage('rdf.export_success',1);
+			$sx .= bsmessage('rdf.export_success', 1);
 			$sx .= $this->RDF->btn_return();
 		}
-		$sx = bs(bsc($sx,12));
+		$sx = bs(bsc($sx, 12));
 		return ($sx);
-	}	
+	}
 
 	function create_index_html($lt = 'G', $class = 'Person', $nouse = 0)
 	{
@@ -642,12 +634,12 @@ class RDFExport extends Model
 		}
 
 		$sql = "select N1.n_name as n_name, N1.n_lang as n_lang, C1.id_cc as id_cc,
-                       N2.n_name as n_name_use, N2.n_lang as n_lang_use, C2.id_cc as id_cc_use         
+                       N2.n_name as n_name_use, N2.n_lang as n_lang_use, C2.id_cc as id_cc_use
                         FROM rdf_concept as C1
                         INNER JOIN rdf_name as N1 ON C1.cc_pref_term = N1.id_n
                         LEFT JOIN rdf_concept as C2 ON C1.cc_use = C2.id_cc
                         LEFT JOIN rdf_name as N2 ON C2.cc_pref_term = N2.id_n
-                        where C1.cc_class = " . $f . " $wh  and C1.cc_use = 0                        
+                        where C1.cc_class = " . $f . " $wh  and C1.cc_use = 0
                         ORDER BY N1.n_name";
 
 

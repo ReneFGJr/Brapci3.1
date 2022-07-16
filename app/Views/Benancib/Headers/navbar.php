@@ -5,7 +5,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
 } else {
     $acesso = '<li class="nav-item" style="list-style-type: none;">';
     $acesso .= '<button class="btn btn-outline-danger" ';
-    $acesso .= 'onclick="location.href=\'/'.COLLECTION.'/social/login\'" ';
+    $acesso .= 'onclick="location.href=\'/' . COLLECTION . '/social/login\'" ';
     $acesso .= 'style="margin-left: 7px;" type="submit">';
     $acesso .= 'ACESSO';
     $acesso .= '</button>';
@@ -14,7 +14,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
 ?>
 <nav class="navbar navbar-expand-lg bg-light fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<?= URL; ?>"><img src="/favicon.png" style="height: 32px;"></a>
+        <a class="navbar-brand" href="<?= URL; ?>"><img src="<?= URL; ?>/favicon.png" style="height: 32px;"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon">

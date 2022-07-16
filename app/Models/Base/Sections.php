@@ -41,18 +41,18 @@ class Sections extends Model
     protected $afterDelete    = [];
 
     function showHTML($dt)
-        {
-            $sx = view('RDF/sections',$dt);
-            return $sx;
-        }
+    {
+        $sx = view('RDF/sections', $dt);
+        return $sx;
+    }
 
-    function show_index($key,$title='sections')
+    function show_index($key, $title = 'sections')
     {
         $RDF = new \App\Models\Rdf\RDF();
         arsort($key);
         $ul = '<ul class="text_75" style="list-style-type: none; margin: 0px; padding: 0px; ">';
         $ulu = '</ul></div>';
-        $sx = h(lang('brapci.'.$title),6);
+        $sx = h(lang('brapci.' . $title), 6);
         $block = 0;
         $block_nr = 20;
         $bln = 0;
@@ -60,9 +60,9 @@ class Sections extends Model
             if ($bln == 0) {
                 $sw = '';
                 if ($block > 0) {
-                    $sx .= '<span id="nblock'.$title.$block.'" class="view_more" 
-                            onclick="$(\'#block'.$title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');" 
-                            style="cursor: pointer;">view more ' .$title . $block . '</span>';
+                    $sx .= '<span id="nblock' . $title . $block . '" class="view_more"
+                            onclick="$(\'#block' . $title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');"
+                            style="cursor: pointer;">view more ' . $title . $block . '</span>';
                     $sx .= $ulu;
                     $block_nr = $block_nr * 2;
                 }
@@ -70,12 +70,12 @@ class Sections extends Model
                 if ($block > 0) {
                     $sw = 'style="display: none;';
                 }
-                $sx .= '<div id="block' .$title . $block . '" ' . $sw . '">';
+                $sx .= '<div id="block' . $title . $block . '" ' . $sw . '">';
                 $sx .= $ul;
             }
             $nkey = substr($key, 0, strpos($key, ';'));
             $nr = sonumero(substr($key, strpos($key, ';') + 1, 20));
-            $link = $RDF->href(array('id_cc' => $nr),'href.'.$title.' href');
+            $link = $RDF->href(array('id_cc' => $nr), 'href.' . $title . ' href');
             $linka = '</a>';
             $tot = '<span class="bullet">' . $total . '</span>';
             $sx .= '<li>' . $link . $nkey . $linka . ' ' . $tot . '</li>';
@@ -91,7 +91,7 @@ class Sections extends Model
         return $sx;
     }
 
-    function index_sections($key = array(), $id)
+    function index_sections($key = array(), $id = '')
     {
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
@@ -102,15 +102,14 @@ class Sections extends Model
 
             for ($r = 0; $r < count($dt); $r++) {
                 $tt = (array)$dt[$r];
-                if (isset($tt['section']))
-                    {
-                        $t = (string)$tt['section'];
-                    } else {
-                        $tt = $dt[$r];
-                        $t = trim($tt);
-                    }                
-                
-                if (strlen($t) > 0) {                    
+                if (isset($tt['section'])) {
+                    $t = (string)$tt['section'];
+                } else {
+                    $tt = $dt[$r];
+                    $t = trim($tt);
+                }
+
+                if (strlen($t) > 0) {
                     $id = $tt['ID'];
                     $term = strip_tags($t);
                     //$id = substr($t, strpos($t, 'v/') + 2, strlen($t));

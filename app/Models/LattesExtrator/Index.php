@@ -40,13 +40,13 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function btn_lattes($id='')
-        {
-            $link = '<a href="http://lattes.cnpq.br/'.$id.'" target="_blank">';
-            $linka = '</a>';
-            $sx = $link.'<img src="/img/icons/logo_lattes_mini.png" style="height: 24px;">'.$linka;
-            return $sx;
-        }
+    function btn_lattes($id = '')
+    {
+        $link = '<a href="http://lattes.cnpq.br/' . $id . '" target="_blank">';
+        $linka = '</a>';
+        $sx = $link . '<img src="' . URL . '/img/icons/logo_lattes_mini.png" style="height: 24px;">' . $linka;
+        return $sx;
+    }
 
     function btn_coletor($id)
     {

@@ -1,16 +1,16 @@
 <?php
 $Socials = new \App\Models\Socials();
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
-  $acesso = $Socials->nav_user();
+    $acesso = $Socials->nav_user();
 } else {
-    $lk = "'".getenv("app.baseURL").COLLECTION.'/social/login'."'";
-  $acesso = '<li class="nav-item" style="list-style-type: none;">';
-  $acesso .= '<button class="btn btn-outline-danger" ';
-  $acesso .= 'onclick="location.href='.$lk.';" ';  
-  $acesso .= 'style="margin-left: 7px;" type="submit">';
-  $acesso .= 'ACESSO';
-  $acesso .= '</button>';
-  $acesso .= '</li>';
+    $lk = "'" . getenv("app.baseURL") . COLLECTION . '/social/login' . "'";
+    $acesso = '<li class="nav-item" style="list-style-type: none;">';
+    $acesso .= '<button class="btn btn-outline-danger" ';
+    $acesso .= 'onclick="location.href=' . $lk . ';" ';
+    $acesso .= 'style="margin-left: 7px;" type="submit">';
+    $acesso .= 'ACESSO';
+    $acesso .= '</button>';
+    $acesso .= '</li>';
 }
 ?>
 <nav class="navbar navbar-expand-lg bg-light">
@@ -18,7 +18,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         <a class="navbar-brand" href="<?= URL; ?>">BRAPCI</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"><a class="navbar-brand" href="#"><img src="/favicon.png"
+            <span class="navbar-toggler-icon"><a class="navbar-brand" href="#"><img src="<?= URL; ?>/favicon.png"
                         style="height: 32px;"></a></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
