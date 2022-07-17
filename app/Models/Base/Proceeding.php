@@ -64,7 +64,7 @@ class Proceeding extends Model
         $da['issue'] = '-na-';
         $da['PDF'] = array();
         $da['URL'] = array();
-
+        $da['id_cc'] = $dt['concept']['id_cc'];
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];

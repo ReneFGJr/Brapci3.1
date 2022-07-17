@@ -80,6 +80,8 @@
                 $data['pdf'] = $url;
                 echo view('Brapci/Base/PDF', $data);
             } else {
+                $DownloadBot = new \App\Models\Bots\DownloadPDF();
+                $DownloadBot->toHarvesting($id_cc);
                 for ($r = 0; $r < count($URL); $r++) {
                     $data['URL'] = $URL[$r];
                     echo view('Brapci/Base/PDFno', $data);
