@@ -41,28 +41,27 @@ class Work extends Model
     protected $afterDelete    = [];
 
     function showHTML($dt)
-        {
-            $sx = view('RDF/work',$dt);
-            return $sx;
-        }    
+    {
+        $sx = view('RDF/work', $dt);
+        return $sx;
+    }
 
     function show($id)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $dt = $RDF->le($id);
-            $dd = $dt['data'];
-            for ($r=0;$r < count($dd);$r++)
-                {
-                    $line = $dd[$r];
-                    $class = $line['c_class'];
-                    //echo '==>'.$class;
-                }
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+        $dd = $dt['data'];
+        for ($r = 0; $r < count($dd); $r++) {
+            $line = $dd[$r];
+            $class = $line['c_class'];
+            //echo '==>'.$class;
         }
+    }
 
     function show_reference($id)
-        {
-            $RDF = new \App\Models\Rdf\RDF();            
-            $sx = $RDF->c($id);
-            return $sx;
-        }
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $sx = $RDF->c($id);
+        return $sx;
+    }
 }

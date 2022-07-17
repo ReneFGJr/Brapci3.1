@@ -52,6 +52,7 @@ class Proceeding extends Model
         $sx = '';
         $da = array();
         $RDF = new \App\Models\Rdf\RDF();
+
         $dd = $dt['data'];
 
         $dc = $dt['concept'];
@@ -62,6 +63,7 @@ class Proceeding extends Model
         $da['keywords'] = array();
         $da['issue'] = '-na-';
         $da['PDF'] = array();
+        $da['URL'] = array();
 
 
         for ($r = 0; $r < count($dd); $r++) {
@@ -83,7 +85,6 @@ class Proceeding extends Model
                     array_push($da['Section'], $line['n_name2']);
                     break;
                 case 'hasFileStorage':
-
                     $PDF['file'] = $line['n_name2'];
                     $PDF['id'] = $line['d_r2'];
                     array_push($da['PDF'], $PDF);
@@ -116,10 +117,10 @@ class Proceeding extends Model
                 case 'dateOfAvailability':
                     break;
                 case 'hasRegisterId':
-                    break;
-                case '':
+                    array_push($da['URL'], trim($line['n_name']));
                     break;
                 default:
+                    jslog('Class not found: ' . $class);
                     $sx .= bsmessage('Class not found - ' . $class, 3);
                     break;
             }

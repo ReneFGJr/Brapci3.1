@@ -132,6 +132,7 @@ class Benancib extends BaseController
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
+        jslog('View type: ' . $class);
 
         switch ($class) {
             case 'Subject':
@@ -150,10 +151,10 @@ class Benancib extends BaseController
                 break;
 
             case 'Work':
-                echo "OK";
                 $Work = new \App\Models\Base\Work();
                 $sx .= $Work->show($id);
                 break;
+
             default:
                 $sx .= h($class, 1);
                 $sx = bs(bsc($sx));

@@ -75,11 +75,15 @@
 
         <div class="col-2">
             <?php
-            if ($PDF != '') {
+            if (($PDF != '') and (isset($PDF[0]['id']))) {
                 $url = PATH . '/download/' . $PDF[0]['id'];
                 $data['pdf'] = $url;
-                echo view('Benancib/Base/PDF', $data);
+                echo view('Brapci/Base/PDF', $data);
             } else {
+                for ($r = 0; $r < count($URL); $r++) {
+                    $data['URL'] = $URL[$r];
+                    echo view('Brapci/Base/PDFno', $data);
+                }
             }
             ?>
         </div>
