@@ -132,7 +132,6 @@ class Benancib extends BaseController
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
-        jslog('View type: ' . $class);
 
         switch ($class) {
             case 'Subject':
