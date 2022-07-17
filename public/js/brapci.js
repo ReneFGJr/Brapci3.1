@@ -9,3 +9,22 @@ function markSource(ms, ta) {
     console.log(data);
   });
 }
+
+function download($url) {
+  NewWindow = window.open(
+    $url,
+    "newwin2",
+    "scrollbars=yes,resizable=no,width=800,height=800,top=10,left=10"
+  );
+  NewWindow.focus();
+  void 0;
+}
+
+ function winclose() {
+   close();
+ }
+
+ function wclose() {
+   window.opener.location.reload();
+   close();
+ }

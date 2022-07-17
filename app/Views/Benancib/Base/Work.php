@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-12 mb-5 text-center">
-            <h4><?=$issue;?></h4>
+            <h4><?= $issue; ?></h4>
             <!--- LEGEND ------------------------------------------->
             <?php
             $sect = '';
@@ -21,7 +21,7 @@
                 }
                 $sect .= $Section[$r];
             }
-            ?>            
+            ?>
             <?= $sect; ?>
         </div>
     </div>
@@ -75,13 +75,12 @@
 
         <div class="col-2">
             <?php
-            if ($PDF != '')
-                {
-                    $data['pdf'] = $PDF;
-                    echo view('Benancib/Base/PDF', $data);
-                } else {
-                    
-                }
+            if ($PDF != '') {
+                $url = PATH . '/download/' . $PDF[0]['id'];
+                $data['pdf'] = $url;
+                echo view('Benancib/Base/PDF', $data);
+            } else {
+            }
             ?>
         </div>
     </div>

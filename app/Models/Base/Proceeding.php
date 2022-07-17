@@ -61,7 +61,7 @@ class Proceeding extends Model
         $da['authors'] = array();
         $da['keywords'] = array();
         $da['issue'] = '-na-';
-        $da['PDF'] = '';
+        $da['PDF'] = array();
 
 
         for ($r = 0; $r < count($dd); $r++) {
@@ -83,7 +83,10 @@ class Proceeding extends Model
                     array_push($da['Section'], $line['n_name2']);
                     break;
                 case 'hasFileStorage':
-                    $da['PDF'] = $line['n_name2'];
+
+                    $PDF['file'] = $line['n_name2'];
+                    $PDF['id'] = $line['d_r2'];
+                    array_push($da['PDF'], $PDF);
                     break;
                 case 'hasTitle':
                     $da['Title'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';

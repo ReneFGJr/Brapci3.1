@@ -40,10 +40,10 @@ $routes->set404Override();
 $routes->get('/', 'Main::index');
 $routes->post('/', 'Main::index');
 
-/********* PGCD */
-$routes->get('/pgcd/', 'Pgcd::index/');
-$routes->get('/pgcd/(:any)', 'Pgcd::index/$1');
-$routes->post('/pgcd/(:any)', 'Pgcd::index/$1');
+/********** DOWNLOAD */
+$routes->get('/download', 'Download::index');
+$routes->get('/download/(:any)', 'Download::download/$1');
+
 
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');

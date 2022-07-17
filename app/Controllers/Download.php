@@ -16,16 +16,20 @@ define("MODULE", '');
 define("PREFIX", '');
 define("COLLECTION", '');
 
-class Main extends BaseController
+class Download extends BaseController
 {
-    public function index()
+    function download($id = '')
     {
-        $data['page_title'] = 'Brapci';
-        $sx = '';
-        $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Brapci/Headers/navbar', $data);
-        $sx .= view('Brapci/Pages/search', $data);
-        $sx .= view('Brapci/Headers/footer', $data);
-        return $sx;
+        $Download = new \App\Models\Base\Download();
+        $Download->download_pdf($id);
+        exit;
+    }
+    public function index($act = '')
+    {
+        switch ($act) {
+            default:
+                echo '=DOWNLOAD=>' . $act;
+                break;
+        }
     }
 }
