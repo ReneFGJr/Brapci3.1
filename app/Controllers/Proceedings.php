@@ -84,7 +84,6 @@ class Proceedings extends BaseController
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
-        echo h($class);
 
         switch ($class) {
             case 'Subject':
