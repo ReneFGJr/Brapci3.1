@@ -42,7 +42,7 @@ class Search extends Model
 
     function search($q = '')
     {
-        $start = round(get('start') . get('di'));
+        $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));
 
         if ($start <= 0) {
@@ -54,7 +54,7 @@ class Search extends Model
 
         $API = new \App\Models\ElasticSearch\API();
 
-        $qs = get("query");
+        $qs = trim(get("query") . get("search"));
 
         /*************** SOURCE **********************************************************/
         $method = "POST";
@@ -63,11 +63,41 @@ class Search extends Model
         $data = array();
         $data['query']['bool']['must'] = array();
 
-        $query['multi_match']['query'] = $qs;
-        $query['multi_match']['fields'] = array("title", "abstract", "subject", "year");
 
-        $range['range']['year']['gte'] = 2021;
-        $range['range']['year']['lte'] = 2021;
+        /************************* TYPE */
+        $type_multi_match = array(
+            'best_fields', 'most_fields', 'cross_fields',
+            'phrase', 'phrase_prefix', 'phrase_prefix', 'bool_prefix'
+        );
+        $query['multi_match']['type'] = $type_multi_match[0];
+        $query['multi_match']['operator'] = 'and';
+
+        /********************************************** QUERY */
+        $query['multi_match']['query'] = ascii($qs);
+
+        /******************** Fields */
+        $flds = round('0' . get("field"));
+
+        switch ($flds) {
+            case 1:
+                $fields = array("title");
+                break;
+            case 2:
+                $fields = array("abstract");
+                break;
+            case 3:
+                $fields = array("subject");
+                break;
+            default:
+                $fields = array("title^10", "abstract", "subject^5", "authors");
+                break;
+        }
+
+        $query['multi_match']['fields'] = $fields;
+
+        $range['range']['year']['gte'] = (int)trim(get("di"));
+        $range['range']['year']['lte'] = (int)trim(get("df"));
+        $range['range']['year']['boost'] = 2.0;
 
         array_push($data['query']['bool']['must'], $query);
         array_push($data['query']['bool']['must'], $range);
@@ -76,7 +106,7 @@ class Search extends Model
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
         $data['query']['bool']['filter'] = array();
-        $term = [1];
+        $term = [75];
         $filter['terms']['id_jnl'] = $term;
         array_push($data['query']['bool']['filter'], $filter);
 
@@ -89,12 +119,17 @@ class Search extends Model
 
         $sx =  $q;
         $url = 'brp2/_search';
+        jslog($url);
+        echo json_encode($data);
+
 
         $dt = $API->call($url, $method, $data);
 
         /* Mostra resultados ****************************************************/
 
         $rsp = array();
+        $rsp['query'] = $qs;
+
         $total = 0;
         if (isset($dt['hits'])) {
             $rsp['total'] = $dt['hits']['total']['value'];

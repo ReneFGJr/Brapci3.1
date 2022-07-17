@@ -63,6 +63,20 @@ $routes->get('/benancib/(:any)', 'Benancib::index/$1');
 $routes->post('/benancib/(:any)', 'Benancib::index/$1');
 $routes->get('/benancib', 'Benancib::index');
 
+/********* Proceedings */
+$routes->get('/proceedings/(:any)/(:any)', 'Proceedings::index/$1/$2');
+$routes->post('/proceedings/(:any)/(:any)', 'Proceedings::index/$1/$2');
+$routes->get('/proceedings/(:any)', 'Proceedings::index/$1');
+$routes->post('/proceedings/(:any)', 'Proceedings::index/$1');
+$routes->get('/proceedings', 'Proceedings::index');
+
+/********* Books */
+$routes->get('/books/(:any)/(:any)', 'Books::index/$1/$2');
+$routes->post('/books/(:any)/(:any)', 'Books::index/$1/$2');
+$routes->get('/books/(:any)', 'Books::index/$1');
+$routes->post('/books/(:any)', 'Books::index/$1');
+$routes->get('/books', 'Books::index');
+
 /********* TOOLS */
 $routes->get('/elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
 $routes->get('/elasticsearch/(:any)/', 'Elasticsearch::index/$1');

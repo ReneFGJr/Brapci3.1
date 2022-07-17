@@ -60,6 +60,7 @@ class Proceeding extends Model
 
         $da['authors'] = array();
         $da['keywords'] = array();
+        $da['issue'] = '-na-';
         $da['PDF'] = '';
 
 
@@ -67,45 +68,60 @@ class Proceeding extends Model
             $line = $dd[$r];
             $lang = $line['n_lang'];
             $lang2 = $line['n_lang2'];
-            $class = $line['c_class'];
+            $class = trim($line['c_class']);
             switch ($class) {
                 case 'hasIssueProceedingOf':
                     $da['issue'] = $RDF->c($line['d_r1']);
                     break;
+                case 'hasIssueOf':
+                    $da['issue'] = $RDF->c($line['d_r1']);
+                    break;
                 case 'hasSectionOf':
-                    if (!isset($da['Section']))
-                    {
+                    if (!isset($da['Section'])) {
                         $da['Section']  = array();
-                    }   
-                    array_push($da['Section'],$line['n_name2']);                 
+                    }
+                    array_push($da['Section'], $line['n_name2']);
                     break;
                 case 'hasFileStorage':
                     $da['PDF'] = $line['n_name2'];
                     break;
                 case 'hasTitle':
-                    $da['Title'][$lang] = '<p class="abstract">'.$line['n_name'].'</p>';
+                    $da['Title'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';
                     break;
                 case 'hasAbstract':
-                    $da['Abstract'][$lang] = '<p class="abstract">'.$line['n_name'].'</p>';
+                    $da['Abstract'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';
                     break;
                 case 'hasAuthor':
-                    $name = '<a href="'.URL.COLLECTION.'/v/'.$line['d_r2'].'">'.$line['n_name2'].'</a>';
-                    array_push($da['authors'],$name);
+                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    array_push($da['authors'], $name);
                     break;
                 case 'hasSubject':
-                    $name = '<a href="'.URL.COLLECTION.'/v/'.$line['d_r2'].'">'.$line['n_name2'].'</a>';
-                    if (!isset($da['keywords'][$lang2])) 
-                        { $da['keywords'][$lang2] = array(); }
-                    array_push($da['keywords'][$lang2],$name);
+                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    if (!isset($da['keywords'][$lang2])) {
+                        $da['keywords'][$lang2] = array();
+                    }
+                    array_push($da['keywords'][$lang2], $name);
                     break;
                 case 'prefLabel':
                     break;
+                case 'isPubishIn':
+                    break;
+                case 'hasSource':
+                    break;
+                case 'hasId':
+                    break;
+                case 'dateOfAvailability':
+                    break;
+                case 'hasRegisterId':
+                    break;
+                case '':
+                    break;
                 default:
-                    $sx .= bsmessage('Class not found - '.$class,3);
+                    $sx .= bsmessage('Class not found - ' . $class, 3);
                     break;
             }
         }
-        $sx .= view('Benancib/Base/Work',$da);
+        $sx .= view('Benancib/Base/Work', $da);
         return $sx;
     }
 

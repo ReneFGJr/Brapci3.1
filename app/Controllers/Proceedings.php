@@ -14,15 +14,15 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
-define("COLLECTION", '/benancib');
+define("COLLECTION", '/proceedings');
 
-class Benancib extends BaseController
+class Proceedings extends BaseController
 {
     public function index($act = '', $subact = '', $id = '')
     {
         $Issues = new \App\Models\Base\Issues();
-        $data['page_title'] = 'Brapci-Benancib';
-        $data['bg'] = 'bg-benancib';
+        $data['page_title'] = 'Brapci-Proceedings';
+        $data['bg'] = 'bg-proceedings';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Benancib/Headers/navbar', $data);
@@ -31,10 +31,9 @@ class Benancib extends BaseController
         if (strlen($q) > 0) {
             $act = 'search';
         }
-
         $act = trim($act);
         switch ($act) {
-            case 'search':
+            case 'xsearch':
                 $data['logo'] = view('Logos/logo_benancib');
                 $data['search'] = view('Benancib/Pages/search');
                 $data['issues'] = '';
@@ -64,61 +63,14 @@ class Benancib extends BaseController
                 $Socials = new \App\Models\Socials();
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
-            case 'v':
-                $sx .= $this->v($subact);
-                break;
-            case 'issue':
-                switch ($subact) {
-                    case 'edit':
-                        $Issues = new \App\Models\Base\Issues();
-                        $sx .= breadcrumbs();
-                        $sx .= bsc($Issues->edit($id));
-                        break;
-
-                    default:
-                        $Issues = new \App\Models\Base\Issues();
-                        $id = get("id");
-                        $sx .= bsc($Issues->issue($id), 12);
-                        $sx .= '<hr>';
-                        $sx .= bsc($Issues->issue_section_works($id), 12);
-                        break;
-                }
-                break;
-            case 'admin':
-                $ADMIN = new \App\Models\Base\Admin\Index();
-                $sx .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
-                $sx .= $ADMIN->index($subact, $id);
-                break;
 
             case 'about':
                 $sa = '';
-                $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
-                $sa .= bsc(view('Benancib/Pages/about', $data), 12);
-                $data['height'] = 100;
-                $sb = '';
-                $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
-                $sb .= bsc('', 4, 'mt-5');
-                $sb .= bsc(view('Logos/logo_ppgcin_ufrgs.php', $data), 4, 'text-center mt-5');
-                $sx .= bs($sa . $sb);
+                $sx .= view('Brapci/Pages/under_construction');
                 break;
 
-            case 'statistics':
-                $sa = '';
-                $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
-                $sa .= bsc(view('Benancib/Pages/statistics', $data), 12);
-                $data['height'] = 100;
-                $sb = '';
-                $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
-                $sb .= bsc('', 4, 'mt-5');
-                $sb .= bsc(view('Logos/logo_ppgcin_ufrgs.php', $data), 4, 'text-center mt-5');
-                $sx .= bs($sa . $sb);
-                break;
             default:
-                $id = 75;
-                $data['logo'] = view('Logos/logo_benancib');
-                $data['issues'] = $Issues->show_list_cards($id);
-                $data['search'] = view('Benancib/Pages/search');
-                $sx .= view('Benancib/Welcome', $data);
+                $sx .= view('Brapci/Pages/under_construction');
                 break;
         }
 

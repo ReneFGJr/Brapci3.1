@@ -27,7 +27,7 @@ for ($r = 0; $r < count($order); $r++) {
 }
 
 /*********************************** ORDER */
-$fields = array('all', 'title', 'abstract', 'keyword');
+$fields = array('all', 'title', 'abstract', 'keyword', 'authors');
 $sfield = '';
 $field = get("field");
 if ($ord == '') {

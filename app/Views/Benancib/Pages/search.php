@@ -24,7 +24,7 @@ for ($r = 0; $r < count($order); $r++) {
 }
 
 /*********************************** ORDER */
-$fields = array('all', 'title', 'abstract', 'keyword');
+$fields = array('all', 'title', 'abstract', 'keyword', 'authors');
 $sfield = '';
 $field = get("field");
 if ($ord == '') {
@@ -39,7 +39,7 @@ for ($r = 0; $r < count($fields); $r++) {
 }
 
 /*********************************** SDI */
-$ini = 1960;
+$ini = 1994;
 $di = get("di");
 if ($di == '') {
     $di = $ini;

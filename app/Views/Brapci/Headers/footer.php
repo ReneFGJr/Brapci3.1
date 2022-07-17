@@ -39,7 +39,7 @@ if (!isset($bg)) {
                         <a href="<?= PATH; ?>/pq" class="text-white">Pesquisadores PQ</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/Livros" class="text-white">Brapci Livros</a>
+                        <a href="<?= PATH; ?>/books" class="text-white">Brapci Livros</a>
                     </li>
                 </ul>
             </div>

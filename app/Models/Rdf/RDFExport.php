@@ -245,7 +245,7 @@ class RDFExport extends Model
 				substr($issue, strpos($issue, ','), strlen($issue));
 		}
 		$name = strip_tags($auths_text . '. ');
-		$name .= '<a href="' . (PATH . '$COLLECTION/v/' . $id) . '" class="article">' . $title . '</a>';
+		$name .= '<a href="' . (PATH . '$COLLECTION/v/' . $id) . '" class="article" target="_blanl_' . $id . '">' . $title . '</a>';
 		$name .= '. $b$' . $publisher . '$/b$' . $issue;
 		$name = troca($name, '$b$', '<b>');
 		$name = troca($name, '$/b$', '</b>');

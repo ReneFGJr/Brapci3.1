@@ -11,7 +11,7 @@ helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie'])
 $session = \Config\Services::session();
 
 define("URL", getenv("app.baseURL"));
-define("PATH", getenv("app.baseURL") . '/');
+define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
 define("COLLECTION", 'Elasticsearch');
@@ -49,7 +49,7 @@ class Elasticsearch extends BaseController
             default:
                 $sx .= h($act);
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
-                $sx .= bs(bsc(view('Tools/WelcomeElasticSearch', $data), 12));
+                $sx .= bs(bsc(view('Tools/Elasticsearch/WelcomeElasticSearch', $data), 12));
                 $sx .= bs(bsc($this->menu(), 12));
                 break;
         }
@@ -57,44 +57,23 @@ class Elasticsearch extends BaseController
         return $sx;
     }
 
-    function show_works($dt)
-    {
-        $RDF = new \App\Models\Rdf\RDF();
-        $sx = '';
-        if (!isset($dt['total'])) {
-            return '';
-        }
-
-        $sa = 'Total ' . $dt['total'];
-        $sa .= ', mostrando ' . $dt['start'] . '/' . $dt['offset'];
-        $sx = bsc($sa, 12);
-
-        for ($r = 0; $r < count($dt['works']); $r++) {
-            $line = $dt['works'][$r];
-            $sx .= bsc($RDF->c($line['id']) . ' <sup>(Score: ' . number_format($line['score'], 3, '.', ',') . ')</sup>', 6, 'mb-3');
-        }
-        $sx = bs($sx);
-        return $sx;
-    }
-
     function search()
     {
         $sx = '';
-
-
         if (get("search") != '') {
             $q = get("search");
             $Search = new \App\Models\ElasticSearch\Search();
-            $sx .= $this->show_works($Search->search($q));
+            $SearchElastic = new \App\Models\ElasticSearch\Index();
+            $sx .= $SearchElastic->show_works($Search->search($q));
         }
         return $sx;
     }
 
     private function  menu()
     {
-        $menu[URL . '/elasticsearch/status'] = lang('elastic.status');
-        $menu[URL . '/elasticsearch/register/1'] = lang('elastic.register_test');
-        $menu[URL . '/elasticsearch/search/'] = lang('elastic.search');
+        $menu[PATH . 'elasticsearch/status'] = lang('elastic.status');
+        $menu[PATH . 'elasticsearch/register/1'] = lang('elastic.register_test');
+        $menu[PATH . 'elasticsearch/search/'] = lang('elastic.search');
         $sx = menu($menu);
         return $sx;
     }
