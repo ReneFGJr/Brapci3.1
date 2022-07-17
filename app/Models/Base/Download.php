@@ -51,7 +51,10 @@ class Download extends Model
                 header('Content-type: application/pdf');
                 readfile($file);
             } else {
-                echo 'File not found in this server';
+                echo '<center>';
+                echo h('File not found in this server', 4);
+                echo $file;
+                echo '</center>';
             }
         }
     }
