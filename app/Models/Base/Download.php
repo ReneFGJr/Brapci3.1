@@ -43,19 +43,29 @@ class Download extends Model
     function download_pdf($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $data = $RDF->le($id);
-        $data = $data['concept'];
-        if ((isset($data['n_name'])) and (strlen(trim($data['n_name'])) > 0)) {
-            $file = $data['n_name'];
-            if (file_exists($file)) {
-                header('Content-type: application/pdf');
-                readfile($file);
-            } else {
-                echo '<center>';
-                echo h('File not found in this server', 4);
-                echo $file;
-                echo '</center>';
-            }
+        $dt = $RDF->le($id);
+        $data = $dt['concept'];
+        $class = $data['c_class'];
+        $file = 'x';
+        echo $class;
+        switch ($class) {
+            case 'Proceeding':
+                $idf = $RDF->extract($dt, 'hasFileStorage');
+                if ($idf[0] > 0) {
+                    $dtf = $RDF->le($idf[0]);
+                    $file = $dtf['concept']['n_name'];
+                }
+                break;
+        }
+
+        if (file_exists($file)) {
+            header('Content-type: application/pdf');
+            readfile($file);
+        } else {
+            echo '<center>';
+            echo h('File not found in this server', 4);
+            echo $file;
+            echo '</center>';
         }
     }
 }

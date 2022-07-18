@@ -20,16 +20,16 @@ class Download extends BaseController
 {
     function download($id = '')
     {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+        $class = $dt['concept']['c_class'];
+        switch ($class) {
+            case 'Proceeding':
+                $d = $RDF->extract($dt, 'hasFileStorage');
+                break;
+        }
         $Download = new \App\Models\Base\Download();
         $Download->download_pdf($id);
         exit;
-    }
-    public function index($act = '')
-    {
-        switch ($act) {
-            default:
-                echo '=DOWNLOAD=>' . $act;
-                break;
-        }
     }
 }

@@ -86,7 +86,7 @@ class Proceeding extends Model
                     break;
                 case 'hasFileStorage':
                     $PDF['file'] = $line['n_name2'];
-                    $PDF['id'] = $line['d_r2'];
+                    $PDF['id'] = $line['d_r1'];
                     array_push($da['PDF'], $PDF);
                     break;
                 case 'hasTitle':
@@ -126,6 +126,7 @@ class Proceeding extends Model
             }
         }
         $sx .= view('Benancib/Base/Work', $da);
+        $sx .= $RDF->view_data($dt);
         return $sx;
     }
 

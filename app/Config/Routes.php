@@ -44,6 +44,9 @@ $routes->post('/', 'Main::index');
 $routes->get('/download', 'Download::index');
 $routes->get('/download/(:any)', 'Download::download/$1');
 
+/********** BOTS */
+$routes->get('/bots', 'Bots::index');
+$routes->get('/bots/(:any)', 'Bots::index/$1');
 
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');

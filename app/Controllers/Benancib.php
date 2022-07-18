@@ -14,6 +14,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
+define("LIBRARY", '1000');
 define("COLLECTION", '/benancib');
 
 class Benancib extends BaseController
@@ -154,8 +155,13 @@ class Benancib extends BaseController
                 $sx .= $Work->show($id);
                 break;
 
+            case 'FileStorage':
+                $sx .= bs(bsc(h($class, 1), 12));
+                $sx .= $RDF->view_data($dt);;
+                break;
+
             default:
-                $sx .= h($class, 1);
+                $sx .= h('Class:' . $class, 1);
                 $sx = bs(bsc($sx));
                 break;
         }

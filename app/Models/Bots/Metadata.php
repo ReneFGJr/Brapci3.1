@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Base;
+namespace App\Models\Bots;
 
 use CodeIgniter\Model;
 
-class Work extends Model
+class Metadata extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'work';
+    protected $table            = 'metadatas';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -40,30 +40,12 @@ class Work extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function showHTML($dt)
+    function extract_dc($dc, $txt)
     {
-        echo "ok";
-        exit;
-        $sx = view('RDF/work', $dt);
-        return $sx;
-    }
-
-    function show($id)
-    {
-        $RDF = new \App\Models\Rdf\RDF();
-        $dt = $RDF->le($id);
-        $dd = $dt['data'];
-        for ($r = 0; $r < count($dd); $r++) {
-            $line = $dd[$r];
-            $class = $line['c_class'];
-            //echo '==>'.$class;
-        }
-    }
-
-    function show_reference($id)
-    {
-        $RDF = new \App\Models\Rdf\RDF();
-        $sx = $RDF->c($id);
-        return $sx;
+        $pos = strpos($txt, 'citation_pdf_url');
+        $url = substr($txt, $pos, 400);
+        $url = substr($url, strpos($url, 'content="') + 9, 400);
+        $url = substr($url, 0, strpos($url, '"'));
+        return $url;
     }
 }

@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFLiteral extends Model
 {
 	var $DBGroup              = 'rdf';
-	protected $table                = PREFIX.'rdf_name';
+	protected $table                = PREFIX . 'rdf_name';
 	protected $primaryKey           = 'id_n';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -15,7 +15,7 @@ class RDFLiteral extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_n','n_name','n_lock','n_lang'
+		'id_n', 'n_name', 'n_lock', 'n_lang'
 	];
 
 	// Dates
@@ -42,39 +42,37 @@ class RDFLiteral extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function atualiza($data,$id)
-		{
-			$n_name = $data['n_name'];
-			$n_lang = $data['n_lang'];
-			$sql = "update ".$this->table." 
+	function atualiza($data, $id)
+	{
+		$n_name = $data['n_name'];
+		$n_lang = $data['n_lang'];
+		$sql = "update " . $this->table . "
 				set n_name = '$n_name', n_lang = '$n_lang' where id_n = $id";
-			$this->query($sql);
-			return 1;
-		}
+		$this->query($sql);
+		return 1;
+	}
 
 	function le($id)
-		{
-			$dt = $this->find($id);
-			return $dt;
-		}
+	{
+		$dt = $this->find($id);
+		return $dt;
+	}
 
-	function name($name,$lg='pt-BR',$force = 1)
-		{
-			$dt = $this->where('n_name',$name)->First();
-			if (!is_array($dt))
-				{
-					if ($force == 1)
-					{
-						$data['n_name'] = $name;
-						$data['n_lock'] = 0;
-						$data['n_lang'] = $lg;
-						$this->insert($data);
-						$dt = $this->where('n_name',$name)->First();
-						return $dt['id_n'];
-					} else {
-						return 0;
-					}
-				}
-			return $dt['id_n'];
+	function name($name, $lg = 'pt-BR', $force = 1)
+	{
+		$dt = $this->where('n_name', $name)->First();
+		if (!is_array($dt)) {
+			if ($force == 1) {
+				$data['n_name'] = $name;
+				$data['n_lock'] = 0;
+				$data['n_lang'] = $lg;
+				$this->insert($data);
+				$dt = $this->where('n_name', $name)->First();
+				return $dt['id_n'];
+			} else {
+				return 0;
+			}
 		}
+		return $dt['id_n'];
+	}
 }

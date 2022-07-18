@@ -272,11 +272,11 @@ class RDF extends Model
 		/* Mostra mensagem de exclusão */
 		$sx .= '<center>' . h(msg('find.rdf_exclude_confirm'), 4, 'text-danger') . '</center>';
 		$sx .= '
-			</div>		
+			</div>
 			<div class="modal-footer">
 			<button type="button" class="btn btn-default" onclick="wclose();" data-dismiss="modal">' . lang('find.cancel') . '</button>
 			<a href="' . (PATH . MODULE . 'rdf/exclude_concept/' . $id . '/' . $check) . '" class="btn btn-warning" id="submt">' . lang('find.confirm_exclude') . '</a>
-			</div>                  
+			</div>
 		';
 		return $sx;
 	}
@@ -360,9 +360,9 @@ class RDF extends Model
 
 	function href($dt, $class = '')
 	{
-		$sx = '<a href="' . (URL . '/'. COLLECTION.'/v/' . $dt['id_cc']) . '" class="' . $class . '">';
+		$sx = '<a href="' . (URL . '/' . COLLECTION . '/v/' . $dt['id_cc']) . '" class="' . $class . '">';
 		return $sx;
-	}	
+	}
 
 
 	function change($d1, $d2)
@@ -688,7 +688,7 @@ class RDF extends Model
 		if ($id == 0) {
 			return "empty";
 		}
-		$dir = $this->directory($id,true);
+		$dir = $this->directory($id, true);
 		$file = $dir . 'name.nm';
 
 		if ((file_exists($file)) and ($force == false)) {
@@ -702,21 +702,26 @@ class RDF extends Model
 				$tela = 'Content not found: ' . $id . '==' . $file . '<br>';
 			}
 		}
-		
-		$tela = troca($tela,'$COLLECTION','/'.COLLECTION);
+
+		$tela = troca($tela, '$COLLECTION', '/' . COLLECTION);
 		return $tela;
 	}
 
+	function extract($dt = array(), $class = '')
+	{
+		return $this->recover($dt, $class);
+	}
 	function recover($dt = array(), $class = '')
 	{
 		$rst = array();
 		$class = trim($class);
 		$id = $dt['concept']['id_cc'];
 		$dt = $dt['data'];
+
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			if (trim($line['c_class']) == $class) {
-				if (trim($line['n_name']) != '') {
+				if (trim((string)$line['n_name']) != '') {
 					array_push($rst, $line['n_name']);
 				} else {
 					if ($line['d_r1'] == $id) {
@@ -770,7 +775,7 @@ class RDF extends Model
 				$flx = $upper;
 				$fi[$flx] = '';
 			}
-			$link = '<a href="' . (URL . '$COLLECTION/v/'. $line['id_cc']) . '">';
+			$link = '<a href="' . (URL . '$COLLECTION/v/' . $line['id_cc']) . '">';
 			$linka = '</a>';
 			$fi[$flx] .= $link . $name . $linka . '<br>';
 		}
@@ -1010,35 +1015,42 @@ class RDF extends Model
 		return $this->RDP_property($idp, $prop, $idt);
 	}
 
-	function propriety($idp, $prop = '', $resource = 0)
+	function propriety($idp, $prop = '', $resource = 0, $literal = 0)
 	{
-		return $this->RDP_property($idp, $prop, $resource);
+		return $this->RDP_property($idp, $prop, $resource, $literal);
 	}
 
-	function RDP_property($idp, $prop = '', $resource = 0)
+	function RDP_property($idp, $prop = '', $resource = 0, $literal = 0)
 	{
 		$RDFClass = new \App\Models\Rdf\RDFClass();
 		$RDFData = new \App\Models\Rdf\RDFData();
 		$d = array();
 
+		if (sonumero($prop) != $prop) {
+			$prop = $RDFClass->class($prop);
+		}
+		$d['d_r1'] = $idp;
+		$d['d_p'] = $prop;
+		$d['d_library'] = LIBRARY;
+
 		if ($resource > 0) {
-			if (sonumero($prop) != $prop) {
-				$prop = $RDFClass->class($prop);
-			}
-			$d['d_r1'] = $idp;
 			$d['d_r2'] = $resource;
-			$d['d_p'] = $prop;
-			$d['d_library'] = LIBRARY;
 			$d['d_literal'] = 0;
 		}
+		if ($literal > 0) {
+			$d['d_r2'] = 0;
+			$d['d_literal'] = $literal;
+		}
 
-		$rst = $RDFData->where('d_r1', $idp)->where('d_r2', $resource)->findAll();
+		$rst = $RDFData->where('d_r1', $idp)->where('d_r2', $resource)->where('d_literal', $literal)->findAll();
 		if (count($rst) == 0) {
 			$RDFData->insert($d);
 			return 1;
 		}
 		return 0;
 	}
+
+
 	function vc_create()
 	{
 		$RDFRange = new \App\Models\Rdf\RDFRange();
