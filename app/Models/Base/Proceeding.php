@@ -126,7 +126,7 @@ class Proceeding extends Model
             }
         }
         $sx .= view('Benancib/Base/Work', $da);
-        $sx .= $RDF->view_data($dt);
+        //$sx .= $RDF->view_data($dt);
         return $sx;
     }
 

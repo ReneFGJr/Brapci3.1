@@ -105,8 +105,12 @@ class Sections extends Model
                 if (isset($tt['section'])) {
                     $t = (string)$tt['section'];
                 } else {
-                    $tt = $dt[$r];
-                    $t = trim($tt);
+                    $tt = (array)$dt[$r];
+                    if (isset($tt['ID'])) {
+                        $t = trim((string)$tt['section']);
+                    } else {
+                        $t = $tt;
+                    }
                 }
 
                 if (strlen($t) > 0) {
