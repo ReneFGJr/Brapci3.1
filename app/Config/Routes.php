@@ -36,10 +36,6 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-/********** DEFAULT */
-$routes->get('/', 'MainPages::index');
-$routes->post('/', 'MainPages::index');
-
 /********** DOWNLOAD */
 $routes->get('/download', 'Download::index');
 $routes->get('/download/(:any)', 'Download::download/$1');
@@ -109,6 +105,9 @@ $routes->get('(:any)', 'MainPages::index/$1');
 $routes->get('(:any)/(:any)', 'MainPages::index/$1/$2');
 $routes->get('(:any)/(:any)/(:any)', 'MainPages::index/$1/$2/$3');
 
+/********** DEFAULT */
+$routes->get('/', 'MainPages::index');
+$routes->post('/', 'MainPages::index');
 
 /*
  * --------------------------------------------------------------------
