@@ -83,7 +83,8 @@ class DownloadPDF extends Model
                     $http = $RDF->extract($dd, 'hasRegisterId');
                     $txt = $this->getFile($http[0]);
                     $mth = $this->method_identify($txt, $id);
-                    echo '===>' . $mth;
+                    $sx .= 'Harvesting ' . $http[0] . cr();
+                    $sx .= 'Method: ' . $mth . cr();
                     break;
             }
         }
@@ -123,6 +124,16 @@ class DownloadPDF extends Model
                 $this->harvesting_update($id, 9, $url);
             }
         }
+        /***************************************************************** METHOD 2 */
+        if (strpos($txt, 'frame src="') > 0) {
+            $pos = strpos($txt, 'frame src="');
+            $url = substr($txt, $pos, 200);
+            $url = substr($url, strpos($url, '"') + 1, 200);
+            $url = substr($url, 0, strpos($url, '"'));
+            $txt = file_get_contents($url);
+            $this->method_identify($txt, $id);
+        }
+        return "";
     }
 
     /******************************************************************* HARVESTING */
@@ -135,12 +146,14 @@ class DownloadPDF extends Model
             $url = $line['d_url'];
             $fileO = $this->file_temp_file($id, $this->getFile($url));
             $fileD = $this->directory($id) . 'article_' . strzero($id, 8) . '.pdf';
+            echo $fileO . '<br>';
+            echo $fileD;
             rename($fileO, $fileD);
             $idf = $this->create_FileStorage($id, $fileD);
             $prop = 'hasFileStorage';
             $RDF->propriety($id, $prop, $idf, 0);
             $this->harvesting_update($id, 99);
-            echo h('IDF:' . $idf);
+            return h('IDF:' . $idf);
         }
     }
 
@@ -158,6 +171,7 @@ class DownloadPDF extends Model
             $dir = '../.tmp/pdf/';
         } else {
             $dir = '_repository/';
+            dircheck($dir);
             $nr = strzero($id, 8);
             $dir .= substr($nr, 0, 2) . '/';
             $dir .= substr($nr, 2, 2) . '/';
@@ -168,8 +182,8 @@ class DownloadPDF extends Model
         $dir = $d[0];
         for ($r = 1; $r < count($d); $r++) {
             $dir .= '/' . $d[$r];
+            //echo '<br>==>' . $dir;
             dircheck($dir);
-            //echo '<br>' . $dir;
         }
         return $dir;
     }
@@ -207,7 +221,7 @@ class DownloadPDF extends Model
     function check_method($txt, $id)
     {
         $sx = '';
-        /** citation_pdf_url */
+        /**************************************************************** citation_pdf_url */
         if ($pos = strpos($txt, 'citation_pdf_url')) {
             $file = substr($txt, $pos, strlen($txt));
             $file = substr($file, strpos($file, '="') + 2, strlen($file));
@@ -222,6 +236,10 @@ class DownloadPDF extends Model
                 $this->save_pdf_article($id, $file_tmp);
                 $sx .= '<span class="btn btn-primary" style="width: 100%;">Harvesting</span>';
             }
+        }
+        /**************************************************************** citation_pdf_url */
+        if ($pos = strpos($txt, 'frame src="')) {
+            echo '====>' . $pos;
         }
         return $sx;
     }
