@@ -24,7 +24,7 @@ class MainPages extends BaseController
         $sx = '';
         /**** PAGES */
         if ($pag == '') {
-            $pag = 'Search';
+            $pag = 'search';
         }
         $data['page_title'] = 'Brapci - ' . ucfirst($pag);
         $sx .= view('Brapci/Headers/header', $data);
