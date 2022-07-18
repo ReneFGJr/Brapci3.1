@@ -56,18 +56,20 @@
 
             <?php
             /******************************** ABSTRACT */
-            foreach ($Abstract as $idioma => $abstract) {
-                echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
-                echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
+            if (isset($bstract)) {
+                foreach ($Abstract as $idioma => $abstract) {
+                    echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
+                    echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
 
-                if (isset($keywords[$idioma])) {
-                    echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                    $keys = '';
-                    foreach ($keywords[$idioma] as $id => $keyword) {
-                        $keys .= trim($keyword) . '. ';
+                    if (isset($keywords[$idioma])) {
+                        echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
+                        $keys = '';
+                        foreach ($keywords[$idioma] as $id => $keyword) {
+                            $keys .= trim($keyword) . '. ';
+                        }
+                        echo $keys;
+                        echo '<br><br>';
                     }
-                    echo $keys;
-                    echo '<br><br>';
                 }
             }
             ?>
