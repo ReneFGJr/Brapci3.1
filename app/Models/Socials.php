@@ -293,11 +293,10 @@ class Socials extends Model
 	{
 		if (isset($_SESSION['id'])) {
 			/************************************************************* Checa Admin */
-			$user = round($_SESSION['email']);
+			$user = trim($_SESSION['email']);
 			if ($user == 'admin') {
 				return 1;
 			}
-
 
 			/********************************************* Check */
 			$tp = explode('#', $t);

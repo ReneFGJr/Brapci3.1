@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFClass extends Model
 {
 	var $DBGroup              = 'rdf';
-	protected $table                = PREFIX.'rdf_class';
+	protected $table                = PREFIX . 'rdf_class';
 	protected $primaryKey           = 'id_c';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -43,56 +43,57 @@ class RDFClass extends Model
 	protected $afterDelete          = [];
 
 	function view($id)
-		{			
-			$RDF = new \App\Models\Rdf\RDF();			
-			$RDFForm = new \App\Models\Rdf\RDFForm();
-			$dt=$RDF->le_class($id);
-			$sx = h($RDF->show_class($dt[0]));
+	{
+		$RDF = new \App\Models\Rdf\RDF();
+		$RDFForm = new \App\Models\Rdf\RDFForm();
+		$dt = $RDF->le_class($id);
+		if (!isset($dt[0])) {
+			return "";
+		}
+		$sx = h($RDF->show_class($dt[0]));
 
-			$sx = bsc($sx,12);
+		$sx = bsc($sx, 12);
 
-			$dt=$RDF->le_class($id);
-			$sa = $RDFForm->form_class_edit($id,$id);
-			$sx .= bsc($sa,12);
-			$sx = bs($sx);
-			return $sx;
-		}	
+		$dt = $RDF->le_class($id);
+		$sa = $RDFForm->form_class_edit($id, $id);
+		$sx .= bsc($sa, 12);
+		$sx = bs($sx);
+		return $sx;
+	}
 
 	function edit($id)
-		{
+	{
+	}
 
+	function list($lb = '')
+	{
+		$sx = h('rdf.classes');
+		$dt = $this
+			->join('rdf_prefix', 'c_prefix = id_prefix', 'left')
+			->where('c_type', 'C')
+			->orderBy("c_class")
+			->findAll();
+
+		$sx .= '<ul>';
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$link = '<a href="' . PATH . MODULE . 'rdf/class_view/' . $line['id_c'] . '">';
+			$linka = '</a>';
+			$sx .= '<li>' . $link . $line['c_class'] . $linka . '</li>';
 		}
-
-	function list($lb='')
-		{
-			$sx = h('rdf.classes');
-			$dt = $this
-				->join('rdf_prefix', 'c_prefix = id_prefix', 'left')
-				->where('c_type','C')
-				->orderBy("c_class")
-				->findAll();
-
-			$sx .= '<ul>';
-			for ($r=0;$r < count($dt);$r++)
-				{
-					$line = $dt[$r];
-					$link = '<a href="'.PATH.MODULE.'rdf/class_view/'.$line['id_c'].'">';
-					$linka = '</a>';
-					$sx .= '<li>'.$link.$line['c_class'].$linka.'</li>';
-				}
-			$sx .= '</ul>';
-			$sx = bs(bsc($sx,12));
-			return $sx;
-		}
+		$sx .= '</ul>';
+		$sx = bs(bsc($sx, 12));
+		return $sx;
+	}
 
 	function le($id)
-		{
-			$dt = $this
-				->join('rdf_prefix', 'c_prefix = id_prefix', 'LEFT')
-				->where('id_c', $id)
-				->findAll();
-			return $dt;
-		}
+	{
+		$dt = $this
+			->join('rdf_prefix', 'c_prefix = id_prefix', 'LEFT')
+			->where('id_c', $id)
+			->findAll();
+		return $dt;
+	}
 
 	function class($c, $force = True)
 	{
