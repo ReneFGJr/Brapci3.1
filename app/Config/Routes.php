@@ -17,7 +17,7 @@ if (is_file(SYSTEMPATH . 'Config/Routes.php')) {
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Main');
+$routes->setDefaultController('MainPages');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -37,8 +37,8 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 /********** DEFAULT */
-$routes->get('/', 'Main::index');
-$routes->post('/', 'Main::index');
+$routes->get('/', 'MainPages::index');
+$routes->post('/', 'MainPages::index');
 
 /********** DOWNLOAD */
 $routes->get('/download', 'Download::index');
