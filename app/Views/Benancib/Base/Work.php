@@ -56,7 +56,7 @@
 
             <?php
             /******************************** ABSTRACT */
-            if (isset($bstract)) {
+            if (isset($Abstract)) {
                 foreach ($Abstract as $idioma => $abstract) {
                     echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
                     echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
