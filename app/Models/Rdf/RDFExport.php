@@ -127,8 +127,19 @@ class RDFExport extends Model
 	/****************************************************************** ARTICLE / PROCEEDING */
 	function export_article($dt, $id, $tp = 'A')
 	{
+		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
 		$publisher = '';
+
+		$elastic = array();
+		$elastic['article_id'] = $id;
+		$elastic['id_jnl'] = '';
+		$elastic['title'] = '';
+		$elastic['authors'] = '';
+		$elastic['abstract'] = '';
+		$elastic['subject'] = '';
+		$elastic['year'] = '';
+
 		$tela = 'Export Article';
 		$dta['id'] = $id;
 		/*************************************************** Authors */
@@ -138,17 +149,44 @@ class RDFExport extends Model
 			if ($auths_text != '') {
 				$auths_text .= '; ';
 			}
-			$auths_text .= $auths[$r]['name'];
+			$auths_text .= $auths[$r]['name'] . ' ';
 		}
 		$dta['author'] = $auths;
+		$elastic['authors'] = strtolower(ascii($auths_text));
 
 		/***************************************************** Title */
 		$title = $this->recover_title($dt);
 		$title = $this->RDF->string($title);
 		$dta['title'] = $title;
+		$elastic['title'] = strtolower(ascii(($title)));
 
 		/***************************************************** Issue */
-		$issue = $this->recover_issue($dt, $id, $tp);
+		$ISSUE = new \app\Models\Base\Issues();
+		
+		$issue1 = $RDF->extract($dt,'hasIssueProceedingOf');
+		if (isset($issue1[0]))
+			{
+				$dti = $ISSUE->where('is_source_issue',$issue1[0])->findAll();
+
+				if(count($dti) > 0)
+					{
+						$year = $dti[0]['is_year'];
+						$source = $dti[0]['is_source'];
+						$elastic['id_jnl'] = $source;
+					} else {
+						$issue1 = $RDF->le($issue1[0]);
+						$year = sonumero($issue1['concept']['n_name']);
+						$year = round(substr($year,strlen($year)-4,4));		
+					}
+				if (($year < 1960) or ($year >= (date("Y")+1)))
+				{
+					$year = '';
+				}
+			}
+		$elastic['year'] = $year;
+
+
+		$issue = $this->recover_issue($dt, $id, $tp);		
 		$dta['issueRDF'] = $issue[1];
 		if ($dta['issueRDF'] > 0) {
 			$dti = $this->RDF->le($dta['issueRDF']);
@@ -157,6 +195,7 @@ class RDFExport extends Model
 				switch ($line['c_class']) {
 					case 'hasDateTime':
 						$dta['year'] = $line['n_name2'];
+						$elastic['year'] = $dta['year'];
 						break;
 					case 'hasPlace':
 						$dta['place'] = $line['n_name2'];
@@ -177,16 +216,17 @@ class RDFExport extends Model
 		$dta['issue'] = $issue;
 
 		/**************************************************** PAGE */
-		$abs =  $this->RDF->recovery($dt['data'], 'hasAbstract');
+		$abs = $this->RDF->recovery($dt['data'], 'hasAbstract');
 		$abs = $this->RDF->string_array($abs, 1);
 		$abs = strip_tags($abs);
 		$abs = troca($abs, chr(13), ' ');
 		$abs = troca($abs, chr(10), ' ');
 		$abs = trim($abs);
 		$dta['abstract'] = $abs;
-
+		$elastic['abstract'] = strtolower(ascii($abs));
 		/************************************************ SUBJECT */
 		$subject = array();
+		$subj = '';
 		for ($r = 0; $r < count($dt['data']); $r++) {
 			$line = $dt['data'][$r];
 			if ($line['c_class'] == 'hasSubject') {
@@ -194,9 +234,11 @@ class RDFExport extends Model
 				$s_lange = $line['n_lang2'];
 				$s_id = $line['d_r2'];
 				array_push($subject, array('term' => $s_name, 'lang' => $s_lange, 'ID' => $s_id));
+				$subj .= $subject. ' ';
 			}
 		}
 		$dta['subject'] = $subject;
+		$elastic['subject'] = $subj;
 
 		/**************************************************** PAGE */
 		$pagf =  $this->RDF->recovery($dt['data'], 'hasPageEnd');
@@ -278,6 +320,10 @@ class RDFExport extends Model
 
 		$this->saveRDF($id, json_encode($dta), 'name.json');
 
+		$elastic_json = json_encode($elastic);
+		$this->saveRDF($id, $elastic_json, 'elastic.json');
+
+		pre($elastic_json);
 		return '';
 	}
 
