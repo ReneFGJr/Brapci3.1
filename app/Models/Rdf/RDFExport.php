@@ -323,7 +323,6 @@ class RDFExport extends Model
 		$elastic_json = json_encode($elastic);
 		$this->saveRDF($id, $elastic_json, 'elastic.json');
 
-		pre($elastic_json);
 		return '';
 	}
 
