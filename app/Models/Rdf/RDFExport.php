@@ -164,9 +164,15 @@ class RDFExport extends Model
 		$ISSUE = new \app\Models\Base\Issues();
 		
 		$issue1 = $RDF->extract($dt,'hasIssueProceedingOf');
-		if (isset($issue1[0]))
+		$issue2 = $RDF->extract($dt,'hasIssueOf');
+		$dti = array();
+		if (isset($issue1[0]) or isset($issue2[0]))
 			{
-				$dti = $ISSUE->where('is_source_issue',$issue1[0])->findAll();
+				if (isset($issue1[0]))
+					{
+						$dti = $ISSUE->where('is_source_issue',$issue1[0])->findAll();
+					}
+				
 
 				if(count($dti) > 0)
 					{
@@ -174,7 +180,12 @@ class RDFExport extends Model
 						$source = $dti[0]['is_source'];
 						$elastic['id_jnl'] = $source;
 					} else {
-						$issue1 = $RDF->le($issue1[0]);
+						if (isset($issue1[0]))
+						{
+							$issue1 = $RDF->le($issue1[0]);
+						} else {
+							$issue1 = $RDF->le($issue2[0]);
+						}						
 						$year = sonumero($issue1['concept']['n_name']);
 						$year = round(substr($year,strlen($year)-4,4));		
 					}
@@ -322,6 +333,9 @@ class RDFExport extends Model
 
 		$elastic_json = json_encode($elastic);
 		$this->saveRDF($id, $elastic_json, 'elastic.json');
+
+		$elasticRegister  = new \App\Models\ElasticSearch\Register();
+		$elasticRegister->register($id);
 
 		return '';
 	}

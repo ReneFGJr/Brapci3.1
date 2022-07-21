@@ -77,6 +77,8 @@ class API extends Model
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
+		echo h($url);
+
 		switch ($method) {
 			case 'GET':
 				break;
@@ -95,6 +97,7 @@ class API extends Model
 
 		$response = curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		jslog($code);
 
 		//exit;
 		return json_decode($response, true);

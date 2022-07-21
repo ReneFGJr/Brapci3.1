@@ -41,21 +41,23 @@ class Register extends Model
     protected $afterDelete    = [];
 
     function register($id)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $dt = $RDF->le($id);
-            $sx = $this->register_article($dt);
-        }
-
-    function register_article($dt)
-        {
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dir = $RDF->directory($id);
+        $file = $dir . '/' . 'elastic.json';
+        if (file_exists($file)) {
             $API = new \App\Models\ElasticSearch\API();
-            echo "Article";
-            $type = 'work';
-            $id = 2;
-            $dt = array();
+            $type = 'proceeding';
+            $dt = file_get_contents($file);
+            $dt = (array)json_decode($dt);
             $dt['id'] = $id;
-            $dt['nome'] = 'Rene Faustino Gabriel Jubior';
-            $rst = $API -> call($type . '/' . $id, 'POST', $dt);
+            //$dt['_id'] = $id;
+            $dt['id_jnl'] = 75;
+            $rst = $API->call($type . '/' . $id, 'PUT', $dt);
+            jslog("Elastic Export: ".$id);
+            echo h($type . '/' . $id);
+            pre($dt);
+            exit;
         }
+    }
 }
