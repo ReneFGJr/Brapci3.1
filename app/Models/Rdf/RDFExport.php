@@ -99,7 +99,7 @@ class RDFExport extends Model
 
 		/* EMPTY */
 		if (!isset($issue[0])) {
-			pre($dt);
+			//pre($dt);
 			return array('NoN', 0);
 		}
 
