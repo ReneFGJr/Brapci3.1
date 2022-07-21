@@ -106,8 +106,7 @@ class Search extends Model
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
         $data['query']['bool']['filter'] = array();
-        $term = [75];
-        $filter['terms']['id_jnl'] = $term;
+        $filter['terms']['id_jnl'] = [75];
         array_push($data['query']['bool']['filter'], $filter);
 
         /******************** Sources */
@@ -119,9 +118,6 @@ class Search extends Model
 
         $sx =  $q;
         $url = 'brp2/_search';
-        jslog($url);
-        echo json_encode($data);
-
 
         $dt = $API->call($url, $method, $data);
 
