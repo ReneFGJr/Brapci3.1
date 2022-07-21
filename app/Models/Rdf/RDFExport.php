@@ -165,7 +165,7 @@ class RDFExport extends Model
 		
 		$issue1 = $RDF->extract($dt,'hasIssueProceedingOf');
 		$issue2 = $RDF->extract($dt,'hasIssueOf');
-		$dti = array();
+		$dti = array();	
 		if (isset($issue1[0]) or isset($issue2[0]))
 			{
 				if (isset($issue1[0]))
@@ -334,8 +334,8 @@ class RDFExport extends Model
 		$elastic_json = json_encode($elastic);
 		$this->saveRDF($id, $elastic_json, 'elastic.json');
 
-		$elasticRegister  = new \App\Models\ElasticSearch\Register();
-		$elasticRegister->register($id);
+		//$elasticRegister  = new \App\Models\ElasticSearch\Register();
+		//$elasticRegister->register($id);
 
 		return '';
 	}
