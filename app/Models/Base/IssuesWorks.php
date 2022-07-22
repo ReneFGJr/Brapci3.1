@@ -49,7 +49,7 @@ class IssuesWorks extends Model
         $Keywords = new \App\Models\Base\Keywords();
         $Authors = new \App\Models\Base\Authors();
         $Sections = new \App\Models\Base\Sections();
-
+        $Indexshow = new \App\Models\Base\IndexShow();
         $dt = $this
             ->where('siw_issue', $id_rdf)
             ->orderBy('siw_order, siw_pag_ini')
@@ -70,11 +70,11 @@ class IssuesWorks extends Model
             $auth = $Authors->index_auths($auth, $line['siw_work_rdf']);
             $sect = $Sections->index_sections($sect, $line['siw_work_rdf']);
         }
-        $key_index = $Keywords->show_index($auth, 'authors');
+        $key_index = $Indexshow->show_index($auth, 'authors');
         $key_index .= '<br>';
-        $key_index .= $Sections->show_index($sect);
+        $key_index .= $Indexshow->show_index($sect,'sections');
         $key_index .= '<br>';
-        $key_index .= $Keywords->show_index($keys);
+        $key_index .= $Indexshow->show_index($keys,'keyword');
         $sx = bs(
             bsc($key_index, 4, 'text_indexes') .
                 bsc($sx, 8)

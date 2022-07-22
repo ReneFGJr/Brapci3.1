@@ -131,6 +131,11 @@ class RDFExport extends Model
 		$ABNT = new \App\Models\Metadata\Abnt();
 		$publisher = '';
 
+		if (count($dt['data'])==0)
+			{
+				return "";
+			}
+
 		$elastic = array();
 		$elastic['article_id'] = $id;
 		$elastic['id_jnl'] = '';
@@ -166,12 +171,18 @@ class RDFExport extends Model
 		$issue1 = $RDF->extract($dt,'hasIssueProceedingOf');
 		$issue2 = $RDF->extract($dt,'hasIssueOf');
 		$dti = array();	
+		
 		if (isset($issue1[0]) or isset($issue2[0]))
 			{
 				if (isset($issue1[0]))
 					{
 						$dti = $ISSUE->where('is_source_issue',$issue1[0])->findAll();
+					} else {
+					if (isset($issue2[0]))
+					{
+						$dti = $ISSUE->where('is_source_issue',$issue2[0])->findAll();
 					}
+				}
 				
 
 				if(count($dti) > 0)
@@ -245,7 +256,7 @@ class RDFExport extends Model
 				$s_lange = $line['n_lang2'];
 				$s_id = $line['d_r2'];
 				array_push($subject, array('term' => $s_name, 'lang' => $s_lange, 'ID' => $s_id));
-				$subj .= $subject. ' ';
+				$subj .= strtolower(ascii($s_name)). ' ';
 			}
 		}
 		$dta['subject'] = $subject;

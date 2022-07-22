@@ -46,50 +46,6 @@ class Sections extends Model
         return $sx;
     }
 
-    function show_index($key, $title = 'sections')
-    {
-        $RDF = new \App\Models\Rdf\RDF();
-        arsort($key);
-        $ul = '<ul class="text_75" style="list-style-type: none; margin: 0px; padding: 0px; ">';
-        $ulu = '</ul></div>';
-        $sx = h(lang('brapci.' . $title), 6);
-        $block = 0;
-        $block_nr = 20;
-        $bln = 0;
-        foreach ($key as $key => $total) {
-            if ($bln == 0) {
-                $sw = '';
-                if ($block > 0) {
-                    $sx .= '<span id="nblock' . $title . $block . '" class="view_more"
-                            onclick="$(\'#block' . $title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');"
-                            style="cursor: pointer;">view more ' . $title . $block . '</span>';
-                    $sx .= $ulu;
-                    $block_nr = $block_nr * 2;
-                }
-
-                if ($block > 0) {
-                    $sw = 'style="display: none;';
-                }
-                $sx .= '<div id="block' . $title . $block . '" ' . $sw . '">';
-                $sx .= $ul;
-            }
-            $nkey = substr($key, 0, strpos($key, ';'));
-            $nr = sonumero(substr($key, strpos($key, ';') + 1, 20));
-            $link = $RDF->href(array('id_cc' => $nr), 'href.' . $title . ' href');
-            $linka = '</a>';
-            $tot = '<span class="bullet">' . $total . '</span>';
-            $sx .= '<li>' . $link . $nkey . $linka . ' ' . $tot . '</li>';
-            $bln++;
-            if ($bln == $block_nr) {
-                $bln = 0;
-                $block++;
-            }
-        }
-        if ($bln > 0) {
-            $sx .= $ulu;
-        }
-        return $sx;
-    }
 
     function index_sections($key = array(), $id = '')
     {

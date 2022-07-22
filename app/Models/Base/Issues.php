@@ -135,9 +135,14 @@ class Issues extends Model
 
     function header_issue($dt)
     {
-        $tools = anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32));
+        $tools = '';
+        $Socials = new \App\Models\Socials();
+        if ($Socials->perfil("#CAR#ADM"))
+        {
+                $tools = anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32));
         $tools .= '<span class="p-2"></span>';
         $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32));
+        }
         $sx = '';
         $vol = $dt['is_vol'];
         $roman = trim($dt['is_vol_roman']);

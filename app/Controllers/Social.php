@@ -35,7 +35,7 @@ class Social extends BaseController
             {
                 case 'logout':
                     $Socials->logout();
-                    return redirect('Main::index');
+                    return redirect('MainPages::index');
                 break;
 
                 default:

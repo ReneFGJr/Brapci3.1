@@ -63,7 +63,7 @@ class Work extends Model
     function show_reference($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $sx = $RDF->c($id);
+        $sx = $RDF->c($id).cr();
         return $sx;
     }
 }
