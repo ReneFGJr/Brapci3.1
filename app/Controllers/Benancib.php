@@ -27,6 +27,7 @@ class Benancib extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Benancib/Headers/navbar', $data);
+        $sx .= view('Brapci/Pages/googleanalytics', $data);
 
         $q = get("query");
         if (strlen($q) > 0) {
