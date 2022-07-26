@@ -40,24 +40,22 @@ class Register extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($id)
+    function register($id, $type)
     {
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
-        $file = $dir . '/' . 'elastic.json';
+        $file = $dir . '/' . 'article.json';
         if (file_exists($file)) {
             $API = new \App\Models\ElasticSearch\API();
-            $type = 'proceeding';
             $dt = file_get_contents($file);
             $dt = (array)json_decode($dt);
             $dt['id'] = $id;
-            //$dt['_id'] = $id;
             $dt['id_jnl'] = 75;
-            $rst = $API->call($type . '/' . $id, 'PUT', $dt);
-            jslog("Elastic Export: ".$id);
-            echo h($type . '/' . $id);
-            pre($dt);
-            exit;
+            $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
+            jslog("Elastic Export: " . $id);
+        } else {
+            echo "File not found " . $file . '<br>';
         }
+        return "";
     }
 }

@@ -31,6 +31,7 @@ class MainPages extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
         /**** CHECK PAGE */
+
         $file = APPPATH . 'Views/Brapci/Pages/' . strtolower($pag) . '.php';
         if (file_exists($file)) {
             $sx .= view('Brapci/Pages/' . $pag);

@@ -278,7 +278,7 @@ class RdfForm extends Model
 
 	function edit($d1, $d2, $d3, $d4, $d5)
 	{
-		$this->Socials = new \App\Models\Socials();
+		$Socials = new \App\Models\Socials();
 		$sx = '';
 		$prop = $d3;
 		$id = $d4;
@@ -294,7 +294,7 @@ class RdfForm extends Model
 				return $sx;
 			} else {
 				echo bsmessage("RANGE not defined", 3);
-				if (perfil("#ADM")) {
+				if ($Socials->getAccess("#ADM")) {
 					$sx = '<a href="' . PATH . MODULE . 'rdf/form_ed/' . $id . '?msg=range_not_found">';
 					$sx .= 'EDIT';
 					$sx .= '</a>';

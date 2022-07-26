@@ -131,10 +131,9 @@ class RDFExport extends Model
 		$ABNT = new \App\Models\Metadata\Abnt();
 		$publisher = '';
 
-		if (count($dt['data'])==0)
-			{
-				return "";
-			}
+		if (count($dt['data']) == 0) {
+			return "OPS " . $id . '<br>';
+		}
 
 		$elastic = array();
 		$elastic['article_id'] = $id;
@@ -167,48 +166,42 @@ class RDFExport extends Model
 
 		/***************************************************** Issue */
 		$ISSUE = new \app\Models\Base\Issues();
-		
-		$issue1 = $RDF->extract($dt,'hasIssueProceedingOf');
-		$issue2 = $RDF->extract($dt,'hasIssueOf');
-		$dti = array();	
-		
-		if (isset($issue1[0]) or isset($issue2[0]))
-			{
-				if (isset($issue1[0]))
-					{
-						$dti = $ISSUE->where('is_source_issue',$issue1[0])->findAll();
-					} else {
-					if (isset($issue2[0]))
-					{
-						$dti = $ISSUE->where('is_source_issue',$issue2[0])->findAll();
-					}
-				}
-				
 
-				if(count($dti) > 0)
-					{
-						$year = $dti[0]['is_year'];
-						$source = $dti[0]['is_source'];
-						$elastic['id_jnl'] = $source;
-					} else {
-						if (isset($issue1[0]))
-						{
-							$issue1 = $RDF->le($issue1[0]);
-						} else {
-							$issue1 = $RDF->le($issue2[0]);
-						}						
-						$year = sonumero($issue1['concept']['n_name']);
-						$year = round(substr($year,strlen($year)-4,4));		
-					}
-				if (($year < 1960) or ($year >= (date("Y")+1)))
-				{
-					$year = '';
+		$issue1 = $RDF->extract($dt, 'hasIssueProceedingOf');
+		$issue2 = $RDF->extract($dt, 'hasIssueOf');
+		$dti = array();
+
+		if (isset($issue1[0]) or isset($issue2[0])) {
+			if (isset($issue1[0])) {
+				$dti = $ISSUE->where('is_source_issue', $issue1[0])->findAll();
+			} else {
+				if (isset($issue2[0])) {
+					$dti = $ISSUE->where('is_source_issue', $issue2[0])->findAll();
 				}
 			}
+
+
+			if (count($dti) > 0) {
+				$year = $dti[0]['is_year'];
+				$source = $dti[0]['is_source'];
+				$elastic['id_jnl'] = $source;
+			} else {
+				if (isset($issue1[0])) {
+					$issue1 = $RDF->le($issue1[0]);
+				} else {
+					$issue1 = $RDF->le($issue2[0]);
+				}
+				$year = sonumero($issue1['concept']['n_name']);
+				$year = round(substr($year, strlen($year) - 4, 4));
+			}
+			if (($year < 1960) or ($year >= (date("Y") + 1))) {
+				$year = '';
+			}
+		}
 		$elastic['year'] = $year;
 
 
-		$issue = $this->recover_issue($dt, $id, $tp);		
+		$issue = $this->recover_issue($dt, $id, $tp);
 		$dta['issueRDF'] = $issue[1];
 		if ($dta['issueRDF'] > 0) {
 			$dti = $this->RDF->le($dta['issueRDF']);
@@ -256,7 +249,7 @@ class RDFExport extends Model
 				$s_lange = $line['n_lang2'];
 				$s_id = $line['d_r2'];
 				array_push($subject, array('term' => $s_name, 'lang' => $s_lange, 'ID' => $s_id));
-				$subj .= strtolower(ascii($s_name)). ' ';
+				$subj .= strtolower(ascii($s_name)) . ' ';
 			}
 		}
 		$dta['subject'] = $subject;
@@ -338,16 +331,13 @@ class RDFExport extends Model
 		}
 		$this->saveRDF($id, $dt['concept']['c_class'], 'class.nm');
 
-		//pre($dta);
-
 		$this->saveRDF($id, json_encode($dta), 'name.json');
 
 		$elastic_json = json_encode($elastic);
-		$this->saveRDF($id, $elastic_json, 'elastic.json');
-
-		//$elasticRegister  = new \App\Models\ElasticSearch\Register();
-		//$elasticRegister->register($id);
-
+		$this->saveRDF($id, $elastic_json, 'article.json');
+		$class = trim($dt['concept']['c_class']);
+		$elasticRegister  = new \App\Models\ElasticSearch\Register();
+		$elasticRegister->register($id, $class);
 		return '';
 	}
 

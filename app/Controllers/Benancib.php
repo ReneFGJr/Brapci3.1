@@ -29,12 +29,13 @@ class Benancib extends BaseController
         $sx .= view('Benancib/Headers/navbar', $data);
         $sx .= view('Brapci/Pages/googleanalytics', $data);
 
-        $q = get("query");
+        $q = get("q") . get("qs");
         if (strlen($q) > 0) {
             $act = 'search';
         }
 
         $act = trim($act);
+
         switch ($act) {
             case 'search':
                 $data['logo'] = view('Logos/logo_benancib');
@@ -58,6 +59,7 @@ class Benancib extends BaseController
                         $_GET['field'] = 0;
                     }
                 }
+
                 $sx .= view('Benancib/Welcome', $data);
                 $SEARCH = new \App\Models\ElasticSearch\Index();
                 $sx .= $SEARCH->index('search');

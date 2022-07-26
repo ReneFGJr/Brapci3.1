@@ -97,7 +97,6 @@ class API extends Model
 		$response = curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-		//exit;
 		return json_decode($response, true);
 	}
 

@@ -46,9 +46,9 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
 
             </ul>
             <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">
-                <input name="query" class="form-control me-2" type="search"
+                <input name="q" class="form-control me-2" type="search"
                     placeholder="<?= lang('benancib.search_placeholder'); ?>"
-                    aria-label="<?= lang('benancib.search'); ?>" value="<?= get("query"); ?>">
+                    aria-label="<?= lang('benancib.search'); ?>" value="<?= get("q"); ?>">
                 <button class="btn btn-outline-success" type="submit"><?= lang('benancib.search'); ?></button>
             </form>
             <?php echo $acesso; ?>

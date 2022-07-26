@@ -54,7 +54,10 @@ class Search extends Model
 
         $API = new \App\Models\ElasticSearch\API();
 
-        $qs = trim(get("query") . get("search"));
+        $qs = trim(get("q"));
+        if ($qs == '') {
+            $qs = trim(get("qs"));
+        }
 
         /*************** SOURCE **********************************************************/
         $method = "POST";
@@ -117,7 +120,7 @@ class Search extends Model
         $data['from'] = $start;
 
         $sx =  $q;
-        $url = 'brp2/_search';
+        $url = 'brapci3.1/_search';
 
         $dt = $API->call($url, $method, $data);
 
