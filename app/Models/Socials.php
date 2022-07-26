@@ -607,7 +607,7 @@ class Socials extends Model
 		$sx = '';
 		if ($id > 0) {
 			$dt = $this->Find($id);
-			$sx .= breadcrumbs(array('social.home' => PATH . MODULE. '/social.perfil' => PATH . MODULE . '/social/perfil'));
+			$sx .= breadcrumbs(array('social.home' => PATH . MODULE, '/social.perfil' => PATH . MODULE . '/social/perfil'));
 			$sx .= $this->perfil_show_header($dt);
 			$sx .= $this->my_library($dt);
 			$logs = $this->logs($id);
