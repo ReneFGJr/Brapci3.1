@@ -1513,7 +1513,7 @@ class Socials extends Model
 					data.append("signup_institution", document.getElementById("signup_institution").value);
 				}
 
-            var url = "' . PATH . MODULE . 'social/ajax/"+cmd;
+            var url = "' . PATH . MODULE . '/social/ajax/"+cmd;
             var xhttp = new XMLHttpRequest();
             xhttp.open("POST", url, false);
             xhttp.send(data);
