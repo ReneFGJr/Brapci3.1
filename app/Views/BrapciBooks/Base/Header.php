@@ -1,0 +1,1 @@
+<img src="<?= URL; ?>/img/logo/logo_benancib.gif">

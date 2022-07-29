@@ -10,6 +10,11 @@
     {
         background-color: #a2028a;
     }
+
+.bg-brapcilivros
+    {
+        background-color: #6C3483;
+    }
 a
     {
         text-decoration: none;
@@ -58,7 +63,7 @@ a:hover
     {
        border-radius: 10px;
        border: 1px solid #AAA;
-       background-color: #DDD; 
+       background-color: #DDD;
        padding: 0px 5px;
     }
 /******* ICONES *************/
@@ -86,7 +91,7 @@ a.pgcd_view_plans:hover
     {
         color: #000;
         font-weight: bold;
-    }    
+    }
 .pgcd_edit_plans, a.pgcd_edit_plans, a.pgcd_trash_plans
     {
         color: #000;

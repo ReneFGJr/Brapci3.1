@@ -22,7 +22,7 @@ class Books extends BaseController
     {
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Proceedings';
-        $data['bg'] = 'bg-proceedings';
+        $data['bg'] = 'bg-brapcilivros';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Benancib/Headers/navbar', $data);
@@ -69,8 +69,13 @@ class Books extends BaseController
                 $sx .= view('Brapci/Pages/under_construction');
                 break;
 
+            case 'autoloader':
+                $Books = new \App\Models\Books\Index();
+                $sx .= $Books->index($act, $subact, $id);
+                break;
+
             default:
-                $sx .= view('Brapci/Pages/under_construction');
+                $sx .= view('BrapciBooks/Pages/homepage');
                 break;
         }
 
