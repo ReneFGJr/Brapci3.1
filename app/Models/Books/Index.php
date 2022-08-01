@@ -45,7 +45,7 @@ class Index extends Model
         $sx =  '';
         switch ($d1) {
             case 'autoloader':
-                $sx .= view('BrapciBooks/Pages/autodeposit');
+                $sx .= $this->autoloader();
                 break;
         }
         $sx = bs($sx);
@@ -55,6 +55,14 @@ class Index extends Model
     function btnAutoDeposit()
     {
         $sx = '<button type="button" class="btn btn-primary btn-lg">Autodeposito</button>';
+        return $sx;
+    }
+
+    function autoloader()
+    {
+        $sx = '';
+        $sx .= view('BrapciBooks/Pages/autodeposit');
+        $sx .= view('BrapciBooks/Terms/termBR');
         return $sx;
     }
 }
