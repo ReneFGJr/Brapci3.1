@@ -45,11 +45,43 @@ class Index extends Model
         $sx =  '';
         switch ($d1) {
             case 'autoloader':
+                switch ($d2) {
+                    case 'ajax':
+                        $this->upload();
+                        return "";
+                }
                 $sx .= $this->autoloader();
                 break;
         }
         $sx = bs($sx);
         return $sx;
+    }
+
+    function upload()
+    {
+        if (isset($_FILES['file']['tmp_name'])) {
+            $tmp = $_FILES['file']['tmp_name'];
+            $file = $_FILES['file']['name'];
+
+            /******************* Extension */
+            $ext = explode('.', $file);
+            $ext = strtolower($ext[count($ext) - 1]);
+            switch ($ext) {
+                case 'pdf':
+                    $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+                    echo $TechinalProceessing->upload($file, $tmp);
+                    break;
+                default:
+                    echo bsmessage(lang('book.format_invalide_autodeosit - ' . $file), 3);
+                    break;
+            }
+            exit;
+        } else {
+            echo '<pre>--------------------------------------------';
+            echo 'erro de upload';
+            print_r($_FILES);
+            exit;
+        }
     }
 
     function btnAutoDeposit()
@@ -60,9 +92,12 @@ class Index extends Model
 
     function autoloader()
     {
+        $data = array();
         $sx = '';
         $sx .= view('BrapciBooks/Pages/autodeposit');
         $sx .= view('BrapciBooks/Terms/termBR');
+
+        $sx .= view('Books/autodeposit_01', $data);
         return $sx;
     }
 }
