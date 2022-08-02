@@ -72,6 +72,8 @@ $routes->get('/proceedings', 'Proceedings::index');
 /********* Books */
 $routes->get('/books/(:any)/(:any)', 'Books::index/$1/$2');
 $routes->post('/books/(:any)/(:any)', 'Books::index/$1/$2');
+$routes->get('/books/(:any)/(:any)/(:any)', 'Books::index/$1/$2/$3');
+$routes->post('/books/(:any)/(:any)/(:any)', 'Books::index/$1/$2/$3');
 $routes->get('/books/(:any)', 'Books::index/$1');
 $routes->post('/books/(:any)', 'Books::index/$1');
 $routes->get('/books', 'Books::index');

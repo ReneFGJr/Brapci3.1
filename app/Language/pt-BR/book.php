@@ -10,8 +10,18 @@ return [
         'Accordion_3_info' => 'Info 3',
         'Accordion_4_info' => 'Info 4',
         'autodeposit' => 'Autodeposito',
-        '' => '',
-        '' => '',
-        '' => '',
+        'status_0' => 'Em análise',
+        'status_1' => 'Em preparo',
+        'status_2' => 'Catalogando',
+        'status_3' => 'Indexando',
+        'status_4' => 'Arquivado',
+        'status_5' => 'Indeferido',
+        'status_6' => '',
+        'status_7' => '',
+        'status_8' => '',
+        'status_9' => '',
+        'status_10' => '',
+
+
 
 ];

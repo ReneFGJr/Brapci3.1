@@ -64,6 +64,11 @@ class Books extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
 
+            case 'admin':
+                $Books = new \App\Models\Books\Index();
+                $sx .= $Books->admin($subact, $id);
+                break;
+
             case 'about':
                 $sa = '';
                 $sx .= view('Brapci/Pages/under_construction');

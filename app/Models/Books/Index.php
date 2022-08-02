@@ -43,7 +43,9 @@ class Index extends Model
     function index($d1 = '', $d2 = '', $d3 = '')
     {
         $sx =  '';
+        $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
         switch ($d1) {
+
             case 'autoloader':
                 switch ($d2) {
                     case 'ajax':
@@ -53,12 +55,40 @@ class Index extends Model
                 $sx .= $this->autoloader();
                 break;
         }
+        $sx .= h($d1);
+
+        $Socials = new \App\Models\Socials();
+        $user = $Socials->getAccess("#ADM");
+
+        if ($user) {
+            $sx .= $TechinalProceessing->resume();
+        }
         $sx = bs($sx);
+        return $sx;
+    }
+
+    function admin($s = '', $a = '')
+    {
+        $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+        $sx = '';
+        $sx .= $TechinalProceessing->resume();
+        $sx .= '==>' . $s;
+        $sx .= '==>' . $a;
+
+        switch ($s) {
+            case 'status':
+                $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+                $sx .= $TechinalProceessing->show_pt($a, $s);
+                break;
+        }
+
         return $sx;
     }
 
     function upload()
     {
+        $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+
         if (isset($_FILES['file']['tmp_name'])) {
             $tmp = $_FILES['file']['tmp_name'];
             $file = $_FILES['file']['name'];
@@ -68,19 +98,17 @@ class Index extends Model
             $ext = strtolower($ext[count($ext) - 1]);
             switch ($ext) {
                 case 'pdf':
-                    $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
                     echo $TechinalProceessing->upload($file, $tmp);
+                    exit;
                     break;
                 default:
                     echo bsmessage(lang('book.format_invalide_autodeosit - ' . $file), 3);
                     break;
             }
-            exit;
         } else {
             echo '<pre>--------------------------------------------';
             echo 'erro de upload';
             print_r($_FILES);
-            exit;
         }
     }
 

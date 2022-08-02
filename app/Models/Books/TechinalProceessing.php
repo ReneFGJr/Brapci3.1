@@ -44,6 +44,49 @@ class TechinalProceessing extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function show_pt($a)
+    {
+        $sx = '';
+        $dt = $this->where('tp_status', $a)->findAll();
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $link = '<a href="' . PATH . COLLECTION . '/admin/auto/' . $line['id_tp'] . '">';
+            $linka = '</a>';
+            $sa = h('<b>' . $link . $line['tp_file'] . $linka . '</b>', 4);
+            $sx .= '<p>' . lang('books.uploaded') . ': ' . $line['tp_created'];
+            $sx .= ' (' . $line['tp_ip'] . ')</p>';
+            $sx .= bsc($sa, 12, ' bordered');
+        }
+        $sx = bs($sx);
+        return $sx;
+    }
+
+    function resume()
+    {
+        $sx = '';
+        $dt = $this
+            ->select('count(*) as total, tp_status')
+            ->groupby('tp_status')
+            ->FindAll();
+        $st = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        /***************************************************** */
+        foreach ($dt as $line) {
+            $status = $line['tp_status'];
+            $total = $line['total'];
+            $st[$status] = $total;
+        }
+
+        for ($r = 0; $r <= 5; $r++) {
+            $link = '<a href="' . PATH . COLLECTION . '/admin/status/' . $r . '" style="color: black;">';
+            $linka = '</a>';
+            $label = $link . lang('book.status_' . $r) . $linka . '<br>';
+            $sx .= bsc($label . '<b style="font-size: 40px">' . $link . $st[$r] . $linka . '</b>', 2, 'text-center');
+        }
+        $sx = bs($sx);
+        return $sx;
+    }
+
     function upload($file, $tmp)
     {
         dircheck('.tmp/');

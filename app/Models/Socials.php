@@ -291,6 +291,7 @@ class Socials extends Model
 	}
 	function getAccess($t = '')
 	{
+		//pre($_SESSION);
 		if (isset($_SESSION['id'])) {
 			/************************************************************* Checa Admin */
 			$user = trim($_SESSION['email']);
