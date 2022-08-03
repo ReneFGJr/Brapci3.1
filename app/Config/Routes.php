@@ -48,6 +48,18 @@ $routes->get('/bots/(:any)', 'Bots::index/$1');
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');
 $routes->post('/ajax/(:any)', 'Ajax::index/$1');
 
+/********* API */
+$routes->get('/ws', 'Api::index');
+$routes->get('/ws/api', 'Api::index');
+$routes->get('/ws/api/(:any)', 'Api::index/$1');
+$routes->get('/ws/(:any)/(:any)', 'Api::index/$1/$2');
+$routes->get('/api', 'Api::index');
+$routes->get('/api/(:any)', 'Api::index/$1');
+$routes->get('/api/(:any)/(:any)', 'Api::index/$1/$2');
+$routes->get('/api/(:any)/(:any)/(:any)', 'Api::index/$1/$2/$3');
+$routes->get('/api/(:any)/(:any)/(:any)/(:any)', 'Api::index/$1/$2/$3/$4');
+$routes->post('/api/(:any)', 'Api::index/$1');
+
 /********* SOCIAL */
 $routes->get('/social', 'Social::index');
 $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');

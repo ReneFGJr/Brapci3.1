@@ -14,6 +14,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
+define("LIBRARY", '1000');
 define("COLLECTION", '/books');
 
 class Books extends BaseController

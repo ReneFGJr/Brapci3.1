@@ -72,10 +72,13 @@ class Index extends Model
         $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
         $sx = '';
         $sx .= $TechinalProceessing->resume();
-        $sx .= '==>' . $s;
-        $sx .= '==>' . $a;
 
         switch ($s) {
+            case 'auto':
+                $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+                $sx .= $TechinalProceessing->process($a);
+                break;
+
             case 'status':
                 $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
                 $sx .= $TechinalProceessing->show_pt($a, $s);

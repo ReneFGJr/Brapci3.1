@@ -44,6 +44,101 @@ class TechinalProceessing extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function process($a)
+    {
+        /******************************************* Action */
+        $act = get('act');
+        if ($act != '') {
+            echo '==>' . $act;
+            $data['tp_status'] = $act;
+            $this->set($data)->where('id_tp', $a)->update();
+        }
+        $dt = $this->find($a);
+
+        /****************************************** Display */
+        $sx = '';
+        $sx .= h($dt['tp_file']);
+        $sx .= '<p>' . $dt['tp_created'] . '</p>';
+
+        $catlog = '';
+        switch ($dt['tp_status']) {
+            case 0:
+                $catlog = h(lang('book.status_0'), 4);
+                /************** Buttons */
+                $catlog .= $this->btn_archive($a);
+                $catlog .= ' ';
+                $catlog .= $this->btn_aproved($a);
+                $catlog .= ' ';
+                $catlog .= $this->btn_inferred($a);
+                break;
+            case 1:
+                $catlog = h(lang('book.status_1'), 4);
+                /************** Buttons */
+                $catlog .= $this->btn_archive($a);
+                $catlog .= ' ';
+                $catlog .= $this->btn_aproved($a);
+                $catlog .= ' ';
+                $catlog .= $this->btn_supply($a);
+
+
+                $THB = new \App\Models\Books\TechinalProceessingBook();
+                $THB->create($a);
+                $catlog .= $THB->edit($a);
+                break;
+
+            case 2:
+                $THB = new \App\Models\Books\TechinalProceessingBook();
+                $catlog .= $THB->createRDF($a);
+                break;
+
+            case 6:
+                $catlog = h(lang('book.status_6'), 4);
+                /************** Buttons */
+                $catlog .= $this->btn_aproved($a);
+                break;
+        }
+
+        $sx .= bsc($catlog, 5);
+        $screen = URL . '/' . $dt['tp_up'];
+        $iframe = '<iframe src="' . $screen . '" style="width: 100%; height:600px;"></iframe>';
+        $sx .= bsc($iframe, 7);
+        $sx = bs($sx);
+        return $sx;
+    }
+
+    /******************************************** BTNS */
+    function btn_inferred($s)
+    {
+        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=5" title="' . lang('book.send_to') . ' ' . lang('book.status_5') . ' "class="btn btn-ouline-primary p-2">';
+        $sx .= bsicone('trash', 32);
+        $sx .= '</a>';
+        return $sx;
+    }
+    function btn_supply($s)
+    {
+        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=2" title="' . lang('book.send_to') . ' ' . lang('book.status_2') . ' "class="btn btn-ouline-primary p-2">';
+        $sx .= bsicone('refresh', 32);
+        $sx .= '</a>';
+        return $sx;
+    }
+
+    function btn_archive($s)
+    {
+        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';
+        $sx .= bsicone('trash', 32);
+        $sx .= '</a>';
+        return $sx;
+    }
+
+    function btn_aproved($s)
+    {
+        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=1" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
+        $sx .= bsicone('upload', 32);
+        $sx .= '</a>';
+        return $sx;
+    }
+
+
     function show_pt($a)
     {
         $sx = '';
