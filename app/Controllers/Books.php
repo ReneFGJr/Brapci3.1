@@ -34,6 +34,9 @@ class Books extends BaseController
         }
         $act = trim($act);
         switch ($act) {
+            case 'v':
+                $sx .= $this->v($subact);
+                break;
             case 'xsearch':
                 $data['logo'] = view('Logos/logo_benancib');
                 $data['search'] = view('Benancib/Pages/search');
@@ -117,6 +120,11 @@ class Books extends BaseController
                 echo "OK";
                 $Work = new \App\Models\Base\Work();
                 $sx .= $Work->show($id);
+                break;
+
+            case 'Book':
+                $Book = new \App\Models\Base\Book();
+                $sx = $Book->show($id);
                 break;
             default:
                 $sx .= h($class, 1);

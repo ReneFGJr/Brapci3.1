@@ -84,8 +84,10 @@ class Index extends Model
             $file = $ndir . '/' . $api;
             $name = troca('heading' . $api, '.php', '');
             $namec = troca('collapse' . $api, '.php', '');
+
             if ((file_exists($file)) and ($api != '..') and ($api != '.')) {
                 $txt = file_get_contents($file);
+                $url_ex = $this->recoverTag($txt, '@example');
                 $sx .= '<div class="accordion-item">' . cr();
                 $sx .= '    <h2 class="accordion-header" id="' . $name . '"> ' . cr();
                 $sx .= '        <button class="accordion-button collapsed"  type="button" data-bs-toggle="collapse" data-bs-target="#' . $namec . '" aria-expanded="false" aria-controls="' . $namec . '">' . cr();
@@ -96,13 +98,14 @@ class Index extends Model
                 $sx .= '    <div class="accordion-body"> ' . cr();
                 $sx .= '        Author(s): ' . $this->recoverTag($txt, '@author') . '<br>' . cr();
                 $sx .= '        ' . $this->recoverTag($txt, '@abstract') . '<br>' . cr();
-                $sx .= '        <pre>' . $this->recoverTag($txt, '@example') . '</pre><br>' . cr();
+                $sx .= '        <pre>' . '<a href="' . $url_ex . '">' . $url_ex . '</pre><br>' . cr();
                 $sx .= '    </div> ' . cr();
                 $sx .= '</div> ' . cr();
                 //$sx .= '</div>';
             }
         }
         $sx .= '</div>';
+        $sx = troca($sx, '$URL/', PATH);
         $sx = bs(bsc($sx, 12));
         return $sx;
     }

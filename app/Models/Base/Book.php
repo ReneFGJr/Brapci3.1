@@ -1,23 +1,13 @@
 <?php
-/*
-@category API
-@package Brapci Book
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
-@access public/private/apikey
-@example $URL/api/book/?isbn=97800000000
-@abstract API para consulta de metadados de livros com o ISBN
-*/
 
-namespace App\Models\Api\Endpoint;
+namespace App\Models\Base;
 
 use CodeIgniter\Model;
 
 class Book extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'books';
+    protected $table            = 'work';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -50,9 +40,31 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3, $d4)
+    function showHTML($dt)
     {
-        $isbn = get("isbn");
-        checkisbn($isbn);
+        echo "ok";
+        exit;
+        $sx = view('RDF/work', $dt);
+        return $sx;
+    }
+
+    function show($id)
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+        $dd = $dt['data'];
+        for ($r = 0; $r < count($dd); $r++) {
+            $line = $dd[$r];
+            $class = $line['c_class'];
+            //echo '==>'.$class;
+        }
+        pre($dt);
+    }
+
+    function show_reference($id)
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $sx = $RDF->c($id) . cr();
+        return $sx;
     }
 }
