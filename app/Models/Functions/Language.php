@@ -1,23 +1,13 @@
 <?php
-/*
-@category API
-@package Brapci Book
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
-@access public/private/apikey
-@example $URL/api/book/?isbn=97800000000
-@abstract API para consulta de metadados de livros com o ISBN
-*/
 
-namespace App\Models\Api\Endpoint;
+namespace App\Models\Functions;
 
 use CodeIgniter\Model;
 
-class Book extends Model
+class Language extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'books';
+    protected $table            = 'languages';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -50,13 +40,18 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3, $d4)
+    function check($lang)
     {
-        $ISBN = new \App\Models\Functions\ISBN();
-        $isbn = get("isbn");
-        $isbn = $ISBN->format($isbn);
-
-        
-        echo h($isbn);
+        switch ($lang) {
+            case 'pt':
+                return 'pt-BR';
+            case 'Português':
+                return 'pt-BR';
+            default:
+                echo "OPS Linguage " . $lang;
+                exit;
+                return $lang;
+                break;
+        }
     }
 }

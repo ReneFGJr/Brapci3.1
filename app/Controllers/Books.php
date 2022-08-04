@@ -126,6 +126,7 @@ class Books extends BaseController
                 $Book = new \App\Models\Base\Book();
                 $sx = $Book->show($id);
                 break;
+
             default:
                 $sx .= h($class, 1);
                 $sx = bs(bsc($sx));

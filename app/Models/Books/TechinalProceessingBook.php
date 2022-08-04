@@ -70,6 +70,7 @@ class TechinalProceessingBook extends Model
     function createRDF($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $ISBN = new \App\Models\Functions\ISBN();
         $dt = $this->where('b_source', $id)->findAll();
         $class = "Book";
         $name = $dt[0]['b_titulo'];
@@ -78,10 +79,127 @@ class TechinalProceessingBook extends Model
         $name = troca($name, chr(10), '');
 
         $isbn = $dt[0]['b_isbn'];
+        $isbn = $ISBN->format($isbn);
+        $isbn10 = $ISBN->isbn13to10($isbn);
+
         $id = $RDF->RDF_concept('ISBN' . $isbn, $class);
-        $literal = $RDF->put_literal($name);
-        $prop = 'hasTitle';
+
+        /********************************** ISBN13 */
+        $literal = $RDF->put_literal($isbn);
+        $prop = 'hasISBN';
         $RDF->propriety($id, $prop, 0, $literal);
+
+        $literal = $RDF->put_literal($isbn10);
+        $prop = 'hasISBN';
+        $RDF->propriety($id, $prop, 0, $literal);
+
+        /********************************** ISBN10 */
+        $literal = $RDF->put_literal($isbn10);
+        $prop = 'hasISBN';
+        $RDF->propriety($id, $prop, 0, $literal);
+
+        /*********************************** API Consulta */
+        $ISBN = new \App\Models\Functions\ISBNdb();
+        $dt['metadata']['ISBNdb'] = $ISBN->_call($isbn);
+
+        $ISBN = new \App\Models\Functions\MercadoEditorial();
+        $dt['metadata']['MercadoEditorial'] = $ISBN->_call($isbn);
+
+        /* Authors */
+        $meta = $dt['metadata'];
+        foreach ($meta as $source => $line) {
+            if (isset($line['authors'])) {
+                $auths = $line['authors'];
+                for ($r = 0; $r < count($auths); $r++) {
+                    $nome = nbr_author($auths[$r], 1);
+                    $ida = $RDF->RDF_concept($nome, 'Person');
+                    $prop = 'hasAuthor';
+                    $RDF->propriety($id, $prop, $ida, 0);
+                }
+            }
+        }
+
+        /* Title */
+        $meta = $dt['metadata'];
+        foreach ($meta as $source => $line) {
+            if (isset($line['title'])) {
+                $name = $line['title'];
+                $literal = $RDF->put_literal($name);
+                $prop = 'hasTitle';
+                $RDF->propriety($id, $prop, 0, $literal);
+            }
+        }
+
+        /* Subject */
+        $meta = $dt['metadata'];
+        foreach ($meta as $source => $line) {
+            if (isset($line['editora'])) {
+                $auths = $line['editora'];
+                $ida = $RDF->RDF_concept($nome, 'Subject');
+                $prop = 'hasSubject';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+        }
+
+
+        /* Editora */
+        $meta = $dt['metadata'];
+        foreach ($meta as $source => $line) {
+            if ((isset($line['editora']))  and (strlen(trim($line['editora'])) > 0)) {
+                $nome = trim($line['editora']);
+                $ida = $RDF->RDF_concept($nome, 'Publisher');
+                $prop = 'isPublisher';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+
+            if ((isset($line['published'])) and (strlen(trim($line['published'])) > 0)) {
+                $nome = trim($line['published']);
+                $ida = $RDF->RDF_concept($nome, 'Date');
+                $prop = 'dateOfPublication';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+
+            if ((isset($line['lang'])) and (strlen(trim($line['lang'])) > 0)) {
+                $nome = trim($line['lang']);
+                $ida = $RDF->RDF_concept($nome, 'Linguage');
+                $prop = 'hasLanguageExpression';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+
+            if ((isset($line['cdd'])) and (strlen(trim($line['cdd'])) > 0)) {
+                $nome = trim($line['cdd']);
+                $ida = $RDF->RDF_concept($nome, 'CDD');
+                $prop = 'hasClassificationCDD';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+
+            if ((isset($line['cdu'])) and (strlen(trim($line['cdu'])) > 0)) {
+                $nome = trim($line['cdu']);
+                $ida = $RDF->RDF_concept($nome, 'CDU');
+                $prop = 'hasClassificationCDU';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+
+            if ((isset($line['cover'])) and (strlen(trim($line['cover'])) > 0)) {
+                $nome = trim($line['cover']);
+                $ida = $RDF->RDF_concept($nome, 'Image');
+                $prop = 'hasCover';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+
+            if ((isset($line['pages'])) and (strlen(trim($line['pages'])) > 0)) {
+                $nome = trim($line['pages']);
+                $nome = troca($nome, 'p.', '');
+                $nome = troca($nome, 'pag.', '');
+                $nome = troca($nome, 'pags.', '');
+                $nome = trim($nome) . ' p.';
+
+                $ida = $RDF->RDF_concept($nome, 'Pages');
+                $prop = 'hasPage';
+                $RDF->propriety($id, $prop, $ida, 0);
+            }
+        }
+
         return $id;
     }
 }

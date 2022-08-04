@@ -52,13 +52,9 @@ class Book extends Model
     {
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
-        $dd = $dt['data'];
-        for ($r = 0; $r < count($dd); $r++) {
-            $line = $dd[$r];
-            $class = $line['c_class'];
-            //echo '==>'.$class;
-        }
-        pre($dt);
+        $dd['book'] = $dt['data'];
+        $sx = view('Books/book', $dd);
+        return $sx;
     }
 
     function show_reference($id)
