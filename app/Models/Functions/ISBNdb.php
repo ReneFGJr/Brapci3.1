@@ -71,7 +71,7 @@ class ISBNdb extends Model
 
         if (!$erro) {
             $dt = (array)json_decode($head);
-            if (isset($dt['book']))
+            if (!isset($dt['book']))
                 {
                     $dt = array();
                 } else {
