@@ -71,8 +71,13 @@ class ISBNdb extends Model
 
         if (!$erro) {
             $dt = (array)json_decode($head);
-            $dt = (array)$dt['book'];
-            $dt = $this->prepare($dt);
+            if (isset($dt['book']))
+                {
+                    $dt = array();
+                } else {
+                    $dt = (array)$dt['book'];
+                    $dt = $this->prepare($dt);
+                }
             return $dt;
         } else {
             echo 'Curl error: ' . curl_error($ch);
