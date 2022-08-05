@@ -70,7 +70,7 @@ class TechinalProceessingBook extends Model
     function createRDF($ids)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $ISBN = new \App\Models\Functions\ISBN();
+        $ISBN = new \App\Models\Functions\Isbn();
         $dt = $this->where('b_source', $ids)->findAll();
         $class = "Book";
         $name = $dt[0]['b_titulo'];
