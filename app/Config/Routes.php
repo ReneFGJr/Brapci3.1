@@ -91,12 +91,12 @@ $routes->post('/books/(:any)', 'Books::index/$1');
 $routes->get('/books', 'Books::index');
 
 /********* TOOLS */
-$routes->get('/rdf/(:any)', 'rdf::index/$1');
-$routes->get('/rdf/(:any)/(:any)', 'rdf::index/$1/$2');
-$routes->post('/rdf/(:any)', 'rdf::index/$1');
-$routes->post('/rdf/(:any)/(:any)', 'rdf::index/$1/$2');
-$routes->post('/rdf/(:any)/(:any)/(:any)', 'rdf::index/$1/$2/$3');
-$routes->post('/rdf/(:any)/(:any)/(:any)/(:any)', 'rdf::index/$1/$2/$3/#4');
+$routes->get('/rdf/(:any)', 'Rdf::index/$1');
+$routes->get('/rdf/(:any)/(:any)', 'Rdf::index/$1/$2');
+$routes->post('/rdf/(:any)', 'Rdf::index/$1');
+$routes->post('/rdf/(:any)/(:any)', 'Rdf::index/$1/$2');
+$routes->post('/rdf/(:any)/(:any)/(:any)', 'Rdf::index/$1/$2/$3');
+$routes->post('/rdf/(:any)/(:any)/(:any)/(:any)', 'Rdf::index/$1/$2/$3/#4');
 
 /********* TOOLS */
 $routes->get('/elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
