@@ -91,6 +91,14 @@ $routes->post('/books/(:any)', 'Books::index/$1');
 $routes->get('/books', 'Books::index');
 
 /********* TOOLS */
+$routes->get('/rdf/(:any)', 'rdf::index/$1');
+$routes->get('/rdf/(:any)/(:any)', 'rdf::index/$1/$2');
+$routes->post('/rdf/(:any)', 'rdf::index/$1');
+$routes->post('/rdf/(:any)/(:any)', 'rdf::index/$1/$2');
+$routes->post('/rdf/(:any)/(:any)/(:any)', 'rdf::index/$1/$2/$3');
+$routes->post('/rdf/(:any)/(:any)/(:any)/(:any)', 'rdf::index/$1/$2/$3/#4');
+
+/********* TOOLS */
 $routes->get('/elasticsearch/(:any)/(:any)', 'Elasticsearch::index/$1/$2');
 $routes->get('/elasticsearch/(:any)/', 'Elasticsearch::index/$1');
 $routes->get('/elasticsearch', 'Elasticsearch::index');
@@ -102,7 +110,7 @@ $routes->post('/elasticsearch/(:any)/', 'Elasticsearch::index/$1');
 $routes->get('/popup/(:any)', 'Popup::index/$1');
 $routes->post('/popup/(:any)', 'Popup::index/$1');
 
-/********* POPUP */
+/********* ADMIN */
 $routes->get('/admin/(:any)', 'Admin::index/$1');
 $routes->post('/admin/(:any)', 'Admin::index/$1');
 $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');

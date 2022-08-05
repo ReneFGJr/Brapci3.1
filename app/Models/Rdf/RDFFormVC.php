@@ -81,9 +81,9 @@ class RdfFormVC extends Model
 			$sx .= '</script>';
 
 			return $sx;
-		}	
+		}
 
-	function edit($d1,$d2,$d3,$range)	
+	function edit($d1,$d2,$d3,$range)
 	{
 		$sx = '';
 		$sx .= h($range,2);
@@ -99,14 +99,14 @@ class RdfFormVC extends Model
 
 		/* Select */
 		$sx .= '<span class="small mt-1">'.lang('find.select_an').' '.lang('rdf.'.$range).'</span>';
-		$sx .= '<div id="dd51a"><select class="form-control" size="5" name="dd51" id="dd51"></select></div>';		
+		$sx .= '<div id="dd51a"><select class="form-control" size="5" name="dd51" id="dd51"></select></div>';
 
 		$bts = '';
 		$bts .= '<input type="button" id="b1" class="btn btn-outline-secondary" disabled value="'.lang('rdf.force_create').'" onclick="submitb1(\''.$range.'\');"> ';
 		$bts .= '<input type="button" id="b2" class="btn btn-outline-primary" disabled value="'.lang('rdf.save_continue').'" onclick="submitb(1);"> ';
 		$bts .= '<input type="button" id="b3" class="btn btn-outline-primary" disabled value="'.lang('rdf.save').'" onclick="submitb(0);"> ';
 		$bts .= '<button onclick="window.close();" id="b4" class="btn btn-outline-danger">'.lang('rdf.cancel').'</buttontype=>';
-		
+
 		$sx .= bsc($bts,12);
 		$sx .= form_close();
 
@@ -121,9 +121,9 @@ class RdfFormVC extends Model
 						alert("OPS, selecione um registro");
 					} else {
 						$.ajax(
-							{								
+							{
 								type: "GET",
-								url: "'.PATH.MODULE.'rdf/set/",
+								url: "'.PATH.MODULE.'/rdf/set/",
 								data: "act=set&reload="+$c+"&reg='.$d3.'&prop='.$d1.'&vlr="+$vlr,
 								dataType: "html",
 							})
@@ -131,8 +131,8 @@ class RdfFormVC extends Model
 								{
 									$("#dd51a").html(data);
 								}
-							);			
-					}	
+							);
+					}
 			}
 
 			function submitb2()
@@ -143,9 +143,9 @@ class RdfFormVC extends Model
 						alert("OPS");
 					} else {
 
-					}				
+					}
 			}
-			
+
 			function submitb1($c)
 			{
 				$vlr = $("#dd50").val();
@@ -154,9 +154,9 @@ class RdfFormVC extends Model
 						alert("OPS");
 					} else {
 						$.ajax(
-							{								
+							{
 								type: "GET",
-								url: "'.PATH.MODULE.'rdf/vc_create/",
+								url: "'.PATH.MODULE.'/rdf/vc_create/",
 								data: "act=set&reload="+$c+"&reg='.$d3.'&prop='.$d1.'&vlr="+$vlr,
 								dataType: "html",
 							})
@@ -165,16 +165,16 @@ class RdfFormVC extends Model
 									$("#dd51a").html(data);
 								}
 							);
-					}				
-			}			
+					}
+			}
 		/************ keyup *****************/
-		jQuery("#dd50").keyup(function() 
+		jQuery("#dd50").keyup(function()
 		{
 			var $key = jQuery("#dd50").val();
 			$.ajax(
 				{
 					type: "POST",
-					url: "'.PATH.MODULE.'rdf/search/'.$range.'/?q="+$key,
+					url: "'.PATH.MODULE.'/rdf/search/'.$range.'/?q="+$key,
 					success: function(data){
 						$("#dd51a").html(data);
 					}
@@ -183,7 +183,7 @@ class RdfFormVC extends Model
 		});
 		</script>';
 		return $sx.$js;
-	}	
+	}
 
 	function ajax_save()
 		{
@@ -198,7 +198,8 @@ class RdfFormVC extends Model
 							{
 								$sx = '<script>location.reload();</script>';
 							} else {
-								$sx = '<script>window.close();</script>';
+								$sx = wclose();
+								//'<script>window.close();</script>';
 							}
 						break;
 				}

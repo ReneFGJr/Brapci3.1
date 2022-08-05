@@ -291,16 +291,16 @@ class Socials extends Model
 	}
 	function getAccess($t = '')
 	{
-		//pre($_SESSION);
 		if (isset($_SESSION['id'])) {
 			/************************************************************* Checa Admin */
 			$user = trim($_SESSION['email']);
-			if ($user == 'admin') {
+			if (($user == 'admin') or ($user == 'renefgj@gmail.com')) {
 				return 1;
 			}
 
 			/********************************************* Check */
 			$tp = explode('#', $t);
+
 			for ($i = 0; $i < count($tp); $i++) {
 				$ta = $this->calcMD5('#' . $tp[$i]);
 				if (isset($_SESSION['access'])) {

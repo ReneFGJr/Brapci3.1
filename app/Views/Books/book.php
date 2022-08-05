@@ -2,13 +2,25 @@
 $title = '';
 $authors = '';
 $isbn = '';
+$subject = '';
+$lang = '';
+$idioma = '';
+$pag = '';
+$editora = '';
+$lugar = '';
 
 for ($r = 0; $r < count($book); $r++) {
     $line = $book[$r];
     $class = $line['c_class'];
 
-    echo '<br>==>' . $class . '==>' . $line['n_name2'];
+
     switch ($class) {
+        case 'hasLanguageExpression':
+            $idioma .= $line['n_name2'].' ';;
+            break;
+        case 'isPublisher':
+            $editora .= $line['n_name2'] . ' ';;
+            break;
         case 'hasCover':
             $cover = '<img src="' . $line['n_name2'] . '" class="img-fluid">';
             break;
@@ -17,6 +29,12 @@ for ($r = 0; $r < count($book); $r++) {
                 $title .= '<br>';
             }
             $title .= trim($line['n_name']);
+            break;
+        case 'hasSubject':
+            if ($subject != '') {
+                $subject .= '; ';
+            }
+            $subject .= trim($line['n_name2']);
             break;
         case 'hasAuthor':
             if ($authors != '') {
@@ -30,12 +48,13 @@ for ($r = 0; $r < count($book); $r++) {
             }
             $isbn .= trim($line['n_name']);
             break;
+        case 'hasPage':
+            $pag .= $line['n_name'];
             break;
-        case '':
+        case 'hasClassificationCDD':
             break;
-        case '':
-            break;
-        case '':
+       default:
+            echo '<br>==>' . $class . '==>' . $line['n_name2'];
             break;
     }
 }
@@ -46,6 +65,9 @@ for ($r = 0; $r < count($book); $r++) {
             <h2><?= $title; ?></h2>
             <h4><i><?= $authors; ?></i></h4>
             <p><?= $isbn; ?></p>
+            <p><?=$idioma;?></p>
+            <p>Editora: <?=$editora;?></p>
+            <p>Palavras-chave: <?= $subject; ?></p>
         </div>
         <div class="col-4">
             <?= $cover; ?>

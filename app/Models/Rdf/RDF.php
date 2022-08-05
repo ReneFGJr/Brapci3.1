@@ -173,7 +173,7 @@ class RDF extends Model
 			case 'form':
 				$RDFForm = new \App\Models\Rdf\RDFForm();
 				$sx = $cab;
-				$sx .= $RDFForm->edit($d1, $d2, $d3, $d4, $d5);
+				$sx .= $RDFForm->edit($d2, $d3, $d4, $d5);
 				break;
 			case 'forms':
 				$RDFForm = new \App\Models\Rdf\RDFForm();
@@ -189,12 +189,12 @@ class RDF extends Model
 				$sx = $cab;
 				switch ($type) {
 					case 'prefix':
-						$this->RDFPrefix = new \App\Models\RDFPrefix();
+						$this->RDFPrefix = new \App\Models\Rdf\RDFPrefix();
 						$sx .= $this->RDFPrefix->inport();
 						break;
 
 					case 'class':
-						$this->RDFClass = new \App\Models\RDFClass();
+						$this->RDFClass = new \App\Models\Rdf\RDFClass();
 						$sx .= $this->RDFClass->inport();
 						break;
 				}

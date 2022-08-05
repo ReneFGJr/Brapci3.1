@@ -88,7 +88,19 @@ class TechinalProceessing extends Model
 
             case 2:
                 $THB = new \App\Models\Books\TechinalProceessingBook();
+                $catlog .= $this->btn_catalog($a);
                 $catlog .= $THB->createRDF($a);
+                break;
+
+            case 3:
+                $THB = new \App\Models\Books\TechinalProceessingBook();
+                //$catlog .= $THB->editRDF($a);
+                echo '===>'.$a;
+                $db = $THB->where('b_source', $a)->findAll();
+                $idr = $db[0]['b_rdf'];
+
+                $rdfurl = URL.'/rdf/form/editRDF/'. $idr;
+                $catlog = '<iframe src="' . $rdfurl . '" style="width: 100%; height:600px;"></iframe>';
                 break;
 
             case 6:
@@ -133,6 +145,14 @@ class TechinalProceessing extends Model
     function btn_aproved($s)
     {
         $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=1" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
+        $sx .= bsicone('upload', 32);
+        $sx .= '</a>';
+        return $sx;
+    }
+
+    function btn_catalog($s)
+    {
+        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=3" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
         $sx .= bsicone('upload', 32);
         $sx .= '</a>';
         return $sx;

@@ -40,7 +40,7 @@ class RdfFormText extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function edit($id,$prop='',$idf=0,$idc=0)	
+	function edit($id,$prop='',$idf=0,$idc=0)
 		{
 			$sx = '';
 			$RDFLiteral = new \App\Models\Rdf\RDFLiteral();
@@ -76,14 +76,14 @@ class RdfFormText extends Model
 					{
 						$dt = $RDFLiteral->le($id);
 						$texto = $dt['n_name'];
-						$path = PATH.MODULE.'rdf/text/'.$id;
+						$path = PATH.MODULE.'/rdf/text/'.$id;
 					} else {
 						$texto = get("descript");
-						$path = PATH.MODULE.'rdf/form/edit/'.$prop.'/'.$idf.'/'.$idc;
+						$path = PATH.MODULE.'/rdf/form/edit/'.$prop.'/'.$idf.'/'.$idc;
 					}
-				}				
-			
-			$sx .= $this->form_edit($path,$texto);			
+				}
+
+			$sx .= $this->form_edit($path,$texto);
 			return $sx;
 		}
 	function form_edit($path,$texto)

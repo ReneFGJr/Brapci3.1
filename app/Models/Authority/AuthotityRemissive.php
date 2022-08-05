@@ -54,14 +54,14 @@ class AuthotityRemissive extends Model
 		$this->Socials = new \App\Models\Socials();
 		$AuthotityRemissive = new \App\Models\Authority\AuthotityRemissive();
 		$dt = $AuthotityRemissive->remissive_author($id);
-		if (count($dt) > 0) 
+		if (count($dt) > 0)
 		{
 			$sx .= '<br>'.lang('rdf.there_are') . ' ' . count($dt) . ' ' . lang('rdf.remissive');
 			$sx .= ' '.'<span class="text-primary" onclick="toogle(\'remissive\');" title="'.lang('rdf.see_list').'">'.bsicone('list').'</span>';
 
 			$sx .= '<div id="remissive" style="display: none;" style="width: 90%;">';
 			$si = '';
-			for ($r = 0; $r < count($dt); $r++) 
+			for ($r = 0; $r < count($dt); $r++)
 			{
 				$line = $dt[$r];
 				$si .= '<li>' . $line['n_name'];
@@ -70,7 +70,7 @@ class AuthotityRemissive extends Model
 					$link .= $line['id_cc'] . '=>' . $line['cc_use'];
 					$link .= '</a>';
 
-					$si .= onclick(PATH . MODULE . 'rdf/set_pref_term/' . $line['cc_use'] . '/' . $line['id_cc'], 400, 100);
+					$si .= onclick(PATH . MODULE . '/rdf/set_pref_term/' . $line['cc_use'] . '/' . $line['id_cc'], 400, 100);
 					$si .= ' ';
 					$si .= '<sup>[set_prefTerm]</sup></span>';
 					$si .= ' ';
@@ -84,16 +84,16 @@ class AuthotityRemissive extends Model
 			$sx .= '</div>';
 		}
 			$sx .= '<script>
-				function toogle(id) 
-				{ 
+				function toogle(id)
+				{
 					var x = document.getElementById(id);
 					if (x.style.display === "none") {
 						x.style.display = "block";
 					  } else {
 						x.style.display = "none";
 					  }
-				} 
-				</script>'.cr();		
+				}
+				</script>'.cr();
 		return ($sx);
 	}
 }

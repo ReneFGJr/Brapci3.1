@@ -16,12 +16,12 @@ class TechinalProceessingBook extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_b', 'b_isbn', 'b_titulo',
-        'b_source'
+        'b_source', 'b_rdf'
     ];
 
     protected $typeFields    = [
         'hidden', 'string:100', 'text*',
-        'hidden'
+        'hidden', 'hidden'
     ];
 
     // Dates
@@ -67,11 +67,11 @@ class TechinalProceessingBook extends Model
         return $sx;
     }
 
-    function createRDF($id)
+    function createRDF($ids)
     {
         $RDF = new \App\Models\Rdf\RDF();
         $ISBN = new \App\Models\Functions\ISBN();
-        $dt = $this->where('b_source', $id)->findAll();
+        $dt = $this->where('b_source', $ids)->findAll();
         $class = "Book";
         $name = $dt[0]['b_titulo'];
         $name = trim($name);
@@ -198,8 +198,21 @@ class TechinalProceessingBook extends Model
                 $prop = 'hasPage';
                 $RDF->propriety($id, $prop, $ida, 0);
             }
+
+            $dt['b_rdf'] = $id;
+            $this->set($dt)->where('b_source',$ids)->update();
         }
 
         return $id;
     }
+
+    function editRDF($id)
+        {
+            $dt = $this->where('b_source',$id)->findAll();
+            $idr = $dt[0]['b_rdf'];
+
+            $RDF = new \App\Models\Rdf\RDF();
+            $sx = $RDF->form($idr);
+            return $sx;
+        }
 }
