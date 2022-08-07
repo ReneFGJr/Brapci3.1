@@ -1,28 +1,27 @@
 <?= $header; ?>
 <div class="container">
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <h1><?= $works; ?> Works</h1>
         </div>
-    </div>
+        <div class="col-4">
+            <?= $year_production; ?> Sections
+        </div>
 
-    <div>
-        <?= $year_production; ?> Sections
-    </div>
+        <div class="col-4">
+            <?= $authors_total; ?> Authors
+        </div>
 
-    <div>
-        <?= $authors_total; ?> Authors
-    </div>
+        <div class="col-4">
+            <?= $keys_total; ?> Keywords
+        </div>
 
-    <div>
-        <?= $keys_total; ?> Keywords
-    </div>
+        <div class="col-4">
+            <?= $sections_total; ?> Sections
+        </div>
 
-    <div>
-        <?= $sections_total; ?> Sections
-    </div>
-
-    <div>
-        <?= $types_total; ?> Sources Types
+        <div class="col-4">
+            <?= $types_total; ?> Sources Types
+        </div>
     </div>
 </div>
