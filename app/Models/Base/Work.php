@@ -120,7 +120,7 @@ class Work extends Model
                 $data = troca($data,'"','¢');
             }
 
-        $sx = lang('library_cart');
+        $sx = lang('brapci.library_cart').' ';
         $sel = $this->getWorkMark();
         $markall = '<a href="#" onclick="markAll();">' . lang('brapci.work_select_all') . '</a>';
         $markall .= '<input type="hidden" id="uri" name="uri" value="' . $uri . '">';
