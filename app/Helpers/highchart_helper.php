@@ -53,7 +53,8 @@ function graph(
             series: [
             {
                 name: "' . $title . '",
-                colorByPoint: true,
+                colorByPoint: false,
+                color: "#336699",
                 data: [ ' . $series . ']}
             ]}
         );';

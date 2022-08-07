@@ -85,7 +85,7 @@ class Analyse extends Model
         $dd['types_total'] = count($source);
 
         ksort($year);
-        $dd['year_production'] = graph($year, 'line', lang('brapci.DocumentYear'), 'DocumentYear', 30, 0);
+        $dd['year_production'] = graph($year, 'column', lang('brapci.DocumentYear'), 'DocumentYear', 30, 0);
 
 
         arsort($source);
