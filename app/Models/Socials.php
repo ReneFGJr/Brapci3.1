@@ -1010,7 +1010,7 @@ class Socials extends Model
 				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
 
 				$sx .= '<h2>' . lang('social.success') . '<h2>';
-				$sx .= '<meta http-equiv="refresh" content="2;URL=\'' . PATH . COOLECTION . '\'">';
+				$sx .= '<meta http-equiv="refresh" content="2;URL=\'' . PATH . COLLECTION . '\'">';
 				$this->log_insert($dt[0]['id_us']);
 			} else {
 				$sx .= '<h2>' . lang('ERROR') . '<h2>';

@@ -37,6 +37,10 @@ class Benancib extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'analyse':
+                $AnalyseStudy = new \App\Models\MetricStudy\Analyse();
+                $sx .= $AnalyseStudy->index();
+                break;
             case 'search':
                 $data['logo'] = view('Logos/logo_benancib');
                 $data['search'] = view('Benancib/Pages/search');

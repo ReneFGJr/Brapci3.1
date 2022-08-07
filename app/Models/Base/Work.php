@@ -126,6 +126,17 @@ class Work extends Model
         $markall .= '<input type="hidden" id="uri" name="uri" value="' . $uri . '">';
         $markall .= '<input type="hidden" id="query" name="query" value="' . $data . '">';
 
+        $Socials = new \App\Models\Socials();
+        $saveAll = '';
+        if ($Socials->getAccess("#ADM"))
+            {
+                $saveAll = '<a href="' . PATH . COLLECTION . '/analyse">' . lang('brapci.MarkAnalyse') . '</a>';
+                $saveAll .= ' | ';
+            } else {
+                $saveAll = 'not loged | ';
+            }
+
+
         if (count($sel) == 0)
             {
                 $sx .= lang('brapci.nothing_selected');
@@ -134,6 +145,7 @@ class Work extends Model
             } else {
                 $sx .= lang('brapci.with').' '.count($sel).' '.lang('brapci.work_selected');
                 $sx .= ' | ';
+                $sx .= $saveAll;
                 $sx .= '<a href="#" onclick="markClear();">'.lang('brapci.work_selected_clear').'</a>';
                 $sx .= ' | ';
                 $sx .= $markall;
