@@ -132,6 +132,8 @@ class Work extends Model
             {
                 $saveAll = '<a href="' . PATH . COLLECTION . '/analyse">' . lang('brapci.MarkAnalyse') . '</a>';
                 $saveAll .= ' | ';
+                $saveAll = '<a href="' . PATH . COLLECTION . '/saveMark">' . lang('brapci.MarkSave') . '</a>';
+                $saveAll .= ' | ';
             } else {
                 $saveAll = 'not loged | ';
             }

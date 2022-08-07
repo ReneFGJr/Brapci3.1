@@ -37,6 +37,10 @@ class Benancib extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'saveMark':
+                $Mark = new \App\Models\Base\Mark();
+                $sx .= $Mark->saveMark();
+                break;
             case 'analyse':
                 $AnalyseStudy = new \App\Models\MetricStudy\Analyse();
                 $sx .= $AnalyseStudy->index();
