@@ -45,7 +45,9 @@ class Analyse extends Model
         $Keywords = new \App\Models\Base\Keywords();
         $Authors = new \App\Models\Base\Authors();
         $Sections = new \App\Models\Base\Sections();
-        $Indexshow = new \App\Models\Base\IndexShow();
+        $Sections = new \App\Models\Base\Sections();
+        $SourceType = new \App\Models\Base\SourceType();
+        $EMI_Year = new \App\Models\MetricStudy\Analyse\Year();
         $Work = new \App\Models\Base\Work();
 
         $sel = $Work->getWorkMark();
@@ -55,6 +57,8 @@ class Analyse extends Model
         $auth = array();
         $keys = array();
         $sect = array();
+        $source = array();
+        $year = array();
 
 
         foreach ($sel as $id => $selected) {
@@ -64,6 +68,8 @@ class Analyse extends Model
                     $keys = $Keywords->index_keys($keys, $id);
                     $auth = $Authors->index_auths($auth, $id);
                     $sect = $Sections->index_sections($sect, $id);
+                    $source = $SourceType->index_sourcers($source, $id);
+                    $year = $EMI_Year->totalizer($year, $id,'year.nm');
                 }
             }
         }
@@ -72,9 +78,22 @@ class Analyse extends Model
         /******************************************************* AUTHORS */
         /******************************************************* SOURCES */
         /******************************************************* SUBJECT */
+        $dd['header'] = load_grapho_script();
         $dd['authors_total'] = count($auth);
         $dd['keys_total'] = count($keys);
         $dd['sections_total'] = count($sect);
+        $dd['types_total'] = count($source);
+
+        ksort($year);
+        $dd['year_production'] = pie($year, 'column', lang('brapci.DocumentYear'), 'DocumentYear', 30, 0);
+
+
+        arsort($source);
+        $dd['types_total'] = pie($source, 'pie', lang('brapci.DocumentType'), 'DocumentType', 10, 1);
+
+        arsort($auth);
+        $dd['authors_total'] = pie($auth, 'bar', lang('brapci.auth'), 'authTotal',10,1);
+
         $sx = view('MetricStudy/DrashBoard', $dd);
 
         return $sx;
