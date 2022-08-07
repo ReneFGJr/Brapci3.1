@@ -40,24 +40,24 @@ class RDFOntology extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($d1, $d2, $d3, $d4)
+	function index($d1='', $d2='', $d3='', $d4='')
 	{
 		$RDF = new \App\Models\Rdf\RDF();
 		$sx = '';
-		if ($d2 != '') {	
+		if ($d2 != '') {
 			$this->join(PREFIX.'rdf_prefix', 'c_prefix = id_prefix', STR_PAD_LEFT);
-			$dt = $this->find($d2);			
+			$dt = $this->find($d2);
 			if ($dt['c_equivalent'] > 0)
 				{
 					$RDF->RDF_check_equivalent($dt['c_equivalent'],$d2);
 					$sx = $this->index($d1,$dt['c_equivalent'],$d3,$d4);
 				} else {
 					$dt['equivalent'] = $this->where('c_equivalent',$d2)->findAll();
-					$sx .= view('setspec/class',$dt);					
-				}			
+					$sx .= view('Rdf/Setspec/class',$dt);
+				}
 		} else {
 			$this->check();
-			$sx .= '';			
+			$sx .= '';
 			$sx .= '
 			<hr>
 			<h1>Brapci Metadata Terms</h1>
@@ -90,8 +90,8 @@ class RDFOntology extends Model
 			  <tr>
 				  <td width="15%" style="text-align:right"><b>Title:</td>
 				  <td>Brapci Metadata Term</td>
-			  </tr>            
-			</table>			
+			  </tr>
+			</table>
 			';
 			$sx .= bsc($this->list('C'), 6);
 			$sx .= bsc($this->list('P'), 6);
@@ -126,22 +126,22 @@ class RDFOntology extends Model
 						<?php echo $uri;?>
 					</td>
 				</tr>
-		
+
 				<tr>
 					<td width="15%" align="right">
 						<b>Prefix:</b>
 					</td><td>
 						<?php echo lang($prefix_ref);?> (<?php echo anchor($prefix_url);?>)
 					</td>
-				</tr>        
-		
+				</tr>
+
 				<tr>
 					<td width="15%" align="right">
 						<b>Label:</b>
 					</td><td>
 						<?php echo lang($c_class);?>
 					</td>
-				</tr>  
+				</tr>
 				';
 				if (isset($equivalent))
 					{
@@ -154,7 +154,7 @@ class RDFOntology extends Model
 								$ln = $RDF->le_class($idc);
 								echo '<td width="15%" align="right">'.$label.'</td>';
 								if (strlen($label) > 0)
-									{                        
+									{
 										$label = '';
 									}
 								echo '<td>'.$RDF->show_class($ln[0]).'</td>';
@@ -164,7 +164,7 @@ class RDFOntology extends Model
 			$sx .= '</table></div>';
 			return $sx;
 
-		
+
 	}
 
 	function list($type = 'C')
@@ -173,7 +173,7 @@ class RDFOntology extends Model
 		$this->join(PREFIX.'rdf_prefix', 'c_prefix = id_prefix', STR_PAD_LEFT);
 		$this->where('c_type', $type)->orderBy('prefix_ref, c_class');
 		$dt = $this->findAll();
-		
+
 		$tela1 = '';
 		$tela2 = '';
 
@@ -196,7 +196,7 @@ class RDFOntology extends Model
 					$xpre = $pre;
 				}
 			$tela1 .= '<li>';
-			$tela1 .= '<a href="' . PATH . MODULE . ('ontology/' . $pre . '/' . $ln['id_c']) . '#' . $ln['c_class'] . '">' .
+			$tela1 .= '<a href="' . PATH . COLLECTION . ('/ontology/' . $pre . '/' . $ln['id_c']) . '#' . $ln['c_class'] . '">' .
 				$RDF->show_class($dt[$r]) .
 				'</a>';
 			$tela1 .= '</li>';

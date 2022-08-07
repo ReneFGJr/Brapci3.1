@@ -53,6 +53,8 @@ function menu($menu)
 function check_email($email)
 {
     $emailArray = explode("@", $email);
+    echo h($email);
+    pre($emailArray);
     if (checkdnsrr(array_pop($emailArray), "MX")) {
         return true;
     } else {

@@ -46,7 +46,7 @@ class ProceedingSection extends Model
         $sx = '';
         $dd = $dt['data'];
         for ($r = 0; $r < count($dd); $r++) {
-            $line = $dd[$r];            
+            $line = $dd[$r];
             $class = $line['c_class'];
             if ($class == 'hasSectionOf')
             {
@@ -81,8 +81,8 @@ class ProceedingSection extends Model
             if ($bln == 0) {
                 $sw = '';
                 if ($block > 0) {
-                    $sx .= '<span id="nblock' . $title . $block . '" class="view_more" 
-                            onclick="$(\'#block' . $title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');" 
+                    $sx .= '<span id="nblock' . $title . $block . '" class="view_more"
+                            onclick="$(\'#block' . $title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');"
                             style="cursor: pointer;">view more ' . $title . $block . '</span>';
                     $sx .= $ulu;
                     $block_nr = $block_nr * 2;
@@ -134,7 +134,7 @@ class ProceedingSection extends Model
 
                 if (strlen($t) > 0) {
                     $term = strip_tags($t);
-                    $id = substr($t, strpos($t, 'v/') + 2, strlen($t));
+                    $id = substr($t, strpos($t, '/v/') + 2, strlen($t));
                     $id = sonumero(substr($id, 0, strpos($id, '"')));
                     $term .= ';' . $id;
                     if (isset($key[$term])) {

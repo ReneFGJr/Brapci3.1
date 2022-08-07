@@ -183,7 +183,7 @@ class RdfForm extends Model
 					/***************** Editar campo *******************************************/
 					$sx .= '<td style="border-bottom: 1px solid #808080;">';
 					if ($line['n_name'] != '') {
-						$linkc = '<a href="' . (PATH . MODULE . 'v/' . $line['idcc']) . '" class="middle">';
+						$linkc = '<a href="' . (PATH . COLLECTION . '/v/' . $line['idcc']) . '" class="middle">';
 						$linkca = '</a>';
 						if (!isset($line['idcc'])) {
 							$linr['idcc'] = '';
@@ -276,7 +276,7 @@ class RdfForm extends Model
 		return $sx;
 	}
 
-	function edit($form_class, $form_id, $register, $di4, $di5='')
+	function edit($form_class, $prop_name='', $form_id='', $register, $di4='', $di5='')
 	{
 		$Socials = new \App\Models\Socials();
 		$sx = '';
@@ -310,7 +310,7 @@ class RdfForm extends Model
 		switch ($rclass) {
 			case 'Text':
 				$RDFFormText = new \App\Models\Rdf\RDFFormText();
-				$sx .= $RDFFormText->edit(0, $d3, $d4, $d5);
+				$sx .= $RDFFormText->edit($form_class, $prop_name, $form_id, $register, $rclass);
 				break;
 			default:
 				$RDFFormVC = new \App\Models\Rdf\RDFFormVC();

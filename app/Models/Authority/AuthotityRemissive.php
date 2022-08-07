@@ -66,11 +66,11 @@ class AuthotityRemissive extends Model
 				$line = $dt[$r];
 				$si .= '<li>' . $line['n_name'];
 				if ($this->Socials->getAccess("#ADM")) {
-					$link = '<a href="' . URL . MODULE . 'v/' . $line['id_cc'] . '">';
+					$link = '<a href="' . URL . COLLECTION . '/v/' . $line['id_cc'] . '">';
 					$link .= $line['id_cc'] . '=>' . $line['cc_use'];
 					$link .= '</a>';
 
-					$si .= onclick(PATH . MODULE . '/rdf/set_pref_term/' . $line['cc_use'] . '/' . $line['id_cc'], 400, 100);
+					$si .= onclick(PATH . COLLECTION . '/rdf/set_pref_term/' . $line['cc_use'] . '/' . $line['id_cc'], 400, 100);
 					$si .= ' ';
 					$si .= '<sup>[set_prefTerm]</sup></span>';
 					$si .= ' ';

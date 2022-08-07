@@ -38,7 +38,7 @@ class RDF extends BaseController
             case 'edit':
                 $sx .= cab();
                 $RDF = new \App\Models\Rdf\RDF();
-                $sx .= $RDF->index('form', $d3, $d4, $d5);
+                $sx .= $RDF->index('form', $d2, $d3, $d4, $d5);
                 break;
 
             default:

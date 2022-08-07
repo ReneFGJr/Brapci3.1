@@ -20,7 +20,7 @@ class Bolsistas extends Model
 
 	protected $typeFields        = [
 		'hidden', 'string*','string:50*', 'integer'
-	];	
+	];
 
 	// Dates
 	protected $useTimestamps        = false;
@@ -56,7 +56,7 @@ class Bolsistas extends Model
 
 		$sx = bs(bsc($sx, 12));
 		return ($sx);
-	}	
+	}
 
 	function le($id)
 	{
@@ -68,7 +68,8 @@ class Bolsistas extends Model
 		$dt['bs_content'] .= $LattesExtrator->btn_coletor($dt['bs_lattes']);
 		$dt['bs_content'] .= $LattesExtrator->btn_lattes($dt['bs_lattes']);
 
-		$dt['bs_brapci'] = anchor(PATH . '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
+		$dt['bs_brapci'] = anchor(PATH . COLLECTION . '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
+		$dt['bs_brapci'] = anchor(PATH . COLLECTION .  '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
 
 		return $dt;
 	}
@@ -108,7 +109,7 @@ class Bolsistas extends Model
 			$sx .= '<td>' . $link . $line['bs_lattes'] . $linka . '</td>';
 			if ($perfil_edit) {
 				$sx .= '<th width="3%">' . onclick(PATH.'popup/pq_bolsista_edit?id='.$line['id_bs'],800,400) . bsicone('edit') . '</span></th>';
-			}			
+			}
 			$sx .= '</tr>';
 			$sx .= cr();
 		}

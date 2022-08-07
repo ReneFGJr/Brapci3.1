@@ -47,6 +47,8 @@ $routes->get('/bots/(:any)', 'Bots::index/$1');
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');
 $routes->post('/ajax/(:any)', 'Ajax::index/$1');
+$routes->post('/ajax/(:any)/', 'Ajax::index/$1');
+$routes->post('/ajax/(:any)/(:any)', 'Ajax::index/$1/$2');
 
 /********* API */
 $routes->get('/ws', 'Api::index');
@@ -91,6 +93,7 @@ $routes->post('/books/(:any)', 'Books::index/$1');
 $routes->get('/books', 'Books::index');
 
 /********* TOOLS */
+//$routes->get('/rdf', 'Rdf::index');
 $routes->get('/rdf/(:any)', 'Rdf::index/$1');
 $routes->get('/rdf/(:any)/(:any)', 'Rdf::index/$1/$2');
 $routes->post('/rdf/(:any)', 'Rdf::index/$1');

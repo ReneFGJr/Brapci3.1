@@ -45,7 +45,7 @@ class Keywords extends Model
         $sx = view('RDF/subject', $dt);
         return $sx;
     }
- 
+
     function index_keys($key = array(), $id = '')
     {
         $RDF = new \App\Models\Rdf\RDF();
@@ -68,7 +68,7 @@ class Keywords extends Model
 
                 if (strlen($t) > 0) {
                     $term = strip_tags($t);
-                    $id = substr($t, strpos($t, 'v/') + 2, strlen($t));
+                    $id = substr($t, strpos($t, '/v/') + 2, strlen($t));
                     $id = sonumero(substr($id, 0, strpos($id, '"')));
                     $term .= ';' . $id;
                     if (isset($key[$term])) {

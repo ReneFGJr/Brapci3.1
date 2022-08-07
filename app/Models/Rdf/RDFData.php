@@ -191,7 +191,7 @@ class RDFData extends Model
 				);
 				if ($line['d_r2'] != 0) {
 					if ($ID == $line['d_r2']) {
-						$link = (PATH . MODULE . '/v/' . $line['d_r1']);
+						$link = (PATH . COLLECTION . '/v/' . $line['d_r1']);
 						$txt = $RDF->c($line['d_r1']);
 						if (strlen($txt) > 0) {
 							$link = '<a href="' . $link . '">' . $txt . '</a>';
@@ -200,7 +200,7 @@ class RDFData extends Model
 							$link = '<a href="' . $link . '">' . $txt . '</a>';
 						}
 					} else {
-						$link = (PATH . MODULE . '/v/' . $line['d_r2']);
+						$link = (PATH . COLLECTION . '/v/' . $line['d_r2']);
 						$txt = $RDF->c($line['d_r2']);
 						if (strlen($txt) > 0) {
 							$link = '<a href="' . $link . '">' . $txt . '</a>';

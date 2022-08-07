@@ -236,6 +236,14 @@ class RDF extends Model
 		return $sx;
 	}
 
+	function ontology()
+		{
+			$OWL = new \App\Models\Rdf\RDFOntology();
+			$sx = $OWL->index();
+			$sx = bs($sx);
+			return $sx;
+		}
+
 	function exclude($id)
 	{
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();

@@ -58,7 +58,7 @@ class Index extends Model
                 $ob = $rdf->extract_id($dt,'hasAuthor',$ida);
                 return($ob);
         }
-    
+
     function api_citation($suba)
         {
             $id = get("id");
@@ -77,9 +77,9 @@ class Index extends Model
                     default:
                         $dt = $this->citation($id,'author');
                     break;
-                }            
+                }
             return($dt);
-        }        
+        }
 
     function citation($id=0,$type='jnl')
         {
@@ -88,7 +88,7 @@ class Index extends Model
             $cp .= 'ca_nr, ca_pag, ';
             $cp .= ' "" as 1st, "" as 2nd, "" as 3th, ';
             $cp .= 'ca_text, jnl_name, jnl_name_abrev, ';
-            $cp .= 'concat(\''.base_url(PATH.'v/').'\',jnl_frbr) as jnl_url';
+            $cp .= 'concat(\''.base_url(COLLECTION .'/v/').'\',jnl_frbr) as jnl_url';
             //$cp = '*';
             switch($type)
                 {
@@ -104,8 +104,8 @@ class Index extends Model
                             $wh .= '(ca_rdf = '.$pb[$r].') ';
                         }
                         $sql = "select $cp from ".$this->baseCited."cited_article
-                            left join ".$this->baseCited."cited_journal ON ca_journal = id_cj 
-                            left join source_source ON ca_journal_origem = id_jnl 
+                            left join ".$this->baseCited."cited_journal ON ca_journal = id_cj
+                            left join source_source ON ca_journal_origem = id_jnl
                             left join ".$this->baseCited."cited_type ON id_ct = ca_tipo
                             where ($wh) or (1=2)
                             order by ca_text, ca_year desc";
@@ -113,8 +113,8 @@ class Index extends Model
 
                     default:
                     $sql = "select $cp from ".$this->baseCited."cited_article
-                        inner join ".$this->baseCited."cited_journal ON ca_journal = id_cj 
-                        left join source_source ON ca_journal_origem = id_jnl 
+                        inner join ".$this->baseCited."cited_journal ON ca_journal = id_cj
+                        left join source_source ON ca_journal_origem = id_jnl
                         left join ".$this->baseCited."cited_type ON id_ct = ca_tipo
                         where cj_journal = $jnl
                         order by ca_year desc, ca_text";
@@ -146,11 +146,11 @@ class Index extends Model
                     */
                 }
             return($rlt);
-        } 
+        }
 
    function refs_group($ob,$tp)
         {
-            
+
             //$this->zera();
             $wh = '';
             for ($r=0;$r < count($ob);$r++)
@@ -158,7 +158,7 @@ class Index extends Model
                     if (strlen($wh) > 0) { $wh .= ' or '; }
                     $wh .= '( ca_rdf = '.$ob[$r].') ';
                 }
-            
+
             $sql = "SELECT * FROM ".$this->base."cited_article where $wh ORDER BY ca_text";
             $rlt = $this->db->query($sql);
             $rlt = $rlt->result_array();
@@ -169,7 +169,7 @@ class Index extends Model
                     $line = $rlt[$r];
                     if (strlen($line['ca_text']) > 10)
                     {
-                        
+
                         $t  = $line['ca_text'];
                         $t = troca($t,chr(13),' ');
                         $t = troca($t,chr(10),' ');
@@ -188,7 +188,7 @@ class Index extends Model
                     }
                 }
             return($sx);
-        }               
+        }
 
     function show_ref($id)
         {
@@ -196,7 +196,7 @@ class Index extends Model
             $this->load->model('ias');
             $this->load->model('ias_cited');
             $sx = '';
-            $sql = "select * from ".$this->base.'cited_article 
+            $sql = "select * from ".$this->base.'cited_article
                     where ca_rdf = '.round($id).'
                     order by ca_ordem';
             $rlt = $this->db->query($sql);
@@ -208,7 +208,7 @@ class Index extends Model
             $sx .= '<ul>';
             for ($r=0;$r < count($rlt);$r++)
                 {
-                    $l = $rlt[$r];                    
+                    $l = $rlt[$r];
                     if (perfil("#ADM"))
                     {
                         $st = '';
@@ -220,7 +220,7 @@ class Index extends Model
                             { $txt = msg('erro'); }
                         $sx .= '<li '.$st.'>'.$link.$txt.$linka;
                         $sx .= ' '.$this->cited_type($l);
-                        $sx .= '</li>';        
+                        $sx .= '</li>';
                     } else {
                         $sx .= '<li>'.$l['ca_text'];
                     }
@@ -233,11 +233,11 @@ class Index extends Model
 
         function export_citeds($id)
         {
-            $file = 'c/'.$id.'/cited.'; 
+            $file = 'c/'.$id.'/cited.';
             $sql = "
                     select * from ".$this->base."cited_article
-                    where ca_rdf = $id 
-                    order by ca_ordem"; 
+                    where ca_rdf = $id
+                    order by ca_ordem";
             $rlt = $this->db->query($sql);
             $rlt = $rlt->result_array();
             $tot = 0;
@@ -251,7 +251,7 @@ class Index extends Model
 
             file_put_contents($file.'nm',$ref);
             file_put_contents($file.'total',$tot);
-        }         
+        }
 
     function cited_type($l)
         {
@@ -282,23 +282,23 @@ class Index extends Model
 
                     case '2':
                     $sx = '<span class="btn-danger radius5">&nbsp;'.msg('book').'&nbsp;</span>';
-                    break;                    
+                    break;
 
                     case '3':
                     $sx = '<span class="btn-danger radius5">&nbsp;'.msg('book.cap').'&nbsp;</span>';
-                    break;     
+                    break;
 
                     case '5':
                     $sx = '<span class="btn-success radius5">&nbsp;'.msg('events').'&nbsp;</span>';
-                    break;                                   
+                    break;
 
                     case '7':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('these').'&nbsp;</span>';
-                    break; 
+                    break;
 
                     case '8':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('dissertation').'&nbsp;</span>';
-                    break; 
+                    break;
 
                     case '9':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('TCC').'&nbsp;</span>';
@@ -306,31 +306,31 @@ class Index extends Model
 
                     case '15':
                         $sx = '<span class="btn-info radius5">&nbsp;'.msg('LINK').'&nbsp;</span>';
-                        break;                     
+                        break;
 
                     case '20':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('LAW').'&nbsp;</span>';
-                    break;  
+                    break;
 
                     case '21':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('REPORT').'&nbsp;</span>';
-                    break;  
+                    break;
 
                     case '22':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('STANDARD').'&nbsp;</span>';
-                    break;                                                                              
+                    break;
 
                     case '29':
                     $sx = '<span class="btn-warning radius5">&nbsp;'.msg('INTERVIEW').'&nbsp;</span>';
-                    break;                                                            
+                    break;
 
                     case '30':
                     $sx = '<span class="btn-primary radius5">&nbsp;'.msg('SOFTWARE').'&nbsp;</span>';
-                    break;                                                            
+                    break;
 
                     case '31':
                     $sx = '<span class="btn-primary radius5">&nbsp;'.msg('PATENT').'&nbsp;</span>';
-                    break;                                                            
+                    break;
 
                     default:
                     $sx = '<span class="btn-secondary radius5">&nbsp;'.msg('none').$type.'&nbsp;</span>';
@@ -353,7 +353,7 @@ class Index extends Model
     function show_icone($id)
         {
             $sx = '';
-            $file = 'c/'.$id.'/cited.total'; 
+            $file = 'c/'.$id.'/cited.total';
             if (file_exists(($file)))
             {
                 $total = file_get_contents($file);
@@ -365,13 +365,13 @@ class Index extends Model
                 <div class="infobox_version text-center" style="float: left; background-color: #e0ffe0; width: 30%; padding: 0px 2px;">
                 <a href="#CITED">'.$total.'</a>
                 </div>
-            </div>            
+            </div>
             ';
             }
             return($sx);
         }
 
-       
+
     function save_ref($id)
         {
             $ref = get("dd1");
@@ -383,10 +383,10 @@ class Index extends Model
                         {
                             $l = $ref[$item];
                             $this->save_ref_item($l,$id,$item+1);
-                        }                    
+                        }
                 }
             $this->export_citeds($id);
-            redirect(base_url(PATH.'v/'.$id));
+            redirect(base_url(PATH.'/v/'.$id));
         }
     function delete_ref($id)
         {
@@ -406,7 +406,7 @@ class Index extends Model
                         0,'$l',0,
                         $item)";
             $rlt = $this->db->query($sql);
-        }        
+        }
     function add_authors($txt,$auth)
         {
             $a = $this->ias_cited->cited_analyse($txt);
@@ -421,5 +421,5 @@ class Index extends Model
                         }
                 }
             return($auth);
-        }    
+        }
 }

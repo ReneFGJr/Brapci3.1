@@ -43,6 +43,15 @@ class IssuesWorks extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function issueWorks($id_rdf)
+        {
+        $dt = $this
+            ->where('siw_issue', $id_rdf)
+            ->orderBy('siw_order, siw_pag_ini')
+            ->findAll();
+        return $dt;
+        }
+
     function show_issue_works($id_rdf)
     {
         $Work = new \App\Models\Base\Work();
@@ -50,10 +59,8 @@ class IssuesWorks extends Model
         $Authors = new \App\Models\Base\Authors();
         $Sections = new \App\Models\Base\Sections();
         $Indexshow = new \App\Models\Base\IndexShow();
-        $dt = $this
-            ->where('siw_issue', $id_rdf)
-            ->orderBy('siw_order, siw_pag_ini')
-            ->findAll();
+
+        $dt = $this->issueWorks($id_rdf);
         $sx = '';
 
         /******************************* */

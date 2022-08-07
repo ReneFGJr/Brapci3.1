@@ -332,7 +332,7 @@ class Sources extends Model
         $this->Cover = new \App\Models\Journal\Cover();
         $img = '<img src="' . $this->Cover->image($dt['id_jnl']) . '" class="img-fluid">';
         $sx = '';
-        $url = PATH . MODULE . 'v/' . $idj;
+        $url = PATH . COLLECTION . '/v/' . $idj;
         $jnl = h(anchor($url, $dt['jnl_name']), 3);
 
         $jnl .= '<div class="row">';

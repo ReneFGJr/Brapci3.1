@@ -126,10 +126,15 @@ class Issues extends Model
             $IssuesWorks->check($dt);
         }
 
+        /* Selected */
+        $Work = new \App\Models\Base\Work();
+        $sels = $Work->WorkSelected();
+        $sx = '';
+        $sx .= bs(bsc('<div id="result" class="border border-secondary rounded" style="padding: 0px 5px; background-color: #EEE;">'. $sels.'</div>',12));
 
         /* Recupera works */
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
-        $sx = $IssuesWorks->show_issue_works($id_rdf);
+        $sx .= $IssuesWorks->show_issue_works($id_rdf);
         return $sx;
     }
 

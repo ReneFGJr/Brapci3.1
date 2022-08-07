@@ -60,10 +60,101 @@ class Work extends Model
         }
     }
 
+    function getWorkMark()
+    {
+        if (isset($_SESSION['sel'])) {
+            $sel = $_SESSION['sel'];
+            $sel = (array)json_decode($sel);
+        } else {
+            $sel = array();
+        }
+        return $sel;
+    }
+
+    function putWorkMark($sel)
+    {
+        if (count($sel) == 0)
+            {
+                unset($_SESSION['sel']);
+            } else {
+                $_SESSION['sel'] = json_encode($sel);
+            }
+        return true;
+    }
+
+    function workClear()
+        {
+            $sel = array();
+            $this->putWorkMark($sel);
+        }
+
+    function workMark($id,$ck)
+        {
+        /************************************** CHECK */
+        $sel = $this->getWorkMark();
+        if (($id !=  '0') and ($id != '')) {
+            if ($ck == 'true') {
+                $sel[$id] = 1;
+            } else {
+                if ($ck == 'true') {
+                    $sel[$id] = 1;
+                } else {
+                    unset($sel[$id]);
+                }
+            }
+        } else {
+            echo '<script>alert("OPS ID inválido: ' . $id . '");</script>';
+        }
+
+        $this->putWorkMark($sel);
+        }
+
+    function WorkSelected()
+    {
+        $uri = $_SERVER['REQUEST_URI'];
+        $dt = $_GET;
+        $data = '';
+        if (count($dt) > 0)
+            {
+                $data = json_encode($dt);
+                $data = troca($data,'"','¢');
+            }
+
+        $sx = lang('library_cart');
+        $sel = $this->getWorkMark();
+        $markall = '<a href="#" onclick="markAll();">' . lang('brapci.work_select_all') . '</a>';
+        $markall .= '<input type="hidden" id="uri" name="uri" value="' . $uri . '">';
+        $markall .= '<input type="hidden" id="query" name="query" value="' . $data . '">';
+
+        if (count($sel) == 0)
+            {
+                $sx .= lang('brapci.nothing_selected');
+                $sx .= ' | ';
+                $sx .= $markall;
+            } else {
+                $sx .= lang('brapci.with').' '.count($sel).' '.lang('brapci.work_selected');
+                $sx .= ' | ';
+                $sx .= '<a href="#" onclick="markClear();">'.lang('brapci.work_selected_clear').'</a>';
+                $sx .= ' | ';
+                $sx .= $markall;
+            }
+        return $sx;
+    }
+
     function show_reference($id)
     {
+        $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
-        $sx = $RDF->c($id).cr();
+        $chk = '';
+        if ((isset($_SESSION['sel'])) and ($_SESSION['sel'] != '')) {
+            $sel = (array)json_decode($_SESSION['sel']);
+            $wid = 'w' . $id;
+            if ((isset($sel[$wid])) and ($sel[$wid] == '1')) {
+                $chk = 'checked';
+            }
+        }
+        $sx .= '<input type="checkbox" name="w' . $id . '" id="w' . $id . '" ' . $chk . ' onclick="markArticle(\'w' . $id . '\',this);"> ';
+        $sx .= $RDF->c($id) . cr();
         return $sx;
     }
 }

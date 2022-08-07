@@ -582,6 +582,10 @@ class Socials extends Model
 				$rsp = $this->signup();
 				return $rsp;
 				break;
+			case 'forgout':
+				$rsp = $this->forgout();
+				return $rsp;
+				break;
 			default:
 				$sx = 'Command not found - ' . $cmd;
 				$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
@@ -1006,7 +1010,7 @@ class Socials extends Model
 				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
 
 				$sx .= '<h2>' . lang('social.success') . '<h2>';
-				$sx .= '<meta http-equiv="refresh" content="2;URL=\'' . PATH . MODULE . '\'">';
+				$sx .= '<meta http-equiv="refresh" content="2;URL=\'' . PATH . COOLECTION . '\'">';
 				$this->log_insert($dt[0]['id_us']);
 			} else {
 				$sx .= '<h2>' . lang('ERROR') . '<h2>';
@@ -1019,25 +1023,25 @@ class Socials extends Model
 		return $sx;
 	}
 
-	function signup_xx()
-	{
-		$sx = '';
-		$user = get("signup_email");
-		$pw1 = get("signup_password");
-		$pw2 = get("signup_retype_password");
+	function forgout()
+		{
+			$email = get("email");
+			$dt = $this->where('us_email',$email)->findAll();
 
-		$dt = $this->user_exists($user);
+			if (count($dt) == 0)
+				{
+					$sx = '<h2>'.lang('Socials.email_not_found').'</h2>';
+					$sx .= '<span class="psw" onclick="showForgotPassword()">Voltar</span>';
+					echo $sx;
+					exit;
+				}
+			$sx = '<h2>' . lang('social.email_send_your_account') . '</h2>';
+			$sx .= '<small>'.lang('social.forgout_info').'</small>';
+			$sx .= '<span class="psw" onclick="showLogin()()">'.lang('social.return_login').'</span>';
+			echo $sx;
+			//sendemail();
 
-		if (!isset($dt[0])) {
-			$this->user_add($user, $pw1);
-			$sx .= '<h2>' . lang('social.social_user_add_success') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-		} else {
-			$sx .= '<h2>' . lang('social.user_already') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
 		}
-		return $sx;
-	}
 
 	function signup()
 	{
@@ -1419,11 +1423,11 @@ class Socials extends Model
 				<small>' . lang('social.social_forgot_password_info') . '</small>
 				<form onsubmit="event.preventDefault()">
 				  <div class="field-wrapper">
-					<input type="text" name="email" placeholder="email">
+					<input type="text" name="email" id="email" placeholder="email">
 					<label>e-mail</label>
 				  </div>
 				  <div class="field-wrapper">
-					<button class="btn btn-primary" style="width: 100%;" onclick="action_ajax(\'signup\');">' . lang('social.enter') . '</button>
+					<button class="btn btn-primary" style="width: 100%;" onclick="action_ajax(\'forgout\');">' . lang('social.enter') . '</button>
 				  </div>
 				  <span class="singin" onclick="showLogin()">' . lang('social.social_alread_user') . '  ' . lang('social.social_sign_in') . '</span>
 				</form>
@@ -1502,6 +1506,10 @@ class Socials extends Model
 			{
 			var data = new FormData();
 			data.append("cmd", cmd);
+			if (cmd == "forgout")
+				{
+					data.append("email", document.getElementById("email").value);
+				}
 			if (cmd == "signin")
 				{
 					data.append("user", document.getElementById("user_login").value);

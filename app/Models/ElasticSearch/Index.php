@@ -129,6 +129,12 @@ class Index extends Model
 		$sx = '';
 		$sx .= breadcrumbs();
 		switch ($d1) {
+			case 'searchAjax':
+				$SEARCH = new \App\Models\ElasticSearch\Search();
+				$Elasticsearch = new \App\Models\ElasticSearch\Index();
+				$_POST['offset'] = 9999999;
+				$dt = $SEARCH->search(GET("query"));
+				return $dt;
 			case 'search':
 				$SEARCH = new \App\Models\ElasticSearch\Search();
 				$Elasticsearch = new \App\Models\ElasticSearch\Index();

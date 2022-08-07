@@ -56,7 +56,7 @@ function remissive($id)
 		$Lattes = new \App\Models\Lattes\Lattes();
 		$sx = '';
 		$sx .= '<div class="col-md-2 text-right text-end" style="border-right: 4px solid #8080FF;">
-				<tt style="font-size: 100%;">Person</tt>        
+				<tt style="font-size: 100%;">Person</tt>
 				</div>';
 
 		$name = $rdf['concept']['n_name'];
@@ -83,7 +83,7 @@ function remissive($id)
 			{
 				$sa .= $this->remissive($dt['a_brapci']);
 			}
-		
+
 
 		$sx .= bsc($sa,8);
 
@@ -99,7 +99,7 @@ function btn_check($dt,$size=50)
 		if ($dt['a_brapci'] > 0)
 		{
 			$sx = '';
-			$sx .= '<a href="'.(PATH.MODULE.'v/'.$dt['a_brapci'].'?act=check').'" class="btn btn-xs btn-default" title="Check Remissive">';
+			$sx .= '<a href="'.(PATH. COLLECTION.'/v/'.$dt['a_brapci'].'?act=check').'" class="btn btn-xs btn-default" title="Check Remissive">';
 			$sx .= bsicone('flag',$size);
 			$sx .= '</a>';
 		}
@@ -111,12 +111,12 @@ function btn_change_updade($dt,$size=50)
 		if ($dt['a_brapci'] > 0)
 		{
 			$sx = '';
-			$sx .= '<a href="'.(PATH.MODULE.'v/'.$dt['a_brapci'].'?act=change').'" class="btn btn-xs btn-default" title="Change Remissive">';
+			$sx .= '<a href="'.(PATH.COLLECTION .'/v/'.$dt['a_brapci'].'?act=change').'" class="btn btn-xs btn-default" title="Change Remissive">';
 			$sx .= bsicone('change',$size);
 			$sx .= '</a>';
 		}
 		return $sx;
-	}	
+	}
 
 function btn_remissive($dt,$size=50)
 	{
@@ -128,7 +128,7 @@ function btn_remissive($dt,$size=50)
 			$sx .= '</span>';
 		}
 		return $sx;
-	}	
+	}
 function image($dt)
 	{
 		$genere = $dt['a_genere'];
@@ -147,7 +147,7 @@ function image($dt)
 				$file = 'img/pics/no_image_she_he.jpg';
 				break;
 			}
-		
+
 		$img = URL.$file;
 		$img = '<img src="'.$img.'" class="img-thumbnail img-fluid">';
 		return $img;
@@ -164,7 +164,7 @@ function change_id($id)
 				$RDF->change($line['cc_use'],$line['id_cc']);
 				echo '===>'.$line['id_cc'].'==>'.$line['cc_use'].'<br>';
 			}
-	}	
+	}
 
 function check_id($id)
 	{
@@ -177,7 +177,7 @@ function check_id($id)
 				return "";
 			}
 		$da = $da[0];
-		
+
 
 		$sx .= h(lang('brapci.person_checklist'),4);
 		$sx .= '<ul>';
@@ -189,7 +189,7 @@ function check_id($id)
 		/********************************************** Check Loop */
 		$sx .= '<li class="text-success">';
 		$sx .= $this->check_loop_rdf($dt,$da);
-		$sx .= '</li>';		
+		$sx .= '</li>';
 
 		$sx .= '</ul>';
 
@@ -213,7 +213,7 @@ function check_duplicate_rdf($dt,$da)
 			} else {
 				$sx .= '<span class="text-danger"> <b>'.lang('brapci.bypass').'</b></span>';
 			}
-		return $sx;		
+		return $sx;
 	}
 
 function check_genere($dt,$da)
@@ -225,8 +225,8 @@ function check_genere($dt,$da)
 			{
 				$t = $this->RDF->c($gn[$r]);;
 				$g = substr($t,0,1);
-				if ($g == '') 
-					{ 
+				if ($g == '')
+					{
 						print_r($gn[$r]);
 						exit;
 						$g = 'X';
@@ -242,7 +242,7 @@ function check_genere($dt,$da)
 				echo "OPS";
 				exit;
 			}
-		
+
 		if (($dg['M'] > $dg['F']) and ($dg['M'] > $dg['X']))
 			{
 				$gt = 'M';
@@ -251,7 +251,7 @@ function check_genere($dt,$da)
 			{
 				$gt = 'F';
 			}
-		if ($dg['M'] == $dg['F']) 
+		if ($dg['M'] == $dg['F'])
 			{
 				$gt = 'X';
 			}
@@ -271,7 +271,7 @@ function check_genere($dt,$da)
 function viewid($id,$loop=0)
 	{
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-		
+
 		$Brapci = new \App\Models\Brapci\Brapci();
 
 		$RDF = new \App\Models\Rdf\RDF();
@@ -305,7 +305,7 @@ function viewid($id,$loop=0)
 			}
 
 
-		/************************************************************* HEADER */			
+		/************************************************************* HEADER */
 		$tela = $this->person_header($dt,$da);
 
 		/******************************************** RECHECK */
@@ -328,10 +328,10 @@ function viewid($id,$loop=0)
 		/************************************************************* Lattes */
 		$link0 = $Brapci->link($dt);
 
-		$link1 = '';		
+		$link1 = '';
 
 		if ($dt['a_brapci'] != 0)
-			{			
+			{
 				$link = base_url(PATH .MODULE . '/index/lattes/import_lattes/' . trim($dt['a_lattes']) . '/');
 				$link2 = '<a href="' . $link . '" target="_new' . $dt['a_lattes'] . '">';
 				$link2 .= '<img src="' . base_url('img/icones/import.png') . '?x=1" style="height: 50px">';
@@ -340,7 +340,7 @@ function viewid($id,$loop=0)
 				$link2 = '';
 			}
 			//brapci_200x200.png
-			
+
 		//} else {
 //			$tela .= anchor(base_url(PATH . MODULE. '/admin/authority/findid/' . $dt['a_brapci']));
 
@@ -359,11 +359,11 @@ function viewid($id,$loop=0)
 				$sql = "update ".$this->table." set a_brapci = $txt where id_a = ".$id;
 				$this->query($sql);
 				$dt['a_brapci'] = $txt;
-			}		
+			}
 		return $tela;
 	}
 
-	function PersonPublications($id)	
+	function PersonPublications($id)
 		{
 			$LattesProducao = new \App\Models\Lattes\LattesProducao();
 			$tela = $LattesProducao->producao($id);
