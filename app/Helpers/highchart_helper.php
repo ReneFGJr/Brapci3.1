@@ -1,5 +1,67 @@
 <?php
 
+function graph(
+    $data = array(),
+    $type = 'pie',
+    $title = 'title',
+    $div = 'containerPie',
+    $limit = 20,
+    $cut = true
+) {
+    $series = '';
+    $total = 0;
+    $nr = 0;
+    $others_nr = 0;
+    $others_vr = 0;
+
+    foreach ($data as $name => $value) {
+        $total = $total + $value;
+        if ($nr > $limit) {
+            $others_nr++;
+            $others_vr = $others_vr + $value;
+        }
+        $nr++;
+    }
+
+    $nr = 0;
+
+    foreach ($data as $name => $value) {
+        $pvalue = $value;
+        if ($series != '') {
+            $series .= ', ' . cr();
+        }
+        $series .= '{ name: "' . $name . '(' . $value . ')", y: ' . $pvalue . ', }';
+        if ($nr > $limit) {
+            if (!$cut) {
+                $series .= ', { name: "' . lang('brapci.others') . '", y: ' . (($others_vr / $total) * 100) . ', }';
+            }
+            break;
+        }
+        $nr++;
+    }
+    $js = '
+            Highcharts.chart("' . $div . '", {
+                chart: { type: "' . $type . '" },
+                title: { text: "' . $title . '" },
+                accessibility: { announceNewData: { enabled: true },
+                point: { valueSuffix: \'%\' }
+            },
+          tooltip: {
+                headerFormat: \'<span style="font-size:11px">{series.name}</span><br>\',
+                pointFormat: \'<span style="color:blank">{point.name}</span>: <b>{point.y:.0f}</b> of total<br/>\'
+            },
+            series: [
+            {
+                name: "' . $title . '",
+                colorByPoint: true,
+                data: [ ' . $series . ']}
+            ]}
+        );';
+    $sx = load_grapho_script() . cr();
+    $sx .= '<div id="' . $div . '"></div>';
+    return $sx . '<script>' . $js . '</script>';
+}
+
 function pie(
     $data = array(),
     $type = 'pie',
