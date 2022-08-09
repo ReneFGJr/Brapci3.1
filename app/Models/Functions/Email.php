@@ -74,8 +74,8 @@ class Email extends Model
         if (file_exists($filename)) {
             $this->email->attach($filename);
             $cid = $this->email->setAttachmentCID($filename);
-            $sx = troca($text, '$image1', $cid);
-            $sx .= $cid;
+            $text = troca($text, '$image1', $cid);
+            $text .= $cid;
         } else {
             echo "Logo not found";
         }
