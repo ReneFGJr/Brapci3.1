@@ -49,7 +49,7 @@ class Email extends Model
         $txt = '';
         $txt .= '<center>';
         $txt .= '<img src="cid:$image1" style="width: 600px;">';
-        $txt = h('Hello World!');
+        $txt .= h('Hello World!');
         $txt .= '<p>Welcome to Brapci 3.1!</p>';
         $this->sendmail('renefgj@gmail.com', 'E-mail de teste', $txt);
         return $sx;
