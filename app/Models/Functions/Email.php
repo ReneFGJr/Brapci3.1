@@ -41,16 +41,18 @@ class Email extends Model
     protected $afterDelete    = [];
 
     function test()
-        {
-            $sx = h('Email de teste',1);
+    {
+        $sx = h('Email de teste', 1);
 
-            $sx = bs(bsc($sx,12));
-            $this->sendmail('renefgj@gmail.com','E-mail deteste','Teste');
-            return $sx;
-        }
+        $sx = bs(bsc($sx, 12));
+        $txt = h('teste de email');
+        $txt .= '<p>Hello World!</p>';
+        $this->sendmail('renefgj@gmail.com', 'E-mail deteste', $txt);
+        return $sx;
+    }
 
-    function sendmail($to='',$subject='',$description='',$files=array())
-        {
+    function sendmail($to = '', $subject = '', $text = '', $files = array())
+    {
         $this->email = \Config\Services::email();
 
         $config['protocol'] = 'sendmail';
@@ -60,11 +62,11 @@ class Email extends Model
         $config['smtp_timeout'] = '7';
         $config['SMTPHost'] = 'ssl://smtp.gmail.com';
         $config['SMTPUser'] = 'brapcici@gmail.com';
-        $config['SMTPPass'] = 'haogjshvfgjxvtpv';
+        $config['SMTPPass'] = getenv('email_password');
         $config['SMTPPort'] = '465';
         $config['charset']    = 'utf-8';
         $config['newline']    = "\r\n";
-        $config['mailtype'] = 'text'; // or html
+        $config['mailtype'] = 'hmtl'; // or html
         $config['validation'] = TRUE;
         $config['validate'] = TRUE;
         $config['smtp_crypto'] = 'ssl';
@@ -77,9 +79,9 @@ class Email extends Model
         //$email->setBCC('them@their-example.com');
 
         $this->email->setSubject($subject);
-        $this->email->setMessage($description);
+        $this->email->setMessage($text);
 
         $this->email->send();
         pre($this->email);
-        }
+    }
 }
