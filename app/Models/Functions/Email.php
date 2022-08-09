@@ -46,7 +46,8 @@ class Email extends Model
 
         $sx = bs(bsc($sx, 12));
         $txt = h('teste de email');
-        $txt .= '<img src="cid:$image1">';
+        $txt .= '<center>';
+        $txt .= '<img src="cid:$image1" style="width: 600px;">';
         $txt .= '<p>Hello World!</p>';
         $this->sendmail('renefgj@gmail.com', 'E-mail deteste', $txt);
         return $sx;
