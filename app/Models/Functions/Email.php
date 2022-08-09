@@ -57,7 +57,7 @@ class Email extends Model
 
         $config['protocol'] = 'sendmail';
         $config['mailPath'] = '/usr/sbin/sendmail';
-        $config['charset']  = 'iso-8859-1';
+
         $config['wordWrap'] = true;
         $config['smtp_timeout'] = '7';
         $config['SMTPHost'] = 'ssl://smtp.gmail.com';
@@ -65,11 +65,11 @@ class Email extends Model
         $config['SMTPPass'] = getenv('email_password');
         $config['SMTPPort'] = '465';
         $config['charset']    = 'utf-8';
-        $config['newline']    = "\r\n";
-        $config['mailtype'] = 'hmtl'; // or html
-        $config['validation'] = TRUE;
-        $config['validate'] = TRUE;
-        $config['smtp_crypto'] = 'ssl';
+        //$config['newline']    = "\r\n";
+        $config['mailType'] = 'html';
+        //$config['validation'] = TRUE;
+        //$config['validate'] = TRUE;
+        //$config['smtp_crypto'] = 'ssl';
 
         $this->email->initialize($config);
 
