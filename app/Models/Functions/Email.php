@@ -46,6 +46,7 @@ class Email extends Model
 
         $sx = bs(bsc($sx, 12));
         $txt = h('teste de email');
+        $txt .= '<img src="cid:$image1">';
         $txt .= '<p>Hello World!</p>';
         $this->sendmail('renefgj@gmail.com', 'E-mail deteste', $txt);
         return $sx;
@@ -67,9 +68,15 @@ class Email extends Model
         $config['charset']    = 'utf-8';
         //$config['newline']    = "\r\n";
         $config['mailType'] = 'html';
-        //$config['validation'] = TRUE;
-        //$config['validate'] = TRUE;
-        //$config['smtp_crypto'] = 'ssl';
+
+        $filename = 'img/email/bg-email-hL3a.jpg';
+        if (file_exists($filename)) {
+            $this->email->attach($filename);
+            $cid = $this->email->setAttachmentCID($filename);
+            $sx = troca($text, '$image1', $text);
+        } else {
+            echo "Logo not found";
+        }
 
         $this->email->initialize($config);
 
@@ -82,6 +89,8 @@ class Email extends Model
         $this->email->setMessage($text);
 
         $this->email->send();
-        pre($this->email);
+
+        $sx = 'Send email';
+        return $sx;
     }
 }
