@@ -43,6 +43,10 @@ class Index extends Model
     function index($act = '', $subact = '', $id = '')
     {
         switch ($act) {
+            case 'email':
+                $Email = new \App\Models\Functions\Email();
+                $sx = $Email->test();
+                break;
             case 'socials':
                 $Socials = new \App\Models\Socials();
                 $sx = $Socials->index($subact, $id);
@@ -74,6 +78,7 @@ class Index extends Model
                             break;
                         default:
                             $sx .= $this->benancib_admin();
+                            $sx .= $this->menu();
                             break;
                     }
                     $sx = bs(bsc($sx, 12));
@@ -96,6 +101,8 @@ class Index extends Model
     {
         $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');
         $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
+        $m['#'] =  lang('brapci.Email');
+        $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');
         $sx = menu($m);
         return $sx;
     }

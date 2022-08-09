@@ -31,7 +31,7 @@ class Admin extends BaseController
                 $sx .= $ADMIN->index($act, $sub, $id);
                 $sx .= view('Brapci/Headers/footer', $data);
             } else {
-                return redirect('Main::index');
+                return redirect('MainPages::index');
             }
         return $sx;
     }
