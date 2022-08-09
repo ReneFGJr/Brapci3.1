@@ -45,11 +45,13 @@ class Email extends Model
         $sx = h('Email de teste', 1);
 
         $sx = bs(bsc($sx, 12));
-        $txt = h('teste de email');
+
+        $txt = '';
         $txt .= '<center>';
         $txt .= '<img src="cid:$image1" style="width: 600px;">';
-        $txt .= '<p>Hello World!</p>';
-        $this->sendmail('renefgj@gmail.com', 'E-mail deteste', $txt);
+        $txt = h('Hello World!');
+        $txt .= '<p>Welcome to Brapci 3.1!</p>';
+        $this->sendmail('renefgj@gmail.com', 'E-mail de teste', $txt);
         return $sx;
     }
 
@@ -75,7 +77,6 @@ class Email extends Model
             $this->email->attach($filename);
             $cid = $this->email->setAttachmentCID($filename);
             $text = troca($text, '$image1', $cid);
-            $text .= $cid;
         } else {
             echo "Logo not found";
         }
