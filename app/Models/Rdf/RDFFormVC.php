@@ -85,8 +85,7 @@ class RdfFormVC extends Model
 		}
 
 	function edit($form_class, $prop_name, $form_id, $register, $range)
-	//$d1,$d2,$d3,$range)
-	{
+		{
 		$sx = '';
 		$sx .= h(lang('rdf.catalog_input').' '.lang('rdf.'.$range),4);
 
