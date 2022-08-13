@@ -410,13 +410,14 @@ class RdfForm extends Model
 			FROM rdf_form_class
 			INNER JOIN rdf_class as t1 ON t1.id_c = sc_propriety
 			LEFT JOIN rdf_prefix as t2 ON t1.c_prefix = t2.id_prefix
+			LEFT JOIN rdf_form_groups ON sc_group = gr_name
 
 			LEFT JOIN rdf_class as t3 ON t3.id_c = sc_range
 			LEFT JOIN rdf_prefix as t4 ON t3.c_prefix = t4.id_prefix
 
 			where sc_class = $class
 			AND ((sc_global =1 ) or (sc_library = 0) or (sc_library = " . LIBRARY . "))
-			order by sc_ord";
+			order by gr_ord, sc_ord";
 
 		$rlt = (array)$this->db->query($sql)->getResult();
 
