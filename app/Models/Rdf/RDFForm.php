@@ -405,7 +405,7 @@ class RdfForm extends Model
 		$sql = "
 			SELECT id_sc, sc_class, sc_propriety, sc_ord, id_sc,
 			t1.c_class as c_class, t2.prefix_ref as prefix_ref,
-			t3.c_class as pc_class, t4.prefix_ref as pc_prefix_ref,
+			t3.c_class as pc_class, t4.prefix_ref as pc_prefix_ref, sc_ativo,
 			sc_group, sc_library, sc_visible
 			FROM rdf_form_class
 			INNER JOIN rdf_class as t1 ON t1.id_c = sc_propriety
@@ -430,10 +430,23 @@ class RdfForm extends Model
 		$sx .= '<th width="42%">' . lang('rdf.visible') . '</th>';
 		$sx .= '<th width="5%">' . lang('rdf.group') . '</th>';
 		$sx .= '</tr>';
+		$xgr = '';
 		for ($r = 0; $r < count($rlt); $r++) {
 			$line = (array)$rlt[$r];
 			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['id_sc'], 800, 500);
 			$linka = '</span>';
+
+			$gr = $line['sc_group'];
+			if ($gr != $xgr)
+				{
+					$sx .= '<tr><th colspan=5>'.$gr.'</th></tr>';
+					$xgr = $gr;
+				}
+			$style = "";
+			if ($line['sc_ativo'] == 0)
+				{
+					$style = ' style=" text-decoration: line-through;" ';
+				}
 			$sx .= '<tr>';
 
 			$sx .= '<td align="center">';
@@ -442,7 +455,7 @@ class RdfForm extends Model
 
 			/* CLASS */
 			$prop = $RDFPrefix->prefixn($line);
-			$sx .= '<td>';
+			$sx .= '<td '. $style.'>';
 			$sx .= $link;
 			$sx .= msg($line['c_class']) . ' (' . $prop . ')';
 			$sx .= $linka;
@@ -452,26 +465,19 @@ class RdfForm extends Model
 			$dt = array();
 			$dt['c_class'] = $line['pc_class'];
 			$dt['prefix_ref'] = $line['pc_prefix_ref'];
-			$sx .= '<td>';
+			$sx .= '<td ' . $style . '>';
 			$sx .= $RDFPrefix->prefixn($dt);
 			$sx .= '</td>';
 
 			/* RANGE */
 			$dt = array();
-			$sx .= '<td>';
+			$sx .= '<td ' . $style . '>';
 			if ($line['sc_visible'] == 1) {
 				$sx .= bsicone('eye');
 			} else {
 				$sx .= bsicone('eye-closed');
 			}
 			$sx .= '</td>';
-
-			/* GROUP */
-			$dt = array();
-			$sx .= '<td>';
-			$sx .= $line['sc_group'];
-			$sx .= '</td>';
-
 			$sx .= '</tr>';
 		}
 		$sx .= '</table>';
