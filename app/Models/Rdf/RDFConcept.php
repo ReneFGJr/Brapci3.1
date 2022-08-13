@@ -43,7 +43,7 @@ class RDFConcept extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function like($t,$class)
+	function like($t,$class,$limit=30)
 		{
 			if ($class != sonumero($class))
 				{
@@ -57,7 +57,7 @@ class RDFConcept extends Model
 			$sql .= " where (cc_class = ".$class.') ';
 			$sql .= " and (n_name like '%".$t."%') ";
 			$sql .= " order by n_name";
-			$sql .= " limit 100";
+			$sql .= " limit $limit";
 			$dt = $this->query($sql)->getResult();
 			$dt = (array)$dt;
 			return $dt;
@@ -91,13 +91,13 @@ class RDFConcept extends Model
 			$dt = $this->query($sql)->getResult();
 			$dt = (array)$dt;
 			$id = 0;
-			
+
 			for ($r=0;$r < count($dt);$r++)
 				{
 					$line = (array)$dt[$r];
-					if ($line['cc_use'] > 0) 
-						{ 
-							$id = $line['cc_use']; 
+					if ($line['cc_use'] > 0)
+						{
+							$id = $line['cc_use'];
 						} else {
 							if ($id > 0)
 								{
@@ -113,7 +113,7 @@ class RDFConcept extends Model
 				return $id;
 				}
 			return $dt;
-		}		
+		}
 
 	function le($id)
 		{
@@ -122,7 +122,7 @@ class RDFConcept extends Model
 			$this->join(PREFIX.'rdf_prefix', 'rdf_class.c_prefix = rdf_prefix.id_prefix', 'LEFT');
 
 			$this->select('rdf_class.c_class, rdf_class.id_c, rdf_class.c_type, rdf_class.c_url, rdf_class.c_equivalent');
-    		$this->select('rdf_name.n_name, rdf_name.n_lang');    		
+    		$this->select('rdf_name.n_name, rdf_name.n_lang');
 			$this->select('rdf_prefix.prefix_ref, rdf_prefix.prefix_url');
 			$this->select('rdf_concept.*');
 			$this->where('id_cc',$id);
@@ -165,14 +165,14 @@ class RDFConcept extends Model
 
 			/*************************************************** Update 3 */
 			$dt['cc_pref_term'] = $dt1['cc_pref_term'];
-			$this->set($dt)->where('id_cc',$d2)->update();			
+			$this->set($dt)->where('id_cc',$d2)->update();
 
 			/*************************************************** Update 2 */
 			if (!isset($dq1[0]))
 				{
 					echo "OPS - dq1 not found";
 				} else {
-					$dq1 = $dq1[0];	
+					$dq1 = $dq1[0];
 					$da['d_literal'] = $dt2['cc_pref_term'];
 					$RDFData->set($da)->where('id_d',$dq1['id_d'])->update();
 				}
@@ -184,21 +184,21 @@ class RDFConcept extends Model
 				{
 					echo "OPS - dq2 not found";
 				} else {
-					$dq2 = $dq2[0];	
+					$dq2 = $dq2[0];
 					$da['d_literal'] = $dt2['cc_pref_term'];
 					$RDFData->set($da)->where('id_d',$dq2['id_d'])->update();
-				}	
+				}
 
 			$sx .= wclose();
-			return $sx;		
+			return $sx;
 		}
 
 	function concept($dt)
-		{		
+		{
 			$Language = new \App\Models\AI\NLP\Language();
 
 			/* Definição da Classe */
-			$Class = new \App\Models\Rdf\RDFClass();			
+			$Class = new \App\Models\Rdf\RDFClass();
 			$Class->DBGroup = $this->DBGroup;
 			$RDFdata = new \App\Models\Rdf\RDFData();
 			$RDFdata->DBGroup = $this->DBGroup;
@@ -234,7 +234,7 @@ class RDFConcept extends Model
 						->where('cc_class',$id_class)
 						->where('cc_pref_term',$id_prefTerm)
 						->where('cc_library',LIBRARY)
-						->First();					
+						->First();
 				}
 
 			$id_concept = $dtc['id_cc'];
@@ -257,8 +257,8 @@ class RDFConcept extends Model
 								$RDFdata->check($data);
 							}
 						}
-					
-					/******************************************************** Relations */					
+
+					/******************************************************** Relations */
 					if (isset($dt['Relation']))
 						{
 							foreach($dt['Relation'] as $prop => $id_relation)
@@ -272,7 +272,7 @@ class RDFConcept extends Model
 								$data['d_library'] = LIBRARY;
 								$RDFdata->check($data);
 							}
-						}						
+						}
 				}
 			return $id_concept;
 		}

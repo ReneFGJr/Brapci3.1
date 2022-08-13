@@ -73,7 +73,7 @@ class RdfForm extends Model
 				$sx .= '<h3>Grupo: ' . lang('rdf.' . $gr) . '</h3>';
 				$xgr = $gr;
 			}
-			$link = onclick(PATH . MODULE . COLLECTION. '/rdf/form_ed/' . $line['id_sc'], 800, 600);
+			$link = onclick(PATH . MODULE . COLLECTION. '/rdf/form_ed/' . $line['id_sc'], 800, 500);
 			$linka = '</span>';
 			$act = '';
 			$acta = '';
@@ -164,7 +164,7 @@ class RdfForm extends Model
 					$furl = (PATH . MODULE .COLLECTION . '/rdf/form/' . $class . '/' . $line['id_sc'] . '/' . $id);
 
 					$class = trim($line['c_class']);
-					$link = onclick(PATH . MODULE . '/rdf/form/edit/' . $class . '/' . $line['id_sc'] . '/' . $id, 800, 400, 'btn-primary rounded');
+					$link = onclick(PATH . MODULE . '/rdf/form/edit/' . $class . '/' . $line['id_sc'] . '/' . $id, 800, 500, 'btn-primary rounded');
 					//$link = onclick(PATH.MODULE.'rdf/form/'.$line['id_sc'],800,600,'btn-primary round');
 					$linka = '</span>';
 					$sx .= '<tr>';
@@ -306,16 +306,18 @@ class RdfForm extends Model
 		$RDFClass = new \App\Models\Rdf\RDFClass();
 		$dr = $RDFClass->find($range);
 
-		$rclass = $dr['c_class'];
-		switch ($rclass) {
+		$range = $dr['c_class'];
+
+		switch ($range) {
 			case 'Text':
 				$RDFFormText = new \App\Models\Rdf\RDFFormText();
-				$sx .= $RDFFormText->edit($form_class, $prop_name, $form_id, $register, $rclass);
+				$sx .= $RDFFormText->edit($form_class, $prop_name, $form_id, $register, $range);
 				break;
 			default:
 				$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
-				$sx .= $RDFFormVC->edit($form_class, $form_id, $register, $rclass);
+				$sx .= $RDFFormVC->edit($form_class, $prop_name, $form_id, $register, $range);
 		}
+		$sx = bs(bsc($sx,12));
 		return $sx;
 	}
 
@@ -403,7 +405,7 @@ class RdfForm extends Model
 		$sx .= '</tr>';
 		for ($r = 0; $r < count($rlt); $r++) {
 			$line = (array)$rlt[$r];
-			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['id_sc'], 800, 600);
+			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['id_sc'], 800, 500);
 			$linka = '</span>';
 			$sx .= '<tr>';
 
@@ -450,7 +452,7 @@ class RdfForm extends Model
 
 		if (isset($line['sc_class'])) {
 			//$link = onclick(PATH.MODULE.'rdf/formss/'.$id.'/0',800,600,"btn btn-outline-primary");
-			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['sc_class'], 800, 600, "btn btn-outline-primary");
+			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['sc_class'], 800, 500, "btn btn-outline-primary");
 			$linka = '</span>';
 			$sx .= $link . lang('rdf.nova_propriedade2') . $linka;
 

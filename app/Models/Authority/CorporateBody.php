@@ -95,7 +95,7 @@ class CorporateBody extends Model
 		$this->Socials = new \App\Models\Socials();
 		$sx = '';
 		$sx .= '<div class="col-md-2 text-right text-end" style="border-right: 4px solid #8080FF;">
-				<tt style="font-size: 100%;">Corporate Body</tt>        
+				<tt style="font-size: 100%;">Corporate Body</tt>
 				</div>';
 
 		$name = $rdf['concept']['n_name'];
@@ -135,7 +135,7 @@ class CorporateBody extends Model
 	{
 		if ($dt['a_brapci'] > 0) {
 			$sx = '';
-			$sx .= onclick(PATH . MODULE . 'rdf/remissive_CorporateBody/' . $dt['a_brapci'], 800, 400);
+			$sx .= onclick(PATH . MODULE . 'rdf/remissive_CorporateBody/' . $dt['a_brapci'], 800, 600);
 			$sx .= bsicone('loop', $size);
 			$sx .= '</span>';
 		}

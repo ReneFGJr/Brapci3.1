@@ -12,11 +12,20 @@ return [
     'hasSubject' => 'Assunto(s)',
     'find.rdf_exclude_confirm' => 'Confirma Exclusão?',
     'concept' => 'Descritor',
+    'searching' => 'buscando...',
+    'prefLabel' => 'Descritor preferencial',
+    'Subject' => 'Assunto',
+    'filter_to' => 'Filtro por',
+    'select_an' => 'Descritores autorizados',
+    'catalog_input' => '<i>Vocabulário de</i>:',
+    'force_create'=>'Criar autoridade',
+    'save_continue'=>'Gravar e continuar',
+    'save'=>'Gravar',
+    'cancel' => 'Cancelar',
     '' => '',
     '' => '',
     '' => '',
     '' => '',
     '' => '',
-
-
+    '' => '',
 ];

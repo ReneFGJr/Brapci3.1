@@ -42,6 +42,7 @@ class RdfFormVC extends Model
 
 	function search($d1,$d2,$d3)
 		{
+			$limit = 10; /* Limite de retorno */
 			$RDFConcept = new \App\Models\Rdf\RDFConcept();
 			$sx = '<select class="form-control" size="5" name="dd51" id="dd51">';
 			/********************************/
@@ -50,8 +51,8 @@ class RdfFormVC extends Model
 			$sx .= $d2;
 			if (strlen($q) >=3)
 				{
-					$sx .= '<option value="">Buscando ... '.$q.'</option>'.cr();
-					$dt = $RDFConcept->like($q,$d2);
+					//$sx .= '<option value="">Buscando ... '.$q.'</option>'.cr();
+					$dt = $RDFConcept->like($q,$d2,$limit);
 					for($r=0;$r < count($dt);$r++)
 						{
 							$ln = (array)$dt[$r];
@@ -83,25 +84,27 @@ class RdfFormVC extends Model
 			return $sx;
 		}
 
-	function edit($d1,$d2,$d3,$range)
+	function edit($form_class, $prop_name, $form_id, $register, $range)
+	//$d1,$d2,$d3,$range)
 	{
 		$sx = '';
-		$sx .= h($range,2);
+		$sx .= h(lang('rdf.catalog_input').' '.lang('rdf.'.$range),4);
 
 		/************************* SALVA REGISTRO */
 		$action = get("action");
 
-		$path = PATH.MODULE.'rdf/form/edit/'.$d1.'/'.$d2.'/'.$d3;
+		$path = PATH.MODULE.'/rdf/form/edit/'. $prop_name.'/'. $form_id.'/'. $register;
 		$dd['name'] = 'RDFFORM';
 		$sx .= form_open($path,$dd);
+		$sx .= '<div id="busy" name="busy" style="position: fixed; top:0; right:0; text-align=right;"></div>';
 		$sx .= '<span class="small">'.lang('rdf.filter_to').' '.lang('rdf.'.$range).'</span>';
 		$sx .= '<input type="text" id="dd50" name="dd50" class="form-control">';
 
 		/* Select */
-		$sx .= '<span class="small mt-1">'.lang('find.select_an').' '.lang('rdf.'.$range).'</span>';
+		$sx .= '<span class="small mt-1">'.lang('rdf.select_an').' '.lang('rdf.'.$range).'</span>';
 		$sx .= '<div id="dd51a"><select class="form-control" size="5" name="dd51" id="dd51"></select></div>';
 
-		$bts = '';
+		$bts = '<br>';
 		$bts .= '<input type="button" id="b1" class="btn btn-outline-secondary" disabled value="'.lang('rdf.force_create').'" onclick="submitb1(\''.$range.'\');"> ';
 		$bts .= '<input type="button" id="b2" class="btn btn-outline-primary" disabled value="'.lang('rdf.save_continue').'" onclick="submitb(1);"> ';
 		$bts .= '<input type="button" id="b3" class="btn btn-outline-primary" disabled value="'.lang('rdf.save').'" onclick="submitb(0);"> ';
@@ -124,7 +127,7 @@ class RdfFormVC extends Model
 							{
 								type: "GET",
 								url: "'.PATH.MODULE.'/rdf/set/",
-								data: "act=set&reload="+$c+"&reg='.$d3.'&prop='.$d1.'&vlr="+$vlr,
+								data: "act=set&reload="+$c+"&reg='. $register.'&prop='. $prop_name.'&vlr="+$vlr,
 								dataType: "html",
 							})
 							.done(function(data)
@@ -157,7 +160,7 @@ class RdfFormVC extends Model
 							{
 								type: "GET",
 								url: "'.PATH.MODULE.'/rdf/vc_create/",
-								data: "act=set&reload="+$c+"&reg='.$d3.'&prop='.$d1.'&vlr="+$vlr,
+								data: "act=set&reload="+$c+"&reg='. $register.'&prop='. $prop_name. '&vlr="+$vlr,
 								dataType: "html",
 							})
 							.done(function(data)
@@ -168,18 +171,27 @@ class RdfFormVC extends Model
 					}
 			}
 		/************ keyup *****************/
+		$busy = false;
 		jQuery("#dd50").keyup(function()
 		{
-			var $key = jQuery("#dd50").val();
-			$.ajax(
-				{
-					type: "POST",
-					url: "'.PATH.MODULE.'/rdf/search/'.$range.'/?q="+$key,
-					success: function(data){
-						$("#dd51a").html(data);
+			$("#busy").html("<span style=\"color: red;\">'.lang('rdf.searching').'</span>");
+			if ($busy == false)
+			{
+				$busy = true;
+				var $key = jQuery("#dd50").val();
+				$.ajax(
+					{
+						type: "POST",
+						url: "'.PATH.MODULE.'/rdf/search/'.$range. '/?q="+$key,
+						async: true,
+						success: function(data){
+							$("#dd51a").html(data);
+							$busy = false;
+							$("#busy").html("<span style=\"color: green;\"></span>");
+						}
 					}
-				}
-			);
+				);
+			}
 		});
 		</script>';
 		return $sx.$js;
