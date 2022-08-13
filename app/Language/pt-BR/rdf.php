@@ -22,7 +22,7 @@ return [
     'save_continue'=>'Gravar e continuar',
     'save'=>'Gravar',
     'cancel' => 'Cancelar',
-    '' => '',
+    'textarea' => 'Entrada de texto (literal)',
     '' => '',
     '' => '',
     '' => '',
