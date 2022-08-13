@@ -57,13 +57,16 @@ class RDF extends Model
 		$type = get("type");
 		$sx .= h($d1);
 
+		$Socials = new \App\Models\Socials();
+		$Admin = $Socials->getAccess("#ADM");
+
 		switch ($d1) {
 			case 'form_check':
 				$sx = $cab;
 				$RDFFormCheck = new \App\Models\Rdf\RDFFormCheck();
 				$sx .= $RDFFormCheck->check($d2, $d3, $d4, $d5);
-				$sx .= '<a href="' . PATH . MODULE . 'rdf/class_view/' . $d2 . '">' . lang('rdf.return') . '</a>';
-				$sx .= metarefresh(PATH . MODULE . 'rdf/class_view/' . $d2);
+				$sx .= '<a href="' . PATH . COLLECTION . '/class_view/' . $d2 . '">' . lang('rdf.return') . '</a>';
+				$sx .= metarefresh(PATH . COLLECTION . '/class_view/' . $d2);
 				break;
 			case 'class':
 				$sx = $cab;
@@ -211,8 +214,20 @@ class RDF extends Model
 					$sa .= bsmessage(lang('command not found') . ': ' . $d1, 3);
 				}
 				$sa .= h('rdf.MainMenu');
+
+				echo '==>' . COLLECTION;
+
+				if ($Admin)
+					{
+						$sa = h(lang('rdf.main_menu'), 3);
+						$menu = array();
+						$menu[PATH.COLLECTION.'/class'] =  lang('rdf.classes');
+						$sx .= bs($sa.bsc(menu($menu)));
+					} else {
+						$sx .= h(lang('rdf.guest_menu'),3);
+					}
 				$sa .= '<ul>';
-				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/class') . '">' . lang('rdf.classes') . '</a></li>';
+				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/class') . '">' . lang('rdf.classes'). '</a></li>';
 				$sa .= h(lang('rdf.import'), 3);
 				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/inport?type=prefix') . '">' . lang('Inport Prefix') . '</a></li>';
 				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/inport?type=class') . '">' . lang('Inport Class') . '</a></li>';
@@ -522,7 +537,7 @@ class RDF extends Model
 	function btn_checkform($id)
 	{
 		$sx = '';
-		$sx .= '<a href="' . PATH . MODULE . 'rdf/form_check/' . $id . '" class="btn btn-outline-primary">';
+		$sx .= '<a href="' . PATH . COLLECTION . '/form_check/' . $id . '" class="btn btn-outline-primary">';
 		$sx .= lang('rdf.form_check');
 		$sx .= '</a>';
 		return ($sx);

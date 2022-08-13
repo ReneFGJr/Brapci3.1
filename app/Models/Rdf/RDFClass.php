@@ -77,7 +77,7 @@ class RDFClass extends Model
 		$sx .= '<ul>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
-			$link = '<a href="' . PATH . MODULE . 'rdf/class_view/' . $line['id_c'] . '">';
+			$link = '<a href="' . PATH . COLLECTION . '/class_view/' . $line['id_c'] . '">';
 			$linka = '</a>';
 			$sx .= '<li>' . $link . $line['c_class'] . $linka . '</li>';
 		}

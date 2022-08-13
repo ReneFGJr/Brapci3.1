@@ -93,7 +93,7 @@ class RdfFormVC extends Model
 		/************************* SALVA REGISTRO */
 		$action = get("action");
 
-		$path = PATH.MODULE.'/rdf/form/edit/'. $prop_name.'/'. $form_id.'/'. $register;
+		$path = PATH.COLLECTION.'/form/edit/'. $prop_name.'/'. $form_id.'/'. $register;
 		$dd['name'] = 'RDFFORM';
 		$sx .= form_open($path,$dd);
 		$sx .= '<div id="busy" name="busy" style="position: fixed; top:0; right:0; text-align=right;"></div>';

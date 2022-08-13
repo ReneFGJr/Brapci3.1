@@ -15,7 +15,7 @@ define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
 define("LIBRARY", '1000');
-define("COLLECTION", '/books');
+define("COLLECTION", '/rdf');
 
 function cab()
 {
@@ -40,7 +40,6 @@ class RDF extends BaseController
                 $RDF = new \App\Models\Rdf\RDF();
                 $sx .= $RDF->index('form', $d2, $d3, $d4, $d5);
                 break;
-
             default:
                 $sx .= cab();
                 $RDF = new \App\Models\Rdf\RDF();

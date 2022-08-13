@@ -15,19 +15,36 @@ class RdfForm extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_sc', 'sc_class', 'sc_propriety',
-		'sc_range', 'sc_ativo', 'sc_visible',
-		'sc_library', 'sc_global', 'sc_group',
-		'sc_ord'
+		'id_sc',
+		'sc_class',
+		'sc_group',
+
+		'sc_ord',
+		'sc_propriety',
+		'sc_range',
+
+		'sc_ativo',
+		'sc_visible',
+		'sc_library',
+		'sc_global',
+
+
 	];
 
 	protected $typeFields        = [
 		'hidden',
-		'sql:id_c:c_class:rdf_class:c_type=\'C\' order by c_class',
-		'sql:id_c:c_class:rdf_class:c_type=\'P\' order by c_class',
-		'sql:id_c:c_class:rdf_class:c_type=\'C\' order by c_class',
-		'sn', 'sn', 'string:100',
-		'string:100', 'string:100', '[1-99]'
+		'sql:id_c:c_class:rdf_class:c_type=\'C\' order by c_class*',
+		'sql:gr_name:gr_name:rdf_form_groups*',
+
+		'[1-99]',
+		'sql:id_c:c_class:rdf_class:c_type=\'P\' order by c_class*',
+		'sql:id_c:c_class:rdf_class:c_type=\'C\' order by c_class*',
+
+		'sn*',
+		'sn*',
+		'string:100*',
+		'sn*',
+
 	];
 
 	// Dates
@@ -58,9 +75,10 @@ class RdfForm extends Model
 	{
 		$dt = $this->select("*")
 			->Join('rdf_class', 'sc_propriety = id_c', 'left')
+			->Join('rdf_form_groups', 'gr_name = sc_group', 'left')
 			->where('sc_library', LIBRARY)
 			->OrWhere('sc_library', 0)
-			->orderBy('sc_class, sc_group, c_class', 'asc')
+			->orderBy('gr_ord, sc_class, sc_group, c_class', 'asc')
 			->FindAll();
 
 		$sx = '';
@@ -219,10 +237,18 @@ class RdfForm extends Model
 		return ($sx);
 	}
 
-	function form_ed($id)
+	function form_ed($id, $class)
 	{
+		if ($id == 0)
+			{
+				$_POST['sc_class'] = $class;
+				$_POST['sc_library'] = LIBRARY;
+			}
+
 		$this->id = $id;
-		$this->path = PATH . MODULE . '/rdf/form_ed/' . $id;
+		$this->pre = 'rdf.';
+		$this->path = PATH . COLLECTION . '/form_ed/' . $class.'/'.$id;
+		echo $this->path;
 		$this->path_back = 'wclose';
 		$sx = form($this);
 		return $sx;
@@ -452,9 +478,9 @@ class RdfForm extends Model
 
 		if (isset($line['sc_class'])) {
 			//$link = onclick(PATH.MODULE.'rdf/formss/'.$id.'/0',800,600,"btn btn-outline-primary");
-			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['sc_class'], 800, 500, "btn btn-outline-primary");
+			$link = onclick(PATH . COLLECTION . '/form_ed/0/' . $line['sc_class'], 800, 500, "btn btn-outline-primary");
 			$linka = '</span>';
-			$sx .= $link . lang('rdf.nova_propriedade2') . $linka;
+			$sx .= $link . lang('rdf.new_propriety_field') . $linka;
 
 			$sx .= ' &nbsp; ';
 		}
