@@ -4,5 +4,6 @@
 public/.c/
 ,c/
 public/.c/00/
+public/img/c/
 public/.c/00/*
 .env

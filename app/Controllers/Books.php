@@ -109,11 +109,13 @@ class Books extends BaseController
             case 'Proceeding':
                 $Proceeding = new \App\Models\Base\Proceeding();
                 $sx .= $Proceeding->show($dt);
+                $sx .= $RDF->view_data($id);
                 break;
 
             case 'ProceedingSection':
                 $ProceedingSection = new \App\Models\Base\ProceedingSection();
                 $sx .= $ProceedingSection->show($dt);
+                $sx .= $RDF->view_data($id);
                 break;
 
             case 'Work':
@@ -130,6 +132,7 @@ class Books extends BaseController
             default:
                 $sx .= h($class, 1);
                 $sx = bs(bsc($sx));
+                $sx .= $RDF->view_data($id);
                 break;
         }
         return $sx;

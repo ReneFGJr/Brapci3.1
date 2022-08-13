@@ -336,6 +336,10 @@ class RdfForm extends Model
 		$range = $dr['c_class'];
 
 		switch ($range) {
+			case 'Image':
+				$RDFFormImage = new \App\Models\Rdf\RDFFormImage();
+				$sx .= $RDFFormImage->edit($form_class, $prop_name, $form_id, $register, $range);
+				break;
 			case 'Text':
 				$RDFFormText = new \App\Models\Rdf\RDFFormText();
 				$sx .= $RDFFormText->edit($form_class, $prop_name, $form_id, $register, $range);

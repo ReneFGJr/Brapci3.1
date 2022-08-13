@@ -55,12 +55,18 @@ class RDF extends Model
 	{
 		$sx = '';
 		$type = get("type");
-		$sx .= h($d1);
 
 		$Socials = new \App\Models\Socials();
 		$Admin = $Socials->getAccess("#ADM");
 
 		switch ($d1) {
+			case 'v':
+				$dt = $this->le($d2);
+				$class = $dt['concept']['c_class'];
+				$sx .= h($class, 1);
+				$sx = bs(bsc($sx));
+				$sx .= $this->view_data($d2);
+				break;
 			case 'form_check':
 				$sx = $cab;
 				$RDFFormCheck = new \App\Models\Rdf\RDFFormCheck();

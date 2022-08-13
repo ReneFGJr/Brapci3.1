@@ -189,37 +189,53 @@ class RDFData extends Model
 					2,
 					'supersmall border-top border-1 border-secondary my-2'
 				);
-				if ($line['d_r2'] != 0) {
-					if ($ID == $line['d_r2']) {
-						$link = (PATH . COLLECTION . '/v/' . $line['d_r1']);
-						$txt = $RDF->c($line['d_r1']);
-						if (strlen($txt) > 0) {
-							$link = '<a href="' . $link . '">' . $txt . '</a>';
+
+				$class = $line['c_class'];
+				//if ($class == 'hasCover') { $class = 'hasTumbNail';}
+				switch ($class) {
+					case 'hasTumbNail':
+						$name = URL.'/'.$line['n_name'];
+						if (file_exists($name))
+							{
+								$sx .= bsc('<img src="' . base_url($name) . '" class="img-thumbnail border border-secondary">', 2);
+								$sx .= bsc('', 8);
+							} else {
+								$sx .= bsc("Erro na carga do arquivo - ".$name,10);
+							}
+						break;
+					default:
+						if ($line['d_r2'] != 0) {
+							if ($ID == $line['d_r2']) {
+								$link = (PATH . COLLECTION . '/v/' . $line['d_r1']);
+								$txt = $RDF->c($line['d_r1']);
+								if (strlen($txt) > 0) {
+									$link = '<a href="' . $link . '">' . $txt . '</a>';
+								} else {
+									$txt = 'not found:' . $line['d_r1'];
+									$link = '<a href="' . $link . '">' . $txt . '</a>';
+								}
+							} else {
+								$link = (PATH . COLLECTION . '/v/' . $line['d_r2']);
+								$txt = $RDF->c($line['d_r2']);
+								if (strlen($txt) > 0) {
+									$link = '<a href="' . $link . '">' . $txt . '</a>';
+								} else {
+									$txt = 'not found:' . $line['d_r2'];
+									$link = '<a href="' . $link . '">' . $txt . '</a>';
+								}
+							}
+							$sx .= bsc($link, 10, 'border-top border-1 border-secondary my-2');
 						} else {
-							$txt = 'not found:' . $line['d_r1'];
-							$link = '<a href="' . $link . '">' . $txt . '</a>';
+							$txt = $line['n_name'];
+							$lang = $line['n_lang'];
+							if (strlen($lang) > 0) {
+								$txt .= ' <sup>(' . $lang . ')</sup>';
+							}
+							if (substr($txt, 0, 4) == 'http') {
+								$txt = '<a href="' . $line['n_name'] . '" target="_blank">' . $txt . '</a>';
+							}
+							$sx .= bsc($txt, 10, 'border-top border-1 border-secondary my-2');
 						}
-					} else {
-						$link = (PATH . COLLECTION . '/v/' . $line['d_r2']);
-						$txt = $RDF->c($line['d_r2']);
-						if (strlen($txt) > 0) {
-							$link = '<a href="' . $link . '">' . $txt . '</a>';
-						} else {
-							$txt = 'not found:' . $line['d_r2'];
-							$link = '<a href="' . $link . '">' . $txt . '</a>';
-						}
-					}
-					$sx .= bsc($link, 10, 'border-top border-1 border-secondary my-2');
-				} else {
-					$txt = $line['n_name'];
-					$lang = $line['n_lang'];
-					if (strlen($lang) > 0) {
-						$txt .= ' <sup>(' . $lang . ')</sup>';
-					}
-					if (substr($txt, 0, 4) == 'http') {
-						$txt = '<a href="' . $line['n_name'] . '" target="_blank">' . $txt . '</a>';
-					}
-					$sx .= bsc($txt, 10, 'border-top border-1 border-secondary my-2');
 				}
 			}
 		}
