@@ -61,6 +61,96 @@ class Sources extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function index($d1, $d2, $d3)
+    {
+        $this->path = base_url(PATH . MODULE . '/index/');
+        $this->path_back = base_url(PATH . MODULE . '/index/');
+
+        switch ($d1) {
+                /******************* Validade ******/
+            default:
+                $sx = $this->menu();
+                break;
+
+            case 'menu':
+                $sx = $this->menu();
+                break;
+
+            case 'tableview':
+                $sx = $this->tableview();
+                break;
+
+            case 'inport_rdf':
+                $JournalIssue = new \App\Models\Journal\JournalIssue();
+                $sx = $JournalIssue->inport_rdf($d2, $d3);
+                break;
+
+                /******************* Implementando */
+            case 'issue':
+                $sx = $this->issue($d1, $d2, $d3);
+                break;
+
+            case 'harvesting':
+                $sx = 'Harvesting';
+                break;
+
+            case 'issue_harvesting':
+                $JournalIssue = new \App\Models\Journal\JournalIssue();
+                $sx = $JournalIssue->harvesting_oaipmh($d2, $d3);
+                break;
+
+
+                /******************* Para testes ***/
+            case 'edit_issue':
+                $sx = $this->editar_issue($d2, $d3);
+                break;
+            case 'oai_check':
+                $sx = $this->oai_check();
+                break;
+            case 'edit':
+                $sx = $this->editar($d2);
+                break;
+            case 'viewid':
+                $sx = $this->viewid($d2);
+                break;
+            case 'view_issue':
+                $sx = $this->view_issue_id($d2);
+                break;
+            case 'oai':
+                $sx = $this->oai($d2, $d3);
+                break;
+            case 'edit':
+                break;
+        }
+        return $sx;
+    }
+
+
+    function source_list_block($type='EV')
+        {
+            $dt = $this->where('jnl_collection',$type)->orderBy('jnl_name_abrev')->findAll();
+            $sx = '';
+            for ($r=0; $r < count($dt); $r++)
+                {
+                    $line = $dt[$r];
+
+                    $link = '<a href="'. PATH. COLLECTION . '/source/'. $line['id_jnl'] . '" class="text-secondary">';
+                    $linka = '</a>';
+
+                    $sa = '';
+                    $sa .= $link;
+                    $sa .= h($line['jnl_name_abrev'], 2);
+                    $sa .= $line['jnl_name'];
+                    $sa .= $linka;
+
+                    $sx .= bsc($sa,4,'text-center border border-primary p-2');
+                    //pre($line);
+                }
+            $sx = bs($sx);
+            return $sx;
+
+        }
+
     function list_selected()
     {
         if (!isset($_SESSION['sj'])) {
@@ -165,69 +255,7 @@ class Sources extends Model
         return $sx;
     }
 
-    function index($d1, $d2, $d3)
-    {
-        $this->path = base_url(PATH . MODULE . '/index/');
-        $this->path_back = base_url(PATH . MODULE . '/index/');
 
-        switch ($d1) {
-                /******************* Validade ******/
-            default:
-                $sx = $this->menu();
-                break;
-
-            case 'menu':
-                $sx = $this->menu();
-                break;
-
-            case 'tableview':
-                $sx = $this->tableview();
-                break;
-
-            case 'inport_rdf':
-                $JournalIssue = new \App\Models\Journal\JournalIssue();
-                $sx = $JournalIssue->inport_rdf($d2, $d3);
-                break;
-
-                /******************* Implementando */
-            case 'issue':
-                $sx = $this->issue($d1, $d2, $d3);
-                break;
-
-            case 'harvesting':
-                $sx = 'Harvesting';
-                break;
-
-            case 'issue_harvesting':
-                $JournalIssue = new \App\Models\Journal\JournalIssue();
-                $sx = $JournalIssue->harvesting_oaipmh($d2, $d3);
-                break;
-
-
-                /******************* Para testes ***/
-            case 'edit_issue':
-                $sx = $this->editar_issue($d2, $d3);
-                break;
-            case 'oai_check':
-                $sx = $this->oai_check();
-                break;
-            case 'edit':
-                $sx = $this->editar($d2);
-                break;
-            case 'viewid':
-                $sx = $this->viewid($d2);
-                break;
-            case 'view_issue':
-                $sx = $this->view_issue_id($d2);
-                break;
-            case 'oai':
-                $sx = $this->oai($d2, $d3);
-                break;
-            case 'edit':
-                break;
-        }
-        return $sx;
-    }
     function menu()
     {
         $sx = '';
@@ -320,8 +348,34 @@ class Sources extends Model
         return $sx;
     }
 
+    function start_end($dt)
+        {
+            $dd = '';
+            $di = $dt['jnl_ano_inicio'];
+            $df = $dt['jnl_ano_final'];
+
+            if ($di != '')
+                {
+                    $dd .= $di.'-';
+                } else {
+                    if ($df != '')
+                        {
+                            $dd .= $df;
+                        }
+                }
+            return $dd;
+        }
+
+    function openaccess($dt=array())
+        {
+            $dt = array();
+            $sx = 'OL';
+            return $sx;
+        }
+
     function journal_header($dt, $resume = true)
     {
+        $sx = '';
         if (!is_array($dt)) {
             $sx = bsmessage('Erro de identificação do ISSUE/Jornal', 3);
             return $sx;
@@ -329,32 +383,32 @@ class Sources extends Model
         }
 
         $idj = $dt['jnl_frbr'];
-        $this->Cover = new \App\Models\Journal\Cover();
+        $this->Cover = new \App\Models\Base\Cover();
         $img = '<img src="' . $this->Cover->image($dt['id_jnl']) . '" class="img-fluid">';
         $sx = '';
         $url = PATH . COLLECTION . '/v/' . $idj;
         $jnl = h(anchor($url, $dt['jnl_name']), 3);
 
         $jnl .= '<div class="row">';
+        //pre($dt);
         $jnl .= bsc($this->start_end($dt), 4);
         $jnl .= bsc($this->issn($dt), 8);
-        $jnl .= bsc($this->url($dt), 4);
-        $jnl .= bsc($this->active($dt), 8);
+        //$jnl .= bsc($this->url($dt), 4);
+        //$jnl .= bsc($this->active($dt), 8);
         $jnl .= '</div>';
 
-        if ($resume) {
-            $Oaipmh = new \App\Models\Oaipmh\Oaipmh();
-            $jnl .= '<div class="row mt-5" style="border-bottom: 2px solid #888">';
-            $jnl .= bsc('<img src="' . base_url('img/icones/oaipmh.png') . '" class="img-fluid p-4">', 2);
-            $jnl .= $Oaipmh->resume($idj);
-            $jnl .= '</div>';
+        if (1==1) {
+            $Oaipmh = new \App\Models\Oaipmh\Index();
+            $jnl = $Oaipmh->links($idj);
+            $sa = $jnl;
         }
 
         $openaccess = $this->openaccess($dt);
 
-        $sx = bsc($jnl, 10);
+        $sx .= bsc($jnl, 9);
         $sx .= bsc($openaccess, 1, 'p-4');
         $sx .= bsc($img, 1, 'p-2');
+        $sx .= bsc($sa, 1, 'p-2');
         $sx = bs($sx);
 
         return $sx;
