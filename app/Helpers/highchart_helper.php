@@ -1,5 +1,76 @@
 <?php
 
+function highchart_column($data)
+{
+    if (!isset($data['height'])) {
+        $data['height'] = '500';
+    }
+    /************************************************************************* JAVA SCRIPTS */
+    $js = '
+					Highcharts.chart(\'' . $data['id'] . '\', {
+                    height: ' . $data['height'] . ',
+  					chart: {
+    					type: \'column\'
+  					},
+			title: {
+				text: \'' . $data['title'] . '\'
+			},
+			 xAxis: {
+				categories: [' . $data['categorias'] . ']
+                    },
+			yAxis: {
+				min: 0,
+				title: {
+				text: \'Total\'
+				},
+				stackLabels: {
+				enabled: true,
+				style: {
+					fontWeight: \'bold\',
+					color: ( // theme
+					Highcharts.defaultOptions.title.style &&
+					Highcharts.defaultOptions.title.style.color
+					) || \'gray\'
+				}
+				}
+			},
+			legend: {
+				align: \'left\',
+				x: 130,
+				verticalAlign: \'top\',
+				y: 25,
+				floating: true,
+				backgroundColor:
+				Highcharts.defaultOptions.legend.backgroundColor || \'white\',
+				borderColor: \'#CCC\',
+				borderWidth: 1,
+				shadow: false
+			},
+			tooltip: {
+				headerFormat: \'<b>{point.x}</b><br/>\',
+				pointFormat: \'{series.name}: {point.y}<br/>Total: {point.stackTotal}\'
+			},
+			plotOptions: {
+				column: {
+				stacking: \'normal\',
+				dataLabels: {
+					enabled: true
+				}
+				}
+			},
+			' . $data['dados'] . '
+			});';
+
+    $sx = load_grapho_script();
+    $sx .= '
+				<figure class="highcharts-figure">
+				<div id="' . $data['id'] . '"></div>
+				</figure>';
+    $sx .= cr() . '<script>' . $js . '</script>';
+    return $sx;
+}
+
+
 function graph(
     $data = array(),
     $type = 'pie',

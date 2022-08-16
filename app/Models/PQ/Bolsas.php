@@ -15,7 +15,7 @@ class Bolsas extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_bb', 'bs_tipo', 'bs_nivel', 
+		'id_bb', 'bs_tipo', 'bs_nivel',
 		'bs_start', 'bs_finish', 'BS_IES',
 		'bb_person'
 
@@ -101,7 +101,7 @@ class Bolsas extends Model
 			/************************************** */
 			$sx .= '
 					<div class="card mb-2" style="width: 100%;">
-					
+
 					<div class="card-body">
 						' . $edit . '
 						<img style="margin-top: 10px; margin-bottom: 10px; margin-right: 25px; height: 30px; float: left;"" src="' . URL . '/img/logo/logo_cnpq.png' . '" alt="CNPq">
@@ -111,7 +111,7 @@ class Bolsas extends Model
 				stodbr(sonumero($line['bs_start'])) .
 				' - ' .
 				stodbr(sonumero($line['bs_finish'])) .
-				'</p>						
+				'</p>
 					</div>
 					</div>
 					';
