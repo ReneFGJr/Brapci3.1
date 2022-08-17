@@ -45,8 +45,7 @@ class Index extends Model
         switch ($act) {
             case 'v':
                 $RDF = new \App\Models\Rdf\RDF();
-                $dt = $RDF->le($subact);
-                $sx = $RDF->view_data($dt);
+                $sx = $RDF->index('v', $subact);
                 break;
             case 'email':
                 $Email = new \App\Models\Functions\Email();
