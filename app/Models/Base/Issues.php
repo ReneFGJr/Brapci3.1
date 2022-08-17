@@ -191,7 +191,7 @@ class Issues extends Model
                 $this->RDFIssue($dt);
                 exit;
             }
-        $sx .= $this->header_issue($dt[0]);
+        $sx .= $this->header_issue($dt);
         //$sx .= $IssuesWorks->check($dt[0]);
         return $sx;
     }
