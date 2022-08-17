@@ -35,20 +35,26 @@ class Proceedings extends BaseController
 
         switch ($act) {
 
+            case 'oai':
+                $sx .= $this->oai($subact, $id);
+                break;
+
             case 'harvesting':
                 $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
                 $sx .= $OAI_ListIdentifiers->harvesting($d2);
                 break;
 
-            case 'source':
-                $Sources = new \App\Models\Base\Sources();
-                $dt = $Sources->find($subact);
-                $sx .= $Sources->journal_header($dt);
+            case 'issue':
+                $sx .= $this->issues($subact, $id);
                 break;
 
-            case 'sourcers':
+            case 'source':
                 $Sources = new \App\Models\Base\Sources();
-                $sx .= $Sources->source_list_block();
+                $Issues = new \App\Models\Base\Issues();
+                $dt = $Sources->find($subact);
+                $sx .= $Sources->journal_header($dt);
+                $sx .= $Issues->PainelAdmin($dt['id_jnl']);
+                $sx .= $Issues->show_list_cards($dt['id_jnl']);
                 break;
 
             case 'xsearch':
@@ -90,10 +96,49 @@ class Proceedings extends BaseController
 
             default:
                 $sx .= view('Proceeding/Pages/home');
+                $Sources = new \App\Models\Base\Sources();
+                $sx .= $Sources->source_list_block();
                 break;
         }
 
         $sx .= view('Brapci/Headers/footer', $data);
+        return $sx;
+    }
+
+    function issues($subact, $id)
+        {
+            $Issues = new \App\Models\Base\Issues();
+            $sx = $Issues->index($subact, $id);
+            return $sx;
+        }
+
+    function oai($jid, $act)
+    {
+        $sx = '';
+        switch ($act) {
+            case 'getrecords':
+                $sx .= h('OAIPMH - GetRecords');
+                $OAI_GetRecords = new \App\Models\Oaipmh\GetRecords();
+                $sx .= $OAI_GetRecords->getrecord(0,$jid);
+                break;
+            case 'listidentifiers':
+                $Sources = new \App\Models\Base\Sources();
+                $dt = $Sources->find($jid);
+
+                $sx .= h('OAIPMH - listidentifiers');
+                $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+                $sa = $ListIdentifiers->harvesting($dt);
+                $sb = $ListIdentifiers->resume($jid);
+
+                $sx .= $sb;
+                $sx .= $sa;
+                break;
+
+            default:
+                $sx .= h('OAIPMH - '.$act.' ['.$jid.']');
+                break;
+        }
+        $sx = bs(bsc($sx,12));
         return $sx;
     }
 

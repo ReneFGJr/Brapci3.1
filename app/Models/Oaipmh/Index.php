@@ -40,6 +40,40 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function dir_tmp($id)
+		{
+			$nr = strzero($id, 9);
+
+			$dir = '.tmp';
+			dircheck($dir);
+			$dir .= '/'.substr(date("Y"),0,2);
+			dircheck($dir);
+			$dir .= '/' . substr(date("Y"), 2, 2);
+			dircheck($dir);
+
+			$dir .= '/' . substr($nr, 0, 3);
+			dircheck($dir);
+			$dir .= '/' . substr($nr, 3, 3);
+			dircheck($dir);
+			$dir .= '/' . substr($nr, 6, 3);
+			dircheck($dir);
+			$dir .= '/';
+			return $dir;
+		}
+
+
+	function to_harvesting($idj,$issue)
+		{
+			$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+			if ($idj > 0)
+				{
+					$dt = $OAI_ListIdentifiers->where('li_jnl',$idj)->where('li_s',1)->findAll();
+				} else {
+					$dt = $OAI_ListIdentifiers->where('li_issue', $issue)->where('li_s', 1)->findAll();
+				}
+			return count($dt);
+		}
+
 	function links($id)
 		{
 			$sx = '['.$id.']';
@@ -47,10 +81,28 @@ class Index extends Model
 			return $sx;
 		}
 
-	function resume()
+	function _call($url, $headers=array())
 		{
-			$sx = '';
-			$sx .= 'RESUME';
-			return $sx;
+
+		//$headers = array('Accept: application/json', 'Content-Type: application/json',);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		$response = curl_exec($ch);
+		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($code == '200')
+			{
+				return $response;
+			} else {
+				echo h('ERRO CURL: '.$code);
+				exit;
+			}
+
 		}
+
+
 }

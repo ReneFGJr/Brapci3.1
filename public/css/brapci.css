@@ -131,3 +131,13 @@ a.pgcd_view_plans:hover
          border-top: 2px solid #AAA;
          padding-top: 5px;
     }
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}

@@ -80,21 +80,8 @@ class Benancib extends BaseController
                 $sx .= $this->v($subact);
                 break;
             case 'issue':
-                switch ($subact) {
-                    case 'edit':
-                        $Issues = new \App\Models\Base\Issues();
-                        $sx .= breadcrumbs();
-                        $sx .= bsc($Issues->edit($id));
-                        break;
-
-                    default:
-                        $Issues = new \App\Models\Base\Issues();
-                        $id = get("id");
-                        $sx .= bsc($Issues->issue($id), 12);
-                        $sx .= '<hr>';
-                        $sx .= bsc($Issues->issue_section_works($id), 12);
-                        break;
-                }
+                $Issues = new \App\Models\Base\Issues();
+                $sx .= $Issues->index($subact,$id);
                 break;
             case 'admin':
                 $ADMIN = new \App\Models\Base\Admin\Index();

@@ -399,9 +399,10 @@ class Sources extends Model
 
         if (1==1) {
             $Oaipmh = new \App\Models\Oaipmh\Index();
-            $jnl = $Oaipmh->links($idj);
-            $sa = $jnl;
+            $jnl .= $Oaipmh->links($dt['id_jnl']);
         }
+
+        $sa = 'x';
 
         $openaccess = $this->openaccess($dt);
 

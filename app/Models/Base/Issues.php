@@ -15,17 +15,32 @@ class Issues extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_is', 'is_source_rdf', 'is_source_issue',
-        'is_year', 'is_issue', 'is_vol', 'is_vol_roman',
-        'is_nr', 'is_place', 'is_thema',
-        'is_cover', 'is_url_oai', 'is_works'
+        'id_is',
+        'is_source',
+        'is_year',
+
+        'is_issue',
+        'is_vol',
+        'is_vol_roman',
+
+        'is_nr',
+        'is_place',
+        'is_thema',
+
+        'is_source_rdf',
+        'is_cover',
+        'is_url_oai',
+
+        'is_works',
+        'is_source_issue'
     ];
 
     protected $typeFields    = [
+        'hidden', 'sql:id_jnl:jnl_name:source_source order by jnl_name*', 'year*',
         'hidden', 'string', 'string',
-        'string', 'string', 'string', 'string',
-        'string', 'string', 'string',
-        'string', 'string', 'string'
+        '[1-199]', 'string', 'text',
+        'hidden', 'hidden', 'string',
+        'hidden', 'hidden'
     ];
 
     // Dates
@@ -52,13 +67,59 @@ class Issues extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function index($act, $id)
+    {
+        $sx = '';
+        switch ($act) {
+            case 'edit':
+                $jid = get("jid");
+                if ($jid != 0) {
+                    $_POST['is_source'] = $jid;
+                }
+                $sx = $this->edit($id);
+                break;
+            case 'harvesting':
+                $id = get("id");
+                if ($id > 0)
+                {
+                    $sx .= bsc($this->issue($id), 12);
+                    $sx .= $this->harvesting($id);
+                } else {
+                    $sx .= bsmessage('ERRO: 580 - id not found',3);
+                }
+                break;
+            default:
+                $id = get("id");
+                $sx .= bsc($this->issue($id), 12);
+                $sx .= '<hr>';
+                $sx .= bsc($this->issue_section_works($id), 12);
+                break;
+        }
+
+        return $sx;
+    }
+
+    function harvesting($id)
+        {
+            $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+
+            $dt = $this->find($id);
+            $sx = '';
+            $sx .= $OAI_ListIdentifiers->harvesting_issue($dt);
+            return $sx;
+        }
+
     function edit($id)
     {
         $this->id = $id;
         $this->path = URL . '/' . COLLECTION . '/issue/';
-        $this->path_back = URL . '/' . COLLECTION . '/issue/?id=' . $id;
+        if ($id > 0) {
+            $this->path_back = URL . '/' . COLLECTION . '/issue/?id=' . $id;
+        } else {
+            $this->path_back = URL . '/' . COLLECTION . '/source/' . get("is_source");
+        }
+
         $sx = form($this);
-        $sx .= '=edit=>' . $this->id;
         $sx = bs(bsc($sx, 12));
         return $sx;
     }
@@ -102,13 +163,19 @@ class Issues extends Model
         return $sx;
     }
 
+    function PainelAdmin($idj)
+    {
+        $sx = '';
+        $sx .= anchor(URL . COLLECTION . '/issue/edit/' . $idj . '?jid=' . $idj, lang('brapci.new_issue'));
+        return $sx;
+    }
+
     function issue($id)
     {
         $dt = $this
             ->join('source_source', 'is_source = id_jnl')
             ->where('id_is', round($id))
             ->findAll();
-
         $sx = '';
         $sx .= $this->header_issue($dt[0]);
         //$sx .= $IssuesWorks->check($dt[0]);
@@ -130,7 +197,7 @@ class Issues extends Model
         $Work = new \App\Models\Base\Work();
         $sels = $Work->WorkSelected();
         $sx = '';
-        $sx .= bs(bsc('<div id="result" class="border border-secondary rounded" style="padding: 0px 5px; background-color: #EEE;">'. $sels.'</div>',12));
+        $sx .= bs(bsc('<div id="result" class="border border-secondary rounded" style="padding: 0px 5px; background-color: #EEE;">' . $sels . '</div>', 12));
 
         /* Recupera works */
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
@@ -143,9 +210,22 @@ class Issues extends Model
         $tools = '';
         $Socials = new \App\Models\Socials();
         if ($Socials->getAccess("#CAR#ADM")) {
-            $tools = anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32));
+            $tools = '';
+            $OAI = new \App\Models\Oaipmh\Index();
+            if (trim($dt['is_url_oai']) != '') {
+                $tot = $OAI->to_harvesting(0,$dt['id_is']);
+                if ($tot > 0)
+                    {
+                        $class = 'class = "blink" ';
+                        $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is']. '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" class="blink"');
+                    } else {
+                        $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" class="blink"');
+                    }
+                $tools .= '<span class="p-2"></span>';
+            }
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32), 'title="Reindex"');
             $tools .= '<span class="p-2"></span>';
-            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32));
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32),'title="Edit"');
         }
         $sx = '';
         $vol = $dt['is_vol'];
@@ -157,8 +237,8 @@ class Issues extends Model
         $sx .= bsc($vol, 1);
         $sx .= bsc($dt['is_year'], 1);
         $sx .= bsc($dt['is_place'], 2);
-        $sx .= bsc($dt['is_thema'], 7);
-        $sx .= bsc($tools, 1);
+        $sx .= bsc($dt['is_thema'], 6);
+        $sx .= bsc($tools, 2);
 
         /**************************** */
         $sx = bs($sx);

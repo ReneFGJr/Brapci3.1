@@ -43,6 +43,11 @@ class Index extends Model
     function index($act = '', $subact = '', $id = '')
     {
         switch ($act) {
+            case 'v':
+                $RDF = new \App\Models\Rdf\RDF();
+                $dt = $RDF->le($id);
+                $sx = $RDF->view_data($dt);
+                break;
             case 'email':
                 $Email = new \App\Models\Functions\Email();
                 $sx = $Email->test();
