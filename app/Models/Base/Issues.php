@@ -172,6 +172,7 @@ class Issues extends Model
 
     function issue($id)
     {
+        $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $dt = $this
             ->join('source_source', 'is_source = id_jnl')
             ->where('id_is', round($id))
@@ -192,13 +193,38 @@ class Issues extends Model
                 exit;
             }
         $sx .= $this->header_issue($dt);
-        //$sx .= $IssuesWorks->check($dt[0]);
+        $sx .= $IssuesWorks->check($dt);
         return $sx;
     }
 
     function RDFIssue($dt)
         {
-            pre($dt);
+            $RDF = new \App\Models\Rdf\RDF();
+            $class = 'IssueProceeding';
+            $prefLabel = trim($dt['is_vol_roman']).' '.trim($dt['jnl_name']).', '.trim($dt['is_year']);
+            $id_issue = $RDF->concept($prefLabel,$class);
+
+            /************************************************************* Vincula a fontes principal */
+            $RDF->propriety($dt['jnl_frbr'], 'hasIssueProceeding',$id_issue);
+
+            /***** Data */
+             if (strlen(trim($dt['is_year'])) > 0) {
+                $id_date = $RDF->concept(trim($dt['is_year']), 'Date');
+                $RDF->propriety($id_issue, 'hasDateTime', $id_date);
+             }
+
+            /***** Place */
+            if (strlen(trim($dt['is_place'])) > 0)
+                {
+                    $id_place = $RDF->concept($dt['is_place'], 'Place');
+                    $RDF->propriety($id_issue, 'hasPlace', $id_place);
+                }
+
+            $dd['is_source_rdf'] = $dt['jnl_frbr'];
+            $dd['is_source_issue'] = $id_issue;
+            $this->set($dd)->where('id_is',$dt['id_is'])->update();
+
+            return "";
         }
 
     function issue_section_works($id)
@@ -209,7 +235,6 @@ class Issues extends Model
 
         if (get("reindex") != '') {
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
-            pre($dt);
             $IssuesWorks->check($dt);
         }
 

@@ -36,6 +36,9 @@ class Proceedings extends BaseController
 
         switch ($act) {
 
+            case 'v':
+                $sx .= $this->v($subact);
+                break;
             case 'oai':
                 $sx .= $this->oai($subact, $id);
                 break;
@@ -150,6 +153,8 @@ class Proceedings extends BaseController
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
 
+        $sx .= h($class);
+
         switch ($class) {
             case 'Subject':
                 $Keywords = new \App\Models\Base\Keywords();
@@ -167,7 +172,6 @@ class Proceedings extends BaseController
                 break;
 
             case 'Work':
-                echo "OK";
                 $Work = new \App\Models\Base\Work();
                 $sx .= $Work->show($id);
                 break;

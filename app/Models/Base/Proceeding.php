@@ -125,8 +125,21 @@ class Proceeding extends Model
                     break;
             }
         }
-        $sx .= view('Benancib/Base/Work', $da);
-        //$sx .= $RDF->view_data($dt);
+
+        switch(COLLECTION)
+            {
+                case '/proceedings':
+                    $sx .= view('Proceeding/Base/Work', $da);
+                    //$sx .= $RDF->view_data($dt);
+                    break;
+                case '/benancib':
+                    $sx .= view('Benancib/Base/Work', $da);
+                    //$sx .= $RDF->view_data($dt);
+                    break;
+                default:
+                    $sx .= view('Benancib/Base/Work', $da);
+                    break;
+            }
         return $sx;
     }
 

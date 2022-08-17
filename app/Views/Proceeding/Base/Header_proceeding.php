@@ -1,0 +1,1 @@
+<img src="<?= URL; ?>/img/headers/Proceeding/<?= $banner; ?>.jpg" class="img-fluid mb-4">

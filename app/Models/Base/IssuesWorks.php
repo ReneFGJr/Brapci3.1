@@ -107,6 +107,7 @@ class IssuesWorks extends Model
 
         $dt = $RDF->le_data($idr);
         $dt = $dt['data'];
+
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
             $class = trim($line['c_class']);

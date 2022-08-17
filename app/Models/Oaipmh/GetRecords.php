@@ -110,8 +110,9 @@ class GetRecords extends Model
 			}
 		}
 
-		$dir = $OAI->dir_tmp($dt['id_is']);
+		$dir = $OAI->dir_tmp($dt['id_li']);
 		$file = $dir . 'GetRegister.xml';
+
 		if (file_exists($file)) {
 			$txt = file_get_contents($file);
 			$sx .= "CACHED<br>";
@@ -126,6 +127,7 @@ class GetRecords extends Model
 		switch ($method) {
 			case 0:
 				$sx .= $this->Method_00($dt, $txt, $file);
+				$sx .= metarefresh('',1);
 				break;
 		}
 		return $sx;
@@ -147,17 +149,15 @@ class GetRecords extends Model
 
 		$reg = $dt['li_identifier'];
 		$prefLabel = 'A' . strzero($dt['id_li'], 9) . '_' . trim($reg);
-		echo h($prefLabel);
 
 		$RDF = new \App\Models\Rdf\RDF();
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
-		echo '===>' . $idp;
 
 		$metadata = (array)$metadata['dc'];
 
 		/************************************************ ISSUE */
 		$issue = $metadata['source'];
-		$id_issue = $RDF->concept($issue, 'IssueProceeding');
+		$id_issue = $dt['is_source_issue'];
 		$RDF->propriety($id_issue, 'hasIssueProceedingOf', $idp, 0);
 
 		/************************************************ Titulo */
@@ -171,6 +171,10 @@ class GetRecords extends Model
 		/************************************************ Autores */
 		$auth = array();
 		$authors = $metadata['creator'];
+		if (!is_array($authors))
+			{
+				$authors = array($authors);
+			}
 		for ($r = 0; $r < count($authors); $r++) {
 			$aut = (string)$authors[$r];
 			$author = '';
@@ -200,13 +204,14 @@ class GetRecords extends Model
 		if (!is_array($subject)) {
 			$subject = array($subject);
 		}
+		$sx .= h('Subjects');
+
 		for ($r = 0; $r < count($subject); $r++) {
 			$sub = (string)$subject[$r];
 			$sub = troca($sub, '.', ';');
 			$sub = troca($sub, ',', ';');
 			$sub = explode(';', $sub);
 
-			$sx .= h('Subjects');
 			for ($y = 0; $y < count($sub); $y++) {
 				$term = trim($sub[$y]);
 				$term = nbr_title($term);
