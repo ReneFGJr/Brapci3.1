@@ -217,9 +217,9 @@ class Issues extends Model
                 if ($tot > 0)
                     {
                         $class = 'class = "blink" ';
-                        $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is']. '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" class="blink"');
+                        $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is']. '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
                     } else {
-                        $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" class="blink"');
+                        $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"'.$class);
                     }
                 $tools .= '<span class="p-2"></span>';
             }
