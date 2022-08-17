@@ -45,7 +45,7 @@ class Index extends Model
         switch ($act) {
             case 'v':
                 $RDF = new \App\Models\Rdf\RDF();
-                $dt = $RDF->le($id);
+                $dt = $RDF->le($subact);
                 $sx = $RDF->view_data($dt);
                 break;
             case 'email':
@@ -56,7 +56,6 @@ class Index extends Model
                 $Socials = new \App\Models\Socials();
                 $sx = $Socials->index($subact, $id);
                 break;
-
             case 'source':
                 $Sources = new \App\Models\Base\Sources();
                 switch ($subact) {
