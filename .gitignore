@@ -2,6 +2,7 @@
 .tmp/
 /writable/
 public/.c/
+public/_repository/
 ,c/
 public/.c/00/
 public/img/c/

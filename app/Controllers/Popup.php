@@ -14,6 +14,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . '/');
 define("MODULE", '');
 define("PREFIX", '');
+define("LIBRARY", '1000');
 
 class Popup extends BaseController
 {
@@ -25,6 +26,15 @@ class Popup extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
 
         switch ($act) {
+            case  'upload':
+                $Socials = new \App\Models\Socials();
+                if ($Socials->getAccess("#ADM"))
+                    {
+                        $id = get("id");
+                        $DownloadPDF = new \App\Models\Bots\DownloadPDF();
+                        $sx .= $DownloadPDF->upload($id);
+                    }
+                break;
             case 'lattesextrator':
                 $LattesExtrator = new \App\Models\LattesExtrator\Index();
                 $LattesExtrator->harvesting();

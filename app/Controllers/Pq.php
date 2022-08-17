@@ -14,6 +14,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . '/');
 define("MODULE", '');
 define("PREFIX", '');
+define("LIBRARY", '1000');
 define("COLLECTION", 'pq/');
 
 class Pq extends BaseController

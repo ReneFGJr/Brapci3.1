@@ -43,6 +43,32 @@ class DownloadPDF extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function upload($id)
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $sx = '';
+            $sx .= form_open_multipart();
+            $sx .= form_upload(array('name' =>'upload'));
+            $sx .= form_submit(array('name' => 'action','value' => lang("brapcp.save")));
+            $sx .= form_close();
+
+            if (isset($_FILES['upload']['name']))
+                {
+                    $fileO = $_FILES['upload']['tmp_name'];
+                    $fileD = $this->directory($id) . 'article_' . strzero($id, 8) . '.pdf';
+                    move_uploaded_file($fileO,$fileD);
+                    echo h($fileD);
+                    $idf = $this->create_FileStorage($id, $fileD);
+                    $prop = 'hasFileStorage';
+                    $RDF->propriety($id, $prop, $idf, 0);
+                    $this->harvesting_update($id, 99);
+                    $sx = wclose();
+                }
+
+
+            return $sx;
+        }
+
     function toHarvesting($id)
     {
         $dt = $this->where('d_article', $id)->findAll();

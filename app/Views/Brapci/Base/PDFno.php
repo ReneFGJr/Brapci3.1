@@ -6,3 +6,12 @@
     <?= bsicone("html", 64); ?><br />
     <?= lang('brapci.homepage'); ?>
 </div>
+<?php
+$Socials = new \App\Models\Socials();
+if ($Socials->getAccess("#ADM"))
+    {
+        echo '<div style="width: 100%" class="text-right">';
+        echo onclick(PATH.'/popup/upload/?id='. $id_cc,600,300)."Upload".'</span>';
+        echo '</div>';
+    }
+?>
