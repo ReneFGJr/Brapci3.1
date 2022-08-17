@@ -165,7 +165,7 @@ class RDFExport extends Model
 		$elastic['title'] = strtolower(ascii(($title)));
 
 		/***************************************************** Issue */
-		$ISSUE = new \app\Models\Base\Issues();
+		$ISSUE = new \App\Models\Base\Issues();
 
 		$issue1 = $RDF->extract($dt, 'hasIssueProceedingOf');
 		$issue2 = $RDF->extract($dt, 'hasIssueOf');

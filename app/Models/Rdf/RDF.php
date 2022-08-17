@@ -1022,9 +1022,16 @@ class RDF extends Model
 		return $tela;
 	}
 
-	function literal($name, $lang, $idp, $prop)
+	function literal($name, $lang, $idp='', $prop='')
 	{
-		return $this->RDF_literal($name, $lang, $idp, $prop);
+		if ($idp != '')
+		{
+			return $this->RDF_literal($name, $lang, $idp, $prop);
+		} else {
+			$RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+			return $RDFLiteral->name($name, $lang, true);
+		}
+
 	}
 
 	function RDF_literal($name, $lang, $idp, $prop)

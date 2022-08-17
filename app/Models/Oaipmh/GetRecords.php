@@ -139,9 +139,75 @@ class GetRecords extends Model
 		$header = (array)$GR['header'];
 		$metadata = (array)$GR['metadata'];
 
-		pre($metadata);
+		$reg = $dt['li_identifier'];
+		$prefLabel = 'A'.strzero($dt['id_li'],9).'_'.trim($reg);
+		echo h($prefLabel);
 
-		$title = $metadata['title'];
+		$RDF = new \App\Models\Rdf\RDF();
+		$idp = $RDF->concept($prefLabel, 'Proceeding');
+		echo '===>'.$idp;
+
+		$metadata = (array)$metadata['dc'];
+
+		/************************************************ ISSUE */
+		$issue = $metadata['source'];
+		$id_issue = $RDF->concept($issue, 'IssueProceeding');
+		$RDF->propriety($id_issue, 'hasIssueProceedingOf', $idp, 0);
+
+		/************************************************ Titulo */
+		$title = nbr_title($metadata['title']);
+		$prop = 'brapci:hasTitle';
+		$lang = 'pt-BR';
+		$literal = $RDF->literal($title,$lang);
+		$RDF->RDF_literal($title, $lang, $idp,$prop);
+
+		/************************************************ Autores */
+		$auth = array();
+		$authors = $metadata['creator'];
+		for ($r=0;$r < count($authors);$r++)
+			{
+				$aut = (string)$authors[$r];
+				$author = '';
+				$inst = '';
+
+				if ($pos = strpos($aut,';'))
+					{
+						$author = substr($aut,0,$pos);
+						$inst =	trim(substr($aut, $pos+1,strlen($aut)));
+					} else {
+						$author = $aut;
+					}
+				$name = nbr_author($author, 1);
+				$id_auth = $RDF->concept($name, 'Person');
+				$RDF->propriety($idp, 'hasAuthor', $id_auth, 0);
+				/******************************** Vinculo Instituicional */
+				if ($inst != '')
+					{
+						$id_org = $RDF->concept($inst, 'CorporateBody');
+						$RDF->propriety($id_auth, 'hasAuthor', $id_org, 0);
+					}
+			}
+
+
+		/************************************************ Subject */
+		$auth = array();
+		$subject = $metadata['subject'];
+		for ($r = 0; $r < count($subject); $r++) {
+			$aut = (string)$subject[$r];
+			$sub = '';
+
+			if ($pos = strpos($aut, ';')) {
+				$author = substr($aut, 0, $pos);
+			} else {
+				$author = $aut;
+			}
+			$name = nbr_author($author, 1);
+			$id_auth = $RDF->concept($name, 'Person');
+			$RDF->propriety($idp, 'hasAuthor', $id_auth, 0);
+		}
+
+
+
 
 
 		$dd['lr_identifier'] = $reg;
