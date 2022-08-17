@@ -239,6 +239,7 @@ class Issues extends Model
                         $class = 'class = "blink" ';
                         $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is']. '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
                     } else {
+                        $class = '';
                         $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"'.$class);
                     }
                 $tools .= '<span class="p-2"></span>';
