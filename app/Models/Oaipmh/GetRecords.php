@@ -56,8 +56,15 @@ class GetRecords extends Model
 				->orderby('li_u')
 				->findAll();
 
-			$id = $dt[0]['id_li'];
-			$sx .= $this->harvesting($id);
+			if (count($dt) == 0)
+				{
+					$sx .= $OAI_ListIdentifiers->getlastquery();
+					$sx .= bsmessage(lang('brapci.proceesing_finish'),1);
+				} else {
+					$id = $dt[0]['id_li'];
+					$sx .= $this->harvesting($id);
+				}
+
 		}
 		return $sx;
 	}
@@ -93,17 +100,15 @@ class GetRecords extends Model
 		//pre($dt);
 
 		/********************************* Sincroniza tabelas e atualizações */
-		$verif = $this->where('lr_identifier',$reg)->where('lr_jnl',$dt['jnl_frbr'])->findAll();
-		if (count($verif) > 0)
-			{
-				if ($id_li > 0)
-					{
-						$OAI_ListIdentifiers->update_status($id_li, 9);
-						$sx = bsmessage(lang('brapci.already_process ' . $reg), 4);
-						$sx .= metarefresh('',1);
-						return $sx;
-					}
+		$verif = $this->where('lr_identifier', $reg)->where('lr_jnl', $dt['jnl_frbr'])->findAll();
+		if (count($verif) > 0) {
+			if ($id_li > 0) {
+				$OAI_ListIdentifiers->update_status($id_li, 9);
+				$sx = bsmessage(lang('brapci.already_process ' . $reg), 4);
+				$sx .= metarefresh('', 1);
+				return $sx;
 			}
+		}
 
 		$dir = $OAI->dir_tmp($dt['id_is']);
 		$file = $dir . 'GetRegister.xml';
@@ -117,18 +122,19 @@ class GetRecords extends Model
 
 		/******************************* METHODS */
 		$method = $dt['jnl_oai_to_harvesting'];
-		$sx .= h('Method '.$method,3);
+		$sx .= h('Method ' . $method, 3);
 		switch ($method) {
 			case 0:
-				$sx .= $this->Method_00($dt, $txt);
+				$sx .= $this->Method_00($dt, $txt, $file);
 				break;
 		}
 		return $sx;
 	}
 
 	/************************************************ Method 00 */
-	function Method_00($dt, $txt)
+	function Method_00($dt, $txt, $file='')
 	{
+		$sx = '';
 		$txt = troca($txt, 'oai_dc:', '');
 		$txt = troca($txt, 'dc:', '');
 		$xml = (array)simplexml_load_string($txt);
@@ -140,12 +146,12 @@ class GetRecords extends Model
 		$metadata = (array)$GR['metadata'];
 
 		$reg = $dt['li_identifier'];
-		$prefLabel = 'A'.strzero($dt['id_li'],9).'_'.trim($reg);
+		$prefLabel = 'A' . strzero($dt['id_li'], 9) . '_' . trim($reg);
 		echo h($prefLabel);
 
 		$RDF = new \App\Models\Rdf\RDF();
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
-		echo '===>'.$idp;
+		echo '===>' . $idp;
 
 		$metadata = (array)$metadata['dc'];
 
@@ -156,70 +162,103 @@ class GetRecords extends Model
 
 		/************************************************ Titulo */
 		$title = nbr_title($metadata['title']);
+		$sx .= h($title,2);
 		$prop = 'brapci:hasTitle';
 		$lang = 'pt-BR';
-		$literal = $RDF->literal($title,$lang);
-		$RDF->RDF_literal($title, $lang, $idp,$prop);
+		$literal = $RDF->literal($title, $lang);
+		$RDF->RDF_literal($title, $lang, $idp, $prop);
 
 		/************************************************ Autores */
 		$auth = array();
 		$authors = $metadata['creator'];
-		for ($r=0;$r < count($authors);$r++)
-			{
-				$aut = (string)$authors[$r];
-				$author = '';
-				$inst = '';
-
-				if ($pos = strpos($aut,';'))
-					{
-						$author = substr($aut,0,$pos);
-						$inst =	trim(substr($aut, $pos+1,strlen($aut)));
-					} else {
-						$author = $aut;
-					}
-				$name = nbr_author($author, 1);
-				$id_auth = $RDF->concept($name, 'Person');
-				$RDF->propriety($idp, 'hasAuthor', $id_auth, 0);
-				/******************************** Vinculo Instituicional */
-				if ($inst != '')
-					{
-						$id_org = $RDF->concept($inst, 'CorporateBody');
-						$RDF->propriety($id_auth, 'hasAuthor', $id_org, 0);
-					}
-			}
-
-
-		/************************************************ Subject */
-		$auth = array();
-		$subject = $metadata['subject'];
-		for ($r = 0; $r < count($subject); $r++) {
-			$aut = (string)$subject[$r];
-			$sub = '';
+		for ($r = 0; $r < count($authors); $r++) {
+			$aut = (string)$authors[$r];
+			$author = '';
+			$inst = '';
 
 			if ($pos = strpos($aut, ';')) {
 				$author = substr($aut, 0, $pos);
+				$inst =	trim(substr($aut, $pos + 1, strlen($aut)));
 			} else {
 				$author = $aut;
 			}
 			$name = nbr_author($author, 1);
 			$id_auth = $RDF->concept($name, 'Person');
 			$RDF->propriety($idp, 'hasAuthor', $id_auth, 0);
+			/******************************** Vinculo Instituicional */
+			if ($inst != '') {
+				$id_org = $RDF->concept($inst, 'CorporateBody');
+				$RDF->propriety($id_auth, 'affiliatedWith', $id_org, 0);
+			}
 		}
 
 
+		/************************************************ Subject */
+		$AI = new \App\Models\AI\NLP\Language();
+		$auth = array();
+		$subject = $metadata['subject'];
+		if (!is_array($subject)) {
+			$subject = array($subject);
+		}
+		for ($r = 0; $r < count($subject); $r++) {
+			$sub = (string)$subject[$r];
+			$sub = troca($sub, '.', ';');
+			$sub = troca($sub, ',', ';');
+			$sub = explode(';', $sub);
 
+			$sx .= h('Subjects');
+			for ($y = 0; $y < count($sub); $y++) {
+				$term = trim($sub[$y]);
+				$term = nbr_title($term);
+				if ($term != '') {
+					$lang = $AI->getTextLanguage($term);
+					$id_sub = $RDF->concept($term, 'Subject', $lang);
+					$RDF->propriety($idp, 'hasSubject', $id_sub, 0);
+					$sx .= $term . ' [' . $lang . ']<br>';
+				}
+			}
+		}
 
+		/************************************************ Section */
+			$Sections = new \App\Models\Base\Sections();
+			$sec = $Sections->normalize($dt['li_setSpec'],$dt['id_jnl']);
+			$id_sec = $RDF->concept($sec, 'ProceedingSection');
+			$RDF->propriety($idp, 'hasSectionOf', $id_sec,0);
+
+		/************************************************ Abstract */
+		if (isset($metadata['description'])) {
+			$abs = nbr_title($metadata['description']);
+			if ($abs != '') {
+				$lang = $AI->getTextLanguage($abs);
+				$literal = $RDF->literal($abs, $lang);
+				$RDF->propriety($idp, 'hasAbstract', 0, $literal);
+			}
+		}
+
+		/************************************************ identifier */
+		if (isset($metadata['identifier'])) {
+			$identifier = $metadata['identifier'];
+			if ($identifier != '') {
+				$literal = $RDF->literal($identifier, '');
+				$RDF->propriety($idp, 'hasRegisterId', 0, $literal);
+			}
+		}
 
 		$dd['lr_identifier'] = $reg;
-		$dd['lr_datestamp'] = '';
-		$dd['lr_setSpec'] = '';
-		$dd['lr_status'] = '';
-		$dd['lr_jnl'] = '';
-		$dd['lr_procees'] = '';
-		$dd['lr_issue'] = '';
-		$dd['lr_local_file'] = '';
-		$dd['lr_work'] = '';
+		$dd['lr_datestamp'] = $dt['li_datestamp'];
+		$dd['lr_setSpec'] = $dt['li_setSpec'];
+		$dd['lr_status'] = 9;
+		$dd['lr_jnl'] = $dt['jnl_frbr'];
+		$dd['lr_procees'] = '2';
+		$dd['lr_issue'] = $dt['li_s'];
+		$dd['lr_local_file'] = $file;
+		$dd['lr_work'] = $idp;
+		$this->set($dd)->insert();
 
-		pre($xml);
+		/***************** Atualiza */
+		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+		$OAI_ListIdentifiers->update_status($dt['id_li'],9);
+
+		return $sx;
 	}
 }

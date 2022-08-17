@@ -46,6 +46,22 @@ class Sections extends Model
         return $sx;
     }
 
+    function normalize($sec,$idj)
+        {
+            echo h($sec.'=='.$idj);
+            switch($idj)
+                {
+                    case 75:
+                        $sec = explode(':',trim($sec));
+                        $sec = $sec[count($sec)-1];
+                        return $sec;
+                    default:
+                        return $sec;
+                        break;
+                }
+            exit;
+        }
+
 
     function index_sections($key = array(), $id = '')
     {
