@@ -39,8 +39,8 @@ class Issues extends Model
         'hidden', 'sql:id_jnl:jnl_name:source_source order by jnl_name*', 'year*',
         'hidden', 'string', 'string',
         '[1-199]', 'string', 'text',
-        'string', 'hidden', 'string',
-        'hidden', 'string'
+        'string*', 'hidden', 'string',
+        'hidden', 'string*'
     ];
 
     // Dates
@@ -231,6 +231,10 @@ class Issues extends Model
     {
         /* Recupera ID RDF */
         $dt = $this->find($id);
+        if (count($dt) == 0)
+            {
+                return "";
+            }
         $id_rdf = $dt['is_source_issue'];
 
         if (get("reindex") != '') {
