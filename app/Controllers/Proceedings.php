@@ -26,7 +26,7 @@ class Proceedings extends BaseController
         $data['bg'] = 'bg-proceedings';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Benancib/Headers/navbar', $data);
+        $sx .= view('Proceeding/Headers/navbar', $data);
 
         $q = get("query");
         if (strlen($q) > 0) {
