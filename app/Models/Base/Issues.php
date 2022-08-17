@@ -177,10 +177,29 @@ class Issues extends Model
             ->where('id_is', round($id))
             ->findAll();
         $sx = '';
+
+        if (count($dt) == 0)
+            {
+                return "ERRO";
+            } else {
+                $dt = $dt[0];
+            }
+
+        if ($dt['is_source_issue'] == 0)
+            {
+                $sx .= 'Criar ISSUE RDF';
+                $this->RDFIssue($dt);
+                exit;
+            }
         $sx .= $this->header_issue($dt[0]);
         //$sx .= $IssuesWorks->check($dt[0]);
         return $sx;
     }
+
+    function RDFIssue($dt)
+        {
+            pre($dt);
+        }
 
     function issue_section_works($id)
     {
@@ -190,6 +209,7 @@ class Issues extends Model
 
         if (get("reindex") != '') {
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            pre($dt);
             $IssuesWorks->check($dt);
         }
 
