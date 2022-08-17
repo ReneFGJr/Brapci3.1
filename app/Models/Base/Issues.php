@@ -231,8 +231,7 @@ class Issues extends Model
     {
         /* Recupera ID RDF */
         $dt = $this->find($id);
-        pre($dt);
-        if (count($dt) == 0)
+        if ($dt == '')
             {
                 return "";
             }
