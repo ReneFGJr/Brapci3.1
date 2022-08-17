@@ -39,8 +39,8 @@ class Issues extends Model
         'hidden', 'sql:id_jnl:jnl_name:source_source order by jnl_name*', 'year*',
         'hidden', 'string', 'string',
         '[1-199]', 'string', 'text',
-        'hidden', 'hidden', 'string',
-        'hidden', 'hidden'
+        'string', 'hidden', 'string',
+        'hidden', 'string'
     ];
 
     // Dates
