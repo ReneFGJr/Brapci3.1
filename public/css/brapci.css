@@ -179,13 +179,8 @@ a.pgcd_nav-item-active:hover {
   position: absolute;
 }
 
-.caption-style-2 .caption-text h1 {
-  /*text-transform: uppercase; */
-  padding: 0px 10px;
-  font-size: 18px;
-}
-
 .caption-style-2 .caption-text {
+  padding: 0px 10px;
   z-index: 10;
   color: #fff;
   position: absolute;
