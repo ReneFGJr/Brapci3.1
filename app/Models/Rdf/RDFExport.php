@@ -548,6 +548,10 @@ class RDFExport extends Model
 
 		switch ($class) {
 				/*************************************** SERIE NAME */
+			case 'brapci:Image':
+				$this->export_imagem($dt, $id);
+				break;
+				/*************************************** SERIE NAME */
 			case 'brapci:hasSerieName':
 				$this->export_geral($dt, $id);
 				break;
@@ -646,6 +650,48 @@ class RDFExport extends Model
 		$tela .= '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '">' . $name . '</a>';
 		return $tela;
 	}
+
+	function export_imagem($d1,$d2)
+		{
+			$img = '';
+			$tumb = '';
+			$data = $d1['data'];
+			$id = $d1['concept']['id_cc'];
+
+			for ($r=0;$r < count($data);$r++)
+				{
+					$line = $data[$r];
+					/* TumbNail */
+					if ($line['c_class'] == 'hasTumbNail') {
+						$tumb = trim($line['n_name']);
+						}
+					/* Image - DIR*/
+					if ($line['c_class'] == 'hasFileDirectory') {
+						$img = trim($line['n_name']) . $img.'image.jpg';
+					}
+					/* TumbNail */
+					if ($line['c_class'] == 'hasImage') {
+						$img = trim($line['n_name']);
+					}
+				}
+			if ((strlen($img) > 0) and (file_exists($img))) {
+				if (substr(strtolower($img),0,4) != 'http')
+					{
+						$img = URL.'/'.$img;
+					}
+				$this->saveRDF($id, $img, 'image.url');
+			}
+			if ((strlen($tumb) > 0) and (file_exists($tumb))) {
+				if (substr(strtolower($tumb),0,4) != 'http')
+					{
+						$tumb = URL . '/' . $tumb;
+					}
+				$this->saveRDF($id, $tumb, 'tumb.url');
+			}
+			$this->saveRDF($id, $img, 'name.nm');
+			$this->saveRDF($id, 'image', 'class.nm');
+			return "";
+		}
 
 	function export_index_list_all($lt = 0, $class = 'Person', $url = '')
 	{

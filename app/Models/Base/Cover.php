@@ -40,6 +40,19 @@ class Cover extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function tumb($id,$dt)
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            if ((isset($dt['n_name2'])) and (trim($dt['n_name2']) != ''))
+                {
+                    $img = trim($dt['n_name2']);
+
+                }
+            $img = URL.'/img/books/no_cover.png';
+            $img = $RDF->c($id);
+            return $img;
+        }
+
     function image($id='')
     {
         $sx = '...';

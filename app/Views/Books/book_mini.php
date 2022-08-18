@@ -26,7 +26,8 @@ for ($r = 0; $r < count($book); $r++) {
             $data .= $line['n_name2'] . ' ';;
             break;
         case 'hasCover':
-            $cover = $line['n_name2'];
+            $COVER = new \App\Models\Base\Cover();
+            $cover = $COVER->tumb($line['d_r2'],$line['n_name2']);
             break;
         case 'hasTitle':
             $id_cc = $line['d_r1'];
