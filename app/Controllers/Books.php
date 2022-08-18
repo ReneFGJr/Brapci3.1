@@ -22,7 +22,7 @@ class Books extends BaseController
     public function index($act = '', $subact = '', $id = '')
     {
         $Issues = new \App\Models\Base\Issues();
-        $data['page_title'] = 'Brapci-Proceedings';
+        $data['page_title'] = 'Brapci Livros - Ciência da Informação';
         $data['bg'] = 'bg-brapcilivros';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);

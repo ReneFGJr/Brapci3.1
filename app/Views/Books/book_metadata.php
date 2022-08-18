@@ -64,5 +64,11 @@ for ($r = 0; $r < count($book); $r++) {
             break;
     }
 }
-$link = '<a href="' . PATH . COLLECTION . '/v/' . $id_cc . '">';
-$linka = '</a>';
+if ($id_cc > 0)
+{
+    $link = '<a href="' . PATH . COLLECTION . '/v/' . $id_cc . '">';
+    $linka = '</a>';
+} else {
+    $link = '<a href="#" onclick="alert(\'ERRO DE ACESSO\');">';
+    $linka .= '</a>';
+}
