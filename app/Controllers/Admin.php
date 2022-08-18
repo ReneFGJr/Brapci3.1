@@ -28,7 +28,23 @@ class Admin extends BaseController
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Brapci/Headers/navbar', $data);
-                $sx .= $ADMIN->index($act, $sub, $id);
+
+                switch($act)
+                    {
+                        case 'v':
+                            $RDF = new \App\Models\Rdf\RDF();
+                            $sx = $RDF->index('v', $sub);
+                            break;
+                        case 'a':
+                            $RDF = new \App\Models\Rdf\RDF();
+                            $sx .= cab();
+                            $sx .= $RDF->form($sub);
+                        break;
+
+                        default:
+                            $sx .= $ADMIN->index($act, $sub, $id);
+                        break;
+                    }
                 $sx .= view('Brapci/Headers/footer', $data);
             } else {
                 return redirect('MainPages::index');
