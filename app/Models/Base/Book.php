@@ -53,7 +53,7 @@ class Book extends Model
                 ->findAll();
 
             $sx = '';
-            $max = 12;
+            $max = 4 * 4;
             if (count($dt) < $max) { $max = count($dt); }
             for ($r=0;$r < $max;$r++)
                 {
