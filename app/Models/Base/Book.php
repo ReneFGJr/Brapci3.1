@@ -83,6 +83,15 @@ class Book extends Model
         return $sx;
     }
 
+    function showFULL($id)
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+        $dd['book'] = $dt['data'];
+        $sx = view('Books/book', $dd);
+        return $sx;
+    }
+
     function show_reference($id)
     {
         $RDF = new \App\Models\Rdf\RDF();

@@ -108,27 +108,9 @@ class Books extends BaseController
                 $sx .= $Keywords->showHTML($dt);
                 break;
 
-            case 'Proceeding':
-                $Proceeding = new \App\Models\Base\Proceeding();
-                $sx .= $Proceeding->show($dt);
-                $sx .= $RDF->view_data($id);
-                break;
-
-            case 'ProceedingSection':
-                $ProceedingSection = new \App\Models\Base\ProceedingSection();
-                $sx .= $ProceedingSection->show($dt);
-                $sx .= $RDF->view_data($id);
-                break;
-
-            case 'Work':
-                echo "OK";
-                $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($id);
-                break;
-
             case 'Book':
                 $Book = new \App\Models\Base\Book();
-                $sx = $Book->show($id);
+                $sx = $Book->showFULL($id);
                 break;
 
             default:

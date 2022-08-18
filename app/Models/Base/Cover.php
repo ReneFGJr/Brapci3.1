@@ -55,6 +55,8 @@ class Cover extends Model
 
     function image($id='')
     {
-        $sx = '...';
+        $RDF = new \App\Models\Rdf\RDF();
+        $img = $RDF->c($id);
+        return $img;
     }
 }
