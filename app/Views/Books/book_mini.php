@@ -8,24 +8,28 @@ $idioma = '';
 $pag = '';
 $editora = '';
 $lugar = '';
+$data = '';
 $cover = 'img/books/no_cover.png';
-
+$id_cc = 0;
 for ($r = 0; $r < count($book); $r++) {
     $line = $book[$r];
     $class = $line['c_class'];
 
-
     switch ($class) {
         case 'hasLanguageExpression':
-            $idioma .= $line['n_name2'].' ';;
+            $idioma .= $line['n_name2'] . ' ';;
             break;
         case 'isPublisher':
             $editora .= $line['n_name2'] . ' ';;
             break;
+        case 'dateOfPublication':
+            $data .= $line['n_name2'] . ' ';;
+            break;
         case 'hasCover':
-            $cover = '<img src="' . $line['n_name2'] . '" class="img-fluid">';
+            $cover = $line['n_name2'];
             break;
         case 'hasTitle':
+            $id_cc = $line['d_r1'];
             if ($title != '') {
                 $title .= '<br>';
             }
@@ -54,24 +58,25 @@ for ($r = 0; $r < count($book); $r++) {
             break;
         case 'hasClassificationCDD':
             break;
-       default:
-            echo '<br>==>' . $class . '==>' . $line['n_name2'];
+        default:
+            //echo '<br>==>' . $class . '==>' . $line['n_name2'];
             break;
     }
 }
 ?>
-<div class="container">
-    <div class="row">
-        <div class="col-8">
-            <h2><?= $title; ?></h2>
-            <h4><i><?= $authors; ?></i></h4>
-            <p><?= $isbn; ?></p>
-            <p><?=$idioma;?></p>
-            <p>Editora: <?=$editora;?></p>
-            <p>Palavras-chave: <?= $subject; ?></p>
-        </div>
-        <div class="col-4">
-            <?= $cover; ?>
-        </div>
-    </div>
+
+<div class="container-a2">
+    <ul class="caption-style-2">
+        <li>
+            <img src=" <?= $cover; ?>" class="img-fluidx" style="width: 100%;">
+            <div class="caption">
+                <div class="blur"></div>
+                <div class="caption-text">
+                    <b><?= $title; ?></b>
+                    <br><br>
+                    <?= $data; ?>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
