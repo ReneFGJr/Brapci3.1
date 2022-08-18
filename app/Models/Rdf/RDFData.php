@@ -194,9 +194,10 @@ class RDFData extends Model
 				//if ($class == 'hasCover') { $class = 'hasTumbNail';}
 				switch ($class) {
 					case 'hasTumbNail':
-						$name = URL.'/'.$line['n_name'];
+						$name = $line['n_name'];
 						if (file_exists($name))
 							{
+								$name = URL . '/' . $name;
 								$sx .= bsc('<img src="' . base_url($name) . '" class="img-thumbnail border border-secondary">', 2);
 								$sx .= bsc('', 8);
 							} else {
