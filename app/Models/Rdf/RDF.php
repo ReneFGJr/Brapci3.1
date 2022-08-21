@@ -76,17 +76,31 @@ class RDF extends Model
 			case 'ajax':
 			switch($d2)
 				{
+					case 'vc_create':
+						$RDFRange = new \App\Models\Rdf\RDFRange();
+						$d2 = get("reload");
+						$d3 = get("vlr");
+						$reg = get("reg");
+						$prop = get("prop");
+						$vlr = get("vlr");
+						$IDC = $RDFRange->range_insert_value($d2, $vlr);
+						$this->propriety($reg, $prop, $IDC);
+						$sx = wclose();
+						echo $sx;
+						exit;
 					case 'search':
 						echo '===>'.$d4;
 						$sx = view('Brapci/Headers/header', $data);
 						$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
 						$sx = '';
 						$sx .= $RDFFormVC->search($d3, $d4, '');
-						return $sx;
+						echo $sx;
+						exit;
 						break;
 					case 'set':
 						$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
 						$sx = $RDFFormVC->ajax_save();
+						return $sx;
 						break;
 					default:
 						echo h($d2);
@@ -109,7 +123,8 @@ class RDF extends Model
 						$sx = view('Brapci/Headers/header', $data);
 						$RDFForm = new \App\Models\Rdf\RDFForm();
 						$sx .= $RDFForm->exclude($d3, $d4);
-						return $sx;
+						echo $sx;
+						exit;
 						break;
 					case 'edit':
 						$sx = view('Brapci/Headers/header', $data);
@@ -120,8 +135,7 @@ class RDF extends Model
 
 						$sx .= $RDFForm->edit($form_class, $prop_name, $form_id, $register);
 
-						//$sx .= $RDFForm->edit($d3, $d4, $d5);
-						return $sx;
+						echo $sx; exit;
 						break;
 				}
 				break;
@@ -301,9 +315,6 @@ class RDF extends Model
 				$RDFExport = new \App\Models\Rdf\RDFExport();
 				$sx = $cab;
 				$sx .= $RDFExport->Export($d2, $d3, $d4, $d5);
-				break;
-			case 'vc_create':
-				$sx = $this->vc_create();
 				break;
 			case 'remissive_Person':
 				$sx .= $this->remissive($d2, $d3, $d4, $d5, $cab, 'Person');
@@ -1241,19 +1252,7 @@ class RDF extends Model
 	}
 
 
-	function vc_create()
-	{
-		$RDFRange = new \App\Models\Rdf\RDFRange();
-		$d2 = get("reload");
-		$d3 = get("vlr");
-		$reg = get("reg");
-		$prop = get("prop");
-		$IDC = $RDFRange->range_insert_value($d2, $d3);
-		$this->propriety($reg, $prop, $IDC);
-		$sx = wclose();
-		echo $sx;
-		exit;
-	}
+
 
 	function directory($id)
 	{

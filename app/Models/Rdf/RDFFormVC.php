@@ -105,7 +105,7 @@ class RdfFormVC extends Model
 		$sx .= '<div id="dd51a"><select class="form-control" size="5" name="dd51" id="dd51"></select></div>';
 
 		$bts = '<br>';
-		$bts .= '<input type="button" id="b1" class="btn btn-outline-secondary" disabled value="'.lang('rdf.force_create').'" onclick="submitb1(\''.$range.'\');"> ';
+		$bts .= '<input type="button" id="b1" class="btn btn-outline-secondary" value="'.lang('rdf.force_create').'" onclick="submitb1(\''.$range.'\');"> ';
 		$bts .= '<input type="button" id="b2" class="btn btn-outline-primary" disabled value="'.lang('rdf.save_continue').'" onclick="submitb(1);"> ';
 		$bts .= '<input type="button" id="b3" class="btn btn-outline-primary" disabled value="'.lang('rdf.save').'" onclick="submitb(0);"> ';
 		$bts .= '<button onclick="window.close();" id="b4" class="btn btn-outline-danger">'.lang('rdf.cancel').'</buttontype=>';
