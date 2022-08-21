@@ -42,7 +42,46 @@ class RDFClassProperty extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function view($id)
+		{
+		$RDF = new \App\Models\Rdf\RDF();
+		$RDFClass = new \App\Models\Rdf\RDFClass();
+		$dt = $RDFClass->le($id);
 
+		$sx = h($RDF->show_class($dt[0]));
+		$sx .= '<hr style="border: 1px solid #000;">';
+
+		/************* Classe Registradas */
+		//$sa = $this->class_propriety($id);
+		$sa = $this->propretyClass($id);
+		$sb = '';
+
+		$sx = bs(bsc($sx, 12));
+		$sx .= bs(bsc($sa, 4) . bsc($sb, 8), 'container-fluid');
+
+		return $sx;
+		}
+
+	function propretyClass($id)
+		{
+			$dt = $this
+				->select('id_c, c_class')
+				->join('rdf_concept','id_cc = d_r2')
+				->join('rdf_class', 'cc_class = id_c')
+				->where('d_p',$id)
+				->groupBy('id_c', 'c_class')
+				->findAll();
+
+			$sx = '<ul>';
+			for ($r=0;$r < count($dt);$r++)
+				{
+					$link = '<a href="'.PATH. '/rdf/class/view/'.$dt[$r]['id_c'].'">';
+					$linka = '</a>';
+					$sx .= '<li>'.$link.$dt[$r]['c_class'].$linka.'</li>';
+				}
+			$sx .= '</ul>';
+			return $sx;
+		}
 	function edit($d1,$d2)
 		{
 			$sx = '';

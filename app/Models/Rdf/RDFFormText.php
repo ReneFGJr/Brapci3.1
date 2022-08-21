@@ -76,10 +76,10 @@ class RdfFormText extends Model
 					{
 						$dt = $RDFLiteral->le($id);
 						$texto = $dt['n_name'];
-						$path = PATH.'/rdf/text/'.$id;
+						$path = PATH.'/rdf/data/text/'.$id;
 					} else {
 						$texto = get("descript");
-						$path = PATH.MODULE.'/rdf/form/edit/'.$prop.'/'.$idf.'/'.$idc;
+						$path = PATH.MODULE.'/rdf/data/edit/'.$prop.'/'.$idf.'/'.$idc;
 					}
 				}
 

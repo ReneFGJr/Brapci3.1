@@ -42,16 +42,23 @@
 database.default.hostname = localhost
 database.default.database = brapci
 database.default.username = root
-database.default.password = 
+database.default.password =
 database.default.DBDriver = MySQLi
 database.default.DBPrefix =
 
-database.pgcd .hostname = localhost
-database.pgcd .database = pgcd 
-database.pgcd .username = root
-database.pgcd .password = 
-database.pgcd .DBDriver = MySQLi
-database.pgcd .DBPrefix =
+database.rdf.hostname = localhost
+database.rdf.database = brapci
+database.rdf.username = root
+database.rdf.password =
+database.rdf.DBDriver = MySQLi
+database.rdf.DBPrefix =
+
+database.pgcd.hostname = localhost
+database.pgcd.database = pgcd
+database.pgcd.username = root
+database.pgcd.password =
+database.pgcd.DBDriver = MySQLi
+database.pgcd.DBPrefix =
 
 # database.tests.hostname = localhost
 # database.tests.database = ci4

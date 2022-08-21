@@ -91,7 +91,7 @@ class RdfForm extends Model
 				$sx .= '<h3>Grupo: ' . lang('rdf.' . $gr) . '</h3>';
 				$xgr = $gr;
 			}
-			$link = onclick(PATH . MODULE . COLLECTION. '/rdf/form_ed/' . $line['id_sc'], 800, 500);
+			$link = onclick(PATH . MODULE . COLLECTION. '/rdf/form/edit/' . $line['id_sc'], 800, 500);
 			$linka = '</span>';
 			$act = '';
 			$acta = '';
@@ -127,7 +127,7 @@ class RdfForm extends Model
 		$sx .= h($RDF->show_class($dt), 2, 'btn-primary [bn]');
 		$sx .= '<a href="' . URL . MODULE . COLLECTION . '/v/' . $id . '" class="small">' . lang('rdf.return') . '</a>';
 		$sx .= ' | ';
-		$sx .= onclick(URL . MODULE .COLLECTION . '/rdf/exclude_concept/' . $id, 800, 400, 'text-danger');
+		$sx .= onclick(URL . MODULE . '/rdf/concept/exclude/' . $id, 800, 400, 'text-danger');
 		$sx .= lang('rdf.delete') . '</span>';
 		//$sx .= $RDF->link($dt,'btn btn-outline-primary btn-sm').'return'.'</a>';;
 
@@ -183,7 +183,7 @@ class RdfForm extends Model
 					$furl = (PATH . MODULE .COLLECTION . '/rdf/form/' . $class . '/' . $line['id_sc'] . '/' . $id);
 
 					$class = trim($line['c_class']);
-					$link = onclick(PATH . MODULE . '/rdf/form/edit/' . $class . '/' . $line['id_sc'] . '/' . $id, 800, 500, 'btn-primary rounded');
+					$link = onclick(PATH . MODULE . '/rdf/data/edit/' . $class . '/' . $line['id_sc'] . '/' . $id, 800, 500, 'btn-primary rounded');
 					//$link = onclick(PATH.MODULE.'rdf/form/'.$line['id_sc'],800,600,'btn-primary round');
 					$linka = '</span>';
 					$sx .= '<tr>';
@@ -223,7 +223,7 @@ class RdfForm extends Model
 						}
 
 						/************* Excluir Texto/Conceito Associado */
-						$onclick = onclick(PATH . MODULE . '/rdf/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
+						$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
 						$link = $onclick;
 						$sx .= '&nbsp; ' . $link . '&nbsp;X&nbsp;' . $elinka;
 						$sx .= '</span>';
@@ -240,7 +240,8 @@ class RdfForm extends Model
 
 	function form_ed($id, $class)
 	{
-		if ($id == 0)
+		$act = get("form");
+		if (($id == 0) and ($act == ''))
 			{
 				$_POST['sc_class'] = $class;
 				$_POST['sc_library'] = LIBRARY;
@@ -248,8 +249,7 @@ class RdfForm extends Model
 
 		$this->id = $id;
 		$this->pre = 'rdf.';
-		$this->path = PATH . COLLECTION . '/form_ed/' . $class.'/'.$id;
-		echo $this->path;
+		$this->path = PATH . COLLECTION.'/form';
 		$this->path_back = 'wclose';
 		$sx = form($this);
 		return $sx;
@@ -268,6 +268,7 @@ class RdfForm extends Model
 			->groupBy('cc_class, d_p')
 			->FindAll();
 
+		$tot = 0;
 		for ($r = 0; $r < count($dt); $r++) {
 			$dd['sc_class'] = $dt[$r]['cc_class'];
 			$dd['sc_propriety']  = $dt[$r]['d_p'];
@@ -285,8 +286,19 @@ class RdfForm extends Model
 
 			if (count($da) == 0) {
 				$this->set($dd)->insert();
+				$tot++;
 			}
 		}
+		if ($tot > 0)
+			{
+				$sx = bsmessage('Imported ' . $tot . ' forms', 1);
+			} else {
+				$sx = bsmessage('Nothing to import forms', 1);
+			}
+		/*************** RETURN */
+		$sx .= '<a href="'.PATH.'/rdf/class/view/'. $id_class. '" class="btn btn-outline-primary">'. lang('rdf.return').'</a>';
+		$sx = bs(bsc($sx,12));
+		return $sx;
 	}
 
 	function le($id)
@@ -316,13 +328,13 @@ class RdfForm extends Model
 		if ($range == 0) {
 			if ($Socials->getAccess("#ADM")) {
 				$id = $dt['id_sc'];
-				$sx = metarefresh(PATH . MODULE . '/rdf/form_ed/' . $id . '?msg=range_not_found', 0);
+				$sx = metarefresh(PATH . MODULE . '/rdf/form/edit/' . $id . '?msg=range_not_found', 0);
 				return $sx;
 			} else {
 				echo bsmessage("<font style='color: red'>RANGE not defined</font>", 3);
 
 				if ($Socials->getAccess("#ADM")) {
-					$sx = '<a href="' . PATH . MODULE . '/rdf/form_ed/' . $id . '?msg=range_not_found">';
+					$sx = '<a href="' . PATH . MODULE . '/rdf/form/edit/' . $id . '?msg=range_not_found">';
 					$sx .= 'EDIT';
 					$sx .= '</a>';
 				}
@@ -397,7 +409,7 @@ class RdfForm extends Model
 			</div>
 			<div class="modal-footer">
 			<button type="button" class="btn btn-default" onclick="wclose();" data-dismiss="modal">' . lang('find.cancel') . '</button>
-			<a href="' . (PATH . MODULE . '/rdf/exclude/' . $id . '/' . $check) . '" class="btn btn-warning" id="submt">' . lang('find.confirm_exclude') . '</a>
+			<a href="' . (PATH . MODULE . '/rdf/data/exclude/' . $id . '/' . $check) . '" class="btn btn-warning" id="submt">' . lang('find.confirm_exclude') . '</a>
 			</div>
 		';
 		/**************** fim ******************/
@@ -424,82 +436,86 @@ class RdfForm extends Model
 			AND ((sc_global =1 ) or (sc_library = 0) or (sc_library = " . LIBRARY . "))
 			order by gr_ord, sc_ord";
 
-		$rlt = (array)$this->db->query($sql)->getResult();
 
-		$sx = '<div class="col-md-12">';
+		$rlt = (array)$this->db->query($sql)->getResult();
+		$sx = '';
 		$sx .= '<h4>' . msg("Form") . '</h4>';
-		$sx .= '<table class="table">';
-		$sx .= '<tr><th width="4%">#</th>';
-		$sx .= '<th width="47%">' . lang('rdf.propriety') . '</th>';
-		$sx .= '<th width="42%">' . lang('rdf.range') . '</th>';
-		$sx .= '<th width="42%">' . lang('rdf.visible') . '</th>';
-		$sx .= '<th width="5%">' . lang('rdf.group') . '</th>';
-		$sx .= '</tr>';
+
 		$xgr = '';
+
+		/********************* Constroe a Tabela */
 		for ($r = 0; $r < count($rlt); $r++) {
 			$line = (array)$rlt[$r];
-			$link = onclick(PATH . MODULE . '/rdf/form_ed/' . $line['id_sc'], 800, 500);
+
+			/******** LINKS */
+			$link = onclick(PATH . MODULE . '/rdf/form/edit/' . $line['id_sc'], 800, 500);
 			$linka = '</span>';
 
+			/******** HEADERS */
 			$gr = $line['sc_group'];
 			if ($gr != $xgr)
 				{
-					$sx .= '<tr><th colspan=5>'.$gr.'</th></tr>';
+					$sx .= bsc($gr,12,'h3');
 					$xgr = $gr;
 				}
+
+			/******* DELETED */
 			$style = "";
 			if ($line['sc_ativo'] == 0)
 				{
 					$style = ' style=" text-decoration: line-through;" ';
 				}
-			$sx .= '<tr>';
+			/******************************************* ORDER */
+			$ord = $line['sc_ord'];
+			$ord .= ' ' ;
 
-			$sx .= '<td align="center">';
-			$sx .= $line['sc_ord'];
-			$sx .= '</td>';
-
-			/* CLASS */
+			/************************************* CLASS */
 			$prop = $RDFPrefix->prefixn($line);
-			$sx .= '<td '. $style.'>';
-			$sx .= $link;
-			$sx .= msg($line['c_class']) . ' (' . $prop . ')';
-			$sx .= $linka;
-			$sx .= '</td>';
+
+			/********************************* SPACENAME */
+			$spacename = $link;
+			$spacename .= '<b>'.($line['c_class']) . '</b>'. ' (' . $prop . ')';
+			$spacename .= $linka;
+			/************************************* NAME **/
+
 
 			/* RANGE */
 			$dt = array();
 			$dt['c_class'] = $line['pc_class'];
 			$dt['prefix_ref'] = $line['pc_prefix_ref'];
-			$sx .= '<td ' . $style . '>';
-			$sx .= $RDFPrefix->prefixn($dt);
-			$sx .= '</td>';
 
 			/* RANGE */
+			$range = $RDFPrefix->prefixn($dt);
 			$dt = array();
-			$sx .= '<td ' . $style . '>';
 			if ($line['sc_visible'] == 1) {
-				$sx .= bsicone('eye');
+				$enable = bsicone('eye');
 			} else {
-				$sx .= bsicone('eye-closed');
+				$enable = bsicone('eye-closed');
 			}
-			$sx .= '</td>';
-			$sx .= '</tr>';
-		}
-		$sx .= '</table>';
-		$sx .= '</div>';
 
-		if (isset($line['sc_class'])) {
+			$sx .= bsc($ord, 1, 'text-center',$style);
+			$sx .= bsc($spacename, 5,'', $style);
+			$sx .= bsc($range, 5,'', $style);
+			$sx .= bsc($enable,1,'text-center', $style);
+		}
+
+		/************************************************************************ BOTOES */
+		$btn_new = '';
+		if ($class > 0) {
 			//$link = onclick(PATH.MODULE.'rdf/formss/'.$id.'/0',800,600,"btn btn-outline-primary");
-			$link = onclick(PATH . COLLECTION . '/form_ed/0/' . $line['sc_class'], 800, 500, "btn btn-outline-primary");
+			$link = onclick(PATH . COLLECTION . '/form/edit/0/' . $class, 800, 500, "btn btn-outline-primary");
 			$linka = '</span>';
-			$sx .= $link . lang('rdf.new_propriety_field') . $linka;
 
-			$sx .= ' &nbsp; ';
+			$btn_new = $link . lang('rdf.new_propriety_field') . $linka;
+			$btn_new .= ' &nbsp; ';
 		}
+		/************** BTN */
+		$btn_check = '<a href="' . PATH . MODULE . '/rdf/form/check/' . $id . '" class="btn btn-outline-primary">';
+		$btn_check .= lang('rdf.check_form');
+		$btn_check .= '</a>';
 
-		$link = '<a href="' . PATH . MODULE . '/rdf/form_check/' . $id . '" class="btn btn-outline-primary">';
-		$linka = '</a>';
-		$sx .= $link . lang('rdf.check_form') . $linka;
+		$sr = bs(bsc($btn_new,4).bsc($btn_check,4));
+		$sx = $sr . bs($sx, 'container-fluid');
 
 		return ($sx);
 	}

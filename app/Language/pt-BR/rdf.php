@@ -23,7 +23,7 @@ return [
     'save'=>'Gravar',
     'cancel' => 'Cancelar',
     'textarea' => 'Entrada de texto (literal)',
-    'new_propriety_field' => 'Novo campo (propriedade)',
+    'new_propriety_field' => 'Nova propriedade',
     'check_form' => 'Checar Propriedade',
     'RESPONSABILITY' => 'RESPONSABILIDADE',
     'IDENTIFY' => 'IDENTIFICAÇÂO',

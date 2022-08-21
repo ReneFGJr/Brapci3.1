@@ -11,8 +11,10 @@ require("book_metadata.php");
                 <div class="blur"></div>
                 <div class="caption-text">
                     <b><?= $title; ?></b>
-                    <br><br>
-                    <?= $data; ?>
+                    <br>
+                    <i><?= $authors; ?></i>
+                    <br>
+                    (<?= $data; ?>)
                 </div>
             </div>
         </li>

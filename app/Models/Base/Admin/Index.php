@@ -66,7 +66,6 @@ class Index extends Model
             default:
                 $sx = '';
 
-
                 if (isset($_SESSION['user'])) {
                     $user_name = $_SESSION['user'];
                     $sx .= h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2);
@@ -100,7 +99,9 @@ class Index extends Model
     {
         $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');
         $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
-        $m['#'] =  lang('brapci.Email');
+        $m['#RDF'] =  lang('brapci.rdf');
+        $m[PATH .  '/rdf'] =  lang('brapci.rdf');
+        $m['#CONFIG'] =  lang('brapci.Email');
         $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');
         $sx = menu($m);
         return $sx;

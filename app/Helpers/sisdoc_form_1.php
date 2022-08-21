@@ -16,6 +16,12 @@ function ip()
 
 function bt_cancel($url)
 {
+    /******************** WCLOSE */
+    if ($url == 'wclose')
+        {
+            $sx = '<a href="#" class="btn btn-outline-warning" onclick="wclose();">'.lang('rdf.return').'</a>';
+            return $sx;
+        }
     if (strpos($url, '/edit')) {
         $url = substr($url, 0, strpos($url, '/edit'));
     }
@@ -162,7 +168,7 @@ function form($th)
 
     /***************************************** BOTAO SUBMIT */
     if (!$submit) {
-        $sx .= bsc(bt_submit() . ' &nbsp;|&nbsp; ' . bt_cancel($url), 12, 'text-end mt-5 mb-3') . cr();
+        $sx .= bsc(bt_submit() . ' &nbsp;|&nbsp; ' . bt_cancel($th->path_back), 12, 'text-end mt-5 mb-3') . cr();
     }
 
     /************************************** FIM DO FORMULARIO */

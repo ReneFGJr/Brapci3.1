@@ -1,5 +1,7 @@
 </body>
 <?php
+$Socials = new \App\Models\Socials();
+$ADM = $Socials->getAccess("#ADM");
 if (!isset($bg)) {
     $bg = 'bg-primary';
 }
@@ -41,6 +43,13 @@ if (!isset($bg)) {
                     <li>
                         <a href="<?= PATH; ?>/books" class="text-white">Brapci Livros</a>
                     </li>
+                    <?php
+                    if ($ADM == true) {
+                        echo '<li>';
+                        echo '<a href="' . PATH . '/admin" class="text-white">Administração</a>';
+                        echo '</li>';
+                    }
+                    ?>
                 </ul>
             </div>
             <!--Grid column-->
@@ -66,8 +75,36 @@ if (!isset($bg)) {
             <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
                 <ul class="list-unstyled">
                     <li>
-                        <a href="<?= PATH; ?>/about" class="text-white">Logos</a>
+                        <?php
+                        /***************** LOGOS */
+                        $logo1 = array();
+                        $logo2 = array();
+                        $logo1['/img/logo/logo_ppgcin_ufrgs_pb.png'] = 'https://ufrgs.br/ppgcin';
+                        $logo2['/img/logo/ufrgs_PB_100.png'] = 'https://ufrgs.br/';
+
+                        if ($bg == 'bg-benancib') {
+                            $logo1['/img/logo/logo_ppgci_uff_pb.png'] = 'https://ppgci-uff.com.br/';
+                            $logo2['/img/logo/logo_uff_pb.png'] = 'https://uff.br/';
+                        }
+
+                        if ($bg == 'bg-livros') {
+                        }
+
+                        foreach ($logo1 as $img=>$url)
+                            {
+                                echo '<a href="'.$url.'" target="_new">';
+                                echo '<img src="'.$img.'" style="height: 50px;" class="m-2">';
+                                echo '</a>';
+                            }
+
+                        foreach ($logo2 as $img => $url) {
+                            echo '<a href="' . $url . '" target="_new">';
+                            echo '<img src="' . $img . '" style="height: 50px;" class="m-2">';
+                            echo '</a>';
+                        }
+                        ?>
                     </li>
+
                 </ul>
             </div>
             <!--Grid column-->

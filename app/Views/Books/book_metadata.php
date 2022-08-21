@@ -70,5 +70,5 @@ if ($id_cc > 0)
     $linka = '</a>';
 } else {
     $link = '<a href="#" onclick="alert(\'ERRO DE ACESSO\');">';
-    $linka .= '</a>';
+    $linka = '</a>';
 }

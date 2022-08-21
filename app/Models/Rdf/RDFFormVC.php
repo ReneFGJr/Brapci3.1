@@ -52,13 +52,14 @@ class RdfFormVC extends Model
 			if (strlen($q) >=3)
 				{
 					//$sx .= '<option value="">Buscando ... '.$q.'</option>'.cr();
-					$dt = $RDFConcept->like($q,$d2,$limit);
+					$dt = $RDFConcept->like($q,$d1,$limit);
 					for($r=0;$r < count($dt);$r++)
 						{
 							$ln = (array)$dt[$r];
 							$idx = $ln['id_cc'];
-							if ($ln['cc_use'] > 0) { $idx = $ln['cc_use']; }
-							$name = $ln['n_name'];
+							$pref = '';
+							if ($ln['cc_use'] > 0) { $idx = $ln['cc_use']; $pref = '(UP)'; }
+							$name = $ln['n_name'] . $pref;
 							if (strpos($name,'#')) { $name = substr($name,0,strpos($name,'#')); }
 							$sx .= '<option value="'.$idx.'">'.$name.'</option>'.cr();
 						}
@@ -125,7 +126,7 @@ class RdfFormVC extends Model
 						$.ajax(
 							{
 								type: "GET",
-								url: "'.PATH.MODULE.'/rdf/set/",
+								url: "'.PATH.MODULE.'/rdf/ajax/set/",
 								data: "act=set&reload="+$c+"&reg='. $register.'&prop='. $prop_name.'&vlr="+$vlr,
 								dataType: "html",
 							})
@@ -158,7 +159,7 @@ class RdfFormVC extends Model
 						$.ajax(
 							{
 								type: "GET",
-								url: "'.PATH.MODULE.'/rdf/vc_create/",
+								url: "'.PATH.MODULE.'/rdf/ajax/vc_create/",
 								data: "act=set&reload="+$c+"&reg='. $register.'&prop='. $prop_name. '&vlr="+$vlr,
 								dataType: "html",
 							})
@@ -181,7 +182,7 @@ class RdfFormVC extends Model
 				$.ajax(
 					{
 						type: "POST",
-						url: "'.PATH.MODULE.'/rdf/search/'.$range. '/?q="+$key,
+						url: "'.PATH.MODULE.'/rdf/ajax/search/'.$range. '/?q="+$key,
 						async: true,
 						success: function(data){
 							$("#dd51a").html(data);

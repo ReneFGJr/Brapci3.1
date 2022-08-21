@@ -25,6 +25,7 @@ class Admin extends BaseController
             {
                 $ADMIN = new \App\Models\Base\Admin\Index();
                 $data['page_title'] = 'Brapci';
+                $data['bg'] = 'bg-admin';
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Brapci/Headers/navbar', $data);

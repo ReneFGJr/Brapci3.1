@@ -51,13 +51,209 @@ class RDF extends Model
 		}
 	*/
 
-	function index($d1, $d2, $d3 = '', $d4 = '', $d5 = '', $cab = '')
+	function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '', $cab = '')
+	{
+		$sx = '';
+		$data['title'] = 'RDF';
+		$cab = '';
+		$cab .= view('Brapci/Headers/header', $data);
+		$cab .= view('Benancib/Headers/navbar', $data);
+
+		$sx = '';
+
+		switch ($d1) {
+			/****************************************************************** CONCEPT */
+			case 'v':
+				$dt = $this->le($d2);
+				$class = $dt['concept']['c_class'];
+
+				$sx .= $cab;
+				$sx .= bs(bsc(h($class, 1), 12));
+				$sx .= $this->view_data($dt);;
+			break;
+
+			/****************************************************************** AJAX */
+			case 'ajax':
+			switch($d2)
+				{
+					case 'search':
+						echo '===>'.$d4;
+						$sx = view('Brapci/Headers/header', $data);
+						$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
+						$sx = '';
+						$sx .= $RDFFormVC->search($d3, $d4, '');
+						return $sx;
+						break;
+					case 'set':
+						$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
+						$sx = $RDFFormVC->ajax_save();
+						break;
+					default:
+						echo h($d2);
+						exit;
+				}
+			break;
+			/****************************************************************** CONCEPT */
+			case 'concept':
+				echo "NOT IMPLEMENTED";
+				exit;
+			break;
+
+			/****************************************************************** VALUE */
+			case 'data':
+				$sx = $cab;
+				$RDFForm = new \App\Models\Rdf\RDFForm();
+				/* CRUD */
+				switch ($d2) {
+					case 'exclude':
+						$sx = view('Brapci/Headers/header', $data);
+						$RDFForm = new \App\Models\Rdf\RDFForm();
+						$sx .= $RDFForm->exclude($d3, $d4);
+						return $sx;
+						break;
+					case 'edit':
+						$sx = view('Brapci/Headers/header', $data);
+						$form_class = 0;
+						$prop_name = $d3;
+						$form_id = $d4;
+						$register = $d5;
+
+						$sx .= $RDFForm->edit($form_class, $prop_name, $form_id, $register);
+
+						//$sx .= $RDFForm->edit($d3, $d4, $d5);
+						return $sx;
+						break;
+				}
+				break;
+			/******************************************************************* FORM */
+			case 'form':
+				$sx = $cab;
+				$RDFForm = new \App\Models\Rdf\RDFForm();
+				/* CRUD */
+				switch($d2)
+					{
+						case 'editRDF':
+							$RDF = new \App\Models\Rdf\RDF();
+							$sx .= $RDF->form($d3);
+							break;
+						case 'edit':
+							$sx .= $RDFForm->form_ed($d3, $d4, $d5);
+							break;
+						case 'check':
+							$sx .= $RDFForm->form_import($d3, $d4, $d5);
+							break;
+					}
+				break;
+
+
+			/******************************************************************* CLASS */
+			case 'class':
+				switch ($d2) {
+					case 'edit':
+						$sx .= breadcrumbs(array(
+							'rdf.home' => PATH . MODULE . '/rdf/',
+							'rdf.edit' => PATH . MODULE . '/rdf/edit'
+						));
+						$RDFClass = new \App\Models\Rdf\RDFClass();
+						$sx .= $cab;
+						$sx .= $RDFClass->edit($d3, $d4, $d5);
+						break;
+					case 'view':
+						$sx .= $cab;
+						$sx .= breadcrumbs(array(
+							'rdf.home' => PATH . MODULE . '/rdf/',
+							'rdf.view' => PATH . MODULE . '/rdf/class'
+						));
+						$RDFClass = new \App\Models\Rdf\RDFClass();
+						$sx .= $RDFClass->view($d3);
+						break;
+					default:
+						$sx .= $cab;
+						$sx .= breadcrumbs(array(
+							'rdf.home' => PATH . MODULE . '/rdf/',
+							'rdf.class' => PATH . MODULE . '/rdf/class'
+						));
+						$RDFClass = new \App\Models\Rdf\RDFClass();
+						$sx .= $RDFClass->list('C');
+						break;
+				}
+				break;
+				/******************************************************************* PROPERTY */
+			case 'property':
+				switch ($d2) {
+					case 'edit':
+						$sx .= breadcrumbs(array(
+							'rdf.home' => PATH . MODULE . '/rdf/',
+							'rdf.edit' => PATH . MODULE . '/rdf/edit'
+						));
+
+						$RDFClass = new \App\Models\Rdf\RDFClassProperty();
+						$sx .= $cab;
+						$sx .= $RDFClass->edit($d2, $d3, $d4, $d5);
+						break;
+					case 'view':
+						$RDFClassProperty = new \App\Models\Rdf\RDFClassProperty();
+						$sx .= $cab;
+						$sx .= breadcrumbs(array(
+							'rdf.home' => PATH . MODULE . '/rdf/',
+							'rdf.view' => PATH . MODULE . '/rdf/property'
+						));
+						$RDFClass = new \App\Models\Rdf\RDFClass();
+						$sx .= $RDFClassProperty->view($d3);
+						break;
+					default:
+						$sx .= $cab;
+						$sx .= breadcrumbs(array(
+							'rdf.home' => PATH . MODULE . '/rdf/',
+							'rdf.class' => PATH . MODULE . '/rdf/property'
+						));
+						$RDFClass = new \App\Models\Rdf\RDFClass();
+						$sx .= $RDFClass->list('P');
+						break;
+				}
+				break;
+			default:
+				$sx .= $cab;
+				$sx .= breadcrumbs(array(
+						'rdf.home' => PATH . MODULE . '/rdf/'
+					));
+				$sx .= $this->menu();
+				break;
+		}
+		return $sx;
+	}
+
+	/********************************************************************************* MENU */
+	function menu()
+	{
+		$Socials = new \App\Models\Socials();
+		$Admin = $Socials->getAccess("#ADM");
+
+		$sx = '';
+
+		$sa = '';
+		$sa .= h('rdf.MainMenu');
+
+		if ($Admin) {
+			$sa = h(lang('rdf.main_menu'), 3);
+			$menu = array();
+			$menu[PATH . COLLECTION . '/class'] =  lang('rdf.classes');
+			$menu[PATH . COLLECTION . '/property'] =  lang('rdf.property');
+			$sx .= bs($sa . bsc(menu($menu)));
+		} else {
+			$sx .= h(lang('rdf.guest_menu'), 3);
+		}
+		return $sx;
+	}
+
+
+	function xxx_index2($d1, $d2 = '', $d3 = '', $d4 = '', $d5 = '', $cab = '')
 	{
 		$sx = '';
 		$type = get("type");
 
-		$Socials = new \App\Models\Socials();
-		$Admin = $Socials->getAccess("#ADM");
+
+
 
 		switch ($d1) {
 			case 'v':
@@ -71,18 +267,19 @@ class RDF extends Model
 				$sx = $cab;
 				$RDFFormCheck = new \App\Models\Rdf\RDFFormCheck();
 				$sx .= $RDFFormCheck->check($d2, $d3, $d4, $d5);
-				$sx .= '<a href="' . PATH . COLLECTION . '/class_view/' . $d2 . '">' . lang('rdf.return') . '</a>';
-				$sx .= metarefresh(PATH . COLLECTION . '/class_view/' . $d2);
+				$sx .= '<a href="' . PATH . COLLECTION . '/class/view/' . $d2 . '">' . lang('rdf.return') . '</a>';
+				$sx .= metarefresh(PATH . COLLECTION . '/class/view/' . $d2);
 				break;
 			case 'class':
 				$sx = $cab;
+				echo '===>' . $d2;
 				$RDFClass = new \App\Models\Rdf\RDFClass();
-				$sx .= $RDFClass->list($d2, $d3, $d4, $d5);
+				$sx .= $RDFClass->list('C');
 				break;
-			case 'class_view':
+			case 'property':
 				$sx = $cab;
 				$RDFClass = new \App\Models\Rdf\RDFClass();
-				$sx .= $RDFClass->view($d2, $d3, $d4, $d5);
+				$sx .= $RDFClass->list('P');
 				break;
 			case 'class_edit':
 				$sx = $cab;
@@ -154,30 +351,9 @@ class RDF extends Model
 				$sx .= $cab;
 				$sx .= $RDFChecks->check_loop();
 				break;
-			case 'set':
-				$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
-				$sx = $RDFFormVC->ajax_save();
-				break;
-			case 'form_ed':
-				$sx = $cab;
-				$RDFForm = new \App\Models\Rdf\RDFForm();
-				$sx .= $RDFForm->form_ed($d2, $d3, $d4, $d5);
-				break;
-			case 'search':
-				$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
-				$sx = '';
-				$sx .= $RDFFormVC->search($d1, $d2, $d3);
-				echo $sx;
-				exit;
-				break;
 			case 'exclude_concept':
 				$sx = $cab;
 				$sx .= $this->exclude_conecpt($d2, $d3);
-				break;
-			case 'exclude':
-				$RDFForm = new \App\Models\Rdf\RDFForm();
-				$sx = $cab;
-				$sx .= $RDFForm->exclude($d2, $d3);
 				break;
 			case 'form':
 				$RDFForm = new \App\Models\Rdf\RDFForm();
@@ -211,29 +387,9 @@ class RDF extends Model
 				/************* Default */
 			default:
 				$sx = $cab;
-				$sx .= breadcrumbs(array(
-					'rdf.home' => PATH . MODULE,
-					'rdf.rdf' => PATH . MODULE . 'rdf'
-				));
 				$sa = '';
-				if ($d1 != '') {
-					$sa .= bsmessage(lang('command not found') . ': ' . $d1, 3);
-				}
-				$sa .= h('rdf.MainMenu');
-
-				echo '==>' . COLLECTION;
-
-				if ($Admin)
-					{
-						$sa = h(lang('rdf.main_menu'), 3);
-						$menu = array();
-						$menu[PATH.COLLECTION.'/class'] =  lang('rdf.classes');
-						$sx .= bs($sa.bsc(menu($menu)));
-					} else {
-						$sx .= h(lang('rdf.guest_menu'),3);
-					}
 				$sa .= '<ul>';
-				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/class') . '">' . lang('rdf.classes'). '</a></li>';
+				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/class') . '">' . lang('rdf.classes') . '</a></li>';
 				$sa .= h(lang('rdf.import'), 3);
 				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/inport?type=prefix') . '">' . lang('Inport Prefix') . '</a></li>';
 				$sa .= '<li><a href="' . (PATH . MODULE . 'rdf/inport?type=class') . '">' . lang('Inport Class') . '</a></li>';
@@ -258,12 +414,12 @@ class RDF extends Model
 	}
 
 	function ontology()
-		{
-			$OWL = new \App\Models\Rdf\RDFOntology();
-			$sx = $OWL->index();
-			$sx = bs($sx);
-			return $sx;
-		}
+	{
+		$OWL = new \App\Models\Rdf\RDFOntology();
+		$sx = $OWL->index();
+		$sx = bs($sx);
+		return $sx;
+	}
 
 	function exclude($id)
 	{
@@ -1022,16 +1178,14 @@ class RDF extends Model
 		return $tela;
 	}
 
-	function literal($name, $lang, $idp='', $prop='')
+	function literal($name, $lang, $idp = '', $prop = '')
 	{
-		if ($idp != '')
-		{
+		if ($idp != '') {
 			return $this->RDF_literal($name, $lang, $idp, $prop);
 		} else {
 			$RDFLiteral = new \App\Models\Rdf\RDFLiteral();
 			return $RDFLiteral->name($name, $lang, true);
 		}
-
 	}
 
 	function RDF_literal($name, $lang, $idp, $prop)

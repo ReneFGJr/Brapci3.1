@@ -94,6 +94,7 @@ $routes->get('/books', 'Books::index');
 
 /********* TOOLS */
 //$routes->get('/rdf', 'Rdf::index');
+$routes->get('/rdf/', 'Rdf::index/');
 $routes->get('/rdf/(:any)', 'Rdf::index/$1');
 $routes->get('/rdf/(:any)/(:any)', 'Rdf::index/$1/$2');
 $routes->post('/rdf/(:any)', 'Rdf::index/$1');

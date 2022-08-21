@@ -15,7 +15,11 @@ class RDFClass extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'c_class', 'c_prefix', 'c_type', 'c_url', 'c_equivalent'
+		'id_c','c_class', 'c_prefix', 'c_type', 'c_url', 'c_equivalent'
+	];
+
+	protected $typeFields        = [
+		'hidden','string*', 'sql:id_prefix:prefix_ref:rdf_prefix*', 'op:C&Classe:P&Propriety*', 'string', 'sql:id_c:c_class:rdf_class:c_type=\'C\''
 	];
 
 	// Dates
@@ -43,45 +47,99 @@ class RDFClass extends Model
 	protected $afterDelete          = [];
 
 	function view($id)
-	{
-		$RDF = new \App\Models\Rdf\RDF();
-		$RDFForm = new \App\Models\Rdf\RDFForm();
-		$dt = $RDF->le_class($id);
-		if (!isset($dt[0])) {
-			return "";
+		{
+			$RDF = new \App\Models\Rdf\RDF();
+			$RDFForm = new \App\Models\Rdf\RDFForm();
+			$dt = $RDF->le($id);
+
+			if (!isset($dt['concept'])) {
+				return "";
+			}
+
+			$class = $dt['concept'];
+			$sx = h($RDF->show_class($class));
+			$sx .= '<hr style="border: 1px solid #000;">';
+
+			/************* Classe Registradas */
+			$sa = $this->class_propriety($id);
+			$sb = $RDFForm->form_class_edit($id,$class['id_cc']);
+
+			$sx = bs(bsc($sx,12));
+			$sx .= bs(bsc($sa,4).bsc($sb,8),'container-fluid');
+
+			return $sx;
+
 		}
-		$sx = h($RDF->show_class($dt[0]));
 
-		$sx = bsc($sx, 12);
-
-		$dt = $RDF->le_class($id);
-		$sa = $RDFForm->form_class_edit($id, $id);
-		$sx .= bsc($sa, 12);
-		$sx = bs($sx);
-		return $sx;
-	}
+	/************************************************************************ Relation Class / Proprity */
+	function class_propriety($id)
+		{
+			$sx = '';
+			$RDFData = new \App\Models\Rdf\RDFConcept();
+			$dt = $RDFData
+				->select('c_class, id_c, prefix_ref')
+				->join('rdf_data','id_cc = d_r1')
+				->join('rdf_class', 'd_p = id_c')
+				->join('rdf_prefix', 'c_prefix = id_prefix')
+				->where('cc_class',$id)
+				->orderby('prefix_ref, c_class, id_c, prefix_ref')
+				->groupby('c_class,id_c')
+				->findAll();
+			$sx .= '<b>'.lang('rdf.propriety_class_related'). '</b>';
+			$sx .= '<ul>';
+			for ($r=0;$r < count($dt);$r++)
+				{
+					$line = $dt[$r];
+					$name = $line['prefix_ref'].':'.$line['c_class'];
+					$sx .= '<li>'.$name.'</li>';
+				}
+			$sx .= '</ul>';
+			return $sx;
+		}
 
 	function edit($id)
 	{
+		$this->id = $id;
+		$this->path = PATH. '/rdf/class/';
+		$this->path_back = PATH . '/rdf/class';
+		$sx = h('rdf.Class');
+		$sx .= form($this);
+		$sx = bs(bsc($sx,12));
+		return $sx;
 	}
 
-	function list($lb = '')
+	function list($tp = 'C')
 	{
-		$sx = h('rdf.classes');
+		if ($tp == 'C')
+			{
+				$sx = h('rdf.classes');
+				$view = 'class/view';
+				$label = 'class';
+				$edit = 'class/edit';
+			} else {
+				$sx = h('rdf.propriety');
+				$view = 'property/view';
+				$label = 'propriety';
+				$edit = 'property/edit';
+			}
+
 		$dt = $this
 			->join('rdf_prefix', 'c_prefix = id_prefix', 'left')
-			->where('c_type', 'C')
+			->where('c_type', $tp)
 			->orderBy("c_class")
 			->findAll();
-
+		$sx .= '<div style="column-count: 3;">';
 		$sx .= '<ul>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
-			$link = '<a href="' . PATH . COLLECTION . '/class_view/' . $line['id_c'] . '">';
+			$link = '<a href="' . PATH . COLLECTION . '/'. $view.'/' . $line['id_c'] . '">';
 			$linka = '</a>';
 			$sx .= '<li>' . $link . $line['c_class'] . $linka . '</li>';
 		}
 		$sx .= '</ul>';
+		$sx .= '</div>';
+
+		$sx .= '<a href="'.PATH.'/rdf/class/edit/0'.'" class="btn btn-primary">'.lang('rdf.new_'.$label).'</a>';
 		$sx = bs(bsc($sx, 12));
 		return $sx;
 	}

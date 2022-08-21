@@ -26,26 +26,19 @@ function cab()
 
 class RDF extends BaseController
 {
-    public function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
+    public function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '',$cab='')
     {
+        $data['title'] = 'Brapci - RDF';
+        $data['bg'] = 'bg-admin';
         $sx = '';
-        switch ($d2) {
-            case 'editRDF':
-                $RDF = new \App\Models\Rdf\RDF();
-                $sx .= cab();
-                $sx .= $RDF->form($d3);
-                break;
-            case 'edit':
-                $sx .= cab();
-                $RDF = new \App\Models\Rdf\RDF();
-                $sx .= $RDF->index('form', $d2, $d3, $d4, $d5);
-                break;
-            default:
-                $sx .= cab();
-                $RDF = new \App\Models\Rdf\RDF();
-                $sx .= $RDF->index($d1, $d2, $d3, $d4, $d5);
-                break;
-        }
+        $cab = cab();
+        $RDF = new \App\Models\Rdf\RDF();
+
+        $RDF = new \App\Models\Rdf\RDF();
+        $sx .= $RDF->index($d1, $d2, $d3, $d4,$d5, $cab);
+
+        $sx .= view('Brapci/Headers/footer', $data);
+
         return $sx;
     }
 }

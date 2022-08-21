@@ -45,6 +45,12 @@ class RDFConcept extends Model
 
 	function like($t,$class,$limit=30)
 		{
+			if ($class=='')
+				{
+					echo "OPS - Class Empty";
+					exit;
+				}
+
 			if ($class != sonumero($class))
 				{
 					$RDFClass = new \App\Models\Rdf\RDFClass();
@@ -58,6 +64,7 @@ class RDFConcept extends Model
 			$sql .= " and (n_name like '%".$t."%') ";
 			$sql .= " order by n_name";
 			$sql .= " limit $limit";
+
 			$dt = $this->query($sql)->getResult();
 			$dt = (array)$dt;
 			return $dt;

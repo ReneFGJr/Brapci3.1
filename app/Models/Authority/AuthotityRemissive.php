@@ -70,7 +70,7 @@ class AuthotityRemissive extends Model
 					$link .= $line['id_cc'] . '=>' . $line['cc_use'];
 					$link .= '</a>';
 
-					$si .= onclick(PATH . COLLECTION . '/rdf/set_pref_term/' . $line['cc_use'] . '/' . $line['id_cc'], 400, 100);
+					$si .= onclick(PATH . COLLECTION . '/rdf/ajax/set/pref_term/' . $line['cc_use'] . '/' . $line['id_cc'], 400, 100);
 					$si .= ' ';
 					$si .= '<sup>[set_prefTerm]</sup></span>';
 					$si .= ' ';
