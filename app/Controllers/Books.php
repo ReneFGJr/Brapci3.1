@@ -34,6 +34,20 @@ class Books extends BaseController
         }
         $act = trim($act);
         switch ($act) {
+            case 'a':
+                $Socials = new \App\Models\Socials();
+                $cat = $Socials->getAccess("#ADM#CAT");
+                if ($cat == true)
+                    {
+                        $RDF = new \App\Models\Rdf\RDF();
+                        $sx .= $RDF->index('form','editRDF', $subact);
+                        $sx = bs(bsc($sx,12));
+                    } else {
+                        $sx .= bsmessage('Access not permited');
+                        $sx = bs(bsc($sx, 12));
+                    }
+
+                break;
             case 'v':
                 $sx .= $this->v($subact);
                 break;
