@@ -41,15 +41,9 @@
         <div class="col-10">
             <div class="text-end" id="authors">
                 <?php
-                $id = 0;
-                foreach ($authors as $id => $author) {
-                    if ($id > 0) {
-                        echo '; ';
-                    }
-                    echo $author;
-                    $id++;
-                }
-                echo '.';
+                $authors = troca($authors,'$','; ');
+                $authors = substr($authors,0,strlen($authors)-2).'.';
+                echo $authors;
                 ?>
             </div>
 
@@ -77,7 +71,6 @@
 
         <div class="col-2">
             <?php
-
             /************************************************************ PDF */
             if (($PDF != '') and (isset($PDF[0]['id']))) {
                 $url = PATH . '/download/' . $PDF[0]['id'];

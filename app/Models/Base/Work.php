@@ -48,16 +48,141 @@ class Work extends Model
         return $sx;
     }
 
-    function show($id)
+    function show($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $dt = $RDF->le($id);
+        $sx = '';
+        if (!is_array($dt)) {
+            $dt = round($dt);
+            $dt = $RDF->le($dt);
+        }
+        $da = array();
+        $RDF = new \App\Models\Rdf\RDF();
+
         $dd = $dt['data'];
+
+        $dc = $dt['concept'];
+        $idc = $dc['id_cc'];
+        $class = $dc['c_class'];
+
+        $da['authors'] = '';
+        $da['keywords'] = array();
+        $da['issue'] = '-na-';
+        $da['PDF'] = array();
+        $da['URL'] = array();
+        $da['id_cc'] = $dt['concept']['id_cc'];
+        $da['Section'] = array();
+        $da['isbn'] = '';
+        $da['editora'] = '';
+        $da['subject'] = array();
+        $da['cover'] = '';
+        $da['year'] = '';
+        $da['idioma'] = '';
+        $da['pages'] = '';
+
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
-            $class = $line['c_class'];
-            //echo '==>'.$class;
+            $lang = $line['n_lang'];
+            $lang2 = $line['n_lang2'];
+            $class = trim($line['c_class']);
+            switch ($class) {
+                case 'hasPage':
+                    $da['pages'] .= $RDF->c($line['d_r1']). ' ';
+                    break;
+                case 'hasLanguageExpression':
+                    $da['idioma'] .= $RDF->c($line['d_r1']);
+                    break;
+                case 'hasClassificationCDD':
+                    $da['classification']['CDD'] = $RDF->c($line['d_r1']);
+                    break;
+                case 'dateOfPublication':
+                    $da['year'] = $RDF->c($line['d_r1']);
+                    break;
+                case 'hasISBN':
+                    $da['isbn'] .= $RDF->c($line['d_r1']);
+                    break;
+                case 'isPublisher':
+                    $da['editora'] .= $RDF->c($line['d_r1']);
+                    break;
+                case 'hasIssueProceedingOf':
+                    $da['issue'] = $RDF->c($line['d_r1']);
+                    break;
+                case 'hasIssueOf':
+                    $da['issue'] = $RDF->c($line['d_r1']);
+                    break;
+                case 'hasSectionOf':
+                    if (!isset($da['Section'])) {
+                        $da['Section']  = array();
+                    }
+                    array_push($da['Section'], $line['n_name2']);
+                    break;
+                case 'hasFileStorage':
+                    $PDF['file'] = $line['n_name2'];
+                    $PDF['id'] = $line['d_r1'];
+                    array_push($da['PDF'], $PDF);
+                    break;
+                case 'hasCover':
+                    $da['cover'] = $RDF->c($line['d_r2']);
+                    break;
+                case 'hasTitle':
+                    $da['Title'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';
+                    break;
+                case 'hasAbstract':
+                    $da['Abstract'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';
+                    break;
+                /************* Authors */
+                case 'hasAuthor':
+                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    $da['authors'] .= $name.'$';
+                    break;
+                case 'hasOrganizator':
+                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    $da['authors'] .= $name . '$';
+                    break;
+                case 'hasSubject':
+                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    if (!isset($da['keywords'][$lang2])) {
+                        $da['keywords'][$lang2] = array();
+                    }
+                    array_push($da['keywords'][$lang2], $name);
+                    break;
+                case 'prefLabel':
+                    break;
+                case 'isPubishIn':
+                    break;
+                case 'hasSource':
+                    break;
+                case 'hasId':
+                    break;
+                case 'dateOfAvailability':
+                    break;
+                case 'hasRegisterId':
+                    array_push($da['URL'], trim($line['n_name']));
+                    break;
+                default:
+                    jslog('Class not found: ' . $class);
+                    $sx .= bsmessage('Class not found - ' . $class, 3);
+                    break;
+            }
         }
+
+        switch (COLLECTION) {
+            case '/proceedings':
+                $sx .= view('Proceeding/Base/Work', $da);
+                //$sx .= $RDF->view_data($dt);
+                break;
+            case '/benancib':
+                $sx .= view('Benancib/Base/Work', $da);
+                //$sx .= $RDF->view_data($dt);
+                break;
+            case '/books':
+                $sx .= view('Books/Base/Work', $da);
+                break;
+            default:
+                $sx .= view('Benancib/Base/Work', $da);
+                break;
+        }
+        return $sx;
     }
 
     function getWorkMark()

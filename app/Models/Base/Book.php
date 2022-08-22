@@ -86,9 +86,12 @@ class Book extends Model
     function showFULL($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $Work = new \App\Models\Base\Work();
+
         $dt = $RDF->le($id);
         $dd['book'] = $dt['data'];
-        $sx = view('Books/book', $dd);
+        $sx = $Work->show($id);
+        //$sx = view('Books/book', $dd);
         return $sx;
     }
 

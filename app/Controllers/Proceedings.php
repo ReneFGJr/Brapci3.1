@@ -162,8 +162,8 @@ class Proceedings extends BaseController
                 break;
 
             case 'Proceeding':
-                $Proceeding = new \App\Models\Base\Proceeding();
-                $sx .= $Proceeding->show($dt);
+                $Work = new \App\Models\Base\Work();
+                $sx .= $Work->show($dt);
                 break;
 
             case 'ProceedingSection':

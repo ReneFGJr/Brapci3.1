@@ -45,15 +45,8 @@ $data['banner'] = '00';
         <div class="col-10">
             <div class="text-end" id="authors">
                 <?php
-                $id = 0;
-                foreach ($authors as $id => $author) {
-                    if ($id > 0) {
-                        echo '; ';
-                    }
-                    echo $author;
-                    $id++;
-                }
-                echo '.';
+                $authors = troca($authors,'$','<br>');
+                echo $authors;
                 ?>
             </div>
 
