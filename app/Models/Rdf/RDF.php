@@ -148,7 +148,10 @@ class RDF extends Model
 					{
 						case 'editRDF':
 							$RDF = new \App\Models\Rdf\RDF();
+							$sx = view('Brapci/Headers/header', $data);
 							$sx .= $RDF->form($d3);
+							echo $sx;
+							exit;
 							break;
 						case 'edit':
 							$sx .= $RDFForm->form_ed($d3, $d4, $d5);

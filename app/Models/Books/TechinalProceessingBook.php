@@ -71,6 +71,8 @@ class TechinalProceessingBook extends Model
     {
         $RDF = new \App\Models\Rdf\RDF();
         $ISBN = new \App\Models\Functions\Isbn();
+        $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+
         $dt = $this->where('b_source', $ids)->findAll();
         $class = "Book";
         $name = $dt[0]['b_titulo'];
@@ -82,9 +84,30 @@ class TechinalProceessingBook extends Model
         $isbn = $ISBN->format($isbn);
         $isbn10 = $ISBN->isbn13to10($isbn);
 
-        $id = $RDF->RDF_concept('ISBN' . $isbn, $class);
+        /********************************** ARQUIVO */
+        if ($dt[0]['b_rdf'] > 0)
+            {
+                $id = $dt[0]['b_rdf'];
+            } else {
+                $id = $RDF->RDF_concept('ISBN' . $isbn, $class);
+            }
+
+        /********************************* ISBNS */
+        $dta = $TechinalProceessing->where('id_tp',$dt[0]['b_source'])->first();
+        $fileO = $dta['tp_up'];
+        $dir = $RDF->directory($id);
+        $dir = troca($dir,'.c/','_repository/book/');
+        checkdirs($dir);
+        $fileD = $dir.'book.pdf';
+        copy($fileO,$fileD);
+        /********************************** ARQUIVO RDF */
+        $id_file = $RDF->RDF_concept($fileD,'FileStorage');
+        $prop = 'hasFileStorage';
+        $RDF->propriety($id, $prop, $id_file, 0);
 
         /********************************** ISBN13 */
+
+
         $literal = $RDF->put_literal($isbn);
         $prop = 'hasISBN';
         $RDF->propriety($id, $prop, 0, $literal);

@@ -80,7 +80,6 @@ class TechinalProceessing extends Model
                 $catlog .= ' ';
                 $catlog .= $this->btn_supply($a);
 
-
                 $THB = new \App\Models\Books\TechinalProceessingBook();
                 $THB->create($a);
                 $catlog .= $THB->edit($a);
@@ -100,7 +99,9 @@ class TechinalProceessing extends Model
                 $idr = $db[0]['b_rdf'];
 
                 $rdfurl = URL.'/rdf/form/editRDF/'. $idr;
-                $catlog = '<iframe src="' . $rdfurl . '" style="width: 100%; height:600px;"></iframe>';
+                $catlog .= $this->btn_supply($a);
+                $catlog .= $this->btn_publish($a);
+                $catlog .= '<iframe src="' . $rdfurl . '" style="width: 100%; height:600px;"></iframe>';
                 break;
 
             case 6:
@@ -133,7 +134,13 @@ class TechinalProceessing extends Model
         $sx .= '</a>';
         return $sx;
     }
-
+    function btn_publish($s)
+    {
+        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';
+        $sx .= bsicone('reload', 32);
+        $sx .= '</a>';
+        return $sx;
+    }
     function btn_archive($s)
     {
         $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';

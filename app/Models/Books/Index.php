@@ -45,7 +45,6 @@ class Index extends Model
         $sx =  '';
         $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
         switch ($d1) {
-
             case 'autoloader':
                 switch ($d2) {
                     case 'ajax':

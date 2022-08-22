@@ -139,6 +139,24 @@ function dircheck($dir)
     return ($ok);
 }
 
+function checkdirs($dir)
+{
+    $dirs = troca($dir,'\\','/');
+    $dirs = explode('/', $dir);
+    $dir = '';
+    for ($r=0;$r < count($dirs);$r++)
+        {
+            $dir .= $dirs[$r] . '/';
+            if (!is_dir($dir)) {
+                mkdir($dir);
+                $rlt = fopen($dir . '/index.php', 'w');
+                fwrite($rlt, 'acesso restrito');
+                fclose($rlt);
+            }
+        }
+    return "";
+}
+
 function delTree($dir)
 {
     if (is_dir($dir)) {

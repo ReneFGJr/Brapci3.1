@@ -46,9 +46,15 @@ class Download extends Model
         $dt = $RDF->le($id);
         $data = $dt['concept'];
         $class = $data['c_class'];
-        $file = 'x';
-        echo $class;
+        $file = 'NOT FOUND';
         switch ($class) {
+            case 'Book':
+                $idf = $RDF->extract($dt, 'hasFileStorage');
+                if ($idf[0] > 0) {
+                    $dtf = $RDF->le($idf[0]);
+                    $file = $dtf['concept']['n_name'];
+                }
+                break;
             case 'Proceeding':
                 $idf = $RDF->extract($dt, 'hasFileStorage');
                 if ($idf[0] > 0) {
@@ -63,7 +69,7 @@ class Download extends Model
             readfile($file);
         } else {
             echo '<center>';
-            echo h('File not found in this server', 4);
+            echo h('File not found in this server ('.$class.')', 4);
             echo $file;
             echo '</center>';
         }
