@@ -92,6 +92,9 @@ class Work extends Model
                 case 'hasLanguageExpression':
                     $da['idioma'] .= $RDF->c($line['d_r1']);
                     break;
+                case 'hasClassificationAncib':
+                    $da['classification']['Ancib'] = $RDF->c($line['d_r1']);
+                    break;
                 case 'hasClassificationCDD':
                     $da['classification']['CDD'] = $RDF->c($line['d_r1']);
                     break;
