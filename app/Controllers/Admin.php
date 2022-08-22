@@ -38,7 +38,6 @@ class Admin extends BaseController
                             break;
                         case 'a':
                             $RDF = new \App\Models\Rdf\RDF();
-                            $sx .= cab();
                             $sx .= $RDF->form($sub);
                         break;
 
