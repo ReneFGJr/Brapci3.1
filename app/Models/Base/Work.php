@@ -79,6 +79,7 @@ class Work extends Model
         $da['year'] = '';
         $da['idioma'] = '';
         $da['pages'] = '';
+        $da['editora_local'] = '';
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
@@ -86,6 +87,9 @@ class Work extends Model
             $lang2 = $line['n_lang2'];
             $class = trim($line['c_class']);
             switch ($class) {
+                case 'isPlaceOfPublication':
+                    $da['editora_local'] .= $RDF->c($line['d_r1']) . '$';
+                    break;
                 case 'hasPage':
                     $da['pages'] .= $RDF->c($line['d_r1']). ' ';
                     break;
@@ -164,7 +168,7 @@ class Work extends Model
                     break;
                 default:
                     jslog('Class not found: ' . $class);
-                    $sx .= bsmessage('Class not found - ' . $class, 3);
+                    //$sx .= bsmessage('Class not found - ' . $class, 3);
                     break;
             }
         }
