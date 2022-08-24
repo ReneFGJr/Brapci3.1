@@ -60,6 +60,7 @@ class GetRecords extends Model
 				{
 					$sx .= $OAI_ListIdentifiers->getlastquery();
 					$sx .= bsmessage(lang('brapci.proceesing_finish'),1);
+					$sx .= metarefresh(PATH.COLLECTION. '/issue?id='.$id);
 				} else {
 					$id = $dt[0]['id_li'];
 					$sx .= $this->harvesting($id);
