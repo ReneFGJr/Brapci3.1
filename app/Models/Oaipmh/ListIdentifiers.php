@@ -105,7 +105,7 @@ class ListIdentifiers extends Model
 
 			$OAI = new \App\Models\Oaipmh\Index();
             $url = trim($dt['jnl_url_oai']);
-			$method = $dt['jnl_oai_to_harvesting'];
+			$method = $dt['jnl_oai_method'];
 
 			$url .= 'https://ebbc.inf.br/ojs/index.php/ebbc/oai';
 			$url .= '?';

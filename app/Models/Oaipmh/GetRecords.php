@@ -122,7 +122,7 @@ class GetRecords extends Model
 		}
 
 		/******************************* METHODS */
-		$method = $dt['jnl_oai_to_harvesting'];
+		$method = $dt['jnl_oai_method'];
 		$sx .= h('Method ' . $method, 3);
 		switch ($method) {
 			case 0:
