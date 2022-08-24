@@ -49,7 +49,6 @@ class TechinalProceessing extends Model
         /******************************************* Action */
         $act = get('act');
         if ($act != '') {
-            echo '==>' . $act;
             $data['tp_status'] = $act;
             $this->set($data)->where('id_tp', $a)->update();
         }

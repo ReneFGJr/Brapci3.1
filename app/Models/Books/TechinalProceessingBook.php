@@ -92,8 +92,9 @@ class TechinalProceessingBook extends Model
                 $id = $RDF->RDF_concept('ISBN' . $isbn, $class);
             }
 
-        /********************************* ISBNS */
+        /********************************* FILES */
         $dta = $TechinalProceessing->where('id_tp',$dt[0]['b_source'])->first();
+
         $fileO = $dta['tp_up'];
         $dir = $RDF->directory($id);
         $dir = troca($dir,'.c/','_repository/book/');
