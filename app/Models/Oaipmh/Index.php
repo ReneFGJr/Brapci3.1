@@ -101,7 +101,6 @@ class Index extends Model
 				echo h('ERRO CURL: '.$code);
 				exit;
 			}
-
 		}
 
 
