@@ -32,7 +32,10 @@ class Issues extends Model
         'is_url_oai',
 
         'is_works',
-        'is_source_issue'
+        'is_source_issue',
+        'harvesting_issue',
+        'is_oai_update',
+        'is_oai_token',
     ];
 
     protected $typeFields    = [
@@ -40,7 +43,8 @@ class Issues extends Model
         'hidden', 'string', 'string',
         '[1-199]', 'string', 'text',
         'string*', 'hidden', 'string',
-        'hidden', 'string*'
+        'hidden', 'string*', 'hidden',
+        'hidden', 'hidden'
     ];
 
     // Dates

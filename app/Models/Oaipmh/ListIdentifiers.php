@@ -18,7 +18,7 @@ class ListIdentifiers extends Model
 		'id_li', 'li_identifier', 'li_setSpec',
 		'li_status', 'li_jnl', 'li_update',
 		'li_s', 'li_u', 'li_datestamp',
-		'li_issue', 'is_works'
+		'li_issue', 'is_works', 'is_oai_token',
 	];
 
 	// Dates
@@ -54,14 +54,34 @@ class ListIdentifiers extends Model
 		$url = trim($dt['is_url_oai']);
 		$url .= '?';
 		$url .= 'verb=ListIdentifiers';
-		$url .= '&';
-		$url .= 'metadataPrefix=oai_dc';
+
+		if (strlen(trim($dt['is_oai_token'])) > 0)
+			{
+				$url .= '&';
+				$url .= 'resumptionToken='.$dt['is_oai_token'];
+			} else {
+				$url .= '&';
+				$url .= 'metadataPrefix=oai_dc';
+			}
 
 		$xml = $OAI->_call($url);
 		$xml = (array)simplexml_load_string($xml);
 
 		/********************************************************** REG */
 		$reg = (array)$xml['ListIdentifiers'];
+
+		$token = $reg['resumptionToken'];
+
+		$dd['is_oai_token'] = $token;
+		if ($token == '')
+			{
+				$dd['is_oai_update'] = date("Y-m-d H:i:s");
+			} else {
+				$sx .= metarefresh('',4);
+			}
+		$Issue = new \App\Models\Base\Issues();
+		$Issue->set($dd)->where('id_is',$dt['id_is'])->update();
+
 		$reg = (array)$reg['header'];
 
 		$sx .= h('Harvesting', 2);
