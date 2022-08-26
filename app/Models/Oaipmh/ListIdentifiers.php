@@ -47,6 +47,7 @@ class ListIdentifiers extends Model
 
 	function harvesting_issue($dt)
 	{
+		$Issue = new \App\Models\Base\Issues();
 		$sx = '';
 
 		$OAI = new \App\Models\Oaipmh\Index();
@@ -72,6 +73,16 @@ class ListIdentifiers extends Model
 		echo '</pre>';
 
 		/********************************************************** REG */
+		if (!isset($xml['ListIdentifiers']))
+			{
+				$sx .= '<div class="alert alert-danger">';
+				$sx .= '<h4>Erro</h4>';
+				$sx .= '<p>Não foi possível obter a lista de identificadores.</p>';
+				$sx .= '</div>';
+				$dd['is_oai_token'] = '';
+				$Issue->set($dd)->where('id_is', $dt['id_is'])->update();
+				return($sx);
+			}
 		$reg = (array)$xml['ListIdentifiers'];
 
 		$token = $reg['resumptionToken'];
@@ -83,7 +94,7 @@ class ListIdentifiers extends Model
 			} else {
 				$sx .= metarefresh('',4);
 			}
-		$Issue = new \App\Models\Base\Issues();
+
 		$Issue->set($dd)->where('id_is',$dt['id_is'])->update();
 
 		$reg = (array)$reg['header'];
