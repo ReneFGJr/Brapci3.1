@@ -115,6 +115,7 @@ class ListIdentifiers extends Model
 
 		if ($token != '')
 			{
+				pre($xml);
 				$dt = $Issue->find($dt['id_is']);
 				$sx .= '<hr>'.$token.'<hr>';
 				$sx .= $this->harvesting_issue($dt);
