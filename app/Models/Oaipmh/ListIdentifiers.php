@@ -112,6 +112,13 @@ class ListIdentifiers extends Model
 		}
 		$sx .= '<hr>Total '.$this->update_works($dt['id_is']).' '.lang('brapci.works');
 		$sx = bs(bsc($sx,12));
+
+		if ($token != '')
+			{
+				$dt = $Issue->find($dt['id_is']);
+				$sx .= '<hr>'.$token.'<hr>';
+				$sx .= $this->harvesting_issue($dt);
+			}
 		return $sx;
 	}
 
