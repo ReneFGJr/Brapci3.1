@@ -67,6 +67,8 @@ class ListIdentifiers extends Model
 		$xml = $OAI->_call($url);
 		$xml = (array)simplexml_load_string($xml);
 
+		pre($xml);
+
 		/********************************************************** REG */
 		$reg = (array)$xml['ListIdentifiers'];
 
