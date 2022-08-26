@@ -68,19 +68,17 @@ class ListIdentifiers extends Model
 		$xml = $OAI->_call($url);
 		$xml = (array)simplexml_load_string($xml);
 
-		echo '<pre>';
-		print_r($xml);
-		echo '</pre>';
-
 		/********************************************************** REG */
 		if (!isset($xml['ListIdentifiers']))
 			{
+				$sx .= h($url,4);
 				$sx .= '<div class="alert alert-danger">';
 				$sx .= '<h4>Erro</h4>';
 				$sx .= '<p>Não foi possível obter a lista de identificadores.</p>';
 				$sx .= '</div>';
 				$dd['is_oai_token'] = '';
 				$Issue->set($dd)->where('id_is', $dt['id_is'])->update();
+				$sx = bs(bsc($sx,12));
 				return($sx);
 			}
 		$reg = (array)$xml['ListIdentifiers'];
