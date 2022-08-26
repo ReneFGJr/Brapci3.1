@@ -90,7 +90,7 @@ class ListIdentifiers extends Model
 			{
 				$dd['is_oai_update'] = date("Y-m-d H:i:s");
 			} else {
-				$sx .= metarefresh('',4);
+				$sx .= metarefresh('',0);
 			}
 
 		$Issue->set($dd)->where('id_is',$dt['id_is'])->update();
