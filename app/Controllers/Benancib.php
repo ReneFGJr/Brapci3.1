@@ -23,11 +23,11 @@ class Benancib extends BaseController
     {
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Benancib';
+        $data['GOOGLEID'] = 'G-B720HV20XK';
         $data['bg'] = 'bg-benancib';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Benancib/Headers/navbar', $data);
-        $sx .= view('Brapci/Pages/googleanalytics', $data);
 
         $q = get("q") . get("qs");
         if (strlen($q) > 0) {
