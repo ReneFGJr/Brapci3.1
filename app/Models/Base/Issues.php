@@ -177,7 +177,7 @@ class Issues extends Model
     function PainelAdmin($idj)
     {
         $sx = '';
-        $sx .= anchor(URL . COLLECTION . '/issue/edit/' . $idj . '?jid=' . $idj, lang('brapci.new_issue'));
+        $sx .= anchor(URL . COLLECTION . '/issue/edit/' . $idj . '?jid=' . $idj, bsicone('plus'));
         return $sx;
     }
 

@@ -375,6 +375,7 @@ class Sources extends Model
 
     function journal_header($dt, $resume = true)
     {
+        $Issues = new \App\Models\Base\Issues();
         $sx = '';
         if (!is_array($dt)) {
             $sx = bsmessage('Erro de identificação do ISSUE/Jornal', 3);
@@ -385,6 +386,7 @@ class Sources extends Model
         $idj = $dt['jnl_frbr'];
         $this->Cover = new \App\Models\Base\Cover();
         $img = '<img src="' . $this->Cover->image($dt['id_jnl']) . '" class="img-fluid">';
+        $img = '';
         $sx = '';
         $url = PATH . COLLECTION . '/v/' . $idj;
         $jnl = h(anchor($url, $dt['jnl_name']), 3);
@@ -402,14 +404,14 @@ class Sources extends Model
             $jnl .= $Oaipmh->links($dt['id_jnl']);
         }
 
-        $sa = 'x';
 
-        $openaccess = $this->openaccess($dt);
+        /********** Actions */
+        $sa = '';
+        $sa .= $Issues->PainelAdmin($dt['id_jnl']);
 
-        $sx .= bsc($jnl, 9);
-        $sx .= bsc($openaccess, 1, 'p-4');
+        $sx .= bsc($jnl, 10);
         $sx .= bsc($img, 1, 'p-2');
-        $sx .= bsc($sa, 1, 'p-2');
+        $sx .= bsc($sa, 1, 'p-2 text-end');
         $sx = bs($sx);
 
         return $sx;

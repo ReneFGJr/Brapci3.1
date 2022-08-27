@@ -57,7 +57,7 @@ class Proceedings extends BaseController
                 $Issues = new \App\Models\Base\Issues();
                 $dt = $Sources->find($subact);
                 $sx .= $Sources->journal_header($dt);
-                $sx .= $Issues->PainelAdmin($dt['id_jnl']);
+
                 $sx .= $Issues->show_list_cards($dt['id_jnl']);
                 break;
 
