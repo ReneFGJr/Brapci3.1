@@ -35,7 +35,6 @@ class Issues extends Model
 
         'is_works',
         'is_source_issue',
-        'harvesting_issue',
         'is_oai_update',
         'is_oai_token',
     ];
@@ -152,7 +151,6 @@ class Issues extends Model
             if (strlen($img) == 0) {
                 $img = 'img/issue/issue_'.strzero($line['is_source'],5).'.png';
             }
-            echo '<br>'.$img;
 
             $link = PATH . COLLECTION . '/issue?id=' . $line['id_is'];
             if (!file_exists($img)) {
