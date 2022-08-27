@@ -21,6 +21,7 @@ class MainPages extends BaseController
 {
     public function index($pag = '')
     {
+        $data['GOOGLEID'] = 'UA-12713129-1';
         $sx = '';
         /**** PAGES */
         if ($pag == '') {

@@ -3,6 +3,11 @@
 if (!isset($page_title)) {
     $page_title = 'Brapci - Homepage';
 }
+/*************** GoogleAnalytics */
+if (!isset($GOOGLEID)) {
+    $GOOGLEID = 'UA-12713129-1';
+}
+$data['GOOGLEID'] = $GOOGLEID;
 ?>
 
 <head>
@@ -31,6 +36,8 @@ if (!isset($page_title)) {
     <!---- CSS -->
     <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= URL; ?>/css/brapci.css?v0.0.4">
+
+    <?= view('Google/Analytics', $data); ?>
 </head>
 
 <body style="min-height: 500px;">
