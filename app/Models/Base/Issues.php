@@ -23,6 +23,8 @@ class Issues extends Model
         'is_vol',
         'is_vol_roman',
 
+        'is_card',
+
         'is_nr',
         'is_place',
         'is_thema',
@@ -41,6 +43,7 @@ class Issues extends Model
     protected $typeFields    = [
         'hidden', 'sql:id_jnl:jnl_name:source_source order by jnl_name*', 'year*',
         'hidden', 'string', 'string',
+        'string',
         '[1-199]', 'string', 'text',
         'string*', 'hidden', 'string',
         'hidden', 'string*', 'hidden',
@@ -128,7 +131,7 @@ class Issues extends Model
         return $sx;
     }
 
-    function show_list_cards($id, $default_img = URL . '/img/issue/issue_enancib_ancib.png')
+    function show_list_cards($id, $default_img = URL . 'img/issue/issue_00000.png')
     {
         $dt = $this
             ->where('is_source', $id)
@@ -144,7 +147,13 @@ class Issues extends Model
             //$sa .= bsc($line['is_place'],2);
             //$sa .= bsc($line['is_thema'],6);
             //$sx .= bs($sa);
+
             $img = $line['is_card'];
+            if (strlen($img) == 0) {
+                $img = 'img/issue/issue_'.strzero($line['is_source'],5).'.png';
+            }
+            echo '<br>'.$img;
+
             $link = PATH . COLLECTION . '/issue?id=' . $line['id_is'];
             if (!file_exists($img)) {
                 $img = $default_img;
@@ -152,7 +161,7 @@ class Issues extends Model
 
             $sx .= '
                     <div class="card  m-3" style="width: 18rem; cursor: pointer;" onclick="location.href = \'' . $link . '\';">
-                    <img src="' . $img . '" class="card-img-top" alt="...">
+                    <img src="' . URL.'/'.$img . '" class="card-img-top" alt="...">
                     <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>' . $line['is_vol_roman'] . '</b></span>
                     <div class="card-body">
                         <h5 class="card-title">' . $line['is_year'] . ' - ' . $line['is_place'] . '</h5>
