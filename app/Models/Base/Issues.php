@@ -294,7 +294,9 @@ class Issues extends Model
         if (strlen($roman) > 0) {
             $vol .= ' (' . $roman . ')';
         }
-        $sx .= bsc(h($dt['jnl_name'], 3), 12);
+        $link = '<a href="' . PATH . COLLECTION . '/source/'.$dt['id_jnl'].'" target="_new">';
+        $linka = '</a>';
+        $sx .= bsc($link.h($dt['jnl_name'].$linka, 3), 12);
         $sx .= bsc($vol, 1);
         $sx .= bsc($dt['is_year'], 1);
         $sx .= bsc($dt['is_place'], 2);
