@@ -71,6 +71,7 @@ class ListIdentifiers extends Model
 		/********************************************************** REG */
 		if (!isset($xml['ListIdentifiers']))
 			{
+				pre($xml);
 				$sx .= h($url,4);
 				$sx .= '<div class="alert alert-danger">';
 				$sx .= '<h4>Erro</h4>';
@@ -115,7 +116,6 @@ class ListIdentifiers extends Model
 
 		if ($token != '')
 			{
-				pre($xml);
 				$dt = $Issue->find($dt['id_is']);
 				$sx .= '<hr>'.$token.'<hr>';
 				$sx .= $this->harvesting_issue($dt);
