@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'pdf':
+                $API = new \App\Models\Api\Endpoint\Pdf;
+                $sx = $API->index($d1, $d2, $d3, $d4);
+                break;
             case 'book':
                 $API = new \App\Models\Api\Endpoint\Book;
                 $sx = $API->index($d1, $d2, $d3, $d4);
@@ -98,7 +102,7 @@ class Index extends Model
                 $sx .= '    <div class="accordion-body"> ' . cr();
                 $sx .= '        Author(s): ' . $this->recoverTag($txt, '@author') . '<br>' . cr();
                 $sx .= '        ' . $this->recoverTag($txt, '@abstract') . '<br>' . cr();
-                $sx .= '        <pre>' . '<a href="' . $url_ex . '">' . $url_ex . '</pre><br>' . cr();
+                $sx .= '        <pre>' . '<a href="' . $url_ex . '">' . $url_ex . '</a></pre><br>' . cr();
                 $sx .= '    </div> ' . cr();
                 $sx .= '</div> ' . cr();
                 //$sx .= '</div>';
