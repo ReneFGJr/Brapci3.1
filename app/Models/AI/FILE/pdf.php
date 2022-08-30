@@ -57,6 +57,13 @@ class pdf extends Model
 		return $sx;
 	}
 
+	function pdf_to_html($file)
+		{
+			$cmd = 'pdftohtml -v';
+			$rst = shell_exec($cmd);
+			pre($rst);
+		}
+
 	function fileInfo($fileD)
 		{
 			$sx = '';

@@ -60,7 +60,7 @@ class Index extends Model
 									return $sx;
 								case 'pdf_to_text':
 									$API = new \App\Models\AI\FILE\pdf;
-									$sx = $API->pdf_to_text($d1,$d2);
+									$sx = $API->pdf_to_html($d1,$d2);
 									break;
 								default:
 								break;
