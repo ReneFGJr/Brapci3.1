@@ -60,7 +60,7 @@ class pdf extends Model
 	function pdf_to_html($file)
 		{
 			$cmd = 'pdftohtml -v';
-			$rst = shell_exec($cmd);
+			$rst = exec($cmd);
 			echo '<tt>===<br>'.$cmd. '<br>===</tt>';
 			pre($rst);
 		}
