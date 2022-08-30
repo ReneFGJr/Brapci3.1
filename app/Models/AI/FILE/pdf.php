@@ -40,13 +40,19 @@ class pdf extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function file()
+		{
+		$fileD = '../.tmp/AI/';
+		$fileD .= 'test.pdf';
+		return $fileD;
+		}
+
 	function show_files()
 	{
 		$sx = '';
 		/*************************************** FILE */
-		$fileD = '../.tmp/AI/';
-		$fileD .= 'test.pdf';
 
+		$fileD = $this->file();
 		if (file_exists($fileD))
 			{
 				$sx .= $this->fileInfo($fileD);
@@ -59,9 +65,21 @@ class pdf extends Model
 
 	function pdf_to_html($file)
 		{
-			$cmd = 'pdftohtml -v';
-			$rst = exec($cmd);
+			$fileD = $this->file();
+			$fileD_text = troca($fileD,'.pdf','.txt');
+
+			$dir = 'D:/Projeto/Bin/poppler/bin/';
+			$cmd = $dir.'pdftohtml.exe '.$fileD.' -xml';
+			$cmd = $dir . 'pdftotext.exe ' . $fileD;
+
+			$rst = shell_exec($cmd);
 			echo '<tt>===<br>'.$cmd. '<br>===</tt>';
+			$txt = file_get_contents($fileD_text);
+
+
+			$NLP = new \App\Models\AI\NLP\TextPrepare();
+			$txt2 = $NLP->JoinSentences($fileD_text);
+			echo '<pre>' . $txt2 . '</pre>';
 			pre($rst);
 		}
 
