@@ -84,9 +84,13 @@ $routes->post('/proceedings/(:any)', 'Proceedings::index/$1');
 $routes->get('/proceedings', 'Proceedings::index');
 
 /********* AI */
-$routes->get('/ai/(:any)/(:any)', 'Ai::index/$1/$2');
-$routes->post('/ai/(:any)/(:any)', 'Ai::index/$1/$2');
 $routes->get('/ai', 'Ai::index');
+$routes->get('/ai/(:any)', 'Ai::index/$1');
+$routes->get('/ai/(:any)/(:any)', 'Ai::index/$1/$2');
+
+$routes->post('/ai/(:any)', 'Ai::index/$1');
+$routes->post('/ai/(:any)/(:any)', 'Ai::index/$1/$2');
+
 
 /********* Books */
 $routes->get('/books/(:any)/(:any)', 'Books::index/$1/$2');

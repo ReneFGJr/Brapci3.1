@@ -24,8 +24,19 @@ class Ai extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Ai/Header/navbar', $data);
-
         switch ($act) {
+            case 'chat':
+                $AI = new \App\Models\AI\Chatbot\Index();
+                switch($subact)
+                    {
+                        case 'query':
+                            $sx = $AI->query($id);
+                            break;
+                        default:
+                            $sx .= $AI->chat();
+                            break;
+                    }
+                break;
             default:
             $sx .= $AI->index($act,$subact,$id);
 

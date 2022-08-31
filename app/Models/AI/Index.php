@@ -58,10 +58,12 @@ class Index extends Model
 									$API = new \App\Models\AI\FILE\upload;
 									$sx = $API->upload($d1, $d2);
 									return $sx;
+
 								case 'pdf_to_text':
 									$API = new \App\Models\AI\FILE\pdf;
 									$sx = $API->pdf_to_html($d1,$d2);
 									break;
+
 								default:
 								break;
 							}
@@ -83,7 +85,10 @@ class Index extends Model
 		$menu[PATH . COLLECTION . '/file/pdf_to_text'] = lang('ai.files_pdf_to_text');
 
 		$sx = '';
+
 		$sx .= MENU($menu);
+
+		$sx .= onclick(PATH . COLLECTION . '/chat', 400, 700) . 'ChatBot</span>';
 
 		return $sx;
 		}
