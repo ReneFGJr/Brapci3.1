@@ -77,7 +77,7 @@ class Index extends Model
 			<div class="col-12">
 				<div id="header">
 					Brapci ChatBot
-					<sup>Idade mental: 0 anos.</sup>
+					<br><sup style="font-size: 50%;">Idade mental: 0 anos.</sup>
 				</div>
 
 				<div id="body">
