@@ -61,7 +61,7 @@ class IssuesWorks extends Model
         $Indexshow = new \App\Models\Base\IndexShow();
 
         $dt = $this->issueWorks($id_rdf);
-        $sx = '';
+        $sx = h(count($dt).' '.lang('brapci.works'),4,'text-end');
 
         /******************************* */
         /* Index */
@@ -77,7 +77,9 @@ class IssuesWorks extends Model
             $auth = $Authors->index_auths($auth, $line['siw_work_rdf']);
             $sect = $Sections->index_sections($sect, $line['siw_work_rdf']);
         }
-        $key_index = $Indexshow->show_index($auth, 'authors');
+
+        $key_index = '';
+        $key_index .= $Indexshow->show_index($auth, 'authors');
         $key_index .= '<br>';
         $key_index .= $Indexshow->show_index($sect,'sections');
         $key_index .= '<br>';

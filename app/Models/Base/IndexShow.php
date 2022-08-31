@@ -50,9 +50,14 @@ class Indexshow extends Model
     {
         $RDF = new \App\Models\Rdf\RDF();
         arsort($key);
+        $tot = '';
+        if (count($key) > 0)
+            {
+                $tot .= ' (' . count($key) . ')';
+            }
         $ul = '<ul class="text_75" style="list-style-type: none; margin: 0px; padding: 0px; ">';
         $ulu = '</ul></div>'.cr();
-        $sx = h(lang('brapci.' . $title), 6);
+        $sx = h(lang('brapci.' . $title.$tot), 6);
         $block = 0;
         $block_nr = 20;
         $bln = 0;
