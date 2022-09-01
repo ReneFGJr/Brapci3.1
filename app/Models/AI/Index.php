@@ -87,8 +87,9 @@ class Index extends Model
 		$sx = '';
 
 		$sx .= MENU($menu);
+		$img = '<img src="'.URL. '/img/chat/chat_boot.png" style="height: 50px;">';
 
-		$sx .= onclick(PATH . COLLECTION . '/chat', 400, 700) . 'ChatBot</span>';
+		$sx .= onclick(PATH . COLLECTION . '/chat', 800, 700,'btn btn-outline-primary') . $img. 'ChatBot</span>';
 
 		return $sx;
 		}
