@@ -49,10 +49,10 @@ return [
         '' => '',
         '' => '',
         '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
+        'chat_down_know' => 'Infelizmente não sei nada sobre',
+        'chat_welcome' => 'Olá, sou o ChatBot da BRAPCI, o que você está procurando?',
+        'chat_send' => 'Enviar',
+        'chat_question' => 'digite sua pergunta',
         '' => '',
 
 ];

@@ -45,16 +45,18 @@ class Index extends Model
 	function chat()
 		{
 			$sx = $this->chart_html();
-			echo $sx;
+			echo '==>'.$sx;
 			exit;
-			return $sx;
 		}
 
 	function query()
 		{
+			$name_bot = '<b>Bot:</b> ';
 			$dd = array();
 			//echo '===>'.$_POST['messageValue'];
 			$key = get("msg");
+
+			echo '<div class="text-right text-end"><span class="btn btn-primary p-1 text-right">&nbsp;'.$key. '&nbsp;</span></div>';
 
 			/************* Ativa LOG */
 			if (strlen($key != ''))
@@ -63,8 +65,8 @@ class Index extends Model
 					$dd['m_ip'] = ip();
 					$this->insert($dd);
 				}
-
-			echo $key.'?';
+			echo $name_bot;
+			echo lang('brapci.chat_down_know').' <i>'.$key. '</i>.';
 			exit;
 		}
 
@@ -105,63 +107,75 @@ conversa.train([
 
 	function chart_html()
 	{
+		$id = 0;
+		$idade = '&nbsp;&nbsp;<sup style="font-size: 50%;">Idade Mental: '.$id.' anos</sup>';
 		$data['title'] = 'Chatbot';
 		$sx = view('Brapci/Headers/header',$data);
-		$sx = '
-			<link rel="stylesheet" href="' . URL . '/css/chat_bot.css">
-			<div class="col-12">
-				<div id="header">
-					Brapci ChatBot
-					<br><sup style="font-size: 50%;">Idade mental: 0 anos.</sup>
-				</div>
 
-				<div id="body">
-				<!-- This section will be dynamically inserted from JavaScript -->
-					<div class="userSection">
-					<div class="messages user-message">
+		/*************************************************************************** Header ****/
+		$sx .= bs(bsc('Chatbot' . $idade,12, 'h1 text-center bg-ai fixed-top p-2 text-white '));
 
+		/*************************************************************************** DashBoard */
+		$sa = '
+				<div class="userSection fixed-bottom p-2">
+					<div class="messages user-message" id="ChatBody" style="margin-bottom: 60px;">
+						<span><b>' . lang('brapci.chat_welcome') . '</b></span>
 					</div>
-					<div class="seperator"></div>
-					</div>
-					<div class="botSection">
-					<div class="messages bot-reply">
+				</div>';
+		$sx .= $sa;
 
-					</div>
-					<div class="seperator"></div>
-					</div>
-				</div>
 
-				<div id="inputArea">
-				<input type="text" name="messages" id="userInput" placeholder="'.lang('brapci.chat_answer'). '" required >
-				<input type="submit" id="send" value="Send">
+		/*************************************************************************** Message **/
+		$sb = '
+			<div class="input-group bg-ai fixed-bottom p-2">
+			<input class="form-control submit_on_enter" type="text" name="messages" id="userInput" placeholder="' . lang('brapci.chat_question') . '" required >
+				<div class="input-group-append">
+					<input type="submit" id="send" value="' . lang('brapci.chat_send') . '" class="btn btn-primary" type="button">
 				</div>
 			</div>
+		';
+		$sx .= $sb;
 
-
+		$js = '
 			<script type="text/javascript">
 
-				document.querySelector("#send").addEventListener("click", async () => {
-					let xhr = new XMLHttpRequest();
-					var userMessage = document.querySelector("#userInput").value
+				$(document).ready(function() {
 
-					let userHtml = \'<div class="userSection">\' + \'<div class="messages user-message">\'+userMessage+\'</div>\'+
-					\'<div class="seperator"></div>\'+\'</div>\'
+				$(".submit_on_enter").keydown(function(event) {
+					// enter has keyCode = 13, change it if you want to use another button
+					if (event.keyCode == 13) {
+					send();
+					return false;
+					}
+				});
 
-					document.querySelector(\'#body\').innerHTML+= userHtml;
+				});
 
-					xhr.open("POST", "'.PATH.COLLECTION.'/chat/query/?msg="+userMessage);
-					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					xhr.send();
+				function send()
+					{
+						let xhr = new XMLHttpRequest();
+						var userMessage = document.querySelector("#userInput").value
 
-					xhr.onload = function () {
-						let botHtml = \'<div class="botSection">\'+\'<div class="messages bot-reply">\'+this.responseText+\'</div>\'+
+						let userHtml = \'<div class="userSection">\' + \'<div class="messages user-message">\'+userMessage+\'</div>\'+
 						\'<div class="seperator"></div>\'+\'</div>\'
 
-						document.querySelector(\'#body\').innerHTML+= botHtml;
+						document.querySelector(\'#ChatBody\').innerHTML+= userHtml;
+
+						xhr.open("POST", "' . PATH . COLLECTION . '/chat/query/?msg="+userMessage);
+						xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+						xhr.send();
+
+						xhr.onload = function () {
+							//let botHtml = \'<div class="botSection">\'+\'<div class="btn btn-primary messages bot-reply">xx\'+this.responseText+\'</div>\'+\'<div class="seperator"></div>\'+\'</div>\'
+							let botHtml = this.responseText;
+							document.querySelector("#ChatBody").innerHTML+= botHtml;
+							document.querySelector("#userInput").value = "";
+						}
 					}
-				})
+
+				document.querySelector("#send").addEventListener("click", async () => { send(); });
 			</script>';
 
-			return $sx;
+			return $sx.$js;
 	}
 }
