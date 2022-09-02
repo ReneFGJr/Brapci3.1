@@ -43,6 +43,7 @@ class Analyse extends Model
     function index()
     {
         $VCterms = new \App\Models\AI\Chatbot\VCterms();
+        $VClinks = new \App\Models\AI\Chatbot\VClinks();
         $dt = $this
             ->select('m_message, count(*) as total')
             ->groupBy('m_message')
@@ -50,6 +51,7 @@ class Analyse extends Model
         $terms = array();
         for ($r = 0; $r < count($dt); $r++) {
             $t = $VCterms->prepare($dt[$r]['m_message']);
+            $dd = array();
 
             /**************************************** Unitermos Termos */
             for ($i=0;$i < count($t);$i++)
@@ -57,12 +59,14 @@ class Analyse extends Model
                     $ti = $t[$i];
                     if (isset($terms[$ti]))
                         {
-                            /* None */
+                            $id = $terms[$ti];
                         } else {
                             $id = $VCterms->term($ti);
                             $terms[$ti] = $id;
                         }
+                    array_push($dd,$id);
                 }
+                $VClinks->link($dd);
         }
         $sx = 'Analysed ' . count($dt) . ' messages';
         $sx .= ' and ' . count($terms) . ' terms';
