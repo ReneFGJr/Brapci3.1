@@ -32,15 +32,17 @@ class Ai extends BaseController
                         case 'query':
                             $sx = $AI->query($id);
                             break;
+                        case 'analyse':
+                            $sx .= $AI->analyse();
+                            break;
                         default:
                             $sx .= $AI->chat();
                             break;
                     }
                 break;
             default:
-            $sx .= $AI->index($act,$subact,$id);
-
-            break;
+                $sx .= $AI->index($act,$subact,$id);
+                break;
         }
 
         $sx .= view('Brapci/Headers/footer', $data);

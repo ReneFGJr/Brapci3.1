@@ -84,6 +84,9 @@ class Index extends Model
 		$menu[PATH . COLLECTION . '/file/upload'] = lang('ai.files_upload');
 		$menu[PATH . COLLECTION . '/file/pdf_to_text'] = lang('ai.files_pdf_to_text');
 
+		$menu['#CHARBOT'] = lang('ai.chat_bot');
+		$menu[PATH . COLLECTION . '/chat/analyse'] = lang('ai.chat_analyse');
+
 		$sx = '';
 
 		$sx .= MENU($menu);

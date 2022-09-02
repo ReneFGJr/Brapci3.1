@@ -42,6 +42,13 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function analyse()
+		{
+			$Analyse = new \App\Models\AI\Chatbot\Analyse();
+			$sx = $Analyse->index();
+			return $sx;
+		}
+
 	function chat()
 		{
 			$sx = $this->chart_html();
@@ -63,8 +70,13 @@ class Index extends Model
 				{
 					$dd['m_message'] = $key;
 					$dd['m_ip'] = ip();
-					$this->insert($dd);
+					//$this->insert($dd);
 				}
+
+			/*********************************** METHOD_AI */
+			$Method = new \App\Models\AI\Chatbot\ChatbotMethod();
+			echo $Method->index($key);
+
 			echo $name_bot;
 			echo lang('brapci.chat_down_know').' <i>'.$key. '</i>.';
 			exit;
