@@ -2,6 +2,16 @@
 
 function read_link($url, $read = 'CURL')
 {
+    $cached = false;
+    dircheck('../.tmp/');
+    dircheck('../.tmp/.cache/');
+    $file = '../.tmp/.cache/' . md5($url);
+    if (file_exists($file)) {
+        $cached = true;
+        jslog('Cache: ' . $url);
+        $txt = file_get_contents($file);
+        return $txt;
+    }
     switch ($read) {
         case 'file':
             if (substr($url, 0, 4) == 'http') {
@@ -14,6 +24,7 @@ function read_link($url, $read = 'CURL')
 
             if ($sta != '404') {
                 $contents = file_get_contents($url);
+                file_put_contents($file, $contents);
             } else {
                 $contents = '';
             }
@@ -25,8 +36,20 @@ function read_link($url, $read = 'CURL')
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             $data = curl_exec($curl);
+            $erro = curl_errno($curl);
             curl_close($curl);
+            if ($erro == 0)
+                {
+                    file_put_contents($file, $data);
+                } else {
+                    echo "ERRO CURL: " . $erro;
+                    echo '<br>'.$url;
+                }
+
             return ($data);
 
             break;

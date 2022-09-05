@@ -243,9 +243,10 @@ function form_fields($typ, $fld, $vlr, $th = array(), $obg = 0, $pre = '')
     if ($t == 'year') {
         $t = 'yr';
     }
-    if ($t == 'update') {
+    if (($t == 'update') or ($t=='now')) {
         $t = 'up';
     }
+
     if ($t == 'asc') {
         $t = 'st';
         $label_mandatory = ' - ' . '<span class="text-warning">' . lang($pre . 'no_use_especial_char') . '</span>';

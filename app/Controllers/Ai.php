@@ -15,7 +15,7 @@ define("COLLECTION", 'ai');
 
 class Ai extends BaseController
 {
-    public function index($act = '', $subact = '', $id = '')
+    public function index($act = '', $subact = '', $id = '', $id2='')
     {
         $AI = new \App\Models\AI\Index();
         $data['page_title'] = 'Brapci Artificial Inteligênce';
@@ -25,6 +25,10 @@ class Ai extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Ai/Header/navbar', $data);
         switch ($act) {
+            case 'skos':
+                $AI = new \App\Models\AI\Skos\Index();
+                $sx .= $AI->index($subact, $id, $id2);
+                break;
             case 'chat':
                 $AI = new \App\Models\AI\Chatbot\Index();
                 switch($subact)

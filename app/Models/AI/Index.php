@@ -86,6 +86,7 @@ class Index extends Model
 
 		$menu['#CHARBOT'] = lang('ai.chat_bot');
 		$menu[PATH . COLLECTION . '/chat/analyse'] = lang('ai.chat_analyse');
+		$menu[PATH . COLLECTION . '/skos'] = lang('ai.skos');
 
 		$sx = '';
 

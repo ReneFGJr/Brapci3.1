@@ -56,7 +56,7 @@ class ChatbotMethod extends Model
         }
 
         /*********************** Prepare Terms */
-        $VCTerms = new \App\Models\AI\Chatbot\VCTerms();
+        $VCTerms = new \App\Models\AI\Skos\VCTerms();
         $q = $VCTerms->prepare($q);
 
         $w = array();
@@ -69,6 +69,7 @@ class ChatbotMethod extends Model
                 }
             }
         }
+        echo "########## METHOD 2";
         pre($w);
     }
 

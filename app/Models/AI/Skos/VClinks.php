@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AI\Chatbot;
+namespace App\Models\AI\Skos;
 
 use CodeIgniter\Model;
 
@@ -18,7 +18,11 @@ class VClinks extends Model
         'lk_word_0', 'lk_word_1', 'lk_word_2',
         'lk_word_3', 'lk_word_4', 'lk_word_5',
         'lk_word_6', 'lk_word_7', 'lk_word_8',
-        'lk_word_9'
+        'lk_word_9',
+        'lk_word_10', 'lk_word_11', 'lk_word_12',
+        'lk_word_13', 'lk_word_14', 'lk_word_15',
+        'lk_word_16',
+        'lk_skos', 'lk_uri'
     ];
 
     // Dates
@@ -47,26 +51,27 @@ class VClinks extends Model
 
     function link($dd)
         {
-            if (count($dd) > 1)
+            if (!isset($dd['lk_skos']))
                 {
-                    sort($dd);
-                    $r = 0;
-                    $dr = array();
-                    foreach($dd as $id=>$word)
-                        {
-                            $dr['lk_word_' . $r] = $id;
-                            $this->where('lk_word_'.$r, $word);
-                            $r++;
-                        }
-                    $dt = $this->findAll();
-                    echo '<tt><br>'.$this->getlastquery().'</tt>';
-
-                    if (count($dt) == 0)
-                        {
-                            $this->insert($dr);
-                            echo "Inserted<br>";
-                        }
+                    echo "OPS lk_skos not found<br>";
+                    exit;
                 }
+            for ($r=0;$r < count($dd);$r++)
+            {
+                if (isset($dd['lk_word_'.$r]))
+                    {
+                        $vlr = round($dd['lk_word_' . $r]);
+                        if ($vlr > 0)
+                            {
+                                $this->where('lk_word_' . $r, $vlr);
+                            }
+                    }
+            }
+            $dt = $this->find();
 
+            if (count($dt) == 0)
+                {
+                    $this->insert($dd);
+                }
         }
 }

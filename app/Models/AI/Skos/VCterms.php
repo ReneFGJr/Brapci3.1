@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\AI\Chatbot;
+namespace App\Models\AI\Skos;
 
 use CodeIgniter\Model;
 
@@ -15,7 +15,7 @@ class VCterms extends Model
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
     protected $allowedFields        = [
-        'vc_name','id_vc'
+        'id_vc', 'vc_prefLabel'
     ];
 
     // Dates
@@ -44,8 +44,8 @@ class VCterms extends Model
 
     function prepare($q)
         {
-            $q = mb_strtolower($q) . ' ';
-            $chars = array('!', '?', '.', ',', ';');
+            $q = mb_strtolower(ascii($q)) . ' ';
+            $chars = array('!', '?', '.', ',', ';','-',':','(',')','[',']','{','}','"','\'','/','\\','|','_','+','=','*','&','^','%','$','#','@','~','`','<','>');
             for ($r = 0; $r < count($chars); $r++) {
                 $q = troca($q, $chars[$r], ' ' . $chars[$r] . ' ');
             }
@@ -61,19 +61,39 @@ class VCterms extends Model
         return $w;
         }
 
+    function terms_skos($t,$skos)
+        {
+            $VClinks = new \App\Models\AI\Skos\VClinks();
+            $da = $this->terms($t);
+            $da['lk_skos'] = $skos;
+            $VClinks->link($da);
+        }
+
+    function terms($t)
+        {
+            $nr = 0;
+            $ta = array();
+            $t = $this->prepare($t);
+            for ($r=0;$r < count($t);$r++)
+                {
+                    $ta['lk_word_'.$r] = $this->term($t[$r]);
+                    $nr++;
+                }
+            return $ta;
+        }
+
     function term($term)
     {
         /* Query */
         $dt = $this->select('id_vc')
-            ->where('vc_name', $term)
+            ->where('vc_prefLabel', $term)
             ->findAll();
 
         /* Result */
         if (count($dt) == 0) {
-            $dd['vc_name']  = $term;
+            $dd['vc_prefLabel']  = $term;
             $this->insert($dd);
             $id = $this->getInsertID();
-
         } else {
             $id = $dt[0]['id_vc'];
         }
