@@ -77,6 +77,14 @@ conversa.train([
 
     function index($q='')
         {
-
+            pre($q);
+            switch($q[1])
+                {
+                    case 'hello':
+                        $sx = 'Hello';
+                        break;
+                }
+            echo $sx;
+            exit;
         }
 }

@@ -57,7 +57,11 @@ class Index extends Model
         switch ($act) {
             case 'import':
                 $sx = $this->import($this->id);
-                $sx .= metarefresh(PATH . COLLECTION . '/skos/' . $this->id);
+                $sx .= metarefresh(PATH . COLLECTION . '/skos/viewid/' . $this->id);
+                break;
+            case 'export':
+                $sx = $this->export($this->id);
+                $sx .= metarefresh(PATH . COLLECTION . '/skos/viewid/' . $this->id);
                 break;
             case 'viewid':
                 $sx = $this->viewid($this->id);
@@ -78,14 +82,67 @@ class Index extends Model
     {
         $dt = $this->find($id);
         $sx = '<h1>' . $dt['sk_name'] . '</h1>';
-        $sx .= $this->btn_inport($id);
+
+        $sx .= bsc($this->btn_inport($id) . ' | '.$this->btn_export($id),12);
+
+        $sx .= $this->show_terms($id);
         return $sx;
     }
+
+    function load_terms()
+        {
+        $VCterms = new \App\Models\AI\Skos\VCterms();
+        $dt = $VCterms->findAll();
+        $terms = array();
+        for ($r=0;$r < count($dt);$r++)
+            {
+                $line = $dt[$r];
+                $terms[$line['id_vc']] = $line['vc_prefLabel'];
+            }
+        return $terms;
+        }
+
+    function show_terms($id)
+        {
+            $sx = '';
+            $terms = $this->load_terms();
+            $dt = $this
+                ->join('brapci_chatbot.vc_link', 'id_sk = lk_skos','left')
+                ->where('id_sk',$id)
+                ->findAll();
+
+            for($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $term = '';
+                    for ($n=0;$n <= 15;$n++)
+                        {
+                            $fld = 'lk_word_' . $n;
+                            $w0 = $line[$fld];
+                            if (isset($terms[$w0]))
+                                {
+                                    $term .= $terms[$w0] . ' ';
+                                }
+
+                        }
+
+                    $sx .= '<li>'.$term.'</li>';
+                }
+            return $sx;
+        }
 
     function btn_inport($id)
     {
         $sx = '<a href="' . PATH . COLLECTION . '/skos/import/' . $id . '" class="btn btn-outline-primary">';
         $sx .= lang('brapci.import');
+        $sx .= '</a>';
+        return $sx;
+    }
+
+    function btn_export($id)
+    {
+        $sx = '<a href="' . PATH . COLLECTION . '/skos/export/' . $id . '" class="btn btn-outline-primary">';
+        $sx .= lang('brapci.export');
         $sx .= '</a>';
         return $sx;
     }
@@ -107,9 +164,18 @@ class Index extends Model
         }
         return $sx;
     }
+
+    function export($id)
+    {
+        $sx = '';
+        $VCconcepts = new \App\Models\AI\Skos\VCconcepts();
+        return $sx;
+    }
+
     function import_thesa($id_th)
     {
         $VCterms = new \App\Models\AI\Skos\VCterms();
+        $VCconcepts = new \App\Models\AI\Skos\VCconcepts();
 
         $dt = $this->find($id_th);
         $url = $dt['sk_uri'];
@@ -138,6 +204,8 @@ class Index extends Model
                     if (isset($line['prefLabel'])) {
                         $PrefLabel = (array)$line['prefLabel'];
                         for ($r = 0; $r < count($PrefLabel); $r++) {
+                            $term = troca(ascii(mb_strtolower($PrefLabel[$r])),' ','_');
+                            $VCconcepts->term($term,$id_th);
                             $VCterms->terms_skos($PrefLabel[$r], $id_th);
                         }
                     }

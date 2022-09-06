@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Tempo de geração: 05-Set-2022 às 10:45
+-- Tempo de geração: 06-Set-2022 às 20:33
 -- Versão do servidor: 5.7.36
 -- versão do PHP: 7.4.26
 
@@ -130,15 +130,53 @@ CREATE TABLE IF NOT EXISTS `skos` (
 
 INSERT INTO `skos` (`id_sk`, `sk_uri`, `sk_name`, `sk_description`, `sk_concepts`, `sk_terms`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/106', 'Brapci - Tabela de países', '', 0, 0, '2022-09-03 11:24:20', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/373', 'AskMe', '', 0, 0, '2022-09-03 12:47:44', '2022-09-03 13:56:47', '0000-00-00 00:00:00'),
-(3, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/545', 'ChatBot - Apresentação', '', 0, 0, '2022-09-03 12:54:21', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/373', 'AskMe', '', 0, 0, '2022-09-03 12:47:44', '2022-09-05 16:35:41', '0000-00-00 00:00:00'),
+(3, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/545', 'ChatBot - Apresentação', '', 0, 0, '2022-09-03 12:54:21', '2022-09-06 18:30:42', '0000-00-00 00:00:00'),
 (4, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/64', 'Ciência da Informação', '', 0, 0, '2022-09-03 12:56:47', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (5, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/104', 'Comunicação Científica', '', 0, 0, '2022-09-03 16:02:18', '2022-09-03 14:06:22', '0000-00-00 00:00:00'),
 (6, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/10', 'FRBR - Datas', '', 0, 0, '2022-09-03 16:03:20', '2022-09-03 14:07:15', '0000-00-00 00:00:00'),
 (7, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/55', 'FRBR - Localização Geográfica - Cidade, Estados', '', 0, 0, '2022-09-03 16:03:57', '2022-09-03 14:08:15', '0000-00-00 00:00:00'),
 (8, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/419', 'Indexação', '', 0, 0, '2022-09-03 16:04:16', '2022-09-03 14:10:57', '0000-00-00 00:00:00'),
 (9, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/243', 'Metodologia de Pesquisa', '', 0, 0, '2022-09-03 16:04:39', '2022-09-03 14:11:13', '0000-00-00 00:00:00'),
-(10, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/374', 'Tesauro RDP - Dados de Pesquisa', '', 0, 0, '2022-09-03 16:05:39', '2022-09-03 14:11:04', '0000-00-00 00:00:00');
+(10, 'https://www.ufrgs.br/tesauros/index.php/thesa/terms/374', 'Tesauro RDP - Dados de Pesquisa', '', 0, 0, '2022-09-03 16:05:39', '2022-09-06 12:15:43', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vc_concepts`
+--
+
+DROP TABLE IF EXISTS `vc_concepts`;
+CREATE TABLE IF NOT EXISTS `vc_concepts` (
+  `id_c` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `c_name` char(40) COLLATE utf8mb4_bin NOT NULL,
+  UNIQUE KEY `id_c` (`id_c`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Extraindo dados da tabela `vc_concepts`
+--
+
+INSERT INTO `vc_concepts` (`id_c`, `c_name`) VALUES
+(1, 'boa_noite'),
+(2, 'boa_tarde'),
+(3, 'bom_dia'),
+(4, 'ola');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `vc_concepts_th`
+--
+
+DROP TABLE IF EXISTS `vc_concepts_th`;
+CREATE TABLE IF NOT EXISTS `vc_concepts_th` (
+  `if_cth` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cth_c` int(11) NOT NULL,
+  `cth_th` int(11) NOT NULL,
+  `cth_uri` char(50) COLLATE utf8mb4_bin NOT NULL,
+  UNIQUE KEY `if_cth` (`if_cth`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 

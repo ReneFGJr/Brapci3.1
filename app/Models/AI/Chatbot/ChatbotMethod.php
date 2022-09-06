@@ -63,12 +63,18 @@ class ChatbotMethod extends Model
         foreach ($q as $id => $word) {
             if ($word != '') {
                 if (isset($w[$word])) {
-                    $w[$word]++;
+                    //$w[$word]++;
                 } else {
-                    $w[$word] = 1;
+                    $w[$word] = 0;
                 }
             }
         }
+        echo "########## METHOD 0 - TERM PROCESS" . '<br>';
+        $terms = $VCTerms->terms_math($w);
+        echo "########## METHOD 1 - INTRODUCE".'<br>';
+        $ChatbotMethod_Introduction = new \App\Models\AI\Chatbot\ChatbotMethod_Introduction();
+        $ChatbotMethod_Introduction->index($w);
+
         echo "########## METHOD 2";
         pre($w);
     }

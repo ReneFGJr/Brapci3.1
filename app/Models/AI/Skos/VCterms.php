@@ -42,6 +42,29 @@ class VCterms extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
+
+    function terms_math($q)
+    {
+        $this->where('0=1');
+        foreach($q as $term=>$vlr)
+            {
+                $this->orWhere('vc_prefLabel', $term);
+            }
+        $dt = $this->findAll();
+
+        for ($r=0;$r < count($dt);$r++)
+            {
+                $line = $dt[$r];
+                $t = $line['vc_prefLabel'];
+                $i = $line['id_vc'];
+                if (isset($q[$t]))
+                    {
+                        $q[$t] = $i;
+                    }
+            }
+        pre($q);
+    }
+
     function prepare($q)
         {
             $q = mb_strtolower(ascii($q)) . ' ';
