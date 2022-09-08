@@ -40,37 +40,65 @@ class Analyse extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
-    function analyse($t)
+    function chat($q)
     {
         $VCterms = new \App\Models\AI\Skos\VCterms();
-        $VClinks = new \App\Models\AI\Skos\VClinks();
+        $VCconcept = new \App\Models\AI\Skos\VCconcepts();
 
-        $t = $VCterms->prepare($t);
-        $dd = array();
+        $phrases = array();
 
-        /**************************************** Unitermos Termos */
-        for ($i = 0; $i < count($t); $i++) {
-            $ti = $t[$i];
-            if (isset($terms[$ti])) {
-                $id = $terms[$ti];
+        /********* Processe */
+        $ri = 0;
+        $loop = 0;
+
+        while ($ri <= count($q)) {
+            $word = '';
+            $phrase = '';
+
+            for ($r = $ri; $r < count($q); $r++) {
+                $loop++;
+                if ($loop > 150) {
+                    echo bsmessage("OPS - LOOP OR TOO LONG", 3);
+                    exit;
+                }
+                if (strlen($word) > 0) {
+                    $word .= '_';
+                }
+                $word .= $q[$r];
+                $dir = $VCconcept->directory($word, false);
+                $file = $dir .= 'class.json';
+                if (file_exists($file)) {
+                    //echo '<span style="color: green">OK - ' . $file . '</span>';
+                    $phrase = $word;
+                    $ri = $r + 1;
+                } else {
+                    //echo "NO - " . $file;
+                    //echo "OPS";
+                }
+            }
+            if ($phrase == '') {
+                $ri++;
             } else {
-                $id = $VCterms->term($ti);
-                $terms[$ti] = $id;
+                array_push($phrases, $phrase);
             }
-            array_push($dd, $id);
-            $VClinks->where('lk_word_'.$i,$id);
         }
-        $dt = $VClinks->findAll();
-        echo $VClinks->getlastquery().'<br>';
-        if (count($dt) > 0)
-            {
-                echo "XXXXXXXXXXXXX 1";
-                pre($dt);
-            }
+        return ($phrases);
     }
 
-    function index()
+    function analyse($t)
     {
+        $sx = '';
+        $VCterms = new \App\Models\AI\Skos\VCterms();
+        $VClinks = new \App\Models\AI\Skos\VClinks();
+        $sx .= h($t);
+        $t = $VCterms->prepare($t);
+        $sx .= $this->chat($t);
+        return $sx;
+    }
+
+    function user_answers()
+    {
+        $VCterms = new \App\Models\AI\Skos\VCterms();
         $sx = '';
         $dt = $this
             ->select('m_message, count(*) as total')
@@ -79,13 +107,18 @@ class Analyse extends Model
         $terms = array();
         for ($r = 0; $r < count($dt); $r++) {
             $msg = $dt[$r]['m_message'] . '<br>';
-            $sx .= $msg.'<br>';
-            $sx .= $this->analyse($msg);
 
-            $sx .= 'Analysed ' . count($dt) . ' messages';
-            $sx .= ' and ' . count($terms) . ' terms';
+            $q = $VCterms->prepare($msg);
+            $ph = $this->chat($q);
 
-            return bs(bsc($sx, 12));
+            $sx .= 'Analysed <b>' . $msg . '</b> messages';
+            $sx .= ' and ' . count($ph) . ' terms';
+
+            $sx .= '<pre>';
+            $sx .= print_r($ph, true);
+            $sx .= '</pre>';
+
         }
+        return bs(bsc($sx, 12));
     }
 }

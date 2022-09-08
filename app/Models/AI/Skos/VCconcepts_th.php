@@ -15,7 +15,7 @@ class VCconcepts_th extends Model
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
     protected $allowedFields        = [
-        'id_cth', 'cth_c', 'cth_th', 'cth_utl'
+        'id_cth', 'cth_c', 'cth_th', 'cth_uri'
     ];
 
     // Dates

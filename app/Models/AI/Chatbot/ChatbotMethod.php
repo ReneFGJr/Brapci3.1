@@ -57,26 +57,18 @@ class ChatbotMethod extends Model
 
         /*********************** Prepare Terms */
         $VCTerms = new \App\Models\AI\Skos\VCterms();
+        $Analyse = new \App\Models\AI\Chatbot\Analyse();
         $q = $VCTerms->prepare($q);
 
-        $w = array();
-        foreach ($q as $id => $word) {
-            if ($word != '') {
-                if (isset($w[$word])) {
-                    //$w[$word]++;
-                } else {
-                    $w[$word] = 0;
-                }
-            }
-        }
         echo "########## METHOD 0 - TERM PROCESS" . '<br>';
-        $terms = $VCTerms->terms_math($w);
-        echo "########## METHOD 1 - INTRODUCE".'<br>';
-        $ChatbotMethod_Introduction = new \App\Models\AI\Chatbot\ChatbotMethod_Introduction();
-        $ChatbotMethod_Introduction->index($w);
+        $terms = $Analyse->chat($q);
 
-        echo "########## METHOD 2";
-        pre($w);
+        echo "########## METHOD 1 - INTRODUCE".'<br>';
+//        $ChatbotMethod_Introduction = new \App\Models\AI\Chatbot\ChatbotMethod_Introduction();
+//        $ChatbotMethod_Introduction->index($w);
+
+        echo "########## METHOD 2" . '<br>';
+
     }
 
     function terms($t)

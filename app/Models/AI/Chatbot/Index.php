@@ -45,7 +45,7 @@ class Index extends Model
 	function analyse()
 		{
 			$Analyse = new \App\Models\AI\Chatbot\Analyse();
-			$sx = $Analyse->index();
+			$sx = $Analyse->user_answers();
 			return $sx;
 		}
 

@@ -169,6 +169,9 @@ class Index extends Model
     {
         $sx = '';
         $VCconcepts = new \App\Models\AI\Skos\VCconcepts();
+
+        /******************************* Exportar */
+        $sx .= $VCconcepts->export_all($id);
         return $sx;
     }
 
@@ -183,6 +186,7 @@ class Index extends Model
         $url = troca($url, '/terms/', '/terms_from_to/') . '/skos';
         $xml = read_link($url, 'CURL');
         $sx = h($url);
+        $xml = troca($xml, 'rdf:', '');
         $xml = simplexml_load_string($xml);
         $xml = (array)$xml;
 
@@ -193,19 +197,19 @@ class Index extends Model
             //$dd['sk_description'] = (array)$Collection['description'];
             $dd['sk_description'] = '';
             $this->set($dd)->where('id_sk', $id_th)->update();
-
             /*************************** Importar termos */
             $Concept = (array)$xml['Concept'];
             for ($ct = 0; $ct < count($Concept); $ct++) {
                 if (isset($Concept[$ct])) {
                     $line = (array)$Concept[$ct];
-
+                    $attr = (array)$line['@attributes'];
+                    $uri = $attr['about'];
                     /**************************** PrefLabel */
                     if (isset($line['prefLabel'])) {
                         $PrefLabel = (array)$line['prefLabel'];
                         for ($r = 0; $r < count($PrefLabel); $r++) {
                             $term = troca(ascii(mb_strtolower($PrefLabel[$r])),' ','_');
-                            $VCconcepts->term($term,$id_th);
+                            $VCconcepts->term($term,$id_th,$uri);
                             $VCterms->terms_skos($PrefLabel[$r], $id_th);
                         }
                     }
@@ -213,6 +217,8 @@ class Index extends Model
                     if (isset($line['altLabel'])) {
                         $altLabel = (array)$line['altLabel'];
                         for ($r = 0; $r < count($altLabel); $r++) {
+                            $term = troca(ascii(mb_strtolower($altLabel[$r])), ' ', '_');
+                            $VCconcepts->term($term, $id_th, $uri);
                             $VCterms->terms_skos($altLabel[$r], $id_th);
                         }
                     }
@@ -221,6 +227,8 @@ class Index extends Model
                     if (isset($line['hiddenLabel'])) {
                         $hiddenLabel = (array)$line['hiddenLabel'];
                         for ($r = 0; $r < count($hiddenLabel); $r++) {
+                            $term = troca(ascii(mb_strtolower($hiddenLabel[$r])), ' ', '_');
+                            $VCconcepts->term($term, $id_th, $uri);
                             $VCterms->terms_skos($hiddenLabel[$r], $id_th);
                         }
                     }
