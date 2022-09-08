@@ -61,15 +61,20 @@ class Index extends Model
                 break;
             case 'export':
                 $sx = $this->export($this->id);
-                $sx .= metarefresh(PATH . COLLECTION . '/skos/viewid/' . $this->id);
+                //$sx .= metarefresh(PATH . COLLECTION . '/skos/viewid/' . $this->id);
+                break;
+            case 'export_all':
+                if ($id == '') { $id = 1; }
+                $sx = $this->export_all_skos($id);
                 break;
             case 'viewid':
-                $sx = $this->viewid($this->id);
+                $sx .= $this->viewid($this->id);
                 break;
             case 'edit':
                 $sx .= form($this);
                 break;
             default:
+                $sx .= anchor(PATH . COLLECTION . '/skos/export_all/1', msg('export_all'));
                 $sx .= h(lang('brapci.ai.skos'));
                 $sx .= tableview($this);
                 break;
@@ -77,6 +82,22 @@ class Index extends Model
         $sx = bs($sx);
         return $sx;
     }
+
+    function export_all_skos($id)
+        {
+            $dt = $this->where('id_sk >=', $id)->First();
+            if ($dt != '')
+                {
+                    $sx = $this->export($dt['id_sk']);
+                    $id = $dt['id_sk'] + 1;
+                    $sx .= h($dt['id_sk'].' == '.$id);
+
+                    $sx .= metarefresh(PATH . COLLECTION . '/skos/export_all/' .($id),2);
+                } else {
+                    $sx = h('Exportação finalizada');
+                }
+            return $sx;
+        }
 
     function viewid($id)
     {
