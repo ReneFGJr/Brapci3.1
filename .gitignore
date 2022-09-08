@@ -1,4 +1,3 @@
-.env
 .tmp/
 /writable/
 public/.c/
@@ -7,4 +6,5 @@ public/_repository/
 public/.c/00/
 public/img/c/
 public/.c/00/*
-.env
+/.env
+
