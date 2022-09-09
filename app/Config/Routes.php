@@ -91,6 +91,14 @@ $routes->get('/ai/(:any)/(:any)', 'Ai::index/$1/$2');
 $routes->post('/ai/(:any)', 'Ai::index/$1');
 $routes->post('/ai/(:any)/(:any)', 'Ai::index/$1/$2');
 
+/********* CRAWLER */
+$routes->get('/crawler', 'Crawler::index');
+$routes->get('/crawler/(:any)', 'Crawler::index/$1');
+$routes->get('/crawler/(:any)/(:any)', 'Crawler::index/$1/$2');
+
+$routes->post('/crawler/(:any)', 'Crawler::index/$1');
+$routes->post('/crawler/(:any)/(:any)', 'Crawler::index/$1/$2');
+
 
 /********* Books */
 $routes->get('/books/(:any)/(:any)', 'Books::index/$1/$2');
