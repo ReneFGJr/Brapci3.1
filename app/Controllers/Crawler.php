@@ -25,8 +25,18 @@ class Crawler extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Ai/Header/navbar', $data);
         switch ($act) {
+
+            case 'webcrawler':
+                $Crawler = new \App\Models\Crawler\Webcrawler\Index();
+                $sx .= $Crawler->index($subact, $id, $id2);
+                break;
+
+            case 'viewid':
+            $sx .= $Crawler->viewid($subact);
+            break;
+
            default:
-                $sx .= $Crawler->index($act,$subact,$id);
+                $sx .= $Crawler->index($act,$subact,$id,$id2);
                 break;
         }
 

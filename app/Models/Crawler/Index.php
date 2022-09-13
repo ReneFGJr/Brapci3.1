@@ -49,17 +49,25 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($act, $id)
+    function index($act, $id, $id2='', $id3='')
     {
         $sx = '';
         $this->id = $id;
         $this->path = PATH . COLLECTION ;
         $this->path_back = PATH . COLLECTION ;
 
+        $sx .= h('Webcrawler - '.$act . ' - '.$id,3);
+
         switch ($act) {
+            case 'webcrawler':
+                $Crawler = new \App\Models\Crawler\Webcrawler\Index();
+                //$sx .= $Crawler->index($id2, $id3);
+                break;
+
             case 'viewid':
                 $sx .= $this->viewid($id);
                 break;
+
             case 'edit':
                 $this->id = $id;
                 $sx .= form($this);
@@ -81,7 +89,7 @@ class Index extends Model
             return $sx;
         }
 
-    function viewid($id,$id2='')
+    function viewid($id,$id2='',$id3='',$id4='')
         {
             $dt = $this->find($id);
             $sx = '';
@@ -94,15 +102,18 @@ class Index extends Model
 
 
             $type = $dt['cron_exec'];
+
+            $sx .= h($id.'-'.$id2.'-'.$id3.'-'.$id4, 2);
             switch($type)
                 {
                     case 'php':
                         break;
                     case 'python':
                         break;
+
                     case 'webcrawler':
-                    $Crawler = new \App\Models\Crawler\Webcrawler\Index();
-                        $sx .= $Crawler->index($id,$id2);
+                        $Crawler = new \App\Models\Crawler\Webcrawler\Index();
+                        $sx .= $Crawler->index($id,$id2,$id3);
                         break;
                 }
             $sx = bs($sx);
