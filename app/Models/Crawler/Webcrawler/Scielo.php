@@ -55,22 +55,32 @@ class Scielo extends Model
         $url = $dt['tsk_value'];
         $t = read_link($url);
 
-        echo h($url);
+        /******************************** DOI META */
+        $s = '<meta name="citation_doi" content="';
+        $pos = strpos($t, $s);
+        $doi = substr($t,$pos+strlen($s),150);
+        $doi = substr($doi,0,strpos($doi,'"'));
+
+        /******************************** TITLE META */
+        $data['tsk_task'] = $dt['tsk_task'];
+        $data['tsk_propriety'] = 'hasDOI';
+        $data['tsk_value'] = $doi;
+        $data['tsk_status'] = 0;
+        $data['tsk_father'] = $dt['id_tsk'];
+        $CTASK->register($data);
+
+        $sx .= h($doi);
 
         $urls = $this->recover_doi($t);
 
-        pre($urls);
-
         foreach ($urls as $url => $id) {
-            $url = troca($url, 'abstract/', '');
-            if (strpos($url, '/a/')) {
                 $data['tsk_task'] = $dt['tsk_task'];
-                $data['tsk_propriety'] = 'hasIssueArticle';
+                $data['tsk_propriety'] = 'hasDOIref';
                 $data['tsk_value'] = $url;
                 $data['tsk_status'] = 0;
+                $data['tsk_father'] = $dt['id_tsk'];
                 $CTASK->register($data);
                 $sx .= $url . '<br/>';
-            }
         }
         $dd['tsk_status'] = 1;
         $CTASK
@@ -125,13 +135,29 @@ class Scielo extends Model
         $s = 'doi.org/';
         while ($pos = strpos($t, $s)) {
             $ta = substr($t, $pos + 8, strlen($t));
-            if (strpos($ta,'"')) { $url = substr($ta, 0, strpos($ta, '"')); }
-            if (strpos($ta, ' ')) { $url = substr($ta, 0, strpos($ta, ' '));}
+            if (strpos($ta, '"')) { $ta = substr($ta, 0, strpos($ta, '"')); }
+            if (strpos($ta, ' ')) { $ta = substr($ta, 0, strpos($ta, ' ')); }
+            if (strpos($ta, '<')) { $ta = substr($ta, 0, strpos($ta, '<')); }
+            if (strpos($ta, '>')) { $ta = substr($ta, 0, strpos($ta, '>')); }
+            if (strpos($ta, "'")) { $ta = substr($ta, 0, strpos($ta, "'")); }
+            if (strpos($ta, "&")) { $ta = substr($ta, 0, strpos($ta, "&"));}
+            $url = $ta;
             $url = troca($url,chr(13),'');
             $url = troca($url, chr(10), '');
 
-
-            $urls[$url] = 1;
+            $loop = 0;
+            while(substr($url,strlen($url)-1,1) == '.')
+                {
+                    $url = substr($url,0,strlen($url)-1);
+                    $loop++;
+                    if ($loop > 500) { break; }
+                }
+            if (isset($urls[$url]))
+                {
+                    $urls[$url]++;
+                } else {
+                    $urls[$url] = 1;
+                }
             $t = substr($t, $pos + 5, strlen($t));
         }
         return ($urls);
