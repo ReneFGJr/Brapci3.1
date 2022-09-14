@@ -93,6 +93,10 @@ class Index extends Model
         $sx = h($mth);
 
         switch ($mth) {
+            case 'hasDOI':
+                $Scielo = new \App\Models\Crawler\Webcrawler\Scielo();
+                $sx .= $Scielo->hasDOI($id);
+                break;
             case 'hasIssue':
                 $CTASK = new \App\Models\Crawler\Webcrawler\CrawlerTaskUrl();
                 $Scielo = new \App\Models\Crawler\Webcrawler\Scielo();

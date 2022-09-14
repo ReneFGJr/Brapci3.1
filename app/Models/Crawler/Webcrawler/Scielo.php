@@ -40,6 +40,37 @@ class Scielo extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function hasDOI($id)
+    {
+        $sx = '';
+        $CTASK = new \App\Models\Crawler\Webcrawler\CrawlerTaskUrl();
+        $da = $CTASK
+            ->where('tsk_task', $id)
+            ->where('tsk_propriety', 'hasDOI')
+            ->findAll();
+
+        $sx .= '<table class="table">';
+        for($r=0;$r < count($da);$r++)
+            {
+                $line = $da[$r];
+                $vlr = $line['tsk_value'];
+                $ano = substr($vlr,strpos($vlr,'-')+1,strlen($vlr));
+                $ano = substr($ano, 4, 4);
+                $sx .= '<tr>';
+                $sx .= '<td>';
+                $sx .= $line['tsk_value'];
+                $sx .= '</td>';
+
+                $sx .= '<td>';
+                $sx .= $ano;
+                $sx .= '</td>';
+
+                $sx .= '</tr>';
+            }
+        $sx .= '</table>';
+        return $sx;
+    }
+
     function hasIssueArticle($dt)
     {
         $sx = '';
