@@ -381,7 +381,7 @@ class Socials extends Model
 		$name = get("user_name");
 		if (strlen($name) > 0) {
 			$this->setUserDb();
-			$sql = "select * from users2
+			$sql = "select * from users
 								left join users_perfil_attrib ON pa_user = id_us
 								where (us_nome like '%$name%') or (us_email like '%$name%')";
 			$dt = $this->db->query($sql)->getResult();
@@ -490,7 +490,7 @@ class Socials extends Model
 
 	function setUserDb()
 	{
-		$this->table = "users2";
+		$this->table = "users";
 		$this->primaryKey = "id_us";
 		$this->allowedFields =
 			[
