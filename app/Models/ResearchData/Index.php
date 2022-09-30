@@ -50,16 +50,21 @@ class Index extends Model
 
     function index($act, $subact, $id, $id2)
         {
-            $sx = $act.'-'. $subact;
+            $sx = '';
             switch($subact)
                 {
                     case 'repository':
                         switch($id)
                             {
+                                case 'viewid':
+                                    $sx .= breadcrumbs(array('Research Data' => '', 'Repository' => PATH. COLLECTION.'/data/repository', 'View' => PATH . COLLECTION . '/data/repository/viewid/' . $id2));
+                                    $sx .= $this->repository_view($id2);
+                                    break;
                                 case 'edit':
                                     $sx .= $this->repository_edit($id2);
                                     break;
                                 default:
+                                    $sx .= $act . '-' . $subact;
                                     $sx .= $this->repository_list();
                                     break;
                             }
@@ -69,6 +74,18 @@ class Index extends Model
                         break;
                 }
             $sx = bs(bsc($sx,12));
+            return $sx;
+        }
+
+    function repository_view($id)
+        {
+            $sx = '';
+            $dt = $this->find($id);
+            $sx .= '<span class="small">'.lang('data.repository').'</span>';
+            $sx .= h($dt['rp_name'],1);
+            $sx .= '<p>'.$dt['rp_description'].'</p>';
+
+            $sx .= '<p>' . anchor($dt['rp_url'], $dt['rp_url'], 'target="_blank"') . '</p>';
             return $sx;
         }
 
