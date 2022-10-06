@@ -148,6 +148,11 @@ $routes->get('/admin', 'Admin::index');
 $routes->get('/pq/(:any)', 'Pq::index/$1');
 $routes->get('/pq', 'Pq::index');
 
+/********* Parecer */
+$routes->get('/parecer/(:any)', 'Parecer::index/$1');
+$routes->get('/parecer', 'Parecer::index');
+$routes->post('/parecer/(:any)', 'Parecer::index/$1');
+
 /********** Others */
 //$routes->get('(:any)', 'MainPages::index/$1');
 $routes->get('(:any)', 'MainPages::index/$1');
