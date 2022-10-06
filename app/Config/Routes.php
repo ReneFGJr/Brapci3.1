@@ -99,6 +99,12 @@ $routes->get('/crawler/(:any)/(:any)', 'Crawler::index/$1/$2');
 $routes->post('/crawler/(:any)', 'Crawler::index/$1');
 $routes->post('/crawler/(:any)/(:any)', 'Crawler::index/$1/$2');
 
+/********* DADOS */
+$routes->get('/dados', 'Dados::index');
+$routes->get('/dados/(:any)', 'Dados::index/$1');
+$routes->get('/dados/(:any)/(:any)', 'DAdos::index/$1/$2');
+$routes->post('/dados/(:any)', 'Dados::index/$1');
+
 
 /********* Books */
 $routes->get('/books/(:any)/(:any)', 'Books::index/$1/$2');
