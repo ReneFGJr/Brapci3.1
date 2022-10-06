@@ -57,22 +57,6 @@ class ScientificOpinion extends Migration
                 'constraint' => '100',
                 'null' => true,
             ],
-            'op_parecer_objetivos' => [
-                'type'       => 'TEXT',
-                'null' => true,
-            ],
-            'op_parecer_metodologia' => [
-                'type'       => 'TEXT',
-                'null' => true,
-            ],
-            'op_parecer_resultados' => [
-                'type'       => 'TEXT',
-                'null' => true,
-            ],
-            'op_parecer_melhorias' => [
-                'type'       => 'TEXT',
-                'null' => true,
-            ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
