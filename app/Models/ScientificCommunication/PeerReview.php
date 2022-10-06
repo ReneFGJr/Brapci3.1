@@ -84,6 +84,7 @@ class PeerReview extends Model
                 $this->path_back = PATH . COLLECTION . '/opinion';
                 $this->id = round('0'.$id);
                 $sx = form($this);
+                $sx = bs(bsc($sx, 12));
                 return $sx;
             }
 
