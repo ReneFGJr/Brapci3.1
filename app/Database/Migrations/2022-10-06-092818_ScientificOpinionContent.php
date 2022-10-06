@@ -18,12 +18,16 @@ class ScientificOpinionContent extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'op_field' => [
+            'opc_id_op' => [
+                'type'       => 'INT',
+                'null' => true,
+            ],
+            'opc_field' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '20',
                 'null' => true,
             ],
-            'op_content' => [
+            'opc_content' => [
                 'type'       => 'TEXT',
                 'null' => true,
             ],
