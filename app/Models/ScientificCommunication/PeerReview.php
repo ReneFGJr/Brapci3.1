@@ -15,19 +15,19 @@ class PeerReview extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_op', 'op_name', 'op_instituicao',
+        'id_op', 'op_name',
+        'op_title', 'op_instituicao',
         'op_curso', 'op_type', 'op_date',
         'op_hora', 'op_local', 'op_membros',
-        'op_parecer_objetivos', 'op_parecer_metodologia', 'op_parecer_resultados',
-        'op_parecer_melhorias', 'updated_at'
+         'updated_at'
     ];
 
     protected $typeFields    = [
-        'hidden', 'string*', 'string*',
+        'hidden', 'string*',
+        'text*', 'string*',
         'string', 'string', 'string',
         'string', 'string', 'text',
-        'text', 'text', 'text',
-        'text', 'up'
+         'up'
     ];
 
     // Dates

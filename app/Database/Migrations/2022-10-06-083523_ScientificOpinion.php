@@ -23,6 +23,10 @@ class ScientificOpinion extends Migration
                 'constraint' => '100',
                 'null' => true,
             ],
+            'op_title' => [
+                'type'       => 'TEXT',
+                'null' => true,
+            ],
             'op_instituicao' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
