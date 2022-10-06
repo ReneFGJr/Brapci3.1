@@ -59,8 +59,8 @@ class PeerReview extends Model
             $sx = '';
             switch($d1)
                 {
-                    case 'new':
-                        $sx .= $this->new();
+                    case 'viewid':
+                        $sx .= $this->view($d2,$d3);
                         break;
                     case 'edit':
                         $sx .= $this->edit($d2);
@@ -77,6 +77,31 @@ class PeerReview extends Model
                 }
             return $sx;
         }
+
+        function header($dt)
+            {
+                $sx = '';
+                $inst = $dt['op_instituicao'];
+                $inst .= '. '.$dt['op_curso'];
+                $membros = $dt['op_membros'];
+                $menbros = troca($membros,chr(10),'; ');
+                $sx .= h($dt['op_title'],1);
+                $sx .= h($dt['op_name'], 3);
+                $sx .= h($inst, 5);
+                $sx .= h($membros, 3);
+                return $sx;
+            }
+
+        function view($id)
+            {
+                $sx = '';
+                $dt = $this->find($id);
+                $sx .= bsc($this->header($dt),12);
+                pre($dt,false);
+
+                $sx = bs($sx);
+                return $sx;
+            }
 
         function edit($id)
             {
