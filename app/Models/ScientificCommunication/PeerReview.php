@@ -65,8 +65,15 @@ class PeerReview extends Model
                     case 'edit':
                         $sx .= $this->edit($d2);
                         break;
-                    case 'save':
-                        $sx .= $this->save($d2);
+                    case 'ajax_field_save':
+                        $PeerReviewContent = new \App\Models\ScientificCommunication\PeerReviewContent();
+                        $PeerReviewContent->ajax_save($d2, $d3);
+                        exit;
+                        break;
+                    case 'ajax_field':
+                        $PeerReviewContent = new \App\Models\ScientificCommunication\PeerReviewContent();
+                        $PeerReviewContent->edit($d2,$d3);
+                        exit;
                         break;
                     case 'delete':
                         $sx .= $this->delete($d2);
@@ -88,16 +95,18 @@ class PeerReview extends Model
                 $sx .= h($dt['op_title'],1);
                 $sx .= h($dt['op_name'], 3);
                 $sx .= h($inst, 5);
-                $sx .= h($membros, 3);
+                $sx .= h('<i>'.$membros. '</i>', 5);
                 return $sx;
             }
 
         function view($id)
             {
+                $PeerReviewContent = new \App\Models\ScientificCommunication\PeerReviewContent();
                 $sx = '';
                 $dt = $this->find($id);
                 $sx .= bsc($this->header($dt),12);
-                pre($dt,false);
+
+                $sx .= bsc($PeerReviewContent->view($id));
 
                 $sx = bs($sx);
                 return $sx;
