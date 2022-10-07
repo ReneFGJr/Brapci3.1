@@ -15,7 +15,7 @@ class PeerReviewContent extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_opc', 'opc_id_op','opc_field', 'opc_content', 'updated_at'
+        'id_opc', 'opc_id_op','opc_field', 'opc_content', 'updated_at','opc_pag','opc_comment'
     ];
 
     // Dates
@@ -42,6 +42,12 @@ class PeerReviewContent extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function types()
+        {
+        $op = array('title', 'introdution', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
+        return $op;
+        }
+
     function edit($d1,$d2)
         {
             echo "edit $d1,$d2";
@@ -51,12 +57,23 @@ class PeerReviewContent extends Model
         }
     function view_register($dt)
         {
+            $txt = $dt['opc_content'];
+            $txt2 = $dt['opc_comment'];
+            $pag = $dt['opc_pag'];
+            if (strlen($pag) > 0)
+                {
+                    $pag .= ' p.';
+                }
+
+
             $sx = '';
             $sx .= '<hr>';
-            $sx .= bsc(lang('perr.'.$dt['opc_field']),3);
-            $txt = $dt['opc_content'];
+            $sx .= bsc('<b>'.lang('peer.'.$dt['opc_field']. '</b><br/><i>'. $pag.'</i>'),3);
             $txt = troca($txt,chr(10),'<br>');
-            $sx .= bsc($txt,9);
+            $txt2 = troca($txt2, chr(10), '<br>');
+            $sx .= bsc($txt,5,'" style="border-left: 1px solid #000;');
+            $sx .= bsc($txt2,5,'" style="border-left: 1px solid #000;');
+            $sx = bs($sx);
             return $sx;
         }
 
@@ -105,6 +122,8 @@ class PeerReviewContent extends Model
             $dt['opc_id_op'] = get("reg");
             $dt['opc_field'] = get("field");
             $dt['opc_content'] = get("text");
+            $dt['opc_comment'] = get("text2");
+            $dt['opc_pag'] = get("pag");
             $dt['updated_at'] = date("Y-m-f H:i:s");
             if ($id == 0)
                 {
@@ -119,13 +138,23 @@ class PeerReviewContent extends Model
     function ajax_edit($id,$reg)
         {
             $vlr = '';
+            $vlr2 = '';
+            $pag = '';
             if ($id > 0)
                 {
                     $dt = $this->find($id);
                     $vlr = $dt['opc_content'];
+                    $vlr2 = $dt['opc_comment'];
+                    $pag = $dt['opc_pag'];
                 }
             $sx = '';
-            $op = array('introdution','goal', 'bibliography', 'method','result','discussion', 'conclusion');
+
+            $sx .= '<span class="small">' . lang('peer.field_page') . '</span>';
+            $sx .= '<input type="text" id="pag" name="pag" class="form-control" style="width: 100px;">' . $pag . '</input>';
+            //$sx .= '<br/>';
+
+            $op = $this->types();
+            $sx .= '<span class="small">' . lang('peer.field_name') . '</span>';
             $sx .= '<select id="field_name" name="field_name" class="form-control">';
             $sx .= '<option value="">'. lang('peer.' . 'select_field').'</option>';
             for ($r=0;$r < count($op);$r++)
@@ -137,15 +166,21 @@ class PeerReviewContent extends Model
             $sx .= '<span class="small">'.lang('peer.field_content').'</span>';
             $sx .= '<textarea id="content" name="content" class="form-control" rows=5>'.$vlr.'</textarea>';
 
-            $sx .= '<a href="#" class="btn btn-outline-primary" onclick="field_save('.$id.','.$reg.');">'.lang('peer.save').'</a>';
+            $sx .= '<span class="small">' . lang('peer.field_comment') . '</span>';
+            $sx .= '<textarea id="comment" name="comment" class="form-control" rows=5>' . $vlr2 . '</textarea>';
+
+            $sx .= '<a href="#fld'.$id.'" class="btn btn-outline-primary" onclick="field_save('.$id.','.$reg.');">'.lang('peer.save').'</a>';
 
             $sx .= '<script>
                         function field_save(id,reg)
                             {
                                 var url = "' . PATH . COLLECTION . '/opinion/ajax_field_save/"+id+"/"+reg;;
                                 var text = $("#content").val();
+                                var text2 = $("#comment").val();
+                                var pag = $("#pag").val();
                                 var field = $("#field_name option:selected").val();
-                                data = { text: text, field: field, id: id, reg: reg };
+
+                                data = { text: text, text2:text2, pag: pag, field: field, id: id, reg: reg };
                                 $.post(url,data,function(data) {
                                     $("#field_edit").html(data);
                                 });

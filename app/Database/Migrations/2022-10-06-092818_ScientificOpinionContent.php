@@ -27,7 +27,16 @@ class ScientificOpinionContent extends Migration
                 'constraint' => '20',
                 'null' => true,
             ],
+            'opc_pag' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '20',
+                'null' => true,
+            ],
             'opc_content' => [
+                'type'       => 'TEXT',
+                'null' => true,
+            ],
+            'opc_comment' => [
                 'type'       => 'TEXT',
                 'null' => true,
             ],
