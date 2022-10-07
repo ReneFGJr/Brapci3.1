@@ -68,7 +68,7 @@ class PeerReviewContent extends Model
 
             $sx = '';
             $sx .= '<hr>';
-            $sx .= bsc('<b>'.lang('peer.'.$dt['opc_field']. '</b><br/><i>'. $pag.'</i>'),3);
+            $sx .= bsc('<b>'.lang('peer.'.$dt['opc_field']). '</b><br/><i>'. $pag.'</i>',3);
             $txt = troca($txt,chr(10),'<br>');
             $txt2 = troca($txt2, chr(10), '<br>');
             $sx .= bsc($txt,5,'" style="border-left: 1px solid #000;');
