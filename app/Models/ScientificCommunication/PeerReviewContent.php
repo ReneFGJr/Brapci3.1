@@ -44,7 +44,7 @@ class PeerReviewContent extends Model
 
     function types()
         {
-        $op = array('title', 'introdution', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
+        $op = array('title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
         return $op;
         }
 
@@ -80,7 +80,7 @@ class PeerReviewContent extends Model
     function view($id)
         {
             $sx = '';
-            $dt = $this->where('opc_id_op',$id)->findAll();
+            $dt = $this->where('opc_id_op',$id)->orderBy('opc_pag')->findAll();
 
             for ($r=0;$r < count($dt);$r++)
                 {
