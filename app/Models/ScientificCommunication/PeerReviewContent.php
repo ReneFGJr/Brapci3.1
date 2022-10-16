@@ -118,7 +118,7 @@ class PeerReviewContent extends Model
                     $sx .= $jsa;
                 }
 
-            $sx .= '<a href="#" id="field" onclick="field_edit('.$id.',0)" >';
+            $sx .= '<a href="#" id="field" onclick="field_edit('.$id. ',0)" class="d-print-none" >';
             $sx .= bsicone('plus');
             $sx .= '</a>';
             $sx .= '<div id="field_edit"></div>';
