@@ -122,6 +122,7 @@ class Issues extends Model
                 ->findAll();
 
             $sx = h('OAI - ListIdentifiers',3);
+            $sx .= '<p>'.$this->getlastquery().'</p>';
             $sx .= '<p>Total de '.count($dt).' registers.</p>';
             $sx .= '<ul>';
             $xsetSpec = '';
