@@ -31,10 +31,15 @@ class Parecer extends BaseController
                 $PeerReview = new \App\Models\ScientificCommunication\PeerReview();
                 $sx .= $PeerReview->index($d1,$d2,$d3,$d4);
                 break;
+            case 'reference':
+                $PeerReview = new \App\Models\ScientificCommunication\Reference();
+                $sx .= $PeerReview->index($d1, $d2, $d3, $d4);
+                break;
 
             default:
                 $menu = array();
                 $menu[PATH . COLLECTION . '/opinion'] = lang('peer.scientific_opinion');
+                $menu[PATH . COLLECTION . '/reference'] = lang('peer.reference_analysis');
                 $sx .= bs(bsc(menu($menu),12));
                 break;
         }

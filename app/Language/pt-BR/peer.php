@@ -13,6 +13,13 @@ return [
     'area_analysis' => 'Área do texto',
     'text_position' => 'Local do texto',
     'text_comment' => 'Comentários',
+    'reference_analysis' => 'Análises de referências',
+    'reference' => 'Bibliografia',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
     '' => '',
     '' => '',
 ];

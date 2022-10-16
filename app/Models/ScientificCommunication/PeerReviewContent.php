@@ -71,9 +71,14 @@ class PeerReviewContent extends Model
 
             $txt = troca($txt,chr(10),'<br>');
             $txt2 = troca($txt2, chr(10), '<br>');
-            $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">'.$txt. '</div>';
 
-            $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+            if ($txt != '')
+                {
+                    $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt . '</div>';
+                    $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+                } else {
+                    $sx .= '<div class="col-10 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+                }
             $sx = bs($sx);
             return $sx;
         }
