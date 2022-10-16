@@ -110,9 +110,18 @@ class Issues extends Model
 
     function listidentifiers($id)
         {
-            $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-            $dt = $ListIdentifiers->where('li_issue',$id)->orderBy('li_setSpec, li_identifier','DESC')->findAll();
+            $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+            $dt = $OAI_ListIdentifiers
+                ->where('li_issue',$id)
+                ->orderBy('li_setSpec, li_identifier','DESC')
+                ->findAll();
+
+            echo $this->getlastquery();
+            exit;
+
+
             $sx = h('OAI - ListIdentifiers',3);
+            echo count($dt);
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
