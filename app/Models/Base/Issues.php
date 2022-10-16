@@ -79,7 +79,12 @@ class Issues extends Model
         switch ($act) {
             case 'listidentifiers':
                 $jissue = get("id");
-                $sx .= $this->listidentifiers($jissue);
+                if ($jissue != '')
+                    {
+                        $sx .= $this->listidentifiers($jissue);
+                    } else {
+                        $sx .= bsmessage('Error - No issue selected');
+                    }
                 break;
             case 'edit':
                 $jid = get("jid");
