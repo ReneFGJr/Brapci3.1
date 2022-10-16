@@ -121,12 +121,8 @@ class Issues extends Model
                 ->orderBy('li_setSpec, li_identifier','DESC')
                 ->findAll();
 
-            echo $this->getlastquery();
-            exit;
-
-
             $sx = h('OAI - ListIdentifiers',3);
-            echo count($dt);
+            $sx .= '<p>Total de '.count($dt).' registers.</p>';
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
