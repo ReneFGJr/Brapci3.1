@@ -105,7 +105,6 @@ class Issues extends Model
                 $sx .= bsc($this->issue_section_works($id), 12);
                 break;
         }
-
         return $sx;
     }
 
@@ -113,7 +112,7 @@ class Issues extends Model
         {
             $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
             $dt = $ListIdentifiers->where('li_issue',$id)->orderBy('li_setSpec, li_identifier','DESC')->findAll();
-            $sx = '';
+            $sx = h('OAI - ListIdentifiers',3);
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
