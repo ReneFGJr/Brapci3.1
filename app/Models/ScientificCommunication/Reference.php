@@ -199,7 +199,7 @@ class Reference extends Model
                             if ($total > 31) {
                                 $sx .= ' O número de referências é muito grande, sendo recomendado citar fontes relevantes para a pesquisa.';
                             } else {
-                                $sx .= ' O número de referências é muito bom, adequado a pesquisa';
+                                $sx .= ' O total de referências é muito bom, adequado a pesquisa da área.';
                             }
                         }
                 }
