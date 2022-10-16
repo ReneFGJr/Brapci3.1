@@ -77,6 +77,10 @@ class Issues extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'listidentifiers':
+                $jissue = get("jid");
+                $sx .= $this->listidentifiers($jissue);
+                break;
             case 'edit':
                 $jid = get("jid");
                 if ($jid != 0) {
@@ -104,6 +108,21 @@ class Issues extends Model
 
         return $sx;
     }
+
+    function listidentifiers($id)
+        {
+            $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+            $dt = $this->where('li_issue',$id)->findAll();
+            $sx = '';
+            for ($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $id = $line['li_id'];
+                    $sx .= $ListIdentifiers->row($id);
+                }
+            return $sx;
+
+        }
 
     function harvesting($id)
         {

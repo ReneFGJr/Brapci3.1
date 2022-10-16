@@ -45,6 +45,11 @@ class ListIdentifiers extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function row($l)
+		{
+			pre($l);
+		}
+
 	function harvesting_issue($dt)
 	{
 		$Issue = new \App\Models\Base\Issues();
