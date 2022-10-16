@@ -78,7 +78,7 @@ class Issues extends Model
         $sx = '';
         switch ($act) {
             case 'listidentifiers':
-                $jissue = get("jid");
+                $jissue = get("id");
                 $sx .= $this->listidentifiers($jissue);
                 break;
             case 'edit':
