@@ -117,8 +117,7 @@ class Issues extends Model
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
-                    $id = $line['li_id'];
-                    $sx .= $ListIdentifiers->row($id);
+                    $sx .= $ListIdentifiers->row($line);
                 }
             return $sx;
 
