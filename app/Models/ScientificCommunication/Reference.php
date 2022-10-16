@@ -75,7 +75,7 @@ class Reference extends Model
 
     function analyse($ref)
         {
-            $sx = h('peer.bibliometric_analysis',4);
+            $sx = h(lang('peer.bibliometric_analysis'),2);
             $sx .= '<p>'.$this->analyse_reference_total($ref). '</p>';
             $sx .= '<p>'.$this->analyse_year($ref). '</p>';
             $sx = bsc($sx,12);
