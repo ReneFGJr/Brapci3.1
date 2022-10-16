@@ -93,7 +93,7 @@ class PeerReview extends Model
                 $membros = $dt['op_membros'];
                 $menbros = troca($membros,chr(10),'; ');
                 $sx .= h($dt['op_title'],3);
-                $sx .= h($dt['op_name'],4);
+                $sx .= h('<i>'.$dt['op_name']. '</i>',4);
                 $sx .= h($inst, 5);
                 $sx .= h('<i>'.$membros. '</i>', 5);
                 return $sx;
@@ -105,6 +105,7 @@ class PeerReview extends Model
                 $sx = '';
                 $dt = $this->find($id);
                 $sx .= bsc($this->header($dt),12);
+                $sx .= h('Parecer',4,'text-center');
 
                 $sx .= bsc($PeerReviewContent->view($id));
 
