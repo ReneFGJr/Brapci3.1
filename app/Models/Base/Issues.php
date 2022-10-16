@@ -128,7 +128,7 @@ class Issues extends Model
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
-                    $setSpec = $l['li_setSpec'];
+                    $setSpec = $line['li_setSpec'];
                     if ($setSpec != $xsetSpec)
                         {
                             $sx .= h($setSpec,4) . cr();
