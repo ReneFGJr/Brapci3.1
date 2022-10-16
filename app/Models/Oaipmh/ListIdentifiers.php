@@ -72,6 +72,8 @@ class ListIdentifiers extends Model
 				break;
 		}
 		$sx .= ' ['.$st.']';
+		echo $sx;
+		exit;
 		return $sx;
 	}
 
