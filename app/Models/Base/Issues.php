@@ -112,7 +112,7 @@ class Issues extends Model
     function listidentifiers($id)
         {
             $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-            $dt = $this->where('li_issue',$id)->findAll();
+            $dt = $ListIdentifiers->where('li_issue',$id)->findAll();
             $sx = '';
             for ($r=0;$r < count($dt);$r++)
                 {
