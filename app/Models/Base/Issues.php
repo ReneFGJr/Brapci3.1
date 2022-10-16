@@ -125,17 +125,27 @@ class Issues extends Model
             $sx .= '<p>Total de '.count($dt).' registers.</p>';
             $sx .= '<ul>';
             $xsetSpec = '';
+            $tot = 0;
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
                     $setSpec = $line['li_setSpec'];
                     if ($setSpec != $xsetSpec)
                         {
+                            if ($tot > 0)
+                                {
+                                    $sx .= '<p>Total '.$tot.'</p>';
+                                }
                             $sx .= h($setSpec,4) . cr();
                             $xsetSpec = $setSpec;
+                            $tot = 0;
                         }
                     $sx .= '<li>'.$OAI_ListIdentifiers->row($line). '</li>'.cr();
+                    $tot = $tot + 1;
                 }
+            if ($tot > 0) {
+                $sx .= '<p>Total ' . $tot . '</p>';
+            }
             $sx .= '</ul>';
             $sx = bs(bsc($sx,12));
             return $sx;
