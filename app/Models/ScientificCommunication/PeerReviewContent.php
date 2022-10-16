@@ -84,6 +84,12 @@ class PeerReviewContent extends Model
             $sx .= '<style>.result{ font-size:75%; line-height: 90%; } </style>';
             $dt = $this->where('opc_id_op',$id)->orderBy('opc_pag')->findAll();
 
+            $sa = '';
+            $sa .= bsc(lang('peer.area_analysis'),2,'bg-secondary text-white small');
+            $sa .= bsc(lang('peer.text_position'),5, 'bg-secondary text-white small');
+            $sa .= bsc(lang('peer.text_comment'),5, 'bg-secondary text-white small');
+            $sx .= bs($sa);
+
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];

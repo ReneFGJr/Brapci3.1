@@ -10,9 +10,9 @@ return [
     'scientific_opinion' => 'Pareceres Científicos',
     'conclusion' => 'Conclusões',
     'title' => 'Título',
-    '' => '',
-    '' => '',
-    '' => '',
+    'area_analysis' => 'Área do texto',
+    'text_position' => 'Local do texto',
+    'text_comment' => 'Comentários',
     '' => '',
     '' => '',
 ];
