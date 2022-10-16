@@ -19,7 +19,7 @@ class Parecer extends BaseController
     public function index($act = '',$d1='',$d2='',$d3='',$d4='')
     {
         $data['page_title'] = 'Brapci - Pareceres';
-        $data['bg'] = 'bg-ai';
+        $data['bg'] = 'bg-ai d-print-none';
 
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
