@@ -50,7 +50,7 @@ class ListIdentifiers extends Model
 		$sx = '';
 		$sx .= $l['li_identifier'];
 		$sx .= ' - ' . $l['li_setSpec'];
-		$st = $line['li_s'];
+		$st = $l['li_s'];
 		switch ($st) {
 			case '0':
 				$st = 'new';
