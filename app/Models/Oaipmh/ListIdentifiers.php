@@ -65,13 +65,13 @@ class ListIdentifiers extends Model
 				$st = 'process';
 				break;
 			case '3':
-				$st = 'procceed';
+				$st = '???????';
 				break;
 			case '9':
-				$st = 'deleted';
+				$st = 'procceed';
 				break;
 		}
-		$sx .= ' ['.$st.']';
+		$sx .= ' ['.$st.' - '. $l['li_s'].']';
 		return $sx;
 	}
 
