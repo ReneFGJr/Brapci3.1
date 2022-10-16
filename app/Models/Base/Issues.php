@@ -283,6 +283,8 @@ class Issues extends Model
                         $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"'.$class);
                     }
                 $tools .= '<span class="p-2"></span>';
+                $tools .= anchor(PATH . '/' . COLLECTION . '/issue/listidentifiers/?id=' . $dt['id_is'], bsicone('gear', 32), 'title="Harvesing"' . $class);
+                $tools .= '<span class="p-2"></span>';
             }
             $tools .= anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32), 'title="Reindex"');
             $tools .= '<span class="p-2"></span>';
