@@ -34,7 +34,7 @@ class Parecer extends BaseController
 
             default:
                 $menu = array();
-                $menu[PATH . COLLECTION . '/opinion'] = lang('scientific.scientific_opinion');
+                $menu[PATH . COLLECTION . '/opinion'] = lang('peer.scientific_opinion');
                 $sx .= bs(bsc(menu($menu),12));
                 break;
         }

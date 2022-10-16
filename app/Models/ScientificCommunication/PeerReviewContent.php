@@ -71,9 +71,9 @@ class PeerReviewContent extends Model
 
             $txt = troca($txt,chr(10),'<br>');
             $txt2 = troca($txt2, chr(10), '<br>');
-            $sx .= '<div class="col-5" style="border-left: 1px solid #000;">'.$txt. '</div>';
+            $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">'.$txt. '</div>';
 
-            $sx .= '<div class="col-5" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+            $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
             $sx = bs($sx);
             return $sx;
         }
@@ -81,6 +81,7 @@ class PeerReviewContent extends Model
     function view($id)
         {
             $sx = '';
+            $sx .= '<style>.result{ font-size:75%; line-height: 90%; } </style>';
             $dt = $this->where('opc_id_op',$id)->orderBy('opc_pag')->findAll();
 
             for ($r=0;$r < count($dt);$r++)

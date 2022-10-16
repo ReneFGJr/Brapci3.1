@@ -2,7 +2,7 @@
 
 $Source = new \App\Models\Base\Sources();
 $submit = '<input type="submit" name="action" class="btn btn-primary shadow p-3 mb-0 text-lg" type="button" value="' . lang('main.search') . '">';
-$input_field = '<input type="text" name="query" value="" class="form-control shadow" placeholder="O que você está procurando?">';
+$input_field = '<input type="text" name="q" value="" class="form-control shadow" placeholder="O que você está procurando?">';
 $types = array('all', 'article', 'proceeding', 'benancib', 'authority');
 $select_type = '<select id="type" name="collection" class="form-control shadow" style="border: 1px solid #ccc; font-size: 130%; line-hight: 150%; max-width: 250px;">';
 for ($r = 0; $r < count($types); $r++) {

@@ -92,8 +92,8 @@ class PeerReview extends Model
                 $inst .= '. '.$dt['op_curso'];
                 $membros = $dt['op_membros'];
                 $menbros = troca($membros,chr(10),'; ');
-                $sx .= h($dt['op_title'],1);
-                $sx .= h($dt['op_name'], 3);
+                $sx .= h($dt['op_title'],3);
+                $sx .= h($dt['op_name'],4);
                 $sx .= h($inst, 5);
                 $sx .= h('<i>'.$membros. '</i>', 5);
                 return $sx;
