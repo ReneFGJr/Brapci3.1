@@ -91,7 +91,7 @@ class PeerReviewContent extends Model
             $sa = '';
             $sa .= '<div class="col-2 bg-secondary text-white" ">' . lang('peer.area_analysis').'</b></div>';
             $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('peer.text_position') . '</b></div>';
-            $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('text_comment.area_analysis') . '</b></div>';
+            $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('peer.text_comment') . '</b></div>';
             $sx .= bs($sa);
 
             for ($r=0;$r < count($dt);$r++)
