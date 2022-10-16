@@ -66,7 +66,6 @@ class PeerReviewContent extends Model
                 }
 
             $sx = '';
-            $sx .= '<hr>';
             $sx .= '<div class="col-2" ">' . '<b>' . lang('peer.' . $dt['opc_field']) . '</b><br/><i>' . $pag . '</i>' . '</div>';
 
             $txt = troca($txt,chr(10),'<br>');
@@ -90,9 +89,9 @@ class PeerReviewContent extends Model
             $dt = $this->where('opc_id_op',$id)->orderBy('opc_pag')->findAll();
 
             $sa = '';
-            $sa .= bsc(lang('peer.area_analysis'),2, 'bg-secondary text-white result');
-            $sa .= bsc(lang('peer.text_position'),5, 'bg-secondary text-white result');
-            $sa .= bsc(lang('peer.text_comment'),5, 'bg-secondary text-white result');
+            $sa .= '<div class="col-2 bg-secondary text-white" ">' . lang('peer.area_analysis').'</b></div>';
+            $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('peer.text_position') . '</b></div>';
+            $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('text_comment.area_analysis') . '</b></div>';
             $sx .= bs($sa);
 
             for ($r=0;$r < count($dt);$r++)
