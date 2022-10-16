@@ -78,7 +78,7 @@ class Reference extends Model
             $sx = '';
             $sx .= '<p>'.$this->analyse_reference_total($ref). '</p>';
             $sx .= '<p>'.$this->analyse_year($ref). '</p>';
-            $sx = (bsc($sx,12);
+            $sx = bsc($sx,12);
             return $sx;
         }
 
