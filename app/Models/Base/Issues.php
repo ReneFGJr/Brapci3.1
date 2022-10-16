@@ -127,7 +127,7 @@ class Issues extends Model
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
-                    $sx .= $OAI_ListIdentifiers->row($line);
+                    $sx .= '<li>'.$OAI_ListIdentifiers->row($line). '</li>'.cr();
                 }
             $sx .= '</ul>';
             $sx = bs(bsc($sx,12));
