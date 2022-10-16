@@ -90,9 +90,9 @@ class PeerReviewContent extends Model
             $dt = $this->where('opc_id_op',$id)->orderBy('opc_pag')->findAll();
 
             $sa = '';
-            $sa .= bsc(lang('peer.area_analysis'),2,'bg-secondary text-white small');
-            $sa .= bsc(lang('peer.text_position'),5, 'bg-secondary text-white small');
-            $sa .= bsc(lang('peer.text_comment'),5, 'bg-secondary text-white small');
+            $sa .= bsc(lang('peer.area_analysis'),2, 'bg-secondary text-white result');
+            $sa .= bsc(lang('peer.text_position'),5, 'bg-secondary text-white result');
+            $sa .= bsc(lang('peer.text_comment'),5, 'bg-secondary text-white result');
             $sx .= bs($sa);
 
             for ($r=0;$r < count($dt);$r++)
