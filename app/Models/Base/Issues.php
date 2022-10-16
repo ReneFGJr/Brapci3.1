@@ -124,9 +124,16 @@ class Issues extends Model
             $sx = h('OAI - ListIdentifiers',3);
             $sx .= '<p>Total de '.count($dt).' registers.</p>';
             $sx .= '<ul>';
+            $xsetSpec = '';
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
+                    $setSpec = $l['li_setSpec'];
+                    if ($setSpec != $xsetSpec)
+                        {
+                            $sx .= h($setSpec,4) . cr();
+                            $xsetSpec = $setSpec;
+                        }
                     $sx .= '<li>'.$OAI_ListIdentifiers->row($line). '</li>'.cr();
                 }
             $sx .= '</ul>';
