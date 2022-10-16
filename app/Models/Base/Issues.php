@@ -126,7 +126,7 @@ class Issues extends Model
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
-                    $sx .= $ListIdentifiers->row($line);
+                    $sx .= $OAI_ListIdentifiers->row($line);
                 }
             return $sx;
 
