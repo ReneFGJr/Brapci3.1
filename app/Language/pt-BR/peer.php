@@ -15,7 +15,7 @@ return [
     'text_comment' => 'Comentários',
     'reference_analysis' => 'Análises de referências',
     'reference' => 'Bibliografia',
-    '' => '',
+    'bibliometric_analysis' => 'Análise bibliométrica',
     '' => '',
     '' => '',
     '' => '',
