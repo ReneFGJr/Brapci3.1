@@ -69,7 +69,7 @@ class MainPages extends BaseController
                     }
                 }
 
-                $sx .= view('Brapci/Result_search', $data);
+                $sx .= view('Brapci/Result', $data);
                 $SEARCH = new \App\Models\ElasticSearch\Index();
                 $sx .= $SEARCH->index('search');
                 break;

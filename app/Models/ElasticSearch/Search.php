@@ -106,12 +106,6 @@ class Search extends Model
         array_push($data['query']['bool']['must'], $range);
 
 
-        /********************************************************************** FILTER  */
-        /* FILTER ******************************************* Only one */
-        $data['query']['bool']['filter'] = array();
-        $filter['terms']['id_jnl'] = [75];
-        array_push($data['query']['bool']['filter'], $filter);
-
         /******************** Sources */
         $data['_source'] = array("article_id", "id_jnl", "title", "abstract", "subject", "year");
 
@@ -120,7 +114,26 @@ class Search extends Model
         $data['from'] = $start;
 
         $sx =  $q;
-        $url = 'brapci3.1/_search';
+
+        /************************** */
+        switch(COLLECTION)
+            {
+                case 'benancib':
+                    $url = 'brapci3.1/_search';
+                    $filter['terms']['id_jnl'] = [75];
+                    break;
+                default:
+                    $url = 'brp2/_search';
+                    //$filter['terms']['id_jnl'] = [75];
+                    break;
+            }
+
+        /********************************************************************** FILTER  */
+        /* FILTER ******************************************* Only one */
+        if (isset($filter['terms']['id_jnl'])) {
+            $data['query']['bool']['filter'] = array();
+            array_push($data['query']['bool']['filter'], $filter);
+        }
 
         $dt = $API->call($url, $method, $data);
 
