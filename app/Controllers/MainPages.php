@@ -125,6 +125,39 @@ class MainPages extends BaseController
         return $sx;
     }
 
+    function v($id)
+        {
+            $RDF = new \App\Models\RDF\Rdf();
+            $dt = $RDF->le($id);
+
+            if (!isset($dt['concept'])) {
+                return ('Concept not found');
+                exit;
+            }
+
+            $concept = $dt['concept'];
+            $class = $concept['c_class'];
+
+            $class = $dt['concept']['c_class'];
+
+            switch($class)
+                {
+                    case 'journal':
+                        $sx = $RDF->journal($id);
+                        break;
+                    case 'issue':
+                        $sx = $RDF->issue($id);
+                        break;
+                    case 'Article':
+                        $sx = view('Brapci/View/Article',$dt);
+                        break;
+                    default:
+                        $sx = 'Class not found - '.$class;
+                        break;
+                }
+                return($sx);
+        }
+
     public function index2($pag = '')
     {
         $data['GOOGLEID'] = 'UA-12713129-1';
