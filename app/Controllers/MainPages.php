@@ -127,7 +127,7 @@ class MainPages extends BaseController
 
     function v($id)
         {
-            $RDF = new \App\Models\RDF\Rdf();
+            $RDF = new \App\Models\Rdf\RDF();
             $dt = $RDF->le($id);
 
             if (!isset($dt['concept'])) {
