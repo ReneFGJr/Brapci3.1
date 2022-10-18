@@ -141,7 +141,6 @@ class Index extends Model
 				$_POST['offset'] = 50;
 				$dt = $SEARCH->search(GET("query"));
 				$sx = $Elasticsearch->show_works($dt);
-
 				break;
 			case 'formTest':
 				$sx .= $API->formTest();

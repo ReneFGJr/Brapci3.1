@@ -69,7 +69,7 @@ class MainPages extends BaseController
                     }
                 }
 
-                $sx .= view('Brapci/Result_search', $data);
+                $sx .= view('Brapci/Result', $data);
                 $SEARCH = new \App\Models\ElasticSearch\Index();
                 $sx .= $SEARCH->index('search');
                 break;
@@ -124,6 +124,40 @@ class MainPages extends BaseController
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
+
+    function v($id)
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $dt = $RDF->le($id);
+
+            if (!isset($dt['concept'])) {
+                return ('Concept not found');
+                exit;
+            }
+
+            $concept = $dt['concept'];
+            $class = $concept['c_class'];
+
+            $class = $dt['concept']['c_class'];
+
+            switch($class)
+                {
+                    case 'journal':
+                        $sx = $RDF->journal($id);
+                        break;
+                    case 'issue':
+                        $sx = $RDF->issue($id);
+                        break;
+                    case 'Article':
+                    $dt = $RDF->le($id);
+                        $sx = view('Brapci/View/Article',$dt);
+                        break;
+                    default:
+                        $sx = 'Class not found - '.$class;
+                        break;
+                }
+                return($sx);
+        }
 
     public function index2($pag = '')
     {

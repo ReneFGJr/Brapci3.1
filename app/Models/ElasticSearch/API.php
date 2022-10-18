@@ -61,7 +61,6 @@ class API extends Model
 
 	function call($path, $method = 'GET', $data = null)
 	{
-
 		if (strlen($this->index) == 0) {
 			echo ('index needs a value');
 			return (array());
