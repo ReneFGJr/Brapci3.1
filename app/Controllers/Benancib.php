@@ -133,9 +133,6 @@ class Benancib extends BaseController
         $class = $dt['concept']['c_class'];
 
         switch ($class) {
-            case 'oai':
-                $sx .= $this->oai($subact, $id);
-                break;
 
             case 'Subject':
                 $Keywords = new \App\Models\Base\Keywords();

@@ -353,6 +353,22 @@ class Issues extends Model
         $sx .= bsc($dt['is_thema'], 6);
         $sx .= bsc($tools, 2);
 
+        $img1 = 'img/headers/journals/image_'.strzero($dt['is_source'],4).'.png';
+        $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
+
+        if (!file_exists($img1)) {
+            $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
+        }
+
+        if (!file_exists($img2))
+            {
+                $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+            }
+        $sx .= bsc('', 4);
+        $sx .= bsc('<img src="'.URL.'/'. $img2 . '" class="text-end" style="max-height: 80px;">', 5,'text-end');
+        $sx .= bsc('<img src="' . URL . '/' . $img1 . '" class="img-fluid" style="width: 100%">', 3);
+
+
         /**************************** */
         $sx = bs($sx);
         $id_issue_rdf = $dt['is_source_issue'];
