@@ -125,7 +125,7 @@ class Benancib extends BaseController
         return $sx;
     }
 
-    private function v($id = '')
+    private function v($id = '', $subact = '')
     {
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();

@@ -149,6 +149,7 @@ class MainPages extends BaseController
                         $sx = $RDF->issue($id);
                         break;
                     case 'Article':
+                    $dt = $RDF->le($id);
                         $sx = view('Brapci/View/Article',$dt);
                         break;
                     default:
