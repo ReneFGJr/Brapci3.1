@@ -153,6 +153,11 @@ $routes->get('/parecer/(:any)', 'Parecer::index/$1');
 $routes->get('/parecer', 'Parecer::index');
 $routes->post('/parecer/(:any)', 'Parecer::index/$1');
 
+/********* Tools */
+$routes->get('/tools/(:any)', 'Tools::index/$1');
+$routes->get('/tools', 'Tools::index');
+$routes->post('/tools/(:any)', 'Tools::index/$1');
+
 /********** Others */
 //$routes->get('(:any)', 'MainPages::index/$1');
 $routes->get('(:any)', 'MainPages::index/$1');

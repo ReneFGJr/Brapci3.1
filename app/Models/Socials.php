@@ -280,6 +280,10 @@ class Socials extends Model
 		return $sx;
 	}
 
+	function getUser($t='')
+		{
+			return $this->getID($t);
+		}
 	function getID($t = '')
 	{
 		if (isset($_SESSION['id'])) {
