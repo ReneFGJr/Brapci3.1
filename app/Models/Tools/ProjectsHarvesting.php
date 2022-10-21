@@ -46,6 +46,12 @@ class ProjectsHarvesting extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
+    function updateXML($id)
+        {
+            $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
+            $ProjectsHarvestingXml->update_counter($id);
+        }
     function harvesting_new($id)
         {
             $idh = $this->select('count(*) as total')->where('ph_project_id',$id)->first();
@@ -68,10 +74,11 @@ class ProjectsHarvesting extends Model
             $sx .= '<a/>';
             return $sx;
         }
+
     function form($id)
         {
             $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
-
+            $this->updateXML($id);
             $sx = 'FOrm';
             $sx .= form_open();
             $sx .= form_hidden(array('id' => $id));

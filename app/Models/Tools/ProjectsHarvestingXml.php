@@ -42,6 +42,58 @@ class ProjectsHarvestingXml extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function getXML($id)
+        {
+            $sx = '===>'.$id;
+            $dt = $this
+                ->where('hx_project',$id)
+                ->where('hx_status',0)
+                ->first();
+            if ($dt != '')
+                {
+                    $id_lattes = $dt['hx_id_lattes'];
+                    $sx .= $id_lattes;
+                    $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q='.$id_lattes;
+                    $sx .= h($url);
+                }
+            return $sx;
+        }
+
+    function btn_harvesting($id)
+        {
+            $link = PATH.COLLECTION.'/lattes/harvest/'.$id;
+            $sx = '<a href="'.$link.'">Harvesting</a>';
+            return $sx;
+        }
+
+    function update_counter($id)
+        {
+            $total = 0;
+            $harvested = 0;
+
+            $dt = $this
+            ->select("count(*) as total, hx_status")
+            ->where('hx_project',$id)
+            ->groupBy('hx_status')
+            ->findAll();
+
+            for ($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $total = $total + $line['total'];
+                    if ($line['hx_status'] == 1)
+                        {
+                            $harvested = $line['total'];
+                        }
+                }
+
+            $ProjectsHarvesting = new \App\Models\Tools\ProjectsHarvesting();
+            $data['ph_total'] = $total;
+            $data['ph_harvested'] = $harvested;
+            $ProjectsHarvesting->set($data)->where('id_ph',$id)->update();
+            return "";
+        }
+
     function register($idp, $lattes)
     {
         $sx = '';

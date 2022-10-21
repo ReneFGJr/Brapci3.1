@@ -61,6 +61,10 @@ class Projects extends Model
 
         switch($d1)
             {
+                case 'harvest':
+                    $ProjectsHarvestingXML = new \App\Models\Tools\ProjectsHarvestingXML();
+                    $sx .= $ProjectsHarvestingXML->getXML($d2);
+                    break;
                 case 'harvested':
                     $sx .= $this->harvested($d2,$d3);
                     break;
@@ -94,6 +98,7 @@ class Projects extends Model
     function harvested($id)
         {
         $ProjectsHarvesting = new \App\Models\Tools\ProjectsHarvesting();
+        $ProjectsHarvestingXML = new \App\Models\Tools\ProjectsHarvestingXML();
         $dt = $ProjectsHarvesting->find($id);
 
         $idp = $dt['ph_project_id'];
@@ -101,7 +106,10 @@ class Projects extends Model
         $dt = $this->find($idp);
         $sx .= $this->header_project($dt);
 
-        $sx .= $ProjectsHarvesting->form($id);
+        $sa = bsc(h('Harvesting'). $ProjectsHarvestingXML->btn_harvesting($idp),6);
+        $sb = bsc($ProjectsHarvesting->form($id),6);
+
+        $sx .= bs($sa.$sb);
 
         return $sx;
         }
