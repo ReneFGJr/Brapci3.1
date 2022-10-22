@@ -50,7 +50,6 @@ class PeerReviewContent extends Model
 
     function edit($d1,$d2)
         {
-            echo "edit $d1,$d2";
             $sx = $this->ajax_edit($d2,$d1);
             echo $sx;
             exit;
@@ -181,7 +180,7 @@ class PeerReviewContent extends Model
                     $vlr2 = $dt['opc_comment'];
                     $pag = $dt['opc_pag'];
                 }
-            $sx = '';
+            $sx = '<hr>';
 
             $sx .= '<span class="small">' . lang('peer.field_page') . '</span>';
             $sx .= '<input type="text" id="pag" name="pag" class="form-control" style="width: 100px;">' . $pag . '</input>';
