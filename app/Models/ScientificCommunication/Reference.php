@@ -125,7 +125,7 @@ class Reference extends Model
                                 }
                         }
                 }
-                $sx = 'Foram identidicadas '.$tot.' referências com ano de publicação entre 1900 e '.$anof.', sendo a mais antiga de '.$min.' e a mais recente de '.$max.'.';
+                $sx = 'Foram identidicadas '.$tot.' referências com ano de publicação, sendo a mais antiga de '.$min.' e a mais recente de '.$max.'.';
                 /** Moda */
                 $meia_vida = 0;
                 $meia_vida_total = 0;
