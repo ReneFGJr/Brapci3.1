@@ -16,7 +16,7 @@ return [
     'reference_analysis' => 'Análises de referências',
     'reference' => 'Bibliografia',
     'bibliometric_analysis' => 'Análise bibliométrica',
-    '' => '',
+    'pre_textual' => 'Pré-textual',
     '' => '',
     '' => '',
     '' => '',

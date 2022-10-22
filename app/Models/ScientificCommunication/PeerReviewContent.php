@@ -44,7 +44,7 @@ class PeerReviewContent extends Model
 
     function types()
         {
-        $op = array('title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
+        $op = array('pre_textual','title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
         return $op;
         }
 
@@ -57,6 +57,18 @@ class PeerReviewContent extends Model
         }
     function view_register($dt)
         {
+            global $xsection;
+
+            $section = $dt['opc_field'];
+            if (!isset($xsection) or ($section != $xsection))
+                {
+                    $labelSection = $section;
+                    $labelSection = '<b>' .  lang('peer.' . $section) . '</b>';
+                } else {
+                    $labelSection = '';
+                }
+
+
             $txt = $dt['opc_content'];
             $txt2 = $dt['opc_comment'];
             $pag = $dt['opc_pag'];
@@ -66,17 +78,17 @@ class PeerReviewContent extends Model
                 }
 
             $sx = '';
-            $sx .= '<div class="col-2" ">' . '<b>' . lang('peer.' . $dt['opc_field']) . '</b><br/><i>' . $pag . '</i>' . '</div>';
+            $sx .= '<div class="col-2 mt-2" ">' . $labelSection.'<br/><i>' . $pag . '</i>' . '</div>';
 
             $txt = troca($txt,chr(10),'<br>');
             $txt2 = troca($txt2, chr(10), '<br>');
 
             if ($txt != '')
                 {
-                    $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt . '</div>';
-                    $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+                    $sx .= '<div class="col-5 result mt-2" style="border-left: 1px solid #000;">' . $txt . '</div>';
+                    $sx .= '<div class="col-5 result mt-2" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
                 } else {
-                    $sx .= '<div class="col-10 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+                    $sx .= '<div class="col-10 result mt-2" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
                 }
             $sx = bs($sx);
             return $sx;
