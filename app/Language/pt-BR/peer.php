@@ -19,7 +19,7 @@ return [
     'pre_textual' => 'Pré-textual',
     'search_problem' => 'Problema de pesquisa',
     'geral_considerations' => 'Considerações Gerais',
-    '' => '',
+    'field_page' => 'Pág.',
     '' => '',
     '' => '',
 ];
