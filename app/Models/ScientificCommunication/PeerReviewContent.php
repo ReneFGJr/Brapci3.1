@@ -44,7 +44,7 @@ class PeerReviewContent extends Model
 
     function types()
         {
-        $op = array('pre_textual','title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
+        $op = array('pre_textual','title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference', 'geral_considerations');
         return $op;
         }
 
@@ -107,11 +107,20 @@ class PeerReviewContent extends Model
             $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('peer.text_comment') . '</b></div>';
             $sx .= bs($sa);
 
-            for ($r=0;$r < count($dt);$r++)
-                {
+            $type = $this->types();
+
+            for ($y=0;$y < count($type);$y++)
+            {
+                $tp = $type[$y];
+                for ($r = 0; $r < count($dt); $r++) {
                     $line = $dt[$r];
-                    $sx .= $this->view_register($line);
+                    if ($line['opc_field'] == $tp)
+                        {
+                            $sx .= $this->view_register($line);
+                        }
                 }
+            }
+
 
             $sx .= $this->ajax_new($id);
 
