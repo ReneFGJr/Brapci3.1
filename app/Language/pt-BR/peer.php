@@ -20,6 +20,10 @@ return [
     'search_problem' => 'Problema de pesquisa',
     'geral_considerations' => 'Considerações Gerais',
     'field_page' => 'Pág.',
+    'field_name' => 'Seção do trabalho',
+    'field_content' => 'Conteúdo/Parágrafo (opcional)',
+    'field_comment' => 'Comentários',
+    '' => '',
     '' => '',
     '' => '',
 ];
