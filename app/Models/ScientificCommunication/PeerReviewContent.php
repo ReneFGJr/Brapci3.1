@@ -64,6 +64,7 @@ class PeerReviewContent extends Model
                 {
                     $labelSection = $section;
                     $labelSection = '<b>' .  lang('peer.' . $section) . '</b>';
+                    $xsection = $section;
                 } else {
                     $labelSection = '';
                 }
