@@ -17,7 +17,7 @@ return [
     'reference' => 'Bibliografia',
     'bibliometric_analysis' => 'Análise bibliométrica',
     'pre_textual' => 'Pré-textual',
-    '' => '',
+    'search_problem' => 'Problema de pesquisa',
     '' => '',
     '' => '',
     '' => '',
