@@ -27,6 +27,10 @@ class Parecer extends BaseController
 
 
         switch ($act) {
+            case 'checklist':
+                $Checklist = new \App\Models\ScientificCommunication\Check();
+                $sx .= $Checklist->index($d1, $d2, $d3, $d4);
+                break;
             case 'opinion':
                 $PeerReview = new \App\Models\ScientificCommunication\PeerReview();
                 $sx .= $PeerReview->index($d1,$d2,$d3,$d4);
@@ -40,6 +44,7 @@ class Parecer extends BaseController
                 $menu = array();
                 $menu[PATH . COLLECTION . '/opinion'] = lang('peer.scientific_opinion');
                 $menu[PATH . COLLECTION . '/reference'] = lang('peer.reference_analysis');
+                $menu[PATH . COLLECTION . '/checklist'] = lang('peer.checklist');
                 $sx .= bs(bsc(menu($menu),12));
                 break;
         }
