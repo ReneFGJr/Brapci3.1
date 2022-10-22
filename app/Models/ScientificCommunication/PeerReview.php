@@ -93,10 +93,10 @@ class PeerReview extends Model
                 $membros = $dt['op_membros'];
                 $type = $dt['op_type'];
                 $membros = $dt['op_membros'];
-                $sx .= bsc(h($dt['op_title'],3),12);
-                $sx .= bsc(h('<i>'.$dt['op_name']. '</i>',5),12);
+                $sx .= bsc(h($dt['op_title'],3),10);
+                $sx .= bsc(h($type, 5), 2, 'text-end');
+                $sx .= bsc(h('<i>'.$dt['op_name']. '</i>',5),6);
                 $sx .= bsc(h($inst, 5),6);
-                $sx .= bsc(h($type, 5), 6,'text-end');
                 $sx .= h('<i>'.$membros. '</i>', 5);
                 return $sx;
             }
