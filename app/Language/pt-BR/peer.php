@@ -14,7 +14,7 @@ return [
     'text_position' => 'Local do texto',
     'text_comment' => 'Comentários',
     'reference_analysis' => 'Análises de referências',
-    'reference' => 'Bibliografia',
+    'reference' => 'Referências (Lista)',
     'bibliometric_analysis' => 'Análise bibliométrica',
     'pre_textual' => 'Pré-textual',
     'search_problem' => 'Problema de pesquisa',
