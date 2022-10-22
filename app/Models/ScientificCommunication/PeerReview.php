@@ -94,8 +94,8 @@ class PeerReview extends Model
                 $type = $dt['op_type'];
                 $membros = $dt['op_membros'];
 
-                $data = stodbr($dt['op_date']);
-                if ($data == '0-/-0/0000') { $data = '';}
+                $data = stodbr(sonumero($dt['op_date']));
+                if ($data == '00/00/0000') { $data = '';}
 
                 $sx .= bsc(h($dt['op_title'],3),10);
                 $sx .= bsc(h($type, 5), 2, 'text-end');
