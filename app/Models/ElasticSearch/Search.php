@@ -116,7 +116,11 @@ class Search extends Model
         $sx =  $q;
 
         /************************** */
-        switch(COLLECTION)
+        $type = trim(COLLECTION);
+        $type = mb_strtolower($type);
+        $type = troca($type,'/','');
+
+        switch($type)
             {
                 case 'benancib':
                     $url = 'brapci3.1/_search';
@@ -134,7 +138,6 @@ class Search extends Model
             $data['query']['bool']['filter'] = array();
             array_push($data['query']['bool']['filter'], $filter);
         }
-
         $dt = $API->call($url, $method, $data);
 
         /* Mostra resultados ****************************************************/
