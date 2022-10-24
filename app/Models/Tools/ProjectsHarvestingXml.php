@@ -45,6 +45,11 @@ class ProjectsHarvestingXml extends Model
     function getXML($id)
         {
             $sx = '===>'.$id;
+            $file = '../.tmp/xml/'.$id.'.xml';
+            if (file_exists($file))
+                {
+                    $sx = file_get_contents($file);
+                } else {
             $dt = $this
                 ->where('hx_project',$id)
                 ->where('hx_status',0)
@@ -55,6 +60,7 @@ class ProjectsHarvestingXml extends Model
                     $sx .= $id_lattes;
                     $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q='.$id_lattes;
                     $sx .= h($url);
+                }
                 }
             return $sx;
         }

@@ -91,10 +91,16 @@ class PeerReview extends Model
                 $inst = $dt['op_instituicao'];
                 $inst .= '. '.$dt['op_curso'];
                 $membros = $dt['op_membros'];
-                $menbros = troca($membros,chr(10),'; ');
-                $sx .= h($dt['op_title'],3);
-                $sx .= h('<i>'.$dt['op_name']. '</i>',4);
-                $sx .= h($inst, 5);
+                $type = $dt['op_type'];
+                $membros = $dt['op_membros'];
+
+                $data = stodbr(sonumero($dt['op_date']));
+                if ($data == '00/00/0000') { $data = '';}
+
+                $sx .= bsc(h($dt['op_title'],3),10);
+                $sx .= bsc(h($type, 5), 2, 'text-end');
+                $sx .= bsc(h('<i>'.$dt['op_name']. '</i>',5),6);
+                $sx .= bsc(h($inst.' '.$data, 5),6,'text-end');
                 $sx .= h('<i>'.$membros. '</i>', 5);
                 return $sx;
             }
@@ -104,7 +110,7 @@ class PeerReview extends Model
                 $PeerReviewContent = new \App\Models\ScientificCommunication\PeerReviewContent();
                 $sx = '';
                 $dt = $this->find($id);
-                $sx .= bsc($this->header($dt),12);
+                $sx .= $this->header($dt);
                 $sx .= h('Parecer',4,'text-center');
 
                 $sx .= bsc($PeerReviewContent->view($id));

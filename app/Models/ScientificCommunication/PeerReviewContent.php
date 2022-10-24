@@ -44,19 +44,31 @@ class PeerReviewContent extends Model
 
     function types()
         {
-        $op = array('title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference');
+        $op = array('pre_textual','title', 'introdution', 'justify', 'search_problem', 'hypothesis', 'goal', 'bibliography', 'method', 'result', 'discussion', 'conclusion', 'reference', 'geral_considerations');
         return $op;
         }
 
     function edit($d1,$d2)
         {
-            echo "edit $d1,$d2";
             $sx = $this->ajax_edit($d2,$d1);
             echo $sx;
             exit;
         }
     function view_register($dt)
         {
+            global $xsection;
+
+            $section = $dt['opc_field'];
+            if (!isset($xsection) or ($section != $xsection))
+                {
+                    $labelSection = $section;
+                    $labelSection = '<b>' .  lang('peer.' . $section) . '</b>';
+                    $xsection = $section;
+                } else {
+                    $labelSection = '';
+                }
+
+
             $txt = $dt['opc_content'];
             $txt2 = $dt['opc_comment'];
             $pag = $dt['opc_pag'];
@@ -66,17 +78,17 @@ class PeerReviewContent extends Model
                 }
 
             $sx = '';
-            $sx .= '<div class="col-2" ">' . '<b>' . lang('peer.' . $dt['opc_field']) . '</b><br/><i>' . $pag . '</i>' . '</div>';
+            $sx .= '<div class="col-2 mt-2" ">' . $labelSection.'<br/><i>' . $pag . '</i>' . '</div>';
 
             $txt = troca($txt,chr(10),'<br>');
             $txt2 = troca($txt2, chr(10), '<br>');
 
             if ($txt != '')
                 {
-                    $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt . '</div>';
-                    $sx .= '<div class="col-5 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+                    $sx .= '<div class="col-5 result mt-2" style="border-left: 1px solid #000;">' . $txt . '</div>';
+                    $sx .= '<div class="col-5 result mt-2" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
                 } else {
-                    $sx .= '<div class="col-10 result" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
+                    $sx .= '<div class="col-10 result mt-2" style="border-left: 1px solid #000;">' . $txt2 . '</div>';
                 }
             $sx = bs($sx);
             return $sx;
@@ -94,11 +106,20 @@ class PeerReviewContent extends Model
             $sa .= '<div class="col-5 bg-secondary text-white" ">' . lang('peer.text_comment') . '</b></div>';
             $sx .= bs($sa);
 
-            for ($r=0;$r < count($dt);$r++)
-                {
+            $type = $this->types();
+
+            for ($y=0;$y < count($type);$y++)
+            {
+                $tp = $type[$y];
+                for ($r = 0; $r < count($dt); $r++) {
                     $line = $dt[$r];
-                    $sx .= $this->view_register($line);
+                    if ($line['opc_field'] == $tp)
+                        {
+                            $sx .= $this->view_register($line);
+                        }
                 }
+            }
+
 
             $sx .= $this->ajax_new($id);
 
@@ -122,7 +143,7 @@ class PeerReviewContent extends Model
                     $sx .= $jsa;
                 }
 
-            $sx .= '<a href="#" id="field" onclick="field_edit('.$id. ',0)" class="d-print-none" >';
+            $sx .= '<a href="#field_edit" id="field" onclick="field_edit('.$id. ',0)" class="d-print-none" >';
             $sx .= bsicone('plus');
             $sx .= '</a>';
             $sx .= '<div id="field_edit"></div>';
@@ -159,7 +180,7 @@ class PeerReviewContent extends Model
                     $vlr2 = $dt['opc_comment'];
                     $pag = $dt['opc_pag'];
                 }
-            $sx = '';
+            $sx = '<hr>';
 
             $sx .= '<span class="small">' . lang('peer.field_page') . '</span>';
             $sx .= '<input type="text" id="pag" name="pag" class="form-control" style="width: 100px;">' . $pag . '</input>';
