@@ -20,14 +20,15 @@ class Socials extends Model
 	protected $protectFields        = true;
 	var $allowedFields        =
 	[
-		'id_us', 'us_nome', 'us_email',
+		'id_us', 'us_nome', 'us_email', 'us_affiliation',
 		'us_image', 'us_genero', 'us_verificado',
 		'us_login', 'us_password', 'us_autenticador',
 		'us_oauth2', 'us_lastaccess'
 	];
 
 	var $typeFields        = [
-		'hi', 'string:100*', 'string:100*',
+		'hi', 'string:100*',
+		'string:100*', 'string:100*',
 		'hidden', 'hidden', 'hidden',
 		'hidden', 'hidden', 'hidden',
 		'hidden', 'up'
@@ -627,7 +628,7 @@ class Socials extends Model
 					bsc($rese, 4) .
 					bsc($logs, 4)
 			);
-			//$sx .= view('Socials/Pages/profile.php', $dt);
+			//$sx .= view('social/Pages/profile.php', $dt);
 		} else {
 			$sx = metarefresh(getenv("app.baseURL"));
 			return $sx;
@@ -1057,8 +1058,7 @@ class Socials extends Model
 		if (!check_email($user)) {
 			$sx .= '<h2>' . lang('social.email_invalid') . '<h2>';
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-			return $sx;
-		}
+			return $sx;		}
 
 		$dt = $this->user_exists($user);
 
@@ -1083,7 +1083,7 @@ class Socials extends Model
 			'us_nome' => $name,
 			'us_affiliation' => $inst,
 			'us_password'  => md5($pw1),
-			'us_autenticador' => 'MD5'
+			'us_password_method' => 'MD5'
 		];
 		$this->insert($data);
 	}
