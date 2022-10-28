@@ -53,6 +53,10 @@ class Index extends Model
         } else {
 
             switch ($d1) {
+                case 'nlp':
+                    $NLP = new \App\Models\AI\NLP\Index();
+                    $sx .= $NLP->index($d2, $d3, $d4, $d5);
+                    break;
                 case 'lattes':
                     $sx .= $this->lattes($d2, $d3, $d4, $d5);
                     break;
@@ -71,6 +75,7 @@ class Index extends Model
         $menu[URL . '/tools/'] = 'Home';
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
+        $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
         $sx = menu($menu);
         return $sx;
     }

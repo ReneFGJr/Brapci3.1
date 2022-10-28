@@ -7,9 +7,9 @@ return [
         'harvesting' => 'Dados Coletados',
         'Lattes_tools' => 'Ferramentas do Lattes Extrator',
         'harvesting_new' => 'Nova Extração',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
+        'NLP' => 'Processamento de Linguagem Natural',
+        'Process' => 'Processar informações',
+        'email_found' => 'Emails encontrados',
+        'total' => 'total',
         '' => '',
 ];

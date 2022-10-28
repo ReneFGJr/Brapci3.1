@@ -84,11 +84,11 @@ class Scraping extends Model
 					case 1: /* EMAIL */
 						$links = $this->get_email($txt);
 						$sx = show_array($links);
-						break;		
+						break;
 					case 2: /* WORD */
 						$links = $this->get_word($txt,$words);
 						$sx = show_array($links);
-						break;										
+						break;
 					default:
 						$sx = bsmessage('Type not found - '.$type);
 				}
@@ -103,7 +103,7 @@ class Scraping extends Model
 		$tps = array('https','http');
 		for ($l = 0;$l < count($tps);$l++)
 			{
-				$find = $tps[$l].':';				
+				$find = $tps[$l].':';
 				$txt1 = $txt;
 				while ($pos = strpos($txt1,$find))
 				{
@@ -117,14 +117,32 @@ class Scraping extends Model
 		return $url;
 	}
 
-	function get_email($txt)
+	function get_email($txt, $repeated = false)
 	{
-			$list = preg_match_all( 
-				'/([\w\d\.\-\_]+)@([\w\d\.\_\-]+)/mi', 
-				$txt, 
-				$matches 
+			$list = preg_match_all(
+				'/([\w\d\.\-\_]+)@([\w\d\.\_\-]+)/mi',
+				$txt,
+				$matches,
+				PREG_PATTERN_ORDER
 			);
 			$email = $matches[0];
+
+			if ($repeated == false)
+				{
+					$list = $email;
+					$list_control = $email;
+					$email = array();
+					for ($r=0;$r < count($list);$r++)
+						{
+							$em = $list[$r];
+							if (!isset($list_control[$em]))
+								{
+									$list_control[$em] = 1;
+									array_push($email,$em);
+								}
+						}
+					sort($email);
+				}
 		return $email;
 	}
 
@@ -136,5 +154,5 @@ class Scraping extends Model
 		//echo '===>'.$txt;
 		$words = $matches[0];
 		return $words;
-	}		
+	}
 }
