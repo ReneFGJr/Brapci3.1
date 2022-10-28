@@ -42,7 +42,7 @@ class Index extends Model
 
     function index($d1='',$d2='',$d3='')
         {
-            $sx = h('tools.NLP');
+            $sx = h(lang('tools.NLP'));
             switch($d1)
                 {
                     case 'email':

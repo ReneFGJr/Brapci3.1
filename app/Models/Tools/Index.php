@@ -75,6 +75,7 @@ class Index extends Model
         $menu[URL . '/tools/'] = 'Home';
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
+        $menu['#' . lang('tools.NLP')] = lang('tools.nlp_tools');
         $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
         $sx = menu($menu);
         return $sx;
