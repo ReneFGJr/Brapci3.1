@@ -11,6 +11,11 @@
   background-color: #a2028a;
 }
 
+.bg-patente
+  {
+    background-color: #25256F;
+  }
+
 .bg-brapcilivros {
   background-color: #6c3483;
 }
@@ -217,3 +222,10 @@ a.pgcd_nav-item-active:hover {
   text-align: center;
   top: 20px;
 }
+
+/************************* Patent */
+.patent-mark
+  {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75em;
+  }

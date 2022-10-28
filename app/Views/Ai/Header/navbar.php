@@ -1,3 +1,14 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Titillium Web', sans-serif;
+        font-size: 120%;
+    }
+</style>
+
 <?php
 $Socials = new \App\Models\Socials();
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
@@ -46,17 +57,3 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         </div>
     </div>
 </nav>
-<div style=" height: 100px; width: 100%">
-</div>
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
-
-<style>
-    body {
-        font-family: 'Titillium Web', sans-serif;
-        font-size: 120%;
-    }
-</style>

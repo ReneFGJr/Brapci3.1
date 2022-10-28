@@ -30,6 +30,7 @@ class Database extends Config
      *
      * @var array
      */
+
     public $default = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -68,7 +69,27 @@ class Database extends Config
         'strictOn' => false,
         'failover' => [],
         'port'     => 3306,
-    ];   
+    ];
+
+    public $patent  = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'database' => 'brapci_patent',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
 
     public $pgcd  = [
         'DSN'      => '',
@@ -88,7 +109,7 @@ class Database extends Config
         'strictOn' => false,
         'failover' => [],
         'port'     => 3306,
-    ];      
+    ];
 
     public $lattes = [
         'DSN'      => '',
@@ -108,7 +129,7 @@ class Database extends Config
         'strictOn' => false,
         'failover' => [],
         'port'     => 3306,
-    ];      
+    ];
 
     public $rdf = [
         'DSN'      => '',
@@ -128,7 +149,7 @@ class Database extends Config
         'strictOn' => false,
         'failover' => [],
         'port'     => 3306,
-    ];    
+    ];
 
     /**
      * This database connection is used when

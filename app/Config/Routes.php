@@ -148,6 +148,11 @@ $routes->get('/admin', 'Admin::index');
 $routes->get('/pq/(:any)', 'Pq::index/$1');
 $routes->get('/pq', 'Pq::index');
 
+/********* Patent */
+$routes->get('/patente/(:any)', 'Patente::index/$1');
+$routes->get('/patente', 'Patente::index');
+$routes->post('/patente/(:any)', 'Patente::index/$1');
+
 /********* Parecer */
 $routes->get('/parecer/(:any)', 'Parecer::index/$1');
 $routes->get('/parecer', 'Parecer::index');
