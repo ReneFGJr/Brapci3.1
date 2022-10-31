@@ -42,55 +42,92 @@ class RPIDespacho extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function show($id)
-        {
-            $dt = $this
-                ->join('rpi_issue', 'rpi_issue.rpi_nr = rpi_depacho.p_issue', 'left')
-                ->join('rpi_section', 'rpi_section.id_rsec = rpi_depacho.p_section', 'left')
-                ->where('p_patent_nr', $id)
-                ->findAll();
+    function import($id_issue, $file)
+    {
+        $RPIPatentNR = new \App\Models\Patent\RPIPatentNR;
+        $RPISections = new \App\Models\Patent\RPISections;
+        $sx = '';
+        $xml = (array)simplexml_load_file($file);
 
-            $sx = '';
-            $sx .= '<table class="table small">';
-            $sx .= '<tr>';
-            $sx .= '<th width="3%">' . msg('rpi_nr') . '</th>';
-            $sx .= '<th width="7%">' . msg('rpi_data') . '</th>';
-            $sx .= '<th width="3%">' . msg('rsec_code') . '</th>';
-            $sx .= '<th width="80%">' . msg('p_comment') . '</th>';
-            $sx .= '</tr>';
+        $despacho = (array)$xml['despacho'];
+        $xcode = '';
+        $tot = 0;
+        $id_sec = 0;
+        $xsec = '';
+        for ($r = 0; $r < count($despacho); $r++) {
+            $reg = (array)$despacho[$r];
 
-            for ($r=0;$r < count($dt);$r++)
-                {
-                    $line = $dt[$r];
-                    //pre($line);
-                    $sx .= '<tr>';
-                    $sx .= '<td>'.$line['rpi_nr'].'</td>';
-                    $sx .= '<td>' . stodbr($line['rpi_data']) . '</td>';
-                    $sx .= '<td>' . $line['rsec_code'] . '</td>';
-                    $sx .= '<td>' . $line['p_comment'];
-                    $sx .= '<br>';
-                    $sx .= '<i class="text-secondary">'.$line['rsec_name'].'</i>';
-                    $sx .= '</tr>';
+            if (isset($reg['comentario'])) {
+                $sec = $reg['codigo'];
+                if ($xsec != $sec) {
+                    $ds = $RPISections->where('rsec_code', $sec)->first();
+                    $id_sec = $ds['id_rsec'];
+                    $xsec = $sec;
                 }
-            $sx .= '</table>';
-            return $sx;
-        }
 
-    function register($idp, $id_issue, $id_sec, $coment)
-        {
-            $dt = $this
-                ->where('p_patent_nr', $idp)
-                ->where('p_issue', $id_issue)
-                ->where('p_section', $id_sec)
-                ->where('p_comment', $coment)
-                ->findAll();
+                $comentario = $reg['comentario'];
+                if (strlen($comentario) > 0) {
 
-            if (count($dt) == 0) {
-                $data['p_patent_nr'] = $idp;
-                $data['p_issue'] = $id_issue;
-                $data['p_section'] = $id_sec;
-                $data['p_comment'] = $coment;
-                $this->insert($data);
+                    $patent = (array)$reg['processo-patente'];
+                    $dt = $RPIPatentNR->where('p_nr', $patent['numero'])->first();
+                    $idp = $dt['id_p'];
+                    $idp = $this->register($idp, $id_issue, $id_sec, $comentario);
+                    $tot++;
+                }
             }
         }
+        $sx = '<p>' . bsmessage(lang('patent.found') . ' ' . $tot . ' ' . lang('patent.dispatch')) . '</p>' . $sx;
+        return $sx;
+    }
+
+    function show($id)
+    {
+        $dt = $this
+            ->join('rpi_issue', 'rpi_issue.rpi_nr = rpi_depacho.p_issue', 'left')
+            ->join('rpi_section', 'rpi_section.id_rsec = rpi_depacho.p_section', 'left')
+            ->where('p_patent_nr', $id)
+            ->findAll();
+
+        $sx = '';
+        $sx .= '<table class="table small">';
+        $sx .= '<tr>';
+        $sx .= '<th width="3%">' . msg('rpi_nr') . '</th>';
+        $sx .= '<th width="7%">' . msg('rpi_data') . '</th>';
+        $sx .= '<th width="3%">' . msg('rsec_code') . '</th>';
+        $sx .= '<th width="80%">' . msg('p_comment') . '</th>';
+        $sx .= '</tr>';
+
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            //pre($line);
+            $sx .= '<tr>';
+            $sx .= '<td>' . $line['rpi_nr'] . '</td>';
+            $sx .= '<td>' . stodbr($line['rpi_data']) . '</td>';
+            $sx .= '<td>' . $line['rsec_code'] . '</td>';
+            $sx .= '<td>' . $line['p_comment'];
+            $sx .= '<br>';
+            $sx .= '<i class="text-secondary">' . $line['rsec_name'] . '</i>';
+            $sx .= '</tr>';
+        }
+        $sx .= '</table>';
+        return $sx;
+    }
+
+    function register($idp, $id_issue, $id_sec, $coment)
+    {
+        $dt = $this
+            ->where('p_patent_nr', $idp)
+            ->where('p_issue', $id_issue)
+            ->where('p_section', $id_sec)
+            ->where('p_comment', $coment)
+            ->findAll();
+
+        if (count($dt) == 0) {
+            $data['p_patent_nr'] = $idp;
+            $data['p_issue'] = $id_issue;
+            $data['p_section'] = $id_sec;
+            $data['p_comment'] = $coment;
+            $this->insert($data);
+        }
+    }
 }

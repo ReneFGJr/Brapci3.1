@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class RPIImport extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'rpiimports';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'patent';
+    protected $table            = 'rpi_issue';
+    protected $primaryKey       = 'id_rpi';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -40,17 +40,55 @@ class RPIImport extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    var $SourceType = 'none';
+    var $SourceFile = '';
+
+    function import($id)
+    {
+        $RPI = new \App\Models\Patent\RPI;
+        $sx = h('Importação' . ' Nr.' . $id, 2);
+        $sx .= h('Source: ' . $this->source($id), 5);
+
+        $dt = $this->le_nr($id);
+        $sx .= h('Status actual: ' . $dt['rpi_status'], 5);
+
+        /* Importa dados */
+        switch ($dt['rpi_status']) {
+            case '6':
+                $sx .= $this->method_01_agents($id);
+                break;
+            case '5':
+                $sx .= $this->method_01_despacho($id);
+                break;
+            case '4':
+                $sx .= $this->method_01_patent_nr($id);
+                break;
+            case '3':
+                $sx .= $this->method_01_issue_sections($id);
+                break;
+            case '2':
+                $sx .= $this->method_01_issue_data($id);
+                break;
+        }
+        return $sx;
+    }
+
     function proccess($id = -1)
     {
-        $sx = '';
+        $sx = h(lang('patent.proccess'), 2);
+        if ($id < 0) {
+            $sx .= h(lang('patent.proccess_next'), 4);
+        }
         $dn = 0;
+
         if ($id <= 0) {
 
-            $RDPIssue = new \App\Models\Patent\RPIIssue;
-            $dt = $RDPIssue->select('max(id_rpi) as id')->where('rpi_status', 2)->findAll();
+            $RPIIssue = new \App\Models\Patent\RPIIssue;
+            $dt = $RPIIssue->select('max(id_rpi) as id')->where('rpi_status', 2)->findAll();
+
             $di = round($dt[0]['id']);
             if ($di > 0) {
-                $dt = $RDPIssue->find($di);
+                $dt = $RPIIssue->find($di);
                 $dn = $dt['rpi_nr'];
             }
         } else {
@@ -58,40 +96,152 @@ class RPIImport extends Model
         }
 
         if ($dn > 0) {
+            /******************** IMPORT */
             $sx .= $this->import($dn);
+        } else {
+            $sx .= bsmessage(lang('petent.rpi_import_no_data'), 3);
         }
         $sx = bs(bsc($sx, 12));
         return $sx;
     }
 
-    function import($id)
+    /*************************************************** Basic Functions */
+    function le_nr($id)
     {
-        $RPI = new \App\Models\Patent\RPI;
-        $sx = h('Importação', 2);
-        /* Importa dados */
+        $dt = $this->where('rpi_nr', $id)->findAll();
+        return ($dt[0]);
+    }
+    function le($id)
+    {
+        $dt = $this->where('id_rpi', $id)->findAll();
+        return ($dt[0]);;
+    }
 
-        /* 1- Abrir arquivo de dados */
+
+    function source($id)
+    {
+        $sx = '';
+        $this->SourceType = 'none';
+        $this->SourceFile = '';
+
         $dir = '../.tmp/.inpi/patent/';
         $fls = scandir($dir);
-
+        /*********** Busca XML */
         for ($r = 0; $r < count($fls); $r++) {
-            if (strpos($fls[$r], '.xml') > 0) {
+            if ((strpos($fls[$r], '.xml') > 0) and (strpos($fls[$r],'_'.$id.'_')))
+            {
                 $file = $dir . $fls[$r];
-                $sx .= h('Arquivo: ' . $file, 3);
-                $sx .= $this->method_xml($file, $id);
+                $sx .= $file;
+                $this->SourceFile = $file;
+                $this->SourceType = 'xml';
+                return $sx;
             }
-        }
-
-        $file = 'P' . $id . '.xml';
-        $filename = $dir . $file;
-
-        if (file_exists($dir . $file)) {
-            $this->method_xml($dir . $file);
-        } else {
-            $sx .= bsmessage('File not found: ' . $filename, 3);
         }
         return $sx;
     }
+
+
+    /*************************************************** Import Methods */
+    function method_01_agents($id)
+        {
+        $sx = '';
+        switch ($this->SourceType) {
+            case 'xml':
+                $RPIIssue = new \App\Models\Patent\RPIIssue;
+                $RPIAgents = new \App\Models\Patent\RPIAgents;
+                $sx .= $RPIAgents->import($id, $this->SourceFile);
+                //$RPIIssue->register($id, 7);
+                break;
+            default:
+                $sx = bsmessage('Source type not defined', 3);
+                break;
+        }
+        return $sx;
+        }
+    function method_01_despacho($id)
+        {
+        $sx = '';
+        switch ($this->SourceType) {
+            case 'xml':
+                $RPIIssue = new \App\Models\Patent\RPIIssue;
+                $RPIDespacho = new \App\Models\Patent\RPIDespacho;
+                $sx .= $RPIDespacho->import($id, $this->SourceFile);
+                $RPIIssue->register($id, 6);
+                break;
+            default:
+                $sx = bsmessage('Source type not defined', 3);
+                break;
+        }
+        return $sx;
+        }
+    function method_01_patent_nr($id)
+        {
+        $sx = '';
+        switch ($this->SourceType) {
+            case 'xml':
+                $RPIIssue = new \App\Models\Patent\RPIIssue;
+                $RPIPatentNR = new \App\Models\Patent\RPIPatentNR;
+                $sx .= $RPIPatentNR->import($id, $this->SourceFile);
+                $RPIIssue->register($id, 5);
+                break;
+            default:
+                $sx = bsmessage('Source type not defined', 3);
+                break;
+        }
+        return $sx;
+        }
+    function method_01_issue_sections($id)
+        {
+        $sx = '';
+        switch ($this->SourceType) {
+            case 'xml':
+                $RPIIssue = new \App\Models\Patent\RPIIssue;
+                $RPISection = new \App\Models\Patent\RPISections;
+                $sx .= $RPISection->import($id,$this->SourceFile);
+                $RPIIssue->register($id, 4);
+                break;
+            default:
+                $sx = bsmessage('Source type not defined', 3);
+                break;
+        }
+        return $sx;
+        }
+
+    function method_01_issue_data($id)
+        {
+            $dt = $this->le_nr($id);
+            switch($this->SourceType)
+                {
+                    case 'xml':
+                        $sx = $this->method_01_issue_data_xml($id);
+                        break;
+                    default:
+                        $sx = bsmessage('Source type not found - '.$this->SourceType,3);
+                        break;
+                }
+            return $sx;
+        }
+
+    function method_01_issue_data_xml($id)
+        {
+            $xml = (array)simplexml_load_file($this->SourceFile);
+            if (isset($xml['@attributes']))
+                {
+                    $xml = $xml['@attributes'];
+                    $date = $xml['dataPublicacao'];
+                    $date = brtos($date);
+                    $date = substr($date,0,4).'-'.
+                            substr($date,4,2).'-'.
+                            substr($date,6,2);
+
+                    $RPIIssue = new \App\Models\Patent\RPIIssue;
+                    $data['rpi_data'] = $date;
+                    $RPIIssue->set($data)->where('rpi_nr',$id)->update();
+                    $RPIIssue->register($id, 3);
+                    return bsmessage('Date publish registred', 1);
+                }
+            return bsmessage('Erro: Publish date not found',3);
+        }
 
     function method_xml($file, $id_issue)
     {
@@ -102,53 +252,31 @@ class RPIImport extends Model
         $xml = (array)simplexml_load_file($file);
         $id_sec = 0;
 
+        /************************ DATA DA PUBLICAÇÂO */
+        pre($xml);
+
         $RPISection = new \App\Models\Patent\RPISections;
-        $despacho = (array)$xml['despacho'];
-        $xcode = '';
-        for ($r=0;$r < count($despacho);$r++)
-            {
-                $reg = (array)$despacho[$r];
 
-                $code = $reg['codigo'];
-                $desc = $reg['titulo'];
 
-                if ($code != $xcode)
-                    {
-                        $sx .= h($code . ' - ' . $desc, 3);
-                        $id_sec = $RPISection->register($code,$desc);
-                        $id_sec = $id_sec['id_rsec'];
-                        $xcode = $code;
-                    }
 
-                /******************* PATENT PROCESSO */
-                $processo = (array)$reg['processo-patente'];
-                $patenteNR = (string)$processo['numero'];
-                $dataDeposito = '1000-01-01';
-                if (isset($processo['data-deposito']))
-                    {
-                        $dataDeposito = (string)$processo['data-deposito'];
-                    }
-                $idp = $RPIPatente->register($patenteNR);
-                $link = '<a href="'.(PATH.'/patente/v/'. $idp).'" target="_new">';
-                $linka = '</a>';
-                $sx .= 'Patente: ' . $link.$patenteNR.$linka . ' - ' . $dataDeposito . '<br>'.cr();
+            $link = '<a href="' . (PATH . '/patente/v/' . $idp) . '" target="_new">';
+            $linka = '</a>';
+            $sx .= 'Patente: ' . $link . $patenteNR . $linka . ' - ' . $dataDeposito . '<br>' . cr();
 
-                /*********** AUTORES & INVENTORES */
-                if (isset($reg['titulo']))
-                    {
-                        $titulo = $reg['titulo'];
-                        echo $sx;
-                        echo $idp.'==='.$titulo;
-                        //exit;
-                    }
-
-                /*********** DESPACHO *************/
-                if (isset($reg['comentario']))
-                    {
-                        $coment = (string)$reg['comentario'];
-                        $RPIDespacho->register($idp, $id_issue, $id_sec,$coment);
-                    }
+            /*********** AUTORES & INVENTORES */
+            if (isset($reg['titulo'])) {
+                $titulo = $reg['titulo'];
+                echo $sx;
+                echo $idp . '===' . $titulo;
+                //exit;
             }
+
+            /*********** DESPACHO *************/
+            if (isset($reg['comentario'])) {
+                $coment = (string)$reg['comentario'];
+                $RPIDespacho->register($idp, $id_issue, $id_sec, $coment);
+            }
+
         return $sx;
     }
 }

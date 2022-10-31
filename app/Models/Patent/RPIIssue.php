@@ -42,6 +42,137 @@ class RPIIssue extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function summary($id)
+        {
+            $RDPDespacho = new \App\Models\Patent\RPIDespacho;
+            $dt = $RDPDespacho
+                ->select("count(*) as total, rsec_name, rsec_code")
+                ->join('rpi_section', 'id_rsec = p_section', 'left')
+                //->where('p_issue', $id)
+                ->groupBy('rsec_name, rsec_code')
+                ->orderBy('rsec_code')
+                ->findAll();
+            $sx = '<ul>';
+            for ($r=0;$r < count($dt);$r++)
+            {
+                $line = $dt[$r];
+                $sx .= '<li>';
+                $sx .= '('.$line['rsec_code'].') ';
+                $sx .= $line['rsec_name'];
+                $sx .= ' - ';
+                $sx .= $line['total'];
+                $sx .= '</li>';
+            }
+            $sx .= '</ul>';
+
+            return $sx;
+        }
+
+    function viewissue($id)
+        {
+            $dt = $this->find($id);
+            $dt['rpi_title'] = 'Revista da Propriedade Industrial';
+            $dt['summary'] = $this->summary($id);
+            $dt['action'] = $this->action($dt);
+            $sx = '';
+            $sx .= view('Patent/issue',$dt);
+            return $sx;
+        }
+
+    function panel()
+        {
+            $sx = '';
+            $dt = $this->findAll();
+            /* Mountal Panel */
+            $pnl = array();
+            for ($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $year = trim(substr($line['rpi_data'],0,4));
+                    if ($year == '')
+                        {
+                            $year = '0000';
+                        }
+                    $pnl[$year][] = $line;
+                }
+
+            foreach($pnl as $year=>$issue)
+                {
+                    if ($year == '0000')
+                        {
+                            $sx .= bsc(msg('patent.no_year'),1);
+                        } else {
+                            $sx .= bsc($year,1);
+                        }
+                        $issues = array();
+                        for ($r=0;$r < count($issue);$r++)
+                            {
+                                $nr = $issue[$r]['rpi_nr'];
+                                $link = '<a href="'.PATH.COLLECTION. '/viewissue/'.$issue[$r]['id_rpi'].'">'.$nr.'</a>';
+                                $issues[$nr] = $link;
+                            }
+                        krsort($issues);
+                        $sa = '';
+                        foreach($issues as $nr=>$link)
+                            {
+                                $sa .= $link.' ';
+                            }
+                        $sx .= bsc($sa,11);
+                }
+            $sx = bs($sx);
+            return $sx;
+        }
+
+    function register_id($id,$status)
+        {
+        $dt = $this->where('id_rpi', $id)->findAll();
+        if (count($dt) > 0) {
+            $data['rpi_status'] = $status;
+            $this->set($data)->where('id_rpi', $id)->update();
+            return $dt[0]['id_rpi'];
+        }
+
+        }
+
+    function action($dt)
+        {
+        $sx = '';
+        $rpi_nr = $dt['rpi_nr'];
+        $rpi_status = $dt['rpi_status'];
+
+        switch ($rpi_status) {
+            case '0':
+                $link = '<a href="' . base_url(PATH . '/patente/harvesting/' . $rpi_nr) . '" class="">';
+                $linka = '</a>';
+                $sx .=  $link . bsicone('harvesting', 32) . $linka;
+                break;
+            case '2':
+                $link = '<a href="' . base_url(PATH . '/patente/proccess/' . $rpi_nr) . '" class="">';
+                $linka = '</a>';
+                $sx .=  $link . bsicone('download', 32) . $linka;
+                break;
+            case '3':
+                $link = '<a href="' . base_url(PATH . '/patente/proccess/' . $rpi_nr) . '" class="">';
+                $linka = '</a>';
+                $sx .=  $link . bsicone('download', 32) . $linka;
+                break;
+            case '4':
+                $link = '<a href="' . base_url(PATH . '/patente/proccess/' . $rpi_nr) . '" class="">';
+                $linka = '</a>';
+                $sx .=  $link . bsicone('download', 32) . $linka;
+                break;
+            case '5':
+                $link = '<a href="' . base_url(PATH . '/patente/proccess/' . $rpi_nr) . '" class="">';
+                $linka = '</a>';
+                $sx .=  $link . bsicone('download', 32) . $linka;
+                break;
+            default:
+                $sx .= 'Status: ' . $rpi_status;
+                break;
+        }
+        return $sx;
+        }
+
     function register($issue,$status=0)
     {
         $dt = $this->where('rpi_nr', $issue)->findAll();
@@ -96,6 +227,8 @@ class RPIIssue extends Model
                 $zip->close();
             }
             $sx .= bsmessage('Unziped ' . $filename, 1);
+            $this->register($id, 2);
+        } else {
             $this->register($id, 2);
         }
 

@@ -42,6 +42,37 @@ class RPIPatentNR extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function import($id, $file)
+    {
+        $sx = '';
+        $xml = (array)simplexml_load_file($file);
+
+        $despacho = (array)$xml['despacho'];
+        $xcode = '';
+        $tot = 0;
+        for ($r = 0; $r < count($despacho); $r++) {
+            $reg = (array)$despacho[$r];
+
+            /******************* PATENT PROCESSO */
+            $processo = (array)$reg['processo-patente'];
+            $patenteNR = (string)$processo['numero'];
+            $dataDeposito = '1000-01-01';
+            if (isset($processo['data-deposito'])) {
+                $dataDeposito = (string)$processo['data-deposito'];
+            }
+            $idp = $this->register($patenteNR);
+            $tot++;
+        }
+        $sx = '<p>' . bsmessage(lang('patent.found') . ' ' . $tot . ' ' . lang('patent.sections')) . '</p>' . $sx;
+        return $sx;
+    }
+
+    function busca($pnr)
+        {
+            $dt = $this->where('p_nr', $pnr)->first();
+            return($dt);
+        }
+
     function register($pat_nr)
     {
         $dt = $this->where('p_nr', $pat_nr)->findAll();
@@ -54,25 +85,24 @@ class RPIPatentNR extends Model
         }
     }
 
-    function ai_patent_number($nr,$data)
-        {
-            $sx = '';
-            $in = substr($nr,0,2);
-            $size = strlen($nr);
-            switch($in)
-                {
-                    case 'BR':
-                        $nr = substr($nr,2,$size);
-                        $nr = 'BR'.$nr;
-                        break;
-                    case 'PI':
-                        $nr = substr($nr,2,$size);
-                        $nr = 'PI'.$nr;
-                        break;
-                    default:
-                        $sx .= 'Not rule for '.$nr;
-                        break;
-                }
-            return $sx;
+    function ai_patent_number($nr, $data)
+    {
+        $sx = '';
+        $in = substr($nr, 0, 2);
+        $size = strlen($nr);
+        switch ($in) {
+            case 'BR':
+                $nr = substr($nr, 2, $size);
+                $nr = 'BR' . $nr;
+                break;
+            case 'PI':
+                $nr = substr($nr, 2, $size);
+                $nr = 'PI' . $nr;
+                break;
+            default:
+                $sx .= 'Not rule for ' . $nr;
+                break;
         }
+        return $sx;
+    }
 }

@@ -42,16 +42,42 @@ class RPISections extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($code,$desc='')
-        {
-            $dt = $this->where('rsec_code', $code)->findAll();
-            if (count($dt) > 0) {
-                return $dt[0];
-            } else {
-                $data['rsec_code'] = $code;
-                $data['rsec_name'] = $desc;
-                $data['id_rsec'] = $this->insert($data);
-                return $data;
+    function register($code, $desc = '')
+    {
+        $dt = $this->where('rsec_code', $code)->findAll();
+        if (count($dt) > 0) {
+            return $dt[0];
+        } else {
+            $data['rsec_code'] = $code;
+            $data['rsec_name'] = $desc;
+            $data['id_rsec'] = $this->insert($data);
+            return $data;
+        }
+    }
+
+    function import($id, $file)
+    {
+        $sx = '';
+        $xml = (array)simplexml_load_file($file);
+
+        $despacho = (array)$xml['despacho'];
+        $xcode = '';
+        $tot = 0;
+        for ($r = 0; $r < count($despacho); $r++) {
+            $reg = (array)$despacho[$r];
+
+            $code = $reg['codigo'];
+            $desc = $reg['titulo'];
+
+            if ($code != $xcode) {
+                $tot++;
+                $sx .= h($code . ' - ' . $desc, 3);
+                $id_sec = $this->register($code, $desc);
+                $id_sec = $id_sec['id_rsec'];
+                $xcode = $code;
             }
         }
+        $sx = '<p>' . bsmessage(lang('patent.found'). ' ' . $tot . ' ' . lang('patent.sections')) . '</p>' . $sx;
+        return $sx;
+    }
 }
