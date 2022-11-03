@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use CodeIgniter\Database\RawSql;
 
 class UsersLog extends Migration
 {
@@ -23,13 +24,21 @@ class UsersLog extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => '40',
             ],
+            'ul_access' => [
+                'type'    => 'TIMESTAMP',
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
+            ],
+            'updated_at' => [
+                'type'       => 'TIMESTAMP',
+                'null' => true,
+            ],
         ]);
         $this->forge->addKey('id_ul', true);
-        $this->forge->createTable('Users_log');
+        $this->forge->createTable('users_log');
     }
 
     public function down()
     {
-        $this->forge->dropTable('Users_log');
+        $this->forge->dropTable('users_log');
     }
 }
