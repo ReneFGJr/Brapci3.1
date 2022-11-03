@@ -68,6 +68,19 @@ database.pgcd.DBPrefix =
 # database.tests.DBPrefix =
 
 #--------------------------------------------------------------------
+# E-MAIL
+#--------------------------------------------------------------------
+# options: sendmail, smtp
+email.type = 'sendmail'
+email.stmp = '';
+email.stmp_port = '';
+email.email_from = '';
+email.password = '';
+email.user_auth = '';
+email.UseTLS = YES
+email.FromLineOverride=YES
+
+#--------------------------------------------------------------------
 # CONTENT SECURITY POLICY
 #--------------------------------------------------------------------
 
