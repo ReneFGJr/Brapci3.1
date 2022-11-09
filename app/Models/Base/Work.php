@@ -177,8 +177,6 @@ class Work extends Model
 
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
 
-        echo "===>".COLLECTION;
-
         switch (COLLECTION) {
             case '/proceedings':                
                 $sx .= view('Proceeding/Base/Work', $da);

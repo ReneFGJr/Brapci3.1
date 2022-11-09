@@ -1,3 +1,6 @@
+<?php
+if (!isset($MidiasSociais)) { $MidiasSociais = '';)
+?>
 <div class="container">
     <div class="row">
         <div class="col-2">
@@ -66,6 +69,9 @@
                     }
                 }
             }
+
+            echo "<i>Compartilher & Divulge<br>";
+            echo $MidiasSociais;            
             ?>
         </div>
 
