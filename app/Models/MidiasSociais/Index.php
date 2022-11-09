@@ -42,7 +42,6 @@ class Index extends Model
 
     function sharing($dt)
     {
-        pre($dt);
         $sx = '<i>Compartilhe</i><br>';
         $sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
@@ -51,11 +50,13 @@ class Index extends Model
     
     function facebook($data) {
         $d = $this -> dados($data);
-        $url = $d['doi'];
-        if (strlen($url) == 0) {
-            $url = $d['http'];
-        }
-        $nm = $d['title'] . '. ' . $d['autor_resumido'] . ' ' . $url;
+        $url = $d['http'];
+        if ($d['doi'] != '')
+            {
+                $url .= ' DOI: '.$d['doi'];
+            }
+
+        $nm = $d['title'][0] . '. ' . troca($d['authors'],'$','; ') . ' ' . $url;
         $nm = urlencode($nm);
         //https://www.facebook.com/dialog/share?app_id=140586622674265&display=popup&href=http%3A%2F%2Fseer.ufrgs.br%2Findex.php%2FEmQuestao%2Farticle%2Fview%2F56837%23.W3NwkU7trRU.facebook&picture=&title=Empoderamento%20das%20mulheres%20quilombolas%3A%20contribui%C3%A7%C3%B5es%20das%20pr%C3%A1ticas%20mediacionais%20desenvolvidas%20na%20Ci%C3%AAncia%20da%20Informa%C3%A7%C3%A3o&description=&redirect_uri=http%3A%2F%2Fs7.addthis.com%2Fstatic%2Fthankyou.html
         $url = 'https://www.facebook.com/dialog/share?app_id=140586622674265&display=popup&href=' . $url . '&picture=&title=Divulgação Científica: '.$nm;
@@ -70,12 +71,13 @@ class Index extends Model
         //echo '<pre>';
         //print_r($d);
         //echo '</pre>';
-        $url = $d['doi'];
-        if (strlen($url) == 0) {
-            $url = $d['http'];
-        }
+        $url = $d['http'];
+        if ($d['doi'] != '')
+            {
+                $url .= ' DOI: '.$d['doi'];
+            }
 
-        $nm = $d['title'] . '. ' . $d['autor_resumido'] . '. ' . $url . ' #BRAPCI';
+        $nm = $d['title'][0] . '. ' .  troca($d['authors'],'$','; ') . '. ' . $url . ' #BRAPCI';
         $nm = urlencode($nm);
         $url = 'https://twitter.com/intent/tweet?text=' . $nm . '&related=';
         $link = '<span onclick="newwin2(\'' . $url . '\',800,400);" id="tw' . date("Ymdhis") . '" style="cursor: pointer;">';
