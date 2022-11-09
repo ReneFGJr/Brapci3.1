@@ -49,6 +49,9 @@ class Index extends Model
         $sx = '<i>Compartilhe</i><br>';
         $sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
+        $sx .= '<script>'.cr();
+        $sx .= ' function newwin2(url) {  NewWindow=window.open(url,\'newwin\',\'scrollbars=yes,resizable=yes,width=690,height=450,top=10,left=10\');  NewWindow.focus(); void(0);}';
+        $sx .= '</script>'.cr();
         echo $sx;
         return $sx;
     }
