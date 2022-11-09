@@ -42,6 +42,7 @@ class Index extends Model
 
     function sharing($dt)
     {
+        pre($dt);
         $sx = '<i>Compartilhe</i><br>';
         $sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
