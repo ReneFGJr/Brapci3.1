@@ -132,8 +132,6 @@ class Benancib extends BaseController
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
 
-        echo '--->'.$class;
-
         switch ($class) {
 
             case 'Subject':
