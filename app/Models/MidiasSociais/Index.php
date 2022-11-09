@@ -47,7 +47,7 @@ class Index extends Model
         $dt['doi'] = '';
         $dt['title'] = $dt['Title']['pt-BR'];
         $sx = '<i>Compartilhe</i><br>';
-        $sx .= $this->twitter($dt);
+        //$sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
         $sx .= '<script>'.cr();
         $sx .= ' function newwin2(url) {  NewWindow=window.open(url,\'newwin\',\'scrollbars=yes,resizable=yes,width=690,height=450,top=10,left=10\');  NewWindow.focus(); void(0);}';
@@ -68,6 +68,7 @@ class Index extends Model
         $link = '<span onclick="newwin2(\'' . $url . '\',800,400);" id="tw' . date("Ymdhis") . '" style="cursor: pointer;">';
         $link .= '<img src="' . base_url('img/nets/icone_facebook.png') . '" class="icone_nets">';
         $link .= '</span>' . cr();
+        $link .= $url;
         return ($link);
     }
 
