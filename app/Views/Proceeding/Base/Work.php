@@ -70,7 +70,7 @@ if (!isset($MidiasSociais)) { $MidiasSociais = '';)
                     }
                 }
             }
-
+            echo "<i>Compartilher & Divulge<br>";
             echo $MidiasSociais;
             ?>
         </div>
