@@ -42,6 +42,7 @@ class Index extends Model
 
     function sharing($dt)
     {
+        pre($dt,false);
         $dt['http'] = 'https://cip.brapci.inf.br/benancib/v/'.$dt['id_cc'];
         $dt['doi'] = '';
         $dt['title'] = $dt['titulo'];
