@@ -78,6 +78,13 @@ class MainPages extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
             case 'v':
+                $sx = '';
+                $RDF = new \App\Models\Rdf\RDF();
+                $dt = $RDF->le($id);
+                pre($dt,false);
+                $dt['title'] = $data['title']['pt-br'][0];
+                $sx .= view('Brapci/Headers/header', $data);
+                $sx .= view('Benancib/Headers/navbar', $data);                
                 $sx .= $this->v($subact);
                 break;
             case 'issue':
@@ -125,11 +132,8 @@ class MainPages extends BaseController
         return $sx;
     }
 
-    function v($id)
+    function v($dt)
         {
-            $RDF = new \App\Models\Rdf\RDF();
-            $dt = $RDF->le($id);
-
             if (!isset($dt['concept'])) {
                 return ('Concept not found');
                 exit;
