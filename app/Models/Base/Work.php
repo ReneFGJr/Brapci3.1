@@ -175,9 +175,10 @@ class Work extends Model
             }
         }
 
+        $da['MidiasSociais'] = $MidiasSociais->sharing($da);
+
         switch (COLLECTION) {
-            case '/proceedings':
-                $da['MidiasSociais'] = $MidiasSociais->sharing($da);
+            case '/proceedings':                
                 $sx .= view('Proceeding/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
