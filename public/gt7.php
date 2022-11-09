@@ -5,9 +5,8 @@
 </header>
 
 <body>
-<center>
 <img src="https://www.ufrgs.br/enancib2022/wp-content/uploads/2022/02/logo-enancib2022-horizontal-OK.png">
-</center>
+
 <h1>Melhores Trabalhos do GT7</h1>
 
 <h2>Trabalho Completo</h2>
