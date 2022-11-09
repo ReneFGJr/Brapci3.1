@@ -1,5 +1,5 @@
 <?php
-if (!isset($MidiasSociais)) { $MidiasSociais = '';)
+if (!isset($MidiasSociais)) { $MidiasSociais = ''; }
 ?>
 <div class="container">
     <div class="row">
