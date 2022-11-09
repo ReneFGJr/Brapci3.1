@@ -176,6 +176,9 @@ class Work extends Model
         }
 
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
+        $sx .= '=====================================';
+        $sx .= $da['MidiasSociais'];
+        $sx .= '=====================================';
 
         switch (COLLECTION) {
             case '/proceedings':                
