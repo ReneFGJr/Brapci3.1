@@ -44,6 +44,7 @@ class Index extends Model
     {
         $dt['http'] = 'https://cip.brapci.inf.br/benancib/v/'.$dt['id_cc'];
         $dt['doi'] = '';
+        $dt['title'] = $dt['titulo'];
         $sx = '<i>Compartilhe</i><br>';
         $sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
