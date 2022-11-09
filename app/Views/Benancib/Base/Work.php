@@ -69,9 +69,11 @@ if (!isset($MidiasSociais)) { $MidiasSociais = ''; }
                     }
                 }
             }
-
+            echo '<div>';
             echo "<i>Compartilher & Divulge</br>";
-            //echo $MidiasSociais;            
+            echo $MidiasSociais;            
+            echo '</div>';
+            echo '</div>';
             ?>
         </div>
 
