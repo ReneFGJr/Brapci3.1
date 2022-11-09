@@ -51,6 +51,7 @@ class Work extends Model
     function show($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $sx = '';
         if (!is_array($dt)) {
             $dt = round($dt);
@@ -175,6 +176,7 @@ class Work extends Model
 
         switch (COLLECTION) {
             case '/proceedings':
+                $da['MidiasSociais'] = $MidiasSociais->sharing($da);
                 $sx .= view('Proceeding/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
