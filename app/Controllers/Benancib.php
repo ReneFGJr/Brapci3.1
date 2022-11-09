@@ -78,7 +78,8 @@ class Benancib extends BaseController
                 break;
             case 'v':
                 $RDF = new \App\Models\Rdf\RDF();
-                $dt = $RDF->le($subact);    
+                $dt = $RDF->le($subact); 
+                pre($dt);   
                 $data['title'] = $dt['title'][0]['pt-BR'];
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
