@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\MidiasSocias;
+namespace App\Models\MidiasSociais;
 
 use CodeIgniter\Model;
 
