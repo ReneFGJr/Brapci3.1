@@ -77,7 +77,13 @@ class Benancib extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
             case 'v':
-                $sx .= $this->v($subact);
+                $RDF = new \App\Models\Rdf\RDF();
+                $dt = $RDF->le($subact);    
+                $data['title'] = $dt['title'][0]['pt-BR'];
+                $sx = '';
+                $sx .= view('Brapci/Headers/header', $data);
+                $sx .= view('Benancib/Headers/navbar', $data);                                
+                $sx .= $this->v($dt);
                 break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();
@@ -125,11 +131,9 @@ class Benancib extends BaseController
         return $sx;
     }
 
-    private function v($id = '', $subact = '')
+    private function v($dt = '', $subact = '')
     {
         $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
-        $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
 
         switch ($class) {
