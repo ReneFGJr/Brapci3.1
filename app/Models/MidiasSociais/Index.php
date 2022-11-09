@@ -43,6 +43,7 @@ class Index extends Model
     function sharing($dt)
     {
         //pre($dt,false);
+        $d['id_cc'] = $dt['id_cc'];
         $dt['http'] = 'https://cip.brapci.inf.br/benancib/v/'.$dt['id_cc'];
         $dt['doi'] = '';
         $dt['title'] = $dt['Title']['pt-BR'];
@@ -64,7 +65,7 @@ class Index extends Model
         $nm = $d['title'] . '. ' . troca($d['authors'],'$','; ') . ' ' . $url;
         $nm = urlencode($nm);
         //https://www.facebook.com/dialog/share?app_id=140586622674265&display=popup&href=http%3A%2F%2Fseer.ufrgs.br%2Findex.php%2FEmQuestao%2Farticle%2Fview%2F56837%23.W3NwkU7trRU.facebook&picture=&title=Empoderamento%20das%20mulheres%20quilombolas%3A%20contribui%C3%A7%C3%B5es%20das%20pr%C3%A1ticas%20mediacionais%20desenvolvidas%20na%20Ci%C3%AAncia%20da%20Informa%C3%A7%C3%A3o&description=&redirect_uri=http%3A%2F%2Fs7.addthis.com%2Fstatic%2Fthankyou.html
-        $url = 'https://www.facebook.com/dialog/share?app_id=140586622674265&display=popup&href=' . $url . '&picture=&title=Divulgação Científica: '.$nm;
+        $url = 'https://www.facebook.com/dialog/share?app_id=140586622674265'.$d['id_cc'].'&display=popup&href=' . $url . '&picture=&title=Divulgação Científica: '.$nm;
         $link = '<span onclick="newwin2(\'' . $url . '\',800,400);" id="tw' . date("Ymdhis") . '" style="cursor: pointer;">';
         $link .= '<img src="' . base_url('img/nets/icone_facebook.png') . '" class="icone_nets">';
         $link .= '</span>' . cr();
