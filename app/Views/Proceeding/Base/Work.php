@@ -1,6 +1,7 @@
 <?php
 $data['logo'] = '00';
 $data['banner'] = '00';
+if (isset($MidiasSociais)) { $MidiasSociais = '';)
 ?>
 <div class="container">
     <div class="row">
@@ -69,6 +70,8 @@ $data['banner'] = '00';
                     }
                 }
             }
+
+            echo $MidiasSociais;
             ?>
         </div>
 

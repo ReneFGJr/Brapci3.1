@@ -51,7 +51,6 @@ class Index extends Model
             $sx = '<i>Compartilhe</i><br>';
             $sx .= $this->twitter(($dt);
             $sx .= $this->facebook($dt);
-            bsc($sx,12);
             return $sx;
         }
         
