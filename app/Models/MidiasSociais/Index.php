@@ -49,6 +49,7 @@ class Index extends Model
         $sx = '<i>Compartilhe</i><br>';
         $sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
+        echo $sx;
         return $sx;
     }
     
