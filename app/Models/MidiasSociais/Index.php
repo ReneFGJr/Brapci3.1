@@ -43,7 +43,7 @@ class Index extends Model
     function sharing($dt)
     {
         $dt['http'] = 'https://cip.brapci.inf.br/benancib/v/'.$dt['id_cc'];
-        $pre($dt);
+        pre($dt);
         $dt['doi'] = '';
         $sx = '<i>Compartilhe</i><br>';
         $sx .= $this->twitter($dt);
