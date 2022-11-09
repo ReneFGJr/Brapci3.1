@@ -45,7 +45,7 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-    function sharing($dt)
+    function index($dt)
         {
             pre($dt);
             $sx = '<i>Compartilhe</i><br>';
