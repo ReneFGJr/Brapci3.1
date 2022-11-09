@@ -48,8 +48,7 @@ class Index extends Model
         return $sx;
     }
     
-    function facebook($data) {
-        $d = $this -> dados($data);
+    function facebook($d) {
         $url = $d['http'];
         if ($d['doi'] != '')
             {
@@ -66,8 +65,7 @@ class Index extends Model
         return ($link);
     }
 
-    function twitter($data) {
-        $d = $this -> dados($data);
+    function twitter($d) {
         //echo '<pre>';
         //print_r($d);
         //echo '</pre>';
