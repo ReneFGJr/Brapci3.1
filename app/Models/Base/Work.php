@@ -163,6 +163,8 @@ class Work extends Model
                     break;
                 case 'hasId':
                     break;
+                case 'hasDOI'>
+                    $da['DOI'] = trim($line['n_name']);
                 case 'dateOfAvailability':
                     break;
                 case 'hasRegisterId':
