@@ -79,8 +79,7 @@ class Benancib extends BaseController
             case 'v':
                 $RDF = new \App\Models\Rdf\RDF();
                 $dt = $RDF->le($subact); 
-                pre($dt);   
-                $data['title'] = $dt['title'][0]['pt-BR'];
+                $data['title'] = $dt['data'][0]['n_name'];
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Benancib/Headers/navbar', $data);                                
