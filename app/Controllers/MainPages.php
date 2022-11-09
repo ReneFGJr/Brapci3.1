@@ -82,6 +82,7 @@ class MainPages extends BaseController
                 $RDF = new \App\Models\Rdf\RDF();
                 $dt = $RDF->le($id);
                 pre($dt,false);
+                
                 $dt['title'] = $data['title']['pt-br'][0];
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Benancib/Headers/navbar', $data);                
