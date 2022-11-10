@@ -78,8 +78,11 @@ class Benancib extends BaseController
                 break;
             case 'v':
                 $RDF = new \App\Models\Rdf\RDF();
+                $Metadata = new \App\Models\Base\Metadata();
                 $dt = $RDF->le($subact); 
-                $data['page_title'] = $dt['data'][0]['n_name'];
+                
+                $data['metadata'] = $Metadata->dc($dt);
+                $data['page_title'] = $Metadata->title;
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Benancib/Headers/navbar', $data);                                

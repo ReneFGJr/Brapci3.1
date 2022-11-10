@@ -46,7 +46,8 @@ class Index extends Model
         $d['id_cc'] = $dt['id_cc'];
         $dt['http'] = 'https://cip.brapci.inf.br/benancib/v/'.$dt['id_cc'];
         $dt['doi'] = '';
-        $dt['title'] = $dt['Title']['pt-BR'];
+        //$dt['title'] = $dt['Title']['pt-BR'];
+        $dt['title'] = 'Título';
         $sx = '<i>Compartilhe</i><br>';
         //$sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
@@ -69,7 +70,6 @@ class Index extends Model
         $link = '<span onclick="newwin2(\'' . $url . '\',800,400);" id="tw' . date("Ymdhis") . '" style="cursor: pointer;">';
         $link .= '<img src="' . base_url('img/nets/icone_facebook.png') . '" class="icone_nets">';
         $link .= '</span>' . cr();
-        $link .= $url;
         return ($link);
     }
 

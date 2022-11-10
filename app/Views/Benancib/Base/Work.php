@@ -1,6 +1,9 @@
 <?php
-if (!isset($MidiasSociais)) { $MidiasSociais = ''; }
+if (!isset($MidiasSociais)) {
+    $MidiasSociais = '';
+}
 ?>
+
 <div class="container">
     <div class="row">
         <div class="col-2">
@@ -11,24 +14,28 @@ if (!isset($MidiasSociais)) { $MidiasSociais = ''; }
 
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-12 mb-5 text-center">
-            <h4><?= $issue; ?></h4>
-            <!--- LEGEND ------------------------------------------->
-            <?php
-            $sect = '';
-            for ($r = 0; $r < count($Section); $r++) {
-                if (strlen($sect) > 0) {
-                    $sect .= ' - ';
-                }
-                $sect .= $Section[$r];
+</div>
+<!--ISSUE -->
+<div class="container">
+    <div class="col-12 mb-5 text-center">
+        <h4><?= $issue; ?></h4>
+        <!--- LEGEND ------------------------------------------->
+        <?php
+        $sect = '';
+        for ($r = 0; $r < count($Section); $r++) {
+            if (strlen($sect) > 0) {
+                $sect .= ' - ';
             }
-            ?>
-            <?= $sect; ?>
-        </div>
+            $sect .= $Section[$r];
+        }
+        ?>
+        <?= $sect; ?>
     </div>
+</div>
+</div>
 
+<!--TITLE -->
+<div class="container">
     <div class="row">
         <div class="col-12">
             <?php
@@ -40,43 +47,54 @@ if (!isset($MidiasSociais)) { $MidiasSociais = ''; }
             }
             ?>
         </div>
-        <!------------------------ Authors ---------------------->
+    </div>
+</div>
+
+<!--CONTENT -->
+<div class="container">
+    <div class="row">
         <div class="col-10">
+            <!-- AUTHORS -->
             <div class="text-end" id="authors">
                 <?php
-                $authors = troca($authors,'$','; ');
-                $authors = substr($authors,0,strlen($authors)-2).'.';
+                $authors = troca($authors, '$', '; ');
+                $authors = substr($authors, 0, strlen($authors) - 2) . '.';
                 echo $authors;
                 ?>
             </div>
 
+            <!-- ABSTRACT -->
+            <div>
+                <?php
+                /******************************** ABSTRACT */
+                if (isset($Abstract)) {
+                    foreach ($Abstract as $idioma => $abstract) {
+                        echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
+                        echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
 
-            <?php
-            /******************************** ABSTRACT */
-            if (isset($Abstract)) {
-                foreach ($Abstract as $idioma => $abstract) {
-                    echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
-                    echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
-
-                    if (isset($keywords[$idioma])) {
-                        echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                        $keys = '';
-                        foreach ($keywords[$idioma] as $id => $keyword) {
-                            $keys .= trim($keyword) . '. ';
+                        if (isset($keywords[$idioma])) {
+                            echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
+                            $keys = '';
+                            foreach ($keywords[$idioma] as $id => $keyword) {
+                                $keys .= trim($keyword) . '. ';
+                            }
+                            echo $keys;
+                            echo '<br><br>';
                         }
-                        echo $keys;
-                        echo '<br><br>';
                     }
                 }
-            }
-            echo '<div>';
-            echo "<i>Compartilher & Divulge</br>";
-            echo $MidiasSociais;            
-            echo '</div>';
-            echo '</div>';
-            ?>
+                ?>
+            </div>
+
+            <!-- COMPARTILHE -->
+            <div class="mt-5 mb-5">
+                <?php
+                echo $MidiasSociais;
+                ?>
+            </div>
         </div>
 
+        <!-- PDF -->
         <div class="col-2">
             <?php
             /************************************************************ PDF */

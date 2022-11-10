@@ -19,6 +19,13 @@ $data['GOOGLEID'] = $GOOGLEID;
     <link rel="shortcut icon" href="<?= URL; ?>/favicon.png" type="image/x-icon" />
     <link rel="shortcut icon" href="<?= URL; ?>/favicon.png" />
 
+    <?php
+    if (isset($metadata))
+        {
+            echo $metadata;
+        }
+    ?>
+
     <!---- JS -->
     <script src="<?= URL; ?>/js/popper.min.js" crossorigin="anonymous">
     </script>

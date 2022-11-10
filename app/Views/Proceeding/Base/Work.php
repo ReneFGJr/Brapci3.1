@@ -3,6 +3,7 @@ $data['logo'] = '00';
 $data['banner'] = '00';
 if (!isset($MidiasSociais)) { $MidiasSociais = '';)
 ?>
+
 <div class="container">
     <div class="row">
         <div class="col-2">
