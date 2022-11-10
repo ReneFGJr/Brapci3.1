@@ -49,7 +49,7 @@ class Index extends Model
         //$dt['title'] = $dt['Title']['pt-BR'];
         $dt['title'] = 'Título';
         $sx = '<i>Compartilhe</i><br>';
-        //$sx .= $this->twitter($dt);
+        $sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
         $sx .= '<script>'.cr();
         $sx .= ' function newwin2(url) {  NewWindow=window.open(url,\'newwin\',\'scrollbars=yes,resizable=yes,width=690,height=450,top=10,left=10\');  NewWindow.focus(); void(0);}';
@@ -77,15 +77,16 @@ class Index extends Model
         //echo '<pre>';
         //print_r($d);
         //echo '</pre>';
-        $url = $d['http'];
+        $url = trim($d['http']);
         if ($d['doi'] != '')
             {
                 $url .= ' DOI: '.$d['doi'];
             }
 
         $nm = $d['title'] . '. ' .  troca($d['authors'],'$','; ') . '. ' . $url . ' #BRAPCI';
+        $nm = $url;
         $nm = urlencode($nm);
-        $url = 'https://twitter.com/intent/tweet?text=' . $nm . '&related=';
+        $url = 'https://twitter.com/intent/tweet?url=' . $nm;
         $link = '<span onclick="newwin2(\'' . $url . '\',800,400);" id="tw' . date("Ymdhis") . '" style="cursor: pointer;">';
         $link .= '<img src="' . base_url('img/nets/icone_twitter.png') . '" class="icone_nets">';
         $link .= '</span>' . cr();
