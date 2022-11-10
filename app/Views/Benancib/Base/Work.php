@@ -64,7 +64,7 @@ if (!isset($MidiasSociais)) {
             </div>
 
             <!-- ABSTRACT -->
-            <div>
+            <p>
                 <?php
                 /******************************** ABSTRACT */
                 if (isset($Abstract)) {
@@ -84,7 +84,7 @@ if (!isset($MidiasSociais)) {
                     }
                 }
                 ?>
-            </div>
+            </p>
 
             <!-- COMPARTILHE -->
             <div class="mt-5 mb-5">
