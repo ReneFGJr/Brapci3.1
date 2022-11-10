@@ -105,7 +105,7 @@ class Metadata extends Model
                         $this->let('DC.Description', $value.'##xml:lang='.$lang);                                            
                         break;
                     case 'hasAbstract':
-                        $this->let('DC.Description', $valueO.'@'.$langO;
+                        $this->let('DC.Description', $valueO.'@'.$langO);
                         break;
                     case 'hasAuthor':
                         $this->let('DC.Creator.PersonalName', $value);
