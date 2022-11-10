@@ -82,7 +82,7 @@ class Benancib extends BaseController
                 $dt = $RDF->le($subact); 
                 
                 $data['metadata'] = $Metadata->dc($dt);
-                $data['page_title'] = $Metadata->title;
+                $data['page_title'] = strip_tags($Metadata->title);
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Benancib/Headers/navbar', $data);                                
@@ -148,7 +148,7 @@ class Benancib extends BaseController
 
             case 'Proceeding':
                 $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($dt);
+                $sx .= $Work->show($dt);                
                 break;
 
             case 'ProceedingSection':

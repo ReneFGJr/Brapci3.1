@@ -111,6 +111,7 @@ class Metadata extends Model
                         $this->let('DC.Creator.PersonalName', $value);
                         break;
                     case 'hasTitle':
+                        $valueO = strip_tags($valueO);
                         $this->let('title', $valueO);
                         if (!isset($this->metadata['DC.Title']))
                             {
