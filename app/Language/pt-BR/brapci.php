@@ -41,7 +41,7 @@ return [
         'work_selected' => 'item(ns)',
         'library_cart' => 'Carrinho da biblioteca',
         'with' => 'com',
-        '' => '',
+        'elasticsearch' => 'ElasticSearch',
         '' => '',
         '' => '',
         '' => '',

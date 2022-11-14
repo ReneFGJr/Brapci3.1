@@ -24,13 +24,12 @@ class Admin extends BaseController
         $Socials = new \App\Models\Socials();
         if ($Socials->getAccess("#ADM"))
             {
-                $ADMIN = new \App\Models\Base\Admin\Index();
+                $Admin = new \App\Models\Base\Admin\Index();
                 $data['page_title'] = 'Brapci';
                 $data['bg'] = 'bg-admin';
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
                 $sx .= view('Brapci/Headers/navbar', $data);
-
                 switch($act)
                     {
                         case 'v':
@@ -38,17 +37,18 @@ class Admin extends BaseController
                             $sx = $RDF->index('v', $sub);
                             break;
                         case 'a':
+
                             $RDF = new \App\Models\Rdf\RDF();
                             $sx .= $RDF->form($sub);
                         break;
 
                         default:
-                            $sx .= $ADMIN->index($act, $sub, $id);
+                            $sx .= $Admin->index($act, $sub, $id);
                         break;
                     }
                 $sx .= view('Brapci/Headers/footer', $data);
             } else {
-                return redirect('MainPages::index');
+                return view('Brapci/Headers/deny');
             }
         return $sx;
     }

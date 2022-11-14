@@ -20,6 +20,11 @@ class Elasticsearch extends BaseController
 {
     public function index($act = '', $id = '')
     {
+        $Socials = new \App\Models\Socials();
+        if (!$Socials->getAccess("#ADM")) {
+            $sx = metarefresh(PATH);
+            return $sx;
+        }
         $data['page_title'] = 'Brapci-Tools-ElasticSearch';
         $data['bg'] = 'bg-tools';
         $sx = '';
@@ -31,7 +36,8 @@ class Elasticsearch extends BaseController
         switch ($act) {
             case 'register':
                 $APIRegister = new \App\Models\ElasticSearch\Register();
-                $sx .= $APIRegister->register($id);
+                $sx .= $APIRegister->register($id,'test');
+                break;
 
             case 'status':
                 $API = new \App\Models\ElasticSearch\API();
@@ -71,9 +77,10 @@ class Elasticsearch extends BaseController
 
     private function  menu()
     {
-        $menu[PATH . 'elasticsearch/status'] = lang('elastic.status');
-        $menu[PATH . 'elasticsearch/register/1'] = lang('elastic.register_test');
-        $menu[PATH . 'elasticsearch/search/'] = lang('elastic.search');
+        $id = 199885;
+        $menu[PATH . '/elasticsearch/status'] = lang('elastic.status');
+        $menu[PATH . '/elasticsearch/register/'.$id] = lang('elastic.register_test');
+        $menu[PATH . '/elasticsearch/search/'] = lang('elastic.search');
         $sx = menu($menu);
         return $sx;
     }
