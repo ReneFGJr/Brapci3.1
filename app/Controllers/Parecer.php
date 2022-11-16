@@ -24,6 +24,7 @@ class Parecer extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Ai/Header/navbar', $data);
+        $sx .= view('Brapci/Headers/space', $data);
 
 
         switch ($act) {
