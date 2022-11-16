@@ -23,7 +23,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso .= '</li>';
 }
 ?>
-<nav class="navbar navbar-expand-lg bg-light fixed-top  <?= $bg; ?>">
+<nav class="navbar navbar-expand-lg bg-light fixed-top  <?= $bg; ?> mb-5">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= URL; ?>"><img src="<?= URL; ?>/favicon.png" style="height: 32px;"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
