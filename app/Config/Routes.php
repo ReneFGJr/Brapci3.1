@@ -153,6 +153,11 @@ $routes->get('/patente/(:any)', 'Patente::index/$1');
 $routes->get('/patente', 'Patente::index');
 $routes->post('/patente/(:any)', 'Patente::index/$1');
 
+/********* Observatorio */
+$routes->get('/observatorio/(:any)', 'Observatorio::index/$1');
+$routes->get('/observatorio', 'Observatorio::index');
+$routes->post('/observatorio/(:any)', 'Observatorio::index/$1');
+
 /********* Parecer */
 $routes->get('/parecer/(:any)', 'Parecer::index/$1');
 $routes->get('/parecer', 'Parecer::index');
