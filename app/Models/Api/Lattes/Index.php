@@ -80,12 +80,12 @@ class Index extends Model
             $url = 'http://memoria.cnpq.br/web/portal-lattes/extracoes-de-dados';
             $url = 'http://memoria.cnpq.br/documents/313759/83395da6-f582-46bc-a308-060a6ec1ceaa';
 
-            $file = 'd:/lixo/R358737.csv';
+            $file = '../_Documments/Lattes/R358737.csv';
             if (file_exists($file)) {
                     /********************* Read Line by Line */
                         $offset = round(get("offset"));
                         $nr = 0;
-                        $limit = 50;
+                        $limit = 500;
                         $handle = fopen($file, "r");
                         if ($handle) {
                             while (($line = fgets($handle)) !== false) {
@@ -103,7 +103,7 @@ class Index extends Model
                                             }
                                     }
                                 /************** Stop ************/
-                                if ($nr >= ($offset + $limit))
+                                if ($nr >= ($offset + $limit + 1))
                                     {
                                         $sx .= metarefresh(PATH.COLLECTION.'/lattes/extract/?offset='.$nr,3);
                                         break;
