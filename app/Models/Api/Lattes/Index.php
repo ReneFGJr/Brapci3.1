@@ -57,9 +57,15 @@ class Index extends Model
                 }
         }
 
-    function registre_id_lattes($id,$data)
+    function registre_id_lattes($id,$data,$force=true)
         {
-            $dt = $this->where('cv_NRO_ID_CNPQ',$id)->findAll();
+            if ($force == true)
+                {
+                    $dt = array();
+                } else {
+                    $dt = $this->where('cv_NRO_ID_CNPQ', $id)->findAll();
+                }
+
             if (count($dt) == 0)
                 {
                     $data['cv_NRO_ID_CNPQ'] = $id;
