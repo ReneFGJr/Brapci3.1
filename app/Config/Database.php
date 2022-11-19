@@ -211,5 +211,8 @@ class Database extends Config
         $this->observatorio['username'] = getenv('database.default.username');
         $this->observatorio['password'] = getenv('database.default.password');
 
+        $this->lattes['username'] = getenv('database.default.username');
+        $this->lattes['password'] = getenv('database.default.password');
+
     }
 }

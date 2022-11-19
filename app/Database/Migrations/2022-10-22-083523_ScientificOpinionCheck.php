@@ -5,7 +5,7 @@ namespace App\Database\Migrations;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql;
 
-class ScientificOpinion extends Migration
+class ScientificOpinionCheck extends Migration
 {
     protected $DBGroup = 'pgcd';
 
