@@ -69,6 +69,7 @@ class LattesCurriculo extends Migration
         /* Criar indice */
     }
 
+
     public function down()
     {
         $this->forge->dropTable('lattes_curriculo');

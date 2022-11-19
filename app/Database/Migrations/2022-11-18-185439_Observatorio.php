@@ -42,6 +42,7 @@ class Observatorio extends Migration
         $this->forge->createTable('obs_projects');
     }
 
+
     public function down()
     {
         $this->forge->dropTable('obs_projects');
