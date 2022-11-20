@@ -21,9 +21,9 @@ class Event extends Model
     ];
 
     protected $typeFields = [
-        'hidden','string','string','sn',
+        'hidden','string*','string','sn*',
         'date','date','date',
-        'url','text','img'
+        'url','text','string'
     ];
 
     // Dates
@@ -52,14 +52,23 @@ class Event extends Model
 
     function index($d1='',$d2='',$d3='')
         {
+            $this->path = PATH. COLLECTION.'/events';
+            $sx = '';
             switch($d1)
                 {
+                    case 'edit':
+                        $sx .= form($this);
+                        $sx = bs(bsc($sx,12));
+                        break;
                     case 'cards':
                         return $this->cards($d2,$d3);
                         break;
                     default:
+                        $sx .= tableview($this);
+                        $sx = bs(bsc($sx,12));
                         break;
                 }
+            return $sx;
         }
 
     function cards($d2,$d3)

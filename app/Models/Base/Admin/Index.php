@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'events':
+                $Event = new \App\Models\Functions\Event();
+                $sx .= $Event->index($subact, $id);
+                break;
             case 'email':
                 $Email = new \App\Models\Functions\Email();
                 $sx .= $Email->test();
@@ -64,8 +68,6 @@ class Index extends Model
                 }
                 break;
             default:
-                $sx .= 'AAAAAAAAAAAAAAAAAAA';
-                $sx .= '['.$_SESSION['id'].']';
                 if (isset($_SESSION['id'])) {
                     $user_name = $_SESSION['id'];
                     $sx .= h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2);
@@ -103,6 +105,10 @@ class Index extends Model
         $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
         $m['#RDF'] =  lang('brapci.rdf');
         $m[PATH .  '/rdf'] =  lang('brapci.rdf');
+
+        $m['#EVENT_CARDS'] =  lang('brapci.event_cards');
+        $m[PATH .  '/admin/events'] =  lang('brapci.event_cards');
+
         $m['#CONFIG'] =  lang('brapci.Email');
         $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');
         $sx = menu($m);

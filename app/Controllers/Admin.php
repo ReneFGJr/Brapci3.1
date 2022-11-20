@@ -34,10 +34,9 @@ class Admin extends BaseController
                     {
                         case 'v':
                             $RDF = new \App\Models\Rdf\RDF();
-                            $sx = $RDF->index('v', $sub);
+                            $sx .= $RDF->index('v', $sub);
                             break;
                         case 'a':
-
                             $RDF = new \App\Models\Rdf\RDF();
                             $sx .= $RDF->form($sub);
                         break;
