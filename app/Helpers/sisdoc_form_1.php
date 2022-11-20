@@ -390,6 +390,24 @@ function form_fields($typ, $fld, $vlr, $th = array(), $obg = 0, $pre = '')
             $sx .= $tdc;
             break;
 
+        case 'ns':
+            $sx .= $td . lang($pre . $fld) . $label_mandatory . $tdc;
+            $sx .= $td;
+            $op = array(0, 1);
+            $opc = array(msg($pre . 'NO'), msg($pre . 'YES'));
+            $sg = '<select id="' . $fld . '" name="' . $fld . '" value="' . $vlr . '" class="form-control-lg mb-3 ' . $class_mandatory . '">' . cr();
+            for ($r = 0; $r < count($op); $r++) {
+                $sel = '';
+                if ($op[$r] == $vlr) {
+                    $sel = 'selected';
+                }
+                $sg .= '<option value="' . $op[$r] . '" ' . $sel . '>' . $opc[$r] . '</option>' . cr();
+            }
+            $sg .= '</select>' . cr();
+            $sx .= $sg;
+            $sx .= $tdc;
+            break;
+
         case 'op':
             $sx .= $td . lang($pre . $fld) . $label_mandatory . $tdc;
             $sx .= $td;

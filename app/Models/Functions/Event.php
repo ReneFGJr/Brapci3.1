@@ -15,13 +15,13 @@ class Event extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_ev','ev_name','ev_place','ev_ative',
+        'id_ev','ev_name','ev_place','ev_ative','ev_permanent',
         'ev_data_start','ev_data_end','ev_deadline',
         'ev_url','ev_description','ev_image'
     ];
 
     protected $typeFields = [
-        'hidden','string*','string','sn*',
+        'hidden','string*','string','sn*','ns*',
         'date','date','date',
         'url','text','string'
     ];
@@ -82,7 +82,7 @@ class Event extends Model
             $sx = '';
             $dt = $this
                 ->where('ev_ative',1)
-                ->where('(ev_data_start >= "'.date("Y-m-d").'" or ev_data_end >= "0000-00-00")')
+                ->where('(ev_data_start >= "'.date("Y-m-d").'" or ev_permanent = 1)')
                 ->findAll();
             for($r=0;$r < count($dt);$r++)
                 {
