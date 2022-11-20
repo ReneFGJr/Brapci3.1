@@ -82,7 +82,7 @@ class Event extends Model
             $sx = '';
             $dt = $this
                 ->where('ev_ative',1)
-                ->where('(ev_data_start >= "'.date("Y-m-d").'" or ev_data_end >= "2099-01-01")')
+                ->where('(ev_data_start >= "'.date("Y-m-d").'" or ev_data_end >= "0000-00-00")')
                 ->findAll();
             for($r=0;$r < count($dt);$r++)
                 {
