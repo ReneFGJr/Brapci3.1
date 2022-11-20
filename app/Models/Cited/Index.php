@@ -81,6 +81,37 @@ class Index extends Model
             return($dt);
         }
 
+    function citation_total($id)
+        {
+            $dt = $this
+                ->select('count(*) as total')
+                ->where('ca_rdf',$id)
+                ->findAll();
+
+            if (count($dt) == 0)
+                {
+                    $total = $dt[0]['total'];
+                } else {
+                    $total = 0;
+                }
+            $sx = '';
+            $sx .= '<div class="btn btn-outline-primary mt-2" style="width: 100%;">';
+            $sx .= '<table width="100%">';
+            $sx .= '<tr><td>';
+            if ($total == 0)
+                {
+                    $sx .= lang('brapci.no_citations');
+                } else {
+                    $sx .= $total;
+                    $sx .= lang('brapci.citations');
+                }
+
+            $sx .= '</td><td>';
+            $sx .= '</table>';
+            $sx .= '</div>';
+            return $sx;
+        }
+
     function citation($id=0,$type='jnl')
         {
             $cp = 'ca_rdf, ca_year, ca_journal, cj_name_asc as cj_name, ';

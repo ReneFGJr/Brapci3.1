@@ -198,6 +198,10 @@ class Work extends Model
         $ViewsRDF = new \App\Models\Functions\ViewsRDF();
         $da['views'] = $ViewsRDF->show($idc);
 
+        /************************************************************ VIEWS */
+        $Cited = new \App\Models\Cited\Index();
+        $da['cited'] = $Cited->citation_total($idc);
+
         switch (COLLECTION) {
             case '/proceedings':
                 $sx .= view('Proceeding/Base/Work', $da);

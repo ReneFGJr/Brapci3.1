@@ -121,6 +121,8 @@ $style = ' style="border-bottom: 1px solid #000;" ';
             <div class="p-0" id="nlp"><?= $nlp; ?></div>
 
             <div class="p-0" id="views"><?= $views; ?></div>
+
+            <div class="p-0" id="vited"><?= $cited; ?></div>
         </div>
     </div>
 </div>
