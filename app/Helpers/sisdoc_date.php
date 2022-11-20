@@ -44,6 +44,8 @@ function range_data($d1,$d2)
         $dia1 = mes_dia($d1);
         $dia2 = mes_dia($d2);
 
+        if ($dia1=='0') { return ""; }
+
         if (substr($d1, 0, 8) == substr($d2, 0, 8))
             {
                 $sx .= $dia1.' de '.mes_extenso(substr($d1, 4, 2)).' de '.substr($d1, 0, 4);

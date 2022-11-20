@@ -93,8 +93,13 @@ class Event extends Model
                             $img = URL.('/img/'.$img);
                         }
                     $date = range_data($line['ev_data_start'],$line['ev_data_end']);
+                    $onclick = '';
+                    if (strlen($line['ev_url']) > 0)
+                        {
+                            $onclick = 'onclick="window.open(\''.$line['ev_url'].'\',\'_blank\')"';
+                        }
 
-                    $sx .= '<div class="col-md-4 p-1">';
+                    $sx .= '<div class="col-md-4 p-1" '.$onclick.'>';
                     $sx .= '<div class="card" style="width: 18rem;">
                             <img src="'.$img.'" class="card-img-top" alt="Event logo">
                             <div class="card-body">
