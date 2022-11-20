@@ -541,6 +541,9 @@ class RDFExport extends Model
 		}
 
 		$dt = $this->RDF->le($id, 0);
+		if (!isset($dt['concept']['c_class'])) {
+			return '';
+		}
 		$prefix = $dt['concept']['prefix_ref'];
 		$class = $prefix . ':' . $dt['concept']['c_class'];
 		$name = ':::: ?' . $class . '? ::::';

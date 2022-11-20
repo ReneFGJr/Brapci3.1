@@ -39,11 +39,12 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                 <li class="nav-item">
                     <a class="nav-link" href="<?= PATH . COLLECTION . '/about'; ?>"><?= lang('benancib.about'); ?></a>
                 </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link"
                         href="<?= PATH . COLLECTION . '/statistics'; ?>"><?= lang('benancib.statistics'); ?></a>
                 </li>
-
+                -->
             </ul>
             <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">
                 <input name="q" class="form-control me-2" type="search"

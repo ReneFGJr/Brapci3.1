@@ -152,8 +152,9 @@ class MainPages extends BaseController
                         $sx = $RDF->issue($id);
                         break;
                     case 'Article':
-                    $dt = $RDF->le($id);
-                        $sx = view('Brapci/View/Article',$dt);
+                        $dt = $RDF->le($id);
+                        $Work = new \App\Models\Base\Work();
+                        $sx = $Work->show($id);
                         break;
                     default:
                         $sx = 'Class not found - '.$class;

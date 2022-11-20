@@ -29,10 +29,23 @@ class Ajax extends BaseController
             case 'mark':
                 $this->mark();
                 break;
+            case 'bug':
+                $this->bug();
+                break;
             default:
                 echo '=AJAX=>' . $act;
                 break;
         }
+    }
+
+    function bug()
+    {
+        $id = get("id");
+        $tp = get("type");
+        $bug = new \App\Models\Functions\Bugs();
+        $bug->register($id,$tp);
+        echo lang('brapci.bug_registed');
+        exit;
     }
 
     function mark()

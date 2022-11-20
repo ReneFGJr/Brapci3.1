@@ -96,7 +96,7 @@ class Event extends Model
                     $onclick = '';
                     if (strlen($line['ev_url']) > 0)
                         {
-                            $onclick = 'onclick="window.open(\''.$line['ev_url'].'\',\'_blank\')"';
+                            $onclick = 'style="cursor: pointer;" onclick="window.open(\''.$line['ev_url'].'\',\'_blank\')"';
                         }
 
                     $sx .= '<div class="col-md-4 p-1" '.$onclick.'>';

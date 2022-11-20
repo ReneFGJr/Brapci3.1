@@ -82,6 +82,7 @@ class Work extends Model
         $da['idioma'] = '';
         $da['pages'] = '';
         $da['editora_local'] = '';
+        $da['links'] = '';
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
@@ -167,8 +168,14 @@ class Work extends Model
                     $da['DOI'] = trim($line['n_name']);
                 case 'dateOfAvailability':
                     break;
+                case 'hasUrl':
+                    $url = trim($line['n_name']);
+                    $url = '<a href="' . $url . '" target="_new" class="p-1">' . bsicone('url') . '</a>';
+                    $da['links'] .= $url;
+                    break;
                 case 'hasRegisterId':
-                    array_push($da['URL'], trim($line['n_name']));
+
+
                     break;
                 default:
                     jslog('Class not found: ' . $class);
@@ -179,8 +186,20 @@ class Work extends Model
 
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
 
+        /************************************************************* BUGS */
+        $Bugs = new \App\Models\Functions\Bugs();
+        $da['bugs'] = $Bugs->show($idc);
+
+        /************************************************************* BUGS */
+        $Cited = new \App\Models\AI\Cited\Index();
+        $da['nlp'] = $Cited->show($idc);
+
+        /************************************************************ VIEWS */
+        $ViewsRDF = new \App\Models\Functions\ViewsRDF();
+        $da['views'] = $ViewsRDF->show($idc);
+
         switch (COLLECTION) {
-            case '/proceedings':                
+            case '/proceedings':
                 $sx .= view('Proceeding/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
@@ -192,7 +211,7 @@ class Work extends Model
                 $sx .= view('Books/Base/Work', $da);
                 break;
             default:
-                $sx .= view('Benancib/Base/Work', $da);
+                $sx .= view('Brapci/Base/Work', $da);
                 break;
         }
         return $sx;

@@ -72,3 +72,12 @@ function reload()
   {
     location.reload();
   }
+
+  function bug_report($this)
+    {
+        $check = $("#ebug").val();
+        alert('===>'+$check);
+        $idc = $("#idc").val();
+        $("#bug").load("/ajax/bug/report/?id=" + $idc + "&type="+$check);
+        alert('Obrigado, o erro foi reportado');
+    }
