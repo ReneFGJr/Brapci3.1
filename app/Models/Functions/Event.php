@@ -53,10 +53,16 @@ class Event extends Model
     function index($d1='',$d2='',$d3='')
         {
             $this->path = PATH. COLLECTION.'/events';
+            $this->path_back = PATH. COLLECTION.'/events';
             $sx = '';
             switch($d1)
                 {
+                    case 'delete':
+                        $this->delete($d2);
+                        $sx .= metarefresh($this->path);
+                        break;
                     case 'edit':
+                        $this->id = $d2;
                         $sx .= form($this);
                         $sx = bs(bsc($sx,12));
                         break;
