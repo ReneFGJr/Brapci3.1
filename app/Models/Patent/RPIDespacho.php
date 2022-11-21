@@ -77,7 +77,7 @@ class RPIDespacho extends Model
             }
         }
         $sx = '<p>' . bsmessage(lang('patent.found') . ' ' . $tot . ' ' . lang('patent.dispatch')) . '</p>' . $sx;
-        $sx .= metarefresh(PATH . COLLECTION . '/process/' . $id_issue, 1);
+        $sx .= metarefresh(PATH . COLLECTION . '/proccess/' . $id_issue, 1);
         return $sx;
     }
 
