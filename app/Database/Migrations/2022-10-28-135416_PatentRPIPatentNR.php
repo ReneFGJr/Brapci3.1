@@ -28,16 +28,17 @@ class PatentRPIPatentNR extends Migration
                 'constraint'     => 20,
                 'null' => true,
             ],
-
+            /*
             'p_use' => [
                 'type'       => 'VARCHAR',
                 'constraint'     => 20,
                 'null' => true,
             ],
-            'p_use' => [
+            'p_section' => [
                 'type'       => 'INT',
                 'null' => true,
             ],
+            */
             'p_country' => [
                 'type'       => 'VARCHAR',
                 'constraint'     => 3,

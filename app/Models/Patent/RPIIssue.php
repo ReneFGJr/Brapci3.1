@@ -71,6 +71,11 @@ class RPIIssue extends Model
     function viewissue($id)
         {
             $dt = $this->find($id);
+            if ($dt == '')
+                {
+                    echo "ISSUE NOT FOUND";
+                    exit;
+                }
             $dt['rpi_title'] = 'Revista da Propriedade Industrial';
             $dt['summary'] = $this->summary($id);
             $dt['action'] = $this->action($dt);

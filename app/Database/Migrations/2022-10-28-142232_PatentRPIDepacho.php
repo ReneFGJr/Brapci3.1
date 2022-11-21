@@ -26,6 +26,10 @@ class PatentRPIDepacho extends Migration
                 'type'       => 'INT',
                 'null' => true,
             ],
+            'p_section' => [
+                'type'       => 'INT',
+                'null' => true,
+            ],
             'p_comment' => [
                 'type'       => 'TEXT',
                 'null' => true,
