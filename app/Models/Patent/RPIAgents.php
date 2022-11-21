@@ -128,7 +128,7 @@ class RPIAgents extends Model
         }
         $sx .= '</ul>';
         $sx = '<p>' . bsmessage(lang('patent.found') . ' ' . $tot . ' ' . lang('patent.agents')) . '</p>' . $sx;
-        $sx .= metarefresh();
+        $sx .= metarefresh(PATH . COLLECTION . '/proccess/' . $id, 1);
         return $sx;
     }
 
