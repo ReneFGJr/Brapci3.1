@@ -150,7 +150,7 @@ class RPIImport extends Model
                 $RPIIssue = new \App\Models\Patent\RPIIssue;
                 $RPIAgents = new \App\Models\Patent\RPIAgents;
                 $sx .= $RPIAgents->import($id, $this->SourceFile);
-                //$RPIIssue->register($id, 7);
+                $RPIIssue->register($id, 7);
                 break;
             default:
                 $sx = bsmessage('Source type not defined', 3);
