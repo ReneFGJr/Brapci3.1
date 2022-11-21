@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RPISections extends Model
 {
     protected $DBGroup          = 'patent';
-    protected $table            = 'RPI_section';
+    protected $table            = 'rpi_section';
     protected $primaryKey       = 'id_resc';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;

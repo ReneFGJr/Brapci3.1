@@ -49,11 +49,11 @@ class PatentRPISection extends Migration
 
         ]);
         $this->forge->addKey('id_rsec', true);
-        $this->forge->createTable('RPI_section');
+        $this->forge->createTable('rpi_section');
     }
 
     public function down()
     {
-        $this->forge->dropTable('RPI_section');
+        $this->forge->dropTable('rpi_section');
     }
 }
