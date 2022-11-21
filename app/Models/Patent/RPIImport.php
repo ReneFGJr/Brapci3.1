@@ -238,7 +238,7 @@ class RPIImport extends Model
                     $data['rpi_data'] = $date;
                     $RPIIssue->set($data)->where('rpi_nr',$id)->update();
                     $RPIIssue->register($id, 3);
-                    $sx = metarefresh(PATH,0);
+                    $sx = metarefresh(PATH . COLLECTION . '/proccess/' . $id, 1);
                     return $sx . bsmessage('Date publish registred', 1);
                 }
             return bsmessage('Erro: Publish date not found',3);
