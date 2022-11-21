@@ -34,11 +34,11 @@ class UsersLog extends Migration
             ],
         ]);
         $this->forge->addKey('id_ul', true);
-        $this->forge->createTable('users_log');
+       // $this->forge->createTable('users_log');
     }
 
     public function down()
     {
-        $this->forge->dropTable('users_log');
+        //$this->forge->dropTable('users_log');
     }
 }

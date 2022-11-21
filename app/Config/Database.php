@@ -237,5 +237,8 @@ class Database extends Config
         $this->click['username'] = getenv('database.default.username');
         $this->click['password'] = getenv('database.default.password');
 
+        $this->patent['username'] = getenv('database.default.username');
+        $this->patent['password'] = getenv('database.default.password');
+
     }
 }
