@@ -48,7 +48,16 @@ class Patente extends BaseController
 
             case 'harvesting':
                 if ($d1 == '') {
-                    $d1 = 2668;
+                    $RPIIssue = new \App\Models\Patent\RPIIssue();
+                    $dt = $RPIIssue->select("rpi_nr")->orderBy('rpi_nr', 'DESC')->limit(1)->findAll();
+
+                    if (count($dt) == 0)
+                        {
+                            $d1 = 2600;
+                        } else {
+                            $d1 = $dt[0]['rpi_nr'] + 1;
+                        }
+
                 }
                 $Patent = new \App\Models\Patent\Index();
                 $sx .= $Patent->index('harvesting', $d1);

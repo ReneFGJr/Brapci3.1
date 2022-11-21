@@ -64,6 +64,7 @@ class RPIPatentNR extends Model
             $tot++;
         }
         $sx = '<p>' . bsmessage(lang('patent.found') . ' ' . $tot . ' ' . lang('patent.sections')) . '</p>' . $sx;
+        $sx .= metarefresh(PATH . COLLECTION . '/process/' . $id, 1);
         return $sx;
     }
 
