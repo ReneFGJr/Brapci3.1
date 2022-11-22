@@ -23,7 +23,7 @@ class Bots extends BaseController
         switch ($act) {
 
             case 'patente':
-                $Patente = new \App\Models\Patent\index;
+                $Patente = new \App\Models\Patent\Index;
                 $Patente->cron();
                 break;
             case 'pdf':
