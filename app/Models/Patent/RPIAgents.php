@@ -50,7 +50,10 @@ class RPIAgents extends Model
         $RPIPatentNR = new \App\Models\Patent\RPIPatentNR;
         $RPIPatentAgents = new \App\Models\Patent\RPIPatentAgents;
         $sx = '';
+
+        echo "Reading file: ".$file.cr();
         $xml = (array)simplexml_load_file($file);
+        echo "Start reading file: ".$file.cr();
 
         $despacho = (array)$xml['despacho'];
         $xcode = '';
@@ -65,8 +68,13 @@ class RPIAgents extends Model
 
             /************** RECUPERA ID PROCESSO */
             $patenteNR = (string)$processo['numero'];
+
+            echo '--'.$patenteNR.' '.date("H:i:s") . cr();
+
             $patent = $RPIPatentNR->busca($patenteNR);
             $id_patent = $patent['id_p'];
+
+
 
             $dataDeposito = '1000-01-01';
             if (isset($processo['titular-lista'])) {

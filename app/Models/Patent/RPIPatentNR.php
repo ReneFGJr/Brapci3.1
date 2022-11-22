@@ -45,6 +45,7 @@ class RPIPatentNR extends Model
     function import($id, $file)
     {
         $sx = '';
+        echo $file.cr();
         $xml = (array)simplexml_load_file($file);
 
         $despacho = (array)$xml['despacho'];
@@ -61,6 +62,7 @@ class RPIPatentNR extends Model
                 $dataDeposito = (string)$processo['data-deposito'];
             }
             $idp = $this->register($patenteNR);
+            echo $patenteNR.cr();
             $tot++;
         }
         $sx = '<p>' . bsmessage(lang('patent.found') . ' ' . $tot . ' ' . lang('patent.sections')) . '</p>' . $sx;

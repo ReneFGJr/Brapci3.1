@@ -40,6 +40,22 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function cron()
+        {
+            echo "Cron - Patent BOT\n";
+            $RPIIssue = new \App\Models\Patent\RPIIssue;
+            $RPI_import = new \App\Models\Patent\RPIImport;
+            $dt = $RPIIssue->orderby('rpi_status')->first();
+            if ($dt != '')
+                {
+                    $d1 = $dt['rpi_nr'];
+                    $RPI_import->proccess($d1);
+                }
+
+            //echo $RPIIssue->action($dt[0]);
+            exit;
+        }
+
     function index($act='',$d1='',$d2='',$d3='')
         {
             $sx = '';

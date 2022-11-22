@@ -18,8 +18,14 @@ class Bots extends BaseController
     public function index($act = '')
     {
         $sx = '';
-        $sx .= '<pre>';
+        if ($act == 'patent') { $act = 'patente'; }
+
         switch ($act) {
+
+            case 'patente':
+                $Patente = new \App\Models\Patent\index;
+                $Patente->cron();
+                break;
             case 'pdf':
                 $DownloadPDF = new \App\Models\Bots\DownloadPDF();
                 $sx .= $DownloadPDF->harvesting();

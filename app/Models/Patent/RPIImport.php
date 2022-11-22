@@ -52,6 +52,8 @@ class RPIImport extends Model
         $dt = $this->le_nr($id);
         $sx .= h('Status actual: ' . $dt['rpi_status'], 5);
 
+        echo 'Method: ['.$dt['rpi_status'].']'.cr();
+
         /* Importa dados */
         switch ($dt['rpi_status']) {
             case '6':
@@ -75,6 +77,7 @@ class RPIImport extends Model
 
     function proccess($id = -1)
     {
+        echo 'Process RPI nº'.$id.cr();
         $sx = h(lang('patent.proccess'), 2);
         if ($id < 0) {
             $sx .= h(lang('patent.proccess_next'), 4);
@@ -97,7 +100,9 @@ class RPIImport extends Model
 
         if ($dn > 0) {
             /******************** IMPORT */
+            echo 'PROCCESS AT '.date("Y-m-d H:i:s") .' START'. cr();
             $sx .= $this->import($dn);
+            echo 'PROCCESS AT '.date("Y-m-d H:i:s") .' END'. cr();
         } else {
             $sx .= bsmessage(lang('petent.rpi_import_no_data'), 3);
         }
@@ -149,7 +154,7 @@ class RPIImport extends Model
             case 'xml':
                 $RPIIssue = new \App\Models\Patent\RPIIssue;
                 $RPIAgents = new \App\Models\Patent\RPIAgents;
-                $sx .= $RPIAgents->import($id, $this->SourceFile);
+                $RPIAgents->import($id, $this->SourceFile);
                 $RPIIssue->register($id, 7);
                 break;
             default:
@@ -209,14 +214,18 @@ class RPIImport extends Model
 
     function method_01_issue_data($id)
         {
+            $sx = '';
             $dt = $this->le_nr($id);
+
             switch($this->SourceType)
                 {
                     case 'xml':
-                        $sx = $this->method_01_issue_data_xml($id);
+                        echo "OK";
+                        exit;
+                        $this->method_01_issue_data_xml($id);
                         break;
                     default:
-                        $sx = bsmessage('Source type not found - '.$this->SourceType,3);
+                        echo 'Source type not found - ['.$this->SourceType.']'.cr();
                         break;
                 }
             return $sx;
@@ -237,6 +246,7 @@ class RPIImport extends Model
                     $RPIIssue = new \App\Models\Patent\RPIIssue;
                     $data['rpi_data'] = $date;
                     $RPIIssue->set($data)->where('rpi_nr',$id)->update();
+                    echo 'Data: '.$date.cr();
                     $RPIIssue->register($id, 3);
                     $sx = metarefresh(PATH . COLLECTION . '/proccess/' . $id, 1);
                     return $sx . bsmessage('Date publish registred', 1);
