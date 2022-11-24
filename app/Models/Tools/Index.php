@@ -43,15 +43,18 @@ class Index extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
     {
-        $sx = '';
-        $Socials = new Socials();
-        $user = $Socials->getuser();
+        if (($d1 == 'lattes') and ($d2 = 'robot')) {
+            $user = 1;
+        } else {
+            $sx = '';
+            $Socials = new Socials();
+            $user = $Socials->getuser();
+        }
 
         if ($user == 0) {
             $sx .= bsmessage(lang('brapci.user_not_loged'), 3);
             $sx = bs(bsc($sx, 12));
         } else {
-
             switch ($d1) {
                 case 'nlp':
                     $NLP = new \App\Models\AI\NLP\Index();
@@ -82,9 +85,9 @@ class Index extends Model
         return $sx;
     }
 
-    function lattes($d1,$d2,$d3,$d4)
-        {
-            $Lattes = new \App\Models\Lattes\Index();
-            return $Lattes->index($d1,$d2,$d3,$d4);
-        }
+    function lattes($d1, $d2, $d3, $d4)
+    {
+        $Lattes = new \App\Models\Lattes\Index();
+        return $Lattes->index($d1, $d2, $d3, $d4);
+    }
 }

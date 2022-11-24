@@ -44,12 +44,29 @@ class Index extends Model
 
     */
 
+    function robot()
+    {
+        set_time_limit(1500);
+        $t = array("direito autoral", "direitos autorais", "ciencia aberta", "recursos educacionais abertos", "gestao de dados", "open access", "repositorios institucionais", "repositorio digital", "acesso a informaçao", "educaçao aberta", "propriedade intelectual", "politicas públicas", "bibliotecas digitais", "preservaçao digital", "ciencia cidada", "abertura de dados", "open data", "web semântica", "via verde", "gestao da informaçao", "dados de pesquisa", "repositorios digitais", "bibliometria", "acceso abierto", "open source", "politica de acesso aberto", "periodicos cientificos", "repositorios", "transparencia", "arquivo aberto", "dados governamentais abertos", "autoarquivamento", "curadoria de dados", "arca", "curadoria digital", "periodico cientifico", "fiocruz", "computaçao em nuvem", "gestao de dados de pesquisa", "acessibilidade", "revistas cientificas", "repositorio tematico", "repositorio", "governo aberto", "lei de acesso a informaçao", "principios fair", "publicaçao de acesso aberto", "dados cientificos", "acesso aberto a informaçao", "arquivos abertos", "politica pública", "via dourada", "repositorio institucional da fiocruz", "universidade aberta", "ciencia de dados", "e-science", "politica de dados abertos", "datos abiertos", "tecnologias digitais", "elearning", "periodico cientifico em acesso aberto", "confoa", "redes sociais cientificas", "ciencia aberta na fiocruz", "interoperabilidad", "dados para pesquisa", "fundaçao oswaldo cruz", "repositorios de dados", "praticas de ciencia aberta", "repositorio aberto", "gerenciamento de dados", "repositorios de dados de pesquisa", "ambientes virtuais compartilhados", "arca dados", "dados de investigaçao", "politica de ciencia aberta", "repositorio institucional", "revisao por pares aberta", "inovaçao aberta", "repositorios tematicos", "software libre", "altmetria", "rcaap", "budapest open access initiative", "metricas alternativas", "responsabilidade social", "ciclo de vida dos dados", "dados governamentais", "plano de gestao de dados", "politicas editoriais", "acceso libre", "armazenamento de dados", "compartilhamento de dados de pesquisa", "compartilhamento e abertura de dados", "produçao colaborativa", "rede sudeste de repositorios institucionais", "repositorio de dados cientificos", "repositorios cientificos", "acesso a aberto", "fair principles", "preprints", "rede colaborativa", "repositorio institucional arca", "repositorios digitais confiaveis", "software aberto", "go fair", "open access movement", "revisao por pares", "avaliaçao aberta", "cris", "encontro da rede sudeste de repositorios institucionais", "gestao de repositorios", "identificadores persistentes", "naacs", "politica editorial", "politicas de ciencia aberta da fiocruz", "dados fair", "abertura de dados de pesquisa", "dados abertos de pesquisa", "dados de pesquisa abertos", "direitos de propriedade intelectual", "indicadores de desempenho", "indicadores de produçao cientifica", "open notebook science", "postprint", "preprint", "produtividade cientifica", "repositorio institucional de dados para pesquisa da fiocruz", "scientific collaboration", "tecnologia social", "agregador", "avaliaçao pelos pares", "caderno de laboratorio aberto", "conhecimento aberto", "cultura de colaboraçao", "dados cientificos de pesquisa", "fair", "fator de impacto", "foster", "laboratorio cidadao", "open journal systems", "politica de repositorio", "promoçao da ciencia aberta", "repositorio de dados para pesquisa da fiocruz", "revistas academicas", "acesso ao conhecimento cientifico", "caderno aberto de laboratorio", "ciencia colaborativa", "compartir datos", "comunicaçao cientifica aberta", "cultura participatoria", "dados abiertos", "dados cientificos abertos", "dados de investigaçao abertos", "dados de pesquisas", "data journals", "digital data curation", "engajamento público na ciencia", "infraestrutura da ciencia aberta", "modelo de publicaçao", "objetivos do desenvolvimento sustentavel", "parceria para governo aberto", "politica de ciencia e tecnologia", "politicas de auto arquivo", "politicas de ciencia aberta na fiocruz", "projeto blimunda", "projeto rcaap", "re3data", "repositorio comum", "reutilizacion", "sustainable development goals", "tecnologias livres", "a mudança de paradigma na publicaçao cientifica", "abertura e compartilhamento de dados de pesquisa", "academia aberta (projetos)", "aula aberta", "autoralidade colaborativa", "avaliaçao aberta por pares", "avaliaçao participativa", "avaliaçao por pares aberta", "boas praticas e inovações na gestao de revistas cientificas", "buen conocer", "caderno aberto de laboratorio cidadao", "cadernos cientificos abertos", "cadernos de pesquisa abertos", "ciencia aberta (movimento)", "ciencia aberta e qualidade de revistas cientificas", "compartilhamento de artigos cientificos", "compartilhamento e abertura de dados para pesquisa da fiocruz", "conhecimento compartilhado", "democratizacion de la ciencia", "diretorio de repositorios", "diretorio de repositorios digitais", "diretrizes de ciencia aberta", "diretrizes para repositorio de dados abert", "ediçao em livre acesso", "editoraçao academica", "editoraçao de publicações cientificas", "etica na avaliaçao por pares", "fair data", "fiopgd", "fit4rri", "flok society", "free and open source hardware", "gestao fair", "gestor de repositorio", "grupo de trabalho de ciencia aberta (gtca)", "hardware aberto", "indicador de colaboraçao", "instrumentos da ciencia aberta", "investigaçao colaborativa", "investigacion abierta", "laboratorio ciencia aberta (open science laboratory)", "laboratorio de ciencia aberta", "metricas em repositorios", "modelo de governança", "open access model", "openaire connect", "openaire provide", "opendata", "orcid/ciencia id", "parceria para governo aberto", "periodicos tecnico-cientificos", "pesquisa aberta", "pesquisa e inovaçao responsavel", "plano de açao nacional para o governo aberto", "plataforma aberta da web", "politica de ciencia aberta na fiocruz", "politica de dados para pesquisa", "politica de governança de dados", "politica nacional de ciencia aberta", "politicas de acesso aberto ao conhecimento", "politicas e diretrizes de ciencia aberta da fiocruz", "praticas de cidadania e comunidade", "pre-publicaçao", "produçao aberta", "projeto aberto", "projeto fairsfair", "pros e contra a praticas de ciencia aberta", "pubfair", "quarto paradigma cientifico", "rede go fair", "rede norte de repositorios institucionais", "redes cooperativas", "repositorio de dados abertos", "repositorio institucional da ufra", "reúso de dados de pesquisa", "revisao aberta", "revisao aberta por pares", "revisao de dados", "transparencia cientifica");
+
+        for ($r = 0; $r < count($t); $r++) {
+            $term = $t[$r];
+            echo '===>' . $term . cr().'<br>';
+            sleep(5);
+            $this->lattes_search_result($term);
+        }
+        exit;
+    }
+
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
     {
         $sx = '';
         $sx .= h(lang('tools.Lattes_tools'), 2);
 
         switch ($d1) {
+            case 'robot':
+                $sx .= $this->robot();
+                break;
             case 'search':
                 $sx .= $this->lattes_search_form($d2, $d3, $d4);
                 $sx .= $this->lattes_search_result($d2, $d3, $d4);
@@ -62,7 +79,7 @@ class Index extends Model
         return $sx;
     }
 
-    function lattes_search_extrai_nome($txt)
+    function lattes_search_extrai_nome($txt,$term='')
     {
         $key = '';
         $sx = '';
@@ -92,10 +109,9 @@ class Index extends Model
                 }
             }
 
-            if (strpos($line, $search2))
-                {
-                    $percent = strip_tags($line);
-                }
+            if (strpos($line, $search2)) {
+                $percent = strip_tags($line);
+            }
 
             if (strpos($line, $search1)) {
                 $line = substr($line, strpos($line, $search1) + strlen($search1), strlen($line));
@@ -118,52 +134,41 @@ class Index extends Model
                 $next = true;
             }
         }
-        $file = 'lattes_' . date("Ymd_His") . '.xls'    ;
+        $file = 'lattes_' . date("Ymd_His") . '.csv';
 
-        $sr = '<table class="table">';
-        $sr .= '<tr>
-                    <th>' . msg('brapci.IDK') . '</th>
-                    <th>' . msg('brapci.name') . '</th>
-                    <th>' . msg('brapci.name_asc') . '</th>
-                    <th>' . msg('brapci.id') . '</th>
-                    <th>' . msg('brapci.description') . '</th>
-                    <th>' . msg('brapci.approximation') . '</th>
-                </tr>';
-
-        foreach($rst as $id=>$line)
-            {
-                $sr .= '<tr>';
-                $sr .= '<td>' . $id . '</td>';
-                $sr .= '<td>'.$line['name'].'</td>';
-                $sr .= '<td>'.$line['name_asc'].'</td>';
-                $sr .= '<td>'.$line['ids'].'</td>';
-                $sr .= '<td>'.$line['desc'].'</td>';
-                $sr .= '<td>' . $line['perc'] . '</td>';
-                $sr .= '</tr>';
-            }
-        $sr .= '</table>';
+        $sr = '';
+        foreach ($rst as $id => $line) {
+            $sr .= $id . ';';
+            $sr .= $line['name'] . ';';
+            $sr .= $line['name_asc'] . ';';
+            $sr .= $line['ids'] . ';';
+            $sr .= $line['desc'] . ';';
+            $sr .= $line['perc'] . ';';
+            $sr .= $term . ';';
+            $sr .= cr();
+        }
         dircheck('.tmp/');
         dircheck('.tmp/Lattes/');
         dircheck('.tmp/Lattes/Export/');
-        $file  = '.tmp/Lattes/Export/'.$file;
-        file_put_contents($file,utf8_decode($sr));
+        $file  = '.tmp/Lattes/Export/' . $file;
+        file_put_contents($file, utf8_decode($sr));
 
-        $sx .= h('total: '.count($rst),3);
+        $sx .= h('total: ' . count($rst), 3);
 
-        $sx .= '<a href="'.URL.'/'.$file.'" class="btn btn-primary">'.msg('brapci.export').'</a>';
+        $sx .= '<a href="' . URL . '/' . $file . '" class="btn btn-primary">' . msg('brapci.export') . '</a>';
         $sx .= $sr;
 
         return $sx;
     }
 
-    function lattes_search_result()
+    function lattes_search_result($t)
     {
-        $term = get("term");
+        $term = get("term") . $t;
         $sx = '';
 
         /*********************  */
         if ($term != '') {
-            $termURL = '""'.ascii(urlencode($term)).'""';
+            $termURL = '""' . ascii(urlencode($term)) . '""';
             $url = '';
             $url .= 'https://buscatextual.cnpq.br/buscatextual/busca.do?';
             $url .= 'metodo=forwardPaginaResultados';
@@ -177,7 +182,7 @@ class Index extends Model
             $sx .= '<hr>' . urldecode($url);
             $sx .= '<hr>' . '<textarea style="width:100%; height:190px;">' . $url . '</textarea>';
 
-            $file = md5($url).'.txt';
+            $file = md5($url) . '.txt';
             dircheck('.tmp/');
             dircheck('.tmp/Lattes/');
             dircheck('.tmp/Lattes/Inport/');
@@ -189,7 +194,7 @@ class Index extends Model
                 $txt = file_get_contents($url);
                 file_put_contents($file, $txt);
             }
-            $sx = $this->lattes_search_extrai_nome($txt);
+            $sx = $this->lattes_search_extrai_nome($txt,$term);
         }
 
 
