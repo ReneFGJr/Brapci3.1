@@ -148,6 +148,8 @@ class Index extends Model
         $file  = '.tmp/Lattes/Export/'.$file;
         file_put_contents($file,utf8_decode($sr));
 
+        $sx .= h('total: '.count($rst),3);
+
         $sx .= '<a href="'.URL.'/'.$file.'" class="btn btn-primary">'.msg('brapci.export').'</a>';
         $sx .= $sr;
 
