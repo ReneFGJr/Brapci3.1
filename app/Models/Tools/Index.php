@@ -75,6 +75,7 @@ class Index extends Model
         $menu[URL . '/tools/'] = 'Home';
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
+        $menu[URL . '/tools/lattes/search'] = lang('tools.lattes_search');
         $menu['#' . lang('tools.NLP')] = lang('tools.nlp_tools');
         $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
         $sx = menu($menu);
@@ -83,16 +84,7 @@ class Index extends Model
 
     function lattes($d1,$d2,$d3,$d4)
         {
-            $sx = '';
-            $sx .= h(lang('tools.Lattes_tools'),2);
-
-            switch($d1)
-                {
-                    default:
-                        $Projects = new \App\Models\Tools\Projects();
-                        $sx .= $Projects->my_projects($d1,$d2,$d3,$d4);
-                        break;
-                }
-            return $sx;
+            $Lattes = new \App\Models\Lattes\Index();
+            return $Lattes->index($d1,$d2,$d3,$d4);
         }
 }

@@ -38,6 +38,9 @@ class MainPages extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'services':
+                $sx .= $this->services();
+                break;
             case 'saveMark':
                 $Mark = new \App\Models\Base\Mark();
                 $sx .= $Mark->saveMark();
@@ -127,6 +130,18 @@ class MainPages extends BaseController
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
+
+    function services()
+        {
+            $sx = '';
+            $menu[PATH.'/tools'] = lang('brapci.service_lattes');
+            foreach($menu as $link => $name)
+                {
+                    $sx .= '<a href="'.$link.'" class="btn btn-ouline-primary m-2">'.$name.'</a>';
+                }
+            $sx = bs(bsc($sx,12));
+            return $sx;
+        }
 
     function v($id)
         {
