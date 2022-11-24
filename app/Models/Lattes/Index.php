@@ -133,7 +133,7 @@ class Index extends Model
         foreach($rst as $id=>$line)
             {
                 $sr .= '<tr>';
-                $sr .= '<td>' . $key . '</td>';
+                $sr .= '<td>' . $id . '</td>';
                 $sr .= '<td>'.$line['name'].'</td>';
                 $sr .= '<td>'.$line['name_asc'].'</td>';
                 $sr .= '<td>'.$line['ids'].'</td>';
