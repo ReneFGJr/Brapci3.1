@@ -163,7 +163,7 @@ class Index extends Model
 
         /*********************  */
         if ($term != '') {
-            $termURL = '""'.urlencode($term).'""';
+            $termURL = '""'.ascii(urlencode($term)).'""';
             $url = '';
             $url .= 'https://buscatextual.cnpq.br/buscatextual/busca.do?';
             $url .= 'metodo=forwardPaginaResultados';
