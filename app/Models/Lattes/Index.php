@@ -151,7 +151,7 @@ class Index extends Model
         dircheck('.tmp/Lattes/');
         dircheck('.tmp/Lattes/Export/');
         $file  = '.tmp/Lattes/Export/' . $file;
-        file_put_contents($file, utf8_decode($sr));
+        file_put_contents($file, ($sr));
 
         $sx .= h('total: ' . count($rst), 3);
 
