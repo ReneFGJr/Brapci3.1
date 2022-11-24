@@ -167,7 +167,7 @@ class Index extends Model
             $url = '';
             $url .= 'https://buscatextual.cnpq.br/buscatextual/busca.do?';
             $url .= 'metodo=forwardPaginaResultados';
-            $url .= '&registros=0;2000';
+            $url .= '&registros=0;20000';
             $url .= '&query=%28%2Bidx_assunto%3A%28%22' . $termURL . '%22%29++%2Bidx_nacionalidade%3Ae%29+or+%28%2Bidx_assunto%3A%28%22' . $termURL . '%22%29++%2Bidx_nacionalidade%3Ab+%5E500+%29';
             $url .= '&analise=cv';
             $url .= '&tipoOrdenacao=null';
