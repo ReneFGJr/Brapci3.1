@@ -113,6 +113,45 @@ class Issues extends Model
         return $sx;
     }
 
+    function issues($id=0)
+        {
+            $Sources = new \App\Models\Base\Sources();
+            $ds = $Sources->find($id);
+
+            $id = round($id);
+            $dt = $this->where("is_source",$id)
+                ->orderBy('is_year','DESC')
+                ->orderBy('is_vol','DESC')
+                ->orderBy('is_issue','DESC')
+                ->findAll();
+
+            $sx = '';
+            $sx .= $Sources->journal_header($ds);
+            $sx .= '<hr>';
+
+            for ($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $sa = '';
+                    $sa .= bsc($line['is_year'],2);
+                    $sa .= bsc($line['is_vol'],2);
+                    $sa .= bsc($line['is_place'],2);
+                    $sa .= bsc($line['is_thema'],6);
+                    $sx .= bs($sa);
+                }
+
+            $sx .= $this->btn_new_issue($id);
+            return $sx;
+        }
+
+    function btn_new_issue($id)
+        {
+            $sx = '';
+            $sx .= '<a href="'.base_url(PATH.COLLECTION.'/issues/edit/0?jid='.$id).'" class="btn btn-primary">';
+            $sx .= msg('new_issue');
+            $sx .= '</a>';
+            return $sx;
+        }
     function listidentifiers($id)
         {
             $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
@@ -180,12 +219,21 @@ class Issues extends Model
 
     function show_list_cards($id, $default_img = URL . 'img/issue/issue_00000.png')
     {
+        $sx = '';
+        $Social = new \App\Models\Socials();
+        if ($Social->getAccess("#ADM"))
+            {
+            $sx .= '<div class="container"><div class="row">';
+            $link = '<a href="'.PATH.COLLECTION.'/issues/'.$id.'" class="btn btn-primary">'.bsicone('plus').'</a>';
+            $sx .= bsc($link);
+            $sx .= '</div></div>';
+            }
         $dt = $this
             ->where('is_source', $id)
             ->orderBy('is_year desc, is_nr desc')
             ->findAll();
 
-        $sx = '<div class="container"><div class="row">';
+        $sx .= '<div class="container"><div class="row">';
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
             $sa = '';
@@ -231,7 +279,6 @@ class Issues extends Model
 
     function issue($id)
     {
-        $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $dt = $this
             ->join('source_source', 'is_source = id_jnl')
             ->where('id_is', round($id))
@@ -251,8 +298,9 @@ class Issues extends Model
                 $this->RDFIssue($dt);
                 exit;
             }
+
         $sx .= $this->header_issue($dt);
-        $sx .= $IssuesWorks->check($dt);
+
         return $sx;
     }
 
@@ -315,6 +363,15 @@ class Issues extends Model
 
     function header_issue($dt)
     {
+        $dir = './tmp/issues/';
+        $file = strzero($dt['id_jnl'],4).'-'.strzero($dt['is_source_issue'],6).'.name';
+        if (file_exists($dir.$file))
+            {
+                $sx = file_get_contents($dir.$file);
+                return $sx;
+            }
+            echo "OPS";
+            exit;
         $tools = '';
         $Socials = new \App\Models\Socials();
         if ($Socials->getAccess("#CAR#ADM")) {
@@ -368,10 +425,18 @@ class Issues extends Model
         $sx .= bsc('<img src="'.URL.'/'. $img2 . '" class="text-end" style="max-height: 80px;">', 5,'text-end');
         $sx .= bsc('<img src="' . URL . '/' . $img1 . '" class="img-fluid" style="width: 100%">', 3);
 
-
         /**************************** */
         $sx = bs($sx);
         $id_issue_rdf = $dt['is_source_issue'];
+
+        $dir = './tmp/';
+        dircheck($dir);
+        $dir = './tmp/issues/';
+        dircheck($dir);
+        file_put_contents($dir.$file,$sx);
+
+        $IssuesWorks = new \App\Models\Base\IssuesWorks();
+        $sx .= $IssuesWorks->check($dt);
         return $sx;
     }
 }

@@ -79,18 +79,22 @@ class Benancib extends BaseController
             case 'v':
                 $RDF = new \App\Models\Rdf\RDF();
                 $Metadata = new \App\Models\Base\Metadata();
-                $dt = $RDF->le($subact); 
-                
+                $dt = $RDF->le($subact);
+
                 $data['metadata'] = $Metadata->dc($dt);
                 $data['page_title'] = strip_tags($Metadata->title);
                 $sx = '';
                 $sx .= view('Brapci/Headers/header', $data);
-                $sx .= view('Benancib/Headers/navbar', $data);                                
+                $sx .= view('Benancib/Headers/navbar', $data);
                 $sx .= $this->v($dt);
                 break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();
                 $sx .= $Issues->index($subact,$id);
+                break;
+            case 'issues':
+                $Issues = new \App\Models\Base\Issues();
+                $sx .= $Issues->issues($subact, $id);
                 break;
             case 'admin':
                 $ADMIN = new \App\Models\Base\Admin\Index();
@@ -112,13 +116,9 @@ class Benancib extends BaseController
 
             case 'statistics':
                 $sa = '';
-                $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
-                $sa .= bsc(view('Benancib/Pages/statistics', $data), 12);
-                $data['height'] = 100;
+                $sa .= bsc(view('Grapho/Sankey', $data), 12);
                 $sb = '';
-                $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
-                $sb .= bsc('', 4, 'mt-5');
-                $sb .= bsc(view('Logos/logo_ppgcin_ufrgs.php', $data), 4, 'text-center mt-5');
+
                 $sx .= bs($sa . $sb);
                 break;
             default:
@@ -148,7 +148,7 @@ class Benancib extends BaseController
 
             case 'Proceeding':
                 $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($dt);                
+                $sx .= $Work->show($dt);
                 break;
 
             case 'ProceedingSection':
