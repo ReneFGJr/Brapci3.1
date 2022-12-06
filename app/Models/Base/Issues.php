@@ -363,16 +363,21 @@ class Issues extends Model
 
     function header_issue($dt)
     {
-        $dir = './tmp/issues/';
+        $dir = '.tmp';
+        dircheck($dir);
+        $dir = '.tmp/issues/';
+        dircheck($dir);
         $file = strzero($dt['id_jnl'],4).'-'.strzero($dt['is_source_issue'],6).'.name';
+
         if (file_exists($dir.$file))
             {
                 $sx = file_get_contents($dir.$file);
                 return $sx;
             }
-            echo "OPS";
-            exit;
+
         $tools = '';
+
+        /************************************* HARVESTING */
         $Socials = new \App\Models\Socials();
         if ($Socials->getAccess("#CAR#ADM")) {
             $tools = '';
@@ -395,6 +400,8 @@ class Issues extends Model
             $tools .= '<span class="p-2"></span>';
             $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32),'title="Edit"');
         }
+
+        /************************************ Mount Header */
         $sx = '';
         $vol = $dt['is_vol'];
         $roman = trim($dt['is_vol_roman']);
@@ -429,11 +436,7 @@ class Issues extends Model
         $sx = bs($sx);
         $id_issue_rdf = $dt['is_source_issue'];
 
-        $dir = './tmp/';
-        dircheck($dir);
-        $dir = './tmp/issues/';
-        dircheck($dir);
-        file_put_contents($dir.$file,$sx);
+        //file_put_contents($dir.$file,$sx);
 
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $sx .= $IssuesWorks->check($dt);

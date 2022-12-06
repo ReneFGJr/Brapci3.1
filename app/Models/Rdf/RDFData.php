@@ -245,11 +245,6 @@ class RDFData extends Model
 
 	function le($id)
 	{
-		$this->join('rdf_name', 'd_literal = rdf_name.id_n', 'LEFT');
-		$this->join('rdf_class', 'rdf_data.d_p = rdf_class.id_c', 'LEFT');
-		$this->join('rdf_prefix', 'rdf_class.c_prefix = rdf_prefix.id_prefix', 'LEFT');
-
-		//rderBy('rdf_class.c_class, rdf_name.n_name');
 		$sql = "select ";
 		$sql .= " DISTINCT
     		rdf_name.id_n, rdf_name.n_name, rdf_name.n_lang,
@@ -271,6 +266,8 @@ class RDFData extends Model
 
 		$sql .= "where (d_r1 = $id) OR (d_r2 = $id)";
 		$sql .= "order by c_class, d_r1, d_r2, n_name";
+
+
 		$dt = (array)$this->db->query($sql)->getResult();
 		for ($r = 0; $r < count($dt); $r++) {
 			$dt[$r] = (array)$dt[$r];
