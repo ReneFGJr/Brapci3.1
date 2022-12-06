@@ -56,7 +56,7 @@ return [
         'authors' => 'Autores',
         'sections ' => 'Seções',
         'keyword' => 'Palavras-chave',
-        '' => '',
+        'workds' => 'trabalhos',
         '' => '',
         '' => '',
         '' => '',
