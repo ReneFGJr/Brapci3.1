@@ -56,11 +56,14 @@ class RdfFormVC extends Model
 					for($r=0;$r < count($dt);$r++)
 						{
 							$ln = (array)$dt[$r];
-							pre($ln);
 							$idx = $ln['id_cc'];
 							$pref = '';
-							if ($ln['cc_use'] > 0) { $idx = $ln['cc_use']; $pref = '(UP)'; }
-							$name = $ln['n_name'] . $pref;
+							if ($ln['cc_use'] > 0)
+								{
+									$idx = $ln['cc_use'];
+									$pref = ' <i>(UP)</i>';
+								}
+							$name = trim($ln['n_name']) . $pref;
 							if (strpos($name,'#')) { $name = substr($name,0,strpos($name,'#')); }
 							$sx .= '<option value="'.$idx.'">'.$name.'</option>'.cr();
 						}
