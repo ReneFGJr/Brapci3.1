@@ -61,17 +61,10 @@ class Index extends Model
 			case 'import_lattes':
 				$tela .= $this->import_lattes($d2, $d3);
 				break;
-			case 'resumeCreate':
-				$this->resumeCreate();
-				break;
-			case 'LattesFindId':
-				$AuthotityIds = new \App\Models\Authority\AuthotityIds();
-				$tela .= $AuthotityIds->LattesFindID($d2);
-				break;
 			case 'viewid':
 				$AuthorityNames = new \App\Models\Authority\AuthorityNames();
 				$tela .= $AuthorityNames->viewid($d2);
-				break;				
+				break;
 			case 'viewidRDF':
 				$this->Person = new \App\Models\Authority\Person();
 				$tela .= $this->Person->viewid($d2);
@@ -82,7 +75,7 @@ class Index extends Model
 			case 'edit':
 				$AuthorityNames = new \App\Models\Authority\AuthorityNames();
 				$tela .= $AuthorityNames->edit($d2);
-				break;				
+				break;
 			case 'import_api_brapci':
 				$tela .= $this->import_api_brapci($d2);
 				break;
@@ -134,14 +127,14 @@ class Index extends Model
 											$sx .= bsmessage('Update LattesID: '.$idlattes);
 										}
 								} else {
-									$sx .= bsmessage('Multiples LattesID');		
+									$sx .= bsmessage('Multiples LattesID');
 								}
 						} else {
 							$sx .= bsmessage('Already Update LattesID');
 						}
 				} else {
 					$sx .= bsmessage('Authority not seted!');
-				}	
+				}
 			return $sx;
 		}
 
@@ -174,14 +167,14 @@ class Index extends Model
 											$sx .= bsmessage('Update LattesID: '.$idlattes);
 										}
 								} else {
-									$sx .= bsmessage('Multiples LattesID');		
+									$sx .= bsmessage('Multiples LattesID');
 								}
 						} else {
 							$sx .= bsmessage('Already Update LattesID');
 						}
 				} else {
 					$sx .= bsmessage('Authority not seted!');
-				}	
+				}
 			return $sx;
 		}
 
@@ -200,11 +193,11 @@ class Index extends Model
 		$AuthorityNames->summaryCreate();
 	}
 
-	
+
 	function tableview()
 	{
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-		$AuthorityNames->path = PATH. 'res/authority';
+		$AuthorityNames->path = PATH. COLLECTION;
 		$tela = tableView($AuthorityNames);
 
 		return $tela;

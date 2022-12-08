@@ -101,11 +101,11 @@ class AuthorityNames extends Model
 					if ($line['cc_use'] > 0) {
 						if ($line['cc_use'] != $id_brapci) {
 							echo "AmBIGUO";
-							pre($da);							
+							pre($da);
 							exit;
 						}
 					} else {
-						if ($line['id_cc'] != $id_brapci) {							
+						if ($line['id_cc'] != $id_brapci) {
 							echo "AmBIGUO 2";
 							pre($da);
 							exit;
@@ -161,7 +161,7 @@ class AuthorityNames extends Model
 		return $sx;
 	}
 
-	
+
 
 	function remissive($id)
 	{
@@ -185,8 +185,7 @@ class AuthorityNames extends Model
 		$Country = new \App\Models\Authority\Country();
 		$RDF = new \App\Models\Rdf\RDF();
 
-		$dt = $this->le($id);		
-
+		$dt = $this->le($id);
 		if ($dt['a_brapci'] > 0) {
 			$dr = $RDF->le($dt['a_brapci']);
 			if ($dr['concept']['cc_use'] > 0)
@@ -200,7 +199,7 @@ class AuthorityNames extends Model
 			$sx = h($dt['a_prefTerm'], 1);
 			$sx .= bsmessage(lang('brapci.redirect_brapci'));
 			$sx .= bsmessage(lang('brapci.wait'));
-			$sx .= metarefresh(PATH . 'res/v/' . $dt['a_brapci'],0);
+			//$sx .= metarefresh(PATH . 'res/v/' . $dt['a_brapci'],0);
 			return $sx;
 			exit;
 		}

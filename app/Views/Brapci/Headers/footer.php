@@ -43,6 +43,9 @@ if (!isset($bg)) {
                     <li>
                         <a href="<?= PATH; ?>/books" class="text-white">Brapci Livros</a>
                     </li>
+                    <li>
+                        <a href="<?= PATH; ?>/autoridade" class="text-white">Autoridades</a>
+                    </li>
                     <?php
                     if ($ADM == true) {
                         echo '<li>';
@@ -90,12 +93,11 @@ if (!isset($bg)) {
                         if ($bg == 'bg-livros') {
                         }
 
-                        foreach ($logo1 as $img=>$url)
-                            {
-                                echo '<a href="'.$url.'" target="_new">';
-                                echo '<img src="'.$img.'" style="height: 50px;" class="m-2">';
-                                echo '</a>';
-                            }
+                        foreach ($logo1 as $img => $url) {
+                            echo '<a href="' . $url . '" target="_new">';
+                            echo '<img src="' . $img . '" style="height: 50px;" class="m-2">';
+                            echo '</a>';
+                        }
 
                         foreach ($logo2 as $img => $url) {
                             echo '<a href="' . $url . '" target="_new">';
