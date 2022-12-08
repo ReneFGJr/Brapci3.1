@@ -79,6 +79,9 @@ class Bolsas extends Model
 
 	function historic_researcher($id)
 	{
+		$Socials = new \App\Models\Socials();
+		$access = $Socials->getAccess("#ADM");
+
 		$dt = $this
 			->join('modalidades', 'id_mod = bs_tipo', STR_PAD_LEFT)
 			->where('bb_person', $id)
@@ -89,10 +92,18 @@ class Bolsas extends Model
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			$year = substr($line['bs_start'], 0, 4);
+			if ($access == true)
+			{
 			$link = onclick(URL . '/popup/pq_bolsa_edit/?id='.$line['id_bb'], 800, 400);
 			$linka = '</span>';
 			$link_del = confirm(URL . '/popup/pq_bolsa_delete/?id='.$line['id_bb'], 800, 400);
 			$linka_del = '</span>';
+			} else {
+				$link = '';
+				$link_del = '';
+				$linka = '';
+				$linka_del = '';
+			}
 			/************************************** */
 			$edit = '<div style="float: right;">';
 			$edit .= $link_del . bsicone('trash', 20) . $linka_del;
