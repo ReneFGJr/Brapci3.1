@@ -49,7 +49,7 @@ class RdfFormVC extends Model
 			$q = get("q");
 			$sx .= $q;
 			$sx .= $d2;
-			if (strlen($q) >=3)
+			if (strlen($q) >=1)
 				{
 					//$sx .= '<option value="">Buscando ... '.$q.'</option>'.cr();
 					$dt = $RDFConcept->like($q,$d1,$limit);

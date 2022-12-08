@@ -43,7 +43,7 @@ class RDFConcept extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function like($t,$class,$limit=30)
+	function like($t,$class,$limit=80)
 		{
 			if ($class=='')
 				{
@@ -61,6 +61,7 @@ class RDFConcept extends Model
 			$sql = "select $cp from ".$this->table." ";
 			$sql .= "left join rdf_name ON cc_pref_term = rdf_name.id_n";
 			$sql .= " where (cc_class = ".$class.') ';
+			$sql .= " and (n_name like '".substr($t,0,1)."%') ";
 			$sql .= " and (n_name like '%".$t."%') ";
 			$sql .= " order by n_name";
 			$sql .= " limit $limit";
