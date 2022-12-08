@@ -89,7 +89,7 @@ class RDF extends Model
 						echo $sx;
 						exit;
 					case 'search':
-						echo '===>'.$d4;
+						echo '==search=>'.$d4;
 						$sx = view('Brapci/Headers/header', $data);
 						$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
 						$sx = '';
@@ -289,7 +289,7 @@ class RDF extends Model
 				break;
 			case 'class':
 				$sx = $cab;
-				echo '===>' . $d2;
+				echo '==class=>' . $d2;
 				$RDFClass = new \App\Models\Rdf\RDFClass();
 				$sx .= $RDFClass->list('C');
 				break;
