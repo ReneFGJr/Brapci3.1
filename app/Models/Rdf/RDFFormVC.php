@@ -56,6 +56,7 @@ class RdfFormVC extends Model
 					for($r=0;$r < count($dt);$r++)
 						{
 							$ln = (array)$dt[$r];
+							pre($ln);
 							$idx = $ln['id_cc'];
 							$pref = '';
 							if ($ln['cc_use'] > 0) { $idx = $ln['cc_use']; $pref = '(UP)'; }
