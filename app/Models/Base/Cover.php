@@ -48,7 +48,14 @@ class Cover extends Model
                     $img = trim($dt['n_name2']);
                 }
             $img = $RDF->c($id);
-            $place = $_SERVER['DOCUMENT_ROOT'] . '/'.$img;
+            $place = $img;
+            if (substr($img,0,4) == 'http')
+                {
+                    $place = troca($img,PATH,'');
+                } else {
+                    $place = $img;
+                }
+
             if (!file_exists($img))
                 {
                     echo h($place);
