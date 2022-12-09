@@ -60,11 +60,8 @@ class Cover extends Model
                     $place = $img;
                 }
 
-            if (!file_exists($img))
+            if (!file_exists($place))
                 {
-                    echo h($place);
-
-                    pre($_SERVER);
                     $img = '/img/books/no_cover.png';
                 }
             return $img;
