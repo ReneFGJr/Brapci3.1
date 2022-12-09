@@ -48,9 +48,11 @@ class Cover extends Model
                     $img = trim($dt['n_name2']);
                 }
             $img = $RDF->c($id);
+            $place = $_SERVER['DOCUMENT_ROOT'] . '/'.$img;
             if (!file_exists($img))
                 {
-                    echo h($img);
+                    echo h($place);
+
                     pre($_SERVER);
                     $img = '/img/books/no_cover.png';
                 }
