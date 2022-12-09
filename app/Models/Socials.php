@@ -113,9 +113,6 @@ class Socials extends Model
 			case 'session':
 				if ($_SERVER['CI_ENVIRONMENT'] == 'development') {
 					$id = 1;
-					echo '<pre>';
-					print_r($_SESSION);
-					echo '</pre>';
 					$newdata = [
 						'id'  => $id,
 						'email'     => 'Usuário Test (ADMIN)',
@@ -124,10 +121,6 @@ class Socials extends Model
 					];
 					$session = session();
 					$session->set($newdata);
-
-					echo '<pre>';
-					print_r($_SESSION);
-					echo '</pre>';
 				}
 				break;
 			case 'test':

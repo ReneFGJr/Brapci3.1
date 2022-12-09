@@ -89,11 +89,6 @@ a:hover {
   text-align: end;
 }
 
-body
-  {
-    margin-top: 80px;
-  }
-
 .bullet {
   border-radius: 10px;
   border: 1px solid #aaa;

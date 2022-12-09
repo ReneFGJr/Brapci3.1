@@ -68,8 +68,6 @@ class Book extends Model
 
     function showHTML($dt)
     {
-        echo "ok";
-        exit;
         $sx = view('RDF/work', $dt);
         return $sx;
     }

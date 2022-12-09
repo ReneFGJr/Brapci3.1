@@ -231,7 +231,7 @@ class Index extends Model
 			$lns = explode(chr(10), $txt);
 			$tot = 0;
 			$ini = round($ini);
-			echo '<h1>' . $ini . '</h1>';
+			$tela .= '<h1>' . $ini . '</h1>';
 			for ($r = ($ini + 1); $r < count($lns); $r++) {
 				$tot++;
 				if ($tot > 30) {

@@ -77,12 +77,11 @@ class Metadata extends Model
                     case 'cc_created':
                         $date = $value;
                         $m .= '<meta name="DC.Date.created" scheme="ISO8601" content="' . $date . '"/>' . cr();
-                        
+
                         $this->let('citation_date', $value);
                         break;
 
                     default:
-                        //echo '====>' . $class . '==>' . $value . '<br>';
                         break;
                 }
             }
@@ -98,11 +97,11 @@ class Metadata extends Model
                 $value = $line['n_name2'];
                 $lang = $line['n_lang2'];
                 $valueO = $line['n_name'];
-                $langO = $line['n_lang'];                
+                $langO = $line['n_lang'];
 
                 switch ($class) {
                     case 'Identifier.DOI':
-                        $this->let('DC.Description', $value.'##xml:lang='.$lang);                                            
+                        $this->let('DC.Description', $value.'##xml:lang='.$lang);
                         break;
                     case 'hasAbstract':
                         $this->let('DC.Description', $valueO.'@'.$langO);
@@ -121,28 +120,27 @@ class Metadata extends Model
                             } else {
                                 $this->let('DC.Title.Alternative', $valueO);
                             }
-                        
+
                         break;
                     case 'hasSubject':
                         $this->let('DC.Subject', $value);
                         $this->let('keywords', $value);
-                        break;                        
+                        break;
                     default:
-                        //echo '====>' . $class . '==>' . $value . '<br>';
+
                         break;
                 }
             }
         }
-        
+
         foreach($this->metadata as $meta=>$value)
             {
                 for($v=0;$v < count($value);$v++)
                     {
                         $vlr = $value[$v];
                         $m .= '<meta name="'.$meta.'" content="'.$vlr.'"/>'.cr();
-                    }                
+                    }
             }
         return $m;
     }
 }
-

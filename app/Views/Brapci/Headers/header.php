@@ -8,9 +8,7 @@ if (!isset($GOOGLEID)) {
     $GOOGLEID = 'UA-12713129-1';
 }
 $data['GOOGLEID'] = $GOOGLEID;
-?>
-
-<head>
+?><head>
     <title><?= $page_title; ?> </title>
 
     <meta name="google-site-verification" content="VZpzNVBfl5kOEtr9Upjmed96smfsO9p4N79DZT38toA" />

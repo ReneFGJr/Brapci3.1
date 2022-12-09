@@ -46,10 +46,13 @@ class Cover extends Model
             if ((isset($dt['n_name2'])) and (trim($dt['n_name2']) != ''))
                 {
                     $img = trim($dt['n_name2']);
-
                 }
             $img = URL.'/img/books/no_cover.png';
             $img = $RDF->c($id);
+            if (!file_exists($img))
+                {
+                    $img = '/img/books/no_cover.png';
+                }
             return $img;
         }
 

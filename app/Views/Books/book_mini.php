@@ -6,7 +6,7 @@ require("book_metadata.php");
 <div class="container-a2">
     <ul class="caption-style-2">
         <li>
-            <img src=" <?= $cover; ?>" class="img-fluidx" style="width: 100%;">
+            <img src=" <?= $cover; ?>" class="img-fluid" style="width: 100%;">
             <div class="caption">
                 <div class="blur"></div>
                 <div class="caption-text">

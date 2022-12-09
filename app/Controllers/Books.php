@@ -26,7 +26,8 @@ class Books extends BaseController
         $data['bg'] = 'bg-brapcilivros';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Benancib/Headers/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar_books', $data);
+
 
         $q = get("query");
         if (strlen($q) > 0) {
@@ -114,7 +115,6 @@ class Books extends BaseController
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
-        echo h($class);
 
         switch ($class) {
             case 'Subject':

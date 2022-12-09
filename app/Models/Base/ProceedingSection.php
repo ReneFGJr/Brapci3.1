@@ -53,7 +53,7 @@ class ProceedingSection extends Model
                 $idf = $line['d_r1'];
                 $sx .= '<p>'.$RDF->c($idf).'</p>';
             } else {
-                //echo '<br>===>'.$class;
+
             }
         }
         $sx .= bs(bsc($sx, 10));

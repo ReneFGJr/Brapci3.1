@@ -170,11 +170,6 @@ class Index extends Model
                                 }
                         }
                     $rlt[$r] = $line;
-                    /*
-                    echo '<pre>';
-                    print_r($line);
-                    echo '<br>';
-                    */
                 }
             return($rlt);
         }

@@ -68,6 +68,12 @@ class Index extends Model
 
     function admin($s = '', $a = '')
     {
+        $Socials = new \App\Models\Socials();
+        $user = $Socials->getAccess("#ADM");
+        if ($user == 0) {
+            return $Socials->access_denied();
+            exit;
+        }
         $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
         $sx = '';
         $sx .= $TechinalProceessing->resume();

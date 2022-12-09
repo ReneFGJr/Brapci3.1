@@ -9,7 +9,7 @@ $pag = '';
 $editora = '';
 $lugar = '';
 $data = '';
-$cover = 'img/books/no_cover.png';
+$cover = '/img/books/no_cover.png';
 $id_cc = 0;
 for ($r = 0; $r < count($book); $r++) {
     $line = $book[$r];
@@ -72,3 +72,5 @@ if ($id_cc > 0)
     $link = '<a href="#" onclick="alert(\'ERRO DE ACESSO\');">';
     $linka = '</a>';
 }
+
+echo '<br>'.$cover;

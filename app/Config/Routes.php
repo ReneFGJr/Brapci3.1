@@ -37,6 +37,9 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 /********** DOWNLOAD */
+$routes->get('/catalog', 'Catalog::index');
+
+/********** DOWNLOAD */
 $routes->get('/download', 'Download::index');
 $routes->get('/download/(:any)', 'Download::download/$1');
 
