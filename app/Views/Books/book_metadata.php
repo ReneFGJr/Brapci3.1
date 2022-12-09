@@ -15,6 +15,8 @@ for ($r = 0; $r < count($book); $r++) {
     $line = $book[$r];
     $class = $line['c_class'];
 
+    //echo $class.'<br>';
+
     switch ($class) {
         case 'hasLanguageExpression':
             $idioma .= $line['n_name2'] . ' ';;
@@ -48,6 +50,13 @@ for ($r = 0; $r < count($book); $r++) {
             }
             $authors .= trim($line['n_name2']);
             break;
+        case 'hasOrganizator':
+            if ($authors != '') {
+                $authors .= '; ';
+            }
+            $authors .= trim($line['n_name2']);
+            break;
+
         case 'hasISBN':
             if ($isbn != '') {
                 $isbn .= '<br>';
