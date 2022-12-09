@@ -23,11 +23,41 @@ foreach ($subject as $lang => $value) {
         </div>
 
         <div class="col-8">
+            <span class="btn btn-primary btn-sm"><?= $class; ?></span>
             <h1 class="text-center"><?= $titles; ?></h1>
             <h5 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h5>
-            <p><?= $isbn; ?></p>
+
+            <div class="container-fluid" style="background-color: #eee;">
+                <div class="row">
+                    <div class="col-3">
+                        <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
+                    </div>
+
+                    <div class="col-3">
+                        <p><b>Editora</b>
+                            <br /><?= $editora_local; ?>
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Ano da publicação</b>
+                            <br /><?= $year; ?>
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Idioma</b>
+                            <br /><?= $idioma; ?>
+                        </p>
+                    </div>
+
+                    <div class="col-3">
+                        <p><b>Páginas</b>
+                            <br /><?= $pages; ?>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <p><?= $idioma; ?></p>
-            <p>Editora: <?= $editora; ?></p>
             <p>Palavras-chave: <?= $subs; ?></p>
             <p>Data: <?= $year; ?></p>
             <p>Pages: <?= $pages; ?></p>
@@ -49,6 +79,9 @@ foreach ($subject as $lang => $value) {
                     echo view('Brapci/Base/PDFno', $data);
                 }
             }
+
+            $WishList = new \App\Models\WishList\Index();
+            echo $WishList->wishlist($id_cc);
             ?>
         </div>
     </div>

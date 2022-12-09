@@ -52,6 +52,7 @@ class Work extends Model
     function show($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $ISBN = new \App\Models\ISBN\Index();
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $sx = '';
         if (!is_array($dt)) {
@@ -83,6 +84,7 @@ class Work extends Model
         $da['pages'] = '';
         $da['editora_local'] = '';
         $da['links'] = '';
+        $da['class'] = lang('brapci.'.$dt['concept']['c_class']);
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
@@ -91,10 +93,10 @@ class Work extends Model
             $class = trim($line['c_class']);
             switch ($class) {
                 case 'isPlaceOfPublication':
-                    $da['editora_local'] .= $RDF->c($line['d_r1']) . '$';
+                    $da['editora_local'] .= $RDF->c($line['d_r2']).' ';
                     break;
                 case 'hasPage':
-                    $da['pages'] .= $RDF->c($line['d_r1']). ' ';
+                    $da['pages'] .= $RDF->c($line['d_r2']). ' ';
                     break;
                 case 'hasLanguageExpression':
                     $da['idioma'] .= $RDF->c($line['d_r1']);
@@ -106,13 +108,16 @@ class Work extends Model
                     $da['classification']['CDD'] = $RDF->c($line['d_r1']);
                     break;
                 case 'dateOfPublication':
-                    $da['year'] = $RDF->c($line['d_r1']);
+                    $da['year'] = $RDF->c($line['d_r2']);
                     break;
                 case 'hasISBN':
-                    $da['isbn'] .= $RDF->c($line['d_r1']);
+                    $isbn = $ISBN->format($RDF->c($line['d_r1']));
+                    if (strpos($da['isbn'], $isbn) === false) {
+                        $da['isbn'] .= $isbn . ' ';
+                    }
                     break;
                 case 'isPublisher':
-                    $da['editora'] .= $RDF->c($line['d_r1']);
+                    $da['editora'] .= $RDF->c($line['d_r2']);
                     break;
                 case 'hasIssueProceedingOf':
                     $da['issue'] = $RDF->c($line['d_r1']);
@@ -218,6 +223,8 @@ class Work extends Model
                 $sx .= view('Brapci/Base/Work', $da);
                 break;
         }
+
+        //pre($da,false);
         return $sx;
     }
 

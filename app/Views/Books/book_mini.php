@@ -14,7 +14,7 @@ require("book_metadata.php");
                     <br>
                     <i><?= $authors; ?></i>
                     <br>
-                    (<?= $data; ?>)
+                    (<?= trim($data); ?>)
                 </div>
             </div>
         </li>

@@ -57,7 +57,7 @@ return [
         'sections ' => 'Seções',
         'keyword' => 'Palavras-chave',
         'works' => 'trabalhos',
-        '' => '',
+        'Book' => 'LIVRO',
         '' => '',
         '' => '',
         '' => '',
