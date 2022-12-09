@@ -72,5 +72,3 @@ if ($id_cc > 0)
     $link = '<a href="#" onclick="alert(\'ERRO DE ACESSO\');">';
     $linka = '</a>';
 }
-
-echo '<br>'.$cover;
