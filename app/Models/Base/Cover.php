@@ -52,6 +52,10 @@ class Cover extends Model
             if (substr($img,0,4) == 'http')
                 {
                     $place = troca($img,PATH,'');
+                    if (substr($place,0,1) == '/')
+                        {
+                            $place = substr($place,1,strlen($place));
+                        }
                 } else {
                     $place = $img;
                 }
