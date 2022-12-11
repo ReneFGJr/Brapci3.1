@@ -62,8 +62,9 @@ class Index extends Model
 
             $data['loginGoofle'] = $google_client->createAuthUrl();
 
-            pre($data);
-            echo '<a href="'.$data['loginGoofle'].'">Login with Google</a>';
+            $sx = '<a href="'.$data['loginGoofle'].'">Login with Google</a>';
+            echo $sx;
+            return $sx;
 
         }
 }
