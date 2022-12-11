@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'oauth2':
+                $Oauth2 = new \App\Models\Oauth2\Index();
+                $sx = $Oauth2->OAUTH2();
+                break;
             case 'events':
                 $Event = new \App\Models\Functions\Event();
                 $sx .= $Event->index($subact, $id);
@@ -108,6 +112,9 @@ class Index extends Model
 
         $m['#EVENT_CARDS'] =  lang('brapci.event_cards');
         $m[PATH .  '/admin/events'] =  lang('brapci.event_cards');
+
+        $m['#OAUTH2'] =  lang('brapci.event_cards');
+        $m[PATH .  '/admin/oauth2'] =  lang('brapci.oauth2');
 
         $m['#CONFIG'] =  lang('brapci.Email');
         $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');

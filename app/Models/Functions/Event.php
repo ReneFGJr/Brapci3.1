@@ -50,6 +50,9 @@ class Event extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    var $path = '';
+    var $path_back = '';
+
     function index($d1='',$d2='',$d3='')
         {
             $this->path = PATH. COLLECTION.'/events';

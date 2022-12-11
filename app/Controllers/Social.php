@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 
-$this->session = \Config\Services::session();
+///* SESSION */
 $language = \Config\Services::language();
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr','sessions','cookie']);
@@ -29,7 +29,7 @@ class Social extends BaseController
         $act .= get("cmd");
         $data['page_title'] = 'Brapci - Login IDP';
         $sx = view('Brapci/Headers/header',$data);
-        $sx .= view('Brapci/Headers/navbar',$data);        
+        $sx .= view('Brapci/Headers/navbar',$data);
         $Socials = new \App\Models\Socials();
         switch ($act)
             {
@@ -43,7 +43,7 @@ class Social extends BaseController
                     $sa .= $Socials->index($act,$subact,$id);
                     break;
             }
-       
+
         $sx .= bs(bsc($sa,12));
         $sx .= view('Brapci/Headers/footer',$data);
 
