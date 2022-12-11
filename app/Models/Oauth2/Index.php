@@ -49,7 +49,7 @@ class Index extends Model
     function OAUTH2()
         {
 
-            require_once APPPATH.'libraries/vendor/autoload.php';
+            require_once APPPATH.'Libraries/vendor/autoload.php';
             $google_ID = getenv("GoogleID");
             $google_PW = getenv("GoodleSecret");
 
