@@ -50,7 +50,7 @@ class Index extends Model
 
     function index($act, $subact, $id, $id2)
         {
-            $sx = '';
+            $sx = '<div class="container-fluid" style="height: 120px"></div>' . cr();
             switch($subact)
                 {
                     case 'repository':
