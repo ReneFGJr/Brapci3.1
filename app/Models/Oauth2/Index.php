@@ -46,9 +46,16 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function oauth2_feedback()
+        {
+            pre($_POST,false);
+            pre($_GET,false);
+            exit;
+        }
+
     function OAUTH2()
         {
-
+            /* https://www.youtube.com/watch?v=VDBJMS4zl8I */
             require_once APPPATH.'Libraries/vendor/autoload.php';
             $google_ID = getenv("GoogleID");
             $google_PW = getenv("GoodleSecret");
@@ -56,7 +63,7 @@ class Index extends Model
             $google_client = new \Google_Client();
             $google_client->setClientID($google_ID);
             $google_client->setClientSecret($google_PW);
-            $google_client->setRedirectUri(PATH.'oauth2');
+            $google_client->setRedirectUri(PATH.'social/oauth2/?cmd=oauth2&');
             $google_client->addScope('email');
             $google_client->addScope('profile');
 

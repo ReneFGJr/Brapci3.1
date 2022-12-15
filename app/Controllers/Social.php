@@ -24,6 +24,7 @@ class Social extends BaseController
             $sx = $Socials->ajax($act);
             return $sx;
         }
+
     public function index($act='',$subact='',$id='')
     {
         $act .= get("cmd");
@@ -33,6 +34,11 @@ class Social extends BaseController
         $Socials = new \App\Models\Socials();
         switch ($act)
             {
+                case 'oauth2':
+                    $Oauth2 = new \App\Models\Oauth2\Index();
+                    $Oauth2->oauth2_feedback();
+                    break;
+                    //return redirect('MainPages::index');
                 case 'logout':
                     $Socials->logout();
                     return redirect('MainPages::index');
