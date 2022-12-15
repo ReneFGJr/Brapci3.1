@@ -98,17 +98,22 @@ class Bolsas extends Model
 			$linka = '</span>';
 			$link_del = confirm(URL . '/popup/pq_bolsa_delete/?id='.$line['id_bb'], 800, 400);
 			$linka_del = '</span>';
+
+				$edit = '<div style="float: right;">';
+				$edit .= $link_del . bsicone('trash', 20) . $linka_del;
+				$edit .= $link . bsicone('edit', 20) . $linka;
+				$edit .= '</div>';
+
 			} else {
 				$link = '';
 				$link_del = '';
 				$linka = '';
 				$linka_del = '';
+
+				$edit = '';
 			}
 			/************************************** */
-			$edit = '<div style="float: right;">';
-			$edit .= $link_del . bsicone('trash', 20) . $linka_del;
-			$edit .= $link . bsicone('edit', 20) . $linka;
-			$edit .= '</div>';
+
 			/************************************** */
 			$sx .= '
 					<div class="card mb-2" style="width: 100%;">
