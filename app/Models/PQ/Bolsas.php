@@ -147,6 +147,7 @@ class Bolsas extends Model
 
 	function year_summary($tp = 0)
 		{
+			$AI_geo = new \App\Models\AI\Geo\Institution\Index();
 			$sx = '';
 			$RDF = new \App\Models\Rdf\RDF();
 			$data = date("Y-m-y");
@@ -160,7 +161,7 @@ class Bolsas extends Model
 			$inst = array();
 			$tipo = array();
 			$venc = array();
-			$states = array();
+			$geo = array();
 
 			for ($r=0;$r < count($dt);$r++)
 				{
@@ -180,6 +181,11 @@ class Bolsas extends Model
 					/************** Vencimento */
 					if (!isset($venc[$YEAR])) { $venc[$YEAR] = 0; }
 					$venc[$YEAR] = $venc[$YEAR] + 1;
+
+					/************* GEO */
+					$GEO = $AI_geo->code($BS_IES);
+					if (!isset($geo[$GEO])) { $geo[$GEO] = 0; }
+					$geo[$GEO] = $geo[$GEO] + 1;
 				}
 
 			$sx .= '<table class="table">';
@@ -211,6 +217,12 @@ class Bolsas extends Model
 
 
 			$sx .= '<td width="55%">';
+			$states['title'] = 'Bolsistas PQ ativos por Estado';
+			$states['data'] = '';
+			foreach($geo as $key => $value)
+				{
+					$states['data'] .= "['".$key."', ".$value."],";
+				}
 			$sx .= view('HighChart/geo_brazil',$states);
 			$sx .= '</td>';
 
