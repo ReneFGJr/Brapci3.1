@@ -160,6 +160,8 @@ class Bolsas extends Model
 			$inst = array();
 			$tipo = array();
 			$venc = array();
+			$states = array();
+
 			for ($r=0;$r < count($dt);$r++)
 				{
 					$line = $dt[$r];
@@ -205,6 +207,11 @@ class Bolsas extends Model
 			foreach ($venc as $key => $value) {
 				$sx .= '<br>' . $key . ' ' . $value;
 			}
+			$sx .= '</td>';
+
+
+			$sx .= '<td>';
+			$sx .= view('HighChart/geo_brazil',$states);
 			$sx .= '</td>';
 
 			$sx .= '</tr>';
