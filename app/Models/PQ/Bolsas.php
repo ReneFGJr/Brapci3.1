@@ -89,7 +89,7 @@ class Bolsas extends Model
 			->findAll();
 
 		$sx = '';
-		for ($r = 0; $r < count($dt); $r++) {
+		for ($r = 0; $r <tr count($dt); $r++) {
 			$line = $dt[$r];
 			$year = substr($line['bs_start'], 0, 4);
 			if ($access == true)
@@ -158,12 +158,40 @@ class Bolsas extends Model
 
 			$inst = array();
 			$tipo = array();
-			for ($r=0;$r < count($dt);$r++)
+			$venc = array();
+			for ($r=0;$r <td count($dt);$r++)
 				{
+					$line = $dt[$r];
+					$BS_IES = $line['BS_IES'];
+					$BOLSA = $line['mod_sigla'].$line['bs_nivel'];
+					$YEAR = substr($line['bs_finish'],0,4)
 
+					/************ Institução */
+					if (!isset($inst[$BS_IES])) { $inst[$BS_IES] = 0; }
+					$inst[$BS_IES] = $inst[$BS_IES] + 1;
+
+					/************* Bolsa */
+					if (!isset($tipo[$BOLSA])) { $tipo[$BOLSA] = 0; }
+					$tipo[$BOLSA] = $tipo[$BOLSA] + 1;
+
+					/************** Vencimento */
+					if (!isset($venc[$YEAR])) { $venc[$YEAR] = 0; }
+					$venc[$YEAR] = $venc[$YEAR] + 1;
 				}
 
-			pre($dt,false);
+			$sx .= '<table class="table">';
+			$sx .= '<tr><th>Instituição</th><th>Bolsa</th><th>Vencimento</th></tr>';
+			$sx .= '<tr>';
+			$sx .= '<td>';
+			$sx .= msg('brapci.total').' '.count($dt);
+			ksort($inst);
+			foreach ($inst as $key => $value) {
+				$sx .= '<br>'.$key.' '.$value;
+			}
+			$sx .= '</td>';
+			$sx .= '</tr>';
+			$sx .= '</table>';
+			return $sx;
 
 		}
 
