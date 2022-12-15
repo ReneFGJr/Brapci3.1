@@ -89,7 +89,7 @@ class Bolsas extends Model
 			->findAll();
 
 		$sx = '';
-		for ($r = 0; $r <tr count($dt); $r++) {
+		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			$year = substr($line['bs_start'], 0, 4);
 			if ($access == true)
