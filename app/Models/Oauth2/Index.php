@@ -63,7 +63,7 @@ class Index extends Model
             $google_client = new \Google_Client();
             $google_client->setClientID($google_ID);
             $google_client->setClientSecret($google_PW);
-            $google_client->setRedirectUri(PATH.'social/oauth2/');
+            $google_client->setRedirectUri(PATH.'social/oauth2/?cmd=oauth2&');
             $google_client->addScope('email');
             $google_client->addScope('profile');
 
