@@ -190,6 +190,23 @@ class Bolsas extends Model
 				$sx .= '<br>'.$key.' '.$value;
 			}
 			$sx .= '</>';
+
+			$sx .= '<td>';
+			$sx .= msg('brapci.total') . ' ' . count($dt);
+			ksort($tipo);
+			foreach ($tipo as $key => $value) {
+				$sx .= '<br>' . $key . ' ' . $value;
+			}
+			$sx .= '</td>';
+
+			$sx .= '<td>';
+			$sx .= msg('brapci.total') . ' ' . count($dt);
+			ksort($venc);
+			foreach ($venc as $key => $value) {
+				$sx .= '<br>' . $key . ' ' . $value;
+			}
+			$sx .= '</td>';
+
 			$sx .= '</tr>';
 			$sx .= '</table>';
 			return $sx;
