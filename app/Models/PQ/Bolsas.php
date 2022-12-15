@@ -147,6 +147,7 @@ class Bolsas extends Model
 
 	function year_summary($tp = 0)
 		{
+			$sx = '';
 			$RDF = new \App\Models\Rdf\RDF();
 			$data = date("Y-m-y");
 			$this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
@@ -159,12 +160,12 @@ class Bolsas extends Model
 			$inst = array();
 			$tipo = array();
 			$venc = array();
-			for ($r=0;$r <td count($dt);$r++)
+			for ($r=0;$r < count($dt);$r++)
 				{
 					$line = $dt[$r];
 					$BS_IES = $line['BS_IES'];
 					$BOLSA = $line['mod_sigla'].$line['bs_nivel'];
-					$YEAR = substr($line['bs_finish'],0,4)
+					$YEAR = substr($line['bs_finish'],0,4);
 
 					/************ Institução */
 					if (!isset($inst[$BS_IES])) { $inst[$BS_IES] = 0; }
@@ -188,7 +189,7 @@ class Bolsas extends Model
 			foreach ($inst as $key => $value) {
 				$sx .= '<br>'.$key.' '.$value;
 			}
-			$sx .= '</td>';
+			$sx .= '</>';
 			$sx .= '</tr>';
 			$sx .= '</table>';
 			return $sx;
