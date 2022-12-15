@@ -65,6 +65,7 @@ class Index extends Model
             'UFSCAR'=>'sp',
             'UFC'=>'ce',
             'UFAL'=>'al',
+            'UFS'=>'se',
 
             );
 

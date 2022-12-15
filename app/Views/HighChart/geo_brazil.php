@@ -31,7 +31,7 @@ if (!isset($header_highchart))
         // Prepare demo data. The data is joined to map using value of 'hc-key'
         // property by default. See API docs for 'joinBy' for more info on linking
         // data and map.
-        const data = [ {$data} ];
+        const data = [ <?=$data;?> ];
 
         // Create the chart
         Highcharts.mapChart('go_brazil', {
