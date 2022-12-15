@@ -42,6 +42,7 @@ class Index extends Model
 
     function code($name)
         {
+            $name = trim(uppercaseSQL($name));
             $uf = array('IBICT'=>'rj',
             'UFMG'=>'mg',
             'UFF'=>'rj',
