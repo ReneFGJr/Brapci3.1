@@ -145,6 +145,28 @@ class Bolsas extends Model
 		return $sx;
 	}
 
+	function year_summary($tp = 0)
+		{
+			$RDF = new \App\Models\Rdf\RDF();
+			$data = date("Y-m-y");
+			$this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
+				->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person');
+			if ($tp == 1) {
+				$this->where("bs_finish >= '" . $data . "'");
+			}
+			$dt = $this->findAll();
+
+			$inst = array();
+			$tipo = array();
+			for ($r=0;$r < count($dt);$r++)
+				{
+
+				}
+
+			pre($dt,false);
+
+		}
+
 	function year_list($tp = 0)
 	{
 		$RDF = new \App\Models\Rdf\RDF();

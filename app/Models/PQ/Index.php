@@ -199,6 +199,7 @@ class Index extends Model
 	{
 		$Bolsa = new \App\Models\PQ\Bolsas();
 		$sx = '';
+		$sx = $Bolsa->year_summary(1);
 		$sx = $Bolsa->year_list(1);
 		return $sx;
 	}
