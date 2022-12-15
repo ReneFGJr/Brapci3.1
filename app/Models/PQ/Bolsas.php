@@ -163,7 +163,7 @@ class Bolsas extends Model
 			for ($r=0;$r < count($dt);$r++)
 				{
 					$line = $dt[$r];
-					$BS_IES = $line['BS_IES'];
+					$BS_IES = UpperCaseSQL($line['BS_IES']);
 					$BOLSA = $line['mod_sigla'].$line['bs_nivel'];
 					$YEAR = substr($line['bs_finish'],0,4);
 
