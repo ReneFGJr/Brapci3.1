@@ -10,8 +10,8 @@ if (!isset($header_highchart))
 <style>
     #container {
         height: 500px;
-        min-width: 310px;
-        max-width: 800px;
+        min-width: 410px;
+        max-width: 600px;
         margin: 0 auto;
     }
 
@@ -44,7 +44,7 @@ if (!isset($header_highchart))
             },
 
             subtitle: {
-                text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/br/br-all.topo.json">Brazil</a>'
+                text: 'Source: Brapci PQ - <?=date("Y");?>'
             },
 
             mapNavigation: {
