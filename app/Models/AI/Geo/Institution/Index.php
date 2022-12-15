@@ -42,15 +42,26 @@ class Index extends Model
 
     function code($name)
         {
-            switch($name)
-                {
-                    case 'UFRGS':
-                        return 'br-rs';
+            $uf = array('IBICT'=>'rj',
+            'UFMG'=>'mg',
+            'UFF'=>'rj',
+            'UFSC'=>'sc',
+            'UNB'=> 'df',
+            'UNICAMP'=>'sp',
+            'UNIFESP'=>'sp',
+            'UNIRIO'=>'rj',
+            'UNISINOS'=>'rs',
+            'UFPE'=>'pe',
+            'UFBA'=>'ba',
+            'UNESP'=>'sp',
+            );
 
-                    default:
-                        echo $name.'<hr>';
-                        return 'br-df';
-                        break;
+            if (isset($uf[$name]))
+                {
+                    return($uf[$name]);
+                } else {
+                    return('xx');
                 }
+
         }
 }
