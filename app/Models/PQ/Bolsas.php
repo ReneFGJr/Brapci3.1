@@ -185,7 +185,7 @@ class Bolsas extends Model
 			$sx .= '<table class="table">';
 			$sx .= '<tr><th>Instituição</th><th>Bolsa</th><th>Vencimento</th></tr>';
 			$sx .= '<tr>';
-			$sx .= '<td>';
+			$sx .= '<td width="15%">';
 			$sx .= msg('brapci.total').' '.count($dt);
 			ksort($inst);
 			foreach ($inst as $key => $value) {
@@ -193,7 +193,7 @@ class Bolsas extends Model
 			}
 			$sx .= '</>';
 
-			$sx .= '<td>';
+			$sx .= '<td width="15%">';
 			$sx .= msg('brapci.total') . ' ' . count($dt);
 			ksort($tipo);
 			foreach ($tipo as $key => $value) {
@@ -201,7 +201,7 @@ class Bolsas extends Model
 			}
 			$sx .= '</td>';
 
-			$sx .= '<td>';
+			$sx .= '<td width="15%">';
 			$sx .= msg('brapci.total') . ' ' . count($dt);
 			ksort($venc);
 			foreach ($venc as $key => $value) {
@@ -210,7 +210,7 @@ class Bolsas extends Model
 			$sx .= '</td>';
 
 
-			$sx .= '<td>';
+			$sx .= '<td width="55%">';
 			$sx .= view('HighChart/geo_brazil',$states);
 			$sx .= '</td>';
 
