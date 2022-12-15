@@ -55,6 +55,17 @@ class Index extends Model
             'UFPE'=>'pe',
             'UFBA'=>'ba',
             'UNESP'=>'sp',
+            'FUMEC-MG'=>'mg',
+            'UFPB'=>'pb',
+            'UFRJ'=>'rj',
+            'USP'=>'sp',
+            'UFRGS'=>'rs',
+            'CNEN'=>'rj',
+            'FIOCRUZ'=>'rj',
+            'UFSCAR'=>'sp',
+            'UFC'=>'ce',
+            'UFAL'=>'al',
+
             );
 
             if (isset($uf[$name]))
