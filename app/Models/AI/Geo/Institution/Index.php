@@ -61,6 +61,7 @@ class Index extends Model
                 {
                     return($uf[$name]);
                 } else {
+                    echo "Error: $name<br>";
                     return('xx');
                 }
 
