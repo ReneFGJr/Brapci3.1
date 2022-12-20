@@ -76,7 +76,10 @@ class MercadoEditorial extends Model
 
         if (!$erro) {
             $dt = (array)json_decode($head);
-            pre($dt);
+            if (count($dt) == 0)
+                {
+                    return array();
+                }
             $dts = (array)$dt['status'];
             if ($dts['code'] == '101') {
                 return array();
