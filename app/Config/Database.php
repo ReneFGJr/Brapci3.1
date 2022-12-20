@@ -240,5 +240,8 @@ class Database extends Config
         $this->patent['username'] = getenv('database.default.username');
         $this->patent['password'] = getenv('database.default.password');
 
+        $this->pgcd['username'] = getenv('database.default.username');
+        $this->pgcd['password'] = getenv('database.default.password');
+
     }
 }
