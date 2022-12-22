@@ -227,6 +227,38 @@ class AuthorityNames extends Model
 		return $sx;
 	}
 
+	function header($dt)
+		{
+		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
+		$Country = new \App\Models\Place\Country\Index();
+		$Photo = new \App\Models\Authority\Photo();
+
+			$sx = '';
+			$ids = 'Lattes | Brapci | OrcID | VIAF | ISNI';
+
+			$sx .= h($dt['a_prefTerm'],1);
+			$sx = bsc($sx,12,'mt-5');
+
+			pre($dt,false);
+			/********** IDS */
+			$sx .= bsc($AuthotityIds->ids($dt), 9);
+				// a_brapci
+				// a_lattes
+				// a_orcid
+				// a_genere
+				// a_use
+
+
+			/********* FLAG COUNTRY */
+			$sx .= bsc($Country->flag($dt['a_country'],'fluid'),1);
+
+			/********** PHOTO */
+			$sx .= bsc($Photo->image($dt),2);
+
+
+			return $sx;
+		}
+
 	function le($id)
 	{
 		$this->where('id_a', $id);

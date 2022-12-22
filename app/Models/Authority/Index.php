@@ -51,53 +51,54 @@ class Index extends Model
 	{
 		//$this->setDatabase('brapci_authority');
 
-		$tela = '';
+		$sx = '';
 		switch ($d1) {
 			case 'findid':
-				$tela .= h(lang('brapci.findid'),3);
-				$tela .= $this->findId($d2, $d3);
-				$tela .= metarefresh(PATH.'res/authority/viewid/'.$d2.'/');
+				$sx .= h(lang('brapci.findid'),3);
+				$sx .= $this->findId($d2, $d3);
+				$sx .= metarefresh(PATH.'res/authority/viewid/'.$d2.'/');
 				break;
 			case 'import_lattes':
-				$tela .= $this->import_lattes($d2, $d3);
+				$sx .= $this->import_lattes($d2, $d3);
 				break;
 			case 'viewid':
 				$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-				$tela .= $AuthorityNames->viewid($d2);
+				$dt = $AuthorityNames->le($d2);
+				$sx .= $AuthorityNames->header($dt);
 				break;
 			case 'viewidRDF':
 				$this->Person = new \App\Models\Authority\Person();
-				$tela .= $this->Person->viewid($d2);
+				$sx .= $this->Person->viewid($d2);
 				break;
 			case 'list':
-				$tela .= $this->tableview();
+				$sx .= $this->tableview();
 				break;
 			case 'edit':
 				$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-				$tela .= $AuthorityNames->edit($d2);
+				$sx .= $AuthorityNames->edit($d2);
 				break;
 			case 'import_api_brapci':
-				$tela .= $this->import_api_brapci($d2);
+				$sx .= $this->import_api_brapci($d2);
 				break;
 			case 'import':
 				$this->id = 0;
 				$this->path = base_url(PATH . '/index/import');
-				$tela .= form($this);
-				$tela .= $this->import_buttons();
+				$sx .= form($this);
+				$sx .= $this->import_buttons();
 				$url = get('authority_url');
-				$tela .= '';
+				$sx .= '';
 				if ($url != '') {
-					$tela = h($url, 2);
-					$tela .= $this->inport_brapci($url);
+					$sx = h($url, 2);
+					$sx .= $this->inport_brapci($url);
 				}
 				break;
 
 			default:
-				$tela .= $this->tableview();
+				$sx .= $this->tableview();
 				break;
 		}
-		$tela = bs($tela);
-		return $tela;
+		$sx = bs($sx);
+		return $sx;
 	}
 
 	function findId($id)
@@ -180,11 +181,11 @@ class Index extends Model
 
 	function import_lattes($d1, $ida)
 	{
-		$tela = '';
+		$sx = '';
 		$Lattes = new \App\Models\Lattes\LattesXML();
-		$tela = $Lattes->xml($d1,$ida);
-		//$tela = metarefresh(PATH.'index/viewid/'.$ida);
-		return $tela;
+		$sx = $Lattes->xml($d1,$ida);
+		//$sx = metarefresh(PATH.'index/viewid/'.$ida);
+		return $sx;
 	}
 
 	function resumeCreate()
@@ -198,9 +199,9 @@ class Index extends Model
 	{
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
 		$AuthorityNames->path = PATH. COLLECTION;
-		$tela = tableView($AuthorityNames);
+		$sx = tableView($AuthorityNames);
 
-		return $tela;
+		return $sx;
 	}
 
 	/******************************************************************************************/
@@ -215,7 +216,7 @@ class Index extends Model
 
 	function import_api_brapci($ini = 0)
 	{
-		$tela = '';
+		$sx = '';
 		$file = '.tmp/authors/authors_api_brapci.csv';
 		if (!file_exists($file)) {
 			$url = 'https://brapci.inf.br/ws/api/?verb=authors';
@@ -225,17 +226,17 @@ class Index extends Model
 			file_put_contents($file, $txt);
 		}
 
-		$tela .= h(lang('Processing') . ' ' . $file, 5);
+		$sx .= h(lang('Processing') . ' ' . $file, 5);
 		if (file_exists($file)) {
 			$txt = file_get_contents($file);
 			$lns = explode(chr(10), $txt);
 			$tot = 0;
 			$ini = round($ini);
-			$tela .= '<h1>' . $ini . '</h1>';
+			$sx .= '<h1>' . $ini . '</h1>';
 			for ($r = ($ini + 1); $r < count($lns); $r++) {
 				$tot++;
 				if ($tot > 30) {
-					$tela .= metarefresh(base_url(PATH . '/index/import_api_brapci/' . $r));
+					$sx .= metarefresh(base_url(PATH . '/index/import_api_brapci/' . $r));
 					break;
 				}
 				$l = $lns[$r];
@@ -243,20 +244,20 @@ class Index extends Model
 
 				if (count($l) == 2) {
 					$idp = $this->author($l[0], $l[1], 0);
-					$tela .= '<br>' . $l[0] . ' - ' . $idp;
+					$sx .= '<br>' . $l[0] . ' - ' . $idp;
 				}
 			}
 		}
-		return $tela;
+		return $sx;
 	}
 
 	/******************************************************************************************/
 	function author($name, $URI, $up = 1)
 	{
-		$tela = '';
+		$sx = '';
 		$name = strip_tags($name);
 		if (strlen($name) > 0) {
-			$tela .= '<h2>' . $name . '</h2>';
+			$sx .= '<h2>' . $name . '</h2>';
 			$AuthorityNames = new \App\Models\Authority\AuthorityNames();
 			$AuthorityNames->where('a_uri', $URI);
 			$dt = $AuthorityNames->findAll();
@@ -267,7 +268,7 @@ class Index extends Model
 				$dt['a_class'] = 'P';
 				$dt['a_prefTerm'] = $name;
 				$AuthorityNames->insert($dt);
-				$tela .= '<h5>' . lang('authority.appended') . '</h5>';
+				$sx .= '<h5>' . lang('authority.appended') . '</h5>';
 			} else {
 				if ($up == 1) {
 					$dt = $dt[0];
@@ -275,9 +276,9 @@ class Index extends Model
 						$AuthorityNames->set('a_prefTerm', $name);
 						$AuthorityNames->where('id_a', $dt['id_a']);
 						$AuthorityNames->update();
-						$tela .= '<h5>' . lang('authority.updated') . '</h5>';
+						$sx .= '<h5>' . lang('authority.updated') . '</h5>';
 					} else {
-						$tela .= '<h5>' . lang('authority.already_insired') . '</h5>';
+						$sx .= '<h5>' . lang('authority.already_insired') . '</h5>';
 					}
 				}
 			}
@@ -291,7 +292,7 @@ class Index extends Model
 		$RDF = new \App\Models\RDF();
 		$RDF->DBGroup = 'auth';
 
-		$tela = '';
+		$sx = '';
 		$URI = '';
 		$file = md5($url) . 'rdf';
 		dircheck('.tmp');
@@ -319,7 +320,7 @@ class Index extends Model
 			}
 
 			if (isset($l[2])) {
-				//$tela .= $l[1].'=>'.$l[2].'<hr>';
+				//$sx .= $l[1].'=>'.$l[2].'<hr>';
 			}
 
 			if (isset($l[1]) and ($l[1] == 'dc:affiliatedWith')) {
@@ -344,7 +345,7 @@ class Index extends Model
 		$taff .= '</ul>';
 
 
-		$tela .= $taff;
-		return $tela;
+		$sx .= $taff;
+		return $sx;
 	}
 }

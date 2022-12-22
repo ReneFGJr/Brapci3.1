@@ -42,6 +42,31 @@ class AuthotityIds extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function IDs($dt)
+		{
+			$sx = '';
+			$lattes = $dt['a_lattes'];
+			if ($lattes != '')
+				{
+					$sx .= $this->lattesID(($lattes));
+				}
+			return $sx;
+		}
+
+	function lattesID($id,$type='icone')
+		{
+			$link = 'http://lattes.cnpq.br/'.$id;
+			$sx = '<a href="'.$link.'" target="_new">';
+			switch($type)
+				{
+					default:
+						$img = PATH.'img/icons/logo_lattes_mini.png';
+						$sx .= '<img src="'.$img.'" style="height: 32px;">';
+				}
+			$sx .= '</a>';
+			return $sx;
+		}
+
 	function LattesFindID($id)
 		{
 			$tela = '';

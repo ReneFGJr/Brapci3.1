@@ -17,17 +17,18 @@ class Authority extends BaseController
 {
     public function index($act = '', $subact = '', $id = '', $id2 = '')
     {
-        $ResearchData = new \App\Models\Authority\Index();
+        $Authority = new \App\Models\Authority\Index();
         $data['page_title'] = '[Authority] Brapci Dados de Pesquisa';
         $data['bg'] = 'bg-authority';
 
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Ai/Header/navbar', $data);
+
         switch ($act) {
 
             default:
-                $sx .= $ResearchData->index($act, $subact, $id, $id2);
+                $sx .= $Authority->index($act, $subact, $id, $id2);
                 break;
         }
 
