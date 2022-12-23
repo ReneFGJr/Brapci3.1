@@ -160,6 +160,7 @@ $routes->post('/patente/(:any)', 'Patente::index/$1');
 $routes->get('/autoridade/(:any)', 'Authority::index/$1');
 $routes->get('/autoridade', 'Authority::index');
 $routes->post('/autoridade/(:any)', 'Authority::index/$1');
+$routes->post('/autoridade', 'Authority::index/');
 
 /********* Observatorio */
 $routes->get('/observatorio/(:any)', 'Observatorio::index/$1');
