@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Index extends Model
 {
 	protected $DBGroup              = 'default';
-	protected $table                = '*';
-	protected $primaryKey           = 'id';
+	public $table                	= 'brapci_authority.AuthorityNames';
+	protected $primaryKey           = 'id_a';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
 	protected $returnType           = 'array';
@@ -47,12 +47,19 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($d1, $d2, $d3, $d4)
+	function index($d1, $d2='', $d3='', $d4='')
 	{
 		//$this->setDatabase('brapci_authority');
 
 		$sx = '';
 		switch ($d1) {
+			case 'bot_remissive':
+				$sx .= 'Hello remissive';
+				break;
+			case 'bot_collaboration':
+				$Collaboration = new \App\Models\Authority\Collaboration();
+				$sx .= $Collaboration->check_next();
+				break;
 			case 'findid':
 				$sx .= h(lang('brapci.findid'),3);
 				$sx .= $this->findId($d2, $d3);
@@ -61,10 +68,10 @@ class Index extends Model
 			case 'import_lattes':
 				$sx .= $this->import_lattes($d2, $d3);
 				break;
-			case 'viewid':
-				$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-				$dt = $AuthorityNames->le($d2);
-				$sx .= $AuthorityNames->header($dt);
+			CASE 'viewid':
+				$this->Person = new \App\Models\Authority\Person();
+				$dt = $this->where('id_a',$d2)->first();
+				$sx .= $this->Person->viewid($dt['a_brapci']);
 				break;
 			case 'viewidRDF':
 				$this->Person = new \App\Models\Authority\Person();

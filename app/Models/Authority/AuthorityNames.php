@@ -308,11 +308,11 @@ class AuthorityNames extends Model
 	function edit($id)
 	{
 		$this->id = $id;
-		$this->path = base_url(PATH . MODULE .  '/patent/authority/edit/' . $id);
+		$this->path = base_url(PATH . COLLECTION .  '/edit/' . $id);
 		if ($id > 0) {
-			$this->path_back = base_url(PATH . MODULE .  '/index/viewid/' . $id);
+			$this->path_back = base_url(PATH . COLLECTION .  '/viewid/' . $id);
 		} else {
-			$this->path_back = base_url(PATH . MODULE .  '/index/');
+			$this->path_back = base_url(PATH . COLLECTION .  '/index/');
 		}
 
 		$tela = form($this);

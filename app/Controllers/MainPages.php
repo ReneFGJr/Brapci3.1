@@ -160,6 +160,10 @@ class MainPages extends BaseController
 
             switch($class)
                 {
+                    case 'Person':
+                        $Authority = new \App\Models\Authority\Index();
+                        $sx = $Authority->index('viewidRDF',$id);
+                        break;
                     case 'journal':
                         $sx = $RDF->journal($id);
                         break;
@@ -172,7 +176,7 @@ class MainPages extends BaseController
                         $sx = $Work->show($id);
                         break;
                     default:
-                        $sx = 'Class not found - '.$class;
+                        $sx = bs(bsc('Class not found - '.$class,12));
                         break;
                 }
                 return($sx);

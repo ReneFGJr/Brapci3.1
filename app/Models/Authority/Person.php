@@ -53,7 +53,7 @@ function remissive($id)
 	{
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
 		$this->Socials = new \App\Models\Socials();
-		$Lattes = new \App\Models\Lattes\Lattes();
+		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
 		$sx = '';
 		$sx .= '<div class="col-md-2 text-right text-end" style="border-right: 4px solid #8080FF;">
 				<tt style="font-size: 100%;">Person</tt>
@@ -70,8 +70,8 @@ function remissive($id)
 				$dt['a_prefTerm'] = $name;
 			}
 
-		$sa = h($dt['a_prefTerm'].'<sup>'.$nameID.'</sup>',4);
-		$sa .= $Lattes->link($dt,30);
+		$sa = h($dt['a_prefTerm'].' <sup style="font-size: 0.5em;">('.$nameID.')</sup>',4);
+		$sa .= $AuthotityIds->lattesID($dt['a_lattes'],30);
 		if  ($this->Socials->getAccess("#ADM"))
 			{
 				$sa .= $this->btn_check($dt,30);
@@ -136,19 +136,19 @@ function image($dt)
 		switch($genere)
 			{
 				case 'M':
-				$file = 'img/pics/no_image_he.jpg';
+				$file = 'img/genre/no_image_he.jpg';
 				break;
 
 				case 'F':
-				$file = 'img/pics/no_image_she.jpg';
+				$file = 'img/genre/no_image_she.jpg';
 				break;
 
 				default:
-				$file = 'img/pics/no_image_she_he.jpg';
+				$file = 'img/genre/no_image_she_he.jpg';
 				break;
 			}
 
-		$img = URL.$file;
+		$img = URL.'/'.$file;
 		$img = '<img src="'.$img.'" class="img-thumbnail img-fluid">';
 		return $img;
 	}
@@ -270,9 +270,8 @@ function check_genere($dt,$da)
 
 function viewid($id,$loop=0)
 	{
+		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-
-		$Brapci = new \App\Models\Brapci\Brapci();
 
 		$RDF = new \App\Models\Rdf\RDF();
 		$da = $RDF->le($id);
@@ -290,7 +289,7 @@ function viewid($id,$loop=0)
 		$dt = $this->where('a_brapci',$idc)->findAll();
 		if (count($dt) == 0)
 			{
-				$dt['a_uri'] = 'https://brapci.inf.br/v/'.$id;
+				$dt['a_uri'] = '';
 				$dt['a_use'] = 0;
 				$dt['a_prefTerm'] = $name;
 				$dt['a_lattes'] = '';
@@ -326,7 +325,7 @@ function viewid($id,$loop=0)
 
 
 		/************************************************************* Lattes */
-		$link0 = $Brapci->link($dt);
+		$link0 = $AuthotityIds->brapciID($dt['a_brapci']);
 
 		$link1 = '';
 
@@ -334,7 +333,7 @@ function viewid($id,$loop=0)
 			{
 				$link = base_url(PATH .MODULE . '/index/lattes/import_lattes/' . trim($dt['a_lattes']) . '/');
 				$link2 = '<a href="' . $link . '" target="_new' . $dt['a_lattes'] . '">';
-				$link2 .= '<img src="' . base_url('img/icones/import.png') . '?x=1" style="height: 50px">';
+				$link2 .= bsicone('import',32);
 				$link2 .= '</a>';
 			} else {
 				$link2 = '';

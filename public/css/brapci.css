@@ -1,3 +1,7 @@
+body
+  {
+    margin-top: 100px;
+  }
 /************************ Form */
 .full
   {
@@ -12,6 +16,9 @@
 }
 .bg-benancib {
   background-color: #830706;
+}
+.bg-authority {
+  background-color: #345283;
 }
 .bg-tools {
   background-color: #a2028a;
