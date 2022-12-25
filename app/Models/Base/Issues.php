@@ -132,7 +132,7 @@ class Issues extends Model
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
-                    $edit = bsicon('edit');
+                    $edit = bsicone('edit');
                     $sa = '';
                     $sa .= bsc($line['is_year'],2);
                     $sa .= bsc($line['is_vol'],2);
