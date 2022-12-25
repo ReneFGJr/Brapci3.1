@@ -362,7 +362,12 @@ class RDFExport extends Model
 		$ln .= $td . $year .  $tdx;
 
 		/************************************** SECTIONS */
-		$ln .= $td . $year .  $tdx;
+		$sect = '';
+		for ($r = 0; $r < count($dta['section']); $r++) {
+			$k = $dta['section'][$r];
+			$sect = $k['section'];
+		}
+		$ln .= $td .  $sect . $tdx;
 
 		/*********************************** SUBJECT */
 		$subj = array('pt' => '', 'en' => '', 'es' => '');
@@ -390,20 +395,12 @@ class RDFExport extends Model
 		$ln .= $td . $subj['en'] . $tdx;
 		$ln .= $td . $subj['es'] . $tdx;
 
-		$sect = '';
-		for($r=0;$r < count($dta['section']);$r++)
-		{
-			$k = $dta['section'][$r];
-			$sect = $k['section'];
-		}
-		$ln .= $td .  $sect . $tdx;
-
 		$ln .= $td . $pagi . $tdx;
 		$ln .= $td . $pagf . $tdx;
 
 		$ln = troca($ln,'>;','>');
 		$ln = troca($ln,'"','');
-		echo '<table><tr>' . $ln . '</tr></table>';
+		echo '<table border=1><tr>' . $ln . '</tr></table>';
 
 		exit;
 		$elasticRegister  = new \App\Models\ElasticSearch\Register();
