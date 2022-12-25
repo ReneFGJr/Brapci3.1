@@ -376,7 +376,7 @@ class RDFExport extends Model
 		$ln .= $td . $year .  $tdx;
 
 		$ln .= $td . $auths_text . $tdx;
-		$ln .= $td . $journal . $tdx;
+		$ln .= $td . $dta['journal'] . $tdx;
 
 		$sect = '';
 		for($r=0;$r < count($dta['section']);$r++)
@@ -388,6 +388,9 @@ class RDFExport extends Model
 
 		$ln .= $td . $pagi . $tdx;
 		$ln .= $td . $pagf . $tdx;
+
+		$ln = troca($ln,'>;','>');
+		$ln = troca($ln,'"','');
 		echo '<table><tr>' . $ln . '</tr></table>';
 
 		exit;
