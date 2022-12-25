@@ -135,9 +135,9 @@ class Issues extends Model
                     $edit = bsicone('edit');
                     $sa = '';
                     $sa .= bsc($line['is_year'],2);
-                    $sa .= bsc($line['is_vol'],2);
+                    $sa .= bsc($line['is_vol'],1);
                     $sa .= bsc($line['is_place'],2);
-                    $sa .= bsc($line['is_thema'],6);
+                    $sa .= bsc($line['is_thema'],5);
                     $sa .= bsc($edit);
                     $sx .= bs($sa);
                 }
