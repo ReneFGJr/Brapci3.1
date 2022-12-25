@@ -26,9 +26,10 @@ class MainPages extends BaseController
         $data['page_title'] = 'Brapci-Revistas';
         $data['GOOGLEID'] = 'UA-12713129-1';
         $data['bg'] = 'bg-primary';
+        $data['bg_color'] = '#0000ff';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Benancib/Headers/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
 
         $q = get("q") . get("qs");
         if (strlen($q) > 0) {

@@ -8,17 +8,31 @@ body
   width: 100%;
   }
 
+.nav-link-brp
+  {
+    color: #ddd;
+    padding: 0px 10px;
+  }
+
+.nav-link-brp:hover
+  {
+    color: white;
+    padding: 0px 10px;
+  }
+
 .bg-brapci {
   background-color: #000094;
 }
+
 .bg-pq {
   background-color: #946856;
 }
 .bg-benancib {
   background-color: #830706;
 }
-.bg-authority {
+.bg-authority, a.bg-authority {
   background-color: #345283;
+  color: white;
 }
 .bg-tools {
   background-color: #a2028a;

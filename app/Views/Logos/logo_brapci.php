@@ -45,6 +45,7 @@ if (!isset($x))
 
     }
 </style>
+
 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" height="150pt" viewBox="0 0 649.000000 150.000000" preserveAspectRatio="xMidYMid meet">
     <metadata>
         Logo Brapci SVG (2022)

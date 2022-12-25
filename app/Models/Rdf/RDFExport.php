@@ -143,6 +143,9 @@ class RDFExport extends Model
 		$elastic['abstract'] = '';
 		$elastic['subject'] = '';
 		$elastic['year'] = '';
+		$elascti['journal'] = '';
+		$elascti['pagination_ini'] = '';
+		$elascti['pagination_end'] = '';
 
 		$tela = 'Export Article';
 		$dta['id'] = $id;
@@ -200,7 +203,7 @@ class RDFExport extends Model
 		}
 		$elastic['year'] = $year;
 
-
+		/******************** YEAR, PLACE, SOURCE */
 		$issue = $this->recover_issue($dt, $id, $tp);
 		$dta['issueRDF'] = $issue[1];
 		if ($dta['issueRDF'] > 0) {
@@ -268,7 +271,9 @@ class RDFExport extends Model
 				'p. $p, ' .
 				substr($issue, strlen($issue) - 5, 5);
 			$p = trim($pagi);
+			$elascti['pagination_ini'] = $p;
 			if (strlen($pagf) > 0) {
+				$elascti['pagination_end'] = $pagf;
 				if (strlen($p) > 0) {
 					$p .= '-';
 				}
@@ -336,6 +341,56 @@ class RDFExport extends Model
 		$elastic_json = json_encode($elastic);
 		$this->saveRDF($id, $elastic_json, 'article.json');
 		$class = trim($dt['concept']['c_class']);
+
+		/**************************************************/
+		$td = '<td>';
+		$tdx = '</td>';
+		$ln = $td . $id . $tdx;
+		$ln .= $td . $title . $tdx;
+
+
+		$subj = array('pt' => '', 'en' => '', 'es' => '');
+		for ($r = 0; $r < count($subject); $r++) {
+			$k = $subject[$r];
+			$key = trim($k['term']);
+			$lang = $k['lang'];
+			if ($key != '') {
+				switch ($lang) {
+					case 'pt-BR':
+						$subj['pt'] .= ';' . $key;
+						break;
+
+					case 'es-ES':
+						$subj['es'] .= ';' . $key;
+						break;
+
+					case 'en':
+						$subj['en'] .= ';' . $key;
+						break;
+				}
+			}
+		}
+		$ln .= $td . $subj['pt'] . $tdx;
+		$ln .= $td . $subj['en'] . $tdx;
+		$ln .= $td . $subj['es'] . $tdx;
+		$ln .= $td . $year .  $tdx;
+
+		$ln .= $td . $auths_text . $tdx;
+		$ln .= $td . $journal . $tdx;
+
+		$sect = '';
+		for($r=0;$r < count($dta['section']);$r++)
+		{
+			$k = $dta['section'][$r];
+			$sect = $k['section'];
+		}
+		$ln .= $td .  $sect . $tdx;
+
+		$ln .= $td . $pagi . $tdx;
+		$ln .= $td . $pagf . $tdx;
+		echo '<table><tr>' . $ln . '</tr></table>';
+
+		exit;
 		$elasticRegister  = new \App\Models\ElasticSearch\Register();
 		$elasticRegister->register($id, $class);
 		return '';
@@ -654,47 +709,44 @@ class RDFExport extends Model
 		return $tela;
 	}
 
-	function export_imagem($d1,$d2)
-		{
-			$img = '';
-			$tumb = '';
-			$data = $d1['data'];
-			$id = $d1['concept']['id_cc'];
+	function export_imagem($d1, $d2)
+	{
+		$img = '';
+		$tumb = '';
+		$data = $d1['data'];
+		$id = $d1['concept']['id_cc'];
 
-			for ($r=0;$r < count($data);$r++)
-				{
-					$line = $data[$r];
-					/* TumbNail */
-					if ($line['c_class'] == 'hasTumbNail') {
-						$tumb = trim($line['n_name']);
-						}
-					/* Image - DIR*/
-					if ($line['c_class'] == 'hasFileDirectory') {
-						$img = trim($line['n_name']) . $img.'image.jpg';
-					}
-					/* TumbNail */
-					if ($line['c_class'] == 'hasImage') {
-						$img = trim($line['n_name']);
-					}
-				}
-			if ((strlen($img) > 0) and (file_exists($img))) {
-				if (substr(strtolower($img),0,4) != 'http')
-					{
-						$img = URL.'/'.$img;
-					}
-				$this->saveRDF($id, $img, 'image.url');
+		for ($r = 0; $r < count($data); $r++) {
+			$line = $data[$r];
+			/* TumbNail */
+			if ($line['c_class'] == 'hasTumbNail') {
+				$tumb = trim($line['n_name']);
 			}
-			if ((strlen($tumb) > 0) and (file_exists($tumb))) {
-				if (substr(strtolower($tumb),0,4) != 'http')
-					{
-						$tumb = URL . '/' . $tumb;
-					}
-				$this->saveRDF($id, $tumb, 'tumb.url');
+			/* Image - DIR*/
+			if ($line['c_class'] == 'hasFileDirectory') {
+				$img = trim($line['n_name']) . $img . 'image.jpg';
 			}
-			$this->saveRDF($id, $img, 'name.nm');
-			$this->saveRDF($id, 'image', 'class.nm');
-			return "";
+			/* TumbNail */
+			if ($line['c_class'] == 'hasImage') {
+				$img = trim($line['n_name']);
+			}
 		}
+		if ((strlen($img) > 0) and (file_exists($img))) {
+			if (substr(strtolower($img), 0, 4) != 'http') {
+				$img = URL . '/' . $img;
+			}
+			$this->saveRDF($id, $img, 'image.url');
+		}
+		if ((strlen($tumb) > 0) and (file_exists($tumb))) {
+			if (substr(strtolower($tumb), 0, 4) != 'http') {
+				$tumb = URL . '/' . $tumb;
+			}
+			$this->saveRDF($id, $tumb, 'tumb.url');
+		}
+		$this->saveRDF($id, $img, 'name.nm');
+		$this->saveRDF($id, 'image', 'class.nm');
+		return "";
+	}
 
 	function export_index_list_all($lt = 0, $class = 'Person', $url = '')
 	{

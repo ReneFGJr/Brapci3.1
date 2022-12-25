@@ -71,57 +71,55 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
 }
 
 ?>
-<div class="container" style="margin-top: 100px;">
+<div class="container">
     <div class="row ">
         <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 ">
             <div style="height: 150px;" class="text-center">
                 <style>
-                #logoB {
-                    fill: green;
-                    animation: col 1s alternate infinite;
-                }
-
-                #logoR {
-                    animation: col 1s alternate infinite;
-                }
-
-                #logoA {
-                    animation: col 1s alternate infinite;
-                }
-
-                #logoP {
-                    animation: col 1s alternate infinite;
-                }
-
-                #logoC {
-                    fill: brown;
-                    animation: col 1s alternate infinite;
-                }
-
-                #logoI {
-                    fill: green;
-                    animation: col 1s alternate infinite;
-                }
-
-                @keyframes col {
-                    from {
-                        fill: #0d6efd;
+                    #logoB {
+                        fill: green;
+                        animation: col 1s alternate infinite;
                     }
 
-                    to {
-                        fill: #2daefd;
+                    #logoR {
+                        animation: col 1s alternate infinite;
                     }
-                }
 
-                }
+                    #logoA {
+                        animation: col 1s alternate infinite;
+                    }
+
+                    #logoP {
+                        animation: col 1s alternate infinite;
+                    }
+
+                    #logoC {
+                        fill: brown;
+                        animation: col 1s alternate infinite;
+                    }
+
+                    #logoI {
+                        fill: green;
+                        animation: col 1s alternate infinite;
+                    }
+
+                    @keyframes col {
+                        from {
+                            fill: #0d6efd;
+                        }
+
+                        to {
+                            fill: #2daefd;
+                        }
+                    }
+
+                    }
                 </style>
-                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75%" viewBox="0 0 649.000000 150.000000"
-                    preserveAspectRatio="xMidYMid meet">
+                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="75%" viewBox="0 0 649.000000 150.000000" preserveAspectRatio="xMidYMid meet">
                     <metadata>
                         Logo Brapci SVG (2022)
                     </metadata>
-                    <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"
-                        style="width: 100%;">
+                    <g transform="translate(0.000000,150.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none" style="width: 100%;">
                         <path id="logoB" d="M260 745 l0 -555 293 0 c502 1 590 22 660 155 26 50 35 176 17 240
            -15 53 -64 113 -114 140 -34 18 -47 35 -27 35 18 0 103 85 123 124 49 95 30
            240 -40 318 -81 89 -132 98 -569 98 l-343 0 0 -555z m659 352 c49 -17 73 -55
@@ -157,7 +155,7 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
     <h3 class="" style="">O que você está procurando?</h3>
 </div>
 <form method="get">
-    <div class="container" style="margin-bottom: 20px" ;>
+    <div class="container-fluid" style="margin-bottom: 20px" ;>
         <!-------------------------- SMALL SCREEN ----------->
         <div class="row d-lg-none">
             <div class="col-12">
@@ -187,7 +185,7 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
             </div>
         </div>
     </div>
-    <div class="container" style="margin-bottom: 250px" ;>
+    <div class="container-fluid" style="margin-bottom: 250px" ;>
         <!-------------------------- ADVANCED SCREEN ----------->
         <div class="row border p-2 mb-2 rounded-3 m-3 shadow" id="advanced_search" style="border-color: #FFF;">
             <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-2">
@@ -210,14 +208,12 @@ for ($r = (date("Y") + 1); $r >= $ini; $r--) {
 
             <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
                 <!-- Button trigger modal -->
-                <span class="fw-bold" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    id="label_select_source">
+                <span class="fw-bold" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#exampleModal" id="label_select_source">
                     <?= $Source->list_selected(); ?>
                 </span>
 
                 <!-- Modal -->
-                <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class=" modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <?= view('Brapci/Pages/search_sources'); ?>
                 </div>
             </div>

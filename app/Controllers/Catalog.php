@@ -20,11 +20,11 @@ class Catalog extends BaseController
     {
         $sx = '';
         $data['page_title'] = 'Brapci Dados de Pesquisa';
-        $data['bg'] = 'bg-ai';
+        $data['bg'] = 'bg-authority';
 
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Ai/Header/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
 
         $sx .= $this->services();
 
@@ -35,9 +35,10 @@ class Catalog extends BaseController
     function services()
         {
             $menu = array();
-            $menu['#brapci.public'] = "#";
+            $menu['#brapci.serviceplace'] = "#";
             $menu['/catalog'] = msg('brapci.catalog');
             $menu['/books'] = msg('brapci.books');
+            $menu['/autoridades'] = msg('brapci.authority');
 
             return bs(bsc(menu($menu),12));
         }
