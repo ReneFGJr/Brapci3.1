@@ -345,10 +345,26 @@ class RDFExport extends Model
 		/**************************************************/
 		$td = '<td>';
 		$tdx = '</td>';
+
+		/**************************************** ID */
 		$ln = $td . $id . $tdx;
+
+		/************************************* TITLE */
 		$ln .= $td . $title . $tdx;
 
+		/*********************************** AUTHORS */
+		$ln .= $td . $auths_text . $tdx;
 
+		/********************************** JOURNALS */
+		$ln .= $td . $dta['journal'] . $tdx;
+
+		/************************************** YEAR */
+		$ln .= $td . $year .  $tdx;
+
+		/************************************** SECTIONS */
+		$ln .= $td . $year .  $tdx;
+
+		/*********************************** SUBJECT */
 		$subj = array('pt' => '', 'en' => '', 'es' => '');
 		for ($r = 0; $r < count($subject); $r++) {
 			$k = $subject[$r];
@@ -373,10 +389,6 @@ class RDFExport extends Model
 		$ln .= $td . $subj['pt'] . $tdx;
 		$ln .= $td . $subj['en'] . $tdx;
 		$ln .= $td . $subj['es'] . $tdx;
-		$ln .= $td . $year .  $tdx;
-
-		$ln .= $td . $auths_text . $tdx;
-		$ln .= $td . $dta['journal'] . $tdx;
 
 		$sect = '';
 		for($r=0;$r < count($dta['section']);$r++)
