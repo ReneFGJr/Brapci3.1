@@ -18,7 +18,8 @@ class AuthorityNames extends Model
 		'id_a', 'a_prefTerm', 'a_class',
 		'a_lattes', 'a_brapci', 'a_orcid',
 		'a_uri', 'a_use', 'a_master',
-		'a_country', 'a_UF'
+		'a_country',
+		'a_UF', 'updated_at'
 	];
 
 	protected $typeFields        = [

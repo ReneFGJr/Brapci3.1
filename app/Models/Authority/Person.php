@@ -343,6 +343,9 @@ function viewid($id,$loop=0)
 		//} else {
 //			$tela .= anchor(base_url(PATH . MODULE. '/admin/authority/findid/' . $dt['a_brapci']));
 
+		/****************** COLLABORATORS */
+		$Collaborators = new \App\Models\Authority\Collaboration();
+		$Collab = $Collaborators->collaborations($id);
 
 		$tela .= bs(bsc(trim($link0.' '.$link1.' '.$link2),12));
 
