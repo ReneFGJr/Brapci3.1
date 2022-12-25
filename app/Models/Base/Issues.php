@@ -132,7 +132,11 @@ class Issues extends Model
             for ($r=0;$r < count($dt);$r++)
                 {
                     $line = $dt[$r];
+
+                    $link = PATH.COLLECTION.'issue/edit/'.$line['id_is'];
+                    $edit = '<a href="'. $link.'">';
                     $edit = bsicone('edit');
+                    $edit .= '</a>';
                     $sa = '';
                     $sa .= bsc($line['is_year'],2);
                     $sa .= bsc($line['is_vol'],1);
