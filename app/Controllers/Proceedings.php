@@ -52,6 +52,11 @@ class Proceedings extends BaseController
                 $sx .= $this->issues($subact, $id);
                 break;
 
+            case 'issues':
+                $Issues = new \App\Models\Base\Issues();
+                $sx .= $Issues->issues($subact, $id);
+                break;
+
             case 'source':
                 $Sources = new \App\Models\Base\Sources();
                 $Issues = new \App\Models\Base\Issues();
