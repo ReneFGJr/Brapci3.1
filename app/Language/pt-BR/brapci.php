@@ -59,7 +59,7 @@ return [
         'works' => 'trabalhos',
         'Book' => 'LIVRO',
         'MarkAnalyse' => 'analisar cesta',
-        'MarkSave ' => 'salvar cesta',
+        'MarkSave' => 'salvar cesta',
         '' => '',
         '' => '',
         '' => '',
