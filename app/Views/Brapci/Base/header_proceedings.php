@@ -1,25 +1,27 @@
-<div class="row">
-    <div class="col-6">
-        <?= $jnl_name; ?>
-        <br />
-        <?= $is_year; ?>
-        <?= $volume; ?>
-        <?= $is_place; ?>
-    </div>
-
-    <div class="col-6 text-end">
-        <img src="<?= URL . '/' . $img1; ?>" style="height: 80px;">
+<div class="row" style="border: 1px solid #888; border-radius: 10px;">
+    <div class="col-12">
+        <h2><?= $jnl_name; ?></h2>
     </div>
 
     <!-- New colunm -->
-
+    <div class="col-1">
+        <?= $is_year; ?>
+    </div>
+    <div class="col-1">
+        <?= $volume; ?>
+    </div>
+    <div class="col-4">
+        <?= $is_place; ?>
+    </div>
     <div class="col-6">
-        <?= $is_thema; ?>
+        <i><?= $is_thema; ?></i>
+    </div>
+    <!-- New colunm -->
+    <div class="col-6 text-start">
+        <img src="<?= URL . '/' . $img1; ?>" style="height: 80px;">
     </div>
 
-    <div class="col-6">
-        <img src="<?= URL . '/' . $img2; ?>" class="img-fluid">
+    <div class="col-6 text-end">
+        <img src="<?= URL . '/' . $img2; ?>" style="height: 80px;">
     </div>
 </div>
-XXXXXXX
-<hr>

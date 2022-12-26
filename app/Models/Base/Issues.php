@@ -362,40 +362,15 @@ class Issues extends Model
         $dir = '.tmp/issues/';
         dircheck($dir);
         $file = strzero($dt['id_jnl'], 4) . '-' . strzero($dt['is_source_issue'], 6) . '.name';
-        if (file_exists($dir . $file)) {
+        if (file_exists($dir . $file) and (get("reindex") == '')) {
             $sx = file_get_contents($dir . $file);
             //return $sx;
-        }
-        $tools = '';
-
-        /************************************* HARVESTING */
-        $Socials = new \App\Models\Socials();
-        if ($Socials->getAccess("#CAR#ADM")) {
-            $tools = '';
-            $OAI = new \App\Models\Oaipmh\Index();
-            if (trim($dt['is_url_oai']) != '') {
-                $tot = $OAI->to_harvesting(0, $dt['id_is']);
-                if ($tot > 0) {
-                    $class = 'class = "blink" ';
-                    $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is'] . '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
-                } else {
-                    $class = '';
-                    $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"' . $class);
-                }
-                $tools .= '<span class="p-2"></span>';
-                $tools .= anchor(PATH . '/' . COLLECTION . '/issue/listidentifiers/?id=' . $dt['id_is'], bsicone('gear', 32), 'title="Check"');
-                $tools .= '<span class="p-2"></span>';
-            }
-            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32), 'title="Reindex"');
-            $tools .= '<span class="p-2"></span>';
-            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32), 'title="Edit"');
-            $tools .= '<span class="p-2"></span>';
-        }
-
-        /************************************ Mount Header */
+        } else {
+ /************************************ Mount Header */
         $sx = '';
         $vol = $dt['is_vol'];
         $roman = trim($dt['is_vol_roman']);
+
         if (strlen($roman) > 0) {
             $vol .= ' (' . $roman . ')';
         }
@@ -403,9 +378,8 @@ class Issues extends Model
         $linka = '</a>';
 
         $dt['volume'] = $vol;
-        $dt['tools'] = $tools;
 
-        $img1 = 'img/headers/journals/image_' . strzero($dt['is_source'], 4) . '.png';
+        $img1 = 'img/headers/journals/image_' . strzero($dt['is_source'], 6) . '.png';
         $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
 
         if (!file_exists($img1)) {
@@ -433,6 +407,36 @@ class Issues extends Model
         $id_issue_rdf = $dt['is_source_issue'];
 
         file_put_contents($dir . $file, $sx);
+        }
+        $tools = '';
+
+        /************************************* HARVESTING */
+        $Socials = new \App\Models\Socials();
+        if ($Socials->getAccess("#CAR#ADM")) {
+            $tools = '';
+            $OAI = new \App\Models\Oaipmh\Index();
+            if (trim($dt['is_url_oai']) != '') {
+                $tot = $OAI->to_harvesting(0, $dt['id_is']);
+                if ($tot > 0) {
+                    $class = 'class = "blink" ';
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is'] . '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
+                } else {
+                    $class = '';
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"' . $class);
+                }
+                $tools .= '<span class="p-2"></span>';
+                $tools .= anchor(PATH . '/' . COLLECTION . '/issue/listidentifiers/?id=' . $dt['id_is'], bsicone('gear', 32), 'title="Check"');
+                $tools .= '<span class="p-2"></span>';
+            }
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32), 'title="Reindex"');
+            $tools .= '<span class="p-2"></span>';
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32), 'title="Edit"');
+            $tools .= '<span class="p-2"></span>';
+            $dt['tools'] = $tools;
+            $sx .= view('Brapci/Base/header_proceedings_tools.php', $dt);
+        }
+
+
 
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $sx .= $IssuesWorks->check($dt);
