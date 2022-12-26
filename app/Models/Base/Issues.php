@@ -383,12 +383,12 @@ class Issues extends Model
         $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
 
         if (!file_exists($img1)) {
+            jslog('File not found: ' . $img1);
             $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
-            jslog('File not found: '.$img1);
         }
         if (!file_exists($img2)) {
-            $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
             jslog('File not found: ' . $img2);
+            $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
         }
         $dt['img1'] = $img1;
         $dt['img2'] = $img2;
