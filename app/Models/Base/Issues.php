@@ -79,12 +79,11 @@ class Issues extends Model
         switch ($act) {
             case 'listidentifiers':
                 $jissue = get("id");
-                if ($jissue != '')
-                    {
-                        $sx .= $this->listidentifiers($jissue);
-                    } else {
-                        $sx .= bsmessage('Error - No issue selected');
-                    }
+                if ($jissue != '') {
+                    $sx .= $this->listidentifiers($jissue);
+                } else {
+                    $sx .= bsmessage('Error - No issue selected');
+                }
                 break;
             case 'edit':
                 $jid = get("jid");
@@ -95,12 +94,11 @@ class Issues extends Model
                 break;
             case 'harvesting':
                 $id = get("id");
-                if ($id > 0)
-                {
+                if ($id > 0) {
                     $sx .= bsc($this->issue($id), 12);
                     $sx .= $this->harvesting($id);
                 } else {
-                    $sx .= bsmessage('ERRO: 580 - id not found',3);
+                    $sx .= bsmessage('ERRO: 580 - id not found', 3);
                 }
                 break;
             default:
@@ -113,100 +111,95 @@ class Issues extends Model
         return $sx;
     }
 
-    function issues($id=0)
-        {
-            $Sources = new \App\Models\Base\Sources();
-            $ds = $Sources->find($id);
+    function issues($id = 0)
+    {
+        $Sources = new \App\Models\Base\Sources();
+        $ds = $Sources->find($id);
 
-            $id = round($id);
-            $dt = $this->where("is_source",$id)
-                ->orderBy('is_year','DESC')
-                ->orderBy('is_vol','DESC')
-                ->orderBy('is_issue','DESC')
-                ->findAll();
+        $id = round($id);
+        $dt = $this->where("is_source", $id)
+            ->orderBy('is_year', 'DESC')
+            ->orderBy('is_vol', 'DESC')
+            ->orderBy('is_issue', 'DESC')
+            ->findAll();
 
-            $sx = '';
-            $sx .= $Sources->journal_header($ds);
-            $sx .= '<hr>';
+        $sx = '';
+        $sx .= $Sources->journal_header($ds);
+        $sx .= '<hr>';
 
-            for ($r=0;$r < count($dt);$r++)
-                {
-                    $line = $dt[$r];
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
 
-                    $link = PATH.COLLECTION.'issue/edit/'.$line['id_is'];
-                    $edit = '<a href="'. $link.'">';
-                    $edit = bsicone('edit');
-                    $edit .= '</a>';
-                    $sa = '';
-                    $sa .= bsc($line['is_year'],2);
-                    $sa .= bsc($line['is_vol'],1);
-                    $sa .= bsc($line['is_place'],2);
-                    $sa .= bsc($line['is_thema'],5);
-                    $sa .= bsc($edit);
-                    $sx .= bs($sa);
-                }
-
-            $sx .= $this->btn_new_issue($id);
-            return $sx;
+            $link = PATH . COLLECTION . 'issue/edit/' . $line['id_is'];
+            $edit = '<a href="' . $link . '">';
+            $edit = bsicone('edit');
+            $edit .= '</a>';
+            $sa = '';
+            $sa .= bsc($line['is_year'], 2);
+            $sa .= bsc($line['is_vol'], 1);
+            $sa .= bsc($line['is_place'], 2);
+            $sa .= bsc($line['is_thema'], 5);
+            $sa .= bsc($edit);
+            $sx .= bs($sa);
         }
+
+        $sx .= $this->btn_new_issue($id);
+        return $sx;
+    }
 
     function btn_new_issue($id)
-        {
-            $sx = '';
-            $sx .= '<a href="'.base_url(PATH.COLLECTION.'/issues/edit/0?jid='.$id).'" class="btn btn-primary">';
-            $sx .= msg('new_issue');
-            $sx .= '</a>';
-            return $sx;
-        }
+    {
+        $sx = '';
+        $sx .= '<a href="' . base_url(PATH . COLLECTION . '/issues/edit/0?jid=' . $id) . '" class="btn btn-primary">';
+        $sx .= msg('new_issue');
+        $sx .= '</a>';
+        return $sx;
+    }
     function listidentifiers($id)
-        {
-            $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-            $dt = $OAI_ListIdentifiers
-                ->where('li_issue',$id)
-                ->orderBy('li_setSpec, li_identifier','DESC')
-                ->findAll();
+    {
+        $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+        $dt = $OAI_ListIdentifiers
+            ->where('li_issue', $id)
+            ->orderBy('li_setSpec, li_identifier', 'DESC')
+            ->findAll();
 
-            $sx = h('OAI - ListIdentifiers',3);
-            $sx .= '<p>'.$this->getlastquery().'</p>';
-            $sx .= '<p>Total de '.count($dt).' registers.</p>';
-            $sx .= '<ul>';
-            $xsetSpec = '';
-            $tot = 0;
-            for ($r=0;$r < count($dt);$r++)
-                {
-                    $line = $dt[$r];
-                    $setSpec = $line['li_setSpec'];
-                    if ($setSpec != $xsetSpec)
-                        {
-                            if ($tot > 0)
-                                {
-                                    $sx .= '<p>Total '.$tot.'</p>';
-                                }
-                            $sx .= h($setSpec,4) . cr();
-                            $xsetSpec = $setSpec;
-                            $tot = 0;
-                        }
-                    $sx .= '<li>'.$OAI_ListIdentifiers->row($line). '</li>'.cr();
-                    $tot = $tot + 1;
+        $sx = h('OAI - ListIdentifiers', 3);
+        $sx .= '<p>' . $this->getlastquery() . '</p>';
+        $sx .= '<p>Total de ' . count($dt) . ' registers.</p>';
+        $sx .= '<ul>';
+        $xsetSpec = '';
+        $tot = 0;
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $setSpec = $line['li_setSpec'];
+            if ($setSpec != $xsetSpec) {
+                if ($tot > 0) {
+                    $sx .= '<p>Total ' . $tot . '</p>';
                 }
-            if ($tot > 0) {
-                $sx .= '<p>Total ' . $tot . '</p>';
+                $sx .= h($setSpec, 4) . cr();
+                $xsetSpec = $setSpec;
+                $tot = 0;
             }
-            $sx .= '</ul>';
-            $sx = bs(bsc($sx,12));
-            return $sx;
-
+            $sx .= '<li>' . $OAI_ListIdentifiers->row($line) . '</li>' . cr();
+            $tot = $tot + 1;
         }
+        if ($tot > 0) {
+            $sx .= '<p>Total ' . $tot . '</p>';
+        }
+        $sx .= '</ul>';
+        $sx = bs(bsc($sx, 12));
+        return $sx;
+    }
 
     function harvesting($id)
-        {
-            $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+    {
+        $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 
-            $dt = $this->find($id);
-            $sx = '';
-            $sx .= $OAI_ListIdentifiers->harvesting_issue($dt);
-            return $sx;
-        }
+        $dt = $this->find($id);
+        $sx = '';
+        $sx .= $OAI_ListIdentifiers->harvesting_issue($dt);
+        return $sx;
+    }
 
     function edit($id)
     {
@@ -227,13 +220,12 @@ class Issues extends Model
     {
         $sx = '';
         $Social = new \App\Models\Socials();
-        if ($Social->getAccess("#ADM"))
-            {
+        if ($Social->getAccess("#ADM")) {
             $sx .= '<div class="container"><div class="row">';
-            $link = '<a href="'.PATH.COLLECTION.'/issues/'.$id.'" class="btn btn-primary">'.bsicone('plus').'</a>';
+            $link = '<a href="' . PATH . COLLECTION . '/issues/' . $id . '" class="btn btn-primary">' . bsicone('plus') . '</a>';
             $sx .= bsc($link);
             $sx .= '</div></div>';
-            }
+        }
         $dt = $this
             ->where('is_source', $id)
             ->orderBy('is_year desc, is_nr desc')
@@ -251,7 +243,7 @@ class Issues extends Model
 
             $img = $line['is_card'];
             if (strlen($img) == 0) {
-                $img = 'img/issue/issue_'.strzero($line['is_source'],5).'.png';
+                $img = 'img/issue/issue_' . strzero($line['is_source'], 5) . '.png';
             }
 
             $link = PATH . COLLECTION . '/issue?id=' . $line['id_is'];
@@ -261,7 +253,7 @@ class Issues extends Model
 
             $sx .= '
                     <div class="card  m-3" style="width: 18rem; cursor: pointer;" onclick="location.href = \'' . $link . '\';">
-                    <img src="' . URL.'/'.$img . '" class="card-img-top" alt="...">
+                    <img src="' . URL . '/' . $img . '" class="card-img-top" alt="...">
                     <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>' . $line['is_vol_roman'] . '</b></span>
                     <div class="card-body">
                         <h5 class="card-title">' . $line['is_year'] . ' - ' . $line['is_place'] . '</h5>
@@ -291,19 +283,17 @@ class Issues extends Model
             ->findAll();
         $sx = '';
 
-        if (count($dt) == 0)
-            {
-                return "ERRO";
-            } else {
-                $dt = $dt[0];
-            }
+        if (count($dt) == 0) {
+            return "ERRO";
+        } else {
+            $dt = $dt[0];
+        }
 
-        if ($dt['is_source_issue'] == 0)
-            {
-                $sx .= 'Criar ISSUE RDF';
-                $this->RDFIssue($dt);
-                exit;
-            }
+        if ($dt['is_source_issue'] == 0) {
+            $sx .= 'Criar ISSUE RDF';
+            $this->RDFIssue($dt);
+            exit;
+        }
 
         $sx .= $this->header_issue($dt);
 
@@ -311,43 +301,41 @@ class Issues extends Model
     }
 
     function RDFIssue($dt)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $class = 'IssueProceeding';
-            $prefLabel = trim($dt['is_vol_roman']).' '.trim($dt['jnl_name']).', '.trim($dt['is_year']);
-            $id_issue = $RDF->concept($prefLabel,$class);
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $class = 'IssueProceeding';
+        $prefLabel = trim($dt['is_vol_roman']) . ' ' . trim($dt['jnl_name']) . ', ' . trim($dt['is_year']);
+        $id_issue = $RDF->concept($prefLabel, $class);
 
-            /************************************************************* Vincula a fontes principal */
-            $RDF->propriety($dt['jnl_frbr'], 'hasIssueProceeding',$id_issue);
+        /************************************************************* Vincula a fontes principal */
+        $RDF->propriety($dt['jnl_frbr'], 'hasIssueProceeding', $id_issue);
 
-            /***** Data */
-             if (strlen(trim($dt['is_year'])) > 0) {
-                $id_date = $RDF->concept(trim($dt['is_year']), 'Date');
-                $RDF->propriety($id_issue, 'hasDateTime', $id_date);
-             }
-
-            /***** Place */
-            if (strlen(trim($dt['is_place'])) > 0)
-                {
-                    $id_place = $RDF->concept($dt['is_place'], 'Place');
-                    $RDF->propriety($id_issue, 'hasPlace', $id_place);
-                }
-
-            $dd['is_source_rdf'] = $dt['jnl_frbr'];
-            $dd['is_source_issue'] = $id_issue;
-            $this->set($dd)->where('id_is',$dt['id_is'])->update();
-
-            return "";
+        /***** Data */
+        if (strlen(trim($dt['is_year'])) > 0) {
+            $id_date = $RDF->concept(trim($dt['is_year']), 'Date');
+            $RDF->propriety($id_issue, 'hasDateTime', $id_date);
         }
+
+        /***** Place */
+        if (strlen(trim($dt['is_place'])) > 0) {
+            $id_place = $RDF->concept($dt['is_place'], 'Place');
+            $RDF->propriety($id_issue, 'hasPlace', $id_place);
+        }
+
+        $dd['is_source_rdf'] = $dt['jnl_frbr'];
+        $dd['is_source_issue'] = $id_issue;
+        $this->set($dd)->where('id_is', $dt['id_is'])->update();
+
+        return "";
+    }
 
     function issue_section_works($id)
     {
         /* Recupera ID RDF */
         $dt = $this->find($id);
-        if ($dt == '')
-            {
-                return "";
-            }
+        if ($dt == '') {
+            return "";
+        }
         $id_rdf = $dt['is_source_issue'];
 
         if (get("reindex") != '') {
@@ -373,14 +361,11 @@ class Issues extends Model
         dircheck($dir);
         $dir = '.tmp/issues/';
         dircheck($dir);
-        $file = strzero($dt['id_jnl'],4).'-'.strzero($dt['is_source_issue'],6).'.name';
-
-        if (file_exists($dir.$file))
-            {
-                $sx = file_get_contents($dir.$file);
-                return $sx;
-            }
-
+        $file = strzero($dt['id_jnl'], 4) . '-' . strzero($dt['is_source_issue'], 6) . '.name';
+        if (file_exists($dir . $file)) {
+            $sx = file_get_contents($dir . $file);
+            //return $sx;
+        }
         $tools = '';
 
         /************************************* HARVESTING */
@@ -389,22 +374,22 @@ class Issues extends Model
             $tools = '';
             $OAI = new \App\Models\Oaipmh\Index();
             if (trim($dt['is_url_oai']) != '') {
-                $tot = $OAI->to_harvesting(0,$dt['id_is']);
-                if ($tot > 0)
-                    {
-                        $class = 'class = "blink" ';
-                        $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is']. '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
-                    } else {
-                        $class = '';
-                        $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"'.$class);
-                    }
+                $tot = $OAI->to_harvesting(0, $dt['id_is']);
+                if ($tot > 0) {
+                    $class = 'class = "blink" ';
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is'] . '/getrecords', bsicone('harvesting', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
+                } else {
+                    $class = '';
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Harvesing"' . $class);
+                }
                 $tools .= '<span class="p-2"></span>';
                 $tools .= anchor(PATH . '/' . COLLECTION . '/issue/listidentifiers/?id=' . $dt['id_is'], bsicone('gear', 32), 'title="Check"');
                 $tools .= '<span class="p-2"></span>';
             }
             $tools .= anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32), 'title="Reindex"');
             $tools .= '<span class="p-2"></span>';
-            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32),'title="Edit"');
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32), 'title="Edit"');
+            $tools .= '<span class="p-2"></span>';
         }
 
         /************************************ Mount Header */
@@ -414,35 +399,40 @@ class Issues extends Model
         if (strlen($roman) > 0) {
             $vol .= ' (' . $roman . ')';
         }
-        $link = '<a href="' . PATH . COLLECTION . '/source/'.$dt['id_jnl'].'" target="_new">';
+        $link = '<a href="' . PATH . COLLECTION . '/source/' . $dt['id_jnl'] . '" target="_new">';
         $linka = '</a>';
-        $sx .= bsc($link.h($dt['jnl_name'].$linka, 3), 12);
-        $sx .= bsc($vol, 1);
-        $sx .= bsc($dt['is_year'], 1);
-        $sx .= bsc($dt['is_place'], 2);
-        $sx .= bsc($dt['is_thema'], 6);
-        $sx .= bsc($tools, 2);
 
-        $img1 = 'img/headers/journals/image_'.strzero($dt['is_source'],4).'.png';
+        $dt['volume'] = $vol;
+        $dt['tools'] = $tools;
+
+        $img1 = 'img/headers/journals/image_' . strzero($dt['is_source'], 4) . '.png';
         $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
 
         if (!file_exists($img1)) {
             $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
         }
+        if (!file_exists($img2)) {
+            $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+        }
+        $dt['img1'] = $img1;
+        $dt['img2'] = $img2;
 
-        if (!file_exists($img2))
-            {
-                $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
-            }
-        $sx .= bsc('', 4);
-        $sx .= bsc('<img src="'.URL.'/'. $img2 . '" class="text-end" style="max-height: 80px;">', 5,'text-end');
-        $sx .= bsc('<img src="' . URL . '/' . $img1 . '" class="img-fluid" style="width: 100%">', 3);
+        /******************** IMAGES */
+        if (!file_exists($img1)) {
+            $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
+        }
+
+        if (!file_exists($img2)) {
+            $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+        }
+
+        $sx .= view('Brapci/Base/header_proceedings.php', $dt);
 
         /**************************** */
         $sx = bs($sx);
         $id_issue_rdf = $dt['is_source_issue'];
 
-        //file_put_contents($dir.$file,$sx);
+        file_put_contents($dir . $file, $sx);
 
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $sx .= $IssuesWorks->check($dt);
