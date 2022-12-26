@@ -1,6 +1,6 @@
 <div class="row" style="border: 1px solid #888; border-radius: 10px;">
     <div class="col-12">
-        <h2><?= $jnl_name; ?></h2>
+        <h2><a href="<?=PATH.COLLECTION.'/source/'.$id_jnl;?>" target="_new"><?= trim($roman.' '.$jnl_name); ?></a></h2>
     </div>
 
     <!-- New colunm -->

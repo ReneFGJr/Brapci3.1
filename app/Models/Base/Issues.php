@@ -371,8 +371,10 @@ class Issues extends Model
         $vol = $dt['is_vol'];
         $roman = trim($dt['is_vol_roman']);
 
+        $dt['roman'] = '';
         if (strlen($roman) > 0) {
             $vol .= ' (' . $roman . ')';
+            $dt['roman'] = $roman;
         }
         $link = '<a href="' . PATH . COLLECTION . '/source/' . $dt['id_jnl'] . '" target="_new">';
         $linka = '</a>';
