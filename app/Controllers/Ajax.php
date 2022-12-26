@@ -80,7 +80,7 @@ class Ajax extends BaseController
                 $id = substr($dd1,$pos+4,20);
                 if (strpos($id,'&') > 0)
                     {
-                        echo $id.'=========';
+                        echo $id.'=x=x=x=x=x=x=x=x=';
                     }
 
                 $id = round($id);
