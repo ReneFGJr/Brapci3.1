@@ -93,12 +93,74 @@ class Analyse extends Model
 
         arsort($auth);
         $dd['authors_total'] = graph($auth, 'bar', lang('brapci.authors'), 'authTotal',10,1);
-        pre($auth,false);
 
         $sx = view('MetricStudy/DrashBoard', $dd);
 
+
+        $sx .= $this->table($auth,'auth');
+
         return $sx;
     }
+
+    function table($data,$type='auth')
+        {
+            $limit = round(sqrt(count($data)));
+            $ct = 0;
+
+            $sx = '';
+            $sx .= '<table class="table" style="width: 100%">';
+            switch($type)
+                {
+                    case 'auth':
+                        $sx .= '<tr>';
+                        $sx .= '<th>' . lang('brapci.hash') . '</th>';
+                        $sx .= '<th>'.lang('brapci.author').'</th>';
+                        $sx .= '<th>' . lang('brapci.works') . '</th>';
+                        $sx .= '<th>' . lang('brapci.works_percente') . '</th>';
+                        $sx .= '<th>' . lang('brapci.works_acumulate') . '</th>';
+                        $sx .= '<th>' . lang('brapci.works_acumulate_percente') . '</th>';
+                        $sx .= '</tr>';
+                }
+            $totm = 0;
+            foreach ($data as $name => $total)
+                {
+                    $totm = $totm + $total;
+                }
+            $sx .= 'Limit: ' . $limit . ' ' . lang('brapci.of') . ' ' . count($data);
+            $sx .= ' - Total '.$totm;
+            /******************************** */
+            $totac = 0;
+            foreach($data as $name=>$total)
+                {
+                    $ct++;
+                    $totac = $totac + $total;
+                    $name_full = substr($name,0,strpos($name,';'));
+                    $sx .= '<tr>';
+                    $sx .= '<td>'.($ct).'</td>';
+                    $sx .= '<td>'.$name_full. '</td>';
+                    $sx .= '<td class="text-center">' . $total . '</td>';
+                    $sx .= '<td class="text-center">' . number_format($total / $totm * 100, 1, ',', '.') . '%</td>';
+                    $sx .= '<td class="text-center">' . $totac . '</td>';
+                    $sx .= '<td class="text-center">' . number_format($totac / $totm * 100, 1, ',', '.') . '%</td>';
+                    $sx .= '</tr>';
+                    if ($ct > $limit)
+                        {
+                            $total = ($totm - $totac);
+                            $sx .= '<tr>';
+                            $sx .= '<td></td>';
+                            $sx .= '<td>' . lang('brapci.others') . '</td>';
+                            $sx .= '<td class="text-center">' . $total . '</td>';
+                            $sx .= '<td class="text-center">' . number_format($total / $totm * 100, 1, ',', '.') . '%</td>';
+                            $sx .= '<td class="text-center">' . $totac . '</td>';
+                            $sx .= '<td class="text-center">' . number_format(100, 1, ',', '.') . '%</td>';
+                            $sx .= '</tr>';
+                            break;
+                        }
+                }
+            $sx .= '</table>';
+            $sx = bs(bsc($sx));
+            return $sx;
+        }
 
     function a()
     {
