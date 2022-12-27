@@ -157,9 +157,8 @@ class Analyse extends Model
                             $sx .= '</tr>';
                             break;
                         } else {
-                            $lastx = $total;
+                            if (!$ct > $limit) { $lastx = $total; }
                         }
-
                 }
             $sx .= '</table>';
             $sx = bs(bsc($sx));
