@@ -78,6 +78,14 @@ class Mark extends Model
             return $sx;
         }
 
+    function btn_mark_analyse()
+    {
+        $sx = '';
+        $sx .= '<a href="' . PATH . '/mark/' . $id . '/analyse" class="btn btn-outline-primary">' .
+        lang('brapci.mark_analyse') . '</a>';
+        return $sx;
+    }
+
     function listMark()
         {
             $sx = '';
@@ -112,7 +120,6 @@ class Mark extends Model
         {
             $RDF = new \App\Models\Rdf\RDF();
             $sx = '';
-            pre($_SESSION, false);
             if (isset($_SESSION['markName']))
                 {
                     $nameMark = $_SESSION['markName'];

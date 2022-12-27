@@ -296,11 +296,11 @@ class Work extends Model
 
         $Socials = new \App\Models\Socials();
         $saveAll = '';
-        if ($Socials->getAccess("#ADM"))
+        if ($Socials->getAccess("#ADM#USR"))
             {
-                $saveAll = '<a href="' . PATH . COLLECTION . '/analyse">' . lang('brapci.MarkAnalyse') . '</a>';
+                $saveAll = '<a href="' . PATH . '/mark/analyse">' . lang('brapci.MarkAnalyse') . '</a>';
                 $saveAll .= ' | ';
-                $saveAll .= '<a href="' . PATH . COLLECTION . '/saveMark">' . lang('brapci.MarkSave') . '</a>';
+                $saveAll .= '<a href="' . PATH . '/mark/saveMark">' . lang('brapci.MarkSave') . '</a>';
                 $saveAll .= ' | ';
             } else {
                 $saveAll = 'not loged | ';
