@@ -110,7 +110,7 @@ class Mark extends Model
 
     function showSession()
         {
-            $RDF = new \App\Models\RDF\Rdf();
+            $RDF = new \App\Models\Rdf\RDF();
             $sx = '';
             pre($_SESSION, false);
             if (isset($_SESSION['markName']))
