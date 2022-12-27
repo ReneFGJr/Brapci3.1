@@ -126,8 +126,6 @@ class Analyse extends Model
                 {
                     $totm = $totm + $total;
                 }
-        $limit = $limit + 10;
-
             $sx .= 'Limit: ' . $limit . ' ' . lang('brapci.of') . ' ' . count($data);
             $sx .= ' - Total '.$totm;
             /******************************** */
@@ -159,7 +157,7 @@ class Analyse extends Model
                             $sx .= '</tr>';
                             break;
                         } else {
-                            echo $ct.'=='.$limit.' == '.$lastx.'<br>';
+                            echo $ct.'=='.$limit.' == '.$total.'#'.$lastx.'<br>';
                             if (!($ct > $limit)) { $lastx = $total; }
                         }
                 }
