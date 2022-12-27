@@ -29,6 +29,10 @@ class Social extends BaseController
     {
         $act .= get("cmd");
         $data['page_title'] = 'Brapci - Login IDP';
+        $data['GOOGLEID'] = 'UA-12713129-1';
+        $data['bg'] = 'bg-primary';
+        $data['bg_color'] = '#0000ff';
+
         $sx = view('Brapci/Headers/header',$data);
         $sx .= view('Brapci/Headers/navbar',$data);
         $Socials = new \App\Models\Socials();
