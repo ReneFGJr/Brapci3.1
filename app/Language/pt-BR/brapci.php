@@ -66,7 +66,7 @@ return [
         'others' => 'outros',
         'DocumentYear' => 'Documentos por ano',
         'hash' => '#',
-        '' => '',
+        'author' => 'Nome do autor',
         '' => '',
         '' => '',
 ];

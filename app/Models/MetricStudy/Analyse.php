@@ -130,6 +130,7 @@ class Analyse extends Model
             $sx .= ' - Total '.$totm;
             /******************************** */
             $totac = 0;
+            $lastx = 0;
             foreach($data as $name=>$total)
                 {
                     $ct++;
@@ -143,7 +144,7 @@ class Analyse extends Model
                     $sx .= '<td class="text-center">' . $totac . '</td>';
                     $sx .= '<td class="text-center">' . number_format($totac / $totm * 100, 1, ',', '.') . '%</td>';
                     $sx .= '</tr>';
-                    if ($ct > $limit)
+                    if (($ct > $limit) and ($lastx != $total))
                         {
                             $total = ($totm - $totac);
                             $sx .= '<tr>';
@@ -156,6 +157,7 @@ class Analyse extends Model
                             $sx .= '</tr>';
                             break;
                         }
+                        $lastx = $total;
                 }
             $sx .= '</table>';
             $sx = bs(bsc($sx));
