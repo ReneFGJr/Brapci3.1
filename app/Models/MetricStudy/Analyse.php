@@ -136,14 +136,6 @@ class Analyse extends Model
                     $ct++;
                     $totac = $totac + $total;
                     $name_full = substr($name,0,strpos($name,';'));
-                    $sx .= '<tr>';
-                    $sx .= '<td>'.($ct).'</td>';
-                    $sx .= '<td>'.$name_full. '</td>';
-                    $sx .= '<td class="text-center">' . $total . '</td>';
-                    $sx .= '<td class="text-center">' . number_format($total / $totm * 100, 1, ',', '.') . '%</td>';
-                    $sx .= '<td class="text-center">' . $totac . '</td>';
-                    $sx .= '<td class="text-center">' . number_format($totac / $totm * 100, 1, ',', '.') . '%</td>';
-                    $sx .= '</tr>';
                     if (($ct > $limit) and ($lastx != $total))
                         {
                             $total = ($totm - $totac);
@@ -157,6 +149,14 @@ class Analyse extends Model
                             $sx .= '</tr>';
                             break;
                         } else {
+                            $sx .= '<tr>';
+                            $sx .= '<td>' . ($ct) . '</td>';
+                            $sx .= '<td>' . $name_full . '</td>';
+                            $sx .= '<td class="text-center">' . $total . '</td>';
+                            $sx .= '<td class="text-center">' . number_format($total / $totm * 100, 1, ',', '.') . '%</td>';
+                            $sx .= '<td class="text-center">' . $totac . '</td>';
+                            $sx .= '<td class="text-center">' . number_format($totac / $totm * 100, 1, ',', '.') . '%</td>';
+                            $sx .= '</tr>';
                             echo $ct.'=='.$limit.' == '.$total.'#'.$lastx.'<br>';
                             if (!($ct > $limit)) { $lastx = $total; }
                         }
