@@ -39,6 +39,10 @@ class MainPages extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'mark':
+                $Mark = new \App\Models\Base\Mark();
+                $sx .= $Mark->showId($subact, $id);
+                break;
             case 'services':
                 $sx .= $this->services();
                 break;

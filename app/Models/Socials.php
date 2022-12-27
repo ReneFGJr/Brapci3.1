@@ -706,7 +706,11 @@ class Socials extends Model
 			$sx .= $this->perfil_show_header($dt);
 			$sx .= $this->my_library($dt);
 			$logs = $this->logs($id);
-			$rese = $this->my_reasearchs($id);
+			$rese = '';
+			if (function_exists("my_reasearchs"))
+				{
+					$rese = my_reasearchs($id);
+				}
 			$setings = $this->my_setings($id);
 			$sx .= bs(
 				bsc($setings, 4) .
@@ -937,26 +941,6 @@ class Socials extends Model
 		return $sx;
 	}
 
-
-	/*************************************************** RESEARSH */
-	function my_reasearchs($id)
-	{
-		$sx = '
-			<div class="card h-100">
-					<div class="card-header pb-0 p-3">
-						<h6 class="mb-0">' . lang('social.researchs_register') . '</h6>
-					</div>
-					<div class="card-body p-3">
-						<h6 class="text-uppercase text-body text-xs font-weight-bolder">' . lang('social.research') . '</h6>
-						<ul class="list-group">';
-		$sx .= '<li class="list-group-item border-0 px-0">' . lang('social.research_info') . '</li>';
-		$sx .= '
-						</ul>
-					</div>
-					</div>
-					';
-		return $sx;
-	}
 
 	/*************************************************** LOGS */
 
@@ -1327,8 +1311,8 @@ class Socials extends Model
 			$sx .= '            ' . $email . cr();
 			$sx .= '          </a>' . cr();
 			$sx .= '          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">' . cr();
-			$sx .= '            <li><a class="dropdown-item" href="' . (PATH . MODULE . '/social/?cmd=perfil') . '">' . lang('social.perfil') . '</a></li>' . cr();
-			$sx .= '            <li><a class="dropdown-item" href="' . (PATH . MODULE . '/social/?cmd=logout') . '">' . lang('social.logout') . '</a></li>' . cr();
+			$sx .= '            <li><a class="dropdown-item" href="' . (URL . '/social/?cmd=perfil') . '">' . lang('social.perfil') . '</a></li>' . cr();
+			$sx .= '            <li><a class="dropdown-item" href="' . (URL . '/social/?cmd=logout') . '">' . lang('social.logout') . '</a></li>' . cr();
 			$sx .= '          </ul>' . cr();
 			$sx .= '        </li>' . cr();
 			$sx .= '</ul>' . cr();

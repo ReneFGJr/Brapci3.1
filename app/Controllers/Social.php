@@ -7,7 +7,7 @@ use App\Controllers\BaseController;
 ///* SESSION */
 $language = \Config\Services::language();
 
-helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr','sessions','cookie']);
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr','sessions','cookie','functions']);
 $session = \Config\Services::session();
 
 define("URL",getenv("app.baseURL"));

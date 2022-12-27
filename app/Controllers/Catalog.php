@@ -16,7 +16,7 @@ define("LIBRARY", '1000');
 
 class Catalog extends BaseController
 {
-    public function index($act = '')
+    public function index($act = '',$d1='',$d2='',$d3='',$d4='')
     {
         $sx = '';
         $data['page_title'] = 'Brapci Dados de Pesquisa';
@@ -26,13 +26,13 @@ class Catalog extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
 
-        $sx .= $this->services();
+        $sx .= $this->services($act,$d1,$d2,$d3,$d4);
 
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
 
-    function services()
+    function services($act, $d1, $d2, $d3, $d4)
         {
             $menu = array();
             $menu['#brapci.serviceplace'] = "#";
