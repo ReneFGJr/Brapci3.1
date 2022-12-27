@@ -148,7 +148,7 @@ class Analyse extends Model
                             $total = ($totm - $totac);
                             $sx .= '<tr>';
                             $sx .= '<td></td>';
-                            $sx .= '<td>' . lang('brapci.others') . '('.number_format((count($data) - $limit),0,',','.').')'. '</td>';
+                            $sx .= '<td>' . lang('brapci.others') . '('.number_format((count($data) - $limit -1),0,',','.').')'. '</td>';
                             $sx .= '<td class="text-center">' . number_format($total,0,',','.') . '</td>';
                             $sx .= '<td class="text-center">' . number_format($total / $totm * 100, 1, ',', '.') . '%</td>';
                             $sx .= '<td class="text-center">' . number_format($totac,0,',','.') . '</td>';
