@@ -66,11 +66,6 @@ class Proceedings extends BaseController
                 $sx .= $Issues->show_list_cards($dt['id_jnl']);
                 break;
 
-            case 'analyse':
-                $AnalyseStudy = new \App\Models\MetricStudy\Analyse();
-                $sx .= $AnalyseStudy->index();
-                break;
-
             case 'xsearch':
                 $data['logo'] = view('Logos/logo_benancib');
                 $data['search'] = view('Benancib/Pages/search');

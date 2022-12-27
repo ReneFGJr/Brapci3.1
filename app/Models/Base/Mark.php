@@ -43,6 +43,21 @@ class Mark extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function index($cmd,$d1='',$d2='',$d3='')
+        {
+            $sx = '';
+            switch($cmd)
+                {
+                    case 'analyse':
+                        $AnalyseStudy = new \App\Models\MetricStudy\Analyse();
+                        $sx .= $AnalyseStudy->index();
+                        break;
+                    default:
+                        $sx .= $cmd . " $d1 $d2 $d3";
+                        break;
+                }
+            return $sx;
+        }
 
     function showId($id,$action='')
         {
@@ -81,7 +96,7 @@ class Mark extends Model
     function btn_mark_analyse()
     {
         $sx = '';
-        $sx .= '<a href="' . PATH . '/mark/' . $id . '/analyse" class="btn btn-outline-primary">' .
+        $sx .= '<a href="' . PATH . '/mark/analyse" class="btn btn-outline-primary">' .
         lang('brapci.mark_analyse') . '</a>';
         return $sx;
     }

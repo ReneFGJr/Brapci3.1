@@ -41,7 +41,7 @@ class MainPages extends BaseController
         switch ($act) {
             case 'mark':
                 $Mark = new \App\Models\Base\Mark();
-                $sx .= $Mark->showId($subact, $id);
+                $sx .= $Mark->index($subact, $id);
                 break;
             case 'services':
                 $sx .= $this->services();
