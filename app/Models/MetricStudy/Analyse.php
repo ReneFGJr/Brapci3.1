@@ -156,8 +156,10 @@ class Analyse extends Model
                             $sx .= '<td class="text-center">' . number_format(100, 1, ',', '.') . '%</td>';
                             $sx .= '</tr>';
                             break;
+                        } else {
+                            $lastx = $total;
                         }
-                        $lastx = $total;
+
                 }
             $sx .= '</table>';
             $sx = bs(bsc($sx));
