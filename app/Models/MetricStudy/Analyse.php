@@ -104,7 +104,11 @@ class Analyse extends Model
 
     function table($data,$type='auth')
         {
-            $limit = round(sqrt(count($data)));
+            $limit = get("limit");
+            if ($limit == '')
+                {
+                    $limit = round(sqrt(count($data)));
+                }
             $ct = 0;
 
             $sx = '';
@@ -157,7 +161,6 @@ class Analyse extends Model
                             $sx .= '<td class="text-center">' . $totac . '</td>';
                             $sx .= '<td class="text-center">' . number_format($totac / $totm * 100, 1, ',', '.') . '%</td>';
                             $sx .= '</tr>';
-                            echo $ct.'=='.$limit.' == '.$total.'#'.$lastx.'<br>';
                             if (!($ct > $limit)) { $lastx = $total; }
                         }
                 }
