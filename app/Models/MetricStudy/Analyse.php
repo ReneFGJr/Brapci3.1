@@ -126,7 +126,8 @@ class Analyse extends Model
                 {
                     $totm = $totm + $total;
                 }
-                $limit + 10;
+        $limit = $limit + 10;
+
             $sx .= 'Limit: ' . $limit . ' ' . lang('brapci.of') . ' ' . count($data);
             $sx .= ' - Total '.$totm;
             /******************************** */
