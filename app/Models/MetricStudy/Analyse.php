@@ -157,6 +157,7 @@ class Analyse extends Model
                             $sx .= '</tr>';
                             break;
                         } else {
+                            echo $ct.'=='.$limit.' == '.$lastx.'<br>';
                             if (!$ct > $limit) { $lastx = $total; }
                         }
                 }
