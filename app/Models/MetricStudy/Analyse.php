@@ -92,7 +92,8 @@ class Analyse extends Model
         $dd['types_total'] = pie($source, 'pie', lang('brapci.DocumentType'), 'DocumentType', 10, 1);
 
         arsort($auth);
-        $dd['authors_total'] = graph($auth, 'bar', lang('brapci.auth'), 'authTotal',10,1);
+        $dd['authors_total'] = graph($auth, 'bar', lang('brapci.authors'), 'authTotal',10,1);
+        pre($auth,false);
 
         $sx = view('MetricStudy/DrashBoard', $dd);
 
