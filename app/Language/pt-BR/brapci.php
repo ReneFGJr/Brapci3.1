@@ -65,7 +65,7 @@ return [
         'works_acumulate_percente' => '% Acumu.',
         'others' => 'outros',
         'DocumentYear' => 'Documentos por ano',
-        '' => '',
+        'hash' => '#',
         '' => '',
         '' => '',
         '' => '',
