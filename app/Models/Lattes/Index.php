@@ -68,7 +68,6 @@ class Index extends Model
                 $sx .= 'VIEWPRJ';
                 $Projects = new \App\Models\Tools\Projects();
                 $prj = $Projects->selected();
-                $prj = 1;
 
                 $API = new \App\Models\Api\Lattes\Index();
                 $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
