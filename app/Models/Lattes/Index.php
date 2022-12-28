@@ -70,7 +70,7 @@ class Index extends Model
                 $prj = $Projects->selected();
                 $prj = 1;
 
-                $API = new \App\Models\API\Lattes\Index();
+                $API = new \App\Models\Api\Lattes\Index();
                 $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
                 $dt = array();
                 $dt['title'] = array('Resume','Curriculos','Harvesting','Export');
