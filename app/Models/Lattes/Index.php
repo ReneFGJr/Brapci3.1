@@ -51,7 +51,7 @@ class Index extends Model
 
         for ($r = 0; $r < count($t); $r++) {
             $term = $t[$r];
-            echo '===>' . $term . cr().'<br>';
+            echo '===>' . $term . cr() . '<br>';
             sleep(5);
             $this->lattes_search_result($term);
         }
@@ -64,6 +64,21 @@ class Index extends Model
         $sx .= h(lang('tools.Lattes_tools'), 2);
 
         switch ($d1) {
+            case 'viewPrj':
+                $sx .= 'VIEWPRJ';
+                $Projects = new \App\Models\Tools\Projects();
+                $prj = $Projects->selected();
+                $prj = 1;
+
+                $API = new \App\Models\API\Lattes\Index();
+                $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
+                $dt = array();
+                $dt['title'] = array('Resume','Curriculos','Harvesting','Export');
+                $dt['tab'] = array('Resume','Curriculos','Harvesting','Export');
+                $dt['tab'][0] = $ProjectsHarvestingXml->resume($prj);
+                $dt['tab'][1] = $ProjectsHarvestingXml->list($prj);
+                $sx .= bs(view('Tools/Project/pills',$dt));
+                break;
             case 'robot':
                 $sx .= $this->robot();
                 break;
@@ -79,7 +94,7 @@ class Index extends Model
         return $sx;
     }
 
-    function lattes_search_extrai_nome($txt,$term='')
+    function lattes_search_extrai_nome($txt, $term = '')
     {
         $key = '';
         $sx = '';
@@ -194,7 +209,7 @@ class Index extends Model
                 $txt = file_get_contents($url);
                 file_put_contents($file, $txt);
             }
-            $sx = $this->lattes_search_extrai_nome($txt,$term);
+            $sx = $this->lattes_search_extrai_nome($txt, $term);
         }
 
 

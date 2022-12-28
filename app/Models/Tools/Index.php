@@ -43,32 +43,42 @@ class Index extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
     {
-        if (($d1 == 'lattes') and ($d2 = 'robot')) {
-            $user = 1;
-        } else {
-            $sx = '';
-            $Socials = new Socials();
-            $user = $Socials->getuser();
-        }
+        $sx = '';
+        $Socials = new Socials();
+        $user = $Socials->getuser();
 
         if ($user == 0) {
             $sx .= bsmessage(lang('brapci.user_not_loged'), 3);
             $sx = bs(bsc($sx, 12));
-        } else {
-            switch ($d1) {
-                case 'nlp':
-                    $NLP = new \App\Models\AI\NLP\Index();
-                    $sx .= $NLP->index($d2, $d3, $d4, $d5);
-                    break;
-                case 'lattes':
-                    $sx .= $this->lattes($d2, $d3, $d4, $d5);
-                    break;
-                default:
-                    $sx .= $this->menu();
-                    break;
-            }
-            $sx = bs(bsc($sx, 12));
+            return $sx;
         }
+
+        $Projects = new \App\Models\Tools\Projects();
+        $idp = $Projects->selected();
+
+        if ($idp == 0) {
+            $dt = $Socials->find($user);
+
+            $sx .= view("Tools/welcome",$dt);
+            $sx .= $Projects->my_projects();
+            $sx = bs($sx);
+            return $sx;
+        }
+
+        switch ($d1) {
+            case 'nlp':
+                $NLP = new \App\Models\AI\NLP\Index();
+                $sx .= $NLP->index($d2, $d3, $d4, $d5);
+                break;
+            case 'lattes':
+                $sx .= $this->lattes($d2, $d3, $d4, $d5);
+                break;
+            default:
+                $sx .= $this->menu();
+                break;
+        }
+        $sx = bs(bsc($sx, 12));
+
         return $sx;
     }
 

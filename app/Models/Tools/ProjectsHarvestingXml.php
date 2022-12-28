@@ -42,63 +42,115 @@ class ProjectsHarvestingXml extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function getXML($id)
-        {
-            $sx = '===>'.$id;
-            $file = '../.tmp/xml/'.$id.'.xml';
-            if (file_exists($file))
-                {
-                    $sx = file_get_contents($file);
-                } else {
-            $dt = $this
-                ->where('hx_project',$id)
-                ->where('hx_status',0)
-                ->first();
-            if ($dt != '')
-                {
-                    $id_lattes = $dt['hx_id_lattes'];
-                    $sx .= $id_lattes;
-                    $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q='.$id_lattes;
-                    $sx .= h($url);
-                }
-                }
-            return $sx;
+    function resume($prj)
+    {
+        $dt = $this
+            ->select('count(*) as total, hx_status')
+            ->where('hx_project', $prj)
+            ->groupBy('hx_status')
+            ->findAll();
+        $sta = array(0, 0, 0, 0, 0, 0, 0);
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $sta[$line['hx_status']] = $line['total'];
         }
+        $sx = '<ul>';
+        $reg = 0;
+        for ($r = 0; $r < count($sta); $r++) {
+            if ($sta[$r] > 0) {
+                $reg++;
+                $sx .= '<li>' . lang('brapci.harvesting_status_' . $r) . ' (' . $sta[$r] . ')</li>';
+            }
+        }
+        $sx .= '</ul>';
+        if ($reg == 0) {
+            $sx = bsmessage(lang('brapci.lattes_register_nothing'));
+        }
+        return $sx;
+    }
+
+    function list($prj)
+    {
+        $sx = '';
+        $dt = $this
+            ->where('hx_project', $prj)
+            ->orderBy('hx_name, hx_id_lattes')
+            ->findAll();
+        $sx .= '<table class="table" style="width: 100%">';
+        $sx .= '<tr>
+                <th>IDLattes</th>
+                <th>Nome</th>
+                <th>ShortKey</th>
+                <th>Status</th>
+                <th>Update</th>
+                </tr>';
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $sx .= '<tr>';
+            $sx .= '<td>' . $line['hx_id_lattes'] . '</td>';
+            $sx .= '<td>' . $line['hx_name'] . '</td>';
+            $sx .= '<td>' . $line['hx_key'] . '</td>';
+            $sx .= '<td>' . lang('brapci.harvesting_status_' . $line['hx_status']) . '</td>';
+            $sx .= '<td>' . stodbr($line['hx_updated']) . '</td>';
+            $sx .= '</tr>';
+        }
+        $sx .= '</table>';
+        return $sx;
+    }
+
+    function getXML($id)
+    {
+        $sx = '===>' . $id;
+        $file = '../.tmp/xml/' . $id . '.xml';
+        if (file_exists($file)) {
+            $sx = file_get_contents($file);
+        } else {
+            $dt = $this
+                ->where('hx_project', $id)
+                ->where('hx_status', 0)
+                ->first();
+            if ($dt != '') {
+                $id_lattes = $dt['hx_id_lattes'];
+                $sx .= $id_lattes;
+                $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q=' . $id_lattes;
+                $sx .= h($url);
+            }
+        }
+        return $sx;
+    }
 
     function btn_harvesting($id)
-        {
-            $link = PATH.COLLECTION.'/lattes/harvest/'.$id;
-            $sx = '<a href="'.$link.'">Harvesting</a>';
-            return $sx;
-        }
+    {
+        $link = PATH . COLLECTION . '/lattes/harvest/' . $id;
+        $sx = '<a href="' . $link . '">Harvesting</a>';
+        return $sx;
+    }
 
     function update_counter($id)
-        {
-            $total = 0;
-            $harvested = 0;
+    {
+        $total = 0;
+        $harvested = 0;
 
-            $dt = $this
+        $dt = $this
             ->select("count(*) as total, hx_status")
-            ->where('hx_project',$id)
+            ->where('hx_project', $id)
             ->groupBy('hx_status')
             ->findAll();
 
-            for ($r=0;$r < count($dt);$r++)
-                {
-                    $line = $dt[$r];
-                    $total = $total + $line['total'];
-                    if ($line['hx_status'] == 1)
-                        {
-                            $harvested = $line['total'];
-                        }
-                }
-
-            $ProjectsHarvesting = new \App\Models\Tools\ProjectsHarvesting();
-            $data['ph_total'] = $total;
-            $data['ph_harvested'] = $harvested;
-            $ProjectsHarvesting->set($data)->where('id_ph',$id)->update();
-            return "";
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $total = $total + $line['total'];
+            if ($line['hx_status'] == 1) {
+                $harvested = $line['total'];
+            }
         }
+
+        $ProjectsHarvesting = new \App\Models\Tools\ProjectsHarvesting();
+        $data['ph_total'] = $total;
+        $data['ph_harvested'] = $harvested;
+        $ProjectsHarvesting->set($data)->where('id_ph', $id)->update();
+        return "";
+    }
 
     function register($idp, $lattes)
     {

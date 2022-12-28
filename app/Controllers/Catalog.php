@@ -38,6 +38,7 @@ class Catalog extends BaseController
             $menu['#brapci.serviceplace'] = "#";
             $menu['/catalog'] = msg('brapci.catalog');
             $menu['/books'] = msg('brapci.books');
+            $menu['/tools'] = msg('brapci.bibliometric_tools');
             $menu['/autoridades'] = msg('brapci.authority');
 
             return bs(bsc(menu($menu),12));

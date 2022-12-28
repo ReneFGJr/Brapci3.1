@@ -57,6 +57,26 @@ class Index extends Model
                 }
         }
 
+    function checkID($code)
+    {
+        $dig = substr($code,15,1);
+        $code = substr($code,0,15);
+
+        $weightflag = true;
+        $sum = 0;
+        for ($i = strlen($code) - 1; $i >= 0; $i--) {
+            $sum += (int)$code[$i] * ($weightflag ? 3 : 1);
+            $weightflag = !$weightflag;
+        }
+        $ver = (10 - ($sum % 10)) % 10;
+        if ($ver == $dig)
+            {
+                return 1;
+            } else {
+                return 0;
+            }
+    }
+
     function registre_id_lattes($id,$data,$force=true)
         {
             if ($force == true)

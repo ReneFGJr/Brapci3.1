@@ -48,16 +48,103 @@ class Projects extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function my_projects($d1,$d2,$d3)
-    {
-        $sx = lang('tools.my_projects');
+    function index($d1,$d2,$d3)
+        {
+            $this->path = PATH . COLLECTION . '/project';
+            $this->path_back = PATH . COLLECTION ;
 
-        $this->path = PATH.COLLECTION.'/lattes';
-        $this->path_back = PATH . COLLECTION . '/lattes';
+            $sx = "$d1, $d2, $d3";
+            switch($d1)
+                {
+                    case 'api':
+                        $ProjectAPI = new \App\Models\Tools\ProjectsAPIs();
+                        $sx .= $ProjectAPI->index($d3,$d2);
+                        break;
+                    case 'viewid':
+                        $sx .= $this->view($d2,$d3);
+                        break;
+                    case 'select':
+                        $this->selection($d2);
+                        $sx .= $this->view($d2, $d3);
+                        break;
+                    case 'edit':
+                        $this->id = $d2;
+                        $sx .= bs(bsc(form($this),12));
+                        break;
+                }
+            return $sx;
+        }
+
+    function view($id)
+        {
+            $ProjectAPI = new \App\Models\Tools\ProjectsAPIs();
+            $dt = $this->find($id);
+            $sx = view('Tools/Project/header',$dt);
+
+            $sx .= $ProjectAPI->services($id);
+            $sx = bs($sx);
+            return $sx;
+        }
+
+    function selection($id)
+        {
+            $dt = $this->find($id);
+            $_SESSION['project']['id'] = $dt['id_prj'];
+            return $id;
+        }
+
+    function selected()
+        {
+            if(isset($_SESSION['project']['id']))
+                {
+                    return round($_SESSION['project']['id']);
+                } else {
+                    return 0;
+                }
+        }
+
+    function my_projects($d1='',$d2='',$d3='')
+    {
+        $sx = bsc(h(lang('brapci.my_projects').'<hr>',3),12);
+
+        $this->path = PATH.COLLECTION;
+        $this->path_back = PATH . COLLECTION;
         $Socials = new Socials();
         $user = $Socials->getuser();
 
-        $sx .= h($d1);
+        /************************************** CARDS */
+        $dt = $this->where('prj_own',$user)->orderBy('updated_at desc')->findAll();
+        for($r=0;$r < count($dt);$r++)
+            {
+                $line = $dt[$r];
+                $link = PATH . COLLECTION.'/project/select/'.$line['id_prj'];
+                $txt = 'brapci.select';
+                $sc = ''.cr();
+                $sc .= '<div class="p-2" style="width: 100%; min-height: 200px; position: relative; border: 2px solid #3333; border-radius: 5px;">';
+                $sc .= '<b>'.$line['prj_title'].'</b>';
+                $sc .= '<p style="font-size: 0.7em;">'. $line['prj_description'].'</p>';
+                $sc .= '<div style="position:absolute; bottom: 0px;">';
+                $sc .= '<a href="' . $link . '" class="mb-2 btn btn-primary" style="width: 100%;">' . lang($txt) . '</a>';
+                $sc .= '</div>';
+                $sc .= '</div>'.cr();
+                //prj_description
+                $sx .= bsc($sc,3);
+            }
+
+        $link = PATH . COLLECTION . '/project/edit/0';
+        $txt = 'brapci.project_new';
+        $sc = '' . cr();
+        $sc .= '<div class="p-2" style="min-height: 200px; position: relative; border: 2px solid #3333; border-radius: 5px">';
+        $sc .= '<b>' . lang('brapci.new_project'). '</b>';
+        $sc .= '<p style="font-size: 0.7em;">' . lang('brapci.new_project_info') . '</p>';
+        $sc .= '<div style="position:absolute; bottom: 0px;">';
+        $sc .= '<a href="' . $link . '" class="mb-2 btn btn-outline-danger" style="width: 100%;">' . lang($txt) . '</a>';
+        $sc .= '</div>';
+        $sc .= '</div>' . cr();
+        //prj_description
+        $sx .= bsc($sc, 3);
+
+        return bs($sx);
 
         switch($d1)
             {

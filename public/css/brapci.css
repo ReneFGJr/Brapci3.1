@@ -24,6 +24,10 @@ body
   background-color: #000094;
 }
 
+.bg-tools {
+  background-color: #5E3030;
+}
+
 .bg-pq {
   background-color: #946856;
 }
@@ -33,9 +37,6 @@ body
 .bg-authority, a.bg-authority {
   background-color: #345283;
   color: white;
-}
-.bg-tools {
-  background-color: #a2028a;
 }
 
 .bg-patente

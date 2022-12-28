@@ -19,12 +19,16 @@ class Tools extends BaseController
     {
         $Tools = new \App\Models\Tools\Index();
         $data['page_title'] = 'Brapci Bibliometric Tools';
-        $data['bg'] = 'bg-ai';
+        $data['bg'] = 'bg-tools';
 
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Ai/Header/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
         switch ($act) {
+           case 'project':
+            $Projects = new \App\Models\Tools\Projects();
+            $sx .= $Projects->index($subact,$id,$id2);
+            break;
 
            default:
                 $sx .= $Tools->index($act,$subact,$id,$id2);
