@@ -144,7 +144,6 @@ function dircheck($dir)
     if (is_dir($dir)) {
         $ok = 1;
     } else {
-        echo $dir.'<hr>';
         mkdir($dir);
         $rlt = fopen($dir . '/index.php', 'w');
         fwrite($rlt, 'acesso restrito');
