@@ -84,11 +84,11 @@ class Index extends Model
         return false;
     }
 
-    function harvesting()
+    function harvesting($id='')
     {
 
 
-        $id = get("id");
+        $id = $id.get("id");
 
         if (strlen($id) == 16) {
 

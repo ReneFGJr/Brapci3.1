@@ -100,6 +100,23 @@ class Index extends Model
             return false;
         }
 
+    function harvesting_next($prj)
+        {
+            $LattesExtrator = new \App\Models\LattesExtrator\Index();
+            $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
+            $dt = $ProjectsHarvestingXml
+                -> where('hx_project',$prj)
+                -> where('hx_status',0)
+                -> limit(1)
+                -> orderby("updated_at")
+                ->first();
+            if ($dt != '')
+                {
+                    $ProjectsHarvestingXml->harvesting($dt['hx_id_lattes']);
+                    pre($dt);
+                }
+        }
+
     function extract_from_markers()
         {
             $sx = '';

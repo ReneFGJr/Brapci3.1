@@ -69,6 +69,47 @@ class ProjectsHarvestingXml extends Model
         return $sx;
     }
 
+    function inport($ln,$prj)
+        {
+            $Lattes = new \App\Models\Api\Lattes\Index();
+            $sx = '';
+            $ln = troca($ln, chr(10), '');
+            $ln = troca($ln, chr(8), '');
+            $ln = troca($ln,chr(13),';');
+            $ln = troca($ln, chr(10), ';');
+            $ln = troca($ln,';;',';');
+            $ln = explode(';',$ln);
+            $sx .= '<ul>';
+            $sf = '';
+            for ($r=0;$r < count($ln);$r++)
+                {
+                    $l = substr(trim(sonumero($ln[$r])),0,16);
+                    if (strlen($l) > 0)
+                        {
+
+                            $valid = '';
+                            if ($Lattes->checkID($l) == 1)
+                                {
+                                    $valid = ' <span style="color: green">';
+                                    $valid .= '<b>OK</b>';
+                                    $valid .= '</span>';
+
+                                    $this->register($prj,$l);
+                                } else {
+                                    $valid = ' <span style="color: red">';
+                                    $valid .= '<b>ERRO</b>';
+                                    $valid .= '</span>';
+                                    $sf .= $l.chr(13);
+                                }
+                            $sx .= '<li>' . $l . $valid. '</li>';
+                        }
+
+                }
+            $sx .= '</ul>';
+            $_POST['lattes'] = $sf;
+            return $sx;
+        }
+
     function list($prj)
     {
         $sx = '';

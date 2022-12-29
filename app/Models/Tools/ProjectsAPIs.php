@@ -43,13 +43,13 @@ class ProjectsAPIs extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($act,$id)
+    function index($act,$id,$id2='',$id3='',$id4='')
         {
             switch($act)
                 {
                     case 'lattes':
                         $Lattes = new \App\Models\Lattes\Index();
-                        $sx = $Lattes->index('viewPrj',$id);
+                        $sx = $Lattes->index($id2,$id,$id3,$id4);
                         break;
                     case 'active':
                         $Project = new \App\Models\Tools\Projects();

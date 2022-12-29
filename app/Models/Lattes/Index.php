@@ -60,23 +60,22 @@ class Index extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
     {
-        $sx = '';
+        $sx = "d1=$d1, d2=$d2, d3=$d3, d4=$d4";
         $sx .= h(lang('tools.Lattes_tools'), 2);
 
         switch ($d1) {
-            case 'viewPrj':
-                $sx .= 'VIEWPRJ';
-                $Projects = new \App\Models\Tools\Projects();
-                $prj = $Projects->selected();
+            case 'in':
+                $sx = 'FORM';
+                $lattes = get("lattes");
+                if (strlen($lattes) != '')
+                    {
+                        $Projects = new \App\Models\Tools\Projects();
+                        $prj = $Projects->selected();
 
-                $API = new \App\Models\Api\Lattes\Index();
-                $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
-                $dt = array();
-                $dt['title'] = array('Resume','Curriculos','Harvesting','Export');
-                $dt['tab'] = array('Resume','Curriculos','Harvesting','Export');
-                $dt['tab'][0] = $ProjectsHarvestingXml->resume($prj);
-                $dt['tab'][1] = $ProjectsHarvestingXml->list($prj);
-                $sx .= bs(view('Tools/Project/pills',$dt));
+                        $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
+                        $sx .= $ProjectsHarvestingXml->inport($lattes,$prj);
+                    }
+                $sx .= $this->form($d2);
                 break;
             case 'robot':
                 $sx .= $this->robot();
@@ -87,9 +86,47 @@ class Index extends Model
                 break;
             default:
                 $Projects = new \App\Models\Tools\Projects();
-                $sx .= $Projects->my_projects($d1, $d2, $d3, $d4);
+                $prj = $Projects->selected();
+
+                $API = new \App\Models\Api\Lattes\Index();
+                $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
+                $dt = array();
+                $dt['title'] = array('Resume', 'Curriculos', 'Harvesting', 'Export');
+                $dt['tab'] = array('Resume', 'Curriculos', 'Harvesting', 'Export');
+                $dt['tab'][0] = $ProjectsHarvestingXml->resume($prj);
+                $dt['tab'][1] = $this->btn_lattes_add($prj) . $ProjectsHarvestingXml->list($prj);
+                $dt['tab'][2] = $this->btn_lattes_harvesting($prj);
+                $sx .= bs(view('Tools/Project/pills', $dt));
                 break;
         }
+        return $sx;
+    }
+
+    function form($id)
+        {
+            $submit = lang('brapci.save');
+            $lattes = get("lattes");
+            $sx = form_open();
+            $sx .= '<label>Insira o número dos Lattes (16 digitos, ex: 1234567890123456</label>';
+            $sx .= form_textarea(array('name'=>'lattes','value'=>$lattes,'id'=>'lattes','rows'=>10,'style'=>'width: 100%;'));
+            $sx .= form_submit(array('name'=>'action','value'=>$submit));
+            $sx .= form_close();
+
+            return $sx;
+        }
+
+    function btn_lattes_add($prj)
+        {
+            $sx = '<span onclick="download(\''.PATH.COLLECTION.
+                    '/project/api/2/lattes/in\');"
+                    class="btn btn-outline-primary">'.lang('brapci.add').'</span>';
+            return $sx;
+        }
+
+    function btn_lattes_harvesting($prj)
+    {
+        $sx = '<span onclick="download(\'' . PATH . '/bots/lattes/'.$prj.'\');"
+                    class="btn btn-outline-primary">' . lang('brapci.harvesting') . '</span>';
         return $sx;
     }
 

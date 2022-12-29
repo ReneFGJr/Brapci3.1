@@ -15,7 +15,7 @@ define("COLLECTION", 'tools');
 
 class Tools extends BaseController
 {
-    public function index($act = '', $subact = '', $id = '', $id2='')
+    public function index($act = '', $subact = '', $id = '', $id2='',$id3='',$id4='',$id5='')
     {
         $Tools = new \App\Models\Tools\Index();
         $data['page_title'] = 'Brapci Bibliometric Tools';
@@ -27,11 +27,11 @@ class Tools extends BaseController
         switch ($act) {
            case 'project':
             $Projects = new \App\Models\Tools\Projects();
-            $sx .= $Projects->index($subact,$id,$id2);
+            $sx .= $Projects->index($subact,$id,$id2, $id3, $id4, $id5);
             break;
 
            default:
-                $sx .= $Tools->index($act,$subact,$id,$id2);
+                $sx .= $Tools->index($act,$subact,$id,$id2,$id3,$id4, $id5);
                 break;
         }
 

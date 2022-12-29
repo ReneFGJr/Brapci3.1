@@ -48,17 +48,17 @@ class Projects extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1,$d2,$d3)
+    function index($d1,$d2,$d3,$d4='',$d5='')
         {
             $this->path = PATH . COLLECTION . '/project';
             $this->path_back = PATH . COLLECTION ;
 
-            $sx = "$d1, $d2, $d3";
+            $sx = "$d1, $d2, d3=$d3, d4=$d4, d5=$d5";
             switch($d1)
                 {
                     case 'api':
                         $ProjectAPI = new \App\Models\Tools\ProjectsAPIs();
-                        $sx .= $ProjectAPI->index($d3,$d2);
+                        $sx .= $ProjectAPI->index($d3,$d2,$d4,$d5);
                         break;
                     case 'viewid':
                         $sx .= $this->view($d2,$d3);

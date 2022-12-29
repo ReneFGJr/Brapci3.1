@@ -22,6 +22,13 @@ class Bots extends BaseController
 
         switch ($act) {
 
+            case 'lattes':
+                $Lattes = new \App\Models\Api\Lattes\Index();
+                echo "BOT's Lattes $act2".cr();
+                echo '<hr>';
+                echo $Lattes->harvesting_next($act2);
+                break;
+
             case 'patente':
                 $Patente = new \App\Models\Patent\Index;
                 $Patente->cron();
