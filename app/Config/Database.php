@@ -191,6 +191,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $capes = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_capes',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     /**
      * This database connection is used when
      * running PHPUnit database tests.
@@ -242,6 +262,9 @@ class Database extends Config
 
         $this->pgcd['username'] = getenv('database.default.username');
         $this->pgcd['password'] = getenv('database.default.password');
+
+        $this->capes['username'] = getenv('database.default.username');
+        $this->capes['password'] = getenv('database.default.password');
 
     }
 }

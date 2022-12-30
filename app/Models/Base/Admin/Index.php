@@ -40,10 +40,14 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($act = '', $subact = '', $id = '')
+    function index($act = '', $subact = '', $id ='', $id2 ='', $id3 = '')
     {
         $sx = '';
         switch ($act) {
+            case 'qualis':
+                $Qualis = new \App\Models\Qualis\Index();
+                $sx = $Qualis->index($subact,$id,$id2,$id3);
+                break;
             case 'oauth2':
                 $Oauth2 = new \App\Models\Oauth2\Index();
                 $sx = $Oauth2->OAUTH2();
@@ -115,6 +119,9 @@ class Index extends Model
 
         $m['#OAUTH2'] =  lang('brapci.event_cards');
         $m[PATH .  '/admin/oauth2'] =  lang('brapci.oauth2');
+
+        $m['#QUALIS'] =  lang('brapci.qualis');
+        $m[PATH .  '/admin/qualis'] =  lang('brapci.qualis');
 
         $m['#CONFIG'] =  lang('brapci.Email');
         $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');

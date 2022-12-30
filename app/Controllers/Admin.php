@@ -19,7 +19,7 @@ define("LIBRARY", '1000');
 
 class Admin extends BaseController
 {
-    public function index($act = '', $sub = '', $id = '')
+    public function index($act = '', $sub = '', $id = '',$id1='',$id2='',$id3='')
     {
         $Socials = new \App\Models\Socials();
         if ($Socials->getAccess("#ADM"))
@@ -42,7 +42,7 @@ class Admin extends BaseController
                         break;
 
                         default:
-                            $sx .= $Admin->index($act, $sub, $id);
+                            $sx .= $Admin->index($act, $sub, $id,$id1,$id2,$id3);
                         break;
                     }
                 $sx .= view('Brapci/Headers/footer', $data);
