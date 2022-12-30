@@ -103,6 +103,8 @@ class Index extends Model
                 dircheck("../.tmp/Zip");
                 $fileZip = '../.tmp/Zip/lattes.zip';
 
+                file_put_contents($fileZip, $txt);
+
                 $type = mime_content_type($fileZip);
                 if ($type == 'application/json')
                     {
@@ -111,8 +113,6 @@ class Index extends Model
                         $dt = (array)json_decode($txt);
                         echo ' '.$dt['erro'];
                         echo '<br>' . $dt['description'];
-                    } else {
-                        file_put_contents($fileZip, $txt);
                     }
 
                 $zip = new \ZipArchive();
