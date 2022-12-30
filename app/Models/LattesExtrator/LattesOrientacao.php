@@ -186,35 +186,37 @@ class LattesOrientacao extends Model
 
 		$xml = (array)$xml;
 
-		$prod = (array)$xml['OUTRA-PRODUCAO'];
-		$prod2 = (array)$prod['ORIENTACOES-CONCLUIDAS'];
+		if (isset($xml['OUTRA-PRODUCAO'])) {
+			$prod = (array)$xml['OUTRA-PRODUCAO'];
+			$prod2 = (array)$prod['ORIENTACOES-CONCLUIDAS'];
 
-		$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'];
-		$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
-		$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
-		$this->orientacoes($id, $orie, $tp1, $tp2);
-
-		if (isset($prod2['ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO'])) {
-			$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO'];
-			$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO';
-			$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO';
+			$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'];
+			$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
+			$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
 			$this->orientacoes($id, $orie, $tp1, $tp2);
-		}
 
-		if (isset($prod2['ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])) {
-			$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'];
-			$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO';
-			$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO';
-			$this->orientacoes($id, $orie, $tp1, $tp2);
-		}
+			if (isset($prod2['ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO'])) {
+				$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO'];
+				$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO';
+				$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO';
+				$this->orientacoes($id, $orie, $tp1, $tp2);
+			}
 
-		//pre($xml);
+			if (isset($prod2['ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'])) {
+				$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO'];
+				$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO';
+				$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-POS-DOUTORADO';
+				$this->orientacoes($id, $orie, $tp1, $tp2);
+			}
 
-		if (isset($prod2['OUTRAS-ORIENTACOES-CONCLUIDAS'])) {
-			$orie = (array)$prod2['OUTRAS-ORIENTACOES-CONCLUIDAS'];
-			$tp1 = 'DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS';
-			$tp2 = 'DETALHAMENTO-DE-OUTRAS-ORIENTACOES-CONCLUIDAS';
-			$this->orientacoes($id, $orie, $tp1, $tp2);
+			//pre($xml);
+
+			if (isset($prod2['OUTRAS-ORIENTACOES-CONCLUIDAS'])) {
+				$orie = (array)$prod2['OUTRAS-ORIENTACOES-CONCLUIDAS'];
+				$tp1 = 'DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS';
+				$tp2 = 'DETALHAMENTO-DE-OUTRAS-ORIENTACOES-CONCLUIDAS';
+				$this->orientacoes($id, $orie, $tp1, $tp2);
+			}
 		}
 
 		//pre($orie);
