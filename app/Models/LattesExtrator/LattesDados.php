@@ -89,9 +89,14 @@ class LattesDados extends Model
         $dt['lt_NASCIMENTO_ESTADO'] = trim((string)$aut['UF-NASCIMENTO']);
         $dt['lt_NASCIMENTO_PAIS'] = trim((string)$aut['PAIS-DE-NASCIMENTO']);
 
-        $dt['lt_orcid'] = trim((string)$aut['ORCID-ID']);
-        $dt['lt_orcid'] = troca($dt['lt_orcid'], 'https://orcid.org/', '');
-        $dt['lt_orcid'] = troca($dt['lt_orcid'], 'http://orcid.org/', '');
+        if (isset($aut['ORCID-ID']))
+            {
+                $dt['lt_orcid'] = trim((string)$aut['ORCID-ID']);
+                $dt['lt_orcid'] = troca($dt['lt_orcid'], 'https://orcid.org/', '');
+                $dt['lt_orcid'] = troca($dt['lt_orcid'], 'http://orcid.org/', '');
+            } else {
+                $dt['lt_orcid'] = '';
+            }
         $this->dados($dt);
         return ($dt);
     }
