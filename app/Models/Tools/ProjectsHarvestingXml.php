@@ -15,7 +15,7 @@ class ProjectsHarvestingXml extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'hx_project', 'hx_id_lattes', 'hx_status', 'hx_updated', 'created_at'
+        'hx_project', 'hx_name','hx_id_lattes', 'hx_status', 'hx_updated', 'created_at', 'updated_at'
     ];
 
     // Dates
@@ -108,6 +108,37 @@ class ProjectsHarvestingXml extends Model
             $sx .= '</ul>';
             $_POST['lattes'] = $sf;
             return $sx;
+        }
+
+    function harvesting($id)
+        {
+            $LattesDados = new \App\Models\LattesExtrator\LattesDados();
+
+            $sx = '';
+            $LT = new \App\Models\LattesExtrator\Index();
+            $dt = $LT->harvesting($id);
+            $sx .= '<br>Harvesting '.$id;
+            $file_xml = '../.tmp/lattes/'.$id.'.xml';
+            if (file_exists($file_xml))
+                {
+                    $sx .= '<br>File XML OK';
+                } else {
+                    $sx .= '<br>File ERRO OK';
+                }
+
+            /******************** Update */
+            $dta = $LattesDados->le_id($id);
+            $dt = array();
+            $dt['hx_name'] = $dta['lt_name'];
+            $dt['hx_updated'] = $dta['lt_atualizacao'];
+            $dt['updated_at'] = date("Y-m-d H:i:s");
+            $dt['hx_status'] = 1;
+
+            $this->set($dt)->where('hx_id_lattes',$id)->update();
+            echo $this->getlastquery();
+
+            pre($dt);
+
         }
 
     function list($prj)

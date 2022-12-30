@@ -86,9 +86,10 @@ class Index extends Model
 
     function harvesting($id='')
     {
-
-
+        $dt = array();
         $id = $id.get("id");
+
+        $dt['id'] = $id;
 
         if (strlen($id) == 16) {
 
@@ -98,9 +99,21 @@ class Index extends Model
                 $data = array();
                 echo view('Brapci/Headers/header', $data);
                 $txt = file_get_contents($url);
-
+                dircheck("../.tmp");
+                dircheck("../.tmp/Zip");
                 $fileZip = '../.tmp/Zip/lattes.zip';
-                file_put_contents($fileZip, $txt);
+
+                $type = mime_content_type($fileZip);
+                if ($type == 'application/json')
+                    {
+                        echo "ERRO";
+                        $txt = file_get_contents($fileZip);
+                        $dt = (array)json_decode($txt);
+                        echo ' '.$dt['erro'];
+                        echo '<br>' . $dt['description'];
+                    } else {
+                        file_put_contents($fileZip, $txt);
+                    }
 
                 $zip = new \ZipArchive();
                 $res = $zip->open($fileZip);
@@ -119,11 +132,14 @@ class Index extends Model
                     $LattesOrientacao->orientacao_xml($id);
                     return wclose();
                 } else {
-                    echo bsmessage("ERRO na descompactação", 3);
+                    echo bsmessage("ERRO na descompactação em $fileZip", 3);
                     exit;
                 }
             } else {
                 echo "CACHED";
+                $LattesDados = new \App\Models\LattesExtrator\LattesDados();
+                $LattesDados->dados_xml($id);
+
                 $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
                 $LattesProducao->producao_xml($id);
 
@@ -131,5 +147,6 @@ class Index extends Model
                 $LattesOrientacao->orientacao_xml($id);
             }
         }
+        return $dt;
     }
 }

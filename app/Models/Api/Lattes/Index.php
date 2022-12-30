@@ -114,6 +114,7 @@ class Index extends Model
                 {
                     $ProjectsHarvestingXml->harvesting($dt['hx_id_lattes']);
                     pre($dt);
+
                 }
         }
 
