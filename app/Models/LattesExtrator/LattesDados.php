@@ -50,6 +50,8 @@ class LattesDados extends Model
             $this
             ->where('lt_id', $id)
             ->findAll();
+            echo $this->getlastquery();
+            pre($dta,false);
         return $dta[0];
     }
 
