@@ -25,6 +25,11 @@ class Tools extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
         switch ($act) {
+            case 'social':
+                $Socials = new \App\Models\Socials();
+                $sx .= bs(bsc($Socials->index($subact, $id), 12));
+                break;
+
            case 'project':
             $Projects = new \App\Models\Tools\Projects();
             $sx .= $Projects->index($subact,$id,$id2, $id3, $id4, $id5);
