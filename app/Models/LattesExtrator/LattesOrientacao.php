@@ -190,10 +190,13 @@ class LattesOrientacao extends Model
 			$prod = (array)$xml['OUTRA-PRODUCAO'];
 			$prod2 = (array)$prod['ORIENTACOES-CONCLUIDAS'];
 
-			$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'];
-			$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
-			$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
-			$this->orientacoes($id, $orie, $tp1, $tp2);
+			if (isset($prod2['ORIENTACOES-CONCLUIDAS-PARA-MESTRADO']))
+				{
+					$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-MESTRADO'];
+					$tp1 = 'DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
+					$tp2 = 'DETALHAMENTO-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO';
+					$this->orientacoes($id, $orie, $tp1, $tp2);
+				}
 
 			if (isset($prod2['ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO'])) {
 				$orie = (array)$prod2['ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO'];
