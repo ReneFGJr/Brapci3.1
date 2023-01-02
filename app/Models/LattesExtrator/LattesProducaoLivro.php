@@ -211,6 +211,9 @@ class LattesProducaoLivro extends Model
 			case 'COLETANEA':
 				return "CL";
 				break;
+			case 'PERIODICO':
+				return "PE";
+				break;
 			default:
 				echo "NATUREZA: $t";
 				exit;
