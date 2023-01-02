@@ -114,6 +114,13 @@ class ProjectsHarvestingXml extends Model
         {
             $LattesDados = new \App\Models\LattesExtrator\LattesDados();
 
+            $dta = $LattesDados->le_id($id);
+            if (count($dta) == 0) {
+                $dt = array();
+                $dt['lt_id'] = $id;
+                $LattesDados->set($dt)->insert();
+            }
+
             $sx = '';
             $LT = new \App\Models\LattesExtrator\Index();
             $dt = $LT->harvesting($id);
