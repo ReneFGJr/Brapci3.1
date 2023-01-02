@@ -53,7 +53,7 @@ class Projects extends Model
             $this->path = PATH . COLLECTION . '/project';
             $this->path_back = PATH . COLLECTION ;
 
-            $sx = "$d1, $d2, d3=$d3, d4=$d4, d5=$d5";
+            $sx = "";
             switch($d1)
                 {
                     case 'api':
