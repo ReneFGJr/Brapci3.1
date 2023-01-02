@@ -110,11 +110,10 @@ class Index extends Model
                 -> limit(1)
                 -> orderby("updated_at")
                 ->first();
+
             if ($dt != '')
                 {
                     $ProjectsHarvestingXml->harvesting($dt['hx_id_lattes']);
-                    pre($dt);
-
                 }
         }
 
