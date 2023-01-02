@@ -128,6 +128,11 @@ class ProjectsHarvestingXml extends Model
 
             /******************** Update */
             $dta = $LattesDados->le_id($id);
+            if (count($dta) == 0)
+                {
+                    echo "ERRO: registro vazio";
+                    return "";
+                }
             $dt = array();
             $dt['hx_name'] = $dta['lt_name'];
             $dt['hx_updated'] = $dta['lt_atualizacao'];
@@ -135,10 +140,7 @@ class ProjectsHarvestingXml extends Model
             $dt['hx_status'] = 1;
 
             $this->set($dt)->where('hx_id_lattes',$id)->update();
-            echo $this->getlastquery();
-
-            pre($dt);
-
+            return $sx;
         }
 
     function list($prj)

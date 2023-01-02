@@ -53,12 +53,7 @@ class LattesDados extends Model
 
             if (count($dta) == 0)
                 {
-                    $dta['lt_id'] = $id;
-                    $this->set($dta)->insert();
-                    $dta =
-                    $this
-                        ->where('lt_id', $id)
-                        ->findAll();
+                    return array();
                 }
         return $dta[0];
     }
