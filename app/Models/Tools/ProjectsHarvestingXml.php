@@ -118,7 +118,6 @@ class ProjectsHarvestingXml extends Model
             if (count($dta) == 0) {
                 $dt = array();
                 $dt['lt_id'] = $id;
-                $dt['lt_status'] = 0;
                 $LattesDados->set($dt)->insert();
             }
 
