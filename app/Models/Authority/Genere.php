@@ -39,4 +39,21 @@ class Genere extends Model
 	protected $afterFind            = [];
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
+
+	function image($type)
+		{
+			switch($type)
+				{
+					case 'M':
+						$img = URL . '/img/genre/no_image_he.jpg';
+						break;
+					case 'F':
+						$img = URL . '/img/genre/no_image_she.jpg';
+						break;
+					default:
+						$img = URL . '/img/genre/no_image_she_he.jpg';
+						break;
+				}
+			return $img;
+		}
 }

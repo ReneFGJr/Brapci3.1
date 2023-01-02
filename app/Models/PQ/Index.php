@@ -99,20 +99,18 @@ class Index extends Model
 
 	function viewid($id='')
 	{
-		$id = $id.round(get("id"));
 		$id_brapci = 0;
+
+		$Bolsista = new \App\Models\PQ\Bolsistas();
+		$dt = $Bolsista->where('bs_lattes',$id);
+
+		$Lattes = new \App\Models\Lattes\Index();
+		$Lattes->checkId($id);
 
 		if ($id <= 0) {
 			return redirect('pq:index');
 		}
-		$RDF = new \App\Models\Rdf\RDF();
-		$Bolsistas = new \App\Models\PQ\Bolsistas();
-		$Bolsas = new \App\Models\PQ\Bolsas();
-		$LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
-		$LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
-		$LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
-
-		$dt = $Bolsistas->le($id);
+		return $sx= $Lattes->viewid($id);
 
 		$sa = view('Pq/bolsista', $dt);
 
@@ -120,32 +118,6 @@ class Index extends Model
 		/***** */
 		$sb .= onclick(URL . '/popup/pq_bolsa_edit?id=0&pq=' . $id, 800, 600) . bsicone('plus', 16, 'float-end') . '</span>';
 		$sb .= $Bolsas->historic_researcher($id);
-
-		$p3 = $LattesOrientacao->resume($dt['bs_lattes']);
-		$p1 = $LattesProducao->resume($dt['bs_lattes']);
-
-		$p2 = 0;
-		$sc = '';
-		$sc .= bsc('Produção Científica', 12);
-		$sc .= bsc($LattesProducao->selo($p1, 'ARTIGOS'), 3);
-		$sc .= bsc($LattesProducao->selo($p2, 'LIVROS'), 3);
-		$sc .= bsc($LattesProducao->selo($p2, 'CAPÍTULOS'), 3);
-		$sc .= bsc($LattesProducao->selo($p2, 'ANAIS'), 3);
-		$sc .= bsc('Produção Tecnológica', 12);
-		$sc .= bsc($LattesProducao->selo($p2, 'PATENTES'), 3);
-		$sc .= bsc($LattesProducao->selo($p2, 'SOFTWARES'), 3);
-		$sc .= bsc('Orientações', 12);
-		$sc .= bsc($LattesProducao->selo($p3[0], 'GRADUAÇÃO'), 2);
-		$sc .= bsc($LattesProducao->selo($p3[1], 'IC/IT'), 2);
-		$sc .= bsc($LattesProducao->selo($p3[2], 'MESTRADO'), 2);
-		$sc .= bsc($LattesProducao->selo($p3[3], 'DOUTORADO'), 2);
-		$sc .= bsc($LattesProducao->selo($p3[4], 'POS-DOUT.'), 2);
-		$sc .= bsc($LattesProducao->selo($p3[5], 'OUTROS'), 2);
-		$sb .= bs($sc);
-		$sb .= $LattesProducao->producao($dt['bs_lattes']);
-
-		$sx = bs(bsc($sa, 4) . bsc($sb, 9));
-
 
 		//$sx .= '<style> div { border: 1px solid #000;"} </style>';
 

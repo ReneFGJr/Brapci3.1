@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Index extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'brapci_tools.projects_harvesting_xml';
-    protected $primaryKey       = 'id_hx';
+    protected $table            = '*';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -60,21 +60,20 @@ class Index extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
     {
-        $sx = "d1=$d1, d2=$d2, d3=$d3, d4=$d4";
+        $sx = "";
         $sx .= h(lang('tools.Lattes_tools'), 2);
 
         switch ($d1) {
             case 'in':
                 $sx = 'FORM';
                 $lattes = get("lattes");
-                if (strlen($lattes) != '')
-                    {
-                        $Projects = new \App\Models\Tools\Projects();
-                        $prj = $Projects->selected();
+                if (strlen($lattes) != '') {
+                    $Projects = new \App\Models\Tools\Projects();
+                    $prj = $Projects->selected();
 
-                        $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
-                        $sx .= $ProjectsHarvestingXml->inport($lattes,$prj);
-                    }
+                    $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
+                    $sx .= $ProjectsHarvestingXml->inport($lattes, $prj);
+                }
                 $sx .= $this->form($d2);
                 break;
             case 'robot':
@@ -105,49 +104,83 @@ class Index extends Model
         return $sx;
     }
 
+    function link($id)
+    {
+        $link = '<a href="http://lattes.cnpq.br/' . $id . '" target="_blank">';
+        $linka = '</a>';
+        $sx = $link . '<img src="' . URL . '/img/icons/logo_lattes_mini.png" style="height: 24px;">' . $linka;
+        return $sx;
+    }
+    function checkID($code)
+    {
+        $dig = substr($code, 15, 1);
+        $code = substr($code, 0, 15);
+
+        $weightflag = true;
+        $sum = 0;
+        for ($i = strlen($code) - 1; $i >= 0; $i--) {
+            $sum += (int)$code[$i] * ($weightflag ? 3 : 1);
+            $weightflag = !$weightflag;
+        }
+        $ver = (10 - ($sum % 10)) % 10;
+        if ($ver == $dig) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     function viewid($id)
     {
-        $id = round(round(get("id")). $id);
+        //$sx = $this->viewid(ida);
         $id_brapci = 0;
 
-        if ($id <= 0) {
+        if ($id == '') {
             return redirect('tools:index');
         }
-        $RDF = new \App\Models\Rdf\RDF();
-        $Bolsistas = new \App\Models\PQ\Bolsistas();
-        $Bolsas = new \App\Models\PQ\Bolsas();
+        $Genene = new \App\Models\Authority\Genere();
+        $LattesDados = new \App\Models\LattesExtrator\LattesDados();
         $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+        $LattesProducaoEvento = new \App\Models\LattesExtrator\LattesProducaoEvento();
+        $LattesProducaoLivro = new \App\Models\LattesExtrator\LattesProducaoLivro();
         $LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
         $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
+        $LattesExtrator = new \App\Models\LattesExtrator\Index();
 
-        $dtl = $this->where('id_hx',$id)->findAll();
-        if (count($dtl) == 0)
-            {
+        $dtl = $LattesDados->where('lt_id', $id)->first();
+        if ($dtl == '') {
+            $LattesExtrator = new \App\Models\LattesExtrator\Index();
+            $LattesExtrator->harvesting($id);
+            $dtl = $LattesDados->where('lt_id', $id)->first();
+            if ($dtl == '') {
                 return "ERRO LATTES ID";
             }
-        $dtl = $dtl[0];
-        $id = $dtl['hx_id_lattes'];
-        $dt = $Bolsistas->le($id);
 
-        pre($dt);
+        }
 
-        $sa = view('Pq/bolsista', $dt);
+        $dtl['bs_image'] = $Genene->image("X");
+        $dtl['bs_nome'] = $dtl['lt_name'];
+        $dtl['bs_content'] = $this->link($id);
+        $dtl['bs_content'] .= $LattesExtrator->btn_coletor($id);
+        $dtl['bs_brapci'] = '';
+
+        $sa = view('Lattes/pesquisador', $dtl);
 
         $sb = '';
         /***** */
-        $sb .= onclick(URL . '/popup/pq_bolsa_edit?id=0&pq=' . $id, 800, 600) . bsicone('plus', 16, 'float-end') . '</span>';
-        $sb .= $Bolsas->historic_researcher($id);
-
-        $p3 = $LattesOrientacao->resume($dt['bs_lattes']);
-        $p1 = $LattesProducao->resume($dt['bs_lattes']);
+        $p3 = $LattesOrientacao->resume($id);
+        $p1 = $LattesProducao->resume($id);
+        $p5 = $LattesProducaoLivro->resume($id);
+        $p6 = $LattesProducaoEvento->resume($id);
 
         $p2 = 0;
         $sc = '';
         $sc .= bsc('Produção Científica', 12);
         $sc .= bsc($LattesProducao->selo($p1, 'ARTIGOS'), 3);
-        $sc .= bsc($LattesProducao->selo($p2, 'LIVROS'), 3);
+        $sc .= bsc($LattesProducao->selo($p5, 'LIVROS'), 3);
         $sc .= bsc($LattesProducao->selo($p2, 'CAPÍTULOS'), 3);
-        $sc .= bsc($LattesProducao->selo($p2, 'ANAIS'), 3);
+
+        $sc .= bsc($LattesProducao->selo($p6, 'ANAIS'), 3);
         $sc .= bsc('Produção Tecnológica', 12);
         $sc .= bsc($LattesProducao->selo($p2, 'PATENTES'), 3);
         $sc .= bsc($LattesProducao->selo($p2, 'SOFTWARES'), 3);
@@ -159,7 +192,7 @@ class Index extends Model
         $sc .= bsc($LattesProducao->selo($p3[4], 'POS-DOUT.'), 2);
         $sc .= bsc($LattesProducao->selo($p3[5], 'OUTROS'), 2);
         $sb .= bs($sc);
-        $sb .= $LattesProducao->producao($dt['bs_lattes']);
+        $sb .= $LattesProducao->producao($dtl['lt_id']);
 
         $sx = bs(bsc($sa, 4) . bsc($sb, 9));
 
@@ -167,52 +200,32 @@ class Index extends Model
         //$sx .= '<style> div { border: 1px solid #000;"} </style>';
 
         return $sx;
-
-        if ($dt['bs_rdf_id'] == 0) {
-            $Authority = new \App\Models\Authority\AuthorityNames();
-            $nome = $dt['bs_nome'];
-            $nome = nbr_author($nome, 1);
-            $id_brapci = $Authority->getBrapciId($nome);
-
-            if ($id_brapci > 0) {
-                $dt['bs_rdf_id'] = $id_brapci;
-                $Bolsistas->set($dt)->where('id_bs', $id)->update();
-            }
-            $dt = $Bolsistas->find($id);
-        }
-        if ($id_brapci > 0) {
-            $link = $RDF->link(array('id_cc' => $id_brapci), 'text-secondary');
-            $link = substr($link, strpos($link, '"') + 1, strlen($link));
-            $link = substr($link, 0, strpos($link, '"'));
-        }
-        echo h('Nome não localizado ' . $dt['bs_nome']);
-        return "OK";
     }
 
     function form($id)
-        {
-            $submit = lang('brapci.save');
-            $lattes = get("lattes");
-            $sx = form_open();
-            $sx .= '<label>Insira o número dos Lattes (16 digitos, ex: 1234567890123456</label>';
-            $sx .= form_textarea(array('name'=>'lattes','value'=>$lattes,'id'=>'lattes','rows'=>10,'style'=>'width: 100%;'));
-            $sx .= form_submit(array('name'=>'action','value'=>$submit));
-            $sx .= form_close();
+    {
+        $submit = lang('brapci.save');
+        $lattes = get("lattes");
+        $sx = form_open();
+        $sx .= '<label>Insira o número dos Lattes (16 digitos, ex: 1234567890123456</label>';
+        $sx .= form_textarea(array('name' => 'lattes', 'value' => $lattes, 'id' => 'lattes', 'rows' => 10, 'style' => 'width: 100%;'));
+        $sx .= form_submit(array('name' => 'action', 'value' => $submit));
+        $sx .= form_close();
 
-            return $sx;
-        }
+        return $sx;
+    }
 
     function btn_lattes_add($prj)
-        {
-            $sx = '<span onclick="download(\''.PATH.COLLECTION.
-                    '/project/api/2/lattes/in\');"
-                    class="btn btn-outline-primary">'.lang('brapci.add').'</span>';
-            return $sx;
-        }
+    {
+        $sx = '<span onclick="download(\'' . PATH . COLLECTION .
+            '/project/api/2/lattes/in\');"
+                    class="btn btn-outline-primary">' . lang('brapci.add') . '</span>';
+        return $sx;
+    }
 
     function btn_lattes_harvesting($prj)
     {
-        $sx = '<span onclick="download(\'' . PATH . '/bots/lattes/'.$prj.'\');"
+        $sx = '<span onclick="download(\'' . PATH . '/bots/lattes/' . $prj . '\');"
                     class="btn btn-outline-primary">' . lang('brapci.harvesting') . '</span>';
         return $sx;
     }

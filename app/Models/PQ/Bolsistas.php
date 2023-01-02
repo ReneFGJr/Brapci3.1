@@ -61,12 +61,18 @@ class Bolsistas extends Model
 	function le($id)
 	{
 		$LattesExtrator = new \App\Models\LattesExtrator\Index();
+		$Lattes = new \App\Models\Lattes\Index();
 
 		$dt = $this->find($id);
+		if ($dt == '')
+			{
+				echo "ERRO: registro de lattes vazio";
+				return array();
+			}
 		$dt['bs_image'] = URL . '/img/genre/no_image_he.jpg';
 		$dt['bs_content'] = 'Sem biografia identificada<br>';
 		$dt['bs_content'] .= $LattesExtrator->btn_coletor($dt['bs_lattes']);
-		$dt['bs_content'] .= $LattesExtrator->btn_lattes($dt['bs_lattes']);
+		$dt['bs_content'] .= $Lattes->link($dt['bs_lattes']);
 
 		$dt['bs_brapci'] = anchor(PATH . COLLECTION . '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
 		$dt['bs_brapci'] = anchor(PATH . COLLECTION .  '/v/' . $dt['bs_rdf_id'], 'ver perfil na Brapci', 'class="btn btn-outline-primary"');
@@ -101,7 +107,7 @@ class Bolsistas extends Model
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			$linka = '</a>';
-			$link = '<a href="' . PATH . MODULE . 'pq/viewid/?id=' . $line['id_bs'] . '" class="text-secondary">*';
+			$link = '<a href="' . PATH . MODULE . 'pq/viewid/' . $line['bs_lattes'] . '" class="text-secondary">*';
 			$nr++;
 			$sx .= '<tr>';
 			$sx .= '<td>' . $nr . '</td>';

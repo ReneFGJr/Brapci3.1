@@ -184,6 +184,7 @@ class AuthorityNames extends Model
 	function viewid($id)
 	{
 		$Country = new \App\Models\Authority\Country();
+		$Lattes = new \App\Models\Lattes\Index();
 		$RDF = new \App\Models\Rdf\RDF();
 
 		$dt = $this->le($id);
@@ -218,7 +219,7 @@ class AuthorityNames extends Model
 
 
 		$sx .= bsc(
-			$this->btn_lattes($dt) .
+			$Lattes->link($dt) .
 				$this->btn_brapci($dt) .
 				$this->btn_orcid($dt),
 			12

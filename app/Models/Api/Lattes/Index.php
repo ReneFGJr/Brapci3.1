@@ -58,21 +58,8 @@ class Index extends Model
 
     function checkID($code)
     {
-        $dig = substr($code, 15, 1);
-        $code = substr($code, 0, 15);
-
-        $weightflag = true;
-        $sum = 0;
-        for ($i = strlen($code) - 1; $i >= 0; $i--) {
-            $sum += (int)$code[$i] * ($weightflag ? 3 : 1);
-            $weightflag = !$weightflag;
-        }
-        $ver = (10 - ($sum % 10)) % 10;
-        if ($ver == $dig) {
-            return 1;
-        } else {
-            return 0;
-        }
+        $Lattes = new \App\Models\Lattes\Index();
+        return $Lattes->checkID($code);
     }
 
     function registre_id_lattes($id, $data, $force = true)
@@ -98,6 +85,7 @@ class Index extends Model
 
     function harvesting_next($prj)
     {
+        $sx = '';
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
         $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
         $LattesDados = new \App\Models\LattesExtrator\LattesDados();
@@ -120,12 +108,12 @@ class Index extends Model
             $id_lattes = $dt['hx_id_lattes'];
 
             $LT = new \App\Models\LattesExtrator\Index();
-            $dt = $LT->harvesting($id);
+            $dt = $LT->harvesting($id_lattes);
 
             /* PHASE IV ******************* Checa se existe arquivo *****/
 
-            $sx .= '<br>Harvesting ' . $id;
-            $file_xml = '../.tmp/lattes/' . $id . '.xml';
+            $sx .= '<br>Harvesting ' . $id_lattes;
+            $file_xml = '../.tmp/lattes/' . $id_lattes . '.xml';
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
             } else {
@@ -133,7 +121,7 @@ class Index extends Model
             }
 
             /* PHASE V ****************** Recupera dados do Pesquisador *****/
-            $dta = $LattesDados->le_id($id);
+            $dta = $LattesDados->le_id($id_lattes);
             if (count($dta) == 0) {
                 echo "ERRO: registro vazio";
                 exit;
@@ -143,7 +131,7 @@ class Index extends Model
             $dt['hx_updated'] = $dta['lt_atualizacao'];
             $dt['updated_at'] = date("Y-m-d H:i:s");
             $dt['hx_status'] = 1;
-            $this->set($dt)->where('hx_id_lattes', $id)->update();
+            $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
             $sx .= cr() . 'Updated';
 
             echo $sx;

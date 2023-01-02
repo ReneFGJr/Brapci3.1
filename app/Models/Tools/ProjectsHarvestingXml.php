@@ -127,8 +127,8 @@ class ProjectsHarvestingXml extends Model
                 </tr>';
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
-            $link = '<a href="'.PATH.COLLECTION.'/lattes/viewid/'. $line['id_hx'].'">';
-            $linka = 'X</a>';
+            $link = '<a href="'.PATH.COLLECTION.'/lattes/viewid/'. $line['hx_id_lattes'].'">';
+            $linka = '</a>';
             $sx .= '<tr>';
             $sx .= '<td>' . $line['hx_id_lattes'] . '</td>';
             $sx .= '<td>' . $link.$line['hx_name'] . $linka.'</td>';
