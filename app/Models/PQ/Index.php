@@ -97,9 +97,9 @@ class Index extends Model
 		return $sx;
 	}
 
-	function viewid()
+	function viewid($id='')
 	{
-		$id = round(get("id"));
+		$id = $id.round(get("id"));
 		$id_brapci = 0;
 
 		if ($id <= 0) {

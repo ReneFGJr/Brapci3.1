@@ -266,5 +266,8 @@ class Database extends Config
         $this->capes['username'] = getenv('database.default.username');
         $this->capes['password'] = getenv('database.default.password');
 
+        $this->pq['username'] = getenv('database.default.username');
+        $this->pq['password'] = getenv('database.default.password');
+
     }
 }

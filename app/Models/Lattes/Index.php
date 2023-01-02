@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Index extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $table            = 'brapci_tools.projects_harvesting_xml';
+    protected $primaryKey       = 'id_hx';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -84,6 +84,9 @@ class Index extends Model
                 $sx .= $this->lattes_search_form($d2, $d3, $d4);
                 $sx .= $this->lattes_search_result($d2, $d3, $d4);
                 break;
+            case 'viewid':
+                $sx .= $this->viewid($d2);
+                break;
             default:
                 $Projects = new \App\Models\Tools\Projects();
                 $prj = $Projects->selected();
@@ -100,6 +103,90 @@ class Index extends Model
                 break;
         }
         return $sx;
+    }
+
+    function viewid($id)
+    {
+        $id = round(round(get("id")). $id);
+        $id_brapci = 0;
+
+        if ($id <= 0) {
+            return redirect('tools:index');
+        }
+        $RDF = new \App\Models\Rdf\RDF();
+        $Bolsistas = new \App\Models\PQ\Bolsistas();
+        $Bolsas = new \App\Models\PQ\Bolsas();
+        $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+        $LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
+        $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
+
+        $dtl = $this->where('id_hx',$id)->findAll();
+        if (count($dtl) == 0)
+            {
+                return "ERRO LATTES ID";
+            }
+        $dtl = $dtl[0];
+        $id = $dtl['hx_id_lattes'];
+        $dt = $Bolsistas->le($id);
+
+        pre($dt);
+
+        $sa = view('Pq/bolsista', $dt);
+
+        $sb = '';
+        /***** */
+        $sb .= onclick(URL . '/popup/pq_bolsa_edit?id=0&pq=' . $id, 800, 600) . bsicone('plus', 16, 'float-end') . '</span>';
+        $sb .= $Bolsas->historic_researcher($id);
+
+        $p3 = $LattesOrientacao->resume($dt['bs_lattes']);
+        $p1 = $LattesProducao->resume($dt['bs_lattes']);
+
+        $p2 = 0;
+        $sc = '';
+        $sc .= bsc('Produção Científica', 12);
+        $sc .= bsc($LattesProducao->selo($p1, 'ARTIGOS'), 3);
+        $sc .= bsc($LattesProducao->selo($p2, 'LIVROS'), 3);
+        $sc .= bsc($LattesProducao->selo($p2, 'CAPÍTULOS'), 3);
+        $sc .= bsc($LattesProducao->selo($p2, 'ANAIS'), 3);
+        $sc .= bsc('Produção Tecnológica', 12);
+        $sc .= bsc($LattesProducao->selo($p2, 'PATENTES'), 3);
+        $sc .= bsc($LattesProducao->selo($p2, 'SOFTWARES'), 3);
+        $sc .= bsc('Orientações', 12);
+        $sc .= bsc($LattesProducao->selo($p3[0], 'GRADUAÇÃO'), 2);
+        $sc .= bsc($LattesProducao->selo($p3[1], 'IC/IT'), 2);
+        $sc .= bsc($LattesProducao->selo($p3[2], 'MESTRADO'), 2);
+        $sc .= bsc($LattesProducao->selo($p3[3], 'DOUTORADO'), 2);
+        $sc .= bsc($LattesProducao->selo($p3[4], 'POS-DOUT.'), 2);
+        $sc .= bsc($LattesProducao->selo($p3[5], 'OUTROS'), 2);
+        $sb .= bs($sc);
+        $sb .= $LattesProducao->producao($dt['bs_lattes']);
+
+        $sx = bs(bsc($sa, 4) . bsc($sb, 9));
+
+
+        //$sx .= '<style> div { border: 1px solid #000;"} </style>';
+
+        return $sx;
+
+        if ($dt['bs_rdf_id'] == 0) {
+            $Authority = new \App\Models\Authority\AuthorityNames();
+            $nome = $dt['bs_nome'];
+            $nome = nbr_author($nome, 1);
+            $id_brapci = $Authority->getBrapciId($nome);
+
+            if ($id_brapci > 0) {
+                $dt['bs_rdf_id'] = $id_brapci;
+                $Bolsistas->set($dt)->where('id_bs', $id)->update();
+            }
+            $dt = $Bolsistas->find($id);
+        }
+        if ($id_brapci > 0) {
+            $link = $RDF->link(array('id_cc' => $id_brapci), 'text-secondary');
+            $link = substr($link, strpos($link, '"') + 1, strlen($link));
+            $link = substr($link, 0, strpos($link, '"'));
+        }
+        echo h('Nome não localizado ' . $dt['bs_nome']);
+        return "OK";
     }
 
     function form($id)
