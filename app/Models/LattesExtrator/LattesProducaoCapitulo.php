@@ -4,23 +4,24 @@ namespace App\Models\LattesExtrator;
 
 use CodeIgniter\Model;
 
-class LattesProducaoLivro extends Model
+class LattesProducaoCapitulo extends Model
 {
 	protected $DBGroup              = 'lattes';
-	protected $table                = 'lattesproducao_livro';
-	protected $primaryKey           = 'id_lv';
+	protected $table                = 'lattesproducao_capitulo';
+	protected $primaryKey           = 'id_lvc';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
 	protected $returnType           = 'array';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_lv ', 'lv_author', 'lv_brapci_rdf',
-		'lv_authors', 'lv_title', 'lv_ano',
-		'lv_url', 'lv_doi', 'lv_issn', 'lv_isbn',
-		'lv_journal', 'lv_vol', 'lv_nr',
-		'lv_place', 'lv_country', 'lv_event',
-		'lv_natureza', 'lv_tipo'
+		'id_lvc ', 'lvc_author', 'lvc_brapci_rdf',
+		'lvc_authors', 'lvc_title', 'lvc_ano',
+		'lvc_url', 'lvc_doi', 'lvc_issn', 'lvc_isbn',
+		'lvc_journal', 'lvc_vol', 'lvc_nr',
+		'lvc_place', 'lvc_country', 'lvc_event',
+		'lvc_natureza', 'lvc_tipo', 'lvc_livro_organizadores',
+		'lvc_livro_title'
 	];
 
 	// Dates
@@ -60,9 +61,9 @@ class LattesProducaoLivro extends Model
 
 	function resume($id)
 	{
-		$dt = $this->select('count(*) as total, lv_author')
-			->where('lv_author', $id)
-			->groupBy('lv_author')
+		$dt = $this->select('count(*) as total, lvc_author')
+			->where('lvc_author', $id)
+			->groupBy('lvc_author')
 			->findAll();
 		if (count($dt) > 0) {
 			return $dt[0]['total'];
@@ -73,19 +74,19 @@ class LattesProducaoLivro extends Model
 	function producao($id)
 	{
 		$tela = '';
-		$dt = $this->where('lv_author', $id)->orderBy('lv_ano', 'desc')->findAll();
+		$dt = $this->where('lvc_author', $id)->orderBy('lvc_ano', 'desc')->findAll();
 		$tela .= '<ol>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
-			$tela .= '<li>' . $line['lv_authors'] . '. ' . $line['lv_title'] . '. ';
-			$tela .= '<b>' . $line['lv_journal'] . '</b>';
-			if (strlen($line['lv_vol']) > 0) {
-				$tela .= ', ' . $line['lv_vol'];
+			$tela .= '<li>' . $line['lvc_authors'] . '. ' . $line['lvc_title'] . '. ';
+			$tela .= '<b>' . $line['lvc_journal'] . '</b>';
+			if (strlen($line['lvc_vol']) > 0) {
+				$tela .= ', ' . $line['lvc_vol'];
 			}
-			if (strlen($line['lv_nr']) > 0) {
-				$tela .= ', ' . $line['lv_nr'];
+			if (strlen($line['lvc_nr']) > 0) {
+				$tela .= ', ' . $line['lvc_nr'];
 			}
-			$tela .= ', ' . $line['lv_ano'];
+			$tela .= ', ' . $line['lvc_ano'];
 			$tela .= '</li>';
 		}
 		$tela .= '</ol>';
@@ -107,8 +108,8 @@ class LattesProducaoLivro extends Model
 		$prod = (array)$xml['PRODUCAO-BIBLIOGRAFICA'];
 		$arti = (array)$prod['LIVROS-E-CAPITULOS'];
 		if (isset($arti['LIVROS-PUBLICADOS-OU-ORGANIZADOS'])) {
-			$arti = (array)$arti['LIVROS-PUBLICADOS-OU-ORGANIZADOS'];
-			$arti = (array)$arti['LIVRO-PUBLICADO-OU-ORGANIZADO'];
+			$arti = (array)$arti['CAPITULOS-DE-LIVROS-PUBLICADOS'];
+			$arti = (array)$arti['CAPITULO-DE-LIVRO-PUBLICADO'];
 
 			if ((count($arti) > 0) and (!isset($arti[0])))
 				{
@@ -120,35 +121,37 @@ class LattesProducaoLivro extends Model
 			for ($r = 0; $r < count($arti); $r++) {
 				$line = (array)$arti[$r];
 
-				$dados = (array)$line['DADOS-BASICOS-DO-LIVRO'];
+				$dados = (array)$line['DADOS-BASICOS-DO-CAPITULO'];
 				$dados = (array)$dados['@attributes'];
 				$p = array();
-				$p['lv_tipo'] = $this->type($dados['TIPO']);
-				$p['lv_natureza'] = $this->natureza($dados['NATUREZA']);
-				$p['lv_author'] = $id;
-				$p['lv_brapci_rdf'] = 0;
-				$p['lv_ano'] = $dados['ANO'];
-				$p['lv_doi'] = $dados['DOI'];
-				$p['lv_title'] = $dados['TITULO-DO-LIVRO'];
-				$p['lv_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
-				$p['lv_lang'] = $Lang->code($dados['IDIOMA']);
-				$p['lv_country'] = $dados['PAIS-DE-PUBLICACAO'];
+				$p['lvc_tipo'] = $this->type($dados['TIPO']);
+				$p['lvc_author'] = $id;
+				$p['lvc_brapci_rdf'] = 0;
+				$p['lvc_ano'] = $dados['ANO'];
+				$p['lvc_doi'] = $dados['DOI'];
+				$p['lvc_title'] = $dados['TITULO-DO-CAPITULO-DO-LIVRO'];
+				$p['lvc_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
+				$p['lvc_lang'] = $Lang->code($dados['IDIOMA']);
+				$p['lvc_country'] = $dados['PAIS-DE-PUBLICACAO'];
 
-				$deta = (array)$line['DETALHAMENTO-DO-LIVRO'];
+				$deta = (array)$line['DETALHAMENTO-DO-CAPITULO'];
 				$deta = (array)$deta['@attributes'];
 
-				$p['lv_isbn'] = $deta['ISBN'];
+				$p['lvc_isbn'] = $deta['ISBN'];
+				$p['lvc_livro_title'] = $deta['TITULO-DO-LIVRO'];
+				$p['lvc_livro_organizadores'] = $deta['ORGANIZADORES'];
+
 				$vl = trim($deta['NUMERO-DE-VOLUMES']);
-				$nr = trim($deta['NUMERO-DE-PAGINAS']);
+				$nr = "";
 				if ($vl != '') {
 					$vl = 'v. ' . $vl;
 				}
 				if ($nr != '') {
 					$nr = 'p. ' . $nr;
 				}
-				$p['lv_place'] = $deta['CIDADE-DA-EDITORA'];
-				$p['lv_vol'] = $vl;
-				$p['lv_nr'] = $nr;
+				$p['lvc_place'] = $deta['CIDADE-DA-EDITORA'];
+				$p['lvc_vol'] = $vl;
+				$p['lvc_nr'] = $nr;
 
 				/****************** AUTHORES */
 				$auth = (array)$line['AUTORES'];
@@ -168,12 +171,12 @@ class LattesProducaoLivro extends Model
 					$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
 					$authn .= nbr_author($nome, 1);
 				}
-				$p['lv_authors'] = $authn;
-				$p['lv_author_total'] = count($auth);
+				$p['lvc_authors'] = $authn;
+				$p['lvc_author_total'] = count($auth);
 
-				$rst = $this->where('lv_author', $id)
-					->where('lv_title', $p['lv_title'])
-					->where('lv_ano', $p['lv_ano'])
+				$rst = $this->where('lvc_author', $id)
+					->where('lvc_title', $p['lvc_title'])
+					->where('lvc_ano', $p['lvc_ano'])
 					->findAll();
 
 				if (count($rst) == 0) {
@@ -187,11 +190,8 @@ class LattesProducaoLivro extends Model
 	function type($t)
 	{
 		switch ($t) {
-			case 'LIVRO_ORGANIZADO_OU_EDICAO':
-				return "O";
-				break;
-			case 'LIVRO_PUBLICADO':
-				return "L";
+			case 'Capítulo de livro publicado':
+				return "CP";
 				break;
 			default:
 				echo "TIPO: $t";
@@ -201,30 +201,6 @@ class LattesProducaoLivro extends Model
 	function natureza($t)
 	{
 		switch ($t) {
-			case 'VERBETE':
-				return "vb";
-				break;
-			case 'NAO_INFORMADO':
-				return "N";
-				break;
-			case 'ANAIS':
-				return "E";
-				break;
-			case 'OUTRA':
-				return "O";
-				break;
-			case 'LIVRO':
-				return "L";
-				break;
-			case 'TEXTO_INTEGRAL':
-				return "T";
-				break;
-			case 'COLETANEA':
-				return "CL";
-				break;
-			case 'PERIODICO':
-				return "PE";
-				break;
 			default:
 				echo "NATUREZA: $t";
 				exit;

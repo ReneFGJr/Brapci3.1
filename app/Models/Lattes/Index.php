@@ -143,6 +143,7 @@ class Index extends Model
         $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
         $LattesProducaoEvento = new \App\Models\LattesExtrator\LattesProducaoEvento();
         $LattesProducaoLivro = new \App\Models\LattesExtrator\LattesProducaoLivro();
+        $LattesProducaoCapitulo = new \App\Models\LattesExtrator\LattesProducaoCapitulo();
         $LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
         $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
@@ -170,6 +171,7 @@ class Index extends Model
         /***** */
         $p3 = $LattesOrientacao->resume($id);
         $p1 = $LattesProducao->resume($id);
+        $p4 = $LattesProducaoCapitulo->resume($id);
         $p5 = $LattesProducaoLivro->resume($id);
         $p6 = $LattesProducaoEvento->resume($id);
 
@@ -178,7 +180,7 @@ class Index extends Model
         $sc .= bsc('Produção Científica', 12);
         $sc .= bsc($LattesProducao->selo($p1, 'ARTIGOS'), 3);
         $sc .= bsc($LattesProducao->selo($p5, 'LIVROS'), 3);
-        $sc .= bsc($LattesProducao->selo($p2, 'CAPÍTULOS'), 3);
+        $sc .= bsc($LattesProducao->selo($p4, 'CAPÍTULOS'), 3);
 
         $sc .= bsc($LattesProducao->selo($p6, 'ANAIS'), 3);
         $sc .= bsc('Produção Tecnológica', 12);

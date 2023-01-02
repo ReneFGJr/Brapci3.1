@@ -148,6 +148,9 @@ class Index extends Model
             $LattesProducaoLivro = new \App\Models\LattesExtrator\LattesProducaoLivro();
             $LattesProducaoLivro->producao_xml($id);
 
+            $LattesProducaoCapitulo = new \App\Models\LattesExtrator\LattesProducaoCapitulo();
+            $LattesProducaoCapitulo->producao_xml($id);
+
             $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
             $LattesOrientacao->orientacao_xml($id);
             return wclose();
