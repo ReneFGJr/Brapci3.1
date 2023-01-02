@@ -131,7 +131,7 @@ class ProjectsHarvestingXml extends Model
             if (count($dta) == 0)
                 {
                     echo "ERRO: registro vazio";
-                    return "";
+                    exit;
                 }
             $dt = array();
             $dt['hx_name'] = $dta['lt_name'];
@@ -140,7 +140,8 @@ class ProjectsHarvestingXml extends Model
             $dt['hx_status'] = 1;
 
             $this->set($dt)->where('hx_id_lattes',$id)->update();
-            return $sx;
+            echo $sx;
+            exit;
         }
 
     function list($prj)
