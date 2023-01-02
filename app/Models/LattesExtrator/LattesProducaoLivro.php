@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class LattesProducaoLivro extends Model
 {
 	protected $DBGroup              = 'lattes';
-	protected $table                = 'Lattesproducao_livro';
+	protected $table                = 'lattesproducao_livro';
 	protected $primaryKey           = 'id_lv';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
