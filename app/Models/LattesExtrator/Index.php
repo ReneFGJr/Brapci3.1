@@ -121,6 +121,12 @@ class Index extends Model
                     $zip->extractTo('../.tmp/Lattes/');
                     $zip->close();
 
+                    if (!file_exists($filename))
+                        {
+                            echo "Erro ao abrir o arquivo ".$filename;
+                            exit;
+                        }
+
                     /***** Processar Dados */
                     $myXMLData = file_get_contents($filename);
                     $xml = simplexml_load_string($myXMLData);
