@@ -97,11 +97,17 @@ class Index extends Model
             $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q=' . trim($id);
             if (!$this->fileNameUpdated($id)) {
                 $data = array();
-                echo view('Brapci/Headers/header', $data);
+                echo 'Harvesting '.$id.cr();
                 $txt = file_get_contents($url);
                 dircheck("../.tmp");
                 dircheck("../.tmp/Zip");
                 $fileZip = '../.tmp/Zip/lattes.zip';
+
+                if (strlen($txt) == 0)
+                    {
+                        echo "ERRO: o arquivo está vazio";
+                        exit;
+                    }
 
                 file_put_contents($fileZip, $txt);
 
@@ -126,32 +132,27 @@ class Index extends Model
                             echo "Erro ao abrir o arquivo ".$filename;
                             exit;
                         }
-
-                    /***** Processar Dados */
-                    $myXMLData = file_get_contents($filename);
-                    $xml = simplexml_load_string($myXMLData);
-
-                    $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
-                    $LattesProducao->producao_xml($id);
-
-                    $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
-                    $LattesOrientacao->orientacao_xml($id);
-                    return wclose();
                 } else {
                     echo bsmessage("ERRO na descompactação em $fileZip", 3);
                     exit;
                 }
             } else {
                 echo "CACHED";
-                $LattesDados = new \App\Models\LattesExtrator\LattesDados();
-                $LattesDados->dados_xml($id);
-
-                $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
-                $LattesProducao->producao_xml($id);
-
-                $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
-                $LattesOrientacao->orientacao_xml($id);
             }
+
+            /***** Processar Dados */
+            $myXMLData = file_get_contents($filename);
+            $xml = simplexml_load_string($myXMLData);
+
+            $LattesDados = new \App\Models\LattesExtrator\LattesDados();
+            $LattesDados->dados_xml($id);
+
+            $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+            $LattesProducao->producao_xml($id);
+
+            $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
+            $LattesOrientacao->orientacao_xml($id);
+            return wclose();
         }
         return $dt;
     }

@@ -110,47 +110,6 @@ class ProjectsHarvestingXml extends Model
             return $sx;
         }
 
-    function harvesting($id)
-        {
-            $LattesDados = new \App\Models\LattesExtrator\LattesDados();
-
-            $dta = $LattesDados->le_id($id);
-            if (count($dta) == 0) {
-                $dt = array();
-                $dt['lt_id'] = $id;
-                $LattesDados->set($dt)->insert();
-            }
-
-            $sx = '';
-            $LT = new \App\Models\LattesExtrator\Index();
-            $dt = $LT->harvesting($id);
-            $sx .= '<br>Harvesting '.$id;
-            $file_xml = '../.tmp/lattes/'.$id.'.xml';
-            if (file_exists($file_xml))
-                {
-                    $sx .= '<br>File XML OK';
-                } else {
-                    $sx .= '<br>File ERRO OK';
-                }
-
-            /******************** Update */
-            $dta = $LattesDados->le_id($id);
-            if (count($dta) == 0)
-                {
-                    echo "ERRO: registro vazio";
-                    exit;
-                }
-            $dt = array();
-            $dt['hx_name'] = $dta['lt_name'];
-            $dt['hx_updated'] = $dta['lt_atualizacao'];
-            $dt['updated_at'] = date("Y-m-d H:i:s");
-            $dt['hx_status'] = 1;
-
-            $this->set($dt)->where('hx_id_lattes',$id)->update();
-            echo $sx;
-            exit;
-        }
-
     function list($prj)
     {
         $sx = '';

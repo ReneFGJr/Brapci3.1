@@ -24,8 +24,8 @@ class Bots extends BaseController
 
             case 'lattes':
                 $Lattes = new \App\Models\Api\Lattes\Index();
-                echo "BOT's Lattes $act2".cr();
-                echo '<hr>';
+                echo "BOT's Lattes v0.23.01.02".cr();
+                echo chr(13);
                 echo $Lattes->harvesting_next($act2);
                 break;
 
