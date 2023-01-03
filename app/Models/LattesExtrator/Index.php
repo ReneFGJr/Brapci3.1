@@ -139,6 +139,12 @@ class Index extends Model
             $LattesDados = new \App\Models\LattesExtrator\LattesDados();
             $LattesDados->dados_xml($id);
 
+            $LattesEndereco = new \App\Models\LattesExtrator\LattesEndereco();
+            $LattesEndereco->dados_xml($id);
+
+            $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
+            $LattesFormacao->dados_xml($id);
+
             $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
             $LattesProducao->producao_xml($id);
 
