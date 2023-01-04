@@ -190,8 +190,6 @@ class LattesFormacao extends Model
 			->findAll();
 		if (count($dta) == 0) {
 			$this->set($dt)->insert();
-			exit;
-
 		} else {
 			$idx = $dta[0]['id_f'];
 			$this->set($dt)
