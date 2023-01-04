@@ -97,10 +97,13 @@ class LattesFormacao extends Model
 
 	function view_graduate($dt)
 	{
+		$style = ' color: gray;';
+		$msg_type = '<a href="https://www.academia.org.br/nossa-lingua/reducoes" target="_blank" title="sigla conforme Academia Brasileira de Letras (ABL)">Grad.</a>';
+
 		$sx = '';
 		$sx .= '<table>';
 		$sx .= '<tr>';
-		$sx .= '<td class="p-2" style="color: black";>' . bsicone('graduate', 32) . '</td>';
+		$sx .= '<td width="32" class="p-2 text-center" style="font-size: 0.6em; ' . $style . '">' . bsicone('graduate', 32) . '<br>' . $msg_type . '</td>';
 		$sx .= '<td style="font-size: 0.6em;">';
 		$sx .= '<b>';
 		$sx .= $dt['f_ano_ini'] . '-' . $dt['f_ano_fim'];

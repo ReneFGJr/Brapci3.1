@@ -84,7 +84,7 @@ return [
         'catalog' => 'Catálogo',
         'harvesting_status_1' => 'Lista de coleta',
         'harvesting_status_1' => 'Coletado Lattes',
-        '' => '',
+        'academoc.formation' => 'Formação Acadêmica',
         '' => '',
         '' => '',
         '' => '',
