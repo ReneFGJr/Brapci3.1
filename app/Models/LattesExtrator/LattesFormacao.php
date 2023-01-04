@@ -87,6 +87,11 @@ class LattesFormacao extends Model
 		$sx .= $sx_m;
 		$sx .= $sx_g;
 
+		if (count($dt) > 0)
+			{
+				$sx = h('<b>'.lang('brapci.academoc.formation'). '</b>',6,'text-center mt-2').$sx;
+			}
+
 		return $sx;
 	}
 
@@ -121,7 +126,7 @@ class LattesFormacao extends Model
 		$sx = '';
 		$sx .= '<table>';
 		$sx .= '<tr>';
-		$sx .= '<td class="p-2 text-center" style="font-size: 0.6em; '.$style.'">' . bsicone('posgrade', 32). '<br>'. $msg_type . '</td>';
+		$sx .= '<td width="32" class="p-2 text-center" style="font-size: 0.6em; '.$style.'">' . bsicone('posgrade', 32). '<br>'. $msg_type . '</td>';
 		$sx .= '<td style="font-size: 0.6em;">';
 		$sx .= '<b>';
 		$sx .= $dt['f_ano_ini'] . '-' . $dt['f_ano_fim'];

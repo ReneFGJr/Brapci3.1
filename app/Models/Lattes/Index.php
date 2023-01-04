@@ -148,6 +148,7 @@ class Index extends Model
         $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
         $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
+        $LattesEndereco = new \App\Models\LattesExtrator\LattesEndereco();
 
         $dtl = $LattesDados->where('lt_id', $id)->first();
         if ($dtl == '') {
@@ -168,6 +169,7 @@ class Index extends Model
 
         $sa = view('Lattes/pesquisador', $dtl);
 
+        $sa .= $LattesEndereco->resume($id);
         $sa .= $LattesFormacao->resume($id);
 
         $sb = '';

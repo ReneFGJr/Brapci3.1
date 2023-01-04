@@ -15,7 +15,7 @@ class LattesEndereco extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_ad', 'ad_id', 'ad_inst_cod',
+		'id_ad', 'ad_id', 'ad_inst_cod', 'ad_inst',
 		'ad_inst_orgao', 'ad_inst_orgao_cod', 'ad_inst_unidade',
 		'ad_inst_unidade_cod', 'ad_country', 'ad_uf',
 		'ad_cep', 'ad_cidade', 'ad_url',
@@ -46,49 +46,23 @@ class LattesEndereco extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function selo($total, $desc)
-	{
-		$sx = '';
-		$sx .= '<div class="text-center p-1 mb-3" style="width: 100%; border: 1px solid #000; border-radius: 10px;  line-height: 80%;">';
-		$sx .= '<span style="font-size: 16px;">' . $total . '</span>';
-		$sx .= '<br>';
-		$sx .= '<b style="font-size: 12px; ">' . $desc . '</b>';
-		$sx .= '</div>';
-		return $sx;
-	}
-
 	function resume($id)
 	{
-		$dt = $this->select('count(*) as total, lp_author')
-			->where('lp_author', $id)
-			->groupBy('lp_author')
-			->findAll();
-		if (count($dt) > 0) {
-			return $dt[0]['total'];
-		}
-		return 0;
-	}
+		$dt = $this->where('ad_id',$id)->first();
+		$sx = '';
+		$style="";
+		$sx .= '<table width="100%" class="card mt-2"> ';
+		$sx .= '<tr>';
+		$sx .= '<td width="32" class="p-2 text-center" style="font-size: 0.6em; ' . $style . '">' . bsicone('homefill', 32)  . '</td>';
+		$sx .= '<td style="font-size: 0.6em;">';
+		$sx .= '<b>'.$dt['ad_inst'].'</b>';
+		$sx .= '<br>';
+		$sx .= $dt['ad_inst_orgao'];
+		$sx .= '</td>';
+		$sx .= '</tr>';
+		$sx .= '</table>';
 
-	function formacao($id)
-	{
-		$tela = '';
-		$dt = $this->where('lp_author', $id)->orderBy('lp_ano', 'desc')->findAll();
-		$tela .= '<ol>';
-		for ($r = 0; $r < count($dt); $r++) {
-			$line = $dt[$r];
-			$tela .= '<li>' . $line['lp_authors'] . '. ' . $line['lp_title'] . '. ';
-			$tela .= '<b>' . $line['lp_journal'] . '</b>';
-			if (strlen($line['lp_vol']) > 0) {
-				$tela .= ', ' . $line['lp_vol'];
-			}
-			if (strlen($line['lp_nr']) > 0) {
-				$tela .= ', ' . $line['lp_nr'];
-			}
-			$tela .= ', ' . $line['lp_ano'];
-			$tela .= '</li>';
-		}
-		$tela .= '</ol>';
-		return $tela;
+		return $sx;
 	}
 
 	function dados_xml($id)
