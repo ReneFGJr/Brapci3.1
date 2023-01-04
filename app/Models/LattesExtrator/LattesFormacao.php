@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class LattesFormacao extends Model
 {
 	protected $DBGroup              = 'lattes';
-	protected $table                = 'lattesformacao';
+	protected $table                = 'brapci_lattes.lattesformacao';
 	protected $primaryKey           = 'id_f';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -60,14 +60,80 @@ class LattesFormacao extends Model
 
 	function resume($id)
 	{
-		$dt = $this->select('count(*) as total, lp_author')
-			->where('lp_author', $id)
-			->groupBy('lp_author')
+		$sx = '';
+		$dt = $this->where('f_id', $id)
+			->orderBy('f_ano_ini DESC')
 			->findAll();
-		if (count($dt) > 0) {
-			return $dt[0]['total'];
+		$sx_g = '';
+		$sx_d = '';
+		$sx_m = '';
+
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$type = $line['f_type'];
+			switch ($type) {
+				case 'G':
+					$sx .= $this->view_graduate($line);
+					break;
+				case 'M':
+					$sx .= $this->view_posgrade($line);
+					break;
+				case 'D':
+					$sx .= $this->view_posgrade($line);
+					break;
+			}
 		}
-		return 0;
+		$sx .= $sx_d;
+		$sx .= $sx_m;
+		$sx .= $sx_g;
+
+		return $sx;
+	}
+
+	function view_graduate($dt)
+	{
+		$sx = '';
+		$sx .= '<table>';
+		$sx .= '<tr>';
+		$sx .= '<td class="p-2" style="color: black";>' . bsicone('graduate', 32) . '</td>';
+		$sx .= '<td style="font-size: 0.6em;">';
+		$sx .= '<b>';
+		$sx .= $dt['f_ano_ini'] . '-' . $dt['f_ano_fim'];
+		$sx .= '</b>';
+		$sx .= '<br>';
+		$sx .= $dt['f_inst'];
+		$sx .= '<br>';
+		$sx .= $dt['f_curso'];
+		$sx .= '</td>';
+		$sx .= '</tr>';
+		$sx .= '</table>';
+		return $sx;
+	}
+	function view_posgrade($dt)
+	{
+		$style = ' color: gray;';
+		$msg_type= '<a href="https://www.academia.org.br/nossa-lingua/reducoes" target="_blank" title="sigla conforme Academia Brasileira de Letras (ABL)">M.e</a>';
+		if ($dt['f_type'] == 'D')
+			{
+			$msg_type = '<a href="https://www.academia.org.br/nossa-lingua/reducoes" target="_blank" title="sigla conforme Academia Brasileira de Letras (ABL)">Dr.</a>';
+			$style = ' style="color: black"';
+			}
+		$sx = '';
+		$sx .= '<table>';
+		$sx .= '<tr>';
+		$sx .= '<td class="p-2 text-center" style="font-size: 0.6em; '.$style.'">' . bsicone('posgrade', 32). '<br>'. $msg_type . '</td>';
+		$sx .= '<td style="font-size: 0.6em;">';
+		$sx .= '<b>';
+		$sx .= $dt['f_ano_ini'] . '-' . $dt['f_ano_fim'];
+		$sx .= '</b>';
+		$sx .= '<br>';
+		$sx .= $dt['f_inst'];
+		$sx .= '<br>';
+		$sx .= $dt['f_curso'];
+		$sx .= '</td>';
+		$sx .= '</tr>';
+		$sx .= '</table>';
+		return $sx;
 	}
 
 	function formacao($id)
@@ -109,37 +175,37 @@ class LattesFormacao extends Model
 		$arti = (array)$prod['FORMACAO-ACADEMICA-TITULACAO'];
 
 		$graduacao = $this->extract($id, 'GRADUACAO', $arti);
-		$mestrado = $this->extract($id,'MESTRADO', $arti);
+		$mestrado = $this->extract($id, 'MESTRADO', $arti);
 		$doutorado = $this->extract($id, 'DOUTORADO', $arti);
 		return '';
 	}
 
-	function register($id,$dt)
-		{
-			$dta = $this
-				->where('f_id',$id)
-				->where('f_inst_cod',$dt['f_inst_cod'])
-				->where('f_ano_ini', $dt['f_ano_ini'])
-				->where('f_ppg', $dt['f_ppg'])
+	function register($id, $dt)
+	{
+		$dta = $this
+			->where('f_id', $id)
+			->where('f_inst_cod', $dt['f_inst_cod'])
+			->where('f_ano_ini', $dt['f_ano_ini'])
+			->where('f_ppg', $dt['f_ppg'])
+			->findAll();
+		if (count($dta) == 0) {
+			$this->set($dt)->insert();
+			exit;
 
-				->findAll();
-			if (count($dta) == 0)
-				{
-					$this->set($dt)->insert();
-				} else {
-					$idx = $dta[0]['id_f'];
-					$this->set($dt)
-					->where('id_f',$idx)
-					->update();
-				}
+		} else {
+			$idx = $dta[0]['id_f'];
+			$this->set($dt)
+				->where('id_f', $idx)
+				->update();
 		}
+	}
 
-	function extract($id,$type='GRADUACAO', $arti=array())
-		{
+	function extract($id, $type = 'GRADUACAO', $arti = array())
+	{
 		$curso = (array)$arti[$type];
 		$dt = array();
 		$dt['f_id'] = $id;
-		$dt['f_type'] = substr($type,0,1);
+		$dt['f_type'] = substr($type, 0, 1);
 		$curso = (array)$curso['@attributes'];
 		$dt['f_inst'] = $curso['NOME-INSTITUICAO'];
 		$dt['f_inst_cod'] = $curso['CODIGO-INSTITUICAO'];
@@ -148,32 +214,30 @@ class LattesFormacao extends Model
 		$dt['f_situacao'] = $this->status($curso['STATUS-DO-CURSO']);
 		$dt['f_ano_ini'] = $curso['ANO-DE-INICIO'];
 		$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
-		if (!isset($curso['NOME-COMPLETO-DO-ORIENTADOR']))
-			{
-				$dt['f_orientador'] = '';
-				$dt['f_orientador_lattes'] = '';
-			} else {
-				$dt['f_orientador'] = $curso['NOME-COMPLETO-DO-ORIENTADOR'];
-				$dt['f_orientador_lattes'] = $curso['NUMERO-ID-ORIENTADOR'];
-			}
+		if (!isset($curso['NOME-COMPLETO-DO-ORIENTADOR'])) {
+			$dt['f_orientador'] = '';
+			$dt['f_orientador_lattes'] = '';
+		} else {
+			$dt['f_orientador'] = $curso['NOME-COMPLETO-DO-ORIENTADOR'];
+			$dt['f_orientador_lattes'] = $curso['NUMERO-ID-ORIENTADOR'];
+		}
 
 		$dt['f_ppg'] = $curso['CODIGO-CURSO-CAPES'];
 		$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
 		$this->register($id, $dt);
 
 		return $dt;
-		}
+	}
 
 	function status($t)
-		{
-			switch($t)
-				{
-					case 'CONCLUIDO':
-						return "C";
-						break;
-					default:
-						echo "FORMACAO STATUS:$t";
-						exit;
-				}
+	{
+		switch ($t) {
+			case 'CONCLUIDO':
+				return "C";
+				break;
+			default:
+				echo "FORMACAO STATUS:$t";
+				exit;
 		}
+	}
 }

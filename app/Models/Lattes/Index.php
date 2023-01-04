@@ -147,6 +147,7 @@ class Index extends Model
         $LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
         $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
+        $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
 
         $dtl = $LattesDados->where('lt_id', $id)->first();
         if ($dtl == '') {
@@ -166,6 +167,8 @@ class Index extends Model
         $dtl['bs_brapci'] = '';
 
         $sa = view('Lattes/pesquisador', $dtl);
+
+        $sa .= $LattesFormacao->resume($id);
 
         $sb = '';
         /***** */
