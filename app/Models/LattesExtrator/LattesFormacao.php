@@ -148,6 +148,9 @@ class LattesFormacao extends Model
 	{
 		$tela = '';
 		$dt = $this->where('lp_author', $id)->orderBy('lp_ano', 'desc')->findAll();
+		if (count($dt) == 0) {
+			return "";
+		}
 		$tela .= '<ol>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];

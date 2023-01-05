@@ -49,6 +49,7 @@ class LattesEndereco extends Model
 	function resume($id)
 	{
 		$dt = $this->where('ad_id',$id)->first();
+		if ($dt == '') { return ""; }
 		$sx = '';
 		$style="";
 		$sx .= '<table width="100%" class="card mt-2"> ';
