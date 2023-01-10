@@ -211,6 +211,8 @@ class LattesFormacao extends Model
 
 	function extract($id, $type = 'GRADUACAO', $arti = array())
 	{
+		if (!isset($arti[$type])) { return array(); }
+
 		$curso = (array)$arti[$type];
 		$dt = array();
 		$dt['f_id'] = $id;
