@@ -218,14 +218,20 @@ class LattesFormacao extends Model
 
 		if (!isset($curso[0]))
 			{
-				$c = $curso;
-				$curso = array($curso);
+				if ($curso != '')
+				{
+					$c = $curso;
+					$curso = array($curso);
+				} else {
+					$curso = array();
+				}
 			}
-		if (isset($curso[0]['@attributes']))
+		if (count($curso) > 0)
 		{
 			for ($r=0;$r < count($curso);$r++)
 			{
-				$curs = (array)$curso[$r]['@attributes'];
+				$curs = (array)$curso[$r];
+				$curs = (array)$curs['@attributes'];
 				$dt['f_inst'] = $curs['NOME-INSTITUICAO'];
 				$dt['f_inst_cod'] = $curs['CODIGO-INSTITUICAO'];
 				$dt['f_curso'] = $curs['NOME-CURSO'];
@@ -246,6 +252,7 @@ class LattesFormacao extends Model
 				$this->register($id, $dt);
 			}
 		} else {
+			echo "ERRO";
 			pre($curso);
 			$dt = array();
 		}
