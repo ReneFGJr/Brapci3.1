@@ -237,6 +237,7 @@ class LattesFormacao extends Model
 			$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
 			$this->register($id, $dt);
 		} else {
+			pre($curso);
 			$dt = array();
 		}
 
