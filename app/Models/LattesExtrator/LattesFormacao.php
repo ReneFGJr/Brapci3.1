@@ -215,27 +215,36 @@ class LattesFormacao extends Model
 		$dt = array();
 		$dt['f_id'] = $id;
 		$dt['f_type'] = substr($type, 0, 1);
-		if (isset($curso['@attributes']))
-		{
-			$curso = (array)$curso['@attributes'];
-			$dt['f_inst'] = $curso['NOME-INSTITUICAO'];
-			$dt['f_inst_cod'] = $curso['CODIGO-INSTITUICAO'];
-			$dt['f_curso'] = $curso['NOME-CURSO'];
-			$dt['f_curso_area'] = $curso['CODIGO-AREA-CURSO'];
-			$dt['f_situacao'] = $this->status($curso['STATUS-DO-CURSO']);
-			$dt['f_ano_ini'] = $curso['ANO-DE-INICIO'];
-			$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
-			if (!isset($curso['NOME-COMPLETO-DO-ORIENTADOR'])) {
-				$dt['f_orientador'] = '';
-				$dt['f_orientador_lattes'] = '';
-			} else {
-				$dt['f_orientador'] = $curso['NOME-COMPLETO-DO-ORIENTADOR'];
-				$dt['f_orientador_lattes'] = $curso['NUMERO-ID-ORIENTADOR'];
-			}
 
-			$dt['f_ppg'] = $curso['CODIGO-CURSO-CAPES'];
-			$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
-			$this->register($id, $dt);
+		if (!isset($curso[0]))
+			{
+				$c = $curso;
+				$curso = array($curso);
+			}
+		if (isset($curso[0]['@attributes']))
+		{
+			for ($r=0;$r < count($curso);$r++)
+			{
+				$curs = (array)$curso[$r]['@attributes'];
+				$dt['f_inst'] = $curso['NOME-INSTITUICAO'];
+				$dt['f_inst_cod'] = $curs['CODIGO-INSTITUICAO'];
+				$dt['f_curso'] = $curs['NOME-CURSO'];
+				$dt['f_curso_area'] = $curs['CODIGO-AREA-CURSO'];
+				$dt['f_situacao'] = $this->status($curs['STATUS-DO-CURSO']);
+				$dt['f_ano_ini'] = $curs['ANO-DE-INICIO'];
+				$dt['f_ano_fim'] = $curs['ANO-DE-CONCLUSAO'];
+				if (!isset($curs['NOME-COMPLETO-DO-ORIENTADOR'])) {
+					$dt['f_orientador'] = '';
+					$dt['f_orientador_lattes'] = '';
+				} else {
+					$dt['f_orientador'] = $curs['NOME-COMPLETO-DO-ORIENTADOR'];
+					$dt['f_orientador_lattes'] = $curs['NUMERO-ID-ORIENTADOR'];
+				}
+
+				$dt['f_ppg'] = $curs['CODIGO-CURSO-CAPES'];
+				$dt['f_ano_fim'] = $curs['ANO-DE-CONCLUSAO'];
+				$this->register($id, $dt);
+			}
 		} else {
 			pre($curso);
 			$dt = array();
