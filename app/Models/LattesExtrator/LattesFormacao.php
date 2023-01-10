@@ -215,25 +215,30 @@ class LattesFormacao extends Model
 		$dt = array();
 		$dt['f_id'] = $id;
 		$dt['f_type'] = substr($type, 0, 1);
-		$curso = (array)$curso['@attributes'];
-		$dt['f_inst'] = $curso['NOME-INSTITUICAO'];
-		$dt['f_inst_cod'] = $curso['CODIGO-INSTITUICAO'];
-		$dt['f_curso'] = $curso['NOME-CURSO'];
-		$dt['f_curso_area'] = $curso['CODIGO-AREA-CURSO'];
-		$dt['f_situacao'] = $this->status($curso['STATUS-DO-CURSO']);
-		$dt['f_ano_ini'] = $curso['ANO-DE-INICIO'];
-		$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
-		if (!isset($curso['NOME-COMPLETO-DO-ORIENTADOR'])) {
-			$dt['f_orientador'] = '';
-			$dt['f_orientador_lattes'] = '';
-		} else {
-			$dt['f_orientador'] = $curso['NOME-COMPLETO-DO-ORIENTADOR'];
-			$dt['f_orientador_lattes'] = $curso['NUMERO-ID-ORIENTADOR'];
-		}
+		if (isset($curso['@attributes']))
+		{
+			$curso = (array)$curso['@attributes'];
+			$dt['f_inst'] = $curso['NOME-INSTITUICAO'];
+			$dt['f_inst_cod'] = $curso['CODIGO-INSTITUICAO'];
+			$dt['f_curso'] = $curso['NOME-CURSO'];
+			$dt['f_curso_area'] = $curso['CODIGO-AREA-CURSO'];
+			$dt['f_situacao'] = $this->status($curso['STATUS-DO-CURSO']);
+			$dt['f_ano_ini'] = $curso['ANO-DE-INICIO'];
+			$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
+			if (!isset($curso['NOME-COMPLETO-DO-ORIENTADOR'])) {
+				$dt['f_orientador'] = '';
+				$dt['f_orientador_lattes'] = '';
+			} else {
+				$dt['f_orientador'] = $curso['NOME-COMPLETO-DO-ORIENTADOR'];
+				$dt['f_orientador_lattes'] = $curso['NUMERO-ID-ORIENTADOR'];
+			}
 
-		$dt['f_ppg'] = $curso['CODIGO-CURSO-CAPES'];
-		$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
-		$this->register($id, $dt);
+			$dt['f_ppg'] = $curso['CODIGO-CURSO-CAPES'];
+			$dt['f_ano_fim'] = $curso['ANO-DE-CONCLUSAO'];
+			$this->register($id, $dt);
+		} else {
+			$dt = array();
+		}
 
 		return $dt;
 	}
