@@ -226,7 +226,7 @@ class LattesFormacao extends Model
 			for ($r=0;$r < count($curso);$r++)
 			{
 				$curs = (array)$curso[$r]['@attributes'];
-				$dt['f_inst'] = $curso['NOME-INSTITUICAO'];
+				$dt['f_inst'] = $curs['NOME-INSTITUICAO'];
 				$dt['f_inst_cod'] = $curs['CODIGO-INSTITUICAO'];
 				$dt['f_curso'] = $curs['NOME-CURSO'];
 				$dt['f_curso_area'] = $curs['CODIGO-AREA-CURSO'];
