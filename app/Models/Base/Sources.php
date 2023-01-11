@@ -277,8 +277,6 @@ class Sources extends Model
     /******************************************** RESUME */
     function resume()
     {
-        $MOD = $this->MOD(TRUE);
-        echo $MOD;
         //$dt = $this->get_resume();
         $total = 0;
         //print_r($dt);
