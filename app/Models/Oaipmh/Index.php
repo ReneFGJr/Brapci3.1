@@ -59,7 +59,7 @@ class Index extends Model
 				{
 					$sx .= $this->logo();
 					$url = PATH.'/robot/harvesting/identify/'.$dt['id_jnl'];
-					$link = '<a href="#" onclick="newwin('.$url.',600,600);">';
+					$link = '<a href="#" onclick="newwin(\''.$url.'\',600,600);">';
 					$linka = '</a>';
 					$sx .= $link.bsicone('upload').$linka;
  				} else {
