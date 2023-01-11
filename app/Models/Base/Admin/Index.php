@@ -66,14 +66,7 @@ class Index extends Model
                 break;
             case 'source':
                 $Sources = new \App\Models\Base\Sources();
-                switch ($subact) {
-                    case 'edit':
-                        $sx .= $Sources->editar($id);
-                        break;
-                    default:
-                        $sx .= $Sources->tableview();
-                        break;
-                }
+                $sx .= $Sources->index($subact, $id, $id2, $id3);
                 break;
             default:
                 if (isset($_SESSION['id'])) {

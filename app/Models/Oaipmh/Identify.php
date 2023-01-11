@@ -46,4 +46,11 @@ class Identify extends Model
 			$sx .= 'RESUME';
 			return $sx;
 		}
+
+	function harvesting($dt)
+		{
+			$OAI = new \App\Models\Oaipmh\Index();
+			$url = $OAI->url($dt);
+			pre($dt);
+		}
 }
