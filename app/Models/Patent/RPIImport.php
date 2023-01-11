@@ -52,7 +52,7 @@ class RPIImport extends Model
         $dt = $this->le_nr($id);
         $sx .= h('Status actual: ' . $dt['rpi_status'], 5);
 
-        echo 'Method: ['.$dt['rpi_status'].']'.cr();
+        $sx .= '<p>' . 'Method: ['.$dt['rpi_status']. '] </p>'.cr();
 
         /* Importa dados */
         switch ($dt['rpi_status']) {
