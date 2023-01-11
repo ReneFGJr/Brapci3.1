@@ -233,6 +233,7 @@ class RPIIssue extends Model
             }
             $sx .= bsmessage('Unziped ' . $filename, 1);
             $this->register($id, 2);
+            $sx .= metarefresh('',5);
         } else {
             $this->register($id, 2);
         }

@@ -40,6 +40,34 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function url($dt)
+		{
+			pre($dt);
+		}
+
+	function logo()
+		{
+			$sx = '';
+			$sx .= '<span style="margin-right: 5px; font-size: 0.6em; border: 1px solid #000; padding: 2px 5px;">OAI-PMH</span>';
+			return $sx;
+		}
+
+	function painel($dt)
+		{
+			$sx = h(lang('brapci.painel'),4);
+			if ($dt['jnl_url_oai'] != '')
+				{
+					$sx .= $this->logo();
+					$url = PATH.'/robot/harvesting/identify/'.$dt['id_jnl'];
+					$link = '<a href="#" onclick="newwin('.$url.',600,600);">';
+					$linka = '</a>';
+					$sx .= $link.bsicone('upload').$linka;
+ 				} else {
+					$sx .= bsmessage(lang('brapci.oaipmh_not_defined'),3);
+				}
+			return $sx;
+		}
+
 	function dir_tmp($id)
 		{
 			$nr = strzero($id, 9);

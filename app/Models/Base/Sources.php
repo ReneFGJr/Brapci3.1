@@ -120,10 +120,12 @@ class Sources extends Model
                 $sx = $this->oai($d2, $d3);
                 break;
             case 'edit':
+                $sx .= $this->editar($d2);
                 break;
         }
         return $sx;
     }
+
 
 
     function source_list_block($type='EV')
@@ -423,8 +425,19 @@ class Sources extends Model
         $dt = $this->find($id);
 
         /************** ISSUES */
-        $JournalIssue = new \App\Models\Journal\JournalIssue();
+        $JournalIssue = new \App\Models\Base\Issues();
+        $Harvesting = new \App\Models\Base\Harvesting();
+        $OAI = new \App\Models\Oaipmh\Index();
+
+        $painel = $OAI->painel($dt);
+        $sx .= $Harvesting->painel($dt);
         $jn_rdf = $dt['jnl_frbr'];
+        if ($jn_rdf == 0)
+            {
+               $sx .= bsc(bsmessage("ERRO: JN_RDF not defined"),9);
+               $sx .= bsc($painel, 3);
+               return bs($sx);
+            }
 
         $sx = $this->journal_header($dt);
 
