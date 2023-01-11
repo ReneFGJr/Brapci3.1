@@ -8,7 +8,9 @@ if (!isset($GOOGLEID)) {
     $GOOGLEID = 'UA-12713129-1';
 }
 $data['GOOGLEID'] = $GOOGLEID;
-?><head>
+?>
+
+<head>
     <title><?= $page_title; ?> </title>
 
     <meta name="google-site-verification" content="VZpzNVBfl5kOEtr9Upjmed96smfsO9p4N79DZT38toA" />
@@ -35,6 +37,7 @@ $data['GOOGLEID'] = $GOOGLEID;
     <script src="<?= URL; ?>/js/bootstrap-datepicker.min.js?v1.9.0" crossorigin="anonymous">
     </script>
     <script src="<?= URL; ?>/js/brapci.js?v0.1" crossorigin="anonymous">
+    < script src = "<?= URL; ?>/js/sisdoc_form.js?v0.1" crossorigin = "anonymous" >
     </script>
 
     <!---- CSS -->
