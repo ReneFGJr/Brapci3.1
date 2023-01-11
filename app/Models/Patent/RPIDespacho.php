@@ -49,8 +49,6 @@ class RPIDespacho extends Model
         $sx = '';
         $xml = (array)simplexml_load_file($file);
 
-        pre($xml);
-
         $despacho = (array)$xml['despacho'];
         $xcode = '';
         $tot = 0;

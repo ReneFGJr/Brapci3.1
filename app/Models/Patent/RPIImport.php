@@ -220,8 +220,6 @@ class RPIImport extends Model
             switch($this->SourceType)
                 {
                     case 'xml':
-                        echo "OK";
-                        exit;
                         $this->method_01_issue_data_xml($id);
                         break;
                     default:
