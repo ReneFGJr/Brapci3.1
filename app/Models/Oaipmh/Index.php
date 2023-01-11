@@ -58,7 +58,7 @@ class Index extends Model
 			if ($dt['jnl_url_oai'] != '')
 				{
 					$sx .= $this->logo();
-					$url = PATH.'/bot/harvesting/identify/'.$dt['id_jnl'];
+					$url = PATH.'bots/harvesting/identify/'.$dt['id_jnl'];
 					$link = '<a href="#" onclick="newxy2(\''.$url.'\',600,600);">';
 					$linka = '</a>';
 					$sx .= $link.bsicone('upload').$linka;
