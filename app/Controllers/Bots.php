@@ -22,6 +22,14 @@ class Bots extends BaseController
 
         switch ($act) {
 
+            case 'harvesting':
+                $Oaipmh = new \App\Models\Oaipmh\Index();
+                echo "BOT's OAIPMH v0.23.01.02" . cr();
+                echo chr(13);
+                echo $Oaipmh->index($act2,$act3);
+                break;
+
+
             case 'lattes':
                 $Lattes = new \App\Models\Api\Lattes\Index();
                 echo "BOT's Lattes v0.23.01.02".cr();
