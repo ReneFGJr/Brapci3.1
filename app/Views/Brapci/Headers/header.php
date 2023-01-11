@@ -36,17 +36,17 @@ $data['GOOGLEID'] = $GOOGLEID;
     </script>
     <script src="<?= URL; ?>/js/bootstrap-datepicker.min.js?v1.9.0" crossorigin="anonymous">
     </script>
-    <script src="<?= URL; ?>/js/brapci.js?v0.1" crossorigin="anonymous">
-    <script src="<?= URL; ?>/js/sisdoc_form.js?v0.1" crossorigin = "anonymous">
-    </script>
+    <script src="<?= URL; ?>/js/brapci.js?v0.1" crossorigin="anonymous"></script>
+    <script src="<?= URL; ?>/js/sisdoc_form.js?v0.1" crossorigin="anonymous"></script>
 
-    <!---- CSS -->
-    <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap-datepicker">
 
-    <link rel="stylesheet" href="<?= URL; ?>/css/brapci.css?v0.0.4">
+        <!---- CSS -->
+        <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap-datepicker">
 
-    <?= view('Google/Analytics', $data); ?>
+        <link rel="stylesheet" href="<?= URL; ?>/css/brapci.css?v0.0.4">
+
+        <?= view('Google/Analytics', $data); ?>
 </head>
 
 <body style="min-height: 500px;">
