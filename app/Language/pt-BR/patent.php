@@ -10,8 +10,8 @@ return[
         'bs_start'=>'Início',
         'bs_finish'=>'Fim',
         'BS_IES'=>'Vínculo',
-        ''=>'',
-        ''=>'',
+        'found'=>'Encontrado',
+        'dispatch'=>'despachos',
         ''=>'',
         ''=>'',
 ];
