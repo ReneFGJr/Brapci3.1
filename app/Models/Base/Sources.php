@@ -260,7 +260,7 @@ class Sources extends Model
     {
         $sx = '';
         $items = array();
-        $mod = $this->MOD();
+        $mod = 'source';
         $items['admin/' . $mod . '/tableview'] = 'TableView';
         foreach ($items as $it => $tx) {
             $link = '<a href="' . PATH . MODULE . $it . '">' . $tx . '</a>';
