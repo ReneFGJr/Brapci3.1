@@ -40,6 +40,11 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function index($d1,$d2)
+		{
+			echo "$d1==$d2";
+		}
+
 	function url($dt)
 		{
 			pre($dt);
