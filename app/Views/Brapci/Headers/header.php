@@ -37,7 +37,7 @@ $data['GOOGLEID'] = $GOOGLEID;
     <script src="<?= URL; ?>/js/bootstrap-datepicker.min.js?v1.9.0" crossorigin="anonymous">
     </script>
     <script src="<?= URL; ?>/js/brapci.js?v0.1" crossorigin="anonymous">
-    < script src = "<?= URL; ?>/js/sisdoc_form.js?v0.1" crossorigin = "anonymous" >
+    <script src="<?= URL; ?>/js/sisdoc_form.js?v0.1" crossorigin = "anonymous">
     </script>
 
     <!---- CSS -->
