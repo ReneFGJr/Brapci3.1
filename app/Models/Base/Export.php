@@ -7,14 +7,17 @@ use CodeIgniter\Model;
 class Export extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'exports';
-    protected $primaryKey       = 'id';
+    protected $table            = 'brapci_bots.tasks';
+    protected $primaryKey       = 'id_task';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_task', 'task_id', 'task_status',
+        'task_propriry', 'task_offset', 'updated_at',
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,16 +42,13 @@ class Export extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    var $eof = 0;
 
     function index($d1,$d2,$d3)
         {
             $sx = 'EXPORT '.$d1;
-
             switch($d1)
                 {
-                    case 'articles':
-                        $sx = $this->export_articles($d2,$d3);
-                        break;
                     default:
                         $sx = bsc($this->menu(),12);
                         break;
@@ -56,6 +56,57 @@ class Export extends Model
             $sx = bs($sx);
             return $sx;
         }
+
+    function next($type='')
+        {
+            $dt = $this->where('task_status',1)->orderBy('task_propriry')->findAll();
+            if (count($dt) > 0)
+                {
+                    $dt = $dt[0];
+                }
+            return $dt;
+        }
+
+    function register($task_id,$priority,$offset,$status)
+        {
+            $dta['task_id'] = $task_id;
+            $dta['task_status'] = $status;
+            $dta['task_propriry'] = $priority;
+            $dta['task_offset'] = $offset;
+            $dta['updated_at'] = date("Y-m-d H:i:s");
+            $dt = $this->where('task_id',$task_id)->findAll();
+            if (count($dt) == 0)
+                {
+                    $this->set($dta)->insert();
+                } else {
+                    $this->set($dta)->where('task_id',$task_id)->update();
+                }
+            return true;
+        }
+
+    function cron($d1,$d2,$d3='')
+        {
+            $sx = '';
+            switch($d1)
+                {
+                    /************************************ DEFAULT */
+                    default:
+                    if ($d1 == '')
+                        {
+                            $sx .= '=====EXPORT============'.cr();
+                            $dtd = $this->next();
+
+                            if (count($dtd) > 0)
+                                {
+                                    $sx .= $this->export_works($dtd);
+                                }
+                        } else {
+                            echo "OPS EXPORT NOT FOUND [$d1]";
+                        }
+                }
+            return $sx;
+        }
+
 
     function menu()
     {
@@ -71,13 +122,30 @@ class Export extends Model
         return $sx;
     }
 
-    function export_articles($d1,$d2)
+    function export_works($dta,$id=0)
         {
-            $offset = round($d1);
-            $limit = 10;
-            $class = 'Article';
-            $type = 'JA';
-            $sx = $this->export_data($class, $type, $offset, $limit);
+            $sx = '';
+            $offset = round(0);
+            $limit = 100;
+
+            $TYPE = $dta['task_id'];
+
+            if ($dta['task_id'] == 'EXPORT_ARTICLE')
+                {
+                    $class = 'Article';
+                    $type = 'JA';
+                    $offset = $dta['task_offset'];
+                    $sx .= "<br>OFFSET: $offset";
+                    $sx .= $this->export_data($class, $type, $offset, $limit);
+                    if ($this->eof)
+                        {
+                            $this->register($TYPE, 0, 0, 0);
+                        } else {
+                            $this->register($TYPE, 1, $offset + $limit, 1);
+                        }
+
+                    $sx .= '<CONTINUE>';
+                }
             return $sx;
         }
 
@@ -91,9 +159,18 @@ class Export extends Model
 
             $id = $RDFClass->Class($class,false);
 
+            $total = $RDFConcept->select('count(*) as total')
+                        ->where('cc_class', $id)
+                        ->findAll();
             $ids = $RDFConcept->where('cc_class',$id)->findAll($limit,$offset);
+            if (count($ids) == 0)
+                {
+                    $this->eof = 1;
+                    return "FIM";
+                }
             $sx = '';
-            $sx .= 'Export '.($offset+1);
+            $total = $total[0]['total'];
+            $sx .= '<br>Processado: '.(number_format($offset/$total*100,1,',','.')).'%';
             $sx .= '<ul>';
             for ($r=0;$r < count($ids);$r++)
                 {

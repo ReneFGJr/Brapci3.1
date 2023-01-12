@@ -231,6 +231,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $bots = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_bots',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     /**
      * This database connection is used when
      * running PHPUnit database tests.
@@ -291,6 +311,9 @@ class Database extends Config
 
         $this->elastic['username'] = getenv('database.default.username');
         $this->elastic['password'] = getenv('database.default.password');
+
+        $this->bots['username'] = getenv('database.default.username');
+        $this->bots['password'] = getenv('database.default.password');
 
     }
 }

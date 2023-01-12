@@ -26,6 +26,11 @@ class Bots extends BaseController
 
         switch ($act) {
 
+            case 'export':
+                $Export = new \App\Models\Base\Export();
+                $sx .= $Export->cron($act2, $act3);
+                break;
+
             case 'harvesting':
                 $Oaipmh = new \App\Models\Oaipmh\Index();
                 $sx .= "BOT's OAIPMH ". VERSION_BOT . cr();
@@ -58,6 +63,7 @@ class Bots extends BaseController
                 $menu[PATH . COLLECTION . '/authority/remissive'] = lang('bots.authority.remissive');
                 $menu[PATH . COLLECTION . '/authority/collaboration'] = lang('bots.authority.collaboration');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');
+                $menu[PATH . COLLECTION . '/export'] = lang('bots.export');
                 $sx .= menu($menu);
                 break;
         }
@@ -70,6 +76,11 @@ class Bots extends BaseController
                 exit;
             } else {
                 $sx = troca($sx,chr(10),'<br>');
+                $pos = strpos($sx,'<CONTINUE>');
+                if ($pos > 0)
+                    {
+                        $sx = troca($sx,'<CONTINUE>',metarefresh('',5));
+                    }
             }
         return $sx;
     }
