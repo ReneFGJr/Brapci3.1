@@ -55,6 +55,11 @@ class ElasticRegister extends Migration
                 'type'       => 'longtext',
                 'null' => true,
             ],
+            'source' => [
+                'type'       => 'varchar',
+                'constraint'     => 100,
+                'null' => true,
+            ],
             'year' => [
                 'type'       => 'varchar',
                 'constraint'     => 4,

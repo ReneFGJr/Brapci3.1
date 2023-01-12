@@ -76,7 +76,13 @@ class Export extends Model
             $offset = round($d1);
             $limit = 10;
             $class = 'Article';
+            $type = 'JA';
+            $sx = $this->export_data($class, $type, $offset, $limit);
+            return $sx;
+        }
 
+    function export_data($class,$type,$offset,$limit)
+        {
             $RDF = new \App\Models\RDF\Rdf();
             $RDFClass = new \App\Models\RDF\RdfClass();
             $RDFConcept = new \App\Models\RDF\RDFConcept();
@@ -86,20 +92,40 @@ class Export extends Model
             $id = $RDFClass->Class($class,false);
 
             $ids = $RDFConcept->where('cc_class',$id)->findAll($limit,$offset);
-            $sx = '<ul>';
+            $sx = '';
+            $sx .= 'Export '.($offset+1);
+            $sx .= '<ul>';
             for ($r=0;$r < count($ids);$r++)
                 {
                     $line = $ids[$r];
                     $idr = $line['id_cc'];
 
-                    $dir = $RDF->directory($id);
-                    $file = $dir . 'elastic.json';
+                    $dir = $RDF->directory($idr);
+                    $file = $dir . 'article.json';
+
+                    if (!file_exists($file))
+                        {
+                            $RDF->c($idr);
+                        }
+
+                    /*
+                    $json = file_get_contents($file);
+                    $json = (array)json_decode($json);
+                    $json['type'] = $type;
+                    $json['collection'] = substr($class,0,1);
+                    pre($json);
+                    $sx .= '<li>' . strzero($idr, 8) . ' ' . $ElasticRegister->data($idr, $json) . ' (' . $dir . ')</li>';
+                    */
 
                     $line = $RDF->le($idr);
+                    $Metadata->metadata = array();
                     $Metadata->metadata($line);
                     $meta = $Metadata->metadata;
-
-                    $sx .= '<li>'.$ElasticRegister->data($idr,$meta).'</li>';
+                    $meta['collection'] = substr($class,0,1);
+                    $meta['fulltext'] = '';
+                    $meta['year'] = '';
+                    $meta['pdf'] = 0;
+                    $sx .= '<li>'.strzero($meta['article_id'],8).' '.$ElasticRegister->data($idr,$meta).' ('.$dir.')</li>';
                 }
             $sx .= '</ul>';
             return $sx;

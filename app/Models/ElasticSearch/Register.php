@@ -15,8 +15,8 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id','article_id','id_jnl',
-        'title','authors', 'keywords',
+        'id','article_id','id_jnl','collection',
+        'title','authors', 'keywords','type',
         'fulltext','pdf','updated_at'
     ];
 
@@ -48,8 +48,9 @@ class Register extends Model
     function data($id,$data)
         {
             //pre($data,false);
-            $dt = $this->where('article_id',$id)->first();
-            if ($dt == '')
+            $dt = $this->where('article_id',round($id))->findAll();
+
+            if (count($dt) == 0)
                 {
                     $this->set($data)->insert();
                     $sx = lang('brapci.inserted');

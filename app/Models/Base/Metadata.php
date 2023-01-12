@@ -62,8 +62,7 @@ class Metadata extends Model
 
     function metadata($meta)
     {
-        $this->
-        ,metadata = array();
+        $this->metadata = array();
         if (isset($meta['concept'])) {
             $concept = $meta['concept'];
 
@@ -74,7 +73,7 @@ class Metadata extends Model
                     case 'c_class':
                         $this->lets('type', $value);
                         break;
-                    case 'id_c':
+                    case 'id_cc':
                         $this->lets('article_id', $value);
                         break;
                     case 'n_name':
@@ -97,6 +96,7 @@ class Metadata extends Model
                 $lang = $line['n_lang2'];
                 $valueO = $line['n_name'];
                 $langO = $line['n_lang'];
+                $ddv2 = $line['d_r2'];
 
                 switch ($class) {
                     case 'Identifier.DOI':
@@ -120,6 +120,7 @@ class Metadata extends Model
                         break;
                     case 'isPubishIn':
                         $this->lets('source', $value);
+                        $this->lets('id_jnl', $ddv2);
                         break;
                     default:
 
