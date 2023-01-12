@@ -194,6 +194,12 @@ class RDFExport extends Model
 				} else {
 					$issue1 = $RDF->le($issue2[0]);
 				}
+
+				if (!isset($issue1['concept']['n_name']))
+					{
+					$issue1['concept']['n_name'] = '0000000';
+					}
+
 				$year = sonumero($issue1['concept']['n_name']);
 				$year = round(substr($year, strlen($year) - 4, 4));
 			}
