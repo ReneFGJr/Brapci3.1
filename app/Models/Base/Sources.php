@@ -60,6 +60,9 @@ class Sources extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    var $path = '';
+    var $path_back = '';
+    var $id = 0;
 
     function index($d1, $d2, $d3)
     {
@@ -80,12 +83,7 @@ class Sources extends Model
                 $sx = $this->tableview();
                 break;
 
-            case 'inport_rdf':
-                $JournalIssue = new \App\Models\Journal\JournalIssue();
-                $sx = $JournalIssue->inport_rdf($d2, $d3);
-                break;
-
-                /******************* Implementando */
+            /******************* Implementando */
             case 'issue':
                 $sx = $this->issue($d1, $d2, $d3);
                 break;
@@ -94,13 +92,7 @@ class Sources extends Model
                 $sx = 'Harvesting';
                 break;
 
-            case 'issue_harvesting':
-                $JournalIssue = new \App\Models\Journal\JournalIssue();
-                $sx = $JournalIssue->harvesting_oaipmh($d2, $d3);
-                break;
-
-
-                /******************* Para testes ***/
+            /******************* Para testes ***/
             case 'edit_issue':
                 $sx = $this->editar_issue($d2, $d3);
                 break;
@@ -120,12 +112,11 @@ class Sources extends Model
                 $sx = $this->oai($d2, $d3);
                 break;
             case 'edit':
-                $sx .= $this->editar($d2);
+                $sx = $this->editar($d2);
                 break;
         }
         return $sx;
     }
-
 
 
     function source_list_block($type='EV')
@@ -284,49 +275,11 @@ class Sources extends Model
         $sx .= h($total, 1);
         return $sx;
     }
+
     function le_rdf($id)
     {
         $dt = $this->where('jnl_frbr', $id)->FindAll();
         return $dt;
-    }
-    function oai($jnl, $id)
-    {
-        $sx = '';
-        $OaipmhRegister = new \App\Models\Oaipmh\OaipmhRegister();
-        switch ($id) {
-            case '0':
-                $idr = $OaipmhRegister->process_00($jnl);
-                $sx .= '=OAI=>' . $idr;
-
-            case '1':
-                $idr = $OaipmhRegister->process_01($jnl);
-                $sx .= '=OAI=>' . $idr;
-                break;
-        }
-
-
-        return $sx;
-    }
-    function oai_check()
-    {
-        $JournalIssue = new \App\Models\Journal\JournalIssue();
-        $sx = $JournalIssue->oai_check();
-        return $sx;
-    }
-
-    function issue($th, $d2, $d3)
-    {
-        $JournalIssue = new \App\Models\Journal\JournalIssue();
-        $sx = $JournalIssue->ArticlesIssue($d2);
-        return $sx;
-    }
-
-    /*******************************************************/
-    function editar_issue($id, $jnl)
-    {
-        $JournalIssue = new \App\Models\Journal\JournalIssue();
-        $sx = $JournalIssue->edit($id, $jnl);
-        return $sx;
     }
 
     function issn($dt)
@@ -384,8 +337,8 @@ class Sources extends Model
         }
 
         $idj = $dt['jnl_frbr'];
-        $this->Cover = new \App\Models\Base\Cover();
-        $img = '<img src="' . $this->Cover->image($dt['id_jnl']) . '" class="img-fluid">';
+        $Cover = new \App\Models\Base\Cover();
+        $img = '<img src="' . $Cover->image($dt['id_jnl']) . '" class="img-fluid">';
         $img = '';
         $sx = '';
         $url = PATH . COLLECTION . '/v/' . $idj;
@@ -428,24 +381,31 @@ class Sources extends Model
         $OAI = new \App\Models\Oaipmh\Index();
 
         $painel = $OAI->painel($dt);
-        $sx .= $Harvesting->painel($dt);
+
+        $sh = $this->journal_header($dt);
+
+        $subp = $Harvesting->painel($dt);
+
         $jn_rdf = $dt['jnl_frbr'];
         if ($jn_rdf == 0)
             {
                $sx .= bsc(bsmessage("ERRO: JN_RDF not defined"),9);
                $sx .= bsc($painel, 3);
-               return bs($sx);
+            } else {
+                $sx .= bsc($subp, 9);
+                $sx .= bsc($painel, 3);
             }
+        $sx = bs($sx);
 
-        $sx = $this->journal_header($dt);
+
 
         /************************************************* Mostra edições */
-        $sx .= $JournalIssue->view_issue($jn_rdf);
+        //$sx .= $JournalIssue->view_issue($jn_rdf);
 
         /********************************************** Botoes de edições */
-        $sx .= bs(bsc($JournalIssue->btn_new_issue($dt), 12, 'mt-4'));
+        //$sx .= bs(bsc($JournalIssue->btn_new_issue($dt), 12, 'mt-4'));
 
-        return $sx;
+        return $sh.$sx;
     }
 
     /********************************************************************************** ADMIN EDIT */

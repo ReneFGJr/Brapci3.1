@@ -2,7 +2,11 @@
 
 function jslog($txt)
 {
-    echo '<script> console.log("'.$txt.'"); </script>';
+    global $bot;
+    if (!isset($bot))
+        {
+            echo '<script> console.log("' . $txt . '"); </script>';
+        }
     return "";
 }
 

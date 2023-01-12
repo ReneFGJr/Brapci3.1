@@ -40,82 +40,169 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($d1,$d2)
-		{
-			echo "$d1==$d2";
+	function index($d1, $d2)
+	{
+		$sx = '';
+		switch ($d1) {
+			case 'identify':
+				$sx .= $this->identify($d1, $d2);
+				break;
+				/*************************************************************** get register */
+			case 'getregister':
+				$sx .= $this->getregister($d1, $d2);
+				break;
+			default:
+				echo "OPS OAI $d1,$d2";
+				exit;
 		}
 
-	function url($dt)
-		{
-			pre($dt);
-		}
+		return $sx;
+	}
 
-	function logo()
+	function identify($d1, $d2)
+	{
+		$sx = '';
+		$id = $d2;
+		$Identify = new \App\Models\Oaipmh\Identify();
+		$Soucers = new \App\Models\Base\Sources();
+		$dt = $Soucers->find($d2);
+		if ($dt == '') {
+			return bsmessage('Harvesting Identify - erro no id', 3);
+		} else {
+			$sx .= $Identify->getIdentify($dt);
+		}
+		return $sx;
+	}
+
+	function getregister($d1,$d2)
 		{
 			$sx = '';
-			$sx .= '<span style="margin-right: 5px; font-size: 0.6em; border: 1px solid #000; padding: 2px 5px;">OAI-PMH</span>';
+			$GetRecords = new \App\Models\Oaipmh\GetRecords();
+			$ListSets = new \App\Models\Oaipmh\ListSets();
+			$Soucers = new \App\Models\Base\Sources();
+			/************************* Recupera Journal */
+			$dt = $Soucers->find($d2);
+
+			/************************* Recupera ListSets */
+			$ListSets->getAll($dt);
 			return $sx;
 		}
+
+	function url($data, $verb)
+	{
+			$url = trim($data['jnl_url_oai']);
+			$scielo = '';
+			if ($data['jnl_scielo'] == '1') {
+				$scielo = '&set=' . $data['jnl_oai_set'];
+			}
+			switch ($verb) {
+				case 'ListSets':
+					$url .= '?verb=ListSets';
+					break;
+
+				case 'GetRecord':
+					$url .= '?verb=GetRecord&metadataPrefix=oai_dc&identifier=';
+					break;
+
+				case 'GetRecordNlm':
+					$url .= '?verb=GetRecord&metadataPrefix=nlm&identifier=';
+					break;
+				case 'ListIdentifiers':
+					if (strlen($data['jnl_oai_token']) > 5) {
+						$url .= '?verb=ListIdentifiers&resumptionToken=' . trim($data['jnl_oai_token']);
+						$url .= $scielo;
+					} else {
+						$url .= '?verb=ListIdentifiers&metadataPrefix=oai_dc';
+						$url .= $scielo;
+					}
+					break;
+				case 'identify':
+					$url .= '?verb=Identify';
+					break;
+			}
+			return ($url);
+	}
+
+	function logo()
+	{
+		$sx = '';
+		$sx .= '<span style="margin-right: 5px; font-size: 0.6em; border: 1px solid #000; padding: 2px 5px;">OAI-PMH</span>';
+		return $sx;
+	}
 
 	function painel($dt)
-		{
-			$sx = h(lang('brapci.painel'),4);
-			if ($dt['jnl_url_oai'] != '')
-				{
-					$sx .= $this->logo();
-					$url = PATH.'bots/harvesting/identify/'.$dt['id_jnl'];
-					$link = '<a href="#" onclick="newxy2(\''.$url.'\',600,600);">';
-					$linka = '</a>';
-					$sx .= $link.bsicone('upload').$linka;
- 				} else {
-					$sx .= bsmessage(lang('brapci.oaipmh_not_defined'),3);
-				}
-			return $sx;
+	{
+		$sx = h(lang('brapci.painel'), 4);
+		if ($dt['jnl_url_oai'] != '') {
+			$sx .= $this->logo();
+
+			if ($dt['jnl_frbr'] == 0) {
+				$url = PATH . 'bots/harvesting/identify/' . $dt['id_jnl'];
+				$link = '<a href="#" onclick="newxy2(\'' . $url . '\',600,600);">';
+				$linka = '</a>';
+				$sx .= '&nbsp;' . $link . bsicone('upload') . $linka;
+			}
+
+			$url = PATH . 'admin/source/edit/' . $dt['id_jnl'];
+			$link = '<a href="' . $url . '">';
+			$linka = '</a>';
+			$sx .= '&nbsp;' . $link . bsicone('edit') . $linka;
+
+			/* Habilita Coleta para Journals */
+			if (($dt['jnl_collection'] == 'JA') or ($dt['jnl_collection'] == 'JE')) {
+				$url = PATH . 'bots/harvesting/getregister/' . $dt['id_jnl'];
+				$link = '<a href="' . $url . '">';
+				$linka = '</a>';
+				$sx .= '&nbsp;' . $link . bsicone('harvesting') . $linka;
+			}
+		} else {
+			$sx .= bsmessage(lang('brapci.oaipmh_not_defined'), 3);
 		}
+		return $sx;
+	}
 
 	function dir_tmp($id)
-		{
-			$nr = strzero($id, 9);
+	{
+		$nr = strzero($id, 9);
 
-			$dir = '.tmp';
-			dircheck($dir);
-			$dir .= '/'.substr(date("Y"),0,2);
-			dircheck($dir);
-			$dir .= '/' . substr(date("Y"), 2, 2);
-			dircheck($dir);
+		$dir = '.tmp';
+		dircheck($dir);
+		$dir .= '/' . substr(date("Y"), 0, 2);
+		dircheck($dir);
+		$dir .= '/' . substr(date("Y"), 2, 2);
+		dircheck($dir);
 
-			$dir .= '/' . substr($nr, 0, 3);
-			dircheck($dir);
-			$dir .= '/' . substr($nr, 3, 3);
-			dircheck($dir);
-			$dir .= '/' . substr($nr, 6, 3);
-			dircheck($dir);
-			$dir .= '/';
-			return $dir;
+		$dir .= '/' . substr($nr, 0, 3);
+		dircheck($dir);
+		$dir .= '/' . substr($nr, 3, 3);
+		dircheck($dir);
+		$dir .= '/' . substr($nr, 6, 3);
+		dircheck($dir);
+		$dir .= '/';
+		return $dir;
+	}
+
+
+	function to_harvesting($idj, $issue)
+	{
+		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+		if ($idj > 0) {
+			$dt = $OAI_ListIdentifiers->where('li_jnl', $idj)->where('li_s', 1)->findAll();
+		} else {
+			$dt = $OAI_ListIdentifiers->where('li_issue', $issue)->where('li_s', 1)->findAll();
 		}
-
-
-	function to_harvesting($idj,$issue)
-		{
-			$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-			if ($idj > 0)
-				{
-					$dt = $OAI_ListIdentifiers->where('li_jnl',$idj)->where('li_s',1)->findAll();
-				} else {
-					$dt = $OAI_ListIdentifiers->where('li_issue', $issue)->where('li_s', 1)->findAll();
-				}
-			return count($dt);
-		}
+		return count($dt);
+	}
 
 	function links($id)
-		{
-			$sx = '['.$id.']';
-			$sx = '<a href="'.PATH.COLLECTION.'/oai/'.$id.'/listidentifiers">'.bsicone('harvesting').'</a>';
-			return $sx;
-		}
+	{
+		$sx = '[' . $id . ']';
+		$sx = '<a href="' . PATH . COLLECTION . '/oai/' . $id . '/listidentifiers">' . bsicone('harvesting') . '</a>';
+		return $sx;
+	}
 
-	function _call($url, $headers=array())
-		{
+	function _call($url, $headers = array())
+	{
 
 		//$headers = array('Accept: application/json', 'Content-Type: application/json',);
 
@@ -127,14 +214,11 @@ class Index extends Model
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$response = curl_exec($ch);
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if ($code == '200')
-			{
-				return $response;
-			} else {
-				echo h('ERRO CURL: '.$code);
-				exit;
-			}
+		if ($code == '200') {
+			return $response;
+		} else {
+			echo h('ERRO CURL: ' . $code);
+			exit;
 		}
-
-
+	}
 }

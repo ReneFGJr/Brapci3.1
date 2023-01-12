@@ -12,11 +12,15 @@ define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("COLLECTION", '/bots');
 define("PREFIX", '');
 define("LIBRARY", '1000');
+define("VERSION_BOT", 'v0.23.01.11');
 
 class Bots extends BaseController
 {
     public function index($act = '',$act2='',$act3='')
     {
+        global $bot;
+        $bot = true;
+
         $sx = '';
         if ($act == 'patent') { $act = 'patente'; }
 
@@ -24,17 +28,16 @@ class Bots extends BaseController
 
             case 'harvesting':
                 $Oaipmh = new \App\Models\Oaipmh\Index();
-                echo "BOT's OAIPMH v0.23.01.02" . cr();
-                echo chr(13);
-                echo $Oaipmh->index($act2,$act3);
+                $sx .= "BOT's OAIPMH ". VERSION_BOT . cr();
+                $sx .= chr(13);
+                $sx .= $Oaipmh->index($act2,$act3);
                 break;
-
 
             case 'lattes':
                 $Lattes = new \App\Models\Api\Lattes\Index();
-                echo "BOT's Lattes v0.23.01.02".cr();
-                echo chr(13);
-                echo $Lattes->harvesting_next($act2);
+                $sx .= "BOT 's Lattes ".VERSION_BOT.cr();
+                $sx .= chr(13);
+                $sx .= $Lattes->harvesting_next($act2);
                 break;
 
             case 'patente':
@@ -43,7 +46,7 @@ class Bots extends BaseController
                 break;
             case 'authority':
                 $Authority = new \App\Models\Authority\Index();
-                echo $Authority->index('bot_'.$act2);
+                $sx .= $Authority->index('bot_'.$act2);
                 exit;
                 break;
             case 'pdf':
@@ -55,10 +58,19 @@ class Bots extends BaseController
                 $menu[PATH . COLLECTION . '/authority/remissive'] = lang('bots.authority.remissive');
                 $menu[PATH . COLLECTION . '/authority/collaboration'] = lang('bots.authority.collaboration');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');
-                echo menu($menu);
+                $sx .= menu($menu);
                 break;
         }
-        $sx .= '</pre>';
+        $sx .= '';
+        $AGENT = $_SERVER['HTTP_USER_AGENT'];
+        $POS = strpos(' '.$AGENT, 'curl');
+        if ($POS > 0)
+            {
+                echo $sx;
+                exit;
+            } else {
+                $sx = troca($sx,chr(10),'<br>');
+            }
         return $sx;
     }
 }

@@ -151,6 +151,7 @@ class MainPages extends BaseController
     function v($id)
         {
             $RDF = new \App\Models\Rdf\RDF();
+            $RDFData = new \App\Models\Rdf\RDFData();
             $dt = $RDF->le($id);
 
             if (!isset($dt['concept'])) {
@@ -182,6 +183,7 @@ class MainPages extends BaseController
                         break;
                     default:
                         $sx = bs(bsc('Class not found - '.$class,12));
+                        $sx .= $RDFData->view_data($dt);
                         break;
                 }
                 return($sx);
