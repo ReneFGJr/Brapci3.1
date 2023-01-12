@@ -50,15 +50,13 @@ class API extends Model
 
 	function showList($dt)
 	{
-		$sx = h(lang('elastic.status'), 2,'text-center');
+		$sx = bsc(h(lang('elastic.status'), 2,'text-center'),12);
 		$sx .= bsc(lang('elastic.url'),4, 'text-end small');
-		$sx .= bsc('<b>'.getenv("app.elasticSearchURL"). '</b>',4, ' border-bottom border-secondary');
-		$sx .= bsc('', 4);
+		$sx .= bsc('<b>'.getenv("app.elasticSearchURL"). '</b>',8, ' border-bottom border-secondary');
 
 		foreach ($dt as $label => $value) {
 			$sx .= bsc(lang('elastic.' . $label), 4, 'text-end small');
-			$sx .= bsc(lang('elastic.' . $value) . '&nbsp',4, ' border-bottom border-secondary');
-			$sx .= bsc('', 4);
+			$sx .= bsc(lang('elastic.' . $value) . '&nbsp',8, ' border-bottom border-secondary');
 		}
 		$sx = bs($sx);
 		return $sx;

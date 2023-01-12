@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'export':
+                $Export = new \App\Models\Base\Export();
+                $sx = $Export->index($subact, $id, $id2, $id3);
+                break;
             case 'qualis':
                 $Qualis = new \App\Models\Qualis\Index();
                 $sx = $Qualis->index($subact,$id,$id2,$id3);
@@ -115,6 +119,9 @@ class Index extends Model
 
         $m['#QUALIS'] =  lang('brapci.qualis');
         $m[PATH .  '/admin/qualis'] =  lang('brapci.qualis');
+
+        $m['#EXPORT'] =  lang('brapci.export');
+        $m[PATH .  COLLECTION . '/export'] =  lang('brapci.export');
 
         $m['#CONFIG'] =  lang('brapci.Email');
         $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');

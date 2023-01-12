@@ -19,10 +19,20 @@ class ElasticRegister extends Migration
             ],
             'article_id' => [
                 'type'       => 'INT',
-                'null' => true,
+                'null' => false,
             ],
             'id_jnl' => [
                 'type'       => 'INT',
+                'null' => true,
+            ],
+            'collection' => [
+                'type'       => 'varchar',
+                'constraint'     => 2,
+                'null' => true,
+            ],
+            'type' => [
+                'type'       => 'varchar',
+                'constraint'     => 15,
                 'null' => true,
             ],
             'title' => [
@@ -30,6 +40,14 @@ class ElasticRegister extends Migration
                 'null' => true,
             ],
             'authors' => [
+                'type'       => 'text',
+                'null' => true,
+            ],
+            'abstract' => [
+                'type'       => 'text',
+                'null' => true,
+            ],
+            'keywords' => [
                 'type'       => 'text',
                 'null' => true,
             ],
@@ -42,6 +60,11 @@ class ElasticRegister extends Migration
                 'constraint'     => 4,
                 'null' => true,
             ],
+            'pdf' => [
+                'type'       => 'int',
+                'null' => true,
+                'default' => 0,
+            ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
@@ -53,6 +76,7 @@ class ElasticRegister extends Migration
 
         ]);
         $this->forge->addKey('id', true);
+        $this->forge->addKey('article_id', true);
         $this->forge->createTable('dataset');
     }
 

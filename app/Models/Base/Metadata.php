@@ -50,6 +50,86 @@ class Metadata extends Model
         return true;
     }
 
+    function lets($class, $value)
+    {
+        if (!isset($this->metadata[$class]))
+            {
+            $this->metadata[$class] = '';
+            }
+        $this->metadata[$class] .= $value . ' ';
+        return true;
+    }
+
+    function metadata($meta)
+    {
+        $this->
+        ,metadata = array();
+        if (isset($meta['concept'])) {
+            $concept = $meta['concept'];
+
+            $m = '';
+
+            foreach ($concept as $class => $value) {
+                switch ($class) {
+                    case 'c_class':
+                        $this->lets('type', $value);
+                        break;
+                    case 'id_c':
+                        $this->lets('article_id', $value);
+                        break;
+                    case 'n_name':
+                        $this->lets('Identifier', $value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        /*************************************************************************/
+        if (isset($meta['data'])) {
+            $data = $meta['data'];
+
+            for ($r = 0; $r < count($data); $r++) {
+                $line = $data[$r];
+                $class = $line['c_class'];
+                $value = $line['n_name2'];
+                $lang = $line['n_lang2'];
+                $valueO = $line['n_name'];
+                $langO = $line['n_lang'];
+
+                switch ($class) {
+                    case 'Identifier.DOI':
+                        $this->lets('DOI', $value . '##xml:lang=' . $lang);
+                        break;
+                    case 'hasAbstract':
+                        $this->lets('abstract', $valueO . ' @' . $langO);
+                        break;
+                    case 'hasAuthor':
+                        $this->lets('authors', $value);
+                        break;
+                    case 'hasTitle':
+                        $valueO = strip_tags($valueO);
+                        $this->lets('title', $valueO);
+                        break;
+                    case 'hasSubject':
+                        $this->lets('keywords', $value);
+                        break;
+                    case 'hasSectionOf':
+                        $this->lets('section', $value);
+                        break;
+                    case 'isPubishIn':
+                        $this->lets('source', $value);
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        }
+        return $this->metadata;
+    }
+
     function dc($meta)
     {
 

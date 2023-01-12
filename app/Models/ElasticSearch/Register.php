@@ -6,15 +6,19 @@ use CodeIgniter\Model;
 
 class Register extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'registers';
+    protected $DBGroup          = 'elastic';
+    protected $table            = 'dataset';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id','article_id','id_jnl',
+        'title','authors', 'keywords',
+        'fulltext','pdf','updated_at'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,6 +43,25 @@ class Register extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    function data($id,$data)
+        {
+            //pre($data,false);
+            $dt = $this->where('article_id',$id)->first();
+            if ($dt == '')
+                {
+                    $this->set($data)->insert();
+                    $sx = lang('brapci.inserted');
+                } else {
+                    $this->set($data)
+                        ->where('article_id', $id)
+                        ->update();
+                    $sx = lang('brapci.updated');
+                }
+            return $sx;
+
+        }
 
     function register($id, $type='')
     {
