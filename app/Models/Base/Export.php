@@ -151,9 +151,9 @@ class Export extends Model
 
     function export_data($class,$type,$offset,$limit)
         {
-            $RDF = new \App\Models\RDF\Rdf();
-            $RDFClass = new \App\Models\RDF\RdfClass();
-            $RDFConcept = new \App\Models\RDF\RDFConcept();
+            $RDF = new \App\Models\Rdf\RDF();
+            $RDFClass = new \App\Models\Rdf\RDFClass();
+            $RDFConcept = new \App\Models\Rdf\RDFConcept();
             $Metadata = new \App\Models\Base\Metadata();
             $ElasticRegister = new \App\Models\ElasticSearch\Register();
 
