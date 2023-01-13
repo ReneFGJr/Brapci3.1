@@ -268,7 +268,7 @@ class Sources extends Model
     /******************************************** RESUME */
     function resume()
     {
-        $sx = '';
+        $sx = h(lang('brapci.sources'),4);
         $dt = $this->select('count(*) as total, jnl_collection, jnl_historic')
             ->groupBy('jnl_collection, jnl_historic')
             ->findAll();
