@@ -301,7 +301,7 @@ class Sources extends Model
             $sx .= '<li>' . lang('brapci.source_historic.' . $type) . ' (' . $total . ')</li>';
         }
         $sx .= '</ul>';
-        $sx .= '<b>Total '.$tot.'</b>';
+        $sx .= '<b style="font-size: 0.7em;">Total '.$tot.'</b>';
 
         return $sx;
     }
