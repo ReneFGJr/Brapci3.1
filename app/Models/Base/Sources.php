@@ -268,11 +268,41 @@ class Sources extends Model
     /******************************************** RESUME */
     function resume()
     {
-        //$dt = $this->get_resume();
+        $sx = '';
+        $dt = $this->select('count(*) as total, jnl_collection, jnl_historic')
+            ->groupBy('jnl_collection, jnl_historic')
+            ->findAll();
         $total = 0;
-        //print_r($dt);
-        $sx = '<span class="small">' . lang('brapci.total_journals') . '</span>';
-        $sx .= h($total, 1);
+        $types = array();
+        $historic = array();
+        $tot = 0;
+        for ($r=0;$r < count($dt);$r++)
+            {
+                $line = $dt[$r];
+                $type = $line['jnl_collection'];
+                $hist = $line['jnl_historic'];
+
+                if (!isset($types[$type])) $types[$type] = 0;
+                if (!isset($historic[$hist])) $historic[$hist] = 0;
+
+                $types[$type] = $types[$type] + $line['total'];
+                $historic[$hist] = $historic[$hist] + $line['total'];
+                $tot = $tot + $line['total'];
+            }
+        $sx .= '<ul>';
+        foreach($types as $type=>$total)
+            {
+                $sx .= '<li>'.lang('brapci.source_type.'.$type).' ('.$total.')</li>';
+            }
+        $sx .= '</ul>';
+
+        $sx .= '<ul>';
+        foreach ($historic as $type => $total) {
+            $sx .= '<li>' . lang('brapci.source_historic.' . $type) . ' (' . $total . ')</li>';
+        }
+        $sx .= '</ul>';
+        $sx .= '<b>Total '.$tot.'</b>';
+
         return $sx;
     }
 

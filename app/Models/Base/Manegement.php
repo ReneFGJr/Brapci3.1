@@ -50,9 +50,18 @@ class Manegement extends Model
     function painel()
         {
             $sx = '';
+            /************************************************ CRON - TAREFAS */
             $Export = new \App\Models\Base\Export();
             $sa = $Export->resume();
-            $sx .= bsc('',8);
+
+            /************************************************ CRON - TAREFAS */
+            $Sources = new \App\Models\Base\Sources();
+            $sb = $Sources->resume();
+
+
+
+
+            $sx .= bsc($sb,8);
             $sx .= bsc($sa,4);
 
             $sx = bs($sx);
