@@ -88,7 +88,7 @@ return [
         'oai_status_0' => 'Para coletar',
         'source_historic.1' => 'Correntes',
         'source_historic.0' => 'Históricas',
-        '' => '',
+        'service_cron' => 'Bots - Situação',
         '' => '',
         '' => '',
         '' => '',
