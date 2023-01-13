@@ -169,6 +169,7 @@ class RDFExport extends Model
 
 		/***************************************************** Issue */
 		$ISSUE = new \App\Models\Base\Issues();
+		$year = 0;
 
 		$issue1 = $RDF->extract($dt, 'hasIssueProceedingOf');
 		$issue2 = $RDF->extract($dt, 'hasIssueOf');
