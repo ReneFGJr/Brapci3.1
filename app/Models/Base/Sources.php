@@ -289,14 +289,14 @@ class Sources extends Model
                 $historic[$hist] = $historic[$hist] + $line['total'];
                 $tot = $tot + $line['total'];
             }
-        $sx .= '<ul>';
+        $sx .= '<ul style="font-size: 0.7em;">';
         foreach($types as $type=>$total)
             {
                 $sx .= '<li>'.lang('brapci.source_type.'.$type).' ('.$total.')</li>';
             }
         $sx .= '</ul>';
 
-        $sx .= '<ul>';
+        $sx .= '<ul style="font-size: 0.7em;">';
         foreach ($historic as $type => $total) {
             $sx .= '<li>' . lang('brapci.source_historic.' . $type) . ' (' . $total . ')</li>';
         }
