@@ -46,6 +46,14 @@ class Index extends Model
 
 			switch($act)
 				{
+					case 'nlp':
+						switch($subact)
+							{
+								case 'book_sumary':
+								$API = new \App\Models\AI\NLP\Book\Sumary();;
+								$sx = $API->show_form();
+								break;
+							}
 					case 'file':
 						switch($subact)
 							{
@@ -83,6 +91,7 @@ class Index extends Model
 		$menu['#AI'] = 'AI';
 		$menu[PATH . COLLECTION . '/file/upload'] = lang('ai.files_upload');
 		$menu[PATH . COLLECTION . '/file/pdf_to_text'] = lang('ai.files_pdf_to_text');
+		$menu[PATH . COLLECTION . '/nlp/book_sumary'] = lang('ai.book_sumary_identify');
 
 		$menu['#CHARBOT'] = lang('ai.chat_bot');
 		$menu[PATH . COLLECTION . '/chat/analyse'] = lang('ai.chat_analyse');
