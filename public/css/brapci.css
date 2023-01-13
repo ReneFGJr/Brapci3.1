@@ -44,8 +44,10 @@ body
     background-color: #25256F;
   }
 
-.bg-brapcilivros {
+.bg-brapcilivros, .bg-brapcilivros a {
   background-color: #6c3483;
+  color: white;
+  text-decoration: none;
 }
 
 .bg-proceedings {

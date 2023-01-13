@@ -26,7 +26,7 @@ class Books extends BaseController
         $data['bg'] = 'bg-brapcilivros';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Brapci/Headers/navbar_books', $data);
+        $sx .= view('BrapciBooks/Headers/navbar', $data);
 
 
         $q = get("query");

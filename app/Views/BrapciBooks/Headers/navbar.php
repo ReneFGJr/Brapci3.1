@@ -3,64 +3,546 @@ $Socials = new \App\Models\Socials();
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso = $Socials->nav_user();
 } else {
-    $acesso = '<li class="nav-item" style="list-style-type: none;">';
-    $acesso .= '<button class="btn btn-outline-danger" ';
-    $acesso .= 'onclick="location.href=\'' . PATH . COLLECTION . '/social/login\'" ';
-    $acesso .= 'style="margin-left: 7px;" type="submit">';
-    $acesso .= 'ACESSO';
-    $acesso .= '</button>';
-    $acesso .= '</li>';
+    $acesso = '<a href="' . PATH . COLLECTION . '/social/login" class="nav-link">';
+    $acesso .= lang('brapci.signin');
+    $acesso .= '</a>';
 }
 ?>
-<nav class="navbar navbar-expand-lg bg-light fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="<?= URL; ?>"><img src="<?= URL; ?>/favicon.png" style="height: 32px;"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-battery-charging" viewBox="0 0 16 16">
-                    <path d="M9.585 2.568a.5.5 0 0 1 .226.58L8.677 6.832h1.99a.5.5 0 0 1 .364.843l-5.334 5.667a.5.5 0 0 1-.842-.49L5.99 9.167H4a.5.5 0 0 1-.364-.843l5.333-5.667a.5.5 0 0 1 .616-.09z" />
-                    <path d="M2 4h4.332l-.94 1H2a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h2.38l-.308 1H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" />
-                    <path d="M2 6h2.45L2.908 7.639A1.5 1.5 0 0 0 3.313 10H2V6zm8.595-2-.308 1H12a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H9.276l-.942 1H12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.405z" />
-                    <path d="M12 10h-1.783l1.542-1.639c.097-.103.178-.218.241-.34V10zm0-3.354V6h-.646a1.5 1.5 0 0 1 .646.646zM16 8a1.5 1.5 0 0 1-1.5 1.5v-3A1.5 1.5 0 0 1 16 8z" />
-                </svg>
-            </span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?= PATH . COLLECTION; ?>">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= PATH . COLLECTION . '/about'; ?>"><?= lang('benancib.about'); ?></a>
-                </li>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link"
-                        href="<?= PATH . COLLECTION . '/statistics'; ?>"><?= lang('benancib.statistics'); ?></a>
-                </li>
-                -->
-            </ul>
-            <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">
-                <input name="q" class="form-control me-2" type="search"
-                    placeholder="<?= lang('benancib.search_placeholder'); ?>"
-                    aria-label="<?= lang('benancib.search'); ?>" value="<?= get("q"); ?>">
-                <button class="btn btn-outline-success" type="submit"><?= lang('benancib.search'); ?></button>
-            </form>
-            <?php echo $acesso; ?>
+<style>
+    .text-black {
+        color: #000 !important;
+    }
+
+    p {
+        color: #b3b3b3;
+        font-weight: 300;
+    }
+
+
+    a {
+        -webkit-transition: .3s all ease;
+        -o-transition: .3s all ease;
+        transition: .3s all ease;
+    }
+
+    a,
+    a:hover {
+        text-decoration: none !important;
+    }
+
+    .hero {
+        height: 1200vh;
+        width: 100%;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    .site-navbar {
+        margin-bottom: 0px;
+        z-index: 1999;
+        position: relative;
+        top: 0;
+        width: 100%;
+        padding: 1rem;
+        position: fixed;
+    }
+
+    .site-navbar .toggle-button {
+        position: absolute;
+        right: 0px;
+    }
+
+    .site-navbar .site-logo {
+        margin: 0;
+        padding: 0;
+        font-size: 1.7rem;
+    }
+
+    .site-navbar .site-logo a {
+        color: #89ba16;
+        text-transform: lowercase;
+    }
+
+    @media (max-width: 991.98px) {
+        .site-navbar .site-logo {
+            float: left;
+            position: relative;
+        }
+    }
+
+    .site-navbar .site-navigation.border-bottom {
+        border-bottom: 1px solid white !important;
+    }
+
+    .site-navbar .site-navigation .site-menu {
+        margin: 0;
+        padding: 0;
+        margin-bottom: 0;
+    }
+
+    .site-navbar .site-navigation .site-menu .active {
+        color: #DDD !important;
+    }
+
+    .site-navbar .site-navigation .site-menu a {
+        text-decoration: none !important;
+        display: inline-block;
+    }
+
+    .site-navbar .site-navigation .site-menu>li {
+        display: inline-block;
+    }
+
+    .site-navbar .site-navigation .site-menu>li>a {
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 20px 0px;
+        color: #000 !important;
+        display: inline-block;
+        text-decoration: none !important;
+    }
+
+    .site-navbar .site-navigation .site-menu>li>a:hover {
+        color: #89ba16;
+    }
+
+    .site-navbar .site-navigation .site-menu>li.active>a {
+        color: #DDD !important;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children {
+        position: relative;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children>a {
+        position: relative;
+        padding-right: 20px;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children>a:before {
+        position: absolute;
+        content: "\e313";
+        font-size: 16px;
+        top: 50%;
+        right: 0;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        font-family: 'icomoon';
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown {
+        visibility: hidden;
+        opacity: 0;
+        top: 100%;
+        position: absolute;
+        text-align: left;
+        border-top: 2px solid #89ba16;
+        -webkit-box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.1);
+        padding: 0px 0;
+        margin-top: 20px;
+        margin-left: 0px;
+        background: #fff;
+        -webkit-transition: 0.2s 0s;
+        -o-transition: 0.2s 0s;
+        transition: 0.2s 0s;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top {
+        position: absolute;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top:before {
+        display: none;
+        bottom: 100%;
+        left: 20%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown.arrow-top:before {
+        border-color: rgba(136, 183, 213, 0);
+        border-bottom-color: #fff;
+        border-width: 10px;
+        margin-left: -10px;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown a {
+        text-transform: none;
+        letter-spacing: normal;
+        -webkit-transition: 0s all;
+        -o-transition: 0s all;
+        transition: 0s all;
+        color: #000 !important;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown a.active {
+        color: #DDD !important;
+        background: #f8f9fa;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        min-width: 200px;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li>a {
+        padding: 9px 20px;
+        display: block;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li>a:hover {
+        background: #f8f9fa;
+        color: #ced4da;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li.has-children>a:before {
+        content: "\e315";
+        right: 20px;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li.has-children>.dropdown,
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li.has-children>ul {
+        left: 100%;
+        top: 0;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li.has-children:hover>a,
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li.has-children:active>a,
+    .site-navbar .site-navigation .site-menu .has-children .dropdown>li.has-children:focus>a {
+        background: #f8f9fa;
+        color: #ced4da;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children:hover>a,
+    .site-navbar .site-navigation .site-menu .has-children:focus>a,
+    .site-navbar .site-navigation .site-menu .has-children:active>a {
+        color: #89ba16;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children:hover,
+    .site-navbar .site-navigation .site-menu .has-children:focus,
+    .site-navbar .site-navigation .site-menu .has-children:active {
+        cursor: pointer;
+    }
+
+    .site-navbar .site-navigation .site-menu .has-children:hover>.dropdown,
+    .site-navbar .site-navigation .site-menu .has-children:focus>.dropdown,
+    .site-navbar .site-navigation .site-menu .has-children:active>.dropdown {
+        -webkit-transition-delay: 0s;
+        -o-transition-delay: 0s;
+        transition-delay: 0s;
+        margin-top: 0px;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .site-mobile-menu {
+        width: 300px;
+        position: fixed;
+        right: 0;
+        z-index: 2000;
+        padding-top: 20px;
+        background: #fff;
+        height: calc(100vh);
+        -webkit-transform: translateX(110%);
+        -ms-transform: translateX(110%);
+        transform: translateX(110%);
+        -webkit-box-shadow: -10px 0 20px -10px rgba(0, 0, 0, 0.1);
+        box-shadow: -10px 0 20px -10px rgba(0, 0, 0, 0.1);
+        -webkit-transition: .3s all ease-in-out;
+        -o-transition: .3s all ease-in-out;
+        transition: .3s all ease-in-out;
+    }
+
+    .offcanvas-menu .site-mobile-menu {
+        -webkit-transform: translateX(0%);
+        -ms-transform: translateX(0%);
+        transform: translateX(0%);
+    }
+
+    .site-mobile-menu .site-mobile-menu-header {
+        width: 100%;
+        float: left;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close {
+        float: right;
+        margin-top: 8px;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close span {
+        font-size: 30px;
+        display: inline-block;
+        padding-left: 10px;
+        padding-right: 0px;
+        line-height: 1;
+        cursor: pointer;
+        -webkit-transition: .3s all ease;
+        -o-transition: .3s all ease;
+        transition: .3s all ease;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-close span:hover {
+        color: #ced4da;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo {
+        float: left;
+        margin-top: 10px;
+        margin-left: 0px;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo a {
+        display: inline-block;
+        text-transform: uppercase;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo a img {
+        max-width: 70px;
+    }
+
+    .site-mobile-menu .site-mobile-menu-header .site-mobile-menu-logo a:hover {
+        text-decoration: none;
+    }
+
+    .site-mobile-menu .site-mobile-menu-body {
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+        padding: 0 20px 20px 20px;
+        height: calc(100vh - 52px);
+        padding-bottom: 150px;
+    }
+
+    .site-mobile-menu .site-nav-wrap {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        position: relative;
+    }
+
+    .site-mobile-menu .site-nav-wrap a {
+        padding: 10px 20px;
+        display: block;
+        position: relative;
+        color: #212529;
+    }
+
+    .site-mobile-menu .site-nav-wrap a:hover {
+        color: #89ba16;
+    }
+
+    .site-mobile-menu .site-nav-wrap li {
+        position: relative;
+        display: block;
+    }
+
+    .site-mobile-menu .site-nav-wrap li .nav-link.active {
+        color: #89ba16;
+    }
+
+    .site-mobile-menu .site-nav-wrap li.active>a {
+        color: #89ba16;
+    }
+
+    .site-mobile-menu .site-nav-wrap .arrow-collapse {
+        position: absolute;
+        right: 0px;
+        top: 10px;
+        z-index: 20;
+        width: 36px;
+        height: 36px;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .site-mobile-menu .site-nav-wrap .arrow-collapse:hover {
+        background: #f8f9fa;
+    }
+
+    .site-mobile-menu .site-nav-wrap .arrow-collapse:before {
+        font-size: 12px;
+        z-index: 20;
+        font-family: "icomoon";
+        content: "\f078";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%) rotate(-180deg);
+        -ms-transform: translate(-50%, -50%) rotate(-180deg);
+        transform: translate(-50%, -50%) rotate(-180deg);
+        -webkit-transition: .3s all ease;
+        -o-transition: .3s all ease;
+        transition: .3s all ease;
+    }
+
+    .site-mobile-menu .site-nav-wrap .arrow-collapse.collapsed:before {
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+
+    .site-mobile-menu .site-nav-wrap>li {
+        display: block;
+        position: relative;
+        float: left;
+        width: 100%;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>a {
+        padding-left: 20px;
+        font-size: 20px;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>ul>li {
+        display: block;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>ul>li>a {
+        padding-left: 40px;
+        font-size: 16px;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>ul>li>ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>ul>li>ul>li {
+        display: block;
+    }
+
+    .site-mobile-menu .site-nav-wrap>li>ul>li>ul>li>a {
+        font-size: 16px;
+        padding-left: 60px;
+    }
+
+    .site-mobile-menu .site-nav-wrap[data-class="social"] {
+        float: left;
+        width: 100%;
+        margin-top: 30px;
+        padding-bottom: 5em;
+    }
+
+    .site-mobile-menu .site-nav-wrap[data-class="social"]>li {
+        width: auto;
+    }
+
+    .site-mobile-menu .site-nav-wrap[data-class="social"]>li:first-child a {
+        padding-left: 15px !important;
+    }
+
+    .sticky-wrapper {
+        position: relative;
+        z-index: 100;
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+
+    .sticky-wrapper .site-navbar {
+        -webkit-transition: .3s all ease;
+        -o-transition: .3s all ease;
+        transition: .3s all ease;
+    }
+
+    .sticky-wrapper .site-navbar {
+        background: #fff;
+    }
+
+    .sticky-wrapper .site-navbar ul li a {
+        color: rgba(0, 0, 0, 0.7) !important;
+    }
+
+    .sticky-wrapper .site-navbar ul li a.active {
+        color: #000 !important;
+    }
+
+    .sticky-wrapper.is-sticky .site-navbar {
+        background: #fff;
+        -webkit-box-shadow: 4px 0 20px -5px rgba(0, 0, 0, 0.2);
+        box-shadow: 4px 0 20px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sticky-wrapper.is-sticky .site-navbar .site-logo a {
+        color: #89ba16;
+    }
+
+    .sticky-wrapper.is-sticky .site-navbar ul li a {
+        color: #000 !important;
+    }
+
+    .sticky-wrapper.is-sticky .site-navbar ul li a.active {
+        color: #89ba16 !important;
+    }
+
+    .sticky-wrapper .shrink {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+
+    @media (max-width: 991.98px) {
+        .sticky-wrapper .shrink {
+            padding-top: 30px !important;
+            padding-bottom: 30px !important;
+        }
+    }
+
+    .site-navbar .site-navigation .site-menu>li>a {
+        margin-left: 15px;
+        margin-right: 15px;
+        padding: 20px 0px;
+        color: #FFF !important;
+        display: inline-block;
+        text-decoration: none !important;
+    }
+</style>
+<header class="site-navbar site-navbar-target <?= $bg; ?> " role="banner">
+    <div class="container navbar-fixed-top">
+        <div class="row align-items-center position-relative">
+            <div class="col-lg-4">
+                <nav class="site-navigation text-right ml-auto " role="navigation">
+                    <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                        <li><a href="<?= PATH . '/books'; ?>" class="nav-link"><?= lang('book.home'); ?></a></li>
+                        <li><a href="<?= PATH . '/books/indexes'; ?>" class="nav-link"><?= lang('book.indexes'); ?></a></li>
+                        <li><a href="<?= PATH . '/books/indexes/subject'; ?>" class="nav-link"><?= lang('book.subjects'); ?></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="site-logo">
+                    <a href="index.html"><img src="http://brp/img/logo/logo-brapci_livros_mini.png" style="height: 60px;"></a>
+                </div>
+                <div class=" ml-auto toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-black"><span class="icon-menu h3 text-black"></span></a>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <nav class="site-navigation text-left mr-auto " role="navigation">
+                    <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                        <li><a href="<?= PATH . '/books/about'; ?>" class="nav-link"><?= lang('book.about'); ?></a></li>
+                        <li><a href="<?= PATH . '/books/contact'; ?>" class="nav-link"><?= lang('book.contact'); ?></a></li>
+                        <li><?= $acesso; ?></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
-</nav>
-<div style=" height: 100px; width: 100%">
-</div>
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
-
-<style>
-body {
-    font-family: 'Titillium Web', sans-serif;
-    font-size: 120%;
-}
-</style>
+</header>
