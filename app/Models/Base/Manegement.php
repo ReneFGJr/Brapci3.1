@@ -58,10 +58,15 @@ class Manegement extends Model
             $Sources = new \App\Models\Base\Sources();
             $sb = $Sources->resume();
 
+            /************************************************ CRON - TAREFAS */
+            $ElasticSearch = new \App\Models\ElasticSearch\Register();
+            $sc = $ElasticSearch->resume();
 
 
 
-            $sx .= bsc($sb,8);
+
+            $sx .= bsc($sb,4);
+            $sx .= bsc($sc, 4);
             $sx .= bsc($sa,4);
 
             $sx = bs($sx);

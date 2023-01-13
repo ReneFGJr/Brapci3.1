@@ -45,6 +45,75 @@ class Register extends Model
     protected $afterDelete    = [];
 
 
+    function resume()
+        {
+            $tot = 0;
+            $sx = h(lang('brapci.ElasticSearch'),4);
+            $dt = $this
+                ->select('count(*) as total, type')
+                ->findAll();
+            $sx .= '<ul style="font-size: 0.7em;">';
+            foreach($dt as $line)
+                {
+                    $sx .= '<li>'.lang('brapci.'.$line['type']).' ('.$line['total'].')</li>';
+                    $tot = $tot + $line['total'];
+                }
+            $sx .= '</ul>';
+
+        $sx .= '<ul style="font-size: 0.7em;">';
+
+        /***************************************** PDF */
+        $dt = $this
+            ->select('count(*) as total, pdf')
+            ->where('pdf',0)
+            ->findAll();
+
+        foreach ($dt as $line) {
+            $sx .= '<li>' . lang('brapci.pdf.' . $line['pdf']) . ' (' . $line['total'] . ')</li>';
+        }
+
+
+        /***************************************** KEYWORDS */
+        $dt = $this
+            ->select('count(*) as total')
+            ->where('keywords is NULL')
+            ->findAll();
+
+        foreach ($dt as $line) {
+            $sx .= '<li>' . lang('brapci.keywords_without') . ' (' . $line['total'] . ')</li>';
+        }
+
+        /***************************************** ABSTRACT */
+        $dt = $this
+            ->select('count(*) as total')
+            ->where('abstract is NULL')
+            ->Orwhere('abstract','')
+            ->findAll();
+
+        foreach ($dt as $line) {
+            $sx .= '<li>' . lang('brapci.abstract_without') . ' (' . $line['total'] . ')</li>';
+        }
+
+        /***************************************** YEAR */
+        $dt = $this
+            ->select('count(*) as total')
+            ->where('year is NULL')
+            ->Orwhere('year', '')
+            ->Orwhere('year < 1950')
+            ->findAll();
+
+        foreach ($dt as $line) {
+            $sx .= '<li>' . lang('brapci.year_without') . ' (' . $line['total'] . ')</li>';
+        }
+
+        $sx .= '</ul>';
+
+
+            return $sx;
+
+        }
+
+
     function data($id,$data)
         {
             //pre($data,false);
