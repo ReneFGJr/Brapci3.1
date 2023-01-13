@@ -529,7 +529,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
             </div>
             <div class="col-lg-4 text-center">
                 <div class="site-logo">
-                    <a href="index.html"><img src="http://brp/img/logo/logo-brapci_livros_mini.png" style="height: 60px;"></a>
+                    <a href="index.html"><img src="<?=URL.'/img/logo/logo-brapci_livros_mini.png';?>" style="height: 60px;"></a>
                 </div>
                 <div class=" ml-auto toggle-button d-inline-block d-lg-none"><a href="#" class="site-menu-toggle py-5 js-menu-toggle text-black"><span class="icon-menu h3 text-black"></span></a>
                 </div>
