@@ -49,18 +49,24 @@ class Register extends Model
         {
             $tot = 0;
             $sx = h(lang('brapci.ElasticSearch'),4);
+            $sa = '';
+
             $dt = $this
                 ->select('count(*) as total, type')
                 ->groupBy('type')
                 ->findAll();
-            $sx .= '<ul style="font-size: 0.7em;">';
+
+            $sa .= '<ul style="font-size: 0.7em;">';
             foreach($dt as $line)
                 {
-                    $sx .= '<li>'.lang('brapci.'.$line['type']).' ('. number_format($line['total'], 0, ',', '.').')</li>';
+                    $sa .= '<li>'.lang('brapci.'.$line['type']).' ('. number_format($line['total'], 0, ',', '.').')</li>';
                     $tot = $tot + $line['total'];
                 }
-            $sx .= '</ul>';
-            $sx = '<b style="font-size: 0.7em;">Total '.$tot.'</b>'.$sx;
+            $sa .= '</ul>';
+            /********* Total */
+            $sx .= '<b style="font-size: 0.7em;">Total '.$tot.'</b>';
+            /********* Result (alterar ordem) */
+            $sx .= $sa;
 
         $sx .= '<ul style="font-size: 0.7em;">';
 
