@@ -94,7 +94,7 @@ return [
         'keywords_without' => 'Sem palavras-chave',
         'year_without' => 'Sem o ano da publicação',
         'abstract_without' => 'Sem o resumo',
-        '' => '',
+        'ElasticSearch' => 'ElasticSearch',
         '' => '',
         '' => '',
         '' => '',
