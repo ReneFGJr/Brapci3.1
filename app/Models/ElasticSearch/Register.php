@@ -56,7 +56,7 @@ class Register extends Model
             $sx .= '<ul style="font-size: 0.7em;">';
             foreach($dt as $line)
                 {
-                    $sx .= '<li>'.lang('brapci.'.$line['type']).' ('.$line['total'].')</li>';
+                    $sx .= '<li>'.lang('brapci.'.$line['type']).' ('. number_format($line['total'], 0, ',', '.').')</li>';
                     $tot = $tot + $line['total'];
                 }
             $sx .= '</ul>';
@@ -71,7 +71,7 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $sx .= '<li>' . lang('brapci.pdf.' . $line['pdf']) . ' (' . $line['total'] . ')</li>';
+            $sx .= '<li>' . lang('brapci.pdf.' . $line['pdf']) . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
 
@@ -83,7 +83,7 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $sx .= '<li>' . lang('brapci.keywords_without') . ' (' . $line['total'] . ')</li>';
+            $sx .= '<li>' . lang('brapci.keywords_without') . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
         /***************************************** ABSTRACT */
@@ -95,7 +95,7 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $sx .= '<li>' . lang('brapci.abstract_without') . ' (' . $line['total'] . ')</li>';
+            $sx .= '<li>' . lang('brapci.abstract_without') . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
         /***************************************** YEAR */
@@ -107,7 +107,7 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $sx .= '<li>' . lang('brapci.year_without') . ' (' . $line['total'] . ')</li>';
+            $sx .= '<li>' . lang('brapci.year_without') . ' (' . number_format($line['total'],0,',','.') . ')</li>';
         }
 
         $sx .= '</ul>';
