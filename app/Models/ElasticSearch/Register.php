@@ -64,7 +64,7 @@ class Register extends Model
                 }
             $sa .= '</ul>';
             /********* Total */
-            $sx .= '<b style="font-size: 0.7em;">Total '.$tot.'</b>';
+            $sx .= '<b style="font-size: 0.7em;">Total '. number_format($tot, 0, ',', '.').'</b>';
             /********* Result (alterar ordem) */
             $sx .= $sa;
 
