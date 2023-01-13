@@ -60,8 +60,7 @@ class Register extends Model
                     $tot = $tot + $line['total'];
                 }
             $sx .= '</ul>';
-            $sx .= '<b style="font-size: 0.7em;">Total '.$tot.'</b>';
-            $sx .= '<br>';
+            $sx = '<b style="font-size: 0.7em;">Total '.$tot.'</b>'.$sx;
 
         $sx .= '<ul style="font-size: 0.7em;">';
 
