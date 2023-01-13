@@ -51,6 +51,7 @@ class Register extends Model
             $sx = h(lang('brapci.ElasticSearch'),4);
             $dt = $this
                 ->select('count(*) as total, type')
+                ->groupBy('type')
                 ->findAll();
             $sx .= '<ul style="font-size: 0.7em;">';
             foreach($dt as $line)
@@ -66,6 +67,7 @@ class Register extends Model
         $dt = $this
             ->select('count(*) as total, pdf')
             ->where('pdf',0)
+            ->groupBy('pdf')
             ->findAll();
 
         foreach ($dt as $line) {
@@ -75,8 +77,9 @@ class Register extends Model
 
         /***************************************** KEYWORDS */
         $dt = $this
-            ->select('count(*) as total')
+            ->select('count(*) as total, keywords')
             ->where('keywords is NULL')
+            ->groupBy('keywords')
             ->findAll();
 
         foreach ($dt as $line) {
@@ -85,9 +88,10 @@ class Register extends Model
 
         /***************************************** ABSTRACT */
         $dt = $this
-            ->select('count(*) as total')
+            ->select('count(*) as total, abstract')
             ->where('abstract is NULL')
             ->Orwhere('abstract','')
+            ->groupBy('abstract')
             ->findAll();
 
         foreach ($dt as $line) {
