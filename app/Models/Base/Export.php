@@ -56,6 +56,35 @@ class Export extends Model
         return $sx;
     }
 
+    function resume()
+        {
+            $sx = h(lang('brapci.service_cron'),4);
+            $dt = $this->findAll();
+            $sx .= '<table class="table" style="width: 100%; font-size: 0.7em;">';
+            for ($r=0;$r < count($dt);$r++)
+                {
+                    $line = $dt[$r];
+                    $st = $line['task_status'];
+                    $style = "";
+
+                    if ($st == '0') { $style = 'color: #888;'; }
+                    if ($st == '1') { $style = 'color: #0F0;'; }
+
+                    $sx .= '<tr>';
+                    $sx .= '<td>'.$line['task_id'].'</td>';
+                    $sx .= '<td style="'.$style.'">' .  bsicone('circle'). '</td>';
+                    $sx .= '<td>' . $line['task_offset'] . '</td>';
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            $sx .= '<div style=" font-size: 0.6em;">';
+            $sx .= '<span style="color: #888;">' . bsicone('circle') . '</span> ' . lang('brapci.service.stop');
+            $sx .= '<br>';
+            $sx .= '<span style="color: #0F0;">' . bsicone('circle') . '</span> ' . lang('brapci.service.running');
+            $sx .= '</div>';
+            return $sx;
+        }
+
     function next($type = '')
     {
         $dt = $this->where('task_status', 1)->orderBy('task_propriry')->findAll();

@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'manegement':
+                $Manegement = new \App\Models\Base\Manegement();
+                $sx = $Manegement->index($subact, $id, $id2, $id3);
+                break;
             case 'export':
                 $Export = new \App\Models\Base\Export();
                 $sx = $Export->index($subact, $id, $id2, $id3);
@@ -104,6 +108,9 @@ class Index extends Model
     {
         $m["#ElasticSearch"] =  "";
         $m[PATH.'elasticsearch'] =  lang("brapci.elasticsearch");
+
+        $m["#Manegement"] =  "";
+        $m[PATH . 'admin/manegement'] =  lang('brapci.manegement');
 
         $m["#Sources"] =  "";
         $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');
