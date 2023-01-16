@@ -62,7 +62,7 @@ class TechinalProceessing extends Model
         $catlog = '';
         switch ($dt['tp_status']) {
             case 0:
-                $catlog = h(lang('book.status_0'), 4);
+                $catlog .= h(lang('book.status_0'), 4);
                 /************** Buttons */
                 $catlog .= $this->btn_archive($a);
                 $catlog .= ' ';
@@ -71,7 +71,7 @@ class TechinalProceessing extends Model
                 $catlog .= $this->btn_inferred($a);
                 break;
             case 1:
-                $catlog = h(lang('book.status_1'), 4);
+                $catlog .= h(lang('book.status_1'), 4);
                 /************** Buttons */
                 $catlog .= $this->btn_archive($a);
                 $catlog .= ' ';
@@ -129,7 +129,7 @@ class TechinalProceessing extends Model
     function btn_supply($s)
     {
         $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=2" title="' . lang('book.send_to') . ' ' . lang('book.status_2') . ' "class="btn btn-ouline-primary p-2">';
-        $sx .= bsicone('refresh', 32);
+        $sx .= bsicone('circle-2', 32);
         $sx .= '</a>';
         return $sx;
     }

@@ -46,14 +46,14 @@ class Index extends Model
 
 			switch($act)
 				{
+					case 'wiki':
+						$wiki = new \App\Models\AI\Wiki\Index();
+						$sx .= $wiki->index($subact, $d1, $d2);
+						break;
 					case 'nlp':
-						switch($subact)
-							{
-								case 'book_sumary':
-								$API = new \App\Models\AI\NLP\Book\Sumary();;
-								$sx = $API->show_form();
-								break;
-							}
+						$NLP = new \App\Models\AI\NLP\Index();
+						$sx .= $NLP->index($subact,$d1,$d2);
+						break;
 					case 'file':
 						switch($subact)
 							{
@@ -88,10 +88,16 @@ class Index extends Model
 	function menu()
 		{
 
+		$menu['#AI - TERMS'] = 'AI (Terms)';
+		$menu[PATH . COLLECTION . '/wiki/'] = lang('ai.wiki');
+
 		$menu['#AI'] = 'AI';
 		$menu[PATH . COLLECTION . '/file/upload'] = lang('ai.files_upload');
 		$menu[PATH . COLLECTION . '/file/pdf_to_text'] = lang('ai.files_pdf_to_text');
 		$menu[PATH . COLLECTION . '/nlp/book_sumary'] = lang('ai.book_sumary_identify');
+
+		$menu['#AI'] = 'AI & NLP';
+		$menu[PATH . COLLECTION . '/nlp/language'] = lang('ai.language');
 
 		$menu['#CHARBOT'] = lang('ai.chat_bot');
 		$menu[PATH . COLLECTION . '/chat/analyse'] = lang('ai.chat_analyse');

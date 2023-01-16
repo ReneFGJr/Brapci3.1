@@ -43,114 +43,172 @@ class Sumary extends Model
     var $json = '';
 
     function show_form()
-        {
-            $txt = get('text');
-            $txt = $this->process($txt);
-            $sx = '';
-            $sx .= form_open();
-            $sx .= form_textarea(array('name'=>'text','value'=>$txt,'class'=>'form-control-lm','style'=>'width: 100%;'));
-            $sx .= form_submit(array('name'=>'actiom','value'=>lang('brapci.save')));
-            $sx .= form_close();
+    {
+        $txt = get('text');
+        $txt = $this->process($txt);
+        $sx = '';
+        $sx .= form_open();
+        $sx .= form_textarea(array('name' => 'text', 'value' => $txt, 'class' => 'form-control-lm', 'style' => 'width: 100%;'));
+        $sx .= form_submit(array('name' => 'actiom', 'value' => lang('brapci.save')));
+        $sx .= form_close();
 
-            $sx .= 'TITULO - [autor1;autor2]';
+        $sx .= 'TITULO - [autor1;autor2]';
 
-            $sx .= '<div>'.pre(json_decode($this->json),false).'</div>';
-            return $sx;
+        $sx .= '<div>' . $this->show_result($this->json) . '</div>';
+        return $sx;
+    }
+
+    function show_result($j)
+    {
+        $sx = '';
+        $js = $j;
+        $j = (array)json_decode($j);
+
+        $sx .= '<textarea class="form-control" style="width: 100%;">'.$js.'</textarea>';
+
+        $sx .= '<ul>';
+        foreach ($j as $line) {
+            $line = (array)$line;
+            $sx .= '<li>';
+            $sx .= $line['title'];
+            $pagf = 0;
+            $pagi = 0;
+            if (isset($line['pagf'])) $pagf = $line['pagf'];
+            if (isset($line['pag'])) $pagi = $line['pag'];
+            $sx .= '<i>';
+            if ($pagf > 0) {
+                if ($pagi > 0) {
+                    $sx .= '<br>p.' . $pagi . '-' . $pagf;
+                } else {
+                    $sx .= '<br>p.' . $pagf;
+                }
+            } else {
+                $sx .= '<br>p.' . $pagi;
+            }
+            $sx .= '</i>';
+            if (count($line['autor']) > 0) {
+                $sx .= '<br>Autores: ';
+                //pre($line['autor']);
+                $autor = $line['autor'];
+                for ($r = 0; $r < count($autor); $r++) {
+                    if ($r > 0) {
+                        $sx .= '; ';
+                    }
+                    $sx .= trim($autor[$r]);
+                }
+            }
+            $sx .= '</li>';
         }
+        $sx .= '</ul>';
+        return $sx;
+    }
 
     function process($txt)
-        {
-            $txt = troca($txt,'-','.');
-            while($pos = strpos($txt,'..'))
-                {
-                    $txt = troca($txt,'..','.');
-                }
-            $txt = troca($txt,'. ','.');
-            $txt = troca($txt, ' .', '.');
-            $txt = troca($txt,chr(10),chr(13));
-            $ln = explode(chr(13),$txt);
-
-            $lr = array();
-
-            foreach($ln as $line)
-                {
-                    if (strlen(trim($line)) > 0)
-                    {
-                    $first = trim(substr($line,0,strpos($line,' ')));
-
-                    /*************************************** Elimina Números */
-                    if ($first == sonumero($first))
-                        {
-                            $line = trim(substr($line,strlen($first),strlen($line)));
-                        }
-
-                    /*********************** Insere o número da pagina inicial */
-                    for ($a=0;$a < 10;$a++)
-                        {
-                            $line = troca($line,'.'.$a,'{p.'.$a);
-                        }
-
-
-                    /*********************** Guada dados em arquivo ************/
-                    if (strlen($line) > 0)
-                        {
-                            array_push($lr, $line);
-                        }
-                    }
-                }
-
-            $w = array();
-            $xpag = 0;
-            foreach($lr as $ln)
-                {
-                    /*************************** PAGINA */
-                    $pag = 0;
-                    if ($pos = strpos($ln,'{p.'))
-                        {
-                            $pag = sonumero(trim(substr($ln,$pos+3,4)));
-                        }
-                     /************************** TITULO */
-                    if ($pos = strpos($ln, '{p.')) {
-                        $titulo = substr($ln,0,$pos);
-                    } else {
-                        if ($pos = strpos($ln,'['))
-                            {
-                                $titulo = substr($ln, 0, $pos);
-                            } else {
-                                $titulo = $ln;
-                            }
-                    }
-
-                    /************************** AUTORES */
-                    $autor = array();
-                    if ($pos = strpos($ln,' ['))
-                        {
-                            $at = trim(substr($ln,$pos+1,strlen($ln)));
-                            $at = troca($at,'[','');
-                            $at = troca($at,']','');
-
-                            $au = explode(';',$at);
-                            foreach($au as $id=>$nome)
-                                {
-                                    $nome = nbr_author($nome,1);
-                                    $au[$id] = $nome;
-                                }
-                            $autor = $au;
-                        }
-
-                    $work = array();
-                    $work['title'] = $titulo;
-                    $work['autor'] = $autor;
-                    $work['pag'] = $pag;
-                    if (count($w) > 0)
-                        {
-                            $n = count($w)-1;
-                            $w[$n]['pagf'] = $pag-1;
-                        }
-
-                    array_push($w,$work);
-                }
-                $this->json = json_encode($w);
-            return $txt;
+    {
+        $txt = troca($txt, chr(10), chr(13));
+        while ($pos = strpos($txt, chr(13) . chr(13))) {
+            $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
+        $txt2 = $txt;
+        $txt = troca($txt, '-', '.');
+        while ($pos = strpos($txt, '..')) {
+            $txt = troca($txt, '..', '.');
+        }
+        //$txt = troca($txt,'. ','.');
+        $txt = troca($txt, ' .', '.');
+        $txt = troca($txt, '.', '. ');
+        $txt = troca($txt, chr(10), chr(13));
+        $ln = explode(chr(13), $txt);
+
+        $lr = array();
+
+        foreach ($ln as $line) {
+            if (strtolower(ascii(trim($line))) == 'sumario') {
+                $line = '';
+            }
+            if (strlen(trim($line)) > 0) {
+                $first = trim(substr($line, 0, 10));
+                $last = trim(substr($line, strlen($line) - 5, 5));
+
+                /*************************************** Elimina Números */
+                if ($first == sonumero($first)) {
+                    $line = trim(substr($line, strlen($first), strlen($line)));
+                }
+
+                /*********************** Remove sumeracao inicial **********/
+                $sonum = sonumero($first);
+                if (round($sonum) > 0) {
+                    $first2 = $first;
+                    $c = array('.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+                    $first2 = trim(str_replace($c, array(''), $first));
+                    $line = troca($line, $first, $first2);
+                }
+
+                /*********************** Insere o número da pagina inicial */
+                $sonum = sonumero($last);
+                if (round($sonum) > 0) {
+                    $line = troca($line, $sonum, '{p.' . $sonum);
+                }
+
+
+                /*********************** Guada dados em arquivo ************/
+                if (strlen($line) > 0) {
+                    array_push($lr, $line);
+                }
+            }
+        }
+
+        $w = array();
+        $xpag = 0;
+        $autor = array();
+        foreach ($lr as $ln) {
+            /*************************** PAGINA */
+            $pag = 0;
+            if ($pos = strpos($ln, '{p.')) {
+                $pag = sonumero(trim(substr($ln, $pos + 3, 4)));
+            }
+            /************************** TITULO */
+            if ($pos = strpos($ln, '{p.')) {
+                $titulo = substr($ln, 0, $pos);
+            }
+            if ($pos = strpos($ln, '[')) {
+                $titulo = substr($ln, 0, $pos);
+                echo h($titulo);
+            } else {
+                $titulo = $ln;
+            }
+
+            /************************** AUTORES */
+            if ($pos = strpos($ln, ' [')) {
+                $autor = array();
+
+                $at = trim(substr($ln, $pos + 1, strlen($ln)));
+                $at = troca($at, '[', '');
+                $at = troca($at, ']', '');
+
+                $au = explode(';', $at);
+                foreach ($au as $id => $nome) {
+                    if (strpos($nome, '{')) {
+                        $nome = substr($nome, 0, strpos($nome, '{'));
+                    }
+                    $nome = nbr_author($nome, 1);
+                    $au[$id] = $nome;
+                }
+                $autor = $au;
+            }
+
+            $work = array();
+            $work['title'] = $titulo;
+            $work['autor'] = $autor;
+            $work['pag'] = $pag;
+
+            if (count($w) > 0) {
+                $n = count($w) - 1;
+                $w[$n]['pagf'] = $pag - 1;
+            }
+            array_push($w, $work);
+        }
+        $this->json = json_encode($w);
+        return $txt2;
+    }
 }

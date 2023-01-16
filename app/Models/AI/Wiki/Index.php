@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\ISBN;
+namespace App\Models\AI\Wiki;
 
 use CodeIgniter\Model;
 
 class Index extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'indices';
+    protected $table            = '*';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -40,34 +40,35 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    /*********************** isbn
-    978-65-89999-01-3
-    978 -> Código GTIN-13
-    65 -> Código do país
-    89999 -> Código do editor
-    01 -> Código do título
-    3 -> Dígito verificador
-    */
-
-    function standard($isbn)
+    function index($d1,$d2,$d3)
         {
-            $l1 = substr($isbn,strlen($isbn)-1,1);
-            $l2 = sonumero($isbn);
-            if ($l1 =='X')
+            $sx = '';
+            $Term = new \App\Models\AI\Wiki\Term();
+            $sb = $this->submenu();
+            switch($d1)
                 {
-                    $l2 .= $l1;
+                    case 'indice':
+                        $sa = $Term->catalog();
+                        break;
+                    case 'inport':
+                        $sa = $Term->Import();
+                        break;
+
+                    default:
+                        $sa = $Term->Index();
+                        $sb .= '<hr>'.$Term->btn_edit;
+                        break;
                 }
-            return $l2;
+
+            return bs(bsc($sa,10).bsc($sb,2));
         }
 
-    function format($isbn)
-        {
-            $isbn = troca($isbn,'ISBN','');
-            $sx = substr($isbn,0,3).'-'.
-                    substr($isbn,3,2).'-'.
-                    substr($isbn,5,5).'-'.
-                    substr($isbn,10,2).'-'.
-                    substr($isbn,12,1);
-            return $sx;
-        }
+        function submenu()
+            {
+                $menu = array();
+                $menu['#TERMS'] = '';
+                $menu[PATH.'/ai/wiki/inport/'] = lang('brapci.inport');
+                $menu[PATH . '/ai/wiki/indice/'] = lang('brapci.indice');
+                return menu($menu);
+            }
 }

@@ -33,21 +33,25 @@ class Books extends BaseController
         if (strlen($q) > 0) {
             $act = 'search';
         }
+
         $act = trim($act);
         switch ($act) {
             case 'a':
                 $Socials = new \App\Models\Socials();
                 $cat = $Socials->getAccess("#ADM#CAT");
+                echo "OK";
+                exit;
                 if ($cat == true)
                     {
                         $RDF = new \App\Models\Rdf\RDF();
-                        $sx .= $RDF->index('form','editRDF', $subact);
-                        $sx = bs(bsc($sx,12));
+                        $sb = '<iframe src="https://terra.com.br" style="width: 100%; height:600px;"></iframe>';
+                        $sa = $RDF->index('form', 'editRDF', $subact);
+                        $sx .= bs(bsc($sa,6),bsc($sb,6));
+                        $sx .= 'XXXXXXXXXXXXXXX';
                     } else {
                         $sx .= bsmessage('Access not permited');
-                        $sx = bs(bsc($sx, 12));
+                        $sx .= bs(bsc($sx, 12));
                     }
-
                 break;
             case 'v':
                 $sx .= $this->v($subact);

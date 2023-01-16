@@ -20,7 +20,7 @@ class TechinalProceessingBook extends Model
     ];
 
     protected $typeFields    = [
-        'hidden', 'string:100', 'text*',
+        'hidden', 'string:100', 'text',
         'hidden', 'hidden'
     ];
 
@@ -59,10 +59,17 @@ class TechinalProceessingBook extends Model
 
     function edit($id)
     {
+        $ISBN = new \App\Models\ISBN\Index();
         $dt = $this->where('b_source', $id)->findAll();
         $this->id = $dt[0]['id_b'];
         $this->path = PATH . COLLECTION . '/admin/auto/' . $id;
         $this->path_back = PATH . COLLECTION . '/admin/auto/' . $id;
+
+        if (isset($_POST['b_isbn']))
+            {
+                $_POST['b_isbn'] = $ISBN->standard($_POST['b_isbn']);
+            }
+
         $sx = form($this);
         return $sx;
     }

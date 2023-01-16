@@ -95,7 +95,7 @@ return [
         'year_without' => 'Sem o ano da publicação',
         'abstract_without' => 'Sem o resumo',
         'ElasticSearch' => 'ElasticSearch',
-        '' => '',
-        '' => '',
-        '' => '',
+        'test' => 'teste',
+        'save' => 'gravar',
+        'send' => 'enviar',
 ];
