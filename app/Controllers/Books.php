@@ -39,15 +39,19 @@ class Books extends BaseController
             case 'a':
                 $Socials = new \App\Models\Socials();
                 $cat = $Socials->getAccess("#ADM#CAT");
-                echo "OK";
-                exit;
                 if ($cat == true)
                     {
                         $RDF = new \App\Models\Rdf\RDF();
-                        $sb = '<iframe src="https://terra.com.br" style="width: 100%; height:600px;"></iframe>';
-                        $sa = $RDF->index('form', 'editRDF', $subact);
-                        $sx .= bs(bsc($sa,6),bsc($sb,6));
-                        $sx .= 'XXXXXXXXXXXXXXX';
+
+                        $link_a = PATH.'/rdf/form/editRDF/'.$subact;
+                        $link_b = PATH.'/rdf/view/pdf/' . $subact;;
+
+                        $sa = '<iframe src="'.$link_a.'" style="width: 100%; height:600px;"></iframe>';
+                        $sb = '<iframe src="' . $link_b . '" style="width: 100%; height:600px;"></iframe>';
+
+                        $sa = bsc($sa,6);
+                        $sb = bsc($sb,6);
+                        $sx .= bs($sa.$sb);
                     } else {
                         $sx .= bsmessage('Access not permited');
                         $sx .= bs(bsc($sx, 12));

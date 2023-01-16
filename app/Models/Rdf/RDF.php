@@ -63,6 +63,20 @@ class RDF extends Model
 
 		switch ($d1) {
 			/****************************************************************** CONCEPT */
+			case 'view':
+				switch($d2)
+					{
+						case 'pdf':
+							$RDFPdf = new \App\Models\Rdf\RDFPdf();
+							$RDFPdf->view_file($d3,$d4);
+							exit;
+							break;
+						default:
+							$sx .= $cab.bsmessage('What´s '.$d2,3);
+							break;
+					}
+				break;
+			/****************************************************************** CONCEPT */
 			case 'v':
 				$dt = $this->le($d2);
 				$class = $dt['concept']['c_class'];
