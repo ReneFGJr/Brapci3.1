@@ -35,14 +35,12 @@ class Proceedings extends BaseController
         $act = trim($act);
 
         switch ($act) {
-
             case 'v':
                 $sx .= $this->v($subact);
                 break;
             case 'oai':
                 $sx .= $this->oai($subact, $id);
                 break;
-
             case 'harvesting':
                 $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
                 $sx .= $OAI_ListIdentifiers->harvesting($d2);
@@ -125,6 +123,15 @@ class Proceedings extends BaseController
     {
         $sx = '';
         switch ($act) {
+            case 'status':
+                $tp = substr($jid,0,1);
+                if ($tp == 'I')
+                    {
+                        $id = round(substr($jid,1,10));
+                        $st = get("status");
+                    }
+                $sx .= h($tp);
+                break;
             case 'getrecords':
                 $sx .= h('OAIPMH - GetRecords');
                 $OAI_GetRecords = new \App\Models\Oaipmh\GetRecords();

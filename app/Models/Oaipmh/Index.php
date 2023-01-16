@@ -182,14 +182,59 @@ class Index extends Model
 		return $dir;
 	}
 
+	function resume($idj,$issue)
+		{
+			$dt = $this->to_harvesting_group($idj,$issue);
+			$dsp = array(0,0,0,0,0,0,0,0,0,0,0);
+			foreach($dt as $id=>$line)
+				{
+					$dsp[$line['li_s']] = $line['total'];
+				}
+			$sx = '<table width="100%">';
+			$sx .= '<tr>';
+			for ($r=0;$r <= 9;$r++)
+				{
+					$link = '<a href="'.PATH. '/proceedings/oai/I'.$issue.'/status/?status='.$r.'">';
+					$linka = '</a>';
+					if ($dsp[$r] == 0)
+						{
+							$linka = '';
+							$link = '';
+						}
+					$sx .= '<td width="10%">'. $link.$dsp[$r].$linka.'</td>';
+				}
+			$sx .= '</tr>';
+			$sx .= '</table>';
+			return $sx;
+		}
 
-	function to_harvesting($idj, $issue)
+	function to_harvesting_group($idj, $issue, $st = 1)
 	{
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 		if ($idj > 0) {
-			$dt = $OAI_ListIdentifiers->where('li_jnl', $idj)->where('li_s', 1)->findAll();
+			$dt = $OAI_ListIdentifiers
+					->select("count(*) as total, li_s")
+					->where('li_jnl', $idj)
+					->groupBy("li_s")
+					->findAll();
 		} else {
-			$dt = $OAI_ListIdentifiers->where('li_issue', $issue)->where('li_s', 1)->findAll();
+			$dt = $OAI_ListIdentifiers
+					->select("count(*) as total, li_s")
+					->where('li_issue', $issue)
+					->groupBy("li_s")
+					->findAll();
+		}
+		return $dt;
+	}
+
+
+	function to_harvesting($idj, $issue,$st=1)
+	{
+		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+		if ($idj > 0) {
+			$dt = $OAI_ListIdentifiers->where('li_jnl', $idj)->where('li_s', $st)->findAll();
+		} else {
+			$dt = $OAI_ListIdentifiers->where('li_issue', $issue)->where('li_s', $st)->findAll();
 		}
 		return count($dt);
 	}

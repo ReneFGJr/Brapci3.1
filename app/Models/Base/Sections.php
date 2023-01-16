@@ -48,7 +48,7 @@ class Sections extends Model
 
     function normalize($sec,$idj)
         {
-            echo h($sec.'=='.$idj);
+            //echo h($sec.'=='.$idj);
             switch($idj)
                 {
                     case 75:

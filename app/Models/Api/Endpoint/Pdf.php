@@ -52,8 +52,6 @@ class Pdf extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
-        echo $d1.'===='.$d2;
-
         switch($d2)
             {
                 case 'pdf_to_text':

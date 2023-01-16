@@ -15,7 +15,7 @@ class GetRecords extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_lr', '	lr_identifier', 'lr_datestamp',
+		'id_lr', 'lr_identifier', 'lr_datestamp',
 		'lr_setSpec', 'lr_status', 'lr_jnl',
 		'lr_procees', 'lr_issue', 'lr_local_file',
 		'lr_work'
@@ -56,16 +56,14 @@ class GetRecords extends Model
 				->orderby('li_u')
 				->findAll();
 
-			if (count($dt) == 0)
-				{
-					$sx .= $OAI_ListIdentifiers->getlastquery();
-					$sx .= bsmessage(lang('brapci.proceesing_finish'),1);
-					$sx .= metarefresh(PATH.COLLECTION. '/issue?id='.$id);
-				} else {
-					$id = $dt[0]['id_li'];
-					$sx .= $this->harvesting($id);
-				}
-
+			if (count($dt) == 0) {
+				$sx .= $OAI_ListIdentifiers->getlastquery();
+				$sx .= bsmessage(lang('brapci.proceesing_finish'), 1);
+				$sx .= metarefresh(PATH . COLLECTION . '/issue?id=' . $id);
+			} else {
+				$id = $dt[0]['id_li'];
+				$sx .= $this->harvesting($id);
+			}
 		}
 		return $sx;
 	}
@@ -106,8 +104,8 @@ class GetRecords extends Model
 			if ($id_li > 0) {
 				$OAI_ListIdentifiers->update_status($id_li, 9);
 				$sx = bsmessage(lang('brapci.already_process ' . $reg), 4);
-				$sx .= metarefresh('', 1);
-				return $sx;
+				//$sx .= metarefresh('', 1);
+				//return $sx;
 			}
 		}
 
@@ -115,6 +113,7 @@ class GetRecords extends Model
 		$file = $dir . 'GetRegister.xml';
 
 		if (file_exists($file)) {
+			$da = filectime($file);
 			$txt = file_get_contents($file);
 			$sx .= "CACHED<br>";
 		} else {
@@ -128,14 +127,14 @@ class GetRecords extends Model
 		switch ($method) {
 			case 0:
 				$sx .= $this->Method_00($dt, $txt, $file);
-				$sx .= metarefresh('',1);
+				$sx .= metarefresh('', 5);
 				break;
 		}
 		return $sx;
 	}
 
 	/************************************************ Method 00 */
-	function Method_00($dt, $txt, $file='')
+	function Method_00($dt, $txt, $file = '')
 	{
 		$sx = '';
 		$txt = troca($txt, 'oai_dc:', '');
@@ -154,6 +153,8 @@ class GetRecords extends Model
 		$RDF = new \App\Models\Rdf\RDF();
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
 
+		$sx .= 'Acesso ao trabalho: <a href="'.PATH.'/v/'.$idp.'">'.$idp.'</a>';
+
 		$metadata = (array)$metadata['dc'];
 
 		/************************************************ ISSUE */
@@ -163,7 +164,7 @@ class GetRecords extends Model
 
 		/************************************************ Titulo */
 		$title = nbr_title($metadata['title']);
-		$sx .= h($title,2);
+		$sx .= h($title, 2);
 		$prop = 'brapci:hasTitle';
 		$lang = 'pt-BR';
 		$literal = $RDF->literal($title, $lang);
@@ -172,10 +173,9 @@ class GetRecords extends Model
 		/************************************************ Autores */
 		$auth = array();
 		$authors = $metadata['creator'];
-		if (!is_array($authors))
-			{
-				$authors = array($authors);
-			}
+		if (!is_array($authors)) {
+			$authors = array($authors);
+		}
 		for ($r = 0; $r < count($authors); $r++) {
 			$aut = (string)$authors[$r];
 			$author = '';
@@ -201,43 +201,47 @@ class GetRecords extends Model
 		/************************************************ Subject */
 		$AI = new \App\Models\AI\NLP\Language();
 		$auth = array();
-		$subject = $metadata['subject'];
-		if (!is_array($subject)) {
-			$subject = array($subject);
-		}
-		$sx .= h('Subjects');
+		if (isset($metadata['subject'])) {
+			$subject = $metadata['subject'];
+			if (!is_array($subject)) {
+				$subject = array($subject);
+			}
+			$sx .= h('Subjects',3);
 
-		for ($r = 0; $r < count($subject); $r++) {
-			$sub = (string)$subject[$r];
-			$sub = troca($sub, '.', ';');
-			$sub = troca($sub, ',', ';');
-			$sub = explode(';', $sub);
+			for ($r = 0; $r < count($subject); $r++) {
+				$sub = (string)$subject[$r];
+				$sub = troca($sub, '.', ';');
+				$sub = troca($sub, ',', ';');
+				$sub = explode(';', $sub);
 
-			for ($y = 0; $y < count($sub); $y++) {
-				$term = trim($sub[$y]);
-				$term = nbr_title($term);
-				if ($term != '') {
-					$lang = $AI->getTextLanguage($term);
-					$id_sub = $RDF->concept($term, 'Subject', $lang);
-					$RDF->propriety($idp, 'hasSubject', $id_sub, 0);
-					$sx .= $term . ' [' . $lang . ']<br>';
+				for ($y = 0; $y < count($sub); $y++) {
+					$term = trim($sub[$y]);
+					$term = nbr_title($term);
+					if ($term != '') {
+						$lang = $AI->getTextLanguage($term);
+						$id_sub = $RDF->concept($term, 'Subject', $lang);
+						$RDF->propriety($idp, 'hasSubject', $id_sub, 0);
+						$sx .= $term . ' [' . $lang . ']<br>';
+					}
 				}
 			}
 		}
 
 		/************************************************ Section */
-			$Sections = new \App\Models\Base\Sections();
-			$sec = $Sections->normalize($dt['li_setSpec'],$dt['id_jnl']);
-			$id_sec = $RDF->concept($sec, 'ProceedingSection');
-			$RDF->propriety($idp, 'hasSectionOf', $id_sec,0);
+		$Sections = new \App\Models\Base\Sections();
+		$sec = $Sections->normalize($dt['li_setSpec'], $dt['id_jnl']);
+		$id_sec = $RDF->concept($sec, 'ProceedingSection');
+		$RDF->propriety($idp, 'hasSectionOf', $id_sec, 0);
 
 		/************************************************ Abstract */
 		if (isset($metadata['description'])) {
+			$sx .= h('Abstract');
 			$abs = nbr_title($metadata['description']);
 			if ($abs != '') {
 				$lang = $AI->getTextLanguage($abs);
 				$literal = $RDF->literal($abs, $lang);
 				$RDF->propriety($idp, 'hasAbstract', 0, $literal);
+				$sx .= '<p style="text-justify">'. $abs.'</p>';
 			}
 		}
 
@@ -259,11 +263,21 @@ class GetRecords extends Model
 		$dd['lr_issue'] = $dt['li_s'];
 		$dd['lr_local_file'] = $file;
 		$dd['lr_work'] = $idp;
-		$this->set($dd)->insert();
+
+		$dr = $this
+			->where('lr_identifier',$reg)
+			->where('lr_issue',$dt['li_s'])
+			->findAll();
+		//pre($dr);
+		if (count($dr) == 0)
+			{
+				$this->set($dd)->insert();
+			}
+
 
 		/***************** Atualiza */
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-		$OAI_ListIdentifiers->update_status($dt['id_li'],9);
+		$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
 
 		return $sx;
 	}
