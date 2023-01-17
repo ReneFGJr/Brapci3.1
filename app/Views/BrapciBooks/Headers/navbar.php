@@ -14,8 +14,8 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     }
 
     p {
-        color: #b3b3b3;
-        font-weight: 300;
+        color: #000;
+        font-weight: 400;
     }
 
 
