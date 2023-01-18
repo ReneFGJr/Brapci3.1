@@ -163,7 +163,7 @@ class Proceedings extends BaseController
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
 
-        $sx .= h($class);
+        $sx .= '';
 
         switch ($class) {
             case 'Subject':

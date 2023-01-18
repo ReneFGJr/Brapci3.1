@@ -121,6 +121,7 @@ class Work extends Model
                     break;
                 case 'hasIssueProceedingOf':
                     $da['issue'] = $RDF->c($line['d_r1']);
+                    $da['issue_id'] = $line['d_r1'];
                     break;
                 case 'hasIssueOf':
                     $da['issue'] = $RDF->c($line['d_r1']);
@@ -209,10 +210,19 @@ class Work extends Model
 
         switch (COLLECTION) {
             case '/proceedings':
+                $Issue = new \App\Models\Base\Issues();
+                $idi = $Issue->where('is_source_issue', $da['issue_id'])->first();
+                $da['sub_header'] = $Issue->issue($idi['id_is']);
+                $da['issue'] = '';
                 $sx .= view('Brapci/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
             case '/benancib':
+                $Issue = new \App\Models\Base\Issues();
+                $idi = $Issue->where('is_source_issue',$da['issue_id'])->first();
+                $da['sub_header'] = $Issue->issue($idi['id_is']);
+                $da['issue'] = '';
+                //pre($dt);
                 $sx .= view('Brapci/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;

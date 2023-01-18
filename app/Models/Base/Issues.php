@@ -125,7 +125,6 @@ class Issues extends Model
 
         $sx = '';
         $sx .= $Sources->journal_header($ds);
-        $sx .= '<hr>';
 
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];

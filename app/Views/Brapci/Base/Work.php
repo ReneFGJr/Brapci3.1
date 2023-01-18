@@ -3,12 +3,16 @@ if (!isset($MidiasSociais)) {
     $MidiasSociais = '';
 }
 $style = ' style="border-bottom: 1px solid #000;" ';
+
+if (!isset($logo)) $logo = '';
+if (!isset($sub_header)) $sub_header = '';
 ?>
 
 <div class="container">
+    <?=$sub_header;?>
     <div class="row" <?= $style; ?>>
         <div class="col-2">
-            LOGO
+            <?=$logo;?>
         </div>
         <div class="col-6">
             <?= $issue; ?>

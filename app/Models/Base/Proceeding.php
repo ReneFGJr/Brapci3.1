@@ -47,8 +47,6 @@ class Proceeding extends Model
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
 
-        $sx .= h($class);
-
         switch ($class) {
             case 'Subject':
                 $Keywords = new \App\Models\Base\Keywords();
@@ -72,6 +70,7 @@ class Proceeding extends Model
             default:
                 $sx .= h($class, 1);
                 $sx = bs(bsc($sx));
+                $sx .= bs(bsc('Class: '.$class,12));
                 break;
         }
         return $sx;
