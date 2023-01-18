@@ -77,16 +77,8 @@ class Benancib extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
             case 'v':
-                $RDF = new \App\Models\Rdf\RDF();
-                $Metadata = new \App\Models\Base\Metadata();
-                $dt = $RDF->le($subact);
-
-                $data['metadata'] = $Metadata->dc($dt);
-                $data['page_title'] = strip_tags($Metadata->title);
-                $sx = '';
-                $sx .= view('Brapci/Headers/header', $data);
-                $sx .= view('Benancib/Headers/navbar', $data);
-                $sx .= $this->v($dt);
+                $Proceeding = new \App\Models\Base\Proceeding();
+                $sx .= $Proceeding->v($subact);
                 break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();
