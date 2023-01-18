@@ -213,7 +213,7 @@ class Work extends Model
                 //$sx .= $RDF->view_data($dt);
                 break;
             case '/benancib':
-                $sx .= view('Benancib/Base/Work', $da);
+                $sx .= view('Brapci/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
             case '/books':
