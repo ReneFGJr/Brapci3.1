@@ -50,7 +50,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         </div>
     </div>
 </nav>
-<div style=" height: 100px; width: 100%">
+<div style=" height: 45px; width: 100%">
 </div>
 
 
