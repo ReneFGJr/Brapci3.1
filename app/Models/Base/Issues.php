@@ -103,7 +103,7 @@ class Issues extends Model
                 break;
             default:
                 $id = get("id");
-                //$sx .= bsc($this->issue($id), 12);
+                $sx .= bsc($this->issue($id), 12);
                 $sx .= '<hr>';
                 $sx .= bsc($this->issue_section_works($id), 12);
                 break;
