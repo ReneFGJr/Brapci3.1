@@ -43,7 +43,8 @@ class ProceedingSection extends Model
     function show($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $sx = '';
+        $sa = '';
+        $sb = '';
         $dd = $dt['data'];
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
@@ -51,12 +52,14 @@ class ProceedingSection extends Model
             if ($class == 'hasSectionOf')
             {
                 $idf = $line['d_r1'];
-                $sx .= '<p>'.$RDF->c($idf).'</p>';
+                $sa .= '<p>'.$RDF->c($idf).'</p>';
             } else {
 
             }
         }
-        $sx = bs(bsc($sx, 10));
+
+        $sb = 'Total '.count($dd);
+        $sx = bs(bsc($sa, 10).bsc($sb,2));
 
         return $sx;
     }
