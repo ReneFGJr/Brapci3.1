@@ -296,7 +296,7 @@ class Issues extends Model
             exit;
         }
 
-        $sx .= $this->header_issue($dt);
+        //$sx .= $this->header_issue($dt);
 
         return $sx;
     }
