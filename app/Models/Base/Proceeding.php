@@ -40,7 +40,7 @@ class Proceeding extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    private function v($id = '')
+    function v($id = '')
     {
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
