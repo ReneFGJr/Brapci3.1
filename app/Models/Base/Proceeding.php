@@ -65,6 +65,7 @@ class Proceeding extends Model
 
             case 'Work':
                 $Work = new \App\Models\Base\Work();
+                $sx .= bs(bsc('Class:'.$class));
                 $sx .= $Work->show($id);
                 break;
             default:
