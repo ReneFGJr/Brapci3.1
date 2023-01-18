@@ -78,7 +78,7 @@ class Benancib extends BaseController
                 break;
             case 'v':
                 $Proceeding = new \App\Models\Base\Proceeding();
-                $sx .= $Proceeding->v($subact);
+                $sx .= $Proceding->v($subact);
                 break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();

@@ -36,7 +36,8 @@ class Proceedings extends BaseController
 
         switch ($act) {
             case 'v':
-                $sx .= $this->v($subact);
+                $Proceeding = new \App\Models\Base\Proceeding();
+                $sx .= $Proceeding->v($subact);
                 break;
             case 'oai':
                 $sx .= $this->oai($subact, $id);
@@ -152,43 +153,6 @@ class Proceedings extends BaseController
                 break;
         }
         $sx = bs(bsc($sx,12));
-        return $sx;
-    }
-
-    private function v($id = '')
-    {
-        $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
-        $dt = $RDF->le($id);
-        $class = $dt['concept']['c_class'];
-
-        $sx .= h($class);
-
-        switch ($class) {
-            case 'Subject':
-                $Keywords = new \App\Models\Base\Keywords();
-                $sx .= $Keywords->showHTML($dt);
-                break;
-
-            case 'Proceeding':
-                $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($dt);
-                break;
-
-            case 'ProceedingSection':
-                $ProceedingSection = new \App\Models\Base\ProceedingSection();
-                $sx .= $ProceedingSection->show($dt);
-                break;
-
-            case 'Work':
-                $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($id);
-                break;
-            default:
-                $sx .= h($class, 1);
-                $sx = bs(bsc($sx));
-                break;
-        }
         return $sx;
     }
 }
