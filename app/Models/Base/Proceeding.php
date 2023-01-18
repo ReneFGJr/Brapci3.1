@@ -47,9 +47,6 @@ class Proceeding extends Model
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
 
-
-        echo h($class);
-
         switch ($class) {
             case 'Subject':
                 $Keywords = new \App\Models\Base\Keywords();

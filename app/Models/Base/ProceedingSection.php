@@ -56,7 +56,7 @@ class ProceedingSection extends Model
 
             }
         }
-        $sx .= bs(bsc($sx, 10));
+        $sx = bs(bsc($sx, 10));
 
         return $sx;
     }
