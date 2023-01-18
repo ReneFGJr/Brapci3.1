@@ -207,13 +207,14 @@ class Work extends Model
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
 
+        echo '==>'. COLLECTION;
+
         switch (COLLECTION) {
             case '/proceedings':
                 $sx .= view('Proceeding/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
             case '/benancib':
-                $sx .= view('Proceeding/Base/Work', $da);
                 $sx .= view('Benancib/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
