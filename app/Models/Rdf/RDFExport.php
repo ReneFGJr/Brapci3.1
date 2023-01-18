@@ -410,9 +410,6 @@ class RDFExport extends Model
 		$ln = troca($ln, chr(13), ' ');
 		$ln = troca($ln, chr(10), ' ');
 		$this->saveRDF($id, $ln, 'metadata.csv');
-
-		$elasticRegister  = new \App\Models\ElasticSearch\Register();
-		$elasticRegister->register($id, $class);
 		return '';
 	}
 

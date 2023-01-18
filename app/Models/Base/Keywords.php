@@ -64,8 +64,6 @@ class Keywords extends Model
                     $t = trim($tt);
                 }
 
-
-
                 if (strlen($t) > 0) {
                     $term = strip_tags($t);
                     $id = substr($t, strpos($t, '/v/') + 2, strlen($t));

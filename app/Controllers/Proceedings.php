@@ -45,16 +45,13 @@ class Proceedings extends BaseController
                 $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
                 $sx .= $OAI_ListIdentifiers->harvesting($d2);
                 break;
-
             case 'issue':
                 $sx .= $this->issues($subact, $id);
                 break;
-
             case 'issues':
                 $Issues = new \App\Models\Base\Issues();
                 $sx .= $Issues->issues($subact, $id);
                 break;
-
             case 'source':
                 $Sources = new \App\Models\Base\Sources();
                 $Issues = new \App\Models\Base\Issues();
