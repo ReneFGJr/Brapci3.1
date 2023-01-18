@@ -449,11 +449,11 @@ class Issues extends Model
             $dt['tools'] = bs(bsc($tools,12)) . $oai_tools;
             $sx .= view('Brapci/Base/header_proceedings_tools.php', $dt);
         }
-
-
-
-        $IssuesWorks = new \App\Models\Base\IssuesWorks();
-        $sx .= $IssuesWorks->check($dt);
+        if (get("reindex") != '')
+        {
+            $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            $sx .= $IssuesWorks->check($dt);
+        }
         return $sx;
     }
 }
