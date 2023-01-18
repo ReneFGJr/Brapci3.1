@@ -125,6 +125,7 @@ class Work extends Model
                     break;
                 case 'hasIssueOf':
                     $da['issue'] = $RDF->c($line['d_r1']);
+                    $da['issue_id'] = $line['d_r1'];
                     break;
                 case 'hasSectionOf':
                     if (!isset($da['Section'])) {
