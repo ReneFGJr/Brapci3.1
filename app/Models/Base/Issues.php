@@ -105,7 +105,7 @@ class Issues extends Model
                 $id = get("id");
                 //$sx .= bsc($this->issue($id), 12);
                 $sx .= '<hr>';
-                $sx .= bsc($this->issue_section_works_cached($id), 12);
+                $sx .= bsc($this->issue_section_works($id), 12);
                 break;
         }
         return $sx;
@@ -329,24 +329,6 @@ class Issues extends Model
 
         return "";
     }
-
-    function issue_section_works_cached($id)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $dir = $RDF->directory($id);
-
-            $file = $dir.'sumary.html';
-
-            if ((!file_exists($file)) or (get("reindex") != ''))
-                {
-                    echo "CRIAR ARQUIVO";
-                    $txt = $this->issue_section_works($id);
-                    file_put_contents($file,$txt);
-                } else {
-                    $txt = file_get_contents($file);
-                }
-            return $txt;
-        }
 
     function issue_section_works($id)
     {
