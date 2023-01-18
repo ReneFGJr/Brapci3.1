@@ -207,7 +207,7 @@ class Work extends Model
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
 
-        echo '==>'. COLLECTION;
+        pre($da);
 
         switch (COLLECTION) {
             case '/proceedings':
