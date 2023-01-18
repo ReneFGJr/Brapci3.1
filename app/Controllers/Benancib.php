@@ -25,9 +25,10 @@ class Benancib extends BaseController
         $data['page_title'] = 'Brapci-Benancib';
         $data['GOOGLEID'] = 'G-B720HV20XK';
         $data['bg'] = 'bg-benancib';
+        $data['menu'] = array();
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Benancib/Headers/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar_benancib', $data);
 
         $q = get("q") . get("qs");
         if (strlen($q) > 0) {
