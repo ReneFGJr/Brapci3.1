@@ -209,7 +209,7 @@ class Work extends Model
 
         switch (COLLECTION) {
             case '/proceedings':
-                $sx .= view('Proceeding/Base/Work', $da);
+                $sx .= view('Brapci/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
                 break;
             case '/benancib':
