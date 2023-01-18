@@ -207,6 +207,8 @@ class Work extends Model
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
 
+        pre($da);
+
         switch (COLLECTION) {
             case '/proceedings':
                 $sx .= view('Proceeding/Base/Work', $da);
