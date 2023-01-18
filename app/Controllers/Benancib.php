@@ -125,44 +125,4 @@ class Benancib extends BaseController
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
-
-    private function v($dt = '', $subact = '')
-    {
-        $sx = '';
-        $class = $dt['concept']['c_class'];
-
-        switch ($class) {
-
-            case 'Subject':
-                $Keywords = new \App\Models\Base\Keywords();
-                $sx .= $Keywords->showHTML($dt);
-                break;
-
-            case 'Proceeding':
-                $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($dt);
-                break;
-
-            case 'ProceedingSection':
-                $ProceedingSection = new \App\Models\Base\ProceedingSection();
-                $sx .= $ProceedingSection->show($dt);
-                break;
-
-            case 'Work':
-                $Work = new \App\Models\Base\Work();
-                $sx .= $Work->show($id);
-                break;
-
-            case 'FileStorage':
-                $sx .= bs(bsc(h($class, 1), 12));
-                $sx .= $RDF->view_data($dt);;
-                break;
-
-            default:
-                $sx .= h('Class:' . $class, 1);
-                $sx = bs(bsc($sx));
-                break;
-        }
-        return $sx;
-    }
 }
