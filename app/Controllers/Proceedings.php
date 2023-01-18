@@ -36,7 +36,7 @@ class Proceedings extends BaseController
 
         switch ($act) {
             case 'v':
-                $Proceeding = new \App\Modes\Base\Proceeding();
+                $Proceeding = new \App\Models\Base\Proceeding();
                 $sx .= $Proceeding->v($subact);
                 break;
             case 'oai':
