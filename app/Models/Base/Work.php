@@ -239,8 +239,6 @@ class Work extends Model
                 $sx .= view('Brapci/Base/Work', $da);
                 break;
         }
-
-        //pre($da,false);
         return $sx;
     }
 
