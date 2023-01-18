@@ -208,6 +208,11 @@ class Work extends Model
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
 
+        if (!isset($da['issue_id']))
+            {
+                pre($dt);
+            }
+
         switch (COLLECTION) {
             case '/proceedings':
                 $Issue = new \App\Models\Base\Issues();
