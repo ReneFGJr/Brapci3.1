@@ -29,18 +29,20 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                 <li class="nav-item">
                     <a class="nav-link-brp" aria-current="page" href="<?= PATH . COLLECTION; ?>">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link-brp" href="<?= PATH . COLLECTION . '/about'; ?>"><?= lang('brapci.about'); ?></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link-brp" href="<?= PATH . '/catalog'; ?>"><?= lang('brapci.services'); ?></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link-brp" href="<?= PATH . '/statistics'; ?>"><?= lang('brapci.statistics'); ?></a>
-                </li>
+
+                <?php
+                if (isset($menu)) {
+                    foreach ($menu as $path => $label) {
+                        echo '<li class="nav-item">';
+                        echo '<a class="nav-link-brp" aria-current="page" href="'.$path.'">'.$label.'</a>';
+                        echo '</li>';
+                    }
+                }
+                ?>
                 <!--
                 <li class="nav-item">
                     <a class="nav-link"
@@ -48,10 +50,12 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                 </li>
                 -->
             </ul>
+            <!--
             <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">
                 <input name="q" class="form-control me-2" type="search" placeholder="<?= lang('benancib.search_placeholder'); ?>" aria-label="<?= lang('benancib.search'); ?>" value="<?= get("q"); ?>">
                 <button class="btn btn-outline-success" type="submit"><?= lang('benancib.search'); ?></button>
             </form>
+            -->
             <?php echo $acesso; ?>
         </div>
 </nav>

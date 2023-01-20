@@ -18,14 +18,21 @@ class Dados extends BaseController
     public function index($act = '', $subact = '', $id = '', $id2 = '')
     {
         $ResearchData = new \App\Models\ResearchData\Index();
+        $menu = array();
+        $menu[PATH.'/dados/dataverse'] = lang('brapci.dataverse');
+        $data['menu'] = $menu;
+
         $data['page_title'] = 'Brapci Dados de Pesquisa';
         $data['bg'] = 'bg-ai';
 
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Ai/Header/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
         switch ($act) {
-
+            case 'dataverse':
+                $Dataverse = new \App\Models\Dataverse\Index();
+                $sx .= $Dataverse->index($subact,$id,$id2);
+                break;
             default:
                 $sx .= $ResearchData->index($act, $subact, $id, $id2);
                 break;
