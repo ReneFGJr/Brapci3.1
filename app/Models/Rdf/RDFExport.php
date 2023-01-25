@@ -476,12 +476,14 @@ class RDFExport extends Model
 			}
 		}
 		$name = '';
+		$namef = '';
 		if ($aut != '')
 			{
 				$name .= $aut.'. ';
 			}
 		$name .= $title.'.';
-		$this->saveRDF($id, $name, 'name.nm');
+		$namef .= '<b>'.$title .'</b>'. '<br><i>'.$aut.'</i>';
+		$this->saveRDF($id, $namef, 'name.nm');
 
 		$name = ' ' . $book;
 		$this->saveRDF($id, $name, 'name.abtn');
@@ -518,6 +520,7 @@ class RDFExport extends Model
 		$place = '';
 		$editora = '';
 		$ISBN = '';
+		$DOI = '';
 		$vol = '';
 
 		foreach ($data as $idx=>$da)
@@ -546,6 +549,9 @@ class RDFExport extends Model
 								$editora .= '; ';
 									}
 							$editora .= $da['n_name2'];
+							break;
+						case 'hasDOI':
+							$DOI = 'https://doi.org/'.$da['n_name2'];
 							break;
 
 						case 'dateOfPublication':
@@ -607,7 +613,15 @@ class RDFExport extends Model
 		$name .= ' '.$place.': ';
 		$name .= $editora.', ';
 		$name .= $year.'.';
-		if (substr($ISBN,0,1) == '9') { $name .= ' ISBN:'.$ISBN.'.'; }
+		if ($DOI != '')
+			{
+				$name .= ' Disponível em: '.$DOI;
+			} else {
+			if (substr($ISBN, 0, 1) == '9') {
+				$name .= ' ISBN:' . $ISBN . '.';
+			}
+			}
+
 
 		$this->saveRDF($id, $name, 'name.nm');
 		$this->saveRDF($id, $xclass, 'class.mn');
@@ -917,14 +931,14 @@ class RDFExport extends Model
 		return $tela;
 	}
 
-	function BookChapher($reg,$ISBN,$id)
+	function BookChapher($reg,$ISBN,$idb)
 		{
 			$RDF = new \App\Models\Rdf\RDF();
 			$Language = new \App\Models\AI\NLP\Language();
 
-			//ISBN9788572051422_work_p22
 			$json = $reg['n_name'];
 			$chap = (array)json_decode($json);
+
 			$w=0;
 			foreach($chap as $id=>$line)
 				{
@@ -938,7 +952,7 @@ class RDFExport extends Model
 							}
 						}
 
-					$autors = (array)$line['autor'];
+					$authors = (array)$line['autor'];
 
 					$pgi = 0;
 					$pgf = 0;
@@ -962,20 +976,28 @@ class RDFExport extends Model
 							$class = 'BookChapter';
 							$idc = $RDF->RDF_concept($prefTerm, $class);
 							$lang = $Language->getTextLanguage($title);
-							echo '<br>==>'.$idc.'-'. $prefTerm;
-							echo '<br>'.$title.' ('.$lang.')';
 
 							$prop = 'hasTitle';
-							$literal = $RDF->literal($title,$lang,$idc,$prop);
+							$literal = $RDF->literal($title,$lang);
+							$RDF->propriety($idc, $prop, 0, $literal);
+
+
+							for($r=0;$r < count($authors);$r++)
+								{
+									$author = $authors[$r];
+									$id_pe = $RDF->RDF_concept($author, 'Person');
+									$prop = 'hasAuthor';
+									$RDF->propriety($idc, $prop, $id_pe, 0);
+								}
+
+
 							//$literal = 0;
 							$prop = 'hasBookChapter';
-							$exec = $RDF->propriety($id, $prop, $idc, $literal);
-							echo '==>'.$exec.'<br>';
-
+							$exec = $RDF->propriety($idb, $prop, $idc, 0);
 						}
 				}
-			//pre($chap);
-			return '';
+			return('====>'.$title);
+			//return $RDF->c($idc);
 		}
 
 	function export_imagem($d1, $d2)

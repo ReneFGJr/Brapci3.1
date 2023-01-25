@@ -103,7 +103,7 @@ return [
         'send' => 'enviar',
         'signin'=>'entrar',
         'BookChapter' => 'Capítulo de Livro',
-        ''=>'',
+        'hasBookChapter'=>'Capítulo',
         '' => '',
         '' => '',
 ];

@@ -408,8 +408,7 @@ class RdfForm extends Model
 			$sx .= '<div class="mt-2">' . lang('rdf.term') . '</div>';
 		}
 		/* Mostra Nome */
-
-		if (count($dd) == 0) {
+		if ($dd == '') {
 			echo h(lang('rdf.404'), 1);
 			echo h(lang('rdf.concept_not_found'), 3);
 			exit;
