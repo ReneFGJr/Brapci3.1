@@ -27,7 +27,6 @@ return [
         'about' => 'Sobre',
         'contact' => 'Contato',
         '' => '',
-        '' => '',
 
 
 

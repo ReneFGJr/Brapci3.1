@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class Sumary extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'sumaries';
+    protected $table            = '*';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -168,31 +168,50 @@ class Sumary extends Model
                 $pag = sonumero(trim(substr($ln, $pos + 3, 4)));
             }
             /************************** TITULO */
-            if ($pos = strpos($ln, '{p.')) {
+            if ($pos = strpos($ln, '{')) {
                 $titulo = substr($ln, 0, $pos);
             }
+
+            /************************** Titulo */
             if ($pos = strpos($ln, '[')) {
                 $titulo = substr($ln, 0, $pos);
-                echo h($titulo);
             } else {
                 $titulo = $ln;
             }
 
             /************************** AUTORES */
-            if ($pos = strpos($ln, ' [')) {
+            if ($pos = strpos($ln, '[')) {
                 $autor = array();
 
                 $at = trim(substr($ln, $pos + 1, strlen($ln)));
                 $at = troca($at, '[', '');
                 $at = troca($at, ']', '');
 
+                if (strpos($at,';'))
+                    {
+
+                    } else {
+                        if (strpos($at, ','))
+                            {
+                                $at = troca($at,',',';');
+                            }
+                    }
+                //$at = troca($at,'.','');
                 $au = explode(';', $at);
                 foreach ($au as $id => $nome) {
                     if (strpos($nome, '{')) {
-                        $nome = substr($nome, 0, strpos($nome, '{'));
+                        $nome = trim(substr($nome, 0, strpos($nome, '{')));
                     }
-                    $nome = nbr_author($nome, 1);
-                    $au[$id] = $nome;
+                    $nome = trim($nome);
+                    if (substr($nome,strlen($nome)-1,1) == '.')
+                        {
+                            $nome = substr($nome,0,strlen($nome)-1);
+                        }
+                    if (strlen(trim($nome)) > 0)
+                    {
+                        $nome = nbr_author($nome, 1);
+                        $au[$id] = $nome;
+                    }
                 }
                 $autor = $au;
             }

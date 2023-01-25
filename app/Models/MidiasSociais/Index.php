@@ -46,7 +46,10 @@ class Index extends Model
         $d['id_cc'] = $dt['id_cc'];
         $dt['http'] = 'https://cip.brapci.inf.br/benancib/v/'.$dt['id_cc'];
         $dt['doi'] = '';
-
+        if (!isset($dt['Title']))
+            {
+                return "";
+            }
         $title = $dt['Title'];
         $tt = '';
         foreach($title as $id=>$title)
@@ -56,7 +59,7 @@ class Index extends Model
                 $tt .= $title.'. ';
             }
         $dt['title'] = $tt;
-        
+
         $sx = '<i>Compartilhe</i><br>';
         //$sx .= $this->twitter($dt);
         $sx .= $this->facebook($dt);
@@ -65,7 +68,7 @@ class Index extends Model
         $sx .= '</script>'.cr();
         return $sx;
     }
-    
+
     function facebook($d) {
         $url = $d['http'];
         if ($d['doi'] != '')
@@ -103,5 +106,5 @@ class Index extends Model
         $link .= '<img src="' . base_url('img/nets/icone_twitter.png') . '" class="icone_nets">';
         $link .= '</span>' . cr();
         return ($link);
-    }     
+    }
 }

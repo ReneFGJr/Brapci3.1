@@ -61,6 +61,10 @@ foreach ($subject as $lang => $value) {
             <p>Palavras-chave: <?= $subs; ?></p>
             <p>Data: <?= $year; ?></p>
             <p>Pages: <?= $pages; ?></p>
+
+            <div>
+                <?=$summary;?>
+            </div>
         </div>
 
         <div class="col-2">PDF

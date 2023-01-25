@@ -58,7 +58,8 @@ class Books extends BaseController
                     }
                 break;
             case 'v':
-                $sx .= $this->v($subact);
+                $Books = new \App\Models\Base\Book();
+                $sx .= $Books->v($subact);
                 break;
             case 'xsearch':
                 $data['logo'] = view('Logos/logo_benancib');
@@ -117,33 +118,6 @@ class Books extends BaseController
         }
 
         $sx .= view('Brapci/Headers/footer', $data);
-        return $sx;
-    }
-
-    private function v($id = '')
-    {
-        $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
-        $dt = $RDF->le($id);
-        $class = $dt['concept']['c_class'];
-
-        switch ($class) {
-            case 'Subject':
-                $Keywords = new \App\Models\Base\Keywords();
-                $sx .= $Keywords->showHTML($dt);
-                break;
-
-            case 'Book':
-                $Book = new \App\Models\Base\Book();
-                $sx = $Book->showFULL($id);
-                break;
-
-            default:
-                $sx .= h($class, 1);
-                $sx = bs(bsc($sx));
-                $sx .= $RDF->view_data($id);
-                break;
-        }
         return $sx;
     }
 }

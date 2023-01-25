@@ -16,7 +16,7 @@ if (!isset($sub_header)) $sub_header = '';
             <?=$logo;?>
         </div>
         <div class="col-6">
-            <?= $issue; ?>
+            <?= $book; ?>
         </div>
 
         <div class="col-4 mb-4 text-end p-2">

@@ -1261,7 +1261,11 @@ class RDF extends Model
 			$d['d_literal'] = $literal;
 		}
 
-		$rst = $RDFData->where('d_r1', $idp)->where('d_r2', $resource)->where('d_literal', $literal)->findAll();
+		$rst = $RDFData
+					->where('d_r1', $idp)
+					->where('d_r2', $resource)
+					->where('d_literal', $literal)
+					->findAll();
 		if (count($rst) == 0) {
 			$RDFData->insert($d);
 			return 1;

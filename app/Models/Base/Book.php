@@ -108,6 +108,39 @@ class Book extends Model
         return $sx;
     }
 
+    function v($id = '')
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+        $class = $dt['concept']['c_class'];
+
+        switch ($class) {
+            case 'Subject':
+                $Keywords = new \App\Models\Base\Keywords();
+                $sx .= $Keywords->showHTML($dt);
+                break;
+
+            case 'Book':
+                $Book = new \App\Models\Base\Book();
+                $sx = $Book->showFULL($id);
+                break;
+
+            case 'BookChapter':
+                $Book = new \App\Models\Base\Book();
+                $sx = $Book->showFULL($id);
+                break;
+
+            default:
+                $sx .= h($class, 1);
+                $sx .= h('view not exists',5);
+                $sx = bs(bsc($sx));
+                $sx .= $RDF->view_data($id);
+                break;
+        }
+        return $sx;
+    }
+
     function showFULL($id)
     {
         $RDF = new \App\Models\Rdf\RDF();

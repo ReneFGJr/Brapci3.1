@@ -433,6 +433,190 @@ class RDFExport extends Model
 		return $sx;
 	}
 
+	function export_bookChapter($dt,$id)
+		{
+		$RDF = new \App\Models\Rdf\RDF();
+		$data = $dt['data'];
+		$xclass = $dt['concept']['c_class'];
+		$tota = 0;
+		$book = '';
+		$pags = '';
+		$aut = '';
+		$aut_link = '';
+		$linka = '</a>';
+		$title = '::sem título::';
+		foreach ($data as $idx => $da) {
+			$class = trim($da['c_class']);
+			switch ($class) {
+				case 'prefLabel':
+					break;
+				case 'hasTitle':
+					$title = $da['n_name'];
+					break;
+				case 'hasPageStart':
+					$pags = $da['n_name2'];
+					break;
+				case 'hasBookChapter':
+					$book = $RDF->c($da['d_r1']);
+					break;
+				case 'hasAbstract':
+					break;
+				case 'hasAuthor':
+					$tota++;
+					if ($aut != '') {
+						$aut .= '; ';
+					}
+					$link = '<a href="' . PATH . '/v/' . $da['d_r2'] . '">';
+					$aut .= $da['n_name2'];
+					$aut_link .= $link . $da['n_name2'] . $linka;
+					break;
+				default:
+					pre($da);
+					break;
+			}
+		}
+		$name = '';
+		if ($aut != '')
+			{
+				$name .= $aut.'. ';
+			}
+		$name .= $title.'.';
+		$this->saveRDF($id, $name, 'name.nm');
+
+		$name = ' ' . $book;
+		$this->saveRDF($id, $name, 'name.abtn');
+		$this->saveRDF($id, $xclass, 'class.mn');
+		if ($pags != '')
+			{
+				$this->saveRDF($id, $xclass, 'page.mn');
+			}
+
+		//exit;
+			return "";
+		}
+
+	function export_book($dt, $id)
+	{
+		$xclass = 'BOOK';
+		$sx = '';
+		$tota = 0;
+
+		$nISBN = new \App\Models\ISBN\Index();
+
+		$url = '<a href="'.PATH.'/v/'.$id.'">';
+		$urla = '</a>';
+		$data = $dt['data'];
+		$year = '';
+		$org = '';
+		$org_link = '';
+		$aut = '';
+		$aut_link = '';
+		$pags = '';
+		$subj = array();
+		$summary = '';
+		$linka = '</a>';
+		$place = '';
+		$editora = '';
+		$ISBN = '';
+		$vol = '';
+
+		foreach ($data as $idx=>$da)
+			{
+				$class = trim($da['c_class']);
+				switch($class)
+					{
+						case 'prefLabel':
+							if ($ISBN != '') {
+								$ISBN .= '; ';
+							}
+							$ISBN .= $nISBN->format(trim($da['n_name']));
+							break;
+						case 'hasTitle':
+							$title = $da['n_name'];
+							break;
+						case 'hasVolume':
+							$vol = $da['n_name2'];
+							break;
+						case 'isPlaceOfPublication':
+							if ($place != '') { $place .= '; '; }
+							$place .= $da['n_name2'];
+							break;
+						case 'isPublisher':
+							if ($editora != '') {
+								$editora .= '; ';
+									}
+							$editora .= $da['n_name2'];
+							break;
+
+						case 'dateOfPublication':
+							$year = $da['n_name2'];
+							break;
+						case 'hasBookChapter':
+							$summary = '';
+							break;
+						case 'hasClassificationCDD':
+							break;
+						case 'hasFileStorage':
+							break;
+						case 'hasISBN':
+							break;
+						case 'hasLicense':
+							break;
+						case 'hasPage':
+							$pags = $da['n_name2'];
+							break;
+						case 'hasSubject';
+							$subj[$da['n_name2'].'@'.$da['n_lang2']] = 1;
+							break;
+						case 'hasOrganizator':
+							$tota++;
+							if ($org != '') { $org .= '; '; }
+							$link = '<a href="'.PATH.'/v/'.$da['d_r2'].'">';
+							$org .= $da['n_name2'];
+							$org_link .= $link . $da['n_name2'] . $linka;
+							break;
+						case 'hasAuthor':
+							$tota++;
+							if ($aut != '') {
+							$aut .= '; ';
+							}
+							$link = '<a href="' . PATH . '/v/' . $da['d_r2'] . '">';
+							$aut .= $da['n_name2'];
+							$aut_link .= $link . $da['n_name2'] . $linka;
+							break;
+						case 'hasSummary':
+							$summary = $da['n_name2'];
+							break;
+						case 'hasCover':
+							$capa  = '';
+							break;
+						default:
+							pre($da);
+							break;
+					}
+			}
+
+		if ($org != '')
+			{
+				$name =  $org . ' (org.). <b>' . trim($title) . '.</b>';
+			}
+		if ($aut != '') {
+			$name =  $org . '. <b>' . trim($title) . '.</b>';
+		}
+
+		$name .= ' '.$place.': ';
+		$name .= $editora.', ';
+		$name .= $year.'.';
+		if (substr($ISBN,0,1) == '9') { $name .= ' ISBN:'.$ISBN.'.'; }
+
+		$this->saveRDF($id, $name, 'name.nm');
+		$this->saveRDF($id, $xclass, 'class.mn');
+		if ($year != '') { $this->saveRDF($id, $year, 'year.nm'); }
+		if ($place != '') { $this->saveRDF($id, $place, 'place.nm'); }
+		if ($editora != '') { $this->saveRDF($id, $editora, 'editora.nm'); }
+		return $sx;
+	}
+
 	function export_issueproceedings($dt, $id)
 	{
 		$name = $dt['concept']['n_name'];
@@ -717,6 +901,13 @@ class RDFExport extends Model
 				$this->export_geral($dt, $id);
 				break;
 
+			case 'brapci:Book':
+				$this->export_book($dt, $id);
+				break;
+			case 'brapci:BookChapter':
+				$this->export_bookChapter($dt, $id);
+				break;
+
 			default:
 				//echo '<br> Exportando ====>' . $name;
 				$this->export_geral($dt, $id);
@@ -725,6 +916,67 @@ class RDFExport extends Model
 		$tela .= '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '">' . $name . '</a>';
 		return $tela;
 	}
+
+	function BookChapher($reg,$ISBN,$id)
+		{
+			$RDF = new \App\Models\Rdf\RDF();
+			$Language = new \App\Models\AI\NLP\Language();
+
+			//ISBN9788572051422_work_p22
+			$json = $reg['n_name'];
+			$chap = (array)json_decode($json);
+			$w=0;
+			foreach($chap as $id=>$line)
+				{
+					$line = (array)$line;
+					$title = '';
+					if (isset($line['title']))
+						{
+							$title = $line['title'];
+							if (strpos($title, '{')) {
+								$title = trim(substr($title, 0, strpos($title, '{')));
+							}
+						}
+
+					$autors = (array)$line['autor'];
+
+					$pgi = 0;
+					$pgf = 0;
+					if (isset($line['pag'])) $pgi = $line['pag'];
+					if (isset($line['pagf'])) $pgi = $line['pagf'];
+
+					/*********************** RDF */
+					if (substr($title,0,1) == '=')
+						{
+
+						} else {
+							$prefTerm = $ISBN;
+							if ($pgi > 0) {
+								$prefTerm .= '_p'.$pgi;
+								$w++;
+							}  else {
+								$w++;
+								$prefTerm .= '_p' . strzero($w,4);
+							}
+
+							$class = 'BookChapter';
+							$idc = $RDF->RDF_concept($prefTerm, $class);
+							$lang = $Language->getTextLanguage($title);
+							echo '<br>==>'.$idc.'-'. $prefTerm;
+							echo '<br>'.$title.' ('.$lang.')';
+
+							$prop = 'hasTitle';
+							$literal = $RDF->literal($title,$lang,$idc,$prop);
+							//$literal = 0;
+							$prop = 'hasBookChapter';
+							$exec = $RDF->propriety($id, $prop, $idc, $literal);
+							echo '==>'.$exec.'<br>';
+
+						}
+				}
+			//pre($chap);
+			return '';
+		}
 
 	function export_imagem($d1, $d2)
 	{

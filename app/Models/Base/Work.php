@@ -84,15 +84,28 @@ class Work extends Model
         $da['pages'] = '';
         $da['editora_local'] = '';
         $da['links'] = '';
-        $da['class'] = lang('brapci.'.$dt['concept']['c_class']);
+        $da['class'] = ('brapci.'.$dt['concept']['c_class']);
         $da['issue_id'] = 0;
+        $da['summary'] = '';
+        $da['book'] = '';
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
             $lang = $line['n_lang'];
             $lang2 = $line['n_lang2'];
             $class = trim($line['c_class']);
+
             switch ($class) {
+                case 'hasBookChapter':
+                    if ($da['summary'] == '')
+                        {
+                        $da['book'] = $RDF->c($line['d_r1']);
+                        $da['summary'] = h('SUMÁRIO',4,'text-center');
+                        }
+                    $link = '<a href="'.PATH.'/v/'.$line['d_r2'].'">';
+                    $linka = '</a>';
+                    $da['summary'] .= $link . $RDF->c($line['d_r2']). $linka.'<br>';
+                    break;
                 case 'isPlaceOfPublication':
                     $da['editora_local'] .= $RDF->c($line['d_r2']).' ';
                     break;
@@ -182,8 +195,6 @@ class Work extends Model
                     $da['links'] .= $url;
                     break;
                 case 'hasRegisterId':
-
-
                     break;
                 default:
                     jslog('Class not found: ' . $class);
@@ -237,7 +248,25 @@ class Work extends Model
                 $sx .= view('Books/Base/Work', $da);
                 break;
             default:
-                $sx .= view('Brapci/Base/Work', $da);
+                switch($da['class'])
+                    {
+                        case 'brapci.BookChapter':
+                            $da['Section'] = array(lang('brapci.BookChapter'));
+                            $sx .= view('Books/Base/WorkChapterBook', $da);
+                            $sx .= $RDF->view_data($dt);
+                            break;
+
+                        case 'brapci.Book':
+                            $da['Section'] = array(lang('brapci.BookChapter'));
+                            $sx .= view('Books/Base/Work', $da);
+                            $sx .= $RDF->view_data($dt);
+                            break;
+
+                        default:
+                        pre($da);
+                        $sx .= view('Brapci/Base/Work', $da);
+                        break;
+                    }
                 break;
         }
         return $sx;

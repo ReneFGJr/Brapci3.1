@@ -101,4 +101,9 @@ return [
         'test' => 'teste',
         'save' => 'gravar',
         'send' => 'enviar',
+        'signin'=>'entrar',
+        'BookChapter' => 'Capítulo de Livro',
+        ''=>'',
+        '' => '',
+        '' => '',
 ];

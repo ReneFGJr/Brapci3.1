@@ -91,7 +91,7 @@ class RdfForm extends Model
 				$sx .= '<h3>Grupo: ' . lang('rdf.' . $gr) . '</h3>';
 				$xgr = $gr;
 			}
-			$link = onclick(PATH . MODULE . COLLECTION. '/rdf/form/edit/' . $line['id_sc'], 800, 500);
+			$link = onclick(PATH . MODULE . COLLECTION . '/rdf/form/edit/' . $line['id_sc'], 800, 500);
 			$linka = '</span>';
 			$act = '';
 			$acta = '';
@@ -180,7 +180,7 @@ class RdfForm extends Model
 					$form_id = $line['id_sc']; /* ID do formulário */
 					/* $class =>  ID da classe */
 
-					$furl = (PATH . MODULE .COLLECTION . '/rdf/form/' . $class . '/' . $line['id_sc'] . '/' . $id);
+					$furl = (PATH . MODULE . COLLECTION . '/rdf/form/' . $class . '/' . $line['id_sc'] . '/' . $id);
 
 					$class = trim($line['c_class']);
 					$link = onclick(PATH . MODULE . '/rdf/data/edit/' . $class . '/' . $line['id_sc'] . '/' . $id, 800, 500, 'btn-primary rounded');
@@ -211,23 +211,39 @@ class RdfForm extends Model
 							$linkc = '';
 							$linkca = '';
 						}
-						$sx .= $linkc . '' . $line['n_name'] . $linkca;
 
-						/********************** Editar caso texto */
-						$elinka = '</a>';
-						if ($line['idcc'] == '') {
-							$onclick = onclick(PATH . MODULE . '/rdf/text/' . $line['d_literal'], $x = 600, $y = 400, $class = "btn btn-outline-warning p-0 text-blue supersmall rounded");
-							$elink = $onclick;
-							$sx .= '&nbsp; ' . $elink . '&nbsp;ed&nbsp;' . $elinka;
-							$sx .= '</span>';
+						switch ($line['c_class']) {
+							case 'hasSummary':
+								$txt = trim($line['n_name']);
+								if (substr($txt,0,2)== '[{')
+									{
+										$RDFExport = new \App\Models\Rdf\RDFExport();
+										$sx .= $RDFExport->BookChapher($line,$dt['n_name'],$id);
+									} else {
+										$sx .= $txt;
+									}
+
+								break;
+							default:
+								$sx .= $linkc . '' . $line['n_name'] . $linkca;
+
 						}
+					}
 
-						/************* Excluir Texto/Conceito Associado */
-						$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
-						$link = $onclick;
-						$sx .= '&nbsp; ' . $link . '&nbsp;X&nbsp;' . $elinka;
+					/********************** Editar caso texto */
+					$elinka = '</a>';
+					if ($line['idcc'] == '') {
+						$onclick = onclick(PATH . MODULE . '/rdf/text/' . $line['d_literal'], $x = 600, $y = 400, $class = "btn btn-outline-warning p-0 text-blue supersmall rounded");
+						$elink = $onclick;
+						$sx .= '&nbsp; ' . $elink . '&nbsp;ed&nbsp;' . $elinka;
 						$sx .= '</span>';
 					}
+
+					/************* Excluir Texto/Conceito Associado */
+					$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
+					$link = $onclick;
+					$sx .= '&nbsp; ' . $link . '&nbsp;X&nbsp;' . $elinka;
+					$sx .= '</span>';
 
 					$sx .= '</td>';
 					$sx .= '</tr>';
@@ -241,15 +257,14 @@ class RdfForm extends Model
 	function form_ed($id, $class)
 	{
 		$act = get("form");
-		if (($id == 0) and ($act == ''))
-			{
-				$_POST['sc_class'] = $class;
-				$_POST['sc_library'] = LIBRARY;
-			}
+		if (($id == 0) and ($act == '')) {
+			$_POST['sc_class'] = $class;
+			$_POST['sc_library'] = LIBRARY;
+		}
 
 		$this->id = $id;
 		$this->pre = 'rdf.';
-		$this->path = PATH . COLLECTION.'/form';
+		$this->path = PATH . COLLECTION . '/form';
 		$this->path_back = 'wclose';
 		$sx = form($this);
 		return $sx;
@@ -289,15 +304,14 @@ class RdfForm extends Model
 				$tot++;
 			}
 		}
-		if ($tot > 0)
-			{
-				$sx = bsmessage('Imported ' . $tot . ' forms', 1);
-			} else {
-				$sx = bsmessage('Nothing to import forms', 1);
-			}
+		if ($tot > 0) {
+			$sx = bsmessage('Imported ' . $tot . ' forms', 1);
+		} else {
+			$sx = bsmessage('Nothing to import forms', 1);
+		}
 		/*************** RETURN */
-		$sx .= '<a href="'.PATH.'/rdf/class/view/'. $id_class. '" class="btn btn-outline-primary">'. lang('rdf.return').'</a>';
-		$sx = bs(bsc($sx,12));
+		$sx .= '<a href="' . PATH . '/rdf/class/view/' . $id_class . '" class="btn btn-outline-primary">' . lang('rdf.return') . '</a>';
+		$sx = bs(bsc($sx, 12));
 		return $sx;
 	}
 
@@ -315,7 +329,7 @@ class RdfForm extends Model
 		return $sx;
 	}
 
-	function edit($form_class, $prop_name='', $form_id='', $register, $di4='', $di5='')
+	function edit($form_class, $prop_name = '', $form_id = '', $register, $di4 = '', $di5 = '')
 	{
 		$Socials = new \App\Models\Socials();
 		$sx = '';
@@ -360,7 +374,7 @@ class RdfForm extends Model
 				$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
 				$sx .= $RDFFormVC->edit($form_class, $prop_name, $form_id, $register, $range);
 		}
-		$sx = bs(bsc($sx,12));
+		$sx = bs(bsc($sx, 12));
 		return $sx;
 	}
 
@@ -453,28 +467,26 @@ class RdfForm extends Model
 
 			/******** HEADERS */
 			$gr = $line['sc_group'];
-			if ($gr != $xgr)
-				{
-					$sx .= bsc($gr,12,'h3');
-					$xgr = $gr;
-				}
+			if ($gr != $xgr) {
+				$sx .= bsc($gr, 12, 'h3');
+				$xgr = $gr;
+			}
 
 			/******* DELETED */
 			$style = "";
-			if ($line['sc_ativo'] == 0)
-				{
-					$style = ' style=" text-decoration: line-through;" ';
-				}
+			if ($line['sc_ativo'] == 0) {
+				$style = ' style=" text-decoration: line-through;" ';
+			}
 			/******************************************* ORDER */
 			$ord = $line['sc_ord'];
-			$ord .= ' ' ;
+			$ord .= ' ';
 
 			/************************************* CLASS */
 			$prop = $RDFPrefix->prefixn($line);
 
 			/********************************* SPACENAME */
 			$spacename = $link;
-			$spacename .= '<b>'.($line['c_class']) . '</b>'. ' (' . $prop . ')';
+			$spacename .= '<b>' . ($line['c_class']) . '</b>' . ' (' . $prop . ')';
 			$spacename .= $linka;
 			/************************************* NAME **/
 
@@ -493,10 +505,10 @@ class RdfForm extends Model
 				$enable = bsicone('eye-closed');
 			}
 
-			$sx .= bsc($ord, 1, 'text-center',$style);
-			$sx .= bsc($spacename, 5,'', $style);
-			$sx .= bsc($range, 5,'', $style);
-			$sx .= bsc($enable,1,'text-center', $style);
+			$sx .= bsc($ord, 1, 'text-center', $style);
+			$sx .= bsc($spacename, 5, '', $style);
+			$sx .= bsc($range, 5, '', $style);
+			$sx .= bsc($enable, 1, 'text-center', $style);
 		}
 
 		/************************************************************************ BOTOES */
@@ -514,7 +526,7 @@ class RdfForm extends Model
 		$btn_check .= lang('rdf.check_form');
 		$btn_check .= '</a>';
 
-		$sr = bs(bsc($btn_new,4).bsc($btn_check,4));
+		$sr = bs(bsc($btn_new, 4) . bsc($btn_check, 4));
 		$sx = $sr . bs($sx, 'container-fluid');
 
 		return ($sx);

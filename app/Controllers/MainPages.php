@@ -172,6 +172,14 @@ class MainPages extends BaseController
 
             switch($class)
                 {
+                    case 'Book':
+                        $Book = new \App\Models\Base\Book();
+                        $sx = $Book->v($id);
+                        break;
+                    case 'BookChapter':
+                        $Book = new \App\Models\Base\Book();
+                        $sx = $Book->v($id);
+                        break;
                     case 'Person':
                         $Authority = new \App\Models\Authority\Index();
                         $sx = $Authority->index('viewidRDF',$id);
