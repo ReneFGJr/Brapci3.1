@@ -33,6 +33,11 @@ class Elasticsearch extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'database':
+                $APIRegister = new \App\Models\ElasticSearch\Register();
+                $sx .= bs(bsc($APIRegister->resume()));
+                break;
+
             case 'register':
                 $APIRegister = new \App\Models\ElasticSearch\Register();
                 $sx .= $APIRegister->register($id,'test');
@@ -77,6 +82,10 @@ class Elasticsearch extends BaseController
     private function  menu()
     {
         $id = 199885;
+        $menu['#Database'] = '';
+        $menu[PATH . '/elasticsearch/database'] = lang('elastic.database');
+
+        $menu['#Tools'] = '';
         $menu[PATH . '/elasticsearch/status'] = lang('elastic.status');
         $menu[PATH . '/elasticsearch/register/'.$id] = lang('elastic.register_test');
         $menu[PATH . '/elasticsearch/search/'] = lang('elastic.search');
