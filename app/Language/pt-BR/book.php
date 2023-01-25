@@ -21,6 +21,13 @@ return [
         'status_8' => '',
         'status_9' => '',
         'status_10' => '',
+        'home'=>'Home',
+        'indexes' => 'Índices',
+        'subjects' => 'Assuntos',
+        'about' => 'Sobre',
+        'contact' => 'Contato',
+        '' => '',
+        '' => '',
 
 
 

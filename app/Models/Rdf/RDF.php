@@ -56,8 +56,9 @@ class RDF extends Model
 		$sx = '';
 		$data['title'] = 'RDF';
 		$cab = '';
+		$data['bg'] = '';
 		$cab .= view('Brapci/Headers/header', $data);
-		$cab .= view('Benancib/Headers/navbar', $data);
+		$cab .= view('Brapci/Headers/navbar', $data);
 
 		$sx = '';
 

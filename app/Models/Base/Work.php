@@ -85,6 +85,7 @@ class Work extends Model
         $da['editora_local'] = '';
         $da['links'] = '';
         $da['class'] = lang('brapci.'.$dt['concept']['c_class']);
+        $da['issue_id'] = 0;
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
