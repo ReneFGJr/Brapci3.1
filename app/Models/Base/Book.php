@@ -40,6 +40,33 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function taxonomy()
+        {
+            $Sections = new \App\Models\Books\Sections();
+
+            $menu = array();
+            $menu[PATH.'/books/sections/'] = 'Sections';
+
+            $sx = '
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">#</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link dropdown-toggle" href="#"
+                                id="btn_category" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        ' . lang('brapci.category') . '
+                        </a>
+                    </li>
+        </nav>';
+        $sx .= $Sections->sections();
+        return $sx;
+;
+        }
+
     function latest_acquisitions()
         {
             $RDF = new \App\Models\Rdf\RDF();

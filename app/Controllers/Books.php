@@ -109,7 +109,10 @@ class Books extends BaseController
             default:
                 $sx .= view('BrapciBooks/Pages/homepage');
                 $Books = new \App\Models\Base\Book();
-                $sx .= $Books->latest_acquisitions();
+                $sa = $Books->taxonomy();
+                $sb = $Books->latest_acquisitions();
+                $sx .= bs(bsc($sa,12));
+                $sx .= $sb;
                 break;
         }
 
