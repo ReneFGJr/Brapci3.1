@@ -240,9 +240,17 @@ class Work extends Model
                 $idi = $Issue->where('is_source_issue',$da['issue_id'])->first();
                 $da['sub_header'] = $Issue->issue($idi['id_is']);
                 $da['issue'] = '';
-                //pre($dt);
+                $Socials = new \App\Models\Socials();
+                $sc = '';
+                if ($Socials->getAccess("#ADM"))
+                    {
+                        $da['edit'] = '<a href="'.PATH.COLLECTION.'/a/'.$dt['concept']['id_cc'].'">'.bsicone('edit').'</a>';
+                        $sc .= $RDF->view_data($dt);
+                    }
+
                 $sx .= view('Brapci/Base/Work', $da);
-                //$sx .= $RDF->view_data($dt);
+                $sx .= $sx;
+
                 break;
             case '/books':
                 $sx .= view('Books/Base/Work', $da);

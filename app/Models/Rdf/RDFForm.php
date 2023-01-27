@@ -225,25 +225,32 @@ class RdfForm extends Model
 
 								break;
 							default:
+								if ((($linkc == '') and (substr($line['n_name'],0,4) == 'http')))
+									{
+										$linkc = '<a href="'.$line['n_name'].'" target="_new">';
+										$linkca = '</a>';
+									}
 								$sx .= $linkc . '' . $line['n_name'] . $linkca;
-
 						}
 					}
 
 					/********************** Editar caso texto */
-					$elinka = '</a>';
-					if ($line['idcc'] == '') {
-						$onclick = onclick(PATH . MODULE . '/rdf/text/' . $line['d_literal'], $x = 600, $y = 400, $class = "btn btn-outline-warning p-0 text-blue supersmall rounded");
-						$elink = $onclick;
-						$sx .= '&nbsp; ' . $elink . '&nbsp;ed&nbsp;' . $elinka;
+					if ($line['prop'] != '')
+					{
+						$elinka = '</a>';
+						if ($line['idcc'] == '') {
+							$onclick = onclick(PATH . MODULE . '/rdf/text/' . $line['d_literal'], $x = 600, $y = 400, $class = "btn btn-outline-warning p-0 text-blue supersmall rounded");
+							$elink = $onclick;
+							$sx .= '&nbsp; ' . $elink . '&nbsp;ed&nbsp;' . $elinka;
+							$sx .= '</span>';
+						}
+
+						/************* Excluir Texto/Conceito Associado */
+						$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
+						$link = $onclick;
+						$sx .= '&nbsp; ' . $link . '&nbsp;X&nbsp;' . $elinka;
 						$sx .= '</span>';
 					}
-
-					/************* Excluir Texto/Conceito Associado */
-					$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
-					$link = $onclick;
-					$sx .= '&nbsp; ' . $link . '&nbsp;X&nbsp;' . $elinka;
-					$sx .= '</span>';
 
 					$sx .= '</td>';
 					$sx .= '</tr>';

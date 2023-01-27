@@ -40,6 +40,75 @@ class Download extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function download_tools($id)
+    {
+        $sx = bsicone('harvesting');
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+
+        $data = $dt['data'];
+
+        foreach($data as $idx=>$line)
+            {
+                $class = $line['c_class'];
+
+                switch($class)
+                    {
+                        case 'hasRegisterId':
+                            $sx .= $this->download_methods($line,$id);
+                    }
+            }
+        echo $sx;
+        pre($dt);
+        return $sx;
+    }
+
+    function download_methods($dt,$id)
+        {
+            $name = $dt['n_name'];
+
+            if (substr($name,0,4) == 'http')
+                {
+                    $url = $name;
+                    echo h($url,5);
+                    $file = $this->ocs_2($url);
+                    if (substr($file,0,4) == 'http')
+                        {
+                            $DownloadPDF = new \App\Models\Bots\DownloadPDF();
+                            $dir = $DownloadPDF->directory($id);
+
+                            echo "Aguarde...";
+
+                            $txtFile = read_link($file);
+                            $filePDF = $DownloadPDF->file_temp_file($id,$txtFile);
+                            $id = $DownloadPDF->create_FileStorage($id, $filePDF);
+
+                            echo metarefresh(0);
+                        }
+                }
+        }
+
+    function ocs_2($url)
+        {
+            if (strpos($url, 'paper/view'))
+                {
+                    $txt = read_link($url);
+                    if ($pos = strpos($txt, 'citation_pdf_url'))
+                        {
+                            $txt = substr($txt,$pos,300);
+                            $st = 'content="';
+                            $txt = substr($txt,strpos($txt,$st)+strlen($st),strlen($txt));
+                            $txt = substr($txt,0,strpos($txt,'"'));
+                            if (substr($txt,0,4) == 'http')
+                                {
+                                    return $txt;
+                                }
+                        }
+                    echo "OK";
+                    exit;
+                }
+        }
+
     function download_pdf($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
@@ -57,21 +126,30 @@ class Download extends Model
                 break;
             case 'Proceeding':
                 $idf = $RDF->extract($dt, 'hasFileStorage');
-                if ($idf[0] > 0) {
-                    $dtf = $RDF->le($idf[0]);
-                    $file = $dtf['concept']['n_name'];
-                }
-                break;
-        }
+                if (count($idf) > 0) {
+                    if ($idf[0] > 0) {
+                        $dtf = $RDF->le($idf[0]);
+                        $file = $dtf['concept']['n_name'];
 
-        if (file_exists($file)) {
-            header('Content-type: application/pdf');
-            readfile($file);
-        } else {
-            echo '<center>';
-            echo h('File not found in this server ('.$class.')', 4);
-            echo $file;
-            echo '</center>';
+                        if (file_exists($file)) {
+                            header('Content-type: application/pdf');
+                            readfile($file);
+                            exit;
+                        }
+                    }
+                }
+
+                echo '<center>';
+                echo h('File not found in this server (' . $class . ')', 4);
+                echo $file;
+                echo '</center>';
+                echo '<hr>';
+
+                $Socials = new \App\Models\Socials();
+                if ($Socials->getAccess("#ADM#CAT#BEN")) {
+                    echo $this->download_tools($id);
+                }
+                exit;
         }
     }
 }

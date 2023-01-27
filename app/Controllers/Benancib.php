@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 
 /* SESSION */
+
 $language = \Config\Services::language();
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie', 'highchart']);
@@ -77,13 +78,33 @@ class Benancib extends BaseController
                 $Socials = new \App\Models\Socials();
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
+            case 'a':
+                $Socials = new \App\Models\Socials();
+                $cat = $Socials->getAccess("#ADM#CAT");
+                if ($cat == true) {
+                    $RDF = new \App\Models\Rdf\RDF();
+
+                    $link_a = PATH . '/rdf/form/editRDF/' . $subact;
+                    $link_b = PATH . '/rdf/view/pdf/' . $subact;;
+
+                    $sa = '<iframe src="' . $link_a . '" style="width: 100%; height:600px;"></iframe>';
+                    $sb = '<iframe src="' . $link_b . '" style="width: 100%; height:600px;"></iframe>';
+
+                    $sa = bsc($sa, 6);
+                    $sb = bsc($sb, 6);
+                    $sx .= bs($sa . $sb);
+                } else {
+                    $sx .= bsmessage('Access not permited');
+                    $sx .= bs(bsc($sx, 12));
+                }
+                break;
             case 'v':
                 $Proceeding = new \App\Models\Base\Proceeding();
                 $sx .= $Proceeding->v($subact);
                 break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();
-                $sx .= $Issues->index($subact,$id);
+                $sx .= $Issues->index($subact, true);
                 break;
             case 'issues':
                 $Issues = new \App\Models\Base\Issues();

@@ -103,7 +103,7 @@ class Issues extends Model
                 break;
             default:
                 $id = get("id");
-                $sx .= bsc($this->issue($id), 12);
+                $sx .= bsc($this->issue($id,true), 12);
                 $sx .= '<hr>';
                 $sx .= bsc($this->issue_section_works($id), 12);
                 break;
@@ -274,7 +274,7 @@ class Issues extends Model
         return $sx;
     }
 
-    function issue($id)
+    function issue($id,$tool=false)
     {
         $dt = $this
             ->join('source_source', 'is_source = id_jnl')
@@ -296,7 +296,10 @@ class Issues extends Model
         }
 
         $sx .= $this->header_issue($dt);
-
+        if ($tool)
+            {
+                $sx .= $this->tools($dt);
+            }
         return $sx;
     }
 
@@ -366,55 +369,64 @@ class Issues extends Model
             $sx = file_get_contents($dir . $file);
             //return $sx;
         } else {
- /************************************ Mount Header */
-        $sx = '';
-        $vol = $dt['is_vol'];
-        $roman = trim($dt['is_vol_roman']);
+            /************************************ Mount Header */
+            $sx = '';
+            $vol = $dt['is_vol'];
+            $roman = trim($dt['is_vol_roman']);
 
-        $dt['roman'] = '';
-        if (strlen($roman) > 0) {
-            $vol .= ' (' . $roman . ')';
-            $dt['roman'] = $roman;
-        }
-        $link = '<a href="' . PATH . COLLECTION . '/source/' . $dt['id_jnl'] . '" target="_new">';
-        $linka = '</a>';
+            $dt['roman'] = '';
+            if (strlen($roman) > 0) {
+                $vol .= ' (' . $roman . ')';
+                $dt['roman'] = $roman;
+            }
+            $link = '<a href="' . PATH . COLLECTION . '/source/' . $dt['id_jnl'] . '" target="_new">';
+            $linka = '</a>';
 
-        $dt['volume'] = $vol;
+            $dt['volume'] = $vol;
 
-        $img1 = 'img/headers/journals/image_' . strzero($dt['is_source'], 6) . '.png';
-        $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
+            $img1 = 'img/headers/journals/image_' . strzero($dt['is_source'], 6) . '.png';
+            $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
 
-        if (!file_exists($img1)) {
-            $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
-        }
-        if (!file_exists($img2)) {
-            $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
-        }
-        $dt['img1'] = $img1;
-        $dt['img2'] = $img2;
+            if (!file_exists($img1)) {
+                $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
+            }
+            if (!file_exists($img2)) {
+                $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+            }
+            $dt['img1'] = $img1;
+            $dt['img2'] = $img2;
 
-        /******************** IMAGES */
-        if (!file_exists($img1)) {
-            $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
-        }
+            /******************** IMAGES */
+            if (!file_exists($img1)) {
+                $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
+            }
 
-        if (!file_exists($img2)) {
-            $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
-        }
+            if (!file_exists($img2)) {
+                $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+            }
 
-        $sx .= view('Brapci/Base/header_proceedings.php', $dt);
+            $sx .= view('Brapci/Base/header_proceedings.php', $dt);
 
-        /**************************** */
-        $sx = bs($sx);
-        $id_issue_rdf = $dt['is_source_issue'];
+            /**************************** */
+            $sx = bs($sx);
+            $id_issue_rdf = $dt['is_source_issue'];
 
-        file_put_contents($dir . $file, $sx);
+            file_put_contents($dir . $file, $sx);
         }
         $tools = '';
 
         /************************************* HARVESTING */
-        $Socials = new \App\Models\Socials();
+        if (get("reindex") != '') {
+            $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            $sx .= $IssuesWorks->check($dt);
+        }
+        return $sx;
+    }
 
+    function tools($dt)
+    {
+        $Socials = new \App\Models\Socials();
+        $sx = '';
         if ($Socials->getAccess("#CAR#ADM#EVE")) {
             $tools = '';
             $OAI = new \App\Models\Oaipmh\Index();
@@ -425,7 +437,7 @@ class Issues extends Model
                     $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is'] . '/getrecords', bsicone('circle-1', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
                 } else {
                     $class = '';
-                    $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Processing '.$tot.' registers"' . $class);
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Processing ' . $tot . ' registers"' . $class);
                 }
 
                 $tools .= '<span class="p-2"></span>';
@@ -441,13 +453,8 @@ class Issues extends Model
                 bsc($OAI->logo(), 2) .
                     bsc($OAI->resume(0, $dt['id_is']), 10)
             );
-            $dt['tools'] = bs(bsc($tools,12)) . $oai_tools;
+            $dt['tools'] = bs(bsc($tools, 12)) . $oai_tools;
             $sx .= view('Brapci/Base/header_proceedings_tools.php', $dt);
-        }
-        if (get("reindex") != '')
-        {
-            $IssuesWorks = new \App\Models\Base\IssuesWorks();
-            $sx .= $IssuesWorks->check($dt);
         }
         return $sx;
     }

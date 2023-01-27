@@ -202,7 +202,7 @@ class DownloadPDF extends Model
             $dir .= substr($nr, 0, 2) . '/';
             $dir .= substr($nr, 2, 2) . '/';
             $dir .= substr($nr, 4, 2) . '/';
-            $dir .= substr($nr, 5, 2) . '/';
+            $dir .= substr($nr, 6, 2) . '/';
         }
         $d = explode('/', $dir);
         $dir = $d[0];

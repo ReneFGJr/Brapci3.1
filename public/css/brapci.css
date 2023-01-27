@@ -1,7 +1,9 @@
+@media screen and (min-width: 1024px) {
 body
   {
-    margin-top: 100px;
+    margin-top: 80px;
   }
+}
 /************************ Form */
 .full
   {

@@ -7,13 +7,15 @@ $style = ' style="border-bottom: 1px solid #000;" ';
 if (!isset($logo)) $logo = '';
 if (!isset($Title)) $Title = array();
 if (!isset($sub_header)) $sub_header = '';
+if (!isset($edit)) $edit = '';
 ?>
 
 <div class="container">
-    <?=$sub_header;?>
+    <?= $sub_header; ?>
     <div class="row" <?= $style; ?>>
         <div class="col-2">
-            <?=$logo;?>
+            <?= $logo; ?>
+            <?= $edit; ?>
         </div>
         <div class="col-6">
             <?= $issue; ?>
