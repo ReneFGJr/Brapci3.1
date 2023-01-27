@@ -546,3 +546,4 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         </div>
     </div>
 </header>
+<div style="width: 100%; height: 40px;"></div>
