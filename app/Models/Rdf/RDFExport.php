@@ -522,6 +522,7 @@ class RDFExport extends Model
 		$DOI = '';
 		$vol = '';
 		$abstract = '';
+		$language = '';
 
 		foreach ($data as $idx=>$da)
 			{
@@ -599,10 +600,12 @@ class RDFExport extends Model
 						case 'hasAbstract':
 							$abstract = $da['n_name2'];
 							break;
+						case 'hasLanguageExpression':
+							$language = $da['n_name2'];
+							break;
 
 						default:
 							echo "OPS export_book [$class]";
-							exit;
 							break;
 					}
 			}
