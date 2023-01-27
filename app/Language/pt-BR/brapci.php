@@ -106,7 +106,7 @@ return [
         'hasBookChapter'=>'Capítulo',
         'Pt' => 'Português',
         'pt-BR' => 'Português',
-        '' => '',
+        'Português' => 'Português',
         '' => '',
         '' => '',
         '' => '',
