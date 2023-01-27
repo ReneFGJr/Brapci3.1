@@ -15,7 +15,7 @@ foreach ($Title as $lang => $value) {
 
         <div class="col-8">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
-            <h1 class="text-center" style="font-size: 1.6em;"><b><?= $titles; ?></b></h1>
+            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid" style="background-color: #eee;">
@@ -63,37 +63,37 @@ foreach ($Title as $lang => $value) {
                                 <br /><?= $DOI; ?>
                             </p>
                         </div>
-                        <?php
+                    <?php
                     }
-                        ?>
-                        </div>
-                </div>
-
-                <div class="summary">
-                    <?= $summary; ?>
+                    ?>
                 </div>
             </div>
 
-            <div class="col-2">PDF
-                <?php
-                /************************************************************ PDF */
-                if (($PDF != '') and (isset($PDF[0]['id']))) {
-                    $url = PATH . '/download/' . $PDF[0]['id'];
-                    $data['pdf'] = $url;
-                    echo view('Brapci/Base/PDF', $data);
-                } else {
-                    /*************************** DOWNLOAD PDF - AUTOBOT */
-                    $DownloadBot = new \App\Models\Bots\DownloadPDF();
-                    echo $DownloadBot->toHarvesting($id_cc);
-                    for ($r = 0; $r < count($URL); $r++) {
-                        $data['URL'] = $URL[$r];
-                        echo view('Brapci/Base/PDFno', $data);
-                    }
-                }
-
-                $WishList = new \App\Models\WishList\Index();
-                echo $WishList->wishlist($id_cc);
-                ?>
+            <div class="summary">
+                <?= $summary; ?>
             </div>
         </div>
+
+        <div class="col-2">PDF
+            <?php
+            /************************************************************ PDF */
+            if (($PDF != '') and (isset($PDF[0]['id']))) {
+                $url = PATH . '/download/' . $PDF[0]['id'];
+                $data['pdf'] = $url;
+                echo view('Brapci/Base/PDF', $data);
+            } else {
+                /*************************** DOWNLOAD PDF - AUTOBOT */
+                $DownloadBot = new \App\Models\Bots\DownloadPDF();
+                echo $DownloadBot->toHarvesting($id_cc);
+                for ($r = 0; $r < count($URL); $r++) {
+                    $data['URL'] = $URL[$r];
+                    echo view('Brapci/Base/PDFno', $data);
+                }
+            }
+
+            $WishList = new \App\Models\WishList\Index();
+            echo $WishList->wishlist($id_cc);
+            ?>
+        </div>
     </div>
+</div>
