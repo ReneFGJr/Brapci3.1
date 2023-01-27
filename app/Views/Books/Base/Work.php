@@ -33,13 +33,13 @@ foreach ($subject as $lang => $value) {
                         <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
                     </div>
 
-                    <div class="col-3">
+                    <div class="col-5">
                         <p><b>Editora</b>
                             <br /><?= $editora_local; ?>: <?=$editora;?>
                         </p>
                     </div>
-                    <div class="col-3">
-                        <p><b>Ano da publicação</b>
+                    <div class="col-1">
+                        <p><b>Ano</b>
                             <br /><?= $year; ?>
                         </p>
                     </div>
