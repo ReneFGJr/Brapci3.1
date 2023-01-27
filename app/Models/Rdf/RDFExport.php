@@ -521,6 +521,7 @@ class RDFExport extends Model
 		$ISBN = '';
 		$DOI = '';
 		$vol = '';
+		$abstract = '';
 
 		foreach ($data as $idx=>$da)
 			{
@@ -595,6 +596,8 @@ class RDFExport extends Model
 						case 'hasCover':
 							$capa  = '';
 							break;
+						case 'hasAbstract':
+							$Abstract = $da['n_name2'];
 						default:
 							echo "OPS export_book [$class]";
 							exit;
