@@ -42,9 +42,21 @@ class Index extends Model
 
     function wishlist($id)
         {
-            //return bsicone('heart-full');
-            $sx = bsicone('heart',32,'red');
-            $sx = '<span title="Adicionar a lista de desejos" onclick="wishlist('.$id.')">'.$sx.'</span>';
+        //return bsicone('heart-full');
+            $sx = bsicone('heart', 32, 'red');
+            if (isset($_SESSION['book_'.$id]))
+                {
+                    $sx = bsicone('heart-full', 32, 'red');
+                    $sx = '<span class="heart" title="Adicionar a lista de desejos" onclick="wishlist(' . $id . ')">' . $sx . '</span>';
+                }
+            $sx = '<div id="heart" style="cursor: pointer;" onclick="heater('.$id.');">'.$sx.'</div>';
+            $sx .= '
+            <script>
+                function heater($id)
+                    {
+                        alert("Clique em "+$id);
+                    }
+            </script>';
             return $sx;
         }
 }

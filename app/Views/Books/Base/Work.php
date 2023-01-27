@@ -9,11 +9,7 @@ foreach ($Title as $lang => $value) {
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-2">
-            <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
-        </div>
-
-        <div class="col-8">
+        <div class="col-10">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
             <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
@@ -79,7 +75,11 @@ foreach ($Title as $lang => $value) {
             </div>
         </div>
 
-        <div class="col-2">PDF
+        <div class="col-2">
+
+            <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
+
+            PDF
             <?php
             /************************************************************ PDF */
             if (($PDF != '') and (isset($PDF[0]['id']))) {
