@@ -76,10 +76,12 @@ class Download extends Model
                         {
                             $DownloadPDF = new \App\Models\Bots\DownloadPDF();
                             $dir = $DownloadPDF->directory($id);
+                            $file = 'work_' . strzero($id, 8) . '.pdf';
 
                             echo "Aguarde...";
 
                             $txtFile = read_link($file);
+                            file_put_contents($file, $txtFile);
                             $filePDF = $DownloadPDF->file_temp_file($id,$txtFile);
                             $id = $DownloadPDF->create_FileStorage($id, $filePDF);
 
