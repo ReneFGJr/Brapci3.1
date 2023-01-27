@@ -92,6 +92,9 @@ class Benancib extends BaseController
 
                     $sa = bsc($sa, 6);
                     $sb = bsc($sb, 6);
+                    $sx .= '<a href="'.PATH.COLLECTION.'/v/'. $subact.
+                            '" class="btn btn-outline-primary">'.
+                            lang('brapci.return').'</a>';
                     $sx .= bs($sa . $sb);
                 } else {
                     $sx .= bsmessage('Access not permited');

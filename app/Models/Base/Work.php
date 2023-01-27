@@ -249,8 +249,6 @@ class Work extends Model
                     }
 
                 $sx .= view('Brapci/Base/Work', $da);
-                $sx .= $sx;
-
                 break;
             case '/books':
                 $sx .= view('Books/Base/Work', $da);
