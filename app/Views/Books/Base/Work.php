@@ -9,7 +9,7 @@ foreach ($Title as $lang => $value) {
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-10">
+        <div class="col-9">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
             <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
@@ -75,7 +75,7 @@ foreach ($Title as $lang => $value) {
             </div>
         </div>
 
-        <div class="col-2">
+        <div class="col-3">
 
             <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
 
