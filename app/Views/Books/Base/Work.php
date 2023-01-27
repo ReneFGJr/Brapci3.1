@@ -6,15 +6,6 @@ foreach ($Title as $lang => $value) {
     }
     $titles .= $value;
 }
-
-$subs = '';
-foreach ($subject as $lang => $value) {
-    if ($subs != '') {
-        $subs .= '.';
-    }
-    $subs .= $value;
-}
-
 ?>
 <div class="container">
     <div class="row">
@@ -35,7 +26,7 @@ foreach ($subject as $lang => $value) {
 
                     <div class="col-5">
                         <p><b>Editora</b>
-                            <br /><?= $editora_local; ?>: <?=$editora;?>
+                            <br /><?= $editora_local; ?>: <?= $editora; ?>
                         </p>
                     </div>
                     <div class="col-1">
@@ -54,15 +45,16 @@ foreach ($subject as $lang => $value) {
                             <br /><?= $pages; ?>
                         </p>
                     </div>
+
+                    <div class="col-9">
+                        <p><b>Palavras-chave</b>
+                            <br /><?= $subject; ?>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <p><?= $idioma; ?></p>
-            <p>Palavras-chave: <?= $subs; ?></p>
-            <p>Data: <?= $year; ?></p>
-            <p>Pages: <?= $pages; ?></p>
-
-            <div>
+            <div class="summary">
                 <?= $summary; ?>
             </div>
         </div>

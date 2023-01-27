@@ -77,7 +77,7 @@ class Work extends Model
         $da['Section'] = array();
         $da['isbn'] = '';
         $da['editora'] = '';
-        $da['subject'] = array();
+        $da['subject'] = '';
         $da['cover'] = '';
         $da['year'] = '';
         $da['idioma'] = '';
@@ -104,7 +104,7 @@ class Work extends Model
                         }
                     $link = '<a href="'.PATH.'/v/'.$line['d_r2'].'">';
                     $linka = '</a>';
-                    $da['summary'] .= $link . $RDF->c($line['d_r2']). $linka.'<br>';
+                    $da['summary'] .= '<p class="summary_ln">'.$link . $RDF->c($line['d_r2']). $linka.'</p>';
                     break;
                 case 'isPlaceOfPublication':
                     if (strlen($da['editora_local']) > 0) {
@@ -178,10 +178,13 @@ class Work extends Model
                     break;
                 case 'hasSubject':
                     $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+
                     if (!isset($da['keywords'][$lang2])) {
                         $da['keywords'][$lang2] = array();
                     }
                     array_push($da['keywords'][$lang2], $name);
+                    if ($da['subject'] != '') { $da['subject'] .= '. '; }
+                    $da['subject'] .= $name;
                     break;
                 case 'prefLabel':
                     break;
