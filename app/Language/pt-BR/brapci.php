@@ -107,7 +107,7 @@ return [
         'Pt' => 'Português',
         'pt-BR' => 'Português',
         'Português' => 'Português',
-        '' => '',
+        'Book' => 'Livro',
         '' => '',
         '' => '',
         '' => '',
