@@ -279,7 +279,7 @@ class Work extends Model
                             break;
 
                         case 'brapci.Book':
-                            $da['Section'] = array(lang('brapci.BookChapter'));
+                            $da['Section'] = array(lang('brapci.Book'));
                             $sx .= view('Books/Base/Work', $da);
                             $sx .= $RDF->view_data($dt);
                             break;

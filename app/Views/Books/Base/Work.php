@@ -14,7 +14,7 @@ foreach ($Title as $lang => $value) {
         </div>
 
         <div class="col-8">
-            <span class="btn btn-primary btn-sm"><?= $class; ?></span>
+            <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
             <h1 class="text-center" style="font-size: 1.6em;"><b><?= $titles; ?></b></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
