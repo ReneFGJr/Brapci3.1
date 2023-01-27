@@ -129,6 +129,13 @@ class Download extends Model
                     $dtf = $RDF->le($idf[0]);
                     $file = $dtf['concept']['n_name'];
                 }
+                if (file_exists($file)) {
+                    header('Content-type: application/pdf');
+                    readfile($file);
+                    exit;
+                } else {
+                    echo "ERRO NO DOWNLOAD";
+                }
                 break;
             case 'Proceeding':
                 $idf = $RDF->extract($dt, 'hasFileStorage');
