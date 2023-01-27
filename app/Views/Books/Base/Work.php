@@ -77,9 +77,6 @@ foreach ($Title as $lang => $value) {
                 </div>
 
             </div>
-
-
-
         </div>
 
         <div class="col-2">PDF

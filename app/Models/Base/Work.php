@@ -129,10 +129,7 @@ class Work extends Model
                     $da['year'] = $RDF->c($line['d_r2']);
                     break;
                 case 'hasISBN':
-                    $isbn = $ISBN->format($RDF->c($line['d_r1']));
-                    if (strpos($da['isbn'], $isbn) === false) {
-                        $da['isbn'] .= $isbn . ' ';
-                    }
+                    $da['isbn'] = $ISBN->format($line['n_name']);
                     break;
                 case 'isPublisher':
                     if (strlen($da['editora']) > 0) {
