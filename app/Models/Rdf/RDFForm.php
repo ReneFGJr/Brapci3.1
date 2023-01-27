@@ -239,14 +239,14 @@ class RdfForm extends Model
 					{
 						$elinka = '</a>';
 						if ($line['idcc'] == '') {
-							$onclick = onclick(PATH . MODULE . '/rdf/text/' . $line['d_literal'], $x = 600, $y = 400, $class = "btn btn-outline-warning p-0 text-blue supersmall rounded");
+							$onclick = onclick(PATH . MODULE . '/rdf/text/' . $line['d_literal'], $x = 800, $y = 500, $class = "btn btn-outline-warning p-0 text-blue supersmall rounded");
 							$elink = $onclick;
 							$sx .= '&nbsp; ' . $elink . '&nbsp;ed&nbsp;' . $elinka;
 							$sx .= '</span>';
 						}
 
 						/************* Excluir Texto/Conceito Associado */
-						$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 600, $y = 300, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
+						$onclick = onclick(PATH . MODULE . '/rdf/data/exclude/' . $line['id_d'], $x = 800, $y = 500, $class = "btn btn-outline-danger p-0 text-red supersmall rounded");
 						$link = $onclick;
 						$sx .= '&nbsp; ' . $link . '&nbsp;X&nbsp;' . $elinka;
 						$sx .= '</span>';

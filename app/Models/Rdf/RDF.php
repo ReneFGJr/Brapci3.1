@@ -129,6 +129,12 @@ class RDF extends Model
 			break;
 
 			/****************************************************************** VALUE */
+			case 'text':
+				$sx = view('Brapci/Headers/header', $data);
+				$RDFFormText = new \App\Models\Rdf\RDFFormText();
+				$sx .= $RDFFormText->form_edit_id($d2);
+				echo $sx;
+				exit;
 			case 'data':
 				$sx = $cab;
 				$RDFForm = new \App\Models\Rdf\RDFForm();

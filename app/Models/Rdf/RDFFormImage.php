@@ -217,7 +217,7 @@ class RdfFormImage extends Model
 			$sx = bs(bsc($sx,12));
 			return $sx;
 		}
-	function form_edit($path,$texto)
+	function form_edit($path,$texto,$lang='pt-BR')
 		{
 			$txt = '';
 			$txt = form_open($path);
