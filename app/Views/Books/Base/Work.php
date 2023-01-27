@@ -74,12 +74,12 @@ foreach ($Title as $lang => $value) {
 
             </div>
         </div>
-
+        <!------------------------------------------------ RIGHT --->
         <div class="col-3">
-
+            <?= h(lang('brapci.cover'), 5); ?>
             <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
 
-            PDF
+            <?= h(lang('brapci.access'), 5,'mt-3'); ?>
             <?php
             /************************************************************ PDF */
             if (($PDF != '') and (isset($PDF[0]['id']))) {

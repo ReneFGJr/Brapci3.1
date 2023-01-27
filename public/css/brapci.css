@@ -333,6 +333,28 @@ a.pgcd_nav-item-active:hover {
     font-size: 0.75em;
   }
 
+/************************ PDF */
+.pdf_book
+  {
+    border: 1px solid #F00;
+    text-align: center;
+    background-color: #fff;
+    color: #F00;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+.pdf_book:hover
+  {
+    border: 1px solid #F00;
+    text-align: center;
+    background-color: #830706;
+    color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+
 /********************** Heart */
 .heart {
     /* Animation */
