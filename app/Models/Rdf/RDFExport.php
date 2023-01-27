@@ -596,7 +596,7 @@ class RDFExport extends Model
 							$capa  = '';
 							break;
 						default:
-							echo "OPS export_book";
+							echo "OPS export_book [$class]";
 							exit;
 							break;
 					}
