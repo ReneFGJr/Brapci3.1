@@ -107,6 +107,8 @@ class Work extends Model
                     $da['summary'] .= $link . $RDF->c($line['d_r2']). $linka.'<br>';
                     break;
                 case 'isPlaceOfPublication':
+                    if (strlen($da['editora_local']) > 0) {
+                        $da['editora_local'].= '; ';}
                     $da['editora_local'] .= $RDF->c($line['d_r2']).' ';
                     break;
                 case 'hasPage':
@@ -132,6 +134,9 @@ class Work extends Model
                     }
                     break;
                 case 'isPublisher':
+                    if (strlen($da['editora']) > 0) {
+                        $da['editora'] .= '; ';
+                    }
                     $da['editora'] .= $RDF->c($line['d_r2']);
                     break;
                 case 'hasIssueProceedingOf':
