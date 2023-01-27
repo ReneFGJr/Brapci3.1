@@ -70,8 +70,8 @@ class Download extends Model
                 {
                     $url = $name;
                     echo h($url,5);
-                    $file = $this->ocs_2($url);
-                    if (substr($file,0,4) == 'http')
+                    $fileURL = $this->ocs_2($url);
+                    if (substr($fileURL,0,4) == 'http')
                         {
                             $DownloadPDF = new \App\Models\Bots\DownloadPDF();
                             $dir = $DownloadPDF->directory($id);
@@ -79,7 +79,7 @@ class Download extends Model
 
                             echo "Aguarde...";
 
-                            $txtFile = read_link($url);
+                            $txtFile = read_link($fileURL);
                             file_put_contents($filePDF, $txtFile);
                             $id = $DownloadPDF->create_FileStorage($id, $filePDF);
 
