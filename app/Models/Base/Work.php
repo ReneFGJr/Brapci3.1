@@ -169,7 +169,7 @@ class Work extends Model
                     break;
                 /************* Authors */
                 case 'hasAuthor':
-                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    $name = '<a lass="summary_a" href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
                     $da['authors'] .= $name.'$';
                     break;
                 case 'hasOrganizator':
