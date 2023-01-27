@@ -24,8 +24,8 @@ foreach ($subject as $lang => $value) {
 
         <div class="col-8">
             <span class="btn btn-primary btn-sm"><?= $class; ?></span>
-            <h1 class="text-center"><?= $titles; ?></h1>
-            <h5 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h5>
+            <h1 class="text-center" style="font-size: 1.6em;"><b><?= $titles; ?></b></h1>
+            <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid" style="background-color: #eee;">
                 <div class="row">
@@ -63,7 +63,7 @@ foreach ($subject as $lang => $value) {
             <p>Pages: <?= $pages; ?></p>
 
             <div>
-                <?=$summary;?>
+                <?= $summary; ?>
             </div>
         </div>
 

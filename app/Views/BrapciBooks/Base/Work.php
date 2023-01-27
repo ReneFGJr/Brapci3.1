@@ -32,7 +32,7 @@
             /******************************** TITULO */
             $H = 1;
             foreach ($Title as $idioma => $titulo) {
-                echo '<h' . $H . '>' . $titulo . '</h' . $H . '>';
+                echo 'xx<h' . $H . '>' . $titulo . '</h' . $H . '>';
                 $H++;
             }
             ?>
