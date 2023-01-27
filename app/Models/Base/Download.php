@@ -77,13 +77,19 @@ class Download extends Model
                             $dir = $DownloadPDF->directory($id);
                             $filePDF = $dir.'work_' . strzero($id, 8) . '.pdf';
 
-                            echo "Aguarde...";
+                            $data = array();
+                            echo view('Brapci/Headers/header',$data);
+                            echo '<center>';
+                            echo '<img src="'.URL.'/img/thema/wait.gif">';
+                            echo '<br>';
+                            echo 'Aguarde...';
+                            echo '</center>';
 
                             $txtFile = read_link($fileURL);
                             file_put_contents($filePDF, $txtFile);
                             $id = $DownloadPDF->create_FileStorage($id, $filePDF);
 
-                            echo metarefresh(0);
+                            echo metarefresh('',0);
                         }
                 }
         }
