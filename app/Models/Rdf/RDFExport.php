@@ -597,7 +597,9 @@ class RDFExport extends Model
 							$capa  = '';
 							break;
 						case 'hasAbstract':
-							$Abstract = $da['n_name2'];
+							$abstract = $da['n_name2'];
+							break;
+
 						default:
 							echo "OPS export_book [$class]";
 							exit;
@@ -630,7 +632,10 @@ class RDFExport extends Model
 		$this->saveRDF($id, $xclass, 'class.mn');
 		if ($year != '') { $this->saveRDF($id, $year, 'year.nm'); }
 		if ($place != '') { $this->saveRDF($id, $place, 'place.nm'); }
-		if ($editora != '') { $this->saveRDF($id, $editora, 'editora.nm'); }
+		if ($abstract != '') { $this->saveRDF($id, $abstract, 'abstract.nm'); }
+		if ($editora != '') {
+			$this->saveRDF($id, $editora, 'editora.nm');
+		}
 		return $sx;
 	}
 
