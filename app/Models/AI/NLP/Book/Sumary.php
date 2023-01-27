@@ -125,6 +125,7 @@ class Sumary extends Model
             if (strtolower(ascii(trim($line))) == 'sumario') {
                 $line = '';
             }
+
             if (strlen(trim($line)) > 0) {
                 $first = trim(substr($line, 0, 10));
                 $last = trim(substr($line, strlen($line) - 5, 5));
@@ -144,7 +145,7 @@ class Sumary extends Model
                 }
 
                 /*********************** Insere o número da pagina inicial */
-                $sonum = sonumero($last);
+                $sonum = sonumero(substr($line,10,strlen($line)));
                 if (round($sonum) > 0) {
                     $line = troca($line, $sonum, '{p.' . $sonum);
                 }
@@ -169,13 +170,14 @@ class Sumary extends Model
             /************************** TITULO */
             if ($pos = strpos($ln, '{')) {
                 $titulo = substr($ln, 0, $pos);
-            }
-
-            /************************** Titulo */
-            if ($pos = strpos($ln, '[')) {
-                $titulo = substr($ln, 0, $pos);
             } else {
-                $titulo = $ln;
+
+                /************************** Titulo */
+                if ($pos = strpos($ln, '[')) {
+                    $titulo = substr($ln, 0, $pos);
+                } else {
+                    $titulo = $ln;
+                }
             }
 
             /************************** AUTORES */

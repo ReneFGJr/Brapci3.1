@@ -103,7 +103,7 @@ class Work extends Model
                         $da['book'] = $RDF->c($line['d_r1']);
                         $da['summary'] = h('SUMÁRIO',4,'text-center');
                         }
-                    $link = '<a href="'.PATH.'/v/'.$line['d_r2'].'" class="summary_a">';
+                    $link = '<a href="'.PATH.COLLECTION.'/v/'.$line['d_r2'].'" class="summary_a">';
                     $linka = '</a>';
                     $da['summary'] .= '<p class="summary_ln">'.$link . $RDF->c($line['d_r2']). $linka.'</p>';
                     break;
