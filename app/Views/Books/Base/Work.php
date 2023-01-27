@@ -35,7 +35,7 @@ foreach ($subject as $lang => $value) {
 
                     <div class="col-3">
                         <p><b>Editora</b>
-                            <br /><?= $editora_local; ?>
+                            <br /><?= $editora_local; ?>: <?=$editora;?>
                         </p>
                     </div>
                     <div class="col-3">

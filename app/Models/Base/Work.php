@@ -113,7 +113,8 @@ class Work extends Model
                     $da['pages'] .= $RDF->c($line['d_r2']). ' ';
                     break;
                 case 'hasLanguageExpression':
-                    $da['idioma'] .= $RDF->c($line['d_r1']);
+                    $LANG = lang('brapci.' . $line['n_name2']);
+                    $da['idioma'] .= $LANG;
                     break;
                 case 'hasClassificationAncib':
                     $da['classification']['Ancib'] = $RDF->c($line['d_r1']);
