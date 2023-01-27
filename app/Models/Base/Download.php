@@ -59,7 +59,6 @@ class Download extends Model
                     }
             }
         echo $sx;
-        pre($dt);
         return $sx;
     }
 
