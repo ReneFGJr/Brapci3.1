@@ -102,13 +102,11 @@ class AuthorityNames extends Model
 					if ($line['cc_use'] > 0) {
 						if ($line['cc_use'] != $id_brapci) {
 							echo "AmBIGUO";
-							pre($da);
 							exit;
 						}
 					} else {
 						if ($line['id_cc'] != $id_brapci) {
 							echo "AmBIGUO 2";
-							pre($da);
 							exit;
 						}
 					}

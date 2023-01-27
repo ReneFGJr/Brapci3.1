@@ -216,7 +216,6 @@ class Export extends Model
                     $json = (array)json_decode($json);
                     $json['type'] = $type;
                     $json['collection'] = substr($class,0,1);
-                    pre($json);
                     $sx .= '<li>' . strzero($idr, 8) . ' ' . $ElasticRegister->data($idr, $json) . ' (' . $dir . ')</li>';
                     */
 

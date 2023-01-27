@@ -88,7 +88,6 @@ class Sumary extends Model
             $sx .= '</i>';
             if (count($line['autor']) > 0) {
                 $sx .= '<br>Autores: ';
-                //pre($line['autor']);
                 $autor = $line['autor'];
                 for ($r = 0; $r < count($autor); $r++) {
                     if ($r > 0) {

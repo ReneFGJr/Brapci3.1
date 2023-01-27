@@ -46,6 +46,7 @@ class APIs extends Model
     function active($prj)
         {
             $dt = $this->findAll();
-            pre($dt);
+            echo "API-Active";
+            exit;
         }
 }

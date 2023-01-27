@@ -62,7 +62,6 @@ class ChatbotMethod extends Model
 
         echo "########## METHOD 0 - TERM PROCESS" . '<br>';
         $terms = $Analyse->chat($q);
-        pre($terms);
 
         echo "########## METHOD 1 - INTRODUCE".'<br>';
 //        $ChatbotMethod_Introduction = new \App\Models\AI\Chatbot\ChatbotMethod_Introduction();

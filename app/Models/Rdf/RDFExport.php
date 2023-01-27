@@ -99,7 +99,6 @@ class RDFExport extends Model
 
 		/* EMPTY */
 		if (!isset($issue[0])) {
-			//pre($dt);
 			return array('NoN', 0);
 		}
 
@@ -471,7 +470,7 @@ class RDFExport extends Model
 					$aut_link .= $link . $da['n_name2'] . $linka;
 					break;
 				default:
-					pre($da);
+					echo "OPS - export_bookChapter";
 					break;
 			}
 		}
@@ -597,7 +596,8 @@ class RDFExport extends Model
 							$capa  = '';
 							break;
 						default:
-							pre($da);
+							echo "OPS export_book";
+							exit;
 							break;
 					}
 			}
