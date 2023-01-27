@@ -240,6 +240,7 @@ class Work extends Model
 
         if (!isset($da['issue_id']))
             {
+                echo "ERRO EXPORT - WORK";
                 pre($dt);
             }
 
@@ -286,8 +287,7 @@ class Work extends Model
                             break;
 
                         default:
-                        pre($da);
-                        $sx .= view('Brapci/Base/Work', $da);
+                            $sx .= view('Brapci/Base/Work', $da);
                         break;
                     }
                 break;
