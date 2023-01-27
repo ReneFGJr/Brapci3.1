@@ -67,11 +67,19 @@ foreach ($Title as $lang => $value) {
                     }
                     ?>
                 </div>
+
+                <div class="col-12 summary">
+                    <?= $summary; ?>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <?= $reference; ?>
+                </div>
+
             </div>
 
-            <div class="summary">
-                <?= $summary; ?>
-            </div>
+
+
         </div>
 
         <div class="col-2">PDF

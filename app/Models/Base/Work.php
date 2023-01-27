@@ -88,6 +88,7 @@ class Work extends Model
         $da['issue_id'] = 0;
         $da['summary'] = '';
         $da['book'] = '';
+        $da['reference'] = $RDF->c($idc);
 
         for ($r = 0; $r < count($dd); $r++) {
             $line = $dd[$r];
