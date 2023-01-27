@@ -168,16 +168,13 @@ class Sumary extends Model
                 $pag = sonumero(trim(substr($ln, $pos + 3, 4)));
             }
             /************************** TITULO */
-            if ($pos = strpos($ln, '{')) {
-                $titulo = substr($ln, 0, $pos);
-            } else {
-
-                /************************** Titulo */
-                if ($pos = strpos($ln, '[')) {
-                    $titulo = substr($ln, 0, $pos);
-                } else {
-                    $titulo = $ln;
-                }
+            $titulo = $ln;
+            if ($pos = strpos($titulo, '{')) {
+                $titulo = substr($titulo, 0, $pos);
+            }
+            /************************** Titulo */
+            if ($pos = strpos($titulo, '[')) {
+                 $titulo = substr($titulo, 0, $pos);
             }
 
             /************************** AUTORES */
