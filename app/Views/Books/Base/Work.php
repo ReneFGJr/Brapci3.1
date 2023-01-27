@@ -51,6 +51,20 @@ foreach ($Title as $lang => $value) {
                             <br /><?= $subject; ?>
                         </p>
                     </div>
+
+                    <?php
+                    ############################### DOI
+                    if (isset($DOI))
+                        {
+                        ?>
+                        <div class="col-12">
+                            <p><b>DOI</b>
+                                <br /><?= $DOI; ?>
+                            </p>
+                        </div>
+                    <?php
+                        }
+                    ?>
                 </div>
             </div>
 

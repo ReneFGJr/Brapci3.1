@@ -102,7 +102,7 @@ class Work extends Model
                         $da['book'] = $RDF->c($line['d_r1']);
                         $da['summary'] = h('SUMÁRIO',4,'text-center');
                         }
-                    $link = '<a href="'.PATH.'/v/'.$line['d_r2'].'">';
+                    $link = '<a href="'.PATH.'/v/'.$line['d_r2'].'" class="summary_a">';
                     $linka = '</a>';
                     $da['summary'] .= '<p class="summary_ln">'.$link . $RDF->c($line['d_r2']). $linka.'</p>';
                     break;
@@ -173,11 +173,11 @@ class Work extends Model
                     $da['authors'] .= $name.'$';
                     break;
                 case 'hasOrganizator':
-                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
                     $da['authors'] .= $name . '$';
                     break;
                 case 'hasSubject':
-                    $name = '<a href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
+                    $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '" class="book_keywords">' . $line['n_name2'] . '</a>';
 
                     if (!isset($da['keywords'][$lang2])) {
                         $da['keywords'][$lang2] = array();
@@ -194,8 +194,15 @@ class Work extends Model
                     break;
                 case 'hasId':
                     break;
-                case 'hasDOI'>
-                    $da['DOI'] = trim($line['n_name']);
+                case 'hasDOI':
+                    $doi = trim($line['n_name2']);
+                    if (substr($doi,0,1) == '1')
+                        {
+                            $doi = "https://doi.org/".$doi;
+                            $doi = '<a class="summary_a" href="'.$doi.'" target="_blank">'.$doi.'</a>';
+                        }
+                    $da['DOI'] = $doi;
+                    break;
                 case 'dateOfAvailability':
                     break;
                 case 'hasUrl':
