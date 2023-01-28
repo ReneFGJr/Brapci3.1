@@ -81,6 +81,9 @@ class Work extends Model
                     if (isset($db['idioma'])) {
                         $da['idiomaChapet'] = $db['idioma'];
                     }
+                    if (isset($db['authors'])) {
+                        $da['authorsChapet'] = $db['authors'];
+                    }
                 break;
 
                 default:

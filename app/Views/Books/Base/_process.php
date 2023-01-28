@@ -5,7 +5,7 @@ $vars = array(
         'cover','isbn', 'editora_local', 'editora',
         'pages', 'subject', 'url',
         'CatAncib', 'CDD', 'CDU',
-        'files', 'summary');
+        'files', 'summary', 'authorsChapet');
 
 foreach ($vars as $v) {
     if (!isset($$v)) {
