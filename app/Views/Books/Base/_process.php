@@ -1,5 +1,12 @@
 <?php
-$vars = array('title', 'authors', 'titleChapet', 'idioma','year', 'cover','isbn', 'editora_local', 'editora','pages', 'subject', 'url', 'CatAncib', 'CDD', 'CDU','files', 'summary');
+$vars = array(
+        'title', 'idiomaChapet','authors',
+        'titleChapet', 'idioma','year',
+        'cover','isbn', 'editora_local', 'editora',
+        'pages', 'subject', 'url',
+        'CatAncib', 'CDD', 'CDU',
+        'files', 'summary');
+
 foreach ($vars as $v) {
     if (!isset($$v)) {
         $$v = '';

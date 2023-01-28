@@ -13,7 +13,7 @@ require("_process.php");
                 <div class="row" style="background-color: #eee;">
                     <div class="col-3">
                         <p><b>Idioma</b>
-                            <br /><?= $idioma; ?>
+                            <br /><?= $idiomaChapet; ?>
                         </p>
                     </div>
 

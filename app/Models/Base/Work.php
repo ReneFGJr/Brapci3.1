@@ -78,7 +78,9 @@ class Work extends Model
                         {
                             $da['titleChapet'] = $db['title'];
                         }
-                    pre($db);
+                    if (isset($db['idioma'])) {
+                        $da['idiomaChapet'] = $db['idioma'];
+                    }
                 break;
 
                 default:
