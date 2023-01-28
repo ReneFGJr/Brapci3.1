@@ -71,9 +71,10 @@ class Cover extends Model
     {
         $RDF = new \App\Models\Rdf\RDF();
         $img = $RDF->c($id);
-        if (!file_exists($img))
+        $img_chk = troca($img,URL,'');
+        if (!file_exists($img_chk))
             {
-                echo $img;
+                echo $img_chk;
                 $img = '/img/thema/image_broke.svg';
             }
         return $img;
