@@ -59,9 +59,55 @@ require("_process.php");
                     ?>
                 </div>
 
-                <!--- PART II - SUMMARY -->
-                <div class="col-12 summary mt-3" style="background-color: #fff;">
-                    <?= $summary; ?>
+                <!--- PART II - CHAPTER -->
+
+                <div class="row mt-3" style="background-color: #eee;">
+                    <div class="col-3">
+                        <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
+                    </div>
+
+                    <div class="col-5">
+                        <p><b>Editora</b>
+                            <br /><?= $editora_local; ?>: <?= $editora; ?>
+                        </p>
+                    </div>
+                    <div class="col-1">
+                        <p><b>Ano</b>
+                            <br /><?= $year; ?>
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Idioma</b>
+                            <br /><?= $idioma; ?>
+                        </p>
+                    </div>
+
+                    <div class="col-3">
+                        <p><b>Páginas</b>
+                            <br /><?= $pages; ?>
+                        </p>
+                    </div>
+
+                    <div class="col-9">
+                        <p><b>Palavras-chave</b>
+                            <br /><?= $subject; ?>
+                        </p>
+                    </div>
+
+                    <?php
+                    ############################### DOI
+                    if (isset($DOI)) {
+                    ?>
+                        <div class="col-3">
+                        </div>
+                        <div class="col-9">
+                            <p><b>DOI</b>
+                                <br /><?= $DOI; ?>
+                            </p>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
 
                 <div class="col-12 mt-3" style="background-color: #fff;">

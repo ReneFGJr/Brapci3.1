@@ -52,7 +52,6 @@ class Work extends Model
     function show($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
-
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $Metadados = new \App\Models\Base\Metadata();
         $Download = new \App\Models\Base\Download();
@@ -64,39 +63,23 @@ class Work extends Model
         $da = array();
         $RDF = new \App\Models\Rdf\RDF();
 
-        $da = $Metadados->metadata($dt);
+        $class = $dt['concept']['c_class'];
+        switch($class)
+            {
+                case 'BookChapter':
+                    $book = $RDF->extract($dt, 'hasBookChapter');
+                    $db = $RDF->le($book[0]);
+                    $da = $Metadados->metadata($db);
+                    $da['class'] = 'brapci.'.$class;
 
-        /*
-        $dd = $dt['data'];
+                    $db = $Metadados->metadata($dt);
+                    pre($db);
+                break;
 
-        $dc = $dt['concept'];
-        $idc = $dc['id_cc'];
-        $class = $dc['c_class'];
-
-        $da['Title'] = array();
-        $da['authors'] = '';
-        $da['keywords'] = array();
-        $da['issue'] = '-na-';
-        $da['PDF'] = array();
-        $da['URL'] = array();
-        $da['id_cc'] = $dt['concept']['id_cc'];
-        $da['Section'] = array();
-        $da['isbn'] = '';
-        $da['editora'] = '';
-        $da['subject'] = '';
-        $da['cover'] = '';
-        $da['year'] = '';
-        $da['idioma'] = '';
-        $da['pages'] = '';
-        $da['editora_local'] = '';
-        $da['links'] = '';
-        $da['class'] = ('brapci.'.$dt['concept']['c_class']);
-        $da['issue_id'] = 0;
-        $da['summary'] = '';
-        $da['book'] = '';
-        $da['reference'] = $RDF->c($idc);
-        */
-
+                default:
+                    $da = $Metadados->metadata($dt);
+                break;
+            }
         $idc = $dt['concept']['id_cc'];
         $da['id_cc'] = $idc;
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
@@ -162,7 +145,6 @@ class Work extends Model
                 break;
 
             case '/books':
-                $class = trim($da['class']);
                 switch ($class)
                     {
                         case 'BookChapter':
