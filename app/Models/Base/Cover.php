@@ -75,7 +75,6 @@ class Cover extends Model
         $img_chk = substr($img_chk,1,strlen($img_chk));
         if (!file_exists($img_chk))
             {
-                echo $img_chk;
                 $img = '/img/thema/image_broke.svg';
             }
         return $img;

@@ -126,7 +126,7 @@ class Work extends Model
                 //pre($dt);
             }
 */
-//pre($da);
+pre($da,false);
         switch (COLLECTION) {
             case '/proceedings':
                 $Issue = new \App\Models\Base\Issues();
