@@ -72,6 +72,7 @@ class Cover extends Model
         $RDF = new \App\Models\Rdf\RDF();
         $img = $RDF->c($id);
         $img_chk = troca($img,URL,'');
+        $img_chk = substr($img_chk,1,strlen($img_chk));
         if (!file_exists($img_chk))
             {
                 echo $img_chk;
