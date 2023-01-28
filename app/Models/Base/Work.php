@@ -118,13 +118,15 @@ class Work extends Model
 
         $da['reference'] = $this->show_reference($idc);
 
+    /*
         if (!isset($da['issue_id']))
             {
                 echo '<br><br><br><br><br>';
                 echo "ERRO EXPORT - WORK - ". COLLECTION.' class:'. $da['class'];
                 //pre($dt);
             }
-
+*/
+//pre($da);
         switch (COLLECTION) {
             case '/proceedings':
                 $Issue = new \App\Models\Base\Issues();

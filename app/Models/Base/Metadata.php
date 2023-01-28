@@ -113,12 +113,15 @@ class Metadata extends Model
                         $value = '<p class="summary_ln">' . $link . $RDF->c($line['d_r2']) . $linka . '</p>';
                         $this->lets('summary', $value);
                         break;
+                    case 'hasClassificationAncib':
+                        $this->lets('CatAncib', $value);
+                        break;
                     case 'hasSectionOf':
                         $this->lets('Section', $value);
                         break;
                     case 'hasFileStorage':
-                        $this->lets('PDF', $value);
-                        $this->lets('PDF_id', $ddv1);
+                        $this->let('PDF', $value);
+                        $this->let('PDF_id', $ddv1);
                         break;
                     case 'hasUrl':
                         $url = trim($line['n_name']);

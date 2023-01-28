@@ -1,5 +1,5 @@
 <?php
-$vars = array('pages', 'subject','url');
+$vars = array('pages', 'subject','url', 'CatAncib','CDD','CDU');
 foreach($vars as $v)
     {
         if (!isset($$v)) { $$v = ''; }
@@ -81,10 +81,13 @@ foreach($vars as $v)
             <?= h(lang('brapci.access'), 5, 'mt-3'); ?>
             <?php
             /************************************************************ PDF */
-            if (($PDF != '') and (isset($PDF[0]['id']))) {
-                $url = PATH . '/download/' . $PDF[0]['id'];
-                $data['pdf'] = $url;
-                echo view('Brapci/Base/PDF', $data);
+            if (isset($PDF_id)) {
+                for ($ro=0;$ro < count($PDF_id);$ro++)
+                {
+                    $url = PATH . '/download/' . $PDF_id[$ro];
+                    $data['pdf'] = $PDF[$ro];
+                    echo view('Brapci/Base/PDF', $data);
+                }
             } else {
                 /*************************** DOWNLOAD PDF - AUTOBOT */
                 $DownloadBot = new \App\Models\Bots\DownloadPDF();
