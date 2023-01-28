@@ -3,12 +3,10 @@
         <table style="width: 100%">
             <tr>
                 <td width="32px">
-                    <img src="<?=URL. '/img/icons/academicons/doi.svg';?>" height="32px">
+                    <img src="<?= URL . '/img/icons/academicons/doi.svg'; ?>" height="32px">
                 </td>
                 <td>
-                    <?= lang('brapci.go_to_homepage'); ?>
-                    <br>
-                    <?= troca($DOI, 'https://doi.org/', ''); ?>
+                    <span style="font-size: 0.7em;"><?= troca($DOI, 'https://doi.org/', ''); ?></span>
                 </td>
             </tr>
         </table>
