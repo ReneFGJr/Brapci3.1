@@ -125,7 +125,7 @@ class Work extends Model
                 $da['summary'] = '<center>'.
                     h(lang('brapci.summary'),4).
                     '</center>'.$da['summary'];
-            })
+            }
 
     /*
         if (!isset($da['issue_id']))
