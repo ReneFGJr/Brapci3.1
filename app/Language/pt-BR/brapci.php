@@ -110,7 +110,7 @@ return [
         'Book' => 'Livro',
         'cover' => 'Capa do livro',
         'access' => 'Disponível:',
-        '' => '',
+        'summary' => 'SUMÁRIO',
         '' => '',
         '' => '',
         '' => '',
