@@ -25,7 +25,7 @@ require("_process.php");
                     <div class="col-8">
                         <?php
                         ############################### DOI
-                        if (isset($DOIChapet)) {
+                        if ((isset($DOIChapet)) and (strlen(trim($DOIChapet)) > 0)) {
                         ?>
                             <p><b>DOI</b>
                                 <br /><?= $DOIChapet; ?>
