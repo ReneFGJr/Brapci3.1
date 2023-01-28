@@ -1,17 +1,15 @@
 <?php
-$titles = '';
-foreach ($Title as $lang => $value) {
-    if ($titles != '') {
-        $titles .= '<br>';
+$vars = array('pages', 'subject','url');
+foreach($vars as $v)
+    {
+        if (!isset($$v)) { $$v = ''; }
     }
-    $titles .= $value;
-}
 ?>
 <div class="container">
     <div class="row">
         <div class="col-9">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
-            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
+            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $title; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid">
@@ -91,6 +89,7 @@ foreach ($Title as $lang => $value) {
                 /*************************** DOWNLOAD PDF - AUTOBOT */
                 $DownloadBot = new \App\Models\Bots\DownloadPDF();
                 echo $DownloadBot->toHarvesting($id_cc);
+                $URL = explode(';',$url);
                 for ($r = 0; $r < count($URL); $r++) {
                     $data['URL'] = $URL[$r];
                     echo view('Brapci/Base/PDFno', $data);
@@ -104,7 +103,6 @@ foreach ($Title as $lang => $value) {
             if ($Socials->getAccess("#ADM#BOK#CAT")) {
                 echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
             }
-
             ?>
         </div>
     </div>

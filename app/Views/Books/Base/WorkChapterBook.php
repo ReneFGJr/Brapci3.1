@@ -1,108 +1,86 @@
 <?php
-if (!isset($MidiasSociais)) {
-    $MidiasSociais = '';
+$titles = '';
+foreach ($Title as $lang => $value) {
+    if ($titles != '') {
+        $titles .= '<br>';
+    }
+    $titles .= $value;
 }
-$style = ' style="border-bottom: 1px solid #000;" ';
-
-if (!isset($logo)) $logo = '';
-if (!isset($Title)) $Title = array();
-if (!isset($sub_header)) $sub_header = '';
 ?>
-
-<div class="container">
-    <?=$sub_header;?>
-    <div class="row" <?= $style; ?>>
-        <div class="col-2">
-            <?=$logo;?>
-        </div>
-        <div class="col-6">
-            <?= $book; ?>
-        </div>
-
-        <div class="col-4 mb-4 text-end p-2">
-            <!--- LEGEND ------------------------------------------->
-            <?php
-            $sect = '';
-            for ($r = 0; $r < count($Section); $r++) {
-                if (strlen($sect) > 0) {
-                    $sect .= ' - ';
-                }
-                $sect .= '<span class="btn btn-primary">' . $Section[$r] . '</span>';
-            }
-            ?>
-            <?= $sect; ?>
-        </div>
-
-    </div>
-</div>
-
-
-<!--TITLE -->
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            <?php
-            /******************************** TITULO */
-            $H = 2;
-            foreach ($Title as $idioma => $titulo) {
-                echo '<h' . $H . ' class="text-center p-3">' . $titulo . '</h' . $H . '>';
-                $H++;
-            }
-            ?>
-        </div>
-    </div>
-</div>
+        <div class="col-9">
+            <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
+            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
+            <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
-<!--CONTENT -->
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <!-- AUTHORS -->
-            <div class="text-end" id="authors">
-                <?php
-                $authors = troca($authors, '$', '; ');
-                $authors = substr($authors, 0, strlen($authors) - 2) . '.';
-                echo $authors;
-                ?>
-            </div>
-        </div>
-    </div>
+            <div class="container-fluid">
+                <div class="row" style="background-color: #eee;">
+                    <div class="col-3">
+                        <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
+                    </div>
 
-    <div class="row">
-        <div class="col-10">
-            <!-- ABSTRACT -->
-            <p>
-                <?php
-                /******************************** ABSTRACT */
-                if (isset($Abstract)) {
-                    foreach ($Abstract as $idioma => $abstract) {
-                        echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
-                        echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
+                    <div class="col-5">
+                        <p><b>Editora</b>
+                            <br /><?= $editora_local; ?>: <?= $editora; ?>
+                        </p>
+                    </div>
+                    <div class="col-1">
+                        <p><b>Ano</b>
+                            <br /><?= $year; ?>
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Idioma</b>
+                            <br /><?= $idioma; ?>
+                        </p>
+                    </div>
 
-                        if (isset($keywords[$idioma])) {
-                            echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                            $keys = '';
-                            foreach ($keywords[$idioma] as $id => $keyword) {
-                                $keys .= trim($keyword) . '. ';
-                            }
-                            echo $keys;
-                            echo '<br><br>';
-                        }
+                    <div class="col-3">
+                        <p><b>Páginas</b>
+                            <br /><?= $pages; ?>
+                        </p>
+                    </div>
+
+                    <div class="col-9">
+                        <p><b>Palavras-chave</b>
+                            <br /><?= $subject; ?>
+                        </p>
+                    </div>
+
+                    <?php
+                    ############################### DOI
+                    if (isset($DOI)) {
+                    ?>
+                        <div class="col-3">
+                        </div>
+                        <div class="col-9">
+                            <p><b>DOI</b>
+                                <br /><?= $DOI; ?>
+                            </p>
+                        </div>
+                    <?php
                     }
-                }
-                ?>
-            </p>
+                    ?>
+                </div>
 
-            <!-- COMPARTILHE -->
-            <div class="mt-5 mb-5">
-                <?php
-                echo $MidiasSociais;
-                ?>
+                <!--- PART II - SUMMARY -->
+                <div class="col-12 summary mt-3" style="background-color: #fff;">
+                    <?= $summary; ?>
+                </div>
+
+                <div class="col-12 mt-3" style="background-color: #fff;">
+                    <?= $reference; ?>
+                </div>
+
             </div>
         </div>
+        <!------------------------------------------------ RIGHT --->
+        <div class="col-3">
+            <?= h(lang('brapci.cover'), 5); ?>
+            <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
 
-        <!-- PDF -->
-        <div class="col-2">
+            <?= h(lang('brapci.access'), 5, 'mt-3'); ?>
             <?php
             /************************************************************ PDF */
             if (($PDF != '') and (isset($PDF[0]['id']))) {
@@ -118,16 +96,16 @@ if (!isset($sub_header)) $sub_header = '';
                     echo view('Brapci/Base/PDFno', $data);
                 }
             }
+
+            $WishList = new \App\Models\WishList\Index();
+            echo $WishList->wishlist($id_cc);
+
+            $Socials = new \App\Models\Socials();
+            if ($Socials->getAccess("#ADM#BOK#CAT")) {
+                echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
+            }
+
             ?>
-            <div class="p-0" id="bug"><?= $bugs; ?></div>
-
-            <div class="p-0" id="links" style="display: none;"><?= $links; ?></div>
-
-            <div class="p-0" id="nlp"><?= $nlp; ?></div>
-
-            <div class="p-0" id="views"><?= $views; ?></div>
-
-            <div class="p-0" id="vited"><?= $cited; ?></div>
         </div>
     </div>
 </div>

@@ -52,8 +52,9 @@ class Work extends Model
     function show($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $ISBN = new \App\Models\ISBN\Index();
+
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
+        $Metadados = new \App\Models\Base\Metadata();
         $sx = '';
         if (!is_array($dt)) {
             $dt = round($dt);
@@ -62,12 +63,16 @@ class Work extends Model
         $da = array();
         $RDF = new \App\Models\Rdf\RDF();
 
+        $da = $Metadados->metadata($dt);
+
+        /*
         $dd = $dt['data'];
 
         $dc = $dt['concept'];
         $idc = $dc['id_cc'];
         $class = $dc['c_class'];
 
+        $da['Title'] = array();
         $da['authors'] = '';
         $da['keywords'] = array();
         $da['issue'] = '-na-';
@@ -89,134 +94,10 @@ class Work extends Model
         $da['summary'] = '';
         $da['book'] = '';
         $da['reference'] = $RDF->c($idc);
+        */
 
-        for ($r = 0; $r < count($dd); $r++) {
-            $line = $dd[$r];
-            $lang = $line['n_lang'];
-            $lang2 = $line['n_lang2'];
-            $class = trim($line['c_class']);
-
-            switch ($class) {
-                case 'hasBookChapter':
-                    if ($da['summary'] == '')
-                        {
-                        $da['book'] = $RDF->c($line['d_r1']);
-                        $da['summary'] = h('SUMÁRIO',4,'text-center');
-                        }
-                    $link = '<a href="'.PATH.COLLECTION.'/v/'.$line['d_r2'].'" class="summary_a">';
-                    $linka = '</a>';
-                    $da['summary'] .= '<p class="summary_ln">'.$link . $RDF->c($line['d_r2']). $linka.'</p>';
-                    break;
-                case 'isPlaceOfPublication':
-                    if (strlen($da['editora_local']) > 0) {
-                        $da['editora_local'].= '; ';}
-                    $da['editora_local'] .= $RDF->c($line['d_r2']).' ';
-                    break;
-                case 'hasPage':
-                    $da['pages'] .= $RDF->c($line['d_r2']). ' ';
-                    break;
-                case 'hasLanguageExpression':
-                    $LANG = lang('brapci.' . $line['n_name2']);
-                    $da['idioma'] .= $LANG;
-                    break;
-                case 'hasClassificationAncib':
-                    $da['classification']['Ancib'] = $RDF->c($line['d_r1']);
-                    break;
-                case 'hasClassificationCDD':
-                    $da['classification']['CDD'] = $RDF->c($line['d_r1']);
-                    break;
-                case 'dateOfPublication':
-                    $da['year'] = $RDF->c($line['d_r2']);
-                    break;
-                case 'hasISBN':
-                    $da['isbn'] = $ISBN->format($line['n_name']);
-                    break;
-                case 'isPublisher':
-                    if (strlen($da['editora']) > 0) {
-                        $da['editora'] .= '; ';
-                    }
-                    $da['editora'] .= $RDF->c($line['d_r2']);
-                    break;
-                case 'hasIssueProceedingOf':
-                    $da['issue'] = $RDF->c($line['d_r1']);
-                    $da['issue_id'] = $line['d_r1'];
-                    break;
-                case 'hasIssueOf':
-                    $da['issue'] = $RDF->c($line['d_r1']);
-                    $da['issue_id'] = $line['d_r1'];
-                    break;
-                case 'hasSectionOf':
-                    if (!isset($da['Section'])) {
-                        $da['Section']  = array();
-                    }
-                    array_push($da['Section'], $line['n_name2']);
-                    break;
-                case 'hasFileStorage':
-                    $PDF['file'] = $line['n_name2'];
-                    $PDF['id'] = $line['d_r1'];
-                    array_push($da['PDF'], $PDF);
-                    break;
-                case 'hasCover':
-                    $da['cover'] = $RDF->c($line['d_r2']);
-                    break;
-                case 'hasTitle':
-                    $da['Title'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';
-                    break;
-                case 'hasAbstract':
-                    $da['Abstract'][$lang] = '<p class="abstract">' . $line['n_name'] . '</p>';
-                    break;
-                /************* Authors */
-                case 'hasAuthor':
-                    $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
-                    $da['authors'] .= $name.'$';
-                    break;
-                case 'hasOrganizator':
-                    $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '">' . $line['n_name2'] . '</a>';
-                    $da['authors'] .= $name . '$';
-                    break;
-                case 'hasSubject':
-                    $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $line['d_r2'] . '" class="book_keywords">' . $line['n_name2'] . '</a>';
-
-                    if (!isset($da['keywords'][$lang2])) {
-                        $da['keywords'][$lang2] = array();
-                    }
-                    array_push($da['keywords'][$lang2], $name);
-                    if ($da['subject'] != '') { $da['subject'] .= '. '; }
-                    $da['subject'] .= $name;
-                    break;
-                case 'prefLabel':
-                    break;
-                case 'isPubishIn':
-                    break;
-                case 'hasSource':
-                    break;
-                case 'hasId':
-                    break;
-                case 'hasDOI':
-                    $doi = trim($line['n_name2']);
-                    if (substr($doi,0,1) == '1')
-                        {
-                            $doi = "https://doi.org/".$doi;
-                            $doi = '<a class="summary_a" href="'.$doi.'" target="_blank">'.$doi.'</a>';
-                        }
-                    $da['DOI'] = $doi;
-                    break;
-                case 'dateOfAvailability':
-                    break;
-                case 'hasUrl':
-                    $url = trim($line['n_name']);
-                    $url = '<a href="' . $url . '" target="_new" class="p-1">' . bsicone('url') . '</a>';
-                    $da['links'] .= $url;
-                    break;
-                case 'hasRegisterId':
-                    break;
-                default:
-                    jslog('Class not found: ' . $class);
-                    //$sx .= bsmessage('Class not found - ' . $class, 3);
-                    break;
-            }
-        }
-
+        $idc = $dt['concept']['id_cc'];
+        $da['id_cc'] = $idc;
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
 
         /************************************************************* BUGS */
@@ -235,10 +116,13 @@ class Work extends Model
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
 
+        $da['reference'] = $this->show_reference($idc);
+
         if (!isset($da['issue_id']))
             {
-                echo "ERRO EXPORT - WORK";
-                pre($dt);
+                echo '<br><br><br><br><br>';
+                echo "ERRO EXPORT - WORK - ". COLLECTION.' class:'. $da['class'];
+                //pre($dt);
             }
 
         switch (COLLECTION) {
@@ -265,8 +149,23 @@ class Work extends Model
 
                 $sx .= view('Brapci/Base/Work', $da);
                 break;
+
             case '/books':
-                $sx .= view('Books/Base/Work', $da);
+                $class = trim($da['class']);
+                switch ($class)
+                    {
+                        case 'BookChapter':
+                            $sx .= view('Books/Base/WorkChapterBook', $da);
+                            break;
+
+                        case 'Book':
+                            $sx .= view('Books/Base/Work', $da);
+                            break;
+
+                        default:
+                            echo "OPS BOOK CLASS NOT FOUND [".$da['class'].']';
+                            break;
+                    }
                 break;
             default:
                 switch($da['class'])

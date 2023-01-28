@@ -177,12 +177,13 @@ class Sumary extends Model
                  $titulo = substr($titulo, 0, $pos);
             }
             $titulo1 = mb_strtolower($titulo);
-            $titulo = trim(mb_substr($titulo,0,1).mb_substr($titulo1,1,strlen($titulo1)));
-            echo '<br>===>'. mb_substr($titulo, strlen($titulo) - 4,4);
-            #while (substr($titulo,strlen($titulo)-1) == '.')
-            #    {
-            #        $titulo = mb_substr($titulo,0,strlen($titulo)-1);
-            #    }
+            $titulo = (mb_substr($titulo,0,1).mb_substr($titulo1,1,strlen($titulo1)));
+            $titulo = trim($titulo);
+
+            if (substr($titulo,strlen($titulo)-1,1) == '.')
+                {
+                    $titulo = substr($titulo,0,strlen($titulo)-1);
+                }
 
             /************************** AUTORES */
             if ($pos = strpos($ln, '[')) {
