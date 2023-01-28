@@ -1,17 +1,12 @@
 <?php
-$titles = '';
-foreach ($Title as $lang => $value) {
-    if ($titles != '') {
-        $titles .= '<br>';
-    }
-    $titles .= $value;
-}
+require("_process.php");
 ?>
+<link rel="stylesheet" href="<?= URL . '/css/academicons.css'; ?>">
 <div class="container">
     <div class="row">
         <div class="col-9">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
-            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
+            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $title; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid">
@@ -82,21 +77,7 @@ foreach ($Title as $lang => $value) {
 
             <?= h(lang('brapci.access'), 5, 'mt-3'); ?>
             <?php
-            /************************************************************ PDF */
-            if (($PDF != '') and (isset($PDF[0]['id']))) {
-                $url = PATH . '/download/' . $PDF[0]['id'];
-                $data['pdf'] = $url;
-                echo view('Brapci/Base/PDF', $data);
-            } else {
-                /*************************** DOWNLOAD PDF - AUTOBOT */
-                $DownloadBot = new \App\Models\Bots\DownloadPDF();
-                echo $DownloadBot->toHarvesting($id_cc);
-                for ($r = 0; $r < count($URL); $r++) {
-                    $data['URL'] = $URL[$r];
-                    echo view('Brapci/Base/PDFno', $data);
-                }
-            }
-
+            echo $files;
             $WishList = new \App\Models\WishList\Index();
             echo $WishList->wishlist($id_cc);
 
@@ -104,7 +85,6 @@ foreach ($Title as $lang => $value) {
             if ($Socials->getAccess("#ADM#BOK#CAT")) {
                 echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
             }
-
             ?>
         </div>
     </div>
