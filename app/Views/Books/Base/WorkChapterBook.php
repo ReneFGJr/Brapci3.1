@@ -28,19 +28,19 @@ require("_process.php");
                         if (isset($DOI)) {
                         ?>
 
-                            <p><b>DOI</b>
-                                <br /><?= $DOI; ?>
-                            </p>
+                        <p><b>DOI</b>
+                            <br /><?= $DOI; ?>
+                        </p>
                     </div>
-                <?php
+                    <?php
                         }
                 ?>
 
-                <div class="col-12">
-                    <p><b>Palavras-chave</b>
-                        <br /><?= $subject; ?>
-                    </p>
-                </div>
+                    <div class="col-12">
+                        <p><b>Palavras-chave</b>
+                            <br /><?= $subject; ?>
+                        </p>
+                    </div>
 
 
                 </div>
@@ -49,7 +49,8 @@ require("_process.php");
 
                 <div class="row mt-3" style="background-color: #eee;">
                     <div class="col-12">
-                        <p><b><?= lang('brapci.title'); ?></b><br /><?= $title; ?></b></p>
+                        <?= lang('brapci.book'); ?>
+                        <h5><?= $title; ?></h5>
                         <i><?= troca($authors, '$', '; '); ?></i>
                     </div>
                     <div class="col-3">
@@ -82,11 +83,11 @@ require("_process.php");
                     ############################### DOI
                     if (isset($DOI)) {
                     ?>
-                        <div class="col-9">
-                            <p><b>DOI</b>
-                                <br /><?= $DOI; ?>
-                            </p>
-                        </div>
+                    <div class="col-9">
+                        <p><b>DOI</b>
+                            <br /><?= $DOI; ?>
+                        </p>
+                    </div>
                     <?php
                     }
                     ?>
