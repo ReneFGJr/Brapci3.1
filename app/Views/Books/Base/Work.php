@@ -85,7 +85,7 @@ foreach($vars as $v)
                 for ($ro=0;$ro < count($PDF_id);$ro++)
                 {
                     $url = PATH . '/download/' . $PDF_id[$ro];
-                    $data['pdf'] = $PDF[$ro];
+                    $data['pdf'] = $url;
                     echo view('Brapci/Base/PDF', $data);
                 }
             } else {
