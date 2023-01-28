@@ -64,14 +64,12 @@ foreach ($Title as $lang => $value) {
                     ?>
                 </div>
 
-            </div>
-            <!--- PART II - SUMMARY -->
-            <div class="row">
-                <div class="col-12 summary">
+                <!--- PART II - SUMMARY -->
+                <div class="col-12 summary" style="background-color: #fff;">
                     <?= $summary; ?>
                 </div>
 
-                <div class="col-12 mt-3">
+                <div class="col-12 mt-3" style="background-color: #fff;">
                     <?= $reference; ?>
                 </div>
 
