@@ -65,7 +65,7 @@ foreach ($Title as $lang => $value) {
                 </div>
 
                 <!--- PART II - SUMMARY -->
-                <div class="col-12 summary" style="background-color: #fff;">
+                <div class="col-12 summary mt-3" style="background-color: #fff;">
                     <?= $summary; ?>
                 </div>
 
