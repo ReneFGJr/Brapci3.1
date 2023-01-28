@@ -35,7 +35,6 @@ require("_process.php");
                 <?php
                         }
                 ?>
-                </div>
 
                 <div class="col-12">
                     <p><b>Palavras-chave</b>
@@ -44,85 +43,77 @@ require("_process.php");
                 </div>
 
 
-            </div>
-
-            <!--- PART II - CHAPTER -->
-
-            <div class="row mt-3" style="background-color: #eee;">
-                <div class="col-12">
-                    <p><b><?= lang('brapci.title'); ?></b><br /><?= $title; ?></b></p>
-                    titleChapet
-                </div>
-                <div class="col-3">
-                    <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
                 </div>
 
-                <div class="col-5">
-                    <p><b>Editora</b>
-                        <br /><?= $editora_local; ?>: <?= $editora; ?>
-                    </p>
-                </div>
-                <div class="col-1">
-                    <p><b>Ano</b>
-                        <br /><?= $year; ?>
-                    </p>
-                </div>
-                <div class="col-3">
-                    <p><b>Idioma</b>
-                        <br /><?= $idioma; ?>
-                    </p>
-                </div>
+                <!--- PART II - CHAPTER -->
 
-                <div class="col-3">
-                    <p><b>Páginas</b>
-                        <br /><?= $pages; ?>
-                    </p>
-                </div>
-
-                <div class="col-9">
-                    <p><b>Palavras-chave</b>
-                        <br /><?= $subject; ?>
-                    </p>
-                </div>
-
-                <?php
-                ############################### DOI
-                if (isset($DOI)) {
-                ?>
-                    <div class="col-3">
+                <div class="row mt-3" style="background-color: #eee;">
+                    <div class="col-12">
+                        <p><b><?= lang('brapci.title'); ?></b><br /><?= $title; ?></b></p>
+                        titleChapet
                     </div>
-                    <div class="col-9">
-                        <p><b>DOI</b>
-                            <br /><?= $DOI; ?>
+                    <div class="col-3">
+                        <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
+                    </div>
+
+                    <div class="col-5">
+                        <p><b>Editora</b>
+                            <br /><?= $editora_local; ?>: <?= $editora; ?>
                         </p>
                     </div>
-                <?php
-                }
-                ?>
-            </div>
+                    <div class="col-1">
+                        <p><b>Ano</b>
+                            <br /><?= $year; ?>
+                        </p>
+                    </div>
+                    <div class="col-3">
+                        <p><b>Idioma</b>
+                            <br /><?= $idioma; ?>
+                        </p>
+                    </div>
 
-            <div class="col-12 mt-3" style="background-color: #fff;">
-                <?= $reference; ?>
-            </div>
+                    <div class="col-3">
+                        <p><b>Páginas</b>
+                            <br /><?= $pages; ?>
+                        </p>
+                    </div>
 
+                    <?php
+                    ############################### DOI
+                    if (isset($DOI)) {
+                    ?>
+                        <div class="col-9">
+                            <p><b>DOI</b>
+                                <br /><?= $DOI; ?>
+                            </p>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </div>
+
+                <div class="col-12 mt-3" style="background-color: #fff;">
+                    <?= $reference; ?>
+                </div>
+
+            </div>
+        </div>
+        <!------------------------------------------------ RIGHT --->
+        <div class="col-3">
+            <?= h(lang('brapci.cover'), 5); ?>
+            <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
+
+            <?= h(lang('brapci.access'), 5, 'mt-3'); ?>
+            <?php
+            echo $files;
+            $WishList = new \App\Models\WishList\Index();
+            echo $WishList->wishlist($id_cc);
+
+            $Socials = new \App\Models\Socials();
+            if ($Socials->getAccess("#ADM#BOK#CAT")) {
+                echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
+            }
+            ?>
         </div>
     </div>
-    <!------------------------------------------------ RIGHT --->
-    <div class="col-3">
-        <?= h(lang('brapci.cover'), 5); ?>
-        <img src="<?= $cover; ?>" class="img-fluid shadow border border-secondary">
-
-        <?= h(lang('brapci.access'), 5, 'mt-3'); ?>
-        <?php
-        echo $files;
-        $WishList = new \App\Models\WishList\Index();
-        echo $WishList->wishlist($id_cc);
-
-        $Socials = new \App\Models\Socials();
-        if ($Socials->getAccess("#ADM#BOK#CAT")) {
-            echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
-        }
-        ?>
-    </div>
-</div>
 </div>
