@@ -73,6 +73,7 @@ class Cover extends Model
         $img = $RDF->c($id);
         if (!file_exists($img))
             {
+                echo $img;
                 $img = '/img/thema/image_broke.svg';
             }
         return $img;
