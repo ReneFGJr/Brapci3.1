@@ -49,7 +49,7 @@ require("_process.php");
 
                 <div class="row mt-3" style="background-color: #eee;">
                     <div class="col-12">
-                        <?= lang('brapci.book'); ?>
+                        <?= lang('brapci.Book'); ?>
                         <h5><?= $title; ?></h5>
                         <i><?= troca($authors, '$', '; '); ?></i>
                     </div>
