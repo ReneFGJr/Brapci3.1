@@ -14,8 +14,8 @@ foreach ($Title as $lang => $value) {
             <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titles; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
-            <div class="container-fluid" style="background-color: #eee;">
-                <div class="row">
+            <div class="container-fluid">
+                <div class="row" style="background-color: #eee;">
                     <div class="col-3">
                         <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
                     </div>
@@ -65,9 +65,7 @@ foreach ($Title as $lang => $value) {
                 </div>
 
             </div>
-        </div>
-
-        <div class="container-fluid mt-2">
+            <!--- PART II - SUMMARY -->
             <div class="row">
                 <div class="col-12 summary">
                     <?= $summary; ?>
