@@ -55,6 +55,7 @@ class Work extends Model
 
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $Metadados = new \App\Models\Base\Metadata();
+        $Download = new \App\Models\Base\Download();
         $sx = '';
         if (!is_array($dt)) {
             $dt = round($dt);
@@ -117,6 +118,8 @@ class Work extends Model
         $da['cited'] = $Cited->citation_total($idc);
 
         $da['reference'] = $this->show_reference($idc);
+
+        $da['files'] = $Download->show_resources($da);
 
     /*
         if (!isset($da['issue_id']))

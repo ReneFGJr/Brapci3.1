@@ -40,6 +40,39 @@ class Download extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function show_resources($dt)
+        {
+        $ok = 0;
+        $sx = '';
+        /************************************************************ PDF */
+        if (isset($dt['PDF_id'])) {
+            $PDF_id = $dt['PDF_id'];
+            for ($ro = 0; $ro < count($PDF_id); $ro++) {
+                $url = PATH . '/download/' . $PDF_id[$ro];
+                $data['pdf'] = $url;
+                $sx .= view('Brapci/Base/PDF', $data);
+            }
+            $ok = 1;
+        }
+        /************************************************************ PDF */
+        if (isset($dt['DOI'])) {
+            $sx .= view('Brapci/Base/DOI', $dt);
+            $ok = 1;
+        }
+        if (1==2)
+        {
+            /*************************** DOWNLOAD PDF - AUTOBOT */
+            $DownloadBot = new \App\Models\Bots\DownloadPDF();
+            $sx .= $DownloadBot->toHarvesting($id_cc);
+            $URL = explode(';', $url);
+            for ($r = 0; $r < count($URL); $r++) {
+                $data['URL'] = $URL[$r];
+                $sx .= view('Brapci/Base/PDFno', $data);
+            }
+        }
+        return $sx;
+        }
+
     function download_tools($id)
     {
         $sx = bsicone('harvesting');

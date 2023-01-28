@@ -137,9 +137,14 @@ class Metadata extends Model
                         $doi = trim($line['n_name2']);
                         if (substr($doi, 0, 1) == '1') {
                             $doi = "https://doi.org/" . $doi;
+                            $this->lets('DOI', $doi);
                             $doi = '<a class="summary_a" href="' . $doi . '" target="_blank">' . $doi . '</a>';
+                            $this->lets('lDOI', $doi);
+                        } else {
+                            $this->lets('lDOI', $doi);
+                            $this->lets('DOI', $doi);
                         }
-                        $this->lets('DOI',$doi);
+
                         break;
                     case 'Identifier.DOI':
                         $this->lets('DOI', $value . '##xml:lang=' . $lang);

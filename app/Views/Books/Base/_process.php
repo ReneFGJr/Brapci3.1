@@ -1,5 +1,5 @@
 <?php
-$vars = array('title', 'pages', 'subject', 'url', 'CatAncib', 'CDD', 'CDU');
+$vars = array('title', 'pages', 'subject', 'url', 'CatAncib', 'CDD', 'CDU','files');
 foreach ($vars as $v) {
     if (!isset($$v)) {
         $$v = '';

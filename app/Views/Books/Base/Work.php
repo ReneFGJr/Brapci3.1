@@ -1,6 +1,7 @@
 <?php
 require("_process.php");
 ?>
+<link rel="stylesheet" href="<?=URL.'/css/academicons.css';?>">
 <div class="container">
     <div class="row">
         <div class="col-9">
@@ -76,25 +77,7 @@ require("_process.php");
 
             <?= h(lang('brapci.access'), 5, 'mt-3'); ?>
             <?php
-            /************************************************************ PDF */
-            if (isset($PDF_id)) {
-                for ($ro=0;$ro < count($PDF_id);$ro++)
-                {
-                    $url = PATH . '/download/' . $PDF_id[$ro];
-                    $data['pdf'] = $url;
-                    echo view('Brapci/Base/PDF', $data);
-                }
-            } else {
-                /*************************** DOWNLOAD PDF - AUTOBOT */
-                $DownloadBot = new \App\Models\Bots\DownloadPDF();
-                echo $DownloadBot->toHarvesting($id_cc);
-                $URL = explode(';',$url);
-                for ($r = 0; $r < count($URL); $r++) {
-                    $data['URL'] = $URL[$r];
-                    echo view('Brapci/Base/PDFno', $data);
-                }
-            }
-
+            echo $files;
             $WishList = new \App\Models\WishList\Index();
             echo $WishList->wishlist($id_cc);
 
