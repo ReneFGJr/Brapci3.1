@@ -63,7 +63,7 @@ class Index extends Model
     function format($isbn)
         {
             $isbn = troca($isbn,'ISBN','');
-            if (count($isbn) == 13)
+            if (strlen($isbn) == 13)
             {
                 $sx = substr($isbn,0,3).'-'.
                     substr($isbn,3,2).'-'.
