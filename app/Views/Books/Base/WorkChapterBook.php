@@ -6,25 +6,11 @@ require("_process.php");
     <div class="row">
         <div class="col-9">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
-            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $title; ?></h1>
+            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titleChapet; ?></h1>
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid">
                 <div class="row" style="background-color: #eee;">
-                    <div class="col-3">
-                        <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
-                    </div>
-
-                    <div class="col-5">
-                        <p><b>Editora</b>
-                            <br /><?= $editora_local; ?>: <?= $editora; ?>
-                        </p>
-                    </div>
-                    <div class="col-1">
-                        <p><b>Ano</b>
-                            <br /><?= $year; ?>
-                        </p>
-                    </div>
                     <div class="col-3">
                         <p><b>Idioma</b>
                             <br /><?= $idioma; ?>
@@ -37,7 +23,7 @@ require("_process.php");
                         </p>
                     </div>
 
-                    <div class="col-9">
+                    <div class="col-12">
                         <p><b>Palavras-chave</b>
                             <br /><?= $subject; ?>
                         </p>
@@ -62,6 +48,10 @@ require("_process.php");
                 <!--- PART II - CHAPTER -->
 
                 <div class="row mt-3" style="background-color: #eee;">
+                    <div class="col-12">
+                        <p><b><?=lang('brapci.title');?></b><br /><?= $title; ?></b></p>
+                        titleChapet
+                    </div>
                     <div class="col-3">
                         <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
                     </div>

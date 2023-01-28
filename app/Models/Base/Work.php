@@ -73,6 +73,11 @@ class Work extends Model
                     $da['class'] = 'brapci.'.$class;
 
                     $db = $Metadados->metadata($dt);
+
+                    if (isset($db['title']))
+                        {
+                            $da['titleChapet'] = $db['title'];
+                        }
                     pre($db);
                 break;
 
