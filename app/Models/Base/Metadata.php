@@ -130,7 +130,8 @@ class Metadata extends Model
                         $this->lets('links', $url);
                         break;
                     case 'hasISBN':
-                        $value = $ISBN->format($value);
+                    pre($line,false);
+                        $value = $ISBN->format($valueO);
                         $this->let('isbn', $value);
                         break;
                     case 'hasDOI':
