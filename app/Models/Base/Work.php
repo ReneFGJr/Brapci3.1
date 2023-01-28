@@ -84,6 +84,9 @@ class Work extends Model
                     if (isset($db['authors'])) {
                         $da['authorsChapet'] = $db['authors'];
                     }
+                    if (isset($db['DOI'])) {
+                        $da['DOIChapet'] = $db['DOI'];
+                    }
                 break;
 
                 default:

@@ -25,16 +25,14 @@ require("_process.php");
                     <div class="col-8">
                         <?php
                         ############################### DOI
-                        if (isset($DOI)) {
+                        if (isset($DOIChapet)) {
                         ?>
-
-                        <p><b>DOI</b>
-                            <br /><?= $DOI; ?>
-                        </p>
+                            <p><b>DOI</b>
+                                <br /><?= $DOIChapet; ?>
+                            </p>
+                        <?php } ?>
                     </div>
-                    <?php
-                        }
-                ?>
+
 
                     <div class="col-12">
                         <p><b>Palavras-chave</b>
@@ -83,11 +81,11 @@ require("_process.php");
                     ############################### DOI
                     if (isset($DOI)) {
                     ?>
-                    <div class="col-9">
-                        <p><b>DOI</b>
-                            <br /><?= $DOI; ?>
-                        </p>
-                    </div>
+                        <div class="col-9">
+                            <p><b>DOI</b>
+                                <br /><?= $DOI; ?>
+                            </p>
+                        </div>
                     <?php
                     }
                     ?>
