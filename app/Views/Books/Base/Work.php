@@ -1,9 +1,5 @@
 <?php
-$vars = array('pages', 'subject','url', 'CatAncib','CDD','CDU');
-foreach($vars as $v)
-    {
-        if (!isset($$v)) { $$v = ''; }
-    }
+require("_process.php");
 ?>
 <div class="container">
     <div class="row">

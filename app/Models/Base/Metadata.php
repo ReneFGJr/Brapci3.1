@@ -64,6 +64,7 @@ class Metadata extends Model
     function metadata($meta)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $COVER = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
         $this->metadata = array();
         if (isset($meta['concept'])) {
@@ -130,7 +131,7 @@ class Metadata extends Model
                         break;
                     case 'hasISBN':
                         $value = $ISBN->format($value);
-                        $this->lets('isbn', $value);
+                        $this->let('isbn', $value);
                         break;
                     case 'hasDOI':
                         $doi = trim($line['n_name2']);
@@ -163,7 +164,7 @@ class Metadata extends Model
                         $this->lets('section', $value);
                         break;
                     case 'hasCover':
-                        $cover = $RDF->c($ddv2);
+                        $cover = $COVER->image($ddv2);
                         $this->lets('cover', $cover);
                         break;
                     case 'hasPage':
