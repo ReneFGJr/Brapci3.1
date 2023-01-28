@@ -176,6 +176,8 @@ class Sumary extends Model
             if ($pos = strpos($titulo, '[')) {
                  $titulo = substr($titulo, 0, $pos);
             }
+            $titulo1 = mb_strtolower($titulo);
+            $titulo = mb_substr($titulo,0,1).mb_substr($titulo1,1,strlen($titulo1));
 
             /************************** AUTORES */
             if ($pos = strpos($ln, '[')) {
