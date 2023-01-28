@@ -120,6 +120,12 @@ class Work extends Model
         $da['reference'] = $this->show_reference($idc);
 
         $da['files'] = $Download->show_resources($da);
+        if ($da['summary'] != '')
+            {
+                $da['summary'] = '<center>'.
+                    h(lang('brapci.summary'),4).
+                    '</center>'.$da['summary'];
+            })
 
     /*
         if (!isset($da['issue_id']))
