@@ -87,6 +87,10 @@ class Work extends Model
                     if (isset($db['DOI'])) {
                         $da['DOIChapet'] = $db['DOI'];
                     }
+
+                    if (isset($db['abstract'])) {
+                        $da['abstractChapt'] = $db['abstract'];
+                    }
                 break;
 
                 default:

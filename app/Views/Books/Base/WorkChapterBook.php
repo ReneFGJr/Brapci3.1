@@ -33,6 +33,13 @@ require("_process.php");
                         <?php } ?>
                     </div>
 
+                    <!--------- Abstract Chapter--->
+                    <? if ($abstractChapt != '') { ?>
+                        <div class="col-12 mt-3">
+                            <p><?= $abstractChapt; ?></p>
+                        </div>
+                    <? } ?>
+
 
                     <div class="col-12">
                         <p><b>Palavras-chave</b>
