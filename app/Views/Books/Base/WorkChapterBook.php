@@ -36,6 +36,7 @@ require("_process.php");
                     <!--------- Abstract Chapter--->
                     <? if ($abstractChapt != '') { ?>
                         <div class="col-12 mt-3">
+                            <b><?=lang('brapci.abstract');?></b>
                             <p><?= $abstractChapt; ?></p>
                         </div>
                     <? } ?>
