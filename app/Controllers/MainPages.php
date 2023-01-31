@@ -5,9 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 
 /* SESSION */
+
 $language = \Config\Services::language();
 
-helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie','highchart']);
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie', 'highchart']);
 $session = \Config\Services::session();
 
 define("URL", getenv("app.baseURL"));
@@ -28,7 +29,7 @@ class MainPages extends BaseController
         $data['bg'] = 'bg-primary';
         $data['bg_color'] = '#0000ff';
         $menu = array();
-        $menu[PATH.'/books'] = lang('brapci.books');
+        $menu[PATH . '/books'] = lang('brapci.books');
         //$menu[PATH . 'proceedings'] = lang('brapci.proceedings');
         //$menu[PATH . 'autoridade'] = lang('brapci.authoritynames');
 
@@ -94,6 +95,9 @@ class MainPages extends BaseController
             case 'v':
                 $sx .= $this->v($subact);
                 break;
+            case 'a':
+                $sx .= $this->a($subact);
+                break;
             case 'issue':
                 $Issues = new \App\Models\Base\Issues();
                 $sx .= $Issues->index($subact, $id);
@@ -143,65 +147,87 @@ class MainPages extends BaseController
     }
 
     function services()
-        {
-            $sx = '';
-            $menu[PATH.'/tools'] = lang('brapci.service_lattes');
-            foreach($menu as $link => $name)
-                {
-                    $sx .= '<a href="'.$link.'" class="btn btn-ouline-primary m-2">'.$name.'</a>';
-                }
-            $sx = bs(bsc($sx,12));
-            return $sx;
+    {
+        $sx = '';
+        $menu[PATH . '/tools'] = lang('brapci.service_lattes');
+        foreach ($menu as $link => $name) {
+            $sx .= '<a href="' . $link . '" class="btn btn-ouline-primary m-2">' . $name . '</a>';
         }
+        $sx = bs(bsc($sx, 12));
+        return $sx;
+    }
+
+    function a($id)
+    {
+        $sx = '';
+        $Socials = new \App\Models\Socials();
+        $cat = $Socials->getAccess("#ADM#CAT");
+        if ($cat == true) {
+            $RDF = new \App\Models\Rdf\RDF();
+
+            $link_a = PATH . '/rdf/form/editRDF/' . $id;
+            $link_b = PATH . '/rdf/view/pdf/' . $id;;
+
+            $sa = '<iframe src="' . $link_a . '" style="width: 100%; height:600px;"></iframe>';
+            $sb = '<iframe src="' . $link_b . '" style="width: 100%; height:600px;"></iframe>';
+
+            $sa = bsc($sa, 6);
+            $sb = bsc($sb, 6);
+            $sx = bs($sa . $sb);
+        } else {
+            $sx .= bsmessage('Access not permited');
+            $sx = bs(bsc($sx, 12));
+        }
+        return $sx;
+    }
 
     function v($id)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $RDFData = new \App\Models\Rdf\RDFData();
-            $dt = $RDF->le($id);
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $RDFData = new \App\Models\Rdf\RDFData();
+        $dt = $RDF->le($id);
 
-            if (!isset($dt['concept'])) {
-                return ('Concept not found');
-                exit;
-            }
-
-            $concept = $dt['concept'];
-            $class = $concept['c_class'];
-
-            $class = $dt['concept']['c_class'];
-
-            switch($class)
-                {
-                    case 'Book':
-                        $Book = new \App\Models\Base\Book();
-                        $sx = $Book->v($id);
-                        break;
-                    case 'BookChapter':
-                        $Book = new \App\Models\Base\Book();
-                        $sx = $Book->v($id);
-                        break;
-                    case 'Person':
-                        $Authority = new \App\Models\Authority\Index();
-                        $sx = $Authority->index('viewidRDF',$id);
-                        break;
-                    case 'journal':
-                        $sx = $RDF->journal($id);
-                        break;
-                    case 'issue':
-                        $sx = $RDF->issue($id);
-                        break;
-                    case 'Article':
-                        $dt = $RDF->le($id);
-                        $Work = new \App\Models\Base\Work();
-                        $sx = $Work->show($id);
-                        break;
-                    default:
-                        $sx = bs(bsc('Class not found - '.$class,12));
-                        $sx .= $RDFData->view_data($dt);
-                        break;
-                }
-                return($sx);
+        if (!isset($dt['concept'])) {
+            return ('Concept not found');
+            exit;
         }
+
+        $concept = $dt['concept'];
+        $class = $concept['c_class'];
+
+        $class = $dt['concept']['c_class'];
+
+        switch ($class) {
+            case 'Book':
+                $Book = new \App\Models\Base\Book();
+                $sx = $Book->v($id);
+                break;
+            case 'BookChapter':
+                $Book = new \App\Models\Base\Book();
+                $sx = $Book->v($id);
+                break;
+            case 'Person':
+                $Authority = new \App\Models\Authority\Index();
+                $sx = $Authority->index('viewidRDF', $id);
+                break;
+            case 'journal':
+                $sx = $RDF->journal($id);
+                break;
+            case 'issue':
+                $sx = $RDF->issue($id);
+                break;
+            case 'Article':
+                $dt = $RDF->le($id);
+                $Work = new \App\Models\Base\Work();
+                $sx = $Work->show($id);
+                break;
+            default:
+                $sx = bs(bsc('Class not found - ' . $class, 12));
+                $sx .= $RDFData->view_data($dt);
+                break;
+        }
+        return ($sx);
+    }
 
     public function index2($pag = '')
     {

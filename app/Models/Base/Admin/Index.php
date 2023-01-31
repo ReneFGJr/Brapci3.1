@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'bugs':
+                $Bugs = new \App\Models\Functions\Bugs();
+                $sx = $Bugs->index($subact, $id, $id2, $id3);
+                break;
             case 'manegement':
                 $Manegement = new \App\Models\Base\Manegement();
                 $sx = $Manegement->index($subact, $id, $id2, $id3);
@@ -117,6 +121,9 @@ class Index extends Model
         $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
         $m['#RDF'] =  lang('brapci.rdf');
         $m[PATH .  '/rdf'] =  lang('brapci.rdf');
+
+        $m['#BUGS'] =  lang('brapci.Bugs');
+        $m[PATH .  '/admin/bugs'] =  lang('brapci.Bugs');
 
         $m['#EVENT_CARDS'] =  lang('brapci.event_cards');
         $m[PATH .  '/admin/events'] =  lang('brapci.event_cards');

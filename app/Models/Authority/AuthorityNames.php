@@ -124,16 +124,76 @@ class AuthorityNames extends Model
 	}
 
 	function check_next()
-		{
-			$class = 'Person';
-			$RDF = new \App\Models\Rdf\RDF();
-			$dt = $RDF->recover_class($class);
-			foreach($dt as $id=>$line)
-				{
-					pre($line);
+	{
+		$BUGS = new \App\Models\Functions\Bugs();
+		$RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+
+		$class = 'Person';
+		$RDF = new \App\Models\Rdf\RDF();
+		$dt = $RDF->recover_class($class);
+		foreach ($dt as $id => $line) {
+			$name = trim($line['n_name']);
+			$idn = $line['id_n'];
+			$idc = $line['id_cc'];
+			/********** REGRA 1 - VAZIO*/
+			if (($name == '') or ($name == '(empty)')) {
+				$data['n_name'] = '(EMPTY)';
+				$RDFLiteral->set($data)->where('id_n', $idn)->update();
+			}
+
+			/************************************************ */
+			$nameASC = ascii($name);
+			$c = ord($nameASC[1]);
+
+			/********************************* Número no Nome */
+			if (sonumero($name) != '') {
+				if ($BUGS->register($idc, 'nameNum')) {
+					echo "Tem numero - $name" . '<br>';
 				}
-			pre($dt);
+			}
+			/******************************** Segundo caracter minusculo */
+			if (substr($name, 0, 1) == ' ') {
+				if ($BUGS->register($idc, 'nameTrim')) {
+					echo "Space firts char - $name" . '<br>';
+				}
+			}
+
+			/******************************** Primeiro nome Junior */
+			$fname = troca($name, ',', ' ');
+			$fname = troca($name, '.', ' ');
+			$fname = trim(lowercase(substr($name, 0, strpos($nameASC, ' '))));
+
+			switch ($fname) {
+				case 'júnior':
+					if ($BUGS->register($idc, 'nameLowerCase')) {
+						echo "JUNIOR is first Name - $name" . '<br>';
+					}
+					break;
+
+				case 'jr':
+					if ($BUGS->register($idc, 'nameLowerCase')) {
+						echo "JUNIOR is first Name - $name" . '<br>';
+					}
+					break;
+
+				case 'junior':
+					if ($BUGS->register($idc, 'nameLowerCase')) {
+						echo "JUNIOR is first Name - $name" . '<br>';
+					}
+					break;
+			}
+
+
+			/******************************** Segundo caracter minusculo */
+			if (($c < 65) or ($c > 90)) {
+				if ($BUGS->register($idc, 'nameLowerCase')) {
+					echo "Caracters minúsculo no nome - $name" . '[' . chr($c) . ']' . '<br>';
+				}
+			}
 		}
+		echo "FIM";
+		pre($dt);
+	}
 
 	function get_id_by_name($name, $dt = array())
 	{
@@ -200,13 +260,12 @@ class AuthorityNames extends Model
 		$dt = $this->le($id);
 		if ($dt['a_brapci'] > 0) {
 			$dr = $RDF->le($dt['a_brapci']);
-			if ($dr['concept']['cc_use'] > 0)
-				{
-					$dt['a_brapci'] = $dr['concept']['cc_use'];
-					$dt['a_prefTerm'] = $dr['concept']['n_name'];
-					$dt['a_uri'] = $RDF->link($dr);
-					$this->set($dt)->where('id_a', $id)->update();
-				}
+			if ($dr['concept']['cc_use'] > 0) {
+				$dt['a_brapci'] = $dr['concept']['cc_use'];
+				$dt['a_prefTerm'] = $dr['concept']['n_name'];
+				$dt['a_uri'] = $RDF->link($dr);
+				$this->set($dt)->where('id_a', $id)->update();
+			}
 
 			$sx = h($dt['a_prefTerm'], 1);
 			$sx .= bsmessage(lang('brapci.redirect_brapci'));
@@ -240,36 +299,36 @@ class AuthorityNames extends Model
 	}
 
 	function header($dt)
-		{
+	{
 		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
 		$Country = new \App\Models\Place\Country\Index();
 		$Photo = new \App\Models\Authority\Photo();
 
-			$sx = '';
-			$ids = 'Lattes | Brapci | OrcID | VIAF | ISNI';
+		$sx = '';
+		$ids = 'Lattes | Brapci | OrcID | VIAF | ISNI';
 
-			$sx .= h($dt['a_prefTerm'],1);
-			$sx = bsc($sx,12,'mt-5');
+		$sx .= h($dt['a_prefTerm'], 1);
+		$sx = bsc($sx, 12, 'mt-5');
 
-			pre($dt,false);
-			/********** IDS */
-			$sx .= bsc($AuthotityIds->ids($dt), 9);
-				// a_brapci
-				// a_lattes
-				// a_orcid
-				// a_genere
-				// a_use
-
-
-			/********* FLAG COUNTRY */
-			$sx .= bsc($Country->flag($dt['a_country'],'fluid'),1);
-
-			/********** PHOTO */
-			$sx .= bsc($Photo->image($dt),2);
+		pre($dt, false);
+		/********** IDS */
+		$sx .= bsc($AuthotityIds->ids($dt), 9);
+		// a_brapci
+		// a_lattes
+		// a_orcid
+		// a_genere
+		// a_use
 
 
-			return $sx;
-		}
+		/********* FLAG COUNTRY */
+		$sx .= bsc($Country->flag($dt['a_country'], 'fluid'), 1);
+
+		/********** PHOTO */
+		$sx .= bsc($Photo->image($dt), 2);
+
+
+		return $sx;
+	}
 
 	function le($id)
 	{

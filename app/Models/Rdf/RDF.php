@@ -124,8 +124,20 @@ class RDF extends Model
 			break;
 			/****************************************************************** CONCEPT */
 			case 'concept':
-				echo "NOT IMPLEMENTED";
-				exit;
+				switch($d2)
+					{
+						case 'export':
+						$RDFExport = new \App\Models\Rdf\RDFExport();
+						$RDFExport->export($d3,true);
+						$sx = wclose();
+						break;
+
+						default:
+							echo "NOT IMPLEMENTED $d2-$d3";
+							exit;
+
+
+					}
 			break;
 
 			/****************************************************************** VALUE */
@@ -976,12 +988,12 @@ class RDF extends Model
 
 		$class = $RDFClass->Class($class_name);
 		$rlt = $RDFConcept
-			->join('rdf_name', 'cc_pref_term = rdf_name.id_n', 'LEFT')
-			->select('id_cc, n_name, cc_use')
-			->where('cc_class', $class)
-			->where('cc_library', LIBRARY)
-			->orderBy('n_name')
-			->findAll();
+				->select('id_cc, n_name, cc_use, id_n')
+				->join('rdf_name', 'cc_pref_term = rdf_name.id_n', 'LEFT')
+				->where('cc_class', $class)
+				->where('cc_library', LIBRARY)
+				->orderBy('n_name')
+				->findAll();
 		return $rlt;
 		}
 
@@ -1290,7 +1302,7 @@ class RDF extends Model
 	function directory($id)
 	{
 		if ($id <= 0) {
-			echo h('ERROR: directory ID invalid -> ' . $id, 3);
+			echo h('ERROR: directory ID invalid -> [' . $id.']', 3);
 			exit;
 		}
 		/************************************************ */

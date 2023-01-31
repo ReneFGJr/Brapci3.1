@@ -125,10 +125,13 @@ class RdfForm extends Model
 		$js1 = '';
 		$sx .= '<div class="small">Class</div>';
 		$sx .= h($RDF->show_class($dt), 2, 'btn-primary [bn]');
-		$sx .= '<a href="' . URL . MODULE . COLLECTION . '/v/' . $id . '" class="small">' . lang('rdf.return') . '</a>';
+		$sx .= '<a href="' . URL . MODULE . '/v/' . $id . '" class="small">' . lang('rdf.return') . '</a>';
 		$sx .= ' | ';
 		$sx .= onclick(URL . MODULE . '/rdf/concept/exclude/' . $id, 800, 400, 'text-danger');
 		$sx .= lang('rdf.delete') . '</span>';
+		$sx .= ' | ';
+		$sx .= onclick(URL . MODULE . '/rdf/concept/export/' . $id, 800, 400, 'text-primary');
+		$sx .= lang('rdf.export') . '</span>';
 		//$sx .= $RDF->link($dt,'btn btn-outline-primary btn-sm').'return'.'</a>';;
 
 

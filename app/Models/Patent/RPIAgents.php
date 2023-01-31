@@ -92,7 +92,7 @@ class RPIAgents extends Model
 
                         if (!isset($agent['nome-completo']))
                             {
-                                echo "OPS";
+                                echo "OPS - Agente";
                                 pre($agent);
                             }
                         $nome = $this->name_prepara($agent['nome-completo']);

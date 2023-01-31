@@ -51,10 +51,10 @@ class Books extends BaseController
 
                         $sa = bsc($sa,6);
                         $sb = bsc($sb,6);
-                        $sx .= bs($sa.$sb);
+                        $sx = bs($sa.$sb);
                     } else {
                         $sx .= bsmessage('Access not permited');
-                        $sx .= bs(bsc($sx, 12));
+                        $sx = bs(bsc($sx, 12));
                     }
                 break;
             case 'v':

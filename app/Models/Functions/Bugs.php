@@ -46,16 +46,79 @@ class Bugs extends Model
 
     var $version = 'BUG Report 1.0';
 
+    function index($d1,$d2,$d3)
+        {
+            $sx = '';
+            switch($d1)
+                {
+                    case 'corrected':
+                        $d2 = round($d2);
+                        $this->corrected($d2);
+                        $sx .= $this->list();
+                        break;
+                    default:
+                        $sx .= $this->list();
+                        break;
+                }
+            return $sx;
+        }
+
+    function corrected($id)
+        {
+            $data['bug_status'] = 2;
+            $data['updated_at'] = date("Y-m-d H:i:s");
+            $data['bug_solution'] = 'Fixed';
+            $this->set($data)->where('id_bug',$id)->update();
+            return "";
+        }
+
     function register($id,$tp)
         {
-            $data['bug_name'] = 'Anonyminous';
-            $data['bug_user'] = 0;
-            $data['bug_problem'] = $tp;
-            $data['bug_IP'] = ip();
-            $data['bug_status'] = 1;
-            $data['bug_v'] = $id;
-            $this->set($data)->insert();
+            $dt = $this
+                ->where('bug_v',$id)
+                ->where('bug_problem', $tp)
+                //->where('bug_status', 1)
+                ->findAll();
+            if (count($dt) == 0)
+            {
+                $data['bug_name'] = 'Anonyminous';
+                $data['bug_user'] = 0;
+                $data['bug_problem'] = $tp;
+                $data['bug_IP'] = ip();
+                $data['bug_status'] = 1;
+                $data['bug_v'] = $id;
+                $this->set($data)->insert();
+            }
             return true;
+        }
+
+    function list()
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $sx = '';
+            $dt = $this
+                ->where('bug_status',1)
+                ->orderBy('bug_name,id_bug')
+                ->findAll();
+            $xt = '';
+            $sx .= '<ul>';
+            foreach($dt as $id=>$line)
+                {
+                    $t = $line['bug_problem'];
+                    if ($xt != $t)
+                        {
+                            $sx .= h($t,4);
+                            $xt = $t;
+                        }
+                    $name = '<a href="'.PATH.'/v/'.$line['bug_v'].'" target="_blank">'.$line['bug_v'].'</a>';
+
+                    $chk_ok = '<a class="ms-3" title="'.lang('brapci.corrected').'" href="' . PATH . '/admin/bugs/corrected/'.$line['id_bug'].'">'.bsicone('to_check').'</a>';
+                    $content = '<div style="font-size: 0.8em;">' . $RDF->c($line['bug_v']) .$chk_ok. '</div>';
+                    $sx .= '<li>'.$content.'</li>'.cr();
+                }
+            $sx .= '</ul>';
+            $sx = bs(bsc($sx,12));
+            return $sx;
         }
 
     function show($id)
