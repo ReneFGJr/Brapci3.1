@@ -116,6 +116,20 @@ require("_process.php");
             $WishList = new \App\Models\WishList\Index();
             echo $WishList->wishlist($id_cc);
 
+            echo '<table width="100%">';
+            echo '<tr>';
+            echo '<td>';
+            echo $WishList->wishlist($id_cc);
+            echo '</td>';
+
+            echo '<td>';
+            echo $license;
+            echo '</td>';
+
+
+            echo '</tr>';
+            echo '</table>';
+
             $Socials = new \App\Models\Socials();
             if ($Socials->getAccess("#ADM#BOK#CAT")) {
                 echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
