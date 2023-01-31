@@ -150,7 +150,7 @@ class AuthorityNames extends Model
 					if ($BUGS->register($idc, 'nameShort')) {
 						echo "Too short - $name" . '<br>';
 					}
-					$c = 'A';
+					$c = 65;
 				}
 
 
