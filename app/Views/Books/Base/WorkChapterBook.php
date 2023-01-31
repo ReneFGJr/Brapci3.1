@@ -58,7 +58,7 @@ require("_process.php");
                         <?= lang('brapci.Book'); ?>
                         <h5><?= $title; ?></h5>
                         <i><?php
-                            $authors = trim(troca($authors, '$', ';'));
+                            $authors = trim(troca($authors, '$', ';')).'.';
                             $authors = troca($authors,';.','.');
                             echo $authors;
                             ?></i>
