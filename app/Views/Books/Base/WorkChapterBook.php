@@ -57,7 +57,10 @@ require("_process.php");
                     <div class="col-12">
                         <?= lang('brapci.Book'); ?>
                         <h5><?= $title; ?></h5>
-                        <i><?= troca($authors, '$', '; '); ?></i>
+                        <i><?php
+                            $authors = trim($uuthors);
+                            $authors = substr($authors,0,strlen($authors)-1).'.';
+                            troca($authors, '$', '; '); ?></i>
                     </div>
                     <div class="col-3">
                         <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
