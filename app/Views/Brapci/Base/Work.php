@@ -25,7 +25,7 @@ if (!isset($edit)) $edit = '';
 
         <div class="col-4 mb-4 text-end p-2">
             <!--- LEGEND ------------------------------------------->
-            <span class="btn btn-primary"><?= $sect; ?></span>
+            <span class="btn btn-primary"><?= $Section; ?></span>
         </div>
 
     </div>
