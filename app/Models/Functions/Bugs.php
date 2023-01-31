@@ -77,7 +77,7 @@ class Bugs extends Model
             $dt = $this
                 ->where('bug_v',$id)
                 ->where('bug_problem', $tp)
-                //->where('bug_status', 1)
+                ->where('bug_status', 1)
                 ->findAll();
             if (count($dt) == 0)
             {
