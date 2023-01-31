@@ -1,8 +1,8 @@
 <?php
-require("../../Books/Base/_process.php");
+require("_process.php");
 
 if (!isset($MidiasSociais)) {
-    $MidiasSociais = '';
+$MidiasSociais = '';
 }
 $style = ' style="border-bottom: 1px solid #000;" ';
 
