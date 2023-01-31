@@ -6,7 +6,8 @@ $vars = array(
         'pages', 'subject', 'url',
         'CatAncib', 'CDD', 'CDU',
         'files', 'summary', 'authorsChapet',
-        'DOIChapet', 'abstractChapt', 'license');
+        'DOIChapet', 'abstractChapt', 'license',
+        'issue');
 
 foreach ($vars as $v) {
     if (!isset($$v)) {
