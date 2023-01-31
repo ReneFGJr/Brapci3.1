@@ -79,7 +79,20 @@ require("_process.php");
             <?php
             echo $files;
             $WishList = new \App\Models\WishList\Index();
+
+            echo '<table width="100%">';
+            echo '<tr>';
+            echo '<td>';
             echo $WishList->wishlist($id_cc);
+            echo '</td>';
+
+            echo '<td>';
+            echo $license;
+            echo '</td>';
+
+
+            echo '</tr>';
+            echo '</table>';
 
             $Socials = new \App\Models\Socials();
             if ($Socials->getAccess("#ADM#BOK#CAT")) {

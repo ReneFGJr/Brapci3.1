@@ -152,6 +152,10 @@ class Metadata extends Model
                     case 'hasAbstract':
                         $this->lets('abstract', $valueO . ' @' . $langO);
                         break;
+                    case 'hasLicense':
+                        $value = '<img src="' . URL . '/img/icons/cc/' . $value. '.png" style="max-height: 45px;">';
+                        $this->lets('license', $value);
+                        break;
                     case 'hasAuthor':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
                         $this->lets('authors', $name.'$');
