@@ -82,12 +82,16 @@ class Index extends Model
                 break;
             default:
                 if (isset($_SESSION['id'])) {
+                    $Socials = new \App\Models\Socials();
                     $BUGS = new \App\Models\Functions\Bugs();
-                    $user_name = $_SESSION['id'];
-                    $sx .= h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2);
+
+                    $user_id = $_SESSION['id'];
+                    $usd = $Socials->find($user_id);
+                    $user_name = $usd['us_nome'];
+                    $sx .= bs(bsc(h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2),12));
                     $COLLECTION = troca(COLLECTION, '/', '');
-                    $sa = h($COLLECTION);
-                    $sb = h('Painel');
+                    $sa = h($COLLECTION,3);
+                    $sb = h('Painel',3);
                     switch ($COLLECTION) {
                         case 'XX':
                             break;
@@ -97,7 +101,7 @@ class Index extends Model
                             $sb .= $BUGS->resume();
                             break;
                     }
-                    $sx = bs(bsc($sa, 6). bsc($sb, 6));
+                    $sx .= bs(bsc($sa, 6). bsc($sb, 6));
                 }
         }
         return $sx;
