@@ -29,6 +29,7 @@ if (!isset($edit)) $edit = '';
             $sect = '';
             if ($Section != '')
             {
+                pre($Section);
                 for ($r = 0; $r < count($Section); $r++) {
                     if (strlen($sect) > 0) {
                         $sect .= ' - ';
