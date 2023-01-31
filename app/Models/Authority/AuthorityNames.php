@@ -143,7 +143,16 @@ class AuthorityNames extends Model
 
 			/************************************************ */
 			$nameASC = ascii($name);
-			$c = ord($nameASC[1]);
+			if (strlen($name) > 1)
+				{
+					$c = ord($nameASC[1]);
+				} else {
+					if ($BUGS->register($idc, 'nameShort')) {
+						echo "Too short - $name" . '<br>';
+					}
+					$c = 'A';
+				}
+
 
 			/********************************* Número no Nome */
 			if (sonumero($name) != '') {
