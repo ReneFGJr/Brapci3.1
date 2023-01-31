@@ -1,5 +1,5 @@
 <?php
-require("../App/Views/Books/Base/_process.php");
+require("_process.php");
 ?>
 <link rel="stylesheet" href="<?=URL.'/css/academicons.css';?>">
 <div class="container">
