@@ -114,7 +114,6 @@ require("_process.php");
             <?php
             echo $files;
             $WishList = new \App\Models\WishList\Index();
-            echo $WishList->wishlist($id_cc);
 
             echo '<table width="100%">';
             echo '<tr>';
