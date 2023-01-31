@@ -192,8 +192,8 @@ class Metadata extends Model
                         $this->lets('idioma', $langO);
                         break;
                     case 'hasSubject':
-                        $this->lets('keywords', $value.'.');
-                        $this->lets('subject', $value);
+                        $this->lets('keywords', $value);
+                        $this->lets('subject', $value . '.');
                         break;
                     default:
 
