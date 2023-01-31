@@ -127,9 +127,11 @@ class AuthorityNames extends Model
 		{
 			$class = 'Person';
 			$RDF = new \App\Models\Rdf\RDF();
-			echo "OK-1";
 			$dt = $RDF->recover_class($class);
-			echo "OK-2";
+			foreach($dt as $id=>$line)
+				{
+					pre($line);
+				}
 			pre($dt);
 		}
 
