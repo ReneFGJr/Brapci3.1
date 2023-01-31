@@ -126,14 +126,17 @@ require("_process.php");
             echo $license;
             echo '</td>';
 
-
-            echo '</tr>';
-            echo '</table>';
-
+            echo '<td>';
             $Socials = new \App\Models\Socials();
             if ($Socials->getAccess("#ADM#BOK#CAT")) {
                 echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
             }
+            echo '</td>';
+
+
+            echo '</tr>';
+            echo '</table>';
+
             ?>
         </div>
     </div>
