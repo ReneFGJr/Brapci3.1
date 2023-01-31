@@ -296,6 +296,12 @@ class RDF extends Model
 		return $sx;
 	}
 
+	function edit_link($id)
+		{
+			$sx = '<a href="'.PATH.'/a/'.$id.'">'.bsicone('edit').'</a>';
+			return $sx;
+		}
+
 
 	function xxx_index2($d1, $d2 = '', $d3 = '', $d4 = '', $d5 = '', $cab = '')
 	{
