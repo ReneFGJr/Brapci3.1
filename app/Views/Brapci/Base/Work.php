@@ -106,12 +106,6 @@ if (!isset($edit)) $edit = '';
                 echo view('Brapci/Base/PDF', $data);
             } else {
                 /*************************** DOWNLOAD PDF - AUTOBOT */
-                $DownloadBot = new \App\Models\Bots\DownloadPDF();
-                echo $DownloadBot->toHarvesting($id_cc);
-                for ($r = 0; $r < count($URL); $r++) {
-                    $data['URL'] = $URL[$r];
-                    echo view('Brapci/Base/PDFno', $data);
-                }
             }
             ?>
             <div class="p-0" id="bug"><?= $bugs; ?></div>

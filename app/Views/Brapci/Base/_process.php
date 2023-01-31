@@ -7,7 +7,7 @@ $vars = array(
         'CatAncib', 'CDD', 'CDU',
         'files', 'summary', 'authorsChapet',
         'DOIChapet', 'abstractChapt', 'license',
-        'issue');
+        'issue', 'links');
 
 foreach ($vars as $v) {
     if (!isset($$v)) {

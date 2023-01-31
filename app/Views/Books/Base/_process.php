@@ -4,7 +4,7 @@ $vars = array(
         'titleChapet', 'idioma','year',
         'cover','isbn', 'editora_local', 'editora',
         'pages', 'subject', 'url',
-        'CatAncib', 'CDD', 'CDU',
+        'CatAncib', 'CDD', 'CDU', 'URL',
         'files', 'summary', 'authorsChapet',
         'DOIChapet', 'abstractChapt', 'license');
 
