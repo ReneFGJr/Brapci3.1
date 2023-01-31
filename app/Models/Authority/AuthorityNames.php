@@ -194,7 +194,7 @@ class AuthorityNames extends Model
 
 
 			/******************************** Segundo caracter minusculo */
-			if (($c < 65) or ($c > 90)) {
+			if (($c < 65) or ($c > 90) AND ($c != "'")) {
 				if ($BUGS->register($idc, 'nameLowerCase')) {
 					echo "Caracters minúsculo no nome - $name" . '[' . chr($c) . ']' . '<br>';
 				}
