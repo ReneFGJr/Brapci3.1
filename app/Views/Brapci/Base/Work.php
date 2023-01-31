@@ -27,11 +27,14 @@ if (!isset($edit)) $edit = '';
             <!--- LEGEND ------------------------------------------->
             <?php
             $sect = '';
-            for ($r = 0; $r < count($Section); $r++) {
-                if (strlen($sect) > 0) {
-                    $sect .= ' - ';
+            if ($Section != '')
+            {
+                for ($r = 0; $r < count($Section); $r++) {
+                    if (strlen($sect) > 0) {
+                        $sect .= ' - ';
+                    }
+                    $sect .= '<span class="btn btn-primary">' . $Section[$r] . '</span>';
                 }
-                $sect .= '<span class="btn btn-primary">' . $Section[$r] . '</span>';
             }
             ?>
             <?= $sect; ?>
