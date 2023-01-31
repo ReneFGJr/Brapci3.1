@@ -1,4 +1,6 @@
 <?php
+require("../../Books/Base/_process.php");
+
 if (!isset($MidiasSociais)) {
     $MidiasSociais = '';
 }
