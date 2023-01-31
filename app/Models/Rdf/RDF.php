@@ -308,9 +308,6 @@ class RDF extends Model
 		$sx = '';
 		$type = get("type");
 
-
-
-
 		switch ($d1) {
 			case 'v':
 				$dt = $this->le($d2);

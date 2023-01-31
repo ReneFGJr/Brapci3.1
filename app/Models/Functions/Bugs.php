@@ -63,6 +63,23 @@ class Bugs extends Model
             return $sx;
         }
 
+    function resume()
+        {
+            $dt = $this->
+                select('count(*) as total, bug_problem')
+                ->where('bug_status',1)
+                ->groupBy('bug_problem')
+                ->orderBy('bug_problem')
+                ->findAll();
+            $sx = '<ul>';
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= '<li>'.lang('brapci.'.$line['bug_problem']).' '.$line['total'].'</li>';
+                }
+            $sx .= '</ul>';
+            return $sx;
+        }
+
     function corrected($id)
         {
             $data['bug_status'] = 2;

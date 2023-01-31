@@ -82,19 +82,22 @@ class Index extends Model
                 break;
             default:
                 if (isset($_SESSION['id'])) {
+                    $BUGS = new \App\Models\Functions\Bugs();
                     $user_name = $_SESSION['id'];
                     $sx .= h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2);
                     $COLLECTION = troca(COLLECTION, '/', '');
-                    $sx .= '<h1>' . $COLLECTION . '</h1>';
+                    $sa = h($COLLECTION);
+                    $sb = h('Painel');
                     switch ($COLLECTION) {
                         case 'XX':
                             break;
                         default:
-                            $sx .= $this->benancib_admin();
-                            $sx .= $this->menu();
+                            $sa .= $this->benancib_admin();
+                            $sa .= $this->menu();
+                            $sb .= $BUGS->resume();
                             break;
                     }
-                    $sx = bs(bsc($sx, 12));
+                    $sx = bs(bsc($sa, 6). bsc($sb, 6));
                 }
         }
         return $sx;
