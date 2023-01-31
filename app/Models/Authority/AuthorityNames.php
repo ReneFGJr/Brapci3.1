@@ -174,19 +174,19 @@ class AuthorityNames extends Model
 
 			switch ($fname) {
 				case 'júnior':
-					if ($BUGS->register($idc, 'nameLowerCase')) {
+					if ($BUGS->register($idc, 'nameJUNIOR')) {
 						echo "JUNIOR is first Name - $name" . '<br>';
 					}
 					break;
 
 				case 'jr':
-					if ($BUGS->register($idc, 'nameLowerCase')) {
+					if ($BUGS->register($idc, 'nameJUNIOR')) {
 						echo "JUNIOR is first Name - $name" . '<br>';
 					}
 					break;
 
 				case 'junior':
-					if ($BUGS->register($idc, 'nameLowerCase')) {
+					if ($BUGS->register($idc, 'nameJUNIOR')) {
 						echo "JUNIOR is first Name - $name" . '<br>';
 					}
 					break;
