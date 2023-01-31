@@ -64,6 +64,7 @@ class Work extends Model
         $RDF = new \App\Models\Rdf\RDF();
 
         $class = $dt['concept']['c_class'];
+
         switch($class)
             {
                 case 'BookChapter':

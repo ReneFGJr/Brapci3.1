@@ -52,6 +52,7 @@ class Index extends Model
 		//$this->setDatabase('brapci_authority');
 
 		$sx = '';
+		echo '==>'.$d1;
 		switch ($d1) {
 			case 'bot_remissive':
 				$sx .= 'Hello remissive';
@@ -59,6 +60,10 @@ class Index extends Model
 			case 'bot_collaboration':
 				$Collaboration = new \App\Models\Authority\Collaboration();
 				$sx .= $Collaboration->check_next();
+				break;
+			case 'bot_checknames':
+				$AuthorityNames = new \App\Models\Authority\AuthorityNames();
+				$sx .= $AuthorityNames->check_next();
 				break;
 			case 'findid':
 				$sx .= h(lang('brapci.findid'),3);

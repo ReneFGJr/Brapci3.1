@@ -123,6 +123,16 @@ class AuthorityNames extends Model
 		print_r($dt);
 	}
 
+	function check_next()
+		{
+			$class = 'Person';
+			$RDF = new \App\Models\Rdf\RDF();
+			echo "OK-1";
+			$dt = $RDF->recover_class($class);
+			echo "OK-2";
+			pre($dt);
+		}
+
 	function get_id_by_name($name, $dt = array())
 	{
 		$name = trim($name);

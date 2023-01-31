@@ -153,14 +153,15 @@ class Metadata extends Model
                         $this->lets('abstract', $valueO . ' @' . $langO);
                         break;
                     case 'hasAuthor':
-                        $this->lets('authors', $value);
+                        $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
+                        $this->lets('authors', $name.'$');
                         break;
                     case 'dateOfPublication':
                         $this->lets('year', $value);
                         break;
                     case 'hasOrganizator':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
-                        $this->lets('authors', $name);
+                        $this->lets('authors', $name.'$');
                         break;
                     case 'isPublisher':
                         $this->lets('editora', $value);

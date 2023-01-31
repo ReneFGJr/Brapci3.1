@@ -969,9 +969,8 @@ class RDF extends Model
 		return '';
 	}
 
-	function export_index($class_name, $file = '')
-	{
-		$RDFData = new \App\Models\Rdf\RDFData();
+	function recover_class($class_name)
+		{
 		$RDFClass = new \App\Models\Rdf\RDFClass();
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 
@@ -983,6 +982,12 @@ class RDF extends Model
 			->where('cc_library', LIBRARY)
 			->orderBy('n_name')
 			->findAll();
+		return $rlt;
+		}
+
+	function export_index($class_name, $file = '')
+	{
+		$rlt = $this->recover_class($class_name);
 
 		$flx = 0;
 		$fi = array();

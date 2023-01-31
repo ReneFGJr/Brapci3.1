@@ -62,6 +62,7 @@ class Bots extends BaseController
                 $menu['#DAILY'] = "";
                 $menu[PATH . COLLECTION . '/authority/remissive'] = lang('bots.authority.remissive');
                 $menu[PATH . COLLECTION . '/authority/collaboration'] = lang('bots.authority.collaboration');
+                $menu[PATH . COLLECTION . '/authority/checknames'] = lang('bots.authority.checknames');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');
                 $menu[PATH . COLLECTION . '/export'] = lang('bots.export');
                 $sx .= menu($menu);
