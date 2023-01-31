@@ -2,7 +2,7 @@
 require("_process.php");
 
 if (!isset($MidiasSociais)) {
-$MidiasSociais = '';
+    $MidiasSociais = '';
 }
 $style = ' style="border-bottom: 1px solid #000;" ';
 
@@ -25,20 +25,7 @@ if (!isset($edit)) $edit = '';
 
         <div class="col-4 mb-4 text-end p-2">
             <!--- LEGEND ------------------------------------------->
-            <?php
-            $sect = '';
-            if ($Section != '')
-            {
-                pre($Section);
-                for ($r = 0; $r < count($Section); $r++) {
-                    if (strlen($sect) > 0) {
-                        $sect .= ' - ';
-                    }
-                    $sect .= '<span class="btn btn-primary">' . $Section[$r] . '</span>';
-                }
-            }
-            ?>
-            <?= $sect; ?>
+            <span class="btn btn-primary"><?= $sect; ?></span>
         </div>
 
     </div>
