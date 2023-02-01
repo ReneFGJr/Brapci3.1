@@ -29,6 +29,10 @@ class Dados extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
         switch ($act) {
+            case 'tombstone':
+                $DOI = new \App\Models\DOI\Index();
+                $sx .= $DOI->tombstone($subact, $id, $id2);
+                break;
             case 'dataverse':
                 $Dataverse = new \App\Models\Dataverse\Index();
                 $sx .= $Dataverse->index($subact,$id,$id2);
