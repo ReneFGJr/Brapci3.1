@@ -354,7 +354,19 @@ a.pgcd_nav-item-active:hover {
     cursor: pointer;
   }
 /************************* Cited-Type */
-.type-journal, .type-link, .type-tcc , .type-dissertation , .type-these, .type-proceeding , .type-bookchapter , .type-book , .type-law , .type-report , .type-standard , .type-interview , .type-software , .type-patent, .type-none
+.type-journal
+  {
+    background-color: #aaaaff;
+  }
+.type-book
+  {
+    background-color: #ffaaaa;
+  }
+.type-link, .type-tcc ,
+.type-dissertation , .type-these, .type-proceeding ,
+.type-bookchapter , .type-law ,
+.type-report , .type-standard , .type-interview ,
+.type-software , .type-patent, .type-none
   {
     background-color: #aaa;
   }
@@ -364,6 +376,7 @@ a.pgcd_nav-item-active:hover {
     border-radius: 5px;
     padding:0px 4px 0px 4px;
     border: 1px solid #000;
+    font-size: 0.7em;
   }
 
 /********************** Heart */
