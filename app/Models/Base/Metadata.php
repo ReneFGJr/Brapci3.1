@@ -56,7 +56,11 @@ class Metadata extends Model
             {
                 $this->metadata[$class] = array();
             }
-        $this->metadata[$class][$array] = $value;
+        if (!isset($this->metadata[$class][$array])) {
+            $this->metadata[$class][$array] = '';
+        }
+        $vlr = $this->metadata[$class][$array];
+        $this->metadata[$class][$array] .= $value;
         return true;
     }
 
@@ -208,10 +212,10 @@ class Metadata extends Model
                         $this->leta('Title',$valueO,$langO);
                         break;
                     case 'hasSubject':
-                    echo "===========";
                         $this->lets('keywords', $value);
                         $this->lets('subject', $value . '.');
-                        $this->leta('Keywords', $value,$langO);
+                        $value = '<a href="'.PATH.COLLECTION.'/v/'.$ddv2.'">'.$value.'</a>. ';
+                        $this->leta('Keywords', $value,$lang);
                         break;
                     case 'hasIssueProceedingOf':
                         $this->lets('issue_id', $ddv1);
