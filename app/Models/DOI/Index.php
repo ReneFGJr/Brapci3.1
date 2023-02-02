@@ -89,6 +89,7 @@ class Index extends Model
 
     function tombstone($d1='',$d2='', $d3 ='', $d4 ='', $d5 = '')
         {
+            $sx = '';
             if (($d1 != '') and ($d2 != ''))
                 {
                     $DOI = $d1.'/'.$d2;
