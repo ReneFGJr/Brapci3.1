@@ -1046,7 +1046,7 @@ class Index extends Model
     {
         if (count($this->cities) == 0) {
             $file = '_ia/domain_places.txt';
-            $dt = $this->ias->file_get_subdomain($file);
+            $dt = $this->file_get_subdomain($file);
             $this->cities = $dt;
         }
         $dt = $this->cities;
@@ -1664,4 +1664,23 @@ class Index extends Model
             $sx .= '</div>';
             return $sx;
         }
+
+    function file_get_subdomain($file)
+    {
+        $txt = '';
+        if (file_exists($file)) {
+            $txt = file_get_contents($file);
+            $l = explode(chr(10), $txt);
+            $rst = array();
+            for ($r = 0; $r < count($l); $r++) {
+                $t = substr($l[$r], 10, strlen($l[$r]));
+                $t = substr($t, 0, strpos($t, ']') - 1);
+                if (strlen($t) > 0) {
+                    array_push($rst, $t);
+                }
+            }
+            return ($rst);
+        }
+        return (array());
+    }
 }
