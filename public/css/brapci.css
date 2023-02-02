@@ -362,9 +362,30 @@ a.pgcd_nav-item-active:hover {
   {
     background-color: #ffaaaa;
   }
-.type-link, .type-tcc ,
-.type-dissertation , .type-these, .type-proceeding ,
-.type-bookchapter , .type-law ,
+.type-bookchapter
+  {
+    background-color: #ffdddd;
+  }
+.type-link
+  {
+    background-color: #ffaaff;
+  }
+.type-tcc
+{
+  background-color: #ffffaa;
+}
+.type-dissertation {
+  background-color: #ffff77;
+}
+.type-these {
+  background-color: #ffff33;
+}
+.type-proceeding {
+  background-color: #aaffff;
+}
+.type-law {
+  background-color: #33ffff;
+}
 .type-report , .type-standard , .type-interview ,
 .type-software , .type-patent, .type-none
   {
