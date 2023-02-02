@@ -78,7 +78,7 @@ if (!isset($edit)) $edit = '';
                     if (isset($Abstract[$idioma]))
                         {
 
-                        echo '<div style="text-align: justify; font-size: 0.9em; line-height: 120%;"
+                        echo '<div style="text-align: justify; font-size: 1em; line-height: 120%;"
                                 id="abstract_' . $idioma . '">';
                         echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b> ';
                         echo $Abstract[$idioma] . '</div>';
