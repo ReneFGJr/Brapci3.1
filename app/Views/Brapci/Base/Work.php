@@ -74,7 +74,7 @@ if (!isset($edit)) $edit = '';
                         echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
                         echo '<div style="text-align: justify;" id="abstract_' . $idioma . '>' . $abstract . '</div>';
 
-                        if (isset($keywords[$idioma])) {
+                        if (isset($Keywords[$idioma])) {
                             echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
                             $keys = '';
                             foreach ($keywords[$idioma] as $id => $keyword) {

@@ -160,7 +160,8 @@ class Metadata extends Model
                         $this->lets('DOI', $value . '##xml:lang=' . $lang);
                         break;
                     case 'hasAbstract':
-                        $this->lets('abstract', $valueO . ' @' . $langO);
+                        $this->lets('abstract', $valueO.'@'.$langO);
+                        $this->leta('Abstract', $valueO, $langO);
                         break;
                     case 'hasLicense':
                         $value = '<img src="' . URL . '/img/icons/cc/' . $value. '.png" style="max-height: 45px;">';
@@ -207,8 +208,10 @@ class Metadata extends Model
                         $this->leta('Title',$valueO,$langO);
                         break;
                     case 'hasSubject':
+                    echo "===========";
                         $this->lets('keywords', $value);
                         $this->lets('subject', $value . '.');
+                        $this->leta('Keywords', $value,$langO);
                         break;
                     case 'hasIssueProceedingOf':
                         $this->lets('issue_id', $ddv1);
