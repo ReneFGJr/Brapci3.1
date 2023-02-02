@@ -47,7 +47,7 @@ class Index extends Model
 
 	function zera()
         {
-            $sql = "update ".$this->base."cited_article set ca_status = 0, ca_tipo = 0 WHERE ca_status <> 0";
+            $sql = "update ".$this->table." set ca_status = 0, ca_tipo = 0 WHERE ca_status <> 0";
             $this->db->query($sql);
         }
 
@@ -134,10 +134,10 @@ class Index extends Model
                                 }
                             $wh .= '(ca_rdf = '.$pb[$r].') ';
                         }
-                        $sql = "select $cp from ".$this->baseCited."cited_article
-                            left join ".$this->baseCited."cited_journal ON ca_journal = id_cj
+                        $sql = "select $cp from ".$this->table."
+                            left join cited_journal ON ca_journal = id_cj
                             left join source_source ON ca_journal_origem = id_jnl
-                            left join ".$this->baseCited."cited_type ON id_ct = ca_tipo
+                            left join cited_type ON id_ct = ca_tipo
                             where ($wh) or (1=2)
                             order by ca_text, ca_year desc";
                     break;
@@ -218,22 +218,26 @@ class Index extends Model
 
     function show_ref($id)
         {
-
+            $Socials = new \App\Models\Socials();
             $sx = '';
-            $sql = "select * from ".$this->base.'cited_article
+            $sql = "select * from ".$this->table.'
                     where ca_rdf = '.round($id).'
                     order by ca_ordem';
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            if (count($rlt) > 0)
+            $dt =
+                $this
+                    ->where("ca_rdf",round($id))
+                    ->orderBy('ca_ordem')
+                    ->findAll();
+
+            if (count($dt) > 0)
             {
             $sx = '<a name="CITED"></a>';
             $sx .= '<h4>'.msg('References').'</h4>';
             $sx .= '<ul>';
-            for ($r=0;$r < count($rlt);$r++)
+            for ($r=0;$r < count($dt);$r++)
                 {
-                    $l = $rlt[$r];
-                    if (perfil("#ADM"))
+                    $l = $dt[$r];
+                    if ($Socials->getAccess("#ADM"))
                     {
                         $st = '';
                         if ($l['ca_tipo'] == 99) { $st = ' style="color: red;"'; }
