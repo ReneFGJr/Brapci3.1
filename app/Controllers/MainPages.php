@@ -30,6 +30,7 @@ class MainPages extends BaseController
         $data['bg_color'] = '#0000ff';
         $menu = array();
         $menu[PATH . '/books'] = lang('brapci.books');
+        $menu[PATH . '/benancib'] = lang('brapci.benancib');
         //$menu[PATH . 'proceedings'] = lang('brapci.proceedings');
         //$menu[PATH . 'autoridade'] = lang('brapci.authoritynames');
 

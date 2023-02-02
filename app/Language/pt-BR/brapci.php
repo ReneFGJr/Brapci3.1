@@ -118,7 +118,7 @@ return [
         'nameNum' => 'Número no Sobrenome',
         'nameShort' => 'Nome muito curto',
         'pdf_not' => 'Trabalho sem o PDF',
-        '' => '',
+        'benancib' => 'Benancib',
         '' => '',
         '' => '',
         '' => '',
