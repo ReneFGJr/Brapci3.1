@@ -6,6 +6,8 @@ if (!isset($MidiasSociais)) {
 }
 $style = ' style="border-bottom: 1px solid #000;" ';
 
+$langs = array('pt-BR','en','es','fr');
+
 if (!isset($logo)) $logo = '';
 if (!isset($Title)) $Title = array();
 if (!isset($sub_header)) $sub_header = '';
@@ -39,9 +41,12 @@ if (!isset($edit)) $edit = '';
             <?php
             /******************************** TITULO */
             $H = 2;
-            foreach ($Title as $idioma => $titulo) {
-                echo '<h' . $H . ' class="text-center p-3">' . $titulo . '</h' . $H . '>';
-                $H++;
+            foreach ($langs as $idioma) {
+                if (isset($Title[$idioma]))
+                    {
+                        echo '<h' . $H . ' class="text-center p-3">' . $Title[$idioma] . '</h' . $H . '>';
+                        $H++;
+                    }
             }
             ?>
         </div>
@@ -69,20 +74,22 @@ if (!isset($edit)) $edit = '';
             <p>
                 <?php
                 /******************************** ABSTRACT */
-                if (isset($Abstract)) {
-                    foreach ($Abstract as $idioma => $abst) {
+                foreach ($langs as $idioma) {
+                    if (isset($Abstract[$idioma]))
+                        {
                         echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
                         echo '<div style="text-align: justify; font-size: 0.9em; line-height: 120%;"
                                 id="abstract_' . $idioma . '">' .
-                             $abst . '</div>';
+                        $Abstract[$idioma] . '</div>';
+                        }
 
-                        if (isset($Keywords[$idioma])) {
+                    if (isset($Keywords[$idioma]))
+                        {
                             echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
                             echo $Keywords[$idioma];
                             echo '<br><br>';
                         }
                     }
-                }
                 ?>
             </p>
 
@@ -98,16 +105,7 @@ if (!isset($edit)) $edit = '';
         <div class="col-2">
             <?php
             /************************************************************ PDF */
-            if (isset($PDF))
-            {
-                if (($PDF != '') and (isset($PDF[0]['id']))) {
-                    $url = PATH . '/download/' . $PDF[0]['id'];
-                    $data['pdf'] = $url;
-                    echo view('Brapci/Base/PDF', $data);
-                } else {
-                    /*************************** DOWNLOAD PDF - AUTOBOT */
-                }
-            }
+            echo $files;
             ?>
             <div class="p-0" id="bug"><?= $bugs; ?></div>
 

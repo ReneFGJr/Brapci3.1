@@ -228,6 +228,7 @@ class Metadata extends Model
             }
         }
         //pre($this->metadata,false);
+        //pre($meta);
         return $this->metadata;
     }
 
