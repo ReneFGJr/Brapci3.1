@@ -222,12 +222,12 @@ class Metadata extends Model
                         break;
 
                     default:
-                        echo '==>'.$class.' == '.$valueO.'<br>';
+                        //echo '==>'.$class.' == '.$valueO.'<br>';
                         break;
                 }
             }
         }
-        pre($this->metadata,false);
+        //pre($this->metadata,false);
         return $this->metadata;
     }
 
