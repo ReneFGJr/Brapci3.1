@@ -40,7 +40,9 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    var $version = '0.28';
+    var $cities = array();
+
+    var $version = '0.29';
 
     function index()
         {
