@@ -359,6 +359,12 @@ a.pgcd_nav-item-active:hover {
     background-color: #aaa;
   }
 
+.radius5
+  {
+    border-radius: 5px;
+    border: 1px solid #000;
+  }
+
 /********************** Heart */
 .heart {
     /* Animation */
