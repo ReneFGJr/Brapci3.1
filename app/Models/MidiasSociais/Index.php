@@ -50,9 +50,9 @@ class Index extends Model
             {
                 return "";
             }
-        $title = $dt['Title'];
+        $Title = $dt['Title'];
         $tt = '';
-        foreach($title as $id=>$title)
+        foreach($Title as $title=>$lang)
             {
                 $title = troca($title,chr(13),'');
                 $title = troca($title,chr(10),'');

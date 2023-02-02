@@ -50,6 +50,16 @@ class Metadata extends Model
         return true;
     }
 
+    function leta($class, $value, $array)
+    {
+        if(!isset($this->metadata[$class]))
+            {
+                $this->metadata[$class] = array();
+            }
+        $this->metadata[$class][$array] = $value;
+        return true;
+    }
+
     function lets($class, $value)
     {
         if (!isset($this->metadata[$class]))
@@ -157,7 +167,7 @@ class Metadata extends Model
                         $this->lets('license', $value);
                         break;
                     case 'hasAuthor':
-                        $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
+                        $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a>';
                         $this->lets('authors', $name.'$');
                         break;
                     case 'dateOfPublication':
@@ -194,17 +204,23 @@ class Metadata extends Model
                         $valueO = trim(strip_tags($valueO));
                         $this->lets('title', $valueO);
                         $this->lets('idioma', $langO);
+                        $this->leta('Title',$valueO,$langO);
                         break;
                     case 'hasSubject':
                         $this->lets('keywords', $value);
                         $this->lets('subject', $value . '.');
                         break;
-                    default:
+                    case 'hasIssueProceedingOf':
+                        $this->lets('issue_id', $ddv1);
+                        break;
 
+                    default:
+                        echo '==>'.$class.' == '.$valueO.'<br>';
                         break;
                 }
             }
         }
+        pre($this->metadata,false);
         return $this->metadata;
     }
 
