@@ -40,53 +40,104 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($act='',$subact='',$d1='',$d2='')
-		{
-			$sx = h(trim(trim('AI '.$act).' '.$subact));
+	function reprocess_bug($subact)
+	{
+		$sx = '';
+		$BUGS = new \App\Models\Functions\Bugs();
+		$RDF = new \App\Models\Rdf\RDF();
+		$RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+		$dt = $BUGS->recoverProblem($subact);
+		foreach ($dt as $id => $line) {
+			$idb = $line['id_bug'];
+			$idc = $line['bug_v'];
+			$dta = $RDF->le($idc);
 
-			switch($act)
-				{
-					case 'wiki':
-						$wiki = new \App\Models\AI\Wiki\Index();
-						$sx .= $wiki->index($subact, $d1, $d2);
+			$name = $dta['concept']['n_name'];
+			$idn = $dta['concept']['id_n'];
+
+			if (sonumero($name) == '') {
+				$name2 = nbr_author($name, 1);
+				if ($name != $name2) {
+					$dta['n_name'] = $name2;
+					$RDFLiteral->set($dta)->where('id_n', $idn)->update();
+
+					echo ($name);
+					echo '<hr>';
+					echo ($name2);
+					pre($dta);
+				} else {
+					echo $name . 'none<br>';
+				}
+
+				$sx .= 'Update';
+				$dta['bug_status'] = 2;
+				$dta['bug_solution'] = 'Autonomo Bots v0.23.02.02';
+				$dta['updated_at'] = date("Y-m-d H:i:s");
+				$BUGS->set($dta)->where('id_bug', $idb)->update();
+			}
+		}
+		$sx = bs(bsc($sx,12));
+		return $sx;
+	}
+
+	function index($act = '', $subact = '', $d1 = '', $d2 = '')
+	{
+		$sx = h(trim(trim('AI ' . $act) . ' ' . $subact));
+
+		switch ($act) {
+			case 'authority':
+				switch ($subact) {
+					case 'nameLowerCase':
+						$this->reprocess_bug($subact);
 						break;
-					case 'nlp':
-						$NLP = new \App\Models\AI\NLP\Index();
-						$sx .= $NLP->index($subact,$d1,$d2);
+					case 'nameJUNIOR':
+						$this->reprocess_bug($subact);
 						break;
-					case 'file':
-						switch($subact)
-							{
-								case 'process':
-									$API = new \App\Models\AI\FILE\pdf;
-									$sx = $API->show_files();
-									return $sx;
+					default:
+						$sx .= 'OPS AI authority';
+						break;
+				}
+				break;
+			case 'wiki':
+				$wiki = new \App\Models\AI\Wiki\Index();
+				$sx .= $wiki->index($subact, $d1, $d2);
+				break;
+			case 'nlp':
+				$NLP = new \App\Models\AI\NLP\Index();
+				$sx .= $NLP->index($subact, $d1, $d2);
+				break;
+			case 'file':
+				switch ($subact) {
+					case 'process':
+						$API = new \App\Models\AI\FILE\pdf;
+						$sx = $API->show_files();
+						return $sx;
 
-								case 'upload':
-									$API = new \App\Models\AI\FILE\upload;
-									$sx = $API->upload($d1, $d2);
-									return $sx;
+					case 'upload':
+						$API = new \App\Models\AI\FILE\upload;
+						$sx = $API->upload($d1, $d2);
+						return $sx;
 
-								case 'pdf_to_text':
-									$API = new \App\Models\AI\FILE\pdf;
-									$sx = $API->pdf_to_html($d1,$d2);
-									break;
-
-								default:
-								break;
-							}
-					break;
+					case 'pdf_to_text':
+						$API = new \App\Models\AI\FILE\pdf;
+						$sx = $API->pdf_to_html($d1, $d2);
+						break;
 
 					default:
-					$sx = $this->menu();
-					break;
+						break;
 				}
-			$sx = bs(bsc($sx,12));
-			return $sx;
+				break;
+
+			default:
+				$sx = $this->menu();
+				break;
 		}
+		$sx = bs(bsc($sx, 12));
+		return $sx;
+	}
 
 	function menu()
-		{
+	{
 
 		$menu['#AI - TERMS'] = 'AI (Terms)';
 		$menu[PATH . COLLECTION . '/wiki/'] = lang('ai.wiki');
@@ -106,11 +157,10 @@ class Index extends Model
 		$sx = '';
 
 		$sx .= MENU($menu);
-		$img = '<img src="'.URL. '/img/chat/chat_boot.png" style="height: 50px;">';
+		$img = '<img src="' . URL . '/img/chat/chat_boot.png" style="height: 50px;">';
 
-		$sx .= onclick(PATH . COLLECTION . '/chat', 800, 700,'btn btn-outline-primary') . $img. 'ChatBot</span>';
+		$sx .= onclick(PATH . COLLECTION . '/chat', 800, 700, 'btn btn-outline-primary') . $img . 'ChatBot</span>';
 
 		return $sx;
-		}
-
+	}
 }

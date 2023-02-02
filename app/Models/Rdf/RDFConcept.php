@@ -130,7 +130,7 @@ class RDFConcept extends Model
 			$this->join(PREFIX.'rdf_prefix', 'rdf_class.c_prefix = rdf_prefix.id_prefix', 'LEFT');
 
 			$this->select('rdf_class.c_class, rdf_class.id_c, rdf_class.c_type, rdf_class.c_url, rdf_class.c_equivalent');
-    		$this->select('rdf_name.n_name, rdf_name.n_lang');
+    		$this->select('rdf_name.n_name, rdf_name.n_lang, rdf_name.id_n');
 			$this->select('rdf_prefix.prefix_ref, rdf_prefix.prefix_url');
 			$this->select('rdf_concept.*');
 			$this->where('id_cc',$id);

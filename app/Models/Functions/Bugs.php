@@ -115,7 +115,7 @@ class Bugs extends Model
             $sx = '';
             $dt = $this
                 ->where('bug_status',1)
-                ->orderBy('bug_name,id_bug')
+                ->orderBy('bug_problem,bug_name,id_bug')
                 ->findAll();
             $xt = '';
             $sx .= '<ul>';
@@ -124,7 +124,9 @@ class Bugs extends Model
                     $t = $line['bug_problem'];
                     if ($xt != $t)
                         {
-                            $sx .= h($t,4);
+                            $link = '<a href="'.PATH.'ai/authority/'.$t.'">';
+                            $linka = '</a>';
+                            $sx .= $link.h($t,4).$linka;
                             $xt = $t;
                         }
                     $name = '<a href="'.PATH.'/v/'.$line['bug_v'].'" target="_blank">'.$line['bug_v'].'</a>';
@@ -136,6 +138,15 @@ class Bugs extends Model
             $sx .= '</ul>';
             $sx = bs(bsc($sx,12));
             return $sx;
+        }
+
+    function recoverProblem($type)
+        {
+            $dt = $this
+                ->where('bug_problem',$type)
+                ->where('bug_status', 1)
+                ->findAll();
+            return $dt;
         }
 
     function show($id)
