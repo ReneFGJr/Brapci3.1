@@ -76,11 +76,7 @@ if (!isset($edit)) $edit = '';
 
                         if (isset($Keywords[$idioma])) {
                             echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                            $keys = '';
-                            foreach ($keywords[$idioma] as $id => $keyword) {
-                                $keys .= trim($keyword) . '. ';
-                            }
-                            echo $keys;
+                            echo $Keywords[$idioma];
                             echo '<br><br>';
                         }
                     }
