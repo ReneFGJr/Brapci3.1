@@ -61,7 +61,7 @@ class RdfFormText extends Model
 							/******************************* NOVA ENTRADA */
 							$RDFData = new \App\Models\Rdf\RDFData();
 							$RDFClass = new \App\Models\Rdf\RDFClass();
-							$lang = get("lang");
+							$lang = get("n_lang");
 							if ($lang == '') { $lang = 'pt-BR'; }
 							$da = array();
 							$da['d_literal'] = $RDFLiteral->name($texto,$lang);
