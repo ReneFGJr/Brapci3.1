@@ -283,13 +283,14 @@ class Index extends Model
 
     function cited_type($l)
         {
+            $AICited = new \App\Models\AI\Cited\Index();
             $type = $l['ca_tipo'];
             $status = $l['ca_status'];
             $id = $l['id_ca'];
 
             if (($type == 0) and ($status == 0))
             {
-                $type = $this->ias_cited->neuro_type_source($l['ca_text'],$l['id_ca']);
+                $type = $AICited->neuro_type_source($l['ca_text'],$l['id_ca']);
                 if ($type != 0)
                     {
                         $this->cited_type_update($id,1,$type);
