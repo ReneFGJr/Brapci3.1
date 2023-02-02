@@ -138,7 +138,7 @@ class RdfForm extends Model
 		/* complementos */
 		switch ($class) {
 			default:
-				$cp = 'n_name, cpt.id_cc as idcc, d_p as prop, id_d, d_literal, id_n';
+				$cp = 'n_lang, n_name, cpt.id_cc as idcc, d_p as prop, id_d, d_literal, id_n';
 				$sqla = "select $cp from rdf_data as rdata
 			INNER JOIN rdf_class as prop ON d_p = prop.id_c
 			INNER JOIN rdf_concept as cpt ON d_r2 = id_cc
@@ -233,7 +233,12 @@ class RdfForm extends Model
 										$linkc = '<a href="'.$line['n_name'].'" target="_new">';
 										$linkca = '</a>';
 									}
-								$sx .= $linkc . '' . $line['n_name'] . $linkca;
+								$lang = trim($line['n_lang']);
+								if ($lang != '')
+									{
+										$lang = ' <sup>('.$lang.')</sup>';
+									}
+								$sx .= $linkc . '' . $line['n_name'] . ''.$lang . $linkca;
 						}
 					}
 
