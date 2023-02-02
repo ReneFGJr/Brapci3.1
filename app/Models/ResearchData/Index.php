@@ -108,8 +108,9 @@ class Index extends Model
     function menu()
     {
 
-        $menu['#AI'] = 'Research Data';
+        $menu['#DataRepository'] = 'Research Data';
         $menu[PATH . COLLECTION . '/data/repository'] = lang('data.repository');
+        $menu[PATH . COLLECTION . '/tombstone'] = lang('data.tombstone');
 
         $sx = '';
         $sx .= MENU($menu);

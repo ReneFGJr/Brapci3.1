@@ -1,19 +1,21 @@
 <?php
 $data = array();
-$data['page_title'] = 'Tombstone DOI ' . $DOI;
+$data['page_title'] = 'Tombstone DOI ' . $pi_id;
 
 echo view('Brapci/Headers/header', $data);
 ?>
 <div class="container">
     <div class="row">
         <div class="col-2">
-            <img src="<?= PATH; ?>/img/thema/tombstone.jpg" class="img-fluid">
+            <img src="<?= PATH; ?>/img/thema/tombstone.png" class="img-fluid">
         </div>
         <div class="col-10">
-            <p><?= lang('doi.this_doi_is_dead'); ?></p>
-            <h1><?= $DOI; ?></h1>
-            <h3><?= $title; ?></h3>
-            <p><?= $description; ?></p>
+            <h4 class="text-danger"><?= lang('doi.this_doi_is_dead'); ?></h4>
+            <h1><?= $pi_id; ?></h1>
+            <h3><?= $pi_title; ?></h3>
+            <p>Ativo: <?= lang('doi.active_' . $pi_active); ?></p>
+            <p>Situação: <?= $pi_status; ?></p>
+            <p>URL: <?= anchor($pi_url); ?></p>
         </div>
     </div>
 </div>

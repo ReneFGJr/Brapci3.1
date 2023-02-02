@@ -15,7 +15,7 @@ define("COLLECTION", 'dados');
 
 class Dados extends BaseController
 {
-    public function index($act = '', $subact = '', $id = '', $id2 = '')
+    public function index($act = '', $subact = '', $id = '', $id2 = '', $id3 = '', $id4 = '')
     {
         $ResearchData = new \App\Models\ResearchData\Index();
         $menu = array();
@@ -31,7 +31,7 @@ class Dados extends BaseController
         switch ($act) {
             case 'tombstone':
                 $DOI = new \App\Models\DOI\Index();
-                $sx .= $DOI->tombstone($subact, $id, $id2);
+                $sx .= $DOI->tombstone($subact, $id, $id2, $id3, $id4);
                 break;
             case 'dataverse':
                 $Dataverse = new \App\Models\Dataverse\Index();
