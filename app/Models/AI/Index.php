@@ -61,10 +61,7 @@ class Index extends Model
 					$dta['n_name'] = $name2;
 					$RDFLiteral->set($dta)->where('id_n', $idn)->update();
 
-					echo ($name);
-					echo '<hr>';
-					echo ($name2);
-					pre($dta);
+					$sx .= $name.' => '.$name2.'<br>';
 				} else {
 					echo $name . 'none<br>';
 				}
