@@ -119,7 +119,7 @@ class Index extends Model
             $cp .= 'ca_nr, ca_pag, ';
             $cp .= ' "" as 1st, "" as 2nd, "" as 3th, ';
             $cp .= 'ca_text, jnl_name, jnl_name_abrev, ';
-            $cp .= 'concat(\''.base_url(COLLECTION .'/v/').'\',jnl_frbr) as jnl_url';
+            $cp .= 'concat(\''.PATH.COLLECTION .'/v/'.'\',jnl_frbr) as jnl_url';
             //$cp = '*';
             switch($type)
                 {
@@ -218,9 +218,7 @@ class Index extends Model
 
     function show_ref($id)
         {
-            //$this->zera();
-            $this->load->model('ias');
-            $this->load->model('ias_cited');
+
             $sx = '';
             $sql = "select * from ".$this->base.'cited_article
                     where ca_rdf = '.round($id).'

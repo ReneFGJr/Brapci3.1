@@ -133,6 +133,7 @@ class Metadata extends Model
                         break;
                     case 'hasSectionOf':
                         $this->lets('Section', $value);
+                        $this->let('Sections', $value);
                         break;
                     case 'hasFileStorage':
                         $this->let('PDF', $value);
@@ -187,6 +188,7 @@ class Metadata extends Model
                         break;
                     case 'hasSectionOf':
                         $this->lets('section', $value);
+                        $this->let('Sections', $value);
                         break;
                     case 'hasCover':
                         $cover = $COVER->image($ddv2);
@@ -227,6 +229,7 @@ class Metadata extends Model
                 }
             }
         }
+        $this->metadata['Citation'] = '';
         //pre($this->metadata,false);
         //pre($meta);
         return $this->metadata;

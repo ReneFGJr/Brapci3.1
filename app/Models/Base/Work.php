@@ -119,6 +119,8 @@ class Work extends Model
         $da['cited'] = $Cited->citation_total($idc);
 
         $da['reference'] = $this->show_reference($idc);
+        $Citation = new \App\Models\Cited\Index();
+        $da['Citation'] = $Citation->show_ref($idc);
 
         $da['files'] = $Download->show_resources($da);
         if (isset($da['summary']) and ($da['summary'] != ''))
@@ -128,15 +130,6 @@ class Work extends Model
                     '</center>'.$da['summary'];
             }
 
-    /*
-        if (!isset($da['issue_id']))
-            {
-                echo '<br><br><br><br><br>';
-                echo "ERRO EXPORT - WORK - ". COLLECTION.' class:'. $da['class'];
-                //pre($dt);
-            }
-*/
-//pre($da,false);
         switch (COLLECTION) {
             case '/proceedings':
                 $Issue = new \App\Models\Base\Issues();

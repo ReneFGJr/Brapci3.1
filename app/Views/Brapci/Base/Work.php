@@ -6,7 +6,7 @@ if (!isset($MidiasSociais)) {
 }
 $style = ' style="border-bottom: 1px solid #000;" ';
 
-$langs = array('pt-BR','en','es','fr');
+$langs = array('pt-BR', 'en', 'es', 'fr');
 
 if (!isset($logo)) $logo = '';
 if (!isset($Title)) $Title = array();
@@ -17,17 +17,20 @@ if (!isset($edit)) $edit = '';
 <div class="container">
     <?= $sub_header; ?>
     <div class="row" <?= $style; ?>>
-        <div class="col-2">
-            <?= $logo; ?>
+        <div class="col-1">
             <?= $edit; ?>
         </div>
-        <div class="col-6">
-            <?= $issue; ?>
+        <div class="col-4">
+            <?= $issue; ?>XX
         </div>
 
-        <div class="col-4 mb-4 text-end p-2">
+        <div class="col-7 mb-4 text-end p-2">
             <!--- LEGEND ------------------------------------------->
-            <span class="btn btn-primary"><?= $Section; ?></span>
+            <?php
+            foreach ($Sections as $id => $sectn) {
+                echo '<span class="btn btn-primary ms-2">' . $sectn . '</span>';
+            }
+            ?>
         </div>
 
     </div>
@@ -42,11 +45,10 @@ if (!isset($edit)) $edit = '';
             /******************************** TITULO */
             $H = 2;
             foreach ($langs as $idioma) {
-                if (isset($Title[$idioma]))
-                    {
-                        echo '<h' . $H . ' class="text-center p-3">' . $Title[$idioma] . '</h' . $H . '>';
-                        $H++;
-                    }
+                if (isset($Title[$idioma])) {
+                    echo '<h' . $H . ' class="text-center p-3">' . $Title[$idioma] . '</h' . $H . '>';
+                    $H++;
+                }
             }
             ?>
         </div>
@@ -75,29 +77,36 @@ if (!isset($edit)) $edit = '';
                 <?php
                 /******************************** ABSTRACT */
                 foreach ($langs as $idioma) {
-                    if (isset($Abstract[$idioma]))
-                        {
+                    if (isset($Abstract[$idioma])) {
 
                         echo '<div style="text-align: justify; font-size: 1em; line-height: 120%;"
                                 id="abstract_' . $idioma . '">';
                         echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b> ';
                         echo $Abstract[$idioma] . '</div>';
-                        }
-
-                    if (isset($Keywords[$idioma]))
-                        {
-                            echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                            echo $Keywords[$idioma];
-                            echo '<br><br>';
-                        }
                     }
+
+                    if (isset($Keywords[$idioma])) {
+                        echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
+                        echo $Keywords[$idioma];
+                        echo '<br><br>';
+                    }
+                }
                 ?>
             </p>
+
+            <p><?= $reference; ?></p>
 
             <!-- COMPARTILHE -->
             <div class="mt-5 mb-5">
                 <?php
                 echo $MidiasSociais;
+                ?>
+            </div>
+
+            <!-- COMPARTILHE -->
+            <div class="mt-5 mb-5">
+                <?php
+                echo $Citation;
                 ?>
             </div>
         </div>
@@ -108,6 +117,7 @@ if (!isset($edit)) $edit = '';
             /************************************************************ PDF */
             echo $files;
             ?>
+
             <div class="p-0" id="bug"><?= $bugs; ?></div>
 
             <div class="p-0" id="links" style="display: none;"><?= $links; ?></div>
