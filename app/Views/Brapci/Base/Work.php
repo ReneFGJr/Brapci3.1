@@ -77,10 +77,11 @@ if (!isset($edit)) $edit = '';
                 foreach ($langs as $idioma) {
                     if (isset($Abstract[$idioma]))
                         {
-                        echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b>';
+
                         echo '<div style="text-align: justify; font-size: 0.9em; line-height: 120%;"
-                                id="abstract_' . $idioma . '">' .
-                        $Abstract[$idioma] . '</div>';
+                                id="abstract_' . $idioma . '">';
+                        echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b> ';
+                        echo $Abstract[$idioma] . '</div>';
                         }
 
                     if (isset($Keywords[$idioma]))
