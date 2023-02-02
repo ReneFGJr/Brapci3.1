@@ -306,63 +306,63 @@ class Index extends Model
             switch($type)
                 {
                     case '1':
-                    $sx = '<span class="btn-primary radius5">&nbsp;'.msg('journal').'&nbsp;</span>';
+                    $sx = '<span class="type-journal radius5">&nbsp;'.msg('journal').'&nbsp;</span>';
                     break;
 
                     case '2':
-                    $sx = '<span class="btn-danger radius5">&nbsp;'.msg('book').'&nbsp;</span>';
+                    $sx = '<span class="type-book radius5">&nbsp;'.msg('book').'&nbsp;</span>';
                     break;
 
                     case '3':
-                    $sx = '<span class="btn-danger radius5">&nbsp;'.msg('book.cap').'&nbsp;</span>';
+                    $sx = '<span class="type-bookchapter radius5">&nbsp;'.msg('book.cap').'&nbsp;</span>';
                     break;
 
                     case '5':
-                    $sx = '<span class="btn-success radius5">&nbsp;'.msg('events').'&nbsp;</span>';
+                    $sx = '<span class="type-proceeding radius5">&nbsp;'.msg('events').'&nbsp;</span>';
                     break;
 
                     case '7':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('these').'&nbsp;</span>';
+                    $sx = '<span class="type-these radius5">&nbsp;'.msg('these').'&nbsp;</span>';
                     break;
 
                     case '8':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('dissertation').'&nbsp;</span>';
+                    $sx = '<span class="type-dissertation radius5">&nbsp;'.msg('dissertation').'&nbsp;</span>';
                     break;
 
                     case '9':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('TCC').'&nbsp;</span>';
+                    $sx = '<span class="type-tcc radius5">&nbsp;'.msg('TCC').'&nbsp;</span>';
                     break;
 
                     case '15':
-                        $sx = '<span class="btn-info radius5">&nbsp;'.msg('LINK').'&nbsp;</span>';
+                        $sx = '<span class="type-link radius5">&nbsp;'.msg('LINK').'&nbsp;</span>';
                         break;
 
                     case '20':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('LAW').'&nbsp;</span>';
+                    $sx = '<span class="type-law radius5">&nbsp;'.msg('LAW').'&nbsp;</span>';
                     break;
 
                     case '21':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('REPORT').'&nbsp;</span>';
+                    $sx = '<span class="type-report radius5">&nbsp;'.msg('REPORT').'&nbsp;</span>';
                     break;
 
                     case '22':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('STANDARD').'&nbsp;</span>';
+                    $sx = '<span class="type-standard radius5">&nbsp;'.msg('STANDARD').'&nbsp;</span>';
                     break;
 
                     case '29':
-                    $sx = '<span class="btn-warning radius5">&nbsp;'.msg('INTERVIEW').'&nbsp;</span>';
+                    $sx = '<span class="type-interview radius5">&nbsp;'.msg('INTERVIEW').'&nbsp;</span>';
                     break;
 
                     case '30':
-                    $sx = '<span class="btn-primary radius5">&nbsp;'.msg('SOFTWARE').'&nbsp;</span>';
+                    $sx = '<span class="type-software radius5">&nbsp;'.msg('SOFTWARE').'&nbsp;</span>';
                     break;
 
                     case '31':
-                    $sx = '<span class="btn-primary radius5">&nbsp;'.msg('PATENT').'&nbsp;</span>';
+                    $sx = '<span class="type-patent radius5">&nbsp;'.msg('PATENT').'&nbsp;</span>';
                     break;
 
                     default:
-                    $sx = '<span class="btn-secondary radius5">&nbsp;'.msg('none').$type.'&nbsp;</span>';
+                    $sx = '<span class="type-none radius5">&nbsp;'.msg('none').$type.'&nbsp;</span>';
                 }
             return($sx);
         }

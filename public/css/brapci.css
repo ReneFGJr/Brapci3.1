@@ -353,7 +353,11 @@ a.pgcd_nav-item-active:hover {
     border-radius: 10px;
     cursor: pointer;
   }
-
+/************************* Cited-Type */
+.type-journal, .type-link, .type-tcc , .type-dissertation , .type-these, .type-proceeding , .type-bookchapter , .type-book , .type-law , .type-report , .type-standard , .type-interview , .type-software , .type-patent, .type-none
+  {
+    background-color: #aaa;
+  }
 
 /********************** Heart */
 .heart {
@@ -380,5 +384,4 @@ a.pgcd_nav-item-active:hover {
         transform: rotate(-45deg) scale(1);
         opacity: 0;
     }
-
 }
