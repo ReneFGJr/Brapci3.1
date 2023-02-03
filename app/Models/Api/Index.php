@@ -49,7 +49,14 @@ class Index extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
+        echo "OK $d1";
+        return "OK";
         switch ($d1) {
+            case 'lattes':
+                return("XXXXXXXXXXXXX");
+                $Lattes = new \App\Models\Api\Endpoint\Lattes();
+                $sx = $Lattes->index($d2,$d3,$d4);
+                break;
             case 'pdf':
                 $API = new \App\Models\Api\Endpoint\Pdf;
                 $sx = $API->index($d1, $d2, $d3, $d4);

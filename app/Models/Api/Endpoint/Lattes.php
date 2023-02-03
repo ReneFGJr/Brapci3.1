@@ -6,10 +6,10 @@ namespace App\Models\Api\Endpoint;
 @package Brapci Lattes
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
+@copyright 2023 CC-BY
 @access public/private/apikey
-@example https://brapci.inf.br/api/genre/?name=RENE FAUSTINO GABRIEL JUNIOR
-@abstract API para consulta de metadados de livros com o ISBN
+@example https://brapci.inf.br/api/lattes/convert/K2999994T9
+@abstract API para uso do Lattes
 */
 
 use CodeIgniter\Model;

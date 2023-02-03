@@ -60,9 +60,6 @@ $routes->get('/ws/api/(:any)', 'Api::index/$1');
 $routes->get('/ws/(:any)/(:any)', 'Api::index/$1/$2');
 $routes->get('/api', 'Api::index');
 $routes->get('/api/(:any)', 'Api::index/$1');
-$routes->get('/api/(:any)/(:any)', 'Api::index/$1/$2');
-$routes->get('/api/(:any)/(:any)/(:any)', 'Api::index/$1/$2/$3');
-$routes->get('/api/(:any)/(:any)/(:any)/(:any)', 'Api::index/$1/$2/$3/$4');
 $routes->post('/api/(:any)', 'Api::index/$1');
 
 /********* SOCIAL */
