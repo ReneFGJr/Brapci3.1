@@ -244,7 +244,7 @@ class Metadata extends Model
                         $this->leta('Title',$valueO,$langO);
                         break;
                     case 'hasSubject':
-                        $this->leta('Keywords', $lang, $value);
+                        $this->leta('Keywords', $lang, $value.';'.$ddv2);
                         break;
                     case 'hasIssueProceedingOf':
                         if (!isset($issue_proceessed[$ddv1]))
@@ -284,6 +284,7 @@ class Metadata extends Model
             }
         }
         //pre($this->metadata,false);
+        //exit;
         //pre($meta);
         return $this->metadata;
     }
@@ -300,7 +301,6 @@ class Metadata extends Model
             foreach ($concept as $class => $value) {
                 switch ($class) {
                     case 'c_class':
-                        $this->let('keywords', $value);
                         $this->let('DC.Type', $value);
                         $this->let('DC.Type.articleType', $value);
                         break;

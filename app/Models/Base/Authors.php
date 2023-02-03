@@ -42,19 +42,17 @@ class Authors extends Model
 
     function index_auths($auth = array(), $id = '')
     {
-        return "";
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
-        $file = $dir . 'authors.json';
+        $file = $dir . 'Authors.json';
         if (file_exists($file)) {
             $dt = file_get_contents($file);
             $dt = json_decode($dt);
 
-            for ($r = 0; $r < count($dt); $r++) {
-                $t = (array)$dt[$r];
-                if (strlen($t['name']) > 0) {
-                    $term = trim($t['name']);
-                    $id = $t['id'];
+            foreach($dt as $id=>$name)
+                {
+                if (strlen($name) > 0) {
+                    $term = trim($name);
                     $term .= ';' . $id;
                     if (isset($auth[$term])) {
                         $auth[$term]++;
