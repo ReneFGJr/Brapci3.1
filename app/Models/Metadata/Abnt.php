@@ -48,6 +48,76 @@ class Abnt extends Model
 		}
 		return $tela;
 	}
+	function abnt_proceeding($dt)
+		{
+		$id = $dt['ID'];
+		$title = trim(html_entity_decode($dt['title']));
+		$title = trim(mb_strtolower($title));
+		$tu = mb_strtoupper($title);
+		$tu = mb_substr($tu, 0, 1);
+		$te = mb_substr($title, 1);
+		$title = $tu . $te;
+
+		$tela = '';
+		$tela .= '<span class="abtn-article">';
+		if (isset($dt['Authors'])) {
+			$total = count($dt['Authors']);
+			$authors = '';
+			if ($total <= 3) {
+				for ($r = 0; $r < count($dt['Authors']); $r++) {
+					if ($authors != '') {
+						$authors .= '; ';
+					}
+					$authors .= nbr_author($dt['Authors'][$r], 2);
+				}
+				$authors .= '. ';
+			} else {
+				$authors .= nbr_author($dt['Authors'][0], 2);
+				$authors .= '; <i>et al.</i>. ';
+			}
+			$tela .= $authors;
+		}
+		$tela .= '. ' . anchor(PATH.COLLECTION.'/v/'.$id,$title).'. ';
+
+		$tela .= '<i>In</i>: ';
+		$tela .= $dt['Issue']['Journal'];
+		$tela .= ', ' . $dt['Issue']['Issue_nr'] . '. ';
+
+		$tela .= '<b>Anais</b> [.] ';
+
+		if (isset($dt['Issue']['Year']))
+			{
+
+				$tela .= $dt['Issue']['Place'];
+				$tela .= ', ' . $dt['Issue']['Year'];
+
+			} else {
+				if (isset($dt['issue']['Identifier'])) {
+					$tela .= $dt['issue']['Identifier'];
+				}
+
+				if (isset($dt['issue']['place'])) {
+					$tela .= ' ' . $dt['issue']['place'];
+				}
+			}
+
+
+		if (isset($dt['pages'])) {
+			$tela .= ', p ' . $dt['pages'];
+		}
+		$tela .= '.';
+
+		/******** LIMPAR */
+		$tela = troca($tela, ' ,', ',');
+		$tela = troca($tela, ' .', '.');
+		while (strpos($tela, '..')) {
+			$tela = troca($tela, '..', '.');
+		}
+		$tela = troca($tela, '[.]', '[...].');
+		$tela .= '</span>';
+		return $tela;
+
+		}
 	function abnt_article($dt)
 	{
 		$title = trim(html_entity_decode($dt['title']));
@@ -58,7 +128,7 @@ class Abnt extends Model
 		$title = $tu . $te;
 
 		$tela = '';
-		$tela .= '<div class="abtn-article">';
+		$tela .= '<span class="abtn-article">';
 		if (isset($dt['Authors'])) {
 			$total = count($dt['Authors']);
 			$authors = '';
@@ -97,6 +167,7 @@ class Abnt extends Model
 		while (strpos($tela, '..')) {
 			$tela = troca($tela, '..', '.');
 		}
+		$tela .= '</span>'.cr();
 		return $tela;
 	}
 }

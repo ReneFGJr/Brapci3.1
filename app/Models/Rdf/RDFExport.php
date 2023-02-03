@@ -1,9 +1,6 @@
 <?php
-
 namespace App\Models\RDF;
-
 use CodeIgniter\Model;
-
 class RDFExport extends Model
 {
 	protected $DBGroup              = 'rdf';
@@ -128,6 +125,217 @@ class RDFExport extends Model
 		return $issues;
 	}
 
+	function saveCSV($id,$sep = 'td')
+		{
+			/*************************** Separador */
+			switch($sep)
+				{
+					default:
+						$line_start = '<tr>';
+						$line_end = '</tr>';
+						$sep_ini = '<td>';
+						$sep_end = '</td>';
+						break;
+				}
+			$dir = $this->RDF->directory($id);
+			$csv = array(
+					'Authors'=> 'json',
+					'Title'=>'name',
+					'Journal'=>'name',
+					'Year' => 'name',
+					'Sections' => 'json',
+					'Keywords_pt-BR'=>'json',
+					'Keywords_en' => 'json',
+					'Keywords_es' => 'json',
+					'Keywords_fr' => 'json',
+					);
+			$csvRow = '' . cr();
+			$csvRow .= $line_start;
+			foreach ($csv as $fields => $type)
+				{
+						$csvRow .= $sep_ini . UpperCase($fields) . '' . $sep_end . cr();
+				}
+			$csvRow .= $line_end.cr();
+
+			$csvRow .= $line_start.cr();
+			foreach($csv as $fields=>$type)
+				{
+					$file = $dir.$fields.'.'.$type;
+					if (file_exists($file))
+						{
+							switch($type)
+								{
+									case 'json':
+									$n = array();
+									$json = json_decode(file_get_contents($file));
+									$name = implode(";", $json);
+									$csvRow .= $sep_ini.$name.$sep_end;
+									break;
+
+									case 'name':
+									$name = file_get_contents($file);
+									$csvRow .= $sep_ini . $name . $sep_end . cr();
+									break;
+
+									default:
+										echo '==>'.$type;
+										break;
+								}
+						} else {
+							$csvRow .= $sep_ini . '' . $sep_end.cr();
+						}
+				}
+			$csvRow .= $line_end;
+			$this->saveData($id, 'csv', $csvRow);
+		}
+
+	function saveData($id,$type,$dta)
+		{
+			switch($type)
+				{
+					case 'Elastic':
+						break;
+					case 'csv':
+						$this->saveRDF($id, $dta, 'metadata.csv');
+						break;
+					case 'name':
+						$this->saveRDF($id, $dta, 'name.nm');
+						break;
+					case 'abnt':
+						$this->saveRDF($id, $dta, 'work_abtn.mm');
+						break;
+					case 'Class':
+						$name = $dta['Class'];
+						$this->saveRDF($id, $name, 'class.nm');
+						break;
+					case 'Pages':
+						if (isset($dta['Pages'])) {
+							pre($dta['Pages']);
+						}
+						if (isset($dta['pagi'])) {
+							pre($dta['Pages']);
+						}
+						if (isset($dta['pagf'])) {
+							pre($dta['Pages']);
+						}
+						break;
+					case 'Title':
+						$name = $dta['title'];
+						$this->saveRDF($id, $name, 'Title.name');
+						break;
+					case 'Year':
+						if (isset($dta['Issue']['Year'])) {
+							$name = trim($dta['Issue']['Year']);
+							$this->saveRDF($id, $name, 'Year.name');
+						}
+						break;
+					case 'Place':
+						if (isset($dta['Issue']['Place'])) {
+							$name = trim($dta['Issue']['Place']);
+							$this->saveRDF($id, $name, 'Place.name');
+						}
+						break;
+					case 'Keywords':
+						if (isset($dta['Keywords']))
+							{
+								$name = json_encode($dta['Keywords']);
+								$this->saveRDF($id, $name, 'Keywords.json');
+
+								$name = '';
+								$idiomas = array();
+								foreach($dta['Keywords'] as $key=>$lang)
+									{
+										if ($lang == 'es-ES') { $lang = 'es'; }
+										if (!isset($idiomas[$lang]))
+											{
+												$idiomas[$lang] = array();
+											}
+										$idiomas[$lang][] = $key;
+										$name .= $key.';';
+									}
+								$this->saveRDF($id, $name, 'Keywords.name');
+								foreach($idiomas as $lang=>$keys)
+									{
+										$this->saveRDF($id, json_encode($keys), 'Keywords_'.$lang.'.json');
+									}
+							}
+						break;
+					case 'Authors':
+						if (isset($dta['Authors']))
+						{
+							$name = json_encode($dta['Authors']);
+							$this->saveRDF($id, $name, 'Authors.json');
+
+							$name = trim(implode('; ', $dta['Authors']));
+							$this->saveRDF($id, $name, 'Authors.name');
+						}
+						break;
+
+					case 'Journal':
+						if (isset($dta['Issue']['Journal']))
+						{
+							$name = trim($dta['Issue']['Journal']);
+							$this->saveRDF($id, $name, 'Journal.name');
+						}
+						break;
+
+					case 'Section':
+						if (isset($dta['Sections']))
+							{
+								$name = json_encode($dta['Sections']);
+								$this->saveRDF($id, $name, 'sections.json');
+
+								$name = trim(implode(';',$dta['Sections']));
+								$this->saveRDF($id, $name, 'sections.name');
+							} else {
+								echo "Section NOT FOUND";
+							}
+						break;
+					default:
+						echo "OPS SAVE TYPE $type";
+						exit;
+				}
+		}
+
+	function export_proceeding($dt,$id,$tp='P')
+		{
+		$Metadata = new \App\Models\Base\Metadata();
+		$RDF = new \App\Models\Rdf\RDF();
+		$ABNT = new \App\Models\Metadata\Abnt();
+
+		if (count($dt['data']) == 0) {
+			return "OPS " . $id . '<br>';
+		}
+
+		$dta = $Metadata->metadata($dt);
+
+		$this->saveData($id, 'Title', $dta);
+		$this->saveData($id, 'Section',$dta);
+		$this->saveData($id, 'Journal', $dta);
+		$this->saveData($id, 'Authors', $dta);
+		$this->saveData($id, 'Keywords', $dta);
+
+		$this->saveData($id, 'Year', $dta);
+		$this->saveData($id, 'Place', $dta);
+
+		$this->saveData($id, 'Class', $dta);
+		$this->saveData($id, 'Pages', $dta);
+		//$this->saveRDF($id, json_encode($dta), 'name.json');
+
+		$this->saveCSV($id);
+		$this->saveData($id, 'Elastic', $dta);
+
+		/* Formata para Artigo ABNT */
+		$ABNT = new \App\Models\Metadata\Abnt();
+		$name = $ABNT->abnt_proceeding($dta);
+		$this->saveData($id, 'abnt', $name);
+		$this->saveData($id, 'name', $name);
+
+		return '';
+
+
+		}
+
 	/****************************************************************** ARTICLE / PROCEEDING */
 	function export_article($dt, $id, $tp = 'A')
 	{
@@ -144,7 +352,7 @@ class RDFExport extends Model
 
 		if (isset($dta['issue_id']))
 			{
-				$dti = $RDF->le($dta['issue_id']);
+				$dti = $RDF->le($dta['issue_id'][0]);
 				$dta['issue'] = $Metadata->metadata($dti);
 			}
 

@@ -48,35 +48,15 @@ class Keywords extends Model
 
     function index_keys($key = array(), $id = '')
     {
+        /*
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
         $file = $dir . 'keywords.json';
         if (file_exists($file)) {
             $dt = file_get_contents($file);
             $dt = json_decode($dt);
-
-            for ($r = 0; $r < count($dt); $r++) {
-                $tt = (array)$dt[$r];
-                if (isset($tt['term'])) {
-                    $t = (string)$tt['term'];
-                } else {
-                    $tt = $dt[$r];
-                    $t = trim($tt);
-                }
-
-                if (strlen($t) > 0) {
-                    $term = strip_tags($t);
-                    $id = substr($t, strpos($t, '/v/') + 2, strlen($t));
-                    $id = sonumero(substr($id, 0, strpos($id, '"')));
-                    $term .= ';' . $id;
-                    if (isset($key[$term])) {
-                        $key[$term]++;
-                    } else {
-                        $key[$term] = 1;
-                    }
-                }
-            }
         }
         return $key;
+        */
     }
 }

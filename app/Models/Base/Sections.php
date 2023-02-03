@@ -65,6 +65,7 @@ class Sections extends Model
 
     function index_sections($key = array(), $id = '')
     {
+        /*
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
         $file = $dir . 'section.json';
@@ -100,5 +101,6 @@ class Sections extends Model
             }
         }
         return $key;
+        */
     }
 }

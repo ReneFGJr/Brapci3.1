@@ -42,6 +42,7 @@ class Authors extends Model
 
     function index_auths($auth = array(), $id = '')
     {
+        return "";
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
         $file = $dir . 'authors.json';

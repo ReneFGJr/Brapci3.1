@@ -48,6 +48,7 @@ class Indexshow extends Model
 
     function show_index($key, $title = 'keywords')
     {
+        return "INDEX SHOW";
         $RDF = new \App\Models\Rdf\RDF();
         arsort($key);
         $tot = '';

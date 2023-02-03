@@ -6,7 +6,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso = $Socials->nav_user();
 } else {
     $acesso = '<li class="nav-item" style="list-style-type: none;">';
-    $acesso .= '<button class="btn btn-outline-danger" ';
+    $acesso .= '<button class="btn btn-outline-access" ';
     $acesso .= 'onclick="location.href=\'' . PATH . COLLECTION . '/social/login\'" ';
     $acesso .= 'style="margin-left: 7px;" type="submit">';
     $acesso .= 'ACESSO';

@@ -46,7 +46,12 @@ class Metadata extends Model
 
     function let($class, $value)
     {
-        $this->metadata[$class][] = trim($value);
+        if (is_array($value))
+            {
+                $this->metadata[$class] = $value;
+            } else {
+                $this->metadata[$class][] = trim($value);
+            }
         return true;
     }
 
@@ -79,15 +84,34 @@ class Metadata extends Model
         return true;
     }
 
+    function metadata_issue($id)
+        {
+            $ISSUE = new \App\Models\Base\Issues();
+            $dtq = $ISSUE->le($id);
+            $dt = array();
+            $dt['Journal'] = $dtq['jnl_name'];
+            $dt['Place'] = $dtq['is_place'];
+            $dt['Year'] = $dtq['is_year'];
+            $dt['Issue_nr'] = $dtq['is_nr'];
+            $dt['Issue_thema'] = $dtq['is_thema'];
+            $dt['Issue_roman'] = $dtq['is_vol_roman'];
+            $dt['Issue_cover'] = $dtq['is_cover'];
+            $dt['Issue_roman'] = $dtq['is_vol_roman'];
+            return $dt;
+        }
+
     function metadata($meta)
     {
         $RDF = new \App\Models\Rdf\RDF();
         $COVER = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
+
+        $issue_proceessed = array();
         $this->metadata = array();
         if (isset($meta['concept'])) {
             $concept = $meta['concept'];
-            $this->lets('class', trim($concept['c_class']));
+            $this->lets('Class', trim($concept['c_class']));
+            $this->lets('ID', trim($concept['id_cc']));
             $m = '';
 
             foreach ($concept as $class => $value) {
@@ -200,7 +224,7 @@ class Metadata extends Model
                         $this->lets('cover', $cover);
                         break;
                     case 'hasPage':
-                        $this->lets('pages', $value);
+                        $this->lets('Pages', $value);
                         break;
                     case 'isPlaceOfPublication':
                         $this->lets('editora_local', $value);
@@ -220,17 +244,22 @@ class Metadata extends Model
                         $this->leta('Title',$valueO,$langO);
                         break;
                     case 'hasSubject':
-                        $this->lets('keywords', $value);
-                        $this->lets('subject', $value . '.');
-                        $value = '<a href="'.PATH.COLLECTION.'/v/'.$ddv2.'">'.$value.'</a>. ';
-                        $this->leta('Keywords', $value,$lang);
+                        $this->leta('Keywords', $lang, $value);
                         break;
                     case 'hasIssueProceedingOf':
-                        $this->lets('issue_id', $ddv1);
+                        if (!isset($issue_proceessed[$ddv1]))
+                            {
+                                $this->let('issue_id', $ddv1);
+                                $this->let("Issue",$this->metadata_issue($ddv1));
+                                $issue_proceessed[$ddv1] = 1;
+                            }
                         break;
                     case 'hasIssueOf':
-                        $this->lets('issue_id', $ddv1);
-                        break;
+                        if (!isset($issue_proceessed[$ddv1])) {
+                            $this->let('issue_id', $ddv1);
+                            $this->let("Issue", $this->metadata_issue($ddv1));
+                            $issue_proceessed[$ddv1] = 1;
+                        }
                     case 'hasPublicationNumber':
                         $this->lets('issue_nr', $value);
                         break;
@@ -246,6 +275,8 @@ class Metadata extends Model
                     case 'hasPageEnd':
                         $this->lets('pagf', $value);
                         break;
+                    case 'hasPlace':
+                        $this->lets('place',$value);
                     default:
                         //echo '==>'.$class.' == '.$valueO.'<br>';
                         break;

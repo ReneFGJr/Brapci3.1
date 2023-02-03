@@ -111,6 +111,19 @@ class Issues extends Model
         return $sx;
     }
 
+    function le($id)
+        {
+            $dt = $this
+                ->join('source_source', 'id_jnl = is_source')
+                ->where('is_source_issue',$id)
+                ->findAll();
+            if (count($dt) > 0)
+                {
+                    return $dt[0];
+                }
+            return(array());
+        }
+
     function issues($id = 0)
     {
         $Sources = new \App\Models\Base\Sources();
