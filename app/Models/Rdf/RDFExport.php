@@ -40,6 +40,11 @@ class RDFExport extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function __construct()
+	{
+		$this->RDF = new \App\Models\RDF\RDF();
+	}
+
 	function exportNail($id)
 	{
 		$this->RDF = new \App\Models\RDF\RDF();
@@ -126,216 +131,57 @@ class RDFExport extends Model
 	/****************************************************************** ARTICLE / PROCEEDING */
 	function export_article($dt, $id, $tp = 'A')
 	{
+
+		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
-		$publisher = '';
 
 		if (count($dt['data']) == 0) {
 			return "OPS " . $id . '<br>';
 		}
 
-		$elastic = array();
-		$elastic['article_id'] = $id;
-		$elastic['id_jnl'] = '';
-		$elastic['title'] = '';
-		$elastic['authors'] = '';
-		$elastic['abstract'] = '';
-		$elastic['subject'] = '';
-		$elastic['year'] = '';
-		$elascti['journal'] = '';
-		$elascti['pagination_ini'] = '';
-		$elascti['pagination_end'] = '';
+		$dta = $Metadata->metadata($dt);
 
-		$tela = 'Export Article';
-		$dta['id'] = $id;
-		/*************************************************** Authors */
-		$auths = $this->recover_authors($dt);
-		$auths_text = '';
-		for ($r = 0; $r < count($auths); $r++) {
-			if ($auths_text != '') {
-				$auths_text .= '; ';
+		if (isset($dta['issue_id']))
+			{
+				$dti = $RDF->le($dta['issue_id']);
+				$dta['issue'] = $Metadata->metadata($dti);
 			}
-			$auths_text .= $auths[$r]['name'] . ' ';
-		}
-		$dta['author'] = $auths;
-		$elastic['authors'] = strtolower(ascii($auths_text));
-
-		/***************************************************** Title */
-		$title = $this->recover_title($dt);
-		$title = $this->RDF->string($title);
-		$dta['title'] = $title;
-		$elastic['title'] = strtolower(ascii(($title)));
-
-		/***************************************************** Issue */
-		$ISSUE = new \App\Models\Base\Issues();
-		$year = 0;
-
-		$issue1 = $RDF->extract($dt, 'hasIssueProceedingOf');
-		$issue2 = $RDF->extract($dt, 'hasIssueOf');
-		$dti = array();
-
-		if (isset($issue1[0]) or isset($issue2[0])) {
-			if (isset($issue1[0])) {
-				$dti = $ISSUE->where('is_source_issue', $issue1[0])->findAll();
-			} else {
-				if (isset($issue2[0])) {
-					$dti = $ISSUE->where('is_source_issue', $issue2[0])->findAll();
-				}
-			}
-
-
-			if (count($dti) > 0) {
-				$year = $dti[0]['is_year'];
-				$source = $dti[0]['is_source'];
-				$elastic['id_jnl'] = $source;
-			} else {
-				if (isset($issue1[0])) {
-					$issue1 = $RDF->le($issue1[0]);
-				} else {
-					$issue1 = $RDF->le($issue2[0]);
-				}
-
-				if (!isset($issue1['concept']['n_name']))
-					{
-					$issue1['concept']['n_name'] = '0000000';
-					}
-
-				$year = sonumero($issue1['concept']['n_name']);
-				$year = round(substr($year, strlen($year) - 4, 4));
-			}
-			if (($year < 1960) or ($year >= (date("Y") + 1))) {
-				$year = '';
-			}
-		}
-		$elastic['year'] = $year;
-
-		/******************** YEAR, PLACE, SOURCE */
-		$issue = $this->recover_issue($dt, $id, $tp);
-		$dta['issueRDF'] = $issue[1];
-		if ($dta['issueRDF'] > 0) {
-			$dti = $this->RDF->le($dta['issueRDF']);
-			for ($r = 0; $r < count($dti['data']); $r++) {
-				$line = $dti['data'][$r];
-				switch ($line['c_class']) {
-					case 'hasDateTime':
-						$dta['year'] = $line['n_name2'];
-						$elastic['year'] = $dta['year'];
-						break;
-					case 'hasPlace':
-						$dta['place'] = $line['n_name2'];
-						break;
-					case 'prefLabel':
-						$dta['Source'] = $line['n_name'];
-						break;
-				}
-			}
-		}
-		$issue = $this->RDF->string($issue[0], 1);
-
-		/************************************************ Proceeding */
-		$dta['journal'] = $issue;
-		if ($tp == 'P') {
-			$issue = '<b>Anais...</b> ' . $issue;
-		}
-		$dta['issue'] = $issue;
-
-		/**************************************************** PAGE */
-		$abs = $this->RDF->recovery($dt['data'], 'hasAbstract');
-		$abs = $this->RDF->string_array($abs, 1);
-		$abs = strip_tags($abs);
-		$abs = troca($abs, chr(13), ' ');
-		$abs = troca($abs, chr(10), ' ');
-		$abs = trim($abs);
-		$dta['abstract'] = $abs;
-		$elastic['abstract'] = strtolower(ascii($abs));
-		/************************************************ SUBJECT */
-		$subject = array();
-		$subj = '';
-		for ($r = 0; $r < count($dt['data']); $r++) {
-			$line = $dt['data'][$r];
-			if ($line['c_class'] == 'hasSubject') {
-				$s_name = $line['n_name2'];
-				$s_lange = $line['n_lang2'];
-				$s_id = $line['d_r2'];
-				array_push($subject, array('term' => $s_name, 'lang' => $s_lange, 'ID' => $s_id));
-				$subj .= strtolower(ascii($s_name)) . ' ';
-			}
-		}
-		$dta['subject'] = $subject;
-		$elastic['subject'] = $subj;
-
-		/**************************************************** PAGE */
-		$pagf =  $this->RDF->recovery($dt['data'], 'hasPageEnd');
-		$pagi =  $this->RDF->recovery($dt['data'], 'hasPageStart');
-		$pagf = $this->RDF->string($pagf, 1);
-		$pagi = $this->RDF->string($pagi, 1);
-		$dta['pagi'] = $pagi;
-		$dta['pagf'] = $pagf;
-
-		if (strlen($pagf . $pagi) > 0) {
-			$issue = substr($issue, 0, strlen($issue) - 5) .
-				'p. $p, ' .
-				substr($issue, strlen($issue) - 5, 5);
-			$p = trim($pagi);
-			$elascti['pagination_ini'] = $p;
-			if (strlen($pagf) > 0) {
-				$elascti['pagination_end'] = $pagf;
-				if (strlen($p) > 0) {
-					$p .= '-';
-				}
-				$p .= $pagf;
-			}
-			$issue = troca($issue, '$p', $p);
-		}
 
 		/************************************************ Section */
-		$section = array();
-		for ($r = 0; $r < count($dt['data']); $r++) {
-			$line = $dt['data'][$r];
-
-			if ($line['c_class'] == 'hasSectionOf') {
-				$s_name = $line['n_name2'];
-				$s_lange = $line['n_lang2'];
-				$s_id = $line['d_r2'];
-				array_push($section, array('section' => $s_name, 'ID' => $s_id));
-			}
-		}
-		$dta['section'] = $section;
-
-		/****************************************************** MOUNT */
-		$publisher = '';
-
 		/* Formata para Artigo ABNT */
-		if ($tp == 'A') {
-			$issue = '<b>' .
-				substr($issue, 0, strpos($issue, ',')) .
-				'</b>' .
-				substr($issue, strpos($issue, ','), strlen($issue));
-		}
-		$name = strip_tags($auths_text . '. ');
-		$name .= '<a href="' . (PATH . '$COLLECTION/v/' . $id) . '" class="article" target="_blanl_' . $id . '">' . $title . '</a>';
-		$name .= '. $b$' . $publisher . '$/b$' . $issue;
-		$name = troca($name, '$b$', '<b>');
-		$name = troca($name, '$/b$', '</b>');
-		$this->saveRDF($id, $name, 'name.nm');
+		$ABNT = new \App\Models\Metadata\Abnt();
+		$name = $ABNT->abnt_article($dta);
 
 		/******************************** Section */
-		$section = json_encode($dta['section']);
+		$section = json_encode($dta['Sections']);
 		$this->saveRDF($id, $section, 'section.json');
 
 		/******************************** Authors */
-		$journal = json_encode($dta['journal']);
+		$journal = json_encode($dta['Journal']);
 		$this->saveRDF($id, $journal, 'journal.name');
 
 		/******************************** Authors */
-		$autores = json_encode($dta['author']);
+		if (!isset($dt['Authors']))
+			{
+				$dta['Authors'] = array();
+				$dta['authors'] = '';
+			}
+		$autores = json_encode($dta['Authors']);
 		$this->saveRDF($id, $autores, 'authors.json');
 
+		$this->saveRDF($id, $name, 'name.nm');
+
 		/******************************** Subject */
-		$this->saveRDF($id, json_encode($subject), 'keywords.json');
+		if (!isset($dta['Keywords']))
+			{
+				$dta['Keywords'] = array();
+			}
+		$Keywords = json_encode($dta['Keywords']);
+		$this->saveRDF($id, json_encode($Keywords), 'keywords.json');
 
 		/********************************* YEAR */
-		$year = sonumero($issue);
+		$year = sonumero($dta['issue']['year']);
 		$year = round(substr($year, strlen($year) - 4, 4));
 		if (($year > 1950) and ($year <= (date("Y") + 1))) {
 			$this->saveRDF($id, $year, 'year.nm');
@@ -344,7 +190,9 @@ class RDFExport extends Model
 
 		$this->saveRDF($id, json_encode($dta), 'name.json');
 
-		$elastic_json = json_encode($elastic);
+		$elastic_json = json_encode($dta);
+
+
 		$this->saveRDF($id, $elastic_json, 'article.json');
 		$class = trim($dt['concept']['c_class']);
 
@@ -356,53 +204,46 @@ class RDFExport extends Model
 		$ln = $td . $id . $tdx;
 
 		/************************************* TITLE */
-		$ln .= $td . $title . $tdx;
+		$ln .= $td . $dta['title'] . $tdx;
 
 		/*********************************** AUTHORS */
-		$ln .= $td . $auths_text . $tdx;
+		$ln .= $td . strip_tags($dta['authors']) . $tdx;
 
 		/********************************** JOURNALS */
-		$ln .= $td . $dta['journal'] . $tdx;
+		$ln .= $td . $dta['Journal'] . $tdx;
 
 		/************************************** YEAR */
 		$ln .= $td . $year .  $tdx;
 
 		/************************************** SECTIONS */
 		$sect = '';
-		for ($r = 0; $r < count($dta['section']); $r++) {
-			$k = $dta['section'][$r];
-			$sect = $k['section'];
+		for ($r = 0; $r < count($dta['Sections']); $r++) {
+			if ($sect != '') { $sect .= ';'; }
+			$sect = $dta['Sections'][$r];
 		}
 		$ln .= $td .  $sect . $tdx;
 
 		/*********************************** SUBJECT */
-		$subj = array('pt' => '', 'en' => '', 'es' => '');
-		for ($r = 0; $r < count($subject); $r++) {
-			$k = $subject[$r];
-			$key = trim($k['term']);
-			$lang = $k['lang'];
-			if ($key != '') {
-				switch ($lang) {
-					case 'pt-BR':
-						$subj['pt'] .= ';' . $key;
-						break;
-
-					case 'es-ES':
-						$subj['es'] .= ';' . $key;
-						break;
-
-					case 'en':
-						$subj['en'] .= ';' . $key;
-						break;
+		$subj = array('pt-BR' => '', 'en' => '', 'es' => '');
+		foreach($subj as $lang=>$vkr)
+			{
+			if (isset($dta['Keywords'][$lang]))
+				{
+					$keys = strip_tags($dta['Keywords'][$lang]);
+					$subj[$lang] = $keys;
 				}
 			}
-		}
-		$ln .= $td . $subj['pt'] . $tdx;
+
+
+		$ln .= $td . $subj['pt-BR'] . $tdx;
 		$ln .= $td . $subj['en'] . $tdx;
 		$ln .= $td . $subj['es'] . $tdx;
 
-		$ln .= $td . $pagi . $tdx;
-		$ln .= $td . $pagf . $tdx;
+		if (!(isset($dta['pagi']))) { $dta['pagi'] = ''; }
+		if (!(isset($dta['pagf']))) { $dta['pagf'] = ''; }
+
+		$ln .= $td . $dta['pagi'] . $tdx;
+		$ln .= $td . $dta['pagf'] . $tdx;
 
 		$ln = troca($ln,'>;','>');
 		$ln = troca($ln,'"','');
@@ -456,7 +297,7 @@ class RDFExport extends Model
 					$pags = $da['n_name2'];
 					break;
 				case 'hasBookChapter':
-					$book = $RDF->c($da['d_r1']);
+					$book = $this->RDF->c($da['d_r1']);
 					break;
 				case 'hasAbstract':
 					break;
@@ -491,8 +332,6 @@ class RDFExport extends Model
 			{
 				$this->saveRDF($id, $xclass, 'page.mn');
 			}
-
-		//exit;
 			return "";
 		}
 
@@ -789,7 +628,6 @@ class RDFExport extends Model
 	function export($id, $FORCE = false)
 	{
 		$tela = '';
-
 		/*****************************************************************/
 		switch ($id) {
 			case 'index_authors':
@@ -813,8 +651,6 @@ class RDFExport extends Model
 				return $tela;
 				break;
 		}
-
-		$this->RDF = new \App\Models\RDF\RDF();
 		$dir = $this->RDF->directory($id);
 		$file = $dir . 'name.nm';
 		if ((file_exists($file)) and ($FORCE == false)) {
@@ -822,6 +658,7 @@ class RDFExport extends Model
 		}
 
 		$dt = $this->RDF->le($id, 0);
+
 		if (!isset($dt['concept']['c_class'])) {
 			return '';
 		}
@@ -845,7 +682,7 @@ class RDFExport extends Model
 				break;
 
 			case 'brapci:Proceeding':
-				$this->export_article($dt, $id, 'P');
+				$this->export_proceeding($dt, $id, 'P');
 				break;
 
 				/*************************************** ISSUE ***/
@@ -985,30 +822,30 @@ class RDFExport extends Model
 							}
 
 							$class = 'BookChapter';
-							$idc = $RDF->RDF_concept($prefTerm, $class);
+							$idc = $this->RDF->RDF_concept($prefTerm, $class);
 							$lang = $Language->getTextLanguage($title);
 
 							$prop = 'hasTitle';
-							$literal = $RDF->literal($title,$lang);
-							$RDF->propriety($idc, $prop, 0, $literal);
+							$literal = $this->RDF->literal($title,$lang);
+							$this->RDF->propriety($idc, $prop, 0, $literal);
 
 
 							for($r=0;$r < count($authors);$r++)
 								{
 									$author = $authors[$r];
-									$id_pe = $RDF->RDF_concept($author, 'Person');
+									$id_pe = $this->RDF->RDF_concept($author, 'Person');
 									$prop = 'hasAuthor';
-									$RDF->propriety($idc, $prop, $id_pe, 0);
+									$this->RDF->propriety($idc, $prop, $id_pe, 0);
 								}
 
 
 							//$literal = 0;
 							$prop = 'hasBookChapter';
-							$exec = $RDF->propriety($idb, $prop, $idc, 0);
+							$exec = $this->RDF->propriety($idb, $prop, $idc, 0);
 						}
 				}
 			return('====>'.$title);
-			//return $RDF->c($idc);
+			//return $this->RDF->c($idc);
 		}
 
 	function export_imagem($d1, $d2)

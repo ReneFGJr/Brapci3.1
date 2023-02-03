@@ -46,7 +46,7 @@ class Metadata extends Model
 
     function let($class, $value)
     {
-        $this->metadata[$class][] = $value;
+        $this->metadata[$class][] = trim($value);
         return true;
     }
 
@@ -60,7 +60,7 @@ class Metadata extends Model
             $this->metadata[$class][$array] = '';
         }
         $vlr = $this->metadata[$class][$array];
-        $this->metadata[$class][$array] .= $value;
+        $this->metadata[$class][$array] .= trim($value);
         return true;
     }
 
@@ -71,7 +71,11 @@ class Metadata extends Model
             $this->metadata[$class] = '';
             }
             //pre($value,false);
-        $this->metadata[$class] .= $value . ' ';
+            if ($this->metadata[$class] != '')
+            {
+                $this->metadata[$class] .= ' ';
+            }
+        $this->metadata[$class] .= trim($value);
         return true;
     }
 
@@ -109,7 +113,7 @@ class Metadata extends Model
 
             for ($r = 0; $r < count($data); $r++) {
                 $line = $data[$r];
-                $class = $line['c_class'];
+                $class = trim($line['c_class']);
                 $value = $line['n_name2'];
                 $lang = $line['n_lang2'];
                 $valueO = $line['n_name'];
@@ -175,6 +179,7 @@ class Metadata extends Model
                     case 'hasAuthor':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a>';
                         $this->lets('authors', $name.'$');
+                        $this->let('Authors', $value);
                         break;
                     case 'dateOfPublication':
                         $this->lets('year', $value);
@@ -201,8 +206,9 @@ class Metadata extends Model
                         $this->lets('editora_local', $value);
                         break;
                     case 'isPubishIn':
-                        $this->lets('source', $value);
+                        $this->lets('Journal', $value);
                         $this->lets('id_jnl', $ddv2);
+                        //$this->lets('Journal', strip_tags($RDF->c($ddv2)));
                         break;
                     case 'hasLanguageExpression':
                         $this->lets('idioma', $value);
@@ -222,14 +228,30 @@ class Metadata extends Model
                     case 'hasIssueProceedingOf':
                         $this->lets('issue_id', $ddv1);
                         break;
-
+                    case 'hasIssueOf':
+                        $this->lets('issue_id', $ddv1);
+                        break;
+                    case 'hasPublicationNumber':
+                        $this->lets('issue_nr', $value);
+                        break;
+                    case 'hasPublicationVolume':
+                        $this->lets('issue_vol', $value);
+                        break;
+                    case 'altLabel':
+                        $this->let('issue_name', $valueO, $langO);
+                        break;
+                    case 'hasPageStart':
+                        $this->lets('pagi', $value);
+                        break;
+                    case 'hasPageEnd':
+                        $this->lets('pagf', $value);
+                        break;
                     default:
                         //echo '==>'.$class.' == '.$valueO.'<br>';
                         break;
                 }
             }
         }
-        $this->metadata['Citation'] = '';
         //pre($this->metadata,false);
         //pre($meta);
         return $this->metadata;

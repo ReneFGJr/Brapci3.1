@@ -85,6 +85,9 @@ class Index extends Model
                     $Socials = new \App\Models\Socials();
                     $BUGS = new \App\Models\Functions\Bugs();
 
+                    $Manegement = new \App\Models\Base\Manegement();
+                    $sx = $Manegement->index($subact, $id, $id2, $id3);
+
                     $user_id = $_SESSION['id'];
                     $usd = $Socials->find($user_id);
                     $user_name = $usd['us_nome'];

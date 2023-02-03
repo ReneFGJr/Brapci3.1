@@ -149,6 +149,15 @@ function nbr_author($xa,$xp)
                             }
                         break;
 
+                    /* Sobrenome e Nome CURTO*/
+                    case '2':
+                        $name = $NM[$TOT - 1];
+                        $name .= ', ';
+                        for ($r = 0; $r < ($TOT - 1); $r++) {
+                            $name .= substr($Nf[$r],0,1) . '. ';
+                        }
+                        break;
+
                     /* Nome e Sobrenome */
                     case '7':
                         for ($r=0;$r < ($TOT);$r++)
@@ -167,7 +176,8 @@ function nbr_author($xa,$xp)
                 default:
                     echo h($xa);
                     echo "Method ".$xp." not implemented";
-                    exit;
+                    $name = $xa;
+                    //exit;
             }
         $name = trim($name);
         if (strlen($name) < 5)

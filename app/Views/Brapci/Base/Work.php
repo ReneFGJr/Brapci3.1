@@ -12,6 +12,9 @@ if (!isset($logo)) $logo = '';
 if (!isset($Title)) $Title = array();
 if (!isset($sub_header)) $sub_header = '';
 if (!isset($edit)) $edit = '';
+if (!isset($Sections)) $Sections = array();
+
+
 ?>
 
 <div class="container">

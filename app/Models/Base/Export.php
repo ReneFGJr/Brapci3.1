@@ -57,33 +57,36 @@ class Export extends Model
     }
 
     function resume()
-        {
-            $sx = h(lang('brapci.service_cron'),4);
-            $dt = $this->findAll();
-            $sx .= '<table class="table" style="width: 100%; font-size: 0.7em;">';
-            for ($r=0;$r < count($dt);$r++)
-                {
-                    $line = $dt[$r];
-                    $st = $line['task_status'];
-                    $style = "";
+    {
+        $sx = h(lang('brapci.service_cron'), 4);
+        $dt = $this->findAll();
+        $sx .= '<table class="table" style="width: 100%; font-size: 0.7em;">';
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $st = $line['task_status'];
+            $style = "";
 
-                    if ($st == '0') { $style = 'color: #888;'; }
-                    if ($st == '1') { $style = 'color: #0F0;'; }
+            if ($st == '0') {
+                $style = 'color: #888;';
+            }
+            if ($st == '1') {
+                $style = 'color: #0F0;';
+            }
 
-                    $sx .= '<tr>';
-                    $sx .= '<td>'.$line['task_id'].'</td>';
-                    $sx .= '<td style="'.$style.'">' .  bsicone('circle'). '</td>';
-                    $sx .= '<td>' . $line['task_offset'] . '</td>';
-                    $sx .= '</tr>';
-                }
-            $sx .= '</table>';
-            $sx .= '<div style=" font-size: 0.6em;">';
-            $sx .= '<span style="color: #888;">' . bsicone('circle') . '</span> ' . lang('brapci.service.stop');
-            $sx .= '<br>';
-            $sx .= '<span style="color: #0F0;">' . bsicone('circle') . '</span> ' . lang('brapci.service.running');
-            $sx .= '</div>';
-            return $sx;
+            $sx .= '<tr>';
+            $sx .= '<td>' . $line['task_id'] . '</td>';
+            $sx .= '<td style="' . $style . '">' .  bsicone('circle') . '</td>';
+            $sx .= '<td>' . $line['task_offset'] . '</td>';
+            $sx .= '</tr>';
         }
+        $sx .= '</table>';
+        $sx .= '<div style=" font-size: 0.6em;">';
+        $sx .= '<span style="color: #888;">' . bsicone('circle') . '</span> ' . lang('brapci.service.stop');
+        $sx .= '<br>';
+        $sx .= '<span style="color: #0F0;">' . bsicone('circle') . '</span> ' . lang('brapci.service.running');
+        $sx .= '</div>';
+        return $sx;
+    }
 
     function next($type = '')
     {
@@ -140,6 +143,10 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/articles'] = lang('brapci.export') . ' ' . lang('brapci.articles');
         $menu[PATH . 'admin/' . $mod . '/proceeding'] = lang('brapci.export') . ' ' . lang('brapci.proceeding');
         $menu[PATH . 'admin/' . $mod . '/books'] = lang('brapci.export') . ' ' . lang('brapci.books');
+
+        $menu['#BOTS'] = "";
+        $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');
+
         $sx = menu($menu);
         $sx = bs(bsc($sx));
         return $sx;
@@ -196,7 +203,7 @@ class Export extends Model
             $this->eof = 1;
             return "FIM";
         }
-        $sx = '';
+        $sx = h($class);
         $total = $total[0]['total'];
         $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
@@ -211,23 +218,32 @@ class Export extends Model
                 $RDF->c($idr);
             }
 
-            /*
-                    $json = file_get_contents($file);
-                    $json = (array)json_decode($json);
-                    $json['type'] = $type;
-                    $json['collection'] = substr($class,0,1);
-                    $sx .= '<li>' . strzero($idr, 8) . ' ' . $ElasticRegister->data($idr, $json) . ' (' . $dir . ')</li>';
-                    */
+            if (!file_exists($file)) {
+                $sx .= '<li>' . strzero($idr, 8) . ' ' . " - ERROR FileID" . ' (' . $dir . ')</li>';
+            } else {
+                /********************************************  */
+                $json = file_get_contents($file);
+                $json = (array)json_decode($json);
+                $json['type'] = $type;
+                $json['collection'] = substr($class, 0, 1);
 
-            $line = $RDF->le($idr);
-            $Metadata->metadata = array();
-            $Metadata->metadata($line);
-            $meta = $Metadata->metadata;
-            $meta['collection'] = substr($class, 0, 1);
-            $meta['fulltext'] = '';
-            $meta['year'] = '';
-            $meta['pdf'] = 0;
-            $sx .= '<li>' . strzero($meta['article_id'], 8) . ' ' . $ElasticRegister->data($idr, $meta) . ' (' . $dir . ')</li>';
+                $line = $RDF->le($idr);
+                $Metadata->metadata = array();
+                $Metadata->metadata($line);
+                $meta = $Metadata->metadata;
+
+                /****************************** ISSUE */
+                if (isset($meta['id_issue'])) {
+                    pre($meta['id_issue']);
+                }
+
+                $meta['collection'] = substr($class, 0, 1);
+                $meta['fulltext'] = '';
+                $meta['abstract'] = '';
+                $meta['year'] = '';
+                $meta['pdf'] = 0;
+                $sx .= '<li>' . strzero(trim($meta['article_id']), 8) . ' ' . $ElasticRegister->data($idr, $meta) . ' (' . $dir . ')</li>';
+            }
         }
         $sx .= '</ul>';
         return $sx;

@@ -29,6 +29,7 @@ class Elasticsearch extends BaseController
         $data['bg'] = 'bg-tools';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
 
         $act = trim($act);
 
