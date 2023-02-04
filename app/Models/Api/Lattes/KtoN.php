@@ -135,6 +135,7 @@ class KtoN extends Model
             $sx = '';
             $dt = $this
                 ->select('count(*) as total, kn_status')
+                ->where('kn_status',1)
                 ->groupBy('kn_status')
                 ->orderBy('total desc')
                 ->findAll();
