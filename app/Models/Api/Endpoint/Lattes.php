@@ -55,7 +55,7 @@ class Lattes extends Model
             switch($d1)
                 {
                     case 'convert':
-                        $API = new \App\Models\Api\Lattes\Index();
+                        $API = new \App\Models\Api\Lattes\KtoN();
                         $API->convert_KtoN($d2);
                         exit;
                 }
