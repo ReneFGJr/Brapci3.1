@@ -42,6 +42,36 @@ class KtoN extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    // https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4518324E6
+    // https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K9336847Z6
+
+    function resume()
+        {
+            $sx = '';
+            $dt = $this
+                ->select('count(*) as total, kn_status')
+                ->groupBy('kn_status')
+                ->orderBy('total desc')
+                ->findAll();
+            $sx = '<table width="100%" class="table" style="font-size: 0.7em;>';
+            $sx .= '<tr><th colspan=2"><th>'.lang('brapci.lattes_kton').'</th></tr>';
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= '<tr>';
+                    $sx .= '<td width="80%">';
+                    $sx .= lang('brapci.lattes_kton_'.$line['kn_status']);
+                    $sx .= '</td>';
+
+                    $sx .= '<td width="20%" class="text-end">';
+                    $sx .= $line['total'];
+                    $sx .= '</td>';
+
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            return $sx;
+        }
+
     function convert_KtoN($n)
     {
         $n = trim($n);

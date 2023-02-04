@@ -62,11 +62,15 @@ class Manegement extends Model
             $ElasticSearch = new \App\Models\ElasticSearch\Register();
             $sc = $ElasticSearch->resume();
 
+            /************************************************ CRON - TAREFAS */
+            $Lattes = new \App\Models\API\Lattes\KtoN();
+            $sc .= $Lattes->resume();
 
 
 
-            $sx .= bsc($sb,4);
-            $sx .= bsc($sc, 4);
+
+            $sx .= bsc($sb,4,'" style="border-right: 1px solid #AAA;');
+            $sx .= bsc($sc, 4, '" style="border-right: 1px solid #AAA;');
             $sx .= bsc($sa,4);
 
             $sx = bs($sx);
