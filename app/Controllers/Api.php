@@ -18,15 +18,8 @@ class Api extends BaseController
     public function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
     {
         $sx = '';
-        switch ($d1) {
-            case 'lattes':
-                $API = new \App\Models\Api\Lattes\Index();
-                $sx = $API->index($d2, $d3, $d4);
-                break;
-            default:
-                $API = new \App\Models\Api\Index();
-                $sx = $API->index($d1, $d2, $d3, $d4);
-        }
+        $API = new \App\Models\Api\Index();
+        $sx = $API->index($d1, $d2, $d3, $d4);
         return $sx;
     }
 }

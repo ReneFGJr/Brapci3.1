@@ -56,6 +56,40 @@ class Index extends Model
         }
     }
 
+    function convert_KtoN($n)
+        {
+            $n = trim($n);
+            $rsp = array();
+            if (substr($n,0,1) != 'K')
+                {
+                    $rsp['erro'] = '400';
+                    $rsp['message'] = 'Código '.$n.' é inválido';
+                    echo json_encode($rsp);
+                    exit;
+                }
+
+            $dir = substr($n,0,2).'/'.substr($n,2,3).'/'.substr($n,5,3).'/';
+            $path = getenv('app.lattes.apoio');
+            $filename = $path.$dir.$n.'.txt';
+
+            if (!file_exists($filename))
+                {
+                    $rsp['erro'] = '403';
+                    $rsp['message'] = 'Código ' . $n . ' é não localizado';
+                    echo json_encode($rsp);
+                    exit;
+                } else
+                {
+                    $txt = file_get_contents($filename);
+                    $t = explode(',',$txt);
+                    $rsp['status'] = '200';
+                    $rsp['lattes_id'] = $t[0];
+                    echo json_encode($rsp);
+                    exit;
+                }
+            exit;
+        }
+
     function checkID($code)
     {
         $Lattes = new \App\Models\Lattes\Index();

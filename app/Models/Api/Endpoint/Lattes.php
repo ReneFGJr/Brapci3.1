@@ -49,4 +49,15 @@ class Lattes extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function index($d1,$d2,$d3)
+        {
+            switch($d1)
+                {
+                    case 'convert':
+                        $API = new \App\Models\Api\Lattes\Index();
+                        $API->convert_KtoN($d2);
+                        exit;
+                }
+        }
 }
