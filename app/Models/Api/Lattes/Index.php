@@ -74,7 +74,7 @@ class Index extends Model
 
             if (!file_exists($filename))
                 {
-                    $rsp['erro'] = '403';
+                    $rsp['status'] = '403';
                     $rsp['message'] = 'Código ' . $n . ' é não localizado';
                     echo json_encode($rsp);
                     exit;
