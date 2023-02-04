@@ -63,7 +63,7 @@ class Manegement extends Model
             $sc = $ElasticSearch->resume();
 
             /************************************************ CRON - TAREFAS */
-            $Lattes = new \App\Models\API\Lattes\KtoN();
+            $Lattes = new \App\Models\Api\Lattes\KtoN();
             $sc .= $Lattes->resume();
 
 
