@@ -46,7 +46,12 @@ class Index extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '')
     {
+        $sx = '';
         switch ($d1) {
+            case 'kton':
+                $KtoN = new \App\Models\Api\Lattes\KtoN();
+                $sx .= $KtoN->list($d2);
+                break;
             case 'extract':
                 echo $this->extract_from_markers();
                 exit;
@@ -54,6 +59,7 @@ class Index extends Model
             default:
                 break;
         }
+        return $sx;
     }
 
     function checkID($code)

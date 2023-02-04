@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'lattes':
+                $Lattes = new \App\Models\Api\Lattes\Index();
+                $sx .= $Lattes->index($subact, $id, $id2);
+                break;
             case 'bugs':
                 $Bugs = new \App\Models\Functions\Bugs();
                 $sx = $Bugs->index($subact, $id, $id2, $id3);

@@ -45,6 +45,91 @@ class KtoN extends Model
     // https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K4518324E6
     // https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=K9336847Z6
 
+    function dir_update($id)
+        {
+            $dt = $this->find($id);
+            $n = trim($dt['kn_idk']);
+            $id16 = trim($dt['kn_idn']);
+
+            $dir = substr($n, 0, 2) . '/' . substr($n, 2, 3) . '/' . substr($n, 5, 3) . '/';
+            $dir = getenv("app.lattes.apoio").$dir;
+
+            $lattes = new \App\Models\Api\Lattes\Index();
+            $check = $lattes->checkID($id16);
+
+            if ($lattes->checkID($id16))
+                {
+                    $txt = $dt['kn_idn'] . ',' . $dt['kn_idk'];
+                    dircheck($dir);
+                    $filename = $dt['kn_idk'].'.txt';
+                    file_put_contents($dir.$filename,$txt);
+                } else {
+                    echo "Erro: Update DIR Lattes IDK $id16";
+                    exit;
+                }
+        }
+
+    function list($status)
+        {
+            $sb = '';
+            $linka = '</a>';
+            $id=get("id");
+            if ($id != '')
+                {
+                    $dta = $this->find($id);
+                    $check = 0;
+                    $erro = bsmessage('ID Incorreto ' . $dta['kn_idk'],3);
+                    $idk = get("kn_idn");
+                    if ($idk != '')
+                        {
+                            $lattes = new \App\Models\Api\Lattes\Index();
+                            $check = $lattes->checkID($idk);
+                            $erro = '';
+                        }
+                    /********************************** CHECK */
+                    if ($check == 1)
+                        {
+                            $this->set($_POST)->where('id_kn',$id)->update();
+                            $this->dir_update($id);
+                            $sb = bsmessage('Atualizado',1);
+                            $sb .= metarefresh(PATH. 'admin/lattes/kton/1',1);
+                        } else {
+                            $link = '<a target="_blank" href="https://buscatextual.cnpq.br/buscatextual/visualizacv.do?id=' . $dta['kn_idk'] . '">';
+                            $link .= $dta['kn_idk'];
+                            $link .= $linka;
+                            $sb .= 'Visualizar o Lattes: '.$link;
+
+                            $sb .= form_open();
+                            $sb .= form_label('Informe o ID do Lattes');
+                            $sb .= '<br>';
+                            $sb .= form_input('kn_idn','');
+                            $sb .= form_hidden('kn_status', '2');
+                            $sb .= form_hidden('update_at', date("Y-m-d H:i:s"));
+                            $sb .= form_submit('action', lang('brapci.save'));
+                            $sb .= form_close();
+                        }
+                }
+
+
+            $dt = $this
+                ->where('kn_status',$status)
+                ->findAll();
+            $sx = '';
+            $sa = '<table class="table2" style="font-size: 0.8em;">';
+            $sa .= '<tr><th>IDK</th></tr>';
+            foreach($dt as $id=>$line)
+            {
+                $link = '<a href="'.PATH. 'admin/lattes/kton/1/?id='.$line['id_kn'].'">';
+                $sa .= '<tr>';
+                $sa .= '<td>'.$link.$line['kn_idk'].$linka.'</td>';
+                $sa .= '</tr>';
+            }
+            $sa .= '</table>';
+
+            $sx = bs(bsc($sa,6).bsc($sb,6));
+            return $sx;
+        }
+
     function resume()
         {
             $sx = '';
@@ -57,9 +142,11 @@ class KtoN extends Model
             $sx .= '<tr><th colspan=2"><th>'.lang('brapci.lattes_kton').'</th></tr>';
             foreach($dt as $id=>$line)
                 {
+                    $link = '<a href="'.PATH.'admin/lattes/kton/'.$line['kn_status'].'">';
+                    $linka = '</a>';
                     $sx .= '<tr>';
                     $sx .= '<td width="80%">';
-                    $sx .= lang('brapci.lattes_kton_'.$line['kn_status']);
+                    $sx .= $link.lang('brapci.lattes_kton_'.$line['kn_status']).$linka;
                     $sx .= '</td>';
 
                     $sx .= '<td width="20%" class="text-end">';
