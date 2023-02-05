@@ -66,7 +66,7 @@ class Indexshow extends Model
         $block_nr = 20;
         $bln = 0;
         $dsp = 0;
-        foreach ($key as $key => $total) {
+        foreach ($key as $keys => $total) {
             $dsp++;
             if ($bln == 0) {
                 $sw = '';
@@ -84,12 +84,12 @@ class Indexshow extends Model
                 $sx .= '<div id="block' . $title . $block . '" ' . $sw . '">';
                 $sx .= $ul;
             }
-            $nkey = substr($key, 0, strpos($key, ';'));
-            $nr = sonumero(substr($key, strpos($key, ';') + 1, 20));
-            $link = $RDF->href(array('id_cc' => $nr), 'href.' . $title . ' href');
+            $xkey = explode(";",$keys);
+            $link = '<a href="'.PATH.'/v/'.$xkey[1].'">';
             $linka = '</a>';
+
             $tot = '<span class="bullet">' . $total . '</span>';
-            $sx .= '<li>' . $link . $nkey . $linka . ' ' . $tot . '</li>';
+            $sx .= '<li>' . $link . $xkey[0] . $linka . ' ' . $tot . '</li>';
             $bln++;
             if ($bln == $block_nr) {
                 $bln = 0;
