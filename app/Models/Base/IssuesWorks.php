@@ -43,6 +43,12 @@ class IssuesWorks extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function exclude($id)
+        {
+            $this->where('siw_work_rdf',$id)->delete();
+            return true;
+        }
+
     function issueWorks($id_rdf)
         {
         $dt = $this

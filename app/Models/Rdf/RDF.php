@@ -126,6 +126,11 @@ class RDF extends Model
 			case 'concept':
 				switch($d2)
 					{
+						case 'exclude':
+							$this->exclude($d3, $d4);
+							return wclose();
+							exit;
+							break;
 						case 'export':
 						$RDFExport = new \App\Models\Rdf\RDFExport();
 						$RDFExport->export($d3,true);
@@ -475,7 +480,9 @@ class RDF extends Model
 	{
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$RDFData = new \App\Models\Rdf\RDFData();
+		$IssuesWorks = new \App\Models\Base\IssuesWorks();
 
+		$IssuesWorks->exclude($id);
 		$RDFData->exclude($id);
 		$RDFConcept->exclude($id);
 	}
@@ -575,10 +582,6 @@ class RDF extends Model
 		}
 		return $sx;
 	}
-
-
-
-
 
 	function le_class($id)
 	{
@@ -855,6 +858,11 @@ class RDF extends Model
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 
 		$dt['concept'] = $RDFConcept->le($id);
+
+		if(!isset($dt['data']))
+			{
+				$dt['data'] = array();
+			}
 
 		if ($simple == 0) {
 			$RDFData = new \App\Models\Rdf\RDFData();

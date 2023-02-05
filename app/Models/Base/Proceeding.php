@@ -45,6 +45,10 @@ class Proceeding extends Model
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
+        if (!isset($dt['concept']['id_cc']))
+            {
+                return(view('errors/html/error_404'));
+            }
         $class = $dt['concept']['c_class'];
 
         switch ($class) {

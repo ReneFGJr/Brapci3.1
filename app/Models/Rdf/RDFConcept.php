@@ -16,7 +16,7 @@ class RDFConcept extends Model
 	protected $protectFields        = true;
 	protected $allowedFields        = [
 		'id_cc','cc_class','cc_pref_term','cc_use',
-		'cc_origin','cc_library'
+		'cc_origin','cc_library', 'cc_status'
 	];
 
 	// Dates
@@ -73,12 +73,7 @@ class RDFConcept extends Model
 
 	function exclude($id)
 		{
-			$dt = $this->find($id);
-			$dt['cc_status'] = -1;
-			$dt['cc_class'] = $dt['cc_class']*(-1);
-			$dt['cc_use'] = $dt['cc_use']*(-1);
-			$dt['cc_pref_term'] = $dt['cc_pref_term']*(-1);
-			$this->set($dt)->where('id_cc',$id)->update();
+			$this->where('id_cc',$id)->delete();
 		}
 
 	function getNameId($t,$class)

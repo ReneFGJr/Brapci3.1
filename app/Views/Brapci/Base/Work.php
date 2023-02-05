@@ -24,7 +24,7 @@ if (!isset($Sections)) $Sections = array();
             <?= $edit; ?>
         </div>
         <div class="col-4">
-            <?= $issue; ?>XX
+            <?= $issue; ?>
         </div>
 
         <div class="col-7 mb-4 text-end p-2">

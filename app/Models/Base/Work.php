@@ -141,14 +141,23 @@ class Work extends Model
                 break;
             case '/benancib':
                 $Issue = new \App\Models\Base\Issues();
-                $idi = $Issue->where('is_source_issue',$da['issue_id'])->first();
-                $da['sub_header'] = $Issue->issue($idi['id_is']);
-                $da['issue'] = '';
+
+                if (isset($da['issue_id']))
+                    {
+                        $idi = $Issue->where('is_source_issue', $da['issue_id'])->first();
+                        $da['sub_header'] = $Issue->issue($idi['id_is']);
+                        $da['issue'] = '';
+                    } else {
+                        $idi = array();
+                        $da['sub_header'] = '';
+                        $da['issue'] = '';
+                    }
                 $Socials = new \App\Models\Socials();
                 $sc = '';
                 if ($Socials->getAccess("#ADM"))
                     {
                         $da['edit'] = '<a href="'.PATH.COLLECTION.'/a/'.$dt['concept']['id_cc'].'">'.bsicone('edit').'</a>';
+                        $da['edit'] .= '<a href="#" onclick="if (confirm(\'Confirma exclusão\')) { newwin(\''. PATH . '/rdf/concept/exclude/' . $dt['concept']['id_cc'] . '\',600,300); }" style="color: red;">' . bsicone('del') . '</a>';
                         $sc .= $RDF->view_data($dt);
                     }
 
@@ -192,6 +201,11 @@ class Work extends Model
                     }
                 break;
         }
+        if ($Socials->getAccess("#ADM#CAT#ENA"))
+            {
+                $sx .= $RDF->view_data($dt);
+            }
+
         return $sx;
     }
 
