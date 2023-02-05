@@ -134,5 +134,6 @@ return [
         'sections' => 'Seções',
         'keyword' => 'Palavras-chave',
         'authors' => 'Autores',
+        'view_more'=>'ver mais ...',
         '' => '',
 ];

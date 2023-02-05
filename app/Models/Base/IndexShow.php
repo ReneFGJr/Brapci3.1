@@ -73,7 +73,7 @@ class Indexshow extends Model
                 if ($block > 0) {
                     $sx .= '<span id="nblock' . $title . $block . '" class="view_more"
                             onclick="$(\'#block' . $title . $block . '\').toggle(\'slow\'); $(\'#nblock' . $title . $block . '\').toggle(\'slow\');"
-                            style="cursor: pointer;">view more ' . $title . $block . '</span>';
+                            style="cursor: pointer;">'.lang('brapci.view_more').  '</span>';
                     $sx .= $ulu;
                     $block_nr = $block_nr * 2;
                 }
