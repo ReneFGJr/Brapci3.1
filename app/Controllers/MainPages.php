@@ -199,6 +199,10 @@ class MainPages extends BaseController
         $class = $dt['concept']['c_class'];
 
         switch ($class) {
+            case 'Proceeding':
+                $Proceeding = new \App\Models\Base\Proceeding();
+                $sx = $Proceeding->v($id);
+                break;
             case 'Book':
                 $Book = new \App\Models\Base\Book();
                 $sx = $Book->v($id);

@@ -4,65 +4,22 @@ require("_process.php");
 <link rel="stylesheet" href="<?= URL . '/css/academicons.css'; ?>">
 <div class="container">
     <div class="row">
+        <div class="col-12">
+            <?php
+            $bread = array();
+            $bread[lang('book.books')] = PATH . COLLECTION;
+            $bread[$title] = PATH . COLLECTION . '/v/' . $ID;
+            echo breadcrumbs($bread); ?>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-9">
             <span class="btn btn-primary btn-sm"><?= lang($class); ?></span>
-            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $titleChapet; ?></h1>
-            <h6 class="text-end"><i><?= troca($authorsChapet, '$', '<br>'); ?></i></h6>
+            <h1 class="text-center" style="font-size: 1.6em; font-weight: 700;"><?= $title; ?></h1>
+            <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid">
                 <div class="row" style="background-color: #eee;">
-                    <div class="col-2">
-                        <p><b>Idioma</b>
-                            <br /><?= lang('brapci.' . trim($idiomaChapet)); ?>
-                        </p>
-                    </div>
-
-                    <div class="col-2">
-                        <p><b>Páginas</b>
-                            <br /><?= $pages; ?>
-                        </p>
-                    </div>
-                    <div class="col-8">
-                        <?php
-                        ############################### DOI
-                        if ((isset($DOIChapet)) and (strlen(trim($DOIChapet)) > 0)) {
-                        ?>
-                            <p><b>DOI</b>
-                                <br /><?= $DOIChapet; ?>
-                            </p>
-                        <?php } ?>
-                    </div>
-
-                    <!--------- Abstract Chapter--->
-                    <? if ($abstractChapt != '') { ?>
-                        <div class="col-12 mt-3">
-                            <b><?=lang('brapci.abstract');?></b>
-                            <p><?= $abstractChapt; ?></p>
-                        </div>
-                    <? } ?>
-
-
-                    <div class="col-12">
-                        <p><b>Palavras-chave</b>
-                            <br /><?= $subject; ?>
-                        </p>
-                    </div>
-
-
-                </div>
-
-                <!--- PART II - BOOK -->
-
-                <div class="row mt-3" style="background-color: #eee;">
-                    <div class="col-12">
-                        <?= lang('brapci.Book'); ?>
-                        <h5><?= $title; ?></h5>
-                        <i><?php
-                            $authors = trim(troca($authors, '$', ';')).'.';
-                            $authors = troca($authors,';.','.');
-                            echo $authors;
-                            ?></i>
-                    </div>
                     <div class="col-3">
                         <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
                     </div>
@@ -89,10 +46,18 @@ require("_process.php");
                         </p>
                     </div>
 
+                    <div class="col-9">
+                        <p><b>Palavras-chave</b>
+                            <br /><?= $subject; ?>
+                        </p>
+                    </div>
+
                     <?php
                     ############################### DOI
                     if (isset($DOI)) {
                     ?>
+                        <div class="col-3">
+                        </div>
                         <div class="col-9">
                             <p><b>DOI</b>
                                 <br /><?= $DOI; ?>
@@ -101,6 +66,11 @@ require("_process.php");
                     <?php
                     }
                     ?>
+                </div>
+
+                <!--- PART II - SUMMARY -->
+                <div class="col-12 summary mt-3" style="background-color: #fff;">
+                    <?= $summary; ?>
                 </div>
 
                 <div class="col-12 mt-3" style="background-color: #fff;">
@@ -135,7 +105,6 @@ require("_process.php");
                 echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
             }
             echo '</td>';
-
 
             echo '</tr>';
             echo '</table>';

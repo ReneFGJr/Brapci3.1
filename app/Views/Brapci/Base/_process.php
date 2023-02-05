@@ -1,13 +1,34 @@
 <?php
 $vars = array(
-        'title', 'idiomaChapet','authors',
-        'titleChapet', 'idioma','year',
-        'cover','isbn', 'editora_local', 'editora',
-        'pages', 'subject', 'url',
-        'CatAncib', 'CDD', 'CDU',
-        'files', 'summary', 'authorsChapet',
-        'DOIChapet', 'abstractChapt', 'license',
-        'issue', 'links');
+    'title',  'authors',
+    'idioma', 'year',
+    'cover', 'isbn', 'editora_local', 'editora',
+    'pages', 'subject', 'url',
+    'CatAncib', 'CDD', 'CDU',
+    'files', 'summary',
+    'license',
+    'issue', 'links'
+);
+
+$authors = '';
+$authorsLN = '';
+foreach ($Authors as $id => $name) {
+    if (strpos($name, ';')) {
+        $name = explode(';', $name);
+    } else {
+        $name[0] = $name;
+        $name[1] = 0;
+    }
+    if ($name[1] > 0) {
+        $authors .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '<br>';
+        $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';
+    } else {
+        $authors .= $name . '<br>';
+        $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';
+    }
+    $authorsLN .= '.';
+    $authorsLN = troca($authorsLN, ';.', '.');
+}
 
 foreach ($vars as $v) {
     if (!isset($$v)) {
@@ -28,4 +49,22 @@ if (is_array($isbn)) {
         }
     }
     $isbn = $isbn_v;
+}
+
+if (isset($Chapter)) {
+    //pre($Chapter);
+    $vars = array(
+        'title', 'idioma', 'authors',
+        'AuthorsLN', 'idioma', 'year',
+        'cover',
+        'url', 'keywords',
+        'files', 'summary', 'authorsChapet',
+        'DOIChapet', 'abstract', 'license',
+        'issue', 'links', 'pagi', 'pagf'
+    );
+    foreach ($vars as $v) {
+        if (!isset($Chapter[$v])) {
+            $Chapter[$v] = '';
+        }
+    }
 }

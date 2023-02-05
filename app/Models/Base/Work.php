@@ -51,54 +51,48 @@ class Work extends Model
 
     function show($dt)
     {
+        $Socials = new \App\Models\Socials();
         $RDF = new \App\Models\Rdf\RDF();
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $Metadados = new \App\Models\Base\Metadata();
         $Download = new \App\Models\Base\Download();
+        $sc = '';
+
         $sx = '';
         if (!is_array($dt)) {
             $dt = round($dt);
             $dt = $RDF->le($dt);
         }
+
+        $idc = $dt['concept']['id_cc'];
+
+        /***************************************** Recupe dados */
         $da = array();
         $RDF = new \App\Models\Rdf\RDF();
 
         $class = $dt['concept']['c_class'];
-
         switch($class)
             {
+                case 'Proceedings':
+                    echo "==========";
+                    break;
                 case 'BookChapter':
-                    $book = $RDF->extract($dt, 'hasBookChapter');
-                    $db = $RDF->le($book[0]);
-                    $da = $Metadados->metadata($db);
-                    $da['class'] = 'brapci.'.$class;
+                    $bookID = $RDF->extract($dt, 'hasBookChapter');
+                    /* DAdos do Livro */
+                    $dc = $Metadados->metadata($dt);
 
-                    $db = $Metadados->metadata($dt);
-
-                    if (isset($db['title']))
-                        {
-                            $da['titleChapet'] = $db['title'];
-                        }
-                    if (isset($db['idioma'])) {
-                        $da['idiomaChapet'] = $db['idioma'];
-                    }
-                    if (isset($db['authors'])) {
-                        $da['authorsChapet'] = $db['authors'];
-                    }
-                    if (isset($db['DOI'])) {
-                        $da['DOIChapet'] = $db['DOI'];
-                    }
-
-                    if (isset($db['abstract'])) {
-                        $da['abstractChapt'] = $db['abstract'];
-                    }
+                    $da = $RDF->le($bookID[0]);
+                    $da = $Metadados->metadata($da);
+                    $da['Chapter'] = $dc;
                 break;
 
                 default:
                     $da = $Metadados->metadata($dt);
                 break;
             }
-        $idc = $dt['concept']['id_cc'];
+        $da['class'] = $class;
+        //pre($da);
+        /************************************************** Midias Sociais */
         $da['id_cc'] = $idc;
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
 
@@ -118,10 +112,14 @@ class Work extends Model
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
 
+        /****************************************************** REFERECNIAS */
         $da['reference'] = $this->show_reference($idc);
         $Citation = new \App\Models\Cited\Index();
+
+        /********************************************************* CITACOES */
         $da['Citation'] = $Citation->show_ref($idc);
 
+        /********************************************************* DOWNLOADS */
         $da['files'] = $Download->show_resources($da);
         if (isset($da['summary']) and ($da['summary'] != ''))
             {
@@ -130,8 +128,22 @@ class Work extends Model
                     '</center>'.$da['summary'];
             }
 
-        switch (COLLECTION) {
-            case '/proceedings':
+        /************************************************** Botoes de Edição */
+        if ($Socials->getAccess("#ADM")) {
+            $da['edit'] = '<a href="' . PATH . COLLECTION . '/a/' . $dt['concept']['id_cc'] . '">' . bsicone('edit', 32) . '</a>';
+            $da['edit'] .= '<a href="#" onclick="if (confirm(\'Confirma exclusão\')) { newwin(\'' . PATH . '/rdf/concept/exclude/' . $dt['concept']['id_cc'] . '\',600,300); }" style="color: red;" class="ms-2">' . bsicone('del', 32) . '</a>';
+            $sc .= $RDF->view_data($dt);
+        }
+
+        /******************** MOSTRAR */
+        switch ($class) {
+            case 'Book':
+                $sx .= view('Brapci/Base/WorkBook', $da);
+                break;
+            case 'BookChapter':
+                $sx .= view('Brapci/Base/WorkBookChapter', $da);
+                break;
+            case 'Proceeding':
                 $Issue = new \App\Models\Base\Issues();
                 $idi = $Issue->where('is_source_issue', $da['issue_id'])->first();
                 $da['sub_header'] = $Issue->issue($idi['id_is']);
@@ -152,58 +164,30 @@ class Work extends Model
                         $da['sub_header'] = '';
                         $da['issue'] = '';
                     }
-                $Socials = new \App\Models\Socials();
+
                 $sc = '';
-                if ($Socials->getAccess("#ADM"))
-                    {
-                        $da['edit'] = '<a href="'.PATH.COLLECTION.'/a/'.$dt['concept']['id_cc'].'">'.bsicone('edit',32).'</a>';
-                        $da['edit'] .= '<a href="#" onclick="if (confirm(\'Confirma exclusão\')) { newwin(\''. PATH . '/rdf/concept/exclude/' . $dt['concept']['id_cc'] . '\',600,300); }" style="color: red;" class="ms-2">' . bsicone('del',32) . '</a>';
-                        $sc .= $RDF->view_data($dt);
-                    }
+
 
                 $sx .= view('Brapci/Base/Work', $da);
                 break;
-
-            case '/books':
-                switch ($class)
-                    {
-                        case 'BookChapter':
-                            $sx .= view('Books/Base/WorkChapterBook', $da);
-                            break;
-
-                        case 'Book':
-                            $sx .= view('Books/Base/Work', $da);
-                            break;
-
-                        default:
-                            echo "OPS BOOK CLASS NOT FOUND [".$da['class'].']';
-                            break;
-                    }
-                break;
             default:
-                switch($da['class'])
-                    {
-                        case 'brapci.BookChapter':
-                            $da['Section'] = array(lang('brapci.BookChapter'));
-                            $sx .= view('Books/Base/WorkChapterBook', $da);
-                            $sx .= $RDF->view_data($dt);
-                            break;
 
-                        case 'brapci.Book':
-                            $da['Section'] = array(lang('brapci.Book'));
-                            $sx .= view('Books/Base/Work', $da);
-                            $sx .= $RDF->view_data($dt);
-                            break;
-
-                        default:
-                            $sx .= view('Brapci/Base/Work', $da);
-                        break;
-                    }
                 break;
         }
         if ($Socials->getAccess("#ADM#CAT#ENA"))
             {
-                $sx .= $RDF->view_data($dt);
+                $sx .= bs(bsc('<a href="#data" onclick="showw();">'.bsicone('upload',10).'</a>',12,));
+                $sa = '<div name="data" id="data" style="display: none;">';
+                $sa .= $RDF->view_data($dt);
+                $sa .= '</div>';
+                $sx .= bs(bsc($sa,12));
+                $sx .= '
+                <script>
+                function showw()
+                    {
+                        $("#data").toggle("slow");
+                    }
+                </script>';
             }
 
         return $sx;

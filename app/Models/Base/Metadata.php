@@ -204,6 +204,7 @@ class Metadata extends Model
                     case 'hasOrganizator':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
                         $this->lets('authors', $value . ';' . $ddv2);
+                        $this->let('Authors', $value . '<sup>Org.</sup>;' . $ddv2);
                         break;
                     case 'dateOfPublication':
                         $this->lets('year', $value);
@@ -241,6 +242,8 @@ class Metadata extends Model
                         break;
                     case 'hasSubject':
                         $this->leta('Keywords', $lang, $value.';'.$ddv2);
+                        $this->let('DC.Subject', $value);
+                        $this->lets('keywords', anchor(PATH.COLLECTION.'/v/'.$ddv2,$value) . '.');
                         break;
                     case 'hasIssueProceedingOf':
                         if (!isset($issue_proceessed[$ddv1]))
@@ -277,11 +280,13 @@ class Metadata extends Model
                         //echo '==>'.$class.' == '.$valueO.'<br>';
                         break;
                 }
+                //echo '==>' . $class . ' == ' . $valueO . '<br>';
             }
         }
         //pre($this->metadata,false);
         //exit;
         //pre($meta);
+        $this->metadata['ID'] = $meta['concept']['id_cc'];
         return $this->metadata;
     }
 
@@ -354,10 +359,6 @@ class Metadata extends Model
                                 $this->let('DC.Title.Alternative', $valueO);
                             }
 
-                        break;
-                    case 'hasSubject':
-                        $this->let('DC.Subject', $value);
-                        $this->let('keywords', $value);
                         break;
                     default:
 

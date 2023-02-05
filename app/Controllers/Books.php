@@ -37,12 +37,12 @@ class Books extends BaseController
         $act = trim($act);
         switch ($act) {
             case 'a':
+                $RDF = new \App\Models\Rdf\RDF();
                 $Socials = new \App\Models\Socials();
                 $cat = $Socials->getAccess("#ADM#CAT");
+                $sx .= bs(bsc(anchor(PATH.COLLECTION.'/v/'.$subact,lang('brapci.return')),12));
                 if ($cat == true)
                     {
-                        $RDF = new \App\Models\Rdf\RDF();
-
                         $link_a = PATH.'/rdf/form/editRDF/'.$subact;
                         $link_b = PATH.'/rdf/view/pdf/' . $subact;;
 

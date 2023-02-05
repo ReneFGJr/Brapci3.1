@@ -46,7 +46,15 @@
                     if ($id > 0) {
                         echo '; ';
                     }
-                    echo $author;
+                    if (strpos($author,';'))
+                        {
+                            $name = explode(';',$author);
+                            $url = PATH.COLLECTION.'/v/'.$name[1];
+                            echo anchor($url,$name[0]);
+                        } else {
+                            echo $author;
+                        }
+
                     $id++;
                 }
                 echo '.';

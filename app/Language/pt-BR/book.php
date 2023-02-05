@@ -26,7 +26,7 @@ return [
         'subjects' => 'Assuntos',
         'about' => 'Sobre',
         'contact' => 'Contato',
-        '' => '',
+        'books' => 'Livros',
 
 
 
