@@ -188,24 +188,6 @@ class RDF extends Model
 					}
 			break;
 
-			case 'data':
-				$menu = array();
-				$menu[PATH.'/rdf/data/duplicate'] = lang('rdf.duplicates');
-				$sx .= $cab;
-				switch($d2)
-					{
-						case 'duplicate':
-							$RDFChecks = new \App\Models\Rdf\RDFChecks();
-							$sx .= $cab;
-							$sx .= $RDFChecks->check_duplicate();
-							break;
-						default:
-						$sx .= bs(bsc(menu($menu), 12));
-						$sx .= "$d1,$d2,$d3";
-						break;
-					}
-				break;
-
 			/****************************************************************** VALUE */
 			case 'text':
 				$sx = view('Brapci/Headers/header', $data);
@@ -213,11 +195,17 @@ class RDF extends Model
 				$sx .= $RDFFormText->form_edit_id($d2);
 				echo $sx;
 				exit;
+				break;
 			case 'data':
 				$sx = $cab;
 				$RDFForm = new \App\Models\Rdf\RDFForm();
 				/* CRUD */
 				switch ($d2) {
+					case 'duplicate':
+						$RDFChecks = new \App\Models\Rdf\RDFChecks();
+						$sx .= $cab;
+						$sx .= $RDFChecks->check_duplicate();
+						break;
 					case 'exclude':
 						$sx = view('Brapci/Headers/header', $data);
 						$RDFForm = new \App\Models\Rdf\RDFForm();
@@ -235,6 +223,12 @@ class RDF extends Model
 						$sx .= $RDFForm->edit($form_class, $prop_name, $form_id, $register);
 
 						echo $sx; exit;
+						break;
+					default:
+						$menu = array();
+						$menu[PATH . '/rdf/data/duplicate'] = lang('rdf.duplicates');
+						$sx .= bs(bsc(menu($menu), 12));
+						$sx .= "$d1,$d2,$d3";
 						break;
 				}
 				break;
