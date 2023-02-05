@@ -126,20 +126,63 @@ class RDF extends Model
 			case 'concept':
 				switch($d2)
 					{
+						case 'exclud_mass':
+							$value = get("concepts");
+							$sb = '<ul>';
+							if (strlen($value) != '') {
+								$ln = troca($value, '"', '');
+								$value = $ln;
+								$ln = troca($value, chr(13), ';');
+								$ln = troca($value, chr(10), ';');
+								$c = explode(";",$ln);
+								foreach($c as $id=>$cc)
+									{
+										$cc = sonumero($cc);
+										if ($cc != '')
+											{
+												$this->exclude($cc);
+												$sb .= '<li>'.$cc.' removed</li>';
+											}
+									}
+							}
+							$sb .= '</ul>';
+
+
+							$sx = $cab;
+							$sf = '';
+							$sf .= form_open();
+							$sf .= form_label(lang('brapci.list_concept_to_remove'));
+							$sf .= '<br>';
+							$sf .= form_textarea('concepts',$value,'row=10 cols=100');
+							$sf .= '<br>';
+							$sf .= form_submit('action', lang('brapci.save'),'class="btn btn-outline-primary"');
+							$sf .= form_close();
+							$sf .= '<br>';
+							$sf .= bsmessage(lang('brapci.warning_definitive_exclude'),4);
+							$sx .= bs(bsc($sf.$sb,12));
+
+							break;
 						case 'exclude':
 							$this->exclude($d3, $d4);
 							return wclose();
 							exit;
 							break;
 						case 'export':
-						$RDFExport = new \App\Models\Rdf\RDFExport();
-						$RDFExport->export($d3,true);
-						$sx = wclose();
+							$RDFExport = new \App\Models\Rdf\RDFExport();
+							$RDFExport->export($d3,true);
+							$sx = wclose();
 						break;
 
 						default:
-							echo "NOT IMPLEMENTED $d2-$d3";
-							exit;
+							if ($d2 != '')
+								{
+									$sx .= bs(bsc(bsmessage("NOT IMPLEMENTED <b>$d2-$d3</b>", 3)));
+								}
+							$menu = array();
+							$menu[PATH.'/rdf/concept/exclud_mass'] = lang('brapci.exclude_mass');
+							$sx .= $cab;
+							$sx .= bs(bsc(menu($menu)));
+							return $sx;
 
 
 					}
@@ -294,6 +337,8 @@ class RDF extends Model
 			$menu = array();
 			$menu[PATH . COLLECTION . '/class'] =  lang('rdf.classes');
 			$menu[PATH . COLLECTION . '/property'] =  lang('rdf.property');
+
+			$menu[PATH . COLLECTION . '/concept'] =  lang('rdf.concepts');
 			$sx .= bs($sa . bsc(menu($menu)));
 		} else {
 			$sx .= h(lang('rdf.guest_menu'), 3);

@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'cache':
+                $Cache = new \App\Models\Functions\Cache();
+                $sx = $Cache->index();
+                break;
             case 'lattes':
                 $Lattes = new \App\Models\Api\Lattes\Index();
                 $sx .= $Lattes->index($subact, $id, $id2);
@@ -138,6 +142,7 @@ class Index extends Model
 
         $m['#BUGS'] =  lang('brapci.Bugs');
         $m[PATH .  '/admin/bugs'] =  lang('brapci.Bugs');
+        $m[PATH .  '/admin/cache'] =  lang('brapci.Cache');
 
         $m['#EVENT_CARDS'] =  lang('brapci.event_cards');
         $m[PATH .  '/admin/events'] =  lang('brapci.event_cards');
