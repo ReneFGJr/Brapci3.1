@@ -104,7 +104,7 @@ class RDFChecks extends Model
 		$sx .= '<ul>';
 		$sx .= '<li class="text-success">';
 		$tot = $RDFData->check_duplicates();
-		$sx .= lang('brapci.processing').' -> '.$tot.' '.lang('brapci.duplicates');
+		$sx .= lang('rdf.processing').' -> '.$tot.' '.lang('rdf.duplicates');
 		$sx .= '</li>';
 		$sx .= '</ul>';
 
