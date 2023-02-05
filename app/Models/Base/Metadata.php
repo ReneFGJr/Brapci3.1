@@ -203,7 +203,7 @@ class Metadata extends Model
                     case 'hasAuthor':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a>';
                         $this->lets('authors', $name.'$');
-                        $this->let('Authors', $value);
+                        $this->let('Authors', $value . ';' . $ddv2);
                         break;
                     case 'dateOfPublication':
                         $this->lets('year', $value);

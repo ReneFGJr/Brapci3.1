@@ -265,7 +265,7 @@ class RDFData extends Model
 
 
 		$sql .= "where (d_r1 = $id) OR (d_r2 = $id)";
-		$sql .= "order by c_class, d_r1, d_r2, n_name";
+		$sql .= "order by c_class, id_d, d_r1, d_r2, n_name";
 
 
 		$dt = (array)$this->db->query($sql)->getResult();

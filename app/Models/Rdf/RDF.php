@@ -188,6 +188,24 @@ class RDF extends Model
 					}
 			break;
 
+			case 'data':
+				$menu = array();
+				$menu[PATH.'/rdf/data/duplicate'] = lang('rdf.duplicates');
+				$sx .= $cab;
+				switch($d2)
+					{
+						case 'duplicate':
+							$RDFChecks = new \App\Models\Rdf\RDFChecks();
+							$sx .= $cab;
+							$sx .= $RDFChecks->check_duplicate();
+							break;
+						default:
+						$sx .= bs(bsc(menu($menu), 12));
+						$sx .= "$d1,$d2,$d3";
+						break;
+					}
+				break;
+
 			/****************************************************************** VALUE */
 			case 'text':
 				$sx = view('Brapci/Headers/header', $data);
@@ -339,6 +357,7 @@ class RDF extends Model
 			$menu[PATH . COLLECTION . '/property'] =  lang('rdf.property');
 
 			$menu[PATH . COLLECTION . '/concept'] =  lang('rdf.concepts');
+			$menu[PATH . COLLECTION . '/data'] =  lang('rdf.data');
 			$sx .= bs($sa . bsc(menu($menu)));
 		} else {
 			$sx .= h(lang('rdf.guest_menu'), 3);

@@ -87,11 +87,23 @@ if (!isset($Sections)) $Sections = array();
                         echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b> ';
                         echo $Abstract[$idioma] . '</div>';
                     }
-
-                    if (isset($Keywords[$idioma])) {
-                        echo '<b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                        echo $Keywords[$idioma];
-                        echo '<br><br>';
+                    $lgi = 0;
+                    foreach($Keywords as $term=>$lg)
+                        {
+                            if ($lg == $idioma) {
+                                if ($lgi == 0)
+                                    {
+                                        echo '<br/><b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
+                                        $lgi++;
+                                    }
+                                $term = explode(';',$term);
+                                $url = PATH.COLLECTION.'/v/'.$term[1];
+                                echo anchor($url,$term[0]);
+                                echo '. ';
+                            }
+                        }
+                    if ($lgi > 0) {
+                        echo '<br/><br/>';
                     }
                 }
                 ?>

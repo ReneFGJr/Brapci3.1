@@ -466,7 +466,7 @@ class RDFExport extends Model
 		$sx = '';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 1);
-		$name = '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -476,7 +476,7 @@ class RDFExport extends Model
 		$sx = 'JOURNAL';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 7);
-		$name = '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -983,7 +983,7 @@ class RDFExport extends Model
 				$this->export_geral($dt, $id);
 				break;
 		}
-		$tela .= '<a href="' . (PATH . '$COLLECTION' . '/v/' . $id) . '">' . $name . '</a>';
+		$tela .= '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '">' . $name . '</a>';
 		return $tela;
 	}
 
@@ -1121,7 +1121,7 @@ class RDFExport extends Model
 			fwrite($hdl, $txt);
 			fclose($hdl);
 			$sx .= bs_alert('success', msg('Export_author') . ' #' . $ltx . '<br>');
-			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . '$COLLECTION' . 'rdf/export/' . $url . '/' . ($lt + 1)) . '">';
+			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . COLLECTION . 'rdf/export/' . $url . '/' . ($lt + 1)) . '">';
 		} else {
 			$sx .= bsmessage('rdf.export_success', 1);
 			$sx .= $this->RDF->btn_return();

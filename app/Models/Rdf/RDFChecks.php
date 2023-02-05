@@ -81,7 +81,7 @@ class RDFChecks extends Model
 					$sx .= '<li>'.$nome.' <b>Update</b></li>';
 				}
 				$sx .= '</ul>';
-			
+
 			if ($t > 0)
 				{
 					$sx .= 'Update '.$t.' for '.count($dt).'<br>';
@@ -110,19 +110,21 @@ class RDFChecks extends Model
 
 		if ($tot > 0)
 			{
-				$sx .= metarefresh(PATH.MODULE.'rdf/check',5);
+				$sx .= bsmessage(lang("rdf.wait"),1);
+				$sx .= '<br/>';
+				$sx .= metarefresh(PATH.'/rdf/data/duplicate',5);
 				$sx .= $this->btn_return();
 			} else {
-				$sx .= bsmessage(lang('rdf.rdf_check_ok'),1);
+				$sx .= bsmessage(lang('rdf.rdf_check_ok'),2);
 				$sx .= $this->btn_return();
 			}
 		$sx = bs(bsc($sx,12));
 		return $sx;
-		}	
+		}
 
 	function btn_return()
 		{
-			$sx = '<a href="'.PATH.MODULE.'rdf" class="btn btn-outline-primary bt-2">'.lang('brapci.return').'</a>';
+			$sx = '<a href="'.PATH.'/rdf" class="btn btn-outline-primary bt-2">'.lang('brapci.return').'</a>';
 			return $sx;
 		}
 
@@ -144,7 +146,7 @@ class RDFChecks extends Model
 
 			for ($r=0;$r < count($dt);$r++)
 				{
-					$ln = $dt[$r];	
+					$ln = $dt[$r];
 
 					/* Method 0 */
 					if ($ln['r0idc'] == $ln['r0use'])
@@ -180,21 +182,21 @@ class RDFChecks extends Model
 						{
 							$dd['cc_use'] = $ln['r2use'];
 							$this->set($dd)->where('id_cc',$ln['r0idc'])->update();
-							$this->set($dd)->where('id_cc',$ln['r1idc'])->update();							
+							$this->set($dd)->where('id_cc',$ln['r1idc'])->update();
 
 							$sx .= '<li>Triple: ';
 							$sx .= $RDF->link(array('id_cc'=>$ln['r0idc']));
-							$sx .= $ln['r0idc'].' -> '.$ln['r1idc'].'</a></li>';							
+							$sx .= $ln['r0idc'].' -> '.$ln['r1idc'].'</a></li>';
 						}
 
 				}
 			if (count($dt) == 0)
 				{
 					$sx .= $this->btn_return();
-				}			
+				}
 			$sx = bs(bsc($sx,12));
 			return $sx;
-		}	
+		}
 
 	function check_class($class="Person")
 		{
@@ -202,16 +204,16 @@ class RDFChecks extends Model
 			$sx = '';
 			$sx .= breadcrumbs(array('Home'=>PATH.MODULE,'RDF'=>PATH.MODULE.'rdf',lang('rdf.Check_'.$class)=>'#'));
 
-			/*************************************** Etapa I */				
+			/*************************************** Etapa I */
 			$sx .= h('Method 1');
 			$sx .= $AuthotityRDF->check_method_1($class);
-			
+
 			$sx .= h('Method 3');
-			/*************************************** Etapa I */				
+			/*************************************** Etapa I */
 			$sx .= $AuthotityRDF->check_method_3($class);
-			$sx .= '<br><br>';			
+			$sx .= '<br><br>';
 
 			$sx = bs(bsc($sx,12));
 			return $sx;
-		}					
+		}
 }
