@@ -4,6 +4,13 @@ body
     margin-top: 80px;
   }
 }
+
+.border_title
+  {
+    border-left:5px solid #114411;
+    border-bottom: 1px solid #114411;
+    padding-left: 5px;
+  }
 .summary a
   {
     color: black;

@@ -283,10 +283,10 @@ class RDFExport extends Model
 						if (isset($dta['Sections']))
 							{
 								$name = json_encode($dta['Sections']);
-								$this->saveRDF($id, $name, 'sections.json');
+								$this->saveRDF($id, $name, 'Sections.json');
 
 								$name = trim(implode(';',$dta['Sections']));
-								$this->saveRDF($id, $name, 'sections.name');
+								$this->saveRDF($id, $name, 'Sections.name');
 							} else {
 								echo "Section NOT FOUND";
 							}

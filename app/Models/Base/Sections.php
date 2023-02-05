@@ -63,44 +63,25 @@ class Sections extends Model
         }
 
 
-    function index_sections($key = array(), $id = '')
+    function index_sections($sect = array(), $id = '')
     {
-        /*
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
-        $file = $dir . 'section.json';
+        $file = $dir . 'Sections.json';
         if (file_exists($file)) {
             $dt = file_get_contents($file);
             $dt = json_decode($dt);
 
-            for ($r = 0; $r < count($dt); $r++) {
-                $tt = (array)$dt[$r];
-                if (isset($tt['section'])) {
-                    $t = (string)$tt['section'];
-                } else {
-                    $tt = (array)$dt[$r];
-                    if (isset($tt['ID'])) {
-                        $t = trim((string)$tt['section']);
+            foreach ($dt as $id => $term) {
+                if (strlen($term) > 0) {
+                    if (isset($sect[$term])) {
+                        $sect[$term]++;
                     } else {
-                        $t = $tt;
-                    }
-                }
-
-                if (strlen($t) > 0) {
-                    $id = $tt['ID'];
-                    $term = strip_tags($t);
-                    //$id = substr($t, strpos($t, '/v/') + 2, strlen($t));
-                    //$id = sonumero(substr($id, 0, strpos($id, '"')));
-                    $term .= ';' . $id;
-                    if (isset($key[$term])) {
-                        $key[$term]++;
-                    } else {
-                        $key[$term] = 1;
+                        $sect[$term] = 1;
                     }
                 }
             }
         }
-        return $key;
-        */
+        return $sect;
     }
 }

@@ -131,8 +131,8 @@ return [
         'return' => 'voltar',
         'success' => 'sucesso',
         'clear_cache' => 'Limpar cache',
-        '' => '',
-        '' => '',
-        '' => '',
+        'sections' => 'Seções',
+        'keyword' => 'Palavras-chave',
+        'authors' => 'Autores',
         '' => '',
 ];

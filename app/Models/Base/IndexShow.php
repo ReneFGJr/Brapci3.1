@@ -61,7 +61,7 @@ class Indexshow extends Model
             }
         $ul = '<ul class="text_75" style="list-style-type: none; margin: 0px; padding: 0px; ">';
         $ulu = '</ul></div>'.cr();
-        $sx = h(lang('brapci.' . $title.$tot), 6);
+        $sx = h(lang('brapci.' . trim($title)).$tot, 5,'border_title');
         $block = 0;
         $block_nr = 20;
         $bln = 0;

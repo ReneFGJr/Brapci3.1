@@ -159,10 +159,6 @@ class Metadata extends Model
                     case 'hasClassificationAncib':
                         $this->lets('CatAncib', $value);
                         break;
-                    case 'hasSectionOf':
-                        $this->lets('Section', $value);
-                        $this->let('Sections', $value);
-                        break;
                     case 'hasFileStorage':
                         $this->let('PDF', $value);
                         $this->let('PDF_id', $ddv1);
@@ -210,14 +206,14 @@ class Metadata extends Model
                         break;
                     case 'hasOrganizator':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
-                        $this->lets('authors', $name.'$');
+                        $this->lets('authors', $value . ';' . $ddv2);
                         break;
                     case 'isPublisher':
                         $this->lets('editora', $value);
                         break;
                     case 'hasSectionOf':
-                        $this->lets('section', $value);
-                        $this->let('Sections', $value);
+                        $this->lets('section', $name . '$');
+                        $this->let('Sections', $value . ';' . $ddv2);
                         break;
                     case 'hasCover':
                         $cover = $COVER->image($ddv2);
