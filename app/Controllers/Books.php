@@ -97,6 +97,11 @@ class Books extends BaseController
                 $sx .= $Books->admin($subact, $id);
                 break;
 
+            case 'indexes':
+                $sa = '';
+                $sx .= view('Brapci/Pages/under_construction');
+                break;
+
             case 'about':
                 $sa = '';
                 $sx .= view('Brapci/Pages/under_construction');
