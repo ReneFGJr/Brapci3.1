@@ -1127,19 +1127,17 @@ class Socials extends Model
 		$txt .= '<center>';
 		$txt .= '<table width="600" border=0>';
 		$txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
-		$txt .= '<tr><td style=" padding: 10px;">';
-		$txt .= '<h2>' . lang('social.forgout_email_user') . '</h2>';
-		$txt .= '</td></tr>';
 
 		$txt .= '<tr><td cellpadding="5">';
-		$txt .= '<p>' . lang('social.forgout_email_text') . '</p>';
-		$txt .= '<p>' . lang('social.forgout_email_user') . ': ' . $user['us_nome'] . '</p>';
-		$txt .= '<p>' . lang('social.forgout_email_email') . ': ' . $user['us_email'] . '</p>';
-		$txt .= '<p>' . lang('social.forgout_email_password') . '</p>';
-		$txt .= '<p>' . $link . '</p>';
-		$txt .= '<p>' . lang('social.forgout_email_text2') . '</p>';
-		$txt .= '<p>' . lang('social.forgout_email_text3') . '</p>';
-		$txt .= '<p>' . lang('social.forgout_email_text4') . '</p>';
+		$size = ' style="font-size: 1.2em;"';
+		$txt .= '<p style="font-size: 1.4em;"><b>' . lang('social.forgout_email_user') . ' ' . $user['us_nome'] . '</b></p>';
+		$txt .= '<p '.$size.'>' . lang('social.forgout_email_email') . ': ' . $user['us_email'] . '</p>';
+		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_password') . '</p>';
+		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text') . '</p>';
+		$txt .= '<p ' . $size . '>' . $link . '</p>';
+		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text2') . '</p>';
+		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text3') . '</p>';
+		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text4') . '</p>';
 		$txt .= '</td></tr>';
 
 		$txt = troca($txt, '$link', $link_html);
