@@ -65,7 +65,7 @@ return [
 	'password_not_match'=>'Senha de confirmação não confere',
 	'password_short' => 'Senha muito curso, mínimo 6 caracteres',
 	'password_changed' => 'Senha alterada com Sucesso!',
-	'' => '',
+	'save' => 'Alterar',
 	'' => '',
 	'' => '',
 	'' => '',

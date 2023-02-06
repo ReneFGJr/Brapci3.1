@@ -31,7 +31,14 @@ if (!isset($Sections)) $Sections = array();
             <!--- LEGEND ------------------------------------------->
             <?php
             foreach ($Sections as $id => $sectn) {
-                echo '<span class="btn btn-primary ms-2">' . $sectn . '</span>';
+                if (strpos($sectn,';'))
+                    {
+                        $sectn = explode(';',$sectn);
+                        echo '<span class="btn btn-primary ms-2">' . $sectn[0] . '</span>';
+                    } else {
+                        echo '<span class="btn btn-primary ms-2">' . $sectn . '</span>';
+                    }
+
             }
             ?>
         </div>
