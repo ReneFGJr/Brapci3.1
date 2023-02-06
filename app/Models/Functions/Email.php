@@ -55,6 +55,11 @@ class Email extends Model
         return $sx;
     }
 
+    function sendemail($to = '', $subject = '', $text = '', $files = array())
+        {
+            return $this->sendmail($to,$subject,$text,$files);
+        }
+
     function sendmail($to = '', $subject = '', $text = '', $files = array())
     {
         $this->email = \Config\Services::email();
