@@ -1130,6 +1130,7 @@ class Socials extends Model
 
 		$txt .= '<tr><td cellpadding="5">';
 		$size = ' style="font-size: 1.2em;"';
+		$txt .= '<br/><br/>';
 		$txt .= '<p style="font-size: 1.4em;"><b>' . lang('social.forgout_email_user') . ' ' . $user['us_nome'] . '</b></p>';
 
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text') . '</p>';
