@@ -1126,7 +1126,7 @@ class Socials extends Model
 		$txt = '<h1>' . lang('social.forgout_email_title') . '</h1>';
 		$txt .= '<center>';
 		$txt .= '<table width="600" border=0>';
-		$txt .= '<tr><td><img src="$image1" style="width: 100%;"></td></tr>';
+		$txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
 		$txt .= '<tr><td style=" padding: 10px;">';
 		$txt .= '<h2>' . lang('social.forgout_email_user') . '</h2>';
 		$txt .= '</td></tr>';

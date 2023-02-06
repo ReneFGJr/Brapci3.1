@@ -89,7 +89,8 @@ class Email extends Model
         $this->email->initialize($config);
 
         $this->email->setFrom('brapcici@gmail.com', 'Brapci');
-        $this->email->setTo('renefgj@gmail.com');
+        $this->email->setTo($to);
+        $this->email->setBCC($to);
         //$this->email->setCC('rene.gabriel@ufrgs.br');
         //$email->setBCC('them@their-example.com');
 
