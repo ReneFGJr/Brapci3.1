@@ -9,7 +9,10 @@ $vars = array(
     'license',
     'issue', 'links'
 );
-
+if (!isset($Keywords))
+    {
+        $Keywords = array();
+    }
 $authors = '';
 $authorsLN = '';
 foreach ($Authors as $id => $name) {

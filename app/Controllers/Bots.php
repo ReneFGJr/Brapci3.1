@@ -44,14 +44,13 @@ class Bots extends BaseController
                 $sx .= chr(13);
                 $sx .= $Lattes->harvesting_next($act2);
                 break;
-
             case 'patente':
                 $Patente = new \App\Models\Patent\Index;
                 $Patente->cron();
                 break;
-            case 'authority':
-                $Authority = new \App\Models\Authority\Index();
-                $sx .= $Authority->index('bot_'.$act2);
+            case 'nlp':
+                $NLP = new \App\Models\AI\NLP\Index();
+                $sx .= $NLP->index('bot_'.$act2);
                 exit;
                 break;
             case 'pdf':
@@ -63,6 +62,7 @@ class Bots extends BaseController
                 $menu[PATH . COLLECTION . '/authority/remissive'] = lang('bots.authority.remissive');
                 $menu[PATH . COLLECTION . '/authority/collaboration'] = lang('bots.authority.collaboration');
                 $menu[PATH . COLLECTION . '/authority/checknames'] = lang('bots.authority.checknames');
+                $menu[PATH . COLLECTION . '/nlp/abstracts'] = lang('bots.authority.abstracts');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');
                 $menu[PATH . COLLECTION . '/export'] = lang('bots.export');
                 $sx .= menu($menu);
