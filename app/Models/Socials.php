@@ -1144,7 +1144,7 @@ class Socials extends Model
 
 		$txt = troca($txt, '$link', $link_html);
 		$txt .= '</center>';
-		$subject = '[' . getenv('app.ProjecName') . '] ' . lang('social.forgout_email_title');
+		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
 
 		$Email->sendmail($email, $subject, $txt);
 		$Email->sendmail('renefgj@gmail.com', 'cc:'.$subject, 'Send to:'.$email.'<hr>'.$txt);
