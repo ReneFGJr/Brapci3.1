@@ -334,6 +334,7 @@ class Socials extends Model
 	}
 	function admin_email_test()
 	{
+		$email = new \App\Models\Functions\Email();
 		$sx = '';
 		$sx .= h('Email Test', 1);
 		$sx .= form_open(PATH . 'social/admin/email_test');
@@ -344,7 +345,7 @@ class Socials extends Model
 		$xemail = get("email");
 
 		if (strlen($xemail) > 0) {
-			$sx .= sendemail($xemail, 'Teste de e-mail', 'Teste de e-mail');
+			$sx .= $email->sendemail($xemail, 'Teste de e-mail', 'Teste de e-mail');
 		}
 		return $sx;
 	}
@@ -1099,6 +1100,7 @@ class Socials extends Model
 
 	function forgout()
 	{
+		$Email = new \App\Models\Functions\Email();
 		$email = get("email");
 		$dt = $this->where('us_email', $email)->findAll();
 
@@ -1143,7 +1145,7 @@ class Socials extends Model
 		$txt .= '</center>';
 		$subject = '[' . getenv('app.ProjecName') . '] ' . lang('social.forgout_email_title');
 
-		sendmail($email, $subject, $txt);
+		$Email->sendmail($email, $subject, $txt);
 
 		return $sx;
 	}
