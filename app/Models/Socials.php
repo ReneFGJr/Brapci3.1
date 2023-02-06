@@ -1131,9 +1131,9 @@ class Socials extends Model
 		$txt .= '<tr><td cellpadding="5">';
 		$size = ' style="font-size: 1.2em;"';
 		$txt .= '<p style="font-size: 1.4em;"><b>' . lang('social.forgout_email_user') . ' ' . $user['us_nome'] . '</b></p>';
-		$txt .= '<p '.$size.'>' . lang('social.forgout_email_email') . ': ' . $user['us_email'] . '</p>';
-		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_password') . '</p>';
+
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text') . '</p>';
+		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_password') . '</p>';
 		$txt .= '<p ' . $size . '>' . $link . '</p>';
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text2') . '</p>';
 		$txt .= '<p ' . $size . '>' . lang('social.forgout_email_text3') . '</p>';
@@ -1142,6 +1142,7 @@ class Socials extends Model
 
 		$txt = troca($txt, '$link', $link_html);
 		$txt .= '</center>';
+		$txt .= '<br><br><br>';
 		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
 		$Email->sendmail($email, $subject, $txt);
 
