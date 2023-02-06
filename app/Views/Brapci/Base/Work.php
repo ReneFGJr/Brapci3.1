@@ -14,10 +14,18 @@ if (!isset($sub_header)) $sub_header = '';
 if (!isset($edit)) $edit = '';
 if (!isset($Sections)) $Sections = array();
 
+$bread = array();
+$bread[lang('brapci.'.$class)] = PATH . COLLECTION;
+$xbread = breadcrumbs($bread);
 
 ?>
 
 <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <?= $xbread; ?>
+        </div>
+    </div>
     <?= $sub_header; ?>
     <div class="row" <?= $style; ?>>
         <div class="col-1">
@@ -31,20 +39,18 @@ if (!isset($Sections)) $Sections = array();
             <!--- LEGEND ------------------------------------------->
             <?php
             foreach ($Sections as $id => $sectn) {
-                if (strpos($sectn,';'))
-                    {
-                        $sectn = explode(';',$sectn);
-                        echo '<span class="btn btn-primary ms-2">' .
+                if (strpos($sectn, ';')) {
+                    $sectn = explode(';', $sectn);
+                    echo '<span class="btn btn-primary ms-2">' .
                         '<a href="' . PATH . '/v/' . $sectn[1] . '" style="color: white;">' .
-                        $sectn[0] . '</a>'.
+                        $sectn[0] . '</a>' .
                         '</span>';
-                    } else {
-                        echo '<span class="btn btn-primary ms-2">' .
+                } else {
+                    echo '<span class="btn btn-primary ms-2">' .
 
-                            $sectn
-                             . '</a></span>';
-                    }
-
+                        $sectn
+                        . '</a></span>';
+                }
             }
             ?>
         </div>
@@ -101,20 +107,18 @@ if (!isset($Sections)) $Sections = array();
                         echo $Abstract[$idioma] . '</div>';
                     }
                     $lgi = 0;
-                    foreach($Keywords as $term=>$lg)
-                        {
-                            if ($lg == $idioma) {
-                                if ($lgi == 0)
-                                    {
-                                        echo '<br/><b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
-                                        $lgi++;
-                                    }
-                                $term = explode(';',$term);
-                                $url = PATH.COLLECTION.'/v/'.$term[1];
-                                echo anchor($url,$term[0]);
-                                echo '. ';
+                    foreach ($Keywords as $term => $lg) {
+                        if ($lg == $idioma) {
+                            if ($lgi == 0) {
+                                echo '<br/><b>' . lang('brapci.keywords_' . $idioma) . '</b>: ';
+                                $lgi++;
                             }
+                            $term = explode(';', $term);
+                            $url = PATH . COLLECTION . '/v/' . $term[1];
+                            echo anchor($url, $term[0]);
+                            echo '. ';
                         }
+                    }
                     if ($lgi > 0) {
                         echo '<br/><br/>';
                     }
