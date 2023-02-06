@@ -34,10 +34,13 @@ if (!isset($Sections)) $Sections = array();
                 if (strpos($sectn,';'))
                     {
                         $sectn = explode(';',$sectn);
-                        echo '<span class="btn btn-primary ms-2">' . $sectn[0] . '</span>';
+                        echo '<span class="btn btn-primary ms-2">' .
+                        '<a href="' . PATH . 'v/' . $sectn[1] . '">' .
+                        $sectn[0] . '</a>'.
+                        '</span>';
                     } else {
                         echo '<span class="btn btn-primary ms-2">' .
-                            '<a href="'.PATH.'v/'.$sectn[1].'">'.
+
                             $sectn
                              . '</a></span>';
                     }
