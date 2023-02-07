@@ -85,6 +85,8 @@ class Download extends Model
             {
                 $class = $line['c_class'];
 
+                echo '<br>'.$class;
+
                 switch($class)
                     {
                         case 'hasRegisterId':
