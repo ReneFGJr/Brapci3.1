@@ -426,7 +426,11 @@ class RDFExport extends Model
 		$ln .= $td . strip_tags($dta['authors']) . $tdx;
 
 		/********************************** JOURNALS */
-		$ln .= $td . $dta['Journal'] . $tdx;
+		if (isset($dta['Journal']))
+			{
+				$ln .= $td . $dta['Journal'] . $tdx;
+			}
+
 
 		/************************************** YEAR */
 		$ln .= $td . $year .  $tdx;
