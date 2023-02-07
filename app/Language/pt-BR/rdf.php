@@ -15,7 +15,7 @@ return [
     'searching' => 'buscando...',
     'prefLabel' => 'Descritor preferencial',
     'Subject' => 'Assunto',
-    'filter_to' => 'Filtro por',
+    'filter_to' => 'Digite o termo de filtro',
     'select_an' => 'Descritores autorizados',
     'catalog_input' => '<i>Vocabulário de</i>:',
     'force_create'=>'Criar autoridade',
