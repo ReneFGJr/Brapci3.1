@@ -50,6 +50,7 @@ class Titles extends Model
 
         if ($dt['task_status'] != 1)
         {
+            $BOTS->task_remove($task);
             return "FIM";
         }
 
@@ -78,6 +79,21 @@ class Titles extends Model
             $update = false;
             $app = '';
             $title = trim($row->n_name);
+            $lang = $row->n_lang;
+            if (($lang != 'pt-BR')and ($lang != 'en') and ($lang != 'es') and ($lang != 'es'))
+                {
+                    $update = false;
+                    $app .= '[language]';
+                    switch($lang)
+                        {
+                            case 'pt-PT':
+                                $lang = 'pt-BR';
+                                break;
+                            case 'es-ES':
+                                $lang = 'es';
+                                break;
+                        }
+                }
             /******************************** Caixa Alta */
             $t = explode(' ', $row->n_name);
             $id = 0;
@@ -121,6 +137,7 @@ class Titles extends Model
             if ($update)
                 {
                 $da['n_name'] = trim($title);
+                $da['n_lang'] = trim($lang);
                 $RDFLiteral->set($da)->where('id_n', $row->id_n)->update();
                 $sx .= $title.' '.$app.'<br>';
                 }

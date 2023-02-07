@@ -47,6 +47,12 @@ class Index extends Model
 
         }
 
+    function task_remove($task)
+        {
+            $this->where('task_id',$task)->delete();
+            return true;
+        }
+
     function task($task)
         {
             $task = mb_strtoupper($task);
