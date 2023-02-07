@@ -145,6 +145,7 @@ class Download extends Model
                             echo "OK";
                         } else {
                             echo 'ERRO: '.$url;
+                            echo '<br>===>'.$pos;
                         }
 
                     exit;
