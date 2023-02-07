@@ -68,6 +68,8 @@ class RdfFormText extends Model
 							$da['d_r1'] = $idc;
 							$da['d_p'] = $RDFClass->class($prop,false);
 							$da['d_library'] = LIBRARY;
+							$Socials = new \App\Models\Socials();
+							$da['d_user'] = $Socials->getUser();
 							$RDFData = new \App\Models\Rdf\RDFData();
 							$RDFData->insert($da);
 						}

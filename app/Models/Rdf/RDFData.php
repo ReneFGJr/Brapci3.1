@@ -15,7 +15,7 @@ class RDFData extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_d', 'd_r1', 'd_r2', 'd_p', 'd_library', 'd_literal'
+		'id_d', 'd_r1', 'd_r2', 'd_p', 'd_library', 'd_literal', 'd_user'
 	];
 
 	// Dates
@@ -146,7 +146,8 @@ class RDFData extends Model
 		$dts = $this->first();
 
 		if (!is_array($dts)) {
-
+			$Socials = new \App\Models\Socials();
+			$dt['d_user'] = $Socials->getUser();
 			$this->insert($dt);
 			return true;
 		}

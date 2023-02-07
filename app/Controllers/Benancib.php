@@ -80,7 +80,7 @@ class Benancib extends BaseController
                 break;
             case 'a':
                 $Socials = new \App\Models\Socials();
-                $cat = $Socials->getAccess("#ADM#CAT");
+                $cat = $Socials->getAccess("#ADM#CAT#EAN");
                 if ($cat == true) {
                     $RDF = new \App\Models\Rdf\RDF();
 
@@ -97,8 +97,8 @@ class Benancib extends BaseController
                             lang('brapci.return').'</a>';
                     $sx .= bs($sa . $sb);
                 } else {
-                    $sx .= bsmessage('Access not permited');
-                    $sx .= bs(bsc($sx, 12));
+                    $sm = bsmessage('Access not permited');
+                    $sx .= bs(bsc($sm, 12));
                 }
                 break;
             case 'v':

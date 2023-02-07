@@ -405,19 +405,28 @@ class Socials extends Model
 
 			/********************************************* Check */
 			$tp = explode('#', $t);
-
-			for ($i = 0; $i < count($tp); $i++) {
-				$ta = $this->calcMD5('#' . $tp[$i]);
-				if (isset($_SESSION['access'])) {
-					$ac = $_SESSION['access'];
-					$ac = (array)json_decode($ac);
-					for ($r = 0; $r < count($ac); $r++) {
-						if ($ac[$r] == $ta) {
-							return true;
-						}
+			$wh = '';
+			foreach($tp as $id=>$pf)
+				{
+					if ($pf != '') {
+						if ($wh != '') { $wh .= ' or ';}
+						$wh .= "(pe_abrev = '#$pf')";
 					}
 				}
-			}
+			$user_id = $this->getUser();
+			$sql = "select * from users_perfil_attrib
+						inner join users_perfil ON id_pe = pa_perfil
+						where (pa_user = $user_id)";
+			if ($wh != '') { $sql .= "and ($wh)"; }
+
+			$db = $this->db->query($sql);
+			$db = $db->getresult();
+			if (count($db) > 0)
+				{
+					return true;
+				} else {
+					return false;
+				}
 		}
 		return false;
 	}
@@ -465,11 +474,15 @@ class Socials extends Model
 		/**************************************************************************** ADD */
 		$assign = get("assign");
 		$user = get("user");
+
 		if ((strlen($assign) > 0) and (strlen($user) > 0)) {
 			$check = md5($d1 . $user . date("Ymd"));
 			if (($check == $assign) and (round($user) > 0)) {
 				$check = md5($user . $d1);
-				$sql = "select * from users_perfil_attrib where pa_user = '$user' and pa_perfil = '$d1' ";
+				$sql = "select * from users_perfil_attrib
+							where pa_user = '$user'
+							and pa_perfil = '$d1' ";
+
 				$dt = $this->db->query($sql)->getResult();
 				if (count($dt) == 0) {
 					$sql = "insert into users_perfil_attrib (pa_user, pa_perfil, pa_check) values ('$user','$d1','$check')";
@@ -487,9 +500,11 @@ class Socials extends Model
 		if (strlen($name) > 0) {
 			$this->setUserDb();
 			$sql = "select * from users
-								left join users_perfil_attrib ON pa_user = id_us
-								where (us_nome like '%$name%') or (us_email like '%$name%')";
+						left join users_perfil_attrib ON pa_user = id_us and (pa_perfil = $d1 )
+						where
+						((us_nome like '%$name%') or (us_email like '%$name%'))";
 			$dt = $this->db->query($sql)->getResult();
+			echo $sql;
 
 			for ($r = 0; $r < count($dt); $r++) {
 				$line = (array)$dt[$r];
@@ -636,15 +651,18 @@ class Socials extends Model
 			->where('id_pe', $id)
 			->findAll();
 		$sx .= '<table class="table">';
-		$sx .= '<tr><th>#</th><th>' . lang('social.id_us') . '</th><th>' . lang('social.us_nome') . '</th></tr>';
+		$sx .= '<tr><th>#</th>
+					<th>' . lang('social.us_nome') . '</th>
+					<th>' . lang('social.us_login') . '</th>
+					<th>' . lang('social.last_access') . '</th>
+					</tr>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			$sx .= '<tr>';
 			$sx .= '<td>' . ($r + 1) . '</td>';
 			$sx .= '<td>' . $line['us_nome'] . '</td>';
-			$sx .= '<td>' . $line['us_nome'] . '</td>';
-			$sx .= '<td>' . $line['us_nome'] . '</td>';
-			$sx .= '<td>' . $line['us_nome'] . '</td>';
+			$sx .= '<td>' . $line['us_email'] . '</td>';
+			$sx .= '<td>' . $line['us_lastaccess'] . '</td>';
 			$sx .= '</tr>';
 		}
 		if (count($dt) == 0) {
