@@ -4,7 +4,7 @@ namespace App\Models\AI\NLP;
 
 use CodeIgniter\Model;
 
-class Abstracts extends Model
+class Titles extends Model
 {
     protected $DBGroup          = 'default';
     protected $table            = 'abstracts';
@@ -43,18 +43,21 @@ class Abstracts extends Model
     function check_next()
     {
         $BUGS = new \App\Models\Functions\Bugs();
-        $task = 'CHECK_ABSTRACT';
-        $limit = 100;
+        $task = 'CHECK_TITLES';
+        $limit = 500;
         $BOTS = new \App\Models\Bots\Index();
         $dt = $BOTS->task($task);
 
-        $sx = '';
+        if ($dt['task_status'] != 1)
+        {
+            return "FIM";
+        }
+
+        $sx = '<hr>'.cr();
         $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
 
         $RDF = new \App\Models\Rdf\RDF();
-        $prop = $RDF->getClass('hasAbstract');
-
-        exit;
+        $prop = $RDF->getClass('hasTitle');
 
         $RDFData = new \App\Models\Rdf\RDFData();
         $dd = $RDFData
@@ -72,12 +75,21 @@ class Abstracts extends Model
             ->getResult();
 
         foreach ($dd as $row) {
+            $update = false;
+            $app = '';
+            $title = trim($row->n_name);
+            /******************************** Caixa Alta */
             $t = explode(' ', $row->n_name);
             $id = 0;
             if (count($t) < 2) {
                 $idc = $row->d_r1;
-                echo $row->n_name.'<br>';
-                //$BUGS->register($idc, 'titleSHORT');
+                $title = ucfirst(mb_strtolower($row->n_name));
+                if ($title != $row->n_name)
+                    {
+                        $sx .= 'SHORT: ' . $row->n_name . '<br>';
+                        $app .= '[UPPER-SHORT]';
+                        $update = true;
+                    }
             } else {
                 while (strlen($t[$id]) < 2) {
                     $id++;
@@ -86,18 +98,39 @@ class Abstracts extends Model
                 $upper = uppercase($t[$id]);
                 $so = sonumero($row->n_name);
                 if (($upper == $t[$id]) and ($so == '')) {
+                    //echo $upper.'=='.$t[$id].' = ';
                     $title_o = $row->n_name;
                     $title = ucfirst(mb_strtolower($row->n_name));
-                    $sx .= '<hr>';
-                    $sx .=  '<br>==>' . $title_o;
-                    $sx .=  '<br>==>' . $title;
-                    $da = array();
-                    $da['n_name'] = $title;
-                    $RDFLiteral->set($da)->where('id_n', $row->id_n)->update();
+                    $app .= '[UPPER]';
+                    $update = true;
                 }
             }
+
+            /*********************** ENTER */
+            if (strpos($title,chr(13))) { $title = troca($title,chr(13),' ');
+                $update = true; $app .= '[CR]'; }
+            if (strpos($title, chr(10))) { $title = troca($title, chr(10), ' ');
+                $update = true;
+                $app .= '[LF]';}
+            while (strpos($title,'  '))
+                {
+                    $title = troca($title,'  ',' ');
+                    $update = true;
+                }
+
+            if ($update)
+                {
+                $da['n_name'] = trim($title);
+                $RDFLiteral->set($da)->where('id_n', $row->id_n)->update();
+                $sx .= $title.' '.$app.'<br>';
+                }
         }
         $dt['task_offset'] = $dt['task_offset'] + $limit;
+        if ($dt['task_offset'] > $total)
+            {
+                $dt['task_offset'] = 0;
+                $dt['task_status'] = 0;
+            }
         if (agent() == 1) {
             $perc = number_format($dt['task_offset'] / $total * 100, 1) . '%';
             $sx = '<br>Offset ' . $dt['task_offset'] . '/' . $total . ' ' . $perc . $sx;

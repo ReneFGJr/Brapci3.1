@@ -45,6 +45,11 @@ class Index extends Model
             $sx = h(lang('tools.NLP'));
             switch($d1)
                 {
+                    case 'bot_titles':
+                        $Titles = new \App\Models\AI\NLP\Titles();
+                        $sx .= $Titles->check_next();
+                        echo $sx;
+                        break;
                     case 'bot_abstracts':
                         $Abstracts = new \App\Models\AI\NLP\Abstracts();
                         $sx .= $Abstracts->check_next();
