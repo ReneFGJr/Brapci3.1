@@ -88,6 +88,9 @@ class Titles extends Model
                     $app .= '[language]';
                     switch($lang)
                         {
+                            case 'NaN':
+                                $lang = 'pt-BR';
+                                break;
                             case 'it-IT':
                                 $lang = 'it';
                                 break;
