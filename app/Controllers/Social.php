@@ -7,14 +7,15 @@ use App\Controllers\BaseController;
 ///* SESSION */
 $language = \Config\Services::language();
 
-helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr','sessions','cookie','functions']);
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie', 'highchart']);
 $session = \Config\Services::session();
 
-define("URL",getenv("app.baseURL"));
-define("PATH",getenv("app.baseURL").'/');
-define("MODULE",'');
-define("PREFIX",'');
-define("COLLECTION",'');
+define("URL", getenv("app.baseURL"));
+define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
+define("MODULE", '');
+define("PREFIX", '');
+define("LIBRARY", '1000');
+define("COLLECTION", '/social');
 
 class Social extends BaseController
 {
@@ -49,8 +50,7 @@ class Social extends BaseController
                 break;
 
                 default:
-                    $sa = h($act.'.'.$subact);
-                    $sa .= $Socials->index($act,$subact,$id);
+                    $sa = $Socials->index($act,$subact,$id);
                     break;
             }
 
