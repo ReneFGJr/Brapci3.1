@@ -100,6 +100,9 @@ class Titles extends Model
                             case 'es-ES':
                                 $lang = 'es';
                                 break;
+                            case 'ca-ES':
+                                $lang = 'es';
+                                break;
                             case 'fr-CA':
                                 $lang = 'fr';
                                 break;
