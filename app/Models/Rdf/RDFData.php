@@ -125,6 +125,7 @@ class RDFData extends Model
 		$d['d_p'] = $idp;
 		$d['d_library'] = LIBRARY;
 		$d['d_literal'] = 0;
+		$d['d_update'] = date("Y-m-d H:i:s");
 		$rst = $this->where('d_r1', $id1)->where('d_r2', $id2)->FindAll();
 		if (count($rst) == 0) {
 			$rst = $this->where('d_r2', $id1)->where('d_r1', $id2)->FindAll();
