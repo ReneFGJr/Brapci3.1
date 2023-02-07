@@ -44,7 +44,7 @@ class Titles extends Model
     {
         $BUGS = new \App\Models\Functions\Bugs();
         $task = 'CHECK_TITLES';
-        $limit = 500;
+        $limit = 2000;
         $BOTS = new \App\Models\Bots\Index();
         $dt = $BOTS->task($task);
 
@@ -84,7 +84,7 @@ class Titles extends Model
             $lang = $row->n_lang;
             if (($lang != 'pt-BR') and ($lang != 'fr') and ($lang != 'it') and ($lang != 'en') and ($lang != 'es') and ($lang != 'es'))
                 {
-                    $update = false;
+                    $update = true;
                     $app .= '[language]';
                     switch($lang)
                         {
