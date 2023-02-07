@@ -146,6 +146,7 @@ class Download extends Model
                         } else {
                             echo 'ERRO: '.$url;
                             echo '<br>===>'.$pos;
+                            echo '<pre>'.$txt.'</pre>';
                         }
 
                     exit;
