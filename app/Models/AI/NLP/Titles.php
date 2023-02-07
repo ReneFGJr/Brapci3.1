@@ -44,7 +44,7 @@ class Titles extends Model
     {
         $BUGS = new \App\Models\Functions\Bugs();
         $task = 'CHECK_TITLES';
-        $limit = 500;
+        $limit = 2000;
         $BOTS = new \App\Models\Bots\Index();
         $dt = $BOTS->task($task);
 
