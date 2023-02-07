@@ -102,11 +102,11 @@ class RdfFormVC extends Model
 		$sx .= form_open($path,$dd);
 		$sx .= '<div id="busy" name="busy" style="position: fixed; top:0; right:0; text-align=right;"></div>';
 		$sx .= '<span class="small">'.lang('rdf.filter_to').' '.lang('rdf.'.$range).'</span>';
-		$sx .= '<input type="text" id="dd50" name="dd50" class="form-control-lg">';
+		$sx .= '<input type="text" id="dd50" name="dd50" class="form-control-lg full">';
 
 		/* Select */
 		$sx .= '<span class="small mt-1">'.lang('rdf.select_an').' '.lang('rdf.'.$range).'</span>';
-		$sx .= '<div id="dd51a"><select class="form-control" size="5" name="dd51" id="dd51"></select></div>';
+		$sx .= '<div id="dd51a"><select class="form-control-lg full" size="5" name="dd51" id="dd51"></select></div>';
 
 		$bts = '<br>';
 		$bts .= '<input type="button" id="b1" class="btn btn-outline-secondary" value="'.lang('rdf.force_create').'" onclick="submitb1(\''.$range.'\');"> ';
