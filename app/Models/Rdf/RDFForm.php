@@ -159,7 +159,7 @@ class RdfForm extends Model
 			LEFT JOIN rdf_class as t2 ON sc_propriety = t2.id_c
 			LEFT JOIN rdf_form_groups ON sc_group = gr_name
 			where sc_class = $class and (sc_library = " . LIBRARY . " OR sc_library = 0) and (sc_visible = 1)
-			order by gr_ord, sc_ord, id_sc, t0.c_order, id_d";
+			order by gr_ord, sc_ord, id_sc, id_d, t0.c_order";
 
 
 
