@@ -44,17 +44,20 @@ class Abstracts extends Model
     {
         $BUGS = new \App\Models\Functions\Bugs();
         $task = 'CHECK_ABSTRACT';
-        $limit = 100;
+        $limit = 1000;
         $BOTS = new \App\Models\Bots\Index();
         $dt = $BOTS->task($task);
+
+        if ($dt['task_status'] != 1) {
+            $BOTS->task_remove($task);
+            return "FIM";
+        }
 
         $sx = '';
         $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
 
         $RDF = new \App\Models\Rdf\RDF();
         $prop = $RDF->getClass('hasAbstract');
-
-        exit;
 
         $RDFData = new \App\Models\Rdf\RDFData();
         $dd = $RDFData
@@ -70,34 +73,88 @@ class Abstracts extends Model
             ->orderBy('id_d')
             ->get($limit, $dt['task_offset'])
             ->getResult();
-
+        $upper = false;
         foreach ($dd as $row) {
-            $t = explode(' ', $row->n_name);
-            $id = 0;
-            if (count($t) < 2) {
-                $idc = $row->d_r1;
-                echo $row->n_name.'<br>';
-                //$BUGS->register($idc, 'titleSHORT');
-            } else {
-                while (strlen($t[$id]) < 2) {
-                    $id++;
-                }
-                /******************** CAIXA ALTA/BAIXA */
-                $upper = uppercase($t[$id]);
-                $so = sonumero($row->n_name);
-                if (($upper == $t[$id]) and ($so == '')) {
-                    $title_o = $row->n_name;
-                    $title = ucfirst(mb_strtolower($row->n_name));
-                    $sx .= '<hr>';
-                    $sx .=  '<br>==>' . $title_o;
-                    $sx .=  '<br>==>' . $title;
-                    $da = array();
-                    $da['n_name'] = $title;
-                    $RDFLiteral->set($da)->where('id_n', $row->id_n)->update();
+            $app = '';
+            $upper = false;
+            $txt = $row->n_name;
+
+            /************************************** Idioma */
+            $lang = $row->n_lang;
+            if (($lang != 'pt-BR') and ($lang != 'fr') and ($lang != 'it') and ($lang != 'en') and ($lang != 'es') and ($lang != 'es')) {
+                $update = true;
+                $app .= '[language]';
+                switch ($lang) {
+                    case 'NaN':
+                        $lang = 'pt-BR';
+                        break;
+                    case 'it-IT':
+                        $lang = 'it';
+                        break;
+                    case '':
+                        $lang = 'pt-BR';
+                        break;
+                    case 'pt':
+                        $lang = 'pt-BR';
+                        break;
+                    case '0':
+                        $lang = 'pt-BR';
+                        break;
+                    case 'pt-PT':
+                        $lang = 'pt-BR';
+                        break;
+                    case 'es-ES':
+                        $lang = 'es';
+                        break;
+                    case 'ca-ES':
+                        $lang = 'es';
+                        break;
+                    case 'fr-CA':
+                        $lang = 'fr';
+                        break;
+                    case 'fr-FR':
+                        $lang = 'fr';
+                        break;
+                    default:
+                        pre($row);
+                        break;
                 }
             }
-        }
+
+            if (strpos($txt,chr(13))) { $txt = troca($txt,chr(10),' '); $upper = true; $app .= '[CR]'; }
+
+            /* ENTER */
+            if (strpos($txt, chr(13))) {
+                $txt = troca($txt, chr(10), ' ');
+                $upper = true;
+                $app .= '[CR]';
+            }
+            if (strpos($txt,chr(10).'Palavras-chave:'))
+                {
+                    $txt = troca($txt, $txt, chr(10) . 'Palavras-chave:','#Palavras-chave:');
+                    $upper = true;
+                    $app .= '[KEYWORDS]';
+                }
+            if (strpos($txt, chr(10) . 'Keywords:')) {
+                $txt = troca($txt, $txt, chr(10) . 'Keywords:', '#Keywords:');
+            }
+            if (strpos($txt,chr(10))) { $txt = troca($txt,chr(10),' '); $upper = true; $app .= '[LF]'; }
+            }
+
+        if ($upper)
+            {
+                $da['n_name'] = trim($txt);
+                $da['n_lang'] = trim($lang);
+                $RDFLiteral->set($da)->where('id_n', $row->id_n)->update();
+                $sx .= $txt.$app.'<br>';
+                pre($da,false);
+            }
         $dt['task_offset'] = $dt['task_offset'] + $limit;
+        if ($dt['task_offset'] > $total) {
+            $dt['task_offset'] = 0;
+            $dt['task_status'] = 0;
+        }
+
         if (agent() == 1) {
             $perc = number_format($dt['task_offset'] / $total * 100, 1) . '%';
             $sx = '<br>Offset ' . $dt['task_offset'] . '/' . $total . ' ' . $perc . $sx;
