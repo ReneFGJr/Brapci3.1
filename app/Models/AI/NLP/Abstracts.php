@@ -135,8 +135,11 @@ class Abstracts extends Model
                     $upper = true;
                     $app .= '[KEYWORDS]';
                 }
+
             if (strpos($txt, chr(10) . 'Keywords:')) {
                 $txt = troca($txt, $txt, chr(10) . 'Keywords:', '#Keywords:');
+                $upper = true;
+                $app .= '[KEYWORDS]';
             }
             if (strpos($txt,chr(10))) { $txt = troca($txt,chr(10),' '); $upper = true; $app .= '[LF]'; }
             }
