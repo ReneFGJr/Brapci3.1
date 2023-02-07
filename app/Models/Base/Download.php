@@ -132,6 +132,12 @@ class Download extends Model
             if (strpos($url, 'paper/view'))
                 {
                     $txt = read_link($url);
+                    if (strpos($txt, 'noframes'))
+                        {
+                            $url = troca($url, 'paper/view', 'paper/viewPaper');
+                            $txt = read_link($url);
+                            echo 'Change: '.$url;
+                        }
                     if ($pos = strpos($txt, 'citation_pdf_url'))
                         {
                             $txt = substr($txt,$pos,300);
@@ -145,8 +151,8 @@ class Download extends Model
                             echo "OK";
                         } else {
                             echo 'ERRO: '.$url;
-                            echo '<br>===>'.$pos;
-                            echo '<pre>'.$txt.'</pre>';
+                            echo '<br>Size: '.strlen($txt);
+                            echo $txt;
                         }
 
                     exit;

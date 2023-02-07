@@ -142,7 +142,6 @@ class RDFData extends Model
 	{
 		foreach ($dt as $field => $value) {
 			$this->where($field, $value);
-			//echo '<br>'.$field.'==>'.$value;
 		}
 		$dts = $this->first();
 
