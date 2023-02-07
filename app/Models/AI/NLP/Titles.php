@@ -84,7 +84,7 @@ class Titles extends Model
             $lang = $row->n_lang;
             if (($lang != 'pt-BR') and ($lang != 'fr') and ($lang != 'it') and ($lang != 'en') and ($lang != 'es') and ($lang != 'es'))
                 {
-                    $update = false;
+                    $update = true;
                     $app .= '[language]';
                     switch($lang)
                         {
