@@ -161,7 +161,10 @@ class RdfForm extends Model
 			where sc_class = $class and (sc_library = " . LIBRARY . " OR sc_library = 0) and (sc_visible = 1)
 			order by gr_ord, sc_ord, idcc, id_sc, t0.c_order";
 
+
+
 				$rlt =  (array)$this->db->query($sql)->getResult();
+				pre($rlt);
 
 				$sx .= '<table width="100%" cellpadding=5>';
 				$js = '';
