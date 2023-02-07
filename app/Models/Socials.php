@@ -1147,7 +1147,7 @@ class Socials extends Model
 
 		$key =  md5(date("YmdHis") . $email);
 		$_SESSION['forgout'] = $key;
-		$link = PATH . 'social/forgout/' . $user['id_us'] . '?key=' . $key;
+		$link = PATH . '/social/forgout/' . $user['id_us'] . '?key=' . $key;
 		$link_html = '<a href="' . $link . '">' . lang('social.forgout_email_link') . '</a>';
 
 		/*********************************/
