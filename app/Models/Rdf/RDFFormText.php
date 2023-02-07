@@ -70,6 +70,7 @@ class RdfFormText extends Model
 							$da['d_library'] = LIBRARY;
 							$Socials = new \App\Models\Socials();
 							$da['d_user'] = $Socials->getUser();
+							$da['d_update'] = date("Y-m-d H:i:s");
 							$RDFData = new \App\Models\Rdf\RDFData();
 							$RDFData->insert($da);
 						}

@@ -148,6 +148,7 @@ class RDFData extends Model
 		if (!is_array($dts)) {
 			$Socials = new \App\Models\Socials();
 			$dt['d_user'] = $Socials->getUser();
+			$dt['d_update'] = date("Y-m-d H:i:s");
 			$this->insert($dt);
 			return true;
 		}
