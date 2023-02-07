@@ -15,7 +15,7 @@ class RDFData extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_d', 'd_r1', 'd_r2', 'd_p', 'd_library', 'd_literal', 'd_user'
+		'id_d', 'd_r1', 'd_r2', 'd_p', 'd_library', 'd_literal', 'd_user', 'd_update'
 	];
 
 	// Dates
