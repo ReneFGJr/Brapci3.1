@@ -148,7 +148,11 @@ class Abnt extends Model
 		}
 		$tela .= '. ' . $title;
 
-		$tela .= '. <b>' . nbr_author($dt['Journal'], 7) . '</b>';
+		if (isset($dt['Journal']))
+			{
+				$tela .= '. <b>' . nbr_author($dt['Journal'], 7) . '</b>';
+			}
+
 		if (isset($dt['issue']['issue_vol']) > 0) {
 			$tela .= ', ' . $dt['issue']['issue_vol'];
 		}
