@@ -85,8 +85,6 @@ class Download extends Model
             {
                 $class = $line['c_class'];
 
-                echo '<br>'.$class;
-
                 switch($class)
                     {
                         case 'hasRegisterId':
@@ -144,8 +142,11 @@ class Download extends Model
                                 {
                                     return $txt;
                                 }
+                            echo "OK";
+                        } else {
+                            echo 'ERRO: '.$url;
                         }
-                    echo "OK";
+
                     exit;
                 }
         }
