@@ -366,8 +366,11 @@ class RDFExport extends Model
 		$this->saveRDF($id, $section, 'section.json');
 
 		/******************************** Authors */
-		$journal = json_encode($dta['Journal']);
-		$this->saveRDF($id, $journal, 'journal.name');
+		if (isset($dta['Journal']))
+			{
+			$journal = json_encode($dta['Journal']);
+			$this->saveRDF($id, $journal, 'journal.name');
+			}
 
 		/******************************** Authors */
 		if (!isset($dt['Authors']))
