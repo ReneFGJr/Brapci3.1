@@ -117,6 +117,7 @@ class RDFData extends Model
 
 	function propriety($id1, $prop, $id2)
 	{
+		$Socials = new \App\Models\Socials();
 		$RDFClass = new \App\Models\Rdf\RDFClass();
 		$idp = $RDFClass->class($prop);
 
@@ -126,6 +127,8 @@ class RDFData extends Model
 		$d['d_library'] = LIBRARY;
 		$d['d_literal'] = 0;
 		$d['d_update'] = date("Y-m-d H:i:s");
+		$user = $Socials->getUser();
+		$d['d_user'] = $user;
 		$rst = $this->where('d_r1', $id1)->where('d_r2', $id2)->FindAll();
 		if (count($rst) == 0) {
 			$rst = $this->where('d_r2', $id1)->where('d_r1', $id2)->FindAll();
