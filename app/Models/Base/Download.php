@@ -192,7 +192,7 @@ class Download extends Model
                 echo '<hr>';
 
                 $Socials = new \App\Models\Socials();
-                if ($Socials->getAccess("#ADM#CAT#EAN")) {
+                if ($Socials->getAccess("#ADM#CAT#ENA")) {
                     echo $this->download_tools($id);
                 }
                 exit;
