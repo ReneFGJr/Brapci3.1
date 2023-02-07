@@ -193,6 +193,7 @@ class Download extends Model
 
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM#CAT#ENA")) {
+                    echo "Buscando...";
                     echo $this->download_tools($id);
                 }
                 exit;
