@@ -103,6 +103,9 @@ class Titles extends Model
                             case 'fr-CA':
                                 $lang = 'fr';
                                 break;
+                            case 'fr-FR':
+                                $lang = 'fr';
+                                break;
                             default:
                                 pre($row);
                                 break;
