@@ -37,7 +37,7 @@ class Proceedings extends BaseController
         switch ($act) {
             case 'a':
                 $Socials = new \App\Models\Socials();
-                $cat = $Socials->getAccess("#ADM#CAT");
+                $cat = $Socials->getAccess("#ADM#CAT#ENA");
                 if ($cat == true) {
                     $RDF = new \App\Models\Rdf\RDF();
 
