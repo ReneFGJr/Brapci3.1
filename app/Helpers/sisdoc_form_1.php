@@ -13,6 +13,18 @@ function ip()
     return ($ip);
 }
 
+function agent()
+    {
+        $ag = $_SERVER['HTTP_USER_AGENT'];
+        $bot = false;
+        if(strpos($ag, 'Windows'))
+            {
+                $bot = true;
+            }
+
+        return $bot;
+
+    }
 
 function bt_cancel($url)
 {

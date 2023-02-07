@@ -65,7 +65,7 @@ class Index extends Model
 				$sx .= $AuthorityNames->check_next();
 				break;
 			case 'bot_abstracts':
-				$NLP = new \App\Models\AI\NLP\Abstract();
+				$NLP = new \App\Models\AI\NLP\Abstracts();
 				$sx .= $NLP->check_next();
 				break;
 			case 'findid':

@@ -89,6 +89,10 @@ class Metadata extends Model
             $ISSUE = new \App\Models\Base\Issues();
             $dtq = $ISSUE->le($id);
             $dt = array();
+            if (count($dtq) == 0)
+                {
+                    return array();
+                }
             $dt['Journal'] = $dtq['jnl_name'];
             $dt['Place'] = $dtq['is_place'];
             $dt['Year'] = $dtq['is_year'];
@@ -213,7 +217,7 @@ class Metadata extends Model
                         $this->lets('editora', $value);
                         break;
                     case 'hasSectionOf':
-                        $this->lets('section', $name . '$');
+                        $this->lets('section', $value . '$');
                         $this->let('Sections', $value . ';' . $ddv2);
                         break;
                     case 'hasCover':

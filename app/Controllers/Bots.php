@@ -63,6 +63,7 @@ class Bots extends BaseController
                 $menu[PATH . COLLECTION . '/authority/collaboration'] = lang('bots.authority.collaboration');
                 $menu[PATH . COLLECTION . '/authority/checknames'] = lang('bots.authority.checknames');
                 $menu[PATH . COLLECTION . '/nlp/abstracts'] = lang('bots.authority.abstracts');
+                $menu[PATH . COLLECTION . '/nlp/titles'] = lang('bots.authority.titles');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');
                 $menu[PATH . COLLECTION . '/export'] = lang('bots.export');
                 $sx .= menu($menu);

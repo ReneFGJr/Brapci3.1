@@ -213,10 +213,10 @@ class RDFExport extends Model
 							pre($dta['Pages']);
 						}
 						if (isset($dta['pagi'])) {
-							pre($dta['Pages']);
+							pre($dta['pagi']);
 						}
 						if (isset($dta['pagf'])) {
-							pre($dta['Pages']);
+							pre($dta['pagf']);
 						}
 						break;
 					case 'Title':
@@ -389,11 +389,16 @@ class RDFExport extends Model
 		$this->saveRDF($id, json_encode($Keywords), 'keywords.json');
 
 		/********************************* YEAR */
-		$year = sonumero($dta['issue']['year']);
-		$year = round(substr($year, strlen($year) - 4, 4));
-		if (($year > 1950) and ($year <= (date("Y") + 1))) {
-			$this->saveRDF($id, $year, 'year.nm');
-		}
+		if (isset($dt['issue']['year']))
+			{
+				$year = sonumero($dta['issue']['year']);
+				$year = round(substr($year, strlen($year) - 4, 4));
+				if (($year > 1950) and ($year <= (date("Y") + 1))) {
+					$this->saveRDF($id, $year, 'year.nm');
+				}
+			} else {
+				$year = '????';
+			}
 		$this->saveRDF($id, $dt['concept']['c_class'], 'class.nm');
 
 		$this->saveRDF($id, json_encode($dta), 'name.json');

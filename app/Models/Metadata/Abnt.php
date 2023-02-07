@@ -155,7 +155,13 @@ class Abnt extends Model
 		if (isset($dt['issue']['issue_nr']) > 0) {
 			$tela .= ', ' . $dt['issue']['issue_nr'];
 		}
-		$tela .= ', ' . trim($dt['issue']['year']);
+		if (isset($dt['issue']['year']))
+			{
+				$tela .= ', ' . trim($dt['issue']['year']);
+			} else {
+				$tela .= ', ' . '[????]';
+			}
+
 		if (isset($dt['pages'])) {
 			$tela .= ', p ' . $dt['pages'];
 		}

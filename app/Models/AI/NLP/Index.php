@@ -45,8 +45,10 @@ class Index extends Model
             $sx = h(lang('tools.NLP'));
             switch($d1)
                 {
-                    case 'abstracts':
-                        echo "==>$d1";
+                    case 'bot_abstracts':
+                        $Abstracts = new \App\Models\AI\NLP\Abstracts();
+                        $sx .= $Abstracts->check_next();
+                        echo $sx;
                         break;
                     case 'language':
                         $LANGUAGE = new \App\Models\AI\NLP\Language();
