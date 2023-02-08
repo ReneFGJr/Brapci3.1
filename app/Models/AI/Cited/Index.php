@@ -43,6 +43,7 @@ class Index extends Model
     var $cities = array();
 
     var $version = '0.29';
+    var $sensor = '';
 
     function index()
         {
@@ -913,10 +914,32 @@ class Index extends Model
         }
 
         if (perfil("#ADM")) {
-            $this->sensor = $txt . $this->ias->show_sensores($n);
+            $this->sensor = $txt . $this->show_sensores($n);
         }
         return ($sx);
     }
+
+    function show_sensores($n, $tp = '')
+    {
+        $sx = '';
+        foreach ($n as $nr => $vl) {
+            switch ($tp) {
+                case 'T':
+                    $sx .= $vl . ';';
+                    break;
+
+                default:
+                    $sx .= $nr . ':';
+                    if ($vl == 1) {
+                        $sx .= '<span class="btn-success" style="border-radius: 8px;">&nbsp;1&nbsp;</span> ';
+                    } else {
+                        $sx .= '<span class="btn-warning" style="border-radius: 8px;">&nbsp;0&nbsp;</span> ';
+                    }
+            }
+        }
+        return ($sx);
+    }
+
     function is_book($n)
     {
         if ($n[9] == 1) /* Tem local */ {
