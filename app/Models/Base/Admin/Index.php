@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'reports':
+                $Reports = new \App\Models\Base\Admin\Reports();
+                $sx .= $Reports->index($subact,$id,$id2,$id3);
+                break;
             case 'cache':
                 $Cache = new \App\Models\Functions\Cache();
                 $sx = $Cache->index();
@@ -110,6 +114,7 @@ class Index extends Model
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
                             $sb .= $BUGS->resume();
+                            $sb .= $this->reports();
                             break;
                     }
                     $sx .= bs(bsc($sa, 6). bsc($sb, 6));
@@ -117,6 +122,21 @@ class Index extends Model
         }
         return $sx;
     }
+
+    function reports()
+        {
+            $sx = h(lang('brapci.reports'),5);
+            $sx .= '<ul>';
+            $opt = array('catalog_manutention');
+            foreach($opt as $id=>$type)
+            {
+                $link = '<a href="'.PATH.'/admin/reports/'.$type.'">';
+                $linka = '</a>';
+                $sx .= '<li>'.$link.lang('brapci.'.$type).$linka.'</li>';
+            }
+            $sx .= '</ul>';
+            return $sx;
+        }
 
     function benancib_admin()
     {

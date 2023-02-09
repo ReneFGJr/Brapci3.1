@@ -141,6 +141,85 @@ class RDFData extends Model
 		return $id;
 	}
 
+	function report($type)
+		{
+			$sx = h($type);
+			switch($type)
+				{
+					case 'index':
+						$user = get("user");
+						$year = get("year");
+						if ($year == '') { $year = date("Y"); }
+						$data = date("Y-m-d");
+						if ($user != '')
+						{
+							$dt = $this
+								->select("count(*) as total, d_update, d_user, us_nome")
+								->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
+								->join('users', 'id_us = d_user')
+								->where('year > "' . $year . '"')
+								->where('d_user > "' . $user . '"')
+								->groupBy('d_user, year,month,day,us_nome')
+								->orderBy('us_nome,year desc, month desc, day desc')
+								->findAll();
+						} else {
+							$dt = $this
+								->select("count(*) as total, d_update")
+								->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
+								->where('year(d_update) = "' . $year . '"')
+								->groupBy('year,month,day')
+								->orderBy('year desc, month desc, day desc')
+								->findAll();
+						}
+
+						$m = array(31,28,31,30,31,30,31,31,30,31,30,31);
+						for($r=1;$r <= 12;$r++)
+							{
+								for($y=1;$y <= $m[($r-1)];$y++)
+									{
+										$d[$r][$y] = 0;
+									}
+							}
+						$mx = array();
+						$max = 10;
+						foreach($dt as $id=>$line)
+							{
+								$mes = $line['month'];
+								$dia = $line['day'];
+								$total = $line['total'];
+								if ($total > $max) { $max = $total; }
+								$d[$mes][$dia] = $total;
+							}
+						$sx .= '<table width="100%">';
+						foreach ($d as $mes => $line) {
+							$sx .= '<tr>';
+							$sx .= '<td style="width: 150px;">'. mes_extenso($mes). '</td>';
+							$sx .= '<td>';
+							foreach($line as $idl=>$total)
+								{
+									$bcor = '80';
+									$xcor = 128+round(128-$total/$max*128);
+									$xcor = UpperCase(dechex($xcor));
+									if (strlen($xcor) == 1) { $xcor = '0'.$xcor; }
+
+									if ($total == 0)
+										{
+											$bcor = 'F0';
+											$xcor = 'F0';
+										}
+									$cor = "#".$bcor.$xcor. $bcor;
+									$sx .= '<span title="'.$total.'" style="margin-right:1px; color: '.$cor.'">';
+									$sx .= bsicone('square',18);
+									$sx .= '</span>';
+								}
+							$sx .= '</td>';
+							$sx .= '</tr>';
+						}
+						$sx .= '</table>';
+				}
+			return $sx;
+		}
+
 	function check($dt)
 	{
 		foreach ($dt as $field => $value) {
