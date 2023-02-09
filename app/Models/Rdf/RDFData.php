@@ -164,7 +164,7 @@ class RDFData extends Model
 								->findAll();
 						} else {
 							$dt = $this
-								->select("count(*) as total, d_update")
+								->select("count(*) as total")
 								->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
 								->where('year(d_update) = "' . $year . '"')
 								->groupBy('year,month,day')
