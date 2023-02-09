@@ -191,10 +191,17 @@ class RDFData extends Model
 								$d[$mes][$dia] = $total;
 							}
 						$sx .= '<table width="100%">';
+						$sx .= '<tr>';
+						$sx .= '<th style="width: 120px; font-size: 0.5em;">'.lang('brapci.month').'/'.lang('brapci.day').'</th>';
+						for($dia = 1;$dia <=31;$dia++)
+							{
+								$sx .= '<th class="text-center" style="font-size: 0.5em;">'.$dia.'</th>';
+							}
+						$sx .= '</tr>';
+
 						foreach ($d as $mes => $line) {
 							$sx .= '<tr>';
-							$sx .= '<td style="width: 150px;">'. mes_extenso($mes). '</td>';
-							$sx .= '<td>';
+							$sx .= '<td style="width: 120px;">'. mes_extenso($mes). '</td>';
 							foreach($line as $idl=>$total)
 								{
 									$bcor = '80';
@@ -208,11 +215,12 @@ class RDFData extends Model
 											$xcor = 'F0';
 										}
 									$cor = "#".$bcor.$xcor. $bcor;
+									$sx .= '<td align="center">';
 									$sx .= '<span title="'.$total.'" style="margin-right:1px; color: '.$cor.'">';
 									$sx .= bsicone('square',18);
 									$sx .= '</span>';
+									$sx .= '</td>';
 								}
-							$sx .= '</td>';
 							$sx .= '</tr>';
 						}
 						$sx .= '</table>';
