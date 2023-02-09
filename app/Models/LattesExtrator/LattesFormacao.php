@@ -95,10 +95,35 @@ class LattesFormacao extends Model
 		return $sx;
 	}
 
-	function csv()
-		{
-			echo "Formacacao";
+	function csv($id)
+	{
+		$dt = $this
+			->join('brapci_tools.projects_harvesting_xml', 'f_id  = hx_id_lattes')
+			->where('hx_project', $id)
+			->findAll();
+
+		$sx = 'IDLATTES,TYPE,INSTITUTION,COURSE,STATUS,YEAR_I,YEAR_F' . chr(13);
+		foreach ($dt as $id => $line) {
+			$sa = '';
+			$sa .= '"' . $line['f_id'] . '",';
+			$sa .= '"' . $line['f_type'] . '",';
+			$sa .= '"' . $line['f_inst'] . '",';
+			$sa .= '"' . $line['f_curso'] . '",';
+			$sa .= '"' . $line['f_situacao'] . '",';
+			$sa .= '"' . $line['f_ano_ini'] . '",';
+			$sa .= '"' . $line['f_ano_fim'] . '",';
+			$sa = troca($sa, chr(13), '');
+			$sa = troca($sa, chr(10), '');
+			$sx .= $sa . chr(13);
 		}
+
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=brapci_tools_academic_formation_" . date("Ymd-His") . ".csv");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		echo $sx;
+		exit;
+	}
 
 	function view_graduate($dt)
 	{

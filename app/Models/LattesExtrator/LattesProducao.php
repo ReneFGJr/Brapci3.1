@@ -97,9 +97,6 @@ class LattesProducao extends Model
 			header("Expires: 0");
 			echo $sx;
 			exit;
-
-
-
 		}
 
 	function producao($id)
