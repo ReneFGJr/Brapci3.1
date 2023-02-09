@@ -124,11 +124,102 @@ class Register extends Model
 
         }
 
+    function data_convert_elastic($data)
+        {
+            $da = array();
+            if (isset($data['Title']))
+                {
+                    $da['title'] = '';
+                    foreach($data['Title'] as $id=>$title)
+                        {
+                            $title = ' '.strtolower(ascii($title));
+                            $da['title'] .= $title;
+                        }
+                }
+
+            if (isset($data['ID'])) { $da['article_id'] = $data['ID']; }
+
+        if (isset($data['ID'])) {
+            $da['id_jnl'] = $data['id_jnl'][0];
+        }
+
+        if (isset($data['Class']))
+            {
+                switch($data['Class'])
+                    {
+                        case 'Proceeding':
+                            $da['collection'] = 'EV';
+                            $da['type'] = $data['Class'];
+                            break;
+                        default:
+                            echo "OPS REGISTER NOT EXISTE ".$data['Class'];
+                            exit;
+                    }
+            }
+
+        if (isset($data['Sections'])) {
+            $da['section'] = '';
+            foreach ($data['Sections'] as $id => $title) {
+                $title = ' ' . strtolower(ascii($title));
+                $title = troca($title,';',' ');
+                $da['section'] .= $title;
+            }
+        }
+
+        if (isset($data['Authors'])) {
+            $da['authors'] = '';
+            foreach ($data['Authors'] as $id => $title) {
+                $title = ' ' . strtolower(ascii($title));
+                $title = troca($title, ';', ' ');
+                $da['authors'] .= $title;
+            }
+        }
+
+        if (isset($data['Abstract'])) {
+            $da['abstract'] = '';
+            foreach ($data['Abstract'] as $id => $title) {
+                    $title = ' ' . strtolower(ascii($title));
+                    $title = troca($title, ';', ' ');
+                    $da['abstract'] .= $title;
+            }
+        }
+
+        if (isset($data['Keywords'])) {
+            $da['keywords'] = '';
+            foreach ($data['Keywords'] as $title => $lang) {
+                $title = ' ' . strtolower(ascii($title));
+                $title = troca($title, ';', ' ');
+                $da['keywords'] .= $title;
+            }
+        }
+
+        if (isset($data['Fulltext']))
+            {
+
+            }
+
+        if ((isset($data['Year'])) and ($data['Year'] != ''))
+            {
+                $da['year'] = $data['Year'];
+            }
+
+        if ((isset($data['Issue']['Year'])) and ($data['Issue']['Year'] != '')) {
+            $da['year'] = $data['Issue']['Year'];
+        }
+
+        if (!isset($da['year'])) { $da['year'] = '????'; }
+
+        if (isset($data['PDF'])) { $da['pdf'] = 1; }
+
+        $da['updated_at	'] = date("Y-m-d H:i:s");
+        return $da;
+    }
+
 
     function data($id,$data)
         {
-            //pre($data,false);
             $dt = $this->where('article_id',round($id))->findAll();
+            $data = $this->data_convert_elastic($data);
 
             if (count($dt) == 0)
                 {
@@ -150,15 +241,13 @@ class Register extends Model
         $RDF = new \App\Models\Rdf\RDF();
         $dir = $RDF->directory($id);
         //$file = $dir . 'article.json';
-        $file = $dir . 'name.json';
+        $file = $dir . 'metadata.json';
         if (file_exists($file)) {
             $API = new \App\Models\ElasticSearch\API();
             $dt = file_get_contents($file);
             $dt = (array)json_decode($dt);
             $dt['id'] = $id;
-            $dt['id_jnl'] = 75;
             $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
-            jslog("Elastic Export: " . $id);
         } else {
             $sx .= "File not found " . $file . '<br>';
         }

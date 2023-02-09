@@ -62,6 +62,19 @@ class API extends Model
 		return $sx;
 	}
 
+	function delete_index($index)
+		{
+			$rst = $this->call($index,'DELETE');
+			return $rst;
+		}
+
+	function list_index()
+		{
+			$sx = '';
+			$rst = $this->call('_cat/indices', 'GET');
+			return $rst;
+		}
+
 	function call($path, $method = 'GET', $data = null)
 	{
 		if (strlen($this->index) == 0) {

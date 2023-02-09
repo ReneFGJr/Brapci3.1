@@ -42,6 +42,161 @@ class RDFExport extends Model
 		$this->RDF = new \App\Models\RDF\RDF();
 	}
 
+	function export($id, $FORCE = false)
+	{
+		$tela = '';
+		/*****************************************************************/
+		switch ($id) {
+			case 'index_authors':
+				$tela .= $this->export_index_list_all($FORCE, 'Person', $id);
+				return $tela;
+				break;
+			case 'index_subject':
+				$tela .= $this->export_index_list_all($FORCE, 'Subject', $id);
+				return $tela;
+				break;
+			case 'index_corporatebody':
+				$tela .= $this->export_index_list_all($FORCE, 'CorporateBody', $id);
+				return $tela;
+				break;
+			case 'index_journal':
+				$tela .= $this->export_index_list_all($FORCE, 'Journal', $id);
+				return $tela;
+				break;
+			case 'index_proceeding':
+				$tela .= $this->export_index_list_all($FORCE, 'Proceeding', $id);
+				return $tela;
+				break;
+		}
+
+		$dir = $this->RDF->directory($id);
+		$file = $dir . 'name.nm';
+		if ((file_exists($file)) and ($FORCE == false)) {
+			return '';
+		}
+
+		$dt = $this->RDF->le($id, 0);
+		if (!isset($dt['concept']['c_class'])) {
+			return '';
+		}
+		$prefix = $dt['concept']['prefix_ref'];
+		$class = $prefix . ':' . $dt['concept']['c_class'];
+		$name = ':::: ' . $class . ' ::::';
+		//echo '<br>'.h($name.'-->'.$class);
+
+		switch ($class) {
+				/*************************************** SERIE NAME */
+			case 'brapci:Image':
+				$this->export_imagem($dt, $id);
+				break;
+				/*************************************** SERIE NAME */
+			case 'brapci:hasSerieName':
+				$this->export_geral($dt, $id);
+				break;
+				/*************************************** ARTICLE */
+			case 'brapci:Article':
+				$this->export_article($dt, $id, 'A');
+				break;
+
+			case 'brapci:Proceeding':
+				$this->export_proceeding($dt, $id, 'P');
+				break;
+
+				/*************************************** ISSUE ***/
+			case 'dc:Issue':
+				$this->export_issue($dt, $id);
+				break;
+
+				/*************************************** ISSUE ***/
+			case 'brapci:IssueProceeding':
+				$this->export_issueproceedings($dt, $id);
+				break;
+
+				/*************************************** ISSUE ***/
+			case 'foaf:Person':
+				$this->export_person($dt, $id);
+				break;
+
+				/*************************************** VOLUME */
+			case 'brapci:PublicationVolume':
+				$this->export_geral($dt, $id);
+				break;
+
+				/************************************** COUTNRY */
+			case 'brapci:Country':
+				$this->export_geral($dt, $id);
+				break;
+
+				/*************************************** VOLUME */
+			case 'dc:ArticleSection':
+				$this->export_geral($dt, $id);
+				break;
+
+				/*************************************** Number */
+			case 'brapci:Number':
+				$this->export_geral($dt, $id);
+				break;
+
+				/*************************************** Gender */
+			case 'brapci:Gender':
+				$this->export_geral($dt, $id);
+				break;
+
+				/******************************* Corporate Body */
+			case 'frbr:CorporateBody':
+				$this->export_geral($dt, $id);
+				break;
+
+				/************************************** SECTION */
+			case 'brapci:ProceedingSection':
+				$this->export_geral($dt, $id);
+				break;
+
+				/************************************** Subject */
+			case 'dc:Subject':
+				$this->export_geral($dt, $id);
+				break;
+
+				/*************************************** PLACE **/
+			case 'frbr:Place':
+				$this->export_geral($dt, $id);
+				break;
+
+				/*************************************** NUMBER */
+			case 'brapci:PublicationNumber':
+				$this->export_geral($dt, $id);
+				break;
+
+				/*************************************** Date ***/
+			case 'brapci:Date':
+				$this->export_geral($dt, $id);
+				break;
+
+			case 'dc:Journal':
+				$this->export_journal($dt, $id);
+				break;
+
+			case 'brapci:FileStorage':
+				$this->export_geral($dt, $id);
+				break;
+
+			case 'brapci:Book':
+				$this->export_book($dt, $id);
+				break;
+			case 'brapci:BookChapter':
+				$this->export_bookChapter($dt, $id);
+				break;
+
+			default:
+				//echo '<br> Exportando ====>' . $name;
+				$this->export_geral($dt, $id);
+				break;
+		}
+		$tela .= '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '">' . $name . '</a>';
+		return $tela;
+	}
+
+
 	function exportNail($id)
 	{
 		$this->RDF = new \App\Models\RDF\RDF();
@@ -194,6 +349,8 @@ class RDFExport extends Model
 			switch($type)
 				{
 					case 'Elastic':
+						$dta = json_encode($dta);
+						$this->saveRDF($id, $dta, 'metadata.json');
 						break;
 					case 'csv':
 						$this->saveRDF($id, $dta, 'metadata.csv');
@@ -209,15 +366,17 @@ class RDFExport extends Model
 						$this->saveRDF($id, $name, 'class.nm');
 						break;
 					case 'Pages':
+						$pages = '';
 						if (isset($dta['Pages'])) {
-							pre($dta['Pages']);
+							$pages .= $dta['Pages'];
 						}
 						if (isset($dta['pagi'])) {
-							pre($dta['pagi']);
+							$pages .= $dta['pagi'].'-';
 						}
 						if (isset($dta['pagf'])) {
-							pre($dta['pagf']);
+							$pages .= $dta['pagf'];
 						}
+						$this->saveRDF($id, $pages, 'pages.nm');
 						break;
 					case 'Title':
 						$name = $dta['title'];
@@ -304,9 +463,8 @@ class RDFExport extends Model
 		$ABNT = new \App\Models\Metadata\Abnt();
 
 		if (count($dt['data']) == 0) {
-			return "OPS " . $id . '<br>';
+			return "OPS export_proceeding " . $id . '<br>';
 		}
-
 		$dta = $Metadata->metadata($dt);
 
 		$this->saveData($id, 'Title', $dta);
@@ -714,7 +872,6 @@ class RDFExport extends Model
 
 	function export_issue($dt, $id)
 	{
-
 		/******************************** ISSUE */
 		$class = $dt['concept']['c_class'];
 		$vol = $this->RDF->recovery($dt['data'], 'hasPublicationVolume');
@@ -845,159 +1002,6 @@ class RDFExport extends Model
 		return '';
 	}
 
-	function export($id, $FORCE = false)
-	{
-		$tela = '';
-		/*****************************************************************/
-		switch ($id) {
-			case 'index_authors':
-				$tela .= $this->export_index_list_all($FORCE, 'Person', $id);
-				return $tela;
-				break;
-			case 'index_subject':
-				$tela .= $this->export_index_list_all($FORCE, 'Subject', $id);
-				return $tela;
-				break;
-			case 'index_corporatebody':
-				$tela .= $this->export_index_list_all($FORCE, 'CorporateBody', $id);
-				return $tela;
-				break;
-			case 'index_journal':
-				$tela .= $this->export_index_list_all($FORCE, 'Journal', $id);
-				return $tela;
-				break;
-			case 'index_proceeding':
-				$tela .= $this->export_index_list_all($FORCE, 'Proceeding', $id);
-				return $tela;
-				break;
-		}
-		$dir = $this->RDF->directory($id);
-		$file = $dir . 'name.nm';
-		if ((file_exists($file)) and ($FORCE == false)) {
-			return '';
-		}
-
-		$dt = $this->RDF->le($id, 0);
-
-		if (!isset($dt['concept']['c_class'])) {
-			return '';
-		}
-		$prefix = $dt['concept']['prefix_ref'];
-		$class = $prefix . ':' . $dt['concept']['c_class'];
-		$name = ':::: ?' . $class . '? ::::';
-		//echo '<br>'.$name.'-->'.$class;
-
-		switch ($class) {
-				/*************************************** SERIE NAME */
-			case 'brapci:Image':
-				$this->export_imagem($dt, $id);
-				break;
-				/*************************************** SERIE NAME */
-			case 'brapci:hasSerieName':
-				$this->export_geral($dt, $id);
-				break;
-				/*************************************** ARTICLE */
-			case 'brapci:Article':
-				$this->export_article($dt, $id, 'A');
-				break;
-
-			case 'brapci:Proceeding':
-				$this->export_proceeding($dt, $id, 'P');
-				break;
-
-				/*************************************** ISSUE ***/
-			case 'dc:Issue':
-				$this->export_issue($dt, $id);
-				break;
-
-				/*************************************** ISSUE ***/
-			case 'brapci:IssueProceeding':
-				$this->export_issueproceedings($dt, $id);
-				break;
-
-				/*************************************** ISSUE ***/
-			case 'foaf:Person':
-				$this->export_person($dt, $id);
-				break;
-
-				/*************************************** VOLUME */
-			case 'brapci:PublicationVolume':
-				$this->export_geral($dt, $id);
-				break;
-
-				/************************************** COUTNRY */
-			case 'brapci:Country':
-				$this->export_geral($dt, $id);
-				break;
-
-				/*************************************** VOLUME */
-			case 'dc:ArticleSection':
-				$this->export_geral($dt, $id);
-				break;
-
-				/*************************************** Number */
-			case 'brapci:Number':
-				$this->export_geral($dt, $id);
-				break;
-
-				/*************************************** Gender */
-			case 'brapci:Gender':
-				$this->export_geral($dt, $id);
-				break;
-
-				/******************************* Corporate Body */
-			case 'frbr:CorporateBody':
-				$this->export_geral($dt, $id);
-				break;
-
-				/************************************** SECTION */
-			case 'brapci:ProceedingSection':
-				$this->export_geral($dt, $id);
-				break;
-
-				/************************************** Subject */
-			case 'dc:Subject':
-				$this->export_geral($dt, $id);
-				break;
-
-				/*************************************** PLACE **/
-			case 'frbr:Place':
-				$this->export_geral($dt, $id);
-				break;
-
-				/*************************************** NUMBER */
-			case 'brapci:PublicationNumber':
-				$this->export_geral($dt, $id);
-				break;
-
-				/*************************************** Date ***/
-			case 'brapci:Date':
-				$this->export_geral($dt, $id);
-				break;
-
-			case 'dc:Journal':
-				$this->export_journal($dt, $id);
-				break;
-
-			case 'brapci:FileStorage':
-				$this->export_geral($dt, $id);
-				break;
-
-			case 'brapci:Book':
-				$this->export_book($dt, $id);
-				break;
-			case 'brapci:BookChapter':
-				$this->export_bookChapter($dt, $id);
-				break;
-
-			default:
-				//echo '<br> Exportando ====>' . $name;
-				$this->export_geral($dt, $id);
-				break;
-		}
-		$tela .= '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '">' . $name . '</a>';
-		return $tela;
-	}
 
 	function BookChapher($reg,$ISBN,$idb)
 		{

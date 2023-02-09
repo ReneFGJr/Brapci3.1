@@ -60,6 +60,11 @@ class ElasticRegister extends Migration
                 'constraint'     => 100,
                 'null' => true,
             ],
+            'section' => [
+                'type'       => 'varchar',
+                'constraint'     => 100,
+                'null' => true,
+            ],
             'year' => [
                 'type'       => 'varchar',
                 'constraint'     => 4,

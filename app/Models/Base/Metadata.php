@@ -73,9 +73,9 @@ class Metadata extends Model
     {
         if (!isset($this->metadata[$class]))
             {
-            $this->metadata[$class] = '';
+                $this->metadata[$class] = '';
             }
-            //pre($value,false);
+
             if ($this->metadata[$class] != '')
             {
                 $this->metadata[$class] .= ' ';
@@ -232,7 +232,7 @@ class Metadata extends Model
                         break;
                     case 'isPubishIn':
                         $this->lets('Journal', $value);
-                        $this->lets('id_jnl', $ddv2);
+                        $this->let('id_jnl', $ddv2);
                         //$this->lets('Journal', strip_tags($RDF->c($ddv2)));
                         break;
                     case 'hasLanguageExpression':
@@ -252,6 +252,12 @@ class Metadata extends Model
                     case 'hasIssueProceedingOf':
                         if (!isset($issue_proceessed[$ddv1]))
                             {
+                                $IssueWorks = new \App\Models\Base\IssuesWorks();
+                                $dti = $IssueWorks->select("siw_journal")->where('siw_issue',$ddv1)->first();
+                                if (isset($dti['siw_journal']))
+                                    {
+                                        $this->let('id_jnl', $dti['siw_journal']);
+                                    }
                                 $this->let('issue_id', $ddv1);
                                 $this->let("Issue",$this->metadata_issue($ddv1));
                                 $issue_proceessed[$ddv1] = 1;
@@ -287,9 +293,6 @@ class Metadata extends Model
                 //echo '==>' . $class . ' == ' . $valueO . '<br>';
             }
         }
-        //pre($this->metadata,false);
-        //exit;
-        //pre($meta);
         $this->metadata['ID'] = $meta['concept']['id_cc'];
         return $this->metadata;
     }

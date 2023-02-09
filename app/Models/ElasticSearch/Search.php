@@ -118,19 +118,18 @@ class Search extends Model
         /************************** */
         $type = trim(COLLECTION);
         $type = mb_strtolower($type);
-        $type = troca($type,'/','');
+        $type = troca($type, '/', '');
 
-        switch($type)
-            {
-                case 'benancib':
-                    $url = 'brapci3.1/_search';
-                    $filter['terms']['id_jnl'] = [75];
-                    break;
-                default:
-                    $url = 'brp2/_search';
-                    //$filter['terms']['id_jnl'] = [75];
-                    break;
-            }
+        switch ($type) {
+            case 'benancib':
+                $url = 'brapci3.1/_search';
+                $filter['terms']['id_jnl'] = [75];
+                break;
+            default:
+                $url = 'brp2/_search';
+                //$filter['terms']['id_jnl'] = [75];
+                break;
+        }
 
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
@@ -154,13 +153,14 @@ class Search extends Model
             $hits = $dt['hits']['hits'];
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
-                array_push($rsp['works'], array(
-                    'id' => $line['_source']['article_id'],
-                    'score' => $line['_score']
-                ));
+                if (isset($line['_source']['article_id'])) {
+                    array_push($rsp['works'], array(
+                        'id' => $line['_source']['article_id'],
+                        'score' => $line['_score']
+                    ));
+                }
             }
         }
-
         return $rsp;
     }
 }

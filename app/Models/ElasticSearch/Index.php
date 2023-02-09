@@ -174,24 +174,5 @@ class Index extends Model
 		return bs(bsc($sx, 12));
 	}
 
-	function menu()
-	{
-		$sx = '';
-		$s = array();
-		$s['elasticsearch.search'] = 'res/elasctic/search';
-		$s['elasticsearch.index'] = 'res/elasctic/index';
-		$s['elasticsearch.status'] = 'res/elasctic/status';
-		$s['elasticsearch.settings'] = 'res/elasctic/settings';
-		$s['elasticsearch.formTest'] = 'res/elasctic/formTest';
-		$sx .= '<ul>';
-		foreach ($s as $service => $url) {
-			if ($url == '') {
-				$sx .= '<hr>';
-			} else {
-				$sx .= '<li><a href="' . base_url(PATH . $url) . '">' . $service . '</a></li>';
-			}
-		}
-		$sx .= '</ul>';
-		return $sx;
-	}
+
 }

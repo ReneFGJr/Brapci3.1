@@ -48,6 +48,16 @@ class Export extends Model
     {
         $sx = 'EXPORT ' . $d1;
         switch ($d1) {
+            case 'articles':
+                echo "EXPORT ARTICLE - NOT IMPLEMENTED";
+                break;
+            case 'proceeding':
+                $Export = new \App\Models\Base\Export();
+                echo $Export->cron($d1,'start');
+                break;
+            case 'books':
+                echo "EXPORT books - NOT IMPLEMENTED";
+                break;
             default:
                 $sx = bsc($this->menu(), 12);
                 break;
@@ -113,10 +123,43 @@ class Export extends Model
         return true;
     }
 
+    function check($d1,$d2)
+        {
+        $BUGS = new \App\Models\Functions\Bugs();
+        $task = 'CHECK_TITLES';
+        $limit = 2000;
+        $BOTS = new \App\Models\Bots\Index();
+        $dt = $BOTS->task($task);
+
+        if ($dt['task_status'] != 1) {
+            $BOTS->task_remove($task);
+            return "FIM";
+        }
+        }
+    function remove_all($type)
+        {
+            $rst = $this->where('type',$type)->delete();
+            pre($rst);
+        }
+
     function cron($d1, $d2, $d3 = '')
     {
         $sx = '';
         switch ($d1) {
+            case 'proceeding':
+                switch($d2)
+                    {
+                        case 'start':
+                            $this->remove_all('1');
+                            $BOTS = new \App\Models\Bots\Index();
+                            $BOTS->task_remove('EXPORT_PROCEEDING');
+                            $dt = $BOTS->task('EXPORT_PROCEEDING');
+                            $sx .= 'Started '.$d2.' export';
+                            break;
+                        default:
+                            echo "OK $d2";
+                    }
+                break;
                 /************************************ DEFAULT */
             default:
                 if ($d1 == '') {
@@ -125,11 +168,14 @@ class Export extends Model
 
                     if (count($dtd) > 0) {
                         $sx .= $this->export_works($dtd);
+                    } else {
+                        $sx .= 'FIM';
                     }
                 } else {
                     echo "OPS EXPORT NOT FOUND [$d1]";
                 }
         }
+        $sx = bs(bsc($sx));
         return $sx;
     }
 
@@ -205,6 +251,7 @@ class Export extends Model
         }
         $sx = h($class);
         $total = $total[0]['total'];
+
         $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
         for ($r = 0; $r < count($ids); $r++) {
@@ -212,8 +259,7 @@ class Export extends Model
             $idr = $line['id_cc'];
 
             $dir = $RDF->directory($idr);
-            $file = $dir . 'article.json';
-
+            $file = $dir . 'metadata.json';
             if (!file_exists($file)) {
                 $RDF->c($idr);
             }

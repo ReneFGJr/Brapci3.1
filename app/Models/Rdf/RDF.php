@@ -997,6 +997,7 @@ class RDF extends Model
 		} else {
 			$RDFExport = new \App\Models\Rdf\RDFExport();
 			$RDFExport->export($id, $force);
+
 			if (file_exists($file)) {
 				$tela = file_get_contents($file);
 			} else {

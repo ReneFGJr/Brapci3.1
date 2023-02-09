@@ -40,8 +40,69 @@ class Elasticsearch extends BaseController
                 break;
 
             case 'register':
+                $RDF = new \App\Models\Rdf\RDF();
+                $RDF->c($id);
                 $APIRegister = new \App\Models\ElasticSearch\Register();
                 $sx .= $APIRegister->register($id,'test');
+                break;
+
+            case 'list':
+                $API = new \App\Models\ElasticSearch\API();
+                $rsp = $API->list_index();
+                $idx = array();
+                foreach($rsp as $id=>$index)
+                    {
+                        $idx[$index['index']] = $index;
+                    }
+
+                ksort($idx);
+                $sx .= '<table class="table" width="100%">';
+                $sx .= '<tr>';
+                $sx .= '<th>Index</th>';
+                $sx .= '<th width="10%">Status</th>';
+                $sx .= '<th width="10%">Nº Docs</th>';
+                $sx .= '<th width="10%">Docs Deleted</th>';
+                $sx .= '<th width="10%">Size</th>';
+                $sx .= '<th width="10%">Action</th>';
+                $sx .= '</tr>';
+                foreach($idx as $index=>$data)
+                    {
+                        $trash = '<a href="'.PATH.'/elasticsearch/delete/'.$index.'" style="color: red">'.bsicone('trash').'</a>';
+                        $sx .= '<tr>';
+                        $sx .= '<td>'.$index.'</td>';
+                        $sx .= '<td>' . $data['status'] . '</td>';
+                        $sx .= '<td class="text-end">'. number_format($data['docs.count'],0,',','.').'</td>';
+                        $sx .= '<td class="text-end">' . number_format($data['docs.deleted'],0,',','.') . '</td>';
+                        $sx .= '<td class="text-end">' . $data['store.size'] . '</td>';
+                        $sx .= '<td>'.$trash.'</td>';
+                        $sx .= '</tr>';
+                    }
+                $sx .= '</table>';
+                $sx = bs(bsc($sx,12));
+                break;
+
+            case 'delete':
+                $API = new \App\Models\ElasticSearch\API();
+                $rst = $API->delete_index($id);
+                if (isset($rst['acknowledged']))
+                    {
+                        if ($rst['acknowledged'] == '1')
+                            {
+                                $sa = '';
+                                $sa .= bsmessage('Index '.$id.' has deleted',1);
+                                $sa .= metarefresh(PATH.'/elasticsearch/list',1);
+                                $sx .= bs(bsc($sa,12));
+                            } else {
+                                pre($rst);
+                            }
+                    } else {
+                        pre($rst);
+                    }
+                break;
+
+            case 'info':
+                $API = new \App\Models\ElasticSearch\API();
+                $sx .= $API->info();
                 break;
 
             case 'status':
@@ -82,7 +143,7 @@ class Elasticsearch extends BaseController
 
     private function  menu()
     {
-        $id = 199885;
+        $id = 200098;
         $menu['#Database'] = '';
         $menu[PATH . '/elasticsearch/database'] = lang('elastic.database');
 
@@ -90,6 +151,7 @@ class Elasticsearch extends BaseController
         $menu[PATH . '/elasticsearch/status'] = lang('elastic.status');
         $menu[PATH . '/elasticsearch/register/'.$id] = lang('elastic.register_test');
         $menu[PATH . '/elasticsearch/search/'] = lang('elastic.search');
+        $menu[PATH . '/elasticsearch/list/'] = lang('elastic.list_index');
         $sx = menu($menu);
         return $sx;
     }
