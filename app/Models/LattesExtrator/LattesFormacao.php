@@ -95,6 +95,11 @@ class LattesFormacao extends Model
 		return $sx;
 	}
 
+	function csv()
+		{
+			echo "Formacacao";
+		}
+
 	function view_graduate($dt)
 	{
 		$style = ' color: gray;';

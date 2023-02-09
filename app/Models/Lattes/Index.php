@@ -62,7 +62,6 @@ class Index extends Model
     {
         $sx = "";
         $sx .= h(lang('tools.Lattes_tools'), 2);
-
         switch ($d1) {
             case 'in':
                 $sx = 'FORM';
@@ -75,6 +74,25 @@ class Index extends Model
                     $sx .= $ProjectsHarvestingXml->inport($lattes, $prj);
                 }
                 $sx .= $this->form($d2);
+                break;
+            case 'export':
+                $ok = 0;
+                switch($d3)
+                    {
+                        case '1':
+                            $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+                            $txt = $LattesProducao->csv($d2);
+                        break;
+
+                        case '2':
+                            $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
+                            $txt = $LattesFormacao->csv($d2);
+                        break;
+                    }
+                if ($ok==1)
+                    {
+                        exit;
+                    }
                 break;
             case 'robot':
                 $sx .= $this->robot();
@@ -98,6 +116,7 @@ class Index extends Model
                 $dt['tab'][0] = $ProjectsHarvestingXml->resume($prj);
                 $dt['tab'][1] = $this->btn_lattes_add($prj) . $ProjectsHarvestingXml->list($prj);
                 $dt['tab'][2] = $this->btn_lattes_harvesting($prj);
+                $dt['tab'][3] = $this->btn_export_lattes($prj);
                 $sx .= bs(view('Tools/Project/pills', $dt));
                 break;
         }
@@ -221,6 +240,16 @@ class Index extends Model
 
         return $sx;
     }
+
+    function btn_export_lattes($prj)
+        {
+            $sx = h(lang('brapci.export'),3);
+            $sx .= '<ul>';
+            $sx .= '<li>'.anchor(PATH.'tools/project/api/'.$prj.'/lattes/export/1',lang('brapci.lattes_articles')).'</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('brapci.lattes_formacao')) . '</li>';
+            $sx .= '</ul>';
+            return $sx;
+        }
 
     function btn_lattes_add($prj)
     {

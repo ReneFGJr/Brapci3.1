@@ -69,6 +69,39 @@ class LattesProducao extends Model
 		return 0;
 	}
 
+	function csv($id)
+		{
+			$dt = $this
+				->join('brapci_tools.projects_harvesting_xml', 'lp_author  = hx_id_lattes')
+				->where('hx_project',$id)
+				->findAll();
+			$sx = 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,JOURNAL'.chr(13);
+			foreach($dt as $id=>$line)
+				{
+					$sa = '';
+					$sa .= '"' . $line['lp_author'] . '",';
+					$sa .= '"' . $line['lp_authors'] . '",';
+					$sa .= '"' . $line['lp_title'] . '",';
+					$sa .= '"' . $line['lp_ano'] . '",';
+					$sa .= '"' . $line['lp_doi'] . '",';
+					$sa .= '"' . $line['lp_issn'] . '",';
+					$sa .= '"' . $line['lp_journal'] . '",';
+					$sa = troca($sa,chr(13),'');
+					$sa = troca($sa, chr(10), '');
+					$sx .= $sa.chr(13);
+				}
+
+			header("Content-Type: text/csv");
+			header("Content-Disposition: attachment; filename=brapci_tools_production_".date("Ymd-His").".csv");
+  			header("Pragma: no-cache");
+			header("Expires: 0");
+			echo $sx;
+			exit;
+
+
+
+		}
+
 	function producao($id)
 	{
 		$tela = '';

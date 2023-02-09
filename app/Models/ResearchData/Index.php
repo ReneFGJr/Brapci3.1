@@ -111,6 +111,7 @@ class Index extends Model
         $menu['#DataRepository'] = 'Research Data';
         $menu[PATH . COLLECTION . '/data/repository'] = lang('data.repository');
         $menu[PATH . COLLECTION . '/tombstone'] = lang('data.tombstone');
+        $menu[PATH . COLLECTION . '/dataverse'] = lang('data.dataverse');
 
         $sx = '';
         $sx .= MENU($menu);
