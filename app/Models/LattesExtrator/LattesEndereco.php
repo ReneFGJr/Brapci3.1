@@ -81,6 +81,10 @@ class LattesEndereco extends Model
 		$xml = (array)$xml;
 		$prod = (array)$xml['DADOS-GERAIS'];
 		$arti = (array)$prod['ENDERECO'];
+		if (!isset($arti['ENDERECO-PROFISSIONAL']))
+			{
+				return "";
+			}
 		$arti = (array)$arti['ENDERECO-PROFISSIONAL'];
 		$arti = (array)$arti['@attributes'];
 
