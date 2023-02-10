@@ -379,7 +379,13 @@ class RDFExport extends Model
 						$this->saveRDF($id, $pages, 'pages.nm');
 						break;
 					case 'Title':
-						$name = $dta['title'];
+						if (isset($dta['title']))
+							{
+								$name = $dta['title'];
+							} else {
+								$name = '';
+							}
+
 						$this->saveRDF($id, $name, 'Title.name');
 						break;
 					case 'Year':
