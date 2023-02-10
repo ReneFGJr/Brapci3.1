@@ -129,6 +129,10 @@ class Index extends Model
 		$sx = '';
 		$sx .= breadcrumbs();
 		switch ($d1) {
+			case 'update_index':
+				$Register = new \App\Models\ElasticSearch\Register();
+				$Register->update_index();
+				return $sx;
 			case 'searchAjax':
 				$SEARCH = new \App\Models\ElasticSearch\Search();
 				$Elasticsearch = new \App\Models\ElasticSearch\Index();

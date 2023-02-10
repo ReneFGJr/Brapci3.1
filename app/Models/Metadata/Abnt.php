@@ -80,8 +80,11 @@ class Abnt extends Model
 		$tela .= '. ' . anchor(PATH.COLLECTION.'/v/'.$id,$title).'. ';
 
 		$tela .= '<i>In</i>: ';
-		$tela .= $dt['Issue']['Journal'];
-		$tela .= ', ' . $dt['Issue']['Issue_nr'] . '. ';
+		if (isset($dt['Issue']['Journal']))
+		{
+			$tela .= $dt['Issue']['Journal'];
+			$tela .= ', ' . $dt['Issue']['Issue_nr'] . '. ';
+		}
 
 		$tela .= '<b>Anais</b> [.] ';
 

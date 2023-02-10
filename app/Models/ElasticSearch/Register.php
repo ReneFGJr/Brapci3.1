@@ -15,9 +15,9 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id','article_id','id_jnl','collection',
-        'title','authors', 'keywords','type',
-        'fulltext','pdf','updated_at'
+        'id','article_id','id_jnl','collection','year',
+        'title','authors', 'keywords','type', 'abstract',
+        'fulltext', 'pdf','updated_at', 'section'
     ];
 
     // Dates
@@ -43,6 +43,48 @@ class Register extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function update_index()
+        {
+            $dt = $this->FindAll();
+            $type = 'prod';
+            $dir = '../.tmp/';
+            dircheck($dir);
+            $file = $dir . 'metadata.json';
+
+            $API = new \App\Models\ElasticSearch\API();
+            $sx = '';
+            foreach($dt as $id=>$line)
+                {
+                    $dt = json_encode($line);
+                    $dt = $line;
+                    $dt['id'] = $line['article_id'];
+                    $id = $dt['id'];
+                    $rst = $API->call('brapci3.1/'.$type.'/'. $id, 'POST', $dt);
+                    $sx .= $id .= ' => '.$rst['result'].'<br>';
+                }
+            return $sx;
+        }
+
+    function register($id, $type = '')
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
+        $dir = $RDF->directory($id);
+        //$file = $dir . 'article.json';
+        $file = $dir . 'metadata.json';
+        if (file_exists($file)) {
+            $API = new \App\Models\ElasticSearch\API();
+            $dt = file_get_contents($file);
+            $dt = (array)json_decode($dt);
+            $dt['id'] = $id;
+            $sx .= 'URL: ' . 'brapci3.1/' . $type . '/' . $id;
+            $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
+        } else {
+            $sx .= "File not found " . $file . '<br>';
+        }
+        return bs(bsc($sx, 12));
+    }
 
 
     function resume()
@@ -139,7 +181,7 @@ class Register extends Model
 
             if (isset($data['ID'])) { $da['article_id'] = $data['ID']; }
 
-        if (isset($data['ID'])) {
+        if (isset($data['id_jnl'])) {
             $da['id_jnl'] = $data['id_jnl'][0];
         }
 
@@ -235,22 +277,5 @@ class Register extends Model
 
         }
 
-    function register($id, $type='')
-    {
-        $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
-        $dir = $RDF->directory($id);
-        //$file = $dir . 'article.json';
-        $file = $dir . 'metadata.json';
-        if (file_exists($file)) {
-            $API = new \App\Models\ElasticSearch\API();
-            $dt = file_get_contents($file);
-            $dt = (array)json_decode($dt);
-            $dt['id'] = $id;
-            $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
-        } else {
-            $sx .= "File not found " . $file . '<br>';
-        }
-        return bs(bsc($sx,12));
-    }
+
 }

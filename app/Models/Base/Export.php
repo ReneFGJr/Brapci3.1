@@ -94,6 +94,12 @@ class Export extends Model
         $sx .= '<span style="color: #888;">' . bsicone('circle') . '</span> ' . lang('brapci.service.stop');
         $sx .= '<br>';
         $sx .= '<span style="color: #0F0;">' . bsicone('circle') . '</span> ' . lang('brapci.service.running');
+        $sx .= '<br>';
+        $sx .= anchor(PATH.'bots',lang('brapci.Bots'));
+        $sx .= ' | ';
+        $sx .= anchor(PATH . 'admin/export', lang('brapci.Export'));
+        $sx .= ' | ';
+        $sx .= anchor(PATH . 'admin/elastic/update', lang('brapci.ElasticSearch'));
         $sx .= '</div>';
         return $sx;
     }
@@ -107,12 +113,13 @@ class Export extends Model
         return $dt;
     }
 
-    function register($task_id, $priority, $offset, $status)
+    function register($task_id, $priority, $offset, $status, $total=-1)
     {
         $dta['task_id'] = $task_id;
         $dta['task_status'] = $status;
         $dta['task_propriry'] = $priority;
         $dta['task_offset'] = $offset;
+        $dta['task_total'] = $total;
         $dta['updated_at'] = date("Y-m-d H:i:s");
         $dt = $this->where('task_id', $task_id)->findAll();
         if (count($dt) == 0) {
@@ -133,13 +140,12 @@ class Export extends Model
 
         if ($dt['task_status'] != 1) {
             $BOTS->task_remove($task);
-            return "FIM";
+            return "FIM - Check";
         }
         }
-    function remove_all($type)
+    function remove_all($type='')
         {
-            $rst = $this->where('type',$type)->delete();
-            pre($rst);
+            $rst = $this->where('task_id',$type)->delete();
         }
 
     function cron($d1, $d2, $d3 = '')
@@ -150,11 +156,13 @@ class Export extends Model
                 switch($d2)
                     {
                         case 'start':
-                            $this->remove_all('1');
+                            $this->remove_all('EXPORT_PROCEEDING');
                             $BOTS = new \App\Models\Bots\Index();
                             $BOTS->task_remove('EXPORT_PROCEEDING');
                             $dt = $BOTS->task('EXPORT_PROCEEDING');
                             $sx .= 'Started '.$d2.' export';
+                            $sx .= '<hr>';
+                            $sx .= anchor(PATH.'bots/export','Start Export',array('class'=>'btn btn-outline-primary'));
                             break;
                         default:
                             echo "OK $d2";
@@ -163,13 +171,11 @@ class Export extends Model
                 /************************************ DEFAULT */
             default:
                 if ($d1 == '') {
-                    $sx .= '=====EXPORT============' . cr();
                     $dtd = $this->next();
-
                     if (count($dtd) > 0) {
                         $sx .= $this->export_works($dtd);
                     } else {
-                        $sx .= 'FIM';
+                        $sx .= 'FIM - Cron';
                     }
                 } else {
                     echo "OPS EXPORT NOT FOUND [$d1]";
@@ -223,7 +229,7 @@ class Export extends Model
         $sx .= "<br>OFFSET: $offset";
         $sx .= $this->export_data($class, $type, $offset, $limit);
         if ($this->eof) {
-            $this->register($TYPE, 0, 0, 0);
+            $this->remove_all($dta['task_id']);
         } else {
             $this->register($TYPE, 1, $offset + $limit, 1);
             $sx .= '<CONTINUE>';
