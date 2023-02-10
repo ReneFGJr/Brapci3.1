@@ -250,7 +250,14 @@ class Export extends Model
         }
 
         $offset = $dta['task_offset'];
-        $sx .= "<br>OFFSET: $offset";
+        if (agent()==1)
+            {
+                $data['title'] = 'BotPage';
+                $data['bg'] = 'bg-admin';
+                $sx .= view('Brapci/Headers/header',$data);
+                $sx .= view('Brapci/Headers/navbar', $data);
+            }
+        $sx .= "<br>OFFSET: $offset ";
         $sx .= $this->export_data($class, $type, $offset, $limit);
         if ($this->eof) {
             $this->remove_all($dta['task_id']);

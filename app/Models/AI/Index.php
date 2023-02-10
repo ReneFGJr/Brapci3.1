@@ -66,7 +66,7 @@ class Index extends Model
 					echo $name . 'none<br>';
 				}
 
-				$sx .= 'Update';
+				$sx .= 'Update BUGs';
 				$dta['bug_status'] = 2;
 				$dta['bug_solution'] = 'Autonomo Bots v0.23.02.02';
 				$dta['updated_at'] = date("Y-m-d H:i:s");

@@ -127,11 +127,24 @@ class Index extends Model
 		$RDF = new \App\Models\Rdf\RDF();
 		$API = new \App\Models\ElasticSearch\API();
 		$sx = '';
-		$sx .= breadcrumbs();
+		$bread=['Admin'=>PATH.'/admin'];
+		$sx .= breadcrumbs($bread);
 		switch ($d1) {
 			case 'update_index':
+				$url = PATH. '/admin/elastic/update/';
+				$url2 = PATH.'/admin';
+				$sx .= 'Confirma exportação de dados?';
+				$sx .= '<hr>';
+				$sx .= 'Essa operação pode demorar algum tempo';
+				$sx .= '<br/>';
+				$sx .= form_confirm($url,$url2);
 				$Register = new \App\Models\ElasticSearch\Register();
-				$Register->update_index();
+
+				set_time_limit(600);
+				if (get("confirm"!=''))
+					{
+						$Register->update_index();
+					}
 				return $sx;
 			case 'searchAjax':
 				$SEARCH = new \App\Models\ElasticSearch\Search();

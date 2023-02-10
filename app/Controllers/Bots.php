@@ -22,8 +22,6 @@ class Bots extends BaseController
         $bot = true;
 
         $sx = '';
-        $sx .= date("Y-m-d H:i:s");
-
         if ($act == 'patent') { $act = 'patente'; }
 
         switch ($act) {

@@ -257,7 +257,7 @@ class Register extends Model
 
         if (isset($data['PDF'])) { $da['pdf'] = 1; }
 
-        $da['updated_at	'] = date("Y-m-d H:i:s");
+        $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
 

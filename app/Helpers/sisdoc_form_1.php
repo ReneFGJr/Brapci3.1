@@ -13,6 +13,17 @@ function ip()
     return ($ip);
 }
 
+function form_confirm($url='',$url2='')
+    {
+        $sx = '';
+        $url .= '?confirm=true';
+
+        $sx .= anchor($url, lang('brapci.YES'));
+        $sx .= ' | ';
+        $sx .= anchor($url2, lang('brapci.NO'));
+        return $sx;
+    }
+
 function agent()
     {
         $ag = $_SERVER['HTTP_USER_AGENT'];

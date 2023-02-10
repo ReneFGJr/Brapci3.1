@@ -59,13 +59,8 @@ class Cache extends Model
                     $sx .= anchor(PATH.'admin',lang('brapci.return'));
                 } else {
                     $url = PATH . 'admin/cache';
-                    $url .= '?confirm=true';
-                    $sx .= anchor($url, lang('brapci.YES'));
-
-                    $sx .= ' | ';
-
-                    $url = PATH . 'admin/';
-                    $sx .= anchor($url, lang('brapci.NO'));
+                    $url2 = PATH . 'admin/';
+                    $sx .= form_confirm($url,$url2);
                 }
 
             $sx = bs(bsc($sx, 12));
