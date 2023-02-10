@@ -450,6 +450,9 @@ class RDFExport extends Model
 								echo "Section NOT FOUND";
 							}
 						break;
+					case 'Issue':
+						pre($dta);
+						break;
 					default:
 						echo "OPS SAVE TYPE $type";
 						exit;
