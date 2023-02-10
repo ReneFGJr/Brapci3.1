@@ -77,7 +77,21 @@ class Abnt extends Model
 			}
 			$tela .= $authors;
 		}
-		$tela .= '. ' . anchor(PATH.COLLECTION.'/v/'.$id,$title).'. ';
+		if (isset($dt['id_jnl'][0]))
+			{
+				$jid = $dt['id_jnl'][0];
+			} else {
+				$jid = 0;
+			}
+		switch($jid)
+			{
+				case 75:
+					$tela .= '. ' . anchor(PATH . '/benancib' . '/v/' . $id, $title) . '. ';
+					break;
+				default:
+					$tela .= '. ' . anchor(PATH . '/proceedings' . '/v/' . $id, $title) . '. ';
+					break;
+			}
 
 		$tela .= '<i>In</i>: ';
 		if (isset($dt['Issue']['Journal']))

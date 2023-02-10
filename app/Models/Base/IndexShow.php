@@ -85,7 +85,13 @@ class Indexshow extends Model
                 $sx .= $ul;
             }
             $xkey = explode(";",$keys);
-            $link = '<a href="'.PATH.'/v/'.$xkey[1].'">';
+            if (!isset($xkey[1]))
+                {
+                    $link = '<a href="#">';
+                } else {
+                    $link = '<a href="' . PATH . '/v/' . $xkey[1] . '">';
+                }
+
             $linka = '</a>';
 
             $tot = '<span class="bullet">' . $total . '</span>';

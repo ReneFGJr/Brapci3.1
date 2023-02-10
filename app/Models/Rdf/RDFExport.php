@@ -636,7 +636,7 @@ class RDFExport extends Model
 		$sx = '';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 1);
-		$name = '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -646,7 +646,7 @@ class RDFExport extends Model
 		$sx = 'JOURNAL';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 7);
-		$name = '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
@@ -721,7 +721,7 @@ class RDFExport extends Model
 
 		$nISBN = new \App\Models\ISBN\Index();
 
-		$url = '<a href="'.PATH.'/v/'.$id.'">';
+		$url = '<a href="'.PATH.'books/v/'.$id.'">';
 		$urla = '</a>';
 		$data = $dt['data'];
 		$year = '';
