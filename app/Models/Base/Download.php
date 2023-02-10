@@ -98,9 +98,10 @@ class Download extends Model
     function download_methods($dt,$id)
         {
             $name = $dt['n_name'];
-            if (strpos($name,'/XIXENANCIB/'))
+            if (strpos($name,'/XIXENANCIB/') or (strpos($name, 'xviiienancib/')))
                 {
                     $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
+                    $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
                     $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
                     $dt['n_name'] = $name;
                     $RDFLiteral->set($dt)->where('id_n',$dt['id_n'])->update();
