@@ -490,150 +490,49 @@ class RDFExport extends Model
 		$this->saveData($id, 'name', $name);
 
 		return '';
-
-
 		}
 
 	/****************************************************************** ARTICLE / PROCEEDING */
 	function export_article($dt, $id, $tp = 'A')
 	{
-
 		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
 
 		if (count($dt['data']) == 0) {
-			return "OPS " . $id . '<br>';
+			return "OPS export_proceeding " . $id . '<br>';
 		}
-
 		$dta = $Metadata->metadata($dt);
 
-		if (isset($dta['issue_id']))
-			{
-				$dti = $RDF->le($dta['issue_id'][0]);
-				$dta['issue'] = $Metadata->metadata($dti);
-			}
+		$this->saveData($id, 'Title', $dta);
+		$this->saveData($id, 'Section', $dta);
+		$this->saveData($id, 'Journal', $dta);
+		$this->saveData($id, 'Authors', $dta);
+		$this->saveData($id, 'Keywords', $dta);
 
-		/************************************************ Section */
+		if (isset($dta['issue_id'])) {
+			$dti = $RDF->le($dta['issue_id'][0]);
+			$dta['issue'] = $Metadata->metadata($dti);
+			$this->saveData($id, 'Issue', $dta['issue']);
+		}
+
+
+		$this->saveData($id, 'Year', $dta);
+		$this->saveData($id, 'Place', $dta);
+
+		$this->saveData($id, 'Class', $dta);
+		$this->saveData($id, 'Pages', $dta);
+		//$this->saveRDF($id, json_encode($dta), 'name.json');
+
+		$this->saveCSV($id);
+		$this->saveData($id, 'Elastic', $dta);
+
 		/* Formata para Artigo ABNT */
 		$ABNT = new \App\Models\Metadata\Abnt();
-		$name = $ABNT->abnt_article($dta);
+		$name = $ABNT->abnt_proceeding($dta);
+		$this->saveData($id, 'abnt', $name);
+		$this->saveData($id, 'name', $name);
 
-		/******************************** Section */
-		$section = json_encode($dta['Sections']);
-		$this->saveRDF($id, $section, 'section.json');
-
-		/******************************** Authors */
-		if (isset($dta['Journal']))
-			{
-			$journal = json_encode($dta['Journal']);
-			$this->saveRDF($id, $journal, 'journal.name');
-			}
-
-		/******************************** Authors */
-		if (!isset($dt['Authors']))
-			{
-				$dta['Authors'] = array();
-				$dta['authors'] = '';
-			}
-		$autores = json_encode($dta['Authors']);
-		$this->saveRDF($id, $autores, 'authors.json');
-
-		$this->saveRDF($id, $name, 'name.nm');
-
-		/******************************** Subject */
-		if (!isset($dta['Keywords']))
-			{
-				$dta['Keywords'] = array();
-			}
-		$Keywords = json_encode($dta['Keywords']);
-		$this->saveRDF($id, json_encode($Keywords), 'keywords.json');
-
-		/********************************* YEAR */
-		if (isset($dt['issue']['year']))
-			{
-				$year = sonumero($dta['issue']['year']);
-				$year = round(substr($year, strlen($year) - 4, 4));
-				if (($year > 1950) and ($year <= (date("Y") + 1))) {
-					$this->saveRDF($id, $year, 'year.nm');
-				}
-			} else {
-				$year = '????';
-			}
-		$this->saveRDF($id, $dt['concept']['c_class'], 'class.nm');
-
-		$this->saveRDF($id, json_encode($dta), 'name.json');
-
-		$elastic_json = json_encode($dta);
-
-
-		$this->saveRDF($id, $elastic_json, 'article.json');
-		$class = trim($dt['concept']['c_class']);
-
-		/**************************************************/
-		$td = '<td>';
-		$tdx = '</td>';
-
-		/**************************************** ID */
-		$ln = $td . $id . $tdx;
-
-		/************************************* TITLE */
-		if (isset($dta['title']))
-			{
-				$ln .= $td . $dta['title'] . $tdx;
-			} else {
-				$ln .= $td . '::none::' . $tdx;
-			}
-
-
-		/*********************************** AUTHORS */
-		$ln .= $td . strip_tags($dta['authors']) . $tdx;
-
-		/********************************** JOURNALS */
-		if (isset($dta['Journal']))
-			{
-				$ln .= $td . $dta['Journal'] . $tdx;
-			}
-
-
-		/************************************** YEAR */
-		$ln .= $td . $year .  $tdx;
-
-		/************************************** SECTIONS */
-		$sect = '';
-		for ($r = 0; $r < count($dta['Sections']); $r++) {
-			if ($sect != '') { $sect .= ';'; }
-			$sect = $dta['Sections'][$r];
-		}
-		$ln .= $td .  $sect . $tdx;
-
-		/*********************************** SUBJECT */
-		$subj = array('pt-BR' => '', 'en' => '', 'es' => '');
-		foreach($subj as $lang=>$vkr)
-			{
-			if (isset($dta['Keywords'][$lang]))
-				{
-					$keys = strip_tags($dta['Keywords'][$lang]);
-					$subj[$lang] = $keys;
-				}
-			}
-
-
-		$ln .= $td . $subj['pt-BR'] . $tdx;
-		$ln .= $td . $subj['en'] . $tdx;
-		$ln .= $td . $subj['es'] . $tdx;
-
-		if (!(isset($dta['pagi']))) { $dta['pagi'] = ''; }
-		if (!(isset($dta['pagf']))) { $dta['pagf'] = ''; }
-
-		$ln .= $td . $dta['pagi'] . $tdx;
-		$ln .= $td . $dta['pagf'] . $tdx;
-
-		$ln = troca($ln,'>;','>');
-		$ln = troca($ln,'"','');
-		$ln = troca($ln, chr(13), ' ');
-		$ln = troca($ln, chr(10), ' ');
-		$this->saveRDF($id, $ln, 'metadata.csv');
 		return '';
 	}
 
