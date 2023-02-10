@@ -98,6 +98,10 @@ class Download extends Model
     function download_methods($dt,$id)
         {
             $name = $dt['n_name'];
+            if (strpos($name,'/XIXENANCIB/'))
+                {
+                    pre($dt);
+                }
 
             if (substr($name,0,4) == 'http')
                 {
