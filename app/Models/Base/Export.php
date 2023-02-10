@@ -46,8 +46,10 @@ class Export extends Model
 
     function index($d1, $d2, $d3)
     {
-        $sx = 'EXPORT ' . $d1;
-        $bread =
+        $sx = '';
+        $bread = array();
+        $bread['Admin'] = PATH.'/admin';
+        $sx .= breadcrumbs($bread);
         switch ($d1) {
             case 'clear':
                 $conf = get("confirm");
