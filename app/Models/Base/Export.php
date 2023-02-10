@@ -47,7 +47,28 @@ class Export extends Model
     function index($d1, $d2, $d3)
     {
         $sx = 'EXPORT ' . $d1;
+        $bread =
         switch ($d1) {
+            case 'clear':
+                $conf = get("confirm");
+                if ($conf=="true")
+                    {
+                        $Register = new \App\Models\ElasticSearch\Register();
+                        $sql = "TRUNCATE dataset;";
+                        $Register->query($sql);
+                        $sx .= bsmessage('Database Dataset cleared!');
+                    } else {
+                        $sx = 'Confirma exclusão da Base Cached?<hr/>';
+                        $sx .= '<table class="table" style="width: 200px;"><tr>';
+                        $sx .= '<td>';
+                        $sx .= anchor(PATH . '/admin/export/clear/?confirm=true', 'SIM');
+                        $sx .= '</td>';
+                        $sx .= '<td>';
+                        $sx .= anchor(PATH . '/admin/', lang('NO'));
+                        $sx .= '</td>';
+                        $sx .= '</tr></table>';
+                    }
+                break;
             case 'articles':
                 echo "EXPORT ARTICLE - NOT IMPLEMENTED";
                 break;
@@ -192,6 +213,7 @@ class Export extends Model
         $menu = array();
         $mod = 'export';
         $menu['#brapci.EXPORT_ELASTIC'] = '#';
+        $menu[PATH . 'admin/' . $mod . '/clear'] = lang('brapci.clear_database');
         $menu[PATH . 'admin/' . $mod . '/articles'] = lang('brapci.export') . ' ' . lang('brapci.articles');
         $menu[PATH . 'admin/' . $mod . '/proceeding'] = lang('brapci.export') . ' ' . lang('brapci.proceeding');
         $menu[PATH . 'admin/' . $mod . '/books'] = lang('brapci.export') . ' ' . lang('brapci.books');

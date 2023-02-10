@@ -142,7 +142,7 @@ return [
         'books' => 'Livros',
         'booksChapters' => 'Capítulo de Livros',
         'bots'=>'Robozinhos',
-        '' => '',
+        'clear_database' => 'Zerar base de dados (Cache/Elastic)',
         '' => '',
         '' => '',
         '' => '',
