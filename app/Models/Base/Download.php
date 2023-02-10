@@ -100,6 +100,10 @@ class Download extends Model
             $name = $dt['n_name'];
             if (strpos($name,'/XIXENANCIB/'))
                 {
+                    $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
+                    $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+                    $dt['n_name'] = $name;
+                    $RDFLiteral->set($dt)->where('id_n',$dt['id_n'])->update();
                     pre($dt);
                 }
 
