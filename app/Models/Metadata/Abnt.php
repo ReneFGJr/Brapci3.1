@@ -51,12 +51,17 @@ class Abnt extends Model
 	function abnt_proceeding($dt)
 		{
 		$id = $dt['ID'];
-		$title = trim(html_entity_decode($dt['title']));
-		$title = trim(mb_strtolower($title));
-		$tu = mb_strtoupper($title);
-		$tu = mb_substr($tu, 0, 1);
-		$te = mb_substr($title, 1);
-		$title = $tu . $te;
+		if (isset($dt['title']))
+			{
+				$title = trim(html_entity_decode($dt['title']));
+				$title = trim(mb_strtolower($title));
+				$tu = mb_strtoupper($title);
+				$tu = mb_substr($tu, 0, 1);
+				$te = mb_substr($title, 1);
+				$title = $tu . $te;
+			} else {
+				$title = ':::none:::';
+			}
 
 		$tela = '';
 		$tela .= '<span class="abtn-article">';
