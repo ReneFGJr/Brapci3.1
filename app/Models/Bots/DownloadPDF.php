@@ -139,7 +139,13 @@ class DownloadPDF extends Model
 
     function getFile($http)
     {
-        $txt = file_get_contents($http);
+        if ($http != '')
+            {
+                $txt = file_get_contents($http);
+            } else {
+                $txt = '';
+            }
+
         return $txt;
     }
 
