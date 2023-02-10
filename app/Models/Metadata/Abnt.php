@@ -137,7 +137,7 @@ class Abnt extends Model
 		}
 	function abnt_article($dt)
 	{
-		pre($dt);
+		pre($dt,false);
 		$title = trim(html_entity_decode($dt['title']));
 		$title = trim(mb_strtolower($title));
 		$tu = mb_strtoupper($title);
