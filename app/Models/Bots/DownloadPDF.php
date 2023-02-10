@@ -81,38 +81,58 @@ class DownloadPDF extends Model
         }
     }
 
+    function check_harvested($dt)
+        {
+            $dt = $dt['data'];
+            foreach($dt as $id=>$line)
+                {
+                    $class = $line['c_class'];
+                    if ($class == 'xx')
+                        {
+                            return true;
+                        }
+                    echo $class.'<br>';
+                }
+            return false;
+        }
+
     /********************************************************************* HARVESTING */
     function harvesting()
     {
-        $sx = '';
-        $dt = $this
-            ->where('d_method <> 99')
-            ->orderBy('d_method')
-            ->limit(1)
-            ->findAll();
+        /********************************************* NEW METHOD */
+        $RDF = new \App\Models\Rdf\RDF();
+        $Register = new \App\Models\ElasticSearch\Register();
+        $dt = $Register->select('article_id')->where('pdf',0)->findAll(2,0);
 
-        if (count($dt) > 0) {
-            $dt = $dt[0];
-            $id = $dt['d_article'];
-            $mt = $dt['d_method'];
+        foreach($dt as $id=>$line)
+            {
+            $id = $line['article_id'];
 
             /************************************* RDF */
-            $RDF = new \App\Models\Rdf\RDF();
             $dd = $RDF->le($id);
 
-            switch ($mt) {
-                case '9':
-                    /************ HARVESTING */
-                    $sx .= $this->harveting_pdf($id);
+            if ($this->check_harvested($dd))
+                {
+                    pre($dd);
+                }
+            echo "Not coleted";
+            /************ HARVESTING */
+            $sx = $this->harveting_pdf($id);
+            echo $sx;
+
+            /*
                     break;
                 case '0':
                     $http = $RDF->extract($dd, 'hasRegisterId');
-                    $txt = $this->getFile($http[0]);
-                    $mth = $this->method_identify($txt, $id);
-                    $sx .= 'Harvesting ' . $http[0] . cr();
-                    $sx .= 'Method: ' . $mth . cr();
+                    if (isset($http[0]))
+                        {
+                            $txt = $this->getFile($http[0]);
+                            $mth = $this->method_identify($txt, $id);
+                            $sx .= 'Harvesting ' . $http[0] . cr();
+                            $sx .= 'Method: ' . $mth . cr();
+                        }
                     break;
-            }
+            },*/
         }
         return $sx;
     }
