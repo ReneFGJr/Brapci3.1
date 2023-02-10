@@ -122,6 +122,32 @@ class Index extends Model
 		return $sx;
 	}
 
+	function show_error($d1,$d2,$d3)
+		{
+			$RDF = new \App\Models\Rdf\RDF();
+			$sx = '';
+			switch($d1)
+				{
+					case 'erros':
+						$API = new \App\Models\ElasticSearch\Register();
+						switch($d2)
+							{
+								case 'pdf':
+									$sx .= h('PDF Erros',2);
+									$dt = $API->select('article_id')->where('pdf',0)->findAll();
+									$sx .= h('Total: ' . count($dt), 6);
+									foreach($dt as $id=>$ida)
+										{
+											$sx .= '<li>'.$RDF->c($ida['article_id']).'</li>'.cr();
+										}
+								break;
+							}
+					break;
+				}
+			$sx = bs(bsc($sx,12));
+			return $sx;
+		}
+
 	function index($d1 = '', $d2 = '', $d3 = '')
 	{
 		$RDF = new \App\Models\Rdf\RDF();

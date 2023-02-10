@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'dataset':
+                $API = new \App\Models\ElasticSearch\Index();
+                $sx .= $API->show_error($subact,$id,$id2,$id3);
+                break;
             case 'elastic':
                 $API = new \App\Models\ElasticSearch\Index();
                 $sx .= bs(bsc($API->index('update_index'),12));
