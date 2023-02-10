@@ -578,7 +578,13 @@ class RDFExport extends Model
 		$ln = $td . $id . $tdx;
 
 		/************************************* TITLE */
-		$ln .= $td . $dta['title'] . $tdx;
+		if (isset($dta['title']))
+			{
+				$ln .= $td . $dta['title'] . $tdx;
+			} else {
+				$ln .= $td . '::none::' . $tdx;
+			}
+
 
 		/*********************************** AUTHORS */
 		$ln .= $td . strip_tags($dta['authors']) . $tdx;
