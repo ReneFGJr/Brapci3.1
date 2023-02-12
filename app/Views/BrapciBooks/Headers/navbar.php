@@ -1,5 +1,11 @@
 <?php
 $Socials = new \App\Models\Socials();
+
+$admin = '';
+if ($Socials->getAccess("#ADM"))
+    {
+        $admin = '<li>'.anchor(PATH.'/books/admin/',lang('brapci.admin')). '</li>';
+    }
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso = $Socials->nav_user();
 } else {
@@ -524,6 +530,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                         <li><a href="<?= PATH . '/books'; ?>" class="nav-link"><?= lang('book.home'); ?></a></li>
                         <li><a href="<?= PATH . '/books/indexes'; ?>" class="nav-link"><?= lang('book.indexes'); ?></a></li>
                         <li><a href="<?= PATH . '/books/indexes/subject'; ?>" class="nav-link"><?= lang('book.subjects'); ?></a></li>
+                        <?=$admin;?>
                     </ul>
                 </nav>
             </div>
