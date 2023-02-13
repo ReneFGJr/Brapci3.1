@@ -58,7 +58,7 @@ class Export extends Model
                 {
                     $lang = 'pt-BR';
                     $name = $line['bs_name'];
-                    $idc = $RDF->conecpt($name,$lang);
+                    $idc = $RDF->conecpt($name,$Class);
                     $line['bs_rdf'] = $idc;
                     $line['update_at'] = date("Y-m-d H:i:s");
                     $Classes->set($line)->where('id_bs',$line['id_bs'])->update();
