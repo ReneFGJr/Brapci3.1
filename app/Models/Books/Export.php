@@ -86,7 +86,7 @@ class Export extends Model
 
                 dircheck('.c');
                 dircheck('.c/indexes');
-                $file = './indexes/books_authors.html';
+                $file = '.c/indexes/books_authors.html';
                 file_put_contents($file,$sx);
                 return $sx;
             }
