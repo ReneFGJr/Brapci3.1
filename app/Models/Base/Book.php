@@ -131,6 +131,11 @@ class Book extends Model
                 $sx = $Book->showFULL($id);
                 break;
 
+            case 'ClassificationAncib':
+                $ClassificationAncib = new \App\Models\Books\ClassificationAncib();
+                $sx = $ClassificationAncib->showFULL($id);
+                break;
+
             default:
                 $sx .= h($class, 1);
                 $sx .= h('view not exists',5);

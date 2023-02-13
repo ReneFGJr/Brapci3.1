@@ -89,6 +89,17 @@ class Index extends Model
                             $Export = new \App\Models\Books\Export();
                             $sx .= $Export->index_classes();
                             break;
+                        case 'authors':
+                            $sx .= '';
+                            $Export = new \App\Models\Books\Export();
+                            $sx .= $Export->index_authors();
+                            break;
+                        case 'authors':
+                            $sx .= '';
+                            $Export = new \App\Models\Books\Export();
+                            $sx .= $Export->index_subject();
+                        break;
+
                         default:
                             $sx .= h($a,5);
                             break;
@@ -105,6 +116,17 @@ class Index extends Model
                 $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
                 $sx .= $TechinalProceessing->show_pt($a, $s);
                 break;
+
+            default:
+                $sa = '';
+                    $menu = array();
+                    $menu[PATH . COLLECTION . '/admin/export'] = '<b>' . lang('brapci.export') . '</b>';
+                    $menu[PATH . COLLECTION . '/admin/export/classes'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.classes') . '</li></ul>';
+                    $menu[PATH . COLLECTION . '/admin/export/authors'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.authors') . '</li></ul>';
+                    $menu[PATH . COLLECTION . '/admin/export/subjects'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.subjects') . '</li></ul>';
+                    $menu[PATH . COLLECTION . '/admin/export/books'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.books') . '</li></ul>';
+                    $sa .= menu($menu);
+                    $sx .= bs(bsc($sa, 12));
         }
 
         return $sx;

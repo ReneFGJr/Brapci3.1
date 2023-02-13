@@ -40,6 +40,52 @@ class Export extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function index_authors()
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $class = "Book";
+            $idc = $RDF->getClass($class);
+
+            $RDFConcept = new \App\Models\RDF\RDFConcept();
+            $dt = $RDFConcept->select('id_cc')->where('cc_class',$idc)->findAll();
+            $index = array();
+            foreach($dt as $id=>$line)
+                {
+                    $idb = $line['id_cc'];
+                    $dtb = $RDF->le($idb);
+
+                    $orgs = $RDF->extract($dtb, 'hasOrganizator');
+                    $auth = $RDF->extract($dtb, 'hasAuthor');
+                    $authors = array_merge($orgs,$auth);
+                    foreach($authors as $idx=>$ida)
+                        {
+                            if (!isset($index[$ida])) { $index[$ida] = 1; }
+                        }
+                }
+
+                $sx = '';
+                $row = [];
+                foreach($index as $ida=>$id)
+                    {
+                        $name = $RDF->c($ida);
+                        $name_strip = strip_tags($name);
+                        $row[$name_strip] = $name;
+                    }
+                ksort($row);
+                $xlt = '';
+                foreach($row as $name=>$link)
+                    {
+                        $lt = substr(UpperCaseSQL($name),0,1);
+                        if ($lt != $xlt)
+                            {
+                                $sx .= h($lt);
+                                $xlt = $lt;
+                            }
+                        $sx .= '<li>'.$link.'</li>';
+                    }
+                return $sx;
+            }
+
     function index_classes()
         {
             $sx = '';

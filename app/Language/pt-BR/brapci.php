@@ -3,6 +3,7 @@ return [
         'keywords' => "Palavras-chave",
         'authors' => 'Autores',
         'Subject' => 'Assunto',
+        'subjects' => 'Assuntos',
         'delimitation' => 'Delimitação da busca:',
         'relevance' => 'Relevância',
         'newest' => 'Mais novos',

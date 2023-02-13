@@ -95,16 +95,6 @@ class Books extends BaseController
             case 'admin':
                 $Books = new \App\Models\Books\Index();
                 $sx .= $Books->admin($subact, $id);
-                $sa = '';
-                if ($subact == '')
-                {
-                    $menu = array();
-                    $menu[PATH.COLLECTION.'/admin/export'] = '<b>'.lang('brapci.export'). '</b>';
-                    $menu[PATH . COLLECTION . '/admin/export/classes'] = '<ul><li>'.lang('brapci.export').' '. lang('brapci.classes'). '</li></ul>';
-                    $menu[PATH . COLLECTION . '/admin/export/books'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.books') . '</li></ul>';
-                    $sa .= menu($menu);
-                    $sx .= bs(bsc($sa,12));
-                }
                 break;
 
             case 'indexes':

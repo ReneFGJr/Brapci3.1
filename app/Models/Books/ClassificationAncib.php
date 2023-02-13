@@ -47,4 +47,31 @@ class ClassificationAncib extends Model
             $dt = $this->findALl();
             pre($dt);
         }
+
+    function showFULL($id)
+        {
+            $sx = '';
+            $RDF = new \App\Models\Rdf\RDF();
+            $Books = new \App\Models\Base\Book();
+            $dt = $RDF->le($id);
+            $concept = $dt['concept'];
+            $sx .= bsc(h($concept['n_name'],2),12);
+            $data = $dt['data'];
+
+            $sxa = '';
+
+            foreach($data as $id=>$line)
+                {
+                    $class = $line['c_class'];
+                    if ($class == 'hasClassificationAncib')
+                        {
+                            $sa = $Books->show($line['d_r1']);
+                            $sx .= bsc($sa, 4, 'border border-secondaty');
+                        }
+                }
+
+            $sx = bs($sx);
+
+            return $sx;
+        }
 }
