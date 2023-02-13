@@ -83,6 +83,11 @@ class Export extends Model
                             }
                         $sx .= '<li>'.$link.'</li>';
                     }
+
+                dircheck('.c');
+                dircheck('.c/indexes');
+                $file = './indexes/books_authors.html';
+                file_put_contents($file,$sx);
                 return $sx;
             }
 
