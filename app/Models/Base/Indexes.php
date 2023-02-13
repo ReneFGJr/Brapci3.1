@@ -53,6 +53,7 @@ class Indexes extends Model
                         {
                             $filename = $dir.$file;
                             $indexes[$file] = '<div style="column-count: 3;">'.file_get_contents($filename). '</div>';
+                            $indexes[$file] = troca($indexes[$file],PATH.'/v/',PATH.COLLECTION.'/v/');
                         }
                 }
             if (count($indexes) == 0)
