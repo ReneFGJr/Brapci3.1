@@ -46,7 +46,7 @@ class Export extends Model
             $class = "Book";
             $idc = $RDF->getClass($class);
 
-            $RDFConcept = new \App\Models\RDF\RDFConcept();
+            $RDFConcept = new \App\Models\Rdf\RDFConcept();
             $dt = $RDFConcept->select('id_cc')->where('cc_class',$idc)->findAll();
             $index = array();
             foreach($dt as $id=>$line)
