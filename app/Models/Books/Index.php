@@ -79,6 +79,23 @@ class Index extends Model
         $sx .= $TechinalProceessing->resume();
 
         switch ($s) {
+            case 'export':
+                $sx .= h(lang('brapci.export'));
+                $sx = bs(bsc($sx,12));
+                switch($a)
+                    {
+                        case 'classes':
+                            $sx .= '';
+                            $Export = new \App\Models\Books\Export();
+                            $sx .= $Export->index_classes();
+                            break;
+                        default:
+                            $sx .= h($a,5);
+                            break;
+                    }
+                $sx = bs(bsc($sx,12));
+                break;
+
             case 'auto':
                 $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
                 $sx .= $TechinalProceessing->process($a);
