@@ -99,7 +99,8 @@ class Books extends BaseController
 
             case 'indexes':
                 $sa = '';
-                $sx .= view('Brapci/Pages/under_construction');
+                $Indexes = new \App\Models\Base\Indexes();
+                $sx .= $Indexes->show($subact, $id);
                 break;
 
             case 'about':
