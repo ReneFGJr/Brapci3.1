@@ -61,7 +61,7 @@ class Indexes extends Model
                 } else {
                     foreach($indexes as $label=>$content)
                         {
-                            $sx .= h($label);
+                            $sx .= h(lang('brapci.'.$label));
                             $sx .= $content;
                         }
                     $sx = bs(bsc($sx,12));
