@@ -154,12 +154,12 @@ class RDFData extends Model
 						if ($user != '')
 						{
 							$dt = $this
-								->select("count(*) as total, d_update, d_user, us_nome")
+								->select("count(*) as total, id_us, us_nome")
 								->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
 								->join('users', 'id_us = d_user')
 								->where('year(d_update) = "' . $year . '"')
 								->where('d_user = "' . $user . '"')
-								->groupBy('d_user, year,month,day,us_nome')
+								->groupBy('id_us, us_nome, year,month,day')
 								->orderBy('us_nome,year desc, month desc, day desc')
 								->findAll();
 								$us = '';
