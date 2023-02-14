@@ -146,10 +146,12 @@ return [
         'clear_database' => 'Zerar base de dados (Cache/Elastic)',
         'classes' => 'Categorias',
         'admin' => 'Admin',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
-        '' => '',
+        'Article' => 'Artigos',
+        'ArticleResume' => 'Resumo de Artigos',
+        'Books' => 'Livros',
+        'Chapter' => 'Capítulos de Livros',
+        'Proceedings' => 'Eventos',
+        'patentes'=>'Patentes',
+        'softwares'=>'Softwares',
 
 ];

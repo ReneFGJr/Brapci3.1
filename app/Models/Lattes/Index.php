@@ -225,11 +225,12 @@ class Index extends Model
         $sb .= '<ul class="nav nav-tabs" id="myTab">';
 
         $sbi = ['Article','ArticleResume','Books','Chapter','Proceedings','patentes','softwares'];
-        $show = 'show active';
+        $active = 'active';
+        $show = 'show';
         $sbd = '';
         foreach($sbi as $id=>$link)
             {
-            $sb .= '<li class="nav-item"><a href="#'.$link.'" class="nav-link " data-bs-toggle="tab">'.lang("brapci.".$link).'</a></li>'.cr();
+            $sb .= '<li class="nav-item '.$show.'"><a href="#'.$link.'" class="nav-link " data-bs-toggle="tab">'.lang("brapci.".$link).'</a></li>'.cr();
             $sbd .= '<div class="tab-pane fade '.$show.' " id="'.$link.'">';
             $sbd .= h(lang('brapci.'.$link),4);
             switch($link)
@@ -239,6 +240,21 @@ class Index extends Model
                         break;
                     case 'ArticleResume':
                         $sbd .= $LattesProducao->producao($dtl['lt_id'], 'R');
+                        break;
+                    case 'Books':
+                        $sbd .= $LattesProducaoLivro->producao($dtl['lt_id']);
+                        break;
+                    case 'Chapter':
+                        $sbd .= $LattesProducaoCapitulo->producao($dtl['lt_id']);
+                        break;
+                    case 'Proceedings':
+                        $sbd .= $LattesProducaoEvento->producao($dtl['lt_id']);
+                        break;
+                    case 'patentes':
+                        $sbd .= $LattesProducaoLivro->producao($dtl['lt_id']);
+                        break;
+                    case 'softwares':
+                        $sbd .= $LattesProducaoLivro->producao($dtl['lt_id']);
                         break;
                     default:
                         $sbd .= '<br>==>'.$link;
