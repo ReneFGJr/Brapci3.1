@@ -172,11 +172,11 @@ class RDFData extends Model
 								->groupBy('id_us,us_nome')
 								->orderBy('us_nome')
 								->findAll();
-							$us = h(lang('brapci.users'),5);
+							$us = '<hr>'.h(lang('brapci.users'),5);
 							$us .= '<ul>';
 							foreach($users as $id=>$line)
 								{
-									$us .= '<li>'.anchor(PATH.'/admin/reports/catalog_manutention/revision/?user='.$line['id_us'],$line['us_nome']).'</li>';
+									$us .= '<li>'.anchor(PATH.'/admin/reports/catalog_manutention/revision/?user='.$line['id_us'],$line['us_nome']).' ('.$line['total'].')</li>';
 								}
 							$us .= '</ul>';
 
@@ -243,7 +243,7 @@ class RDFData extends Model
 						}
 						$sx .= '</table>';
 
-						$sx .= bs(bsc($us));
+						$sx .= $us;
 				}
 			return $sx;
 		}
