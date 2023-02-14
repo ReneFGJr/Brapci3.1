@@ -19,7 +19,8 @@ class LattesProducaoEvento extends Model
 		'le_authors', 'le_title', 'le_ano',
 		'le_url', 'le_doi', 'le_issn',
 		'le_journal', 'le_vol', 'le_nr',
-		'le_place', 'le_country', 'le_event'
+		'le_place', 'le_country', 'le_event',
+		'le_natureza', 'le_seq'
 	];
 
 	// Dates
@@ -63,6 +64,27 @@ class LattesProducaoEvento extends Model
 		return true;
 	}
 
+	function natureza($nat)
+		{
+			switch($nat)
+				{
+					case 'COMPLETO':
+						$nat = 'CP';
+						break;
+					case 'RESUMO':
+						$nat = 'RS';
+						break;
+					case 'RESUMO_EXPANDIDO':
+						$nat = 'RE';
+						break;
+					default:
+						echo '==>'.$nat;
+						exit;
+						break;
+				}
+				return $nat;
+		}
+
 	function resume($id)
 	{
 		$dt = $this->select('count(*) as total, le_author')
@@ -78,10 +100,22 @@ class LattesProducaoEvento extends Model
 	function producao($id)
 	{
 		$tela = '';
-		$dt = $this->where('le_author', $id)->orderBy('le_ano', 'desc')->findAll();
+		$dt = $this->where('le_author', $id)
+				->orderBy('le_natureza, le_seq, le_ano', 'desc')
+				->findAll();
+		$sxt = '';
 		$tela .= '<ol>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
+			$xt = $line['le_natureza'];
+			if ($xt != $sxt)
+				{
+					if (strlen($tela) > 0) { $tela .= '</ol>'; }
+					$tela .= h(lang('brapci.event_type_'.$line['le_natureza']),3);
+					$tela .= '<ol>';
+					$sxt = $xt;
+				}
+
 			$tela .= '<li>' . $line['le_authors'] . '. ' . $line['le_title'] . '. ';
 			$tela .= '<b>' . $line['le_journal'] . '</b>';
 			if (strlen($line['le_vol']) > 0) {
@@ -115,6 +149,7 @@ class LattesProducaoEvento extends Model
 
 		for ($r = 0; $r < count($arti); $r++) {
 			$line = (array)$arti[$r];
+			$attr = $line['@attributes'];
 
 			$dados = (array)$line['DADOS-BASICOS-DO-TRABALHO'];
 			$dados = (array)$dados['@attributes'];
@@ -127,6 +162,7 @@ class LattesProducaoEvento extends Model
 			$p['le_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
 			$p['le_lang'] = $Lang->code($dados['IDIOMA']);
 			$p['le_country'] = $dados['PAIS-DO-EVENTO'];
+			$p['le_seq'] = $attr['SEQUENCIA-PRODUCAO'];
 
 			$deta = (array)$line['DETALHAMENTO-DO-TRABALHO'];
 			$deta = (array)$deta['@attributes'];
@@ -144,6 +180,8 @@ class LattesProducaoEvento extends Model
 			$p['le_place'] = $deta['CIDADE-DO-EVENTO'];
 			$p['le_vol'] = $vl;
 			$p['le_nr'] = $nr;
+
+			$p['le_natureza'] = $this->natureza($dados['NATUREZA']);
 
 			/****************** AUTHORES */
 			$auth = (array)$line['AUTORES'];
