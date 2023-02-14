@@ -19,7 +19,7 @@ class LattesProducao extends Model
 		'lp_authors', 'lp_title', 'lp_ano',
 		'lp_url', 'lp_doi', 'lp_issn',
 		'lp_journal', 'lp_vol', 'lp_nr',
-		'lp_place'
+		'lp_place', 'lp_natureza', 'lp_seq'
 	];
 
 	// Dates
@@ -57,10 +57,17 @@ class LattesProducao extends Model
 		return $sx;
 	}
 
-	function resume($id)
+	function zerezima_dados_xml($id)
+	{
+		$this->where('lp_author', $id)->delete();
+		return true;
+	}
+
+	function resume($id,$type='C')
 	{
 		$dt = $this->select('count(*) as total, lp_author')
 			->where('lp_author', $id)
+			->where('lp_natureza', $type)
 			->groupBy('lp_author')
 			->findAll();
 		if (count($dt) > 0) {
@@ -69,13 +76,27 @@ class LattesProducao extends Model
 		return 0;
 	}
 
+	function natureza($tp)
+		{
+
+		if ($tp == 'C') {
+			$tp = 'COMPLETO';
+		}
+		if ($tp == 'R') {
+			$tp = 'RESUMO';
+		}
+
+			return $tp;
+		}
+
 	function csv($id)
 		{
 			$dt = $this
 				->join('brapci_tools.projects_harvesting_xml', 'lp_author  = hx_id_lattes')
 				->where('hx_project',$id)
+				->orderBy('lp_seq')
 				->findAll();
-			$sx = 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,JOURNAL'.chr(13);
+			$sx = 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,JOURNAL,NATUREZA'.chr(13);
 			foreach($dt as $id=>$line)
 				{
 					$sa = '';
@@ -86,6 +107,7 @@ class LattesProducao extends Model
 					$sa .= '"' . $line['lp_doi'] . '",';
 					$sa .= '"' . $line['lp_issn'] . '",';
 					$sa .= '"' . $line['lp_journal'] . '",';
+					$sa .= '"' . $this->natureza($line['lp_natureza']) . '",';
 					$sa = troca($sa,chr(13),'');
 					$sa = troca($sa, chr(10), '');
 					$sx .= $sa.chr(13);
@@ -99,10 +121,13 @@ class LattesProducao extends Model
 			exit;
 		}
 
-	function producao($id)
+	function producao($id, $type='C')
 	{
 		$tela = '';
-		$dt = $this->where('lp_author', $id)->orderBy('lp_ano', 'desc')->findAll();
+		$dt = $this
+			->where('lp_author', $id)
+			->where('lp_natureza', $type)
+			->orderBy('lp_ano desc, lp_seq ')->findAll();
 		$tela .= '<ol>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
@@ -139,6 +164,7 @@ class LattesProducao extends Model
 
 		for ($r = 0; $r < count($arti); $r++) {
 			$line = (array)$arti[$r];
+			$attr = $line['@attributes'];
 
 			$dados = (array)$line['DADOS-BASICOS-DO-ARTIGO'];
 			$dados = (array)$dados['@attributes'];
@@ -150,6 +176,8 @@ class LattesProducao extends Model
 			$p['lp_title'] = $dados['TITULO-DO-ARTIGO'];
 			$p['lp_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
 			$p['lp_lang'] = $Lang->code($dados['IDIOMA']);
+			$p['lp_natureza'] = substr($dados['NATUREZA'],0,1);
+			$p['lp_seq'] = $attr['SEQUENCIA-PRODUCAO'];
 
 			$deta = (array)$line['DETALHAMENTO-DO-ARTIGO'];
 			$deta = (array)$deta['@attributes'];

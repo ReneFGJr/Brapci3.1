@@ -70,6 +70,12 @@ class LattesProducaoLivro extends Model
 		return 0;
 	}
 
+	function zerezima_dados_xml($id)
+	{
+		$this->where('lv_author', $id)->delete();
+		return true;
+	}
+
 	function producao($id)
 	{
 		$tela = '';

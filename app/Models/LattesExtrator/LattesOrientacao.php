@@ -59,6 +59,12 @@ class LattesOrientacao extends Model
 		return $sx;
 	}
 
+	function zerezima_dados_xml($id)
+	{
+		$this->where('lo_author', $id)->delete();
+		return true;
+	}
+
 	function resume($id)
 	{
 		$rst = array(0, 0, 0, 0, 0, 0, 0, 0, 0);

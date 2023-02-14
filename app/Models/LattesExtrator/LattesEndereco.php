@@ -66,6 +66,12 @@ class LattesEndereco extends Model
 		return $sx;
 	}
 
+	function zerezima_dados_xml($id)
+	{
+		$this->where('ad_id', $id)->delete();
+		return true;
+	}
+
 	function dados_xml($id)
 	{
 		$LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();

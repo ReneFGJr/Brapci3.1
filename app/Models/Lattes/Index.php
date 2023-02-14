@@ -194,7 +194,8 @@ class Index extends Model
         $sb = '';
         /***** */
         $p3 = $LattesOrientacao->resume($id);
-        $p1 = $LattesProducao->resume($id);
+        $p1 = $LattesProducao->resume($id,'C');
+        $p7 = $LattesProducao->resume($id, 'R');
         $p4 = $LattesProducaoCapitulo->resume($id);
         $p5 = $LattesProducaoLivro->resume($id);
         $p6 = $LattesProducaoEvento->resume($id);
@@ -203,6 +204,7 @@ class Index extends Model
         $sc = '';
         $sc .= bsc('Produção Científica', 12);
         $sc .= bsc($LattesProducao->selo($p1, 'ARTIGOS'), 3);
+        $sc .= bsc($LattesProducao->selo($p7, 'ARTIGOS RESUMO'), 3);
         $sc .= bsc($LattesProducao->selo($p5, 'LIVROS'), 3);
         $sc .= bsc($LattesProducao->selo($p4, 'CAPÍTULOS'), 3);
 
@@ -217,8 +219,74 @@ class Index extends Model
         $sc .= bsc($LattesProducao->selo($p3[3], 'DOUTORADO'), 2);
         $sc .= bsc($LattesProducao->selo($p3[4], 'POS-DOUT.'), 2);
         $sc .= bsc($LattesProducao->selo($p3[5], 'OUTROS'), 2);
+
+
+        $sb = '
+            <!-- Tabs navs -->
+            <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a
+                class="nav-link active"
+                id="ex1-tab-1"
+                data-mdb-toggle="tab"
+                href="#ex1-tabs-1"
+                role="tab"
+                aria-controls="ex1-tabs-1"
+                aria-selected="true"
+                >Tab 1</a
+                >
+            </li>
+            <li class="nav-item" role="presentation">
+                <a
+                class="nav-link"
+                id="ex1-tab-2"
+                data-mdb-toggle="tab"
+                href="#ex1-tabs-2"
+                role="tab"
+                aria-controls="ex1-tabs-2"
+                aria-selected="false"
+                >Tab 2</a
+                >
+            </li>
+            <li class="nav-item" role="presentation">
+                <a
+                class="nav-link"
+                id="ex1-tab-3"
+                data-mdb-toggle="tab"
+                href="#ex1-tabs-3"
+                role="tab"
+                aria-controls="ex1-tabs-3"
+                aria-selected="false"
+                >Tab 3</a
+                >
+            </li>
+            </ul>
+            <!-- Tabs navs -->
+
+            <!-- Tabs content -->
+            <div class="tab-content" id="ex1-content">
+            <div
+                class="tab-pane fade show active"
+                id="ex1-tabs-1"
+                role="tabpanel"
+                aria-labelledby="ex1-tab-1"
+            >
+                Tab 1 content
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                Tab 2 content
+            </div>
+            <div class="tab-pane fade" id="ex1-tabs-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                Tab 3 content
+            </div>
+            </div>
+            <!-- Tabs content -->
+
+        ';
+
         $sb .= bs($sc);
-        $sb .= $LattesProducao->producao($dtl['lt_id']);
+
+        $sb .= $LattesProducao->producao($dtl['lt_id'],'C');
 
         $sx = bs(bsc($sa, 4) . bsc($sb, 9));
 

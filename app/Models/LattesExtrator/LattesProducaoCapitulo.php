@@ -59,6 +59,12 @@ class LattesProducaoCapitulo extends Model
 		return $sx;
 	}
 
+	function zerezima_dados_xml($id)
+	{
+		$this->where('lvc_author', $id)->delete();
+		return true;
+	}
+
 	function resume($id)
 	{
 		$dt = $this->select('count(*) as total, lvc_author')

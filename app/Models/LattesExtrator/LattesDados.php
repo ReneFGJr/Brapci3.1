@@ -58,6 +58,12 @@ class LattesDados extends Model
         return $dta[0];
     }
 
+    function zerezima_dados_xml($id)
+        {
+            $this->where('lt_id',$id)->delete();
+            return true;
+        }
+
     function dados_xml($id)
     {
         $dt = array();

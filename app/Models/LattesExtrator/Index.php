@@ -137,28 +137,32 @@ class Index extends Model
             $xml = simplexml_load_string($myXMLData);
 
             $LattesDados = new \App\Models\LattesExtrator\LattesDados();
-            $LattesDados->dados_xml($id);
-
             $LattesEndereco = new \App\Models\LattesExtrator\LattesEndereco();
-            $LattesEndereco->dados_xml($id);
-
             $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
-            $LattesFormacao->dados_xml($id);
-
             $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
-            $LattesProducao->producao_xml($id);
-
             $LattesProducaoEvento = new \App\Models\LattesExtrator\LattesProducaoEvento();
-            $LattesProducaoEvento->producao_xml($id);
-
             $LattesProducaoLivro = new \App\Models\LattesExtrator\LattesProducaoLivro();
-            $LattesProducaoLivro->producao_xml($id);
-
             $LattesProducaoCapitulo = new \App\Models\LattesExtrator\LattesProducaoCapitulo();
-            $LattesProducaoCapitulo->producao_xml($id);
-
             $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
-            $LattesOrientacao->orientacao_xml($id);
+
+
+            $LattesDados->zerezima_dados_xml($id);
+            $LattesEndereco->zerezima_dados_xml($id);
+            $LattesFormacao->zerezima_dados_xml($id);
+            $LattesProducao->zerezima_dados_xml($id);
+            $LattesProducaoEvento->zerezima_dados_xml($id);
+            $LattesProducaoLivro->zerezima_dados_xml($id);
+            $LattesProducaoCapitulo->zerezima_dados_xml($id);
+            $LattesOrientacao->zerezima_dados_xml($id);
+
+            $LattesDados->dados_xml($id);
+            $LattesEndereco->dados_xml($id);
+            $LattesFormacao->dados_xml($id);
+            $LattesProducao->producao_xml($id);
+            //$LattesProducaoEvento->producao_xml($id);
+            //$LattesProducaoLivro->producao_xml($id);
+            //$LattesProducaoCapitulo->producao_xml($id);
+            //$LattesOrientacao->orientacao_xml($id);
             return wclose();
         }
         return $dt;

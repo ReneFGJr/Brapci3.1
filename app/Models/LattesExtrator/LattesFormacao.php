@@ -58,6 +58,12 @@ class LattesFormacao extends Model
 		return $sx;
 	}
 
+	function zerezima_dados_xml($id)
+	{
+		$this->where('f_id', $id)->delete();
+		return true;
+	}
+
 	function resume($id)
 	{
 		$sx = '';
