@@ -159,10 +159,10 @@ class Index extends Model
             $LattesEndereco->dados_xml($id);
             $LattesFormacao->dados_xml($id);
             $LattesProducao->producao_xml($id);
-            //$LattesProducaoEvento->producao_xml($id);
-            //$LattesProducaoLivro->producao_xml($id);
-            //$LattesProducaoCapitulo->producao_xml($id);
-            //$LattesOrientacao->orientacao_xml($id);
+            $LattesProducaoEvento->producao_xml($id);
+            $LattesProducaoLivro->producao_xml($id);
+            $LattesProducaoCapitulo->producao_xml($id);
+            $LattesOrientacao->orientacao_xml($id);
             return wclose();
         }
         return $dt;
