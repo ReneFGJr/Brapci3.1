@@ -84,6 +84,12 @@ function reload()
         return $sx;
     }
 
+function reload_master()
+{
+    $sx = '<script>window.opener.location.reload();</script>';
+    return $sx;
+}
+
 function wclose($tp = '')
 {
     if ($tp != '') {
