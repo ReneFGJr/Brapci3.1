@@ -99,8 +99,6 @@ class Index extends Model
 
 	function viewid($id='')
 	{
-		echo '===>'.$id;
-		exit;
 		$id_brapci = 0;
 
 		$Bolsista = new \App\Models\PQ\Bolsistas();
@@ -110,8 +108,8 @@ class Index extends Model
 		$Lattes->checkId($id);
 
 		if ($id <= 0) {
-			return metarefresh(PATH.'/pq');
-			//return redirect('pq:index');
+			//return metarefresh(PATH.'/pq');
+			return redirect('pq:index');
 		}
 		return $sx= $Lattes->viewid($id);
 
