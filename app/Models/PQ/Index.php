@@ -108,7 +108,8 @@ class Index extends Model
 		$Lattes->checkId($id);
 
 		if ($id <= 0) {
-			return redirect('pq:index');
+			return metarefresh(PATH.'/pq');
+			//return redirect('pq:index');
 		}
 		return $sx= $Lattes->viewid($id);
 
