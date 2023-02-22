@@ -151,6 +151,9 @@ class LattesFormacao extends Model
 		if ($dt['f_situacao'] != 'C')
 			{
 				if($dt['f_situacao'] == 'I') { $sx .= ' - <span class="text-danger"><b>Interrompido</b></span>'; }
+				if ($dt['f_situacao'] == 'A') {
+					$sx .= ' - <span class="text-success"><b>Em andamento</b></span>';
+				}
 			}
 		$sx .= '</td>';
 		$sx .= '</tr>';
@@ -310,6 +313,9 @@ class LattesFormacao extends Model
 				break;
 			case 'INCOMPLETO':
 				return "I";
+				break;
+			case 'EM_ANDAMENTO':
+				return "A";
 				break;
 			default:
 				echo "FORMACAO STATUS:$t";
