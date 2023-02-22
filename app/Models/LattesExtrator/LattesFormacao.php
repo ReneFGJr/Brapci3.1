@@ -304,6 +304,9 @@ class LattesFormacao extends Model
 			case 'CONCLUIDO':
 				return "C";
 				break;
+			case 'INCOMPLETO':
+				return "I";
+				break;
 			default:
 				echo "FORMACAO STATUS:$t";
 				exit;
