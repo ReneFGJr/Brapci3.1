@@ -148,6 +148,12 @@ class LattesProducaoEvento extends Model
 		$arti = (array)$arti['TRABALHO-EM-EVENTOS'];
 
 		for ($r = 0; $r < count($arti); $r++) {
+			if (!isset($arti[0]))
+				{
+					$art2[0] = $arti;
+					$arti = array();
+					$arti = $art2;
+				}
 			$line = (array)$arti[$r];
 			$attr = $line['@attributes'];
 
