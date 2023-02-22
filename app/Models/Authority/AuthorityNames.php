@@ -101,12 +101,14 @@ class AuthorityNames extends Model
 				} else {
 					if ($line['cc_use'] > 0) {
 						if ($line['cc_use'] != $id_brapci) {
-							echo "AmBIGUO";
+							echo "Identificação de nome AmBIGUO";
+							return 0;
 							exit;
 						}
 					} else {
 						if ($line['id_cc'] != $id_brapci) {
-							echo "AmBIGUO 2";
+							echo "Identificação de nome AmBIGUO 2";
+							return 0;
 							exit;
 						}
 					}
