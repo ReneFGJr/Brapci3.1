@@ -162,12 +162,15 @@ class Index extends Model
         $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
         $LattesProducaoEvento = new \App\Models\LattesExtrator\LattesProducaoEvento();
         $LattesProducaoLivro = new \App\Models\LattesExtrator\LattesProducaoLivro();
+        $LattesProducaoPatent = new \App\Models\LattesExtrator\LattesPatent();
+        $LattesProducaoSoftware = new \App\Models\LattesExtrator\LattesSoftware();
         $LattesProducaoCapitulo = new \App\Models\LattesExtrator\LattesProducaoCapitulo();
         $LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
         $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
         $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
         $LattesEndereco = new \App\Models\LattesExtrator\LattesEndereco();
+        $PQ = new \App\Models\PQ\Bolsas();
 
         $dtl = $LattesDados->where('lt_id', $id)->first();
         if ($dtl == '') {
@@ -184,6 +187,7 @@ class Index extends Model
         $dtl['bs_nome'] = $dtl['lt_name'];
         $dtl['bs_content'] = $this->link($id);
         $dtl['bs_content'] .= $LattesExtrator->btn_coletor($id);
+        $dtl['bs_content'] .= $PQ->btn_new($id);
         $dtl['bs_brapci'] = '';
 
         $sa = view('Lattes/pesquisador', $dtl);
@@ -199,6 +203,9 @@ class Index extends Model
         $p4 = $LattesProducaoCapitulo->resume($id);
         $p5 = $LattesProducaoLivro->resume($id);
         $p6 = $LattesProducaoEvento->resume($id);
+        $pq = count($PQ->bolsas_pesquisador($id));
+        $p8 = $LattesProducaoSoftware->resume($id);
+        $p9 = $LattesProducaoPatent->resume($id);
 
         $p2 = 0;
         $sc = '';
@@ -210,8 +217,10 @@ class Index extends Model
 
         $sc .= bsc($LattesProducao->selo($p6, 'ANAIS'), 3);
         $sc .= bsc('Produção Tecnológica', 12);
-        $sc .= bsc($LattesProducao->selo($p2, 'PATENTES'), 3);
-        $sc .= bsc($LattesProducao->selo($p2, 'SOFTWARES'), 3);
+        $sc .= bsc($LattesProducao->selo($p9, 'PATENTES'), 3);
+        $sc .= bsc($LattesProducao->selo($p8, 'SOFTWARES'), 3);
+        $sc .= bsc('', 6);
+        $sc .= bsc($LattesProducao->selo($pq, 'BOLSAS PQ'), 3);
         $sc .= bsc('Orientações', 12);
         $sc .= bsc($LattesProducao->selo($p3[0], 'GRADUAÇÃO'), 2);
         $sc .= bsc($LattesProducao->selo($p3[1], 'IC/IT'), 2);
@@ -224,7 +233,13 @@ class Index extends Model
         $sb = '<div class="m-4">';
         $sb .= '<ul class="nav nav-tabs" id="myTab">';
 
-        $sbi = ['Article','ArticleResume','Books','Chapter','Proceedings','patentes','softwares'];
+        $sbi = ['Article','ArticleResume'];
+        if ($p5 > 0) { array_push($sbi, 'Books'); }
+        if ($p4 > 0) { array_push($sbi, 'Chapter'); }
+        if ($p6 > 0) { array_push($sbi, 'Proceedings'); }
+        if ($p8 > 0) { array_push($sbi, 'softwares'); }
+        if ($p9 > 0) { array_push($sbi, 'patentes'); }
+        if ($pq > 0) { array_push($sbi, 'BolsasPQ'); }
         $active = 'active';
         $show = 'show';
         $sbd = '';
@@ -251,10 +266,13 @@ class Index extends Model
                         $sbd .= $LattesProducaoEvento->producao($dtl['lt_id']);
                         break;
                     case 'patentes':
-                        $sbd .= $LattesProducaoLivro->producao($dtl['lt_id']);
+                        $sbd .= $LattesProducaoPatent->producao($dtl['lt_id']);
                         break;
                     case 'softwares':
-                        $sbd .= $LattesProducaoLivro->producao($dtl['lt_id']);
+                        $sbd .= $LattesProducaoSoftware->producao($dtl['lt_id']);
+                        break;
+                    case 'BolsasPQ':
+                        $sbd .= $PQ->historic_researcher($dtl['lt_id']);
                         break;
                     default:
                         $sbd .= '<br>==>'.$link;
@@ -272,6 +290,7 @@ class Index extends Model
 
 
         //$sx .= '<style> div { border: 1px solid #000;"} </style>';
+        $sx .= '</div>';
 
         return $sx;
     }

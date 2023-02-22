@@ -61,6 +61,16 @@ class Bolsas extends Model
 			return $sx;
 		}
 
+	function bolsas_pesquisador($id)
+		{
+			$dt = $this
+				->join('bolsistas', 'id_bs = bb_person')
+				->join('modalidades', 'id_mod = bs_tipo')
+				->where('bs_lattes',$id)
+				->findAll();
+			return($dt);
+		}
+
 	function edit($id)
 	{
 		$this->id = $id;
@@ -77,14 +87,28 @@ class Bolsas extends Model
 		return ($sx);
 	}
 
+	function btn_new($id)
+		{
+			$sx = '';
+			$Socials = new \App\Models\Socials();
+			$access = $Socials->getAccess("#ADM");
+			if ($access) {
+				$url = URL . '/popup/pq_bolsa_edit/?id=0&pq=' . $id;
+				$sx .= '<span class="ms-1">' . onclick($url, 800, 400) . bsicone('plus',20) . '</a></th>';
+			}
+			return $sx;
+		}
+
 	function historic_researcher($id)
 	{
 		$Socials = new \App\Models\Socials();
 		$access = $Socials->getAccess("#ADM");
 
 		$dt = $this
+			->join('bolsistas', 'id_bs = bb_person')
 			->join('modalidades', 'id_mod = bs_tipo', STR_PAD_LEFT)
 			->where('bb_person', $id)
+			->ORwhere('bs_lattes', $id)
 			->orderBy('bs_start DESC')
 			->findAll();
 
@@ -94,10 +118,10 @@ class Bolsas extends Model
 			$year = substr($line['bs_start'], 0, 4);
 			if ($access == true)
 			{
-			$link = onclick(URL . '/popup/pq_bolsa_edit/?id='.$line['id_bb'], 800, 400);
-			$linka = '</span>';
-			$link_del = confirm(URL . '/popup/pq_bolsa_delete/?id='.$line['id_bb'], 800, 400);
-			$linka_del = '</span>';
+				$link = onclick(URL . '/popup/pq_bolsa_edit/?id='.$line['id_bb'], 800, 400);
+				$linka = '</span>';
+				$link_del = confirm(URL . '/popup/pq_bolsa_delete/?id='.$line['id_bb'], 800, 400);
+				$linka_del = '</span>';
 
 				$edit = '<div style="float: right;">';
 				$edit .= $link_del . bsicone('trash', 20) . $linka_del;

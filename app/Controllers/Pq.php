@@ -30,8 +30,9 @@ class Pq extends BaseController
         $sa = '<a href="' . PATH . '/pq">' . view('Pq/logo', $data) . '</a>';
         $sb = $PQ->index($d1, $d2, $d3, $d4);
         $sx .= bs(bsc($sa, 2) . bsc($sb, 10));
+
         $sx .= view('Brapci/Headers/footer', $data);
-        $sx .= '<div style="height: 80px; wdith: 100%;">X</div>';
+
         return $sx;
     }
 }

@@ -156,5 +156,6 @@ return [
         'event_type_RE'=>'Resumo Extendido',
         'event_type_RS' => 'Resumo',
         'event_type_CP' => 'Completo',
+        'BolsasPQ'=>'Bolsa PQ',
 
 ];

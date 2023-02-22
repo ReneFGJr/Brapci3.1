@@ -93,56 +93,58 @@ class Index extends Model
 				$sx .= $this->subheader();
 				$sx .= $this->resume();
 		}
-		$sx = bs($sx);
+		//$sx = bs($sx);
 		return $sx;
 	}
 
+	function btn_new($id)
+		{
+			$Bolsas = new \App\Models\PQ\Bolsas();
+			$sx = $Bolsas->btn_new($id);
+		}
+
 	function viewid($id='')
 	{
+		$sx = '';
 		$id_brapci = 0;
 
 		$Bolsista = new \App\Models\PQ\Bolsistas();
-		$dt = $Bolsista->where('bs_lattes',$id);
+		$dt = $Bolsista->where('bs_lattes',$id)->first();
 
 		$Lattes = new \App\Models\Lattes\Index();
 		$Lattes->checkId($id);
 
 		if ($id <= 0) {
-			//return metarefresh(PATH.'/pq');
-			return redirect('pq:index');
+			return metarefresh(PATH.'/pq');
+			//return redirect('pq:index');
 		}
-		return $sx= $Lattes->viewid($id);
+		$sx= $Lattes->viewid($id);
 
-		$sa = view('Pq/bolsista', $dt);
-
-		$sb = '';
-		/***** */
-		$sb .= onclick(URL . '/popup/pq_bolsa_edit?id=0&pq=' . $id, 800, 600) . bsicone('plus', 16, 'float-end') . '</span>';
-		$sb .= $Bolsas->historic_researcher($id);
-
-		//$sx .= '<style> div { border: 1px solid #000;"} </style>';
-
-		return $sx;
+		$sx .= onclick(URL . '/popup/pq_bolsa_edit?id=0&pq=' . $id, 800, 600) . bsicone('plus', 16, 'float-end') . '</span>';
 
 		if ($dt['bs_rdf_id'] == 0) {
 			$Authority = new \App\Models\Authority\AuthorityNames();
 			$nome = $dt['bs_nome'];
 			$nome = nbr_author($nome, 1);
+
 			$id_brapci = $Authority->getBrapciId($nome);
 
 			if ($id_brapci > 0) {
-				$dt['bs_rdf_id'] = $id_brapci;
-				$Bolsistas->set($dt)->where('id_bs', $id)->update();
+				$dta['bs_rdf_id'] = $id_brapci;
+				$Bolsista->set($dta)
+					->where('id_bs', $id)
+					->Orwhere('bs_lattes', $id)
+					->update();
 			}
-			$dt = $Bolsistas->find($id);
+			$dt = $Bolsista->where('bs_lattes', $id)->first();
 		}
 		if ($id_brapci > 0) {
+			$RDF = new \App\Models\Rdf\RDF();
 			$link = $RDF->link(array('id_cc' => $id_brapci), 'text-secondary');
 			$link = substr($link, strpos($link, '"') + 1, strlen($link));
 			$link = substr($link, 0, strpos($link, '"'));
 		}
-		echo h('Nome não localizado ' . $dt['bs_nome']);
-		return "OK";
+		return $sx;
 	}
 
 	function pq_bolsistas()
