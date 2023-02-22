@@ -148,6 +148,10 @@ class LattesFormacao extends Model
 		$sx .= $dt['f_inst'];
 		$sx .= '<br>';
 		$sx .= $dt['f_curso'];
+		if ($dt['f_situacao'] != 'C')
+			{
+				if($dt['f_situacao'] == 'I') { $sx .= ' - <span class="text-danger"><b>Interrompido</b></span>'; }
+			}
 		$sx .= '</td>';
 		$sx .= '</tr>';
 		$sx .= '</table>';
