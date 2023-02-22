@@ -42,6 +42,7 @@ class Bots extends BaseController
                 $Lattes = new \App\Models\Api\Lattes\Index();
                 $sx .= "BOT 's Lattes ".VERSION_BOT.cr();
                 $sx .= chr(13);
+                echo $sx;
                 $sx .= $Lattes->harvesting_next($act2);
                 break;
             case 'patente':
