@@ -10,7 +10,6 @@ return[
         'bs_start'=>'Início',
         'bs_finish'=>'Fim',
         'BS_IES'=>'Vínculo',
-        'mod_modalidade'=>'',
         ''=>'',
         ''=>'',
         ''=>'',
