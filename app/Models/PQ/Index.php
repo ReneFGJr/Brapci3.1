@@ -99,6 +99,8 @@ class Index extends Model
 
 	function viewid($id='')
 	{
+		echo '===>'.$id;
+		exit;
 		$id_brapci = 0;
 
 		$Bolsista = new \App\Models\PQ\Bolsistas();
