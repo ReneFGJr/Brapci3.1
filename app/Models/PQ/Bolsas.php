@@ -317,7 +317,7 @@ class Bolsas extends Model
 			$nr++;
 
 			$linka = '</a>';
-			$link = '<a href="' . PATH . MODULE . 'pq/viewid/'. $line['id_bs'] . '" class="text-secondary">*';
+			$link = '<a href="' . PATH . MODULE . 'pq/viewid/'. $line['bs_lattes'] . '" class="text-secondary">*';
 
 			$sx .= '<tr>';
 			$sx .= '<td>' . $nr . '</td>';
