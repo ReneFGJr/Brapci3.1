@@ -64,7 +64,7 @@ class Bolsas extends Model
 	function edit($id)
 	{
 		$this->id = $id;
-		$this->path = PATH . '/popup/pq_bolsa_edit?id=' . $id . '&pq='.get('pq').'&';
+		$this->path = PATH . '/popup/pq_bolsa_edit/'.$id.'?id=' . $id . '&pq='.get('pq').'&';
 		$this->path_back = 'wclose';
 		if (get("pq") != '')
 			{
@@ -317,7 +317,7 @@ class Bolsas extends Model
 			$nr++;
 
 			$linka = '</a>';
-			$link = '<a href="' . PATH . MODULE . 'pq/viewid/?id=' . $line['id_bs'] . '" class="text-secondary">*';
+			$link = '<a href="' . PATH . MODULE . 'pq/viewid/'. $line['id_bs'] . '" class="text-secondary">*';
 
 			$sx .= '<tr>';
 			$sx .= '<td>' . $nr . '</td>';
