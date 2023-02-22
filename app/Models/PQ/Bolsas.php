@@ -279,10 +279,10 @@ class Bolsas extends Model
 		$sx .= '<table class="table table-striped">';
 		$th = '<tr class="small">
 				<th width="3%">' . lang('pq.nr') . '</th>
-				<th width="50%">' . '<a href="?order=bs_nome">' . lang('pq.bs_nome') . '</a></th>
+				<th width="54%">' . '<a href="?order=bs_nome">' . lang('pq.bs_nome') . '</a></th>
 				<th width="5%">' . '<a href="?order=mod_modalidade">' . lang('pq.mod_modalidade') . '</a></th>
-				<th width="10%">' . '<a href="?order=bs_start">' . lang('pq.bs_start') . '</a></th>
-				<th width="10%">' . '<a href="?order=bs_finish">' . lang('pq.bs_finish') . '</a></th>
+				<th width="15%">' . '<a href="?order=bs_start">' . lang('pq.bs_start') . '</a></th>
+				<th width="15%">' . '<a href="?order=bs_finish">' . lang('pq.bs_finish') . '</a></th>
 				<th width="10%">' . '<a href="?order=BS_IES">' . lang('pq.BS_IES') . '</a></th>
 				</tr>' . cr();
 
