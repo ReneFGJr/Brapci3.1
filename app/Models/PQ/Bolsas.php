@@ -311,8 +311,7 @@ class Bolsas extends Model
 					$sx .= '<tr><td colspan=4><h3>' . $year . '</h3></td></tr>';
 					$sx .= $th;
 				}
-
-				$nr = 0;
+				//$nr = 0;
 			}
 			$nr++;
 
