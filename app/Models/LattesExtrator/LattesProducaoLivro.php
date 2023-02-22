@@ -111,79 +111,80 @@ class LattesProducaoLivro extends Model
 
 		$xml = (array)$xml;
 		$prod = (array)$xml['PRODUCAO-BIBLIOGRAFICA'];
-		$arti = (array)$prod['LIVROS-E-CAPITULOS'];
-		if (isset($arti['LIVROS-PUBLICADOS-OU-ORGANIZADOS'])) {
-			$arti = (array)$arti['LIVROS-PUBLICADOS-OU-ORGANIZADOS'];
-			$arti = (array)$arti['LIVRO-PUBLICADO-OU-ORGANIZADO'];
+		if (isset($prod['LIVROS-E-CAPITULOS'])) {
+			$arti = (array)$prod['LIVROS-E-CAPITULOS'];
+			if (isset($arti['LIVROS-PUBLICADOS-OU-ORGANIZADOS'])) {
+				$arti = (array)$arti['LIVROS-PUBLICADOS-OU-ORGANIZADOS'];
+				$arti = (array)$arti['LIVRO-PUBLICADO-OU-ORGANIZADO'];
 
-			if ((count($arti) > 0) and (!isset($arti[0])))
-				{
+				if ((count($arti) > 0) and (!isset($arti[0]))) {
 					$arti2 = array();
 					$arti2[0] = $arti;
 					$arti = $arti2;
 				}
 
-			for ($r = 0; $r < count($arti); $r++) {
-				$line = (array)$arti[$r];
+				for ($r = 0; $r < count($arti); $r++) {
+					$line = (array)$arti[$r];
 
-				$dados = (array)$line['DADOS-BASICOS-DO-LIVRO'];
-				$dados = (array)$dados['@attributes'];
-				$p = array();
-				$p['lv_tipo'] = $this->type($dados['TIPO']);
-				$p['lv_natureza'] = $this->natureza($dados['NATUREZA']);
-				$p['lv_author'] = $id;
-				$p['lv_brapci_rdf'] = 0;
-				$p['lv_ano'] = $dados['ANO'];
-				$p['lv_doi'] = $dados['DOI'];
-				$p['lv_title'] = $dados['TITULO-DO-LIVRO'];
-				$p['lv_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
-				$p['lv_lang'] = $Lang->code($dados['IDIOMA']);
-				$p['lv_country'] = $dados['PAIS-DE-PUBLICACAO'];
+					$dados = (array)$line['DADOS-BASICOS-DO-LIVRO'];
+					$dados = (array)$dados['@attributes'];
+					$p = array();
+					$p['lv_tipo'] = $this->type($dados['TIPO']);
+					$p['lv_natureza'] = $this->natureza($dados['NATUREZA']);
+					$p['lv_author'] = $id;
+					$p['lv_brapci_rdf'] = 0;
+					$p['lv_ano'] = $dados['ANO'];
+					$p['lv_doi'] = $dados['DOI'];
+					$p['lv_title'] = $dados['TITULO-DO-LIVRO'];
+					$p['lv_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
+					$p['lv_lang'] = $Lang->code($dados['IDIOMA']);
+					$p['lv_country'] = $dados['PAIS-DE-PUBLICACAO'];
 
-				$deta = (array)$line['DETALHAMENTO-DO-LIVRO'];
-				$deta = (array)$deta['@attributes'];
+					$deta = (array)$line['DETALHAMENTO-DO-LIVRO'];
+					$deta = (array)$deta['@attributes'];
 
-				$p['lv_isbn'] = $deta['ISBN'];
-				$vl = trim($deta['NUMERO-DE-VOLUMES']);
-				$nr = trim($deta['NUMERO-DE-PAGINAS']);
-				if ($vl != '') {
-					$vl = 'v. ' . $vl;
-				}
-				if ($nr != '') {
-					$nr = 'p. ' . $nr;
-				}
-				$p['lv_place'] = $deta['CIDADE-DA-EDITORA'];
-				$p['lv_vol'] = $vl;
-				$p['lv_nr'] = $nr;
-
-				/****************** AUTHORES */
-				$auth = (array)$line['AUTORES'];
-				$authn = '';
-				if (count($auth) == 1) {
-					$autx = $auth;
-					$auth = array();
-					array_push($auth, $autx);
-				}
-
-				for ($ar = 0; $ar < count($auth); $ar++) {
-					$aaa = (array)$auth[$ar];
-					$authp = $aaa['@attributes'];
-					if (strlen($authn) > 0) {
-						$authn .= '; ';
+					$p['lv_isbn'] = $deta['ISBN'];
+					$vl = trim($deta['NUMERO-DE-VOLUMES']);
+					$nr = trim($deta['NUMERO-DE-PAGINAS']);
+					if ($vl != '') {
+						$vl = 'v. ' . $vl;
 					}
-					$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
-					$authn .= nbr_author($nome, 1);
-				}
-				$p['lv_authors'] = $authn;
-				$p['lv_author_total'] = count($auth);
+					if ($nr != '') {
+						$nr = 'p. ' . $nr;
+					}
+					$p['lv_place'] = $deta['CIDADE-DA-EDITORA'];
+					$p['lv_vol'] = $vl;
+					$p['lv_nr'] = $nr;
 
-				$rst = $this->where('lv_author', $id)
-					->where('lv_title', $p['lv_title'])
-					->where('lv_ano', $p['lv_ano'])
-					->findAll();
+					/****************** AUTHORES */
+					$auth = (array)$line['AUTORES'];
+					$authn = '';
+					if (count($auth) == 1) {
+						$autx = $auth;
+						$auth = array();
+						array_push($auth, $autx);
+					}
 
-				if (count($rst) == 0) {
-					$this->insert($p);
+					for ($ar = 0; $ar < count($auth); $ar++) {
+						$aaa = (array)$auth[$ar];
+						$authp = $aaa['@attributes'];
+						if (strlen($authn) > 0) {
+							$authn .= '; ';
+						}
+						$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
+						$authn .= nbr_author($nome, 1);
+					}
+					$p['lv_authors'] = $authn;
+					$p['lv_author_total'] = count($auth);
+
+					$rst = $this->where('lv_author', $id)
+						->where('lv_title', $p['lv_title'])
+						->where('lv_ano', $p['lv_ano'])
+						->findAll();
+
+					if (count($rst) == 0) {
+						$this->insert($p);
+					}
 				}
 			}
 		}
