@@ -140,7 +140,7 @@ class Index extends Model
             $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
             $sx .= cr() . 'Updated';
 
-            $sx .= metarefresh('',1);
+            $sx .= metarefresh('',2);
 
             echo $sx;
             exit;
