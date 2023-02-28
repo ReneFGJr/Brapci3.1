@@ -271,6 +271,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $bibliofind = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_bibliofind',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $persistent_indicador = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -357,6 +377,9 @@ class Database extends Config
 
         $this->books['username'] = getenv('database.default.username');
         $this->books['password'] = getenv('database.default.password');
+
+        $this->bibliofind['username'] = getenv('database.default.username');
+        $this->bibliofind['password'] = getenv('database.default.password');
 
         $this->persistent_indicador['username'] = getenv('database.default.username');
         $this->persistent_indicador['password'] = getenv('database.default.password');

@@ -43,6 +43,12 @@ $routes->get('/catalog', 'Catalog::index');
 $routes->get('/download', 'Download::index');
 $routes->get('/download/(:any)', 'Download::download/$1');
 
+/********** DOWNLOAD */
+$routes->get('/bibliofind', 'Bibliofind::index');
+$routes->get('/bibliofind/(:any)', 'Bibliofind::Bibliofind/index/$1');
+$routes->post('/bibliofind', 'Bibliofind::index');
+$routes->post('/bibliofind/(:any)', 'Bibliofind::Bibliofind/index/$1');
+
 /********** BOTS */
 $routes->get('/bots', 'Bots::index');
 $routes->get('/bots/(:any)', 'Bots::index/$1');
