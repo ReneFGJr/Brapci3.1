@@ -61,23 +61,25 @@ class Lang extends Model
 						return 'fr';
 						break;
 					case 'ingles':
-						return 'en';
+						return 'eng';
 						break;
 					case 'samoano':
 						return 'sm';
 						break;
-					case 'pt-BR':
-						return 'pt-BR';
+					case 'por':
+						return 'por';
 						break;
 					case 'espanhol':
-						return 'es';
+						return 'spn';
 						break;
 					case 'portugues':
-						return 'pt-BR';
+						return 'por';
 						break;
+					case 'pt_br':
+						return 'por';
 					default:
-						return 'xx';
-						echo 'OPS language '.$x;
+						//return 'xx';
+						echo 'OPS language ['.$x.']'.$x;
 						exit;
 				}
 			return $lang;
