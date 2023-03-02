@@ -56,6 +56,10 @@ class Index extends Model
         $sx .= troca($this->logo('IMG'), '$par', 'height="100px;" align="right"');
 
         switch ($d1) {
+            case 'licences':
+                $Licences = new \App\Models\Dataverse\Licences();
+                $sx .= $Licences->index($d2,$d3,$d4);
+                break;
             case 'indicators':
                 $sx .= $this->indicators();
                 break;
@@ -78,6 +82,9 @@ class Index extends Model
         $menu[PATH . '/dados/dataverse/server'] = lang('dataverse.server') . ': ' . $server;
 
         $menu[PATH . '/dados/dataverse/indicators'] = lang('dataverse.indicators');
+
+        $menu['#CONFIGURATIONS'] = '';
+        $menu[PATH . '/dados/dataverse/licences'] = lang('dataverse.licences');
 
         $menu['#CHECKLIST'] = '';
         $menu[PATH . '/dados/dataverse/checklist_instalation'] = lang('dataverse.checklist_instalation');
@@ -132,6 +139,11 @@ class Index extends Model
         return $sx;
     }
 
+    function getServer()
+        {
+            return $this->server();
+        }
+
     function server($url = '')
     {
         if ($url != '') {
@@ -145,6 +157,11 @@ class Index extends Model
                 return '';
             }
         }
+    }
+
+    function getToken()
+    {
+        return $this->token();
     }
 
     function token($url = '')

@@ -40,26 +40,45 @@ class Licences extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index()
+	var $ver = '5.13';
+
+	function index($d1,$d2,$d3,$d4='')
 		{
-			
+			$sx = '';
+				$Dataverse = new \App\Models\Dataverse\Index();
+				$Server = $Dataverse->getServer();
+
+				if ($Server == '')
+					{
+						$sx = bsmessage('Defina a URL do servidor e sua APIKEY',3);
+						return $sx;
+					}
+
+				$sx .= 'Licences';
+				$sx = bs(bsc($sx));
+				switch($d1)
+					{
+						default:
+							$sx .= bs($this->getLicences($d1,$d2, $d3, ''));
+							break;
+					}
+				return $sx;
 		}
 
 	function licenses()
 		{
-			$url = 'https://guides.dataverse.org/en/5.10/_downloads/f150dcadc1fc593122640b9b68d8c620/';
-			
-			
+			$ver = '5.13';
+			$url = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/f150dcadc1fc593122640b9b68d8c620/';
 
-			$dt['CC0'] = 'https://guides.dataverse.org/en/5.10/_downloads/f150dcadc1fc593122640b9b68d8c620/licenseCC0-1.0.json';
-			$dt['CC-BY-4.0'] = 'https://guides.dataverse.org/en/5.10/_downloads/4272abc51bfe651a0a0a2d7b6551df55/licenseCC-BY-4.0.json';
-			$dt['CC-BY-SA-4.0'] = 'https://guides.dataverse.org/en/5.10/_downloads/333b4643bcb5b4ab72b4db8e94a5f3a3/licenseCC-BY-SA-4.0.json';
-			$dt['CC-BY-NC-4.0'] = 'https://guides.dataverse.org/en/5.10/_downloads/62ab2ded1364d7e074e284b1f1450dcc/licenseCC-BY-NC-4.0.json';
-			$dt['CC-BY-NC-SA-4.0'] = 'https://guides.dataverse.org/en/5.10/_downloads/71bbbcd33186634934801f88edf265f9/licenseCC-BY-NC-SA-4.0.json';
-			$dt['CC-BY-ND-4.0'] = 'https://guides.dataverse.org/en/5.10/_downloads/92fd9ab655dfb6f39e9fb59c0e8c58be/licenseCC-BY-ND-4.0.json';
-			$dt['CC-BY-NC-ND-4.0'] = 'https://guides.dataverse.org/en/5.10/_downloads/7de196929c5db0a7075073183204d3e9/licenseCC-BY-NC-ND-4.0.json';
+			$dt['CC0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/f150dcadc1fc593122640b9b68d8c620/licenseCC0-1.0.json';
+			$dt['CC-BY-4.0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/4272abc51bfe651a0a0a2d7b6551df55/licenseCC-BY-4.0.json';
+			$dt['CC-BY-SA-4.0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/333b4643bcb5b4ab72b4db8e94a5f3a3/licenseCC-BY-SA-4.0.json';
+			$dt['CC-BY-NC-4.0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/62ab2ded1364d7e074e284b1f1450dcc/licenseCC-BY-NC-4.0.json';
+			$dt['CC-BY-NC-SA-4.0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/71bbbcd33186634934801f88edf265f9/licenseCC-BY-NC-SA-4.0.json';
+			$dt['CC-BY-ND-4.0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/92fd9ab655dfb6f39e9fb59c0e8c58be/licenseCC-BY-ND-4.0.json';
+			$dt['CC-BY-NC-ND-4.0'] = 'https://guides.dataverse.org/en/'.$ver.'/_downloads/7de196929c5db0a7075073183204d3e9/licenseCC-BY-NC-ND-4.0.json';
 			return $dt;
-		}	
+		}
 
 
 	function getLicences($d1,$d2,$d3)
@@ -74,7 +93,7 @@ class Licences extends Model
 			$cmd = 'curl '.$url;
 			$txt = (array)json_decode($txt,true);
 
-			$link = '<a href="'.PATH.MODULE.'dataverse/licences/0/add" class="btn btn-outline-primary">'.lang('dataverse.licence_add').'</a>';
+			$link = '<a href="'.PATH.'/dados/dataverse/licences/add/0" class="btn btn-outline-primary">'.lang('dataverse.licence_add').'</a>';
 			$sx .= bsc($link,12);
 
 			$sx .= bsc(lang('dataverse.license'),2);
@@ -95,31 +114,31 @@ class Licences extends Model
 							$sx .= bsc('<img src="'.$line['iconUrl'].'" class="img-fluid">',1);
 							if ($line['active']==1)
 								{
-									$link = '<a href="'.PATH.MODULE.'dataverse/licences/'.$line['id'].'/setdesactive">';
+									$link = '<a href="'.PATH. '/dados/dataverse/licences/setdesactive/' . $line['id']. '">';
 									$linka = '</a>';
 									$sx .= bsc($link.bsicone('on').$linka,1);
 								} else {
-									$link = '<a href="'.PATH.MODULE.'dataverse/licences/'.$line['id'].'/setactive">';
-									$linka = '</a>';									
+									$link = '<a href="'.PATH. '/dados/dataverse/licences/setactive/' . $line['id'] . '">';
+									$linka = '</a>';
 									$sx .= bsc($link.bsicone('off').$linka,1);
 								}
 							if ($line['isDefault']==1)
 								{
 									$sx .= bsc(bsicone('on'),1);
 								} else {
-									$link = '<a href="'.PATH.MODULE.'dataverse/licences/'.$line['id'].'/setdefault">';
+									$link = '<a href="'.PATH. '/dados/dataverse/licences/setdefault/'.$line['id'].'">';
 									$linka = '</a>';
 									$sx .= bsc($link.bsicone('off').$linka,1);
 								}
 
-							$link = '<a href="'.PATH.MODULE.'dataverse/licences/'.$line['id'].'/trash">';
+							$link = '<a href="'.PATH. '/dados/dataverse/licences/trash/'.$line['id'].'">';
 							$linka = '</a>';
-							$sx .= bsc($link.bsicone('trash').$linka,1);								
-							
+							$sx .= bsc($link.bsicone('trash').$linka,1);
+
 						}
 				}
-			
-			switch($d3)
+
+			switch($d1)
 				{
 					case 'add':
 						$sx .= h(lang('dataverse.licence_add'),4);
@@ -128,12 +147,12 @@ class Licences extends Model
 
 					case 'addx':
 						$dt = $this->licenses();
-						$link = '<a href="https://guides.dataverse.org/en/5.10/installation/config.html#id117" target="_blank">'.'add-license.json'.'</a>';
-						
+						$link = '<a href="https://guides.dataverse.org/en/'.$this->ver.'/installation/config.html#id117" target="_blank">'.'add-license.json'.'</a>';
+
 						$F = explode('/',$dt[$d2]);
 
 						$url = $dt[$d2];
-						
+
 						$FILE = $F[count($F)-1];
 						$FILE = '@'.$FILE;
 						$cmd .= '<br>';
@@ -179,7 +198,7 @@ class Licences extends Model
 						$cmd .= 'curl -X PUT -H \'Content-Type: application/json\' -H X-Dataverse-key:$API_TOKEN $SERVER_URL/api/licenses/default/$ID'.'<br>';
 						$cmd .= '<br>';
 						break;
-					case 'setactive':						
+					case 'setactive':
 						$cmd = '<br>';
 						$cmd .= 'export API_TOKEN='.$Dataverse->token();
 						$cmd .= '<br>';
@@ -193,17 +212,24 @@ class Licences extends Model
 						$cmd = '<br>';
 						$cmd .= 'export API_TOKEN='.$Dataverse->token();
 						$cmd .= '<br>';
-						$cmd .= 'export SERVER_URL='.$Dataverse->server().'<br>';						
+						$cmd .= 'export SERVER_URL='.$Dataverse->server().'<br>';
 						$cmd .= 'export STATE=false'.'<br>';
 						$cmd .= 'export ID='.$d2.'<br>';
 						$cmd .= 'curl -X PUT -H \'Content-Type: application/json\' -H X-Dataverse-key:$API_TOKEN $SERVER_URL/api/licenses/$ID/:active/$STATE'.'<br>';
 						$cmd .= '<br>';
-						break;						
+						break;
 					default:
 						$sx .= bsc('Command: '.$d3,12);
 				}
 			if (strlen($cmd) > 0)
 				{
+					$Dataverse = new \App\Models\Dataverse\Index();
+					$server = $Dataverse->getServer();
+					$token = $Dataverse->getToken();
+
+					$cmd = troca($cmd,'$SERVER_URL',$server);
+					$cmd = troca($cmd, '$API_TOKEN', $token);
+					$cmd = troca($cmd, '$ID', $d2);
 					$sx .= bsc(h('dataverse.bash',4).'<code>'.$cmd.'</code>',12);
 				}
 			return $sx;
@@ -215,12 +241,12 @@ class Licences extends Model
 			$sx .= '<ul>';
 			foreach($dt as $licence => $url)
 				{
-					$link = '<a href="'.PATH.MODULE.'dataverse/licences/'.$licence.'/addx">';
+					$link = '<a href="'.PATH.'/dados/dataverse/licences/addx/'.$licence.'">';
 					$linka = '</a>';
 					$sx .= '<li>'.$link.$licence.$linka.'</li>';
 				}
 			$sx .= '</ul>';
 			$sx = bs(bsc($sx,12));
 			return $sx;
-		}	
+		}
 }
