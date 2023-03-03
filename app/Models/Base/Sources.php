@@ -79,6 +79,10 @@ class Sources extends Model
                 $sx = $this->list();
                 break;
 
+            case 'check':
+                $sx = $this->check($d2,$d3);
+                break;
+
             case 'menu':
                 $sx = $this->menu();
                 break;
@@ -122,6 +126,13 @@ class Sources extends Model
         return $sx;
     }
 
+    function check($id,$id2)
+        {
+            $Issue = new \App\Models\Base\Issues();
+            $sx = $Issue->check($id,$id2);
+            return $sx;
+        }
+
     function list()
         {
             $sx = '';
@@ -132,11 +143,16 @@ class Sources extends Model
 
             foreach($dt as $id=>$line)
                 {
-                    $link = anchor(PATH.'/v/'.$line['jnl_frbr'], $line['jnl_name']);
-                    $sx .= bsc($link,11);
+                    $link = anchor(PATH . '/v/' . $line['jnl_frbr'], $line['jnl_name']);
+                    $sx .= bsc($link,10);
+
+                    $link = anchor(PATH . '/journals/check/' . $line['jnl_frbr'], '(check)','target="_black" ');
+                    $sx .= bsc($link,1);
                     $sx .= bsc($line['year'], 1);
                 }
 
+            $link = anchor(PATH . '/journals/check/0/auto', '(checkall)', 'target="_black" ');
+            $sx .= $link;
             $sx = bs($sx);
             //pre($dt);
             return $sx;
