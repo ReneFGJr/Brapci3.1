@@ -79,6 +79,10 @@ class Sources extends Model
                 $sx = $this->list();
                 break;
 
+            case 'listb':
+                $sx = $this->list('b');
+                break;
+
             case 'check':
                 $sx = $this->check($d2,$d3);
                 break;
@@ -133,16 +137,36 @@ class Sources extends Model
             return $sx;
         }
 
-    function list()
+    function list($type='')
         {
             $sx = '';
+            switch($type)
+                {
+                    case 'b':
+                        $fld = 'year';
+                        $fldo = $fld.' DESC';
+                        break;
+                    default:
+                        $fld = 'jnl_name';
+                        $fldo = $fld;
+                        break;
+                }
+
             $dt = $this
-                ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl','left')
-                ->OrderBy('jnl_name')
+                ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl', 'left')
+                ->OrderBy($fldo)
                 ->findAll();
+
+            $xlb = '';
 
             foreach($dt as $id=>$line)
                 {
+                    $lb = $line[$fld];
+                    if (($type != '') and ($xlb != $lb))
+                        {
+                            $xlb = $lb;
+                            $sx .= h($xlb,4);
+                        }
                     $link = anchor(PATH . '/v/' . $line['jnl_frbr'], $line['jnl_name']);
                     $sx .= bsc($link,10);
 
@@ -298,6 +322,7 @@ class Sources extends Model
         $mod = '/source';
 
         $items['/journals/list/'] = lang('brapci.sources');
+        $items['/journals/listb/'] = lang('brapci.sources.lastpublications');
         if ($access)
             {
                 $items['/admin' . $mod . '/tableview'] = 'TableView';
