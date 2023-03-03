@@ -62,6 +62,12 @@ class Index extends Model
 				$Export = new \App\Models\PQ\Export();
 				$sx .= $Export->brapci();
 				break;
+
+			case 'import':
+				$CNPQ = new \App\Models\PQ\CNPQ();
+				$sx .= $CNPQ->crawler();
+				break;
+
 			case 'viewid':
 				$sx .= $this->subheader();
 				$sx .= $this->viewid($d2);
@@ -194,10 +200,15 @@ class Index extends Model
 		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_bolsas' . '">' . lang('pq.bolsista_list') . '</a></li>';
 		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_ano' . '">' . lang('pq.bolsista_ano_list') . '</a></li>';
 
-		$sx .= '<li><a href="http://memoria2.cnpq.br/bolsistas-vigentes" target="_new">' . lang('pq.bolsista_ativos_cnpq') . '</a></li>';
+		$sx .= '<li><a href="http://memoria2.cnpq.br/bolsistas-vigentes" target="_new">CNPq - ' . lang('pq.bolsista_ativos_cnpq') . '</a></li>';
+
+		$url = 'http://plsql1.cnpq.br/divulg/RESULTADO_PQ_102003.prc_comp_cmt_links?V_COD_DEMANDA=200310&V_TPO_RESULT=CURSO&V_COD_AREA_CONHEC=60700009&V_COD_CMT_ASSESSOR=AC';
+		$sx .= '<li><a href="'.$url.'" target="_new">CNPq - ' . lang('pq.bolsista_ativos_cnpq') . ' - Em Folha</a></li>';
+
 		if ($this->Socials->getAccess("#ADM")) {
 			$sx .= '<hr>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/export' . '">' . lang('pq.exportar') . '</a></li>';
+			$sx .= '<li><a href="' . PATH . MODULE . 'pq/import' . '">' . lang('pq.import') . '</a></li>';
 		}
 		$sx .= '</ul>';
 
