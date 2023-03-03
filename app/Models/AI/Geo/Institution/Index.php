@@ -44,6 +44,7 @@ class Index extends Model
         {
             $name = trim(uppercaseSQL($name));
             $uf = array('IBICT'=>'rj',
+            'UEL' => 'pr',
             'UFMG'=>'mg',
             'UFF'=>'rj',
             'UFSC'=>'sc',
@@ -66,7 +67,6 @@ class Index extends Model
             'UFC'=>'ce',
             'UFAL'=>'al',
             'UFS'=>'se',
-
             );
 
             if (isset($uf[$name]))
