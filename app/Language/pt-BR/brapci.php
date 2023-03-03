@@ -157,7 +157,7 @@ return [
         'event_type_RS' => 'Resumo',
         'event_type_CP' => 'Completo',
         'BolsasPQ'=>'Bolsa PQ',
-        'lastpublications'=>'Últimas edições'
+        'lastpublications'=>'Últimas edições',
         '' => '',
         '' => '',
         '' => '',
