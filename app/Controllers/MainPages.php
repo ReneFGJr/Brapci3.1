@@ -21,7 +21,7 @@ define("COLLECTION", '');
 class MainPages extends BaseController
 {
 
-    public function index($act = '', $subact = '', $id = '')
+    public function index($act = '', $subact = '', $id = '', $id2='')
     {
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Revistas';
@@ -47,6 +47,10 @@ class MainPages extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'journals':
+                $Sources = new \App\Models\Base\Sources();
+                $sx .= $Sources->index($subact, $id, $id2);
+                break;
             case 'mark':
                 $Mark = new \App\Models\Base\Mark();
                 $sx .= $Mark->index($subact, $id);

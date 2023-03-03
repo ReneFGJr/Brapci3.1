@@ -75,6 +75,10 @@ class Sources extends Model
                 $sx = $this->menu();
                 break;
 
+            case 'list':
+                $sx = $this->list();
+                break;
+
             case 'menu':
                 $sx = $this->menu();
                 break;
@@ -117,6 +121,22 @@ class Sources extends Model
         }
         return $sx;
     }
+
+    function list()
+        {
+            $sx = '';
+            $dt = $this
+                ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl')
+                ->OrderBy('jnl_name')
+                ->findAll();
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= bsc(h($line['jnl_name'],5),11);
+                    $sx .= bsc($line['year'], 1);
+                }
+            $sx = bs($sx);
+            return $sx;
+        }
 
 
     function source_list_block($type='EV')
@@ -251,17 +271,22 @@ class Sources extends Model
 
     function menu()
     {
+        $Socials = new \App\Models\Socials();
+        $access = $Socials->getAccess('#ADM#CAT');
         $sx = '';
         $items = array();
-        $mod = 'source';
-        $items['admin/' . $mod . '/tableview'] = 'TableView';
-        foreach ($items as $it => $tx) {
-            $link = '<a href="' . PATH . MODULE . $it . '">' . $tx . '</a>';
-            $sx .= '<li>' . $link . '</li>';
-        }
+        $mod = '/source';
 
-        $sx .= $this->resume();
-        $sx = bs(bsc($sx));
+        $items['/journals/list/'] = lang('brapci.sources');
+        if ($access)
+            {
+                $items['/admin' . $mod . '/tableview'] = 'TableView';
+            }
+
+        $sb = menu($items);
+        $sa = $this->resume();
+
+        $sx = bs(bsc($sa,4).bsc($sb,6));
         return $sx;
     }
 
