@@ -72,6 +72,9 @@ class Issues extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    var $path = '';
+    var $path_back = '';
+    var $id = 0;
 
     function index($act, $id)
     {

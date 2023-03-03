@@ -126,15 +126,19 @@ class Sources extends Model
         {
             $sx = '';
             $dt = $this
-                ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl')
+                ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl','left')
                 ->OrderBy('jnl_name')
                 ->findAll();
+
             foreach($dt as $id=>$line)
                 {
-                    $sx .= bsc(h($line['jnl_name'],5),11);
+                    $link = anchor(PATH.'/v/'.$line['jnl_frbr'], $line['jnl_name']);
+                    $sx .= bsc($link,11);
                     $sx .= bsc($line['year'], 1);
                 }
+
             $sx = bs($sx);
+            //pre($dt);
             return $sx;
         }
 
