@@ -106,7 +106,7 @@ class CNPQ extends Model
 
                     $dx = $Bolsas
                         ->where('bb_person', $idp)
-                        ->where('bs_start', $di)
+                        ->where('bs_finish', $df)
                         ->findAll();
                     if (count($dx) == 0) {
                         $Bolsas->set($db)->insert();
