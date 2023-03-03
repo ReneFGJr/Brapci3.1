@@ -43,9 +43,9 @@ class CNPQ extends Model
     function crawler()
     {
         $sx = '';
-        $Bolsistas = new \App\Models\Pq\Bolsistas();
-        $Bolsas = new \App\Models\Pq\Bolsas();
-        $Modalidades = new \App\Models\Pq\Modalidades();
+        $Bolsistas = new \App\Models\PQ\Bolsistas();
+        $Bolsas = new \App\Models\PQ\Bolsas();
+        $Modalidades = new \App\Models\PQ\Modalidades();
 
         $url = 'http://plsql1.cnpq.br/divulg/RESULTADO_PQ_102003.prc_comp_cmt_links?V_COD_DEMANDA=200310&V_TPO_RESULT=CURSO&V_COD_AREA_CONHEC=60700009&V_COD_CMT_ASSESSOR=AC';
         $txt = read_link($url);
