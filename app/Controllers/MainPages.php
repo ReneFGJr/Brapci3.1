@@ -29,6 +29,7 @@ class MainPages extends BaseController
         $data['bg'] = 'bg-primary';
         $data['bg_color'] = '#0000ff';
         $menu = array();
+        $menu[PATH . '/'] = lang('brapci.journals');
         $menu[PATH . '/books'] = lang('brapci.books');
         $menu[PATH . '/benancib'] = lang('brapci.benancib');
         //$menu[PATH . 'proceedings'] = lang('brapci.proceedings');
@@ -38,6 +39,7 @@ class MainPages extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
+        $sx .= view('Brapci/Headers/menu_journals');
 
         $q = get("q") . get("qs");
         if (strlen($q) > 0) {
@@ -203,6 +205,10 @@ class MainPages extends BaseController
         $class = $dt['concept']['c_class'];
 
         switch ($class) {
+            case 'Journal':
+                $vs = new \App\Models\Base\V();
+                $sx = $vs->v($id);
+                break;
             case 'Proceeding':
                 $Proceeding = new \App\Models\Base\Proceeding();
                 $sx = $Proceeding->v($id);

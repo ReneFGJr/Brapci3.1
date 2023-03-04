@@ -104,7 +104,7 @@ class Metadata extends Model
             return $dt;
         }
 
-    function metadata($meta)
+    function metadata($meta,$erros=false)
     {
         $RDF = new \App\Models\Rdf\RDF();
         $COVER = new \App\Models\Base\Cover();
@@ -286,11 +286,32 @@ class Metadata extends Model
                         break;
                     case 'hasPlace':
                         $this->lets('place',$value);
+                        break;
+                    case 'hasISSN':
+                        $this->let('ISSN', $valueO);
+                        break;
+                    case 'hasEmail':
+                        $this->let('email', $valueO);
+                        break;
+                    case 'hasCollection':
+                        $this->let('Collections', $value);
+                        break;
+                    case 'prefLabel':
+                        $this->lets('prefLabel', $valueO);
+                        break;
+                    case 'hasIssue':
+                        $this->let('ISSUE', $ddv1);
+                        break;
+                    case 'hasIdRegister':
+                        break;
                     default:
-                        //echo '==>'.$class.' == '.$valueO.'<br>';
+                        if ($erros == true)
+                        {
+                            echo '=Not identify class=>'.$class.' == []'. $value.'('.$ddv1.') [O]'.$valueO.'('.$ddv2.')<br>';
+                        }
+
                         break;
                 }
-                //echo '==>' . $class . ' == ' . $valueO . '<br>';
             }
         }
         $this->metadata['ID'] = $meta['concept']['id_cc'];
