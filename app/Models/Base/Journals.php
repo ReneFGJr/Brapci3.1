@@ -53,7 +53,7 @@ class Journals extends Model
 
         $mt = $Metadata->metadata($dt,true);
         $mt['source'] = $Source->where('jnl_frbr',$mt['ID'])->first();
-        $mt['cover'] = $Cover->image($mt['source']['id_jnl']);
+        $mt['cover'] = $Cover->image($mt['ID']);
         //pre($mt,false);
         $sx = view('Brapci/Base/Journal',$mt);
         return $sx;
