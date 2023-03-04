@@ -304,6 +304,9 @@ class Metadata extends Model
                         break;
                     case 'hasIdRegister':
                         break;
+                    case 'hasEditor':
+                        $this->let('Editor', anchor(PATH. '/autoridade/v/'.$ddv2,$value));
+                        break;
                     default:
                         if ($erros == true)
                         {
