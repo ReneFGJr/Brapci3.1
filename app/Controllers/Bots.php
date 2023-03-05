@@ -11,7 +11,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("COLLECTION", '/bots');
 define("PREFIX", '');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 define("VERSION_BOT", 'v0.23.01.11');
 
 class Bots extends BaseController
@@ -25,6 +25,29 @@ class Bots extends BaseController
         if ($act == 'patent') { $act = 'patente'; }
 
         switch ($act) {
+
+            case 'check':
+                $RDFCheck = new \App\Models\Rdf\RDFChecks();
+                switch($act2)
+                    {
+                        case 'Source':
+                            $sx .= $RDFCheck->check_library();
+                            break;
+
+                        case 'Remissives':
+                            $sx .= $RDFCheck->check_remissives();
+                            break;
+
+                        case 'Duplicate':
+                            $sx .= $RDFCheck->check_duplicate();
+                            break;
+
+                        case 'Person':
+                        $sx .= $RDFCheck->check_loop();
+                        $sx .= $RDFCheck->check_class('Person');
+                        return $sx;
+                    }
+                break;
 
             case 'export':
                 $Export = new \App\Models\Base\Export();
@@ -65,6 +88,14 @@ class Bots extends BaseController
                 $menu[PATH . COLLECTION . '/authority/checknames'] = lang('bots.authority.checknames');
                 $menu[PATH . COLLECTION . '/nlp/abstracts'] = lang('bots.authority.abstracts');
                 $menu[PATH . COLLECTION . '/nlp/titles'] = lang('bots.authority.titles');
+
+                $menu['#CHECK'] = lang('bots.check');
+                $menu[PATH . COLLECTION . '/check/Source'] = lang('bots.check.Source');
+                $menu[PATH . COLLECTION . '/check/Person'] = lang('bots.check.Person');
+                $menu[PATH . COLLECTION . '/check/Remissives'] = lang('bots.check.Remissives');
+                $menu[PATH . COLLECTION . '/check/Duplicate'] = lang('bots.check.Duplicate');
+
+                $menu[PATH . COLLECTION . '/nlp/affiliations'] = lang('bots.authority.affiliations');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');
                 $menu[PATH . COLLECTION . '/export'] = lang('bots.export');
                 $sx .= menu($menu);

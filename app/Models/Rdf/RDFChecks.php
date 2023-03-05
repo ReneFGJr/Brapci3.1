@@ -94,12 +94,59 @@ class RDFChecks extends Model
 			return $sx;
 		}
 
+	function check_library()
+		{
+			$sx = h('Checagem de Fontes (Library)',1);
+			$RDFData = new \App\Models\Rdf\RDFData();
+			$dt = $RDFData
+					->select('count(*) as total, d_library')
+					->where('d_library <> 0')
+					->groupBy('d_library')
+					->findAll();
+			foreach($dt as $ID=>$line)
+				{
+					$library = $line['d_library'];
+					$sql = "update rdf_data set d_library = 0 where d_library = $library";
+					$sx .= 'Update '.$library.'<br>';
+					$RDFData->query($sql);
+				}
+			$sx .= $this->btn_return();
+			return $sx;
+		}
+
+	function check_remissives()
+		{
+			$sx = '';
+			$RDFConcept = new \App\Models\Rdf\RDFConcept();
+			$RDFData = new \App\Models\Rdf\RDFData();
+			$dt =
+				$RDFConcept
+					->join('rdf_data','id_cc = d_r1')
+					->where('cc_use > 0')
+					->FindAll(100);
+			$data = [];
+			foreach($dt as $id=>$line)
+				{
+					$data['d_r1'] = $line['cc_use'];
+					$sx .= '<li>'.$line['id_cc'].'=>'.$line['cc_use'].'</li>';
+					$RDFData->set($data)->where('id_d',$line['id_d'])->update();
+				}
+
+			if (count($dt) > 0)
+				{
+					$sx .= metarefresh(PATH. '/bots/check/Remissives',2);
+				} else {
+					$sx .= h('FIM');
+					$sx .= $this->btn_return();
+				}
+			return $sx;
+		}
+
 	function check_duplicate()
 		{
 		/********************************************** Check RDF */
 		$RDFData = new \App\Models\Rdf\RDFData();
 		$sx = '';
-		$sx .= breadcrumbs(array('Home'=>PATH.MODULE,'RDF'=>PATH.MODULE.'rdf','Duplicate'=>'#'));
 		$sx .= '<h2>'.msg('rdf.Check_class_duplicate').'</h2>';
 		$sx .= '<ul>';
 		$sx .= '<li class="text-success">';
@@ -112,7 +159,7 @@ class RDFChecks extends Model
 			{
 				$sx .= bsmessage(lang("rdf.wait"),1);
 				$sx .= '<br/>';
-				$sx .= metarefresh(PATH.'/rdf/data/duplicate',5);
+				$sx .= metarefresh(PATH. '/bots/check/Duplicate',5);
 				$sx .= $this->btn_return();
 			} else {
 				$sx .= bsmessage(lang('rdf.rdf_check_ok'),2);
@@ -124,7 +171,7 @@ class RDFChecks extends Model
 
 	function btn_return()
 		{
-			$sx = '<a href="'.PATH.'/rdf" class="btn btn-outline-primary bt-2">'.lang('brapci.return').'</a>';
+			$sx = '<a href="'.PATH.'/bots" class="btn btn-outline-primary bt-2">'.lang('brapci.return').'</a>';
 			return $sx;
 		}
 
@@ -132,7 +179,6 @@ class RDFChecks extends Model
 		{
 			$RDF = new \App\Models\Rdf\RDF();
 			$sx = '';
-			$sx .= breadcrumbs(array('Home'=>PATH.MODULE,'RDF'=>PATH.MODULE.'rdf','Loop'=>'#'));
 			$sx .= h('Check Loop');
 			$this->select('
 				rdf_concept.id_cc as r0idc, rc1.id_cc as r1idc,rc2.id_cc as r2idc,
@@ -202,7 +248,7 @@ class RDFChecks extends Model
 		{
 			$AuthotityRDF = new \App\Models\Authority\AuthotityRDF();
 			$sx = '';
-			$sx .= breadcrumbs(array('Home'=>PATH.MODULE,'RDF'=>PATH.MODULE.'rdf',lang('rdf.Check_'.$class)=>'#'));
+			$sx .= breadcrumbs(array('Home'=>PATH.'/bots/check/Person/','RDF'=>PATH.'/bots/check/Person/',lang('rdf.Check_'.$class)=>'#'));
 
 			/*************************************** Etapa I */
 			$sx .= h('Method 1');

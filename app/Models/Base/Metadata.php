@@ -69,6 +69,20 @@ class Metadata extends Model
         return true;
     }
 
+    function let_array($class, $value, $array)
+    {
+        if (!isset($this->metadata[$class])) {
+            $this->metadata[$class] = array();
+        }
+        if (!isset($this->metadata[$class][$array])) {
+            $this->metadata[$class][$array] = '';
+        }
+        $vlr = $this->metadata[$class][$array];
+        $this->metadata[$class][$array] = trim($value);
+        return true;
+    }
+
+
     function lets($class, $value)
     {
         if (!isset($this->metadata[$class]))
@@ -149,6 +163,7 @@ class Metadata extends Model
                 $ddv1 = $line['d_r1'];
                 $ddv2 = $line['d_r2'];
 
+
                 switch ($class) {
                     case 'hasBookChapter':
                         if (isset($this->metadata['book']))
@@ -204,6 +219,7 @@ class Metadata extends Model
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a>';
                         $this->lets('authors', $name.'$');
                         $this->let('Authors', $value . ';' . $ddv2);
+                        $this->let('AuthorsOf', $ddv1);
                         break;
                     case 'hasOrganizator':
                         $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
@@ -298,6 +314,7 @@ class Metadata extends Model
                         break;
                     case 'prefLabel':
                         $this->lets('prefLabel', $valueO);
+                        $this->let_array('altLabels', $ddv1, $valueO);
                         break;
                     case 'hasIssue':
                         $this->let('ISSUE', $ddv1);
@@ -306,6 +323,22 @@ class Metadata extends Model
                         break;
                     case 'hasEditor':
                         $this->let('Editor', anchor(PATH. '/autoridade/v/'.$ddv2,$value));
+                        break;
+                    case 'affiliatedWith':
+                        $this->let('Affiliation', $ddv2, $value);
+                        $this->let_array('AffiliationR', $value, $ddv1);
+                        break;
+                    case 'hasGender':
+                        $this->lets('Gender', $value);
+                        break;
+                    case 'hiddenLabel':
+                        $this->let('hiddenLabel', $value);
+                        break;
+                    case 'acronym':
+                        $this->lets('Sigla', $value);
+                        break;
+                    case 'hasPicture':
+                        $this->let_array('Imagem', $valueO,$ddv1);
                         break;
                     default:
                         if ($erros == true)
@@ -318,6 +351,7 @@ class Metadata extends Model
             }
         }
         $this->metadata['ID'] = $meta['concept']['id_cc'];
+        //pre($this->metadata);
         return $this->metadata;
     }
 

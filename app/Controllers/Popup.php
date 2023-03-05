@@ -11,14 +11,14 @@ helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie'])
 $session = \Config\Services::session();
 
 define("URL", getenv("app.baseURL"));
-define("PATH", getenv("app.baseURL") . '/');
+define("PATH", getenv("app.baseURL"));
 define("MODULE", '');
 define("PREFIX", '');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 
 class Popup extends BaseController
 {
-    public function index($act = '')
+    public function index($act = '',$id='')
     {
         $data['page_title'] = 'Brapci - POPUP - ' . ucfirst($act);
         $data['bg'] = 'bg-pq';
@@ -26,6 +26,14 @@ class Popup extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
 
         switch ($act) {
+            case 'remissive':
+                $Socials = new \App\Models\Socials();
+                if ($Socials->getAccess("#ADM")) {
+                    $id .= get("id");
+                    $RDFRemissive = new \App\Models\RDF\RDFRemissive();
+                    $sx .= $RDFRemissive->edit($id);
+                }
+                break;
             case  'upload':
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM"))

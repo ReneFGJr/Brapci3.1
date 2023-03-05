@@ -45,6 +45,11 @@ class Index extends Model
             $sx = h(lang('tools.NLP'));
             switch($d1)
                 {
+                    case 'bot_affiliations':
+                        $Strings = new \App\Models\AI\NLP\Strings();
+                        $sx .= $Strings->check_next('CorporateBody');
+                        echo $sx;
+                        break;
                     case 'bot_titles':
                         $Titles = new \App\Models\AI\NLP\Titles();
                         $sx .= $Titles->check_next();

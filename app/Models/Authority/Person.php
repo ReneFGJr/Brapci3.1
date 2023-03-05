@@ -42,6 +42,167 @@ class Person extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function viewid($id)
+	{
+		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
+		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
+		$Metadata = new \App\Models\Base\Metadata();
+		$Affiliation = new \App\Models\Authority\Affiliation();
+
+		$RDF = new \App\Models\Rdf\RDF();
+		$da = $RDF->le($id);
+		if ($da['concept']['cc_use'] > 0)
+			{
+				if (get("redirect")!='')
+					{
+						echo "OPS - redirect ".$id.'<='.get('redirect');
+						exit;
+					}
+
+				$id2 = $da['concept']['cc_use'];
+				$sx = metarefresh(PATH.'/autoridade/v/'.$id2.'?redirec='.$id);
+				return $sx;
+			}
+
+		$dm = $Metadata->metadata($da, true);
+
+		$dm['edit'] = '';
+		$dm['edit'] = '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $id . '\',800,800);" class="handle">' . bsicone('list') . '</span>';
+
+		/*********************** Affiliation */
+		$dm['Affiliation'] = $Affiliation->show_list($dm);
+
+		$fld = array('Gender', 'Imagem');
+		foreach($fld as $idc=>$name)
+			{
+				if(!isset($dm[$name])) { $dm[$name] = ''; }
+			}
+
+		if ($dm['Imagem'] != '')
+			{
+				foreach($dm['Imagem'] as $id=>$path)
+					{
+						$dm['photo'] = '<img src="'.$path.'" class="img-thumb img-fluid">';
+					}
+			} else {
+				$dm['photo'] = $this->image($dm['Gender']);
+			}
+
+		$dm['data'] = $da['data'];
+		$dm['concept'] = $da['concept'];
+		$dm['vdata'] = $RDF->view_data($da);
+
+		//pre($dm);
+
+		$sx = view('Authority/Person', $dm);
+		return $sx;
+	}
+
+	function viewidX($id, $loop = 0)
+	{
+		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
+		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
+
+		$RDF = new \App\Models\Rdf\RDF();
+		$da = $RDF->le($id);
+
+		$use = $da['concept']['cc_use'];
+		if ($use > 0) {
+			if ($loop > 4) {
+				echo "OPS - Falhar geral LOOP";
+				exit;
+			}
+			return $this->viewid($use, ($loop++));
+		}
+
+		$name = $da['concept']['n_name'];
+		$idc = $da['concept']['id_cc'];
+
+		$dt = $this->where('a_brapci', $idc)->findAll();
+		if (count($dt) == 0) {
+			$dt['a_uri'] = '';
+			$dt['a_use'] = 0;
+			$dt['a_prefTerm'] = $name;
+			$dt['a_lattes'] = '';
+			$dt['a_orcid'] = '';
+			$dt['a_master'] = '';
+			$dt['a_brapci'] = $id;
+			$dt['a_genere'] = 'X';
+			$rsp = $AuthorityNames->insert($dt);
+			$this->check_id($id);
+		} else {
+			$dt = $dt[0];
+		}
+
+
+		/************************************************************* HEADER */
+		$tela = $this->person_header($dt, $da);
+
+		/******************************************** RECHECK */
+		if (get("act") == 'check') {
+			$tela .= $this->check_id($id);
+			return $tela;
+		}
+		if (get("act") == 'change') {
+			$tela .= $this->change_id($id);
+			return $tela;
+		}
+
+
+		/******************************************** CHANGE */
+		//$this->
+
+
+		/************************************************************* Lattes */
+		$link0 = $AuthotityIds->brapciID($dt['a_brapci']);
+
+		$link1 = '';
+
+		if ($dt['a_brapci'] != 0) {
+			$link = base_url(PATH . MODULE . '/index/lattes/import_lattes/' . trim($dt['a_lattes']) . '/');
+			$link2 = '<a href="' . $link . '" target="_new' . $dt['a_lattes'] . '">';
+			$link2 .= bsicone('import', 32);
+			$link2 .= '</a>';
+		} else {
+			$link2 = '';
+		}
+		//brapci_200x200.png
+
+		//} else {
+		//			$tela .= anchor(base_url(PATH . MODULE. '/admin/authority/findid/' . $dt['a_brapci']));
+
+		/****************** COLLABORATORS */
+		$Collaborators = new \App\Models\Authority\Collaboration();
+		$Collab = $Collaborators->collaborations($id);
+
+		$tela .= bs(bsc(trim($link0 . ' ' . $link1 . ' ' . $link2), 12));
+
+		/*************************************************** BRAPCI */
+		if (($dt['a_brapci'] == 0) and (strpos($dt['a_uri'], 'brapci.inf.br'))) {
+			$txt = $dt['a_uri'];
+			while (strpos(' ' . $txt, '/') > 0) {
+				$pos = strpos($txt, '/');
+				$txt = substr($txt, $pos + 1, strlen($txt));
+			}
+			$sql = "update " . $this->table . " set a_brapci = $txt where id_a = " . $id;
+			$this->query($sql);
+			$dt['a_brapci'] = $txt;
+		}
+		return $tela;
+	}
+
+	function PersonPublications($id)
+	{
+		$LattesProducao = new \App\Models\Lattes\LattesProducao();
+		$tela = $LattesProducao->producao($id);
+		/*
+			$RDF = new \App\Models\Rdf\RDF();
+			$dt = $RDF->le($id,0,'brapci');
+			$tela .= $RDF->view_data($dt);
+			*/
+		return $tela;
+	}
+
 function remissive($id)
 	{
 		$AuthotityRemissive = new \App\Models\Authority\AuthotityRemissive();
@@ -88,8 +249,6 @@ function remissive($id)
 		$sx .= bsc($sa,8);
 
 		/*********************************************** Photo */
-		$photo = $this->image($dt);
-		$sx .= bsc($photo,2);
 
 		$sx = bs($sx);
 		return $sx;
@@ -129,9 +288,16 @@ function btn_remissive($dt,$size=50)
 		}
 		return $sx;
 	}
+
 function image($dt)
 	{
-		$genere = $dt['a_genere'];
+		if (is_array($dt))
+			{
+				$genere = $dt['a_genere'];
+			} else {
+				$genere = substr($dt,0,1);
+			}
+
 
 		switch($genere)
 			{
@@ -268,112 +434,4 @@ function check_genere($dt,$da)
 	}
 
 
-function viewid($id,$loop=0)
-	{
-		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
-		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
-
-		$RDF = new \App\Models\Rdf\RDF();
-		$da = $RDF->le($id);
-
-		$use = $da['concept']['cc_use'];
-		if ($use > 0)
-			{
-				if ($loop > 4) { echo "OPS - Falhar geral LOOP"; exit;}
-				return $this->viewid($use,($loop++));
-			}
-
-		$name = $da['concept']['n_name'];
-		$idc = $da['concept']['id_cc'];
-
-		$dt = $this->where('a_brapci',$idc)->findAll();
-		if (count($dt) == 0)
-			{
-				$dt['a_uri'] = '';
-				$dt['a_use'] = 0;
-				$dt['a_prefTerm'] = $name;
-				$dt['a_lattes'] = '';
-				$dt['a_orcid'] = '';
-				$dt['a_master'] = '';
-				$dt['a_brapci'] = $id;
-				$dt['a_genere'] = 'X';
-				$rsp= $AuthorityNames->insert($dt);
-				$this->check_id($id);
-			} else {
-				$dt = $dt[0];
-			}
-
-
-		/************************************************************* HEADER */
-		$tela = $this->person_header($dt,$da);
-
-		/******************************************** RECHECK */
-		if (get("act") == 'check')
-			{
-				$tela .= $this->check_id($id);
-				return $tela;
-			}
-		if (get("act") == 'change')
-			{
-				$tela .= $this->change_id($id);
-				return $tela;
-			}
-
-
-		/******************************************** CHANGE */
-		//$this->
-
-
-		/************************************************************* Lattes */
-		$link0 = $AuthotityIds->brapciID($dt['a_brapci']);
-
-		$link1 = '';
-
-		if ($dt['a_brapci'] != 0)
-			{
-				$link = base_url(PATH .MODULE . '/index/lattes/import_lattes/' . trim($dt['a_lattes']) . '/');
-				$link2 = '<a href="' . $link . '" target="_new' . $dt['a_lattes'] . '">';
-				$link2 .= bsicone('import',32);
-				$link2 .= '</a>';
-			} else {
-				$link2 = '';
-			}
-			//brapci_200x200.png
-
-		//} else {
-//			$tela .= anchor(base_url(PATH . MODULE. '/admin/authority/findid/' . $dt['a_brapci']));
-
-		/****************** COLLABORATORS */
-		$Collaborators = new \App\Models\Authority\Collaboration();
-		$Collab = $Collaborators->collaborations($id);
-
-		$tela .= bs(bsc(trim($link0.' '.$link1.' '.$link2),12));
-
-		/*************************************************** BRAPCI */
-		if (($dt['a_brapci'] == 0) and (strpos($dt['a_uri'],'brapci.inf.br')))
-			{
-				$txt = $dt['a_uri'];
-				while (strpos(' '.$txt,'/') > 0)
-					{
-						$pos = strpos($txt,'/');
-						$txt = substr($txt,$pos+1,strlen($txt));
-					}
-				$sql = "update ".$this->table." set a_brapci = $txt where id_a = ".$id;
-				$this->query($sql);
-				$dt['a_brapci'] = $txt;
-			}
-		return $tela;
-	}
-
-	function PersonPublications($id)
-		{
-			$LattesProducao = new \App\Models\Lattes\LattesProducao();
-			$tela = $LattesProducao->producao($id);
-			/*
-			$RDF = new \App\Models\Rdf\RDF();
-			$dt = $RDF->le($id,0,'brapci');
-			$tela .= $RDF->view_data($dt);
-			*/
-			return $tela;
-		}
 }

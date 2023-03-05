@@ -15,7 +15,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 define("COLLECTION", '/benancib');
 
 class Benancib extends BaseController

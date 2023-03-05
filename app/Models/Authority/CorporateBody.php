@@ -52,7 +52,39 @@ class CorporateBody extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function viewid($id)
+	function v($idv)
+	{
+		$AuthotityIds = new \App\Models\Authority\AuthotityIds();
+		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
+		$Metadata = new \App\Models\Base\Metadata();
+		$Affiliation = new \App\Models\Authority\Affiliation();
+
+		$RDF = new \App\Models\Rdf\RDF();
+		$da = $RDF->le($idv);
+
+		$dm = $Metadata->metadata($da, true);
+
+		$aff = [];
+		foreach ($dm['AffiliationR'] as $id => $name) {
+			$Name = strip_tags($RDF->c($id));
+			$aff[$Name] = $id;
+		}
+		ksort($aff);
+		$Aff = '';
+		foreach($aff as $name=>$id)
+			{
+				$Aff .= '<li>'.anchor(PATH.'/autoridade/v/'.$id,$name).'</li>';
+			}
+		$dm['Aff'] = $Aff;
+
+		$dm['logo'] = '';
+		$dm['edit'] = '';
+		$dm['edit'] = '<span onclick="newwin(\''.PATH.'/popup/remissive/'.$idv.'\',800,800);" class="handle">'.bsicone('list').'</span>';
+		$sx = view('Authority/CorporateBody', $dm);
+		return $sx;
+	}
+
+	function viewidx($id)
 	{
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
 		$Brapci = new \App\Models\Brapci\Brapci();

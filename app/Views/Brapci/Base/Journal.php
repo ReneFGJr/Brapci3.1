@@ -1,12 +1,12 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <?= h($source['jnl_name'] . $links, 1); ?>
+            <?= h($source['jnl_name'], 1, 'm-0'); ?>
         </div>
         <div class="col-6">
-            <?= h($source['jnl_name_abrev'], 6); ?>
-            <p>ISSN: <?= $source['jnl_issn']; ?> <?= $source['jnl_eissn']; ?> </p>
-            <p>Publicação de: <?= $source['jnl_ano_inicio'] . '-' . $source['jnl_ano_final']; ?></p>
+            <?= h($source['jnl_name_abrev'] . $links,6, 'm-0 mb-3'); ?>
+            <p class="m-0">ISSN: <?= $source['jnl_issn']; ?> <?= $source['jnl_eissn']; ?> </p>
+            <p class="m-0">Publicação de: <?= $source['jnl_ano_inicio'] . '-' . $source['jnl_ano_final']; ?></p>
 
         </div>
         <div class="col-4">

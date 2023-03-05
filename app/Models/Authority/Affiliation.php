@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Base;
+namespace App\Models\Authority;
 
 use CodeIgniter\Model;
 
-class Journals extends Model
+class Affiliation extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'journals';
+    protected $table            = 'affiliations';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -40,30 +40,27 @@ class Journals extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function v($dt)
-    {
-        $RDF = new \App\Models\Rdf\RDF();
-        $Cover = new \App\Models\Base\Cover();
-        $Source = new \App\Models\Base\Sources();
-        $Metadata = new \App\Models\Base\Metadata();
-        if (!is_array($dt)) {
-            $dt = round($dt);
-            $dt = $RDF->le($dt);
-        }
-
-        $mt = $Metadata->metadata($dt,true);
-        $mt['source'] = $Source->where('jnl_frbr',$mt['ID'])->first();
-        $mt['cover'] = $Cover->cover($mt['source']['id_jnl']);
-        $z = ['Collections'];
-        foreach($z as $id=>$name)
-            {
-                if (!isset($mt[$name]))
-                    {
-                        $mt[$name] = [];
-                    }
+    function show_list($dm)
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $rsp = array();
+            if (isset($dm['Affiliation']))
+                {
+                    foreach($dm['Affiliation'] as $id=>$ida)
+                        {
+                            $da = $RDF->le($ida);
+                            $name = $da['concept']['n_name'];
+                            $rsp[$name] = $ida;
+                        }
+                }
+            $sx = '';
+            foreach($rsp as $name=>$id)
+                {
+                    $sx .= '<li>'.anchor(PATH. '/autoridade/v/'.$id,$name). '</li>';
+                }
+            if ($sx != '') {
+                $sx .= '. ';
             }
-        //pre($mt,false);
-        $sx = view('Brapci/Base/Journal',$mt);
-        return $sx;
-    }
+            return $sx;
+        }
 }

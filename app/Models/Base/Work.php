@@ -71,11 +71,9 @@ class Work extends Model
         $RDF = new \App\Models\Rdf\RDF();
 
         $class = $dt['concept']['c_class'];
+        //echo '==>'.$class;
         switch($class)
             {
-                case 'Proceedings':
-                    echo "==========";
-                    break;
                 case 'BookChapter':
                     $bookID = $RDF->extract($dt, 'hasBookChapter');
                     /* DAdos do Livro */
@@ -91,7 +89,7 @@ class Work extends Model
                 break;
             }
         $da['class'] = $class;
-        //pre($da);
+
         /************************************************** Midias Sociais */
         $da['id_cc'] = $idc;
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);

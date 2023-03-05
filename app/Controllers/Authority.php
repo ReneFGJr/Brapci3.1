@@ -18,14 +18,29 @@ class Authority extends BaseController
     public function index($act = '', $subact = '', $id = '', $id2 = '')
     {
         $Authority = new \App\Models\Authority\Index();
-        $data['page_title'] = '[Authority] Brapci Dados de Pesquisa';
-        $data['bg'] = 'bg-authority';
 
+        $data['page_title'] = 'Brapci-Autoridades';
+        $data['GOOGLEID'] = 'UA-12713129-1';
+        $data['bg'] = 'bg-authority';
+        $data['bg_color'] = '#0000ff';
+        $menu = array();
+        $menu[PATH . '/'] = lang('brapci.journals');
+        $menu[PATH . '/books'] = lang('brapci.books');
+        $menu[PATH . '/benancib'] = lang('brapci.benancib');
+        $menu[PATH . '/autoridade'] = lang('brapci.autorities');
+
+        $data['menu'] = $menu;
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-        $sx .= view('Ai/Header/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
+        //$sx .= view('Brapci/Headers/menu_authorities');
 
         switch ($act) {
+
+            case 'v':
+                $V = new \App\Models\Base\V();
+                $sx .= $V->v($subact);
+                break;
 
             default:
                 $sx .= $Authority->index($act, $subact, $id, $id2);

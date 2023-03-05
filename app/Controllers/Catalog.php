@@ -12,7 +12,7 @@ define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("COLLECTION", '/catalog');
 define("PREFIX", '');
 define("MODULE", 'catalog');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 
 class Catalog extends BaseController
 {

@@ -67,6 +67,18 @@ class Cover extends Model
             return $img;
         }
 
+    function cover($jnl=0)
+        {
+            $img = '_repository/cover/cover_issue_'.strzero($jnl,4).'.jpg';
+            if (file_exists($img))
+                {
+                    return PATH.'/'.$img;
+                } else {
+                    $img = '_repository/cover/cover_issue_' . strzero(0, 4) . '.jpg';
+                    return PATH . '/' . $img;
+                }
+        }
+
     function image($id='')
     {
         $RDF = new \App\Models\Rdf\RDF();

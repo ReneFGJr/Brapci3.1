@@ -15,7 +15,7 @@ define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("MODULE", '');
 define("PREFIX", '');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 define("COLLECTION", '');
 
 class MainPages extends BaseController
@@ -222,8 +222,8 @@ class MainPages extends BaseController
                 $sx = $Book->v($id);
                 break;
             case 'Person':
-                $Authority = new \App\Models\Authority\Index();
-                $sx = $Authority->index('viewidRDF', $id);
+                $vs = new \App\Models\Base\V();
+                $sx = $vs->v($id);
                 break;
             case 'journal':
                 $sx = $RDF->journal($id);

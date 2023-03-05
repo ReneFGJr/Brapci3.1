@@ -457,8 +457,11 @@ class RDFExport extends Model
 							}
 						break;
 					case 'Issue':
-						$name = $dta['issue_name'][0];
-						$this->saveRDF($id, $name, 'Issue.name');
+						if(isset($dta['issue_name']))
+							{
+								$name = $dta['issue_name'][0];
+								$this->saveRDF($id, $name, 'Issue.name');
+							}
 						break;
 					default:
 						echo "OPS SAVE TYPE $type";

@@ -15,7 +15,7 @@ define("PATH", getenv("app.baseURL") . '/');
 define("MODULE", '');
 define("PREFIX", '');
 define("COLLECTION", 'admin');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 
 class Admin extends BaseController
 {

@@ -81,9 +81,8 @@ class Index extends Model
 				$dt = $this->where('id_a',$d2)->first();
 				$sx .= $this->Person->viewid($dt['a_brapci']);
 				break;
-			case 'viewidRDF':
-				$this->Person = new \App\Models\Authority\Person();
-				$sx .= $this->Person->viewid($d2);
+			case 'v':
+				$sx .= $this->v($d2);
 				break;
 			case 'list':
 				$sx .= $this->tableview();
@@ -115,6 +114,14 @@ class Index extends Model
 		$sx = bs($sx);
 		return $sx;
 	}
+
+	function v($id)
+		{
+			$sx = '';
+			$this->Person = new \App\Models\Authority\Person();
+			$sx .= $this->Person->viewid($id);
+			return $sx;
+		}
 
 	function findId($id)
 		{

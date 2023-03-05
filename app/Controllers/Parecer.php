@@ -12,7 +12,7 @@ define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("COLLECTION", '/parecer');
 define("MODULE", 'parecer');
 define("PREFIX", '');
-define("LIBRARY", '1000');
+define("LIBRARY", '0000');
 
 class Parecer extends BaseController
 {

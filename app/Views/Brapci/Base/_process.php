@@ -23,8 +23,8 @@ foreach ($Authors as $id => $name) {
         $name[1] = 0;
     }
     if ($name[1] > 0) {
-        $authors .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '<br>';
-        $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';
+        $authors .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '<br>';
+        $authorsLN .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '; ';
     } else {
         $authors .= $name . '<br>';
         $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';

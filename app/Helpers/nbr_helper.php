@@ -58,6 +58,7 @@ function nbr_title($t)
 
 function nbr_author($xa,$xp)
     {
+        if (trim($xa) == '') { return ""; }
         if (mb_detect_encoding($xa) != 'UTF-8')
         {
             $xa = utf8_encode($xa);
