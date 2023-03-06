@@ -114,9 +114,18 @@ require("_process.php");
                     ?>
                 </div>
 
+                <?php
+                    if (isset($Fulltext))
+                        {
+                            pre($Fulltext,false);;
+                        }
+                ?>
+
                 <div class="col-12 mt-3" style="background-color: #fff;">
                     <?= $reference; ?>
                 </div>
+
+
 
             </div>
         </div>

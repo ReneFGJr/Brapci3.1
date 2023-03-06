@@ -344,6 +344,9 @@ class Metadata extends Model
                     case 'hasPicture':
                         $this->let_array('Imagem', $valueO,$ddv1);
                         break;
+                    case 'Fulltext':
+                        $this->let_array('Fulltext', $valueO, $ddv1);
+                        break;
                     default:
                         if ($erros == true)
                         {
