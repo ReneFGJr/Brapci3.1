@@ -115,9 +115,12 @@ require("_process.php");
                 </div>
 
                 <?php
-                echo "FULLTEXT";
-                foreach ($Fulltext as $id => $txt) {
-                    echo $txt;
+
+                if (isset($Fulltext)) {
+                    echo "FULLTEXT";
+                    foreach ($Fulltext as $id => $txt) {
+                        echo $txt;
+                    }
                 }
                 ?>
             </div>
