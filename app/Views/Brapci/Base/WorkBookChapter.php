@@ -7,9 +7,9 @@ require("_process.php");
         <div class="col-12">
             <?php
             $bread = array();
-            $bread[lang('book.books')] = PATH.COLLECTION;
-            $bread[$title] = PATH . COLLECTION.'/v/'.$ID;
-            echo breadcrumbs($bread);?>
+            $bread[lang('book.books')] = PATH . COLLECTION;
+            $bread[$title] = PATH . COLLECTION . '/v/' . $ID;
+            echo breadcrumbs($bread); ?>
         </div>
     </div>
     <div class="row">
@@ -112,16 +112,14 @@ require("_process.php");
                     <?php
                     }
                     ?>
-                </div>
 
-                <?php
+                    <?php
                     echo "FULLTEXT";
-                    if (isset($Fulltext))
-                        {
-                            pre($Fulltext,false);
-                        }
-                ?>
-
+                    if (isset($Fulltext)) {
+                        pre($Fulltext, false);
+                    }
+                    ?>
+                </div>
                 <div class="col-12 mt-3" style="background-color: #fff;">
                     <?= $reference; ?>
                 </div>
