@@ -112,21 +112,22 @@ require("_process.php");
                     <?php
                     }
                     ?>
-
-                    <?php
-                    echo "FULLTEXT";
-                    if (isset($Fulltext)) {
-                        pre($Fulltext, false);
-                    }
-                    ?>
-                </div>
-                <div class="col-12 mt-3" style="background-color: #fff;">
-                    <?= $reference; ?>
                 </div>
 
-
-
+                <?php
+                echo "FULLTEXT";
+                foreach ($Fulltext as $id => $txt) {
+                    echo $txt;
+                }
+                ?>
             </div>
+            <div class="col-12 mt-3" style="background-color: #fff;">
+                <?= $reference; ?>
+            </div>
+
+
+
+
         </div>
         <!------------------------------------------------ RIGHT --->
         <div class="col-3">
