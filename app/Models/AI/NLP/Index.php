@@ -71,6 +71,11 @@ class Index extends Model
                     case 'email':
                         $sx .= $this->email();
                         break;
+                    case 'fulltext':
+                        $FULL = new \App\Models\AI\NLP\Fulltext();
+                        $sx .= $FULL->show_form();
+                        //$sx .= $FULL->train();
+                        break;
                     default:
                         $sx .= $this->menu();
                         $sx .= $d1;

@@ -66,9 +66,8 @@ class RDFLiteral extends Model
 				$data['n_name'] = $name;
 				$data['n_lock'] = 0;
 				$data['n_lang'] = $lg;
-				$this->insert($data);
-				$dt = $this->where('n_name', $name)->First();
-				return $dt['id_n'];
+				$id = $this->insert($data);
+				return $id;
 			} else {
 				return 0;
 			}

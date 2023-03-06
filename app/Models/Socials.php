@@ -227,10 +227,6 @@ class Socials extends Model
 				$sx .= breadcrumbs($bread);
 				$sx .= $this->perfis_add($id, $dt);
 				break;
-			case 'profile':
-				$sx .= $cab;
-				$sx .= $this->perfil_list();
-				break;
 			case 'view':
 				$sx .= h("Usuários - View", 1);
 				$this->id = $id;

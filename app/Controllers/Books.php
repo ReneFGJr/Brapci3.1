@@ -39,7 +39,7 @@ class Books extends BaseController
             case 'a':
                 $RDF = new \App\Models\Rdf\RDF();
                 $Socials = new \App\Models\Socials();
-                $cat = $Socials->getAccess("#ADM#CAT");
+                $cat = $Socials->getAccess("#ADM#CAT#BOK");
                 $sx .= bs(bsc(anchor(PATH.COLLECTION.'/v/'.$subact,lang('brapci.return')),12));
                 if ($cat == true)
                     {
