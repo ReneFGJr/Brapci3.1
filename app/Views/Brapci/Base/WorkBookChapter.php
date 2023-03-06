@@ -115,9 +115,10 @@ require("_process.php");
                 </div>
 
                 <?php
+                    echo "FILL";
                     if (isset($Fulltext))
                         {
-                            pre($Fulltext,false);;
+                            pre($Fulltext,false);
                         }
                 ?>
 
