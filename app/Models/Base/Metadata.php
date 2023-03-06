@@ -328,6 +328,10 @@ class Metadata extends Model
                         $this->let('Affiliation', $ddv2, $value);
                         $this->let_array('AffiliationR', $value, $ddv1);
                         break;
+                    case 'hasAffiliation':
+                        $this->let('Affiliation', $ddv2, $value);
+                        $this->let_array('AffiliationR', $value, $ddv1);
+                        break;
                     case 'hasGender':
                         $this->lets('Gender', $value);
                         break;
