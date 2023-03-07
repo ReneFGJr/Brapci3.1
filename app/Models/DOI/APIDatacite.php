@@ -49,6 +49,7 @@ class APIDatacite extends Model
             if (count($dt) == 0)
                 {
                     $url = 'https://api.datacite.org/dois/' . $nDOI;
+
                     $json = read_link($url);
                     $sta = (array)json_decode($json);
                     if (isset($sta['errors']))
@@ -60,6 +61,10 @@ class APIDatacite extends Model
                                     echo h('DOI: '.$nDOI,3);
                                     echo $line['status'].' = '.$line['title'];
                                     echo '<hr>';
+
+                                    $dt['pi_id'] = $nDOI;
+                                    $DOI->set($dt)->insert();
+                                    $sx = metarefresh('');
                                 }
                             exit;
                         }

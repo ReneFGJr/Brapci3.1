@@ -47,6 +47,9 @@ $routes->get('/download/(:any)', 'Download::download/$1');
 $routes->get('/bibliofind', 'Bibliofind::index');
 $routes->get('/bibliofind/(:any)', 'Bibliofind::index/$1');
 
+/*********** DOI */
+$routes->get('/doi/(:any)', 'Doi::index/$1');
+
 /********** BOTS */
 $routes->get('/bots', 'Bots::index');
 $routes->get('/bots/(:any)', 'Bots::index/$1');

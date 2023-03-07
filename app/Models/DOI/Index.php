@@ -15,7 +15,7 @@ class Index extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_pi ','pi_id', 'pi_url',
+        'id_pi ', 'pi_id', 'pi_url',
         'pi_json', 'pi_active', 'pi_status',
         'pi_citation', 'pi_creators', 'pi_title',
         'updated_at'
@@ -46,38 +46,36 @@ class Index extends Model
     protected $afterDelete    = [];
 
     function register_json($dtj)
-        {
-            $dt = (array)json_decode($dtj);
+    {
+        $dt = (array)json_decode($dtj);
 
-            $dt = (array($dt['data']));
-            foreach($dt as $idd=>$data)
-                {
-                    $dta = array();
-                    $dta['pi_json'] = $dtj;
-                    $dta['pi_id'] = $data->id;
-                    $dta['pi_title'] = $data->attributes->titles[0]->title;
-                    $dta['pi_creators'] = '';
-                    $authors = $data->attributes->creators;
-                    foreach($authors as $ida=>$auth)
-                        {
-                            if ($dta['pi_creators'] != '') { $dta['pi_creators'] .= '; '; }
-                            $dta['pi_creators'] .= (string)$auth->name;
-                        };
-                    $dta['pi_url'] = $data->attributes->url;
-                    $dta['pi_status'] = $data->attributes->state;
-                    $dta['pi_active'] = $data->attributes->isActive;
-                    $dta['updated_at'] = date("Y-m-d H:i:s");
-
-                    $dtr = $this->where('pi_id',$dta['pi_id'])->findAll();
-                    if (count($dtr) == 0)
-                        {
-                            $this->set($dta)->insert();
-                            $dtr = $this->where('pi_id', $dta['pi_id'])->findAll();
-                        }
+        $dt = (array($dt['data']));
+        foreach ($dt as $idd => $data) {
+            $dta = array();
+            $dta['pi_json'] = $dtj;
+            $dta['pi_id'] = $data->id;
+            $dta['pi_title'] = $data->attributes->titles[0]->title;
+            $dta['pi_creators'] = '';
+            $authors = $data->attributes->creators;
+            foreach ($authors as $ida => $auth) {
+                if ($dta['pi_creators'] != '') {
+                    $dta['pi_creators'] .= '; ';
                 }
-            return $dta;
+                $dta['pi_creators'] .= (string)$auth->name;
+            };
+            $dta['pi_url'] = $data->attributes->url;
+            $dta['pi_status'] = $data->attributes->state;
+            $dta['pi_active'] = $data->attributes->isActive;
+            $dta['updated_at'] = date("Y-m-d H:i:s");
 
+            $dtr = $this->where('pi_id', $dta['pi_id'])->findAll();
+            if (count($dtr) == 0) {
+                $this->set($dta)->insert();
+                $dtr = $this->where('pi_id', $dta['pi_id'])->findAll();
+            }
         }
+        return $dta;
+    }
 
     function recover_metadata($doi = '')
     {
@@ -87,15 +85,13 @@ class Index extends Model
         return $dt;
     }
 
-    function tombstone($d1='',$d2='', $d3 ='', $d4 ='', $d5 = '')
-        {
-            $sx = '';
-            if (($d1 != '') and ($d2 != ''))
-                {
-                    $DOI = $d1.'/'.$d2;
-                    if (strlen($d3) != '')
-                        {
-                            $DOI .= '/'.$d3;
+    function tombstone($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
+    {
+        $sx = '';
+        if (($d1 != '') and ($d2 != '')) {
+            $DOI = $d1 . '/' . $d2;
+            if (strlen($d3) != '') {
+                $DOI .= '/' . $d3;
 
                 if (strlen($d4) != '') {
                     $DOI .= '/' . $d4;
@@ -104,18 +100,34 @@ class Index extends Model
                 if (strlen($d5) != '') {
                     $DOI .= '/' . $d5;
                 }
-                        }
-                    $data = array();
-                    $data = $this->recover_metadata($DOI);
-                    $sx = view('DOI/tombstone', $data);
-                }
-            if (($d1 != '') and ($d2 == '')) {
-                $data = array();
-                $d1 = sonumero($d1);
-                $data = $this->find($d1);
-                $sx = view('DOI/tombstone', $data);
             }
 
-            return $sx;
+            $dt = $this->where('pi_id', $DOI)->first();
+
+            if ($dt != '') {
+
+            } else {
+                $dt['pi_url'] = PATH.'/doi/'.$DOI;
+                $dt['pi_id'] = $DOI;
+                $dt['pi_json'] = '';
+                $dt['pi_active'] = 0;
+                $dt['pi_status'] = 1;
+                $dt['pi_citation'] = '';
+                $dt['pi_title'] = '';
+                $dt['pi_creators'] = '';
+
+                $data = $this->recover_metadata($DOI);
+            }
+
+            $sx = view('DOI/tombstone', $dt);
         }
+        if (($d1 != '') and ($d2 == '')) {
+            $data = array();
+            $d1 = sonumero($d1);
+            $data = $this->find($d1);
+            $sx = view('DOI/tombstone', $data);
+        }
+
+        return $sx;
+    }
 }

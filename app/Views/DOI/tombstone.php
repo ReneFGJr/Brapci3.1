@@ -15,7 +15,7 @@ echo view('Brapci/Headers/header', $data);
             <h3><?= $pi_title; ?></h3>
             <p>Ativo: <?= lang('doi.active_' . $pi_active); ?></p>
             <p>Situação: <?= $pi_status; ?></p>
-            <p>URL: <?= anchor($pi_url); ?></p>
+            <p>URL: <?= ($pi_url); ?></p>
         </div>
     </div>
 </div>
