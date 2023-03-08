@@ -65,25 +65,24 @@ class LattesProducaoEvento extends Model
 	}
 
 	function natureza($nat)
-		{
-			switch($nat)
-				{
-					case 'COMPLETO':
-						$nat = 'CP';
-						break;
-					case 'RESUMO':
-						$nat = 'RS';
-						break;
-					case 'RESUMO_EXPANDIDO':
-						$nat = 'RE';
-						break;
-					default:
-						echo '==>'.$nat;
-						exit;
-						break;
-				}
-				return $nat;
+	{
+		switch ($nat) {
+			case 'COMPLETO':
+				$nat = 'CP';
+				break;
+			case 'RESUMO':
+				$nat = 'RS';
+				break;
+			case 'RESUMO_EXPANDIDO':
+				$nat = 'RE';
+				break;
+			default:
+				echo '==>' . $nat;
+				exit;
+				break;
 		}
+		return $nat;
+	}
 
 	function resume($id)
 	{
@@ -101,20 +100,21 @@ class LattesProducaoEvento extends Model
 	{
 		$tela = '';
 		$dt = $this->where('le_author', $id)
-				->orderBy('le_natureza, le_seq, le_ano', 'desc')
-				->findAll();
+			->orderBy('le_natureza, le_seq, le_ano', 'desc')
+			->findAll();
 		$sxt = '';
 		$tela .= '<ol>';
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			$xt = $line['le_natureza'];
-			if ($xt != $sxt)
-				{
-					if (strlen($tela) > 0) { $tela .= '</ol>'; }
-					$tela .= h(lang('brapci.event_type_'.$line['le_natureza']),3);
-					$tela .= '<ol>';
-					$sxt = $xt;
+			if ($xt != $sxt) {
+				if (strlen($tela) > 0) {
+					$tela .= '</ol>';
 				}
+				$tela .= h(lang('brapci.event_type_' . $line['le_natureza']), 3);
+				$tela .= '<ol>';
+				$sxt = $xt;
+			}
 
 			$tela .= '<li>' . $line['le_authors'] . '. ' . $line['le_title'] . '. ';
 			$tela .= '<b>' . $line['le_journal'] . '</b>';
@@ -144,80 +144,81 @@ class LattesProducaoEvento extends Model
 
 		$xml = (array)$xml;
 		$prod = (array)$xml['PRODUCAO-BIBLIOGRAFICA'];
-		$arti = (array)$prod['TRABALHOS-EM-EVENTOS'];
-		$arti = (array)$arti['TRABALHO-EM-EVENTOS'];
+		if (isset($prod['TRABALHOS-EM-EVENTOS'])) {
+			$arti = (array)$prod['TRABALHOS-EM-EVENTOS'];
+			$arti = (array)$arti['TRABALHO-EM-EVENTOS'];
 
-		for ($r = 0; $r < count($arti); $r++) {
-			if (!isset($arti[0]))
-				{
+			for ($r = 0; $r < count($arti); $r++) {
+				if (!isset($arti[0])) {
 					$art2[0] = $arti;
 					$arti = array();
 					$arti = $art2;
 				}
-			$line = (array)$arti[$r];
-			$attr = $line['@attributes'];
+				$line = (array)$arti[$r];
+				$attr = $line['@attributes'];
 
-			$dados = (array)$line['DADOS-BASICOS-DO-TRABALHO'];
-			$dados = (array)$dados['@attributes'];
-			$p = array();
-			$p['le_author'] = $id;
-			$p['le_brapci_rdf'] = 0;
-			$p['le_ano'] = $dados['ANO-DO-TRABALHO'];
-			$p['le_doi'] = $dados['DOI'];
-			$p['le_title'] = $dados['TITULO-DO-TRABALHO'];
-			$p['le_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
-			$p['le_lang'] = $Lang->code($dados['IDIOMA']);
-			$p['le_country'] = $dados['PAIS-DO-EVENTO'];
-			$p['le_seq'] = $attr['SEQUENCIA-PRODUCAO'];
+				$dados = (array)$line['DADOS-BASICOS-DO-TRABALHO'];
+				$dados = (array)$dados['@attributes'];
+				$p = array();
+				$p['le_author'] = $id;
+				$p['le_brapci_rdf'] = 0;
+				$p['le_ano'] = $dados['ANO-DO-TRABALHO'];
+				$p['le_doi'] = $dados['DOI'];
+				$p['le_title'] = $dados['TITULO-DO-TRABALHO'];
+				$p['le_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
+				$p['le_lang'] = $Lang->code($dados['IDIOMA']);
+				$p['le_country'] = $dados['PAIS-DO-EVENTO'];
+				$p['le_seq'] = $attr['SEQUENCIA-PRODUCAO'];
 
-			$deta = (array)$line['DETALHAMENTO-DO-TRABALHO'];
-			$deta = (array)$deta['@attributes'];
+				$deta = (array)$line['DETALHAMENTO-DO-TRABALHO'];
+				$deta = (array)$deta['@attributes'];
 
-			$p['le_event'] = $deta['NOME-DO-EVENTO'];
-			$p['le_isbn'] = $deta['ISBN'];
-			$vl = trim($deta['VOLUME']);
-			$nr = trim($deta['FASCICULO']);
-			if ($vl != '') {
-				$vl = 'v. ' . $vl;
-			}
-			if ($nr != '') {
-				$nr = 'n. ' . $nr;
-			}
-			$p['le_place'] = $deta['CIDADE-DO-EVENTO'];
-			$p['le_vol'] = $vl;
-			$p['le_nr'] = $nr;
-
-			$p['le_natureza'] = $this->natureza($dados['NATUREZA']);
-
-			/****************** AUTHORES */
-			$auth = (array)$line['AUTORES'];
-			$authn = '';
-			if (count($auth) == 1) {
-				$autx = $auth;
-				$auth = array();
-				array_push($auth, $autx);
-			}
-
-			for ($ar = 0; $ar < count($auth); $ar++) {
-				$aaa = (array)$auth[$ar];
-				$authp = $aaa['@attributes'];
-				if (strlen($authn) > 0) {
-					$authn .= '; ';
+				$p['le_event'] = $deta['NOME-DO-EVENTO'];
+				$p['le_isbn'] = $deta['ISBN'];
+				$vl = trim($deta['VOLUME']);
+				$nr = trim($deta['FASCICULO']);
+				if ($vl != '') {
+					$vl = 'v. ' . $vl;
 				}
-				$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
-				$authn .= nbr_author($nome, 1);
-			}
-			$p['le_authors'] = $authn;
-			$p['le_author_total'] = count($auth);
+				if ($nr != '') {
+					$nr = 'n. ' . $nr;
+				}
+				$p['le_place'] = $deta['CIDADE-DO-EVENTO'];
+				$p['le_vol'] = $vl;
+				$p['le_nr'] = $nr;
 
-			$rst = $this->where('le_author', $id)
-				->where('le_title', $p['le_title'])
-				->where('le_ano', $p['le_ano'])
-				->where('le_event', substr($p['le_event'],0,250))
-				->findAll();
+				$p['le_natureza'] = $this->natureza($dados['NATUREZA']);
 
-			if (count($rst) == 0) {
-				$this->insert($p);
+				/****************** AUTHORES */
+				$auth = (array)$line['AUTORES'];
+				$authn = '';
+				if (count($auth) == 1) {
+					$autx = $auth;
+					$auth = array();
+					array_push($auth, $autx);
+				}
+
+				for ($ar = 0; $ar < count($auth); $ar++) {
+					$aaa = (array)$auth[$ar];
+					$authp = $aaa['@attributes'];
+					if (strlen($authn) > 0) {
+						$authn .= '; ';
+					}
+					$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
+					$authn .= nbr_author($nome, 1);
+				}
+				$p['le_authors'] = $authn;
+				$p['le_author_total'] = count($auth);
+
+				$rst = $this->where('le_author', $id)
+					->where('le_title', $p['le_title'])
+					->where('le_ano', $p['le_ano'])
+					->where('le_event', substr($p['le_event'], 0, 250))
+					->findAll();
+
+				if (count($rst) == 0) {
+					$this->insert($p);
+				}
 			}
 		}
 		return 'ok';
