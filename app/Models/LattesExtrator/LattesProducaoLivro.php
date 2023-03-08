@@ -134,7 +134,7 @@ class LattesProducaoLivro extends Model
 					$p['lv_author'] = $id;
 					$p['lv_brapci_rdf'] = 0;
 					$p['lv_ano'] = $dados['ANO'];
-					if (isset($p['lv_doi']))
+					if (isset($dados['DOI']))
 						{
 							$p['lv_doi'] = $dados['DOI'];
 						} else {
