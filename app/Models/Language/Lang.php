@@ -81,6 +81,7 @@ class Lang extends Model
 					case 'pt_br':
 						return 'por';
 					default:
+						return "ot";
 						//return 'xx';
 						echo 'OPS language ['.$x.']'.$x;
 						exit;
