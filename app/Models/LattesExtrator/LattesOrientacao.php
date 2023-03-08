@@ -268,7 +268,11 @@ class LattesOrientacao extends Model
 
 			$p['lo_pais'] = $dados['PAIS'];
 			$p['lo_lang'] = $Lang->code($dados['IDIOMA']);
-			$p['lo_doi'] = $dados['DOI'];
+			if (isset($dados['DOI'])) {
+				$p['lo_doi'] = $dados['DOI'];
+			} else {
+				$p['lo_doi'] = '';
+			}
 
 			/***************************** Parte II */
 			$dados = (array)$line[$tp2];
