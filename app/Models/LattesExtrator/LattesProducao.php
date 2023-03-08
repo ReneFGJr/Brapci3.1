@@ -177,7 +177,11 @@ class LattesProducao extends Model
 				$p['lp_author'] = $id;
 				$p['lp_brapci_rdf'] = 0;
 				$p['lp_ano'] = $dados['ANO-DO-ARTIGO'];
-				$p['lp_doi'] = $dados['DOI'];
+				if (isset($dados['DOI'])) {
+					$p['lp_doi'] = $dados['DOI'];
+				} else {
+					$p['lp_doi'] = '';
+				}
 				$p['lp_title'] = $dados['TITULO-DO-ARTIGO'];
 				$p['lp_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
 				$p['lp_lang'] = $Lang->code($dados['IDIOMA']);
