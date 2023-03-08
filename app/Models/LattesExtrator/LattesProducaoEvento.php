@@ -163,7 +163,11 @@ class LattesProducaoEvento extends Model
 				$p['le_author'] = $id;
 				$p['le_brapci_rdf'] = 0;
 				$p['le_ano'] = $dados['ANO-DO-TRABALHO'];
-				$p['le_doi'] = $dados['DOI'];
+				if (isset($dados['DOI'])) {
+					$p['le_doi'] = $dados['DOI'];
+				} else {
+					$p['le_doi'] = '';
+				}
 				$p['le_title'] = $dados['TITULO-DO-TRABALHO'];
 				$p['le_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
 				$p['le_lang'] = $Lang->code($dados['IDIOMA']);
