@@ -115,11 +115,23 @@ require("_process.php");
                 </div>
 
                 <?php
-
-                if (isset($Fulltext)) {
+                if (isset($Chapter)) {
                     echo "FULLTEXT";
-                    foreach ($Fulltext as $id => $txt) {
-                        echo $txt;
+                    $FullText = (array)$Chapter['Fulltext'];
+                    foreach ($FullText as $id => $txt) {
+                        $ln = explode(chr(13),$txt);
+                        $n = 0;
+                        $more = '';
+                        foreach($ln as $id=>$l)
+                            {
+                                if ($n < 4)
+                                    {
+                                        echo '<p class="text-justify">'.$l.'</p>';
+                                    } else {
+                                        $more .= '<p>' . $l . '</p>';
+                                    }
+                                $n++;
+                            }
                     }
                 }
                 ?>
