@@ -49,7 +49,7 @@ class ProjectsHarvestingXml extends Model
             ->where('hx_project', $prj)
             ->groupBy('hx_status')
             ->findAll();
-        $sta = array(0, 0, 0, 0, 0, 0, 0);
+        $sta = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
             $sta[$line['hx_status']] = $line['total'];
