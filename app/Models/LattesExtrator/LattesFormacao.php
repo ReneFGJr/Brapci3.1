@@ -292,6 +292,8 @@ class LattesFormacao extends Model
 				if (isset($curs['CODIGO-CURSO-CAPES']))
 					{
 						$dt['f_ppg'] = $curs['CODIGO-CURSO-CAPES'];
+					} else {
+						$dt['f_ppg'] = '0000000000';
 					}
 				$dt['f_ano_fim'] = $curs['ANO-DE-CONCLUSAO'];
 				$this->register($id, $dt);
