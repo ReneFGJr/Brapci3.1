@@ -123,7 +123,7 @@ class Index extends Model
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
             } else {
-                $sx .= '<br>File $file_xml OK';
+                $sx .= "<br>File $file_xml OK";
             }
 
             /* PHASE V ****************** Recupera dados do Pesquisador *****/
