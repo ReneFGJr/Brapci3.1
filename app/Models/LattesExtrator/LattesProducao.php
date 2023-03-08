@@ -163,6 +163,10 @@ class LattesProducao extends Model
 		$arti = (array)$arti['ARTIGO-PUBLICADO'];
 
 		for ($r = 0; $r < count($arti); $r++) {
+			if (!isset($arti[$r]))
+			{
+				pre($arti);
+			}
 			$line = (array)$arti[$r];
 			$attr = $line['@attributes'];
 
