@@ -98,6 +98,7 @@ class Index extends Model
                 if (strlen($txt) == 0)
                     {
                         echo "ERRO: o arquivo está vazio";
+                        echo '<br/>'.$url;
                         exit;
                     }
 
