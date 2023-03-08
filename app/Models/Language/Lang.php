@@ -45,6 +45,9 @@ class Lang extends Model
 			$x = ascii(mb_strtolower($x));
 			switch($x)
 				{
+					case 'bretao':
+						return 'bt';
+						break;
 					case 'italiano':
 						return 'it';
 						break;
