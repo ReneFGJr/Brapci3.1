@@ -136,7 +136,7 @@ class LattesProducaoCapitulo extends Model
 						$p['lvc_brapci_rdf'] = 0;
 						$p['lvc_ano'] = $dados['ANO'];
 						$p['lvc_doi'] = $dados['DOI'];
-						if (isset($p['DOI'])) {
+						if (isset($dados['DOI'])) {
 							$p['lvc_doi'] = $dados['DOI'];
 						} else {
 							$p['lvc_doi'] = '';
