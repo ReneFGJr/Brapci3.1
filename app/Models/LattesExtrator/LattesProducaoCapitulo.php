@@ -136,6 +136,11 @@ class LattesProducaoCapitulo extends Model
 						$p['lvc_brapci_rdf'] = 0;
 						$p['lvc_ano'] = $dados['ANO'];
 						$p['lvc_doi'] = $dados['DOI'];
+						if (isset($p['DOI'])) {
+							$p['lvc_doi'] = $dados['DOI'];
+						} else {
+							$p['lvc_doi'] = '';
+						}
 						$p['lvc_title'] = $dados['TITULO-DO-CAPITULO-DO-LIVRO'];
 						$p['lvc_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
 						$p['lvc_lang'] = $Lang->code($dados['IDIOMA']);
