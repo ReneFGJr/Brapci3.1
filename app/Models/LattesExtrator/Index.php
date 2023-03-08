@@ -97,8 +97,16 @@ class Index extends Model
 
                 if (strlen($txt) == 0)
                     {
+                        $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
                         echo "ERRO: o arquivo está vazio";
                         echo '<br/>'.$url;
+
+                        $dt = array();
+                        $dt['hx_name'] = "#ERRO";
+                        $dt['hx_updated'] = date("Y-m-d");
+                        $dt['updated_at'] = date("Y-m-d H:i:s");
+                        $dt['hx_status'] = 9;
+                        $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
                         return "";
                         exit;
                     }
