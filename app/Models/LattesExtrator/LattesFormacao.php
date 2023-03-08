@@ -287,7 +287,13 @@ class LattesFormacao extends Model
 					$dt['f_orientador_lattes'] = '';
 				} else {
 					$dt['f_orientador'] = $curs['NOME-COMPLETO-DO-ORIENTADOR'];
-					$dt['f_orientador_lattes'] = $curs['NUMERO-ID-ORIENTADOR'];
+					if (isset($curs['NUMERO-ID-ORIENTADOR']))
+						{
+							$dt['f_orientador_lattes'] = $curs['NUMERO-ID-ORIENTADOR'];
+						} else {
+							$dt['f_orientador_lattes'] = '000000000000';
+						}
+
 				}
 				if (isset($curs['CODIGO-CURSO-CAPES']))
 					{
