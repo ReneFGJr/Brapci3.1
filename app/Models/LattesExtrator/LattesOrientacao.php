@@ -291,7 +291,11 @@ class LattesOrientacao extends Model
 			$p['lo_orientando'] = $dados['NOME-DO-ORIENTADO'];
 			$p['lo_instituicao'] = $dados['CODIGO-INSTITUICAO'];
 			$p['lo_ppg'] = $dados['CODIGO-CURSO'];
-			$p['lo_orientado_lattes'] = $dados['NUMERO-ID-ORIENTADO'];
+			if (isset($dados['NUMERO-ID-ORIENTADO'])) {
+				$p['lo_orientado_lattes'] = $dados['NUMERO-ID-ORIENTADO'];
+			} else {
+				$p['lo_orientado_lattes'] = '';
+			}
 
 			$LattesInstituicao->instituicao($dados['CODIGO-INSTITUICAO'], 'PPG ' . $dados['NOME-DO-CURSO']);
 			$LattesInstituicao->instituicao($dados['CODIGO-CURSO'], $dados['NOME-DA-INSTITUICAO']);
