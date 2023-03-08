@@ -89,7 +89,7 @@ class Index extends Model
             $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q=' . trim($id);
             if (!$this->fileNameUpdated($id)) {
                 $data = array();
-                echo 'Harvesting '.$id.cr();
+                echo 'Harvesting '.$id.'<br>'.cr();
                 $txt = file_get_contents($url);
                 dircheck("../.tmp");
                 dircheck("../.tmp/Zip");
@@ -99,6 +99,7 @@ class Index extends Model
                     {
                         echo "ERRO: o arquivo está vazio";
                         echo '<br/>'.$url;
+                        return "";
                         exit;
                     }
 
