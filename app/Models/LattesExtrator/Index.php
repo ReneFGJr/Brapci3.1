@@ -106,7 +106,7 @@ class Index extends Model
                         $dt['hx_updated'] = date("Y-m-d");
                         $dt['updated_at'] = date("Y-m-d H:i:s");
                         $dt['hx_status'] = 9;
-                        $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+                        $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id)->update();
                         return "";
                         exit;
                     }
