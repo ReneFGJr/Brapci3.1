@@ -51,6 +51,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $dataverse = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'dataverse',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $click = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -383,6 +403,9 @@ class Database extends Config
 
         $this->persistent_indicador['username'] = getenv('database.default.username');
         $this->persistent_indicador['password'] = getenv('database.default.password');
+
+        $this->dataverse['username'] = getenv('database.default.username');
+        $this->dataverse['password'] = getenv('database.default.password');
 
 
     }

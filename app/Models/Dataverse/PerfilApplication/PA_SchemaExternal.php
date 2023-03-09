@@ -1,20 +1,28 @@
 <?php
 
-namespace App\Models\Dataverse;
+namespace App\Models\Dataverse\PerfilApplication;
 
 use CodeIgniter\Model;
 
-class ApplicationPerfil extends Model
+class PA_SchemaExternal extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'applicationperfils';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'dataverse';
+    protected $table            = 'dataverse_tsv_schema';
+    protected $primaryKey       = 'id_mt';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_mt','mt_name','mt_dataverseAlias',
+        'mt_displayName','mt_blockURI'
+    ];
+
+    protected $typeFields    = [
+        'hidden','string:100*','string:100',
+        'string:100','string:100'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -40,18 +48,20 @@ class ApplicationPerfil extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1,$d2,$d3)
+    function index($d1,$d2,$d3,$d4)
         {
             $sx = '';
-
+            $sx .= breadcrumbs();
             switch($d1)
                 {
                     default:
-                        $PASchema = new \App\Models\Dataverse\PerfilApplication\PA_Schema();
-                        $sx = $PASchema->index($d2,$d3);
-                        break;
+                    $sx .= $this->help();
                 }
-            $sx = bs(bsc($sx,12));
             return $sx;
+        }
+    function help()
+        {
+$sx = '';
+$sx .= '';
         }
 }

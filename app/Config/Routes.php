@@ -107,6 +107,9 @@ $routes->post('/crawler/(:any)', 'Crawler::index/$1');
 $routes->post('/crawler/(:any)/(:any)', 'Crawler::index/$1/$2');
 
 /********* DADOS */
+$routes->get('/data', 'Dados::index');
+$routes->get('/dataverse', 'Dados::index/dataverse');
+$routes->get('/dataverse/(:any)', 'Dados::index/dataverse/(:any)');
 $routes->get('/dados', 'Dados::index');
 $routes->get('/dados/(:any)', 'Dados::index/$1');
 $routes->get('/dados/(:any)/(:any)', 'DAdos::index/$1/$2');
