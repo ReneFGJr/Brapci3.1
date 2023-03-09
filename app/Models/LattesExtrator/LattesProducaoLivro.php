@@ -241,6 +241,9 @@ class LattesProducaoLivro extends Model
 			case 'CATALOGO':
 				return "CT";
 				break;
+			case 'ENCICLOPEDIA':
+				return "EY";
+				break;
 			default:
 				echo "NATUREZA LIVRO: $t";
 				exit;
