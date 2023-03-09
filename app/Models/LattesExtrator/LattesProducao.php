@@ -157,83 +157,85 @@ class LattesProducao extends Model
 		$xml = (array)simplexml_load_file($file);
 
 		$xml = (array)$xml;
-		$prod = (array)$xml['PRODUCAO-BIBLIOGRAFICA'];
-		if (isset($prod['ARTIGOS-PUBLICADOS'])) {
-			$arti = (array)$prod['ARTIGOS-PUBLICADOS'];
-			$arti = (array)$arti['ARTIGO-PUBLICADO'];
+		if (isset($xml['PRODUCAO-BIBLIOGRAFICA'])) {
+			$prod = (array)$xml['PRODUCAO-BIBLIOGRAFICA'];
+			if (isset($prod['ARTIGOS-PUBLICADOS'])) {
+				$arti = (array)$prod['ARTIGOS-PUBLICADOS'];
+				$arti = (array)$arti['ARTIGO-PUBLICADO'];
 
-			for ($r = 0; $r < count($arti); $r++) {
-				if (!isset($arti[$r])) {
-					$artx = $arti;
-					$arti = [];
-					$arti[0] = $artx;
-				}
-				$line = (array)$arti[$r];
-				$attr = $line['@attributes'];
-
-				$dados = (array)$line['DADOS-BASICOS-DO-ARTIGO'];
-				$dados = (array)$dados['@attributes'];
-				$p = array();
-				$p['lp_author'] = $id;
-				$p['lp_brapci_rdf'] = 0;
-				$p['lp_ano'] = $dados['ANO-DO-ARTIGO'];
-				if (isset($dados['DOI'])) {
-					$p['lp_doi'] = $dados['DOI'];
-				} else {
-					$p['lp_doi'] = '';
-				}
-				$p['lp_title'] = $dados['TITULO-DO-ARTIGO'];
-				$p['lp_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
-				$p['lp_lang'] = $Lang->code($dados['IDIOMA']);
-				$p['lp_natureza'] = substr($dados['NATUREZA'], 0, 1);
-				$p['lp_seq'] = $attr['SEQUENCIA-PRODUCAO'];
-
-				$deta = (array)$line['DETALHAMENTO-DO-ARTIGO'];
-				$deta = (array)$deta['@attributes'];
-
-				$p['lp_journal'] = $deta['TITULO-DO-PERIODICO-OU-REVISTA'];
-				$p['lp_issn'] = $deta['ISSN'];
-				$vl = trim($deta['VOLUME']);
-				$nr = trim($deta['FASCICULO']);
-				if ($vl != '') {
-					$vl = 'v. ' . $vl;
-				}
-				if ($nr != '') {
-					$nr = 'n. ' . $nr;
-				}
-				$p['lp_place'] = $deta['LOCAL-DE-PUBLICACAO'];
-				$p['lp_vol'] = $vl;
-				$p['lp_nr'] = $nr;
-
-				/****************** AUTHORES */
-				$auth = (array)$line['AUTORES'];
-				$authn = '';
-				if (count($auth) == 1) {
-					$autx = $auth;
-					$auth = array();
-					array_push($auth, $autx);
-				}
-
-				for ($ar = 0; $ar < count($auth); $ar++) {
-					$aaa = (array)$auth[$ar];
-					$authp = $aaa['@attributes'];
-					if (strlen($authn) > 0) {
-						$authn .= '; ';
+				for ($r = 0; $r < count($arti); $r++) {
+					if (!isset($arti[$r])) {
+						$artx = $arti;
+						$arti = [];
+						$arti[0] = $artx;
 					}
-					$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
-					$authn .= nbr_author($nome, 1);
-				}
-				$p['lp_authors'] = $authn;
-				$p['lp_author_total'] = count($auth);
+					$line = (array)$arti[$r];
+					$attr = $line['@attributes'];
 
-				$rst = $this->where('lp_author', $id)
-					->where('lp_title', $p['lp_title'])
-					->where('lp_ano', $p['lp_ano'])
-					->where('lp_journal', $p['lp_journal'])
-					->findAll();
+					$dados = (array)$line['DADOS-BASICOS-DO-ARTIGO'];
+					$dados = (array)$dados['@attributes'];
+					$p = array();
+					$p['lp_author'] = $id;
+					$p['lp_brapci_rdf'] = 0;
+					$p['lp_ano'] = $dados['ANO-DO-ARTIGO'];
+					if (isset($dados['DOI'])) {
+						$p['lp_doi'] = $dados['DOI'];
+					} else {
+						$p['lp_doi'] = '';
+					}
+					$p['lp_title'] = $dados['TITULO-DO-ARTIGO'];
+					$p['lp_url'] = $dados['HOME-PAGE-DO-TRABALHO'];
+					$p['lp_lang'] = $Lang->code($dados['IDIOMA']);
+					$p['lp_natureza'] = substr($dados['NATUREZA'], 0, 1);
+					$p['lp_seq'] = $attr['SEQUENCIA-PRODUCAO'];
 
-				if (count($rst) == 0) {
-					$this->insert($p);
+					$deta = (array)$line['DETALHAMENTO-DO-ARTIGO'];
+					$deta = (array)$deta['@attributes'];
+
+					$p['lp_journal'] = $deta['TITULO-DO-PERIODICO-OU-REVISTA'];
+					$p['lp_issn'] = $deta['ISSN'];
+					$vl = trim($deta['VOLUME']);
+					$nr = trim($deta['FASCICULO']);
+					if ($vl != '') {
+						$vl = 'v. ' . $vl;
+					}
+					if ($nr != '') {
+						$nr = 'n. ' . $nr;
+					}
+					$p['lp_place'] = $deta['LOCAL-DE-PUBLICACAO'];
+					$p['lp_vol'] = $vl;
+					$p['lp_nr'] = $nr;
+
+					/****************** AUTHORES */
+					$auth = (array)$line['AUTORES'];
+					$authn = '';
+					if (count($auth) == 1) {
+						$autx = $auth;
+						$auth = array();
+						array_push($auth, $autx);
+					}
+
+					for ($ar = 0; $ar < count($auth); $ar++) {
+						$aaa = (array)$auth[$ar];
+						$authp = $aaa['@attributes'];
+						if (strlen($authn) > 0) {
+							$authn .= '; ';
+						}
+						$nome = (string)$authp['NOME-COMPLETO-DO-AUTOR'];
+						$authn .= nbr_author($nome, 1);
+					}
+					$p['lp_authors'] = $authn;
+					$p['lp_author_total'] = count($auth);
+
+					$rst = $this->where('lp_author', $id)
+						->where('lp_title', $p['lp_title'])
+						->where('lp_ano', $p['lp_ano'])
+						->where('lp_journal', $p['lp_journal'])
+						->findAll();
+
+					if (count($rst) == 0) {
+						$this->insert($p);
+					}
 				}
 			}
 		}
