@@ -88,6 +88,11 @@ class Index extends Model
                             $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
                             $txt = $LattesFormacao->csv($d2);
                         break;
+
+                        case '3':
+                            $LattesProducaoEvento = new \App\Models\LattesExtrator\LattesProducaoEvento();
+                            $txt = $LattesProducaoEvento->csv($d2);
+                            break;
                     }
                 if ($ok==1)
                     {
@@ -313,6 +318,7 @@ class Index extends Model
             $sx = h(lang('brapci.export'),3);
             $sx .= '<ul>';
             $sx .= '<li>'.anchor(PATH.'tools/project/api/'.$prj.'/lattes/export/1',lang('brapci.lattes_articles')).'</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/3', lang('brapci.lattes_events')) . '</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('brapci.lattes_formacao')) . '</li>';
             $sx .= '</ul>';
             return $sx;
