@@ -131,6 +131,29 @@ class Projects extends Model
                 $sx .= bsc($sc,3);
             }
 
+        $sql = "select * from brapci_tools.projects_members
+                    inner join brapci_tools.projects ON id_prj = pm_prj
+                    where pm_user = $user order by prj_title";
+        $rlt = $this->db->query($sql);
+        $dt = $rlt->getresult();
+
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = (array)$dt[$r];
+
+            $link = PATH . COLLECTION . '/project/select/' . $line['id_prj'];
+            $txt = 'brapci.select';
+            $sc = '' . cr();
+            $sc .= '<div class="p-2" style="width: 100%; min-height: 200px; position: relative; border: 2px solid #3333; border-radius: 5px;">';
+            $sc .= '<b>' . $line['prj_title'] . '</b>';
+            $sc .= '<p style="font-size: 0.7em;">' . $line['prj_description'] . '</p>';
+            $sc .= '<div style="position:absolute; bottom: 0px;">';
+            $sc .= '<a href="' . $link . '" class="mb-2 btn btn-primary" style="width: 100%;">' . lang($txt) . '</a>';
+            $sc .= '</div>';
+            $sc .= '</div>' . cr();
+            //prj_description
+            $sx .= bsc($sc, 3);
+        }
+
         $link = PATH . COLLECTION . '/project/edit/0';
         $txt = 'brapci.project_new';
         $sc = '' . cr();
