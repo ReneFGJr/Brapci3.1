@@ -129,8 +129,10 @@ class Work extends Model
         /************************************************** Botoes de Edição */
         $da['edit'] = '==>'. $Socials->getAccess("#ADM#CAT#ENA");
         if ($Socials->getAccess("#ADM#CAT#ENA")) {
+            $img_ia = '<img src="'.URL.'/img/icons/logo_brapci_ia.svg" height="28" title="IA Brapci Process">';
             $da['edit'] = '<a href="' . PATH . COLLECTION . '/a/' . $dt['concept']['id_cc'] . '">' . bsicone('edit', 32) . '</a>';
             $da['edit'] .= '<a href="#" onclick="if (confirm(\'Confirma exclusão\')) { newwin(\'' . PATH . '/rdf/concept/exclude/' . $dt['concept']['id_cc'] . '\',600,300); }" style="color: red;" class="ms-2">' . bsicone('del', 32) . '</a>';
+            $da['edit'] .= '<a href="' . PATH . COLLECTION . '/a/' . $dt['concept']['id_cc'] . '">' . $img_ia . '</a>';
             $sc .= $RDF->view_data($dt);
         }
 

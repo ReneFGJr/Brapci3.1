@@ -100,10 +100,7 @@ require("_process.php");
             echo '</td>';
 
             echo '<td>';
-            $Socials = new \App\Models\Socials();
-            if ($Socials->getAccess("#ADM#BOK#CAT")) {
-                echo '<a style="display: inline;" href="' . PATH . COLLECTION . '/a/' . $id_cc . '">' . bsicone('edit', 32) . '</a>';
-            }
+            echo $edit;
             echo '</td>';
 
             echo '</tr>';
