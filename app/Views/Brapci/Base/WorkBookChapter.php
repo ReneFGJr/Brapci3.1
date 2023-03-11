@@ -120,7 +120,7 @@ require("_process.php");
                         {
                             $FullText = (array)$Chapter['Fulltext'];
                         } else {
-                            $FullText = '';
+                            $FullText = [];
                         }
 
                     foreach ($FullText as $id => $txt) {
