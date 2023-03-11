@@ -28,7 +28,6 @@ class Books extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('BrapciBooks/Headers/navbar', $data);
 
-
         $q = get("query");
         if (strlen($q) > 0) {
             $act = 'search';

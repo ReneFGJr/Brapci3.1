@@ -116,8 +116,13 @@ require("_process.php");
 
                 <?php
                 if (isset($Chapter)) {
-                    echo "FULLTEXT";
-                    $FullText = (array)$Chapter['Fulltext'];
+                    if (isset($Chapter['Fulltext']))
+                        {
+                            $FullText = (array)$Chapter['Fulltext'];
+                        } else {
+                            $FullText = '';
+                        }
+
                     foreach ($FullText as $id => $txt) {
                         $ln = explode(chr(13),$txt);
                         $n = 0;
