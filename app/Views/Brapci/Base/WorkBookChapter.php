@@ -163,6 +163,9 @@ require("_process.php");
             echo '<tr>';
             echo '<td>';
             echo $WishList->wishlist($id_cc);
+            echo '</td>';
+
+            echo '<td>';
             echo $edit;
             echo '</td>';
 
