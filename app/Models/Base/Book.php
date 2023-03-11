@@ -117,7 +117,7 @@ class Book extends Model
 
         if (!isset($dt['concept']['c_class']))
             {
-                return view('erros/html/error_404');
+                return view('errors/html/error_404');
             }
         $class = $dt['concept']['c_class'];
 
