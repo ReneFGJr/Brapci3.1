@@ -64,6 +64,11 @@ class Index extends Model
                         $LANGUAGE = new \App\Models\AI\NLP\Language();
                         $sx .= $LANGUAGE->train();
                         break;
+                    case 'book_fulltext':
+                        $API = new \App\Models\AI\NLP\Book\Fulltext();;
+                        $sx = $API->index($d2,$d3);
+                        break;
+
                     case 'book_sumary':
                         $API = new \App\Models\AI\NLP\Book\Sumary();;
                         $sx = $API->show_form();
@@ -90,6 +95,8 @@ class Index extends Model
             $menu['#'.lang('tools.text_tools')] = '';
             $menu[PATH.'tools/nlp/email'] = lang('tools.extract_email_from_text');
             $menu[PATH . 'tools/nlp/book_sumary'] = lang('tools.extract_book_sumary');
+            $menu[PATH . 'tools/nlp/book_fulltext'] = lang('tools.extract_book_fulltext');
+
 
             $menu['#' . lang('tools.languages')] = '';
             $menu[PATH . 'ai/nlp/language/train'] = lang('tools.language_train');
