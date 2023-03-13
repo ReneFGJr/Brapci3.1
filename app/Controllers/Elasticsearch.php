@@ -118,6 +118,11 @@ class Elasticsearch extends BaseController
                 $sx .= $this->search();
                 break;
 
+            case 'update_index':
+                $Register = new \App\Models\ElasticSearch\Register();
+                $sx .= $Register->update_index();
+                break;
+
             default:
                 $sx .= h($act);
                 $data['logo'] = view('Tools/Svg/logo_elasticsearch');
@@ -148,6 +153,7 @@ class Elasticsearch extends BaseController
         $menu[PATH . '/elasticsearch/database'] = lang('elastic.database');
 
         $menu['#Tools'] = '';
+        $menu[PATH . '/elasticsearch/update_index/'] = lang('elastic.export_database');
         $menu[PATH . '/elasticsearch/status'] = lang('elastic.status');
         $menu[PATH . '/elasticsearch/register/'.$id] = lang('elastic.register_test');
         $menu[PATH . '/elasticsearch/search/'] = lang('elastic.search');

@@ -76,12 +76,19 @@ class Search extends Model
         $query['multi_match']['operator'] = 'and';
 
         /********************************************** QUERY */
+        $qr = $query;
         $query['multi_match']['query'] = ascii($qs);
 
         $flt['type'] = 'Article';
-        $query['filter']['term'] = $flt;
+        //$query['filter']['term'] = $flt;
 
-        //pre($query);
+        /********** Filter */
+        $qr = [];
+        $qr['bool'] = $query;
+        //pre($qr,false);
+        //pre($query,false);
+
+        //$query = $qr;
 
         /******************** Fields */
         $flds = round('0' . get("field"));
