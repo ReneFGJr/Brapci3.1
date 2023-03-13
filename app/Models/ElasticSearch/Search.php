@@ -40,7 +40,7 @@ class Search extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function search($q = '')
+    function search($q = '',$type='')
     {
         $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));
@@ -77,6 +77,11 @@ class Search extends Model
 
         /********************************************** QUERY */
         $query['multi_match']['query'] = ascii($qs);
+
+        $flt['type'] = 'Article';
+        $query['filter']['term'] = $flt;
+
+        //pre($query);
 
         /******************** Fields */
         $flds = round('0' . get("field"));

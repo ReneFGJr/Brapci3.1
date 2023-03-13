@@ -148,7 +148,7 @@ class Index extends Model
 			return $sx;
 		}
 
-	function index($d1 = '', $d2 = '', $d3 = '')
+	function index($d1 = '', $type = '', $d3 = '')
 	{
 		$RDF = new \App\Models\Rdf\RDF();
 		$API = new \App\Models\ElasticSearch\API();
@@ -182,7 +182,7 @@ class Index extends Model
 				$SEARCH = new \App\Models\ElasticSearch\Search();
 				$Elasticsearch = new \App\Models\ElasticSearch\Index();
 				$_POST['offset'] = 50;
-				$dt = $SEARCH->search(GET("query"));
+				$dt = $SEARCH->search(GET("query"),$type);
 				$sx = $Elasticsearch->show_works($dt);
 				break;
 			case 'formTest':

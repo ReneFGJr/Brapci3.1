@@ -72,14 +72,16 @@ class Export extends Model
                     }
                 break;
             case 'articles':
-                echo "EXPORT ARTICLE - NOT IMPLEMENTED";
+                $Export = new \App\Models\Base\Export();
+                echo $Export->cron($d1, 'start');
                 break;
             case 'proceeding':
                 $Export = new \App\Models\Base\Export();
                 echo $Export->cron($d1,'start');
                 break;
             case 'books':
-                echo "EXPORT books - NOT IMPLEMENTED";
+                $Export = new \App\Models\Base\Export();
+                echo $Export->cron($d1, 'start');
                 break;
             default:
                 $sx = bsc($this->menu(), 12);
@@ -175,6 +177,22 @@ class Export extends Model
     {
         $sx = '';
         switch ($d1) {
+            case 'books':
+                switch ($d2) {
+                    case 'start':
+                        $this->remove_all('EXPORT_BOOK');
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task_remove('EXPORT_BOOK');
+                        $dt = $BOTS->task('EXPORT_BOOK');
+                        $sx .= 'Started ' . $d2 . ' export';
+                        $sx .= '<hr>';
+                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                        break;
+                    default:
+                        echo "OK $d2";
+                }
+                break;
+
             case 'proceeding':
                 switch($d2)
                     {

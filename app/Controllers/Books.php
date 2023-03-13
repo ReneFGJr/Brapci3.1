@@ -28,12 +28,13 @@ class Books extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('BrapciBooks/Headers/navbar', $data);
 
-        $q = get("query");
+        $q = get("query"). get("qs");
         if (strlen($q) > 0) {
             $act = 'search';
         }
 
         $act = trim($act);
+        echo h($act);
         switch ($act) {
             case 'a':
                 $RDF = new \App\Models\Rdf\RDF();
@@ -60,7 +61,7 @@ class Books extends BaseController
                 $Books = new \App\Models\Base\Book();
                 $sx .= $Books->v($subact);
                 break;
-            case 'xsearch':
+            case 'search':
                 $data['logo'] = view('Logos/logo_benancib');
                 $data['search'] = view('Benancib/Pages/search');
                 $data['issues'] = '';
@@ -84,7 +85,7 @@ class Books extends BaseController
                 }
                 $sx .= view('Benancib/Welcome', $data);
                 $SEARCH = new \App\Models\ElasticSearch\Index();
-                $sx .= $SEARCH->index('search');
+                $sx .= $SEARCH->index('search','book');
                 break;
             case 'social':
                 $Socials = new \App\Models\Socials();

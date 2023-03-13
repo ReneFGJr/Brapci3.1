@@ -658,6 +658,7 @@ class RDFExport extends Model
 		$vol = '';
 		$abstract = '';
 		$language = '';
+		$name = '';
 
 		foreach ($data as $idx=>$da)
 			{
