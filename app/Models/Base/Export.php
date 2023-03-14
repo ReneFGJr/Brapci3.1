@@ -83,6 +83,10 @@ class Export extends Model
                 $Export = new \App\Models\Base\Export();
                 return $Export->cron($d1, 'start');
                 break;
+            case 'booksChapter':
+                $Export = new \App\Models\Base\Export();
+                return $Export->cron($d1, 'start');
+                break;
             default:
                 $sx = bsc($this->menu(), 12);
                 break;
@@ -193,6 +197,22 @@ class Export extends Model
                 }
                 break;
 
+            case 'booksChapter':
+                switch ($d2) {
+                    case 'start':
+                        $this->remove_all('EXPORT_BOOKCHAPTER');
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task_remove('EXPORT_BOOKCHAPTER');
+                        $dt = $BOTS->task('EXPORT_BOOKCHAPTER');
+                        $sx .= 'Started ' . $d2 . ' export';
+                        $sx .= '<hr>';
+                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                        break;
+                    default:
+                        echo "OK ==> $d2";
+                }
+                break;
+
             case 'proceeding':
                 switch($d2)
                     {
@@ -244,6 +264,7 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/articles'] = lang('brapci.export') . ' ' . lang('brapci.articles');
         $menu[PATH . 'admin/' . $mod . '/proceeding'] = lang('brapci.export') . ' ' . lang('brapci.proceeding');
         $menu[PATH . 'admin/' . $mod . '/books'] = lang('brapci.export') . ' ' . lang('brapci.books');
+        $menu[PATH . 'admin/' . $mod . '/booksChapter'] = lang('brapci.export') . ' ' . lang('brapci.booksChapters');
 
         $menu['#BOTS'] = "";
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');
@@ -272,6 +293,10 @@ class Export extends Model
         if ($dta['task_id'] == 'EXPORT_PROCEEDING') {
             $class = 'Proceeding';
             $type = 'EV';
+        }
+        if ($dta['task_id'] == 'EXPORT_BOOKCHAPTER') {
+            $class = 'BookChapter';
+            $type = 'BC';
         }
 
         $offset = $dta['task_offset'];
@@ -354,8 +379,6 @@ class Export extends Model
             }
         }
         $sx .= '</ul>';
-        echo $sx;
-        exit;
         return $sx;
     }
 }

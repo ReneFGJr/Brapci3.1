@@ -76,19 +76,12 @@ class Search extends Model
         $query['multi_match']['operator'] = 'and';
 
         /********************************************** QUERY */
-        $qr = $query;
         $query['multi_match']['query'] = ascii($qs);
 
-        $flt['type'] = 'Article';
-        //$query['filter']['term'] = $flt;
+        $query = [];
+        $query['must']['match_phrase']['title'] = ascii($qs);
 
-        /********** Filter */
-        $qr = [];
-        $qr['bool'] = $query;
-        //pre($qr,false);
-        //pre($query,false);
-
-        //$query = $qr;
+        $strategy = $query;
 
         /******************** Fields */
         $flds = round('0' . get("field"));
@@ -108,14 +101,14 @@ class Search extends Model
                 break;
         }
 
-        $query['multi_match']['fields'] = $fields;
+        //$query['multi_match']['fields'] = $fields;
 
         $range['range']['year']['gte'] = (int)trim(get("di"));
         $range['range']['year']['lte'] = (int)trim(get("df"));
         $range['range']['year']['boost'] = 2.0;
 
-        array_push($data['query']['bool']['must'], $query);
-        array_push($data['query']['bool']['must'], $range);
+        //array_push($data['query']['bool']['must'], $query);
+        //array_push($data['query']['bool']['must'], $range);
 
 
         /******************** Sources */
@@ -124,6 +117,7 @@ class Search extends Model
         /******************** Limites */
         $data['size'] = $offset;
         $data['from'] = $start;
+        $data['query']['bool'] = $strategy;
 
         $sx =  $q;
 
@@ -133,6 +127,10 @@ class Search extends Model
         $type = troca($type, '/', '');
 
         switch ($type) {
+            case 'books':
+                $url = 'brapci3.1/_search';
+                $filter['match']['collection'] = 'BK';
+                break;
             case 'benancib':
                 $url = 'brapci3.1/_search';
                 $filter['terms']['id_jnl'] = [75];
@@ -149,6 +147,13 @@ class Search extends Model
             $data['query']['bool']['filter'] = array();
             array_push($data['query']['bool']['filter'], $filter);
         }
+        if (isset($filter['terms']['collection'])) {
+            $data['query']['bool']['filter'] = array();
+            array_push($data['query']['bool']['filter'], $filter);
+        }
+
+        //pre($data,false);
+
         $dt = $API->call($url, $method, $data);
 
         /* Mostra resultados ****************************************************/

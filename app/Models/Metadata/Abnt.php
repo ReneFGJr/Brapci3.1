@@ -140,6 +140,16 @@ class Abnt extends Model
 		return $tela;
 
 		}
+
+	function abnt_chapter($dt)
+		{
+			$sx = 'ABNT: Capitulo';
+			if (!isset($dt['title'])) {
+				$dt['title'] = '::none::';
+			}
+			$sx = $dt['title'];
+			return $sx;
+		}
 	function abnt_article($dt)
 	{
 		if (!isset($dt['title']))

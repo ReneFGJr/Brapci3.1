@@ -163,16 +163,24 @@ class Metadata extends Model
                 $ddv1 = $line['d_r1'];
                 $ddv2 = $line['d_r2'];
 
-
                 switch ($class) {
                     case 'hasBookChapter':
                         if (isset($this->metadata['book']))
                             {
+                                $db = $RDF->le($line['d_r1']);
+                                pre($db);
                                 $this->metadata['book'] = $RDF->c($line['d_r1']);
                             }
                         $link = '<a href="' . PATH . COLLECTION . '/v/' . $line['d_r2'] . '" class="summary_a">';
                         $linka = '</a>';
-                        $value = '<p class="summary_ln">' . $link . $RDF->c($line['d_r2']) . $linka . '</p>';
+
+                        $bn = $RDF->directory($line['d_r2']);
+                        if (file_exists($bn.'name.nm'))
+                            {
+                                $value = '<p class="summary_ln">' . $link . $RDF->c($line['d_r2']) . $linka . '</p>';
+                            } else {
+                                $value = 'xxx';
+                            }
                         $this->lets('summary', $value);
                         break;
                     case 'hasClassificationAncib':
@@ -202,7 +210,6 @@ class Metadata extends Model
                             $this->lets('lDOI', $doi);
                             $this->lets('DOI', $doi);
                         }
-
                         break;
                     case 'Identifier.DOI':
                         $this->lets('DOI', $value . '##xml:lang=' . $lang);

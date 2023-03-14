@@ -80,9 +80,9 @@ class RDFExport extends Model
 			return '';
 		}
 		$prefix = $dt['concept']['prefix_ref'];
-		$class = $prefix . ':' . $dt['concept']['c_class'];
+		$class = $prefix . ':' . trim($dt['concept']['c_class']);
 		$name = ':::: ' . $class . ' ::::';
-		echo '<br>'.h($name.'-->'.$class);
+		//echo '<br>'.h('#'.$name.'==>'.$id);
 
 		switch ($class) {
 				/*************************************** SERIE NAME */
@@ -571,19 +571,15 @@ class RDFExport extends Model
 
 	function export_bookChapter($dt,$id)
 		{
+
 		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
 
-
 		if (count($dt['data']) == 0) {
 			return "OPS export_proceeding " . $id . '<br>';
 		}
-		pre($dt);
 		$dta = $Metadata->metadata($dt);
-		pre($dt);
-
-		pre($dta);
 
 		$this->saveData($id, 'Title', $dta);
 		//$this->saveData($id, 'Section', $dta);

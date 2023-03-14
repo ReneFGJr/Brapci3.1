@@ -117,7 +117,7 @@ class Bots extends BaseController
                 echo $sx;
                 exit;
             } else {
-                $sx = troca($sx,chr(10),'<br>');
+                //$sx = troca($sx,chr(10),'<br>');
                 $pos = strpos($sx,'<CONTINUE>');
                 if ($pos > 0)
                     {

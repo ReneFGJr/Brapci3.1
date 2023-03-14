@@ -200,10 +200,10 @@ class Register extends Model
                             $da['type'] = $data['Class'];
                             break;
                         case 'Book':
-                            $da['collection'] = 'AR';
+                            $da['collection'] = 'BK';
                             $da['type'] = $data['Class'];
                             break;
-                        case 'Book':
+                        case 'BookChapter':
                             $da['collection'] = 'BK';
                             $da['type'] = $data['Class'];
                             break;
