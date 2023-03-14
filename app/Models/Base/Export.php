@@ -73,7 +73,7 @@ class Export extends Model
                 break;
             case 'articles':
                 $Export = new \App\Models\Base\Export();
-                echo $Export->cron($d1, 'start');
+                return $Export->cron($d1, 'start');
                 break;
             case 'proceeding':
                 $Export = new \App\Models\Base\Export();
@@ -81,7 +81,7 @@ class Export extends Model
                 break;
             case 'books':
                 $Export = new \App\Models\Base\Export();
-                echo $Export->cron($d1, 'start');
+                return $Export->cron($d1, 'start');
                 break;
             default:
                 $sx = bsc($this->menu(), 12);
@@ -189,7 +189,7 @@ class Export extends Model
                         $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
                         break;
                     default:
-                        echo "OK $d2";
+                        echo "OK ==> $d2";
                 }
                 break;
 
@@ -213,10 +213,17 @@ class Export extends Model
             default:
                 if ($d1 == '') {
                     $dtd = $this->next();
+
                     if (count($dtd) > 0) {
                         $sx .= $this->export_works($dtd);
                     } else {
-                        $sx .= 'FIM - Cron';
+                        if (agent())
+                            {
+                                $sx .= bsmessage('No task at Cron',2);
+                            } else {
+                                $sx .= 'No task at Cron';
+                            }
+
                     }
                 } else {
                     echo "OPS EXPORT NOT FOUND [$d1]";
@@ -320,7 +327,7 @@ class Export extends Model
             }
 
             if (!file_exists($file)) {
-                $sx .= '<li>' . strzero($idr, 8) . ' ' . " - ERROR FileID" . ' (' . $dir . ')</li>';
+                $sx .= '<li>' . strzero($idr, 8) . ' ' . " - ERROR FileID" . ' (' . $file.')</li>';
             } else {
                 /********************************************  */
                 $json = file_get_contents($file);
@@ -347,6 +354,8 @@ class Export extends Model
             }
         }
         $sx .= '</ul>';
+        echo $sx;
+        exit;
         return $sx;
     }
 }

@@ -24,6 +24,14 @@ class Bots extends BaseController
         $sx = '';
         if ($act == 'patent') { $act = 'patente'; }
 
+        $data['page_title'] = 'Brapci - Bots';
+        $data['bg'] = 'bg-admin';
+        $cab = '';
+        $cab .= view('Brapci/Headers/header', $data);
+        $cab .= view('Brapci/Headers/navbar', $data);
+
+        $web = agent();
+
         switch ($act) {
 
             case 'check':
@@ -50,6 +58,7 @@ class Bots extends BaseController
                 break;
 
             case 'export':
+                echo agent();
                 $Export = new \App\Models\Base\Export();
                 $sx .= $Export->cron($act2, $act3);
                 break;
@@ -102,9 +111,8 @@ class Bots extends BaseController
                 break;
         }
         $sx .= '';
-        $AGENT = $_SERVER['HTTP_USER_AGENT'];
-        $POS = strpos(' '.$AGENT, 'curl');
-        if ($POS > 0)
+
+        if (!$web)
             {
                 echo $sx;
                 exit;
@@ -115,6 +123,10 @@ class Bots extends BaseController
                     {
                         $sx = troca($sx,'<CONTINUE>',metarefresh('',5));
                     }
+                $logo_img = '<img src="'.URL.'/img/logo/logo_brapci_robot.svg" class="img-fluid img-thumb">';
+                $logo = bs((bsc($logo_img)));
+                $sx = $cab . $logo. bs(bsc($sx));
+                $sx .= view('Brapci/Headers/footer', $data);
             }
         return $sx;
     }

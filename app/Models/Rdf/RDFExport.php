@@ -82,7 +82,7 @@ class RDFExport extends Model
 		$prefix = $dt['concept']['prefix_ref'];
 		$class = $prefix . ':' . $dt['concept']['c_class'];
 		$name = ':::: ' . $class . ' ::::';
-		//echo '<br>'.h($name.'-->'.$class);
+		echo '<br>'.h($name.'-->'.$class);
 
 		switch ($class) {
 				/*************************************** SERIE NAME */
@@ -571,211 +571,86 @@ class RDFExport extends Model
 
 	function export_bookChapter($dt,$id)
 		{
+		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
-		$data = $dt['data'];
-		$xclass = $dt['concept']['c_class'];
-		$tota = 0;
-		$book = '';
-		$pags = '';
-		$aut = '';
-		$aut_link = '';
-		$linka = '</a>';
-		$title = '::sem título::';
-		foreach ($data as $idx => $da) {
-			$class = trim($da['c_class']);
-			switch ($class) {
-				case 'prefLabel':
-					break;
-				case 'hasTitle':
-					$title = $da['n_name'];
-					break;
-				case 'hasPageStart':
-					$pags = $da['n_name2'];
-					break;
-				case 'hasBookChapter':
-					$book = $this->RDF->c($da['d_r1']);
-					break;
-				case 'hasAbstract':
-					break;
-				case 'hasAuthor':
-					$tota++;
-					if ($aut != '') {
-						$aut .= '; ';
-					}
-					$link = '<a href="' . PATH . '/v/' . $da['d_r2'] . '">';
-					$aut .= $da['n_name2'];
-					$aut_link .= $link . $da['n_name2'] . $linka;
-					break;
-				default:
-					echo "OPS - export_bookChapter";
-					break;
-			}
-		}
-		$name = '';
-		$namef = '';
-		if ($aut != '')
-			{
-				$name .= $aut.'. ';
-			}
-		$name .= $title.'.';
-		$namef .= '<b>'.$title .'</b>'. '<br><i>'.$aut.'</i>';
-		$this->saveRDF($id, $namef, 'name.nm');
+		$ABNT = new \App\Models\Metadata\Abnt();
 
-		$name = ' ' . $book;
-		$this->saveRDF($id, $name, 'name.abtn');
-		$this->saveRDF($id, $xclass, 'class.mn');
-		if ($pags != '')
-			{
-				$this->saveRDF($id, $xclass, 'page.mn');
-			}
-			return "";
+		if (count($dt['data']) == 0) {
+			return "OPS export_proceeding " . $id . '<br>';
+		}
+		$dta = $Metadata->metadata($dt);
+
+		$this->saveData($id, 'Title', $dta);
+		//$this->saveData($id, 'Section', $dta);
+		//$this->saveData($id, 'Journal', $dta);
+		$this->saveData($id, 'Authors', $dta);
+		$this->saveData($id, 'Keywords', $dta);
+
+		if (isset($dta['issue_id'])) {
+			$dti = $RDF->le($dta['issue_id'][0]);
+			$dta['issue'] = $Metadata->metadata($dti);
+			$this->saveData($id, 'Issue', $dta['issue']);
+		}
+
+		$this->saveData($id, 'Year', $dta);
+		$this->saveData($id, 'Place', $dta);
+
+		$this->saveData($id, 'Class', $dta);
+		$this->saveData($id, 'Pages', $dta);
+		//$this->saveRDF($id, json_encode($dta), 'name.json');
+
+		$this->saveCSV($id);
+		$this->saveData($id, 'Elastic', $dta);
+
+		/* Formata para Artigo ABNT */
+		$ABNT = new \App\Models\Metadata\Abnt();
+		$name = $ABNT->abnt_chapter($dta);
+		$this->saveData($id, 'abnt', $name);
+		$this->saveData($id, 'name', $name);
+
+		return "";
 		}
 
 	function export_book($dt, $id)
 	{
-		$xclass = 'BOOK';
-		$sx = '';
-		$tota = 0;
+		$Metadata = new \App\Models\Base\Metadata();
+		$RDF = new \App\Models\Rdf\RDF();
+		$ABNT = new \App\Models\Metadata\Abnt();
 
-		$nISBN = new \App\Models\ISBN\Index();
+		if (count($dt['data']) == 0) {
+			return "OPS export_proceeding " . $id . '<br>';
+		}
+		$dta = $Metadata->metadata($dt);
 
-		$url = '<a href="'.PATH.'books/v/'.$id.'">';
-		$urla = '</a>';
-		$data = $dt['data'];
-		$year = '';
-		$org = '';
-		$org_link = '';
-		$aut = '';
-		$aut_link = '';
-		$pags = '';
-		$subj = array();
-		$summary = '';
-		$linka = '</a>';
-		$place = '';
-		$editora = '';
-		$ISBN = '';
-		$DOI = '';
-		$vol = '';
-		$abstract = '';
-		$language = '';
-		$name = '';
+		$this->saveData($id, 'Title', $dta);
+		//$this->saveData($id, 'Section', $dta);
+		//$this->saveData($id, 'Journal', $dta);
+		$this->saveData($id, 'Authors', $dta);
+		$this->saveData($id, 'Keywords', $dta);
 
-		foreach ($data as $idx=>$da)
-			{
-				$class = trim($da['c_class']);
-				switch($class)
-					{
-						case 'prefLabel':
-							if ($ISBN != '') {
-								$ISBN .= '; ';
-							}
-							$ISBN .= $nISBN->format(trim($da['n_name']));
-							break;
-						case 'hasTitle':
-							$title = $da['n_name'];
-							break;
-						case 'hasVolume':
-							$vol = $da['n_name2'];
-							break;
-						case 'isPlaceOfPublication':
-							if ($place != '') { $place .= '; '; }
-							$place .= $da['n_name2'];
-							break;
-						case 'isPublisher':
-							if ($editora != '') {
-								$editora .= '; ';
-									}
-							$editora .= $da['n_name2'];
-							break;
-						case 'hasDOI':
-							$DOI = 'https://doi.org/'.$da['n_name2'];
-							break;
-
-						case 'dateOfPublication':
-							$year = $da['n_name2'];
-							break;
-						case 'hasBookChapter':
-							$summary = '';
-							break;
-						case 'hasClassificationCDD':
-							break;
-						case 'hasFileStorage':
-							break;
-						case 'hasISBN':
-							break;
-						case 'hasLicense':
-							break;
-						case 'hasPage':
-							$pags = $da['n_name2'];
-							break;
-						case 'hasSubject';
-							$subj[$da['n_name2'].'@'.$da['n_lang2']] = 1;
-							break;
-						case 'hasOrganizator':
-							$tota++;
-							if ($org != '') { $org .= '; '; }
-							$link = '<a href="'.PATH.'/v/'.$da['d_r2'].'">';
-							$org .= $da['n_name2'];
-							$org_link .= $link . $da['n_name2'] . $linka;
-							break;
-						case 'hasAuthor':
-							$tota++;
-							if ($aut != '') {
-							$aut .= '; ';
-							}
-							$link = '<a href="' . PATH . '/v/' . $da['d_r2'] . '">';
-							$aut .= $da['n_name2'];
-							$aut_link .= $link . $da['n_name2'] . $linka;
-							break;
-						case 'hasSummary':
-							$summary = $da['n_name2'];
-							break;
-						case 'hasCover':
-							$capa  = '';
-							break;
-						case 'hasAbstract':
-							$abstract = $da['n_name2'];
-							break;
-						case 'hasLanguageExpression':
-							$language = $da['n_name2'];
-							break;
-
-						default:
-							echo "OPS export_book [$class]";
-							break;
-					}
-			}
-
-		if ($org != '')
-			{
-				$name =  $org . ' (org.). <b>' . trim($title) . '.</b>';
-			}
-		if ($aut != '') {
-			$name =  $org . '. <b>' . trim($title) . '.</b>';
+		if (isset($dta['issue_id'])) {
+			$dti = $RDF->le($dta['issue_id'][0]);
+			$dta['issue'] = $Metadata->metadata($dti);
+			$this->saveData($id, 'Issue', $dta['issue']);
 		}
 
-		$name .= ' '.$place.': ';
-		$name .= $editora.', ';
-		$name .= $year.'.';
-		if ($DOI != '')
-			{
-				$name .= ' Disponível em: '.$DOI;
-			} else {
-			if (substr($ISBN, 0, 1) == '9') {
-				$name .= ' ISBN:' . $ISBN . '.';
-			}
-			}
+		$this->saveData($id, 'Year', $dta);
+		$this->saveData($id, 'Place', $dta);
 
+		$this->saveData($id, 'Class', $dta);
+		$this->saveData($id, 'Pages', $dta);
+		//$this->saveRDF($id, json_encode($dta), 'name.json');
 
-		$this->saveRDF($id, $name, 'name.nm');
-		$this->saveRDF($id, $xclass, 'class.mn');
-		if ($year != '') { $this->saveRDF($id, $year, 'year.nm'); }
-		if ($place != '') { $this->saveRDF($id, $place, 'place.nm'); }
-		if ($abstract != '') { $this->saveRDF($id, $abstract, 'abstract.nm'); }
-		if ($editora != '') {
-			$this->saveRDF($id, $editora, 'editora.nm');
-		}
-		return $sx;
+		$this->saveCSV($id);
+		$this->saveData($id, 'Elastic', $dta);
+
+		/* Formata para Artigo ABNT */
+		$ABNT = new \App\Models\Metadata\Abnt();
+		$name = $ABNT->abnt_proceeding($dta);
+		$this->saveData($id, 'abnt', $name);
+		$this->saveData($id, 'name', $name);
+
+		return "";
 	}
 
 	function export_issueproceedings($dt, $id)
