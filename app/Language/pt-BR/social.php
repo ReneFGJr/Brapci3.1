@@ -63,7 +63,7 @@ return [
 	'forgout_new_password' => 'Nova senha',
 	'forgout_new_password_confirm'=>'Confirmação de nova senha',
 	'password_not_match'=>'Senha de confirmação não confere',
-	'password_short' => 'Senha muito curso, mínimo 6 caracteres',
+	'password_short' => 'Senha muito curta, mínimo 6 caracteres',
 	'password_changed' => 'Senha alterada com Sucesso!',
 	'save' => 'Alterar',
 	'add_perfil' => 'Adicionar',
