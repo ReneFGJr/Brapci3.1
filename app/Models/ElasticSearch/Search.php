@@ -143,7 +143,7 @@ class Search extends Model
 
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
-        if (isset($filter['terms']['id_jnl'])) {
+        if (isset($filter['match']['id_jnl'])) {
             $data['query']['bool']['filter'] = array();
             array_push($data['query']['bool']['filter'], $filter);
         }
