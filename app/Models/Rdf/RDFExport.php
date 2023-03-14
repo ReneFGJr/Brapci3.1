@@ -575,10 +575,15 @@ class RDFExport extends Model
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
 
+
 		if (count($dt['data']) == 0) {
 			return "OPS export_proceeding " . $id . '<br>';
 		}
+		pre($dt);
 		$dta = $Metadata->metadata($dt);
+		pre($dt);
+
+		pre($dta);
 
 		$this->saveData($id, 'Title', $dta);
 		//$this->saveData($id, 'Section', $dta);
