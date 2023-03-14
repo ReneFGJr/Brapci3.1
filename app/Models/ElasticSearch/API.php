@@ -93,6 +93,9 @@ class API extends Model
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
 
+		echo json_encode($data);
+
+
 		switch ($method) {
 			case 'GET':
 				break;
