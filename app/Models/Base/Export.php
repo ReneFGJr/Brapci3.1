@@ -323,7 +323,7 @@ class Export extends Model
             $dir = $RDF->directory($idr);
             $file = $dir . 'metadata.json';
             if (!file_exists($file)) {
-                $RDF->c($idr);
+                $RDF->c($idr,TRUE);
             }
 
             if (!file_exists($file)) {
