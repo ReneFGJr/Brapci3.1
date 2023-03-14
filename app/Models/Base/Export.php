@@ -77,7 +77,7 @@ class Export extends Model
                 break;
             case 'proceeding':
                 $Export = new \App\Models\Base\Export();
-                echo $Export->cron($d1,'start');
+                return $Export->cron($d1,'start');
                 break;
             case 'books':
                 $Export = new \App\Models\Base\Export();
