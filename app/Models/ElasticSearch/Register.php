@@ -59,6 +59,7 @@ class Register extends Model
                     $dt = json_encode($line);
                     $dt = $line;
                     $dt['id'] = $line['article_id'];
+                    $dt['full'] = $line['title'] . ' ' . $line['abstract'] . ' ' . $line['	keywords'] . ' ' . $line['authors'];
                     $id = $dt['id'];
                     $rst = $API->call('brapci3.1/'.$type.'/'. $id, 'POST', $dt);
                     $sx .= $id .= ' => '.$rst['result'].'<br>';
