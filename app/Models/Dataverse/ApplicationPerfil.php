@@ -43,12 +43,11 @@ class ApplicationPerfil extends Model
     function index($d1,$d2,$d3)
         {
             $sx = '';
-
             switch($d1)
                 {
                     default:
                         $PASchema = new \App\Models\Dataverse\PerfilApplication\PA_Schema();
-                        $sx = $PASchema->index($d2,$d3);
+                        $sx = $PASchema->index($d1,$d2,$d3);
                         break;
                 }
             $sx = bs(bsc($sx,12));

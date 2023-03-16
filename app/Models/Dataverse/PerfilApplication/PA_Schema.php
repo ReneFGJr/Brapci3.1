@@ -48,30 +48,35 @@ class PA_Schema extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    var $path = '';
+    var $path_back = '';
+    var $id = 0;
+
     function index($d1,$d2,$d3='',$d4='')
         {
             $sx = '';
+            $sx .= '==>'.$d1.'==>'.$d2.'==>'.$d3;
             $sx .= breadcrumbs();
             switch($d1)
                 {
                     case 'edit_field':
-                        $PA_Field = new \App\Models\Dataverse\PA_Field();
+                        $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
                         $sx .= $PA_Field->editar($d2,$d3);
                         break;
                     case 'vocabulary':
-                        $PA_Vocabulary = new \App\Models\Dataverse\PA_Vocabulary();
+                        $PA_Vocabulary = new \App\Models\Dataverse\PerfilApplication\PA_Vocabulary();
                         $sx .= $PA_Vocabulary->index($d2,$d3,$d4);
                         break;
                     case 'download_lang':
-                        $PA_Proprieties = new \App\Models\Dataverse\PA_Proprieties();
+                        $PA_Proprieties = new \App\Models\Dataverse\PerfilApplication\PA_Proprieties();
                         $sx .= $PA_Proprieties->download($d2,$d3,$d4);
                         break;
                     case 'proprieties':
-                        $PA_Proprieties = new \App\Models\Dataverse\PA_Proprieties();
+                        $PA_Proprieties = new \App\Models\Dataverse\PerfilApplication\PA_Proprieties();
                         $sx .= $PA_Proprieties->index($d2,$d3,$d4);
                         break;
                     case 'change_field':
-                        $PA_Field = new \App\Models\Dataverse\PA_Field();
+                        $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
                         echo $PA_Field->change($d2,$d3);
                         exit;
                         break;
@@ -82,7 +87,7 @@ class PA_Schema extends Model
                         $rst = $this->export($d2,$d3,$d4);
                         $size = strlen($rst);
 
-                        $PA_Field = new \App\Models\Dataverse\PA_Field();
+                        $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
                         $dt = $this->find($d2);
                         $file = trim($dt['mt_name']).'.tsv';
 
@@ -130,7 +135,7 @@ class PA_Schema extends Model
             $dir = '../.tmp/schema/';
             dircheck($dir);
 
-            $PA_Field = new \App\Models\Dataverse\PA_Field();
+            $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
             $dt = $this->find($id);
             $file = trim($dt['mt_name']).'.tsv';
 
@@ -198,8 +203,8 @@ class PA_Schema extends Model
 
     function import($d1,$d2,$d3)
         {
-            $PA_Field = new \App\Models\Dataverse\PA_Field();
-            $PA_Vocabulary = new \App\Models\Dataverse\PA_Vocabulary();
+            $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
+            $PA_Vocabulary = new \App\Models\Dataverse\PerfilApplication\PA_Vocabulary();
 
             $sx = '';
             $sx .= h('Import Schema');
@@ -250,7 +255,7 @@ class PA_Schema extends Model
                     $sx .= '</form>';
                 }
 
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/viewid/'.$d1.'" class="btn btn-primary">'.lang('dataverse.return').'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/viewid/'.$d1.'" class="btn btn-primary">'.lang('dataverse.return').'</a>';
 
             $sx = bs(bsc($sx));
             return $sx;
@@ -265,8 +270,8 @@ class PA_Schema extends Model
 
     function Export_metadataBlock($d1)
         {
-            $PA_Field = new \App\Models\Dataverse\PA_Field();
-            $PA_Vocabulary = new \App\Models\Dataverse\PA_Vocabulary();
+            $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
+            $PA_Vocabulary = new \App\Models\Dataverse\PerfilApplication\PA_Vocabulary();
             $tab = "\t";
             $dt = $this->find($d1);
             $file = trim($dt['mt_name']).'.tsv';
@@ -305,14 +310,13 @@ class PA_Schema extends Model
     function edit($d1,$d2,$d3)
         {
             $this->id = $d1;
-            $this->path = PATH.MODULE.'dataverse/pa/';
             if ($d1 == 0)
                 {
-                    $this->path_back = PATH.MODULE.'dataverse/pa/';
+                    $this->path_back = PATH . 'dados/dataverse/tsv';
                 } else {
-                    $this->path_back = PATH.MODULE.'dataverse/pa/viewid/'.$d1;
+                    $this->path_back = PATH.'/dados/dataverse/tsv/viewid/'.$d1;
                 }
-
+            $this->path = PATH . 'dados/dataverse/tsv';
             $sx = h(lang('dataverse.SchemaEd'),1);
             $sx .= form($this);
             $sx = bs(bsc($sx,12));
@@ -321,9 +325,9 @@ class PA_Schema extends Model
 
     function datafieldEd($d1,$d2,$d3)
         {
-            $PA_Field = new \App\Models\Dataverse\PA_Field();
+            $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
             $this->id = $d1;
-            $this->path = PATH.MODULE.'dataverse/pa/datafieldEd/'.$d1;
+            $this->path = PATH.'/dados/dataverse/tsv/datafieldEd/'.$d1;
             $sx = h(lang('dataverse.datafieldEd'),1);
             $sx .= $PA_Field->editar($d1,$d3);
             return $sx;
@@ -331,7 +335,7 @@ class PA_Schema extends Model
 
     function datafieldDel($d1,$d2,$d3)
         {
-            $PA_Field = new \App\Models\Dataverse\PA_Field();
+            $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
             $this->id = $d1;
             $PA_Field->where('id_m',$d1)->delete();
             $sx = wclose();
@@ -340,25 +344,25 @@ class PA_Schema extends Model
 
     function viewid($id)
         {
-            $PA_Field = new \App\Models\Dataverse\PA_Field();
-            $PA_Vocabulary = new \App\Models\Dataverse\PA_Vocabulary();
+            $PA_Field = new \App\Models\Dataverse\PerfilApplication\PA_Field();
+            $PA_Vocabulary = new \App\Models\Dataverse\PerfilApplication\PA_Vocabulary();
             $sx = '';
             $sql = "select * from ".$this->table." where id_mt = '".$id."'";
             $query = $this->db->query($sql);
             $row = $query->getRowArray();
 
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/export/'.$id.'">'.lang('dataverse.export').'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/export/'.$id.'">'.lang('dataverse.export').'</a>';
             $sx .= ' | ';
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/api_send_schema/'.$id.'">'.lang('dataverse.api_send').'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/api_send_schema/'.$id.'">'.lang('dataverse.api_send').'</a>';
             $sx .= ' | ';
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/proprieties/'.$id.'">'.lang('dataverse.proprieties').'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/proprieties/'.$id.'">'.lang('dataverse.proprieties').'</a>';
             $sx .= ' | ';
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/import/'.$id.'">'.lang('dataverse.import').'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/import/'.$id.'">'.lang('dataverse.import').'</a>';
             $sx .= ' | ';
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/edit_field/0?m_schema='.$id.'">'.lang('dataverse.new_field').'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/edit_field/0?m_schema='.$id.'">'.lang('dataverse.new_field').'</a>';
             $sx .= ' | ';
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/viewid/'.$id.'?reorder=1">'.lang('dataverse.reorder').'</a> ';
-            $sx .= '<a href="'.PATH.MODULE.'dataverse/pa/viewid/'.$id.'?reorder=2">'.'+2'.'</a>';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/viewid/'.$id.'?reorder=1">'.lang('dataverse.reorder').'</a> ';
+            $sx .= '<a href="'.PATH.'/dados/dataverse/tsv/viewid/'.$id.'?reorder=2">'.'+2'.'</a>';
 
             $sx .= '<h2>'.$row['mt_displayName'].'</h2>';
             $sx .= '<p>'.$row['mt_blockURI'].'</p>';
@@ -374,7 +378,7 @@ class PA_Schema extends Model
 
     function tableview()
         {
-            $this->path = PATH.MODULE.'dataverse/pa';
+            $this->path = PATH. 'dados/dataverse/tsv';
             $sx = tableview($this);
             $sx = bs(bsc($sx));
             return $sx;

@@ -73,12 +73,12 @@ class PA_Field extends Model
 
     function editar($id)
         {
-            $this->path = PATH.MODULE.'dataverse/pa/datafieldEd/'.$id;
+            $this->path = PATH.'/dados/dataverse/tsv/datafieldEd/'.$id;
             $this->id = $id;
             $ifr = get('m_schema');
             if ($ifr > 0)
                 {
-                    $this->path_back = PATH.MODULE.'dataverse/pa/viewid/'.$ifr;
+                    $this->path_back = PATH.'/dados/dataverse/tsv/viewid/'.$ifr;
                 } else {
                     $this->path_back = PATH.MODULE.'dataverse/pa';
                 }
@@ -137,7 +137,7 @@ class PA_Field extends Model
 
         for ($r = 0; $r < count($dt); $r++) {
             $ln = $dt[$r];
-            $link = '<a href="'.PATH.MODULE.'dataverse/pa/viewfieldid/'.$ln['id_m'].'">';
+            $link = '<a href="'.PATH.'/dados/dataverse/tsv/viewfieldid/'.$ln['id_m'].'">';
             $linka = '</a>';
             $link = '';
             $linka = '';
@@ -162,7 +162,7 @@ class PA_Field extends Model
                     $sx .= '<td></td>';
                 } else {
                     $sx .= '<td>';
-                    $sx .= onclick(PATH.MODULE.'dataverse/pa/change_field/'.$id.'/'.$ln['id_m'],200,100);
+                    $sx .= onclick(PATH.'/dados/dataverse/tsv/change_field/'.$id.'/'.$ln['id_m'],200,100);
                     $sx .= $this->onoff($ln['m_active']);
                     $sx .= '</span>';
                     $sx .= '</td>';
@@ -184,8 +184,8 @@ class PA_Field extends Model
                 $sx .= '<td>-</td>';
             }
             $sx .= '<td><nobr>';
-            $sx .= btn_edit(PATH . MODULE . 'dataverse/pa/datafieldEd/' . $ln['id_m']);
-            $sx .= btn_trash_popup(PATH . MODULE . 'dataverse/pa/datafieldDel/' . $ln['id_m']);
+            $sx .= btn_edit(PATH . '/dados/dataverse/tsv/datafieldEd/' . $ln['id_m']);
+            $sx .= btn_trash_popup(PATH . '/dados/dataverse/tsv/datafieldDel/' . $ln['id_m']);
             $sx .= '</nobr>';
             $sx .= '</td>';
             $sx .= '</tr>';

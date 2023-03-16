@@ -35,7 +35,7 @@ class Dados extends BaseController
                 break;
             case 'dataverse':
                 $Dataverse = new \App\Models\Dataverse\Index();
-                $sx .= $Dataverse->index($subact,$id,$id2, $id3);
+                $sx .= $Dataverse->index($subact,$id,$id2, $id3,$id4);
                 break;
             default:
                 $sx .= $ResearchData->index($act, $subact, $id, $id2);
