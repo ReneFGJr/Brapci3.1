@@ -56,6 +56,10 @@ class Index extends Model
         $sx .= troca($this->logo('IMG'), '$par', 'height="100px;" align="right"');
 
         switch ($d1) {
+            case 'preinstall':
+                $PreInstall = new \App\Models\Dataverse\Install\PreInstall();
+                $sx .= $PreInstall->index($d2, $d3, $d4);
+                break;
             case 'tsv':
                 $Application = new \App\Models\Dataverse\ApplicationPerfil();
                 $sx .= $Application->index($d2,$d3,$d4);
@@ -91,6 +95,10 @@ class Index extends Model
         $menu['#CONFIGURATIONS'] = '';
         $menu[PATH . '/dados/dataverse/licences'] = lang('dataverse.licences');
         $menu[PATH . '/dados/dataverse/tsv'] = lang('dataverse.application_perfil');
+
+
+        $menu['#CHECKLIST'] = '';
+        $menu[PATH . '/dados/dataverse/preinstall'] = lang('dataverse.pre_install');
 
         $menu['#CHECKLIST'] = '';
         $menu[PATH . '/dados/dataverse/checklist_instalation'] = lang('dataverse.checklist_instalation');

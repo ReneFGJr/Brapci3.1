@@ -72,6 +72,8 @@ return[
         'icone' => 'icone',
         'shortDescription' => 'Descrição',
         'license' => 'Licença',
+        'preinstall'=>'Pré-instalação',
+        ''=>'',
 
 
 
