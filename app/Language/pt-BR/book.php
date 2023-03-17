@@ -1,7 +1,7 @@
 <?php
 return [
         'autodeposit_info' => 'Você tem ou participou de um livro na área de Ciência da Informação e áreas afins',
-        'Accordion_1' => "Sou autor de uma livro",
+        'Accordion_1' => "Sou autor(a) de um livro",
         'Accordion_2' => 'Sou autor de um livro organizado',
         'Accordion_3' => 'Tenho uma indicação de livro com licença aberta para indexação',
         'Accordion_4' => 'Tenho um livro digitalizado e quero compartilhar',
