@@ -149,12 +149,19 @@ class Abnt extends Model
 		if (isset($dt['editora_local']))
 			{
 				$sx .= $dt['editora_local'] . ': ';
+			} else {
+				$sx .= '[<i>S.l.</i>]';
 			}
 		if (isset($dt['editora']))
 			{
 				$sx .= $dt['editora'] . ': ';
+				$sx .= '[<i>s.n.</i>]';
 			}
-		$sx .= $dt['year'] . '.';
+
+		if (isset($dt['editora'])) {
+			$sx .= $dt['year'] . '.';
+		}
+
 		return $sx;
 	}
 
