@@ -203,16 +203,17 @@ class Index extends Model
 
 		for ($r = 0; $r < count($dt['works']); $r++) {
 			$line = $dt['works'][$r];
-			$cover = '<img src="'.URL.'/'.$COVER->book($line['id']).'" class="img-fluid" >';
-			$cover = '<a href="'.PATH.'/books/v/'.$line['id'].'">'.$cover.'</a>';
 
 			switch($line['type'])
 				{
 					case 'Book':
 						$bg = 'btn-primary';
+						$cover = '<img src="' . URL . '/' . $COVER->book($line['id']) . '" class="img-fluid" >';
+						$cover = '<a href="' . PATH . '/books/v/' . $line['id'] . '">' . $cover . '</a>';
 						break;
 					case 'BookChapter':
 						$bg = 'bg-brapcilivros';
+						pre($dt);
 						break;
 				}
 
