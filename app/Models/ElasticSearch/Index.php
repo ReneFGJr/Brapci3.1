@@ -40,6 +40,74 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function index($d1 = '', $type = '', $d3 = '')
+	{
+		$RDF = new \App\Models\Rdf\RDF();
+		$API = new \App\Models\ElasticSearch\API();
+		$sx = '';
+		$bread = ['Admin' => PATH . '/admin'];
+		$sx .= breadcrumbs($bread);
+		switch ($d1) {
+			case 'update_index':
+				$url = PATH . '/admin/elastic/update/';
+				$url2 = PATH . '/admin';
+				$sx .= 'Confirma exportação de dados?';
+				$sx .= '<hr>';
+				$sx .= 'Essa operação pode demorar algum tempo';
+				$sx .= '<br/>';
+				$sx .= form_confirm($url, $url2);
+				$Register = new \App\Models\ElasticSearch\Register();
+
+				set_time_limit(600);
+				if (get("confirm" != '')) {
+					$Register->update_index();
+				}
+				return $sx;
+			case 'searchAjax':
+				$SEARCH = new \App\Models\ElasticSearch\Search();
+				$Elasticsearch = new \App\Models\ElasticSearch\Index();
+				$_POST['offset'] = 9999999;
+				$dt = $SEARCH->search(GET("query"));
+				return $dt;
+			case 'search':
+				$SEARCH = new \App\Models\ElasticSearch\Search();
+				$Elasticsearch = new \App\Models\ElasticSearch\Index();
+				$_POST['offset'] = 50;
+				$dt = $SEARCH->search(GET("query"), $type);
+				$sx = $Elasticsearch->show_works($dt, $type);
+				break;
+			case 'formTest':
+				$sx .= $API->formTest();
+				break;
+			case 'status':
+				$dt = $API->status();
+				$sx .= '<table class="table table-sm table-striped">';
+				$sx .= '<tr><th width="25%" class="text-end small">' . lang('elasticsearch.parameter') . '</th><th class="small">' . lang('elasticsearch.value') . '</th></tr>';
+				foreach ($dt as $id => $value) {
+					$sx .= '<tr><td class="text-end"><b>' . $id . '</b></td><td>' . $value . '</td></tr>';
+				}
+				$sx .= '</table>';
+				break;
+			case 'settings':
+				$dt = $API->settings();
+				$sx .= '<table class="table table-sm table-striped">';
+				$sx .= '<tr><th width="25%" class="text-end small">' . lang('elasticsearch.parameter') . '</th><th class="small">' . lang('elasticsearch.value') . '</th></tr>';
+
+				foreach ($dt as $id => $value) {
+					if (is_array($value)) {
+						$value = json_encode($value);
+					}
+					$sx .= '<tr><td class="text-end"><b>' . $id . '</b></td><td>' . $value . '</td></tr>';
+				}
+				$sx .= '</table>';
+				break;
+			default:
+				$sx .= $this->menu();
+				break;
+		}
+		return $sx;
+	}
+
 	function paginations($dt)
 	{
 		$sx = '';
@@ -101,7 +169,68 @@ class Index extends Model
 		return $sx;
 	}
 
-	function show_works($dt)
+	function show_works($dt,$type)
+		{
+			switch($type)
+				{
+					case 'book':
+						$sx = $this->show_works_books($dt);
+						break;
+					case 'benancib':
+						$sx = $this->show_works_benancib($dt);
+						break;
+					case 'default':
+						$sx = $this->show_works_benancib($dt);
+						break;
+				}
+
+				return $sx;
+		}
+
+	function show_works_books($dt)
+	{
+		$RDF = new \App\Models\Rdf\RDF();
+		$COVER = new \App\Models\Base\Cover();
+		$sx = '';
+		if (!isset($dt['total'])) {
+			return '';
+		}
+
+		$sa = 'Total ' . $dt['total'];
+		$sa .= ', mostrando ' . $dt['start'] . '/' . $dt['offset'];
+		$sa = $this->paginations($dt);
+		$sx = bsc($sa, 12);
+
+		for ($r = 0; $r < count($dt['works']); $r++) {
+			$line = $dt['works'][$r];
+			$cover = '<img src="'.URL.'/'.$COVER->book($line['id']).'" class="img-fluid" >';
+			$cover = '<a href="'.PATH.'/books/v/'.$line['id'].'">'.$cover.'</a>';
+
+			switch($line['type'])
+				{
+					case 'Book':
+						$bg = 'btn-primary';
+						break;
+					case 'BookChapter':
+						$bg = 'bg-brapcilivros';
+						break;
+				}
+
+			$TAG = '<span class="btn small pt-0 pb-0 '.$bg.'">'.$line['type']. '</span><br>';
+			$score = '<br><span style="font-size: 0.6em;">(Score: ' . number_format($line['score'], 3, '.', ',') . ')</span>';
+			$tb = '<table width="100%">';
+			$tb .= '<tr>';
+			$tb .= '<td width="20%">'.$cover.'</td>';
+			$tb .= '<td width="80%" valign="top">' . $TAG . $RDF->c($line['id']) . $score. '</td>';
+			$tb .= '</tr>';
+			$tb .= '</table>';
+			$sx .= bsc($tb,6);
+		}
+		$sx = bs($sx);
+		return $sx;
+	}
+
+	function show_works_benancib($dt)
 	{
 		$RDF = new \App\Models\Rdf\RDF();
 		$sx = '';
@@ -147,75 +276,6 @@ class Index extends Model
 			$sx = bs(bsc($sx,12));
 			return $sx;
 		}
-
-	function index($d1 = '', $type = '', $d3 = '')
-	{
-		$RDF = new \App\Models\Rdf\RDF();
-		$API = new \App\Models\ElasticSearch\API();
-		$sx = '';
-		$bread=['Admin'=>PATH.'/admin'];
-		$sx .= breadcrumbs($bread);
-		switch ($d1) {
-			case 'update_index':
-				$url = PATH. '/admin/elastic/update/';
-				$url2 = PATH.'/admin';
-				$sx .= 'Confirma exportação de dados?';
-				$sx .= '<hr>';
-				$sx .= 'Essa operação pode demorar algum tempo';
-				$sx .= '<br/>';
-				$sx .= form_confirm($url,$url2);
-				$Register = new \App\Models\ElasticSearch\Register();
-
-				set_time_limit(600);
-				if (get("confirm"!=''))
-					{
-						$Register->update_index();
-					}
-				return $sx;
-			case 'searchAjax':
-				$SEARCH = new \App\Models\ElasticSearch\Search();
-				$Elasticsearch = new \App\Models\ElasticSearch\Index();
-				$_POST['offset'] = 9999999;
-				$dt = $SEARCH->search(GET("query"));
-				return $dt;
-			case 'search':
-				$SEARCH = new \App\Models\ElasticSearch\Search();
-				$Elasticsearch = new \App\Models\ElasticSearch\Index();
-				$_POST['offset'] = 50;
-				$dt = $SEARCH->search(GET("query"),$type);
-				$sx = $Elasticsearch->show_works($dt);
-				break;
-			case 'formTest':
-				$sx .= $API->formTest();
-				break;
-			case 'status':
-				$dt = $API->status();
-				$sx .= '<table class="table table-sm table-striped">';
-				$sx .= '<tr><th width="25%" class="text-end small">' . lang('elasticsearch.parameter') . '</th><th class="small">' . lang('elasticsearch.value') . '</th></tr>';
-				foreach ($dt as $id => $value) {
-					$sx .= '<tr><td class="text-end"><b>' . $id . '</b></td><td>' . $value . '</td></tr>';
-				}
-				$sx .= '</table>';
-				break;
-			case 'settings':
-				$dt = $API->settings();
-				$sx .= '<table class="table table-sm table-striped">';
-				$sx .= '<tr><th width="25%" class="text-end small">' . lang('elasticsearch.parameter') . '</th><th class="small">' . lang('elasticsearch.value') . '</th></tr>';
-
-				foreach ($dt as $id => $value) {
-					if (is_array($value)) {
-						$value = json_encode($value);
-					}
-					$sx .= '<tr><td class="text-end"><b>' . $id . '</b></td><td>' . $value . '</td></tr>';
-				}
-				$sx .= '</table>';
-				break;
-			default:
-				$sx .= $this->menu();
-				break;
-		}
-		return bs(bsc($sx, 12));
-	}
 
 
 }

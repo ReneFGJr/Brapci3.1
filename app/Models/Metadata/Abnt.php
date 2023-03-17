@@ -141,30 +141,30 @@ class Abnt extends Model
 
 		}
 
-	function abnt_chapter($dt)
-		{
-			$sx = 'ABNT: Capitulo';
-			if (!isset($dt['title'])) {
-				$dt['title'] = '::none::';
-			}
-			$sx = $dt['title'];
-			return $sx;
-		}
-	function abnt_article($dt)
+	function abnt_book($dt)
 	{
-		if (!isset($dt['title']))
-			{
-				$dt['title'] = '::none::';
-			}
-		$title = trim(html_entity_decode($dt['title']));
-		$title = trim(mb_strtolower($title));
-		$tu = mb_strtoupper($title);
-		$tu = mb_substr($tu, 0, 1);
-		$te = mb_substr($title, 1);
-		$title = $tu . $te;
+		$sx = '';
+		$sx .= $this->authors($dt);
+		$sx .= '<b>'.$dt['title'].'</b>. ';
+		$sx .= $dt['editora_local'].': ';
+		$sx .= $dt['editora'] . ', ';
+		$sx .= $dt['year'] . '.';
+		return $sx;
+	}
 
-		$tela = '';
-		$tela .= '<span class="abtn-article">';
+	function abnt_chapter($dt)
+	{
+		$sx = '';
+		$sx .= $this->authors($dt);
+		$sx .= $dt['title'];
+		$sx .= '. In: ';
+		$sx .= $dt['books'];
+		return $sx;
+	}
+
+	function authors($dt)
+		{
+			$sx = '';
 		if (isset($dt['Authors'])) {
 			$total = count($dt['Authors']);
 			$authors = '';
@@ -180,8 +180,28 @@ class Abnt extends Model
 				$authors .= nbr_author($dt['Authors'][0], 2);
 				$authors .= '; <i>et al.</i>. ';
 			}
-			$tela .= $authors;
+			$sx .= $authors;
 		}
+		return $sx;
+		}
+
+
+	function abnt_article($dt)
+	{
+		if (!isset($dt['title']))
+			{
+				$dt['title'] = '::none::';
+			}
+		$title = trim(html_entity_decode($dt['title']));
+		$title = trim(mb_strtolower($title));
+		$tu = mb_strtoupper($title);
+		$tu = mb_substr($tu, 0, 1);
+		$te = mb_substr($title, 1);
+		$title = $tu . $te;
+
+		$tela = '';
+		$tela .= '<span class="abtn-article">';
+		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
 		if (isset($dt['Journal']))

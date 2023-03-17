@@ -46,24 +46,44 @@ class Register extends Model
 
     function update_index()
         {
-            $dt = $this->FindAll();
+            $limit = 100;
+            $offset = get('offset');
+            if ($offset == '')
+                {
+                    $offset = 0;
+                }
+            $dtt = $this->countAllResults();
+
+            $dta = $this->FindAll($limit, $offset);
+
+
             $type = 'prod';
-            $dir = '../.tmp/';
-            dircheck($dir);
-            $file = $dir . 'metadata.json';
 
             $API = new \App\Models\ElasticSearch\API();
-            $sx = '';
-            foreach($dt as $id=>$line)
+            $sx = 'Export ElasticSearch v2.0 - ';
+            $sx .= $offset.' of '.$dtt;
+            $percent = ($offset/$dtt*100);
+            $sx .= ' ('.number_format($percent,1).'%)';
+            $sx .= '<hr>';
+
+            foreach($dta as $id=>$line)
                 {
                     $dt = json_encode($line);
                     $dt = $line;
                     $dt['id'] = $line['article_id'];
                     $dt['full'] = $line['title'] . ' ' . $line['abstract'] . ' ' . $line['keywords'] . ' ' . $line['authors'];
+                    $dt['full'] = strip_tags($dt['full']);
                     $id = $dt['id'];
                     $rst = $API->call('brapci3.1/'.$type.'/'. $id, 'POST', $dt);
-                    $sx .= $id .= ' => '.$rst['result'].'<br>';
+                    $sx .= $id .= ' => '.$rst['result'].' v.'.$rst['_version'].' ('.$line['collection'].')<br>';
                 }
+            if (count($dta) == $limit)
+                {
+                    $sx .= metarefresh(PATH. '/elasticsearch/update_index?offset='.($offset+$limit),1);
+                } else {
+                    $sx = bsmessage('Elastic Search Exported',1);
+                }
+            $sx = bs(bsc($sx,12));
             return $sx;
         }
 

@@ -165,12 +165,16 @@ class Metadata extends Model
 
                 switch ($class) {
                     case 'hasBookChapter':
-                        if (isset($this->metadata['book']))
+                        $type = $this->metadata['Class'];
+                        if ($type=='Book')
                             {
                                 $db = $RDF->le($line['d_r1']);
-                                pre($db);
-                                $this->metadata['book'] = $RDF->c($line['d_r1']);
+                                //$this->metadata['book'] = $RDF->c($line['d_r1']);
+                            } elseif ($type == 'BookChapter')
+                            {
+                                $this->lets('books', $RDF->c($line['d_r1']));
                             }
+
                         $link = '<a href="' . PATH . COLLECTION . '/v/' . $line['d_r2'] . '" class="summary_a">';
                         $linka = '</a>';
 
@@ -359,7 +363,6 @@ class Metadata extends Model
                         {
                             echo '=Not identify class=>'.$class.' == []'. $value.'('.$ddv1.') [O]'.$valueO.'('.$ddv2.')<br>';
                         }
-
                         break;
                 }
             }

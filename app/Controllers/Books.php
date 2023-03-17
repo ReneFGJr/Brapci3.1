@@ -34,7 +34,6 @@ class Books extends BaseController
         }
 
         $act = trim($act);
-        echo h($act);
         switch ($act) {
             case 'a':
                 $RDF = new \App\Models\Rdf\RDF();
@@ -83,7 +82,7 @@ class Books extends BaseController
                         $_GET['field'] = 0;
                     }
                 }
-                $sx .= view('Benancib/Welcome', $data);
+                //$sx .= view('Benancib/Welcome', $data);
                 $SEARCH = new \App\Models\ElasticSearch\Index();
                 $sx .= $SEARCH->index('search','book');
                 break;

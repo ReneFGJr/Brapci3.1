@@ -79,6 +79,21 @@ class Cover extends Model
                 }
         }
 
+    function book($id = '')
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dir = 'img/'.$RDF->directory($id);
+        $img = $dir.'image.jpg';
+        if (file_exists($img))
+            {
+                echo "OK";
+            } else {
+                $img = 'img/books/no_cover.png';
+            }
+        return $img;
+    }
+
+
     function image($id='')
     {
         $RDF = new \App\Models\Rdf\RDF();

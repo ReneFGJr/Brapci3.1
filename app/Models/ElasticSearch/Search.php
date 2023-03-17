@@ -63,25 +63,10 @@ class Search extends Model
         $method = "POST";
 
         /***************************************************************** MULTI MATCH **/
-        $data = array();
-        $data['query']['bool']['must'] = array();
+        $data = [];
 
-
-        /************************* TYPE */
-        $type_multi_match = array(
-            'best_fields', 'most_fields', 'cross_fields',
-            'phrase', 'phrase_prefix', 'phrase_prefix', 'bool_prefix'
-        );
-        $query['multi_match']['type'] = $type_multi_match[0];
-        $query['multi_match']['operator'] = 'and';
-
-        /********************************************** QUERY */
-        $query['multi_match']['query'] = ascii($qs);
-
-        $query = [];
-        $query['must']['match_phrase']['title'] = ascii($qs);
-
-        $strategy = $query;
+        $strategy = [];
+        $strategy['must']['term']['full'] = ascii($qs);
 
         /******************** Fields */
         $flds = round('0' . get("field"));
@@ -112,7 +97,7 @@ class Search extends Model
 
 
         /******************** Sources */
-        $data['_source'] = array("article_id", "id_jnl", "title", "abstract", "subject", "year");
+        $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year","full");
 
         /******************** Limites */
         $data['size'] = $offset;
@@ -125,6 +110,7 @@ class Search extends Model
         $type = trim(COLLECTION);
         $type = mb_strtolower($type);
         $type = troca($type, '/', '');
+
 
         switch ($type) {
             case 'books':
@@ -143,16 +129,10 @@ class Search extends Model
 
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
-        if (isset($filter['match']['id_jnl'])) {
-            $data['query']['bool']['filter'] = array();
-            array_push($data['query']['bool']['filter'], $filter);
-        }
-        if (isset($filter['terms']['collection'])) {
-            $data['query']['bool']['filter'] = array();
-            array_push($data['query']['bool']['filter'], $filter);
-        }
-
-        //pre($data,false);
+        if (isset($filter))
+            {
+                $data['query']['bool']['filter'] = $filter;
+            }
 
         $dt = $API->call($url, $method, $data);
 
@@ -168,12 +148,14 @@ class Search extends Model
             $rsp['offset'] = $offset;
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
+
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
                 if (isset($line['_source']['article_id'])) {
                     array_push($rsp['works'], array(
                         'id' => $line['_source']['article_id'],
-                        'score' => $line['_score']
+                        'score' => $line['_score'],
+                        'type'=> $line['_source']['type']
                     ));
                 }
             }
