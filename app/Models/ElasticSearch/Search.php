@@ -138,6 +138,8 @@ class Search extends Model
         $dt = $API->call($url, $method, $data);
 
         /* Mostra resultados ****************************************************/
+        $rsp = array();
+
         if (isset($dt['error']))
             {
                 $sx = $rsp['error'] = bsmessage(
@@ -147,7 +149,6 @@ class Search extends Model
                             );
             }
 
-        $rsp = array();
         $rsp['query'] = $qs;
 
 

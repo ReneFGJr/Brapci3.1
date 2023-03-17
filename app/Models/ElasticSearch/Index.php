@@ -173,7 +173,6 @@ class Index extends Model
 		{
 			$sx = '';
 			$sx .= h($type,5);
-			pre($dt);
 			if (isset($dt['error']))
 				{
 					$sx .= $dt['error'];
