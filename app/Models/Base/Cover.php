@@ -83,6 +83,7 @@ class Cover extends Model
     {
         $RDF = new \App\Models\Rdf\RDF();
         $dir = 'img/'.$RDF->directory($id);
+        echo $dir;
         $img = $dir.'image.jpg';
         if (file_exists($img))
             {
