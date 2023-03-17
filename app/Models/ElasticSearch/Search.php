@@ -140,12 +140,11 @@ class Search extends Model
         /* Mostra resultados ****************************************************/
         if (isset($dt['error']))
             {
-                $sx = bsmessage(
+                $sx = $rsp['error'] = bsmessage(
                             h("ERRO").
                             '<p>'.$dt['error']['root_cause'][0]['type']. '</p>'.
                             '<p>'.$dt['error']['root_cause'][0]['reason']. '</p>'
                             );
-                return $sx;
             }
 
         $rsp = array();
