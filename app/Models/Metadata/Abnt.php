@@ -158,8 +158,10 @@ class Abnt extends Model
 				$sx .= '[<i>s.n.</i>]';
 			}
 
-		if (isset($dt['editora'])) {
+		if (isset($dt['year'])) {
 			$sx .= $dt['year'] . '.';
+		} else {
+			$sx .= '[????]' . '.';
 		}
 
 		return $sx;
