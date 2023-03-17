@@ -213,7 +213,8 @@ class Index extends Model
 						break;
 					case 'BookChapter':
 						$bg = 'bg-brapcilivros';
-						pre($dt);
+						$cover = '<img src="' . URL . '/' . $COVER->book($line['id']) . '" class="img-fluid" >';
+						$cover = '<a href="' . PATH . '/books/v/' . $line['id'] . '">' . $cover . '</a>';
 						break;
 				}
 
