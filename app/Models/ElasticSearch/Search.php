@@ -136,13 +136,13 @@ class Search extends Model
             }
 
         $dt = $API->call($url, $method, $data);
-
+        pre($dt);
         /* Mostra resultados ****************************************************/
 
         $rsp = array();
         $rsp['query'] = $qs;
 
-        pre($rsp);
+
 
         $total = 0;
         if (isset($dt['hits'])) {
