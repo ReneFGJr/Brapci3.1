@@ -171,7 +171,11 @@ class Abnt extends Model
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
-		$sx .= $dt['title'];
+
+		if (isset($dt['title'])) {
+			$sx .= $dt['title'];
+		}
+
 		$sx .= '. In: ';
 		$sx .= $dt['books'];
 		return $sx;
