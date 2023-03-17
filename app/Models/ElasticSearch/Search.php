@@ -136,8 +136,17 @@ class Search extends Model
             }
 
         $dt = $API->call($url, $method, $data);
-        pre($dt);
+
         /* Mostra resultados ****************************************************/
+        if (isset($dt['error']))
+            {
+                $sx = bsmessage(
+                            h("ERRO").
+                            '<p>'.$dt['error']['root_cause'][0]['type']. '</p>'.
+                            '<p>'.$dt['error']['root_cause'][0]['reason']. '</p>'
+                            );
+                return $sx;
+            }
 
         $rsp = array();
         $rsp['query'] = $qs;
