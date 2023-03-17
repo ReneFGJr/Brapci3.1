@@ -155,6 +155,12 @@ class PA_Schema extends Model
             $cmd1 .= 'mkdir '.$DIR.$CR;
             $cmd1 .= 'cd '.$DIR.$CR;
             $cmd1 .= $CR;
+
+            /*************** */
+            $cmd1 .= '<hr>';
+            $cmd1 .= 'wget https://github.com/IQSS/dataverse/releases/download/v5.11/update-fields.sh';
+            $cmd1 .= 'chmod +x update-fields.sh'.$CR;
+            $cmd1 .= 'curl "http://localhost:8080/api/admin/index/solr/schema" | ./update-fields.sh /usr/local/solr/solr-8.8.1/server/solr/collection1/conf/schema.xml';
             $cmd1 .= 'echo "Checando '.$DIR.'update-fields.sh"'.$CR;
             if (!file_exists($DIR.'update-fields.sh'))
                 {
