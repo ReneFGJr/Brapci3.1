@@ -146,8 +146,14 @@ class Abnt extends Model
 		$sx = '';
 		$sx .= $this->authors($dt);
 		$sx .= '<b>'.$dt['title'].'</b>. ';
-		$sx .= $dt['editora_local'].': ';
-		$sx .= $dt['editora'] . ', ';
+		if (isset($dt['editora_local']))
+			{
+				$sx .= $dt['editora_local'] . ': ';
+			}
+		if (isset($dt['editora']))
+			{
+				$sx .= $dt['editora'] . ': ';
+			}
 		$sx .= $dt['year'] . '.';
 		return $sx;
 	}
