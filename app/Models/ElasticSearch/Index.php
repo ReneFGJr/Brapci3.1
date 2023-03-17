@@ -176,7 +176,7 @@ class Index extends Model
 			if (isset($dt['error']))
 				{
 					$sx .= $dt['error'];
-					return
+					return $sx;
 				}
 			switch($type)
 				{
