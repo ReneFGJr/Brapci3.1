@@ -177,7 +177,11 @@ class Abnt extends Model
 		}
 
 		$sx .= '. In: ';
-		$sx .= $dt['books'];
+		if (isset($dt['books'])) {
+			$sx .= $dt['books'];
+		} else {
+			$sx .= '[Fonte não localizada]';
+		}
 		return $sx;
 	}
 
