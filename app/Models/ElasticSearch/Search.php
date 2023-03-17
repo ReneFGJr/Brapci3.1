@@ -135,7 +135,7 @@ class Search extends Model
                 $data['query']['bool']['filter'] = $filter;
             }
 
-            pre($data,false);
+            //pre($data,false);
 
         $dt = $API->call($url, $method, $data);
 
