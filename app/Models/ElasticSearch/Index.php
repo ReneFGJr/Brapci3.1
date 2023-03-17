@@ -219,6 +219,7 @@ class Index extends Model
 
 			$TAG = '<span class="btn small pt-0 pb-0 '.$bg.'">'.$line['type']. '</span><br>';
 			$score = '<br><span style="font-size: 0.6em;">(Score: ' . number_format($line['score'], 3, '.', ',') . ')</span>';
+			$score .= '<br>'.$line['id'];
 			$tb = '<table width="100%">';
 			$tb .= '<tr>';
 			$tb .= '<td width="20%">'.$cover.'</td>';
