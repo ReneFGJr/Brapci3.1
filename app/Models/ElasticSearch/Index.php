@@ -172,6 +172,7 @@ class Index extends Model
 	function show_works($dt,$type)
 		{
 			$sx = '';
+			$sx .= h($type,5);
 			switch($type)
 				{
 					case 'book':
