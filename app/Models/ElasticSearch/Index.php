@@ -173,16 +173,21 @@ class Index extends Model
 		{
 			$sx = '';
 			$sx .= h($type,5);
+			if (isset($dt['error']))
+				{
+					$sx .= $dt['error'];
+					return
+				}
 			switch($type)
 				{
 					case 'book':
-						$sx = $this->show_works_books($dt);
+						$sx .= $this->show_works_books($dt);
 						break;
 					case 'benancib':
-						$sx = $this->show_works_benancib($dt);
+						$sx .= $this->show_works_benancib($dt);
 						break;
 					default:
-						$sx = $this->show_works_benancib($dt);
+						$sx .= $this->show_works_benancib($dt);
 						break;
 				}
 
