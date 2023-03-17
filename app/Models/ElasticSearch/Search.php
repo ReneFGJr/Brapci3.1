@@ -120,7 +120,7 @@ class Search extends Model
                 break;
             case 'benancib':
                 $url = 'brapci3.1/_search';
-                $filter['match']['id_jnl'] = [75];
+                $filter['term']['id_jnl'] = [75];
                 break;
             default:
                 $url = 'brp2/_search';
