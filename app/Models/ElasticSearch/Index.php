@@ -171,6 +171,7 @@ class Index extends Model
 
 	function show_works($dt,$type)
 		{
+			$sx = '';
 			switch($type)
 				{
 					case 'book':
@@ -179,7 +180,7 @@ class Index extends Model
 					case 'benancib':
 						$sx = $this->show_works_benancib($dt);
 						break;
-					case 'default':
+					default:
 						$sx = $this->show_works_benancib($dt);
 						break;
 				}
