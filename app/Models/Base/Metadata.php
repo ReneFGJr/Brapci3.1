@@ -184,7 +184,7 @@ class Metadata extends Model
                             {
                                 $value = '<p class="summary_ln">' . $link . $RDF->c($line['d_r2']) . $linka . '</p>';
                             } else {
-                                $value = 'Aguarde, em processamento';
+                                $value = 'Aguarde, em processamento<br><br>';
                             }
                         $this->lets('summary', $value);
                         break;
