@@ -172,6 +172,7 @@ class Metadata extends Model
                                 //$this->metadata['book'] = $RDF->c($line['d_r1']);
                             } elseif ($type == 'BookChapter')
                             {
+                                $this->metadata['bookID'] = $line['d_r1'];
                                 $this->lets('books', $RDF->c($line['d_r1']));
                             }
 
