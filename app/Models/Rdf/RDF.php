@@ -918,7 +918,10 @@ class RDF extends Model
 				case 'abnt':
 					$type = 'abnt';
 					$force = false;
-
+					break;
+				case 'cover':
+					$type = 'cover';
+					$force = false;
 					break;
 			}
 		if ($id == 0) {
@@ -929,6 +932,9 @@ class RDF extends Model
 			{
 				case 'abnt':
 					$file = $dir . 'work_abnt.nm';
+					break;
+				case 'cover':
+					$file = $dir . 'conver.img';
 					break;
 				default:
 					$file = $dir . 'name.nm';

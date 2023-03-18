@@ -348,6 +348,11 @@ class RDFExport extends Model
 		{
 			switch($type)
 				{
+					case 'Cover':
+						$COVER = new \App\Models\Base\Cover();
+						$img = $COVER->book($dta['ID']);
+						$this->saveRDF($id, $img, 'conver.img');
+						break;
 					case 'Elastic':
 						$dta = json_encode($dta);
 						$this->saveRDF($id, $dta, 'metadata.json');
@@ -595,6 +600,8 @@ class RDFExport extends Model
 
 		$this->saveData($id, 'Year', $dta);
 		$this->saveData($id, 'Place', $dta);
+
+		$this->saveData($id, 'Cover', $dta);
 
 		$this->saveData($id, 'Class', $dta);
 		$this->saveData($id, 'Pages', $dta);

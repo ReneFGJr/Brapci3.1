@@ -220,7 +220,7 @@ class Index extends Model
 						break;
 					case 'BookChapter':
 						$bg = 'bg-brapcilivros';
-						$cover = '<img src="' . URL . '/' . $COVER->book($line['id']) . '" class="img-fluid" >';
+						$cover = '<img src="' . URL . '/' . $RDF->c($line['id'],'cover') . '" class="img-fluid" >';
 						$cover = '<a href="' . PATH . '/books/v/' . $line['id'] . '">' . $cover . '</a>';
 						break;
 				}
