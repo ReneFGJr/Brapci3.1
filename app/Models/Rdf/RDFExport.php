@@ -571,7 +571,6 @@ class RDFExport extends Model
 
 	function export_bookChapter($dt,$id)
 		{
-			echo "início";
 		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
@@ -580,6 +579,7 @@ class RDFExport extends Model
 			return "OPS export_proceeding " . $id . '<br>';
 		}
 		$dta = $Metadata->metadata($dt);
+		echo "OK";
 
 		$this->saveData($id, 'Title', $dta);
 		//$this->saveData($id, 'Section', $dta);
