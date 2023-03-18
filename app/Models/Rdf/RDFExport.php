@@ -621,7 +621,7 @@ class RDFExport extends Model
 				$authors = troca($authors, '$', ';');
 				$authors = troca($authors,';#','');
 				$authors = troca($authors, '#', '');
-				$authors .= '. ';
+				$authors .= 'xxxx. ';
 			}
 
 		if (isset($dta['title']))
