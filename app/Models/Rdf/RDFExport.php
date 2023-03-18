@@ -350,8 +350,7 @@ class RDFExport extends Model
 				{
 					case 'Cover':
 						$COVER = new \App\Models\Base\Cover();
-						pre($dta,false);
-						$img = $COVER->book($dta['ID']);
+						$img = $COVER->book($dta['bookID']);
 						$this->saveRDF($id, $img, 'cover.img');
 						break;
 					case 'Elastic':
