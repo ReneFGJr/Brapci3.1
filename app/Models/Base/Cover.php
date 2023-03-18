@@ -84,7 +84,7 @@ class Cover extends Model
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
 
-        $id = $RDF->extract('hasCover', $dt);
+        $id = $RDF->extract($dt,'hasCover');
         echo '===>'.$id;
         exit;
 
