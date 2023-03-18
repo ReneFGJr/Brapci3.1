@@ -85,8 +85,10 @@ class Cover extends Model
         $dt = $RDF->le($id);
 
         $id = $RDF->extract($dt,'hasCover');
-        pre($id);
-        exit;
+        if (count($id) > 0)
+            {
+                $id = $id[0];
+            }
 
         $dir = 'img/' . $RDF->directory($id);
         $dir = troca($dir,'/.c/','/c/');
