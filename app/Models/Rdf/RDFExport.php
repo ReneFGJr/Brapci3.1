@@ -359,7 +359,7 @@ class RDFExport extends Model
 						$this->saveRDF($id, $dta, 'name.nm');
 						break;
 					case 'abnt':
-						$this->saveRDF($id, $dta, 'work_abtn.mm');
+						$this->saveRDF($id, $dta, 'work_abnt.nm');
 						break;
 					case 'Class':
 						$name = $dta['Class'];
@@ -605,9 +605,27 @@ class RDFExport extends Model
 
 		/* Formata para Artigo ABNT */
 		$ABNT = new \App\Models\Metadata\Abnt();
-		$name = $ABNT->abnt_chapter($dta);
-		$this->saveData($id, 'abnt', $name);
+		$nameABNT = $ABNT->abnt_chapter($dta);
+		$authors = '';
+		if (isset($dta['Authors']))
+			{
+				$authors = $ABNT->authors($dta);
+				$authors = trim($dta['authors']).'#';
+				$authors = troca($authors, '$', ';');
+				$authors = troca($authors,';#','');
+				$authors = troca($authors, '#', '');
+				$authors .= '. ';
+			}
+		if (isset($dta['title']))
+			{
+				$title = $dta['title'];
+			} else {
+				$title = '[sem título]';
+			}
+		$name = trim($title).'<br><i>'.$authors.'</i>';
+		$this->saveData($id, 'abnt', $nameABNT);
 		$this->saveData($id, 'name', $name);
+		echo $name;
 
 		return "";
 		}

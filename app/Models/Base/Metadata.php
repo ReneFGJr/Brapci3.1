@@ -189,6 +189,7 @@ class Metadata extends Model
                         break;
                     case 'hasClassificationAncib':
                         $this->lets('CatAncib', $value);
+                        $this->let_array('CatAncibArray', $ddv2, $value);
                         break;
                     case 'hasFileStorage':
                         $this->let('PDF', $value);

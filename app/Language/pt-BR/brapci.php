@@ -159,7 +159,7 @@ return [
         'BolsasPQ'=>'Bolsa PQ',
         'lastpublications'=>'Últimas edições',
         'journals' => 'Revistas',
-        '' => '',
+        'classification' => 'Classificação',
         '' => '',
         '' => '',
         '' => '',

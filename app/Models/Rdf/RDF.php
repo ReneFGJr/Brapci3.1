@@ -912,11 +912,28 @@ class RDF extends Model
 
 	function c($id, $force = false)
 	{
+		$type = '';
+		switch($force)
+			{
+				case 'abnt':
+					$type = 'abnt';
+					$force = false;
+
+					break;
+			}
 		if ($id == 0) {
 			return "empty";
 		}
 		$dir = $this->directory($id, true);
-		$file = $dir . 'name.nm';
+		switch($type)
+			{
+				case 'abnt':
+					$file = $dir . 'work_abnt.nm';
+					break;
+				default:
+					$file = $dir . 'name.nm';
+					break;
+			}
 
 		if ((file_exists($file)) and ($force == false)) {
 			$tela = file_get_contents($file);

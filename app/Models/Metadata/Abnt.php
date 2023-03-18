@@ -66,20 +66,7 @@ class Abnt extends Model
 		$tela = '';
 		$tela .= '<span class="abtn-article">';
 		if (isset($dt['Authors'])) {
-			$total = count($dt['Authors']);
-			$authors = '';
-			if ($total <= 3) {
-				for ($r = 0; $r < count($dt['Authors']); $r++) {
-					if ($authors != '') {
-						$authors .= '; ';
-					}
-					$authors .= nbr_author($dt['Authors'][$r], 2);
-				}
-				$authors .= '. ';
-			} else {
-				$authors .= nbr_author($dt['Authors'][0], 2);
-				$authors .= '; <i>et al.</i>. ';
-			}
+			$authors = $this->authors($dt['Authors']);
 			$tela .= $authors;
 		}
 		if (isset($dt['id_jnl'][0]))
@@ -141,29 +128,32 @@ class Abnt extends Model
 
 		}
 
+
 	function abnt_book($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
+		if ($sx != '') { $sx .= ' '; }
 		$sx .= '<b>'.$dt['title'].'</b>. ';
 		if (isset($dt['editora_local']))
 			{
 				$sx .= $dt['editora_local'] . ': ';
 			} else {
-				$sx .= '[<i>S.l.</i>]';
+				$sx .= '[<i>S.l.</i>]: ';
 			}
 		if (isset($dt['editora']))
 			{
-				$sx .= $dt['editora'] . ': ';
+				$sx .= $dt['editora'] . '';
+			} else {
 				$sx .= '[<i>s.n.</i>]';
 			}
 
 		if (isset($dt['year'])) {
-			$sx .= $dt['year'] . '.';
+			$sx .= ', '.$dt['year'] . '.';
 		} else {
-			$sx .= '[????]' . '.';
+			$sx .= ', [????]' . '.';
 		}
-
+		$sx = troca($sx, '..','.');
 		return $sx;
 	}
 
@@ -173,7 +163,8 @@ class Abnt extends Model
 		$sx .= $this->authors($dt);
 
 		if (isset($dt['title'])) {
-			$sx .= $dt['title'];
+			if ($sx != '') { $sx .= ' '; }
+			$sx .= trim($dt['title']);
 		}
 
 		$sx .= '. In: ';
@@ -188,23 +179,27 @@ class Abnt extends Model
 	function authors($dt)
 		{
 			$sx = '';
+			$etal = false;
 		if (isset($dt['Authors'])) {
 			$total = count($dt['Authors']);
 			$authors = '';
 			if ($total <= 3) {
 				for ($r = 0; $r < count($dt['Authors']); $r++) {
 					if ($authors != '') {
-						$authors = '; ';
+						$authors .= '; ';
 					}
 					$authors .= nbr_author($dt['Authors'][$r], 2);
 				}
 				$authors .= '. ';
 			} else {
 				$authors .= nbr_author($dt['Authors'][0], 2);
-				$authors .= '; <i>et al.</i>. ';
+				$authors .= '; <i>et al.</i> ';
+				$etal = true;
 			}
 			$sx .= $authors;
 		}
+		$sx = troca($sx,'..','.');
+		$sx = trim($sx);
 		return $sx;
 		}
 

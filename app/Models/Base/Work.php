@@ -303,7 +303,7 @@ class Work extends Model
             }
         }
         $sx .= '<input type="checkbox" name="w' . $id . '" id="w' . $id . '" ' . $chk . ' onclick="markArticle(\'w' . $id . '\',this);"> ';
-        $sx .= $RDF->c($id) . cr();
+        $sx .= $RDF->c($id,'abnt') . cr();
         return $sx;
     }
 }

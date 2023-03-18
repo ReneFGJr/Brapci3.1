@@ -73,6 +73,17 @@ body
   color: white;
   padding-bottom: 3px;
 }
+.bg-destaque
+  {
+    background-color: #eee ;
+    border-radius: 10px;
+    border: 1px solid #999;
+  }
+
+.bg-destaque a
+  {
+    color:#000;
+  }
 
 .bg-benancib a:hover
   {

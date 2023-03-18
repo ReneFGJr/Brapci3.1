@@ -9,12 +9,37 @@ $vars = array(
     'license',
     'issue', 'links'
 );
-if (!isset($Keywords))
+if (!isset($Keywords)) {
+    $Keywords = array();
+}
+
+$Classification = '';
+
+if (isset($CatAncibArray))
     {
-        $Keywords = array();
+        foreach($CatAncibArray as $name=>$id)
+            {
+                if ($Classification != '')
+                    {
+                        $Classification .= '<br/>';
+                    }
+                $Classification .= '<a href="'.PATH.'/books/v/'.$id.'">'.$name.'</a>';
+            }
+
+    }
+
+$KeywordsLN = '';
+foreach($Keywords as $name=>$id)
+    {
+        $lnt = explode(';',$name);
+        if (count($lnt) == 2)
+            {
+                $KeywordsLN .= '<a href="'.PATH.'/v/'.$lnt[1].'">'.$lnt[0].'.</a> ';
+            }
     }
 $authors = '';
 $authorsLN = '';
+$authorsCP = '';
 foreach ($Authors as $id => $name) {
     if (strpos($name, ';')) {
         $name = explode(';', $name);
@@ -32,6 +57,12 @@ foreach ($Authors as $id => $name) {
     $authorsLN .= '.';
     $authorsLN = troca($authorsLN, ';.', '.');
 }
+
+if (isset($Chapter['authors'])) {
+    $aux = $Chapter['authors'];
+    $authorsCP = troca($aux, '$', ';');
+    }
+
 
 foreach ($vars as $v) {
     if (!isset($$v)) {

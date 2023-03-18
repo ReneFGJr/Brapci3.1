@@ -19,7 +19,7 @@ require("_process.php");
             <h6 class="text-end"><i><?= troca($authors, '$', '<br>'); ?></i></h6>
 
             <div class="container-fluid">
-                <div class="row" style="background-color: #eee;">
+                <div class="row bg-destaque">
                     <div class="col-3">
                         <p><b>ISBN</b><br /><?= $isbn; ?></b></p>
                     </div>
@@ -41,16 +41,43 @@ require("_process.php");
                     </div>
 
                     <div class="col-3">
-                        <p><b>Páginas</b>
-                            <br /><?= $pages; ?>
-                        </p>
+                        <?php
+                        if ($pages != '') {
+                            echo '<p><b>Páginas</b><br />' . $pages . '</p>';
+                        }
+                        ?>
                     </div>
 
                     <div class="col-9">
-                        <p><b>Palavras-chave</b>
-                            <br /><?= $subject; ?>
-                        </p>
+                        <?php
+                        ############################### DOI
+                        if ($KeywordsLN != '') {
+                        ?>
+                            <p><b><?= lang('brapci.keywords'); ?></b>
+                                <br /><?= $KeywordsLN; ?>
+                            </p>
+                        <?php
+                        }
+                        ?>
                     </div>
+
+
+
+                    <?php
+                    ############################### DOI
+                    if (isset($Classification)) {
+                    ?>
+                        <div class="col-3">
+                        </div>
+                        <div class="col-9">
+                            <p>
+                            <p><b><?= lang('brapci.classification'); ?></b>
+                                <br /><?= $Classification; ?>
+                            </p>
+                        </div>
+                    <?php
+                    }
+                    ?>
 
                     <?php
                     ############################### DOI
@@ -68,15 +95,18 @@ require("_process.php");
                     ?>
                 </div>
 
-                <!--- PART II - SUMMARY -->
-                <div class="col-12 summary mt-3" style="background-color: #fff;">
-                    <?= $summary; ?>
-                </div>
+                <div class="row">
 
-                <div class="col-12 mt-3" style="background-color: #fff;">
-                    <?= $reference; ?>
-                </div>
+                    <!--- PART II - SUMMARY -->
+                    <div class="col-12 summary mt-3" style="background-color: #fff;">
+                        <?= $summary; ?>
+                    </div>
 
+                    <div class="col-12 mt-3" style="background-color: #fff;">
+                        <?= $reference; ?>
+                    </div>
+
+                </div>
             </div>
         </div>
         <!------------------------------------------------ RIGHT --->
