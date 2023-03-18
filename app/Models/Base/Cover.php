@@ -87,9 +87,12 @@ class Cover extends Model
 
         $img = $dir . 'image.jpg';
         if (file_exists($img)) {
+
         } else {
             $img = 'img/books/no_cover.png';
         }
+        echo $img;
+        exit;
         return $img;
     }
 
