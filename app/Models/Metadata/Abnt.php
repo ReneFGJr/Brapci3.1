@@ -171,6 +171,8 @@ class Abnt extends Model
 				$pos = round(strpos($title,' '));
 				while (($pos < 4) and ($pos > 0))
 					{
+						echo $title;
+						pre($pos);
 						$title[$pos] = '_';
 						$pos = strpos($title, ' ');
 					}
