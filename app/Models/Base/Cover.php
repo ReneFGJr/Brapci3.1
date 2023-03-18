@@ -82,6 +82,10 @@ class Cover extends Model
     function book($id = '')
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+        pre($dt);
+        $id = $RDF->extract($dt,'');
+
         $dir = 'img/' . $RDF->directory($id);
         $dir = troca($dir,'/.c/','/c/');
 
