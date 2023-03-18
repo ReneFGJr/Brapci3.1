@@ -160,7 +160,7 @@ return [
         'lastpublications'=>'Últimas edições',
         'journals' => 'Revistas',
         'classification' => 'Classificação',
-        '' => '',
+        'pages' => 'Página(s)',
         '' => '',
         '' => '',
         '' => '',

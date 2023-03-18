@@ -31,9 +31,15 @@ require("_process.php");
                             ############################### KeywordsLN
                             if ($KeywordsLN != '') {
                             ?>
-                                <div class="col-1 mt-2">
+                                <div class="col-2 mt-2">
+                                    <?php
+                                    if (isset($Pages)) { ?>
+                                        <p><b><?= lang('brapci.pages'); ?></b>
+                                            <br /><?= $Pages; ?>
+                                        </p>
+                                    <?php } ?>
                                 </div>
-                                <div class="col-11 mt-2">
+                                <div class="col-10 mt-2">
 
                                     <p><b><?= lang('brapci.keywords'); ?></b>
                                         <br /><?= $KeywordsLN; ?>
