@@ -615,6 +615,7 @@ class RDFExport extends Model
 		$this->saveData($id, 'Elastic', $dta);
 
 		/* Formata para Artigo ABNT */
+		echo "OK A" . ($x++);
 		$ABNT = new \App\Models\Metadata\Abnt();
 		$nameABNT = $ABNT->abnt_chapter($dta);
 		$authors = '';
@@ -633,6 +634,8 @@ class RDFExport extends Model
 			} else {
 				$title = '[sem título]';
 			}
+		echo "OK " . ($x++);
+
 		$name = '<b>'.trim($title). '</b><br><i>'.$authors.'</i>';
 		$this->saveData($id, 'abnt', $nameABNT);
 		$this->saveData($id, 'name', $name);
