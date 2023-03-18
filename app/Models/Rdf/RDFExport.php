@@ -609,6 +609,8 @@ class RDFExport extends Model
 		$this->saveData($id, 'Pages', $dta);
 		//$this->saveRDF($id, json_encode($dta), 'name.json');
 
+		echo "OK " . ($x++);
+
 		$this->saveCSV($id);
 		$this->saveData($id, 'Elastic', $dta);
 
