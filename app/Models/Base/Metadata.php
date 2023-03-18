@@ -179,12 +179,7 @@ class Metadata extends Model
                         $linka = '</a>';
 
                         $bn = $RDF->directory($line['d_r2']);
-                        if (file_exists($bn.'name.nm'))
-                            {
-                                $value = '<p class="summary_ln">' . $link . $RDF->c($line['d_r2']) . $linka . '</p>';
-                            } else {
-                                $value = 'xxx';
-                            }
+                        $value = '<p class="summary_ln">' . $link . $RDF->c($line['d_r2']) . $linka . '</p>';
                         $this->lets('summary', $value);
                         break;
                     case 'hasClassificationAncib':
