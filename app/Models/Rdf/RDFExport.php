@@ -630,11 +630,11 @@ class RDFExport extends Model
 			} else {
 				$title = '[sem título]';
 			}
-		if (strlen($authors) > 5)
+		if (strlen(trim($authors)) > 5)
 			{
 				$name = '<b>' . trim($title) . '</b><br><i>' . $authors . '</i>';
 			} else {
-				$name = '<b>' . trim($title) . '</b>';
+				$name = '<b>' . trim($title) . 'xxxx</b>';
 			}
 			pre($authors,false);
 			pre($name);
