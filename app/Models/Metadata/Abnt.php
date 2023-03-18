@@ -163,8 +163,29 @@ class Abnt extends Model
 		$sx .= $this->authors($dt);
 
 		if (isset($dt['title'])) {
-			if ($sx != '') { $sx .= ' '; }
-			$sx .= trim($dt['title']);
+		if ($sx != '')
+			{
+				$sx .= ' '.trim($dt['title']);
+			} else {
+				$title = trim($dt['title']);
+				$pos = round(strpos($title,' '));
+				while (($pos < 4) and ($pos > 0))
+					{
+						pre($pos);
+						$title[$pos] = '_';
+						$pos = strpos($title, ' ');
+					}
+				if ($pos == 0)
+					{
+						$pos = strlen($title);
+					}
+					$sx1 = substr($title,0,$pos);
+					$sx2 = substr($title,$pos+1,strlen($title));
+					$title = mb_strtoupper($sx1).' '.trim($sx2);
+					$title = troca($title,'_',' ');
+
+				$sx .= trim($title);
+			}
 		}
 
 		$sx .= '. In: ';
