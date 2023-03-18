@@ -626,6 +626,7 @@ class RDFExport extends Model
 		$this->saveData($id, 'abnt', $nameABNT);
 		$this->saveData($id, 'name', $name);
 		echo $name;
+		echo "FIM";
 
 		return "";
 		}
