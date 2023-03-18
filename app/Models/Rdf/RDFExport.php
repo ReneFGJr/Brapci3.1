@@ -571,7 +571,7 @@ class RDFExport extends Model
 
 	function export_bookChapter($dt,$id)
 		{
-
+			echo "início";
 		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
