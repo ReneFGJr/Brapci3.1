@@ -628,6 +628,8 @@ class RDFExport extends Model
 				$authors = troca($authors, '#', '');
 				$authors .= '. ';
 			}
+		echo "OK A" . ($x++);
+
 		if (isset($dta['title']))
 			{
 				$title = $dta['title'];
