@@ -83,6 +83,8 @@ class Books extends BaseController
                     }
                 }
                 //$sx .= view('Benancib/Welcome', $data);
+                $sx .= view('BrapciBooks/Pages/search');
+
                 $SEARCH = new \App\Models\ElasticSearch\Index();
                 $sx .= $SEARCH->index('search','book');
                 break;

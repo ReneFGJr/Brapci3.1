@@ -47,6 +47,7 @@ class Index extends Model
 		$sx = '';
 		$bread = ['Admin' => PATH . '/admin'];
 		$sx .= breadcrumbs($bread);
+
 		switch ($d1) {
 			case 'update_index':
 				$url = PATH . '/admin/elastic/update/';
@@ -73,6 +74,7 @@ class Index extends Model
 				$SEARCH = new \App\Models\ElasticSearch\Search();
 				$Elasticsearch = new \App\Models\ElasticSearch\Index();
 				$_POST['offset'] = 50;
+
 				$dt = $SEARCH->search(GET("query"), $type);
 				$sx = $Elasticsearch->show_works($dt, $type);
 				break;
@@ -172,7 +174,6 @@ class Index extends Model
 	function show_works($dt,$type)
 		{
 			$sx = '';
-			$sx .= h($type,5);
 			if (isset($dt['error']))
 				{
 					$sx .= $dt['error'];
@@ -199,8 +200,9 @@ class Index extends Model
 		$RDF = new \App\Models\Rdf\RDF();
 		$COVER = new \App\Models\Base\Cover();
 		$sx = '';
-		if (!isset($dt['total'])) {
-			return '';
+		if ($dt['total']==0) {
+			$sx .= bs(bsc(bsmessage(lang('brapci.nothing_locate_found'),3)));
+			return $sx;
 		}
 
 		$sa = 'Total ' . $dt['total'];

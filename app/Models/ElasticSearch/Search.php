@@ -105,7 +105,7 @@ class Search extends Model
         $data['from'] = $start;
         $data['query']['bool'] = $strategy;
 
-        $sx =  $q;
+        $sx =  '';
 
         /************************** */
         $type = trim(COLLECTION);
