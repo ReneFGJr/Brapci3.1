@@ -622,7 +622,7 @@ class RDFExport extends Model
 			} else {
 				$title = '[sem título]';
 			}
-		$name = trim($title).'<br><i>'.$authors.'</i>';
+		$name = '<b>'.trim($title). '</b><br><i>'.$authors.'</i>';
 		$this->saveData($id, 'abnt', $nameABNT);
 		$this->saveData($id, 'name', $name);
 		echo $name;
