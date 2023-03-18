@@ -580,22 +580,13 @@ class RDFExport extends Model
 		}
 		$dta = $Metadata->metadata($dt);
 		$x = 0;
-		echo "OK " . ($x++);
 
 		$this->saveData($id, 'Title', $dta);
 		//$this->saveData($id, 'Section', $dta);
 		//$this->saveData($id, 'Journal', $dta);
 
-		echo "OK " . ($x++);
-
 		$this->saveData($id, 'Authors', $dta);
-
-		echo "OK " . ($x++);
-
 		$this->saveData($id, 'Keywords', $dta);
-
-		echo "OK " . ($x++);
-
 		if (isset($dta['issue_id'])) {
 			$dti = $RDF->le($dta['issue_id'][0]);
 			$dta['issue'] = $Metadata->metadata($dti);
@@ -608,8 +599,6 @@ class RDFExport extends Model
 		$this->saveData($id, 'Class', $dta);
 		$this->saveData($id, 'Pages', $dta);
 		//$this->saveRDF($id, json_encode($dta), 'name.json');
-
-		echo "OK " . ($x++);
 
 		$this->saveCSV($id);
 		$this->saveData($id, 'Elastic', $dta);
@@ -628,7 +617,7 @@ class RDFExport extends Model
 				$authors = troca($authors, '#', '');
 				$authors .= '. ';
 			}
-		echo "OK A" . ($x++);
+		echo "OK B" . ($x++);
 
 		if (isset($dta['title']))
 			{
