@@ -634,10 +634,8 @@ class RDFExport extends Model
 			{
 				$name = '<b>' . trim($title) . '</b><br><i>' . $authors . '</i>';
 			} else {
-				$name = '<b>' . trim($title) . 'xxxx</b>';
+				$name = '<b>' . trim($title) . '</b>';
 			}
-			pre($authors,false);
-			pre($name);
 
 		$this->saveData($id, 'abnt', $nameABNT);
 		$this->saveData($id, 'name', $name);
