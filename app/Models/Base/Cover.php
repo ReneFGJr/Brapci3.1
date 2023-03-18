@@ -85,7 +85,7 @@ class Cover extends Model
         $dt = $RDF->le($id);
 
         $id = $RDF->extract($dt,'hasCover');
-        echo '===>'.$id;
+        pre($id);
         exit;
 
         $dir = 'img/' . $RDF->directory($id);
