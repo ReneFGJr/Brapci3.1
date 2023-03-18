@@ -621,11 +621,7 @@ class RDFExport extends Model
 				$authors = troca($authors, '$', ';');
 				$authors = troca($authors,';#','');
 				$authors = troca($authors, '#', '');
-				pre($authors);
-				if (strlen(trim($authors)) > 0)
-					{
-						$authors .= '. ';
-					}
+				$authors .= '. ';
 			}
 
 		if (isset($dta['title']))
@@ -634,7 +630,7 @@ class RDFExport extends Model
 			} else {
 				$title = '[sem título]';
 			}
-		if (strlen(trim($authors)) > 5)
+		if (strlen(trim(srip_tags($authors))) > 5)
 			{
 				$name = '<b>' . trim($title) . '</b><br><i>' . $authors . '</i>';
 			} else {
