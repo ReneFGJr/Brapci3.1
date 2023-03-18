@@ -934,7 +934,7 @@ class RDF extends Model
 					$file = $dir . 'work_abnt.nm';
 					break;
 				case 'cover':
-					$file = $dir . 'conver.img';
+					$file = $dir . 'cover.img';
 					break;
 				default:
 					$file = $dir . 'name.nm';
