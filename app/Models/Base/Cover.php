@@ -86,6 +86,7 @@ class Cover extends Model
         $dir = troca($dir,'/.c/','/c/');
 
         $img = $dir . 'image.jpg';
+        echo $img.'<br>';
         if (file_exists($img)) {
 
         } else {
