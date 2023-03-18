@@ -630,8 +630,13 @@ class RDFExport extends Model
 			} else {
 				$title = '[sem título]';
 			}
+		if (strlen($authors) > 5)
+			{
+				$name = '<b>' . trim($title) . '</b><br><i>' . $authors . '</i>';
+			} else {
+				$name = '<b>' . trim($title) . '</b>';
+			}
 
-		$name = '<b>'.trim($title). '</b><br><i>'.$authors.'</i>';
 		$this->saveData($id, 'abnt', $nameABNT);
 		$this->saveData($id, 'name', $name);
 
