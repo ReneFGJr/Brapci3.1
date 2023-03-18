@@ -215,7 +215,7 @@ class Index extends Model
 				{
 					case 'Book':
 						$bg = 'btn-primary';
-						$cover = '<img src="' . URL . '/' . $COVER->book($line['id']) . '" class="img-fluid" >';
+						$cover = '<img src="' . URL . '/' . $COVER->book($line['id']) . '" class="img-fluid img-thumb" >';
 						$cover = '<a href="' . PATH . '/books/v/' . $line['id'] . '">' . $cover . '</a>';
 						break;
 					case 'BookChapter':
@@ -230,8 +230,8 @@ class Index extends Model
 			//$score .= '<br>'.$line['id'];
 			$tb = '<table width="100%">';
 			$tb .= '<tr>';
-			$tb .= '<td width="20%">'.$cover.'</td>';
-			$tb .= '<td width="80%" valign="top">' . $TAG . $RDF->c($line['id']) . $score. '</td>';
+			$tb .= '<td width="20%" class="p-2">'.$cover.'</td>';
+			$tb .= '<td width="80%" valign="top" class="p-2">' . $TAG . $RDF->c($line['id']) . $score. '</td>';
 			$tb .= '</tr>';
 			$tb .= '</table>';
 			$sx .= bsc($tb,6);
