@@ -279,7 +279,6 @@ function nbr_author2($xa, $tp)
         $xa = trim(trim($xp2) . ' ' . trim($xp1));
         if (($tp == 1) or ($tp == 2))
         {
-            echo '<br>===>'.$xp1;
             //exit;
             if ($tp == 1) { $xp1 = mb_strtoupper($xp1);
             }

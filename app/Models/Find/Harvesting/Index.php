@@ -70,9 +70,11 @@ class Index extends Model
                             $this->process_work($h);
                             break;
                         case 'FormExpression':
+                            echo "FormExpression";
                             pre($h);
                             break;
                         case 'Manifestation':
+                            echo "Manifestation";
                             pre($h);
                             break;
                         case 'Expression':

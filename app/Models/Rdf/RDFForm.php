@@ -164,7 +164,6 @@ class RdfForm extends Model
 
 
 				$rlt =  (array)$this->db->query($sql)->getResult();
-				//pre($rlt);
 
 				$sx .= '<table width="100%" cellpadding=5>';
 				$js = '';

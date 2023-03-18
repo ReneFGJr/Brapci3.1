@@ -100,7 +100,6 @@ class RPIDespacho extends Model
 
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
-            //pre($line);
             $sx .= '<tr>';
             $sx .= '<td>' . $line['rpi_nr'] . '</td>';
             $sx .= '<td>' . stodbr($line['rpi_data']) . '</td>';

@@ -86,7 +86,6 @@ if (is_array($isbn)) {
 }
 
 if (isset($Chapter)) {
-    //pre($Chapter);
     $vars = array(
         'title', 'idioma', 'authors',
         'AuthorsLN', 'idioma', 'year',

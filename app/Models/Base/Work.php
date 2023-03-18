@@ -142,7 +142,6 @@ class Work extends Model
                 $sx .= view('Brapci/Base/WorkBook', $da);
                 break;
             case 'BookChapter':
-                //pre($da);
                 $sx .= view('Brapci/Base/WorkBookChapter', $da);
                 break;
             case 'Proceeding':

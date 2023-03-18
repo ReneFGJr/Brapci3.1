@@ -80,7 +80,6 @@ class pdf extends Model
 			$NLP = new \App\Models\AI\NLP\TextPrepare();
 			$txt2 = $NLP->JoinSentences($fileD_text);
 			echo '<pre>' . $txt2 . '</pre>';
-			pre($rst);
 		}
 
 	function fileInfo($fileD)

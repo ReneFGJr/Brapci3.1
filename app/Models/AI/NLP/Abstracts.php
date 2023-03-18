@@ -116,6 +116,7 @@ class Abstracts extends Model
                         $lang = 'fr';
                         break;
                     default:
+                        echo "LANGUAGE";
                         pre($row);
                         break;
                 }

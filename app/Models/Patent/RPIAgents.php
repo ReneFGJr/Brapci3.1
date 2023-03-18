@@ -82,6 +82,7 @@ class RPIAgents extends Model
                 if (!isset($titular[0])) {
                     $titular = array($titular);
                 } else {
+                    echo "TITULAR";
                     pre($titular);
                 }
 

@@ -381,34 +381,6 @@ class Bolsas extends Model
 			$sx .= '</div>';
 		}
 		return $sx;
-
-		pre($bolsista);
-		foreach ($bolsista as $name => $data) {
-			$nome = (string)$name;
-			$bs = '';
-			foreach ($data as $mod => $year) {
-				$year = (array)$year;
-				$bsa = '';
-				ksort($year);
-				$bsa .= '<b>' . $mod . '</b>: (';
-				$n = 0;
-				foreach ($year as $ano => $total) {
-					if ($n > 0) {
-						$bsa .= ', ';
-					}
-					$n++;
-					$bsa .= $ano;
-				}
-				$bsa .= ')';
-				$bs .= bsc($bsa, 2);
-			}
-			$bolsa[$name] = ($bs);
-		}
-		$sx = '';
-		foreach ($bolsa as $name => $html) {
-			$sx .= bs(bsc($name, 12) . bsc('', 1) . $html);
-		}
-		return $sx;
 	}
 
 	function resume_graph_bolsa_ano($dt)
