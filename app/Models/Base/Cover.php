@@ -86,12 +86,13 @@ class Cover extends Model
         $dir = troca($dir,'/.c/','/c/');
 
         $img = $dir . 'image.jpg';
-        //echo '<br>' . $img . '<br>';
+        echo '<br>' . $img . '<br>';
         if (file_exists($img)) {
             echo "OK";
         } else {
             $img = 'img/books/no_cover.png';
         }
+        exit;
         return $img;
     }
 
