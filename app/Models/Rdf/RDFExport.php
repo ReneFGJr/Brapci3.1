@@ -579,13 +579,22 @@ class RDFExport extends Model
 			return "OPS export_proceeding " . $id . '<br>';
 		}
 		$dta = $Metadata->metadata($dt);
-		echo "OK";
+		$x = 0;
+		echo "OK " . ($x++);
 
 		$this->saveData($id, 'Title', $dta);
 		//$this->saveData($id, 'Section', $dta);
 		//$this->saveData($id, 'Journal', $dta);
+
+		echo "OK " . ($x++);
+
 		$this->saveData($id, 'Authors', $dta);
+
+		echo "OK " . ($x++);
+
 		$this->saveData($id, 'Keywords', $dta);
+
+		echo "OK " . ($x++);
 
 		if (isset($dta['issue_id'])) {
 			$dti = $RDF->le($dta['issue_id'][0]);
