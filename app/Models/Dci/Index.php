@@ -48,8 +48,44 @@ class Index extends Model
     function index($d1='',$d2='',$d3='',$d4='')
         {
             $sx = '';
-            $Docentes = new \App\Models\Dci\Docentes;
-            $sx .= $Docentes->index($d2,$d3,$d4);
-            return $sx;
+            switch($d1)
+                {
+                    case 'report':
+                        switch($d2)
+                            {
+                                case 'docentes':
+                                    $Docentes = new \App\Models\Dci\Docentes;
+                                    $sx .= $Docentes->report_encargos(1);
+                                    break;
+                            }
+                        break;
+                    case 'docentes':
+                        $Docentes = new \App\Models\Dci\Docentes;
+                        $sx .= $Docentes->index($d2, $d3, $d4);
+                        break;
+
+                    case 'disciplinas':
+                        $Disciplinas = new \App\Models\Dci\Disciplinas;
+                        $sx .= $Disciplinas->index($d2, $d3, $d4);
+                        return $sx;
+                        break;
+
+                    default:
+                        $menu[PATH . '/dci/docentes/'] = 'Docentes';
+                        $menu[PATH . '/dci/cursos/'] = 'Cursos';
+                        $menu[PATH . '/dci/disciplinas/'] = 'Disciplinas';
+                        $menu[PATH . '/dci/encargos/'] = 'Encargos';
+                        $menu[PATH . '/dci/semestre/'] = 'Semestre';
+                        $sa  = menu($menu);
+
+
+                        $menu = [];
+                        $menu[PATH . '/dci/report/docentes/'] = 'Relatório Docentes';
+                        $sb  = menu($menu);
+
+                        $sx = bs(bsc($sa,6).bsc($sb,6));
+                        break;
+                }
+                return $sx;
         }
 }

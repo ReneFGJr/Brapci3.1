@@ -25,22 +25,9 @@ class Dci extends BaseController
         $sx .= view('DCI/Headers/header', $data);
         $sx .= view('DCI/Headers/navbar', $data);
 
-        switch($d1)
-            {
-                default:
-                    $menu[PATH.'/dci/docentes/'] = 'Docentes';
-                    $menu[PATH . '/dci/cursos/'] = 'Cursos';
-                    $menu[PATH . '/dci/disciplinas/'] = 'Docentes';
-                    $menu[PATH . '/dci/encargos/'] = 'Encargos';
-                    $menu[PATH . '/dci/semestre/'] = 'Semestre';
-
-                    $sx  .= menu($menu);
-                    $sx = bs(bsc($sx));
-                    break;
-            }
-
-        $API = new \App\Models\Dci\Index();
-        $sx .= $API->index($d1, $d2, $d3, $d4);
+        $DCI = new \App\Models\Dci\Index();
+        $sx .= $DCI->index($d1,$d2,$d3,$d4);
+        $sx .= view('DCI/Headers/footer', $data);
         return $sx;
     }
 }
