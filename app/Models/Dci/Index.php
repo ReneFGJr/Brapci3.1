@@ -45,7 +45,7 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1='',$d2='',$d3='',$d4='')
+    function index($d1='',$d2='',$d3='', $d4 ='', $d5 = '')
         {
             $sx = '';
             switch($d1)
@@ -64,6 +64,11 @@ class Index extends Model
                         $sx .= $Docentes->index($d2, $d3, $d4);
                         break;
 
+                    case 'salas':
+                        $Salas = new \App\Models\Dci\Salas;
+                        $sx .= $Salas->index($d2, $d3, $d4, $d5);
+                        break;
+
                     case 'disciplinas':
                         $Disciplinas = new \App\Models\Dci\Disciplinas;
                         $sx .= $Disciplinas->index($d2, $d3, $d4);
@@ -75,6 +80,7 @@ class Index extends Model
                         $menu[PATH . '/dci/cursos/'] = 'Cursos';
                         $menu[PATH . '/dci/disciplinas/'] = 'Disciplinas';
                         $menu[PATH . '/dci/encargos/'] = 'Encargos';
+                        $menu[PATH . '/dci/salas/'] = 'Salas de Aula';
                         $menu[PATH . '/dci/semestre/'] = 'Semestre';
                         $sa  = menu($menu);
 

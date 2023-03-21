@@ -61,9 +61,9 @@ class Docentes extends Model
         {
             $sx = '';
             $dt = $this
-                ->select('id_e,dc_nome,c_curso,e_turma,di_disciplina,di_codigo,di_tipo,di_crd,di_ch,di_ext,di_tipo,c_bg')
-                ->join('curso','id_c = dc_curso')
-                ->join('encargos', 'e_docente = id_dc and dc_curso = e_curso and e_semestre = '.$sem)
+                //->select('id_e,e_docente,di_etapa,dc_nome,c_curso,e_turma,di_disciplina,di_codigo,di_tipo,di_crd,di_ch,di_ext,di_tipo,c_bg')
+                ->join('encargos', '(e_docente = id_dc) and (e_semestre = '.$sem.')')
+                ->join('curso', 'id_c = e_curso')
                 ->join('disciplinas', 'e_disciplina = id_di')
                 ->orderBy('dc_nome, di_disciplina')
                 ->findAll();
@@ -76,6 +76,8 @@ class Docentes extends Model
 
                     $enc[$docente][$ide] = $line;
                 }
+
+
 
             $sx = '<table class="table full" style="font-size: 0.7em;">';
             $sx .= '<tr>
@@ -105,7 +107,16 @@ class Docentes extends Model
                                 {
                                     $sx .= '<tr>';
                                 }
-                            $sx .= '<td width="35%" style="background-color: $cor$;" class="border border-secondary">'.$ddados['di_codigo'].' - '.$ddados['di_disciplina'].' <sup>'.$ddados['di_tipo'].'</td>';
+
+                            $etapa = $ddados['di_etapa'];
+                            if ($etapa > 8)
+                                {
+                                    $etapa = '';
+                                } else {
+                                    $etapa = ' ('.$etapa.'ª Etapa)';
+                                }
+                            $sx .= '<td width="35%" style="background-color: $cor$;" class="border border-secondary">'.$ddados['di_codigo'].' - '.$ddados['di_disciplina'].
+                                    ' <sup>'.$ddados['di_tipo'].$etapa.'</td>';
                             $sx .= '<td width="10%" style="background-color: $cor$;" class="border border-secondary text-center">' . $ddados['c_curso'].'</sup></td>';
                             $sx .= '<td width="2%" class="border border-secondary text-center">' . $ddados['e_turma'] . '</td>';
                             $sx .= '<td width="2%" class="border border-secondary  text-center">' . $ddados['di_crd'] . '</td>';

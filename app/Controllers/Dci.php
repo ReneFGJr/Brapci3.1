@@ -15,7 +15,7 @@ define("PREFIX", '');
 
 class Dci extends BaseController
 {
-    public function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
+    public function index($d1 = '', $d2 = '', $d3 ='', $d4 ='', $d5 = '')
     {
         $sx = '';
 
@@ -26,7 +26,7 @@ class Dci extends BaseController
         $sx .= view('DCI/Headers/navbar', $data);
 
         $DCI = new \App\Models\Dci\Index();
-        $sx .= $DCI->index($d1,$d2,$d3,$d4);
+        $sx .= $DCI->index($d1,$d2,$d3,$d4,$d5);
         $sx .= view('DCI/Headers/footer', $data);
         return $sx;
     }

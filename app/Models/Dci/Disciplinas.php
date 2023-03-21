@@ -203,11 +203,11 @@ class Disciplinas extends Model
 
             $link = '<a href="' . PATH . 'dci/disciplina/view/' . $line['id_di'] . '">';
             $linka = '</a>';
-            $sx .= bsc($link . $nr . '. ' . $line['di_codigo'] . ' '.$line['di_disciplina']. $linka,8, 'border-top border-secondary');
+            $sx .= bsc($link . $nr . '. ' . $line['di_codigo'] . ' '.$line['di_disciplina']. $linka,8, 'border-top border-secondary small');
 
             $link = '<a href="' . PATH . 'dci/docentes/view/' . $line['id_di'] . '">';
             $linka = '</a>';
-            $sx .= bsc($link.$line['dc_nome']. $linka,4,'border-top border-secondary');
+            $sx .= bsc($link.$line['dc_nome']. $linka,4,'border-top border-secondary small');
         }
         return $sx;
     }
