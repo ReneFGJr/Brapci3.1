@@ -83,9 +83,20 @@ class Ensalamento extends Model
                     }
             }
 
+        $livre = true;
         $dr = $this->where('sa_encargo',$disc)->findAll();
+        if (count($dr) == 0) { $livre = false; }
 
-        if (count($dr) == 0)
+        $dr = $this
+                ->where('sa_sala', $ide)
+                ->where('sa_weekday', $dia)
+                ->where('sa_hi', $hora[0])
+                ->findAll();
+        if (count($dr) == 0) {
+            $livre = false;
+        }
+
+        if ($livre)
         {
             $data = [];
             $data['sa_encargo'] = $disc;
@@ -96,17 +107,21 @@ class Ensalamento extends Model
             $data['sa_mi'] = $horaf[0];
             $data['sa_mf'] = $horaf[1];
             $data['sa_status'] = 1;
-            echo "Inserted";
+            $sx .= "Inserted";
             $this->set($data)->insert();
+        } else {
+            $sx = bs(bsc(bsmessage("ERRO, sala já ocupada",3)),12);
         }
 
-        return true;
+        return $sx;
     }
 
     function mark($ids,$d2,$d3,$d4)
         {
             $sx = '';
             $sem = 1;
+
+            $sx .= bs(bsc(h($d2.'-'.$d3,4)),12);
 
             $act = get("action");
             $disciplina = get("disciplina");
@@ -115,7 +130,7 @@ class Ensalamento extends Model
                     $sala = $ids;
                     $dia = $d2;
                     $hora = $d3;
-                    $this->register($ids,$disciplina,$sala,$dia,$hora);
+                    $sx .= $this->register($ids,$disciplina,$sala,$dia,$hora);
                 }
 
             $Encargos = new \App\Models\Dci\Encargos();
@@ -142,7 +157,11 @@ class Ensalamento extends Model
                     $name = $line['di_codigo'] . ' - '. $line['di_disciplina'];
 
                     $ide = $line['id_e'];
-                    $disciplinas[$curso][$ide] = $name;
+                    if ($line['id_sahs']==0)
+                        {
+                            $disciplinas[$curso][$ide] = $name;
+                        }
+
                 }
             $sala = get("sala");
 
@@ -164,8 +183,21 @@ class Ensalamento extends Model
 
     function viewid($idx)
         {
+            $dt = $this
+                    ->where('sa_sala',$idx)
+                    ->findAll();
+
+            $dss = [];
+            foreach($dt as $id=>$line)
+                {
+                    $dia = $line['sa_weekday'];
+                    $hora = strzero($line['sa_hi'],2).'h'.strzero($line['sa_hf'],2);
+                    $disc = 'XXXX';
+                    $dss[$dia][$hora] = $disc;
+                }
             $sx = bsc('Ensalamento',12);
             $ds = $this->dias();
+
             foreach($ds as $dia=>$dados)
                 {
                     $sa = h($dia,4);
@@ -177,6 +209,13 @@ class Ensalamento extends Model
                             $link = '<a href="'.PATH.'/dci/salas/mark/'.$idx.'/'.$dia.'/'.$hora.'">';
                             $linka = '</a>';
                             $sh .= $link.$hora.$linka;
+
+                            /****************** */
+                            if (isset($dss[$dia][$hora]))
+                                {
+                                    $sa .= $dss[$dia][$hora];
+                                    $sa .= '<br>';
+                                }
                             $sh .= '<hr>';
                         }
                     $sx .= bsc($sa.$sh,2);

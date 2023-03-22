@@ -52,6 +52,9 @@ class Salas extends Model
         $sx .= breadcrumbs($mn);
 
         switch ($d1) {
+            case 'edit':
+                $sx .= $this->edit($d2);
+                break;
             case 'mark':
                 $sx .= $this->mark($d2,$d3,$d4,$d5);
                 break;
