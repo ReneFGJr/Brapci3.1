@@ -15,7 +15,8 @@ class Ensalamento extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_sala', 'sala_nome','sala_predio','Sala_informatizada'
+        'id_sahs', 'sa_encargo', 'sa_sala', 'sa_weekday'
+        , 'sa_hi', 'sa_hf', 'sa_mi', 'sa_mf', 'sa_status'
     ];
 
     // Dates
@@ -57,9 +58,65 @@ class Ensalamento extends Model
         return $sx;
     }
 
-    function mark($id,$d2,$d3,$d4)
+    function register($ide,$disc,$sala,$dia,$hi)
+    {
+        $Disciplinas = new \App\Models\Dci\Disciplinas();
+        $dt = $Disciplinas->find($ide);
+        $wd = $this->dias();
+
+        if (!isset($wd[$dia]))
+            {
+                echo "OPS Dia da semana não existe ".$dia;
+                exit;
+            }
+
+        $cred = $dt['di_crd'];
+        $hora = explode('h',$hi);
+        $horaf = $hora;
+        for($r=0;$r < $cred;$r++)
+            {
+                $horaf[1] = $horaf[1] + 50;
+                if ($horaf[1] > 59)
+                    {
+                        $horaf[1] = $horaf[1] - 60;
+                        $horaf[0] = $horaf[0] + 1;
+                    }
+            }
+
+        $dr = $this->where('sa_encargo',$disc)->findAll();
+
+        if (count($dr) == 0)
         {
+            $data = [];
+            $data['sa_encargo'] = $disc;
+            $data['sa_sala'] = $ide;
+            $data['sa_weekday'] = $dia;
+            $data['sa_hi'] = $hora[0];
+            $data['sa_hf'] = $hora[1];
+            $data['sa_mi'] = $horaf[0];
+            $data['sa_mf'] = $horaf[1];
+            $data['sa_status'] = 1;
+            echo "Inserted";
+            $this->set($data)->insert();
+        }
+
+        return true;
+    }
+
+    function mark($ids,$d2,$d3,$d4)
+        {
+            $sx = '';
             $sem = 1;
+
+            $act = get("action");
+            $disciplina = get("disciplina");
+            if (($act != '') and ($disciplina != ''))
+                {
+                    $sala = $ids;
+                    $dia = $d2;
+                    $hora = $d3;
+                    $this->register($ids,$disciplina,$sala,$dia,$hora);
+                }
 
             $Encargos = new \App\Models\Dci\Encargos();
             $dt = $Encargos
@@ -68,30 +125,47 @@ class Ensalamento extends Model
                 ->join('curso', 'e_curso = id_c')
                 ->join('sala_aula_hoario_sem', 'id_e = sa_encargo','LEFT')
                 ->where('e_semestre',$sem)
+                ->orderBy('c_curso, di_etapa')
                 ->findAll();
 
-            $sel = [];
+            $disciplinas = [];
             foreach($dt as $id=>$line)
                 {
+                    $etapa = $line['di_etapa'];
                     $curso = $line['c_curso'];
+                    if ($etapa < 9)
+                        {
+                            $curso .= ' - Etapa '.$etapa;
+                        } else {
+                            $curso .= ' - Eletiva';
+                        }
                     $name = $line['di_codigo'] . ' - '. $line['di_disciplina'];
-                    pre($line);
 
+                    $ide = $line['id_e'];
+                    $disciplinas[$curso][$ide] = $name;
                 }
+            $sala = get("sala");
 
-            echo "$id,$d2,$d3,$d4";
+            $sx .= form_open(PATH . '/dci/salas/mark/'.$ids.'/'.$d2.'/'.$d3);
+            $sa = form_dropdown('disciplina', $disciplinas, $disciplina, ['size' => 20, 'class' => 'full']);
+            $sb = form_submit(array("name"=>'action','value'=>'Alocar','Class'=>'btn btn-secondary full'));
+            $sx .= bs(bsc($sa,10).bsc($sb,2));
+            $sx .= form_close();
+
+            return $sx;
+        }
+
+    function dias()
+        {
+            $hora = ['08h30', '10h30', '09h30', '13h30', '18h30'];
+            $ds = ['SEG' => $hora, 'TER' => $hora, 'QUA' => $hora, 'QUI' => $hora, 'SEX' => $hora, 'SAB' => $hora];
+            return $ds;
         }
 
     function viewid($idx)
         {
             $sx = bsc('Ensalamento',12);
-
-            $hora = ['08h30','10h30','09h30','13h30','18h30'];
-
-            $ds = ['SEG'=>$hora, 'TER' => $hora, 'QUA' => $hora, 'QUI' => $hora, 'SEX' => $hora, 'SAB' => $hora];
-
-
-
+            $ds = $this->dias();
             foreach($ds as $dia=>$dados)
                 {
                     $sa = h($dia,4);
@@ -118,6 +192,7 @@ class Ensalamento extends Model
         {
             $sx = '';
             $sx .= h($dt['sala_predio'].' - '.$dt['sala_nome'],2);
+            $sx = bs(bsc($sx,12));
             return $sx;
         }
 

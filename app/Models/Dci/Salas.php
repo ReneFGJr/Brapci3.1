@@ -45,6 +45,12 @@ class Salas extends Model
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5='')
     {
         $sx = '';
+
+        $mn = [];
+        $mn['Departamento'] = PATH . '/dci/';
+        $mn['Ensalamento'] = PATH . '/dci/salas/';
+        $sx .= breadcrumbs($mn);
+
         switch ($d1) {
             case 'mark':
                 $sx .= $this->mark($d2,$d3,$d4,$d5);
@@ -64,7 +70,7 @@ class Salas extends Model
         $dt = $this
             ->find($id);
 
-        $sx = bsc($this->header($dt), 12);
+        $sx = bs(bsc($this->header($dt), 12));
 
         $Ensalamento = new \App\Models\Dci\Ensalamento();
         $sx .= $Ensalamento->mark($id,$d2,$d3,$d4);

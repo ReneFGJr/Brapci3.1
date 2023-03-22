@@ -76,6 +76,10 @@ class Index extends Model
                         break;
 
                     default:
+                        $mn = [];
+                        $mn['Departamento'] = PATH . '/dci/';
+                        $sx .= breadcrumbs($mn);
+
                         $menu[PATH . '/dci/docentes/'] = 'Docentes';
                         $menu[PATH . '/dci/cursos/'] = 'Cursos';
                         $menu[PATH . '/dci/disciplinas/'] = 'Disciplinas';
@@ -89,7 +93,7 @@ class Index extends Model
                         $menu[PATH . '/dci/report/docentes/'] = 'Relatório Docentes';
                         $sb  = menu($menu);
 
-                        $sx = bs(bsc($sa,6).bsc($sb,6));
+                        $sx .= bs(bsc($sa,6).bsc($sb,6));
                         break;
                 }
                 return $sx;
