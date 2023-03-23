@@ -90,6 +90,7 @@ require("_process.php");
                         $Chap = $Chapter['Abstract'];
                         foreach($Chap as $lang=>$text)
                             {
+                                echo form_label(lang('brapci.abstract_'.$lang));
                                 echo '<p>'.$text.'</p>';
                             }
                         ?>
