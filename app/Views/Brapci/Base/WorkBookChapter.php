@@ -86,7 +86,12 @@ require("_process.php");
                         ?>
                     </div>
                     <div class="col-12 mt-3" style="background-color: #fff;">
-                        <?= $abstract; ?>
+                        <?php
+                        foreach($Abstract as $lang=>$text)
+                            {
+                                echo '<p>'.$text.'</p>';
+                            }
+                        ?>
                     </div>
                     <div class="col-12 mt-3" style="background-color: #fff;">
                         <?= $reference; ?>
