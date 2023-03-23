@@ -86,6 +86,9 @@ require("_process.php");
                         ?>
                     </div>
                     <div class="col-12 mt-3" style="background-color: #fff;">
+                        <?= $abstract; ?>
+                    </div>
+                    <div class="col-12 mt-3" style="background-color: #fff;">
                         <?= $reference; ?>
                     </div>
                 </div>
