@@ -371,7 +371,7 @@ class Metadata extends Model
             }
         }
         $this->metadata['ID'] = $meta['concept']['id_cc'];
-        //pre($this->metadata);
+        pre($this->metadata);
         return $this->metadata;
     }
 
