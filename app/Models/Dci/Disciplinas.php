@@ -20,6 +20,12 @@ class Disciplinas extends Model
         'di_crd', 'di_ch', 'di_ext'
     ];
 
+    protected $typeFields    = [
+        'hidden', 'hidden', 'string',
+        'string', 'int', 'hidden',
+        'hidden', 'hidden', 'hidden'
+    ];
+
     // Dates
     protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
@@ -44,10 +50,23 @@ class Disciplinas extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    var $id = 0;
+    var $path = '';
+    var $path_back = '';
+
+    function __construct()
+    {
+        $this->path = PATH.'/dci/salas/';
+        $this->path_back = PATH . '/dci/salas/';
+    }
+
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
     {
         $sx = '';
         switch ($d1) {
+            case 'edit':
+                $sx .= $this->edit($d2);
+                break;
             default:
                 $sx .= bs($this->list($d2));
                 break;
@@ -66,6 +85,16 @@ class Disciplinas extends Model
         $Encargos = new \App\Models\Dci\Encargos();
         $Encargos->remove($pro, $sem, $disc);
     }
+
+    function edit($id)
+        {
+            $this->id = $id;
+            $dt = $this->find($id);
+            pre($dt);
+            echo '===>'.$id;
+            $sx = form($this);
+            return $sx;
+        }
 
     function candidatas($dt,$sem)
         {

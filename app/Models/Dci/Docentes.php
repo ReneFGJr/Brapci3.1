@@ -45,6 +45,11 @@ class Docentes extends Model
     function index($d1='',$d2='',$d3='',$d4='')
         {
             $sx = '';
+            $mn = [];
+            $mn['Departamento'] = PATH.'/dci/';
+            $mn['Docentes'] = PATH . '/docentes/';
+            $sx .= breadcrumbs($mn);
+
             switch($d1)
                 {
                     case 'view':
