@@ -42,7 +42,8 @@ class Logo extends Model
 
     function index($d1, $d2, $d3)
     {
-        $dir = '_repository/dataverse/package/logo/' . date("Y-m-d-H-m");
+        $place = 'inep';
+        $dir = '_repository/dataverse/package/logo/'.$place;
 
         $sx = '';
         $sx = form_open_multipart();
