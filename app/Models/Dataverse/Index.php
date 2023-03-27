@@ -56,6 +56,11 @@ class Index extends Model
         $sx .= troca($this->logo('IMG'), '$par', 'height="100px;" align="right"');
 
         switch ($d1) {
+            case 'logo':
+                $Logo = new \App\Models\Dataverse\Custom\Logo();
+                $sx .= $Logo->index($d2,$d3,$d4);
+                break;
+
             case 'preinstall':
                 $PreInstall = new \App\Models\Dataverse\Install\PreInstall();
                 $sx .= $PreInstall->index($d2, $d3, $d4);
@@ -96,6 +101,12 @@ class Index extends Model
         $menu[PATH . '/dados/dataverse/licences'] = lang('dataverse.licences');
         $menu[PATH . '/dados/dataverse/tsv'] = lang('dataverse.application_perfil');
 
+        $menu['#CUSTOMIZE'] = '';
+        $menu[PATH . '/dados/dataverse/logo'] = lang('dataverse.customize_logo');
+        $menu[PATH . '/dados/dataverse/header'] = lang('dataverse.customize_header');
+        $menu[PATH . '/dados/dataverse/footer'] = lang('dataverse.customize_footer');
+        $menu[PATH . '/dados/dataverse/homepage'] = lang('dataverse.customize_homepage');
+        $menu[PATH . '/dados/dataverse/css'] = lang('dataverse.customize_style');
 
         $menu['#CHECKLIST'] = '';
         $menu[PATH . '/dados/dataverse/preinstall'] = lang('dataverse.pre_install');

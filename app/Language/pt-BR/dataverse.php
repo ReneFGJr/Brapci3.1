@@ -73,7 +73,23 @@ return[
         'shortDescription' => 'Descrição',
         'license' => 'Licença',
         'preinstall'=>'Pré-instalação',
-        ''=>'',
+        'application_perfil'=>'Perfil de Aplicação',
+        'licences'=>'Licensas de uso',
+        'pre_install' => 'Pré-Instalação',
+        'checklist_instalation' => 'Checklist da Instalação',
+        'indicators' => 'Indicadores (JS)',
+        'server' => 'Repositório Dataverse',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+
 
 
 
