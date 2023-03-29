@@ -176,7 +176,7 @@ class Ensalamento extends Model
 
     function dias()
         {
-            $hora = ['08h30', '10h30', '09h30', '13h30', '18h30'];
+            $hora = ['08h30','09h30', '10h30',  '13h30', '18h30'];
             $ds = ['SEG' => $hora, 'TER' => $hora, 'QUA' => $hora, 'QUI' => $hora, 'SEX' => $hora, 'SAB' => $hora];
             return $ds;
         }
@@ -184,16 +184,24 @@ class Ensalamento extends Model
     function viewid($idx)
         {
             $dt = $this
+                    ->Join('encargos', 'id_e = sa_encargo')
+                    ->join('disciplinas', 'e_disciplina = id_di')
+                    ->join('docentes', 'e_docente = id_dc')
                     ->where('sa_sala',$idx)
                     ->findAll();
 
             $dss = [];
+            $dsh = [];
             foreach($dt as $id=>$line)
                 {
                     $dia = $line['sa_weekday'];
                     $hora = strzero($line['sa_hi'],2).'h'.strzero($line['sa_hf'],2);
-                    $disc = 'XXXX';
-                    $dss[$dia][$hora] = $disc;
+                    $horaf = strzero($line['sa_mi'], 2) . 'h' . strzero($line['sa_mf'], 2);
+                    $horas = $line['sa_mi'];
+                    $disc = $line['di_disciplina'];
+                    $dss[$dia][$hora] = $disc. '<br><br><sup>'.$line['dc_nome'].'</sup>';
+                    $dsh[$dia][$hora] = $hora.'-'.$horaf;
+                    //pre($line);
                 }
             $sx = bsc('Ensalamento',12);
             $ds = $this->dias();
@@ -202,23 +210,25 @@ class Ensalamento extends Model
                 {
                     $sa = h($dia,4);
 
-                    $sh = '';
-
+                    $sa = '';
+                    $hf = 0;
                     foreach($dados as $id=>$hora)
                         {
                             $link = '<a href="'.PATH.'/dci/salas/mark/'.$idx.'/'.$dia.'/'.$hora.'">';
                             $linka = '</a>';
-                            $sh .= $link.$hora.$linka;
+
 
                             /****************** */
                             if (isset($dss[$dia][$hora]))
                                 {
-                                    $sa .= $dss[$dia][$hora];
-                                    $sa .= '<br>';
+                                    $sa .= $dsh[$dia][$hora];
+                                    $sa .= '<p style="font-size: 0.7em; line-height: 100%;">'.$dss[$dia][$hora]. '</p>';
+                                } else {
+                                    $sa .= $link . $hora . $linka;
                                 }
-                            $sh .= '<hr>';
+                            $sa .= '<hr>';
                         }
-                    $sx .= bsc($sa.$sh,2);
+                    $sx .= bsc($sa,2,'border border-secondary');
                 }
 
             $sx = bs($sx);
