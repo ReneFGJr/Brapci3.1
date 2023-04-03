@@ -17,7 +17,20 @@ class Encargos extends Model
     protected $allowedFields    = [
         'id_e', 'e_semestre', 'e_disciplina',
         'e_docente', 'e_credito', 'e_curso',
-        'e_update', 'e_turma'
+        'e_horario',
+        'e_turma'
+
+    ];
+
+    protected $typeFields    = [
+        'hidden',
+        'sql:id_sem:sem_descricao:semestre',
+        'sql:id_di:di_disciplina:(select id_di, concat(di_codigo,\' - \',di_disciplina) as di_disciplina from disciplinas) as disciplinas',
+        'sql:id_dc:dc_nome:docentes',
+        'string',
+        'sql:id_c:c_curso:curso',
+        'sql:id_h:h_hora:(select id_h, concat(h_dia,\' | \',h_hora_ini,\' - \',h_hora_fim) as h_hora from horario) as horario',
+        'string'
 
     ];
 
@@ -44,6 +57,10 @@ class Encargos extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    var $path = PATH.'/dci/encargos';
+    var $path_back = PATH . '/dci/encargos';
+    var $id = 0;
 
     function indications($dt,$sem)
         {
@@ -86,6 +103,15 @@ class Encargos extends Model
                     $data['e_turma'] = $turm;
                     $this->set($data)->insert();
                 }
+        }
+
+    function edit($id)
+        {
+            $sx = '['.$id.']';
+            $this->id = $id;
+            $sx .= form($this);
+            $sx = bs(bsc($sx));
+            return $sx;
         }
 
     function view($id,$sem)

@@ -50,6 +50,10 @@ class Index extends Model
             $sx = '';
             switch($d1)
                 {
+                    case 'encargos':
+                        $Encargos = new \App\Models\Dci\Encargos();
+                        $sx .= $Encargos->edit($d3);
+                        break;
                     case 'report':
                         switch($d2)
                             {
