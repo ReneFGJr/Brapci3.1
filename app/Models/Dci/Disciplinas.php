@@ -161,6 +161,18 @@ class Disciplinas extends Model
         return $sx;
     }
 
+    function register($pro, $sem, $disc, $turm)
+    {
+        $Encargos = new \App\Models\Dci\Encargos();
+        $Encargos->register($pro, $sem, $disc, $turm);
+    }
+
+    function remove($pro, $sem, $disc)
+    {
+        $Encargos = new \App\Models\Dci\Encargos();
+        $Encargos->remove($pro, $sem, $disc);
+    }
+
     function show_semestre($id = 0, $curso = 0)
     {
         $sem = 1;
