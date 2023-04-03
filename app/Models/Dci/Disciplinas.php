@@ -214,7 +214,9 @@ class Disciplinas extends Model
                         $linka = '</a>';
                         $sa .= '<li>'. $link. $nome. $linka. ' ('.$etapa.'º Etapa)</li>';
                     } else {
-                        $w[$curso][$etapa][$h_dia][$h_hora_ini] = '<p>'.$nome. '</p><p class="italic">'.nbr_author($docente,7). '</p>';
+                        $link = '<a href="' . PATH . '/dci/encargos/edit/' . $line['id_e'] . '" target="_blank">';
+                        $linka = '</a>';
+                        $w[$curso][$etapa][$h_dia][$h_hora_ini] = '<p>'.$link.$nome.$linka. '</p><p class="italic">'.nbr_author($docente,7). '</p>';
                     }
                     //pre($line);
             }
@@ -236,6 +238,7 @@ class Disciplinas extends Model
                             foreach ($d3 as $hora => $curso) {
                                 $sb .= '<td width="16%" valign="top" class="border border-secondary p-2">';
                                 $sb .= $day;
+
                                 $sb .= '<br><span style="font-size: 0.75em;">'.$hora . ' - ' . $curso . '</span>';
                                 $sb .= '</td>';
                             }
