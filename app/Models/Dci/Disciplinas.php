@@ -68,6 +68,99 @@ class Disciplinas extends Model
         return $sx;
     }
 
+    function candidatas($dt, $sem)
+    {
+        $curso_pref = $dt['dc_curso'];
+        $id_doc = $dt['id_dc'];
+
+        $op1 = get("opt1");
+        $op2 = get("opt2");
+        $act = get("action");
+        $turm = get("turma");
+
+        if ($act != '') {
+            if ($act == 'Onerar >>') {
+                $this->register($id_doc, $sem, $op1, $turm);
+            }
+
+            if ($act == '<<< Desonerar') {
+                $this->remove($id_doc, $sem, $op2);
+            }
+        }
+
+        $dt = $this
+            //->select('id_di, di_curso, di_etapa,di_disciplina, di_codigo')
+            ->join('curso', 'di_curso = id_c')
+            ->join('encargos', '((e_semestre = ' . $sem . ') and (e_disciplina = id_di))', 'LEFT')
+
+            //->where('di_curso',$curso_pref)
+            ->orderBy('c_curso, di_etapa')
+            ->findAll();
+
+        $opt1 = [];
+        $opt2 = [];
+        $xet = 0;
+        $xcurso = '';
+        foreach ($dt as $id => $line) {
+            $curso = $line['c_curso'];
+            $turmaN = $line['e_turma'];
+
+            $et = $line['di_etapa'];
+            if ($et != $xet) {
+                $etapa = 'Etapa ' . $et;
+                $opt[$etapa] = [];
+                $xet = $et;
+            }
+            $codigo = $line['id_di'];
+            $name = $line['di_codigo'] . ' ' . nbr_title($line['di_disciplina']);
+
+            $mult = $line['di_multi'];
+
+            if ($line['e_docente'] == $id_doc) {
+                if ($mult == true) {
+                    $opt1[$curso . '-' . $etapa][$codigo] = $name;
+                    $opt2[$curso . '-' . $etapa][$codigo . '.' . $turmaN] = $name . ' (' . $line['e_turma'] . ')';
+                } else {
+                    $opt2[$curso . '-' . $etapa][$codigo] = $name . ' (' . $line['e_turma'] . ')';
+                }
+            } else {
+                if ($line['e_docente'] > 0) {
+                } else {
+                    $opt1[$curso . '-' . $etapa][$codigo] = $name;
+                }
+            }
+        }
+
+        /*************/
+        $turma = [];
+        $turma['U'] = 'Única';
+        $turma['1'] = 'Turma 1';
+        $turma['2'] = 'Turma 2';
+        $turma['3'] = 'Turma 3';
+
+        $sx = form_open(PATH . 'dci/docentes/view/' . $id_doc);
+
+        $sa = form_dropdown('opt1', $opt1, $op1, ['size' => 20, 'class' => 'full']);
+        $sb = form_dropdown('opt2', $opt2, $op2, ['size' => 20, 'class' => 'full']);
+
+        $act = '';
+        $act .= form_label('Turma');
+        $act .= form_dropdown('turma', $turma, $turm, ['size' => 1, 'class' => 'full']);
+        $act .= '<br><br>';
+        $act .= '<input type="submit" class="btn btn-secondary full" name="action" value="Onerar >>">';
+        $act .= '<br><br>';
+        $act .= '<input type="submit" class="btn btn-secondary full" name="action" value="<<< Desonerar">';
+
+        $sx .= '<table><tr valign="top">
+                            <td width="45%">' . $sa . '</td>
+                            <td width="10%" class="p-3">' . $act . '</td></td>
+                            <td width="45%">' . $sb . '</td>
+                        </tr></table>';
+        $sx .= form_close();
+
+        return $sx;
+    }
+
     function show_semestre($id = 0, $curso = 0)
     {
         $sem = 1;
