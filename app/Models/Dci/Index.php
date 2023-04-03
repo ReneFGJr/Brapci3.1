@@ -59,6 +59,11 @@ class Index extends Model
                                     break;
                             }
                         break;
+                    case 'semestre':
+                        $Disciplinas = new \App\Models\Dci\Disciplinas();
+                        $sx .= $Disciplinas->show_semestre(1);
+
+                        break;
                     case 'docentes':
                         $Docentes = new \App\Models\Dci\Docentes;
                         $sx .= $Docentes->index($d2, $d3, $d4);

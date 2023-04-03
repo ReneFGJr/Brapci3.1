@@ -8,7 +8,7 @@ class Disciplinas extends Model
 {
     protected $DBGroup          = 'dci';
     protected $table            = 'disciplinas';
-    protected $primaryKey       = 'id_di ';
+    protected $primaryKey       = 'id_di';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -73,6 +73,15 @@ class Disciplinas extends Model
         }
         return $sx;
     }
+
+    function show_semestre($id=0,$curso=0)
+        {
+            $dt = $this
+                ->where('id_di > 0')
+                ->findAll();
+            pre($dt);
+        }
+
 
     function register($pro,$sem,$disc,$turm)
         {
