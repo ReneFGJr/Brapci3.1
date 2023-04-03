@@ -14,16 +14,14 @@ namespace CodeIgniter\Exceptions;
 /**
  * Exception for automatic logging.
  */
-class ConfigException extends CriticalError
+class ConfigException extends CriticalError implements HasExitCodeInterface
 {
     use DebugTraceableTrait;
 
-    /**
-     * Error code
-     *
-     * @var int
-     */
-    protected $code = 3;
+    public function getExitCode(): int
+    {
+        return EXIT_CONFIG;
+    }
 
     public static function forDisabledMigrations()
     {

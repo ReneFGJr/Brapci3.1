@@ -54,6 +54,7 @@ use CodeIgniter\Session\Session;
 use CodeIgniter\Throttle\Throttler;
 use CodeIgniter\Typography\Typography;
 use CodeIgniter\Validation\Validation;
+use CodeIgniter\Validation\ValidationInterface;
 use CodeIgniter\View\Cell;
 use CodeIgniter\View\Parser;
 use CodeIgniter\View\RendererInterface;
@@ -72,9 +73,11 @@ use Config\Images;
 use Config\Migrations;
 use Config\Pager as PagerConfig;
 use Config\Services as AppServices;
+use Config\Session as SessionConfig;
 use Config\Toolbar as ToolbarConfig;
 use Config\Validation as ValidationConfig;
 use Config\View as ViewConfig;
+use Locale;
 
 /**
  * Services Configuration file.
@@ -117,6 +120,8 @@ class Services extends BaseService
      * a command line request.
      *
      * @return CLIRequest
+     *
+     * @internal
      */
     public static function clirequest(?App $config = null, bool $getShared = true)
     {
@@ -249,7 +254,7 @@ class Services extends BaseService
     public static function exceptions(
         ?ExceptionsConfig $config = null,
         ?IncomingRequest $request = null,
-        ?Response $response = null,
+        ?ResponseInterface $response = null,
         bool $getShared = true
     ) {
         if ($getShared) {
@@ -328,6 +333,8 @@ class Services extends BaseService
         }
 
         $config ??= config('Images');
+        assert($config instanceof Images);
+
         $handler = $handler ?: $config->defaultHandler;
         $class   = $config->handlers[$handler];
 
@@ -361,8 +368,14 @@ class Services extends BaseService
             return static::getSharedInstance('language', $locale)->setLocale($locale);
         }
 
+        if (AppServices::request() instanceof IncomingRequest) {
+            $requestLocale = AppServices::request()->getLocale();
+        } else {
+            $requestLocale = Locale::getDefault();
+        }
+
         // Use '?:' for empty string check
-        $locale = $locale ?: AppServices::request()->getLocale();
+        $locale = $locale ?: $requestLocale;
 
         return new Language($locale);
     }
@@ -470,11 +483,54 @@ class Services extends BaseService
     }
 
     /**
-     * The Request class models an HTTP request.
+     * Returns the current Request object.
      *
-     * @return IncomingRequest
+     * createRequest() injects IncomingRequest or CLIRequest.
+     *
+     * @return CLIRequest|IncomingRequest
+     *
+     * @deprecated The parameter $config and $getShared are deprecated.
      */
     public static function request(?App $config = null, bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('request', $config);
+        }
+
+        // @TODO remove the following code for backward compatibility
+        return static::incomingrequest($config, $getShared);
+    }
+
+    /**
+     * Create the current Request object, either IncomingRequest or CLIRequest.
+     *
+     * This method is called from CodeIgniter::getRequestObject().
+     *
+     * @internal
+     */
+    public static function createRequest(App $config, bool $isCli = false): void
+    {
+        if ($isCli) {
+            $request = AppServices::clirequest($config);
+        } else {
+            $request = AppServices::incomingrequest($config);
+
+            // guess at protocol if needed
+            $request->setProtocolVersion($_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.1');
+        }
+
+        // Inject the request object into Services::request().
+        static::$instances['request'] = $request;
+    }
+
+    /**
+     * The IncomingRequest class models an HTTP request.
+     *
+     * @return IncomingRequest
+     *
+     * @internal
+     */
+    public static function incomingrequest(?App $config = null, bool $getShared = true)
     {
         if ($getShared) {
             return static::getSharedInstance('request', $config);
@@ -493,7 +549,7 @@ class Services extends BaseService
     /**
      * The Response class models an HTTP response.
      *
-     * @return Response
+     * @return ResponseInterface
      */
     public static function response(?App $config = null, bool $getShared = true)
     {
@@ -586,12 +642,17 @@ class Services extends BaseService
         }
 
         $config ??= config('App');
+        assert($config instanceof App);
+
         $logger = AppServices::logger();
 
-        $driverName = $config->sessionDriver;
+        /** @var SessionConfig|null $sessionConfig */
+        $sessionConfig = config('Session');
+
+        $driverName = $sessionConfig->driver ?? $config->sessionDriver;
 
         if ($driverName === DatabaseHandler::class) {
-            $DBGroup = $config->sessionDBGroup ?? config(Database::class)->defaultGroup;
+            $DBGroup = $sessionConfig->DBGroup ?? $config->sessionDBGroup ?? config(Database::class)->defaultGroup;
             $db      = Database::connect($DBGroup);
 
             $driver = $db->getPlatform();
@@ -681,7 +742,7 @@ class Services extends BaseService
     /**
      * The Validation class provides tools for validating input data.
      *
-     * @return Validation
+     * @return ValidationInterface
      */
     public static function validation(?ValidationConfig $config = null, bool $getShared = true)
     {

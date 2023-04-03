@@ -227,9 +227,8 @@ class DownloadResponse extends Response
      */
     public function noCache(): self
     {
-        $this->removeHeader('Cache-control');
-
-        $this->setHeader('Cache-control', ['private', 'no-transform', 'no-store', 'must-revalidate']);
+        $this->removeHeader('Cache-Control');
+        $this->setHeader('Cache-Control', ['private', 'no-transform', 'no-store', 'must-revalidate']);
 
         return $this;
     }
@@ -246,6 +245,8 @@ class DownloadResponse extends Response
 
     /**
      * {@inheritDoc}
+     *
+     * @return $this
      *
      * @todo Do downloads need CSP or Cookies? Compare with ResponseTrait::send()
      */
@@ -277,9 +278,9 @@ class DownloadResponse extends Response
     /**
      * output download file text.
      *
-     * @throws DownloadException
-     *
      * @return DownloadResponse
+     *
+     * @throws DownloadException
      */
     public function sendBody()
     {

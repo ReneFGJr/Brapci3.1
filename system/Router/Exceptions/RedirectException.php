@@ -11,15 +11,16 @@
 
 namespace CodeIgniter\Router\Exceptions;
 
+use CodeIgniter\Exceptions\HTTPExceptionInterface;
 use Exception;
 
 /**
  * RedirectException
  */
-class RedirectException extends Exception
+class RedirectException extends Exception implements HTTPExceptionInterface
 {
     /**
-     * Status code for redirects
+     * HTTP status code for redirects
      *
      * @var int
      */

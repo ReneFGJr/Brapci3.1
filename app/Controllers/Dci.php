@@ -10,8 +10,8 @@ $session = \Config\Services::session();
 define("URL", getenv("app.baseURL"));
 define("PATH", getenv("app.baseURL") . '/');
 define("MODULE", '');
-define("COLLECTION", '/dci');
 define("PREFIX", '');
+define("COLLECTION", 'dci');
 
 class Dci extends BaseController
 {

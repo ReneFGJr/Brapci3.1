@@ -300,11 +300,10 @@ class ContentSecurityPolicy
      */
     public function finalize(ResponseInterface $response)
     {
-        if ($this->autoNonce === false) {
-            return;
+        if ($this->autoNonce) {
+            $this->generateNonces($response);
         }
 
-        $this->generateNonces($response);
         $this->buildHeaders($response);
     }
 
@@ -691,11 +690,7 @@ class ContentSecurityPolicy
      */
     protected function buildHeaders(ResponseInterface $response)
     {
-        /**
-         * Ensure both headers are available and arrays...
-         *
-         * @var Response $response
-         */
+        // Ensure both headers are available and arrays...
         $response->setHeader('Content-Security-Policy', []);
         $response->setHeader('Content-Security-Policy-Report-Only', []);
 
@@ -776,7 +771,7 @@ class ContentSecurityPolicy
     protected function addToHeader(string $name, $values = null)
     {
         if (is_string($values)) {
-            $values = [$values => 0];
+            $values = [$values => $this->reportOnly];
         }
 
         $sources       = [];
@@ -785,13 +780,15 @@ class ContentSecurityPolicy
         foreach ($values as $value => $reportOnly) {
             if (is_numeric($value) && is_string($reportOnly) && ! empty($reportOnly)) {
                 $value      = $reportOnly;
-                $reportOnly = 0;
+                $reportOnly = $this->reportOnly;
+            }
+
+            if (strpos($value, 'nonce-') === 0) {
+                $value = "'{$value}'";
             }
 
             if ($reportOnly === true) {
                 $reportSources[] = in_array($value, $this->validSources, true) ? "'{$value}'" : $value;
-            } elseif (strpos($value, 'nonce-') === 0) {
-                $sources[] = "'{$value}'";
             } else {
                 $sources[] = in_array($value, $this->validSources, true) ? "'{$value}'" : $value;
             }

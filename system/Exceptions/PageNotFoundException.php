@@ -14,12 +14,12 @@ namespace CodeIgniter\Exceptions;
 use Config\Services;
 use OutOfBoundsException;
 
-class PageNotFoundException extends OutOfBoundsException implements ExceptionInterface
+class PageNotFoundException extends OutOfBoundsException implements ExceptionInterface, HTTPExceptionInterface
 {
     use DebugTraceableTrait;
 
     /**
-     * Error code
+     * HTTP status code
      *
      * @var int
      */
@@ -43,6 +43,11 @@ class PageNotFoundException extends OutOfBoundsException implements ExceptionInt
     public static function forMethodNotFound(string $method)
     {
         return new static(self::lang('HTTP.methodNotFound', [$method]));
+    }
+
+    public static function forLocaleNotSupported(string $locale)
+    {
+        return new static(self::lang('HTTP.localeNotSupported', [$locale]));
     }
 
     /**

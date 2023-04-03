@@ -155,19 +155,20 @@ class Router implements RouterInterface
     }
 
     /**
-     * @throws PageNotFoundException
-     * @throws RedirectException
+     * Finds the controller method corresponding to the URI.
+     *
+     * @param string|null $uri URI path relative to baseURL
      *
      * @return Closure|string Controller classname or Closure
+     *
+     * @throws PageNotFoundException
+     * @throws RedirectException
      */
     public function handle(?string $uri = null)
     {
-        // If we cannot find a URI to match against, then
-        // everything runs off of its default settings.
+        // If we cannot find a URI to match against, then set it to root (`/`).
         if ($uri === null || $uri === '') {
-            return strpos($this->controller, '\\') === false
-                ? $this->collection->getDefaultNamespace() . $this->controller
-                : $this->controller;
+            $uri = '/';
         }
 
         // Decode URL-encoded string
@@ -324,7 +325,7 @@ class Router implements RouterInterface
 
     /**
      * Sets the value that should be used to match the index.php file. Defaults
-     * to index.php but this allows you to modify it in case your are using
+     * to index.php but this allows you to modify it in case you are using
      * something like mod_rewrite to remove the page. This allows you to set
      * it a blank.
      *
@@ -376,7 +377,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Checks Defined Routs.
+     * Checks Defined Routes.
      *
      * Compares the uri string against the routes that the
      * RouteCollection class defined for us, attempting to find a match.
@@ -384,9 +385,9 @@ class Router implements RouterInterface
      *
      * @param string $uri The URI path to compare against the routes
      *
-     * @throws RedirectException
-     *
      * @return bool Whether the route was matched or not.
+     *
+     * @throws RedirectException
      */
     protected function checkRoutes(string $uri): bool
     {
@@ -439,6 +440,13 @@ class Router implements RouterInterface
                         $matched
                     );
 
+                    if ($this->collection->shouldUseSupportedLocalesOnly()
+                        && ! in_array($matched['locale'], config('App')->supportedLocales, true)) {
+                        // Throw exception to prevent the autorouter, if enabled,
+                        // from trying to find a route
+                        throw PageNotFoundException::forLocaleNotSupported($matched['locale']);
+                    }
+
                     $this->detectedLocale = $matched['locale'];
                     unset($matched);
                 }
@@ -459,7 +467,7 @@ class Router implements RouterInterface
                     return true;
                 }
 
-                [$controller, ] = explode('::', $handler);
+                [$controller] = explode('::', $handler);
 
                 // Checks `/` in controller name
                 if (strpos($controller, '/') !== false) {
@@ -488,7 +496,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Checks Auto Routs.
+     * Checks Auto Routes.
      *
      * Attempts to match a URI path against Controllers and directories
      * found in APPPATH/Controllers, to find a matching route.
@@ -574,8 +582,6 @@ class Router implements RouterInterface
     {
         if (empty($dir)) {
             $this->directory = null;
-
-            return;
         }
 
         if ($this->autoRouter instanceof AutoRouter) {
