@@ -47,6 +47,7 @@ class Index extends Model
 
     function index($d1='',$d2='',$d3='', $d4 ='', $d5 = '')
         {
+            $sem = 1;
             $sx = '';
             switch($d1)
                 {
@@ -59,13 +60,24 @@ class Index extends Model
                             {
                                 case 'docentes':
                                     $Docentes = new \App\Models\Dci\Docentes;
-                                    $sx .= $Docentes->report_encargos(1);
+                                    $sx .= $Docentes->index('report_encargos',$sem);
                                     break;
                             }
                         break;
                     case 'semestre':
                         $Disciplinas = new \App\Models\Dci\Disciplinas();
-                        $sx .= $Disciplinas->show_semestre(1);
+                        switch($d2)
+                            {
+                                case '1':
+                                    $sx .= $Disciplinas->show_semestre(1);
+                                break;
+                                case '2':
+                                    $sx .= $Disciplinas->show_semestre_row(1);
+                                break;
+                                default:
+                                    $sx .= '[[['.$d2.']]]';
+                            }
+
 
                         break;
                     case 'docentes':
@@ -76,6 +88,11 @@ class Index extends Model
                     case 'salas':
                         $Salas = new \App\Models\Dci\Salas;
                         $sx .= $Salas->index($d2, $d3, $d4, $d5);
+                        break;
+
+                    case 'cursos':
+                        $Cursos = new \App\Models\Dci\Cursos;
+                        $sx .= $Cursos->index($d2, $d3, $d4, $d5);
                         break;
 
                     case 'disciplinas':
@@ -99,7 +116,9 @@ class Index extends Model
 
 
                         $menu = [];
-                        $menu[PATH . '/dci/report/docentes/'] = 'Relatório Docentes';
+                        $menu[PATH . '/dci/docentes/report/1'] = 'Relatório Docentes';
+                        $menu[PATH . '/dci/semestre/1/'] = 'Relatório Encargos/Dia';
+                        $menu[PATH . '/dci/semestre/2/'] = 'Relatório Encargos/Disciplina';
                         $sb  = menu($menu);
 
                         $sx .= bs(bsc($sa,6).bsc($sb,6));

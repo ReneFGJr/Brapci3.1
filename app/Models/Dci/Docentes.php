@@ -47,18 +47,22 @@ class Docentes extends Model
             $sx = '';
             $mn = [];
             $mn['Departamento'] = PATH.'/dci/';
-            $mn['Docentes'] = PATH . '/docentes/';
-            $sx .= breadcrumbs($mn);
+            $mn['Docentes'] = PATH . '/dci/docentes/';
 
             switch($d1)
                 {
                     case 'view':
                         $sx .= $this->view($d2);
                         break;
+                    case 'report':
+                        $sem = 1;
+                        $sx .= $this->report_encargos($sem);
+                        break;
                     default:
                         $sx .= bs($this->list($d2));
                         break;
                 }
+            $sx = breadcrumbs($mn). $sx;
             return $sx;
         }
 
@@ -70,6 +74,7 @@ class Docentes extends Model
                 ->join('encargos', '(e_docente = id_dc) and (e_semestre = '.$sem.')')
                 ->join('curso', 'id_c = e_curso')
                 ->join('disciplinas', 'e_disciplina = id_di')
+                ->join('horario', 'e_horario = id_h', 'LEFT')
                 ->orderBy('dc_nome, di_disciplina')
                 ->findAll();
 
@@ -120,12 +125,14 @@ class Docentes extends Model
                                 } else {
                                     $etapa = ' ('.$etapa.'ª Etapa)';
                                 }
+
+                            $sala = $ddados['h_dia'].' '. $ddados['h_hora_ini'].' '. $ddados['h_hora_fim'];
                             $sx .= '<td width="35%" style="background-color: $cor$;" class="border border-secondary">'.$ddados['di_codigo'].' - '.$ddados['di_disciplina'].
                                     ' <sup>'.$ddados['di_tipo'].$etapa.'</td>';
                             $sx .= '<td width="10%" style="background-color: $cor$;" class="border border-secondary text-center">' . $ddados['c_curso'].'</sup></td>';
                             $sx .= '<td width="2%" class="border border-secondary text-center">' . $ddados['e_turma'] . '</td>';
                             $sx .= '<td width="2%" class="border border-secondary  text-center">' . $ddados['di_crd'] . '</td>';
-                            $sx .= '<td width="10%" class="border border-secondary  text-center">' . '' . '</td>';
+                            $sx .= '<td width="10%" class="border border-secondary  text-center">' . $sala . '</td>';
                             if ($nc > 1) {
                                 $sx .= '</tr>';
                             } else {
