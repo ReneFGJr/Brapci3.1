@@ -14,7 +14,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso .= '</li>';
 }
 ?>
-<nav class="navbar navbar-expand-lg <?= $bg; ?> fixed-top">
+<nav class="navbar navbar-expand-lg <?= $bg; ?> fixed-top d-print-none">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= URL; ?>"><img src="<?= URL; ?>/favicon.png" style="height: 32px;"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,7 +34,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                 if (isset($menu)) {
                     foreach ($menu as $path => $label) {
                         echo '<li class="nav-item">';
-                        echo '<a class="nav-link-brp" aria-current="page" href="'.$path.'">'.$label.'</a>';
+                        echo '<a class="nav-link-brp" aria-current="page" href="' . $path . '">' . $label . '</a>';
                         echo '</li>';
                     }
                 }
