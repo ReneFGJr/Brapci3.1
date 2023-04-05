@@ -238,7 +238,7 @@ class Abnt extends Model
 		$title = $tu . $te;
 
 		$tela = '';
-		$tela .= '<span class="abtn-article">';
+		$tela .= '<span class="abnt-article">';
 		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
@@ -250,8 +250,14 @@ class Abnt extends Model
 		if (isset($dt['issue']['issue_vol']) > 0) {
 			$tela .= ', ' . $dt['issue']['issue_vol'];
 		}
-		if (isset($dt['issue']['issue_nr']) > 0) {
-			$tela .= ', ' . $dt['issue']['issue_nr'];
+
+		if (isset($dt['Issue']['Issue_nr']) > 0) {
+			$nr = trim($dt['Issue']['Issue_nr']);
+			if (strlen($nr) > 0)
+			{
+				$tela .= ', n.' . $dt['Issue']['Issue_nr'];
+			}
+
 		}
 		if (isset($dt['issue']['year']))
 			{
@@ -272,6 +278,7 @@ class Abnt extends Model
 			$tela = troca($tela, '..', '.');
 		}
 		$tela .= '</span>'.cr();
+
 		return $tela;
 	}
 }

@@ -59,6 +59,33 @@ class Mark extends Model
             return $sx;
         }
 
+    function mark($id)
+        {
+            global $sel;
+            $check = '';
+
+            if (!isset($sel))
+                {
+                    $sel = [];
+                    if (isset($_SESSION['sel']))
+                        {
+                            $sel = $_SESSION['sel'];
+                            $sel = (array)json_decode($sel);
+                        }
+                }
+            if (isset($sel[$id]))
+                {
+                    if ($sel[$id] == 1)
+                        {
+                            $check = 'checked';
+                        }
+                }
+            $sx = '';
+            $idf = 'mk_' . $id;
+            $sx .= form_checkbox($idf,1,$check,['onchange'=> 'markArticle("'.$id.'",this);','class'=>'me-1']);
+            return $sx;
+        }
+
     function showId($id,$action='')
         {
             $sx = '';

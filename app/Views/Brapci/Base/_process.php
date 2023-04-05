@@ -40,6 +40,7 @@ foreach($Keywords as $name=>$id)
 $authors = '';
 $authorsLN = '';
 $authorsCP = '';
+
 foreach ($Authors as $id => $name) {
     if (strpos($name, ';')) {
         $name = explode(';', $name);

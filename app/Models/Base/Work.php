@@ -56,6 +56,7 @@ class Work extends Model
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $Metadados = new \App\Models\Base\Metadata();
         $Download = new \App\Models\Base\Download();
+        $Altmetrics = new \App\Models\MetricStudy\Altmetrics();
         $sc = '';
 
         $sx = '';
@@ -117,6 +118,16 @@ class Work extends Model
         /********************************************************* CITACOES */
         $da['Citation'] = $Citation->show_ref($idc);
 
+        /********************************************************* ALTMETRICS */
+        if (isset($da['DOI']))
+        {
+            $DOI = $da['DOI'];
+            $da['altmetrics'] = $Altmetrics->plum($DOI);
+            $da['altmetrics'] .= $Altmetrics->altmetrics($DOI);
+        } else {
+            $da['altmetrics'] = '';
+        }
+
         /********************************************************* DOWNLOADS */
         $da['files'] = $Download->show_resources($da);
         if (isset($da['summary']) and ($da['summary'] != ''))
@@ -127,7 +138,7 @@ class Work extends Model
             }
 
         /************************************************** Botoes de Edição */
-        $da['edit'] = '==>'. $Socials->getAccess("#ADM#CAT#ENA");
+        $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
         if ($Socials->getAccess("#ADM#CAT#ENA")) {
             $img_ia = '<img src="'.URL.'/img/icons/logo_brapci_ia.svg" height="28" title="IA Brapci Process">';
             $da['edit'] = '<a href="' . PATH . COLLECTION . '/a/' . $dt['concept']['id_cc'] . '">' . bsicone('edit', 32) . '</a>';
@@ -138,6 +149,9 @@ class Work extends Model
 
         /******************** MOSTRAR */
         switch ($class) {
+            case 'Article':
+                $sx .= view('Brapci/Base/WorkArticle', $da);
+                break;
             case 'Book':
                 $sx .= view('Brapci/Base/WorkBook', $da);
                 break;
@@ -293,6 +307,7 @@ class Work extends Model
     {
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
+        $MARK = new \App\Models\Base\Mark();
         $chk = '';
         if ((isset($_SESSION['sel'])) and ($_SESSION['sel'] != '')) {
             $sel = (array)json_decode($_SESSION['sel']);
@@ -301,8 +316,10 @@ class Work extends Model
                 $chk = 'checked';
             }
         }
-        $sx .= '<input type="checkbox" name="w' . $id . '" id="w' . $id . '" ' . $chk . ' onclick="markArticle(\'w' . $id . '\',this);"> ';
+        $sx .= '<span class="reference">';
+        $sx .= $MARK->mark($id);
         $sx .= $RDF->c($id,'abnt') . cr();
+        $sx .= '</span>';
         return $sx;
     }
 }

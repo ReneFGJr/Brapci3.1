@@ -76,11 +76,21 @@ class Sources extends Model
                 break;
 
             case 'list':
-                $sx = $this->list();
-                break;
+                switch($d2)
+                    {
+                        case '0':
+                            $sx = $this->list();
+                            break;
+                        case '1':
+                            $sx = $this->list();
+                            break;
+                        case '2':
+                            $sx = $this->list('b');
+                            break;
+                        default:
+                        break;
+                    }
 
-            case 'listb':
-                $sx = $this->list('b');
                 break;
 
             case 'check':
@@ -139,6 +149,7 @@ class Sources extends Model
 
     function list($type='')
         {
+            $Socials = new \App\Models\Socials();
             $sx = '';
             switch($type)
                 {
@@ -170,7 +181,12 @@ class Sources extends Model
                     $link = anchor(PATH . '/v/' . $line['jnl_frbr'], $line['jnl_name']);
                     $sx .= bsc($link,10);
 
-                    $link = anchor(PATH . '/journals/check/' . $line['jnl_frbr'], '(check)','target="_black" ');
+                    $link = '';
+                    if ($Socials->perfil('#ADM'))
+                        {
+                            $link = anchor(PATH . '/journals/check/' . $line['jnl_frbr'], '(check)', 'target="_black" ');
+                        }
+
                     $sx .= bsc($link,1);
                     $sx .= bsc($line['year'], 1);
                 }
@@ -321,8 +337,11 @@ class Sources extends Model
         $items = array();
         $mod = '/source';
 
-        $items['/journals/list/'] = lang('brapci.sources');
-        $items['/journals/listb/'] = lang('brapci.sources.lastpublications');
+
+        $items['/journals/list/0'] = lang('brapci.sources');
+
+        $items['/journals/list/1'] = lang('brapci.sources');
+        $items['/journals/list/2'] = lang('brapci.sources.lastpublications');
         if ($access)
             {
                 $items['/admin' . $mod . '/tableview'] = 'TableView';

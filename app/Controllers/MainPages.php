@@ -39,7 +39,11 @@ class MainPages extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
-        $sx .= view('Brapci/Headers/menu_journals');
+
+        $m = [];
+        $m['Brapci'] = PATH;
+        $m[lang('brapci.journals')] = PATH.'/journals';
+        $sx .= breadcrumbs($m);
 
         $q = get("q") . get("qs");
         if (strlen($q) > 0) {
@@ -90,10 +94,9 @@ class MainPages extends BaseController
                         $_GET['field'] = 0;
                     }
                 }
-
                 $sx .= view('Brapci/Result', $data);
                 $SEARCH = new \App\Models\ElasticSearch\Index();
-                $sx .= $SEARCH->index('search');
+                $sx .= $SEARCH->index('search','journal');
                 break;
             case 'social':
                 $Socials = new \App\Models\Socials();
@@ -190,58 +193,8 @@ class MainPages extends BaseController
 
     function v($id)
     {
-        $RDF = new \App\Models\Rdf\RDF();
-        $RDFData = new \App\Models\Rdf\RDFData();
-        $dt = $RDF->le($id);
-
-        if (!isset($dt['concept'])) {
-            return ('Concept not found');
-            exit;
-        }
-
-        $concept = $dt['concept'];
-        $class = $concept['c_class'];
-
-        $class = $dt['concept']['c_class'];
-
-        switch ($class) {
-            case 'Journal':
-                $vs = new \App\Models\Base\V();
-                $sx = $vs->v($id);
-                break;
-            case 'Proceeding':
-                $Proceeding = new \App\Models\Base\Proceeding();
-                $sx = $Proceeding->v($id);
-                break;
-            case 'Book':
-                $Book = new \App\Models\Base\Book();
-                $sx = $Book->v($id);
-                break;
-            case 'BookChapter':
-                $Book = new \App\Models\Base\Book();
-                $sx = $Book->v($id);
-                break;
-            case 'Person':
-                $vs = new \App\Models\Base\V();
-                $sx = $vs->v($id);
-                break;
-            case 'journal':
-                $sx = $RDF->journal($id);
-                break;
-            case 'issue':
-                $sx = $RDF->issue($id);
-                break;
-            case 'Article':
-                $dt = $RDF->le($id);
-                $Work = new \App\Models\Base\Work();
-                $sx = $Work->show($id);
-                break;
-            default:
-                $sx = bs(bsc('Class not found - ' . $class, 12));
-                $sx .= $RDFData->view_data($dt);
-                break;
-        }
-        return ($sx);
+        $Work = new \App\Models\Base\Work();
+        return $Work->show($id);
     }
 
     public function index2($pag = '')

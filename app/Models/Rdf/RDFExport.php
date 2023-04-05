@@ -553,6 +553,7 @@ class RDFExport extends Model
 
 		/* Formata para Artigo ABNT */
 		$ABNT = new \App\Models\Metadata\Abnt();
+
 		$name = $ABNT->abnt_article($dta);
 		$this->saveData($id, 'abnt', $name);
 		$this->saveData($id, 'name', $name);

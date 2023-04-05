@@ -101,7 +101,11 @@ class Metadata extends Model
     function metadata_issue($id)
         {
             $ISSUE = new \App\Models\Base\Issues();
-            $dtq = $ISSUE->le($id);
+            $dtq = $ISSUE
+                ->join('source_source', 'id_jnl = is_source')
+                ->where('is_issue',$id)
+                ->first();
+
             $dt = array();
             if (count($dtq) == 0)
                 {
@@ -162,6 +166,12 @@ class Metadata extends Model
                 $langO = $line['n_lang'];
                 $ddv1 = $line['d_r1'];
                 $ddv2 = $line['d_r2'];
+
+                if (($class == 'hasRegisterId') and (substr($valueO,0,3) == '10.'))
+                    {
+                        $class = 'hasDOI';
+                        $line['n_name2'] = $valueO;
+                    }
 
                 switch ($class) {
                     case 'hasBookChapter':

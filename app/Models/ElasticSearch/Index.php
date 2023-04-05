@@ -179,6 +179,7 @@ class Index extends Model
 					$sx .= $dt['error'];
 					return $sx;
 				}
+
 			switch($type)
 				{
 					case 'book':
@@ -186,6 +187,9 @@ class Index extends Model
 						break;
 					case 'benancib':
 						$sx .= $this->show_works_benancib($dt);
+						break;
+					case 'journal':
+						$sx .= $this->show_works_article($dt);
 						break;
 					default:
 						$sx .= $this->show_works_benancib($dt);
@@ -237,6 +241,47 @@ class Index extends Model
 			$tb .= '</tr>';
 			$tb .= '</table>';
 			$sx .= bsc($tb,6);
+		}
+		$sx = bs($sx);
+		return $sx;
+	}
+
+	function show_works_article($dt)
+	{
+		$RDF = new \App\Models\Rdf\RDF();
+		$MARK = new \App\Models\base\Mark();
+		$Cover = new \App\Models\Base\Cover();
+		$sx = '';
+		if (!isset($dt['total'])) {
+			return '';
+		}
+
+		$sa = 'Total ' . $dt['total'];
+		$sa .= ', mostrando ' . $dt['start'] . '/' . $dt['offset'];
+		$sa = $this->paginations($dt);
+		$sx = bsc($sa, 12);
+
+		for ($r = 0; $r < count($dt['works']); $r++) {
+			$cover = '';
+			$year = '';
+			$line = $dt['works'][$r];
+			$sz = 11;
+			if (isset($line['jnl']))
+				{
+					$cover = '<img src="'.$Cover->cover($line['jnl']). '" class="img-fluid mb-3 text-end" >';
+					$sz--;
+					$sx .= bsc($cover,1);
+				}
+
+			if (isset($line['jnl'])) {
+				$year = $line['year'];
+			}
+			$txt = '';
+			$txt .= $MARK->mark($line['id']);
+			$txt .= '<a href="'.PATH.'/v/'.$line['id'].'" class="href">'.$RDF->c($line['id']).'</a>'.cr();
+			$txt .= ' <sup>(Score: ' . number_format($line['score'], 3, '.', ','). ')</sup>';
+			$sx .= bsc($txt , $sz, 'mb-3');
+			$sx .= bsc($year,1,'text-end');
 		}
 		$sx = bs($sx);
 		return $sx;

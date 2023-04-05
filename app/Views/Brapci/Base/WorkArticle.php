@@ -126,7 +126,7 @@ $xbread = breadcrumbs($bread);
                 ?>
             </p>
 
-            <p><?= $reference; ?></p>
+            <span class="reference"><?= $reference; ?></span>
 
             <!-- COMPARTILHE -->
             <div class="mt-5 mb-5">
@@ -159,6 +159,8 @@ $xbread = breadcrumbs($bread);
             <div class="p-0" id="views"><?= $views; ?></div>
 
             <div class="p-0" id="vited"><?= $cited; ?></div>
+
+            <div class="p-0 mt-2" id="altmetrics"><?= $altmetrics; ?></div>
         </div>
     </div>
 </div>
