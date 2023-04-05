@@ -107,7 +107,7 @@ class Metadata extends Model
                 ->first();
 
             $dt = array();
-            if (count($dtq) == 0)
+            if ($dtq == '')
                 {
                     return array();
                 }
