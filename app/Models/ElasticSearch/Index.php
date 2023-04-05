@@ -249,7 +249,7 @@ class Index extends Model
 	function show_works_article($dt)
 	{
 		$RDF = new \App\Models\Rdf\RDF();
-		$MARK = new \App\Models\base\Mark();
+		$MARK = new \App\Models\Base\Mark();
 		$Cover = new \App\Models\Base\Cover();
 		$sx = '';
 		if (!isset($dt['total'])) {
