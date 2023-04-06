@@ -51,6 +51,7 @@ class About extends Model
         {
             $Indicators = new \App\Models\Base\AboutIndicadores();
             $Indicators->makeIndicators();
+            $dt = $Indicators->indicators();
             $sx = '';
             $dt = $this
             ->where('cms_ref','ABOUT')

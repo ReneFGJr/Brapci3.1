@@ -43,6 +43,13 @@ class AboutIndicadores extends Model
     protected $afterDelete    = [];
 
 
+    function indicators()
+        {
+            $dt = $this->findAll();
+            pre($dt);
+        }
+
+
     function makeIndicators()
     {
         $cp = 'type, pdf, id_jnl';
@@ -70,7 +77,6 @@ class AboutIndicadores extends Model
             $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
 
             $jid = $line['id_jnl'];
-            echo $jid . '-';
             if (!isset($rst['journal'][$type])) {
                 $rst['journal'][$type] = [];
             }
@@ -82,8 +88,33 @@ class AboutIndicadores extends Model
                 }
             }
         }
-        $rst['journals'] = count($rst['journal']);
-        pre($rst);
-        exit;
+        if (isset($rst['journal']['Article']))
+            {
+                $rst['journals'] = count($rst['journal']['Article']);
+            } else {
+                $rst['journals'] = 0;
+            }
+
+
+        $ids = ['Book', 'BookChapter', 'Proceeding', 'Article', 'journals'];
+        foreach($ids as $idx=>$var)
+            {
+                if (isset($rst[$var])) {
+                    $this->register($var, $rst[$var]);
+                }
+            }
     }
+
+    function register($var,$total)
+        {
+            $dt = $this->where('cmsi_indicador',$var)->first();
+            $data['cmsi_indicador'] = $var;
+            $data['cmsi_valor'] = $total;
+            if ($dt == '')
+                {
+                    $this->set($data)->insert();
+                } else {
+                    $this->set($data)->where('cmsi_indicador',$var)->update();
+                }
+        }
 }
