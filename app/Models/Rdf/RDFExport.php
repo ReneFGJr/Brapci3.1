@@ -559,9 +559,8 @@ class RDFExport extends Model
 		$this->saveData($id, 'abnt', $name);
 		$name = '<b>'.$dta['title'].'</b>';
 
-		if (!isset($dta['authors']))
+		if (isset($dta['authors']))
 			{
-				pre($dta);
 				$name .= '<br><i>' . troca($dta['authors'], '$', ';') . '</i>';
 			} else {
 				$name .= '';
