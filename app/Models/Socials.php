@@ -1299,10 +1299,17 @@ class Socials extends Model
 
 		/* Enviar e-mail */
 		$txt = '';
+		$txt .= '<table width="600" border=0>';
+		$txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+		$txt .= '<tr><td>';
 		$txt .= 'Prezado usuário ' . $name . ',<br>';
+		$txt .= '<br>';
+		$txt .= 'Seu cadastro foi realizado com sucesso em nossa plataforma, para ter acesso utilize essa credencial temporária.';
+		$txt .= '<br><br>';
 		$txt .= 'Usuário: ' . $user . '<br>';
 		$txt .= 'Senha:' . $pw1 . '<br>';
-		$subject = '[' . COLLECTION . '] ';
+		$txt .= '</td></tr></table>';
+		$subject = '[BRAPCI] ';
 		$subject .= lang('social.social_user_add');
 		sendemail($user, $subject, $txt);
 	}
