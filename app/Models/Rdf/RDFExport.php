@@ -400,9 +400,10 @@ class RDFExport extends Model
 						$this->saveRDF($id, $name, 'Title.name');
 						break;
 					case 'Year':
-						pre($dta);
 						if (isset($dta['Issue']['Year'])) {
 							$name = trim($dta['Issue']['Year']);
+							echo '--->'.$name;
+							exit;
 							$this->saveRDF($id, $name, 'Year.name');
 						}
 						break;
