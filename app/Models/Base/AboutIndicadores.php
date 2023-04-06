@@ -101,8 +101,14 @@ class AboutIndicadores extends Model
                 $rst['journals'] = 0;
             }
 
+        if (isset($rst['journal']['Proceeding'])) {
+            $rst['Events'] = count($rst['journal']['Proceeding']);
+        } else {
+            $rst['Events'] = 0;
+        }
 
-        $ids = ['Book', 'BookChapter', 'Proceeding', 'Article', 'journals'];
+        $rst['update'] = date("d/m/Y");
+        $ids = ['Book', 'BookChapter', 'Proceeding', 'Article', 'journals','update','Events'];
         foreach($ids as $idx=>$var)
             {
                 if (isset($rst[$var])) {
