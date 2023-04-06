@@ -4,23 +4,18 @@ namespace App\Models\Base;
 
 use CodeIgniter\Model;
 
-class About extends Model
+class AboutIndicadores extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'cms';
-    protected $primaryKey       = 'id_cms';
+    protected $table            = 'cms_indicador';
+    protected $primaryKey       = 'id_cmsi';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_cms', 'cms_ref', 'cms_pos',
-        'cms_text', 'cms_lang'
-    ];
-    protected $typeFields    = [
-        'hidden', 'string', '[1-99]',
-        'text', 'op:pt_BR:pt_BR'
+        'id_cmsi', 'cmsi_indicador', 'cmsi_valor'
     ];
 
     // Dates
@@ -47,21 +42,13 @@ class About extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function about()
-        {
-            $Indicators = new \App\Models\Base\AboutIndicadores();
-            $Indicators->makeIndicators();
-            $sx = '';
-            $dt = $this
-            ->where('cms_ref','ABOUT')
-            ->orderBy('cms_pos')
-            ->findAll();
 
-            foreach($dt as $id=>$line)
-                {
-                    $sx .= bsc($line['cms_text'],12,'mt-2');
-                }
-            $sx = bs($sx);
-            return $sx;
+    function makeIndicators()
+        {
+            $Search = new \App\Models\ElasticSearch\Register();
+            $dt = $this
+                ->findAll();
+            pre($dt);
+            break;
         }
 }

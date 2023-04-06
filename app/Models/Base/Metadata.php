@@ -380,7 +380,10 @@ class Metadata extends Model
                 }
             }
         }
-        $this->metadata['ID'] = $meta['concept']['id_cc'];
+        if (isset($meta['concept']['id_cc']))
+            {
+                $this->metadata['ID'] = $meta['concept']['id_cc'];
+            }
         //pre($this->metadata);
         return $this->metadata;
     }
