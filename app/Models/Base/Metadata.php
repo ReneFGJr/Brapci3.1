@@ -287,7 +287,10 @@ class Metadata extends Model
                     case 'hasSubject':
                         $this->leta('Keywords', $lang, $value.';'.$ddv2);
                         $this->let('DC.Subject', $value);
-                        $this->lets('keywords', anchor(PATH.COLLECTION.'/v/'.$ddv2,$value) . '.');
+                        if ($value != '')
+                        {
+                            $this->lets('keywords', anchor(PATH.COLLECTION.'/v/'.$ddv2,$value) . '.');
+                        }
                         break;
                     case 'hasIssueProceedingOf':
                         if (!isset($issue_proceessed[$ddv1]))
