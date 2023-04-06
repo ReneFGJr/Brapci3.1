@@ -40,13 +40,24 @@ $data['GOOGLEID'] = $GOOGLEID;
     <script src="<?= URL; ?>/js/sisdoc_form.js?v0.1" crossorigin="anonymous"></script>
 
 
-        <!---- CSS -->
-        <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap.min.css">
-        <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap-datepicker">
+    <!---- CSS -->
+    <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= URL; ?>/css/bootstrap-datepicker">
 
-        <link rel="stylesheet" href="<?= URL; ?>/css/brapci.css?v0.0.4">
+    <link rel="stylesheet" href="<?= URL; ?>/css/brapci.css?v0.0.4">
 
-        <?= view('Google/Analytics', $data); ?>
+    <?= view('Google/Analytics', $data); ?>
 </head>
+<div id="loading" style="display: none;">
+    <p><img src="<?=PATH.'/img/thema/wait.gif';?>" /> Please Wait</p>
+</div>
+
+<script>
+    $(document).ajaxStart(function() {
+        $('#loading').show();
+    }).ajaxStop(function() {
+        $('#loading').hide();
+    });
+</script>
 
 <body style="min-height: 500px;">
