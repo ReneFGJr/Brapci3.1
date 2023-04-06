@@ -556,6 +556,15 @@ class RDFExport extends Model
 
 		$name = $ABNT->abnt_article($dta);
 		$this->saveData($id, 'abnt', $name);
+		$name = '<b>'.$dta['title'].'</b>';
+		$name .= '<br><i>'.troca($dta['authors'],'$',';').'</i>';
+		$name .= '<br>'.$dta['Issue']['Journal'];
+		if (isset($dta['Issue']['Issue_nr']) and (trim($dta['Issue']['Issue_nr'])) != '') {
+			$name .= ', n. '. $dta['Issue']['Issue_nr']; }
+		if (isset($dta['issue']['issue_vol'])) {
+			$name .= ', '. $dta['issue']['issue_vol']; }
+		if (isset($dta['Issue']['Year'])) {
+			$name .= ', ' . $dta['Issue']['Year']; }
 		$this->saveData($id, 'name', $name);
 
 		return '';

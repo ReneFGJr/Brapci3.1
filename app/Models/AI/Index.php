@@ -95,6 +95,10 @@ class Index extends Model
 						break;
 				}
 				break;
+			case 'synthesize':
+				$wiki = new \App\Models\TextToPeech\Index();
+				$sx .= $wiki->index($subact, $d1, $d2);
+				break;
 			case 'wiki':
 				$wiki = new \App\Models\AI\Wiki\Index();
 				$sx .= $wiki->index($subact, $d1, $d2);
