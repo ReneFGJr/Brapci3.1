@@ -66,6 +66,13 @@ class AboutIndicadores extends Model
                         $rst['pdf'] = [0,0];
                     }
                     $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
+
+                    $jid = $line['id_jnl'];
+                    echo $jid.'-';
+                    if ((!isset($rst['journal'][$jid])) and ($jid > 0)) {
+                        $rst['journal'][$jid] = 1;
+                    }
+
                 }
             pre($rst);
             exit;
