@@ -52,6 +52,11 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                 <button class="btn btn-outline-success" type="submit"><?= lang('benancib.search'); ?></button>
             </form>
             -->
+            <ul class="navbar-nav md-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link-brp" href="<?= PATH . '/about/'. COLLECTION; ?>"><?= lang('brapci.about'); ?></a>
+                </li>
+            </ul>
             <?php echo $acesso; ?>
         </div>
 </nav>

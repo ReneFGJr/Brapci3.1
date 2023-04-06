@@ -119,15 +119,8 @@ class MainPages extends BaseController
                 break;
 
             case 'about':
-                $sa = '';
-                $sa .= bsc(view('Logos/logo_benancib'), 12, 'text-center');
-                $sa .= bsc(view('Benancib/Pages/about', $data), 12);
-                $data['height'] = 100;
-                $sb = '';
-                $sb .= bsc(view('Logos/logo_ppgci_uff.php', $data), 4, 'text-center mt-5');
-                $sb .= bsc('', 4, 'mt-5');
-                $sb .= bsc(view('Logos/logo_ppgcin_ufrgs.php', $data), 4, 'text-center mt-5');
-                $sx .= bs($sa . $sb);
+                $About = new \App\Models\Base\About();
+                $sx .= $About->about();
                 break;
 
             case 'statistics':

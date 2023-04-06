@@ -557,7 +557,13 @@ class RDFExport extends Model
 
 		$name = $ABNT->abnt_article($dta);
 		$this->saveData($id, 'abnt', $name);
-		$name = '<b>'.$dta['title'].'</b>';
+		if (isset($dta['title']))
+			{
+				$title = $dta['title'];
+			} else {
+				$title = '[[no title]]';
+			}
+		$name = '<b>'.$title.'</b>';
 
 		if (isset($dta['authors']))
 			{
