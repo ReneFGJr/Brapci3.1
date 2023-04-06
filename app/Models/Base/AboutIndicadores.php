@@ -49,6 +49,6 @@ class AboutIndicadores extends Model
             $dt = $this
                 ->findAll();
             pre($dt);
-            break;
+            exit;
         }
 }
