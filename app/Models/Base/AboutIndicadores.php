@@ -69,10 +69,10 @@ class AboutIndicadores extends Model
 
                     $jid = $line['id_jnl'];
                     echo $jid.'-';
-                    if ((!isset($rst['journal'][$jid])) and ($jid > 0)) {
-                        $rst['journal'][$jid] = $total;
+                    if ((!isset($rst['journal'][$type][$jid])) and ($jid > 0)) {
+                        $rst['journal'][$type][$jid] = $total;
                     } else {
-                        $rst['journal'][$jid] = $rst['journal'][$jid] + $total;
+                        $rst['journal'][$type][$jid] = $rst['journal'][$type][$jid] + $total;
                     }
 
                 }
