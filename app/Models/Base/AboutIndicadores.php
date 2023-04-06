@@ -44,45 +44,46 @@ class AboutIndicadores extends Model
 
 
     function makeIndicators()
-        {
-            $cp = 'type, pdf, id_jnl';
-            $cpc = ', count(*) as total';
-            $Search = new \App\Models\ElasticSearch\Register();
-            $dt = $Search
-                ->select($cp.$cpc)
-                ->groupBy($cp)
-                ->findAll();
+    {
+        $cp = 'type, pdf, id_jnl';
+        $cpc = ', count(*) as total';
+        $Search = new \App\Models\ElasticSearch\Register();
+        $dt = $Search
+            ->select($cp . $cpc)
+            ->groupBy($cp)
+            ->findAll();
 
-            $rst = [];
-            $rst['journal'] = [];
-            foreach($dt as $id=>$line)
-                {
-                    $type = $line['type'];
-                    $total = $line['total'];
-                    if (!isset($rst[$type])) { $rst[$type] = 0; }
-                    $rst[$type] = $rst[$type] + $total;
+        $rst = [];
+        $rst['journal'] = [];
+        foreach ($dt as $id => $line) {
+            $type = $line['type'];
+            $total = $line['total'];
+            if (!isset($rst[$type])) {
+                $rst[$type] = 0;
+            }
+            $rst[$type] = $rst[$type] + $total;
 
-                    $pdf = $line['pdf'];
-                    if (!isset($rst['pad'])) {
-                        $rst['pdf'] = [0,0];
-                    }
-                    $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
+            $pdf = $line['pdf'];
+            if (!isset($rst['pad'])) {
+                $rst['pdf'] = [0, 0];
+            }
+            $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
 
-                    $jid = $line['id_jnl'];
-                    echo $jid.'-';
-                    if (!isset($rst['journal'][$type]))
-                        {
-                            $rst['journal'][$type] = [];
-                        }
-                    if ((!isset($rst['journal'][$type][$jid])) and ($jid > 0)) {
-                        $rst['journal'][$type][$jid] = $total;
-                    } else {
-                        $rst['journal'][$type][$jid] = $rst['journal'][$type][$jid] + $total;
-                    }
-
+            $jid = $line['id_jnl'];
+            echo $jid . '-';
+            if (!isset($rst['journal'][$type])) {
+                $rst['journal'][$type] = [];
+            }
+            if ($jid > 0) {
+                if (!isset($rst['journal'][$type][$jid])) {
+                    $rst['journal'][$type][$jid] = $total;
+                } else {
+                    $rst['journal'][$type][$jid] = $rst['journal'][$type][$jid] + $total;
                 }
-                $rst['journals'] = count($rst['journal']);
-            pre($rst);
-            exit;
+            }
         }
+        $rst['journals'] = count($rst['journal']);
+        pre($rst);
+        exit;
+    }
 }
