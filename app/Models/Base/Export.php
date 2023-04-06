@@ -181,6 +181,22 @@ class Export extends Model
     {
         $sx = '';
         switch ($d1) {
+            case 'articles':
+                switch ($d2) {
+                    case 'start':
+                        $this->remove_all('EXPORT_ARTICLE');
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task_remove('EXPORT_ARTICLE');
+                        $dt = $BOTS->task('EXPORT_ARTICLE');
+                        $sx .= 'Started ' . $d2 . ' export';
+                        $sx .= '<hr>';
+                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                        break;
+                    default:
+                        echo "OK ==> $d2";
+                }
+                break;
+
             case 'books':
                 switch ($d2) {
                     case 'start':
