@@ -280,6 +280,8 @@ class Export extends Model
         $offset = round(0);
         $limit = 100;
 
+        pre($dta);
+
         $TYPE = $dta['task_id'];
 
         if ($dta['task_id'] == 'EXPORT_ARTICLE') {
