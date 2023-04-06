@@ -37,13 +37,9 @@ class RDFExport extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function __construct()
-	{
-		$this->RDF = new \App\Models\RDF\RDF();
-	}
-
 	function export($id, $FORCE = false)
 	{
+		$RDF = new \App\Models\Rdf\RDF();
 		$tela = '';
 		/*****************************************************************/
 		switch ($id) {
@@ -69,13 +65,13 @@ class RDFExport extends Model
 				break;
 		}
 
-		$dir = $this->RDF->directory($id);
+		$dir = $RDF->directory($id);
 		$file = $dir . 'name.nm';
 		if ((file_exists($file)) and ($FORCE == false)) {
 			return '';
 		}
 
-		$dt = $this->RDF->le($id, 0);
+		$dt = $RDF->le($id, 0);
 		if (!isset($dt['concept']['c_class'])) {
 			return '';
 		}
@@ -199,9 +195,9 @@ class RDFExport extends Model
 
 	function exportNail($id)
 	{
-		$this->RDF = new \App\Models\RDF\RDF();
-		$Covers = new \App\Models\Book\Covers();
-		$dt = $this->RDF->le($id);
+		$RDF = new \App\Models\Rdf\RDF();
+		$Covers = new \App\Models\Base\Cover();
+		$dt = $RDF->le($id);
 		$class = $dt['concept']['c_class'];
 		switch ($class) {
 			case 'Manifestation':
@@ -214,8 +210,9 @@ class RDFExport extends Model
 
 	function recover_authors($dt)
 	{
+		$RDF = new \App\Models\Rdf\RDF();
 		/************************************************** Authors */
-		$authors = $this->RDF->recovery($dt['data'], 'hasAuthor');
+		$authors = $RDF->recovery($dt['data'], 'hasAuthor');
 		$auths = '';
 		$auth = array();
 		for ($r = 0; $r < count($authors); $r++) {
@@ -224,7 +221,7 @@ class RDFExport extends Model
 				$auths .= '; ';
 			}
 
-			$auth_name = strip_tags($this->RDF->c($idr));
+			$auth_name = strip_tags($RDF->c($idr));
 			$auth_id = $idr;
 			$auths .= $auth_name;
 			array_push($auth, array('name' => $auth_name, 'id' => $auth_id));
@@ -234,7 +231,8 @@ class RDFExport extends Model
 
 	function recover_title($dt)
 	{
-		$title = $this->RDF->recovery($dt['data'], 'hasTitle');
+		$RDF = new \App\Models\Rdf\RDF();
+		$title = $RDF->recovery($dt['data'], 'hasTitle');
 		if (isset($title[0][2])) {
 			$title = nbr_title($title[0][2]);
 		} else {
@@ -245,13 +243,15 @@ class RDFExport extends Model
 
 	function recover_subject($dt)
 	{
-		$Subject = $this->RDF->recovery($dt['data'], 'hasSubject');
+		$RDF = new \App\Models\Rdf\RDF();
+		$Subject = $RDF->recovery($dt['data'], 'hasSubject');
 		return $Subject;
 	}
 	function recover_issue($dt, $id, $tp)
 	{
-		$issue1 = $this->RDF->recovery($dt['data'], 'hasIssueOf');
-		$issue2 = $this->RDF->recovery($dt['data'], 'hasIssueProceedingOf');
+		$RDF = new \App\Models\Rdf\RDF();
+		$issue1 = $RDF->recovery($dt['data'], 'hasIssueOf');
+		$issue2 = $RDF->recovery($dt['data'], 'hasIssueProceedingOf');
 		$issue = array_merge($issue1, $issue2);
 
 		/* EMPTY */
@@ -270,7 +270,7 @@ class RDFExport extends Model
 			} else {
 				$idx = $id1;
 			}
-			$issues = array($this->RDF->c($idx), $idx);
+			$issues = array($RDF->c($idx), $idx);
 		}
 		if (count($issues) == 0) {
 			echo "OPS ISSUE";
@@ -282,6 +282,7 @@ class RDFExport extends Model
 
 	function saveCSV($id,$sep = 'td')
 		{
+			$RDF = new \App\Models\Rdf\RDF();
 			/*************************** Separador */
 			switch($sep)
 				{
@@ -292,7 +293,7 @@ class RDFExport extends Model
 						$sep_end = '</td>';
 						break;
 				}
-			$dir = $this->RDF->directory($id);
+			$dir = $RDF->directory($id);
 			$csv = array(
 					'Authors'=> 'json',
 					'Title'=>'name',
@@ -726,20 +727,21 @@ class RDFExport extends Model
 
 	function export_issue($dt, $id)
 	{
+		$RDF = new \App\Models\Rdf\RDF();
 		/******************************** ISSUE */
 		$class = $dt['concept']['c_class'];
-		$vol = $this->RDF->recovery($dt['data'], 'hasPublicationVolume');
-		$nr = $this->RDF->recovery($dt['data'], 'hasPublicationNumber');
-		$year1 = $this->RDF->recovery($dt['data'], 'dateOfPublication');
-		$year2 = $this->RDF->recovery($dt['data'], 'hasDateTime');
+		$vol = $RDF->recovery($dt['data'], 'hasPublicationVolume');
+		$nr = $RDF->recovery($dt['data'], 'hasPublicationNumber');
+		$year1 = $RDF->recovery($dt['data'], 'dateOfPublication');
+		$year2 = $RDF->recovery($dt['data'], 'hasDateTime');
 		$year = array_merge($year1, $year2);
-		$place = $this->RDF->recovery($dt['data'], 'hasPlace');
-		$publish = $this->RDF->recovery($dt['data'], 'hasIssue');
+		$place = $RDF->recovery($dt['data'], 'hasPlace');
+		$publish = $RDF->recovery($dt['data'], 'hasIssue');
 
 		$dc['id'] = $id;
 
 		/****************************************************** PUBLISH **/
-		$namePublish = strip_tags($this->RDF->c($publish[0][1]));
+		$namePublish = strip_tags($RDF->c($publish[0][1]));
 		$dc['publish'] = array(
 			'id' => $publish[0][1],
 			'name' => $namePublish
@@ -747,7 +749,7 @@ class RDFExport extends Model
 
 		/********************************************************** YEAR */
 		if (isset($year[0][1])) {
-			$nameYear = $this->RDF->c($year[0][1]);
+			$nameYear = $RDF->c($year[0][1]);
 			$dc['year'] = array(
 				'id' => $year[0][1],
 				'name' => $nameYear
@@ -765,7 +767,7 @@ class RDFExport extends Model
 
 		/********************************************************** VOL. */
 		if (isset($vol[0][1])) {
-			$nameVol = $this->RDF->c($vol[0][1]);
+			$nameVol = $RDF->c($vol[0][1]);
 			$dc['vol'] = array(
 				'id' => $vol[0][1],
 				'name' => $nameVol
@@ -776,7 +778,7 @@ class RDFExport extends Model
 
 		/********************************************************** NR. **/
 		if (isset($nr[0][1])) {
-			$nameNr = $this->RDF->c($nr[0][1]);
+			$nameNr = $RDF->c($nr[0][1]);
 			$dc['nr'] = array(
 				'id' => $nr[0][1],
 				'name' => $nameNr
@@ -786,7 +788,7 @@ class RDFExport extends Model
 		}
 		/******************************************************** PLACE **/
 		if (isset($place[0][1])) {
-			$namePlace = $this->RDF->c($place[0][1]);
+			$namePlace = $RDF->c($place[0][1]);
 			$dc['place'] = array(
 				'id' => $place[0][1],
 				'name' => $namePlace
@@ -840,6 +842,7 @@ class RDFExport extends Model
 
 	function export_geral($dt, $id)
 	{
+		$RDF = new \App\Models\Rdf\RDF();
 		$name = trim($dt['concept']['n_name']);
 
 		if (!isset($dt['concept']['id_cc'])) {
@@ -847,7 +850,7 @@ class RDFExport extends Model
 		}
 
 		if (strlen($name) == 0) {
-			$name = $this->RDF->recovery($dt['data'], 'prefLabel');
+			$name = $RDF->recovery($dt['data'], 'prefLabel');
 			$name = trim($name[0][2]);
 		}
 		if (strlen($name) > 0) {
@@ -900,30 +903,30 @@ class RDFExport extends Model
 							}
 
 							$class = 'BookChapter';
-							$idc = $this->RDF->RDF_concept($prefTerm, $class);
+							$idc = $RDF->RDF_concept($prefTerm, $class);
 							$lang = $Language->getTextLanguage($title);
 
 							$prop = 'hasTitle';
-							$literal = $this->RDF->literal($title,$lang);
-							$this->RDF->propriety($idc, $prop, 0, $literal);
+							$literal = $RDF->literal($title,$lang);
+							$RDF->propriety($idc, $prop, 0, $literal);
 
 
 							for($r=0;$r < count($authors);$r++)
 								{
 									$author = $authors[$r];
-									$id_pe = $this->RDF->RDF_concept($author, 'Person');
+									$id_pe = $RDF->RDF_concept($author, 'Person');
 									$prop = 'hasAuthor';
-									$this->RDF->propriety($idc, $prop, $id_pe, 0);
+									$RDF->propriety($idc, $prop, $id_pe, 0);
 								}
 
 
 							//$literal = 0;
 							$prop = 'hasBookChapter';
-							$exec = $this->RDF->propriety($idb, $prop, $idc, 0);
+							$exec = $RDF->propriety($idb, $prop, $idc, 0);
 						}
 				}
 			return('====>'.$title);
-			//return $this->RDF->c($idc);
+			//return $RDF->c($idc);
 		}
 
 	function export_imagem($d1, $d2)
@@ -967,8 +970,8 @@ class RDFExport extends Model
 
 	function export_index_list_all($lt = 0, $class = 'Person', $url = '')
 	{
-		$this->RDF = new \App\Models\Rdf\RDF();
-		$this->RDFConcept = new \App\Models\Rdf\RDFConcept();
+		$RDF = new \App\Models\Rdf\RDF();
+		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$nouse = 0;
 		$dir = '../.tmp';
 		dircheck($dir);
@@ -994,7 +997,7 @@ class RDFExport extends Model
 			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . COLLECTION . 'rdf/export/' . $url . '/' . ($lt + 1)) . '">';
 		} else {
 			$sx .= bsmessage('rdf.export_success', 1);
-			$sx .= $this->RDF->btn_return();
+			$sx .= $RDF->btn_return();
 		}
 		$sx = bs(bsc($sx, 12));
 		return ($sx);
@@ -1002,7 +1005,8 @@ class RDFExport extends Model
 
 	function create_index_html($lt = 'G', $class = 'Person', $nouse = 0)
 	{
-		$f = $this->RDF->getClass($class, 0);
+		$RDF = new \App\Models\Rdf\RDF();
+		$f = $RDF->getClass($class, 0);
 		$wh = '';
 		if ($nouse == 1) {
 			$wh .= " and C1.cc_use = 0 ";
@@ -1033,7 +1037,7 @@ class RDFExport extends Model
 			$name_use = trim($line['n_name']);
 
 			//$link = '<a href="' . . '" class="text-secondary" style="font-size: 85%;">';
-			$link = $this->RDF->link($line);
+			$link = $RDF->link($line);
 			$linka = '</a>';
 
 			$xl = substr(UpperCaseSql(strip_tags($name_use)), 0, 1);
@@ -1065,8 +1069,8 @@ class RDFExport extends Model
 
 	function saveRDF($id, $value, $file)
 	{
-		$this->RDF = new \App\Models\RDF\RDF();
-		$dir = $this->RDF->directory($id);
+		$RDF = new \App\Models\Rdf\RDF();
+		$dir = $RDF->directory($id);
 		$file = $dir . $file;
 		file_put_contents($file, $value);
 		return true;
