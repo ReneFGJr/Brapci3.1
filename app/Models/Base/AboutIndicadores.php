@@ -74,6 +74,7 @@ class AboutIndicadores extends Model
                     }
 
                 }
+                $rst['journals'] = count($rst['journal']);
             pre($rst);
             exit;
         }
