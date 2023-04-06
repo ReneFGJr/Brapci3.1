@@ -68,7 +68,6 @@ class Index extends Model
                         $API = new \App\Models\AI\NLP\Book\Fulltext();;
                         $sx = $API->index($d2,$d3);
                         break;
-
                     case 'book_sumary':
                         $API = new \App\Models\AI\NLP\Book\Sumary();;
                         $sx = $API->show_form();
@@ -100,6 +99,7 @@ class Index extends Model
 
             $menu['#' . lang('tools.languages')] = '';
             $menu[PATH . 'ai/nlp/language/train'] = lang('tools.language_train');
+            $menu[PATH . 'ai/synthesize'] = lang('tools.synthesize');
             return menu($menu);
         }
 

@@ -24,7 +24,7 @@
           <div class="nav-wrapper position-relative end-0">
             <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
               <li class="nav-item">
-                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . 'social/message'); ?>" role="tab" aria-selected="false">
+                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . '/social/message'); ?>" role="tab" aria-selected="false">
                   <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <title>document</title>
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -43,7 +43,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . 'social/message'); ?>" role="tab" aria-selected="false">
+                <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . '/social/message'); ?>" role="tab" aria-selected="false">
                   <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <title>settings</title>
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -384,7 +384,7 @@
             <div class="nav-wrapper position-relative end-0">
               <ul class="nav nav-pills nav-fill p-1 bg-transparent" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . 'social/message'); ?>" role="tab" aria-selected="false">
+                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . '/social/message'); ?>" role="tab" aria-selected="false">
                     <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <title>document</title>
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -403,7 +403,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . 'social/message'); ?>" role="tab" aria-selected="false">
+                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="<?php echo base_url(PATH . '/social/message'); ?>" role="tab" aria-selected="false">
                     <svg class="text-dark" width="16px" height="16px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                       <title>settings</title>
                       <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
