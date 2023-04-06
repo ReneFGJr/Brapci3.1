@@ -45,8 +45,12 @@ class AboutIndicadores extends Model
 
     function makeIndicators()
         {
+            $cp = 'type, pdf, id_jnl';
+            $cpc = ', count(*) as total';
             $Search = new \App\Models\ElasticSearch\Register();
-            $dt = $this
+            $dt = $Search
+                ->select($cp.$cpc)
+                ->groupBy($cp)
                 ->findAll();
             pre($dt);
             exit;
