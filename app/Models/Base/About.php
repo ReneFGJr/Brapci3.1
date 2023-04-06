@@ -51,7 +51,7 @@ class About extends Model
         {
             $Indicators = new \App\Models\Base\AboutIndicadores();
             $Indicators->makeIndicators();
-            $dt = $Indicators->indicators();
+            $di = $Indicators->indicators();
             $sx = '';
             $dt = $this
             ->where('cms_ref','ABOUT')
@@ -61,6 +61,11 @@ class About extends Model
             foreach($dt as $id=>$line)
                 {
                     $sx .= bsc($line['cms_text'],12,'mt-2');
+                }
+
+            foreach($di as $var=>$vlr)
+                {
+                    $sx = troca($sx,'{'.$var.'}',$vlr);
                 }
             $sx = bs($sx);
             return $sx;

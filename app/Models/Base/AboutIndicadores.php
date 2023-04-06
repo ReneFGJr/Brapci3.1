@@ -46,7 +46,13 @@ class AboutIndicadores extends Model
     function indicators()
         {
             $dt = $this->findAll();
-            pre($dt);
+            $d = [];
+            foreach($dt as $id=>$line)
+                {
+                    $class = $line['cmsi_indicador'];
+                    $d[$class] = $line['cmsi_valor'];
+                }
+            return $d;
         }
 
 
