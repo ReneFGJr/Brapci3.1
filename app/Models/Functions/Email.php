@@ -68,11 +68,15 @@ class Email extends Model
         $config['mailPath'] = '/usr/sbin/sendmail';
 
         $config['wordWrap'] = true;
-        $config['smtp_timeout'] = '7';
-        $config['SMTPHost'] = 'ssl://smtp.gmail.com';
-        $config['SMTPUser'] = 'brapcici@gmail.com';
-        $config['SMTPPass'] = getenv('email_password');
-        $config['SMTPPort'] = '465';
+        $config['protocol'] = 'smtp';
+        $config['SMTPHost'] = getenv('email.stmp');
+        $config['SMTPUser'] = getenv('email.user_auth');
+        $config['SMTPPass'] = getenv('email.password');
+        $config['SMTPPort'] = getenv('email.stmp_port');
+        $cofngi['SMTPCrypto'] = '';
+        $config['fromEmail'] = getenv('email.fromEmail');
+        $config['fromName'] = getenv('email.fromName');
+
         $config['charset']    = 'utf-8';
         //$config['newline']    = "\r\n";
         $config['mailType'] = 'html';
