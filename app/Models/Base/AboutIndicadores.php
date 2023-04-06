@@ -52,7 +52,22 @@ class AboutIndicadores extends Model
                 ->select($cp.$cpc)
                 ->groupBy($cp)
                 ->findAll();
-            pre($dt);
+
+            $rst = [];
+            foreach($dt as $id=>$line)
+                {
+                    $type = $line['type'];
+                    $total = $line['total'];
+                    if (!isset($rst[$type])) { $rst[$type] = 0; }
+                    $rst[$type] = $rst[$type] + $total;
+
+                    $pdf = $line['pdf'];
+                    if (!isset($rst['pad'])) {
+                        $rst['pdf'] = [0,0];
+                    }
+                    $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
+                }
+            pre($rst);
             exit;
         }
 }
