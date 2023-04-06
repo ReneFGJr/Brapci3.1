@@ -54,6 +54,7 @@ class AboutIndicadores extends Model
                 ->findAll();
 
             $rst = [];
+            $rst['journal'] = [];
             foreach($dt as $id=>$line)
                 {
                     $type = $line['type'];
