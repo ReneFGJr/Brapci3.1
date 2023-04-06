@@ -561,6 +561,7 @@ class RDFExport extends Model
 
 		if (!isset($dta['authors']))
 			{
+				pre($dta);
 				$name .= '<br><i>' . troca($dta['authors'], '$', ';') . '</i>';
 			} else {
 				$name .= '';
