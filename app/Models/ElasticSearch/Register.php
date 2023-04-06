@@ -284,12 +284,15 @@ class Register extends Model
             $da['year'] = $data['Issue']['Year'];
         }
 
-        pre($da,false);
-        pre($data);
+
 
         if (!isset($da['year'])) { $da['year'] = '????'; }
+        if ($da['year']=='') { $da['year'] = '????'; }
 
         if (isset($data['PDF'])) { $da['pdf'] = 1; }
+
+        pre($da, false);
+        pre($data);
 
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
