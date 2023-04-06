@@ -75,6 +75,10 @@ class Export extends Model
                 $Export = new \App\Models\Base\Export();
                 return $Export->cron($d1, 'start');
                 break;
+            case 'authority':
+                $Export = new \App\Models\Base\Export();
+                return $Export->cron($d1, 'start');
+                break;
             case 'proceeding':
                 $Export = new \App\Models\Base\Export();
                 return $Export->cron($d1,'start');
@@ -213,6 +217,22 @@ class Export extends Model
                 }
                 break;
 
+            case 'authority':
+                switch ($d2) {
+                    case 'start':
+                        $this->remove_all('EXPORT_AUTHORITY');
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task_remove('EXPORT_AUTHORITY');
+                        $dt = $BOTS->task('EXPORT_AUTHORITY');
+                        $sx .= 'Started ' . $d2 . ' export';
+                        $sx .= '<hr>';
+                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                        break;
+                    default:
+                        echo "OK ==> $d2";
+                }
+                break;
+
             case 'booksChapter':
                 switch ($d2) {
                     case 'start':
@@ -281,6 +301,7 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/proceeding'] = lang('brapci.export') . ' ' . lang('brapci.proceeding');
         $menu[PATH . 'admin/' . $mod . '/books'] = lang('brapci.export') . ' ' . lang('brapci.books');
         $menu[PATH . 'admin/' . $mod . '/booksChapter'] = lang('brapci.export') . ' ' . lang('brapci.booksChapters');
+        $menu[PATH . 'admin/' . $mod . '/authority'] = lang('brapci.export') . ' ' . lang('brapci.authority');
 
         $menu['#BOTS'] = "";
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');
