@@ -402,8 +402,6 @@ class RDFExport extends Model
 					case 'Year':
 						if (isset($dta['Issue']['Year'])) {
 							$name = trim($dta['Issue']['Year']);
-							echo '--->'.$name;
-							exit;
 							$this->saveRDF($id, $name, 'Year.name');
 						}
 						break;

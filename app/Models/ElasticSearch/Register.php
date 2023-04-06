@@ -274,7 +274,7 @@ class Register extends Model
             {
 
             }
-
+        pre($data);
         if ((isset($data['Year'])) and ($data['Year'] != ''))
             {
                 $da['year'] = $data['Year'];
