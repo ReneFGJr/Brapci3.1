@@ -280,8 +280,6 @@ class Export extends Model
         $offset = round(0);
         $limit = 100;
 
-        pre($dta);
-
         $TYPE = $dta['task_id'];
 
         if ($dta['task_id'] == 'EXPORT_ARTICLE') {
@@ -300,6 +298,11 @@ class Export extends Model
             $class = 'BookChapter';
             $type = 'BC';
         }
+
+        if (!isset($class))
+            {
+                return "";
+            }
 
         $offset = $dta['task_offset'];
         if (agent()==1)
