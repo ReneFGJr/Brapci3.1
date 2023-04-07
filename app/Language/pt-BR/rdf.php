@@ -35,7 +35,7 @@ return [
     'hasAbstract' => 'Resumo',
     'there_are' => 'Existem',
     'remissive' => 'remissia(s)',
-    'wait' => 'aguarde, processando...',
+    'wait' => 'aguarde, processando... <img src="'.PATH.'/img/thema/wait.gif">',
     'processing' => 'processando',
     'duplicates' => 'duplicatas',
     'Check_class_duplicate' => 'Verificando classes duplicadas',
