@@ -48,28 +48,27 @@ class Export extends Model
     {
         $sx = '';
         $bread = array();
-        $bread['Admin'] = PATH.'/admin';
+        $bread['Admin'] = PATH . '/admin';
         $sx .= breadcrumbs($bread);
         switch ($d1) {
             case 'clear':
                 $conf = get("confirm");
-                if ($conf=="true")
-                    {
-                        $Register = new \App\Models\ElasticSearch\Register();
-                        $sql = "TRUNCATE dataset;";
-                        $Register->query($sql);
-                        $sx .= bsmessage('Database Dataset cleared!');
-                    } else {
-                        $sx = 'Confirma exclusão da Base Cached?<hr/>';
-                        $sx .= '<table class="table" style="width: 200px;"><tr>';
-                        $sx .= '<td>';
-                        $sx .= anchor(PATH . '/admin/export/clear/?confirm=true', 'SIM');
-                        $sx .= '</td>';
-                        $sx .= '<td>';
-                        $sx .= anchor(PATH . '/admin/', lang('NO'));
-                        $sx .= '</td>';
-                        $sx .= '</tr></table>';
-                    }
+                if ($conf == "true") {
+                    $Register = new \App\Models\ElasticSearch\Register();
+                    $sql = "TRUNCATE dataset;";
+                    $Register->query($sql);
+                    $sx .= bsmessage('Database Dataset cleared!');
+                } else {
+                    $sx = 'Confirma exclusão da Base Cached?<hr/>';
+                    $sx .= '<table class="table" style="width: 200px;"><tr>';
+                    $sx .= '<td>';
+                    $sx .= anchor(PATH . '/admin/export/clear/?confirm=true', 'SIM');
+                    $sx .= '</td>';
+                    $sx .= '<td>';
+                    $sx .= anchor(PATH . '/admin/', lang('NO'));
+                    $sx .= '</td>';
+                    $sx .= '</tr></table>';
+                }
                 break;
             case 'articles':
                 $Export = new \App\Models\Base\Export();
@@ -81,7 +80,7 @@ class Export extends Model
                 break;
             case 'proceeding':
                 $Export = new \App\Models\Base\Export();
-                return $Export->cron($d1,'start');
+                return $Export->cron($d1, 'start');
                 break;
             case 'books':
                 $Export = new \App\Models\Base\Export();
@@ -128,7 +127,7 @@ class Export extends Model
         $sx .= '<br>';
         $sx .= '<span style="color: #0F0;">' . bsicone('circle') . '</span> ' . lang('brapci.service.running');
         $sx .= '<br>';
-        $sx .= anchor(PATH.'bots',lang('brapci.Bots'));
+        $sx .= anchor(PATH . 'bots', lang('brapci.Bots'));
         $sx .= ' | ';
         $sx .= anchor(PATH . 'admin/export', lang('brapci.Export'));
         $sx .= ' | ';
@@ -146,7 +145,7 @@ class Export extends Model
         return $dt;
     }
 
-    function register($task_id, $priority, $offset, $status, $total=-1)
+    function register($task_id, $priority, $offset, $status, $total = -1)
     {
         $dta['task_id'] = $task_id;
         $dta['task_status'] = $status;
@@ -163,8 +162,8 @@ class Export extends Model
         return true;
     }
 
-    function check($d1,$d2)
-        {
+    function check($d1, $d2)
+    {
         $BUGS = new \App\Models\Functions\Bugs();
         $task = 'CHECK_TITLES';
         $limit = 2000;
@@ -175,11 +174,11 @@ class Export extends Model
             $BOTS->task_remove($task);
             return "FIM - Check";
         }
-        }
-    function remove_all($type='')
-        {
-            $rst = $this->where('task_id',$type)->delete();
-        }
+    }
+    function remove_all($type = '')
+    {
+        $rst = $this->where('task_id', $type)->delete();
+    }
 
     function cron($d1, $d2, $d3 = '')
     {
@@ -250,20 +249,19 @@ class Export extends Model
                 break;
 
             case 'proceeding':
-                switch($d2)
-                    {
-                        case 'start':
-                            $this->remove_all('EXPORT_PROCEEDING');
-                            $BOTS = new \App\Models\Bots\Index();
-                            $BOTS->task_remove('EXPORT_PROCEEDING');
-                            $dt = $BOTS->task('EXPORT_PROCEEDING');
-                            $sx .= 'Started '.$d2.' export';
-                            $sx .= '<hr>';
-                            $sx .= anchor(PATH.'bots/export','Start Export',array('class'=>'btn btn-outline-primary'));
-                            break;
-                        default:
-                            echo "OK $d2";
-                    }
+                switch ($d2) {
+                    case 'start':
+                        $this->remove_all('EXPORT_PROCEEDING');
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task_remove('EXPORT_PROCEEDING');
+                        $dt = $BOTS->task('EXPORT_PROCEEDING');
+                        $sx .= 'Started ' . $d2 . ' export';
+                        $sx .= '<hr>';
+                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                        break;
+                    default:
+                        echo "OK $d2";
+                }
                 break;
                 /************************************ DEFAULT */
             default:
@@ -273,13 +271,11 @@ class Export extends Model
                     if (count($dtd) > 0) {
                         $sx .= $this->export_works($dtd);
                     } else {
-                        if (agent())
-                            {
-                                $sx .= bsmessage('No task at Cron',2);
-                            } else {
-                                $sx .= 'No task at Cron';
-                            }
-
+                        if (agent()) {
+                            $sx .= bsmessage('No task at Cron', 2);
+                        } else {
+                            $sx .= 'No task at Cron';
+                        }
                     }
                 } else {
                     echo "OPS EXPORT NOT FOUND [$d1]";
@@ -319,36 +315,44 @@ class Export extends Model
 
         $TYPE = $dta['task_id'];
 
-        if ($dta['task_id'] == 'EXPORT_ARTICLE') {
-            $class = 'Article';
-            $type = 'JA';
-        }
-        if ($dta['task_id'] == 'EXPORT_BOOK') {
-            $class = 'Book';
-            $type = 'BO';
-        }
-        if ($dta['task_id'] == 'EXPORT_PROCEEDING') {
-            $class = 'Proceeding';
-            $type = 'EV';
-        }
-        if ($dta['task_id'] == 'EXPORT_BOOKCHAPTER') {
-            $class = 'BookChapter';
-            $type = 'BC';
+        switch ($TYPE) {
+            case 'EXPORT_ARTICLE':
+                $class = 'Article';
+                $type = 'JA';
+                break;
+
+            case 'EXPORT_BOOK':
+                $class = 'Book';
+                $type = 'BO';
+                break;
+            case 'EXPORT_PROCEEDING':
+                $class = 'Proceeding';
+                $type = 'EV';
+                break;
+            case 'EXPORT_BOOKCHAPTER':
+                $class = 'BookChapter';
+                $type = 'BC';
+                break;
+            case 'EXPORT_AUTHORITY':
+                $class = 'Person';
+                $type = 'BC';
+                break;
+            default:
+                echo "OPS EXPORT NOT IMPLEMENTED $TYPE";
+                exit;
         }
 
-        if (!isset($class))
-            {
-                return "";
-            }
+        if (!isset($class)) {
+            return "";
+        }
 
         $offset = $dta['task_offset'];
-        if (agent()==1)
-            {
-                $data['title'] = 'BotPage';
-                $data['bg'] = 'bg-admin';
-                $sx .= view('Brapci/Headers/header',$data);
-                $sx .= view('Brapci/Headers/navbar', $data);
-            }
+        if (agent() == 1) {
+            $data['title'] = 'BotPage';
+            $data['bg'] = 'bg-admin';
+            $sx .= view('Brapci/Headers/header', $data);
+            $sx .= view('Brapci/Headers/navbar', $data);
+        }
         $sx .= "<br>OFFSET: $offset ";
         $sx .= $this->export_data($class, $type, $offset, $limit);
         if ($this->eof) {
@@ -390,11 +394,11 @@ class Export extends Model
             $dir = $RDF->directory($idr);
             $file = $dir . 'metadata.json';
             if (!file_exists($file)) {
-                $RDF->c($idr,TRUE);
+                $RDF->c($idr, TRUE);
             }
 
             if (!file_exists($file)) {
-                $sx .= '<li>' . strzero($idr, 8) . ' ' . " - ERROR FileID" . ' (' . $file.')</li>';
+                $sx .= '<li>' . strzero($idr, 8) . ' ' . " - ERROR FileID" . ' (' . $file . ')</li>';
             } else {
                 /********************************************  */
                 $json = file_get_contents($file);

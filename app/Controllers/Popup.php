@@ -30,7 +30,7 @@ class Popup extends BaseController
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM")) {
                     $id .= get("id");
-                    $RDFRemissive = new \App\Models\RDF\RDFRemissive();
+                    $RDFRemissive = new \App\Models\Rdf\RDFRemissive();
                     $sx .= $RDFRemissive->edit($id);
                 }
                 break;

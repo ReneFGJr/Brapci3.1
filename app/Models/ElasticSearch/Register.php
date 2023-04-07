@@ -228,6 +228,10 @@ class Register extends Model
                             $da['collection'] = 'BK';
                             $da['type'] = $data['Class'];
                             break;
+                        case 'Person':
+                            $da['collection'] = 'AU';
+                            $da['type'] = $data['Class'];
+                            break;
                         default:
                             echo "OPS REGISTER NOT EXISTE ".$data['Class'];
                             exit;

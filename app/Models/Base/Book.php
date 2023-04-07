@@ -109,6 +109,7 @@ class Book extends Model
         return $sx;
     }
 
+
     function v($id = '')
     {
         $sx = '';

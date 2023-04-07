@@ -103,7 +103,8 @@ class MainPages extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
             case 'v':
-                $sx .= $this->v($subact);
+                $V = new \App\Models\Base\V();
+                $sx .= $V->v($subact);
                 break;
             case 'a':
                 $sx .= $this->a($subact);
@@ -182,12 +183,6 @@ class MainPages extends BaseController
             $sx = bs(bsc($sx, 12));
         }
         return $sx;
-    }
-
-    function v($id)
-    {
-        $Work = new \App\Models\Base\Work();
-        return $Work->show($id);
     }
 
     public function index2($pag = '')

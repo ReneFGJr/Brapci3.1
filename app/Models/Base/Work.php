@@ -48,7 +48,6 @@ class Work extends Model
         return $sx;
     }
 
-
     function show($dt)
     {
         $Socials = new \App\Models\Socials();

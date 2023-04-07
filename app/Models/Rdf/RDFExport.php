@@ -78,6 +78,7 @@ class RDFExport extends Model
 		$prefix = $dt['concept']['prefix_ref'];
 		$class = $prefix . ':' . trim($dt['concept']['c_class']);
 		$name = ':::: ' . $class . ' ::::';
+
 		//echo '<br>'.h('#'.$name.'==>'.$id);
 
 		switch ($class) {
@@ -591,10 +592,15 @@ class RDFExport extends Model
 
 	function export_person($dt, $id)
 	{
+		$Metadata = new \App\Models\Base\Metadata();
 		$sx = '';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 1);
 		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author">' . $name . '</a>';
+
+		$dta = $Metadata->metadata($dt);
+		$this->saveData($id, 'Elastic', $dta);
+
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}

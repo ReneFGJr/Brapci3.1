@@ -41,53 +41,56 @@ class V extends Model
     protected $afterDelete    = [];
 
     function v($dt)
-        {
-            $sx = '';
-            $RDF = new \App\Models\Rdf\RDF();
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
 
-            if (!is_array($dt)) {
-                $dt = round($dt);
-                $dt = $RDF->le($dt);
-            }
-
-            $idc = $dt['concept']['id_cc'];
-            $class = $dt['concept']['c_class'];
-            $mod = COLLECTION;
-
-            switch($class)
-                {
-                    case 'Person':
-                        if ($mod == '') {
-                            $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
-                            return $sx;
-                        }
-                        $Authority = new \App\Models\Authority\Index();
-                        $sx = $Authority->v($idc);
-                        break;
-
-                    case 'CorporateBody':
-                        if ($mod == '') {
-                            $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
-                            return $sx;
-                        }
-                        $CorporateBody = new \App\Models\Authority\CorporateBody();
-                        $sx = $CorporateBody->v($idc);
-                        break;
-
-                    case 'Journal':
-                        if ($mod != '')
-                            {
-                                $sx = metarefresh(PATH.'/v/'.$idc);
-                                return $sx;
-                            }
-                        $Journals = new \App\Models\Base\Journals();
-                        $sx .= $Journals->v($dt);
-                        break;
-                    default:
-                        $sx .= '<br><br><br><br>';
-                        $sx = bs(bsc(h($class,1).bsmessage('Nor view')));
-                        break;
-                }
-            return $sx;
+        if (!is_array($dt)) {
+            $dt = round($dt);
+            $dt = $RDF->le($dt);
         }
+
+        $idc = $dt['concept']['id_cc'];
+        $class = $dt['concept']['c_class'];
+        $mod = COLLECTION;
+
+        switch ($class) {
+            case 'Article':
+                $Work = new \App\Models\Base\Work();
+                $sx = $Work->show($dt);
+                break;
+
+            case 'Person':
+                if ($mod == '') {
+                    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
+                    return $sx;
+                }
+                $Authority = new \App\Models\Authority\Index();
+                $sx = $Authority->v($idc);
+                break;
+
+            case 'CorporateBody':
+                if ($mod == '') {
+                    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
+                    return $sx;
+                }
+                $CorporateBody = new \App\Models\Authority\CorporateBody();
+                $sx = $CorporateBody->v($idc);
+                break;
+
+            case 'Journal':
+                if ($mod != '') {
+                    $sx = metarefresh(PATH . '/v/' . $idc);
+                    return $sx;
+                }
+                $Journals = new \App\Models\Base\Journals();
+                $sx .= $Journals->v($dt);
+                break;
+            default:
+                $sx .= '<br><br><br><br>';
+                $sx = bs(bsc(h($class, 1) . bsmessage('Nor view')));
+                break;
+        }
+        return $sx;
+    }
 }

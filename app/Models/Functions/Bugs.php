@@ -190,7 +190,7 @@ class Bugs extends Model
                 $erros['abstract'] = 'Problema no resumo';
                 $erros['key'] = 'Problema nas palavras chave';
                 $erros['title'] = 'Problema no título';
-                $erros['authors'] = 'Problema nas autorias';
+                $erros['authors'] = 'Problema no nome do(s) autor(es)';
 
                 $sx .= '<div class="form-check">';
                 $sx .= '<input type="hidden" name="idc" id="idc" value="'.$id.'">';

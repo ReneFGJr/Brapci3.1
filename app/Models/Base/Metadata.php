@@ -374,6 +374,9 @@ class Metadata extends Model
                     case 'fullText':
                         $this->let_array('Fulltext', $valueO, $ddv1);
                         break;
+                    case 'hasGoogleSchollarId':
+                        $this->let_array('Google', $valueO, $ddv1);
+                        break;
                     default:
                         if ($erros == true)
                         {
