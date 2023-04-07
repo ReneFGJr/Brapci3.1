@@ -240,13 +240,13 @@ class Metadata extends Model
                         $this->lets('license', $value);
                         break;
                     case 'hasAuthor':
-                        $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a>';
+                        $name = '<a class="summary_a" href="' . URL . '/autoridade/v/' . $ddv2 . '">' . $value . '</a>';
                         $this->lets('authors', $name.'$');
                         $this->let('Authors', $value . ';' . $ddv2);
                         $this->let('AuthorsOf', $ddv1);
                         break;
                     case 'hasOrganizator':
-                        $name = '<a class="summary_a" href="' . URL . COLLECTION . '/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
+                        $name = '<a class="summary_a" href="' . URL .  '/autoridade/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
                         $this->lets('authors', $value . ';' . $ddv2);
                         $this->let('Authors', $value . '<sup>Org.</sup>;' . $ddv2);
                         break;
