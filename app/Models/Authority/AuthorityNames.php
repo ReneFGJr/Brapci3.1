@@ -283,6 +283,7 @@ class AuthorityNames extends Model
 			$sx = h($dt['a_prefTerm'], 1);
 			$sx .= bsmessage(lang('brapci.redirect_brapci'));
 			$sx .= bsmessage(lang('brapci.wait'));
+			$sx .= lang('brapci.wait_img');
 			//$sx .= metarefresh(PATH . 'res/v/' . $dt['a_brapci'],0);
 			return $sx;
 			exit;
