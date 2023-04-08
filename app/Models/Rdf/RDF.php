@@ -1093,8 +1093,13 @@ class RDF extends Model
 		return $sx;
 	}
 
-	function export($id)
+	function xexport($id)
 	{
+		$RDFExport = new \App\Models\Rdf\RDFExport();
+		$dt = $this->le($id);
+		pre($dt);
+		/* REMOVER ABAIXO */
+
 		$sx = '';
 		$id = round($id);
 		if ($id > 0) {

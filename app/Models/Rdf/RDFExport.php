@@ -79,8 +79,6 @@ class RDFExport extends Model
 		$class = $prefix . ':' . trim($dt['concept']['c_class']);
 		$name = ':::: ' . $class . ' ::::';
 
-		//echo '<br>'.h('#'.$name.'==>'.$id);
-
 		switch ($class) {
 				/*************************************** SERIE NAME */
 			case 'brapci:Image':
@@ -513,6 +511,47 @@ class RDFExport extends Model
 		$ABNT = new \App\Models\Metadata\Abnt();
 		$name = $ABNT->abnt_proceeding($dta);
 		$this->saveData($id, 'abnt', $name);
+
+		if (isset($dta['title'])) {
+			$title = $dta['title'];
+		} else {
+			$title = '[[no title]]';
+		}
+
+		/**************** */
+		$issueNR = $dta['issue_id'];
+		$Issue = new \App\Models\Base\Issues();
+		$dri = $Issue->le($issueNR);
+
+		$link = '<a href="'.PATH.'/proceeding/v/'.$id.'">';
+		$linka = '</a>';
+
+		switch($dri['id_jnl'])
+			{
+				case '75':
+					$link = '<a href="' . PATH . '/benancib/v/' . $id . '">';
+					break;
+				default:
+					break;
+			}
+		$name = '<b>' .$link. $title .$linka. '</b>';
+
+		if (isset($dta['authors'])) {
+			$name .= '<br><i>' . troca($dta['authors'], '$', ';') . '</i>';
+			$name = troca($name,';<','.<');
+		} else {
+			$name .= '';
+		}
+
+		$name .= '<br>'.trim($dri['is_vol_roman'].' '.$dri['jnl_name']);
+		if (trim($dri['is_place']) != '')
+			{
+				$name .= ', '. $dri['is_place'];
+			}
+		if (trim($dri['is_year']) != '') {
+			$name .= ', ' . $dri['is_year'];
+		}
+		$name .= '.';
 		$this->saveData($id, 'name', $name);
 
 		return '';
@@ -842,13 +881,14 @@ class RDFExport extends Model
 		$issue_vancouver .= '.';
 
 		$dc['vancouver'] = $issue_vancouver;
-
 		$name = $issue;
-		$this->saveRDF($id, $name, 'name.nm');
+		echo $name;
+		exit;
 		$this->saveRDF($id, $issue, 'name.abnt');
 		$this->saveRDF($id, $issue_vancouver, 'name.vancouver');
 		$this->saveRDF($id, $nameYear, 'year.nm');
 		$this->saveRDF($id, json_encode($dc), 'issue.json');
+		$this->saveRDF($id, $name, 'name.nm');
 		return "";
 	}
 

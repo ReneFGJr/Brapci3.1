@@ -65,16 +65,19 @@ class Abnt extends Model
 
 		$tela = '';
 		$tela .= '<span class="abtn-article">';
-		if (isset($dt['Authors'])) {
-			$authors = $this->authors($dt['Authors']);
+		if (isset($dt['authors'])) {
+			$authors = $dt['authors'].'.';
+			$authors = troca($authors,'$$','.');
+			$authors = troca($authors,'$',';');
+
 			$tela .= $authors;
 		}
-		if (isset($dt['id_jnl'][0]))
-			{
-				$jid = $dt['id_jnl'][0];
-			} else {
-				$jid = 0;
-			}
+		/**************** */
+		$issueNR = $dt['issue_id'];
+		$Issue = new \App\Models\Base\Issues();
+		$dri = $Issue->le($issueNR);
+		$jid = $dri['id_jnl'];
+
 		switch($jid)
 			{
 				case 75:
@@ -86,30 +89,33 @@ class Abnt extends Model
 			}
 
 		$tela .= '<i>In</i>: ';
-		if (isset($dt['Issue']['Journal']))
-		{
-			$tela .= $dt['Issue']['Journal'];
-			$tela .= ', ' . $dt['Issue']['Issue_nr'] . '. ';
+		$tela .= mb_strtoupper($dri['jnl_name']);
+		if ($dri['is_nr'] != '')
+			{$tela .= ', '.$dri['is_nr'].'.'; }
+		if ($dri['is_place'] != '') {
+			$tela .= ', ' . $dri['is_place'];
+		}
+		if ($dri['is_year'] != '') {
+			$tela .= ', ' . $dri['is_year'];
 		}
 
-		$tela .= '<b>Anais</b> [.] ';
+		$tela .= '. <b>Anais</b> [.] ';
 
-		if (isset($dt['Issue']['Year']))
+		if ($dri['is_place'] != '') {
+			$tela .= ' ' . $dri['is_place'];
+		}
+		if ($dri['is_editor'] != '') {
 			{
-
-				$tela .= $dt['Issue']['Place'];
-				$tela .= ', ' . $dt['Issue']['Year'];
-
+				$tela .= ', ' . $dri['is_editor'];
+			} if ($dri['jnl_editor'] != '') {
+				$tela .= ', ' . $dri['jnl_editor'];
 			} else {
-				if (isset($dt['issue']['Identifier'])) {
-					$tela .= $dt['issue']['Identifier'];
-				}
-
-				if (isset($dt['issue']['place'])) {
-					$tela .= ' ' . $dt['issue']['place'];
-				}
+				# none
 			}
-
+		}
+		if ($dri['is_year'] != '') {
+			$tela .= ', ' . $dri['is_year'];
+		}
 
 		if (isset($dt['pages'])) {
 			$tela .= ', p ' . $dt['pages'];
@@ -119,13 +125,14 @@ class Abnt extends Model
 		/******** LIMPAR */
 		$tela = troca($tela, ' ,', ',');
 		$tela = troca($tela, ' .', '.');
+		$tela = troca($tela, ';.', '.');
 		while (strpos($tela, '..')) {
 			$tela = troca($tela, '..', '.');
 		}
-		$tela = troca($tela, '[.]', '[...].');
+		$tela = troca($tela, '[.]', '[...]');
 		$tela .= '</span>';
-		return $tela;
 
+		return $tela;
 		}
 
 
@@ -273,12 +280,12 @@ class Abnt extends Model
 
 		/******** LIMPAR */
 		$tela = troca($tela, ' ,', ',');
+		$tela = troca($tela, ';.', '.');
 		$tela = troca($tela, ' .', '.');
 		while (strpos($tela, '..')) {
 			$tela = troca($tela, '..', '.');
 		}
 		$tela .= '</span>'.cr();
-
 		return $tela;
 	}
 }

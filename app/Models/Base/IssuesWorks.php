@@ -60,6 +60,8 @@ class IssuesWorks extends Model
 
     function show_issue_works($id_rdf)
     {
+        $RDF = new \App\Models\Rdf\RDF();
+        $Mark = new \App\Models\Base\Mark();
         $Work = new \App\Models\Base\Work();
         $Keywords = new \App\Models\Base\Keywords();
         $Authors = new \App\Models\Base\Authors();
@@ -77,7 +79,9 @@ class IssuesWorks extends Model
 
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
-            $sx .= '<p>' . $Work->show_reference($line['siw_work_rdf']) . '</p>';
+            //$sx .= '<p>' . $Work->show_reference($line['siw_work_rdf']) . '</p>';
+            $MK = $Mark->mark($line['siw_work_rdf']);
+            $sx .= '<p>' . $MK. $RDF->c($line['siw_work_rdf']) . '</p>';
 
             $keys = $Keywords->index_keys($keys, $line['siw_work_rdf']);
             $auth = $Authors->index_auths($auth, $line['siw_work_rdf']);
