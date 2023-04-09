@@ -81,7 +81,7 @@ class DownloadPDF extends Model
         }
     }
 
-    function check_harvested($dt)
+    function check_harvested($dt,$ida)
         {
             if (isset($dt['data']))
             {
@@ -90,10 +90,11 @@ class DownloadPDF extends Model
                 {
                     $class = $line['c_class'];
                     $vlr = $line['n_name'];
-                    if ($class == 'hasRegisterId')
+                    if (($class == 'hasRegisterId') and (substr($vlr,0,4) == 'http'))
                         {
-                            pre($dt);
-                            $this->harvesting_update($ida,$mteg,$url);
+                            $meth = 0;
+                            $url = $vlr;
+                            $this->harvesting_update($ida,$meth,$url);
                             return true;
                         }
                     //echo $class.'='.$vlr.'<hr>';
@@ -113,9 +114,7 @@ class DownloadPDF extends Model
             ->select('article_id')
             ->where('pdf',0)
             ->where('((collection = "EV") or (collection = "AR"))')
-            ->findAll(2,0);
-
-            echo $Register->getlastquery();
+            ->findAll(1,0);
 
         foreach($dt as $id=>$line)
             {
@@ -128,10 +127,10 @@ class DownloadPDF extends Model
             /************************************* RDF */
             $dd = $RDF->le($id);
 
-            if ($this->check_harvested($dd))
+            if ($this->check_harvested($dd,$id))
                 {
-                    //$sx = $this->harveting_pdf($id);
                     $sx .= $RDF->c($id).'<hr>';
+                    $sx = $this->harveting_pdf($id);
                 } else {
                     $sx .= bsmessage("Not coleted",3);
                     $Register->set_status($id, ['pdf' => 7]);
