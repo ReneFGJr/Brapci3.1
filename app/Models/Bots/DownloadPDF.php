@@ -102,6 +102,7 @@ class DownloadPDF extends Model
     /********************************************************************* HARVESTING */
     function harvesting()
     {
+        $sx = '';
         /********************************************* NEW METHOD */
         $RDF = new \App\Models\Rdf\RDF();
         $Register = new \App\Models\ElasticSearch\Register();
@@ -110,6 +111,7 @@ class DownloadPDF extends Model
         foreach($dt as $id=>$line)
             {
             $id = $line['article_id'];
+            $sx .= $id;
 
             /************************************* RDF */
             $dd = $RDF->le($id);
@@ -117,25 +119,11 @@ class DownloadPDF extends Model
             if ($this->check_harvested($dd))
                 {
                     pre($dd);
+                    $sx = $this->harveting_pdf($id);
+                } else {
+                    $sx .= bsmessage("Not coleted",3);
                 }
-            echo "Not coleted";
             /************ HARVESTING */
-            $sx = $this->harveting_pdf($id);
-            echo $sx;
-
-            /*
-                    break;
-                case '0':
-                    $http = $RDF->extract($dd, 'hasRegisterId');
-                    if (isset($http[0]))
-                        {
-                            $txt = $this->getFile($http[0]);
-                            $mth = $this->method_identify($txt, $id);
-                            $sx .= 'Harvesting ' . $http[0] . cr();
-                            $sx .= 'Method: ' . $mth . cr();
-                        }
-                    break;
-            },*/
         }
         return $sx;
     }
