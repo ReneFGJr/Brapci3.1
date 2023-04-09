@@ -92,6 +92,8 @@ class DownloadPDF extends Model
                     $vlr = $line['n_name'];
                     if ($class == 'hasRegisterId')
                         {
+                            pre($dt);
+                            $this->harvesting_update($ida,$mteg,$url);
                             return true;
                         }
                     //echo $class.'='.$vlr.'<hr>';
