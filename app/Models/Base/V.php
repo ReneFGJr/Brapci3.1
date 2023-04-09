@@ -45,16 +45,16 @@ class V extends Model
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
 
-
-
         if (!is_array($dt)) {
             $dt = round($dt);
             $dt = $RDF->le($dt);
         }
 
+
+
         if (!isset($dt['concept']['id_cc']))
             {
-                $sx = $RDF->E404();
+                $sx = bs(bsc($RDF->E404(),12));
                 return $sx;
             }
 
