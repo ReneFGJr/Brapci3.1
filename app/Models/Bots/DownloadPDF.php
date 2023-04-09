@@ -94,7 +94,7 @@ class DownloadPDF extends Model
                         {
                             return true;
                         }
-                    echo $class.'='.$vlr.'<hr>';
+                    //echo $class.'='.$vlr.'<hr>';
                 }
             }
             return false;
@@ -128,8 +128,6 @@ class DownloadPDF extends Model
 
             if ($this->check_harvested($dd))
                 {
-                    echo "OK";
-                    pre($dd);
                     $sx = $this->harveting_pdf($id);
                 } else {
                     $sx .= bsmessage("Not coleted",3);
