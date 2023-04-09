@@ -89,6 +89,7 @@ class Bots extends BaseController
             case 'pdf':
                 $DownloadPDF = new \App\Models\Bots\DownloadPDF();
                 $sx .= $DownloadPDF->harvesting();
+                break;
             default:
                 $menu = array();
                 $menu['#DAILY'] = "";

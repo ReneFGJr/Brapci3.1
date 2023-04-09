@@ -106,22 +106,33 @@ class DownloadPDF extends Model
         /********************************************* NEW METHOD */
         $RDF = new \App\Models\Rdf\RDF();
         $Register = new \App\Models\ElasticSearch\Register();
-        $dt = $Register->select('article_id')->where('pdf',0)->findAll(2,0);
+        $dt = $Register
+            ->select('article_id')
+            ->where('pdf',0)
+            ->where('((collection = "EV") or (collection = "AR"))')
+            ->findAll(20,0);
+
+            echo $Register->getlastquery();
 
         foreach($dt as $id=>$line)
             {
             $id = $line['article_id'];
             $sx .= $id;
 
+            /************************************* Status em coleta */
+            $Register->set_status($id,['pdf'=>8]);
+
             /************************************* RDF */
             $dd = $RDF->le($id);
 
             if ($this->check_harvested($dd))
                 {
+                    echo "OK";
                     pre($dd);
                     $sx = $this->harveting_pdf($id);
                 } else {
                     $sx .= bsmessage("Not coleted",3);
+                    $Register->set_status($id, ['pdf' => 7]);
                 }
             /************ HARVESTING */
         }

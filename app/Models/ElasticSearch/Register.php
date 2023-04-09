@@ -87,6 +87,15 @@ class Register extends Model
             return $sx;
         }
 
+    function set_status($id,$dta)
+        {
+            $dt = $this->where('article_id',$id)->first();
+            if ($dt != '')
+                {
+                    $this->set($dta)->where('article_id', $id)->update();
+                }
+        }
+
     function register($id, $type = '')
     {
         $sx = '';
