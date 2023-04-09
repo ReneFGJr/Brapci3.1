@@ -89,12 +89,12 @@ class DownloadPDF extends Model
             foreach($dt as $id=>$line)
                 {
                     $class = $line['c_class'];
-                    pre($line);
+                    $vlr = $line['n_name'];
                     if ($class == 'hasRegisterId')
                         {
                             return true;
                         }
-                    echo $class.'<br>';
+                    echo $class.'='.$vlr.'<hr>';
                 }
             }
             return false;
