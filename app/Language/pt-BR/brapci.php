@@ -163,7 +163,7 @@ return [
         'pages' => 'Página(s)',
         'journal_list' => 'Revistas',
         'home' => 'Brapci',
-        '' => '',
+        'hasAuthor' => 'É autor de ',
         '' => '',
         '' => '',
         '' => '',
