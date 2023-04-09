@@ -16,7 +16,7 @@ return [
         'text_tools'=>'Ferramentas de Texto',
         'extract_email_from_text'=>'Extrair emails de texto',
         'extract_book_sumary' => 'Processar sumário',
-        'extract_book_fulltext' => 'Processar texto completo',
+        'extract_fulltext' => 'Processar texto completo',
         '' => '',
         '' => '',
         '' => '',

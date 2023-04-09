@@ -63,6 +63,29 @@ class pdf extends Model
 		return $sx;
 	}
 
+	function pdf_to_txt($file,$fileD)
+	{
+		$RDF = new \App\Models\Rdf\RDF();
+
+		$dir = 'E:/Projeto/Bin/poppler/bin/';
+		$cmd = $dir . 'pdftotext.exe ' . $file;
+
+		if (!file_exists($file))
+			{
+				echo "ERRO $file";
+				exit;
+			}
+
+		$rst = shell_exec($cmd);
+		$txt = file_get_contents($fileD);
+
+		$NLP = new \App\Models\AI\NLP\TextPrepare();
+		$txt2 = $NLP->JoinSentences($fileD);
+
+		file_put_contents($fileD,$txt2);
+		return true;
+	}
+
 	function pdf_to_html($file)
 		{
 			$fileD = $this->file();
