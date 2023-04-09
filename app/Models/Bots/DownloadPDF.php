@@ -111,7 +111,7 @@ class DownloadPDF extends Model
             ->select('article_id')
             ->where('pdf',0)
             ->where('((collection = "EV") or (collection = "AR"))')
-            ->findAll(20,0);
+            ->findAll(2,0);
 
             echo $Register->getlastquery();
 
@@ -128,7 +128,8 @@ class DownloadPDF extends Model
 
             if ($this->check_harvested($dd))
                 {
-                    $sx = $this->harveting_pdf($id);
+                    //$sx = $this->harveting_pdf($id);
+                    $sx .= $id.'<hr>';
                 } else {
                     $sx .= bsmessage("Not coleted",3);
                     $Register->set_status($id, ['pdf' => 7]);
