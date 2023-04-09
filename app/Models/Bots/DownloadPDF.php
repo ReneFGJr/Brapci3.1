@@ -129,7 +129,7 @@ class DownloadPDF extends Model
             if ($this->check_harvested($dd))
                 {
                     //$sx = $this->harveting_pdf($id);
-                    $sx .= $id.'<hr>';
+                    $sx .= $RDF->c($id).'<hr>';
                 } else {
                     $sx .= bsmessage("Not coleted",3);
                     $Register->set_status($id, ['pdf' => 7]);
