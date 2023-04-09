@@ -45,10 +45,18 @@ class V extends Model
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
 
+
+
         if (!is_array($dt)) {
             $dt = round($dt);
             $dt = $RDF->le($dt);
         }
+
+        if (!isset($dt['concept']['id_cc']))
+            {
+                $sx = $RDF->E404();
+                return $sx;
+            }
 
         $idc = $dt['concept']['id_cc'];
         $class = $dt['concept']['c_class'];

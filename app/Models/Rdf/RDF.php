@@ -843,6 +843,10 @@ class RDF extends Model
 
 		$dt['concept'] = $RDFConcept->le($id);
 
+		if (!isset($dt['concept']['id_cc'])) {
+			return array();
+		}
+
 		if(!isset($dt['data']))
 			{
 				$dt['data'] = array();

@@ -139,7 +139,6 @@ class Fulltext extends Model
             }
         }
 
-
         foreach ($ln as $id => $line) {
             $line = trim($line);
             $first = substr($line, 0, 1);
