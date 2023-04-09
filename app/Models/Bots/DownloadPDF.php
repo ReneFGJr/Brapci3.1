@@ -83,7 +83,7 @@ class DownloadPDF extends Model
 
     function check_harvested($dt)
         {
-            pre($d,false);
+            pre($dt,false);
             $dt = $dt['data'];
             foreach($dt as $id=>$line)
                 {
