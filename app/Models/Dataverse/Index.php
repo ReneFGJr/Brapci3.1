@@ -56,6 +56,10 @@ class Index extends Model
         $sx .= troca($this->logo('IMG'), '$par', 'height="100px;" align="right"');
 
         switch ($d1) {
+            case 'migration':
+                $Migration = new \App\Models\Dataverse\Migration();
+                $sx .= $Migration->index($d2,$d3,$d3);
+                break;
             case 'logo':
                 $Logo = new \App\Models\Dataverse\Custom\Logo();
                 $sx .= $Logo->index($d2,$d3,$d4);
@@ -107,6 +111,7 @@ class Index extends Model
         $menu[PATH . '/dados/dataverse/footer'] = lang('dataverse.customize_footer');
         $menu[PATH . '/dados/dataverse/homepage'] = lang('dataverse.customize_homepage');
         $menu[PATH . '/dados/dataverse/css'] = lang('dataverse.customize_style');
+        $menu[PATH . '/dados/dataverse/migration'] = lang('dataverse.migration');
 
         $menu['#CHECKLIST'] = '';
         $menu[PATH . '/dados/dataverse/preinstall'] = lang('dataverse.pre_install');
