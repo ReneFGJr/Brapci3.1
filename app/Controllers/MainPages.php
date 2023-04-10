@@ -32,8 +32,8 @@ class MainPages extends BaseController
         $menu[PATH . '/'] = lang('brapci.journals');
         $menu[PATH . '/books'] = lang('brapci.books');
         $menu[PATH . '/benancib'] = lang('brapci.benancib');
-        //$menu[PATH . 'proceedings'] = lang('brapci.proceedings');
-        //$menu[PATH . 'autoridade'] = lang('brapci.authoritynames');
+        $menu[PATH . '/proceedings'] = lang('brapci.proceedings');
+        $menu[PATH . '/autoridade'] = lang('brapci.authoritynames');
 
         $data['menu'] = $menu;
         $sx = '';

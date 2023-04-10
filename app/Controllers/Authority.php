@@ -41,9 +41,12 @@ class Authority extends BaseController
                 $V = new \App\Models\Base\V();
                 $sx .= $V->v($subact);
                 break;
-
-            default:
+            case 'list':
                 $sx .= $Authority->index($act, $subact, $id, $id2);
+                break;
+            default:
+                $sx .= '';
+                $sx .= view('Authority/World');
                 break;
         }
 
