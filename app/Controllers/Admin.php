@@ -22,7 +22,7 @@ class Admin extends BaseController
     public function index($act = '', $sub = '', $id = '',$id1='',$id2='',$id3='')
     {
         $Socials = new \App\Models\Socials();
-        if ($Socials->getAccess("#ADM"))
+        if ($Socials->getAccess("#ADM#CAT"))
             {
                 $Admin = new \App\Models\Base\Admin\Index();
                 $data['page_title'] = 'Brapci';
