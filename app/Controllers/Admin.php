@@ -32,6 +32,12 @@ class Admin extends BaseController
                 $sx .= view('Brapci/Headers/navbar', $data);
                 switch($act)
                     {
+                        case 'pdf_upload':
+                            $PDF = new \App\Models\Rdf\RDFPdf();
+                            $sx = view('Brapci/Headers/header', $data);
+                            $sx .= bs(bsc($PDF->upload($sub),12));
+                            return $sx;
+                            break;
                         case 'v':
                             $RDF = new \App\Models\Rdf\RDF();
                             $sx .= $RDF->edit_link($sub);

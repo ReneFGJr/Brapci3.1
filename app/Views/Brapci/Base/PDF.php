@@ -2,7 +2,7 @@
 $upload = '';
 $Socials = new \App\Models\Socials();
 if ($Socials->getAccess("#ADM#CAT")) {
-    $upload = '<span onclick="newwin(\'' . PATH . '\',400,400);" class="supersmall pointer">' . lang('brapci.upload_file') . '</span>';
+    $upload = '<span onclick="newwin(\'' . PATH . '/admin/pdf_upload/'.$id.'\',400,400);" class="supersmall pointer">' . lang('brapci.upload_file') . '</span>';
 }
 ?>
 <?= $upload; ?>
