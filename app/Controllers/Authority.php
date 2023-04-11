@@ -27,7 +27,7 @@ class Authority extends BaseController
         $menu[PATH . '/'] = lang('brapci.journals');
         $menu[PATH . '/books'] = lang('brapci.books');
         $menu[PATH . '/benancib'] = lang('brapci.benancib');
-        $menu[PATH . '/autoridade'] = lang('brapci.autorities');
+        $menu[PATH . '/autoridade'] = lang('brapci.authorities');
 
         $data['menu'] = $menu;
         $sx = '';
