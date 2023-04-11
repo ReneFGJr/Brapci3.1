@@ -132,6 +132,7 @@ class Index extends Model
 
 	function painel($dt)
 	{
+		$jid = $dt['id_jnl'];
 		$sx = h(lang('brapci.painel'), 4);
 		if ($dt['jnl_url_oai'] != '') {
 			$sx .= $this->logo();
@@ -158,6 +159,16 @@ class Index extends Model
 		} else {
 			$sx .= bsmessage(lang('brapci.oaipmh_not_defined'), 3);
 		}
+
+		$Socials = new \App\Models\Socials();
+		$Cover = new \App\Models\Base\Cover();
+
+		if ($Socials->getAccess("#ADM#CAT"))
+			{
+
+			}
+		$Cover = new \App\Models\Base\Cover();
+		$sx .= '<hr><img src="'.$Cover->cover($jid).'" class="img-fluid">';
 		return $sx;
 	}
 
