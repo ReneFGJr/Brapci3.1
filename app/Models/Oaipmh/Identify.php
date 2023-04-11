@@ -52,7 +52,7 @@ class Identify extends Model
 	{
 		$dts = $this->identify(0, $dt);
 		$RDF = new \App\Models\RDF\Rdf();
-		$RDFConcept = new \App\Models\RDF\RDFConcept();
+		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$Soucers = new \App\Models\Base\Sources();
 
 		if ($dts['jnl_frbr'] == 0) {
