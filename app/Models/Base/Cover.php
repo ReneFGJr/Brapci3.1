@@ -106,7 +106,7 @@ class Cover extends Model
 
                 if ($ok==true)
                     {
-                        $dir = 'img/cover/';
+                        $dir = '_repository/cover/';
                         $dest = $dir. 'cover_issue_'. strzero(round($jnl),4).$ext;
                         dircheck($dir);
 
