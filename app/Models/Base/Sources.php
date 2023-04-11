@@ -122,6 +122,7 @@ class Sources extends Model
                 $sx = $this->oai_check();
                 break;
             case 'edit':
+                $d2 = round('0'.trim($d2));
                 $sx = $this->editar($d2);
                 break;
             case 'viewid':
