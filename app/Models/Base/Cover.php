@@ -82,7 +82,39 @@ class Cover extends Model
         $sx .= form_submit('action',lang('brapci.send'));
         $sx .= form_close();
 
-        pre($_FILES,false);
+
+        if (isset($_FILES['cover']['name']))
+            {
+                pre($_FILES, false);
+                $tmp = $_FILES['cover']['tmp_name'];
+                $type = $_FILES['cover']['type'];
+
+                switch($type)
+                    {
+                        case 'image/png':
+                            $ok = true;
+                            $ext = '.png';
+                            break;
+                        case 'image/jpeg':
+                            $ext = '.jpg';
+                            $ok = true;
+                            break;
+                        default:
+                            $ok = false;
+                            $sx .= bsmessage('Formato inválido',3);
+                    }
+
+                if ($ok==true)
+                    {
+                        $dir = 'img/cover/';
+                        $dest = $dir. 'cover_issue_'. strzero(round($jnl),4).$ext;
+                        dircheck($dir);
+
+                        move_uploaded_file($tmp,$dest);
+
+                        $sx = wclose();
+                    }
+            }
 
         return $sx;
     }
@@ -92,11 +124,26 @@ class Cover extends Model
             $img = '_repository/cover/cover_issue_'.strzero($jnl,4).'.jpg';
             if (file_exists($img))
                 {
-                    return PATH.'/'.$img;
-                } else {
-                    $img = '_repository/cover/cover_issue_' . strzero(0, 4) . '.jpg';
-                    return PATH . '/' . $img;
+                    return URL.'/'.$img;
                 }
+
+            $img = '_repository/cover/cover_issue_' . strzero($jnl, 4) . '.pnh';
+            if (file_exists($img)) {
+                return URL . '/' . $img;
+            }
+
+            $img = 'img/cover/cover_issue_' . strzero($jnl, 4) . '.png';
+            if (file_exists($img)) {
+                return URL . '/' . $img;
+            }
+
+            $img = 'img/cover/cover_issue_' . strzero($jnl, 4) . '.jpg';
+            if (file_exists($img)) {
+                return URL . '/' . $img;
+            }
+
+            $img = 'img/thema/no_cover.png';
+            return PATH . '/' . $img;
         }
 
     function book($id = '')

@@ -32,6 +32,12 @@ class Admin extends BaseController
                 $sx .= view('Brapci/Headers/navbar', $data);
                 switch($act)
                     {
+                        case 'upload_cover':
+                            $Cover = new \App\Models\Base\Cover();
+                            $sx = view('Brapci/Headers/header', $data);
+                            $sx .= bs(bsc($Cover->cover_upload($sub), 12));
+                            return $sx;
+                            break;
                         case 'pdf_upload':
                             $PDF = new \App\Models\Rdf\RDFPdf();
                             $sx = view('Brapci/Headers/header', $data);
