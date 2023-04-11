@@ -166,7 +166,7 @@ class Index extends Model
 		$Cover = new \App\Models\Base\Cover();
 		if ($Socials->getAccess("#ADM#CAT"))
 			{
-				$sx .= $Cover->upload($jid)
+				$sx .= $Cover->cover_upload_bnt($jid)
 			}
 
 		$sx .= '<hr><img src="'.$Cover->cover($jid).'" class="img-fluid">';
