@@ -187,6 +187,19 @@ a:hover {
   color: #000080;
 }
 
+.small {
+  font-size: 0.8em;
+}
+
+.supersmall
+  {
+    font-size: 0.7em;
+  }
+
+.pointer
+  {
+    cursor: pointer;
+  }
 .text_75 {
   font-size: 75%;
 }
