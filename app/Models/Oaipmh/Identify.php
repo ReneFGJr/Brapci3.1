@@ -51,7 +51,7 @@ class Identify extends Model
 	function getIdentify($dt)
 	{
 		$dts = $this->identify(0, $dt);
-		$RDF = new \App\Models\RDF\Rdf();
+		$RDF = new \App\Models\Rdf\RDF();
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$Soucers = new \App\Models\Base\Sources();
 
