@@ -523,7 +523,7 @@ class RDFExport extends Model
 		$Issue = new \App\Models\Base\Issues();
 		$dri = $Issue->le($issueNR);
 
-		$link = '<a href="'.PATH.'/proceeding/v/'.$id.'">';
+		$link = '<a href="'.PATH.'/proceedings/v/'.$id.'">';
 		$linka = '</a>';
 
 		switch($dri['id_jnl'])

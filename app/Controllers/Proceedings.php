@@ -21,6 +21,7 @@ class Proceedings extends BaseController
 {
     public function index($act = '', $subact = '', $id = '')
     {
+
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Proceedings';
         $data['bg'] = 'bg-proceedings';
