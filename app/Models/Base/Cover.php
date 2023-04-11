@@ -67,6 +67,26 @@ class Cover extends Model
             return $img;
         }
 
+    function cover_upload_bnt($jnl=0)
+        {
+            $sx = '<span class="supersmall pointer" onclick="newwin(\''.PATH.'/admin/upload_cover/'.$jnl.'\',400,400);">';
+            $sx .= lang('brapci.upload_cover');
+            $sx .= '</span>';
+            return $sx;
+        }
+    function cover_upload($jnl = 0)
+    {
+        $sx = '';
+        $sx .= form_open_multipart();
+        $sx .= form_upload('cover');
+        $sx .= form_submit('action',lang('brapci.send'));
+        $sx .= form_close();
+
+        pre($_FILES,false);
+
+        return $sx;
+    }
+
     function cover($jnl=0)
         {
             $img = '_repository/cover/cover_issue_'.strzero($jnl,4).'.jpg';
