@@ -882,8 +882,7 @@ class RDFExport extends Model
 
 		$dc['vancouver'] = $issue_vancouver;
 		$name = $issue;
-		echo $name;
-		exit;
+
 		$this->saveRDF($id, $issue, 'name.abnt');
 		$this->saveRDF($id, $issue_vancouver, 'name.vancouver');
 		$this->saveRDF($id, $nameYear, 'year.nm');
