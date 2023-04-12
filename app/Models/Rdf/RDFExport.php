@@ -519,20 +519,25 @@ class RDFExport extends Model
 		}
 
 		/**************** */
-		$issueNR = $dta['issue_id'];
-		$Issue = new \App\Models\Base\Issues();
-		$dri = $Issue->le($issueNR);
+		if (isset($dta['issue_id']))
+		{
+			$issueNR = $dta['issue_id'];
+			$Issue = new \App\Models\Base\Issues();
+			$dri = $Issue->le($issueNR);
 
-		$link = '<a href="'.PATH.'/proceedings/v/'.$id.'">';
-		$linka = '</a>';
+			$link = '<a href="'.PATH.'/proceedings/v/'.$id.'">';
+			$linka = '</a>';
 
-		switch($dri['id_jnl'])
-			{
-				case '75':
-					$link = '<a href="' . PATH . '/benancib/v/' . $id . '">';
-					break;
-				default:
-					break;
+			switch($dri['id_jnl'])
+				{
+					case '75':
+						$link = '<a href="' . PATH . '/benancib/v/' . $id . '">';
+						break;
+					default:
+						break;
+				}
+			} else {
+				$link = '<a href="' . PATH . '/v/' . $id . '">';
 			}
 		$name = '<b>' .$link. $title .$linka. '</b>';
 
