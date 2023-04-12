@@ -1,7 +1,18 @@
+<style>
+    body {
+        background: url('<?= URL . '/img/logo/world.svg'; ?>') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+</style>
 <div class="container">
-<div class="row">
-<div class="col-12">
-<img src="<?=URL.'/img/logo/world.svg';?>" class="img-fluid" style="">
-</div>
-</div>
+    <div class="row">
+        <div class="col-1">
+            <?= $genere; ?>
+        </div>
+        <div class="col-11">
+        </div>
+    </div>
 </div>

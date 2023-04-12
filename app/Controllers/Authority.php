@@ -46,7 +46,8 @@ class Authority extends BaseController
                 break;
             default:
                 $sx .= '';
-                $sx .= view('Authority/World');
+                $data['genere'] = view('Grapho/Halfpie');
+                $sx .= view('Authority/World',$data);
                 break;
         }
 
