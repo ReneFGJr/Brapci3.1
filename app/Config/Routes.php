@@ -80,6 +80,12 @@ $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
 $routes->get('/social/(:any)', 'Social::index/$1');
 $routes->post('/social/(:any)', 'Social::index/$1');
 
+$sc = ['pq','tools','ai','authoriry','bibliofind','parecer','patente'];
+foreach($sc as $id=>$nm)
+    {
+        $routes->post('/'.$nm.'/social/(:any)', 'Social::index/$1');
+        $routes->get('/' . $nm . '/social/(:any)', 'Social::index/$1');
+    }
 
 /********* BENANCIB */
 $routes->get('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
