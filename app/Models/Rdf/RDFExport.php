@@ -549,13 +549,16 @@ class RDFExport extends Model
 			$name .= '';
 		}
 
-		$name .= '<br>'.trim($dri['is_vol_roman'].' '.$dri['jnl_name']);
-		if (trim($dri['is_place']) != '')
-			{
-				$name .= ', '. $dri['is_place'];
+		if (isset($dri['is_vol_roman']))
+		{
+			$name .= '<br>'.trim($dri['is_vol_roman'].' '.$dri['jnl_name']);
+			if (trim($dri['is_place']) != '')
+				{
+					$name .= ', '. $dri['is_place'];
+				}
+			if (trim($dri['is_year']) != '') {
+				$name .= ', ' . $dri['is_year'];
 			}
-		if (trim($dri['is_year']) != '') {
-			$name .= ', ' . $dri['is_year'];
 		}
 		$name .= '.';
 		$this->saveData($id, 'name', $name);
