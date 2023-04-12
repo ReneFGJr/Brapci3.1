@@ -82,6 +82,7 @@ class Abnt extends Model
 		} else {
 			$dri = [];
 			$jid = 0;
+			return "[erro abnt]";
 		}
 
 		switch($jid)
