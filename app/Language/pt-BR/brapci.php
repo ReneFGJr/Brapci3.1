@@ -167,7 +167,7 @@ return [
         'hasAuthor' => 'É autor de ',
         'genere_M' => 'Masculino',
         'genere_F' => 'Feminino',
-        'genere_' => 'NI',
+        'genere_' => 'ND',
         '' => '',
         '' => '',
 

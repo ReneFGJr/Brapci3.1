@@ -1,9 +1,19 @@
 <?php
+$admin = '';
 
 /******************* PERFIL */
 $Socials = new \App\Models\Socials();
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso = $Socials->nav_user();
+    if ($Socials->getAccess("#ADM#CAT"))
+        {
+            $admin = '
+                <li class="nav-item">
+                    <a class="nav-link-brp" href="'.PATH . '/admin/' . COLLECTION.'">'.bsicone('gear').'</a>
+                </li>';
+         }
+
+
 } else {
     $acesso = '<li class="nav-item" style="list-style-type: none;">';
     $acesso .= '<button class="btn btn-outline-access" ';
@@ -39,12 +49,6 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                     }
                 }
                 ?>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link"
-                        href="<?= PATH . COLLECTION . '/statistics'; ?>"><?= lang('benancib.statistics'); ?></a>
-                </li>
-                -->
             </ul>
             <!--
             <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">
@@ -54,8 +58,9 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
             -->
             <ul class="navbar-nav md-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link-brp" href="<?= PATH . '/about/'. COLLECTION; ?>"><?= lang('brapci.about'); ?></a>
+                    <a class="nav-link-brp" href="<?= PATH . '/about/' . COLLECTION; ?>"><?= lang('brapci.about'); ?></a>
                 </li>
+                <?=$admin;?>
             </ul>
             <?php echo $acesso; ?>
         </div>

@@ -92,7 +92,30 @@ class Person extends Model
 		$dm['concept'] = $da['concept'];
 		$dm['vdata'] = $RDF->view_data($da);
 
-		//pre($dm);
+		$name = $dm['Identifier'];
+		$ID = $dm['ID'];
+		$g = substr($dm['Gender'], 0, 1);
+		if ($g == 'G') {
+			$g = '';
+		}
+
+		$dn = $this->where('a_brapci',$ID)->first();
+		if ($dn == '')
+			{
+
+				$data['a_genere'] = $g;
+				$data['a_prefTerm'] = $name;
+				$data['a_class'] = 'P';
+				$data['a_brapci'] = $ID;
+				$this->set($data)->insert();
+			} else {
+				if ($dn['a_genere'] != $g)
+					{
+						$data['a_genere'] = $g;
+						$this->set($data)->where('a_brapci',$ID)->update();
+					}
+			}
+
 
 		$sx = view('Authority/Person', $dm);
 		return $sx;
