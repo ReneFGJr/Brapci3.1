@@ -538,6 +538,7 @@ class RDFExport extends Model
 				}
 			} else {
 				$link = '<a href="' . PATH . '/v/' . $id . '">';
+				$linka = '</a>';
 			}
 		$name = '<b>' .$link. $title .$linka. '</b>';
 
