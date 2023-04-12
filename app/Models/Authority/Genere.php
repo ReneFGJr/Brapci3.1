@@ -40,6 +40,31 @@ class Genere extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function summary()
+		{
+			$sx = '';
+			$Authority = new \App\Models\Authority\Index();
+			$dt = $Authority
+				->select('a_class,a_genere,count(*) as total')
+				->groupBy('a_genere,a_class')
+				->orderBy('a_class,a_genere')
+				->findAll();
+			$sx .= '<table style="width: 100%;">';
+			$sa = '';
+			$sb = '';
+			$sc = '';
+			$sd = '';
+			foreach($dt as $id=> $line)
+				{
+					$sa.= '<th width="33%" class="text-light bg-dark text-center">'.lang('brapci.genere_'.$line['a_genere']).'</th>';
+					$sb .= '<td class="text-center" style="font-size: 1.6em;">'.$line['total'].'</td>';
+				}
+			$sx .= '<tr>'.$sa.'</tr>';
+			$sx .= '<tr>' . $sb . '</tr>';
+			$sx.= '</table>';
+			return $sx;
+		}
+
 	function image($type)
 		{
 			switch($type)

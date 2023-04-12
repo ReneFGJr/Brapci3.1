@@ -46,7 +46,8 @@ class Authority extends BaseController
                 break;
             default:
                 $sx .= '';
-                $data['genere'] = view('Grapho/Halfpie');
+                $Genere = new \App\Models\Authority\Genere();
+                $data['genere'] = $Genere->summary();
                 $sx .= view('Authority/World',$data);
                 break;
         }

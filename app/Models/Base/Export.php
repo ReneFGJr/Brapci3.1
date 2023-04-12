@@ -78,6 +78,10 @@ class Export extends Model
                 $Export = new \App\Models\Base\Export();
                 return $Export->cron($d1, 'start');
                 break;
+            case 'corporate':
+                $Export = new \App\Models\Base\Export();
+                return $Export->cron($d1, 'start');
+                break;
             case 'proceeding':
                 $Export = new \App\Models\Base\Export();
                 return $Export->cron($d1, 'start');
@@ -216,6 +220,22 @@ class Export extends Model
                 }
                 break;
 
+            case 'corporate':
+                switch ($d2) {
+                    case 'start':
+                        $this->remove_all('EXPORT_CORPORATEBODY');
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task_remove('EXPORT_CORPORATEBODY');
+                        $dt = $BOTS->task('EXPORT_CORPORATEBODY');
+                        $sx .= 'Started ' . $d2 . ' export';
+                        $sx .= '<hr>';
+                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                        break;
+                    default:
+                        echo "OK ==> $d2";
+                }
+                break;
+
             case 'authority':
                 switch ($d2) {
                     case 'start':
@@ -298,6 +318,7 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/books'] = lang('brapci.export') . ' ' . lang('brapci.books');
         $menu[PATH . 'admin/' . $mod . '/booksChapter'] = lang('brapci.export') . ' ' . lang('brapci.booksChapters');
         $menu[PATH . 'admin/' . $mod . '/authority'] = lang('brapci.export') . ' ' . lang('brapci.authority');
+        $menu[PATH . 'admin/' . $mod . '/corporate'] = lang('brapci.export') . ' ' . lang('brapci.corporate');
 
         $menu['#BOTS'] = "";
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');
@@ -334,6 +355,10 @@ class Export extends Model
                 break;
             case 'EXPORT_AUTHORITY':
                 $class = 'Person';
+                $type = 'BC';
+                break;
+            case 'EXPORT_CORPORATE':
+                $class = 'CorporateBody';
                 $type = 'BC';
                 break;
             default:
