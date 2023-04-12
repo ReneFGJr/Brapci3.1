@@ -1,3 +1,11 @@
+<?php
+$upload = '';
+$Socials = new \App\Models\Socials();
+if ($Socials->getAccess("#ADM#CAT")) {
+    $upload = '<span onclick="newwin(\'' . PATH . '/admin/pdf_upload/'.$id.'\',400,400);" class="supersmall pointer">' . lang('brapci.upload_file') . '</span>';
+}
+?>
+<?= $upload; ?>
 <div class="p-2 mb-4 pdf_book" onclick="download('<?= $pdf; ?>',800,800);" ;>
     <table style="width: 100%">
         <tr>

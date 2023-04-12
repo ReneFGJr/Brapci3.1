@@ -22,7 +22,7 @@ class Admin extends BaseController
     public function index($act = '', $sub = '', $id = '',$id1='',$id2='',$id3='')
     {
         $Socials = new \App\Models\Socials();
-        if ($Socials->getAccess("#ADM"))
+        if ($Socials->getAccess("#ADM#CAT"))
             {
                 $Admin = new \App\Models\Base\Admin\Index();
                 $data['page_title'] = 'Brapci';
@@ -32,6 +32,18 @@ class Admin extends BaseController
                 $sx .= view('Brapci/Headers/navbar', $data);
                 switch($act)
                     {
+                        case 'upload_cover':
+                            $Cover = new \App\Models\Base\Cover();
+                            $sx = view('Brapci/Headers/header', $data);
+                            $sx .= bs(bsc($Cover->cover_upload($sub), 12));
+                            return $sx;
+                            break;
+                        case 'pdf_upload':
+                            $PDF = new \App\Models\Rdf\RDFPdf();
+                            $sx = view('Brapci/Headers/header', $data);
+                            $sx .= bs(bsc($PDF->upload($sub),12));
+                            return $sx;
+                            break;
                         case 'v':
                             $RDF = new \App\Models\Rdf\RDF();
                             $sx .= $RDF->edit_link($sub);

@@ -87,12 +87,15 @@ require("_process.php");
                     </div>
                     <div class="col-12 mt-3" style="background-color: #fff;">
                         <?php
+                        if (isset($Chapter['Abstract']))
+                        {
                         $Chap = $Chapter['Abstract'];
                         foreach($Chap as $lang=>$text)
                             {
                                 echo '<span class="fw-bold">'.lang('brapci.abstract_'.$lang).'</span>';
                                 echo '<p>'.$text.'</p>';
                             }
+                        }
                         ?>
                     </div>
                     <div class="col-12 mt-3" style="background-color: #fff;">

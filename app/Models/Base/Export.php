@@ -320,7 +320,6 @@ class Export extends Model
                 $class = 'Article';
                 $type = 'JA';
                 break;
-
             case 'EXPORT_BOOK':
                 $class = 'Book';
                 $type = 'BO';

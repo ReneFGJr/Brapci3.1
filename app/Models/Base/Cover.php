@@ -67,16 +67,83 @@ class Cover extends Model
             return $img;
         }
 
+    function cover_upload_bnt($jnl=0)
+        {
+            $sx = '<span class="supersmall pointer" onclick="newwin(\''.PATH.'/admin/upload_cover/'.$jnl.'\',400,400);">';
+            $sx .= lang('brapci.upload_cover');
+            $sx .= '</span>';
+            return $sx;
+        }
+    function cover_upload($jnl = 0)
+    {
+        $sx = '';
+        $sx .= form_open_multipart();
+        $sx .= form_upload('cover');
+        $sx .= form_submit('action',lang('brapci.send'));
+        $sx .= form_close();
+
+
+        if (isset($_FILES['cover']['name']))
+            {
+                pre($_FILES, false);
+                $tmp = $_FILES['cover']['tmp_name'];
+                $type = $_FILES['cover']['type'];
+
+                switch($type)
+                    {
+                        case 'image/png':
+                            $ok = true;
+                            $ext = '.png';
+                            break;
+                        case 'image/jpeg':
+                            $ext = '.jpg';
+                            $ok = true;
+                            break;
+                        default:
+                            $ok = false;
+                            $sx .= bsmessage('Formato inválido',3);
+                    }
+
+                if ($ok==true)
+                    {
+                        $dir = '_repository/cover/';
+                        $dest = $dir. 'cover_issue_'. strzero(round($jnl),4).$ext;
+                        dircheck($dir);
+
+                        move_uploaded_file($tmp,$dest);
+
+                        $sx = wclose();
+                    }
+            }
+
+        return $sx;
+    }
+
     function cover($jnl=0)
         {
             $img = '_repository/cover/cover_issue_'.strzero($jnl,4).'.jpg';
             if (file_exists($img))
                 {
-                    return PATH.'/'.$img;
-                } else {
-                    $img = '_repository/cover/cover_issue_' . strzero(0, 4) . '.jpg';
-                    return PATH . '/' . $img;
+                    return URL.'/'.$img;
                 }
+
+            $img = '_repository/cover/cover_issue_' . strzero($jnl, 4) . '.pnh';
+            if (file_exists($img)) {
+                return URL . '/' . $img;
+            }
+
+            $img = 'img/cover/cover_issue_' . strzero($jnl, 4) . '.png';
+            if (file_exists($img)) {
+                return URL . '/' . $img;
+            }
+
+            $img = 'img/cover/cover_issue_' . strzero($jnl, 4) . '.jpg';
+            if (file_exists($img)) {
+                return URL . '/' . $img;
+            }
+
+            $img = 'img/thema/no_cover.png';
+            return PATH . '/' . $img;
         }
 
     function book($id = '')

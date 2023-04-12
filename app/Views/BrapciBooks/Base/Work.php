@@ -90,6 +90,7 @@
             if (($PDF != '') and (isset($PDF[0]['id']))) {
                 $url = PATH . '/download/' . $PDF[0]['id'];
                 $data['pdf'] = $url;
+                $data['id'] = $PDF[0]['id'];
                 echo view('Brapci/Base/PDF', $data);
             } else {
                 /*************************** DOWNLOAD PDF - AUTOBOT */

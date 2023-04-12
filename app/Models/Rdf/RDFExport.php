@@ -519,20 +519,26 @@ class RDFExport extends Model
 		}
 
 		/**************** */
-		$issueNR = $dta['issue_id'];
-		$Issue = new \App\Models\Base\Issues();
-		$dri = $Issue->le($issueNR);
+		if (isset($dta['issue_id']))
+		{
+			$issueNR = $dta['issue_id'];
+			$Issue = new \App\Models\Base\Issues();
+			$dri = $Issue->le($issueNR);
 
-		$link = '<a href="'.PATH.'/proceeding/v/'.$id.'">';
-		$linka = '</a>';
+			$link = '<a href="'.PATH.'/proceedings/v/'.$id.'">';
+			$linka = '</a>';
 
-		switch($dri['id_jnl'])
-			{
-				case '75':
-					$link = '<a href="' . PATH . '/benancib/v/' . $id . '">';
-					break;
-				default:
-					break;
+			switch($dri['id_jnl'])
+				{
+					case '75':
+						$link = '<a href="' . PATH . '/benancib/v/' . $id . '">';
+						break;
+					default:
+						break;
+				}
+			} else {
+				$link = '<a href="' . PATH . '/v/' . $id . '">';
+				$linka = '</a>';
 			}
 		$name = '<b>' .$link. $title .$linka. '</b>';
 
@@ -543,13 +549,16 @@ class RDFExport extends Model
 			$name .= '';
 		}
 
-		$name .= '<br>'.trim($dri['is_vol_roman'].' '.$dri['jnl_name']);
-		if (trim($dri['is_place']) != '')
-			{
-				$name .= ', '. $dri['is_place'];
+		if (isset($dri['is_vol_roman']))
+		{
+			$name .= '<br>'.trim($dri['is_vol_roman'].' '.$dri['jnl_name']);
+			if (trim($dri['is_place']) != '')
+				{
+					$name .= ', '. $dri['is_place'];
+				}
+			if (trim($dri['is_year']) != '') {
+				$name .= ', ' . $dri['is_year'];
 			}
-		if (trim($dri['is_year']) != '') {
-			$name .= ', ' . $dri['is_year'];
 		}
 		$name .= '.';
 		$this->saveData($id, 'name', $name);
@@ -882,8 +891,7 @@ class RDFExport extends Model
 
 		$dc['vancouver'] = $issue_vancouver;
 		$name = $issue;
-		echo $name;
-		exit;
+
 		$this->saveRDF($id, $issue, 'name.abnt');
 		$this->saveRDF($id, $issue_vancouver, 'name.vancouver');
 		$this->saveRDF($id, $nameYear, 'year.nm');

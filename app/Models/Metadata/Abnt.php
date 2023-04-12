@@ -73,10 +73,17 @@ class Abnt extends Model
 			$tela .= $authors;
 		}
 		/**************** */
-		$issueNR = $dt['issue_id'];
-		$Issue = new \App\Models\Base\Issues();
-		$dri = $Issue->le($issueNR);
-		$jid = $dri['id_jnl'];
+		if (isset($dt['issue_id']))
+		{
+			$issueNR = $dt['issue_id'];
+			$Issue = new \App\Models\Base\Issues();
+			$dri = $Issue->le($issueNR);
+			$jid = $dri['id_jnl'];
+		} else {
+			$dri = [];
+			$jid = 0;
+			return "[erro abnt]";
+		}
 
 		switch($jid)
 			{

@@ -110,9 +110,9 @@ class CNPQ extends Model
                         ->findAll();
                     if (count($dx) == 0) {
                         $Bolsas->set($db)->insert();
-                        $sx .= $dd[1] . ' - Insert<br>';
+                        $sx .= $dd[1] . ' - <span class="text-success">Insert</span><br>';
                     } else {
-                        $sx .= $dd[1]. ' - Update<br>';
+                        $sx .= $dd[1]. ' - <span class="text-danger">Update</span><br>';
                         $Bolsas->set($db)->where('id_bb', $dx[0]['id_bb'])->update();
                     }
                 }

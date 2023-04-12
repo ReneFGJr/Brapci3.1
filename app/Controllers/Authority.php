@@ -27,7 +27,7 @@ class Authority extends BaseController
         $menu[PATH . '/'] = lang('brapci.journals');
         $menu[PATH . '/books'] = lang('brapci.books');
         $menu[PATH . '/benancib'] = lang('brapci.benancib');
-        $menu[PATH . '/autoridade'] = lang('brapci.autorities');
+        $menu[PATH . '/autoridade'] = lang('brapci.authorities');
 
         $data['menu'] = $menu;
         $sx = '';
@@ -41,9 +41,13 @@ class Authority extends BaseController
                 $V = new \App\Models\Base\V();
                 $sx .= $V->v($subact);
                 break;
-
-            default:
+            case 'list':
                 $sx .= $Authority->index($act, $subact, $id, $id2);
+                break;
+            default:
+                $sx .= '';
+                $data['genere'] = view('Grapho/Halfpie');
+                $sx .= view('Authority/World',$data);
                 break;
         }
 

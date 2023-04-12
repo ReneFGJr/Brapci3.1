@@ -50,6 +50,7 @@ class Download extends Model
             for ($ro = 0; $ro < count($PDF_id); $ro++) {
                 $url = PATH . '/download/' . $PDF_id[$ro];
                 $data['pdf'] = $url;
+                $data['id'] = $PDF_id[$ro];
                 $sx .= view('Brapci/Base/PDF', $data);
             }
             $ok = 1;
