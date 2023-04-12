@@ -80,6 +80,7 @@ class Abnt extends Model
 			$dri = $Issue->le($issueNR);
 			$jid = $dri['id_jnl'];
 		} else {
+			$dri = [];
 			$jid = 0;
 		}
 
