@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\TextToPeech;
+namespace App\Models\Dataverse;
 
 use CodeIgniter\Model;
 
-class Index extends Model
+class Translate extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'indices';
+    protected $table            = 'translates';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -42,8 +42,12 @@ class Index extends Model
 
     function index($d1,$d2,$d3)
         {
-            $Watson = new \App\Models\TextToPeech\Watson();
-            $sx = $Watson->sample();
+            $sx = '';
+            switch($d1)
+                {
+                    default:
+                        break;
+                }
             return $sx;
         }
 }

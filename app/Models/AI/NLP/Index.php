@@ -72,6 +72,10 @@ class Index extends Model
                         $API = new \App\Models\AI\NLP\Book\Sumary();;
                         $sx = $API->show_form();
                         break;
+                    case 'text_speech':
+                        $API = new \App\Models\AI\NLP\TextToSpeech();;
+                        $sx = $API->index($d1, $d2, $d3);
+                        break;
                     case 'email':
                         $sx .= $this->email();
                         break;

@@ -56,6 +56,10 @@ class Index extends Model
         $sx .= troca($this->logo('IMG'), '$par', 'height="100px;" align="right"');
 
         switch ($d1) {
+            case 'translate':
+                $Translate = new \App\Models\Dataverse\Translate();
+                $sx .= $Translate->index($d2, $d3, $d3);
+                break;
             case 'migration':
                 $Migration = new \App\Models\Dataverse\Migration();
                 $sx .= $Migration->index($d2,$d3,$d3);

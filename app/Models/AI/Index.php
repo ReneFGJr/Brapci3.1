@@ -148,6 +148,7 @@ class Index extends Model
 		$menu[PATH . COLLECTION . '/file/pdf_to_text'] = lang('ai.files_pdf_to_text');
 		$menu[PATH . COLLECTION . '/nlp/book_sumary'] = lang('ai.book_sumary_identify');
 		$menu[PATH . COLLECTION . '/nlp/fulltext'] = lang('ai.fulltext_format');
+		$menu[PATH . COLLECTION . '/nlp/text_speech'] = lang('ai.text_speech');
 
 		$menu['#AI'] = 'AI & NLP';
 		$menu[PATH . COLLECTION . '/nlp/language'] = lang('ai.language');

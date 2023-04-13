@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\TextToPeech;
+namespace App\Models\AI\NLP;
 
 use CodeIgniter\Model;
 
-class Watson extends Model
+class TextToSpeech extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'watsons';
+    protected $table            = 'texttospeeches';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -40,31 +40,10 @@ class Watson extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-
-    function sample()
+    function index($d1,$d2,$d3)
         {
-            $txt = 'Bem vindo a Brapci';
-            $url = "https://api.us-south.text-to-speech.watson.cloud.ibm.com/instances/3a3110b5-3c48-43cf-8f2c-a72264748f5c";
-            $url .= '/v1/synthesize?accept=audio%2Fwav&text=hola%20mundo&voice=es-ES_EnriqueV3Voice';
-            $apiKey = "o0RjshpGZFvLo5BM5HtdA9RFGwXmOOLWgKpAUO9kpH2NK";
-            $post = ['apikey' => $apiKey];
-
-            /*********************************************************** */
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_URL, $url);
-
-            // execute!
-            $response = curl_exec($ch);
-
-            // close the connection, release resources used
-            curl_close($ch);
-
-            // do anything you want with your response
-            echo '<hr>';
-            echo '<tt>'.$url.'</tt>';
-            pre($response);
+            $Watson = new \App\Models\CloudService\Watson\TextToSpeech();
+            $sx = $Watson->call("Olá mundo!");
+            return $sx;
         }
 }

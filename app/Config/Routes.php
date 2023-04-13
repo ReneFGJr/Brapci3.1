@@ -59,6 +59,11 @@ $routes->get('/doi/(:any)', 'Doi::index/$1');
 $routes->get('/bots', 'Bots::index');
 $routes->get('/bots/(:any)', 'Bots::index/$1');
 
+/********** BOTS */
+$routes->get('/guide', 'Guide::index');
+$routes->get('/guide/(:any)', 'Guide::index/$1');
+$routes->get('/post/(:any)', 'Guide::index/$1');
+
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');
 $routes->post('/ajax/(:any)', 'Ajax::index/$1');
@@ -80,7 +85,7 @@ $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
 $routes->get('/social/(:any)', 'Social::index/$1');
 $routes->post('/social/(:any)', 'Social::index/$1');
 
-$sc = ['pq','tools','ai','authoriry','bibliofind','parecer','patente'];
+$sc = ['pq','tools','ai','authoriry','bibliofind','parecer','patente','guide'];
 foreach($sc as $id=>$nm)
     {
         $routes->post('/'.$nm.'/social/(:any)', 'Social::index/$1');
