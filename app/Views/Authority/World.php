@@ -9,10 +9,10 @@
 </style>
 <div class="container">
     <div class="row">
-        <div class="col-3">
+        <div class="col-4 p-2">
             <?= $genere; ?>
         </div>
-        <div class="col-9">
+        <div class="col-8">
         </div>
     </div>
 </div>

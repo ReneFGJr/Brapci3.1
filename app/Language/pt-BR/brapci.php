@@ -85,6 +85,7 @@ return [
         'books' => 'Livros',
         'proceedings' => 'Eventos',
         'books' => 'Livros',
+        'authorities' => 'Autoridades',
         'authoritynames' => 'Autoridades',
         'catalog' => 'Catálogo',
         'harvesting_status_1' => 'Lista de coleta',
