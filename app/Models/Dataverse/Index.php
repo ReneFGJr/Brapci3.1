@@ -116,6 +116,7 @@ class Index extends Model
         $menu[PATH . '/dados/dataverse/homepage'] = lang('dataverse.customize_homepage');
         $menu[PATH . '/dados/dataverse/css'] = lang('dataverse.customize_style');
         $menu[PATH . '/dados/dataverse/migration'] = lang('dataverse.migration');
+        $menu[PATH . '/dados/dataverse/translate'] = lang('dataverse.translate');
 
         $menu['#CHECKLIST'] = '';
         $menu[PATH . '/dados/dataverse/preinstall'] = lang('dataverse.pre_install');
