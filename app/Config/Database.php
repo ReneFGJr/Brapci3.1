@@ -111,6 +111,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $guide = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_guide',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $pq = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -430,6 +450,9 @@ class Database extends Config
 
         $this->dataverse['username'] = getenv('database.default.username');
         $this->dataverse['password'] = getenv('database.default.password');
+
+        $this->guide['username'] = getenv('database.default.username');
+        $this->guide['password'] = getenv('database.default.password');
 
 
     }
