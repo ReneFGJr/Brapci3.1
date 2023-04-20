@@ -6,15 +6,19 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'dataverse';
+    protected $table            = 'dataverse';
+    protected $primaryKey       = 'id_dvn';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_dvn', 'dvn_title', 'dvn_url',
+        'dvn_id', 'dvn_type', 'dvn_father',
+        'created_at', 'dvn_collection'
+        ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,6 +43,23 @@ class Index extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function register($title,$id,$type,$father,$collection)
+        {
+            $data['dvn_title'] = $title;
+            $data['dvn_url'] = $title;
+            $data['dvn_id'] = $id;
+            $data['dvn_type'] = $type;
+            $data['dvn_father'] = $father;
+            $data['dvn_collection'] = $collection;
+
+            $dt = $this
+                ->where('dvn_collection', $collection)
+                ->where('dvn_id', $id)
+                ->first();
+
+            pre($dt);
+        }
 
     function logo($type = '')
     {
