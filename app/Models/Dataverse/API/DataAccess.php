@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Dataverse;
+namespace App\Models\Dataverse\API;
 
 use CodeIgniter\Model;
 
-class Migration extends Model
+class DataAccess extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'migrations';
+    protected $table            = 'dataaccesses';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -39,33 +39,4 @@ class Migration extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    function index($d1,$d2,$d3)
-        {
-        $sx = 'Migration';
-
-
-            $Dataverse = new \App\Models\Dataverse\Index();
-            $server = $Dataverse->getServer();
-            $token  = $Dataverse->getToken();
-
-
-            $sa = '';
-            $sa .= '<tt>Server: <b>'.$server.'</b></tt>';
-            $sa .= '<br>';
-            $sa .= '<tt>Token : <b>' . $token . '</b></tt>';
-            $sx .= bsc($sa,12);
-
-            $Native = new \App\Models\Dataverse\API\Native();
-            $url = $Native->Collections();
-            pre($url);
-
-            $sx = bs($sx);
-            return $sx;
-        }
-
-    function get_all()
-        {
-            $url = '/api/search?q=a';
-        }
 }
