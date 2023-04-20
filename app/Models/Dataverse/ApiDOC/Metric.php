@@ -100,6 +100,8 @@ class Metric extends Model
             <script>
             function querySubject(elm) {
                 var html = "";
+                    trad = ["Medicina, Saúde e Ciências da Vida","Ciências Sociais","Ciências da Terra e do meio ambiente","Artes e Humanidades","Computação e Ciência da Informação","Ciências Agrárias"];
+                    t = 0;
                     $.get("'.$url. '" + "/api/info/metrics/dataverses/bySubject", function(data) {
                         var allRows = data.split(/\r?\n|\r/);
 
@@ -107,12 +109,15 @@ class Metric extends Model
                             var rowCells = allRows[singleRow].split(",");
                             if (rowCells.length == 3)
                                 {
-                                    html = html + "<li>" + rowCells[0] + ", "+ rowCells[1] + " ("+rowCells[2]+")</li>";
+                                    link = "<a href="'. $this->Dataverse->server(). 'dataverse/root?q=&fq1=subject_ss%3A%22" + rowCells[0] + "%22&fq0=dvObjectType%3A%28dataverses+OR+datasets%29&types=dataverses%3Adatasets&sort=dateSort&order=
+                                    linka = "</a>"
+                                    html = html + "<li>" + link + trad[t] + " = "+rowCells[0] + ", "+ rowCells[1] + " ("+rowCells[2]+")</li>";
                                 }
                             if (rowCells.length == 2)
                                 {
-                                    html = html + "<li>" + rowCells[0] + " ("+rowCells[1]+")</li>";
+                                    html = html + "<li>" + trad[t] + " == " + rowCells[0] + " ("+rowCells[1]+")</li>";
                                 }
+                            t++;
                         }
                         document.getElementById(elm).innerHTML = html;
                     });
