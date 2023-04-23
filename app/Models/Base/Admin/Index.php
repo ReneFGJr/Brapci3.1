@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'cron':
+                $Cron = new \App\Models\Bots\Cron();
+                $sx .= $Cron->index($subact,$id,$id2,$id3);
+                break;
             case 'dataset':
                 $API = new \App\Models\ElasticSearch\Index();
                 $sx .= $API->show_error($subact,$id,$id2,$id3);
@@ -121,6 +125,8 @@ class Index extends Model
                         default:
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
+                            $sb .= '<a href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
+                            $sb .= '<a href="'.PATH.'/admin/cron/" class="text-success me-2">'.bsicone('clock-1',32).'</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
                             break;

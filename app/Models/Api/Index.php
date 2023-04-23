@@ -62,6 +62,11 @@ class Index extends Model
                 $API = new \App\Models\Api\Endpoint\Book;
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
+            case 'gender':
+                $API = new \App\Models\Api\Endpoint\Genere;
+                $sx = $API->index($d1, $d2, $d3, $d4);
+                break;
+
             default:
                 $sx = $this->head();
                 $sx .= bs(bsc(h('Brapci API - v0.22.08.03', 1), 12));
@@ -96,6 +101,7 @@ class Index extends Model
             if ((file_exists($file)) and ($api != '..') and ($api != '.')) {
                 $txt = file_get_contents($file);
                 $url_ex = $this->recoverTag($txt, '@example');
+                $url_ex = troca($url_ex,'$PATH',URL);
                 $sx .= '<div class="accordion-item">' . cr();
                 $sx .= '    <h2 class="accordion-header" id="' . $name . '"> ' . cr();
                 $sx .= '        <button class="accordion-button collapsed"  type="button" data-bs-toggle="collapse" data-bs-target="#' . $namec . '" aria-expanded="false" aria-controls="' . $namec . '">' . cr();
