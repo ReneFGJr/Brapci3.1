@@ -93,6 +93,17 @@ class Person extends Model
 		$dm['concept'] = $da['concept'];
 		$dm['vdata'] = $RDF->view_data($da);
 
+		if (isset($dm['altLabels'])) {
+			$altLabel = '<ul class="small">';
+			foreach ($dm['altLabels'] as $name => $id) {
+				$altLabel .= '<li>' . $name . '</li>';
+			}
+			$altLabel = '</ul>';
+		} else {
+			$altLabel = '';
+			$dm['altLabels'] = [];
+		}
+
 		$name = $dm['Identifier'];
 		$ID = $dm['ID'];
 		$g = substr($dm['Gender'], 0, 1);
