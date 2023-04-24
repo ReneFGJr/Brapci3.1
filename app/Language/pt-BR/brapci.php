@@ -169,7 +169,7 @@ return [
         'genere_M' => 'Masculino',
         'genere_F' => 'Feminino',
         'genere_' => 'ND',
-        '' => '',
+        'genere_O' => 'Instit.',
         '' => '',
 
 

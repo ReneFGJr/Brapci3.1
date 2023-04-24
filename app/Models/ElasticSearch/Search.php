@@ -125,7 +125,7 @@ class Search extends Model
             default:
                 //$url = 'brp2/_search';
                 $url = 'brapci3.1/_search';
-                $filter['match']['collection'] = 'AR';
+                //$filter['match']['collection'] = 'AR';
                 break;
         }
 

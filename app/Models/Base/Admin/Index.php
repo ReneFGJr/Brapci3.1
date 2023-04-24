@@ -127,6 +127,7 @@ class Index extends Model
                             $sa .= $this->menu();
                             $sb .= '<a href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
                             $sb .= '<a href="'.PATH.'/admin/cron/" class="text-success me-2">'.bsicone('clock-1',32).'</a>';
+                            $sb .= '<a href="' . PATH . '/admin/bugs/" class="text-success me-2">' . bsicone('bug', 32) . '</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
                             break;
