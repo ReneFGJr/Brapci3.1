@@ -50,6 +50,7 @@ class Index extends Model
     function task_remove($task)
         {
             $this->where('task_id',$task)->delete();
+            $this->where('task_status', 0)->delete();
             return true;
         }
 

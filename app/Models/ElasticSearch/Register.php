@@ -241,6 +241,10 @@ class Register extends Model
                             $da['collection'] = 'AU';
                             $da['type'] = $data['Class'];
                             break;
+                        case 'CorporateBody':
+                            $da['collection'] = 'AC';
+                            $da['type'] = $data['Class'];
+                            break;
                         default:
                             echo "OPS REGISTER NOT EXISTE ".$data['Class'];
                             exit;
@@ -264,6 +268,19 @@ class Register extends Model
                 $da['authors'] .= $title;
             }
         }
+
+        if (isset($data['Authors'])) {
+            $da['authors'] = '';
+            foreach ($data['Authors'] as $id => $title) {
+                $title = ' ' . strtolower(ascii($title));
+                $title = troca($title, ';', ' ');
+                $da['authors'] .= $title;
+            }
+        }
+
+        if (isset($data['prefLabel'])) {
+                $da['title'] = mb_strtolower(ascii($data['prefLabel']));
+            }
 
         if (isset($data['Abstract'])) {
             $da['abstract'] = '';
@@ -296,8 +313,6 @@ class Register extends Model
         if ((isset($data['Issue']['Year'])) and ($data['Issue']['Year'] != '')) {
             $da['year'] = $data['Issue']['Year'];
         }
-
-
 
         if (!isset($da['year'])) { $da['year'] = '????'; }
         if ($da['year']=='') { $da['year'] = '????'; }

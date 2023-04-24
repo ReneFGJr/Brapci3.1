@@ -318,8 +318,15 @@ class Metadata extends Model
                     case 'hasPublicationVolume':
                         $this->lets('issue_vol', $value);
                         break;
+                    case 'prefLabel':
+                        $this->lets('prefLabel', $valueO);
+                        break;
                     case 'altLabel':
                         $this->let('issue_name', $valueO, $langO);
+                        $this->let_array('altLabels', $ddv1, $valueO);
+                        break;
+                    case 'hiddenLabel':
+                        $this->let('hiddenLabel', $value . $valueO);
                         break;
                     case 'hasPageStart':
                         $this->lets('pagi', $value);
@@ -339,10 +346,6 @@ class Metadata extends Model
                     case 'hasCollection':
                         $this->let('Collections', $value);
                         break;
-                    case 'prefLabel':
-                        $this->lets('prefLabel', $valueO);
-                        $this->let_array('altLabels', $ddv1, $valueO);
-                        break;
                     case 'hasIssue':
                         $this->let('ISSUE', $ddv1);
                         break;
@@ -361,9 +364,6 @@ class Metadata extends Model
                         break;
                     case 'hasGender':
                         $this->lets('Gender', $value);
-                        break;
-                    case 'hiddenLabel':
-                        $this->let('hiddenLabel', $value);
                         break;
                     case 'acronym':
                         $this->lets('Sigla', $value);

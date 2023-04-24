@@ -42,6 +42,74 @@ class RDFChecks extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function check_prefLabel()
+		{
+			$sx = '';
+			$sx .= '<hr>';
+			$sx .= lang('brapci.check_prefLabel');
+			$sx .= '<hr>';
+			$sx .= '<a href="'.PATH.'/bots/export/" class="btn btn-outline-primary">'.lang('brapci.start').'</a>';
+			$conf = get("confirm");
+
+			$BOTS = new \App\Models\Bots\Index();
+			$BOTS->task_remove('CHECK_ALTLABEL');
+			$dt = $BOTS->task('CHECK_ALTLABEL');
+
+			return $sx;
+		}
+
+	function next_prefLabel()
+		{
+			$sx = '';
+			$RDF = new \App\Models\Rdf\RDF();
+			$RDFdata = new \App\Models\Rdf\RDFData();
+			$prop = $RDF->getClass('prefLabel');
+			$prop2 = $RDF->getClass('altLabel');
+
+			$dt = $RDFdata
+				->select('d_r1, count(*) as total')
+				->where('d_p',$prop)
+				->where('d_r2',0)
+				->where('d_r1 > 0')
+				->orderBy('total desc')
+				->groupBy('d_r1')
+				->findAll(5,0);
+			$sx = '<ul>';
+
+			foreach($dt as $id=>$line)
+				{
+					if ($line['total'] > 1)
+						{
+							$idc = $line['d_r1'];
+							echo $idc.' ';
+							$dr = $RDF->le($idc);
+							$data['d_p'] = $prop2;
+							$idl = $dr['concept']['cc_pref_term'];
+							$RDFdata->set($data)
+								->where('d_r1',$idc)
+								->where('d_literal <>', $idl)
+								->update();
+							$sx .= '<li>'.$idc.'</li>';
+						}
+				}
+			$sx .= '</ul>';
+
+			$BOTS = new \App\Models\Bots\Index();
+			if (isset($dt['total']))
+				{
+					if ((isset($dt['total']) and ($dt['total']) == 1))
+						{
+							$BOTS->task_remove('CHECK_ALTLABEL');
+						} else {
+							$sx .= metarefresh('',1);
+						}
+				} else {
+					$BOTS->task_remove('CHECK_ALTLABEL');
+					$sx .= 'FIM ALTLABEL';
+				}
+			return $sx;
+		}
+
 	function check_html($class)
 		{
 			$sx = '';
@@ -119,6 +187,7 @@ class RDFChecks extends Model
 			$sx = '';
 			$RDFConcept = new \App\Models\Rdf\RDFConcept();
 			$RDFData = new \App\Models\Rdf\RDFData();
+
 			$dt =
 				$RDFConcept
 					->join('rdf_data','id_cc = d_r1')

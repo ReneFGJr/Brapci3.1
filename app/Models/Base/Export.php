@@ -166,19 +166,6 @@ class Export extends Model
         return true;
     }
 
-    function check($d1, $d2)
-    {
-        $BUGS = new \App\Models\Functions\Bugs();
-        $task = 'CHECK_TITLES';
-        $limit = 2000;
-        $BOTS = new \App\Models\Bots\Index();
-        $dt = $BOTS->task($task);
-
-        if ($dt['task_status'] != 1) {
-            $BOTS->task_remove($task);
-            return "FIM - Check";
-        }
-    }
     function remove_all($type = '')
     {
         $rst = $this->where('task_id', $type)->delete();
@@ -357,9 +344,44 @@ class Export extends Model
                 $class = 'Person';
                 $type = 'BC';
                 break;
-            case 'EXPORT_CORPORATE':
+            case 'EXPORT_CORPORATEBODY':
                 $class = 'CorporateBody';
                 $type = 'BC';
+                break;
+            case 'CHECK_ALTLABEL':
+                $RDFChecks = new \App\Models\RDF\RDFChecks();
+                if (agent()) {
+                    $sx .= $RDFChecks->next_prefLabel();
+                } else {
+                    $sx = $RDFChecks->next_prefLabel();
+                    echo $sx;
+                    exit;
+                }
+                return $sx;
+                break;
+
+            case 'CHECK_ABSTRACT':
+                $Abstracts = new \App\Models\AI\NLP\Abstracts();
+                if (agent()) {
+                    $sx .= $Abstracts->check_next();
+                } else {
+                    $sx = $Abstracts->check_next();
+                    echo $sx;
+                    exit;
+                }
+                return $sx;
+                break;
+            case 'CHECK_TITLES':
+                $titles = new \App\Models\AI\NLP\Titles();
+                if (agent())
+                    {
+                        $sx .= $titles->check_next();
+                    } else {
+                        $sx = $titles->check_next();
+                        echo $sx;
+                        exit;
+                    }
+                return $sx;
                 break;
             default:
                 echo "OPS EXPORT NOT IMPLEMENTED $TYPE";

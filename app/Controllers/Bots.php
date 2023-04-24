@@ -33,11 +33,15 @@ class Bots extends BaseController
         $web = agent();
 
         switch ($act) {
-
             case 'check':
                 $RDFCheck = new \App\Models\Rdf\RDFChecks();
                 switch($act2)
                     {
+                        case 'prefLabel':
+
+                            $sx .= $RDFCheck->check_prefLabel();
+                            break;
+
                         case 'Source':
                             $sx .= $RDFCheck->check_library();
                             break;
@@ -104,6 +108,7 @@ class Bots extends BaseController
                 $menu[PATH . COLLECTION . '/check/Person'] = lang('bots.check.Person');
                 $menu[PATH . COLLECTION . '/check/Remissives'] = lang('bots.check.Remissives');
                 $menu[PATH . COLLECTION . '/check/Duplicate'] = lang('bots.check.Duplicate');
+                $menu[PATH . COLLECTION . '/check/prefLabel'] = lang('bots.check.prefLabel');
 
                 $menu[PATH . COLLECTION . '/nlp/affiliations'] = lang('bots.authority.affiliations');
                 $menu[PATH . COLLECTION . '/pdf'] = lang('bots.harvesting_pdf');

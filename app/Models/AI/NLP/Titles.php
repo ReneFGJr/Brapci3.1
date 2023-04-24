@@ -40,6 +40,7 @@ class Titles extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     function check_next()
     {
         $BUGS = new \App\Models\Functions\Bugs();

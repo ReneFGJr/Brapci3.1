@@ -112,6 +112,11 @@ class RDFExport extends Model
 				$this->export_person($dt, $id);
 				break;
 
+				/******************************* Corporate Body */
+			case 'frbr:CorporateBody':
+				$this->export_corporate($dt, $id);
+				break;
+
 				/*************************************** VOLUME */
 			case 'brapci:PublicationVolume':
 				$this->export_geral($dt, $id);
@@ -134,11 +139,6 @@ class RDFExport extends Model
 
 				/*************************************** Gender */
 			case 'brapci:Gender':
-				$this->export_geral($dt, $id);
-				break;
-
-				/******************************* Corporate Body */
-			case 'frbr:CorporateBody':
 				$this->export_geral($dt, $id);
 				break;
 
@@ -636,6 +636,25 @@ class RDFExport extends Model
 		$this->saveData($id, 'name', $name);
 
 		return '';
+	}
+
+	function export_corporate($dt, $id)
+	{
+		$Metadata = new \App\Models\Base\Metadata();
+		$sx = '';
+		$name = trim($dt['concept']['n_name']);
+		if ($name == '') { $name = 'NAN'.$dt['concept']['id_cc']; }
+		$name = nbr_author($name, 7);
+		$nameURL = '<a href="' . (PATH . '/v/' . $id) . '" class="corporateBidy">' . $name . '</a>';
+
+		$dta = $Metadata->metadata($dt);
+
+		if (!isset($dta['prefLabel'])) { $dta['prefLabel'] = 'NnN-'.$dta['ID']; }
+
+		$this->saveData($id, 'Elastic', $dta);
+		$this->saveRDF($id, $name, 'name.nm');
+
+		return $sx;
 	}
 
 	function export_person($dt, $id)

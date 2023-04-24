@@ -13,14 +13,17 @@
 
     <div class="row">
 
-        <div class="col-11">
-            <?=count($AffiliationR);?> Vinculados
-            <?=$Aff;?>
+        <div class="col-6">
+            <?= count($AffiliationR); ?> Vinculados
+            <?= $Aff; ?>
         </div>
 
-        <div class="col-1 text-end">
+        <div class="col-6">
             <?= $logo; ?>
-            <?= $edit;?> <?=count($altLabels);?> variantes
+            <?= $edit; ?> <?= count($altLabels); ?> variantes
+            <hr>
+            <?php
+            echo ($altLabel); ?>
         </div>
     </div>
 </div>
