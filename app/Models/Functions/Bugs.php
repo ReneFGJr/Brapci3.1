@@ -155,7 +155,7 @@ class Bugs extends Model
             $action = $this->form_bug($id);
             $sx = '';
             $sx .= '<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#bugModal" style="width: 100%;">';
-            $sx .= bsicone('bug',32);
+            $sx .= bsicone('bug',28);
             $sx .= ' Problemas ?';
             $sx .= '</button>';
 
