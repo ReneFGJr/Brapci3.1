@@ -67,7 +67,8 @@ class Person extends Model
 		$dm = $Metadata->metadata($da, true);
 
 		$dm['edit'] = '';
-		$dm['edit'] = '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $id . '\',800,800);" class="handle">' . bsicone('list') . '</span>';
+		$dm['edit'] .= '<a href="' . PATH . '/a/' . $id . '" class="handle">' . bsicone('edit') . '</span>';
+		$dm['edit'] .= '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $id . '\',800,800);" class="handle ms-2 me-2">' . bsicone('list') . '</span>';
 
 		/*********************** Affiliation */
 		$dm['Affiliation'] = $Affiliation->show_list($dm);
