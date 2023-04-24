@@ -85,11 +85,14 @@ $routes->post('/social/ajax/(:any)', 'Social::ajax/$1');
 $routes->get('/social/(:any)', 'Social::index/$1');
 $routes->post('/social/(:any)', 'Social::index/$1');
 
-$sc = ['pq','tools','ai','authoriry','bibliofind','parecer','patente','guide'];
+$sc = ['pq','tools','ai','authoriry', 'autoridade','bibliofind','parecer','patente','guide'];
 foreach($sc as $id=>$nm)
     {
         $routes->post('/'.$nm.'/social/(:any)', 'Social::index/$1');
         $routes->get('/' . $nm . '/social/(:any)', 'Social::index/$1');
+
+        $routes->post('/' . $nm . '/a/(:any)', 'MainPages::index/a/$1');
+        $routes->get('/' . $nm . '/a/(:any)', 'MainPages::index/a/$1');
     }
 
 /********* BENANCIB */

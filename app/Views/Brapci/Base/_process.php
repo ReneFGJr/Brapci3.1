@@ -15,54 +15,49 @@ if (!isset($Keywords)) {
 
 $Classification = '';
 
-if (isset($CatAncibArray))
-    {
-        foreach($CatAncibArray as $name=>$id)
-            {
-                if ($Classification != '')
-                    {
-                        $Classification .= '<br/>';
-                    }
-                $Classification .= '<a href="'.PATH.'/books/v/'.$id.'">'.$name.'</a>';
-            }
-
+if (isset($CatAncibArray)) {
+    foreach ($CatAncibArray as $name => $id) {
+        if ($Classification != '') {
+            $Classification .= '<br/>';
+        }
+        $Classification .= '<a href="' . PATH . '/books/v/' . $id . '">' . $name . '</a>';
     }
+}
 
 $KeywordsLN = '';
-foreach($Keywords as $name=>$id)
-    {
-        $lnt = explode(';',$name);
-        if (count($lnt) == 2)
-            {
-                $KeywordsLN .= '<a href="'.PATH.'/v/'.$lnt[1].'">'.$lnt[0].'.</a> ';
-            }
+foreach ($Keywords as $name => $id) {
+    $lnt = explode(';', $name);
+    if (count($lnt) == 2) {
+        $KeywordsLN .= '<a href="' . PATH . '/v/' . $lnt[1] . '">' . $lnt[0] . '.</a> ';
     }
+}
 $authors = '';
 $authorsLN = '';
 $authorsCP = '';
 
-foreach ($Authors as $id => $name) {
-    if (strpos($name, ';')) {
-        $name = explode(';', $name);
-    } else {
-        $name[0] = $name;
-        $name[1] = 0;
+if (isset($Authors)) {
+    foreach ($Authors as $id => $name) {
+        if (strpos($name, ';')) {
+            $name = explode(';', $name);
+        } else {
+            $name[0] = $name;
+            $name[1] = 0;
+        }
+        if ($name[1] > 0) {
+            $authors .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '<br>';
+            $authorsLN .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '; ';
+        } else {
+            $authors .= $name . '<br>';
+            $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';
+        }
+        $authorsLN .= '.';
+        $authorsLN = troca($authorsLN, ';.', '.');
     }
-    if ($name[1] > 0) {
-        $authors .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '<br>';
-        $authorsLN .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '; ';
-    } else {
-        $authors .= $name . '<br>';
-        $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';
-    }
-    $authorsLN .= '.';
-    $authorsLN = troca($authorsLN, ';.', '.');
 }
-
 if (isset($Chapter['authors'])) {
     $aux = $Chapter['authors'];
     $authorsCP = troca($aux, '$', ';');
-    }
+}
 
 
 foreach ($vars as $v) {

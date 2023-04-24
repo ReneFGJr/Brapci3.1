@@ -130,10 +130,10 @@ class Bugs extends Model
                             $xt = $t;
                         }
                     $name = '<a href="'.PATH.'/v/'.$line['bug_v'].'" target="_blank">'.$line['bug_v'].'</a>';
-                    echo "OK";
+
                     $chk_ok = '<a class="ms-3" title="'.lang('brapci.corrected').'" href="' . PATH . '/admin/bugs/corrected/'.$line['id_bug'].'">'.bsicone('to_check').'</a>';
                     //$content = '<div style="font-size: 0.8em;">' . $RDF->c($line['bug_v']) .$chk_ok. '</div>';
-                    $content = $line['bug_v'].$chk_ok;
+                    $content = $RDF->c($line['bug_v']).' '.$chk_ok;
                     $sx .= '<li>'.$content.'</li>'.cr();
                 }
             $sx .= '</ul>';
