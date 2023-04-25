@@ -649,6 +649,26 @@ class RDFExport extends Model
 
 		$dta = $Metadata->metadata($dt);
 
+		$fl = '';
+		if (isset($dta['hiddenLabel']))  {
+				foreach($dta['hiddenLabel'] as $idx=>$txt)
+				{
+				$fl .= ' '.$txt;
+				}
+		}
+		if (isset($dta['altLabel'])) {
+			foreach ($dta['altLabel'] as $idx => $txt) {
+				$fl .= ' ' . $txt;
+			}
+		}
+		$wd = explode(' ', $fl);
+		$w = [];
+		foreach($wd as $idx=>$line)
+			{
+				$w[$line] = $line;
+			}
+		$dta['abstract'] = implode(' ',$w);
+
 		if (!isset($dta['prefLabel'])) { $dta['prefLabel'] = 'NnN-'.$dta['ID']; }
 
 		$this->saveData($id, 'Elastic', $dta);
