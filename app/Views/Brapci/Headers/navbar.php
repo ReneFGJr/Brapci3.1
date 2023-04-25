@@ -49,6 +49,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                     }
                 }
                 ?>
+                <?php require("_navbar_index.php");?>
             </ul>
             <!--
             <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">

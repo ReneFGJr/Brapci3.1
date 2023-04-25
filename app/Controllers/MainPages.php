@@ -53,6 +53,10 @@ class MainPages extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'indexes':
+                $Indexes = new \App\Models\Base\Indexes();
+                $sx .= $Indexes->show_index($subact,$id);
+                break;
             case 'journals':
                 $Sources = new \App\Models\Base\Sources();
                 $sx .= $Sources->index($subact, $id, $id2);
@@ -149,6 +153,8 @@ class MainPages extends BaseController
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
+
+
 
     function services()
     {

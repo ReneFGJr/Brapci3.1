@@ -171,6 +171,15 @@ return [
         'genere_' => 'ND',
         'genere_O' => 'Instit.',
         'upload_file' => 'Subir novo arquivo',
+        'Indexes'=>'Índices',
+        'index_CorporateBody' => 'Instituições',
+        'index_Person' => 'Autores',
+        'index_Subject' => 'Assuntos',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
 
 
 ];

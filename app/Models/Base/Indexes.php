@@ -40,6 +40,36 @@ class Indexes extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function show_index($tp='',$lt='')
+        {
+            $sx = '';
+            $dir = '../.tmp/indexes/'.$tp;
+            if (is_dir($dir))
+                {
+                    $files = scandir($dir);
+                    foreach($files as $id=>$file)
+                    {
+                    if (($file != '.') and ($file != '..') and ($file != 'index.php'))
+                        {
+                            $file = troca($file,'index_','');
+                            $file = troca($file,'.php','');
+                            $sx .= '<a href="'.PATH.'/indexes/'.$tp.'/'.$file.'" class="me-2">';
+                            $sx .= $file;
+                            $sx .= '</a>';
+                            if ($lt == '') {
+                                $lt = $file;
+                            }
+                        }
+                    }
+                    $sx = bsc($sx,12);
+                }
+                if ($lt != '')
+                    {
+                        $sx .= bsc(file_get_contents($dir.'/index_'.$lt.'.php'),12);
+                    }
+            return bs($sx);
+        }
+
     function show($id,$ac)
         {
             $sx = '';

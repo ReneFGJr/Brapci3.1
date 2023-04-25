@@ -51,6 +51,10 @@ class Export extends Model
         $bread['Admin'] = PATH . '/admin';
         $sx .= breadcrumbs($bread);
         switch ($d1) {
+            case 'index':
+                $RDFExport = new \App\Models\Rdf\RDFExport();
+                $sx .= $RDFExport->export($d2,$d3);
+                break;
             case 'clear':
                 $conf = get("confirm");
                 if ($conf == "true") {
@@ -306,6 +310,12 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/booksChapter'] = lang('brapci.export') . ' ' . lang('brapci.booksChapters');
         $menu[PATH . 'admin/' . $mod . '/authority'] = lang('brapci.export') . ' ' . lang('brapci.authority');
         $menu[PATH . 'admin/' . $mod . '/corporate'] = lang('brapci.export') . ' ' . lang('brapci.corporate');
+
+        $menu[PATH . 'admin/' . $mod . '/index/index_authors'] = lang('brapci.export') . ' ' . lang('brapci.index_person');
+        $menu[PATH . 'admin/' . $mod . '/index/index_corporatebody'] = lang('brapci.export') . ' ' . lang('brapci.index_corporate');
+        $menu[PATH . 'admin/' . $mod . '/index/index_subject'] = lang('brapci.export') . ' ' . lang('brapci.index_subject');
+        $menu[PATH . 'admin/' . $mod . '/index/index_journal'] = lang('brapci.export') . ' ' . lang('brapci.index_journal');
+        $menu[PATH . 'admin/' . $mod . '/index/index_proceeding'] = lang('brapci.export') . ' ' . lang('brapci.index_proceeding');
 
         $menu['#BOTS'] = "";
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');

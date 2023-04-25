@@ -650,7 +650,7 @@ class RDF extends Model
 
 	function link($dt, $class = '')
 	{
-		$sx = '<a href="' . (URL . '$COLLECTION/v/' . $dt['id_cc']) . '" class="' . $class . '">';
+		$sx = '<a href="' . (URL . '/v/' . $dt['id_cc']) . '" class="' . $class . '">';
 		return $sx;
 	}
 

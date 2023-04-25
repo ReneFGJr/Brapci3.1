@@ -1092,8 +1092,8 @@ class RDFExport extends Model
 			$hdl = fopen($file, 'w+');
 			fwrite($hdl, $txt);
 			fclose($hdl);
-			$sx .= bs_alert('success', msg('Export_author') . ' #' . $ltx . '<br>');
-			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . COLLECTION . 'rdf/export/' . $url . '/' . ($lt + 1)) . '">';
+			$sx .= bs_alert('success', msg('Export') . ' #' . $ltx . '<br>'.$dir);
+			$sx .= '<meta http-equiv="refresh" content="3;' . (PATH . '/admin/export/index/' . $url . '/' . ($lt + 1)) . '">';
 		} else {
 			$sx .= bsmessage('rdf.export_success', 1);
 			$sx .= $RDF->btn_return();
