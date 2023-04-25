@@ -94,9 +94,9 @@ class RDFChecks extends Model
 			$sx .= '</ul>';
 
 			$BOTS = new \App\Models\Bots\Index();
-			if (isset($dt['total']))
+			if (isset($dt[0]['total']))
 				{
-					if ((isset($dt['total']) and ($dt['total']) == 1))
+					if ($dt[0]['total'] == 1)
 						{
 							$BOTS->task_remove('CHECK_ALTLABEL');
 						} else {
