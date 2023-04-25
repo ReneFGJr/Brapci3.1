@@ -52,9 +52,8 @@ class RDFChecks extends Model
 			$conf = get("confirm");
 
 			$BOTS = new \App\Models\Bots\Index();
-			$BOTS->task_remove('CHECK_ALTLABEL');
 			$dt = $BOTS->task('CHECK_ALTLABEL');
-
+			$sx .= $this->next_prefLabel();
 			return $sx;
 		}
 
