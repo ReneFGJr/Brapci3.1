@@ -80,7 +80,6 @@ class RDFChecks extends Model
 					if ($line['total'] > 1)
 						{
 							$idc = $line['d_r1'];
-							echo $idc.' ';
 							$dr = $RDF->le($idc);
 							$data['d_p'] = $prop2;
 							$idl = $dr['concept']['cc_pref_term'];
@@ -88,7 +87,7 @@ class RDFChecks extends Model
 								->where('d_r1',$idc)
 								->where('d_literal <>', $idl)
 								->update();
-							$sx .= '<li>'.$idc.'</li>';
+							$sx .= '<li>'.$idc.' ('.$line['total'].')</li>';
 						}
 				}
 			$sx .= '</ul>';
