@@ -103,6 +103,7 @@ class RDFChecks extends Model
 							$sx .= metarefresh('',1);
 						}
 				} else {
+					pre($dt);
 					$BOTS->task_remove('CHECK_ALTLABEL');
 					$sx .= 'FIM ALTLABEL';
 				}
