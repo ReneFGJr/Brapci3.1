@@ -349,7 +349,7 @@ class Export extends Model
                 $type = 'BC';
                 break;
             case 'CHECK_ALTLABEL':
-                $RDFChecks = new \App\Models\RDF\RDFChecks();
+                $RDFChecks = new \App\Models\Rdf\RDFChecks();
                 if (agent()) {
                     $sx .= $RDFChecks->next_prefLabel();
                 } else {
