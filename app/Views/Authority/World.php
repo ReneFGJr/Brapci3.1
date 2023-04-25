@@ -13,6 +13,8 @@
             <?= $genere; ?>
         </div>
         <div class="col-8">
+            <?= $search; ?>
+            <?= $search_result; ?>
         </div>
     </div>
 </div>

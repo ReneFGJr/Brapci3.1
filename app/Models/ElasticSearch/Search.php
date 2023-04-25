@@ -108,12 +108,18 @@ class Search extends Model
         $sx =  '';
 
         /************************** */
-        $type = trim(COLLECTION);
-        $type = mb_strtolower($type);
-        $type = troca($type, '/', '');
-
+        if ($type == '')
+        {
+            $type = trim(COLLECTION);
+            $type = mb_strtolower($type);
+            $type = troca($type, '/', '');
+        }
 
         switch ($type) {
+            case 'autoridade':
+                $url = 'brapci3.1/_search';
+                $filter['match']['collection'] = 'AC';
+                break;
             case 'books':
                 $url = 'brapci3.1/_search';
                 $filter['match']['collection'] = 'BK';
@@ -135,8 +141,6 @@ class Search extends Model
             {
                 $data['query']['bool']['filter'] = $filter;
             }
-
-            //pre($data,false);
 
         $dt = $API->call($url, $method, $data);
 

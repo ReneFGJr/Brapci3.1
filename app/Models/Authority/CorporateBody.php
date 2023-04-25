@@ -64,11 +64,16 @@ class CorporateBody extends Model
 
 		$dm = $Metadata->metadata($da, true);
 		$aff = [];
-		foreach ($dm['AffiliationR'] as $id => $name) {
-			$Name = strip_tags($RDF->c($id));
-			$aff[$Name] = $id;
-		}
-		ksort($aff);
+		if (isset($dm['AffiliationR']))
+			{
+			foreach ($dm['AffiliationR'] as $id => $name) {
+				$Name = strip_tags($RDF->c($id));
+				$aff[$Name] = $id;
+			}
+			ksort($aff);
+			} else {
+				$dm['AffiliationR'] = [];
+			}
 		if (isset($dm['altLabels']))
 		{
 			$altLabel = '<ul class="small">';
@@ -93,7 +98,7 @@ class CorporateBody extends Model
 		$dm['logo'] = '';
 		$dm['edit'] = '';
 		$dm['edit'] .= '<a href="' . PATH . '/a/' . $id . '" class="handle">' . bsicone('edit') . '</a>';
-		$dm['edit'] .= '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $id . '\',800,800);" class="handle ms-2 me-2">' . bsicone('list') . '</span>';
+		$dm['edit'] .= '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $idv . '\',800,800);" class="handle ms-2 me-2">' . bsicone('list') . '</span>';
 		$sx = view('Authority/CorporateBody', $dm);
 		return $sx;
 	}

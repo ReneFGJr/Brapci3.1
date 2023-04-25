@@ -18,6 +18,7 @@ class Authority extends BaseController
     public function index($act = '', $subact = '', $id = '', $id2 = '')
     {
         $Authority = new \App\Models\Authority\Index();
+        $RDF = new \App\Models\Rdf\RDF();
 
         $data['page_title'] = 'Brapci-Autoridades';
         $data['GOOGLEID'] = 'UA-12713129-1';
@@ -48,6 +49,25 @@ class Authority extends BaseController
                 $sx .= '';
                 $Genere = new \App\Models\Authority\Genere();
                 $data['genere'] = $Genere->summary();
+                $data['search'] = view('Authority/Search');
+                $data['search_result'] = '';
+
+                $search = get("q");
+                if ($search != '')
+                    {
+                        $Elastic = new \App\Models\ElasticSearch\Search();
+                        $rst = $Elastic->search($search, 'autoridade');
+                        $txt = '';
+                        foreach($rst['works'] as $id=>$line)
+                            {
+                                $txt .= '<a href="'.PATH.'/v/'.$line['id'].'">';
+                                $txt .= $RDF->c($line['id']);
+                                $txt .= '</a>';
+                                $txt .= '<hr>';
+                            }
+                        $data['search_result'] = $txt;
+                    }
+
                 $sx .= view('Authority/World',$data);
                 break;
         }
