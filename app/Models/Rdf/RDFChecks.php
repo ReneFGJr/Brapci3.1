@@ -72,7 +72,7 @@ class RDFChecks extends Model
 				->where('d_r1 > 0')
 				->orderBy('total desc')
 				->groupBy('d_r1')
-				->findAll(5,0);
+				->findAll(50,0);
 			$sx = '<ul>';
 
 			foreach($dt as $id=>$line)
