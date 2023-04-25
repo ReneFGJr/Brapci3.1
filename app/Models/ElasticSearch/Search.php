@@ -120,6 +120,10 @@ class Search extends Model
                 $url = 'brapci3.1/_search';
                 $filter['match']['collection'] = 'AC';
                 break;
+            case 'person':
+                $url = 'brapci3.1/_search';
+                $filter['match']['collection'] = 'AU';
+                break;
             case 'books':
                 $url = 'brapci3.1/_search';
                 $filter['match']['collection'] = 'BK';

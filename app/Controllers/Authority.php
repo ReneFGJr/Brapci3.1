@@ -55,9 +55,9 @@ class Authority extends BaseController
                 $search = get("q");
                 if ($search != '')
                     {
+                        $txt = '';
                         $Elastic = new \App\Models\ElasticSearch\Search();
                         $rst = $Elastic->search($search, 'autoridade');
-                        $txt = '';
                         foreach($rst['works'] as $id=>$line)
                             {
                                 $txt .= '<a href="'.PATH.'/v/'.$line['id'].'">';
@@ -65,6 +65,14 @@ class Authority extends BaseController
                                 $txt .= '</a>';
                                 $txt .= '<hr>';
                             }
+                        $rst = $Elastic->search($search, 'person');
+                        foreach ($rst['works'] as $id => $line) {
+                            $txt .= '<a href="' . PATH . '/v/' . $line['id'] . '">';
+                            $txt .= $RDF->c($line['id']);
+                            $txt .= '</a>';
+                            $txt .= '<hr>';
+                        }
+
                         $data['search_result'] = $txt;
                     }
 
