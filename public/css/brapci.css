@@ -218,7 +218,7 @@ a:hover {
   text-decoration: none;
 }
 
-.href a:visited {
+.href a:visited, .href:visited {
   color: #222280;
   text-decoration: none;
 }
