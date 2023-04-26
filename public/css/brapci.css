@@ -213,8 +213,8 @@ a:hover {
   font-size: 35%;
 }
 
-.href {
-  color: #888;
+.href, .href a {
+  color: #222;
   text-decoration: none;
 }
 
