@@ -1150,7 +1150,7 @@ class RDFExport extends Model
 				$sx .= '<div class="row"><div class="col-md-1 text-right">';
 				$sx .= '<h1 style="font-size: 500%;">' . $xl . '</h1></div>';
 				$sx .= '<div class="col-md-11">';
-				$sx .= '<ul style="list-style: none; columns: 600px 2; column-gap: 0;">';
+				$sx .= '<ul style="list-style: none; columns: 400px 2; column-gap: 0;">';
 				$l = $xl;
 			}
 
