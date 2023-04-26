@@ -1343,7 +1343,7 @@ class Socials extends Model
 			$sx = '';
 			$sx .= '<ul class="navbar-nav ml-auto" >';
 			$sx .= '        <li class="nav-item dropdown ml-auto">' . cr();
-			$sx .= '          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' . cr();
+			$sx .= '          <a class="nav-link nav-link-brp dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' . cr();
 			$sx .= '            ' . $email . cr();
 			$sx .= '          </a>' . cr();
 			$sx .= '          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">' . cr();
