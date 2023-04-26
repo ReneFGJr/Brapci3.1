@@ -187,7 +187,7 @@ class RDFExport extends Model
 				$this->export_geral($dt, $id);
 				break;
 		}
-		$tela .= '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '">' . $name . '</a>';
+		$tela .= '<a href="' . (PATH . COLLECTION . '/v/' . $id) . '" class="href">' . $name . '</a>';
 		return $tela;
 	}
 
@@ -525,19 +525,19 @@ class RDFExport extends Model
 			$Issue = new \App\Models\Base\Issues();
 			$dri = $Issue->le($issueNR);
 
-			$link = '<a href="'.PATH.'/proceedings/v/'.$id.'">';
+			$link = '<a href="'.PATH.'/proceedings/v/'.$id.'" class="href">';
 			$linka = '</a>';
 
 			switch($dri['id_jnl'])
 				{
 					case '75':
-						$link = '<a href="' . PATH . '/benancib/v/' . $id . '">';
+						$link = '<a href="' . PATH . '/benancib/v/' . $id . '" class="href">';
 						break;
 					default:
 						break;
 				}
 			} else {
-				$link = '<a href="' . PATH . '/v/' . $id . '">';
+				$link = '<a href="' . PATH . '/v/' . $id . '" class="href">';
 				$linka = '</a>';
 			}
 		$name = '<b>' .$link. $title .$linka. '</b>';
@@ -645,7 +645,7 @@ class RDFExport extends Model
 		$name = trim($dt['concept']['n_name']);
 		if ($name == '') { $name = 'NAN'.$dt['concept']['id_cc']; }
 		$name = nbr_author($name, 7);
-		$nameURL = '<a href="' . (PATH . '/v/' . $id) . '" class="corporateBidy">' . $name . '</a>';
+		$nameURL = '<a href="' . (PATH . '/v/' . $id) . '" class="corporateBody href">' . $name . '</a>';
 
 		$dta = $Metadata->metadata($dt);
 
@@ -683,7 +683,7 @@ class RDFExport extends Model
 		$sx = '';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 1);
-		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author href">' . $name . '</a>';
 
 		$dta = $Metadata->metadata($dt);
 		$this->saveData($id, 'Elastic', $dta);
@@ -697,7 +697,7 @@ class RDFExport extends Model
 		$sx = 'JOURNAL';
 		$name = $dt['concept']['n_name'];
 		$name = nbr_author($name, 7);
-		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author">' . $name . '</a>';
+		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author href">' . $name . '</a>';
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;
 	}
