@@ -201,6 +201,8 @@ class Index extends Model
 
 	function show_works_books($dt)
 	{
+		$cover = '';
+		$year = '';
 		$bg = 'btn-primary';
 		$RDF = new \App\Models\Rdf\RDF();
 		$COVER = new \App\Models\Base\Cover();
