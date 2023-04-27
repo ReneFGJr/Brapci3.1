@@ -249,6 +249,9 @@ class Index extends Model
 
 	function show_works_article($dt)
 	{
+		$cover = '';
+		$year = '';
+
 		$RDF = new \App\Models\Rdf\RDF();
 		$MARK = new \App\Models\Base\Mark();
 		$Cover = new \App\Models\Base\Cover();
@@ -263,8 +266,6 @@ class Index extends Model
 		$sx = bsc($sa, 12);
 
 		for ($r = 0; $r < count($dt['works']); $r++) {
-			$cover = '';
-			$year = '';
 			$line = $dt['works'][$r];
 			$sz = 11;
 			if (isset($line['jnl']))
