@@ -87,6 +87,7 @@ class Index extends Model
 
             $filename = $this->fileName($id);
             $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q=' . trim($id);
+            echo '<tt>'.$url.'</tt>';
             if (!$this->fileNameUpdated($id)) {
                 $data = array();
                 echo 'Harvesting '.$id.'<br>'.cr();
