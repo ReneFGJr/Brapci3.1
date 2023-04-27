@@ -201,6 +201,7 @@ class Index extends Model
 
 	function show_works_books($dt)
 	{
+		$bg = 'btn-primary';
 		$RDF = new \App\Models\Rdf\RDF();
 		$COVER = new \App\Models\Base\Cover();
 		$sx = '';

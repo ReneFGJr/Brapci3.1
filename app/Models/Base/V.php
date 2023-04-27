@@ -94,6 +94,10 @@ class V extends Model
                 $Journals = new \App\Models\Base\Journals();
                 $sx .= $Journals->v($dt);
                 break;
+            case 'Subject':
+                $Subject = new \App\Models\Base\Subject();
+                $sx .= $Subject->v($dt);
+                break;
             default:
                 $sx .= '<br><br><br><br>';
                 $sx = bs(bsc(h($class, 1) . bsmessage('Nor view')));
