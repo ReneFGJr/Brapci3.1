@@ -62,7 +62,7 @@ $routes->get('/bots/(:any)', 'Bots::index/$1');
 /********** BOTS */
 $routes->get('/guide', 'Guide::index');
 $routes->get('/guide/(:any)', 'Guide::index/$1');
-$routes->get('/post/(:any)', 'Guide::index/$1');
+$routes->post('/guide/(:any)', 'Guide::index/$1');
 
 /********* AJAX */
 $routes->get('/ajax/(:any)', 'Ajax::index/$1');

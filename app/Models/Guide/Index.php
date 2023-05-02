@@ -51,6 +51,14 @@ class Index extends Model
                         $Course = new \App\Models\Guide\Course\Index();
                         $sx .= $Course->index($d2, $d3);
                         break;
+                    case 'content':
+                        $Content = new \App\Models\Guide\Manual\Content();
+                        $sx .= $Content->index($d2, $d3);
+                        break;
+                    case 'manual':
+                        $Manual = new \App\Models\Guide\Manual\Index();
+                        $sx .= $Manual->index($d2, $d3);
+                        break;
                     case 'course':
                         $Course = new \App\Models\Guide\Course\Index();
                         $sx .= $Course->index($d2,$d3);
@@ -58,6 +66,7 @@ class Index extends Model
                     default:
                         $menu = [];
                         $menu[PATH.'/guide/course/'] = lang('brapci.course');
+                        $menu[PATH . '/guide/manual/'] = lang('brapci.manual');
                         $sx .= menu($menu);
                         $sx = bs(bsc($sx));
                 }
