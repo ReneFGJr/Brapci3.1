@@ -85,6 +85,7 @@ class Index extends Model
             return 0;
         }
 
+
         function view($id)
             {
                 $id = round('0'.$id);

@@ -30,7 +30,7 @@ class Content extends Model
         'sql:type_cod:type_description:guide_content_type where type_header=1 *',
         'string',
         'string',
-        'text',
+        'hidden',
         '[0:99]*',
 
     ];
@@ -119,37 +119,6 @@ class Content extends Model
             return $sx;
         }
 
-    function form_img($id)
-        {
-            $sx = '';
-
-            if (isset($_FILES['images']))
-                {
-                    $dt = $this->find($id);
-                    $tmp = $_FILES['images']['name'];
-                    $type = $_FILES['images']['type'];
-                    $tmp_name = $_FILES['images']['tmp_name'];
-                    $error = $_FILES['images']['error'];
-                    if (($error == 0) and (strlen($tmp) > 0))
-                        {
-                            $name = $dt['gc_title'];
-                            $file = '_repository/guide/'.$dt['gc_guide'];
-                            dircheck($file);
-                            $file .= '/'.$name;
-                            move_uploaded_file($tmp_name,$file);
-                            echo wclose();
-                        }
-                }
-            $sx .= '=>'.$id;
-            $sx .= form_open_multipart();
-            $sx .= form_upload('images');
-            $sx .= '<br/><br/>';
-            $sx .= form_submit('action',lang('guide.upload'));
-            $sx .= form_close();
-            echo $sx;
-            exit;
-        }
-
     function bnt_new($id)
         {
             $sx = anchor(PATH. '/guide/content/edit/0?gc_guide='.$id,lang('guide.new_content'),['class'=>'btn btn-outline-primary me-2']);
@@ -161,6 +130,103 @@ class Content extends Model
         $sx = anchor(PATH . '/guide/content/reord/' . $id, lang('guide.reord_content'), ['class' => 'btn btn-outline-primary me-2']);
         return $sx;
     }
+
+    function export($id)
+        {
+            $xhml = '<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+
+    <h:body>
+        <ui:composition template="/dataverse_template.xhtml">
+            <ui:param name="pageTitle" value="Guide"/>
+            <ui:param name="showDataverseHeader" value="false"/>
+            <ui:param name="loginRedirectPage" value="dataverse.xhtml"/>
+            <ui:param name="showMessagePanel" value="#{true}"/>
+            <ui:define name="body">
+                <h1 class="text-center">Guia do Usuário</h1>
+                $context
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+';          $txt = $this->export_content($id);
+            echo $txt;
+        }
+
+    function export_content($id)
+        {
+            $Block = new \App\Models\Guide\Manual\Block();
+            $id = 1;
+            $dt = $this
+                ->join('guide_content_type', 'gc_type = type_cod')
+                ->where('gc_guide', $id)
+                ->where('type_header', 1)
+                ->where('gc_active', 1)
+                ->orderBy('gc_order')
+                ->findAll();
+            $summary = '<ul>';
+            $sm = [];
+            foreach($dt as $id=>$line)
+                {
+                    $tag = ascii($line['gc_title']);
+                    $tag = troca($tag,array('(',')'),'');
+                    $tag = mb_strtolower($tag);
+                    $tag = troca($tag,' ','_');
+                    $nl = sonumero($line['gc_type']);
+                    $label = anchor('#'.$tag,h($line['gc_title'],$nl));
+                    $sm[$line['id_gc']] = '<a name="'.$tag.'">'.h($line['gc_title'],$nl).'</a>';
+                    switch($nl)
+                        {
+                            case 1:
+                                $summary .= '<li>' . $label . '</li>';
+                                break;
+                            case 2:
+                                $summary .= '<ul><li>' . $label . '</li></ul>';
+                                break;
+                            case 3:
+                                $summary .= '<ul><li><ul><li>' . $label . '</li></ul></li></ul>';
+                                break;
+                        }
+
+                }
+            $summary .= '</ul>';
+            $sx = $summary;
+            $sx .= '<hr>';
+
+            $cnt = '';
+
+            foreach($sm as $ids=>$title)
+                {
+                    $dtc = $this
+                        ->where('gc_subsection', $ids)
+                        ->where('gc_active', 1)
+                        ->orderBy('gc_order')
+                        ->findAll();
+
+                    if (count($dtc) > 0)
+                        {
+                            $cnt .= $title;
+                        }
+
+                    foreach($dtc as $idd=>$lined)
+                        {
+                            $cnt .= $Block->display($lined);
+                        }
+                }
+
+            $sx .= $cnt;
+
+
+
+            return $sx;
+        }
 
     function list($id)
         {
@@ -175,6 +241,7 @@ class Content extends Model
                 ->join('guide_content_type', 'gc_type = type_cod')
                 ->where('gc_guide',$id)
                 ->where('type_header', 1)
+                ->where('gc_active', 1)
                 ->orderBy('gc_order')
                 ->findAll();
             $sx .= '<table class="table full">';
@@ -190,36 +257,23 @@ class Content extends Model
                     $sx .= $line['gc_order'];
                     $sx .= '</td>';
                     $sx .= '<td>';
+                    $label = anchor(PATH.'/guide/block/viewid/'.$line['id_gc'], $line['gc_title']);
                     switch($type)
                         {
                             case 'H1':
-                                $sx .= h($line['gc_title'],1);
+                                $sx .= h($label,1);
                                 break;
                             case 'H2':
-                                $sx .=  h($line['gc_title'], 2);
+                                $sx .=  h($label, 2);
                                 break;
                             case 'H3':
-                                $sx .=  h($line['gc_title'], 3);
+                                $sx .=  h($label, 3);
                                 break;
                             case 'H4':
-                                $sx .=  h($line['gc_title'], 4);
+                                $sx .=  h($label, 4);
                                 break;
                             case 'H5':
-                                $sx .=  h($line['gc_title'], 5);
-                                break;
-                            case 'P':
-                                $sx .=  '<p>'.$line['gc_content'].'</p>';
-                                break;
-                            case 'IMG':
-                                $file = '_repository/guide/'.$line['gc_guide'].'/'.$line['gc_title'];
-                                if (!is_file($file))
-                                    {
-                                        $sx .= $file;
-                                        $file = 'img/guide/noimage.jpg';
-                                    }
-
-                                $sx .=  '<img src="'.URL.'/'.$file.'" class="img-fluid">';
-                                $ext =  '<span class="handler" onclick="newwin(\''.PATH . '/guide/content/upload/' . $line['id_gc'].'\',800,600);">'.bsicone('upload').'</span>';
+                                $sx .=  h($label, 5);
                                 break;
                             default:
 
