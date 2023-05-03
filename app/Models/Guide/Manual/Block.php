@@ -130,7 +130,6 @@ class Block extends Model
                             ->groupby('gc_subsection')
                             ->orderby('gc_subsection')
                             ->first();
-                    pre($dc);
                     $_POST['gc_order'] = $dc['total'];
                 }
             $guide = 1;
