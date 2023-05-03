@@ -129,7 +129,7 @@ class Block extends Model
                             ->where('gc_subsection', $d2)
                             ->groupby('gc_subsection')
                             ->orderby('gc_subsection')
-                            ->findAll();
+                            ->first();
                     pre($dc);
                     $_POST['gc_order'] = $dc['total'];
                 }
