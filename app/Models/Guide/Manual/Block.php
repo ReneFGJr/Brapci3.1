@@ -213,7 +213,7 @@ class Block extends Model
         $type = $line['gc_type'];
         switch ($type) {
             case 'P':
-                $sx .=  '<p>' . $line['gc_ctitle'].$line['gc_content'] . '</p>';
+                $sx .=  '<p>' . $line['gc_title'].$line['gc_content'] . '</p>';
                 break;
             case 'IMG':
                 $file = '_repository/guide/' . $line['gc_guide'] . '/' . $line['gc_content'];
