@@ -133,7 +133,7 @@ class Content extends Model
 
     function export($id)
         {
-            $xhml = '<!DOCTYPE html>
+        $xhtml = '<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -157,7 +157,15 @@ class Content extends Model
     </h:body>
 </html>
 ';          $txt = $this->export_content($id);
-            echo $txt;
+
+            $xhtml = troca($xhtml,'$context',$txt);
+            $dir = '_repository/guide/'.$id.'/export/';
+            dircheck($dir);
+            $file = $dir.'guide.xhtml';
+            file_put_contents($file,$xhtml);
+            $sx = 'wget '.anchor(PATH.'/'.$file);
+            $sx = bs(bsc($sx));
+            return $sx;
         }
 
     function export_content($id)
@@ -185,13 +193,13 @@ class Content extends Model
                     switch($nl)
                         {
                             case 1:
-                                $summary .= '<li>' . $label . '</li>';
+                                $summary .= '<li>' . $label . '</li>'.cr();
                                 break;
                             case 2:
-                                $summary .= '<ul><li>' . $label . '</li></ul>';
+                                $summary .= '<ul><li>' . $label . '</li></ul>' . cr();
                                 break;
                             case 3:
-                                $summary .= '<ul><li><ul><li>' . $label . '</li></ul></li></ul>';
+                                $summary .= '<ul><li><ul><li>' . $label . '</li></ul></li></ul>' . cr();
                                 break;
                         }
 
@@ -222,8 +230,6 @@ class Content extends Model
                 }
 
             $sx .= $cnt;
-
-
 
             return $sx;
         }

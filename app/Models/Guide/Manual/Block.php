@@ -221,10 +221,10 @@ class Block extends Model
                 $ext =  '<span class="handler" onclick="newwin(\'' . PATH . '/guide/block/upload/' . $line['id_gc'] . '\',800,600);">' . bsicone('upload') . '</span>';
                 break;
             default:
-                $sx .= $type;
+                $sx .= '<p>Not found:'.$type.'<p>';
                 break;
         }
-        return $sx;
+        return $sx.cr();
         }
 
     function list($id)
