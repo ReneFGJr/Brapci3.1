@@ -124,7 +124,13 @@ class Block extends Model
             $this->id = $d2;
             if ($d2 == 0)
                 {
-                    $dc = $this->select('count(*) as total')->where('gc_subsection', $d2)->groupby('gc_subsection')->first();
+                    $dc = $this
+                            ->select('count(*) as total, gc_subsection')
+                            ->where('gc_subsection', $d2)
+                            ->groupby('gc_subsection')
+                            ->orderby('gc_subsection')
+                            ->findAll();
+                    pre($dc);
                     $_POST['gc_order'] = $dc['total'];
                 }
             $guide = 1;
