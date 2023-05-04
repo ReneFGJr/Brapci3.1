@@ -77,6 +77,10 @@ class Index extends Model
         $sx .= troca($this->logo('IMG'), '$par', 'height="100px;" align="right"');
 
         switch ($d1) {
+            case 'header':
+                $Header = new \App\Models\Dataverse\Custom\Header();
+                $sx .= $Header->index($d2, $d3, $d3);
+                break;
             case 'translate':
                 $Translate = new \App\Models\Dataverse\Translate();
                 $sx .= $Translate->index($d2, $d3, $d3);
