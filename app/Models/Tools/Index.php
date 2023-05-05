@@ -56,16 +56,13 @@ class Index extends Model
         $Projects = new \App\Models\Tools\Projects();
         $idp = $Projects->selected();
 
-        if ($idp == 0) {
-            $dt = $Socials->find($user);
-
-            $sx .= view("Tools/welcome",$dt);
-            $sx .= $Projects->my_projects();
-            $sx = bs($sx);
-            return $sx;
-        }
+        $dt = $Socials->find($user);
 
         switch ($d1) {
+            case 'projects':
+                $sx .= view("Tools/welcome", $dt);
+                $sx .= $Projects->my_projects();
+                break;
             case 'nlp':
                 $NLP = new \App\Models\AI\NLP\Index();
                 $sx .= $NLP->index($d2, $d3, $d4, $d5);
@@ -85,7 +82,7 @@ class Index extends Model
     function menu()
     {
         $menu = array();
-        $menu[URL . '/tools/'] = 'Home';
+        $menu[URL . '/tools/projects'] = lang('tools.my_projects');
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
         $menu[URL . '/tools/lattes/search'] = lang('tools.lattes_search');

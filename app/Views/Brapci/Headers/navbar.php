@@ -9,10 +9,13 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
         {
             $admin = '
                 <li class="nav-item">
-                    <a class="nav-link-brp" href="'.PATH . '/admin/' . COLLECTION.'">'.bsicone('gear').'</a>
+                    <a class="nav-link-brp" title="' . lang('brapci.administrator') . '"  href="'.PATH . '/admin/' . COLLECTION.'">'.bsicone('gear').'</a>
                 </li>';
          }
-
+    $admin .= '
+                <li class="nav-item">
+                    <a class="nav-link-brp" title="'.lang('brapci.tools_bibliografic').'" href="' . PATH . '/tools/' . COLLECTION . '">' . bsicone('tools') . '</a>
+                </li>';
 
 } else {
     $acesso = '<li class="nav-item" style="list-style-type: none;">';
