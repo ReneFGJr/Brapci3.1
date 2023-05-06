@@ -40,6 +40,7 @@ class Subject extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+
 function viewid($id)
 	{
 		$AuthorityNames = new \App\Models\Authority\AuthorityNames();
@@ -84,7 +85,7 @@ function viewid($id)
 		$this->Socials = new \App\Models\Socials();
 		$sx = '';
 		$sx .= '<div class="col-md-2 text-right text-end" style="border-right: 4px solid #8080FF;">
-				<tt style="font-size: 100%;">Subject</tt>        
+				<tt style="font-size: 100%;">Subject</tt>
 				</div>';
 
 		$name = $rdf['concept']['n_name'];
@@ -140,5 +141,5 @@ function viewid($id)
 		$AuthotityRemissive = new \App\Models\Authority\AuthotityRemissive();
 		$sx = $AuthotityRemissive->remissive($id);
 		return($sx);
-	}	
+	}
 }

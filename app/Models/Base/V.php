@@ -69,19 +69,19 @@ class V extends Model
                 break;
 
             case 'Person':
-                if ($mod == '') {
-                    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
-                    return $sx;
-                }
+                //if ($mod == '') {
+                //    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
+                //    return $sx;
+                //}
                 $Authority = new \App\Models\Authority\Index();
                 $sx = $Authority->v($idc);
                 break;
 
             case 'CorporateBody':
-                if ($mod == '') {
-                    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
-                    return $sx;
-                }
+                //if ($mod == '') {
+                //    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
+                //    return $sx;
+                //}
                 $CorporateBody = new \App\Models\Authority\CorporateBody();
                 $sx = $CorporateBody->v($idc);
                 break;
@@ -98,6 +98,7 @@ class V extends Model
                 $Subject = new \App\Models\Base\Subject();
                 $sx .= $Subject->v($dt);
                 break;
+
             default:
                 $sx .= '<br><br><br><br>';
                 $sx = bs(bsc(h($class, 1) . bsmessage('Nor view')));

@@ -118,8 +118,8 @@ class Index extends Model
 	function v($id)
 		{
 			$sx = '';
-			$this->Person = new \App\Models\Authority\Person();
-			$sx .= $this->Person->viewid($id);
+			$Person = new \App\Models\Authority\Person();
+			$sx .= $Person->viewid($id);
 			return $sx;
 		}
 

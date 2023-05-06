@@ -240,12 +240,39 @@ class RDFExport extends Model
 		return $title;
 	}
 
+	function export_keywords_in_work($dt)
+		{
+			$RDF = new \App\Models\Rdf\RDF();
+			$keys = [];
+			foreach($dt as $id=>$w)
+				{
+					$file = $RDF->directory($w);
+					$file .= 'Keywords.json';
+					if (file_exists($file))
+						{
+							$k = file_get_contents($file);
+							$k = (array)json_decode($k);
+							foreach($k as $term=>$lang)
+								{
+									if (isset($keys[$term]))
+										{
+											$keys[$term] = $keys[$term] + 1;
+										} else {
+											$keys[$term] = 1;
+										}
+								}
+						}
+				}
+				return $keys;
+		}
+
 	function recover_subject($dt)
 	{
 		$RDF = new \App\Models\Rdf\RDF();
 		$Subject = $RDF->recovery($dt['data'], 'hasSubject');
 		return $Subject;
 	}
+
 	function recover_issue($dt, $id, $tp)
 	{
 		$RDF = new \App\Models\Rdf\RDF();
@@ -411,6 +438,10 @@ class RDFExport extends Model
 							$this->saveRDF($id, $name, 'Place.name');
 						}
 						break;
+					case 'NKeywords':
+						$name = json_encode($dta['NKeywords']);
+						$this->saveRDF($id, $name, 'NKeywords.json');
+						break;
 					case 'Keywords':
 						if (isset($dta['Keywords']))
 							{
@@ -444,6 +475,12 @@ class RDFExport extends Model
 
 							$name = trim(implode('; ', $dta['Authors']));
 							$this->saveRDF($id, $name, 'Authors.name');
+						}
+						break;
+					case 'Works':
+						if (isset($dta['AuthorsOf'])) {
+							$name = json_encode($dta['AuthorsOf']);
+							$this->saveRDF($id, $name, 'works.json');
 						}
 						break;
 
@@ -686,7 +723,12 @@ class RDFExport extends Model
 		$name = '<a href="' . (PATH . '/v/' . $id) . '" class="author href">' . $name . '</a>';
 
 		$dta = $Metadata->metadata($dt);
+
+		$dta['NKeywords'] = $this->export_keywords_in_work($dta['AuthorsOf']);
+
 		$this->saveData($id, 'Elastic', $dta);
+		$this->saveData($id, 'Works', $dta); /* AuthorsOf  */
+		$this->saveData($id, 'NKeywords', $dta); /* Key Clouds  */
 
 		$this->saveRDF($id, $name, 'name.nm');
 		return $sx;

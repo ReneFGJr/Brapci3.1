@@ -65,10 +65,19 @@ class Person extends Model
 			}
 
 		$dm = $Metadata->metadata($da, true);
-
 		$dm['edit'] = '';
-		$dm['edit'] .= '<a href="' . PATH . '/a/' . $id . '" class="handle">' . bsicone('edit') . '</a>';
-		$dm['edit'] .= '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $id . '\',800,800);" class="handle ms-2 me-2">' . bsicone('list') . '</span>';
+
+		$Socials = new \App\Models\Socials();
+		if ($Socials->getAccess('#ADM#CAT'))
+		{
+			$dm['edit'] = '';
+			$dm['edit'] .= '<a href="' . PATH . '/a/' . $id . '" class="handle">' . bsicone('edit') . '</a>';
+			$dm['edit'] .= '<span onclick="newwin(\'' . PATH . '/popup/remissive/' . $id . '\',800,800);" class="handle ms-2 me-2">' . bsicone('list') . '</span>';
+			$dm['edit'] .= '<span class="pointer" onclick="$(\'#folder\').toggle();">' . bsicone('folder-1') . '</a>';
+		}
+
+		/*************************************** Cloud */
+		$dm['cloud'] = view('Grapho/Cloud',$dm);
 
 		/*********************** Affiliation */
 		$dm['Affiliation'] = $Affiliation->show_list($dm);
@@ -92,6 +101,9 @@ class Person extends Model
 		$dm['data'] = $da['data'];
 		$dm['concept'] = $da['concept'];
 		$dm['vdata'] = $RDF->view_data($da);
+
+		$dm['path'] = $RDF->directory($dm['ID']);
+		$dm['folder'] = view('Grapho/Dir',$dm);
 
 		if (isset($dm['altLabels'])) {
 			$altLabel = '<ul class="small">';

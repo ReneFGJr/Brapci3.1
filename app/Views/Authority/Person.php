@@ -22,6 +22,14 @@
             <?= $edit; ?> <?= count($altLabels); ?> variantes
         </div>
 
+        <div class="col-12" id="folder" style="display: none;">
+            <?= $folder; ?>
+        </div>
+
+        <div class="col-12" id="folder">
+            <?= $cloud; ?>
+        </div>
+
         <div class="col-12">
             <?= $vdata; ?>
         </div>
