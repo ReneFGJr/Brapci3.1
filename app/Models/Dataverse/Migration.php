@@ -42,23 +42,24 @@ class Migration extends Model
 
     function index($d1,$d2,$d3)
         {
-        $sx = 'Migration';
+        $sx = '';
+        $Native = new \App\Models\Dataverse\API\Native();
+        $Tree = new \App\Models\Dataverse\Tree();
+        $Dataverse = new \App\Models\Dataverse\Index();
+        $server = $Dataverse->getServer();
+        $token  = $Dataverse->getToken();
+        $root = $Native->getDataverseRoot($server);
 
+        $sa = '';
+        $sa .=  h('Migration',2);
+        $sa .= '<tt>Server: <b>'.$server.'</b></tt>';
+        $sa .= '<br>';
+        $sa .= '<tt>Token : <b>' . $token . '</b></tt>';
+        $sa .= '<br>';
+        $sa .= '<tt>Root : <b>' . $root . '</b></tt>';
+        $sx .= bsc($sa,12);
 
-            $Dataverse = new \App\Models\Dataverse\Index();
-            $server = $Dataverse->getServer();
-            $token  = $Dataverse->getToken();
-
-
-            $sa = '';
-            $sa .= '<tt>Server: <b>'.$server.'</b></tt>';
-            $sa .= '<br>';
-            $sa .= '<tt>Token : <b>' . $token . '</b></tt>';
-            $sx .= bsc($sa,12);
-
-            $Native = new \App\Models\Dataverse\API\Native();
-            $url = $Native->Collections();
-            pre($url);
+        $sx .= $Tree->getCollections($server,$token,$root);
 
             $sx = bs($sx);
             return $sx;

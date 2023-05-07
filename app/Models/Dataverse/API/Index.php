@@ -40,9 +40,56 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function curl($url)
+    function curlExec($dt)
+    {
+        $rsp = array();
+        $rsp['msg'] = '';
+
+        return shell_exec("e:\projeto\curl.exe");
+
+        if ((!isset($dt['url'])) or (!isset($dt['api'])) or (!isset($dt['apikey']))) {
+            $sx = "Error: Missing URL(url), API or API(api) Key (AUTH)";
+            $sx .= '<br>url=' . $dt['url'];
+            $rsp['msg'] = $sx;
+            pre($rsp);
+        } else {
+            $url = $dt['url'] . $dt['api'];
+            $apiKey = $dt['apikey'];
+
+            /* Comando */
+            $cmd = 'curl ';
+            /* APIKEY */
+            if (isset($dt['apikey'])) {
+                $cmd .= '-H X-Dataverse-key:' . $apiKey . ' -H Content-type:application/json ';
+            }
+
+            /* POST */
+            if (isset($dt['POST'])) {
+                $cmd .= '-X POST ' . $url . ' ';
+            } else {
+                $cmd .= ' ' . $url . ' ';
+            }
+
+            /* POST */
+            if (isset($dt['FILE'])) {
+                if (!file_exists($dt['FILE'])) {
+                    $rsp['msg'] .= bsmessage('File not found - ' . $dt['FILE'], 3);
+                }
+                //		$cmd .= '-H "Content-Type: application/json" ';
+                $cmd .= '--upload-file "' . ($dt['FILE']) . '" ';
+            }
+            $txt = shell_exec($cmd);
+            return $txt;
+        }
+        return $sx;
+    }
+
+    function curl($dt)
         {
-            $post = ['Dataverse-key'=> '2fff9009-53f0-44e2-aed5-51f2a2a799cd'];
+            $post['X-Dataverse-key'] = '2fff9009-53f0-44e2-aed5-51f2a2a799cd';
+            $post['Dataverse-key'] = '2fff9009-53f0-44e2-aed5-51f2a2a799cd';
+            $url = $dt['url'].$dt['api'];
+
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -51,7 +98,7 @@ class Index extends Model
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
-//            curl_setopt($curl, CURLOPT_HTTPHEADER, $post);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $post);
             //curl_setopt($curl,CURLOPT_POSTFIELDS, $post);
             $data = curl_exec($curl);
             $erro = curl_errno($curl);
@@ -62,7 +109,6 @@ class Index extends Model
                 echo "ERRO CURL: " . $erro;
                 echo '<br>' . $url;
             }
-
             return ($data);
         }
 }
