@@ -110,16 +110,17 @@ class Index extends Model
 
         /* SE EXISTE DADOS PARA COLETAR vai para proxima faase ****************/
         if ($dt != '') {
-            /* PHASE III ******************************* Coleta dadados */
-            $id_lattes = $dt['hx_id_lattes'];
 
-            $LT = new \App\Models\LattesExtrator\Index();
-            $dt = $LT->harvesting($id_lattes);
+            $id_lattes = $dt['hx_id_lattes'];
 
             /******************* Altera Status para Em Coleta */
             $dt = array();
             $dt['hx_status'] = 8;
             $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+
+            /* PHASE III ******************************* Coleta dadados */
+            $LT = new \App\Models\LattesExtrator\Index();
+            $dt = $LT->harvesting($id_lattes);
 
             /* PHASE IV ******************* Checa se existe arquivo *****/
 
