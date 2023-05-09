@@ -47,6 +47,10 @@ class ProjectsAPIs extends Model
         {
             switch($act)
                 {
+                    case 'openaire':
+                        $OpenAire = new \App\Models\Tools\Openaire\Index();
+                        $sx = $OpenAire->index($id2, $id, $id3, $id4);
+                        break;
                     case 'lattes':
                         $Lattes = new \App\Models\Lattes\Index();
                         $sx = $Lattes->index($id2,$id,$id3,$id4);
@@ -93,10 +97,11 @@ class ProjectsAPIs extends Model
                 ->orderBy('apt_at, at_name')
                 ->findAll();
 
+
+
             $sx = '';
-            for ($r=0;$r < count($dt);$r++)
+            foreach($dt as $id=>$line)
                 {
-                    $line = $dt[$r];
                     if ($line['id_atp'] == '')
                     {
                         $sc = h($line['at_name'], 3);

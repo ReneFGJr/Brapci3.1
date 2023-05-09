@@ -131,6 +131,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $openaire = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_openaire',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $pq = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -453,6 +473,9 @@ class Database extends Config
 
         $this->guide['username'] = getenv('database.default.username');
         $this->guide['password'] = getenv('database.default.password');
+
+        $this->openaire['username'] = getenv('database.default.username');
+        $this->openaire['password'] = getenv('database.default.password');
 
 
     }

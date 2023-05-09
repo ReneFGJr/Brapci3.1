@@ -116,6 +116,11 @@ class Index extends Model
             $LT = new \App\Models\LattesExtrator\Index();
             $dt = $LT->harvesting($id_lattes);
 
+            /******************* Altera Status para Em Coleta */
+            $dt = array();
+            $dt['hx_status'] = 8;
+            $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+
             /* PHASE IV ******************* Checa se existe arquivo *****/
 
             $sx .= '<br>Harvesting ' . $id_lattes;
