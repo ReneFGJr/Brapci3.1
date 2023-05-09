@@ -80,6 +80,7 @@ class Tree extends Model
                 unset($dvd[$root]);
             }
         }
+        pre($dvn);
         $sx .= h('Total de '.count($dvn).' Comunidades Dataverses',5);
         return $sx;
     }
