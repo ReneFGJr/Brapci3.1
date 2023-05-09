@@ -51,6 +51,21 @@ class Index extends Model
             return $sx;
         }
 
+    function import_doi($prj,$dois)
+        {
+            $sx = '';
+            $LinkProvider = new \App\Models\Tools\Openaire\LinkProvider();
+            $sx .= '<ul>';
+            foreach($dois as $doi=>$id)
+                {
+                    $sx .= '<li>'.$doi.' '.$LinkProvider->register($doi).'</li>';
+                }
+            $sx .= '</ul>';
+            $sx = bs(bsc($sx));
+            return $sx;
+
+        }
+
     function linksFromPid($doi)
         {
 

@@ -79,6 +79,9 @@ class Index extends Model
                 $ok = 0;
                 switch($d3)
                     {
+                        case 'openaier':
+                            $sx .= $this->exportOpenAire($d2);
+                            break;
                         case '1':
                             $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
                             $txt = $LattesProducao->csv($d2);
@@ -127,6 +130,16 @@ class Index extends Model
         }
         return $sx;
     }
+
+    function exportOpenaire($d2)
+        {
+                $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+                $doi = $LattesProducao->doi($d2);
+
+                $OpenAire = new \App\Models\Tools\Openaire\Index();
+                $sx = $OpenAire->import_doi($d2,$doi);
+                return $sx;
+        }
 
     function link($id)
     {
@@ -320,6 +333,7 @@ class Index extends Model
             $sx .= '<li>'.anchor(PATH.'tools/project/api/'.$prj.'/lattes/export/1',lang('brapci.lattes_articles')).'</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/3', lang('brapci.lattes_events')) . '</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('brapci.lattes_formacao')) . '</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('brapci.openaier')) . '</li>';
             $sx .= '</ul>';
             return $sx;
         }

@@ -89,6 +89,31 @@ class LattesProducao extends Model
 		return $tp;
 	}
 
+	function doi($id)
+	{
+		set_time_limit(0);
+		$cp = 'lp_author, lp_authors, lp_title, lp_ano, lp_doi, lp_issn, lp_journal, lp_natureza';
+		$dt = $this
+			->select($cp)
+			->join('brapci_tools.projects_harvesting_xml', 'lp_author  = hx_id_lattes')
+			->where('hx_project', $id)
+			->orderBy('lp_seq')
+			->findAll();
+
+
+		$list_doi = [];
+
+		foreach ($dt as $id => $line) {
+			$doi = trim($line['lp_doi']);
+			if ($doi != '')
+				{
+				$list_doi[$doi] = 1;
+				}
+
+		}
+		return $list_doi;
+	}
+
 	function csv($id)
 	{
 		set_time_limit(0);

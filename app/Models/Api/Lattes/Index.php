@@ -91,6 +91,8 @@ class Index extends Model
 
     function harvesting_next($prj)
     {
+        echo metarefresh('', 60);
+        echo '===>'.agent();
         $sx = '';
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
         $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();

@@ -14,7 +14,9 @@ class LinkProvider extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_lk', 'lk_doi', 'lk_status', 'lk_method', 'lk_result'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,4 +41,20 @@ class LinkProvider extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function register($doi)
+        {
+            $sx = '';
+            $dt = $this->where('lk_doi',$doi)->first();
+            if ($dt=='')
+                {
+                    $dt['lk_doi'] = $doi;
+                    $this->set($dt)->insert();
+                    $sx .= lang('brapci.insered');
+                } else {
+                    $sx .= lang('brapci.already_registered');
+                }
+            return $sx;
+
+        }
 }
