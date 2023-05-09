@@ -86,29 +86,35 @@ class Index extends Model
 
     function curl($dt)
         {
+
             $post['X-Dataverse-key'] = '2fff9009-53f0-44e2-aed5-51f2a2a799cd';
             $post['Dataverse-key'] = '2fff9009-53f0-44e2-aed5-51f2a2a799cd';
+
             $url = $dt['url'].$dt['api'];
+            $header =['Content-Type' => 'application/json', 'X-Dataverse-key' => $dt['apikey'], 'key' => $dt['apikey']];
 
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $post);
+
             //curl_setopt($curl,CURLOPT_POSTFIELDS, $post);
             $data = curl_exec($curl);
             $erro = curl_errno($curl);
             curl_close($curl);
+
             if ($erro == 0) {
                 return $data;
             } else {
                 echo "ERRO CURL: " . $erro;
                 echo '<br>' . $url;
             }
+            pre($data);
             return ($data);
         }
 }

@@ -72,6 +72,7 @@ class Native extends Model
             $dt['api'] = '';
             $dt['apikey'] = '';
             $txt = $API->curl($dt);
+
             $txt = (array)json_decode($txt);
             $root = (array)$txt['data'];
             $root = $root['alias'];
