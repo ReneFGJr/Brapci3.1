@@ -82,6 +82,7 @@ class Index extends Model
     function menu()
     {
         $menu = array();
+        $menu['#Lattes Tools'] = lang('tools.zone_my_projects');
         $menu[URL . '/tools/projects'] = lang('tools.my_projects');
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');

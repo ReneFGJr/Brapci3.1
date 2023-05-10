@@ -92,7 +92,7 @@ class LattesProducao extends Model
 	function doi($id)
 	{
 		set_time_limit(0);
-		$cp = 'lp_author, lp_authors, lp_title, lp_ano, lp_doi, lp_issn, lp_journal, lp_natureza';
+		$cp = 'lp_doi';
 		$dt = $this
 			->select($cp)
 			->join('brapci_tools.projects_harvesting_xml', 'lp_author  = hx_id_lattes')

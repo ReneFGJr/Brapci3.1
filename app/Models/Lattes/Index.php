@@ -330,10 +330,10 @@ class Index extends Model
         {
             $sx = h(lang('brapci.export'),3);
             $sx .= '<ul>';
-            $sx .= '<li>'.anchor(PATH.'tools/project/api/'.$prj.'/lattes/export/1',lang('brapci.lattes_articles')).'</li>';
-            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/3', lang('brapci.lattes_events')) . '</li>';
-            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('brapci.lattes_formacao')) . '</li>';
-            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('brapci.openaier')) . '</li>';
+            $sx .= '<li>'.anchor(PATH.'tools/project/api/'.$prj.'/lattes/export/1',lang('tools.export').' '.lang('tools.lattes_articles')).' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/3', lang('tools.export') . ' ' . lang('tools.lattes_events')) . ' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('tools.export') . ' ' . lang('tools.lattes_formacao')) . ' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('tools.export') . ' ' . lang('tools.openaier')) . ' (api)</li>';
             $sx .= '</ul>';
             return $sx;
         }
