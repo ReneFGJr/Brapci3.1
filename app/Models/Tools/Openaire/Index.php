@@ -51,6 +51,12 @@ class Index extends Model
             return $sx;
         }
 
+    function resume($id)
+        {
+            $LinkProvider = new \App\Models\Tools\Openaire\LinkProvider();
+            return $LinkProvider->resume($id);
+        }
+
     function import_doi($prj,$dois)
         {
             $sx = '';

@@ -4,18 +4,18 @@ namespace App\Models\Tools\Openaire;
 
 use CodeIgniter\Model;
 
-class LinkProvider extends Model
+class LinkProviderPrj extends Model
 {
-    protected $DBGroup          = 'openaire';
-    protected $table            = 'openaire_linkproviders';
-    protected $primaryKey       = 'id_lk';
+    protected $DBGroup          = 'default';
+    protected $table            = 'openaire_linkproviders_prj';
+    protected $primaryKey       = 'id_olp';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_lk', 'lk_doi', 'lk_status', 'lk_method', 'lk_result'
+        'id_olp', 'olp_doi', 'olp_prj'
     ];
 
     // Dates
@@ -41,25 +41,4 @@ class LinkProvider extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    function resume($id)
-        {
-
-        }
-
-    function register($doi,$prj)
-        {
-            $sx = '';
-            $dt = $this->where('lk_doi',$doi)->first();
-            if ($dt=='')
-                {
-                    $dt['lk_doi'] = $doi;
-                    $this->set($dt)->insert();
-                    $sx .= lang('brapci.insered');
-                } else {
-                    $sx .= lang('brapci.already_registered');
-                }
-            return $sx;
-
-        }
 }
