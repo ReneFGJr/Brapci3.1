@@ -38,6 +38,7 @@ for result in results:
 
         if (the_page != b'[]'):
           html = the_page.decode('utf-8')
+          html = html.replace("'","´")
           sql = 'UPDATE brapci_openaire.openaire_linkproviders SET lk_status = 1, '
           sql = sql + 'lk_http = \''+format(status_code)+'\','
           sql = sql + 'lk_result = \''+str(html)+'\' WHERE id_lk = '+str(result[0])
