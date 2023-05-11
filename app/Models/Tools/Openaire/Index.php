@@ -52,11 +52,25 @@ class Index extends Model
             $sx .= bsc('OpenAire', 10);
             $sx .= bsc('<img src="'.URL.'/img/logo/openaire.png" class="img-fluid">',2);
 
-            $sa = $this->resume($prj);
-            $sx .= bsc($sa,12);
-
+            switch($d1)
+                {
+                    case 'result':
+                        $sx .= $this->analysis($prj);
+                        break;
+                    default:
+                        $sa = $this->resume($prj);
+                        $sa .= '=>'.$d1;
+                        $sx .= bsc($sa, 12);
+                        break;
+                }
             $sx = bs($sx);
             return $sx;
+        }
+
+    function analysis($id)
+        {
+            $LinkProvider = new \App\Models\Tools\Openaire\LinkProvider();
+            return $LinkProvider->analysis($id);
         }
 
     function resume($id)

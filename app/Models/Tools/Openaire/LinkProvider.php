@@ -42,54 +42,88 @@ class LinkProvider extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function analysis($id)
+    {
+        $dt = $this
+            ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
+            ->where('olp_prj', $id)
+            ->where('lk_status', 1)
+            ->findAll();
+
+        foreach ($dt as $id => $line) {
+            $js = $line['lk_result'];
+            $js = json_decode($js);
+            pre($js,false);
+            if ($js == '') {
+                echo h("ERRO");
+            } else {
+
+
+                foreach ($js as $ids => $line2) {
+                    $pubData = $line2->publicationDate;
+                    $source = $line2->source;
+                    $target = $line2->target;
+                    $targetDOI = $target->identifiers[0]->identifier;
+                    echo h($targetDOI);
+                    //pre($provDOI);
+                    //pre($line2);
+                }
+            }
+        }
+    }
+
     function resume($id)
-        {
+    {
+        $link = [];
+        $link[1] = PATH . '/tools/openaire/result';
+        $dt = $this
+            ->select('count(*) as total, lk_status')
+            ->join('openaire_linkproviders_prj', 'id_lk = olp_doi', 'LEFT')
+            ->where('olp_prj', $id)
+            ->groupBy('lk_status')
+            ->findAll();
+        $sx = h('tools.openaire', 4);
+        $sx .= '<ul>';
+        foreach ($dt as $id => $line) {
+            $lk = '';
+            $lka = '';
+            if (isset($line['lk_status'])) {
+                $idk = $line['lk_status'];
+                $lk = '<a href="' . $link[$idk] . '">';
+                $lka = '</a>';
+            }
+            $sx .= '<li>' . $lk . lang('brapci.status_' . $line['lk_status']) . $lka . ' (' . $line['total'] . ')</li>';
+        }
+        $sx .= '</ul>';
+        return $sx;
+    }
 
-            $dt = $this
-                ->select('count(*) as total, lk_status')
-                ->join('openaire_linkproviders_prj', 'id_lk = olp_doi', 'LEFT')
-                ->where('olp_prj', $id)
-                ->groupBy('lk_status')
-                ->findAll();
-            $sx = h('tools.openaire',4);
-            $sx .= '<ul>';
-            foreach($dt as $id=>$line)
-                {
-                    $sx .= '<li>'.lang('brapci.status_'.$line['lk_status']).' ('.$line['total'].')</li>';
-                }
-            $sx .= '</ul>';
-            return $sx;
+    function register($doi, $prj)
+    {
+        $sx = '';
+        $dt = $this
+            ->join('openaire_linkproviders_prj', 'id_lk = olp_doi', 'LEFT')
+            ->where('lk_doi', $doi)
+            ->first();
+
+        if ($dt == '') {
+            $dt['lk_doi'] = $doi;
+            $idd = $this->set($dt)->insert();
+            $sx .= lang('brapci.insered');
+        } else {
+            $idd = $dt['id_lk'];
+            $sx .= lang('brapci.already_registered');
         }
 
-    function register($doi,$prj)
-        {
-            $sx = '';
-            $dt = $this
-                ->join('openaire_linkproviders_prj', 'id_lk = olp_doi','LEFT')
-                ->where('lk_doi',$doi)
-                ->first();
-
-            if ($dt=='')
-                {
-                    $dt['lk_doi'] = $doi;
-                    $idd = $this->set($dt)->insert();
-                    $sx .= lang('brapci.insered');
-                } else {
-                    $idd = $dt['id_lk'];
-                    $sx .= lang('brapci.already_registered');
-                }
-
-            if ($dt['id_olp'] != '')
-                {
-                } else {
-                    $Prop = new \App\Models\Tools\Openaire\LinkProviderPrj();
-                    $dx['olp_doi'] = $idd;
-                    $dx['olp_prj'] = $prj;
-                    $dp = $Prop->set($dx)->insert();
-                    $sx .= '+';
-                }
-
-            return $sx;
-
+        if ($dt['id_olp'] != '') {
+        } else {
+            $Prop = new \App\Models\Tools\Openaire\LinkProviderPrj();
+            $dx['olp_doi'] = $idd;
+            $dx['olp_prj'] = $prj;
+            $dp = $Prop->set($dx)->insert();
+            $sx .= '+';
         }
+
+        return $sx;
+    }
 }

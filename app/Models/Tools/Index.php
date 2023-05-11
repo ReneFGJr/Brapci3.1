@@ -59,6 +59,10 @@ class Index extends Model
         $dt = $Socials->find($user);
 
         switch ($d1) {
+            case 'openaire':
+                $Openaire = new \App\Models\Tools\Openaire\Index();
+                $sx .= $Openaire->index($d2,$d3, $d4, $d5);
+                break;
             case 'projects':
                 $sx .= view("Tools/welcome", $dt);
                 $sx .= $Projects->my_projects();
