@@ -44,10 +44,15 @@ class Index extends Model
     function index($d1,$d2,$d3,$d4)
         {
             $sx = '';
+            $prj = 0;
+            if (isset($_SESSION['project']['id']))
+                {
+                    $prj = round('0'. $_SESSION['project']['id']);
+                }
             $sx .= bsc('OpenAire', 10);
             $sx .= bsc('<img src="'.URL.'/img/logo/openaire.png" class="img-fluid">',2);
 
-            $sa = $this->resume(1);
+            $sa = $this->resume($prj);
             $sx .= bsc($sa,12);
 
             $sx = bs($sx);

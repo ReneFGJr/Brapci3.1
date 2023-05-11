@@ -44,6 +44,7 @@ class LinkProvider extends Model
 
     function resume($id)
         {
+
             $dt = $this
                 ->select('count(*) as total, lk_status')
                 ->join('openaire_linkproviders_prj', 'id_lk = olp_doi', 'LEFT')
