@@ -87,8 +87,8 @@ class LinkProvider extends Model
         foreach ($dt as $id => $line) {
             $lk = '';
             $lka = '';
-            if (isset($line['lk_status'])) {
-                $idk = $line['lk_status'];
+            $idk = $line['lk_status'];
+            if (isset($link[$idk])) {
                 $lk = '<a href="' . $link[$idk] . '">';
                 $lka = '</a>';
             }
