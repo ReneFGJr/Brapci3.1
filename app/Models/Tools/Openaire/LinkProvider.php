@@ -51,8 +51,8 @@ class LinkProvider extends Model
                 ->where('olp_prj', $id)
                 ->groupBy('lk_status')
                 ->findAll();
-
-            $sx = '<ul>';
+            $sx = h('tools.openaire',4);
+            $sx .= '<ul>';
             foreach($dt as $id=>$line)
                 {
                     $sx .= '<li>'.lang('brapci.status_'.$line['lk_status']).' ('.$line['total'].')</li>';
