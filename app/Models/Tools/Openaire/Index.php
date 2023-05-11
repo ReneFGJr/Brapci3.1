@@ -47,6 +47,9 @@ class Index extends Model
             $sx .= bsc('OpenAire', 10);
             $sx .= bsc('<img src="'.URL.'/img/logo/openaire.png" class="img-fluid">',2);
 
+            $sa = $this->resume(1);
+            $sx .= bsc($sa,12);
+
             $sx = bs($sx);
             return $sx;
         }
@@ -64,7 +67,7 @@ class Index extends Model
             $sx .= '<ul>';
             foreach($dois as $doi=>$id)
                 {
-                    $sx .= '<li>'.$doi.' '.$LinkProvider->register($doi).'</li>';
+                    $sx .= '<li>'.$doi.' '.$LinkProvider->register($doi,$prj).'</li>';
                 }
             $sx .= '</ul>';
             $sx = bs(bsc($sx));

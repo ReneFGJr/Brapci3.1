@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class LinkProviderPrj extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = 'openaire';
     protected $table            = 'openaire_linkproviders_prj';
     protected $primaryKey       = 'id_olp';
     protected $useAutoIncrement = true;

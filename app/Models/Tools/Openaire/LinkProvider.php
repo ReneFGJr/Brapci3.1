@@ -44,21 +44,50 @@ class LinkProvider extends Model
 
     function resume($id)
         {
+            $dt = $this
+                ->select('count(*) as total, lk_status')
+                ->join('openaire_linkproviders_prj', 'id_lk = olp_doi', 'LEFT')
+                ->where('olp_prj', $id)
+                ->groupBy('lk_status')
+                ->findAll();
 
+            $sx = '<ul>';
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= '<li>'.lang('brapci.status_'.$line['lk_status']).' ('.$line['total'].')</li>';
+                }
+            $sx .= '</ul>';
+            return $sx;
         }
 
     function register($doi,$prj)
         {
             $sx = '';
-            $dt = $this->where('lk_doi',$doi)->first();
+            $dt = $this
+                ->join('openaire_linkproviders_prj', 'id_lk = olp_doi','LEFT')
+                ->where('lk_doi',$doi)
+                ->first();
+
             if ($dt=='')
                 {
                     $dt['lk_doi'] = $doi;
-                    $this->set($dt)->insert();
+                    $idd = $this->set($dt)->insert();
                     $sx .= lang('brapci.insered');
                 } else {
+                    $idd = $dt['id_lk'];
                     $sx .= lang('brapci.already_registered');
                 }
+
+            if ($dt['id_olp'] != '')
+                {
+                } else {
+                    $Prop = new \App\Models\Tools\Openaire\LinkProviderPrj();
+                    $dx['olp_doi'] = $idd;
+                    $dx['olp_prj'] = $prj;
+                    $dp = $Prop->set($dx)->insert();
+                    $sx .= '+';
+                }
+
             return $sx;
 
         }
