@@ -112,7 +112,12 @@ class ListIdentifiers extends Model
 		}
 		$reg = (array)$xml['ListIdentifiers'];
 
-		$token = $reg['resumptionToken'];
+		$token = '';
+		if (isset($reg['resumptionToken']))
+			{
+				$token = $reg['resumptionToken'];
+			}
+
 
 		$dd['is_oai_token'] = $token;
 		if ($token == '') {
