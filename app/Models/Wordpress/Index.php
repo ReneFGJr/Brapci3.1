@@ -69,6 +69,8 @@ class Index extends Model
                     $dt['timestamp'] = date("Y-m-dTH-m-s");
                 } else {
                     $dt['wp_package_url'] = URL.'/_repository/wordpress/';
+                    $dt['details_url'] = URL . '/_repository/wordpress/update.html';
+                    $dt['download_url'] = "https://rudrastyh.com/themes/misha-theme/2.0.zip";
                     $dt['new_version'] =$ds['wp_version_1'].'.'.$ds['wp_version_2'].'.'. $ds['wp_version_3'];
                     $dt['timestamp'] = date("Y-m-dTH-m-s");
                 }
