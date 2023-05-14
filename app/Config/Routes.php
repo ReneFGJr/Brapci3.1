@@ -41,6 +41,9 @@ $routes->get('/dci/', 'Dci::index/');
 $routes->get('/dci/(:any)', 'Dci::index/$1');
 $routes->post('/dci/(:any)', 'Dci::index/$1');
 
+$routes->get('/wp/', 'Wp::index/');
+$routes->get('/wp/(:any)', 'Wp::index/$1');
+
 /********** DOWNLOAD */
 $routes->get('/catalog', 'Catalog::index');
 
