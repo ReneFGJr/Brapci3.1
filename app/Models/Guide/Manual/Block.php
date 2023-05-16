@@ -167,10 +167,11 @@ class Block extends Model
                     $error = $_FILES['images']['error'];
                     if (($error == 0) and (strlen($tmp) > 0))
                         {
-                            $name = $dt['gc_content'];
+                            $name = trim(trim($dt['gc_content']).trim($dt['gc_title']));
                             $file = '_repository/guide/'.$dt['gc_guide'].'/';
                             dircheck($file);
                             $file .= $name;
+
                             echo '<hr>';
                             echo $file;
                             echo '<hr>';
@@ -216,13 +217,14 @@ class Block extends Model
                 $sx .=  '<p>' . $line['gc_title'].$line['gc_content'] . '</p>';
                 break;
             case 'IMG':
-                $file = '_repository/guide/' . $line['gc_guide'] . '/' . $line['gc_content'];
+                $file = '_repository/guide/' . $line['gc_guide'] . '/' . trim(trim($line['gc_title']).trim($line['gc_content']));
                 if (!is_file($file)) {
                     $sx .= $file;
                     $file = 'img/guide/noimage.jpg';
                 }
 
                 $sx .=  '<img src="' . URL . '/' . $file . '" class="img-fluid">';
+                $sx .= '<br>file: ' . $line['gc_title'] . $line['gc_content'];
                 $ext =  '<span class="handler" onclick="newwin(\'' . PATH . '/guide/block/upload/' . $line['id_gc'] . '\',800,600);">' . bsicone('upload') . '</span>';
                 break;
             default:
@@ -259,6 +261,7 @@ class Block extends Model
                 ->where('gc_active', 1)
                 ->orderBy('gc_order')
                 ->findAll();
+
             $sx .= '<table class="table full">';
             $sx .= '<tr>
                     <th width="1%">#</th>
@@ -270,7 +273,6 @@ class Block extends Model
             $nr = 1;
             foreach($dt as $id=>$line)
                 {
-                    $ext = '';
                     $type = $line['gc_type'];
                     $sx .= '<tr>';
                     $sx .= '<td>';
@@ -287,12 +289,20 @@ class Block extends Model
 
                     $sx .= '<td>';
                     $label = anchor(PATH.'/guide/block/viewid/'.$line['id_gc'], $line['gc_title']);
-
-                    $ext .=  '<span class="handler text-danger" onclick="if (confirm(\''.lang('guide.exclude'). '\') == true) '.cr();
-                    $ext .=  '{ window.location.href = \'' . PATH . '/guide/block/viewid/'.$this->getBlock().'?delete=' . $line['id_gc'] . '\'; }'.cr();
-                    $ext .=  '">' . bsicone('trash') . '</span>';
+                    $sx .= $this->display($line);
 
                     $sx .= '</td>';
+
+                    $ext = '';
+                    if ($type == 'IMG')
+                        {
+                            $ext .= '<span class="ms-1 me-1 pointer" onclick="newwin(\''.PATH. '/guide/popup/upload/'.$line['id_gc'].'\',800,600);">'.bsicone('upload').'</span>';
+                        }
+                    $ext .=  '<span class="handler text-danger" onclick="if (confirm(\'' . lang('guide.exclude') . '\') == true) ' . cr();
+                    $ext .=  '{ window.location.href = \'' . PATH . '/guide/block/viewid/' . $this->getBlock() . '?delete=' . $line['id_gc'] . '\'; }' . cr();
+                    $ext .=  '">' . bsicone('trash') . '</span>';
+
+
                     $sx .= '<td>';
                     $sx .= anchor(PATH . '/guide/block/edit/' . $line['id_gc'], bsicone('edit'));
                     $sx .= $ext;

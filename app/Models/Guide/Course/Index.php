@@ -42,9 +42,13 @@ class Index extends Model
 
     function index($d1,$d2)
         {
-            $sx = ''.$d1;
+            $sx = '';
             switch($d1)
                 {
+                    case 'upload':
+                        $Block = new \App\Models\Guide\Manual\Block();
+                        $sx = $Block->form_img($d2);
+                        break;
                     case 'content':
                         $CONT = new \App\Models\Guide\Course\Content();
                         $sx .= $CONT->edit($d2);
