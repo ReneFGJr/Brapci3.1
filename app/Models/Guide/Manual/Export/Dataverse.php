@@ -120,13 +120,13 @@ class Dataverse extends Model
             $guide = $dir.'/guide.xhtml';
 
             $html = $this->body($body);
-            file_put_contents($guide,$body);
+            file_put_contents($guide, $html);
 
 
             $sx = '<tt>';
             $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/applications/dataverse';
             $sx .= '<br>';
-            $sx .= 'wget '.PATH.'/_repository/guide/'.$id.'/export/guide.xhtml';
+            $sx .= 'wget '.PATH.'/_repository/guide/'.$id.'/export/guide.xhtml -O guide.xhtml';
             $sx .= '</tt>';
 
             $sx = bs(bsc($sx));
