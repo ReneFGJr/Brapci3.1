@@ -41,7 +41,7 @@ class Dataverse extends Model
     protected $afterDelete    = [];
 
     function body($context)
-        {
+    {
         $xhtml = '<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -60,18 +60,18 @@ class Dataverse extends Model
             <ui:param name="showMessagePanel" value="#{true}"/>
             <ui:define name="body">
                 <h1 class="text-center">Guia do Usuário</h1>
-                '.$context.'
+                ' . $context . '
             </ui:define>
         </ui:composition>
     </h:body>
 </html>
 ';
-        }
+    }
 
     function index($id)
-        {
-            $Content = new \App\Models\Guide\Manual\Content();
-            $dt = $Content
+    {
+        $Content = new \App\Models\Guide\Manual\Content();
+        $dt = $Content
             ->join('guide_content_type', 'gc_type = type_cod')
             ->where('gc_guide', $id)
             ->where('type_header', 1)
@@ -79,60 +79,62 @@ class Dataverse extends Model
             ->orderBy('gc_order')
             ->findAll();
 
-            $summary = [];
-            $body = '';
+        $summary = [];
+        $body = '<body id="body">';
 
-            foreach($dt as $id=>$line)
-                {
-                    $type = $line['type_cod'];
-                    $name = $line['id_gc'];
+        foreach ($dt as $id => $line) {
+            $type = $line['type_cod'];
+            $name = $line['id_gc'];
 
-                    switch($type)
-                        {
-                            case 'H1':
-                                $summary[$name] = $line['gc_title'];
-                                $body .= '<a name="'.$name.'" id="'.$name.'">';
-                                $body .= '<h1 class="manual">'.$line['gc_title'].'</h1>';
-                                break;
-                                case 'H2':
-                                    $summary[$name] = '.'.$line['gc_title'];
-                                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                                    $body .= '<h2 class="manual">' . $line['gc_title'] . '</h2>';
-                                    break;
-                                case 'H3':
-                                    $summary[$name] = '..' . $line['gc_title'];
-                                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                                    $body .= '<h3 class="manual">' . $line['gc_title'] . '</h3>';
-                                    break;
-                                case 'H4':
-                                    $summary[$name] = '...' . $line['gc_title'];
-                                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                                    $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>';
-                                    break;
-                            default:
-                                $body .= '<p>'.$type.'</p>';
-                                break;
-                        }
-                }
-            pre($summary, false);
-            $dir = '_repository/guide/'.$id.'/export';
-            dircheck($dir);
-            $guide = $dir.'/guide.xhtml';
-
-            $html = $this->body($body);
-            file_put_contents($guide, $html);
-
-
-            $sx = '<tt>';
-            $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/applications/dataverse';
-            $sx .= '<br>';
-            $sx .= 'wget '.PATH.'/_repository/guide/'.$id.'/export/guide.xhtml -O guide.xhtml';
-            $sx .= '</tt>';
-
-            $sx = bs(bsc($sx));
-            return $sx;
-
-
-
+            switch ($type) {
+                case 'H1':
+                    $summary[$name] = $line['gc_title'];
+                    $body .= '<a name="' . $name . '" id="' . $name . '">';
+                    $body .= '<h1 class="manual">' . $line['gc_title'] . '</h1>';
+                    $body .= '</a>';
+                    break;
+                case 'H2':
+                    $summary[$name] = '.' . $line['gc_title'];
+                    $body .= '<a name="' . $name . '" id="' . $name . '">';
+                    $body .= '<h2 class="manual">' . $line['gc_title'] . '</h2>';
+                    $body .= '</a>';
+                    break;
+                case 'H3':
+                    $summary[$name] = '..' . $line['gc_title'];
+                    $body .= '<a name="' . $name . '" id="' . $name . '">';
+                    $body .= '<h3 class="manual">' . $line['gc_title'] . '</h3>';
+                    $body .= '</a>';
+                    break;
+                case 'H4':
+                    $summary[$name] = '...' . $line['gc_title'];
+                    $body .= '<a name="' . $name . '" id="' . $name . '">';
+                    $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>';
+                    $body .= '</a>';
+                    break;
+                default:
+                    $body .= '<p>' . $type . '</p>';
+                    break;
+            }
         }
+        $body .= '</body>';
+        pre($summary, false);
+        $dir = '_repository/guide/' . $id . '/export';
+        dircheck($dir);
+        $guide = $dir . '/guide.xhtml';
+
+        $url = '<a href="' . PATH . '/' . $guide . '" target="_blank">';
+
+        $html = $body;
+        file_put_contents($guide, $html);
+
+
+        $sx = '<tt>';
+        $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/applications/dataverse';
+        $sx .= '<br>';
+        $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
+        $sx .= '</tt>';
+
+        $sx = bs(bsc($sx));
+        return $sx;
+    }
 }

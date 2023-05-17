@@ -131,20 +131,6 @@ class Content extends Model
         return $sx;
     }
 
-    function export($id)
-        {
-          $txt = $this->export_content($id);
-
-            $xhtml = troca($xhtml,'$context',$txt);
-            $dir = '_repository/guide/'.$id.'/export/';
-            dircheck($dir);
-            $file = $dir.'guide.xhtml';
-            file_put_contents($file,$xhtml);
-            $sx = 'wget '.anchor(PATH.'/'.$file);
-            $sx = bs(bsc($sx));
-            return $sx;
-        }
-
     function export_content($id)
         {
             $Block = new \App\Models\Guide\Manual\Block();
