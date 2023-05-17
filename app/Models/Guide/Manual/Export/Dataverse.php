@@ -117,6 +117,7 @@ return $xhtml;
                     break;
                 case 'IMG':
                     $files .= 'wget ' . PATH . '/_repository/guide/' . $id . '/'. $cont.' -O '. $cont . '</a><br>';
+                    $body .= '<img src="/img/'.$cont.'" class="img-fluid">'.cr();
                     //pre($line);
                     //exit;
                     break;
