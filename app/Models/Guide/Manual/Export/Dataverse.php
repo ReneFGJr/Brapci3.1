@@ -115,7 +115,7 @@ class Dataverse extends Model
                         }
                 }
             pre($summary, false);
-            $dir = '_repositoty/guide/'.$id.'/export';
+            $dir = '_repository/guide/'.$id.'/export';
             dircheck($dir);
             $guide = $dir.'/guide.xhtml';
 
