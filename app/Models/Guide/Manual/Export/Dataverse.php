@@ -75,17 +75,20 @@ return $xhtml;
         $dt = $Content
             ->join('guide_content_type', 'gc_type = type_cod')
             ->where('gc_guide', $id)
-            ->where('type_header', 1)
+            //->where('type_header', 1)
             ->where('gc_active', 1)
             ->orderBy('gc_order')
             ->findAll();
 
+        $files = '';
         $summary = [];
-        $body = '<body id="body">';
+        $body =  '<body id="body">' . cr();;
+        $body .= '<div id="summary">{SUMMARY}</div>'.cr();
 
         foreach ($dt as $id => $line) {
             $type = $line['type_cod'];
             $name = $line['id_gc'];
+            $cont = trim($line['gc_title']).trim($line['gc_content']);
 
             switch ($type) {
                 case 'H1':
@@ -112,13 +115,47 @@ return $xhtml;
                     $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>';
                     $body .= '</a>';
                     break;
+                case 'IMG':
+                    $files .= 'wget ' . PATH . '/_repository/guide/' . $id . '/'. $cont.' -O '. $cont . '</a><br>';
+                    //pre($line);
+                    //exit;
+                    break;
                 default:
-                    $body .= '<p>' . $type . '</p>';
+                    $body .= '<p>NOT: ' . $type . '</p>';
                     break;
             }
         }
         $body .= '</body>';
         pre($summary, false);
+        $nr = 0;
+        $sm = '<ol>';
+
+        foreach($summary as $id=>$linea)
+            {
+                $np = 0;
+                for ($r=0;$r < strlen($linea);$r++)
+                    {
+                        if (substr($linea,$r,1) == '.') { $np++; }
+                        if ($np > 3) { break; }
+                    }
+                if ($np > $nr)
+                    {
+                        $sm .= '<ol>';
+                        $nr++;
+                    }
+                if ($np < $nr)
+                    {
+                        $sm .= '</ol>';
+                        $nr--;
+                    }
+                $link = '<a href="#'.$name.'">';
+                $sm .= '<li>'.$link.substr($linea,$np,strlen($linea)).'</a>'.'</li>';
+
+            }
+        $sm .= '</ol>';
+        $sm = troca($sm, '</ol><ol>','');
+
+        $body = troca($body,'{SUMMARY}',$sm);
         $dir = '_repository/guide/' . $id . '/export';
         dircheck($dir);
         $guide = $dir . '/guide.xhtml';
@@ -133,6 +170,11 @@ return $xhtml;
         $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/applications/dataverse';
         $sx .= '<br>';
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
+        $sx .= '<br>';
+        $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/docroot/img';
+        $sx .= '<br>';
+        $sx .= $files;
+        $sx .= '<br>';
         $sx .= '</tt>';
 
         $sx = bs(bsc($sx));
