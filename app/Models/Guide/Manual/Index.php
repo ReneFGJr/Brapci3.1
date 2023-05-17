@@ -50,11 +50,14 @@ class Index extends Model
     var $path_back = PATH . '/guide/manual';
     var $id = 0;
 
-    function index($d1,$d2,$d3='',$d4='')
+    function index($d1='',$d2='',$d3='',$d4='')
         {
             echo "=>$d1,$d2,$d3,$d4";
             switch($d1)
                 {
+                    case 'export':
+                        $sx = $this->export($d2,$d3,$d4);
+                        break;
                     case 'viewid':
                         $id = round('0' . $d2);
                         $sx = bs(bsc($this->view($id), 12));
@@ -85,6 +88,32 @@ class Index extends Model
             return 0;
         }
 
+        function export($d1,$d2,$d3)
+            {
+                $model = ['dataverse'];
+                if ($d2 != '')
+                    {
+                        switch($d2)
+                            {
+                                case 'dataverse':
+                                    $Content = new \App\Models\Guide\Manual\Export\Dataverse();
+                                    $sx = $Content->index($d1);
+                                    return $sx;
+                                default:
+                                    $sx = 'Export not implemented';
+                                    break;
+                            }
+                    } else {
+                        $menu = [];
+                        foreach ($model as $name) {
+                            $menu[PATH . '/guide/manual/export/' . $d1 . '/' . $name] = lang('guide.' . $name);
+                        }
+                        $sx .= menu($menu);
+                    }
+                $sx = bs(bsc($sx));
+                return $sx;
+            }
+
 
         function view($id)
             {
@@ -100,10 +129,17 @@ class Index extends Model
 
                 $sx = h($dt['g_name']);
                 $sx .= '<hr>';
+                $sx .= $this->bnt_export($id);
+                $sx .= '<hr>';
 
                 /* View content */
                 $Content = new \App\Models\Guide\Manual\Content();
                 $sx .= $Content->index('',$id);
+                return $sx;
+            }
+        function bnt_export($id)
+            {
+                $sx = '<a href="'.PATH.'/guide/manual/export/'.$id.'" class="btn btn-outline-primary">'.bsicone('download').' Export</a>';
                 return $sx;
             }
 }

@@ -18,7 +18,7 @@ define("COLLECTION", '');
 
 class Guide extends BaseController
 {
-    public function index($act = '', $subact = '', $id = '', $id2 = '')
+    public function index($act = '', $subact = '', $id = '', $id2 = '',$d3='',$d4='')
     {
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Guide';
@@ -44,13 +44,13 @@ class Guide extends BaseController
             case 'popup':
                 $sx = view('Brapci/Headers/header', $data);
                 $Guide = new \App\Models\Guide\Index();
-                $sx .= $Guide->index($act, $subact, $id, $id2);
+                $sx .= $Guide->index($act, $subact, $id,$id2, $d3, $d4);
                 return $sx;
                 break;
 
             default:
                 $Guide = new \App\Models\Guide\Index();
-                $sx .= $Guide->index($act,$subact, $id, $id2);
+                $sx .= $Guide->index($act,$subact, $id, $id2,$d3,$d4);
                 //$sx .= view('Brapci/Welcome', $data);
                 break;
         }

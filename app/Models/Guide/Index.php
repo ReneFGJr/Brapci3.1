@@ -40,10 +40,11 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1='',$d2='',$d3='')
+    function index($d1='',$d2='',$d3='',$d4='',$d5='')
         {
 
             $sx = '';
+            $sx .= "$d1,$d2,$d3,$d4,$d5";
 
             switch($d1)
                 {
@@ -52,27 +53,23 @@ class Index extends Model
                         break;
                     case 'popup':
                         $Course = new \App\Models\Guide\Course\Index();
-                        $sx .= $Course->index($d2, $d3);
+                        $sx .= $Course->index($d2, $d3, $d4, $d5);
                         break;
                     case 'content':
                         $Content = new \App\Models\Guide\Manual\Content();
-                        $sx .= $Content->index($d2, $d3);
-                        break;
-                    case 'export':
-                        $Content = new \App\Models\Guide\Manual\Content();
-                        $sx .= $Content->export($d2, $d3);
+                        $sx .= $Content->index($d2,$d3, $d4, $d5);
                         break;
                     case 'block':
                         $Block = new \App\Models\Guide\Manual\Block();
-                        $sx .= $Block->index($d2, $d3);
+                        $sx .= $Block->index($d2,$d3, $d4, $d5);
                         break;
                     case 'manual':
                         $Manual = new \App\Models\Guide\Manual\Index();
-                        $sx .= $Manual->index($d2, $d3);
+                        $sx .= $Manual->index($d2,$d3, $d4, $d5);
                         break;
                     case 'course':
                         $Course = new \App\Models\Guide\Course\Index();
-                        $sx .= $Course->index($d2,$d3);
+                        $sx .= $Course->index($d2,$d3, $d4, $d5);
                         break;
                     default:
                         $menu = [];
