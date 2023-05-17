@@ -60,6 +60,7 @@ class LinkProvider extends Model
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
                     $target = $line2->target;
+                    $target = $this->recover_target($target);
 
                     $sx .= $line['lk_doi'] . ';';
                     $sx .= $target['doi'].';';
