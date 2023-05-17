@@ -49,7 +49,7 @@ class LinkProvider extends Model
             ->where('olp_prj', $id)
             ->where('lk_status', 1)
             ->findAll();
-        $sx = ''.
+        $sx = '';
         foreach ($dt as $id => $line) {
             $js = $line['lk_result'];
             $js = json_decode($js);
