@@ -90,6 +90,7 @@ class Index extends Model
 
         function export($d1,$d2,$d3)
             {
+                $sx = '';
                 $model = ['dataverse'];
                 if ($d2 != '')
                     {

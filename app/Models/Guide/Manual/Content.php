@@ -133,30 +133,7 @@ class Content extends Model
 
     function export($id)
         {
-        $xhtml = '<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:o="http://omnifaces.org/ui"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-    </h:head>
-
-    <h:body>
-        <ui:composition template="/dataverse_template.xhtml">
-            <ui:param name="pageTitle" value="Guide"/>
-            <ui:param name="showDataverseHeader" value="false"/>
-            <ui:param name="loginRedirectPage" value="dataverse.xhtml"/>
-            <ui:param name="showMessagePanel" value="#{true}"/>
-            <ui:define name="body">
-                <h1 class="text-center">Guia do Usuário</h1>
-                $context
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
-';          $txt = $this->export_content($id);
+          $txt = $this->export_content($id);
 
             $xhtml = troca($xhtml,'$context',$txt);
             $dir = '_repository/guide/'.$id.'/export/';
