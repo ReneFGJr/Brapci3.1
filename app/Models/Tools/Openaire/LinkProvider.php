@@ -61,7 +61,7 @@ class LinkProvider extends Model
                     $source = $line2->source;
                     $target = $line2->target;
 
-                    $sx .= $target['lk_doi'] . ';';
+                    $sx .= $line['lk_doi'] . ';';
                     $sx .= $target['doi'].';';
                     $sx .= $target['Type'] . ';';
                     $sx .= $target['SType'] . ';';
