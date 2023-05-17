@@ -49,7 +49,7 @@ class LinkProvider extends Model
             ->where('olp_prj', $id)
             ->where('lk_status', 1)
             ->findAll();
-
+        $sx = ''.
         foreach ($dt as $id => $line) {
             $js = $line['lk_result'];
             $js = json_decode($js);
@@ -61,15 +61,20 @@ class LinkProvider extends Model
                     $source = $line2->source;
                     $target = $line2->target;
 
-                    pre($this->recover_target($target));
+                    $sx .= $target['lk_doi'] . ';';
+                    $sx .= $target['doi'].';';
+                    $sx .= $target['Type'] . ';';
+                    $sx .= $target['SType'] . ';';
+                    $sx .= '<br>';
                 }
             }
         }
+        return $sx;
     }
 
     function recover_target($t)
         {
-            $doi = $t->identifiers[0]->identifier.' ('. $t->identifiers[0]->identifier.')';
+            $doi = $t->identifiers[0]->identifier; //.' ('. $t->identifiers[0]->identifier.')';
             $objectType = $t->objectType;
             $objectSubType = $t->objectSubType;
             $dt['doi'] = $doi;
