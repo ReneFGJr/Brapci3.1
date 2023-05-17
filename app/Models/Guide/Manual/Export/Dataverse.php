@@ -124,7 +124,7 @@ class Dataverse extends Model
 
         $url = '<a href="' . PATH . '/' . $guide . '" target="_blank">';
 
-        $html = $body;
+        $html = $this->body($body);
         file_put_contents($guide, $html);
 
 
