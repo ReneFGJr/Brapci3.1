@@ -61,7 +61,7 @@ class LinkProvider extends Model
                     $source = $line2->source;
                     $target = $line2->target;
                     $targetDOI = $target->identifiers[0]->identifier;
-                    if (!isset($targer[0]))
+                    if (!isset($target[0]))
                         {
                             pre($line2);
                             $target[0] = $target;
