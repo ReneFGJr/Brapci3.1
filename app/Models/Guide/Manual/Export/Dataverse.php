@@ -66,6 +66,7 @@ class Dataverse extends Model
     </h:body>
 </html>
 ';
+return $xhtml;
     }
 
     function index($id)
