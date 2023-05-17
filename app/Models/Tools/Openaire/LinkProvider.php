@@ -53,17 +53,15 @@ class LinkProvider extends Model
         foreach ($dt as $id => $line) {
             $js = $line['lk_result'];
             $js = json_decode($js);
-            pre($js,false);
             if ($js == '') {
                 echo h("ERRO");
             } else {
-
-
                 foreach ($js as $ids => $line2) {
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
                     $target = $line2->target;
                     $targetDOI = $target->identifiers[0]->identifier;
+                    pre($target);
                     echo h($targetDOI);
                     //pre($provDOI);
                     //pre($line2);
