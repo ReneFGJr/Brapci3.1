@@ -54,7 +54,7 @@ class LinkProvider extends Model
             $js = $line['lk_result'];
             $js = json_decode($js);
             if ($js == '') {
-                echo h("ERRO");
+                //echo h("ERRO");
             } else {
                 foreach ($js as $ids => $line2) {
                     $pubData = $line2->publicationDate;
