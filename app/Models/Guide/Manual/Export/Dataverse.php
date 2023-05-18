@@ -167,14 +167,18 @@ return $xhtml;
 
 
         $sx = '<tt>';
-        $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/applications/dataverse';
+        $sx .= 'export PAYARA=/usr/local/payara5/glassfish';
+        $sx .= 'cd $PAYARA/domains/domain1/applications/dataverse';
         $sx .= '<br>';
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
         $sx .= '<br>';
-        $sx .= 'cd /usr/local/payara5/glassfish/domains/domain1/docroot/img';
+        $sx .= 'cd $PAYARA/domains/domain1/docroot/img';
         $sx .= '<br>';
         $sx .= $files;
         $sx .= '<br>';
+        $sx .= '$PAYARA/A/bin/asadmin stop-domain';
+        $sx .= '<br>';
+        $sx .= '$PAYARA/A/bin/asadmin start-domain';
         $sx .= '</tt>';
 
         $sx .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.'.date("y.md.Hm").'</div>';
