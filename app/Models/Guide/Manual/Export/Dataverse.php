@@ -87,6 +87,7 @@ return $xhtml;
         $body =  '<body id="body">' . cr();;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
         $nv = [0,0,0,0];
+        $pause = 'read -s<br>clear<br>';
 
         foreach ($dt as $idx => $line) {
             $type = $line['type_cod'];
@@ -140,7 +141,10 @@ return $xhtml;
                         {
                             $erro .= '<br>' . $file . ' not found';
                             $file = '<span class="text-danger">img/guide/noimage.jpg</span>';
+                        } else {
+                            $files .= 'rm ' . $cont . '<br><br>';
                         }
+
                     $files .= 'wget ' . PATH . '/'. $file . ' -O ' . $cont . '</a><br>';
                     $body .= '<div class="col-sm-12"><img src="/img/'.$cont. '" class="img-fluid"/></div>'.cr();
                     //pre($line);
@@ -180,8 +184,11 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= 'echo "Copiando Guia"';
         $sx .= '<br>';
+        $sx .= 'rm guide.xhtml';
+        $sx .= '<br>';
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
         $sx .= '<br>';
+        $sx .= $pause;
         $sx .= 'read<br>clear<br>';
         $sx .= 'echo "Copiando Imagens"';
         $sx .= '<br>';
@@ -191,13 +198,14 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= $files;
         $sx .= '<br>';
-        $sx .= 'read<br>clear<br>';
+        $sx .= $pause;
         $sx .= 'echo "Reinicializando o Payara"';
         $sx .= '<br>';
         $sx .= '$PAYARA/bin/asadmin stop-domain';
         $sx .= '<br>';
         $sx .= '$PAYARA/bin/asadmin start-domain';
         $sx .= '<br>';
+        $sx .= $pause;
         $sx .= 'echo "Fim do processo"';
         $sx .= '<br>';
         $sx .= '</tt>';
