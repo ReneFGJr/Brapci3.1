@@ -178,7 +178,7 @@ return $xhtml;
 
 
         $url = '<a href="' . PATH . '/' . $guide . '" target="_blank">';
-        $body .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . date("y.md.Hm") . '</div>';
+        $body .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . date("y.md.Hs") . '</div>';
 
         $html = $this->body($body);
 
