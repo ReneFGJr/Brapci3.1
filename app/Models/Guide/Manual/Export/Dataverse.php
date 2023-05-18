@@ -94,7 +94,7 @@ return $xhtml;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
         $nv = [0,0,0,0];
         $pause = '<br>';
-        $ver = date("y.md.Hs");
+        $ver = date("y.md.His");
 
         foreach ($dt as $idx => $line) {
             $type = $line['type_cod'];
