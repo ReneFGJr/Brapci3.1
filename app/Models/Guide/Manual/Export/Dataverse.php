@@ -106,9 +106,8 @@ return $xhtml;
                     $summary_name[$name] = $line['gc_title'];
                     $summary[$name] = [];
                     $nv = [$name, 0, 0, 0];
-                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                    $body .= '<h1 class="manual">' . $line['gc_title'] . '</h1>';
-                    $body .= '</a>' . cr();
+                    $body .= '<a name="' . $name . '" id="' . $name . '"></a>'.cr();
+                    $body .= '<h1 class="manual">' . $line['gc_title'] . '</h1>'.cr();
                     break;
                 case 'H2':
                     $nv[1] = $name;
@@ -116,9 +115,8 @@ return $xhtml;
                     $item[$name] = [];
                     $summary[$nv[0]] = $item;
                     $summary_name[$name] = $line['gc_title'];
-                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                    $body .= '<h2 class="manual">' . $line['gc_title'] . '</h2>';
-                    $body .= '</a>' . cr();
+                    $body .= '<a name="' . $name . '" id="' . $name . '"></a>'.cr();
+                    $body .= '<h2 class="manual">' . $line['gc_title'] . '</h2>'.cr();
                     break;
                 case 'H3':
                     $nv[2] = $name;
@@ -127,9 +125,8 @@ return $xhtml;
                     $summary[$nv[0]][$nv[1]]= $item;
 
                     $summary_name[$name] = $line['gc_title'];
-                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                    $body .= '<h3 class="manual">' . $line['gc_title'] . '</h3>';
-                    $body .= '</a>' . cr();
+                    $body .= '<a name="' . $name . '" id="' . $name . '"></a>'.cr();
+                    $body .= '<h3 class="manual">' . $line['gc_title'] . '</h3>'.cr();
                     break;
                 case 'H4':
                     $nv[3] = $name;
@@ -138,9 +135,8 @@ return $xhtml;
                     $summary[$nv[0]][$nv[1]][$nv[2]] = $item;
 
                     $summary_name[$name] = $line['gc_title'];
-                    $body .= '<a name="' . $name . '" id="' . $name . '">';
-                    $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>';
-                    $body .= '</a>' . cr();
+                    $body .= '<a name="' . $name . '" id="' . $name . '"></a>'.cr();
+                    $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>'.cr();
                     break;
                 case 'IMG':
                     $file = '_repository/guide/' . $id . '/' . $cont;
