@@ -130,9 +130,9 @@ return $xhtml;
             }
         }
         $body .= '</body>';
-        pre($summary, false);
+
         $nr = 0;
-        $sm = '<ol>';
+        $sm = cr().'<ul>'.cr();
 
         foreach($summary as $id=>$linea)
             {
@@ -142,22 +142,18 @@ return $xhtml;
                         if (substr($linea,$r,1) == '.') { $np++; }
                         if ($np > 3) { break; }
                     }
-                if ($np > $nr)
-                    {
-                        $sm .= '<ol>';
-                        $nr++;
-                    }
-                if ($np < $nr)
-                    {
-                        $sm .= '</ol>';
-                        $nr--;
-                    }
                 $link = '<a href="#'.$name.'">';
-                $sm .= '<li>'.$link.substr($linea,$np,strlen($linea)).'</a>'. '</li>' . cr();
+                $al = '<li>';
+                $af = '</li>';
+                for ($r=0;$r < $np;$r++)
+                    {
+                        $al .= '<ul><li>';
+                        $af = '</li></ul>'.$af;
+                    }
+                $sm .= $al.$link.substr($linea,$np,strlen($linea)).'</a>'. $af . cr();
 
             }
-        $sm .= '</ol>';
-        $sm = troca($sm, '</ol><ol>','');
+        $sm .= '</ul>'.cr();
 
         $body = troca($body,'{SUMMARY}',$sm);
         $dir = '_repository/guide/' . $id . '/export';
