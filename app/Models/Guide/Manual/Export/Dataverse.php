@@ -199,7 +199,7 @@ return $xhtml;
 
             foreach($summary as $idn1=>$subn1)
                 {
-                    $link = '<a href="#'.$idn1.">';
+                    $link = '<a href="#'.$idn1.'">';
                     $linka = '</a>';
                     $sx .= '<li>'.$link.$label[$idn1].$linka;
                     if (is_array($subn1))
