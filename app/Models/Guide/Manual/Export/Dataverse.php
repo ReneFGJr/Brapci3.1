@@ -88,7 +88,7 @@ return $xhtml;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
         $nv = [0,0,0,0];
 
-        foreach ($dt as $id => $line) {
+        foreach ($dt as $idx => $line) {
             $type = $line['type_cod'];
             $name = $line['id_gc'];
             $cont = trim($line['gc_title']).trim($line['gc_content']);
