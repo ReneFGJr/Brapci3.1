@@ -145,7 +145,7 @@ return $xhtml;
                             $files .= 'rm ' . $cont . '<br><br>';
                         }
 
-                    $files .= 'wget ' . PATH . '/'. $file . ' -O ' . $cont . '</a><br>';
+                    $files .= 'wget ' . PATH . '/'. $file . ' -o ' . $cont . '-q</a><br>';
                     $body .= '<div class="col-sm-12"><img src="/img/'.$cont. '" class="img-fluid"/></div>'.cr();
                     //pre($line);
                     //exit;
