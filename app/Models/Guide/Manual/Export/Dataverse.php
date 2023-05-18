@@ -93,7 +93,7 @@ return $xhtml;
         $body =  '<body id="body">' . cr();;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
         $nv = [0,0,0,0];
-        $pause = 'read -t 5 -p"Press any key to continue" ';
+        $pause = '<br>';
 
         foreach ($dt as $idx => $line) {
             $type = $line['type_cod'];
