@@ -150,7 +150,7 @@ return $xhtml;
                         }
 
                     $files .= 'wget ' . PATH . '/'. $file . ' -O ' . $cont . ' -q</a><br>';
-                    $body .= '<div class="col-sm-12"><img src="/img/'.$cont. '" class="img-fluid"/></div>'.cr();
+                    $body .= '<div class="col-sm-12"><img src="/img/'.$cont. '" class="img-fluid" style="width: 100%; border:1px solid #000; padding: 4px;"/></div>'.cr();
                     //pre($line);
                     //exit;
                     break;
