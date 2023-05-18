@@ -171,16 +171,21 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= 'cd $PAYARA/domains/domain1/applications/dataverse';
         $sx .= '<br>';
+        $sx .= 'echo "Copiando Guia"';
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
         $sx .= '<br>';
-        $sx .= 'cd $PAYARA/domains/domain1/docroot/img';
+        $sx .= 'echo "Copiando Imagens"';
+        $sx .= 'mkdir $PAYARA/domains/domain1/applications/dataverse/img';
+        $sx .= 'cd $PAYARA/domains/domain1/applications/dataverse/img';
         $sx .= '<br>';
         $sx .= $files;
         $sx .= '<br>';
+        $sx .= 'echo "Reinicializando o Payara"';
         $sx .= '$PAYARA/bin/asadmin stop-domain';
         $sx .= '<br>';
         $sx .= '$PAYARA/bin/asadmin start-domain';
         $sx .= '</tt>';
+        $sx .= 'echo "Fim do processo"';
 
         $sx .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.'.date("y.md.Hm").'</div>';
 
@@ -194,7 +199,9 @@ return $xhtml;
 
             foreach($summary as $idn1=>$subn1)
                 {
-                    $sx .= '<li>'.$label[$idn1];
+                    $link = '<a href="#'.$idn1.">';
+                    $linka = '</a>';
+                    $sx .= '<li>'.$link.$label[$idn1].$linka;
                     if (is_array($subn1))
                         {
                             $sx .= $this->summary($subn1, $label);
