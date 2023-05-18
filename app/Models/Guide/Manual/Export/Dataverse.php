@@ -71,6 +71,7 @@ return $xhtml;
 
     function index($id)
     {
+        $erro = '';
         $Content = new \App\Models\Guide\Manual\Content();
         $dt = $Content
             ->join('guide_content_type', 'gc_type = type_cod')
@@ -137,6 +138,7 @@ return $xhtml;
                     $file = '/_repository/guide/' . $id . '/' . $cont;
                     if (!file_exists($file))
                         {
+                            $erro .= '<br>' . $file . ' not found';
                             $file = '<span class="text-danger">/img/guide/noimage.jpg</span>';
                         }
                     $files .= 'wget ' . PATH . $file . ' -O ' . $cont . '</a><br>';
@@ -197,9 +199,11 @@ return $xhtml;
         $sx .= '$PAYARA/bin/asadmin start-domain';
         $sx .= '<br>';
         $sx .= 'echo "Fim do processo"';
+        $sx .= '<br>';
         $sx .= '</tt>';
 
-
+        $sx .= '<br>';
+        $sx .= bsmessage($erro,3);
         $sx .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.'.date("y.md.Hm").'</div>';
 
         $sx = bs(bsc($sx));
