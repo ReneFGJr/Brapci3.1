@@ -186,7 +186,7 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= 'rm guide.xhtml';
         $sx .= '<br>';
-        $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
+        $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -o guide.xhtml -q' . '</a>';
         $sx .= '<br>';
         $sx .= $pause;
         $sx .= 'read<br>clear<br>';
