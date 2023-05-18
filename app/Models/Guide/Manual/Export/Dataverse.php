@@ -135,13 +135,13 @@ return $xhtml;
                     $body .= '</a>' . cr();
                     break;
                 case 'IMG':
-                    $file = '/_repository/guide/' . $id . '/' . $cont;
+                    $file = '_repository/guide/' . $id . '/' . $cont;
                     if (!file_exists($file))
                         {
                             $erro .= '<br>' . $file . ' not found';
-                            $file = '<span class="text-danger">/img/guide/noimage.jpg</span>';
+                            $file = '<span class="text-danger">img/guide/noimage.jpg</span>';
                         }
-                    $files .= 'wget ' . PATH . $file . ' -O ' . $cont . '</a><br>';
+                    $files .= 'wget ' . PATH . '/'. $file . ' -O ' . $cont . '</a><br>';
                     $body .= '<img src="/img/'.$cont.'" class="img-fluid"/>'.cr();
                     //pre($line);
                     //exit;
