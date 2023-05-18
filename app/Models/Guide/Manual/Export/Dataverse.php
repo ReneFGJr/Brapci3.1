@@ -59,8 +59,12 @@ class Dataverse extends Model
             <ui:param name="loginRedirectPage" value="dataverse.xhtml"/>
             <ui:param name="showMessagePanel" value="#{true}"/>
             <ui:define name="body">
+                <div class="row">
+                <div class="col-md-12">
                 <h1 class="text-center">Guia do Usuário</h1>
                 ' . $context . '
+                </div>
+                </div>
             </ui:define>
         </ui:composition>
     </h:body>
@@ -187,7 +191,6 @@ return $xhtml;
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml -q' . '</a>';
         $sx .= '<br>';
         $sx .= $pause;
-        $sx .= 'read<br>clear<br>';
         $sx .= 'echo "Copiando Imagens"';
         $sx .= '<br>';
         $sx .= 'mkdir $PAYARA/domains/domain1/applications/dataverse/img';
