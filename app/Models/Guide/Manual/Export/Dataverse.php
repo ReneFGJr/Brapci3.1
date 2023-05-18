@@ -184,9 +184,12 @@ return $xhtml;
 
 
         file_put_contents($guide, $html);
+        $sx = '';
 
+        $sx .= bsmessage($guide.' criado com sucesso');
+        $sx .= '<br>Comandos para instalação:<br>';
 
-        $sx = '<tt>';
+        $sx .= '<tt>';
         $sx .= 'export PAYARA=/usr/local/payara5/glassfish';
         $sx .= '<br>';
         $sx .= 'cd $PAYARA/domains/domain1/applications/dataverse';
