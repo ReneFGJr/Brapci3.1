@@ -94,6 +94,7 @@ return $xhtml;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
         $nv = [0,0,0,0];
         $pause = '<br>';
+        $ver = date("y.md.Hs");
 
         foreach ($dt as $idx => $line) {
             $type = $line['type_cod'];
@@ -178,7 +179,7 @@ return $xhtml;
 
 
         $url = '<a href="' . PATH . '/' . $guide . '" target="_blank">';
-        $body .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . date("y.md.Hs") . '</div>';
+        $body .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . $ver . '</div>';
 
         $html = $this->body($body);
 
@@ -186,7 +187,7 @@ return $xhtml;
         file_put_contents($guide, $html);
         $sx = '';
 
-        $sx .= bsmessage($guide.' criado com sucesso');
+        $sx .= bsmessage($guide.' criado com sucesso - versão '.$ver);
         $sx .= '<br>Comandos para instalação:<br>';
 
         $sx .= '<tt>';
