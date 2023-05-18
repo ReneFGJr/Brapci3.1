@@ -55,6 +55,10 @@ class Index extends Model
             echo "=>$d1,$d2,$d3,$d4";
             switch($d1)
                 {
+                    case 'style':
+                        $Style = new \App\Models\Guide\Manual\Style();
+                        $sx = $Style->index($d2, $d3, $d4);
+                        break;
                     case 'export':
                         $sx = $this->export($d2,$d3,$d4);
                         break;
@@ -131,6 +135,7 @@ class Index extends Model
                 $sx = h($dt['g_name']);
                 $sx .= '<hr>';
                 $sx .= $this->bnt_export($id);
+                $sx .= $this->bnt_style($id);
                 $sx .= '<hr>';
 
                 /* View content */
@@ -143,4 +148,10 @@ class Index extends Model
                 $sx = '<a href="'.PATH.'/guide/manual/export/'.$id.'" class="btn btn-outline-primary">'.bsicone('download').' Export</a>';
                 return $sx;
             }
+
+        function bnt_style($id)
+        {
+            $sx = '<a href="' . PATH . '/guide/manual/style/' . $id . '" class="btn btn-outline-primary ms-2">' . bsicone('text') . ' CSS Style</a>';
+            return $sx;
+        }
 }
