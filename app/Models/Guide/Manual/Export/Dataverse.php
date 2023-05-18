@@ -95,25 +95,25 @@ return $xhtml;
                     $summary[$name] = $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h1 class="manual">' . $line['gc_title'] . '</h1>';
-                    $body .= '</a>';
+                    $body .= '</a>' . cr();
                     break;
                 case 'H2':
                     $summary[$name] = '.' . $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h2 class="manual">' . $line['gc_title'] . '</h2>';
-                    $body .= '</a>';
+                    $body .= '</a>' . cr();
                     break;
                 case 'H3':
                     $summary[$name] = '..' . $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h3 class="manual">' . $line['gc_title'] . '</h3>';
-                    $body .= '</a>';
+                    $body .= '</a>' . cr();
                     break;
                 case 'H4':
                     $summary[$name] = '...' . $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>';
-                    $body .= '</a>';
+                    $body .= '</a>' . cr();
                     break;
                 case 'IMG':
                     $files .= 'wget ' . PATH . '/_repository/guide/' . $id . '/'. $cont.' -O '. $cont . '</a><br>';
@@ -122,10 +122,10 @@ return $xhtml;
                     //exit;
                     break;
                 case 'P':
-                    $body .= '<p class="p guide">'.$line['gc_content'].'</p>';
+                    $body .= '<p class="p guide">'.$line['gc_content']. '</p>' . cr();
                     break;
                 default:
-                    $body .= '<p>NOT: ' . $type . '</p>';
+                    $body .= '<p>NOT: ' . $type . '</p>'.cr();
                     break;
             }
         }
@@ -153,7 +153,7 @@ return $xhtml;
                         $nr--;
                     }
                 $link = '<a href="#'.$name.'">';
-                $sm .= '<li>'.$link.substr($linea,$np,strlen($linea)).'</a>'.'</li>';
+                $sm .= '<li>'.$link.substr($linea,$np,strlen($linea)).'</a>'. '</li>' . cr();
 
             }
         $sm .= '</ol>';
