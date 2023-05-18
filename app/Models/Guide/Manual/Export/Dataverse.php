@@ -143,7 +143,7 @@ return $xhtml;
                             $file = '<span class="text-danger">img/guide/noimage.jpg</span>';
                         }
 
-                    $files .= 'wget ' . PATH . '/'. $file . ' -o ' . $cont . ' -q</a><br>';
+                    $files .= 'wget ' . PATH . '/'. $file . ' -O ' . $cont . ' -q</a><br>';
                     $body .= '<div class="col-sm-12"><img src="/img/'.$cont. '" class="img-fluid"/></div>'.cr();
                     //pre($line);
                     //exit;
@@ -184,7 +184,7 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= 'rm guide.xhtml';
         $sx .= '<br>';
-        $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -o guide.xhtml -q' . '</a>';
+        $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml -q' . '</a>';
         $sx .= '<br>';
         $sx .= $pause;
         $sx .= 'read<br>clear<br>';
