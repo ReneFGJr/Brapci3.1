@@ -141,8 +141,6 @@ return $xhtml;
                         {
                             $erro .= '<br>' . $file . ' not found';
                             $file = '<span class="text-danger">img/guide/noimage.jpg</span>';
-                        } else {
-                            $files .= 'rm ' . $cont . '<br><br>';
                         }
 
                     $files .= 'wget ' . PATH . '/'. $file . ' -o ' . $cont . '-q</a><br>';
