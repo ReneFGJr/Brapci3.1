@@ -184,8 +184,10 @@ return $xhtml;
         $sx .= '$PAYARA/bin/asadmin stop-domain';
         $sx .= '<br>';
         $sx .= '$PAYARA/bin/asadmin start-domain';
-        $sx .= '</tt>';
+        $sx .= '<br>';
         $sx .= 'echo "Fim do processo"';
+        $sx .= '</tt>';
+
 
         $sx .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.'.date("y.md.Hm").'</div>';
 
