@@ -134,7 +134,12 @@ return $xhtml;
                     $body .= '</a>' . cr();
                     break;
                 case 'IMG':
-                    $files .= 'wget ' . PATH . '/_repository/guide/' . $id . '/'. $cont.' -O '. $cont . '</a><br>';
+                    $file = '/_repository/guide/' . $id . '/' . $cont;
+                    if (!file_exists($file))
+                        {
+                            $file = '/img/guide/noimage.jpg';
+                        }
+                    $files .= 'wget ' . PATH . $file . ' -O ' . $cont . '</a><br>';
                     $body .= '<img src="/img/'.$cont.'" class="img-fluid"/>'.cr();
                     //pre($line);
                     //exit;
@@ -172,15 +177,19 @@ return $xhtml;
         $sx .= 'cd $PAYARA/domains/domain1/applications/dataverse';
         $sx .= '<br>';
         $sx .= 'echo "Copiando Guia"';
+        $sx .= '<br>';
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml' . '</a>';
         $sx .= '<br>';
         $sx .= 'echo "Copiando Imagens"';
+        $sx .= '<br>';
         $sx .= 'mkdir $PAYARA/domains/domain1/applications/dataverse/img';
+        $sx .= '<br>';
         $sx .= 'cd $PAYARA/domains/domain1/applications/dataverse/img';
         $sx .= '<br>';
         $sx .= $files;
         $sx .= '<br>';
         $sx .= 'echo "Reinicializando o Payara"';
+        $sx .= '<br>';
         $sx .= '$PAYARA/bin/asadmin stop-domain';
         $sx .= '<br>';
         $sx .= '$PAYARA/bin/asadmin start-domain';
