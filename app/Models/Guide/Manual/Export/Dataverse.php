@@ -177,6 +177,8 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= '</tt>';
 
+        $sx .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.'.date("y.md.Hm").'</div>';
+
         $sx = bs(bsc($sx));
         return $sx;
     }
