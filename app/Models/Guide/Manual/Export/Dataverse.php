@@ -63,8 +63,9 @@ class Dataverse extends Model
                 <div class="row">
                 <div class="col-md-12">
                 <h1 class="text-center">Guia do Usuário</h1>
-                ' . $context . '
                 </div>
+                ' . $context . '
+
                 </div>
             </ui:define>
         </ui:composition>
@@ -92,7 +93,7 @@ return $xhtml;
         $body =  '<body id="body">' . cr();;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
         $nv = [0,0,0,0];
-        $pause = 'read -rsn1 -t 5 -p"Press any key to continue";echo <br> ';
+        $pause = 'read -t 5 -p"Press any key to continue" ';
 
         foreach ($dt as $idx => $line) {
             $type = $line['type_cod'];
@@ -174,9 +175,13 @@ return $xhtml;
         dircheck($dir);
         $guide = $dir . '/guide.xhtml';
 
+
+
         $url = '<a href="' . PATH . '/' . $guide . '" target="_blank">';
 
         $html = $this->body($body);
+        $html .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . date("y.md.Hm") . '</div>';
+
         file_put_contents($guide, $html);
 
 
@@ -187,7 +192,6 @@ return $xhtml;
         $sx .= '<br>';
         $sx .= 'echo "Copiando Guia"';
         $sx .= '<br>';
-        $sx .= 'rm guide.xhtml';
         $sx .= '<br>';
         $sx .= 'wget ' . $url . PATH . '/_repository/guide/' . $id . '/export/guide.xhtml -O guide.xhtml -q' . '</a>';
         $sx .= '<br>';
@@ -214,7 +218,6 @@ return $xhtml;
 
         $sx .= '<br>';
         $sx .= bsmessage($erro,3);
-        $sx .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.'.date("y.md.Hm").'</div>';
 
         $sx = bs(bsc($sx));
         return $sx;
