@@ -178,9 +178,10 @@ return $xhtml;
 
 
         $url = '<a href="' . PATH . '/' . $guide . '" target="_blank">';
+        $body .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . date("y.md.Hm") . '</div>';
 
         $html = $this->body($body);
-        $html .= '<div id="guide_version" style="font-size: 0.7em;">Guide Version v: 0.' . date("y.md.Hm") . '</div>';
+
 
         file_put_contents($guide, $html);
 
