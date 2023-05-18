@@ -142,15 +142,15 @@ return $xhtml;
                             $file = '<span class="text-danger">img/guide/noimage.jpg</span>';
                         }
                     $files .= 'wget ' . PATH . '/'. $file . ' -O ' . $cont . '</a><br>';
-                    $body .= '<img src="/img/'.$cont.'" class="img-fluid"/>'.cr();
+                    $body .= '<div class="col-sm-12"><img src="/img/'.$cont. '" class="img-fluid"/></div>'.cr();
                     //pre($line);
                     //exit;
                     break;
                 case 'P':
-                    $body .= '<p class="p guide">'.$line['gc_content']. '</p>' . cr();
+                    $body .= '<div class="col-sm-12"><p class="p guide">'.$line['gc_content']. '</p></div>' . cr();
                     break;
                 default:
-                    $body .= '<p>NOT: ' . $type . '</p>'.cr();
+                    $body .= '<div class="col-sm-12"><p>NOT: ' . $type . '</p></div>'.cr();
                     break;
             }
         }
