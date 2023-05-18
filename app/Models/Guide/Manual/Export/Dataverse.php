@@ -82,8 +82,10 @@ return $xhtml;
 
         $files = '';
         $summary = [];
+        $summary_name = [];
         $body =  '<body id="body">' . cr();;
         $body .= '<div id="summary">{SUMMARY}</div>'.cr();
+        $nv = [0,0,0,0];
 
         foreach ($dt as $id => $line) {
             $type = $line['type_cod'];
@@ -92,25 +94,41 @@ return $xhtml;
 
             switch ($type) {
                 case 'H1':
-                    $summary[$name] = $line['gc_title'];
+                    $summary_name[$name] = $line['gc_title'];
+                    $summary[$name] = [];
+                    $nv = [$name, 0, 0, 0];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h1 class="manual">' . $line['gc_title'] . '</h1>';
                     $body .= '</a>' . cr();
                     break;
                 case 'H2':
-                    $summary[$name] = '.' . $line['gc_title'];
+                    $nv[1] = $name;
+                    $item = $summary[$nv[0]];
+                    $item[$name] = [];
+                    $summary[$nv[0]] = $item;
+                    $summary_name[$name] = $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h2 class="manual">' . $line['gc_title'] . '</h2>';
                     $body .= '</a>' . cr();
                     break;
                 case 'H3':
-                    $summary[$name] = '..' . $line['gc_title'];
+                    $nv[2] = $name;
+                    $item = $summary[$nv[0]][$nv[1]];
+                    $item[$name] = [];
+                    $summary[$nv[0]][$nv[1]]= $item;
+
+                    $summary_name[$name] = $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h3 class="manual">' . $line['gc_title'] . '</h3>';
                     $body .= '</a>' . cr();
                     break;
                 case 'H4':
-                    $summary[$name] = '...' . $line['gc_title'];
+                    $nv[3] = $name;
+                    $item = $summary[$nv[0]][$nv[1]][$nv[2]];
+                    $item[$name] = [];
+                    $summary[$nv[0]][$nv[1]][$nv[2]] = $item;
+
+                    $summary_name[$name] = $line['gc_title'];
                     $body .= '<a name="' . $name . '" id="' . $name . '">';
                     $body .= '<h4 class="manual">' . $line['gc_title'] . '</h4>';
                     $body .= '</a>' . cr();
@@ -132,28 +150,10 @@ return $xhtml;
         $body .= '</body>';
 
         $nr = 0;
-        $sm = cr().'<ul>'.cr();
 
-        foreach($summary as $id=>$linea)
-            {
-                $np = 0;
-                for ($r=0;$r < strlen($linea);$r++)
-                    {
-                        if (substr($linea,$r,1) == '.') { $np++; }
-                        if ($np > 3) { break; }
-                    }
-                $link = '<a href="#'.$name.'">';
-                $al = '<li>';
-                $af = '</li>';
-                for ($r=0;$r < $np;$r++)
-                    {
-                        $al .= '<ul><li>';
-                        $af = '</li></ul>'.$af;
-                    }
-                $sm .= $al.$link.substr($linea,$np,strlen($linea)).'</a>'. $af . cr();
+        $sm = $this->summary($summary,$summary_name);
 
-            }
-        $sm .= '</ul>'.cr();
+        echo $sm;
 
         $body = troca($body,'{SUMMARY}',$sm);
         $dir = '_repository/guide/' . $id . '/export';
@@ -180,4 +180,21 @@ return $xhtml;
         $sx = bs(bsc($sx));
         return $sx;
     }
+
+    function summary($summary,$label)
+        {
+            $sx = '<ol>';
+
+            foreach($summary as $idn1=>$subn1)
+                {
+                    $sx .= '<li>'.$label[$idn1];
+                    if (is_array($subn1))
+                        {
+                            $sx .= $this->summary($subn1, $label);
+                        }
+                    $sx .= '</li>';
+                }
+            $sx .= '</ol>';
+            return $sx;
+        }
 }
