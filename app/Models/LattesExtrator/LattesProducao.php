@@ -181,6 +181,7 @@ class LattesProducao extends Model
 	function producao_xml($id)
 	{
 		$Lang = new \App\Models\Language\Lang();
+		$Keywords = new \App\Models\LattesExtrator\LattesKeywords();
 		$LattesExtrator = new \App\Models\LattesExtrator\Index();
 		$file = $LattesExtrator->fileName($id);
 		if (!file_exists($file)) {
@@ -192,6 +193,7 @@ class LattesProducao extends Model
 		$xml = (array)$xml;
 		if (isset($xml['PRODUCAO-BIBLIOGRAFICA'])) {
 			$prod = (array)$xml['PRODUCAO-BIBLIOGRAFICA'];
+
 			if (isset($prod['ARTIGOS-PUBLICADOS'])) {
 				$arti = (array)$prod['ARTIGOS-PUBLICADOS'];
 				$arti = (array)$arti['ARTIGO-PUBLICADO'];
@@ -267,7 +269,17 @@ class LattesProducao extends Model
 						->findAll();
 
 					if (count($rst) == 0) {
-						$this->insert($p);
+						$idp = $this->set($p)->insert();
+					} else {
+						$idp = $rst[0]['id_lp'];
+					}
+
+					/****************** KEYWORDS */
+					if (isset($line['PALAVRAS-CHAVE']))
+					{
+						$dados = (array)$line['PALAVRAS-CHAVE'];
+						$dados = (array)$dados['@attributes'];
+						$Keywords->keyword_xml($idp, $dados, 'A');
 					}
 				}
 			}
