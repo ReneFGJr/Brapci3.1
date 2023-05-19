@@ -54,10 +54,77 @@ class Translate extends Model
                         $_SESSION['translate'] = $d3;
                         $sx .= $this->view($d3);
                         break;
+                    case 'mass':
+                        $_SESSION['translate'] = $d3;
+                        $sx .= $this->mass($d3);
+                        break;
+                    case 'export':
+                        $_SESSION['translate'] = $d3;
+                        $sx .= $this->download($d3);
+                        break;
                     default:
                         $sx .= $this->actions();
                         $sx .= $this->files();
                         break;
+                }
+            return $sx;
+        }
+
+    function download($fn)
+        {
+            $sx = '';
+            $dir = '_repository/translate/';
+            $file = $dir.$fn;
+            echo $file;
+            if (file_exists($file))
+                {
+                    $dt = $this
+                        ->where('dvn_file', $fn)
+                        ->findAll();
+
+                    $dd = [];
+                    foreach($dt as $id=>$line)
+                        {
+                            $field = $line['dvn_field'];
+                            $dd[$field] = $line['dvn_pt'];
+                        }
+                    $txt = file_get_contents($file);
+                    $ln = explode(chr(10),$txt);
+                    $tx = '';
+                    foreach($ln as $id=>$l)
+                        {
+                            $c = substr($l,0,1);
+                            switch($c)
+                                {
+                                    case '#':
+                                        $tx .= $l.chr(10);
+                                        break;
+                                    default:
+                                        if (($pos=strpos($l,'=')) > 0)
+                                            {
+                                                $lb = trim(substr($l,0,$pos));
+                                                if (isset($dd[$lb]))
+                                                    {
+                                                        $tx .= $lb.'='.$dd[$lb] . chr(10);
+                                                    } else {
+                                                        $tx .= $l.chr(10);
+                                                    }
+                                            } else {
+                                                $tx .= $l.chr(10);
+                                            }
+                                        break;
+                                }
+                        }
+                    $fileD = troca($file, '.properties', '_pt.properties');
+                    file_put_contents($fileD,$tx);
+                    file_put_contents($fileD.'_utf8', utf8_decode($tx));
+                    $sx .= bsmessage(lang('brapci.exported_success'));
+                    $sx .= '<ul>';
+                    $sx .= '<li>'.anchor(URL.'/'.$fileD,$fileD).'</li>';
+                    $sx .= '<li>' . anchor(URL . '/' .$fileD . '_utf8', $fileD . '_utf8').'</li>';
+                    $sx .= '</ul>';
+                } else {
+                    $sx .= bsmessage('File not found '.$file);
                 }
             return $sx;
         }
@@ -160,6 +227,82 @@ class Translate extends Model
             return $sx;
         }
 
+    function btn_translate($file)
+        {
+            $sx = '<a href="'.PATH. 'dados/dataverse/translate/mass/'.$file.'" class="btn btn-outline-primary me-2 small mb-2">'.bsicone('import').' '.lang('brapci.translate').'</a>';
+            return $sx;
+        }
+
+    function btn_export($file)
+    {
+        $sx = '<a href="' . PATH . 'dados/dataverse/translate/export/' . $file . '" class="btn btn-outline-primary me-2 small mb-2">' . bsicone('download') . ' ' . lang('brapci.download') . '</a>';
+        return $sx;
+    }
+
+    function save_translate($file,$l)
+        {
+            $sx = '';
+            $ln = troca($l,chr(10),chr(13));
+            while (strpos($ln,chr(13).chr(13)))
+                {
+                    $ln = troca($ln, chr(13) . chr(13), chr(13));
+                }
+            $l = explode(chr(13),$ln);
+            $sx .= '<ul>';
+            foreach($l as $idx=>$ln)
+                {
+                    $txt = trim(substr($ln,strpos($ln,' ')));
+                    $idn = sonumero(substr($ln,0,strpos($ln,']')));
+                    $dt = [];
+                    $dt['dvn_pt'] = $txt;
+                    $this->set($dt)
+                        ->where('id_dvn',$idn)
+                        ->update();
+                    $sx .= '<li>'.$idn.' update'.'</li>'.cr();
+                }
+            $sx .= '</ul>';
+            return $sx;
+        }
+
+    function mass($file)
+    {
+        $sx = '';
+
+        $act = get("action");
+        $rst = get("result");
+        $sxr = '';
+
+        if (($act != '') and ($rst != ''))
+            {
+                $sxr = $this->save_translate($file,$rst);
+            }
+        $dt = $this
+            ->where('dvn_file', $file)
+            ->where('dvn_pt', '')
+            ->findAll();
+        $txt = '';
+        foreach($dt as $id=>$line)
+            {
+                $txt .= '['.$line['id_dvn'].'] ';
+                $txt .= $line['dvn_en'];
+                $txt .= cr();
+            }
+        $sx = form_open();
+        $sx .= '<br>'.lang('brapci.source');
+        $sx .= form_textarea('source',$txt,['disabled'=>'false','class'=>'mb-form-control full']);
+
+        $sx .= '<br>' . lang('brapci.result');
+        $sx .= form_textarea('result', '', ['enabled' => 'true', 'class' => 'mb-form-control full']);
+        $sx .= '<br>';
+        $sx .= '<br>';
+        $sx .= form_submit('action',lang('brapci.save'),['class'=>'btn btn-primary']);
+        $sx .= form_close();
+
+        $sx .= $sxr;
+
+        return $sx;
+    }
+
     function view($file)
         {
             $sx = '';
@@ -167,13 +310,28 @@ class Translate extends Model
                 ->where('dvn_file',$file)
                 ->findAll();
             $sx .= bsc(h($dt[0]['dvn_file']), 12);
+            $sx .= bsc($this->btn_translate($file).$this->btn_export($file),12);
+            $sx .= '<table class="form-control full">';
+            $sx .= '<tr><th width="30%">label</th>
+                        <th width="35%">English</th>
+                        <th width="35%">Português</th>
+                        </tr>';
             foreach($dt as $id=>$line)
                 {
-                    $class = 'border-bottom border-secondaty';
-                    $sx .= bsc($line['dvn_field'], 4, 'supersmall '.$class);
-                    $sx .= bsc($line['dvn_en'],4, 'small text-primary '.$class);
-                    $sx .= bsc($line['dvn_pt'],4, 'small text-success '.$class);
+                    $sx .= '<tr>';
+                    $sx .= '<td class="border-top border-secondary">';
+                    $sx .= $line['dvn_field'];
+                    $sx .= '</td>';
+                    $sx .= '<td class="border-top border-secondary">';
+                    $sx .= $line['dvn_en'];
+                    $sx .= '</td>';
+                    $sx .= '<td class="border-top border-secondary">';
+                    $sx .= $line['dvn_pt'];
+                    $sx .= '</td>';
+                    $sx .= '<td>';
+                    $sx .= '<tr>';
                 }
+            $sx .= '</table>';
             $sx = bs($sx);
             return $sx;
         }
