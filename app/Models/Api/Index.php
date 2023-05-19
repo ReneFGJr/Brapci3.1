@@ -72,6 +72,8 @@ class Index extends Model
                 $sx .= bs(bsc(h('Brapci API - v0.22.08.03', 1), 12));
                 $sx .= bs(bsc('Endpoint: ' . $d1, 12));
                 $sx .= $this->apiCatalog();
+
+                $sx .= cr().'YouIP '.$_SERVER['REMOTE_ADDR'];
                 break;
         }
         return $sx;

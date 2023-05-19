@@ -181,7 +181,6 @@ class LattesProducao extends Model
 	function producao_xml($id)
 	{
 		$Lang = new \App\Models\Language\Lang();
-		$Keywords = new \App\Models\LattesExtrator\LattesKeywords();
 		$LattesExtrator = new \App\Models\LattesExtrator\Index();
 		$file = $LattesExtrator->fileName($id);
 		if (!file_exists($file)) {
@@ -277,6 +276,7 @@ class LattesProducao extends Model
 					/****************** KEYWORDS */
 					if (isset($line['PALAVRAS-CHAVE']))
 					{
+						$Keywords = new \App\Models\LattesExtrator\LattesKeywords();
 						$dados = (array)$line['PALAVRAS-CHAVE'];
 						$dados = (array)$dados['@attributes'];
 						$Keywords->keyword_xml($idp, $dados, 'A');

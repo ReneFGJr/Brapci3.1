@@ -64,10 +64,8 @@ class LattesKeywords extends Model
                         {
                             $idw = $this->register($kw);
                             $KeywordProduction->register($idp,$idw,$type);
-                            echo $idw.'='.$kw;
-                            exit;
                         }
                 }
-            pre($keys);
+            return "";
         }
 }

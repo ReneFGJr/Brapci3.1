@@ -222,8 +222,18 @@ class LattesProducaoEvento extends Model
 						->findAll();
 
 					if (count($rst) == 0) {
-						$this->insert($p);
+						$idp = $this->insert($p);
+					} else {
+						$idp = $rst[0]['id_le'];
 					}
+					/****************** KEYWORDS */
+					if (isset($line['PALAVRAS-CHAVE'])) {
+						$Keywords = new \App\Models\LattesExtrator\LattesKeywords();
+						$dados = (array)$line['PALAVRAS-CHAVE'];
+						$dados = (array)$dados['@attributes'];
+						$Keywords->keyword_xml($idp, $dados, 'E');
+					}
+
 				}
 			}
 		}

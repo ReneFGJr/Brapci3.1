@@ -15,7 +15,7 @@ class LattesKeywordsProducao extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_kp','kp_kwyword','kp_producao','kp_tipo'
+        'id_kp', 'kp_keyword','kp_producao','kp_tipo'
     ];
 
     // Dates
@@ -54,7 +54,6 @@ class LattesKeywordsProducao extends Model
                     $dt['kp_keyword'] = $key;
                     $dt['kp_producao'] = $prod;
                     $dt['kp_tipo'] = $type;
-                    pre($dt);
                     $this->set($dt)->insert();
                 }
             return true;
