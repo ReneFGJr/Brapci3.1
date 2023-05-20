@@ -44,6 +44,17 @@ class LattesKeywords extends Model
 
     function register($kw,$lg='??')
         {
+            if (strlen($kw) > 40)
+                {
+                    $ch = [';','/',',','.'];
+                    foreach($ch as $char)
+                        {
+                            if (strpos($kw,$char)) { $kw = substr($kw,0,strpos($kw,$char)); }
+                        }
+                    $kw = substr($kw,0,40);
+
+                }
+
             $dt = $this->where('ky_name',$kw)->first();
             if ($dt =='')
                 {
