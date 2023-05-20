@@ -179,7 +179,7 @@ return [
         'index_Subject' => 'Assuntos',
         'already_registered' => '<span class="text-success mb-bold">Já cadastrado</span>',
         'insered' => '<span class="text-primary mb-bold">Inserido</span>',
-        '' => '',
+        'Artistic' => 'Artística',
         '' => '',
         '' => '',
 
