@@ -91,23 +91,25 @@ class LattesProducaoArtistica extends Model
 
     function csv($id)
     {
+        $Setores = new \App\Models\LattesExtrator\LattesSetores();
         set_time_limit(0);
-        $cp = 'la_author, la_authors, la_title, la_ano, la_doi, la_issn, la_journal, la_natureza';
+        $cp = 'la_author, la_authors, la_title, la_ano, la_doi, la_issn, nt_name as la_natureza, la_pais, la_setor';
         $dt = $this
             ->select($cp)
             ->join('brapci_tools.projects_harvesting_xml', 'la_author  = hx_id_lattes')
+            ->join('lattes_natureza', 'la_natureza = id_nt')
             ->where('hx_project', $id)
             ->orderBy('la_seq')
             ->findAll();
 
-
+            //echo $this->getlastquery();
 
         header("Content-Type: text/csv");
         header("Content-Disposition: attachment; filename=brapci_tools_production_" . date("Ymd-His") . ".csv");
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,JOURNAL,NATUREZA' . chr(13);
+        echo 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,PAIS,NATUREZA,SETOR' . chr(13);
 
         foreach ($dt as $id => $line) {
             $sa = '';
@@ -117,8 +119,9 @@ class LattesProducaoArtistica extends Model
             $sa .= '"' . $line['la_ano'] . '",';
             $sa .= '"' . $line['la_doi'] . '",';
             $sa .= '"' . $line['la_issn'] . '",';
-            $sa .= '"' . $line['la_journal'] . '",';
-            $sa .= '"' . $this->natureza($line['la_natureza']) . '",';
+            $sa .= '"' . $line['la_pais'].'",';
+            $sa .= '"' . $line['la_natureza'] . '",';
+            $sa .= '"' . $Setores->show($line['la_setor']). '",';
             $sa = troca($sa, chr(13), '');
             $sa = troca($sa, chr(10), '');
             $sx = $sa . chr(13);

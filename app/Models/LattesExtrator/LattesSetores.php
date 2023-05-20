@@ -42,6 +42,44 @@ class LattesSetores extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    var $setores = [];
+
+    function setores()
+        {
+            if ($this->setores == []) {
+            $dt = $this->findAll();
+            $st = [];
+            foreach($dt as $id=>$line)
+                {
+                    $st[$id] = $line['sa_name'];
+                }
+                $this->setores = $st;
+            }
+            return $this->setores;
+        }
+
+    function show($t)
+        {
+            if ($t == '')
+                {
+                    return "";
+                }
+            /************************* Setores */
+            $setotes = $this->setores();
+
+            $s = explode(';',$t);
+            $sx = '';
+            foreach($s as $ids)
+                {
+                    if (isset($setores[$ids]))
+                        {
+                            if ($sx != '') { $sx .= ';'; }
+                            $sx .= $setores[$ids];
+                        }
+                }
+            return $sx;
+        }
+
     function setor($name, $type='0')
     {
         $dt = $this

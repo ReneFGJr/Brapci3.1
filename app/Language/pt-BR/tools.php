@@ -25,7 +25,7 @@ return [
         'lattes_events' => 'trabalhos em eventos',
         'lattes_formacao' => 'formação',
         'openaier' => 'OpenAire API (Database)',
-        '' => '',
+        'lattes_producao_artistica' => 'Produção Artistica',
         '' => '',
         '' => '',
         '' => '',
