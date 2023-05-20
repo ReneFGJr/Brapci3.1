@@ -391,6 +391,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $vc = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_controlled vocabularies',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $wordpress = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -499,6 +519,9 @@ class Database extends Config
 
         $this->wordpress['username'] = getenv('database.default.username');
         $this->wordpress['password'] = getenv('database.default.password');
+
+        $this->vc['username'] = getenv('database.default.username');
+        $this->vc['password'] = getenv('database.default.password');
 
     }
 }

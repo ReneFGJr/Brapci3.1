@@ -183,6 +183,7 @@ class Index extends Model
         $LattesProducaoPatent = new \App\Models\LattesExtrator\LattesPatent();
         $LattesProducaoSoftware = new \App\Models\LattesExtrator\LattesSoftware();
         $LattesProducaoCapitulo = new \App\Models\LattesExtrator\LattesProducaoCapitulo();
+        $LattesProducaoArtistica = new \App\Models\LattesExtrator\LattesProducaoArtistica();
         $LattesInstituicao = new \App\Models\LattesExtrator\LattesInstituicao();
         $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
@@ -224,6 +225,7 @@ class Index extends Model
         $pq = count($PQ->bolsas_pesquisador($id));
         $p8 = $LattesProducaoSoftware->resume($id);
         $p9 = $LattesProducaoPatent->resume($id);
+        $pA = $LattesProducaoArtistica->resume($id);
 
         $p2 = 0;
         $sc = '';
@@ -246,6 +248,8 @@ class Index extends Model
         $sc .= bsc($LattesProducao->selo($p3[3], 'DOUTORADO'), 2);
         $sc .= bsc($LattesProducao->selo($p3[4], 'POS-DOUT.'), 2);
         $sc .= bsc($LattesProducao->selo($p3[5], 'OUTROS'), 2);
+        $sc .= bsc('Produção Artistica', 12);
+        $sc .= $LattesProducaoArtistica->selo($pA);
 
 
         $sb = '<div class="m-4">';
@@ -258,6 +262,7 @@ class Index extends Model
         if ($p8 > 0) { array_push($sbi, 'softwares'); }
         if ($p9 > 0) { array_push($sbi, 'patentes'); }
         if ($pq > 0) { array_push($sbi, 'BolsasPQ'); }
+        if ($pA > 0) { array_push($sbi, 'Artistic'); }
         $active = 'active';
         $show = 'show';
         $sbd = '';
@@ -268,6 +273,9 @@ class Index extends Model
             $sbd .= h(lang('brapci.'.$link),4);
             switch($link)
                 {
+                    case 'Artistic':
+                        $sbd .= $LattesProducaoArtistica->producao($dtl['lt_id'], 'C');
+                        break;
                     case 'Article':
                         $sbd .= $LattesProducao->producao($dtl['lt_id'], 'C');
                         break;

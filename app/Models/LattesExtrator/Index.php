@@ -171,7 +171,6 @@ class Index extends Model
             //$LattesProducaoArtistica->zerezima_dados_xml($id);
 
             $LattesProducaoArtistica->producao_xml($id);
-            exit;
             $LattesDados->dados_xml($id);
             $LattesEndereco->dados_xml($id);
             $LattesFormacao->dados_xml($id);
@@ -181,7 +180,7 @@ class Index extends Model
             $LattesProducaoCapitulo->producao_xml($id);
             $LattesOrientacao->orientacao_xml($id);
             $LattesProducaoTecnica->producao_xml($id);
-            $LattesProducaoArtistica->producao_xml($id);
+            //$LattesProducaoArtistica->producao_xml($id);
             return wclose();
         }
         return $dt;

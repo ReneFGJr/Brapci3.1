@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'vc':
+                $Thesaurus = new \App\Models\ControlledVocabulary\Thesaurus();
+                $sx .= $Thesaurus->index($subact, $id, $id2, $id3);
+                break;
             case 'cron':
                 $Cron = new \App\Models\Bots\Cron();
                 $sx .= $Cron->index($subact,$id,$id2,$id3);
@@ -169,6 +173,7 @@ class Index extends Model
 
         $m["#Manegement"] =  "";
         $m[PATH . 'admin/manegement'] =  lang('brapci.manegement');
+        $m[PATH . 'admin/vc'] =  bsicone('vc',32).' '.lang('brapci.vc');
 
         $m["#Sources"] =  "";
         $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');

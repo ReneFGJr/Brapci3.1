@@ -125,12 +125,13 @@ class ProjectsHarvestingXml extends Model
                 <th>Status</th>
                 <th>Update</th>
                 </tr>';
+
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
             $link = '<a href="'.PATH.COLLECTION.'/lattes/viewid/'. $line['hx_id_lattes'].'">';
             $linka = '</a>';
             $sx .= '<tr>';
-            $sx .= '<td>' . $line['hx_id_lattes'] . '</td>';
+            $sx .= '<td>' . $link.$line['hx_id_lattes'].$linka . '</td>';
             $sx .= '<td>' . $link.$line['hx_name'] . $linka.'</td>';
             $sx .= '<td>' . $line['hx_key'] . '</td>';
             $sx .= '<td>' . lang('brapci.harvesting_status_' . $line['hx_status']) . '</td>';
