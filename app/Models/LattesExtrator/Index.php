@@ -168,9 +168,8 @@ class Index extends Model
             $LattesProducaoCapitulo->zerezima_dados_xml($id);
             $LattesOrientacao->zerezima_dados_xml($id);
             //$LattesProducaoTecnica->zerezima_dados_xml($id);
-            //$LattesProducaoArtistica->zerezima_dados_xml($id);
+            $LattesProducaoArtistica->zerezima_dados_xml($id);
 
-            $LattesProducaoArtistica->producao_xml($id);
             $LattesDados->dados_xml($id);
             $LattesEndereco->dados_xml($id);
             $LattesFormacao->dados_xml($id);
@@ -179,8 +178,8 @@ class Index extends Model
             $LattesProducaoLivro->producao_xml($id);
             $LattesProducaoCapitulo->producao_xml($id);
             $LattesOrientacao->orientacao_xml($id);
-            $LattesProducaoTecnica->producao_xml($id);
-            //$LattesProducaoArtistica->producao_xml($id);
+            //$LattesProducaoTecnica->producao_xml($id);
+            $LattesProducaoArtistica->producao_xml($id);
             return wclose();
         }
         return $dt;
