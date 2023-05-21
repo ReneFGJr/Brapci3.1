@@ -191,7 +191,7 @@ class LattesProducaoLivro extends Model
 						if (count($rst) == 0) {
 							$idp = $this->insert($p);
 						} else {
-							$idp = $rst[0]['id_le'];
+							$idp = $rst[0]['id_lv'];
 						}
 						/****************** KEYWORDS */
 						if (isset($line['PALAVRAS-CHAVE'])) {
