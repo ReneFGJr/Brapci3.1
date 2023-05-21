@@ -78,6 +78,7 @@ class Index extends Model
 
     function harvesting($id='')
     {
+        $sx = '';
         $dt = array();
         $id = $id.get("id");
 
@@ -158,7 +159,7 @@ class Index extends Model
             $LattesProducaoTecnica = new \App\Models\LattesExtrator\LattesProducaoTecnica();
             $LattesProducaoArtistica = new \App\Models\LattesExtrator\LattesProducaoArtistica();
 
-
+            $sx .= 'Zenando ... '.date("Y-m-d H:i:s").'<br>';
             $LattesDados->zerezima_dados_xml($id);
             $LattesEndereco->zerezima_dados_xml($id);
             $LattesFormacao->zerezima_dados_xml($id);
@@ -170,16 +171,28 @@ class Index extends Model
             //$LattesProducaoTecnica->zerezima_dados_xml($id);
             $LattesProducaoArtistica->zerezima_dados_xml($id);
 
+
+            $sx .= 'Importando' . date("Y-m-d H:i:s") . '<br>';
             $LattesDados->dados_xml($id);
+            $sx .= 'LattesEndereco ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesEndereco->dados_xml($id);
+            $sx .= 'LattesFormacao ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesFormacao->dados_xml($id);
+            $sx .= 'LattesProducao ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducao->producao_xml($id);
+            $sx .= 'LattesProducaoEvento ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoEvento->producao_xml($id);
+            $sx .= 'LattesProducaoLivro ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoLivro->producao_xml($id);
+            $sx .= 'LattesProducaoCapitulo ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoCapitulo->producao_xml($id);
+            $sx .= 'LattesOrientacao ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesOrientacao->orientacao_xml($id);
+            $sx .= 'LattesProducaoTecnica ... ' . date("Y-m-d H:i:s") . '<br>';
             //$LattesProducaoTecnica->producao_xml($id);
+            $sx .= 'LattesProducaoArtistica ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoArtistica->producao_xml($id);
+            echo $sx;
             return wclose();
         }
         return $dt;
