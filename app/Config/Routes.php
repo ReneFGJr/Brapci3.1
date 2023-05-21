@@ -58,6 +58,10 @@ $routes->get('/bibliofind/(:any)', 'Bibliofind::index/$1');
 /*********** DOI */
 $routes->get('/doi/(:any)', 'Doi::index/$1');
 
+/*********** OAI-PMH */
+$routes->get('/oai/(:any)', 'Oai::index/$1');
+$routes->get('/oai/', 'Oai::index');
+
 /********** BOTS */
 $routes->get('/bots', 'Bots::index');
 $routes->get('/bots/(:any)', 'Bots::index/$1');

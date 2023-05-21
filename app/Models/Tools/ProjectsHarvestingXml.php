@@ -44,6 +44,16 @@ class ProjectsHarvestingXml extends Model
 
     function resume($prj)
     {
+        $reset = get("reset");
+        if ($reset == 'true')
+            {
+                $dt['hx_status'] = 0;
+                $this
+                    ->set($dt)
+                    ->where('hx_project',$prj)
+                    ->update();
+            }
+
         $dt = $this
             ->select('count(*) as total, hx_status')
             ->where('hx_project', $prj)
@@ -63,6 +73,12 @@ class ProjectsHarvestingXml extends Model
             }
         }
         $sx .= '</ul>';
+
+        $sx .= '<a href="'. PATH . '/tools/project/api/' . $prj . '/lattes?reset=true" onclick="confirm(\'Reprocessar registros?\',\'SIM\');">';
+        $sx .= bsicone('reload');
+        $sx .= '</a>';
+
+
         if ($reg == 0) {
             $sx = bsmessage(lang('brapci.lattes_register_nothing'));
         }
