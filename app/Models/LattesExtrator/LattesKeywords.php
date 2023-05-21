@@ -53,7 +53,7 @@ class LattesKeywords extends Model
                         }
                     $kw = substr($kw,0,79);
                 }
-
+            $kw = trim($kw);
 
             $dt = $this->where('ky_name',$kw)->first();
             if ($dt =='')
