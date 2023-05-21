@@ -88,7 +88,8 @@ class Index extends Model
 
             $filename = $this->fileName($id);
             $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q=' . trim($id);
-            echo '<tt>'.$url.'</tt>';
+            $sx .= '<hr>'.$url.'<br>';
+            $sx .= 'Colentado Lattes' . date("Y-m-d H:i:s") . '<br>';
             if (!$this->fileNameUpdated($id)) {
                 $data = array();
                 echo 'Harvesting '.$id.'<br>'.cr();
@@ -192,7 +193,7 @@ class Index extends Model
             //$LattesProducaoTecnica->producao_xml($id);
             $sx .= 'LattesProducaoArtistica ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoArtistica->producao_xml($id);
-            echo $sx;
+            echo '<tt>'.$sx.'</tt>';
             return wclose();
         }
         return $dt;
