@@ -125,12 +125,16 @@ class Block extends Model
             if ($d2 == 0)
                 {
                     $dc = $this
-                            ->select('count(*) as total, gc_subsection')
+                            ->select('count(*) as total, max(gc_order) as next, gc_subsection')
                             ->where('gc_subsection', $d2)
                             ->groupby('gc_subsection')
                             ->orderby('gc_subsection')
                             ->first();
-                    $_POST['gc_order'] = $dc['total'];
+                    if (get("gc_order") == '')
+                        {
+                            $_POST['gc_order'] = $dc['next'] + 5;
+                        }
+
                 }
             $guide = 1;
             $this->typeFields[1] = 'set:' . $Guide->getGuide();
