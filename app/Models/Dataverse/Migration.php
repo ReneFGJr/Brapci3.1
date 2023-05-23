@@ -42,13 +42,15 @@ class Migration extends Model
 
     function index($d1,$d2,$d3)
         {
-        $sx = '';
+        $sx = '->'.$d2;
         $Native = new \App\Models\Dataverse\API\Native();
+        $Dataset = new \App\Models\Dataverse\API\Dataset();
         $Tree = new \App\Models\Dataverse\Tree();
         $Dataverse = new \App\Models\Dataverse\Index();
         $server = $Dataverse->getServer();
         $token  = $Dataverse->getToken();
-        $root = $Native->getDataverseRoot($server);
+
+        $root = $Native->getDataverseRoot($server,$token);
 
         $sa = '';
         $sa .=  h('Migration',2);
@@ -59,11 +61,44 @@ class Migration extends Model
         $sa .= '<tt>Root : <b>' . $root . '</b></tt>';
         $sx .= bsc($sa,12);
 
-        $sx .= $Tree->getCollections($server,$token,$root);
+        $d2 = get("action");
+
+        echo h('=====>'.$d2);
+
+        switch($d2)
+            {
+                case 'Download':
+                    $doi = get("doi");
+                    $sx .= h($doi);
+                    $sx .= $Dataset->getDataset($doi,$server,$token);
+
+                    break;
+                default:
+                    $sx .= $this->form_doi();
+            }
 
             $sx = bs($sx);
             return $sx;
         }
+
+    function form_doi()
+        {
+            $sx = '';
+            $sx .= form_open();
+            $sx .= form_label('Informe o número do DOI');
+            $sx .= form_input('doi',get("doi"),['class'=>'full fw-form-control']);
+            $sx .= form_submit('action','Download');
+            $sx .= form_close();
+            return $sx;
+        }
+
+    function getCollection()
+        {
+            $Tree = new \App\Models\Dataverse\Tree();
+            $sx = $Tree->getCollections($server, $token, $root);
+            return $sx;
+        }
+
 
     function get_all()
         {

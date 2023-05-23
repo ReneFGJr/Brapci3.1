@@ -21,6 +21,7 @@ class Block extends Model
         'gc_subsection',
         'gc_title',
         'gc_content',
+        'gc_attribut',
         'gc_order',
         'gc_active'
 
@@ -32,6 +33,7 @@ class Block extends Model
         'string',
         'hidden',
         'text*',
+        'hidden',
         '[0:99]*',
         'set:1'
 

@@ -69,6 +69,7 @@ class Tree extends Model
             {
                 /**************** Root Collection */
                 $dt_root = $this->readCollecttion($server,$token,$root);
+
                 foreach($dt_root as $idv=>$name)
                     {
                         $dirtp = $dirt.'/'. $idv;
@@ -80,7 +81,6 @@ class Tree extends Model
                 unset($dvd[$root]);
             }
         }
-        pre($dvn);
         $sx .= h('Total de '.count($dvn).' Comunidades Dataverses',5);
         return $sx;
     }

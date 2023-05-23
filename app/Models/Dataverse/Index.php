@@ -89,6 +89,10 @@ class Index extends Model
                 $Migration = new \App\Models\Dataverse\Migration();
                 $sx .= $Migration->index($d2,$d3,$d3);
                 break;
+            case 'getCollection':
+                $Migration = new \App\Models\Dataverse\Migration();
+                $sx .= $Migration->getCollection($d2, $d3, $d3);
+                break;
             case 'logo':
                 $Logo = new \App\Models\Dataverse\Custom\Logo();
                 $sx .= $Logo->index($d2,$d3,$d4);

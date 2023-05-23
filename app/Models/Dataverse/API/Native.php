@@ -64,13 +64,13 @@ class Native extends Model
         return $txt;
         }
 
-    function getDataverseRoot($server)
+    function getDataverseRoot($server,$token)
         {
             $API = new \App\Models\Dataverse\API\Index();
             $url = $server . 'api/dataverses/1';
             $dt['url'] = $url;
             $dt['api'] = '';
-            $dt['apikey'] = '';
+            $dt['apikey'] = $token;
             $txt = $API->curl($dt);
 
             $txt = (array)json_decode($txt);
