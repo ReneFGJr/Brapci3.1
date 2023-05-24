@@ -52,11 +52,13 @@ class Dataset extends Model
         $dt['api'] = '/api/datasets/:persistentId/?persistentId=doi:' . $DOI;
 
         $dt = $API->curl($dt);
+        $dt = troca($dt, '"multiple":false', '"multiple":0');
+        $dt = troca($dt, '"multiple":true', '"multiple":1');
         $dta = json_decode($dt,true);
 
         $DV['datasetVersion']['metadataBlocks'] = $dta['data']['latestVersion']['metadataBlocks'];
 
-        pre($DV);
+        pre($DV,false);
 
         $this->createDataset('group2', $DV);
         return $dta;

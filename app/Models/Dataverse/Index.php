@@ -182,6 +182,9 @@ class Index extends Model
             {
                 return metarefresh(PATH.'/dados/dataverse/');
                 exit;
+            } else {
+                $server = 'https://repositoriopesquisas.ibict.br/';
+                $token = '7289de35-1196-488e-8f43-1889c9aa58d';
             }
 
         $sx = bsc(form_open(),12);

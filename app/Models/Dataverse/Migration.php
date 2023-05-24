@@ -83,7 +83,7 @@ class Migration extends Model
         {
             $sx = '';
             $sx .= form_open();
-            $sx .= form_label('Informe o número do DOI');
+            $sx .= form_label('Informe o número do DOI, ex: 10.5072/FK2/QCVN58');
             $sx .= form_input('doi',get("doi"),['class'=>'full fw-form-control']);
             $sx .= form_submit('action','Download');
             $sx .= form_close();
