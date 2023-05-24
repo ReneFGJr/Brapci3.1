@@ -107,13 +107,13 @@ class Dataset extends Model
         $file = $dir.'dataset.json';
         file_put_contents($file, json_encode($DV, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        $dt['file'] = $file;
-        $dt['method'] = 'POST';
+        $dd['file'] = $file;
+        $dd['method'] = 'POST';
 
-        if (file_exists($dt['file']))
+        if (file_exists($dd['file']))
             {
                 echo "ERRO DE ARQUIVO";
-                $dt = $API->curlExec($dt);
+                $dt = $API->curlExec($dd);
                 $dt = (array)json_decode($dt);
                 return $dt;
             } else {
