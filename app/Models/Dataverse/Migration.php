@@ -68,9 +68,7 @@ class Migration extends Model
                 case 'Download':
                     $doi = get("doi");
                     $sx .= h($doi);
-                    echo h('================>'.$doi);
                     $sx .= $Dataset->getDataset($doi,$server,$token);
-                    echo h("===FIM==");
 
                     break;
                 default:

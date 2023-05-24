@@ -110,18 +110,13 @@ class Index extends Model
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, false);
         $nr = 0;
+        echo h("DV");
+        pre($dt,false);
 
-        if (isset($dt['file']) or (isset($dt['FILE']))) {
-            if (isset($dt['file'])) { $file = trim($dt['file']); }
-            if (isset($dt['FILE'])) {
-                $file = trim($dt['FILE']);
-            }
-            echo h($file);
-
-            /******************** */
-            $DV = file_get_contents($file);
-            $DV = json_decode($DV,true);
-
+        if (isset($dt['FILE'])) {
+            $file = $dt['FILE'];
+            $json = file_get_contents($file);
+            $DV = json_decode($json,true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($DV));
         }
         curl_setopt($curl, CURLOPT_HTTPHEADER, $header);

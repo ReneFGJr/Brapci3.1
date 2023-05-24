@@ -52,10 +52,11 @@ class Dataset extends Model
         $dt['api'] = '/api/datasets/:persistentId/?persistentId=doi:' . $DOI;
 
         $dt = $API->curl($dt);
-        $dta = json_decode($dt);
-        $dta = $dta->data;
+        $dta = json_decode($dt,true);
 
-        $this->createDataset('group2',$dta);
+        $DV['datasetVersion'] = $dta['data']['latestVersion']['metadataBlocks'];
+
+        $this->createDataset('group2', $DV);
         return $dta;
     }
 
@@ -85,40 +86,8 @@ class Dataset extends Model
         $rst = $API->curl($dd);
         $rsp = json_decode($rst, true);
 
-        $DV = array();
-        /* Protocolo */
-        $DV['protocol'] = 'doi';
-        //$DV['authority'] = '10.48472';
-        $DV['authority'] = '10.5072/FK1/';
+        pre($rsp);
 
-        $DV['publisher'] =  $data->publisher;
-        $DV['productionDate'] = $data->latestVersion->productionDate;
-
-        $DV['datasetVersion']['license']['name'] = 'CC BY 4.0';
-        $DV['datasetVersion']['license']['uri'] = 'http://creativecommons.org/licenses/by/4.0';
-        $DV['datasetVersion']['fileAccessRequest'] = false;
-
-        $DV['datasetVersion']['metadataBlocks']['citation']['displayName'] = "Citation Metadata";
-        $DV['datasetVersion']['metadataBlocks']['citation']['name'] = "citation";
-        $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $data->latestVersion->metadataBlocks->citation->fields;
-
-        $dir = '../.tmp/dataverse/dataset/';
-        dircheck($dir);
-        $file = $dir.'dataset.json';
-        file_put_contents($file, json_encode($DV, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        $dd['file'] = $file;
-        $dd['method'] = 'POST';
-
-        if (file_exists($dd['file']))
-            {
-                echo "ERRO DE ARQUIVO";
-                $dt = $API->curlExec($dd);
-                $dt = (array)json_decode($dt);
-                return $dt;
-            } else {
-                echo "Erro ao acessar o arquivo ".$dt['file'];
-            }
         echo "FIM";
         exit;
 
