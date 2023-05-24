@@ -54,7 +54,7 @@ class Dataset extends Model
         $dt = $API->curl($dt);
         $dta = json_decode($dt,true);
 
-        $DV['datasetVersion'] = $dta['data']['latestVersion'];
+        $DV['datasetVersion']['metadataBlocks'] = $dta['data']['latestVersion']['metadataBlocks'];
 
         $this->createDataset('group2', $DV);
         return $dta;
