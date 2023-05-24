@@ -60,7 +60,7 @@ class Dataset extends Model
 
         /*************************** Title */
         $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
-        $DV['datasetVersion']['metadataBlocks']['citation'] = $dtaf;
+        $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
 
         pre($DV,false);
 
