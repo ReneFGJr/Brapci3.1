@@ -45,7 +45,7 @@ class Index extends Model
         $rsp = array();
         $rsp['msg'] = '';
 
-        return shell_exec("e:\projeto\curl.exe");
+        //return shell_exec("e:\projeto\curl.exe");
 
         if ((!isset($dt['url'])) or (!isset($dt['api'])) or (!isset($dt['apikey']))) {
             $sx = "Error: Missing URL(url), API or API(api) Key (AUTH)";
@@ -57,7 +57,7 @@ class Index extends Model
             $apiKey = $dt['apikey'];
 
             /* Comando */
-            $cmd = 'curl ';
+            $cmd = getenv("curl").'curl ';
             /* APIKEY */
             if (isset($dt['apikey'])) {
                 $cmd .= '-H X-Dataverse-key:' . $apiKey . ' -H Content-type:application/json ';
@@ -78,6 +78,8 @@ class Index extends Model
                 //		$cmd .= '-H "Content-Type: application/json" ';
                 $cmd .= '--upload-file "' . ($dt['FILE']) . '" ';
             }
+            echo $cmd;
+            exit;
             $txt = shell_exec($cmd);
             return $txt;
         }
@@ -85,54 +87,63 @@ class Index extends Model
     }
 
     function curl($dt)
-        {
-            pre($dt,false);
-            $METH = 'GET';
-            if (isset($dt['method']))
-                {
-                    $METH = $dt['method'];
-                }
-            $url = $dt['url'].$dt['api'];
-            $header =['Content-Type' => 'application/json', 'X-Dataverse-key' => $dt['apikey'], 'key' => $dt['apikey']];
-
-            if (isset($dt['apikey']))
-                {
-                    if (strpos($url,'?'))
-                        {
-                            $url .= '&key=' . $dt['apikey'];
-                        } else {
-                            $url .= '?key=' . $dt['apikey'];
-                        }
-                }
-
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            $nr = 0;
-            if (isset($dt['json']))
-                {
-                    $post = $dt['json'];
-                    curl_setopt($curl,CURLOPT_POSTFIELDS, $post);
-                }
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $METH);
-
-            $data = curl_exec($curl);
-            $erro = curl_errno($curl);
-            curl_close($curl);
-
-            if ($erro == 0) {
-                pre($data,false);
-                return $data;
-            } else {
-                echo "ERRO CURL: " . $erro;
-                echo '<br>' . $url;
-            }
-            pre($data);
-            return ($data);
+    {
+        pre($dt, false);
+        $METH = 'GET';
+        if (isset($dt['method'])) {
+            $METH = $dt['method'];
         }
+        $url = $dt['url'] . $dt['api'];
+        $header = ['Content-Type' => 'application/json', 'key' => $dt['apikey']];
+        $header = [];
+
+        if (isset($dt['apikey'])) {
+            if (strpos($url, '?')) {
+                $url .= '&key=' . $dt['apikey'];
+            } else {
+                $url .= '?key=' . $dt['apikey'];
+            }
+        }
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        $nr = 0;
+
+        if (isset($dt['file']) or (isset($dt['FILE']))) {
+            if (isset($dt['file'])) { $file = trim($dt['file']); }
+            if (isset($dt['FILE'])) {
+                $file = trim($dt['FILE']);
+            }
+            echo h($file);
+
+            /******************** */
+            $DV = file_get_contents($file);
+            $DV = json_decode($DV,true);
+
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($DV));
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $METH);
+
+        echo h("Consultando");
+
+        $data = curl_exec($curl);
+        $erro = curl_errno($curl);
+        curl_close($curl);
+
+        if ($erro == 0) {
+            pre($data, false);
+            return $data;
+        } else {
+            echo "ERRO CURL: " . $erro;
+            echo '<br>' . $url;
+        }
+        pre($data);
+        return ($data);
+    }
 }

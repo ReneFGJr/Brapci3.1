@@ -63,14 +63,14 @@ class Migration extends Model
 
         $d2 = get("action");
 
-        echo h('=====>'.$d2);
-
         switch($d2)
             {
                 case 'Download':
                     $doi = get("doi");
                     $sx .= h($doi);
+                    echo h('================>'.$doi);
                     $sx .= $Dataset->getDataset($doi,$server,$token);
+                    echo h("===FIM==");
 
                     break;
                 default:
