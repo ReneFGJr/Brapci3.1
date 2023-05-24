@@ -56,6 +56,8 @@ class Dataset extends Model
 
         $DV['datasetVersion']['metadataBlocks'] = $dta['data']['latestVersion']['metadataBlocks'];
 
+        pre($DV);
+
         $this->createDataset('group2', $DV);
         return $dta;
     }
