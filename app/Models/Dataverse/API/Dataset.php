@@ -55,17 +55,16 @@ class Dataset extends Model
         //$dt = troca($dt, '"multiple":false', '"multiple":0');
         //$dt = troca($dt, '"multiple":true', '"multiple":1');
         $dta = json_decode($dt,true);
-        pre($dta);
         $DV = [];
 
         /*************************** Title */
         $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
         $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
 
-        pre($DV,false);
-
         $this->createDataset('group2', $DV);
-        return $dta;
+        /***************************** */
+        $sx = 'HELLO';
+        return $sx;
     }
 
     function createDataset($PARENT,$data)
@@ -88,16 +87,11 @@ class Dataset extends Model
         $dd['api'] = 'api/dataverses/' . $PARENT . '/datasets';
         $dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
 
-        echo "========= CRIANDO DATASET";
-
         #$rst = $API->curlExec($dd);
         $rst = $API->curl($dd);
+        $sx = '<br><tt>'.$API->url.'</tt>';
         $rsp = json_decode($rst, true);
 
-        pre($rsp);
-
-        echo "FIM";
-        exit;
-
+        return $rsp;
     }
 }

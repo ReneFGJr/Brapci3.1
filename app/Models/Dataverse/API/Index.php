@@ -40,6 +40,8 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    var $url = '';
+
     function curlExec($dt)
     {
         $rsp = array();
@@ -51,7 +53,6 @@ class Index extends Model
             $sx = "Error: Missing URL(url), API or API(api) Key (AUTH)";
             $sx .= '<br>url=' . $dt['url'];
             $rsp['msg'] = $sx;
-            pre($rsp);
         } else {
             $url = $dt['url'] . $dt['api'];
             $apiKey = $dt['apikey'];
@@ -88,7 +89,6 @@ class Index extends Model
 
     function curl($dt)
     {
-        pre($dt, false);
         $METH = 'GET';
         if (isset($dt['method'])) {
             $METH = $dt['method'];
@@ -105,13 +105,13 @@ class Index extends Model
             }
         }
 
+        $this->url = $url;
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, false);
         $nr = 0;
-        echo h("DV");
-        pre($dt,false);
 
         if (isset($dt['FILE'])) {
             $file = $dt['FILE'];
@@ -125,20 +125,16 @@ class Index extends Model
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $METH);
 
-        echo h("Consultando");
-
         $data = curl_exec($curl);
         $erro = curl_errno($curl);
         curl_close($curl);
 
         if ($erro == 0) {
-            pre($data, false);
             return $data;
         } else {
             echo "ERRO CURL: " . $erro;
             echo '<br>' . $url;
         }
-        pre($data);
         return ($data);
     }
 }
