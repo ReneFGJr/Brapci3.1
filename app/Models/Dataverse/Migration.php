@@ -42,7 +42,8 @@ class Migration extends Model
 
     function index($d1,$d2,$d3)
         {
-        $sx = '->'.$d2;
+        $sx = '';
+
         $Native = new \App\Models\Dataverse\API\Native();
         $Dataset = new \App\Models\Dataverse\API\Dataset();
         $Tree = new \App\Models\Dataverse\Tree();
@@ -50,7 +51,24 @@ class Migration extends Model
         $server = $Dataverse->getServer();
         $token  = $Dataverse->getToken();
 
-        $root = $Native->getDataverseRoot($server,$token);
+        if (($server == '') or ($token == ''))
+            {
+                $sx .= bsmessage('Server ou Token não informado');
+                return $sx;
+            }
+
+        /***************************************** ROOT */
+        $file = '../.tmp/dataverse/'.md5($server).'.root.json';
+        if (!file_exists($file))
+            {
+                $root = $Native->getDataverseRoot($server, $token);
+                file_put_contents($file,$root);
+                $root = json_decode($root,true);
+            }
+        $root = file_get_contents($file);
+
+        /**************************************** MIGRATION */
+        $d2 = get("action");
 
         $sa = '';
         $sa .=  h('Migration',2);
@@ -59,20 +77,35 @@ class Migration extends Model
         $sa .= '<tt>Token : <b>' . $token . '</b></tt>';
         $sa .= '<br>';
         $sa .= '<tt>Root : <b>' . $root . '</b></tt>';
+        $sa .= '<br>';
+        $sa .= '<tt>Action : <b>' . $d2 . '</b></tt>';
         $sx .= bsc($sa,12);
 
-        $d2 = get("action");
 
         switch($d2)
             {
                 case 'Download':
                     $doi = get("doi");
-                    $sx .= h($doi);
-                    $sx .= $Dataset->getDataset($doi,$server,$token);
+                    $url_d = get("url_d");
+                    $dataverse_d = get("dataverse_d");
+                    $apikey_d = get("apikey_d");
+
+                    if (($doi != '') and ($url_d != '') and ($dataverse_d != '') and ($apikey_d != ''))
+                        {
+                            $sx .= h($doi);
+                            $sx .= $Dataset->getDataset($doi, $server, $token);
+                        } else {
+                            $sx = bsmessage('Dados incompletos',3);
+                            $sx .= $this->form_doi();
+                            return $sx;
+                        }
+
 
                     break;
+
                 default:
                     $sx .= $this->form_doi();
+                    break;
             }
 
             $sx = bs($sx);
@@ -85,6 +118,16 @@ class Migration extends Model
             $sx .= form_open();
             $sx .= form_label('Informe o número do DOI, ex: 10.5072/FK2/QCVN58');
             $sx .= form_input('doi',get("doi"),['class'=>'full fw-form-control']);
+
+            $sx .= form_label('Destino URL');
+            $sx .= form_input('url_d', get("url_d"), ['class' => 'full fw-form-control']);
+
+            $sx .= form_label('Destino Databerve (Name do Dataverse), ex: https://venus.brapci.inf.br/');
+            $sx .= form_input('dataverse_d', get("dataverse_d"), ['class' => 'full fw-form-control']);
+
+            $sx .= form_label('APIKEY Destino, ex: 919d765c-b728-4875-b50e-dd4fb71b5e6');
+            $sx .= form_input('apikey_d', get("apikey_d"), ['class' => 'full fw-form-control']);
+
             $sx .= form_submit('action','Download');
             $sx .= form_close();
             return $sx;
