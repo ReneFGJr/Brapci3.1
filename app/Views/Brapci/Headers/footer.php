@@ -16,7 +16,7 @@ if (!isset($bg)) {
                 <h5 class="text-uppercase">Coleções Brapci</h5>
                 <p>
                     A Brapci é um agregador que reune fontes de informação da área de Ciência da Informação,
-                    Biblioteconomia, Arquivologia e Museologia. É um base de dados mantida com a colaboração de difersas
+                    Biblioteconomia, Arquivologia e Museologia. É um base de dados mantida com a colaboração de diversas
                     instituições de ensino e pesquisa. Tem como mantenedora a Universidade Federal do Rio Grando do Sul
                     e o Programa de Pós-Graduação em Ciência da Informação (PPGCIN).
                 </p>

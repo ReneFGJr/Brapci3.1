@@ -55,7 +55,7 @@ class Dataset extends Model
         //$dt = troca($dt, '"multiple":false', '"multiple":0');
         //$dt = troca($dt, '"multiple":true', '"multiple":1');
         $dta = json_decode($dt,true);
-
+        pre($dta);
         $DV = [];
 
         /*************************** Title */
