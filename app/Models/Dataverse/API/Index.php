@@ -79,10 +79,11 @@ class Index extends Model
                 //		$cmd .= '-H "Content-Type: application/json" ';
                 $cmd .= '--upload-file "' . ($dt['FILE']) . '" ';
             }
-            echo $cmd;
-            exit;
+            $sx = '<tt>'.$cmd.'</tt>';
             $txt = shell_exec($cmd);
-            return $txt;
+            $sx.= '<hr>'.$txt;
+            $this->url = $cmd;
+            return $sx;
         }
         return $sx;
     }
