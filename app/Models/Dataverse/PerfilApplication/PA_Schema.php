@@ -164,9 +164,9 @@ class PA_Schema extends Model
             $cmd1 .= 'echo "Checando '.$DIR.'update-fields.sh"'.$CR;
             if (!file_exists($DIR.'update-fields.sh'))
                 {
-                    $cmd1 .= 'echo "COPIANDO ARQUIVO DE CONFIGURACAO"'.$CR;
-                    $cmd1 .= 'cp '.troca($PATH,'/PHP/public','').'_Documentation/Dataverse/update-fields.sh update-fields.sh'.$CR;
-                    $cmd1 .= '<br>';
+                    //$cmd1 .= 'echo "COPIANDO ARQUIVO DE CONFIGURACAO"'.$CR;
+                    //$cmd1 .= 'cp '.troca($PATH,'/PHP/public','').'_Documentation/Dataverse/update-fields.sh update-fields.sh'.$CR;
+                    //$cmd1 .= '<br>';
                 }
 
             $cmd1 .= 'echo "ENVIANDO METADADOS PARA O SISTEMA"'.$CR;
