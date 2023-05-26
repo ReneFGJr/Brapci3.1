@@ -173,7 +173,8 @@ class PA_Schema extends Model
             $cmd1 .= 'rm *.tsv -r'.$CR;
             $f2 = $PATH.$filename;
             $f2 = troca($f2,'/PHP/public../','/PHP/');
-            $cmd1 .= 'cp '.$f2.' '.$DIR.$file.$CR;
+            //$cmd1 .= 'cp '.$f2.' '.$DIR.$file.$CR;
+            $cmd1 .= 'wget '.PATH. 'dados/dataverse/export/'. $id . ' -O '.$file.$CR;
             $cmd1 .= $CR.$CR;
             $cmd1 .= 'echo "CARREGANDO A ATUALIZACAO DO SCHEMA"'.$CR;
             $cmd1 .= 'curl http://localhost:8080/api/admin/datasetfield/load -X POST --data-binary @'.$file.' -H "Content-type: text/tab-separated-values"'.$CR;
