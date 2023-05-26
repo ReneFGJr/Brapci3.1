@@ -195,7 +195,7 @@ class PA_Schema extends Model
 
             $cmd2 .= 'echo "End"<br>'.$CR;
             $cmd2 .= '<br>';
-            $cmd2 .= 'srvice solr restart';
+            $cmd2 .= 'service solr restart';
             $cmd2 .= '<br>';
             $cmd2 .= 'export PAYARA=/usr/local/payara5/glassfish<br>';
             $cmd2 .= 'echo "Starting Payara 5...<br>';
