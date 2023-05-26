@@ -160,7 +160,7 @@ class PA_Schema extends Model
             $cmd1 .= '<hr>';
             $cmd1 .= 'wget https://github.com/IQSS/dataverse/releases/download/v5.11/update-fields.sh' . $CR;
             $cmd1 .= 'chmod +x update-fields.sh'.$CR;
-            $cmd1 .= 'curl "http://localhost:8080/api/admin/index/solr/schema" | ./update-fields.sh /usr/local/solr/solr-8.8.1/server/solr/collection1/conf/schema.xml' . $CR;
+            $cmd1 .= '<br>';
             $cmd1 .= 'echo "Checando '.$DIR.'update-fields.sh"'.$CR;
             if (!file_exists($DIR.'update-fields.sh'))
                 {
@@ -194,7 +194,15 @@ class PA_Schema extends Model
             $cmd2 .= 'curl "http://localhost:8983/solr/admin/cores?action=RELOAD&core=collection1"'.$CR;
 
             $cmd2 .= 'echo "End"<br>'.$CR;
-            $cmd2 .= 'cd /data/LattesData'.$CR;
+            $cmd2 .= '<br>';
+            $cmd2 .= 'srvice solr restart';
+            $cmd2 .= '<br>';
+            $cmd2 .= 'export PAYARA=/usr/local/payara5/glassfish<br>';
+            $cmd2 .= 'echo "Starting Payara 5...<br>';
+            $cmd2 .= '$PAYARA/bin/asadmin stop-domain<br>';
+            $cmd2 .= '$PAYARA/bin/asadmin start-domain<br>';
+
+            $cmd2 .= 'echo "FIM"'.$CR;
 
             //$txt1 = shell_exec($cmd1);
             //$txt2 = shell_exec($cmd2);
