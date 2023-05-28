@@ -82,9 +82,11 @@ class Dataset extends Model
         $dd['AUTH'] = true;
         $dd['POST'] = true;
         $dd['FILE'] = $file;
-        $dd['url'] = 'https://venus.brapci.inf.br/';
+        //$dd['url'] = 'https://venus.brapci.inf.br/';
         $dd['api'] = 'api/dataverses/' . $PARENT . '/datasets';
-        $dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
+        //$dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
+        $dd['url'] = get("url_d");
+        $dd['apikey'] = get("apikey_d");
 
         #$rst = $API->curlExec($dd);
         $rst = $API->curlExec($dd);
