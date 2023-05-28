@@ -61,7 +61,7 @@ class Dataset extends Model
         $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
         $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
 
-        $sx = $this->createDataset('group2', $DV);
+        $sx = $this->createDataset(get("dataverse_d"), $DV);
         /***************************** */
         return $sx;
     }
@@ -87,6 +87,7 @@ class Dataset extends Model
         //$dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
         $dd['url'] = get("url_d");
         $dd['apikey'] = get("apikey_d");
+        $dd['dataverse'] = get("dataverse_d");
 
         #$rst = $API->curlExec($dd);
         $rst = $API->curlExec($dd);
