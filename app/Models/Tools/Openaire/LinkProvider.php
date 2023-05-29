@@ -53,6 +53,7 @@ class LinkProvider extends Model
         foreach ($dt as $id => $line) {
             $js = $line['lk_result'];
             $js = json_decode($js);
+            pre($js);
             if ($js == '') {
                 //echo h("ERRO");
             } else {
