@@ -50,7 +50,7 @@ class Dataset extends Model
         $dt['apikey'] = $token;
         $dt['url'] = $server;
         $dt['api'] = '/api/datasets/:persistentId/?persistentId=doi:' . $DOI;
-        $dt['api'] = '/api/datasets/:persistentId/?persistentId=hdl:' . $DOI;
+        //$dt['api'] = '/api/datasets/:persistentId/?persistentId=hdl:' . $DOI;
 
         $dt = $API->curl($dt);
         //$dt = troca($dt, '"multiple":false', '"multiple":0');
