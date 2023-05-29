@@ -69,14 +69,10 @@ class LinkProvider extends Model
                     foreach($target as $idt=>$line3)
                         {
                             $sx .= $sa;
-                            $sx .= $line3['Type'] . ';';
-                            $sx .= $line3['SType'] . ';';
+                            $sx .= $line3['schema'] . ';';
+                            $sx .= $line3['identifier'] . ';';
                             $sx .= '<br>';
                         }
-
-
-
-
                 }
             }
         }
