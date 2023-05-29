@@ -62,6 +62,15 @@ class Dataset extends Model
         $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
         $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
 
+        for($r=0;$r < count($DV['datasetVersion']['metadataBlocks']['citation']['fields']))
+            {
+                if($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'datasetContact')
+                    {
+                        pre($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName']);
+                    }
+            }
+
+
         pre($DV);
         //"datasetContactEmail":{"typeName":"datasetContactEmail","multiple":false,"typeClass":"primitive","value":"cariniana@ibict.br"}}]}
 
