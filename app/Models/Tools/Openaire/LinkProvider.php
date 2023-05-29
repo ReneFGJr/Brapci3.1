@@ -70,9 +70,10 @@ class LinkProvider extends Model
                     $sx .= '<br>';
                 }
             }
+            echo $sx;
+            exit;
+
         }
-        echo $sx;
-        exit;
         return $sx;
     }
 
