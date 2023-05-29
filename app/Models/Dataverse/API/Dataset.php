@@ -84,7 +84,7 @@ class Dataset extends Model
                 $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] = 'subject';
                 $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeClass'] = 'controlledVocabulary';
                 $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['multiple'] = true;
-                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'] = "Earth and Environmental Sciences";
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'] = ["Earth and Environmental Sciences"];
             }
 
         //typeName":"subject","multiple":true,"typeClass":"controlledVocabulary","value":["Earth and Environmental Sciences"]
