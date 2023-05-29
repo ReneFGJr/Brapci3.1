@@ -80,7 +80,10 @@ class AboutIndicadores extends Model
             if (!isset($rst['pad'])) {
                 $rst['pdf'] = [0, 0];
             }
-            pre($rst);
+
+            if (!isset($rst['pdf'][$pdf])) {
+                $rst['pdf'][$pdf] = 0; }
+
             $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
 
             $jid = $line['id_jnl'];
