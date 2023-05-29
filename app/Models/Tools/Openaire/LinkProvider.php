@@ -56,9 +56,9 @@ class LinkProvider extends Model
             if ($js == '') {
                 //echo h("ERRO");
             } else {
-
+                pre($js, false);
                 foreach ($js as $ids => $line2) {
-                    pre($line2, false);
+
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
                     $target = $line2->target;
