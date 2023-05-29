@@ -87,8 +87,6 @@ class Dataset extends Model
                 $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'] = "Earth and Environmental Sciences";
             }
 
-        pre($DV);
-
         //typeName":"subject","multiple":true,"typeClass":"controlledVocabulary","value":["Earth and Environmental Sciences"]
 
         $sx = $this->createDataset(get("dataverse_d"), $DV);
