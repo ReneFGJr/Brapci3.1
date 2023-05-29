@@ -81,10 +81,10 @@ class Dataset extends Model
 
         if (!$area)
             {
-                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['typeName'] = 'subject';
-                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['typeClass'] = 'controlledVocabulary';
-                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['multiple'] = false;
-                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['value'] = "Earth and Environmental Sciences";
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] = 'subject';
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeClass'] = 'controlledVocabulary';
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['multiple'] = false;
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'] = "Earth and Environmental Sciences";
             }
 
         pre($DV);
