@@ -74,10 +74,6 @@ class Dataset extends Model
                     }
             }
 
-
-        pre($DV);
-        //"datasetContactEmail":{"typeName":"datasetContactEmail","multiple":false,"typeClass":"primitive","value":"cariniana@ibict.br"}}]}
-
         $sx = $this->createDataset(get("dataverse_d"), $DV);
         /***************************** */
         return $sx;
