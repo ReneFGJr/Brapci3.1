@@ -61,7 +61,9 @@ class LinkProvider extends Model
                     $source = $line2->source;
                     $target = $line2->target;
 
-                    pre($target,false);
+
+                    $identifiers = $target->identifiers;
+                    pre($identifiers, false);
 
                     $target = $this->recover_target($target);
 
