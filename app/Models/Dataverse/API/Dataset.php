@@ -66,7 +66,11 @@ class Dataset extends Model
             {
                 if($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'datasetContact')
                     {
-                        pre($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]);
+                        if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] == '')
+                            {
+                                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] = false;
+                                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['value'] = "cariniana@ibict.br";
+                            }
                     }
             }
 
