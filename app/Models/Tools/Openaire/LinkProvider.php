@@ -61,13 +61,16 @@ class LinkProvider extends Model
 
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
-                    $target = $line2->target;
-                    $target = $this->recover_target($target);
+                    $target = $line2->target->identifiers;
+                    pre($target);
 
-                    $sx .= $line['lk_doi'] . ';';
-                    $sx .= $target['doi'].';';
-                    $sx .= $target['Type'] . ';';
-                    $sx .= $target['SType'] . ';';
+                    $sa = '';
+                    $sa .= $line['lk_doi'] . ';';
+                    $sa .= $target['doi'].';';
+
+
+                    $sb .= $target['Type'] . ';';
+                    $sb .= $target['SType'] . ';';
                     $sx .= '<br>';
                 }
             }
