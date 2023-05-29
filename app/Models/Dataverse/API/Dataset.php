@@ -66,7 +66,7 @@ class Dataset extends Model
             {
                 if($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'datasetContact')
                     {
-                        pre($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName']);
+                        pre($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]);
                     }
             }
 
