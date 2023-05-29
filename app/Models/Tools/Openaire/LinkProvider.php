@@ -52,7 +52,7 @@ class LinkProvider extends Model
         $sx = '';
         foreach ($dt as $id => $line) {
             $js = $line['lk_result'];
-            $js = json_decode($js);
+            $js = json_decode($js,true);
             if ($js == '') {
                 //echo h("ERRO");
             } else {
@@ -61,17 +61,22 @@ class LinkProvider extends Model
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
                     $target = $line2->target->identifiers;
-                    echo 'XXXXXXXXXXXXXXXXXXXXX';
-                    pre($target);
 
                     $sa = '';
                     $sa .= $line['lk_doi'] . ';';
-                    $sa .= $target['doi'].';';
+                    $sa .= $target['doi'] . ';';
+
+                    foreach($target as $idt=>$line3)
+                        {
+                            $sx .= $sa;
+                            $sx .= $line3['Type'] . ';';
+                            $sx .= $line3['SType'] . ';';
+                            $sx .= '<br>';
+                        }
 
 
-                    $sb .= $target['Type'] . ';';
-                    $sb .= $target['SType'] . ';';
-                    $sx .= '<br>';
+
+
                 }
             }
         }
