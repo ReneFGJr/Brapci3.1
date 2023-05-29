@@ -188,8 +188,6 @@ class PA_Schema extends Model
             $cmd1 .= 'echo "ATUALIZANDO O SCHEMA"'.$CR;
             $cmd1 .= 'cat schema.xml | ./update-fields.sh /usr/local/solr/solr-8.11.1/server/solr/collection1/conf/schema.xml'.$CR;
 
-            $cmd2 .= 'echo "Iniciando atualização do SOLR"'.$CR;
-            $cmd2 = 'cd '.$dir.$CR;
             $cmd2 .= 'echo "Atualizando o SOLR"'.$CR;
             $cmd2 .= 'curl "http://localhost:8983/solr/admin/cores?action=RELOAD&core=collection1"'.$CR;
 
