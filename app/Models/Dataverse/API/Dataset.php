@@ -62,8 +62,13 @@ class Dataset extends Model
         $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
         $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
 
+        $area = false;
         for($r=0;$r < count($DV['datasetVersion']['metadataBlocks']['citation']['fields']);$r++)
             {
+                if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'subject')
+                {
+                    $area = true;
+                }
                 if($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'datasetContact')
                     {
                         if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] == '')
@@ -73,6 +78,18 @@ class Dataset extends Model
                             }
                     }
             }
+
+        if (!$area)
+            {
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['datasetContactEmail']['typeName'] = 'subject';
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['datasetContactEmail']['typeClass'] = 'controlledVocabulary';
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['datasetContactEmail']['multiple'] = false;
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][$r]['datasetContactEmail']['value'] = "Earth and Environmental Sciences";
+            }
+
+        pre($DV);
+
+        //typeName":"subject","multiple":true,"typeClass":"controlledVocabulary","value":["Earth and Environmental Sciences"]
 
         $sx = $this->createDataset(get("dataverse_d"), $DV);
         /***************************** */
