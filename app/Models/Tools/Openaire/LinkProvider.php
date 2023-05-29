@@ -56,13 +56,11 @@ class LinkProvider extends Model
             if ($js == '') {
                 //echo h("ERRO");
             } else {
-                pre($js, false);
                 foreach ($js as $ids => $line2) {
 
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
                     $target = $line2->target;
-                    pre($target,true);
                     $target = $this->recover_target($target);
 
                     $sx .= $line['lk_doi'] . ';';
@@ -73,6 +71,8 @@ class LinkProvider extends Model
                 }
             }
         }
+        echo $sx;
+        exit;
         return $sx;
     }
 
