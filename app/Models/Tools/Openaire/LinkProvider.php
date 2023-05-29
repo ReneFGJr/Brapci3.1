@@ -61,6 +61,7 @@ class LinkProvider extends Model
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
                     $target = $line2->target->identifiers;
+                    echo 'XXXXXXXXXXXXXXXXXXXXX';
                     pre($target);
 
                     $sa = '';
