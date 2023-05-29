@@ -57,20 +57,18 @@ class LinkProvider extends Model
                 //echo h("ERRO");
             } else {
                 foreach ($js as $ids => $line2) {
-
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
-                    $target = $line2->target->identifiers;
-                    echo 'XXXXXXXXXXXXXXXXXXXXX';
+                    $target = $line2->target;
+
                     pre($target,false);
 
-                    $sa = '';
-                    $sa .= $line['lk_doi'] . ';';
-                    $sa .= $target['doi'].';';
+                    $target = $this->recover_target($target);
 
-
-                    $sb .= $target['Type'] . ';';
-                    $sb .= $target['SType'] . ';';
+                    $sx .= $line['lk_doi'] . ';';
+                    $sx .= $target['doi'].';';
+                    $sx .= $target['Type'] . ';';
+                    $sx .= $target['SType'] . ';';
                     $sx .= '<br>';
                 }
             }
