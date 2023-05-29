@@ -50,6 +50,7 @@ class Dataset extends Model
         $dt['apikey'] = $token;
         $dt['url'] = $server;
         $dt['api'] = '/api/datasets/:persistentId/?persistentId=doi:' . $DOI;
+        //$dt['api'] = '/api/datasets/:persistentId/?persistentId=hdl:' . $DOI;
 
         $dt = $API->curl($dt);
         //$dt = troca($dt, '"multiple":false', '"multiple":0');
@@ -61,7 +62,34 @@ class Dataset extends Model
         $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
         $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
 
-        $sx = $this->createDataset('group2', $DV);
+        $area = false;
+        for($r=0;$r < count($DV['datasetVersion']['metadataBlocks']['citation']['fields']);$r++)
+            {
+                if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'subject')
+                {
+                    $area = true;
+                }
+                if($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'datasetContact')
+                    {
+                        if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] == '')
+                            {
+                                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] = false;
+                                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['value'] = "cariniana@ibict.br";
+                            }
+                    }
+            }
+
+        if (!$area)
+            {
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] = 'subject';
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeClass'] = 'controlledVocabulary';
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['multiple'] = true;
+                $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'] = ["Earth and Environmental Sciences"];
+            }
+
+        //typeName":"subject","multiple":true,"typeClass":"controlledVocabulary","value":["Earth and Environmental Sciences"]
+
+        $sx = $this->createDataset(get("dataverse_d"), $DV);
         /***************************** */
         return $sx;
     }
@@ -82,9 +110,12 @@ class Dataset extends Model
         $dd['AUTH'] = true;
         $dd['POST'] = true;
         $dd['FILE'] = $file;
-        $dd['url'] = 'https://venus.brapci.inf.br/';
+        //$dd['url'] = 'https://venus.brapci.inf.br/';
         $dd['api'] = 'api/dataverses/' . $PARENT . '/datasets';
-        $dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
+        //$dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
+        $dd['url'] = get("url_d");
+        $dd['apikey'] = get("apikey_d");
+        $dd['dataverse'] = get("dataverse_d");
 
         #$rst = $API->curlExec($dd);
         $rst = $API->curlExec($dd);
