@@ -47,7 +47,6 @@ class LinkProvider extends Model
         $dt = $this
             ->select("lk_doi, lk_result")
             ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
-            ->join('brapci_lattes.LattesProducao', 'lk_doi = lp_doi')
             ->where('olp_prj', $id)
             ->where('lk_status', 1)
             ->findAll();
