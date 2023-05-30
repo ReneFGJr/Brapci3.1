@@ -44,7 +44,7 @@ class LinkProvider extends Model
 
     function analysis($id)
     {
-        $DoiLattesAuthor = new App\Models\Api\Endpoint\DoiLattesAuthor();
+        $DoiLattesAuthor = new \App\Models\Api\Endpoint\DoiLattesAuthor();
         $dt = $this
             ->select("lk_doi, lk_result")
             ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
