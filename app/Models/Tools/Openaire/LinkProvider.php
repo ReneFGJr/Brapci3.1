@@ -63,6 +63,8 @@ class LinkProvider extends Model
 
                     pre($target,false);
 
+                    if (isset($target['identifiers']))
+                    {
                     $identifiers = $target->identifiers;
 
                     $sa = $line['lk_doi'] . ';';
@@ -76,6 +78,7 @@ class LinkProvider extends Model
                             $sx .= $ident['identifier'] . ';';
                             $sx .= '<br>';
                         }
+                    }
                 }
             }
         }
