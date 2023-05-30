@@ -63,7 +63,7 @@ class LattesKeywordsProducao extends Model
         {
             $dt = $this
                 ->select('lp_authors, ky_name, kp_producao')
-                ->join('lattesproducao', '(id_lp = kp_producao) and (kp_tipo = "A")')
+                ->join('LattesProducao', '(id_lp = kp_producao) and (kp_tipo = "A")')
                 ->join('brapci_tools.projects_harvesting_xml', '(hx_id_lattes =  lp_author) and (hx_project = ' . $prj . ')')
                 ->join('lattes_keywords', 'kp_keyword = id_ky')
                 ->where('1=1')
