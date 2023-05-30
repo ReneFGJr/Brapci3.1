@@ -90,6 +90,11 @@ class LinkProvider extends Model
                 }
             }
         }
+        $dir = '.tmp/Lattes/Export/';
+        dircheck($dir);
+        $file = $dir.'brapci_'.date("Ymd-His").'.csv';
+        file_put_contents($file,$sx);
+        $sx = anchor(URL.'/'.$file,'Download Resultado');
         return $sx;
     }
 
