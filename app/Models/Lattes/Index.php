@@ -101,6 +101,12 @@ class Index extends Model
                             $LattesProducaoArtistica = new \App\Models\LattesExtrator\LattesProducaoArtistica();
                             $txt = $LattesProducaoArtistica->csv($d2);
                             break;
+
+                        case '5':
+                            $LattesKeywordsProducao = new \App\Models\LattesExtrator\LattesKeywordsProducao();
+                            $txt = $LattesKeywordsProducao->csv($d2);
+                            break;
+
                     }
                 if ($ok==1)
                     {
@@ -347,6 +353,7 @@ class Index extends Model
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/3', lang('tools.export') . ' ' . lang('tools.lattes_events')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('tools.export') . ' ' . lang('tools.lattes_formacao')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/4', lang('tools.export') . ' ' . lang('tools.lattes_producao_artistica')) . ' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/5', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('tools.export') . ' ' . lang('tools.openaier')) . ' (api)</li>';
             $sx .= '</ul>';
             return $sx;

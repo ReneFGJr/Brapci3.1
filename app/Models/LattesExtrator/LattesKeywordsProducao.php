@@ -58,4 +58,41 @@ class LattesKeywordsProducao extends Model
                 }
             return true;
         }
+
+    function csv($prj=0)
+        {
+            $dt = $this
+                ->select('lp_authors, ky_name, kp_producao')
+                ->join('lattesproducao', '(id_lp = kp_producao) and (kp_tipo = "A")')
+                ->join('brapci_tools.projects_harvesting_xml', '(hx_id_lattes =  lp_author) and (hx_project = ' . $prj . ')')
+                ->join('lattes_keywords', 'kp_keyword = id_ky')
+                ->where('1=1')
+                ->findAll();
+
+            $xcap = '';
+            $sx = '';
+            $xname = '';
+            foreach($dt as $id=>$line)
+                {
+                    $prod = $line['kp_producao'];
+                    $name = $line['lp_authors'];
+                    if ($prod != $xcap)
+                        {
+                            $sx .= cr();
+                            $sx .= $name.';';
+                            $xcap = $prod;
+                        }
+                    $sx .= $line['ky_name'].';';
+                }
+
+        header("Content-Type: text/csv");
+        header("Content-Disposition: attachment; filename=brapci_tools_keywords_" . date("Ymd-His") . ".csv");
+        header("Pragma: no-cache");
+        header("Expires: 0");
+
+        echo 'AUTHOR;KEY1;KEY2;KEY3;KEY4;KEY5' . chr(13);
+        echo $sx;
+        exit;
+
+        }
 }
