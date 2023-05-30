@@ -78,7 +78,7 @@ class LattesKeywordsProducao extends Model
                     $name = $line['lp_authors'];
                     if ($prod != $xcap)
                         {
-                           if ($xcap != '') { $sx .= '#'. cr(); }
+                           if ($xcap != '') { $sx .=  cr(); }
                             $sx .= '"'.$name.'",';
                             $xcap = $prod;
                         }
@@ -91,7 +91,7 @@ class LattesKeywordsProducao extends Model
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo 'AUTHOR,KEY1,KEY2,KEY3,KEY4,KEY5';
+        echo 'AUTHOR,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6'.cr();
         echo utf8_decode($sx);
         exit;
 
