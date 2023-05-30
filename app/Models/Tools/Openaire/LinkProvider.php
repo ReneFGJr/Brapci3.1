@@ -61,13 +61,13 @@ class LinkProvider extends Model
                     $source = $line2->source;
                     $target = (array)$line2->target;
 
-
+                    pre($target,false);
 
                     if (isset($target['identifiers']))
                     {
                     $identifiers = $target['identifiers'];
 
-                        pre($identifiers, false);
+                    //pre($identifiers, false);
 
                     $sa = $line['lk_doi'] . ';';
 
