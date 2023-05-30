@@ -59,17 +59,17 @@ class LinkProvider extends Model
                 foreach ($js as $ids => $line2) {
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
+
+                    $sa = $source->identifiers[0]->identifier . ';';
+                    $sa .= $source->identifiers[0]->schema . ';';
+
+
                     $target = (array)$line2->target;
-
-                    pre($line2,false);
-
                     if (isset($target['identifiers']))
                     {
                     $identifiers = $target['identifiers'];
 
                     //pre($identifiers, false);
-
-                    $sa = $line['lk_doi'] . ';';
 
                     foreach($identifiers as $idf=>$ident)
                         {
