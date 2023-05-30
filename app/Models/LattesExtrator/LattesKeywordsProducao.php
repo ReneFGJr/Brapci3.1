@@ -78,19 +78,20 @@ class LattesKeywordsProducao extends Model
                     $name = $line['lp_authors'];
                     if ($prod != $xcap)
                         {
-                            $sx .= cr();
-                            $sx .= $name.';';
+                           if ($xcap != '') { $sx .= '#'. cr(); }
+                            $sx .= '"'.$name.'";';
                             $xcap = $prod;
                         }
-                    $sx .= $line['ky_name'].';';
+                    $sx .= '"'.$line['ky_name'].'";';
                 }
+            $sx .= cr();
 
         header("Content-Type: text/csv");
         header("Content-Disposition: attachment; filename=brapci_tools_keywords_" . date("Ymd-His") . ".csv");
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo 'AUTHOR;KEY1;KEY2;KEY3;KEY4;KEY5' . chr(13);
+        echo 'AUTHOR;KEY1;KEY2;KEY3;KEY4;KEY5';
         echo utf8_decode($sx);
         exit;
 
