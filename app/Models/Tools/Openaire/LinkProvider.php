@@ -44,6 +44,7 @@ class LinkProvider extends Model
 
     function analysis($id)
     {
+        $DoiLattesAuthor = new App\Models\Api\Endpoint\DoiLattesAuthor();
         $dt = $this
             ->select("lk_doi, lk_result")
             ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
@@ -61,7 +62,9 @@ class LinkProvider extends Model
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
 
-                    $sa = $source->identifiers[0]->identifier . ';';
+                    $doi = $source->identifiers[0]->identifier;
+
+                    $sa =  $doi. ';';
                     $sa .= $source->identifiers[0]->schema . ';T';
 
 
@@ -69,6 +72,8 @@ class LinkProvider extends Model
                     if (isset($target['identifiers']))
                     {
                     $identifiers = $target['identifiers'];
+
+                    $sp = $DoiLattesAuthor->doiAuthor($doi);
 
                     //pre($identifiers, false);
 
@@ -78,6 +83,7 @@ class LinkProvider extends Model
                             $sx .= $sa.';';
                             $sx .= $ident['schema'] . ';';
                             $sx .= $ident['identifier'] . ';';
+                            $sx .= $doi;
                             $sx .= '<br>';
                         }
                     }

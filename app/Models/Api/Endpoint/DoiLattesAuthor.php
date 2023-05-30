@@ -12,8 +12,7 @@
 
 namespace App\Models\Api\Endpoint;
 
-use App\Database\Migrations\LattesDados;
-use App\Models\LattesExtrator\LattesProducao;
+
 use CodeIgniter\Model;
 
 class DoiLattesAuthor extends Model
@@ -61,7 +60,7 @@ class DoiLattesAuthor extends Model
         return "NnN";
     }
 
-    function doiAuthor($name)
+    function doiAuthor($doi)
         {
             $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
             $cp = 'f_curso,lt_name,f_type,f_situacao';
@@ -69,7 +68,7 @@ class DoiLattesAuthor extends Model
                 ->select($cp)
                 ->join('lattesdados', 'lt_id = lp_author')
                 ->join('lattesformacao', 'f_id = lp_author')
-                ->where('lp_doi',$name)
+                ->where('lp_doi', $doi)
                 ->findAll();
 
             $nome = '';
