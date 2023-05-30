@@ -91,7 +91,7 @@ class LattesKeywordsProducao extends Model
         header("Expires: 0");
 
         echo 'AUTHOR;KEY1;KEY2;KEY3;KEY4;KEY5' . chr(13);
-        echo ($sx);
+        echo utf8_decode($sx);
         exit;
 
         }
