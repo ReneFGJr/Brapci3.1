@@ -107,6 +107,21 @@ class Index extends Model
                             $txt = $LattesKeywordsProducao->csv($d2);
                             break;
 
+                        case '6':
+                            $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
+                            $txt = $LattesFormacao->csv($d2);
+                            break;
+
+                        case '7':
+                            $LattesEndereco = new \App\Models\LattesExtrator\LattesEndereco();
+                            $txt = $LattesEndereco->csv($d2);
+                            break;
+
+                        case '8':
+                            $LattesOrientacao = new \App\Models\LattesExtrator\LattesOrientacao();
+                            $txt = $LattesOrientacao->csv($d2);
+                            break;
+
                     }
                 if ($ok==1)
                     {
@@ -355,6 +370,9 @@ class Index extends Model
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/4', lang('tools.export') . ' ' . lang('tools.lattes_producao_artistica')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/5', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('tools.export') . ' ' . lang('tools.openaier')) . ' (api)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/6', lang('tools.export') . ' ' . lang('tools.lattes_academic_education')) . ' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/7', lang('tools.export') . ' ' . lang('tools.lattes_affiliation')) . ' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/8', lang('tools.export') . ' ' . lang('tools.lattes_orientations')) . ' (csv)</li>';
             $sx .= '</ul>';
             return $sx;
         }

@@ -314,4 +314,36 @@ class LattesOrientacao extends Model
 		}
 		return 'ok';
 	}
+
+	function csv($id)
+	{
+		$dt = $this
+			->join('brapci_tools.projects_harvesting_xml', 'lo_author  = hx_id_lattes')
+			->join('lattesdados', 'lo_author = lt_id')
+			->where('hx_project', $id)
+			->findAll();
+
+		$sx = 'IDLATTES,NAME,TITLE,YEAR,LANG,TYPE,NAMEO' . chr(13);
+		foreach ($dt as $id => $line) {
+			$sa = '';
+			$sa .= '"' . $line['lo_author'] . '",';
+			$sa .= '"' . $line['lt_name'] . '",';
+			$sa .= '"' . $line['lo_title'] . '",';
+			$sa .= '"' . $line['lo_natureza'] . '",';
+			$sa .= '"' . $line['lo_ano'] . '",';
+			$sa .= '"' . $line['lo_lang'] . '",';
+			$sa .= '"' . $line['lo_tipo_orientacao'] . '",';
+			$sa .= '"' . $line['lo_orientando'] . '",';
+			$sa = troca($sa, chr(13), '');
+			$sa = troca($sa, chr(10), '');
+			$sx .= $sa . chr(13);
+		}
+
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=brapci_tools_affiliation_" . date("Ymd-His") . ".csv");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		echo $sx;
+		exit;
+	}
 }

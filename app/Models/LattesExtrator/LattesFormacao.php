@@ -105,13 +105,15 @@ class LattesFormacao extends Model
 	{
 		$dt = $this
 			->join('brapci_tools.projects_harvesting_xml', 'f_id  = hx_id_lattes')
+			->join('lattesdados', 'f_id = lt_id')
 			->where('hx_project', $id)
 			->findAll();
 
-		$sx = 'IDLATTES,TYPE,INSTITUTION,COURSE,STATUS,YEAR_I,YEAR_F' . chr(13);
+		$sx = 'IDLATTES,NAME,TYPE,INSTITUTION,COURSE,STATUS,YEAR_I,YEAR_F' . chr(13);
 		foreach ($dt as $id => $line) {
 			$sa = '';
 			$sa .= '"' . $line['f_id'] . '",';
+			$sa .= '"' . $line['lt_name'] . '",';
 			$sa .= '"' . $line['f_type'] . '",';
 			$sa .= '"' . $line['f_inst'] . '",';
 			$sa .= '"' . $line['f_curso'] . '",';

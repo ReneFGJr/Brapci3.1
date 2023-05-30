@@ -140,4 +140,39 @@ class LattesEndereco extends Model
 						exit;
 				}
 		}
+
+	function csv($id)
+	{
+		$dt = $this
+			->join('brapci_tools.projects_harvesting_xml', 'ad_id  = hx_id_lattes')
+			->join('lattesdados', 'ad_id = lt_id')
+			->where('hx_project', $id)
+			->findAll();
+
+		$sx = 'IDLATTES,NAME,INSTITUTION,DEPARTAMENT,UNIT,COUNTRY,STATE,CITY' . chr(13);
+		foreach ($dt as $id => $line) {
+
+			$sa = '';
+			$sa .= '"' . $line['ad_id'] . '",';
+			$sa .= '"' . $line['lt_name'] . '",';
+			$sa .= '"' . $line['ad_inst'] . '",';
+			$sa .= '"' . $line['ad_inst_orgao'] . '",';
+			$sa .= '"' . $line['ad_inst_unidade'] . '",';
+			$sa .= '"' . $line['ad_country'] . '",';
+			$sa .= '"' . $line['ad_uf'] . '",';
+			$sa .= '"' . $line['ad_cidade'] . '",';
+			$sa = troca($sa, chr(13), '');
+			$sa = troca($sa, chr(10), '');
+			$sx .= $sa . chr(13);
+		}
+
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=brapci_tools_affiliation_" . date("Ymd-His") . ".csv");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+		echo $sx;
+		exit;
+	}
+
+
 }
