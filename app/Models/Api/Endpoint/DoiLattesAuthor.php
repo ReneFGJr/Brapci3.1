@@ -84,9 +84,16 @@ class DoiLattesAuthor extends Model
                         {
                             case 'G':
                                 $grad = $line['f_curso'];
+                                break;
+                            case 'M':
+                                $mest = $line['f_curso'];
+                                break;
+                            case 'D':
+                                $dout = $line['f_curso'];
+                                break;
                         }
                 }
-            echo $nome.';'.$grad;
+            echo $nome.';'.$grad.';'.$mest.';'.$dout;
             exit;
         }
 }
