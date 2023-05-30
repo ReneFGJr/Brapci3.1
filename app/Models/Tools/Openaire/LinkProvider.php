@@ -83,7 +83,7 @@ class LinkProvider extends Model
                             $sx .= $sa.';';
                             $sx .= $ident['schema'] . ';';
                             $sx .= $ident['identifier'] . ';';
-                            $sx .= $doi;
+                            $sx .= $sp;
                             $sx .= '<br>';
                         }
                     }
