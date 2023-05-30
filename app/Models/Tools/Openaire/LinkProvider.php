@@ -44,7 +44,9 @@ class LinkProvider extends Model
 
     function analysis($id)
     {
+        $DoiLattesAuthor = new \App\Models\Api\Endpoint\DoiLattesAuthor();
         $dt = $this
+            ->select("lk_doi, lk_result")
             ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
             ->where('olp_prj', $id)
             ->where('lk_status', 1)
@@ -56,21 +58,43 @@ class LinkProvider extends Model
             if ($js == '') {
                 //echo h("ERRO");
             } else {
-                pre($js);
                 foreach ($js as $ids => $line2) {
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
-                    $target = $line2->target;
-                    $target = $this->recover_target($target);
 
-                    $sx .= $line['lk_doi'] . ';';
-                    $sx .= $target['doi'].';';
-                    $sx .= $target['Type'] . ';';
-                    $sx .= $target['SType'] . ';';
-                    $sx .= '<br>';
+                    $doi = $source->identifiers[0]->identifier;
+
+                    $sa =  $doi. ';';
+                    $sa .= $source->identifiers[0]->schema . ';T';
+
+
+                    $target = (array)$line2->target;
+                    if (isset($target['identifiers']))
+                    {
+                    $identifiers = $target['identifiers'];
+
+                    $sp = $DoiLattesAuthor->doiAuthor($doi);
+
+                    //pre($identifiers, false);
+
+                    foreach($identifiers as $idf=>$ident)
+                        {
+                            $ident = (array)$ident;
+                            $sx .= $sa.';';
+                            $sx .= $ident['schema'] . ';';
+                            $sx .= $ident['identifier'] . ';';
+                            $sx .= $sp;
+                            $sx .= '<br>';
+                        }
+                    }
                 }
             }
         }
+        $dir = '.tmp/Lattes/Export/';
+        dircheck($dir);
+        $file = $dir.'brapci_'.date("Ymd-His").'.csv';
+        file_put_contents($file,$sx);
+        $sx = anchor(URL.'/'.$file,'Download Resultado');
         return $sx;
     }
 
