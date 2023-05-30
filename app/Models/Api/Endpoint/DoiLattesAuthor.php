@@ -64,7 +64,9 @@ class DoiLattesAuthor extends Model
     function doiAuthor($name)
         {
             $LattesProducao = new \App\Models\LattesExtrator\LattesProducao();
+            $cp = 'f_curso,lt_name,f_type,f_situacao';
             $dt = $LattesProducao
+                ->select($cp)
                 ->join('lattesdados', 'lt_id = lp_author')
                 ->join('lattesformacao', 'f_id = lp_author')
                 ->where('lp_doi',$name)
