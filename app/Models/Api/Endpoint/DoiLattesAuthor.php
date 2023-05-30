@@ -71,7 +71,22 @@ class DoiLattesAuthor extends Model
                 ->join('lattesformacao', 'f_id = lp_author')
                 ->where('lp_doi',$name)
                 ->findAll();
-            pre($dt);
+
+            $nome = '';
+            $grad='';
+            $mest='';
+            $dout='';
+            foreach($dt as $id=>$line)
+                {
+                    $nome = $line['lt_name'];
+                    $n = $line['f_type'];
+                    switch($n)
+                        {
+                            case 'G':
+                                $grad = $line['f_curso'];
+                        }
+                }
+            echo $nome.';'.$grad;
             exit;
         }
 }
