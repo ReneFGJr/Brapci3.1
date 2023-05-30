@@ -62,7 +62,7 @@ class LattesKeywordsProducao extends Model
     function csv($prj=0)
         {
             $dt = $this
-                ->select('lp_authors, ky_name, kp_producao')
+                ->select('lp_authors, ky_name, kp_producao, lp_title')
                 ->join('LattesProducao', '(id_lp = kp_producao) and (kp_tipo = "A")')
                 ->join('brapci_tools.projects_harvesting_xml', '(hx_id_lattes =  lp_author) and (hx_project = ' . $prj . ')')
                 ->join('lattes_keywords', 'kp_keyword = id_ky')
@@ -75,11 +75,11 @@ class LattesKeywordsProducao extends Model
             foreach($dt as $id=>$line)
                 {
                     $prod = $line['kp_producao'];
-                    $name = $line['lp_authors'];
+                    $name = '"'.$line['lp_authors'].'","'.$line['lp_title'].'"';
                     if ($prod != $xcap)
                         {
                            if ($xcap != '') { $sx .=  cr(); }
-                            $sx .= '"'.$name.'",';
+                            $sx .= $name;
                             $xcap = $prod;
                         }
                     $sx .= '"'.$line['ky_name'].'",';
@@ -91,7 +91,7 @@ class LattesKeywordsProducao extends Model
         header("Pragma: no-cache");
         header("Expires: 0");
 
-        echo 'AUTHOR,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6'.cr();
+        echo 'AUTHOR,TITLE,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6'.cr();
         echo utf8_decode($sx);
         exit;
 
