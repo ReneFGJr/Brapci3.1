@@ -59,7 +59,7 @@ class LinkProvider extends Model
                 foreach ($js as $ids => $line2) {
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
-                    $target = $line2->target;
+                    $target = (array)$line2->target;
 
 
                     $identifiers = $target->identifiers;
