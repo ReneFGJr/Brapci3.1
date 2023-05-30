@@ -65,7 +65,7 @@ class LinkProvider extends Model
 
                     if (isset($target['identifiers']))
                     {
-                    $identifiers = $target->identifiers;
+                    $identifiers = $target['identifiers'];
 
                     $sa = $line['lk_doi'] . ';';
                     $sa .= $target['doi'] . ';';
