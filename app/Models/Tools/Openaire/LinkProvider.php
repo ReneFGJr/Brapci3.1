@@ -61,7 +61,7 @@ class LinkProvider extends Model
                     $source = $line2->source;
                     $target = (array)$line2->target;
 
-                    pre($source,false);
+                    pre($line2,false);
 
                     if (isset($target['identifiers']))
                     {
