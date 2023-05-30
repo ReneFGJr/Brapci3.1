@@ -63,15 +63,18 @@ class LinkProvider extends Model
 
 
                     $identifiers = $target->identifiers;
-                    pre($identifiers, false);
 
-                    $target = $this->recover_target($target);
+                    $sa = $line['lk_doi'] . ';';
+                    $sa .= $target['doi'] . ';';
 
-                    $sx .= $line['lk_doi'] . ';';
-                    $sx .= $target['doi'].';';
-                    $sx .= $target['Type'] . ';';
-                    $sx .= $target['SType'] . ';';
-                    $sx .= '<br>';
+                    foreach($identifiers as $idf=>$ident)
+                        {
+                            $ident = (array)$ident;
+                            $sx .= $sa.';';
+                            $sx .= $ident['schema'] . ';';
+                            $sx .= $ident['identifier'] . ';';
+                            $sx .= '<br>';
+                        }
                 }
             }
         }
