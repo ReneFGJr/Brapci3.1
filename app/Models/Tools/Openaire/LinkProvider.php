@@ -45,9 +45,10 @@ class LinkProvider extends Model
     function analysis($id)
     {
         $dt = $this
-            //->join('brapci_lattes.lattesformacao', 'f_id = lp_author')
+
             ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
             ->join('brapci_lattes.LattesProducao', 'lk_doi = lp_doi')
+            ->join('brapci_lattes.lattesformacao', 'lp_author = f_id')
             ->where('olp_prj', $id)
             ->where('lk_status', 1)
             ->findAll();
