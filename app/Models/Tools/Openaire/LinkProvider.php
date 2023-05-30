@@ -70,7 +70,6 @@ class LinkProvider extends Model
                         pre($identifiers, false);
 
                     $sa = $line['lk_doi'] . ';';
-                    $sa .= $target['doi'] . ';';
 
                     foreach($identifiers as $idf=>$ident)
                         {
