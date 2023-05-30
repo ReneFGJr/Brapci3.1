@@ -45,6 +45,8 @@ class LinkProvider extends Model
     function analysis($id)
     {
         $dt = $this
+            ->join('brapci_lattes.LattesProducaoEsconder', 'lp_doi = olp_doi')
+            ->join('lattesformacao', 'f_id = lp_author')
             ->join('openaire_linkproviders_prj', 'id_lk = olp_doi')
             ->where('olp_prj', $id)
             ->where('lk_status', 1)
@@ -56,12 +58,13 @@ class LinkProvider extends Model
             if ($js == '') {
                 //echo h("ERRO");
             } else {
+                pre($line);
                 foreach ($js as $ids => $line2) {
                     $pubData = $line2->publicationDate;
                     $source = $line2->source;
 
                     $sa = $source->identifiers[0]->identifier . ';';
-                    $sa .= $source->identifiers[0]->schema . ';';
+                    $sa .= $source->identifiers[0]->schema . ';T';
 
 
                     $target = (array)$line2->target;
