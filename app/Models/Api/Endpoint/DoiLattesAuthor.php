@@ -92,7 +92,6 @@ class DoiLattesAuthor extends Model
                                 break;
                         }
                 }
-            echo $nome.';'.$grad.';'.$mest.';'.$dout;
-            exit;
+           return $nome.';'.$grad.';'.$mest.';'.$dout;
         }
 }
