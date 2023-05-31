@@ -14,7 +14,6 @@ cursor = conexao.cursor()
 cursor.execute(sql)
 results = cursor.fetchall()
 cursor.close()
-print(results)
 
 sx = ''
 sx = 'echo "Brapci"\n'
@@ -25,4 +24,7 @@ sx = sx + "\n"
 sx = sx + "\n"
 sx = sx + 'echo "COPIANDO PARA A REDE"\n'
 sx = sx + 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/."\n'
-print(sx)
+
+f= open("myssql_backup","w+")
+f.write(sx)
+f.close()
