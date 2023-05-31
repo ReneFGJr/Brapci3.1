@@ -19,7 +19,7 @@ print(results)
 sx = ''
 sx = 'echo "Brapci"\n'
 for db in results:
-    sx = sx + 'mysqldump '+db[0]+" /home/brapci/backup/"+db[0]+".sql\n"
+    sx = sx + 'mysqldump '+db[0]+" > /home/brapci/backup/"+db[0]+".sql\n"
 sx = sx + 'echo "Fim do Backup"'
 sx = sx + "\n"
 sx = sx + "\n"
