@@ -18,6 +18,7 @@ cursor.close()
 sx = ''
 sx = 'echo "Brapci"\n'
 for db in results:
+    sx = sx + 'echo "Gerando '+db[0]+'"\n'
     sx = sx + 'mysqldump '+db[0]+" > /home/brapci/backup/"+db[0]+".sql\n"
 sx = sx + 'echo "Fim do Backup"'
 sx = sx + "\n"
