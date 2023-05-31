@@ -29,7 +29,6 @@ for result in results:
   print(url)
 
   req = urllib.request.Request(url)
-
   try:
     with urllib.request.urlopen(req) as response:
         the_page = response.read()
