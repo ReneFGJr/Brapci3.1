@@ -1182,6 +1182,7 @@ class Socials extends Model
 		$sx = '';
 		if (!isset($_SESSION['forgout'])) {
 			$sx = '<h2>' . lang('social.link_expired') . '</h2>';
+			$sx .= bsmessage('Abra o link no mesmo navegador da solicitação do e-mail', 3);
 			return $sx;
 		}
 
@@ -1191,6 +1192,7 @@ class Socials extends Model
 
 		if ($keys != $keyf) {
 			$sx = '<h2>' . lang('social.link_expired') . '</h2>';
+			$sx .= bsmessage('Abra o link no mesmo navegador da solicitação do e-mail', 3);
 			return $sx;
 		}
 
