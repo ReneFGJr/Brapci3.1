@@ -2,5 +2,11 @@
     "host": "localhost",
     "user":"root",
     "password":"senha"
+    },
+"dataverse":
+    {
+        "baseurl":"https://venus.brapci.inf.br/",
+        "apikey":"919d765c-b728-4875-b50e-dd4fb71b5e6a"
     }
+
 }
