@@ -49,7 +49,8 @@ class Collections extends Model
                         ->select($cp)
                         ->orderby('collection_seq')
                         ->findAll();
-                    return(json_encode($dt));
+                    $dr['Collections'] = $dt;
+                    return(json_encode($dr));
                 }
         }
 }

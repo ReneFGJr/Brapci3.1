@@ -13,6 +13,7 @@ import { YearComponent } from './modules/search/filter/year/year.component';
 import { CollectionsComponent } from './modules/search/filter/collections/collections.component';
 import { DataCollectionsComponent } from './data/filters/data-collections/data-collections.component';
 import { DataYearComponent } from './data/filters/data-year/data-year.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { DataYearComponent } from './data/filters/data-year/data-year.component'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
