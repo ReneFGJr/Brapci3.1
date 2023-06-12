@@ -9,7 +9,8 @@ import { CollectionsService } from 'src/app/services/collections.service';
 
 export class DataCollectionsComponent implements OnInit {
 
-  CollectionsData = <any>[];
+  CollectionsData: Array<any> = new Array();
+  CollectionSize: number = 0;
 
   constructor(
     private collectionsService: CollectionsService
@@ -17,9 +18,11 @@ export class DataCollectionsComponent implements OnInit {
 
   ngOnInit()
     {
-      this.collectionsService.getCollections().subscribe(data => {
-          this.CollectionsData = data;
-          console.log(data);
+      this.collectionsService.getCollections().subscribe(CollectionsData => {
+          this.CollectionsData = CollectionsData;
+          this.CollectionSize = CollectionsData.length;
+          console.log(CollectionsData.length);
+          console.log(CollectionsData);
         },
         (error)=>{
           console.log(error);

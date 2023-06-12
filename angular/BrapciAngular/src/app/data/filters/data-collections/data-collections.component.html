@@ -1,8 +1,6 @@
-=============================
-{{ CollectionsData }}
-=============================
-<ul>
-<li ngFor="let item of CollectionsData[0]">
----
+<ul id="CollectionList">
+<li *ngFor="let Collections of CollectionsData; let i = index" class="CollectionListItem">
+    <input type="checkbox" id="Collections">
+    {{CollectionsData[i].collection_name}}
 </li>
 </ul>

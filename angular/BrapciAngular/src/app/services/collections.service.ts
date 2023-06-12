@@ -9,7 +9,7 @@ export class CollectionsService {
   private URL = 'https://cip.brapci.inf.br/api/source/collections';
   constructor(private http: HttpClient) { }
 
-  public getCollections()
+  public getCollections() : Observable<any>
     {
       return this.http.get(`${this.URL}`);
     }
