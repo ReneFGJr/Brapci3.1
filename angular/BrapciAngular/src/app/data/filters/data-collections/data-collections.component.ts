@@ -6,10 +6,10 @@ import { CollectionsService } from 'src/app/services/collections.service';
   templateUrl: './data-collections.component.html',
   styleUrls: ['./data-collections.component.scss']
 })
+
 export class DataCollectionsComponent implements OnInit {
 
-
-  CollectionsData = [];
+  CollectionsData = <any>[];
 
   constructor(
     private collectionsService: CollectionsService
@@ -17,9 +17,8 @@ export class DataCollectionsComponent implements OnInit {
 
   ngOnInit()
     {
-      this.collectionsService.getCollections().subscribe(
-        (data)=> {
-          this.CollectionsData = [];
+      this.collectionsService.getCollections().subscribe(data => {
+          this.CollectionsData = data;
           console.log(data);
         },
         (error)=>{

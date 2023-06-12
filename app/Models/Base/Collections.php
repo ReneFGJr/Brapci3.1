@@ -44,7 +44,7 @@ class Collections extends Model
         {
             if ($type == 'json')
                 {
-                    $cp = 'collection_id, collection_name, collection_type, collection_seq';
+                    $cp = 'id_collection as id, collection_id, collection_name, collection_type, collection_seq';
                     $dt = $this
                         ->select($cp)
                         ->orderby('collection_seq')
