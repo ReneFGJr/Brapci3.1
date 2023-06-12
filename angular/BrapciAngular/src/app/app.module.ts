@@ -14,6 +14,7 @@ import { CollectionsComponent } from './modules/search/filter/collections/collec
 import { DataCollectionsComponent } from './data/filters/data-collections/data-collections.component';
 import { DataYearComponent } from './data/filters/data-year/data-year.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CollectionsService } from './services/collections.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [CollectionsService, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
