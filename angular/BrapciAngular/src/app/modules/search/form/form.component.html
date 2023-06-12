@@ -1,21 +1,20 @@
 <app-logo></app-logo>
 <div class="container">
   <div class="row">
-    <!-- Form-->
-    <div class="col-12 col-sm-12">
-
-      <form action="" method="get">
-        Busca
-        <input
-          type="text"
-          class="form-control border border-primary shadow"
-          placeholder="O que está procurando?"
-        />
-
-        <button class="btn btn-lg btn-primary">
-          Submit
-        </button>
-      </form>
+    <div class="col-12">
+      Digite sua estratégia de busca
+    </div>
+    <div class="col-12">
+      <input type="text" class="form-control shadown border border-primary" placeholder="O que está procurando" />
+    </div>
+    <div class="col-6">
+      <button id="search" class="btn btn-primary me-3">Busca</button>
+      <button id="filters" (click)="toggleFilter()" class="btn btn-outline-primary me-3">Filtros</button>
+    </div>
+    <div class="col-6">
+      <input type="checkbox"> Busca Semântica
     </div>
   </div>
 </div>
+
+<app-filter *ngIf="showFilter"></app-filter>

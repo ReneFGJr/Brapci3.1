@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'source':
+                $Sources = new \App\Models\Api\Endpoint\Sources();
+                $sx = $Sources->index($d2, $d3, $d4);
+                break;
             case 'lattes':
                 $Lattes = new \App\Models\Api\Endpoint\Lattes();
                 $sx = $Lattes->index($d2,$d3,$d4);
@@ -121,6 +125,7 @@ class Index extends Model
                 $sx .= '        <pre>' . '<a href="' . $url_ex . '">' . $url_ex . '</a></pre><br>' . cr();
                 $sx .= '    </div> ' . cr();
                 $sx .= '</div> ' . cr();
+                $sx = troca($sx, '$PATH', URL);
                 //$sx .= '</div>';
             }
         }

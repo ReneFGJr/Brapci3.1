@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <button (click)="toggleShowYear()" class="me-2">Year</button>
+      <button (click)="toggleShowCollection()" class="me-2">Collection</button>
+    </div>
+  <div class="col-12 h4">{{ FilterLabel }}</div>
+    <div class="col-12" *ngIf="filterYear">
+      <app-year></app-year>
+    </div>
+    <div class="col-12" *ngIf="filterCollection">
+      <app-collections></app-collections>
+    </div>
+  </div>
+</div>
+
+{{ Status }}

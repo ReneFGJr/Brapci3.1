@@ -148,8 +148,22 @@ class Sources extends Model
             return $sx;
         }
 
+    function list_json()
+        {
+            $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final, jnl_historic, jnl_active, jnl_frbr';
+            $dt = $this
+            ->select($cp)
+            ->OrderBy('jnl_name')
+            ->findAll();
+            return json_encode($dt);
+        }
+
     function list($type='')
         {
+            if ($type=='json')
+                {
+                    return $this->list_json();
+                }
             $Socials = new \App\Models\Socials();
             $sx = '';
             switch($type)

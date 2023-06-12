@@ -1,0 +1,33 @@
+<div class="row">
+<!--------------------- START YEAR-->
+  <div class="col-1">
+    <select
+      class="custom-select mb-3"
+      formControlName="filterYear"
+      id="yearStart"
+      (change)="selectYear($event,1);"
+    >
+      <option value="">Start</option>
+      <option value="{{item.year}}" *ngFor="let item of yearI">
+        {{ item.year }}
+      </option>
+    </select>
+  </div>
+<!--------------------- END YEAR-->
+  <div class="col-1">
+    <select
+      class="custom-select mb-3"
+      formControlName="filterYear"
+      id="yearEnd"
+      (change)="selectYear($event,2);"
+    >
+      <option value="">End Year</option>
+      <option value="{{ item.year }}" *ngFor="let item of yearF desc">
+        {{ item.year }}
+      </option>
+
+    </select>
+  </div>
+</div>
+
+{{ yearStart }} - {{ yearEnd }}
