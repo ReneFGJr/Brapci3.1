@@ -9,6 +9,7 @@ export class FilterComponent {
   public FilterLabel = "Filtros";
   public filterCollection: boolean = false;
   public filterYear: boolean = false;
+  public filterSources: boolean = false;
   public Status: string = "none";
 
   ngOnInit(): void {
@@ -34,4 +35,13 @@ export class FilterComponent {
       this.filterCollection = true;
     }
   }
+
+  public toggleShowSource()
+    {
+    if (this.filterSources) {
+      this.filterSources = false;
+      } else {
+      this.filterSources = true;
+      }
+    }
 }

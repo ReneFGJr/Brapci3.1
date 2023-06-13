@@ -11,10 +11,13 @@ import { FilterComponent } from './modules/search/filter/filter.component';
 import { FormComponent } from './modules/search/form/form.component';
 import { YearComponent } from './modules/search/filter/year/year.component';
 import { CollectionsComponent } from './modules/search/filter/collections/collections.component';
+import { SourceComponent } from './modules/search/filter/source/source.component';
 import { DataCollectionsComponent } from './data/filters/data-collections/data-collections.component';
 import { DataYearComponent } from './data/filters/data-year/data-year.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CollectionsService } from './services/collections.service';
+import { SourcesService } from './services/sources.service';
+import { DataSourcesComponent } from './data/filters/data-sources/data-sources.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,9 @@ import { CollectionsService } from './services/collections.service';
     YearComponent,
     CollectionsComponent,
     DataCollectionsComponent,
-    DataYearComponent
+    DataYearComponent,
+    SourceComponent,
+    DataSourcesComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,7 @@ import { CollectionsService } from './services/collections.service';
     NgbModule,
     HttpClientModule,
   ],
-  providers: [CollectionsService, HttpClientModule],
+  providers: [CollectionsService, HttpClientModule, SourcesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

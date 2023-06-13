@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./source.component.scss']
 })
 export class SourceComponent {
+  sources = "Fontes de Informação";
 
 }
