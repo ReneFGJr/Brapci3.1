@@ -43,4 +43,6 @@ import { DataSourcesComponent } from './data/filters/data-sources/data-sources.c
   providers: [CollectionsService, HttpClientModule, SourcesService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+ }

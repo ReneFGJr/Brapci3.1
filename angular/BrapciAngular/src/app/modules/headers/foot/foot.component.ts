@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-foot',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./foot.component.scss']
 })
 export class FootComponent {
-
+  HTTP = `${environment.HTTP}`;
 }
