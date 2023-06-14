@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'isbn':
+                $ISBN = new \App\Models\Api\Endpoint\Isbn();
+                $sx = $ISBN->index($d2, $d3, $d4);
+                break;
             case 'find':
                 $Find = new \App\Models\Find\Index();
                 $sx = $Find->index($d2,$d3,$d4);
