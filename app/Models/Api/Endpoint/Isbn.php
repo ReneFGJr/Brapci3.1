@@ -52,7 +52,7 @@ class Isbn extends Model
 
     function index($d1, $d2, $d3)
     {
-        $ISBN = new \App\Models\Functions\ISBN();
+        $ISBN = new \App\Models\Functions\Isbn();
         $isbn = sonumero($d1);
         $rst = [];
         $rst['valid'] = 0;
