@@ -74,6 +74,8 @@ class Isbn extends Model
             } else {
                 $rst ['valid'] = false;
             }
-        return json_encode($rst);
+        header('Access-Control-Allow-Origin: *');
+        echo  json_encode($rst);
+        exit;
     }
 }
