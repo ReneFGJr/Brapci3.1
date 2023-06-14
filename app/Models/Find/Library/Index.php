@@ -1,25 +1,14 @@
 <?php
-/*
-@category API
-@package Find
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2023 CC-BY
-@access public/private/apikey
-@example $URL/api/find/libraries/
-@abstract $URL/api/find/libraries/ -> Lista as bibliotecas do Sistema
-@abstract API para consulta de metadados de livros com o ISBN
-*/
 
-namespace App\Models\Api\Endpoint;
+namespace App\Models\Find\Library;
 
 use CodeIgniter\Model;
 
-class Find extends Model
+class Index extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'finds';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'find';
+    protected $table            = 'library';
+    protected $primaryKey       = 'id_lb';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -51,17 +40,9 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1,$d2,$d3)
+    function listAll()
         {
-            header('Access-Control-Allow-Origin: *');
-            switch($d1)
-                {
-                    case 'libraries':
-                        $Library = new \App\Models\Find\Library\Index();
-                        $dt = $Library->listAll();
-                        echo json_encode($dt);
-                        exit;
-                    break;
-                }
+            $dt = $this->orderBy('lb_name')->findAll();
+            return $dt;
         }
 }

@@ -55,7 +55,7 @@ class Index extends Model
                 $sx = $ISBN->index($d2, $d3, $d4);
                 break;
             case 'find':
-                $Find = new \App\Models\Find\Index();
+                $Find = new \App\Models\Api\Endpoint\Find();
                 $sx = $Find->index($d2,$d3,$d4);
                 break;
             case 'source':
