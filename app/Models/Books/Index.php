@@ -2,6 +2,7 @@
 
 namespace App\Models\Books;
 
+use App\Models\Functions\ISBNdb;
 use CodeIgniter\Model;
 
 class Index extends Model
@@ -79,6 +80,19 @@ class Index extends Model
         $sx .= $TechinalProceessing->resume();
 
         switch ($s) {
+            case 'api':
+                switch($a)
+                    {
+                        case 'isbndb':
+                            $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
+                            $sx .= bs(bsc($ISBNdb->form()));
+                            break;
+                        default:
+                        $sx = bs(bsc(h("API - ".$a)));
+                    }
+
+
+                break;
             case 'export':
                 $sx .= h(lang('brapci.export'));
                 $sx = bs(bsc($sx,12));
@@ -125,6 +139,9 @@ class Index extends Model
                     $menu[PATH . COLLECTION . '/admin/export/authors'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.authors') . '</li></ul>';
                     $menu[PATH . COLLECTION . '/admin/export/subjects'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.subjects') . '</li></ul>';
                     $menu[PATH . COLLECTION . '/admin/export/books'] = '<ul><li>' . lang('brapci.export') . ' ' . lang('brapci.books') . '</li></ul>';
+                    $menu['#API'] = 'A P I';
+                    $menu[PATH . COLLECTION . '/admin/api/isbndb'] = '<ul><li>' . lang('brapci.api') . ' ' . lang('brapci.isbndb') . '</li></ul>';
+
                     $sa .= menu($menu);
                     $sx .= bs(bsc($sa, 12));
         }

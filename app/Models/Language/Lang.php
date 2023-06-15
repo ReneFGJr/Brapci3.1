@@ -43,10 +43,14 @@ class Lang extends Model
 	function code($x)
 		{
 			$x = ascii(mb_strtolower($x));
+			if ($x == 'pt') { $x = 'portugues'; }
 			switch($x)
 				{
 					case 'bretao':
 						return 'bt';
+						break;
+					case 'it':
+						return 'it';
 						break;
 					case 'italiano':
 						return 'it';

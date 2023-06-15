@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Models\Find\Books\Db;
+
+use CodeIgniter\Model;
+
+class Expression extends Model
+{
+    protected $DBGroup          = 'find';
+    protected $table            = 'books_expression';
+    protected $primaryKey       = 'id_be';
+    protected $useAutoIncrement = true;
+    protected $insertID         = 0;
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = false;
+    protected $protectFields    = true;
+    protected $allowedFields    = [
+        'id_be', 'be_title', 'be_isbn13',
+        'be_isbn10', 'be_type', 'be_lang',
+        'be_status'
+    ];
+
+    // Dates
+    protected $useTimestamps = false;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
+
+    // Validation
+    protected $validationRules      = [];
+    protected $validationMessages   = [];
+    protected $skipValidation       = false;
+    protected $cleanValidationRules = true;
+
+    // Callbacks
+    protected $allowCallbacks = true;
+    protected $beforeInsert   = [];
+    protected $afterInsert    = [];
+    protected $beforeUpdate   = [];
+    protected $afterUpdate    = [];
+    protected $beforeFind     = [];
+    protected $afterFind      = [];
+    protected $beforeDelete   = [];
+    protected $afterDelete    = [];
+
+    function register($isbn,$dtd)
+        {
+            $dt = $this->where('be_isbn13',$isbn)->first();
+            if ($dt == '')
+                {
+                    $da['be_isbn13'] = $dtd['isbn13'];
+                    $da['be_isbn10'] = $dtd['isbn10'];
+                    $da['be_type'] = 1;
+                    $da['be_lang'] = $dtd['language'];
+                    $da['be_status'] = 1;
+                    $da['be_title'] = $dtd['title'];
+                    $ide = $this->set($da)->insert();
+                } else {
+                    $ide = $dt['id_be'];
+                }
+            return $ide;
+        }
+}

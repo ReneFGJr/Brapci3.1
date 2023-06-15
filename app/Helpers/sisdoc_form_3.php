@@ -31,7 +31,7 @@ function textClipboard($id, $class = '')
     return ($sx);
 }
 
-function read_link($url, $read = 'CURL',$force=false)
+function read_link($url, $read = 'CURL',$force=false, $headers=[])
 {
     $cached = false;
     dircheck('../.tmp/');
@@ -70,8 +70,13 @@ function read_link($url, $read = 'CURL',$force=false)
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            if ($headers != [])
+                {
+                    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+                } else {
+                    curl_setopt($curl, CURLOPT_HEADER, false);
+                }
+
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
             $data = curl_exec($curl);
