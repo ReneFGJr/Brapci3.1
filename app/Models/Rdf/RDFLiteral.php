@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFLiteral extends Model
 {
 	var $DBGroup              = 'rdf';
-	protected $table                = PREFIX . 'rdf_name';
+	var $table                = PREFIX . 'rdf_name';
 	protected $primaryKey           = 'id_n';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -72,6 +72,7 @@ class RDFLiteral extends Model
 				return 0;
 			}
 		}
+		echo $this->getlastquery();
 		return $dt['id_n'];
 	}
 }

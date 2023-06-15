@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class RDFPdf extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'rdfpdfs';
+    var $DBGroup          = 'default';
+    var $table            = 'rdfpdfs';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;

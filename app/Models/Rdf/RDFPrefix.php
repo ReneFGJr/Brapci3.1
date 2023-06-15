@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFPrefix extends Model
 {
 	var $DBGroup             		= 'rdf';
-	protected $table                = PREFIX . 'rdf_prefix';
+	var $table                = PREFIX . 'rdf_prefix';
 	protected $primaryKey           = 'id_prefix ';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;

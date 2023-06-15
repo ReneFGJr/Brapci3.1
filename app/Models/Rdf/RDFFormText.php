@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class RdfFormText extends Model
 {
-	protected $DBGroup              = 'rdf';
-	protected $table                = PREFIX . 'rdf_name';
+	var $DBGroup              = 'rdf';
+	var $table                = PREFIX . 'rdf_name';
 	protected $primaryKey           = 'id_n';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;

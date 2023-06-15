@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFOntology extends Model
 {
 	var $DBGroup              		= 'default';
-	protected $table                = PREFIX.'rdf_class';
+	var $table                = PREFIX.'rdf_class';
 	protected $primaryKey           = 'id_c';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;

@@ -57,6 +57,24 @@ class Manifestation extends Model
 
         function editoras($ide,$vlr)
             {
+                $class = "brapci:Publisher";
+                $RDF = new \App\Models\Find\Rdf\RDF();
+
+                $RDFConcept = new \App\Models\Rdf\RDFConcept();
+                $RDFConcept->table = 'find.' . $RDFConcept->table;
+
+                $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+                $RDFLiteral->table = 'find.'. $RDFLiteral->table;
+
+                $id_class = $RDF->class($class);
+                foreach($vlr as $id=>$name)
+                    {
+                        $id_literal = $RDF->literal($name,'NnN',True);
+                        $idc = $RDF->concept($id_class,$id_literal);
+                    }
+
+                echo h($id_class);
+                echo h($id_literal);
                 pre($vlr);
             }
 }

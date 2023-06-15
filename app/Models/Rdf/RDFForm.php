@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class RdfForm extends Model
 {
-	protected $DBGroup              = 'rdf';
-	protected $table                = 'rdf_form_class';
+	var $DBGroup              = 'rdf';
+	var $table                = 'rdf_form_class';
 	protected $primaryKey           = 'id_sc';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;

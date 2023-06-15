@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class RdfFormImage extends Model
 {
-	protected $DBGroup              = 'rdf';
-	protected $table                = '*';
+	var $DBGroup              = 'rdf';
+	var $table                = '*';
 	protected $primaryKey           = 'id';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;

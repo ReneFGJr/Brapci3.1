@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class RdfErros extends Model
 {
-	protected $DBGroup              = 'default';
-	protected $table                = 'rdf_erros';
+	var $DBGroup              = 'default';
+	var $table                = 'rdf_erros';
 	protected $primaryKey           = 'id_erro';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
