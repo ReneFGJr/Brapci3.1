@@ -98,16 +98,17 @@ class Index extends Model
     function recoverTag($txt, $tag)
     {
         $title = lang('book.not informed');
+        $txt = troca($txt,chr(10),chr(13));
         $ln = explode(chr(13),$txt);
         $rsp = '';
         foreach($ln as $id=>$txt)
             {
-            if ($pos = strpos($txt, $tag)) {
+            if ($pos = strpos(' '.$txt, $tag)) {
                 $line = trim(troca($txt,$tag,''));
-                $rsp .= $line.chr(13).'<hr>';
+                $rsp .= $line.chr(13);
             }
         }
-        $rsp = h($tag,4).'<br>'.$rsp;
+        $rsp = $rsp;
         return ($rsp);
     }
 
@@ -129,7 +130,6 @@ class Index extends Model
                 $title = $this->recoverTag($txt, '@package');
                 $authors = $this->recoverTag($txt, '@author');
                 $abstract = $this->recoverTag($txt, '@abstract');
-                echo $file.'<hr>'.$title.'<hr>';
 
                 $sx .= '<div class="accordion-item">' . cr();
                 $sx .= '    <h2 class="accordion-header" id="' . $name . '"> ' . cr();

@@ -7,6 +7,7 @@
 @copyright 2023 CC-BY
 @access public/private/apikey
 @example $URL/api/find/libraries/
+@example $URL/api/find/lastitens/
 @abstract $URL/api/find/libraries/ -> Lista as bibliotecas do Sistema
 @abstract API para consulta de metadados de livros com o ISBN
 */
@@ -51,10 +52,10 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function lastItems()
+    function lastitens()
         {
-            $find = new \App\Models\Find\Books\Db\Books();
-            $dt = $find->lastItems();
+            $Books = new \App\Models\Find\Books\Db\Books();
+            $dt = $Books->lastItens();
             pre($dt);
         }
 
@@ -63,6 +64,11 @@ class Find extends Model
             header('Access-Control-Allow-Origin: *');
             switch($d1)
                 {
+                    case  'lastitems':
+                        echo $this->lastItens();
+                        exit;
+                    break;
+
                     case 'libraries':
                         $Library = new \App\Models\Find\Library\Index();
                         $dt = $Library->listAll();

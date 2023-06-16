@@ -40,10 +40,12 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function lastItems()
+    function lastItens()
     {
-        $find = new \App\Models\Find\Books\Db\Books();
-        $dt = $find->lastItems();
+        $dt = $this
+                ->where('be_status <> 0 and be_status <> 9')
+                ->orderby('id_be desc')
+                ->findAll(0,10);
         pre($dt);
     }
 
