@@ -40,41 +40,118 @@ class Manifestation extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($ide,$dt)
+    function register($ide, $dt)
+    {
+        foreach ($dt as $prop => $vlr) {
+            switch ($prop) {
+                case 'language':
+                    break;
+                case 'title_long':
+                    break;
+                case 'dimensoes':
+                    break;
+                case 'title':
+                    break;
+                case 'cover':
+                    $id_img = $this->image($ide, $vlr, $dt['isbn13']);
+                    break;
+                case 'isbn13':
+                    break;
+                case 'isbn10':
+                    break;
+                case 'date':
+                    $this->single($ide, $vlr, 'Date', 'isPubishIn');
+                    break;
+                case 'editora':
+                    $this->editoras($ide, $vlr);
+                    break;
+                case 'authors':
+                    $this->authors($ide, $vlr);
+                    break;
+                default:
+                    echo h($prop);
+            }
+        }
+    }
+
+    function single($ide, $name , $class, $hasClass, $lang = 'NnN')
         {
-            foreach($dt as $prop=>$vlr)
+            $RDF = new \App\Models\Find\Rdf\RDF();
+            $idc = $RDF->concept($name, $class, $lang);
+            $prop = $RDF->class($hasClass);
+            $RDF->prop($ide, $prop, $idc, 0);
+        }
+
+    function image($ide,$vlr,$isbn)
+        {
+            $RDF = new \App\Models\Find\Rdf\RDF();
+            if (substr($vlr,0,4) == 'http')
                 {
-                    echo $prop;
-                    echo '<hr>';
-                    switch($prop)
+                    $content = read_link($vlr);
+                    if ($content != '')
                         {
-                            case 'editora':
-                                $this->editoras($ide,$vlr);
-                                break;
+                            $dir = '_repository/isbn/';
+                            dircheck($dir);
+                            $filename = $isbn.'.png';
+                            file_put_contents($dir . $filename,$content);
+                            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+                            /*********** Imagem Conceito */
+                            $id_img = $RDF->concept($filename, 'Image' , $lang = 'NnN');
+
+                            /*********** Propriedades da Imagem */
+                            $prop = $RDF->class('hasFileName');
+                            $literal = $RDF->literal($filename);
+                            $RDF->prop($id_img, $prop, 0, $literal);
+
+                            $prop = $RDF->class('hasFileSize');
+                            $literal = filesize($dir.$filename);
+                            $literal = $RDF->literal($literal);
+                            $RDF->prop($id_img, $prop, 0, $literal);
+
+                            $prop = $RDF->class('hasFileStorage');
+                            $literal = $dir . $filename;
+                            $literal = $RDF->literal($literal);
+                            $RDF->prop($id_img, $prop, 0, $literal);
+
+                            $prop = $RDF->class('hasFileType');
+                            $literal = $ext;
+                            $literal = $RDF->literal($literal);
+                            $RDF->prop($id_img, $prop, 0, $literal);
+
+                            $prop = $RDF->class('hasCover');
+                            $RDF->prop($ide, $prop, $id_img, 0);
                         }
                 }
         }
 
-        function editoras($ide,$vlr)
-            {
-                $class = "brapci:Publisher";
-                $RDF = new \App\Models\Find\Rdf\RDF();
+    function editoras($ide, $vlr)
+    {
+        $RDF = new \App\Models\Find\Rdf\RDF();
 
-                $RDFConcept = new \App\Models\Rdf\RDFConcept();
-                $RDFConcept->table = 'find.' . $RDFConcept->table;
+        $class = "brapci:Publisher";
+        $hasClass = "brapci:isPublisher";
+        $prop = $RDF->class($hasClass);
 
-                $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
-                $RDFLiteral->table = 'find.'. $RDFLiteral->table;
+        foreach ($vlr as $id => $name) {
+            $lang = 'NnN';
+            $idc = $RDF->concept($name, $class, $lang);
+            $RDF->prop($ide, $prop, $idc, 0);
+        }
+    }
 
-                $id_class = $RDF->class($class);
-                foreach($vlr as $id=>$name)
-                    {
-                        $id_literal = $RDF->literal($name,'NnN',True);
-                        $idc = $RDF->concept($id_class,$id_literal);
-                    }
+    function authors($ide, $vlr)
+    {
+        $RDF = new \App\Models\Find\Rdf\RDF();
 
-                echo h($id_class);
-                echo h($id_literal);
-                pre($vlr);
-            }
+        $class = "brapci:Author";
+        $hasClass = "brapci:hasAuthor";
+        $prop = $RDF->class($hasClass);
+
+        foreach ($vlr as $id => $name) {
+            $lang = 'NnN';
+            $idc = $RDF->concept($name, $class, $lang);
+            $RDF->prop($ide, $prop, $idc, 0);
+        }
+    }
 }

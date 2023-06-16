@@ -49,5 +49,9 @@ class Cataloging extends Model
             /******************** Registra Obra */
             $ide = $Expression->register($isbn,$dt);
             $Manifestation->register($ide,$dt);
+
+            $RDF = new \App\Models\Find\Rdf\RDF();
+            pre($RDF->show_data($ide));
+
         }
 }

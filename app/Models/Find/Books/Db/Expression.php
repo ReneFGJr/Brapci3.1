@@ -17,7 +17,7 @@ class Expression extends Model
     protected $allowedFields    = [
         'id_be', 'be_title', 'be_isbn13',
         'be_isbn10', 'be_type', 'be_lang',
-        'be_status'
+        'be_status', 'be_rdf'
     ];
 
     // Dates
@@ -46,6 +46,12 @@ class Expression extends Model
 
     function register($isbn,$dtd)
         {
+            $RDF = new \App\Models\Find\Rdf\RDF();
+
+            $name = 'ISBN:'.$isbn;
+            $class = 'Expression';
+            $ide = $RDF->concept($name,$class);
+
             $dt = $this->where('be_isbn13',$isbn)->first();
             if ($dt == '')
                 {
@@ -55,9 +61,14 @@ class Expression extends Model
                     $da['be_lang'] = $dtd['language'];
                     $da['be_status'] = 1;
                     $da['be_title'] = $dtd['title'];
-                    $ide = $this->set($da)->insert();
+                    $da['be_rdf'] = $ide;
+                    $this->set($da)->insert();
                 } else {
-                    $ide = $dt['id_be'];
+                    if ($dt['be_rdf'] == 0)
+                        {
+                            $da['be_rdf'] = $ide;
+                            $this->set($da)->where('id_be',$dt['id_be'])->update();
+                        }
                 }
             return $ide;
         }

@@ -98,12 +98,17 @@ class Index extends Model
     function recoverTag($txt, $tag)
     {
         $title = lang('book.not informed');
-        if ($pos = strpos($txt, $tag)) {
-            $title = substr($txt, $pos + strlen($tag), strlen($txt));
-            $pos = strpos($title, chr(10));
-            $title = trim(substr($title, 0, $pos));
+        $ln = explode(chr(13),$txt);
+        $rsp = '';
+        foreach($ln as $id=>$txt)
+            {
+            if ($pos = strpos($txt, $tag)) {
+                $line = trim(troca($txt,$tag,''));
+                $rsp .= $line.chr(13).'<hr>';
+            }
         }
-        return ($title);
+        $rsp = h($tag,4).'<br>'.$rsp;
+        return ($rsp);
     }
 
     function apiCatalog()
@@ -120,16 +125,23 @@ class Index extends Model
                 $txt = file_get_contents($file);
                 $url_ex = $this->recoverTag($txt, '@example');
                 $url_ex = troca($url_ex,'$PATH',URL);
+
+                $title = $this->recoverTag($txt, '@package');
+                $authors = $this->recoverTag($txt, '@author');
+                $abstract = $this->recoverTag($txt, '@abstract');
+                echo $file.'<hr>'.$title.'<hr>';
+
                 $sx .= '<div class="accordion-item">' . cr();
                 $sx .= '    <h2 class="accordion-header" id="' . $name . '"> ' . cr();
                 $sx .= '        <button class="accordion-button collapsed"  type="button" data-bs-toggle="collapse" data-bs-target="#' . $namec . '" aria-expanded="false" aria-controls="' . $namec . '">' . cr();
-                $sx .= '        ' . $this->recoverTag($txt, '@package') . cr();
+                $sx .= '        ' . $title . cr();
                 $sx .= '        </button> ' . cr();
                 $sx .= '    </h2> ' . cr();
+
                 $sx .= '<div id="' . $namec . '" class="accordion-collapse collapse" aria-labelledby="' . $name . '" data-bs-parent="#accordionAPI"> ' . cr();
                 $sx .= '    <div class="accordion-body"> ' . cr();
-                $sx .= '        Author(s): ' . $this->recoverTag($txt, '@author') . '<br>' . cr();
-                $sx .= '        ' . $this->recoverTag($txt, '@abstract') . '<br>' . cr();
+                $sx .= '        Author(s): ' . $authors . '<br>' . cr();
+                $sx .= '        ' . $abstract . '<br>' . cr();
                 $sx .= '        <pre>' . '<a href="' . $url_ex . '">' . $url_ex . '</a></pre><br>' . cr();
                 $sx .= '    </div> ' . cr();
                 $sx .= '</div> ' . cr();

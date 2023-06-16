@@ -51,6 +51,13 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function lastItems()
+        {
+            $find = new \App\Models\Find\Books\Db\Books();
+            $dt = $find->lastItems();
+            pre($dt);
+        }
+
     function index($d1,$d2,$d3)
         {
             header('Access-Control-Allow-Origin: *');

@@ -72,7 +72,6 @@ class RDFLiteral extends Model
 				return 0;
 			}
 		}
-		echo $this->getlastquery();
 		return $dt['id_n'];
 	}
 }

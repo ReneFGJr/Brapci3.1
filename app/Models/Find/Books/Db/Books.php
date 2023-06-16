@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class Books extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'books';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'find';
+    protected $table            = 'books_expression';
+    protected $primaryKey       = 'id_be';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -39,6 +39,13 @@ class Books extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function lastItems()
+    {
+        $find = new \App\Models\Find\Books\Db\Books();
+        $dt = $find->lastItems();
+        pre($dt);
+    }
 
 
 }
