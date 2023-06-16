@@ -64,7 +64,7 @@ class Find extends Model
             header('Access-Control-Allow-Origin: *');
             switch($d1)
                 {
-                    case  'lastitems':
+                    case  'lastitens':
                         echo $this->lastItens();
                         exit;
                     break;

@@ -52,9 +52,11 @@ class Expression extends Model
             $class = 'Expression';
             $ide = $RDF->concept($name,$class);
 
+
             $dt = $this->where('be_isbn13',$isbn)->first();
             if ($dt == '')
                 {
+                    pre($dtd);
                     $da['be_isbn13'] = $dtd['isbn13'];
                     $da['be_isbn10'] = $dtd['isbn10'];
                     $da['be_type'] = 1;
@@ -62,6 +64,7 @@ class Expression extends Model
                     $da['be_status'] = 1;
                     $da['be_title'] = $dtd['title'];
                     $da['be_rdf'] = $ide;
+                    $da['be_cover'] = $cover;
                     $this->set($da)->insert();
                 } else {
                     if ($dt['be_rdf'] == 0)
