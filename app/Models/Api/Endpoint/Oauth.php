@@ -6,7 +6,7 @@
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2022 CC-BY
 @access public/private/apikey
-@example $PATH/api/socials/signin?user=teste&pwd=teste/
+@example $PATH/api/socials/signin?user=teste&pwd=teste
 @abstract Autenticador de usuário
 */
 
@@ -62,7 +62,15 @@ class Oauth extends Model
                     $user = get('user');
                     if ($user == 'teste')
                     {
+                        $nome = 'Usuário de Teste';
+                        $dd['status'] = '200';
+                        $dd['message'] = 'Loged';
+                        $dd['displayName'] = $nome;
+                        $dd['email'] = 'teste@teste.com.br';
+                        $dd['givenName'] = trim(substr($nome, 0, strpos($nome, ' ')));
+                        $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
                         $dd['token'] = md5('teste');
+                        $dd['persistent-id'] = PATH . 'api/socials/apikey/' . md5('teste');
                     } else {
                         $dd = $this->signin();
                     }
