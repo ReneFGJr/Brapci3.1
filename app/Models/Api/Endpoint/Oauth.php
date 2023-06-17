@@ -1,13 +1,15 @@
 <?php
 /*
 @category API
-@package Brapci OAUTH2
+@package Find
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
+@copyright 2023 CC-BY
 @access public/private/apikey
-@example $PATH/api/socials/signin?user=teste&pwd=teste
-@abstract Autenticador de usuário
+@example $URL/api/find/libraries/
+@example $URL/api/find/lastitens/
+@abstract $URL/api/find/libraries/ -> Lista as bibliotecas do Sistema
+@abstract API para consulta de metadados de livros com o ISBN
 */
 
 namespace App\Models\Api\Endpoint;
@@ -17,8 +19,8 @@ use CodeIgniter\Model;
 class Oauth extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'source_source';
-    protected $primaryKey       = 'id_jnl';
+    protected $table            = 'finds';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -50,84 +52,53 @@ class Oauth extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1 = '', $d2 = '', $d3 = '')
+    function index($d1, $d2, $d3)
     {
-        header('Access-Control-Allow-Origin: *');
-        header("Content-type: application/json; charset=utf-8");
-        switch($d1)
-            {
-                case 'signin':
-                    #user, pwd
-                    $dd = [];
-                    $user = get('user');
-                    if ($user == 'teste')
-                    {
-                        $nome = 'Usuário de Teste';
-                        $dd['status'] = '200';
-                        $dd['message'] = 'Loged';
-                        $dd['displayName'] = $nome;
-                        $dd['email'] = 'teste@teste.com.br';
-                        $dd['givenName'] = trim(substr($nome, 0, strpos($nome, ' ')));
-                        $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
-                        $dd['token'] = md5('teste');
-                        $dd['persistent-id'] = PATH . 'api/socials/apikey/' . md5('teste');
-                    } else {
-                        $dd = $this->signin();
-                    }
-                    break;
-                default:
-                    return $this->all();
-            }
-            echo json_encode($dd);
-            exit;
+
+        switch ($d1) {
+            case  'signin':
+                $dd = $this->signin();
+                echo json_encode($dd);
+                exit;
+                break;
+        }
     }
 
     function signin()
-        {
-            $Socials = new \App\Models\Socials();
-            $rsp = $Socials->signin();
-            $dd = [];
+    {
+        header('Access-Control-Allow-Origin: *');
+        header("Content-type: application/json; charset=utf-8");
 
-            if (strpos($rsp,'ERROR'))
-                {
-                    $dd['error'] = '400';
-                    $dd['message'] = 'User or Password incorrect';
-                } else {
-                    if (isset($_SESSION['apikey']))
-                        {
-                            $nome = $_SESSION['user'];
-                            $dd['status'] = '200';
-                            $dd['message'] = 'Loged';
-                            $dd['displayName'] = $nome;
-                            $dd['email'] = $_SESSION['email'];
-                            $dd['givenName'] = trim(substr($nome,0,strpos($nome,' ')));
-                            $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
-                            $dd['token'] = $_SESSION['apikey'];
-                            $dd['persistent-id'] = PATH.'api/socials/apikey/'.$dd['token'];
-                        } else {
-                            $dd['error'] = '400';
-                            $dd['message'] = 'Session expired';
-                        }
-                }
+        $dd = [];
+        $dd['process'] = date("Y-m-d H:i:s");
+
+        $Socials = new \App\Models\Socials();
+        $rsp = $Socials->signin();
+        $rsp = strip_tags($rsp);
+
+        if (strpos($rsp, 'ERROR')) {
+            $dd['error'] = '400';
+            $dd['message'] = 'User or Password incorrect';
             return $dd;
+        } else {
+            if (isset($_SESSION['apikey'])) {
+                $nome = $_SESSION['user'];
+                $dd['status'] = '200';
+                $dd['message'] = 'Loged';
+                $dd['displayName'] = $nome;
+                $dd['email'] = $_SESSION['email'];
+                $dd['givenName'] = trim(substr($nome, 0, strpos($nome, ' ')));
+                $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
+                $dd['token'] = $_SESSION['apikey'];
+                $dd['persistent-id'] = PATH . 'api/socials/apikey/' . $dd['token'];
+            } else {
+                $dd['error'] = '400';
+                $dd['message'] = 'Session expired';
+                $dd['user'] = get("user");
+                $dd['pwd'] = get("pwd");
+                $dd['content'] = get("user");
+            }
         }
-
-    function all()
-        {
-            $dt['error'] = '400';
-            $dt['message'] = 'Verb not informed';
-            return $dt;
-        }
-
-    function collections($d1,$d2)
-        {
-            header('Access-Control-Allow-Origin: *');
-            header("Content-type: application/json; charset=utf-8");
-            $Collections = new \App\Models\Base\Collections();
-
-            echo $Collections->list('json');
-            exit;
-
-
-        }
+        return $dd;
+    }
 }
