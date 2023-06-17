@@ -1101,6 +1101,7 @@ class Socials extends Model
 				$_SESSION['id'] = $dt[0]['id_us'];
 				$_SESSION['user'] = $dt[0]['us_nome'];
 				$_SESSION['email'] = $dt[0]['us_email'];
+				$_SESSION['apikey'] = $dt[0]['us_password'];
 				$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
 				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
 
@@ -1110,6 +1111,8 @@ class Socials extends Model
 
 				/* Atualiza último acesso */
 				$id = $dt[0]['id_us'];
+				$token = $dt[0]['us_password'];
+
 				$data = array('us_lastaccess'=>date("Y-m-d H:i:s"));
 				$this
 					->set($data)

@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'socials':
+                $Oauth = new \App\Models\Api\Endpoint\Oauth();
+                $sx = $Oauth->index($d2, $d3, $d4);
+                break;
             case 'isbn':
                 $ISBN = new \App\Models\Api\Endpoint\Isbn();
                 $sx = $ISBN->index($d2, $d3, $d4);
@@ -85,7 +89,7 @@ class Index extends Model
 
             default:
                 $sx = $this->head();
-                $sx .= bs(bsc(h('Brapci API - v0.22.08.03', 1), 12));
+                $sx .= bs(bsc(h('Brapci API - v0.23.06.16', 1), 12));
                 $sx .= bs(bsc('Endpoint: ' . $d1, 12));
                 $sx .= $this->apiCatalog();
 
