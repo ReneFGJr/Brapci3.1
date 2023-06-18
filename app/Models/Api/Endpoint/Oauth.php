@@ -73,7 +73,6 @@ class Oauth extends Model
 
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
-        $dd['send'] = $request;
 
         $json_convertido = json_decode(file_get_contents('php://input'), true);
         $dd['send'] = $json_convertido;
