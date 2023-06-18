@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UIuser } from '../interface/UIusers';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -18,20 +18,28 @@ export class UserService {
     return this.user;
   }
 
-  private url: string = 'http://brp/api/socials/';
+  private url: string = 'https://cip.brapci.inf.br/api/';
 
   public signIn(login:string, pass:string): Observable<Array<UIuser>>
     {
-    let url = `${this.url}signin`;
+    let url = `${this.url}socials/signin`;
+
+    let data = {
+      "email": login,
+      "password": pass
+    }
+
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+
     console.log(url);
     console.log(login);
     console.log(pass);
-    //return this.HttpClient.post<Array<UIuser>>(url,{login:login,pwd:pass}).pipe(
-    return this.HttpClient.get<Array<UIuser>>(url).pipe(
+
+    return this.HttpClient.post<Array<UIuser>>(url, data).pipe(
+    //return this.HttpClient.get<Array<UIuser>>(url).pipe(
       res=>res,
       error=>error
     );
     }
-
-
 }
