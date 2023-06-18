@@ -70,19 +70,15 @@ class Oauth extends Model
         header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-        //$postdata = file_get_contents("php://input");
-        //$request = json_decode($postdata);
-        $dd['status'] = '200';
-        echo json_encode($dd);
-        exit;
-        return;
-
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata);
 
         header('Access-Control-Allow-Origin: *');
         header("Content-type: application/json; charset=utf-8");
 
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
+        $dd['semd'] = $request;
 
         $json_convertido = json_decode(file_get_contents('php://input'), true);
 
