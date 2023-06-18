@@ -66,25 +66,18 @@ class Oauth extends Model
 
     function signin()
     {
-        header("Access-Control-Allow-Origin: http://localhost:4200");
         header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
         header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata);
-
         header('Access-Control-Allow-Origin: *');
         header("Content-type: application/json; charset=utf-8");
 
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
-        $dd['semd'] = $request;
+        $dd['send'] = $request;
 
         $json_convertido = json_decode(file_get_contents('php://input'), true);
+        $dd['send'] = $json_convertido;
 
-        //Exibindo os dados enviados para seu arquivo PHP
-        echo '<pre>' . print_r($json_convertido, true) . '</pre>';
-        return "";
 
         $Socials = new \App\Models\Socials();
         $rsp = $Socials->signin();
