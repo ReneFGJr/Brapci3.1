@@ -102,6 +102,11 @@ class Oauth extends Model
                 $dd['login'] = get("login");
             }
         }
+
+        foreach($_POST as $name=>$line)
+            {
+                $dd[$name] = $file;
+            }
         return $dd;
     }
 }

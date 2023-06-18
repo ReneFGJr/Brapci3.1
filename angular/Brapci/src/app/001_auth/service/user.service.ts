@@ -24,6 +24,7 @@ export class UserService {
   public signIn(login:string, pass:string): Observable<Array<UIuser>>
     {
     let url = `${this.url}socials/signin`;
+
 /*
     let data = {
       "email": login,
@@ -31,8 +32,9 @@ export class UserService {
     }
 */
 
-    let data = 'user:renefgj@gmail.com&pwd=545448';
-    console.log((data));
+    let data = 'user=renefgj@gmail.com&pwd=545448';
+    data = JSON.stringify(data)
+    console.log(data);
 
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
