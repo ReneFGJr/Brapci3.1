@@ -107,6 +107,9 @@ class Oauth extends Model
             {
                 $dd[$name] = $file;
             }
+        foreach ($_GET as $name => $line) {
+            $dd[$name] = $file;
+        }
         return $dd;
     }
 }
