@@ -99,18 +99,6 @@ class Oauth extends Model
                 $dd['user'] = get("user");
             }
         }
-
-        foreach($_POST as $name=>$line)
-            {
-                $dd[$name] = $line;
-            }
-        foreach ($_GET as $name => $line) {
-            $dd[$name] = $line;
-        }
-        foreach ($_REQUEST as $name=>$line) {
-            $dd[$name] = $line;
-        }
-        $dd['FIM'] = 'fim';
         return $dd;
     }
 }

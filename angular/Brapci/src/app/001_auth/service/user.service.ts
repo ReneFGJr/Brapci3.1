@@ -30,13 +30,6 @@ export class UserService {
     formData.append('user', login);
     formData.append('pwd', pass);
 
-    let data = 'user:renefgj@gmail.com&pwd=545448';
-    data = JSON.stringify(data)
-    console.log(data);
-
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-
     return this.HttpClient.post<Array<UIuser>>(url, formData).pipe(
       res=>res,
       error=>error
