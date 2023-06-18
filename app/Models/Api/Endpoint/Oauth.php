@@ -101,7 +101,9 @@ class Oauth extends Model
             } else {
                 $dd['error'] = '400';
                 $dd['message'] = 'Error Login';
-                $dd['content'] = get("user");
+                $dd['user'] = get("user");
+                $dd['pwd'] = get("pwd");
+                $dd['login'] = get("login");
             }
         }
         return $dd;
