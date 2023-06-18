@@ -28,8 +28,8 @@ export class UserLoginComponent {
     console.log('User '+this.login);
     console.log('Password '+this.password);
       return this.UserService.signIn(this.login,this.password).subscribe(
-        res=>res,
-        error=>console.log(error)
+        res=>console.log(res),
+        error=>console.log('======>' + error)
       )
     }
 }

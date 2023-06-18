@@ -71,16 +71,8 @@ class Oauth extends Model
         header('Access-Control-Allow-Origin: *');
         header("Content-type: application/json; charset=utf-8");
 
-        $data = json_decode(file_get_contents("php://input"));
-        echo json_encode($data);
-        exit;
-
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
-
-        $json_convertido = json_decode(file_get_contents('php://input'), true);
-        $dd['send'] = $json_convertido;
-
 
         $Socials = new \App\Models\Socials();
         $rsp = $Socials->signin();

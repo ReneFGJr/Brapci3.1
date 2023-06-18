@@ -19,27 +19,28 @@ export class UserService {
   }
 
   private url: string = 'https://cip.brapci.inf.br/api/';
+  //private url: string = 'http://validate.jsontest.com/';
 
   public signIn(login:string, pass:string): Observable<Array<UIuser>>
     {
     let url = `${this.url}socials/signin`;
-
+/*
     let data = {
       "email": login,
       "password": pass
     }
+*/
+
+    let data = 'user:renefgj@gmail.com&pwd=545448';
+    console.log((data));
 
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    console.log(url);
-    console.log(login);
-    console.log(pass);
-
     return this.HttpClient.post<Array<UIuser>>(url, data).pipe(
-    //return this.HttpClient.get<Array<UIuser>>(url).pipe(
       res=>res,
       error=>error
     );
+
     }
 }
