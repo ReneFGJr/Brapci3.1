@@ -105,11 +105,12 @@ class Oauth extends Model
 
         foreach($_POST as $name=>$line)
             {
-                $dd[$name] = $file;
+                $dd[$name] = $line;
             }
         foreach ($_GET as $name => $line) {
             $dd[$name] = $file;
         }
+        $dd['FIM'] = 'fim';
         return $dd;
     }
 }
