@@ -73,7 +73,6 @@ class Oauth extends Model
 
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
-
         $Socials = new \App\Models\Socials();
         $rsp = $Socials->signin();
         $rsp = strip_tags($rsp);
@@ -98,8 +97,6 @@ class Oauth extends Model
                 $dd['error'] = '400';
                 $dd['message'] = 'Error Login';
                 $dd['user'] = get("user");
-                $dd['pwd'] = get("pwd");
-                $dd['login'] = get("login");
             }
         }
 
@@ -108,7 +105,10 @@ class Oauth extends Model
                 $dd[$name] = $line;
             }
         foreach ($_GET as $name => $line) {
-            $dd[$name] = $file;
+            $dd[$name] = $line;
+        }
+        foreach ($_REQUEST as $name=>$line) {
+            $dd[$name] = $line;
         }
         $dd['FIM'] = 'fim';
         return $dd;

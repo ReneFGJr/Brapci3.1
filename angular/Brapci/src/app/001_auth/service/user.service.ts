@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UIuser } from '../interface/UIusers';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+  http: any;
   constructor(
-    private HttpClient: HttpClient,
-    private Router: Router) { }
+    private HttpClient: HttpClient) { }
 
   private user: Array<UIuser> = [];
 
@@ -18,28 +18,26 @@ export class UserService {
     return this.user;
   }
 
-  private url: string = 'https://cip.brapci.inf.br/api/';
+  //private url: string = 'https://cip.brapci.inf.br/api/';
   //private url: string = 'http://validate.jsontest.com/';
+  private url: string = 'http://brp/api/';
 
   public signIn(login:string, pass:string): Observable<Array<UIuser>>
     {
     let url = `${this.url}socials/signin`;
 
-/*
-    let data = {
-      "email": login,
-      "password": pass
-    }
-*/
+    var formData: any = new FormData();
+    formData.append('user', login);
+    formData.append('pwd', pass);
 
-    let data = 'user=renefgj@gmail.com&pwd=545448';
+    let data = 'user:renefgj@gmail.com&pwd=545448';
     data = JSON.stringify(data)
     console.log(data);
 
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
-    return this.HttpClient.post<Array<UIuser>>(url, data).pipe(
+    return this.HttpClient.post<Array<UIuser>>(url, formData).pipe(
       res=>res,
       error=>error
     );
