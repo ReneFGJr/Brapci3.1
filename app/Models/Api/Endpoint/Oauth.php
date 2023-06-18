@@ -66,11 +66,29 @@ class Oauth extends Model
 
     function signin()
     {
+        header("Access-Control-Allow-Origin: http://localhost:4200");
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+        //$postdata = file_get_contents("php://input");
+        //$request = json_decode($postdata);
+        $dd['status'] = '200';
+        echo json_encode($dd);
+        exit;
+        return;
+
+
         header('Access-Control-Allow-Origin: *');
         header("Content-type: application/json; charset=utf-8");
 
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
+
+        $json_convertido = json_decode(file_get_contents('php://input'), true);
+
+        //Exibindo os dados enviados para seu arquivo PHP
+        echo '<pre>' . print_r($json_convertido, true) . '</pre>';
+        return "";
 
         $Socials = new \App\Models\Socials();
         $rsp = $Socials->signin();
@@ -85,7 +103,8 @@ class Oauth extends Model
                 $nome = $_SESSION['user'];
                 $dd['status'] = '200';
                 $dd['message'] = 'Loged';
-                $dd['displayName'] = $nome;
+                $dd['message'] = 'Loged';
+                $dd['id'] = $_SESSION['id'];
                 $dd['email'] = $_SESSION['email'];
                 $dd['givenName'] = trim(substr($nome, 0, strpos($nome, ' ')));
                 $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
@@ -93,9 +112,7 @@ class Oauth extends Model
                 $dd['persistent-id'] = PATH . 'api/socials/apikey/' . $dd['token'];
             } else {
                 $dd['error'] = '400';
-                $dd['message'] = 'Session expired';
-                $dd['user'] = get("user");
-                $dd['pwd'] = get("pwd");
+                $dd['message'] = 'Error Login';
                 $dd['content'] = get("user");
             }
         }

@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <div class="loginDiv p-3">
+        <form (submit)="loginSubmit()">
+          <div id="loginHeader">
+              <h2 class="text-center">{{loginTitle}}</h2>
+          </div>
+          <div>Login</div>
+          <div><input [(ngModel)]="login" type="text" class="form-control border border-secondary" id="login" name="login" /></div>
+          {{ login }}
+          <div>Senha</div>
+          <div><input [(ngModel)]="password" type="password" class="form-control border border-secondary" id="pass" name="pass" /></div>
+
+          <div>
+            <button class="mt-4 btn btn-outline-primary">Acessar</button>
+          </div>
+          <div id="login_message" class="login_message">
+            {{message}}&nbsp;
+          </div>
+
+          <div id="login_function" class="text-center">
+            <a class="login-link" routerLink="/social/signup">SignUp</a>
+            <a class="login-link" routerLink="/social/forgout">Forgot Password</a>
+          </div>
+        </form>
+      </div>
+      <div class="col-4"></div>
+    </div>
+  </div>
+</div>

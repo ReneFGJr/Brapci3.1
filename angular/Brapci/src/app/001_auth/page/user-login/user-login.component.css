@@ -1,0 +1,13 @@
+.loginDiv
+  {
+    border: 3px solid #666;
+    border-radius: 10px;
+  }
+
+  .login-link, .login-link a
+    {
+      color: blue;
+      font-size: 0.7em;
+      margin-right: 8px;
+      text-decoration: none;
+    }
