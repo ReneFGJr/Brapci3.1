@@ -64,6 +64,29 @@ class Oauth extends Model
         }
     }
 
+    function check()
+        {
+
+        }
+
+    function logout()
+        {
+            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+            header("Access-Control-Allow-Headers: Content-Type, Authorization");
+            header('Access-Control-Allow-Origin: *');
+            header("Content-type: application/json; charset=utf-8");
+
+            $session = \Config\Services::session();
+            $url = \Config\Services::url();
+            $session->destroy();
+
+            $dd['process'] = date("Y-m-d H:i:s");
+            $dd['status'] = '200';
+
+            echo json_encode($dd);
+            exit;
+        }
+
     function signin()
     {
         header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
@@ -78,7 +101,7 @@ class Oauth extends Model
         $rsp = strip_tags($rsp);
 
         if (strpos($rsp, 'ERROR')) {
-            $dd['error'] = '400';
+            $dd['status'] = '400';
             $dd['message'] = 'User or Password incorrect';
             return $dd;
         } else {
@@ -94,7 +117,7 @@ class Oauth extends Model
                 $dd['token'] = $_SESSION['apikey'];
                 $dd['persistent-id'] = PATH . 'api/socials/apikey/' . $dd['token'];
             } else {
-                $dd['error'] = '400';
+                $dd['status'] = '400';
                 $dd['message'] = 'Error Login';
                 $dd['user'] = get("user");
             }

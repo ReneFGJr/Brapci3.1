@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { UIuser } from '../interface/UIusers';
-import { Router } from '@angular/router';
+import { UIoauth } from '../interface/UIoauth';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,22 +18,32 @@ export class UserService {
     return this.user;
   }
 
-  //private url: string = 'https://cip.brapci.inf.br/api/';
-  //private url: string = 'http://validate.jsontest.com/';
-  private url: string = 'http://brp/api/';
+  private url: string = 'https://cip.brapci.inf.br/api/';
+  //private url: string = 'http://brp/api/';
 
-  public signIn(login:string, pass:string): Observable<Array<UIuser>>
-    {
+  public loginSubmitHttp(login: string, pass: string): Observable<Array<any>> {
     let url = `${this.url}socials/signin`;
 
     var formData: any = new FormData();
     formData.append('user', login);
     formData.append('pwd', pass);
 
-    return this.HttpClient.post<Array<UIuser>>(url, formData).pipe(
-      res=>res,
-      error=>error
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      res => res,
+      error => error
     );
+  }
 
-    }
+  public signIn2(login: string, pass: string): Observable<Array<UIoauth>> {
+    let url = `${this.url}socials/signin`;
+
+    var formData: any = new FormData();
+    formData.append('user', login);
+    formData.append('pwd', pass);
+
+    return this.HttpClient.post<Array<UIoauth>>(url, formData).pipe(
+      res => res,
+      error => error
+    );
+  }
 }

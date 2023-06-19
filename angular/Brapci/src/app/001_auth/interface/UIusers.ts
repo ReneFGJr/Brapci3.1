@@ -5,5 +5,9 @@ export interface UIuser{
   givenName: string,
   sn: string,
   token: string,
-  ersistentID: string
+  ersistentID: string,
+  message: string,
+  persistentId: string,
+  status: string,
+  process: string,
 }
