@@ -57,16 +57,4 @@ export class UserLoginComponent {
         }
     );
   }
-
-  public loginSubmit2() {
-    console.log(this.UIoauth);
-    this.UserService.loginSubmitHttp(this.login, this.password).subscribe(
-      res => {
-        this.UIoauth = res;
-        console.log(res);
-      },
-      error => error
-    );
-    console.log(this.UIoauth);
-  }
 }

@@ -13,10 +13,10 @@
           <div><input [(ngModel)]="password" type="password" class="form-control border border-secondary" id="pass" name="pass" /></div>
 
           <div>
-            <button class="mt-4 btn btn-outline-primary">Acessar</button>
+            <button class="mt-4 btn btn-outline-primary" style="width: 100%;">Acessar</button>
           </div>
-          <div id="login_message" *ngIf="message" class="login_message">
-            {{message}}&nbsp;
+          <div id="login_message" *ngIf="message" class="login_message text-center text-danger">
+            &nbsp;{{message}}&nbsp;
           </div>
 
           <div id="login_function" class="text-center">
