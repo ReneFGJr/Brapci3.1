@@ -12,6 +12,7 @@ import { MainComponent } from './002_main/home/main/main.component';
 import { FormsModule } from '@angular/forms';
 import { OauthModule } from './001_auth/OauthModule';
 import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.component';
+import { UserChangePasswordComponent } from './001_auth/page/user-change-password/user-change-password.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.com
     AboutComponent,
     MainComponent,
     UserPerfilComponent,
+    UserChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

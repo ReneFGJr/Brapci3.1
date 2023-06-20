@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-oauth',
@@ -9,11 +10,20 @@ import { UserService } from '../service/user.service';
 export class OauthComponent {
   public login = true;
 
-  constructor(private UserService: UserService) {}
+  constructor(
+    private UserService: UserService,
+    private Router: Router
+  ) {}
 
   ngOnInit() {
-        console.log(UserService);
-        console.log("HELLO");
-
+        if (this.UserService.getUser())
+            {
+                this.login = false;
+                console.log('loged');
+                console.log(this.UserService.user);
+                //this.router.navigate(['/']);
+            } else {
+              console.log('NOT LOGED');
+            }
     }
 }
