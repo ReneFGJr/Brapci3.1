@@ -23,7 +23,7 @@ export class AppComponent {
         console.log(this.urlAnterior);
         console.log(this.urlAtual);
 
-        if (this.urlAtual == '/books')
+        if ((this.urlAtual == '/books') || (this.urlAtual == '/find/admin'))
           {
             this.navbar = false;
             this.navbar_book = true;

@@ -8,6 +8,7 @@ import { UserChangePasswordComponent } from './001_auth/page/user-change-passwor
 import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.component';
 import { BrapciHomeLivrosComponent } from './100_brapci_livros/page/brapci-home-livros/brapci-home-livros.component';
 import { AuthorityMainComponent } from './110_brapci_autoridades/authority-main/authority-main.component';
+import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
 
 const APProutes: Routes = [
 
@@ -32,7 +33,15 @@ const APProutes: Routes = [
         { path: 'about', component: AboutComponent }
       ]
   },
-
+  {
+    path: 'find', component: BrapciHomeLivrosComponent,
+    children:
+      [
+        { path: '', component: BrapciHomeLivrosComponent },
+        { path: 'about', component: AboutComponent },
+        { path: 'admin', component: BookServicesComponent }
+      ]
+  },
   {
     path: 'authotity', component: AuthorityMainComponent,
     children:

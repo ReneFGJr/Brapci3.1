@@ -17,6 +17,10 @@ import { BrapciHomeLivrosComponent } from './100_brapci_livros/page/brapci-home-
 import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main.component';
 import { ViewAuthorityComponent } from './110_brapci_autoridades/page/view-authority/view-authority.component';
 import { NavbarBooksComponent } from './100_brapci_livros/header/navbar-books/navbar-books.component';
+import { LivrosBannersComponent } from './100_brapci_livros/page/livros-banners/livros-banners.component';
+import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/livro-vitrine.component';
+import { FindComponent } from './110_find/find/find.component';
+import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,10 @@ import { NavbarBooksComponent } from './100_brapci_livros/header/navbar-books/na
     LivrosMainComponent,
     ViewAuthorityComponent,
     NavbarBooksComponent,
+    LivrosBannersComponent,
+    LivroVitrineComponent,
+    FindComponent,
+    BookServicesComponent,
   ],
   imports: [
     BrowserModule,

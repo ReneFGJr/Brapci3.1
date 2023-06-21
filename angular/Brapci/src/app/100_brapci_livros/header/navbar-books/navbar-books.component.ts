@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'app-navbar-books',
@@ -12,4 +13,24 @@ export class NavbarBooksComponent {
   public book_admin: string = 'Administrador';
   public book_about: string = 'Sobre';
   public book_contact: string = 'Contato';
+
+  constructor(private router: Router) { }
+
+  home()
+    {
+        this.router.navigate(['/books'])
+    }
+
+  indexs() {
+    this.router.navigate(['/books/index'])
+  }
+
+  subjects() {
+    this.router.navigate(['/books/subjects'])
+  }
+
+  admin() {
+    window.location.href = '/find/admin';
+  }
+
 }

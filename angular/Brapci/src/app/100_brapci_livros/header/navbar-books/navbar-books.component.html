@@ -4,10 +4,10 @@
             <div class="col-lg-4">
                 <nav class="site-navigation text-right ml-auto " role="navigation">
                     <ul class="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-                        <li><a href="#" class="nav-link">{{book_home}}</a></li>
-                        <li><a href="#" class="nav-link">{{book_index}}</a></li>
-                        <li><a href="#" class="nav-link">{{book_subject}}</a></li>
-                        <li><a href="#" class="nav-link">{{book_admin}}</a></li>
+                        <li><a (click)="home()" class="nav-link handle">{{book_home}}</a></li>
+                        <li><a (click)="indexs()" class="nav-link handle">{{book_index}}</a></li>
+                        <li><a (click)="subjects()" class="nav-link handle">{{book_subject}}</a></li>
+                        <li><a (click)="admin()" class="nav-link handle">{{book_admin}}</a></li>
                     </ul>
                 </nav>
             </div>
