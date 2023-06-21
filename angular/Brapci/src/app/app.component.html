@@ -1,4 +1,5 @@
 <app-header></app-header>
-<app-navbar></app-navbar>
+<app-navbar *ngIf="navbar"></app-navbar>
+<app-navbar-books *ngIf="navbar_book"></app-navbar-books>
 <router-outlet></router-outlet>
 <app-footer></app-footer>

@@ -13,6 +13,10 @@ import { FormsModule } from '@angular/forms';
 import { OauthModule } from './001_auth/OauthModule';
 import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.component';
 import { UserChangePasswordComponent } from './001_auth/page/user-change-password/user-change-password.component';
+import { BrapciHomeLivrosComponent } from './100_brapci_livros/page/brapci-home-livros/brapci-home-livros.component';
+import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main.component';
+import { ViewAuthorityComponent } from './110_brapci_autoridades/page/view-authority/view-authority.component';
+import { NavbarBooksComponent } from './100_brapci_livros/header/navbar-books/navbar-books.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,10 @@ import { UserChangePasswordComponent } from './001_auth/page/user-change-passwor
     MainComponent,
     UserPerfilComponent,
     UserChangePasswordComponent,
+    BrapciHomeLivrosComponent,
+    LivrosMainComponent,
+    ViewAuthorityComponent,
+    NavbarBooksComponent,
   ],
   imports: [
     BrowserModule,
