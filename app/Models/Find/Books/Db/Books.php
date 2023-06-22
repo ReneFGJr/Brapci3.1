@@ -40,13 +40,24 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function getid($id)
+        {
+            $dt = $this->find($id);
+            return $dt;
+        }
+
     function lastItens()
     {
         $dt = $this
                 ->where('be_status <> 0 and be_status <> 9')
                 ->orderby('id_be desc')
                 ->findAll(0,10);
-        pre($dt);
+    foreach($dt as $id=>$line)
+        {
+            $line['be_full'] = mb_strtolower(ascii($line['be_title']));
+            $dt[$id] = $line;
+        }
+        return $dt;
     }
 
 

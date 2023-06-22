@@ -7,7 +7,7 @@
 @copyright 2023 CC-BY
 @access public/private/apikey
 @example $URL/api/find/libraries/
-@example $URL/api/find/lastitens/
+@exmaple $URL/api/find/vitrine/
 @abstract $URL/api/find/libraries/ -> Lista as bibliotecas do Sistema
 @abstract API para consulta de metadados de livros com o ISBN
 */
@@ -56,7 +56,16 @@ class Find extends Model
         {
             $Books = new \App\Models\Find\Books\Db\Books();
             $dt = $Books->lastItens();
-            pre($dt);
+            echo json_encode($dt);
+            exit;
+        }
+
+    function getID($id)
+        {
+            $Books = new \App\Models\Find\Books\Db\Books();
+            $dt = $Books->getid($id);
+            echo json_encode($dt);
+            exit;
         }
 
     function index($d1,$d2,$d3)
@@ -64,10 +73,14 @@ class Find extends Model
             header('Access-Control-Allow-Origin: *');
             switch($d1)
                 {
-                    case  'lastitens':
+                    case 'getID':
+                        echo $this->getID($d2);
+                        exit;
+                        break;
+                    case  'vitrine':
                         echo $this->lastItens();
                         exit;
-                    break;
+                        break;
 
                     case 'libraries':
                         $Library = new \App\Models\Find\Library\Index();

@@ -19,12 +19,9 @@ export class DataSourcesComponent implements OnInit {
       this.sourceService.getSources().subscribe(SourceData => {
       this.SourceData = SourceData;
       this.SourceSize = SourceData.length;
-      console.log(this.SourceData);
-      console.log(SourceData.length);
-      console.log(SourceData);
     },
       (error) => {
-        console.log(error);
+
       }
     );
   }

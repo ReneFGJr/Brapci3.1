@@ -21,8 +21,6 @@ export class DataCollectionsComponent implements OnInit {
       this.collectionsService.getCollections().subscribe(CollectionsData => {
           this.CollectionsData = CollectionsData;
           this.CollectionSize = CollectionsData.length;
-          console.log(CollectionsData.length);
-          console.log(CollectionsData);
         },
         (error)=>{
           console.log(error);

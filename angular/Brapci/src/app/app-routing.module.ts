@@ -9,37 +9,38 @@ import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.com
 import { BrapciHomeLivrosComponent } from './100_brapci_livros/page/brapci-home-livros/brapci-home-livros.component';
 import { AuthorityMainComponent } from './110_brapci_autoridades/authority-main/authority-main.component';
 import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
+import { LivroViewComponent } from './100_brapci_livros/page/livro-view/livro-view.component';
+import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main.component';
+import { WelcomeComponent } from './002_main/page/welcome/welcome.component';
+import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/livro-vitrine.component';
 
 const APProutes: Routes = [
 
-
-  { path: 'social', component: OauthComponent, children:
+  {
+    path: 'social', component: OauthComponent, children:
       [
-      { path: 'password', component: UserChangePasswordComponent },
-      { path: 'perfil', component: UserPerfilComponent }
+        { path: 'password', component: UserChangePasswordComponent },
+        { path: 'perfil', component: UserPerfilComponent }
       ]
   },
-  { path: 'main', component: HomeComponent,
-    children:
-    [
-      { path: '', component: MainComponent },
-      { path: 'about', component: AboutComponent }
-    ] },
   {
-    path: 'books', component: BrapciHomeLivrosComponent,
+    path: '', component: MainComponent,
     children:
       [
-        { path: '', component: BrapciHomeLivrosComponent },
+        { path: '', component: WelcomeComponent },
         { path: 'about', component: AboutComponent }
       ]
   },
+
+  /**************************************************** LIVROS */
   {
-    path: 'find', component: BrapciHomeLivrosComponent,
+    path: 'books', component: LivrosMainComponent,
     children:
       [
         { path: '', component: BrapciHomeLivrosComponent },
         { path: 'about', component: AboutComponent },
-        { path: 'admin', component: BookServicesComponent }
+        { path: 'view/:id', component: LivroViewComponent },
+        { path: 'admin', component: BookServicesComponent },
       ]
   },
   {

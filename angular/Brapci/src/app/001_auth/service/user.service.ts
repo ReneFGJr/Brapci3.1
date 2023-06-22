@@ -1,8 +1,6 @@
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { UIuser } from '../interface/UIusers';
-import { UIoauth } from '../interface/UIoauth';
 import { Observable } from 'rxjs';
 import { LocalStorageService } from '../service/local-storage.service';
 

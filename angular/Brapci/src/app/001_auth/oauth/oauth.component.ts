@@ -19,8 +19,6 @@ export class OauthComponent {
         if (this.UserService.getUser())
             {
                 this.login = false;
-                console.log('loged');
-                console.log(this.UserService.user);
                 //this.router.navigate(['/']);
             } else {
               console.log('NOT LOGED');

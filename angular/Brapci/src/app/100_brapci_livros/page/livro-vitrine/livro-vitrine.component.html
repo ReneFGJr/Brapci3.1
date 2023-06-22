@@ -1,3 +1,15 @@
-<uL>
-<li>LIVRO</li>
-</uL>
+<app-livro-search (emmitSearch)="getSearch($event)"></app-livro-search>
+<div class="container-fluid">
+  <div class="row">
+
+    <div *ngFor="let item of listBook"
+        class="col-4 col-sm-3 handle" >
+      <a class="linkBook" [routerLink]="['view',item.id_be]">
+      <img src="{{ item.be_cover }}" width="100%"  />
+      <br>
+      {{ item.be_title }}
+      </a>
+    </div>
+
+  </div>
+</div>

@@ -39,8 +39,6 @@ export class UserLoginComponent {
             if (loged)
               {
                   window.location.reload();
-                  //this.Router.navigate(['/'])
-                  console.log('Loged');
               } else {
                 this.message = this.result['message'] + ' ' + this.result['error'];
               }
