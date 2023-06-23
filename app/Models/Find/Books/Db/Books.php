@@ -14,7 +14,12 @@ class Books extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_be', 'be_title', 'be_authors',
+        'be_cover', 'be_rdf', 'be_isbn13',
+        'be_isbn10', 'be_type', 'be_lang',
+        'be_status'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -40,6 +45,16 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function register($id,$dt)
+        {
+            $dd = $this->where('be_rdf',$id)->first();
+            if ($dd == '')
+                {
+                    $this->set($dt)->insert();
+                }
+            return true;
+        }
+
     function getid($id)
         {
             $dt = $this->find($id);
@@ -52,11 +67,11 @@ class Books extends Model
                 ->where('be_status <> 0 and be_status <> 9')
                 ->orderby('id_be desc')
                 ->findAll(0,10);
-    foreach($dt as $id=>$line)
-        {
-            $line['be_full'] = mb_strtolower(ascii($line['be_title']));
-            $dt[$id] = $line;
-        }
+        foreach($dt as $id=>$line)
+            {
+                $line['be_full'] = mb_strtolower(ascii($line['be_title']));
+                $dt[$id] = $line;
+            }
         return $dt;
     }
 

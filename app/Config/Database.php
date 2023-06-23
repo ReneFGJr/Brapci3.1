@@ -391,6 +391,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $find2 = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'find2',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $persistent_indicador = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -515,6 +535,9 @@ class Database extends Config
 
         $this->find['username'] = getenv('database.default.username');
         $this->find['password'] = getenv('database.default.password');
+
+        $this->find2['username'] = getenv('database.default.username');
+        $this->find2['password'] = getenv('database.default.password');
 
         $this->elastic['username'] = getenv('database.default.username');
         $this->elastic['password'] = getenv('database.default.password');

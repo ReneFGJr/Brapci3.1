@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'find':
+                $Find = new \App\Models\Find\Index();
+                $sx .= $Find->index($subact, $id, $id2, $id3);
+                break;
             case 'vc':
                 $Thesaurus = new \App\Models\ControlledVocabulary\Thesaurus();
                 $sx .= $Thesaurus->index($subact, $id, $id2, $id3);
@@ -170,6 +174,9 @@ class Index extends Model
     {
         $m["#ElasticSearch"] =  "";
         $m[PATH.'elasticsearch'] =  lang("brapci.elasticsearch");
+
+        $m["#FIND"] =  "";
+        $m[PATH . 'admin/find'] =  lang('brapci.find');
 
         $m["#Manegement"] =  "";
         $m[PATH . 'admin/manegement'] =  lang('brapci.manegement');

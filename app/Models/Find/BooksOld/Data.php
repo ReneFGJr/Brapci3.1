@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\Find;
+namespace App\Models\Find\BooksOld;
 
 use CodeIgniter\Model;
 
-class Index extends Model
+class Data extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'find2';
+    protected $table            = 'rdf_data';
+    protected $primaryKey       = 'id_d';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -39,25 +39,4 @@ class Index extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    function index($d1,$d2,$d3)
-        {
-            echo "OK $d1";
-            $sx = anchor(PATH. '/admin/find/inport','Inport FIND');
-            switch($d1)
-                {
-                    case 'harvesting':
-                        $BooksOld = new \App\Models\Find\BooksOld\Index();
-                        $sx .= '<hr>';
-                        $sx .= $BooksOld->harvesting($d2);
-                        break;
-                    case 'inport':
-                        $BooksOld = new \App\Models\Find\BooksOld\Index();
-                        $sx .= '<hr>';
-                        $sx .= $BooksOld->inport();
-                        $sx .= metarefresh(PATH.'admin/find/inport');
-                        break;
-                }
-            return $sx;
-        }
 }
