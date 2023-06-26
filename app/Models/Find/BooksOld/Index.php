@@ -116,29 +116,42 @@ class Index extends Model
             $dtem = $this->leData($idm);
             $dtem = (array)$dtem;
 
+            $cl1 = ['hasCutter', 'hasPage', 'harvestingdescription',
+                'hasColorclassification', 'hasCutter',
+                'hasSubject', 'isPlaceOfPublication', 'isPublisher',
+                'hasSerieName', 'isPlacePublisher', 'hasClassificationCDU'];
+            $cl2 = [
+                'description', 'hasVolumeNumber'
+            ];
+
             foreach ($dtem as $idd => $linem) {
                 $linem = (array)$linem;
                 $class = trim($linem['c_class']);
                 $ok = 0;
+                foreach($cl1 as $xclass)
+                    {
+                        if ($class == trim($xclass)) { $ok = 1; }
+                    }
+                foreach ($cl2 as $xclass) {
+                    if ($class == trim($xclass)) {
+                        $ok = 2;
+                    }
+                }
                 switch ($class) {
                     case 'isAppellationOfManifestation':
                         break;
-                    case 'hasPage':
-                        $ok = 1;
-                        break;
-                    case 'description':
-                        $ok = 2;
-                        break;
-                    case 'harvestingdescription':
-                        $ok = 1;
-                        break;
-
                     case 'dateOfPublication':
                         $ok = 1;
                         $DTE['be_year'] = trim($linem['n_name2']);
                         break;
                     default:
-                        echo h('Error: '.$class,4).'<hr>';
+                        if ($ok == 0)
+                            {
+                                echo '=====>'.$ok.'<br>';
+                                echo h('Error: ' . $class . '=2==>' . $linem['n_name2'], 4) . '<hr>';
+                                echo h('Error: ' . $class . '=1==>' . $linem['n_name'], 4) . '<hr>';
+                                exit;
+                            }
                         break;
                 }
                 if ($ok==1)

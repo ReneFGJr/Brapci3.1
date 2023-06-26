@@ -49,6 +49,8 @@ class Index extends Model
                         $BooksOld = new \App\Models\Find\BooksOld\Index();
                         $sx .= '<hr>'.$d2.'<hr>';
                         $sx .= $BooksOld->harvesting($d2);
+                        $sx .= metarefresh('',1);
+                        $sx = bs(bsc($sx));
                         break;
                     case 'inport':
                         $BooksOld = new \App\Models\Find\BooksOld\Index();
