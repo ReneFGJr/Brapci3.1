@@ -119,7 +119,9 @@ class Index extends Model
             $cl1 = ['hasCutter', 'hasPage', 'harvestingdescription',
                 'hasColorclassification', 'hasCutter',
                 'hasSubject', 'isPlaceOfPublication', 'isPublisher',
-                'hasSerieName', 'isPlacePublisher', 'hasClassificationCDU'];
+                'hasSerieName', 'isPlacePublisher', 'hasClassificationCDU',
+                'hasClassificationCountry'
+                ];
             $cl2 = [
                 'description', 'hasVolumeNumber'
             ];
