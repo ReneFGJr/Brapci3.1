@@ -120,7 +120,7 @@ class Index extends Model
                 'hasColorclassification', 'hasCutter',
                 'hasSubject', 'isPlaceOfPublication', 'isPublisher',
                 'hasSerieName', 'isPlacePublisher', 'hasClassificationCDU',
-                'hasClassificationCountry'
+                'hasClassificationCountry', 'hasClassificacaoAssunto'
                 ];
             $cl2 = [
                 'description', 'hasVolumeNumber'
