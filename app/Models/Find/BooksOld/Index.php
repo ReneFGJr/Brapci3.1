@@ -47,11 +47,19 @@ class Index extends Model
         $Data = new \App\Models\Find\BooksOld\Data();
         $Expression = new \App\Models\Find\Books\Db\Expression();
 
+        $authors = '';
+
         $dt_author = [];
         $dt_expression = [];
         $dt_manifestation = [];
 
-        $dt = $Expression->where('be_status', -1)->first();
+        if ($id == 0)
+            {
+                $dt = $Expression->where('be_status', -1)->first();
+            } else {
+                $dt = $Expression->where('be_rdf', $id)->first();
+            }
+
         $idx = $dt['be_rdf'];
 
         $idf = $dt['be_rdf'];
@@ -70,12 +78,18 @@ class Index extends Model
             switch ($class) {
                 case 'hasAuthor':
                     $dt_author[$line['d_r2']] = $line['n_name2'];
+                    if ($authors != '') {
+                        $authors .= '; '; }
+                    $authors .= nbr_author($line['n_name2'],7);
                     break;
                 case 'isAppellationOfExpression':
                     $dt_expression[$line['d_r2']] = $line['n_name2'];
                     break;
             }
         }
+        if ($authors != '') {
+            $authors .= '.'; }
+        $DTE['be_authors'] = $authors;
 
         /************************** Expression */
         foreach ($dt_expression as $ide => $linee) {
@@ -121,6 +135,7 @@ class Index extends Model
 
                     case 'dateOfPublication':
                         $ok = 1;
+                        $DTE['be_year'] = trim($linem['n_name2']);
                         break;
                     default:
                         echo h('Error: '.$class,4).'<hr>';
@@ -146,21 +161,22 @@ class Index extends Model
         }
         $isbns = new \App\Models\ISBN\Index();
 
-        if (strlen($ISBN) == 13)
-            {
-                $dt = $isbns->isbns($ISBN);
-                $DTE['be_isbn13'] = $dt['isbn13'];
-                $DTE['be_isbn10'] = $dt['isbn10'];
-            }
-        echo h($ISBN);
-        pre($dt_author, false);
-        pre($dt_expression, false);
-        echo h('Manifestation',5);
-        pre($dt_manifestation, false);
-        echo h('DTE', 5);
-        pre($DTE, false);
-        echo h('DTP', 5);
-        pre($DTP,false);
+        $dt = $isbns->isbns($ISBN);
+        $DTE['isbn13'] = $dt['isbn13'];
+        $DTE['isbn10'] = $dt['isbn10'];
+        $DTE['title'] = $DTE['be_title'];
+        $DTE['be_title'] = $DTE['be_title'];
+        $DTE['language'] = 'pt_br';
+        $DTE['be_status'] = 1;
+        $DTE['be_isbn13'] = $dt['isbn13'];
+        $DTE['be_isbn10'] = $dt['isbn10'];
+        $DTE['be_cover'] = 'https://www.ufrgs.br/find/_covers/image/'.$dt['isbn13'].'.jpg';
+
+        $Books = new \App\Models\Find\Books\Db\Expression();
+        $dt = $Books->where('be_rdf',$idx)->first();
+        $Books->set($DTE)->where('be_rdf',$idx)->update();
+
+        return $DTE['title'];
     }
 
     function leConcept($idx)

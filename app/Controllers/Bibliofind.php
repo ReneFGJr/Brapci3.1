@@ -41,9 +41,4 @@ class Bibliofind extends BaseController
         $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
-
-    function h($d1='')
-        {
-            echo "OK";
-        }
 }

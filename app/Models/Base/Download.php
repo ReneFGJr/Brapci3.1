@@ -158,7 +158,6 @@ class Download extends Model
                                 {
                                     return $txt;
                                 }
-                            echo "OK";
                         } else {
                             echo 'ERRO: '.$url;
                             echo '<br>Size: '.strlen($txt);

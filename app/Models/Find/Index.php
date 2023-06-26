@@ -42,13 +42,12 @@ class Index extends Model
 
     function index($d1,$d2,$d3)
         {
-            echo "OK ------$d1";
             $sx = anchor(PATH. '/admin/find/inport','Inport FIND');
             switch($d1)
                 {
                     case 'harvesting':
                         $BooksOld = new \App\Models\Find\BooksOld\Index();
-                        $sx .= '<hr>';
+                        $sx .= '<hr>'.$d2.'<hr>';
                         $sx .= $BooksOld->harvesting($d2);
                         break;
                     case 'inport':

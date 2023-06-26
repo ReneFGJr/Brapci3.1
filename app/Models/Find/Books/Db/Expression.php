@@ -17,7 +17,8 @@ class Expression extends Model
     protected $allowedFields    = [
         'id_be', 'be_title', 'be_isbn13',
         'be_isbn10', 'be_type', 'be_lang',
-        'be_status', 'be_rdf'
+        'be_status', 'be_rdf','be_year',
+        'be_authors','be_cover'
     ];
 
     // Dates
@@ -66,27 +67,17 @@ class Expression extends Model
             $name = 'ISBN:'.$isbn;
             $class = 'Expression';
             $ide = $RDF->concept($name,$class);
+            echo $ide;
+            exit;
 
-
-            $dt = $this->where('be_isbn13',$isbn)->first();
+            $dt = $this->where('be_rdf', $ide)->first();
             if ($dt == '')
                 {
-                    pre($dtd);
-                    $da['be_isbn13'] = $dtd['isbn13'];
-                    $da['be_isbn10'] = $dtd['isbn10'];
-                    $da['be_type'] = 1;
-                    $da['be_lang'] = $dtd['language'];
-                    $da['be_status'] = 1;
-                    $da['be_title'] = $dtd['title'];
-                    $da['be_rdf'] = $ide;
-                    $da['be_cover'] = $cover;
-                    $this->set($da)->insert();
+                    $this->set($dtd)->insert();
+                    return 'Insert';
                 } else {
-                    if ($dt['be_rdf'] == 0)
-                        {
-                            $da['be_rdf'] = $ide;
-                            $this->set($da)->where('id_be',$dt['id_be'])->update();
-                        }
+                    $this->set($dtd)->where('id_be',$dt['id_be'])->update();
+                    return 'Update';
                 }
             return $ide;
         }

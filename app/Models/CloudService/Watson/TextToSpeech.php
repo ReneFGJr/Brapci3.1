@@ -89,7 +89,6 @@ class TextToSpeech extends Model
         $file = '../.tmp/a.wav';
         curl_close($curl);
         if ($erro == 0) {
-            echo "OK";
             file_put_contents($file, $data);
         } else {
             echo "ERRO CURL: " . $erro;
