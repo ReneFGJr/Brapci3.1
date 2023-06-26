@@ -40,6 +40,7 @@ class Manifestation extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     function register($ide, $dt)
     {
         foreach ($dt as $prop => $vlr) {

@@ -44,6 +44,21 @@ class Expression extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function register_update($idx,$dtd)
+        {
+        /*
+            $da['be_isbn13'] = $dtd['isbn13'];
+            $da['be_isbn10'] = $dtd['isbn10'];
+            $da['be_type'] = 1;
+            $da['be_lang'] = $dtd['language'];
+            $da['be_status'] = 1;
+            $da['be_title'] = $dtd['title'];
+            $da['be_rdf'] = $ide;
+            $da['be_cover'] = $cover;
+            */
+            return $this->set($dtd)->where('be_rdf',$idx)->update();
+        }
+
     function register($isbn,$dtd)
         {
             $RDF = new \App\Models\Find\Rdf\RDF();

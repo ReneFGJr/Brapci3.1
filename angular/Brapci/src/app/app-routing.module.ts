@@ -13,6 +13,7 @@ import { LivroViewComponent } from './100_brapci_livros/page/livro-view/livro-vi
 import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main.component';
 import { WelcomeComponent } from './002_main/page/welcome/welcome.component';
 import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/livro-vitrine.component';
+import { Error404Component } from './000_header/error404/error404.component';
 
 const APProutes: Routes = [
 
@@ -50,7 +51,9 @@ const APProutes: Routes = [
         { path: '', component: AuthorityMainComponent },
         { path: 'about', component: AboutComponent }
       ]
-  },
+  },{
+    path: '**', component: Error404Component
+  }
 
 ];
 
