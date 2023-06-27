@@ -41,6 +41,8 @@ import { WelcomeComponent } from './002_main/page/welcome/welcome.component';
 import { LivroSumarioComponent } from './100_brapci_livros/page/livro-sumario/livro-sumario.component';
 import { LivroExemplaresComponent } from './100_brapci_livros/page/livro-exemplares/livro-exemplares.component';
 import { Error404Component } from './000_header/error404/error404.component';
+import { FindActionsComponent } from './110_find/find/admin/find-actions/find-actions.component';
+import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,8 @@ import { Error404Component } from './000_header/error404/error404.component';
     LivroSumarioComponent,
     LivroExemplaresComponent,
     Error404Component,
+    FindActionsComponent,
+    BookAddComponent,
   ],
   imports: [
     BrowserModule,

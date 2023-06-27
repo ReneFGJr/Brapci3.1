@@ -14,6 +14,7 @@ import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main
 import { WelcomeComponent } from './002_main/page/welcome/welcome.component';
 import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/livro-vitrine.component';
 import { Error404Component } from './000_header/error404/error404.component';
+import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
 
 const APProutes: Routes = [
 
@@ -42,6 +43,7 @@ const APProutes: Routes = [
         { path: 'about', component: AboutComponent },
         { path: 'view/:id', component: LivroViewComponent },
         { path: 'admin', component: BookServicesComponent },
+        { path: 'admin/isbn/add', component: BookAddComponent }
       ]
   },
   {

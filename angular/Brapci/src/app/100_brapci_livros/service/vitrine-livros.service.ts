@@ -20,6 +20,16 @@ export class VitrineLivrosService {
     }
   );
 
+  public validISBN(isbn: string): Observable<Array<any>> {
+    let url = `${this.url}isbn/${isbn}`;
+    console.log(url);
+
+    return this.HttpClient.get<Array<any>>(url).pipe(
+      res => res,
+      error => error
+    );
+  }
+
   public getBook(id: string): Observable<Array<any>> {
       let url = `${this.url}find/getID/${id}`;
       console.log(url);

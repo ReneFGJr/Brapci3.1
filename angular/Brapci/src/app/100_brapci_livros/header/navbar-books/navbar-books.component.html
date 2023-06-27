@@ -7,7 +7,7 @@
                         <li><a (click)="home()" class="nav-link handle">{{book_home}}</a></li>
                         <li><a (click)="indexs()" class="nav-link handle">{{book_index}}</a></li>
                         <li><a (click)="subjects()" class="nav-link handle">{{book_subject}}</a></li>
-                        <li><a (click)="admin()" class="nav-link handle">{{book_admin}}</a></li>
+                        <li><a [routerLink]="['/books/admin']" class="nav-link handle">{{book_admin}}</a></li>
                     </ul>
                 </nav>
             </div>

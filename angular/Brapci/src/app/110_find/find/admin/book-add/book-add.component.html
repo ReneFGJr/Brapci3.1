@@ -1,0 +1,15 @@
+<div class="mt-5">&nbsp;</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-2">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                <label>Informe o ISBM</label>
+                <input name="isbn" ngModel required #first="ngModel" placeholder="Número do ISBN" class="form-control border border-secondary">
+                <button class="btn btn-outline-secondary mt-2">ADD</button>
+            </form>
+        </div>
+        <div class="col-12 col-sm-10">
+        {{message}}
+        </div>
+    </div>
+</div>
