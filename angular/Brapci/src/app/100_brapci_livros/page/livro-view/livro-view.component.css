@@ -66,3 +66,17 @@ h5
       font-style: italic;
       font-weight: bolder;
     }
+
+  .keywords
+    {
+      border: 1px solid #000;
+    }
+
+  .subject
+      {
+        background-color: #ddf;
+        color: #777;
+        padding:1px 10px;
+        border-radius: 10px;
+        margin-right: 5px;;
+      }

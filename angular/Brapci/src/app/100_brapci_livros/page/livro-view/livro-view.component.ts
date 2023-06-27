@@ -16,6 +16,7 @@ export class LivroViewComponent implements OnInit {
   ) {}
 
   public itemBook:any = [];
+  public dateOfPublication: string = '';
 
   ngOnInit(): void {
     this.book;
@@ -29,6 +30,7 @@ export class LivroViewComponent implements OnInit {
       res=>{
         console.log(res);
         this.itemBook = res;
+        this.dateOfPublication = this.itemBook.data.dateOfPublication[0].n_name;
       }
     );
     return id;
