@@ -196,7 +196,6 @@ class Index extends Model
         $Books = new \App\Models\Find\Books\Db\Manifestation();
         echo (h('=='.$idx));
         $Books->import($idx,$DTP);
-        exit;
 
         return $DTE['title'];
     }
