@@ -54,10 +54,13 @@ class Manifestation extends Model
                                     $lang = 'pt_BR';
                                     foreach($vlrs as $idv=>$vlr)
                                         {
-                                            $idcc = $RDF->concept($vlr, $class, $lang);
-                                            echo h($idcc.'=='.$vlr.'=='.$class,4);
-                                            $literal = 0;
-                                            $RDF->prop($ide, $idp, $idcc, $literal);
+                                            if (strlen(trim($vlr))>0)
+                                            {
+                                                $idcc = $RDF->concept($vlr, $class, $lang);
+                                                echo h($idcc.'=='.$vlr.'=='.$class,4);
+                                                $literal = 0;
+                                                $RDF->prop($ide, $idp, $idcc, $literal);
+                                            }
                                         }
                                 }
                         }
