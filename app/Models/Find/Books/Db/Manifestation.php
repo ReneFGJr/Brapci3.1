@@ -40,6 +40,30 @@ class Manifestation extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function import($ide,$DTE)
+        {
+            $idcc = 0;
+            $RDF = new \App\Models\Find\Rdf\RDF();
+            foreach($DTE as $prop=>$line)
+                {
+                    $idp = $RDF->class($prop);
+                    foreach($line as $class=>$vlrs)
+                        {
+                            if ($class!='')
+                                {
+                                    $lang = 'pt_BR';
+                                    foreach($vlrs as $idv=>$vlr)
+                                        {
+                                            $idcc = $RDF->concept($vlr, $class, $lang);
+                                            echo h($idcc.'=='.$vlr.'=='.$class,4);
+                                            $literal = 0;
+                                            $RDF->prop($ide, $idp, $idcc, $literal);
+                                        }
+                                }
+                        }
+                }
+        }
+
 
     function register($ide, $dt)
     {

@@ -45,35 +45,63 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($id,$dt)
-        {
-            $dd = $this->where('be_rdf',$id)->first();
-            if ($dd == '')
-                {
-                    $this->set($dt)->insert();
-                }
-            return true;
+    function register($id, $dt)
+    {
+        $dd = $this->where('be_rdf', $id)->first();
+        if ($dd == '') {
+            $this->set($dt)->insert();
         }
+        return true;
+    }
 
     function getid($id)
-        {
-            $dt = $this->find($id);
-            return $dt;
-        }
-
-    function lastItens()
     {
-        $dt = $this
-                ->where('be_status <> 0 and be_status <> 9')
-                ->orderby('id_be desc')
-                ->findAll(0,10);
-        foreach($dt as $id=>$line)
-            {
-                $line['be_full'] = mb_strtolower(ascii($line['be_title']));
-                $dt[$id] = $line;
-            }
+        $dt = $this->find($id);
+        $dt['data'] = $this->getData($id);
         return $dt;
     }
 
+    function getData($id)
+        {
+            $cp = 'c_class, prefix_ref, prefix_url, c_type, id_cc, cc_pref_term, n_name, n_lang, id_d';
+            $dt = $this
+                ->select($cp)
+                ->join('rdf_data', 'be_rdf = d_r1')
+                ->join('rdf_concept','id_cc = d_r2')
+                ->join('rdf_class', 'id_c = d_p')
+                ->join('rdf_prefix', 'id_prefix = c_prefix')
+                ->join('rdf_name', 'id_n = cc_pref_term')
+                ->where('be_rdf',$id)
+                ->orderBy('c_class, id_d')
+                ->findAll();
+            $rst = [];
+            foreach($dt as $id=>$ln)
+                {
+                    $class = $ln['c_class'];
+                    if (!isset($rst[$class]))
+                        {
+                            $rst[$class] = [$ln];
+                        } else {
+                            array_push($rst[$class],$ln);
+                        }
+                }
+            return $rst;
+        }
 
+    function lastItens($start='10',$limite = '0')
+    {
+        $start = round($start)+1;
+        $limite = round($limite);
+        if ($limite == 0) { $limite = 20; }
+
+        $dt = $this
+            ->where('be_status <> 0 and be_status <> 9')
+            ->orderby('id_be desc')
+            ->findAll($start,$limite);
+        foreach ($dt as $id => $line) {
+            $line['be_full'] = mb_strtolower(ascii($line['be_title']));
+            $dt[$id] = $line;
+        }
+        return $dt;
+    }
 }

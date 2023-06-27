@@ -42,8 +42,9 @@ class RDF extends Model
 
     function concept($name,$class,$lang='NnN')
         {
-        $ld_class = $this->class($class);
+        $ld_class = $class;
         $id_literal = $this->literal($name, $lang, True);
+
 
         $idc = $this->register_concept($ld_class, $id_literal);
         return $idc;

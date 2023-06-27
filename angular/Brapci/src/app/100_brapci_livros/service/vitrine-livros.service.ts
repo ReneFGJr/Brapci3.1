@@ -32,7 +32,7 @@ export class VitrineLivrosService {
 
   /************************************************ API CONSULTA */
   public listBooks(): Observable<Array<any>> {
-    let url = `${this.url}find/vitrine`;
+    let url = `${this.url}find/vitrine/0/50`;
 
     var formData: any = new FormData();
     formData.append('library',this.library);

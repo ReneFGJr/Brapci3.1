@@ -130,6 +130,7 @@ class Index extends Model
                 $linem = (array)$linem;
                 $class = trim($linem['c_class']);
                 $ok = 0;
+                $cclass = $linem['class'];
                 foreach($cl1 as $xclass)
                     {
                         if ($class == trim($xclass)) { $ok = 1; }
@@ -158,18 +159,18 @@ class Index extends Model
                 }
                 if ($ok==1)
                     {
-                    if (isset($DTP[$class])) {
-                        array_push($DTP[$class], [$linem['n_name2']]);
+                    if (isset($DTP[$class][$cclass])) {
+                        array_push($DTP[$class][$cclass], $linem['n_name2']);
                     } else {
-                        $DTP[$class] = [$linem['n_name2']];
+                        $DTP[$class][$cclass][0] = $linem['n_name2'];
                     }
                     }
 
                 if ($ok == 2) {
-                    if (isset($DTP[$class])) {
-                        array_push($DTP[$class], [$linem['n_name']]);
+                    if (isset($DTP[$class][$cclass])) {
+                        array_push($DTP[$class][$cclass], $linem['n_name']);
                     } else {
-                        $DTP[$class] = [$linem['n_name']];
+                        $DTP[$class][$cclass][0] = $linem['n_name'];
                     }
                 }
             }
@@ -190,6 +191,12 @@ class Index extends Model
         $Books = new \App\Models\Find\Books\Db\Expression();
         $dt = $Books->where('be_rdf',$idx)->first();
         $Books->set($DTE)->where('be_rdf',$idx)->update();
+
+
+        $Books = new \App\Models\Find\Books\Db\Manifestation();
+        echo (h('=='.$idx));
+        $Books->import($idx,$DTP);
+        exit;
 
         return $DTE['title'];
     }
@@ -225,7 +232,10 @@ class Index extends Model
     		rdf_data.*,
 			prefix_ref, prefix_url,
 			n2.n_name as n_name2,
-			n2.n_lang as n_lang2
+			n2.n_lang as n_lang2,
+            rc2.id_cc as id_c,
+            rc4.c_class as class
+
 			";
         $sql .= "from " . $PREFIX . "rdf_data ";
         $sql .= "left join " . $PREFIX . "rdf_name ON d_literal = rdf_name.id_n ";
@@ -233,6 +243,7 @@ class Index extends Model
         $sql .= "left join " . $PREFIX . "rdf_prefix ON rdf_class.c_prefix = rdf_prefix.id_prefix ";
 
         $sql .= "left join " . $PREFIX . "rdf_concept as rc2 ON rdf_data.d_r2 = rc2.id_cc ";
+        $sql .= "left join " . $PREFIX . "rdf_class as rc4 ON rc2.cc_class = rc4.id_c ";
         $sql .= "left join " . $PREFIX . "rdf_name as n2 ON n2.id_n = rc2.cc_pref_term ";
 
 

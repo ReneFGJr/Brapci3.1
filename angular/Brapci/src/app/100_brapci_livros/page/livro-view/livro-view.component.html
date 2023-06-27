@@ -26,7 +26,7 @@
 <div class="col-8 col-sm-9">
 <h1>{{itemBook.be_title}}</h1>
 
-<h4 class="authors">Fulano de Tal</h4>
+<h4 class="authors">{{itemBook.be_authors}}</h4>
 
 <!--- Editra-->
 <div class="editora">
@@ -34,8 +34,11 @@
 </div>
 
 <div class="publicacao">
-  <h5>Ano: <b>2023</b></h5>
+  <h5>Ano: <b>{{itemBook.be_year}}</b></h5>
 </div>
+
+<div class="isbn">
+<h5>ISBN: <b>{{itemBook.be_isbn13}}</b></h5></div>
 
 <div class="idioma">
   <h5>Idioma: <b>Portugues</b></h5>
