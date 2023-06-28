@@ -21,7 +21,7 @@ export class OauthComponent {
                 this.login = false;
                 //this.router.navigate(['/']);
             } else {
-              console.log('NOT LOGED');
+                console.log('NOT LOGED');
             }
     }
 }

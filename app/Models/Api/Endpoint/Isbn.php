@@ -58,7 +58,9 @@ class Isbn extends Model
         $rst['valid'] = 0;
         if (strlen($isbn) == 13)
             {
-                $rst['valid'] = (substr($isbn,12,1) == $ISBN->genchksum13(substr($d1, 0, 12)));
+                $chk = $ISBN->genchksum13(substr($d1, 0, 12));
+                $rst['check'] = $chk;
+                $rst['valid'] = (substr($isbn,12,1) == $chk);
                 $rst['isbn13'] = $isbn;
                 $rst['isbn10'] = $ISBN->isbn13to10($isbn);
             } elseif (strlen($isbn) == 10) {

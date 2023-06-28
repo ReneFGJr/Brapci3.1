@@ -120,6 +120,11 @@ class Isbn extends Model
 
     function genchksum13($isbn)
     {
+        $isbn = sonumero($isbn);
+        if (substr($isbn,0,3) != '978')
+            {
+                return 'X';
+            }
         $isbn = trim($isbn);
         $tb = 0;
         for ($i = 0; $i <= strlen($isbn); $i++) {

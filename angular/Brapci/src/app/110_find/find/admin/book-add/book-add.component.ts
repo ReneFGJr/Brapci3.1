@@ -9,22 +9,47 @@ import { NgForm } from '@angular/forms';
 })
 export class BookAddComponent {
   public message='';
+  isbn: string = '';
+  public listBook: Array<any> | any;
 
   constructor(
     private vitrineLivrosService: VitrineLivrosService
   ) {}
 
-  isbn: string = '';
-
   onSubmit(f: NgForm) {
-    this.message = this.checkISBN(f.value.isbn);
+    this.checkISBN(this.isbn);
   }
 
-  public checkISBN(f: NgForm):string
+  public insertISBN(isbn: string): boolean
     {
-      alert(this.isbn);
-      //alert(f.isbn);
-      return "OK";
+        this.vitrineLivrosService.insertISBN(isbn).subscribe(
+        res => {
+          this.listBook = res;
+          if (this.listBook.valid) {
+            console.log(this.listBook);
+          } else {
+            this.message = `Erro de Inserção do ISSN ${this.listBook.isbn13}`;
+          }
+        }
+      );
+      return true;
+    }
+
+    /********************************************************* CheckISBN */
+  public checkISBN(isbn: string):boolean
+    {
+      this.vitrineLivrosService.validISBN(isbn).subscribe(
+        res => {
+          this.listBook = res;
+          if (this.listBook.valid)
+            {
+              this.insertISBN(isbn);
+            } else {
+              this.message = `Erro no ISSN ${this.listBook.isbn13}`;
+            }
+        }
+      );
+      return true;
     }
 
 }
