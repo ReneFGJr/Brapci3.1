@@ -73,6 +73,24 @@ class Find extends Model
             header('Access-Control-Allow-Origin: *');
             switch($d1)
                 {
+                    case 'isbn':
+                        $library = get("library");
+                        if ($library == '')
+                            {
+                                $dd['status'] = '500';
+                                $dd['message'] = 'Biblioteca não informada';
+                                $dd['time'] = date("Y-m-dTH:i:s");
+                                echo json_encode($dd);
+                                exit;
+                            } else {
+                                $id = $this->insert_isbn($d2,$library);
+                                $dd['status'] = '200';
+                                $dd['message'] = 'Insirido com sucesso '.$id;
+                                $dd['rdf'] = $id;
+                                echo json_encode($dd);
+                            }
+                        exit;
+                        break;
                     case 'getID':
                         echo $this->getID($d2);
                         exit;
@@ -90,4 +108,13 @@ class Find extends Model
                     break;
                 }
         }
+
+
+        function insert_isbn($isbn,$library)
+            {
+                $key = get("apikey");
+                $find = new \App\Models\Find\Books\Db\Books();
+                $find->insertISBN($isbn,$library,1);
+                return false;
+            }
 }

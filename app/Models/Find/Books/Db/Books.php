@@ -45,6 +45,27 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function insertISBN($isbn,$library,$user)
+        {
+            $dt = $this
+                ->join('book_library','bl_item = id_be','left')
+                ->where('be_isbn13',$isbn)
+                ->orderBy('id_be desc')
+                ->first();
+            if ($dt != '')
+                {
+                    if ($dt['be_status'] == 0)
+                        {
+                            $dd['status'] = '500';
+                            $dd['message'] = 'Já existe um ISBN em edição';
+                        } else {
+                            $dd['status'] = '200';
+                            $dd['message'] = 'Já existe um ISBN em edição';
+                        }
+                }
+            return $dd;
+        }
+
     function register($id, $dt)
     {
         $dd = $this->where('be_rdf', $id)->first();

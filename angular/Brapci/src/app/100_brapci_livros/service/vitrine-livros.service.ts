@@ -27,9 +27,10 @@ export class VitrineLivrosService {
   );
 
   public insertISBN(isbn: string): Observable<Array<any>> {
-    let url = `${this.url}isbn/${isbn}/add`;
+    let url = `${this.url}find/isbn/${isbn}/add`;
 
     this.usr = <any>this.userService.getUser();
+    console.log(url);
     console.log(this.userService.user);
     console.log('+++++'+this.token);
 
