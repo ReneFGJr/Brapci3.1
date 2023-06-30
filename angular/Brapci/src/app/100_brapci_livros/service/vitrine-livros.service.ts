@@ -54,6 +54,19 @@ export class VitrineLivrosService {
     );
   }
 
+  public listPreparo(): Observable<Array<any>> {
+    let url = `${this.url}find/status/0`;
+    console.log(url);
+
+    var formData: any = new FormData();
+    formData.append('library', this.library);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      res => res,
+      error => error
+    );
+  }
+
   public getBook(id: string): Observable<Array<any>> {
     let url = `${this.url}find/getID/${id}`;
     console.log(url);

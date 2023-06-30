@@ -6,5 +6,5 @@ export interface UIbooks{
   be_cover: string,
   be_rdf: string,
   be_isbn13: string,
-  br_athors: string
+  be_athors: string
 }
