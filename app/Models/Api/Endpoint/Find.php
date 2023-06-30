@@ -68,11 +68,15 @@ class Find extends Model
             exit;
         }
 
-    function index($d1,$d2,$d3)
+    function index($d1,$d2='',$d3='')
         {
             header('Access-Control-Allow-Origin: *');
             switch($d1)
                 {
+                    case 'status':
+                        $this->list_status($d2);
+                        exit;
+                        break;
                     case 'isbn':
                         $library = get("library");
                         if ($library == '')
@@ -108,6 +112,14 @@ class Find extends Model
                     break;
                 }
         }
+
+        function list_status($sta)
+            {
+                $library = get("library");
+                $find = new \App\Models\Find\Books\Db\Books();
+                $find->list_status($library,$sta);
+                exit;
+            }
 
 
         function insert_isbn($isbn,$library)

@@ -47,23 +47,85 @@ class Books extends Model
 
     function insertISBN($isbn,$library,$user)
         {
+            $ISBN = new \App\Models\Functions\Isbn();
+            $dd = [];
             $dt = $this
                 ->join('book_library','bl_item = id_be','left')
                 ->where('be_isbn13',$isbn)
                 ->orderBy('id_be desc')
                 ->first();
+            $expressao_new = false;
             if ($dt != '')
                 {
-                    if ($dt['be_status'] == 0)
-                        {
-                            $dd['status'] = '500';
-                            $dd['message'] = 'Já existe um ISBN em edição';
-                        } else {
-                            $dd['status'] = '200';
-                            $dd['message'] = 'Já existe um ISBN em edição';
-                        }
+                    $sta = trim($dt['be_status']);
+                    $expressao_new = false;
+                    $expressao = $dt['id_be'];
+                } else {
+                    $expressao_new = true;
+                    $expressao = 0;
                 }
+
+            if ($expressao_new == true)
+                {
+                    $de = [];
+                    $de['be_title'] = '[em coleta '.$isbn.']';
+                    $de['be_authors'] = '';
+                    $de['be_year'] = '';
+                    $de['be_cover'] = '';
+                    $de['be_rdf'] = '';
+                    $de['be_isbn13'] = $isbn;
+                    $de['be_isbn10'] = $ISBN->isbn13to10($isbn);
+                    $de['be_type'] = '';
+                    $de['be_lang'] = '';
+                    $de['be_status'] = 0;
+
+                    $expressao = $this->set($de)->insert();
+                }
+
+                $stl = trim($dt['bl_status']);
+                if ($stl == '') { $stl = 0; } else ($str = round($stl));
+                if ($stl == 0)
+                    {
+                        $item_new = true;
+                        $dd['message'] = 'Inserido com sucesso';
+                        $dd['status'] = '200';
+                    } else {
+                        $item_new = false;
+                        $dd['message'] = 'Já existe este item em edição';
+                        $dd['status'] = '201';
+                    }
+
+                $dd['isbn'] = $isbn;
+                $dd['library'] = $library;
+                $dd['user'] = $user;
+                $dd['expressao'] = $expressao;
+
+                if ($item_new == true)
+                {
+                        $Item = new \App\Models\Find\Books\Db\Item();
+                        $id = $Item->register($dd);
+                        $dd['item'] = $id;
+                } else {
+                    $dd['item'] = $dt['id_bl'];
+                }
+
+            echo json_encode($dd);
+            exit;
             return $dd;
+        }
+
+    function list_status($sta)
+        {
+            $library = $this->library();
+            $cp = 'id_bl, be_title, be_authors, be_year, be_cover, be_isbn13, bl_item, bl_tombo, bl_catalogador, bl_status';
+            $dt = $this
+                    ->select($cp)
+                    ->join('book_library','bl_item = id_be')
+                    ->where('bl_library', $library)
+                    ->where('bl_status', $sta)
+                    ->findAll(0,20);
+            echo json_encode($dt);
+            exit;
         }
 
     function register($id, $dt)
@@ -74,6 +136,20 @@ class Books extends Model
         }
         return true;
     }
+
+    function library()
+        {
+            $lib = sonumero(get("library"));
+            if ($lib == '')
+                {
+                    $dd['status'] = '500';
+                    $dd['message'] = 'Biblioteca não informada';
+                    $dd['time'] = date("Y-m-dTH:i:s");
+                    echo json_encode($dd);
+                    exit;
+                }
+            return $lib;
+        }
 
     function getid($id)
     {

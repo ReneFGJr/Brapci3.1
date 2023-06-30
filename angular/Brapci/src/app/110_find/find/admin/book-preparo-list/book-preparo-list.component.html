@@ -1,0 +1,9 @@
+<ul *ngFor="let item of PreparoItems" class="mt-5">
+  <li>
+    {{item.id_bl}}.
+    <a [routerLink]="['/books/admin/isbn/edit/'+item.id_bl]" >
+    {{item.be_isbn13}}
+    <b>{{item.be_title}}</b>
+    </a>
+  </li>
+</ul>

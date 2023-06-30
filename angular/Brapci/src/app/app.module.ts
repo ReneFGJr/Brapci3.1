@@ -43,6 +43,8 @@ import { LivroExemplaresComponent } from './100_brapci_livros/page/livro-exempla
 import { Error404Component } from './000_header/error404/error404.component';
 import { FindActionsComponent } from './110_find/find/admin/find-actions/find-actions.component';
 import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
+import { BookPreparoListComponent } from './110_find/find/admin/book-preparo-list/book-preparo-list.component';
+import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +73,8 @@ import { BookAddComponent } from './110_find/find/admin/book-add/book-add.compon
     Error404Component,
     FindActionsComponent,
     BookAddComponent,
+    BookPreparoListComponent,
+    BookEditComponent,
   ],
   imports: [
     BrowserModule,
