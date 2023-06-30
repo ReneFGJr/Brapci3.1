@@ -110,7 +110,7 @@ class TranslateTPL extends Model
 
                                                 if (isset($dd[$lb]))
                                                     {
-                                                        $tx .= troca($l,$lb,$dd[$lb]).chr(10);
+                                                        $tx .= troca($l,$lb,$dd[$lb].'@pt_BR').chr(10);
                                                     } else {
                                                         echo "ERRO";
                                                         echo '<br>'.$l;
