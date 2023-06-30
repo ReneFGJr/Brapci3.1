@@ -85,6 +85,10 @@ class Index extends Model
                 $Translate = new \App\Models\Dataverse\Translate();
                 $sx .= $Translate->index($d2, $d3, $d3);
                 break;
+            case 'translateTPL':
+                $TranslateTPL = new \App\Models\Dataverse\TranslateTPL();
+                $sx .= $TranslateTPL->index($d2, $d3, $d3);
+                break;
             case 'migration':
                 $Migration = new \App\Models\Dataverse\Migration();
                 $sx .= $Migration->index($d2,$d3,$d3);
@@ -146,6 +150,7 @@ class Index extends Model
         $menu[PATH . '/dados/dataverse/css'] = lang('dataverse.customize_style');
         $menu[PATH . '/dados/dataverse/migration'] = lang('dataverse.migration');
         $menu[PATH . '/dados/dataverse/translate'] = lang('dataverse.translate');
+        $menu[PATH . '/dados/dataverse/translateTPL'] = lang('dataverse.translate_tpl');
 
         $menu['#CHECKLIST'] = '';
         $menu[PATH . '/dados/dataverse/preinstall'] = lang('dataverse.pre_install');
