@@ -30,13 +30,10 @@ export class VitrineLivrosService {
     let url = `${this.url}find/isbn/${isbn}/add`;
 
     this.usr = <any>this.userService.getUser();
-    console.log(url);
-    console.log(this.userService.user);
-    console.log('+++++'+this.token);
-
     var formData: any = new FormData();
     formData.append('library', this.library);
     //formData.append('apikey', this.usr.token);
+    formData.append('apikey', '2e3db7994011c8c5e315e42a0cb439c5');
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       res => res,
@@ -67,11 +64,41 @@ export class VitrineLivrosService {
     );
   }
 
-  public getBook(id: string): Observable<Array<any>> {
+  public getBook(id: number): Observable<Array<any>> {
     let url = `${this.url}find/getID/${id}`;
     console.log(url);
 
     return this.HttpClient.get<Array<any>>(url).pipe(
+      res => res,
+      error => error
+    );
+  }
+
+  public save(id: number, field: string, value: any): Observable<Array<any>> {
+    let url = `${this.url}find/saveField/${id}`;
+    console.log(url);
+
+    var formData: any = new FormData();
+    formData.append('library', this.library);
+    formData.append('item', id);
+    formData.append('field', field);
+    formData.append('value', value);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      res => res,
+      error => error
+    );
+  }
+
+
+  public getItem(id: number): Observable<Array<any>> {
+    let url = `${this.url}find/getItem/${id}`;
+    console.log(url);
+
+    var formData: any = new FormData();
+    formData.append('library', this.library);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
       res => res,
       error => error
     );

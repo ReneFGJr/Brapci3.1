@@ -41,6 +41,15 @@ class Isbn extends Model
     protected $afterDelete    = [];
 
     /************* ISBNS ***********************************/
+    function check($isbn)
+        {
+            $isbn = $this->isbns($isbn);
+            $check2 = $this->genchksum13(substr($isbn['isbn13'],0,12));
+            $check1 = substr($isbn['isbn13'],12,1);
+
+            return ($check1 == $check2);
+        }
+
     function isbns($isbn)
     {
         if (is_array($isbn)) {

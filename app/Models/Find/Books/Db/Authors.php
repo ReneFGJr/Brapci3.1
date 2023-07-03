@@ -4,17 +4,20 @@ namespace App\Models\Find\Books\Db;
 
 use CodeIgniter\Model;
 
-class Literal extends Model
+class Authors extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'literals';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'find';
+    protected $table            = 'books_manifestation';
+    protected $primaryKey       = 'id_bm';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_bm', 'bm_book', 'bm_propriety',
+        'bm_resource', 'bm_literal'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,4 +42,9 @@ class Literal extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function register($name,$type="Author")
+        {
+
+        }
 }

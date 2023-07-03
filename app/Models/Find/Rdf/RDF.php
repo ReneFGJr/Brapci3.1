@@ -45,6 +45,10 @@ class RDF extends Model
         $ld_class = $class;
         $id_literal = $this->literal($name, $lang, True);
 
+        if ($class != sonumero($class))
+            {
+                $ld_class = $this->class($class);
+            }
 
         $idc = $this->register_concept($ld_class, $id_literal);
         return $idc;
@@ -131,10 +135,16 @@ class RDF extends Model
             $RDFData = new \App\Models\Rdf\RDFData();
             $RDFData->table = 'find.' . $RDFData->table;
 
+            if ($prop != sonumero($prop))
+                {
+                    $prop = $this->class($prop);
+                }
+
             $dt = $RDFData
                 ->where('d_r1', $resource_1)
                 ->where('d_p', $prop)
                 ->where('d_r2', $resource_2)
+                ->where('d_literal', $literal)
                 ->first();
 
             if ($dt == '')

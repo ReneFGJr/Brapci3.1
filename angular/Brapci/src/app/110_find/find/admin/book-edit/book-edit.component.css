@@ -1,0 +1,17 @@
+.title
+  {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+.save
+  {
+    font-weight: bold;
+  }
+  .handle
+    {
+      cursor: pointer;
+      opacity: 0.5;
+      border: 0;
+      padding: 0px;
+    }

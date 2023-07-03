@@ -1,4 +1,4 @@
-export interface UIbooks{
+export interface UIbooksItems {
   id_bl: number,
   bl_library: number,
   bl_item: number,
@@ -9,6 +9,7 @@ export interface UIbooks{
   bl_usuario: string,
   bl_renovacao: string,
   be_title: string,
+  bk_title: string,
   be_author: string,
   be_cover: string
 }

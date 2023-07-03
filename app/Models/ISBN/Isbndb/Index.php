@@ -177,12 +177,17 @@ class Index extends Model
                                             break;
                                     case 'title':
                                         $vlr = troca($vlr,'(Em Portuguese do Brasil)','');
-                                        $dt['title'] = $vlr;
+                                        $vlr = troca($vlr, '(Portuguese Edition)','');
+                                        $dt['title'] = nbr_title(trim($vlr));
+                                        break;
+                                    case 'pages':
+                                        $dt['pages'] = $vlr.' p.';
                                         break;
                                     case 'title_long':
                                         $dt['title_long'] = $vlr;
                                         break;
                                      default:
+                                        echo 'Não localizado a propriedade ';
                                         echo $prop;
                                         echo '==>';
                                         if (is_array($vlr))

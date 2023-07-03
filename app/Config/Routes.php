@@ -85,6 +85,7 @@ $routes->get('/ws/(:any)/(:any)', 'Api::index/$1/$2');
 $routes->get('/api', 'Api::index');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
+$routes->put('/api/(:any)', 'Api::index/$1');
 
 /********* SOCIAL */
 $routes->get('/social', 'Social::index');

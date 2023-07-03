@@ -28,8 +28,7 @@ export class BookAddComponent {
       res => {
         this.itemBook = res;
         if (this.itemBook.valid) {
-          console.log("+=========================");
-          console.log(this.itemBook);
+          console.log("Valido");
         } else {
           let status = <number>this.itemBook.status;
           let msg = <string>this.itemBook.message;

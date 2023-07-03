@@ -1,1 +1,32 @@
-<p>book-edit works!</p>
+<div class="mt-5">&nbsp;</div>
+<div class="container">
+  <div class="row" *ngIf="PreparoItems">
+  <div class="col-11 col-sm-11"></div>
+  <div class="col-1 col-sm-1">{{ PreparoItems.be_status }}</div>
+
+    <div class="col-12 col-sm-12">
+    <form>
+      <div class="mt-5">
+        <div *ngIf="!edit_be_title">
+        <span class="title">{{ PreparoItems.be_title }}</span>
+        <br>
+        <span class="handle" *ngIf="editMode" (click)="editON('be_title');">edit</span>
+        </div>
+
+        <div *ngIf="edit_be_title">
+        <input type="text" name="be_title" class="form-control border border-secondary title" id="be_title" [(ngModel)]="PreparoItems.be_title">
+        <button  [disabled]="(PreparoItems.be_title == undo)" class="handle save" (click)="save('be_title');">save</button>
+        |
+        <button class="handle" (click)="cancel('be_title');">cancel</button>
+        </div>
+        <!-- ISBN -->
+        <div id="isbn" class="mt-3">
+        ISBN: <b>{{PreparoItems.be_isbn13}}</b>
+        </div>
+        <hr>
+        {{ PreparoItems | json }}
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

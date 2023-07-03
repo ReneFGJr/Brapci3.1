@@ -41,6 +41,14 @@ class Language extends Model
 	protected $afterDelete          = [];
 	var $statistic = array();
 
+	function normalize($lang)
+		{
+			if ($lang == 'por') { return 'pt_BR'; }
+			echo '====ERRO==='.h($lang);
+			exit;
+			return $lang;
+		}
+
 	function getTextLanguage($text)
 	{
 		$this->statistic = array();

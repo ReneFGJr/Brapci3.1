@@ -52,10 +52,10 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function lastitens()
+    function lastitens($d1,$d2)
         {
             $Books = new \App\Models\Find\Books\Db\Books();
-            $dt = $Books->lastItens();
+            $dt = $Books->lastItens($d1,$d2);
             echo json_encode($dt);
             exit;
         }
@@ -67,15 +67,70 @@ class Find extends Model
             echo json_encode($dt);
             exit;
         }
-
     function index($d1,$d2='',$d3='')
+        {
+            header('Access-Control-Allow-Origin: *');
+            $RSP = [];
+
+            switch($d1)
+                {
+                    case 'isbn':
+                        $this->isbn($d2,$d3);
+                        break;
+                    case 'vitrine':
+                        $this->lastItens($d2,$d3);
+                        break;
+                    default:
+                        $RSP['status'] = '400';
+                        $RSP['message'] = 'Serviço não localizado';
+                    break;
+                }
+            echo json_encode( $RSP );
+        }
+
+    function isbn($isbn,$action)
+        {
+            $RSP = [];
+            $RSP['date'] = date("Y-m-dTH:i:s");
+            $RSP['verb'] = $action;
+
+            switch($action)
+                {
+                    case 'add':
+                        $FIND = new \App\Models\Find\Books\Db\Find();
+                        $RSP = $FIND->register($isbn,$RSP);
+                    break;
+                }
+            echo json_encode( $RSP );
+            exit;
+        }
+    /******************************************************** */
+    function index2($d1,$d2='',$d3='')
         {
             header('Access-Control-Allow-Origin: *');
             switch($d1)
                 {
+                    case 'check':
+                        switch($d2)
+                            {
+                                case 'post':
+                                    $this->checkPost();
+                                    break;
+
+                                case 'get':
+                                    $this->checkGet();
+                                    break;
+                                default:
+                                    echo json_encode(array_merge($_POST,$GET));
+                                    break;
+                            }
+                            exit;
+                        break;
+                    case 'saveField':
+                        $this->saveField();
+                        break;
                     case 'status':
                         $this->list_status($d2);
-                        exit;
                         break;
                     case 'isbn':
                         $library = get("library");
@@ -99,6 +154,10 @@ class Find extends Model
                         echo $this->getID($d2);
                         exit;
                         break;
+                    case 'getItem':
+                        echo $this->getItem($d2);
+                        exit;
+                        break;
                     case  'vitrine':
                         echo $this->lastItens();
                         exit;
@@ -113,12 +172,44 @@ class Find extends Model
                 }
         }
 
+        function saveField()
+            {
+                $find = new \App\Models\Find\Books\Db\Books();
+                $library = get("library");
+                $item = get("item");
+                $field = get("field");
+                $value = get("value");
+                $find->saveData($library,$item,$field,$value);
+
+                echo json_encode($_POST);
+                exit;
+            }
+
+        function checkPost()
+        {
+            echo json_encode($_POST);
+            exit;
+        }
+
+        function checkGet()
+        {
+            echo json_encode($_POST);
+            exit;
+        }
+
         function list_status($sta)
             {
                 $library = get("library");
                 $find = new \App\Models\Find\Books\Db\Books();
                 $find->list_status($library,$sta);
                 exit;
+            }
+
+        function getItem($id)
+            {
+                $Books = new \App\Models\Find\Books\Db\Books();
+                $dt = $Books->getItem($id);
+                pre($dt);
             }
 
 
