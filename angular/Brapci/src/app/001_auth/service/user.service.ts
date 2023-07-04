@@ -66,8 +66,8 @@ export class UserService {
       return true;
     }
 
-  private url: string = 'https://cip.brapci.inf.br/api/';
-  //private url: string = 'http://brp/api/';
+  //private url: string = 'https://cip.brapci.inf.br/api/';
+  private url: string = 'http://brp/api/';
 
   /************************************************ API CONSULTA */
   public loginSubmitHttp(login: string, pass: string): Observable<Array<any>> {

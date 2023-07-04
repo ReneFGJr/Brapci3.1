@@ -57,7 +57,8 @@ class BooksManifestation extends Model
                 'authors' => 'Person',
                 'title'=>'ignore',
                 'isbn13' => 'ignore',
-                'isbn10' => 'ignore'
+                'isbn10' => 'ignore',
+                'edicao' => 'Edition'
                 ];
             $property = [
                 'editora'=> 'isPublisher',
@@ -70,7 +71,8 @@ class BooksManifestation extends Model
                 'authors'=> 'hasAuthor',
                 'title'=>'ignore',
                 'isbn13'=>'ignore',
-                'isbn10' => 'ignore'
+                'isbn10' => 'ignore',
+                'edicao' => 'isEdition'
                 ];
             $type = [
                 'editora' => 'C',
@@ -85,13 +87,14 @@ class BooksManifestation extends Model
                 'isbn13' => 'I',
                 'isbn10' => 'I',
                 'status'=>'I',
+                'edicao' => 'C',
                 ];
 
             if(isset($type[$prop]))
                 {
 
                 } else {
-                    echo "<br>ERRO - $prop";
+                    echo "<br>ERRO DE CLASSE - $prop";
                     exit;
                 }
             /*********************************** Tipo */

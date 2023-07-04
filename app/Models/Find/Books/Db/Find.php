@@ -78,8 +78,9 @@ class Find extends Model
                     $user = $UserApi->user['id_us'];
                     $RSP = $BooksExpression->register($isbn,$library,$tombo,$user,$RSP);
 
-                    $BOOKS = new \App\Models\Find\Books\Db\Books();
-                    $id_books = $BOOKS->register($isbn);
+                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
+                    $id_books = $BooksLibrary->register($RSP);
+
                     $RSP['status'] = '200';
                     $RSP['message'] = 'Registro bem sucedido';
                     $RSP['registro'] = $id_books;

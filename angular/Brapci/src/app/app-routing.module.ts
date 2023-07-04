@@ -16,12 +16,14 @@ import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/li
 import { Error404Component } from './000_header/error404/error404.component';
 import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
 import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.component';
+import { UserLoginComponent } from './001_auth/page/user-login/user-login.component';
 
 const APProutes: Routes = [
-
   {
     path: 'social', component: OauthComponent, children:
       [
+        { path: '', component: OauthComponent },
+        { path: 'login', component: UserLoginComponent },
         { path: 'password', component: UserChangePasswordComponent },
         { path: 'perfil', component: UserPerfilComponent }
       ]

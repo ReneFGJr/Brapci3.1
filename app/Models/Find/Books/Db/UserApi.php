@@ -56,7 +56,7 @@ class UserApi extends Model
                             $RSP['status'] = '200';
                         } else {
                             $RSP['status'] = '202';
-                            $RSP['message'] = 'Falha na autenticação APIKEY';
+                            $RSP['message'] = 'Falha na autenticação APIKEY - '.$apikey;
                         }
                 }
             return $RSP;

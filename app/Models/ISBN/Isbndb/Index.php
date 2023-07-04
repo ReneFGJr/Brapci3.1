@@ -141,6 +141,9 @@ class Index extends Model
                                     case 'date_published':
                                         $dt['date'] = $vlr;
                                         break;
+                                    case 'edition':
+                                        $dt['edicao'] = $vlr;
+                                        break;
                                     case 'image':
                                         $dt['cover'] = $vlr;
                                         break;
@@ -182,6 +185,9 @@ class Index extends Model
                                         break;
                                     case 'pages':
                                         $dt['pages'] = $vlr.' p.';
+                                        break;
+                                    case 'title_long':
+                                        $dt['title_long'] = $vlr;
                                         break;
                                     case 'title_long':
                                         $dt['title_long'] = $vlr;

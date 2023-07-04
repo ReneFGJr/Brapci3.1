@@ -44,6 +44,7 @@ class BooksExpression extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    var $data = [];
 
     function register($isbn,$library,$tombo, $user, $RSP)
         {
@@ -60,6 +61,7 @@ class BooksExpression extends Model
                     $RSP = $this->processa_novo_item($RSP);
                 } else {
                     $RSP['process'] = 'Novo item';
+                    $RSP['expression'] = $this->data['id_be'];
                 }
 
             return $RSP;
@@ -152,6 +154,7 @@ class BooksExpression extends Model
         function exists($isbn)
             {
                 $dt = $this->where('be_isbn13',$isbn)->first();
+                $this->data = $dt;
                 return (!($dt == ''));
             }
 }

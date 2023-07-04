@@ -23,7 +23,7 @@ class Socials extends Model
 		'id_us', 'us_nome', 'us_email', 'us_affiliation',
 		'us_image', 'us_genero', 'us_verificado',
 		'us_login', 'us_password', 'us_autenticador',
-		'us_oauth2', 'us_lastaccess'
+		'us_oauth2', 'us_lastaccess', 'us_apikey_active', 'us_apikey'
 	];
 
 	var $typeFields        = [
@@ -1098,10 +1098,19 @@ class Socials extends Model
 
 		if (isset($dt[0])) {
 			if ($dt[0]['us_password'] == md5($pwd)) {
+				if(trim($dt[0]['us_apikey']) == '')
+					{
+						$apikey = md5($dt[0]['us_password'] . $dt[0]['us_login']);
+						$dq = [];
+						$dq['us_apikey'] = $apikey;
+						$dq['us_apikey_active'] = 1;
+						$this->set($dq)->where('id_us',$dt[0]['id_us'])->update();
+						$dt[0]['us_apikey'] = $apikey;
+					}
 				$_SESSION['id'] = $dt[0]['id_us'];
 				$_SESSION['user'] = $dt[0]['us_nome'];
 				$_SESSION['email'] = $dt[0]['us_email'];
-				$_SESSION['apikey'] = $dt[0]['us_password'];
+				$_SESSION['apikey'] = $dt[0]['us_apikey'];
 				$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
 				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
 

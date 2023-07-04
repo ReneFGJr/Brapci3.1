@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { UserService } from 'src/app/001_auth/service/user.service';
 import { UIuser } from 'src/app/001_auth/interface/UIusers';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +17,7 @@ export class VitrineLivrosService {
   //private url: string = 'https://cip.brapci.inf.br/api/';
   private url: string = 'http://brp/api/';
   public library: number = 1;
+  public user: Array<any> | any
   usr = [];
   token = 'Invalid';
 
@@ -27,13 +29,15 @@ export class VitrineLivrosService {
   );
 
   public insertISBN(isbn: string): Observable<Array<any>> {
+
+    this.user = this.userService.getUser()
     let url = `${this.url}find/isbn/${isbn}/add`;
+    console.log('finAdd-ISBN',url)
 
     this.usr = <any>this.userService.getUser();
     var formData: any = new FormData();
     formData.append('library', this.library);
-    //formData.append('apikey', this.usr.token);
-    formData.append('apikey', '2e3db7994011c8c5e315e42a0cb439c5');
+    formData.append('apikey', this.user.token);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       res => res,

@@ -109,7 +109,7 @@ class Oauth extends Model
                 $nome = $_SESSION['user'];
                 $dd['status'] = '200';
                 $dd['message'] = 'Loged';
-                $dd['message'] = 'Loged';
+                $dd['message'] = 'Loged2';
                 $dd['id'] = $_SESSION['id'];
                 $dd['email'] = $_SESSION['email'];
                 $dd['givenName'] = trim(substr($nome, 0, strpos($nome, ' ')));

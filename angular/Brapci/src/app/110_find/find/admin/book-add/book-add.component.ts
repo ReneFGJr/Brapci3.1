@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VitrineLivrosService } from 'src/app/100_brapci_livros/service/vitrine-livros.service';
 import { NgForm } from '@angular/forms';
+import { UserService } from '../../../../001_auth/service/user.service';
 
 @Component({
   selector: 'app-book-add',
@@ -13,17 +14,24 @@ export class BookAddComponent {
   public listBook: Array<any> | any;
   public itemBook: Array<any> | any;
 
-
-
   constructor(
-    private vitrineLivrosService: VitrineLivrosService
+    private vitrineLivrosService: VitrineLivrosService,
+    private userService: UserService
   ) { }
+
+  public user: Array<any> | any;
+
+  ngOnInit() {
+    this.user = this.userService.getUser()
+  }
 
   onSubmit(f: NgForm) {
     this.checkISBN(this.isbn);
   }
 
   public insertISBN(isbn: string): boolean {
+
+    /***************************** ISERIR ISNB NA BASE */
     this.vitrineLivrosService.insertISBN(isbn).subscribe(
       res => {
         this.itemBook = res;
@@ -39,7 +47,7 @@ export class BookAddComponent {
             } else {
               /********* 201 */
               console.log(this.itemBook);
-            msg += " - " + 'Veja o item ' + item;
+              msg += " - " + 'Veja o item ' + item;
               this.message = msg;
             }
         }

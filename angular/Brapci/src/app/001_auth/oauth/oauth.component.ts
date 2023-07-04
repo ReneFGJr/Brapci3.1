@@ -9,19 +9,21 @@ import { Router } from '@angular/router';
 })
 export class OauthComponent {
   public login = true;
+  public user: Array<any> | any
 
   constructor(
     private UserService: UserService,
-    private Router: Router
-  ) {}
+    private router: Router
+  ) { }
 
   ngOnInit() {
-        if (this.UserService.getUser())
-            {
-                this.login = false;
-                //this.router.navigate(['/']);
-            } else {
-                console.log('NOT LOGED');
-            }
+    this.user = <any>this.UserService.getUser()
+    if (this.user['token']) {
+      this.login = false;
+      this.router.navigate(['/']);
+      console.log('LOGED');
+    } else {
+      console.log('NOT LOGED');
     }
+  }
 }
