@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class BooksManifestation extends Model
 {
     protected $DBGroup          = 'find';
-    protected $table            = 'books_manifestation';
-    protected $primaryKey       = 'id_bm';
+    protected $table            = 'rdf_data';
+    protected $primaryKey       = 'id_d';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -41,6 +41,20 @@ class BooksManifestation extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function getData($id)
+        {
+            $cp = 'id_cc,id_c,c_prefix,c_class,n_name,n_lang,c_order';
+            $dt = $this
+                ->select($cp)
+                ->join('rdf_class as prop','d_p = prop.id_c')
+                ->join('rdf_concept as concept', 'concept.id_cc = d_r2')
+                ->join('rdf_name', 'cc_pref_term = id_n')
+                ->where('d_r1',$id)
+                ->orderBy('c_order, c_class')
+                ->findAll();
+            return $dt;
+        }
 
     function register($resource_1,$prop,$valor)
         {
