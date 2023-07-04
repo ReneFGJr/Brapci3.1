@@ -10,7 +10,7 @@ export class NavbarBooksComponent {
   public book_home: string = 'Home';
   public book_index: string = 'Índices';
   public book_subject: string = 'Assuntos';
-  public book_admin: string = 'Administrador';
+  public book_admin: string = 'A';
   public book_about: string = 'Sobre';
   public book_contact: string = 'Contato';
 

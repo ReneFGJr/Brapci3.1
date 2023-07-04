@@ -43,6 +43,7 @@ class Isbn extends Model
     /************* ISBNS ***********************************/
     function check($isbn)
         {
+            $isbn = sonumero($isbn);
             $isbn = $this->isbns($isbn);
             $check2 = $this->genchksum13(substr($isbn['isbn13'],0,12));
             $check1 = substr($isbn['isbn13'],12,1);
@@ -57,6 +58,7 @@ class Isbn extends Model
         }
         $isbn = troca($isbn, '-', '');
         $isbn = troca($isbn, '.', '');
+        $isbn = sonumero($isbn);
         $isbn = trim($isbn);
 
         if (substr($isbn, 0, 3) == '978') {
@@ -95,7 +97,7 @@ class Isbn extends Model
 
     function isbn10to13($isbn)
     {
-        $isbn = trim($isbn);
+        $isbn = trim(sonumero($isbn));
         if (strlen($isbn) == 12) { // if number is UPC just add zero
             $isbn13 = '0' . $isbn;
         } else {

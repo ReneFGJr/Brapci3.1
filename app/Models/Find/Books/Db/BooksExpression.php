@@ -136,6 +136,7 @@ class BooksExpression extends Model
                         $ide = $this->set($de)->insert();
                         $ide = 1;
                     } else {
+                        pre($dv);
                         $ide = $dv['id_be'];
                     }
 

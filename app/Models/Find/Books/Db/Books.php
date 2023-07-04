@@ -43,31 +43,46 @@ class Books extends Model
     protected $afterDelete    = [];
 
     function register($title)
-        {
-            $title = nbr_title($title);
-            $dt = $this->where('bk_title',$title)->first();
-            if ($dt == '')
-                {
-                    $id = $this->set(['bk_title'=>$title])->insert();
-                } else {
-                    $id = $dt['id_bk'];
-                }
-            return $id;
+    {
+        $title = nbr_title($title);
+        $dt = $this->where('bk_title', $title)->first();
+        if ($dt == '') {
+            $id = $this->set(['bk_title' => $title])->insert();
+        } else {
+            $id = $dt['id_bk'];
         }
+        return $id;
+    }
 
-        function lastitens($ini,$fim)
-            {
-                $Item = new \App\Models\Find\Books\Db\BooksLibrary();
-                $dt = $Item
-                    ->join('books_expression', 'bl_expression = id_be')
-                    ->join('books', 'be_title = id_bk')
-                    ->findAll($ini,$fim);
-                $RSP = [];
-                foreach($dt as $id=>$line)
-                    {
-                        //pre($line);
-                    }
-                echo json_encode($dt);
-                exit;
+    function lastitens($ini = '', $fim = '')
+    {
+        $RSP = [];
+        /******************************************* CHECK LIBRATY */
+        $Libraries = new \App\Models\Find\Books\Db\Library();
+        $RSP = $Libraries->checkLibrary($RSP);
+        if ($RSP['status'] == '200') {
+            $fim = sonumero($fim);
+            $ini = sonumero($ini);
+            if ($ini == '') {
+                $ini = 0;
             }
+            if ($fim == '') {
+                $fim = 12;
+            }
+
+            $Item = new \App\Models\Find\Books\Db\BooksLibrary();
+            $dt = $Item
+                ->join('books_expression', 'bl_expression = id_be')
+                ->join('books', 'be_title = id_bk')
+                ->findAll($ini, $fim);
+            $RSP = [];
+            foreach ($dt as $id => $line) {
+                //pre($line);
+            }
+            echo json_encode($dt);
+            exit;
+        }
+        echo json_encode($RSP);
+        exit;
+    }
 }

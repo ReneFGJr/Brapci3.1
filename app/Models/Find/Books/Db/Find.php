@@ -78,9 +78,6 @@ class Find extends Model
                     $user = $UserApi->user['id_us'];
                     $RSP = $BooksExpression->register($isbn,$library,$tombo,$user,$RSP);
 
-                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
-                    $id_books = $BooksLibrary->register($RSP);
-
                     $RSP['status'] = '200';
                     $RSP['message'] = 'Registro bem sucedido';
                     $RSP['registro'] = $id_books;
@@ -90,4 +87,23 @@ class Find extends Model
                 }
             return $RSP;
         }
+
+        function listStatus($sta)
+            {
+                $RSP = [];
+                /******************************************* CHECK LIBRATY */
+                $Libraries = new \App\Models\Find\Books\Db\Library();
+                $RSP = $Libraries->checkLibrary($RSP);
+                if ($RSP['status'] == '200') {
+
+                    /* Lista por usuário */
+
+                    /* Biblioteca Informada */
+                    $library = get("library");
+                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
+                    $RSP = $BooksLibrary->listItem($library,$sta);
+                }
+                echo json_encode($RSP);
+                exit;
+            }
 }

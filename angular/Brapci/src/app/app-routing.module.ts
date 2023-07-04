@@ -1,22 +1,33 @@
+/* Angular */
 import { NgModule } from '@angular/core';
 import { NavigationEnd, RouterModule, Routes } from '@angular/router';
+
+
+import { Error404Component } from './000_header/error404/error404.component';
+
+/* Aplicacao 001 */
 import { OauthComponent } from './001_auth/oauth/oauth.component';
+import { UserChangePasswordComponent } from './001_auth/page/user-change-password/user-change-password.component';
+import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.component';
+import { UserLoginComponent } from './001_auth/page/user-login/user-login.component';
+
+/* Aplicacao 002 */
 import { HomeComponent } from './002_main/home/home.component';
 import { AboutComponent } from './002_main/home/about/about.component';
 import { MainComponent } from './002_main/home/main/main.component';
-import { UserChangePasswordComponent } from './001_auth/page/user-change-password/user-change-password.component';
-import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.component';
+import { WelcomeComponent } from './002_main/page/welcome/welcome.component';
+
+/* Aplicacao 100 */
 import { BrapciHomeLivrosComponent } from './100_brapci_livros/page/brapci-home-livros/brapci-home-livros.component';
-import { AuthorityMainComponent } from './110_brapci_autoridades/authority-main/authority-main.component';
-import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
 import { LivroViewComponent } from './100_brapci_livros/page/livro-view/livro-view.component';
 import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main.component';
-import { WelcomeComponent } from './002_main/page/welcome/welcome.component';
 import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/livro-vitrine.component';
-import { Error404Component } from './000_header/error404/error404.component';
+
+/* Aplicacao 110 */
+import { AuthorityMainComponent } from './110_brapci_autoridades/authority-main/authority-main.component';
+import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
 import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
 import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.component';
-import { UserLoginComponent } from './001_auth/page/user-login/user-login.component';
 
 const APProutes: Routes = [
   {

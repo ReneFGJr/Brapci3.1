@@ -23,6 +23,7 @@ export class OauthComponent {
       this.router.navigate(['/']);
       console.log('LOGED');
     } else {
+      this.router.navigate(['/social/login']);
       console.log('NOT LOGED');
     }
   }

@@ -18,7 +18,7 @@ class BooksLibrary extends Model
         'id_bl', 'bl_library', 'bl_item',
         'bl_tombo', 'bl_catalogador', 'bl_status',
         'bl_emprestimo', 'bl_renovacao', 'bl_usuario',
-        'bl_expression'
+        'bl_expression', 'bl_exemplar'
     ];
 
     // Dates
@@ -98,5 +98,21 @@ class BooksLibrary extends Model
                     return $tombo;
                 }
 
+        }
+    function listItem($library,$sta)
+        {
+            if ($sta == 'A')
+                {
+                    $dt = $this
+                        ->where('(bl_status = 0 or bl_status = 1','')
+                        ->where('bl_library', $library)
+                        ->findAll();
+                } else {
+                    $dt = $this
+                        ->where('bl_status', $sta)
+                        ->where('bl_library', $library)
+                        ->findAll();
+                }
+            return $dt;
         }
 }

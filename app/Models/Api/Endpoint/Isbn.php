@@ -53,12 +53,13 @@ class Isbn extends Model
     function index($d1, $d2, $d3)
     {
         $ISBN = new \App\Models\Functions\Isbn();
-        $isbn = sonumero($d1);
+        $isbn = trim(sonumero($d1));
+
         $rst = [];
         $rst['valid'] = 0;
         if (strlen($isbn) == 13)
             {
-                $chk = $ISBN->genchksum13(substr($d1, 0, 12));
+                $chk = $ISBN->genchksum13(substr($isbn, 0, 12));
                 $rst['check'] = $chk;
                 $rst['valid'] = (substr($isbn,12,1) == $chk);
                 $rst['isbn13'] = $isbn;
