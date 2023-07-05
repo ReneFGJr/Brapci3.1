@@ -42,8 +42,16 @@ class Index extends Model
 
     function index($d1, $d2, $d3)
     {
-        $sx = anchor(PATH . '/admin/find/inport', 'Inport FIND');
+        $sx = '';
+        $b = [];
+        $b['Admin'] = PATH . '/admin/';
+        $b['Find']= PATH.'/admin/find/';
+        $sx = breadcrumbs($b);
         switch ($d1) {
+            case 'angular':
+                $Angular = new \App\Models\Find\Books\Angular();
+                $sx .= $Angular->index($d2,$d3);
+                break;
             case 'harvesting':
                 $BooksOld = new \App\Models\Find\BooksOld\Index();
                 $sx .= '<hr>' . $d2 . '<hr>';
@@ -68,6 +76,7 @@ class Index extends Model
             default:
                 $menu[PATH . 'admin/find/inport'] = 'Find Import';
                 $menu[PATH . '/admin/find/resume'] = 'Find Books Cataloged';
+                $menu[PATH . '/admin/find/angular'] = 'Find Simulate Angular';
                 $sx .= menu($menu);
         }
         $sx = bs(bsc($sx, 12));
@@ -82,6 +91,8 @@ class Index extends Model
             ->Join('books', 'be_title = id_bk')
             ->where('be_rdf', $id)
             ->first();
+
+            pre($dt);
 
         if (count($dt) > 0) {
             $ex = $dt['be_rdf'];

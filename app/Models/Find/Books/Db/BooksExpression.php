@@ -15,10 +15,10 @@ class BooksExpression extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_be','be_title','be_authors',
-        'be_year','be_cover','be_rdf',
-        'be_isbn13','be_isbn10','be_type',
-        'be_lang','be_status'
+        'id_be', 'be_title', 'be_authors',
+        'be_year', 'be_cover', 'be_rdf',
+        'be_isbn13', 'be_isbn10', 'be_type',
+        'be_lang', 'be_status'
     ];
 
     // Dates
@@ -46,116 +46,97 @@ class BooksExpression extends Model
     protected $afterDelete    = [];
     var $data = [];
 
-    function register($isbn,$library,$tombo, $user, $RSP)
+    function existISBN($isbn)
         {
-            $RSP['status'] = '200';
-            $RSP['isbn'] = $isbn;
-            $RSP['library'] = $library;
-            $RSP['user'] = $user;
-            $RSP['tombo'] = $tombo;
-
-            /* Verifica se já existe na base */
-            if (!$this->exists($isbn))
-                {
-                    $RSP['process'] = 'Novo registro';
-                    $RSP = $this->processa_novo_item($RSP);
-                } else {
-                    $RSP['process'] = 'Novo item';
-                    $RSP['expression'] = $this->data['id_be'];
-                }
-
-            return $RSP;
+            $isbn = sonumero($isbn);
+            $dt = $this->where('be_isbn13',$isbn)->first();
+            return ($dt != '');
         }
 
-        function processa_novo_item($RSP)
-            {
-                /* Checar ISBNdb */
-                $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
-                $djson = $ISBNdb->search($RSP['isbn']);
-                $dt = (array)json_decode($djson);
-                if (isset($dt['book']))
-                    {
-                        $dt = (array($dt['book']));
-                        $dt = $ISBNdb->convert($dt);
-                        $dt['status'] = 2;
-                    } else {
-                        $dt['title'] = '[Sem titulo localizado ISBN:'.$RSP['isbn'];
-                        $dt['status'] = 1;
-                    }
-                return $this->registarItem($RSP,$dt);
-            }
+    function registerEmpty($isbn)
+        {
+        $ISBN = new \App\Models\Functions\Isbn();
+        $dt = [];
+        $dt['title'] = '[Sem titulo localizado ISBN:' . $isbn . ']';
+        $dt['isbn13'] = sonumero($isbn);
+        $dt['isbn10'] = $ISBN->isbn13to10($isbn);
+        $dt['status'] = '1';
+        $RSP['status'] = '203';
+        $RSP['isbn'] = $isbn;
+        $RSP['message'] = 'ISBN Inserido com sucesso';
+        return $this->register($RSP, $dt);
+        }
 
-        function registarItem($RSP,$dt)
-            {
-                $titulo = $dt['title'];
-                $Books = new \App\Models\Find\Books\Db\Books();
-                $idt = $Books->register($titulo);
+    function register($RSP, $dt)
+    {
+        $titulo = $dt['title'];
+        $Books = new \App\Models\Find\Books\Db\Books();
+        $idt = $Books->register($titulo);
 
-                $Lang = new \App\Models\AI\NLP\Language();
-                $lg = $Lang->normalize($dt['language']);
+        $Lang = new \App\Models\AI\NLP\Language();
+        if (isset($dt['language'])) {
+            $lg = $Lang->normalize($dt['language']);
+        } else {
+            $lg = 'pt_BR';
+        }
 
-                $authors = '';
-                foreach($dt['authors'] as $id=>$nome)
-                    {
-                        if ($authors != '') { $authors .= '; ';}
-                        $authors .= nbr_author($nome,7);
-                    }
-
-                if (isset($dt['date']))
-                    {
-                        $year = $dt['date'];
-                    } else {
-                        $year = 0;
-                    }
-
-                if (isset($dt['cover'])) {
-                    $cover = $dt['cover'];
-                } else {
-                    $cover = PATH.'/img/cover/no_cover.png';
+        $authors = '';
+        if (isset($dt['authors'])) {
+            foreach ($dt['authors'] as $id => $nome) {
+                if ($authors != '') {
+                    $authors .= '; ';
                 }
-                /********************************** Registra Recurso */
-                $RDF = new \App\Models\Find\Rdf\RDF();
-                $rdf = $RDF->concept('ISBN:'. $dt['isbn13'], 'Book');
-
-                /********************************** Registra Expression */
-                $de = [];
-                $de['be_title'] = $idt;
-                $de['be_authors'] = $authors;
-                $de['be_year'] = $year;
-                $de['be_cover'] = $cover;
-                $de['be_rdf'] = $rdf;
-                $de['be_isbn13'] = $dt['isbn13'];
-                $de['be_isbn10'] = $dt['isbn10'];
-                $de['be_type'] = 1;
-                $de['be_lang'] = 1;
-                $de['be_status'] = $dt['status'];
-
-                $dv = $this->where('be_isbn13',$dt['isbn13'])->findAll();
-                if (count($dv) == 0)
-                    {
-                        $ide = $this->set($de)->insert();
-                        $ide = 1;
-                    } else {
-                        pre($dv);
-                        $ide = $dv['id_be'];
-                    }
-
-                $BookManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
-                foreach($dt as $prop=>$reg)
-                    {
-                        $BookManifestation->register($rdf,$prop,$reg);
-                    }
-
-                /******************************** REGISTRA UM ITEM */
-                $Books = new \App\Models\Find\Books\Db\BooksLibrary();
-                $RSP['expression'] = $rdf;
-                $RSP = $Books->register($RSP);
+                $authors .= nbr_author($nome, 7);
             }
+        }
 
-        function exists($isbn)
-            {
-                $dt = $this->where('be_isbn13',$isbn)->first();
-                $this->data = $dt;
-                return (!($dt == ''));
-            }
+        if (isset($dt['date'])) {
+            $year = $dt['date'];
+        } else {
+            $year = 0;
+        }
+
+        if (isset($dt['cover'])) {
+            $cover = $dt['cover'];
+        } else {
+            $cover = PATH . '/img/cover/no_cover.png';
+        }
+        /********************************** Registra Recurso */
+        $RDF = new \App\Models\Find\Rdf\RDF();
+
+        $rdf = $RDF->concept('ISBN:' . $dt['isbn13'], 'Book');
+
+        /********************************** Registra Expression */
+        $de = [];
+        $de['be_title'] = $idt;
+        $de['be_authors'] = $authors;
+        $de['be_year'] = $year;
+        $de['be_cover'] = $cover;
+        $de['be_rdf'] = $rdf;
+        $de['be_isbn13'] = $dt['isbn13'];
+        $de['be_isbn10'] = $dt['isbn10'];
+        $de['be_type'] = 1;
+        $de['be_lang'] = 1;
+        $de['be_status'] = $dt['status'];
+
+        $dv = $this->where('be_isbn13', $dt['isbn13'])->findAll();
+        if (count($dv) == 0) {
+            $ide = $this->set($de)->insert();
+            $ide = 1;
+        }
+
+        $BookManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
+        foreach ($dt as $prop => $reg) {
+            $BookManifestation->register($rdf, $prop, $reg);
+        }
+        $RSP['status'] = '201';
+        return $RSP;
+    }
+
+    function exists($isbn)
+    {
+        $dt = $this->where('be_isbn13', $isbn)->first();
+        $this->data = $dt;
+        return (!($dt == ''));
+    }
 }

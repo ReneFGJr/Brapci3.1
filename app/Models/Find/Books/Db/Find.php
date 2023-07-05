@@ -40,70 +40,81 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($isbn,$RSP=[])
-        {
-            /******************************************* CHECK LIBRATY */
-            $Libraries = new \App\Models\Find\Books\Db\Library();
-            $RSP = $Libraries->checkLibrary($RSP);
-            if ($RSP['status'] != '200') {
-                return $RSP;
-            }
+    function register($isbn, $RSP = [])
+    {
+        $isbn = sonumero($isbn);
 
-            /******************************************* CHECK USUARIO */
-            $UserApi = new \App\Models\Find\Books\Db\UserApi();
-            $RSP = $UserApi->checkUser();
-            if ($RSP['status'] != '200') { return $RSP; }
-
-            /***************************************** CHECK ISBN */
-            $ISBN = new \App\Models\Functions\Isbn();
-            $check = $ISBN->check($isbn);
-
-            /******** Inser ISBN na Base */
-            if ($check)
-                {
-                    $RSP['status'] = '200';
-                    $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
-                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
-
-                    /*************** Recupera ID da Biblioteca - validado */
-                    $library = $Libraries->library['id_lb'];
-
-                    /***************************************** CHECK ISBN */
-                    $tombo = get("tombo");
-                    if ($tombo == '')
-                        {
-                            $tombo = $BooksLibrary->nextTombo($library);
-                        }
-
-                    $user = $UserApi->user['id_us'];
-                    $RSP = $BooksExpression->register($isbn,$library,$tombo,$user,$RSP);
-
-                    $RSP['status'] = '200';
-                    $RSP['message'] = 'Registro bem sucedido';
-                    $RSP['registro'] = $id_books;
-                } else {
-                    $RSP['status'] = '201';
-                    $RSP['message'] = 'ISBN Inválido';
-                }
+        /******************************************* CHECK LIBRATY */
+        $Libraries = new \App\Models\Find\Books\Db\Library();
+        $RSP = $Libraries->checkLibrary($RSP);
+        if ($RSP['status'] != '200') {
             return $RSP;
         }
 
-        function listStatus($sta)
-            {
-                $RSP = [];
-                /******************************************* CHECK LIBRATY */
-                $Libraries = new \App\Models\Find\Books\Db\Library();
-                $RSP = $Libraries->checkLibrary($RSP);
-                if ($RSP['status'] == '200') {
+        /******************************************* CHECK USUARIO */
+        $UserApi = new \App\Models\Find\Books\Db\UserApi();
+        $RSP = $UserApi->checkUser();
+        if ($RSP['status'] != '200') {
+            return $RSP;
+        }
 
-                    /* Lista por usuário */
+        /***************************************** CHECK ISBN */
+        $ISBN = new \App\Models\Functions\Isbn();
+        $check = $ISBN->check($isbn);
 
-                    /* Biblioteca Informada */
-                    $library = get("library");
-                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
-                    $RSP = $BooksLibrary->listItem($library,$sta);
+        $RSP['isbn'] = $isbn;
+
+        /******** Inser ISBN na Base */
+        if ($check) {
+            $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
+            /***************** Checa se ja existe na base */
+            if (!$BooksExpression->existISBN($isbn)) {
+                /* Obra não existe */
+
+                /************* Consulta ISBNdb */
+                $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
+                $djson = $ISBNdb->search($isbn);
+                $dt = (array)json_decode($djson);
+
+                if (isset($dt['book'])) {
+                    $dt = (array($dt['book']));
+                    $dt = $ISBNdb->convert($dt);
+                    $dt['status'] = 3;
+                    $RSP = $BooksExpression->register($RSP,$dt);
+                    pre($RSP);
                 }
-                echo json_encode($RSP);
+                echo "FIM";
                 exit;
+                $RSP = $BooksExpression->registerEmpty($isbn);
+
+            } else {
+                $RSP['status'] = '201';
+                $RSP['message'] = 'ISBN Já existente';
+                $RSP['isbn'] = $isbn;
             }
+        } else {
+            $RSP['status'] = '200';
+        }
+        pre($RSP);
+        return $RSP;
+    }
+
+    function listStatus($sta)
+    {
+        $RSP = [];
+        /******************************************* CHECK LIBRATY */
+        $Libraries = new \App\Models\Find\Books\Db\Library();
+        $RSP = $Libraries->checkLibrary($RSP);
+        if ($RSP['status'] == '200') {
+
+            /* Lista por usuário */
+
+            /* Biblioteca Informada */
+            $library = get("library");
+            $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
+            $RSP = $BooksLibrary->listItem($library, $sta);
+        }
+        echo json_encode($RSP);
+        exit;
+    }
 }

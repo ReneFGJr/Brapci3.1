@@ -40,6 +40,20 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function search($isbn)
+    {
+        $url = 'https://api2.isbndb.com/book/' . $isbn;
+        $restKey = getenv('isbndb.key');
+
+        $headers = array(
+            "Content-Type: application/json",
+            "Authorization: " . $restKey
+        );
+
+        $dt = read_link($url, 'CURL', false, $headers);
+        return $dt;
+    }
+
     function form()
         {
             $isbn = sonumero(get("isbn"));
@@ -179,8 +193,10 @@ class Index extends Model
                                             }
                                             break;
                                     case 'title':
-                                        $vlr = troca($vlr,'(Em Portuguese do Brasil)','');
-                                        $vlr = troca($vlr, '(Portuguese Edition)','');
+                                        if (strpos($vlr,'(') > 0)
+                                            {
+                                                $vlr = substr($vlr,0, strpos($vlr, '('));
+                                            }
                                         $dt['title'] = nbr_title(trim($vlr));
                                         break;
                                     case 'pages':
@@ -211,17 +227,5 @@ class Index extends Model
             return $dt;
         }
 
-    function search($isbn)
-        {
-            $url = 'https://api2.isbndb.com/book/'.$isbn;
-            $restKey = getenv('isbndb.key');
 
-            $headers = array(
-                "Content-Type: application/json",
-                "Authorization: " . $restKey
-            );
-
-            $dt = read_link($url, 'CURL', false, $headers);
-            return $dt;
-        }
 }

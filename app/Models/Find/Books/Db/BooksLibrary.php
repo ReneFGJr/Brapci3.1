@@ -50,7 +50,6 @@ class BooksLibrary extends Model
             $dt = $this
                 ->where('bl_library',$DT['library'])
                 ->where('bl_expression', $DT['expression'])
-                ->where('bl_tombo', $DT['tombo'])
                 ->findAll();
             if (count($dt) == 0)
                 {
