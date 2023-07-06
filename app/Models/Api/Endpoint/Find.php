@@ -125,7 +125,6 @@ class Find extends Model
                     case 'post':
                         $this->checkPost();
                         break;
-
                     case 'get':
                         $this->checkGet();
                         break;
@@ -217,6 +216,7 @@ class Find extends Model
     {
         $Books = new \App\Models\Find\Books\Db\Books();
         $dt = $Books->getItem($id);
+        echo "GETITEM";
         pre($dt);
     }
 

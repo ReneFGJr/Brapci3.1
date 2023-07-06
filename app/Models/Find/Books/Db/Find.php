@@ -81,12 +81,9 @@ class Find extends Model
                     $dt = $ISBNdb->convert($dt);
                     $dt['status'] = 3;
                     $RSP = $BooksExpression->register($RSP,$dt);
-                    pre($RSP);
+                    $RSP['status'] = '203';
                 }
-                echo "FIM";
-                exit;
                 $RSP = $BooksExpression->registerEmpty($isbn);
-
             } else {
                 $RSP['status'] = '201';
                 $RSP['message'] = 'ISBN Já existente';
@@ -95,7 +92,6 @@ class Find extends Model
         } else {
             $RSP['status'] = '200';
         }
-        pre($RSP);
         return $RSP;
     }
 

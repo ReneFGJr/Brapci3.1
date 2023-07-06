@@ -4,17 +4,17 @@
         <div class="col-12 col-sm-4">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
                 <label>Informe o ISBN</label>
-                <input [(ngModel)]="isbn" #ctrl="ngModel" required [ngModelOptions]="{standalone: true}" class="border border-secondary form-control">
+                <input [(ngModel)]="isbn" #ctrl="ngModel" required [ngModelOptions]="{standalone: true}"
+                    class="border border-secondary form-control">
                 <button class="btn btn-outline-secondary mt-2 full">ADD</button>
             </form>
-        </div>
-        <div class="col-12 col-sm-10">
-        <div *ngIf="message" class="alert alert-danger full mt-2">
-            {{message}}
-        </div>
 
-        <app-book-preparo-list></app-book-preparo-list>
-
+            <div *ngIf="message" class="alert alert-danger full mt-2">
+                {{message}}
+            </div>
+        </div>
+        <div class="col-12 col-sm-8">
+            <app-book-preparo-list></app-book-preparo-list>
         </div>
     </div>
 </div>

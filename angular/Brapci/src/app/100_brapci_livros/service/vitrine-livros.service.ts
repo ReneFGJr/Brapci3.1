@@ -94,6 +94,19 @@ export class VitrineLivrosService {
     );
   }
 
+  public getISBN(id: number): Observable<Array<any>> {
+    let url = `${this.url}find/getISBN/${id}`;
+    console.log(url);
+
+    var formData: any = new FormData();
+    formData.append('library', this.library);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      res => res,
+      error => error
+    );
+  }
+
 
   public getItem(id: number): Observable<Array<any>> {
     let url = `${this.url}find/getItem/${id}`;

@@ -83,6 +83,7 @@ class Angular extends Model
                         $sx .= 'Processando I - API Validação';
                         $url = $this->api.'isbn/'.$isbn;
                         $sx .= '<br><tt>'.$url.'</tt>';
+
                         /*********** PHASE II - Consulta API de validação do ISBN */
                         $ct = file_get_contents($url);
                         $ct = (array)json_decode($ct);
@@ -98,8 +99,10 @@ class Angular extends Model
                                 $ct = file_get_contents($url);
                                 $ct = (array)json_decode($ct);
 
+                                echo "Status";
+
                                 $sx .= '<hr>';
-                                pre($ct);
+                                pre($ct,false);
                                 $sx .= $ct['status'];
                                 $status = $ct['status'];
                                 $isbn = $ct['isbn'];
@@ -115,6 +118,7 @@ class Angular extends Model
                                     }
                             }
                     }
+                    echo "FIM";
                 return $sx;
             }
 }

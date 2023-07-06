@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VitrineLivrosService } from 'src/app/100_brapci_livros/service/vitrine-livros.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../../../../001_auth/service/user.service';
+import { BookPreparoListComponent } from '../book-preparo-list/book-preparo-list.component';
 
 @Component({
   selector: 'app-book-add',
@@ -16,7 +17,7 @@ export class BookAddComponent {
 
   constructor(
     private vitrineLivrosService: VitrineLivrosService,
-    private userService: UserService
+    private userService: UserService,
   ) { }
 
   public user: Array<any> | any;
@@ -47,7 +48,12 @@ export class BookAddComponent {
             } else {
               /********* 201 */
               console.log(this.itemBook);
-              msg += " - " + 'Veja o item ' + item;
+            if ((this.itemBook.status == '201') || (this.itemBook.status == '202') || (this.itemBook.status == '205'))
+                {
+
+                } else {
+
+                }
               this.message = msg;
             }
         }

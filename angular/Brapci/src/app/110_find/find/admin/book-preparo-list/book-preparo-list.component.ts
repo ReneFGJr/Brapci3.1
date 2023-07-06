@@ -15,15 +15,14 @@ export class BookPreparoListComponent {
     private vitrineLivrosService: VitrineLivrosService
   ) { }
 
-  ngOnInit()
+  show($isbn:string)
     {
-      this.vitrineLivrosService.listPreparo().subscribe(
-        res => {
-          this.PreparoItems = res;
-          console.log(res);
-        },
-        error => error
-      );
+      alert("OK");
+    }
+
+  xngOnInit()
+    {
+
     }
 
 }

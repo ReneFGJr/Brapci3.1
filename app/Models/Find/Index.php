@@ -52,6 +52,9 @@ class Index extends Model
                 $Angular = new \App\Models\Find\Books\Angular();
                 $sx .= $Angular->index($d2,$d3);
                 break;
+            case 'clear':
+                $sx .= $this->clear_catalog();
+                break;
             case 'harvesting':
                 $BooksOld = new \App\Models\Find\BooksOld\Index();
                 $sx .= '<hr>' . $d2 . '<hr>';
@@ -76,12 +79,28 @@ class Index extends Model
             default:
                 $menu[PATH . 'admin/find/inport'] = 'Find Import';
                 $menu[PATH . '/admin/find/resume'] = 'Find Books Cataloged';
+                $menu[PATH . '/admin/find/clear'] = '** Clear Catalog **';
                 $menu[PATH . '/admin/find/angular'] = 'Find Simulate Angular';
                 $sx .= menu($menu);
         }
         $sx = bs(bsc($sx, 12));
         return $sx;
     }
+
+    function clear_catalog()
+        {
+            $sx = '';
+            $sqlDB = ["books","rdf_data", "rdf_name", "rdf_concept", "rdf_concept", "books_expression"];
+            foreach($sqlDB as $id=>$sql)
+                {
+                    $sql = 'TRUNCATE find.'.$sql;
+                    $this->db->query($sql);
+                    $sx .= '<hr>';
+                    $sx .= $sql;
+                }
+            $sx = bs(bsc($sx,12));
+            return $sx;
+        }
 
     function getId($id)
     {
