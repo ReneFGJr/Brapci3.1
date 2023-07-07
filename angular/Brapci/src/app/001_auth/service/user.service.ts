@@ -13,58 +13,64 @@ export class UserService {
     private HttpClient: HttpClient,
     private CookieService: CookieService,
     private LocalStorageService: LocalStorageService,
-    ) { }
+  ) { }
 
   public user: Array<any> = [];
+  public logged: boolean = false;
 
   /************************************************ LogOut */
-  public logout()
-    {
-      this.LocalStorageService.remove('user');
-      this.CookieService.delete('token');
-      //this.UserNavBarComponent.loged = false;
-    }
+  public logout() {
+    this.LocalStorageService.remove('user');
+    this.CookieService.delete('token');
+    //this.UserNavBarComponent.loged = false;
+  }
 
   /************************************************ GETUSER */
   public getUser() {
     this.user = this.LocalStorageService.get('user');
-    if (this.user == null)
-      {
-          return [];
-      }
-      else {
-          this.user = this.user[0];
-          return this.user;
-      }
+    if (this.user == null) {
+      return [];
+    }
+    else {
+      this.user = this.user[0];
+      return this.user;
+    }
   }
 
   /************************************************ CHECKLOGIN */
-  public checkLogin(res:any):boolean {
+  public checkLogin(res: any): boolean {
     if (res['status'] == '200') {
-        /*********************** Cookie */
-        this.CookieService.set('token',res['token']);
+      /*********************** Cookie */
+      this.CookieService.set('token', res['token']);
 
-        /*********************** Push */
-        this.user = [];
-        this.user.push({
-          id: res['id'], displayName: res['displayName'], email:res['email'],
-          givenName: res['givenName'], sn: res['sn'],
-          token: res['token'], persistentId: res['persistent-id']});
+      /*********************** Push */
+      this.user = [];
+      this.user.push({
+        id: res['id'], displayName: res['displayName'], email: res['email'],
+        givenName: res['givenName'], sn: res['sn'],
+        token: res['token'], persistentId: res['persistent-id']
+      });
 
-        /*********************** LocalStorage */
-        this.LocalStorageService.set('user',this.user);
+      /*********************** LocalStorage */
+      this.LocalStorageService.set('user', this.user);
 
-        return true;
+      return true;
     } else {
       return false;
     }
   }
 
   /************************************************ LOGED */
-  public loged():boolean
-    {
-      return true;
+  public loged(): boolean {
+    this.user = this.LocalStorageService.get('user');
+    if (this.user == null) {
+        return false;
     }
+    else {
+      this.user = this.user[0];
+        return true;
+    }
+  }
 
   private url: string = 'https://cip.brapci.inf.br/api/';
   //private url: string = 'http://brp/api/';

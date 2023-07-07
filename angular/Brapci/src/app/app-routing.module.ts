@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core';
 import { NavigationEnd, RouterModule, Routes } from '@angular/router';
 
+/* Guard */
 
 import { Error404Component } from './000_header/error404/error404.component';
 
@@ -24,10 +25,14 @@ import { LivrosMainComponent } from './100_brapci_livros/livros-main/livros-main
 import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/livro-vitrine.component';
 
 /* Aplicacao 110 */
-import { AuthorityMainComponent } from './110_brapci_autoridades/authority-main/authority-main.component';
 import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
 import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
 import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.component';
+
+/* Aplicacao 120 */
+import { AuthorityMainComponent } from './120_brapci_autoridades/authority-main/authority-main.component';
+import { guardOauthGuard } from './001_auth/guard/guard-oauth.guard';
+
 
 const APProutes: Routes = [
   {
@@ -53,12 +58,18 @@ const APProutes: Routes = [
     path: 'books', component: LivrosMainComponent,
     children:
       [
-        { path: '', component: BrapciHomeLivrosComponent },
-        { path: 'about', component: AboutComponent },
-        { path: 'view/:id', component: LivroViewComponent },
         { path: 'admin', component: BookServicesComponent },
         { path: 'admin/isbn/add', component: BookAddComponent },
         { path: 'admin/isbn/edit/:id', component: BookEditComponent }
+      ], canActivate: [guardOauthGuard]
+  },
+  {
+    path: 'books', component: LivrosMainComponent,
+    children:
+      [
+        { path: '', component: BrapciHomeLivrosComponent },
+        { path: 'about', component: AboutComponent },
+        { path: 'view/:id', component: LivroViewComponent },
       ]
   },
   {

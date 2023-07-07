@@ -1,16 +1,13 @@
-import { UIuser } from './../interface/UIusers';
 import { CanActivateFn } from '@angular/router';
-import { UIuser } from '../interface/UIusers';
+import { UserService } from '../service/user.service';
+import { from, fromEvent } from 'rxjs';
 
-export const guardOauthGuard implemente CanActivateFn {
-    construtor(
-    private _UIuser: UIuser,
-    private router: Route) {}
-
-    canActivate()
-      {
-        return true;
-      }
-
-  return false;
+export const guardOauthGuard: CanActivateFn = (route, state) => {
+  console.log(route)
+  return check();
 };
+
+function check():boolean {
+    console.log("CHECK POST")
+  return true;
+}

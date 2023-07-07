@@ -33,7 +33,7 @@ import { LivroVitrineComponent } from './100_brapci_livros/page/livro-vitrine/li
 import { LivroViewComponent } from './100_brapci_livros/page/livro-view/livro-view.component';
 
 /* Componente Header 110 */
-import { ViewAuthorityComponent } from './110_brapci_autoridades/page/view-authority/view-authority.component';
+import { ViewAuthorityComponent } from './120_brapci_autoridades/page/view-authority/view-authority.component';
 import { FindComponent } from './110_find/find/find.component';
 import { BookServicesComponent } from './110_find/find/admin/book-services/book-services.component';
 import { LivroSearchComponent } from './100_brapci_livros/page/livro-search/livro-search.component';
