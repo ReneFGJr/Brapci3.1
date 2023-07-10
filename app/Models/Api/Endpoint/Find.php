@@ -91,17 +91,40 @@ class Find extends Model
         $Find->listStatus($status);
     }
 
+    function getISBN($isbn)
+        {
+            $Find = new \App\Models\Find\Books\Db\Find();
+            $Find->getISBN($isbn);
+        }
+
+    function saveField()
+    {
+        $find = new \App\Models\Find\Books\Db\Find();
+        $library = get("library");
+        $item = get("item");
+        $field = get("field");
+        $value = get("value");
+        $find->saveData($library, $item, $field, $value);
+        exit;
+    }
+
     function index($d1, $d2 = '', $d3 = '')
     {
         header('Access-Control-Allow-Origin: *');
         $RSP = [];
 
         switch ($d1) {
+            case 'getISBN':
+                $this->getISBN($d2);
+                break;
             case 'status':
                 $this->lastItensStatus($d2, $d3);
                 break;
             case 'isbn':
                 $this->isbn($d2, $d3);
+                break;
+            case 'saveField':
+                $this->saveField($d2,$d3);
                 break;
             case 'vitrine':
                 $this->lastItens($d2, $d3);
@@ -109,6 +132,7 @@ class Find extends Model
             default:
                 $RSP['status'] = '400';
                 $RSP['message'] = 'Serviço não localizado';
+                $RSP['service'] = $d1;
                 break;
         }
         echo json_encode($RSP);
@@ -129,7 +153,7 @@ class Find extends Model
                         $this->checkGet();
                         break;
                     default:
-                        echo json_encode(array_merge($_POST, $GET));
+                        echo json_encode(array_merge($_POST, $_GET));
                         break;
                 }
                 exit;
@@ -166,7 +190,7 @@ class Find extends Model
                 exit;
                 break;
             case  'vitrine':
-                echo $this->lastItens();
+                echo $this->lastItens(1,1);
                 exit;
                 break;
 
@@ -179,18 +203,7 @@ class Find extends Model
         }
     }
 
-    function saveField()
-    {
-        $find = new \App\Models\Find\Books\Db\Books();
-        $library = get("library");
-        $item = get("item");
-        $field = get("field");
-        $value = get("value");
-        $find->saveData($library, $item, $field, $value);
 
-        echo json_encode($_POST);
-        exit;
-    }
 
     function checkPost()
     {

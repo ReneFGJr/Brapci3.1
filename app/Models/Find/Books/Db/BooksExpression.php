@@ -133,6 +133,18 @@ class BooksExpression extends Model
         return $RSP;
     }
 
+    function getISBN($isbn)
+        {
+            $dt = $this
+                    ->join('books', 'be_title = id_bk')
+                    ->where('be_isbn13', $isbn)
+                    ->first();
+
+            $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
+            $dt['authors'] = $BooksResponsability->getResposability($isbn);
+            return $dt;
+        }
+
     function exists($isbn)
     {
         $dt = $this->where('be_isbn13', $isbn)->first();

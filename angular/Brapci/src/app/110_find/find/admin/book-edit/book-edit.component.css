@@ -8,10 +8,12 @@
   {
     font-weight: bold;
   }
+
   .handle
     {
       cursor: pointer;
       opacity: 0.5;
       border: 0;
       padding: 0px;
+      font-size: 0.7em;
     }

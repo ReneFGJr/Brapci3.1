@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'brapci':
+                $Brapci = new \App\Models\Api\Endpoint\Brapci();
+                $sx = $Brapci->index($d2, $d3, $d4);
+                break;
             case 'socials':
                 $Oauth = new \App\Models\Api\Endpoint\Oauth();
                 $sx = $Oauth->index($d2, $d3, $d4);

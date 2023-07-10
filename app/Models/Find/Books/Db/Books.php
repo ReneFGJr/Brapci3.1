@@ -42,6 +42,13 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function changeTitle($id,$name)
+        {
+            $dd['bk_title'] = $name;
+            $this->set($dd)->where('id_bk',$id)->update();
+            return true;
+        }
+
     function register($title)
     {
         $title = nbr_title($title);

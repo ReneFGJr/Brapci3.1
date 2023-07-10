@@ -1,13 +1,11 @@
 /* Angular */
 import { NgModule } from '@angular/core';
-import { NavigationEnd, RouterModule, Routes } from '@angular/router';
 
 /* Guard */
 
 import { Error404Component } from './000_header/error404/error404.component';
 
 /* Aplicacao 001 */
-import { OauthComponent } from './001_auth/oauth/oauth.component';
 import { UserChangePasswordComponent } from './001_auth/page/user-change-password/user-change-password.component';
 import { UserPerfilComponent } from './001_auth/page/user-perfil/user-perfil.component';
 import { UserLoginComponent } from './001_auth/page/user-login/user-login.component';
@@ -33,7 +31,6 @@ import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.com
 import { AuthorityMainComponent } from './120_brapci_autoridades/authority-main/authority-main.component';
 import { guardOauthGuard } from './001_auth/guard/guard-oauth.guard';
 
-
 const APProutes: Routes = [
   {
     path: 'social', component: OauthComponent, children:
@@ -44,6 +41,7 @@ const APProutes: Routes = [
         { path: 'perfil', component: UserPerfilComponent }
       ]
   },
+
   {
     path: '', component: MainComponent,
     children:

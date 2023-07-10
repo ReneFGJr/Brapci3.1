@@ -79,14 +79,16 @@ export class VitrineLivrosService {
   }
 
   public save(id: number, field: string, value: any): Observable<Array<any>> {
+    this.user = this.userService.getUser()
     let url = `${this.url}find/saveField/${id}`;
     console.log(url);
 
     var formData: any = new FormData();
     formData.append('library', this.library);
-    formData.append('item', id);
+    formData.append('isbn', id);
     formData.append('field', field);
     formData.append('value', value);
+    formData.append('apikey', this.user.token);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       res => res,

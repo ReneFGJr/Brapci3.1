@@ -1,8 +1,5 @@
 /* Core */
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 /* Module */
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +42,8 @@ import { FindActionsComponent } from './110_find/find/admin/find-actions/find-ac
 import { BookAddComponent } from './110_find/find/admin/book-add/book-add.component';
 import { BookPreparoListComponent } from './110_find/find/admin/book-preparo-list/book-preparo-list.component';
 import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.component';
+import { BookPreparoViewComponent } from './110_find/find/admin/book-preparo-view/book-preparo-view.component';
+import { BlockAuthorsComponent } from './110_find/find/admin/book-edit/block-authors/block-authors.component';
 
 
 @NgModule({
@@ -76,15 +75,26 @@ import { BookEditComponent } from './110_find/find/admin/book-edit/book-edit.com
     BookAddComponent,
     BookPreparoListComponent,
     BookEditComponent,
+    BookPreparoViewComponent,
+    BlockAuthorsComponent,
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     OauthModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule,
+  ],
+  exports:[
+    BookPreparoViewComponent, BookAddComponent, BlockAuthorsComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

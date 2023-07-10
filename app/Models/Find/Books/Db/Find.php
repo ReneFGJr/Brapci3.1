@@ -80,7 +80,7 @@ class Find extends Model
                     $dt = (array($dt['book']));
                     $dt = $ISBNdb->convert($dt);
                     $dt['status'] = 3;
-                    $RSP = $BooksExpression->register($RSP,$dt);
+                    $RSP = $BooksExpression->register($RSP, $dt);
                     $RSP['status'] = '203';
                 }
                 $RSP = $BooksExpression->registerEmpty($isbn);
@@ -93,6 +93,71 @@ class Find extends Model
             $RSP['status'] = '200';
         }
         return $RSP;
+    }
+
+    function saveData()
+    {
+        $RSP = [];
+        $isbn = get("isbn");
+        $field = get("field");
+        $value = get("value");
+
+        /******************************************* CHECK LIBRATY */
+        $Libraries = new \App\Models\Find\Books\Db\Library();
+        $RSP = $Libraries->checkLibrary($RSP);
+        if ($RSP['status'] != '200') {
+            return $RSP;
+        }
+
+        /******************************************* CHECK USUARIO */
+        $UserApi = new \App\Models\Find\Books\Db\UserApi();
+        $RSP = $UserApi->checkUser();
+        if ($RSP['status'] != '200') {
+            return $RSP;
+        }
+
+        $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
+        $DATA = $BooksExpression->getISBN($isbn);
+        $RSP['DATA'] = $_POST;
+
+
+        switch($field)
+            {
+                case 'bk_title':
+                $Books = new \App\Models\Find\Books\Db\Books();
+                $value = nbr_title($value);
+                $Books->changeTitle($DATA['id_bk'],$value);
+                $DATA['bk_title'] = $value;
+                break;
+
+                case 'be_year':
+                $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
+                $value = nbr_title($value);
+                $dd['be_year'] = $value;
+                $BooksExpression->set($dd)->where('be_isbn13',$isbn)->update();
+                $DATA['be_year'] = $value;
+                $DATA['status'] = 'update';
+                break;
+
+            case 'be_cover':
+                $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
+                $dd['be_cover'] = $value;
+                $BooksExpression->set($dd)->where('be_isbn13', $isbn)->update();
+                $DATA['be_cover'] = $value;
+                $DATA['status'] = 'update';
+                break;
+            }
+        echo json_encode($DATA);
+        exit;
+    }
+
+    function getISBN($isbn)
+    {
+        $RSP = [];
+        $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
+        $RSP = $BooksExpression->getISBN($isbn);
+        echo json_encode($RSP);
+        exit;
     }
 
     function listStatus($sta)
