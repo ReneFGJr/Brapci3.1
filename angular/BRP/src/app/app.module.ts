@@ -1,41 +1,46 @@
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HeaderComponent } from './000_header/header/header.component';
 import { Error404Component } from './000_header/error404/error404.component';
-import { FooterComponent } from './000_header/footer/footer.component';
-import { NavbarComponent } from './000_header/navbar/navbar.component';
-import { HomeComponent } from './010_main/page/home/home.component';
-import { WelcomeComponent } from './000_header/welcome/welcome.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DeniedComponent } from './000_header/denied/denied.component';
 
-
+import { NavbarComponent } from './000_header/navbar/navbar.component';
+import { HeaderComponent } from './000_header/header/header.component';
+import { FooterComponent } from './000_header/footer/footer.component';
+import { HomepageComponent } from './000_header/homepage/homepage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     Error404Component,
-    FooterComponent,
-    NavbarComponent,
-    HomeComponent,
-    WelcomeComponent,
     DeniedComponent,
+    NavbarComponent,
+    HeaderComponent,
+    FooterComponent,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     RouterModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:
+    [
+      NavbarComponent,
+      HeaderComponent,
+      FooterComponent,
+    ]
 })
 export class AppModule { }

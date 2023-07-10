@@ -1,16 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WelcomeComponent } from './000_header/welcome/welcome.component';
 import { Error404Component } from './000_header/error404/error404.component';
+import { HomepageComponent } from './000_header/homepage/homepage.component';
 
 
 const routes: Routes = [
   {
-    path: '', component: WelcomeComponent
+    path: '', component: HomepageComponent
+  },
+  {
+    path: 'main', loadChildren: () => import('./010_main/main.module').then(m => m.MainHomeModule)
   }
   ,
   {
     path: 'social', loadChildren: () => import('./001_auth/oauth.module').then(m => m.OauthModule)
+  }
+  ,
+  {
+    path: 'books', loadChildren: () => import('./110_books/main-books.module').then(m => m.MainBooksModule)
   }
 
   /************************** Erros 404 ****/
