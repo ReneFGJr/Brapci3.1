@@ -12,7 +12,7 @@ export class NavbarComponent {
 
   public event: any | any;
 
-  public fixed = false;
+  public fixed: number = 1;
 
   constructor() {
     document.addEventListener('click', (clickEvent: MouseEvent) => {
@@ -24,11 +24,17 @@ export class NavbarComponent {
 
       /* Troca do Menu superior */
       let posScreen = document.documentElement.scrollTop;
-      if ((posScreen > 0) || (this.fixed == false)) {
-        this.fixed = true;
+      if ((posScreen > 0) || (this.fixed == 0)) {
+        if (posScreen > 100)
+          {
+            this.fixed = 2;
+          } else {
+            this.fixed = 1;
+          }
+
       } else {
-        if ((posScreen == 0) || (this.fixed == true)) {
-          this.fixed = false;
+        if ((posScreen == 0) || (this.fixed == 1)) {
+          this.fixed = 0;
         }
       }
     })
