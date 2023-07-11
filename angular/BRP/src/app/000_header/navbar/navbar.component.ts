@@ -11,7 +11,7 @@ export class NavbarComponent {
 
   public event: any | any;
 
-  public name = 'Hello';
+  public fixed = false;
 
   constructor() {
     document.addEventListener('click', (clickEvent: MouseEvent) => {
@@ -20,6 +20,16 @@ export class NavbarComponent {
 
     document.addEventListener('scroll', (scr: any) => {
       console.log(document.documentElement.scrollTop);
+
+      /* Troca do Menu superior */
+      let posScreen = document.documentElement.scrollTop;
+      if ((posScreen > 100) || (this.fixed == false)) {
+        this.fixed = true;
+      } else {
+        if (posScreen == 0) {
+          this.fixed = false;
+        }
+      }
     })
   }
 
