@@ -1,24 +1,28 @@
 <app-header></app-header>
-<div class="container-fluid bg-brapci">
 <app-navbar></app-navbar>
-<div class="row">
-<div class="col-1 col-sm-2">
-</div>
-<div class="col-10 col-sm-8">
-<img src="/assets/img/brand_brapci_shadown.png" class="img-fluid">
-</div>
-<div class="col-1 col-sm-2">
-</div>
-1<br>XXXXXXXXX
-1<br>
-1<br>
-1<br>
-1<br>
-1<br>
-</div>
+<div class="container-fluid bg-brapci">
+
+  <div class="row">
+    <div class="col-2 col-sm-4"></div>
+    <div class="col-8 col-sm-4">
+      <img src="/assets/img/logo_brapci_wire_blue.png" class="img-fluid" />
+      <app-search-form></app-search-form>
+      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </div>
+    <div class="col-2 col-sm-4"></div>
+    1<br />XXXXXXXXX 1<br />
+    1<br />
+    1<br />
+    1<br />
+    1<br />
+  </div>
 </div>
 
 <ul>
-  <li *ngFor='let loop2 of "0123456789012345678901234567890123456789".split("")'>{{loop2}}</li>
+  <li
+    *ngFor="let loop2 of '0123456789012345678901234567890123456789'.split('')"
+  >
+    {{ loop2 }}
+  </li>
 </ul>
 <app-footer></app-footer>

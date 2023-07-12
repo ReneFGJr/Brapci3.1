@@ -13,6 +13,8 @@ export class NavbarComponent {
   public event: any | any;
 
   public fixed: number = 1;
+  public navbarClass = '';
+  public pos: number = 0;
 
   constructor() {
     document.addEventListener('click', (clickEvent: MouseEvent) => {
@@ -24,24 +26,29 @@ export class NavbarComponent {
 
       /* Troca do Menu superior */
       let posScreen = document.documentElement.scrollTop;
-      if ((posScreen > 0) || (this.fixed == 0)) {
-        if (posScreen > 100)
-          {
-            this.fixed = 2;
-          } else {
-            this.fixed = 1;
-          }
+      this.pos = posScreen;
+
+      if (posScreen > 0) {
+        if (posScreen > 100) {
+          this.fixed = 2;
+          this.navbarClass = 'slideInDown';
+        } else {
+          if (this.fixed > 0)
+            {
+                this.navbarClass = 'slideOutUp';
+            }
+        }
 
       } else {
-        if ((posScreen == 0) || (this.fixed == 1)) {
-          this.fixed = 0;
-        }
+        this.fixed == 0
       }
+
+
     })
   }
 
-    onScroll(): void {
-      console.log("H")
-      console.log(document.documentElement.scrollTop);
-    }
+  onScroll(): void {
+    console.log("H")
+    console.log(document.documentElement.scrollTop);
+  }
 }

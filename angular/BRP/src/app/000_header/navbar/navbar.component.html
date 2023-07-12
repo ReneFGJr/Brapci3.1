@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark bg-brapci">
+<nav class="navbar navbar-expand-lg navbar-dark bg-brapci">
   <div class="container-fluid ">
     <a class="navbar-brand" href="#">
       <img src="/assets/img/brand_brapci_shadown.png" class="brand">
@@ -26,8 +26,8 @@
   </div>
 </nav>
 
-<nav *ngIf="fixed==2"
-  class="slideInDown shadow navbar fixed-top navbar-expand navbar-light bg-light rounded-5 p-2 ms-5 me-5 mt-1">
+<nav *ngIf="(fixed==2)"
+  class="{{navbarClass}} shadow navbar fixed-top navbar-expand-lg navbar-light bg-light rounded-5 p-2 ms-5 me-5 mt-1">
   <div class="container-fluid ">
     <a class="navbar-brand" href="#"><img src="/assets/img/logo_brapci_mini.png" class="brand_icone"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavFloat"
@@ -52,3 +52,7 @@
     </div>
   </div>
 </nav>
+
+<div id="BAR">
+========> {{fixed}} | {{navbarClass}} | {{pos}}
+</div>

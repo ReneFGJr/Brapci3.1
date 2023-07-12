@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -22,6 +22,9 @@ import { LoginComponent } from './page/oauth/main/login/login.component';
     CommonModule,
     OauthRoutingModule,
     ReactiveFormsModule
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class OauthModule { }
