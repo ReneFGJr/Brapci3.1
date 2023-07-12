@@ -79,14 +79,10 @@ import { BlockAuthorsComponent } from './110_find/find/admin/book-edit/block-aut
     BlockAuthorsComponent,
   ],
 
+
   imports: [
-    BrowserModule,
-    AppRoutingModule,
     FormsModule,
-    OauthModule,
     RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,

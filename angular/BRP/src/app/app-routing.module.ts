@@ -9,6 +9,9 @@ const routes: Routes = [
     path: '', component: HomepageComponent
   },
   {
+    path: 'authority', loadChildren: () => import('./100_authority/mainauth.module').then(m => m.MainAuthoriryModule)
+  },
+  {
     path: 'main', loadChildren: () => import('./010_main/main.module').then(m => m.MainHomeModule)
   }
   ,
