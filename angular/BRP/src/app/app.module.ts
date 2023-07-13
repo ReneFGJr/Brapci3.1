@@ -1,39 +1,27 @@
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-/************** 000 */
-import { HomepageComponent } from './000_header/homepage/homepage.component';
-import { CoreModule } from './000_header/core.module';
+/* Modules */
+import { ThemeModule } from './010_thema/theme.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule,
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    CoreModule
+    NgbModule,
+    ThemeModule,
+    HttpClientModule
   ],
   providers: [],
-  schemas: [
-    CUSTOM_ELEMENTS_SCHEMA,
-  ],
   bootstrap: [AppComponent],
-  exports:
-    [
-
-    ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
