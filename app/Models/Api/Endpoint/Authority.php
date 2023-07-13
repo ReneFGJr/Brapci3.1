@@ -1,23 +1,22 @@
 <?php
 /*
 @category API
-@package Brapci Book
+@package Authority
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
+@copyright 2023 CC-BY
 @access public/private/apikey
-@example $URL/api/book/?isbn=97800000000
-@abstract API para consulta de metadados de livros com o ISBN
+@example $URL/api/authority/services
 */
 
 namespace App\Models\Api\Endpoint;
 
 use CodeIgniter\Model;
 
-class Book extends Model
+class Authority extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'books';
+    protected $DBGroup          = 'authority';
+    protected $table            = 'finds';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -50,13 +49,30 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3, $d4)
-    {
-        $ISBN = new \App\Models\Functions\ISBN();
-        $isbn = get("isbn");
-        $isbn = $ISBN->format($isbn);
+    function index($d1,$d2,$d3)
+        {
+            $Auth = new \App\Models\Authority\API\Index();
+            $RSP = [];
+            $RSP['status'] = '200';
+            switch($d1)
+                {
+                    case 'put':
+                        $name = nbr_author($d2,7);
+                        $RSP['id'] = $Auth->register($name);
+                        $RSP['person'] = $name;
+                    default:
+                        $RSP = $this->services($RSP);
+                        break;
+                }
+            echo json_encode($RSP);
+            exit;
+        }
 
-
-        echo h($isbn);
-    }
+        function services($RSP)
+            {
+                $srv = [];
+                $srv = ['search','put'];
+                $RSP['services'] = $srv;
+                return $RSP;
+            }
 }

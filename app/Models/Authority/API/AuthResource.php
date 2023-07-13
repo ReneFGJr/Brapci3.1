@@ -1,30 +1,22 @@
 <?php
-/*
-@category API
-@package Brapci Book
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
-@access public/private/apikey
-@example $URL/api/book/?isbn=97800000000
-@abstract API para consulta de metadados de livros com o ISBN
-*/
 
-namespace App\Models\Api\Endpoint;
+namespace App\Models\Authority\API;
 
 use CodeIgniter\Model;
 
-class Book extends Model
+class AuthResource extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'books';
+    protected $DBGroup          = 'authority';
+    protected $table            = 'authresources';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_ar','an_url','an_name','an_prop'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -50,13 +42,18 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3, $d4)
-    {
-        $ISBN = new \App\Models\Functions\ISBN();
-        $isbn = get("isbn");
-        $isbn = $ISBN->format($isbn);
+    function register($idn,$source)
+        {
+            $dt = $this
+                ->where('an_name',$idn)
+                ->where('an_name', $idn)
+                ->first();
+            if ($dt == '')
+                {
+                    $dt['an_url'] = $source;
+                    $dt['an_name'] = $idn;
+                    $this->set($dt)->insert();
+                }
 
-
-        echo h($isbn);
-    }
+        }
 }

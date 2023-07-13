@@ -51,6 +51,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $authority = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_authority',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $dataverse = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -508,6 +528,9 @@ class Database extends Config
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
+
+        $this->authority['username'] = getenv('database.default.username');
+        $this->authority['password'] = getenv('database.default.password');
 
         $this->dci['username'] = getenv('database.default.username');
         $this->dci['password'] = getenv('database.default.password');

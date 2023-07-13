@@ -1,23 +1,13 @@
 <?php
-/*
-@category API
-@package Brapci Book
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
-@access public/private/apikey
-@example $URL/api/book/?isbn=97800000000
-@abstract API para consulta de metadados de livros com o ISBN
-*/
 
-namespace App\Models\Api\Endpoint;
+namespace App\Models\Authority\API;
 
 use CodeIgniter\Model;
 
-class Book extends Model
+class AuthConcept extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'books';
+    protected $DBGroup          = 'authority';
+    protected $table            = 'authconcepts';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -49,14 +39,4 @@ class Book extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    function index($d1, $d2, $d3, $d4)
-    {
-        $ISBN = new \App\Models\Functions\ISBN();
-        $isbn = get("isbn");
-        $isbn = $ISBN->format($isbn);
-
-
-        echo h($isbn);
-    }
 }
