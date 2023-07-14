@@ -8,12 +8,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BannerAuthorityComponent } from './page/banner/banner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchAuthorityComponent } from './page/search/search.component';
+import { ItemListAuthorityComponent } from './page/item-list/item-list.component';
 
 @NgModule({
   declarations: [
         AuthorityMainComponent,
         BannerAuthorityComponent,
         SearchAuthorityComponent,
+        ItemListAuthorityComponent,
   ],
   imports: [
     CommonModule,
