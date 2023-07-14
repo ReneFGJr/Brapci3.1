@@ -89,10 +89,29 @@ class Index extends Model
             {
                 $n = mb_strtoupper(ASCII($n));
                 $AuthName = new \App\Models\Authority\API\AuthName();
+                $flag = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
+                $cp = 'id_an, id_c, an_name, c_use';
+                $cp = '*';
                 $dt = $AuthName
+                    ->select($cp)
+                    ->join('auth_concept', 'c_prefName = id_an')
                     ->like('an_name_asc',$n)
                     ->orderBy('an_name')
                     ->findAll();
                 return $dt;
+            }
+
+        function getid($id)
+            {
+                $AuthName = new \App\Models\Authority\API\AuthName();
+                $cp = '*';
+                $RSP['id'] = $id;
+                $dt = $AuthName
+                    ->select($cp)
+                    ->join('auth_concept', 'c_prefName = id_an')
+                    ->where('id_c', $id)
+                    ->first();
+                $RSP = array_merge($RSP,$dt);
+                return $RSP;
             }
 }

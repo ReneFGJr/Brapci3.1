@@ -57,6 +57,10 @@ class Authority extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
+
+                    case 'getid':
+                        $RSP['data'] = $Auth->getid($d2);
+                        break;
                     case 'search':
                         $RSP['data'] = $Auth->search($d2,$d3);
                         break;

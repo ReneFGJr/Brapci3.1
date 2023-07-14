@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-authority-item-list',
@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
 })
 export class ItemListAuthorityComponent {
 
-  public items: Array<any> | any;
-
+  @Input() public lista: Array<any> | any;
 
 }

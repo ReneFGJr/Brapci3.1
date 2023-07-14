@@ -1,14 +1,14 @@
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="lista">
 <div class="row">
 <div class="col-12">
 <b>Resultado da busca</b>
 <ul>
-<li>Nome do autor</li>
-<li>Nome do autor</li>
-<li>Nome do autor</li>
-<li>Nome do autor</li>
-<li>Nome do autor</li>
+    <li *ngFor="let item of lista"><a [routerLink]="['/authority/person/' + item.id_c]" class="link-secondary" >
+    {{item.an_name}}</a>
+    <img src="https://cip.brapci.inf.br/img/flags/flag-brazil.svg" height="10px" class="ms-2" style="position: relative; top: -10px;">
+    </li>
 </ul>
 </div>
 </div>
+{{ lista | json }}
 </div>

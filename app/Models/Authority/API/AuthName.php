@@ -45,7 +45,9 @@ class AuthName extends Model
     function register($name,$lang=1)
         {
             $name_asc = mb_strtoupper(ASCII($name));
-            $dt = $this->where('an_name_asc', $name_asc)->first();
+            $dt = $this
+                    ->where('an_name_asc', $name_asc)
+                    ->first();
             if ($dt=='')
                 {
                     $dt['an_name'] = $name;

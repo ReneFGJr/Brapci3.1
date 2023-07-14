@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { AuthorityService } from '../../service/authority.service';
 import { UserService } from 'src/app/001_auth/service/user.service';
-import { AuthorityMainComponent } from '../authority-main/authority-main.component';
+import { SearchAuthorityHomeComponent } from '../search-home/search-home.component';
 
 @Component({
   selector: 'app-authority-search',
@@ -16,14 +16,14 @@ export class SearchAuthorityComponent {
   constructor(
     private userService: UserService,
     private authorityService: AuthorityService,
-    private authorityMainComponent: AuthorityMainComponent,
+    private searchAuthorityHomeComponent: SearchAuthorityHomeComponent,
     private fb: FormBuilder,
    ) {}
 
   /************************************************************************  */
   setDefault(f: NgForm) {
     f.resetForm({
-      term: 'Hardik',
+      term: 'Hello',
     })
   }
 
@@ -41,11 +41,12 @@ export class SearchAuthorityComponent {
   }
 
   onSearch() {
+    console.log("=====")
+    console.log(this.angForm.valid)
     if (this.angForm.valid) {
       let term = this.angForm.value.term
       let type = '1'
-      this.authorityMainComponent.searchItens(term,type);
-
+      this.searchAuthorityHomeComponent.searchItens(term,type);
     }
   }
 
