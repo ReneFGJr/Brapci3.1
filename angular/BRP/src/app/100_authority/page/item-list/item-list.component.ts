@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class ItemListAuthorityComponent {
 
+  public items: Array<any> | any;
+
+
 }

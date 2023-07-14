@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./authority-main.component.scss']
 })
 export class AuthorityMainComponent {
-
+  public items: Array<any> | any;
 
 }
