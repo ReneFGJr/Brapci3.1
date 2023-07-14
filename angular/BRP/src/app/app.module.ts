@@ -14,11 +14,11 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
+    HttpClientModule,
     NgbModule,
     ThemeModule,
-    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

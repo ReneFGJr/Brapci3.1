@@ -40,11 +40,59 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($name)
+    function register($name,$class='Person',$source='', $prop_source='')
         {
+            $RDF = new \App\Models\Rdf\RDF();
             $AuthName = new \App\Models\Authority\API\AuthName();
+            $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+            $AuthResource = new \App\Models\Authority\API\AuthResource();
+
+            $class = $RDF->getClass($class);
+            $prop = $RDF->getClass('prefLabel');
             $idn = $AuthName->register($name,1);
-            echo $idn;
-            exit;
+            $idc = $AuthConcept->register($class,$idn);
+
+            if ($source != '')
+                {
+                    $prop = $RDF->getClass($prop_source);
+                    $AuthResource->register($idc, $prop, $source);
+                }
+            return $idc;
         }
+
+        function search($n,$t)
+            {
+                $vpage = 20;
+                $offset = get("offset");
+                if ($offset == '')
+                    {
+                        $offset = 1;
+                    }
+                $RSP = [];
+
+                $data = $this->search_base($n);
+
+                /********** Calculos */
+                $total = count($data);
+
+                $RSP['pages'] = (round($total/$vpage)+1);
+                $RSP['total'] = $total;
+                $RSP['page'] = $offset;
+
+                /********** DAdos */
+                $RSP['item'] = $data;
+
+                return $RSP;
+            }
+
+        function search_base($n)
+            {
+                $n = mb_strtoupper(ASCII($n));
+                $AuthName = new \App\Models\Authority\API\AuthName();
+                $dt = $AuthName
+                    ->like('an_name_asc',$n)
+                    ->orderBy('an_name')
+                    ->findAll();
+                return $dt;
+            }
 }

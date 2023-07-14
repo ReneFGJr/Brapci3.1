@@ -7,14 +7,16 @@ use CodeIgniter\Model;
 class AuthConcept extends Model
 {
     protected $DBGroup          = 'authority';
-    protected $table            = 'authconcepts';
-    protected $primaryKey       = 'id';
+    protected $table            = 'auth_concept';
+    protected $primaryKey       = 'id_c';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_c', 'c_class', 'c_prefName'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,4 +41,21 @@ class AuthConcept extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function register($class,$prefLabel)
+        {
+            $dt = $this
+                ->where('c_class',$class)
+                ->where('c_prefName', $prefLabel)
+                ->first();
+            if ($dt == '')
+                {
+                    $dt['c_class'] = $class;
+                    $dt['c_prefName'] = $prefLabel;
+                    $idc = $this->set($dt)->insert();
+                } else {
+                    $idc = $dt['id_c'];
+                }
+            return $idc;
+        }
 }

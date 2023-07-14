@@ -51,15 +51,22 @@ class Authority extends Model
 
     function index($d1,$d2,$d3)
         {
+            header('Access-Control-Allow-Origin: *');
             $Auth = new \App\Models\Authority\API\Index();
             $RSP = [];
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'search':
+                        $RSP['data'] = $Auth->search($d2,$d3);
+                        break;
                     case 'put':
                         $name = nbr_author($d2,7);
+
                         $RSP['id'] = $Auth->register($name);
                         $RSP['person'] = $name;
+                        $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
+                        break;
                     default:
                         $RSP = $this->services($RSP);
                         break;

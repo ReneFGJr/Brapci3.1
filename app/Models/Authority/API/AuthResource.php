@@ -7,15 +7,15 @@ use CodeIgniter\Model;
 class AuthResource extends Model
 {
     protected $DBGroup          = 'authority';
-    protected $table            = 'authresources';
-    protected $primaryKey       = 'id';
+    protected $table            = 'auth_resource';
+    protected $primaryKey       = 'id_ar';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_ar','an_url','an_name','an_prop'
+        'id_ar','an_url', 'an_concept','an_prop'
     ];
 
     // Dates
@@ -42,18 +42,19 @@ class AuthResource extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($idn,$source)
+    function register($idc,$prop,$source)
         {
             $dt = $this
-                ->where('an_name',$idn)
-                ->where('an_name', $idn)
+                ->where('an_concept',$idc)
+                ->where('an_prop', $prop)
+                ->where('an_url', $source)
                 ->first();
             if ($dt == '')
                 {
+                    $dt['an_prop'] = $prop;
+                    $dt['an_concept'] = $idc;
                     $dt['an_url'] = $source;
-                    $dt['an_name'] = $idn;
                     $this->set($dt)->insert();
                 }
-
         }
 }
