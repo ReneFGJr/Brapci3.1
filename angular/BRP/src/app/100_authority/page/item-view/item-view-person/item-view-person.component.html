@@ -1,8 +1,14 @@
-<div class="container-fluid bg-brapci text-white pb-3 pt-2">
-    <div class="row">
-        <div class="col-12 mt-3">
+<div *ngIf="person" class="container-fluid bg-brapci text-white pb-3 pt-2">
+  <div class="row">
+    <div class="col-12 mt-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mt-3">
             <span class="small">Nome</span>
-            <h1>Rene Faustino Gabriel Junior</h1>
+            <h1>{{ person.an_name }}</h1>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

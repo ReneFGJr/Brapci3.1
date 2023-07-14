@@ -44,7 +44,8 @@ import { ItemViewInstitutionComponent } from './page/item-view/item-view-institu
   exports:
     [
       ItemListAuthorityComponent,
-      SearchAuthorityComponent
+      SearchAuthorityComponent,
+      ItemViewComponent
     ]
 })
 export class Core100Module { }

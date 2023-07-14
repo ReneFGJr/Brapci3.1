@@ -12,8 +12,8 @@ export class AuthorityService {
     private HttpClient: HttpClient,
   ) { }
 
-  //private url: string = 'https://cip.brapci.inf.br/api/';
-  private url: string = 'http://brp/api/';
+  private url: string = 'https://cip.brapci.inf.br/api/';
+  //private url: string = 'http://brp/api/';
 
   public getId(id: number): Observable<Array<any>> {
     let url = `${this.url}authority/getid/${id}`;
