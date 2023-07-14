@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 
 import { AuthorityService } from '../../service/authority.service';
 import { UserService } from 'src/app/001_auth/service/user.service';
+import { AuthorityMainComponent } from '../authority-main/authority-main.component';
+
 @Component({
   selector: 'app-authority-search',
   templateUrl: './search.component.html',
@@ -14,6 +16,7 @@ export class SearchAuthorityComponent {
   constructor(
     private userService: UserService,
     private authorityService: AuthorityService,
+    private authorityMainComponent: AuthorityMainComponent,
     private fb: FormBuilder,
    ) {}
 
@@ -41,13 +44,8 @@ export class SearchAuthorityComponent {
     if (this.angForm.valid) {
       let term = this.angForm.value.term
       let type = '1'
-      this.authorityService.searchList(term,type).subscribe(
-        res=>
-          {
-            console.log(res)
-          }
-      )
-      alert(term)
+      this.authorityMainComponent.searchItens(term,type);
+
     }
   }
 
