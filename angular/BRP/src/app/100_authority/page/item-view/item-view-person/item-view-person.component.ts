@@ -7,7 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class ItemViewPersonComponent {
   @Input() public person: Array<any> | any
-
+  public genere = 'bi-gender-female';
+  /* bi-gender-male bi-gender-ambiguous */
   ngOnInit()
     {
       console.log("**********")

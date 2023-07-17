@@ -10,8 +10,4 @@ import { UserService } from 'src/app/001_auth/service/user.service';
 })
 export class AuthorityMainComponent {
 
-
-
-
-
 }

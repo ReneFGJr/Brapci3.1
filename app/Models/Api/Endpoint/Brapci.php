@@ -51,10 +51,15 @@ class Brapci extends Model
 
     function index($d1,$d2,$d3)
         {
+            header('Access-Control-Allow-Origin: *');
             $RSP = [];
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'search':
+                        $RSP['strategy'] = array_merge($_POST,$_GET);
+                        $RSP['result'] = $this->search();
+                        break;
                     default:
                         $RSP = $this->services($RSP);
                         break;
@@ -66,8 +71,20 @@ class Brapci extends Model
         function services($RSP)
             {
                 $srv = [];
-                $srv['livros'] = ['name'=>'Livros','link'=>'books','icone'=>'icone'];
+                $srv['livros'] = ['name' => 'Livros', 'link' => 'books', 'icone' => 'icone'];
                 $RSP['services'] = $srv;
                 return $RSP;
+            }
+
+        function search()
+            {
+                $term = get("q");
+                if ($term != '')
+                    {
+                        $Elastic = new \App\Models\ElasticSearch\Search();
+                        return $Elastic->searchFull($term);
+                    } else {
+                        return [];
+                    }
             }
 }

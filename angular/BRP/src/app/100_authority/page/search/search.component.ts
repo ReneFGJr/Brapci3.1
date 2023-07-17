@@ -7,8 +7,7 @@ import { SearchAuthorityHomeComponent } from '../search-home/search-home.compone
 
 @Component({
   selector: 'app-authority-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: './search.component.html'
 })
 export class SearchAuthorityComponent {
   public term: string = '';

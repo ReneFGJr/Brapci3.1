@@ -1,0 +1,25 @@
+<div class="content-fluid banner text-white pb-5 pt-2">
+  <div class="row" *ngIf="title">
+    <div class="col-2"></div>
+    <div class="col-8 col-sm-8">
+      <span class="section">{{ title }}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-12 mt4">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <app-search-brapci></app-search-brapci>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <app-search-brapci-results [results]="results"></app-search-brapci-results>
+  </div>
+</div>

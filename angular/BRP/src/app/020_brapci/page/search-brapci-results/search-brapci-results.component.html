@@ -1,0 +1,23 @@
+<div *ngIf="results" class="col-12 col-sm-12">
+
+{{ results.total }} resultados
+<ul>
+<li *ngFor="let items of results.works">
+  <div *ngIf="items.type=='Article'">
+      {{ items.abnt | json}}
+  </div>
+
+  <div *ngIf="items.type=='Person'">
+      =x=> {{ items.abnt }}
+  </div>
+
+  <div *ngIf="!(items.type=='Article' || items.type=='Person')">
+      ==> {{ items.type }}
+  </div>
+
+</li>
+</ul>
+
+{{ results | json }}
+
+</div>

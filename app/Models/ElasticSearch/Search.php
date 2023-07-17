@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class Search extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'searches';
+    protected $DBGroup          = 'elastic';
+    protected $table            = 'dataset';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -39,6 +39,21 @@ class Search extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function searchFull($q = '', $type = '')
+        {
+            $Search = new \App\Models\ElasticSearch\Search();
+            $dt = $this->search($q, $type);
+
+            foreach($dt['works'] as $id=>$line)
+                {
+                    $ida = $line['id'];
+                    $ds = $Search->where('article_id',$ida)->first();
+                    $dt['works'][$id]['data'] = $ds;
+                }
+            echo (json_encode($dt));
+            exit;
+        }
 
     function search($q = '',$type='')
     {
