@@ -12,8 +12,8 @@ export class BrapciService {
     private HttpClient: HttpClient,
   ) { }
 
-  private url: string = 'https://cip.brapci.inf.br/api/';
-  //private url: string = 'http://brp/api/';
+  //private url: string = 'https://cip.brapci.inf.br/api/';
+  private url: string = 'http://brp/api/';
 
   public getId(id: string): Observable<Array<any>> {
     let url = `${this.url}brapci/get/v1/`+id;
