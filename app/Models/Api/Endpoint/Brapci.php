@@ -75,7 +75,7 @@ class Brapci extends Model
         function get($v,$id)
             {
                 $Elastic = new \App\Models\ElasticSearch\Search();
-                return $Elastic->get($id);
+                return $Elastic->find($id);
             }
 
         function services($RSP)
