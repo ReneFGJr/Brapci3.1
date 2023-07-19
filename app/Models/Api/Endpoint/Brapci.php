@@ -74,8 +74,27 @@ class Brapci extends Model
 
         function get($v,$id)
             {
-                $Elastic = new \App\Models\ElasticSearch\Search();
-                return $Elastic->find($id);
+                $RDF = new \App\Models\Rdf\RDF();
+                $dt = $RDF->le($id);
+
+                $RSP = [];
+
+                foreach($dt['data'] as $id=>$desc)
+                    {
+                        $class = $desc['c_class'];
+                        $vlr1 = $desc['n_name'];
+                        $vlr2 = $desc['n_name2'];
+
+                        $lk1 = $desc['d_r1'];
+                        $lk2 = $desc['d_r2'];
+
+                        $lang = $desc['n_lang'].$desc['n_lang2'];
+
+                        $RSP[$class][$lang] = $vlr1.$vlr2;
+                    }
+                echo json_encode($RSP);
+                exit;
+
             }
 
         function services($RSP)

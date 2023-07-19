@@ -19,7 +19,10 @@ export class VComponent {
     {
       console.log("GET DATA "+this.id)
       this.brapciService.getId(this.id).subscribe(
-        res=>res,
+        res=>
+          {
+            console.log(res)
+          },
         error=>error
       )
     }
