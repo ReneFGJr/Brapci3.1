@@ -1,0 +1,7 @@
+@use '../../../../../assets/base/variables' as s;
+
+.banner {
+  background-image: linear-gradient(s.$background, s.$backgroundGrad);
+  min-height: 200px;
+  color: white;
+}

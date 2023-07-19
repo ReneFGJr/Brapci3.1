@@ -606,7 +606,6 @@ class RDFExport extends Model
 	/****************************************************************** ARTICLE / PROCEEDING */
 	function export_article($dt, $id, $tp = 'A')
 	{
-		$PUBLIC = new \App\Models\Rdf\RDFPublic();
 		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
@@ -615,7 +614,6 @@ class RDFExport extends Model
 			return "OPS export_proceeding " . $id . '<br>';
 		}
 		$dta = $Metadata->metadata($dt);
-		$PUBLIC->register($dta);
 
 		$this->saveData($id, 'Title', $dta);
 		$this->saveData($id, 'Section', $dta);
@@ -628,7 +626,6 @@ class RDFExport extends Model
 			$dta['issue'] = $Metadata->metadata($dti);
 			$this->saveData($id, 'Issue', $dta['issue']);
 		}
-
 
 		$this->saveData($id, 'Year', $dta);
 		$this->saveData($id, 'Place', $dta);

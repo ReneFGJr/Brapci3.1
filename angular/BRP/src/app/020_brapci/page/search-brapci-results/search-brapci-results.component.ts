@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -7,6 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 export class SearchBrapciResultsComponent {
   @Input() public results: Array<any> | any;
+
+  constructor(private router:Router) {}
 
   ngOnInit()
     {

@@ -8,8 +8,11 @@ import { KeywordsComponent } from './page/painel/keywords/keywords.component';
 import { SearchBrapciComponent } from './page/search-brapci/search-brapci.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchBrapciResultsComponent } from './page/search-brapci-results/search-brapci-results.component';
-
-
+import { RouterModule } from '@angular/router';
+import { VComponent } from './page/v/v.component';
+import { ThemeModule } from '../010_thema/theme.module';
+import { ArticleComponent } from './page/v/article/article.component';
+import { HeaderComponent } from './page/v/header/header.component';
 
 @NgModule({
   declarations: [
@@ -20,14 +23,20 @@ import { SearchBrapciResultsComponent } from './page/search-brapci-results/searc
     KeywordsComponent,
     SearchBrapciComponent,
     SearchBrapciResultsComponent,
+    VComponent,
+    ArticleComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule,
+    ThemeModule
   ],
   exports:[
     BannerComponent,
-    PainelComponent
+    PainelComponent,
+    VComponent
   ]
 })
 export class CoreBrapciModule { }

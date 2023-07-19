@@ -128,6 +128,10 @@ class Metadata extends Model
         $COVER = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
 
+        $LDL_title = '';
+        $LDL_author = '';
+        $LDL_section = '';
+
         $issue_proceessed = array();
         $this->metadata = array();
         if (isset($meta['concept'])) {
@@ -244,6 +248,9 @@ class Metadata extends Model
                         $this->lets('authors', $name.'$');
                         $this->let('Authors', $value . ';' . $ddv2);
                         $this->let('AuthorsOf', $ddv1);
+                        if ($LDL_author != '') {
+                            $LDL_author .= '; '; }
+                        $LDL_author .= nbr_author($value,7);
                         break;
                     case 'hasOrganizator':
                         $name = '<a class="summary_a" href="' . URL .  '/autoridade/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
@@ -259,6 +266,11 @@ class Metadata extends Model
                     case 'hasSectionOf':
                         $this->lets('section', $value . '$');
                         $this->let('Sections', $value . ';' . $ddv2);
+                        if ($LDL_section != '')
+                        {
+                            $LDL_section .= ' - ';
+                        }
+                        $LDL_section .= trim($value);
                         break;
                     case 'hasCover':
                         $cover = $COVER->image($ddv2);
@@ -386,11 +398,40 @@ class Metadata extends Model
                 }
             }
         }
+
+        /******************************* LEGEND */
+        if (isset($this->metadata['Journal']))
+            {
+                $legend = trim($this->metadata['Journal']);
+                $journal = trim($this->metadata['Journal']);
+            } else {
+                $legend = '';
+                $journal= '';
+            }
+
+        if (isset($this->metadata['Issue']['Issue_roman'])) {
+            $legend .= ', v.' . $this->metadata['Issue']['Issue_roman'];
+        }
+        if (isset($this->metadata['Issue']['Issue_nr']))
+            {
+                $legend .= ', n.' . $this->metadata['Issue']['Issue_nr'];
+            }
+        $legend .= ', '.$this->metadata['Issue']['Year'];
+
+        if (isset($this->metadata['title'])) {
+            $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['title']);
+        } else {
+            $this->metadata['difusion']['LDL_title'] = '::Sem ´título::';
+        }
+        $this->metadata['difusion']['LDL_author'] = $LDL_author;
+        $this->metadata['difusion']['LDL_legend'] = $legend;
+        $this->metadata['difusion']['LDL_journal'] = $journal;
+        $this->metadata['difusion']['LFL_section'] = trim($LDL_section);
+
         if (isset($meta['concept']['id_cc']))
             {
                 $this->metadata['ID'] = $meta['concept']['id_cc'];
             }
-        //pre($this->metadata);
         return $this->metadata;
     }
 

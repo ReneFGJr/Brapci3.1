@@ -17,7 +17,8 @@ class Register extends Model
     protected $allowedFields    = [
         'id','article_id','id_jnl','collection','year',
         'title','authors', 'keywords','type', 'abstract',
-        'fulltext', 'pdf','updated_at', 'section'
+        'fulltext', 'pdf','updated_at', 'section',
+        'ldl_title', 'ldl_legend', 'ldl_authors','ldl_section','ldl_journal'
     ];
 
     // Dates
@@ -56,13 +57,18 @@ class Register extends Model
 
             $dta = $this->FindAll($limit, $offset);
 
-
             $type = 'prod';
 
             $API = new \App\Models\ElasticSearch\API();
             $sx = 'Export ElasticSearch v2.0 - ';
             $sx .= $offset.' of '.$dtt;
-            $percent = ($offset/$dtt*100);
+            if ($dtt > 0)
+                {
+                    $percent = ($offset / $dtt * 100);
+                } else {
+                    $percent = 100;
+                }
+
             $sx .= ' ('.number_format($percent,1).'%)';
             $sx .= '<hr>';
 
@@ -107,6 +113,7 @@ class Register extends Model
             $API = new \App\Models\ElasticSearch\API();
             $dt = file_get_contents($file);
             $dt = (array)json_decode($dt);
+
             $dt['id'] = $id;
             $sx .= 'URL: ' . 'brapci3.1/' . $type . '/' . $id;
             $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
@@ -319,18 +326,35 @@ class Register extends Model
 
         if (isset($data['PDF'])) { $da['pdf'] = 1; }
 
+        if (isset($data['difusion']['LDL_title'])) {
+            $da['ldl_title'] = $data['difusion']['LDL_title'];
+        }
+        if (isset($data['difusion']['LDL_author'])) {
+            $da['ldl_authors'] = $data['difusion']['LDL_author'];
+        }
+        if (isset($data['difusion']['LDL_legend'])) {
+            $da['ldl_legend'] = $data['difusion']['LDL_legend'];
+        }
+        if (isset($data['difusion']['LFL_section'])) {
+            $da['ldl_section'] = $data['difusion']['LFL_section'];
+        }
+        if (isset($data['difusion']['LFL_journal'])) {
+            $da['ldl_journal'] = $data['difusion']['LFL_journal'];
+        }
+
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
 
 
-    function data($id,$data)
+    function data($id,$xdata)
         {
             $dt = $this->where('article_id',round($id))->findAll();
-            $data = $this->data_convert_elastic($data);
+            $data = $this->data_convert_elastic($xdata);
 
             if (count($dt) == 0)
                 {
+
                     $this->set($data)->insert();
                     $sx = lang('brapci.inserted');
                 } else {

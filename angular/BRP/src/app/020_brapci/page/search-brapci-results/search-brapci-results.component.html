@@ -4,7 +4,11 @@
 <ul>
 <li *ngFor="let items of results.works">
   <div *ngIf="items.type=='Article'">
-      {{ items.abnt | json}}
+     <a href="#" [routerLink]="['/v/' + items.data.id]" routerLinkActive="router-link-active" >
+     <span style="font-weight: bold">{{ items.data.title }}</span>
+     </a>
+     <br><i>{{ items.data.authors }}</i>
+     <br><i>{{ items.data.year }}</i>
   </div>
 
   <div *ngIf="items.type=='Person'">
@@ -17,7 +21,5 @@
 
 </li>
 </ul>
-
-{{ results | json }}
 
 </div>
