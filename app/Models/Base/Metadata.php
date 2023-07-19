@@ -416,7 +416,11 @@ class Metadata extends Model
             {
                 $legend .= ', n.' . $this->metadata['Issue']['Issue_nr'];
             }
-        $legend .= ', '.$this->metadata['Issue']['Year'];
+        if (isset($this->metadata['Issue']['Year']))
+            {
+                $legend .= ', ' . $this->metadata['Issue']['Year'];
+            }
+
 
         if (isset($this->metadata['title'])) {
             $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['title']);

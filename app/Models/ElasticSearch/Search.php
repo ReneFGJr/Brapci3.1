@@ -44,10 +44,11 @@ class Search extends Model
         {
             $Search = new \App\Models\ElasticSearch\Search();
             $dt = $this->search($q, $type);
-
+            pre($dt);
             foreach($dt['works'] as $id=>$line)
                 {
                     $ida = $line['id'];
+                    echo '===>'.$ida;
                     $ds = $Search->where('article_id',$ida)->first();
                     $dt['works'][$id]['data'] = $ds;
                 }
