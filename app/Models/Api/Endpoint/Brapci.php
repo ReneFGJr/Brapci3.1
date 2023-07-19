@@ -74,10 +74,14 @@ class Brapci extends Model
 
         function get($v,$id)
             {
+                $id = 1301;
                 $RDF = new \App\Models\Rdf\RDF();
                 $dt = $RDF->le($id);
 
                 $RSP = [];
+                $RSP['title'] = '';
+                $RSP['creator_author'] = [];
+                $RSP['description'] = '';
 
                 foreach($dt['data'] as $id=>$desc)
                     {
@@ -88,9 +92,28 @@ class Brapci extends Model
                         $lk1 = $desc['d_r1'];
                         $lk2 = $desc['d_r2'];
 
-                        $lang = $desc['n_lang'].$desc['n_lang2'];
+                        $lang = troca($desc['n_lang'].$desc['n_lang2'],'-','_');
+                        $vlr = trim($vlr1.$vlr2);
 
-                        $RSP[$class][$lang] = $vlr1.$vlr2;
+                        if ($lk2 == 0) { $lk2 = $lk1; }
+
+                        switch($class)
+                            {
+                                case 'hasAbstract':
+                                    $RSP['description'] = $vlr;
+                                    break;
+                                case 'hasTitle':
+                                    $RSP['title'] = $vlr;
+                                    break;
+                                case 'hasAuthor':
+                                    $nome = nbr_author($vlr,7);
+
+                                    array_push($RSP['creator_author'],['name'=>$nome,'id'=>$lk2);
+                                    break;
+                                default:
+                                //echo '===>'.$class.'=='.$vlr.'<br>';
+                            }
+
                     }
                 echo json_encode($RSP);
                 exit;
