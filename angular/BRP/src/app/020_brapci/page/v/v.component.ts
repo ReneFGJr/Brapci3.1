@@ -9,7 +9,7 @@ import { BrapciService } from '../../service/brapci.service';
 export class VComponent {
   public type:string = 'Article';
   public data:Array<any> | any
-  public id:string = '1';
+  public id:string = '1433';
 
   constructor(
     private brapciService: BrapciService
@@ -21,7 +21,7 @@ export class VComponent {
       this.brapciService.getId(this.id).subscribe(
         res=>
           {
-            console.log(res)
+            this.data = res;
           },
         error=>error
       )
