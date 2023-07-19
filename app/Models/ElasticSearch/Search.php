@@ -47,10 +47,8 @@ class Search extends Model
             foreach($dt['works'] as $id=>$line)
                 {
                     $ida = $line['id'];
-                    echo '===>'.$ida;
                     $ds = $Search->where('article_id',$ida)->first();
                     $dt['works'][$id]['data'] = $ds;
-                    pre($dt);
                 }
             echo (json_encode($dt));
             exit;
