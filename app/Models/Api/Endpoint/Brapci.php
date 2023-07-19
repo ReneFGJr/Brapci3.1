@@ -56,17 +56,27 @@ class Brapci extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'get':
+                        $RSP['result'] = $this->get($d2,$d3);
+                        break;
                     case 'search':
                         $RSP['strategy'] = array_merge($_POST,$_GET);
                         $RSP['result'] = $this->search();
                         break;
                     default:
                         $RSP = $this->services($RSP);
+                        $RSP['verb'] = $d1;
                         break;
                 }
             echo json_encode($RSP);
             exit;
         }
+
+        function get($v,$id)
+            {
+                $Elastic = new \App\Models\ElasticSearch\Search();
+                return $Elastic->get($id);
+            }
 
         function services($RSP)
             {

@@ -16,10 +16,10 @@ export class BrapciService {
   //private url: string = 'http://brp/api/';
 
   public getId(id: string): Observable<Array<any>> {
-    let url = `${this.url}brapci/get/v1`;
+    let url = `${this.url}brapci/get/v1/`+id;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
-    formData.append('q', id);
+    //formData.append('q', id);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       res => res,
