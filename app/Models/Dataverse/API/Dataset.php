@@ -146,6 +146,37 @@ class Dataset extends Model
         return $sx;
     }
 
+    function createDataset2($PARENT, $data)
+    {
+        $Dataverse = new \App\Models\Dataverse\Index();
+        $server = $Dataverse->getServer();
+        $token  = $Dataverse->getToken();
+
+        $API = new \App\Models\Dataverse\API\Index();
+
+        $dir = '../.tmp/dataverse/dataset/';
+        dircheck($dir);
+        $file = $dir . 'dataset-send.json';
+        file_put_contents($file, json_encode($data));
+
+        $dd['AUTH'] = true;
+        $dd['POST'] = true;
+        $dd['FILE'] = $file;
+        //$dd['url'] = 'https://venus.brapci.inf.br/';
+        $dd['api'] = 'api/dataverses/' . $PARENT . '/datasets';
+        //$dd['apikey'] = '919d765c-b728-4875-b50e-dd4fb71b5e6b';
+        $dd['url'] = $server;
+        $dd['apikey'] = $token;
+        $dd['dataverse'] = get("dataverse_d");
+
+        #$rst = $API->curlExec($dd);
+        $rst = $API->curlExec($dd);
+        $sx = '<br><tt>' . $API->url . '</tt>';
+        $rsp = json_decode($rst, true);
+
+        return $sx;
+    }
+
     function createDataset($PARENT,$data)
     {
         $Dataverse = new \App\Models\Dataverse\Index();
