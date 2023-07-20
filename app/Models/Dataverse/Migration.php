@@ -40,6 +40,52 @@ class Migration extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function indexFrom($d1, $d2, $d3)
+    {
+        $sx = '';
+        $Native = new \App\Models\Dataverse\API\Native();
+        $Dataset = new \App\Models\Dataverse\API\Dataset();
+        $Tree = new \App\Models\Dataverse\Tree();
+        $Dataverse = new \App\Models\Dataverse\Index();
+        $server = $Dataverse->getServer();
+        $token  = $Dataverse->getToken();
+
+        if (($server == '') or ($token == '')) {
+            $sx .= bsmessage('Server ou Token não informado');
+            return $sx;
+        }
+
+        $sx .= $this->from_doi();
+
+        $doi = get("doi");
+        $source = get("url_o");
+
+        if (($doi != '') and ($source != ''))
+            {
+                $sx .= h('Harvesting...',2);
+                $sx .= $Dataset->getDataset2($doi, $source);
+            }
+        return $sx;
+    }
+
+    function from_doi()
+    {
+        $sx = h("Repatriação de Dados");
+        $sx .= form_open();
+        $sx .= form_label('Informe o número do DOI, ex: 10.57810/lattesdata/NSW6QE');
+        $sx .= form_input('doi', get("doi"), ['class' => 'full fw-form-control']);
+
+        $sx .= form_label('Origen do dado URL (do repositório: ex: https://lattesdata.cnpq.br/');
+        $sx .= form_input('url_o', get("url_o"), ['class' => 'full fw-form-control']);
+
+        $sx .= form_label('Comunidade Dataverse (Destino) ex: root');
+        $sx .= form_input('dataverse_d', get("dataverse_d"), ['class' => 'full fw-form-control']);
+
+        $sx .= form_submit('action', 'Migrate');
+        $sx .= form_close();
+        return $sx;
+    }
+
     function index($d1,$d2,$d3)
         {
         $sx = '';
@@ -59,6 +105,7 @@ class Migration extends Model
 
         /***************************************** ROOT */
         $file = '../.tmp/dataverse/'.md5($server).'.root.json';
+        dircheck('../.tmp/dataverse/');
         if (!file_exists($file))
             {
                 $root = $Native->getDataverseRoot($server, $token);

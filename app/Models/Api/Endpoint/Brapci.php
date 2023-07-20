@@ -126,6 +126,9 @@ class Brapci extends Model
                                 case 'publisher':
                                     $RSP['publisher'] = $vlr;
                                     break;
+                                case 'isPubishIn':
+                                    $RSP['publisher'] = $vlr;
+                                    break;
                                 case 'hasAuthor':
                                     $nome = nbr_author($vlr,7);
                                     array_push($RSP['creator_author'],['name'=>$nome,'id'=>$lk2]);

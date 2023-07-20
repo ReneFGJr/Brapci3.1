@@ -1,22 +1,59 @@
 @use '../../../../assets/base/variables' as s;
-.banner
+
+.banner {
+  background-image: linear-gradient(s.$background, s.$backgroundGrad);
+}
+
+.banner_min {
+  min-height: 200px;
+}
+
+.banner_min_article {
+  height: 100px;
+}
+
+@media screen and (max-width: 600px)
   {
-    background-image: linear-gradient(s.$background, s.$backgroundGrad);
+    .cover_div
+      {
+        display:none;
+      }
   }
-.banner_min
-  {
-    min-height: 200px;
-  }
-.cover_div
-  {
-    position: absolute;
-    height: 150px;
-    margin-right: 0px;
-    right: 20px;
-    top: 40px;
-    border: 2px solid #000000;
-  }
-.cover
-  {
-    height: 100%;
-  }
+.cover_div {
+  position: absolute;
+  height: 150px;
+  margin-right: 0px;
+  right: 10%;
+  top: 40px;
+  border: 2px solid #000000;
+  z-index: 8;
+}
+
+.cover {
+  height: 100%;
+  z-index: 10;
+}
+
+.section_div {
+  position: absolute;
+  margin-right: 0px;
+  left: 10%;
+  top: 140px;
+  padding: 2px 20px;
+  border: 2px solid #000000;
+  border-radius: 15px;
+}
+
+.journal {
+   font-size: 1.6em;
+ }
+
+.journal_label {
+  font-size: 0.75em;
+}
+
+.section {
+  list-style: none;
+  font-size: 1.0em;
+  font-weight: bold;
+}

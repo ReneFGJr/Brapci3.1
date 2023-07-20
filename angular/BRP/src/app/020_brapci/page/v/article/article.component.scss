@@ -18,6 +18,17 @@ a.link:hover {
     color: black;
     font-weight: bold;
   }
+.author {
+      text-decoration: none;
+      color: #555;
+      font-size: 1.0em;
+      font-weight: bold;
+      font-style: italic;
+    }
+  .author:hover
+    {
+      color: #000;
+    }
 
   .keywords
     {

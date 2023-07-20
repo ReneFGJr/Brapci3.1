@@ -1,25 +1,30 @@
-<app-banner-article></app-banner-article>
-<div class="container" *ngIf="data">
+<div *ngIf="data">
+  <app-banner-article [section]="data.section" [publisher]="data.publisher"></app-banner-article>
+</div>
+<div class="container mt-5" *ngIf="data">
   <div class="row">
     <div class="col-12">
       <h1 class="title text-center">{{ data.title }}</h1>
 
-      <div class="text-end">
+      <div class="text-end mb-5">
         <span *ngFor="let item of data.creator_author" class="text-end">
-          <a class="link" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
+          <a class="author" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
         </span>
       </div>
     </div>
-    <div class="col-10">
-
+    <div class="col-12 col-lg-10">
       <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
-
       <p><b>Palavras-chave: </b>
         <span *ngFor="let item of data.subject" class="text-end">
           <a class="keywords" [routerLink]="['/routePath']" >{{ item.name }}</a>.
         </span>
       </p>
-      {{ data | json }}
+    </div>
+
+    <div class="col-12 col-lg-2">
+      <app-component-pdf></app-component-pdf>
     </div>
   </div>
 </div>
+
+<div style="height: 100px"></div>

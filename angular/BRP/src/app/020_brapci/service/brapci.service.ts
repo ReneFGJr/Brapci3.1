@@ -38,4 +38,9 @@ export class BrapciService {
       error => error
     );
   }
+
+  public open(nd:string)
+    {
+      console.log(nd);
+    }
 }

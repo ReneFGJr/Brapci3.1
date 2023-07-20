@@ -100,9 +100,16 @@ class Index extends Model
 
         if (isset($dt['apikey'])) {
             if (strpos($url, '?')) {
-                $url .= '&key=' . $dt['apikey'];
+                if (trim($dt['apikey']) != '')
+                    {
+                        $url .= '&key=' . $dt['apikey'];
+                    }
+
             } else {
-                $url .= '?key=' . $dt['apikey'];
+                if (trim($dt['apikey']) != '')
+                {
+                    $url .= '?key=' . $dt['apikey'];
+                }
             }
         }
 

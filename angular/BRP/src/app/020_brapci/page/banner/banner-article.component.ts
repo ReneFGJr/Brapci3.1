@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-banner-article',
@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./banner.component.scss']
 })
 export class BannerArticleComponent {
-
+  @Input() public section:Array<any> | any;
+  @Input() public publisher:string = '';
+  ngOnInit()
+    {
+      console.log("==============xxxxxxxxxxxxxxx==============")
+      console.log(this.section);
+    }
 }

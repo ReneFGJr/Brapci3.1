@@ -4,7 +4,7 @@
 <ul>
 <li *ngFor="let items of results.works">
   <div *ngIf="items.type=='Article'">
-     <a href="#" [routerLink]="['/v/' + items.id]" routerLinkActive="router-link-active" >
+     <a href="#" [routerLink]="['/v/' + items.id]" routerLinkActive="router-link-active" target="_blank" >
      <span style="font-weight: bold">{{ items.data.ldl_title }}</span>
      </a>
      <br><i>{{ items.data.ldl_authors }}</i>

@@ -1,0 +1,15 @@
+.pdf_button
+    {
+        width: 100%;
+        padding: 2px 10px;
+        text-align: center;
+        border: 1px solid red;
+        color: red;
+        border-radius: 10px;
+    }
+
+.pdf_button:hover
+    {
+        background-color: red;
+        color: white;
+    }

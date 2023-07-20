@@ -93,6 +93,10 @@ class Index extends Model
                 $Migration = new \App\Models\Dataverse\Migration();
                 $sx .= $Migration->index($d2,$d3,$d3);
                 break;
+            case 'migrationFrom':
+                $Migration = new \App\Models\Dataverse\Migration();
+                $sx .= $Migration->indexFrom($d2, $d3, $d3);
+                break;
             case 'getCollection':
                 $Migration = new \App\Models\Dataverse\Migration();
                 $sx .= $Migration->getCollection($d2, $d3, $d3);
@@ -149,6 +153,7 @@ class Index extends Model
         $menu[PATH . '/dados/dataverse/homepage'] = lang('dataverse.customize_homepage');
         $menu[PATH . '/dados/dataverse/css'] = lang('dataverse.customize_style');
         $menu[PATH . '/dados/dataverse/migration'] = lang('dataverse.migration');
+        $menu[PATH . '/dados/dataverse/migrationFrom'] = lang('dataverse.migrationFrom');
         $menu[PATH . '/dados/dataverse/translate'] = lang('dataverse.translate');
         $menu[PATH . '/dados/dataverse/translateTPL'] = lang('dataverse.translate_tpl');
 

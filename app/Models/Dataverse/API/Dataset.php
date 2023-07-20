@@ -94,6 +94,58 @@ class Dataset extends Model
         return $sx;
     }
 
+    function getDataset2($DOI, $source)
+    {
+        $Dataverse = new \App\Models\Dataverse\Index();
+        $server = $Dataverse->getServer();
+        $token  = $Dataverse->getToken();
+
+        $API = new \App\Models\Dataverse\API\Index();
+        //$dt['apikey'] = $token;
+        $dt['apikey'] = '';
+        $dt['url'] = $source;
+        $dt['api'] = '/api/datasets/:persistentId/?persistentId=doi:' . $DOI;
+        //$dt['api'] = '/api/datasets/:persistentId/?persistentId=hdl:' . $DOI;
+
+        $dt = $API->curl($dt);
+        //$dt = troca($dt, '"multiple":false', '"multiple":0');
+        //$dt = troca($dt, '"multiple":true', '"multiple":1');
+        $dta = json_decode($dt, true);
+        $DV = [];
+
+        /**************************** DOI */
+        $DV['datasetVersion']['identifier'] = $dta['data']['identifier'];
+
+        /*************************** Title */
+        $dtaf = $dta['data']['latestVersion']['metadataBlocks']['citation']['fields'];
+        $DV['datasetVersion']['metadataBlocks']['citation']['fields'] = $dtaf;
+
+        $area = false;
+        for ($r = 0; $r < count($DV['datasetVersion']['metadataBlocks']['citation']['fields']); $r++) {
+            if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'subject') {
+                $area = true;
+            }
+            if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] == 'datasetContact') {
+                if ($DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] == '') {
+                    $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['multiple'] = false;
+                    $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'][0]['datasetContactEmail']['value'] = "cariniana@ibict.br";
+                }
+            }
+        }
+
+        if (!$area) {
+            $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeName'] = 'subject';
+            $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['typeClass'] = 'controlledVocabulary';
+            $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['multiple'] = true;
+            $DV['datasetVersion']['metadataBlocks']['citation']['fields'][$r]['value'] = ["Earth and Environmental Sciences"];
+        }
+
+        //typeName":"subject","multiple":true,"typeClass":"controlledVocabulary","value":["Earth and Environmental Sciences"]
+        $sx = $this->createDataset(get("dataverse_d"), $DV);
+        /***************************** */
+        return $sx;
+    }
+
     function createDataset($PARENT,$data)
     {
         $Dataverse = new \App\Models\Dataverse\Index();

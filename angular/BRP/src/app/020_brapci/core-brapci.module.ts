@@ -14,6 +14,7 @@ import { ThemeModule } from '../010_thema/theme.module';
 import { ArticleComponent } from './page/v/article/article.component';
 import { HeaderComponent } from './page/v/header/header.component';
 import { BannerArticleComponent } from './page/banner/banner-article.component';
+import { PdfComponent } from './v/component/pdf/pdf.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { BannerArticleComponent } from './page/banner/banner-article.component';
     ArticleComponent,
     HeaderComponent,
     BannerArticleComponent,
+    PdfComponent,
   ],
   imports: [
     CommonModule,
