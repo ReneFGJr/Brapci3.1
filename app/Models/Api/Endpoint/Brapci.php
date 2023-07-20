@@ -72,9 +72,8 @@ class Brapci extends Model
             exit;
         }
 
-        function get($v,$id)
+        function get($v,$id=0)
             {
-                $id = 1301;
                 $RDF = new \App\Models\Rdf\RDF();
                 $dt = $RDF->le($id);
 
@@ -82,6 +81,13 @@ class Brapci extends Model
                 $RSP['title'] = '';
                 $RSP['creator_author'] = [];
                 $RSP['description'] = '';
+                $RSP['resource_pdf'] = '';
+                $RSP['resource_url'] = '';
+                $RSP['section'] = [];
+                $RSP['subject'] = [];
+
+                $pg_ini = '';
+                $pg_end = '';
 
                 foreach($dt['data'] as $id=>$desc)
                     {
@@ -105,15 +111,53 @@ class Brapci extends Model
                                 case 'hasTitle':
                                     $RSP['title'] = $vlr;
                                     break;
+                                case 'hasUrl':
+                                    $RSP['resource_url'] = $vlr;
+                                    break;
+                                case 'hasFileStorage':
+                                    $RSP['resource_pdf'] = PATH. '/download/'.$id;
+                                    break;
+                                case 'hasPageStart':
+                                    $pg_ini = $vlr;
+                                    break;
+                                case 'hasPageEnd':
+                                    $pg_end = $vlr;
+                                    break;
+                                case 'publisher':
+                                    $RSP['publisher'] = $vlr;
+                                    break;
                                 case 'hasAuthor':
                                     $nome = nbr_author($vlr,7);
-
-                                    array_push($RSP['creator_author'],['name'=>$nome,'id'=>$lk2);
+                                    array_push($RSP['creator_author'],['name'=>$nome,'id'=>$lk2]);
+                                    break;
+                                case 'hasSectionOf':
+                                    $nome = nbr_title($vlr);
+                                    array_push($RSP['section'], ['name' => $nome, 'id' => $lk2]);
+                                    break;
+                                case 'hasSubject':
+                                    $nome = nbr_title($vlr);
+                                    array_push($RSP['subject'], ['name' => $nome, 'id' => $lk2]);
                                     break;
                                 default:
                                 //echo '===>'.$class.'=='.$vlr.'<br>';
                             }
 
+                    }
+                $RSP['id'] = $id;
+
+                if (($pg_ini.$pg_end) != '')
+                    {
+                        $pags = '';
+                        if ($pg_ini != '')
+                            {
+                                $pags .= $pg_ini;
+                            }
+                        if ($pg_end != '')
+                            {
+                                $pags .= '-'.$pg_end;
+                            }
+
+                        $RSP['pagination'] = $pags;
                     }
                 echo json_encode($RSP);
                 exit;

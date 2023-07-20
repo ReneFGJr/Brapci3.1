@@ -2,5 +2,21 @@
 .banner
   {
     background-image: linear-gradient(s.$background, s.$backgroundGrad);
+  }
+.banner_min
+  {
     min-height: 200px;
+  }
+.cover_div
+  {
+    position: absolute;
+    height: 150px;
+    margin-right: 0px;
+    right: 20px;
+    top: 40px;
+    border: 2px solid #000000;
+  }
+.cover
+  {
+    height: 100%;
   }

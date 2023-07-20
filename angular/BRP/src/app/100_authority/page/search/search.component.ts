@@ -40,8 +40,6 @@ export class SearchAuthorityComponent {
   }
 
   onSearch() {
-    console.log("=====")
-    console.log(this.angForm.valid)
     if (this.angForm.valid) {
       let term = this.angForm.value.term
       let type = '1'

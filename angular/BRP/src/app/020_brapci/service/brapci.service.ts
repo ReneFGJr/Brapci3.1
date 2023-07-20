@@ -15,7 +15,7 @@ export class BrapciService {
   //private url: string = 'https://cip.brapci.inf.br/api/';
   private url: string = 'http://brp/api/';
 
-  public getId(id: string): Observable<Array<any>> {
+  public getId(id: number): Observable<Array<any>> {
     let url = `${this.url}brapci/get/v1/`+id;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();

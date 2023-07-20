@@ -1,9 +1,25 @@
-<div class="container">
-<div class="row">
-<div class="col-12">
+<app-banner-article></app-banner-article>
+<div class="container" *ngIf="data">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="title text-center">{{ data.title }}</h1>
 
-<h1 class="text-center">XXX</h1>
+      <div class="text-end">
+        <span *ngFor="let item of data.creator_author" class="text-end">
+          <a class="link" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
+        </span>
+      </div>
+    </div>
+    <div class="col-10">
 
-</div>
-</div>
+      <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
+
+      <p><b>Palavras-chave: </b>
+        <span *ngFor="let item of data.subject" class="text-end">
+          <a class="keywords" [routerLink]="['/routePath']" >{{ item.name }}</a>.
+        </span>
+      </p>
+      {{ data | json }}
+    </div>
+  </div>
 </div>

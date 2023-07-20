@@ -13,6 +13,7 @@ import { VComponent } from './page/v/v.component';
 import { ThemeModule } from '../010_thema/theme.module';
 import { ArticleComponent } from './page/v/article/article.component';
 import { HeaderComponent } from './page/v/header/header.component';
+import { BannerArticleComponent } from './page/banner/banner-article.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { HeaderComponent } from './page/v/header/header.component';
     VComponent,
     ArticleComponent,
     HeaderComponent,
+    BannerArticleComponent,
   ],
   imports: [
     CommonModule,

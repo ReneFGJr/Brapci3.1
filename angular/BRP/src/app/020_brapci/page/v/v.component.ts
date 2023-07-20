@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BrapciService } from '../../service/brapci.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-v',
@@ -7,24 +8,26 @@ import { BrapciService } from '../../service/brapci.service';
   styleUrls: ['./v.component.scss']
 })
 export class VComponent {
-  public type:string = 'Article';
-  public data:Array<any> | any
-  public id:string = '1433';
+  public type: string = 'Article';
+  public data: Array<any> | any
+  public sub: Array<any> | any
+  public id: number = 0;
 
   constructor(
-    private brapciService: BrapciService
-  ) {}
+    private brapciService: BrapciService,
+    private route: ActivatedRoute,
+  ) { }
 
-  ngOnInit()
-    {
-      console.log("GET DATA "+this.id)
+  ngOnInit() {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = + params['id']; // (+) converts string 'id' to a number
+
       this.brapciService.getId(this.id).subscribe(
-        res=>
-          {
-            this.data = res;
-          },
-        error=>error
+        res => {
+          this.data = res;
+        },
+        error => error
       )
-    }
-
+    });
+  }
 }
