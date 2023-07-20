@@ -86,11 +86,12 @@ class Brapci extends Model
                 $RSP['resource_url'] = '';
                 $RSP['section'] = [];
                 $RSP['subject'] = [];
+                $RSP['cover'] = '';
 
                 $pg_ini = '';
                 $pg_end = '';
 
-                foreach($dt['data'] as $id=>$desc)
+                foreach($dt['data'] as $idx=>$desc)
                     {
                         $class = $desc['c_class'];
                         $vlr1 = $desc['n_name'];
@@ -128,7 +129,10 @@ class Brapci extends Model
                                     $RSP['publisher'] = $vlr;
                                     break;
                                 case 'isPubishIn':
+                                    $journal = new \App\Models\Base\Sources();
+                                    $dtj = $journal->where('jnl_frbr', $lk2)->first();
                                     $RSP['publisher'] = $vlr;
+                                    $RSP['cover'] = URL . '/_repository/cover/cover_issue_'.strzero($dtj['id_jnl'],4).'.jpg';
                                     break;
                                 case 'hasAuthor':
                                     $nome = nbr_author($vlr,7);
