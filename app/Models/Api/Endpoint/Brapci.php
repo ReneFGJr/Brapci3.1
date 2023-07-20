@@ -78,6 +78,7 @@ class Brapci extends Model
                 $dt = $RDF->le($id);
 
                 $RSP = [];
+                $RSP['id'] = $id;
                 $RSP['title'] = '';
                 $RSP['creator_author'] = [];
                 $RSP['description'] = '';
@@ -146,7 +147,6 @@ class Brapci extends Model
                             }
 
                     }
-                $RSP['id'] = $id;
 
                 if (($pg_ini.$pg_end) != '')
                     {

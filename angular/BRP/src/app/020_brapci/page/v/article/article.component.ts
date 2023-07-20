@@ -7,8 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class ArticleComponent {
   @Input() public data:Array<any> | any
+  public url:string = '';
 
   ngOnInit(): void {
+    //this.url = this.data.id;
+    //console.log(this.data);
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
 

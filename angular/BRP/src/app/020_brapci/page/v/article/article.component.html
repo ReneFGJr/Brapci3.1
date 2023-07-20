@@ -1,6 +1,7 @@
 <div *ngIf="data">
   <app-banner-article [section]="data.section" [publisher]="data.publisher"></app-banner-article>
 </div>
+{{ data | json }}
 <div class="container mt-5" *ngIf="data">
   <div class="row">
     <div class="col-12">
@@ -22,9 +23,8 @@
     </div>
 
     <div class="col-12 col-lg-2">
-      <app-component-pdf></app-component-pdf>
+      <app-component-pdf [url]="data.resource_pdf" [id]="data.id"></app-component-pdf>
     </div>
   </div>
 </div>
-
 <div style="height: 100px"></div>
