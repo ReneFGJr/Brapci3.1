@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 export class BannerArticleComponent {
   @Input() public section:Array<any> | any;
   @Input() public publisher:string = '';
+  @Input() public cover: string = '';
   ngOnInit()
     {
       console.log("==============xxxxxxxxxxxxxxx==============")
