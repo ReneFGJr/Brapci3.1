@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,8 +23,10 @@ import { CoreBrapciModule } from './020_brapci/core-brapci.module';
     NgbModule,
     ThemeModule,
     CoreBrapciModule,
-  ],
-  providers: [],
+],
+  providers: [
+    HashLocationStrategy
+    ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
