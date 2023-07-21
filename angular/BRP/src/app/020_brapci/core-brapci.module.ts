@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BannerComponent } from './page/banner/banner.component';
 import { PainelComponent } from './page/painel/painel.component';
 import { PublicationsComponent } from './page/painel/publications/publications.component';
@@ -43,6 +43,7 @@ import { PaginationComponent } from './page/v/pagination/pagination.component';
     BannerComponent,
     PainelComponent,
     VComponent
-  ]
+  ],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
 export class CoreBrapciModule { }
