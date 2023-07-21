@@ -1,0 +1,19 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item" *ngIf="prev == 1">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li *ngFor="let pg of pages" class="page-item">
+      <a *ngIf="pg === actual" class="page-link active" href="#" (click)="goPage(pg)">{{pg}}</a>
+      <a *ngIf="pg !== actual"  class="page-link" href="#" (click)="goPage(pg)">{{pg}}</a>
+    </li>
+    <li class="page-item" *ngIf="next > 0">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        {{ next }}
+      </a>
+    </li>
+  </ul>
+</nav>

@@ -1,25 +1,34 @@
 <div *ngIf="results" class="col-12 col-sm-12">
+  {{ results.total }} resultados
+  <app-brapci-result-pagination [result]="results"></app-brapci-result-pagination>
+  <div class="container">
+    <div *ngFor="let items of results.works" class="mb-3 result row">
+      <div *ngIf="items.type == 'Article'" class="col-1">
+        <img
+          src="https://brapci.inf.br/img/cover/cover_issue_83.jpg"
+          class="img-fluid"
+        />
+      </div>
 
-{{ results.total }} resultados
-<ul>
-<li *ngFor="let items of results.works">
-  <div *ngIf="items.type=='Article'">
-     <a href="#" [routerLink]="['/v/' + items.id]" routerLinkActive="router-link-active" target="_blank" >
-     <span style="font-weight: bold">{{ items.data.ldl_title }}</span>
-     </a>
-     <br><i>{{ items.data.ldl_authors }}</i>
-     <br>{{ items.data.ldl_legend }}
+      <div class="col-11">
+        <input type="checkbox">
+        <a
+          class="work"
+          href="#"
+          [routerLink]="['/v/' + items.id]"
+          routerLinkActive="router-link-active"
+          target="_blank"
+        >
+          {{ items.data.ldl_title }}
+        </a>
+        <br /><i>{{ items.data.ldl_authors }}</i> <br />{{
+          items.data.ldl_legend
+        }}
+      </div>
+
+      <div *ngIf="items.type == 'Person'"></div>
+
+      <div *ngIf="!(items.type == 'Article' || items.type == 'Person')"></div>
+    </div>
   </div>
-
-  <div *ngIf="items.type=='Person'">
-
-  </div>
-
-  <div *ngIf="!(items.type=='Article' || items.type=='Person')">
-
-  </div>
-
-</li>
-</ul>
-
 </div>
