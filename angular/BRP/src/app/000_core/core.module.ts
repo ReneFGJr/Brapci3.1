@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { CoreRoutingModule } from './core-routing.module';
 import { MainComponent } from './000_main/main/main.component';
 import { ThemeModule } from '../010_thema/theme.module';
 import { CoreBrapciModule } from '../020_brapci/core-brapci.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { CoreBrapciModule } from '../020_brapci/core-brapci.module';
     CommonModule,
     CoreRoutingModule,
     ThemeModule,
-    CoreBrapciModule
-  ]
+    CoreBrapciModule,
+  ],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
 export class CoreModule { }
