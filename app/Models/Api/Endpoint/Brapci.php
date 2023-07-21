@@ -56,6 +56,9 @@ class Brapci extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'source':
+                        $RSP['source'] = $this->source($d2,$d2);
+                        break;
                     case 'get':
                         $RSP['result'] = $this->get($d2,$d3);
                         break;
@@ -71,6 +74,39 @@ class Brapci extends Model
             echo json_encode($RSP);
             exit;
         }
+
+        function source($d1,$d2)
+            {
+                $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
+                $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
+                $Source = new \App\Models\Base\Sources();
+                switch($d1)
+                    {
+                        case 'proceddings':
+                            $dt = $Source->select($cp)
+                                ->where('jnl_collection', 'EV')
+                                ->orderBy('jnl_name')
+                                ->findAll();
+                            break;
+                        case 'journal':
+                            $dt = $Source->select($cp)
+                                ->where('jnl_collection','JA')
+                                ->OrWhere('jnl_collection', 'JE')
+                                ->orderBy('jnl_name')
+                                ->findAll();
+                            break;
+                        default:
+                            $dt = $Source->select($cp)->findAll();
+                            break;
+                    }
+                $Cover = new \App\Models\Base\Cover();
+                foreach($dt as $id=>$data)
+                    {
+                        $dt[$id]['cover'] = $Cover->cover($data['id_jnl']);
+                    }
+                echo json_encode($dt);
+                exit;
+            }
 
         function get($v,$id=0)
             {

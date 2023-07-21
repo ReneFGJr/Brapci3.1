@@ -16,6 +16,7 @@ import { HeaderComponent } from './page/v/header/header.component';
 import { BannerArticleComponent } from './page/banner/banner-article.component';
 import { PdfComponent } from './v/component/pdf/pdf.component';
 import { PaginationComponent } from './page/v/pagination/pagination.component';
+import { JounalsComponent } from './page/jounals/jounals.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { PaginationComponent } from './page/v/pagination/pagination.component';
     BannerArticleComponent,
     PdfComponent,
     PaginationComponent,
+    JounalsComponent,
   ],
   imports: [
     CommonModule,

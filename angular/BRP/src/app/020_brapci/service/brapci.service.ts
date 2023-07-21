@@ -27,6 +27,17 @@ export class BrapciService {
     );
   }
 
+  public sources(type: string): Observable<Array<any>> {
+    let url = `${this.url}brapci/source//` + type;
+    console.log(`Fontes: ${url}`);
+    var formData: any = new FormData();
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      res => res,
+      error => error
+    );
+  }
+
   public search(term: string): Observable<Array<any>> {
     let url = `${this.url}brapci/search/v1`;
     console.log(`Buscador: ${url}`);
