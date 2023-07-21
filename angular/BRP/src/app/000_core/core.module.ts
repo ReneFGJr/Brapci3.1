@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
     CoreRoutingModule,
     ThemeModule,
     CoreBrapciModule,
+    RouterModule,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })

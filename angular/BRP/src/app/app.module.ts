@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ThemeModule } from './010_thema/theme.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreBrapciModule } from './020_brapci/core-brapci.module';
+import { RouterModule } from '@angular/router';
 //import { CoreBrapciComponent } from './200_brapci/core-brapci/core-brapci.component';
 
 @NgModule({

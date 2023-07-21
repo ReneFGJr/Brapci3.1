@@ -1,1 +1,1 @@
-ng build --output-path ../../public/app
+ng build --output-path ../../public/app --prod
