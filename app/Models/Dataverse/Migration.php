@@ -182,6 +182,9 @@ class Migration extends Model
 
     function getCollection()
         {
+            $server = '';
+            $token = '';
+            $root = '';
             $Tree = new \App\Models\Dataverse\Tree();
             $sx = $Tree->getCollections($server, $token, $root);
             return $sx;
