@@ -77,12 +77,14 @@ class Authority extends Model
                             }                        
                         $cpf = sonumero($cpf);
                         $RSP['valid'] = false;
+                        $RSP['exist'] = false;
                         if (validaCPF($cpf))
                             {
                                 $auth = new \App\Models\Authority\API\Index();
                                 $dt = $auth->getCPF($cpf);
                                 $RSP['valid'] = true;
                                 $RSP['data'] = $dt;
+                                $RSP['exist'] = ($dt != '');
                             }
                         $RSP['cpf'] = $cpf;
                         break;
