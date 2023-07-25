@@ -70,12 +70,19 @@ class Authority extends Model
                         $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
                         break;
                     case 'cpf':
-                        $cpf = get("cpf");
+                        $cpf == $d2;
+                        if ($cpf == '')
+                            {
+                                $cpf = get("cpf");
+                            }                        
                         $cpf = sonumero($cpf);
                         $RSP['valid'] = false;
                         if (validaCPF($cpf))
                             {
+                                $auth = new \App\Models\Authority\API\Index();
+                                $dt = $auth->getCPF($cpf);
                                 $RSP['valid'] = true;
+                                $RSP['data'] = $dt;
                             }
                         $RSP['cpf'] = $cpf;
                         break;
@@ -90,7 +97,7 @@ class Authority extends Model
         function services($RSP)
             {
                 $srv = [];
-                $srv = ['search','put'];
+                $srv = ['search','put','cpf'];
                 $RSP['services'] = $srv;
                 return $RSP;
             }

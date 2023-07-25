@@ -15,7 +15,8 @@ class AuthConcept extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_c', 'c_class', 'c_prefName'
+        'id_c', 'c_class', 'c_prefName',
+        'c_cpf','c_lattes'
     ];
 
     // Dates
@@ -42,7 +43,7 @@ class AuthConcept extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($class,$prefLabel)
+    function register($class,$prefLabel,$cpf='',$lattes='')
         {
             $dt = $this
                 ->where('c_class',$class)
@@ -52,6 +53,8 @@ class AuthConcept extends Model
                 {
                     $dt['c_class'] = $class;
                     $dt['c_prefName'] = $prefLabel;
+                    $dt['c_cpf'] = $cpf;
+                    $dt['c_lattes'] = $lattes;
                     $idc = $this->set($dt)->insert();
                 } else {
                     $idc = $dt['id_c'];
