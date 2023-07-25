@@ -1,0 +1,9 @@
+<form (onsubmit)="onSubmit()">
+<span>Infome seu CPF:</span>
+<input name="cpf" id="cpf" [formControl]="name">
+<button>Inscrever-se</button>
+<br>
+<span class="error">{{message}}</span>
+</form>
+
+<p>Value: {{ name.value }}</p>

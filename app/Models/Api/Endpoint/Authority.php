@@ -57,7 +57,6 @@ class Authority extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
-
                     case 'getid':
                         $RSP['data'] = $Auth->getid($d2);
                         break;
@@ -66,10 +65,19 @@ class Authority extends Model
                         break;
                     case 'put':
                         $name = nbr_author($d2,7);
-
                         $RSP['id'] = $Auth->register($name);
                         $RSP['person'] = $name;
                         $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
+                        break;
+                    case 'cpf':
+                        $cpf = get("cpf");
+                        $cpf = sonumero($cpf);
+                        $RSP['valid'] = false;
+                        if (validaCPF($cpf))
+                            {
+                                $RSP['valid'] = true;
+                            }
+                        $RSP['cpf'] = $cpf;
                         break;
                     default:
                         $RSP = $this->services($RSP);
