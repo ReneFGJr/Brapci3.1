@@ -70,7 +70,7 @@ class Authority extends Model
                         $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
                         break;
                     case 'cpf':
-                        $cpf == $d2;
+                        $cpf = $d2;
                         if ($cpf == '')
                             {
                                 $cpf = get("cpf");
