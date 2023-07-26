@@ -82,9 +82,11 @@ class Authority extends Model
                             {
                                 $auth = new \App\Models\Authority\API\Index();
                                 $dt = $auth->getCPF($cpf);
+                                $dt['cpf'] = substr($cpf,0,3).'.'.substr($cpf,3,3).'.'.substr($cpf,6,3).'-'.substr($cpf,8,2);
                                 $RSP['valid'] = true;
                                 $RSP['data'] = $dt;
                                 $RSP['exist'] = ($dt != '');
+                                
                             }
                         $RSP['cpf'] = $cpf;
                         break;

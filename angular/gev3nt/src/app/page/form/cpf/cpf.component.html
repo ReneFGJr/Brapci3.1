@@ -1,9 +1,28 @@
-<form (onsubmit)="onSubmit()">
-<span>Infome seu CPF:</span>
-<input name="cpf" id="cpf" [formControl]="name">
-<button>Inscrever-se</button>
-<br>
-<span class="error">{{message}}</span>
+<form [formGroup]="meuCPF">
+    <span>Infome seu CPF:</span>
+    <input type="text" placeholder="cpf" formControlName="cpf" />
+    <button (click)="onSubmit()">Inscrever-se</button>
+    <br>
+    <span class="error">{{message}}</span>
 </form>
 
-<p>Value: {{ name.value }}</p>
+<div *ngIf="assignup">
+    <form [formGroup]="meuCadastro">
+
+        <label>Nome completo:</label>
+        <input type="text" placeholder="cpf" formControlName="name" />
+
+        <label>Infome seu e-mail</label>
+        <input type="text" placeholder="cpf" formControlName="email" />
+
+        <button (click)="onSubmit2()">Registrar-se</button>
+        <br>
+        <span class="error">{{message2}}</span>
+    </form>    
+</div>
+
+<div *ngIf="assignIn">
+    {{ assignIn.an_name }} <br/>
+    {{ assignIn.cpf }} <br/>
+    {{ assignIn.an_cpf }} <br/>
+</div>
