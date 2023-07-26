@@ -22,7 +22,8 @@
 </div>
 
 <div *ngIf="assignIn">
-    {{ assignIn.an_name }} <br/>
-    {{ assignIn.cpf }} <br/>
-    {{ assignIn.an_cpf }} <br/>
+    <b>Nome</b>: {{ assignIn.an_name }} <br/>
+    <b>CPF</b>: {{ assignIn.cpf }} <br/>
+    <span *ngIf="assignIn.c_email "><b>e-mail</b>: {{ assignIn.c_email }} </span>
+    <span *ngIf="assignIn.c_email_alt "> | {{ assignIn.c_email_alt }} </span><br/>
 </div>
