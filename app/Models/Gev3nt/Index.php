@@ -53,6 +53,11 @@ class Index extends Model
                     ->where('es_active',$type)
                     ->orderBy('es_data, es_hora_ini')
                     ->findAll();
+                for($r=0;$r < count($dt);$r++)
+                    {
+                        $dt[$r]['es_hora_ini'] = substr($dt[$r]['es_hora_ini'],0,5);
+                        $dt[$r]['es_hora_fim'] = substr($dt[$r]['es_hora_fim'],0,5);
+                    }
                 return $dt;
         }
 }

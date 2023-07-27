@@ -19,7 +19,7 @@ export class BrapciService {
   public register(cpf: string, name: string, email:string, email_alt:string): Observable<Array<any>> {  
       let url = `${this.url}authority/put/${name}`;
       var formData: any = new FormData();
-      alert("Register");
+      
       formData.append('cpf', cpf);
       formData.append('name', name);
       formData.append('email', email);
@@ -34,7 +34,6 @@ export class BrapciService {
   public events(): Observable<Array<any>> {  
     let url = `${this.url}gev3nt/events`;
     var formData: any = new FormData();
-    alert("Register");
     //formData.append('cpf', cpf);
     
     return this.HttpClient.post<Array<any>>(url, formData).pipe(

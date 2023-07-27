@@ -40,6 +40,11 @@ export class CpfComponent {
   cpf = new FormControl([]);
   data:Array<any> | any
 
+  change(id:string)
+    {
+      alert(id)
+    }
+
   onSubmit2()
     {
       if (this.meuCadastro.valid)
