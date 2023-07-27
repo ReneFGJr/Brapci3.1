@@ -34,6 +34,8 @@ export class CpfComponent {
   public assignIn: Array<any> | any;
   public ncpf: string = '';
 
+  public events: Array<any> | any;
+
 
   cpf = new FormControl([]);
   data:Array<any> | any
@@ -46,7 +48,6 @@ export class CpfComponent {
           this.brapciService.register(this.meuCPF.value.cpf,this.meuCadastro.value.name, this.meuCadastro.value.email, this.meuCadastro.value.email_alt).subscribe(
             res=>{
               this.data = res;
-              console.log(res);
               this.meuCadastro.value.name = '';
               this.meuCadastro.value.email = '';
               this.meuCadastro.value.email_alt = '';
@@ -57,8 +58,6 @@ export class CpfComponent {
         } else {
           this.message = 'CPF Inválido'
         }
-
-
     }
 
   onSubmit()
@@ -69,24 +68,33 @@ export class CpfComponent {
           this.brapciService.getCPF(this.meuCPF.value.cpf).subscribe(
             res=>{
               this.data = res;
+              /***************** Verifica CPF */
               if (!this.data.valid)
                 {
+                    /***************** CPF Inválido */
                     this.message = 'CPF Inválido ' + this.data.cpf;
                 } else {
-                  console.log(this.data.exist)
+                  /***************** CPF Válido */
                   if (!this.data.exist)
                     {
+                        /***************** CPF Novo */
                         this.message = 'Novo Usuário';
                         this.assignup = 'ASSIGN'
                         this.ncpf = this.data.cpf
                     } else {
+                      /***************** CPF Já cadastrado */
                       this.ncpf = this.data.cpf
                       this.assignIn = this.data.data
+                      this.brapciService.events().subscribe(
+                        res=>{
+                            console.log(res)
+                            this.events = res
+                        }
+                      )
+                      
                       console.log(this.assignIn.data)
                     }
                 }
-              
-              console.log(res);
             }
           )
         } else {
