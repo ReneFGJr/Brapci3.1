@@ -60,7 +60,9 @@ class Gev3nt extends Model
                 default:
                 $RSP = $this->services($RSP);
                 break;
-            }        
+            }  
+        echo json_encode($RSP);
+        exit;      
     }
     function services($RSP)
     {
