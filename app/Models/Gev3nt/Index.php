@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $DBGroup          = 'Gev3nt';
+    protected $DBGroup          = 'gev3nt';
     protected $table            = 'events';
     protected $primaryKey       = 'id_ev';
     protected $useAutoIncrement = true;

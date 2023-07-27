@@ -588,7 +588,6 @@ class Database extends Config
         $this->gev3nt['username'] = getenv('database.default.username');
         $this->gev3nt['password'] = getenv('database.default.password');
         
-
         $this->patent['username'] = getenv('database.default.username');
         $this->patent['password'] = getenv('database.default.password');
 
