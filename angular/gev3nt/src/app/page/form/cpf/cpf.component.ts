@@ -24,6 +24,7 @@ export class CpfComponent {
     this.meuCadastro = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      email_alt: [''],
     });       
   }
   public message: string = '';
@@ -38,15 +39,28 @@ export class CpfComponent {
   data:Array<any> | any
 
   onSubmit2()
-    {}
+    {
+      if (this.meuCadastro.valid)
+        {
+          this.message = ''
+          this.brapciService.register(this.meuCPF.value.cpf,this.meuCadastro.value.name, this.meuCadastro.value.email, this.meuCadastro.value.email_alt).subscribe(
+            res=>{
+              this.data = res;
+              console.log(res);
+            }
+          )
+        } else {
+          this.message = 'CPF Inválido'
+        }
+
+
+    }
 
   onSubmit()
     {
       if (this.meuCPF.valid)
         {
           this.message = ''
-          console.log(this.meuCPF)
-          console.log(this.meuCPF.value.cpf)
           this.brapciService.getCPF(this.meuCPF.value.cpf).subscribe(
             res=>{
               this.data = res;

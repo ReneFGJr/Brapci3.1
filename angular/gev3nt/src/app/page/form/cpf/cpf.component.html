@@ -11,18 +11,21 @@
 <div *ngIf="assignup">
     <form [formGroup]="meuCadastro">
 
-        <label>Nome completo:</label>
-        <br/>
-        <b>{{ncpf}}</b>
+        <b>Número do CPF: {{ncpf}}</b>
         <br/>
         
 
         <label>Nome completo:</label>
-        <input type="text" placeholder="Nome completo" formControlName="name" />
-
+        <input class="form-control" type="text" placeholder="Nome completo" formControlName="name" />
+        <br/>
         <label>Infome seu e-mail</label>
-        <input type="text" placeholder="e-mail" formControlName="email" />
+        <input class="form-control"  type="text" placeholder="e-mail" formControlName="email" />
 
+        <br/>
+        <label>Infome seu e-mail (alternativo)</label>
+        <input class="form-control"  type="text" placeholder="e-mail" formControlName="email_alt" />
+
+        <br/>
         <button (click)="onSubmit2()">Registrar-se</button>
         <br>
         <span class="error">{{message2}}</span>

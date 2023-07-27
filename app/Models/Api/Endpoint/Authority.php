@@ -68,7 +68,7 @@ class Authority extends Model
                         $RSP['id'] = $Auth->register($name);
                         $RSP['person'] = $name;
                         $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
-                        break;
+                        break;                        
                     case 'cpf':
                         $cpf = $d2;
                         if ($cpf == '')

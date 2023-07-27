@@ -16,6 +16,21 @@ export class BrapciService {
   private url: string = 'https://cip.brapci.inf.br/api/';
   //private url: string = 'http://brp/api/';  
 
+  public register(cpf: string, name: string, email:string, email_alt:string): Observable<Array<any>> {  
+      let url = `${this.url}authority/put/${name}`;
+      var formData: any = new FormData();
+      alert("Register");
+      formData.append('cpf', cpf);
+      formData.append('name', name);
+      formData.append('email', email);
+      formData.append('email_alt', email_alt);
+      return this.HttpClient.post<Array<any>>(url, formData).pipe(
+        res => res,
+        error => error
+      );
+        
+  };
+
 
   public getCPF(cpf: string): Observable<Array<any>> {
     let url = `${this.url}authority/cpf/${cpf}`;
