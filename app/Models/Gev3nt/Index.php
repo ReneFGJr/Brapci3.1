@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Guide;
+namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class Gev3nt extends Model
+class Index extends Model
 {
     protected $DBGroup          = 'Gev3nt';
     protected $table            = 'events';
@@ -44,5 +44,15 @@ class Gev3nt extends Model
         {
             $sx = '';
             return $sx;
+        }
+
+    function events($type=0)
+        {
+                $dt = $this
+                    ->join('event_sections','es_event = id_e')
+                    ->where('es_active',$type)
+                    ->orderBy('es_data, es_hora_ini')
+                    ->findAll();
+                return $dt;
         }
 }

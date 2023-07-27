@@ -57,6 +57,11 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'events':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $type = 1; //Eventos ativos
+                    $RSP['events'] = $Gev3nt->events($type);
+                break;
                 default:
                 $RSP = $this->services($RSP);
                 break;
