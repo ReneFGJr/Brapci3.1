@@ -85,7 +85,11 @@ class Authority extends Model
                                 $dt['cpf'] = substr($cpf,0,3).'.'.substr($cpf,3,3).'.'.substr($cpf,6,3).'-'.substr($cpf,8,2);
                                 $RSP['valid'] = true;
                                 $RSP['data'] = $dt;
-                                $RSP['exist'] = ($dt != '');
+                                if (isset($dt['data']['an_name']))
+                                    {
+                                        $RSP['exist'] = true;
+                                    }
+                                
                                 
                             }
                         $RSP['cpf'] = $cpf;

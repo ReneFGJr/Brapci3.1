@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BrapciService } from 'src/app/service/brapci.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class CpfComponent {
   
   constructor(
     private brapciService:BrapciService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.meuCPF = this.formBuilder.group({
       cpf: ['', Validators.required],
@@ -29,6 +31,8 @@ export class CpfComponent {
   public valid: string = '';
   public assignup: string = '';
   public assignIn: Array<any> | any;
+  public ncpf: string = '';
+
 
   cpf = new FormControl([]);
   data:Array<any> | any
@@ -50,11 +54,14 @@ export class CpfComponent {
                 {
                     this.message = 'CPF Inválido ' + this.data.cpf;
                 } else {
+                  console.log(this.data.exist)
                   if (!this.data.exist)
                     {
                         this.message = 'Novo Usuário';
                         this.assignup = 'ASSIGN'
+                        this.ncpf = this.data.cpf
                     } else {
+                      this.ncpf = this.data.cpf
                       this.assignIn = this.data.data
                       console.log(this.assignIn.data)
                     }
@@ -75,4 +82,10 @@ export class CpfComponent {
       */
 
     }
+
+    return()
+      {
+        this.ncpf = ''
+        this.assignIn = ''
+      }
 }

@@ -131,6 +131,27 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $gev3nt = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'gev3nt',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
+
     public $guide = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -563,6 +584,10 @@ class Database extends Config
 
         $this->click['username'] = getenv('database.default.username');
         $this->click['password'] = getenv('database.default.password');
+
+        $this->gev3nt['username'] = getenv('database.default.username');
+        $this->gev3nt['password'] = getenv('database.default.password');
+        
 
         $this->patent['username'] = getenv('database.default.username');
         $this->patent['password'] = getenv('database.default.password');

@@ -1,19 +1,27 @@
-<form [formGroup]="meuCPF">
-    <span>Infome seu CPF:</span>
-    <input type="text" placeholder="cpf" formControlName="cpf" />
-    <button (click)="onSubmit()">Inscrever-se</button>
-    <br>
-    <span class="error">{{message}}</span>
-</form>
+<div *ngIf="!ncpf">
+    <form [formGroup]="meuCPF">
+        <span>Infome seu CPF:</span>
+        <input type="text" placeholder="cpf" formControlName="cpf" />
+        <button (click)="onSubmit()">Inscrever-se</button>
+        <br>
+        <span class="error">{{message}}</span>
+    </form>
+</div>
 
 <div *ngIf="assignup">
     <form [formGroup]="meuCadastro">
 
         <label>Nome completo:</label>
-        <input type="text" placeholder="cpf" formControlName="name" />
+        <br/>
+        <b>{{ncpf}}</b>
+        <br/>
+        
+
+        <label>Nome completo:</label>
+        <input type="text" placeholder="Nome completo" formControlName="name" />
 
         <label>Infome seu e-mail</label>
-        <input type="text" placeholder="cpf" formControlName="email" />
+        <input type="text" placeholder="e-mail" formControlName="email" />
 
         <button (click)="onSubmit2()">Registrar-se</button>
         <br>
@@ -26,4 +34,8 @@
     <b>CPF</b>: {{ assignIn.cpf }} <br/>
     <span *ngIf="assignIn.c_email "><b>e-mail</b>: {{ assignIn.c_email }} </span>
     <span *ngIf="assignIn.c_email_alt "> | {{ assignIn.c_email_alt }} </span><br/>
+</div>
+
+<div *ngIf="ncpf">
+    <button (click)="return()">Reiniciar</button>
 </div>
