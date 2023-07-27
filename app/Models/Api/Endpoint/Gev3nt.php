@@ -6,7 +6,7 @@
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2022 CC-BY
 @access public/private/apikey
-@example $PATH/api/Eveg3nt/events
+@example $PATH/api/gev3nt/events
 @abstract API Controle de eventos e certificados
 */
 
