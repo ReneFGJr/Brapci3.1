@@ -67,9 +67,9 @@ class Index extends Model
             if (isset($_POST))
                 {
                     $dt = $AuthConcept->find($idc);
-                    if (isset($_POST['cpf'])) { $dt['c_cpf'] = get("cpf") }
-                    if (isset($_POST['email'])) { $dt['c_email'] = get("email") }
-                    if (isset($_POST['email_alt'])) { $dt['c_email_alt'] = get("email_alt") }
+                    if (isset($_POST['cpf'])) { $dt['c_cpf'] = get("cpf"); }
+                    if (isset($_POST['email'])) { $dt['c_email'] = get("email"); }
+                    if (isset($_POST['email_alt'])) { $dt['c_email_alt'] = get("email_alt"); }
                     $AuthConcept->set($dt)->where('id_c',$idc)->update();
                 }
 
