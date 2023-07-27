@@ -47,6 +47,11 @@ export class CpfComponent {
             res=>{
               this.data = res;
               console.log(res);
+              this.meuCadastro.value.name = '';
+              this.meuCadastro.value.email = '';
+              this.meuCadastro.value.email_alt = '';
+              this.assignup = '';
+              this.onSubmit();
             }
           )
         } else {
