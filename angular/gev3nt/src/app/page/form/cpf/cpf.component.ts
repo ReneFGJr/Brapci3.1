@@ -111,6 +111,8 @@ export class CpfComponent {
                       this.brapciService.getSections(this.event.id_e,this.meuCPF.value.cpf).subscribe(
                         res=>{
                           console.log(res);
+                          this.sections = res;
+                          this.sections = this.sections.sections
                         }
                       )                      
                       console.log(this.assignIn.data)

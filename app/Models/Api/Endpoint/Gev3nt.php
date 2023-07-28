@@ -70,8 +70,7 @@ class Gev3nt extends Model
                 
                 case 'sections':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
-                    $type = 1; //Eventos ativos
-                    $RSP['sections'] = $Gev3nt->subevents($type);
+                    $RSP['sections'] = $Gev3nt->subevents($d2,$d3);
                 break;
 
                 default:
