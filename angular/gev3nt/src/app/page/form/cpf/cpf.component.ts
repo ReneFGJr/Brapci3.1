@@ -38,6 +38,7 @@ export class CpfComponent {
   public event: Array<any> | any;
   public res: Array<any> | any;
   public parms: Array<any> | any;
+  public sections: Array<any> | any;
 
   ngOnInit()
     {
@@ -47,11 +48,11 @@ export class CpfComponent {
             this.parms = res;
             console.log(this.parms.id)
             this.brapciService.getEvent(this.parms.id).subscribe(
-              res=>{
-                console.log(res)
+              res=>{                
+                this.event = res
+                this.event = this.event.event               
               }
             );
-
           }
         )              
     }
@@ -106,7 +107,12 @@ export class CpfComponent {
                       this.ncpf = this.data.cpf
                       this.assignIn = this.data.data
 
-                      
+                      /*********************** Lista Eventos */
+                      this.brapciService.getSections(this.event.id_e,this.meuCPF.value.cpf).subscribe(
+                        res=>{
+                          console.log(res);
+                        }
+                      )                      
                       console.log(this.assignIn.data)
                     }
                 }

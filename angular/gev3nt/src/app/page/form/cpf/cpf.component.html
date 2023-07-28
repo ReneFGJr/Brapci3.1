@@ -1,7 +1,7 @@
 <div class="container" *ngIf="event">
     <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4">
+        <div class="col-1"></div>
+        <div class="col-10">
             <img [src]="event.e_img" style="height: 50px">
             <br />
             <span>
@@ -10,8 +10,9 @@
             </span>            
             <h2>{{ event.e_name }}</h2>            
         </div>
-        <div class="col-4"></div>
-        <div class="col-12">
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-10">
             <div *ngIf="!ncpf">
                 <form [formGroup]="meuCPF">
                     <span>Infome seu CPF:</span>
@@ -53,10 +54,17 @@
                 <span *ngIf="assignIn.c_email_alt "> | {{ assignIn.c_email_alt }} </span><br />
             </div>
 
-            <div *ngIf="ncpf">
-                <button (click)="return()">Reiniciar</button>
+
+            <div *ngIf="sections">
+
+            </div>
+
+            <div *ngIf="ncpf" class="mt-5">
+                <hr>
+                <button (click)="return()">Voltar</button>
             </div>
         </div>
-    </div>
+        <div class="col-1"></div>
+    </div>    
 </div>
 <div *ngIf="!event">Carregando...</div>

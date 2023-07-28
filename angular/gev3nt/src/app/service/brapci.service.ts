@@ -53,6 +53,17 @@ public getEvent(id:string): Observable<Array<any>> {
   );      
 };
 
+public getSections(id:string,cpf:string): Observable<Array<any>> {  
+  let url = `${this.url}gev3nt/sections/`+id;
+  var formData: any = new FormData();
+  formData.append('cpf', cpf);
+  
+  return this.HttpClient.post<Array<any>>(url, formData).pipe(
+    res => res,
+    error => error
+  );      
+};
+
 
   public getCPF(cpf: string): Observable<Array<any>> {
     let url = `${this.url}authority/cpf/${cpf}`;
