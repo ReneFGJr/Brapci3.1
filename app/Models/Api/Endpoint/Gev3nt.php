@@ -62,6 +62,18 @@ class Gev3nt extends Model
                     $type = 1; //Eventos ativos
                     $RSP['events'] = $Gev3nt->events($type);
                 break;
+
+                case 'get':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $RSP['event'] = $Gev3nt->getId($type);
+                break;
+                
+                case 'sections':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $type = 1; //Eventos ativos
+                    $RSP['sections'] = $Gev3nt->subevents($type);
+                break;
+
                 default:
                 $RSP = $this->services($RSP);
                 break;
@@ -72,7 +84,7 @@ class Gev3nt extends Model
     function services($RSP)
     {
         $srv = [];
-        $srv = ['events'];
+        $srv = ['events','get','sections'];
         $RSP['services'] = $srv;
         return $RSP;
     }    
