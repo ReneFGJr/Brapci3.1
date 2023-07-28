@@ -34,6 +34,7 @@ export class CpfComponent {
   public assignup: string = '';
   public assignIn: Array<any> | any;
   public ncpf: string = '';
+  public evento: string = '';
 
   public event: Array<any> | any;
   public res: Array<any> | any;
@@ -50,7 +51,8 @@ export class CpfComponent {
             this.brapciService.getEvent(this.parms.id).subscribe(
               res=>{                
                 this.event = res
-                this.event = this.event.event               
+                this.event = this.event.event   
+                this.evento = this.event.id_e;
               }
             );
           }
@@ -132,6 +134,18 @@ export class CpfComponent {
       */
 
     }
+
+    assign(id:string)
+      {
+        alert(id);
+        let ev:string = this.evento;
+        let cpf:string = this.meuCPF.value.cpf;
+        let sta:string = '1';
+        this.brapciService.registerEV(id,cpf,sta,ev).subscribe(
+          res=>{
+            this.onSubmit()
+          });
+      }
 
     return()
       {

@@ -58,14 +58,13 @@
             <div *ngIf="sections" class="mt-5">
                 Seleciona as seções que irá participar:
                 <div style="width: 100%;" class="border border-primary p-2 mb-2 btn-group" role="group" *ngFor="let item of sections" >
-                    <div style="width: 100%;">
+                    <div *ngIf="!item.inscrito" style="width: 100%;" class="status_{{item.ei_situacao}} ">
                     <h3>{{ item.es_name }}</h3>                    
                     {{ item.es_data | date: 'dd/MM/yyyy' }}
                     {{ item.es_hora_ini }}
                     {{ item.es_hora_fim }}
                     </div>
-                    <button *ngIf="!item.inscrito" type="button" style="width: 150px;" class="btn btn-secondary">Inscrever-se</button>
-                    <button *ngIf="item.inscrito" type="button" style="width: 150px;" class="btn btn-secondary">Cancelar</button>
+                    <button (click)="assign(item.id_es)" type="button" style="width: 150px;" class="btn btn-secondary">Inscrever-se</button>
                 </div>
 
             </div>

@@ -57,6 +57,18 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'event_register':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $Gev3ntInscritos = new \App\Models\Gev3nt\Inscritos();
+                    $sec = get("id");
+                    $cpf = get("cpf");
+                    $sta = get("sta");
+                    $ev = get("ev");
+                    $Gev3ntInscritos->register($cpf,$sec,$sta);
+                    $RSP['events'] = $Gev3nt->events($ev);
+                    $RSP['action'] = 'update';
+                break;
+
                 case 'events':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $type = 1; //Eventos ativos
