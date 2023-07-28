@@ -54,13 +54,8 @@ class Index extends Model
                     ->join('event_sections','es_event = id_e')
                     ->where('es_active',$type)
                     ->groupBy($cp)
-                    ->orderBy('es_data, es_hora_ini')
+                    ->orderBy('e_data_i')
                     ->findAll();
-                for($r=0;$r < count($dt);$r++)
-                    {
-                        $dt[$r]['es_hora_ini'] = substr($dt[$r]['es_hora_ini'],0,5);
-                        $dt[$r]['es_hora_fim'] = substr($dt[$r]['es_hora_fim'],0,5);
-                    }
                 return $dt;
         }
 }

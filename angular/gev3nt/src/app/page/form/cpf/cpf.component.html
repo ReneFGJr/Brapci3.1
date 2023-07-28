@@ -46,27 +46,6 @@
             <div *ngIf="ncpf">
                 <button (click)="return()">Reiniciar</button>
             </div>
-
-            <div *ngIf="events">
-                <table class="table">
-                    <tr *ngFor="let items of events.events">
-                        <td width="2%">
-                            <input type="checkbox" ng-checked="all" (click)="change(items.id_es)">
-                        </td>
-                        <td width="20%">
-                            <img [src]="items.e_img" style="height: 50px">
-                        </td>
-                        <td width="78%">
-                            <b>{{ items.es_name }}</b> <br />
-                            <i>{{ items.e_name }} </i><br />
-                            <span class="small">
-                                {{ items.es_data | date: 'dd/MM/yyyy' }}
-                                {{ items.es_hora_ini }} - {{ items.es_hora_fim }}
-                            </span>
-                        </td>
-                    </tr>
-                </table>
-            </div>
         </div>
     </div>
 </div>

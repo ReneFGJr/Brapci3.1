@@ -40,11 +40,6 @@ export class CpfComponent {
   cpf = new FormControl([]);
   data:Array<any> | any
 
-  change(id:string)
-    {
-      alert(id)
-    }
-
   onSubmit2()
     {
       if (this.meuCadastro.valid)
@@ -90,12 +85,7 @@ export class CpfComponent {
                       /***************** CPF Já cadastrado */
                       this.ncpf = this.data.cpf
                       this.assignIn = this.data.data
-                      this.brapciService.events().subscribe(
-                        res=>{
-                            console.log(res)
-                            this.events = res
-                        }
-                      )
+
                       
                       console.log(this.assignIn.data)
                     }
