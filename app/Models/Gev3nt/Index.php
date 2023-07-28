@@ -48,9 +48,12 @@ class Index extends Model
 
     function events($type=0)
         {
+                $cp = 'id_e,e_name,e_sigla,e_data_i,e_data_f,e_img';
                 $dt = $this
+                    ->select($cp)
                     ->join('event_sections','es_event = id_e')
                     ->where('es_active',$type)
+                    ->groupBy($cp)
                     ->orderBy('es_data, es_hora_ini')
                     ->findAll();
                 for($r=0;$r < count($dt);$r++)

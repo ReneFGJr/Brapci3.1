@@ -119,5 +119,6 @@ export class CpfComponent {
       {
         this.ncpf = ''
         this.assignIn = ''
+        this.events = []
       }
 }

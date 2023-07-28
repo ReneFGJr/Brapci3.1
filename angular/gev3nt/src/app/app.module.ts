@@ -8,11 +8,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CpfComponent } from './page/form/cpf/cpf.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { EventoComponent } from './page/evento/evento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CpfComponent
+    CpfComponent,
+    EventoComponent
   ],
   imports: [
     BrowserModule,

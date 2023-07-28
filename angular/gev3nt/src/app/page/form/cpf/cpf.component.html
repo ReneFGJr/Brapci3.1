@@ -1,54 +1,72 @@
-<div *ngIf="!ncpf">
-    <form [formGroup]="meuCPF">
-        <span>Infome seu CPF:</span>
-        <input type="text" placeholder="cpf" formControlName="cpf" />
-        <button (click)="onSubmit()">Inscrever-se</button>
-        <br>
-        <span class="error">{{message}}</span>
-    </form>
-</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
 
-<div *ngIf="assignup">
-    <form [formGroup]="meuCadastro">
+            <div *ngIf="!ncpf">
+                <form [formGroup]="meuCPF">
+                    <span>Infome seu CPF:</span>
+                    <input type="text" placeholder="cpf" formControlName="cpf" />
+                    <button (click)="onSubmit()">Inscrever-se</button>
+                    <br>
+                    <span class="error">{{message}}</span>
+                </form>
+            </div>
 
-        <b>Número do CPF: {{ncpf}}</b>
-        <br/>
-        
+            <div *ngIf="assignup">
+                <form [formGroup]="meuCadastro">
 
-        <label>Nome completo:</label>
-        <input class="form-control" type="text" placeholder="Nome completo" formControlName="name" />
-        <br/>
-        <label>Infome seu e-mail</label>
-        <input class="form-control"  type="text" placeholder="e-mail" formControlName="email" />
+                    <b>Número do CPF: {{ncpf}}</b>
+                    <br />
 
-        <br/>
-        <label>Infome seu e-mail (alternativo)</label>
-        <input class="form-control"  type="text" placeholder="e-mail" formControlName="email_alt" />
 
-        <br/>
-        <button (click)="onSubmit2()">Registrar-se</button>
-        <br>
-        <span class="error">{{message2}}</span>
-    </form>    
-</div>
+                    <label>Nome completo:</label>
+                    <input class="form-control" type="text" placeholder="Nome completo" formControlName="name" />
+                    <br />
+                    <label>Infome seu e-mail</label>
+                    <input class="form-control" type="text" placeholder="e-mail" formControlName="email" />
 
-<div *ngIf="assignIn">
-    <b>Nome</b>: {{ assignIn.an_name }} <br/>
-    <b>CPF</b>: {{ assignIn.cpf }} <br/>
-    <span *ngIf="assignIn.c_email "><b>e-mail</b>: {{ assignIn.c_email }} </span>
-    <span *ngIf="assignIn.c_email_alt "> | {{ assignIn.c_email_alt }} </span><br/>
-</div>
+                    <br />
+                    <label>Infome seu e-mail (alternativo)</label>
+                    <input class="form-control" type="text" placeholder="e-mail" formControlName="email_alt" />
 
-<div *ngIf="ncpf">
-    <button (click)="return()">Reiniciar</button>
-</div>
+                    <br />
+                    <button (click)="onSubmit2()">Registrar-se</button>
+                    <br>
+                    <span class="error">{{message2}}</span>
+                </form>
+            </div>
 
-<div *ngIf="events">
-    <div *ngFor="let items of events.events">
-        <input type="checkbox" ng-checked="all" (click)="change(items.id_es)">
-        <b>{{ items.es_name }}</b> <br/>
-        <i>{{ items.e_name }} </i><br/>
-        {{ items.es_data | date: 'dd/MM/yyyy' }} 
-        {{ items.es_hora_ini }} - {{ items.es_hora_fim }}
+            <div *ngIf="assignIn">
+                <b>Nome</b>: {{ assignIn.an_name }} <br />
+                <b>CPF</b>: {{ assignIn.cpf }} <br />
+                <span *ngIf="assignIn.c_email "><b>e-mail</b>: {{ assignIn.c_email }} </span>
+                <span *ngIf="assignIn.c_email_alt "> | {{ assignIn.c_email_alt }} </span><br />
+            </div>
+
+            <div *ngIf="ncpf">
+                <button (click)="return()">Reiniciar</button>
+            </div>
+
+            <div *ngIf="events">
+                <table class="table">
+                    <tr *ngFor="let items of events.events">
+                        <td width="2%">
+                            <input type="checkbox" ng-checked="all" (click)="change(items.id_es)">
+                        </td>
+                        <td width="20%">
+                            <img [src]="items.e_img" style="height: 50px">
+                        </td>
+                        <td width="78%">
+                            <b>{{ items.es_name }}</b> <br />
+                            <i>{{ items.e_name }} </i><br />
+                            <span class="small">
+                                {{ items.es_data | date: 'dd/MM/yyyy' }}
+                                {{ items.es_hora_ini }} - {{ items.es_hora_fim }}
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
