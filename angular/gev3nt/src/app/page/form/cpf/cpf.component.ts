@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BrapciService } from 'src/app/service/brapci.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class CpfComponent {
   constructor(
     private brapciService:BrapciService,
     private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     this.meuCPF = this.formBuilder.group({
@@ -35,10 +36,24 @@ export class CpfComponent {
   public ncpf: string = '';
 
   public event: Array<any> | any;
+  public res: Array<any> | any;
+  public parms: Array<any> | any;
 
   ngOnInit()
     {
-         console.log("Inscricao")   
+         this.activatedRoute.params.subscribe(
+          res=>
+          {
+            this.parms = res;
+            console.log(this.parms.id)
+            this.brapciService.getEvent(this.parms.id).subscribe(
+              res=>{
+                console.log(res)
+              }
+            );
+
+          }
+        )              
     }
 
 

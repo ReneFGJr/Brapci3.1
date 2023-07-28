@@ -42,6 +42,17 @@ export class BrapciService {
     );      
 };
 
+public getEvent(id:string): Observable<Array<any>> {  
+  let url = `${this.url}gev3nt/get/`+id;
+  var formData: any = new FormData();
+  //formData.append('cpf', cpf);
+  
+  return this.HttpClient.post<Array<any>>(url, formData).pipe(
+    res => res,
+    error => error
+  );      
+};
+
 
   public getCPF(cpf: string): Observable<Array<any>> {
     let url = `${this.url}authority/cpf/${cpf}`;

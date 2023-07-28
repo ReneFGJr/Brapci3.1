@@ -65,7 +65,7 @@ class Gev3nt extends Model
 
                 case 'get':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
-                    $RSP['event'] = $Gev3nt->getId($type);
+                    $RSP['event'] = $Gev3nt->getId($d2);
                 break;
                 
                 case 'sections':
