@@ -79,11 +79,14 @@ public registerEV(id:string,cpf:string,sta:string,ev:string): Observable<Array<a
 };
 
 public cancelEV(id:string, cpf: string): Observable<Array<any>> {
-  let url = `${this.url}gev3nt/cancel_register`;
+  let url = `${this.url}gev3nt/cancel_register/`+id+'/'+cpf;
+  console.log(url);
   
   var formData: any = new FormData();
+  /*
   formData.append('id', id);
   formData.append('cpf', cpf);
+  */
 
   return this.HttpClient.post<Array<any>>(url, formData).pipe(
     res => res,
