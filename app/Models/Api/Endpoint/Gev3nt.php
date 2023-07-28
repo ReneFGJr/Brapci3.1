@@ -74,6 +74,7 @@ class Gev3nt extends Model
                         }                 
                     $RSP['events'] = $Gev3nt->events($ev);
                     $RSP['action'] = 'delete '.$d2;
+                    break;
 
                 case 'event_register':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
