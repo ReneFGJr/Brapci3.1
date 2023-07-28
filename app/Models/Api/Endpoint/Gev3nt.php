@@ -57,6 +57,23 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'cancel_register':
+                    $Gev3ntInscritos = new \App\Models\Gev3nt\Inscritos();                    
+                    $de = $Gev3ntInscritos
+                        ->join('event_sections','ei_sub_event = id_es')
+                        ->find($d2);
+                    $ev = 0;
+                    if (isset($de['es_event']))
+                        {
+                            $ev = $de['es_event']
+                        }   
+                    if ($de['ei_cpf'] = $d2)
+                        {
+                            $Gev3ntInscritos->where('id_ei',$ev)->delete();
+                        }                 
+                    $RSP['events'] = $Gev3nt->events($ev);
+                    $RSP['action'] = 'update';
+
                 case 'event_register':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $Gev3ntInscritos = new \App\Models\Gev3nt\Inscritos();

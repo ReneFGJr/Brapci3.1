@@ -57,14 +57,25 @@
 
             <div *ngIf="sections" class="mt-5">
                 Seleciona as seções que irá participar:
-                <div style="width: 100%;" class="border border-primary p-2 mb-2 btn-group" role="group" *ngFor="let item of sections" >
-                    <div *ngIf="!item.inscrito" style="width: 100%;" class="status_{{item.ei_situacao}} ">
-                    <h3>{{ item.es_name }}</h3>                    
+                <div style="width: 100%;" class="p-2 mb-2 btn-group" role="group" *ngFor="let item of sections" >
+                    <!--Inscrição-->
+                    <div *ngIf="!item.id_ei" style="width: 100%;" class="status_{{item.ei_situacao}} ">
+                    <h3>{{ item.es_name }} (INSCRITO)</h3>                    
                     {{ item.es_data | date: 'dd/MM/yyyy' }}
                     {{ item.es_hora_ini }}
                     {{ item.es_hora_fim }}
                     </div>
-                    <button (click)="assign(item.id_es)" type="button" style="width: 150px;" class="btn btn-secondary">Inscrever-se</button>
+                    <button *ngIf="!item.id_ei" (click)="assign(item.id_es)" type="button" style="width: 150px;" class="btn btn-primary">Inscrever-se</button>
+
+                    <!--Cancelar-->
+                    <div *ngIf="item.id_ei" style="width: 100%;" class="status_{{item.ei_situacao}} ">
+                        <h3>{{ item.es_name }}</h3>                    
+                        {{ item.es_data | date: 'dd/MM/yyyy' }}
+                        {{ item.es_hora_ini }}
+                        {{ item.es_hora_fim }}
+                        </div>
+                        <button *ngIf="item.id_ei" (click)="cancel(item.id_ei)" type="button" style="width: 150px;" class="btn btn-secondary">INSCRITO</button>
+    
                 </div>
 
             </div>

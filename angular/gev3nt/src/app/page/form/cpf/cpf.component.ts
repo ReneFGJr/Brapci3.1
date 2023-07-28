@@ -137,7 +137,6 @@ export class CpfComponent {
 
     assign(id:string)
       {
-        alert(id);
         let ev:string = this.evento;
         let cpf:string = this.meuCPF.value.cpf;
         let sta:string = '1';
@@ -145,6 +144,18 @@ export class CpfComponent {
           res=>{
             this.onSubmit()
           });
+      }
+
+    cancel(id:string)
+      {
+        if (confirm('Cancelar?'))
+          {
+            let cpf:string = this.meuCPF.value.cpf;
+            this.brapciService.cancelEV(id,cpf).subscribe(
+              res=>{
+                this.onSubmit()
+              });
+          }
       }
 
     return()
