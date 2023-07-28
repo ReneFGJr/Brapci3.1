@@ -53,14 +53,14 @@ class Index extends Model
                     ->first();
                 return $dt;                
         }        
-        function subevents($type=0,$cpf='')
+        function subevents($ev=0,$cpf='')
         {
                 $cp = '*';
                 $dt = $this
                     ->select($cp)
                     ->join('event_sections','es_event = id_e')
                     ->join('event_inscritos','ei_cpf='.$cpf.' AND ei_sub_event=id_es','left')
-                    ->where('es_active',$type)
+                    ->where('subevents',$ev)
                     ->orderBy('es_data, es_hora_ini')
                     ->findAll();
                 return $dt;
