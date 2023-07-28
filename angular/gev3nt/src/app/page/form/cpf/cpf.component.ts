@@ -142,7 +142,7 @@ export class CpfComponent {
         let sta:string = '1';
         this.brapciService.registerEV(id,cpf,sta,ev).subscribe(
           res=>{
-            this.onSubmit()
+            this.onSubmit2()
           });
       }
 

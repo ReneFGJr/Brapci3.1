@@ -70,7 +70,7 @@ class Gev3nt extends Model
                         }   
                     if ($de['ei_cpf'] = $d2)
                         {
-                            $Gev3ntInscritos->where('id_ei',$ev)->delete();
+                            $Gev3ntInscritos->where('id_ei',$d1)->delete();
                         }                 
                     $RSP['events'] = $Gev3nt->events($ev);
                     $RSP['action'] = 'delete '.$d2;
