@@ -16,16 +16,16 @@ export class EventoComponent {
 
 public events: Array<any> | any;
 
-change(id:string)
+assign(id:string)
 {
   alert(id)
+  this.router.navigate(['inscricao/'+id]);
 }
 
 ngOnInit()
   {
     this.brapciService.events().subscribe(
-      res=>{
-          console.log(res)
+      res=>{          
           this.events = res
       }
     )

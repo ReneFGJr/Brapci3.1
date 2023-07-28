@@ -1,20 +1,19 @@
-<div *ngIf="events">
-    <table class="table">
-        <tr *ngFor="let items of events.events">
-            <td width="2%">
-                <input type="checkbox" ng-checked="all" (click)="change(items.id_es)">
-            </td>
-            <td width="20%">
-                <img [src]="items.e_img" style="height: 50px">
-            </td>
-            <td width="78%">
-                <b>{{ items.es_name }}</b> <br />
-                <i>{{ items.e_name }} </i><br />
-                <span class="small">
-                    {{ items.es_data | date: 'dd/MM/yyyy' }}
-                    {{ items.es_hora_ini }} - {{ items.es_hora_fim }}
-                </span>
-            </td>
-        </tr>
-    </table>
+<div *ngIf="events" class="container">
+    <div class="row">
+        <div class="col-12">
+            <h4>Selecione o evento</h4>
+        </div>
+        <div class="col-2 col-lg-3"></div>
+        <div *ngFor="let items of events.events" class="text-center col-8 col-lg-6">
+            <img [src]="items.e_img" style="height: 50px">
+            <br />
+            <span>
+                {{ items.e_data_i | date: 'dd/MM/yyyy' }} -
+                {{ items.e_data_f | date: 'dd/MM/yyyy' }}
+            </span>            
+            <h2>{{ items.e_name }}</h2>
+            <button class="btn btn-secondary text-lg" (click)="assign(items.id_e)">Inscrever-se</button>
+        </div>
+        <div class="col-2 col-lg-3"></div>
+    </div>
 </div>

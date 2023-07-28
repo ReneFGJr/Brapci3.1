@@ -46,6 +46,25 @@ class Index extends Model
             return $sx;
         }
 
+        function getId($id=0)
+        {
+                $dt = $this
+                    ->where('id_e',$id)
+                    ->first();
+                return $dt;                
+        }        
+        function subevents($type=0)
+        {
+                $cp = '*';
+                $dt = $this
+                    ->select($cp)
+                    ->join('event_sections','es_event = id_e')
+                    ->where('es_active',$type)
+                    ->orderBy('es_data, es_hora_ini')
+                    ->findAll();
+                return $dt;
+        }        
+
     function events($type=0)
         {
                 $cp = 'id_e,e_name,e_sigla,e_data_i,e_data_f,e_img';

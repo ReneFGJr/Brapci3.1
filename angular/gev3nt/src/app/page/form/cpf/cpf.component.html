@@ -1,7 +1,17 @@
-<div class="container">
+<div class="container" *ngIf="event">
     <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <img [src]="event.e_img" style="height: 50px">
+            <br />
+            <span>
+                {{ event.e_data_i | date: 'dd/MM/yyyy' }} -
+                {{ event.e_data_f | date: 'dd/MM/yyyy' }}
+            </span>            
+            <h2>{{ event.e_name }}</h2>            
+        </div>
+        <div class="col-4"></div>
         <div class="col-12">
-
             <div *ngIf="!ncpf">
                 <form [formGroup]="meuCPF">
                     <span>Infome seu CPF:</span>
@@ -49,3 +59,4 @@
         </div>
     </div>
 </div>
+<div *ngIf="!event">Carregando...</div>

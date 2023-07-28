@@ -8,7 +8,7 @@ const routes: Routes = [
   {path: '', component: AppComponent, children:
   [
     {path: '', component: EventoComponent},
-    {path: 'inscricao', component: CpfComponent}
+    {path: 'inscricao/:id', component: CpfComponent}
   ]}
 ];
 

@@ -34,7 +34,12 @@ export class CpfComponent {
   public assignIn: Array<any> | any;
   public ncpf: string = '';
 
-  public events: Array<any> | any;
+  public event: Array<any> | any;
+
+  ngOnInit()
+    {
+         console.log("Inscricao")   
+    }
 
 
   cpf = new FormControl([]);
@@ -109,6 +114,5 @@ export class CpfComponent {
       {
         this.ncpf = ''
         this.assignIn = ''
-        this.events = []
       }
 }
