@@ -70,7 +70,7 @@ class Gev3nt extends Model
                         }   
                     if ($de['ei_cpf'] == $d3)
                         {
-                            $Gev3ntInscritos->where('id_ei',$d1)->delete();
+                            $Gev3ntInscritos->where('id_ei',$d2)->delete();
                         } else {
                             $RSP['message'] = 'CPF não confere';
                             $RSP['d3'] = $d3;
