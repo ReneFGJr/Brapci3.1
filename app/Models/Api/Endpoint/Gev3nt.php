@@ -71,7 +71,12 @@ class Gev3nt extends Model
                     if ($de['ei_cpf'] == $d2)
                         {
                             $Gev3ntInscritos->where('id_ei',$d1)->delete();
-                        }                 
+                        } else {
+                            $RSP['message'] = 'CPF não confere';
+                            $RSP['d2'] = $d2;
+                            $RSP['d1'] = $d1;
+                        }
+
                     $RSP['events'] = $Gev3nt->events($ev);
                     $RSP['action'] = 'delete '.$d2;
                     break;
