@@ -73,7 +73,7 @@ class Gev3nt extends Model
                             $Gev3ntInscritos->where('id_ei',$ev)->delete();
                         }                 
                     $RSP['events'] = $Gev3nt->events($ev);
-                    $RSP['action'] = 'update';
+                    $RSP['action'] = 'delete';
 
                 case 'event_register':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
