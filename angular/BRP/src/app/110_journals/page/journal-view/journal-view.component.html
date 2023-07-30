@@ -2,24 +2,72 @@
 
 <div class="container" *ngIf="journal">
   <div class="row">
-    <div class="col-12 col-lg-2">
-      <a (click)="selectPG('1')" class="ms-3">Page 1</a>
-      <a (click)="selectPG('2')" class="ms-3">Page 2</a>
+    <div class="col-12 col-lg-12 mt-3">
+      <a
+        (click)="selectPG('1')"
+        class="ms-3 menu"
+        [ngClass]="page == '1' ? 'active' : ''"
+        >Sobre</a
+      >
+      <a
+        (click)="selectPG('2')"
+        class="ms-3 menu"
+        [ngClass]="page == '2' ? 'active' : ''"
+        >Fasículos</a
+      >
+      <a
+        (click)="selectPG('3')"
+        class="ms-3 menu"
+        [ngClass]="page == '3' ? 'active' : ''"
+        >Indexadores</a
+      >
+      <a
+        (click)="selectPG('4')"
+        class="ms-3 menu"
+        [ngClass]="page == '4' ? 'active' : ''"
+        >Autores</a
+      >
     </div>
   </div>
-  <div class="row">
-    <div class="col-12 col-lg-2">
-    [cover]
-    </div>
-    <div class="col-12 col-lg-10">
-      <div *ngIf="page === '1'">
-        <div id="jnl_name_abrev" class="h5 m-0 p-2 shadown shadown-1 border border-secondary">Abreviatura: {{journal.jnl_name_abrev}}</div>
-
-        <div id="jnl_issn" class="portal" *ngIf="journal.jnl_issn"><a href="https://portal.issn.org/resource/ISSN/{{journal.jnl_issn}}" target="_blank">ISSN Portal</a></div>
-        <div id="jnl_eissn" class="portal" *ngIf="journal.jnl_eissn"><a href="https://portal.issn.org/resource/ISSN/{{journal.jnl_eissn}}" target="_blank">eISSN Portal</a></div>
-        {{ journal | json }}
+  <div class="row mt-5">
+    <div class="col-12 col-lg-3">
+      <img [src]="journal.cover" class="img-fluid mb-2" />
+      <div id="jnl_issn" class="mb-3 portal" *ngIf="journal.jnl_issn">
+        <a
+          href="https://portal.issn.org/resource/ISSN/{{ journal.jnl_issn }}"
+          target="_blank"
+          >ISSN Portal</a
+        ><br />
       </div>
-      <div *ngIf="page === '2'">Pag 2</div>
+      <div id="jnl_eissn" class="mb-3 portal" *ngIf="journal.jnl_eissn">
+        <a
+          href="https://portal.issn.org/resource/ISSN/{{ journal.jnl_eissn }}"
+          target="_blank"
+          >eISSN Portal</a
+        ><br />
+      </div>
+      <div id="jnl_url" class="mb-3 portal" *ngIf="journal.jnl_eissn">
+        <a href="{{ journal.jnl_url }}" target="_blank">Site da Revista</a
+        ><br />
+      </div>
     </div>
+    <div class="col-12 col-lg-9">
+<!-- Pagin 1-->
+      <div *ngIf="page === '1'">
+        <label class="small">Abreviatura</label>
+        <br />{{ journal.jnl_name_abrev }}
+        <div id="jnl_name_abrev">
+          VIgência: {{ journal.jnl_ano_inicio }}-{{ journal.jnl_ano_final }}
+        </div>
+      </div>
+<!-- Pagin 2-->
+  <div *ngIf="page === '2'">Pag 2</div>
+<!-- Pagin 3-->
+    <div *ngIf="page === '3'">Pag 3</div>
+<!-- Pagin 4-->
+    <div *ngIf="page === '4'">Pag 4</div>
+
+    </div>
+
   </div>
 </div>
