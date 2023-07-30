@@ -114,16 +114,15 @@ class Issues extends Model
         return $sx;
     }
 
-    function check($jnl, $auto=false)
+    function check($jnl, $auto = false)
     {
         $Source = new \App\Models\Base\Sources();
-        if ($jnl == 0)
-            {
-                $dj = $Source->orderBy('jnl_frbr')->first();
-                $jnl = $dj['jnl_frbr'];
-            } else {
-                $dj = $Source->where('jnl_frbr', $jnl)->first();
-            }
+        if ($jnl == 0) {
+            $dj = $Source->orderBy('jnl_frbr')->first();
+            $jnl = $dj['jnl_frbr'];
+        } else {
+            $dj = $Source->where('jnl_frbr', $jnl)->first();
+        }
         $Source = new \App\Models\Base\Sources();
         $dj = $Source->where('jnl_frbr', $jnl)->first();
 
@@ -144,58 +143,56 @@ class Issues extends Model
                     $RDF->c($line['d_r1']);
                     $dir = $RDF->directory($line['d_r1']);
                     $file = $dir . 'issue.json';
-                    if (file_exists($file))
-                    {
-                    $json = file_get_contents($file);
-                    $json = (array)json_decode($json);
-                    /************* Year */
-                    if (isset($json['vol']))
-                        {
+                    if (file_exists($file)) {
+                        $json = file_get_contents($file);
+                        $json = (array)json_decode($json);
+                        /************* Year */
+                        if (isset($json['vol'])) {
                             $year = (array)$json['year'];
                             $year = $year['name'];
                         } else {
                             $year = 0;
                         }
 
-                    /************* VOL */
-                    if (isset($json['vol'])) {
-                        $vol = (array)$json['vol'];
-                        $vol = $vol['name'];
-                    } else {
-                        $vol = '';
-                    }
+                        /************* VOL */
+                        if (isset($json['vol'])) {
+                            $vol = (array)$json['vol'];
+                            $vol = $vol['name'];
+                        } else {
+                            $vol = '';
+                        }
 
-                    /************* NR */
-                    if (isset($json['nr'])) {
-                        $nr = (array)$json['nr'];
-                        $nr = $nr['name'];
-                    } else {
-                        $nr = '';
-                    }
+                        /************* NR */
+                        if (isset($json['nr'])) {
+                            $nr = (array)$json['nr'];
+                            $nr = $nr['name'];
+                        } else {
+                            $nr = '';
+                        }
 
-                    $da['is_source'] = $dj['id_jnl'];
-                    $da['is_source_rdf'] = $dj['jnl_frbr'];
-                    $da['is_source_issue'] = '';
-                    $da['is_year'] = $year;
-                    $da['is_issue'] = $line['d_r1'];
-                    $da['is_vol'] = trim(troca($vol, 'v.', ''));
-                    $da['is_vol_roman'] = '';
-                    $da['is_nr'] = trim(troca($nr, 'n.', ''));
-                    $da['is_place'] = '';
-                    $da['is_edition'] = '';
-                    $da['is_cover'] = 0;
-                    $da['is_card'] = 0;
-                    $da['is_url_oai'] = 0;
-                    $da['is_oai_token'] = '';
-                    $da['is_oai_update'] = $dj['jnl_oai_last_harvesting'];
+                        $da['is_source'] = $dj['id_jnl'];
+                        $da['is_source_rdf'] = $dj['jnl_frbr'];
+                        $da['is_source_issue'] = '';
+                        $da['is_year'] = $year;
+                        $da['is_issue'] = $line['d_r1'];
+                        $da['is_vol'] = trim(troca($vol, 'v.', ''));
+                        $da['is_vol_roman'] = '';
+                        $da['is_nr'] = trim(troca($nr, 'n.', ''));
+                        $da['is_place'] = '';
+                        $da['is_edition'] = '';
+                        $da['is_cover'] = 0;
+                        $da['is_card'] = 0;
+                        $da['is_url_oai'] = 0;
+                        $da['is_oai_token'] = '';
+                        $da['is_oai_update'] = $dj['jnl_oai_last_harvesting'];
 
-                    $dr = $this
-                        ->where('is_source_rdf', $dj['jnl_frbr'])
-                        ->where('is_issue', $line['d_r1'])
-                        ->findAll();
+                        $dr = $this
+                            ->where('is_source_rdf', $dj['jnl_frbr'])
+                            ->where('is_issue', $line['d_r1'])
+                            ->findAll();
 
                         $sx .= '<li>';
-                        $sx .= 'v. '.$da['is_vol'].', n. '.$da['is_nr'].', '.$da['is_year'];
+                        $sx .= 'v. ' . $da['is_vol'] . ', n. ' . $da['is_nr'] . ', ' . $da['is_year'];
                         if (count($dr) == 0) {
                             $this->set($da)->insert();
                             $sx .= ' - inserted';
@@ -204,7 +201,7 @@ class Issues extends Model
                         }
                         $sx .= '</li>';
                     } else {
-                        $sx .= bsmessage("ERRO ".$file,3);
+                        $sx .= bsmessage("ERRO " . $file, 3);
                     }
 
 
@@ -215,21 +212,18 @@ class Issues extends Model
         $sx .= "Checked";
         $sx = bs(bsc($sx));
 
-        if ($auto != '')
-            {
-                $dj = $Source
-                    ->where('jnl_frbr > '. $jnl)
-                    ->orderBy('jnl_frbr')
-                    ->first();
+        if ($auto != '') {
+            $dj = $Source
+                ->where('jnl_frbr > ' . $jnl)
+                ->orderBy('jnl_frbr')
+                ->first();
 
-                if ($dj != '')
-                    {
-                        $sx .= metarefresh(PATH . '/journals/check/' . $dj['jnl_frbr'] . '/auto', 2);
-                    } else {
-                        $sx .= 'FIM do processo';
-                    }
-
+            if ($dj != '') {
+                $sx .= metarefresh(PATH . '/journals/check/' . $dj['jnl_frbr'] . '/auto', 2);
+            } else {
+                $sx .= 'FIM do processo';
             }
+        }
 
         return $sx;
     }
@@ -244,6 +238,21 @@ class Issues extends Model
             return $dt[0];
         }
         return (array());
+    }
+
+    function issuesRow($id = 0)
+    {
+        $Sources = new \App\Models\Base\Sources();
+        $ds = $Sources->find($id);
+
+        $id = round($id);
+        $dt = $this->where("is_source", $id)
+            ->orderBy('is_year', 'DESC')
+            ->orderBy('is_vol', 'DESC')
+            ->orderBy('is_issue', 'DESC')
+            ->findAll();
+
+        return $dt;
     }
 
     function issues($id = 0)
