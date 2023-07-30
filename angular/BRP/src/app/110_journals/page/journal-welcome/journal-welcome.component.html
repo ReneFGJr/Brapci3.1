@@ -1,0 +1,11 @@
+<div class="container">
+<div class="row">
+<div class="col-12 col-sm-6 col-lg-4 mb-5" *ngFor="let item of journals">
+  <a [routerLink]="['/journals/view/' + item.id_jnl ]" routerLinkActive="router-link-active">
+  <span class="title">{{item.jnl_name}}</span>
+  </a>
+  <br/>{{item.jnl_ano_inicio}}-{{item.jnl_ano_final}}
+  <br/>ISSN: {{item.jnl_issn}}  {{item.jnl_issn_online}}
+</div>
+</div>
+</div>

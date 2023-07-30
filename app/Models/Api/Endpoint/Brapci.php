@@ -75,11 +75,25 @@ class Brapci extends Model
             exit;
         }
 
+        function getSource($d1)
+        {
+            $Source = new \App\Models\Base\Sources();
+            $dt = $Source->find($d1);
+            return $dt;
+        }
+
         function source($d1,$d2)
             {
+                if (sonumero($d1) == $d1)
+                    {
+                        return $this->getSource($d1);
+                    }
                 $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
                 $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
                 $Source = new \App\Models\Base\Sources();
+                if ($d1 == 'J') { $d1 = 'journal'; }
+                if ($d1 == 'R') { $d1 = 'journal'; }
+                if ($d1 == 'E') { $d1 = 'proceddings'; }
                 switch($d1)
                     {
                         case 'proceddings':
@@ -96,7 +110,7 @@ class Brapci extends Model
                                 ->findAll();
                             break;
                         default:
-                            $dt = $Source->select($cp)->findAll();
+                            $dt = $Source->select($cp)->orderBy('jnl_name')->findAll();
                             break;
                     }
                 $Cover = new \App\Models\Base\Cover();

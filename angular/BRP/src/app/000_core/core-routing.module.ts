@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'v/:id', component: VComponent },
   { path: 'v', component: VComponent },
   { path: 'authority', loadChildren: () => import('../100_authority/authotity-core.module').then(m => m.Core100Module) } ,
-  { path: 'social', loadChildren: () => import('../001_auth/oauth.module').then(m => m.OauthModule) }
+  { path: 'social', loadChildren: () => import('../001_auth/oauth.module').then(m => m.OauthModule) },
+  { path: 'journals', loadChildren: () => import('../110_journals/journals.module').then(m => m.JournalsModule) },
 ];
 
 @NgModule({

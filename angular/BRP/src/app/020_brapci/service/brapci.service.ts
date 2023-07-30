@@ -28,7 +28,7 @@ export class BrapciService {
   }
 
   public sources(type: string): Observable<Array<any>> {
-    let url = `${this.url}brapci/source//` + type;
+    let url = `${this.url}brapci/source/` + type;
     console.log(`Fontes: ${url}`);
     var formData: any = new FormData();
 
