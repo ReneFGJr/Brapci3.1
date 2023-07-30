@@ -89,7 +89,18 @@
 
       </div>
 <!-- Pagin 2-->
-  <div *ngIf="page === '2'">Pag 2</div>
+  <div *ngIf="(page === '2')" >Pag 2
+    ======================
+    <ul *ngIf="issue">
+      ======================
+      {{ issue | json }}
+      ======================
+      <div *ngFor="let item of issue">
+        X
+      </div>
+
+    </ul>
+  </div>
 <!-- Pagin 3-->
     <div *ngIf="page === '3'">Pag 3</div>
 <!-- Pagin 4-->

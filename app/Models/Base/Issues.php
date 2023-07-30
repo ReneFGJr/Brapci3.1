@@ -257,7 +257,11 @@ class Issues extends Model
         for($r=0;$r < count($dt);$r++)
             {
                 $year = $dt[$r]['is_year'];
-                $dtc[$year][] = $dt[$r];
+                if (!isset($dtc[$year]))
+                    {
+                        $dtc[$year] = [];
+                    }
+                array_push($dtc[$year],$dt[$r]);
             }
         return $dtc;
     }

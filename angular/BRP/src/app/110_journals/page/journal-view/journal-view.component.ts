@@ -11,6 +11,7 @@ export class JournalViewComponent {
   public params: Array<any>|any
   public journal: Array<any> | any
   public page:string = '1';
+  public issue:Array<any>|any
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,6 +33,7 @@ export class JournalViewComponent {
           res=>{
             this.journal = res;
             this.journal = this.journal.source;
+            this.issue = this.journal.issue;
           }
         )
       }
