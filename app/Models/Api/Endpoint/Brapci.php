@@ -117,11 +117,11 @@ class Brapci extends Model
                             break;
                     }
                 $Cover = new \App\Models\Base\Cover();
-                pre($dt);
                 foreach($dt as $id=>$data)
                     {
                         $dt[$id]['cover'] = $Cover->cover($data['id_jnl']);
                     }
+                print_r($dt);
                 echo json_encode($dt);
                 exit;
             }
