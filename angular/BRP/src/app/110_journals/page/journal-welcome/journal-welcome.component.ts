@@ -8,10 +8,16 @@ import { Component } from '@angular/core';
 })
 export class JournalWelcomeComponent {
 
+  public page:string = '1';
   public journals:Array<any>|any
   constructor(
     private brapciService: BrapciService,
   ) {}
+
+  selectPG(pg: string)
+    {
+    this.page = pg;
+    }
 
   ngOnInit()
     {

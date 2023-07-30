@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="row mt-5">
-    <div class="col-12 col-lg-3">
+    <div class="col-12 col-lg-2">
       <img [src]="journal.cover" class="img-fluid mb-2" />
       <div id="jnl_issn" class="mb-3 portal" *ngIf="journal.jnl_issn">
         <a
@@ -51,14 +51,42 @@
         ><br />
       </div>
     </div>
-    <div class="col-12 col-lg-9">
+    <div class="col-12 col-lg-10">
 <!-- Pagin 1-->
       <div *ngIf="page === '1'">
+        <label class="small">Nome da publicação</label>
+        <br /><b>{{ journal.jnl_name }}</b>
+        <br/>
+        <br/>
+
         <label class="small">Abreviatura</label>
-        <br />{{ journal.jnl_name_abrev }}
-        <div id="jnl_name_abrev">
-          VIgência: {{ journal.jnl_ano_inicio }}-{{ journal.jnl_ano_final }}
-        </div>
+        <br /><b>{{ journal.jnl_name_abrev }}</b>
+        <br/>
+
+
+        <label class="small">ISSN</label>
+        <br/>
+          <span *ngIf="journal.jnl_issn" class="me-4"><b>{{ journal.jnl_issn }}</b></span>
+          <span *ngIf="journal.jnl_eissn">eISSN: <b>{{ journal.jnl_eissn }}</b></span>
+        <br/>
+
+        <label class="small">Vigência</label>
+        <br/><b>{{ journal.jnl_ano_inicio }}-
+        <span *ngIf="journal.jnl_ano_final > 0">{{ journal.jnl_ano_final }}</span></b>
+        <br/>
+
+        <label *ngIf="journal.periodicidade" class="small">Periodicidade</label>
+        <br/><b>{{ journal.periodicidade }}</b>
+        <br/>
+
+        <label *ngIf="journal.responsabilidade" class="small">Responsabilidade</label>
+        <br/><b>{{ journal.responsabilidade }}</b>
+        <br/>
+
+        <label *ngIf="journal.qualis" class="small">Qualis</label>
+        <br/><b>{{ journal.qualis }}</b>
+        <br/>
+
       </div>
 <!-- Pagin 2-->
   <div *ngIf="page === '2'">Pag 2</div>
@@ -66,8 +94,9 @@
     <div *ngIf="page === '3'">Pag 3</div>
 <!-- Pagin 4-->
     <div *ngIf="page === '4'">Pag 4</div>
-
     </div>
+
+    <div style="height: 200px;"></div>
 
   </div>
 </div>

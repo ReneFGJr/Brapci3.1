@@ -1,15 +1,51 @@
 <div class="container">
   <div class="row">
+    <div class="col-12 mb-5 mt-3">
+      Revistas:
+      <a
+        (click)="selectPG('1')"
+        class="ms-3 menu"
+        [ngClass]="page == '1' ? 'active' : ''"
+        >Lista com capas</a
+      >
+      <a
+        (click)="selectPG('2')"
+        class="ms-3 menu"
+        [ngClass]="page == '2' ? 'active' : ''"
+        >Lista de revistas</a
+      >
+    </div>
+  </div>
+  <div class="row" *ngIf="page === '2'">
+    <ul>
+      <li class="col-12" *ngFor="let item of journals">
+        <a
+          [routerLink]="['/journals/view/' + item.id_jnl]"
+          class="title"
+          routerLinkActive="router-link-active"
+          >{{ item.jnl_name }}</a
+        >
+      </li>
+    </ul>
+  </div>
+
+  <div class="row" *ngIf="page === '1'">
     <div class="col-12 col-sm-6 col-lg-3 mb-5" *ngFor="let item of journals">
       <a
         [routerLink]="['/journals/view/' + item.id_jnl]"
         class="title"
         routerLinkActive="router-link-active"
-        >{{ item.jnl_name_abrev }}</a>
+        >{{ item.jnl_name }}</a
+      >
       <a
         [routerLink]="['/journals/view/' + item.id_jnl]"
-        routerLinkActive="router-link-active">
-        <img [src]="item.cover" class="img-fluid shadow-lg mb-5 rounded" style="width: 100%" />
+        routerLinkActive="router-link-active"
+      >
+        <img
+          [src]="item.cover"
+          class="img-fluid shadow-lg mb-5 rounded"
+          style="width: 100%"
+        />
       </a>
     </div>
   </div>
