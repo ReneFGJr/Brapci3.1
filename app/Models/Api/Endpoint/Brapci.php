@@ -121,7 +121,6 @@ class Brapci extends Model
                     {
                         $dt[$id]['cover'] = $Cover->cover($data['id_jnl']);
                     }
-                print_r($dt);
                 echo json_encode($dt);
                 exit;
             }
