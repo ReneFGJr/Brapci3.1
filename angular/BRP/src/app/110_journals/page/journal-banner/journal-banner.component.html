@@ -1,0 +1,12 @@
+<div class="content-fluid banner banner_min_article text-white pb-5 pt-2" *ngIf="data">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-11">
+      <span class="small">Publicação</span><br/>
+      <span class="journal">{{data.jnl_name}}</span><br/>
+      <span class="small">ISSN: {{data.jnl_issn}}
+      <span *ngIf="data.jnl_eissn" class="ms-5">eISSN: {{data.jnl_eissn}}</span>
+      </span><br/>
+    </div>
+  </div>
+</div>

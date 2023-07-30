@@ -1,0 +1,13 @@
+@use '../../../../assets/base/variables' as s;
+
+.banner {
+  background-image: linear-gradient(s.$background, s.$backgroundGrad);
+}
+
+.journal {
+  font-size: 1.6em;
+}
+
+.journal_label {
+  font-size: 0.75em;
+}

@@ -79,6 +79,9 @@ class Brapci extends Model
         {
             $Source = new \App\Models\Base\Sources();
             $dt = $Source->find($d1);
+
+            $Cover = new \App\Models\Base\Cover();
+            $dt['cover'] = $Cover->cover($dt['id_jnl']);
             return $dt;
         }
 

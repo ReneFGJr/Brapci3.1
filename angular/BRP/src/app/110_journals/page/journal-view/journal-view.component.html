@@ -1,1 +1,25 @@
-<p>journal-view works!</p>
+<app-journal-banner [data]="journal"></app-journal-banner>
+
+<div class="container" *ngIf="journal">
+  <div class="row">
+    <div class="col-12 col-lg-2">
+      <a (click)="selectPG('1')" class="ms-3">Page 1</a>
+      <a (click)="selectPG('2')" class="ms-3">Page 2</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-lg-2">
+    [cover]
+    </div>
+    <div class="col-12 col-lg-10">
+      <div *ngIf="page === '1'">
+        <div id="jnl_name_abrev" class="h5 m-0 p-2 shadown shadown-1 border border-secondary">Abreviatura: {{journal.jnl_name_abrev}}</div>
+
+        <div id="jnl_issn" class="portal" *ngIf="journal.jnl_issn"><a href="https://portal.issn.org/resource/ISSN/{{journal.jnl_issn}}" target="_blank">ISSN Portal</a></div>
+        <div id="jnl_eissn" class="portal" *ngIf="journal.jnl_eissn"><a href="https://portal.issn.org/resource/ISSN/{{journal.jnl_eissn}}" target="_blank">eISSN Portal</a></div>
+        {{ journal | json }}
+      </div>
+      <div *ngIf="page === '2'">Pag 2</div>
+    </div>
+  </div>
+</div>

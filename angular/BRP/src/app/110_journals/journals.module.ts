@@ -7,12 +7,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JournalWelcomeComponent } from './page/journal-welcome/journal-welcome.component';
 import { JournalViewComponent } from './page/journal-view/journal-view.component';
+import { JournalBannerComponent } from './page/journal-banner/journal-banner.component';
 
 @NgModule({
   declarations: [
     MainJournalComponent,
     JournalWelcomeComponent,
-    JournalViewComponent
+    JournalViewComponent,
+    JournalBannerComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
