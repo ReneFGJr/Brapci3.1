@@ -252,7 +252,14 @@ class Issues extends Model
             ->orderBy('is_issue', 'DESC')
             ->findAll();
 
-        return $dt;
+        $dtc = [];
+
+        for($r=0;$r < count($dt);$r++)
+            {
+                $year = $dt[$r]['is_year'];
+                $dtc[$year] = $dt[$r];
+            }
+        return $dtc;
     }
 
     function issues($id = 0)
