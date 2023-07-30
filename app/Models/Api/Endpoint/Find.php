@@ -108,12 +108,24 @@ class Find extends Model
         exit;
     }
 
+    function libraries()
+        {
+        $Library = new \App\Models\Find\Books\Db\Library();
+        $dt = $Library->libraries();
+        return $dt;
+        }
+
     function index($d1, $d2 = '', $d3 = '')
     {
         header('Access-Control-Allow-Origin: *');
+        header("Content-Type: application/json");
+
         $RSP = [];
 
         switch ($d1) {
+            case 'libraries':
+                $RSP['data'] = $this->libraries();
+                break;
             case 'getISBN':
                 $this->getISBN($d2);
                 break;
@@ -136,6 +148,7 @@ class Find extends Model
                 break;
         }
         echo json_encode($RSP);
+        exit;
     }
 
 
@@ -196,9 +209,12 @@ class Find extends Model
 
             case 'libraries':
                 $Library = new \App\Models\Find\Library\Index();
-                $dt = $Library->listAll();
-                echo json_encode($dt);
+                echo "OK";
                 exit;
+                $dt = $Library->listAll();
+                $RSP['data']=$dt;
+                pre($RSP);
+                return $RSP;
                 break;
         }
     }

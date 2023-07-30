@@ -45,6 +45,19 @@ class Library extends Model
     protected $afterDelete    = [];
     var $library = [];
 
+    function libraries()
+        {
+            $dt = $this->findAll();
+
+            foreach($dt as $id=>$line)
+                {
+                    $img =
+                    $dt[$id]['lb_logo'] = URL.'/'.$dt[$id]['lb_logo'];
+                    $dt[$id]['lb_logo_mini'] = URL . '/' . $dt[$id]['lb_logo_mini'];
+                }
+            return($dt);
+        }
+
     function checkLibrary($RSP)
     {
         $library = get("library");
