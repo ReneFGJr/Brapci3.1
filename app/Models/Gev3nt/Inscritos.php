@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Models\Authority\API;
+namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class AuthConcept extends Model
+class Inscritos extends Model
 {
-    protected $DBGroup          = 'authority';
-    protected $table            = 'auth_concept';
-    protected $primaryKey       = 'id_c';
+    protected $DBGroup          = 'gev3nt';
+    protected $table            = 'event_inscritos';
+    protected $primaryKey       = 'id_ei';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_c', 'c_class', 'c_prefName',
-        'c_cpf','c_lattes','c_cpf','c_email',
-        'c_email_alt'
+        'id_ei','ei_cpf','ei_sub_event',
+        'ei_situacao'
     ];
 
     // Dates
@@ -44,22 +43,24 @@ class AuthConcept extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($class,$prefLabel,$cpf='',$lattes='')
+    function register($cpf,$id,$sta)
         {
             $dt = $this
-                ->where('c_class',$class)
-                ->where('c_prefName', $prefLabel)
-                ->first();
-            if ($dt == '')
+            ->where('ei_cpf',$cpf)
+            ->where('ei_sub_event',$id)
+            ->first();
+
+            if ($dt=='')
                 {
-                    $dt['c_class'] = $class;
-                    $dt['c_prefName'] = $prefLabel;
-                    $dt['c_cpf'] = $cpf;
-                    $dt['c_lattes'] = $lattes;
-                    $idc = $this->set($dt)->insert();
+                    $dt['ei_cpf'] = $cpf;
+                    $dt['ei_sub_event'] = $id;
+                    $dt['ei_situacao'] = 1;
+                    $this->set($dt)->insert($dt);
                 } else {
-                    $idc = $dt['id_c'];
+                    $dt['ei_situacao'] = $sta;
+                    $this->set($dt)->where('id_ei',$dt['id_ei']);
                 }
-            return $idc;
         }
+
+    
 }

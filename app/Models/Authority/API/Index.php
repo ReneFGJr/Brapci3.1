@@ -40,7 +40,19 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($name,$class='Person',$source='', $prop_source='')
+    function getCPF($cpf='')
+        {
+            $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+            $dt = $AuthConcept->where('c_cpf',$cpf)->first();
+            if ($dt != '')
+                {
+                    $id = $dt['id_c'];
+                    $dt = $this->getid($id);
+                }            
+            return $dt;
+        }
+
+    function register($name,$class='Person',$source='', $prop_source='',$cpf='',$lattes='')
         {
             $RDF = new \App\Models\Rdf\RDF();
             $AuthName = new \App\Models\Authority\API\AuthName();
@@ -49,8 +61,17 @@ class Index extends Model
 
             $class = $RDF->getClass($class);
             $prop = $RDF->getClass('prefLabel');
-            $idn = $AuthName->register($name,1);
+            $idn = $AuthName->register($name,1,$cpf,$lattes);
             $idc = $AuthConcept->register($class,$idn);
+
+            if (isset($_POST))
+                {
+                    $dt = $AuthConcept->find($idc);
+                    if (isset($_POST['cpf'])) { $dt['c_cpf'] = sonumero(get("cpf")); }
+                    if (isset($_POST['email'])) { $dt['c_email'] = get("email"); }
+                    if (isset($_POST['email_alt'])) { $dt['c_email_alt'] = get("email_alt"); }
+                    $AuthConcept->set($dt)->where('id_c',$idc)->update();
+                }
 
             if ($source != '')
                 {

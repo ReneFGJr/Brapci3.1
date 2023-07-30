@@ -1,0 +1,91 @@
+<div class="container" *ngIf="event">
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <img [src]="event.e_img" style="height: 50px">
+            <br />
+            <span>
+                {{ event.e_data_i | date: 'dd/MM/yyyy' }} -
+                {{ event.e_data_f | date: 'dd/MM/yyyy' }}
+            </span>            
+            <h2>{{ event.e_name }}</h2>            
+        </div>
+        <div class="col-1"></div>
+        <div class="col-1"></div>
+        <div class="col-10">
+            <div *ngIf="!ncpf">
+                <form [formGroup]="meuCPF">
+                    <span>Infome seu CPF:</span>
+                    <input type="text" placeholder="cpf" formControlName="cpf" />
+                    <button (click)="onSubmit()">Inscrever-se</button>
+                    <br>
+                    <span class="error">{{message}}</span>
+                </form>
+            </div>
+
+            <div *ngIf="assignup">
+                <form [formGroup]="meuCadastro">
+
+                    <b>Número do CPF: {{ncpf}}</b>
+                    <br />
+
+
+                    <label>Nome completo:</label>
+                    <input class="form-control" type="text" placeholder="Nome completo" formControlName="name" />
+                    <br />
+                    <label>Infome seu e-mail</label>
+                    <input class="form-control" type="text" placeholder="e-mail" formControlName="email" />
+
+                    <br />
+                    <label>Infome seu e-mail (alternativo)</label>
+                    <input class="form-control" type="text" placeholder="e-mail" formControlName="email_alt" />
+
+                    <br />
+                    <button (click)="onSubmit2()">Registrar-se</button>
+                    <br>
+                    <span class="error">{{message2}}</span>
+                </form>
+            </div>
+
+            <div *ngIf="assignIn">
+                <b>Nome</b>: {{ assignIn.an_name }} <br />
+                <b>CPF</b>: {{ assignIn.cpf }} <br />
+                <span *ngIf="assignIn.c_email "><b>e-mail</b>: {{ assignIn.c_email }} </span>
+                <span *ngIf="assignIn.c_email_alt "> | {{ assignIn.c_email_alt }} </span><br />
+            </div>
+
+
+            <div *ngIf="sections" class="mt-5">
+                Seleciona as seções que irá participar:
+                <div style="width: 100%;" class="p-2 mb-2 btn-group" role="group" *ngFor="let item of sections" >
+                    <!--Inscrição-->
+                    <div *ngIf="!item.id_ei" style="width: 100%;" class="status_{{item.ei_situacao}} ">
+                    <h3>{{ item.es_name }} (INSCRITO)</h3>                    
+                    {{ item.es_data | date: 'dd/MM/yyyy' }}
+                    {{ item.es_hora_ini }}
+                    {{ item.es_hora_fim }}
+                    </div>
+                    <button *ngIf="!item.id_ei" (click)="assign(item.id_es)" type="button" style="width: 150px;" class="btn btn-primary">Inscrever-se</button>
+
+                    <!--Cancelar-->
+                    <div *ngIf="item.id_ei" style="width: 100%;" class="status_{{item.ei_situacao}} ">
+                        <h3>{{ item.es_name }}</h3>                    
+                        {{ item.es_data | date: 'dd/MM/yyyy' }}
+                        {{ item.es_hora_ini }}
+                        {{ item.es_hora_fim }}
+                        </div>
+                        <button *ngIf="item.id_ei" (click)="cancel(item.id_ei)" type="button" style="width: 150px;" class="btn btn-secondary">INSCRITO</button>
+    
+                </div>
+
+            </div>
+
+            <div *ngIf="ncpf" class="mt-5">
+                <hr>
+                <button (click)="return()">Voltar</button>
+            </div>
+        </div>
+        <div class="col-1"></div>
+    </div>    
+</div>
+<div *ngIf="!event">Carregando...</div>
