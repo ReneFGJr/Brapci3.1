@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="row" *ngIf="page === '2'">
-    <ul>
+    <ol>
       <li class="col-12" *ngFor="let item of journals">
         <a
           [routerLink]="['/journals/view/' + item.id_jnl]"
@@ -26,7 +26,7 @@
           >{{ item.jnl_name }}</a
         >
       </li>
-    </ul>
+    </ol>
   </div>
 
   <div class="row" *ngIf="page === '1'">
