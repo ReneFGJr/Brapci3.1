@@ -83,10 +83,8 @@ class Brapci extends Model
             $Cover = new \App\Models\Base\Cover();
             $dt['cover'] = $Cover->cover($dt['id_jnl']);
 
-            pre($dt);
-
             $Issues = new \App\Models\Base\Issues();
-            $dt['issue'] = $Issues->issues($dt['jnl_rdf']);
+            $dt['issue'] = $Issues->issues($dt['jnl_frbr']);
             return $dt;
         }
 
