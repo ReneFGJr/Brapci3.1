@@ -47,13 +47,14 @@ class Index extends Model
 
     function index($d1='',$d2='',$d3='', $d4 ='', $d5 = '')
         {
-            $sem = 1;
+            $sem = 2;
             $sx = '';
             switch($d1)
                 {
                     case 'encargos':
+                        if (trim($d2)=='') { $d2 == 0;}
                         $Encargos = new \App\Models\Dci\Encargos();
-                        $sx .= $Encargos->edit($d3);
+                        $sx .= $Encargos->edit($d2);
                         break;
                     case 'report':
                         switch($d2)

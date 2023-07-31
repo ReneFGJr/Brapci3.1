@@ -118,6 +118,7 @@ class Disciplinas extends Model
         foreach ($dt as $id => $line) {
             $curso = $line['c_curso'];
             $turmaN = $line['e_turma'];
+            $etapa = '';
 
             $et = $line['di_etapa'];
             if ($et != $xet) {

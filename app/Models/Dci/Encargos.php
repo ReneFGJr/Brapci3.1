@@ -30,7 +30,7 @@ class Encargos extends Model
         'string',
         'sql:id_c:c_curso:curso',
         'sql:id_h:h_hora:(select id_h, concat(h_dia,\' | \',h_hora_ini,\' - \',h_hora_fim) as h_hora from horario) as horario',
-        'string'
+        'string', 'string',
 
     ];
 
@@ -108,6 +108,7 @@ class Encargos extends Model
     function edit($id)
         {
             $sx = '['.$id.']';
+            if ($id == '') { $id = 0; }
             $this->id = $id;
             $sx .= form($this);
             $sx = bs(bsc($sx));
