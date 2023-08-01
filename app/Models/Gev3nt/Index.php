@@ -49,12 +49,6 @@ class Index extends Model
     function resume($id)
     {
         $dt = $this->getId($id);
-    }
-    function getId($id = 0)
-    {
-        $dt = $this
-            ->where('id_e', $id)
-            ->first();
         $dt['ID'] = $id;
 
         $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data';
@@ -66,6 +60,13 @@ class Index extends Model
             ->groupBy($cp)
             ->findAll();
         //echo $this->getlastquery();
+        return $dt;
+    }
+    function getId($id = 0)
+    {
+        $dt = $this
+            ->where('id_e', $id)
+            ->first();
         return $dt;
     }
     function subevents($ev = 0, $cpf = '')
