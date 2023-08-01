@@ -102,7 +102,7 @@ function nbr_author($xa,$xp)
             }
 
         /****************************************** PREPOSICOES **************/
-        $er2 = array('DE','DA','DO','DOS');
+        $er2 = array('DE','DA','DO','DOS','E','EM','DAS');
         $NM2 = $NM;
         for($nq=0;$nq < count($NM2);$nq++)
             {
