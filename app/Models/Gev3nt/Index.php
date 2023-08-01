@@ -60,11 +60,11 @@ class Index extends Model
         $dt['resume'] = $this
             ->select($cp . ', count(*) as total')
             ->join('event_sections', 'es_event = id_e')
-            ->join('event_inscritos', 'ei_sub_event=id_es', 'left')
+            ->join('event_inscritos', 'ei_sub_event=id_es')
             ->where('es_event', $id)
             ->groupBy($cp)
             ->findAll();
-        echo $this->getlastquery();
+        //echo $this->getlastquery();
         return $dt;
     }
     function subevents($ev = 0, $cpf = '')
