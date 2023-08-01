@@ -53,12 +53,13 @@ class Index extends Model
 
         $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data, ei_cpf, an_name';
         $dt['subscribed'] = $this
-            ->select($cp . ', count(*) as total')
+            ->select($cp)
             ->join('event_sections', 'es_event = id_e')
             ->join('event_inscritos', 'ei_sub_event=id_es')
             ->join('brapci_authority.auth_concept', 'ei_cpf=ei_cpf')
             ->join('brapci_authority.auth_name', 'c_prefName=id_an')
             ->where('ei_sub_event', $id)
+            ->orderBy('an_name')
             ->findAll();
         //echo $this->getlastquery();
         return $dt;
