@@ -57,7 +57,7 @@ function resume($id)
                     ->where('id_e',$id)
                     ->first();
 
-                $cp = 'es_event';
+                $cp = 'es_event, es_name, id_es, es_hora_ini';
                 $dt['sections'] = $this
                     ->select($cp.', count(*) as total')
                     ->join('event_sections','es_event = id_e')
