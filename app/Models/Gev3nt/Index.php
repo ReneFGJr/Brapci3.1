@@ -40,58 +40,57 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1='',$d2='',$d3='',$d4='',$d5='')
-        {
-            $sx = '';
-            return $sx;
-        }
+    function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
+    {
+        $sx = '';
+        return $sx;
+    }
 
-function resume($id)
+    function resume($id)
     {
         $dt = $this->getId($id);
-
     }
-        function getId($id=0)
-        {
-                $dt = $this
-                    ->where('id_e',$id)
-                    ->first();
+    function getId($id = 0)
+    {
+        $dt = $this
+            ->where('id_e', $id)
+            ->first();
 
-                $cp = 'es_event, es_name, id_es, es_hora_ini';
-                $dt['sections'] = $this
-                    ->select($cp.', count(*) as total')
-                    ->join('event_sections','es_event = id_e')
-                    ->join('event_inscritos','ei_sub_event=id_es','left')
-                    ->where('es_event',$id)
-                    ->groupBy($cp)
-                    ->orderBy('es_data, es_hora_ini')
-                    ->findAll();
-                    echo $this->getlastquery();
-                return $dt;
-        }
-        function subevents($ev=0,$cpf='')
-        {
-                $cp = '*';
-                $dt = $this
-                    ->select($cp)
-                    ->join('event_sections','es_event = id_e')
-                    ->join('event_inscritos','ei_cpf='.$cpf.' AND ei_sub_event=id_es','left')
-                    ->where('es_event',$ev)
-                    ->orderBy('es_data, es_hora_ini')
-                    ->findAll();
-                return $dt;
-        }
+        $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data';
+        $dt['resume'] = $this
+            ->select($cp . ', count(*) as total')
+            ->join('event_sections', 'es_event = id_e')
+            ->join('event_inscritos', 'ei_sub_event=id_es', 'left')
+            ->where('es_event', $id)
+            ->groupBy($cp)
+            ->orderBy('es_data, es_hora_ini')
+            ->findAll();
+        echo $this->getlastquery();
+        return $dt;
+    }
+    function subevents($ev = 0, $cpf = '')
+    {
+        $cp = '*';
+        $dt = $this
+            ->select($cp)
+            ->join('event_sections', 'es_event = id_e')
+            ->join('event_inscritos', 'ei_cpf=' . $cpf . ' AND ei_sub_event=id_es', 'left')
+            ->where('es_event', $ev)
+            ->orderBy('es_data, es_hora_ini')
+            ->findAll();
+        return $dt;
+    }
 
-    function events($type=0)
-        {
-                $cp = 'id_e,e_name,e_sigla,e_data_i,e_data_f,e_img';
-                $dt = $this
-                    ->select($cp)
-                    ->join('event_sections','es_event = id_e')
-                    ->where('es_active',$type)
-                    ->groupBy($cp)
-                    ->orderBy('e_data_i')
-                    ->findAll();
-                return $dt;
-        }
+    function events($type = 0)
+    {
+        $cp = 'id_e,e_name,e_sigla,e_data_i,e_data_f,e_img';
+        $dt = $this
+            ->select($cp)
+            ->join('event_sections', 'es_event = id_e')
+            ->where('es_active', $type)
+            ->groupBy($cp)
+            ->orderBy('e_data_i')
+            ->findAll();
+        return $dt;
+    }
 }
