@@ -208,6 +208,20 @@ class Index extends Model
                                     case 'title_long':
                                         $dt['title_long'] = $vlr;
                                         break;
+                                    case 'subjects':
+                                        foreach($vlr as $id=>$subj)
+                                            {
+                                                if (!isset($dt['subjects']))
+                                                {
+                                                    $dt['subjects'] = [];
+                                                }
+                                                array_push($dt['subjects'], nbr_title($subj));
+                                            }
+
+                                        break;
+                                    case 'synopsis':
+                                        $dt['abstract'] = $vlr;
+                                        break;
                                      default:
                                         echo 'Não localizado a propriedade ';
                                         echo $prop;

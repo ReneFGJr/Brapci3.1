@@ -44,7 +44,8 @@ class Language extends Model
 	function normalize($lang)
 		{
 			if ($lang == 'por') { return 'pt_BR'; }
-			echo '====ERRO==='.h($lang);
+			if ($lang == 'en') { return 'en'; }
+			echo '====ERRO IDIOMA==='.($lang);
 			exit;
 			return $lang;
 		}

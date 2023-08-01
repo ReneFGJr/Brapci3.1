@@ -142,13 +142,25 @@ class Find extends Model
                 $this->lastItens($d2, $d3);
                 break;
             default:
-                $RSP['status'] = '400';
-                $RSP['message'] = 'Serviço não localizado';
-                $RSP['service'] = $d1;
+                $RSP = $this->services($RSP);
+                $RSP['verb'] = $d1;
                 break;
         }
         echo json_encode($RSP);
         exit;
+    }
+
+    function services($RSP)
+    {
+        $srv = [];
+        $srv['livros'] = [
+            'libraries'=> 'libraries',
+            'vitrine' => 'vitrine',
+            'isbn' => 'isbn',
+            'getISBN' => 'getISBN'
+            ];
+        $RSP['services'] = $srv;
+        return $RSP;
     }
 
 

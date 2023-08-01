@@ -44,8 +44,12 @@ class Lang extends Model
 		{
 			$x = ascii(mb_strtolower($x));
 			if ($x == 'pt') { $x = 'portugues'; }
+			if ($x == 'en') { $x = 'english'; }
 			switch($x)
 				{
+					case 'english':
+						return 'en';
+						break;
 					case 'bretao':
 						return 'bt';
 						break;
@@ -56,7 +60,7 @@ class Lang extends Model
 						return 'it';
 						break;
 					case 'outros':
-						return 'ot';
+						return '??';
 						break;
 					case 'dinamarques':
 						return 'dn';
@@ -85,7 +89,7 @@ class Lang extends Model
 					case 'pt_br':
 						return 'por';
 					default:
-						return "ot";
+						return "??";
 						//return 'xx';
 						echo 'OPS language ['.$x.']'.$x;
 						exit;

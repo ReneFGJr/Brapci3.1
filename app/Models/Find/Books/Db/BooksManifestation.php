@@ -86,7 +86,8 @@ class BooksManifestation extends Model
                 'title'=>'ignore',
                 'isbn13'=>'ignore',
                 'isbn10' => 'ignore',
-                'edicao' => 'isEdition'
+                'edicao' => 'isEdition',
+                'abstract'=> 'hasAbstract'
                 ];
             $type = [
                 'editora' => 'C',
@@ -102,6 +103,7 @@ class BooksManifestation extends Model
                 'isbn10' => 'I',
                 'status'=>'I',
                 'edicao' => 'C',
+                'abstract'=>'C'
                 ];
 
             if(isset($type[$prop]))
