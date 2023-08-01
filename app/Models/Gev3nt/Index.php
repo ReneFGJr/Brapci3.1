@@ -51,12 +51,12 @@ class Index extends Model
         $dt = $this->getId($id);
         $dt['ID'] = $id;
 
-        $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data, es_cpf, an_nome';
+        $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data, ei_cpf, an_nome';
         $dt['subscribed'] = $this
             ->select($cp . ', count(*) as total')
             ->join('event_sections', 'es_event = id_e')
             ->join('event_inscritos', 'ei_sub_event=id_es')
-            ->join('brapci_authority.auth_concept', 'ei_cpf=es_cpf')
+            ->join('brapci_authority.auth_concept', 'ei_cpf=ei_cpf')
             ->join('brapci_authority.auth_name', 'c_prefName=id_an')
             ->where('ei_sub_event', $id)
             ->findAll();
