@@ -61,6 +61,8 @@ class Authority extends Model
                         switch($d2)
                             {
                                 case 'ror':
+                                    $RSP['method'] = $d2;
+                                    $RSP['ID'] = $d3;
                                 break;
 
                                 default:
