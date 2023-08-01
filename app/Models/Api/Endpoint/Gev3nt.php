@@ -59,7 +59,7 @@ class Gev3nt extends Model
             {
                 case 'cancel_register':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
-                    $Gev3ntInscritos = new \App\Models\Gev3nt\Inscritos();                    
+                    $Gev3ntInscritos = new \App\Models\Gev3nt\Inscritos();
                     $de = $Gev3ntInscritos
                         ->join('event_sections','ei_sub_event = id_es')
                         ->find($d2);
@@ -67,7 +67,7 @@ class Gev3nt extends Model
                     if (isset($de['es_event']))
                         {
                             $ev = $de['es_event'];
-                        }   
+                        }
                     if ($de['ei_cpf'] == $d3)
                         {
                             $Gev3ntInscritos->where('id_ei',$d2)->delete();
@@ -104,7 +104,12 @@ class Gev3nt extends Model
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $RSP['event'] = $Gev3nt->getId($d2);
                 break;
-                
+
+                case 'resume':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $RSP['event'] = $Gev3nt->resume($d2);
+                    break;
+
                 case 'sections':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $RSP['sections'] = $Gev3nt->subevents($d2,$d3);
@@ -113,9 +118,9 @@ class Gev3nt extends Model
                 default:
                 $RSP = $this->services($RSP);
                 break;
-            }  
+            }
         echo json_encode($RSP);
-        exit;      
+        exit;
     }
     function services($RSP)
     {
@@ -123,6 +128,5 @@ class Gev3nt extends Model
         $srv = ['events','get','sections'];
         $RSP['services'] = $srv;
         return $RSP;
-    }    
+    }
 }
-   

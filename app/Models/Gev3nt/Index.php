@@ -46,13 +46,28 @@ class Index extends Model
             return $sx;
         }
 
+function resume($id)
+    {
+        $dt = $this->getId($id);
+
+    }
         function getId($id=0)
         {
                 $dt = $this
                     ->where('id_e',$id)
                     ->first();
-                return $dt;                
-        }        
+
+                $cp = 'es_event';
+                $dt['sections'] = $this
+                    ->select($cp.', count(*) as total')
+                    ->join('event_sections','es_event = id_e')
+                    ->join('event_inscritos','ei_sub_event=id_es','left')
+                    ->where('es_event',$id)
+                    ->groupBy($cp)
+                    ->orderBy('es_data, es_hora_ini')
+                    ->findAll();
+                return $dt;
+        }
         function subevents($ev=0,$cpf='')
         {
                 $cp = '*';
@@ -64,7 +79,7 @@ class Index extends Model
                     ->orderBy('es_data, es_hora_ini')
                     ->findAll();
                 return $dt;
-        }        
+        }
 
     function events($type=0)
         {
