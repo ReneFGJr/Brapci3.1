@@ -40,99 +40,142 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function getCPF($cpf='')
-        {
-            $AuthConcept = new \App\Models\Authority\API\AuthConcept();
-            $dt = $AuthConcept->where('c_cpf',$cpf)->first();
-            if ($dt != '')
-                {
-                    $id = $dt['id_c'];
-                    $dt = $this->getid($id);
-                }            
-            return $dt;
+    function getCPF($cpf = '')
+    {
+        $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+        $dt = $AuthConcept->where('c_cpf', $cpf)->first();
+        if ($dt != '') {
+            $id = $dt['id_c'];
+            $dt = $this->getid($id);
+        }
+        return $dt;
+    }
+
+    function register($name, $class = 'Person', $source = '', $prop_source = '', $cpf = '', $lattes = '')
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $AuthName = new \App\Models\Authority\API\AuthName();
+        $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+        $AuthResource = new \App\Models\Authority\API\AuthResource();
+
+        $class = $RDF->getClass($class);
+        $prop = $RDF->getClass('prefLabel');
+        $idn = $AuthName->register($name, 1, $cpf, $lattes);
+        $idc = $AuthConcept->register($class, $idn);
+
+        if (isset($_POST)) {
+            $dt = $AuthConcept->find($idc);
+            if (isset($_POST['cpf'])) {
+                $dt['c_cpf'] = sonumero(get("cpf"));
+            }
+            if (isset($_POST['email'])) {
+                $dt['c_email'] = get("email");
+            }
+            if (isset($_POST['email_alt'])) {
+                $dt['c_email_alt'] = get("email_alt");
+            }
+            $AuthConcept->set($dt)->where('id_c', $idc)->update();
         }
 
-    function register($name,$class='Person',$source='', $prop_source='',$cpf='',$lattes='')
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $AuthName = new \App\Models\Authority\API\AuthName();
-            $AuthConcept = new \App\Models\Authority\API\AuthConcept();
-            $AuthResource = new \App\Models\Authority\API\AuthResource();
-
-            $class = $RDF->getClass($class);
-            $prop = $RDF->getClass('prefLabel');
-            $idn = $AuthName->register($name,1,$cpf,$lattes);
-            $idc = $AuthConcept->register($class,$idn);
-
-            if (isset($_POST))
-                {
-                    $dt = $AuthConcept->find($idc);
-                    if (isset($_POST['cpf'])) { $dt['c_cpf'] = sonumero(get("cpf")); }
-                    if (isset($_POST['email'])) { $dt['c_email'] = get("email"); }
-                    if (isset($_POST['email_alt'])) { $dt['c_email_alt'] = get("email_alt"); }
-                    $AuthConcept->set($dt)->where('id_c',$idc)->update();
-                }
-
-            if ($source != '')
-                {
-                    $prop = $RDF->getClass($prop_source);
-                    $AuthResource->register($idc, $prop, $source);
-                }
-            return $idc;
+        if ($source != '') {
+            $prop = $RDF->getClass($prop_source);
+            $AuthResource->register($idc, $prop, $source);
         }
+        return $idc;
+    }
 
-        function search($n,$t)
+    function search($n, $t)
+    {
+        $vpage = 20;
+        $offset = get("offset");
+        if ($offset == '') {
+            $offset = 1;
+        }
+        $RSP = [];
+
+        $data = $this->search_base($n);
+
+        /********** Calculos */
+        $total = count($data);
+
+        $RSP['pages'] = (round($total / $vpage) + 1);
+        $RSP['total'] = $total;
+        $RSP['page'] = $offset;
+
+        /********** DAdos */
+        $RSP['item'] = $data;
+
+        return $RSP;
+    }
+
+    function register_corporate($dt)
+    {
+        $idc = 0;
+        $class = "CorporateBody";
+
+        $RDF = new \App\Models\Rdf\RDF();
+        $AuthName = new \App\Models\Authority\API\AuthName();
+        $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+        $AuthResource = new \App\Models\Authority\API\AuthResource();
+
+        $class = $RDF->getClass($class);
+        $prop = $RDF->getClass('prefLabel');
+        $name = nbr_author($dt['prefLabel'],7);
+
+        $idn = $AuthName->register($name);
+        $idc = $AuthConcept->register($class, $idn);
+
+        if (isset($dt['prop']['acronym']))
             {
-                $vpage = 20;
-                $offset = get("offset");
-                if ($offset == '')
-                    {
-                        $offset = 1;
-                    }
-                $RSP = [];
-
-                $data = $this->search_base($n);
-
-                /********** Calculos */
-                $total = count($data);
-
-                $RSP['pages'] = (round($total/$vpage)+1);
-                $RSP['total'] = $total;
-                $RSP['page'] = $offset;
-
-                /********** DAdos */
-                $RSP['item'] = $data;
-
-                return $RSP;
+                $name = mb_strtoupper($dt['prop']['acronym']);
+                $ida = $AuthName->register($name);
+                $idac = $AuthConcept->register($class, $ida);
+                $AuthConcept->remissive($idac, $idc);
             }
 
-        function search_base($n)
-            {
-                $n = mb_strtoupper(ASCII($n));
-                $AuthName = new \App\Models\Authority\API\AuthName();
-                $flag = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
-                $cp = 'id_an, id_c, an_name, c_use';
-                $cp = '*';
-                $dt = $AuthName
-                    ->select($cp)
-                    ->join('auth_concept', 'c_prefName = id_an')
-                    ->like('an_name_asc',$n)
-                    ->orderBy('an_name')
-                    ->findAll();
-                return $dt;
-            }
+        if ($dt['prop'] != '') {
+            foreach($dt['prop'] as $prop=>$vlr)
+                {
+                    if (is_array($vlr))
+                        {
+                            //echo $prop . '=>';
+                            //pre($vlr,false);
+                        } else {
+                            $prop = $RDF->getClass($prop);
+                            $AuthResource->register($idc, $prop, $vlr);
+                        }
+                }
+        }
+        return $idc;
+    }
 
-        function getid($id)
-            {
-                $AuthName = new \App\Models\Authority\API\AuthName();
-                $cp = '*';
-                $RSP['id'] = $id;
-                $dt = $AuthName
-                    ->select($cp)
-                    ->join('auth_concept', 'c_prefName = id_an')
-                    ->where('id_c', $id)
-                    ->first();
-                $RSP = array_merge($RSP,$dt);
-                return $RSP;
-            }
+    function search_base($n)
+    {
+        $n = mb_strtoupper(ASCII($n));
+        $AuthName = new \App\Models\Authority\API\AuthName();
+        $flag = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
+        $cp = 'id_an, id_c, an_name, c_use';
+        $cp = '*';
+        $dt = $AuthName
+            ->select($cp)
+            ->join('auth_concept', 'c_prefName = id_an')
+            ->like('an_name_asc', $n)
+            ->orderBy('an_name')
+            ->findAll();
+        return $dt;
+    }
+
+    function getid($id)
+    {
+        $AuthName = new \App\Models\Authority\API\AuthName();
+        $cp = '*';
+        $RSP['id'] = $id;
+        $dt = $AuthName
+            ->select($cp)
+            ->join('auth_concept', 'c_prefName = id_an')
+            ->where('id_c', $id)
+            ->first();
+        $RSP = array_merge($RSP, $dt);
+        return $RSP;
+    }
 }

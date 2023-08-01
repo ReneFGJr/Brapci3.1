@@ -62,4 +62,15 @@ class AuthConcept extends Model
                 }
             return $idc;
         }
+    function remissive($id1,$id2)
+        {
+            $dt1 = $this->find($id2);
+            if ($dt1 != '')
+                {
+                    $dt = $this->find($id1);
+                    $dt['c_use'] = $id2;
+                    $this->set($dt)->where('id_c',$id1)->update();
+                }
+            return true;
+        }
 }

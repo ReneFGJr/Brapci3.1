@@ -40,15 +40,55 @@ class ROR extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function import($id)
+    {
+        $Auth = new \App\Models\Authority\API\Index();
+
+        $url = 'https://api.ror.org/organizations/' . $id;
+        $txt = read_link($url);
+        $dt = [];
+        $dta = [];
+
+        if ($txt != '')
+            {
+                $dt = (array)json_decode($txt);
+
+                $labels = (array)$dt['labels'];
+                foreach($labels as $id=>$inst)
+                    {
+                        $inst = (array)$inst;
+                        if ($inst['iso639'] == 'pt')
+                            {
+                                $dta['prefLabel'] = $inst['label'];
+                            }
+                    }
+                /********** PAIS */
+                if (isset($dt['country'])) {
+                    $country = (array)$dt['country'];
+                    $place = [];
+                    $place['country'] = $country['country_name'];
+                    $place['code'] = $country['country_code'];
+                    $dta['prop']['hasPlace'] = $place;
+                }
+                /********** SILGA */
+                if (isset($dt['acronyms']))
+                    {
+                        $sigla = (array)$dt['acronyms'];
+                        $silga = $dta['prop']['acronym'] = $sigla[0];
+                    }
+            }
+            $id = $Auth->register_corporate($dta);
+
+            return $Auth->getid($id);
+    }
+
     function getROR($id)
-        {
-            $url = 'https://api.ror.org/organizations/'.$id;
-            /*
+    {
+        $url = 'https://api.ror.org/organizations/' . $id;
+        /*
             ex: https://api.ror.org/organizations/041yk2d64
             */
 
-            $txt = read_link($url);
-
-
-        }
+        $txt = read_link($url);
+    }
 }

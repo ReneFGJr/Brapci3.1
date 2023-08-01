@@ -63,6 +63,8 @@ class Authority extends Model
                                 case 'ror':
                                     $RSP['method'] = $d2;
                                     $RSP['ID'] = $d3;
+                                    $ROR = new \App\Models\Functions\ROR();
+                                    $RSP['data'] = $ROR->import($d3);
                                 break;
 
                                 default:
@@ -76,6 +78,23 @@ class Authority extends Model
                     case 'search':
                         $RSP['data'] = $Auth->search($d2,$d3);
                         break;
+                    case 'register':
+                        $name = get("name");
+                        $name = nbr_author($name, 7);
+                        switch($d2)
+                            {
+                                case 'corporatebody':
+                                    $dt = $_POST;
+                                    $RSP['id'] = $Auth->register_corporate($name);
+                                    $RSP['corporatebody'] = $name;
+                                break;
+                                case 'person':
+                                    $RSP['person'] = $name;
+                                    $RSP['id'] = $Auth->register($name);
+                                    $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
+                                break;
+                            }
+                       break;
                     case 'put':
                         $name = nbr_author($d2,7);
                         $RSP['id'] = $Auth->register($name);
