@@ -55,6 +55,7 @@ class Index extends Model
         $dt = $this
             ->where('id_e', $id)
             ->first();
+        $dt['ID'] = $id;
 
         $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data';
         $dt['resume'] = $this
