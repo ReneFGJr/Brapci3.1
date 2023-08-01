@@ -52,7 +52,8 @@ class ROR extends Model
         if ($txt != '')
             {
                 $dt = (array)json_decode($txt);
-
+                if (isset($dt['labels']))
+                {
                 $labels = (array)$dt['labels'];
                 foreach($labels as $id=>$inst)
                     {
@@ -62,6 +63,9 @@ class ROR extends Model
                                 $dta['prefLabel'] = $inst['label'];
                             }
                     }
+                } else {
+                    $dta['prefLabel'] = $dt['name'];
+                }
                 /********** PAIS */
                 if (isset($dt['country'])) {
                     $country = (array)$dt['country'];
