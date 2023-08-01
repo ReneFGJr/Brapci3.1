@@ -110,6 +110,11 @@ class Gev3nt extends Model
                     $RSP['event'] = $Gev3nt->resume($d2);
                     break;
 
+                case 'subscribed':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $RSP['event'] = $Gev3nt->subscribed($d2);
+                    break;
+
                 case 'sections':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $RSP['sections'] = $Gev3nt->subevents($d2,$d3);
@@ -125,7 +130,7 @@ class Gev3nt extends Model
     function services($RSP)
     {
         $srv = [];
-        $srv = ['events','get','sections','resume'];
+        $srv = ['events','get','sections','resume', 'subscribed'];
         $RSP['services'] = $srv;
         return $RSP;
     }
