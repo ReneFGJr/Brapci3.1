@@ -65,6 +65,7 @@ function resume($id)
                     ->where('es_event',$id)
                     ->orderBy('es_data, es_hora_ini')
                     ->findAll();
+                    echo $this->getlastquery();
                 return $dt;
         }
         function subevents($ev=0,$cpf='')
