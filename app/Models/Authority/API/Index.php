@@ -173,7 +173,7 @@ class Index extends Model
         $dt = $AuthName
             ->select($cp)
             ->join('auth_concept', 'c_prefName = id_an')
-            ->join('brapci.rdf_class', 'c_class = id_c')
+            ->join('brapci.rdf_class', 'c_class = rdf_class.id_c')
             ->where('id_c', $id)
             ->first();
         $RSP = array_merge($RSP, $dt);
