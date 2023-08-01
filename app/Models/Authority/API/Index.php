@@ -176,7 +176,31 @@ class Index extends Model
             ->join('brapci.rdf_class', 'auth_concept.c_class = rdf_class.id_c')
             ->where('auth_concept.id_c', $id)
             ->first();
+
+        if ($dt=='')
+            {
+                $RSP['status'] = '404';
+                $RSP['message'] = 'Registro não existe';
+                return $RSP;
+            }
+
+        if ($dt['c_use'] != 0)
+            {
+                $idu = round($dt['c_use']);
+                $dt = $this->getid($idu);
+                $dt['remissive'] = $this->getRemissive($idu);
+            }
         $RSP = array_merge($RSP, $dt);
         return $RSP;
     }
+    function getRemissive($id)
+        {
+            if ($id == 0) { return []; }
+            $AuthConcept = new \App\Models\Authority\API\AuthConcept();
+            $dt = $AuthConcept
+                ->join('auth_name','c_prefName = id_an')
+                ->where('c_use',$id)
+                ->findAll();
+            return $dt;
+        }
 }
