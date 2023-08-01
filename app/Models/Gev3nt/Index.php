@@ -63,7 +63,6 @@ function resume($id)
                     ->join('event_sections','es_event = id_e')
                     ->join('event_inscritos','ei_sub_event=id_es','left')
                     ->where('es_event',$id)
-                    ->groupBy($cp)
                     ->orderBy('es_data, es_hora_ini')
                     ->findAll();
                 return $dt;
