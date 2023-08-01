@@ -17,7 +17,7 @@ class AuthConcept extends Model
     protected $allowedFields    = [
         'id_c', 'c_class', 'c_prefName',
         'c_cpf','c_lattes','c_cpf','c_email',
-        'c_email_alt'
+        'c_email_alt','c_use'
     ];
 
     // Dates
