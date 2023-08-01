@@ -125,7 +125,7 @@ class Gev3nt extends Model
     function services($RSP)
     {
         $srv = [];
-        $srv = ['events','get','sections'];
+        $srv = ['events','get','sections','resume'];
         $RSP['services'] = $srv;
         return $RSP;
     }
