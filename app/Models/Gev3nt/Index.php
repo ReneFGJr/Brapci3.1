@@ -56,7 +56,7 @@ class Index extends Model
             ->select($cp)
             ->join('event_sections', 'es_event = id_e')
             ->join('event_inscritos', 'ei_sub_event=id_es')
-            ->join('brapci_authority.auth_concept', 'ei_cpf=ei_cpf')
+            ->join('brapci_authority.auth_concept', 'ei_cpf=c_cpf')
             ->join('brapci_authority.auth_name', 'c_prefName=id_an')
             ->where('ei_sub_event', $id)
             ->orderBy('an_name')
