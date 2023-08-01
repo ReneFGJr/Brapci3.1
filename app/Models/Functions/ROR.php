@@ -49,41 +49,37 @@ class ROR extends Model
         $dt = [];
         $dta = [];
 
-        if ($txt != '')
-            {
-                $dt = (array)json_decode($txt);
-                if (isset($dt['labels']))
-                {
-                $labels = (array)$dt['labels'];
-                foreach($labels as $id=>$inst)
-                    {
-                        $inst = (array)$inst;
-                        if ($inst['iso639'] == 'pt')
-                            {
-                                $dta['prefLabel'] = $inst['label'];
-                            }
-                    }
-                } else {
-                    $dta['prefLabel'] = $dt['name'];
-                }
-                /********** PAIS */
-                if (isset($dt['country'])) {
-                    $country = (array)$dt['country'];
-                    $place = [];
-                    $place['country'] = $country['country_name'];
-                    $place['code'] = $country['country_code'];
-                    $dta['prop']['hasPlace'] = $place;
-                }
-                /********** SILGA */
-                if (isset($dt['acronyms']))
-                    {
-                        $sigla = (array)$dt['acronyms'];
-                        $silga = $dta['prop']['acronym'] = $sigla[0];
-                    }
-            }
-            $id = $Auth->register_corporate($dta);
+        if ($txt != '') {
+            $dt = (array)json_decode($txt);
 
-            return $Auth->getid($id);
+            if (isset($dt['labels']) and (count($dt['labels']) > 0)) {
+                $labels = (array)$dt['labels'];
+                foreach ($labels as $id => $inst) {
+                    $inst = (array)$inst;
+                    if ($inst['iso639'] == 'pt') {
+                        $dta['prefLabel'] = $inst['label'];
+                    }
+                }
+            } else {
+                $dta['prefLabel'] = $dt['name'];
+            }
+            /********** PAIS */
+            if (isset($dt['country'])) {
+                $country = (array)$dt['country'];
+                $place = [];
+                $place['country'] = $country['country_name'];
+                $place['code'] = $country['country_code'];
+                $dta['prop']['hasPlace'] = $place;
+            }
+            /********** SILGA */
+            if (isset($dt['acronyms'])) {
+                $sigla = (array)$dt['acronyms'];
+                $silga = $dta['prop']['acronym'] = $sigla[0];
+            }
+        }
+        $id = $Auth->register_corporate($dta);
+
+        return $Auth->getid($id);
     }
 
     function getROR($id)
