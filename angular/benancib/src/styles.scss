@@ -1,0 +1,499 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+@media screen and (min-width: 1024px) {
+  body {
+    margin-top: 80px;
+  }
+}
+
+.reference {
+  margin: 0px;
+  padding: 0px;
+  color: #111;
+  text-align: justify;
+  font-size: 1em;
+  line-height: 100%;
+
+}
+
+.border_title {
+  border-left: 5px solid #114411;
+  border-bottom: 1px solid #114411;
+  padding-left: 5px;
+}
+
+.summary a {
+  color: black;
+}
+
+.summary_a,
+.summary_a p,
+.summary_ln a {
+  color: #444;
+}
+
+.summary {
+  text-decoration: none;
+  color: black;
+  border: 1px solid #888;
+  padding: 5px 15px;
+  border-radius: 10px;
+  border-left: 4px solid #888;
+  font-size: 1.1em;
+}
+
+.book_keywords a,
+.book_keywords {
+  color: #000;
+  font-weight: 400;
+}
+
+/************************ Form */
+.full {
+  width: 100%;
+}
+
+.nav-link-brp {
+  color: #ddd;
+  padding: 0px 10px;
+}
+
+.nav-link-brp:hover {
+  color: white;
+  padding: 0px 10px;
+}
+
+.bg-brapci {
+  background-color: #000094;
+}
+
+.bg-tools {
+  background-color: #5E3030;
+}
+
+.bg-pq {
+  background-color: #946856;
+}
+
+.bg-benancib {
+  background: rgb(13, 48, 130);
+  background: linear-gradient(90deg, rgba(13, 48, 130, 1) 0%, rgba(9, 121, 58, 1) 68%);
+}
+
+.bg-benancib a {
+  color: white;
+  padding-bottom: 3px;
+}
+
+.bg-destaque {
+  background-color: #eee;
+  border-radius: 10px;
+  border: 1px solid #999;
+}
+
+.bg-destaque a {
+  color: #000;
+}
+
+.bg-benancib a:hover {
+  color: white;
+  /* text-decoration: underline; */
+  border-bottom: 3px solid #fff;
+  padding-bottom: 0px;
+}
+
+.bg-authority,
+a.bg-authority {
+  background-color: #345283;
+  color: white;
+}
+
+.bg-patente {
+  background-color: #25256F;
+}
+
+.bg-brapcilivros,
+.bg-brapcilivros a {
+  background-color: #6c3483;
+  color: white;
+  text-decoration: none;
+}
+
+.bg-proceedings {
+  background-color: #114411;
+}
+
+.bg-admin {
+  background-color: #333;
+}
+
+.bg-ai {
+  background: linear-gradient(-45deg, #ee7752, #9723d5, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  /* height: 100vh; */
+}
+
+.btn-outline-access {
+  --bs-btn-color: #fff;
+  --bs-btn-border-color: #fff;
+  --bs-btn-hover-color: #000;
+  --bs-btn-hover-bg: #fff;
+  --bs-btn-hover-border-color: #fff;
+  --bs-btn-focus-shadow-rgb: 220, 53, 69;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #fff;
+  --bs-btn-active-border-color: #fff;
+  --bs-btn-active-shadow: inset 0 3px 5px #00000020;
+  --bs-btn-disabled-color: #000;
+  --bs-btn-disabled-bg: #000;
+  --bs-gradient: none;
+}
+
+.form-control-sm {
+  width: 100%;
+}
+
+.pagination li {
+  padding: 1px 3px;
+  border: 1px solid #9090FF;
+  border-radius: 5px;
+  margin-right: 4px;
+}
+
+.pagination li:hover {
+  background-color: #D0D0FF;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+a {
+  text-decoration: none;
+  color: #3333C0;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #000080;
+}
+
+.small {
+  font-size: 0.8em;
+}
+
+.supersmall {
+  font-size: 0.7em;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.text_75 {
+  font-size: 75%;
+}
+
+.text_65 {
+  font-size: 65%;
+}
+
+.text_50 {
+  font-size: 50%;
+}
+
+.text_35 {
+  font-size: 35%;
+}
+
+.href,
+.href a,
+.href a:visited {
+  color: #222;
+  text-decoration: none;
+}
+
+.href a:visited,
+.href:visited {
+  color: #222233;
+  text-decoration: none;
+}
+
+.href:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+.view_more {
+  color: blue;
+  text-align: end;
+}
+
+.bullet {
+  border-radius: 10px;
+  border: 1px solid #aaa;
+  background-color: #ddd;
+  padding: 0px 5px;
+}
+
+/******* ICONES *************/
+.cnpq {
+  background: url(/img/icons/lattes.png) no-repeat scroll -100px 0px transparent;
+  display: block;
+  float: left;
+  height: 27px;
+  margin: -4px 6px 0 4px;
+  overflow: hidden !important;
+  text-indent: -9999px;
+  width: 32px;
+}
+
+input.form-control,
+textarea.form-control,
+select.form-control {
+  color: #000;
+  font-weight: bold;
+  border: 1px solid #0000;
+  background: #fff;
+}
+
+/************************ PGCD *******/
+a.pgcd_view_plans {
+  color: #000;
+  font-weight: 400;
+}
+
+a.pgcd_view_plans:hover {
+  color: #000;
+  font-weight: bold;
+}
+
+.pgcd_edit_plans,
+a.pgcd_edit_plans,
+a.pgcd_trash_plans {
+  color: #000;
+  font-weight: bold;
+}
+
+.pgcd_nav-item-active,
+a.pgcd_nav-item-active,
+a.pgcd_nav-item-active:hover {
+  background-color: #0d6efd;
+  border-radius: 20px 20px 0px 0px;
+  /* font-weight: bold; */
+  color: white;
+}
+
+.pgcd_border {
+  background: #aaa;
+  height: 2px;
+}
+
+.pgcd_table_th {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.pgcd_table {
+  border: 1px solid #0d6efd;
+}
+
+.pgcd_h {
+  border-top: 2px solid #aaa;
+  padding-top: 5px;
+}
+
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* CAPTION 2 */
+.caption-style-2 {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.caption-style-2 li {
+  float: left;
+  width: 100%;
+  padding: 0px;
+  position: relative;
+  overflow: hidden;
+}
+
+.caption-style-2 li:hover .caption {
+  opacity: 1;
+  transform: translateY(-100px);
+  -webkit-transform: translateY(-100px);
+  -moz-transform: translateY(-100px);
+  -ms-transform: translateY(-100px);
+  -o-transform: translateY(-100px);
+}
+
+.caption-style-2 img {
+  margin: 0px;
+  padding: 0px;
+  float: left;
+  z-index: 4;
+}
+
+.caption-style-2 .caption {
+  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+  top: 300px;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+}
+
+.caption-style-2 .blur {
+  background-color: rgba(0, 0, 0, 0.7);
+  height: 350px;
+  width: 500px;
+  z-index: 5;
+  position: absolute;
+}
+
+.caption-style-2 .caption-text {
+  padding: 0px 10px;
+  z-index: 10;
+  color: #fff;
+  position: absolute;
+  width: 300px;
+  height: 400px;
+  text-align: center;
+  top: 20px;
+}
+
+/************************* Patent */
+.patent-mark {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.75em;
+}
+
+/************************ PDF */
+.pdf_book {
+  border: 1px solid #F00;
+  text-align: center;
+  background-color: #fff;
+  color: #F00;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.pdf_book:hover {
+  border: 1px solid #F00;
+  text-align: center;
+  background-color: #830706;
+  color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/************************* Cited-Type */
+.type-journal {
+  background-color: #aaaaff;
+}
+
+.type-book {
+  background-color: #ffaaaa;
+}
+
+.type-bookchapter {
+  background-color: #ffdddd;
+}
+
+.type-link {
+  background-color: #ffaaff;
+}
+
+.type-tcc {
+  background-color: #ffffaa;
+}
+
+.type-dissertation {
+  background-color: #ffff77;
+}
+
+.type-these {
+  background-color: #ffff33;
+}
+
+.type-proceeding {
+  background-color: #aaffff;
+}
+
+.type-law {
+  background-color: #33ffff;
+}
+
+.type-report,
+.type-standard,
+.type-interview,
+.type-software,
+.type-patent,
+.type-none {
+  background-color: #aaa;
+}
+
+.radius5 {
+  border-radius: 5px;
+  padding: 0px 4px 0px 4px;
+  border: 1px solid #000;
+  font-size: 0.7em;
+}
+
+/********************** Heart */
+.heart {
+  /* Animation */
+  transform: rotate(-45deg) scale(1);
+  animation: pulse 2s linear infinite;
+  color: red;
+}
+
+@keyframes pulse {
+  0% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 0;
+  }
+
+  33% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+
+  66% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(-45deg) scale(1);
+    opacity: 0;
+  }
+}
