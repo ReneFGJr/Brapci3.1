@@ -57,6 +57,17 @@ class Authority extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'inport':
+                        switch($d2)
+                            {
+                                case 'ror':
+                                break;
+
+                                default:
+                                    $RSP['service'] = ['ror','lattes'];
+                                    break;
+                            }
+                        break;
                     case 'getid':
                         $RSP['data'] = $Auth->getid($d2);
                         break;
@@ -68,13 +79,13 @@ class Authority extends Model
                         $RSP['id'] = $Auth->register($name);
                         $RSP['person'] = $name;
                         $RSP['uri'] = 'https://hdl.handle.net/20.500.11959/person/' . $RSP['id'];
-                        break;                        
+                        break;
                     case 'cpf':
                         $cpf = $d2;
                         if ($cpf == '')
                             {
                                 $cpf = get("cpf");
-                            }                        
+                            }
                         $cpf = sonumero($cpf);
                         $RSP['valid'] = false;
                         $RSP['exist'] = false;
@@ -89,8 +100,8 @@ class Authority extends Model
                                     {
                                         $RSP['exist'] = true;
                                     }
-                                
-                                
+
+
                             }
                         $RSP['cpf'] = $cpf;
                         break;
@@ -105,7 +116,7 @@ class Authority extends Model
         function services($RSP)
             {
                 $srv = [];
-                $srv = ['search','put','cpf'];
+                $srv = ['search','put','cpf', 'inport/ror', 'inport/lattes'];
                 $RSP['services'] = $srv;
                 return $RSP;
             }

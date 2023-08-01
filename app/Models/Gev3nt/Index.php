@@ -61,6 +61,7 @@ class Index extends Model
             ->where('ei_sub_event', $id)
             ->orderBy('an_name')
             ->findAll();
+        $dt['total'] = count($dt['subscribed']);
         //echo $this->getlastquery();
         return $dt;
     }
