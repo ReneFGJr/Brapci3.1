@@ -51,7 +51,7 @@ class Index extends Model
         $dt = $this->getId($id);
         $dt['ID'] = $id;
 
-        $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data, ei_cpf, an_nome';
+        $cp = 'e_sigla, e_name, es_event, es_name, id_es, es_hora_ini, es_data, ei_cpf, an_name';
         $dt['subscribed'] = $this
             ->select($cp . ', count(*) as total')
             ->join('event_sections', 'es_event = id_e')
