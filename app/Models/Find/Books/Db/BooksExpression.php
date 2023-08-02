@@ -145,6 +145,11 @@ class BooksExpression extends Model
                 {
                     $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
                     $dt['authors'] = $BooksResponsability->getResposability($isbn);
+
+                    $BooksManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
+                    $dt['data'] = $BooksManifestation->getData($isbn);
+
+                    pre($dt);
                 } else {
                     $dt = [];
                 }
