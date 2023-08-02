@@ -69,7 +69,6 @@ class BooksExpression extends Model
 
     function register($RSP, $dt)
     {
-        pre($dt);
         $titulo = $dt['title'];
         $Books = new \App\Models\Find\Books\Db\Books();
         $idt = $Books->register($titulo);
@@ -119,6 +118,8 @@ class BooksExpression extends Model
         $de['be_type'] = 1;
         $de['be_lang'] = 1;
         $de['be_status'] = $dt['status'];
+
+        pre($de);
 
         $dv = $this->where('be_isbn13', $dt['isbn13'])->findAll();
         if (count($dv) == 0) {
