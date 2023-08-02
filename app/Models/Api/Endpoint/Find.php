@@ -81,7 +81,6 @@ class Find extends Model
                 $RSP = $FIND->register($isbn, $RSP);
 
                 $RSP = $FIND->getISBN($isbn);
-                pre($RSP);
                 echo json_encode($RSP);
                 exit;
                 break;
@@ -123,7 +122,7 @@ class Find extends Model
     function index($d1, $d2 = '', $d3 = '')
     {
         header('Access-Control-Allow-Origin: *');
-        header("Content-Type: application/json");
+        //header("Content-Type: application/json");
 
         $RSP = [];
 
