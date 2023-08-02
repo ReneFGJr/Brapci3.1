@@ -67,8 +67,7 @@ class Find extends Model
         if ($check) {
             $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
             /***************** Checa se ja existe na base */
-            if (!$BooksExpression->existISBN($isbn)) {
-                /* Obra não existe */
+            if (!$BooksExpression->existISBN($isbn)) {                /* Obra não existe */
 
 
                 /************* Consulta ISBNdb */
@@ -84,8 +83,8 @@ class Find extends Model
                     $RSP['status'] = '203';
                 } else {
                     $RSP['status'] = '204';
+                    $RSP = $BooksExpression->registerEmpty($isbn);
                 }
-                $RSP = $BooksExpression->registerEmpty($isbn);
             } else {
                 $RSP['status'] = '201';
                 $RSP['message'] = 'ISBN Já existente';
