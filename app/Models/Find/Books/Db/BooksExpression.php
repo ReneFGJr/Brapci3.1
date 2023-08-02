@@ -135,6 +135,7 @@ class BooksExpression extends Model
 
     function getISBN($isbn)
         {
+            $isbn = sonumero($isbn);
             $dt = $this
                     ->join('books', 'be_title = id_bk')
                     ->where('be_isbn13', $isbn)
