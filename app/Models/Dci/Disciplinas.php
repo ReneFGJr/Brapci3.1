@@ -203,7 +203,6 @@ class Disciplinas extends Model
         $sf .= form_dropdown('curso',$cursos,$curso);
         $sf .= form_submit('action',lang('brapci.submit'));
         $sf .= form_close();
-        $sem = 1;
         $this
             ->join('curso','di_curso = id_c')
             ->join('encargos','e_disciplina = id_di')
@@ -301,7 +300,6 @@ class Disciplinas extends Model
         $m['Departamento'] = PATH . '/dci';
         $m['Semestre'] = PATH . '/dci/semestre/2';
         $sf = breadcrumbs($m);
-        $sem = 1;
         $this
             ->join('curso', 'di_curso = id_c')
             ->join('encargos', 'e_disciplina = id_di')
@@ -311,8 +309,8 @@ class Disciplinas extends Model
             ->where('id_h > 0')
             ->where('e_semestre', $sem)
             ->orderBy('id_c,di_codigo,di_etapa,h_hora_ini');
-            echo $this->getlastquery();
         $dt = $this->findAll();
+        echo $this->getlastquery();
 
 
         $w = array(
