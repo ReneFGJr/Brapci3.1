@@ -147,7 +147,7 @@ class BooksExpression extends Model
                     $dt['authors'] = $BooksResponsability->getResposability($isbn);
 
                     $BooksManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
-                    $dt['data'] = $BooksManifestation->getData($$dt['be_rdf']);
+                    $dt['data'] = $BooksManifestation->getData($dt['be_rdf']);
 
                     pre($dt);
                 } else {
