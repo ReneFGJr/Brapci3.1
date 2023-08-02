@@ -114,7 +114,7 @@ class BooksManifestation extends Model
                     exit;
                 }
             /*********************************** Tipo */
-            if ($type[$prop] == 'C')
+            if (($type[$prop] == 'C') or ($type[$prop] == 'I'))
                 {
                     if (!is_array($valor)) {
                         $valor=array($valor);
@@ -127,6 +127,8 @@ class BooksManifestation extends Model
                             $RDF->prop($resource_1, $property[$prop], $resource_2, $literal);
                         }
                 }
+                echo "FIM";
+                exit;
 
         }
     function registerReg($ide,$prop,$valor)
