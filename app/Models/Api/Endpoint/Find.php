@@ -80,8 +80,10 @@ class Find extends Model
                 $FIND = new \App\Models\Find\Books\Db\Find();
                 $RSP = $FIND->register($isbn, $RSP);
                 $RSP2 = $FIND->getISBN($isbn);
+                pre($RSP,false);
+                pre($RSP2);
                 $FIND = array_merge($RSP,$RSP2);
-                pre($RSP);
+
                 echo json_encode($RSP);
                 exit;
                 break;
