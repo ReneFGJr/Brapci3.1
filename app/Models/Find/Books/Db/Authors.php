@@ -45,7 +45,10 @@ class Authors extends Model
 
     function register($name,$type="Author")
         {
-
+            $class = "Person";
+            $RDF = new \App\Models\Find\Rdf\RDF();
+            $idc = $RDF->concept($name, $class);
+            return $idc;
         }
 
     function getResposability($isbn)

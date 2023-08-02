@@ -70,7 +70,9 @@ class BooksExpression extends Model
     function register($RSP, $dt)
     {
         $titulo = $dt['title'];
+        $RDF = new \App\Models\Find\Rdf\RDF();
         $Books = new \App\Models\Find\Books\Db\Books();
+        $Authors = new \App\Models\Find\Books\Db\Authors();
         $idt = $Books->register($titulo);
 
         $Lang = new \App\Models\AI\NLP\Language();
@@ -80,15 +82,7 @@ class BooksExpression extends Model
             $lg = 'pt_BR';
         }
 
-        $authors = '';
-        if (isset($dt['authors'])) {
-            foreach ($dt['authors'] as $id => $nome) {
-                if ($authors != '') {
-                    $authors .= '; ';
-                }
-                $authors .= nbr_author($nome, 7);
-            }
-        }
+
 
         if (isset($dt['date'])) {
             $year = $dt['date'];
@@ -105,6 +99,22 @@ class BooksExpression extends Model
         $RDF = new \App\Models\Find\Rdf\RDF();
 
         $rdf = $RDF->concept('ISBN:' . $dt['isbn13'], 'Book');
+
+        /*********************************************** Authors */
+        $authors = '';
+        if (isset($dt['authors'])) {
+            $prop = $RDF->class('hasAuthor');
+
+            foreach ($dt['authors'] as $id => $nome) {
+                if ($authors != '') {
+                    $authors .= '; ';
+                }
+                $name = nbr_author($nome, 7);
+                $authors .= $name;
+                $ida = $Authors->register($name);
+                $RDF->prop($rdf, $prop, $ida, 0);
+            }
+        }
 
         /********************************** Registra Expression */
         $de = [];
@@ -129,6 +139,13 @@ class BooksExpression extends Model
         foreach ($dt as $prop => $reg) {
             $BookManifestation->register($rdf, $prop, $reg);
         }
+
+
+        if (isset($dt['authors'])) {
+
+
+        }
+
         $RSP['status'] = '205';
         return $RSP;
     }
