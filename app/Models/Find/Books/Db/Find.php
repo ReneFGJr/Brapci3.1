@@ -71,6 +71,7 @@ class Find extends Model
             if (!$BooksExpression->existISBN($isbn)) {
                 /* Obra não existe */
 
+
                 /************* Consulta ISBNdb */
                 $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
                 $djson = $ISBNdb->search($isbn);
@@ -82,6 +83,8 @@ class Find extends Model
                     $dt['status'] = 3;
                     $RSP = $BooksExpression->register($RSP, $dt);
                     $RSP['status'] = '203';
+                } else {
+                    $RSP['status'] = '204';
                 }
                 $RSP = $BooksExpression->registerEmpty($isbn);
             } else {
