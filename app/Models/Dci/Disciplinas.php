@@ -190,6 +190,7 @@ class Disciplinas extends Model
 
     function show_semestre($id = 0, $curso = 0)
     {
+        $sem = 2;
         $Cursos = new \App\Models\Dci\Cursos();
         $cursos = $Cursos->select();
         $curso = get("curso");
@@ -209,7 +210,7 @@ class Disciplinas extends Model
             ->join('docentes', 'e_docente = id_dc','LEFT')
             ->join('horario', 'e_horario = id_h','LEFT')
             ->where('id_di > 0')
-            ->where('e_semestre',1);
+            ->where('e_semestre',$sem);
         if ($curso != '')
             {
                 $this->where('e_curso',$curso);
@@ -294,6 +295,7 @@ class Disciplinas extends Model
 
     function show_semestre_row($id = 0, $curso = 0)
     {
+        $sem = 2;
         $sx = '';
         $m = [];
         $m['Departamento'] = PATH . '/dci';
@@ -307,7 +309,7 @@ class Disciplinas extends Model
             ->join('horario', 'e_horario = id_h', 'LEFT')
             ->where('id_di > 0')
             ->where('id_h > 0')
-            ->where('e_semestre', 1)
+            ->where('e_semestre', $sem)
             ->orderBy('id_c,di_codigo,di_etapa,h_hora_ini');
         $dt = $this->findAll();
 

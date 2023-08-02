@@ -49,7 +49,7 @@ class Index extends Model
         {
             $sem = 2;
             $sx = '';
-            echo $d1.'='.$d2.='='.$d3;
+
             switch($d1)
                 {
                     case 'encargos':
@@ -76,6 +76,7 @@ class Index extends Model
                                 case '2':
                                     $sx .= $Disciplinas->show_semestre_row(1);
                                 break;
+
                                 default:
                                     $sx .= '[[['.$d2.']]]';
                             }
