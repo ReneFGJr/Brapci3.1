@@ -47,9 +47,9 @@ class BooksManifestation extends Model
             $cp = 'id_cc,id_c,c_prefix,c_class,n_name,n_lang,c_order';
             $dt = $this
                 ->select($cp)
-                ->join('rdf_class as prop','d_p = prop.id_c')
-                ->join('rdf_concept as concept', 'concept.id_cc = d_r2')
-                ->join('rdf_name', 'cc_pref_term = id_n')
+                ->join('rdf_class as prop','d_p = prop.id_c','LEFT')
+                ->join('rdf_concept as concept','concept.id_cc = d_r2', 'LEFT')
+                ->join('rdf_name','cc_pref_term = id_n', 'LEFT')
                 ->where('d_r1',$id)
                 ->orderBy('c_order, c_class')
                 ->findAll();
