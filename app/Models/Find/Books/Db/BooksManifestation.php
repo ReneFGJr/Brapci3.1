@@ -72,6 +72,7 @@ class BooksManifestation extends Model
                 'title'=>'ignore',
                 'isbn13' => 'ignore',
                 'isbn10' => 'ignore',
+                'status' => 'ignore',
                 'edicao' => 'Edition'
                 ];
             $property = [
@@ -86,6 +87,7 @@ class BooksManifestation extends Model
                 'title'=>'ignore',
                 'isbn13'=>'ignore',
                 'isbn10' => 'ignore',
+                'status' => 'ignore',
                 'edicao' => 'isEdition',
                 'abstract'=> 'hasAbstract'
                 ];
@@ -114,7 +116,7 @@ class BooksManifestation extends Model
                     exit;
                 }
             /*********************************** Tipo */
-            //if (($type[$prop] == 'C') or ($type[$prop] == 'I'))
+            if ($type[$prop] == 'C')
                 {
                     if (!is_array($valor)) {
                         $valor=array($valor);
