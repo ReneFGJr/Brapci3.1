@@ -141,8 +141,7 @@ class BooksExpression extends Model
                     ->where('be_isbn13', $isbn)
                     ->first();
 
-                    echo $this->getlastquery();
-                    exit;
+            pre($dt);
             if ($dt != '')
                 {
                     $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
