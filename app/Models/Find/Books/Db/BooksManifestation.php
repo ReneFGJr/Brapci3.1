@@ -114,7 +114,7 @@ class BooksManifestation extends Model
                     exit;
                 }
             /*********************************** Tipo */
-            if (($type[$prop] == 'C') or ($type[$prop] == 'I'))
+            //if (($type[$prop] == 'C') or ($type[$prop] == 'I'))
                 {
                     echo '===>'.$prop.'<br>';
                     if (!is_array($valor)) {
