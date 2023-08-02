@@ -311,6 +311,7 @@ class Disciplinas extends Model
             ->where('id_h > 0')
             ->where('e_semestre', $sem)
             ->orderBy('id_c,di_codigo,di_etapa,h_hora_ini');
+            echo $this->getlastquery();
         $dt = $this->findAll();
 
 
