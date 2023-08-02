@@ -53,8 +53,6 @@ class BooksManifestation extends Model
                 ->where('d_r1',$id)
                 ->orderBy('c_order, c_class')
                 ->findAll();
-
-                echo $this->getlastquery();
             return $dt;
         }
 
