@@ -49,12 +49,13 @@ class Index extends Model
         {
             $sem = 2;
             $sx = '';
+            echo $d1.'='.$d2.='='.$d3;
             switch($d1)
                 {
                     case 'encargos':
-                        if (trim($d2)=='') { $d2 == 0;}
+                        if (trim($d3)=='') { $d3 == 0;}
                         $Encargos = new \App\Models\Dci\Encargos();
-                        $sx .= $Encargos->edit($d2);
+                        $sx .= $Encargos->edit($d3);
                         break;
                     case 'report':
                         switch($d2)

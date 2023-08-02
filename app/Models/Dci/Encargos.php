@@ -59,7 +59,7 @@ class Encargos extends Model
     protected $afterDelete    = [];
 
     var $path = PATH.'/dci/encargos';
-    var $path_back = PATH . '/dci/encargos';
+    var $path_back = PATH . '/dci/';
     var $id = 0;
 
     function indications($dt,$sem)
