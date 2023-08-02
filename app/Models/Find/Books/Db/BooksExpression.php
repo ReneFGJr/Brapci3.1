@@ -130,8 +130,6 @@ class BooksExpression extends Model
             $BookManifestation->register($rdf, $prop, $reg);
         }
         $RSP['status'] = '205';
-
-        pre($RSP);
         return $RSP;
     }
 
