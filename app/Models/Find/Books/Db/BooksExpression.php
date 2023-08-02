@@ -119,6 +119,7 @@ class BooksExpression extends Model
         $de['be_lang'] = 1;
         $de['be_status'] = $dt['status'];
 
+        pre($dt,false);
         pre($de);
 
         $dv = $this->where('be_isbn13', $dt['isbn13'])->findAll();
