@@ -143,6 +143,8 @@ class BooksExpression extends Model
                 {
                     $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
                     $dt['authors'] = $BooksResponsability->getResposability($isbn);
+                } else {
+                    $dt = [];
                 }
 
             return $dt;
