@@ -158,8 +158,6 @@ class RDF extends Model
                     $dt['d_update'] = date("Y-m-d");
                     $idr = $RDFData->set($dt)->insert();
                 }
-                echo $RDFData->getlastquery();
-                exit;
             return 1;
         }
 }

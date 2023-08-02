@@ -79,12 +79,8 @@ class Find extends Model
             case 'add':
                 $FIND = new \App\Models\Find\Books\Db\Find();
                 $RSP = $FIND->register($isbn, $RSP);
-                echo "OOOOOOOOOO";
-                pre($RSP, false);
-                $RSP2 = $FIND->getISBN($isbn);
 
-                echo "OOOOOOOOOO";
-                pre($RSP2);
+                $RSP2 = $FIND->getISBN($isbn);
                 $FIND = array_merge($RSP,$RSP2);
 
                 echo json_encode($RSP);

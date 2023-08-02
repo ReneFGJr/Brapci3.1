@@ -157,6 +157,9 @@ class Find extends Model
         $RSP = [];
         $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
         $RSP = $BooksExpression->getISBN($isbn);
+
+        echo "+++++++++++++++++++++++++++++++++++";
+        pre($RSP);
         echo json_encode($RSP);
         exit;
     }
