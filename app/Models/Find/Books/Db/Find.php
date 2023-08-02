@@ -62,8 +62,6 @@ class Find extends Model
         $check = $ISBN->check($isbn);
 
         $RSP['isbn'] = $isbn;
-        echo "OOOOOOOOOOO";
-        pre($RSP,false);
 
         /******** Inser ISBN na Base */
         if ($check) {
