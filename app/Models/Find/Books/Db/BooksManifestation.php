@@ -126,12 +126,8 @@ class BooksManifestation extends Model
                             $content = (string)$content;
                             $resource_2 = $RDF->concept($content, $class[$prop]);
                             $RDF->prop($resource_1, $property[$prop], $resource_2, $literal);
-                            echo $resource_1.'--'.$property[$prop] . '--' . $resource_2 . '--' . $literal;
-                            echo '<hr>';
                         }
                 }
-                echo "FIM";
-                exit;
 
         }
     function registerReg($ide,$prop,$valor)
