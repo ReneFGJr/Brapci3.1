@@ -148,12 +148,9 @@ class BooksExpression extends Model
 
                     $BooksManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
                     $dt['data'] = $BooksManifestation->getData($dt['be_rdf']);
-
-                    pre($dt);
                 } else {
                     $dt = [];
                 }
-
             return $dt;
         }
 
