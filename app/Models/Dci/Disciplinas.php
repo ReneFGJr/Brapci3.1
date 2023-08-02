@@ -306,7 +306,7 @@ class Disciplinas extends Model
             ->join('docentes', 'e_docente = id_dc', 'LEFT')
             ->join('horario', 'e_horario = id_h', 'LEFT')
             ->where('id_di > 0')
-            ->where('id_h > 0')
+            //->where('id_h > 0')
             ->where('e_semestre', $sem)
             ->orderBy('id_c,di_codigo,di_etapa,h_hora_ini');
         $dt = $this->findAll();
