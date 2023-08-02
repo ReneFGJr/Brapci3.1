@@ -139,6 +139,9 @@ class BooksExpression extends Model
                     ->join('books', 'be_title = id_bk')
                     ->where('be_isbn13', $isbn)
                     ->first();
+
+                    echo $this->getlastquery();
+                    exit;
             if ($dt != '')
                 {
                     $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
