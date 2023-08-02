@@ -69,7 +69,6 @@ class BooksExpression extends Model
 
     function register($RSP, $dt)
     {
-        pre($dt, false);
         $titulo = $dt['title'];
         $Books = new \App\Models\Find\Books\Db\Books();
         $idt = $Books->register($titulo);
