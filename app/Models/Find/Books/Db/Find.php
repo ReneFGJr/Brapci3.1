@@ -43,7 +43,6 @@ class Find extends Model
     function register($isbn, $RSP = [])
     {
         $isbn = sonumero($isbn);
-        echo "OOOOOOOOOOO";
         /******************************************* CHECK LIBRATY */
         $Libraries = new \App\Models\Find\Books\Db\Library();
         $RSP = $Libraries->checkLibrary($RSP);
