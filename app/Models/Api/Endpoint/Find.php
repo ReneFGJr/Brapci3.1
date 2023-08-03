@@ -63,6 +63,8 @@ class Find extends Model
 
     function getID($id)
     {
+        echo "OK";
+        exit;
         $Books = new \App\Models\Find\Books\Db\Books();
         $dt = $Books->getid($id);
         echo json_encode($dt);
