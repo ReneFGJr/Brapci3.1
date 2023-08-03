@@ -91,24 +91,9 @@ class BooksManifestation extends Model
                 'edicao' => 'isEdition',
                 'abstract'=> 'hasAbstract'
                 ];
-            $type = [
-                'editora' => 'C',
-                'language' => 'C',
-                'cover'=> 'F',
-                'title_long' => 'I',
-                'dimensoes' => 'I',
-                'pages' => 'C',
-                'date' => 'C',
-                'authors' => 'C',
-                'title'=>'I',
-                'isbn13' => 'I',
-                'isbn10' => 'I',
-                'status'=>'I',
-                'edicao' => 'C',
-                'abstract'=>'C'
-                ];
 
-            if(isset($type[$prop]))
+
+            if(isset($property[$prop]))
                 {
 
                 } else {
@@ -116,7 +101,7 @@ class BooksManifestation extends Model
                     exit;
                 }
             /*********************************** Tipo */
-            if ($type[$prop] == 'C')
+            if ($property[$prop] != 'ignore')
                 {
                     if (!is_array($valor)) {
                         $valor=array($valor);
