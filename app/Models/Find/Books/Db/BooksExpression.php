@@ -136,7 +136,6 @@ class BooksExpression extends Model
         }
 
         $BookManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
-        pre($dt);
         foreach ($dt as $prop => $reg) {
             $BookManifestation->register($rdf, $prop, $reg);
         }

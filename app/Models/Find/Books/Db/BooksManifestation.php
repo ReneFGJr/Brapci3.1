@@ -93,16 +93,15 @@ class BooksManifestation extends Model
                 ];
 
 
-            if(isset($property[$prop]))
+            if(!isset($property[$prop]))
                 {
-
-                } else {
                     echo "<br>ERRO DE CLASSE - $prop";
                     exit;
                 }
             /*********************************** Tipo */
             if ($property[$prop] != 'ignore')
                 {
+                    echo $prop.'=>'. $property[$prop].'<br>';
                     if (!is_array($valor)) {
                         $valor=array($valor);
                     }
