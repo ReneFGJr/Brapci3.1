@@ -93,7 +93,6 @@ class Find extends Model
         } else {
             $RSP['status'] = '200';
         }
-        echo "OK4"; exit;
         return $RSP;
     }
 
