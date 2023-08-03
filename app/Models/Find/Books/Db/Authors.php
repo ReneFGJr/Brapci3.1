@@ -47,7 +47,13 @@ class Authors extends Model
         {
             $class = "Person";
             $RDF = new \App\Models\Find\Rdf\RDF();
-            $idc = $RDF->concept($name, $class);
+            if (strlen(trim($name)) > 2)
+                {
+                    $idc = $RDF->concept($name, $class);
+                } else {
+                    $idc = 0;
+                }
+
             return $idc;
         }
 
