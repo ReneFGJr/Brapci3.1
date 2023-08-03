@@ -227,11 +227,8 @@ class Find extends Model
 
             case 'libraries':
                 $Library = new \App\Models\Find\Library\Index();
-                echo "OK";
-                exit;
                 $dt = $Library->listAll();
                 $RSP['data']=$dt;
-                pre($RSP);
                 return $RSP;
                 break;
         }

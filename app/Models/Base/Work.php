@@ -42,7 +42,7 @@ class Work extends Model
 
     function showHTML($dt)
     {
-        echo "ok";
+        echo "ok - showHTML - RDF WORK";
         exit;
         $sx = view('RDF/work', $dt);
         return $sx;

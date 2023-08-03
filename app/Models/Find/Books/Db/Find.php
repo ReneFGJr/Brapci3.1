@@ -67,8 +67,8 @@ class Find extends Model
         if ($check) {
             $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
             /***************** Checa se ja existe na base */
-            if (!$BooksExpression->existISBN($isbn)) {                /* Obra não existe */
-
+            if (!$BooksExpression->existISBN($isbn)) {
+                /* Obra não existe */
 
                 /************* Consulta ISBNdb */
                 $ISBNdb = new \App\Models\ISBN\Isbndb\Index();

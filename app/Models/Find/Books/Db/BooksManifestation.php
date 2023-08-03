@@ -101,7 +101,6 @@ class BooksManifestation extends Model
             /*********************************** Tipo */
             if ($property[$prop] != 'ignore')
                 {
-                    echo $prop.'=>'. $property[$prop].'<br>';
                     if (!is_array($valor)) {
                         $valor=array($valor);
                     }
