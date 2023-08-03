@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Authors extends Model
 {
     protected $DBGroup          = 'find';
-    protected $table            = 'books_responsability';
-    protected $primaryKey       = 'id_au';
+    protected $table            = 'books_expression';
+    protected $primaryKey       = 'id_be';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -56,7 +56,6 @@ class Authors extends Model
             $cp = 'n_name, n_lock, id_au, au_person, au_propriety, au_expression, au_order, c_class as propriery';
             $dt = $this
                 ->select($cp)
-                ->join('books_expression', 'id_be = au_expression')
                 ->join('rdf_concept', 'au_person = id_cc')
                 ->join('rdf_name', 'cc_pref_term = id_n')
                 ->join('rdf_class', 'id_c = au_propriety')
