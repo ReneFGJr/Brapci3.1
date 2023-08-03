@@ -59,7 +59,10 @@ class Find extends Model
 
         /***************************************** CHECK ISBN */
         $ISBN = new \App\Models\Functions\Isbn();
+        echo "OK2";
         $check = $ISBN->check($isbn);
+        echo "OK2";
+        exit;
 
         $RSP['isbn'] = $isbn;
 
