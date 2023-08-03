@@ -78,6 +78,7 @@ class Find extends Model
                 if (isset($dt['book'])) {
                     $dt = (array($dt['book']));
                     $dt = $ISBNdb->convert($dt);
+
                     $dt['status'] = 3;
                     $RSP = $BooksExpression->register($RSP, $dt);
                     $RSP['status'] = '203';

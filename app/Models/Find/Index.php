@@ -64,6 +64,10 @@ class Index extends Model
                 $sx .= $BooksOld->inport();
                 $sx .= metarefresh(PATH . 'admin/find/harvesting/0', 10);
                 break;
+            case 'form':
+                $sx .= '<hr>';
+                $sx .= $this->form();
+                break;
             case 'resume':
                 $sx .= h('CATALOG', 3);
                 $sx .= $this->catalog();
@@ -73,6 +77,7 @@ class Index extends Model
                 $sx .= $this->getId($d2);
                 break;
             default:
+                $menu[PATH . 'admin/find/form'] = 'Form Imput ISBN';
                 $menu[PATH . 'admin/find/inport'] = 'Find Import';
                 $menu[PATH . '/admin/find/resume'] = 'Find Books Cataloged';
                 $menu[PATH . '/admin/find/clear'] = '** Clear Catalog **';
@@ -95,6 +100,40 @@ class Index extends Model
                     $sx .= $sql;
                 }
             $sx = bs(bsc($sx,12));
+            return $sx;
+        }
+
+    function form()
+        {
+            $sx = '<label>Informe o número do ISBN</label>';
+            $sx .= '<form>';
+            $sx .= form_input('isbn',get("isbn"),['class'=>'form-control border-secondary border','style'=>'width: 250px;']);
+            $sx .= '<br>';
+            $sx .= form_submit('act','Incluir >>>');
+            $sx .= '</form>';
+
+            $isbn = get('isbn');
+            if ($isbn != '')
+                {
+                    $url = URL.'/api/isbn/'.$isbn;
+                    $dt = file_get_contents($url);
+                    $dt = (array)json_decode($dt);
+
+                    if ($dt['valid'] == 1)
+                        {
+                            $url = URL . '/api/find/isbn/' . $isbn.'/add';
+                            $url .= '?library=1';
+                            $url .= '&apikey=ff63a314d1ddd425517550f446e4175e';
+                            $sx .=  anchor($url);
+                            $sx .= '<hr>';
+                            $dta = file_get_contents($url);
+                            $dta = (array)json_decode($dta);
+                            pre($dta,false);
+                        }
+                        else {
+                            $sx .= bsmessage("ERRO NO Número do ISBN ".$isbn,3);
+                        }
+                }
             return $sx;
         }
 

@@ -77,7 +77,6 @@ class Index extends Model
                             $data = (array)$this->convert($dta);
                             $sx .= $Cataloging->import($data);
                         }
-                    pre($dta);
                 }
             return $sx;
         }
@@ -135,6 +134,7 @@ class Index extends Model
             $Language = new \App\Models\Language\Lang();
 
             $dt = [];
+            $dt['authors'] = [];
 
             foreach($dta as $ida=>$line)
                 {
@@ -165,11 +165,19 @@ class Index extends Model
                                         $dt['language'] = $Language->code($vlr);
                                         break;
                                     case 'authors':
-                                        if (is_array($vlr)) {
-                                            $dt['authors'] = $vlr;
-                                        } else {
-                                            $dt['authors'][0] = $vlr;
+                                        if (!is_array($vlr)) {
+                                            $vlr[0] = $vlr;
                                         }
+                                        for($r=0;$r < count($vlr);$r++)
+                                            {
+                                                $v = troca($vlr[$r],'_','');
+                                                $v = trim($v);
+                                                if ($v != '')
+                                                    {
+                                                        $v = nbr_author($v,7);
+                                                        array_push($dt['authors'], $v);
+                                                    }
+                                            }
                                         break;
                                     case 'publisher':
                                         if (is_array($vlr))

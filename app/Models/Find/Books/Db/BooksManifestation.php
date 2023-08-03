@@ -74,7 +74,8 @@ class BooksManifestation extends Model
                 'isbn13' => 'ignore',
                 'isbn10' => 'ignore',
                 'status' => 'ignore',
-                'edicao' => 'Edition'
+                'edicao' => 'Edition',
+                'abstract' => 'Text'
                 ];
             $property = [
                 'editora'=> 'isPublisher',
@@ -109,7 +110,7 @@ class BooksManifestation extends Model
                         {
                             $literal = 0;
                             $content = (string)$content;
-                            if (strlen($content) > 1)
+                            if ((strlen($content) > 1) and (isset($class[$prop])))
                                 {
                                     $resource_2 = $RDF->concept($content, $class[$prop]);
                                     $RDF->prop($resource_1, $property[$prop], $resource_2, $literal);

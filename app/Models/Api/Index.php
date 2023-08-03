@@ -73,7 +73,7 @@ class Index extends Model
             case 'gev3nt':
                 $Gev3nt = new \App\Models\Api\Endpoint\Gev3nt();
                 $sx = $Gev3nt->index($d2, $d3, $d4);
-                break;                
+                break;
             case 'source':
                 $Sources = new \App\Models\Api\Endpoint\Sources();
                 $sx = $Sources->index($d2, $d3, $d4);
