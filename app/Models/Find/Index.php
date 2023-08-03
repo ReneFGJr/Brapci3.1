@@ -48,10 +48,6 @@ class Index extends Model
         $b['Find']= PATH.'/admin/find/';
         $sx = breadcrumbs($b);
         switch ($d1) {
-            case 'angular':
-                $Angular = new \App\Models\Find\Books\Angular();
-                $sx .= $Angular->index($d2,$d3);
-                break;
             case 'clear':
                 $sx .= $this->clear_catalog();
                 break;
