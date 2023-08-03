@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Authors extends Model
 {
     protected $DBGroup          = 'find';
-    protected $table            = 'books_expression';
-    protected $primaryKey       = 'id_be';
+    protected $table            = 'rdf_data';
+    protected $primaryKey       = 'id_d';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -53,15 +53,15 @@ class Authors extends Model
 
     function getResposability($isbn)
         {
-            $cp = 'n_name, n_lock, id_au, au_person, au_propriety, au_expression, au_order, c_class as propriery';
+            $cp = 'id_cc,id_c,c_prefix,c_class,n_name,n_lang,c_order';
             $dt = $this
                 ->select($cp)
-                ->join('rdf_concept', 'au_person = id_cc')
-                ->join('rdf_name', 'cc_pref_term = id_n')
-                ->join('rdf_class', 'id_c = au_propriety')
-                ->where('be_isbn13',$isbn)
+                ->join('rdf_class as prop', 'd_p = prop.id_c', 'LEFT')
+                ->join('rdf_concept as concept', 'concept.id_cc = d_r2', 'LEFT')
+                ->join('rdf_name', 'cc_pref_term = id_n', 'LEFT')
+                ->where('d_r1', $id)
+                ->orderBy('c_order, c_class')
                 ->findAll();
-
             return $dt;
         }
 }
