@@ -65,7 +65,6 @@ class Find extends Model
 
         /******** Inser ISBN na Base */
         if ($check) {
-            echo "OK2";
             $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
             /***************** Checa se ja existe na base */
             if (!$BooksExpression->existISBN($isbn)) {
@@ -89,6 +88,7 @@ class Find extends Model
                     $RSP = $BooksExpression->registerEmpty($isbn);
                 }
             } else {
+                echo "OK3";
                 $RSP['status'] = '201';
                 $RSP['message'] = 'ISBN Já existente';
                 $RSP['isbn'] = $isbn;
