@@ -50,8 +50,6 @@ class BooksExpression extends Model
         {
             $isbn = sonumero($isbn);
             $dt = $this->where('be_isbn13',$isbn)->first();
-            echo "XXXXXXXXXX";
-            exit;
             return ($dt != '');
         }
 
