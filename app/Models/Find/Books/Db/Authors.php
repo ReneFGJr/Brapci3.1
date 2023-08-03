@@ -51,7 +51,7 @@ class Authors extends Model
             return $idc;
         }
 
-    function getResposability($isbn)
+    function getResposability($id,$class= 'hasAuthor')
         {
             $cp = 'id_cc,id_c,c_prefix,c_class,n_name,n_lang,c_order';
             $dt = $this
@@ -60,6 +60,7 @@ class Authors extends Model
                 ->join('rdf_concept as concept', 'concept.id_cc = d_r2', 'LEFT')
                 ->join('rdf_name', 'cc_pref_term = id_n', 'LEFT')
                 ->where('d_r1', $id)
+                ->where('c_class', $class)
                 ->orderBy('c_order, c_class')
                 ->findAll();
             return $dt;
