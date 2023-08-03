@@ -111,7 +111,7 @@ class Index extends Model
             ->where('be_rdf', $id)
             ->first();
 
-        if (count($dt) > 0) {
+        if ($dt != '') {
             $ex = $dt['be_rdf'];
 
             $sx .= h($dt['bk_title'],2);
