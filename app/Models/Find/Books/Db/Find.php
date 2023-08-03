@@ -59,15 +59,13 @@ class Find extends Model
 
         /***************************************** CHECK ISBN */
         $ISBN = new \App\Models\Functions\Isbn();
-        echo "OK2";
         $check = $ISBN->check($isbn);
-        echo "OK2";
-        exit;
 
         $RSP['isbn'] = $isbn;
 
         /******** Inser ISBN na Base */
         if ($check) {
+            echo "OK2";
             $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
             /***************** Checa se ja existe na base */
             if (!$BooksExpression->existISBN($isbn)) {
