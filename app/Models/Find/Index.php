@@ -111,8 +111,6 @@ class Index extends Model
             ->where('be_rdf', $id)
             ->first();
 
-            pre($dt);
-
         if (count($dt) > 0) {
             $ex = $dt['be_rdf'];
 
