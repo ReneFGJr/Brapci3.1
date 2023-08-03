@@ -157,6 +157,7 @@ class BooksExpression extends Model
                     ->join('books', 'be_title = id_bk')
                     ->where('be_isbn13', $isbn)
                     ->first();
+                    pre($dt);
 
             if ($dt != '')
                 {
