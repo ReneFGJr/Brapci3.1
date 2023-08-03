@@ -109,8 +109,11 @@ class BooksManifestation extends Model
                         {
                             $literal = 0;
                             $content = (string)$content;
-                            $resource_2 = $RDF->concept($content, $class[$prop]);
-                            $RDF->prop($resource_1, $property[$prop], $resource_2, $literal);
+                            if (strlen($content) > 1)
+                                {
+                                    $resource_2 = $RDF->concept($content, $class[$prop]);
+                                    $RDF->prop($resource_1, $property[$prop], $resource_2, $literal);
+                                }
                         }
                 }
 
