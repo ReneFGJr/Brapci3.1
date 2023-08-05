@@ -79,7 +79,7 @@ class Books extends Model
 
             $Item = new \App\Models\Find\Books\Db\BooksLibrary();
             $dt = $Item
-                ->join('books_expression', 'bl_expression = id_be')
+                ->join('books_expression', 'bl_ISSN = bl_ISBN')
                 ->join('books', 'be_title = id_bk')
                 ->findAll($ini, $fim);
             $RSP = [];
