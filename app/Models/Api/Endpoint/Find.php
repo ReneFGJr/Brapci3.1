@@ -69,22 +69,23 @@ class Find extends Model
         exit;
     }
 
-    function isbn($isbn, $action)
+    function isbn($isbn, $action='')
     {
         $RSP = [];
         $RSP['date'] = date("Y-m-dTH:i:s");
         $RSP['verb'] = $action;
+        $FIND = new \App\Models\Find\Books\Db\Find();
 
         switch ($action) {
             case 'add':
-                $FIND = new \App\Models\Find\Books\Db\Find();
+
                 $RSP = $FIND->register($isbn, $RSP);
 
                 $RSP2 = $FIND->getISBN($isbn);
                 $FIND = array_merge($RSP, $RSP2);
-
-                echo json_encode($RSP);
-                exit;
+                break;
+            default:
+                $RSP = $FIND->getISBN($isbn);
                 break;
         }
         echo json_encode($RSP);
@@ -169,6 +170,8 @@ class Find extends Model
                 $DT['user'] =  $RSP['user']['id_us'];
                 $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
                 $RSP = $BooksLibrary->register($DT);
+
+                $RSP = $this->isbn($DT['isbn']);
             }
         }
         echo json_encode($RSP);

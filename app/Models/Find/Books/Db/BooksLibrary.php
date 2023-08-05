@@ -108,6 +108,7 @@ class BooksLibrary extends Model
                 ->findAll();
             return $dt;
         }
+
     function listItem($library, $sta)
     {
         if ($sta == 'A') {
