@@ -61,7 +61,7 @@ class Books extends Model
         return $id;
     }
 
-    function lastitens($ini = '', $fim = '')
+    function lastitens($ini = '', $fim = '',$lib = 1)
     {
         $RSP = [];
         /******************************************* CHECK LIBRATY */
@@ -79,8 +79,9 @@ class Books extends Model
 
             $Item = new \App\Models\Find\Books\Db\BooksLibrary();
             $dt = $Item
-                ->join('books_expression', 'bl_ISSN = bl_ISBN')
-                ->join('books', 'be_title = id_bk')
+                ->join('books_expression', 'be_title = id_bk')
+                ->join('book_library', 'be_isbn13 = bl_ISBN')
+                ->where('bl_library',$lib)
                 ->findAll($ini, $fim);
             $RSP = [];
             foreach ($dt as $id => $line) {
