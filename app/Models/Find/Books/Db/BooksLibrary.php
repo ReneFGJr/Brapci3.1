@@ -78,7 +78,7 @@ class BooksLibrary extends Model
     {
         $dt = $this
             ->where('bl_library', $DT['library'])
-            ->where('bl_expression', $DT['expression'])
+            ->where('bl_ISBN', $DT['isbn'])
             ->findAll();
         $tot = count($dt) + 1;
         return $tot;
