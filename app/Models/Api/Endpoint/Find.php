@@ -117,7 +117,7 @@ class Find extends Model
     function getPlace($lib)
         {
             $LibraryPlace = new \App\Models\Find\Books\Db\LibraryPlace();
-            echo json_encode($LibraryPlace->getPlace($lib));
+            echo json_encode($LibraryPlace->listPlaces($lib));
             exit;
         }
 
