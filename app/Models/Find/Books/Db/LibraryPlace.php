@@ -15,7 +15,7 @@ class LibraryPlace extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_lp', 'lp_labrary', 'lp_name',
+        'id_lp', 'lp_library', 'lp_name',
         'lp_description', 'lp_cood_x', 'lp_cood_y'
     ];
 
