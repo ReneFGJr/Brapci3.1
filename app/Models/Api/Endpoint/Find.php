@@ -114,6 +114,13 @@ class Find extends Model
         exit;
     }
 
+    function getPlace($lib)
+        {
+            $LibraryPlace = new \App\Models\Find\Books\Db\LibraryPlace();
+            echo json_encode($LibraryPlace->getPlace($lib));
+            exit;
+        }
+
     function libraries()
         {
         $Library = new \App\Models\Find\Books\Db\Library();
@@ -134,6 +141,10 @@ class Find extends Model
                 break;
             case 'getISBN':
                 $this->getISBN($d2);
+                break;
+            case 'getPlace':
+                $lib = get('library');
+                $this->getPlace($lib);
                 break;
             case 'status':
                 $this->lastItensStatus($d2, $d3);
@@ -163,7 +174,8 @@ class Find extends Model
             'libraries'=> 'libraries',
             'vitrine' => 'vitrine',
             'isbn' => 'isbn',
-            'getISBN' => 'getISBN'
+            'getISBN' => 'getISBN',
+            'getPlace' => 'getPlace',
             ];
         $RSP['services'] = $srv;
         return $RSP;
