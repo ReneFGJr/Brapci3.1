@@ -144,6 +144,7 @@ class Find extends Model
                 break;
             case 'getPlace':
                 $lib = get('library');
+                if ($lib == '') { $lib = $d2; }
                 $this->getPlace($lib);
                 break;
             case 'status':
