@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class LibraryPlace extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = 'find';
     protected $table            = 'library_place';
     protected $primaryKey       = 'id_lp';
     protected $useAutoIncrement = true;
