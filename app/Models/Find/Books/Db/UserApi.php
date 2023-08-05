@@ -54,7 +54,6 @@ class UserApi extends Model
                         {
                             $dt = $this->getUser($apikey);
                             $RSP['status'] = '200';
-                            $RSP['user'] = $dt['id_us'];
                         } else {
                             $RSP['status'] = '202';
                             $RSP['message'] = 'Falha na autenticação APIKEY - '.$apikey;

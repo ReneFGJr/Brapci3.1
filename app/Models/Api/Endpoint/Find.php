@@ -144,28 +144,35 @@ class Find extends Model
         if ($RSP['status'] != '200') {
             return $RSP;
         }
+        $RSP['user'] = $UserApi->user;
         return $RSP;
     }
 
     function putItemLibrary()
     {
         $RSP = $this->check();
-        if ($RSP['status'] == '200')
-            {
+        if ($RSP['status'] == '200') {
+            $vars = ['library', 'tombo', 'place', 'isbn'];
+            foreach ($vars as $id => $var) {
+                if (get($var) == '') {
+                    $RSP = [];
+                    $RSP['status'] = '202';
+                    $RSP['message'] = 'Campo ' . $var . ' está vazio';
+                }
+            }
+            if ($RSP['status'] == '200') {
                 $DT = [];
-                $DT['library'] =  get("library");
+                $DT['library'] = get("library");
                 $DT['tombo'] =  get("tombo");
                 $DT['place'] =  get("place");
                 $DT['isbn'] =  get("isbn");
-                $DT[''] =  get("library");
-                $DT[''] =  get("library");
-                $DT[''] =  get("library");
-                $DT[''] =  get("library");
+                $DT['user'] =  $RSP['user']['id_us'];
                 $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
-                $RSP = $BooksLibrary->insertItem($library, $isbn,$place,$tombo);
+                $RSP = $BooksLibrary->register($DT);
             }
-            echo json_encode($RSP);
-            exit;
+        }
+        echo json_encode($RSP);
+        exit;
     }
 
     function index($d1, $d2 = '', $d3 = '')

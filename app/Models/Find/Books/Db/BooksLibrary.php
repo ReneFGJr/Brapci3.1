@@ -18,7 +18,7 @@ class BooksLibrary extends Model
         'id_bl', 'bl_library', 'bl_item',
         'bl_tombo', 'bl_catalogador', 'bl_status',
         'bl_emprestimo', 'bl_renovacao', 'bl_usuario',
-        'bl_expression', 'bl_exemplar', 'bl_place'
+        'bl_ISBN', 'bl_exemplar', 'bl_place'
     ];
 
     // Dates
@@ -49,8 +49,8 @@ class BooksLibrary extends Model
     {
         $dt = $this
             ->where('bl_library', $DT['library'])
-            ->where('bl_ISBN', $DT['bl_ISBN'])
-            ->where('bl_place', $DT['bl_place'])
+            ->where('bl_ISBN', $DT['isbn'])
+            ->where('bl_place', $DT['place'])
             ->findAll();
 
         if (count($dt) > 0) {
@@ -62,12 +62,13 @@ class BooksLibrary extends Model
         $dd = [];
         $dd['bl_library'] = $DT['library'];
         $dd['bl_exemplar'] = $ex;
-        $dd['bl_expression'] = $DT['expression'];
+        $dd['bl_ISBN'] = $DT['isbn'];
         $dd['bl_catalogador'] = $DT['user'];
         $dd['bl_tombo'] = $DT['tombo'];
         $dd['bl_status'] = 1;
         $dd['bl_usuario'] = 0;
         $dd['bl_place'] = $DT['place'];
+
         $idit = $this->set($dd)->insert();
         $DT['item'] = $idit;
         return $DT;
