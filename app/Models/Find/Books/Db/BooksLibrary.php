@@ -98,6 +98,16 @@ class BooksLibrary extends Model
             return $tombo;
         }
     }
+    function getItens($isbn)
+        {
+            $dt = $this
+                ->join('library', 'id_lb = bl_library')
+                ->join('library_place', 'id_lp = bl_place')
+                ->where('bl_ISBN',$isbn)
+                ->orderBy('lb_name, bl_exemplar')
+                ->findAll();
+            return $dt;
+        }
     function listItem($library, $sta)
     {
         if ($sta == 'A') {
