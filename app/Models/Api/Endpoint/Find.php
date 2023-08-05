@@ -81,7 +81,7 @@ class Find extends Model
                 $RSP = $FIND->register($isbn, $RSP);
 
                 $RSP2 = $FIND->getISBN($isbn);
-                $FIND = array_merge($RSP,$RSP2);
+                $FIND = array_merge($RSP, $RSP2);
 
                 echo json_encode($RSP);
                 exit;
@@ -98,10 +98,10 @@ class Find extends Model
     }
 
     function getISBN($isbn)
-        {
-            $Find = new \App\Models\Find\Books\Db\Find();
-            $Find->getISBN($isbn);
-        }
+    {
+        $Find = new \App\Models\Find\Books\Db\Find();
+        $Find->getISBN($isbn);
+    }
 
     function saveField()
     {
@@ -115,18 +115,58 @@ class Find extends Model
     }
 
     function getPlace($lib)
-        {
-            $LibraryPlace = new \App\Models\Find\Books\Db\LibraryPlace();
-            echo json_encode($LibraryPlace->listPlaces($lib));
-            exit;
-        }
+    {
+        $LibraryPlace = new \App\Models\Find\Books\Db\LibraryPlace();
+        echo json_encode($LibraryPlace->listPlaces($lib));
+        exit;
+    }
 
     function libraries()
-        {
+    {
         $Library = new \App\Models\Find\Books\Db\Library();
         $dt = $Library->libraries();
         return $dt;
+    }
+
+    function check()
+    {
+        $RSP = [];
+        /******************************************* CHECK LIBRATY */
+        $Libraries = new \App\Models\Find\Books\Db\Library();
+        $RSP = $Libraries->checkLibrary($RSP);
+        if ($RSP['status'] != '200') {
+            return $RSP;
         }
+
+        /******************************************* CHECK USUARIO */
+        $UserApi = new \App\Models\Find\Books\Db\UserApi();
+        $RSP = $UserApi->checkUser();
+        if ($RSP['status'] != '200') {
+            return $RSP;
+        }
+        return $RSP;
+    }
+
+    function putItemLibrary()
+    {
+        $RSP = $this->check();
+        if ($RSP['status'] == '200')
+            {
+                $DT = [];
+                $DT['library'] =  get("library");
+                $DT['tombo'] =  get("tombo");
+                $DT['place'] =  get("place");
+                $DT['isbn'] =  get("isbn");
+                $DT[''] =  get("library");
+                $DT[''] =  get("library");
+                $DT[''] =  get("library");
+                $DT[''] =  get("library");
+                $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
+                $RSP = $BooksLibrary->insertItem($library, $isbn,$place,$tombo);
+            }
+            echo json_encode($RSP);
+            exit;
+    }
 
     function index($d1, $d2 = '', $d3 = '')
     {
@@ -139,12 +179,17 @@ class Find extends Model
             case 'libraries':
                 $RSP['data'] = $this->libraries();
                 break;
+            case 'putItemLibrary':
+                $this->putItemLibrary();
+                break;
             case 'getISBN':
                 $this->getISBN($d2);
                 break;
             case 'getPlace':
                 $lib = get('library');
-                if ($lib == '') { $lib = $d2; }
+                if ($lib == '') {
+                    $lib = $d2;
+                }
                 $this->getPlace($lib);
                 break;
             case 'status':
@@ -154,7 +199,7 @@ class Find extends Model
                 $this->isbn($d2, $d3);
                 break;
             case 'saveField':
-                $this->saveField($d2,$d3);
+                $this->saveField($d2, $d3);
                 break;
             case 'vitrine':
                 $this->lastItens($d2, $d3);
@@ -172,12 +217,12 @@ class Find extends Model
     {
         $srv = [];
         $srv['livros'] = [
-            'libraries'=> 'libraries',
+            'libraries' => 'libraries',
             'vitrine' => 'vitrine',
             'isbn' => 'isbn',
             'getISBN' => 'getISBN',
             'getPlace' => 'getPlace',
-            ];
+        ];
         $RSP['services'] = $srv;
         return $RSP;
     }
@@ -234,14 +279,14 @@ class Find extends Model
                 exit;
                 break;
             case  'vitrine':
-                echo $this->lastItens(1,1);
+                echo $this->lastItens(1, 1);
                 exit;
                 break;
 
             case 'libraries':
                 $Library = new \App\Models\Find\Library\Index();
                 $dt = $Library->listAll();
-                $RSP['data']=$dt;
+                $RSP['data'] = $dt;
                 return $RSP;
                 break;
         }
