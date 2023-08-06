@@ -193,6 +193,8 @@ class Find extends Model
                 $this->putItemLibrary();
                 break;
             case 'getISBN':
+            echo "OK";
+            exit;
                 $this->getISBN($d2);
                 break;
             case 'getPlace':
