@@ -72,8 +72,12 @@ class Cover extends Model
                 }
             if ($ext != '')
                 {
+                    $BookExpression = new \App\Models\Find\Books\Db\BooksExpression();
                     file_put_contents($dir . '/' . $isbn . $ext, $data);
                     $RSP['cover'] = URL.'/'.$dir . '/'. $isbn . $ext;
+                    $dt = [];
+                    $dt['be_cover'] = URL . '/' . $dir . '/' . $isbn . $ext;
+                    $BookExpression->set($dt)->where('be_isbn13',$isbn)->update();
                 }
         return $RSP;
     }
