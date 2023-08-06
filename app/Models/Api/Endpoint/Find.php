@@ -178,6 +178,13 @@ class Find extends Model
         exit;
     }
 
+    function cover($isbn,$action='')
+        {
+            $RSP = [];
+            $RSP['cover'] = 'Cover';
+            return $RSP;
+        }
+
     function saveCover($isbn,$action)
         {
             $RSP = $this->check();
@@ -211,7 +218,7 @@ class Find extends Model
 
         switch ($d1) {
             case 'cover':
-                $RSP = $this->saveCover($d2,$d3);
+                $RSP = $this->cover($d2,$d3);
                 break;
             case 'libraries':
                 $RSP['data'] = $this->libraries();
