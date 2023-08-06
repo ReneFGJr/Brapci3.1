@@ -132,7 +132,7 @@ class Isbn extends Model
     function genchksum13($isbn)
     {
         $isbn = sonumero($isbn);
-        if (substr($isbn,0,3) != '978')
+        if ((substr($isbn,0,3) != '978') and (substr($isbn, 0, 3) != '977'))
             {
                 return 'X';
             }
