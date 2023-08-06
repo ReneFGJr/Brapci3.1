@@ -79,9 +79,7 @@ class Find extends Model
 
         switch ($action) {
             case 'add':
-
                 $RSP = $FIND->register($isbn, $RSP);
-
                 $RSP2 = $FIND->getISBN($isbn);
                 $FIND = array_merge($RSP, $RSP2);
                 break;
