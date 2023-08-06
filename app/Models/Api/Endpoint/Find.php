@@ -85,6 +85,7 @@ class Find extends Model
                 break;
             default:
                 $RSP = $FIND->getISBN($isbn);
+                $RSP['status'] = get("library");
                 break;
         }
         echo json_encode($RSP);
