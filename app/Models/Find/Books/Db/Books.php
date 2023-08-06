@@ -89,9 +89,10 @@ class Books extends Model
             $RSP = [];
             foreach ($dt as $id => $line) {
                 $title = $line['bk_title'];
-                if (strlen($title) > 40)
+                $max = 60;
+                if (strlen($title) > $max)
                     {
-                        $title = substr($title,0,40).'...';
+                        $title = substr($title,0,$max).'...';
                     }
                 $dt[$id]['bk_title'] = $title;
             }
