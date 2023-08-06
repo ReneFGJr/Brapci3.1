@@ -78,10 +78,12 @@ class Books extends Model
             }
             $lib = get('library');
             $Item = new \App\Models\Find\Books\Db\BooksLibrary();
+            $cp = 'bl_ISBN, bl_library, be_authors, be_year, be_cover';
             $dt = $Item
+                ->select($cp)
                 ->join('books_expression', 'be_isbn13 = bl_ISBN')
-                //->join('book_library', '')
                 ->where('bl_library',$lib)
+                ->groupBy($cp)
                 ->findAll($ini, $fim);
             $RSP = [];
             foreach ($dt as $id => $line) {
