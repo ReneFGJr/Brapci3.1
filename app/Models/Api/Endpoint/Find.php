@@ -74,6 +74,7 @@ class Find extends Model
         $RSP = [];
         $RSP['date'] = date("Y-m-dTH:i:s");
         $RSP['verb'] = $action;
+        $RSP['library'] = get("library");
         $FIND = new \App\Models\Find\Books\Db\Find();
 
         switch ($action) {
