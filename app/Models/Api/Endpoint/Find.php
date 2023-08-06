@@ -183,6 +183,7 @@ class Find extends Model
             $RSP = $this->check();
             if ($RSP == '200')
                 {
+                        $RSP = '';
                         $data = get("data");
                         $isbn = get("isbn");
                         $dir = substr($isbn,0,3).'/'.substr($isbn,3,4).'/'.substr($isbn,7,3).'/'.substr($isbn/7.3);
@@ -191,11 +192,10 @@ class Find extends Model
                         list(, $data)      = explode(',', $data);
                         $data = base64_decode($data);
 
-                        $dt = [];
-                        $dt['dir'] = $dir;
-                        $dt['isbn'] = $isbn;
-                        $dt['len'] = strlen($data);
-                        return $dt;
+                        $RSP['dir'] = $dir;
+                        $RSP['isbn'] = $isbn;
+                        $RSP['len'] = strlen($data);
+                        return $RSP;
 
                         file_put_contents('/tmp/image.png', $data);
                 }
