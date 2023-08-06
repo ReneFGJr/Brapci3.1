@@ -88,7 +88,12 @@ class Books extends Model
                 ->findAll($ini, $fim);
             $RSP = [];
             foreach ($dt as $id => $line) {
-                //pre($line);
+                $title = $line['bk_title'];
+                if (strlen($title) > 40)
+                    {
+                        $title = substr($title,0,40).'...';
+                    }
+                $dt[$id]['bk_title'] = $title;
             }
             echo json_encode($dt);
             exit;
