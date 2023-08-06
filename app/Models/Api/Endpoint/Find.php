@@ -188,20 +188,22 @@ class Find extends Model
                 $RSP = $this->check();
                 if ($RSP == '200') {
                     $data = get('data');
-                    $RSP2 = $Cover->saveDataCover($isbn, $data);
-                    $RSP = array_merge($RSP,$RSP2);
+                    $RSP = $Cover->saveDataCover($isbn, $data);
+                    $RSP['status'] = '200';
                 }
                 break;
             default:
                 $RSP['cover'] = $Cover->cover($isbn);
                 break;
         }
+        echo json_encode($RSP);
+        exit;
     }
 
     function index($d1, $d2 = '', $d3 = '')
     {
         header('Access-Control-Allow-Origin: *');
-        header("Content-Type: application/json");
+        //header("Content-Type: application/json");
 
         $RSP = [];
 

@@ -59,7 +59,7 @@ class Cover extends Model
             return $RSP;
 
             file_put_contents('/tmp/image.png', $data);
-        }
+
         return $RSP;
     }
 }
