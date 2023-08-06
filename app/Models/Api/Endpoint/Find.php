@@ -187,6 +187,8 @@ class Find extends Model
             case 'upload':
                 $RSP = $this->check();
                 if ($RSP == '200') {
+                    $RSP['action'] = 'upload';
+                    return $RSP;
                     $data = get('data');
                     $RSP = $Cover->saveDataCover($isbn, $data);
                     $RSP['status'] = '200';
