@@ -55,7 +55,7 @@ class Cover extends Model
             $RSP['type'] = $type;
             $RSP['isbn'] = $isbn;
             $RSP['len'] = strlen($data);
-            echo h($dir);
+
             dircheck($dir);
             $ext = '';
             switch($type)
