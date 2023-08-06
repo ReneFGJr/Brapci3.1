@@ -82,6 +82,7 @@ class Books extends Model
             $dt = $Item
                 ->select($cp)
                 ->join('books_expression', 'be_isbn13 = bl_ISBN')
+                ->join('books', 'be_title = id_bk')
                 ->where('bl_library',$lib)
                 ->groupBy($cp)
                 ->findAll($ini, $fim);
