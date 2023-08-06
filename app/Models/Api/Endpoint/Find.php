@@ -69,7 +69,7 @@ class Find extends Model
         exit;
     }
 
-    function isbn($isbn, $action='')
+    function isbn($isbn, $action = '')
     {
         $RSP = [];
         $RSP['date'] = date("Y-m-dTH:i:s");
@@ -178,36 +178,25 @@ class Find extends Model
         exit;
     }
 
-    function cover($isbn,$action='')
-        {
-            $RSP = [];
-            $RSP['cover'] = 'Cover';
-            return $RSP;
-        }
-
-    function saveCover($isbn,$action)
-        {
-            $RSP = $this->check();
-            if ($RSP == '200')
-                {
-                        $RSP = '';
-                        $data = get("data");
-                        $isbn = get("isbn");
-                        $dir = substr($isbn,0,3).'/'.substr($isbn,3,4).'/'.substr($isbn,7,3).'/'.substr($isbn/7.3);
-
-                        list($type, $data) = explode(';', $data);
-                        list(, $data)      = explode(',', $data);
-                        $data = base64_decode($data);
-
-                        $RSP['dir'] = $dir;
-                        $RSP['isbn'] = $isbn;
-                        $RSP['len'] = strlen($data);
-                        return $RSP;
-
-                        file_put_contents('/tmp/image.png', $data);
+    function cover($isbn, $action = '')
+    {
+        $Cover = new \App\Models\Find\Books\Db\Cover();
+        $RSP = [];
+        $RSP['cover'] = 'Cover';
+        switch ($action) {
+            case 'upload':
+                $RSP = $this->check();
+                if ($RSP == '200') {
+                    $data = get('data');
+                    $RSP2 = $Cover->saveDataCover($isbn, $data);
+                    $RSP = array_merge($RSP,$RSP2);
                 }
-            return $RSP;
+                break;
+            default:
+                $RSP['cover'] = $Cover->cover($isbn);
+                break;
         }
+    }
 
     function index($d1, $d2 = '', $d3 = '')
     {
@@ -218,7 +207,7 @@ class Find extends Model
 
         switch ($d1) {
             case 'cover':
-                $RSP = $this->cover($d2,$d3);
+                $RSP = $this->cover($d2, $d3);
                 break;
             case 'libraries':
                 $RSP['data'] = $this->libraries();

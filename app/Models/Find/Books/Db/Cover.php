@@ -39,4 +39,27 @@ class Cover extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+
+    function saveDataCover($isbn, $data)
+    {
+
+            $RSP = '';
+            $isbn = get("isbn");
+            $dir = substr($isbn, 0, 3) . '/' . substr($isbn, 3, 4) . '/' . substr($isbn, 7, 3) . '/' . substr($isbn / 7.3);
+
+            list($type, $data) = explode(';', $data);
+            list(, $data)      = explode(',', $data);
+            $data = base64_decode($data);
+
+            $RSP['dir'] = $dir;
+            $RSP['type'] = $type;
+            $RSP['isbn'] = $isbn;
+            $RSP['len'] = strlen($data);
+            return $RSP;
+
+            file_put_contents('/tmp/image.png', $data);
+        }
+        return $RSP;
+    }
 }
