@@ -178,6 +178,30 @@ class Find extends Model
         exit;
     }
 
+    function saveCover($isbn,$action)
+        {
+            $RSP = $this->check();
+            if ($RSP == '200')
+                {
+                        $data = get("data");
+                        $isbn = get("isbn");
+                        $dir = substr($isbn,0,3).'/'.substr($isbn,3,4).'/'.substr($isbn,7,3).'/'.substr($isbn/7.3);
+
+                        list($type, $data) = explode(';', $data);
+                        list(, $data)      = explode(',', $data);
+                        $data = base64_decode($data);
+
+                        $dt = [];
+                        $dt['dir'] = $dir;
+                        $dt['isbn'] = $isbn;
+                        $dt['len'] = strlen($data);
+                        return $dt;
+
+                        file_put_contents('/tmp/image.png', $data);
+                }
+            return $RSP;
+        }
+
     function index($d1, $d2 = '', $d3 = '')
     {
         header('Access-Control-Allow-Origin: *');
@@ -186,6 +210,9 @@ class Find extends Model
         $RSP = [];
 
         switch ($d1) {
+            case 'cover':
+                $RSP = $this->saveCover($d2,$d3);
+                break;
             case 'libraries':
                 $RSP['data'] = $this->libraries();
                 break;
