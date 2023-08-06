@@ -186,8 +186,7 @@ class Find extends Model
         switch ($action) {
             case 'upload':
                 $RSP = $this->check();
-                if ($RSP == '200') {
-
+                if ($RSP['status'] == '200') {
                     $data = get('data');
                     $RSP = $Cover->saveDataCover($isbn, $data);
                     $RSP['status'] = '200';

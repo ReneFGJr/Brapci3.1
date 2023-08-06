@@ -44,10 +44,9 @@ class Cover extends Model
     function saveDataCover($isbn, $data)
     {
 
-            $RSP = '';
-            $isbn = get("isbn");
-            $dir = substr($isbn, 0, 3) . '/' . substr($isbn, 3, 4) . '/' . substr($isbn, 7, 3) . '/' . substr($isbn / 7.3);
-
+            $RSP = [];
+            $dir = substr($isbn, 0, 3) . '/' . substr($isbn, 3, 4) . '/' . substr($isbn, 7, 3) . '/' . substr($isbn , 10,3);
+            $dir = '_repository/book/'.$dir;
             list($type, $data) = explode(';', $data);
             list(, $data)      = explode(',', $data);
             $data = base64_decode($data);
@@ -56,10 +55,26 @@ class Cover extends Model
             $RSP['type'] = $type;
             $RSP['isbn'] = $isbn;
             $RSP['len'] = strlen($data);
-            return $RSP;
 
-            file_put_contents('/tmp/image.png', $data);
-
+            dircheck($dir);
+            $ext = '';
+            switch($type)
+                {
+                    case 'data:image/png':
+                        $ext = '.png';
+                        break;
+                    case 'data:image/jpg':
+                        $ext = '.jpg';
+                        break;
+                    default:
+                        $RSP['message'] = 'Formato inválido '.$type;
+                        break;
+                }
+            if ($ext != '')
+                {
+                    file_put_contents($dir . '/' . $isbn . $ext, $data);
+                    $RSP['cover'] = URL.'/'.$dir . '/'. $isbn . $ext;
+                }
         return $RSP;
     }
 }
