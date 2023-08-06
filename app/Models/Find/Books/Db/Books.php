@@ -61,7 +61,7 @@ class Books extends Model
         return $id;
     }
 
-    function lastitens($ini = '', $fim = '',$lib = 1)
+    function lastitens($ini = '', $fim = '')
     {
         $RSP = [];
         /******************************************* CHECK LIBRATY */
@@ -76,11 +76,11 @@ class Books extends Model
             if ($fim == '') {
                 $fim = 12;
             }
-
+            $lib = get('library');
             $Item = new \App\Models\Find\Books\Db\BooksLibrary();
             $dt = $Item
                 ->join('books_expression', 'be_title = id_bk')
-                ->join('book_library', 'be_isbn13 = bl_ISBN')
+                //->join('book_library', 'be_isbn13 = bl_ISBN')
                 ->where('bl_library',$lib)
                 ->findAll($ini, $fim);
             $RSP = [];
