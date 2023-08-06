@@ -206,8 +206,6 @@ class Find extends Model
                 $this->lastItensStatus($d2, $d3);
                 break;
             case 'isbn':
-                echo "OK";
-                exit;
                 $this->isbn($d2, $d3);
                 break;
             case 'saveField':
