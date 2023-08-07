@@ -71,10 +71,10 @@ class Index extends Model
                         switch($d2)
                             {
                                 case '1':
-                                    $sx .= $Disciplinas->show_semestre(1);
+                                    $sx .= $Disciplinas->show_semestre($sem);
                                 break;
                                 case '2':
-                                    $sx .= $Disciplinas->show_semestre_row(1);
+                                    $sx .= $Disciplinas->show_semestre_row($sem);
                                 break;
 
                                 default:
