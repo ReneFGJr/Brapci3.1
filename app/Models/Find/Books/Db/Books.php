@@ -76,15 +76,25 @@ class Books extends Model
             if ($fim == '') {
                 $fim = 12;
             }
-
+            $lib = get('library');
             $Item = new \App\Models\Find\Books\Db\BooksLibrary();
+            $cp = 'bl_ISBN, bl_library, be_authors, be_year, be_cover, bk_title';
             $dt = $Item
-                ->join('books_expression', 'bl_expression = id_be')
+                ->select($cp)
+                ->join('books_expression', 'be_isbn13 = bl_ISBN')
                 ->join('books', 'be_title = id_bk')
+                ->where('bl_library',$lib)
+                ->groupBy($cp)
                 ->findAll($ini, $fim);
             $RSP = [];
             foreach ($dt as $id => $line) {
-                //pre($line);
+                $title = $line['bk_title'];
+                $max = 60;
+                if (strlen($title) > $max)
+                    {
+                        $title = substr($title,0,$max).'...';
+                    }
+                $dt[$id]['bk_title'] = $title;
             }
             echo json_encode($dt);
             exit;

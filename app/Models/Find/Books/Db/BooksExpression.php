@@ -165,6 +165,9 @@ class BooksExpression extends Model
 
                     $BooksManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
                     $dt['data'] = $BooksManifestation->getData($dt['be_rdf']);
+
+                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
+                    $dt['item'] = $BooksLibrary->getItens($isbn);
                 } else {
                     $dt = [];
                 }
