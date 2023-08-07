@@ -78,7 +78,7 @@ class Disciplinas extends Model
         {
             $dt = $this
                 ->where('id_di > 0')
-                ->findAll(  );
+                ->findAll();
             pre($dt);
         }
 

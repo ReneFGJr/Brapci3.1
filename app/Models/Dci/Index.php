@@ -47,7 +47,7 @@ class Index extends Model
 
     function index($d1='',$d2='',$d3='', $d4 ='', $d5 = '')
         {
-            $sem = 2;
+            $sem = 1;
             $sx = '';
 
             switch($d1)
