@@ -190,7 +190,7 @@ class Disciplinas extends Model
 
     function show_semestre($id = 0, $curso = 0)
     {
-        $sem = 2;
+        $sem = 1;
         $Cursos = new \App\Models\Dci\Cursos();
         $cursos = $Cursos->select();
         $curso = get("curso");
