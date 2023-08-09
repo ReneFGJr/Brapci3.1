@@ -294,7 +294,7 @@ class Disciplinas extends Model
 
     function show_semestre_row($id = 0, $curso = 0)
     {
-        $sem = 2;
+        $sem = 1;
         $sx = '';
         $m = [];
         $m['Departamento'] = PATH . '/dci';
