@@ -6,7 +6,7 @@ if (!isset($bg)) {
     $bg = 'bg-primary';
 }
 ?>
-<footer class="<?= $bg; ?> text-white text-center text-lg-start" style="margin-top: 120px;">
+<footer class="<?= $bg; ?> text-white text-center text-lg-start d-print-none" style="margin-top: 120px;">
     <!-- Grid container -->
     <div class="container-fluid p-4">
         <!--Grid row-->
