@@ -42,11 +42,19 @@ class Books extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function changeTitle($id,$name)
+    function changeTitle($isbn='',$name='')
         {
-            $dd['bk_title'] = $name;
-            $this->set($dd)->where('id_bk',$id)->update();
-            return true;
+            $BookExpression = new \App\Models\Find\Books\Db\BooksExpression();
+            $dt = $BookExpression
+                ->join('books', 'be_title = id_bk')
+                ->where('be_isbn13',$isbn)->first();
+            if ($dt != '')
+                {
+                    $dd['bk_title'] = $name;
+                    $this->set($dd)->where('id_bk', $dt['id_bk'])->update();
+                    return true;
+                }
+            return false;
         }
 
     function register($title)

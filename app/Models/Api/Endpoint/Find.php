@@ -111,7 +111,7 @@ class Find extends Model
         $item = get("item");
         $field = get("field");
         $value = get("value");
-        $find->saveData($library, $item, $field, $value);
+        echo json_encode($find->saveData($library, $item, $field, $value));
         exit;
     }
 

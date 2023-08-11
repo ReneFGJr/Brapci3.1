@@ -111,6 +111,25 @@ class Find extends Model
             return $RSP;
         }
 
+        if ($isbn=='')
+            {
+                $RSP['status'] = '400';
+                $RSP['message'] = 'ISBN não foi informado';
+                return $RSP;
+            }
+
+        if ($field == '') {
+            $RSP['status'] = '400';
+            $RSP['message'] = 'FIELD não foi informado';
+            return $RSP;
+        }
+
+        if ($value == '') {
+            $RSP['status'] = '400';
+            $RSP['message'] = 'VALUE não foi informado';
+            return $RSP;
+        }
+
         /******************************************* CHECK USUARIO */
         $UserApi = new \App\Models\Find\Books\Db\UserApi();
         $RSP = $UserApi->checkUser();
@@ -120,16 +139,22 @@ class Find extends Model
 
         $BooksExpression = new \App\Models\Find\Books\Db\BooksExpression();
         $DATA = $BooksExpression->getISBN($isbn);
-        $RSP['DATA'] = $_POST;
-
+        $RSP['DATA'] = array_merge($_POST,$_GET);
 
         switch($field)
             {
-                case 'bk_title':
+                case 'title':
                 $Books = new \App\Models\Find\Books\Db\Books();
                 $value = nbr_title($value);
-                $Books->changeTitle($DATA['id_bk'],$value);
-                $DATA['bk_title'] = $value;
+                if ($Books->changeTitle($RSP['DATA']['isbn'],$value))
+                    {
+                        $DATA['bk_title'] = $value;
+                    } else {
+                        $RSP['status'] = '505';
+                        $RSP['messagem'] = 'Identificador ISBN não localizado';
+                        return $RSP;
+                    }
+
                 break;
 
                 case 'be_year':
@@ -148,6 +173,10 @@ class Find extends Model
                 $DATA['be_cover'] = $value;
                 $DATA['status'] = 'update';
                 break;
+            default:
+                $RSP['status'] = '500';
+                $RSP['messagem'] = 'Campo '.$field.' não identificado para gravação';
+                return $RSP;
             }
         echo json_encode($DATA);
         exit;
