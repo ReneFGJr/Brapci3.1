@@ -40,6 +40,33 @@ class RDF extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function search($q,$class='')
+        {
+            $prop = 0;
+            if ($class != '')
+                {
+                    $prop = $this->class($class);
+                }
+            $RDFConcept = new \App\Models\Rdf\RDFConcept();
+            $RDFConcept->table = 'find.' . $RDFConcept->table;
+
+            $cp = 'id_cc as id, cc_use as use, n_name as name';
+
+            $RDFConcept
+                ->select($cp)
+                ->join('rdf_name', 'cc_pref_term = id_n')
+                ->where('n_name like "%'.$q.'%"');
+
+            if ($prop > 0)
+                {
+                    $RDFConcept->where('cc_class',$prop);
+                }
+            $RDFConcept->orderBy('n_name');
+            $dt = $RDFConcept->findAll(10);
+
+            return $dt;
+        }
+
     function concept($name,$class,$lang='NnN')
         {
         $ld_class = $class;

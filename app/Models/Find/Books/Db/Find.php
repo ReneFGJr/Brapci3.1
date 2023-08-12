@@ -40,6 +40,13 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function search($q,$class)
+        {
+            $RDF = new \App\Models\Find\Rdf\RDF();
+            $dt = $RDF->search($q,$class);
+            return $dt;
+        }
+
     function register($isbn, $RSP = [])
     {
         $isbn = sonumero($isbn);

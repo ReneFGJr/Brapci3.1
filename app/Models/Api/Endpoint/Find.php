@@ -53,6 +53,30 @@ class Find extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function search($q = '', $class = '')
+    {
+        $class = get("class");
+        if ($q == '') {
+            $q = get("q");
+        }
+        if ($class == '') {
+            $class = get("class");
+        }
+
+        if ($q == '') {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Query (q) de consulta vazia';
+        } else {
+            $FIND = new \App\Models\Find\Books\Db\Find();
+            $RSP['status'] = '200';
+            $RSP['q'] = $q;
+
+            $RSP['data'] = $FIND->search($q, $class);
+        }
+
+        return $RSP;
+    }
+
     function lastitens($d1, $d2)
     {
         $Books = new \App\Models\Find\Books\Db\Books();
@@ -209,6 +233,9 @@ class Find extends Model
         $RSP = [];
 
         switch ($d1) {
+            case 'search':
+                $RSP = $this->search($d2, $d3);
+                break;
             case 'cover':
                 $RSP = $this->cover($d2, $d3);
                 break;
@@ -258,6 +285,7 @@ class Find extends Model
             'isbn' => 'isbn',
             'getISBN' => 'getISBN',
             'getPlace' => 'getPlace',
+            'search' => 'search',
         ];
         $RSP['services'] = $srv;
         return $RSP;
