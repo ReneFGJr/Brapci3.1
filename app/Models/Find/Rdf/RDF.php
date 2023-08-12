@@ -50,11 +50,13 @@ class RDF extends Model
             $RDFConcept = new \App\Models\Rdf\RDFConcept();
             $RDFConcept->table = 'find.' . $RDFConcept->table;
 
-            $cp = 'id_cc as id, cc_use as use, n_name as name';
+            $cp = 'id_cc as id, cc_use as use, n_name as name, c_class as class, c_prefix as prefix, prefix_ref';
 
             $RDFConcept
                 ->select($cp)
                 ->join('find.rdf_name', 'cc_pref_term = id_n')
+                ->join('find.rdf_class', 'cc_class = id_c')
+                ->join('find.rdf_prefix', 'c_prefix = id_prefix')
                 ->where('n_name like "%'.$q.'%"');
 
             if ($prop > 0)
@@ -62,7 +64,7 @@ class RDF extends Model
                     $RDFConcept->where('cc_class',$prop);
                 }
             $RDFConcept->orderBy('n_name');
-            $dt = $RDFConcept->findAll();
+            $dt = $RDFConcept->findAll(10);
             pre($dt);
 
             return $dt;
