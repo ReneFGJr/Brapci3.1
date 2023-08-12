@@ -70,7 +70,7 @@ class Find extends Model
             $FIND = new \App\Models\Find\Books\Db\Find();
             $RSP['status'] = '200';
             $RSP['q'] = $q;
-
+            $RSP['class'] = $class;
             $RSP['data'] = $FIND->search($q, $class);
         }
 
