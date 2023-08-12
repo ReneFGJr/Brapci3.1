@@ -77,8 +77,6 @@ class RDF extends Model
                 }
             $RDFConcept->orderBy('n_name');
             $dt = $RDFConcept->findAll(10);
-            pre($dt);
-
             return $dt;
         }
 
