@@ -55,7 +55,6 @@ class Find extends Model
 
     function search($q = '', $class = '')
     {
-        $class = get("class");
         if ($q == '') {
             $q = get("q");
         }
