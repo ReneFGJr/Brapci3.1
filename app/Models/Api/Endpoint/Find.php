@@ -224,6 +224,31 @@ class Find extends Model
         exit;
     }
 
+    function concept($d2,$d3)
+        {
+
+            $RSP = $this->check();
+            $RSP['verb'] = $d2;
+
+            if ($RSP['status'] == '200')
+                {
+                    $name = get("term");
+                    $class = get("class");
+                    $RSP = [];
+                    if (($name=='') or ($class==''))
+                        {
+                            $RSP['status'] = '400';
+                            $RSP['message'] = 'Termo ou Classem branco';
+                        } else {
+                            $RDF = new \App\Models\Find\Rdf\RDF();
+                            $id = $RDF->concept($name, $class);
+                            $RSP['status'] = '200';
+                            $RSP['rdf'] = $id;
+                        }
+                }
+            return $RSP;
+        }
+
     function index($d1, $d2 = '', $d3 = '')
     {
         header('Access-Control-Allow-Origin: *');
@@ -232,6 +257,9 @@ class Find extends Model
         $RSP = [];
 
         switch ($d1) {
+            case 'concept':
+                $RSP = $this->concept($d2, $d3);
+                break;
             case 'search':
                 $RSP = $this->search($d2, $d3);
                 break;
@@ -285,6 +313,7 @@ class Find extends Model
             'getISBN' => 'getISBN',
             'getPlace' => 'getPlace',
             'search' => 'search',
+            'concept'=>'concept/add'
         ];
         $RSP['services'] = $srv;
         return $RSP;
