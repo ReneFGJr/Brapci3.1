@@ -56,8 +56,20 @@ class RDF extends Model
                 ->select($cp)
                 ->join('find.rdf_name', 'cc_pref_term = id_n')
                 ->join('find.rdf_class', 'cc_class = id_c')
-                ->join('find.rdf_prefix', 'c_prefix = id_prefix')
-                ->where('n_name like "%'.$q.'%"');
+                ->join('find.rdf_prefix', 'c_prefix = id_prefix');
+
+                $t = explode(' ',$q);
+                for($r=0;$r < count($t);$r++)
+                    {
+                        if ($r==0)
+                            {
+                                $RDFConcept->where('n_name like "%' . $t[$r] . '%"');
+                            } else {
+                                $RDFConcept->Where('n_name like "%' . $t[$r] . '%"');
+                            }
+
+                    }
+
 
             if ($prop > 0)
                 {
