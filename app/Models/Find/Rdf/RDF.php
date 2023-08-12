@@ -63,8 +63,7 @@ class RDF extends Model
                 }
             $RDFConcept->orderBy('n_name');
             $dt = $RDFConcept->findAll(0,10);
-
-            echo $RDFConcept->getlastquery();
+            pre($dt);
 
             return $dt;
         }
