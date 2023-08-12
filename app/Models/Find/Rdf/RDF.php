@@ -62,7 +62,7 @@ class RDF extends Model
                     $RDFConcept->where('cc_class',$prop);
                 }
             $RDFConcept->orderBy('n_name');
-            $dt = $RDFConcept->findAll(0,10);
+            $dt = $RDFConcept->findAll();
             pre($dt);
 
             return $dt;
