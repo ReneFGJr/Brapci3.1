@@ -54,7 +54,7 @@ class RDF extends Model
 
             $RDFConcept
                 ->select($cp)
-                ->join('rdf_name', 'cc_pref_term = id_n')
+                ->join('find.rdf_name', 'cc_pref_term = id_n')
                 ->where('n_name like "%'.$q.'%"');
 
             if ($prop > 0)
