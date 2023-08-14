@@ -264,7 +264,7 @@ class Find extends Model
                             $RSP['message'] = 'Termo ou Classem branco';
                         } else {
                             $RDF = new \App\Models\Find\Rdf\RDF();
-                            if ($class = 'Person')
+                            if (($class = 'Person') or ($class= "CorporateBody"))
                                 {
                                     $name = nbr_author($name,7);
                                 }
