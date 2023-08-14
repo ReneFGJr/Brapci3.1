@@ -236,7 +236,6 @@ class Find extends Model
         if (sonumero($p) != ($p))
             {
                 $p = $RDF->class($p);
-                $RSP['data']['prop'] = $p;
             }
 
         if (($r1 > 0) and ($r2 > 0) and ($p > 0))
@@ -244,6 +243,7 @@ class Find extends Model
 
             }
         $RSP['data'] = $_POST;
+        $RSP['data']['prop'] = $p;
         return $RSP;
     }
 
