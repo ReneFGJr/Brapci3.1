@@ -224,6 +224,20 @@ class Find extends Model
         exit;
     }
 
+    function saveRDF()
+    {
+
+        $RSP = $this->check();
+        $r1 = get("r1");
+        $r2 = get("r2");
+        $p = get("prop");
+        $lit = get("literal");
+
+        $RSP['data'] = $_POST;
+
+        return $RSP;
+    }
+
     function concept($d2,$d3)
         {
 
@@ -261,6 +275,9 @@ class Find extends Model
         $RSP = [];
 
         switch ($d1) {
+            case 'saveRDF':
+                $RSP = $this->saveRDF();
+                break;
             case 'concept':
                 $RSP = $this->concept($d2, $d3);
                 break;
