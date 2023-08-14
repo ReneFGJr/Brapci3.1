@@ -241,6 +241,11 @@ class Find extends Model
                             $RSP['message'] = 'Termo ou Classem branco';
                         } else {
                             $RDF = new \App\Models\Find\Rdf\RDF();
+                            if ($class = 'Person')
+                                {
+                                    $name = nbr_author($name,7);
+                                }
+                                pre($name);
                             $id = $RDF->concept($name, $class);
                             $RSP['status'] = '200';
                             $RSP['rdf'] = $id;
