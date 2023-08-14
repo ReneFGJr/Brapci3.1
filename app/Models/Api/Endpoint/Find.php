@@ -230,7 +230,7 @@ class Find extends Model
         $RSP = $this->check();
         $r1 = get("r1");
         $r2 = get("r2");
-        $p = get("prop");
+        $p = get("p");
         $lit = get("literal");
 
         if (sonumero($p) != ($p))
