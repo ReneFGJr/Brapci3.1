@@ -126,7 +126,7 @@ class RDF extends Model
         $RDFClass = new \App\Models\Rdf\RDFClass();
         $RDFClass->table = 'find.' . $RDFClass->table;
 
-        $idc = $RDFClass->class($class);
+        $idc = $RDFClass->class($class,false);
         return $idc;
         }
 
