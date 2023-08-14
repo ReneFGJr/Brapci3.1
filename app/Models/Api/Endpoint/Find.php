@@ -226,15 +226,24 @@ class Find extends Model
 
     function saveRDF()
     {
-
+        $RDF = new \App\Models\Find\Rdf\RDF();
         $RSP = $this->check();
         $r1 = get("r1");
         $r2 = get("r2");
         $p = get("prop");
         $lit = get("literal");
 
-        $RSP['data'] = $_POST;
+        if (sonumero($p) != $p)
+            {
+                $p = $RDF->class($p);
+            }
 
+        if (($r1 > 0) and ($r2 > 0) and ($p > 0))
+            {
+
+            }
+        $RSP['data'] = $_POST;
+        $RSP['data']['prop'] = $p;
         return $RSP;
     }
 
