@@ -245,7 +245,6 @@ class Find extends Model
                                 {
                                     $name = nbr_author($name,7);
                                 }
-                                pre($name);
                             $id = $RDF->concept($name, $class);
                             $RSP['status'] = '200';
                             $RSP['rdf'] = $id;
