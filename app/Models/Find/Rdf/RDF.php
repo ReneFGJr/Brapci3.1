@@ -58,7 +58,13 @@ class RDF extends Model
                 ->join('find.rdf_class', 'cc_class = id_c')
                 ->join('find.rdf_prefix', 'c_prefix = id_prefix');
 
+                $c = [',','.','#','!','?','$','%','&'];
+                foreach($c as $id=>$ch)
+                    {
+                        $q = troca($q, $ch, ' ');
+                    }
                 $t = explode(' ',$q);
+
                 for($r=0;$r < count($t);$r++)
                     {
                         if ($r==0)
