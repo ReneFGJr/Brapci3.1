@@ -238,9 +238,9 @@ class Find extends Model
                 $p = $RDF->class($p);
             }
 
-        if (($r1 > 0) and ($r2 > 0) and ($p > 0))
+        if (($r1 > 0) and ($r2 > 0) and ($p > 0) and ($lit == ''))
             {
-
+                $RDF->prop($r1, $p, $r2, 0);
             }
         $RSP['data'] = $_POST;
         $RSP['data']['prop'] = $p;
