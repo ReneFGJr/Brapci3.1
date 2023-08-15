@@ -47,6 +47,9 @@ class Translate extends Model
             $sx = '';
             switch($d1)
                 {
+                    case 'field':
+                        $sx .= $this->edit_translate($d2);
+                        break;
                     case 'upload':
                         $sx = $this->upload();
                         break;
@@ -67,6 +70,27 @@ class Translate extends Model
                         $sx .= $this->files();
                         break;
                 }
+            return $sx;
+        }
+
+    function edit_translate($id)
+        {
+            $dt = $this->find($id);
+            $txt = $dt['dvn_pt'];
+            $act = get("action");
+
+            if ($act != '')
+                {
+                    $txt = get("dvn_pt");
+                    $dt['dvn_pt'] = $txt;
+                    $this->set($dt)->where('id_dvn',$id)->update();
+                    return wclose();
+                }
+            $sx = form_open();
+            $sx .= $dt['dvn_en'];
+            $sx .= form_textarea('dvn_pt',$txt,['class'=>'form-control border border-secondary']);
+            $sx .= form_submit('action','Traduzir',['class'=>'btn btn-outline-primary']);
+            $sx .= form_close();
             return $sx;
         }
 
@@ -318,7 +342,8 @@ class Translate extends Model
                         </tr>';
             foreach($dt as $id=>$line)
                 {
-                    $sx .= '<tr>';
+                    $link = ' onclick="newwin(\''.PATH. '/dados/dataverse/translate/field/'.$line['id_dvn'].'\',800,400);" style="cursor: pointer;" ';
+                    $sx .= '<tr '.$link.'>';
                     $sx .= '<td class="border-top border-secondary">';
                     $sx .= $line['dvn_field'];
                     $sx .= '</td>';
