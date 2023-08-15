@@ -336,15 +336,15 @@ class Translate extends Model
             $sx .= bsc(h($dt[0]['dvn_file']), 12);
             $sx .= bsc($this->btn_translate($file).$this->btn_export($file),12);
             $sx .= '<table class="form-control full">';
-            $sx .= '<tr><th width="30%">label</th>
-                        <th width="35%">English</th>
-                        <th width="35%">Português</th>
+            $sx .= '<tr><th width="20%">Label</th>
+                        <th width="40%">English</th>
+                        <th width="40%">Português</th>
                         </tr>';
             foreach($dt as $id=>$line)
                 {
                     $link = ' onclick="newwin(\''.PATH. '/dados/dataverse/translate/field/'.$line['id_dvn'].'\',800,400);" style="cursor: pointer;" ';
                     $sx .= '<tr '.$link.'>';
-                    $sx .= '<td class="border-top border-secondary">';
+                    $sx .= '<td class="border-top border-secondary" width="20%">';
                     $sx .= $line['dvn_field'];
                     $sx .= '</td>';
                     $sx .= '<td class="border-top border-secondary">';
