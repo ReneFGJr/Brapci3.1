@@ -39,7 +39,7 @@ export class BrapciService {
   }
 
   public source(id: number): Observable<Array<any>> {
-    let url = `${this.url}brapci/sourceID/` + id;
+    let url = `${this.url}brapci/source/` + id;
     console.log(`Fontes: ${url}`);
     var formData: any = new FormData();
 

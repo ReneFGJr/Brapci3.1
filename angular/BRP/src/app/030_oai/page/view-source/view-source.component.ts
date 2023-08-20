@@ -9,9 +9,9 @@ import { BrapciService } from 'src/app/020_brapci/service/brapci.service';
 })
 export class ViewSourceComponent {
 
-  public resource: Array<any> | any
+  public publication: Array<any> | any
+  public issue: Array<any> | any
   public id: number = 0;
-  private sub: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -19,12 +19,13 @@ export class ViewSourceComponent {
   ) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
+      this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
       this.brapciService.source(this.id).subscribe(
         res=>
         {
-          this.resource = res;
+          this.publication = res;
+          this.issue = this.publication.issue
         }
       )
     });
