@@ -1,0 +1,35 @@
+<div class="container mt-5" *ngIf="sources">
+  <div class="row">
+    <div class="col-12">
+      <h1>Fontes de Informação (Recursos)</h1>
+      <h2>Revistas Brasileiras</h2>
+      <ol>
+        <li *ngFor="let item of collection(sources,'JA');let i = index">
+                <a class="link" [routerLink]="['/sources/view/' + item.id_jnl]" routerLinkActive="router-link-active">
+                {{ item.jnl_name }}
+                <sup *ngIf="item.jnl_historic==1" class="text-primary">(Histórico)</sup>
+                </a>
+        </li>
+      </ol>
+
+      <h2>Revistas Estrangeiras</h2>
+      <ol>
+        <li *ngFor="let item of collection(sources,'JE');let i = index">
+                <a class="link" [routerLink]="['/sources/view/' + item.id_jnl]" routerLinkActive="router-link-active">
+                {{ item.jnl_name }}
+                <span *ngIf="item.jnl_collection=='JE'">(Revista)</span>
+                </a>
+        </li>
+      </ol>
+
+      <h2>Eventos</h2>
+      <ol>
+        <li *ngFor="let item of collection(sources,'EV');let i = index">
+                <a class="link" [routerLink]="['/sources/view/' + item.id_jnl]" routerLinkActive="router-link-active">
+                {{ item.jnl_name }}
+                <span *ngIf="item.jnl_historic==1">(Histórico)</span>
+                </a>
+        </li>
+      </ol>
+    </div>
+  </div>

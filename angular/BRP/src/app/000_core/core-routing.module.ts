@@ -10,6 +10,9 @@ const routes: Routes = [
   { path: 'authority', loadChildren: () => import('../100_authority/authotity-core.module').then(m => m.Core100Module) } ,
   { path: 'social', loadChildren: () => import('../001_auth/oauth.module').then(m => m.OauthModule) },
   { path: 'journals', loadChildren: () => import('../110_journals/journals.module').then(m => m.JournalsModule) },
+  { path: 'proceedings', loadChildren: () => import('../120_proceddings/proceddings.module').then(m => m.ProceddingsModule) },
+  { path: 'sources', loadChildren: () => import('../030_oai/oaipmh.module').then(m => m.OaipmhModule) },
+  { path: 'oai', loadChildren: () => import('../030_oai/oaipmh.module').then(m => m.OaipmhModule) },
 ];
 
 @NgModule({

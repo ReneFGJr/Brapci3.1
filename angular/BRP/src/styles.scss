@@ -6,3 +6,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/base/variables";
 @import "./assets/base/style";
+
+.link
+  {
+    color: #333;
+    text-decoration: none;
+  }
+
+.link:hover
+  {
+    color: #333;
+    text-decoration: underline;
+    transition-duration: 410ms;
+    color: #000;
+  }
