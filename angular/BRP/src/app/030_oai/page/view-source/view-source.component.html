@@ -1,17 +1,15 @@
 <div class="container" *ngIf="publication" class="mt-5">
-<div class="row">
-<div class="col-12">
-<h1>{{publication.source.jnl_name}}</h1>
-<h5>{{publication.source.jnl_name_abrev}}</h5>
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ publication.source.jnl_name }}</h1>
+      <h5>{{ publication.source.jnl_name_abrev }}</h5>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-
-<div class="container" *ngIf="issue" class="mt-5">
-<div class="row">
-<div class="col-3" *ngFor="let issueItem of issue">
 XX
+
+<div class="container" *ngIf="publication" class="mt-5">
+<ul *ngFor="let item of issue; index as i">
+  <li [attr.data-index]="i">{{item}}</li>
+</ul>
 </div>
-</div>
-</div>
-{{publication | json}}

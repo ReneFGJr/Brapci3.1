@@ -25,7 +25,8 @@ export class ViewSourceComponent {
         res=>
         {
           this.publication = res;
-          this.issue = this.publication.issue
+          this.issue = this.publication.source.issue
+          console.log(this.issue)
         }
       )
     });
