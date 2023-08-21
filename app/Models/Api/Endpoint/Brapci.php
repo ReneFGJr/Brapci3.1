@@ -56,6 +56,9 @@ class Brapci extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'issue':
+                        $RSP = $this->issue($d2, $d2);
+                        break;
                     case 'source':
                         $RSP['source'] = $this->source($d2,$d2);
                         break;
@@ -74,6 +77,17 @@ class Brapci extends Model
             echo json_encode($RSP);
             exit;
         }
+
+        function issue($id)
+            {
+                $Issues = new \App\Models\Base\Issues();
+                $RSP = $this->getSource($dt['id_jnl']);
+
+                $dt = $Issues->find($id);
+                $RSP['issue'] = $dt;
+
+                return $RSP;
+            }
 
         function getSource($d1)
         {
@@ -231,7 +245,7 @@ class Brapci extends Model
         function services($RSP)
             {
                 $srv = [];
-                $srv['livros'] = ['name' => 'Livros', 'link' => 'books', 'icone' => 'icone'];
+                $srv['livros'] = ['name' => 'Livros', 'link' => 'books', 'icone' => 'icone','issue'=>'issue'];
                 $RSP['services'] = $srv;
                 return $RSP;
             }

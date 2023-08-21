@@ -8,6 +8,7 @@ import { ThemeModule } from '../010_thema/theme.module';
 import { MainOAIComponent } from './page/main/main.component';
 import { MainSourcesComponent } from './page/main-sources/main-sources.component';
 import { ViewSourceComponent } from './page/view-source/view-source.component';
+import { ViewIssueComponent } from './page/view-issue/view-issue.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ViewSourceComponent } from './page/view-source/view-source.component';
     WelcomeSourceComponent,
     MainOAIComponent,
     MainSourcesComponent,
-    ViewSourceComponent
+    ViewSourceComponent,
+    ViewIssueComponent
   ],
   imports: [
     CommonModule,

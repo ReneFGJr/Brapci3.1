@@ -6,10 +6,18 @@
     </div>
   </div>
 </div>
-XX
+
 
 <div class="container" *ngIf="publication" class="mt-5">
-<ul *ngFor="let item of issue; index as i">
-  <li [attr.data-index]="i">{{item}}</li>
-</ul>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-4 cik-xl-3"
+        *ngFor="let item of issue; index as i">
+      <div  (click)="viewIssue(item.id_is)" class="issue border border-secondary shadown full m-2">
+      <span class="nr">{{item.is_vol_roman}}</span>
+      <span class="name">{{ publication.source.jnl_name_abrev }}</span>
+      <br/>
+      <span class="date">{{item.is_year}} - {{item.is_place}}</span>
+      </div>
+    </div>
+  </div>
 </div>
