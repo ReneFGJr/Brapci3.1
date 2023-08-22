@@ -216,7 +216,7 @@ class ListIdentifiers extends Model
 
 			foreach($dt as $id=>$lst)
 				{
-					$DT[$lst['status']] = $lst['total'];
+					$DT['status_'.$lst['status']] = $lst['total'];
 				}
 			return $DT;
 		}
