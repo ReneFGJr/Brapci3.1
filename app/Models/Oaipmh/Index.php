@@ -81,7 +81,7 @@ class Index extends Model
 				{
 					case 'getIssue':
 						$GetRecords = new \App\Models\Oaipmh\GetRecords();
-						$RSP['message'] = $GetRecords->getrecord(0,$d2);
+						$RSP['process'] = $GetRecords->getrecord(0,$d2);
 						$RSP['status'] = $GetRecords->status;
 						break;
 					default:
