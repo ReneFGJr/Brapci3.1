@@ -53,7 +53,7 @@ class RDF extends Model
 
 	function __construct()
 	{
-		if (!isset(LIBRARY))
+		if (!defined(LIBRARY))
 			{
 				define("LIBRARY",'0000');
 			}
