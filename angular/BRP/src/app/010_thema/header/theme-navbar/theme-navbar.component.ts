@@ -14,8 +14,11 @@ export class ThemeNavbarComponent {
 
   constructor() {
     document.addEventListener('click', (clickEvent: MouseEvent) => {
-      console.log('Click Event Details: ', clickEvent)
+          console.log('Click Event Details: ', clickEvent)
+          this.fixed = 1;
+          this.navbarClass = 'slideOutUp';
     })
+
 
     document.addEventListener('scroll', (scr: any) => {
       //console.log(document.documentElement.scrollTop);
@@ -47,5 +50,7 @@ export class ThemeNavbarComponent {
 
   ngOnInit() {
     console.log("NAVBAR");
+    this.pos = 0;
+    this.fixed = 0;
   }
 }

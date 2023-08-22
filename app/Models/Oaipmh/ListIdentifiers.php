@@ -206,13 +206,19 @@ class ListIdentifiers extends Model
 
 	function summary($idj,$issue)
 		{
+			$DT = [];
 			$cp = 'li_s as status';
 			$this->select($cp.', count(*) as total');
 			$this->where('li_jnl',$idj);
 			$this->where('li_issue', $issue);
 			$this->groupBy('li_s');
 			$dt = $this->findAll();
-			return $dt;
+
+			foreach($dt as $id=>$lst)
+				{
+					$DT[$lst['status']] = $lst['total'];
+				}
+			return $DT;
 		}
 
 	function resume($idj)
