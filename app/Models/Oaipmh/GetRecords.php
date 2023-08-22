@@ -138,7 +138,7 @@ class GetRecords extends Model
 				$RSP['result']= $this->Method_00($dt, $txt, $file);
 				break;
 		}
-		return $sx;
+		return $RSP;
 	}
 
 	/************************************************ Method 00 */
