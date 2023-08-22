@@ -51,6 +51,14 @@ class RDF extends Model
 		}
 	*/
 
+	function __construct()
+	{
+		if (LIBRARY===null)
+			{
+				define("LIBRARY",'0000');
+			}
+	}
+
 	function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '', $cab = '')
 	{
 		$sx = '';
