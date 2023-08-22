@@ -45,6 +45,8 @@ class GetRecords extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	var $status = '000';
+
 	function getrecord($id = 0, $issue = 0)
 	{
 		$sx = '';
@@ -59,10 +61,11 @@ class GetRecords extends Model
 			if (count($dt) == 0) {
 				$sx .= $OAI_ListIdentifiers->getlastquery();
 				$sx .= bsmessage(lang('brapci.proceesing_finish'), 1);
-				$sx .= metarefresh(PATH . COLLECTION . '/issue?id=' . $id);
+				$this->status = '202';
 			} else {
 				$id = $dt[0]['id_li'];
 				$sx .= $this->harvesting($id);
+				$this->status = '200';
 			}
 		}
 		return $sx;

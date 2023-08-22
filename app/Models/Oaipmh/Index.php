@@ -79,6 +79,11 @@ class Index extends Model
 			$RSP = [];
 			switch($d1)
 				{
+					case 'getIssue':
+						$GetRecords = new \App\Models\Oaipmh\GetRecords();
+						$RSP['message'] = $GetRecords->getrecord(0,$d2);
+						$RSP['status'] = $GetRecords->status;
+						break;
 					default:
 						$RSP['status'] = '404';
 						$RSP['messagem'] = 'Function not found - '.$d1.'-'.$d2;
