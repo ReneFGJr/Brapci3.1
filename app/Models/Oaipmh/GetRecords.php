@@ -64,6 +64,7 @@ class GetRecords extends Model
 				$this->status = '202';
 			} else {
 				$id = $dt[0]['id_li'];
+				pre($id,false);
 				$sx .= $this->harvesting($id);
 				$this->status = '200';
 			}
