@@ -73,8 +73,8 @@ class GetRecords extends Model
 
 	function harvesting($id)
 	{
+		$RSP = [];
 		$OAI = new \App\Models\Oaipmh\Index();
-		$sx = '';
 		// https://ebbc.inf.br/ojs/index.php/ebbc/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:ojs.pkp.sfu.ca:article/4
 
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
@@ -105,9 +105,9 @@ class GetRecords extends Model
 		if (count($verif) > 0) {
 			if ($id_li > 0) {
 				$OAI_ListIdentifiers->update_status($id_li, 9);
-				$sx = bsmessage(lang('brapci.already_process ' . $reg), 4);
-				//$sx .= metarefresh('', 1);
-				//return $sx;
+				$RSP['message'] = lang('brapci.already_process ');
+				$RSP['status'] = '202';
+				return $RSP;
 			}
 		}
 
@@ -131,11 +131,11 @@ class GetRecords extends Model
 
 		/******************************* METHODS */
 		$method = $dt['jnl_oai_method'];
-		$sx .= 'Method ' . $method.'<br>';
+		$RSP['method'] = $method;
 
 		switch ($method) {
 			case 0:
-				$sx .= $this->Method_00($dt, $txt, $file);
+				$RSP['result']= $this->Method_00($dt, $txt, $file);
 				break;
 		}
 		return $sx;
@@ -144,7 +144,7 @@ class GetRecords extends Model
 	/************************************************ Method 00 */
 	function Method_00($dt, $txt, $file = '')
 	{
-		$sx = '';
+		$RSP = [];
 		$txt = troca($txt, 'oai_dc:', '');
 		$txt = troca($txt, 'dc:', '');
 		$xml = (array)simplexml_load_string($txt);
@@ -163,7 +163,7 @@ class GetRecords extends Model
 		/* Craido Trabalho */
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
 
-		$sx .= 'Acesso ao trabalho: <a href="'.PATH.'/v/'.$idp.'">'.$idp.'</a>';
+		$RSP['URL'] = PATH.'/v/'.$idp;
 
 		$metadata = (array)$metadata['dc'];
 
@@ -174,7 +174,7 @@ class GetRecords extends Model
 
 		/************************************************ Titulo */
 		$title = nbr_title($metadata['title']);
-		$sx .= 'Title:'.$title;
+		$rsp['title'] = $title;
 		$prop = 'brapci:hasTitle';
 		$lang = 'pt-BR';
 		$literal = $RDF->literal($title, $lang);
@@ -230,7 +230,6 @@ class GetRecords extends Model
 						$lang = $AI->getTextLanguage($term);
 						$id_sub = $RDF->concept($term, 'Subject', $lang);
 						$RDF->propriety($idp, 'hasSubject', $id_sub, 0);
-						$sx .= $term . ' [' . $lang . ']<br>';
 					}
 				}
 			}
@@ -298,6 +297,6 @@ class GetRecords extends Model
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 		$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
 
-		return $sx;
+		return $RSP;
 	}
 }
