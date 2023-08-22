@@ -73,8 +73,6 @@ class GetRecords extends Model
 
 	function harvesting($id)
 	{
-		echo '=======>'.$id;
-		exit;
 		$OAI = new \App\Models\Oaipmh\Index();
 		$sx = '';
 		// https://ebbc.inf.br/ojs/index.php/ebbc/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:ojs.pkp.sfu.ca:article/4
@@ -85,6 +83,8 @@ class GetRecords extends Model
 			->join('source_issue', 'li_issue = id_is', 'LEFT')
 			->join('source_source', 'li_jnl = id_jnl', 'LEFT')
 			->find($id);
+
+			pre($dt);
 
 		if ($dt['is_url_oai'] != '') {
 			$url = trim($dt['is_url_oai']);
