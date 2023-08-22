@@ -59,8 +59,8 @@ class GetRecords extends Model
 				->findAll();
 
 			if (count($dt) == 0) {
-				$sx .= $OAI_ListIdentifiers->getlastquery();
-				$sx .= bsmessage(lang('brapci.proceesing_finish'), 1);
+				$OAI_ListIdentifiers->getlastquery();
+				$sx .= lang('brapci.nothing_to_harvesting');
 				$this->status = '202';
 			} else {
 				$id = $dt[0]['id_li'];
