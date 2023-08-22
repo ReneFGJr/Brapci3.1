@@ -128,13 +128,16 @@ class GetRecords extends Model
 					file_put_contents($file,$txt);
 				}
 		}
-		echo $file.'<hr>';
-		echo $sx;
-		exit;
+
 
 		/******************************* METHODS */
 		$method = $dt['jnl_oai_method'];
 		$sx .= h('Method ' . $method, 3);
+
+		echo $file . '<hr>';
+		echo $sx;
+		exit;
+
 		switch ($method) {
 			case 0:
 				$sx .= $this->Method_00($dt, $txt, $file);
