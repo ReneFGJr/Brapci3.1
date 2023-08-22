@@ -84,7 +84,8 @@ class Brapci extends Model
         function oai($issue)
         {
             $OAI = new \App\Models\Oaipmh\Index();
-
+            $RSP = $OAI->api('getNextIssue',$issue);
+            return $RSP;
         }
 
         function issue($issue)
