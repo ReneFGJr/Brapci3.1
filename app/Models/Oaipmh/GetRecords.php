@@ -117,10 +117,10 @@ class GetRecords extends Model
 		if (file_exists($file)) {
 			$da = filectime($file);
 			$txt = file_get_contents($file);
-			$sx .= "CACHED";
+			$RSP['file_status'] .= "CACHED";
 		} else {
 			$txt = $OAI->_call($url);
-			$sx .= "DOWNLOAD";
+			$RSP['file_status'] .= "DOWNLOAD";
 			if (strlen($txt) > 0)
 				{
 					dircheck($dir);
