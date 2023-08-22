@@ -112,9 +112,6 @@ class GetRecords extends Model
 			}
 		}
 
-		echo $sx;
-		exit;
-
 		$dir = $OAI->dir_tmp($dt['id_li']);
 		$file = $dir . 'GetRegister.xml';
 
@@ -126,6 +123,9 @@ class GetRecords extends Model
 			$txt = $OAI->_call($url);
 			$sx .= "DOWNLOAD<br>";
 		}
+		echo $file.'<hr>';
+		echo $sx;
+		exit;
 
 		/******************************* METHODS */
 		$method = $dt['jnl_oai_method'];
