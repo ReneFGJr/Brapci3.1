@@ -265,7 +265,7 @@ class GetRecords extends Model
 					{
 						$$identifier = [$identifier];
 					}
-				foreach($identifier as $id->$ln)
+				foreach($identifier as $id=>$ln)
 					{
 						$literal = $RDF->literal($ln, '');
 						$RDF->propriety($idp, 'hasRegisterId', 0, $literal);
