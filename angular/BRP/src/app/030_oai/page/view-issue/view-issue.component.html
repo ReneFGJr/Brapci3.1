@@ -1,1 +1,18 @@
-<p>view-issue works!</p>
+<div class="container" *ngIf="sources">
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ sources.jnl_name }}</h1>
+    </div>
+
+    <div class="col-12">
+      <h3>{{ sources.issue.is_thema }}</h3>
+      <h3>
+        <b>{{ sources.issue.is_year }} - {{ sources.issue.is_place }}</b>
+      </h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <app-oai-buttons [sources]="sources"></app-oai-buttons>
+  </div>
+</div>

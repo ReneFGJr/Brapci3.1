@@ -55,9 +55,6 @@ class ListIdentifiers extends Model
 			case '0':
 				$st = 'new';
 				break;
-			case '0':
-				$st = 'new';
-				break;
 			case '1':
 				$st = 'started process';
 				break;
@@ -206,6 +203,17 @@ class ListIdentifiers extends Model
 		}
 		return $sx;
 	}
+
+	function summary($idj,$issue)
+		{
+			$cp = 'li_s';
+			$this->select($cp.', count(*) as total');
+			$this->where('li_jnl',$idj);
+			$this->where('li_issue', $issue);
+			$this->groupBy($cp);
+			$dt = $this->findAll();
+			return $dt;
+		}
 
 	function resume($idj)
 	{

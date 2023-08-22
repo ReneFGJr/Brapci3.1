@@ -9,6 +9,7 @@ import { MainOAIComponent } from './page/main/main.component';
 import { MainSourcesComponent } from './page/main-sources/main-sources.component';
 import { ViewSourceComponent } from './page/view-source/view-source.component';
 import { ViewIssueComponent } from './page/view-issue/view-issue.component';
+import { OaiButtonsComponent } from './apoio/oai-buttons/oai-buttons.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ViewIssueComponent } from './page/view-issue/view-issue.component';
     MainOAIComponent,
     MainSourcesComponent,
     ViewSourceComponent,
-    ViewIssueComponent
+    ViewIssueComponent,
+    OaiButtonsComponent
   ],
   imports: [
     CommonModule,

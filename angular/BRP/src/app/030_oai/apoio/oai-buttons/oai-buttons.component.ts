@@ -1,0 +1,10 @@
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-oai-buttons',
+  templateUrl: './oai-buttons.component.html',
+  styleUrls: ['./oai-buttons.component.scss']
+})
+export class OaiButtonsComponent {
+  @Input() public sources:Array<any> | any
+}

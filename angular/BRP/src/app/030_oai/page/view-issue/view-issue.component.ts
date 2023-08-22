@@ -22,7 +22,11 @@ export class ViewIssueComponent {
       this.id = +params['id']; // (+) converts string 'id' to a number
 
       console.log('HELLO');
-      this.brapciService.getIssue(this.id);
+      this.brapciService.getIssue(this.id).subscribe(
+        res=>{
+          this.sources = res
+        }
+      );
     });
   }
 }

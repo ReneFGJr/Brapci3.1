@@ -78,12 +78,15 @@ class Brapci extends Model
             exit;
         }
 
-        function issue($id)
+        function issue($issue)
             {
                 $Issues = new \App\Models\Base\Issues();
-                $dt = $Issues->find($id);
+                $dt = $Issues->find($issue);
                 $RSP = $this->getSource($dt['is_source']);
                 $RSP['issue'] = $dt;
+
+                $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+                $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'],$issue);
 
                 return $RSP;
             }
