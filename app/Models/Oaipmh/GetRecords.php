@@ -84,8 +84,6 @@ class GetRecords extends Model
 			->join('source_source', 'li_jnl = id_jnl', 'LEFT')
 			->find($id);
 
-			pre($dt);
-
 		if ($dt['is_url_oai'] != '') {
 			$url = trim($dt['is_url_oai']);
 			$id_li = $dt['id_li'];
@@ -113,6 +111,9 @@ class GetRecords extends Model
 				//return $sx;
 			}
 		}
+
+		echo $sx;
+		exit;
 
 		$dir = $OAI->dir_tmp($dt['id_li']);
 		$file = $dir . 'GetRegister.xml';
