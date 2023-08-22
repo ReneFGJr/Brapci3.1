@@ -122,7 +122,11 @@ class GetRecords extends Model
 		} else {
 			$txt = $OAI->_call($url);
 			$sx .= "DOWNLOAD<br>";
-			pre($txt);
+			if (strlen($txt) > 0)
+				{
+					dircheck($dir);
+					file_put_contents($file,$txt);
+				}
 		}
 		echo $file.'<hr>';
 		echo $sx;
