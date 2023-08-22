@@ -495,12 +495,12 @@ class RDF extends Model
 				$sx = $cab;
 				switch ($type) {
 					case 'prefix':
-						$this->RDFPrefix = new \App\Models\Rdf\RDFPrefix();
+						$RDFPrefix = new \App\Models\Rdf\RDFPrefix();
 						$sx .= $this->RDFPrefix->inport();
 						break;
 
 					case 'class':
-						$this->RDFClass = new \App\Models\Rdf\RDFClass();
+						$RDFClass = new \App\Models\Rdf\RDFClass();
 						$sx .= $this->RDFClass->inport();
 						break;
 				}
@@ -752,9 +752,9 @@ class RDF extends Model
 
 	function btn_return($id = '', $class = '')
 	{
-		$this->Socials = new \App\Models\Socials();
+		$Socials = new \App\Models\Socials();
 		if ($id == '') {
-			if ($this->Socials->getAccess("#ADM")) {
+			if ($Socials->getAccess("#ADM")) {
 				$sx = '<a href="' . PATH . MODULE . 'rdf/" class="btn btn-outline-primary ' . $class . '">';
 				$sx .= lang('brapci.return');
 				$sx .= '</a>';

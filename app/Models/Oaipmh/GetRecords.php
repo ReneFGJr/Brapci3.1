@@ -73,6 +73,8 @@ class GetRecords extends Model
 
 	function harvesting($id)
 	{
+		echo '=======>'.$id;
+		exit;
 		$OAI = new \App\Models\Oaipmh\Index();
 		$sx = '';
 		// https://ebbc.inf.br/ojs/index.php/ebbc/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:ojs.pkp.sfu.ca:article/4
