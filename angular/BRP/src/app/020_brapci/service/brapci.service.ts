@@ -4,26 +4,24 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BrapciService {
   http: any;
-  constructor(
-    private HttpClient: HttpClient,
-  ) { }
+  constructor(private HttpClient: HttpClient) {}
 
   private url: string = 'https://cip.brapci.inf.br/api/';
   //private url: string = 'http://brp/api/';
 
   public getId(id: number): Observable<Array<any>> {
-    let url = `${this.url}brapci/get/v1/`+id;
+    let url = `${this.url}brapci/get/v1/` + id;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
     //formData.append('q', id);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      res => res,
-      error => error
+      (res) => res,
+      (error) => error
     );
   }
 
@@ -33,8 +31,8 @@ export class BrapciService {
     var formData: any = new FormData();
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      res => res,
-      error => error
+      (res) => res,
+      (error) => error
     );
   }
 
@@ -44,8 +42,19 @@ export class BrapciService {
     var formData: any = new FormData();
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      res => res,
-      error => error
+      (res) => res,
+      (error) => error
+    );
+  }
+
+  public getIssue(id: number): Observable<Array<any>> {
+    let url = `${this.url}brapci/issue/` + id;
+    console.log(`Fontes: ${url}`);
+    var formData: any = new FormData();
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
     );
   }
 
@@ -53,16 +62,15 @@ export class BrapciService {
     let url = `${this.url}brapci/search/v1`;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
-    formData.append('q',term);
+    formData.append('q', term);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      res => res,
-      error => error
+      (res) => res,
+      (error) => error
     );
   }
 
-  public donwload(nd:string)
-    {
-      console.log(nd);
-    }
+  public donwload(nd: string) {
+    console.log(nd);
+  }
 }

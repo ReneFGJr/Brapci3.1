@@ -81,6 +81,7 @@ class Brapci extends Model
         function issue($id)
             {
                 $Issues = new \App\Models\Base\Issues();
+                $dt = $Issues->find($id);
                 $RSP = $this->getSource($dt['id_jnl']);
 
                 $dt = $Issues->find($id);
