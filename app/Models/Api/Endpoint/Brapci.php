@@ -84,7 +84,7 @@ class Brapci extends Model
         function oai($verb,$issue)
         {
             $OAI = new \App\Models\Oaipmh\Index();
-            $RSP = $OAI->api('getNextIssue',$issue);
+            $RSP = $OAI->api($verb,$issue);
             $RSP['verb'] = $verb;
             $RSP['issue'] = $issue;
             return $RSP;
