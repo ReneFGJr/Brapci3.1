@@ -49,7 +49,7 @@ class GetRecords extends Model
 
 	function getrecord($id = 0, $issue = 0)
 	{
-		$sx = '';
+		$RSP = [];
 		if ($issue > 0) {
 			$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 			$dt = $OAI_ListIdentifiers
@@ -60,15 +60,15 @@ class GetRecords extends Model
 
 			if (count($dt) == 0) {
 				$OAI_ListIdentifiers->getlastquery();
-				$sx .= lang('brapci.nothing_to_harvesting');
-				$this->status = '202';
+				$RSP['message'] .= lang('brapci.nothing_to_harvesting');
+				$RSP['status'] = '202';
 			} else {
 				$id = (string)$dt[0]['id_li'];
-				$this->harvesting($id);
-				$this->status = '200';
+				$RSP['message'] = $this->harvesting($id);
+				$RSP['status'] = '200';
 			}
 		}
-		return $sx;
+		return $RSP;
 	}
 
 	function harvesting($id)
