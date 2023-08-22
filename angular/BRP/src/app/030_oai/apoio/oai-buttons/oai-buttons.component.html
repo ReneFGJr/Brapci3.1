@@ -1,13 +1,7 @@
 <div class="col-12">
   <ul>
-    <li *ngFor="let item of sources.oai">
-        <button *ngIf="item.status==='2'" class="btn btn-outline-secondary">C ({{item.total}})</button>
+    <li *ngIf="sources.oai.status_2">
+        <button class="btn btn-outline-secondary" (click)="processOAI(2);">C ({{sources.oai.status_2}})</button>
     </li>
   </ul>
 </div>
-
-<div class="col-12">
-<div style="width: {{size}}px; background-color: blue;" (click)="onSize()">{{size}}</div>
-</div>
-
-{{sources | json}}

@@ -54,7 +54,7 @@ class GetRecords extends Model
 			$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 			$dt = $OAI_ListIdentifiers
 				->where('li_issue', $issue)
-				->where('li_s', 1)
+				->where('li_s', 2)
 				->orderby('li_u')
 				->findAll();
 
