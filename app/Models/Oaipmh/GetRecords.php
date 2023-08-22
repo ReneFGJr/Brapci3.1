@@ -63,7 +63,7 @@ class GetRecords extends Model
 				$sx .= lang('brapci.nothing_to_harvesting');
 				$this->status = '202';
 			} else {
-				$id = $dt[0]['id_li'];
+				$id = (string)$dt[0]['id_li'];
 				pre($id,false);
 				$sx .= $this->harvesting($id);
 				$this->status = '200';
