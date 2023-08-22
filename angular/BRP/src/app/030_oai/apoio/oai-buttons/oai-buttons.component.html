@@ -1,7 +1,11 @@
-<div class="col-12">
+9<div class="col-12">
   <ul>
     <li *ngIf="sources.oai.status_2">
         <button class="btn btn-outline-secondary" (click)="processOAI(sources.issue.id_is,2);">C ({{sources.oai.status_2}})</button>
+    </li>
+
+    <li *ngIf="sources.oai.status_9" class="ms-2">
+        <button class="btn btn-outline-secondary">F ({{sources.oai.status_9}})</button>
     </li>
   </ul>
 </div>

@@ -97,7 +97,6 @@ class GetRecords extends Model
 		$url .= 'metadataPrefix=oai_dc';
 		$url .= '&';
 		$url .= 'identifier=' . $reg;
-		$sx .= h(anchor($url), 6);
 
 		//pre($dt);
 
@@ -132,12 +131,11 @@ class GetRecords extends Model
 
 		/******************************* METHODS */
 		$method = $dt['jnl_oai_method'];
-		$sx .= h('Method ' . $method, 3);
+		$sx .= 'Method ' . $method.'<br>';
 
 		switch ($method) {
 			case 0:
 				$sx .= $this->Method_00($dt, $txt, $file);
-				$sx .= metarefresh('', 5);
 				break;
 		}
 		return $sx;
@@ -176,7 +174,7 @@ class GetRecords extends Model
 
 		/************************************************ Titulo */
 		$title = nbr_title($metadata['title']);
-		$sx .= h($title, 2);
+		$sx .= 'Title:'.$title;
 		$prop = 'brapci:hasTitle';
 		$lang = 'pt-BR';
 		$literal = $RDF->literal($title, $lang);
@@ -218,7 +216,6 @@ class GetRecords extends Model
 			if (!is_array($subject)) {
 				$subject = array($subject);
 			}
-			$sx .= h('Subjects',3);
 
 			for ($r = 0; $r < count($subject); $r++) {
 				$sub = (string)$subject[$r];
@@ -247,13 +244,11 @@ class GetRecords extends Model
 
 		/************************************************ Abstract */
 		if (isset($metadata['description'])) {
-			$sx .= h('Abstract');
 			$abs = nbr_title($metadata['description']);
 			if ($abs != '') {
 				$lang = $AI->getTextLanguage($abs);
 				$literal = $RDF->literal($abs, $lang);
 				$RDF->propriety($idp, 'hasAbstract', 0, $literal);
-				$sx .= '<p style="text-justify">'. $abs.'</p>';
 			}
 		}
 
