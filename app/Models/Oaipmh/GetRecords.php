@@ -261,9 +261,15 @@ class GetRecords extends Model
 		if (isset($metadata['identifier'])) {
 			$identifier = $metadata['identifier'];
 			if ($identifier != '') {
-				pre($identifier);
-				$literal = $RDF->literal($identifier, '');
-				$RDF->propriety($idp, 'hasRegisterId', 0, $literal);
+				if (!is_array($identifier))
+					{
+						$$identifier = [$identifier];
+					}
+				foreach($identifier as $id->$ln)
+					{
+						$literal = $RDF->literal($ln, '');
+						$RDF->propriety($idp, 'hasRegisterId', 0, $literal);
+					}
 			}
 		}
 
