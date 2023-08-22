@@ -162,10 +162,8 @@ class GetRecords extends Model
 
 		$RDF = new \App\Models\Rdf\RDF();
 
+		/* Craido Trabalho */
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
-		echo '===>' . $prefLabel;
-		echo '<br>===>' . $idp;
-		exit;
 
 		$sx .= 'Acesso ao trabalho: <a href="'.PATH.'/v/'.$idp.'">'.$idp.'</a>';
 
@@ -286,6 +284,11 @@ class GetRecords extends Model
 		if (count($dr) == 0)
 			{
 				$this->set($dd)->insert();
+			} else {
+				$this->set($dd)
+				->where('lr_identifier', $reg)
+				->where('lr_issue', $dt['li_s'])
+				->update();
 			}
 
 
