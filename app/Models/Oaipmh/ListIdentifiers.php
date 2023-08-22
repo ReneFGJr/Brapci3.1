@@ -210,7 +210,7 @@ class ListIdentifiers extends Model
 			$this->select($cp.', count(*) as total');
 			$this->where('li_jnl',$idj);
 			$this->where('li_issue', $issue);
-			$this->groupBy($cp);
+			$this->groupBy('li_s');
 			$dt = $this->findAll();
 			return $dt;
 		}
