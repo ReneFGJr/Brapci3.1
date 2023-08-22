@@ -1,7 +1,7 @@
 <div class="col-5">
   <ul>
     <li *ngFor="let item of sources.oai">
-        <button *ngIf="item.status===2">C</button>
+        <button *ngIf="item.status==='2'" class="btn btn-outline-secondary">C ({{item.total}})</button>
     </li>
   </ul>
 </div>

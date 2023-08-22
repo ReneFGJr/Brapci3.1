@@ -56,11 +56,14 @@ class Brapci extends Model
             $RSP['status'] = '200';
             switch($d1)
                 {
+                    case 'oai':
+                        $RSP = $this->oai($d2, $d3);
+                        break;
                     case 'issue':
-                        $RSP = $this->issue($d2, $d2);
+                        $RSP = $this->issue($d2, $d3);
                         break;
                     case 'source':
-                        $RSP['source'] = $this->source($d2,$d2);
+                        $RSP['source'] = $this->source($d2,$d3);
                         break;
                     case 'get':
                         $RSP['result'] = $this->get($d2,$d3);
@@ -76,6 +79,12 @@ class Brapci extends Model
                 }
             echo json_encode($RSP);
             exit;
+        }
+
+        function oai($issue)
+        {
+            $OAI = new \App\Models\Oaipmh\Index();
+
         }
 
         function issue($issue)
