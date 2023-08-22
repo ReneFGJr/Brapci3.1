@@ -74,6 +74,20 @@ class Index extends Model
 		return $sx;
 	}
 
+	function api($d1,$d2)
+		{
+			$RSP = [];
+			switch($d1)
+				{
+					default:
+						$RSP['status'] = '404';
+						$RSP['messagem'] = 'Function not found - '.$d1.'-'.$d2;
+
+				}
+			return $RSP;
+		}
+
+
 	function getregister($d1,$d2)
 		{
 			$sx = '';
