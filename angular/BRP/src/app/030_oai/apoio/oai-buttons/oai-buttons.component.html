@@ -1,3 +1,7 @@
 <div class="col-5">
-    <button class="btn btn-outline-primary">OAIPMH</button>
+  <ul>
+    <li *ngFor="let item of sources.oai">
+        <button *ngIf="item.status===2">C</button>
+    </li>
+  </ul>
 </div>

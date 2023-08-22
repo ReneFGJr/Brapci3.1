@@ -206,7 +206,7 @@ class ListIdentifiers extends Model
 
 	function summary($idj,$issue)
 		{
-			$cp = 'li_s';
+			$cp = 'li_s as status';
 			$this->select($cp.', count(*) as total');
 			$this->where('li_jnl',$idj);
 			$this->where('li_issue', $issue);
