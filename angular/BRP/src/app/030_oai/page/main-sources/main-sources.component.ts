@@ -15,6 +15,7 @@ export class MainSourcesComponent {
   collection(journal: any[],type: string=''): any {
     return journal.filter(p => p.jnl_collection === type);
   }
+
   ngOnInit()
     {
       this.brapciService.sources('EV').subscribe(

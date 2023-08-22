@@ -49,7 +49,18 @@ export class BrapciService {
 
   public getIssue(id: number): Observable<Array<any>> {
     let url = `${this.url}brapci/issue/` + id;
-    console.log(`Fontes: ${url}`);
+    console.log(`GETISSUE: ${url}`);
+    var formData: any = new FormData();
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
+
+  public harvestingIssue(id: number): Observable<Array<any>> {
+    let url = `${this.url}brapci/oai/getIssue/` + id;
+    console.log(`GETISSUE: ${url}`);
     var formData: any = new FormData();
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(

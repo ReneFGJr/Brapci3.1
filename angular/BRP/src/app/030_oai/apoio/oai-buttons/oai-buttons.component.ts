@@ -1,21 +1,27 @@
 import { Component, Input } from '@angular/core';
+import { BrapciService } from 'src/app/020_brapci/service/brapci.service';
 
 @Component({
   selector: 'app-oai-buttons',
   templateUrl: './oai-buttons.component.html',
-  styleUrls: ['./oai-buttons.component.scss']
+  styleUrls: ['./oai-buttons.component.scss'],
 })
 export class OaiButtonsComponent {
-  @Input() public sources:Array<any> | any
-  public size:number = 100;
+  @Input() public sources: Array<any> | any;
+  public size: number = 100;
+  public oai: Array<any> | any;
 
-  processOAI(sta:number)
-    {
-      console.log(sta);
-    }
+  constructor(private brapciService: BrapciService) {}
 
-  onSize()
-    {
-      this.size = this.size + 1
-    }
+  processOAI(issue:number, sta: number) {
+    console.log(sta);
+    console.log(issue);
+    this.brapciService.harvestingIssue(issue).subscribe((res) => {
+      this.oai = res;
+    });
+  }
+
+  onSize() {
+    this.size = this.size + 1;
+  }
 }

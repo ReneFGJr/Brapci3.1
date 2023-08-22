@@ -21,7 +21,6 @@ export class ViewIssueComponent {
     this.route.params.subscribe((params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number
 
-      console.log('HELLO');
       this.brapciService.getIssue(this.id).subscribe(
         res=>{
           this.sources = res

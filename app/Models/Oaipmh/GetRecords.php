@@ -118,10 +118,10 @@ class GetRecords extends Model
 		if (file_exists($file)) {
 			$da = filectime($file);
 			$txt = file_get_contents($file);
-			$sx .= "CACHED<br>";
+			$sx .= "CACHED";
 		} else {
 			$txt = $OAI->_call($url);
-			$sx .= "DOWNLOAD<br>";
+			$sx .= "DOWNLOAD";
 			if (strlen($txt) > 0)
 				{
 					dircheck($dir);
@@ -133,10 +133,6 @@ class GetRecords extends Model
 		/******************************* METHODS */
 		$method = $dt['jnl_oai_method'];
 		$sx .= h('Method ' . $method, 3);
-
-		echo $file . '<hr>';
-		echo $sx;
-		exit;
 
 		switch ($method) {
 			case 0:
@@ -165,6 +161,9 @@ class GetRecords extends Model
 		$prefLabel = 'A' . strzero($dt['id_li'], 9) . '_' . trim($reg);
 
 		$RDF = new \App\Models\Rdf\RDF();
+
+		echo '===>'.$prefLabel;
+		exit;
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
 
 		$sx .= 'Acesso ao trabalho: <a href="'.PATH.'/v/'.$idp.'">'.$idp.'</a>';
