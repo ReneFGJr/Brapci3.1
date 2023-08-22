@@ -162,9 +162,10 @@ class GetRecords extends Model
 
 		$RDF = new \App\Models\Rdf\RDF();
 
-		echo '===>'.$prefLabel;
-		exit;
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
+		echo '===>' . $prefLabel;
+		echo '<br>===>' . $idp;
+		exit;
 
 		$sx .= 'Acesso ao trabalho: <a href="'.PATH.'/v/'.$idp.'">'.$idp.'</a>';
 
