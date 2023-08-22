@@ -81,10 +81,12 @@ class Brapci extends Model
             exit;
         }
 
-        function oai($issue)
+        function oai($verb,$issue)
         {
             $OAI = new \App\Models\Oaipmh\Index();
             $RSP = $OAI->api('getNextIssue',$issue);
+            $RSP['verb'] = $verb;
+            $RSP['issue'] = $issue;
             return $RSP;
         }
 
