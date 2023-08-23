@@ -112,6 +112,11 @@ class IssuesWorks extends Model
         return 0;
     }
 
+    function getWorks($issue)
+        {
+            $this->where('')
+        }
+
     function check($dd)
     {
         $RDF = new \App\Models\Rdf\RDF();
