@@ -114,6 +114,7 @@ class IssuesWorks extends Model
 
     function getWorks($issue)
         {
+            return [];
             $dt = $this
                 ->where('siw_issue',$issue)
                 ->findAll();
