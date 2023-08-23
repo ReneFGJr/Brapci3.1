@@ -295,6 +295,7 @@ class GetRecords extends Model
 		/***************** Atualiza */
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
 		$di = $IssuesWorks->where('siw_work_rdf',$idp)->first();
+		echo $IssuesWorks->getlastquery();
 		echo "OK";
 		pre($di);
 		exit;
