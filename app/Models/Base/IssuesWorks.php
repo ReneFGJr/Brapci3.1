@@ -114,7 +114,9 @@ class IssuesWorks extends Model
 
     function getWorks($issue)
         {
-            //$this->where('')
+            $this->where('is_source_issue',$issue);
+            $dt = $this->findAll();
+            pre($dt);
         }
 
     function check($dd)
