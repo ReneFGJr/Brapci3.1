@@ -163,7 +163,7 @@ class GetRecords extends Model
 		/* Craido Trabalho */
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
 
-		$RSP['URL'] = PATH.'/v/'.$idp;
+		$RSP['URL'] = PATH.'v/'.$idp;
 
 		$metadata = (array)$metadata['dc'];
 
@@ -292,10 +292,17 @@ class GetRecords extends Model
 				->update();
 			}
 
+		/***************** Atualiza */
+		$IssuesWorks = new \App\Models\Base\IssuesWorks();
+		$di = $IssuesWorks->where('siw_work_rdf',$idp)->first();
+		pre($di);
+		exit;
 
 		/***************** Atualiza */
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 		$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
+
+
 
 		return $RSP;
 	}
