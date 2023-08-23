@@ -93,12 +93,15 @@ class Brapci extends Model
         function issue($issue)
             {
                 $Issues = new \App\Models\Base\Issues();
+                $IssuesWorks = new \App\Models\Base\IssuesWorks();
+
                 $dt = $Issues->find($issue);
                 $RSP = $this->getSource($dt['is_source']);
                 $RSP['issue'] = $dt;
 
                 $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
                 $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'],$issue);
+                $RSP['works'] = $IssuesWorks->getWorks($issue);
 
                 return $RSP;
             }
