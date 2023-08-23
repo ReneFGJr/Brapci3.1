@@ -82,7 +82,10 @@ class Index extends Model
 					case 'getIssue':
 						$GetRecords = new \App\Models\Oaipmh\GetRecords();
 						$RSP = $GetRecords->getrecord(0,$d2);
-						$RSP['rdf'] = sonumero($RSP['message']['result']['URL']);
+						if (isset($RSP['message']['result']['URL']))
+						{
+							$RSP['rdf'] = sonumero($RSP['message']['result']['URL']);
+						}
 						break;
 					default:
 						$RSP['status'] = '404';
