@@ -114,7 +114,7 @@ class IssuesWorks extends Model
 
     function getWorks($issue)
         {
-            $this->where('')
+            //$this->where('')
         }
 
     function check($dd)
