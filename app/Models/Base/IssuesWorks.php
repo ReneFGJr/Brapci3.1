@@ -115,7 +115,7 @@ class IssuesWorks extends Model
     function getWorks($issue)
         {
             $dt = $this
-                ->where('is_source_issue',$issue)
+                ->where('siw_issue',$issue)
                 ->findAll();
                 echo h($this->getlastquery());
             pre($dt);
