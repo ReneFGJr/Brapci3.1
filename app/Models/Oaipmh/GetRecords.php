@@ -194,7 +194,6 @@ class GetRecords extends Model
 		/************************************************ ISSUE */
 		$issue = $metadata['source'];
 		$id_issue = $dt['is_source_issue'];
-		pre($dt);
 		$RDF->propriety($id_issue, 'hasIssueProceedingOf', $idp, 0);
 
 		/************************************************ Titulo */
@@ -305,7 +304,7 @@ class GetRecords extends Model
 		$dd['lr_status'] = 9;
 		$dd['lr_jnl'] = $dt['jnl_frbr'];
 		$dd['lr_procees'] = '2';
-		$dd['lr_issue'] = $dt['li_s'];
+		$dd['lr_issue'] = $dt['li_issue'];
 		$dd['lr_local_file'] = $file;
 		$dd['lr_work'] = $idp;
 
@@ -329,7 +328,7 @@ class GetRecords extends Model
 
 		$dq = [];
 		$dq['siw_journal'] = $dt['id_jnl'];
-		$dq['siw_issue'] = $dt['li_s'];
+		$dq['siw_issue'] = $dt['li_issue'];
 		$dq['siw_issue_rdf'] = $id_issue;
 		$dq['siw_order'] = 0;
 		$dq['siw_pag_ini'] = 0;
@@ -338,7 +337,7 @@ class GetRecords extends Model
 		$dq['siw_work_rdf'] = $idp;
 		$dq['siw_title'] = $label_title;
 		$dq['siw_author'] = $label_authors;
-		$dq['siw_publish'] = $dt['id_jnl'];
+		$dq['siw_publish'] = $dt['jnl_name'];
 
 		if ($di == '')
 			{
