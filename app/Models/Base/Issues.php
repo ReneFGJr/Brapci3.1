@@ -469,6 +469,7 @@ class Issues extends Model
 
         $dd['is_source_rdf'] = $dt['jnl_frbr'];
         $dd['is_source_issue'] = $id_issue;
+        $dd['is_issue'] = $dt['id_is'];
         $this->set($dd)->where('id_is', $dt['id_is'])->update();
 
         return "";
