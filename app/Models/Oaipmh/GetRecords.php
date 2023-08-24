@@ -144,6 +144,7 @@ class GetRecords extends Model
 	/************************************************ Method 00 */
 	function Method_00($dt, $txt, $file = '')
 	{
+		echo "OK";
 		$RSP = [];
 		$txt = troca($txt, 'oai_dc:', '');
 		$txt = troca($txt, 'dc:', '');
