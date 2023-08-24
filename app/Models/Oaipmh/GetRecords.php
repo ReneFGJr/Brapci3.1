@@ -101,6 +101,7 @@ class GetRecords extends Model
 		//pre($dt);
 
 		/********************************* Sincroniza tabelas e atualizações */
+		/*
 		$verif = $this->where('lr_identifier', $reg)->where('lr_jnl', $dt['jnl_frbr'])->findAll();
 		if (count($verif) > 0) {
 			if ($id_li > 0) {
@@ -110,6 +111,7 @@ class GetRecords extends Model
 				return $RSP;
 			}
 		}
+		*/
 
 		$dir = $OAI->dir_tmp($dt['id_li']);
 		$file = $dir . 'GetRegister.xml';
@@ -313,7 +315,6 @@ class GetRecords extends Model
 				->where('lr_issue', $dt['li_s'])
 				->update();
 			}
-		echo "OK2";
 		/***************** Atualiza */
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
 		$di = $IssuesWorks->where('siw_work_rdf',$idp)->first();
