@@ -295,6 +295,7 @@ class GetRecords extends Model
 		/***************** Atualiza */
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
 		$di = $IssuesWorks->where('siw_work_rdf',$idp)->first();
+
 		$dq = [];
 		$dq['siw_journal'] = $dt['id_jnl'];
 		$dq['siw_issue'] = $dt['li_s'];
@@ -320,7 +321,8 @@ class GetRecords extends Model
 
 		if ($di == '')
 			{
-
+				$IssuesWorks->set($dq)->insert();
+				$di = $IssuesWorks->where('siw_work_rdf', $idp)->first();
 			}
 		echo $IssuesWorks->getlastquery();
 		echo "OK";
