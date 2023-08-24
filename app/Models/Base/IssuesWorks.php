@@ -118,8 +118,7 @@ class IssuesWorks extends Model
             $dt = $this
                 ->where('siw_issue',$issue)
                 ->findAll();
-                echo h($this->getlastquery());
-            pre($dt);
+            return $dt;
         }
 
     function check($dd)
