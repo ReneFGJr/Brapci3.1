@@ -324,10 +324,6 @@ class GetRecords extends Model
 				$IssuesWorks->set($dq)->insert();
 				$di = $IssuesWorks->where('siw_work_rdf', $idp)->first();
 			}
-		echo $IssuesWorks->getlastquery();
-		echo "OK";
-		pre($di);
-		exit;
 
 		/***************** Atualiza */
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
