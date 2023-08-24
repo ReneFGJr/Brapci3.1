@@ -170,6 +170,7 @@ class GetRecords extends Model
 		/************************************************ ISSUE */
 		$issue = $metadata['source'];
 		$id_issue = $dt['is_source_issue'];
+		pre($dt);
 		$RDF->propriety($id_issue, 'hasIssueProceedingOf', $idp, 0);
 
 		/************************************************ Titulo */
@@ -257,7 +258,7 @@ class GetRecords extends Model
 			if ($identifier != '') {
 				if (!is_array($identifier))
 					{
-						$$identifier = [$identifier];
+						$identifier = [$identifier];
 					}
 				foreach($identifier as $id=>$ln)
 					{
@@ -298,6 +299,7 @@ class GetRecords extends Model
 		$dq = [];
 		$dq['siw_journal'] = $dt['id_jnl'];
 		$dq['siw_issue'] = $dt['li_s'];
+		$dq['siw_issue_rdf'] =
 		$dq['siw_order'] = 0;
 		$dq['siw_pag_ini'] = 0;
 		$dq['siw_pag_end'] = 0;
