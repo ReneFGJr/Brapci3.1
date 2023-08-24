@@ -156,7 +156,13 @@ class GetRecords extends Model
 		$header = (array)$GR['header'];
 		if (isset($header['@attributes']))
 			{
-				pre($header['@attributes']);
+				$attr = (array)$header['@attributes'];
+				if (isset($attr['status'] == 'deleted'))
+					{
+						echo "deleted";
+					}
+				echo "OK";
+				exit;
 			}
 
 
