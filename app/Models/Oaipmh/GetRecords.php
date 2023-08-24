@@ -351,7 +351,7 @@ class GetRecords extends Model
 
 		/***************** Atualiza */
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-		//$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
+		$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
 		return $RSP;
 	}
 }
