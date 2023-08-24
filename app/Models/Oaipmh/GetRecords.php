@@ -152,6 +152,8 @@ class GetRecords extends Model
 		$GR = (array)$xml['GetRecord'];
 		$GR = (array)$GR['record'];
 
+		pre($GR);
+
 		$header = (array)$GR['header'];
 		$metadata = (array)$GR['metadata'];
 
