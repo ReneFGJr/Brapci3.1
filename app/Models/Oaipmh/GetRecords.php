@@ -144,7 +144,6 @@ class GetRecords extends Model
 	/************************************************ Method 00 */
 	function Method_00($dt, $txt, $file = '')
 	{
-		echo "OK";
 		$RSP = [];
 		$txt = troca($txt, 'oai_dc:', '');
 		$txt = troca($txt, 'dc:', '');
@@ -314,7 +313,7 @@ class GetRecords extends Model
 				->where('lr_issue', $dt['li_s'])
 				->update();
 			}
-
+		echo "OK2";
 		/***************** Atualiza */
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
 		$di = $IssuesWorks->where('siw_work_rdf',$idp)->first();
