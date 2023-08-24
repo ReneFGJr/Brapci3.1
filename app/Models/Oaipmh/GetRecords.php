@@ -325,25 +325,19 @@ class GetRecords extends Model
 		$dq['siw_order'] = 0;
 		$dq['siw_pag_ini'] = 0;
 		$dq['siw_pag_end'] = 0;
-		$dq['siw_section'] = $dt['id_jnl'];
+		$dq['siw_section'] = $id_sec;
 		$dq['siw_work_rdf'] = $idp;
 		$dq['siw_title'] = $dt['id_jnl'];
 		$dq['siw_author'] = '';
 		$dq['siw_publish'] = $dt['id_jnl'];
 		$dq['siw_year'] = $dt['id_jnl'];
 
-		$dd['lr_datestamp'] = $dt['li_datestamp'];
-		$dd['lr_setSpec'] = $dt['li_setSpec'];
-		$dd['lr_status'] = 9;
-		$dd['lr_jnl'] = $dt['jnl_frbr'];
-		$dd['lr_procees'] = '2';
-		$dd['lr_issue'] = $dt['li_s'];
-		$dd['lr_local_file'] = $file;
-		$dd['lr_work'] = $idp;
-
 		if ($di == '')
 			{
 				$IssuesWorks->set($dq)->insert();
+				$di = $IssuesWorks->where('siw_work_rdf', $idp)->first();
+			} else {
+				$IssuesWorks->set($dq)->where('siw_work_rdf', $idp)->update();
 				$di = $IssuesWorks->where('siw_work_rdf', $idp)->first();
 			}
 
