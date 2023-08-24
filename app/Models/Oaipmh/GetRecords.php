@@ -321,7 +321,7 @@ class GetRecords extends Model
 		$dq = [];
 		$dq['siw_journal'] = $dt['id_jnl'];
 		$dq['siw_issue'] = $dt['li_s'];
-		$dq['siw_issue_rdf'] = $dt['li_s'];
+		$dq['siw_issue_rdf'] = $id_issue;
 		$dq['siw_order'] = 0;
 		$dq['siw_pag_ini'] = 0;
 		$dq['siw_pag_end'] = 0;
