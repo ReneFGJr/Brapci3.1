@@ -101,17 +101,16 @@ class GetRecords extends Model
 		//pre($dt);
 
 		/********************************* Sincroniza tabelas e atualizações */
-		/*
 		$verif = $this->where('lr_identifier', $reg)->where('lr_jnl', $dt['jnl_frbr'])->findAll();
 		if (count($verif) > 0) {
 			if ($id_li > 0) {
-				$OAI_ListIdentifiers->update_status($id_li, 9);
-				$RSP['message'] = lang('brapci.already_process ');
-				$RSP['status'] = '202';
-				return $RSP;
+				$RSP['reprocessed'] = 'true';
+				//$OAI_ListIdentifiers->update_status($id_li, 9);
+				//$RSP['message'] = lang('brapci.already_process ');
+				//$RSP['status'] = '202';
+				//return $RSP;
 			}
 		}
-		*/
 
 		$dir = $OAI->dir_tmp($dt['id_li']);
 		$file = $dir . 'GetRegister.xml';
