@@ -228,6 +228,7 @@ class GetRecords extends Model
 			if ($label_authors!='') {
 				$label_authors .= '; '; }
 			$label_authors .= nbr_author($name,7);
+			echo label_authors.'<br>';
 
 			$RDF->propriety($idp, 'hasAuthor', $id_auth, 0);
 			/******************************** Vinculo Instituicional */
