@@ -100,6 +100,8 @@ class Brapci extends Model
                 $RSP = $this->getSource($dt['is_source']);
                 $RSP['issue'] = $dt;
 
+                pre($dt);
+
                 $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
                 $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'],$issue);
                 $RSP['works'] = $IssuesWorks->getWorks($dt['is_source_issue']);
