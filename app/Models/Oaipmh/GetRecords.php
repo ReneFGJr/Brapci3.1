@@ -155,6 +155,7 @@ class GetRecords extends Model
 
 
 		$header = (array)$GR['header'];
+		/*************************************** Registro deletado */
 		if (isset($header['@attributes']))
 			{
 				$attr = (array)$header['@attributes'];
@@ -175,7 +176,6 @@ class GetRecords extends Model
 			}
 
 
-
 		$metadata = (array)$GR['metadata'];
 
 		$reg = $dt['li_identifier'];
@@ -187,12 +187,14 @@ class GetRecords extends Model
 		$idp = $RDF->concept($prefLabel, 'Proceeding');
 
 		$RSP['URL'] = PATH.'v/'.$idp;
+		$RSP['WORK'] = $idp;
 
 		$metadata = (array)$metadata['dc'];
 
 		/************************************************ ISSUE */
 		$issue = $metadata['source'];
 		$id_issue = $dt['is_source_issue'];
+		pre($dt);
 		$RDF->propriety($id_issue, 'hasIssueProceedingOf', $idp, 0);
 
 		/************************************************ Titulo */
@@ -337,7 +339,6 @@ class GetRecords extends Model
 		$dq['siw_title'] = $label_title;
 		$dq['siw_author'] = $label_authors;
 		$dq['siw_publish'] = $dt['id_jnl'];
-		$dq['siw_year'] = $dt['id_jnl'];
 
 		if ($di == '')
 			{
