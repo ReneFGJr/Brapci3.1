@@ -338,6 +338,7 @@ class GetRecords extends Model
 		$dq['siw_title'] = $label_title;
 		$dq['siw_author'] = $label_authors;
 		$dq['siw_publish'] = $dt['jnl_name'];
+		$dq['update_at'] = date("Y-m-d");
 
 		if ($di == '')
 			{

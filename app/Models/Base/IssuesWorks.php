@@ -16,7 +16,7 @@ class IssuesWorks extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_siw', 'siw_journal', 'siw_issue', 'siw_author',
-        'siw_title','siw_publish',
+        'siw_title','siw_publish','siw_pag_ini','siw_pag_end',
         'siw_section', 'siw_work_rdf', 'update_at',
     ];
 
