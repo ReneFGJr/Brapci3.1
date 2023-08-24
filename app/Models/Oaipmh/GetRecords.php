@@ -326,9 +326,9 @@ class GetRecords extends Model
 		$dq['siw_pag_ini'] = 0;
 		$dq['siw_pag_end'] = 0;
 		$dq['siw_section'] = $dt['id_jnl'];
-		$dq['siw_work_rdf'] = $dt['id_jnl'];
+		$dq['siw_work_rdf'] = $idp;
 		$dq['siw_title'] = $dt['id_jnl'];
-		$dq['siw_author'] = $dt['id_jnl'];
+		$dq['siw_author'] = '';
 		$dq['siw_publish'] = $dt['id_jnl'];
 		$dq['siw_year'] = $dt['id_jnl'];
 
@@ -349,8 +349,8 @@ class GetRecords extends Model
 
 		/***************** Atualiza */
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-		$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
-
+		//$OAI_ListIdentifiers->update_status($dt['id_li'], 9);
+		$RSP['work'] = $idp;
 
 
 		return $RSP;
