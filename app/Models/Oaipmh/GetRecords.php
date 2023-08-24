@@ -162,11 +162,15 @@ class GetRecords extends Model
 					{
 						if ($attr['status'] == 'deleted')
 							{
-								echo "deleted";
+								/***************** Atualiza */
+								$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+								$OAI_ListIdentifiers->update_status($dt['id_li'], -9);
+								$RSP = [];
+								$RSP['status'] = '209';
+								$RSP['message'] = 'Register deleted';
+								return $RSP;
 							}
 					}
-				echo "OK";
-				exit;
 			}
 
 
