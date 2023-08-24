@@ -152,9 +152,15 @@ class GetRecords extends Model
 		$GR = (array)$xml['GetRecord'];
 		$GR = (array)$GR['record'];
 
-		pre($GR);
 
 		$header = (array)$GR['header'];
+		if (isset($header['@attributes']))
+			{
+				pre($header['@attributes']);
+			}
+
+
+
 		$metadata = (array)$GR['metadata'];
 
 		$reg = $dt['li_identifier'];
