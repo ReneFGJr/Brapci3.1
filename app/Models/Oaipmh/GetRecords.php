@@ -197,6 +197,7 @@ class GetRecords extends Model
 
 		/************************************************ Titulo */
 		$title = nbr_title($metadata['title']);
+		$label_title = $title;
 		$rsp['title'] = $title;
 		$prop = 'brapci:hasTitle';
 		$lang = 'pt-BR';
@@ -205,6 +206,7 @@ class GetRecords extends Model
 
 		/************************************************ Autores */
 		$auth = array();
+		$label_authors = '';
 		$authors = $metadata['creator'];
 		if (!is_array($authors)) {
 			$authors = array($authors);
@@ -221,7 +223,12 @@ class GetRecords extends Model
 				$author = $aut;
 			}
 			$name = nbr_author($author, 1);
+
 			$id_auth = $RDF->concept($name, 'Person');
+			if ($label_authors!='') {
+				$label_authors .= '; '; }
+			$label_authors .= nbr_author($name,7);
+
 			$RDF->propriety($idp, 'hasAuthor', $id_auth, 0);
 			/******************************** Vinculo Instituicional */
 			if ($inst != '') {
@@ -327,8 +334,8 @@ class GetRecords extends Model
 		$dq['siw_pag_end'] = 0;
 		$dq['siw_section'] = $id_sec;
 		$dq['siw_work_rdf'] = $idp;
-		$dq['siw_title'] = $dt['id_jnl'];
-		$dq['siw_author'] = '';
+		$dq['siw_title'] = $label_title;
+		$dq['siw_author'] = $label_authors;
 		$dq['siw_publish'] = $dt['id_jnl'];
 		$dq['siw_year'] = $dt['id_jnl'];
 
