@@ -15,7 +15,8 @@ class IssuesWorks extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_siw', 'siw_journal', 'siw_issue','siw.author','siw_title','siw_publish',
+        'id_siw', 'siw_journal', 'siw_issue', 'siw_author',
+        'siw_title','siw_publish',
         'siw_section', 'siw_work_rdf', 'update_at',
     ];
 
