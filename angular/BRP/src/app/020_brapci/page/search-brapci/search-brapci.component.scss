@@ -1,0 +1,54 @@
+// Main styles
+form {
+  position: relative;
+  width: 100%;
+  background: #ddddff;
+  border-radius: .7rem;
+}
+input, button {
+  height: 5rem;
+  border: 0;
+  color: #000;
+  font-size: 1.8rem;
+  outline: 1;
+  border: 1px solid #AAAAAA;
+}
+input[type="search"] {
+  outline: 1;
+  width: 100%;
+  background: #ddddff;
+  padding: 0 1.6rem;
+  border-radius: .7rem;
+  appearance: none; //for iOS input[type="search"] roundedness issue. border-radius alone doesn't work
+  transition: all .3s cubic-bezier(0, 0, 0.43, 1.49);
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+}
+button {
+  display: none; // prevent being able to tab to it
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10rem;
+  //font-weight: bold;
+  background: darkslateblue;
+  border-radius: 0 .7rem .7rem 0;
+  color: white;
+}
+input:not(:placeholder-shown) {
+  border-radius: .7rem 0 0 .7rem;
+  width: calc(100% - 10rem);
+  + button {
+    display: block;
+  }
+}
+label {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}

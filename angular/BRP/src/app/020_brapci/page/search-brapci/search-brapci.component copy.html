@@ -1,0 +1,59 @@
+<div class="input-group">
+  <div class="form-outline">
+    <input type="search" id="form1" class="form-control" />
+    <label class="form-label" for="form1">Search</label>
+  </div>
+  <button type="button" class="btn btn-primary">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+  <div class="input-group mb-3 text-field">
+    <input
+      type="text"
+      class="search"
+      style="padding-left: 5px; width: 90%; float: left"
+      formControlName="term"
+      (keyup)="onKeyPress()"
+      required
+    />
+    <label class="search">Sobre o que está procurando?</label>
+    <i
+      class="bi bi-search"
+      style="position: relative; left: -20px; top: 5px; font-size: 1.5em"
+      (click)="onSearch()"
+    ></i>
+  </div>
+
+  <a (click)="clickFilters()" class="minilink">mostrar filtros</a>
+
+  <!------ Filtros-->
+  <div class="row slideInDown slideOutUp" *ngIf="filters">
+  <div class="col-2">
+    <input
+      type="text"
+      class="search"
+      style="padding-left: 5px; width: 90%; float: left"
+      formControlName="year_start"
+      (keyup)="onKeyPress()"
+      placeholder="Ano inicial"
+      required
+    />
+  </div>
+
+  <div class="col-2">
+    <input
+      type="text"
+      class="search"
+      style="padding-left: 5px; width: 90%; float: left"
+      formControlName="year_end"
+      (keyup)="onKeyPress()"
+      placeholder="Ano final"
+      required
+    />
+  </div>
+  </div>
+</form>
+
+<app-brapci-jounals></app-brapci-jounals>

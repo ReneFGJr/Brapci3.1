@@ -17,6 +17,7 @@ import { BannerArticleComponent } from './page/banner/banner-article.component';
 import { PdfComponent } from './v/component/pdf/pdf.component';
 import { PaginationComponent } from './page/v/pagination/pagination.component';
 import { JounalsComponent } from './page/jounals/jounals.component';
+import { BrapciWelcomeComponent } from './page/welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { JounalsComponent } from './page/jounals/jounals.component';
     PdfComponent,
     PaginationComponent,
     JounalsComponent,
+    BrapciWelcomeComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { JounalsComponent } from './page/jounals/jounals.component';
   ],
   exports:[
     BannerComponent,
+    BrapciWelcomeComponent,
     PainelComponent,
     VComponent
   ],

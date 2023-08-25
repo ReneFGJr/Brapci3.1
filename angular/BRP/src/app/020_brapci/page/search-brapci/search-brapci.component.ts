@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BannerComponent } from '../banner/banner.component';
 
 @Component({
   selector: 'app-search-brapci',
@@ -14,10 +13,8 @@ export class SearchBrapciComponent {
   public year_end: number = new Date().getFullYear()+1;
   public APIversion: string = '1';
 
-
   constructor(
     private fb: FormBuilder,
-    private bannerComponent: BannerComponent,
   ) {}
 
   ngOnInit() {
@@ -44,7 +41,7 @@ export class SearchBrapciComponent {
       {
         console.log("OK");
         let term = this.searchForm.value.term;
-        this.bannerComponent.search(term);
+        //this.bannerComponent.search(term);
       } else {
         console.log("NÃO OK");
       }
