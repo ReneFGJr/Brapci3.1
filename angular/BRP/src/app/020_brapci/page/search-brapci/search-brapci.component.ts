@@ -8,6 +8,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class SearchBrapciComponent {
   public filters:boolean = false;
+  public advanceSearch:string = '';
   public term: string = '';
   public year_start: number = 1962;
   public year_end: number = new Date().getFullYear()+1;

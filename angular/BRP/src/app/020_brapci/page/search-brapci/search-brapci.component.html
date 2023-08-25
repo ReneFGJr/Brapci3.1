@@ -9,8 +9,11 @@
     />
     <button type="submit">Pesquisar</button>
   </form>
+  <small class="link">busca avançada</small>
 
+  <div *ngIf="advanceSearch">
   <div class="form-group">
     <label for="formControlRange">Example Range input</label>
     <input type="range" class="form-control-range" id="formControlRange">
+  </div>
   </div>
