@@ -310,8 +310,6 @@ class Disciplinas extends Model
             ->where('e_semestre', $sem)
             ->orderBy('id_c,di_codigo,di_etapa,h_hora_ini');
         $dt = $this->findAll();
-        echo $this->getlastquery();
-
 
         $w = array(
             'di_codigo'=>'text-center',

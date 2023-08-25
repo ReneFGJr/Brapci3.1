@@ -50,6 +50,9 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'handle':
+
+                break;
             case 'authority':
                 $Authority = new \App\Models\Api\Endpoint\Authority();
                 $sx = $Authority->index($d2, $d3, $d4);
