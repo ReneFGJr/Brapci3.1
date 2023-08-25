@@ -16,5 +16,11 @@
     <app-oai-buttons [sources]="sources"></app-oai-buttons>
   </div>
 
-  {{sources | json}}
+  <ul>
+    <li *ngFor="let item of sources.works">
+      <span class="title link">{{item.siw_title}}</span>
+      <br>
+      <span class="author">{{item.siw_author}}</span>
+    </li>
+  </ul>
 </div>
