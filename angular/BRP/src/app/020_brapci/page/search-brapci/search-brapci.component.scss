@@ -3,28 +3,43 @@ form {
   position: relative;
   width: 100%;
   background: #ddddff;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
 }
-input, button {
+input,
+button {
   height: 5rem;
   border: 0;
   color: #000;
   font-size: 1.8rem;
-  outline: 1;
-  border: 1px solid #AAAAAA;
+  outline: 0;
+  border: 1px solid #aaaaaa;
+  -webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.15);
 }
 input[type="search"] {
   outline: 1;
   outline-color: darkslateblue;
   width: 100%;
-  background: #EEEEEE;
+  background: #eeeeee;
   padding: 0 1.6rem;
-  border-radius: .7rem;
+  border-radius: 0.7rem;
   appearance: none; //for iOS input[type="search"] roundedness issue. border-radius alone doesn't work
-  transition: all .3s cubic-bezier(0, 0, 0.43, 1.49);
+  transition: all 0.3s cubic-bezier(0, 0, 0.43, 1.49);
   transition-property: width, border-radius;
   z-index: 1;
   position: relative;
+}
+button:hover {
+  background: rgb(44, 36, 91);
+}
+.filter {
+  font-size: 1rem;
+  border: 1px solid #aaaaaa;
+  -webkit-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 10px 5px -4px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.15);
+  border-radius: 0.7rem;
 }
 button {
   display: none; // prevent being able to tab to it
@@ -34,11 +49,11 @@ button {
   width: 10rem;
   //font-weight: bold;
   background: darkslateblue;
-  border-radius: 0 .7rem .7rem 0;
+  border-radius: 0 0.7rem 0.7rem 0;
   color: white;
 }
 input:not(:placeholder-shown) {
-  border-radius: .7rem 0 0 .7rem;
+  border-radius: 0.7rem 0 0 0.7rem;
   width: calc(100% - 10rem);
   + button {
     display: block;
