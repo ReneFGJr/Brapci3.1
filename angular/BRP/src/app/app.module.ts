@@ -1,5 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -7,9 +8,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 /* Modules */
 import { ThemeModule } from './010_thema/theme.module';
-import { HttpClientModule } from '@angular/common/http';
+
 import { CoreBrapciModule } from './020_brapci/core-brapci.module';
-import { RouterModule } from '@angular/router';
+//import { RouterModule } from '@angular/router';
 //import { CoreBrapciComponent } from './200_brapci/core-brapci/core-brapci.component';
 
 @NgModule({

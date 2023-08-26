@@ -39,6 +39,7 @@ export class SearchAuthorityComponent {
     });
   }
 
+
   onSearch() {
     if (this.angForm.valid) {
       let term = this.angForm.value.term

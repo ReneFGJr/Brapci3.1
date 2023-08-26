@@ -129,6 +129,7 @@ class Brapci extends Model
                 $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
                 $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
                 $Source = new \App\Models\Base\Sources();
+                if ($d1 == 'EV') { $d1 = 'proceddings'; }
                 if ($d1 == 'J') { $d1 = 'journal'; }
                 if ($d1 == 'R') { $d1 = 'journal'; }
                 if ($d1 == 'E') { $d1 = 'proceddings'; }

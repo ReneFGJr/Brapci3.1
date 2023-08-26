@@ -20,6 +20,7 @@ export class ViewSourceComponent {
     private brapciService: BrapciService
   ) { }
 
+
   viewIssue(id:string)
     {
       this.router.navigate(['sources/issue/'+id]);

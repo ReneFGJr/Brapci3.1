@@ -1,9 +1,11 @@
-  <form onsubmit="event.preventDefault();" role="search">
+
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
     <label for="search">Search for stuff</label>
     <input
       id="search"
       type="search"
       placeholder="O que você está procurando?"
+      formControlName="term"
       autofocus
       required
     />
@@ -18,3 +20,6 @@
     <input type="range" class="form-control-range" id="formControlRange">
   </div>
   </div>
+
+
+<app-search-brapci-results [results]="result"></app-search-brapci-results>

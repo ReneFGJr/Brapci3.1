@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { BrapciService } from '../../service/brapci.service';
 
 @Component({
   selector: 'app-search-brapci',
@@ -7,6 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./search-brapci.component.scss'],
 })
 export class SearchBrapciComponent {
+  public result:Array<any> | any;
   public filters: boolean = false;
   public advanceSearch: string = '';
   public term: string = '';
@@ -14,20 +20,10 @@ export class SearchBrapciComponent {
   public year_end: number = new Date().getFullYear() + 1;
   public APIversion: string = '1';
 
-  constructor(private fb: FormBuilder) {}
-
-  ngOnInit() {
-    this.createForm();
-  }
-
-  clickFilters() {
-    this.filters = !this.filters;
-  }
-
-  clickadvanceSearch()
-    {
-
-    }
+  constructor(
+      private fb: FormBuilder,
+      private brapciService:BrapciService
+    ) {}
 
   searchForm: FormGroup | any;
   createForm() {
@@ -39,11 +35,28 @@ export class SearchBrapciComponent {
     });
   }
 
+  ngOnInit() {
+    this.createForm();
+  }
+
+  clickFilters() {
+    this.filters = !this.filters;
+  }
+
+  clickadvanceSearch() {
+    console.log("Adcanced Search")
+  }
+
   onSearch() {
     if (this.searchForm.valid) {
       console.log('OK');
+      console.log(this.searchForm.value.term);
       let term = this.searchForm.value.term;
-      //this.bannerComponent.search(term);
+      this.brapciService.search(term).subscribe(
+        res=>{
+          this.result = res;
+        }
+      );
     } else {
       console.log('NÃO OK');
     }
