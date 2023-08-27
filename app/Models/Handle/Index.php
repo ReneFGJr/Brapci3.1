@@ -123,7 +123,7 @@ class Index extends Model
         $Handle = new \App\Models\Handle\Handle();
         $status = $this->shell($cmd);
         /******************************* CREATE */
-        if (strpos($status, 'create:') > 0) {
+        if (strpos($status, 'modify values:') > 0) {
             $sta = '200';
             $status = substr($status, strpos($status, 'modify values:'), strlen($status));
             if (strpos($status, 'HANDLE NOT FOUND')) {
