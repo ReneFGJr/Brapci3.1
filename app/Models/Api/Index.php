@@ -51,7 +51,8 @@ class Index extends Model
     {
         switch ($d1) {
             case 'handle':
-
+                $Handle = new \App\Models\Handle\Index();
+                $sx = $Handle->index($d2,$d3,$d4);
                 break;
             case 'authority':
                 $Authority = new \App\Models\Api\Endpoint\Authority();

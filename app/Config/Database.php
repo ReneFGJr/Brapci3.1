@@ -452,6 +452,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $handle = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'handle.net',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $persistent_indicador = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -587,7 +607,7 @@ class Database extends Config
 
         $this->gev3nt['username'] = getenv('database.default.username');
         $this->gev3nt['password'] = getenv('database.default.password');
-        
+
         $this->patent['username'] = getenv('database.default.username');
         $this->patent['password'] = getenv('database.default.password');
 
@@ -626,6 +646,9 @@ class Database extends Config
 
         $this->guide['username'] = getenv('database.default.username');
         $this->guide['password'] = getenv('database.default.password');
+
+        $this->handle['username'] = getenv('database.default.username');
+        $this->handle['password'] = getenv('database.default.password');
 
         $this->openaire['username'] = getenv('database.default.username');
         $this->openaire['password'] = getenv('database.default.password');
