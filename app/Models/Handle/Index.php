@@ -85,7 +85,7 @@ class Index extends Model
         $Handle = new \App\Models\Handle\Handle();
         $status = $this->shell($cmd);
 
-        $status = substr($status,'create:',strlen($status));
+        $status = substr($status,strpos($status,'create:'),strlen($status));
         $status = substr($status,0,strpos($status,chr(13)));
         pre($status);
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
