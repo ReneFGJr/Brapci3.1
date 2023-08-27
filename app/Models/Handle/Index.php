@@ -84,17 +84,21 @@ class Index extends Model
 
         $Handle = new \App\Models\Handle\Handle();
         $status = $this->shell($cmd);
-        pre($status,false);
-
         $status = substr($status,strpos($status,'create:'),strlen($status));
-        pre($status, false);
         $status = substr($status,0,strpos($status,chr(10)));
-        pre($status, false);
-        exit;
+
+        if (strpos($status, 'HANDLE ALREADY EXISTS'))
+            {
+                $sta = '101';
+                $message = 'HANDLE ALREADY EXISTS';
+            }
+
+        if (strpos($status, 'HANDLE ALREADY EXISTS')) {
+            $sta = '101';
+            $message = 'HANDLE ALREADY EXISTS';
+        }
+
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
-
-        $sta = '200';
-
         $RSP['status'] = $sta;
         if ($message != '')
             {
