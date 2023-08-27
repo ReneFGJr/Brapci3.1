@@ -16,7 +16,7 @@ class Historic extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_hh','hh_handle','hh_description',
-        'hh_action', 'hh_status'
+        'hh_action', 'hh_status', 'hh_ip'
     ];
 
     // Dates
@@ -45,6 +45,7 @@ class Historic extends Model
 
     function register($dt)
         {
+            $dt['hh_ip'] = ip();
             $this->set($dt)->insert($dt);
             return true;
         }
