@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Handle extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = 'handle';
     protected $table            = 'handle';
     protected $primaryKey       = 'id_hdl';
     protected $useAutoIncrement = true;

@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Historic extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = 'handle';
     protected $table            = 'handle_historic';
     protected $primaryKey       = 'id_hh';
     protected $useAutoIncrement = true;
