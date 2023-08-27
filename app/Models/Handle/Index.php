@@ -91,6 +91,8 @@ class Index extends Model
             {
                 $sta = '101';
                 $message = 'HANDLE ALREADY EXISTS';
+            } else {
+                echo $status;
             }
 
         if (strpos($status, 'HANDLE ALREADY EXISTS')) {
