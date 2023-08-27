@@ -111,7 +111,7 @@ class Index extends Model
             return $RSP;
         }
 
-        $cmd .= 'UPDATE ' . $handle . cr();
+        $cmd .= 'MODIFY ' . $handle . cr();
         $cmd .= '100 HS_ADMIN 86400 1110 ADMIN 200:111111111111:0.NA/' . $hdl . cr();
         $cmd .= '3 URL 86400 1110 UTF8 ' . $url . cr();
         $cmd .= '7 EMAIL 86400 1110 UTF8 ' . $this->dts['s_email'] . cr();
