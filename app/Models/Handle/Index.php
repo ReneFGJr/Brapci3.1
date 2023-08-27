@@ -84,16 +84,26 @@ class Index extends Model
 
         $Handle = new \App\Models\Handle\Handle();
         $status = $this->shell($cmd);
-        $status = substr($status,strpos($status,'create:'),strlen($status));
-        $status = substr($status,0,strpos($status,chr(10)));
-
-        if (strpos($status, 'HANDLE ALREADY EXISTS'))
+        /******************************* CREATE */
+        if (strpos($status, 'create:') > 0)
             {
-                $sta = '101';
-                $message = 'HANDLE ALREADY EXISTS';
-            } else {
-                echo $status;
+                $status = substr($status, strpos($status, 'create:'), strlen($status));
+                if (strpos($status, 'HANDLE ALREADY EXISTS')) {
+                    $sta = '101';
+                    $message = 'HANDLE ALREADY EXISTS';
+                }
             }
+        if (strpos($status, 'delete:') > 0) {
+            $status = substr($status, strpos($status, 'delete:'), strlen($status));
+            if (strpos($status, 'HANDLE NOT FOUND')) {
+                $sta = '100';
+                $message = 'HANDLE NOT FOUND';
+            }
+        }
+        if (strpos($status, 'update:') > 0) {
+            $status = substr($status, strpos($status, 'update:'), strlen($status));
+        }
+
 
         if (strpos($status, 'HANDLE ALREADY EXISTS')) {
             $sta = '101';
