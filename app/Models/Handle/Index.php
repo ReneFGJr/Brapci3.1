@@ -172,6 +172,7 @@ class Index extends Model
         $Handle = new \App\Models\Handle\Handle();
         $status = $this->shell($cmd);
         /******************************* CREATE */
+        $sta = '???';
         if (strpos($status, 'create:') > 0)
             {
                 $sta = '200';
