@@ -95,6 +95,7 @@ class Index extends Model
 
         $bash = '/hs/handle-9.3.0/bin/hdl-genericbatch '.$dir.'cmd';
         $rsp = shell_exec($bash);
+        echo "OK";
         pre($rsp);
     }
 
