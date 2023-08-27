@@ -89,7 +89,7 @@ class Index extends Model
         } else {
 
         }
-        $Handle->register($hdl, '', $this->dts['s_email'], $message, 'D');
+        $Handle->register($hdl, '', $this->dts['s_email'], $message, $sta,'D');
         $RSP['status'] = $sta;
         $RSP['action'] = 'DELETE';
         if ($message != '') {
@@ -135,7 +135,7 @@ class Index extends Model
             }
         }
 
-        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, 'U');
+        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $sta,'U');
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
         $RSP['action'] = 'UPDATE';
@@ -182,7 +182,7 @@ class Index extends Model
                 }
             }
 
-        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $sta);
+        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $sta,'C');
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
         $RSP['action'] = 'CREATE';

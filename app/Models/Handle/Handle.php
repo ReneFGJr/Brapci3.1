@@ -44,7 +44,7 @@ class Handle extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($hdl,$url,$email,$desc,$status)
+    function register($hdl,$url,$email,$desc,$status,$type)
         {
             $Historic = new \App\Models\Handle\Historic();
             $dd['hdl_handle'] = $hdl;
@@ -62,7 +62,8 @@ class Handle extends Model
             $dh = [];
             $dh['hh_hadle'] = $hdl;
             $dh['hh_description'] = 'CREATE ' . $url . cr() . 'email:' . $email . cr() . 'Description:' . $desc;
-            $dh['hh_action'] = $status;
+            $dh['hh_action'] = $type;
+            $dg['hh_status'] = $status;
             $Historic->register($dh);
         }
 }
