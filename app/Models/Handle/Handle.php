@@ -17,7 +17,7 @@ class Handle extends Model
     protected $allowedFields    = [
         'id_hdl','hdl_handle','hdl_prefix',
         'hdl_hs_admin','hdl_url','hdl_email',
-        'hdl_desc'
+        'hdl_desc', 'hdl_status'
     ];
 
     // Dates
