@@ -87,7 +87,7 @@ class Index extends Model
         } else {
 
         }
-        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
+        $Handle->register($hdl, '', $this->dts['s_email'], $message, $status);
         $RSP['status'] = $sta;
         if ($message != '') {
             $RSP['message'] = $message;
@@ -134,6 +134,7 @@ class Index extends Model
 
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
         $RSP['status'] = $sta;
+        $RSP['handle'] = $hdl;
         if ($message != '')
             {
                 $RSP['message'] = $message;
