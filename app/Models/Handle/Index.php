@@ -61,6 +61,7 @@ class Index extends Model
 
     function create($handle,$url,$desc)
     {
+        $message = '';
         $cmd = '';
         $hdl = substr($handle,0,strpos($handle,'/'));
         $cmd .= $this->header($hdl);
@@ -82,9 +83,21 @@ class Index extends Model
         $cmd .= cr();
 
         $Handle = new \App\Models\Handle\Handle();
-        $Handle->register($hdl,$url, $this->dts['s_email'], $desc);
-        echo json_encode($this->shell($cmd));
-        exit;
+        $status = $this->shell($cmd);
+
+        $status = substr($status,'create:',strlen($status));
+        $status = substr($status,0,strpos($status,chr(13)));
+        pre($status);
+        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
+
+        $sta = '200';
+
+        $RSP['status'] = $sta;
+        if ($message != '')
+            {
+                $RSP['message'] = $message;
+            }
+        return $RSP;
     }
 
     function shell($cmd)

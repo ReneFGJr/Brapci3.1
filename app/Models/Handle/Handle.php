@@ -44,12 +44,12 @@ class Handle extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($hdl,$url,$email,$desc)
+    function register($hdl,$url,$email,$desc,$status)
         {
             $Historic = new \App\Models\Handle\Historic();
             $dd['hdl_handle'] = $hdl;
             $dd['hdl_prefix'] = substr($hdl,0,strpos($hdl,'/'));
-            $dd['hdl_hs_admin'] = '';
+            $dd['hdl_hs_admin'] = $status;
             $dd['hdl_url'] = $url;
             $dd['hdl_email'] = $email;
             $dd['hdl_desc'] = $desc;
