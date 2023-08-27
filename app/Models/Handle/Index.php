@@ -91,9 +91,7 @@ class Index extends Model
         }
         $Handle->register($handle, '', $this->dts['s_email'], $message, $sta,'D');
         /* Atualiza Situacao */
-        if ($sta == '200') {
-            $Handle->update_status($hdl, 0);
-        }
+        $Handle->update_status($handle, 0);
 
         $RSP['status'] = $sta;
         $RSP['action'] = 'DELETE';
@@ -142,7 +140,7 @@ class Index extends Model
 
         $Handle->register($handle, $url, $this->dts['s_email'], $desc, $sta,'U');
         /* Atualiza Situacao */
-        if ($sta == '200') { $Handle->update_status($hdl,1);  }
+        if ($sta == '200') { $Handle->update_status($handle,1);  }
 
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
@@ -194,7 +192,7 @@ class Index extends Model
         $Handle->register($handle, $url, $this->dts['s_email'], $desc, $sta,'C');
         /* Atualiza Situacao */
         if ($sta == '200') {
-            $Handle->update_status($hdl, 1);
+            $Handle->update_status($handle, 1);
         }
 
         $RSP['status'] = $sta;
