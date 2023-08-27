@@ -44,6 +44,14 @@ class Handle extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function update_status($handle,$sta)
+        {
+            $dd = [];
+            $dd['hdl_status'] = $sta;
+            $this->set($dd)->where('hdl_handle',$handle)->update();
+            return '';
+        }
+
     function register($hdl,$url,$email,$desc,$status,$type)
         {
             switch($type)

@@ -89,7 +89,12 @@ class Index extends Model
         } else {
 
         }
-        $Handle->register($hdl, '', $this->dts['s_email'], $message, $sta,'D');
+        $Handle->register($handle, '', $this->dts['s_email'], $message, $sta,'D');
+        /* Atualiza Situacao */
+        if ($sta == '200') {
+            $Handle->update_status($hdl, 0);
+        }
+
         $RSP['status'] = $sta;
         $RSP['action'] = 'DELETE';
         if ($message != '') {
@@ -135,7 +140,10 @@ class Index extends Model
             }
         }
 
-        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $sta,'U');
+        $Handle->register($handle, $url, $this->dts['s_email'], $desc, $sta,'U');
+        /* Atualiza Situacao */
+        if ($sta == '200') { $Handle->update_status($hdl,1);  }
+
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
         $RSP['action'] = 'UPDATE';
@@ -183,7 +191,12 @@ class Index extends Model
                 }
             }
 
-        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $sta,'C');
+        $Handle->register($handle, $url, $this->dts['s_email'], $desc, $sta,'C');
+        /* Atualiza Situacao */
+        if ($sta == '200') {
+            $Handle->update_status($hdl, 1);
+        }
+
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
         $RSP['action'] = 'CREATE';
