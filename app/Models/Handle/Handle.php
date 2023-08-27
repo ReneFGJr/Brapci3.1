@@ -53,7 +53,7 @@ class Handle extends Model
             $dd['hdl_url'] = $url;
             $dd['hdl_email'] = $email;
             $dd['hdl_desc'] = $desc;
-            pre($dd);
+
             $dt = $this->where('hdl_handle',$hdl)->first();
             if ($dt == '')
                 {
