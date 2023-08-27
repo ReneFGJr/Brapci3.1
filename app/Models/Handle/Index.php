@@ -98,6 +98,49 @@ class Index extends Model
         return $RSP;
     }
 
+    function updateHDL($handle, $url, $desc)
+    {
+        $sta = '?';
+        $message = '';
+        $cmd = '';
+        $hdl = substr($handle, 0, strpos($handle, '/'));
+        $cmd .= $this->header($hdl);
+        if ($cmd == '') {
+            $RSP['message'] = 'Handle ' . $handle . ' not found in Database';
+            $RSP['status'] = '104';
+            return $RSP;
+        }
+
+        $cmd .= 'UPDATE ' . $handle . cr();
+        $cmd .= '100 HS_ADMIN 86400 1110 ADMIN 200:111111111111:0.NA/' . $hdl . cr();
+        $cmd .= '3 URL 86400 1110 UTF8 ' . $url . cr();
+        $cmd .= '7 EMAIL 86400 1110 UTF8 ' . $this->dts['s_email'] . cr();
+        if ($desc != '') {
+            $cmd .= '9 DESC 86400 1110 UTF8 ' . $desc . cr();
+        }
+        $cmd .= cr();
+
+        $Handle = new \App\Models\Handle\Handle();
+        $status = $this->shell($cmd);
+        /******************************* CREATE */
+        if (strpos($status, 'create:') > 0) {
+            $sta = '200';
+            $status = substr($status, strpos($status, 'create:'), strlen($status));
+            if (strpos($status, 'HANDLE ALREADY EXISTS')) {
+                $sta = '101';
+                $message = 'HANDLE ALREADY EXISTS';
+            }
+        }
+
+        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
+        $RSP['status'] = $sta;
+        $RSP['handle'] = $handle;
+        if ($message != '') {
+            $RSP['message'] = $message;
+        }
+        return $RSP;
+    }
+
     function create($handle,$url,$desc)
     {
         $sta = '?';
@@ -164,8 +207,15 @@ class Index extends Model
             switch($d1)
                 {
                     case 'update':
-                        $RSP['status'] = '500';
-                        $RSP['message'] = 'Not implemented yet';
+                        $handle = get("handle");
+                        $url = get("url");
+                        $desc = get('desc');
+                        if (($url == '') or ($handle == '')) {
+                            $RSP['message'] = 'Falta parametros da "url" ou "handle"';
+                            $RSP['status'] = '504';
+                        } else {
+                            $RSP = $this->updateHDL($handle, $url, $desc);
+                        }
                         break;
                     case 'create':
                         $handle = get("handle");
