@@ -61,6 +61,7 @@ class Index extends Model
 
     function create($handle,$url,$desc)
     {
+        $sta = '?';
         $message = '';
         $cmd = '';
         $hdl = substr($handle,0,strpos($handle,'/'));
