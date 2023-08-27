@@ -62,7 +62,7 @@ class Handle extends Model
                     $dh['hh_hadle'] = $hdl;
                     $dh['hh_description'] = 'CREATE '.$url.cr().'email:'.$email.cr().'Description:'.$desc;
                     $dh['hh_action'] = 'C';
-                    $Historic->register($dh);
                 }
+            $Historic->register($dh);
         }
 }
