@@ -83,6 +83,8 @@ class Index extends Model
             if (strpos($status, 'HANDLE NOT FOUND')) {
                 $sta = '100';
                 $message = 'HANDLE NOT FOUND';
+            } else {
+                $sta = '200';
             }
         } else {
 
