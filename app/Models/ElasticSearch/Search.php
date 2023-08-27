@@ -43,11 +43,21 @@ class Search extends Model
     function searchFull($q = '', $type = '')
         {
             $Search = new \App\Models\ElasticSearch\Search();
+            $Cover = new \App\Models\Base\Cover();
+
             $dt = $this->search($q, $type);
             foreach($dt['works'] as $id=>$line)
                 {
                     $ida = $line['id'];
-                    $ds = $Search->where('article_id',$ida)->first();
+                    $ds = $Search
+                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.jnl_frbr')
+                            ->where('article_id',$ida)
+                            ->first();
+                    if ($ds != '')
+                        {
+                            $ds['cover'] = $Cover->cover($ds['id_jnl']);
+                        }
+
                     $dt['works'][$id]['data'] = $ds;
                 }
             echo (json_encode($dt));
