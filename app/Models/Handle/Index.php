@@ -91,6 +91,7 @@ class Index extends Model
         }
         $Handle->register($hdl, '', $this->dts['s_email'], $message, $status);
         $RSP['status'] = $sta;
+        $RSP['action'] = 'DELETE';
         if ($message != '') {
             $RSP['message'] = $message;
         }
@@ -128,7 +129,7 @@ class Index extends Model
             $status = substr($status, strpos($status, 'modify values:'), strlen($status));
             if (strpos($status, 'HANDLE NOT FOUND')) {
                 $sta = '100';
-                $message = ' HANDLE NOT FOUND';
+                $message = 'HANDLE NOT FOUND';
             } else {
                 $sta = '200';
             }
@@ -137,6 +138,7 @@ class Index extends Model
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
+        $RSP['action'] = 'UPDATE';
         if ($message != '') {
             $RSP['message'] = $message;
         }
@@ -182,7 +184,8 @@ class Index extends Model
 
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
         $RSP['status'] = $sta;
-        $RSP['handle'] = $handle;
+        $RSP['handle'] = 'CREATE';
+        $RSP['action'] = 'UPDATE';
         if ($message != '')
             {
                 $RSP['message'] = $message;
