@@ -184,8 +184,8 @@ class Index extends Model
 
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
         $RSP['status'] = $sta;
-        $RSP['handle'] = 'CREATE';
-        $RSP['action'] = 'UPDATE';
+        $RSP['handle'] = $handle;
+        $RSP['action'] = 'CREATE';
         if ($message != '')
             {
                 $RSP['message'] = $message;
