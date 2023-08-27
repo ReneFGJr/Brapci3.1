@@ -182,7 +182,7 @@ class Index extends Model
                 }
             }
 
-        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
+        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $sta);
         $RSP['status'] = $sta;
         $RSP['handle'] = $handle;
         $RSP['action'] = 'CREATE';

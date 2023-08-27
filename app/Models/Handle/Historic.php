@@ -16,7 +16,7 @@ class Historic extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_hh','hh_handle','hh_description',
-        'hh_action'
+        'hh_action', 'hh_status'
     ];
 
     // Dates
