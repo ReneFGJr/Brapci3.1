@@ -58,11 +58,11 @@ class Handle extends Model
             if ($dt == '')
                 {
                     $this->set($dd)->insert();
-                    $dh = [];
-                    $dh['hh_hadle'] = $hdl;
-                    $dh['hh_description'] = 'CREATE '.$url.cr().'email:'.$email.cr().'Description:'.$desc;
-                    $dh['hh_action'] = 'C';
                 }
+            $dh = [];
+            $dh['hh_hadle'] = $hdl;
+            $dh['hh_description'] = 'CREATE ' . $url . cr() . 'email:' . $email . cr() . 'Description:' . $desc;
+            $dh['hh_action'] = $status;
             $Historic->register($dh);
         }
 }
