@@ -88,7 +88,7 @@ class Index extends Model
 
         $status = substr($status,strpos($status,'create:'),strlen($status));
         pre($status, false);
-        $status = substr($status,0,strpos($status,chr(13)));
+        $status = substr($status,0,strpos($status,chr(10)));
         pre($status, false);
         exit;
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
