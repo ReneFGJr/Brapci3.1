@@ -92,6 +92,10 @@ class Index extends Model
         $file = $dir.'cmd';
 
         file_put_contents($file,$cmd);
+
+        $bash = '/hs/handle-9.3.0/bin/hdl-genericbatch '.$dir.'cmd';
+        $rsp = shell_exec($bash);
+        pre($rsp);
     }
 
     function index($d1,$d2,$d3)
