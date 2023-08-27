@@ -46,6 +46,21 @@ class Handle extends Model
 
     function register($hdl,$url,$email,$desc,$status,$type)
         {
+            switch($type)
+                {
+                    case 'U':
+                        $verb = 'UPDATE ';
+                        break;
+                    case 'D':
+                        $verb = 'DELETE ';
+                        break;
+                    case 'C':
+                        $verb = 'CREATE ';
+                        break;
+                    default:
+                        $verb = '??????? ';
+                        break;
+                }
             $Historic = new \App\Models\Handle\Historic();
             $dd['hdl_handle'] = $hdl;
             $dd['hdl_prefix'] = substr($hdl,0,strpos($hdl,'/'));
@@ -61,7 +76,7 @@ class Handle extends Model
                 }
             $dh = [];
             $dh['hh_hadle'] = $hdl;
-            $dh['hh_description'] = 'CREATE ' . $url . cr() . 'email:' . $email . cr() . 'Description:' . $desc;
+            $dh['hh_description'] = $verb . $url . cr() . 'email:' . $email . cr() . 'Description:' . $desc;
             $dh['hh_action'] = $type;
             $dh['hh_status'] = $status;
             $Historic->register($dh);
