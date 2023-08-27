@@ -84,10 +84,13 @@ class Index extends Model
 
         $Handle = new \App\Models\Handle\Handle();
         $status = $this->shell($cmd);
+        pre($status,false);
 
         $status = substr($status,strpos($status,'create:'),strlen($status));
+        pre($status, false);
         $status = substr($status,0,strpos($status,chr(13)));
-        pre($status);
+        pre($status, false);
+        exit;
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
 
         $sta = '200';
@@ -110,7 +113,6 @@ class Index extends Model
 
         $bash = '/hs/handle-9.3.0/bin/hdl-genericbatch '.$dir.'cmd';
         $rsp = shell_exec($bash);
-        pre($rsp);
         return $rsp;
     }
 
