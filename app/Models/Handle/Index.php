@@ -163,6 +163,10 @@ class Index extends Model
             $RSP = [];
             switch($d1)
                 {
+                    case 'update':
+                        $RSP['status'] = '500';
+                        $RSP['message'] = 'Not implemented yet';
+                        break;
                     case 'create':
                         $handle = get("handle");
                         $url = get("url");
