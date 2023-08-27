@@ -125,8 +125,8 @@ class Index extends Model
         /******************************* CREATE */
         if (strpos($status, 'create:') > 0) {
             $sta = '200';
-            $status = substr($status, strpos($status, 'create:'), strlen($status));
-            if (strpos($status, ' HANDLE NOT FOUND')) {
+            $status = substr($status, strpos($status, 'modify values:'), strlen($status));
+            if (strpos($status, 'HANDLE NOT FOUND')) {
                 $sta = '100';
                 $message = ' HANDLE NOT FOUND';
             } else {
