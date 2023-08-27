@@ -59,6 +59,42 @@ class Index extends Model
             return $cmd;
         }
 
+    function deleteHDL($handle)
+    {
+        $sta = '?';
+        $message = '';
+        $cmd = '';
+        $hdl = substr($handle, 0, strpos($handle, '/'));
+        $cmd .= $this->header($hdl);
+        if ($cmd == '') {
+            $RSP['message'] = 'Handle ' . $handle . ' not found in Database';
+            $RSP['status'] = '401';
+            return $RSP;
+        }
+
+        $cmd .= 'DELETE ' . $handle . cr();
+        $cmd .= cr();
+
+        $Handle = new \App\Models\Handle\Handle();
+        $status = $this->shell($cmd);
+
+        if (strpos($status, 'delete:') > 0) {
+            $status = substr($status, strpos($status, 'delete:'), strlen($status));
+            if (strpos($status, 'HANDLE NOT FOUND')) {
+                $sta = '100';
+                $message = 'HANDLE NOT FOUND';
+            }
+        } else {
+
+        }
+        $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
+        $RSP['status'] = $sta;
+        if ($message != '') {
+            $RSP['message'] = $message;
+        }
+        return $RSP;
+    }
+
     function create($handle,$url,$desc)
     {
         $sta = '?';
@@ -69,7 +105,7 @@ class Index extends Model
         if ($cmd == '')
             {
                 $RSP['message'] = 'Handle '.$handle.' not found in Database';
-                $RSP['status'] = '401';
+                $RSP['status'] = '104';
                 return $RSP;
             }
 
@@ -88,28 +124,13 @@ class Index extends Model
         /******************************* CREATE */
         if (strpos($status, 'create:') > 0)
             {
+                $sta = '200';
                 $status = substr($status, strpos($status, 'create:'), strlen($status));
                 if (strpos($status, 'HANDLE ALREADY EXISTS')) {
                     $sta = '101';
                     $message = 'HANDLE ALREADY EXISTS';
                 }
             }
-        if (strpos($status, 'delete:') > 0) {
-            $status = substr($status, strpos($status, 'delete:'), strlen($status));
-            if (strpos($status, 'HANDLE NOT FOUND')) {
-                $sta = '100';
-                $message = 'HANDLE NOT FOUND';
-            }
-        }
-        if (strpos($status, 'update:') > 0) {
-            $status = substr($status, strpos($status, 'update:'), strlen($status));
-        }
-
-
-        if (strpos($status, 'HANDLE ALREADY EXISTS')) {
-            $sta = '101';
-            $message = 'HANDLE ALREADY EXISTS';
-        }
 
         $Handle->register($hdl, $url, $this->dts['s_email'], $desc, $status);
         $RSP['status'] = $sta;
@@ -150,6 +171,18 @@ class Index extends Model
                             $RSP = $this->create($handle, $url, $desc);
                         }
                     break;
+
+                    case 'delete':
+                        $handle = get("handle");
+                        $url = get("url");
+                        $desc = get('desc');
+                        if ($handle == '') {
+                            $RSP['message'] = 'Falta parametros da "url"';
+                            $RSP['status'] = '504';
+                        } else {
+                            $RSP = $this->deleteHDL($handle);
+                        }
+                        break;
 
                     default:
                     $RSP['message'] = 'Verb not found - '.$d1;
