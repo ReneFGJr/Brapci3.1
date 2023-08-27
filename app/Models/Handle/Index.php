@@ -40,7 +40,7 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    var $dta = [];
+    var $dts = [];
 
     function header($handle)
         {
