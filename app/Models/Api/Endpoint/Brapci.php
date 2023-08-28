@@ -49,235 +49,281 @@ class Brapci extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1,$d2,$d3)
-        {
-            header('Access-Control-Allow-Origin: *');
-            $RSP = [];
-            $RSP['status'] = '200';
-            switch($d1)
-                {
-                    case 'oai':
-                        $RSP = $this->oai($d2, $d3);
-                        break;
-                    case 'issue':
-                        $RSP = $this->issue($d2, $d3);
-                        break;
-                    case 'source':
-                        $RSP['source'] = $this->source($d2,$d3);
-                        break;
-                    case 'get':
-                        $RSP['result'] = $this->get($d2,$d3);
-                        break;
-                    case 'search':
-                        $RSP['strategy'] = array_merge($_POST,$_GET);
-                        $RSP['result'] = $this->search();
-                        break;
-                    default:
-                        $RSP = $this->services($RSP);
-                        $RSP['verb'] = $d1;
-                        break;
-                }
-            echo json_encode($RSP);
-            exit;
+    function index($d1, $d2, $d3)
+    {
+        header('Access-Control-Allow-Origin: *');
+        $RSP = [];
+        $RSP['status'] = '200';
+        switch ($d1) {
+            case 'resume':
+                $RSP = $this->resume();
+                break;
+            case 'oai':
+                $RSP = $this->oai($d2, $d3);
+                break;
+            case 'issue':
+                $RSP = $this->issue($d2, $d3);
+                break;
+            case 'source':
+                $RSP['source'] = $this->source($d2, $d3);
+                break;
+            case 'get':
+                $RSP['result'] = $this->get($d2, $d3);
+                break;
+            case 'search':
+                $RSP['strategy'] = array_merge($_POST, $_GET);
+                $RSP['result'] = $this->search();
+                break;
+            default:
+                $RSP = $this->services($RSP);
+                $RSP['verb'] = $d1;
+                break;
+        }
+        echo json_encode($RSP);
+        exit;
+    }
+
+    function resume()
+    {
+        $Journal = new \App\Models\Base\Sources();
+        $cp = 'jnl_collection, jnl_historic';
+        $dt = $Journal
+            ->select($cp . ', count(*) as total')
+            ->where('jnl_collection <> ""')
+            ->groupBy($cp)
+            ->findAll();
+        $total = 0;
+        $RSP = [];
+        $RSP['Revistas'] = 0;
+        $RSP['Revistas Estrangeiras'] = 0;
+        $RSP['Revistas Históricas'] = 0;
+        $RSP['Eventos Científicos'] = 0;
+        $RSP['Livros'] = 0;
+        $RSP['Capitulos de livros'] = 0;
+        foreach ($dt as $id => $line) {
+            if ($line['jnl_collection'] == 'JA') {
+                $RSP['Revistas'] = $RSP['Revistas'] + $line['total'];
+                if ($line['jnl_historic']==1)
+                    {
+                    $RSP['Revistas Históricas'] = $RSP['Revistas Históricas'] + $line['total'];
+                    }
+            }
+            if ($line['jnl_collection'] == 'JE') {
+                $RSP['Revistas'] = $RSP['Revistas'] + $line['total'];
+                $RSP['Revistas Estrangeiras'] = $RSP['Revistas Estrangeiras'] + $line['total'];
+            }
+            if ($line['jnl_collection'] == 'EV') {
+                $RSP['Eventos Científicos'] = $RSP['Eventos Científicos'] + $line['total'];
+            }
+        }
+        foreach($RSP as $id=>$total)
+            {
+                if ($total == 0)
+                    {
+                        unset($RSP[$id]);
+                    }
+            }
+        $dd = [];
+        $dd['publications'] = $RSP;
+        return $dd;
+    }
+
+    function oai($verb, $issue)
+    {
+        $OAI = new \App\Models\Oaipmh\Index();
+        $RSP = $OAI->api($verb, $issue);
+        $RSP['verb'] = $verb;
+        $RSP['issue'] = $issue;
+        return $RSP;
+    }
+
+    function issue($issue)
+    {
+        $Issues = new \App\Models\Base\Issues();
+        $IssuesWorks = new \App\Models\Base\IssuesWorks();
+
+        $dt = $Issues->find($issue);
+
+        $RSP = $this->getSource($dt['is_source']);
+        $RSP['issue'] = $dt;
+
+        $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
+        $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'], $issue);
+        $RSP['works'] = $IssuesWorks->getWorks($dt['id_is']);
+
+        return $RSP;
+    }
+
+    function getSource($d1)
+    {
+        $Source = new \App\Models\Base\Sources();
+        $dt = $Source->find($d1);
+
+        $Cover = new \App\Models\Base\Cover();
+        $dt['cover'] = $Cover->cover($dt['id_jnl']);
+
+        $Issues = new \App\Models\Base\Issues();
+        $dt['issue'] = $Issues->issuesRow($dt['id_jnl']);
+        return $dt;
+    }
+
+    function source($d1, $d2)
+    {
+        if (sonumero($d1) == $d1) {
+            return $this->getSource($d1);
+        }
+        $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
+        $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
+        $Source = new \App\Models\Base\Sources();
+        if ($d1 == 'EV') {
+            $d1 = 'proceddings';
+        }
+        if ($d1 == 'J') {
+            $d1 = 'journal';
+        }
+        if ($d1 == 'R') {
+            $d1 = 'journal';
+        }
+        if ($d1 == 'E') {
+            $d1 = 'proceddings';
+        }
+        switch ($d1) {
+            case 'proceddings':
+                $dt = $Source->select($cp)
+                    ->where('jnl_collection', 'EV')
+                    ->orderBy('jnl_name')
+                    ->findAll();
+                break;
+            case 'journal':
+                $dt = $Source->select($cp)
+                    ->where('jnl_collection', 'JA')
+                    ->OrWhere('jnl_collection', 'JE')
+                    ->orderBy('jnl_name')
+                    ->findAll();
+                break;
+            default:
+                $dt = $Source->select($cp)->orderBy('jnl_name')->findAll();
+                break;
+        }
+        $Cover = new \App\Models\Base\Cover();
+
+        foreach ($dt as $id => $data) {
+            $dt[$id]['cover'] = $Cover->cover($data['id_jnl']);
+        }
+        echo json_encode($dt);
+        exit;
+    }
+
+    function get($v, $id = 0)
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $RDF->le($id);
+
+        $RSP = [];
+        $RSP['id'] = $id;
+        $RSP['title'] = '';
+        $RSP['creator_author'] = [];
+        $RSP['description'] = '';
+        $RSP['resource_pdf'] = '';
+        $RSP['resource_url'] = '';
+        $RSP['section'] = [];
+        $RSP['subject'] = [];
+        $RSP['cover'] = '';
+
+        $pg_ini = '';
+        $pg_end = '';
+
+        foreach ($dt['data'] as $idx => $desc) {
+            $class = $desc['c_class'];
+            $vlr1 = $desc['n_name'];
+            $vlr2 = $desc['n_name2'];
+
+            $lk1 = $desc['d_r1'];
+            $lk2 = $desc['d_r2'];
+
+            $lang = troca($desc['n_lang'] . $desc['n_lang2'], '-', '_');
+            $vlr = trim($vlr1 . $vlr2);
+
+            if ($lk2 == 0) {
+                $lk2 = $lk1;
+            }
+
+            switch ($class) {
+                case 'hasAbstract':
+                    $RSP['description'] = $vlr;
+                    break;
+                case 'hasTitle':
+                    $RSP['title'] = $vlr;
+                    break;
+                case 'hasUrl':
+                    $RSP['resource_url'] = $vlr;
+                    break;
+                case 'hasFileStorage':
+                    $RSP['resource_pdf'] = PATH . '/download/' . $id;
+                    break;
+                case 'hasPageStart':
+                    $pg_ini = $vlr;
+                    break;
+                case 'hasPageEnd':
+                    $pg_end = $vlr;
+                    break;
+                case 'publisher':
+                    $RSP['publisher'] = $vlr;
+                    break;
+                case 'isPubishIn':
+                    $journal = new \App\Models\Base\Sources();
+                    $dtj = $journal->where('jnl_frbr', $lk2)->first();
+                    $RSP['publisher'] = $vlr;
+                    $RSP['cover'] = URL . '/_repository/cover/cover_issue_' . strzero($dtj['id_jnl'], 4) . '.jpg';
+                    break;
+                case 'hasAuthor':
+                    $nome = nbr_author($vlr, 7);
+                    array_push($RSP['creator_author'], ['name' => $nome, 'id' => $lk2]);
+                    break;
+                case 'hasSectionOf':
+                    $nome = nbr_title($vlr);
+                    array_push($RSP['section'], ['name' => $nome, 'id' => $lk2]);
+                    break;
+                case 'hasSubject':
+                    $nome = nbr_title($vlr);
+                    array_push($RSP['subject'], ['name' => $nome, 'id' => $lk2]);
+                    break;
+                default:
+                    //echo '===>'.$class.'=='.$vlr.'<br>';
+            }
         }
 
-        function oai($verb,$issue)
-        {
-            $OAI = new \App\Models\Oaipmh\Index();
-            $RSP = $OAI->api($verb,$issue);
-            $RSP['verb'] = $verb;
-            $RSP['issue'] = $issue;
-            return $RSP;
+        if (($pg_ini . $pg_end) != '') {
+            $pags = '';
+            if ($pg_ini != '') {
+                $pags .= $pg_ini;
+            }
+            if ($pg_end != '') {
+                $pags .= '-' . $pg_end;
+            }
+
+            $RSP['pagination'] = $pags;
         }
+        echo json_encode($RSP);
+        exit;
+    }
 
-        function issue($issue)
-            {
-                $Issues = new \App\Models\Base\Issues();
-                $IssuesWorks = new \App\Models\Base\IssuesWorks();
+    function services($RSP)
+    {
+        $srv = [];
+        $srv['livros'] = ['name' => 'Livros', 'link' => 'books', 'icone' => 'icone', 'issue' => 'issue'];
+        $RSP['services'] = $srv;
+        return $RSP;
+    }
 
-                $dt = $Issues->find($issue);
-
-                $RSP = $this->getSource($dt['is_source']);
-                $RSP['issue'] = $dt;
-
-                $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-                $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'],$issue);
-                $RSP['works'] = $IssuesWorks->getWorks($dt['id_is']);
-
-                return $RSP;
-            }
-
-        function getSource($d1)
-        {
-            $Source = new \App\Models\Base\Sources();
-            $dt = $Source->find($d1);
-
-            $Cover = new \App\Models\Base\Cover();
-            $dt['cover'] = $Cover->cover($dt['id_jnl']);
-
-            $Issues = new \App\Models\Base\Issues();
-            $dt['issue'] = $Issues->issuesRow($dt['id_jnl']);
-            return $dt;
+    function search()
+    {
+        $term = get("q");
+        if ($term != '') {
+            $Elastic = new \App\Models\ElasticSearch\Search();
+            return $Elastic->searchFull($term);
+        } else {
+            return [];
         }
-
-        function source($d1,$d2)
-            {
-                if (sonumero($d1) == $d1)
-                    {
-                        return $this->getSource($d1);
-                    }
-                $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final';
-                $cp .= ', jnl_active, jnl_historic, jnl_frbr, jnl_url, jnl_collection';
-                $Source = new \App\Models\Base\Sources();
-                if ($d1 == 'EV') { $d1 = 'proceddings'; }
-                if ($d1 == 'J') { $d1 = 'journal'; }
-                if ($d1 == 'R') { $d1 = 'journal'; }
-                if ($d1 == 'E') { $d1 = 'proceddings'; }
-                switch($d1)
-                    {
-                        case 'proceddings':
-                            $dt = $Source->select($cp)
-                                ->where('jnl_collection', 'EV')
-                                ->orderBy('jnl_name')
-                                ->findAll();
-                            break;
-                        case 'journal':
-                            $dt = $Source->select($cp)
-                                ->where('jnl_collection','JA')
-                                ->OrWhere('jnl_collection', 'JE')
-                                ->orderBy('jnl_name')
-                                ->findAll();
-                            break;
-                        default:
-                            $dt = $Source->select($cp)->orderBy('jnl_name')->findAll();
-                            break;
-                    }
-                $Cover = new \App\Models\Base\Cover();
-
-                foreach($dt as $id=>$data)
-                    {
-                        $dt[$id]['cover'] = $Cover->cover($data['id_jnl']);
-                    }
-                echo json_encode($dt);
-                exit;
-            }
-
-        function get($v,$id=0)
-            {
-                $RDF = new \App\Models\Rdf\RDF();
-                $dt = $RDF->le($id);
-
-                $RSP = [];
-                $RSP['id'] = $id;
-                $RSP['title'] = '';
-                $RSP['creator_author'] = [];
-                $RSP['description'] = '';
-                $RSP['resource_pdf'] = '';
-                $RSP['resource_url'] = '';
-                $RSP['section'] = [];
-                $RSP['subject'] = [];
-                $RSP['cover'] = '';
-
-                $pg_ini = '';
-                $pg_end = '';
-
-                foreach($dt['data'] as $idx=>$desc)
-                    {
-                        $class = $desc['c_class'];
-                        $vlr1 = $desc['n_name'];
-                        $vlr2 = $desc['n_name2'];
-
-                        $lk1 = $desc['d_r1'];
-                        $lk2 = $desc['d_r2'];
-
-                        $lang = troca($desc['n_lang'].$desc['n_lang2'],'-','_');
-                        $vlr = trim($vlr1.$vlr2);
-
-                        if ($lk2 == 0) { $lk2 = $lk1; }
-
-                        switch($class)
-                            {
-                                case 'hasAbstract':
-                                    $RSP['description'] = $vlr;
-                                    break;
-                                case 'hasTitle':
-                                    $RSP['title'] = $vlr;
-                                    break;
-                                case 'hasUrl':
-                                    $RSP['resource_url'] = $vlr;
-                                    break;
-                                case 'hasFileStorage':
-                                    $RSP['resource_pdf'] = PATH. '/download/'.$id;
-                                    break;
-                                case 'hasPageStart':
-                                    $pg_ini = $vlr;
-                                    break;
-                                case 'hasPageEnd':
-                                    $pg_end = $vlr;
-                                    break;
-                                case 'publisher':
-                                    $RSP['publisher'] = $vlr;
-                                    break;
-                                case 'isPubishIn':
-                                    $journal = new \App\Models\Base\Sources();
-                                    $dtj = $journal->where('jnl_frbr', $lk2)->first();
-                                    $RSP['publisher'] = $vlr;
-                                    $RSP['cover'] = URL . '/_repository/cover/cover_issue_'.strzero($dtj['id_jnl'],4).'.jpg';
-                                    break;
-                                case 'hasAuthor':
-                                    $nome = nbr_author($vlr,7);
-                                    array_push($RSP['creator_author'],['name'=>$nome,'id'=>$lk2]);
-                                    break;
-                                case 'hasSectionOf':
-                                    $nome = nbr_title($vlr);
-                                    array_push($RSP['section'], ['name' => $nome, 'id' => $lk2]);
-                                    break;
-                                case 'hasSubject':
-                                    $nome = nbr_title($vlr);
-                                    array_push($RSP['subject'], ['name' => $nome, 'id' => $lk2]);
-                                    break;
-                                default:
-                                //echo '===>'.$class.'=='.$vlr.'<br>';
-                            }
-
-                    }
-
-                if (($pg_ini.$pg_end) != '')
-                    {
-                        $pags = '';
-                        if ($pg_ini != '')
-                            {
-                                $pags .= $pg_ini;
-                            }
-                        if ($pg_end != '')
-                            {
-                                $pags .= '-'.$pg_end;
-                            }
-
-                        $RSP['pagination'] = $pags;
-                    }
-                echo json_encode($RSP);
-                exit;
-
-            }
-
-        function services($RSP)
-            {
-                $srv = [];
-                $srv['livros'] = ['name' => 'Livros', 'link' => 'books', 'icone' => 'icone','issue'=>'issue'];
-                $RSP['services'] = $srv;
-                return $RSP;
-            }
-
-        function search()
-            {
-                $term = get("q");
-                if ($term != '')
-                    {
-                        $Elastic = new \App\Models\ElasticSearch\Search();
-                        return $Elastic->searchFull($term);
-                    } else {
-                        return [];
-                    }
-            }
+    }
 }

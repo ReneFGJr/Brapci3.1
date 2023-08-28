@@ -55,6 +55,7 @@ export class SearchBrapciComponent {
       this.brapciService.search(term).subscribe(
         res=>{
           this.result = res;
+          console.log(res);
         }
       );
     } else {

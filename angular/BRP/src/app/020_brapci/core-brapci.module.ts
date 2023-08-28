@@ -18,6 +18,8 @@ import { PdfComponent } from './v/component/pdf/pdf.component';
 import { PaginationComponent } from './page/v/pagination/pagination.component';
 import { JounalsComponent } from './page/jounals/jounals.component';
 import { BrapciWelcomeComponent } from './page/welcome/welcome.component';
+import { AboutComponent } from './page/about/about.component';
+import { IndicadoresComponent } from './page/indicadores/indicadores.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { BrapciWelcomeComponent } from './page/welcome/welcome.component';
     PaginationComponent,
     JounalsComponent,
     BrapciWelcomeComponent,
+    AboutComponent,
+    IndicadoresComponent,
   ],
   imports: [
     CommonModule,
