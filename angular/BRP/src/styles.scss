@@ -11,6 +11,9 @@
   {
     color: #333;
     text-decoration: none;
+    padding: 0px;
+    margin: 0px;
+    line-height: 1rem;
     cursor: pointer;
   }
 
@@ -21,3 +24,17 @@
     transition-duration: 410ms;
     color: #000;
   }
+
+  .cover
+  {
+    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transform: scale(1.0);
+
+  }
+
+.cover:hover {
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.18);
+  animation: zoomIN 1s;
+  transform: scale(1.1);
+  cursor: pointer;
+}

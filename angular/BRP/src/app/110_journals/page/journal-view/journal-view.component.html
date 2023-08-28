@@ -30,8 +30,8 @@
     </div>
   </div>
   <div class="row mt-5">
-    <div class="col-12 col-lg-2">
-      <img [src]="journal.cover" class="img-fluid mb-2" />
+    <div class="col-12 col-lg-3">
+      <img [src]="journal.cover" class="img-fluid mb-2" style="width: 100%;" />
       <div id="jnl_issn" class="mb-3 portal" *ngIf="journal.jnl_issn">
         <a
           href="https://portal.issn.org/resource/ISSN/{{ journal.jnl_issn }}"
@@ -51,18 +51,16 @@
         ><br />
       </div>
     </div>
-    <div class="col-12 col-lg-10">
+    <div class="col-12 col-lg-9">
 <!-- Pagin 1-->
       <div *ngIf="page === '1'">
         <label class="small">Nome da publicação</label>
         <br /><b>{{ journal.jnl_name }}</b>
         <br/>
-        <br/>
 
-        <label class="small">Abreviatura</label>
+        <label class="small mt-3">Abreviatura</label>
         <br /><b>{{ journal.jnl_name_abrev }}</b>
         <br/>
-
 
         <label class="small">ISSN</label>
         <br/>
@@ -75,25 +73,40 @@
         <span *ngIf="journal.jnl_ano_final > 0">{{ journal.jnl_ano_final }}</span></b>
         <br/>
 
-        <label *ngIf="journal.periodicidade" class="small">Periodicidade</label>
+        <div  *ngIf="journal.periodicidade">
+        <label class="small">Periodicidade</label>
         <br/><b>{{ journal.periodicidade }}</b>
         <br/>
+        </div>
 
-        <label *ngIf="journal.responsabilidade" class="small">Responsabilidade</label>
+        <div  *ngIf="journal.responsabilidade">
+        <label class="small">Responsabilidade</label>
         <br/><b>{{ journal.responsabilidade }}</b>
         <br/>
+        </div>
 
-        <label *ngIf="journal.qualis" class="small">Qualis</label>
+        <div  *ngIf="journal.qualis">
+        <label class="small">Qualis</label>
         <br/><b>{{ journal.qualis }}</b>
         <br/>
+        </div>
+
+        <div  *ngIf="journal.jnl_url">
+        <label class="small">Link da Revista</label>
+        <br/><b><a href="{{journal.jnl_url}}" class="link" target="_blank">{{ journal.jnl_url }}</a></b>
+        <br/>
+        </div>
 
       </div>
 <!-- Pagin 2-->
   <div *ngIf="(page === '2')" >
     <ul *ngIf="issue">
-      {{ issue | json }}
+
       <div *ngFor="let item of issue">
-        X
+          <span>{{item.is_year}}</span>
+          <span *ngIf="item.is_vol">, v.{{item.is_vol}}</span>
+          <span *ngIf="item.is_nr">, n.{{item.is_nr}}</span>
+          <br/>
       </div>
 
     </ul>
