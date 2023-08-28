@@ -46,6 +46,11 @@ class Bolsistas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	var $id = 0;
+	var $path = '';
+	var $path_back = '';
+
+
 	function edit($id)
 	{
 		$this->id = $id;
