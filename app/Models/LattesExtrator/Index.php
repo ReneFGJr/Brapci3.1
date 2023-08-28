@@ -160,7 +160,7 @@ class Index extends Model
             $LattesProducaoTecnica = new \App\Models\LattesExtrator\LattesProducaoTecnica();
             $LattesProducaoArtistica = new \App\Models\LattesExtrator\LattesProducaoArtistica();
 
-            $sx .= 'Zenando ... '.date("Y-m-d H:i:s").'<br>';
+            $sx .= 'Zerando ... '.date("Y-m-d H:i:s").'<br>';
             $LattesDados->zerezima_dados_xml($id);
             $LattesEndereco->zerezima_dados_xml($id);
             $LattesFormacao->zerezima_dados_xml($id);
@@ -193,7 +193,7 @@ class Index extends Model
             //$LattesProducaoTecnica->producao_xml($id);
             $sx .= 'LattesProducaoArtistica ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoArtistica->producao_xml($id);
-            $sx .= '<tt>'.$sx.'</tt>';
+            $sx = '<tt>'.$sx.'</tt>';
             return $sx.wclose();
         }
         return $sx;
