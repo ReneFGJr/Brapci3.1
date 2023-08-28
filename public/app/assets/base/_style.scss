@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;900&display=swap");
+
+//div  { border: 1px solid #000000; }
 
 body {
   font-family: "Roboto", sans-serif;
@@ -20,31 +22,14 @@ body {
   margin: 10px 2.5px 20px 2.5px;
 }
 
-
 input.search {
   display: inline-block;
   border: none;
-  border-bottom: solid medium #999;
-  color: #fff;
+  border-bottom: solid medium #ddd;
+  color: #000000;
   background: transparent;
   padding: 10px 10px 10px 10px;
   width: 100%;
-}
-
-input.search:focus {
-  border: 0px solid #000;
-  border-bottom: solid medium #fff;
-  background: transparent;
-  outline: none;
-}
-
-input.search:focus~label,
-input.search:valid~label {
-  top: -10px;
-  left: 0px;
-  font-size: small;
-  color: #AAA;
-  padding: 0 5px 0 5px;
 }
 
 .text-field {
@@ -52,34 +37,133 @@ input.search:valid~label {
   margin: 10px 2.5px 20px 2.5px;
 }
 
-label.search {
-  color: #fff;
-  position: absolute;
-  pointer-events: none;
-  left: 10px;
-  top: 10px;
-  transition: 0.2s;
+.minilink {
+  text-decoration: none;
+  color: white;
+  font-size: 0.7em;
 }
 
-.search::placeholder
-  {
-    color:white;
-    font-size: 0.7em;
+/********************************************* FadeIn */
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
   }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/****************************************** FadeOut */
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 
-.minilink
-  {
-    text-decoration: none;
-    color: white;
-    font-size: 0.7em;
+/************************************************************/
+.fadeInRightBig {
+  -webkit-animation-name: fadeInRightBig;
+  animation-name: fadeInRightBig;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInRightBig {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(2000px, 0, 0);
+    transform: translate3d(2000px, 0, 0);
   }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+@keyframes fadeInRightBig {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(2000px, 0, 0);
+    transform: translate3d(2000px, 0, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+/*************************************************** ZoomIn */
+.zoomIn {
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+@-webkit-keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  50% {
+    opacity: 1;
+  }
+}
 
 /************************************************** Slide UP */
 .slideOutUp {
   -webkit-animation-name: slideOutUp;
   animation-name: slideOutUp;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
@@ -132,7 +216,6 @@ label.search {
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
 }
-
 
 @-webkit-keyframes slideInDown {
   0% {
