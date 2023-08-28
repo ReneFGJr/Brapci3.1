@@ -3,16 +3,15 @@
   <app-brapci-result-pagination [result]="results"></app-brapci-result-pagination>
   <div class="container">
     <div *ngFor="let items of results.works;let i = index" class="mb-3 result row fadeIn" style="animation-delay: {{i}}00ms;">
-      <div *ngIf="items.type == 'Article'" class="col-1">
+
+      <div *ngIf="(items.type === 'Article') || (items.type === 'Proceeding')" class="col-1">
         <img
-          src="https://brapci.inf.br/img/cover/cover_issue_83.jpg"
+          [src]="items.data.cover"
           class="img-fluid"
         />
       </div>
-
-      <div>{{items | json}}</div>
-
-      <div class="col-11">
+      <!------------------------------------------- Article-->
+      <div class="col-11" *ngIf="items.type == 'Article'">
         <input type="checkbox">
         <a
           class="work"
@@ -25,7 +24,26 @@
         <br /><i>{{ items.data.ldl_authors }}</i> <br />{{
           items.data.ldl_legend
         }}
+        <br><span class="small">[Artigo]</span>
       </div>
+
+      <!------------------------------------------- Proceeding-->
+      <div class="col-11" *ngIf="items.type == 'Proceeding'">
+        <input type="checkbox">
+        <a
+          class="work"
+          [routerLink]="['/v/' + items.id]"
+          routerLinkActive="router-link-active"
+          target="_blank"
+        >
+          {{ items.data.ldl_title }}
+        </a>
+        <br /><i>{{ items.data.ldl_authors }}</i> <br />{{
+          items.data.jnl_name
+        }}
+        <br><span class="small">[Trabalho em evento]</span>
+      </div>
+
 
       <div *ngIf="items.type == 'Person'"></div>
 
