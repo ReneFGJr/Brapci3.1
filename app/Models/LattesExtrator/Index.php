@@ -196,6 +196,6 @@ class Index extends Model
             $sx .= '<tt>'.$sx.'</tt>';
             return wclose();
         }
-        return $dt;
+        return $sx;
     }
 }

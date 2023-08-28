@@ -70,6 +70,7 @@ class Index extends Model
 				$dt = $Bolsistas->where('bs_lattes <> "NI"')->find($nr,1);
 				if ($dt != '')
 					{
+						$sx .= h($dt['bs_nome'],4);
 						$LattesExtrator = new \App\Models\LattesExtrator\Index();
 						$sx .= $LattesExtrator->harvesting($dt['bs_lattes']);
 						$sx .= metarefresh(PATH. '/pq/lattes_import/'.$nr,2);
@@ -77,8 +78,6 @@ class Index extends Model
 						$sx .= h("Fim do processamento");
 						return $sx;
 					}
-
-
 				break;
 			case 'import':
 				$CNPQ = new \App\Models\PQ\CNPQ();
