@@ -49,7 +49,7 @@ class Bolsistas extends Model
 	function edit($id)
 	{
 		$this->id = $id;
-		$this->path = PATH . 'popup/pq_bolsista_edit?id=' . $id . '&';
+		$this->path = PATH . '/popup/pq_bolsista_edit?id=' . $id . '&';
 		$this->path_back = 'wclose';
 		$sx = h(lang('pq.pq_editar'), 2);
 		$sx .= form($this);
@@ -99,7 +99,7 @@ class Bolsistas extends Model
 				<th width="10%">' . '<a href="?order=bs_lattes">' . lang('pq.bs_lattes') . '</a></th>';
 
 		if ($perfil_edit) {
-			$sx .= '<th width="3%">' . onclick(PATH.'popup/pq_bolsista_edit/0?id=0',800,400) . bsicone('plus') . '</a></th>';
+			$sx .= '<th width="3%">' . onclick(PATH.'/popup/pq_bolsista_edit/0?id=0',800,400) . bsicone('plus') . '</a></th>';
 		}
 		$sx .= '</tr>' . cr();
 		$nr = 0;
@@ -114,7 +114,7 @@ class Bolsistas extends Model
 			$sx .= '<td>' . $link . $line['bs_nome'] . $linka . '</td>';
 			$sx .= '<td>' . $link . $line['bs_lattes'] . $linka . '</td>';
 			if ($perfil_edit) {
-				$sx .= '<th width="3%">' . onclick(PATH.'popup/pq_bolsista_edit/'. $line['id_bs'].'?id='.$line['id_bs'],800,400) . bsicone('edit') . '</span></th>';
+				$sx .= '<th width="3%">' . onclick(PATH.'/popup/pq_bolsista_edit/'. $line['id_bs'].'?id='.$line['id_bs'],800,400) . bsicone('edit') . '</span></th>';
 			}
 			$sx .= '</tr>';
 			$sx .= cr();
