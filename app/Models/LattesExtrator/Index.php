@@ -194,7 +194,7 @@ class Index extends Model
             $sx .= 'LattesProducaoArtistica ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoArtistica->producao_xml($id);
             $sx .= '<tt>'.$sx.'</tt>';
-            return wclose();
+            return $sx.wclose();
         }
         return $sx;
     }
