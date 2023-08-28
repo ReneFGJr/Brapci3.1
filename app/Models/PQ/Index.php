@@ -58,11 +58,28 @@ class Index extends Model
 				$id = get('id');
 				$sx .= $Bolsa->edit($id);
 				break;
+
 			case 'export':
 				$Export = new \App\Models\PQ\Export();
 				$sx .= $Export->brapci();
 				break;
 
+			case 'lattes_import':
+				$Bolsistas = new \App\Models\PQ\Bolsistas();
+				$nr = round('0'.$d2)+1;
+				$dt = $Bolsistas->where('bs_lattes <> "NI"')->find($nr,1);
+				if ($dt != '')
+					{
+						$LattesExtrator = new \App\Models\LattesExtrator\Index();
+						$sx .= $LattesExtrator->harvesting($dt['bs_lattes']);
+						$sx .= metarefresh(PATH. '/pq/lattes_import/'.$nr,2);
+					} else {
+						$sx .= h("Fim do processamento");
+						return $sx;
+					}
+
+
+				break;
 			case 'import':
 				$CNPQ = new \App\Models\PQ\CNPQ();
 				$sx .= $CNPQ->crawler();
@@ -209,6 +226,7 @@ class Index extends Model
 			$sx .= '<hr>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/export' . '">' . lang('pq.exportar') . '</a></li>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/import' . '">' . lang('pq.import') . '</a></li>';
+			$sx .= '<li><a href="' . PATH . MODULE . 'pq/lattes_import' . '">' . lang('pq.lattes_import') . '</a></li>';
 		}
 		$sx .= '</ul>';
 

@@ -50,7 +50,7 @@ class Index extends Model
         return $a;
 
         //$url = 'https://brapci.inf.br/ws/api/?verb=lattesdata&q='.$id;
-        //echo $url;
+        //$sx .= $url;
     }
 
     function fileName($id)
@@ -92,7 +92,7 @@ class Index extends Model
             $sx .= 'Colentado Lattes' . date("Y-m-d H:i:s") . '<br>';
             if (!$this->fileNameUpdated($id)) {
                 $data = array();
-                echo 'Harvesting '.$id.'<br>'.cr();
+                $sx .= 'Harvesting '.$id.'<br>'.cr();
                 $txt = file_get_contents($url);
                 dircheck("../.tmp");
                 dircheck("../.tmp/Zip");
@@ -101,8 +101,8 @@ class Index extends Model
                 if (strlen($txt) == 0)
                     {
                         $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
-                        echo "ERRO: o arquivo está vazio";
-                        echo '<br/>'.$url;
+                        $sx .= "ERRO: o arquivo está vazio";
+                        $sx .= '<br/>'.$url;
 
                         $dt = array();
                         $dt['hx_name'] = "#ERRO";
@@ -119,11 +119,11 @@ class Index extends Model
                 $type = mime_content_type($fileZip);
                 if ($type == 'application/json')
                     {
-                        echo "ERRO";
+                        $sx .= "ERRO";
                         $txt = file_get_contents($fileZip);
                         $dt = (array)json_decode($txt);
-                        echo ' '.$dt['erro'];
-                        echo '<br>' . $dt['description'];
+                        $sx .= ' '.$dt['erro'];
+                        $sx .= '<br>' . $dt['description'];
                     }
 
                 $zip = new \ZipArchive();
@@ -134,7 +134,7 @@ class Index extends Model
 
                     if (!file_exists($filename))
                         {
-                            echo "Erro ao abrir o arquivo ".$filename;
+                            $sx .= "Erro ao abrir o arquivo ".$filename;
                             exit;
                         }
                 } else {
@@ -142,7 +142,7 @@ class Index extends Model
                     exit;
                 }
             } else {
-                echo "CACHED";
+                $sx .= "CACHED";
             }
 
             /***** Processar Dados */
@@ -193,7 +193,7 @@ class Index extends Model
             //$LattesProducaoTecnica->producao_xml($id);
             $sx .= 'LattesProducaoArtistica ... ' . date("Y-m-d H:i:s") . '<br>';
             $LattesProducaoArtistica->producao_xml($id);
-            echo '<tt>'.$sx.'</tt>';
+            $sx .= '<tt>'.$sx.'</tt>';
             return wclose();
         }
         return $dt;
