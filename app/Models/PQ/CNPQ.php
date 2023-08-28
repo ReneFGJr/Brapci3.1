@@ -79,7 +79,12 @@ class CNPQ extends Model
                     $da['bs_nome'] = $dd[1];
                     $da['bs_rdf'] = 0;
                     $da['bs_lattes'] = 'NI';
-                    $idp = $Bolsistas->set($da)->insert();
+                    if (strlen(trim($dd[1])) > 0)
+                    {
+                        $idp = $Bolsistas->set($da)->insert();
+                    } else {
+                        $idp = 0;
+                    }
                 } else {
                     $idp = $dt[0]['id_bs'];
                 }
@@ -109,7 +114,10 @@ class CNPQ extends Model
                         ->where('bs_finish', $df)
                         ->findAll();
                     if (count($dx) == 0) {
-                        $Bolsas->set($db)->insert();
+                        if ($idp > 0)
+                            {
+                                $Bolsas->set($db)->insert();
+                            }
                         $sx .= $dd[1] . ' - <span class="text-success">Insert</span><br>';
                     } else {
                         $sx .= $dd[1]. ' - <span class="text-danger">Update</span><br>';
