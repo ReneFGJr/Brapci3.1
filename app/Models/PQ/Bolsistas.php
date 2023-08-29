@@ -19,7 +19,7 @@ class Bolsistas extends Model
 	];
 
 	protected $typeFields        = [
-		'hidden', 'string*','string:50*', 'integer'
+		'hidden', 'string*','string:50*', 'string:50'
 	];
 
 	// Dates
