@@ -63,6 +63,69 @@ class Export extends Model
 			$sx .= '"' . $line['lp_vol'] . ' ' . $line['lp_nr'] . '";';
 			$sx .= cr();
 		}
+
+		/************************************************** Livro */
+		$dt = $Bolsista
+			->join('brapci_lattes.lattesproducao_livro', 'lv_author = bs_lattes')
+			->findAll();
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$sx .= '"' . $line['bs_nome'] . '"' . ';';
+			$sx .= '"LIVRO"' . ';';
+			$sx .= '"' . $line['bs_lattes'] . '";';
+			$sx .= '"' . $line['lv_authors'] . '";';
+			$sx .= '"' . troca($line['lv_title'], '"', '') . '";';
+			$sx .= $line['lv_ano'] . ';';
+			$sx .= '"' . $line['lv_url'] . '";';
+			$sx .= '"' . $line['lv_doi'] . '";';
+			$sx .= '"' . $line['lv_journal'] . '";';
+			$sx .= '"' . $line['lv_place'] . '";';
+
+			$sx .= '"";';
+			$sx .= cr();
+		}
+
+		$dt = $Bolsista
+			->join('brapci_lattes.lattesproducao_evento', 'le_author = bs_lattes')
+			->findAll();
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$sx .= '"' . $line['bs_nome'] . '"' . ';';
+			$sx .= '"EVENTO"' . ';';
+			$sx .= '"' . $line['bs_lattes'] . '";';
+			$sx .= '"' . $line['le_authors'] . '";';
+			$sx .= '"' . troca($line['le_title'], '"', '') . '";';
+			$sx .= $line['le_ano'] . ';';
+			$sx .= '"' . $line['le_url'] . '";';
+			$sx .= '"' . $line['le_doi'] . '";';
+			$sx .= '"' . $line['le_journal'] . '";';
+			$sx .= '"' . $line['le_place'] . '";';
+
+			$sx .= '"";';
+			$sx .= cr();
+		}
+
+		$dt = $Bolsista
+			->join('brapci_lattes.lattesproducao_capitulo', 'lvc_author = bs_lattes')
+			->findAll();
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$sx .= '"' . $line['bs_nome'] . '"' . ';';
+			$sx .= '"CAPITULO"' . ';';
+			$sx .= '"' . $line['bs_lattes'] . '";';
+			$sx .= '"' . $line['lvc_authors'] . '";';
+			$sx .= '"' . troca($line['lvc_title'], '"', '') . '";';
+			$sx .= $line['lvc_ano'] . ';';
+			$sx .= '"' . $line['lvc_url'] . '";';
+			$sx .= '"' . $line['lvc_doi'] . '";';
+			$sx .= '"' . $line['lvc_journal'] . '";';
+			$sx .= '"' . $line['lvc_place'] . '";';
+
+			$sx .= '"";';
+			$sx .= cr();
+		}
+
+
 		header("Content-Type: text/csv");
 		header("Content-Disposition: attachment; filename=file.csv");
 		echo utf8_decode($sx);
