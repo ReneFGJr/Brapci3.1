@@ -118,6 +118,7 @@ class Bolsistas extends Model
 			$sx .= '<td>' . $nr . '</td>';
 			$sx .= '<td>' . $link . $line['bs_nome'] . $linka . '</td>';
 			$sx .= '<td>' . $link . $line['bs_lattes'] . $linka . '</td>';
+			$sx .= '<td>' . $link . $line['bs_rdf_id'] . $linka . '</td>';
 			if ($perfil_edit) {
 				$sx .= '<th width="3%">' . onclick(PATH.'/popup/pq_bolsista_edit/'. $line['id_bs'].'?id='.$line['id_bs'],800,400) . bsicone('edit') . '</span></th>';
 			}
