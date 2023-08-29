@@ -40,6 +40,37 @@ class Export extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function lattes_prodiction()
+		{
+			$Bolsista = new \App\Models\PQ\Bolsistas();
+			$dt = $Bolsista
+				->join('brapci_lattes.LattesProducao', 'lp_author = bs_lattes')
+				->findAll(100);
+			$sx = '';
+			for($r=0;$r < count($dt);$r++)
+				{
+					$line = $dt[$r];
+					$sx .= '"'.$line['bs_nome'].'"'.';';
+					$sx .= '"ARTIGO"' . ';';
+					$sx .= $line['bs_lattes'] . ';';
+					$sx .= '"'.$line['lp_authors'] . '";';
+					$sx .= '"' . $line['lp_title'] . '";';
+					$sx .= $line['lp_ano'] . ';';
+					$sx .= '"' . $line['lp_url'] . '";';
+					$sx .= '"' . $line['lp_doi'] . '";';
+					$sx .= '"' . $line['lp_journal'] . '";';
+					$sx .= '"' . $line['lp_place'] . '";';
+
+					$sx .= '"' . $line['lp_vol'] . '";';
+					$sx .= '"' . $line['lp_nr'] . '";';
+
+					$sx .= '"' . $line['lp_journal'] . '";';
+					$sx .= cr();
+
+				}
+			pre($sx);
+		}
+
 	function brapci()
 		{
 			$sx = '';

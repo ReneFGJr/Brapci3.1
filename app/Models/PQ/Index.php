@@ -64,6 +64,11 @@ class Index extends Model
 				$sx .= $Export->brapci();
 				break;
 
+			case 'export_production':
+				$Export = new \App\Models\PQ\Export();
+				$sx .= $Export->lattes_prodiction();
+				break;
+
 			case 'lattes_import':
 				$Bolsistas = new \App\Models\PQ\Bolsistas();
 				$nr = round('0'.$d2)+1;
@@ -223,6 +228,7 @@ class Index extends Model
 
 		if ($this->Socials->getAccess("#ADM")) {
 			$sx .= '<hr>';
+			$sx .= '<li><a href="' . PATH . MODULE . 'pq/export_production' . '">' . lang('pq.export_production') . '</a></li>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/export' . '">' . lang('pq.exportar') . '</a></li>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/import' . '">' . lang('pq.import') . '</a></li>';
 			$sx .= '<li><a href="' . PATH . MODULE . 'pq/lattes_import' . '">' . lang('pq.lattes_import') . '</a></li>';
