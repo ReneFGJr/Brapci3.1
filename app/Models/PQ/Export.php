@@ -45,7 +45,7 @@ class Export extends Model
 			$Bolsista = new \App\Models\PQ\Bolsistas();
 			$dt = $Bolsista
 				->join('brapci_lattes.LattesProducao', 'lp_author = bs_lattes')
-				->findAll(100);
+				->findAll();
 			$sx = '';
 			for($r=0;$r < count($dt);$r++)
 				{
