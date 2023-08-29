@@ -43,7 +43,7 @@ class Export extends Model
 	function brapci()
 		{
 			$sx = '';
-			$Bolsa = new \App\Models\PQ\Bolsa();
+			$Bolsa = new \App\Models\PQ\Bolsas();
 			$Bolsa
 				->join('bolsistas','bb_person = id_bs')
 				->join('modalidades','bs_tipo = id_mod')
