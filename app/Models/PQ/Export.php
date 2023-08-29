@@ -41,62 +41,60 @@ class Export extends Model
 	protected $afterDelete          = [];
 
 	function lattes_prodiction()
-		{
-			$Bolsista = new \App\Models\PQ\Bolsistas();
-			$dt = $Bolsista
-				->join('brapci_lattes.LattesProducao', 'lp_author = bs_lattes')
-				->findAll();
-			$sx = '';
-			for($r=0;$r < count($dt);$r++)
-				{
-					$line = $dt[$r];
-					$sx .= '"'.$line['bs_nome'].'"'.';';
-					$sx .= '"ARTIGO"' . ';';
-					$sx .= $line['bs_lattes'] . ';';
-					$sx .= '"'.$line['lp_authors'] . '";';
-					$sx .= '"' . $line['lp_title'] . '";';
-					$sx .= $line['lp_ano'] . ';';
-					$sx .= '"' . $line['lp_url'] . '";';
-					$sx .= '"' . $line['lp_doi'] . '";';
-					$sx .= '"' . $line['lp_journal'] . '";';
-					$sx .= '"' . $line['lp_place'] . '";';
+	{
+		$Bolsista = new \App\Models\PQ\Bolsistas();
+		$dt = $Bolsista
+			->join('brapci_lattes.LattesProducao', 'lp_author = bs_lattes')
+			->findAll();
+		$sx = 'PESQUISAOR;TIPO;LATTES;AUTORES;TITULO;ANO;URL;DOI;JOURNAL;LOCAL;VOL_NR'.CR();
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$sx .= '"' . $line['bs_nome'] . '"' . ';';
+			$sx .= '"ARTIGO"' . ';';
+			$sx .= '"' . $line['bs_lattes'] . '";';
+			$sx .= '"' . $line['lp_authors'] . '";';
+			$sx .= '"' . troca($line['lp_title'],'"',''). '";';
+			$sx .= $line['lp_ano'] . ';';
+			$sx .= '"' . $line['lp_url'] . '";';
+			$sx .= '"' . $line['lp_doi'] . '";';
+			$sx .= '"' . $line['lp_journal'] . '";';
+			$sx .= '"' . $line['lp_place'] . '";';
 
-					$sx .= '"' . $line['lp_vol'] . '";';
-					$sx .= '"' . $line['lp_nr'] . '";';
-
-					$sx .= '"' . $line['lp_journal'] . '";';
-					$sx .= cr();
-
-				}
-			pre($sx);
+			$sx .= '"' . $line['lp_vol'] . ' ' . $line['lp_nr'] . '";';
+			$sx .= cr();
 		}
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=file.csv");
+		echo utf8_decode($sx);
+		exit;
+
+	}
 
 	function brapci()
-		{
-			$sx = '';
-			$Bolsa = new \App\Models\PQ\Bolsas();
-			$Bolsa
-				->join('bolsistas','bb_person = id_bs')
-				->join('modalidades','bs_tipo = id_mod')
-				->where('bs_rdf_id > 0')
-				->orderBy('bs_nome, bs_start');
-			$dt = $Bolsa->FindAll();
+	{
+		$sx = '';
+		$Bolsa = new \App\Models\PQ\Bolsas();
+		$Bolsa
+			->join('bolsistas', 'bb_person = id_bs')
+			->join('modalidades', 'bs_tipo = id_mod')
+			->where('bs_rdf_id > 0')
+			->orderBy('bs_nome, bs_start');
+		$dt = $Bolsa->FindAll();
 
-			$RDF = new \App\Models\Rdf\RDF();
-			for ($r=0;$r < count($dt);$r++)
-				{
-					$line = $dt[$r];
-					$mod = $line['mod_sigla'].$line['bs_nivel'];
-					$id_author = $line['bs_rdf_id'];
-					$dti = substr($line['bs_start'],0,4);
-					$dtf = substr($line['bs_finish'],0,4);
-					$mod .= "($dti-$dtf)";
-					$IDB = $RDF->RDF_concept($mod,'brapci:CnpqPQ');
-					$prop = 'brapci:hasPQ';
-					$RDF->propriety($id_author, $prop, $IDB);
-				}
-			$sx .= bsmessage('Export success!',1);
-
-			return $sx;
+		$RDF = new \App\Models\Rdf\RDF();
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$mod = $line['mod_sigla'] . $line['bs_nivel'];
+			$id_author = $line['bs_rdf_id'];
+			$dti = substr($line['bs_start'], 0, 4);
+			$dtf = substr($line['bs_finish'], 0, 4);
+			$mod .= "($dti-$dtf)";
+			$IDB = $RDF->RDF_concept($mod, 'brapci:CnpqPQ');
+			$prop = 'brapci:hasPQ';
+			$RDF->propriety($id_author, $prop, $IDB);
 		}
+		$sx .= bsmessage('Export success!', 1);
+
+		return $sx;
+	}
 }
