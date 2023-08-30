@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-brapci">
   <div class="container-fluid ">
-    <a class="navbar-brand" href="#">
-      <img src="/assets/img/brand_brapci_shadown.png" class="brand">
+    <a class="nav-link" [routerLink]="['/']">
+      <img src="/assets/img/brand_brapci_shadown.png" class="brand" alt="Logotipo da Brapci em branco com sobras">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +32,7 @@
 <nav *ngIf="(fixed==2)"
   class="{{navbarClass}} shadow navbar fixed-top navbar-expand-lg navbar-light bg-light rounded-5 p-2 ms-5 me-5 mt-1">
   <div class="container-fluid ">
-    <a class="navbar-brand" href="#"><img src="/assets/img/logo_brapci_mini.png" class="brand_icone"></a>
+    <a class="navbar-brand" href="#"><img src="/assets/img/logo_brapci_mini.png" class="brand_icone"  alt="Logotipo da Brapci miniatura"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavFloat"
       aria-controls="navbarNavFloat" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
