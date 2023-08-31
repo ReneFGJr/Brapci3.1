@@ -60,8 +60,8 @@
                 <div style="width: 100%;" class="p-2 mb-2 btn-group" role="group" *ngFor="let item of sections" >
                     <!--Inscrição-->
                     <div *ngIf="!item.id_ei" style="width: 100%;" class="status_{{item.ei_situacao}} ">
-                    <h3>{{ item.es_name }} (INSCRITO)</h3>                    
-                    {{ item.es_data | date: 'dd/MM/yyyy' }}
+                    <h2 class="m-0 p-0">{{ item.es_name }}</h2>
+                    {{ item.es_local }}<br/>                    {{ item.es_data | date: 'dd/MM/yyyy' }}
                     {{ item.es_hora_ini }}
                     {{ item.es_hora_fim }}
                     </div>
@@ -69,7 +69,8 @@
 
                     <!--Cancelar-->
                     <div *ngIf="item.id_ei" style="width: 100%;" class="status_{{item.ei_situacao}} ">
-                        <h3>{{ item.es_name }}</h3>                    
+                        <h2 class="m-0 p-0">{{ item.es_name }}</h2>
+                        {{ item.es_local }}<br/>
                         {{ item.es_data | date: 'dd/MM/yyyy' }}
                         {{ item.es_hora_ini }}
                         {{ item.es_hora_fim }}

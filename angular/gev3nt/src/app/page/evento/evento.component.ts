@@ -18,7 +18,6 @@ public events: Array<any> | any;
 
 assign(id:string)
 {
-  alert(id)
   this.router.navigate(['inscricao/'+id]);
 }
 

@@ -1,0 +1,98 @@
+BEGIN:VCALENDAR
+METHOD:REQUEST
+PRODID:Microsoft Exchange Server 2010
+VERSION:2.0
+BEGIN:VTIMEZONE
+TZID:E. South America Standard Time
+BEGIN:STANDARD
+DTSTART:16010101T000000
+TZOFFSETFROM:-0300
+TZOFFSETTO:-0300
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010101T000000
+TZOFFSETFROM:-0300
+TZOFFSETTO:-0300
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+ORGANIZER;CN=Carolina Howard Felicissimo:mailto:carolina.felicissimo@rnp.br
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=samile.van
+ z:mailto:samile.vanz@ufrgs.br
+ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE;CN=Rene Gabri
+ el:mailto:rene.gabriel@ufrgs.br
+DESCRIPTION;LANGUAGE=pt-BR:Caros\, voltando com a nossa reserva de horário
+  para nosso alinhamento interno. Acredito que a pauta prioritária dos pr
+ óximos encontros será dos cursos de Ciência Aberta\, por isso restringi
+  à vcs. Podemos tentar a 1a meia-hora com pauta comum\, caso aja\, e\, de
+ pois\, revesamos uma semana a próxima meia-hora um\, a outra semana\, o o
+ utro. Assim fica justo quem almoça primeiro escalonando de semana à sema
+ na.\n\nViu só como cabeça de ner funciona!? Hahaaaa...\n\nO que acham? T
+ udo bem?\n\n______________________________________________________________
+ __________________\nReunião do Microsoft Teams\nIngressar no seu computad
+ or\, aplicativo móvel ou dispositivo de sala\nClique para ingressar na re
+ união<https://teams.microsoft.com/l/meetup-join/19%3ameeting_OGU2MGZiNDMt
+ NTExNy00NWEyLTgzNGItM2NjZGFmZDliMThi%40thread.v2/0?context=%7b%22Tid%22%3a
+ %22d64646e6-e0d7-4f85-b443-6170dfec0af4%22%2c%22Oid%22%3a%223f98ce73-43d6-
+ 4f61-9ee7-e6c058c26e9b%22%7d>\nID da Reunião: 246 285 292 769\nSenha: 89C
+ pWU\nBaixar o Teams<https://www.microsoft.com/en-us/microsoft-teams/downlo
+ ad-app> | Participe na web<https://www.microsoft.com/microsoft-teams/join-
+ a-meeting>\nIngressar em um dispositivo de videoconferência\n779291640@t.
+ plcm.vc\nID de Vídeo Conferência: 116 714 866 7\nInstruções VTC Altern
+ ativas<https://dialin.plcm.vc/teams/?key=779291640&conf=1167148667>\nSaiba
+  mais<https://aka.ms/JoinTeamsMeeting> | Opções de reunião<https://team
+ s.microsoft.com/meetingOptions/?organizerId=3f98ce73-43d6-4f61-9ee7-e6c058
+ c26e9b&tenantId=d64646e6-e0d7-4f85-b443-6170dfec0af4&threadId=19_meeting_O
+ GU2MGZiNDMtNTExNy00NWEyLTgzNGItM2NjZGFmZDliMThi@thread.v2&messageId=0&lang
+ uage=pt-BR>\n_____________________________________________________________
+ ___________________\n
+RRULE:FREQ=WEEKLY;UNTIL=20231212T133000Z;INTERVAL=1;BYDAY=TU;WKST=MO
+UID:040000008200E00074C5B7101A82E008000000002A53969ED5DBD901000000000000000
+ 0100000005D5D914782C2104BBB3101DB878B3B4E
+SUMMARY;LANGUAGE=pt-BR:Alinhamento Samile e René
+DTSTART;TZID=E. South America Standard Time:20230905T103000
+DTEND;TZID=E. South America Standard Time:20230905T120000
+CLASS:PUBLIC
+PRIORITY:5
+DTSTAMP:20230831T063737Z
+TRANSP:OPAQUE
+STATUS:CONFIRMED
+SEQUENCE:0
+LOCATION;LANGUAGE=pt-BR:Microsoft Teams Meeting
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-OWNERAPPTID:2121857066
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:1
+X-MICROSOFT-ONLINEMEETINGEXTERNALLINK:
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingChannelId":null\,"Onlin
+ eMeetingProvider":3}
+X-MICROSOFT-SKYPETEAMSMEETINGURL:https://teams.microsoft.com/l/meetup-join/
+ 19%3ameeting_OGU2MGZiNDMtNTExNy00NWEyLTgzNGItM2NjZGFmZDliMThi%40thread.v2/
+ 0?context=%7b%22Tid%22%3a%22d64646e6-e0d7-4f85-b443-6170dfec0af4%22%2c%22O
+ id%22%3a%223f98ce73-43d6-4f61-9ee7-e6c058c26e9b%22%7d
+X-MICROSOFT-SCHEDULINGSERVICEUPDATEURL:https://api.scheduler.teams.microsof
+ t.com/teams/d64646e6-e0d7-4f85-b443-6170dfec0af4/3f98ce73-43d6-4f61-9ee7-e
+ 6c058c26e9b/19_meeting_OGU2MGZiNDMtNTExNy00NWEyLTgzNGItM2NjZGFmZDliMThi@th
+ read.v2/0
+X-MICROSOFT-SKYPETEAMSPROPERTIES:{"cid":"19:meeting_OGU2MGZiNDMtNTExNy00NWE
+ yLTgzNGItM2NjZGFmZDliMThi@thread.v2"\,"rid":0\,"mid":0\,"uid":null\,"priva
+ te":true\,"type":0}
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-REQUESTEDATTENDANCEMODE:DEFAULT
+X-MICROSOFT-LOCATIONDISPLAYNAME:Microsoft Teams Meeting
+X-MICROSOFT-LOCATIONSOURCE:None
+X-MICROSOFT-LOCATIONS:[{"DisplayName":"Microsoft Teams Meeting"\,"LocationA
+ nnotation":""\,"LocationUri":""\,"LocationStreet":""\,"LocationCity":""\,"
+ LocationState":""\,"LocationCountry":""\,"LocationPostalCode":""\,"Locatio
+ nFullAddress":""}]
+BEGIN:VALARM
+DESCRIPTION:REMINDER
+TRIGGER;RELATED=START:-PT15M
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR
