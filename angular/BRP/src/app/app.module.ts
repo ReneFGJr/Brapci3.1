@@ -13,6 +13,7 @@ import { CoreBrapciModule } from './020_brapci/core-brapci.module';
 
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 registerLocaleData(ptBr);
 
 //import { RouterModule } from '@angular/router';
@@ -27,6 +28,7 @@ registerLocaleData(ptBr);
     NgbModule,
     ThemeModule,
     CoreBrapciModule,
+    BrowserAnimationsModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],

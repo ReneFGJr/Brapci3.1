@@ -1,24 +1,47 @@
-
 <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
-    <label for="search">Termos de busca</label>
-    <input
-      id="search"
-      type="search"
-      placeholder="Digite aqui"
-      formControlName="term"
-      autofocus
-      required
-    />
-    <button type="submit">Pesquisar</button>
-  </form>
-  <small class="link ms-3" (click)="clickFilters()">filtros</small>
-  <small class="link ms-4" (click)="clickadvanceSearch()">busca avançada</small>
+  <label for="search">Termos de busca</label>
+  <input id="search" type="search" placeholder="Digite aqui" formControlName="term" autofocus required />
+  <button type="submit" *ngIf="!loading">Pesquisar</button>
+  <button type="submit" *ngIf="loading"><img [src]="loaging_img" style="height: 65px;"></button>
+</form>
+<small class="link ms-3" (click)="clickFilters()">filtros</small>
+<small class="link ms-4" (click)="clickadvanceSearch()">busca avançada</small>
+<small class="link ms-4">{{totalw}}</small>
 
-  <div *ngIf="filters">
+<div *ngIf="filters">
   <div class="form-group zoomIn">
     <label for="formControlRange">Example Range input</label>
     <input type="range" class="form-control-range" id="formControlRange">
   </div>
-  </div>
+</div>
 
-<app-search-brapci-results [results]="result"></app-search-brapci-results>
+<div class="col-12 col-sm-12 search-results" *ngIf="works" (scrolledUp)=" onScrollUp($event)">
+  {{ results.total }} resultados
+</div>
+
+<div class="container">
+  <!-------------- Resultados -->
+  <div class="list-group row" infinite-scroll (scrolled)="onScrollDown($event)">
+    <table width="100%" *ngFor="let items of works" class="mb-3 fadeIn" style="animation-delay: 500ms;">
+      <!------------- ARTICLE -->
+      <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
+        <td width="80px" *ngIf="items.data.cover">
+          <img [src]="items.data.cover" style="width: 80px; float: left; margin: 5px;" />
+        </td>
+
+        <td *ngIf="items.data.ldl_title" class="ms-2">
+          <input type="checkbox" class="small" />
+          <a class="work" [routerLink]="['/v/' + items.id]" routerLinkActive="router-link-active" target="_blank">
+            {{ items.data.ldl_title }}
+          </a>
+          <br />
+          <i>{{ items.data.ldl_authors }}</i> <br />{{
+          items.data.ldl_legend
+          }}
+          <br /><span class="small">[Artigo]</span>
+        </td>
+        <td width="50px;" *ngIf="items.data.ldl_title">{{items.year}}</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -5,7 +5,7 @@ form {
   background: #ddddff;
   border-radius: 0.7rem;
 }
-input,
+input[type="search"],
 button {
   height: 5rem;
   border: 0;
@@ -52,7 +52,7 @@ button {
   border-radius: 0 0.7rem 0.7rem 0;
   color: white;
 }
-input:not(:placeholder-shown) {
+input[type="search"]:not(:placeholder-shown) {
   border-radius: 0.7rem 0 0 0.7rem;
   width: calc(100% - 10rem);
   + button {
@@ -68,3 +68,22 @@ label {
   width: 1px;
   overflow: hidden;
 }
+
+.work
+  {
+    font-size: 1.1em;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold
+  }
+
+  .result
+    {
+      color: #000;
+    }
+.heightImg
+  {
+    height: 100px;
+    margin-right: 20px;
+    border: 1px solid #000;
+  }

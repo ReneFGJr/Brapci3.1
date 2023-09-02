@@ -85,7 +85,7 @@ export class BrapciService {
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
     formData.append('q', term);
-    formData.append('offset', '10000');
+    formData.append('offset', '1000');
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,

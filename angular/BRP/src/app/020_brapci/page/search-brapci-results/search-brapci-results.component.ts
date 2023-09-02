@@ -8,11 +8,50 @@ import { Component, Input } from '@angular/core';
 })
 export class SearchBrapciResultsComponent {
   @Input() public results: Array<any> | any;
+  listArray: string[] = [];
+  sum = 1;
+  display = 10;
+  direction = "";
 
-  constructor(private router:Router) {}
+  constructor() {
+    if (this.results != undefined)
+    {
+      console.log('===============>'+this.results);
+    }
+  }
 
   ngOnInit()
     {
-
+      if (this.results != undefined)
+      {
+        console.log('===============>'+this.results);
+      }
+      
+      //this.listArray.push(this.results[0]);
     }
+
+
+  onScrollDown(ev: any) {
+    console.log("scrolled down!!", ev);
+    this.appendItems();
+
+    this.direction = "scroll down";
+  }
+
+  onScrollUp(ev: any) {
+
+  }
+
+  appendItems() {
+    this.addItems("push");
+  }
+
+  addItems(_method: string) {
+    for (let i = 0; i < 1; ++i) {
+      if (_method === 'push') {
+        this.listArray.push([this.sum].join(""));
+        this.sum++;
+      }
+    }
+  }
 }

@@ -1,64 +1,10 @@
-<div *ngIf="results" class="col-12 col-sm-12">
-  {{ results.total }} resultados
-  <app-brapci-result-pagination
-    [result]="results"
-  ></app-brapci-result-pagination>
-  <div class="container">
-    <div
-      *ngFor="let items of results.works; let i = index"
-      class="mb-3 result row fadeIn"
-      style="animation-delay: {{ i }}00ms;"
-    >
-      <div
-        *ngIf="items.type === 'Article' || items.type === 'Proceeding'"
-        class="col-1"
-      >
-        <div *ngIf="items.data">
-          <img
-            *ngIf="items.data.cover"
-            [src]="items.data.cover"
-            class="img-fluid"
-          />
-        </div>
-      </div>
+<div class="search-results" *ngIf="results" infinite-scroll (scrolled)="onScrollDown($event)"
+  (scrolledUp)="onScrollUp($event)">
 
-      <!------------------------------------------- Article-->
-      <div class="col-11" *ngIf="items.type == 'Article' && items.data">
-        <input type="checkbox" />
-        <a
-          class="work"
-          [routerLink]="['/v/' + items.id]"
-          routerLinkActive="router-link-active"
-          target="_blank"
-        >
-          {{ items.data.ldl_title }}
-        </a>
-        <br /><i>{{ items.data.ldl_authors }}</i> <br />{{
-          items.data.ldl_legend
-        }}
-        <br /><span class="small">[Artigo]</span>
-      </div>
-
-      <!------------------------------------------- Proceeding-->
-      <div class="col-11" *ngIf="items.type == 'Proceeding' && items.data">
-        <input type="checkbox" />
-        <a
-          class="work"
-          [routerLink]="['/v/' + items.id]"
-          routerLinkActive="router-link-active"
-          target="_blank"
-        >
-          {{ items.data.ldl_title }}
-        </a>
-        <br /><i>{{ items.data.ldl_authors }}</i> <br />{{
-          items.data.jnl_name
-        }}
-        <br /><span class="small">[Trabalho em evento]</span>
-      </div>
-
-      <div *ngIf="items.type == 'Person'"></div>
-
-      <div *ngIf="!(items.type == 'Article' || items.type == 'Person')"></div>
-    </div>
+  <div class="list-group">
+    <a class="list-group-item list-group-item-action" *ngFor="let i of listArray">
+      <p class="mb-1">{{i}} Item added on {{direction}}</p>
+    </a>
   </div>
+
 </div>

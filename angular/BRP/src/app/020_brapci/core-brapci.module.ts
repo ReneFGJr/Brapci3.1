@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 import { BannerComponent } from './page/banner/banner.component';
 import { PainelComponent } from './page/painel/painel.component';
 import { PublicationsComponent } from './page/painel/publications/publications.component';
@@ -20,6 +22,7 @@ import { JounalsComponent } from './page/jounals/jounals.component';
 import { BrapciWelcomeComponent } from './page/welcome/welcome.component';
 import { AboutComponent } from './page/about/about.component';
 import { IndicadoresComponent } from './page/indicadores/indicadores.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import { IndicadoresComponent } from './page/indicadores/indicadores.component';
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    ThemeModule
+    ThemeModule,
+    InfiniteScrollModule
   ],
   exports:[
     BannerComponent,
