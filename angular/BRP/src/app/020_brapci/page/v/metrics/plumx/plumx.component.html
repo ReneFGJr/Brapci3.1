@@ -1,0 +1,11 @@
+<div *ngIf="doi">
+  <span id="plum" style="font-size: 70%">Plum X Metrics</span><br />
+  <a
+    href="https://plu.mx/plum/a/?doi=' . $doi . '"
+    class="plumx-plum-print-popup img-fluid"
+  ></a>
+  <script type="text/javascript" src="//cdn.plu.mx/widget-all.js"></script>
+  <script>
+    window.__plumX.widgets.init();
+  </script>
+</div>

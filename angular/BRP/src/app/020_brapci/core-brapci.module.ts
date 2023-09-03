@@ -9,7 +9,6 @@ import { AuthorsComponent } from './page/painel/authors/authors.component';
 import { KeywordsComponent } from './page/painel/keywords/keywords.component';
 import { SearchBrapciComponent } from './page/search-brapci/search-brapci.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SearchBrapciResultsComponent } from './page/search-brapci-results/search-brapci-results.component';
 import { RouterModule } from '@angular/router';
 import { VComponent } from './page/v/v.component';
 import { ThemeModule } from '../010_thema/theme.module';
@@ -22,6 +21,8 @@ import { JounalsComponent } from './page/jounals/jounals.component';
 import { BrapciWelcomeComponent } from './page/welcome/welcome.component';
 import { AboutComponent } from './page/about/about.component';
 import { IndicadoresComponent } from './page/indicadores/indicadores.component';
+import { DataComponent } from './page/v/data/data.component';
+import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
 
 
 @NgModule({
@@ -32,7 +33,6 @@ import { IndicadoresComponent } from './page/indicadores/indicadores.component';
     AuthorsComponent,
     KeywordsComponent,
     SearchBrapciComponent,
-    SearchBrapciResultsComponent,
     VComponent,
     ArticleComponent,
     HeaderComponent,
@@ -43,6 +43,8 @@ import { IndicadoresComponent } from './page/indicadores/indicadores.component';
     BrapciWelcomeComponent,
     AboutComponent,
     IndicadoresComponent,
+    DataComponent,
+    PlumxComponent,
   ],
   imports: [
     CommonModule,

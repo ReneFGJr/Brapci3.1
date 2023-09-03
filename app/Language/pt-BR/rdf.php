@@ -1,5 +1,22 @@
 <?php
 return [
+    'hasAuthor.pt_BR'=>'Autor',
+    'hasPageEnd.pt_BR' => 'Pag. Final',
+    'hasPageStart.pt_BR' => 'Pag. Inicial',
+    'hasRegisterId.pt_BR' => 'ID',
+    'hasSectionOf.pt_BR' => 'Seção',
+    'hasSource.pt_BR' => 'Fonte',
+    'hasSubject.pt_BR' => 'Assunto',
+    'hasSubject.es_ES' => 'Assunto',
+    'hasTitle.pt_BR' => 'Título',
+    'hasTitle.es_ES' => 'Titulo',
+    'hasUrl.pt_BR' => 'URL',
+    'isPubishIn.pt_BR' => 'Publicado em',
+    'prefLabel.pt_BR' => 'Rótulo',
+    'hasIssueOf.pt_BR' => 'Issue',
+    'prefLabel.pt_BR'=>'Nome preferencial',
+    'prefLabel.es_ES' => 'Nome preferencial',
+
     'hasLanguageExpression' => "Idioma",
     'hasClassificationCDD' => 'Classificação CDD',
     'hasISBN' => 'ISBN',

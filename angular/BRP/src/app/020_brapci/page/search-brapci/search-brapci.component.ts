@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -12,10 +14,10 @@ import { BrapciService } from '../../service/brapci.service';
   styleUrls: ['./search-brapci.component.scss'],
 })
 export class SearchBrapciComponent {
-  public works:Array<any> | any;
-  public totalw = 0
-  public result:Array<any> | any;
-  public results:Array<any> | any;
+  public works: Array<any> | any;
+  public totalw = 0;
+  public result: Array<any> | any;
+  public results: Array<any> | any;
   public filters: boolean = false;
   public advanceSearch: string = '';
   public term: string = '';
@@ -23,17 +25,27 @@ export class SearchBrapciComponent {
   public year_end: number = new Date().getFullYear() + 1;
   public APIversion: string = '1';
   public loading: boolean = false;
-  public loaging_img:string = '/assets/img/loading.svg';
-  
+  public loaging_img: string = '/assets/img/loading.svg';
+
+  public msg_data_mark: string = 'Selecionar item para biblioteca pessoal';
+  public msg_cover: string = 'Capa da publicação';
+  public msg_noresult: string = 'Nenhum resultado encontrado!';
+  public msg_result: string = 'resultado(s)';
+  public msg_show: string = 'Mostrando';
+  public msg_of: string = 'de';
+
+  public marked: FormGroup;
+
   listArray: string[] = [];
   sum = 1;
   display = 5;
-  direction = "";  
+  direction = '';
 
-  constructor(
-      private fb: FormBuilder,
-      private brapciService:BrapciService
-    ) {}
+  constructor(private fb: FormBuilder, private brapciService: BrapciService) {
+    this.marked = this.fb.group({
+      website: this.fb.array([], [Validators.required]),
+    });
+  }
 
   searchForm: FormGroup | any;
   createForm() {
@@ -54,48 +66,62 @@ export class SearchBrapciComponent {
   }
 
   clickadvanceSearch() {
-    console.log("Adcanced Search")
+    console.log('Adcanced Search');
+  }
+
+  /**************************** MARK */
+  markDOwn(e:any) {
+    const website: FormArray = this.marked.get('website') as FormArray;
+
+    if (e.target.checked) {
+      website.push(new FormControl(e.target.value));
+      console.log(e.target.value + ' on');
+    } else {
+      const index = website.controls.findIndex(
+        (x) => x.value === e.target.value
+      );
+      console.log(e.target.value + ' off');
+      website.removeAt(index);
+    }
   }
 
   /**************************** SCROLL */
   onScrollDown(ev: any) {
     let max = 1;
-    let ini:number = this.totalw;
-    let fim:number = ini + max;
-    let tot:number = this.results.length;
-    if (fim > tot) { fim = tot; }
+    let ini: number = this.totalw;
+    let fim: number = ini + max;
+    let tot: number = this.results.length;
+    if (fim > tot) {
+      fim = tot;
+    }
 
     for (let i = ini; i < fim; i++) {
       this.works.push(this.results[i]);
       this.totalw++;
     }
-  }  
-
-  onScrollUp(ev: any) {
-
   }
+
+  onScrollUp(ev: any) {}
 
   onSearch() {
     if (this.searchForm.valid) {
       let term = this.searchForm.value.term;
       this.loading = true;
-      this.brapciService.search(term).subscribe(
-        res=>{
-          this.result = res;
-          this.results = this.result.works;
-          this.works = [];
-          let max = 5;
-          if (this.results.length < max) 
-            {
-              max = this.results.length;
-            }
-          for (let i = 0; i < max; i++) {
-            this.works.push(this.results[i]);
-            this.totalw++;
-          }
-          this.loading = false;
+      this.brapciService.search(term).subscribe((res) => {
+        this.result = res;
+        console.log(res);
+        this.results = this.result.works;
+        this.works = [];
+        let max = 5;
+        if (this.results.length < max) {
+          max = this.results.length;
         }
-      );
+        for (let i = 0; i < max; i++) {
+          this.works.push(this.results[i]);
+          this.totalw++;
+        }
+        this.loading = false;
+      });
     } else {
       console.log('NÃO OK');
     }

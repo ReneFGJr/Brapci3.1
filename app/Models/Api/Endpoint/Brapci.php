@@ -221,6 +221,7 @@ class Brapci extends Model
 
         $RSP = [];
         $RSP['id'] = $id;
+        $RSP['class'] = $dt['concept']['c_class'];
         $RSP['title'] = '';
         $RSP['creator_author'] = [];
         $RSP['description'] = '';
@@ -233,13 +234,19 @@ class Brapci extends Model
         $pg_ini = '';
         $pg_end = '';
 
+        $data = [];
+
+        //$RSP['class'] = $dt['concept']['id_cc'];
+
         foreach ($dt['data'] as $idx => $desc) {
-            $class = $desc['c_class'];
+            $class = trim($desc['c_class']);
             $vlr1 = $desc['n_name'];
             $vlr2 = $desc['n_name2'];
 
             $lk1 = $desc['d_r1'];
             $lk2 = $desc['d_r2'];
+
+            $lang = $desc['n_lang'].$desc['n_lang2'];
 
             $lang = troca($desc['n_lang'] . $desc['n_lang2'], '-', '_');
             $vlr = trim($vlr1 . $vlr2);
@@ -247,6 +254,8 @@ class Brapci extends Model
             if ($lk2 == 0) {
                 $lk2 = $lk1;
             }
+
+            $data[msg('rdf.'.$class.'.'.$lang)] = $vlr;
 
             switch ($class) {
                 case 'hasAbstract':
@@ -304,6 +313,8 @@ class Brapci extends Model
 
             $RSP['pagination'] = $pags;
         }
+
+        $RSP['data'] = $data;
         echo json_encode($RSP);
         exit;
     }

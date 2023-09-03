@@ -25,7 +25,7 @@
     color: #000;
   }
 
-  .cover
+.cover
   {
     box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transform: scale(1.0);
@@ -38,6 +38,9 @@
   transform: scale(1.1);
   cursor: pointer;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

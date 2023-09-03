@@ -4,7 +4,7 @@
 
 <div class="container mt-5" *ngIf="data">
   <div class="row">
-    <div class="col-12">
+    <div class="col-9">
       <h1 class="title text-center">{{ data.title }}</h1>
 
       <div class="text-end mb-5">
@@ -13,11 +13,12 @@
         </span>
       </div>
     </div>
-    <div class="col-12 col-lg-10">
+    <div class="col=3"></div>
+    <div class="col-12 col-lg-10 mb-3">
       <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
       <p><b>Palavras-chave: </b>
         <span *ngFor="let item of data.subject" class="text-end">
-          <a class="keywords" [routerLink]="['/routePath']" >{{ item.name }}</a>.
+          <a class="keywords" [routerLink]="['/v/'+item.id]" >{{ item.name }}</a>
         </span>
       </p>
 
@@ -26,7 +27,11 @@
 
     <div class="col-12 col-lg-2">
       <app-component-pdf [url]="data.resource_pdf" [id]="data.id"></app-component-pdf>
+
+      <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
     </div>
   </div>
 </div>
 <div style="height: 100px"></div>
+
+{{data|json}}
