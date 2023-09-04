@@ -25,13 +25,12 @@ class Download extends BaseController
         $class = $dt['concept']['c_class'];
         switch ($class) {
             case 'Article':
-                $d = $RDF->extract($dt, 'hasFileStorage');
+                $id = $RDF->extract($dt, 'hasFileStorage');
                 break;
             case 'Proceeding':
-                $d = $RDF->extract($dt, 'hasFileStorage');
+                $id = $RDF->extract($dt, 'hasFileStorage');
                 break;
         }
-        pre($d);
         $Download = new \App\Models\Base\Download();
         $Download->download_pdf($id);
         exit;
