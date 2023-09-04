@@ -21,7 +21,7 @@ import { JounalsComponent } from './page/jounals/jounals.component';
 import { BrapciWelcomeComponent } from './page/welcome/welcome.component';
 import { AboutComponent } from './page/about/about.component';
 import { IndicadoresComponent } from './page/indicadores/indicadores.component';
-import { DataComponent } from './page/v/data/data.component';
+import { DataVComponent } from './page/v/data/data.component';
 import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
 
 
@@ -43,7 +43,7 @@ import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
     BrapciWelcomeComponent,
     AboutComponent,
     IndicadoresComponent,
-    DataComponent,
+    DataVComponent,
     PlumxComponent,
   ],
   imports: [

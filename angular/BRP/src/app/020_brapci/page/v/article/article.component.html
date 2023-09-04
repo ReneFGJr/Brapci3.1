@@ -28,10 +28,12 @@
     <div class="col-12 col-lg-2">
       <app-component-pdf [url]="data.resource_pdf" [id]="data.id"></app-component-pdf>
 
+      <!--
       <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
+      -->
+
+      <app-v-data [RDFdata]="data.data"></app-v-data>
     </div>
   </div>
 </div>
 <div style="height: 100px"></div>
-
-{{data|json}}
