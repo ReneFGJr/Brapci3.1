@@ -26,9 +26,11 @@ class Download extends BaseController
         switch ($class) {
             case 'Article':
                 $id = $RDF->extract($dt, 'hasFileStorage');
+                $id = $id[0];
                 break;
             case 'Proceeding':
                 $id = $RDF->extract($dt, 'hasFileStorage');
+                $id = $id[0];
                 break;
         }
         $Download = new \App\Models\Base\Download();
