@@ -194,7 +194,7 @@ class Download extends Model
         $file = 'NOT FOUND';
         switch ($class) {
             case 'FileStorage':
-                $file = trim($dt['n_name']);
+                $file = trim($dt['conecpt']['n_name']);
                 $this->send_file($file);
                 break;
             case 'Book':
