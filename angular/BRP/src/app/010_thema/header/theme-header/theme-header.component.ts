@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-theme-header',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./theme-header.component.scss']
 })
 export class ThemeHeaderComponent {
+  @Input() public header:Array<any>|any
   constructor() { }
-  ngOnInit() { }
+  ngOnInit() {
+  }
 }

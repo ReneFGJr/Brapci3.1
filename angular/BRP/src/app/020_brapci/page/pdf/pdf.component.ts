@@ -16,8 +16,7 @@ export class PdfComponent {
 
   download()
     {
-      alert("download " +this.id);
-      alert("download " + this.url);
-      window.open(this.url, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
+      //window.open(this.url, '_blank', 'location=yes,height=90%,width=90%,scrollbars=yes,status=yes');
+      window.open(this.url, '_blank', "width="+screen.availWidth+",height="+screen.availHeight);
     }
 }
