@@ -168,6 +168,22 @@ class Download extends Model
                 }
         }
 
+    function send_file($file)
+        {
+            if (file_exists($file)) {
+                header('Content-type: application/pdf');
+                readfile($file);
+                exit;
+            } else {
+                echo '<center>';
+                echo h('File not found in this server (' . $class . ')', 4);
+                echo $file;
+                echo '</center>';
+                echo '<hr>';
+                exit;
+            }
+        }
+
     function download_pdf($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
@@ -177,19 +193,17 @@ class Download extends Model
         $class = $data['c_class'];
         $file = 'NOT FOUND';
         switch ($class) {
+            case 'FileStorage':
+                $file = trim($dt['n_name']);
+                $this->send_file($file);
+                break;
             case 'Book':
                 $idf = $RDF->extract($dt, 'hasFileStorage');
                 if ($idf[0] > 0) {
                     $dtf = $RDF->le($idf[0]);
                     $file = $dtf['concept']['n_name'];
                 }
-                if (file_exists($file)) {
-                    header('Content-type: application/pdf');
-                    readfile($file);
-                    exit;
-                } else {
-                    echo "ERRO NO DOWNLOAD";
-                }
+                $this->send_file($file);
                 break;
             case 'Proceeding':
                 $idf = $RDF->extract($dt, 'hasFileStorage');
@@ -197,27 +211,10 @@ class Download extends Model
                     if ($idf[0] > 0) {
                         $dtf = $RDF->le($idf[0]);
                         $file = $dtf['concept']['n_name'];
-
-                        if (file_exists($file)) {
-                            header('Content-type: application/pdf');
-                            readfile($file);
-                            exit;
-                        }
+                        $this->send_file($file);
                     }
                 }
-
-                echo '<center>';
-                echo h('File not found in this server (' . $class . ')', 4);
-                echo $file;
-                echo '</center>';
-                echo '<hr>';
-
-                $Socials = new \App\Models\Socials();
-                if ($Socials->getAccess("#ADM#CAT#ENA")) {
-                    echo "Buscando...";
-                    echo $this->download_tools($id);
-                }
-                exit;
+                break;
         }
     }
 }
