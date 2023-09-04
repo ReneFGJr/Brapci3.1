@@ -170,10 +170,8 @@ class Download extends Model
 
     function download_pdf($id)
     {
-        pre($id);
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
-        pre($dt);
         $data = $dt['concept'];
         $class = $data['c_class'];
         $file = 'NOT FOUND';
