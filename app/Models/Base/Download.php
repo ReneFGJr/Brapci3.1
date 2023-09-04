@@ -172,6 +172,7 @@ class Download extends Model
     {
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
+        pre($dt);
         $data = $dt['concept'];
         $class = $data['c_class'];
         $file = 'NOT FOUND';
