@@ -170,7 +170,7 @@ class Download extends Model
 
     function download_pdf($id)
     {
-        echo '=========='.$id;
+        pre($id);
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         pre($dt);
