@@ -23,6 +23,8 @@ class Download extends BaseController
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $class = $dt['concept']['c_class'];
+        echo $class;
+        pre($dt);
         switch ($class) {
             case 'Article':
                 $d = $RDF->extract($dt, 'hasFileStorage');
