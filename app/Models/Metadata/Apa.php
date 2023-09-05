@@ -261,9 +261,9 @@ class Apa extends Model
 
 		/*********************************** ANO */
 		if (isset($dt['issue']['year'])) {
-			$tela .= '(' . trim($dt['issue']['year']).')';
+			$tela .= ' (' . trim($dt['issue']['year']).')';
 		} else {
-			$tela .= '(????)';
+			$tela .= ' (????)';
 		}
 
 
