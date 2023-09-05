@@ -260,19 +260,33 @@ class Abnt extends Model
 			{
 				$tela .= '. <b>' . nbr_author($dt['Journal'], 7) . '</b>';
 			}
-
+		/******************************** VOL */
 		if (isset($dt['issue']['issue_vol']) > 0) {
-			$tela .= ', ' . $dt['issue']['issue_vol'];
+			$nr = trim($dt['issue']['issue_vol']);
+			if (strlen($nr) > 0) {
+				if (strpos(' ' . $dt['issue']['issue_vol'], 'v.')) {
+					$tela .= ', ' . $dt['issue']['issue_vol'];
+				} else {
+					$tela .= ', v.' . $dt['issue']['issue_vol'];
+				}
+			}
 		}
-
-		if (isset($dt['Issue']['Issue_nr']) > 0) {
-			$nr = trim($dt['Issue']['Issue_nr']);
+		/******************************** NR **/
+		if (isset($dt['issue']['Issue_nr']) > 0) {
+			$nr = trim($dt['issue']['Issue_nr']);
 			if (strlen($nr) > 0)
 			{
-				$tela .= ', n.' . $dt['Issue']['Issue_nr'];
+				if (strpos(' '.$dt['issue']['Issue_nr'],'n.'))
+					{
+						$tela .= ', '. $dt['issue']['Issue_nr'];
+					} else {
+						$tela .= ', n.' . $dt['issue']['Issue_nr'];
+					}
+
 			}
 
 		}
+
 		if (isset($dt['issue']['year']))
 			{
 				$tela .= ', ' . trim($dt['issue']['year']);

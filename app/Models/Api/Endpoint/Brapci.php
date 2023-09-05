@@ -231,6 +231,9 @@ class Brapci extends Model
         $RSP['subject'] = [];
         $RSP['cover'] = '';
 
+        $ISSUE = new \App\Models\Base\Issues();
+
+
         $pg_ini = '';
         $pg_end = '';
 
@@ -258,6 +261,9 @@ class Brapci extends Model
             $data[msg('rdf.'.$class.'.'.$lang)] = $vlr;
 
             switch ($class) {
+                case 'hasIssueOf':
+                    $RSP['issue'] = $ISSUE->getIssue($desc['d_r1']);
+                    break;
                 case 'hasAbstract':
                     $RSP['description'] = $vlr;
                     break;
@@ -315,6 +321,24 @@ class Brapci extends Model
         }
 
         $RSP['data'] = $data;
+
+        /************************************************* CITE */
+        $dtn['title'] = $RSP['title'];
+        $dtn['Authors'] = [];
+        foreach($RSP['creator_author'] as $id=>$auth)
+            {
+                array_push($dtn['Authors'],$auth['name']);
+            }
+        $dtn['Journal'] = $RSP['publisher'];
+
+        $dtn['issue']['Issue_nr'] = $RSP['issue']['nr'];
+        $dtn['issue']['issue_vol'] = $RSP['issue']['vol'];
+        $dtn['issue']['year'] = $RSP['issue']['year'];
+
+        /************************************************* ABNT */
+        $ABNT = new \App\Models\Metadata\Abnt();
+        $RSP['cited']['abnt'] = $ABNT->show($dtn,substr($RSP['class'],0,1));
+        pre($RSP);
         echo json_encode($RSP);
         exit;
     }

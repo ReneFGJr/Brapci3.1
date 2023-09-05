@@ -114,6 +114,37 @@ class Issues extends Model
         return $sx;
     }
 
+    function getIssue($id)
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $dt = $RDF->le($id);
+            $RSP['year'] = '????';
+            $RSP['nr'] = '';
+            $RSP['vol'] = '';
+            foreach($dt['data'] as $id=>$line)
+                {
+                    $class = $line['c_class'];
+                    $vlr1 = $line['n_name'];
+                    $vlr2 = $line['n_name2'];
+                    switch($class)
+                        {
+                            case 'dateOfPublication':
+                                $RSP['year'] = $vlr2;
+                                break;
+                            case 'hasPublicationNumber':
+                                $RSP['nr'] = $vlr2;
+                                break;
+                            case 'hasPublicationVolume':
+                                $RSP['vol'] = $vlr2;
+                                break;
+                            default:
+                            //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
+                            break;
+                        }
+                }
+                return $RSP;
+        }
+
     function check($jnl, $auto = false)
     {
         $Source = new \App\Models\Base\Sources();

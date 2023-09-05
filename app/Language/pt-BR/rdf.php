@@ -16,6 +16,10 @@ return [
     'hasIssueOf.pt_BR' => 'Issue',
     'prefLabel.pt_BR'=>'Nome preferencial',
     'prefLabel.es_ES' => 'Nome preferencial',
+    'dateOfAvailability.pt_BR'=>'Disponibilizado',
+    'hasAbstract.pt_BR' => 'Resumo',
+    'dateOfAvailability.pt_BR' => 'Disponibilizado',
+    'dateOfAvailability.pt_BR' => 'Disponibilizado',
 
     'hasLanguageExpression' => "Idioma",
     'hasClassificationCDD' => 'Classificação CDD',

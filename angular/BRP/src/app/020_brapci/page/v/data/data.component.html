@@ -1,10 +1,17 @@
 <div class="container">
-<div class="row">
-<div class="col-2"><h3 class="rdfdata">Propriedade</h3></div>
-<div class="col-10"><h3 class="rdfdata">Recurso</h3></div>
-</div>
+  <div class="row">
+    <div class="col-3 text-end"><h3 class="rdfdata">Propriedade</h3></div>
+    <div class="col-9">
+      <h3 class="rdfdata">Recurso</h3>
+    </div>
 
-{{RDFdata | json}}
-<div *ngFor="let item of RDFdata; let i = index" [attr.data-index]="i" >
-</div>
+    <div class="row" *ngFor="let property of RDFdata | keyvalue">
+      <div class="col-3 text-end" *ngIf="property.key">
+        {{ property.key }}
+      </div>
+      <div class="col-9"  *ngIf="property.key">
+        {{ property.value }}
+      </div>
+    </div>
+  </div>
 </div>
