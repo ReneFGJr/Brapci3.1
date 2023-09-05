@@ -4,7 +4,7 @@ namespace App\Models\Metadata;
 
 use CodeIgniter\Model;
 
-class Vancouver extends Model
+class Apa extends Model
 {
 	protected $DBGroup              = 'default';
 	protected $table                = 'abtns';
@@ -46,11 +46,11 @@ class Vancouver extends Model
 	{
 		switch ($type) {
 			default:
-				$tela = $this->vancouver_article($dt);
+				$tela = $this->apa_article($dt);
 		}
 		return $tela;
 	}
-	function vancouver_proceeding($dt)
+	function apa_proceeding($dt)
 		{
 		$id = $dt['ID'];
 		if (isset($dt['title']))
@@ -145,7 +145,7 @@ class Vancouver extends Model
 		}
 
 
-	function vancouver_book($dt)
+	function apa_book($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
@@ -173,7 +173,7 @@ class Vancouver extends Model
 		return $sx;
 	}
 
-	function vancouver_chapter($dt)
+	function apa_chapter($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
@@ -222,7 +222,10 @@ class Vancouver extends Model
 			if ($total <= 3) {
 				for ($r = 0; $r < count($dt['Authors']); $r++) {
 					if ($authors != '') {
-						$authors .= '; ';
+						$authors .= ', ';
+						if ($total == ($r + 1)) {
+							$authors .= '& ';
+						}
 					}
 					$authors .= nbr_author($dt['Authors'][$r], 3);
 				}
@@ -240,7 +243,7 @@ class Vancouver extends Model
 		}
 
 
-	function vancouver_article($dt)
+	function apa_article($dt)
 	{
 		if (!isset($dt['title']))
 			{
@@ -255,6 +258,15 @@ class Vancouver extends Model
 
 		$tela = '';
 		$tela .= $this->authors($dt);
+
+		/*********************************** ANO */
+		if (isset($dt['issue']['year'])) {
+			$tela .= '(' . trim($dt['issue']['year']).')';
+		} else {
+			$tela .= '(????)';
+		}
+
+
 		$tela .= '. ' . $title;
 
 		if (isset($dt['Journal']))
@@ -262,12 +274,6 @@ class Vancouver extends Model
 				$tela .= '. ' . nbr_title($dt['Journal'], 7);
 			}
 
-		/*********************************** ANO */
-		if (isset($dt['issue']['year'])) {
-			$tela .= '. ' . trim($dt['issue']['year']);
-		} else {
-			$tela .= '. ' . '[????]';
-		}
 
 
 		/******************************** VOL */
