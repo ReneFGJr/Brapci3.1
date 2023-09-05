@@ -252,7 +252,6 @@ class Abnt extends Model
 		$title = $tu . $te;
 
 		$tela = '';
-		$tela .= '<span class="abnt-article">';
 		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
@@ -306,7 +305,7 @@ class Abnt extends Model
 		while (strpos($tela, '..')) {
 			$tela = troca($tela, '..', '.');
 		}
-		$tela .= '</span>'.cr();
+		$tela .= cr();
 		return $tela;
 	}
 }

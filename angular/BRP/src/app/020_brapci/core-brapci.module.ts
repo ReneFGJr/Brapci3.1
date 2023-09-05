@@ -23,6 +23,7 @@ import { AboutComponent } from './page/about/about.component';
 import { IndicadoresComponent } from './page/indicadores/indicadores.component';
 import { DataVComponent } from './page/v/data/data.component';
 import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
+import { CiteComponent } from './page/v/cite.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
     IndicadoresComponent,
     DataVComponent,
     PlumxComponent,
+    CiteComponent,
   ],
   imports: [
     CommonModule,

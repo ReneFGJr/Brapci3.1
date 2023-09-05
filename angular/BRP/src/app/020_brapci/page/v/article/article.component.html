@@ -23,8 +23,11 @@
         </span>
       </p>
 
-      <img [src]="rdf" height="32px">
+      <!--------------- Cite -->
+      <app-v-cite [citacao]="data.cited"></app-v-cite>
+
       <!--------------- Data -->
+      <img [src]="rdf" height="32px">
       <app-v-data [RDFdata]="data.data"></app-v-data>
     </div>
 
