@@ -10,7 +10,7 @@
         {{ property.key }}
       </div>
       <div class="col-9"  *ngIf="property.key">
-        {{ property.value }}
+        <div [innerHTML]="property.value"></div>
       </div>
     </div>
   </div>

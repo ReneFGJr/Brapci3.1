@@ -177,6 +177,17 @@ function nbr_author($xa,$xp)
                         $name = $Fname.$name;
                         break;
 
+                    /* Sobrenome e Nome CURTO sem ponto*/
+                    case '3':
+                        $TOT = count($NM2);
+                        foreach ($NM2 as $id => $xname) {
+                            $Fname = $xname;
+                            $name .= substr($xname, 0, 1);
+                        }
+                        $Fname .= ' ';
+                        $name = $Fname . $name;
+                        break;
+
                     /* Nome e Sobrenome */
                     case '7':
                         for ($r=0;$r < ($TOT);$r++)

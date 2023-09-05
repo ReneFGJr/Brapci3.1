@@ -4,7 +4,7 @@ namespace App\Models\Metadata;
 
 use CodeIgniter\Model;
 
-class Abnt extends Model
+class Vancouver extends Model
 {
 	protected $DBGroup              = 'default';
 	protected $table                = 'abtns';
@@ -44,11 +44,11 @@ class Abnt extends Model
 	{
 		switch ($type) {
 			default:
-				$tela = $this->abnt_article($dt);
+				$tela = $this->vancouver_article($dt);
 		}
 		return $tela;
 	}
-	function abnt_proceeding($dt)
+	function vancouver_proceeding($dt)
 		{
 		$id = $dt['ID'];
 		if (isset($dt['title']))
@@ -143,7 +143,7 @@ class Abnt extends Model
 		}
 
 
-	function abnt_book($dt)
+	function vancouver_book($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
@@ -171,7 +171,7 @@ class Abnt extends Model
 		return $sx;
 	}
 
-	function abnt_chapter($dt)
+	function vancouver_chapter($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
@@ -222,11 +222,11 @@ class Abnt extends Model
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($dt['Authors'][$r], 2);
+					$authors .= nbr_author($dt['Authors'][$r], 3);
 				}
 				$authors .= '. ';
 			} else {
-				$authors .= nbr_author($dt['Authors'][0], 2);
+				$authors .= nbr_author($dt['Authors'][0], 3);
 				$authors .= '; <i>et al.</i> ';
 				$etal = true;
 			}
@@ -238,7 +238,7 @@ class Abnt extends Model
 		}
 
 
-	function abnt_article($dt)
+	function vancouver_article($dt)
 	{
 		if (!isset($dt['title']))
 			{
@@ -257,16 +257,25 @@ class Abnt extends Model
 
 		if (isset($dt['Journal']))
 			{
-				$tela .= '. <b>' . nbr_title($dt['Journal'], 7) . '</b>';
+				$tela .= '. ' . nbr_title($dt['Journal'], 7);
 			}
+
+		/*********************************** ANO */
+		if (isset($dt['issue']['year'])) {
+			$tela .= '. ' . trim($dt['issue']['year']);
+		} else {
+			$tela .= '. ' . '[????]';
+		}
+
+
 		/******************************** VOL */
 		if (isset($dt['issue']['issue_vol']) > 0) {
 			$nr = trim($dt['issue']['issue_vol']);
 			if (strlen($nr) > 0) {
 				if (strpos(' ' . $dt['issue']['issue_vol'], 'v.')) {
-					$tela .= ', ' . $dt['issue']['issue_vol'];
+					$tela .= '; ' . $dt['issue']['issue_vol'];
 				} else {
-					$tela .= ', v.' . $dt['issue']['issue_vol'];
+					$tela .= '; ' . trim(troca($dt['issue']['issue_vol'],'v.',''));
 				}
 			}
 		}
@@ -277,21 +286,15 @@ class Abnt extends Model
 			{
 				if (strpos(' '.$dt['issue']['Issue_nr'],'n.'))
 					{
-						$tela .= ', '. $dt['issue']['Issue_nr'];
+						$tela .= '('. trim(troca($dt['issue']['Issue_nr'],'n.','')).')';
 					} else {
-						$tela .= ', n.' . $dt['issue']['Issue_nr'];
+						$tela .= '(' . $dt['issue']['Issue_nr'].')';
 					}
 
 			}
 
 		}
 
-		if (isset($dt['issue']['year']))
-			{
-				$tela .= ', ' . trim($dt['issue']['year']);
-			} else {
-				$tela .= ', ' . '[????]';
-			}
 
 		if (isset($dt['pages'])) {
 			$tela .= ', p ' . $dt['pages'];
