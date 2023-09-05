@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row">
-    <div class="col-3 text-end"><h3 class="rdfdata">Propriedade</h3></div>
+    <div class="col-3 text-end">
+      <h3 class="rdfdata">Propriedade</h3>
+    </div>
     <div class="col-9">
       <h3 class="rdfdata">Recurso</h3>
     </div>
@@ -9,7 +11,7 @@
       <div class="col-3 text-end" *ngIf="property.key">
         {{ property.key }}
       </div>
-      <div class="col-9"  *ngIf="property.key">
+      <div class="col-9" *ngIf="property.key">
         <div [innerHTML]="property.value"></div>
       </div>
     </div>

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataComponent } from './data.component';
+import { SourceAddComponent } from './source-add.component';
 
-describe('DataComponent', () => {
-  let component: DataComponent;
-  let fixture: ComponentFixture<DataComponent>;
+describe('SourceAddComponent', () => {
+  let component: SourceAddComponent;
+  let fixture: ComponentFixture<SourceAddComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DataComponent]
+      declarations: [SourceAddComponent]
     });
-    fixture = TestBed.createComponent(DataComponent);
+    fixture = TestBed.createComponent(SourceAddComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

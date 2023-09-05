@@ -40,7 +40,7 @@ class Apa extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	//https://usp.br/sddarquivos/arquivos/vancouver.pdf
+	//https://ebape.fgv.br/sites/default/files/paginas/dez/18/apa_portugues.pdf
 
 	function show($dt, $type = 'A')
 	{

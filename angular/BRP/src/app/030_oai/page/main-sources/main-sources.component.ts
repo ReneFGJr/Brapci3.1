@@ -12,13 +12,13 @@ export class MainSourcesComponent {
     private brapciService: BrapciService
   ) {}
 
-  collection(journal: any[],type: string=''): any {
+  collection(journal: any[], type: string = ''): any {
     return journal.filter(p => p.jnl_collection === type);
   }
 
   ngOnInit()
     {
-      this.brapciService.sources('EV').subscribe(
+      this.brapciService.sources('ALL').subscribe(
         res=>
         {
           this.sources = res
