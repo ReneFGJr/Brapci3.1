@@ -338,7 +338,6 @@ class Brapci extends Model
         /************************************************* ABNT */
         $ABNT = new \App\Models\Metadata\Abnt();
         $RSP['cited']['abnt'] = $ABNT->show($dtn,substr($RSP['class'],0,1));
-        pre($RSP);
         echo json_encode($RSP);
         exit;
     }
