@@ -15,13 +15,14 @@ import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SourceAddComponent } from './040_source/page/source-add/source-add.component';
+import { HomeComponent } from './130_books/page/home/home.component';
 registerLocaleData(ptBr);
 
 //import { RouterModule } from '@angular/router';
 //import { CoreBrapciComponent } from './200_brapci/core-brapci/core-brapci.component';
 
 @NgModule({
-  declarations: [AppComponent, SourceAddComponent],
+  declarations: [AppComponent, SourceAddComponent, HomeComponent],
   imports: [
     AppRoutingModule,
     BrowserModule,
