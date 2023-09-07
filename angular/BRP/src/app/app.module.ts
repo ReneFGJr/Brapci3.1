@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 /* Modules */
 import { ThemeModule } from './010_thema/theme.module';
@@ -16,6 +17,7 @@ import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SourceAddComponent } from './040_source/page/source-add/source-add.component';
 import { HomeComponent } from './130_books/page/home/home.component';
+
 registerLocaleData(ptBr);
 
 //import { RouterModule } from '@angular/router';
@@ -31,6 +33,7 @@ registerLocaleData(ptBr);
     ThemeModule,
     CoreBrapciModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],

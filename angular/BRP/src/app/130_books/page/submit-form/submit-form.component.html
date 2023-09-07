@@ -1,4 +1,158 @@
-<h1>Autodepósito de Livros de Ciência da Informação</h1>
-<form>
+<form [formGroup]="FormBook" (submit)="onSubmit()">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <img [src]="logo_brapcilivros" style="height: 80px; float: right;">
+        <h1>Autodepósito de Livros de Ciência da Informação</h1>
+      </div>
+      <div class="col-12">
+        <div class="container">
+          <div [hidden]="submitted" class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <!--- AUTOR -->
+                <label for="b_autor" class="mt-0">{{ msg_autor }}</label>
+                <input
+                  id="b_autor"
+                  name="b_autor"
+                  class="form-control"
+                  [ngClass]="{
+                    form_valid: FormBook.value.b_autor != '',
+                    form_invalid: FormBook.value.b_autor == ''
+                  }"
+                  type="text"
+                  formControlName="b_autor"
+                />
+                <div *ngIf="!FormBook.value.b_autor">
+                  <span class="form_mandadory">Campo obrigatório</span>
+                </div>
 
+                <!--- EMAIL -->
+                <label for="b_email" class="mt-0">{{ msg_email }}</label>
+                <input
+                  id="b_email"
+                  name="b_email"
+                  class="form-control"
+                  [ngClass]="{
+                    form_valid: FormBook.value.b_email != '',
+                    form_invalid: FormBook.value.b_email == ''
+                  }"
+                  type="text"
+                  formControlName="b_email"
+                />
+                <div *ngIf="!FormBook.value.b_email">
+                  <span class="form_mandadory">Campo obrigatório</span>
+                </div>
+
+                <!--- TITLE -->
+                <label for="b_titulo" class="mt-2">{{ msg_title }}</label>
+                <textarea
+                  id="b_titulo"
+                  name="b_titulo"
+                  rows="4"
+                  [ngClass]="{
+                    form_valid: FormBook.value.b_titulo != '',
+                    form_invalid: FormBook.value.b_titulo == ''
+                  }"
+                  class="form-control"
+                  type="text"
+                  formControlName="b_titulo"
+                >
+                </textarea>
+                <div *ngIf="!FormBook.value.b_titulo">
+                  <span class="form_mandadory">Campo obrigatório</span>
+                </div>
+                <br />
+                <!--- ISBN -->
+                <label for="b_isbn" class="mt-0">{{ msg_isbn }}</label>
+                <input
+                  id="b_isbn"
+                  name="b_isbn"
+                  class="form-control form_null"
+                  style="width: 250px"
+                  type="text"
+                  formControlName="b_isbn"
+                />
+                <br />
+
+                <!--- Licenca -->
+                <label for="b_licenca" class="mt-0">{{ msg_licenca }}</label>
+                <span class="ms-5" *ngIf="!FormBook.value.b_licenca">
+                  <span class="form_mandadory">(Campo obrigatório)</span>
+                </span>
+                <table
+                  class="table"
+                  style="background-color: #fff"
+                  [ngClass]="{
+                    form_valid: FormBook.value.b_licenca != '',
+                    form_invalid: FormBook.value.b_licenca == ''
+                  }"
+                >
+                  <tr>
+                    <td class="p-2" valign="top" width="130px">
+                      <span *ngFor="let lc of cc" class="small">
+                        <input
+                          value="{{ lc.name }}"
+                          type="radio"
+                          formControlName="b_licenca"
+                          title="{{ lc.desc }}"
+                          (change)="licence_chage(lc.img, lc.desc)"
+                        />
+                        {{ lc.name }}
+                        <br />
+                      </span>
+                    </td>
+                    <td valign="top" class="p-2">
+                      <img
+                        *ngIf="licence_image"
+                        width="150"
+                        [src]="licence_image"
+                        style="float: right"
+                      />
+                      <p class="small">{{ licence_text }}</p>
+                    </td>
+                  </tr>
+                </table>
+                <br />
+                XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                <app-upload-file></app-upload-file>
+                ---------------------------
+                <br />
+                {{ FormBook.value | json }}
+                <br />
+                {{ FormBook.status }}
+              </div>
+            </div>
+            <div class="col-6">
+              <app-book-term
+                [autor]="FormBook.value.b_autor"
+                [title]="FormBook.value.b_titulo"
+                [licence]="FormBook.value.b_licenca"
+              ></app-book-term>
+              <input
+                type="checkbox"
+                id="b_termSubmit"
+                formControlName="b_termSubmit"
+              />
+              {{ msg_termAccept }}
+
+              <br />
+              <!--Submit-->
+              <button
+                [ngClass]="{
+                  'btn-outline-secondary': FormBook.status == 'INVALID',
+                  'btn-primary': FormBook.status == 'VALID'
+                }"
+                [disabled]="FormBook.status == 'INVALID'"
+                type="submit"
+                class="btn mt-3"
+              >
+                {{ msg_submit }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>

@@ -74,6 +74,11 @@ class Brapci extends Model
                 $RSP['strategy'] = array_merge($_POST, $_GET);
                 $RSP['result'] = $this->search();
                 break;
+            case 'upload':
+                $RSP = [];
+                $RSP['post'] = $_POST;
+                $RSP['files'] = $_FILES;
+                break;
             default:
                 $RSP = $this->services($RSP);
                 $RSP['verb'] = $d1;

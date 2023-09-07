@@ -7,6 +7,15 @@
 @import "./assets/base/variables";
 @import "./assets/base/style";
 
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: $bgcolor;
+}
+
+h1, h2, h3, h4 ,h5 ,h6
+  {
+    font-family: "Roboto", sans-serif;
+  }
 .link
   {
     color: #333;
@@ -47,3 +56,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/*************************************** Form */
+.termsSubmit
+  {
+    font-size: 0.8em;
+  }
+.form_mandadory
+  {
+    color: red;
+    font-size: 0.8rem;
+  }
+.form_valid
+  {
+    border: 1px solid green;
+    border-left: 5px solid green;
+    border-radius: 10px;
+  }
+.form_invalid
+  {
+    border: 1px solid red;
+    border-left: 5px solid red;
+    border-radius: 5px;
+  }
+.form_null
+  {
+    border: 1px solid #888;
+    border-left: 5px solid #888;
+    border-radius: 10px;
+  }
