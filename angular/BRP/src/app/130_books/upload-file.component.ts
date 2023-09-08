@@ -25,12 +25,8 @@ export class UploadFileComponent {
     this.loading = !this.loading;
     this.fileUploadService.upload(this.file).subscribe((event: any) => {
       console.log(event);
-      if (typeof event === 'object') {
-        // Short link via api response
-        this.shortLink = event.link;
-
-        this.loading = false; // Flag variable
-      }
+      console.log('===========')
+      console.log(event.status);
     });
   }
 }

@@ -78,6 +78,15 @@ class Brapci extends Model
                 $RSP = [];
                 $RSP['post'] = $_POST;
                 $RSP['files'] = $_FILES;
+                $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+                if (isset($_FILES['file'])) {
+                    $tmp = $_FILES['file']['tmp_name'];
+                    $file = $_FILES['file']['name'];
+                    $RSP = $TechinalProceessing->upload($file, $tmp);
+                } else {
+                    $RSP['status'] = '500';
+                    $RSP['message'] = 'Erro na leitura do arquivos enviado';
+                }
                 break;
             default:
                 $RSP = $this->services($RSP);
@@ -108,10 +117,9 @@ class Brapci extends Model
         foreach ($dt as $id => $line) {
             if ($line['jnl_collection'] == 'JA') {
                 $RSP['Revistas'] = $RSP['Revistas'] + $line['total'];
-                if ($line['jnl_historic']==1)
-                    {
+                if ($line['jnl_historic'] == 1) {
                     $RSP['Revistas Históricas'] = $RSP['Revistas Históricas'] + $line['total'];
-                    }
+                }
             }
             if ($line['jnl_collection'] == 'JE') {
                 $RSP['Revistas'] = $RSP['Revistas'] + $line['total'];
@@ -121,13 +129,11 @@ class Brapci extends Model
                 $RSP['Eventos Científicos'] = $RSP['Eventos Científicos'] + $line['total'];
             }
         }
-        foreach($RSP as $id=>$total)
-            {
-                if ($total == 0)
-                    {
-                        unset($RSP[$id]);
-                    }
+        foreach ($RSP as $id => $total) {
+            if ($total == 0) {
+                unset($RSP[$id]);
             }
+        }
         $dd = [];
         $dd['publications'] = $RSP;
         return $dd;
@@ -254,7 +260,7 @@ class Brapci extends Model
             $lk1 = $desc['d_r1'];
             $lk2 = $desc['d_r2'];
 
-            $lang = $desc['n_lang'].$desc['n_lang2'];
+            $lang = $desc['n_lang'] . $desc['n_lang2'];
 
             $lang = troca($desc['n_lang'] . $desc['n_lang2'], '-', '_');
             $vlr = trim($vlr1 . $vlr2);
@@ -263,7 +269,7 @@ class Brapci extends Model
                 $lk2 = $lk1;
             }
 
-            $data[msg('rdf.'.$class.'.'.$lang)] = $vlr;
+            $data[msg('rdf.' . $class . '.' . $lang)] = $vlr;
 
             switch ($class) {
                 case 'hasIssueOf':
@@ -330,10 +336,9 @@ class Brapci extends Model
         /************************************************* CITE */
         $dtn['title'] = $RSP['title'];
         $dtn['Authors'] = [];
-        foreach($RSP['creator_author'] as $id=>$auth)
-            {
-                array_push($dtn['Authors'],$auth['name']);
-            }
+        foreach ($RSP['creator_author'] as $id => $auth) {
+            array_push($dtn['Authors'], $auth['name']);
+        }
         $dtn['Journal'] = $RSP['publisher'];
 
         $dtn['issue']['Issue_nr'] = $RSP['issue']['nr'];
@@ -344,7 +349,7 @@ class Brapci extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $VANVOUVER = new \App\Models\Metadata\Vancouver();
         $APA = new \App\Models\Metadata\Apa();
-        $RSP['cited']['abnt'] = $ABNT->show($dtn,substr($RSP['class'],0,1));
+        $RSP['cited']['abnt'] = $ABNT->show($dtn, substr($RSP['class'], 0, 1));
         $RSP['cited']['vancouver'] = $VANVOUVER->show($dtn, substr($RSP['class'], 0, 1));
         $RSP['cited']['apa'] = $APA->show($dtn, substr($RSP['class'], 0, 1));
         echo json_encode($RSP);

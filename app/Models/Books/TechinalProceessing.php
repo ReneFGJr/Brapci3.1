@@ -210,6 +210,7 @@ class TechinalProceessing extends Model
 
     function upload($file, $tmp)
     {
+        $RSP = [];
         dircheck('.tmp/');
         dircheck('.tmp/books');
         $sx = '';
@@ -233,19 +234,21 @@ class TechinalProceessing extends Model
         $file_description .= ' <tt>' .
             number_format(filesize($tmp) / 1024 / 1024, 1) . 'Mbyte</tt>';
 
-        $dt = $this->where('tp_checksun', $data['tp_checksun'])->findAll();
+        $dt = $this->where('tp_checksun', $data['tp_checksun'])->first();
 
-        if (count($dt) == 0) {
+        if ($dt == '') {
             move_uploaded_file($tmp, $dest);
-            $this->set($data)->insert();
-            $sx .= bsmessage(lang('book.sucess_autodeosit') . ' - ' .
-                lang('sucess_autodeosit_info') .
-                '<br>' . $file_description, 1);
+            $idf = $this->set($data)->insert();
+            $RSP['status'] = '200';
+            $RSP['idf'] = $idf;
+            $RSP['message'] .= lang('book.sucess_autodeosit') . ' - ' .
+                lang('sucess_autodeosit_info');
         } else {
-            $sx .= bsmessage(lang('book.already_autodeosit') . ' - ' .
-                lang('already_autodeosit_info') .
-                '<br>' . $file_description, 3);
+            $RSP['status'] = '101';
+            $RSP['idf'] = $dt['id_tp'];
+            $RSP['message'] = lang('book.already_autodeosit') . ' - ' .
+                lang('already_autodeosit_info').' - '.$file_description;
         }
-        return $sx;
+        return $RSP;
     }
 }

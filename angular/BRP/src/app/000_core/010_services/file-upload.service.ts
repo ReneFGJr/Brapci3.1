@@ -16,9 +16,6 @@ export class FileUploadService {
 
     // Store form name as "file" with file data
     formData.append('file', file, file.name);
-
-    console.log(formData);
-
     // Make http post request over api
     // with formData as req
     console.log(this.baseApiUrl);
