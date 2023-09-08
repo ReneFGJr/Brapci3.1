@@ -1,4 +1,9 @@
-<div class="text-center">
+<div class="text-center p-2"
+    [ngClass]="{
+      form_valid: shortLink,
+      form_invalid: !shortLink
+    }"
+  >
     <input class="form-control" type="file"
             (change)="onChange($event)">
 
