@@ -9,6 +9,7 @@ import { BookSubmitFormComponent } from './page/submit-form/submit-form.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookTermComponent } from './page/term/term.component';
 import { UploadFileComponent } from './upload-file.component';
+import { BookSubmitBottomComponent } from './gadget/book-submit-bottom/book-submit-bottom.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { UploadFileComponent } from './upload-file.component';
     BookSubmitFormComponent,
     BookTermComponent,
     UploadFileComponent,
+    BookSubmitBottomComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
