@@ -211,8 +211,8 @@ class TechinalProceessing extends Model
     function upload($file, $tmp)
     {
         $RSP = [];
-        dircheck('.tmp/');
-        dircheck('.tmp/books');
+        dircheck('../.tmp/');
+        dircheck('../.tmp/books');
         $sx = '';
 
         /******************* Extension */
@@ -225,7 +225,7 @@ class TechinalProceessing extends Model
         $data['tp_user'] = $user;
         $data['tp_ip'] = ip();
         $data['tp_status'] = 0;
-        $dest = '.tmp/books/' . $data['tp_checksun'] . '.' . $ext;
+        $dest = '../.tmp/books/' . $data['tp_checksun'] . '.' . $ext;
         $data['tp_up'] = $dest;
 
 
@@ -241,8 +241,7 @@ class TechinalProceessing extends Model
             $idf = $this->set($data)->insert();
             $RSP['status'] = '200';
             $RSP['idf'] = $idf;
-            $RSP['message'] .= lang('book.sucess_autodeosit') . ' - ' .
-                lang('sucess_autodeosit_info');
+            $RSP['message'] = lang('book.sucess_autodeosit') . ' - ' . lang('sucess_autodeosit_info');
         } else {
             $RSP['status'] = '101';
             $RSP['idf'] = $dt['id_tp'];

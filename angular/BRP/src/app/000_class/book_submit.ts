@@ -6,6 +6,7 @@ export class BookSubmit {
     public b_source: string = '',
     public b_rdf: number = 0,
     public b_user: number = 0,
+    public b_pdf: number = 0,
     public b_termSubmit: string = ''
   ) {}
 }

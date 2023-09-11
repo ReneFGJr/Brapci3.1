@@ -1,5 +1,5 @@
 import { FileUploadService } from './../000_core/010_services/file-upload.service';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-upload-file',
@@ -8,15 +8,17 @@ import { Component } from '@angular/core';
 export class UploadFileComponent {
   constructor(private fileUploadService: FileUploadService) {}
 
+  @Output() newItemEvent = new EventEmitter<string>();
+
   // Variable to store shortLink from api response
   shortLink: string = '';
   loading: boolean = false; // Flag variable
-  public file:File | any; // Variable to store file
+  public file: File | any; // Variable to store file
 
   ngOnInit(): void {}
 
   // On file Select
-  onChange(event:any) {
+  onChange(event: any) {
     this.file = event.target.files[0];
   }
 
@@ -24,9 +26,8 @@ export class UploadFileComponent {
   onUpload() {
     this.loading = !this.loading;
     this.fileUploadService.upload(this.file).subscribe((event: any) => {
-      console.log(event);
-      console.log('===========')
-      console.log(event.status);
+      this.newItemEvent.emit(event.idf);
+      this.shortLink = 'ok';
     });
   }
 }

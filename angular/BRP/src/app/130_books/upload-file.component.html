@@ -1,4 +1,5 @@
 <div class="text-center p-2"
+    *ngIf="!shortLink"
     [ngClass]="{
       form_valid: shortLink,
       form_invalid: !shortLink
@@ -15,7 +16,11 @@
 
 <!-- Shareable short link of  uploaded file -->
 <div class="container text-center jumbotron"
-    *ngIf="shortLink">
+    *ngIf="shortLink"
+    [ngClass]="{
+      form_valid: shortLink,
+      form_invalid: !shortLink
+    }"    >
     <h2> Visit Here</h2>
     <a href="{{shortLink}}">{{shortLink}}</a>
 </div>

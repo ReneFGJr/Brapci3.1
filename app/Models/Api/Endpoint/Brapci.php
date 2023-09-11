@@ -75,23 +75,37 @@ class Brapci extends Model
                 $RSP['result'] = $this->search();
                 break;
             case 'upload':
-                $RSP = [];
-                $RSP['post'] = $_POST;
-                $RSP['files'] = $_FILES;
-                $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
-                if (isset($_FILES['file'])) {
-                    $tmp = $_FILES['file']['tmp_name'];
-                    $file = $_FILES['file']['name'];
-                    $RSP = $TechinalProceessing->upload($file, $tmp);
-                } else {
-                    $RSP['status'] = '500';
-                    $RSP['message'] = 'Erro na leitura do arquivos enviado';
-                }
+                $this->upload();
                 break;
             default:
                 $RSP = $this->services($RSP);
                 $RSP['verb'] = $d1;
                 break;
+        }
+        echo json_encode($RSP);
+        exit;
+    }
+
+    function upload()
+    {
+        $RSP = [];
+        $RSP['action'] = "POST";
+
+        $RSP['post'] = $_POST;
+        $RSP['files'] = $_FILES;
+        $RSP['message'] = 'Problema no envio';
+
+        $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
+        if (isset($_FILES['file'])) {
+            $tmp = $_FILES['file']['tmp_name'];
+            $file = $_FILES['file']['name'];
+            $RSP = $TechinalProceessing->upload($file, $tmp);
+            $RSP['message'] = 'Sucesso';
+            $RSP['fileID'] = 1;
+        } else {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Erro na leitura do arquivos enviado';
+            $RSP['fileId'] = 0;
         }
         echo json_encode($RSP);
         exit;
