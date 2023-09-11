@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FileUploadService {
-  baseApiUrl = 'http://brp/api/brapci/upload';
+  baseApiUrl = 'http://cip.brapci.inf.br/api/brapci/upload';
   constructor(private http: HttpClient) {}
 
   // Returns an observable

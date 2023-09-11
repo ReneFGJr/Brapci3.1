@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BrapciService } from '../../service/brapci.service';
+import { BrapciService } from '../../../000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-brapci-banner',

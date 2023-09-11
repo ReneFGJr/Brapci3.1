@@ -1,4 +1,4 @@
-import { BrapciService } from './../../../020_brapci/service/brapci.service';
+import { BrapciService } from '../../../000_core/010_services/brapci.service';
 import { Component } from '@angular/core';
 import {
   FormGroup,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BrapciService } from 'src/app/020_brapci/service/brapci.service';
+import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-main-sources',

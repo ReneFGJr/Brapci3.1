@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { BrapciService } from '../../service/brapci.service';
+import { BrapciService } from '../../../000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-search-brapci',
