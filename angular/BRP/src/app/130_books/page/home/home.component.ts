@@ -6,6 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  public header:Array<any>|any
+  constructor()
+    {
+      this.header = {title:'Brapci Livros'};
+    }
 ngOnInit()
   {
     console.log("Hello BOOKS")

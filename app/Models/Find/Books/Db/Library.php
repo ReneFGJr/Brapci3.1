@@ -45,6 +45,47 @@ class Library extends Model
     protected $afterDelete    = [];
     var $library = [];
 
+    function index($d1,$d2)
+        {
+            $sx = '';
+            switch($d1)
+                {
+                    case 'view':
+                        $sx .= $this->view($d2);
+                        break;
+                    case 'edit':
+                    break;
+                    default:
+                        $sx = $this->row();
+                        break;
+                }
+            return $sx;
+        }
+
+        function view($id)
+            {
+                $dt = $this->find($id);
+                pre($dt);
+            }
+
+        function row()
+            {
+                $dt = $this->orderby('lb_name')->findAll();
+                $sx = '<ul>';
+                foreach($dt as $id=>$line)
+                    {
+                        $sx .= '<li>'.
+                            '<a href="'.URL.'/admin/find/library/view/'.$line['id_lb'].'">' .
+                            '<img src="'.URL.'/'.$line['lb_logo'].'" height="40px">' .
+                            $line['lb_name'].
+                            '</a>'.
+                            '</li>';
+                    }
+                $sx .= '</ul>';
+                return $sx;
+
+            }
+
     function libraries()
         {
             $dt = $this->findAll();

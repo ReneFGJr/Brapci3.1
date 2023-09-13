@@ -27,6 +27,7 @@ export class BookSubmitFormComponent {
   public msg_autor = 'Nome completo do autor';
   public msg_email = 'Informe seu e-mail do autor';
   public msg_licenca = 'Informe a licença da obra';
+  public msg_check01 = 'Sou o autor ou organizador';
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -101,6 +102,7 @@ export class BookSubmitFormComponent {
       b_pdf: new FormControl('', [Validators.required]),
       b_user: new FormControl(''),
       b_termSubmit: new FormControl('', Validators.required),
+      b_check_01: new FormControl('', Validators.required),
     });
   }
 
@@ -117,7 +119,7 @@ export class BookSubmitFormComponent {
   }
 
   addPDF(newItem: string) {
-    console.log("=========FILE=======")
+    console.log('=========FILE=======');
     console.log(newItem);
     this.FormBook.controls['b_pdf'].setValue(newItem);
   }

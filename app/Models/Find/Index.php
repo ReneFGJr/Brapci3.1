@@ -48,6 +48,9 @@ class Index extends Model
         $b['Find']= PATH.'/admin/find/';
         $sx = breadcrumbs($b);
         switch ($d1) {
+            case 'library':
+                $sx .= $this->library($d2,$d3);
+                break;
             case 'clear':
                 $sx .= $this->clear_catalog();
                 break;
@@ -77,6 +80,7 @@ class Index extends Model
                 $sx .= $this->getId($d2);
                 break;
             default:
+                $menu[PATH . 'admin/find/library'] = 'Bibliotecas';
                 $menu[PATH . 'admin/find/form'] = 'Form Imput ISBN';
                 $menu[PATH . 'admin/find/inport'] = 'Find Import';
                 $menu[PATH . '/admin/find/resume'] = 'Find Books Cataloged';
@@ -87,6 +91,12 @@ class Index extends Model
         $sx = bs(bsc($sx, 12));
         return $sx;
     }
+
+    function library($d1,$d2)
+        {
+            $Library = new \App\Models\Find\Books\Db\Library();
+            return $Library->index($d1,$d2);
+        }
 
     function clear_catalog()
         {

@@ -116,11 +116,16 @@
                 <br />
                 <!----------- ARQUIVO -->
                 <app-upload-file (newItemEvent)="addPDF($event)"></app-upload-file>
-                ---------------------------
-                <br />
-                {{ FormBook.value | json }}
-                <br />
-                {{ FormBook.status }}
+
+                <!--- CHECKED -->
+                <br/>
+                <input
+                      value="1"
+                      type="checkbox"
+                      formControlName="b_check_01"
+                      title="{{msg_check01}}"
+                />
+                <label class="ms-1">{{ msg_check01 }}</label>
               </div>
             </div>
             <div class="col-12 col-lg-6">
