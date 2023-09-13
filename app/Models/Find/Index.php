@@ -79,11 +79,16 @@ class Index extends Model
                 $sx .= h('CATALOG', 3);
                 $sx .= $this->getId($d2);
                 break;
+            case 'elastic':
+                $ES = new \App\Models\Find\Books\Db\ElasticSearch();
+                $sx .= $ES->reindex();
+                break;
             default:
                 $menu[PATH . 'admin/find/library'] = 'Bibliotecas';
                 $menu[PATH . 'admin/find/form'] = 'Form Imput ISBN';
+                $menu[PATH . 'admin/find/elastic'] = 'Export ElasticSearch';
                 $menu[PATH . 'admin/find/inport'] = 'Find Import';
-                $menu[PATH . '/admin/find/resume'] = 'Find Books Cataloged';
+                $menu[PATH . '/admin/find/resume'] = 'Find Books Cataloged - Trunk';
                 $menu[PATH . '/admin/find/clear'] = '** Clear Catalog **';
                 $menu[PATH . '/admin/find/angular'] = 'Find Simulate Angular';
                 $sx .= menu($menu);

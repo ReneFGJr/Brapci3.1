@@ -275,6 +275,12 @@ class Find extends Model
                 }
             return $RSP;
         }
+    function z3950($d1,$d2)
+        {
+            $Z3950 = new \App\Models\Find\Books\Db\Z3950();
+            $RSP = $Z3950->index($d1,$d2);
+            exit;
+        }
 
     function index($d1, $d2 = '', $d3 = '')
     {
@@ -284,6 +290,9 @@ class Find extends Model
         $RSP = [];
 
         switch ($d1) {
+            case 'z39.50':
+                $RSP = $this->z3950($d2,$d3);
+                break;
             case 'saveRDF':
                 $RSP = $this->saveRDF();
                 break;
