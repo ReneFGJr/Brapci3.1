@@ -45,68 +45,86 @@ class Z3950 extends Model
     // http://z3950.loc.gov:7090/voyager?version=1.1&operation=searchRetrieve&query=%22ciencia%20da%20informacao%22&maximumRecords=5&recordSchema=mods
 
     function str($string)
-        {
+    {
         $string = xml_convert($string);
         return $string;
+    }
+
+    function index($d1, $d2)
+    {
+        switch ($d1) {
+            default:
+                $RSP = $this->collections();
         }
+        // CREATING XML OBJECT
 
-    function index($d1,$d2)
-        {
-            switch($d1)
-                {
-                    default:
-                        $RSP = $this->collections();
-                }
-            // CREATING XML OBJECT
-
-            $xml = new \DOMDocument('1.0', "UTF-8");
+        $xml = new \DOMDocument('1.0', "UTF-8");
 
         /* NameSpace */
-            $root = $xml->createElementNS('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
-            $xml->appendChild($root);
+        $root = $xml->createElementNS('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
+        $xml->appendChild($root);
 
-            $root = $xml->createElement('zs:version', '2.0');
-            $xml->appendChild($root);
+        $root = $xml->createElement('zs:version', '2.0');
 
-            $element1 = $xml->createElement('element1', 'Conteúdo do elemento 1');
-            $root->appendChild($element1);
-
-            header("Content-type: text/xml");
 
         // Crie um objeto DOMDocument
         $xml = new \DOMDocument('1.0', 'UTF-8');
 
         // Crie o elemento raiz
-        $root = $xml->createElement('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
-        $xml->appendChild($root);
-        $root = $xml->createElement('zs:explainResponse');
+        $root = $xml->createElementNS('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
         $xml->appendChild($root);
 
         // Crie elementos e adicione-os como filhos do elemento raiz
-        $element1 = $xml->createElement('element1', 'Conteúdo do elemento 1');
+        $element1 = $xml->createElement('zs:version', '2.0');
         $root->appendChild($element1);
 
-        $element2 = $xml->createElement('element2', 'Conteúdo do elemento 2');
-        $root->appendChild($element2);
+        $record = $xml->createElement('zs:record');
+        $root->appendChild($record);
 
         // Crie subelementos e adicione-os como filhos de outros elementos
-        $subelement = $xml->createElement('subelement', 'Conteúdo do subelemento');
-        $element1->appendChild($subelement);
+        $subelement = $xml->createElement('zs:recordSchema', 'http://explain.z3950.org/dtd/2.0/');
+        $record->appendChild($subelement);
+
+        $subelement = $xml->createElement('zs:recordXMLEscaping', 'xml');
+        $record->appendChild($subelement);
+
+        $data = $xml->createElement('zs:recordData');
+        $record->appendChild($data);
+
+            $explain = $xml->createElementNS('http://explain.z3950.org/dtd/2.0/', 'explain');
+            $data->appendChild($explain);
+
+                $serverInfo = $xml->createElement('serverInfo');
+                $explain->appendChild($serverInfo);
+
+                    $host = $xml->createElement('host','cip.brapci.inf.br/api/');
+                    $serverInfo->appendChild($host);
+
+                    $host = $xml->createElement('port', '443');
+                    $serverInfo->appendChild($host);
+
+                $databaseInfo = $xml->createElement('databaseInfo');
+                $explain->appendChild($databaseInfo);
+
+                    $title = $xml->createElement('title', 'FIND by Brapci');
+                    $databaseInfo->appendChild($title);
+
 
         // Saída do XML
         $xmlString = $xml->saveXML();
+
+        header("Content-type: text/xml");
         echo $xmlString;
 
-            //echo $xml->saveXML();
-            exit;
-        }
+        exit;
+    }
 
     function collections()
-        {
-            $dt = [];
-            $dt['zs:version'] = 2.0;
-            return $dt;
-        }
+    {
+        $dt = [];
+        $dt['zs:version'] = 2.0;
+        return $dt;
+    }
 
     // XML BUILD RECURSIVE FUNCTION
     function array_to_xml($array, &$xml)
@@ -124,5 +142,4 @@ class Z3950 extends Model
             }
         }
     }
-
 }
