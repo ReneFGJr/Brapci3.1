@@ -53,9 +53,22 @@ class Z3950 extends Model
     function index($d1, $d2)
     {
         switch ($d1) {
+            case 'find':
+                $xml = $this->database($d1);
+                break;
             default:
-                $RSP = $this->collections();
+                $xml = $this->server($d1);
         }
+        $xmlString = $xml->saveXML();
+
+        header("Content-type: text/xml");
+        echo $xmlString;
+
+        exit;
+    }
+
+    function server($database)
+    {
         // CREATING XML OBJECT
 
         $xml = new \DOMDocument('1.0', "UTF-8");
@@ -91,32 +104,164 @@ class Z3950 extends Model
         $data = $xml->createElement('zs:recordData');
         $record->appendChild($data);
 
-            $explain = $xml->createElementNS('http://explain.z3950.org/dtd/2.0/', 'explain');
-            $data->appendChild($explain);
+        $explain = $xml->createElementNS('http://explain.z3950.org/dtd/2.0/', 'explain');
+        $data->appendChild($explain);
 
-                $serverInfo = $xml->createElement('serverInfo');
-                $explain->appendChild($serverInfo);
+        $serverInfo = $xml->createElement('serverInfo');
+        $explain->appendChild($serverInfo);
+        $att = $xml->createAttribute('protocol');
+        $att->value = 'SRU';
+        $serverInfo->appendChild($att);
 
-                    $host = $xml->createElement('host','cip.brapci.inf.br/api/');
-                    $serverInfo->appendChild($host);
+        $host = $xml->createElement('host', 'cip.brapci.inf.br/api/');
+        $serverInfo->appendChild($host);
 
-                    $host = $xml->createElement('port', '443');
-                    $serverInfo->appendChild($host);
+        $host = $xml->createElement('port', '443');
+        $serverInfo->appendChild($host);
 
-                $databaseInfo = $xml->createElement('databaseInfo');
-                $explain->appendChild($databaseInfo);
+        if ($database=='') { $database = 'Default'; }
+        $host = $xml->createElement('database', $database);
+        $serverInfo->appendChild($host);
 
-                    $title = $xml->createElement('title', 'FIND by Brapci');
-                    $databaseInfo->appendChild($title);
+        $total = $xml->createElement('zs:recordPosition',1);
+        $record->appendChild($total);
+
+        $xml = $this->parameter($xml,$root);
+
+        return $xml;
+    }
+
+    function parameter($xml,$root)
+    {
+        if (count($_GET) > 0) {
+            $fld = $_GET;
+
+            $query = $xml->createElement('zs:echoedSearchRetrieveRequest');
+            $root->appendChild($query);
+
+            $_GET['recordPacking'] = 'xml';
+            foreach ($_GET as $fld => $value) {
+                $get = $xml->createElement('zs:' . $fld, $value);
+                $query->appendChild($get);
+            }
+        }
+        return $xml;
+    }
+    function database($d1)
+    {
+        // CREATING XML OBJECT
+
+        $xml = new \DOMDocument('1.0', "UTF-8");
+
+        /* NameSpace */
+        $root = $xml->createElementNS('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
+        $xml->appendChild($root);
+
+        $root = $xml->createElement('zs:version', '2.0');
 
 
-        // Saída do XML
-        $xmlString = $xml->saveXML();
+        // Crie um objeto DOMDocument
+        $xml = new \DOMDocument('1.0', 'UTF-8');
 
-        header("Content-type: text/xml");
-        echo $xmlString;
+        // Crie o elemento raiz
+        $root = $xml->createElementNS('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
+        $xml->appendChild($root);
 
-        exit;
+        // Crie elementos e adicione-os como filhos do elemento raiz
+        $element1 = $xml->createElement('zs:version', '2.0');
+        $root->appendChild($element1);
+
+        $record = $xml->createElement('zs:record');
+        $root->appendChild($record);
+
+        // Crie subelementos e adicione-os como filhos de outros elementos
+        $subelement = $xml->createElement('zs:recordSchema', 'http://explain.z3950.org/dtd/2.0/');
+        $record->appendChild($subelement);
+
+        $subelement = $xml->createElement('zs:recordXMLEscaping', 'xml');
+        $record->appendChild($subelement);
+
+        $data = $xml->createElement('zs:recordData');
+        $record->appendChild($data);
+
+        $explain = $xml->createElementNS('http://explain.z3950.org/dtd/2.0/', 'explain');
+        $data->appendChild($explain);
+
+        $serverInfo = $xml->createElement('serverInfo');
+        $explain->appendChild($serverInfo);
+
+        $host = $xml->createElement('host', 'cip.brapci.inf.br/api/');
+        $serverInfo->appendChild($host);
+
+        $host = $xml->createElement('port', '443');
+        $serverInfo->appendChild($host);
+
+        $databaseInfo = $xml->createElement('databaseInfo');
+        $explain->appendChild($databaseInfo);
+
+        $title = $xml->createElement('title', 'FIND by Brapci');
+        $databaseInfo->appendChild($title);
+
+        $databaseInfo = $xml->createElement('databaseInfo');
+        $explain->appendChild($databaseInfo);
+
+        if (count($_GET) > 0) {
+            $fld = $_GET;
+
+            $query = $xml->createElement('zs:echoedSearchRetrieveRequest');
+            $root->appendChild($query);
+
+            $_GET['recordPacking'] = 'xml';
+            foreach ($_GET as $fld => $value) {
+                $get = $xml->createElement('zs:' . $fld, $value);
+                $query->appendChild($get);
+            }
+            }
+        $schemaInfo = $xml->createElement('zs:schemaInfo');
+        $data->appendChild($schemaInfo);
+        $sch = [];
+        $sc = [];
+        $sc['name'] = 'marcxml';
+        $sc['sort'] = 'false';
+        $sc['identifier'] = 'http://www.loc.gov/MARC21/slim';
+        $sc['title'] = 'MARCXML v 1.1';
+        array_push($sch,$sc);
+
+        $sc['name'] = 'dc';
+        $sc['sort'] = 'false';
+        $sc['identifier'] = 'http://purl.org/dc/elements/1.1/';
+        $sc['title'] = 'Dublin Core v 1.1';
+        array_push($sch, $sc);
+
+        $sc['name'] = 'mods';
+        $sc['sort'] = 'false';
+        $sc['identifier'] = 'http://www.loc.gov/standards/mods/v3';
+        $sc['title'] = 'MODS v 3.8';
+        array_push($sch, $sc);
+
+        foreach($sch as $id=>$dx)
+            {
+                $schemaNM = $xml->createElement('schema');
+                foreach($dx as $idx=>$vlx)
+                    {
+                        if ($idx != 'title')
+                        {
+                            $schemaInfo->appendChild($schemaNM);
+                            $att = $xml->createAttribute($idx);
+                            $att->value = $vlx;
+                            $schemaNM->appendChild($att);
+                        } else {
+                            $title = $xml->createElement('title',$vlx);
+                            $schemaNM->appendChild($title);
+                        }
+
+                    }
+
+            }
+
+
+
+        return $xml;
     }
 
     function collections()
