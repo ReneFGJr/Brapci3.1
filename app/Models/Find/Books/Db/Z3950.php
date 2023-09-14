@@ -147,6 +147,8 @@ class Z3950 extends Model
         }
         return $xml;
     }
+
+    /******************************************************************* DATABASE */
     function database($d1)
     {
         // CREATING XML OBJECT
@@ -202,8 +204,41 @@ class Z3950 extends Model
         $title = $xml->createElement('title', 'FIND by Brapci');
         $databaseInfo->appendChild($title);
 
+        $desc = $xml->createElement('description', 'Base interoperável de livros');
+        $databaseInfo->appendChild($desc);
+
+        $att = $xml->createAttribute('lang');
+        $att->value = 'pt-BR';
+        $desc->appendChild($att);
+
+        $att = $xml->createAttribute('primart');
+        $att->value = 'true';
+        $desc->appendChild($att);
+
         $databaseInfo = $xml->createElement('databaseInfo');
         $explain->appendChild($databaseInfo);
+
+        /*************************************************** indexInfo */
+        $atd = $xml->createElement('indexInfo');
+        $explain->appendChild($atd);
+        $ii = [];
+        $ii['cql'] = 'info:srw/cql-context-set/1/cql-v1.1';
+        $ii['dc'] = 'info:srw/cql-context-set/1/dc-v1.1';
+        $ii['bath'] = 'http://zing.z3950.org/cql/bath/2.0';
+        $ii['local'] = 'http://zing.z3950.org/cql/local/1.1';
+        foreach($ii as $idi=>$namei)
+            {
+                $ati = $xml->createElement('set');
+                $atd->appendChild($ati);
+
+                $att = $xml->createAttribute('identifier');
+                $att->value = $namei;
+                $ati->appendChild($att);
+
+                $att = $xml->createAttribute('name');
+                $att->value = $idi;
+                $ati->appendChild($att);
+            }
 
         if (count($_GET) > 0) {
             $fld = $_GET;
