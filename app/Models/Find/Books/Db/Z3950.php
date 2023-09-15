@@ -54,7 +54,14 @@ class Z3950 extends Model
     {
         switch ($d1) {
             case 'find':
-                $xml = $this->database($d1);
+                $q = get("query");
+                if ($q != '')
+                    {
+                        $xml = $this->query();
+                    } else {
+                        $xml = $this->database($d1);
+                    }
+
                 break;
             default:
                 $xml = $this->server($d1);
@@ -66,6 +73,38 @@ class Z3950 extends Model
 
         exit;
     }
+
+    function query()
+        {
+            $xml = new \DOMDocument('1.0', "UTF-8");
+
+            // Crie o elemento raiz
+            $root = $xml->createElementNS('http://docs.oasis-open.org/ns/search-ws/sruResponse', 'zs:explainResponse');
+            $xml->appendChild($root);
+
+            $version = $xml->createElement('zs:version', '1.1');
+            $root->appendChild($version);
+
+            // Crie elementos e adicione-os como filhos do elemento raiz
+            $record = $xml->createElement('zs:record');
+            $root->appendChild($record);
+
+            $recordSchema = $xml->createElement('zs:recordSchema','mods');
+            $record->appendChild($recordSchema);
+
+            $recordSchema = $xml->createElement('zs:recordPacking', 'xml');
+            $record->appendChild($recordSchema);
+
+            // Crie elementos e adicione-os como filhos do elemento raiz
+            $record = $xml->createElement('zs:recordData');
+            $root->appendChild($record);
+
+            /***************************** RESPOSTA */
+
+
+            return $xml;
+
+        }
 
     function server($database)
     {
