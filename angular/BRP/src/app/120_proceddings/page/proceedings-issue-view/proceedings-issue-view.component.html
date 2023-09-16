@@ -14,8 +14,9 @@
 <div class="col-4">RRR</div>
 
 <div class="col-8">WORKS
-  <ol class="mt-2" style="margin: 0; padding: 0;">
-  <li *ngFor="let item of source.works" class=" mb-3">
+  <ol class="mt-2" style="margin: 0; padding: 0;" *ngFor="let works of source.works">
+  {{works | json}}
+  <li *ngFor="let item of works" class=" mb-3">
       <a [routerLink]="['/v/'+item.siw_work_rdf]" class="link" routerLinkActive="router-link-active">
       <span class="link bold">{{item.ldl_title}}</span><br/>
       </a>

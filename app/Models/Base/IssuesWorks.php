@@ -144,20 +144,41 @@ class IssuesWorks extends Model
 
         $wkk = [];
 
+        $secs = [];
+        $ct = -1;
+
         foreach($wk as $id=>$line)
             {
                 $sec = $line['ldl_section'];
-                if (!isset($wkk[$sec]))
+                if (!isset($secs[$sec]))
                     {
-                        $wkk[$sec] = [];
+                        $ct++;
+                        $secs[$sec] = $ct;
+                        $wkk[$ct]['name'] = $sec;
+                        $wkk[$ct]['works'] = [];
+                        $id = $ct;
+                    } else {
+                        $id = $secs[$sec];
                     }
+
                 $wl = [];
                 $wl['ldl_authors'] = $line['ldl_authors'];
-                $wl['ldl_section'] = $line['ldl_section'];
                 $wl['ldl_title'] = $line['ldl_title'];
                 $wl['siw_work_rdf'] = $line['siw_work_rdf'];
+                $page = '';
+                if ($line['siw_pag_ini'] != '')
+                    {
+                        $page = $line['siw_pag_ini'];
+                    }
+                if ($line['siw_pag_end'] != '') {
+                    $page ='-'.$line['siw_pag_end'];
+                }
 
-                array_push($wkk[$sec], $wl);
+                $wl['page'] = $page;
+
+                array_push($wkk[$ct]['works'], $wl);
+
+
             }
         return $wkk;
         }
