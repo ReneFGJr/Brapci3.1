@@ -139,7 +139,7 @@ class IssuesWorks extends Model
         $wk = $this
             ->join('brapci_elastic.dataset', 'siw_work_rdf = article_id')
             ->where('siw_issue', $id)
-            ->orderby('siw_pag_ini, siw_work_rdf')
+            ->orderby('siw_pag_ini, ldl_sesction, siw_work_rdf')
             ->findAll();
         return $wk;
         }
