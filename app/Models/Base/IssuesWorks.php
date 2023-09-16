@@ -141,7 +141,25 @@ class IssuesWorks extends Model
             ->where('siw_issue', $id)
             ->orderby('siw_pag_ini, ldl_section, siw_work_rdf')
             ->findAll();
-        return $wk;
+
+        $wkk = [];
+
+        foreach($wk as $id=>$line)
+            {
+                $sec = $line['ldl_section'];
+                if (!isset($wkk[$sec]))
+                    {
+                        $wkk[$sec] = [];
+                    }
+                $wl = [];
+                $wl['ldl_authors'] = $line['ldl_authors'];
+                $wl['ldl_section'] = $line['ldl_section'];
+                $wl['ldl_title'] = $line['ldl_title'];
+                $wl['siw_work_rdf'] = $line['siw_work_rdf'];
+
+                array_push($wkk[$sec], $wl);
+            }
+        return $wkk;
         }
 
     function check($dd)
