@@ -15,14 +15,17 @@
 
 <div class="col-8">WORKS
   <ol class="mt-2" style="margin: 0; padding: 0;" *ngFor="let works of source.works">
-  {{works | json}}
-  <li *ngFor="let item of works" class=" mb-3">
+
+  <h3>{{works.name}}</h3>
+
+  <li *ngFor="let item of works.works" class="fadeIn mb-3">
       <a [routerLink]="['/v/'+item.siw_work_rdf]" class="link" routerLinkActive="router-link-active">
       <span class="link bold">{{item.ldl_title}}</span><br/>
       </a>
       <i>{{item.ldl_authors}}</i>
       {{item.siw_pag_ini}} <span *ngIf="item.siw_pag_end">-</span>{{item.siw_pag_end}}
   </li>
+
   </ol>
 
 </div>
