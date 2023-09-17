@@ -11,7 +11,6 @@ export class BannerArticleComponent {
   @Input() public cover: string = '';
   ngOnInit()
     {
-      console.log("==============xxxxxxxxxxxxxxx==============")
-      console.log(this.section);
+
     }
 }

@@ -24,6 +24,7 @@ import { IndicadoresComponent } from './page/indicadores/indicadores.component';
 import { DataVComponent } from './page/v/data/data.component';
 import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
 import { CiteComponent } from './page/v/cite.component';
+import { BrapciProceedingComponent } from './page/v/proceeding/proceeding.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { CiteComponent } from './page/v/cite.component';
     DataVComponent,
     PlumxComponent,
     CiteComponent,
+    BrapciProceedingComponent,
   ],
   imports: [
     CommonModule,
