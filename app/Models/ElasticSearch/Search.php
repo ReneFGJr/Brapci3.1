@@ -59,7 +59,6 @@ class Search extends Model
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
                         } else {
                             $ds['id'] = $ida;
-                            $ds['q'] = $Search->getlastquery();
                             echo $Search->getlastquery().'<br>';
                         }
 
