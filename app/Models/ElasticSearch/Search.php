@@ -50,18 +50,10 @@ class Search extends Model
             foreach($dt['works'] as $id=>$line)
                 {
                     $ida = $line['id'];
-                    if ($line['collection'] == 'AR')
-                    {
-                        $ds = $Search
+                    $ds = $Search
                             ->join('brapci.source_source', 'dataset.id_jnl = source_source.jnl_frbr')
                             ->where('article_id',$ida)
                             ->first();
-                    } else {
-                        $ds = $Search
-                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.id_jnl')
-                            ->where('article_id', $ida)
-                            ->first();
-                    }
                     if ($ds != '')
                         {
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
