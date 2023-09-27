@@ -173,6 +173,9 @@ class Search extends Model
 
         /* Mostra resultados ****************************************************/
         $rsp = array();
+        $rsp['data'] = $data;
+        $rsp['url'] = $url;
+
 
         if (isset($dt['error']))
             {
@@ -224,8 +227,6 @@ class Search extends Model
             }
         }
 
-        $rsp['q'] = $data;
-        $rsp['url'] = $url;
         return $rsp;
     }
 }
