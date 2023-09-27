@@ -161,6 +161,7 @@ class Search extends Model
         /* Journals */
         $data['query']['bool']['must'][1]['match']['id_jnl'] = '75 1 2 3';
 
+
         /* RANGE ******************************************* Only one */
         $data['query']['bool']['filter']['range']['year']['gte'] = ((int)trim(get("di"))-1);
         $data['query']['bool']['filter']['range']['year']['lte'] = ((int)trim(get("df"))+1);
@@ -222,6 +223,8 @@ class Search extends Model
                 }
             }
         }
+
+        $rsp['q'] = $_POST;
         return $rsp;
     }
 }
