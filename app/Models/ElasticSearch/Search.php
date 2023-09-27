@@ -91,7 +91,7 @@ class Search extends Model
 
         $strategy = [];
         //$strategy['must']['term']['full'] = ascii($qs);
-        $strategy['must']['match']['full'] = ascii($qs);
+        $strategy['must'][0]['match']['full'] = ascii($qs);
 
         /******************** Fields */
         $flds = round('0' . get("field"));
@@ -135,19 +135,19 @@ class Search extends Model
         switch ($type) {
             case 'autoridade':
                 $url = 'brapci3.1/_search';
-                $filter['match']['collection'] = 'AC';
+                $data['query']['bool']['must'][1]['match']['collection'] = 'AC';
                 break;
             case 'person':
                 $url = 'brapci3.1/_search';
-                $filter['match']['collection'] = 'AU';
+                $data['query']['bool']['must'][1]['match']['collection'] = 'AU';
                 break;
             case 'books':
                 $url = 'brapci3.1/_search';
-                $filter['match']['collection'] = 'BK';
+                $data['query']['bool']['must'][1]['match']['collection'] = 'BK';
                 break;
             case 'benancib':
                 $url = 'brapci3.1/_search';
-                $filter['match']['id_jnl'] = 75;
+                $data['query']['bool']['must'][1]['match']['id_jnl'] = 75;
                 break;
             default:
                 //$url = 'brp2/_search';
@@ -158,36 +158,17 @@ class Search extends Model
 
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
-        if (isset($filter))
-            {
-                $data['query']['bool']['filter'] = $filter;
-            }
-
+        /* Journals */
+        $data['query']['bool']['must'][1]['match']['id_jnl'] = '75 1 2 3';
 
         /* RANGE ******************************************* Only one */
-        //$data['query']['range']['year']['gte'] = (int)trim(get("di"));
-        //$data['query']['range']['year']['lte'] = (int)trim(get("df"));
-        //$data['query']['range']['year']['boost'] = 2.0;
-
-        //$data['filter']['range']['year']['gte'] = (int)trim(get("di"));
-        //$data['filter']['range']['year']['lte'] = (int)trim(get("df"));
-        //$data['filter']['range']['year']['boost'] = 2.0;
-
-        $data['query']['bool']['filter']['year']['gte'] = (int)trim(get("di"));
-        $data['query']['bool']['filter']['year']['lte'] = (int)trim(get("df"));
-        $data['query']['bool']['filter']['year']['boost'] = 2.0;
-
-        $data['query']['bool']['filter']['year']['gte'] = 1972;
-        $data['query']['bool']['filter']['year']['lte'] = 2024;
-        $data['query']['bool']['filter']['year']['boost'] = 2.0;
-
-        echo h($url);
-
-        pre($data,false);
+        $data['query']['bool']['filter']['range']['year']['gte'] = ((int)trim(get("di"))-1);
+        $data['query']['bool']['filter']['range']['year']['lte'] = ((int)trim(get("df"))+1);
+        $data['query']['bool']['filter']['range']['year']['boost'] = 2.0;
 
 
         $dt = $API->call($url, $method, $data);
-        pre($dt,false);
+
 
         /* Mostra resultados ****************************************************/
         $rsp = array();
@@ -202,8 +183,6 @@ class Search extends Model
             }
 
         $rsp['query'] = $qs;
-
-
 
         $total = 0;
         if (isset($dt['hits'])) {
@@ -226,7 +205,6 @@ class Search extends Model
                     } else {
                         $jnl = 0;
                     }
-
 
                     if (isset($line['_source']['year'])) {
                         $year = $line['_source']['year'];
