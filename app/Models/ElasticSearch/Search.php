@@ -167,8 +167,8 @@ class Search extends Model
         $df = ((int)trim(get("df")) + 1);
         if ($di < 0) { $di = 1899; }
         if ($df == 1) { $df = date("Y")+1; }
-        $data['query']['bool']['filter']['range']['year']['gte'] =
-        $data['query']['bool']['filter']['range']['year']['lte'] = ((int)trim(get("df"))+1);
+        $data['query']['bool']['filter']['range']['year']['gte'] = $di;
+        $data['query']['bool']['filter']['range']['year']['lte'] = $df;
         $data['query']['bool']['filter']['range']['year']['boost'] = 2.0;
 
 
