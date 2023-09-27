@@ -55,8 +55,6 @@ class Search extends Model
                             ->join('brapci.source_source', 'dataset.id_jnl = source_source.id_jnl')
                             ->where('article_id',$ida)
                             ->first();
-
-                            echo $Search->getlastquery();
                     if ($ds != '')
                         {
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
