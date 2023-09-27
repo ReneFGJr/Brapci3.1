@@ -46,18 +46,22 @@ class Search extends Model
             $Cover = new \App\Models\Base\Cover();
 
             $dt = $this->search($q, $type);
+
             foreach($dt['works'] as $id=>$line)
                 {
+
                     $ida = $line['id'];
                     $ds = $Search
-                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.jnl_frbr')
+                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.id_jnl')
                             ->where('article_id',$ida)
                             ->first();
+
+                            echo $Search->getlastquery();
                     if ($ds != '')
                         {
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
                         }
-
+                    pre($ds);
                     $dt['works'][$id]['data'] = $ds;
                 }
             echo (json_encode($dt));
@@ -179,7 +183,6 @@ class Search extends Model
         $rsp = array();
         $rsp['data'] = $data;
         $rsp['url'] = $url;
-
 
         if (isset($dt['error']))
             {
