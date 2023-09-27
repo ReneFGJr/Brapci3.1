@@ -48,6 +48,8 @@
         class="mb-3 mt-3 fadeIn"
         style="animation-delay: 500ms"
       >
+        {{items.type}}
+        <hr>
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">

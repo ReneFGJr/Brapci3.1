@@ -444,41 +444,36 @@ class Export extends Model
         $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
         for ($r = 0; $r < count($ids); $r++) {
-            $line = $ids[$r];
-            $idr = $line['id_cc'];
+            $xline = $ids[$r];
+            $idr = $xline['id_cc'];
 
-            $dir = $RDF->directory($idr);
-            $file = $dir . 'metadata.json';
-            if (!file_exists($file)) {
-                $RDF->c($idr, TRUE);
+
+            $line = $RDF->le($idr);
+            $Metadata->metadata = array();
+            $Metadata->metadata($line);
+            $meta = $Metadata->metadata;
+
+            /****************************** ISSUE */
+            if (isset($meta['id_issue'])) {
+                echo "HELLO";
+                pre($meta['id_issue']);
             }
 
-            if (!file_exists($file)) {
-                $sx .= '<li>' . strzero($idr, 8) . ' ' . " - ERROR FileID" . ' (' . $file . ')</li>';
-            } else {
-                /********************************************  */
-                $json = file_get_contents($file);
-                $json = (array)json_decode($json);
-                $json['type'] = $type;
-                $json['collection'] = substr($class, 0, 1);
+            $meta['collection'] = substr($class, 0, 1);
+            $meta['fulltext'] = '';
+            $meta['abstract'] = '';
+            if (!isset($meta['year'])) {
+                $meta['year'] = 9990;
+            }
 
-                $line = $RDF->le($idr);
-                $Metadata->metadata = array();
-                $Metadata->metadata($line);
-                $meta = $Metadata->metadata;
-
-                /****************************** ISSUE */
-                if (isset($meta['id_issue'])) {
-                    pre($meta['id_issue']);
+            //$meta['year'] = '';
+            if (!isset($meta['PDF']))
+                {
+                    $meta['pdf'] = 0;
+                } else {
+                    $meta['pdf'] = 1;
                 }
-
-                $meta['collection'] = substr($class, 0, 1);
-                $meta['fulltext'] = '';
-                $meta['abstract'] = '';
-                $meta['year'] = '';
-                $meta['pdf'] = 0;
-                $sx .= '<li>' . strzero(trim($meta['article_id']), 8) . ' ' . $ElasticRegister->data($idr, $meta) . ' (' . $dir . ')</li>';
-            }
+           $sx .= '<li>' . strzero(trim($meta['article_id']), 8) . ' ' . $ElasticRegister->data($idr, $meta).'</li>';
         }
         $sx .= '</ul>';
         return $sx;

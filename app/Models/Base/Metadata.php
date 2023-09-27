@@ -103,8 +103,15 @@ class Metadata extends Model
             $ISSUE = new \App\Models\Base\Issues();
             $dtq = $ISSUE
                 ->join('source_source', 'id_jnl = is_source')
-                ->where('is_issue',$id)
+                ->where('is_source_issue',$id)
                 ->first();
+
+            if ($dtq == '') {
+                $dtq = $ISSUE
+                    ->join('source_source', 'id_jnl = is_source')
+                    ->where('is_issue',$id)
+                    ->first();
+            }
 
             $dt = array();
             if ($dtq == '')
@@ -127,6 +134,7 @@ class Metadata extends Model
         $RDF = new \App\Models\Rdf\RDF();
         $COVER = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
+        $Source = new \App\Models\Base\Sources();
 
         $LDL_title = '';
         $LDL_author = '';
@@ -284,8 +292,9 @@ class Metadata extends Model
                         break;
                     case 'isPubishIn':
                         $this->lets('Journal', $value);
-                        $this->let('id_jnl', $ddv2);
-                        //$this->lets('Journal', strip_tags($RDF->c($ddv2)));
+                        $this->lets('jnl_frbr', $ddv2);
+                        $ds = $Source->where('jnl_frbr',$ddv2)->first();
+                        $this->lets('id_jnl', $ds['id_jnl']);
                         break;
                     case 'hasLanguageExpression':
                         $this->lets('idioma', $value);
@@ -311,7 +320,7 @@ class Metadata extends Model
                                 $dti = $IssueWorks->select("siw_journal")->where('siw_issue',$ddv1)->first();
                                 if (isset($dti['siw_journal']))
                                     {
-                                        $this->let('id_jnl', $dti['siw_journal']);
+                                        $this->lets('id_jnl', $dti['siw_journal']);
                                     }
                                 $this->let('issue_id', $ddv1);
                                 $this->let("Issue",$this->metadata_issue($ddv1));
@@ -323,6 +332,9 @@ class Metadata extends Model
                             $this->let('issue_id', $ddv1);
                             $this->let("Issue", $this->metadata_issue($ddv1));
                             $issue_proceessed[$ddv1] = 1;
+                        } else {
+                            echo "OPS";
+                            exit;
                         }
                     case 'hasPublicationNumber':
                         $this->lets('issue_nr', $value);

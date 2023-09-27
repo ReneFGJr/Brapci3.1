@@ -15,10 +15,11 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id','article_id','id_jnl','collection','year',
+        'id','article_id','id_jnl','collection',
+        'year', 'ldl_journal',
         'title','authors', 'keywords','type', 'abstract',
         'fulltext', 'pdf','updated_at', 'section',
-        'ldl_title', 'ldl_legend', 'ldl_authors','ldl_section','ldl_journal'
+        'ldl_title', 'ldl_legend', 'ldl_authors','ldl_section'
     ];
 
     // Dates
@@ -338,8 +339,8 @@ class Register extends Model
         if (isset($data['difusion']['LFL_section'])) {
             $da['ldl_section'] = $data['difusion']['LFL_section'];
         }
-        if (isset($data['difusion']['LFL_journal'])) {
-            $da['ldl_journal'] = $data['difusion']['LFL_journal'];
+        if (isset($data['difusion']['LDL_journal'])) {
+            $da['ldl_journal'] = $data['difusion']['LDL_journal'];
         }
 
         $da['updated_at'] = date("Y-m-d H:i:s");
