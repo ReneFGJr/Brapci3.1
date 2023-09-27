@@ -7,6 +7,7 @@
 @copyright 2023 CC-BY
 @access public/private/apikey
 @example $URL/api/brapci/services
+@example $URL/api/brapci/search?q=TERM&di=1972&df=2023
 */
 
 namespace App\Models\Api\Endpoint;
@@ -381,9 +382,10 @@ class Brapci extends Model
     function search()
     {
         $term = get("q");
+        $dt = get($_GET);
         if ($term != '') {
             $Elastic = new \App\Models\ElasticSearch\Search();
-            return $Elastic->searchFull($term);
+            return $Elastic->searchFull($term,$dt);
         } else {
             return [];
         }
