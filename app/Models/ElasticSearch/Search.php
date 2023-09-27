@@ -224,7 +224,8 @@ class Search extends Model
             }
         }
 
-        $rsp['q'] = $_POST;
+        $rsp['q'] = $data;
+        $rsp['url'] = $url;
         return $rsp;
     }
 }
