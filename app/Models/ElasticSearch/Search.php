@@ -113,13 +113,6 @@ class Search extends Model
 
         //$query['multi_match']['fields'] = $fields;
 
-        $range['range']['year']['gte'] = (int)trim(get("di"));
-        $range['range']['year']['lte'] = (int)trim(get("df"));
-        $range['range']['year']['boost'] = 2.0;
-
-        //array_push($data['query']['bool']['must'], $query);
-        array_push($data['query']['bool']['must'], $range);
-
 
         /******************** Sources */
         $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year","full");
@@ -170,7 +163,31 @@ class Search extends Model
                 $data['query']['bool']['filter'] = $filter;
             }
 
+
+        /* RANGE ******************************************* Only one */
+        //$data['query']['range']['year']['gte'] = (int)trim(get("di"));
+        //$data['query']['range']['year']['lte'] = (int)trim(get("df"));
+        //$data['query']['range']['year']['boost'] = 2.0;
+
+        //$data['filter']['range']['year']['gte'] = (int)trim(get("di"));
+        //$data['filter']['range']['year']['lte'] = (int)trim(get("df"));
+        //$data['filter']['range']['year']['boost'] = 2.0;
+
+        $data['query']['bool']['filter']['year']['gte'] = (int)trim(get("di"));
+        $data['query']['bool']['filter']['year']['lte'] = (int)trim(get("df"));
+        $data['query']['bool']['filter']['year']['boost'] = 2.0;
+
+        $data['query']['bool']['filter']['year']['gte'] = 1972;
+        $data['query']['bool']['filter']['year']['lte'] = 2024;
+        $data['query']['bool']['filter']['year']['boost'] = 2.0;
+
+        echo h($url);
+
+        pre($data,false);
+
+
         $dt = $API->call($url, $method, $data);
+        pre($dt,false);
 
         /* Mostra resultados ****************************************************/
         $rsp = array();
@@ -185,6 +202,8 @@ class Search extends Model
             }
 
         $rsp['query'] = $qs;
+
+
 
         $total = 0;
         if (isset($dt['hits'])) {

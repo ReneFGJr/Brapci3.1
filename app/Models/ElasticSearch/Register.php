@@ -321,8 +321,8 @@ class Register extends Model
             $da['year'] = $data['Issue']['Year'];
         }
 
-        if (!isset($da['year'])) { $da['year'] = '????'; }
-        if ($da['year']=='') { $da['year'] = '????'; }
+        if (!isset($da['year'])) { $da['year'] = 1900; }
+        if ($da['year']=='') { $da['year'] = 1900; }
 
         if (isset($data['PDF'])) { $da['pdf'] = 1; }
 
