@@ -57,6 +57,8 @@ class Search extends Model
                     if ($ds != '')
                         {
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
+                        } else {
+                            $ds['id'] = $ida;
                         }
 
                     $dt['works'][$id]['data'] = $ds;
