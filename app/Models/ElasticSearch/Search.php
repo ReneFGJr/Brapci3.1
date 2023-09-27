@@ -51,7 +51,7 @@ class Search extends Model
                 {
                     $ida = $line['id'];
                     $ds = $Search
-                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.jnl_frbr')
+                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.id_jnl')
                             ->where('article_id',$ida)
                             ->first();
                     if ($ds != '')
