@@ -59,7 +59,6 @@ class Search extends Model
                         {
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
                         }
-                    pre($ds);
                     $dt['works'][$id]['data'] = $ds;
                 }
             echo (json_encode($dt));
