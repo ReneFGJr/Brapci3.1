@@ -294,7 +294,10 @@ class Metadata extends Model
                         $this->lets('Journal', $value);
                         $this->lets('jnl_frbr', $ddv2);
                         $ds = $Source->where('jnl_frbr',$ddv2)->first();
-                        $this->lets('id_jnl', $ds['id_jnl']);
+                        if ($ds != '')
+                        {
+                            $this->lets('id_jnl', $ds['id_jnl']);
+                        }
                         break;
                     case 'hasLanguageExpression':
                         $this->lets('idioma', $value);
