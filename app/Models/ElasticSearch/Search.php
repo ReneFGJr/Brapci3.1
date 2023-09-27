@@ -163,7 +163,11 @@ class Search extends Model
 
 
         /* RANGE ******************************************* Only one */
-        $data['query']['bool']['filter']['range']['year']['gte'] = ((int)trim(get("di"))-1);
+        $di = ((int)trim(get("di")) - 1);
+        $df = ((int)trim(get("df")) + 1);
+        if ($di < 0) { $di = 1899; }
+        if ($df == 1) { $df = date("Y")+1; }
+        $data['query']['bool']['filter']['range']['year']['gte'] =
         $data['query']['bool']['filter']['range']['year']['lte'] = ((int)trim(get("df"))+1);
         $data['query']['bool']['filter']['range']['year']['boost'] = 2.0;
 
