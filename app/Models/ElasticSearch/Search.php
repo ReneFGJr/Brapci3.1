@@ -49,16 +49,16 @@ class Search extends Model
 
             foreach($dt['works'] as $id=>$line)
                 {
-
                     $ida = $line['id'];
                     $ds = $Search
-                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.id_jnl')
+                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.jnl_frbr')
                             ->where('article_id',$ida)
                             ->first();
                     if ($ds != '')
                         {
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
                         }
+
                     $dt['works'][$id]['data'] = $ds;
                 }
             echo (json_encode($dt));
@@ -160,7 +160,7 @@ class Search extends Model
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
         /* Journals */
-        //$data['query']['bool']['must'][1]['match']['id_jnl'] = '75 1 2 3';
+        $data['query']['bool']['must'][1]['match']['id_jnl'] = '75 1 2 3';
 
 
         /* RANGE ******************************************* Only one */
