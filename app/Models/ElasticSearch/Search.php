@@ -118,7 +118,7 @@ class Search extends Model
         $range['range']['year']['boost'] = 2.0;
 
         //array_push($data['query']['bool']['must'], $query);
-        array_push($data['query']['bool']['must'], $range);
+        //array_push($data['query']['bool']['must'], $range);
 
 
         /******************** Sources */
