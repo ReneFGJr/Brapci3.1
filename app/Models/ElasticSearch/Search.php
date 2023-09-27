@@ -160,7 +160,7 @@ class Search extends Model
         /********************************************************************** FILTER  */
         /* FILTER ******************************************* Only one */
         /* Journals */
-        $data['query']['bool']['must'][1]['match']['id_jnl'] = '75 1 2 3';
+        //$data['query']['bool']['must'][1]['match']['id_jnl'] = '75 1 2 3';
 
 
         /* RANGE ******************************************* Only one */
