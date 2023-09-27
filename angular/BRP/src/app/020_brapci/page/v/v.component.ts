@@ -26,6 +26,7 @@ export class VComponent {
         res => {
           this.data = res;
           this.type = this.data.class;
+          console.log(res);
         },
         error => error
       )

@@ -97,7 +97,12 @@ export class BrapciService {
     var formData: any = new FormData();
     formData.append('q', term);
     formData.append('offset', '1000');
-    formData.append('parm',dt);
+
+      console.log('---------------------------', dt.length);
+      for(const key in dt)
+        {
+          formData.append(key, dt[key]);
+        }
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,

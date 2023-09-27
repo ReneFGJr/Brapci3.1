@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { BrapciService } from '../../../000_core/010_services/brapci.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-search-brapci',
@@ -117,6 +118,7 @@ export class SearchBrapciComponent {
   onScrollUp(ev: any) {}
 
   onSearch() {
+    var map = new Map();
     if (this.searchForm.valid) {
       let term = this.searchForm.value.term;
       this.loading = true;
