@@ -60,6 +60,7 @@ class Search extends Model
                         } else {
                             $ds['id'] = $ida;
                             $ds['q'] = $Search->getlastquery();
+                            echo $Search->getlastquery();
                         }
 
                     $dt['works'][$id]['data'] = $ds;
