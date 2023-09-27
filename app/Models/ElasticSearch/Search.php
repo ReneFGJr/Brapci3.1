@@ -179,7 +179,10 @@ class Search extends Model
         /* Mostra resultados ****************************************************/
         $rsp = array();
         $rsp['data'] = $data;
+        $rsp['data_post'] = $_POST;
+        $rsp['data_get'] = $_GET;
         $rsp['url'] = $url;
+
 
         if (isset($dt['error']))
             {

@@ -12,18 +12,29 @@
   <button type="submit" *ngIf="loading">
     <img [src]="loaging_img" style="height: 65px" />
   </button>
-</form>
-<small class="link ms-3" (click)="clickFilters()">filtros</small>
-<small class="link ms-4" (click)="clickadvanceSearch()">busca avançada</small>
 
-<div *ngIf="filters">
-  <div class="form-group zoomIn">
-    <label for="ge" translate>start_year</label>
-    <select>
-    <option *ngFor="let ">2010</option>
-    </select>
+  <small class="link ms-3" (click)="clickFilters()">filtros</small>
+  <small class="link ms-4" (click)="clickadvanceSearch()">busca avançada</small>
+
+  <div *ngIf="filters" class="{{class_filter}}">
+    <div class="form-group fadeIn">
+      <label for="ge" translate>start_year</label>
+
+      <select id="year_start" formControlName="year_start">
+        <option *ngFor="let year of yearsI" value="{{year.name}}">
+          {{ year.name }}
+        </option>
+      </select>
+
+      <select id="year_end" formControlName="year_end">
+        <option *ngFor="let year of yearsF" value="{{year.name}}">
+          {{ year.name }}
+        </option>
+      </select>
+    </div>
   </div>
-</div>
+  {{ searchForm.value | json}}
+</form>
 
 <h1 *ngIf="works" class="mt-3">Resultado da busca</h1>
 
@@ -50,8 +61,10 @@
         class="mb-3 mt-3 fadeIn"
         style="animation-delay: 500ms"
       >
-        {{items.type}}
-        <hr>
+        {{
+          items.type
+        }}
+        <hr />
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">
@@ -84,7 +97,9 @@
             <i>{{ items.data.ldl_authors }}</i> <br />{{
               items.data.ldl_legend
             }}
-            <br /><span class="small documment_type documment_type_article">Artigo</span>
+            <br /><span class="small documment_type documment_type_article"
+              >Artigo</span
+            >
           </td>
           <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
         </tr>
@@ -117,16 +132,15 @@
             <i>{{ items.data.ldl_authors }}</i> <br />{{
               items.data.ldl_legend
             }}
-            <br /><span class="small documment_type documment_type_proceeding">Trabalho em Evento</span>
+            <br /><span class="small documment_type documment_type_proceeding"
+              >Trabalho em Evento</span
+            >
           </td>
           <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
         </tr>
 
-<!------------- BOOK -->
-        <tr
-          *ngIf="items.type === 'Book' && items.data != null"
-          valign="top"
-        >
+        <!------------- BOOK -->
+        <tr *ngIf="items.type === 'Book' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">
             <img
               [src]="items.data.cover"
@@ -150,12 +164,14 @@
             <i>{{ items.data.ldl_authors }}</i> <br />{{
               items.data.ldl_legend
             }}
-            <br /><span class="small documment_type documment_type_book">Livro</span>
+            <br /><span class="small documment_type documment_type_book"
+              >Livro</span
+            >
           </td>
           <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
         </tr>
 
-<!------------- CAPITULO DE LIVRO -->
+        <!------------- CAPITULO DE LIVRO -->
         <tr
           *ngIf="items.type === 'BookChapter' && items.data != null"
           valign="top"
@@ -183,7 +199,9 @@
             <i>{{ items.data.ldl_authors }}</i> <br />{{
               items.data.ldl_legend
             }}
-            <br /><span class="small documment_type documment_type_bookChapter">Capítulo de Livro</span>
+            <br /><span class="small documment_type documment_type_bookChapter"
+              >Capítulo de Livro</span
+            >
           </td>
           <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
         </tr>

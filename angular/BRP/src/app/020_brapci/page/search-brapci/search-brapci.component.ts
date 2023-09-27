@@ -26,6 +26,7 @@ export class SearchBrapciComponent {
   public APIversion: string = '1';
   public loading: boolean = false;
   public loaging_img: string = '/assets/img/loading.svg';
+  public class_filter: string = ''
 
   public msg_data_mark: string = 'Selecionar item para biblioteca pessoal';
   public msg_cover: string = 'Capa da publicação';
@@ -36,6 +37,9 @@ export class SearchBrapciComponent {
 
   public marked: FormGroup;
 
+  public yearsI: Array<any> = [];
+  public yearsF: Array<any> = [];
+
   listArray: string[] = [];
   sum = 1;
   display = 5;
@@ -45,6 +49,14 @@ export class SearchBrapciComponent {
     this.marked = this.fb.group({
       website: this.fb.array([], [Validators.required]),
     });
+    let yearE = 2024
+    let yearS = 1960;
+    for (let i = yearS; i <= yearE; i++) {
+      this.yearsI.push({ name: i });
+    }
+    for (let i = yearE; i >= yearS; i--) {
+      this.yearsF.push({ name: i });
+    }
   }
 
   searchForm: FormGroup | any;
@@ -63,6 +75,7 @@ export class SearchBrapciComponent {
 
   clickFilters() {
     this.filters = !this.filters;
+
   }
 
   clickadvanceSearch() {
@@ -70,7 +83,7 @@ export class SearchBrapciComponent {
   }
 
   /**************************** MARK */
-  markDOwn(e:any) {
+  markDOwn(e: any) {
     const website: FormArray = this.marked.get('website') as FormArray;
 
     if (e.target.checked) {
@@ -107,7 +120,12 @@ export class SearchBrapciComponent {
     if (this.searchForm.valid) {
       let term = this.searchForm.value.term;
       this.loading = true;
-      this.brapciService.search(term).subscribe((res) => {
+
+      let dataS = this.searchForm.value.year_start;
+      let dataF = this.searchForm.value.year_end;
+      let dt:Array<any>|any = {di:dataS, df:dataF};
+
+      this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
         console.log(res);
         this.results = this.result.works;

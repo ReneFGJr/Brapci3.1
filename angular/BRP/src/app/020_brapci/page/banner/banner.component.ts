@@ -16,7 +16,7 @@ export class BannerComponent {
 
   search(term: string)
     {
-    this.brapciService.search(term).subscribe(
+    this.brapciService.search(term,[]).subscribe(
       res => {
         this.results = res
         console.log("=============")

@@ -91,12 +91,13 @@ export class BrapciService {
     );
   }
 
-  public search(term: string): Observable<Array<any>> {
+  public search(term: string, dt:Array<any>): Observable<Array<any>> {
     let url = `${this.url}brapci/search/v1`;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
     formData.append('q', term);
     formData.append('offset', '1000');
+    formData.append('parm',dt);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
