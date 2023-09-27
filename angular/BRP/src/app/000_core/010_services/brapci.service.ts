@@ -98,8 +98,7 @@ export class BrapciService {
     formData.append('q', term);
     formData.append('offset', '1000');
 
-      console.log('---------------------------', dt.length);
-      for(const key in dt)
+    for(const key in dt)
         {
           formData.append(key, dt[key]);
         }
