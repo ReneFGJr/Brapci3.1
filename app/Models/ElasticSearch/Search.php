@@ -40,12 +40,12 @@ class Search extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function searchFull($q = '', $type = '',$dt=[])
+    function searchFull($q = '', $type = '')
         {
             $Search = new \App\Models\ElasticSearch\Search();
             $Cover = new \App\Models\Base\Cover();
 
-            $dt = $this->search($q, $type, $dt);
+            $dt = $this->search($q, $type);
             foreach($dt['works'] as $id=>$line)
                 {
                     $ida = $line['id'];
@@ -64,7 +64,7 @@ class Search extends Model
             exit;
         }
 
-    function search($q = '',$type='', $dp=[])
+    function search($q = '',$type='')
     {
         $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));

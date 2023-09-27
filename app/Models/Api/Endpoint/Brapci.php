@@ -407,10 +407,9 @@ class Brapci extends Model
     function search()
     {
         $term = get("q");
-        $dt = get($_GET);
         if ($term != '') {
             $Elastic = new \App\Models\ElasticSearch\Search();
-            return $Elastic->searchFull($term,$dt);
+            return $Elastic->searchFull($term);
         } else {
             return [];
         }
