@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WelcomeProceedingsComponent } from './page/welcome-proceedings/welcome-proceedings.component';
 import { ProceedingListComponent } from './page/proceeding-list/proceeding-list.component';
 import { ProceedingIssuesComponent } from './page/proceeding-issues/proceeding-issues.component';
+import { ProceedingsIssueViewComponent } from './page/proceedings-issue-view/proceedings-issue-view.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     children: [
       { path: '', component: ProceedingListComponent },
       { path: 'issues/:id', component: ProceedingIssuesComponent },
+      { path: 'issue/:id', component: ProceedingsIssueViewComponent },
     ],
   },
 ];

@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
 import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 
 @Component({
-  selector: 'app-proceeding-issues',
-  templateUrl: './proceeding-issues.component.html',
-  styleUrls: ['./proceeding-issues.component.scss'],
+  selector: 'app-proceedings-issue-view',
+  templateUrl: './proceedings-issue-view.component.html',
+  styleUrls: ['./proceedings-issue-view.component.scss'],
 })
-export class ProceedingIssuesComponent {
+export class ProceedingsIssueViewComponent {
   constructor(
     private route: ActivatedRoute,
-    private brapciService: BrapciService,
-    private router: Router
+    private brapciService: BrapciService
   ) {}
 
   public id: number = 0;
@@ -21,14 +21,10 @@ export class ProceedingIssuesComponent {
     this.route.params.subscribe((params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number
       console.log(this.id);
-      this.brapciService.source(this.id).subscribe((res) => {
+      this.brapciService.issue(this.id).subscribe((res) => {
         this.source = res;
+        console.log(res);
       });
     });
   }
-
-  viewIssue(id:string)
-    {
-      this.router.navigate(['proceedings/issue/'+id]);
-    }
 }

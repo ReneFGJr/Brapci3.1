@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./v.component.scss']
 })
 export class VComponent {
-  public type: string = 'Article';
+  public type: string = 'NA';
   public data: Array<any> | any
   public sub: Array<any> | any
   public id: number = 0;
@@ -25,6 +25,7 @@ export class VComponent {
       this.brapciService.getId(this.id).subscribe(
         res => {
           this.data = res;
+          this.type = this.data.class;
         },
         error => error
       )

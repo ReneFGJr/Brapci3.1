@@ -24,6 +24,8 @@ import { IndicadoresComponent } from './page/indicadores/indicadores.component';
 import { DataVComponent } from './page/v/data/data.component';
 import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
 import { CiteComponent } from './page/v/cite.component';
+import { BrapciProceedingComponent } from './page/v/proceeding/proceeding.component';
+import { SubjectVComponent } from './page/v/subject/subject.component';
 
 
 @NgModule({
@@ -47,20 +49,22 @@ import { CiteComponent } from './page/v/cite.component';
     DataVComponent,
     PlumxComponent,
     CiteComponent,
+    BrapciProceedingComponent,
+    SubjectVComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
     ThemeModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
   ],
-  exports:[
+  exports: [
     BannerComponent,
     BrapciWelcomeComponent,
     PainelComponent,
-    VComponent
+    VComponent,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
-export class CoreBrapciModule { }
+export class CoreBrapciModule {}

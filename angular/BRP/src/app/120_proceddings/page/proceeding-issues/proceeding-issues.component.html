@@ -1,1 +1,16 @@
-<p>proceeding-issues works!</p>
+<div class="container" *ngIf="source">
+  <div class="row">
+
+    <h1>{{ source.source.jnl_name }}</h1>
+    <h4>{{ source.source.jnl_name_abrev }}</h4>
+
+    <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mt-3" *ngFor="let issue of source.source.issue">
+      <div class="issue" (click)="viewIssue(issue.id_is);">
+        <div class="issue-year">{{ issue.is_year }}</div>
+        <div class="issue-nr">{{ issue.is_vol_roman }}</div>
+        <div class="issue-name">{{ source.source.jnl_name_abrev }}</div>
+        <div class="issue-place">{{ issue.is_place }}</div>
+      </div>
+    </div>
+  </div>
+</div>

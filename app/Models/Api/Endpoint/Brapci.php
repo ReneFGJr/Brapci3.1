@@ -285,7 +285,6 @@ class Brapci extends Model
             }
 
             $data[msg('rdf.' . $class . '.' . $lang)] = $vlr;
-
             switch ($class) {
                 case 'hasIssueOf':
                     $RSP['issue'] = $ISSUE->getIssue($desc['d_r1']);
@@ -298,6 +297,18 @@ class Brapci extends Model
                     break;
                 case 'hasUrl':
                     $RSP['resource_url'] = $vlr;
+                    break;
+                case 'hasIssueProceedingOf':
+                        $id_issue = $desc['d_r1'];
+                        $Issues = new \App\Models\Base\Issues();
+                        $dti = $Issues
+                            ->join('source_source','is_source = id_jnl')
+                            ->where('is_source_issue',$id_issue)->first();
+                        $RSP['journal'] = $dti['jnl_name'];
+                        $dtn['issue']['Issue_place'] = $dti['is_place'];
+                        $dtn['issue']['year'] = $dti['is_year'];
+                        $dtn['issue']['Issue_nr'] = $dti['is_nr'];
+                        $dtn['issue']['issue_vol'] = $dti['is_vol_roman'];
                     break;
                 case 'hasFileStorage':
                     $RSP['resource_pdf'] = PATH . '/download/' . $id;
@@ -354,11 +365,24 @@ class Brapci extends Model
         foreach ($RSP['creator_author'] as $id => $auth) {
             array_push($dtn['Authors'], $auth['name']);
         }
-        $dtn['Journal'] = $RSP['publisher'];
+        if (isset($RSP['publisher']))
+            {
+                $dtn['Journal'] = $RSP['publisher'];
+            } else {
+                $dtn['Journal'] = '';
+            }
 
-        $dtn['issue']['Issue_nr'] = $RSP['issue']['nr'];
-        $dtn['issue']['issue_vol'] = $RSP['issue']['vol'];
-        $dtn['issue']['year'] = $RSP['issue']['year'];
+        /**************************************** ISSUE */
+        if (isset($RSP['issue']))
+            {
+                $dtn['issue']['Issue_nr'] = $RSP['issue']['nr'];
+                $dtn['issue']['issue_vol'] = $RSP['issue']['vol'];
+                $dtn['issue']['year'] = $RSP['issue']['year'];
+            } else {
+                $dtn['issue']['Issue_nr'] = '';
+                $dtn['issue']['issue_vol'] = '';
+                $dtn['issue']['year'] = '';
+            }
 
         /************************************************* ABNT */
         $ABNT = new \App\Models\Metadata\Abnt();
@@ -367,6 +391,7 @@ class Brapci extends Model
         $RSP['cited']['abnt'] = $ABNT->show($dtn, substr($RSP['class'], 0, 1));
         $RSP['cited']['vancouver'] = $VANVOUVER->show($dtn, substr($RSP['class'], 0, 1));
         $RSP['cited']['apa'] = $APA->show($dtn, substr($RSP['class'], 0, 1));
+        pre($RSP);
         echo json_encode($RSP);
         exit;
     }

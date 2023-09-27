@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SourceAddComponent } from './040_source/page/source-add/source-add.component';
 import { HomeComponent } from './130_books/page/home/home.component';
 
+
 registerLocaleData(ptBr);
 
 //import { RouterModule } from '@angular/router';

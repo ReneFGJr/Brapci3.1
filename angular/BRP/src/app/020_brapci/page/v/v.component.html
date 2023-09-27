@@ -1,4 +1,7 @@
 <app-theme-header></app-theme-header>
 <app-theme-navbar></app-theme-navbar>
-<app-brapci-article [data]="data"></app-brapci-article>
+<app-brapci-article *ngIf="type=='Article'" [data]="data"></app-brapci-article>
+<app-brapci-proceeding *ngIf="type=='Proceeding'" [data]="data"></app-brapci-proceeding>
+<app-brapci-subject *ngIf="type=='Subject'" [data]="data"></app-brapci-subject>
+{{type}}
 <app-theme-footer></app-theme-footer>
