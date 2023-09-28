@@ -451,7 +451,7 @@ class Metadata extends Model
                 $this->metadata['ID'] = $meta['concept']['id_cc'];
             }
 
-        pre($line,false);
+        pre($meta,false);
         pre($this->metadata);
         return $this->metadata;
     }
