@@ -330,7 +330,8 @@ class Metadata extends Model
                             }
                         break;
                     case 'hasIssueOf':
-                        if (!isset($issue_proceessed[$ddv1])) {
+                        /************** ARTIGO */
+                        if (!isset($issue_proceessed[$ddv1]) or (count($issue_proceessed) == 0)) {
                             $this->let('issue_id', $ddv1);
                             $this->let("Issue", $this->metadata_issue($ddv1));
                             $issue_proceessed[$ddv1] = 1;
@@ -338,6 +339,7 @@ class Metadata extends Model
                             echo "OPS";
                             exit;
                         }
+                        break;
                     case 'hasPublicationNumber':
                         $this->lets('issue_nr', $value);
                         break;
@@ -451,8 +453,6 @@ class Metadata extends Model
                 $this->metadata['ID'] = $meta['concept']['id_cc'];
             }
 
-        pre($meta,false);
-        pre($this->metadata);
         return $this->metadata;
     }
 

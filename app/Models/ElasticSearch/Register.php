@@ -103,7 +103,7 @@ class Register extends Model
                 }
         }
 
-    function register($id, $type = '')
+    function xx___register($id, $type = '')
     {
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
@@ -229,7 +229,7 @@ class Register extends Model
                     $da['id_jnl'] = $data['id_jnl'];
                 }
         } else {
-            pre($data);
+            return([]);
         }
 
         if (isset($data['Class']))
@@ -358,13 +358,24 @@ class Register extends Model
     function data($id,$xdata)
         {
             $dt = $this->where('article_id',round($id))->findAll();
+            if (count($xdata) == 0)
+                {
+                    echo '======================== A001 ==';
+                    pre($xdata);
+                    $sx = lang('brapci.skip').' deleted';
+                    return $sx;
+                }
             $data = $this->data_convert_elastic($xdata);
 
             if (count($dt) == 0)
                 {
-
-                    $this->set($data)->insert();
-                    $sx = lang('brapci.inserted');
+                    if (count($data) > 0)
+                        {
+                            $this->set($data)->insert();
+                            $sx = lang('brapci.inserted');
+                        } else {
+                            $sx = lang('brapci.deleted');
+                        }
                 } else {
                     $this->set($data)
                         ->where('article_id', $id)
