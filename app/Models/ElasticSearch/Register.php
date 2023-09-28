@@ -222,7 +222,13 @@ class Register extends Model
             if (isset($data['ID'])) { $da['article_id'] = $data['ID']; }
 
         if (isset($data['id_jnl'])) {
-            $da['id_jnl'] = $data['id_jnl'][0];
+            if (is_array($data['id_jnl']))
+                {
+                    $da['id_jnl'] = $data['id_jnl'][0];
+                } else {
+                    $da['id_jnl'] = $data['id_jnl'];
+                }
+
         }
 
         if (isset($data['Class']))
