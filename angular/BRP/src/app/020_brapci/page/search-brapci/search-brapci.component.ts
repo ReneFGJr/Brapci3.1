@@ -27,7 +27,7 @@ export class SearchBrapciComponent {
   public APIversion: string = '1';
   public loading: boolean = false;
   public loaging_img: string = '/assets/img/loading.svg';
-  public class_filter: string = ''
+  public class_filter: string = '';
 
   public msg_data_mark: string = 'Selecionar item para biblioteca pessoal';
   public msg_cover: string = 'Capa da publicação';
@@ -41,16 +41,26 @@ export class SearchBrapciComponent {
   public yearsI: Array<any> = [];
   public yearsF: Array<any> = [];
 
+  list: any[];
+
   listArray: string[] = [];
   sum = 1;
   display = 5;
   direction = '';
 
   constructor(private fb: FormBuilder, private brapciService: BrapciService) {
+    /************************************************************ Collection */
+    this.list = [
+      { name: 'Revistas Brasileiras', value: 'RA', checked: true },
+      { name: 'Revistas Estrangeiras', value: 'RE', checked: true },
+      { name: 'Eventos', value: 'EV', checked: true },
+      { name: 'Livros e Capítulos de Livros', value: 'BK', checked: true },
+    ];
+    /***********************************************************  */
     this.marked = this.fb.group({
       website: this.fb.array([], [Validators.required]),
     });
-    let yearE = 2024
+    let yearE = 2024;
     let yearS = 1960;
     for (let i = yearS; i <= yearE; i++) {
       this.yearsI.push({ name: i });
@@ -59,6 +69,8 @@ export class SearchBrapciComponent {
       this.yearsF.push({ name: i });
     }
   }
+
+  public style: string = 'zoomIn';
 
   searchForm: FormGroup | any;
   createForm() {
@@ -72,10 +84,15 @@ export class SearchBrapciComponent {
 
   ngOnInit() {
     this.createForm();
+    this.style = 'noshow';
   }
 
   clickFilters() {
     this.filters = !this.filters;
+    if (this.filters)
+      this.style = 'fadeIn show';
+    else
+      this.style = 'UP';
 
   }
 
@@ -125,7 +142,7 @@ export class SearchBrapciComponent {
 
       let dataS = this.searchForm.value.year_start;
       let dataF = this.searchForm.value.year_end;
-      let dt:Array<any>|any = {di:dataS, df:dataF};
+      let dt: Array<any> | any = { di: dataS, df: dataF };
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;

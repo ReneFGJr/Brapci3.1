@@ -56,6 +56,7 @@ class Search extends Model
                             ->first();
                     if ($ds != '')
                         {
+                            pre($ds);
                             $ds['cover'] = $Cover->cover($ds['id_jnl']);
                         } else {
                             $ds['erro'] = $ida;

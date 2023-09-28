@@ -13,28 +13,43 @@
     <img [src]="loaging_img" style="height: 65px" />
   </button>
 
+  <br/>
+
   <small class="link ms-3" (click)="clickFilters()">filtros</small>
   <small class="link ms-4" (click)="clickadvanceSearch()">busca avançada</small>
 
-  <div *ngIf="filters" class="{{class_filter}}">
-    <div class="form-group fadeIn">
-      <label for="ge" translate>start_year</label>
+  <div [ngClass]="style" style="background-color:aquamarine" class="pb-3">
+    <h3 class="ps-2">Filtros</h3>
 
-      <select id="year_start" formControlName="year_start">
-        <option *ngFor="let year of yearsI" value="{{year.name}}">
-          {{ year.name }}
-        </option>
-      </select>
+    <div class="form-group container" >
+      <div class="row">
+        <div class="col-1">
+          <span class="small bold">Ano Inicial</span>
+          <select id="year_start" formControlName="year_start" class="form-control">
+            <option *ngFor="let year of yearsI" value="{{ year.name }}">
+              {{ year.name }}
+            </option>
+          </select>
+        </div>
 
-      <select id="year_end" formControlName="year_end">
-        <option *ngFor="let year of yearsF" value="{{year.name}}">
-          {{ year.name }}
-        </option>
-      </select>
+        <div class="col-1">
+          <span class="small bold">Ano Final</span>
+          <select id="year_end" formControlName="year_end" class="form-control">
+            <option *ngFor="let year of yearsF" id="year_end" value="{{ year.name }}">
+              {{ year.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-5">
+          <span class="small bold">Coleções</span>
+              <div *ngFor="let item of list">
+                <input type="checkbox" value="{{ item.value }}" [checked]="item.checked"> {{ item.name }} <br/>
+              </div>
+        </div>
+      </div>
     </div>
   </div>
-
-
 </form>
 
 <h1 *ngIf="works" class="mt-3">Resultado da busca</h1>
@@ -62,11 +77,7 @@
         class="mb-3 mt-3 fadeIn"
         style="animation-delay: 500ms"
       >
-        {{
-          items.type
-        }}
 
-        <hr />
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">
