@@ -228,7 +228,8 @@ class Register extends Model
                 } else {
                     $da['id_jnl'] = $data['id_jnl'];
                 }
-
+        } else {
+            pre($data);
         }
 
         if (isset($data['Class']))
