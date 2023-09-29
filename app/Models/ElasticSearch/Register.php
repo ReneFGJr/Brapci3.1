@@ -16,7 +16,7 @@ class Register extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id','article_id','id_jnl','collection',
-        'year', 'ldl_journal',
+        'year', 'ldl_journal', 'ldl_lang',
         'title','authors', 'keywords','type', 'abstract',
         'fulltext', 'pdf','updated_at', 'section',
         'ldl_title', 'ldl_legend', 'ldl_authors','ldl_section'
@@ -337,6 +337,9 @@ class Register extends Model
         if (isset($data['difusion']['LDL_title'])) {
             $da['ldl_title'] = $data['difusion']['LDL_title'];
         }
+        if (isset($data['difusion']['LDL_lang'])) {
+            $da['ldl_lang'] = $data['difusion']['LDL_lang'];
+        }
         if (isset($data['difusion']['LDL_author'])) {
             $da['ldl_authors'] = $data['difusion']['LDL_author'];
         }
@@ -366,7 +369,6 @@ class Register extends Model
                     return $sx;
                 }
             $data = $this->data_convert_elastic($xdata);
-
             if (count($dt) == 0)
                 {
                     if (count($data) > 0)
@@ -377,10 +379,15 @@ class Register extends Model
                             $sx = lang('brapci.deleted');
                         }
                 } else {
-                    $this->set($data)
-                        ->where('article_id', $id)
-                        ->update();
-                    $sx = lang('brapci.updated');
+                    if (count($data) > 0) {
+                        $this->set($data)
+                            ->where('article_id', $id)
+                            ->update();
+                        $sx = lang('brapci.updated');
+                    } else {
+                        $this->where('article_id', $id)->delete();
+                        $sx = lang('brapci.deleted');
+                    }
                 }
             return $sx;
 
