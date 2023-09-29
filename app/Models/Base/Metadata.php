@@ -456,7 +456,10 @@ class Metadata extends Model
                         $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['es']);
                         $this->metadata['difusion']['LDL_lang'] = 'es';
                     }
-                elseif (isset($this->metadata['Title']['es-ES'])) {
+                elseif (isset($this->metadata['Title']['fr'])) {
+                    $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['fr']);
+                    $this->metadata['difusion']['LDL_lang'] = 'fr';
+                }               elseif (isset($this->metadata['Title']['es-ES'])) {
                     $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['es-ES']);
                     $this->metadata['difusion']['LDL_lang'] = 'es';
                 }
