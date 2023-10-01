@@ -12,6 +12,7 @@
 
 namespace App\Models\Api\Endpoint;
 
+use App\Models\Base\Metadata;
 use CodeIgniter\Model;
 
 class Brapci extends Model
@@ -431,7 +432,7 @@ class Brapci extends Model
 
             foreach($dt as $id=>$line)
                 {
-                    $ABNT = new \app\models\Metadata\Abnt();
+                    $ABNT = new \App\Models\Metadata\Abnt();
                     $type = $line['type'];
                     $ln = $line;
                     switch($type)
