@@ -432,10 +432,13 @@ class Brapci extends Model
 
             foreach($dt as $id=>$line)
                 {
-                    pre($line);
                     $ABNT = new \App\Models\Metadata\Abnt();
                     $type = $line['type'];
-                    $ln = $line;
+                    $ln = [];
+                    $ln['title'] = $line['ldl_title'];
+                    $ln['authors'] = $line['ldl_authors'];
+                    $ln['jnl_name'] = $line['ldl_legend'];
+                    $ln['year'] = $line['year'];
                     switch($type)
                         {
                             case 'Article':
