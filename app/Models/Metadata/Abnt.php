@@ -49,32 +49,30 @@ class Abnt extends Model
 		return $tela;
 	}
 	function abnt_proceeding($dt)
-		{
+	{
 		$id = $dt['ID'];
-		if (isset($dt['title']))
-			{
-				$title = trim(html_entity_decode($dt['title']));
-				$title = trim(mb_strtolower($title));
-				$tu = mb_strtoupper($title);
-				$tu = mb_substr($tu, 0, 1);
-				$te = mb_substr($title, 1);
-				$title = $tu . $te;
-			} else {
-				$title = ':::none:::';
-			}
+		if (isset($dt['title'])) {
+			$title = trim(html_entity_decode($dt['title']));
+			$title = trim(mb_strtolower($title));
+			$tu = mb_strtoupper($title);
+			$tu = mb_substr($tu, 0, 1);
+			$te = mb_substr($title, 1);
+			$title = $tu . $te;
+		} else {
+			$title = ':::none:::';
+		}
 
 		$tela = '';
 		$tela .= '<span class="abtn-article">';
 		if (isset($dt['authors'])) {
-			$authors = $dt['authors'].'.';
-			$authors = troca($authors,'$$','.');
-			$authors = troca($authors,'$',';');
+			$authors = $dt['authors'] . '.';
+			$authors = troca($authors, '$$', '.');
+			$authors = troca($authors, '$', ';');
 
 			$tela .= $authors;
 		}
 		/**************** */
-		if (isset($dt['issue_id']))
-		{
+		if (isset($dt['issue_id'])) {
 			$issueNR = $dt['issue_id'];
 			$Issue = new \App\Models\Base\Issues();
 			$dri = $Issue->le($issueNR);
@@ -85,20 +83,20 @@ class Abnt extends Model
 			return "[erro abnt]";
 		}
 
-		switch($jid)
-			{
-				case 75:
-					$tela .= '. ' . anchor(PATH . '/benancib' . '/v/' . $id, $title) . '. ';
-					break;
-				default:
-					$tela .= '. ' . anchor(PATH . '/proceedings' . '/v/' . $id, $title) . '. ';
-					break;
-			}
+		switch ($jid) {
+			case 75:
+				$tela .= '. ' . anchor(PATH . '/benancib' . '/v/' . $id, $title) . '. ';
+				break;
+			default:
+				$tela .= '. ' . anchor(PATH . '/proceedings' . '/v/' . $id, $title) . '. ';
+				break;
+		}
 
 		$tela .= '<i>In</i>: ';
 		$tela .= mb_strtoupper($dri['jnl_name']);
-		if ($dri['is_nr'] != '')
-			{$tela .= ', '.$dri['is_nr'].'.'; }
+		if ($dri['is_nr'] != '') {
+			$tela .= ', ' . $dri['is_nr'] . '.';
+		}
 		if ($dri['is_place'] != '') {
 			$tela .= ', ' . $dri['is_place'];
 		}
@@ -111,10 +109,10 @@ class Abnt extends Model
 		if ($dri['is_place'] != '') {
 			$tela .= ' ' . $dri['is_place'];
 		}
-		if ($dri['is_editor'] != '') {
-			{
+		if ($dri['is_editor'] != '') { {
 				$tela .= ', ' . $dri['is_editor'];
-			} if ($dri['jnl_editor'] != '') {
+			}
+			if ($dri['jnl_editor'] != '') {
 				$tela .= ', ' . $dri['jnl_editor'];
 			} else {
 				# none
@@ -140,34 +138,34 @@ class Abnt extends Model
 		$tela .= '</span>';
 
 		return $tela;
-		}
+	}
 
 
 	function abnt_book($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
-		if ($sx != '') { $sx .= ' '; }
-		$sx .= '<b>'.$dt['title'].'</b>. ';
-		if (isset($dt['editora_local']))
-			{
-				$sx .= $dt['editora_local'] . ': ';
-			} else {
-				$sx .= '[<i>S.l.</i>]: ';
-			}
-		if (isset($dt['editora']))
-			{
-				$sx .= $dt['editora'] . '';
-			} else {
-				$sx .= '[<i>s.n.</i>]';
-			}
+		if ($sx != '') {
+			$sx .= ' ';
+		}
+		$sx .= '<b>' . $dt['title'] . '</b>. ';
+		if (isset($dt['editora_local'])) {
+			$sx .= $dt['editora_local'] . ': ';
+		} else {
+			$sx .= '[<i>S.l.</i>]: ';
+		}
+		if (isset($dt['editora'])) {
+			$sx .= $dt['editora'] . '';
+		} else {
+			$sx .= '[<i>s.n.</i>]';
+		}
 
 		if (isset($dt['year'])) {
-			$sx .= ', '.$dt['year'] . '.';
+			$sx .= ', ' . $dt['year'] . '.';
 		} else {
 			$sx .= ', [????]' . '.';
 		}
-		$sx = troca($sx, '..','.');
+		$sx = troca($sx, '..', '.');
 		return $sx;
 	}
 
@@ -177,25 +175,22 @@ class Abnt extends Model
 		$sx .= $this->authors($dt);
 
 		if (isset($dt['title'])) {
-		if ($sx != '')
-			{
-				$sx .= ' '.trim($dt['title']);
+			if ($sx != '') {
+				$sx .= ' ' . trim($dt['title']);
 			} else {
 				$title = trim($dt['title']);
-				$pos = round(strpos($title,' '));
-				while (($pos < 4) and ($pos > 0))
-					{
-						$title = substr($title,0,$pos).'_'.substr($title,$pos+1,strlen($title));
-						$pos = strpos($title, ' ');
-					}
-				if ($pos == 0)
-					{
-						$pos = strlen($title);
-					}
-					$sx1 = substr($title,0,$pos);
-					$sx2 = substr($title,$pos+1,strlen($title));
-					$title = mb_strtoupper($sx1).' '.trim($sx2);
-					$title = troca($title,'_',' ');
+				$pos = round(strpos($title, ' '));
+				while (($pos < 4) and ($pos > 0)) {
+					$title = substr($title, 0, $pos) . '_' . substr($title, $pos + 1, strlen($title));
+					$pos = strpos($title, ' ');
+				}
+				if ($pos == 0) {
+					$pos = strlen($title);
+				}
+				$sx1 = substr($title, 0, $pos);
+				$sx2 = substr($title, $pos + 1, strlen($title));
+				$title = mb_strtoupper($sx1) . ' ' . trim($sx2);
+				$title = troca($title, '_', ' ');
 
 				$sx .= trim($title);
 			}
@@ -211,9 +206,9 @@ class Abnt extends Model
 	}
 
 	function authors($dt)
-		{
-			$sx = '';
-			$etal = false;
+	{
+		$sx = '';
+		$etal = false;
 		if (isset($dt['Authors'])) {
 			$total = count($dt['Authors']);
 			$authors = '';
@@ -232,18 +227,17 @@ class Abnt extends Model
 			}
 			$sx .= $authors;
 		}
-		$sx = troca($sx,'..','.');
+		$sx = troca($sx, '..', '.');
 		$sx = trim($sx);
 		return $sx;
-		}
+	}
 
 
 	function abnt_article($dt)
 	{
-		if (!isset($dt['title']))
-			{
-				$dt['title'] = '::none::';
-			}
+		if (!isset($dt['title'])) {
+			$dt['title'] = '::none::';
+		}
 		$title = trim(html_entity_decode($dt['title']));
 		$title = trim(mb_strtolower($title));
 		$tu = mb_strtoupper($title);
@@ -255,10 +249,9 @@ class Abnt extends Model
 		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
-		if (isset($dt['Journal']))
-			{
-				$tela .= '. <b>' . nbr_title($dt['Journal'], 7) . '</b>';
-			}
+		if (isset($dt['Journal'])) {
+			$tela .= '. <b>' . nbr_title($dt['Journal'], 7) . '</b>';
+		}
 		/******************************** VOL */
 		if (isset($dt['issue']['issue_vol']) > 0) {
 			$nr = trim($dt['issue']['issue_vol']);
@@ -273,32 +266,28 @@ class Abnt extends Model
 		/******************************** NR **/
 		if ($dt['legend'] != '') {
 			$tela .= '. ' . $dt['legend'];
-		}
+		} else {
 
-		if (isset($dt['issue']['Issue_nr']) > 0) {
-			$nr = trim($dt['issue']['Issue_nr']);
-			if (strlen($nr) > 0)
-			{
-				if (strpos(' '.$dt['issue']['Issue_nr'],'n.'))
-					{
-						$tela .= ', '. $dt['issue']['Issue_nr'];
+			if (isset($dt['issue']['Issue_nr']) > 0) {
+				$nr = trim($dt['issue']['Issue_nr']);
+				if (strlen($nr) > 0) {
+					if (strpos(' ' . $dt['issue']['Issue_nr'], 'n.')) {
+						$tela .= ', ' . $dt['issue']['Issue_nr'];
 					} else {
 						$tela .= ', n.' . $dt['issue']['Issue_nr'];
 					}
-
+				}
 			}
 
-		}
-
-		if (isset($dt['issue']['year']))
-			{
+			if (isset($dt['issue']['year'])) {
 				$tela .= ', ' . trim($dt['issue']['year']);
 			} else {
 				$tela .= ', ' . '[????]';
 			}
 
-		if (isset($dt['pages'])) {
-			$tela .= ', p ' . $dt['pages'];
+			if (isset($dt['pages'])) {
+				$tela .= ', p ' . $dt['pages'];
+			}
 		}
 		$tela .= '.';
 
@@ -309,7 +298,7 @@ class Abnt extends Model
 		while (strpos($tela, '..')) {
 			$tela = troca($tela, '..', '.');
 		}
-		$tela .= cr();
+		//$tela .= cr();
 		return $tela;
 	}
 }
