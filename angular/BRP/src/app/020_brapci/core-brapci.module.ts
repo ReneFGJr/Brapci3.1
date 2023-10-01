@@ -26,6 +26,7 @@ import { PlumxComponent } from './page/v/metrics/plumx/plumx.component';
 import { CiteComponent } from './page/v/cite.component';
 import { BrapciProceedingComponent } from './page/v/proceeding/proceeding.component';
 import { SubjectVComponent } from './page/v/subject/subject.component';
+import { BasketComponent } from './page/basket/basket.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { SubjectVComponent } from './page/v/subject/subject.component';
     CiteComponent,
     BrapciProceedingComponent,
     SubjectVComponent,
+    BasketComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ import { SubjectVComponent } from './page/v/subject/subject.component';
     BrapciWelcomeComponent,
     PainelComponent,
     VComponent,
+    BasketComponent
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })

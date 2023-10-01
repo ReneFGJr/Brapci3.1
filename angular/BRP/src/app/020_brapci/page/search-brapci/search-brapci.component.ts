@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { BrapciService } from '../../../000_core/010_services/brapci.service';
+import { LocalStorageService } from '../../../000_core/010_services/local-storage.service';
 import { map } from 'rxjs';
 
 @Component({
@@ -15,8 +16,9 @@ import { map } from 'rxjs';
   styleUrls: ['./search-brapci.component.scss'],
 })
 export class SearchBrapciComponent {
+  public selected: number = 0;
   public works: Array<any> | any;
-  public totalw = 0;
+  public totalw: number = 0;
   public result: Array<any> | any;
   public results: Array<any> | any;
   public filters: boolean = false;
@@ -28,6 +30,7 @@ export class SearchBrapciComponent {
   public loading: boolean = false;
   public loaging_img: string = '/assets/img/loading.svg';
   public class_filter: string = '';
+  private basket: Array<any> = [];
 
   public msg_data_mark: string = 'Selecionar item para biblioteca pessoal';
   public msg_cover: string = 'Capa da publicação';
@@ -48,7 +51,11 @@ export class SearchBrapciComponent {
   display = 5;
   direction = '';
 
-  constructor(private fb: FormBuilder, private brapciService: BrapciService) {
+  constructor(
+    private fb: FormBuilder,
+    private brapciService: BrapciService,
+    private localStorageService: LocalStorageService
+  ) {
     /************************************************************ Collection */
     this.list = [
       { name: 'Revistas Brasileiras', value: 'RA', checked: true },
@@ -56,10 +63,17 @@ export class SearchBrapciComponent {
       { name: 'Eventos', value: 'EV', checked: true },
       { name: 'Livros e Capítulos de Livros', value: 'BK', checked: true },
     ];
-    /***********************************************************  */
+    /*********************************************************** BASKET */
+    this.basket = this.localStorageService.get('marked');
+    if (this.basket === null) {
+      this.basket = [];
+    }
     this.marked = this.fb.group({
       website: this.fb.array([], [Validators.required]),
     });
+    this.selected = this.basket.length;
+
+    /*************************************************************** FILTRO ANO - STAND*/
     let yearE = 2024;
     let yearS = 1960;
     for (let i = yearS; i <= yearE; i++) {
@@ -83,17 +97,15 @@ export class SearchBrapciComponent {
   }
 
   ngOnInit() {
+    console.log('INIT');
     this.createForm();
     this.style = 'noshow';
   }
 
   clickFilters() {
     this.filters = !this.filters;
-    if (this.filters)
-      this.style = 'fadeIn show';
-    else
-      this.style = 'UP';
-
+    if (this.filters) this.style = 'fadeIn show';
+    else this.style = 'UP';
   }
 
   clickadvanceSearch() {
@@ -102,17 +114,52 @@ export class SearchBrapciComponent {
 
   /**************************** MARK */
   markDOwn(e: any) {
-    const website: FormArray = this.marked.get('website') as FormArray;
+    let id = 'mk' + e;
+    let checkbox = document.getElementById(id) as HTMLInputElement | null;
+
+    const wb: FormArray = this.marked.get('website') as FormArray;
 
     if (e.target.checked) {
-      website.push(new FormControl(e.target.value));
-      console.log(e.target.value + ' on');
+      /********* Verifica se existe */
+      const index = wb.controls.findIndex((x) => x.value === e.target.value);
+      if (index > 0) {
+      } else {
+        wb.push(new FormControl(e.target.value));
+      }
     } else {
-      const index = website.controls.findIndex(
-        (x) => x.value === e.target.value
-      );
-      console.log(e.target.value + ' off');
-      website.removeAt(index);
+      const index = wb.controls.findIndex((x) => x.value === e.target.value);
+      wb.removeAt(index);
+    }
+    this.localStorageService.set('marked', wb.value);
+    this.basket = wb.value;
+    this.selected = this.basket.length;
+  }
+
+  updateBasket(e: string) {
+    let it = this.basket;
+    it.map((idx: string) => {
+      let id = 'mk' + idx;
+      let checkbox = document.getElementById(id) as HTMLInputElement | null;
+      if (checkbox != null) {
+        checkbox.checked = false;
+      }
+    });
+
+    const wb: FormArray = this.marked.get('website') as FormArray;
+    wb.reset();
+
+    this.basket = [];
+    this.localStorageService.remove('mark');
+    this.selected = 0;
+
+    console.log('ADD', this.basket);
+  }
+
+  checked(id: string) {
+    if (this.basket.includes(id)) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -146,7 +193,6 @@ export class SearchBrapciComponent {
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
-        console.log(res);
         this.results = this.result.works;
         this.works = [];
         let max = 5;
@@ -162,6 +208,9 @@ export class SearchBrapciComponent {
     } else {
       console.log('NÃO OK');
     }
+
+    console.log('SEARCH', this.basket);
+    console.log("--")
   }
   onKeyPress() {}
 }
