@@ -106,10 +106,6 @@ class Abnt extends Model
 			$tela .= ', ' . $dri['is_year'];
 		}
 
-		if ($dri['legend'] != '') {
-			$tela .= ', ' . $dri['legend'];
-		}
-
 		$tela .= '. <b>Anais</b> [.] ';
 
 		if ($dri['is_place'] != '') {
@@ -275,6 +271,10 @@ class Abnt extends Model
 			}
 		}
 		/******************************** NR **/
+		if ($dt['legend'] != '') {
+			$tela .= '. ' . $dt['legend'];
+		}
+
 		if (isset($dt['issue']['Issue_nr']) > 0) {
 			$nr = trim($dt['issue']['Issue_nr']);
 			if (strlen($nr) > 0)
