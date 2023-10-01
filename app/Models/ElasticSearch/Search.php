@@ -68,7 +68,13 @@ class Search extends Model
         }
     function recoverList($ids)
         {
+            $cp = 'article_id, ldl_authors, ldl_journal, ldl_legend, ldl_title, type, year';
+            $this->select($cp);
             $this->where('article_id',$ids[0]);
+            for($r=1;$r < count($ids);$r++)
+                {
+                    $this->Orwhere('article_id', $ids[$r]);
+                }
             $dt = $this->findAll();
             return $dt;
         }
