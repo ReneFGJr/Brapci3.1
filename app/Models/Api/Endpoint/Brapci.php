@@ -438,7 +438,7 @@ class Brapci extends Model
                     $ln['title'] = $line['ldl_title'];
                     $ln['authors'] = $line['ldl_authors'];
                     $ln['jnl_name'] = $line['ldl_legend'];
-                    $ln['year'] = $line['year'];
+                    $ln['is_year'] = $line['year'];
                     switch($type)
                         {
                             case 'Article':
