@@ -27,6 +27,7 @@ import { CiteComponent } from './page/v/cite.component';
 import { BrapciProceedingComponent } from './page/v/proceeding/proceeding.component';
 import { SubjectVComponent } from './page/v/subject/subject.component';
 import { BasketComponent } from './page/basket/basket.component';
+import { BasketedComponent } from './page/basketed/basketed.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { BasketComponent } from './page/basket/basket.component';
     BrapciProceedingComponent,
     SubjectVComponent,
     BasketComponent,
+    BasketedComponent,
   ],
   imports: [
     CommonModule,

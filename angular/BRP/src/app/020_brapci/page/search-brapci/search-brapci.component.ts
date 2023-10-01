@@ -69,7 +69,7 @@ export class SearchBrapciComponent {
       this.basket = [];
     }
     this.marked = this.fb.group({
-      website: this.fb.array([], [Validators.required]),
+      website: this.fb.array([], [Validators.required])
     });
     this.selected = this.basket.length;
 
@@ -97,7 +97,6 @@ export class SearchBrapciComponent {
   }
 
   ngOnInit() {
-    console.log('INIT');
     this.createForm();
     this.style = 'noshow';
   }
@@ -137,6 +136,16 @@ export class SearchBrapciComponent {
 
   updateBasket(e: string) {
     let it = this.basket;
+    const wb: FormArray = this.marked.get('website') as FormArray;
+
+    if (it != null)
+    {
+      it.map((idx: string) => {
+          let xid = wb.controls.findIndex((x) => x.value === idx);
+          wb.removeAt(xid);
+      })
+    }
+
     it.map((idx: string) => {
       let id = 'mk' + idx;
       let checkbox = document.getElementById(id) as HTMLInputElement | null;
@@ -145,14 +154,9 @@ export class SearchBrapciComponent {
       }
     });
 
-    const wb: FormArray = this.marked.get('website') as FormArray;
-    wb.reset();
-
     this.basket = [];
     this.localStorageService.remove('mark');
     this.selected = 0;
-
-    console.log('ADD', this.basket);
   }
 
   checked(id: string) {
@@ -208,9 +212,6 @@ export class SearchBrapciComponent {
     } else {
       console.log('NÃO OK');
     }
-
-    console.log('SEARCH', this.basket);
-    console.log("--")
   }
   onKeyPress() {}
 }

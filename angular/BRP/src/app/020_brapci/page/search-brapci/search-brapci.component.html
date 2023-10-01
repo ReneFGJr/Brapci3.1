@@ -71,6 +71,7 @@
 
 <div class="container">
   <!-------------- Resultados -->
+  {{marked.value | json}}
   <div class="list-group row" infinite-scroll (scrolled)="onScrollDown($event)">
     <form [formGroup]="marked">
       <table
@@ -79,9 +80,6 @@
         class="mb-3 mt-3 fadeIn"
         style="animation-delay: 500ms"
       >
-        {{
-          items.type
-        }}
 
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">

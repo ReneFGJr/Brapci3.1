@@ -126,3 +126,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-left: 5px solid #888;
     border-radius: 10px;
   }
+
+.basket
+  {
+    border-radius: 10px;
+    padding: 2px 10px 2px 10px;
+    margin-top: 5px;
+  }
+
+.handle
+  {
+    cursor: pointer;
+  }
+
+  .small
+    {
+      font-size: 0.8rem;
+    }

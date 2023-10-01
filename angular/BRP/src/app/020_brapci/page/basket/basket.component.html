@@ -1,4 +1,4 @@
-<div *ngIf="total > 0">
-  {{ total }} Items selecionados
-  | <span class="handle" (click)="clear()">Limpar seleção</span>
+<div *ngIf="total > 0" class="mt-2 mb-2">
+  <span class="basket handle small btn btn-outline-primary me-2" (click)="showSelected();"> {{ total }} Items selecionados </span>
+  <span class="basket handle small btn btn-outline-warning me-2" (click)="clear()">Limpar seleção</span>
 </div>

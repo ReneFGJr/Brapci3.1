@@ -59,6 +59,9 @@ class Brapci extends Model
             case 'resume':
                 $RSP = $this->resume();
                 break;
+            case 'basket':
+                $RSP = $this->basket(get("row"));
+                break;
             case 'oai':
                 $RSP = $this->oai($d2, $d3);
                 break;
@@ -413,4 +416,10 @@ class Brapci extends Model
             return [];
         }
     }
+
+    function basket($row)
+        {
+            $RSP['row'] = $row;
+            return $RSP;
+        }
 }
