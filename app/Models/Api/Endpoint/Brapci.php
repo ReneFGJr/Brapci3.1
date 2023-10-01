@@ -422,7 +422,28 @@ class Brapci extends Model
             $RSP['row'] = $row;
             $l = explode(',',$row);
             $Elastic = new \App\Models\ElasticSearch\Search();
-            $RSP['works'] = $Elastic->recoverList($l);
+            $dt = $Elastic->recoverList($l);
+
+            $ARTI = [];
+            $EVEN = [];
+            $BOOK = [];
+            $CAPT = [];
+
+            foreach($dt as $id=>$line)
+                {
+                    $ABNT = new \app\models\Metadata\Abnt();
+                    $type = $line['type'];
+                    $ln = $line;
+                    switch($type)
+                        {
+                            case 'Article':
+                                $ref = $ABNT->show($ln,'A');
+                                array_push($ARTI,$ref);
+                                break;
+                        }
+                }
+
+            $RSP['Article'] = $ARTI;
             return $RSP;
         }
 }
