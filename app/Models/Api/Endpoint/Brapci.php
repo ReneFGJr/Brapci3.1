@@ -436,7 +436,7 @@ class Brapci extends Model
                     $type = $line['type'];
                     $ln = [];
                     $ln['title'] = $line['ldl_title'];
-                    $ln['authors'] = explode(';',$line['ldl_authors']);
+                    $ln['Authors'] = explode(';',$line['ldl_authors']);
                     $ln['jnl_name'] = $line['ldl_legend'];
                     $ln['is_year'] = $line['year'];
                     $ln['legend'] = $line['ldl_legend'];
