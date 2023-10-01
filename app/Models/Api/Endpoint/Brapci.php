@@ -449,7 +449,9 @@ class Brapci extends Model
                         }
                 }
 
-            $RSP['Article'] = $ARTI;
+            sort($ARTI);
+
+            $RSP['ABNT']['Article'] = $ARTI;
             $RSP['workd'] = $dt;
             return $RSP;
         }
