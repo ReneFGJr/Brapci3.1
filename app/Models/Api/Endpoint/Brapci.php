@@ -420,6 +420,9 @@ class Brapci extends Model
     function basket($row)
         {
             $RSP['row'] = $row;
+            $l = explode(',',$row);
+            $Elastic = new \App\Models\ElasticSearch\Search();
+            $RSP['works'] = $Elastic->recoverList($l);
             return $RSP;
         }
 }

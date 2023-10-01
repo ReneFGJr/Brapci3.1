@@ -5,27 +5,27 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-basketed',
   templateUrl: './basketed.component.html',
-  styleUrls: ['./basketed.component.scss']
+  styleUrls: ['./basketed.component.scss'],
 })
 export class BasketedComponent {
-  public basket:Array<any>|any
-  public total:number = 0;
+  public basket: Array<any> | any;
+  public row: Array<any> | any;
+  public total: number = 0;
   constructor(
-    private localStorageService:LocalStorageService,
+    private localStorageService: LocalStorageService,
     private brapciService: BrapciService
   ) {}
 
-  ngOnInit()
-    {
-        this.basket = this.localStorageService.get('marked');
-        console.log(this.basket);
-        this.total = this.basket.length;
+  ngOnInit() {
+    this.basket = this.localStorageService.get('marked');
+    console.log(this.basket);
+    this.total = this.basket.length;
 
-        if (this.total > 0)
-          {
-            this.brapciService.basket(this.basket)
-          }
-
+    if (this.total > 0) {
+      this.brapciService.basket(this.basket).subscribe((res) => {
+        console.log(res);
+        this.row = res;
+      });
     }
-
+  }
 }

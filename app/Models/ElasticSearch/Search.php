@@ -66,6 +66,12 @@ class Search extends Model
             echo (json_encode($dt));
             exit;
         }
+    function recoverList($ids)
+        {
+            $this->where('article_id',$ids[0]);
+            $dt = $this->findAll();
+            return $dt;
+        }
 
     function search($q = '',$type='')
     {
