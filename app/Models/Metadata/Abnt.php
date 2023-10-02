@@ -264,7 +264,7 @@ class Abnt extends Model
 			}
 		}
 		/******************************** NR **/
-		if ($dt['legend'] != '') {
+		if (isset($dt['legend']) and ($dt['legend'] != '')) {
 			$tela .= '. ' . $dt['legend'];
 		} else {
 
