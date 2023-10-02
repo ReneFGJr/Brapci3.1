@@ -442,6 +442,10 @@ class Brapci extends Model
                     $ln['legend'] = $line['ldl_legend'];
                     switch($type)
                         {
+                            case 'Proceeding':
+                                $ref = $ABNT->show($ln, 'E');
+                                array_push($ARTI, $ref);
+                                break;
                             case 'Article':
                                 $ref = $ABNT->show($ln,'A');
                                 array_push($ARTI,$ref);
@@ -456,7 +460,7 @@ class Brapci extends Model
             sort($ARTI);
 
             $RSP['ABNT']['Article'] = $ARTI;
-            $RSP['workd'] = $dt;
+            $RSP['work'] = $dt;
             return $RSP;
         }
 }

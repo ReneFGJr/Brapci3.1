@@ -43,6 +43,9 @@ class Abnt extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($type) {
+			case 'E':
+				$tela = $this->abnt_proceeding($dt);
+				break;
 			default:
 				$tela = $this->abnt_article($dt);
 		}
