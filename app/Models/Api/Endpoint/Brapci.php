@@ -446,6 +446,10 @@ class Brapci extends Model
                                 $ref = $ABNT->show($ln,'A');
                                 array_push($ARTI,$ref);
                                 break;
+                            default:
+                                $ref = $ABNT->show($ln, 'A');
+                                array_push($ARTI, $ref);
+                                break;
                         }
                 }
 
