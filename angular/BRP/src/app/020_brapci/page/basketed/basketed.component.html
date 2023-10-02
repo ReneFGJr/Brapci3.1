@@ -1,11 +1,16 @@
 <app-theme-header></app-theme-header>
 <app-theme-navbar></app-theme-navbar>
 <div class="container">
-<div class="row">
-<div class="col-12">
-<brapci-basket [total]="total"></brapci-basket>
-{{basket}}
-</div>
-</div>
+  <div class="row">
+    <div class="col-12">
+      <brapci-basket [total]="total"></brapci-basket>
+    </div>
+  </div>
+
+  <div *ngIf="basket">
+      <div *ngFor="let item of row.ABNT.Article" class="mb-2">
+        {{ item }}
+      </div>
+  </div>
 </div>
 <app-theme-footer></app-theme-footer>
