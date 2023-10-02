@@ -61,7 +61,7 @@ class Brapci extends Model
                 $RSP = $this->resume();
                 break;
             case 'basket':
-                $RSP = $this->basket(get("row"));
+                $RSP = $this->basket(get("row").get("q"));
                 break;
             case 'oai':
                 $RSP = $this->oai($d2, $d3);
@@ -424,6 +424,8 @@ class Brapci extends Model
             $l = explode(',',$row);
             $Elastic = new \App\Models\ElasticSearch\Search();
             $dt = $Elastic->recoverList($l);
+
+            pre($dt);
 
             $ARTI = [];
             $EVEN = [];
