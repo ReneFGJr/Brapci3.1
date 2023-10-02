@@ -440,6 +440,7 @@ class Brapci extends Model
                     $ln['jnl_name'] = $line['ldl_legend'];
                     $ln['is_year'] = $line['year'];
                     $ln['legend'] = $line['ldl_legend'];
+                    $ln['ID'] = $line['article_id'];
                     switch($type)
                         {
                             case 'Proceeding':
