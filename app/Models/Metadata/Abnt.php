@@ -107,6 +107,11 @@ class Abnt extends Model
 			$tela .= ', ' . $dri['is_year'];
 		}
 
+		if (isset($dri['legend']) and ($dri['lenged'] != ''))
+			{
+				$tela .= '. '.$dri['legend'];
+			}
+
 		$tela .= '. <b>Anais</b> [.] ';
 
 		if ($dri['is_place'] != '') {
