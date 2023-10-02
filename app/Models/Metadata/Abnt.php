@@ -53,6 +53,7 @@ class Abnt extends Model
 	}
 	function abnt_proceeding($dt)
 	{
+		pre($dt);
 		$id = $dt['ID'];
 		if (isset($dt['title'])) {
 			$title = trim(html_entity_decode($dt['title']));
