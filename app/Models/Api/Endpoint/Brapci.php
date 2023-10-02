@@ -425,8 +425,6 @@ class Brapci extends Model
             $Elastic = new \App\Models\ElasticSearch\Search();
             $dt = $Elastic->recoverList($l);
 
-            pre($dt);
-
             $ARTI = [];
             $EVEN = [];
             $BOOK = [];

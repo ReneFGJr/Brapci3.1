@@ -76,7 +76,6 @@ class Search extends Model
                     $this->Orwhere('article_id', $ids[$r]);
                 }
             $dt = $this->findAll();
-            echo $this->getlastquery();
             return $dt;
         }
 
