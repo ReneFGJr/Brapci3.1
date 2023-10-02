@@ -368,6 +368,7 @@ class Register extends Model
                     $sx = lang('brapci.skip').' deleted';
                     return $sx;
                 }
+
             $data = $this->data_convert_elastic($xdata);
             if (count($dt) == 0)
                 {
