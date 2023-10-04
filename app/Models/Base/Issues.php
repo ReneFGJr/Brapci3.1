@@ -116,7 +116,6 @@ class Issues extends Model
 
     function register_issue($id,$jnl=0)
         {
-            echo '=='.$id;
             $dti = $this->getIssue($id);
 
             $dt = $this
