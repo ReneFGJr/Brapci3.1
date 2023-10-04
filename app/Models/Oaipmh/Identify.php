@@ -59,7 +59,6 @@ class Identify extends Model
 			/********* Registra Journal */
 			switch ($dts['jnl_collection']) {
 				case 'JA':
-
 					$setName = $dts['repositoryName'];
 					$class = 'Journal';
 					$dtx = array();
@@ -96,6 +95,7 @@ class Identify extends Model
 	{
 		$OAI = new \App\Models\Oaipmh\Index();
 		$tp = 0;
+
 		if (isset($data['jnl_url_oai'])) {
 			$url = $OAI->url($data, 'identify');
 			$tp = 1;
@@ -119,13 +119,21 @@ class Identify extends Model
 		$dt['baseURL'] = $this->xml_value($xml->Identify->baseURL);
 		$dt['responseDate'] = $this->xml_value($xml->responseDate);
 		$dt = array_merge($data, $dt);
-		if ($tp = 0) {
+
+		if ($tp == 0) {
 			$this->frbr->journal($dt);
-			$this->getListSets($id);
+			$dt['issue'] = $this->getListSets($id);
 		} else {
+			$dt['issue'] = $this->getListSets($id);
 			return ($dt);
 		}
 	}
+
+	public function getListSets($id)
+		{
+			$RSP = [];
+			return $RSP;
+		}
 
 	public function xml_value($x)
 	{

@@ -61,88 +61,90 @@ class Index extends Model
 
 	function identify($d1, $d2)
 	{
-		$sx = '';
+		$RSP = [];
 		$id = $d2;
 		$Identify = new \App\Models\Oaipmh\Identify();
 		$Soucers = new \App\Models\Base\Sources();
 		$dt = $Soucers->find($d2);
 		if ($dt == '') {
-			return bsmessage('Harvesting Identify - erro no id', 3);
+			$RSP['status'] = '404';
+			$RSP['message'] = bsmessage('Harvesting Identify - erro no id', 3);
 		} else {
-			$sx .= $Identify->getIdentify($dt);
+			$RSP['status'] = '200';
+			$RSP = $Identify->Identify($id,$dt);
 		}
+		return $RSP;
+	}
+
+	function api($d1, $d2)
+	{
+		$RSP = [];
+		switch ($d1) {
+			case 'identify':
+				$RSP = $this->identify($d1,$d2);
+				break;
+			case 'getIssue':
+				$GetRecords = new \App\Models\Oaipmh\GetRecords();
+				$RSP = $GetRecords->getrecord(0, $d2);
+				if (isset($RSP['message']['result']['URL'])) {
+					$RSP['rdf'] = sonumero($RSP['message']['result']['URL']);
+				}
+				break;
+			default:
+				$RSP['status'] = '404';
+				$RSP['messagem'] = 'Function not found - ' . $d1 . '-' . $d2;
+		}
+		return $RSP;
+	}
+
+
+	function getregister($d1, $d2)
+	{
+		$sx = '';
+		$GetRecords = new \App\Models\Oaipmh\GetRecords();
+		$ListSets = new \App\Models\Oaipmh\ListSets();
+		$Soucers = new \App\Models\Base\Sources();
+		/************************* Recupera Journal */
+		$dt = $Soucers->find($d2);
+
+		/************************* Recupera ListSets */
+		$ListSets->getAll($dt);
 		return $sx;
 	}
 
-	function api($d1,$d2)
-		{
-			$RSP = [];
-			switch($d1)
-				{
-					case 'getIssue':
-						$GetRecords = new \App\Models\Oaipmh\GetRecords();
-						$RSP = $GetRecords->getrecord(0,$d2);
-						if (isset($RSP['message']['result']['URL']))
-						{
-							$RSP['rdf'] = sonumero($RSP['message']['result']['URL']);
-						}
-						break;
-					default:
-						$RSP['status'] = '404';
-						$RSP['messagem'] = 'Function not found - '.$d1.'-'.$d2;
-
-				}
-			return $RSP;
-		}
-
-
-	function getregister($d1,$d2)
-		{
-			$sx = '';
-			$GetRecords = new \App\Models\Oaipmh\GetRecords();
-			$ListSets = new \App\Models\Oaipmh\ListSets();
-			$Soucers = new \App\Models\Base\Sources();
-			/************************* Recupera Journal */
-			$dt = $Soucers->find($d2);
-
-			/************************* Recupera ListSets */
-			$ListSets->getAll($dt);
-			return $sx;
-		}
-
 	function url($data, $verb)
 	{
-			$url = trim($data['jnl_url_oai']);
-			$scielo = '';
-			if ($data['jnl_scielo'] == '1') {
-				$scielo = '&set=' . $data['jnl_oai_set'];
-			}
-			switch ($verb) {
-				case 'ListSets':
-					$url .= '?verb=ListSets';
-					break;
+		$url = trim($data['jnl_url_oai']);
+		$scielo = '';
+		if ($data['jnl_scielo'] == '1') {
+			$scielo = '&set=' . $data['jnl_oai_set'];
+		}
+		switch ($verb) {
+			case 'ListSets':
+				$url .= '?verb=ListSets';
+				break;
 
-				case 'GetRecord':
-					$url .= '?verb=GetRecord&metadataPrefix=oai_dc&identifier=';
-					break;
+			case 'GetRecord':
+				$url .= '?verb=GetRecord&metadataPrefix=oai_dc&identifier=';
+				break;
 
-				case 'GetRecordNlm':
-					$url .= '?verb=GetRecord&metadataPrefix=nlm&identifier=';
-					break;
-				case 'ListIdentifiers':
-					if (strlen($data['jnl_oai_token']) > 5) {
-						$url .= '?verb=ListIdentifiers&resumptionToken=' . trim($data['jnl_oai_token']);
-						$url .= $scielo;
-					} else {
-						$url .= '?verb=ListIdentifiers&metadataPrefix=oai_dc';
-						$url .= $scielo;
-					}
-					break;
-				case 'identify':
-					$url .= '?verb=Identify';
-					break;
-			}
-			return ($url);
+			case 'GetRecordNlm':
+				$url .= '?verb=GetRecord&metadataPrefix=nlm&identifier=';
+				break;
+			case 'ListIdentifiers':
+				if (strlen($data['jnl_oai_token']) > 5) {
+					$url .= '?verb=ListIdentifiers&resumptionToken=' . trim($data['jnl_oai_token']);
+					$url .= $scielo;
+				} else {
+					$url .= '?verb=ListIdentifiers&metadataPrefix=oai_dc';
+					$url .= $scielo;
+				}
+				break;
+			case 'identify':
+				$url .= '?verb=Identify';
+				break;
+		}
+		return ($url);
 	}
 
 	function logo()
@@ -187,13 +189,12 @@ class Index extends Model
 
 		$Cover = new \App\Models\Base\Cover();
 		$sx .= '<hr>';
-		if ($Socials->getAccess("#ADM#CAT"))
-			{
-				$sx .= $Cover->cover_upload_bnt($jid);
-				$sx .= '<br>';
-			}
+		if ($Socials->getAccess("#ADM#CAT")) {
+			$sx .= $Cover->cover_upload_bnt($jid);
+			$sx .= '<br>';
+		}
 
-		$sx .= '<img src="'.$Cover->cover($jid).'" class="img-fluid">';
+		$sx .= '<img src="' . $Cover->cover($jid) . '" class="img-fluid">';
 		return $sx;
 	}
 
@@ -218,53 +219,50 @@ class Index extends Model
 		return $dir;
 	}
 
-	function resume($idj,$issue)
-		{
-			$dt = $this->to_harvesting_group($idj,$issue);
-			$dsp = array(0,0,0,0,0,0,0,0,0,0,0);
-			foreach($dt as $id=>$line)
-				{
-					$dsp[$line['li_s']] = $line['total'];
-				}
-			$sx = '<table width="100%">';
-			$sx .= '<tr>';
-			for ($r=0;$r <= 9;$r++)
-				{
-					$link = '<a href="'.PATH. '/proceedings/oai/I'.$issue.'/status/?status='.$r.'">';
-					$linka = '</a>';
-					if ($dsp[$r] == 0)
-						{
-							$linka = '';
-							$link = '';
-						}
-					$sx .= '<td width="10%">'. $link.$dsp[$r].$linka.'</td>';
-				}
-			$sx .= '</tr>';
-			$sx .= '</table>';
-			return $sx;
+	function resume($idj, $issue)
+	{
+		$dt = $this->to_harvesting_group($idj, $issue);
+		$dsp = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		foreach ($dt as $id => $line) {
+			$dsp[$line['li_s']] = $line['total'];
 		}
+		$sx = '<table width="100%">';
+		$sx .= '<tr>';
+		for ($r = 0; $r <= 9; $r++) {
+			$link = '<a href="' . PATH . '/proceedings/oai/I' . $issue . '/status/?status=' . $r . '">';
+			$linka = '</a>';
+			if ($dsp[$r] == 0) {
+				$linka = '';
+				$link = '';
+			}
+			$sx .= '<td width="10%">' . $link . $dsp[$r] . $linka . '</td>';
+		}
+		$sx .= '</tr>';
+		$sx .= '</table>';
+		return $sx;
+	}
 
 	function to_harvesting_group($idj, $issue, $st = 1)
 	{
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 		if ($idj > 0) {
 			$dt = $OAI_ListIdentifiers
-					->select("count(*) as total, li_s")
-					->where('li_jnl', $idj)
-					->groupBy("li_s")
-					->findAll();
+				->select("count(*) as total, li_s")
+				->where('li_jnl', $idj)
+				->groupBy("li_s")
+				->findAll();
 		} else {
 			$dt = $OAI_ListIdentifiers
-					->select("count(*) as total, li_s")
-					->where('li_issue', $issue)
-					->groupBy("li_s")
-					->findAll();
+				->select("count(*) as total, li_s")
+				->where('li_issue', $issue)
+				->groupBy("li_s")
+				->findAll();
 		}
 		return $dt;
 	}
 
 
-	function to_harvesting($idj, $issue,$st=1)
+	function to_harvesting($idj, $issue, $st = 1)
 	{
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 		if ($idj > 0) {
