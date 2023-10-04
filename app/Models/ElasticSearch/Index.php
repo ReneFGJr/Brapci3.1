@@ -117,7 +117,8 @@ class Index extends Model
 		{
 			$Register = new \App\Models\ElasticSearch\Register();
 			$dt = $Register->where('year < 1940')->findAll();
-			$sx = '<ol>';
+			$sx = 'Total '.count($dt).' problems with year';
+			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
 				{
 					$url = $line['article_id'];
