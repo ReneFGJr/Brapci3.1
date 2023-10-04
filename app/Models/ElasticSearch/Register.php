@@ -82,7 +82,11 @@ class Register extends Model
                     $dt['full'] = strip_tags($dt['full']);
                     $id = $dt['id'];
                     $rst = $API->call('brapci3.1/'.$type.'/'. $id, 'POST', $dt);
+
+                    /* Second Server */
                     $API->server = 'http://143.54.112.91:9200/';
+                    $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
+
                     $sx .= $id .= ' => '.$rst['result'].' v.'.$rst['_version'].' ('.$line['collection'].')<br>';
 
                 }

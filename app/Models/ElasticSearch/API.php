@@ -40,7 +40,7 @@ class API extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 	protected $index = 'brapci2022';
-	protected $server = '';
+	public $server = '';
 	protected $sz = 25;
 
 	function __construct()
