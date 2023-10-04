@@ -141,7 +141,7 @@ class Elasticsearch extends BaseController
             $q = get("search");
             $Search = new \App\Models\ElasticSearch\Search();
             $SearchElastic = new \App\Models\ElasticSearch\Index();
-            $sx .= $SearchElastic->show_works($Search->search($q));
+            $sx .= $SearchElastic->show_works($Search->search($q),'');
         }
         return $sx;
     }
