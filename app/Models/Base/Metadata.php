@@ -98,18 +98,23 @@ class Metadata extends Model
         return true;
     }
 
-    function metadata_issue($id)
+    function metadata_issue($id,$jnlRDF)
         {
             $ISSUE = new \App\Models\Base\Issues();
+            $RDF = new \App\Models\Rdf\RDF();
+
             $dtq = $ISSUE
                 ->join('source_source', 'id_jnl = is_source')
                 ->where('is_source_issue',$id)
                 ->first();
 
             if ($dtq == '') {
+                /**************** ISSUE NOT FOUND */
+                $ISSUE->register_issue((string)$id);
+                /************************ RECUPERA */
                 $dtq = $ISSUE
                     ->join('source_source', 'id_jnl = is_source')
-                    ->where('is_issue',$id)
+                    ->where('is_source_issue',$id)
                     ->first();
             }
 
@@ -332,8 +337,11 @@ class Metadata extends Model
                     case 'hasIssueOf':
                         /************** ARTIGO */
                         if (!isset($issue_proceessed[$ddv1]) or (count($issue_proceessed) == 0)) {
-                            $this->let('issue_id', $ddv1);
-                            $this->let("Issue", $this->metadata_issue($ddv1));
+                            $issue = $ddv1;
+                            $journal = $ddv2;
+                            $issue_vlr = $this->metadata_issue($issue,$journal);
+                            $this->let('issue_id', $issue);
+                            $this->let("Issue", $issue_vlr);
                             $issue_proceessed[$ddv1] = 1;
                         } else {
                             echo "OPS";

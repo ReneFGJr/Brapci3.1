@@ -114,13 +114,47 @@ class Issues extends Model
         return $sx;
     }
 
+    function register_issue($id,$jnl=0)
+        {
+            echo '=='.$id;
+            $dti = $this->getIssue($id);
+
+            $dt = $this
+                ->where('is_source',$dti['id_jnl'])
+                ->where('is_source_issue',$dti['source_issue'])
+                ->first();
+            if ($dt == '')
+                {
+                    $d['is_source'] = $dti['id_jnl'];
+                    $d['is_source_rdf'] = $dti['jnl_rdf'];
+                    $d['is_source_issue'] = $dti['source_issue'];
+                    $d['is_year'] = $dti['year'];
+                    $d['is_issue'] = $dti['source_issue'];
+                    $d['is_editor'] = 0;
+                    $d['is_vol'] = $dti['vol'];
+                    $d['is_vol_roman'] = $dti['vol'];
+                    $d['is_nr'] = $dti['nr'];
+                    $d['is_place'] = 0;
+                    $d['is_edition'] = 0;
+                    $d['is_thema'] = 0;
+                    $d['is_cover'] = 0;
+                    $d['is_card'] = 0;
+                    $d['is_url_oai'] = 0;
+                    $d['is_oai_token'] = 0;
+                    $this->set($d)->insert();
+                }
+        }
+
     function getIssue($id)
         {
+            $Source = new \App\Models\Base\Sources();
             $RDF = new \App\Models\Rdf\RDF();
             $dt = $RDF->le($id);
             $RSP['year'] = '????';
             $RSP['nr'] = '';
             $RSP['vol'] = '';
+            $RSP['source_issue'] = $id;
+
             foreach($dt['data'] as $id=>$line)
                 {
                     $class = $line['c_class'];
@@ -137,8 +171,22 @@ class Issues extends Model
                             case 'hasPublicationVolume':
                                 $RSP['vol'] = $vlr2;
                                 break;
+                            case 'prefLabel':
+                                if (substr($vlr1,0,5) == 'ISSUE')
+                                    {
+                                        $e = explode(":",$vlr1);
+                                        if (count($e) == 3)
+                                            {
+                                                $e = explode("-",$e[2]);
+                                                $RSP['id_jnl'] = round($e[0]);
+
+                                                $dt = $Source->find($RSP['id_jnl']);
+                                                $RSP['jnl_rdf'] = $dt['jnl_frbr'];
+                                            }
+                                    }
+                                break;
                             default:
-                            //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
+                                //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
                             break;
                         }
                 }
