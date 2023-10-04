@@ -44,6 +44,10 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'problems':
+                $Elastic = new \App\Models\ElasticSearch\Index();
+                $sx .= $Elastic->index($act, $subact, $id, $id2, $id3);
+                break;
             case 'find':
                 $Find = new \App\Models\Find\Index();
                 $sx .= $Find->index($subact, $id, $id2, $id3);
@@ -137,6 +141,7 @@ class Index extends Model
                             $sb .= '<a title="Export" href="' . PATH . '/admin/export/" class="text-success me-2">' . bsicone('upload', 32) . '</a>';
                             $sb .= '<a title="Cron" href="'.PATH.'/admin/cron/" class="text-success me-2">'.bsicone('clock-1',32).'</a>';
                             $sb .= '<a title="Bugs" href="' . PATH . '/admin/bugs/" class="text-success me-2">' . bsicone('bug', 32) . '</a>';
+                            $sb .= '<a title="Problems in Export File" href="' . PATH . '/admin/problems/" class="text-success me-2">' . bsicone('maid', 32) . '</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
                             break;

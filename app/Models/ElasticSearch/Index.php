@@ -49,6 +49,9 @@ class Index extends Model
 		$sx .= breadcrumbs($bread);
 
 		switch ($d1) {
+			case 'problems':
+				$sx .= $this->problems($type,$d3);
+				break;
 			case 'update_index':
 				$url = PATH . '/admin/elastic/update/';
 				$url2 = PATH . '/admin';
@@ -104,11 +107,27 @@ class Index extends Model
 				$sx .= '</table>';
 				break;
 			default:
-				$sx .= $this->menu();
+				$sx .= bsmessage("Command not found '".$d1."'");
 				break;
 		}
 		return $sx;
 	}
+
+	function problems($d1,$d2)
+		{
+			$Register = new \App\Models\ElasticSearch\Register();
+			$dt = $Register->where('year < 1940')->findAll();
+			$sx = '<ol>';
+			foreach($dt as $id=>$line)
+				{
+					$url = $line['article_id'];
+					$sx .= '<li>';
+					$sx .= anchor('v/'.$line['article_id']) . ' - ' .$line['type'];
+					$sx .= '</li>';
+				}
+			$sx .= '</ol>';
+			return $sx;
+		}
 
 	function paginations($dt)
 	{

@@ -28,6 +28,7 @@ import { BrapciProceedingComponent } from './page/v/proceeding/proceeding.compon
 import { SubjectVComponent } from './page/v/subject/subject.component';
 import { BasketComponent } from './page/basket/basket.component';
 import { BasketedComponent } from './page/basketed/basketed.component';
+import { DashboardComponent } from './page/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { BasketedComponent } from './page/basketed/basketed.component';
     SubjectVComponent,
     BasketComponent,
     BasketedComponent,
+    DashboardComponent,
   ],
   imports: [
     CommonModule,
