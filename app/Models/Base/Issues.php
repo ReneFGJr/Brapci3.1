@@ -117,8 +117,7 @@ class Issues extends Model
     function register_issue($id,$jnl=0)
         {
             $dti = $this->getIssue($id);
-            echo h($id);
-            pre($dti);
+
             $dt = $this
                 ->where('is_source',$dti['id_jnl'])
                 ->where('is_source_issue',$dti['source_issue'])
