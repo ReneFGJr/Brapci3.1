@@ -272,6 +272,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $management  = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_managment',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $pgcd  = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -661,6 +681,10 @@ class Database extends Config
 
         $this->vc['username'] = getenv('database.default.username');
         $this->vc['password'] = getenv('database.default.password');
+
+        $this->management['username'] = getenv('database.default.username');
+        $this->management['password'] = getenv('database.default.password');
+
 
     }
 }
