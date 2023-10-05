@@ -167,6 +167,12 @@ class Issues extends Model
         return $sx;
     }
 
+    function register_issue($id)
+        {
+            echo '=='.$id;
+            exit;
+        }
+
     function getIssue($id)
     {
         $RDF = new \App\Models\Rdf\RDF();
