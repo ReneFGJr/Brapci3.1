@@ -116,7 +116,7 @@ class Index extends Model
 	function problems($d1,$d2)
 		{
 			$Register = new \App\Models\ElasticSearch\Register();
-			$dt = $Register->where('year < 1940')->findAll(5);
+			$dt = $Register->where('year < 1940')->findAll(15);
 			$sx = 'Total '.count($dt).' problems with year';
 			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
