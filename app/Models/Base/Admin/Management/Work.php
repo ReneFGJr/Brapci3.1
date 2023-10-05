@@ -64,7 +64,7 @@ class Work extends Model
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $this->where('w_issue <= 0')->findAll();
 
-        pre($dt);
+        //pre($dt);
     }
 
     function check_class($class)
