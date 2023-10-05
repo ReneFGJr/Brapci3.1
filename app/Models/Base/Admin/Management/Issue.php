@@ -95,7 +95,10 @@ class Issue extends Model
                 {
                     $jnl = round($jnl);
                 } else {
-                    $sx .= '<br>ERRO: '.$dtx['concept']['n_name']. ' '.$jnl.'-'. substr($jnlv, 9, 1);
+                    $sx .= '<br>ERRO: ';
+                    $sx .= '<a href="'.PATH.'/v/'. $line['i_issue'].'" target="_new">';
+                    $sx .= $dtx['concept']['n_name']. ' '.$jnl.'-'. substr($jnlv, 9, 1);
+                    $sx .= '</a>';
                     $jnl = 0;
                 }
 
