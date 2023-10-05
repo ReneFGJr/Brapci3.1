@@ -114,36 +114,107 @@ class Issues extends Model
         return $sx;
     }
 
-    function getIssue($id)
-        {
-            $RDF = new \App\Models\Rdf\RDF();
-            $dt = $RDF->le($id);
-            $RSP['year'] = '????';
-            $RSP['nr'] = '';
-            $RSP['vol'] = '';
-            foreach($dt['data'] as $id=>$line)
-                {
-                    $class = $line['c_class'];
-                    $vlr1 = $line['n_name'];
-                    $vlr2 = $line['n_name2'];
-                    switch($class)
-                        {
-                            case 'dateOfPublication':
-                                $RSP['year'] = $vlr2;
-                                break;
-                            case 'hasPublicationNumber':
-                                $RSP['nr'] = $vlr2;
-                                break;
-                            case 'hasPublicationVolume':
-                                $RSP['vol'] = $vlr2;
-                                break;
-                            default:
-                            //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
-                            break;
-                        }
-                }
-                return $RSP;
+    function check_issues()
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
+        $RDFdata = new \App\Models\Rdf\RDFData();
+        $RDFconcept = new \App\Models\Rdf\RDFConcept();
+        $class = 'Issue';
+        $idc = $RDF->getClass($class, false);
+
+        $cp = 'id_cc, cc_class, cc_use, id_is, is_year';
+        //$cp = '*';
+        $dtd = $RDFconcept
+            ->select($cp)
+            ->join('brapci.source_issue', 'is_issue = id_cc', 'LEFT')
+            ->where('cc_class', $idc)
+            ->where('id_is is null')
+            ->groupby($cp)
+            ->findAll();
+
+        /************************ */
+        $sx .= '<ol>';
+        for ($rz = 0; $rz < count($dtd); $rz++) {
+            $line = $dtd[$rz];
+            $idissue = $line['id_cc'];
+            $dt = $this->getIssue($idissue);
+
+            $da['is_source'] = $dt['id_jnl'];
+            $da['is_source_rdf'] = 0;
+            $da['is_source_issue'] = '';
+            $da['is_year'] = $dt['year'];
+            $da['is_issue'] = $line['id_cc'];
+            $da['is_source_issue'] = $line['id_cc'];
+            $da['is_vol'] = $dt['vol'];
+            $da['is_vol_roman'] = '';
+            $da['is_nr'] = $dt['vol'];
+            $da['is_place'] = '';
+            $da['is_edition'] = '';
+            $da['is_cover'] = 0;
+            $da['is_card'] = 0;
+            $da['is_url_oai'] = 0;
+            $da['is_oai_token'] = '';
+            $da['is_oai_update'] = date("Y-m-d H:i:s");
+
+            $di = $this->where('is_issue', $line['id_cc'])->first();
+            if ($di == '') {
+                $this->set($da)->insert();
+                $sx .= '<li>' . $line['id_cc'] . '=>' . $da['is_year'] . $da['is_vol'] . $da['is_nr'] . ' Insered</li>';
+            }
         }
+        $sx .= '</ol>';
+        return $sx;
+    }
+
+    function getIssue($id)
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $Source = new \App\Models\Base\Sources();
+        $dt = $RDF->le($id);
+        $RSP['year'] = '????';
+        $RSP['nr'] = '';
+        $RSP['vol'] = '';
+        $pref = '';
+        foreach ($dt['data'] as $id => $line) {
+            $class = $line['c_class'];
+            $vlr1 = $line['n_name'];
+            $vlr2 = $line['n_name2'];
+            switch ($class) {
+                case 'prefLabel':
+                    $pref = $line['n_name'];
+                    break;
+                case 'hasIssue':
+                    $RSP['is_source_rdf'] = $line['d_r2'];
+                    $ds = $Source->where('jnl_frbr', $line['d_r2'])->first();
+                    $RSP['id_jnl'] = $ds['id_jnl'];
+                    break;
+                case 'dateOfPublication':
+                    $RSP['year'] = $vlr2;
+                    break;
+                case 'hasPublicationNumber':
+                    $RSP['nr'] = $vlr2;
+                    break;
+                case 'hasPublicationVolume':
+                    $RSP['vol'] = $vlr2;
+                    break;
+                default:
+                    //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
+                    break;
+            }
+        }
+        if ($RSP['year']=='')
+            {
+                $RSP['year'] = 1900;
+            }
+        if (!isset($RSP['id_jnl'])) {
+            $RSP['year'] = 9999;
+            $RSP['id_jnl'] = -1;
+            $RSP['id_jnl'] = -1;
+        }
+        return $RSP;
+    }
+
 
     function check($jnl, $auto = false)
     {

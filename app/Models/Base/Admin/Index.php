@@ -44,6 +44,9 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'issue':
+                $sx .= $this->issue($subact,$id,$id2,$id3);
+                break;
             case 'find':
                 $Find = new \App\Models\Find\Index();
                 $sx .= $Find->index($subact, $id, $id2, $id3);
@@ -147,6 +150,30 @@ class Index extends Model
         return $sx;
     }
 
+    function issue($d1,$d2,$d3)
+        {
+            $ISSUE = new \App\Models\Base\Issues();
+            $RDF = new \App\Models\Rdf\RDF();
+            $sx = h('ISSUE');
+
+            $sx = bs(bsc($sx,12));
+            switch($d1)
+                {
+                    case 'check':
+                        $sa = bsc(h(lang('brapci.check'),3),12);
+                        $sa .= $ISSUE->check_issues();
+                        $sx .= bs($sa);
+                    break;
+
+                    default:
+                        $menu['#Check'] = '#';
+                        $menu[PATH.'/admin/issue/check'] = 'Check ISSUE';
+                        $sx .= bs(bsc(menu($menu),12));
+                        break;
+                }
+            return $sx;
+        }
+
     function reports()
         {
             $sx = h(lang('brapci.reports'),5);
@@ -184,6 +211,8 @@ class Index extends Model
 
         $m["#Sources"] =  "";
         $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');
+        $m[PATH .  COLLECTION . '/issue'] =  lang('brapci.issue');
+        $m[PATH .  COLLECTION . '/issue_work'] =  lang('brapci.issue_work');
         $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
         $m['#RDF'] =  lang('brapci.rdf');
         $m[PATH .  '/rdf'] =  lang('brapci.rdf');
