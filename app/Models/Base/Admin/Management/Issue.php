@@ -145,7 +145,7 @@ class Issue extends Model
             ->where('cc_class', $class)
             ->where('i_issue is null')
             ->orderBy('id_cc')
-            ->findAll(5000);
+            ->findAll(1000);
         //echo $this->getlastquery();
 
         foreach ($dt as $id => $line) {
