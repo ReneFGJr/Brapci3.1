@@ -172,6 +172,8 @@ class Issues extends Model
             $RDF = new \App\Models\Rdf\RDF();
             $dt = $RDF->le($id);
             $dta = $dt['data'];
+            $d = $RDF->recovery($dta, 'hasIssue');
+            pre($d);
             pre($dta);
             exit;
         }
