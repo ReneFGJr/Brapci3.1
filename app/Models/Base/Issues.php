@@ -171,7 +171,7 @@ class Issues extends Model
         {
             $RDF = new \App\Models\Rdf\RDF();
             $dt = $RDF->le($id);
-            $dta = $dta['data'];
+            $dta = $dt['data'];
             pre($dta);
             exit;
         }
