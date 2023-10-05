@@ -56,46 +56,63 @@ class Issue extends Model
     }
 
     function complete()
-        {
-            $Work = new \App\Models\Base\Admin\Management\Work();
-            $RDF = new \App\Models\Rdf\RDF();
-            $dt = $this->where('i_journal',0)->findAll(10);
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $this->where('i_journal <= 0')->findAll();
 
-            foreach($dt as $id=>$line)
+        foreach ($dt as $id => $line) {
+            $dtx = $RDF->le($line['i_issue']);
+            $nr = $RDF->recovery($dtx['data'], 'hasPublicationNumber');
+
+            $nr = $RDF->recover($dtx, 'hasPublicationNumber');
+            if (count($nr) > 0) {
+                $nr = $RDF->le($nr[0]);
+                $nr = $nr['concept']['n_name'];
+            } else {
+                $nr = '';
+            }
+
+            $vol = $RDF->recover($dtx, 'hasPublicationVolume');
+            if (count($vol) > 0) {
+                $vol = $RDF->le($vol[0]);
+                $vol = $vol['concept']['n_name'];
+            } else {
+                $vol = '';
+            }
+
+            $year = $RDF->recover($dtx, 'dateOfPublication');
+            if (count($year) > 0) {
+                $year = $RDF->le($year[0]);
+                $year = $year['concept']['n_name'];
+            } else {
+                $year = -1;
+            }
+
+            $jnlv = $dtx['concept']['n_name'];
+            $jnl = trim(substr($jnlv, 10, 5));
+            if (($jnl != '') and (substr($jnlv, 9, 1) == ':') and (sonumero($jnl) == $jnl))
                 {
-                    $dtx = $RDF->le($line['i_issue']);
-                    $jnl1 = $RDF->recovery($dtx['data'], 'hasIssueOf');
-                    $nr = $RDF->recovery($dtx['data'], 'hasPublicationNumber');
-
-                    $nr = $RDF->recover($dtx, 'hasPublicationNumber');
-                    $nr = $RDF->le($nr[0]);
-                    $nr = $nr['concept']['n_name'];
-
-                    $vol = $RDF->recover($dtx, 'hasPublicationVolume');
-                    $vol = $RDF->le($vol[0]);
-                    $vol = $vol['concept']['n_name'];
-
-                    $year = $RDF->recover($dtx, 'dateOfPublication');
-                    $year = $RDF->le($year[0]);
-                    $year = $year['concept']['n_name'];
-
-                    foreach($jnl1 as $idj=>$linej)
-                        {
-                            $id_article = $linej[1];
-                            $d['i_journal'] = $line['i_issue'];
-                            $d['i_issue'] = $line['i_issue'];
-                            $d['i_year'] = $year;
-                            $d['i_vol'] = $vol;
-                            $d['i_nr'] = $nr;
-                            pre($d);
-                            echo "OK";
-                            exit;
-                        }
+                    $jnl = round($jnl);
+                } else {
+                    $sx .= '<br>ERRO: '.$dtx['concept']['n_name']. ' '.$jnl.'-'. substr($jnlv, 9, 1);
+                    $jnl = 0;
                 }
 
 
-            pre($dt);
+            $d['i_journal'] = $jnl;
+            $d['i_issue'] = $line['i_issue'];
+            $d['i_year'] = $year;
+            $d['i_vol'] = $vol;
+            $d['i_nr'] = $nr;
+
+            $this->set($d)->where('id_i', $line['id_i'])->update();
+            $sx .= '. ';
         }
+
+        return bs(bsc($sx));
+
+    }
 
     function check_class($class)
     {
