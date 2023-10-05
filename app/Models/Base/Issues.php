@@ -145,51 +145,51 @@ class Issues extends Model
         }
 
     function getIssue($id)
-        {
-            $Source = new \App\Models\Base\Sources();
-            $RDF = new \App\Models\Rdf\RDF();
-            $dt = $RDF->le($id);
-            $RSP['year'] = '????';
-            $RSP['nr'] = '';
-            $RSP['vol'] = '';
-            $RSP['source_issue'] = $id;
-
-            foreach($dt['data'] as $id=>$line)
-                {
-                    $class = $line['c_class'];
-                    $vlr1 = $line['n_name'];
-                    $vlr2 = $line['n_name2'];
-                    switch($class)
-                        {
-                            case 'dateOfPublication':
-                                $RSP['year'] = $vlr2;
-                                break;
-                            case 'hasPublicationNumber':
-                                $RSP['nr'] = $vlr2;
-                                break;
-                            case 'hasPublicationVolume':
-                                $RSP['vol'] = $vlr2;
-                                break;
-                            case 'prefLabel':
-                                if (substr($vlr1,0,5) == 'ISSUE')
-                                    {
-                                        $e = explode(":",$vlr1);
-                                        if (count($e) == 3)
-                                            {
-                                                $e = explode("-",$e[2]);
-                                                $RSP['id_jnl'] = round($e[0]);
-
-                                                $dt = $Source->find($RSP['id_jnl']);
-                                                $RSP['jnl_rdf'] = $dt['jnl_frbr'];
-                                            }
-                                    }
-                                break;
-                            default:
-                                //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
-                            break;
-                        }
-                }
-                return $RSP;
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $Source = new \App\Models\Base\Sources();
+        $dt = $RDF->le($id);
+        $RSP['year'] = '????';
+        $RSP['nr'] = '';
+        $RSP['vol'] = '';
+        $pref = '';
+        foreach ($dt['data'] as $id => $line) {
+            $class = $line['c_class'];
+            $vlr1 = $line['n_name'];
+            $vlr2 = $line['n_name2'];
+            switch ($class) {
+                case 'prefLabel':
+                    $pref = $line['n_name'];
+                    break;
+                case 'hasIssue':
+                    $RSP['is_source_rdf'] = $line['d_r2'];
+                    $ds = $Source->where('jnl_frbr', $line['d_r2'])->first();
+                    $RSP['id_jnl'] = $ds['id_jnl'];
+                    break;
+                case 'dateOfPublication':
+                    $RSP['year'] = $vlr2;
+                    break;
+                case 'hasPublicationNumber':
+                    $RSP['nr'] = $vlr2;
+                    break;
+                case 'hasPublicationVolume':
+                    $RSP['vol'] = $vlr2;
+                    break;
+                default:
+                    //echo $class.': '.$vlr1.' | '.$vlr2.'<br>';
+                    break;
+            }
+        }
+        if ($RSP['year']=='')
+            {
+                $RSP['year'] = 1900;
+            }
+        if (!isset($RSP['id_jnl'])) {
+            $RSP['year'] = 9999;
+            $RSP['id_jnl'] = -1;
+            $RSP['id_jnl'] = -1;
+        }
+        return $RSP;
     }
 
 
