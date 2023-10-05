@@ -137,6 +137,7 @@ class Issues extends Model
         $sx .= '<ol>';
         for ($rz = 0; $rz < count($dtd); $rz++) {
             $line = $dtd[$rz];
+            pre($line);
             $idissue = $line['id_cc'];
             $dt = $this->getIssue($idissue);
 
