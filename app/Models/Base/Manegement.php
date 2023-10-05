@@ -45,6 +45,11 @@ class Manegement extends Model
             $sx = '';
             switch($d1)
                 {
+                    case 'proceedings':
+                        $Works = new \App\Models\Base\Admin\Management\Work();
+                        $sx = $Works->proceedings();
+                        break;
+
                     case 'issue':
                         $Issue = new \App\Models\Base\Admin\Management\Issue();
                         $sx = $Issue->check();
@@ -67,6 +72,7 @@ class Manegement extends Model
             $menu['#Check'] = 3;
             $menu[PATH. 'admin/manegement/work'] = 'Checagem de artigos';
             $menu[PATH . 'admin/manegement/issue'] = 'Checagem de Fascículos';
+            $menu[PATH . 'admin/manegement/proceedings'] = 'Checagem de Proceedings';
             $sx = menu($menu);
 
             $sx = bs($sx);

@@ -97,4 +97,34 @@ class Work extends Model
                 }
             return bs(bsc($sx,6));
         }
+
+        function proceedings()
+            {
+                $sx = '';
+                $RDF = new \App\Models\Rdf\RDF();
+                $RDFconcept = new \App\Models\Rdf\RDFConcept();
+
+                $class = $RDF->getClass('Article', false);
+                $proceeding = $RDF->getClass('Proceeding', false);
+
+                $Source = new \App\Models\Base\Sources();
+                $cp = 'jnl_frbr, d_r1, d_p, d_r2, c_class, cc_class ';
+                $dt = $Source
+                        ->select($cp)
+                        ->join('rdf_data','d_r2 =jnl_frbr')
+                        ->join('rdf_concept','id_cc = d_r1')
+                        ->join('rdf_class', 'cc_class = id_c')
+                        ->where('jnl_collection','EV')
+                        ->where('d_p', '126')
+                        ->where('cc_class', $class)
+                        ->findAll(100);
+                foreach($dt as $id=>$line)
+                    {
+                        $id = $line['d_r1'];
+                        $sql = "update brapci.rdf_concept set cc_class = $proceeding where id_cc = $id";
+                        $RDFconcept->db->query($sql);
+                        $sx .= '. ';
+                    }
+                return $sx;
+            }
 }
