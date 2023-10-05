@@ -54,8 +54,18 @@ class Work extends Model
             $class = $RDF->getClass('Proceeding', false);
             $sx .= $this->check_class($class);
 
+            $sx .= $this->complete();
+
             return $sx;
         }
+    function complete()
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
+        $dt = $this->where('w_issue <= 0')->findAll();
+
+        pre($dt);
+    }
 
     function check_class($class)
         {

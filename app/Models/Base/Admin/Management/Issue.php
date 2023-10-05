@@ -58,10 +58,12 @@ class Issue extends Model
     function complete()
     {
         $sx = '';
+        $Works = new \App\Models\Base\Admin\Management\Work();
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $this->where('i_journal <= 0')->findAll();
 
         foreach ($dt as $id => $line) {
+
             $dtx = $RDF->le($line['i_issue']);
             $nr = $RDF->recovery($dtx['data'], 'hasPublicationNumber');
 
@@ -109,7 +111,19 @@ class Issue extends Model
             $d['i_vol'] = $vol;
             $d['i_nr'] = $nr;
 
+            $arts = $RDF->extract($dtx, 'hasIssueOf');
+
+            for($r=0;$r < count($arts);$r++)
+                {
+                    $w = [];
+                    $w['w_issue'] = $d['i_issue'];
+                    $w['w_journal'] = $d['i_journal'];
+                    $Works->set($w)->where('w_work', $arts[$r])->update();
+                    $sx .= '- ';
+                }
+
             $this->set($d)->where('id_i', $line['id_i'])->update();
+
             $sx .= '. ';
         }
 
