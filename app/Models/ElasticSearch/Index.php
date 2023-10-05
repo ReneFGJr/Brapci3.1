@@ -117,7 +117,7 @@ class Index extends Model
 		{
 			$RDF = new \App\Models\Rdf\RDF();
 			$Register = new \App\Models\ElasticSearch\Register();
-			$dt = $Register->where('year < 1940')->findAll(15);
+			$dt = $Register->where('year < 1940')->findAll(5);
 			$sx = 'Total '.count($dt).' problems with year';
 			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
@@ -127,8 +127,9 @@ class Index extends Model
 							$ida = $line['article_id'];
 							$RDF->exclude($ida);
 							$Register->where('id',$line['id'])->delete();
+							echo h("DELETADO");
 						}
-					pre($line);
+					pre($line,false);
 					$url = $line['article_id'];
 					$sx .= '<li>';
 					$sx .= anchor('v/'.$line['article_id']) . ' - ' .$line['type'];
