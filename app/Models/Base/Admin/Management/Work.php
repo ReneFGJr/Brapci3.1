@@ -75,11 +75,12 @@ class Work extends Model
                 ->where('cc_class',$class)
                 ->where('w_work is null')
                 ->orderBy('id_cc')
-                ->findAll(10000);
+                ->findAll(5000);
                 //echo $this->getlastquery();
-
+            $i = 0;
             foreach($dt as $id=>$line)
                 {
+                    $i++;
                     $d = [];
                     $d['w_work'] = $line['id_cc'];
                     $d['w_issue'] = 0;
@@ -88,6 +89,10 @@ class Work extends Model
                     $d['w_section'] = 0;
                     $this->set($d)->insert();
                     $sx .= '. ';
+                }
+            if ($i > 0)
+                {
+                    $sx .= metarefresh('');
                 }
             return bs(bsc($sx,6));
         }
