@@ -121,7 +121,7 @@ class Index extends Model
 			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
 				{
-					pre($line,false;
+					pre($line,false);
 					$url = $line['article_id'];
 					$sx .= '<li>';
 					$sx .= anchor('v/'.$line['article_id']) . ' - ' .$line['type'];
