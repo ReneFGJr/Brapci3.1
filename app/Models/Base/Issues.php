@@ -114,35 +114,58 @@ class Issues extends Model
         return $sx;
     }
 
-    function register_issue($id,$jnl=0)
-        {
-            $dti = $this->getIssue($id);
+    function check_issues()
+    {
+        $sx = '';
+        $RDF = new \App\Models\Rdf\RDF();
+        $RDFdata = new \App\Models\Rdf\RDFData();
+        $RDFconcept = new \App\Models\Rdf\RDFConcept();
+        $class = 'Issue';
+        $idc = $RDF->getClass($class, false);
 
-            $dt = $this
-                ->where('is_source',$dti['id_jnl'])
-                ->where('is_source_issue',$dti['source_issue'])
-                ->first();
-            if ($dt == '')
-                {
-                    $d['is_source'] = $dti['id_jnl'];
-                    $d['is_source_rdf'] = $dti['jnl_rdf'];
-                    $d['is_source_issue'] = $dti['source_issue'];
-                    $d['is_year'] = $dti['year'];
-                    $d['is_issue'] = $dti['source_issue'];
-                    $d['is_editor'] = 0;
-                    $d['is_vol'] = $dti['vol'];
-                    $d['is_vol_roman'] = $dti['vol'];
-                    $d['is_nr'] = $dti['nr'];
-                    $d['is_place'] = 0;
-                    $d['is_edition'] = 0;
-                    $d['is_thema'] = 0;
-                    $d['is_cover'] = 0;
-                    $d['is_card'] = 0;
-                    $d['is_url_oai'] = 0;
-                    $d['is_oai_token'] = 0;
-                    $this->set($d)->insert();
-                }
+        $cp = 'id_cc, cc_class, cc_use, id_is, is_year';
+        //$cp = '*';
+        $dtd = $RDFconcept
+            ->select($cp)
+            ->join('brapci.source_issue', 'is_issue = id_cc', 'LEFT')
+            ->where('cc_class', $idc)
+            ->where('id_is is null')
+            ->groupby($cp)
+            ->findAll();
+
+        /************************ */
+        $sx .= '<ol>';
+        for ($rz = 0; $rz < count($dtd); $rz++) {
+            $line = $dtd[$rz];
+            $idissue = $line['id_cc'];
+            $dt = $this->getIssue($idissue);
+
+            $da['is_source'] = $dt['id_jnl'];
+            $da['is_source_rdf'] = 0;
+            $da['is_source_issue'] = '';
+            $da['is_year'] = $dt['year'];
+            $da['is_issue'] = $line['id_cc'];
+            $da['is_source_issue'] = $line['id_cc'];
+            $da['is_vol'] = $dt['vol'];
+            $da['is_vol_roman'] = '';
+            $da['is_nr'] = $dt['vol'];
+            $da['is_place'] = '';
+            $da['is_edition'] = '';
+            $da['is_cover'] = 0;
+            $da['is_card'] = 0;
+            $da['is_url_oai'] = 0;
+            $da['is_oai_token'] = '';
+            $da['is_oai_update'] = date("Y-m-d H:i:s");
+
+            $di = $this->where('is_issue', $line['id_cc'])->first();
+            if ($di == '') {
+                $this->set($da)->insert();
+                $sx .= '<li>' . $line['id_cc'] . '=>' . $da['is_year'] . $da['is_vol'] . $da['is_nr'] . ' Insered</li>';
+            }
         }
+        $sx .= '</ol>';
+        return $sx;
+    }
 
     function getIssue($id)
     {
