@@ -169,7 +169,10 @@ class Issues extends Model
 
     function register_issue($id)
         {
-            echo '=='.$id;
+            $RDF = new \App\Models\Rdf\RDF();
+            $dt = $RDF->le($id);
+            $dta = $dta['data'];
+            pre($dta);
             exit;
         }
 
