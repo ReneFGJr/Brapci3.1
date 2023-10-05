@@ -130,6 +130,7 @@ class Issue extends Model
 
         if ($i > 0) {
             $sx .= metarefresh('');
+            $sx .= 'Continua ...';
         }
 
         return bs(bsc($sx));
