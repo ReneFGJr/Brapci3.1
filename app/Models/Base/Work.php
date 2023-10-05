@@ -150,7 +150,6 @@ class Work extends Model
         switch ($class) {
             case 'Article':
                 $sx .= view('Brapci/Base/WorkArticle', $da);
-                pre($da);
                 break;
             case 'Book':
                 $sx .= view('Brapci/Base/WorkBook', $da);
