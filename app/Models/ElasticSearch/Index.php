@@ -116,12 +116,12 @@ class Index extends Model
 	function problems($d1,$d2)
 		{
 			$Register = new \App\Models\ElasticSearch\Register();
-			$dt = $Register->where('year < 1940')->findAll();
+			$dt = $Register->where('year < 1940')->findAll(5);
 			$sx = 'Total '.count($dt).' problems with year';
 			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
 				{
-					pre($line);
+					pre($line,false;
 					$url = $line['article_id'];
 					$sx .= '<li>';
 					$sx .= anchor('v/'.$line['article_id']) . ' - ' .$line['type'];
