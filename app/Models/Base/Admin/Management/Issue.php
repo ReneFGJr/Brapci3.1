@@ -60,9 +60,10 @@ class Issue extends Model
         $sx = '';
         $Works = new \App\Models\Base\Admin\Management\Work();
         $RDF = new \App\Models\Rdf\RDF();
-        $dt = $this->where('i_journal <= 0')->findAll();
-
+        $dt = $this->where('i_journal <= 0')->findAll(500);
+        $i = 0;
         foreach ($dt as $id => $line) {
+            $i++;
 
             $dtx = $RDF->le($line['i_issue']);
             $nr = $RDF->recovery($dtx['data'], 'hasPublicationNumber');
@@ -127,6 +128,10 @@ class Issue extends Model
             $sx .= '. ';
         }
 
+        if ($i > 0) {
+            $sx .= metarefresh('');
+        }
+
         return bs(bsc($sx));
 
     }
@@ -139,7 +144,7 @@ class Issue extends Model
             ->where('cc_class', $class)
             ->where('i_issue is null')
             ->orderBy('id_cc')
-            ->findAll(10000);
+            ->findAll(5000);
         //echo $this->getlastquery();
 
         foreach ($dt as $id => $line) {
