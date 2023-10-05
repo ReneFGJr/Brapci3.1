@@ -187,8 +187,10 @@ class Issues extends Model
                 case 'hasIssue':
                     $RSP['is_source_rdf'] = $line['d_r2'];
                     $ds = $Source->where('jnl_frbr', $line['d_r2'])->first();
-                    pre($ds);
-                    $RSP['id_jnl'] = $ds['id_jnl'];
+                    if ($ds != '')
+                        {
+                            $RSP['id_jnl'] = $ds['id_jnl'];
+                        }
                     break;
                 case 'dateOfPublication':
                     $RSP['year'] = $vlr2;
