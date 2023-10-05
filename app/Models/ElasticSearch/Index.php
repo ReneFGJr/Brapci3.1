@@ -115,13 +115,20 @@ class Index extends Model
 
 	function problems($d1,$d2)
 		{
+			$RDF = new \App\Models\Rdf\RDF();
 			$Register = new \App\Models\ElasticSearch\Register();
 			$dt = $Register->where('year < 1940')->findAll(15);
 			$sx = 'Total '.count($dt).' problems with year';
 			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
 				{
-					pre($line,false);
+					if ($line['ldl_title'] == '::Sem ´título::')
+						{
+							$ida = $line['article_id'];
+							$RDF->exclude($ida);
+							$Register->where('id',$line['id'])->delete();
+						}
+					pre($line);
 					$url = $line['article_id'];
 					$sx .= '<li>';
 					$sx .= anchor('v/'.$line['article_id']) . ' - ' .$line['type'];
