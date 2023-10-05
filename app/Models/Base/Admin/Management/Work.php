@@ -55,7 +55,6 @@ class Work extends Model
             $sx .= $this->check_class($class);
 
             $sx .= $this->complete();
-
             return $sx;
         }
     function complete()
@@ -98,6 +97,18 @@ class Work extends Model
             return bs(bsc($sx,6));
         }
 
+        function exactMath()
+            {
+                /* Convert */
+                $RDF = new \App\Models\Rdf\RDF();
+                $RDFData = new \App\Models\Rdf\RDFdata();
+                $c1 = $RDF->getClass('hasIssueProceedingOf',false);
+                $c2 = $RDF->getClass('hasIssueOf', false);
+
+                $sql = "update rdf_data set d_p = $c2 where d_p = $c1";
+                $RDFData->db->query($sql);
+            }
+
         function proceedings()
             {
                 $sx = '';
@@ -125,6 +136,9 @@ class Work extends Model
                         $RDFconcept->db->query($sql);
                         $sx .= '. ';
                     }
+
+                $sx .= $this->exactMath();
+
                 return $sx;
             }
 }
