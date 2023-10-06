@@ -98,44 +98,6 @@ class Metadata extends Model
         return true;
     }
 
-    function metadata_issue($id,$jnlRDF)
-        {
-            $ISSUE = new \App\Models\Base\Issues();
-            $RDF = new \App\Models\Rdf\RDF();
-
-            echo '<br>========x=x='.$id;
-            exit;
-
-            $dtq = $ISSUE
-                ->join('source_source', 'id_jnl = is_source')
-                ->where('is_source_issue',$id)
-                ->first();
-
-            if ($dtq == '') {
-                /**************** ISSUE NOT FOUND */
-                $ISSUE->register_issue((string)$id);
-                /************************ RECUPERA */
-                $dtq = $ISSUE
-                    ->join('source_source', 'id_jnl = is_source')
-                    ->where('is_source_issue',$id)
-                    ->first();
-            }
-
-            $dt = array();
-            if ($dtq == '')
-                {
-                    return array();
-                }
-            $dt['Journal'] = $dtq['jnl_name'];
-            $dt['Place'] = $dtq['is_place'];
-            $dt['Year'] = $dtq['is_year'];
-            $dt['Issue_nr'] = $dtq['is_nr'];
-            $dt['Issue_thema'] = $dtq['is_thema'];
-            $dt['Issue_roman'] = $dtq['is_vol_roman'];
-            $dt['Issue_cover'] = $dtq['is_cover'];
-            $dt['Issue_roman'] = $dtq['is_vol_roman'];
-            return $dt;
-        }
 
     function metadata($meta,$erros=false)
     {
@@ -333,7 +295,6 @@ class Metadata extends Model
                                         $this->lets('id_jnl', $dti['siw_journal']);
                                     }
                                 $this->let('issue_id', $ddv1);
-                                $this->let("Issue",$this->metadata_issue($ddv1));
                                 $issue_proceessed[$ddv1] = 1;
                             }
                         break;
@@ -342,9 +303,7 @@ class Metadata extends Model
                         if (!isset($issue_proceessed[$ddv1]) or (count($issue_proceessed) == 0)) {
                             $issue = $ddv1;
                             $journal = $ddv2;
-                            $issue_vlr = $this->metadata_issue($issue,$journal);
                             $this->let('issue_id', $issue);
-                            $this->let("Issue", $issue_vlr);
                             $issue_proceessed[$ddv1] = 1;
                         } else {
                             echo "OPS";
