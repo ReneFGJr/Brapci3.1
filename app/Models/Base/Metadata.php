@@ -103,7 +103,8 @@ class Metadata extends Model
             $ISSUE = new \App\Models\Base\Issues();
             $RDF = new \App\Models\Rdf\RDF();
 
-            echo '========x=x='.$id;
+            echo '<br>========x=x='.$id;
+            exit;
 
             $dtq = $ISSUE
                 ->join('source_source', 'id_jnl = is_source')
