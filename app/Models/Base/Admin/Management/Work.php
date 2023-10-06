@@ -101,12 +101,13 @@ class Work extends Model
             {
                 /* Convert */
                 $RDF = new \App\Models\Rdf\RDF();
-                $RDFData = new \App\Models\Rdf\RDFdata();
+                $RDFData = new \App\Models\Rdf\RDFData();
                 $c1 = $RDF->getClass('hasIssueProceedingOf',false);
                 $c2 = $RDF->getClass('hasIssueOf', false);
 
                 $sql = "update rdf_data set d_p = $c2 where d_p = $c1";
                 $RDFData->db->query($sql);
+                echo $sql;
             }
 
         function proceedings()
