@@ -118,6 +118,7 @@ class IssuesWorks extends Model
         $dt = $Issue
             ->where('i_issue', $issue)
             ->first();
+        echo $Issue->getlastquery();
         $wk = [];
 
         pre($dt);
