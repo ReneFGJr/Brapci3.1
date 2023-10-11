@@ -43,6 +43,7 @@ class Journals extends Model
     function v($dt)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $RDFdata = new \App\Models\Rdf\RDFData();
         $Cover = new \App\Models\Base\Cover();
         $Source = new \App\Models\Base\Sources();
         $Metadata = new \App\Models\Base\Metadata();
@@ -64,6 +65,8 @@ class Journals extends Model
             }
         //pre($mt,false);
         $sx = view('Brapci/Base/Journal',$mt);
+
+        $sx .= $RDFdata->view_data($dt);
         return $sx;
     }
 }
