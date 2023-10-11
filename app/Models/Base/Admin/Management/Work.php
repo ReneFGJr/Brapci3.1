@@ -72,10 +72,17 @@ class Work extends Model
         foreach($dt as $id=>$line)
             {
                 $dr = $RDF->le($line['w_work']);
-                pre($dr,false);
-                pre($line);
+                if (count($dr) == 0)
+                    {
+                        $this->deleted($line['w_work']);
+                    }
             }
     }
+
+    function deleted($id)
+        {
+            return $this->where('w_work',$id)->delete();
+        }
 
     function check_class($class)
         {
