@@ -65,6 +65,11 @@ class V extends Model
                 $Work = new \App\Models\Base\Work();
                 $sx = $Work->show($dt);
                 break;
+            case 'Proceeding':
+                $Work = new \App\Models\Base\Work();
+                $sx = $Work->show($dt);
+                break;
+
 
             case 'Person':
                 //if ($mod == '') {
