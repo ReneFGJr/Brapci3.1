@@ -115,7 +115,8 @@ class IssuesWorks extends Model
     function getWorks($issue)
     {
         $RDF = new \App\Models\Rdf\RDF();
-        $dt = $RDF->le($issue);
+        $Issues = new \App\Models\Base\Issues();
+        $dt = $Issues->find($issue);
         pre($dt);
         if (isset($dt['is_source_issue'])) {
             $issue_rdf = $dt['is_source_issue'];
