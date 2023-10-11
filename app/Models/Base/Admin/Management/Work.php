@@ -42,6 +42,12 @@ class Work extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function issue_work($id)
+        {
+            $dt = $this->where('w_issue',$id)->findAll();
+            pre($dt);
+        }
+
     function check()
         {
             $sx = '';

@@ -114,9 +114,9 @@ class IssuesWorks extends Model
 
     function getWorks($issue)
     {
-        $Issue = new \App\Models\Base\Issues();
+        $Issue = new \App\Models\Base\Manegement\Issue();
         $dt = $Issue
-            ->where('id_is', $issue)
+            ->where('i_issue', $issue)
             ->first();
         $wk = [];
 
