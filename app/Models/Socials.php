@@ -10,7 +10,7 @@ use function App\Models\AI\Authority\check;
 
 class Socials extends Model
 {
-	protected $DBGroup              = 'default';
+	var $DBGroup              		= 'default';
 	var $table                		= 'users';
 	var $primaryKey          		 = 'id_us';
 	protected $useAutoIncrement     = true;
@@ -560,6 +560,7 @@ class Socials extends Model
 
 	function setPerfilDb()
 	{
+		$this->DBGroup = 'default';
 		$this->table = "users_perfil";
 		$this->primaryKey = "id_pe";
 		$this->allowedFields = ['id_pe', 'pe_abrev', 'pe_descricao', 'pe_nivel'];
