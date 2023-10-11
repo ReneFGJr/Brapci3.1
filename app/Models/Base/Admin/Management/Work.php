@@ -72,11 +72,12 @@ class Work extends Model
         foreach($dt as $id=>$line)
             {
                 $dr = $RDF->le($line['w_work']);
-                if (count($dr) == 0)
+                if (count($dr['data']) == 0)
                     {
                         $this->deleted($line['w_work']);
                         $sx .= '#d '.$line['w_work'];
                     } else {
+                        echo '======================';
                         pre($dr);
                     }
             }
