@@ -1025,6 +1025,7 @@ class Socials extends Model
 
 	function perfil_show_header($dt)
 	{
+		pre($dt);
 		$sx = '
 			<div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
 			<div class="row gx-4">
