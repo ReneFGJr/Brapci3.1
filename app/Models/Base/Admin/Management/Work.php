@@ -72,7 +72,7 @@ class Work extends Model
         foreach($dt as $id=>$line)
             {
                 $dr = $RDF->le($line['w_work']);
-                pre($dt,false);
+                pre($dr,false);
                 pre($line);
             }
     }
