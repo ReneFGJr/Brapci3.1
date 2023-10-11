@@ -47,19 +47,18 @@ class Manegement extends Model
                 {
                     case 'proceedings':
                         $Works = new \App\Models\Base\Admin\Management\Work();
-                        $sx = $Works->proceedings();
+                        $sx .= $Works->proceedings();
                         break;
-
                     case 'issue':
                         $Issue = new \App\Models\Base\Admin\Management\Issue();
-                        $sx = $Issue->check();
+                        $sx .= $Issue->check();
                         break;
                     case 'work':
                         $Works = new \App\Models\Base\Admin\Management\Work();
                         $sx = $Works->check();
                         break;
                     default:
-                        $sx = 'MANEGEMENT';
+                        $sx .= 'MANEGEMENT - '.$d1;
                         $sx .= $this->painel();
                         $sx .= $this->subpainel();
                         break;
@@ -70,9 +69,8 @@ class Manegement extends Model
     function subpainel()
         {
             $menu['#Check'] = 3;
-            $menu[PATH. 'admin/manegement/work'] = 'Checagem de artigos';
-            $menu[PATH . 'admin/manegement/issue'] = 'Checagem de Fascículos';
-            $menu[PATH . 'admin/manegement/proceedings'] = 'Checagem de Proceedings';
+            $menu[PATH. 'admin/source'] = 'Journals';
+
             $sx = menu($menu);
 
             $sx = bs($sx);
