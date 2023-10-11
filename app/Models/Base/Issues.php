@@ -173,6 +173,17 @@ class Issues extends Model
             exit;
         }
 
+    function v($dt)
+        {
+            $sx = '';
+            $RDF = new \App\Models\Rdf\RDF();
+            $RDFdata = new \App\Models\Rdf\RDFData();
+            $sx .= bs(bsc(h('Class: '.$dt['concept']['c_class'],4),12));
+
+            $sx .= $RDFdata->view_data($dt);
+            return $sx;
+        }
+
     function getIssue($id)
     {
         $RDF = new \App\Models\Rdf\RDF();

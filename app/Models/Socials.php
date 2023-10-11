@@ -1025,7 +1025,7 @@ class Socials extends Model
 
 	function perfil_show_header($dt)
 	{
-		if ($dt == '')
+		if (!isset($dt['id_us']))
 			{
 				return "perfil_show_header - void";
 			}

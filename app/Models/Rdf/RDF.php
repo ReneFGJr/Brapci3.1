@@ -15,7 +15,7 @@ class RDF extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_cc', 'cc_use'
+		'id_cc', 'cc_use','cc_class'
 	];
 
 	// Dates
@@ -668,6 +668,24 @@ class RDF extends Model
 		return $sx;
 	}
 
+	function changePropriete($p1,$p2)
+		{
+			$class1 = $this->getClass($p1,false);
+			$class2 = $this->getClass($p2, false);
+			$RDFData = new \App\Models\Rdf\RDFData();
+
+			$sql = "update rdf_data set d_p = $class1 where d_p = $class2 ";
+			$d['d_p'] = $class2;
+			$RDFData->set($d)->where('d_p',$class1)->update();
+
+			echo $RDFData->getlastquery().'<br>';
+
+			$d['cc_class'] = $class2;
+			$this->set($d)->where('cc_class',$class1)->update();
+			$this->db->query($sql);
+
+			return true;
+		}
 
 	function change($d1, $d2)
 	{
