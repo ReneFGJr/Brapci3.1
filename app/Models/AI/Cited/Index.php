@@ -1412,7 +1412,7 @@ class Index extends Model
             $idr = $line['ca_rdf'];
             $dt = $rdf->le_data($idr);
             $jnl = $rdf->recupera_id($dt, 'isPubishIn');
-            $eve = $rdf->recupera_id($dt, 'hasIssueProceedingOf');
+            $eve = $rdf->recupera_id($dt, 'hasIssueOf');
             $iss = $rdf->recupera_id($dt, 'hasIssueOf ');
             if ($eve > 0) {
                 $jnl = array();

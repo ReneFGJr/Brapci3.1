@@ -285,7 +285,7 @@ class Metadata extends Model
                             $this->lets('keywords', anchor(PATH.COLLECTION.'/v/'.$ddv2,$value) . '.');
                         }
                         break;
-                    case 'hasIssueProceedingOf':
+                    case 'hasIssueOf':
                         if (!isset($issue_proceessed[$ddv1]))
                             {
                                 $IssueWorks = new \App\Models\Base\IssuesWorks();

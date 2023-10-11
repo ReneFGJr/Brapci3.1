@@ -199,7 +199,7 @@ class IssuesWorks extends Model
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
             $class = trim($line['c_class']);
-            if ($class == 'hasIssueProceedingOf') {
+            if ($class == 'hasIssueOf') {
                 $da = array();
                 $da['siw_work_rdf'] = $line['d_r2'];
                 $da['siw_journal'] = $dd['is_source'];

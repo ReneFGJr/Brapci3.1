@@ -564,7 +564,7 @@ class Issues extends Model
         $id_issue = $RDF->concept($prefLabel, $class);
 
         /************************************************************* Vincula a fontes principal */
-        $RDF->propriety($dt['jnl_frbr'], 'hasIssueProceeding', $id_issue);
+        $RDF->propriety($dt['jnl_frbr'], 'hasIssue', $id_issue);
 
         /***** Data */
         if (strlen(trim($dt['is_year'])) > 0) {

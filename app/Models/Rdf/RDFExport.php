@@ -277,7 +277,7 @@ class RDFExport extends Model
 	{
 		$RDF = new \App\Models\Rdf\RDF();
 		$issue1 = $RDF->recovery($dt['data'], 'hasIssueOf');
-		$issue2 = $RDF->recovery($dt['data'], 'hasIssueProceedingOf');
+		$issue2 = $RDF->recovery($dt['data'], 'hasIssueOf');
 		$issue = array_merge($issue1, $issue2);
 
 		/* EMPTY */

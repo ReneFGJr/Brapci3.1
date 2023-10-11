@@ -194,7 +194,7 @@ class GetRecords extends Model
 		/************************************************ ISSUE */
 		$issue = $metadata['source'];
 		$id_issue = $dt['is_source_issue'];
-		$RDF->propriety($id_issue, 'hasIssueProceedingOf', $idp, 0);
+		$RDF->propriety($id_issue, 'hasIssueOf', $idp, 0);
 
 		/************************************************ Titulo */
 		$title = nbr_title($metadata['title']);

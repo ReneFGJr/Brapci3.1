@@ -301,7 +301,7 @@ class Brapci extends Model
                 case 'hasUrl':
                     $RSP['resource_url'] = $vlr;
                     break;
-                case 'hasIssueProceedingOf':
+                case 'hasIssueOf':
                         $id_issue = $desc['d_r1'];
                         $Issues = new \App\Models\Base\Issues();
                         $dti = $Issues
