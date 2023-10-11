@@ -114,17 +114,7 @@ class IssuesWorks extends Model
 
     function getWorks($issue)
     {
-        $Issue = new \App\Models\Base\Admin\Management\Issue();
-        $dt = $Issue
-            ->Join('brapci.source_issue', 'i_issue = is_source_issue')
-            ->Join('works', 'i_issue = w_issue')
-            ->where('id_is', $issue)
-            ->findAll();
-        echo $Issue->getlastquery();
-        $wk = [];
-
-        pre($dt);
-
+        pre($issue);
         if (isset($dt['is_source_issue'])) {
             $issue_rdf = $dt['is_source_issue'];
             $wk = $this->getWorksIssueRdf($issue_rdf);
