@@ -67,11 +67,12 @@ class Work extends Model
     {
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
-        $dt = $this->where('w_issue <= 0')->findAll();
+        $dt = $this->where('w_issue <= 0')->findAll(10);
 
-        pre($dt);
-
-        //pre($dt);
+        foreach($dt as $id=>$line)
+            {
+                pre($line);
+            }
     }
 
     function check_class($class)
