@@ -116,8 +116,10 @@ class IssuesWorks extends Model
     {
         $Issue = new \App\Models\Base\Admin\Management\Issue();
         $dt = $Issue
-            ->where('i_issue', $issue)
-            ->first();
+            ->Join('brapci.source_issue', 'i_issue = is_source_issue')
+            ->Join('works', 'i_issue = w_issue')
+            ->where('is_source_issue', $issue)
+            ->findAll();
         echo $Issue->getlastquery();
         $wk = [];
 
