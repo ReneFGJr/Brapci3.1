@@ -114,7 +114,7 @@ class IssuesWorks extends Model
 
     function getWorks($issue)
     {
-        $Issue = new \App\Models\Base\Manegement\Issue();
+        $Issue = new \App\Models\Base\Admin\Management\Issue();
         $dt = $Issue
             ->where('i_issue', $issue)
             ->first();
