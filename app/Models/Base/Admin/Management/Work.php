@@ -76,6 +76,8 @@ class Work extends Model
                     {
                         $this->deleted($line['w_work']);
                         $sx .= '#d '.$line['w_work'];
+                    } else {
+                        pre($dr);
                     }
             }
             return $sx;
