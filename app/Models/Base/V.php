@@ -50,8 +50,6 @@ class V extends Model
             $dt = $RDF->le($dt);
         }
 
-
-
         if (!isset($dt['concept']['id_cc']))
             {
                 $sx = bs(bsc($RDF->E404(),12));
@@ -61,6 +59,8 @@ class V extends Model
         $idc = $dt['concept']['id_cc'];
         $class = $dt['concept']['c_class'];
         $mod = COLLECTION;
+
+        echo '======='.$class;
 
         switch ($class) {
             case 'Article':
