@@ -75,8 +75,10 @@ class Work extends Model
                 if (count($dr) == 0)
                     {
                         $this->deleted($line['w_work']);
+                        $sx .= '#d '.$line['w_work'];
                     }
             }
+            return $sx;
     }
 
     function deleted($id)
