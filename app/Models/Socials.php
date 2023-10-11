@@ -721,6 +721,7 @@ class Socials extends Model
 
 	function perfil_show($id = 0)
 	{
+		$this->setPerfilDb();
 		$sx = '';
 		if ($id > 0) {
 			$dt = $this->Find($id);
