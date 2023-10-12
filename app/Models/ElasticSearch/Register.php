@@ -205,6 +205,19 @@ class Register extends Model
             {
                 $da['YEAR'] = $data['YEAR'];
             }
+        /**************************** KEYWORDS */
+        if (isset($data['Keywords'])) {
+            $da['KEYWORD'] = 1;
+        } else {
+            $da['KEYWORD'] = 0;
+        }
+
+        /**************************** ABSTRACT */
+        if (isset($data['Abstract'])) {
+            $da['ABSTRACT'] = 1;
+        } else {
+            $da['ABSTRACT'] = 0;
+        }
 
         if (!isset($da['YEAR'])) { $da['YEAR'] = 9998; }
         if ($da['YEAR']=='') { $da['year'] = 9997; }
@@ -230,6 +243,7 @@ class Register extends Model
                     case 'Article':
                         $sx .= $this->checkIssue($dt);
                         $sx .= $this->checkYear($dt);
+                        $sx .= $this->checkJournal($dt);
                 }
             if (($stop == True) and ($sx != ''))
                 {
@@ -238,6 +252,14 @@ class Register extends Model
                     exit;
                 }
         }
+    function checkJournal($dt)
+    {
+        if (!isset($dt['JOURNAL']) or ($dt['JOURNAL'] < 1)) {
+            return "JOURNAL not set<br>";
+        } else {
+            return "";
+        }
+    }
     function checkYear($dt)
     {
         if (!isset($dt['YEAR'])) {

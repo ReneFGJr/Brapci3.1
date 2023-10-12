@@ -394,7 +394,15 @@ class Metadata extends Model
                     $d['PLACE'] = $dt['is_place'];
                     return($d);
                 } else {
+                    $RDF = new \App\Models\Rdf\RDF();
+                    $dt = $RDF->le($id);
+                    echo "NOT FOUND - $id";
+
+                    $Is = $RDF->extract($dt, 'hasIssueOf');
+                    $dti = $Issue->getIssue($Is[0]);
                     /*************** REGISTRAR ISSUE */
+                    return($this->metadata_issue($id));
+
                 }
         }
 
