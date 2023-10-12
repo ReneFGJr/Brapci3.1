@@ -242,7 +242,7 @@ class Issues extends Model
         if (!isset($RSP['id_jnl'])) {
             $RSP['id_jnl'] = -1;
             pre($works);
-            $dar = $RDF->le($works[1]);
+            $dar = $RDF->le($works[0]);
 
             $jnl = $RDF->extract($dar, 'isPubishIn');
             $dj = $RDF->le($jnl[0]);
