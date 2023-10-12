@@ -401,7 +401,9 @@ class Metadata extends Model
                     $Is = $RDF->extract($dt, 'hasIssueOf');
                     $dti = $Issue->getIssue($Is[0]);
                     /*************** REGISTRAR ISSUE */
-                    return($this->metadata_issue($id));
+                    $dt = $this->metadata_issue($id);
+                    pre($dt);
+                    return($dt);
 
                 }
         }
