@@ -198,6 +198,7 @@ class Issues extends Model
         $RSP['nr'] = '';
         $RSP['vol'] = '';
         $RSP['ISSUE'] = $id;
+        $RSP['JOURNAL'] = -1;
         $pref = '';
         $works = [];
         foreach ($dt['data'] as $id => $line) {
@@ -254,7 +255,7 @@ class Issues extends Model
 
                     $ds = $Source->where('jnl_frbr', $dj['concept']['id_cc'])->first();
                     if ($ds != '') {
-                        $RSP['id_jnl'] = $ds['id_jnl'];
+                        $RSP['JOURNAL'] = $ds['id_jnl'];
                         $dt = [];
                         $da['is_source'] = $ds['id_jnl'];
                         $da['is_source_rdf'] = $ds['jnl_frbr'];
