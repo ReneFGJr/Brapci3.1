@@ -241,6 +241,7 @@ class Issues extends Model
         /************************************** RECUPERA JOURNAL */
         if (!isset($RSP['id_jnl'])) {
             $RSP['id_jnl'] = -1;
+            pre($works);
             $dar = $RDF->le($works[1]);
 
             $jnl = $RDF->extract($dar, 'isPubishIn');
