@@ -15,11 +15,9 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id','article_id','id_jnl','collection',
-        'year', 'ldl_journal', 'ldl_lang',
-        'title','authors', 'keywords','type', 'abstract',
-        'fulltext', 'pdf','updated_at', 'section',
-        'ldl_title', 'ldl_legend', 'ldl_authors','ldl_section'
+        'id_ds', 'ID', 'json','CLASS',
+        'JOURNAL','ISSUE', 'YEAR',
+        'PDF', 'updated_at'
     ];
 
     // Dates
@@ -48,7 +46,7 @@ class Register extends Model
 
     function update_index()
         {
-            $limit = 100;
+            $limit = 500;
             $offset = get('offset');
             if ($offset == '')
                 {
@@ -61,7 +59,7 @@ class Register extends Model
             $type = 'prod';
 
             $API = new \App\Models\ElasticSearch\API();
-            $sx = 'Export ElasticSearch v2.0 - ';
+            $sx = 'Export ElasticSearch v2.1 - ';
             $sx .= $offset.' of '.$dtt;
             if ($dtt > 0)
                 {
@@ -77,15 +75,15 @@ class Register extends Model
                 {
                     $dt = json_encode($line);
                     $dt = $line;
-                    $dt['id'] = $line['article_id'];
-                    $dt['full'] = $line['title'] . ' ' . $line['abstract'] . ' ' . $line['keywords'] . ' ' . $line['authors'];
+                    $dt['id'] = $line['ID'];
+                    $dt['full'] = $line['title'] . ' ' . $line['ldl_abstract'] . ' ' . $line['ldl_keywords'] . ' ' . $line['authors'];
                     $dt['full'] = strip_tags($dt['full']);
                     $id = $dt['id'];
-                    $rst = $API->call('brapci3.1/'.$type.'/'. $id, 'POST', $dt);
+                    $rst = $API->call('brapci3.2/'.$type.'/'. $id, 'POST', $dt);
 
                     /* Second Server */
                     $API->server = 'http://143.54.112.91:9200/';
-                    $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
+                    $rst = $API->call('brapci3.2/' . $type . '/' . $id, 'POST', $dt);
 
                     $sx .= $id .= ' => '.$rst['result'].' v.'.$rst['_version'].' ('.$line['collection'].')<br>';
 
@@ -102,33 +100,12 @@ class Register extends Model
 
     function set_status($id,$dta)
         {
-            $dt = $this->where('article_id',$id)->first();
+            $dt = $this->where('ID',$id)->first();
             if ($dt != '')
                 {
-                    $this->set($dta)->where('article_id', $id)->update();
+                    $this->set($dta)->where('ID', $id)->update();
                 }
         }
-
-    function xx___register($id, $type = '')
-    {
-        $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
-        $dir = $RDF->directory($id);
-        //$file = $dir . 'article.json';
-        $file = $dir . 'metadata.json';
-        if (file_exists($file)) {
-            $API = new \App\Models\ElasticSearch\API();
-            $dt = file_get_contents($file);
-            $dt = (array)json_decode($dt);
-
-            $dt['id'] = $id;
-            $sx .= 'URL: ' . 'brapci3.1/' . $type . '/' . $id;
-            $rst = $API->call('brapci3.1/' . $type . '/' . $id, 'POST', $dt);
-        } else {
-            $sx .= "File not found " . $file . '<br>';
-        }
-        return bs(bsc($sx, 12));
-    }
 
 
     function resume()
@@ -172,9 +149,9 @@ class Register extends Model
 
         /***************************************** KEYWORDS */
         $dt = $this
-            ->select('count(*) as total, keywords')
-            ->where('keywords is NULL')
-            ->groupBy('keywords')
+            ->select('count(*) as total, ldl_keywords')
+            ->where('ldl_keywords is NULL')
+            ->groupBy('ldl_keywords')
             ->findAll();
 
         foreach ($dt as $line) {
@@ -183,10 +160,10 @@ class Register extends Model
 
         /***************************************** ABSTRACT */
         $dt = $this
-            ->select('count(*) as total, abstract')
-            ->where('abstract is NULL')
-            ->Orwhere('abstract','')
-            ->groupBy('abstract')
+            ->select('count(*) as total, ldl_abstract')
+            ->where('ldl_abstract is NULL')
+            ->Orwhere('ldl_abstract','')
+            ->groupBy('ldl_abstract')
             ->findAll();
 
         foreach ($dt as $line) {
@@ -214,159 +191,76 @@ class Register extends Model
 
     function data_convert_elastic($data)
         {
-            $da = array();
-            if (isset($data['Title']))
-                {
-                    $da['title'] = '';
-                    foreach($data['Title'] as $id=>$title)
-                        {
-                            $title = ' '.strtolower(ascii($title));
-                            $da['title'] .= $title;
-                        }
-                }
+        $da = array();
 
-            if (isset($data['ID'])) { $da['article_id'] = $data['ID']; }
+        $da['ID'] = $data['ID'];
+        $da['json'] = json_encode($data);
+        $da['CLASS'] = $data['Class'];
+
+        if (isset($data['Issue']['ID'])) {
+            $da['ISSUE'] = $data['Issue']['ID'];
+        }
+
+        if ((isset($data['YEAR'])) and ($data['YEAR'] != ''))
+            {
+                $da['YEAR'] = $data['YEAR'];
+            }
+
+        if (!isset($da['YEAR'])) { $da['YEAR'] = 9998; }
+        if ($da['YEAR']=='') { $da['year'] = 9997; }
+
+        if (isset($data['PDF'])) { $da['PDF'] = $data['PDF']; }
+        else {
+            $data['PDF'] = 0;
+        }
 
         if (isset($data['id_jnl'])) {
-            if (is_array($data['id_jnl']))
-                {
-                    $da['id_jnl'] = $data['id_jnl'][0];
-                } else {
-                    $da['id_jnl'] = $data['id_jnl'];
-                }
-        } else {
-            return([]);
-        }
-
-        if (isset($data['Class']))
-            {
-                switch($data['Class'])
-                    {
-                        case 'Proceeding':
-                            $da['collection'] = 'EV';
-                            $da['type'] = $data['Class'];
-                            break;
-                        case 'Article':
-                            $da['collection'] = 'AR';
-                            $da['type'] = $data['Class'];
-                            break;
-                        case 'Book':
-                            $da['collection'] = 'BK';
-                            $da['type'] = $data['Class'];
-                            break;
-                        case 'BookChapter':
-                            $da['collection'] = 'BK';
-                            $da['type'] = $data['Class'];
-                            break;
-                        case 'Person':
-                            $da['collection'] = 'AU';
-                            $da['type'] = $data['Class'];
-                            break;
-                        case 'CorporateBody':
-                            $da['collection'] = 'AC';
-                            $da['type'] = $data['Class'];
-                            break;
-                        default:
-                            echo "OPS REGISTER NOT EXISTE ".$data['Class'];
-                            exit;
-                    }
-            }
-
-        if (isset($data['Sections'])) {
-            $da['section'] = '';
-            foreach ($data['Sections'] as $id => $title) {
-                $title = ' ' . strtolower(ascii($title));
-                $title = troca($title,';',' ');
-                $da['section'] .= $title;
-            }
-        }
-
-        if (isset($data['Authors'])) {
-            $da['authors'] = '';
-            foreach ($data['Authors'] as $id => $title) {
-                $title = ' ' . strtolower(ascii($title));
-                $title = troca($title, ';', ' ');
-                $da['authors'] .= $title;
-            }
-        }
-
-        if (isset($data['Authors'])) {
-            $da['authors'] = '';
-            foreach ($data['Authors'] as $id => $title) {
-                $title = ' ' . strtolower(ascii($title));
-                $title = troca($title, ';', ' ');
-                $da['authors'] .= $title;
-            }
-        }
-
-        if (isset($data['prefLabel'])) {
-                $da['title'] = mb_strtolower(ascii($data['prefLabel']));
-            }
-
-        if (isset($data['Abstract'])) {
-            $da['abstract'] = '';
-            foreach ($data['Abstract'] as $id => $title) {
-                    $title = ' ' . strtolower(ascii($title));
-                    $title = troca($title, ';', ' ');
-                    $da['abstract'] .= $title;
-            }
-        }
-
-        if (isset($data['Keywords'])) {
-            $da['keywords'] = '';
-            foreach ($data['Keywords'] as $title => $lang) {
-                $title = ' ' . strtolower(ascii($title));
-                $title = troca($title, ';', ' ');
-                $da['keywords'] .= $title;
-            }
-        }
-
-        if (isset($data['Fulltext']))
-            {
-
-            }
-
-        if ((isset($data['Year'])) and ($data['Year'] != ''))
-            {
-                $da['year'] = $data['Year'];
-            }
-
-        if ((isset($data['Issue']['Year'])) and ($data['Issue']['Year'] != '')) {
-            $da['year'] = $data['Issue']['Year'];
-        }
-
-        if (!isset($da['year'])) { $da['year'] = 1900; }
-        if ($da['year']=='') { $da['year'] = 1900; }
-
-        if (isset($data['PDF'])) { $da['pdf'] = 1; }
-
-        if (isset($data['difusion']['LDL_title'])) {
-            $da['ldl_title'] = $data['difusion']['LDL_title'];
-        }
-        if (isset($data['difusion']['LDL_lang'])) {
-            $da['ldl_lang'] = $data['difusion']['LDL_lang'];
-        }
-        if (isset($data['difusion']['LDL_author'])) {
-            $da['ldl_authors'] = $data['difusion']['LDL_author'];
-        }
-        if (isset($data['difusion']['LDL_legend'])) {
-            $da['ldl_legend'] = $data['difusion']['LDL_legend'];
-        }
-        if (isset($data['difusion']['LFL_section'])) {
-            $da['ldl_section'] = $data['difusion']['LFL_section'];
-        }
-        if (isset($data['difusion']['LDL_journal'])) {
-            $da['ldl_journal'] = $data['difusion']['LDL_journal'];
+            $da['JOURNAL'] = $data['id_jnl'];
         }
 
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
 
+    function check($dt,$stop)
+        {
+            $sx = '';
+            switch($dt['CLASS'])
+                {
+                    case 'Article':
+                        $sx .= $this->checkIssue($dt);
+                        $sx .= $this->checkYear($dt);
+
+                }
+            if (($stop == True) and ($sx != ''))
+                {
+                    echo h("ERROS",1);
+                    echo $sx;
+                    exit;
+                }
+        }
+    function checkYear($dt)
+    {
+        if (!isset($dt['YEAR'])) {
+            return "YEAR not set<br>";
+        } else {
+            return "";
+        }
+    }
+    function checkIssue($dt)
+        {
+            if (!isset($dt['ISSUE']))
+                {
+                    return "ISSUE not set<br>";
+                } else {
+                    return "";
+                }
+        }
+
 
     function data($id,$xdata)
         {
-            $dt = $this->where('article_id',round($id))->findAll();
+            $dt = $this->where('ID',round($id))->findAll();
             if (count($xdata) == 0)
                 {
                     echo '======================== A001 ==';
@@ -375,7 +269,11 @@ class Register extends Model
                     return $sx;
                 }
 
+            /*********************** CONVERT DADOS */
             $data = $this->data_convert_elastic($xdata);
+            $this->check($data,true);
+
+            /* NOVO REGISTRO */
             if (count($dt) == 0)
                 {
                     if (count($data) > 0)
@@ -388,11 +286,11 @@ class Register extends Model
                 } else {
                     if (count($data) > 0) {
                         $this->set($data)
-                            ->where('article_id', $id)
+                            ->where('ID', $id)
                             ->update();
                         $sx = lang('brapci.updated');
                     } else {
-                        $this->where('article_id', $id)->delete();
+                        $this->where('ID', $id)->delete();
                         $sx = lang('brapci.deleted');
                     }
                 }

@@ -53,7 +53,7 @@ class Export extends Model
         switch ($d1) {
             case 'index':
                 $RDFExport = new \App\Models\Rdf\RDFExport();
-                $sx .= $RDFExport->export($d2,$d3);
+                $sx .= $RDFExport->export($d2, $d3);
                 break;
             case 'clear':
                 $conf = get("confirm");
@@ -329,7 +329,7 @@ class Export extends Model
     {
         $sx = '';
         $offset = round(0);
-        $limit = 100;
+        $limit = 1000;
 
         $TYPE = $dta['task_id'];
 
@@ -383,14 +383,13 @@ class Export extends Model
                 break;
             case 'CHECK_TITLES':
                 $titles = new \App\Models\AI\NLP\Titles();
-                if (agent())
-                    {
-                        $sx .= $titles->check_next();
-                    } else {
-                        $sx = $titles->check_next();
-                        echo $sx;
-                        exit;
-                    }
+                if (agent()) {
+                    $sx .= $titles->check_next();
+                } else {
+                    $sx = $titles->check_next();
+                    echo $sx;
+                    exit;
+                }
                 return $sx;
                 break;
             default:
@@ -409,7 +408,7 @@ class Export extends Model
             $sx .= view('Brapci/Headers/header', $data);
             $sx .= view('Brapci/Headers/navbar', $data);
         }
-        $sx .= "<br>OFFSET: $offset ";
+        $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
         $sx .= $this->export_data($class, $type, $offset, $limit);
         if ($this->eof) {
             $this->remove_all($dta['task_id']);
@@ -447,33 +446,24 @@ class Export extends Model
             $xline = $ids[$r];
             $idr = $xline['id_cc'];
 
-
             $line = $RDF->le($idr);
             $Metadata->metadata = array();
+
+            /*********************** Metadata */
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-            /****************************** ISSUE */
-            if (isset($meta['id_issue'])) {
-                echo "HELLO";
-                pre($meta['id_issue']);
-            }
-
-            $meta['collection'] = substr($class, 0, 1);
-            $meta['fulltext'] = '';
-            $meta['abstract'] = '';
-            if (!isset($meta['year'])) {
-                $meta['year'] = 9990;
-            }
-
             //$meta['year'] = '';
-            if (!isset($meta['PDF']))
-                {
-                    $meta['pdf'] = 0;
+            if (count($meta) > 0) {
+                if (!isset($meta['PDF_id'])) {
+                    $meta['PDF'] = 0;
                 } else {
-                    $meta['pdf'] = 1;
+                    $meta['PDF'] = 1;
                 }
-           $sx .= '<li>' . strzero(trim($meta['article_id']), 8) . ' ' . $ElasticRegister->data($idr, $meta).'</li>';
+
+                $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
+                    $ElasticRegister->data($idr, $meta) . '</li>';
+            }
         }
         $sx .= '</ul>';
         return $sx;

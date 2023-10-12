@@ -106,9 +106,12 @@ class Metadata extends Model
         $ISBN = new \App\Models\ISBN\Index();
         $Source = new \App\Models\Base\Sources();
 
-        $LDL_title = '';
-        $LDL_author = '';
-        $LDL_section = '';
+        if (isset($meta['data']) and (count($meta['data']) == 0))
+            {
+                $RDF->exclude($meta['concept']['id_cc']);
+                return [];
+
+            }
 
         $issue_proceessed = array();
         $this->metadata = array();
@@ -121,10 +124,10 @@ class Metadata extends Model
             foreach ($concept as $class => $value) {
                 switch ($class) {
                     case 'c_class':
-                        $this->lets('type', $value);
+                        $this->lets('Type', $value);
                         break;
                     case 'id_cc':
-                        $this->lets('article_id', $value);
+                        $this->lets('Article_id', $value);
                         break;
                     case 'n_name':
                         $this->lets('Identifier', $value);
@@ -135,7 +138,7 @@ class Metadata extends Model
             }
         }
 
-        /*************************************************************************/
+        /************************************************************** PROPERTIES **/
         if (isset($meta['data'])) {
             $data = $meta['data'];
             for ($r = 0; $r < count($data); $r++) {
@@ -181,11 +184,11 @@ class Metadata extends Model
                         $this->lets('summary', $value);
                         break;
                     case 'hasClassificationAncib':
-                        $this->lets('CatAncib', $value);
+                        $this->let('CatAncib', $value);
                         $this->let_array('CatAncibArray', $ddv2, $value);
                         break;
                     case 'hasFileStorage':
-                        $this->let('PDF', $value);
+                        $this->let('PDFfile', $value);
                         $this->let('PDF_id', $ddv1);
                         break;
                     case 'hasUrl':
@@ -213,7 +216,6 @@ class Metadata extends Model
                         $this->lets('DOI', $value . '##xml:lang=' . $lang);
                         break;
                     case 'hasAbstract':
-                        $this->lets('abstract', $valueO.'@'.$langO);
                         $this->leta('Abstract', $valueO, $langO);
                         break;
                     case 'hasLicense':
@@ -221,33 +223,21 @@ class Metadata extends Model
                         $this->lets('license', $value);
                         break;
                     case 'hasAuthor':
-                        $name = '<a class="summary_a" href="' . URL . '/autoridade/v/' . $ddv2 . '">' . $value . '</a>';
-                        $this->lets('authors', $name.'$');
-                        $this->let('Authors', $value . ';' . $ddv2);
-                        $this->let('AuthorsOf', $ddv1);
-                        if ($LDL_author != '') {
-                            $LDL_author .= '; '; }
-                        $LDL_author .= nbr_author($value,7);
+                        $value .= nbr_author($value, 7);
+                        $this->leta('Authors', $value,$ddv2);
                         break;
                     case 'hasOrganizator':
-                        $name = '<a class="summary_a" href="' . URL .  '/autoridade/v/' . $ddv2 . '">' . $value . '</a><sup>(org.)</sup>';
-                        $this->lets('authors', $value . ';' . $ddv2);
-                        $this->let('Authors', $value . '<sup>Org.</sup>;' . $ddv2);
+                        $value .= nbr_author($value, 7);
+                        $this->leta('Organizator', $value, $ddv2);
                         break;
                     case 'dateOfPublication':
                         $this->lets('year', $value);
                         break;
                     case 'isPublisher':
-                        $this->lets('editora', $value);
+                        $this->leta('Editora', $value, $ddv2);
                         break;
                     case 'hasSectionOf':
-                        $this->lets('section', $value . '$');
-                        $this->let('Sections', $value . ';' . $ddv2);
-                        if ($LDL_section != '')
-                        {
-                            $LDL_section .= ' - ';
-                        }
-                        $LDL_section .= trim($value);
+                        $this->leta('Sections', $value , $ddv2);
                         break;
                     case 'hasCover':
                         $cover = $COVER->image($ddv2);
@@ -257,7 +247,7 @@ class Metadata extends Model
                         $this->lets('Pages', $value);
                         break;
                     case 'isPlaceOfPublication':
-                        $this->lets('editora_local', $value);
+                        $this->leta('EditoraLocal', $value, $ddv2);
                         break;
                     case 'isPubishIn':
                         $this->lets('Journal', $value);
@@ -269,20 +259,17 @@ class Metadata extends Model
                         }
                         break;
                     case 'hasLanguageExpression':
-                        $this->lets('idioma', $value);
+                        $this->lets('Expression', $value,$valueO);
                         break;
                     case 'hasTitle':
                         $valueO = trim(strip_tags($valueO));
                         $this->lets('title', $valueO);
-                        $this->lets('idioma', $langO);
+                        $this->let('Idioma', $langO);
                         $this->leta('Title',$valueO,$langO);
                         break;
                     case 'hasSubject':
-                        $this->leta('Keywords', $lang, $value.';'.$ddv2);
-                        $this->let('DC.Subject', $value);
-                        if ($value != '')
-                        {
-                            $this->lets('keywords', anchor(PATH.COLLECTION.'/v/'.$ddv2,$value) . '.');
+                        if (!isset($this->metadata['Keywords'][$lang][$value])) {
+                            $this->metadata['Keywords'][$lang][$value] = $ddv2;
                         }
                         break;
                     case 'hasIssueOf':
@@ -294,7 +281,7 @@ class Metadata extends Model
                                     {
                                         $this->lets('id_jnl', $dti['siw_journal']);
                                     }
-                                $this->let('issue_id', $ddv1);
+                                $this->metadata['Issue']['ID'] = $ddv1;
                                 $issue_proceessed[$ddv1] = 1;
                             }
                         break;
@@ -303,37 +290,36 @@ class Metadata extends Model
                         if (!isset($issue_proceessed[$ddv1]) or (count($issue_proceessed) == 0)) {
                             $issue = $ddv1;
                             $journal = $ddv2;
-                            $this->let('issue_id', $issue);
-                            $issue_proceessed[$ddv1] = 1;
+                            $this->metadata['Issue']['ID'] = $ddv1;
+                            $issue_proceessed[$issue] = 1;
                         } else {
                             echo "OPS";
                             exit;
                         }
                         break;
                     case 'hasPublicationNumber':
-                        $this->lets('issue_nr', $value);
+                        $this->metadata['Issue']['nr'] = $value;
                         break;
                     case 'hasPublicationVolume':
-                        $this->lets('issue_vol', $value);
+                        $this->metadata['Issue']['vol'] = $value;
                         break;
                     case 'prefLabel':
                         $this->lets('prefLabel', $valueO);
                         break;
                     case 'altLabel':
-                        $this->let('issue_name', $valueO, $langO);
-                        $this->let_array('altLabels', $ddv1, $valueO);
+                        $this->metadata['Issue']['leg'] = $valueO;
                         break;
                     case 'hiddenLabel':
                         $this->let('hiddenLabel', $value . $valueO);
                         break;
                     case 'hasPageStart':
-                        $this->lets('pagi', $value);
+                        $this->lets('PAGi', $value);
                         break;
                     case 'hasPageEnd':
-                        $this->lets('pagf', $value);
+                        $this->lets('PAGf', $value);
                         break;
                     case 'hasPlace':
-                        $this->lets('place',$value);
+                        $this->lets('Place',$value);
                         break;
                     case 'hasISSN':
                         $this->let('ISSN', $valueO);
@@ -345,7 +331,7 @@ class Metadata extends Model
                         $this->let('Collections', $value);
                         break;
                     case 'hasIssue':
-                        $this->let('ISSUE', $ddv1);
+                        $this->let('Issue', $ddv1);
                         break;
                     case 'hasIdRegister':
                         break;
@@ -386,161 +372,35 @@ class Metadata extends Model
         }
 
         /******************************* LEGEND */
-        if (isset($this->metadata['Journal']))
+        if (isset($this->metadata['Issue']['ID']))
             {
-                $legend = trim($this->metadata['Journal']);
-                $journal = trim($this->metadata['Journal']);
-            } else {
-                $legend = '';
-                $journal= '';
+            $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
+            $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             }
-
-        if (isset($this->metadata['Issue']['Issue_roman'])) {
-            $legend .= ', v.' . $this->metadata['Issue']['Issue_roman'];
-        }
-        if (isset($this->metadata['Issue']['Issue_nr']))
-            {
-                $legend .= ', n.' . $this->metadata['Issue']['Issue_nr'];
-            }
-        if (isset($this->metadata['Issue']['Year']))
-            {
-                $legend .= ', ' . $this->metadata['Issue']['Year'];
-            }
-
-
-        if (isset($this->metadata['title'])) {
-            if (isset($this->metadata['Title']))
-                {
-                if(isset($this->metadata['Title']['pt-BR']))
-                    {
-                        $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['pt-BR']);
-                        $this->metadata['difusion']['LDL_lang'] = 'pt-BR';
-                    }
-                elseif(isset($this->metadata['Title']['en']))
-                    {
-                        $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['en']);
-                        $this->metadata['difusion']['LDL_lang'] = 'en';
-                    }
-                elseif(isset($this->metadata['Title']['es']))
-                    {
-                        $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['es']);
-                        $this->metadata['difusion']['LDL_lang'] = 'es';
-                    }
-                elseif (isset($this->metadata['Title']['fr'])) {
-                    $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['fr']);
-                    $this->metadata['difusion']['LDL_lang'] = 'fr';
-                }               elseif (isset($this->metadata['Title']['es-ES'])) {
-                    $this->metadata['difusion']['LDL_title'] = nbr_title($this->metadata['Title']['es-ES']);
-                    $this->metadata['difusion']['LDL_lang'] = 'es';
-                }
-                else
-                {
-                    echo "=========LANGUAGE=========";
-                    pre($this->metadata['Title']);
-                }
-                }
-
-        } else {
-            $this->metadata['difusion']['LDL_title'] = '::Sem ´título::';
-        }
-        $this->metadata['difusion']['LDL_author'] = $LDL_author;
-        $this->metadata['difusion']['LDL_legend'] = $legend;
-        $this->metadata['difusion']['LDL_journal'] = $journal;
-        $this->metadata['difusion']['LFL_section'] = trim($LDL_section);
-
-        if (isset($meta['concept']['id_cc']))
-            {
-                $this->metadata['ID'] = $meta['concept']['id_cc'];
-            }
-
         return $this->metadata;
     }
 
-    function dc($meta)
+    function metadata_issue($id)
+        {
+            $Issue = new \App\Models\Base\Issues();
+            $dt = $Issue->where('is_source_issue',$id)->first();
+            if ($dt != '')
+                {
+                    $d['ID'] = $dt['is_source_issue'];
+                    $d['YEAR'] = $dt['is_year'];
+                    $d['VOL'] = $dt['is_vol'];
+                    $d['VOLR'] = $dt['is_vol_roman'];
+                    $d['NR'] = $dt['is_nr'];
+                    $d['PLACE'] = $dt['is_place'];
+                    return($d);
+                } else {
+                    /*************** REGISTRAR ISSUE */
+                }
+        }
+
+    function xdc($meta)
     {
-
-        if (isset($meta['concept'])) {
-            $concept = $meta['concept'];
-
-            $metadata = array();
-            $m = '';
-
-            foreach ($concept as $class => $value) {
-                switch ($class) {
-                    case 'c_class':
-                        $this->let('DC.Type', $value);
-                        $this->let('DC.Type.articleType', $value);
-                        break;
-                    case 'id_c':
-                        $this->let('DC.Identifier', 'Brapci-'.$value);
-                        $this->let('url', PATH.'/v/'.$value);
-                        $this->let('DC.Identifier.URI', PATH.'/v/'.$value);
-                        break;
-                    case 'n_name':
-                        $this->let('DC.Identifier', $value);
-                        break;
-                    case 'cc_created':
-                        $date = $value;
-                        $m .= '<meta name="DC.Date.created" scheme="ISO8601" content="' . $date . '"/>' . cr();
-
-                        $this->let('citation_date', $value);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
-        /*************************************************************************/
-        if (isset($meta['data'])) {
-            $data = $meta['data'];
-
-            for ($r = 0; $r < count($data); $r++) {
-                $line = $data[$r];
-                $class = $line['c_class'];
-                $value = $line['n_name2'];
-                $lang = $line['n_lang2'];
-                $valueO = $line['n_name'];
-                $langO = $line['n_lang'];
-
-                switch ($class) {
-                    case 'Identifier.DOI':
-                        $this->let('DC.Description', $value.'##xml:lang='.$lang);
-                        break;
-                    case 'hasAbstract':
-                        $this->let('DC.Description', $valueO.'@'.$langO);
-                        break;
-                    case 'hasAuthor':
-                        $this->let('DC.Creator.PersonalName', $value);
-                        break;
-                    case 'hasTitle':
-                        $valueO = strip_tags($valueO);
-                        $this->let('title', $valueO);
-                        if (!isset($this->metadata['DC.Title']))
-                            {
-                                $this->let('DC.Title', $valueO);
-                                $this->title = $valueO;
-                                $this->lang = $langO;
-                            } else {
-                                $this->let('DC.Title.Alternative', $valueO);
-                            }
-
-                        break;
-                    default:
-
-                        break;
-                }
-            }
-        }
-
-        foreach($this->metadata as $meta=>$value)
-            {
-                for($v=0;$v < count($value);$v++)
-                    {
-                        $vlr = $value[$v];
-                        $m .= '<meta name="'.$meta.'" content="'.$vlr.'"/>'.cr();
-                    }
-            }
+        $m = [];
         return $m;
     }
 }
