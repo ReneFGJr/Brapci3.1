@@ -455,6 +455,19 @@ class Export extends Model
 
             //$meta['year'] = '';
             if (count($meta) > 0) {
+                /***************************** KEYWORD */
+                if (!isset($meta['Keywords'])) {
+                    $meta['KEYWORD'] = 0;
+                } else {
+                    $meta['KEYWORD'] = 1;
+                }
+                /***************************** KEYWORD */
+                if (!isset($meta['Abstract'])) {
+                    $meta['ABSTRACT'] = 0;
+                } else {
+                    $meta['ABSTRACT'] = 1;
+                }
+                /************************** pdf */
                 if (!isset($meta['PDF_id'])) {
                     $meta['PDF'] = 0;
                 } else {

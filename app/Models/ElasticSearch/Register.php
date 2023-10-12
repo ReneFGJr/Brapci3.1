@@ -16,7 +16,7 @@ class Register extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_ds', 'ID', 'json','CLASS',
-        'JOURNAL','ISSUE', 'YEAR',
+        'JOURNAL','ISSUE', 'YEAR','KEYWORD','ABSTRACT',
         'PDF', 'updated_at'
     ];
 
@@ -76,7 +76,7 @@ class Register extends Model
                     $dt = json_encode($line);
                     $dt = $line;
                     $dt['id'] = $line['ID'];
-                    $dt['full'] = $line['title'] . ' ' . $line['ldl_abstract'] . ' ' . $line['ldl_keywords'] . ' ' . $line['authors'];
+                    $dt['full'] = $line['title'] . ' ' . $line['ABSTRACT'] . ' ' . $line['KEYWORD'] . ' ' . $line['authors'];
                     $dt['full'] = strip_tags($dt['full']);
                     $id = $dt['id'];
                     $rst = $API->call('brapci3.2/'.$type.'/'. $id, 'POST', $dt);
@@ -115,14 +115,14 @@ class Register extends Model
             $sa = '';
 
             $dt = $this
-                ->select('count(*) as total, type')
-                ->groupBy('type')
+                ->select('count(*) as total, CLASS')
+                ->groupBy('CLASS')
                 ->findAll();
 
             $sa .= '<ul style="font-size: 0.7em;">';
             foreach($dt as $line)
                 {
-                    $sa .= '<li>'.lang('brapci.'.$line['type']).' ('. number_format($line['total'], 0, ',', '.').')</li>';
+                    $sa .= '<li>'.lang('brapci.'.$line['CLASS']).' ('. number_format($line['total'], 0, ',', '.').')</li>';
                     $tot = $tot + $line['total'];
                 }
             $sa .= '</ul>';
@@ -149,9 +149,9 @@ class Register extends Model
 
         /***************************************** KEYWORDS */
         $dt = $this
-            ->select('count(*) as total, ldl_keywords')
-            ->where('ldl_keywords is NULL')
-            ->groupBy('ldl_keywords')
+            ->select('count(*) as total, KEYWORD')
+            ->where('KEYWORD is NULL')
+            ->groupBy('KEYWORD')
             ->findAll();
 
         foreach ($dt as $line) {
@@ -160,10 +160,10 @@ class Register extends Model
 
         /***************************************** ABSTRACT */
         $dt = $this
-            ->select('count(*) as total, ldl_abstract')
-            ->where('ldl_abstract is NULL')
-            ->Orwhere('ldl_abstract','')
-            ->groupBy('ldl_abstract')
+            ->select('count(*) as total, ABSTRACT')
+            ->where('ABSTRACT is NULL')
+            ->Orwhere('ABSTRACT','')
+            ->groupBy('ABSTRACT')
             ->findAll();
 
         foreach ($dt as $line) {
@@ -230,7 +230,6 @@ class Register extends Model
                     case 'Article':
                         $sx .= $this->checkIssue($dt);
                         $sx .= $this->checkYear($dt);
-
                 }
             if (($stop == True) and ($sx != ''))
                 {
