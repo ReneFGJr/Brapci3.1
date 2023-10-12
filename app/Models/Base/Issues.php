@@ -230,7 +230,7 @@ class Issues extends Model
                     $RSP['vol'] = $vlr2;
                     break;
                 default:
-                    echo $class . ': ' . $vlr1 . ' | ' . $vlr2 . '<br>';
+                    //echo $class . ': ' . $vlr1 . ' | ' . $vlr2 . '<br>';
                     break;
             }
         }
@@ -278,8 +278,6 @@ class Issues extends Model
                     $Source = new \App\Models\Base\Sources();
                     $idj = $jnl[0][1];
                     $ln = $Source->where('jnl_frbr', $idj)->first();
-                    echo $Source->getlastquery();
-                    pre($ln);
                     $RSP['id_jnl'] = 1;
                 }
             }
