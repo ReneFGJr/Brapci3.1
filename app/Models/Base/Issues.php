@@ -244,7 +244,8 @@ class Issues extends Model
 
             $jnl = $RDF->extract($dar, 'isPubishIn');
 
-
+            if (isset($jnl[0]))
+            {
             $dj = $RDF->le($jnl[0]);
             if (isset($dj['concept'])) {
                 if ($dj['concept']['c_class'] == 'Journal') {
@@ -282,6 +283,9 @@ class Issues extends Model
                         $RSP['id_jnl'] = 1;
                     }
                 }
+            }
+            } else {
+                $RSP['id_jnl'] = 9990;
             }
         }
         return $RSP;
