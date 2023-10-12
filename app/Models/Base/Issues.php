@@ -245,6 +245,8 @@ class Issues extends Model
             $dar = $RDF->le($works[0]);
 
             $jnl = $RDF->extract($dar, 'isPubishIn');
+
+            pre($jnl,false);
             $dj = $RDF->le($jnl[0]);
             if ($dj['concept']['c_class'] == 'Journal') {
 
