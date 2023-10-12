@@ -255,7 +255,7 @@ class Register extends Model
     function checkJournal($dt)
     {
         if (!isset($dt['JOURNAL']) or ($dt['JOURNAL'] < 1)) {
-            pre($dt);
+            pre($dt, false);
             return "JOURNAL not set<br>";
         } else {
             return "";
@@ -264,6 +264,7 @@ class Register extends Model
     function checkYear($dt)
     {
         if (!isset($dt['YEAR'])) {
+            pre($dt, false);
             return "YEAR not set<br>";
         } else {
             return "";
@@ -273,7 +274,7 @@ class Register extends Model
         {
             if (!isset($dt['ISSUE']))
                 {
-                    pre($dt);
+                    pre($dt,false);
                     return "ISSUE not set<br>";
                 } else {
                     return "";
