@@ -236,7 +236,7 @@ class Issues extends Model
             $RSP['year'] = 9996;
         }
 
-        echo "OK";
+        echo "=================OKKK===============<hr>";
         pre($RSP);
         /************************************** RECUPERA JOURNAL */
         if (!isset($RSP['id_jnl'])) {

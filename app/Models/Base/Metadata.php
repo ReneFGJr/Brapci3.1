@@ -402,6 +402,7 @@ class Metadata extends Model
                     $dti = $Issue->getIssue($Is[0]);
                     /*************** REGISTRAR ISSUE */
                     $dt = $this->metadata_issue($id);
+                    echo "==========OK2==========";
                     pre($dt);
                     return($dt);
 
