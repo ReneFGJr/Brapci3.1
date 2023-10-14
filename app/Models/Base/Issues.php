@@ -142,6 +142,8 @@ class Issues extends Model
             $idissue = $line['id_cc'];
             $dt = $this->getIssue($idissue);
 
+            pre($dt);
+
             $da['is_source'] = $dt['is_source'];
             $da['is_source_rdf'] = 0;
             $da['is_source_issue'] = '';
