@@ -433,7 +433,6 @@ class Export extends Model
             ->where('cc_class', $id)
             ->findAll();
         $ids = $RDFConcept->where('cc_class', $id)->findAll($limit, $offset);
-        echo $RDFConcept->getlastquery().'<hr>';
         if (count($ids) == 0) {
             $this->eof = 1;
             return "FIM";
@@ -446,6 +445,7 @@ class Export extends Model
         for ($r = 0; $r < count($ids); $r++) {
             $xline = $ids[$r];
             $idr = $xline['id_cc'];
+            echo $idr.' ';
 
             $line = $RDF->le($idr);
             $Metadata->metadata = array();
