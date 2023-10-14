@@ -299,7 +299,7 @@ class Issues extends Model
                     {
                         $jn1 = substr($jn,0,9);
                         $jn2 = substr($jn, 10, 5);
-                        $jn3 = substr($jn, 15, 5);
+                        $jn3 = substr($jn, 15, 1);
 
                         echo h($jn);
                         echo h($jn1);
