@@ -398,36 +398,41 @@ class Metadata extends Model
                 } else {
 
                     $dti = $Issue->getIssue($id_issue);
-                    pre($dti);
 
-                    $RDF = new \App\Models\Rdf\RDF();
-                    $RDFdata = new \App\Models\Rdf\RDFData();
-                    $dt = $RDF->le($id);
-                    echo "<br>----METADATA ISSUE - NOT FOUND - $id<br>";
-
-                    if ($dt['concept']['c_class'] != 'Issue')
+                    if ($dti['ISSUE'] <= 0)
                         {
-                            echo "OOOOO";
-                            $RDFdata->check_issue();
-                            echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
+                            $RDF = new \App\Models\Rdf\RDF();
+                            $RDFdata = new \App\Models\Rdf\RDFData();
+                            $dt = $RDF->le($id);
+                            echo "<br>----METADATA ISSUE - NOT FOUND - $id<br>";
 
+                            if ($dt['concept']['c_class'] != 'Issue')
+                                {
+                                    echo "OOOOO";
+                                    $RDFdata->check_issue();
+                                    echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
+
+                                }
+
+                            $Is = $RDF->extract($dt, 'hasIssueOf');
+                            echo h('US=>'.$Is[0]);
+                            $dti = $Issue->getIssue($Is[0]);
+                            pre($dti);
                         }
-
-                    $Is = $RDF->extract($dt, 'hasIssueOf');
-                    echo h('US=>'.$Is[0]);
-                    $dti = $Issue->getIssue($Is[0]);
-                    pre($dti);
 
                     $ISSUE = new \App\Models\Base\Issues();
                     $ISSUE->register_issue($dti);
-                    echo "===============";
-                    pre($dti);
                     /*************** REGISTRAR ISSUE */
-                    $dt = $this->metadata_issue($id);
-                    echo "==========OK2==========";
-                    pre($dt);
-                    return($dt);
-
+                    $dt = $this->metadata_issue($id_issue);
+                    $d['ID'] = $dt['is_source_issue'];
+                    $d['YEAR'] = $dt['is_year'];
+                    $d['VOL'] = $dt['is_vol'];
+                    $d['VOLR'] = $dt['is_vol_roman'];
+                    $d['NR'] = $dt['is_nr'];
+                    $d['PLACE'] = $dt['is_place'];
+                    $d['JOURNAL'] = $dt['is_source'];
+                    $d['JOURNAL_RDF'] = $dt['is_source_rdf'];
+                    return ($d);
                 }
         }
 
