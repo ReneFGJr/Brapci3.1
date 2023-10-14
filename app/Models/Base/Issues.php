@@ -314,14 +314,9 @@ class Issues extends Model
                                 $RSP['JOURNAL'] = $dj['id_jnl'];
                                 $RSP['JOURNAL_RDF'] = $dj['jnl_frbr'];
 
-                                echo "WORKSJ";
-                                pre($worksJ,false);
-
-                                foreach($worksJ as $id=>$line)
+                                foreach($worksJ as $id=>$art)
                                     {
-                                        echo h($id);
-                                        pre($line);
-                                        //$RDF->propriety($RSP['JOURNAL_RDF'], $prop, $id);
+                                        $RDF->propriety($RSP['JOURNAL_RDF'], $prop, $art);
                                     }
                             } else {
                                 $RSP['id_jnl'] = 9990;
