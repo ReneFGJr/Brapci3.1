@@ -374,6 +374,7 @@ class Issues extends Model
         $ds = $this->where('is_source_issue', $id_issue)->first();
         if ($ds == '') {
             echo "<hr>*NOVO*<hr>";
+            pre($da);
             $this->register_issue($da);
         } else {
 
