@@ -291,6 +291,7 @@ class Metadata extends Model
                             $issue = $ddv1;
                             $journal = $ddv2;
                             $this->metadata['Issue']['ID'] = $ddv1;
+                            pre($this->metadata);
                             $issue_proceessed[$issue] = 1;
                         } else {
                             echo "OPS";
