@@ -455,6 +455,7 @@ class Export extends Model
 
             if (!isset($meta['Class']))
                 {
+                    echo h($idr);
                     pre($meta);
                 }
 
