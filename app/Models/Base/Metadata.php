@@ -410,7 +410,6 @@ class Metadata extends Model
                         }
 
                     $Is = $RDF->extract($dt, 'hasIssueOf');
-                    pre($dt);
                     echo h('US=>'.$Is[0]);
                     $dti = $Issue->getIssue($Is[0]);
 
