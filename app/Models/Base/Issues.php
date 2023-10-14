@@ -327,7 +327,7 @@ class Issues extends Model
     function checkData()
         {
             $RDFdata = new \App\Models\Rdf\RDFData();
-            $RDFData->check_issue();
+            $RDFdata->check_issue();
         }
 
 
