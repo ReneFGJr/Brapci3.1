@@ -203,12 +203,9 @@ class Issues extends Model
 
         $dt = $this->where('is_issue', $da['is_source_issue'])->first();
         if ($dt == '') {
-            echo "NNOOVVOO";
-            pre($da,false);
             $this->set($da)->insert();
-        } else {
-            echo "<br>ISSUE UPDATE?";
         }
+        return true;
     }
 
     function v($dt)
@@ -378,11 +375,12 @@ class Issues extends Model
         if ($ds == '') {
             echo "<hr>*NOVO*<hr>";
             $this->register_issue($da);
+
         } else {
 
         }
         //echo "=================OKKK===============<hr>";
-        //pre($RSP);
+        pre($RSP);
         return $RSP;
     }
 
