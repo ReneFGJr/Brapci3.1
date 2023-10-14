@@ -380,7 +380,7 @@ class Metadata extends Model
         return $this->metadata;
     }
 
-    function metadata_issue($id_issue)
+    function metadata_issue($id_issue,$loop=0)
         {
             $Issue = new \App\Models\Base\Issues();
             $dt = $Issue->where('is_source_issue', $id_issue)->first();
@@ -423,7 +423,15 @@ class Metadata extends Model
                     $ISSUE = new \App\Models\Base\Issues();
                     $ISSUE->register_issue($dti);
                     /*************** REGISTRAR ISSUE */
-                    $dt = $this->metadata_issue($id_issue);
+                    if ($loop == 0)
+                        {
+                            $dt = $this->metadata_issue($id_issue);
+                        } else {
+                            echo "#######PROB";
+                            echo h($id_issue);
+                            exit;
+                        }
+
                     return ($dt);
                 }
         }
