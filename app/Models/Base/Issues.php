@@ -236,6 +236,12 @@ class Issues extends Model
         $issue = [];
         $worksJ = [];
 
+        if (!isset($dt['data']))
+            {
+                echo "VAZIO";
+                pre($dt);
+            }
+
         foreach ($dt['data'] as $id => $line) {
             $class = trim($line['c_class']);
             $vlr1 = $line['n_name'];
