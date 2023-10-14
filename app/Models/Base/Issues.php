@@ -221,7 +221,7 @@ class Issues extends Model
 
     function getIssue($id_issue)
     {
-
+        echo h($id_issue,4);
         /************************************** GET ISSUE */
         $RDF = new \App\Models\Rdf\RDF();
         $Source = new \App\Models\Base\Sources();
