@@ -375,6 +375,7 @@ class Metadata extends Model
                     {
                         $Issue = new \App\Models\Base\Issues();
                         $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->first();
+                        echo '<hr>'.$Issue->getlastquery().'<hr>';
                         echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAA";
                         pre($aaa,false);
                         if (isset($aaa['is_year']))
