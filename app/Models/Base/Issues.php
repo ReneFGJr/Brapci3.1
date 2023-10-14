@@ -233,8 +233,8 @@ class Issues extends Model
         $RSP['ISSUE'] = $id_issue;
         $RSP['JOURNAL'] = -1;
         $RSP['JOURNAL_RDF'] = -1;
-        $pref = '';
-        $works = [];
+
+        $issue = [];
         $worksJ = [];
 
         foreach ($dt['data'] as $id => $line) {
@@ -246,7 +246,7 @@ class Issues extends Model
                     $pref = $line['n_name'];
                     break;
                 case 'hasIssueOf':
-                    array_push($works, $line['d_r1']);
+                    array_push($issue, $line['d_r1']);
                     array_push($worksJ, $line['d_r2']);
                     break;
                 case 'hasIssue':
@@ -276,7 +276,7 @@ class Issues extends Model
 
         /************************************** RECUPERA JOURNAL */
         if ($RSP['JOURNAL']==-1) {
-            $dar = $RDF->le($works[0]);
+            $dar = $RDF->le($worksJ[0]);
             $jnl = $RDF->extract($dar, 'isPubishIn');
 
             if (isset($jnl[0])) {
