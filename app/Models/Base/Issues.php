@@ -290,7 +290,8 @@ class Issues extends Model
 
                     if (count($worksJ) == 0)
                         {
-                            echo bsmessage("TOTALMENTE VAZIO ISSUE");
+                            $RDF->exclude($id_issue);
+                            echo bsmessage("TOTALMENTE VAZIO ISSUE - $id_issue");
                             exit;
                         }
                 }
