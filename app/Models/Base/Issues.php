@@ -282,9 +282,9 @@ class Issues extends Model
 
         /************************************** RECUPERA JOURNAL */
         if ($RSP['JOURNAL']==-1) {
-            if (!isset($works[0]))
+            if (!isset($worksJ[0]))
                 {
-                    echo "ISSUE EMPTY ". $id_issue;
+                    echo "<br>ISSUE EMPTY ". $id_issue;
                     /******** REGISTRAR ISSUES */
                     $prop = $RDF->getClass('hasIssueOf',false);
                     $RDFIssueWorks = new \App\Models\Base\IssuesWorks();
