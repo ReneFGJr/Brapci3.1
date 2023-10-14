@@ -287,16 +287,7 @@ class Metadata extends Model
                         break;
                     case 'hasIssueOf':
                         /************** ARTIGO */
-                        if (!isset($issue_proceessed[$ddv1]) or (count($issue_proceessed) == 0)) {
-                            $issue = $ddv1;
-                            $journal = $ddv2;
-                            $this->metadata['Issue']['ID'] = $ddv1;
-                            pre($this->metadata);
-                            $issue_proceessed[$issue] = 1;
-                        } else {
-                            echo "OPS";
-                            exit;
-                        }
+                        $this->metadata['Issue']['ID'] = $ddv1;
                         break;
                     case 'hasPublicationNumber':
                         $this->metadata['Issue']['nr'] = $value;
