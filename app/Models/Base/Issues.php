@@ -171,7 +171,8 @@ class Issues extends Model
 
     function register_issue($da)
     {
-        pra($da,false);
+        echo "################ REGISTER ISSUE";
+        pre($da,false);
         if (isset($da['ISSUE']))
             {
                 $Source = new \App\Models\Base\Sources();
