@@ -367,7 +367,6 @@ class Issues extends Model
             foreach($dt as $id=>$line)
                 {
                     $da['is_source_rdf'] = $line['jnl_frbr'];
-                    pre($da);
                     $this->set($da)->where('id_jnl',$line['id_jnl'])->update();
                 }
 
