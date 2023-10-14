@@ -298,9 +298,12 @@ class Issues extends Model
                 if (substr($jn,0,9) == 'ISSUE:JNL')
                     {
                         $jn1 = substr($jn,0,9);
-                        $jn2 = substr($jn, 11, 5);
+                        $jn2 = substr($jn, 10, 5);
+                        $jn3 = substr($jn, 15, 5);
+
                         echo h($jn1);
                         echo h($jn2);
+                        echo h($jn3);
                     }
                 pre($dar, false);
                 pre($jnl);
