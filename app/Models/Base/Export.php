@@ -453,8 +453,10 @@ class Export extends Model
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-
-
+            if ($idr == 70959)
+                {
+                    pre($meta);
+                }
 
             //$meta['year'] = '';
             if (count($meta) > 0) {
