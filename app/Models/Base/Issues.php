@@ -175,7 +175,7 @@ class Issues extends Model
                 $dj = $Source->where('id_jnl',$da['JOURNAL'])->first();
                 if ($dj == '')
                     {
-                        echo "ERRO DE JOURNAL #20231014";
+                        echo "<hr>ERRO DE JOURNAL #20231014<hr>";
                         pre($da);
                     }
                 $da['is_source'] = $da['JOURNAL'];
@@ -234,7 +234,6 @@ class Issues extends Model
         $pref = '';
         $works = [];
 
-
         foreach ($dt['data'] as $id => $line) {
             $class = trim($line['c_class']);
             $vlr1 = $line['n_name'];
@@ -275,6 +274,9 @@ class Issues extends Model
         if ($RSP['JOURNAL']==-1) {
             $dar = $RDF->le($works[0]);
             $jnl = $RDF->extract($dar, 'isPubishIn');
+
+            pre($dar,false);
+            pre($jnl);
 
             if (isset($jnl[0])) {
                 $dj = $RDF->le($jnl[0]);
@@ -319,7 +321,7 @@ class Issues extends Model
 
         $ds = $this->where('is_source_issue', $id_issue)->first();
         if ($ds == '') {
-            echo "*NOVO*";
+            echo "<hr>*NOVO*<hr>";
             $this->register_issue($da);
         } else {
 
