@@ -453,7 +453,7 @@ class Export extends Model
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-            if ($idr == 70959)
+            if (($meta['Class'] == 'Article') and (!isset($meta['Title'])))
                 {
                     pre($meta);
                 }
