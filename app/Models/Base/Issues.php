@@ -312,6 +312,8 @@ class Issues extends Model
                                 $RSP['JOURNAL'] = $dj['id_jnl'];
                                 $RSP['JOURNAL_RDF'] = $dj['jnl_frbr'];
 
+                                pre($works);
+
                                 foreach($works as $id=>$line)
                                     {
                                         echo h($id);
