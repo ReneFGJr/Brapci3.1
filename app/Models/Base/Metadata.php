@@ -371,6 +371,10 @@ class Metadata extends Model
         /******************************* LEGEND */
         if (isset($this->metadata['Issue']['ID']))
             {
+            $Issue = new \App\Models\Base\Issues();
+            $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->findAll();
+            echo $Issue->getlastquery();
+            pre($aaa);
             pre($this->metadata,false);
             $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
