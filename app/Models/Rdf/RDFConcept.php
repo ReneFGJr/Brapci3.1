@@ -73,6 +73,8 @@ class RDFConcept extends Model
 
 	function exclude($id)
 		{
+			$dt = $this->where('id_cc', $id);
+
 			$this->where('id_cc',$id)->delete();
 		}
 

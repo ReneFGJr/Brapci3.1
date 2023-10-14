@@ -546,6 +546,9 @@ class RDF extends Model
 	{
 		$sx = '';
 
+		$dt = $this->le($id);
+		pre($dt);
+
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$RDFData = new \App\Models\Rdf\RDFData();
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
