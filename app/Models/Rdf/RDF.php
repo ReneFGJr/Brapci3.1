@@ -547,15 +547,18 @@ class RDF extends Model
 		$sx = '';
 
 		$dt = $this->le($id);
-		pre($dt);
+		if ($dt['c_class'] == 'Article')
+		{
+			$RDFConcept = new \App\Models\Rdf\RDFConcept();
+			$RDFData = new \App\Models\Rdf\RDFData();
+			$IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-		$RDFConcept = new \App\Models\Rdf\RDFConcept();
-		$RDFData = new \App\Models\Rdf\RDFData();
-		$IssuesWorks = new \App\Models\Base\IssuesWorks();
-
-		$sx .= $IssuesWorks->exclude($id);
-		$sx .= $RDFData->exclude($id);
-		$sx .= $RDFConcept->exclude($id);
+			$sx .= $IssuesWorks->exclude($id);
+			$sx .= $RDFData->exclude($id);
+			$sx .= $RDFConcept->exclude($id);
+		} else {
+			pre($dt);
+		}
 		return $sx;
 	}
 
