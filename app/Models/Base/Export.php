@@ -445,7 +445,6 @@ class Export extends Model
         for ($r = 0; $r < count($ids); $r++) {
             $xline = $ids[$r];
             $idr = $xline['id_cc'];
-            echo $idr.'<br>';
 
             $line = $RDF->le($idr);
             $Metadata->metadata = array();
@@ -453,6 +452,11 @@ class Export extends Model
             /*********************** Metadata */
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
+
+            if ($idr == 31889) {
+                pre($meta);
+            }
+
 
             //$meta['year'] = '';
             if (count($meta) > 0) {
