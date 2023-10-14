@@ -408,10 +408,11 @@ class Metadata extends Model
                             echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
 
                         }
-            pre($dt);
+
                     $Is = $RDF->extract($dt, 'hasIssueOf');
                     echo h('US=>'.$Is[0]);
                     $dti = $Issue->getIssue($Is[0]);
+                    pre($dti);
 
                     $ISSUE = new \App\Models\Base\Issues();
                     $ISSUE->register_issue($dti);
