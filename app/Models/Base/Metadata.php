@@ -371,11 +371,19 @@ class Metadata extends Model
         /******************************* LEGEND */
         if (isset($this->metadata['Issue']['ID']))
             {
-            $Issue = new \App\Models\Base\Issues();
-            $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->findAll();
-            echo $Issue->getlastquery();
-            pre($aaa);
-            pre($this->metadata,false);
+                if (!isset($this->metadata['Issue']['YEAR']))
+                    {
+                        $Issue = new \App\Models\Base\Issues();
+                        $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->findAll();
+                        if (isset($aaa['is_year']))
+                            {
+                                $this->metadata['Issue']['YEAR'] = $aaa['is_year'];
+                                $this->metadata['Issue']['JOURNAL'] = $aaa['is_source'];
+                                $this->metadata['Issue']['JOURNAL_RDF'] = $aaa['is_source_rdf'];
+                                $this->metadata['Issue']['vol'] = $aaa['is_vol'];
+                                $this->metadata['Issue']['nr'] = $aaa['is_nr'];
+                            }
+                    }
             $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
