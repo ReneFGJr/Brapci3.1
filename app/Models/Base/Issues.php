@@ -200,8 +200,11 @@ class Issues extends Model
             }
 
         $da['is_oai_update'] = date("Y-m-d H:i:s");
+
         $dt = $this->where('is_issue', $da['is_source_issue'])->first();
         if ($dt == '') {
+            echo "NNOOVVOO";
+            pre($da,false);
             $this->set($da)->insert();
         } else {
             echo "<br>ISSUE UPDATE?";
@@ -374,7 +377,6 @@ class Issues extends Model
         $ds = $this->where('is_source_issue', $id_issue)->first();
         if ($ds == '') {
             echo "<hr>*NOVO*<hr>";
-            pre($da);
             $this->register_issue($da);
         } else {
 
