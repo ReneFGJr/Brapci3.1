@@ -169,11 +169,35 @@ class Issues extends Model
 
     function register_issue($da)
     {
-        $da['is_oai_update'] = date("Y-m-d H:i:s");
+        if (isset($da['ISSUE']))
+            {
+                $Source = new \App\Models\Base\Sources();
+                $dj = $Source->where('id_jnl',$da['JOURNAL'])->first();
+                $da['is_source'] = $da['JOURNAL'];
+                $da['is_source_rdf'] = $dj['jnl_frbr'];
+                $da['is_source_issue'] = $da['ISSUE'];
+                $da['is_year']  = $da['year'];
+                $da['is_issue'] = $da['ISSUE'];
+                $da['is_vol'] = $da['vol'];
+                $da['is_vol_roman']  = '';
+                $da['is_nr'] = $da['nr'];
+                $da['is_place'] = '';
+                $da['is_edition'] = '';
+                $da['is_thema'] = '';
+                $da['is_cover'] = '';
+                $da['is_card'] = '';
+                $da['is_url_oai'] = '';
+                $da['is_oai_token'] = '';
+                $da['is_works'] = 0;
+                $da['is_card'] = '';
+            }
 
+        $da['is_oai_update'] = date("Y-m-d H:i:s");
         $dt = $this->where('is_issue', $da['is_source_issue'])->first();
         if ($dt == '') {
             $this->set($da)->insert();
+        } else {
+            echo "<br>ISSUE UPDATE?";
         }
     }
 
@@ -188,19 +212,24 @@ class Issues extends Model
         return $sx;
     }
 
-    function getIssue($id)
+    function getIssue($id_issue)
     {
+
+        /************************************** GET ISSUE */
         $RDF = new \App\Models\Rdf\RDF();
         $Source = new \App\Models\Base\Sources();
 
-        $dt = $RDF->le($id);
-        $RSP['year'] = '????';
+        $dt = $RDF->le($id_issue);
+        $RSP['year'] = '';
         $RSP['nr'] = '';
         $RSP['vol'] = '';
-        $RSP['ISSUE'] = $id;
+        $RSP['ISSUE'] = $id_issue;
         $RSP['JOURNAL'] = -1;
+        $RSP['JOURNAL_RDF'] = -1;
         $pref = '';
         $works = [];
+
+
         foreach ($dt['data'] as $id => $line) {
             $class = trim($line['c_class']);
             $vlr1 = $line['n_name'];
@@ -237,44 +266,19 @@ class Issues extends Model
             $RSP['year'] = 9996;
         }
 
-        echo "=================OKKK===============<hr>";
-        pre($RSP);
         /************************************** RECUPERA JOURNAL */
-        if (!isset($RSP['id_jnl'])) {
-            $RSP['id_jnl'] = -1;
-
+        if ($RSP['JOURNAL']==-1) {
             $dar = $RDF->le($works[0]);
-
             $jnl = $RDF->extract($dar, 'isPubishIn');
 
             if (isset($jnl[0])) {
                 $dj = $RDF->le($jnl[0]);
                 if (isset($dj['concept'])) {
                     if ($dj['concept']['c_class'] == 'Journal') {
-
-                        $ds = $Source->where('jnl_frbr', $dj['concept']['id_cc'])->first();
-                        if ($ds != '') {
-                            $RSP['JOURNAL'] = $ds['id_jnl'];
-                            $dt = [];
-                            $da['is_source'] = $ds['id_jnl'];
-                            $da['is_source_rdf'] = $ds['jnl_frbr'];
-                            $da['is_source_issue'] = $id;
-                            $da['is_year'] = $RSP['year'];
-                            $da['is_issue'] = $id;
-                            $da['is_source_issue'] = $id;
-                            $da['is_vol'] = $RSP['vol'];
-                            $da['is_vol_roman'] = '';
-                            $da['is_nr'] = $RSP['nr'];
-                            $da['is_place'] = '';
-                            $da['is_edition'] = '';
-                            $da['is_cover'] = 0;
-                            $da['is_card'] = 0;
-                            $da['is_url_oai'] = 0;
-                            $da['is_oai_token'] = '';
-                            $da['is_oai_update'] = date("Y-m-d H:i:s");
-
-                            $this->register_issue($da);
-                        }
+                        $jnl = $dj['concept']['id_cc'];
+                        $dj = $Source->where('jnl_frbr',$jnl)->first();
+                        $RSP['JOURNAL'] = $dj['id_jnl'];
+                        $RSP['JOURNAL_RDF'] = $jnl;
                     } else {
                         echo "=======================";
                         pre($dar);
@@ -282,7 +286,6 @@ class Issues extends Model
                             $Source = new \App\Models\Base\Sources();
                             $idj = $jnl[0][1];
                             $ln = $Source->where('jnl_frbr', $idj)->first();
-                            $RSP['id_jnl'] = 1;
                         }
                     }
                 }
@@ -290,8 +293,42 @@ class Issues extends Model
                 $RSP['id_jnl'] = 9990;
             }
         }
+
+/********************************************************************* */
+        $dt = [];
+        $da['is_source'] = $RSP['JOURNAL'];
+        $da['is_source_rdf'] = $RSP['JOURNAL_RDF'];
+        $da['is_year'] = $RSP['year'];
+        $da['is_issue'] = $id;
+        $da['is_source_issue'] = $id_issue;
+        $da['is_vol'] = $RSP['vol'];
+        $da['is_vol_roman'] = '';
+        $da['is_nr'] = $RSP['nr'];
+        $da['is_place'] = '';
+        $da['is_edition'] = '';
+        $da['is_cover'] = 0;
+        $da['is_card'] = 0;
+        $da['is_url_oai'] = 0;
+        $da['is_oai_token'] = '';
+        $da['is_oai_update'] = date("Y-m-d H:i:s");
+
+        $ds = $this->where('is_source_issue', $id_issue)->first();
+        if ($ds == '') {
+            echo "*NOVO*";
+            $this->register_issue($da);
+        } else {
+
+        }
+        //echo "=================OKKK===============<hr>";
+        //pre($RSP);
         return $RSP;
     }
+
+    function checkData()
+        {
+            $RDFdata = new \App\Models\Rdf\RDFData();
+            $RDFData->check_issue();
+        }
 
 
     function check($jnl, $auto = false)

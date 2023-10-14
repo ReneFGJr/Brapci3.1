@@ -395,11 +395,25 @@ class Metadata extends Model
                     return($d);
                 } else {
                     $RDF = new \App\Models\Rdf\RDF();
+                    $RDFdata = new \App\Models\Rdf\RDFData();
                     $dt = $RDF->le($id);
-                    echo "NOT FOUND - $id";
+                    echo "<br>----METADATA ISSUE - NOT FOUND - $id";
+
+                    if ($dt['concept']['c_class'] != 'Issue')
+                        {
+                            $RDFdata->check_issue();
+                            echo "OOOOO";
+                            exit;
+                            echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
+                            pre($dt);
+                        }
 
                     $Is = $RDF->extract($dt, 'hasIssueOf');
                     $dti = $Issue->getIssue($Is[0]);
+
+                    $ISSUE = new \App\Models\Base\Issues();
+                    $ISSUE->register_issue($dti);
+                    pre($dti);
                     /*************** REGISTRAR ISSUE */
                     $dt = $this->metadata_issue($id);
                     echo "==========OK2==========";

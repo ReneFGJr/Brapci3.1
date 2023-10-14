@@ -63,9 +63,29 @@ class RDFData extends Model
 		return $id;
 	}
 
+	function check_issue()
+	{
+		$class = 'hasIssueOf';
+		$RDF = new \App\Models\Rdf\RDF();
+		$class = $RDF->getClass($class);
+
+		$sql = "SELECT id_d, c_class, d_r1,d_p,d_r2
+						FROM `rdf_data`
+						inner join rdf_concept ON id_cc = `d_r1`
+						inner join rdf_class ON cc_class = id_c
+						WHERE d_p = $class and c_class='Article'";
+		$dt = $this->db->query($sql)->getResultArray();
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$d['d_r1'] = $line['d_r2'];
+			$d['d_r2'] = $line['d_r1'];
+			$this->set($d)->where('id_d', $line['id_d'])->update();
+		}
+		return count($dt);
+	}
+
 	function check_duplicates()
 	{
-
 		$sql = "select d_r1,d_r2,d_p,d_literal,count(*) as total, d_library, max(id_d) as max
 					from " . PREFIX . "rdf_data
 					group by d_r1,d_r2,d_p,d_literal, d_library
@@ -142,111 +162,108 @@ class RDFData extends Model
 	}
 
 	function report($type)
-		{
-			$sx = h($type);
-			switch($type)
-				{
-					case 'index':
-						$user = get("user");
-						$year = get("year");
-						if ($year == '') { $year = date("Y"); }
-						$data = date("Y-m-d");
-						if ($user != '')
-						{
-							$dt = $this
-								->select("count(*) as total, id_us, us_nome")
-								->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
-								->join('users', 'id_us = d_user')
-								->where('year(d_update) = "' . $year . '"')
-								->where('d_user = "' . $user . '"')
-								->groupBy('id_us, us_nome, year,month,day')
-								->orderBy('us_nome,year desc, month desc, day desc')
-								->findAll();
-								$us = '';
-						} else {
-							$users = $this
-								->select("count(*) as total")
-								->select("id_us,us_nome")
-								->join('users','d_user = id_us')
-								->where('year(d_update) = "' . $year . '"')
-								->groupBy('id_us,us_nome')
-								->orderBy('us_nome')
-								->findAll();
-							$us = '<hr>'.h(lang('brapci.users'),5);
-							$us .= '<ul>';
-							foreach($users as $id=>$line)
-								{
-									$us .= '<li>'.anchor(PATH.'/admin/reports/catalog_manutention/revision/?user='.$line['id_us'],$line['us_nome']).' ('.$line['total'].')</li>';
-								}
-							$us .= '</ul>';
-
-
-							$dt = $this
-								->select("count(*) as total")
-								->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
-								->where('year(d_update) = "' . $year . '"')
-								->groupBy('year,month,day')
-								->orderBy('year desc, month desc, day desc')
-								->findAll();
-						}
-
-						$m = array(31,28,31,30,31,30,31,31,30,31,30,31);
-						for($r=1;$r <= 12;$r++)
-							{
-								for($y=1;$y <= $m[($r-1)];$y++)
-									{
-										$d[$r][$y] = 0;
-									}
-							}
-						$mx = array();
-						$max = 10;
-						foreach($dt as $id=>$line)
-							{
-								$mes = $line['month'];
-								$dia = $line['day'];
-								$total = $line['total'];
-								if ($total > $max) { $max = $total; }
-								$d[$mes][$dia] = $total;
-							}
-						$sx .= '<table width="100%">';
-						$sx .= '<tr>';
-						$sx .= '<th style="width: 120px; font-size: 0.5em;">'.lang('brapci.month').'/'.lang('brapci.day').'</th>';
-						for($dia = 1;$dia <=31;$dia++)
-							{
-								$sx .= '<th class="text-center" style="font-size: 0.5em;">'.$dia.'</th>';
-							}
-						$sx .= '</tr>';
-
-						foreach ($d as $mes => $line) {
-							$sx .= '<tr>';
-							$sx .= '<td style="width: 120px;">'. mes_extenso($mes). '</td>';
-							foreach($line as $idl=>$total)
-								{
-									$bcor = '80';
-									$xcor = 128+round(128-$total/$max*128);
-									$xcor = UpperCase(dechex($xcor));
-									if (strlen($xcor) == 1) { $xcor = '0'.$xcor; }
-
-									if ($total == 0)
-										{
-											$bcor = 'F0';
-											$xcor = 'F0';
-										}
-									$cor = "#".$bcor.$xcor. $bcor;
-									$sx .= '<td align="center">';
-									$sx .= '<span title="'.$total.'" style="margin-right:1px; color: '.$cor.'">';
-									$sx .= bsicone('square',18);
-									$sx .= '</span>';
-									$sx .= '</td>';
-								}
-							$sx .= '</tr>';
-						}
-						$sx .= '</table>';
-
-						$sx .= $us;
+	{
+		$sx = h($type);
+		switch ($type) {
+			case 'index':
+				$user = get("user");
+				$year = get("year");
+				if ($year == '') {
+					$year = date("Y");
 				}
-			return $sx;
+				$data = date("Y-m-d");
+				if ($user != '') {
+					$dt = $this
+						->select("count(*) as total, id_us, us_nome")
+						->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
+						->join('users', 'id_us = d_user')
+						->where('year(d_update) = "' . $year . '"')
+						->where('d_user = "' . $user . '"')
+						->groupBy('id_us, us_nome, year,month,day')
+						->orderBy('us_nome,year desc, month desc, day desc')
+						->findAll();
+					$us = '';
+				} else {
+					$users = $this
+						->select("count(*) as total")
+						->select("id_us,us_nome")
+						->join('users', 'd_user = id_us')
+						->where('year(d_update) = "' . $year . '"')
+						->groupBy('id_us,us_nome')
+						->orderBy('us_nome')
+						->findAll();
+					$us = '<hr>' . h(lang('brapci.users'), 5);
+					$us .= '<ul>';
+					foreach ($users as $id => $line) {
+						$us .= '<li>' . anchor(PATH . '/admin/reports/catalog_manutention/revision/?user=' . $line['id_us'], $line['us_nome']) . ' (' . $line['total'] . ')</li>';
+					}
+					$us .= '</ul>';
+
+
+					$dt = $this
+						->select("count(*) as total")
+						->select("year(d_update) as year,month(d_update) as month,day(d_update) as day")
+						->where('year(d_update) = "' . $year . '"')
+						->groupBy('year,month,day')
+						->orderBy('year desc, month desc, day desc')
+						->findAll();
+				}
+
+				$m = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+				for ($r = 1; $r <= 12; $r++) {
+					for ($y = 1; $y <= $m[($r - 1)]; $y++) {
+						$d[$r][$y] = 0;
+					}
+				}
+				$mx = array();
+				$max = 10;
+				foreach ($dt as $id => $line) {
+					$mes = $line['month'];
+					$dia = $line['day'];
+					$total = $line['total'];
+					if ($total > $max) {
+						$max = $total;
+					}
+					$d[$mes][$dia] = $total;
+				}
+				$sx .= '<table width="100%">';
+				$sx .= '<tr>';
+				$sx .= '<th style="width: 120px; font-size: 0.5em;">' . lang('brapci.month') . '/' . lang('brapci.day') . '</th>';
+				for ($dia = 1; $dia <= 31; $dia++) {
+					$sx .= '<th class="text-center" style="font-size: 0.5em;">' . $dia . '</th>';
+				}
+				$sx .= '</tr>';
+
+				foreach ($d as $mes => $line) {
+					$sx .= '<tr>';
+					$sx .= '<td style="width: 120px;">' . mes_extenso($mes) . '</td>';
+					foreach ($line as $idl => $total) {
+						$bcor = '80';
+						$xcor = 128 + round(128 - $total / $max * 128);
+						$xcor = UpperCase(dechex($xcor));
+						if (strlen($xcor) == 1) {
+							$xcor = '0' . $xcor;
+						}
+
+						if ($total == 0) {
+							$bcor = 'F0';
+							$xcor = 'F0';
+						}
+						$cor = "#" . $bcor . $xcor . $bcor;
+						$sx .= '<td align="center">';
+						$sx .= '<span title="' . $total . '" style="margin-right:1px; color: ' . $cor . '">';
+						$sx .= bsicone('square', 18);
+						$sx .= '</span>';
+						$sx .= '</td>';
+					}
+					$sx .= '</tr>';
+				}
+				$sx .= '</table>';
+
+				$sx .= $us;
 		}
+		return $sx;
+	}
 
 	function check($dt)
 	{
@@ -307,14 +324,13 @@ class RDFData extends Model
 				switch ($class) {
 					case 'hasTumbNail':
 						$name = $line['n_name'];
-						if (file_exists($name))
-							{
-								$name = URL . '/' . $name;
-								$sx .= bsc('<img src="' . base_url($name) . '" class="img-thumbnail border border-secondary">', 2);
-								$sx .= bsc('', 8);
-							} else {
-								$sx .= bsc("Erro na carga do arquivo - ".$name,10);
-							}
+						if (file_exists($name)) {
+							$name = URL . '/' . $name;
+							$sx .= bsc('<img src="' . base_url($name) . '" class="img-thumbnail border border-secondary">', 2);
+							$sx .= bsc('', 8);
+						} else {
+							$sx .= bsc("Erro na carga do arquivo - " . $name, 10);
+						}
 						break;
 					default:
 						if ($line['d_r2'] != 0) {
