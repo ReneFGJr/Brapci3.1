@@ -374,16 +374,8 @@ class Metadata extends Model
             $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
-            } else {
-
             }
-            if ($meta['concept']['id_cc'] == 31888)
-                {
-                    pre($this->metadata);
-                }
-        if ($meta['concept']['id_cc'] == 31889) {
-            pre($this->metadata);
-        }
+
 
         return $this->metadata;
     }
@@ -411,9 +403,8 @@ class Metadata extends Model
 
                     if ($dt['concept']['c_class'] != 'Issue')
                         {
-                            $RDFdata->check_issue();
                             echo "OOOOO";
-                            exit;
+                            $RDFdata->check_issue();
                             echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
                             pre($dt);
                         }
