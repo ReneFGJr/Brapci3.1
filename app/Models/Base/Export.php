@@ -453,34 +453,34 @@ class Export extends Model
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-            if (($meta['Class'] == 'Article') and (!isset($meta['Title'])))
-                {
-                    pre($meta);
-                }
+            if (($meta['Class'] == 'Article') and (!isset($meta['Title']))) {
+                pre($meta,false);
+            } else {
+                pre($meta);
+                //$meta['year'] = '';
+                if (count($meta) > 0) {
+                    /***************************** KEYWORD */
+                    if (!isset($meta['Keywords'])) {
+                        $meta['KEYWORD'] = 0;
+                    } else {
+                        $meta['KEYWORD'] = 1;
+                    }
+                    /***************************** KEYWORD */
+                    if (!isset($meta['Abstract'])) {
+                        $meta['ABSTRACT'] = 0;
+                    } else {
+                        $meta['ABSTRACT'] = 1;
+                    }
+                    /************************** pdf */
+                    if (!isset($meta['PDF_id'])) {
+                        $meta['PDF'] = 0;
+                    } else {
+                        $meta['PDF'] = 1;
+                    }
 
-            //$meta['year'] = '';
-            if (count($meta) > 0) {
-                /***************************** KEYWORD */
-                if (!isset($meta['Keywords'])) {
-                    $meta['KEYWORD'] = 0;
-                } else {
-                    $meta['KEYWORD'] = 1;
+                    $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
+                        $ElasticRegister->data($idr, $meta) . '</li>';
                 }
-                /***************************** KEYWORD */
-                if (!isset($meta['Abstract'])) {
-                    $meta['ABSTRACT'] = 0;
-                } else {
-                    $meta['ABSTRACT'] = 1;
-                }
-                /************************** pdf */
-                if (!isset($meta['PDF_id'])) {
-                    $meta['PDF'] = 0;
-                } else {
-                    $meta['PDF'] = 1;
-                }
-
-                $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
-                    $ElasticRegister->data($idr, $meta) . '</li>';
             }
         }
         $sx .= '</ul>';
