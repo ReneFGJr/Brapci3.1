@@ -278,6 +278,10 @@ class Issues extends Model
             if (!isset($works[0]))
                 {
                     echo "ISSUE EMPTY ". $id_issue;
+                    /******** REGISTRAR ISSUES */
+                    $RDFIssueWorks = new \App\Models\Base\IssuesWorks();
+                    $diw = $RDFIssueWorks->where('siw_issue',$id_issue)->findAll();
+                    pre($diw);
                     exit;
                 }
             $dar = $RDF->le($worksJ[0]);
