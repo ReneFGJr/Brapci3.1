@@ -364,7 +364,11 @@ class Issues extends Model
             ->where('is_source_rdf = 0')
             ->where('is_source <> 0')
             ->findAll();
-            pre($dt);
+            foreach($dt as $Id->$line)
+                {
+                    $da['is_source_rdf'] = $line['jnl_frbr'];
+                    $this->set($da)->where('id_jnl',$line['id_jnl'])->update();
+                }
 
             $RDFdata = new \App\Models\Rdf\RDFData();
             $RDFdata->check_issue();
