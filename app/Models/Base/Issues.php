@@ -205,6 +205,7 @@ class Issues extends Model
         if ($dt == '') {
             echo ".... salvando";
             $this->set($da)->insert();
+            echo $this->getlastquery();
         } else {
             echo "OK";
         }
