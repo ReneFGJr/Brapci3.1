@@ -535,15 +535,15 @@ class RDF extends Model
 
 	function exclude($id)
 	{
+		$RDFConcept = new \App\Models\Rdf\RDFConcept();
+		$RDFData = new \App\Models\Rdf\RDFData();
+		$IssuesWorks = new \App\Models\Base\IssuesWorks();
+
 		$sx = '';
 
 		$dt = $this->le($id);
 		if (isset($dt['concept']['c_class'])) {
 			if ($dt['concept']['c_class'] == 'Article') {
-				$RDFConcept = new \App\Models\Rdf\RDFConcept();
-				$RDFData = new \App\Models\Rdf\RDFData();
-				$IssuesWorks = new \App\Models\Base\IssuesWorks();
-
 				$sx .= $IssuesWorks->exclude($id);
 				$sx .= $RDFData->exclude($id);
 				$sx .= $RDFConcept->exclude($id);
@@ -551,8 +551,11 @@ class RDF extends Model
 				pre($dt);
 			}
 		} else {
-			echo "OFF-CLASS";
+			echo "OFF-CLASS $id";
 			pre($dt);
+			$sx .= $IssuesWorks->exclude($id);
+			$sx .= $RDFData->exclude($id);
+			$sx .= $RDFConcept->exclude($id);
 		}
 		return $sx;
 	}
