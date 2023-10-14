@@ -310,6 +310,10 @@ class Issues extends Model
                                 $RDF = new \App\Models\Rdf\RDF();
                                 $Class = 'isPubishIn';
                                 $Class = $RDF->getClass($Class);
+
+                                $Source = new \App\Models\Base\Sources();
+                                $j = $Source->where('id_jnl',$jn2)->findAll();
+                                pre($j);
                                 echo h($Class);
                                 exit;
                             }
