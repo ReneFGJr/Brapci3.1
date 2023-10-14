@@ -116,6 +116,8 @@ class Issues extends Model
 
     function check_issues()
     {
+        $this->checkData();
+
         $sx = '';
         $RDF = new \App\Models\Rdf\RDF();
         $RDFdata = new \App\Models\Rdf\RDFData();
@@ -123,7 +125,7 @@ class Issues extends Model
         $class = 'Issue';
         $idc = $RDF->getClass($class, false);
 
-        $cp = 'id_cc, cc_class, cc_use, id_is, is_year, id_jnl';
+        $cp = 'id_cc, cc_class, cc_use, id_is, is_year, is_source, is_source_rdf';
         //$cp = '*';
         $dtd = $RDFconcept
             ->select($cp)
@@ -140,7 +142,7 @@ class Issues extends Model
             $idissue = $line['id_cc'];
             $dt = $this->getIssue($idissue);
 
-            $da['is_source'] = $dt['id_jnl'];
+            $da['is_source'] = $dt['is_source'];
             $da['is_source_rdf'] = 0;
             $da['is_source_issue'] = '';
             $da['is_year'] = $dt['year'];
