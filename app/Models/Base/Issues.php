@@ -201,6 +201,7 @@ class Issues extends Model
 
         $da['is_oai_update'] = date("Y-m-d H:i:s");
         $dt = $this->where('is_issue', $da['is_source_issue'])->first();
+        echo '<hr>'.$this->getlastquery().'<hr>';
         echo "=1=1=1=1=1=";
         pre($dt,false);
         echo "=2=22222222=";
