@@ -424,15 +424,7 @@ class Metadata extends Model
                     $ISSUE->register_issue($dti);
                     /*************** REGISTRAR ISSUE */
                     $dt = $this->metadata_issue($id_issue);
-                    $d['ID'] = $dt['is_source_issue'];
-                    $d['YEAR'] = $dt['is_year'];
-                    $d['VOL'] = $dt['is_vol'];
-                    $d['VOLR'] = $dt['is_vol_roman'];
-                    $d['NR'] = $dt['is_nr'];
-                    $d['PLACE'] = $dt['is_place'];
-                    $d['JOURNAL'] = $dt['is_source'];
-                    $d['JOURNAL_RDF'] = $dt['is_source_rdf'];
-                    return ($d);
+                    return ($dt);
                 }
         }
 
