@@ -221,7 +221,6 @@ class Issues extends Model
 
     function getIssue($id_issue)
     {
-        echo h($id_issue,4);
         /************************************** GET ISSUE */
         $RDF = new \App\Models\Rdf\RDF();
         $Source = new \App\Models\Base\Sources();
@@ -276,6 +275,11 @@ class Issues extends Model
 
         /************************************** RECUPERA JOURNAL */
         if ($RSP['JOURNAL']==-1) {
+            if (!isset($works[0]))
+                {
+                    echo "ISSUE EMPTY ". $id_issue;
+                    exit;
+                }
             $dar = $RDF->le($worksJ[0]);
             $jnl = $RDF->extract($dar, 'isPubishIn');
 
