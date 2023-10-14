@@ -287,6 +287,12 @@ class Issues extends Model
                             $RDF->propriety($id_issue,$prop,$line['siw_work_rdf']);
                             array_push($worksJ, $line['siw_work_rdf']);
                         }
+
+                    if (count($worksj) == 0)
+                        {
+                            echo bsmessage("TOTALMENTE VAZIO ISSUE");
+                            exit;
+                        }
                 }
             $dar = $RDF->le($worksJ[0]);
             $jnl = $RDF->extract($dar, 'isPubishIn');
