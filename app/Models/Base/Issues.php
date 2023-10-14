@@ -301,10 +301,6 @@ class Issues extends Model
                         $jn2 = substr($jn, 10, 5);
                         $jn3 = substr($jn, 15, 1);
 
-                        echo h($jn);
-                        echo h($jn1);
-                        echo h($jn2);
-                        echo h($jn3);
                         if ($jn3 == '-')
                             {
                                 $RDF = new \App\Models\Rdf\RDF();
@@ -312,7 +308,8 @@ class Issues extends Model
                                 $Class = $RDF->getClass($Class);
 
                                 $Source = new \App\Models\Base\Sources();
-                                $j = $Source->where('id_jnl',$jn2)->findAll();
+                                $j = $Source->where('id_jnl',round($jn2))->first();
+                                echo $Source->getlastquery();
                                 pre($j);
                                 echo h($Class);
                                 exit;
