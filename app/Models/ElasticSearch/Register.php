@@ -200,8 +200,10 @@ class Register extends Model
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
         } else {
+            $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            $di = $IssuesWorks->where('IssuesWorks',$data['ID'])->first();
             echo '============ISSUE';
-            pre($data);
+            pre($di);
         }
 
         if ((isset($data['YEAR'])) and ($data['YEAR'] != ''))
