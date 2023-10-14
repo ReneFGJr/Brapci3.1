@@ -199,6 +199,9 @@ class Register extends Model
 
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
+        } else {
+            echo '============ISSUE';
+            pre($data);
         }
 
         if ((isset($data['YEAR'])) and ($data['YEAR'] != ''))
