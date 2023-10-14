@@ -380,10 +380,10 @@ class Metadata extends Model
         return $this->metadata;
     }
 
-    function metadata_issue($id)
+    function metadata_issue($id_issue)
         {
             $Issue = new \App\Models\Base\Issues();
-            $dt = $Issue->where('is_source_issue',$id)->first();
+            $dt = $Issue->where('is_source_issue', $id_issue)->first();
             if ($dt != '')
                 {
                     $d['ID'] = $dt['is_source_issue'];
@@ -396,6 +396,10 @@ class Metadata extends Model
                     $d['JOURNAL_RDF'] = $dt['is_source_rdf'];
                     return($d);
                 } else {
+
+                    $dti = $Issue->getIssue($id_issue);
+                    pre($dti);
+
                     $RDF = new \App\Models\Rdf\RDF();
                     $RDFdata = new \App\Models\Rdf\RDFData();
                     $dt = $RDF->le($id);
