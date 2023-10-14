@@ -239,19 +239,21 @@ class Register extends Model
         return $da;
     }
 
-    function check($dt,$stop)
+    function check($dt,$stop,$id=0)
         {
             $sx = '';
             switch($dt['CLASS'])
                 {
                     case 'Article':
-                        $sx .= $this->checkIssue($dt);
-                        $sx .= $this->checkYear($dt);
-                        $sx .= $this->checkJournal($dt);
+                        $sx .= $this->checkIssue($dt,$id);
+                        $sx .= $this->checkYear($dt, $id);
+                        $sx .= $this->checkJournal($dt, $id);
                 }
             if (($stop == True) and ($sx != ''))
                 {
                     echo h("ERROS",1);
+                    echo anchor(PATH.'/v/'.$id);
+                    echo '<hr>';
                     echo $sx;
                     exit;
                 }
@@ -299,7 +301,7 @@ class Register extends Model
 
             /*********************** CONVERT DADOS */
             $data = $this->data_convert_elastic($xdata);
-            $this->check($data,true);
+            $this->check($data,true,$id);
 
             /* NOVO REGISTRO */
             if (count($dt) == 0)
