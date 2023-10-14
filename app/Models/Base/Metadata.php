@@ -384,7 +384,9 @@ class Metadata extends Model
                                 $this->metadata['Issue']['vol'] = $aaa['is_vol'];
                                 $this->metadata['Issue']['nr'] = $aaa['is_nr'];
                             }
-                    }
+                     }
+            echo "METADADO";
+            pre($this->metadata,false);
             $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
