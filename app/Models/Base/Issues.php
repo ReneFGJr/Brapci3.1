@@ -288,7 +288,7 @@ class Issues extends Model
                             array_push($worksJ, $line['siw_work_rdf']);
                         }
 
-                    if (count($worksj) == 0)
+                    if (count($worksJ) == 0)
                         {
                             echo bsmessage("TOTALMENTE VAZIO ISSUE");
                             exit;
