@@ -287,7 +287,6 @@ class Metadata extends Model
                         break;
                     case 'hasIssueOf':
                         /************** ARTIGO */
-                        echo "==========".$ddv1;
                         if (isset($this->metadata['Issue']['ID']))
                             {
                                 echo "DOIS ISSUE NO ARTIGO ".$ddv1.'-'.$ddv2;
@@ -375,6 +374,8 @@ class Metadata extends Model
             $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
+            } else {
+                pre($this->metadata);
             }
         return $this->metadata;
     }
