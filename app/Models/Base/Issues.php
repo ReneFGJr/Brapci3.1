@@ -305,6 +305,14 @@ class Issues extends Model
                         echo h($jn1);
                         echo h($jn2);
                         echo h($jn3);
+                        if ($jn3 == '-')
+                            {
+                                $RDF = new \App\Models\Rdf\RDF();
+                                $Class = 'isPubishIn';
+                                $Class = $RDF->getClass($Class);
+                                echo h($Class);
+                                exit;
+                            }
                     }
                 pre($dar, false);
                 pre($jnl);
