@@ -453,15 +453,18 @@ class Export extends Model
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-            if (!isset($meta['Class']))
-                {
-                    echo h($idr);
-                    pre($meta);
-                }
+            $delete = 0;
+            if (!isset($meta['Class'])) {
+                $delete = 1;
+            }
 
             if (($meta['Class'] == 'Article') and (!isset($meta['Title']))) {
-                $RDF->exclude($meta['ID']);
-                $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' DELETED</li>';
+                $delete = 1;
+            }
+
+            if ($delete == 1) {
+                $RDF->exclude($idr);
+                $sx .= '<li>' . strzero($idr, 8) . ' DELETED</li>';
             } else {
                 //$meta['year'] = '';
                 if (count($meta) > 0) {
