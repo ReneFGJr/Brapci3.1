@@ -379,7 +379,6 @@ class Metadata extends Model
                         $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->first();
                         if (isset($aaa['is_year']))
                             {
-                                echo "22";
                                 $this->metadata['Issue']['YEAR'] = $aaa['is_year'];
                                 $this->metadata['Issue']['JOURNAL'] = $aaa['is_source'];
                                 $this->metadata['Issue']['JOURNAL_RDF'] = $aaa['is_source_rdf'];
