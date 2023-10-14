@@ -1346,6 +1346,8 @@ class RDF extends Model
 		if (count($rst) == 0) {
 			$RDFData->insert($d);
 			return 1;
+		} else {
+			$RDFData->set($d)->where('id_d',$rst[0]['id_d'])->update();
 		}
 		return 0;
 	}
