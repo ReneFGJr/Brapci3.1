@@ -175,7 +175,7 @@ class Issues extends Model
                 $dj = $Source->where('id_jnl',$da['JOURNAL'])->first();
                 if ($dj == '')
                     {
-                        echo "ERRO DE JOURNAL #20231014"
+                        echo "ERRO DE JOURNAL #20231014";
                         pre($da);
                     }
                 $da['is_source'] = $da['JOURNAL'];
