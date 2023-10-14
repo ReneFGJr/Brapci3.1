@@ -450,10 +450,8 @@ class Export extends Model
             $Metadata->metadata = array();
 
             /*********************** Metadata */
-            echo "OK1";
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
-            echo "OK2";
 
             //$meta['year'] = '';
             if (count($meta) > 0) {
