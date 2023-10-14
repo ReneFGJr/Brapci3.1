@@ -407,6 +407,24 @@ class Issues extends Model
                     $this->set($da)->where('id_is',$line['id_is'])->update();
                 }
 
+            $dt = $this
+            ->where('is_source_issue = 0')
+            ->where('is_issue > 0')
+            ->findAll();
+            foreach ($dt as $id => $line) {
+                $da['is_source_issue'] = $line['is_issue'];
+                $this->set($da)->where('id_is', $line['id_is'])->update();
+            }
+
+            $dt = $this
+            ->where('is_issue = 0')
+            ->where('is_source_issue > 0')
+            ->findAll();
+            foreach ($dt as $id => $line) {
+                $da['is_issue'] = $line['is_source_issue'];
+                $this->set($da)->where('id_is', $line['id_is'])->update();
+            }
+
             $RDFdata = new \App\Models\Rdf\RDFData();
             $RDFdata->check_issue();
         }
