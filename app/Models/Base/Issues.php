@@ -19,7 +19,6 @@ class Issues extends Model
         'is_source',
         'is_year',
 
-        'is_issue',
         'is_vol',
         'is_vol_roman',
 
@@ -146,7 +145,6 @@ class Issues extends Model
             $da['is_source_rdf'] = $dt['JOURNAL_RDF'];
             $da['is_source_issue'] = '';
             $da['is_year'] = $dt['year'];
-            $da['is_issue'] = $line['id_cc'];
             $da['is_source_issue'] = $line['id_cc'];
             $da['is_vol'] = $dt['vol'];
             $da['is_vol_roman'] = '';
@@ -159,7 +157,7 @@ class Issues extends Model
             $da['is_oai_token'] = '';
             $da['is_oai_update'] = date("Y-m-d H:i:s");
 
-            $di = $this->where('is_issue', $line['id_cc'])->first();
+            $di = $this->where('is_source_issue', $line['id_cc'])->first();
             if ($di == '') {
                 $this->set($da)->insert();
                 $sx .= '<li>' . $line['id_cc'] . '=>' . $da['is_year'] . $da['is_vol'] . $da['is_nr'] . ' Insered</li>';
@@ -184,7 +182,6 @@ class Issues extends Model
                 $da['is_source_rdf'] = $dj['jnl_frbr'];
                 $da['is_source_issue'] = $da['ISSUE'];
                 $da['is_year']  = $da['year'];
-                $da['is_issue'] = $da['ISSUE'];
                 $da['is_vol'] = $da['vol'];
                 $da['is_vol_roman']  = '';
                 $da['is_nr'] = $da['nr'];
@@ -200,7 +197,7 @@ class Issues extends Model
             }
 
         $da['is_oai_update'] = date("Y-m-d H:i:s");
-        $dt = $this->where('is_issue', $da['is_source_issue'])->first();
+        $dt = $this->where('is_source_issue', $da['is_source_issue'])->first();
         if ($dt == '') {
             echo ".... salvando";
             $this->set($da)->insert();
@@ -360,7 +357,6 @@ class Issues extends Model
         $da['is_source'] = $RSP['JOURNAL'];
         $da['is_source_rdf'] = $RSP['JOURNAL_RDF'];
         $da['is_year'] = $RSP['year'];
-        $da['is_issue'] = $id;
         $da['is_source_issue'] = $id_issue;
         $da['is_vol'] = $RSP['vol'];
         $da['is_vol_roman'] = '';
@@ -397,24 +393,6 @@ class Issues extends Model
                     $da['is_source_rdf'] = $line['jnl_frbr'];
                     $this->set($da)->where('id_is',$line['id_is'])->update();
                 }
-
-            $dt = $this
-            ->where('is_source_issue = 0')
-            ->where('is_issue > 0')
-            ->findAll();
-            foreach ($dt as $id => $line) {
-                $da['is_source_issue'] = $line['is_issue'];
-                $this->set($da)->where('id_is', $line['id_is'])->update();
-            }
-
-            $dt = $this
-            ->where('is_issue = 0')
-            ->where('is_source_issue > 0')
-            ->findAll();
-            foreach ($dt as $id => $line) {
-                $da['is_issue'] = $line['is_source_issue'];
-                $this->set($da)->where('id_is', $line['id_is'])->update();
-            }
 
             $RDFdata = new \App\Models\Rdf\RDFData();
             $RDFdata->check_issue();
@@ -481,7 +459,6 @@ class Issues extends Model
                         $da['is_source_rdf'] = $dj['jnl_frbr'];
                         $da['is_source_issue'] = '';
                         $da['is_year'] = $year;
-                        $da['is_issue'] = $line['d_r1'];
                         $da['is_vol'] = trim(troca($vol, 'v.', ''));
                         $da['is_vol_roman'] = '';
                         $da['is_nr'] = trim(troca($nr, 'n.', ''));
@@ -495,7 +472,6 @@ class Issues extends Model
 
                         $dr = $this
                             ->where('is_source_rdf', $dj['jnl_frbr'])
-                            ->where('is_issue', $line['d_r1'])
                             ->findAll();
 
                         $sx .= '<li>';
@@ -556,7 +532,7 @@ class Issues extends Model
         $dt = $this->where("is_source", $id)
             ->orderBy('is_year', 'DESC')
             ->orderBy('is_vol', 'DESC')
-            ->orderBy('is_issue', 'DESC')
+            ->orderBy('is_source_issue', 'DESC')
             ->findAll();
         return $dt;
     }
@@ -570,7 +546,7 @@ class Issues extends Model
         $dt = $this->where("is_source", $id)
             ->orderBy('is_year', 'DESC')
             ->orderBy('is_vol', 'DESC')
-            ->orderBy('is_issue', 'DESC')
+            ->orderBy('is_source_issue', 'DESC')
             ->findAll();
 
         $sx = '';
@@ -776,7 +752,6 @@ class Issues extends Model
 
         $dd['is_source_rdf'] = $dt['jnl_frbr'];
         $dd['is_source_issue'] = $id_issue;
-        $dd['is_issue'] = $dt['id_is'];
         $this->set($dd)->where('id_is', $dt['id_is'])->update();
 
         return "";
