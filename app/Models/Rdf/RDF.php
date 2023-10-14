@@ -548,11 +548,11 @@ class RDF extends Model
 				$sx .= $RDFData->exclude($id);
 				$sx .= $RDFConcept->exclude($id);
 			} else {
-				pre($dt);
+				pre($dt,false);
 			}
 		} else {
 			echo "OFF-CLASS $id";
-			pre($dt);
+			//pre($dt,false);
 			$sx .= $IssuesWorks->exclude($id);
 			$sx .= $RDFData->exclude($id);
 			$sx .= $RDFConcept->exclude($id);
