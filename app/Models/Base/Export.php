@@ -445,7 +445,7 @@ class Export extends Model
         for ($r = 0; $r < count($ids); $r++) {
             $xline = $ids[$r];
             $idr = $xline['id_cc'];
-            echo $idr.' ';
+            echo $idr.'<br>';
 
             $line = $RDF->le($idr);
             $Metadata->metadata = array();
