@@ -171,8 +171,6 @@ class Issues extends Model
 
     function register_issue($da)
     {
-        echo "################ REGISTER ISSUE";
-        pre($da,false);
         if (isset($da['ISSUE']))
             {
                 $Source = new \App\Models\Base\Sources();
@@ -203,9 +201,17 @@ class Issues extends Model
 
         $da['is_oai_update'] = date("Y-m-d H:i:s");
         $dt = $this->where('is_issue', $da['is_source_issue'])->first();
+        pre($dt,false);
         if ($dt == '') {
+            echo ".... salvando";
             $this->set($da)->insert();
+        } else {
+            echo "OK";
         }
+
+        echo "################ REGISTER ISSUE";
+        pre($da, false);
+
         return true;
     }
 
