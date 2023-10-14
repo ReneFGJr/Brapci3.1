@@ -65,12 +65,6 @@ class RDFData extends Model
 
 	function check_issue()
 	{
-		$dt = $this
-			->where('is_source_rdf = 0')
-			->where('is_source <> 0')
-			->findAll();
-		pre($dt);
-
 		$class = 'hasIssueOf';
 		$RDF = new \App\Models\Rdf\RDF();
 		$class = $RDF->getClass($class);

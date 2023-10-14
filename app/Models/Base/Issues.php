@@ -359,6 +359,12 @@ class Issues extends Model
 
     function checkData()
         {
+            $dt = $this
+            ->where('is_source_rdf = 0')
+            ->where('is_source <> 0')
+            ->findAll();
+            pre($dt);
+
             $RDFdata = new \App\Models\Rdf\RDFData();
             $RDFdata->check_issue();
         }
