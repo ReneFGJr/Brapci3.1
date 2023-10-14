@@ -375,12 +375,10 @@ class Issues extends Model
         if ($ds == '') {
             echo "<hr>*NOVO*<hr>";
             $this->register_issue($da);
-
         } else {
 
         }
         //echo "=================OKKK===============<hr>";
-        pre($RSP);
         return $RSP;
     }
 
