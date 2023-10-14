@@ -551,7 +551,7 @@ class RDF extends Model
 				pre($dt,false);
 			}
 		} else {
-			echo "OFF-CLASS $id";
+			$sx .= "OFF-CLASS $id";
 			//pre($dt,false);
 			$sx .= $IssuesWorks->exclude($id);
 			$sx .= $RDFData->exclude($id);
