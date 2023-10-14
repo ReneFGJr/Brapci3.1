@@ -285,13 +285,8 @@ class Issues extends Model
                     foreach($diw as $id=>$line)
                         {
                             $RDF->propriety($id_issue,$prop,$line['siw_work_rdf']);
-                            echo h($id_issue.'-'.$prop.'-'.$line['siw_work_rdf'],2);
-                            echo "SAVED";
-                            pre($line);
-                            exit;
+                            array_push($worksJ, $line['siw_work_rdf']);
                         }
-                    pre($diw);
-                    exit;
                 }
             $dar = $RDF->le($worksJ[0]);
             $jnl = $RDF->extract($dar, 'isPubishIn');
