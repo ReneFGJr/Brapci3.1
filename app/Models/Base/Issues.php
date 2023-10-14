@@ -202,6 +202,8 @@ class Issues extends Model
         $da['is_oai_update'] = date("Y-m-d H:i:s");
 
         $dt = $this->where('is_issue', $da['is_source_issue'])->first();
+        echo "EXIST";
+        pre($dt,false);
         if ($dt == '') {
             $this->set($da)->insert();
         }
@@ -376,7 +378,6 @@ class Issues extends Model
             echo "<hr>*NOVO* - $id_issue<hr>";
             $this->register_issue($da);
             echo '<hr>REGISTRADO';
-            pre($RSP);
         } else {
 
         }
