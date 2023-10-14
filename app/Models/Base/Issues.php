@@ -142,10 +142,8 @@ class Issues extends Model
             $idissue = $line['id_cc'];
             $dt = $this->getIssue($idissue);
 
-            pre($dt);
-
-            $da['is_source'] = $dt['is_source'];
-            $da['is_source_rdf'] = 0;
+            $da['is_source'] = $dt['JOURNAL'];
+            $da['is_source_rdf'] = $dt['JOURNAL_RDF'];
             $da['is_source_issue'] = '';
             $da['is_year'] = $dt['year'];
             $da['is_issue'] = $line['id_cc'];
