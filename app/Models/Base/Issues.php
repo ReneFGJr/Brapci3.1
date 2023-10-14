@@ -360,6 +360,7 @@ class Issues extends Model
     function checkData()
         {
             $dt = $this
+            ->join('source_source', 'is_source = id_jnl')
             ->where('is_source_rdf = 0')
             ->where('is_source <> 0')
             ->findAll();
