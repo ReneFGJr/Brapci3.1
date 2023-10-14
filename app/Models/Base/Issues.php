@@ -173,6 +173,11 @@ class Issues extends Model
             {
                 $Source = new \App\Models\Base\Sources();
                 $dj = $Source->where('id_jnl',$da['JOURNAL'])->first();
+                if ($dj == '')
+                    {
+                        echo "ERRO DE JOURNAL #20231014"
+                        pre($da);
+                    }
                 $da['is_source'] = $da['JOURNAL'];
                 $da['is_source_rdf'] = $dj['jnl_frbr'];
                 $da['is_source_issue'] = $da['ISSUE'];
