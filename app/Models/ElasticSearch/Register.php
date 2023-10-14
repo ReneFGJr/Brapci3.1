@@ -252,7 +252,7 @@ class Register extends Model
             if (($stop == True) and ($sx != ''))
                 {
                     echo h("ERROS",1);
-                    echo anchor(PATH.'/v/'.$id);
+                    echo '<a href="'.(PATH.'/v/'.$id).'" target="_blank">ID: '.$id.'</a>';
                     echo '<hr>';
                     echo $sx;
                     exit;
