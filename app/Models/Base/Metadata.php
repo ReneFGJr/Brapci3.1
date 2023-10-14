@@ -374,7 +374,7 @@ class Metadata extends Model
                 if (!isset($this->metadata['Issue']['YEAR']))
                     {
                         $Issue = new \App\Models\Base\Issues();
-                        $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->findAll();
+                        $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->first();
                         if (isset($aaa['is_year']))
                             {
                                 echo "22";
