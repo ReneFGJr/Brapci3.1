@@ -294,7 +294,7 @@ class Issues extends Model
                     }
                 }
             } else {
-                $jn = $dar['conecpt']['n_name'];
+                $jn = $dar['concept']['n_name'];
                 if (substr($jn,0,9) == 'ISSUE:JNL')
                     {
                         $jn1 = substr($jn,0,9);
