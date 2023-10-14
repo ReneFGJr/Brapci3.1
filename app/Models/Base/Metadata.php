@@ -376,7 +376,10 @@ class Metadata extends Model
             {
             $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
+            $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
             }
+
+        pre($this->metadata);
         return $this->metadata;
     }
 
@@ -392,6 +395,8 @@ class Metadata extends Model
                     $d['VOLR'] = $dt['is_vol_roman'];
                     $d['NR'] = $dt['is_nr'];
                     $d['PLACE'] = $dt['is_place'];
+                    $d['JOURNAL'] = $dt['is_source'];
+                    $d['JOURNAL_RDF'] = $dt['is_source_rdf'];
                     return($d);
                 } else {
                     $RDF = new \App\Models\Rdf\RDF();
