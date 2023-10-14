@@ -123,7 +123,7 @@ class Issues extends Model
         $class = 'Issue';
         $idc = $RDF->getClass($class, false);
 
-        $cp = 'id_cc, cc_class, cc_use, id_is, is_year';
+        $cp = 'id_cc, cc_class, cc_use, id_is, is_year, id_jnl';
         //$cp = '*';
         $dtd = $RDFconcept
             ->select($cp)
