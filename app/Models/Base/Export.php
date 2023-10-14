@@ -421,6 +421,7 @@ class Export extends Model
 
     function export_data($class, $type, $offset, $limit)
     {
+        echo "OK";
         $RDF = new \App\Models\Rdf\RDF();
         $RDFClass = new \App\Models\Rdf\RDFClass();
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
