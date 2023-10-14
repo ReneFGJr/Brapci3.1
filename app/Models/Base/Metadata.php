@@ -414,6 +414,7 @@ class Metadata extends Model
 
                     $ISSUE = new \App\Models\Base\Issues();
                     $ISSUE->register_issue($dti);
+                    echo "===============";
                     pre($dti);
                     /*************** REGISTRAR ISSUE */
                     $dt = $this->metadata_issue($id);
