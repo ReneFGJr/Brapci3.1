@@ -375,6 +375,8 @@ class Issues extends Model
         if ($ds == '') {
             echo "<hr>*NOVO* - $id_issue<hr>";
             $this->register_issue($da);
+            echo '<hr>REGISTRADO';
+            pre($RSP);
         } else {
 
         }
