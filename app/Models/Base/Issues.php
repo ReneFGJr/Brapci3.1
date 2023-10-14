@@ -308,16 +308,13 @@ class Issues extends Model
                                 $Class = $RDF->getClass($Class);
 
                                 $Source = new \App\Models\Base\Sources();
-                                $j = $Source->where('id_jnl',round($jn2))->first();
-                                echo $Source->getlastquery();
-                                pre($j);
-                                echo h($Class);
-                                exit;
+                                $dj = $Source->where('id_jnl',round($jn2))->first();
+                                $RSP['JOURNAL'] = $dj['id_jnl'];
+                                $RSP['JOURNAL_RDF'] = $dj['jnl_frbr'];
+                            } else {
+                                $RSP['id_jnl'] = 9990;
                             }
                     }
-                pre($dar, false);
-                pre($jnl);
-                $RSP['id_jnl'] = 9990;
             }
         }
 
