@@ -201,7 +201,7 @@ class Register extends Model
             $da['ISSUE'] = $data['Issue']['ID'];
         } else {
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
-            $di = $IssuesWorks->where('IssuesWorks',$data['ID'])->first();
+            $di = $IssuesWorks->where('siw_work_rdf',$data['ID'])->first();
             echo '============ISSUE';
             pre($di);
         }
