@@ -375,8 +375,16 @@ class Metadata extends Model
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
             } else {
-                pre($this->metadata);
+
             }
+            if ($meta['concept']['id_cc'] == 31888)
+                {
+                    pre($this->metadata);
+                }
+        if ($meta['concept']['id_cc'] == 31889) {
+            pre($this->metadata);
+        }
+
         return $this->metadata;
     }
 
