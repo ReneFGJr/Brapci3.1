@@ -233,6 +233,7 @@ class Issues extends Model
         $RSP['JOURNAL_RDF'] = -1;
         $pref = '';
         $works = [];
+        $worksJ = [];
 
         foreach ($dt['data'] as $id => $line) {
             $class = trim($line['c_class']);
@@ -244,6 +245,7 @@ class Issues extends Model
                     break;
                 case 'hasIssueOf':
                     array_push($works, $line['d_r1']);
+                    array_push($worksJ, $line['d_r2']);
                     break;
                 case 'hasIssue':
                     $RSP['is_source_rdf'] = $line['d_r2'];
@@ -312,9 +314,9 @@ class Issues extends Model
                                 $RSP['JOURNAL'] = $dj['id_jnl'];
                                 $RSP['JOURNAL_RDF'] = $dj['jnl_frbr'];
 
-                                pre($works);
+                                pre($worksJ);
 
-                                foreach($works as $id=>$line)
+                                foreach($worksJ as $id=>$line)
                                     {
                                         echo h($id);
                                         pre($line);
