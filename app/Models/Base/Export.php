@@ -450,12 +450,13 @@ class Export extends Model
             $Metadata->metadata = array();
 
             /*********************** Metadata */
+            if ($idr == 31889) {
+                pre($line);
+            }
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-            if ($idr == 31889) {
-                pre($meta);
-            }
+
 
 
             //$meta['year'] = '';
