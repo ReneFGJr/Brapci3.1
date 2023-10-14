@@ -378,8 +378,6 @@ class Metadata extends Model
             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
             }
-
-        pre($this->metadata);
         return $this->metadata;
     }
 
