@@ -284,7 +284,6 @@ class Register extends Model
 
     function data($id,$xdata)
         {
-            pre($xdata);
             $dt = $this->where('ID',round($id))->findAll();
             if (count($xdata) == 0)
                 {

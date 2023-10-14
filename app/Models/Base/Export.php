@@ -455,6 +455,7 @@ class Export extends Model
 
             //$meta['year'] = '';
             if (count($meta) > 0) {
+                pre($meta);
                 /***************************** KEYWORD */
                 if (!isset($meta['Keywords'])) {
                     $meta['KEYWORD'] = 0;
