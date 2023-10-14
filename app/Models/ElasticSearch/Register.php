@@ -284,12 +284,13 @@ class Register extends Model
 
     function data($id,$xdata)
         {
+            pre($xdata);
             $dt = $this->where('ID',round($id))->findAll();
             if (count($xdata) == 0)
                 {
                     echo '======================== A001 ==';
-                    pre($xdata);
                     $sx = lang('brapci.skip').' deleted';
+                    pre($xdata);
                     return $sx;
                 }
 
