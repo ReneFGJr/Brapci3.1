@@ -287,6 +287,7 @@ class Metadata extends Model
                         break;
                     case 'hasIssueOf':
                         /************** ARTIGO */
+                        echo "==========".$ddv1;
                         if (isset($this->metadata['Issue']['ID']))
                             {
                                 echo "DOIS ISSUE NO ARTIGO ".$ddv1.'-'.$ddv2;
