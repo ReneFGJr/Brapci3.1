@@ -421,7 +421,6 @@ class Export extends Model
 
     function export_data($class, $type, $offset, $limit)
     {
-        echo "OK";
         $RDF = new \App\Models\Rdf\RDF();
         $RDFClass = new \App\Models\Rdf\RDFClass();
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
@@ -451,8 +450,10 @@ class Export extends Model
             $Metadata->metadata = array();
 
             /*********************** Metadata */
+            echo "OK1";
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
+            echo "OK2";
 
             //$meta['year'] = '';
             if (count($meta) > 0) {
