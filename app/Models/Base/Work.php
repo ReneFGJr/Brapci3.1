@@ -118,8 +118,12 @@ class Work extends Model
         $da['Citation'] = $Citation->show_ref($idc);
 
         /************************************************************ ISSUE */
-        $da['issue_id'] = $RDF->extract($dt, 'hasIssueOf');
-        pre($da);
+        $issue = $RDF->extract($dt, 'hasIssueOf');
+        if (isset($issue[0]))
+            {
+                $da['issue_id'] = $issue[0];
+            }
+
 
         /********************************************************* ALTMETRICS */
         if (isset($da['DOI']))
