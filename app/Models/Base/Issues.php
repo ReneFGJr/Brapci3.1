@@ -305,12 +305,19 @@ class Issues extends Model
                             {
                                 $RDF = new \App\Models\Rdf\RDF();
                                 $Class = 'isPubishIn';
-                                $Class = $RDF->getClass($Class);
+                                $prop = $RDF->getClass($Class);
 
                                 $Source = new \App\Models\Base\Sources();
                                 $dj = $Source->where('id_jnl',round($jn2))->first();
                                 $RSP['JOURNAL'] = $dj['id_jnl'];
                                 $RSP['JOURNAL_RDF'] = $dj['jnl_frbr'];
+
+                                foreach($works as $id=>$line)
+                                    {
+                                        echo h($id);
+                                        pre($line);
+                                        //$RDF->propriety($RSP['JOURNAL_RDF'], $prop, $id);
+                                    }
                             } else {
                                 $RSP['id_jnl'] = 9990;
                             }
