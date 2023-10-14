@@ -279,8 +279,13 @@ class Issues extends Model
                 {
                     echo "ISSUE EMPTY ". $id_issue;
                     /******** REGISTRAR ISSUES */
+                    $Class = $RDF->getClass('hasIssueOf');
                     $RDFIssueWorks = new \App\Models\Base\IssuesWorks();
                     $diw = $RDFIssueWorks->where('siw_issue',$id_issue)->findAll();
+                    foreach($diw as $id=>$line)
+                        {
+                            pre($line);
+                        }
                     pre($diw);
                     exit;
                 }
