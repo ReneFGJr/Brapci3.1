@@ -205,6 +205,10 @@ class Register extends Model
             {
                 $da['YEAR'] = $data['YEAR'];
             }
+
+        if ((isset($data['JOURNAL'])) and ($data['JOURNAL'] != '')) {
+            $da['JOURNAL'] = $data['JOURNAL'];
+        }
         /**************************** KEYWORDS */
         if (isset($data['Keywords'])) {
             $da['KEYWORD'] = 1;
