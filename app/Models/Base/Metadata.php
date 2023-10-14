@@ -425,13 +425,12 @@ class Metadata extends Model
                     /*************** REGISTRAR ISSUE */
                     if ($loop == 0)
                         {
-                            $dt = $this->metadata_issue($id_issue);
+                            //$dt = $this->metadata_issue($id_issue);
                         } else {
                             echo "#######PROB";
                             echo h($id_issue);
                             exit;
                         }
-
                     return ($dt);
                 }
         }
