@@ -453,6 +453,11 @@ class Export extends Model
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
+            if (!isset($meta['Class']))
+                {
+                    pre($meta);
+                }
+
             if (($meta['Class'] == 'Article') and (!isset($meta['Title']))) {
                 $RDF->exclude($meta['ID']);
                 $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' DELETED</li>';
