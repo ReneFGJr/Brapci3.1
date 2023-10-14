@@ -456,11 +456,12 @@ class Export extends Model
             $delete = 0;
             if (!isset($meta['Class'])) {
                 $delete = 1;
+            } else {
+                if (($meta['Class'] == 'Article') and (!isset($meta['Title']))) {
+                    $delete = 1;
+                }
             }
 
-            if (($meta['Class'] == 'Article') and (!isset($meta['Title']))) {
-                $delete = 1;
-            }
 
             if ($delete == 1) {
                 $RDF->exclude($idr);
