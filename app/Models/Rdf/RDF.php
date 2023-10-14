@@ -15,7 +15,7 @@ class RDF extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_cc', 'cc_use','cc_class'
+		'id_cc', 'cc_use', 'cc_class'
 	];
 
 	// Dates
@@ -53,10 +53,9 @@ class RDF extends Model
 
 	function __construct()
 	{
-		if (!defined("LIBRARY"))
-			{
-				define("LIBRARY",'0000');
-			}
+		if (!defined("LIBRARY")) {
+			define("LIBRARY", '0000');
+		}
 	}
 
 	function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '', $cab = '')
@@ -71,21 +70,20 @@ class RDF extends Model
 		$sx = '';
 
 		switch ($d1) {
-			/****************************************************************** CONCEPT */
+				/****************************************************************** CONCEPT */
 			case 'view':
-				switch($d2)
-					{
-						case 'pdf':
-							$RDFPdf = new \App\Models\Rdf\RDFPdf();
-							$RDFPdf->view_file($d3,$d4);
-							exit;
-							break;
-						default:
-							$sx .= $cab.bsmessage('What´s '.$d2,3);
-							break;
-					}
+				switch ($d2) {
+					case 'pdf':
+						$RDFPdf = new \App\Models\Rdf\RDFPdf();
+						$RDFPdf->view_file($d3, $d4);
+						exit;
+						break;
+					default:
+						$sx .= $cab . bsmessage('What´s ' . $d2, 3);
+						break;
+				}
 				break;
-			/****************************************************************** CONCEPT */
+				/****************************************************************** CONCEPT */
 			case 'v':
 				$dt = $this->le($d2);
 				$class = $dt['concept']['c_class'];
@@ -93,12 +91,11 @@ class RDF extends Model
 				$sx .= $cab;
 				$sx .= bs(bsc(h($class, 1), 12));
 				$sx .= $this->view_data($dt);;
-			break;
+				break;
 
-			/****************************************************************** AJAX */
+				/****************************************************************** AJAX */
 			case 'ajax':
-			switch($d2)
-				{
+				switch ($d2) {
 					case 'vc_create':
 						$RDFRange = new \App\Models\Rdf\RDFRange();
 						$d2 = get("reload");
@@ -112,7 +109,7 @@ class RDF extends Model
 						echo $sx;
 						exit;
 					case 'search':
-						echo '==search=>'.$d4;
+						echo '==search=>' . $d4;
 						$sx = view('Brapci/Headers/header', $data);
 						$RDFFormVC = new \App\Models\Rdf\RDFFormVC();
 						$sx = '';
@@ -129,74 +126,68 @@ class RDF extends Model
 						echo h($d2);
 						exit;
 				}
-			break;
-			/****************************************************************** CONCEPT */
+				break;
+				/****************************************************************** CONCEPT */
 			case 'concept':
-				switch($d2)
-					{
-						case 'exclud_mass':
-							$value = get("concepts");
-							$sb = '<ul>';
-							if (strlen($value) != '') {
-								$ln = troca($value, '"', '');
-								$value = $ln;
-								$ln = troca($value, chr(13), ';');
-								$ln = troca($value, chr(10), ';');
-								$c = explode(";",$ln);
-								foreach($c as $id=>$cc)
-									{
-										$cc = sonumero($cc);
-										if ($cc != '')
-											{
-												$this->exclude($cc);
-												$sb .= '<li>'.$cc.' removed</li>';
-											}
-									}
+				switch ($d2) {
+					case 'exclud_mass':
+						$value = get("concepts");
+						$sb = '<ul>';
+						if (strlen($value) != '') {
+							$ln = troca($value, '"', '');
+							$value = $ln;
+							$ln = troca($value, chr(13), ';');
+							$ln = troca($value, chr(10), ';');
+							$c = explode(";", $ln);
+							foreach ($c as $id => $cc) {
+								$cc = sonumero($cc);
+								if ($cc != '') {
+									$this->exclude($cc);
+									$sb .= '<li>' . $cc . ' removed</li>';
+								}
 							}
-							$sb .= '</ul>';
+						}
+						$sb .= '</ul>';
 
 
-							$sx = $cab;
-							$sf = '';
-							$sf .= form_open();
-							$sf .= form_label(lang('brapci.list_concept_to_remove'));
-							$sf .= '<br>';
-							$sf .= form_textarea('concepts',$value,'row=10 cols=100');
-							$sf .= '<br>';
-							$sf .= form_submit('action', lang('brapci.save'),'class="btn btn-outline-primary"');
-							$sf .= form_close();
-							$sf .= '<br>';
-							$sf .= bsmessage(lang('brapci.warning_definitive_exclude'),4);
-							$sx .= bs(bsc($sf.$sb,12));
+						$sx = $cab;
+						$sf = '';
+						$sf .= form_open();
+						$sf .= form_label(lang('brapci.list_concept_to_remove'));
+						$sf .= '<br>';
+						$sf .= form_textarea('concepts', $value, 'row=10 cols=100');
+						$sf .= '<br>';
+						$sf .= form_submit('action', lang('brapci.save'), 'class="btn btn-outline-primary"');
+						$sf .= form_close();
+						$sf .= '<br>';
+						$sf .= bsmessage(lang('brapci.warning_definitive_exclude'), 4);
+						$sx .= bs(bsc($sf . $sb, 12));
 
-							break;
-						case 'exclude':
-							$this->exclude($d3, $d4);
-							return wclose();
-							exit;
-							break;
-						case 'export':
-							$RDFExport = new \App\Models\Rdf\RDFExport();
-							$RDFExport->export($d3,true);
-							$sx = wclose();
+						break;
+					case 'exclude':
+						$this->exclude($d3, $d4);
+						return wclose();
+						exit;
+						break;
+					case 'export':
+						$RDFExport = new \App\Models\Rdf\RDFExport();
+						$RDFExport->export($d3, true);
+						$sx = wclose();
 						break;
 
-						default:
-							if ($d2 != '')
-								{
-									$sx .= bs(bsc(bsmessage("NOT IMPLEMENTED <b>$d2-$d3</b>", 3)));
-								}
-							$menu = array();
-							$menu[PATH.'/rdf/concept/exclud_mass'] = lang('brapci.exclude_mass');
-							$sx .= $cab;
-							$sx .= bs(bsc(menu($menu)));
-							return $sx;
+					default:
+						if ($d2 != '') {
+							$sx .= bs(bsc(bsmessage("NOT IMPLEMENTED <b>$d2-$d3</b>", 3)));
+						}
+						$menu = array();
+						$menu[PATH . '/rdf/concept/exclud_mass'] = lang('brapci.exclude_mass');
+						$sx .= $cab;
+						$sx .= bs(bsc(menu($menu)));
+						return $sx;
+				}
+				break;
 
-
-					}
-			break;
-
-			/****************************************************************** VALUE */
+				/****************************************************************** VALUE */
 			case 'text':
 				$sx = view('Brapci/Headers/header', $data);
 				$RDFFormText = new \App\Models\Rdf\RDFFormText();
@@ -230,7 +221,8 @@ class RDF extends Model
 
 						$sx .= $RDFForm->edit($form_class, $prop_name, $form_id, $register);
 
-						echo $sx; exit;
+						echo $sx;
+						exit;
 						break;
 					default:
 						$menu = array();
@@ -240,31 +232,30 @@ class RDF extends Model
 						break;
 				}
 				break;
-			/******************************************************************* FORM */
+				/******************************************************************* FORM */
 			case 'form':
 				$sx = $cab;
 				$RDFForm = new \App\Models\Rdf\RDFForm();
 				/* CRUD */
-				switch($d2)
-					{
-						case 'editRDF':
-							$RDF = new \App\Models\Rdf\RDF();
-							$sx = view('Brapci/Headers/header', $data);
-							$sx .= $RDF->form($d3);
-							echo $sx;
-							exit;
-							break;
-						case 'edit':
-							$sx .= $RDFForm->form_ed($d3, $d4, $d5);
-							break;
-						case 'check':
-							$sx .= $RDFForm->form_import($d3, $d4, $d5);
-							break;
-					}
+				switch ($d2) {
+					case 'editRDF':
+						$RDF = new \App\Models\Rdf\RDF();
+						$sx = view('Brapci/Headers/header', $data);
+						$sx .= $RDF->form($d3);
+						echo $sx;
+						exit;
+						break;
+					case 'edit':
+						$sx .= $RDFForm->form_ed($d3, $d4, $d5);
+						break;
+					case 'check':
+						$sx .= $RDFForm->form_import($d3, $d4, $d5);
+						break;
+				}
 				break;
 
 
-			/******************************************************************* CLASS */
+				/******************************************************************* CLASS */
 			case 'class':
 				switch ($d2) {
 					case 'edit':
@@ -333,8 +324,8 @@ class RDF extends Model
 			default:
 				$sx .= $cab;
 				$sx .= breadcrumbs(array(
-						'rdf.home' => PATH . MODULE . '/rdf/'
-					));
+					'rdf.home' => PATH . MODULE . '/rdf/'
+				));
 				$sx .= $this->menu();
 				break;
 		}
@@ -368,10 +359,10 @@ class RDF extends Model
 	}
 
 	function edit_link($id)
-		{
-			$sx = '<a href="'.PATH.'/a/'.$id.'">'.bsicone('edit').'</a>';
-			return $sx;
-		}
+	{
+		$sx = '<a href="' . PATH . '/a/' . $id . '">' . bsicone('edit') . '</a>';
+		return $sx;
+	}
 
 
 	function xxx_index2($d1, $d2 = '', $d3 = '', $d4 = '', $d5 = '', $cab = '')
@@ -547,16 +538,20 @@ class RDF extends Model
 		$sx = '';
 
 		$dt = $this->le($id);
-		if ($dt['c_class'] == 'Article')
-		{
-			$RDFConcept = new \App\Models\Rdf\RDFConcept();
-			$RDFData = new \App\Models\Rdf\RDFData();
-			$IssuesWorks = new \App\Models\Base\IssuesWorks();
+		if (!isset($dt['c_class'])) {
+			if ($dt['c_class'] == 'Article') {
+				$RDFConcept = new \App\Models\Rdf\RDFConcept();
+				$RDFData = new \App\Models\Rdf\RDFData();
+				$IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-			$sx .= $IssuesWorks->exclude($id);
-			$sx .= $RDFData->exclude($id);
-			$sx .= $RDFConcept->exclude($id);
+				$sx .= $IssuesWorks->exclude($id);
+				$sx .= $RDFData->exclude($id);
+				$sx .= $RDFConcept->exclude($id);
+			} else {
+				pre($dt);
+			}
 		} else {
+			echo "OFF-CLASS";
 			pre($dt);
 		}
 		return $sx;
@@ -677,24 +672,24 @@ class RDF extends Model
 		return $sx;
 	}
 
-	function changePropriete($p1,$p2)
-		{
-			$class1 = $this->getClass($p1,false);
-			$class2 = $this->getClass($p2, false);
-			$RDFData = new \App\Models\Rdf\RDFData();
+	function changePropriete($p1, $p2)
+	{
+		$class1 = $this->getClass($p1, false);
+		$class2 = $this->getClass($p2, false);
+		$RDFData = new \App\Models\Rdf\RDFData();
 
-			$sql = "update rdf_data set d_p = $class1 where d_p = $class2 ";
-			$d['d_p'] = $class2;
-			$RDFData->set($d)->where('d_p',$class1)->update();
+		$sql = "update rdf_data set d_p = $class1 where d_p = $class2 ";
+		$d['d_p'] = $class2;
+		$RDFData->set($d)->where('d_p', $class1)->update();
 
-			echo $RDFData->getlastquery().'<br>';
+		echo $RDFData->getlastquery() . '<br>';
 
-			$d['cc_class'] = $class2;
-			$this->set($d)->where('cc_class',$class1)->update();
-			$this->db->query($sql);
+		$d['cc_class'] = $class2;
+		$this->set($d)->where('cc_class', $class1)->update();
+		$this->db->query($sql);
 
-			return true;
-		}
+		return true;
+	}
 
 	function change($d1, $d2)
 	{
@@ -882,10 +877,9 @@ class RDF extends Model
 			return array();
 		}
 
-		if(!isset($dt['data']))
-			{
-				$dt['data'] = array();
-			}
+		if (!isset($dt['data'])) {
+			$dt['data'] = array();
+		}
 
 		if ($simple == 0) {
 			$RDFData = new \App\Models\Rdf\RDFData();
@@ -952,33 +946,31 @@ class RDF extends Model
 	function c($id, $force = false)
 	{
 		$type = '';
-		switch($force)
-			{
-				case 'abnt':
-					$type = 'abnt';
-					$force = false;
-					break;
-				case 'cover':
-					$type = 'cover';
-					$force = false;
-					break;
-			}
+		switch ($force) {
+			case 'abnt':
+				$type = 'abnt';
+				$force = false;
+				break;
+			case 'cover':
+				$type = 'cover';
+				$force = false;
+				break;
+		}
 		if ($id == 0) {
 			return "empty";
 		}
 		$dir = $this->directory($id, true);
-		switch($type)
-			{
-				case 'abnt':
-					$file = $dir . 'work_abnt.nm';
-					break;
-				case 'cover':
-					$file = $dir . 'cover.img';
-					break;
-				default:
-					$file = $dir . 'name.nm';
-					break;
-			}
+		switch ($type) {
+			case 'abnt':
+				$file = $dir . 'work_abnt.nm';
+				break;
+			case 'cover':
+				$file = $dir . 'cover.img';
+				break;
+			default:
+				$file = $dir . 'name.nm';
+				break;
+		}
 
 		if ((file_exists($file)) and ($force == false)) {
 			$tela = file_get_contents($file);
@@ -1040,20 +1032,20 @@ class RDF extends Model
 	}
 
 	function recover_class($class_name)
-		{
+	{
 		$RDFClass = new \App\Models\Rdf\RDFClass();
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 
 		$class = $RDFClass->Class($class_name);
 		$rlt = $RDFConcept
-				->select('id_cc, n_name, cc_use, id_n')
-				->join('rdf_name', 'cc_pref_term = rdf_name.id_n', 'LEFT')
-				->where('cc_class', $class)
-				->where('cc_library', LIBRARY)
-				->orderBy('n_name')
-				->findAll();
+			->select('id_cc, n_name, cc_use, id_n')
+			->join('rdf_name', 'cc_pref_term = rdf_name.id_n', 'LEFT')
+			->where('cc_class', $class)
+			->where('cc_library', LIBRARY)
+			->orderBy('n_name')
+			->findAll();
 		return $rlt;
-		}
+	}
 
 	function export_index($class_name, $file = '')
 	{
@@ -1348,15 +1340,15 @@ class RDF extends Model
 		}
 
 		$rst = $RDFData
-					->where('d_r1', $idp)
-					->where('d_r2', $resource)
-					->where('d_literal', $literal)
-					->findAll();
+			->where('d_r1', $idp)
+			->where('d_r2', $resource)
+			->where('d_literal', $literal)
+			->findAll();
 		if (count($rst) == 0) {
 			$RDFData->insert($d);
 			return 1;
 		} else {
-			$RDFData->set($d)->where('id_d',$rst[0]['id_d'])->update();
+			$RDFData->set($d)->where('id_d', $rst[0]['id_d'])->update();
 		}
 		return 0;
 	}
@@ -1367,7 +1359,7 @@ class RDF extends Model
 	function directory($id)
 	{
 		if ($id <= 0) {
-			echo h('ERROR: directory ID invalid -> [' . $id.']', 3);
+			echo h('ERROR: directory ID invalid -> [' . $id . ']', 3);
 			exit;
 		}
 		/************************************************ */
