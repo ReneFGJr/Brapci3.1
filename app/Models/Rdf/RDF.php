@@ -538,7 +538,7 @@ class RDF extends Model
 		$sx = '';
 
 		$dt = $this->le($id);
-		if (!isset($dt['c_class'])) {
+		if (isset($dt['c_class'])) {
 			if ($dt['c_class'] == 'Article') {
 				$RDFConcept = new \App\Models\Rdf\RDFConcept();
 				$RDFData = new \App\Models\Rdf\RDFData();
