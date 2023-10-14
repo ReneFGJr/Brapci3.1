@@ -544,13 +544,16 @@ class RDF extends Model
 
 	function exclude($id)
 	{
+		$sx = '';
+
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$RDFData = new \App\Models\Rdf\RDFData();
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-		$IssuesWorks->exclude($id);
-		$RDFData->exclude($id);
-		$RDFConcept->exclude($id);
+		$sx .= $IssuesWorks->exclude($id);
+		$sx .= $RDFData->exclude($id);
+		$sx .= $RDFConcept->exclude($id);
+		return $sx;
 	}
 
 	function E404()

@@ -238,6 +238,7 @@ class Issues extends Model
 
         if (!isset($dt['data']))
             {
+                echo $RDF->exclude($id_issue);
                 echo "VAZIO";
                 pre($dt);
             }
