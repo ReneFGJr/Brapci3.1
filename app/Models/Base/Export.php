@@ -455,6 +455,7 @@ class Export extends Model
 
             if (($meta['Class'] == 'Article') and (!isset($meta['Title']))) {
                 pre($meta,false);
+                $RDF->exclude($meta['ID']);
                 $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' DELETED</li>';
             } else {
                 //$meta['year'] = '';
