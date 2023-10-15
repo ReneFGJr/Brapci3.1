@@ -50,7 +50,7 @@ class Register extends Model
         $Source = new \App\Models\Base\Sources();
         $JNL = $Source->getCollections();
 
-        $limit = 500;
+        $limit = 250;
         $offset = get('offset');
         if ($offset == '') {
             $offset = 0;
