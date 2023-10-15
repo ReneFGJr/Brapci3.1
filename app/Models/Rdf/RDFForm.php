@@ -432,8 +432,13 @@ class RdfForm extends Model
 			echo h(lang('rdf.concept_not_found'), 3);
 			exit;
 		}
+		if (isset($dd['n_name']))
+			{
+				$sx .= h($dd['n_name'], 3) . '<hr>';
+			} else {
+				$sx .= h('EMPTY', 3) . '<hr>';
+			}
 
-		$sx .= h($dd['n_name'], 3) . '<hr>';
 
 		/* Mostra mensagem de exclusão */
 		$sx .= '<center>' . h(lang('rdf.find.rdf_exclude_confirm'), 4, 'text-danger') . '</center>';
