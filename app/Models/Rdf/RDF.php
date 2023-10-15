@@ -535,6 +535,10 @@ class RDF extends Model
 
 	function exclude($id)
 	{
+		if ($id == 1)
+			{
+				return "";
+			}
 		$RDFConcept = new \App\Models\Rdf\RDFConcept();
 		$RDFData = new \App\Models\Rdf\RDFData();
 		$IssuesWorks = new \App\Models\Base\IssuesWorks();
