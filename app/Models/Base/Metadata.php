@@ -223,11 +223,11 @@ class Metadata extends Model
                         $this->lets('license', $value);
                         break;
                     case 'hasAuthor':
-                        $value .= nbr_author($value, 7);
+                        $value = nbr_author($value, 7);
                         $this->leta('Authors', $value,$ddv2);
                         break;
                     case 'hasOrganizator':
-                        $value .= nbr_author($value, 7);
+                        $value = nbr_author($value, 7);
                         $this->leta('Organizator', $value, $ddv2);
                         break;
                     case 'dateOfPublication':
