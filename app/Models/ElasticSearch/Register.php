@@ -266,7 +266,7 @@ class Register extends Model
     function checkJournal($dt)
     {
         if (!isset($dt['JOURNAL']) or ($dt['JOURNAL'] < 1)) {
-            pre($dt, false);
+            //pre($dt, false);
             $RDF = new \App\Models\Rdf\RDF();
             $RDF->exclude($dt['ID']);
             return "";
