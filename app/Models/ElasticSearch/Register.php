@@ -15,8 +15,8 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_ds', 'ID', 'json','CLASS',
-        'JOURNAL','ISSUE', 'YEAR','KEYWORD','ABSTRACT',
+        'id_ds', 'ID', 'json', 'CLASS',
+        'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
         'PDF', 'updated_at'
     ];
 
@@ -45,105 +45,208 @@ class Register extends Model
     protected $afterDelete    = [];
 
     function update_index()
-        {
-            $limit = 500;
-            $offset = get('offset');
-            if ($offset == '')
-                {
-                    $offset = 0;
-                }
-            $dtt = $this->countAllResults();
+    {
+        /****************************** Biblioteca */
+        $Source = new \App\Models\Base\Sources();
+        $JNL = $Source->getCollections();
 
-            $dta = $this->FindAll($limit, $offset);
+        $limit = 500;
+        $offset = get('offset');
+        if ($offset == '') {
+            $offset = 0;
+        }
+        $dtt = $this->countAllResults();
 
-            $type = 'prod';
+        $dta = $this->FindAll($limit, $offset);
 
-            $API = new \App\Models\ElasticSearch\API();
-            $sx = 'Export ElasticSearch v2.1 - ';
-            $sx .= $offset.' of '.$dtt;
-            if ($dtt > 0)
-                {
-                    $percent = ($offset / $dtt * 100);
-                } else {
-                    $percent = 100;
-                }
+        $type = 'prod';
 
-            $sx .= ' ('.number_format($percent,1).'%)';
-            $sx .= '<hr>';
-
-            foreach($dta as $id=>$line)
-                {
-                    $dt = json_encode($line);
-                    $dt = $line;
-                    $dt['id'] = $line['ID'];
-                    $dt['full'] = $line['title'] . ' ' . $line['ABSTRACT'] . ' ' . $line['KEYWORD'] . ' ' . $line['authors'];
-                    $dt['full'] = strip_tags($dt['full']);
-                    $id = $dt['id'];
-                    $rst = $API->call('brapci3.2/'.$type.'/'. $id, 'POST', $dt);
-
-                    /* Second Server */
-                    $API->server = 'http://143.54.112.91:9200/';
-                    $rst = $API->call('brapci3.2/' . $type . '/' . $id, 'POST', $dt);
-
-                    $sx .= $id .= ' => '.$rst['result'].' v.'.$rst['_version'].' ('.$line['collection'].')<br>';
-
-                }
-            if (count($dta) == $limit)
-                {
-                    $sx .= metarefresh(PATH. '/elasticsearch/update_index?offset='.($offset+$limit),1);
-                } else {
-                    $sx = bsmessage('Elastic Search Exported',1);
-                }
-            $sx = bs(bsc($sx,12));
-            return $sx;
+        $API = new \App\Models\ElasticSearch\API();
+        $sx = 'Export ElasticSearch v2.1 - ';
+        $sx .= $offset . ' of ' . $dtt;
+        if ($dtt > 0) {
+            $percent = ($offset / $dtt * 100);
+        } else {
+            $percent = 100;
         }
 
-    function set_status($id,$dta)
-        {
-            $dt = $this->where('ID',$id)->first();
-            if ($dt != '')
-                {
-                    $this->set($dta)->where('ID', $id)->update();
+        $sx .= ' (' . number_format($percent, 1) . '%)';
+        $sx .= '<hr>';
+
+        foreach ($dta as $id => $line) {
+            $dt = [];
+            $DT = json_decode($line['json']);
+
+            $abs = '';
+            $key = '';
+            $aut = '';
+            $tit = '';
+            $aaut = [];
+            $akey = [];
+            $atit = [];
+            $aabs = [];
+            $asec = [];
+
+
+            $DT = (array)$DT;
+
+            /*********************************************** TITLE */
+            if (isset($DT['Title'])) {
+                $keys = (array)$DT['Title'];
+                foreach ($keys as $lang => $ks) {
+                    $ks = (array)$ks;
+                    foreach ($ks as $idk => $term) {
+                        if (trim($term) != '') {
+                            array_push($atit, mb_strtolower(ascii($term)));
+                        }
+                    }
                 }
+            }
+
+            /*********************************************** SECTIONS */
+            if (isset($DT['Sections'])) {
+                $keys = (array)$DT['Sections'];
+                foreach ($keys as $lang => $ks) {
+                    $ks = (array)$ks;
+                    foreach ($ks as $idk => $term) {
+                        if (trim($term) != '') {
+                            array_push($asec, trim(mb_strtolower(ascii($term))));
+                        }
+                    }
+                }
+            }
+
+            /*********************************************** KEYWORDS */
+            if (isset($DT['Authors'])) {
+                $keys = (array)$DT['Authors'];
+                foreach ($keys as $lang => $ks) {
+                    $ks = (array)$ks;
+                    foreach ($ks as $idk => $term) {
+                        if (trim($term) != '') {
+                            array_push($aaut, mb_strtolower(ascii($term)));
+                        }
+                    }
+                }
+            }
+
+            /*********************************************** KEYWORDS */
+            if (isset($DT['Keywords'])) {
+                $keys = (array)$DT['Keywords'];
+                foreach ($keys as $lang => $ks) {
+                    $ks = (array)$ks;
+                    foreach ($ks as $term => $idk) {
+                        if (trim($term) != '') {
+                        array_push($akey, mb_strtolower(ascii($term)));
+                        }
+                    }
+                }
+            }
+
+            /*********************************************** ABSTRACT */
+            if (isset($DT['Abstract'])) {
+                $keys = (array)$DT['Abstract'];
+                foreach ($keys as $lang => $ks) {
+                    $ks = (array)$ks;
+                    foreach ($ks as $idk => $term) {
+                        if (trim($term) != '') {
+                        array_push($aabs, mb_strtolower(ascii($term)));
+                        }
+                    }
+                }
+            }
+
+            $dt['id'] = $line['ID'];
+            $dt['full'] = $tit . ' ' . $abs . ' ' . $key . ' ' . $aut;
+            $dt['full'] = strip_tags($dt['full']);
+            $dt['keyword'] = $akey;
+            $dt['abstract'] = $aabs;
+            $dt['authors'] = $aaut;
+            $dt['title'] = $atit;
+            $dt['jounal'] = $DT['Journal'];
+            $dt['id_jnl'] = $DT['id_jnl'];
+            $dt['year'] = $DT['YEAR'];
+            $dt['type'] = $DT['Class'];
+            $dt['collection'] = $JNL[$dt['id_jnl']];
+
+            if (isset($DT['Idioma'])) {
+                $dt['language'] = $DT['Idioma'];
+            } else {
+                $dt['language'] = [];
+            }
+
+            $dt['section'] = $asec;
+            if (isset($DT['DOI'])) {
+                $dt['doi'] = $DT['DOI'];
+            } else {
+                $dt['doi'] = '';
+            }
+
+
+            $id = $dt['id'];
+            //$rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
+
+            /* Second Server */
+            $API->server = 'http://143.54.112.91:9200/';
+            $rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
+
+            $sx .= $id .= ' => ' .
+                $rst['result'] . ' v.' .
+                $rst['_version'] .
+                ' (' . $dt['collection'] . ')<br>';
         }
+        if (count($dta) == $limit) {
+            $sx .= metarefresh(PATH . '/elasticsearch/update_index?offset=' . ($offset + $limit), 1);
+        } else {
+            $sx = bsmessage('Elastic Search Exported', 1);
+        }
+        $sx = bs(bsc($sx, 12));
+        return $sx;
+    }
+
+    function set_status($id, $dta)
+    {
+        $dt = $this->where('ID', $id)->first();
+        if ($dt != '') {
+            $this->set($dta)->where('ID', $id)->update();
+        }
+    }
 
 
     function resume()
-        {
-            $tot = 0;
-            $sx = h(lang('brapci.ElasticSearch'),4);
-            $sa = '';
+    {
+        $tot = 0;
+        $sx = h(lang('brapci.ElasticSearch'), 4);
+        $sa = '';
 
-            $dt = $this
-                ->select('count(*) as total, CLASS')
-                ->groupBy('CLASS')
-                ->findAll();
+        $dt = $this
+            ->select('count(*) as total, CLASS')
+            ->groupBy('CLASS')
+            ->findAll();
 
-            $sa .= '<ul style="font-size: 0.7em;">';
-            foreach($dt as $line)
-                {
-                    $sa .= '<li>'.lang('brapci.'.$line['CLASS']).' ('. number_format($line['total'], 0, ',', '.').')</li>';
-                    $tot = $tot + $line['total'];
-                }
-            $sa .= '</ul>';
-            /********* Total */
-            $sx .= '<b style="font-size: 0.7em;">Total '. number_format($tot, 0, ',', '.').'</b>';
-            /********* Result (alterar ordem) */
-            $sx .= $sa;
+        $sa .= '<ul style="font-size: 0.7em;">';
+        foreach ($dt as $line) {
+            $sa .= '<li>' . lang('brapci.' . $line['CLASS']) . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
+            $tot = $tot + $line['total'];
+        }
+        $sa .= '</ul>';
+        /********* Total */
+        $sx .= '<b style="font-size: 0.7em;">Total ' . number_format($tot, 0, ',', '.') . '</b>';
+        /********* Result (alterar ordem) */
+        $sx .= $sa;
 
         $sx .= '<ul style="font-size: 0.7em;">';
 
         /***************************************** PDF */
         $dt = $this
             ->select('count(*) as total, pdf')
-            ->where('pdf',0)
+            ->where('pdf', 0)
             ->groupBy('pdf')
             ->findAll();
 
         foreach ($dt as $line) {
-            $link = '<a href="'.PATH.'/admin/dataset/erros/pdf'.'">';
+            $link = '<a href="' . PATH . '/admin/dataset/erros/pdf' . '">';
             $linka = '</a>';
-            $sx .= '<li>' . $link.lang('brapci.pdf.' . $line['pdf']) . $linka.' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
+            $sx .= '<li>' . $link . lang('brapci.pdf.' . $line['pdf']) . $linka . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
 
@@ -162,7 +265,7 @@ class Register extends Model
         $dt = $this
             ->select('count(*) as total, ABSTRACT')
             ->where('ABSTRACT is NULL')
-            ->Orwhere('ABSTRACT','')
+            ->Orwhere('ABSTRACT', '')
             ->groupBy('ABSTRACT')
             ->findAll();
 
@@ -179,18 +282,17 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $sx .= '<li>' . lang('brapci.year_without') . ' (' . number_format($line['total'],0,',','.') . ')</li>';
+            $sx .= '<li>' . lang('brapci.year_without') . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
         $sx .= '</ul>';
 
 
-            return $sx;
-
-        }
+        return $sx;
+    }
 
     function data_convert_elastic($data)
-        {
+    {
         $da = array();
 
         $da['ID'] = $data['ID'];
@@ -201,15 +303,14 @@ class Register extends Model
             $da['ISSUE'] = $data['Issue']['ID'];
         } else {
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
-            $di = $IssuesWorks->where('siw_work_rdf',$data['ID'])->first();
-            echo '============ISSUE=='.$data['ID'];
+            $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
+            echo '============ISSUE==' . $data['ID'];
             pre($di);
         }
 
-        if ((isset($data['YEAR'])) and ($data['YEAR'] != ''))
-            {
-                $da['YEAR'] = $data['YEAR'];
-            }
+        if ((isset($data['YEAR'])) and ($data['YEAR'] != '')) {
+            $da['YEAR'] = $data['YEAR'];
+        }
 
         if ((isset($data['JOURNAL'])) and ($data['JOURNAL'] != '')) {
             $da['JOURNAL'] = $data['JOURNAL'];
@@ -228,11 +329,16 @@ class Register extends Model
             $da['ABSTRACT'] = 0;
         }
 
-        if (!isset($da['YEAR'])) { $da['YEAR'] = 9998; }
-        if ($da['YEAR']=='') { $da['year'] = 9997; }
+        if (!isset($da['YEAR'])) {
+            $da['YEAR'] = 9998;
+        }
+        if ($da['YEAR'] == '') {
+            $da['year'] = 9997;
+        }
 
-        if (isset($data['PDF'])) { $da['PDF'] = $data['PDF']; }
-        else {
+        if (isset($data['PDF'])) {
+            $da['PDF'] = $data['PDF'];
+        } else {
             $data['PDF'] = 0;
         }
 
@@ -244,25 +350,23 @@ class Register extends Model
         return $da;
     }
 
-    function check($dt,$stop,$id=0)
-        {
-            $sx = '';
-            switch($dt['CLASS'])
-                {
-                    case 'Article':
-                        $sx .= $this->checkIssue($dt,$id);
-                        $sx .= $this->checkYear($dt, $id);
-                        $sx .= $this->checkJournal($dt, $id);
-                }
-            if (($stop == True) and ($sx != ''))
-                {
-                    echo h("ERROS",1);
-                    echo '<a href="'.(PATH.'/v/'.$id).'" target="_blank">ID: '.$id.'</a>';
-                    echo '<hr>';
-                    echo $sx;
-                    exit;
-                }
+    function check($dt, $stop, $id = 0)
+    {
+        $sx = '';
+        switch ($dt['CLASS']) {
+            case 'Article':
+                $sx .= $this->checkIssue($dt, $id);
+                $sx .= $this->checkYear($dt, $id);
+                $sx .= $this->checkJournal($dt, $id);
         }
+        if (($stop == True) and ($sx != '')) {
+            echo h("ERROS", 1);
+            echo '<a href="' . (PATH . '/v/' . $id) . '" target="_blank">ID: ' . $id . '</a>';
+            echo '<hr>';
+            echo $sx;
+            exit;
+        }
+    }
     function checkJournal($dt)
     {
         if (!isset($dt['JOURNAL']) or ($dt['JOURNAL'] < 1)) {
@@ -285,56 +389,49 @@ class Register extends Model
         }
     }
     function checkIssue($dt)
-        {
-            if (!isset($dt['ISSUE']))
-                {
-                    pre($dt,false);
-                    return "ISSUE not set<br>";
-                } else {
-                    return "";
-                }
+    {
+        if (!isset($dt['ISSUE'])) {
+            pre($dt, false);
+            return "ISSUE not set<br>";
+        } else {
+            return "";
         }
+    }
 
 
-    function data($id,$xdata)
-        {
-            $dt = $this->where('ID',round($id))->findAll();
-            if (count($xdata) == 0)
-                {
-                    echo '======================== A001 ==';
-                    $sx = lang('brapci.skip').' deleted';
-                    pre($xdata);
-                    return $sx;
-                }
-
-            /*********************** CONVERT DADOS */
-            $data = $this->data_convert_elastic($xdata);
-            $this->check($data,true,$id);
-
-            /* NOVO REGISTRO */
-            if (count($dt) == 0)
-                {
-                    if (count($data) > 0)
-                        {
-                            $this->set($data)->insert();
-                            $sx = lang('brapci.inserted');
-                        } else {
-                            $sx = lang('brapci.deleted');
-                        }
-                } else {
-                    if (count($data) > 0) {
-                        $this->set($data)
-                            ->where('ID', $id)
-                            ->update();
-                        $sx = lang('brapci.updated');
-                    } else {
-                        $this->where('ID', $id)->delete();
-                        $sx = lang('brapci.deleted');
-                    }
-                }
+    function data($id, $xdata)
+    {
+        $dt = $this->where('ID', round($id))->findAll();
+        if (count($xdata) == 0) {
+            echo '======================== A001 ==';
+            $sx = lang('brapci.skip') . ' deleted';
+            pre($xdata);
             return $sx;
-
         }
 
+        /*********************** CONVERT DADOS */
+        $data = $this->data_convert_elastic($xdata);
+        $this->check($data, true, $id);
 
+        /* NOVO REGISTRO */
+        if (count($dt) == 0) {
+            if (count($data) > 0) {
+                $this->set($data)->insert();
+                $sx = lang('brapci.inserted');
+            } else {
+                $sx = lang('brapci.deleted');
+            }
+        } else {
+            if (count($data) > 0) {
+                $this->set($data)
+                    ->where('ID', $id)
+                    ->update();
+                $sx = lang('brapci.updated');
+            } else {
+                $this->where('ID', $id)->delete();
+                $sx = lang('brapci.deleted');
+            }
+        }
+        return $sx;
+    }
 }

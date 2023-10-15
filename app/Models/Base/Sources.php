@@ -141,6 +141,30 @@ class Sources extends Model
         return $sx;
     }
 
+    function getCollections()
+        {
+            $c = [];
+            $dt = $this->findAll();
+            foreach($dt as $id=>$line)
+                {
+                    $col = $line['jnl_collection'];
+                    switch($col)
+                        {
+                            case 'JA':
+                                $col = 'Revista Brasileira';
+                                break;
+                            case 'JE':
+                                $col = 'Revistas Estrangeira';
+                                break;
+                            case 'EV':
+                                $col = 'Anais de evento';
+                                break;
+                        }
+                    $c[$line['id_jnl']] = $col;
+                }
+            return $c;
+        }
+
     function check($id,$id2)
         {
             $Issue = new \App\Models\Base\Issues();
