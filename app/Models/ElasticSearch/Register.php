@@ -165,14 +165,16 @@ class Register extends Model
             if (isset($DT['Journal'])) {
                 $dt['jounal'] = $DT['Journal'];
                 $dt['id_jnl'] = $DT['id_jnl'];
+                $dt['collection'] = $JNL[$dt['id_jnl']];
             } else {
                 $dt['jounal'] = 'Erro de processamento';
                 $dt['id_jnl'] = 0;
+                $dt['collection'] = 'Erro';
             }
 
             $dt['year'] = $DT['YEAR'];
             $dt['type'] = $DT['Class'];
-            $dt['collection'] = $JNL[$dt['id_jnl']];
+
 
             if (isset($DT['Idioma'])) {
                 $dt['language'] = $DT['Idioma'];
