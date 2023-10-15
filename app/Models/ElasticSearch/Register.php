@@ -163,6 +163,7 @@ class Register extends Model
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
             if (isset($DT['Journal'])) {
+                pre($DT);
                 $dt['jounal'] = $DT['Journal'];
                 $dt['id_jnl'] = $DT['id_jnl'];
                 $dt['collection'] = $JNL[$dt['id_jnl']];
