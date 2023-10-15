@@ -162,8 +162,14 @@ class Register extends Model
             $dt['abstract'] = $aabs;
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
-            $dt['jounal'] = $DT['Journal'];
-            $dt['id_jnl'] = $DT['id_jnl'];
+            if (isset($DT['Journal'])) {
+                $dt['jounal'] = $DT['Journal'];
+                $dt['id_jnl'] = $DT['id_jnl'];
+            } else {
+                $dt['jounal'] = 'Erro de processamento';
+                $dt['id_jnl'] = 0;
+            }
+
             $dt['year'] = $DT['YEAR'];
             $dt['type'] = $DT['Class'];
             $dt['collection'] = $JNL[$dt['id_jnl']];
