@@ -136,7 +136,7 @@ class Register extends Model
                     $ks = (array)$ks;
                     foreach ($ks as $term => $idk) {
                         if (trim($term) != '') {
-                        array_push($akey, mb_strtolower(ascii($term)));
+                            array_push($akey, mb_strtolower(ascii($term)));
                         }
                     }
                 }
@@ -149,7 +149,7 @@ class Register extends Model
                     $ks = (array)$ks;
                     foreach ($ks as $idk => $term) {
                         if (trim($term) != '') {
-                        array_push($aabs, mb_strtolower(ascii($term)));
+                            array_push($aabs, mb_strtolower(ascii($term)));
                         }
                     }
                 }
@@ -165,7 +165,11 @@ class Register extends Model
             if (isset($DT['Journal'])) {
                 $dt['jounal'] = $DT['Journal'];
                 $dt['id_jnl'] = $DT['id_jnl'];
-                $dt['collection'] = $JNL[$dt['id_jnl']];
+                if (isset($JNL[$dt['id_jnl']])) {
+                    $dt['collection'] = $JNL[$dt['id_jnl']];
+                } else {
+                    $dt['collection'] = 'ER';
+                }
             } else {
                 $dt['jounal'] = 'Erro de processamento';
                 $dt['id_jnl'] = 0;
