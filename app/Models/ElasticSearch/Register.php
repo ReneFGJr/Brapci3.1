@@ -164,9 +164,13 @@ class Register extends Model
             $dt['title'] = $atit;
             if (isset($DT['Journal'])) {
                 $dt['jounal'] = $DT['Journal'];
-                $dt['id_jnl'] = $DT['id_jnl'];
-                if (isset($JNL[$dt['id_jnl']])) {
-                    $dt['collection'] = $JNL[$dt['id_jnl']];
+                if (isset($DT['id_jnl'])) {
+                    $dt['id_jnl'] = $DT['id_jnl'];
+                    if (isset($JNL[$dt['id_jnl']])) {
+                        $dt['collection'] = $JNL[$dt['id_jnl']];
+                    } else {
+                        $dt['collection'] = 'ER';
+                    }
                 } else {
                     $dt['collection'] = 'ER';
                 }
