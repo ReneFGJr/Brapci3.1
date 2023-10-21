@@ -374,6 +374,7 @@ class Issues extends Model
             echo "<hr>*NOVO* - $id_issue<hr>";
             $this->register_issue($da);
             echo '<hr>REGISTRADO';
+            echo metarefresh('');
         } else {
 
         }
