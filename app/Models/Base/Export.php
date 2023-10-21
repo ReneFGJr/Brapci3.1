@@ -431,8 +431,12 @@ class Export extends Model
 
         $total = $RDFConcept->select('count(*) as total')
             ->where('cc_class', $id)
+            ->where('cc_status <> 99')
             ->findAll();
-        $ids = $RDFConcept->where('cc_class', $id)->findAll($limit, $offset);
+        $ids = $RDFConcept
+            ->where('cc_class', $id)
+            ->where('cc_status <> 99')
+            ->findAll($limit, $offset);
         if (count($ids) == 0) {
             $this->eof = 1;
             return "FIM";
