@@ -386,15 +386,27 @@ class Metadata extends Model
                                 $this->metadata['Issue']['nr'] = $aaa['is_nr'];
                             }
                      }
-            $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
-            $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
-            $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
+                    $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
+                    $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
+                    $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
             } else {
                 $ISSUE = new \App\Models\Base\IssuesWorks();
                 $di = $ISSUE->where('siw_work_rdf', $meta['concept']['id_cc'])->first();
                 pre($di,false);
-                echo "OPS ISSUE NOT FOUND";
-                echo h($meta['concept']['id_cc'],5);
+                if ($di != '')
+                    {
+                        $idp = $meta['concept']['id_cc'];
+                        $class = 'hasIssueOf';
+                        $RDF = new \App\Models\Rdf\RDF();
+                        $prop = $RDF->getClass($class);
+                        $resource = $di['siw_issue'];
+                        $literal = 0;
+                        $RDF->RDP_property($idp, $prop, $resource, $literal);
+                    } else {
+                        echo "OPS ISSUE NOT FOUND";
+                        echo h($meta['concept']['id_cc'], 5);
+                    }
+
                 exit;
             }
 
