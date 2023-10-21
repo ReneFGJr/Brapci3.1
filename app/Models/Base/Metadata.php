@@ -391,7 +391,7 @@ class Metadata extends Model
             $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
             } else {
                 $ISSUE = new \App\Models\Base\IssuesWorks();
-                $di = $ISSUE->where('siw_work_rdf', $meta['concept']['id_cc'])->firts();
+                $di = $ISSUE->where('siw_work_rdf', $meta['concept']['id_cc'])->first();
                 pre($di,false);
                 echo "OPS ISSUE NOT FOUND";
                 echo h($meta['concept']['id_cc'],5);
