@@ -329,7 +329,7 @@ class Export extends Model
     {
         $sx = '';
         $offset = round(0);
-        $limit = 50;
+        $limit = 25;
 
         $TYPE = $dta['task_id'];
 
