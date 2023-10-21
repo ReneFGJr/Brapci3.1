@@ -240,7 +240,7 @@ class Register extends Model
                 $sx .= '<li>';
                 $link = '<a href="'.PATH.'/v/'.$line['ID'].'" target="_blank">';
                 $linka = '</a>';
-                $sx .= $link.$line['ID'].$linka;
+                $sx .= $link.$line['ID'].' ('.$line['YEAR'].')'.$linka;
                 $sx .= '</li>';
             }
             $sx .= '</ul>';
