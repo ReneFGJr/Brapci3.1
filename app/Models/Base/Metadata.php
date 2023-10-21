@@ -392,7 +392,7 @@ class Metadata extends Model
             } else {
                 $ISSUE = new \App\Models\Base\IssuesWorks();
                 $di = $ISSUE->where('siw_work_rdf', $meta['concept']['id_cc'])->first();
-                pre($di,false);
+
                 if ($di != '')
                     {
                         $idp = $meta['concept']['id_cc'];
