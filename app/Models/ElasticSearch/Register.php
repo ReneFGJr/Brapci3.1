@@ -298,7 +298,9 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $sx .= '<li>' . lang('brapci.year_without') . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
+            $link = '<a href="'.PATH.'/admin/dataset/year">';
+            $linka = '</a>';
+            $sx .= '<li>' . $link. lang('brapci.year_without') . $linka. ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
         $sx .= '</ul>';

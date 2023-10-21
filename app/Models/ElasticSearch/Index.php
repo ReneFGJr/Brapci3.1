@@ -347,6 +347,9 @@ class Index extends Model
 			$sx = '';
 			switch($d1)
 				{
+					case 'year_without':
+					$sx .= h(msg('brapci.year_without'),3);
+					break;
 					case 'erros':
 						$API = new \App\Models\ElasticSearch\Register();
 						switch($d2)
