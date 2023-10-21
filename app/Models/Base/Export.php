@@ -491,7 +491,7 @@ class Export extends Model
                     } else {
                         $meta['PDF'] = 1;
                     }
-                    echo strzero(trim($meta['ID']), 8).'<br>';
+
                     $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                         $ElasticRegister->data($idr, $meta) . '</li>';
                 }
