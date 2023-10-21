@@ -392,6 +392,7 @@ class Metadata extends Model
             } else {
 
                 echo "OPS ISSUE NOT FOUND";
+                echo h($meta['concept']['id_cc'],5);
                 exit;
             }
 
