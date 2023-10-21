@@ -238,7 +238,9 @@ class Register extends Model
             foreach ($dt as $k => $line) {
                 $da = (array)json_decode($line['json']);
                 $sx .= '<li>';
-                $sx .= $line['ID'];
+                $link = '<a href="'.PATH.'/v/'.$line['ID'].'" targer="_blank">';
+                $linka = '</a>';
+                $sx .= $link.$line['ID'].$linka;
                 $sx .= '</li>';
             }
             $sx .= '</ul>';
