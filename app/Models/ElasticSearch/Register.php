@@ -422,7 +422,7 @@ class Register extends Model
 
     function data($id, $xdata)
     {
-        echo '<br>';
+
         $dt = $this->where('ID', round($id))->findAll();
         if (count($xdata) == 0) {
             echo '======================== A001 ==';
@@ -430,11 +430,11 @@ class Register extends Model
             pre($xdata);
             return $sx;
         }
-        echo '1.';
+
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
         $this->check($data, true, $id);
-        echo '2.';
+
         /* NOVO REGISTRO */
         if (count($dt) == 0) {
             if (count($data) > 0) {
@@ -454,7 +454,7 @@ class Register extends Model
                 $sx = lang('brapci.deleted');
             }
         }
-        echo '3.';
+
         return $sx;
     }
 }
