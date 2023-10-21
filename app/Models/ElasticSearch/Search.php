@@ -51,8 +51,8 @@ class Search extends Model
                 {
                     $ida = $line['id'];
                     $ds = $Search
-                            ->join('brapci.source_source', 'dataset.id_jnl = source_source.id_jnl')
-                            ->where('article_id',$ida)
+                            ->join('brapci.source_source', 'dataset.JOURNAL = source_source.id_jnl')
+                            ->where('ID',$ida)
                             ->first();
                     if ($ds != '')
                         {
@@ -68,12 +68,12 @@ class Search extends Model
         }
     function recoverList($ids)
         {
-            $cp = 'article_id, ldl_authors, ldl_journal, ldl_legend, ldl_title, type, year';
+            $cp = 'ID as article_id, json, type, YEAR as year';
             $this->select($cp);
-            $this->where('article_id',$ids[0]);
+            $this->where('ID',$ids[0]);
             for($r=1;$r < count($ids);$r++)
                 {
-                    $this->Orwhere('article_id', $ids[$r]);
+                    $this->Orwhere('ID', $ids[$r]);
                 }
             $dt = $this->findAll();
             return $dt;
