@@ -227,6 +227,15 @@ class Register extends Model
         }
     }
 
+    function whithout_year()
+        {
+            $dt = $this
+                    ->where('YEAR > 2050')
+                    ->Orwhere('YEAR < 1910')
+                    ->orderBy('YEAR, ID')->findAll();
+            pre($dt);
+        }
+
 
     function resume()
     {
@@ -298,7 +307,7 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $link = '<a href="'.PATH.'/admin/dataset/year">';
+            $link = '<a href="'.PATH. '/admin/dataset/year_without">';
             $linka = '</a>';
             $sx .= '<li>' . $link. lang('brapci.year_without') . $linka. ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
