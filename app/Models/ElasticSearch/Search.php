@@ -76,7 +76,19 @@ class Search extends Model
                     $this->Orwhere('ID', $ids[$r]);
                 }
             $dt = $this->findAll();
-            return $dt;
+
+            $dr = [];
+            foreach($dt as $id=>$line)
+                {
+                    $js = (array)json_decode($line['json']);
+                    $ds = [];
+                    $ds['article_id'] = $line['article_id'];
+                    $ds['year'] = $line['year'];
+                    $ds['ldl_title'] = $line['article_id'];
+                    $ds['ldl_authors'] = $line['article_id'];
+                    array_push($dr,$ds);
+                }
+            return $dr;
         }
 
     function search($q = '',$type='')
