@@ -56,7 +56,7 @@ class RdfFormVC extends Model
 					$dt1 = $RDFConcept
 					    //->join("rdf_name","cc_literal = id_n")
 						->where('id_cc',$q)->findAll();
-						pred($dt1);
+						pre($dt1);
 					$dt = array_merge($dt,$dt1);
 
 					for($r=0;$r < count($dt);$r++)
