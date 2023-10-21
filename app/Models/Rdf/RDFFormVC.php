@@ -54,7 +54,8 @@ class RdfFormVC extends Model
 					//$sx .= '<option value="">Buscando ... '.$q.'</option>'.cr();
 					$dt = $RDFConcept->like($q,$d1,$limit);
 					$dt1 = $RDFConcept->where('id_cc',$q)->findAll();
-					pre($dt1,false);
+					$dt = array_merge($dt,$dt1);
+
 					for($r=0;$r < count($dt);$r++)
 						{
 							$ln = (array)$dt[$r];
