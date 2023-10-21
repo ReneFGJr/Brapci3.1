@@ -205,7 +205,6 @@ class AuthorityNames extends Model
 				}
 			}
 		}
-		echo "FIM";
 	}
 
 	function get_id_by_name($name, $dt = array())

@@ -499,7 +499,6 @@ class Export extends Model
             }
         }
         $sx .= '</ul>';
-        echo "FIM";
         return $sx;
     }
 }

@@ -1475,7 +1475,6 @@ class Index extends Model
         if ($tot > 0) {
             $sx .= '<META http-equiv="refresh" content="1;">';
         }
-        echo "FIM";
         return ($sx);
     }
     function cited_analyse($txt)

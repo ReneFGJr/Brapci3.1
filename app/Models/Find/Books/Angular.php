@@ -118,7 +118,6 @@ class Angular extends Model
                                     }
                             }
                     }
-                    echo "FIM";
                 return $sx;
             }
 }
