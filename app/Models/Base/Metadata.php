@@ -405,7 +405,9 @@ class Metadata extends Model
                     } else {
                         echo "OPS ISSUE NOT FOUND";
                         echo h($meta['concept']['id_cc'], 5);
-                        pre($meta);
+                        $idn = substr($meta['concept']['n_name'],0,16);
+                        pre($idn);
+                        if ($meta['concept']['n_name'])
                     }
 
                 exit;
