@@ -65,9 +65,21 @@ class RDFData extends Model
 
 	function check_issue()
 	{
+		$RDF = new \App\Models\Rdf\RDF();
+		$class = 'hasIssueProceedingOf';
+		$classO = $RDF->getClass($class);
+
 		$class = 'hasIssueOf';
 		$RDF = new \App\Models\Rdf\RDF();
 		$class = $RDF->getClass($class);
+
+		$sql = "SELECT id_d, c_class, d_r1,d_p,d_r2
+						FROM `rdf_data`
+						inner join rdf_concept ON id_cc = `d_r1`
+						inner join rdf_class ON cc_class = id_c
+						WHERE d_p = $class";
+		$dt = $this->db->query($sql)->getResultArray();
+		pre($dt);
 
 		$sql = "SELECT id_d, c_class, d_r1,d_p,d_r2
 						FROM `rdf_data`
