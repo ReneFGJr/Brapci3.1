@@ -364,7 +364,7 @@ class Export extends Model
                     $sx .= $RDFChecks->next_prefLabel();
                 } else {
                     $sx = $RDFChecks->next_prefLabel();
-                    echo $sx;
+                    echo 'NEXT EXPORT '.$sx;
                     exit;
                 }
                 return $sx;
@@ -376,7 +376,7 @@ class Export extends Model
                     $sx .= $Abstracts->check_next();
                 } else {
                     $sx = $Abstracts->check_next();
-                    echo $sx;
+                    echo '=ABS=>'.$sx;
                     exit;
                 }
                 return $sx;
@@ -491,7 +491,7 @@ class Export extends Model
                     } else {
                         $meta['PDF'] = 1;
                     }
-
+                    echo strzero(trim($meta['ID']), 8).'<br>';
                     $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                         $ElasticRegister->data($idr, $meta) . '</li>';
                 }
