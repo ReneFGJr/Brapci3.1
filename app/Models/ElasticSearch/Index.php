@@ -358,11 +358,15 @@ class Index extends Model
 							{
 								case 'pdf':
 									$sx .= h('PDF Erros',2);
-									$dt = $API->select('article_id')->where('pdf',0)->findAll();
+									$dt = $API->select('ID')->where('PDF',0)->findAll();
 									$sx .= h('Total: ' . count($dt), 6);
 									foreach($dt as $id=>$ida)
 										{
-											$sx .= '<li>'.$RDF->c($ida['article_id']).'</li>'.cr();
+											$link = '<a href="'.
+												PATH.'/v/'.$ida['ID'].
+												'" target="_blank">';
+											$linka = '</a>';
+											$sx .= '<li>'.$link.$RDF->c($ida['ID']).$linka.'</li>'.cr();
 										}
 								break;
 							}
