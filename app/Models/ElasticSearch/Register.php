@@ -454,7 +454,6 @@ class Register extends Model
                 $sx = lang('brapci.deleted');
             }
         }
-
         return $sx;
     }
 }
