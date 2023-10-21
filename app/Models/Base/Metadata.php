@@ -406,7 +406,19 @@ class Metadata extends Model
                         echo "OPS ISSUE NOT FOUND";
                         echo h($meta['concept']['id_cc'], 5);
                         $idn = substr($meta['concept']['n_name'],0,16);
-                        pre($idn);
+                        $idp = $meta['concept']['id_cc'];
+                        $class = 'hasIssueOf';
+                        $RDF = new \App\Models\Rdf\RDF();
+                        $prop = $RDF->getClass($class);
+
+                        switch( $idn )
+                            {
+                                case 'enancib.org.2017':
+                                    $resource  = 103980;
+                                    $literal = 0;
+                                    $RDF->RDP_property($idp, $prop, $resource, $literal);
+                                    break;
+                            }
 
                     }
 
