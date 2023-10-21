@@ -407,7 +407,7 @@ class Metadata extends Model
                         echo h($meta['concept']['id_cc'], 5);
                         $idn = substr($meta['concept']['n_name'],0,16);
                         pre($idn);
-                        if ($meta['concept']['n_name'])
+
                     }
 
                 exit;
