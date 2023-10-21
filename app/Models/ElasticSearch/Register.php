@@ -315,12 +315,17 @@ class Register extends Model
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
 
+        /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
         } else {
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            /* Recupera ISSUE do WorkIssue */
             $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
             echo '============ISSUE==' . $data['ID'];
+            echo h('Data');
+            pre($data,false);
+            echo h('d1');
             pre($di);
         }
 
