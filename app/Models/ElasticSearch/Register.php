@@ -229,11 +229,20 @@ class Register extends Model
 
     function whithout_year()
         {
+            $sx = '';
+            $sx .= '<ul>';
             $dt = $this
                     ->where('YEAR > 2050')
                     ->Orwhere('YEAR < 1910')
                     ->orderBy('YEAR, ID')->findAll();
-            pre($dt);
+            foreach ($dt as $k => $line) {
+                $da = (array)json_decode($line['json']);
+                $sx .= '<li>';
+                $sx .= $line['ID'];
+                $sx .= '</li>';
+            }
+            $sx .= '</ul>';
+            return $sx;
         }
 
 
