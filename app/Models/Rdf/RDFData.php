@@ -77,7 +77,7 @@ class RDFData extends Model
 						FROM `rdf_data`
 						inner join rdf_concept ON id_cc = `d_r1`
 						inner join rdf_class ON cc_class = id_c
-						WHERE d_p = $class";
+						WHERE d_p = $classO";
 		$dt = $this->db->query($sql)->getResultArray();
 		pre($dt);
 
