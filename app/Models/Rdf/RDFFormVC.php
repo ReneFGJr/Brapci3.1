@@ -52,7 +52,10 @@ class RdfFormVC extends Model
 			if (strlen($q) >=1)
 				{
 					//$sx .= '<option value="">Buscando ... '.$q.'</option>'.cr();
-					$dt = $RDFConcept->like($q,$d1,$limit);
+					$dt = $RDFConcept
+						->like($q,$d1,$limit
+						->OrWhere('id_cc',$q)
+						->findAll();
 					for($r=0;$r < count($dt);$r++)
 						{
 							$ln = (array)$dt[$r];
