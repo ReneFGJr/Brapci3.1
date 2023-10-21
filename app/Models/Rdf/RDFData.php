@@ -79,7 +79,11 @@ class RDFData extends Model
 						inner join rdf_class ON cc_class = id_c
 						WHERE d_p = $classO";
 		$dt = $this->db->query($sql)->getResultArray();
-		pre($dt);
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$d['d_p'] = $class;
+			$this->set($d)->where('id_d', $line['id_d'])->update();
+		}
 
 		$sql = "SELECT id_d, c_class, d_r1,d_p,d_r2
 						FROM `rdf_data`
