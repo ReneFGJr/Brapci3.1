@@ -252,6 +252,9 @@ class Issues extends Model
             if ($class == 'hasIssueProceeding') { $class = 'hasIssue'; }
             if ($class == 'hasIssueOf') { $class = 'hasIssue'; }
 
+            /* ANO */
+            if ($class == 'dateOfPublication') { $class = 'dateOfPublication'; }
+
             switch ($class) {
                 case 'prefLabel':
                     $pref = $line['n_name'];
