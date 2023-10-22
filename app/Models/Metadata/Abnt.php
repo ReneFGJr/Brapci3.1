@@ -229,9 +229,12 @@ class Abnt extends Model
 				}
 				$authors .= '. ';
 			} else {
-				pre($dt,false);
-				$authors .= nbr_author($dt['Authors'][0], 2);
-				$authors .= '; <i>et al.</i> ';
+				foreach($dt['Authors'] as $idk=>$name)
+					{
+						$authors .= nbr_author($name, 2);
+						$authors .= '; <i>et al.</i> ';
+						break;
+					}
 				$etal = true;
 			}
 			$sx .= $authors;
