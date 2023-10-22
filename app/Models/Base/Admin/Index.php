@@ -43,8 +43,10 @@ class Index extends Model
     function index($act = '', $subact = '', $id ='', $id2 ='', $id3 = '')
     {
         $sx = '';
+        $sx .h($act);
         switch ($act) {
             case 'task_clear':
+                $sx .= 'EXCLUDE';
                 break;
             case 'issue':
                 $sx .= $this->issue($subact,$id,$id2,$id3);
@@ -132,7 +134,6 @@ class Index extends Model
                     $usd = $Socials->find($user_id);
                     $user_name = $usd['us_nome'];
                     $sx .= bs(bsc(h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2),12));
-                    $COLLECTION = troca(COLLECTION, '/', '');
                     $sa = h($COLLECTION,3);
                     $sb = h('Painel',3);
                     switch ($COLLECTION) {
