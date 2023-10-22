@@ -452,9 +452,8 @@ class Export extends Model
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
 
-            $sx .= '<br>Processado: ' . strzero($idr, 8);
-
-            pre($meta);
+            $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
+                $ElasticRegister->data($idr, $meta) . '</li>';
         }
 
         $sx .= '</ul>';

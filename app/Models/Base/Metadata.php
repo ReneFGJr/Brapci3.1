@@ -435,7 +435,6 @@ class Metadata extends Model
                             }
 
                     }
-
                 exit;
             }
 
