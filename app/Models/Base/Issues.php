@@ -248,7 +248,10 @@ class Issues extends Model
             $class = trim($line['c_class']);
             $vlr1 = $line['n_name'];
             $vlr2 = $line['n_name2'];
+            /* ISSUE */
             if ($class == 'hasIssueProceeding') { $class = 'hasIssue'; }
+            if ($class == 'hasIssueOf') { $class = 'hasIssue'; }
+
             switch ($class) {
                 case 'prefLabel':
                     $pref = $line['n_name'];
@@ -274,7 +277,7 @@ class Issues extends Model
                     $RSP['VOL'] = $vlr2;
                     break;
                 default:
-                    echo $class . ': ' . $vlr1 . ' | ' . $vlr2 . '<br>';
+                    //echo $class . ': ' . $vlr1 . ' | ' . $vlr2 . '<br>';
                     break;
             }
         }
