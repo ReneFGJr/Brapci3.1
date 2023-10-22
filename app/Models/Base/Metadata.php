@@ -289,16 +289,6 @@ class Metadata extends Model
                                 $issue_proceessed[$ddv1] = 1;
                                 $this->metadata['Issue']['Method'] = 'AA1';
                             }
-
-                        /************** ARTIGO */
-                        if (isset($this->metadata['Issue']['ID']))
-                            {
-                                echo "DOIS ISSUE NO ARTIGO ".$ddv1.'-'.$ddv2;
-                                pre($this->metadata);
-                                exit;
-                            }
-                        $this->metadata['Issue']['Method'] = 'AB0';
-                        $this->metadata['Issue']['ID'] = $ddv1;
                         break;
                     case 'hasPublicationNumber':
                         $this->metadata['Issue']['nr'] = $value;
