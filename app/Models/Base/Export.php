@@ -124,7 +124,7 @@ class Export extends Model
                 $style = 'color: #0F0;';
             }
 
-            $link = '<a href="#" style="' . $style2 . '" onclick="newwin2(\''.PATH.'/popup/admin/task_clear/'.$line['task_id'].'\',600,400);">';
+            $link = '<a href="#" style="' . $style2 . '" onclick="newwin2(\''.PATH.'/popup/admin/task_clear/'.$line['task_id'].'\',300,200);">';
             $linka = '</a>';
 
             $sx .= '<tr>';
