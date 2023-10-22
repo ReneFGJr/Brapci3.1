@@ -48,8 +48,8 @@ class Index extends Model
             case 'task_clear':
                 $BOTS = new \App\Models\Bots\Index();
 
-                $BOTS->task_remove($id);
-                $sx .= 'Remove '.$id;
+                $BOTS->task_remove($subact);
+                $sx .= 'Remove '. $subact;
                 //$sx .= wclose();
                 break;
             case 'issue':
