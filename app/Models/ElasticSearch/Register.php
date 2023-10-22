@@ -230,7 +230,9 @@ class Register extends Model
     function show($id)
         {
             $dt = $this->where('ID',$id)->first();
-            pre($dt);
+            pre($dt['json'],false);
+            $dt['json'] = [];
+            pre($dt,false);
         }
 
     function whithout_year()
