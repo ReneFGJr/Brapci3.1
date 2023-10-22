@@ -450,15 +450,18 @@ class RDFExport extends Model
 
 								$name = '';
 								$idiomas = array();
-								foreach($dta['Keywords'] as $lang=>$key)
+								foreach($dta['Keywords'] as $lang=>$keys)
 									{
 										if ($lang == 'es-ES') { $lang = 'es'; }
 										if (!isset($idiomas[$lang]))
 											{
 												$idiomas[$lang] = array();
 											}
-										$idiomas[$lang][] = $key;
-										$name .= $key.';';
+										foreach($keys as $key=>$idk)
+											{
+												$idiomas[$lang][] = $key;
+												$name .= $key . ';';
+											}
 									}
 								$this->saveRDF($id, $name, 'Keywords.name');
 								foreach($idiomas as $lang=>$keys)
