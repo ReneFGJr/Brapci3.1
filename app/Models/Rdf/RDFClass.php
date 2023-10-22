@@ -92,8 +92,6 @@ class RDFClass extends Model
 		->where('cc_class', $dt['id'])
 		->first();
 		$dt['classTotal'] = $da['total'];
-
-		$dt['propTotal'] = $da['total'];
 		return $dt;
 		}
 	function getAll()
