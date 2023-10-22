@@ -391,7 +391,9 @@ class Issues extends Model
             echo '<hr>REGISTRADO';
             echo metarefresh('');
         } else {
-
+            $this->set($da)
+                ->where('is_source_issue', $id_issue)
+                ->update();
         }
         //echo "=================OKKK===============<hr>";
         return $RSP;
