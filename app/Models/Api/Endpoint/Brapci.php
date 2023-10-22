@@ -57,6 +57,9 @@ class Brapci extends Model
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
+            case 'rdf':
+                $RSP = $this->rdf($d2, $d3);
+                break;
             case 'resume':
                 $RSP = $this->resume();
                 break;
@@ -115,6 +118,18 @@ class Brapci extends Model
         echo json_encode($RSP);
         exit;
     }
+
+    function rdf($d1,$d2)
+        {
+            $dt = [];
+            switch($d1)
+                {
+                    default:
+                        $RDFClass = new \App\Models\Rdf\RDFClass();
+                        $dt = $RDFClass->getAll();
+                }
+            return $dt;
+        }
 
     function resume()
     {

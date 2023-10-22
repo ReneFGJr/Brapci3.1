@@ -55,6 +55,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('../900_kanban/kanban.module').then((m) => m.KanbanModule),
   },
+  {
+    path: 'rdf',
+    loadChildren: () =>
+      import('../920_RDF/rdf.module').then((m) => m.RdfModule),
+  },
 ];
 
 @NgModule({

@@ -70,6 +70,39 @@ class RDFClass extends Model
 			return $sx;
 
 		}
+	function getAll()
+		{
+			$dt = [];
+			$dt['Classes'] = $this->getClasses();
+			$dt['Properties'] = $this->getProperties();
+			return $dt;
+		}
+
+	function getClasses()
+	{
+		$cp = 'id_c as id, prefix_ref as prefix, c_class as Class, c_type as Type, c_url as url';
+		//$cp = '*';
+		$dt = $this->select($cp)
+				->join('rdf_prefix', 'id_prefix = c_prefix')
+				->where('c_type','C')
+				->where('c_equivalent', 0)
+				->orderBy('c_class')
+				->findAll();
+		return $dt;
+	}
+
+	function getProperties()
+	{
+		$cp = 'id_c as id, prefix_ref as prefix, c_class as Class, c_type as Type, c_url as url';
+		//$cp = '*';
+		$dt = $this->select($cp)
+			->join('rdf_prefix', 'id_prefix = c_prefix')
+			->where('c_type', 'P')
+			->where('c_equivalent', 0)
+			->orderBy('c_class')
+			->findAll();
+		return $dt;
+	}
 
 	/************************************************************************ Relation Class / Proprity */
 	function class_propriety($id)
