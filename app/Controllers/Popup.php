@@ -24,7 +24,7 @@ class Popup extends BaseController
         $data['bg'] = 'bg-pq';
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
-
+        echo '========'.$act;
         switch ($act) {
             case  'admin':
                 $Socials = new \App\Models\Socials();
