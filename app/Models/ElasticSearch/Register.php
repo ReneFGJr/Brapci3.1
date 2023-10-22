@@ -239,8 +239,17 @@ class Register extends Model
                     $sx .= '('.$name.') = "'.$v.'"';
                     $sx .= '</li>';
                 }
-            $sx .= '<a href="'.PATH.'/v/'.$id.'?reindex=1">Reindex</a>';
-            $sx .= '</ul>';
+            if ($dt['status'] >= 0)
+                {
+                    $sx .= '<a href="' . PATH . '/v/' . $id . '?reindex=1">Reindex</a>';
+                    $sx .= '</ul>';
+                    if (get("reindex") == '1') {
+                        $d = [];
+                        $d['status'] = -1;
+                        $this->set($d)->where('ID', $id)->update();
+                    }
+                }
+
             return bs(bsc($sx,12));
             pre($dt['json'],false);
 
