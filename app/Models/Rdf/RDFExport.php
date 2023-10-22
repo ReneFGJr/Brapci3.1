@@ -450,6 +450,7 @@ class RDFExport extends Model
 
 								$name = '';
 								$idiomas = array();
+								pre($dta['Keywords']);
 								foreach($dta['Keywords'] as $key=>$lang)
 									{
 										if ($lang == 'es-ES') { $lang = 'es'; }
