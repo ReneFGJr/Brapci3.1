@@ -454,6 +454,12 @@ class Export extends Model
 
             $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                 $ElasticRegister->data($idr, $meta) . '</li>';
+
+            $dt = $ElasticRegister->where('status', -1)->first();
+            if ($dt == '')
+                {
+                    $this->remove_all('EXPORT_SELECTED');
+                }
         }
 
         $sx .= '</ul>';
