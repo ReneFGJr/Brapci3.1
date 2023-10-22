@@ -292,6 +292,7 @@ class Metadata extends Model
                                 echo "DOIS ISSUE NO ARTIGO ".$ddv1.'-'.$ddv2;
                                 exit;
                             }
+                        $this->metadata['Issue']['Method'] = 0;
                         $this->metadata['Issue']['ID'] = $ddv1;
                         break;
                     case 'hasPublicationNumber':
