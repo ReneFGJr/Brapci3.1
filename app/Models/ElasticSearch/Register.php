@@ -274,6 +274,8 @@ class Register extends Model
                 $d['status'] = get("t");
                 $this->set($d)->where('YEAR',0)->update();
                 echo $this->getlastquery();
+                return metarefresh(PATH . 'admin/dataset/year_without');
+                exit;
             }
             $dt = $this
                     ->where('YEAR > 2050')
