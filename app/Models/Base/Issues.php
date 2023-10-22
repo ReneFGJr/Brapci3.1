@@ -273,6 +273,7 @@ class Issues extends Model
                 case 'dateOfPublication':
                     if (($vlr2 > 1910) and ($vlr2 < (date("Y")+2)))
                         {
+                            echo '<br>===>'.$vlr2;
                             $RSP['YEAR'] = $vlr2;
                         }
 
