@@ -271,8 +271,11 @@ class Issues extends Model
                     }
                     break;
                 case 'dateOfPublication':
-                    $RSP['YEAR'] = $vlr2;
-                    echo '============'.$vlr2;
+                    if (($vlr2 > 1910) and ($vlr2 < (date("Y")+2)))
+                        {
+                            $RSP['YEAR'] = $vlr2;
+                        }
+
                     break;
                 case 'hasPublicationNumber':
                     $RSP['NR'] = $vlr2;
