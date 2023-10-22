@@ -126,6 +126,7 @@ class Export extends Model
             $sx .= '<tr>';
             $sx .= '<td>' . $line['task_id'] . '</td>';
             $sx .= '<td style="' . $style . '">' .  bsicone('circle') . '</td>';
+            $sx .= '<td style="' . $style . '">' .  bsicone('trash') . '</td>';
             $sx .= '<td>' . $line['task_offset'] . '</td>';
             $sx .= '</tr>';
         }
