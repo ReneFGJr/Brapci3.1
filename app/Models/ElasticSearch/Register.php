@@ -234,6 +234,7 @@ class Register extends Model
             $dt['json'] = 'JSON';
             for ($r=0;$r < count($dt);$r++)
                 {
+                    pre($dt[$r]);
                     $line = (array)$dt[$r];
                     pre($line);
                     //$sx .= '('.$name.') = "'.$v.'"';
