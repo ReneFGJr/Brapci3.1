@@ -350,6 +350,7 @@ class RDFExport extends Model
 									case 'json':
 									$n = array();
 									$json = json_decode(file_get_contents($file));
+									pre($json);
 									$name = implode(";", $json);
 									$csvRow .= $sep_ini.$name.$sep_end;
 									break;
@@ -460,7 +461,7 @@ class RDFExport extends Model
 										foreach($keys as $key=>$idk)
 											{
 												$idiomas[$lang][] = $key;
-												$name .= $key . ';'.$idk;
+												$name .= $key . ';';
 											}
 									}
 								$this->saveRDF($id, $name, 'Keywords.name');
