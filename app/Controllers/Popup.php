@@ -30,6 +30,7 @@ class Popup extends BaseController
                 if ($Socials->getAccess("#ADM")) {
                     $id = get("id");
                     $Admin = new \App\Models\Base\Admin\Index();
+                    echo "d1=$id, d2=$id2, d3=$id3<hr>";
                     $sx .= $Admin->index($id,$id2,$id3);
                 }
                 break;
