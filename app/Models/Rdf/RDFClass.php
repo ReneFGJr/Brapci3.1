@@ -79,7 +79,13 @@ class RDFClass extends Model
 			->join('rdf_prefix', 'id_prefix = c_prefix')
 			->where('c_class', $namespace)
 			->orderBy('c_class')
-			->findAll();
+			->first();
+
+		$RDFdata = new \App\Models\Rdf\RDFData();
+		$da = $RDFdata->select('count(*) as total')
+				->where('d_p',$dt['id'])
+				->first();
+		$dt['propTotal'] = $da['total'];
 		return $dt;
 		}
 	function getAll()
