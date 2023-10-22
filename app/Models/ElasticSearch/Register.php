@@ -229,7 +229,13 @@ class Register extends Model
 
     function show($id)
         {
+            $sx = '';
             $dt = $this->where('ID',$id)->first();
+            foreach($dt['json'] as $name=>$v)
+                {
+                    $sx .= '('.$name.') = "'.$v.'"';
+                }
+            return $sx;
             pre($dt['json'],false);
             $dt['json'] = [];
             pre($dt,false);
