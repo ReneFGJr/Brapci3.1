@@ -388,9 +388,9 @@ class Metadata extends Model
                                 $this->metadata['Issue']['Method'] = 'BB2';
                             }
                      }
-                    $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
                     if ($this->metadata['Issue']['YEAR'] > 0)
                         {
+                            $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
                             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
                             $this->metadata['Issue']['Method'] = 'BB3';
                         } else {
