@@ -400,6 +400,7 @@ class Export extends Model
             case 'EXPORT_SELECTED':
                 $sx .= bs(bsc('EXPORT_SELECTED',12));
                 $sx .= $this->export_reindex();
+                return $sx;
                 break;
             default:
                 echo "OPS EXPORT NOT IMPLEMENTED $TYPE";
