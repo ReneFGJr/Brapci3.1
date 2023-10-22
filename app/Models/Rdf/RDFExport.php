@@ -349,10 +349,11 @@ class RDFExport extends Model
 								{
 									case 'json':
 									$n = array();
-									$json = json_decode(file_get_contents($file));
-									pre($json);
-									$name = implode(";", $json);
-									$csvRow .= $sep_ini.$name.$sep_end;
+									$json = (array)json_decode(file_get_contents($file));
+									foreach($json as $idn=>$name)
+										{
+											$csvRow .= $sep_ini . $name . $sep_end;
+										}
 									break;
 
 									case 'name':
