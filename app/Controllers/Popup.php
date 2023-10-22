@@ -28,6 +28,7 @@ class Popup extends BaseController
             case  'admin':
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM")) {
+                    echo '===='.$id.'=='.$id2.'=='.$id3;
                     $id = get("id");
                     $Admin = new \App\Models\Base\Admin\Index();
                     $sx .= $Admin->index($id,$id2,$id3);
