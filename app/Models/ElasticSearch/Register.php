@@ -247,6 +247,9 @@ class Register extends Model
                         $d = [];
                         $d['status'] = -1;
                         $this->set($d)->where('ID', $id)->update();
+
+                        $BOTS = new \App\Models\Bots\Index();
+                        $BOTS->task('EXPORT_SELECTED');
                     }
                 }
 
