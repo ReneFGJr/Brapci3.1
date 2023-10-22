@@ -458,8 +458,6 @@ class Export extends Model
 
         $sx .= '</ul>';
         return $sx;
-
-        pre($dt);
     }
 
     function export_data($class, $type, $offset, $limit)

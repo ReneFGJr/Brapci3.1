@@ -492,6 +492,7 @@ class Register extends Model
         /* NOVO REGISTRO */
         if (count($dt) == 0) {
             if (count($data) > 0) {
+                $data['status'] = 1;
                 $this->set($data)->insert();
                 $sx = lang('brapci.inserted');
             } else {
@@ -499,6 +500,7 @@ class Register extends Model
             }
         } else {
             if (count($data) > 0) {
+                $data['status'] = 1;
                 $this->set($data)
                     ->where('ID', $id)
                     ->update();
