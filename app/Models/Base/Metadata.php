@@ -255,7 +255,7 @@ class Metadata extends Model
                         $ds = $Source->where('jnl_frbr',$ddv2)->first();
                         if ($ds != '')
                         {
-                            $this->metadata['id_jnl'] = $ddv2;
+                            $this->metadata['id_jnl'] = $ds['id_jnl'];
                         }
                         break;
                     case 'hasLanguageExpression':
