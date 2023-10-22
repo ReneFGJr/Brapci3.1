@@ -47,8 +47,10 @@ class Index extends Model
         switch ($act) {
             case 'task_clear':
                 $BOTS = new \App\Models\Bots\Index();
+
                 $BOTS->task_remove($id);
-                $sx .= wclose();
+                $sx .= 'Remove '.$id;
+                //$sx .= wclose();
                 break;
             case 'issue':
                 $sx .= $this->issue($subact,$id,$id2,$id3);
