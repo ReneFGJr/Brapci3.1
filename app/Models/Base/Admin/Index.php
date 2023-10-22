@@ -50,7 +50,7 @@ class Index extends Model
 
                 $BOTS->task_remove($subact);
                 $sx .= 'Remove '. $subact;
-                //$sx .= wclose();
+                $sx .= wclose();
                 break;
             case 'issue':
                 $sx .= $this->issue($subact,$id,$id2,$id3);
