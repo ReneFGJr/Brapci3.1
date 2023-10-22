@@ -18,7 +18,7 @@ define("LIBRARY", '0000');
 
 class Popup extends BaseController
 {
-    public function index($act = '',$id='')
+    public function index($act = '',$id='',$id2='',$id3='')
     {
         $data['page_title'] = 'Brapci - POPUP - ' . ucfirst($act);
         $data['bg'] = 'bg-pq';
@@ -26,6 +26,14 @@ class Popup extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
 
         switch ($act) {
+            case  'admin':
+                $Socials = new \App\Models\Socials();
+                if ($Socials->getAccess("#ADM")) {
+                    $id = get("id");
+                    $Admin = new \App\Models\Base\Admin\Index();
+                    $sx .= $Admin->index($id,$id2,$id3);
+                }
+                break;
             case 'remissive':
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM")) {
@@ -53,7 +61,6 @@ class Popup extends BaseController
                 $id = get('id');
                 $sx .= $Bolsistas->edit($id);
                 break;
-
             case 'pq_bolsa_edit':
                 $Bolsas = new \App\Models\PQ\Bolsas();
                 $id = get('id');

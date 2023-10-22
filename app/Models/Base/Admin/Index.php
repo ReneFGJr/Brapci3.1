@@ -44,6 +44,8 @@ class Index extends Model
     {
         $sx = '';
         switch ($act) {
+            case 'task_clear':
+                break;
             case 'issue':
                 $sx .= $this->issue($subact,$id,$id2,$id3);
             case 'problems':
