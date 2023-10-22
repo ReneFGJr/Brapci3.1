@@ -239,6 +239,7 @@ class Register extends Model
                     $sx .= '('.$name.') = "'.$v.'"';
                     $sx .= '</li>';
                 }
+            $sx .= '<a href="'.PATH.'/v/'.$id.'?reindex=1">Reindex</a>';
             $sx .= '</ul>';
             return bs(bsc($sx,12));
             pre($dt['json'],false);
