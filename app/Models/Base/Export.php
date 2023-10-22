@@ -454,15 +454,17 @@ class Export extends Model
 
             $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                 $ElasticRegister->data($idr, $meta) . '</li>';
-
-            $dt = $ElasticRegister->where('status', -1)->first();
-            if ($dt == '')
-                {
-                    $this->remove_all('EXPORT_SELECTED');
-                }
         }
-
         $sx .= '</ul>';
+
+        /****************** Limpa tarefa se terminou */
+        $dt = $ElasticRegister->where('status', -1)->first();
+        if ($dt == '') {
+            $this->remove_all('EXPORT_SELECTED');
+        } else {
+            $sx .= '<hr>Redirecionando';
+            $sx .= metarefresh('',2);
+        }
         return $sx;
     }
 
