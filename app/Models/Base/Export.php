@@ -124,13 +124,13 @@ class Export extends Model
                 $style = 'color: #0F0;';
             }
 
-            $link = '<a href="#" onclick="newwin2(\''.PATH.'/popup/admin/task_clear/'.$line['task_id'].'\',600,400);">';
+            $link = '<a href="#" style="' . $style2 . '" onclick="newwin2(\''.PATH.'/popup/admin/task_clear/'.$line['task_id'].'\',600,400);">';
             $linka = '</a>';
 
             $sx .= '<tr>';
             $sx .= '<td>' . $line['task_id'] . '</td>';
             $sx .= '<td width="24" style="' . $style . '">' .  bsicone('circle') . '</td>';
-            $sx .= '<td width="24" style="' . $style2 . '">' . $link. bsicone('trash') .$linka. '</td>';
+            $sx .= '<td width="24">' . $link. bsicone('trash') .$linka. '</td>';
             $sx .= '<td>' . $line['task_offset'] . '</td>';
             $sx .= '</tr>';
         }
