@@ -232,12 +232,9 @@ class Register extends Model
             $sx = '';
             $dt = $this->where('ID',$id)->first();
             $dt['json'] = 'JSON';
-            for ($r=0;$r < count($dt);$r++)
+            foreach($dt as $name=>$v)
                 {
-                    pre($dt);
-                    $line = (array)$dt[$r];
-                    pre($line);
-                    //$sx .= '('.$name.') = "'.$v.'"';
+                    $sx .= '('.$name.') = "'.$v.'"';
                 }
             return $sx;
             pre($dt['json'],false);
