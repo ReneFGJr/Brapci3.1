@@ -366,6 +366,7 @@ class Register extends Model
             ->where('year is NULL')
             ->Orwhere('year', '')
             ->Orwhere('year < 1950')
+            ->Orwhere('year < 9000')
             ->findAll();
 
         foreach ($dt as $line) {
