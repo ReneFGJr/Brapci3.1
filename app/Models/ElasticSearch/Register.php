@@ -272,6 +272,7 @@ class Register extends Model
             {
                 $d['status'] = -1;
                 $this->set($d)->where('status',0)->update();
+                echo $this->getlastquery();
             }
             $dt = $this
                     ->where('YEAR > 2050')
