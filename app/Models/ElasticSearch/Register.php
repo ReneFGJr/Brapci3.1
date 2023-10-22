@@ -262,15 +262,16 @@ class Register extends Model
     function whithout_year()
         {
             $sx = '';
-            $sx .= '<a href="'.PATH. 'admin/dataset/year_without/?t=R0" title="Reprocessar todos os 0">';
+            $sx .= '<a href="'.PATH. 'admin/dataset/year_without/?t=-1" title="Reprocessar todos os 0">';
+            $sx .= '<a href="' . PATH . 'admin/dataset/year_without/?t=0" title="Volta todos os 0">';
             $sx .= bsicone('refresh');
             $sx .= '</a>';
             $sx .= '<ul>';
 
             /******************************* Reprocessar */
-            if (get("t")=="R0")
+            if (get("t") != "")
             {
-                $d['status'] = -1;
+                $d['status'] = get("t");
                 $this->set($d)->where('YEAR',0)->update();
                 echo $this->getlastquery();
             }
