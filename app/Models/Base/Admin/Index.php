@@ -47,6 +47,7 @@ class Index extends Model
         $sx .h($act);
         switch ($act) {
             case 'task_clear':
+                echo "==============================".$subact;
                 $sx .= 'EXCLUDE';
                 break;
             case 'issue':
