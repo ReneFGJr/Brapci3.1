@@ -271,7 +271,7 @@ class Register extends Model
             if (get("t")=="R0")
             {
                 $d['status'] = -1;
-                $this->set($d)->where('status',0)->update();
+                $this->set($d)->where('YEAR',0)->update();
                 echo $this->getlastquery();
             }
             $dt = $this
