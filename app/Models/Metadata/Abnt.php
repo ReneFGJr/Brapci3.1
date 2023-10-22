@@ -221,11 +221,11 @@ class Abnt extends Model
 			$total = count($dt['Authors']);
 			$authors = '';
 			if ($total <= 3) {
-				for ($r = 0; $r < count($dt['Authors']); $r++) {
+				foreach ($dt['Authors'] as $idk => $name) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($dt['Authors'][$r], 2);
+					$authors .= nbr_author($name, 2);
 				}
 				$authors .= '. ';
 			} else {
