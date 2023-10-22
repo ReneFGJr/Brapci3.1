@@ -439,7 +439,7 @@ class Export extends Model
 
         $sx = '';
         $ElasticRegister = new \App\Models\ElasticSearch\Register();
-        $dt = $ElasticRegister->where('status', -1)->findAll(10);
+        $dt = $ElasticRegister->where('status', -1)->findAll(250);
 
         $sx .= '<ul>';
 
