@@ -43,13 +43,12 @@ class Index extends Model
     function index($act = '', $subact = '', $id ='', $id2 ='', $id3 = '')
     {
         $sx = '';
-        echo '========>['. $act.']';
-
         $sx .h($act);
         switch ($act) {
             case 'task_clear':
-                echo "==============================".$subact;
-                $sx .= 'EXCLUDE';
+                $BOTS = new \App\Models\Bots\Index();
+                $BOTS->task_remove($id);
+                $sx .= wclose();
                 break;
             case 'issue':
                 $sx .= $this->issue($subact,$id,$id2,$id3);
