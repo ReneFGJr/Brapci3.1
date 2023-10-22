@@ -134,12 +134,8 @@ class Index extends Model
                     $usd = $Socials->find($user_id);
                     $user_name = $usd['us_nome'];
                     $sx .= bs(bsc(h(lang('brapci.Hello') . ' ' . $user_name . ' !', 2),12));
-                    $sa = h($COLLECTION,3);
                     $sb = h('Painel',3);
-                    switch ($COLLECTION) {
-                        case 'XX':
-                            break;
-                        default:
+
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
                             $sb .= '<a title="Bots" href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
@@ -149,8 +145,7 @@ class Index extends Model
                             $sb .= '<a title="Problems in Export File" href="' . PATH . '/admin/problems/" class="text-success me-2">' . bsicone('maid', 32) . '</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
-                            break;
-                    }
+
                     $sx .= bs(bsc($sa, 6). bsc($sb, 6));
                 }
         }
