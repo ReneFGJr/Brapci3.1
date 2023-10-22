@@ -294,6 +294,7 @@ class Metadata extends Model
                         if (isset($this->metadata['Issue']['ID']))
                             {
                                 echo "DOIS ISSUE NO ARTIGO ".$ddv1.'-'.$ddv2;
+                                pre($this->metadata);
                                 exit;
                             }
                         $this->metadata['Issue']['Method'] = 'AB0';
