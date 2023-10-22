@@ -115,6 +115,7 @@ class Export extends Model
             $line = $dt[$r];
             $st = $line['task_status'];
             $style = "";
+            $style2 = 'color: #F88;';;
 
             if ($st == '0') {
                 $style = 'color: #888;';
@@ -125,8 +126,8 @@ class Export extends Model
 
             $sx .= '<tr>';
             $sx .= '<td>' . $line['task_id'] . '</td>';
-            $sx .= '<td style="' . $style . '">' .  bsicone('circle') . '</td>';
-            $sx .= '<td style="' . $style . '">' .  bsicone('trash') . '</td>';
+            $sx .= '<td width="24" style="' . $style . '">' .  bsicone('circle') . '</td>';
+            $sx .= '<td width="24" style="' . $style2 . '">' .  bsicone('trash') . '</td>';
             $sx .= '<td>' . $line['task_offset'] . '</td>';
             $sx .= '</tr>';
         }
