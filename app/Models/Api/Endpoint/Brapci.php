@@ -235,6 +235,7 @@ class Brapci extends Model
         if ($d1 == 'E') {
             $d1 = 'proceddings';
         }
+
         switch ($d1) {
             case 'proceddings':
                 $dt = $Source->select($cp)

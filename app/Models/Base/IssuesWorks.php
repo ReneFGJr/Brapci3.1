@@ -196,7 +196,6 @@ class IssuesWorks extends Model
                 $da = array();
                 $da['siw_work_rdf'] = $line['d_r2'];
                 $da['siw_journal'] = $dd['is_source'];
-                $da['siw_journal_rdf'] = $dd['is_source_rdf'];
                 $da['siw_section'] = 0;
                 $da['siw_issue'] = $idr;
                 $this->saving($da);
@@ -206,7 +205,6 @@ class IssuesWorks extends Model
                 $da = array();
                 $da['siw_work_rdf'] = $line['d_r2'];
                 $da['siw_journal'] = $dd['is_source'];
-                $da['siw_journal_rdf'] = $dd['is_source_rdf'];
                 $da['siw_section'] = 0;
                 $da['siw_issue'] = $idr;
                 $this->saving($da);

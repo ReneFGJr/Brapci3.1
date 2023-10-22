@@ -385,7 +385,6 @@ class Metadata extends Model
                                 $this->metadata['Issue']['Method'] = 3;
                                 $this->metadata['Issue']['YEAR'] = $aaa['is_year'];
                                 $this->metadata['Issue']['JOURNAL'] = $aaa['is_source'];
-                                $this->metadata['Issue']['JOURNAL_RDF'] = $aaa['is_source_rdf'];
                                 $this->metadata['Issue']['VOL'] = $aaa['is_vol'];
                                 $this->metadata['Issue']['VOLR'] = $aaa['is_vol'];
                                 $this->metadata['Issue']['NR'] = $aaa['is_nr'];
@@ -455,7 +454,6 @@ class Metadata extends Model
                     $d['NR'] = $dt['is_nr'];
                     $d['PLACE'] = $dt['is_place'];
                     $d['JOURNAL'] = $dt['is_source'];
-                    $d['JOURNAL_RDF'] = $dt['is_source_rdf'];
                     return($d);
                 } else {
 

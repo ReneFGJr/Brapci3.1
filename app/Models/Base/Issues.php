@@ -28,7 +28,6 @@ class Issues extends Model
         'is_place',
         'is_thema',
 
-        'is_source_rdf',
         'is_cover',
         'is_url_oai',
 
@@ -124,7 +123,7 @@ class Issues extends Model
         $class = 'Issue';
         $idc = $RDF->getClass($class, false);
 
-        $cp = 'id_cc, cc_class, cc_use, id_is, is_year, is_source, is_source_rdf';
+        $cp = 'id_cc, cc_class, cc_use, id_is, is_year, is_source';
         //$cp = '*';
         $dtd = $RDFconcept
             ->select($cp)
@@ -142,7 +141,6 @@ class Issues extends Model
             $dt = $this->getIssue($idissue);
 
             $da['is_source'] = $dt['JOURNAL'];
-            $da['is_source_rdf'] = $dt['JOURNAL_RDF'];
             $da['is_source_issue'] = '';
             $da['is_year'] = $dt['year'];
             $da['is_source_issue'] = $line['id_cc'];
@@ -179,7 +177,6 @@ class Issues extends Model
                         pre($da);
                     }
                 $da['is_source'] = $da['JOURNAL'];
-                $da['is_source_rdf'] = $dj['jnl_frbr'];
                 $da['is_source_issue'] = $da['ISSUE'];
                 $da['is_year']  = $da['year'];
                 $da['is_vol'] = $da['vol'];
@@ -264,7 +261,6 @@ class Issues extends Model
                     array_push($issue, $line['d_r1']);
                     array_push($worksJ, $line['d_r2']);
 
-                    $RSP['is_source_rdf'] = $line['d_r2'];
                     $ds = $Source->where('jnl_frbr', $line['d_r2'])->first();
                     if ($ds != '') {
                         $RSP['id_jnl'] = $ds['id_jnl'];
@@ -367,7 +363,6 @@ class Issues extends Model
 /********************************************************************* */
         $dt = [];
         $da['is_source'] = $RSP['JOURNAL'];
-        $da['is_source_rdf'] = $RSP['JOURNAL_RDF'];
         $da['is_year'] = $RSP['YEAR'];
         $da['is_source_issue'] = $id_issue;
         $da['is_vol'] = $RSP['VOL'];
@@ -398,17 +393,6 @@ class Issues extends Model
 
     function checkData()
         {
-            $dt = $this
-            ->join('source_source', 'is_source = id_jnl')
-            ->where('is_source_rdf = 0')
-            ->where('is_source <> 0')
-            ->findAll();
-            foreach($dt as $id=>$line)
-                {
-                    $da['is_source_rdf'] = $line['jnl_frbr'];
-                    $this->set($da)->where('id_is',$line['id_is'])->update();
-                }
-
             $RDFdata = new \App\Models\Rdf\RDFData();
             $RDFdata->check_issue();
         }
@@ -471,7 +455,6 @@ class Issues extends Model
                         }
 
                         $da['is_source'] = $dj['id_jnl'];
-                        $da['is_source_rdf'] = $dj['jnl_frbr'];
                         $da['is_source_issue'] = '';
                         $da['is_year'] = $year;
                         $da['is_vol'] = trim(troca($vol, 'v.', ''));
@@ -486,7 +469,7 @@ class Issues extends Model
                         $da['is_oai_update'] = $dj['jnl_oai_last_harvesting'];
 
                         $dr = $this
-                            ->where('is_source_rdf', $dj['jnl_frbr'])
+                            ->where('is_source', $dj['id_jnl'])
                             ->findAll();
 
                         $sx .= '<li>';
@@ -549,6 +532,8 @@ class Issues extends Model
             ->orderBy('is_vol', 'DESC')
             ->orderBy('is_source_issue', 'DESC')
             ->findAll();
+            echo $this->getlastquery();
+            exit;
         return $dt;
     }
 
@@ -765,7 +750,6 @@ class Issues extends Model
             $RDF->propriety($id_issue, 'hasPlace', $id_place);
         }
 
-        $dd['is_source_rdf'] = $dt['jnl_frbr'];
         $dd['is_source_issue'] = $id_issue;
         $this->set($dd)->where('id_is', $dt['id_is'])->update();
 
