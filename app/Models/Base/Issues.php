@@ -225,9 +225,11 @@ class Issues extends Model
         $Source = new \App\Models\Base\Sources();
 
         $dt = $RDF->le($id_issue);
-        $RSP['year'] = '';
-        $RSP['nr'] = '';
-        $RSP['vol'] = '';
+        $RSP['YEAR'] = '';
+        $RSP['NR'] = '';
+        $RSP['VOL'] = '';
+        $RSP['VOLR'] = '';
+        $rsp['PLACE'] = '';
         $RSP['ISSUE'] = $id_issue;
         $RSP['JOURNAL'] = -1;
         $RSP['JOURNAL_RDF'] = -1;
@@ -262,16 +264,16 @@ class Issues extends Model
                     }
                     break;
                 case 'dateOfPublication':
-                    $RSP['year'] = $vlr2;
+                    $RSP['YEAR'] = $vlr2;
                     break;
                 case 'hasPublicationNumber':
-                    $RSP['nr'] = $vlr2;
+                    $RSP['NR'] = $vlr2;
                     break;
                 case 'hasPublicationVolume':
-                    $RSP['vol'] = $vlr2;
+                    $RSP['VOL'] = $vlr2;
                     break;
                 default:
-                    //echo $class . ': ' . $vlr1 . ' | ' . $vlr2 . '<br>';
+                    echo $class . ': ' . $vlr1 . ' | ' . $vlr2 . '<br>';
                     break;
             }
         }

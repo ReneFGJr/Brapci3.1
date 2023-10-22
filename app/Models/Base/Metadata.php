@@ -372,8 +372,11 @@ class Metadata extends Model
                         or ($this->metadata['Issue']['YEAR'] == 0)
                         or ($this->metadata['Issue']['YEAR'] > 9000)
                     )
+
                     {
                         $Issue = new \App\Models\Base\Issues();
+
+                        /* Verifica ISSUE */
                         $Issue->getIssue($this->metadata['Issue']['ID']);
 
                         $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->first();
@@ -383,8 +386,9 @@ class Metadata extends Model
                                 $this->metadata['Issue']['YEAR'] = $aaa['is_year'];
                                 $this->metadata['Issue']['JOURNAL'] = $aaa['is_source'];
                                 $this->metadata['Issue']['JOURNAL_RDF'] = $aaa['is_source_rdf'];
-                                $this->metadata['Issue']['vol'] = $aaa['is_vol'];
-                                $this->metadata['Issue']['nr'] = $aaa['is_nr'];
+                                $this->metadata['Issue']['VOL'] = $aaa['is_vol'];
+                                $this->metadata['Issue']['VOLR'] = $aaa['is_vol'];
+                                $this->metadata['Issue']['NR'] = $aaa['is_nr'];
                                 $this->metadata['Issue']['Method'] = 'BB2';
                             }
                      }
