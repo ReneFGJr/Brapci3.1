@@ -283,6 +283,11 @@ class Metadata extends Model
                                     }
                                 $this->metadata['Issue']['ID'] = $ddv1;
                                 $issue_proceessed[$ddv1] = 1;
+                                $this->metadata['Issue']['Method'] = 'AA0';
+                            } else {
+                                $this->metadata['Issue']['ID'] = $ddv1;
+                                $issue_proceessed[$ddv1] = 1;
+                                $this->metadata['Issue']['Method'] = 'AA1';
                             }
 
                         /************** ARTIGO */
@@ -291,7 +296,7 @@ class Metadata extends Model
                                 echo "DOIS ISSUE NO ARTIGO ".$ddv1.'-'.$ddv2;
                                 exit;
                             }
-                        $this->metadata['Issue']['Method'] = 0;
+                        $this->metadata['Issue']['Method'] = 'AB0';
                         $this->metadata['Issue']['ID'] = $ddv1;
                         break;
                     case 'hasPublicationNumber':
