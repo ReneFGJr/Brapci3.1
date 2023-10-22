@@ -262,10 +262,17 @@ class Register extends Model
     function whithout_year()
         {
             $sx = '';
-            $sx .= '<a href="'.PATH. 'admin/dataset/year_without">';
+            $sx .= '<a href="'.PATH. 'admin/dataset/year_without/?t=R0" title="Reprocessar todos os 0">';
             $sx .= bsicone('refresh');
             $sx .= '</a>';
             $sx .= '<ul>';
+
+            /******************************* Reprocessar */
+            if (get("t")=="R0")
+            {
+                $d['status'] = -1;
+                $this->set($d)->where('status',0)->update();
+            }
             $dt = $this
                     ->where('YEAR > 2050')
                     ->Orwhere('YEAR < 1910')
