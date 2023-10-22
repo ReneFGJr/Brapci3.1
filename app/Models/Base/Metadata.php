@@ -284,8 +284,7 @@ class Metadata extends Model
                                 $this->metadata['Issue']['ID'] = $ddv1;
                                 $issue_proceessed[$ddv1] = 1;
                             }
-                        break;
-                    case 'hasIssueOf':
+
                         /************** ARTIGO */
                         if (isset($this->metadata['Issue']['ID']))
                             {
