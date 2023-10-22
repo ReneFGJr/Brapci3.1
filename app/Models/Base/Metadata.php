@@ -371,6 +371,7 @@ class Metadata extends Model
         /******************************* LEGEND */
         if (isset($this->metadata['Issue']['ID']))
             {
+                $this->metadata['Issue']['Method'] = 1;
                 if (!isset($this->metadata['Issue']['YEAR']))
                     {
                         $Issue = new \App\Models\Base\Issues();
@@ -379,6 +380,7 @@ class Metadata extends Model
                         $aaa = $Issue->where('is_source_issue', $this->metadata['Issue']['ID'])->first();
                         if (isset($aaa['is_year']))
                             {
+                                $this->metadata['Issue']['Method'] = 3;
                                 $this->metadata['Issue']['YEAR'] = $aaa['is_year'];
                                 $this->metadata['Issue']['JOURNAL'] = $aaa['is_source'];
                                 $this->metadata['Issue']['JOURNAL_RDF'] = $aaa['is_source_rdf'];
@@ -390,6 +392,7 @@ class Metadata extends Model
                     $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
                     $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
             } else {
+                $this->metadata['Issue']['Method'] = 2;
                 $ISSUE = new \App\Models\Base\IssuesWorks();
                 $di = $ISSUE->where('siw_work_rdf', $meta['concept']['id_cc'])->first();
 
