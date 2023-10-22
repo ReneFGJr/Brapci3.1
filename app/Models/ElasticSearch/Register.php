@@ -284,6 +284,10 @@ class Register extends Model
                 $link = '<a href="'.PATH.'/v/'.$line['ID'].'" target="_blank">';
                 $linka = '</a>';
                 $sx .= $link.$line['ID'].' ('.$line['YEAR'].')'.$linka;
+                if ($line['status'] == -1)
+                    {
+                        $sx .= '*';
+                    }
                 $sx .= '</li>';
             }
             $sx .= '</ul>';
