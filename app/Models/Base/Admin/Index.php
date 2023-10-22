@@ -214,10 +214,10 @@ class Index extends Model
         $m[PATH . 'admin/vc'] =  bsicone('vc',32).' '.lang('brapci.vc');
 
         $m["#Sources"] =  "";
-        $m[PATH .  COLLECTION . '/source'] =  lang('brapci.sources');
-        $m[PATH .  COLLECTION . '/issue'] =  lang('brapci.issue');
-        $m[PATH .  COLLECTION . '/issue_work'] =  lang('brapci.issue_work');
-        $m[PATH .  COLLECTION . '/socials'] =  lang('brapci.Socials');
+        $m[PATH . '/source'] =  lang('brapci.sources');
+        $m[PATH . '/issue'] =  lang('brapci.issue');
+        $m[PATH . '/issue_work'] =  lang('brapci.issue_work');
+        $m[PATH . '/socials'] =  lang('brapci.Socials');
         $m['#RDF'] =  lang('brapci.rdf');
         $m[PATH .  '/rdf'] =  lang('brapci.rdf');
 
@@ -235,10 +235,10 @@ class Index extends Model
         $m[PATH .  '/admin/qualis'] =  lang('brapci.qualis');
 
         $m['#EXPORT'] =  lang('brapci.export');
-        $m[PATH .  COLLECTION . '/export'] =  lang('brapci.export');
+        $m[PATH .  '/export'] =  lang('brapci.export');
 
         $m['#CONFIG'] =  lang('brapci.Email');
-        $m[PATH .  COLLECTION . '/email'] =  lang('brapci.Email');
+        $m[PATH .  '/email'] =  lang('brapci.Email');
         $sx = menu($m);
         return $sx;
     }
