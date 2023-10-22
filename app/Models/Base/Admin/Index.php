@@ -43,7 +43,7 @@ class Index extends Model
     function index($act = '', $subact = '', $id ='', $id2 ='', $id3 = '')
     {
         $sx = '';
-        echo '========>'. $act;
+        echo '========>['. $act.']';
 
         $sx .h($act);
         switch ($act) {
