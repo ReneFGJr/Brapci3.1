@@ -388,8 +388,8 @@ class Issues extends Model
         if ($ds == '') {
             echo "<hr>*NOVO* - $id_issue<hr>";
             $this->register_issue($da);
-            echo '<hr>REGISTRADO';
             echo metarefresh('');
+            exit;
         } else {
             $this->set($da)
                 ->where('is_source_issue', $id_issue)
