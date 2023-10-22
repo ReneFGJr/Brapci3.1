@@ -9,6 +9,7 @@ import { ThemeModule } from '../010_thema/theme.module';
 import { RDFClassesComponent } from './page/classes/classes.component';
 import { RDFPropertiesComponent } from './page/properties/properties.component';
 import { MainRdfOntologyComponent } from './page/main-ontology/main-ontology.component';
+import { RDFVComponent } from './page/v/v.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { MainRdfOntologyComponent } from './page/main-ontology/main-ontology.com
     RDFClassesComponent,
     RDFPropertiesComponent,
     MainRdfOntologyComponent,
+    RDFVComponent,
   ],
   imports: [
     CommonModule,

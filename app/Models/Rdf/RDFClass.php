@@ -70,6 +70,18 @@ class RDFClass extends Model
 			return $sx;
 
 		}
+
+	function get($namespace)
+		{
+		$cp = 'id_c as id, prefix_url as prefixURL, prefix_ref as prefix, c_class as Class, c_type as Type, c_url as url, c_equivalent';
+		//$cp = '*';
+		$dt = $this->select($cp)
+			->join('rdf_prefix', 'id_prefix = c_prefix')
+			->where('c_class', $namespace)
+			->orderBy('c_class')
+			->findAll();
+		return $dt;
+		}
 	function getAll()
 		{
 			$dt = [];

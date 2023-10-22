@@ -1,8 +1,8 @@
 <div class="row" *ngIf="rdf">
   <div class="col-6">
-    <app-rdf-classes></app-rdf-classes>
+    <app-rdf-classes [rdf]="rdf"></app-rdf-classes>
   </div>
   <div class="col-6">
-    <app-rdf-properties></app-rdf-properties>
+    <app-rdf-properties [rdf]="rdf"></app-rdf-properties>
   </div>
 </div>
