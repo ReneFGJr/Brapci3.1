@@ -272,6 +272,7 @@ class Issues extends Model
                     break;
                 case 'dateOfPublication':
                     $RSP['YEAR'] = $vlr2;
+                    echo '============'.$vlr2;
                     break;
                 case 'hasPublicationNumber':
                     $RSP['NR'] = $vlr2;
