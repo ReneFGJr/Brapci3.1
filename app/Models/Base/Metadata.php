@@ -393,6 +393,8 @@ class Metadata extends Model
                         {
                             $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
                             $this->metadata['Issue']['Method'] = 'BB3';
+                        } else {
+                            $this->metadata['Issue']['Method'] = 'BB4';
                         }
                     $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
 
