@@ -460,7 +460,7 @@ class RDFExport extends Model
 										foreach($keys as $key=>$idk)
 											{
 												$idiomas[$lang][] = $key;
-												$name .= $key . ';';
+												$name .= $key . ';'.$idk;
 											}
 									}
 								$this->saveRDF($id, $name, 'Keywords.name');
