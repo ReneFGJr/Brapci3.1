@@ -389,9 +389,13 @@ class Metadata extends Model
                             }
                      }
                     $this->metadata['Issue'] = $this->metadata_issue($this->metadata['Issue']['ID']);
-                    $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
+                    if ($this->metadata['Issue']['YEAR'] > 0)
+                        {
+                            $this->metadata['YEAR'] = $this->metadata['Issue']['YEAR'];
+                            $this->metadata['Issue']['Method'] = 'BB3';
+                        }
                     $this->metadata['JOURNAL'] = $this->metadata['Issue']['JOURNAL'];
-                    $this->metadata['Issue']['Method'] = 'BB3';
+
             } else {
                 $this->metadata['Issue']['Method'] = 'CC0';
                 $ISSUE = new \App\Models\Base\IssuesWorks();
