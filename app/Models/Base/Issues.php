@@ -259,11 +259,11 @@ class Issues extends Model
                 case 'prefLabel':
                     $pref = $line['n_name'];
                     break;
-                case 'hasIssueOf':
+
+                case 'hasIssue':
                     array_push($issue, $line['d_r1']);
                     array_push($worksJ, $line['d_r2']);
-                    break;
-                case 'hasIssue':
+
                     $RSP['is_source_rdf'] = $line['d_r2'];
                     $ds = $Source->where('jnl_frbr', $line['d_r2'])->first();
                     if ($ds != '') {
