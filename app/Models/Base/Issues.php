@@ -277,8 +277,8 @@ class Issues extends Model
                     break;
             }
         }
-        if ($RSP['year'] == '') {
-            $RSP['year'] = 9996;
+        if ($RSP['YEAR'] == '') {
+            $RSP['YEAR'] = 9996;
         }
 
         /************************************** RECUPERA JOURNAL */
