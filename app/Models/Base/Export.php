@@ -398,6 +398,7 @@ class Export extends Model
                 return $sx;
                 break;
             case 'EXPORT_SELECTED':
+                $sx .= bs(bsc('EXPORT_SELECTED',12));
                 $sx .= $this->export_reindex();
                 break;
             default:
