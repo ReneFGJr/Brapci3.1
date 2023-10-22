@@ -439,7 +439,6 @@ class Export extends Model
         $ElasticRegister = new \App\Models\ElasticSearch\Register();
         $dt = $ElasticRegister->where('status', -1)->findAll(10);
 
-        $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
 
         for ($r = 0; $r < count($dt); $r++) {
@@ -452,6 +451,9 @@ class Export extends Model
             /*********************** Metadata */
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
+
+            $sx .= '<br>Processado: ' . strzero($idr, 8);
+
             pre($meta);
         }
 
