@@ -5,7 +5,6 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 @Component({
   selector: 'app-rdf-v',
   templateUrl: './v.component.html',
-  styleUrls: ['./v.component.scss'],
 })
 export class RDFVComponent {
   constructor(
@@ -20,6 +19,7 @@ export class RDFVComponent {
       this.brapciService.generic('rdf/get/' + params['id']).subscribe(
         (res) => {
           this.data = res;
+          this.data = this.data[0];
         },
         (error) => error
       );

@@ -73,7 +73,7 @@ class RDFClass extends Model
 
 	function get($namespace)
 		{
-		$cp = 'id_c as id, prefix_url as prefixURL, prefix_ref as prefix, c_class as Class, c_type as Type, c_url as url, c_equivalent';
+		$cp = 'id_c as id, prefix_url as prefixURL, prefix_ref as prefix, c_class as Class, c_type as Type, c_url as url, c_equivalent, c_description as Description';
 		//$cp = '*';
 		$dt = $this->select($cp)
 			->join('rdf_prefix', 'id_prefix = c_prefix')

@@ -1,1 +1,17 @@
-<p>v works!</p>
+<div *ngIf="data" class="row">
+  <div class="9">
+    <h1>
+      <b>{{ data.prefix }}:{{ data.Class }}</b>
+    </h1>
+  </div>
+
+  <div class="col-12">
+    <p><b>Prefix</b>: {{ data.prefix }}</p>
+    <p><b>Class</b>: {{ data.Class }}</p>
+    <p><b>Type</b>: {{ data.Type }}</p>
+    <p><b>Description</b>: {{data.Description }}</p>
+    <p *ngIf="data.c_equivalent != 0"></p>
+
+    <a class="btn btn-outline-primary" [routerLink]="['/rdf']" routerLinkActive="router-link-active">Return</a>
+  </div>
+</div>
