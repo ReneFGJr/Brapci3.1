@@ -124,13 +124,13 @@ class Export extends Model
                 $style = 'color: #0F0;';
             }
 
-            $link = '<a href="#" style="' . $style2 . '" onclick="newwin2(\''.PATH.'popup/admin/task_clear/'.$line['task_id'].'\',300,200);">';
+            $link = '<a href="#" style="' . $style2 . '" onclick="newwin2(\'' . PATH . 'popup/admin/task_clear/' . $line['task_id'] . '\',300,200);">';
             $linka = '</a>';
 
             $sx .= '<tr>';
             $sx .= '<td>' . $line['task_id'] . '</td>';
             $sx .= '<td width="24" style="' . $style . '">' .  bsicone('circle') . '</td>';
-            $sx .= '<td width="24">' . $link. bsicone('trash') .$linka. '</td>';
+            $sx .= '<td width="24">' . $link . bsicone('trash') . $linka . '</td>';
             $sx .= '<td>' . $line['task_offset'] . '</td>';
             $sx .= '</tr>';
         }
@@ -369,7 +369,7 @@ class Export extends Model
                     $sx .= $RDFChecks->next_prefLabel();
                 } else {
                     $sx = $RDFChecks->next_prefLabel();
-                    echo 'NEXT EXPORT '.$sx;
+                    echo 'NEXT EXPORT ' . $sx;
                     exit;
                 }
                 return $sx;
@@ -381,7 +381,7 @@ class Export extends Model
                     $sx .= $Abstracts->check_next();
                 } else {
                     $sx = $Abstracts->check_next();
-                    echo '=ABS=>'.$sx;
+                    echo '=ABS=>' . $sx;
                     exit;
                 }
                 return $sx;
@@ -428,15 +428,42 @@ class Export extends Model
     }
 
     function export_reindex()
-        {
-            $ElasticRegister = new \App\Models\ElasticSearch\Register();
-            $dt = $ElasticRegister->where('status',-1)->findAll(10);
-            pre($dt);
+    {
+        $RDF = new \App\Models\Rdf\RDF();
+        $RDFClass = new \App\Models\Rdf\RDFClass();
+        $RDFConcept = new \App\Models\Rdf\RDFConcept();
+        $Metadata = new \App\Models\Base\Metadata();
+        $ElasticRegister = new \App\Models\ElasticSearch\Register();
+
+        $sx = '';
+        $ElasticRegister = new \App\Models\ElasticSearch\Register();
+        $dt = $ElasticRegister->where('status', -1)->findAll(10);
+
+        $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
+        $sx .= '<ul>';
+
+        for ($r = 0; $r < count($dt); $r++) {
+            $xline = $dt[$r];
+            $idr = $xline['ID'];
+
+            $line = $RDF->le($idr);
+            $Metadata->metadata = array();
+
+            /*********************** Metadata */
+            $Metadata->metadata($line);
+            $meta = $Metadata->metadata;
+            pre($meta);
         }
+
+        $sx .= '</ul>';
+        return $sx;
+
+        pre($dt);
+    }
 
     function export_data($class, $type, $offset, $limit)
     {
-        echo metarefresh('',10);
+        echo metarefresh('', 10);
         $RDF = new \App\Models\Rdf\RDF();
         $RDFClass = new \App\Models\Rdf\RDFClass();
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
@@ -481,7 +508,6 @@ class Export extends Model
                     $delete = 1;
                 }
             }
-
 
             if ($delete == 1) {
                 $RDF->exclude($idr);
