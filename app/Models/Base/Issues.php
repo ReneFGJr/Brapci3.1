@@ -275,7 +275,6 @@ class Issues extends Model
                         {
                             $RSP['YEAR'] = $vlr2;
                         }
-
                     break;
                 case 'hasPublicationNumber':
                     $RSP['NR'] = $vlr2;
@@ -364,8 +363,6 @@ class Issues extends Model
                     }
             }
         }
-
-        pre($RSP);
 
 /********************************************************************* */
         $dt = [];
