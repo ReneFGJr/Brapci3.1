@@ -38,7 +38,6 @@ class Bots extends BaseController
                 switch($act2)
                     {
                         case 'prefLabel':
-
                             $sx .= $RDFCheck->check_prefLabel();
                             break;
 

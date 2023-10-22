@@ -397,6 +397,9 @@ class Export extends Model
                 }
                 return $sx;
                 break;
+            case 'EXPORT_SELECTED':
+                $sx .= $this->export_reindex();
+                break;
             default:
                 echo "OPS EXPORT NOT IMPLEMENTED $TYPE";
                 exit;
@@ -423,6 +426,13 @@ class Export extends Model
         }
         return $sx;
     }
+
+    function reindex()
+        {
+            $ElasticRegister = new \App\Models\ElasticSearch\Register();
+            $dt = $ElasticRegister->where('status',-1)->findAll(10);
+            pre($dt);
+        }
 
     function export_data($class, $type, $offset, $limit)
     {
