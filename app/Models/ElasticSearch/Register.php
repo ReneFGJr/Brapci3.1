@@ -273,7 +273,6 @@ class Register extends Model
             {
                 $d['status'] = get("t");
                 $this->set($d)->where('YEAR',0)->update();
-                echo $this->getlastquery();
                 return metarefresh(PATH . 'admin/dataset/year_without');
                 exit;
             }
@@ -281,6 +280,8 @@ class Register extends Model
                     ->where('YEAR > 2050')
                     ->Orwhere('YEAR < 1910')
                     ->orderBy('YEAR, ID')->findAll();
+
+            $sx .= h('Total '.count($dt),5);
             foreach ($dt as $k => $line) {
                 $da = (array)json_decode($line['json']);
                 $sx .= '<li>';
