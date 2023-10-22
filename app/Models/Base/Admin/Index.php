@@ -194,7 +194,7 @@ class Index extends Model
     function benancib_admin()
     {
         $m['#' . 'benancib.admin.statistics'] =  '';
-        $m[PATH .  COLLECTION . '/admin/statistics'] =  lang('benancib.statistics_make');
+        $m[PATH . '/admin/statistics'] =  lang('benancib.statistics_make');
         $sx = menu($m);
         return $sx;
     }
