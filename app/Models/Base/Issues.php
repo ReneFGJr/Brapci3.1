@@ -358,11 +358,11 @@ class Issues extends Model
         $dt = [];
         $da['is_source'] = $RSP['JOURNAL'];
         $da['is_source_rdf'] = $RSP['JOURNAL_RDF'];
-        $da['is_year'] = $RSP['year'];
+        $da['is_year'] = $RSP['YEAR'];
         $da['is_source_issue'] = $id_issue;
-        $da['is_vol'] = $RSP['vol'];
+        $da['is_vol'] = $RSP['VOL'];
         $da['is_vol_roman'] = '';
-        $da['is_nr'] = $RSP['nr'];
+        $da['is_nr'] = $RSP['NR'];
         $da['is_place'] = '';
         $da['is_edition'] = '';
         $da['is_cover'] = 0;
