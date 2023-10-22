@@ -44,7 +44,7 @@ class Index extends Model
     {
         $sx = '';
         echo '========>'. $act;
-        exit;
+
         $sx .h($act);
         switch ($act) {
             case 'task_clear':
