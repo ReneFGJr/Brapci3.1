@@ -19,7 +19,6 @@ export class RDFVComponent {
       this.brapciService.generic('rdf/get/' + params['id']).subscribe(
         (res) => {
           this.data = res;
-          this.data = this.data[0];
         },
         (error) => error
       );

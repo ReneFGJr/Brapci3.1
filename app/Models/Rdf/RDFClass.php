@@ -86,6 +86,14 @@ class RDFClass extends Model
 				->where('d_p',$dt['id'])
 				->first();
 		$dt['propTotal'] = $da['total'];
+
+		$RDFConcept = new \App\Models\Rdf\RDFConcept();
+		$da = $RDFConcept->select('count(*) as total')
+		->where('cc_class', $dt['id'])
+		->first();
+		$dt['classTotal'] = $da['total'];
+
+		$dt['propTotal'] = $da['total'];
 		return $dt;
 		}
 	function getAll()

@@ -5,13 +5,18 @@
     </h1>
   </div>
 
-  <div class="col-12">
+  <div class="col-6">
     <p><b>Prefix</b>: {{ data.prefix }}</p>
     <p><b>Class</b>: {{ data.Class }}</p>
     <p><b>Type</b>: {{ data.Type }}</p>
     <p><b>Description</b>: {{data.Description }}</p>
     <p *ngIf="data.c_equivalent != 0"></p>
-
+  </div>
+  <div class="col-6">
+    <p><b>Total entidades</b>: {{ data.classTotal }}</p>
+    <p><b>Total propriedades</b>: {{ data.propTotal }}</p>
+  </div>
+  <div class="col-12">
     <a class="btn btn-outline-primary" [routerLink]="['/rdf']" routerLinkActive="router-link-active">Return</a>
   </div>
 </div>
