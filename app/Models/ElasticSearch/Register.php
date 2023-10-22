@@ -17,7 +17,7 @@ class Register extends Model
     protected $allowedFields    = [
         'id_ds', 'ID', 'json', 'CLASS',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
-        'PDF', 'updated_at'
+        'PDF', 'updated_at','status'
     ];
 
     // Dates
