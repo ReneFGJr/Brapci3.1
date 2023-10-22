@@ -427,7 +427,7 @@ class Export extends Model
         return $sx;
     }
 
-    function reindex()
+    function export_reindex()
         {
             $ElasticRegister = new \App\Models\ElasticSearch\Register();
             $dt = $ElasticRegister->where('status',-1)->findAll(10);
