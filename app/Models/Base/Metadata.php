@@ -368,7 +368,10 @@ class Metadata extends Model
         if (isset($this->metadata['Issue']['ID']))
             {
                 $this->metadata['Issue']['Method'] = 'BB1';
-                if (!isset($this->metadata['Issue']['YEAR']))
+                if ((!isset($this->metadata['Issue']['YEAR']))
+                        or ($this->metadata['Issue']['YEAR'] == 0)
+                        or ($this->metadata['Issue']['YEAR'] > 9000)
+                    )
                     {
                         $Issue = new \App\Models\Base\Issues();
                         $Issue->getIssue($this->metadata['Issue']['ID']);
