@@ -397,6 +397,11 @@ class Export extends Model
                 }
                 return $sx;
                 break;
+            case 'EXPORT_ELASTIC':
+                $sx .= bs(bsc('EXPORT_ELASTIC', 12));
+                $sx .= $this->export_elastic();
+                return $sx;
+                break;
             case 'EXPORT_SELECTED':
                 $sx .= bs(bsc('EXPORT_SELECTED',12));
                 $sx .= $this->export_reindex();
@@ -428,6 +433,12 @@ class Export extends Model
         }
         return $sx;
     }
+
+    function export_elastic()
+        {
+            echo "EXPORT ELASTIC = UNDE";
+            //$this->remove_all('EXPORT_ELASTIC');
+        }
 
     function export_reindex()
     {
