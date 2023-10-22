@@ -239,10 +239,10 @@ class Index extends Model
         $m[PATH .  '/admin/qualis'] =  lang('brapci.qualis');
 
         $m['#EXPORT'] =  lang('brapci.export');
-        $m[PATH .  '/export'] =  lang('brapci.export');
+        $m[PATH .  'admin/export'] =  lang('brapci.export');
 
         $m['#CONFIG'] =  lang('brapci.Email');
-        $m[PATH .  '/email'] =  lang('brapci.Email');
+        $m[PATH .  'admin/email'] =  lang('brapci.Email');
         $sx = menu($m);
         return $sx;
     }
