@@ -227,6 +227,12 @@ class Register extends Model
         }
     }
 
+    function show($id)
+        {
+            $dt = $this->where('ID',$id)->first();
+            pre($dt);
+        }
+
     function whithout_year()
         {
             $sx = '';

@@ -210,6 +210,10 @@ class Work extends Model
                         $("#data").toggle("slow");
                     }
                 </script>';
+
+                $sx .= h('Elastic');
+                $Elastic = new \App\Models\ElasticSearch\Register();
+                $sx .= $Elastic->show($idc);
             }
 
         return $sx;
