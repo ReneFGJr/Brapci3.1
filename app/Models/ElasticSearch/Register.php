@@ -262,6 +262,9 @@ class Register extends Model
     function whithout_year()
         {
             $sx = '';
+            $sx .= '<a href="'.PATH. 'admin/dataset/year_without">';
+            $sx .= bsicone('refresh');
+            $sx .= '</a>';
             $sx .= '<ul>';
             $dt = $this
                     ->where('YEAR > 2050')
