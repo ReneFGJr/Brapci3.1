@@ -261,10 +261,13 @@ class Issues extends Model
                                 case 'dateOfPublication':
                                     $RSP['is_year'] = $vv2;
                                     break;
+                                case 'hasDateTime':
+                                    $RSP['is_year'] = $vv2;
+                                    break;
                             }
                     }
 
-                    pre($dt);
+                    pre($RSP);
 
                     if ((!isset($RSP['is_source'])) and (count($w) > 0))
                         {
