@@ -254,9 +254,6 @@ class Register extends Model
                 }
 
             return bs(bsc($sx,12));
-            pre($dt['json'],false);
-
-            pre($dt,false);
         }
 
     function whithout_year()

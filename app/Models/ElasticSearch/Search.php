@@ -47,10 +47,13 @@ class Search extends Model
 
             $dt = $this->search($q, $type);
 
+            $cp = 'ID, jnl_name as JOURNAL, ISSUE, SESSION, TITLE, AUTHORS';
+
             foreach($dt['works'] as $id=>$line)
                 {
                     $ida = $line['id'];
                     $ds = $Search
+                            ->select($cp)
                             ->join('brapci.source_source', 'dataset.JOURNAL = source_source.id_jnl')
                             ->where('ID',$ida)
                             ->first();
