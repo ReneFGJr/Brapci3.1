@@ -476,7 +476,7 @@ class Register extends Model
 
         if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
             {
-                $da['LEGEND'] = ', ' . $data['Issue']['NR'];
+                $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
             }
 
         if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
