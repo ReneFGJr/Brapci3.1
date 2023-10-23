@@ -66,7 +66,6 @@ class Search extends Model
 
                     $dt['works'][$id]['data'] = $ds;
                 }
-                pre($dt);
             echo (json_encode($dt));
             exit;
         }
