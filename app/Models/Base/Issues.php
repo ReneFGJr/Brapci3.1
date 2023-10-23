@@ -288,57 +288,18 @@ class Issues extends Model
                         }
                 return $RSP;
             }
-}
 
-
-/*
-   function metadata_issue($id_issue, $loop = 0)
+    function issuesRow($id = 0)
     {
-        $Issue = new \App\Models\Base\Issues();
-        $dt = $Issue->where('is_source_issue', $id_issue)->first();
-        if ($dt != '') {
-            $d['ID'] = $dt['is_source_issue'];
-            $d['YEAR'] = $dt['is_year'];
-            $d['VOL'] = $dt['is_vol'];
-            $d['VOLR'] = $dt['is_vol_roman'];
-            $d['NR'] = $dt['is_nr'];
-            $d['PLACE'] = $dt['is_place'];
-            $d['JOURNAL'] = $dt['is_source'];
-            return ($d);
-        } else {
+        $Sources = new \App\Models\Base\Sources();
+        $ds = $Sources->find($id);
 
-            $dti = $Issue->getIssue($id_issue);
-
-            if ($dti['ISSUE'] <= 0) {
-                $RDF = new \App\Models\Rdf\RDF();
-                $RDFdata = new \App\Models\Rdf\RDFData();
-                $dt = $RDF->le($id);
-                echo "<br>----METADATA ISSUE - NOT FOUND - $id<br>";
-
-                if ($dt['concept']['c_class'] != 'Issue') {
-                    echo "OOOOO";
-                    $RDFdata->check_issue();
-                    echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
-                }
-
-                $Is = $RDF->extract($dt, 'hasIssue');
-                echo h('US=>' . $Is[0]);
-                $dti = $Issue->getIssue($Is[0]);
-                pre($dti);
-            }
-
-            $ISSUE = new \App\Models\Base\Issues();
-            $ISSUE->register_issue($dti);
-            /*************** REGISTRAR ISSUE */
-            /*
-            if ($loop == 0) {
-                //$dt = $this->metadata_issue($id_issue);
-            } else {
-                echo "#######PROB";
-                echo h($id_issue);
-                exit;
-            }
-            return ($dt);
-        }
+        $id = round($id);
+        $dt = $this->where("is_source", $id)
+            ->orderBy('is_year', 'DESC')
+            ->orderBy('is_vol', 'DESC')
+            ->orderBy('is_source_issue', 'DESC')
+            ->findAll();
+        return $dt;
     }
-    */
+}
