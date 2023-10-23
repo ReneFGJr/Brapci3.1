@@ -267,8 +267,6 @@ class Issues extends Model
                                     break;
                             }
                     }
-                    pre($dt,false);
-                    pre($w);
 
                     if ((!isset($RSP['is_source'])) and (count($w) > 0))
                         {
