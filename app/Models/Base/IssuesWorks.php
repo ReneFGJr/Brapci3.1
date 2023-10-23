@@ -175,7 +175,25 @@ class IssuesWorks extends Model
                     }
                 pre($json);
                 if (isset($json['Title'])) {
-                    $wl['ldl_title'] = $line['Title']['pt-BR'];
+                    if (isset($json['Title']['pt-BR']))
+                        {
+                            $wl['ldl_title'] = $line['Title']['pt-BR'];
+                        } else {
+                            if (isset($json['Title']['es'])) {
+                                $wl['ldl_title'] = $line['Title']['es'];
+                            } else {
+                                if (isset($json['Title']['en'])) {
+                                    $wl['ldl_title'] = $line['Title']['en'];
+                                } else {
+                                    foreach($json['Title'] as $lang=>$tit)
+                                        {
+                                            $wl['ldl_title'] = $tit;
+                                            break;
+                                        }
+                                }
+                            }
+                        }
+
                 } else {
                     $wl['ldl_title'] = '::sem título::';
                 }
