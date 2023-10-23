@@ -162,11 +162,11 @@ class Issues extends Model
                 ->join('source_issue', 'is_source_issue = id_cc','LEFT')
                 ->where('cc_class',$c1)
                 ->where('is_source_issue is NULL')
-                ->findAll(10);
+                ->findAll(100);
 
             foreach($dt as $id=>$line)
                 {
-                    $sx .= '<li>Processando '.$line['id_cc'].'</li>';
+                    $sx .= '<li>Processando ISSUE '.$line['id_cc'].'</li>';
                     $RSP = $this->getIssue($line['id_cc']);
                 }
 
@@ -273,6 +273,17 @@ class Issues extends Model
                                     $RSP['is_year'] = $vv2;
                                     break;
                             }
+                    }
+
+                    /******************************************** NAME */
+                    if ((!isset($RSP['is_source'])) and (substr($dt['concept']['n_name'],0,10)== 'ISSUE:JNL:'))
+                    {
+                        $jnl = substr($dt['concept']['n_name'], 10, 5);
+                        if (strpos($jnl,':') > 0)
+                            {
+                                $jnl = substr($jnl,0,strpos($jnl,':'));
+                            }
+                        $RSP['is_source'] = round($jnl);
                     }
 
                     if ((!isset($RSP['is_source'])) and (count($w) > 0))
