@@ -496,4 +496,11 @@ class Issues extends Model
         $sx .= $IssuesWorks->show_issue_works($id_rdf);
         return $sx;
     }
+
+    function PainelAdmin($idj)
+    {
+        $sx = '';
+        $sx .= anchor(URL . COLLECTION . '/issue/edit/' . $idj . '?jid=' . $idj, bsicone('plus'));
+        return $sx;
+    }
 }
