@@ -434,4 +434,40 @@ class Issues extends Model
         }
         return $sx;
     }
+
+    function tools($dt)
+    {
+        $Socials = new \App\Models\Socials();
+        $sx = '';
+        if ($Socials->getAccess("#CAR#ADM#EVE")) {
+            $tools = '';
+            $OAI = new \App\Models\Oaipmh\Index();
+            if (trim($dt['is_url_oai']) != '') {
+                $tot = $OAI->to_harvesting(0, $dt['id_is']);
+                if ($tot > 0) {
+                    $class = 'class = "blink" ';
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/oai/' . $dt['id_is'] . '/getrecords', bsicone('circle-1', 32), 'title="Harvesing (' . $tot . ')" ' . $class);
+                } else {
+                    $class = '';
+                    $tools .= anchor(PATH . '/' . COLLECTION . '/issue/harvesting/?id=' . $dt['id_is'], bsicone('harvesting', 32), 'title="Processing ' . $tot . ' registers"' . $class);
+                }
+
+                $tools .= '<span class="p-2"></span>';
+                $tools .= anchor(PATH . '/' . COLLECTION . '/issue/listidentifiers/?id=' . $dt['id_is'], bsicone('gear', 32), 'title="Check"');
+                $tools .= '<span class="p-2"></span>';
+            }
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/?id=' . $dt['id_is'] . '&reindex=1', bsicone('reload', 32), 'title="Reindex"');
+            $tools .= '<span class="p-2"></span>';
+            $tools .= anchor(PATH . '/' . COLLECTION . '/issue/edit/' . $dt['id_is'] . '', bsicone('edit', 32), 'title="Edit"');
+            $tools .= '<span class="p-2"></span>';
+
+            $oai_tools = bs(
+                bsc($OAI->logo(), 2) .
+                    bsc($OAI->resume(0, $dt['id_is']), 10)
+            );
+            $dt['tools'] = bs(bsc($tools, 12)) . $oai_tools;
+            $sx .= view('Brapci/Base/header_proceedings_tools.php', $dt);
+        }
+        return $sx;
+    }
 }
