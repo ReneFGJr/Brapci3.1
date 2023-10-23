@@ -369,4 +369,69 @@ class Issues extends Model
         $sx .= $this->btn_new_issue($id);
         return $sx;
     }
+
+    function header_issue($dt)
+    {
+        $dir = '.tmp';
+        dircheck($dir);
+        $dir = '.tmp/issues/';
+        dircheck($dir);
+        $file = strzero($dt['id_jnl'], 4) . '-' . strzero($dt['is_source_issue'], 6) . '.name';
+        if (file_exists($dir . $file) and (get("reindex") == '')) {
+            $sx = file_get_contents($dir . $file);
+            //return $sx;
+        } else {
+            /************************************ Mount Header */
+            $sx = '';
+            $vol = $dt['is_vol'];
+            $roman = trim($dt['is_vol_roman']);
+
+            $dt['roman'] = '';
+            if (strlen($roman) > 0) {
+                $vol .= ' (' . $roman . ')';
+                $dt['roman'] = $roman;
+            }
+            $link = '<a href="' . PATH . COLLECTION . '/source/' . $dt['id_jnl'] . '" target="_new">';
+            $linka = '</a>';
+
+            $dt['volume'] = $vol;
+
+            $img1 = 'img/headers/journals/image_' . strzero($dt['is_source'], 6) . '.png';
+            $img2 = 'img/headers/issue/image_' . strzero($dt['id_is'], 6) . '.png';
+
+            if (!file_exists($img1)) {
+                $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
+            }
+            if (!file_exists($img2)) {
+                $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+            }
+            $dt['img1'] = $img1;
+            $dt['img2'] = $img2;
+
+            /******************** IMAGES */
+            if (!file_exists($img1)) {
+                $img1 = 'img/headers/journals/image_' . strzero(0, 6) . '.png';
+            }
+
+            if (!file_exists($img2)) {
+                $img2 = 'img/headers/issue/image_' . strzero(0, 6) . '.png';
+            }
+
+            $sx .= view('Brapci/Base/header_proceedings.php', $dt);
+
+            /**************************** */
+            $sx = bs($sx);
+            $id_issue_rdf = $dt['is_source_issue'];
+
+            file_put_contents($dir . $file, $sx);
+        }
+        $tools = '';
+
+        /************************************* HARVESTING */
+        if (get("reindex") != '') {
+            $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            $sx .= $IssuesWorks->check($dt);
+        }
+        return $sx;
+    }
 }
