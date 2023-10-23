@@ -240,6 +240,7 @@ class Register extends Model
                     $sx .= '('.$name.') = "'.$v.'"';
                     $sx .= '</li>';
                 }
+                pre($dt);
             if ($dt['status'] >= 0)
                 {
                     $sx .= '<a href="' . PATH . '/v/' . $id . '?reindex=1">Reindex</a>';
