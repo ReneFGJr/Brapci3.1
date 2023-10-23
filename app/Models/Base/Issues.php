@@ -295,7 +295,9 @@ class Issues extends Model
         $ds = $Sources->find($id);
 
         $id = round($id);
-        $dt = $this->where("is_source", $id)
+        $dt = $this
+            ->where("is_source", $id)
+            ->where('is_visible',1)
             ->orderBy('is_year', 'DESC')
             ->orderBy('is_vol', 'DESC')
             ->orderBy('is_source_issue', 'DESC')
