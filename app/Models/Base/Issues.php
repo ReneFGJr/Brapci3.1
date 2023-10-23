@@ -306,6 +306,35 @@ class Issues extends Model
     }
 
     /* Legado */
+
+    function issue($id, $tool = false)
+    {
+        $dt = $this
+            ->join('source_source', 'is_source = id_jnl')
+            ->where('id_is', round($id))
+            ->findAll();
+        $sx = '';
+
+        if (count($dt) == 0) {
+            return "ERRO";
+        } else {
+            $dt = $dt[0];
+        }
+
+        if ($dt['is_source_issue'] == 0) {
+            $sx .= '/************************************* Buscando RDF Issue */<br>';
+            $sx .= 'Criar ISSUE RDF';
+            $this->RDFIssue($dt);
+            exit;
+        }
+
+        $sx .= $this->header_issue($dt);
+        if ($tool) {
+            $sx .= $this->tools($dt);
+        }
+        return $sx;
+    }
+
     function issues($id = 0)
     {
         $Sources = new \App\Models\Base\Sources();
