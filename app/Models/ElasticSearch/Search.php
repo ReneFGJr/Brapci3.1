@@ -63,6 +63,7 @@ class Search extends Model
 
                     $dt['works'][$id]['data'] = $ds;
                 }
+                pre($dt);
             echo (json_encode($dt));
             exit;
         }
@@ -209,7 +210,6 @@ class Search extends Model
         $rsp['data_get'] = $_GET;
         $rsp['url'] = $url;
 
-
         if (isset($dt['error']))
             {
                 $sx = $rsp['error'] = bsmessage(
@@ -259,7 +259,6 @@ class Search extends Model
                 }
             }
         }
-
         return $rsp;
     }
 }
