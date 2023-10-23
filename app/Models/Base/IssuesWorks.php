@@ -174,8 +174,11 @@ class IssuesWorks extends Model
                         $wl['ldl_authors'] = '';
                     }
 
-
-                $wl['ldl_title'] = $line['ldl_title'];
+                if (isset($json['Title'])) {
+                    $wl['ldl_title'] = $line['Title']['pt-BR'];
+                } else {
+                    $wl['ldl_title'] = '::sem título::';
+                }
                 $wl['siw_work_rdf'] = $line['siw_work_rdf'];
                 $page = '';
                 if ($line['siw_pag_ini'] != '')
