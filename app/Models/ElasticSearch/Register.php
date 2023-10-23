@@ -467,7 +467,13 @@ class Register extends Model
             }
         }
         /***************************************************** */
-        $da['LEGEND'] = $data['Journal'];
+        if (isset($data['Journal'])
+            {
+                $da['LEGEND'] = $data['Journal'];
+            } else {
+                $da['LEGEND'] = 'sem título do periódico';
+            }
+
         if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
             {
                 $da['LEGEND'] = ', ' . $data['Issue']['NR'];
