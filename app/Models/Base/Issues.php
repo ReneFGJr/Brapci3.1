@@ -516,6 +516,7 @@ class Issues extends Model
         }
         $dt = $this
             ->where('is_source', $id)
+            ->where('is_visible', 1)
             ->orderBy('is_year desc, is_nr desc')
             ->findAll();
 
