@@ -537,7 +537,7 @@ class Register extends Model
     function checkIssue($dt)
     {
         if (!isset($dt['ISSUE'])) {
-            pre((array)$dt['json'], false);
+            pre((array)json_decode($dt['json']), false);
             $dt['json'] = '';
             pre($dt, false);
             return "ISSUE not set<br>";
