@@ -232,6 +232,10 @@ class Register extends Model
         {
             $sx = '';
             $dt = $this->where('ID',$id)->first();
+            if ($dt == '')
+                {
+                    return '';
+                }
             $dt['json'] = 'JSON';
             $sx .= '<ul>';
             foreach($dt as $name=>$v)
@@ -240,7 +244,7 @@ class Register extends Model
                     $sx .= '('.$name.') = "'.$v.'"';
                     $sx .= '</li>';
                 }
-                pre($dt);
+
             if ($dt['status'] >= 0)
                 {
                     $sx .= '<a href="' . PATH . '/v/' . $id . '?reindex=1">Reindex</a>';
