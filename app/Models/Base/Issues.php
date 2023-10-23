@@ -267,7 +267,7 @@ class Issues extends Model
                             }
                     }
 
-                    pre($RSP);
+                    //pre($RSP);
 
                     if ((!isset($RSP['is_source'])) and (count($w) > 0))
                         {
