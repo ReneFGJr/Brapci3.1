@@ -452,6 +452,15 @@ class Register extends Model
             $da['JOURNAL'] = $data['id_jnl'];
         }
 
+        $da['TITLE'] = $data['title'];
+
+        $da['AUTHORS'] = '';
+        foreach($data['Authors'] as $ida=>$name)
+            {
+                if ($da['AUTHORS'] != '') { $da['AUTHORS'] .= '; '; }
+                $da['AUTHORS'] .= nbr_author($name,7);
+            }
+
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
