@@ -218,7 +218,7 @@ class Issues extends Model
                 foreach($ck as $fld)
                     {
                         if (!isset($dt[$fld])) {
-                            echo "ERRO - is_source_issue não informado<br>";
+                            echo "ERRO - '.$fld.' não informado<br>";
                             pre($dt);
                             exit;
                         }
