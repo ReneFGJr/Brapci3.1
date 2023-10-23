@@ -503,4 +503,49 @@ class Issues extends Model
         $sx .= anchor(URL . COLLECTION . '/issue/edit/' . $idj . '?jid=' . $idj, bsicone('plus'));
         return $sx;
     }
+
+    function show_list_cards($id, $default_img = URL . 'img/issue/issue_00000.png')
+    {
+        $sx = '';
+        $Social = new \App\Models\Socials();
+        if ($Social->getAccess("#ADM")) {
+            $sx .= '<div class="container"><div class="row">';
+            $link = '<a href="' . PATH . COLLECTION . '/issues/' . $id . '" class="btn btn-primary">' . bsicone('plus') . '</a>';
+            $sx .= bsc($link);
+            $sx .= '</div></div>';
+        }
+        $dt = $this
+            ->where('is_source', $id)
+            ->orderBy('is_year desc, is_nr desc')
+            ->findAll();
+
+        $sx .= '<div class="container"><div class="row">';
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $img = $line['is_card'];
+            if (strlen($img) == 0) {
+                $img = 'img/issue/issue_' . strzero($line['is_source'], 5) . '.png';
+            }
+
+            $link = PATH . COLLECTION . '/issue?id=' . $line['id_is'];
+            if (!file_exists($img)) {
+                $img = $default_img;
+            }
+
+            $sx .= '
+                    <div class="card  m-3" style="width: 18rem; cursor: pointer;" onclick="location.href = \'' . $link . '\';">
+                    <img src="' . URL . '/' . $img . '" class="card-img-top" alt="...">
+                    <span class="position-absolute top-0 start-0" style="padding: 0px; margin: 0px; font-size: 350%; color: #666;"><b>' . $line['is_vol_roman'] . '</b></span>
+                    <div class="card-body">
+                        <h5 class="card-title">' . $line['is_year'] . ' - ' . $line['is_place'] . '</h5>
+                        <!---
+                        <p class="card-text">' . $line['is_thema'] . '</p>
+                        --->
+                    </div>
+                    </div>
+                    ';
+        }
+        $sx .= '</div></div>';
+        return $sx;
+    }
 }
