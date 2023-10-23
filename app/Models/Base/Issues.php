@@ -185,7 +185,6 @@ class Issues extends Model
                 $dt = $RDF->le($id);
                 if ($dt['concept']['c_class'] == 'Issue')
                     {
-
                         $da = $this->getDadosIssue($dt);
                         $da['is_source_issue'] = $id;
                         $this->register($da);
@@ -203,6 +202,7 @@ class Issues extends Model
                 $dt = $this
                     ->set($dt)
                     ->where('is_source_issue',$dt['is_source_issue'])
+                    ->orWhere('xx_is_issue', $dt['is_source_issue'])
                     ->first();
                 if ($dt == '')
                     {
