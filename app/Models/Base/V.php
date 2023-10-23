@@ -101,16 +101,7 @@ class V extends Model
                 $Subject = new \App\Models\Base\Subject();
                 $sx .= $Subject->v($dt);
                 break;
-            case 'IssueProceeding':
-                $Issue = new \App\Models\Base\Issues();
-                $RDF->changePropriete('IssueProceeding', 'Issue');
-                $RDF->changePropriete('hasIssueProceeding', 'hasIssue');
-                $sx = metarefresh(PATH . '/v/' . $idc,4);
-                break;
             case 'Issue':
-                $RDF->changePropriete('hasIssueProceeding', 'hasIssue');
-                $RDF->changePropriete('brapci:hasIssueProceeding', 'hasIssue');
-
                 $Issue = new \App\Models\Base\Issues();
                 $sx .= $Issue->v($dt);
                 break;

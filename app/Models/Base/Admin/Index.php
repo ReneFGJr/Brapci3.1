@@ -175,7 +175,7 @@ class Index extends Model
 
                     default:
                         $menu['#Check'] = '#';
-                        $menu[PATH.'/admin/issue/check'] = 'Check ISSUE';
+                        $menu[PATH.'admin/issue/check'] = 'Check ISSUE (Classes)';
                         $sx .= bs(bsc(menu($menu),12));
                         break;
                 }

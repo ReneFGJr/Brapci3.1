@@ -42,21 +42,6 @@ class RDFChecks extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function check_prefLabel()
-		{
-			$sx = '';
-			$sx .= '<hr>';
-			$sx .= lang('brapci.check_prefLabel');
-			$sx .= '<hr>';
-			$sx .= '<a href="'.PATH.'/bots/export/" class="btn btn-outline-primary">'.lang('brapci.start').'</a>';
-			$conf = get("confirm");
-
-			$BOTS = new \App\Models\Bots\Index();
-			$dt = $BOTS->task('CHECK_ALTLABEL');
-			$sx .= $this->next_prefLabel();
-			return $sx;
-		}
-
 	function next_prefLabel()
 		{
 			$sx = '';
