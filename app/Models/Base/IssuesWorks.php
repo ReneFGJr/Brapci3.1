@@ -175,6 +175,7 @@ class IssuesWorks extends Model
                     }
                 /********************* TITULO */
                 if (isset($json['Title'])) {
+                    $json['Title'] = (array)$json['Title'];
                     if (isset($json['Title']['pt-BR']))
                         {
                             $wl['ldl_title'] = $line['Title']['pt-BR'];
