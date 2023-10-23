@@ -148,6 +148,7 @@ class Issues extends Model
 
     function checkIssues()
         {
+            $sx = '';
             $RDFConcept = new \App\Models\Rdf\RDFConcept();
             $RDF = new \App\Models\Rdf\RDF();
             $Class = 'Issue';
@@ -163,6 +164,11 @@ class Issues extends Model
                 {
                     $RSP = $this->getIssue($line['id_cc']);
                 }
+            if (count($dt) == 0)
+                {
+                    $sx .= bsmessage("Nenhum Issue Encontrado para cadastro",1);
+                }
+            return $sx;
         }
 
         function getIssue($id)
