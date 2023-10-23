@@ -412,7 +412,6 @@ class Register extends Model
                     pre($data, false);
                     echo h('d1');
                 }
-                echo "FIM";
         }
 
         if ((isset($data['YEAR'])) and ($data['YEAR'] != '')) {
