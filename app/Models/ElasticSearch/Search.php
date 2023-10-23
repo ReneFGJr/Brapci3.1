@@ -47,7 +47,7 @@ class Search extends Model
 
             $dt = $this->search($q, $type);
 
-            $cp = 'ID, jnl_name as JOURNAL, ISSUE, SESSION, TITLE, AUTHORS';
+            $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, SESSION, TITLE, AUTHORS';
 
             foreach($dt['works'] as $id=>$line)
                 {
