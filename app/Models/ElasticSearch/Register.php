@@ -17,7 +17,8 @@ class Register extends Model
     protected $allowedFields    = [
         'id_ds', 'ID', 'json', 'CLASS',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
-        'PDF', 'updated_at','status', 'AUTHORS', 'TITLE', 'SESSION'
+        'PDF', 'updated_at','status', 'AUTHORS', 'TITLE', 'SESSION',
+        'LEGEND'
     ];
 
     // Dates
@@ -454,6 +455,7 @@ class Register extends Model
 
         $da['TITLE'] = $data['title'];
 
+        /***************************************************** */
         $da['AUTHORS'] = '';
         if (isset($data['Authors']))
         {
@@ -463,6 +465,21 @@ class Register extends Model
                 $da['AUTHORS'] .= nbr_author($name,7);
             }
         }
+        /***************************************************** */
+        $da['LEGEND'] = $data['Journal'];
+        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
+            {
+                $da['LEGEND'] = ', ' . $data['Issue']['NR'];
+            }
+
+        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
+            {
+                $da['LEGEND'] = ', ' . $data['Issue']['NR'];
+            }
+        if (isset($data['Issue']['YEAR']) and ($data['Issue']['YEAR'] != ''))
+            {
+                $da['LEGEND'] = ', ' . $data['Issue']['YEAR'];
+            }
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
