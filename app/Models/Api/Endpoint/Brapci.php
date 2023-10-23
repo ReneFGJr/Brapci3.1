@@ -64,7 +64,7 @@ class Brapci extends Model
                 $RSP = $this->resume();
                 break;
             case 'basket':
-                $RSP = $this->basket(get("row").get("q"));
+                $RSP = $this->basket(get("row") . get("q"));
                 break;
             case 'oai':
                 $RSP = $this->oai($d2, $d3);
@@ -119,21 +119,20 @@ class Brapci extends Model
         exit;
     }
 
-    function rdf($d1,$d2)
-        {
-            $dt = [];
-            switch($d1)
-                {
-                    case 'get':
-                        $RDFClass = new \App\Models\Rdf\RDFClass();
-                        $dt = $RDFClass->get($d2);
-                        break;
-                    default:
-                        $RDFClass = new \App\Models\Rdf\RDFClass();
-                        $dt = $RDFClass->getAll();
-                }
-            return $dt;
+    function rdf($d1, $d2)
+    {
+        $dt = [];
+        switch ($d1) {
+            case 'get':
+                $RDFClass = new \App\Models\Rdf\RDFClass();
+                $dt = $RDFClass->get($d2);
+                break;
+            default:
+                $RDFClass = new \App\Models\Rdf\RDFClass();
+                $dt = $RDFClass->getAll();
         }
+        return $dt;
+    }
 
     function resume()
     {
@@ -322,16 +321,16 @@ class Brapci extends Model
                     $RSP['resource_url'] = $vlr;
                     break;
                 case 'hasIssue':
-                        $id_issue = $desc['d_r1'];
-                        $Issues = new \App\Models\Base\Issues();
-                        $dti = $Issues
-                            ->join('source_source','is_source = id_jnl')
-                            ->where('is_source_issue',$id_issue)->first();
-                        $RSP['journal'] = $dti['jnl_name'];
-                        $dtn['issue']['Issue_place'] = $dti['is_place'];
-                        $dtn['issue']['year'] = $dti['is_year'];
-                        $dtn['issue']['Issue_nr'] = $dti['is_nr'];
-                        $dtn['issue']['issue_vol'] = $dti['is_vol_roman'];
+                    $id_issue = $desc['d_r1'];
+                    $Issues = new \App\Models\Base\Issues();
+                    $dti = $Issues
+                        ->join('source_source', 'is_source = id_jnl')
+                        ->where('is_source_issue', $id_issue)->first();
+                    $RSP['journal'] = $dti['jnl_name'];
+                    $dtn['issue']['Issue_place'] = $dti['is_place'];
+                    $dtn['issue']['year'] = $dti['is_year'];
+                    $dtn['issue']['Issue_nr'] = $dti['is_nr'];
+                    $dtn['issue']['issue_vol'] = $dti['is_vol_roman'];
                     break;
                 case 'hasFileStorage':
                     $RSP['resource_pdf'] = PATH . '/download/' . $id;
@@ -388,24 +387,28 @@ class Brapci extends Model
         foreach ($RSP['creator_author'] as $id => $auth) {
             array_push($dtn['Authors'], $auth['name']);
         }
-        if (isset($RSP['publisher']))
-            {
-                $dtn['Journal'] = $RSP['publisher'];
-            } else {
-                $dtn['Journal'] = '';
-            }
+        if (isset($RSP['publisher'])) {
+            $dtn['Journal'] = $RSP['publisher'];
+        } else {
+            $dtn['Journal'] = '';
+        }
 
         /**************************************** ISSUE */
-        if (isset($RSP['issue']))
-            {
+        if (isset($RSP['issue'])) {
+            if (isset($RSP['issue']['NR'])) {
                 $dtn['issue']['Issue_nr'] = $RSP['issue']['NR'];
-                $dtn['issue']['issue_vol'] = $RSP['issue']['VOL'];
-                $dtn['issue']['year'] = $RSP['issue']['YEAR'];
-            } else {
-                $dtn['issue']['Issue_nr'] = '';
-                $dtn['issue']['issue_vol'] = '';
-                $dtn['issue']['year'] = '';
             }
+            if (isset($RSP['issue']['VOL'])) {
+                $dtn['issue']['issue_vol'] = $RSP['issue']['VOL'];
+            }
+            if (isset($RSP['issue']['YEAR'])) {
+                $dtn['issue']['year'] = $RSP['issue']['YEAR'];
+            }
+        } else {
+            $dtn['issue']['Issue_nr'] = '';
+            $dtn['issue']['issue_vol'] = '';
+            $dtn['issue']['year'] = '';
+        }
 
         /************************************************* ABNT */
         $ABNT = new \App\Models\Metadata\Abnt();
@@ -438,50 +441,48 @@ class Brapci extends Model
     }
 
     function basket($row)
-        {
-            $RSP['row'] = $row;
-            $l = explode(',',$row);
-            $Elastic = new \App\Models\ElasticSearch\Search();
-            $dt = $Elastic->recoverList($l);
+    {
+        $RSP['row'] = $row;
+        $l = explode(',', $row);
+        $Elastic = new \App\Models\ElasticSearch\Search();
+        $dt = $Elastic->recoverList($l);
 
-            $ARTI = [];
-            $EVEN = [];
-            $BOOK = [];
-            $CAPT = [];
+        $ARTI = [];
+        $EVEN = [];
+        $BOOK = [];
+        $CAPT = [];
 
-            foreach($dt as $id=>$line)
-                {
-                    $ABNT = new \App\Models\Metadata\Abnt();
-                    $type = $line['type'];
-                    $ln = [];
-                    $ln['title'] = $line['ldl_title'];
-                    $ln['Authors'] = explode(';',$line['ldl_authors']);
-                    $ln['jnl_name'] = $line['ldl_legend'];
-                    $ln['is_year'] = $line['year'];
-                    $ln['legend'] = $line['ldl_legend'];
-                    $ln['ID'] = $line['article_id'];
+        foreach ($dt as $id => $line) {
+            $ABNT = new \App\Models\Metadata\Abnt();
+            $type = $line['type'];
+            $ln = [];
+            $ln['title'] = $line['ldl_title'];
+            $ln['Authors'] = explode(';', $line['ldl_authors']);
+            $ln['jnl_name'] = $line['ldl_legend'];
+            $ln['is_year'] = $line['year'];
+            $ln['legend'] = $line['ldl_legend'];
+            $ln['ID'] = $line['article_id'];
 
-                    switch($type)
-                        {
-                            case 'Proceeding':
-                                $ref = $ABNT->show($ln, 'E');
-                                array_push($ARTI, $ref);
-                                break;
-                            case 'Article':
-                                $ref = $ABNT->show($ln,'A');
-                                array_push($ARTI,$ref);
-                                break;
-                            default:
-                                $ref = $ABNT->show($ln, 'A');
-                                array_push($ARTI, $ref);
-                                break;
-                        }
-                }
-
-            sort($ARTI);
-
-            $RSP['ABNT']['Article'] = $ARTI;
-            $RSP['work'] = $dt;
-            return $RSP;
+            switch ($type) {
+                case 'Proceeding':
+                    $ref = $ABNT->show($ln, 'E');
+                    array_push($ARTI, $ref);
+                    break;
+                case 'Article':
+                    $ref = $ABNT->show($ln, 'A');
+                    array_push($ARTI, $ref);
+                    break;
+                default:
+                    $ref = $ABNT->show($ln, 'A');
+                    array_push($ARTI, $ref);
+                    break;
+            }
         }
+
+        sort($ARTI);
+
+        $RSP['ABNT']['Article'] = $ARTI;
+        $RSP['work'] = $dt;
+        return $RSP;
+    }
 }
