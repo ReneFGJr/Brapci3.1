@@ -160,6 +160,7 @@ class IssuesWorks extends Model
                     }
 
                 $wl = [];
+                PRE($line);
                 $wl['ldl_authors'] = $line['ldl_authors'];
                 $wl['ldl_title'] = $line['ldl_title'];
                 $wl['siw_work_rdf'] = $line['siw_work_rdf'];
