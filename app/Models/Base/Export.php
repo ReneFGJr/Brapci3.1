@@ -502,7 +502,7 @@ class Export extends Model
             ->findAll($limit, $offset);
         if (count($ids) == 0) {
             $this->eof = 1;
-            return "FIM";
+            return "FIM2-ids";
         }
         $sx = h($class);
         $total = $total[0]['total'];
