@@ -467,7 +467,7 @@ class Register extends Model
             }
         }
         /***************************************************** */
-        if (isset($data['Journal'])
+        if (isset($data['Journal']))
             {
                 $da['LEGEND'] = $data['Journal'];
             } else {
