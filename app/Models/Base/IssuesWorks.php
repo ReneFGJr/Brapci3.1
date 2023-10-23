@@ -173,7 +173,7 @@ class IssuesWorks extends Model
                     } else {
                         $wl['ldl_authors'] = '';
                     }
-                pre($json);
+                /********************* TITULO */
                 if (isset($json['Title'])) {
                     if (isset($json['Title']['pt-BR']))
                         {
