@@ -390,14 +390,29 @@ class Register extends Model
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
         } else {
+            $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
             /* Recupera ISSUE do WorkIssue */
-            $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
-            echo '============ISSUE==' . $data['ID'];
-            echo h('Data');
-            pre($data,false);
-            echo h('d1');
-            pre($di);
+            if (isset($data['Issue'][0]))
+                {
+                    $di = $Issues->where('is_source_issue',$data['Issue'][0])->first();
+                    if ($di != '')
+                        {
+                            $data['Issue']['ID'] = $data['Issue'][0];
+                            $da['ISSUE'] = $data['Issue'][0];
+                            $data['Issue']['YEAR']  = $di['is_year'];
+                            $data['Issue']['JOURNAL']  = $di['is_source'];
+                            $data['Issue']['YEAR']  = $di['is_year'];
+                            $data['Issue']['VOL']  = $di['is_vol'];
+                            $data['Issue']['NR']  = $di['is_nr'];
+                        }
+                } else {
+                    $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
+                    echo '============ISSUE==' . $data['ID'];
+                    pre($data, false);
+                    echo h('d1');
+                }
+                echo "FIM";
         }
 
         if ((isset($data['YEAR'])) and ($data['YEAR'] != '')) {

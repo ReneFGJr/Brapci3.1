@@ -530,7 +530,7 @@ class Export extends Model
             }
 
             if ($delete == 1) {
-                $RDF->exclude($idr);
+                //$RDF->exclude($idr);
                 $sx .= '<li>' . strzero($idr, 8) . ' DELETED</li>';
             } else {
                 //$meta['year'] = '';

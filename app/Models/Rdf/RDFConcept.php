@@ -75,7 +75,7 @@ class RDFConcept extends Model
 		{
 			$dt = $this->where('id_cc', $id);
 			echo "DESATIVADO EXCLUSAO";
-			exit;
+			return '';
 			//$this->where('id_cc',$id)->delete();
 		}
 	function countClass($c1)
