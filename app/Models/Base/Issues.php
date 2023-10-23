@@ -170,7 +170,11 @@ class Issues extends Model
             if (count($dt) == 0)
                 {
                     $sx .= bsmessage("Nenhum Issue Encontrado para cadastro",1);
+                } else {
+                    $sx .= metarefresh('',2);
                 }
+
+
             return $sx;
         }
 
