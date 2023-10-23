@@ -398,6 +398,7 @@ class Brapci extends Model
         /**************************************** ISSUE */
         if (isset($RSP['issue']))
             {
+                pre($RSP);
                 $dtn['issue']['Issue_nr'] = $RSP['issue']['NR'];
                 $dtn['issue']['issue_vol'] = $RSP['issue']['VOL'];
                 $dtn['issue']['year'] = $RSP['issue']['YEAR'];
