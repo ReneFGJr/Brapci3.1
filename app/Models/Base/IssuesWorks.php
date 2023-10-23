@@ -161,9 +161,20 @@ class IssuesWorks extends Model
 
                 $wl = [];
                 $json = (array)json_decode($line['json']);
-                pre($json);
+                if (isset($json['Authors']))
+                    {
+                        $wl['ldl_authors'] = '';
+                        foreach($json['Authors'] as $idc=>$name)
+                            {
+                                if ($wl['ldl_authors'] != '') {
+                                    $wl['ldl_authors'] .= '; ';}
+                                $wl['ldl_authors'] .= $name;
+                            }
+                    } else {
+                        $wl['ldl_authors'] = '';
+                    }
 
-                $wl['ldl_authors'] = $line['ldl_authors'];
+
                 $wl['ldl_title'] = $line['ldl_title'];
                 $wl['siw_work_rdf'] = $line['siw_work_rdf'];
                 $page = '';
