@@ -114,23 +114,18 @@ class Issues extends Model
 
     function check_issues()
     {
-        $RDF = new \App\Models\Rdf\RDF();
-        $RDFConcept = new \App\Models\Rdf\RDFConcept();
-        $Class1 = $RDF->getClass('Issue');
-        $Class2 = $RDF->getClass('IssueProceeding');
-
+        $sx = '';
         //$RDF->changePropriete('hasIssueProceeding', 'hasIssue');
         //$RDF->changePropriete('brapci:hasIssueProceeding', 'hasIssue');
-
-        $sx =  "Class1: $Class1, Class2: $Class2";
-        $dt = $RDFConcept
-            ->select('count(*) as total')
-            ->where('cc_class',$Class2)
-            ->findAll();
-        pre($dt);
-
-        /**************************** Classe Pro */
-
+        $RDFConcept = new \App\Models\Rdf\RDFConcept();
+        $dt = $RDFConcept->countClass('IssueProceeding');
+        if ($dt['total'] > 0)
+            {
+                $RDFConcept->changeClass('', 'Issue');
+                $sx .= bsmessage('Trocado '.$dt['total'].' conceitos',3);
+            } else {
+                $sx .= bsmessage('Nenhuma classe identificada',1);
+            }
         return $sx;
     }
 }

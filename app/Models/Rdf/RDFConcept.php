@@ -74,8 +74,29 @@ class RDFConcept extends Model
 	function exclude($id)
 		{
 			$dt = $this->where('id_cc', $id);
+			echo "DESATIVADO EXCLUSAO";
+			exit;
+			//$this->where('id_cc',$id)->delete();
+		}
+	function countClass($c1)
+		{
+		$RDF = new \App\Models\Rdf\RDF();
+		$Class1 = $RDF->getClass($c1);
+		$dt = $this
+			->select('count(*) as total')
+			->where('cc_class', $Class1)
+			->first();
+		return $dt;
+		}
 
-			$this->where('id_cc',$id)->delete();
+	function changeClass($c1,$c2)
+		{
+		$RDF = new \App\Models\Rdf\RDF();
+		$Class1 = $RDF->getClass($c1);
+		$Class2 = $RDF->getClass($c2);
+
+		$d['cc_class'] = $Class2;
+		$this->set($d)->where('cc_class',$c1)->update();
 		}
 
 	function getNameId($t,$class)
