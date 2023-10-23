@@ -178,13 +178,13 @@ class IssuesWorks extends Model
                     $json['Title'] = (array)$json['Title'];
                     if (isset($json['Title']['pt-BR']))
                         {
-                            $wl['ldl_title'] = $line['Title']['pt-BR'];
+                            $wl['ldl_title'] = $json['Title']['pt-BR'];
                         } else {
                             if (isset($json['Title']['es'])) {
-                                $wl['ldl_title'] = $line['Title']['es'];
+                                $wl['ldl_title'] = $json['Title']['es'];
                             } else {
                                 if (isset($json['Title']['en'])) {
-                                    $wl['ldl_title'] = $line['Title']['en'];
+                                    $wl['ldl_title'] = $json['Title']['en'];
                                 } else {
                                     foreach($json['Title'] as $lang=>$tit)
                                         {
