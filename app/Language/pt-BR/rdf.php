@@ -13,7 +13,7 @@ return [
     'hasUrl.pt_BR' => 'URL',
     'isPubishIn.pt_BR' => 'Publicado em',
     'prefLabel.pt_BR' => 'Rótulo',
-    'hasIssueOf.pt_BR' => 'Issue',
+    'hasIssue.pt_BR' => 'Issue',
     'prefLabel.pt_BR'=>'Nome preferencial',
     'prefLabel.es_ES' => 'Nome preferencial',
     'dateOfAvailability.pt_BR'=>'Disponibilizado',

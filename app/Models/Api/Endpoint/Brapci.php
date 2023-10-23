@@ -309,7 +309,7 @@ class Brapci extends Model
 
             $data[msg('rdf.' . $class . '.' . $lang)] = $vlr;
             switch ($class) {
-                case 'hasIssueOf':
+                case 'hasIssue':
                     $RSP['issue'] = $ISSUE->getIssue($desc['d_r1']);
                     break;
                 case 'hasAbstract':
@@ -321,7 +321,7 @@ class Brapci extends Model
                 case 'hasUrl':
                     $RSP['resource_url'] = $vlr;
                     break;
-                case 'hasIssueOf':
+                case 'hasIssue':
                         $id_issue = $desc['d_r1'];
                         $Issues = new \App\Models\Base\Issues();
                         $dti = $Issues

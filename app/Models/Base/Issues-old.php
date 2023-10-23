@@ -245,7 +245,7 @@ class XXXIssues extends Model
             $vlr2 = $line['n_name2'];
             /* ISSUE */
             if ($class == 'hasIssueProceeding') { $class = 'hasIssue'; }
-            if ($class == 'hasIssueOf') { $class = 'hasIssue'; }
+            if ($class == 'hasIssue') { $class = 'hasIssue'; }
 
             /* ANO */
             if ($class == 'dateOfPublication') { $class = 'dateOfPublication'; }
@@ -291,7 +291,7 @@ class XXXIssues extends Model
                 {
                     echo "<br>ISSUE EMPTY ". $id_issue;
                     /******** REGISTRAR ISSUES */
-                    $prop = $RDF->getClass('hasIssueOf',false);
+                    $prop = $RDF->getClass('hasIssue',false);
                     $RDFIssueWorks = new \App\Models\Base\IssuesWorks();
                     $diw = $RDFIssueWorks->where('siw_issue',$id_issue)->findAll();
                     foreach($diw as $id=>$line)

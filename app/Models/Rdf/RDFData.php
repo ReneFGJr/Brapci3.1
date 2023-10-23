@@ -63,43 +63,15 @@ class RDFData extends Model
 		return $id;
 	}
 
-	function check_issue()
-	{
-		$RDF = new \App\Models\Rdf\RDF();
-		$class = 'hasIssueProceedingOf';
-		$classO = $RDF->getClass($class);
-
-		$class = 'hasIssueOf';
-		$RDF = new \App\Models\Rdf\RDF();
-		$class = $RDF->getClass($class);
-
-		$sql = "SELECT id_d, c_class, d_r1,d_p,d_r2
-						FROM `rdf_data`
-						inner join rdf_concept ON id_cc = `d_r1`
-						inner join rdf_class ON cc_class = id_c
-						WHERE d_p = $classO";
-		$dt = $this->db->query($sql)->getResultArray();
-		for ($r = 0; $r < count($dt); $r++) {
-			$line = $dt[$r];
-			$d['d_p'] = $class;
-			$this->set($d)->where('id_d', $line['id_d'])->update();
+	function countProp($class)
+		{
+			$RDF = new \App\Models\Rdf\RDF();
+			$Class1 = $RDF->getClass($class);
+			$dt = $this->select('count(*) as total')
+				->where('d_p',$Class1)
+				->first();
+			return $dt;
 		}
-
-		$sql = "SELECT id_d, c_class, d_r1,d_p,d_r2
-						FROM `rdf_data`
-						inner join rdf_concept ON id_cc = `d_r1`
-						inner join rdf_class ON cc_class = id_c
-						WHERE d_p = $class and c_class='Article'";
-		$dt = $this->db->query($sql)->getResultArray();
-		for ($r = 0; $r < count($dt); $r++) {
-			$line = $dt[$r];
-			$d['d_r1'] = $line['d_r2'];
-			$d['d_r2'] = $line['d_r1'];
-			$this->set($d)->where('id_d', $line['id_d'])->update();
-		}
-		return count($dt);
-	}
-
 	function check_duplicates()
 	{
 		$sql = "select d_r1,d_r2,d_p,d_literal,count(*) as total, d_library, max(id_d) as max
@@ -117,23 +89,19 @@ class RDFData extends Model
 		return count($dt);
 	}
 
-	function change($d1, $d2)
+	function changeProp($po, $pd)
 	{
-		$d1 = round($d1);
-		$d2 = round($d2);
+		$RDF = new \App\Models\Rdf\RDF();
 
-		if (($d1 == 0) or ($d2 == 0)) {
-			return "";
-		}
-		/* Part 1 */
-		$this->set('d_r1', $d1);
-		$this->where('d_r1', $d2);
+		$Class1 = $RDF->getClass($po);
+		$Class2 = $RDF->getClass($pd);
+
+		/* Part da Troca */
+		$this->set('d_p', $Class2);
+		$this->where('d_p', $Class1);
 		$this->update();
 
-		/* Part 2 */
-		$this->set('d_r2', $d1);
-		$this->where('d_r2', $d2);
-		$this->update();
+		echo $this->getlastquery();
 
 		return 0;
 	}

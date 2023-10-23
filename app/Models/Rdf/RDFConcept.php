@@ -97,7 +97,6 @@ class RDFConcept extends Model
 
 		$d['cc_class'] = $Class2;
 		$this->set($d)->where('cc_class', $Class1)->update();
-		echo $this->getlastquery();
 		}
 
 	function getNameId($t,$class)

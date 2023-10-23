@@ -276,8 +276,8 @@ class RDFExport extends Model
 	function recover_issue($dt, $id, $tp)
 	{
 		$RDF = new \App\Models\Rdf\RDF();
-		$issue1 = $RDF->recovery($dt['data'], 'hasIssueOf');
-		$issue2 = $RDF->recovery($dt['data'], 'hasIssueOf');
+		$issue1 = $RDF->recovery($dt['data'], 'hasIssue');
+		$issue2 = $RDF->recovery($dt['data'], 'hasIssue');
 		$issue = array_merge($issue1, $issue2);
 
 		/* EMPTY */

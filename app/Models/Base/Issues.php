@@ -115,10 +115,9 @@ class Issues extends Model
     function check_issues()
     {
         $sx = '';
-        //$RDF->changePropriete('hasIssueProceeding', 'hasIssue');
-        //$RDF->changePropriete('brapci:hasIssueProceeding', 'hasIssue');
         /************************************************* IssueProceeding */
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
+        $RDFData = new \App\Models\Rdf\RDFData();
         $dt = $RDFConcept->countClass('IssueProceeding');
         if ($dt['total'] > 0)
             {
@@ -127,6 +126,200 @@ class Issues extends Model
             } else {
                 $sx .= bsmessage('Nenhuma classe identificada',1);
             }
+
+        /************************************************* hasIssueProceeding */
+        $ge = ['hasIssueOf', 'hasIssueProceeding', 'hasIssueProceedingOf'];
+        foreach($ge as $prop)
+            {
+                $dt = $RDFData->countProp($prop);
+                if ($dt['total'] > 0) {
+                    $RDFData->changeProp($prop, 'hasIssue');
+                    $sx .= bsmessage('Trocado ' . $dt['total'] . ' conceitos', 3);
+                } else {
+                    $sx .= bsmessage('Nenhuma propriedade <b>'.$prop. '</b> identificada', 1);
+                }
+            }
+
+        /************************************************* Criar os Issue */
+        $sx .= $this->checkIssues();
+
         return $sx;
     }
+
+    function checkIssues()
+        {
+            $RDFConcept = new \App\Models\Rdf\RDFConcept();
+            $RDF = new \App\Models\Rdf\RDF();
+            $Class = 'Issue';
+            $c1 = $RDF->getClass($Class);
+
+            $dt = $RDFConcept
+                ->select('id_cc, is_source_issue')
+                ->join('source_issue', 'is_source_issue = id_cc','LEFT')
+                ->where('cc_class',$c1)
+                ->where('is_source_issue is NULL')
+                ->findAll(10);
+            foreach($dt as $id=>$line)
+                {
+                    $RSP = $this->getIssue($line['id_cc']);
+                }
+        }
+
+        function getIssue($id)
+            {
+                $sx = '';
+                $RDF = new \App\Models\Rdf\RDF();
+                $dt = $RDF->le($id);
+                if ($dt['concept']['c_class'] == 'Issue')
+                    {
+
+                        $da = $this->getDadosIssue($dt);
+                        $da['is_source_issue'] = $id;
+                        $this->register($da);
+                    } else {
+                        /************************** ERRO DE ISSUE */
+                        $sx .= bsmessage("ERRO DE CLASSO DE ISSUE - $id");
+                    }
+                echo "FIM";
+                exit;
+            }
+
+        function register($dt)
+            {
+                $this->check($dt);
+                $dt = $this
+                    ->set($dt)
+                    ->where('is_source_issue',$dt['is_source_issue'])
+                    ->first();
+                if ($dt == '')
+                    {
+                        $this->set($dt)->insert();
+                    } else {
+                        $this
+                            ->set($dt)
+                            ->where('is_source_issue', $dt['is_source_issue'])
+                            ->update();
+                    }
+                return "";
+            }
+
+        function check($dt)
+            {
+                $ck = ['is_year', 'is_source_issue', 'is_source'];
+                foreach($ck as $fld)
+                    {
+                        if (!isset($dt[$fld])) {
+                            echo "ERRO - is_source_issue não informado<br>";
+                            exit;
+                        }
+
+                    }
+                return true;
+            }
+
+        function getDadosIssue($dt)
+            {
+                $RDF = new \App\Models\Rdf\RDF();
+                $Metadata = new \App\Models\Base\Metadata();
+                $prop = $dt['data'];
+                $RSP = [];
+                $w = [];
+                foreach($prop as $id=>$line)
+                    {
+                        $prop = trim($line['c_class']);
+                        $dd1 = $line['d_r1'];
+                        $dd2 = $line['d_r2'];
+                        $vv1 = $line['n_name'];
+                        $vv2 = $line['n_name2'];
+                        $lg1 = $line['n_lang'];
+                        $lg2 = $line['n_lang2'];
+                        //echo '<br>'.$prop . ' '.$dd1.' '.$dd2.' '.$vv1.' '. $vv2;
+                        switch($prop)
+                            {
+                                case 'hasIssue':
+                                    array_push($w,$dd2);
+                                    break;
+                                case 'hasPlace':
+                                    $RSP['is_place'] = $vv2;
+                                    break;
+                                case 'hasPublicationNumber':
+                                    $RSP['is_nr'] = $vv2;
+                                    break;
+                                case 'hasPublicationVolume':
+                                    $RSP['is_vol'] = $vv2;
+                                    break;
+                                case 'dateOfPublication':
+                                    $RSP['is_year'] = $vv2;
+                                    break;
+                            }
+                    }
+
+                    if ((!isset($RSP['is_source'])) and (count($w) > 0))
+                        {
+                            foreach($w as $idx=>$work)
+                                {
+                                    $da = $RDF->le($work);
+                                    $dt = $Metadata->metadata($da);
+                                    if (isset($dt['id_jnl']))
+                                        {
+                                            $RSP['is_source'] = $dt['id_jnl'];
+                                            break;
+                                        }
+                                }
+                        }
+                return $RSP;
+            }
 }
+
+
+/*
+   function metadata_issue($id_issue, $loop = 0)
+    {
+        $Issue = new \App\Models\Base\Issues();
+        $dt = $Issue->where('is_source_issue', $id_issue)->first();
+        if ($dt != '') {
+            $d['ID'] = $dt['is_source_issue'];
+            $d['YEAR'] = $dt['is_year'];
+            $d['VOL'] = $dt['is_vol'];
+            $d['VOLR'] = $dt['is_vol_roman'];
+            $d['NR'] = $dt['is_nr'];
+            $d['PLACE'] = $dt['is_place'];
+            $d['JOURNAL'] = $dt['is_source'];
+            return ($d);
+        } else {
+
+            $dti = $Issue->getIssue($id_issue);
+
+            if ($dti['ISSUE'] <= 0) {
+                $RDF = new \App\Models\Rdf\RDF();
+                $RDFdata = new \App\Models\Rdf\RDFData();
+                $dt = $RDF->le($id);
+                echo "<br>----METADATA ISSUE - NOT FOUND - $id<br>";
+
+                if ($dt['concept']['c_class'] != 'Issue') {
+                    echo "OOOOO";
+                    $RDFdata->check_issue();
+                    echo "<br>CLASSE INVÀLIDA PARA ISSUE<hr>";
+                }
+
+                $Is = $RDF->extract($dt, 'hasIssue');
+                echo h('US=>' . $Is[0]);
+                $dti = $Issue->getIssue($Is[0]);
+                pre($dti);
+            }
+
+            $ISSUE = new \App\Models\Base\Issues();
+            $ISSUE->register_issue($dti);
+            /*************** REGISTRAR ISSUE */
+            /*
+            if ($loop == 0) {
+                //$dt = $this->metadata_issue($id_issue);
+            } else {
+                echo "#######PROB";
+                echo h($id_issue);
+                exit;
+            }
+            return ($dt);
+        }
+    }
+    */
