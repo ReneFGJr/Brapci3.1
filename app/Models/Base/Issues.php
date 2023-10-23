@@ -18,6 +18,7 @@ class Issues extends Model
         'id_is',
         'is_source',
         'is_year',
+        'is_visible',
 
         'is_vol',
         'is_vol_roman',
@@ -40,6 +41,7 @@ class Issues extends Model
 
     protected $typeFields    = [
         'hidden', 'sql:id_jnl:jnl_name:source_source order by jnl_name*', 'year*',
+        'sn',
         'hidden', 'string', 'string',
         'string',
         '[1-199]', 'string', 'text',
@@ -549,4 +551,20 @@ class Issues extends Model
         $sx .= '</div></div>';
         return $sx;
     }
+
+    function edit($id)
+    {
+        $this->id = $id;
+        $this->path = URL . '/' . COLLECTION . '/issue/';
+        if ($id > 0) {
+            $this->path_back = URL . '/' . COLLECTION . '/issue/?id=' . $id;
+        } else {
+            $this->path_back = URL . '/' . COLLECTION . '/source/' . get("is_source");
+        }
+
+        $sx = form($this);
+        $sx = bs(bsc($sx, 12));
+        return $sx;
+    }
+
 }
