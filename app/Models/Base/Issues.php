@@ -218,7 +218,7 @@ class Issues extends Model
                 foreach($ck as $fld)
                     {
                         if (!isset($dt[$fld])) {
-                            echo "ERRO - '.$fld.' não informado<br>";
+                            echo "ERRO - '$fld' não informado<br>";
                             pre($dt);
                             exit;
                         }
@@ -263,6 +263,8 @@ class Issues extends Model
                                     break;
                             }
                     }
+
+                    pre($dt);
 
                     if ((!isset($RSP['is_source'])) and (count($w) > 0))
                         {
