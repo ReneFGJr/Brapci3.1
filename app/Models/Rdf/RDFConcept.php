@@ -96,7 +96,7 @@ class RDFConcept extends Model
 		$Class2 = $RDF->getClass($c2);
 
 		$d['cc_class'] = $Class2;
-		$this->set($d)->where('cc_class',$c1)->update();
+		$this->set($d)->where('cc_class', $Class1)->update();
 		echo $this->getlastquery();
 		}
 

@@ -122,7 +122,7 @@ class Issues extends Model
         $dt = $RDFConcept->countClass('IssueProceeding');
         if ($dt['total'] > 0)
             {
-                $RDFConcept->changeClass('', 'Issue');
+                $RDFConcept->changeClass('IssueProceeding', 'Issue');
                 $sx .= bsmessage('Trocado '.$dt['total'].' conceitos',3);
             } else {
                 $sx .= bsmessage('Nenhuma classe identificada',1);
