@@ -135,7 +135,7 @@ class IssuesWorks extends Model
     function getWorksIssueRdf($id)
         {
         $wk = $this
-            ->join('brapci_elastic.dataset', 'siw_work_rdf = article_id')
+            ->join('brapci_elastic.dataset', 'siw_work_rdf = ID')
             ->where('siw_issue', $id)
             ->orderby('siw_pag_ini, ldl_section, siw_work_rdf')
             ->findAll();
