@@ -117,6 +117,7 @@ class Issues extends Model
         $sx = '';
         //$RDF->changePropriete('hasIssueProceeding', 'hasIssue');
         //$RDF->changePropriete('brapci:hasIssueProceeding', 'hasIssue');
+        /************************************************* IssueProceeding */
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
         $dt = $RDFConcept->countClass('IssueProceeding');
         if ($dt['total'] > 0)

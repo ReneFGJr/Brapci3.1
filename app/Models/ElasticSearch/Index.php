@@ -67,12 +67,14 @@ class Index extends Model
 					$Register->update_index();
 				}
 				return $sx;
+				break;
 			case 'searchAjax':
 				$SEARCH = new \App\Models\ElasticSearch\Search();
 				$Elasticsearch = new \App\Models\ElasticSearch\Index();
 				$_POST['offset'] = 9999999;
 				$dt = $SEARCH->search(GET("query"));
 				return $dt;
+				break;
 			case 'search':
 				$SEARCH = new \App\Models\ElasticSearch\Search();
 				$Elasticsearch = new \App\Models\ElasticSearch\Index();
