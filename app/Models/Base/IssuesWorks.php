@@ -137,7 +137,7 @@ class IssuesWorks extends Model
         $wk = $this
             ->join('brapci_elastic.dataset', 'siw_work_rdf = ID')
             ->where('siw_issue', $id)
-            ->orderby('siw_pag_ini, ldl_section, siw_work_rdf')
+            ->orderby('siw_pag_ini, SESSION, siw_work_rdf')
             ->findAll();
 
         $wkk = [];
@@ -147,7 +147,7 @@ class IssuesWorks extends Model
 
         foreach($wk as $id=>$line)
             {
-                $sec = $line['ldl_section'];
+                $sec = $line['SESSION'];
                 if (!isset($secs[$sec]))
                     {
                         $ct++;
