@@ -44,7 +44,7 @@ class Issues extends Model
         'sn',
         'hidden', 'string', 'string',
         'string',
-        '[1-199]', 'string', 'text',
+        'string', 'string', 'text',
         'string', 'hidden', 'string',
         'hidden', 'string*', 'hidden',
         'hidden', 'hidden'
