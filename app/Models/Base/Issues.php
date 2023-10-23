@@ -33,6 +33,7 @@ class Issues extends Model
 
         'is_works',
         'is_source_issue',
+        'xx_is_issue',
         'is_oai_update',
         'is_oai_token',
     ];
@@ -202,7 +203,7 @@ class Issues extends Model
                 $dt = $this
                     ->set($dt)
                     ->where('is_source_issue',$dt['is_source_issue'])
-                    ->orWhere('xx_is_issue', $dt['is_source_issue'])
+                    ->orwhere('xx_is_issue', $dt['is_source_issue'])
                     ->first();
                 if ($dt == '')
                     {
@@ -210,7 +211,7 @@ class Issues extends Model
                     } else {
                         $this
                             ->set($dt)
-                            ->where('is_source_issue', $dt['is_source_issue'])
+                            ->where('id_is', $dt['id_is'])
                             ->update();
                     }
                 return "";
