@@ -176,12 +176,12 @@ class Issues extends Model
                         $da = $this->getDadosIssue($dt);
                         $da['is_source_issue'] = $id;
                         $this->register($da);
+                        $sx .= bsmessage("REGISTRADO ISSUE - $id");
                     } else {
                         /************************** ERRO DE ISSUE */
                         $sx .= bsmessage("ERRO DE CLASSO DE ISSUE - $id");
                     }
-                echo "FIM";
-                exit;
+                return $sx;
             }
 
         function register($dt)
@@ -210,6 +210,7 @@ class Issues extends Model
                     {
                         if (!isset($dt[$fld])) {
                             echo "ERRO - is_source_issue não informado<br>";
+                            pre($dt);
                             exit;
                         }
 
