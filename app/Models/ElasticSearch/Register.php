@@ -406,6 +406,7 @@ class Register extends Model
                             $data['Issue']['YEAR']  = $di['is_year'];
                             $data['Issue']['VOL']  = $di['is_vol'];
                             $data['Issue']['NR']  = $di['is_nr'];
+                            $data['YEAR']  = $di['is_year'];
                         }
                 } else {
                     $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
@@ -474,11 +475,11 @@ class Register extends Model
 
         if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
             {
-                $da['LEGEND'] = ', ' . $data['Issue']['NR'];
+                $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
             }
         if (isset($data['Issue']['YEAR']) and ($data['Issue']['YEAR'] != ''))
             {
-                $da['LEGEND'] = ', ' . $data['Issue']['YEAR'];
+                $da['LEGEND'] .= ', ' . $data['Issue']['YEAR'];
             }
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
