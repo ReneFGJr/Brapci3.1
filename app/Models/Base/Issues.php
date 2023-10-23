@@ -304,4 +304,40 @@ class Issues extends Model
             ->findAll();
         return $dt;
     }
+
+    /* Legado */
+    function issues($id = 0)
+    {
+        $Sources = new \App\Models\Base\Sources();
+        $ds = $Sources->find($id);
+
+        $id = round($id);
+        $dt = $this->where("is_source", $id)
+            ->orderBy('is_year', 'DESC')
+            ->orderBy('is_vol', 'DESC')
+            ->orderBy('is_source_issue', 'DESC')
+            ->findAll();
+
+        $sx = '';
+        $sx .= $Sources->journal_header($ds);
+
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+
+            $link = PATH . COLLECTION . 'issue/edit/' . $line['id_is'];
+            $edit = '<a href="' . $link . '">';
+            $edit = bsicone('edit');
+            $edit .= '</a>';
+            $sa = '';
+            $sa .= bsc($line['is_year'], 2);
+            $sa .= bsc($line['is_vol'], 1);
+            $sa .= bsc($line['is_place'], 2);
+            $sa .= bsc($line['is_thema'], 5);
+            $sa .= bsc($edit);
+            $sx .= bs($sa);
+        }
+
+        $sx .= $this->btn_new_issue($id);
+        return $sx;
+    }
 }
