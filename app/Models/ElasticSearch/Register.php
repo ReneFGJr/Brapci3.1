@@ -455,12 +455,15 @@ class Register extends Model
         $da['TITLE'] = $data['title'];
 
         $da['AUTHORS'] = '';
+        if (isset($data['Authors']))
+        {
         foreach($data['Authors'] as $ida=>$name)
             {
                 if ($da['AUTHORS'] != '') { $da['AUTHORS'] .= '; '; }
                 $da['AUTHORS'] .= nbr_author($name,7);
+                echo $da['AUTHORS'].'<hr>';
             }
-
+        }
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
