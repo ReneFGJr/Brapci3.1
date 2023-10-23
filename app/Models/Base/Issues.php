@@ -160,10 +160,13 @@ class Issues extends Model
                 ->where('cc_class',$c1)
                 ->where('is_source_issue is NULL')
                 ->findAll(10);
+
             foreach($dt as $id=>$line)
                 {
+                    $sx .= '<li>Processando '.$line['id_cc'].'</li>';
                     $RSP = $this->getIssue($line['id_cc']);
                 }
+
             if (count($dt) == 0)
                 {
                     $sx .= bsmessage("Nenhum Issue Encontrado para cadastro",1);
