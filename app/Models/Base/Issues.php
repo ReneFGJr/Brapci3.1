@@ -248,6 +248,7 @@ class Issues extends Model
                             {
                                 case 'hasIssue':
                                     array_push($w,$dd2);
+                                    array_push($w, $dd1);
                                     break;
                                 case 'hasPlace':
                                     $RSP['is_place'] = $vv2;
