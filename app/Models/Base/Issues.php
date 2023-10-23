@@ -45,7 +45,7 @@ class Issues extends Model
         'hidden', 'string', 'string',
         'string',
         '[1-199]', 'string', 'text',
-        'string*', 'hidden', 'string',
+        'string', 'hidden', 'string',
         'hidden', 'string*', 'hidden',
         'hidden', 'hidden'
     ];
