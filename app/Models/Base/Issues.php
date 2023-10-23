@@ -530,8 +530,6 @@ class Issues extends Model
             ->orderBy('is_vol', 'DESC')
             ->orderBy('is_source_issue', 'DESC')
             ->findAll();
-            echo $this->getlastquery();
-            exit;
         return $dt;
     }
 
