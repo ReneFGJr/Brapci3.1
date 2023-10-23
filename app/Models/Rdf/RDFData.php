@@ -143,7 +143,7 @@ class RDFData extends Model
 				$rst = $this->where('d_r2', $id1)->where('d_r1', $id2)->first();
 			}
 		}
-		$id = $rst[0]['id_d'];
+		$id = $rst['id_d'];
 		return $id;
 	}
 
