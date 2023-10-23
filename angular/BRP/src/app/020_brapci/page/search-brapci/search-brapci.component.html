@@ -92,15 +92,15 @@
             />
           </td>
 
-          <td *ngIf="items.data.ldl_title" class="ms-2">
+          <td *ngIf="items.data.TITLE" class="ms-2">
             <input
               type="checkbox"
-              id="mk{{ items.data.article_id }}"
+              id="mk{{ items.data.ID }}"
               class="small"
               title="{{ msg_data_mark }}"
-              [value]="items.data.article_id"
+              [value]="items.data.ID"
               (change)="markDOwn($event)"
-              [checked]="checked(items.data.article_id)"
+              [checked]="checked(items.data.ID)"
             />
             <a
               class="work"
@@ -108,11 +108,11 @@
               routerLinkActive="router-link-active"
               target="_blank"
             >
-              {{ items.data.ldl_title }}
+              {{ items.data.TITLE }}
             </a>
             <br />
-            <i>{{ items.data.ldl_authors }}</i> <br />{{
-              items.data.ldl_legend
+            <i>{{ items.data.AUTHORS }}</i> <br />{{
+              items.data.LEGENDS
             }}
             <br /><span class="small documment_type documment_type_article"
               >Artigo</span
