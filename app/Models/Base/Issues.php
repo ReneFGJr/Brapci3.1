@@ -155,7 +155,7 @@ class Issues extends Model
                 $sx .= "DELETED";
                 $this
                     ->where('is_year','0')
-                    ->where('is_year > 9000')
+                    ->Orwhere('is_year > 9000')
                     ->delete();
             }
         /************************************************* IssueProceeding */
