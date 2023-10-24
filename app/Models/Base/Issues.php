@@ -280,6 +280,7 @@ class Issues extends Model
                 $Metadata = new \App\Models\Base\Metadata();
                 $prop = $dt['data'];
                 $RSP = [];
+                $RSP['is_year'] = 0;
                 $w = [];
                 foreach($prop as $id=>$line)
                     {
