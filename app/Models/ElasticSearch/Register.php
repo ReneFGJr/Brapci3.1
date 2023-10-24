@@ -181,8 +181,8 @@ class Register extends Model
                 $dt['collection'] = 'Erro';
             }
 
-            $dt['year'] = $dt['YEAR'];
-            $dt['type'] = $dt['Class'];
+            $dt['year'] = $line['YEAR'];
+            $dt['type'] = $line['Class'];
 
 
             if (isset($DT['Idioma'])) {
