@@ -58,7 +58,7 @@ class AboutIndicadores extends Model
 
     function makeIndicators()
     {
-        $cp = 'CLASS as type, PDF as pdf, JOURNAL as id_jnl';
+        $cp = 'CLASS, PDF, JOURNAL';
         $cpc = ', count(*) as total';
         $Search = new \App\Models\ElasticSearch\Register();
         $dt = $Search
@@ -69,14 +69,14 @@ class AboutIndicadores extends Model
         $rst = [];
         $rst['journal'] = [];
         foreach ($dt as $id => $line) {
-            $type = $line['type'];
+            $type = $line['CLASS'];
             $total = $line['total'];
             if (!isset($rst[$type])) {
                 $rst[$type] = 0;
             }
             $rst[$type] = $rst[$type] + $total;
 
-            $pdf = $line['pdf'];
+            $pdf = $line['PDF'];
             if (!isset($rst['pad'])) {
                 $rst['pdf'] = [0, 0];
             }
@@ -86,7 +86,7 @@ class AboutIndicadores extends Model
 
             $rst['pdf'][$pdf] = $rst['pdf'][$pdf] + $total;
 
-            $jid = $line['id_jnl'];
+            $jid = $line['JOURNAL'];
             if (!isset($rst['journal'][$type])) {
                 $rst['journal'][$type] = [];
             }
