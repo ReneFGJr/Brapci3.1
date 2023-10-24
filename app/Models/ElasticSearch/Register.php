@@ -402,6 +402,7 @@ class Register extends Model
             if (isset($data['Issue'][0]))
                 {
                     $di = $Issues->where('is_source_issue',$data['Issue'][0])->first();
+                    echo $Issue->getlastquery():
                     if ($di != '')
                         {
                             $data['Issue']['ID'] = $data['Issue'][0];
