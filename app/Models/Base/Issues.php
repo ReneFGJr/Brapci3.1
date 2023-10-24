@@ -123,7 +123,7 @@ class Issues extends Model
         $Issue = new \App\Models\Base\Issues();
 
         $dt = $Issue
-            ->where('is_year <= 1')
+            ->where('is_year <= 1940')
             ->Orwhere('is_year >= 9000')
             ->orderBy('is_source_issue')
             ->findAll();
