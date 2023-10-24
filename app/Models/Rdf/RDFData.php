@@ -89,6 +89,12 @@ class RDFData extends Model
 		return count($dt);
 	}
 
+	function changeInvert($id)
+		{
+			$dt = $this->find($id);
+			pre($dt);
+		}
+
 	function changeProp($po, $pd)
 	{
 		$RDF = new \App\Models\Rdf\RDF();

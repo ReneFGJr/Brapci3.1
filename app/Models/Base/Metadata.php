@@ -98,6 +98,7 @@ class Metadata extends Model
     function metadata($meta, $erros = false)
     {
         $RDF = new \App\Models\Rdf\RDF();
+        $RDFData = new \App\Models\Rdf\RDFData();
         $COVER = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
         $Source = new \App\Models\Base\Sources();
@@ -299,7 +300,8 @@ class Metadata extends Model
                         if ($ddv1 == $idcc)
                             {
                                 echo h("ISSUE INVERTED");
-                                pre($meta);
+                                pre($meta,false);
+                                $RDFData->changeInvert($line['id_d']);
                                 $this->let('Issue', $ddv2);
                             } else {
                                 $this->let('Issue', $ddv1);
