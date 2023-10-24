@@ -298,6 +298,7 @@ class Metadata extends Model
                     case 'hasIssue':
                         if ($ddv1 == $idcc)
                             {
+                                echo h("ISSUE INVERTED");
                                 pre($meta);
                                 $this->let('Issue', $ddv2);
                             } else {
