@@ -47,7 +47,7 @@ class Search extends Model
 
             $dt = $this->search($q, $type);
 
-            $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, SESSION, TITLE, AUTHORS';
+            $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, SESSION, LEGEND, TITLE, AUTHORS';
 
             foreach($dt['works'] as $id=>$line)
                 {
@@ -145,7 +145,7 @@ class Search extends Model
 
 
         /******************** Sources */
-        $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year","full");
+        $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year","legend","full");
 
         /******************** Limites */
         $data['size'] = $offset;
