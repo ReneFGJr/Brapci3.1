@@ -274,7 +274,7 @@ class Register extends Model
             /******************************* Reprocessar */
             if (get("t") != "")
             {
-                $d['status'] = get("t");
+                $d['status'] = -1;
                 $this->set($d)
                     ->where('YEAR > 9000')
                     ->Orwhere('YEAR < 1940')
