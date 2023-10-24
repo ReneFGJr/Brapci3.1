@@ -395,8 +395,6 @@ class Register extends Model
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
-        } elseif (isset($data['Issue'][0])) {
-            $da['ISSUE'] = $data['Issue'][0];
         } else {
             $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
