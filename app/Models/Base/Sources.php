@@ -571,8 +571,8 @@ class Sources extends Model
     function editar($id)
     {
         $this->id = $id;
-        $this->path = PATH . COLLECTION . '/source';
-        $this->path_back = PATH . COLLECTION . '/source';
+        $this->path = PATH .  'admin/source';
+        $this->path_back = PATH .  '/admin/source';
         if ($id > 0) {
             $dt = $this->find($id);
             $sx = h($dt['jnl_name'], 1);
@@ -591,7 +591,7 @@ class Sources extends Model
     function tableview()
     {
         $this->where("jnl_collection = 'JA'");
-        $this->path = (PATH . COLLECTION . '/source');
+        $this->path = (PATH . 'admin/source');
         $sx = tableview($this);
         $sx = bs(bsc($sx, 12));
         return $sx;

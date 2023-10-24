@@ -225,9 +225,9 @@ class Index extends Model
         $m[PATH . 'admin/vc'] =  bsicone('vc',32).' '.lang('brapci.vc');
 
         $m["#Sources"] =  "";
-        $m[PATH . '/source'] =  lang('brapci.sources');
-        $m[PATH . '/issue'] =  lang('brapci.issue');
-        $m[PATH . '/issue_work'] =  lang('brapci.issue_work');
+        $m[PATH . 'admin/source'] =  lang('brapci.sources');
+        $m[PATH . 'admin/issue'] =  lang('brapci.issue');
+        $m[PATH . 'admin/issue_work'] =  lang('brapci.issue_work');
         $m[PATH . '/socials'] =  lang('brapci.Socials');
         $m['#RDF'] =  lang('brapci.rdf');
         $m[PATH .  '/rdf'] =  lang('brapci.rdf');
