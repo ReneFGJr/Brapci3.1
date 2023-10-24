@@ -17,7 +17,7 @@ class Register extends Model
     protected $allowedFields    = [
         'id_ds', 'ID', 'json', 'CLASS',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
-        'PDF', 'updated_at','status', 'AUTHORS', 'TITLE', 'SESSION',
+        'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION',
         'LEGEND'
     ];
 
@@ -118,13 +118,17 @@ class Register extends Model
             }
 
             /*********************************************** KEYWORDS */
+            $idaa = [];
             if (isset($DT['Authors'])) {
                 $keys = (array)$DT['Authors'];
                 foreach ($keys as $lang => $ks) {
                     $ks = (array)$ks;
                     foreach ($ks as $idk => $term) {
-                        if (trim($term) != '') {
-                            array_push($aaut, mb_strtolower(ascii($term)));
+                        if (!isset($idaa[$idk])) {
+                            if (trim($term) != '') {
+                                array_push($aaut, mb_strtolower(ascii($term)));
+                            }
+                            $idaa[$idk] = 1;
                         }
                     }
                 }
@@ -229,82 +233,77 @@ class Register extends Model
     }
 
     function show($id)
-        {
-            $sx = '';
-            $dt = $this->where('ID',$id)->first();
-            if ($dt == '')
-                {
-                    return '';
-                }
-            $dt['json'] = 'JSON';
-            $sx .= '<ul>';
-            foreach($dt as $name=>$v)
-                {
-                    $sx .= '<li>';
-                    $sx .= '('.$name.') = "'.$v.'"';
-                    $sx .= '</li>';
-                }
-
-            if ($dt['status'] >= 0)
-                {
-                    $sx .= '<a href="' . PATH . '/v/' . $id . '?reindex=1">Reindex</a>';
-                    $sx .= '</ul>';
-                    if (get("reindex") == '1') {
-                        $d = [];
-                        $d['status'] = -1;
-                        $this->set($d)->where('ID', $id)->update();
-
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task('EXPORT_SELECTED');
-                    }
-                }
-
-            return bs(bsc($sx,12));
+    {
+        $sx = '';
+        $dt = $this->where('ID', $id)->first();
+        if ($dt == '') {
+            return '';
+        }
+        $dt['json'] = 'JSON';
+        $sx .= '<ul>';
+        foreach ($dt as $name => $v) {
+            $sx .= '<li>';
+            $sx .= '(' . $name . ') = "' . $v . '"';
+            $sx .= '</li>';
         }
 
-    function whithout_year()
-        {
-            $sx = '';
-            $sx .= '<a href="'.PATH. 'admin/dataset/year_without/?t=-1" title="Reprocessar todos os 0">';
-            $sx .= '<a href="' . PATH . 'admin/dataset/year_without/?t=0" title="Volta todos os 0">';
-            $sx .= bsicone('reload');
-            $sx .= '</a>';
-            $sx .= '<ul>';
+        if ($dt['status'] >= 0) {
+            $sx .= '<a href="' . PATH . '/v/' . $id . '?reindex=1">Reindex</a>';
+            $sx .= '</ul>';
+            if (get("reindex") == '1') {
+                $d = [];
+                $d['status'] = -1;
+                $this->set($d)->where('ID', $id)->update();
 
-            /******************************* Reprocessar */
-            if (get("t") != "")
-            {
                 $BOTS = new \App\Models\Bots\Index();
                 $BOTS->task('EXPORT_SELECTED');
-                $d['status'] = -1;
-                $this->set($d)
-                    ->where('YEAR > 9000')
-                    ->Orwhere('YEAR < 1950')
-                    ->update();
-                return metarefresh(PATH . 'admin/dataset/year_without');
-                exit;
             }
-            $dt = $this
-                    ->where('YEAR > 2050')
-                    ->Orwhere('YEAR < 1950')
-                    ->orderBy('YEAR, ID')->findAll();
-
-            $sx .= h('Total '.count($dt),5);
-            foreach ($dt as $k => $line) {
-                $da = (array)json_decode($line['json']);
-                $sx .= '<li>';
-                $link = '<a href="'.PATH.'/v/'.$line['ID'].'" target="_blank">';
-                $linka = '</a>';
-                $sx .= $link.$line['ID'].' ('.$line['YEAR'].')'.$linka;
-                if ($line['status'] == -1)
-                    {
-                        $sx .= '*';
-                    }
-                $sx .= '</li>';
-            }
-            $sx .= '</ul>';
-            return $sx;
         }
+
+        return bs(bsc($sx, 12));
+    }
+
+    function whithout_year()
+    {
+        $sx = '';
+        $sx .= '<a href="' . PATH . 'admin/dataset/year_without/?t=-1" title="Reprocessar todos os 0">';
+        $sx .= '<a href="' . PATH . 'admin/dataset/year_without/?t=0" title="Volta todos os 0">';
+        $sx .= bsicone('reload');
+        $sx .= '</a>';
+        $sx .= '<ul>';
+
+        /******************************* Reprocessar */
+        if (get("t") != "") {
+            $BOTS = new \App\Models\Bots\Index();
+            $BOTS->task('EXPORT_SELECTED');
+            $d['status'] = -1;
+            $this->set($d)
+                ->where('YEAR > 9000')
+                ->Orwhere('YEAR < 1950')
+                ->update();
+            return metarefresh(PATH . 'admin/dataset/year_without');
+            exit;
+        }
+        $dt = $this
+            ->where('YEAR > 2050')
+            ->Orwhere('YEAR < 1950')
+            ->orderBy('YEAR, ID')->findAll();
+
+        $sx .= h('Total ' . count($dt), 5);
+        foreach ($dt as $k => $line) {
+            $da = (array)json_decode($line['json']);
+            $sx .= '<li>';
+            $link = '<a href="' . PATH . '/v/' . $line['ID'] . '" target="_blank">';
+            $linka = '</a>';
+            $sx .= $link . $line['ID'] . ' (' . $line['YEAR'] . ')' . $linka;
+            if ($line['status'] == -1) {
+                $sx .= '*';
+            }
+            $sx .= '</li>';
+        }
+        $sx .= '</ul>';
+        return $sx;
+    }
 
 
     function resume()
@@ -378,9 +377,9 @@ class Register extends Model
             ->findAll();
 
         foreach ($dt as $line) {
-            $link = '<a href="'.PATH. '/admin/dataset/year_without">';
+            $link = '<a href="' . PATH . '/admin/dataset/year_without">';
             $linka = '</a>';
-            $sx .= '<li>' . $link. lang('brapci.year_without') . $linka. ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
+            $sx .= '<li>' . $link . lang('brapci.year_without') . $linka . ' (' . number_format($line['total'], 0, ',', '.') . ')</li>';
         }
 
         $sx .= '</ul>';
@@ -404,26 +403,24 @@ class Register extends Model
             $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
             /* Recupera ISSUE do WorkIssue */
-            if (isset($data['Issue'][0]))
-                {
-                    $di = $Issues->where('is_source_issue',$data['Issue'][0])->first();
-                    if ($di != '')
-                        {
-                            $data['Issue']['ID'] = $data['Issue'][0];
-                            $da['ISSUE'] = $data['Issue'][0];
-                            $data['Issue']['YEAR']  = $di['is_year'];
-                            $data['Issue']['JOURNAL']  = $di['is_source'];
-                            $data['Issue']['YEAR']  = $di['is_year'];
-                            $data['Issue']['VOL']  = $di['is_vol'];
-                            $data['Issue']['NR']  = $di['is_nr'];
-                            $data['YEAR']  = $di['is_year'];
-                        }
-                } else {
-                    $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
-                    echo '============ISSUE==' . $data['ID'];
-                    pre($data, false);
-                    echo h('d1');
+            if (isset($data['Issue'][0])) {
+                $di = $Issues->where('is_source_issue', $data['Issue'][0])->first();
+                if ($di != '') {
+                    $data['Issue']['ID'] = $data['Issue'][0];
+                    $da['ISSUE'] = $data['Issue'][0];
+                    $data['Issue']['YEAR']  = $di['is_year'];
+                    $data['Issue']['JOURNAL']  = $di['is_source'];
+                    $data['Issue']['YEAR']  = $di['is_year'];
+                    $data['Issue']['VOL']  = $di['is_vol'];
+                    $data['Issue']['NR']  = $di['is_nr'];
+                    $data['YEAR']  = $di['is_year'];
                 }
+            } else {
+                $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
+                echo '============ISSUE==' . $data['ID'];
+                pre($data, false);
+                echo h('d1');
+            }
         }
 
         if ((isset($data['YEAR'])) and ($data['YEAR'] != '')) {
@@ -468,35 +465,31 @@ class Register extends Model
 
         /***************************************************** */
         $da['AUTHORS'] = '';
-        if (isset($data['Authors']))
-        {
-        foreach($data['Authors'] as $ida=>$name)
-            {
-                if ($da['AUTHORS'] != '') { $da['AUTHORS'] .= '; '; }
-                $da['AUTHORS'] .= nbr_author($name,7);
+        if (isset($data['Authors'])) {
+            foreach ($data['Authors'] as $ida => $name) {
+                if ($da['AUTHORS'] != '') {
+                    $da['AUTHORS'] .= '; ';
+                }
+                $da['AUTHORS'] .= nbr_author($name, 7);
             }
         }
         /***************************************************** */
-        if (isset($data['Journal']))
-            {
-                $da['LEGEND'] = $data['Journal'];
-            } else {
-                $da['LEGEND'] = 'sem título do periódico';
-            }
+        if (isset($data['Journal'])) {
+            $da['LEGEND'] = $data['Journal'];
+        } else {
+            $da['LEGEND'] = 'sem título do periódico';
+        }
 
-        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
-            {
-                $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
-            }
+        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != '')) {
+            $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
+        }
 
-        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != ''))
-            {
-                $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
-            }
-        if (isset($data['Issue']['YEAR']) and ($data['Issue']['YEAR'] != ''))
-            {
-                $da['LEGEND'] .= ', ' . $data['Issue']['YEAR'];
-            }
+        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != '')) {
+            $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
+        }
+        if (isset($data['Issue']['YEAR']) and ($data['Issue']['YEAR'] != '')) {
+            $da['LEGEND'] .= ', ' . $data['Issue']['YEAR'];
+        }
         $da['updated_at'] = date("Y-m-d H:i:s");
         return $da;
     }
