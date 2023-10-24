@@ -92,7 +92,12 @@ class RDFData extends Model
 	function changeInvert($id)
 		{
 			$dt = $this->find($id);
-			pre($dt);
+			$d1 = $dt['d_r1'];
+			$d2 = $dt['d_r2'];
+			$dt['d_r1'] = $d2;
+			$dt['d_r2'] = $d1;
+			$this->set($dt)->where('id_d',$id);
+			return '';
 		}
 
 	function changeProp($po, $pd)

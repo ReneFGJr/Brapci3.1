@@ -300,7 +300,6 @@ class Metadata extends Model
                         if ($ddv1 == $idcc)
                             {
                                 echo h("ISSUE INVERTED");
-                                pre($meta,false);
                                 $RDFData->changeInvert($line['id_d']);
                                 $this->let('Issue', $ddv2);
                             } else {
