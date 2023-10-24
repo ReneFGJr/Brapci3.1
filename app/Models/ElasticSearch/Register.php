@@ -286,7 +286,7 @@ class Register extends Model
             }
             $dt = $this
                     ->where('YEAR > 2050')
-                    ->Orwhere('YEAR < 1910')
+                    ->Orwhere('YEAR < 1950')
                     ->orderBy('YEAR, ID')->findAll();
 
             $sx .= h('Total '.count($dt),5);
