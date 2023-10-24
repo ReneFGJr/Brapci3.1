@@ -887,6 +887,10 @@ class RDFExport extends Model
 		$dc['id'] = $id;
 
 		/****************************************************** PUBLISH **/
+		if (!isset($publish[0][1]))
+			{
+				pre($publish);
+			}
 		$namePublish = strip_tags($RDF->c($publish[0][1]));
 		$dc['publish'] = array(
 			'id' => $publish[0][1],
