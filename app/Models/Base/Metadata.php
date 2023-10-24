@@ -103,11 +103,12 @@ class Metadata extends Model
         $Source = new \App\Models\Base\Sources();
 
         if (isset($meta['data']) and (count($meta['data']) == 0)) {
-            $RDF->exclude($meta['concept']['id_cc']);
+            //$RDF->exclude($meta['concept']['id_cc']);
             return [];
         }
 
-        $issue_proceessed = array();
+        $idcc = $meta['concept']['id_cc'];
+
         $this->metadata = array();
         if (isset($meta['concept'])) {
             $concept = $meta['concept'];
@@ -295,7 +296,14 @@ class Metadata extends Model
                         $this->let('Collections', $value);
                         break;
                     case 'hasIssue':
-                        $this->let('Issue', $ddv1);
+                        if ($ddv1 == $idcc)
+                            {
+                                pre($meta);
+                                $this->let('Issue', $ddv2);
+                            } else {
+                                $this->let('Issue', $ddv1);
+                            }
+
                         break;
                     case 'hasIdRegister':
                         break;
