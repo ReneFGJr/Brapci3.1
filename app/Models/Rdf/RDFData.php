@@ -101,8 +101,6 @@ class RDFData extends Model
 		$this->where('d_p', $Class1);
 		$this->update();
 
-		echo $this->getlastquery();
-
 		return 0;
 	}
 
