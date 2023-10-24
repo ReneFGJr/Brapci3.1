@@ -149,6 +149,14 @@ class Issues extends Model
     function check_issues()
     {
         $sx = '';
+        $sx .= '<a href="'.PATH.'admin/issue/check?delete=1">Delete Year Zero</a>';
+        if (get('delete')==1)
+            {
+                $this
+                    ->where('is_year','0')
+                    ->where('is_year > 9000')
+                    ->delete();
+            }
         /************************************************* IssueProceeding */
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
         $RDFData = new \App\Models\Rdf\RDFData();
