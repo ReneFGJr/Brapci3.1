@@ -591,6 +591,8 @@ class Sources extends Model
     function tableview()
     {
         $this->where("jnl_collection = 'JA'");
+        $this->ORwhere("jnl_collection = 'JE'");
+        $this->ORwhere("jnl_collection = 'EV'");
         $this->path = (PATH . 'admin/source');
         $sx = tableview($this);
         $sx = bs(bsc($sx, 12));
