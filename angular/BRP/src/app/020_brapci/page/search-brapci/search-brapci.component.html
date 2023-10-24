@@ -80,7 +80,7 @@
         class="mb-3 mt-3 fadeIn"
         style="animation-delay: 500ms"
       >
-
+      {{items.type}}
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">
@@ -129,19 +129,19 @@
           <td width="80px" *ngIf="items.data.cover">
             <img
               [src]="items.data.cover"
-              title="{{ msg_cover }}: {{ items.data.ldl_legend }}"
+              title="{{ msg_cover }}: {{ items.data.TITLE }}"
               style="width: 80px; float: left; margin: 5px"
               class="cover me-3"
             />
           </td>
 
-          <td *ngIf="items.data.ldl_title" class="ms-2">
+          <td *ngIf="items.data.TITLE" class="ms-2">
             <input
               type="checkbox"
-              id="mk{{ items.data.article_id }}"
+              id="mk{{ items.data.ID }}"
               class="small"
               title="{{ msg_data_mark }}"
-              [value]="items.data.article_id"
+              [value]="items.data.ID"
               (change)="markDOwn($event)"
             />
             <a

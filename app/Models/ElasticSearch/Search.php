@@ -121,7 +121,8 @@ class Search extends Model
 
         $strategy = [];
         //$strategy['must']['term']['full'] = ascii($qs);
-        $strategy['must'][0]['match']['full'] = ascii($qs);
+        //$strategy['must'][0]['match']['full'] = ascii($qs);
+        $strategy['must'][0]['match']['match'] = ascii($qs);
 
         /******************** Fields */
         $flds = round('0' . get("field"));
