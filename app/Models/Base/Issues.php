@@ -157,6 +157,8 @@ class Issues extends Model
                     ->where('is_year','0')
                     ->Orwhere('is_year > 9000')
                     ->delete();
+                $sx .= metarefresh(PATH. 'admin/issue/check');
+                return $sx;
             }
         /************************************************* IssueProceeding */
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
