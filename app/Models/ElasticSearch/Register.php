@@ -126,7 +126,8 @@ class Register extends Model
                     foreach ($ks as $idk => $term) {
                         if (!isset($idaa[$idk])) {
                             if (trim($term) != '') {
-                                array_push($aaut, mb_strtolower(ascii($term)));
+                                $term = nbr_author($term,7);
+                                array_push($aaut, ascii($term));
                             }
                             $idaa[$idk] = 1;
                         }
