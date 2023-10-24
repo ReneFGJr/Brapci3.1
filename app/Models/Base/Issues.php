@@ -128,11 +128,16 @@ class Issues extends Model
             ->orderBy('is_source_issue')
             ->findAll();
         $sx = h(count($dt) . ' total', 2);
+        $xind = '';
         foreach($dt as $id=>$line)
             {
+                $ind = $line['is_source_issue'];
                 $sx .= '<li>';
                 $sx .= '<a href="' . PATH . 'a/' . $line['is_source_issue'] . '" target="_blank">' . $line['is_source_issue'] . '</a>';
+                if ($ind == $xind) { $sx .= 'Duplicado'; }
                 $sx .= '</li>';
+
+                $xind = $line['is_source_issue'];
             }
 
         return $sx;
