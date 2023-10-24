@@ -121,11 +121,18 @@ class Issues extends Model
         /************************************************* IssueProceeding */
         $RDFConcept = new \App\Models\Rdf\RDFConcept();
         $Issue = new \App\Models\Base\Issues();
+
         $dt = $Issue
             ->where('is_year <= 1')
-            ->where('is_year >= 9000')
+            ->Orwhere('is_year >= 9000')
             ->findAll();
-        pre($dt);
+        $sx = h(count($dt) . ' total', 2);
+        foreach($dt as $id=>$line)
+            {
+                $sx .= '<li>';
+                $sx .= '<a href="' . PATH . 'a/' . $line['is_source_issue'] . '" target="_blank">' . $line['is_source_issue'] . '</a>';
+                $sx .= '</li>';
+            }
 
         return $sx;
     }
