@@ -267,7 +267,7 @@ class Register extends Model
             $sx = '';
             $sx .= '<a href="'.PATH. 'admin/dataset/year_without/?t=-1" title="Reprocessar todos os 0">';
             $sx .= '<a href="' . PATH . 'admin/dataset/year_without/?t=0" title="Volta todos os 0">';
-            $sx .= bsicone('refresh');
+            $sx .= bsicone('reload');
             $sx .= '</a>';
             $sx .= '<ul>';
 
@@ -275,7 +275,10 @@ class Register extends Model
             if (get("t") != "")
             {
                 $d['status'] = get("t");
-                $this->set($d)->where('YEAR',0)->update();
+                $this->set($d)
+                    ->where('YEAR > 9000')
+                    ->Orwhere('YEAR < 1940')
+                    ->update();
                 return metarefresh(PATH . 'admin/dataset/year_without');
                 exit;
             }
