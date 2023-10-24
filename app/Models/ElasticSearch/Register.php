@@ -180,9 +180,9 @@ class Register extends Model
                 $dt['id_jnl'] = 0;
                 $dt['collection'] = 'Erro';
             }
-pre($line);
+
             $dt['year'] = $line['YEAR'];
-            $dt['type'] = $line['Class'];
+            $dt['type'] = $line['CLASS'];
 
 
             if (isset($DT['Idioma'])) {
