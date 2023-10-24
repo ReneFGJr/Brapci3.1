@@ -279,7 +279,7 @@ class Register extends Model
                 $d['status'] = -1;
                 $this->set($d)
                     ->where('YEAR > 9000')
-                    ->Orwhere('YEAR < 1940')
+                    ->Orwhere('YEAR < 1950')
                     ->update();
                 return metarefresh(PATH . 'admin/dataset/year_without');
                 exit;

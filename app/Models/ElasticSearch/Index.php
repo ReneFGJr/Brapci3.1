@@ -119,7 +119,7 @@ class Index extends Model
 		{
 			$RDF = new \App\Models\Rdf\RDF();
 			$Register = new \App\Models\ElasticSearch\Register();
-			$dt = $Register->where('year < 1940')->findAll(5);
+			$dt = $Register->where('year < 1950')->findAll(5);
 			$sx = 'Total '.count($dt).' problems with year';
 			$sx .= '<ol>';
 			foreach($dt as $id=>$line)
