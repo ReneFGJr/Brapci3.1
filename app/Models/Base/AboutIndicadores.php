@@ -58,7 +58,7 @@ class AboutIndicadores extends Model
 
     function makeIndicators()
     {
-        $cp = 'type, pdf, id_jnl';
+        $cp = 'CLASS as type, PDF as pdf, JOURNAL as id_jnl';
         $cpc = ', count(*) as total';
         $Search = new \App\Models\ElasticSearch\Register();
         $dt = $Search
