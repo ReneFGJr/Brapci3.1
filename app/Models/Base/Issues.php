@@ -124,7 +124,7 @@ class Issues extends Model
 
         $dt = $Issue
             ->where('is_year <= 1')
-            ->Orwhere('is_year >= 9000')
+            ->Orwhere('is_year >= 0')
             ->orderBy('is_source_issue')
             ->findAll();
         $sx = h(count($dt) . ' total', 2);
