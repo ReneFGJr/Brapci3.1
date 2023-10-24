@@ -173,9 +173,16 @@ class Index extends Model
                         $sx .= bs($sa);
                     break;
 
+                    case 'check2':
+                        $sa = bsc(h(lang('brapci.check_year'), 3), 12);
+                        $sa .= $ISSUE->check_issues_year();
+                        $sx .= bs($sa);
+                        break;
+
                     default:
                         $menu['#Check'] = '#';
                         $menu[PATH.'admin/issue/check'] = 'Check ISSUE (Classes)';
+                        $menu[PATH . 'admin/issue/check2'] = 'Check ISSUE (Year)';
                         $sx .= bs(bsc(menu($menu),12));
                         break;
                 }
