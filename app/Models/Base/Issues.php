@@ -134,7 +134,10 @@ class Issues extends Model
                 $ind = $line['is_source_issue'];
                 $sx .= '<li>';
                 $sx .= '<a href="' . PATH . 'a/' . $line['is_source_issue'] . '" target="_blank">' . $line['is_source_issue'] . '</a>';
-                if ($ind == $xind) { $sx .= 'Duplicado'; }
+                if ($ind == $xind) {
+                    $sx .= 'Duplicado';
+                    $Issue->where('id_is',$line['id_is'])->delete();
+                }
                 $sx .= '</li>';
 
                 $xind = $line['is_source_issue'];
