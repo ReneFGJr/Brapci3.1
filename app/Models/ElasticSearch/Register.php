@@ -274,6 +274,8 @@ class Register extends Model
             /******************************* Reprocessar */
             if (get("t") != "")
             {
+                $BOTS = new \App\Models\Bots\Index();
+                $BOTS->task('EXPORT_SELECTED');
                 $d['status'] = -1;
                 $this->set($d)
                     ->where('YEAR > 9000')
