@@ -728,7 +728,13 @@ class RDFExport extends Model
 
 		$dta = $Metadata->metadata($dt);
 
-		$dta['NKeywords'] = $this->export_keywords_in_work($dta['AuthorsOf']);
+		if (isset($dta['AuthorsOf']))
+			{
+				$dta['NKeywords'] = $this->export_keywords_in_work($dta['AuthorsOf']);
+			} else {
+				$dta['NKeywords'] = '';
+			}
+
 
 		$this->saveData($id, 'Elastic', $dta);
 		$this->saveData($id, 'Works', $dta); /* AuthorsOf  */
