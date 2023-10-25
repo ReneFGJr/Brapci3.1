@@ -459,8 +459,6 @@ class Register extends Model
         } else {
             $data['PDF'] = 0;
         }
-        echo "========================= REGISTER";
-        pre($data);
 
         if (isset($data['id_jnl'])) {
             $da['JOURNAL'] = $data['id_jnl'];
@@ -496,6 +494,8 @@ class Register extends Model
             $da['LEGEND'] .= ', ' . $data['Issue']['YEAR'];
         }
         $da['updated_at'] = date("Y-m-d H:i:s");
+
+        pre($da);
         return $da;
     }
 
