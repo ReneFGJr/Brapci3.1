@@ -459,6 +459,8 @@ class Register extends Model
         } else {
             $data['PDF'] = 0;
         }
+        echo "=======DATA";
+        pre($data);
 
         if (isset($data['id_jnl'])) {
             $da['JOURNAL'] = $data['id_jnl'];
