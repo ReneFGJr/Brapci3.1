@@ -129,6 +129,10 @@ class Issues extends Model
             ->where("prop.c_class = 'altLabel'")
             ->findAll();
 
+            foreach ($dt as $id=>$line) {
+                pre($line);
+            }
+
             $sx = 'Total '.count($dt);
             $sx .= '<br>Prop: '.$prop;
             pre($sx);
