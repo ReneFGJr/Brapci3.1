@@ -410,7 +410,6 @@ class Register extends Model
             /* Recupera ISSUE do WorkIssue */
             if (isset($data['Issue'][0])) {
                 $di = $Issues->where('is_source_issue', $data['Issue'][0])->first();
-                pre($di);
                 if ($di != '') {
                     $data['Issue']['ID'] = $data['Issue'][0];
                     $da['ISSUE'] = $data['Issue'][0];
@@ -421,9 +420,6 @@ class Register extends Model
                     $data['Issue']['NR']  = $di['is_nr'];
                     $data['YEAR']  = $di['is_year'];
                 }
-                pre($data);
-                echo "+!+!+!+!+!+!";
-                exit;
             } else {
                 $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
                 echo '============ISSUE==' . $data['ID'];
