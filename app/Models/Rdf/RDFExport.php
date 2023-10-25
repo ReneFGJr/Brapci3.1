@@ -890,7 +890,7 @@ class RDFExport extends Model
 		if (!isset($publish[0][1]))
 			{
 				echo "=======================";
-				pre($data,false);
+				pre($dt,false);
 				pre($publish);
 			}
 		$namePublish = strip_tags($RDF->c($publish[0][1]));
