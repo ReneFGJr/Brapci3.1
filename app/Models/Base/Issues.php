@@ -119,7 +119,7 @@ class Issues extends Model
         {
             $RDFdata = new \App\Models\Rdf\RDFData();
 
-            $dt = $this->select('SELECT class.c_class, prop.c_class, id_cc')
+            $dt = $this->select('class.c_class, prop.c_class, id_cc')
             ->join('rdf_concept','d_r2 = id_cc')
             ->join('rdf_class as class', 'cc_class = class.id_c')
             ->join('rdf_class', 'prop ON d_p = prop.id_c')
