@@ -135,9 +135,9 @@ class Issues extends Model
                 $RDFdata->set($d)->where('id_d',$idp)->update();
             }
 
-            $sx = 'Total '.count($dt);
-            $sx .= '<br>Prop: '.$prop;
-            pre($sx);
+            $sx = 'Total de registros identificados '.count($dt);
+            //$sx .= '<br>Prop: '.$prop;
+            return $sx;
         }
 
     function check_issues_year()
