@@ -133,7 +133,6 @@ class Issues extends Model
                 $idp = $line['id_d'];
                 $d['d_p'] = $prop;
                 $RDFdata->set($d)->where('id_d',$idp)->update();
-                pre($line);
             }
 
             $sx = 'Total '.count($dt);
