@@ -505,7 +505,6 @@ class Export extends Model
             return "FIM2-ids";
         }
 
-        pre($ids);
         $sx = h($class);
         $total = $total[0]['total'];
 
@@ -521,7 +520,8 @@ class Export extends Model
             /*********************** Metadata */
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
-
+echo "QQQQQQQQQQQQQ";
+pre($meta);
             $delete = 0;
             if (!isset($meta['Class'])) {
                 $delete = 1;
