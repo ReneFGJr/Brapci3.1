@@ -888,8 +888,6 @@ class RDFExport extends Model
 		$year = array_merge($year1, $year2);
 		$place = $RDF->recovery($dt['data'], 'hasPlace');
 		$publish = $RDF->recovery($dt['data'], 'hasIssue');
-		$publish = array_push($publish,$RDF->recovery($dt['data'], 'hasIssueProceeding'));
-
 		$dc['id'] = $id;
 
 		/****************************************************** PUBLISH **/
