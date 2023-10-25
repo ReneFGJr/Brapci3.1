@@ -518,7 +518,6 @@ class Export extends Model
 
             /*********************** Metadata */
             $Metadata->metadata($line);
-            pre($Metadata->metadata);
             $meta = $Metadata->metadata;
 
             $delete = 0;
