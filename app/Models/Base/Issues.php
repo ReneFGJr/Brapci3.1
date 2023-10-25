@@ -117,6 +117,8 @@ class Issues extends Model
 
     function check_issues_type()
         {
+            $RDF = new \App\Models\Rdf\RDF();
+            $prop = $RDF->getClass('hasIssue');
             $RDFdata = new \App\Models\Rdf\RDFData();
 
             $dt = $RDFdata->select('class.c_class, prop.c_class, id_cc')
@@ -128,6 +130,7 @@ class Issues extends Model
             ->findAll();
 
             $sx = 'Total '.count($dt);
+            $sx .= '<br>Prop: '.$prop;
             pre($sx);
         }
 
