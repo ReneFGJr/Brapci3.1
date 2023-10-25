@@ -132,7 +132,7 @@ class Issues extends Model
             foreach ($dt as $id=>$line) {
                 $idp = $line['id_d'];
                 $d['d_p'] = $prop;
-                $RDFdata->set($d)->where('id_d'.$idp)->update();
+                $RDFdata->set($d)->where('id_d',$idp)->update();
                 pre($line);
             }
 
