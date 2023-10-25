@@ -102,6 +102,7 @@ class Metadata extends Model
         $COVER = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
         $Source = new \App\Models\Base\Sources();
+        $Issue = new \App\Models\Base\Issues();
 
         if (isset($meta['data']) and (count($meta['data']) == 0)) {
             //$RDF->exclude($meta['concept']['id_cc']);
@@ -301,10 +302,12 @@ class Metadata extends Model
                             {
                                 $RDFData->changeInvert($line['id_d']);
                                 $this->let('Issue', $ddv2);
+                                $idIssue = $ddv2;
                             } else {
                                 $this->let('Issue', $ddv1);
+                                $idIssue = $ddv1;
                             }
-
+                            $this->metadata['Issue'] = $Issue->getIssue($idIssue);
                         break;
                     case 'hasIdRegister':
                         break;
@@ -342,8 +345,6 @@ class Metadata extends Model
                 }
             }
         }
-
-
         return $this->metadata;
     }
 

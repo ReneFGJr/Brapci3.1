@@ -248,6 +248,23 @@ class Issues extends Model
             return $sx;
         }
 
+        function getMetada($id)
+            {
+                    $dt = $this->where('is_source_issue',$id)->first();
+                    if ($dt == '')
+                        {
+                            $this->getIssue($id);
+                            $dt = $this->where('is_source_issue', $id)->first();
+                        }
+                    if ($dt != '') {
+                        pre($dt);
+                    } else {
+                        $dt['status'] = 'Issue not found';
+                        return $dt;
+                    }
+
+            }
+
         function getIssue($id)
             {
                 $sx = '';
