@@ -450,6 +450,7 @@ class Register extends Model
         }
 
         if (!isset($da['YEAR'])) {
+            pre($da);
             $da['YEAR'] = 9998;
         }
         if ($da['YEAR'] == '') {
