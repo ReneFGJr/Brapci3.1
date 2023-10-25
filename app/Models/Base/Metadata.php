@@ -350,7 +350,7 @@ class Metadata extends Model
         if (!isset($this->metadata['Journal']))
             {
                 $Source = new \App\Models\Base\Sources();
-                $s = $Source->where('id_jnl',$this->metadata['Issue']['JOURNAL']);
+                $s = $Source->where('id_jnl',$this->metadata['Issue']['JOURNAL'])->first();
                 pre($s);
                 echo "========JOURNAL=====";
                 pre($this->metadata);
