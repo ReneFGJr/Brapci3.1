@@ -257,6 +257,13 @@ class Issues extends Model
                             $dt = $this->where('is_source_issue', $id)->first();
                         }
                     if ($dt != '') {
+                        $d = [];
+                        $d['ID'] = $dt['is_source_issue'];
+                        $d['YEAR'] = $dt['is_year'];
+                        $d['JOURNAL'] = $dt['is_source'];
+                        $d['VOL'] = $dt['is_vol'];
+                        $d['NR'] = $dt['is_nr'];
+                        $d['ID'] = $dt['is_source_issue'];
                         pre($dt);
                     } else {
                         $dt['status'] = 'Issue not found';
