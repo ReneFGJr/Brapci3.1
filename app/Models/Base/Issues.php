@@ -130,6 +130,9 @@ class Issues extends Model
             ->findAll();
 
             foreach ($dt as $id=>$line) {
+                $idp = $line['id_d'];
+                $d['d_p'] = $prop;
+                $this->set($d)->where('id_d'.$idp)->update();
                 pre($line);
             }
 
