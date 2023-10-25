@@ -403,7 +403,7 @@ class Register extends Model
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
-            $da['YEAR'] = $data['Issue']['ID'];
+            $da['YEAR'] = $data['Issue']['YEAR'];
             $da['JOURNAL'] = $data['Issue']['JOURNAL'];
             $da['VOL'] = $data['Issue']['VOL'];
             $da['NR'] = $data['Issue']['NR'];
