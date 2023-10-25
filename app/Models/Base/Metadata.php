@@ -345,6 +345,13 @@ class Metadata extends Model
                 }
             }
         }
+
+        /*************************************************** META */
+        if (!isset($this->metadata['Journal'])
+            {
+                echo "========JOURNAL=====";
+                pre($this->metadata());
+            }
         return $this->metadata;
     }
 
