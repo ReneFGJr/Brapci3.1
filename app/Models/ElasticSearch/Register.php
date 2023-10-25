@@ -406,9 +406,7 @@ class Register extends Model
         } else {
             $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
-            pre($data);
-            echo "+!+!+!+!+!+!";
-            exit;
+
             /* Recupera ISSUE do WorkIssue */
             if (isset($data['Issue'][0])) {
                 $di = $Issues->where('is_source_issue', $data['Issue'][0])->first();
@@ -423,6 +421,9 @@ class Register extends Model
                     $data['Issue']['NR']  = $di['is_nr'];
                     $data['YEAR']  = $di['is_year'];
                 }
+                pre($data);
+                echo "+!+!+!+!+!+!";
+                exit;
             } else {
                 $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
                 echo '============ISSUE==' . $data['ID'];
