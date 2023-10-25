@@ -431,6 +431,7 @@ class Register extends Model
         }
 
         if ((isset($data['JOURNAL'])) and ($data['JOURNAL'] != '')) {
+            pre($data);
             $da['JOURNAL'] = $data['JOURNAL'];
         }
         /**************************** KEYWORDS */
@@ -495,7 +496,6 @@ class Register extends Model
         }
         $da['updated_at'] = date("Y-m-d H:i:s");
 
-        pre($da);
         return $da;
     }
 
