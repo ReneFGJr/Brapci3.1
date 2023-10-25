@@ -186,6 +186,7 @@ class Register extends Model
                 $dt['jounal'] = 'Erro de processamento';
                 $dt['id_jnl'] = 0;
                 $dt['collection'] = 'Erro';
+                pre($DT);
             }
 
             $dt['year'] = $line['YEAR'];
