@@ -264,6 +264,7 @@ class Issues extends Model
                         $d['VOL'] = $dt['is_vol'];
                         $d['NR'] = $dt['is_nr'];
                         $d['ID'] = $dt['is_source_issue'];
+                        return $d;
                     } else {
                         $dt['status'] = 'Issue not found';
                         return $dt;
