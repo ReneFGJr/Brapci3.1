@@ -524,6 +524,7 @@ class RDFExport extends Model
 
 	function export_proceeding($dt,$id,$tp='P')
 		{
+		echo "[[PROCEEDING]]";
 		$Metadata = new \App\Models\Base\Metadata();
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
