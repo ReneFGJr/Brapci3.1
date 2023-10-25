@@ -431,7 +431,6 @@ class Register extends Model
         }
 
         if ((isset($data['JOURNAL'])) and ($data['JOURNAL'] != '')) {
-            pre($data);
             $da['JOURNAL'] = $data['JOURNAL'];
         }
         /**************************** KEYWORDS */
@@ -563,6 +562,7 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
+        pre($data);
         $this->check($data, true, $id);
 
         /* NOVO REGISTRO */
