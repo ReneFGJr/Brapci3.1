@@ -189,7 +189,7 @@ class Index extends Model
                         $menu['#Check'] = '#';
                         $menu[PATH.'admin/issue/check'] = 'Check ISSUE (Classes)';
                         $menu[PATH . 'admin/issue/check2'] = 'Check ISSUE (Year)';
-                        $menu[PATH . 'admin/issue/check2'] = 'Check ISSUE (Processings)';
+                        $menu[PATH . 'admin/issue/check3'] = 'Check ISSUE (Processings)';
                         $sx .= bs(bsc(menu($menu),12));
                         break;
                 }
