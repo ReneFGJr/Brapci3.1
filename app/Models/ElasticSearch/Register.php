@@ -403,6 +403,10 @@ class Register extends Model
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['ID'];
+            $da['YEAR'] = $data['Issue']['ID'];
+            $da['JOURNAL'] = $data['Issue']['JOURNAL'];
+            $da['VOL'] = $data['Issue']['VOL'];
+            $da['NR'] = $data['Issue']['NR'];
         } else {
             $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
