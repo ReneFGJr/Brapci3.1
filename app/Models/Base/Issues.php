@@ -127,7 +127,7 @@ class Issues extends Model
             ->where("prop.c_class = 'altLabel'")
             ->findAll();
 
-            $sx = 'Total '.coun($dt);
+            $sx = 'Total '.count($dt);
             pre($sx);
         }
 
