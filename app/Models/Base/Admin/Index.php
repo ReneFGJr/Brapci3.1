@@ -145,7 +145,7 @@ class Index extends Model
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
                             $sb .= '<a title="Bots" href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
-                            $sb .= '<a title="Export" href="' . PATH . '/admin/export/" class="text-success me-2">' . bsicone('upload', 32) . '</a>';
+                            $sb .= '<a title="Export" href="' . PATH . 'bots/export/" class="text-success me-2">' . bsicone('upload', 32) . '</a>';
                             $sb .= '<a title="Cron" href="'.PATH.'/admin/cron/" class="text-success me-2">'.bsicone('clock-1',32).'</a>';
                             $sb .= '<a title="Bugs" href="' . PATH . '/admin/bugs/" class="text-success me-2">' . bsicone('bug', 32) . '</a>';
                             $sb .= '<a title="Problems in Export File" href="' . PATH . '/admin/problems/" class="text-success me-2">' . bsicone('maid', 32) . '</a>';
