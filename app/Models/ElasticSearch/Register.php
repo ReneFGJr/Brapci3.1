@@ -407,10 +407,11 @@ class Register extends Model
         } else {
             $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            echo "+!+!+!+!+!+!";
+            exit;
             /* Recupera ISSUE do WorkIssue */
             if (isset($data['Issue'][0])) {
                 $di = $Issues->where('is_source_issue', $data['Issue'][0])->first();
-                echo "+!+!+!+!+!+!";
                 pre($di);
                 if ($di != '') {
                     $data['Issue']['ID'] = $data['Issue'][0];
