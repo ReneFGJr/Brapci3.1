@@ -396,7 +396,6 @@ class Register extends Model
     function data_convert_elastic($data)
     {
         $da = array();
-        echo "=================================11";
         $da['ID'] = $data['ID'];
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
@@ -407,6 +406,7 @@ class Register extends Model
         } else {
             $Issues = new \App\Models\Base\Issues();
             $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            pre($data);
             echo "+!+!+!+!+!+!";
             exit;
             /* Recupera ISSUE do WorkIssue */
