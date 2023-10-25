@@ -121,7 +121,7 @@ class Issues extends Model
             $prop = $RDF->getClass('hasIssue');
             $RDFdata = new \App\Models\Rdf\RDFData();
 
-            $dt = $RDFdata->select('class.c_class, prop.c_class, id_cc')
+            $dt = $RDFdata->select('class.c_class, prop.c_class, id_cc, id_d')
             ->join('rdf_concept','d_r2 = id_cc')
             ->join('rdf_class as prop', 'd_p = prop.id_c')
             ->join('rdf_class as class', 'cc_class = class.id_c')
