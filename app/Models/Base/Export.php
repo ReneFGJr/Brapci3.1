@@ -464,8 +464,6 @@ class Export extends Model
             /*********************** Metadata */
             $Metadata->metadata($line);
             $meta = $Metadata->metadata;
-            echo '=1=1=1=1=1=1=1';
-            pre($meta);
 
             $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                 $ElasticRegister->data($idr, $meta) . '</li>';
@@ -506,6 +504,8 @@ class Export extends Model
             $this->eof = 1;
             return "FIM2-ids";
         }
+
+        pre($ids);
         $sx = h($class);
         $total = $total[0]['total'];
 
