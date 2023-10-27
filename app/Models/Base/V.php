@@ -60,6 +60,9 @@ class V extends Model
         $class = $dt['concept']['c_class'];
         $mod = COLLECTION;
 
+        echo '====>'.$class;
+        exit;
+
         switch ($class) {
             case 'Article':
                 $Work = new \App\Models\Base\Work();
@@ -69,8 +72,6 @@ class V extends Model
                 $Work = new \App\Models\Base\Work();
                 $sx = $Work->show($dt);
                 break;
-
-
             case 'Person':
                 //if ($mod == '') {
                 //    $sx = metarefresh(PATH . '/autoridade/v/' . $idc);
