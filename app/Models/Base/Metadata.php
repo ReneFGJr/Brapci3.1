@@ -349,6 +349,8 @@ class Metadata extends Model
         /*************************************************** META */
         if (!isset($this->metadata['Journal']))
             {
+                pre($this->metadata);
+
                 $Source = new \App\Models\Base\Sources();
                 $s = $Source->where('id_jnl',$this->metadata['Issue']['JOURNAL'])->first();
                 $this->metadata['Journal'] = $s['jnl_name'];
