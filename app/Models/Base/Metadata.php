@@ -347,6 +347,9 @@ class Metadata extends Model
         }
 
         /*************************************************** META */
+        $Class = $this->metadata['Class'];
+        if (($Class == 'Article') or ($Class == 'Proceeding'))
+        {
         if (!isset($this->metadata['Journal']))
             {
                 pre($this->metadata,false);
@@ -356,8 +359,7 @@ class Metadata extends Model
                 $this->metadata['Journal'] = $s['jnl_name'];
                 $this->metadata['id_jnl'] = $s['id_jnl'];
             }
+        }
         return $this->metadata;
     }
-
-
 }
