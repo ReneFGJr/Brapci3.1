@@ -153,13 +153,9 @@ class Work extends Model
             $da['edit'] .= '<a href="#" onclick="if (confirm(\'Confirma exclusão\')) { newwin(\'' . PATH . '/rdf/concept/exclude/' . $dt['concept']['id_cc'] . '\',600,300); }" style="color: red;" class="ms-2">' . bsicone('del', 32) . '</a>';
             $da['edit'] .= '<a href="' . PATH . '/ai/nlp/fulltext/' . $dt['concept']['id_cc'] . '">' . $img_ia . '</a>';
 
-            $sc .= $RDF->view_data($dt);
+            //$sc .= $RDF->view_data($dt);
 
         }
-
-        echo "OK3";
-        exit;
-
 
         /******************** MOSTRAR */
         switch ($class) {
