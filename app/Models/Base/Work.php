@@ -89,8 +89,6 @@ class Work extends Model
             }
         $da['class'] = $class;
 
-        pre($da);
-
         /************************************************** Midias Sociais */
         $da['id_cc'] = $idc;
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
@@ -102,6 +100,8 @@ class Work extends Model
         /************************************************************* BUGS */
         $Cited = new \App\Models\AI\Cited\Index();
         $da['nlp'] = $Cited->show($idc);
+
+        echo "OK"; exit;
 
         /************************************************************ VIEWS */
         $ViewsRDF = new \App\Models\Functions\ViewsRDF();
