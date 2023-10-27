@@ -144,6 +144,8 @@ class Work extends Model
             }
 
         /************************************************** Botoes de Edição */
+        echo "OK4";
+        exit;
         $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
         if ($Socials->getAccess("#ADM#CAT#ENA")) {
             $img_ia = '<img src="'.URL.'/img/icons/logo_brapci_ia.svg" height="28" title="IA Brapci Process">';
