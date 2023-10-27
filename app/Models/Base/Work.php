@@ -123,8 +123,6 @@ class Work extends Model
             {
                 $da['issue_id'] = $issue[0];
             }
-        echo "OK3";
-        exit;
 
         /********************************************************* ALTMETRICS */
         if (isset($da['DOI']))
@@ -144,6 +142,8 @@ class Work extends Model
                     h(lang('brapci.summary'),4).
                     '</center>'.$da['summary'];
             }
+        echo "OK3";
+        exit;
 
         /************************************************** Botoes de Edição */
         $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
