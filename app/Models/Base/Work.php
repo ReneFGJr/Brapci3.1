@@ -157,6 +157,10 @@ class Work extends Model
 
         }
 
+        echo "OK3";
+        exit;
+
+
         /******************** MOSTRAR */
         switch ($class) {
             case 'Article':
