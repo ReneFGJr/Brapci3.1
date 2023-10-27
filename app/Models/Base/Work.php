@@ -63,7 +63,8 @@ class Work extends Model
             $dt = round($dt);
             $dt = $RDF->le($dt);
         }
-
+        echo "OK";
+        exit;
         $idc = $dt['concept']['id_cc'];
 
         /***************************************** Recupe dados */

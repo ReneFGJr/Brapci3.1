@@ -60,8 +60,6 @@ class V extends Model
         $class = $dt['concept']['c_class'];
         $mod = COLLECTION;
 
-        echo '====>'.$class;
-        exit;
 
         switch ($class) {
             case 'Article':
