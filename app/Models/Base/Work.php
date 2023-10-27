@@ -145,12 +145,10 @@ class Work extends Model
 
         /************************************************** Botoes de Edição */
         $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
-/*
+
         if ($da['edit'] == 1) {
             $img_ia = '<img src="'.URL.'/img/icons/logo_brapci_ia.svg" height="28" title="IA Brapci Process">';
 
-
-            /*
             $da['edit'] = '<a href="' . PATH . COLLECTION . '/a/' .
                     $dt['concept']['id_cc'] . '">' . bsicone('edit', 32) . '</a>';
 
@@ -162,9 +160,6 @@ class Work extends Model
             $sc .= $RDF->view_data($dt);
             echo "OK$sc"; exit;
         }
-    */
-pre($da);
-
 
         /******************** MOSTRAR */
         switch ($class) {
@@ -200,14 +195,14 @@ pre($da);
                     }
 
                 $sc = '';
-
-
                 $sx .= view('Brapci/Base/Work', $da);
                 break;
             default:
 
                 break;
         }
+
+        /*
         if ($Socials->getAccess("#ADM#CAT#ENA"))
             {
                 $sx .= bs(bsc('<a href="#data" onclick="showw();">'.bsicone('upload',10).'</a>',12,));
@@ -227,6 +222,7 @@ pre($da);
                 $Elastic = new \App\Models\ElasticSearch\Register();
                 //$sx .= $Elastic->show($idc);
             }
+            */
 
         return $sx;
     }
