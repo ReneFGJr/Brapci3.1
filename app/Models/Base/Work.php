@@ -142,8 +142,6 @@ class Work extends Model
                     h(lang('brapci.summary'),4).
                     '</center>'.$da['summary'];
             }
-        echo "OK3";
-        exit;
 
         /************************************************** Botoes de Edição */
         $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
@@ -154,6 +152,10 @@ class Work extends Model
             $da['edit'] .= '<a href="' . PATH . '/ai/nlp/fulltext/' . $dt['concept']['id_cc'] . '">' . $img_ia . '</a>';
             $sc .= $RDF->view_data($dt);
         }
+
+        echo "OK3";
+        exit;
+
 
         /******************** MOSTRAR */
         switch ($class) {
