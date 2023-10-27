@@ -163,8 +163,7 @@ class Work extends Model
             echo "OK$sc"; exit;
         }
     */
-        echo "OK3";
-        exit;
+
 
 
         /******************** MOSTRAR */
