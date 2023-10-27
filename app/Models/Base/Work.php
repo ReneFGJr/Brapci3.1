@@ -124,7 +124,6 @@ class Work extends Model
                 $da['issue_id'] = $issue[0];
             }
 
-        pre($da);
         /********************************************************* ALTMETRICS */
         if (isset($da['DOI']))
         {
