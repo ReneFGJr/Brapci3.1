@@ -163,7 +163,7 @@ class Work extends Model
             echo "OK$sc"; exit;
         }
     */
-
+pre($da);
 
 
         /******************** MOSTRAR */
