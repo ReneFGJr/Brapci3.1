@@ -145,9 +145,7 @@ class Work extends Model
 
         /************************************************** Botoes de Edição */
         $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
-        echo "OK";
-        exit;
-
+/*
         if ($da['edit'] == 1) {
             $img_ia = '<img src="'.URL.'/img/icons/logo_brapci_ia.svg" height="28" title="IA Brapci Process">';
 
@@ -161,11 +159,10 @@ class Work extends Model
                     style="color: red;" class="ms-2">' . bsicone('del', 32) . '</a>';
             $da['edit'] .= '<a href="' . PATH . '/ai/nlp/fulltext/' . $dt['concept']['id_cc'] . '">' .
                     $img_ia . '</a>';
-            */
             $sc .= $RDF->view_data($dt);
             echo "OK$sc"; exit;
         }
-
+    */
         echo "OK3";
         exit;
 
