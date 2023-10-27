@@ -144,6 +144,8 @@ class Work extends Model
             }
 
         /************************************************** Botoes de Edição */
+        echo "OK";
+        exit;
         $da['edit'] = $Socials->getAccess("#ADM#CAT#ENA");
 
         if ($da['edit'] == 1) {
