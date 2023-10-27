@@ -149,10 +149,11 @@ class Work extends Model
         if ($da['edit'] == True) {
             $img_ia = '<img src="'.URL.'/img/icons/logo_brapci_ia.svg" height="28" title="IA Brapci Process">';
 
+            $da['edit'] = '<a href="' . PATH . COLLECTION . '/a/' . $dt['concept']['id_cc'] . '">' . bsicone('edit', 32) . '</a>';
+
             echo "OK5 $img_ia";
             exit;
 
-            $da['edit'] = '<a href="' . PATH . COLLECTION . '/a/' . $dt['concept']['id_cc'] . '">' . bsicone('edit', 32) . '</a>';
             $da['edit'] .= '<a href="#" onclick="if (confirm(\'Confirma exclusão\')) { newwin(\'' . PATH . '/rdf/concept/exclude/' . $dt['concept']['id_cc'] . '\',600,300); }" style="color: red;" class="ms-2">' . bsicone('del', 32) . '</a>';
             $da['edit'] .= '<a href="' . PATH . '/ai/nlp/fulltext/' . $dt['concept']['id_cc'] . '">' . $img_ia . '</a>';
             //$sc .= $RDF->view_data($dt);
