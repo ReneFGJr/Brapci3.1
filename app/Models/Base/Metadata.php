@@ -358,8 +358,6 @@ class Metadata extends Model
                 $this->metadata['id_jnl'] = $s['id_jnl'];
             }
         }
-
-        pre($this->metadata);
         return $this->metadata;
     }
 }

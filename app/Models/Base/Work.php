@@ -89,6 +89,8 @@ class Work extends Model
             }
         $da['class'] = $class;
 
+        pre($da);
+
         /************************************************** Midias Sociais */
         $da['id_cc'] = $idc;
         $da['MidiasSociais'] = $MidiasSociais->sharing($da);
