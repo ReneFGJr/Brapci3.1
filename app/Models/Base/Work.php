@@ -101,12 +101,12 @@ class Work extends Model
         $Cited = new \App\Models\AI\Cited\Index();
         $da['nlp'] = $Cited->show($idc);
 
-        echo "OK"; exit;
-
         /************************************************************ VIEWS */
         $ViewsRDF = new \App\Models\Functions\ViewsRDF();
         $da['views'] = $ViewsRDF->show($idc);
 
+        echo "OK";
+        exit;
         /************************************************************ VIEWS */
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
