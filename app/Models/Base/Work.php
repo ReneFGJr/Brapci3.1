@@ -154,7 +154,7 @@ class Work extends Model
             $da['edit'] .= '<a href="' . PATH . '/ai/nlp/fulltext/' . $dt['concept']['id_cc'] . '">' . $img_ia . '</a>';
 
             //$sc .= $RDF->view_data($dt);
-
+            echo "OK$"; exit;
         }
 
         echo "OK3";
