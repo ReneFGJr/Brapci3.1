@@ -63,8 +63,6 @@ class Work extends Model
             $dt = round($dt);
             $dt = $RDF->le($dt);
         }
-        echo "OK";
-        exit;
         $idc = $dt['concept']['id_cc'];
 
         /***************************************** Recupe dados */
@@ -72,7 +70,8 @@ class Work extends Model
         $RDF = new \App\Models\Rdf\RDF();
 
         $class = $dt['concept']['c_class'];
-        //echo '==>'.$class;
+        echo '==>'.$class;
+        exit;
         switch($class)
             {
                 case 'BookChapter':
