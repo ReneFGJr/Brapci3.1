@@ -213,7 +213,7 @@ class Work extends Model
 
                 $sx .= h('Elastic');
                 $Elastic = new \App\Models\ElasticSearch\Register();
-                $sx .= $Elastic->show($idc);
+                //$sx .= $Elastic->show($idc);
             }
 
         return $sx;
