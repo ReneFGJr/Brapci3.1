@@ -113,14 +113,14 @@ class Work extends Model
         $da['reference'] = $this->show_reference($idc);
         $Citation = new \App\Models\Cited\Index();
 
-        echo "OK2";
-        exit;
-
 
         /********************************************************* CITACOES */
         $da['Citation'] = $Citation->show_ref($idc);
 
         /************************************************************ ISSUE */
+        echo "OK3";
+        exit;
+
         $issue = $RDF->extract($dt, 'hasIssue');
         if (isset($issue[0]))
             {
