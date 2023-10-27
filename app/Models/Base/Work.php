@@ -105,8 +105,6 @@ class Work extends Model
         $ViewsRDF = new \App\Models\Functions\ViewsRDF();
         $da['views'] = $ViewsRDF->show($idc);
 
-        echo "OK";
-        exit;
         /************************************************************ VIEWS */
         $Cited = new \App\Models\Cited\Index();
         $da['cited'] = $Cited->citation_total($idc);
@@ -114,6 +112,10 @@ class Work extends Model
         /****************************************************** REFERECNIAS */
         $da['reference'] = $this->show_reference($idc);
         $Citation = new \App\Models\Cited\Index();
+
+        echo "OK2";
+        exit;
+
 
         /********************************************************* CITACOES */
         $da['Citation'] = $Citation->show_ref($idc);
