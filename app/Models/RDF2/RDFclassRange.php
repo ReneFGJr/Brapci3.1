@@ -61,8 +61,8 @@ class RDFclassRange extends Model
         function listRange($id)
         {
             $dt = $this
-                ->join('rdf_class', 'cr_property = id_c')
-                ->where('cr_range', $id)
+                ->join('rdf_class', 'cr_range = id_c')
+                ->where('cr_property', $id)
                 ->findAll();
             return $dt;
         }
