@@ -125,7 +125,7 @@ class Brapci extends Model
         switch ($d1) {
             case 'get':
                 $RDFClass = new \App\Models\RDF2\RDFclass();
-                $RSP = $RDFClass->get($d2);
+                $RSP['data'] = $RDFClass->get($d2);
                 break;
             default:
                 $RSP = $this->getAll($d2,$d3,$d4,$d5);

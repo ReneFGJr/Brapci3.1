@@ -103,6 +103,7 @@ class RDFclass extends Model
             ->where('c_class',$id)
             ->orderBy('c_class')
             ->findAll();
+
         return $dt;
         }
 
