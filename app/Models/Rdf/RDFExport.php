@@ -477,7 +477,7 @@ class RDFExport extends Model
 						{
 							$auth = [];
 							$auths = '';
-							foreach($dta['AUthors'] as $ida=> $name)
+							foreach($dta['Authors'] as $ida=> $name)
 								{
 									if ($auths != '') { $auths .= ';'; }
 									array_push($auth,$name);
