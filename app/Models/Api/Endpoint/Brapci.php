@@ -146,7 +146,8 @@ class Brapci extends Model
         $RSP['time'] = date("Y-m-dTH:i:s");
         $Classes = $RDFclass->getClasses();
         $Property = $RDFproperty->getProperties();
-        $RSP['Classes'] = array_merge($Classes, $Property);
+        $RSP['Classes'] = $Classes;
+        $RSP['Properties'] = $Property;
         return $RSP;
     }
 

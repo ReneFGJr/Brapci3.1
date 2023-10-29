@@ -99,6 +99,8 @@ class RDFproperty extends Model
             ->where('c_type', 'P')
             ->orderBy('c_class')
             ->findAll();
+
+        pre($dt);
         return $dt;
     }
 }
