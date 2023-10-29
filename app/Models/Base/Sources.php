@@ -14,7 +14,7 @@ class Sources extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields        = [
+    public $allowedFields        = [
         'id_jnl', 'jnl_name', 'jnl_name_abrev',
         'jnl_issn', 'jnl_eissn', 'jnl_periodicidade',
         'jnl_ano_inicio', 'jnl_ano_final', 'jnl_url',
@@ -102,7 +102,9 @@ class Sources extends Model
                 break;
 
             case 'tableview':
-                $sx = $this->tableview();
+                $this->path = PATH.'admin/source';
+                $this->path_back = PATH. 'admin/source/tableview';
+                $sx = bs(bsc(tableview($this,$_POST)));
                 break;
 
             /******************* Implementando */
@@ -535,7 +537,7 @@ class Sources extends Model
         $dt = $this->find($id);
 
         /************** ISSUES */
-        $JournalIssue = new \App\Models\Base\Issues();
+        $Issues = new \App\Models\Base\Issues();
         $Harvesting = new \App\Models\Base\Harvesting();
         $OAI = new \App\Models\Oaipmh\Index();
 
@@ -554,6 +556,12 @@ class Sources extends Model
                 $sx .= bsc($subp, 9);
                 $sx .= bsc($painel, 3);
             }
+
+
+        /********* ISSUE */
+        $sx .= h("ISSUE");
+
+        $sx .= bsc($Issues->issuesRow($id),12);
         $sx = bs($sx);
 
 
@@ -588,11 +596,19 @@ class Sources extends Model
 
 
     /******************************************** MOSTRA LISTA DE PUBLICAÇÕES */
-    function tableview()
+    function xtableview($ax)
     {
+        echo "OK2";
+        $ax = (array)$ax;
+        $fld = $ax['allowedFields'];
         $this->where("jnl_collection = 'JA'");
         $this->ORwhere("jnl_collection = 'JE'");
         $this->ORwhere("jnl_collection = 'EV'");
+        if (isset($_POST['search_field']))
+            {
+                $fldn = $fld[$_POST['search_field']];
+                $this->like($fldn,get("search"));
+            }
         $this->path = (PATH . 'admin/source');
         $sx = tableview($this);
         $sx = bs(bsc($sx, 12));
