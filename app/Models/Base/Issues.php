@@ -428,7 +428,6 @@ class Issues extends Model
                 if (isset($line['is_vol_roman']) and (trim($line['is_vol_roman']) != ''))
                     {
                         $sx .= ' '.$line['is_vol_roman'];
-                        pre($line);
                         $sx .= ' '.$line['jnl_name'];
                     } else {
                         $sx .= ', ' . $line['is_vol'];
