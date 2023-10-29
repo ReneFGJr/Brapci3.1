@@ -104,7 +104,6 @@ class RDFclass extends Model
                 ->where('c_type','C')
                 ->orderBy('c_class')
                 ->findAll();
-                echo $this->getlastquery();
-            pre($dt);
+            return $dt;
         }
 }
