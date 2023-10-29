@@ -118,6 +118,14 @@ class RDFclass extends Model
                     break;
             }
 
+        /******** Domain */
+        $RDFdomain = new \App\Models\RDF2\RDFclassDomain();
+        $dt['Domain'] = $RDFdomain->listDomain($dt['id']);
+
+        /********* Range */
+        $RDFclassRange = new \App\Models\RDF2\RDFclassRange();
+        $dt['Domain'] = $RDFclassRange->listRange($dt['id']);
+
         return $dt;
         }
 

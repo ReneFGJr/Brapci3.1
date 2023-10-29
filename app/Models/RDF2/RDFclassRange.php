@@ -57,4 +57,13 @@ class RDFclassRange extends Model
                     return $dt['id_cr'];
                 }
         }
+
+        function listRange($id)
+        {
+            $dt = $this
+                ->join('rdf_class', 'cr_property = id_c')
+                ->where('cr_range', $id)
+                ->findAll();
+            return $dt;
+        }
 }

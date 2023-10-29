@@ -56,4 +56,13 @@ class RDFclassDomain extends Model
             return $dt['id_cd'];
         }
     }
+
+    function listDomain($id)
+        {
+            $dt = $this
+                ->join('rdf_class', 'cd_property = id_c')
+                ->where('cd_domain',$id)
+                ->findAll();
+            return $dt;
+        }
 }
