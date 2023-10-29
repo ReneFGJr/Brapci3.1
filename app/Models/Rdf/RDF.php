@@ -795,6 +795,7 @@ class RDF extends Model
 
 	function recovery($dt, $fclass = '', $ido = 0)
 	{
+		pre($dt);
 		$rsp = array();
 		$fclass = trim($fclass);
 		for ($r = 0; $r < count($dt); $r++) {
