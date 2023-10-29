@@ -528,6 +528,8 @@ class RDFExport extends Model
 		$RDF = new \App\Models\Rdf\RDF();
 		$ABNT = new \App\Models\Metadata\Abnt();
 
+		pre($dt);
+
 		if (count($dt['data']) == 0) {
 			return "OPS export_proceeding " . $id . '<br>';
 		}
