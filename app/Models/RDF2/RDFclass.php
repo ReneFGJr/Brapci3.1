@@ -103,7 +103,7 @@ class RDFclass extends Model
             ->join('rdf_prefix', 'id_prefix = c_prefix')
             ->where('c_class',$id)
             ->orderBy('c_class')
-            ->findAll();
+            ->first();
         return $dt;
         }
 
