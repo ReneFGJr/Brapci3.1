@@ -104,6 +104,10 @@ class RDFclass extends Model
             ->where('c_class',$id)
             ->orderBy('c_class')
             ->first();
+
+        $dt['classTotal'] = 0;
+        $dt['propTotal'] = 0;
+
         return $dt;
         }
 
