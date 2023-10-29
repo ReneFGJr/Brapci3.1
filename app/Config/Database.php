@@ -352,6 +352,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $rdf2 = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_rdf',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $capes = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -678,6 +698,9 @@ class Database extends Config
 
         $this->public['username'] = getenv('database.default.username');
         $this->public['password'] = getenv('database.default.password');
+
+        $this->rdf2['username'] = getenv('database.default.username');
+        $this->rdf2['password'] = getenv('database.default.password');
 
         $this->vc['username'] = getenv('database.default.username');
         $this->vc['password'] = getenv('database.default.password');

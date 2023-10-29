@@ -124,12 +124,12 @@ class Brapci extends Model
         $dt = [];
         switch ($d1) {
             case 'get':
-                $RDFClass = new \App\Models\Rdf\RDFClass();
+                $RDFClass = new \App\Models\Rdf\RDFclass();
                 $dt = $RDFClass->get($d2);
                 break;
             default:
-                $RDFClass = new \App\Models\Rdf\RDFClass();
-                $dt = $RDFClass->getAll();
+                $RDFClass = new \App\Models\RDF2\RDFclass();
+                $dt = $RDFClass->getClasses();
         }
         return $dt;
     }

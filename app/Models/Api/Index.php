@@ -90,6 +90,10 @@ class Index extends Model
                 $API = new \App\Models\Api\Endpoint\Pdf;
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
+            case 'rdf':
+                $API = new \App\Models\Api\Endpoint\Rdf;
+                $sx = $API->index($d1, $d2, $d3, $d4);
+                break;
             case 'book':
                 $API = new \App\Models\Api\Endpoint\Book;
                 $sx = $API->index($d1, $d2, $d3, $d4);

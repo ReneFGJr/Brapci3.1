@@ -70,7 +70,7 @@ class Work extends Model
         $RDF = new \App\Models\Rdf\RDF();
 
         $class = $dt['concept']['c_class'];
-        //echo '==>'.$class;
+
         switch($class)
             {
                 case 'BookChapter':
@@ -100,6 +100,10 @@ class Work extends Model
         /************************************************************* BUGS */
         $Cited = new \App\Models\AI\Cited\Index();
         $da['nlp'] = $Cited->show($idc);
+
+        /************************************************************* BUGS */
+        $RDFvalidate = new \App\Models\Rdf\RDFvalidate();
+        $da['qld'] = $RDFvalidate->show($idc);
 
         /************************************************************ VIEWS */
         $ViewsRDF = new \App\Models\Functions\ViewsRDF();

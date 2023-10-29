@@ -32,7 +32,7 @@ class RDF extends BaseController
         $data['bg'] = 'bg-admin';
         $sx = '';
         $cab = cab();
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF2 = new \App\Models\RDF2\RDF();
 
         $RDF = new \App\Models\Rdf\RDF();
         $sx .= $RDF->index($d1, $d2, $d3, $d4,$d5, $cab);
@@ -41,4 +41,6 @@ class RDF extends BaseController
 
         return $sx;
     }
+
+    //function
 }

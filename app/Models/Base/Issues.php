@@ -115,6 +115,52 @@ class Issues extends Model
         return $sx;
     }
 
+    function check_issues_journal_article()
+        {
+            $RDF = new \App\Models\Rdf\RDF();
+            $prop = $RDF->getClass('isPubishIn');
+            $RDFdata = new \App\Models\Rdf\RDFData();
+
+            $cp = 'class.c_class, prop.c_class, id_cc, id_d, d_r1, d_r2';
+            //$cp = '*';
+
+            $dt = $RDFdata->select($cp)
+            ->join('rdf_concept', 'd_r2 = id_cc')
+            ->join('rdf_class as prop', 'd_p = prop.id_c')
+            ->join('rdf_class as class', 'cc_class = class.id_c')
+            ->where("class.c_class = 'Journal'")
+            ->where("prop.c_class = 'hasIssue'")
+            ->findAll();
+
+            foreach ($dt as $id => $line) {
+                $idp = $line['id_d'];
+                $d['d_p'] = $prop;
+                $RDFdata->set($d)->where('id_d', $idp)->update();
+            }
+
+            $dt2 = $RDFdata->select($cp)
+            ->join('rdf_concept', 'd_r2 = id_cc')
+            ->join('rdf_class as prop', 'd_p = prop.id_c')
+            ->join('rdf_class as class', 'cc_class = class.id_c')
+            ->where("class.c_class = 'Journal'")
+            ->where("prop.c_class = 'isPubishIn'")
+            ->where("d_r1 > d_r2")
+            ->findAll();
+
+            foreach ($dt2 as $id => $line) {
+                $idp = $line['id_d'];
+                $d = [];
+                $d['d_r1'] = $line['d_r2'];
+                $d['d_r2'] = $line['d_r1'];
+                $RDFdata->set($d)->where('id_d', $idp)->update();
+            }
+
+            $sx = 'Total de registros identificados ' . count($dt);
+            $sx = '<br>Total de registros trocados ' . count($dt2);
+            //$sx .= '<br>Prop: '.$prop;
+            return $sx;
+        }
+
     function check_issues_type()
         {
             $RDF = new \App\Models\Rdf\RDF();
@@ -234,6 +280,7 @@ class Issues extends Model
             foreach($dt as $id=>$line)
                 {
                     $sx .= '<li>Processando ISSUE '.$line['id_cc'].'</li>';
+                    echo "===============XX=";
                     $RSP = $this->getIssue($line['id_cc']);
                 }
 
@@ -256,6 +303,7 @@ class Issues extends Model
                             $this->getIssue($id);
                             $dt = $this->where('is_source_issue', $id)->first();
                         }
+
                     if ($dt != '') {
                         $d = [];
                         $d['ID'] = $dt['is_source_issue'];
@@ -277,6 +325,10 @@ class Issues extends Model
                 $sx = '';
                 $RDF = new \App\Models\Rdf\RDF();
                 $dt = $RDF->le($id);
+                if ($dt == [])
+                    {
+                        return([]);
+                    }
                 if ($dt['concept']['c_class'] == 'Issue')
                     {
                         $da = $this->getDadosIssue($dt);
@@ -285,7 +337,9 @@ class Issues extends Model
                         $sx .= bsmessage("REGISTRADO ISSUE - $id");
                     } else {
                         /************************** ERRO DE ISSUE */
-                        $sx .= bsmessage("ERRO DE CLASSO DE ISSUE - $id");
+                        $sx .= bsmessage("ERRO DE CLASS DE ISSUE - $id");
+                        echo $sx;
+                        //breal;
                     }
                 return $sx;
             }

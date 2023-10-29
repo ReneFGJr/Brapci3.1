@@ -307,7 +307,11 @@ class Metadata extends Model
                                 $this->let('Issue', $ddv1);
                                 $idIssue = $ddv1;
                             }
-                            $this->metadata['Issue'] = $Issue->getMetada($idIssue);
+                            $RRSP = $Issue->getMetada($idIssue);
+                            if ($RRSP != [])
+                                {
+                                    $this->metadata['Issue'] = $RRSP;
+                                }
                         break;
                     case 'hasIdRegister':
                         break;
