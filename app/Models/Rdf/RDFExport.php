@@ -540,7 +540,7 @@ class RDFExport extends Model
 			return "OPS export_proceeding " . $id . '<br>';
 		}
 		$dta = $Metadata->metadata($dt);
-		pre($dta);
+		//pre($dta);
 
 		$this->saveData($id, 'Title', $dta);
 		$this->saveData($id, 'Section',$dta);
