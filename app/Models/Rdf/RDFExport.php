@@ -475,11 +475,19 @@ class RDFExport extends Model
 					case 'Authors':
 						if (isset($dta['Authors']))
 						{
-							$name = json_encode($dta['Authors']);
+							$auth = [];
+							$auths = '';
+							foreach($dta['AUthors'] as $ida=> $name)
+								{
+									if ($auths != '') { $auths .= ';'; }
+									array_push($auth,$name);
+									$auths .= $name;
+								}
+							$name = json_encode($auth);
 							$this->saveRDF($id, $name, 'Authors.json');
 
 							$name = trim(implode('; ', $dta['Authors']));
-							$this->saveRDF($id, $name, 'Authors.name');
+							$this->saveRDF($id, $auths, 'Authors.name');
 						}
 						break;
 					case 'Works':
