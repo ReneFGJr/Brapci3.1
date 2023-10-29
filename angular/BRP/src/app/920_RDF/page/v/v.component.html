@@ -9,14 +9,53 @@
     <p><b>Prefix</b>: {{ data.prefix }}</p>
     <p><b>Class</b>: {{ data.Class }}</p>
     <p><b>Type</b>: {{ data.Type }}</p>
-    <p><b>Description</b>: {{data.Description }}</p>
+    <p><b>Description</b>: {{ data.Description }}</p>
     <p *ngIf="data.c_equivalent != 0"></p>
   </div>
   <div class="col-6">
     <p><b>Total entidades</b>: {{ data.classTotal }}</p>
     <p><b>Total propriedades</b>: {{ data.propTotal }}</p>
   </div>
+
+    <div *ngIf="data.Domain" class="col-6 border-top border-secondary">
+      <ul>
+        <li class="h6">Domain</li>
+        <ul>
+        <li *ngFor="let item of data.Domain">
+          <a
+            [routerLink]="['/rdf/v' + item.c_class]"
+            class="link"
+            routerLinkActive="router-link-active"
+          >
+            {{ item.c_class }}
+          </a>
+        </li>
+        </ul>
+      </ul>
+    </div>
+
+    <div *ngIf="data.Range" class="col-6 border-top border-secondary">
+      <ul>
+        <li class="h6">Range</li>
+        <ul>
+        <li *ngFor="let item of data.Range">
+          <a
+            [routerLink]="['/rdf/v' + item.c_class]"
+            class="link"
+            routerLinkActive="router-link-active"
+          >
+            {{ item.c_class }}
+          </a>
+        </li>
+        </ul>
+      </ul>
+  </div>
   <div class="col-12">
-    <a class="btn btn-outline-primary" [routerLink]="['/rdf']" routerLinkActive="router-link-active">Return</a>
+    <a
+      class="btn btn-outline-primary"
+      [routerLink]="['/rdf']"
+      routerLinkActive="router-link-active"
+      >Return</a
+    >
   </div>
 </div>

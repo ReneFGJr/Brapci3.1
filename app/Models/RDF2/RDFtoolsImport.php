@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class RDFtoolsImport extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = 'rdf2';
     protected $table            = 'rdftoolsimports';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
@@ -40,6 +40,15 @@ class RDFtoolsImport extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function zeraDB()
+        {
+                $sql = "TRUNCATE `rdf_class_domain`";
+                $this->db->query($sql);
+
+                $sql = "TRUNCATE `rdf_class_range`";
+                $this->db->query($sql);
+        }
+
     function import($file)
     {
         $RDFclass = new \App\Models\RDF2\RDFclass();
@@ -48,6 +57,8 @@ class RDFtoolsImport extends Model
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
 
         if (file_exists($file)) {
+            $this->zeraDB();
+
             $xml = simplexml_load_file($file);
             /********************** Prefix - NameSpace */
             $namespaces = $xml->getNamespaces(true);
