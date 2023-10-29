@@ -52,12 +52,18 @@ class Rdf extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
-
-        header("Content-Type: application/json");
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RSP = [];
+        //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'in':
+                    $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
+                    $RSP = $RDFtools->inportRDF($d3);
+                    break;
                 default:
-                    $RSP = $this->getAll();
+                    $RSP = $RDFclass->getClasses();
             }
         echo json_encode($RSP);
     }

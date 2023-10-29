@@ -144,4 +144,58 @@ class RDFtoolsImport extends Model
             $RDFprefix->register($prefix, $uri);
         }
     }
+
+    /*************************************************** */
+    function inportRDF($id)
+        {
+            $RSP = [];
+            $RDF1 = new \App\Models\Rdf\RDF();
+            $dt1 = $RDF1->le($id);
+            $class = $dt1['concept']['c_class'];
+
+            $RDF2 = new \App\Models\RDF2\RDF();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+
+
+            switch($class)
+                {
+                    case 'Article':
+                        $this->importArticle($dt1);
+                    break;
+                }
+            $RSP['time'] = date("Y-m-d H:i:s");
+            return $RSP;
+        }
+
+        function importArticle($dt1)
+            {
+                $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                $RDFclass = new \App\Models\RDF2\RDFclass();
+
+                $d['ID'] = $dt1['concept']['id_c'];
+                $d['Class'] = $dt1['concept']['c_class'];
+                $d['Name'] = $dt1['concept']['n_name'];
+                $d['Lang'] = $dt1['concept']['n_lang'];
+
+                $IDC = $RDFconcept->createConcept($d);
+
+                /**************************** DATAS */
+                if (isset($dt1['data']))
+                {
+                    $dados = $dt1['data'];
+                    foreach($dados as $id=>$line)
+                        {
+                            $class = $line['c_class'];
+                            $id_class = $RDFclass->getClass($class);
+                            if ($id_class == 0)
+                                {
+                                    echo "OPS - Propriedade não existe <b>$class</b>";
+                                }
+                            echo '==>'.$id_class;
+
+                            pre($line,false);
+                        }
+                }
+            }
 }

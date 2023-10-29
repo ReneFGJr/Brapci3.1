@@ -7,14 +7,18 @@ use CodeIgniter\Model;
 class RDFconcept extends Model
 {
     var $DBGroup                = 'rdf2';
-    var $table                  = PREFIX . 'rdf_concept';
+    var $table                  = 'rdf_concept';
     protected $primaryKey       = 'id_cc';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_cc','cc_class', 'cc_use ', 'cc_pref_term ',
+        'c_equivalent', 'cc_origin', 'cc_status',
+        'cc_update', 'cc_origin'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -39,4 +43,45 @@ class RDFconcept extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function le($id)
+        {
+            $dc = $this->find($id);
+            return $dc;
+        }
+
+    function createConcept($dt)
+        {
+            $RDFliteral = new \App\Models\RDF2\RDFliteral();
+            $d = [];
+            /********************* Literal */
+            if (isset($dt['ID']))
+                {
+                    $dc = $this->le($dt['ID']);
+                    if ($dc != null)
+                        {
+                            return $dc['id_cc'];
+                        }
+                    $d['id_cc'] = $dt['ID'];
+                    $ID = $dt['ID'];
+                } else {
+                    $dc = [];
+                    $ID = 0;
+                }
+
+            if ($dc == null)
+                {
+                    $d['cc_pref_term'] = $RDFliteral->register($dt['Name'],$dt['Lang']);
+                }
+
+            /********************* Classe */
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $d['cc_class'] = $RDFclass->getClass($dt['Class']);
+            $d['cc_use'] = 0;
+            $d['cc_origin'] = '';
+            $d['cc_update'] = date("Y-m-d");
+            $d['cc_status'] = 1;
+            $ID = $this->set($d)->insert();
+            return $ID;
+        }
 }

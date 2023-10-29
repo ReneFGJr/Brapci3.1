@@ -72,6 +72,7 @@ class RDFclass extends Model
 
     function getClass($Class,$prefix='')
         {
+
             $Class = trim($Class);
             $this->where('c_class',$Class);
             if ($prefix != '')
