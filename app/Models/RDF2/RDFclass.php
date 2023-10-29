@@ -93,6 +93,16 @@ class RDFclass extends Model
 
         }
 
+    function get($id)
+        {
+        $dt = $this
+            ->join('rdf_prefix', 'id_prefix = c_prefix')
+            ->where('c_class',$id)
+            ->orderBy('c_class')
+            ->findAll();
+        return $dt;
+        }
+
     function getClasses()
         {
             $cp = 'id_c as id, prefix_ref as prefix,c_class as Class,
