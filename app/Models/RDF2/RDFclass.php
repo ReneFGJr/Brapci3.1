@@ -124,7 +124,7 @@ class RDFclass extends Model
 
         /********* Range */
         $RDFclassRange = new \App\Models\RDF2\RDFclassRange();
-        $dt['Domain'] = $RDFclassRange->listRange($dt['id']);
+        $dt['Range'] = $RDFclassRange->listRange($dt['id']);
 
         return $dt;
         }
