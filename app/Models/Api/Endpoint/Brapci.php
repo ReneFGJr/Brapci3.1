@@ -119,19 +119,35 @@ class Brapci extends Model
         exit;
     }
 
-    function rdf($d1, $d2)
+    function rdf($d1, $d2 ,$d3='',$d4='',$d5='')
     {
-        $dt = [];
+        $RSP = [];
         switch ($d1) {
             case 'get':
-                $RDFClass = new \App\Models\Rdf\RDFclass();
-                $dt = $RDFClass->get($d2);
+                $RDFClass = new \App\Models\RDF2\RDFclass();
+                $RSP = $RDFClass->get($d2);
                 break;
             default:
-                $RDFClass = new \App\Models\RDF2\RDFclass();
-                $dt = $RDFClass->getClasses();
+                $RSP = $this->getAll($d2,$d3,$d4,$d5);
         }
-        return $dt;
+        return $RSP;
+    }
+
+
+    /************* Default */
+    function getAll()
+    {
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+
+        $RSP = [];
+        $RSP['200'] = 'Success';
+
+        $RSP['time'] = date("Y-m-dTH:i:s");
+        $Classes = $RDFclass->getClasses();
+        $Property = $RDFproperty->getProperties();
+        $RSP['Classes'] = array_merge($Classes, $Property);
+        return $RSP;
     }
 
     function resume()

@@ -87,4 +87,18 @@ class RDFproperty extends Model
             return 0;
         }
     }
+
+    function getProperties()
+    {
+        $cp = 'id_c as id, prefix_ref as prefix,c_class as Class,
+                        c_type as Type, CONCAT(prefix_url,c_class) as url';
+        //$cp = '*';
+        $dt = $this
+            ->select($cp)
+            ->join('rdf_prefix', 'id_prefix = c_prefix')
+            ->where('c_type', 'P')
+            ->orderBy('c_class')
+            ->findAll();
+        return $dt;
+    }
 }

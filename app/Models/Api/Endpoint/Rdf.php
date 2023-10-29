@@ -52,19 +52,13 @@ class Rdf extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
-        $RDFclass = new \App\Models\RDF2\RDFclass();
-        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+
         header("Content-Type: application/json");
         switch($d2)
             {
                 default:
-                    $RSP = [];
-                    $RSP['200'] = 'Success';
-                    break;
+                    $RSP = $this->getAll();
             }
-        $RSP['time'] = date("Y-m-dTH:i:s");
-        $Classes = $RDFclass->getClasses();
-        $Property = $RDFproperty->getProperties();
         echo json_encode($RSP);
     }
 }

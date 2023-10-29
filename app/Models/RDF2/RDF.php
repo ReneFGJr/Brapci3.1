@@ -42,6 +42,7 @@ class RDF extends Model
 
     function index($d1,$d2,$d3,$d4)
         {
+            /* NAO USADO PARA AS APIS */
             if ($d1 != 'import')
                 {
                     header("Content-Type: application/json");
