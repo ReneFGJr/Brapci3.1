@@ -99,11 +99,11 @@ class RDFclass extends Model
                         c_type as Type, CONCAT(prefix_url,c_class) as url';
 
         $dt = $this
+            ->select($cp)
             ->join('rdf_prefix', 'id_prefix = c_prefix')
             ->where('c_class',$id)
             ->orderBy('c_class')
             ->findAll();
-
         return $dt;
         }
 
