@@ -108,6 +108,16 @@ class RDFclass extends Model
         $dt['classTotal'] = 0;
         $dt['propTotal'] = 0;
 
+        switch ($dt['Class'])
+            {
+                case 'C':
+                    $dt['Class'] = 'Classe';
+                    break;
+                case 'P':
+                    $dt['Class'] = 'Property';
+                    break;
+            }
+
         return $dt;
         }
 
