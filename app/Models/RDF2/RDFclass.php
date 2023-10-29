@@ -95,7 +95,11 @@ class RDFclass extends Model
 
     function get($id)
         {
+        $cp = 'id_c as id, prefix_ref as prefix,c_class as Class,
+                        c_type as Type, CONCAT(prefix_url,c_class) as url';
+
         $dt = $this
+            ->select($cp)
             ->join('rdf_prefix', 'id_prefix = c_prefix')
             ->where('c_class',$id)
             ->orderBy('c_class')
