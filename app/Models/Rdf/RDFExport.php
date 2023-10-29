@@ -429,15 +429,14 @@ class RDFExport extends Model
 						$this->saveRDF($id, $name, 'Title.name');
 						break;
 					case 'Year':
-						pre($dta);
-						if (isset($dta['Issue']['Year'])) {
-							$name = trim($dta['Issue']['Year']);
+						if (isset($dta['Issue']['YEAR'])) {
+							$name = trim($dta['Issue']['YEAR']);
 							$this->saveRDF($id, $name, 'Year.name');
 						}
 						break;
 					case 'Place':
-						if (isset($dta['Issue']['Place'])) {
-							$name = trim($dta['Issue']['Place']);
+						if (isset($dta['Issue']['PLACE'])) {
+							$name = trim($dta['Issue']['PLACE']);
 							$this->saveRDF($id, $name, 'Place.name');
 						}
 						break;
