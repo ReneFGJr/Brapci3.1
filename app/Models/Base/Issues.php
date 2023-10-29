@@ -401,6 +401,7 @@ class Issues extends Model
 
         $id = round($id);
         $dt = $this
+            ->join('source_source', 'is_source = id_jnl')
             ->where("is_source", $id)
             ->where('is_visible',1)
             ->orderBy('is_year', 'DESC')
