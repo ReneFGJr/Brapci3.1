@@ -426,14 +426,14 @@ class Issues extends Model
                 $sx .= $line['is_year'];
                 if (isset($line['is_vol_roman']) and (trim($line['is_vol_roman']) != ''))
                     {
-                        $sx .= $line['is_vol_roman'];
+                        $sx .= ' '.$line['is_vol_roman'];
+                        $sx .= ' '.$line['jnl_name'];
                     } else {
                         $sx .= ', ' . $line['is_vol'];
                         if (isset($line['is_nr'])) {
                             $sx .= ', ' . $line['is_nr'];
                         }
                     }
-
                     $sx .= ' - (' . $line['is_source_issue'].')';
                 $sx .= $linka;
                 $sx .= '</li>';
