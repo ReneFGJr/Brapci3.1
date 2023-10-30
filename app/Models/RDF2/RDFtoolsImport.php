@@ -160,20 +160,44 @@ class RDFtoolsImport extends Model
 
             switch($class)
                 {
+                    case 'Subject':
+                        $RSP = $this->importSubject($dt1);
+                        break;
                     case 'Article':
-                        $this->importArticle($dt1);
+                    $RSP = $this->importArticle($dt1);
                     break;
+
+                    default:
+                        $RSP['status'] = '510';
+                        $RSP['message'] = $class.' don´t have method';
                 }
             $RSP['time'] = date("Y-m-d H:i:s");
             return $RSP;
         }
+
+    function importSubject($dt1)
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+
+        $d['ID'] = $dt1['concept']['id_cc'];
+        $d['Class'] = $dt1['concept']['c_class'];
+        $d['Name'] = $dt1['concept']['n_name'];
+        $d['Lang'] = $dt1['concept']['n_lang'];
+
+        $IDC = $RDFconcept->createConcept($d);
+        $RSP['Term'] = $dt1['concept']['n_name'].'@'. $dt1['concept']['n_lang'];
+        $RSP['ID'] = $IDC;
+        $RSP['Class'] = $dt1['concept']['c_class'];
+        return $RSP;
+    }
 
         function importArticle($dt1)
             {
                 $RDFconcept = new \App\Models\RDF2\RDFconcept();
                 $RDFclass = new \App\Models\RDF2\RDFclass();
 
-                $d['ID'] = $dt1['concept']['id_c'];
+                $d['ID'] = $dt1['concept']['id_cc'];
                 $d['Class'] = $dt1['concept']['c_class'];
                 $d['Name'] = $dt1['concept']['n_name'];
                 $d['Lang'] = $dt1['concept']['n_lang'];
