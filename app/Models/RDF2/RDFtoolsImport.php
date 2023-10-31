@@ -175,6 +175,7 @@ class RDFtoolsImport extends Model
             $c['Journal'] = 'Journals';
             $c['ArticleSection'] = 'Section';
             $c['isPubishIn'] = 'isPubishOf';
+            $c['ProceedingSection'] = 'Section';
             if (isset($c[$class]))
                 {
                     $class = $c[$class];
@@ -198,11 +199,36 @@ class RDFtoolsImport extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
         switch ($class) {
+            case '':
+                //$RSP = $this->importGeneric($dt1);
+                $RSP['status'] = '200';
+                break;
             case 'Article':
                 $RSP = $this->importArticle($dt1);
                 break;
+            case 'Book':
+                $RSP = $this->importBook($dt1);
+                break;
+            case 'Collection':
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'CorporateBody':
+                $RSP = $this->importCorporateBody($dt1);
+                break;
+            case 'Country':
+                $RSP = $this->importGeneric($dt1);
+                break;
             case 'Date':
                 $RSP = $this->importDate($dt1);
+                break;
+            case 'ExclusiveDisjunction':
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'File':
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'Gender':
+                $RSP = $this->importGeneric($dt1);
                 break;
             case 'Issue':
                 $RSP = $this->importIssue($dt1);
@@ -212,6 +238,9 @@ class RDFtoolsImport extends Model
                 break;
             case 'Person':
                 $RSP = $this->importPerson($dt1);
+                break;
+            case 'Place':
+                $RSP = $this->importGeneric($dt1);
                 break;
             case 'PublicationVolume':
                 $dt1['concept']['n_name'] = $Volume->normalize($dt1['concept']['n_name']);
@@ -225,6 +254,9 @@ class RDFtoolsImport extends Model
                 break;
             case 'Journals':
                 $RSP = $this->importJournals($dt1);
+                break;
+            case 'Proceeding':
+                $RSP = $this->importProceeding($dt1);
                 break;
             case 'Section':
                 $RSP = $this->importGeneric($dt1);
@@ -309,6 +341,15 @@ class RDFtoolsImport extends Model
             $RSP = $this->createConcept($dt1);
             return $RSP;
         }
+
+    function importCorporateBody($dt1)
+    {
+        $dt1['concept']['n_name'] = nbr_author($dt1['concept']['n_name'], 7);
+        $dt1['concept']['n_lang'] = 'nn';
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+    }
+
     function importJournals($dt1)
     {
         $dt['n_lang'] = 'nn';
@@ -325,6 +366,20 @@ class RDFtoolsImport extends Model
 
     function importGeneric($dt1)
     {
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+    }
+
+    function importProceeding($dt1)
+        {
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RSP = $this->createConcept($dt1);
+            return $RSP;
+        }
+
+    function importBook($dt1)
+    {
+        $RDFclass = new \App\Models\RDF2\RDFclass();
         $RSP = $this->createConcept($dt1);
         return $RSP;
     }

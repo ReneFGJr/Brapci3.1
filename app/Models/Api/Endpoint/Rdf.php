@@ -61,6 +61,13 @@ class Rdf extends Model
                 case 'v':
                     $RSP = $RDF->v($d3);
                     break;
+                case 'import':
+                    $RDF = new \App\Models\RDF2\RDF();
+                    $RSP = $RDF->import();
+                    break;
+                case 'resume':
+                    $RDF = new \App\Models\RDF2\RDF();
+                    $RSP = $RDF->resume();
                 case 'in':
                     $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
                     if ($d3 == 'all')

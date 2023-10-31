@@ -45,14 +45,21 @@ class Language extends Model
 		{
 			if ($lang == '') { return 'nn'; }
 			if ($lang == 'nn') { return 'nn'; }
-			if ($lang == 'pt-BR') { return 'pt_BR'; }
+			if ($lang == 'NaN') { return 'nn'; }
+			if ($lang == 'pt-BR') { return 'pt'; }
+			if ($lang == 'pt-PT') { return 'pt'; }
+			if ($lang == 'pt') { return 'pt'; }
 			if ($lang == 'BUpt-') { return 'pt'; }
-			if ($lang == 'por') { return 'pt_BR'; }
+			if ($lang == 'por') { return 'pt'; }
 			if ($lang == 'en') { return 'en'; }
 			if ($lang == 'es') { return 'es'; }
 			if ($lang == 'fr') { return 'fr'; }
 			if ($lang == 'es-ES') { return 'es'; }
 			if ($lang == 'BUen-') { return 'en'; }
+			if ($lang == 'fr-CA') { return 'fr'; }
+			if ($lang == 'fr-FR') { return 'fr'; }
+			if ($lang == 'ca-ES') { return 'es'; }
+
 			echo '====ERRO IDIOMA=== ['.($lang).']';
 			exit;
 			return $lang;

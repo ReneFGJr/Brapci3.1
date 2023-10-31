@@ -50,7 +50,8 @@ class RDF extends Model
 
             $RSP = [];
             switch($d1)
-                {   case 'import':
+                {
+                    case 'import':
                         $RSP = $this->import();
                         break;
                     case 'source':
@@ -81,6 +82,26 @@ class RDF extends Model
             $data['concept'] = $RDFconcept->le($id);
             return $data;
         }
+
+    /************* V */
+    function resume()
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $dt = $RDFconcept
+            ->select('count(*) as total, c_class')
+            ->join('rdf_class','id_c = cc_class')
+            ->groupBy('c_class')
+            ->orderBy('c_class')
+            ->findAll();
+        $d = [];
+        foreach($dt as $id=>$line)
+            {
+                $class = $line['c_class'];
+                $d[$class] = $line['total'];
+            }
+        pre($d);
+
+    }
 
     /************* Import */
     function import()
