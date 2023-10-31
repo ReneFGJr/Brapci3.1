@@ -73,6 +73,15 @@ class RDF extends Model
             return $dt;
         }
 
+    /************* V */
+    function v($id)
+        {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $data = [];
+            $data['concept'] = $RDFconcept->le($id);
+            return $data;
+        }
+
     /************* Import */
     function import()
         {

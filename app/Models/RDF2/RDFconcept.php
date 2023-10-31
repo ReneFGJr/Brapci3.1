@@ -15,7 +15,7 @@ class RDFconcept extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_cc','cc_class', 'cc_use ', 'cc_pref_term ',
+        'id_cc','cc_class', 'cc_use', 'cc_pref_term',
         'c_equivalent', 'cc_origin', 'cc_status',
         'cc_update', 'cc_origin'
     ];
@@ -46,7 +46,17 @@ class RDFconcept extends Model
 
     function le($id)
         {
-            $dc = $this->find($id);
+            $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, cc_status, cc_created, cc_update';
+            //$cp = '*';
+            $dc = $this
+                ->select($cp)
+                ->join('rdf_literal', 'cc_pref_term = id_n','left')
+                ->join('rdf_class', 'id_c = cc_class')
+                ->join('rdf_prefix', 'id_prefix = c_prefix')
+                ->find($id);
+
+            /* Data */
+
             return $dc;
         }
 
@@ -54,25 +64,9 @@ class RDFconcept extends Model
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
             $d = [];
-            /********************* Literal */
-            if (isset($dt['ID']))
-                {
-                    $dc = $this->le($dt['ID']);
-                    if ($dc != null)
-                        {
-                            return $dc['id_cc'];
-                        }
-                    $d['id_cc'] = $dt['ID'];
-                    $ID = $dt['ID'];
-                } else {
-                    $dc = [];
-                    $ID = 0;
-                }
 
-            if ($dc == null)
-                {
-                    $d['cc_pref_term'] = $RDFliteral->register($dt['Name'],$dt['Lang']);
-                }
+            /* Literal Value */
+            $d['cc_pref_term'] = $RDFliteral->register($dt['Name'],$dt['Lang']);
 
             /********************* Classe */
             $RDFclass = new \App\Models\RDF2\RDFclass();
@@ -81,7 +75,29 @@ class RDFconcept extends Model
             $d['cc_origin'] = '';
             $d['cc_update'] = date("Y-m-d");
             $d['cc_status'] = 1;
-            $ID = $this->set($d)->insert();
+
+            /* Verifica se existe a Classe */
+            if ($d['cc_class'] <= 0) { return -1; }
+
+            /* Verifica se já existe */
+            $new = true;
+
+            /********************* COM o ID */
+            if (isset($dt['ID'])) {
+                $d['id_cc'] = $dt['ID'];
+                $dti = $this->find($dt['ID']);
+                if ($dti != null)
+                    {
+                        $new = false;
+                        $ID = $dti['id_cc'];
+                    }
+            }
+            if ($new == true)
+            {
+                $ID = $this->set($d)->insert();
+            } else {
+                $this->set($d)->where('id_cc',$ID)->update();
+            }
             return $ID;
         }
 }

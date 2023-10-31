@@ -41,13 +41,13 @@ class RDFtoolsImport extends Model
     protected $afterDelete    = [];
 
     function zeraDB()
-        {
-                $sql = "TRUNCATE `rdf_class_domain`";
-                $this->db->query($sql);
+    {
+        $sql = "TRUNCATE `rdf_class_domain`";
+        $this->db->query($sql);
 
-                $sql = "TRUNCATE `rdf_class_range`";
-                $this->db->query($sql);
-        }
+        $sql = "TRUNCATE `rdf_class_range`";
+        $this->db->query($sql);
+    }
 
     function import($file)
     {
@@ -145,37 +145,118 @@ class RDFtoolsImport extends Model
         }
     }
 
-    /*************************************************** */
-    function inportRDF($id)
+    /*************************************************** ALL */
+    function importRDFAll()
         {
-            $RSP = [];
-            $RDF1 = new \App\Models\Rdf\RDF();
-            $dt1 = $RDF1->le($id);
-            $class = $dt1['concept']['c_class'];
-
-            $RDF2 = new \App\Models\RDF2\RDF();
+            echo "GetAll<hr>";
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $dt = $RDFconcept
+                    ->join('brapci.rdf_concept as b_rdf', 'rdf_concept.id_cc = b_rdf.id_cc','right')
+                    ->where('rdf_concept.id_cc is null')
+                    ->findAll(500);
 
-
-
-            switch($class)
+            foreach($dt as $id=>$line)
                 {
-                    case 'Subject':
-                        $RSP = $this->importSubject($dt1);
-                        break;
-                    case 'Article':
-                    $RSP = $this->importArticle($dt1);
-                    break;
-
-                    default:
-                        $RSP['status'] = '510';
-                        $RSP['message'] = $class.' don´t have method';
+                    $RSP = $this->importRDF($line['id_cc']);
+                    echo $line['id_cc'].' '.$line['cc_class'].'<br>';
+                    if ($RSP['status'] != '200')
+                        {
+                            echo "ERRO";
+                            pre($RSP);
+                        }
                 }
-            $RSP['time'] = date("Y-m-d H:i:s");
-            return $RSP;
+            echo "FIM";
+            echo metarefresh('',1);
         }
 
-    function importSubject($dt1)
+    function classConvert($class)
+        {
+            $c = [];
+            $c['Journal'] = 'Journals';
+            $c['ArticleSection'] = 'Section';
+            $c['isPubishIn'] = 'isPubishOf';
+            if (isset($c[$class]))
+                {
+                    $class = $c[$class];
+                }
+            return $class;
+        }
+
+    /*************************************************** */
+    function importRDF($id)
+    {
+        $RSP = [];
+        $RDF1 = new \App\Models\Rdf\RDF();
+        $Volume = new \App\Models\AI\NLP\Text\Volume();
+        $NumberVolume = new \App\Models\AI\NLP\Text\NumberVolume();
+
+        $dt1 = $RDF1->le($id);
+        $class = $this->classConvert($dt1['concept']['c_class']);
+        $dt1['concept']['c_class'] = $class;
+
+        $RDF2 = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+        switch ($class) {
+            case 'Article':
+                $RSP = $this->importArticle($dt1);
+                break;
+            case 'Date':
+                $RSP = $this->importDate($dt1);
+                break;
+            case 'Issue':
+                $RSP = $this->importIssue($dt1);
+                break;
+            case 'Number':
+                $RSP = $this->importNumber($dt1);
+                break;
+            case 'Person':
+                $RSP = $this->importPerson($dt1);
+                break;
+            case 'PublicationVolume':
+                $dt1['concept']['n_name'] = $Volume->normalize($dt1['concept']['n_name']);
+                $dt1['concept']['n_lang'] = 'nn';
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'PublicationNumber':
+                $dt1['concept']['n_name'] = $NumberVolume->normalize($dt1['concept']['n_name']);
+                $dt1['concept']['n_lang'] = 'nn';
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'Journals':
+                $RSP = $this->importJournals($dt1);
+                break;
+            case 'Section':
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'Subject':
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'FileStorage':
+                /* TO CHECK */
+                $RSP = $this->importGeneric($dt1);
+                break;
+            case 'FileType':
+                /* TO CHECK */
+                $RSP = $this->importGeneric($dt1);
+                break;
+
+            default:
+                $RSP['status'] = '510';
+                $RSP['message'] = $class . ' don´t have method';
+                if (isset($dt1['concept']['id_cc']))
+                    {
+                        $RSP['ID'] = $dt1['concept']['id_cc'];
+                    } else {
+                        $RSP['ID'] = 'Invalid ID';
+                    }
+
+        }
+        $RSP['time'] = date("Y-m-d H:i:s");
+        return $RSP;
+    }
+
+    function createConcept($dt1)
     {
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFclass = new \App\Models\RDF2\RDFclass();
@@ -184,42 +265,89 @@ class RDFtoolsImport extends Model
         $d['Class'] = $dt1['concept']['c_class'];
         $d['Name'] = $dt1['concept']['n_name'];
         $d['Lang'] = $dt1['concept']['n_lang'];
-
         $IDC = $RDFconcept->createConcept($d);
-        $RSP['Term'] = $dt1['concept']['n_name'].'@'. $dt1['concept']['n_lang'];
+        if ($IDC < 0)
+            {
+                $RSP['status'] = '500';
+                switch($IDC)
+                    {
+                        case -1:
+                            $RSP['message'] = 'Classe '. $d['Class'].' não exite';
+                            break;
+                        default:
+                            $RSP['message'] = 'Erro não informado';
+                    }
+
+            } else {
+                $RSP['status'] = '200';
+            }
+        $RSP['Term'] = $dt1['concept']['n_name'] . '@' . $dt1['concept']['n_lang'];
         $RSP['ID'] = $IDC;
         $RSP['Class'] = $dt1['concept']['c_class'];
         return $RSP;
     }
 
-        function importArticle($dt1)
-            {
-                $RDFconcept = new \App\Models\RDF2\RDFconcept();
-                $RDFclass = new \App\Models\RDF2\RDFclass();
+    function importDate($dt1)
+    {
+        /********** TO DO */
+        $RSP['status'] = 200;
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+    }
 
-                $d['ID'] = $dt1['concept']['id_cc'];
-                $d['Class'] = $dt1['concept']['c_class'];
-                $d['Name'] = $dt1['concept']['n_name'];
-                $d['Lang'] = $dt1['concept']['n_lang'];
+    function importIssue($dt1)
+        {
+            /********** TO DO */
+            $RSP = $this->createConcept($dt1);
+            return $RSP;
+        }
 
-                $IDC = $RDFconcept->createConcept($d);
+    function importPerson($dt1)
+        {
+            $dt1['concept']['n_name'] = nbr_author($dt1['concept']['n_name'],7);
+            $dt1['concept']['n_lang'] = 'nn';
+            $RSP = $this->createConcept($dt1);
+            return $RSP;
+        }
+    function importJournals($dt1)
+    {
+        $dt['n_lang'] = 'nn';
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+    }
 
-                /**************************** DATAS */
-                if (isset($dt1['data']))
-                {
-                    $dados = $dt1['data'];
-                    foreach($dados as $id=>$line)
-                        {
-                            $class = $line['c_class'];
-                            $id_class = $RDFclass->getClass($class);
-                            if ($id_class == 0)
-                                {
-                                    echo "OPS - Propriedade não existe <b>$class</b>";
-                                }
-                            echo '==>'.$id_class;
+    function importNumber($dt1)
+    {
+        $dt['n_lang'] = 'nn';
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+    }
 
-                            pre($line,false);
-                        }
+    function importGeneric($dt1)
+    {
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+    }
+
+    function importArticle($dt1)
+    {
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RSP = $this->createConcept($dt1);
+        return $RSP;
+
+        /**************************** DATAS */
+        if (isset($dt1['data'])) {
+            $dados = $dt1['data'];
+            foreach ($dados as $id => $line) {
+                $class = $line['c_class'];
+                $id_class = $RDFclass->getClass($class);
+                if ($id_class == 0) {
+                    echo "OPS - Propriedade não existe <b>$class</b>";
                 }
+                //echo h('Article -' .$id,6);
+                //echo '==>' . $id_class;
+                //pre($line, false);
             }
+        }
+    }
 }

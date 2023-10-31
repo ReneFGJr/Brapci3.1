@@ -44,6 +44,8 @@ class RDFliteral extends Model
 
     function register($name,$lang='pt_BR',$lock=1)
         {
+            $new = true;
+
             $Language = new \App\Models\AI\NLP\Language();
             $lang = $Language->normalize($lang);
 
@@ -58,8 +60,12 @@ class RDFliteral extends Model
                                     $ID = $line['id_n'];
                                 }
                         }
-                } else {
-                    $new = true;
+                }
+
+            $name = trim($name);
+            if ($name == '')
+                {
+                    $name = '::Em Branco::';
                 }
 
 

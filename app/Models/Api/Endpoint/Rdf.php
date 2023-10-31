@@ -58,9 +58,17 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'v':
+                    $RSP = $RDF->v($d3);
+                    break;
                 case 'in':
                     $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
-                    $RSP = $RDFtools->inportRDF($d3);
+                    if ($d3 == 'all')
+                        {
+                            $RSP = $RDFtools->importRDFAll();
+                        } else {
+                            $RSP = $RDFtools->importRDF($d3);
+                        }
                     break;
                 default:
                     $RSP = $RDFclass->getClasses();
