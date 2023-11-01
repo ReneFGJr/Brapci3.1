@@ -25,6 +25,19 @@ export class BrapciService {
     );
   }
 
+  public api_post(type: string, dt: Array<any> = []): Observable<Array<any>> {
+    let url = `${this.url}` + type;
+    console.log(`Buscador: ${url}`);
+    var formData: any = new FormData();
+    for (const key in dt) {
+      formData.append(key, dt[key]);
+    }
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
+
   public sources(type: string): Observable<Array<any>> {
     let url = `${this.url}brapci/source/` + type;
     console.log(`Fontes: ${url}`);
@@ -43,17 +56,6 @@ export class BrapciService {
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
-  }
-
-  public api(type: string): Observable<Array<any>> {
-    let url = `${this.url}` + type;
-    console.log(`Fontes: ${url}`);
-    var formData: any = new FormData();
-
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
       (error) => error

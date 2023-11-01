@@ -62,7 +62,7 @@ class Rdf extends Model
         switch($d2)
             {
                 case 'getdata':
-                    $RSP = $RDFconcept->getData($d3);
+                    $RSP['data'] = $RDFconcept->getData($d3);
                     break;
                 case 'get':
                     $RDFClass = new \App\Models\RDF2\RDFclass();
@@ -92,5 +92,6 @@ class Rdf extends Model
                     break;
             }
         echo json_encode($RSP);
+        exit;
     }
 }
