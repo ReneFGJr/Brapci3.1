@@ -29,6 +29,7 @@ import { SubjectVComponent } from './page/v/subject/subject.component';
 import { BasketComponent } from './page/basket/basket.component';
 import { BasketedComponent } from './page/basketed/basketed.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
+import { BookComponent } from './page/v/book/book.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
     BasketComponent,
     BasketedComponent,
     DashboardComponent,
+    BookComponent,
   ],
   imports: [
     CommonModule,

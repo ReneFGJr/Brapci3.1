@@ -5,16 +5,15 @@
     </h1>
   </div>
 </div>
---------------
-{{ dataview | json}}
+
 <div *ngIf="dataview" class="row">
   <div class="col-12">
-    <ul>
-    <li *ngFor="let item of dataview">
-      <a [routerLink]="['/v/' + item.ID]" routerLinkActive="router-link-active">
-        {{ item | json }}
+    <ol>
+    <li *ngFor="let item of dataview.data">
+      <a [routerLink]="['/v/' + item.ID]" routerLinkActive="router-link-active" class="link">
+        {{ item.label }}
       </a>
     </li>
-    </ul>
+    </ol>
   </div>
 </div>

@@ -185,6 +185,17 @@ class RDFtoolsImport extends Model
         return $class;
     }
 
+    function propConvert($class)
+    {
+        $c = [];
+        $c['Journal'] = 'Journals';
+
+        if (isset($c[$class])) {
+            $class = $c[$class];
+        }
+        return $class;
+    }
+
     /*************************************************** */
     function importRDF($id)
     {
@@ -368,6 +379,28 @@ class RDFtoolsImport extends Model
         $RSP['Class'] = $dt1['concept']['c_class'];
         return $RSP;
     }
+    /************************************************ DATA */
+    function importData($dt,$ID)
+        {
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        /**************************** DATAS */
+        if (isset($dt['data'])) {
+            $dados = $dt['data'];
+            foreach ($dados as $id => $line) {
+                $prop = $line['c_class'];
+                $prop = $this->propConvert($prop);
+                $id_prop = $RDFclass->getClass($prop);
+                if ($id_prop == 0) {
+                    echo "OPS - Propriedade não existe $prop\n";
+                }
+                //echo h('Article -' .$id,6);
+                //echo '==>' . $id_class;
+                //pre($line, false);
+            }
+        }
+        }
+
+    /********************************************* FIM DATA */
 
     function importDate($dt1)
     {
@@ -429,15 +462,16 @@ class RDFtoolsImport extends Model
 
     function importProceeding($dt1)
     {
-        $RDFclass = new \App\Models\RDF2\RDFclass();
         $RSP = $this->createConcept($dt1);
         return $RSP;
     }
 
     function importBook($dt1)
     {
-        $RDFclass = new \App\Models\RDF2\RDFclass();
         $RSP = $this->createConcept($dt1);
+        $RSP['data'] = $this->importData($dt1, $RSP['ID']);
+        pre($RSP);
+
         return $RSP;
     }
 
@@ -447,19 +481,6 @@ class RDFtoolsImport extends Model
         $RSP = $this->createConcept($dt1);
         return $RSP;
 
-        /**************************** DATAS */
-        if (isset($dt1['data'])) {
-            $dados = $dt1['data'];
-            foreach ($dados as $id => $line) {
-                $class = $line['c_class'];
-                $id_class = $RDFclass->getClass($class);
-                if ($id_class == 0) {
-                    echo "OPS - Propriedade não existe <b>$class</b>";
-                }
-                //echo h('Article -' .$id,6);
-                //echo '==>' . $id_class;
-                //pre($line, false);
-            }
-        }
+
     }
 }
