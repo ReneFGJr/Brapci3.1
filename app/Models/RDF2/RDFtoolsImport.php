@@ -302,6 +302,9 @@ class RDFtoolsImport extends Model
                 case 'Proceeding':
                     $RSP = $this->importProceeding($dt1);
                     break;
+                case 'RORID':
+                    $RSP = $this->importGeneric($dt1);
+                    break;
                 case 'SerieName':
                     $RSP = $this->importGeneric($dt1);
                     break;
