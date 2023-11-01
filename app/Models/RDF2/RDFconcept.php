@@ -125,6 +125,23 @@ class RDFconcept extends Model
 
     function getData($class)
         {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $class = $RDFclass->getClass($class);
 
+            $dt = $RDFconcept->getClassRegisters($class);
+            return $dt;
+        }
+
+    function getClassRegisters($class)
+        {
+            $cp = 'id_cc as id, cc_use as use, n_name as label, c_class as class';
+            $dt = $this
+                ->select($cp)
+                ->join('rdf_literal', 'cc_pref_term = id_n')
+                ->join('rdf_class', 'cc_class = id_c')
+                ->where('cc_class',$class)
+                ->findAll();
+            return $dt;
         }
 }
