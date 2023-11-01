@@ -18,16 +18,11 @@ export class RDFViewdataComponent {
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       /********************************** Info */
-      this.brapciService.generic('rdf/get/' + params['id']).subscribe(
-        (res) => {
-          this.data = res;
-        },
-        (error) => error
-      );
-      /********************************** Data */
       this.brapciService.api('rdf/getdata/' + params['id']).subscribe(
         (res) => {
+          console.log('==z==');
           this.dataview = res;
+          console.log(this.dataview);
         },
         (error) => error
       );

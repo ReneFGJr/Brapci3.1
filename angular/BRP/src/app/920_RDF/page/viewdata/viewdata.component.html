@@ -1,15 +1,20 @@
 <div *ngIf="data" class="row">
-  <div class="9">
+  <div class="col-12">
     <h1>
       <b>{{ data.prefix }}:{{ data.Class }}</b>
     </h1>
   </div>
 </div>
-
+--------------
+{{ dataview | json}}
 <div *ngIf="dataview" class="row">
-  <div class="9">
-    <h1>
-      <b>{{ data.prefix }}:{{ dataview.Class }}</b>
-    </h1>
+  <div class="col-12">
+    <ul>
+    <li *ngFor="let item of dataview">
+      <a [routerLink]="['/v/' + item.ID]" routerLinkActive="router-link-active">
+        {{ item | json }}
+      </a>
+    </li>
+    </ul>
   </div>
 </div>

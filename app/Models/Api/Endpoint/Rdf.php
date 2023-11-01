@@ -53,6 +53,7 @@ class Rdf extends Model
     function index($d1, $d2, $d3, $d4)
     {
         header('Access-Control-Allow-Origin: *');
+        header("Content-Type: application/json");
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
