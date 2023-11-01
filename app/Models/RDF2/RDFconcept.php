@@ -122,4 +122,9 @@ class RDFconcept extends Model
                 }
             return($dt['total']);
         }
+
+    function getData($class)
+        {
+
+        }
 }

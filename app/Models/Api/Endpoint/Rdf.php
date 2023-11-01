@@ -55,10 +55,14 @@ class Rdf extends Model
         header('Access-Control-Allow-Origin: *');
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RSP = [];
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'getdata':
+                    $RSP = $RDFconcept->getData($d3);
+                    break;
                 case 'get':
                     $RDFClass = new \App\Models\RDF2\RDFclass();
                     $RSP = $RDFClass->get($d2);
