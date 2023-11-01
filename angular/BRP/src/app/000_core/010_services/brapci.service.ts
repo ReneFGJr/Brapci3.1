@@ -49,6 +49,17 @@ export class BrapciService {
     );
   }
 
+  public api(type: string): Observable<Array<any>> {
+    let url = `${this.url}` + type;
+    console.log(`Fontes: ${url}`);
+    var formData: any = new FormData();
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
+
   public generic(type: string): Observable<Array<any>> {
     let url = `${this.url}brapci/` + type;
     console.log(`Fontes: ${url}`);

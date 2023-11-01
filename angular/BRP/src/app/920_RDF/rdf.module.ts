@@ -10,6 +10,7 @@ import { RDFClassesComponent } from './page/classes/classes.component';
 import { RDFPropertiesComponent } from './page/properties/properties.component';
 import { MainRdfOntologyComponent } from './page/main-ontology/main-ontology.component';
 import { RDFVComponent } from './page/v/v.component';
+import { RDFViewdataComponent } from './page/viewdata/viewdata.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { RDFVComponent } from './page/v/v.component';
     RDFPropertiesComponent,
     MainRdfOntologyComponent,
     RDFVComponent,
+    RDFViewdataComponent,
   ],
   imports: [
     CommonModule,
