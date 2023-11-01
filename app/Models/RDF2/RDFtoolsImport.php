@@ -265,6 +265,9 @@ class RDFtoolsImport extends Model
                 case 'Issue':
                     $RSP = $this->importIssue($dt1);
                     break;
+                case 'CnpqPQ':
+                    $RSP = $this->importGeneric($dt1);
+                    break;
                 case 'License':
                     $RSP = $this->importGeneric($dt1);
                     break;
