@@ -135,7 +135,7 @@ class RDFconcept extends Model
 
     function getClassRegisters($class)
         {
-            $cp = 'id_cc as id, cc_use as use, n_name as label, c_class as class';
+            $cp = 'id_cc as ID, cc_use as use, n_name as label, c_class as Class';
             $dt = $this
                 ->select($cp)
                 ->join('rdf_literal', 'cc_pref_term = id_n')
