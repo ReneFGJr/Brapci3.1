@@ -58,6 +58,10 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'get':
+                    $RDFClass = new \App\Models\RDF2\RDFclass();
+                    $RSP = $RDFClass->get($d2);
+                    break;
                 case 'v':
                     $RSP = $RDF->v($d3);
                     break;
@@ -79,6 +83,7 @@ class Rdf extends Model
                     break;
                 default:
                     $RSP = $RDFclass->getClasses();
+                    break;
             }
         echo json_encode($RSP);
     }

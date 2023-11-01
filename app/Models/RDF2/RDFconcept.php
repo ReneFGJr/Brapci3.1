@@ -100,4 +100,26 @@ class RDFconcept extends Model
             }
             return $ID;
         }
+
+    function totalProp($class)
+        {
+            return 0;
+        }
+    function totalClass($class)
+        {
+            $RDFclass = new \App\Models\RDF2\RDFclass;
+            if (sonumero($class) != $class)
+                {
+                    $class = $RDFclass->getClass($class);
+                }
+            $dt = $this
+                ->select('count(*) as total')
+                ->where('cc_class',$class)
+                ->first();
+            if ($dt == null)
+                {
+                    return 0;
+                }
+            return($dt['total']);
+        }
 }

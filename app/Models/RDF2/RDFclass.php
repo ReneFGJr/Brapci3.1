@@ -96,6 +96,8 @@ class RDFclass extends Model
 
     function get($id)
         {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
         $cp = 'id_c as id, prefix_ref as prefix,c_class as Class,
                         c_type as Type, CONCAT(prefix_url,c_class) as url';
 
@@ -106,8 +108,8 @@ class RDFclass extends Model
             ->orderBy('c_class')
             ->first();
 
-        $dt['classTotal'] = 0;
-        $dt['propTotal'] = 0;
+        $dt['classTotal'] = $RDFconcept->totalClass($id);
+        $dt['propTotal'] =  $RDFconcept->totalProp($id);;
 
         switch ($dt['Class'])
             {
