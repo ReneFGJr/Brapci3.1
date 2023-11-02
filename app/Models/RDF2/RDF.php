@@ -170,7 +170,7 @@ class RDF extends Model
             $dt = $dt['data'];
             $dr = [];
             $st = '';
-            pre($dt);
+
             foreach($dt as $id=>$line)
                 {
                     if ($line['Property'] == $prop)

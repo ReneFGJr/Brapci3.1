@@ -40,14 +40,78 @@ class RDFmetadata extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function metadata($id)
-        {
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $RDFdata = new \App\Models\RDF2\RDFdata();
+    function simpleMetadata($ID)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
 
-            $dt = $RDFconcept->le($id);
-            $class = $dt['concept']['Class'];
+        $dt = $RDF->le($ID);
+        $dd = [];
 
-            echo $class;
+        $sm = [
+            'hasTitle' => [],
+            'hasCover' => []
+        ];
+
+        $da = $dt['data'];
+        foreach ($da as $id => $line) {
+            $lang = $line['Lang'];
+            $prop = $line['Property'];
+
+            if (isset($sm[$prop])) {
+                if (!isset($dd[$prop][$lang])) {
+                    $dd[$prop][$lang] = [];
+                }
+                $dc = [];
+                $dc[$line['Caption']] = $line['ID'];
+                array_push($dd[$prop][$lang], $dc);
+            }
         }
+
+        /*************** IDIOMA Preferencial */
+        $lg = ['pt', 'es', 'en','nn'];
+        $de = [];
+        foreach ($sm as $prop => $line) {
+            foreach ($lg as $id => $lang) {
+                if (isset($dd[$prop][$lang])) {
+                    if (!isset($de[$prop])) {
+                        if (isset($dd[$prop][$lang][0])) {
+                            $vlr = $dd[$prop][$lang][0];
+                            $de[$prop] = trim(key($vlr));
+                        }
+                    }
+                }
+            }
+        }
+
+        $dr['ID'] = $ID;
+        $dr['data'] = $de;
+        return $dr;
+    }
+
+    function metadata($ID)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
+        $dt = $RDF->le($ID);
+        $dd = [];
+
+        $da = $dt['data'];
+        foreach ($da as $id => $line) {
+            $lang = $line['Lang'];
+            $prop = $line['Property'];
+            if (!isset($dd[$prop][$lang])) {
+                $dd[$prop][$lang] = [];
+            }
+            $dc = [];
+            $dc[$line['Caption']] = $line['ID'];
+            array_push($dd[$prop][$lang], $dc);
+        }
+        $dr['ID'] = $ID;
+        $dr['data'] = $dd;
+        return $dr;
+    }
 }

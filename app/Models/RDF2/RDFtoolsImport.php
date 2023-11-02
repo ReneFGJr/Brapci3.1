@@ -190,6 +190,7 @@ class RDFtoolsImport extends Model
         $c = [];
         $c['dateOfPublication'] = 'wasPublicationInDate';
         $c['hasSummary'] = '';
+        $c['hasVolume'] = '';
 
         if (isset($c[$class])) {
             $class = $c[$class];

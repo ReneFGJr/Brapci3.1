@@ -44,21 +44,18 @@ class Book extends Model
     function vitrine($q='')
         {
             $RDF2 = new \App\Models\RDF2\RDF();
+            $RDF2metadata = new \App\Models\RDF2\RDFmetadata();
             $Class = 'Book';
             $dt = $RDF2->recoverClass($Class,$q,0,12);
-
             $d = [];
+
             foreach($dt as $n=>$dta)
                 {
                     $id = $dta['id_cc'];
-                    $dta = $RDF2->le($id);
-                    $dc = [];
-                    $dc['cover'] = $RDF2->extract($dta, 'hasCover');
-                    pre($dc);
-                    pre($dta);
-
+                    $dtm = $RDF2metadata->simpleMetadata($id);
+                    array_push($d,$dtm);
                 }
-            return $dt;
+            return $d;
         }
 
     /*********** Legado */
