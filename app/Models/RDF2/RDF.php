@@ -160,4 +160,26 @@ class RDF extends Model
                 ->findAll($limit,$offset);
             return $dt;
         }
+    function extract($dt,$prop,$type='F')
+        {
+            /*
+            F->first
+            A->Array
+            S->string (todos)
+            */
+            $dt = $dt['data'];
+            $dr = [];
+            $st = '';
+            pre($dt);
+            foreach($dt as $id=>$line)
+                {
+                    if ($line['Property'] == $prop)
+                        {
+                            /******************************** FIRST */
+                            if ($type == 'F') { return($line['Caption']); }
+                        }
+                }
+            if ($type == 'A') { return $dr; }
+            if ($type == 'S') { return $st; }
+        }
 }

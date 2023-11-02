@@ -72,17 +72,16 @@ class RDFimage extends Model
                         $nfile = $dir.'image.jpg';
                         if (file_exists($nfile))
                             {
-                                return $nfile;
+                                return PATH.$nfile;
                             }
 
                         if (file_exists($tumb)) {
-                            echo $tumb;
-                            return $tumb;
+                            return PATH.$tumb;
                         }
 
                     break;
                 }
         }
-        return '';
+        return PATH.'img/cover/no_cover.png';
     }
 }

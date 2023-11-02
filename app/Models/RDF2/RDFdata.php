@@ -130,7 +130,8 @@ class RDFdata extends Model
            (($line['Class'] == 'Image') and ($line['Property'] == 'hasCover')) {
 
                 $ID = $line['ID'];
-                $dt[$id]['URL'] = $RDFimage->cover($ID);
+                $dt[$id]['Caption'] = $RDFimage->cover($ID);
+                $dt[$id]['URL'] = $dt[$id]['Caption'];
             }
         }
         return $dt;

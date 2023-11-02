@@ -47,8 +47,17 @@ class Book extends Model
             $Class = 'Book';
             $dt = $RDF2->recoverClass($Class,$q,0,12);
 
-            echo "OK";
-            exit;
+            $d = [];
+            foreach($dt as $n=>$dta)
+                {
+                    $id = $dta['id_cc'];
+                    $dta = $RDF2->le($id);
+                    $dc = [];
+                    $dc['cover'] = $RDF2->extract($dta, 'hasCover');
+                    pre($dc);
+                    pre($dta);
+
+                }
             return $dt;
         }
 
