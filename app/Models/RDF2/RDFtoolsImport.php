@@ -402,20 +402,19 @@ class RDFtoolsImport extends Model
                     $prop = trim($line['c_class']);
                     if ($prop != '') {
                         $prop = $this->propConvert($prop);
-                        $id_prop = $RDFclass->getClass($prop);
-                        if ($id_prop == 0) {
-                            echo "OPS - Propriedade não existe $prop\n";
-                        }
-                    /********************** Dados das propriedades */
-                        $lit = 0;
-                        $ID2 = $line['d_r2'];
-                        if ($ID2 == $ID)
-                            {
+                        if ($prop != '') {
+                            $id_prop = $RDFclass->getClass($prop);
+                            if ($id_prop == 0) {
+                                echo "OPS - Propriedade não existe $prop\n";
+                            }
+                            /********************** Dados das propriedades */
+                            $lit = 0;
+                            $ID2 = $line['d_r2'];
+                            if ($ID2 == $ID) {
                                 $ID2 = $line['d_r1'];
                             }
 
-                        if ($line['d_literal'] == 0)
-                            {
+                            if ($line['d_literal'] == 0) {
                                 echo "Registrar";
                                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
                                 echo '==>' . $id_prop;
@@ -426,10 +425,10 @@ class RDFtoolsImport extends Model
                                 $name = $line['n_name'];
                                 $lang = $line['n_lang'];
                                 $ID2 = 0;
-                                $lit = $RDFliteral->register($name,$lang);
+                                $lit = $RDFliteral->register($name, $lang);
                                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
                             }
-
+                        }
                     } else {
                         $id_prop = 0;
                     }
