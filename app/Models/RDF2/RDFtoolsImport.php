@@ -188,7 +188,7 @@ class RDFtoolsImport extends Model
     function propConvert($class)
     {
         $c = [];
-        $c['Journal'] = 'Journals';
+        $c['dateOfPublication'] = 'wasPblicationInDate';
 
         if (isset($c[$class])) {
             $class = $c[$class];
@@ -380,25 +380,57 @@ class RDFtoolsImport extends Model
         return $RSP;
     }
     /************************************************ DATA */
-    function importData($dt,$ID)
-        {
+    function importData($dt, $ID)
+    {
+        $RDF1 = new \App\Models\Rdf\RDF();
+        $RDF2 = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RDFrules = new \App\Models\RDF2\RDFrules();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
         /**************************** DATAS */
         if (isset($dt['data'])) {
             $dados = $dt['data'];
-            foreach ($dados as $id => $line) {
-                $prop = $line['c_class'];
-                $prop = $this->propConvert($prop);
-                $id_prop = $RDFclass->getClass($prop);
-                if ($id_prop == 0) {
-                    echo "OPS - Propriedade não existe $prop\n";
+
+            $validator = $RDFrules->validator($dt);
+
+            if ($validator == true) {
+                foreach ($dados as $id => $line) {
+                    /************************* Propriedade */
+                    $prop = trim($line['c_class']);
+                    if ($prop != '') {
+                        $prop = $this->propConvert($prop);
+                        $id_prop = $RDFclass->getClass($prop);
+                        if ($id_prop == 0) {
+                            echo "OPS - Propriedade não existe $prop\n";
+                        }
+                    /********************** Dados das propriedades */
+                        $lit = 0;
+                        $ID2 = $line['d_r2'];
+                        if ($ID2 == $ID)
+                            {
+                                $ID2 = $line['d_r1'];
+                            }
+
+                        if ($line['d_literal'] == 0)
+                            {
+                                echo "Registrar";
+                                $RDFdata->register($ID, $id_prop, $ID2, $lit);
+                                echo '==>' . $id_prop;
+                                pre($line, false);
+                            } else {
+                                /*********************** Literal */
+                            }
+
+                    } else {
+                        $id_prop = 0;
+                    }
                 }
-                //echo h('Article -' .$id,6);
-                //echo '==>' . $id_class;
-                //pre($line, false);
+            } else {
+                echo "Erro de Validação";
             }
         }
-        }
+    }
 
     /********************************************* FIM DATA */
 
@@ -480,7 +512,5 @@ class RDFtoolsImport extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RSP = $this->createConcept($dt1);
         return $RSP;
-
-
     }
 }

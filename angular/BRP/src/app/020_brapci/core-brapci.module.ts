@@ -30,6 +30,7 @@ import { BasketComponent } from './page/basket/basket.component';
 import { BasketedComponent } from './page/basketed/basketed.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { BookComponent } from './page/v/book/book.component';
+import { DateComponent } from './page/v/date/date.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { BookComponent } from './page/v/book/book.component';
     BasketedComponent,
     DashboardComponent,
     BookComponent,
+    DateComponent,
   ],
   imports: [
     CommonModule,

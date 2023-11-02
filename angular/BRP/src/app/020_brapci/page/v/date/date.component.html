@@ -1,0 +1,7 @@
+<app-theme-header [header]="header"></app-theme-header>
+<div *ngIf="data">
+  <app-banner-article [section]="section"  [publisher]="data.title"></app-banner-article>
+</div>
+
+
+{{ data | json}}

@@ -1,20 +1,18 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-brapci-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.scss'],
+  selector: 'app-brapci-date',
+  templateUrl: './date.component.html',
 })
-export class BookComponent {
+export class DateComponent {
   @Input() public data: Array<any> | any;
   public url: string = '';
-  public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
-  public section=[{name:"LIVROS"}]
+  public section = [{ name: 'DATA' }];
 
   ngOnInit(): void {
     this.header = [];
-    this.header = { title: 'Livro' };
+    this.header = { title: 'Date' };
     //this.url = this.data.id;
     //console.log(this.data);
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.

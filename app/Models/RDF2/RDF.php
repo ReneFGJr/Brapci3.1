@@ -42,12 +42,6 @@ class RDF extends Model
 
     function index($d1,$d2,$d3,$d4)
         {
-            /* NAO USADO PARA AS APIS */
-            if ($d1 != 'import')
-                {
-                    header("Content-Type: application/json");
-                }
-
             $RSP = [];
             switch($d1)
                 {
@@ -102,6 +96,26 @@ class RDF extends Model
         pre($d);
 
     }
+
+    function le($id)
+        {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $d = [];
+            $d['conecpt'] = $RDFconcept->le($id);
+            return $d;
+        }
+
+    function valid($id)
+        {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $dt = $RDFconcept->find($id);
+            if ($dt == null)
+                {
+                    return false;
+                } else {
+                    return true;
+                }
+        }
 
     /************* Import */
     function import()

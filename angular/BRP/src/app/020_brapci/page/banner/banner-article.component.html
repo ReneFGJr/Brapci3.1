@@ -1,15 +1,27 @@
-<div class="content-fluid banner banner_min_article text-white pb-5 pt-2" *ngIf="section">
+<div
+  class="content-fluid banner banner_min_article text-white pb-5 pt-2"
+  *ngIf="section"
+>
   <div class="row">
     <div class="col-1"></div>
     <div class="col-8">
-      <span class="small">Publicação</span><br/>
-      <span class="journal">{{publisher}}</span>
-        <div class="section_div bg-brapci">
-              <span class="section" *ngFor="let item of section">{{item.name}} </span>
-        </div>
-        <div class="cover_div slideInDown">
-          <img src="{{cover}}" class="cover">
-        </div>
+      <div *ngIf="publisher">
+        <span class="small">Publicação</span><br />
+        <span class="journal">{{ publisher }}</span>
+      </div>
+
+      <div *ngIf="caption">
+        <h1>{{ caption }}</h1>
+      </div>
+
+      <div class="section_div bg-brapci">
+        <span class="section" *ngFor="let item of section"
+          >{{ item.name }}
+        </span>
+      </div>
+      <div *ngIf="cover" class="cover_div slideInDown">
+        <img src="{{ cover }}" class="cover" />
+      </div>
     </div>
     <div class="col-3"></div>
   </div>
