@@ -105,8 +105,10 @@ class RDF extends Model
     function le($id)
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
             $d = [];
             $d['concept'] = $RDFconcept->le($id);
+            $d['data'] = $RDFdata->le($id);
             return $d;
         }
 

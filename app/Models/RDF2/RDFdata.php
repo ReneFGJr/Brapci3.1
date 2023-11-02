@@ -15,7 +15,7 @@ class RDFdata extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'd_r1','d_r2','d_p','d_literal','d_ativo'
+        'd_r1', 'd_r2', 'd_p', 'd_literal', 'd_ativo'
     ];
 
     // Dates
@@ -43,32 +43,35 @@ class RDFdata extends Model
     protected $afterDelete    = [];
 
     function register($ID, $id_prop, $ID2, $lit)
-        {
-            $d = [];
-            $d['d_r1'] = $ID;
-            $d['d_r2'] = $ID2;
-            $d['d_p'] = $id_prop;
-            $d['d_literal'] = $lit;
+    {
+        $d = [];
+        $d['d_r1'] = $ID;
+        $d['d_r2'] = $ID2;
+        $d['d_p'] = $id_prop;
+        $d['d_literal'] = $lit;
 
-            $dt = $this
-                ->where('d_r1',$ID)
-                ->where('d_r2', $ID2)
-                ->where('d_p', $id_prop)
-                ->where('d_literal', $lit)
-                ->first();
-            if ($dt == null)
-                {
-                    $this->set($d)->insert();
-                    echo "NOVO";
-                } else {
-
-                }
+        if ((($ID2 == 0) and ($lit == 0)) or ($id_prop == 0)) {
+            echo "<br>OPS2 - registro inválido - PROP ($id_prop) - ID2 ($ID2)  - LIT ($lit)<br>";
+            exit;
         }
 
-        function le($id)
-            {
-                $cp = 'n_name as caption, id_cc as ID, cc_use as USE ';
-                $cp .= ', prefix_ref as prefix, c_class as Class, "" as Prop ';
+        $dt = $this
+            ->where('d_r1', $ID)
+            ->where('d_r2', $ID2)
+            ->where('d_p', $id_prop)
+            ->where('d_literal', $lit)
+            ->first();
+        if ($dt == null) {
+            $this->set($d)->insert();
+            echo "NOVO";
+        } else {
+        }
+    }
+
+    function le($id)
+    {
+        $cp = 'n_name as caption, id_cc as ID, cc_use as USE ';
+        $cp .= ', prefix_ref as prefix, c_class as Class, "" as Prop ';
 
 
         $cp = '';
@@ -80,7 +83,7 @@ class RDFdata extends Model
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
 
-                //$cp = '*';
+        //$cp = '*';
 
         $dtA = $this
             ->select($cp)
@@ -94,46 +97,48 @@ class RDFdata extends Model
             ->where('d_r1', $id)
             ->findAll();
 
-            $cp = 'prefix_ref as Prefix';
-            $cp .= ', "Literal" as Class';
-            $cp .= ', c_class as Property';
-            $cp .= ', 0 as ID';
-            $cp .= ', n_name as Caption';
-            $cp .= ', n_lang as Lang';
-            $cp .= ', "" as URL';
-            //$cp = '*';
+        $cp = 'prefix_ref as Prefix';
+        $cp .= ', "Literal" as Class';
+        $cp .= ', c_class as Property';
+        $cp .= ', 0 as ID';
+        $cp .= ', n_name as Caption';
+        $cp .= ', n_lang as Lang';
+        $cp .= ', "" as URL';
+        //$cp = '*';
 
-                $dtB = $this
-                    ->select($cp)
-                    ->join('rdf_literal', 'd_literal = id_n')
-                    ->join('rdf_class', 'd_p = id_c')
-                    ->join('rdf_prefix', 'c_prefix = id_prefix')
-                    ->where('d_r1', $id)
-                    ->findAll();
+        $dtB = $this
+            ->select($cp)
+            ->join('rdf_literal', 'd_literal = id_n')
+            ->join('rdf_class', 'd_p = id_c')
+            ->join('rdf_prefix', 'c_prefix = id_prefix')
+            ->where('d_r1', $id)
+            ->findAll();
 
-                //pre($dtB);
-                $dt = array_merge($dtA,$dtB);
-                $dt = $this->auxiliar($dt);
-                return $dt;
+        $dt = array_merge($dtA, $dtB);
+        $dt = $this->auxiliar($dt);
+        return $dt;
+    }
+
+    function auxiliar($dt)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFimage = new \App\Models\RDF2\RDFimage();
+
+        foreach ($dt as $id => $line) {
+            //pre($line,false);
+            if
+           (($line['Class'] == 'Image') and ($line['Property'] == 'hasCover')) {
+
+                $ID = $line['ID'];
+                $dt[$id]['URL'] = $RDFimage->cover($ID);
             }
+        }
+        return $dt;
+    }
 
-        function auxiliar($dt)
-            {
-                $RDF = new \App\Models\RDF2\RDF();
-
-                    foreach ($dt as $id => $line) {
-                        if ($line['Class'] == 'Image') {
-                            $ID = $line['ID'];
-                            pre($line,false);
-                            $dti = $RDF->le($ID);
-                            pre($dti);
-                        }
-                    }
-            }
-
-        function dataview($id)
-            {
-                $dt = $this->le($id);
-                return($dt);
-            }
+    function dataview($id)
+    {
+        $dt = $this->le($id);
+        return ($dt);
+    }
 }

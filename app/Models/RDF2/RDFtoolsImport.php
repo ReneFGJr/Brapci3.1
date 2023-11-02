@@ -226,7 +226,7 @@ class RDFtoolsImport extends Model
                     $RSP = $this->importBook($dt1);
                     break;
                 case 'BookChapter':
-                    $RSP = $this->importBook($dt1);
+                    $RSP = $this->importGeneric($dt1);
                     break;
                 case 'CDU':
                     $RSP = $this->importGeneric($dt1);
@@ -427,8 +427,6 @@ class RDFtoolsImport extends Model
                                 $ID2 = 0;
                                 $lit = $RDFliteral->register($name,$lang);
                                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
-                                echo "===>LITERAL";
-                                pre($line,false);
                             }
 
                     } else {
@@ -455,6 +453,7 @@ class RDFtoolsImport extends Model
     {
         /********** TO DO */
         $RSP = $this->createConcept($dt1);
+        $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
     }
 
