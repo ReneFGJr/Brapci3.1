@@ -76,6 +76,7 @@ class RDFimage extends Model
                             }
 
                         if (file_exists($tumb)) {
+                            echo $tumb;
                             return $tumb;
                         }
 
