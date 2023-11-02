@@ -72,8 +72,13 @@ class RDF extends Model
     function v($id)
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+
             $data = [];
             $data['concept'] = $RDFconcept->le($id);
+
+            $data['data'] = $RDFdata->le($id);
+
             return $data;
         }
 
@@ -101,7 +106,7 @@ class RDF extends Model
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $d = [];
-            $d['conecpt'] = $RDFconcept->le($id);
+            $d['concept'] = $RDFconcept->le($id);
             return $d;
         }
 
@@ -135,5 +140,22 @@ class RDF extends Model
                 }
             echo $sx;
             exit;
+        }
+
+    function recoverClass($class,$limit=20,$offset=0)
+        {
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+            if ((sonumero($class)) != $class)
+                {
+                    $class = $RDFclass->getClass($class);
+                }
+            if ($limit == '') { $limit = 20; }
+            $dt = $RDFconcept
+                ->select('id_cc')
+                ->where('cc_class',$class)
+                ->findAll($limit,$offset);
+            return $dt;
         }
 }

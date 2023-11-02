@@ -188,7 +188,7 @@ class RDFtoolsImport extends Model
     function propConvert($class)
     {
         $c = [];
-        $c['dateOfPublication'] = 'wasPblicationInDate';
+        $c['dateOfPublication'] = 'wasPublicationInDate';
 
         if (isset($c[$class])) {
             $class = $c[$class];
@@ -387,6 +387,7 @@ class RDFtoolsImport extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFrules = new \App\Models\RDF2\RDFrules();
         $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
 
         /**************************** DATAS */
         if (isset($dt['data'])) {
@@ -420,6 +421,14 @@ class RDFtoolsImport extends Model
                                 pre($line, false);
                             } else {
                                 /*********************** Literal */
+                                echo "Registrar Literal";
+                                $name = $line['n_name'];
+                                $lang = $line['n_lang'];
+                                $ID2 = 0;
+                                $lit = $RDFliteral->register($name,$lang);
+                                $RDFdata->register($ID, $id_prop, $ID2, $lit);
+                                echo "===>LITERAL";
+                                pre($line,false);
                             }
 
                     } else {

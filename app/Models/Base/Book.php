@@ -40,6 +40,20 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    /*********** Funcoes da versão nova */
+    function vitrine($q='')
+        {
+            $RDF2 = new \App\Models\RDF2\RDF();
+            $Class = 'Book';
+            $dt = $RDF2->recoverClass($Class,$q,0,12);
+
+            echo "OK";
+            exit;
+            return $dt;
+        }
+
+    /*********** Legado */
+
     function taxonomy()
         {
             $Sections = new \App\Models\Books\Sections();

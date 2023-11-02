@@ -57,30 +57,34 @@ class Brapci extends Model
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
+            case 'basket':
+                $RSP = $this->basket(get("row") . get("q"));
+                break;
+            case 'book':
+                $Book = new \App\Models\Base\Book();
+                $RSP = $Book->vitrine(get("row") . get("q"));
+                break;
+            case 'get':
+                $RSP['result'] = $this->get($d2, $d3);
+                break;
+            case 'issue':
+                $RSP = $this->issue($d2, $d3);
+                break;
+            case 'oai':
+                $RSP = $this->oai($d2, $d3);
+                break;
             case 'rdf':
                 $RSP = $this->rdf($d2, $d3);
                 break;
             case 'resume':
                 $RSP = $this->resume();
                 break;
-            case 'basket':
-                $RSP = $this->basket(get("row") . get("q"));
-                break;
-            case 'oai':
-                $RSP = $this->oai($d2, $d3);
-                break;
-            case 'issue':
-                $RSP = $this->issue($d2, $d3);
-                break;
-            case 'source':
-                $RSP['source'] = $this->source($d2, $d3);
-                break;
-            case 'get':
-                $RSP['result'] = $this->get($d2, $d3);
-                break;
             case 'search':
                 $RSP['strategy'] = array_merge($_POST, $_GET);
                 $RSP['result'] = $this->search();
+                break;
+            case 'source':
+                $RSP['source'] = $this->source($d2, $d3);
                 break;
             case 'upload':
                 $this->upload();

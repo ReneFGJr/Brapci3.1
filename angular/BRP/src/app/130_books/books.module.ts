@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookTermComponent } from './page/term/term.component';
 import { UploadFileComponent } from './upload-file.component';
 import { BookSubmitBottomComponent } from './gadget/book-submit-bottom/book-submit-bottom.component';
+import { VitrineBooksComponent } from './page/vitrine-books/vitrine-books.component';
+import { VitrineCategoriesComponent } from './page/vitrine-categories/vitrine-categories.component';
+import { VitrineSearchComponent } from './page/vitrine-search/vitrine-search.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { BookSubmitBottomComponent } from './gadget/book-submit-bottom/book-subm
     BookTermComponent,
     UploadFileComponent,
     BookSubmitBottomComponent,
+    VitrineBooksComponent,
+    VitrineCategoriesComponent,
+    VitrineSearchComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
