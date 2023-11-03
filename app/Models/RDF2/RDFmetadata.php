@@ -122,7 +122,7 @@ class RDFmetadata extends Model
             array_push($dd[$prop][$lang], $dc);
         }
         $dr['ID'] = $ID;
-        $dt['title'] = $this->simpleExtract($dd,'hasTitle');
+        $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
         $dr['data'] = $dd;
         return $dr;
     }
@@ -130,17 +130,23 @@ class RDFmetadata extends Model
     function simpleExtract($dt,$class)
         {
             $lang = $this->langPref();
-            echo h($class,2);
             if (isset($dt[$class]))
                 {
                     foreach($dt as $nn=>$line)
                         {
                             if ($nn == $class)
                                 {
-                                    foreach()
+                                    foreach($lang as $lg)
+                                        {
+                                            if (isset($line[$lg]))
+                                                {
+                                                    $rsp = key($line[$lg][0]);
+                                                    return($rsp);
+                                                }
+                                        }
                                 }
                         }
                 }
-            exit;
+            pre($line);
         }
 }
