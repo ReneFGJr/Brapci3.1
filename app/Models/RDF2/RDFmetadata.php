@@ -70,7 +70,7 @@ class RDFmetadata extends Model
         }
 
         /*************** IDIOMA Preferencial */
-        $lg = ['pt', 'es', 'en','nn'];
+        $lg = $this->langPref();
         $de = [];
         foreach ($sm as $prop => $line) {
             foreach ($lg as $id => $lang) {
@@ -90,6 +90,12 @@ class RDFmetadata extends Model
         return $dr;
     }
 
+    function langPref()
+        {
+            $dt = ['pt', 'es', 'en', 'nn'];
+            return $dt;
+        }
+
     function metadata($ID)
     {
         $RDF = new \App\Models\RDF2\RDF();
@@ -98,6 +104,11 @@ class RDFmetadata extends Model
 
         $dt = $RDF->le($ID);
         $dd = [];
+        $dd['section'] = 'none';
+        $dd['cover'] = 'none';
+        $dd['title'] = 'none';
+        $dd['section'] = 'none';
+        $dd['section'] = 'none';
 
         $da = $dt['data'];
         foreach ($da as $id => $line) {

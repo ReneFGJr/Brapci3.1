@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-brapci-book',
-  templateUrl: './book.component.html',
-  styleUrls: ['./book.component.scss'],
+  templateUrl: './book.component.html'
 })
 export class BookComponent {
   @Input() public data: Array<any> | any;
@@ -15,9 +14,5 @@ export class BookComponent {
   ngOnInit(): void {
     this.header = [];
     this.header = { title: 'Livro' };
-    //this.url = this.data.id;
-    //console.log(this.data);
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
   }
 }
