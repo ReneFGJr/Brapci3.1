@@ -291,7 +291,6 @@ class Brapci extends Model
 
         $dd = $RDFmetadata->metadata($id);
         $dd['Class'] = $dt['concept']['c_class'];
-        pre($dd);
 
         /************************************************* ABNT */
         $ABNT = new \App\Models\Metadata\Abnt();

@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-v',
-  templateUrl: './v.component.html',
-  styleUrls: ['./v.component.scss']
+  templateUrl: './v.component.html'
 })
 export class VComponent {
   public type: string = 'NA';
@@ -25,7 +24,7 @@ export class VComponent {
       this.brapciService.getId(this.id).subscribe(
         res => {
           this.data = res;
-          this.type = this.data.class;
+          this.type = this.data.Class;
           console.log(res);
         },
         error => error

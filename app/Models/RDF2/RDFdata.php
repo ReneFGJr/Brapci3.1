@@ -64,6 +64,7 @@ class RDFdata extends Model
         if ($dt == null) {
             $this->set($d)->insert();
         } else {
+            /* Update */
         }
     }
 
