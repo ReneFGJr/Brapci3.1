@@ -296,9 +296,9 @@ class Brapci extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $VANVOUVER = new \App\Models\Metadata\Vancouver();
         $APA = new \App\Models\Metadata\Apa();
-        $RSP['cited']['abnt'] = $ABNT->show($dd, substr($RSP['class'], 0, 1));
-        $RSP['cited']['vancouver'] = $VANVOUVER->show($dd, substr($RSP['class'], 0, 1));
-        $RSP['cited']['apa'] = $APA->show($dd, substr($RSP['class'], 0, 1));
+        $RSP['cited']['abnt'] = $ABNT->show($RSP, substr($RSP['class'], 0, 1));
+        $RSP['cited']['vancouver'] = $VANVOUVER->show($RSP, substr($RSP['class'], 0, 1));
+        $RSP['cited']['apa'] = $APA->show($RSP, substr($RSP['class'], 0, 1));
         echo json_encode($RSP);
         exit;
     }
