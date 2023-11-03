@@ -122,7 +122,25 @@ class RDFmetadata extends Model
             array_push($dd[$prop][$lang], $dc);
         }
         $dr['ID'] = $ID;
+        $dt['title'] = $this->simpleExtract($dd,'hasTitle');
         $dr['data'] = $dd;
         return $dr;
     }
+
+    function simpleExtract($dt,$class)
+        {
+            $lang = $this->langPref();
+            echo h($class,2);
+            if (isset($dt[$class]))
+                {
+                    foreach($dt as $nn=>$line)
+                        {
+                            if ($nn == $class)
+                                {
+                                    foreach()
+                                }
+                        }
+                }
+            exit;
+        }
 }
