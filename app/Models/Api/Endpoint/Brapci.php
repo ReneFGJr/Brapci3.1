@@ -289,8 +289,8 @@ class Brapci extends Model
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
         $dt = $RDF->le($id);
 
-        $$RS = $RDFmetadata->metadata($id);
-        $$RS['Class'] = $dt['concept']['c_class'];
+        $RSP = $RDFmetadata->metadata($id);
+        $RSP['Class'] = $dt['concept']['c_class'];
 
         /************************************************* ABNT */
         $ABNT = new \App\Models\Metadata\Abnt();
