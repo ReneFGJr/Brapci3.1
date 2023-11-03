@@ -72,9 +72,12 @@ class RDFimage extends Model
                         $nfile = $dir.'image.jpg';
                         if (file_exists($nfile))
                             {
-                                return PATH.$nfile;
+                                $url = PATH . $nfile;
+                                return $url;
                             }
-
+                    echo "ERRO";
+                    pre($_SERVER);
+                    exit;
                         if (file_exists($tumb)) {
                             return PATH.$tumb;
                         }

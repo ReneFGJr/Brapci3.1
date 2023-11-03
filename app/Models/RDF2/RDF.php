@@ -109,6 +109,15 @@ class RDF extends Model
             $d = [];
             $d['concept'] = $RDFconcept->le($id);
             $d['data'] = $RDFdata->le($id);
+
+            /************************* Remover */
+            if ($d['data'] == [])
+                {
+                    $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
+                    $RDFtoolsImport->importRDF($id);
+                    echo "OPS = data empty $id";
+                    exit;
+                }
             return $d;
         }
 

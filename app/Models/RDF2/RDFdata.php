@@ -63,7 +63,6 @@ class RDFdata extends Model
             ->first();
         if ($dt == null) {
             $this->set($d)->insert();
-            echo "NOVO";
         } else {
         }
     }

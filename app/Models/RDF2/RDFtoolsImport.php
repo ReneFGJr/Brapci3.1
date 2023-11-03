@@ -416,13 +416,11 @@ class RDFtoolsImport extends Model
                             }
 
                             if ($line['d_literal'] == 0) {
-                                echo "Registrar";
+                                //echo "Registrar";
                                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
-                                echo '==>' . $id_prop;
-                                pre($line, false);
                             } else {
                                 /*********************** Literal */
-                                echo "Registrar Literal";
+                                //echo "Registrar Literal";
                                 $name = $line['n_name'];
                                 $lang = $line['n_lang'];
                                 $ID2 = 0;
@@ -511,8 +509,6 @@ class RDFtoolsImport extends Model
     {
         $RSP = $this->createConcept($dt1);
         $RSP['data'] = $this->importData($dt1, $RSP['ID']);
-        pre($RSP);
-
         return $RSP;
     }
 
