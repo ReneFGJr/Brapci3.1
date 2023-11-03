@@ -115,8 +115,7 @@ class RDF extends Model
                 {
                     $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
                     $RDFtoolsImport->importRDF($id);
-                    echo "OPS = data empty $id";
-                    exit;
+                    $d['data'] = $RDFdata->le($id);
                 }
             return $d;
         }
