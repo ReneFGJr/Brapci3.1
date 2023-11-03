@@ -1,22 +1,16 @@
 <app-theme-header [header]="header"></app-theme-header>
 <div *ngIf="data">
-  <app-banner-article [section]="data.section" [cover]="data.cover" [publisher]="data.title"></app-banner-article>
+  <app-banner-article [section]="data.section" [cover]="data.cover" [publisher]="data.publisher"></app-banner-article>
 </div>
-
-<pre>
-  {{data.data.hasOrganizator | json}}
-</pre>
 
 <div class="container mt-5" *ngIf="data">
   <div class="row">
     <div class="col-9">
       <h1 class="title text-center">{{ data.title }}</h1>
-      <div class="text-end mb-5" *ngIf="data.data.hasOrganizator">
-        <span *ngFor="let langs of data.data.hasOrganizator" class="text-end">
-        XXXX {{ langs | json }}
-          <span *ngFor="let item of langs" class="text-end">
-            <a class="author" [routerLink]="['/routePath']" >{{ item | json }}</a><br>
-          </span>
+
+      <div class="text-end mb-5">
+        <span *ngFor="let item of data.creator_author" class="text-end">
+          <a class="author" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
         </span>
       </div>
     </div>
