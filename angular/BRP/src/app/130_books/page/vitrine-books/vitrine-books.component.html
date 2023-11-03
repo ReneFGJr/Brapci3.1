@@ -1,62 +1,53 @@
 <div class="container">
   <div class="row">
-    <div class="col-3 col-sm-4" *ngFor="let item of books">
-
+    <div class="col-3 col-sm-4 mb-5" *ngFor="let item of books ">
       <a
         [routerLink]="['/v/' + item.ID]"
         routerLinkActive="router-link-active"
         class="link"
         target="_blank"
       >
-      <div class="container-a2">
+        <div class="container-a2">
+          <ul class="caption-style-2">
+            <li>
+              <img
+                *ngIf="item.data.hasCover"
+                [src]="item.data.hasCover"
+                class="img-fluid cover"
+              />
+              <div class="caption">
+                <div class="blur"></div>
+                <div class="caption-text">
+                  <b>
+                    <span *ngIf="item.data.hasTitle">{{
+                      item.data.hasTitle
+                    }}</span>
+                    <span *ngIf="!item.data.hasTitle">SEM TÌTULO</span>
+                  </b>
+                  <br />
+                  <i>Authors</i>
+                  <br />
+                  (ANO)
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </a>
+
       <ul class="caption-style-2">
         <li>
-        <img
-          *ngIf="item.data.hasCover"
-          [src]="item.data.hasCover"
-          class="img-fluid"
-        />
           <div class="caption">
             <div class="blur"></div>
             <div class="caption-text">
-              <b>
-                <span *ngIf="item.data.hasTitle">{{ item.data.hasTitle }}</span>
-                <span *ngIf="!item.data.hasTitle">SEM TÌTULO</span>
-              </b>
               <br />
-              <i>Authors</i>
+              <i>XX</i>
               <br />
-              (ANO)
+              (2016)
             </div>
           </div>
         </li>
       </ul>
-    </div>
-  </a>
-
-      <a
-        href="https://cip.brapci.inf.br/api/rdf/in/{{ item.ID }}"
-        routerLinkActive="router-link-active"
-        target="_blank"
-      >
-        IN</a
-      >
-
-
-        <ul class="caption-style-2">
-          <li>
-            <div class="caption">
-              <div class="blur"></div>
-              <div class="caption-text">
-
-                <br />
-                <i>XX</i>
-                <br />
-                (2016)
-              </div>
-            </div>
-          </li>
-        </ul>
     </div>
   </div>
 </div>
