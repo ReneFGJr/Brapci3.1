@@ -152,8 +152,9 @@ class RDF extends Model
             exit;
         }
 
-    function recoverClass($class,$limit=20,$offset=0)
+    function recoverClass($class,$limit=20,$offset=0,$ord='N')
         {
+            $ord = substr($ord,0,1);
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
@@ -164,8 +165,12 @@ class RDF extends Model
             if ($limit == '') { $limit = 20; }
             $dt = $RDFconcept
                 ->select('id_cc')
-                ->where('cc_class',$class)
-                ->findAll($limit,$offset);
+                ->where('cc_class',$class);
+            if ($ord = 'd')
+                {
+                    $RDFconcept->orderBy('id_cc desc');
+                }
+            $dt = $RDFconcept->findAll($limit,$offset);
             return $dt;
         }
     function extract($dt,$prop,$type='F')
