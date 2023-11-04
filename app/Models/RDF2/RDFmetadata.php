@@ -126,15 +126,15 @@ class RDFmetadata extends Model
         $dr['creator_author'] = [];
         if (isset($dd['hasOrganizator']))
             {
-                $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '; ', '(org)', true);
+                $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '(org)', true);
             } else {
-                $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor', '; ', '(org)', true);
+                $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor', '', true);
             }
         $dr['data'] = $dd;
         return $dr;
     }
 
-    function arrayExtract($dt, $class, $sep = '; ',$suf = '', $link=true)
+    function arrayExtract($dt, $class, $suf = '', $link=true)
     {
         $RSP = [];
         if(isset($dt[$class]))
@@ -145,7 +145,7 @@ class RDFmetadata extends Model
                         foreach($lg as $ida=>$line)
                             {
                                 $name = [];
-                                $name['name'] = key($line);
+                                $name['name'] = trim(key($line).' '.$suf);
                                 $name['ID'] = $line[key($line)];
                                 array_push($RSP,$name);
                             }
