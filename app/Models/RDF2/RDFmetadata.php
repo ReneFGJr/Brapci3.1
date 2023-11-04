@@ -141,7 +141,7 @@ class RDFmetadata extends Model
                     $publisher .= '; ';
                 }
                 $ln2 = $place[$r];
-                $publisher .= $ln1['name'] . ': ' . $ln2['name'];
+                $publisher .= $ln2['name'] . ': ' . $ln1['name'];
             } else {
                 if ($publisher != '') {
                     $publisher .= '; ';
