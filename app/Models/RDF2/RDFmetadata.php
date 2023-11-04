@@ -123,11 +123,12 @@ class RDFmetadata extends Model
         }
         $dr['ID'] = $ID;
         $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
+        $dr['creator_author'] = [];
         if (isset($dd['hasOrganizator']))
             {
-                $dr['creator_author'] = troca($this->arrayExtract($dd, 'hasOrganizator', '; ', '(org)', true), ["\n", "\r"], '');
+                $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '; ', '(org)', true);
             } else {
-                $dr['creator_author'] = troca($this->arrayExtract($dd, 'hasAuthor', '; ', '(org)', true), ["\n", "\r"], '');
+                $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor', '; ', '(org)', true);
             }
         $dr['data'] = $dd;
         return $dr;
@@ -135,7 +136,7 @@ class RDFmetadata extends Model
 
     function arrayExtract($dt, $class, $sep = '; ',$suf = '', $link=true)
     {
-        $RSP = '';
+        $RSP = [];
         if(isset($dt[$class]))
             {
                 $data = $dt[$class];
@@ -143,7 +144,8 @@ class RDFmetadata extends Model
                     {
                         foreach($lg as $ida=>$line)
                             {
-                                $RSP .= key($line);
+                                $name = key($line);
+                                array_push($RSP,$name);
                             }
                     }
             }
