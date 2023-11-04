@@ -167,7 +167,7 @@ class RDFmetadata extends Model
             $dr['isbn'] .= $visbn;
         }
 
-        $dr['resource_pdf'] = $ID;
+        $dr['resource_pdf'] = PATH.'/download/'.$ID;
 
 
         /*********************** Section */
