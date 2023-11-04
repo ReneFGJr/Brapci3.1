@@ -232,7 +232,7 @@ class Abnt extends Model
 				}
 				$authors .= '. ';
 			} else {
-				foreach($dt['Authors'] as $idk=>$name)
+				foreach($dt['creator_author'] as $idk=>$name)
 					{
 						$authors .= nbr_author($name, 2);
 						$authors .= '; <i>et al.</i> ';
