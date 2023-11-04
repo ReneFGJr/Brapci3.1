@@ -104,11 +104,7 @@ class RDFmetadata extends Model
 
         $dt = $RDF->le($ID);
         $dd = [];
-        $dd['section'] = 'none';
-        $dd['cover'] = 'none';
-        $dd['title'] = 'none';
-        $dd['section'] = 'none';
-        $dd['section'] = 'none';
+
 
         $da = $dt['data'];
         foreach ($da as $id => $line) {
