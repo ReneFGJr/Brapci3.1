@@ -469,6 +469,7 @@ class Issues extends Model
 
         foreach ($dt as $id => $line) {
             $I = [];
+            pre($line,false);
             $I['year'] = $line['is_year'];
             $I['vol'] = $line['is_vol_roman'];
             $I['thema'] = $line['is_thema'];
