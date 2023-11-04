@@ -11,9 +11,12 @@
       <div class="col-3 text-end" *ngIf="property.key">
         {{ property.key }}
       </div>
-      <div class="col-9" *ngIf="property.key">
-        <p *ngFor="let item of property | keyvalue">
-            {{ item | json}}
+      <div class="col-9" *ngIf="property.value">
+        <p *ngFor="let item of property.value | keyvalue">
+          <li [innerHTML] *ngFor="let items of item.value | keyvalue; let i = index" [attr.data-index]="i">
+            {{ items.value | json }}
+            <sup>({{ item.key }})</sup>
+          </li>
         </p>
       </div>
     </div>

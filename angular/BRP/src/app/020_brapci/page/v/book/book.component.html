@@ -4,22 +4,20 @@
       [section]="data.section"
       [cover]="data.cover"
       [caption]="data.title"
-      [publisher]="data.publisher"></app-banner-book>
+      ></app-banner-book>
 </div>
 
 <div class="container mt-5" *ngIf="data">
   <div class="row">
     <div class="col-9">
-      <h1 class="title text-center">{{ data.title }}</h1>
-
       <div class="text-end mb-5">
         <span *ngFor="let item of data.creator_author" class="text-end">
           <a class="author" [routerLink]="['/v' + item.ID]" class="link author" >{{ item.name }}</a> <span *ngIf="item.complement"> {{ item.complement }}</span><br>
         </span>
       </div>
     </div>
-    <div class="col=3"></div>
-    <div class="col-12 col-lg-10 mb-3">
+    <div class="col-3"></div>
+    <div class="col-9 col-lg-9 mb-3">
       <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
       <p><b>Palavras-chave: </b>
         <span *ngFor="let item of data.subject" class="text-end">
@@ -35,7 +33,7 @@
       <app-v-data [RDFdata]="data.data"></app-v-data>
     </div>
 
-    <div class="col-12 col-lg-2">
+    <div class="col-12 col-lg-2 mt-5">
       <app-component-pdf [url]="data.resource_pdf" [id]="data.id"></app-component-pdf>
 
       <!--

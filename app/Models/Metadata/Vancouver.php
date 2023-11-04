@@ -211,11 +211,10 @@ class Vancouver extends Model
 
 	function authors($dt)
 		{
-			$sx = '';
-			$etal = false;
+		$sx = '';
+		$authors = '';
 		if (isset($dt['creator_author'])) {
 			$total = count($dt['creator_author']);
-			$authors = '';
 			if ($total <= 3) {
 				foreach ($dt['creator_author'] as $idk => $line) {
 					if ($authors != '') {
@@ -224,9 +223,12 @@ class Vancouver extends Model
 					$authors .= nbr_author($line['name'], 3);
 				}
 			} else {
-				$authors .= nbr_author(key($dt['creator_author'][0]['name']), 3);
-				$authors .= '; <i>et al.</i> ';
-				$etal = true;
+				if ($total > 0)
+				{
+					$authors .= nbr_author(key($dt['creator_author'][0]['name']), 3);
+					$authors .= '; <i>et al.</i> ';
+					$etal = true;
+				}
 			}
 			$sx .= $authors;
 		}
