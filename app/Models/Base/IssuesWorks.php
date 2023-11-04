@@ -44,6 +44,16 @@ class IssuesWorks extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function register($jnl,$issue,$work)
+        {
+            $dt = $this
+                ->where('siw_journal',$jnl)
+                ->where('siw_issue', $issue)
+                ->where('siw_work_rdf', $work)
+                ->first();
+            pre($dt);
+        }
+
     function exclude($id)
     {
         $this->where('siw_work_rdf', $id)->delete();

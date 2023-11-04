@@ -462,9 +462,15 @@ class RDFtoolsImport extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFclass = new \App\Models\RDF2\RDFclass();
+        $Issue = new \App\Models\Base\Issues();
+        $IssueWorks = new \App\Models\Base\IssuesWorks();
         /********** TO DO */
         $ID = $dt1['concept']['id_cc'];
         $RSP = $this->createConcept($dt1);
+
+        /****************************** */
+        $J = $Issue->where('is_source_issue',$ID)->firts();
+        pre($J);
 
         $prop_issue = $RDFclass->getClass('hasIssueOf');
 
@@ -493,6 +499,7 @@ class RDFtoolsImport extends Model
                                 case 'Proceeding':
                                     $lit = 0;
                                     $RDFdata->register($ID, $prop_issue, $ID2, $lit);
+                                    $IssueWorks->register($JNL,$ID,$ID2);
                                     break;
                                 case 'Issue':
                                     echo h($concept, 4);
