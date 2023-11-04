@@ -208,6 +208,7 @@ class Brapci extends Model
 
     function issue($issue)
     {
+        $Source = new \App\Models\Base\Sources();
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
 
@@ -229,7 +230,9 @@ class Brapci extends Model
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
 
-        pre($dd);
+        //$dj = $Source->where('id_jnl',1)->first();
+
+        pre($dt);
 
         return $dd;
 
