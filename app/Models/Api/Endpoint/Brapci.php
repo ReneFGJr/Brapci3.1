@@ -232,8 +232,11 @@ class Brapci extends Model
         $dd['id_jnl'] = $dt['is_source'];
 
         $dj = $Source->where('id_jnl',$dt['is_source'])->first();
+        $dd['source'] = $dj['jnl_name'];
+        $dd['jnl_frbr'] = $dj['jnl_frbr'];
+        $dd['acron'] = $dj['jnl_name_abrev'];
 
-        pre($dj);
+        pre($dd);
 
         return $dd;
 
