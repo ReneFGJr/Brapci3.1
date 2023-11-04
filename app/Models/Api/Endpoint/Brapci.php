@@ -240,7 +240,17 @@ class Brapci extends Model
             ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
             ->where('siw_issue',$issue)
             ->findAll();
-        pre($dt);
+
+        $dw = [];
+        foreach($dt as $id=>$line)
+            {
+                $dq = [];
+                $dq['ID'] = $line['siw_work_rdf'];
+                $dq['LEGEND'] = $dt['TITLE'].'<br>'.'<i>'. $dt['AUTHORS'].'</i>';
+                aray_push($dw,$dq);
+            }
+        $dd['worksTotal'] = count($dt);
+        $dd['works'] = $dw;
 
         pre($dd);
 
