@@ -146,6 +146,7 @@ class RDFmetadata extends Model
                             {
                                 $name = [];
                                 $name['name'] = key($line);
+                                $name['ID'] = $line[key($line)];
                                 array_push($RSP,$name);
                             }
                     }
