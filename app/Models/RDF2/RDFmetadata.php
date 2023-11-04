@@ -136,7 +136,7 @@ class RDFmetadata extends Model
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
         $dr['section'] = $this->arrayExtract($dd, 'hasSection');
-        if ($dr['section'] == []) {  $dr['section'] = ['name'=>'No Section']; }
+        if ($dr['section'] == []) {  $dr['section'][0] = ['name'=>'No Section']; }
         $dr['data'] = $dd;
         return $dr;
     }
