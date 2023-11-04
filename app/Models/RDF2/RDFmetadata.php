@@ -167,6 +167,8 @@ class RDFmetadata extends Model
             $dr['isbn'] .= $visbn;
         }
 
+        $dr['resource_pdf'] = $ID;
+
 
         /*********************** Section */
         switch ($dr['Class']) {
