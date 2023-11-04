@@ -458,8 +458,32 @@ class RDFtoolsImport extends Model
 
     function importIssue($dt1)
     {
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
         /********** TO DO */
+        $ID = $dt1['concept']['id_cc'];
         $RSP = $this->createConcept($dt1);
+
+        $prop_issue = $RDFclass->getClass('hasIssueOf');
+
+        foreach($dt1['data'] as $id=>$line)
+            {
+                $class = $line['c_class'];
+                if ($class == 'hasIssue')
+                    {
+                        $prop = 'hasIssueOf';
+                        echo $ID.'=='.$prop;
+                        $ID2 = $line['d_r1'];
+                        $lit = 0;
+                        pre($line,false);
+
+                        $RDFdata->register($ID, $prop_issue, $ID2, $lit);
+                        exit;
+                    }
+            }
+        pre($dt1);
+        //$RSP['data'] = $this->importData($dt1, $RSP['ID']);
+        /* ISSUE */
         return $RSP;
     }
 
