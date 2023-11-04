@@ -452,6 +452,7 @@ class Issues extends Model
     {
         $Sources = new \App\Models\Base\Sources();
         $ds = $Sources->find($id);
+        $ISSUE = [];
 
         $id = round($id);
         $dt = $this
@@ -465,6 +466,19 @@ class Issues extends Model
 
         $sx = '';
         $xyear = '';
+
+        foreach ($dt as $id => $line) {
+            $I = [];
+            $I['year'] = $line['is_year'];
+            $I['vol'] = $line['is_vol_roman'];
+            $I['thema'] = $line['is_thema'];
+            $I['acron'] = $line['jnl_name_abrev'];
+            $I['place'] = $line['is_place'];
+            $I['ID'] = $line['is_issue'];
+            array_push($ISSUE,$I);
+        }
+        return $ISSUE;
+
         foreach($dt as $id=>$line)
             {
                 $link = '<a href="'.PATH.'v/'.$line['is_source_issue'].'" target="_blanl">';
