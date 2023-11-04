@@ -125,11 +125,14 @@ class RDFmetadata extends Model
         $dr['Class'] = $dt['concept']['c_class'];
         $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
         $dr['creator_author'] = [];
+        $dr['Authors'] = '';
         if (isset($dd['hasOrganizator']))
             {
                 $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '(org)');
+                $dr['Authors'] .= 'xx (Org.)';
             } else {
                 $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor');
+                $dr['Authors'] .= 'xx';
             }
         $dr['description'] = troca($this->simpleExtract($dd, 'hasAbstract'), ["\n", "\r"], '');
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
