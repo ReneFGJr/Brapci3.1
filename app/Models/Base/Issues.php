@@ -469,13 +469,12 @@ class Issues extends Model
 
         foreach ($dt as $id => $line) {
             $I = [];
-            pre($line,false);
             $I['year'] = $line['is_year'];
             $I['vol'] = $line['is_vol_roman'];
             $I['thema'] = $line['is_thema'];
             $I['acron'] = $line['jnl_name_abrev'];
             $I['place'] = $line['is_place'];
-            $I['ID'] = $line['is_issue'];
+            $I['ID'] = $line['is_source_issue'];
             array_push($ISSUE,$I);
         }
         return $ISSUE;
