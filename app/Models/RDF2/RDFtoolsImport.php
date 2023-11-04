@@ -469,7 +469,7 @@ class RDFtoolsImport extends Model
         $RSP = $this->createConcept($dt1);
 
         /****************************** */
-        $J = $Issue->where('is_source_issue',$ID)->firts();
+        $J = $Issue->where('is_source_issue',$ID)->first();
         pre($J);
 
         $prop_issue = $RDFclass->getClass('hasIssueOf');
