@@ -51,33 +51,31 @@ class Apa extends Model
 		return $tela;
 	}
 	function apa_proceeding($dt)
-		{
+	{
 		$id = $dt['ID'];
-		if (isset($dt['title']))
-			{
-				$title = trim(html_entity_decode($dt['title']));
-				$title = trim(mb_strtolower($title));
-				$tu = mb_strtoupper($title);
-				$tu = mb_substr($tu, 0, 1);
-				$te = mb_substr($title, 1);
-				$title = $tu . $te;
-			} else {
-				$title = ':::none:::';
-			}
+		if (isset($dt['title'])) {
+			$title = trim(html_entity_decode($dt['title']));
+			$title = trim(mb_strtolower($title));
+			$tu = mb_strtoupper($title);
+			$tu = mb_substr($tu, 0, 1);
+			$te = mb_substr($title, 1);
+			$title = $tu . $te;
+		} else {
+			$title = ':::none:::';
+		}
 
 		$tela = '';
 		$tela .= '<span class="abtn-article">';
 		if (isset($dt['creator_author'])) {
 
-			$authors = $dt['authors'].'.';
-			$authors = troca($authors,'$$','.');
-			$authors = troca($authors,'$',';');
+			$authors = $dt['authors'] . '.';
+			$authors = troca($authors, '$$', '.');
+			$authors = troca($authors, '$', ';');
 
 			$tela .= $authors;
 		}
 		/**************** */
-		if (isset($dt['issue_id']))
-		{
+		if (isset($dt['issue_id'])) {
 			$issueNR = $dt['issue_id'];
 			$Issue = new \App\Models\Base\Issues();
 			$dri = $Issue->le($issueNR);
@@ -88,20 +86,20 @@ class Apa extends Model
 			return "[erro abnt]";
 		}
 
-		switch($jid)
-			{
-				case 75:
-					$tela .= '. ' . anchor(PATH . '/benancib' . '/v/' . $id, $title) . '. ';
-					break;
-				default:
-					$tela .= '. ' . anchor(PATH . '/proceedings' . '/v/' . $id, $title) . '. ';
-					break;
-			}
+		switch ($jid) {
+			case 75:
+				$tela .= '. ' . anchor(PATH . '/benancib' . '/v/' . $id, $title) . '. ';
+				break;
+			default:
+				$tela .= '. ' . anchor(PATH . '/proceedings' . '/v/' . $id, $title) . '. ';
+				break;
+		}
 
 		$tela .= '<i>In</i>: ';
 		$tela .= mb_strtoupper($dri['jnl_name']);
-		if ($dri['is_nr'] != '')
-			{$tela .= ', '.$dri['is_nr'].'.'; }
+		if ($dri['is_nr'] != '') {
+			$tela .= ', ' . $dri['is_nr'] . '.';
+		}
 		if ($dri['is_place'] != '') {
 			$tela .= ', ' . $dri['is_place'];
 		}
@@ -114,10 +112,10 @@ class Apa extends Model
 		if ($dri['is_place'] != '') {
 			$tela .= ' ' . $dri['is_place'];
 		}
-		if ($dri['is_editor'] != '') {
-			{
+		if ($dri['is_editor'] != '') { {
 				$tela .= ', ' . $dri['is_editor'];
-			} if ($dri['jnl_editor'] != '') {
+			}
+			if ($dri['jnl_editor'] != '') {
 				$tela .= ', ' . $dri['jnl_editor'];
 			} else {
 				# none
@@ -143,34 +141,34 @@ class Apa extends Model
 		$tela .= '</span>';
 
 		return $tela;
-		}
+	}
 
 
 	function apa_book($dt)
 	{
 		$sx = '';
 		$sx .= $this->authors($dt);
-		if ($sx != '') { $sx .= ' '; }
-		$sx .= '<b>'.$dt['title'].'</b>. ';
-		if (isset($dt['editora_local']))
-			{
-				$sx .= $dt['editora_local'] . ': ';
-			} else {
-				$sx .= '[<i>S.l.</i>]: ';
-			}
-		if (isset($dt['editora']))
-			{
-				$sx .= $dt['editora'] . '';
-			} else {
-				$sx .= '[<i>s.n.</i>]';
-			}
+		if ($sx != '') {
+			$sx .= ' ';
+		}
+		$sx .= '<b>' . $dt['title'] . '</b>. ';
+		if (isset($dt['editora_local'])) {
+			$sx .= $dt['editora_local'] . ': ';
+		} else {
+			$sx .= '[<i>S.l.</i>]: ';
+		}
+		if (isset($dt['editora'])) {
+			$sx .= $dt['editora'] . '';
+		} else {
+			$sx .= '[<i>s.n.</i>]';
+		}
 
 		if (isset($dt['year'])) {
-			$sx .= ', '.$dt['year'] . '.';
+			$sx .= ', ' . $dt['year'] . '.';
 		} else {
 			$sx .= ', [????]' . '.';
 		}
-		$sx = troca($sx, '..','.');
+		$sx = troca($sx, '..', '.');
 		return $sx;
 	}
 
@@ -180,25 +178,22 @@ class Apa extends Model
 		$sx .= $this->authors($dt);
 
 		if (isset($dt['title'])) {
-		if ($sx != '')
-			{
-				$sx .= ' '.trim($dt['title']);
+			if ($sx != '') {
+				$sx .= ' ' . trim($dt['title']);
 			} else {
 				$title = trim($dt['title']);
-				$pos = round(strpos($title,' '));
-				while (($pos < 4) and ($pos > 0))
-					{
-						$title = substr($title,0,$pos).'_'.substr($title,$pos+1,strlen($title));
-						$pos = strpos($title, ' ');
-					}
-				if ($pos == 0)
-					{
-						$pos = strlen($title);
-					}
-					$sx1 = substr($title,0,$pos);
-					$sx2 = substr($title,$pos+1,strlen($title));
-					$title = mb_strtoupper($sx1).' '.trim($sx2);
-					$title = troca($title,'_',' ');
+				$pos = round(strpos($title, ' '));
+				while (($pos < 4) and ($pos > 0)) {
+					$title = substr($title, 0, $pos) . '_' . substr($title, $pos + 1, strlen($title));
+					$pos = strpos($title, ' ');
+				}
+				if ($pos == 0) {
+					$pos = strlen($title);
+				}
+				$sx1 = substr($title, 0, $pos);
+				$sx2 = substr($title, $pos + 1, strlen($title));
+				$title = mb_strtoupper($sx1) . ' ' . trim($sx2);
+				$title = troca($title, '_', ' ');
 
 				$sx .= trim($title);
 			}
@@ -214,43 +209,45 @@ class Apa extends Model
 	}
 
 	function authors($dt)
-		{
-			$sx = '';
-			$etal = false;
+	{
+		$sx = '';
+		$etal = false;
 		if (isset($dt['creator_author'])) {
 			$total = count($dt['creator_author']);
 			$authors = '';
-			if ($total <= 3) {
+			if ($total <= 21) {
 				for ($r = 0; $r < count($dt['creator_author']); $r++) {
 					if ($authors != '') {
+						$authors .= ', ';
 						if ($total == ($r + 1)) {
-							$authors .= '& ';
-						} else {
-							$authors .= ', ';
+							$authors .= ' & ';
 						}
 					}
 					$authors .= nbr_author($dt['creator_author'][$r]['name'], 2);
 				}
 				$authors .= '. ';
 			} else {
-				$authors .= nbr_author($dt['creator_author'][0]['name'], 2);
-				$authors .= '; <i>et al.</i> ';
-				$etal = true;
+				for ($r = 0; $r <= 19; $r++) {
+					if ($authors != '') {
+						$authors .= ', ';
+					}
+					$authors .= nbr_author($dt['creator_author'][$r]['name'], 2);
+				}
+				$authors .= '... ' . nbr_author($dt['creator_author'][($total - 1)]['name'], 2);
 			}
 			$sx .= $authors;
 		}
-		$sx = troca($sx,'..','.');
+		$sx = troca($sx, '..', '.');
 		$sx = trim($sx);
 		return $sx;
-		}
+	}
 
 
 	function apa_article($dt)
 	{
-		if (!isset($dt['title']))
-			{
-				$dt['title'] = '::none::';
-			}
+		if (!isset($dt['title'])) {
+			$dt['title'] = '::none::';
+		}
 		$title = trim(html_entity_decode($dt['title']));
 		$title = trim(mb_strtolower($title));
 		$tu = mb_strtoupper($title);
@@ -263,7 +260,7 @@ class Apa extends Model
 
 		/*********************************** ANO */
 		if (isset($dt['issue']['year'])) {
-			$tela .= ' (' . trim($dt['issue']['year']).')';
+			$tela .= ' (' . trim($dt['issue']['year']) . ')';
 		} else {
 			$tela .= ' (????)';
 		}
@@ -271,10 +268,9 @@ class Apa extends Model
 
 		$tela .= '. ' . $title;
 
-		if (isset($dt['Journal']))
-			{
-				$tela .= '. ' . nbr_title($dt['Journal'], 7);
-			}
+		if (isset($dt['Journal'])) {
+			$tela .= '. ' . nbr_title($dt['Journal'], 7);
+		}
 
 
 
@@ -285,24 +281,20 @@ class Apa extends Model
 				if (strpos(' ' . $dt['issue']['issue_vol'], 'v.')) {
 					$tela .= '; ' . $dt['issue']['issue_vol'];
 				} else {
-					$tela .= '; ' . trim(troca($dt['issue']['issue_vol'],'v.',''));
+					$tela .= '; ' . trim(troca($dt['issue']['issue_vol'], 'v.', ''));
 				}
 			}
 		}
 		/******************************** NR **/
 		if (isset($dt['issue']['Issue_nr']) > 0) {
 			$nr = trim($dt['issue']['Issue_nr']);
-			if (strlen($nr) > 0)
-			{
-				if (strpos(' '.$dt['issue']['Issue_nr'],'n.'))
-					{
-						$tela .= '('. trim(troca($dt['issue']['Issue_nr'],'n.','')).')';
-					} else {
-						$tela .= '(' . $dt['issue']['Issue_nr'].')';
-					}
-
+			if (strlen($nr) > 0) {
+				if (strpos(' ' . $dt['issue']['Issue_nr'], 'n.')) {
+					$tela .= '(' . trim(troca($dt['issue']['Issue_nr'], 'n.', '')) . ')';
+				} else {
+					$tela .= '(' . $dt['issue']['Issue_nr'] . ')';
+				}
 			}
-
 		}
 
 
