@@ -161,9 +161,9 @@ class Abnt extends Model
 		}
 		$sx .= '<b>' . $dt['title'] . '</b>. ';
 		if (isset($dt['publisher'])) {
-			$sx .= $dt['publisher'] . ': ';
+			$sx .= $dt['publisher'];
 		} else {
-			$sx .= '[<i>S.l.</i>]: ';
+			$sx .= '[<i>S.l.,s.n.</i>]: ';
 		}
 
 		if (isset($dt['year'])) {
