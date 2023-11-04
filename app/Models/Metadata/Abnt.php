@@ -43,6 +43,9 @@ class Abnt extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($type) {
+			case 'B':
+				$tela = $this->abnt_book($dt);
+				break;
 			case 'E':
 				$tela = $this->abnt_proceeding($dt);
 				break;

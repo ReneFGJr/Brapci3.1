@@ -133,6 +133,7 @@ class RDFmetadata extends Model
             }
         $dr['description'] = troca($this->simpleExtract($dd, 'hasAbstract'), ["\n", "\r"], '');
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
+        $dr['year'] = $this->simpleExtract($dd, 'wasPublicationInDate');
 
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
