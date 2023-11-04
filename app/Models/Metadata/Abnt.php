@@ -224,7 +224,7 @@ class Abnt extends Model
 			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
-				foreach ($dt['Authors'] as $idk => $name) {
+				foreach ($dt['creator_author'] as $idk => $name) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
