@@ -141,7 +141,6 @@ class RDFmetadata extends Model
         $publisher = '';
         for($r=0;$r < count($editora);$r++)
             {
-
                 $ln1 = $editora[$r];
                 if (isset($place[$r]))
                     {
