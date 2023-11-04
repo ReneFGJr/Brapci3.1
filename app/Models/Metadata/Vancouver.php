@@ -45,6 +45,8 @@ class Vancouver extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($type) {
+			case 'B':
+				$tela = $this->vancouver_book($dt);
 			default:
 				$tela = $this->vancouver_article($dt);
 		}
