@@ -211,7 +211,7 @@ class Brapci extends Model
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-        $dt = $Issues->find($issue);
+        $dt = $Issues->where('is_source_issue',$issue)->first();
 
         if ($dt == null)
             {
@@ -219,6 +219,7 @@ class Brapci extends Model
                 echo '<a href="'.PATH. '/api/rdf/in/'.$issue.'">IN</a>';
                 exit;
             }
+        pre($dt);
 
 
         $RSP = $this->getSource($dt['is_source']);
