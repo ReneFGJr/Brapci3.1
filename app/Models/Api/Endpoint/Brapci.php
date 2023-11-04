@@ -219,7 +219,19 @@ class Brapci extends Model
                 echo '<a href="'.PATH. '/api/rdf/in/'.$issue.'">IN</a>';
                 exit;
             }
-        pre($dt);
+
+        $dd = [];
+
+        $dd['ID'] = $dt['is_source_issue'];
+        $dd['place'] = $dt['is_place'];
+        $dd['nr'] = $dt['is_vol_roman'];
+        $dd['place'] = $dt['is_place'];
+        $dd['works'] = $dt['is_works'];
+        $dd['year'] = $dt['is_year'];
+
+        pre($dd);
+
+        return $dd;
 
 
         $RSP = $this->getSource($dt['is_source']);
