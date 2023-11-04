@@ -151,6 +151,9 @@ class RDFmetadata extends Model
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
 
+        /******************* ISBN */
+        $dr['isbn'] = $this->arrayExtract($dd, 'hasISBN');
+
         /*********************** Section */
         switch($dr['Class'])
             {
