@@ -220,8 +220,8 @@ class Abnt extends Model
 	{
 		$sx = '';
 		$etal = false;
-		if (isset($dt['Authors'])) {
-			$total = count($dt['Authors']);
+		if (isset($dt['creator_author'])) {
+			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
 				foreach ($dt['Authors'] as $idk => $name) {
