@@ -236,7 +236,10 @@ class Brapci extends Model
         $dd['jnl_frbr'] = $dj['jnl_frbr'];
         $dd['acron'] = $dj['jnl_name_abrev'];
 
-        $dt = $IssuesWorks->where('siw_issue',$issue)->findAll();
+        $dt = $IssuesWorks
+            ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
+            ->where('siw_issue',$issue)
+            ->findAll();
         pre($dt);
 
         pre($dd);
