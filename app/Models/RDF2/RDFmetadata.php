@@ -135,7 +135,6 @@ class RDFmetadata extends Model
 
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
-        pre($dr);
         $dr['data'] = $dd;
         return $dr;
     }
