@@ -31,6 +31,7 @@ import { BasketedComponent } from './page/basketed/basketed.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { BookComponent } from './page/v/book/book.component';
 import { DateComponent } from './page/v/date/date.component';
+import { BannerBookComponent } from './page/banner/banner-book.component';
 
 
 @NgModule({
@@ -61,6 +62,7 @@ import { DateComponent } from './page/v/date/date.component';
     DashboardComponent,
     BookComponent,
     DateComponent,
+    BannerBookComponent,
   ],
   imports: [
     CommonModule,
