@@ -223,9 +223,10 @@ class Apa extends Model
 			if ($total <= 3) {
 				for ($r = 0; $r < count($dt['creator_author']); $r++) {
 					if ($authors != '') {
-						$authors .= ', ';
 						if ($total == ($r + 1)) {
 							$authors .= '& ';
+						} else {
+							$authors .= ', ';
 						}
 					}
 					$authors .= nbr_author($dt['creator_author'][$r]['name'], 2);
