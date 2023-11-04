@@ -252,20 +252,7 @@ class Brapci extends Model
             }
         $dd['worksTotal'] = count($dt);
         $dd['works'] = $dw;
-
-        pre($dd);
-
         return $dd;
-
-
-        $RSP = $this->getSource($dt['is_source']);
-        $RSP['issue'] = $dt;
-
-        $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-        $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'], $issue);
-        $RSP['works'] = $IssuesWorks->getWorks($dt['id_is']);
-
-        return $RSP;
     }
 
     function getSource($d1)
