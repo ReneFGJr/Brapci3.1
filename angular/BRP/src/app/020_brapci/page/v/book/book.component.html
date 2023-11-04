@@ -19,7 +19,7 @@
       <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
       <p><b>Palavras-chave: </b>
         <span *ngFor="let item of data.subject" class="text-end">
-          <a class="keywords" [routerLink]="['/v/'+item.id]" >{{ item.name }}</a>
+          <a class="keywords" [routerLink]="['/v/'+item.ID]" >{{ item.name }}</a>
         </span>
       </p>
 

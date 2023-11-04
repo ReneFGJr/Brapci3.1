@@ -130,6 +130,8 @@ class RDFmetadata extends Model
             } else {
                 $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor', '', true);
             }
+        $dr['description'] = troca($this->simpleExtract($dd, 'hasAbstract'), ["\n", "\r"], '');
+        $dr['subject'] = $this->arrayExtract($dd, 'hasSubject', '', true);
         $dr['data'] = $dd;
         return $dr;
     }
