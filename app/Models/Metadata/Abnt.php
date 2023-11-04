@@ -224,17 +224,17 @@ class Abnt extends Model
 			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
-				foreach ($dt['creator_author'] as $idk => $name) {
+				foreach ($dt['creator_author'] as $idk => $line) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author(key($name), 2);
+					$authors .= nbr_author($line['name'], 2);
 				}
 				$authors .= '. ';
 			} else {
-				foreach($dt['creator_author'] as $idk=>$name)
+				foreach($dt['creator_author'] as $idk=>$line)
 					{
-						$authors .= nbr_author(key($name), 2);
+						$authors .= nbr_author($line['name'], 2);
 						$authors .= '; <i>et al.</i> ';
 						break;
 					}
