@@ -66,16 +66,12 @@ class Index extends Model
 
         if (strlen($isbn) == 13) {
             $sx = substr($isbn, 0, 3) . '-' .
-                substr($isbn, 3, 2) . '-' .
-                substr($isbn, 5, 5) . '-' .
-                substr($isbn, 10, 2) . '-' .
+                substr($isbn, 3, 9) . '-' .
                 substr($isbn, 12, 1);
         } else {
             if (strlen($isbn) == 10)
             {
-            $sx = substr($isbn, 0, 1) . '-' .
-                substr($isbn, 1, 5) . '-' .
-                substr($isbn, 6, 3) . '-' .
+            $sx = substr($isbn, 0, 9) . '-' .
                 substr($isbn, 9, 1);
             } else {
                 $sx=$isbn;
