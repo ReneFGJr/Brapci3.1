@@ -15,9 +15,8 @@
       </div>
 
       <div class="section_div bg-brapci">
-        {{ section | json}}
         <span class="section" *ngFor="let item of section"
-          >-----------------{{ item }}
+          >{{ item.name }}
         </span>
       </div>
       [[{{ cover }}

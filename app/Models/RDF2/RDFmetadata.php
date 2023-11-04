@@ -122,6 +122,7 @@ class RDFmetadata extends Model
             array_push($dd[$prop][$lang], $dc);
         }
         $dr['ID'] = $ID;
+        $dr['class'] = $dt['concept']['c_class'];
         $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
         $dr['creator_author'] = [];
         if (isset($dd['hasOrganizator']))
@@ -135,8 +136,20 @@ class RDFmetadata extends Model
 
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
-        $dr['section'] = $this->arrayExtract($dd, 'hasSection');
-        if ($dr['section'] == []) {  $dr['section'][0] = ['name'=>'No Section']; }
+
+        /*********************** Section */
+        switch($dt['class'])
+            {
+                case 'Book':
+                    $dr['section'][0] = ['name' => 'Book/Livro'];
+                    break;
+                default:
+                    $dr['section'] = $this->arrayExtract($dd, 'hasSection');
+                    if ($dr['section'] == []) {
+                        $dr['section'][0] = ['name' => 'No Section'];
+                    }
+                break;
+            }
         $dr['data'] = $dd;
         return $dr;
     }
