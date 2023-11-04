@@ -123,8 +123,31 @@ class RDFmetadata extends Model
         }
         $dr['ID'] = $ID;
         $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
+        if (isset($dd['hasOrganizator']))
+            {
+                $dr['authors'] = troca($this->arrayExtract($dd, 'hasOrganizator', '; ', '(org)', true), ["\n", "\r"], '');
+            } else {
+                $dr['authors'] = troca($this->arrayExtract($dd, 'hasAuthor', '; ', '(org)', true), ["\n", "\r"], '');
+            }
         $dr['data'] = $dd;
         return $dr;
+    }
+
+    function arrayExtract($dt, $class, $sep = '; ',$suf = '', $link=true)
+    {
+        $RSP = '';
+        if(isset($dt[$class]))
+            {
+                $data = $dt[$class];
+                foreach($data as $lg)
+                    {
+                        foreach($lg as $ida=>$line)
+                            {
+                                $RSP .= key($line);
+                            }
+                    }
+            }
+        return $RSP;
     }
 
     function simpleExtract($dt,$class)
@@ -147,6 +170,5 @@ class RDFmetadata extends Model
                                 }
                         }
                 }
-            pre($line);
         }
 }
