@@ -47,6 +47,7 @@ class Vancouver extends Model
 		switch ($type) {
 			case 'B':
 				$tela = $this->vancouver_book($dt);
+				break;
 			default:
 				$tela = $this->vancouver_article($dt);
 		}
