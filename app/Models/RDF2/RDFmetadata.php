@@ -138,7 +138,7 @@ class RDFmetadata extends Model
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
 
         /*********************** Section */
-        switch($dt['class'])
+        switch($dr['class'])
             {
                 case 'Book':
                     $dr['section'][0] = ['name' => 'Book/Livro'];
