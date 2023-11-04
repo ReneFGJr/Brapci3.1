@@ -474,7 +474,6 @@ class RDFtoolsImport extends Model
 
                 if ($class == 'hasIssue')
                     {
-                        $prop = 'hasIssueOf';
                         $ID2 = $line['d_r1'];
                         if ($ID2 == $ID)
                             {
@@ -509,8 +508,6 @@ class RDFtoolsImport extends Model
 
                     }
             }
-        echo "ooooooooo";
-        pre($dt1);
         //$RSP['data'] = $this->importData($dt1, $RSP['ID']);
         /* ISSUE */
         return $RSP;
