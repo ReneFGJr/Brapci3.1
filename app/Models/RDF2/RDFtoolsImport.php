@@ -475,7 +475,7 @@ class RDFtoolsImport extends Model
 
                         $ID2 = $line['d_r1'];
                         $lit = 0;
-                        echo $ID . '==' . $prop.'=='.$ID2;
+                        echo $ID . '==' . $prop_issue.'=='.$ID2;
                         pre($line,false);
 
                         $RDFdata->register($ID, $prop_issue, $ID2, $lit);
