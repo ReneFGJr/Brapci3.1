@@ -220,14 +220,14 @@ class Vancouver extends Model
 			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
-				foreach ($dt['creator_author'] as $idk => $name) {
+				foreach ($dt['creator_author'] as $idk => $line) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author(key($name), 3);
+					$authors .= nbr_author($line['name'], 3);
 				}
 			} else {
-				$authors .= nbr_author(key($dt['creator_author'][0]), 3);
+				$authors .= nbr_author(key($dt['creator_author'][0]['name']), 3);
 				$authors .= '; <i>et al.</i> ';
 				$etal = true;
 			}
