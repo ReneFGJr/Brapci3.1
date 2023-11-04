@@ -213,7 +213,12 @@ class Brapci extends Model
 
         $dt = $Issues->find($issue);
 
-        pre($dt);
+        if ($dt == null)
+            {
+                echo "Vazio";
+                exit;
+            }
+
 
         $RSP = $this->getSource($dt['is_source']);
         $RSP['issue'] = $dt;
