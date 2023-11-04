@@ -246,7 +246,8 @@ class Brapci extends Model
             {
                 $dq = [];
                 $dq['ID'] = $line['siw_work_rdf'];
-                $dq['LEGEND'] = $line['TITLE'].'<br>'.'<i>'. $line['AUTHORS'].'</i>';
+                $dq['LEGEND'] = $line['TITLE'];
+                $dq['AUTHORS'] = $line['AUTHORS'];
                 array_push($dw,$dq);
             }
         $dd['worksTotal'] = count($dt);
