@@ -472,9 +472,10 @@ class RDFtoolsImport extends Model
                 if ($class == 'hasIssue')
                     {
                         $prop = 'hasIssueOf';
-                        echo $ID.'=='.$prop;
+
                         $ID2 = $line['d_r1'];
                         $lit = 0;
+                        echo $ID . '==' . $prop.'=='.$ID2;
                         pre($line,false);
 
                         $RDFdata->register($ID, $prop_issue, $ID2, $lit);
