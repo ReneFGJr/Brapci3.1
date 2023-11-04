@@ -225,6 +225,7 @@ class Vancouver extends Model
 			} else {
 				if ($total > 0)
 				{
+					pre($dt);
 					$authors .= nbr_author(key($dt['creator_author'][0]['name']), 3);
 					$authors .= '; <i>et al.</i> ';
 					$etal = true;
