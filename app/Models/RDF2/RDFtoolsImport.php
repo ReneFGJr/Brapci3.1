@@ -470,7 +470,7 @@ class RDFtoolsImport extends Model
 
         /****************************** */
         $J = $Issue->where('is_source_issue',$ID)->first();
-        pre($J);
+        $JNL = $J['is_source'];
 
         $prop_issue = $RDFclass->getClass('hasIssueOf');
 
