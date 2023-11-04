@@ -122,7 +122,7 @@ class RDFmetadata extends Model
             array_push($dd[$prop][$lang], $dc);
         }
         $dr['ID'] = $ID;
-        $dr['class'] = $dt['concept']['c_class'];
+        $dr['Class'] = $dt['concept']['c_class'];
         $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
         $dr['creator_author'] = [];
         if (isset($dd['hasOrganizator']))
@@ -138,10 +138,10 @@ class RDFmetadata extends Model
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
 
         /*********************** Section */
-        switch($dr['class'])
+        switch($dr['Class'])
             {
                 case 'Book':
-                    $dr['section'][0] = ['name' => 'Book/Livro'];
+                    $dr['section'][0] = ['name' => 'Book - Livro'];
                     break;
                 default:
                     $dr['section'] = $this->arrayExtract($dd, 'hasSection');
