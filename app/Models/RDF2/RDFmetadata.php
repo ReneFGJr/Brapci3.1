@@ -170,7 +170,8 @@ class RDFmetadata extends Model
 
         /************************** Pages */
         $hasPage = $this->simpleExtract($dd, 'hasPage');
-        if ($hasPage != '') { $dt['pages'] = $hasPage;
+        if ($hasPage != '') {
+            $dr['pages'] = $hasPage;
         }
 
         /************************** Resource */
