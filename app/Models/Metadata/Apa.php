@@ -45,6 +45,9 @@ class Apa extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($type) {
+			case 'Book':
+				$tela = $this->apa_book($dt);
+				break;
 			default:
 				$tela = $this->apa_article($dt);
 		}
@@ -158,6 +161,7 @@ class Apa extends Model
 			$sx .= '[<i>S.l.,s.n.</i>]: ';
 		}
 
+pre($dt);
 
 		if (isset($dt['year'])) {
 			$sx .= ', ' . $dt['year'] . '.';
