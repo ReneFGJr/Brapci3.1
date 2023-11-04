@@ -458,6 +458,8 @@ class RDFtoolsImport extends Model
 
     function importIssue($dt1)
     {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFclass = new \App\Models\RDF2\RDFclass();
         /********** TO DO */
@@ -469,17 +471,42 @@ class RDFtoolsImport extends Model
         foreach($dt1['data'] as $id=>$line)
             {
                 $class = $line['c_class'];
+
                 if ($class == 'hasIssue')
                     {
                         $prop = 'hasIssueOf';
-
                         $ID2 = $line['d_r1'];
-                        $lit = 0;
-                        echo $ID . '==' . $prop_issue.'=='.$ID2;
-                        pre($line,false);
+                        if ($ID2 == $ID)
+                            {
+                                $ID2 = $line['d_r2'];
+                            }
 
-                        $RDFdata->register($ID, $prop_issue, $ID2, $lit);
-                        exit;
+                        $dt = $RDFconcept->le($ID2);
+                        $concept = $dt['c_class'];
+
+                        switch($concept)
+                            {
+                                case 'Journals':
+                                    $propJ = $RDFclass->getClass('hasPublicationIssueOf');
+                                    $lit = 0;
+                                    $RDFdata->register($ID2, $propJ, $ID, $lit);
+                                    break;
+                                case 'Proceeding':
+                                    $lit = 0;
+                                    $RDFdata->register($ID, $prop_issue, $ID2, $lit);
+                                    break;
+                                case 'Issue':
+                                    echo h($concept, 4);
+                                    pre($dt,false);
+                                    break;
+                                default:
+                                    echo '<br>===>'.$concept;
+                                    break;
+                            }
+                        //pre($dt);
+                        //$lit = 0;
+                        //echo $ID . '==' . $prop_issue.'=='.$ID2.'<br>';
+
                     }
             }
         echo "ooooooooo";
