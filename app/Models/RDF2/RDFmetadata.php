@@ -167,6 +167,13 @@ class RDFmetadata extends Model
             $dr['isbn'] .= $visbn;
         }
 
+
+        /************************** Pages */
+        $hasPage = $this->simpleExtract($dd, 'hasPage');
+        if ($hasPage != '') { $dt['pages'] = $hasPage;
+        }
+
+        /************************** Resource */
         $dr['resource_pdf'] = PATH.'/download/'.$ID;
 
 
