@@ -228,11 +228,11 @@ class Apa extends Model
 							$authors .= '& ';
 						}
 					}
-					$authors .= nbr_author(key($dt['creator_author'][$r]), 2);
+					$authors .= nbr_author(key($dt['creator_author'][$r]['name']), 2);
 				}
 				$authors .= '. ';
 			} else {
-				$authors .= nbr_author($dt['Authors'][0], 2);
+				$authors .= nbr_author($dt['Authors'][0]['name'], 2);
 				$authors .= '; <i>et al.</i> ';
 				$etal = true;
 			}
