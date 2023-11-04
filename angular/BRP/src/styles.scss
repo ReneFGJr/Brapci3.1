@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+@import "bootstrap/scss/bootstrap";
 
 /* You can add global styles to this file, and also import other style files */
 @import "./assets/base/variables";
@@ -12,137 +12,163 @@ body {
   background-color: $bgcolor;
 }
 
-h1, h2, h3, h4 ,h5 ,h6
-  {
-    font-family: "Roboto", sans-serif;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto", sans-serif;
+}
 
-  .foot_tag a
-  {
-    text-decoration: none;
-  }
-  .documment_type
-  {
-    border-radius: 5px;
-    color:#000;
-    padding: 2px 10px 2px 10px;
-  }
+.foot_tag a {
+  text-decoration: none;
+}
+.documment_type {
+  border-radius: 5px;
+  color: #000;
+  padding: 2px 10px 2px 10px;
+}
 
-  .documment_type_proceeding
-  {
-    background-color: #FEF;
-    border: 1px solid #818;
-  }
-  .documment_type_book
-    {
-    background-color: #EFE;
-    border: 1px solid rgb(23, 100, 9);
-    }
-.documment_type_bookChapter
-  {
-    background-color: #DFD;
-    border: 1px solid rgb(4, 71, 6);
-  }
-  .documment_type_article
-  {
-    background-color: #EEF;
-    border: 1px solid #118;
-  }
+.documment_type_proceeding {
+  background-color: #fef;
+  border: 1px solid #818;
+}
+.documment_type_book {
+  background-color: #efe;
+  border: 1px solid rgb(23, 100, 9);
+}
+.documment_type_bookChapter {
+  background-color: #dfd;
+  border: 1px solid rgb(4, 71, 6);
+}
+.documment_type_article {
+  background-color: #eef;
+  border: 1px solid #118;
+}
 
-.bold
-  {
-    font-weight: bold;
-  }
+.bold {
+  font-weight: bold;
+}
 
-.link
-  {
-    color: #333;
-    text-decoration: none;
-    padding: 0px;
-    margin: 0px;
-    line-height: 1rem;
-    cursor: pointer;
-  }
+.link {
+  color: #555;
+  text-decoration: none;
+  padding: 0px;
+  margin: 0px;
+  line-height: 1rem;
+  cursor: pointer;
+}
 
-.link:hover
-  {
-    color: #333;
-    text-decoration: underline;
-    transition-duration: 410ms;
-    color: #000;
-  }
+.title {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1.7em;
+  color: black;
+  font-weight: bold;
+}
 
-.cover
-  {
-    box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transform: scale(1.0);
+.link:hover {
+  color: #333;
+  text-decoration: underline;
+  transition-duration: 410ms;
+  color: #000;
+}
 
-  }
+.author {
+  text-decoration: none;
+  color: #555;
+  font-size: 1em;
+  font-weight: bold;
+  font-style: italic;
+}
+.author:hover {
+  color: #000;
+}
+
+.keywords {
+  font-size: 0.9em;
+  border: 1px solid #555;
+  padding: 2px 10px;
+  margin: 2px 2px;
+  text-decoration: none;
+  color: #333;
+  border-radius: 10px;
+  background-color: #d8d8d8;
+  line-height: 1.8rem;
+  word-break: break-all;
+}
+.keywords:hover {
+  background-color: #f8f8f8;
+}
+
+.cover {
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.8),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transform: scale(1);
+}
 
 .cover:hover {
-  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgba(0, 0, 0, 0.18);
+  box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.6),
+    0 6px 20px 0 rgba(0, 0, 0, 0.18);
   animation: zoomIN 1s;
   transform: scale(1.1);
   cursor: pointer;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-.big
-  {
-    font-size: 1.5rem;
-  }
+.big {
+  font-size: 1.5rem;
+}
 
-.superbig
-  {
-    font-size: 2rem;
-  }
+.superbig {
+  font-size: 2rem;
+}
 /*************************************** Form */
-.termsSubmit
-  {
-    font-size: 0.8em;
-  }
-.form_mandadory
-  {
-    color: red;
-    font-size: 0.8rem;
-  }
-.form_valid
-  {
-    border: 1px solid green;
-    border-left: 5px solid green;
-    border-radius: 10px;
-  }
-.form_invalid
-  {
-    border: 1px solid red;
-    border-left: 5px solid red;
-    border-radius: 5px;
-  }
-.form_null
-  {
-    border: 1px solid #888;
-    border-left: 5px solid #888;
-    border-radius: 10px;
-  }
+.termsSubmit {
+  font-size: 0.8em;
+}
+.form_mandadory {
+  color: red;
+  font-size: 0.8rem;
+}
+.form_valid {
+  border: 1px solid green;
+  border-left: 5px solid green;
+  border-radius: 10px;
+}
+.form_invalid {
+  border: 1px solid red;
+  border-left: 5px solid red;
+  border-radius: 5px;
+}
+.form_null {
+  border: 1px solid #888;
+  border-left: 5px solid #888;
+  border-radius: 10px;
+}
 
-.basket
-  {
-    border-radius: 10px;
-    padding: 2px 10px 2px 10px;
-    margin-top: 5px;
-  }
+.basket {
+  border-radius: 10px;
+  padding: 2px 10px 2px 10px;
+  margin-top: 5px;
+}
 
-.handle
-  {
-    cursor: pointer;
-  }
+.handle {
+  cursor: pointer;
+}
 
-  .small
-    {
-      font-size: 0.8rem;
-    }
+.small {
+  font-size: 0.8rem;
+}
 
 /************* BOOKS */
 /* CAPTION 2 */

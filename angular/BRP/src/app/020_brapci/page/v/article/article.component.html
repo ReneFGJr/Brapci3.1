@@ -10,7 +10,7 @@
 
       <div class="text-end mb-5">
         <span *ngFor="let item of data.creator_author" class="text-end">
-          <a class="author" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
+          <a class="author" [routerLink]="['/v/' + item.ID]" >{{ item.name }}</a><br>
         </span>
       </div>
     </div>
@@ -19,7 +19,7 @@
       <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
       <p><b>Palavras-chave: </b>
         <span *ngFor="let item of data.subject" class="text-end">
-          <a class="keywords" [routerLink]="['/v/'+item.id]" >{{ item.name }}</a>
+          <a class="keywords" [routerLink]="['/v/'+item.ID]" >{{ item.name }}</a>
         </span>
       </p>
 
