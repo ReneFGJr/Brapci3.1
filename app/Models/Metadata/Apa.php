@@ -162,7 +162,7 @@ class Apa extends Model
 			$sx .= ', (????)' . '.';
 		}
 
-		$sx .= '<b>' . $dt['title'] . '</b>. ';
+		$sx .= '<i>' . $dt['title'] . '</i>. ';
 		if (isset($dt['publisher'])) {
 			$sx .= $dt['publisher'] . '';
 		} else {

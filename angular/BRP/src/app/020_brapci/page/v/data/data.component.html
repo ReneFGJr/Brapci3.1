@@ -12,7 +12,9 @@
         {{ property.key }}
       </div>
       <div class="col-9" *ngIf="property.key">
-        <div [innerHTML]="property.value"></div>
+        <p *ngFor="let item of property | keyvalue">
+            {{ item | json}}
+        </p>
       </div>
     </div>
   </div>
