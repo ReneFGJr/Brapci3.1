@@ -152,7 +152,17 @@ class RDFmetadata extends Model
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
 
         /******************* ISBN */
-        $dr['isbn'] = $this->arrayExtract($dd, 'hasISBN');
+        $ISBN = new \App\Models\ISBN\Index();
+        $isbn = $this->arrayExtract($dd, 'hasISBN');
+        $dr['isbn'] = '';
+        foreach($isbn as $value)
+            {
+                $visbn = $value['name'];
+                $visbn = $ISBN->format($visbn);
+                if ($dr['isbn'] != '') { $dr['isbn'] .= ' | '; }
+                $dr['isbn'] .= $visbn;
+            }
+
 
         /*********************** Section */
         switch($dr['Class'])
