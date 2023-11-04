@@ -135,6 +135,23 @@ class RDFmetadata extends Model
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
         $dr['year'] = $this->simpleExtract($dd, 'wasPublicationInDate');
 
+        $editora = $this->arrayExtract($dd, 'isPublisher');
+        $place = $this->arrayExtract($dd, 'isPlaceOfPublication');
+        $publisher = '';
+        for($r=0;$r < count($editora);$r++)
+            {
+
+                $ln1 = $editora[$r];
+                if (isset($place[$r]))
+                    {
+                        $ln2 = $place[$r];
+                        $publisher .= $ln1['name'].': '.$ln2['name'];
+                    } else {
+                        $publisher .= $ln1['name'] . ': [s.n.]';
+                    }
+            }
+        $dr['publisher'] = $publisher;
+
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd,'hasCover');
 
