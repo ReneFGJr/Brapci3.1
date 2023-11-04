@@ -51,7 +51,14 @@ class IssuesWorks extends Model
                 ->where('siw_issue', $issue)
                 ->where('siw_work_rdf', $work)
                 ->first();
-            pre($dt);
+            if ($dt == null)
+                {
+                    $d = [];
+                    $d['siw_journal'] = $jnl;
+                    $d['siw_issue'] = $issue;
+                    $d['siw_work_rdf'] = $work;
+                    $this->set($d)->insert();
+                }
         }
 
     function exclude($id)
