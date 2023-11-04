@@ -216,19 +216,18 @@ class Vancouver extends Model
 		{
 			$sx = '';
 			$etal = false;
-		if (isset($dt['Authors'])) {
-			$total = count($dt['Authors']);
+		if (isset($dt['creator_author'])) {
+			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
-				for ($r = 0; $r < count($dt['Authors']); $r++) {
+				foreach ($dt['creator_author'] as $idk => $name) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($dt['Authors'][$r], 3);
+					$authors .= nbr_author(key($name), 3);
 				}
-				$authors .= '. ';
 			} else {
-				$authors .= nbr_author($dt['Authors'][0], 3);
+				$authors .= nbr_author(key($dt['creator_author'][0]), 3);
 				$authors .= '; <i>et al.</i> ';
 				$etal = true;
 			}

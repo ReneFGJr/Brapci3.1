@@ -228,7 +228,7 @@ class Abnt extends Model
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($name, 2);
+					$authors .= nbr_author(key($name), 2);
 				}
 				$authors .= '. ';
 			} else {
