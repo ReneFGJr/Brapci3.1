@@ -67,7 +67,8 @@ class Apa extends Model
 
 		$tela = '';
 		$tela .= '<span class="abtn-article">';
-		if (isset($dt['authors'])) {
+		if (isset($dt['creator_author'])) {
+
 			$authors = $dt['authors'].'.';
 			$authors = troca($authors,'$$','.');
 			$authors = troca($authors,'$',';');
@@ -216,18 +217,18 @@ class Apa extends Model
 		{
 			$sx = '';
 			$etal = false;
-		if (isset($dt['Authors'])) {
-			$total = count($dt['Authors']);
+		if (isset($dt['creator_author'])) {
+			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
-				for ($r = 0; $r < count($dt['Authors']); $r++) {
+				for ($r = 0; $r < count($dt['creator_author']); $r++) {
 					if ($authors != '') {
 						$authors .= ', ';
 						if ($total == ($r + 1)) {
 							$authors .= '& ';
 						}
 					}
-					$authors .= nbr_author($dt['Authors'][$r], 2);
+					$authors .= nbr_author(key($dt['creator_author'][$r]), 2);
 				}
 				$authors .= '. ';
 			} else {
