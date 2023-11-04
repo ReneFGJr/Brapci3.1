@@ -230,7 +230,7 @@ class Brapci extends Model
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
 
-        //$dj = $Source->where('id_jnl',1)->first();
+        $dj = $Source->where('id_jnl',$dt['is_source'])->first();
 
         pre($dt);
 
