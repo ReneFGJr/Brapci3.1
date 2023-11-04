@@ -41,6 +41,7 @@ class Apa extends Model
 	protected $afterDelete          = [];
 
 	//https://ebape.fgv.br/sites/default/files/paginas/dez/18/apa_portugues.pdf
+	//https://portal.pucminas.br/biblioteca/documentos/APA-7-EDICAO-2022-NV.pdf
 
 	function show($dt, $type = 'A')
 	{
@@ -154,6 +155,13 @@ class Apa extends Model
 		if ($sx != '') {
 			$sx .= ' ';
 		}
+
+		if (isset($dt['year'])) {
+			$sx .= ' (' . $dt['year'] . ').';
+		} else {
+			$sx .= ', (????)' . '.';
+		}
+
 		$sx .= '<b>' . $dt['title'] . '</b>. ';
 		if (isset($dt['publisher'])) {
 			$sx .= $dt['publisher'] . '';
@@ -161,11 +169,6 @@ class Apa extends Model
 			$sx .= '[<i>S.l.,s.n.</i>]: ';
 		}
 
-		if (isset($dt['year'])) {
-			$sx .= ', ' . $dt['year'] . '.';
-		} else {
-			$sx .= ', [????]' . '.';
-		}
 		$sx = troca($sx, '..', '.');
 		return $sx;
 	}
