@@ -216,6 +216,7 @@ class Brapci extends Model
         if ($dt == null)
             {
                 echo "Vazio";
+                echo '<a href="'.PATH. '/api/rdf/in/'.$issue.'">IN</a>';
                 exit;
             }
 
