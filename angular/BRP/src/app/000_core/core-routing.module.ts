@@ -56,6 +56,11 @@ const routes: Routes = [
       import('../900_kanban/kanban.module').then((m) => m.KanbanModule),
   },
   {
+    path: 'tools',
+    loadChildren: () =>
+      import('../930_tools/brapci-tools.module').then((m) => m.BrapciToolsModule),
+  },
+  {
     path: 'rdf',
     loadChildren: () =>
       import('../920_RDF/rdf.module').then((m) => m.RdfModule),

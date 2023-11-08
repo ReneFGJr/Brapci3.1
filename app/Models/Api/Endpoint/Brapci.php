@@ -53,8 +53,8 @@ class Brapci extends Model
 
     function index($d1, $d2, $d3)
     {
-        header('Access-Control-Allow-Origin: *');
-        header("Content-Type: application/json");
+        //header('Access-Control-Allow-Origin: *');
+        //header("Content-Type: application/json");
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
