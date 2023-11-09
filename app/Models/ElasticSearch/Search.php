@@ -228,8 +228,6 @@ class Search extends Model
 
         $rsp['query'] = $qs;
 
-        pre($dt);
-
         $total = 0;
         if (isset($dt['hits'])) {
             $rsp['total'] = $dt['hits']['total']['value'];
@@ -237,6 +235,8 @@ class Search extends Model
             $rsp['offset'] = $offset;
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
+
+            pre($hits);
 
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
