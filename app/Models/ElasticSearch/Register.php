@@ -79,6 +79,7 @@ class Register extends Model
         foreach ($dta as $id => $line) {
             $dt = [];
             $DT = json_decode($line['json']);
+            $full = '';
 
             $abs = '';
             $key = '';
