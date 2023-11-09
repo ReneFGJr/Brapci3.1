@@ -47,6 +47,8 @@ class Register extends Model
 
     function update_index()
     {
+        $full = '';
+
         /****************************** Biblioteca */
         $Source = new \App\Models\Base\Sources();
         $JNL = $Source->getCollections();
@@ -99,6 +101,7 @@ class Register extends Model
                     foreach ($ks as $idk => $term) {
                         if (trim($term) != '') {
                             array_push($atit, mb_strtolower(ascii($term)));
+                            $full .= mb_strtolower(ascii($term)) . ' ';
                         }
                     }
                 }
@@ -127,6 +130,7 @@ class Register extends Model
                         if (!isset($idaa[$idk])) {
                             if (trim($term) != '') {
                                 $term = ascii($term);
+                                $full .= $term.' ';
                                 $term = UpperCase($term);
                                 $term = nbr_author($term,7);
                                 array_push($aaut, $term);
@@ -145,6 +149,7 @@ class Register extends Model
                     foreach ($ks as $term => $idk) {
                         if (trim($term) != '') {
                             array_push($akey, mb_strtolower(ascii($term)));
+                            $full .= mb_strtolower(ascii($term)) . ' ';
                         }
                     }
                 }
@@ -158,13 +163,14 @@ class Register extends Model
                     foreach ($ks as $idk => $term) {
                         if (trim($term) != '') {
                             array_push($aabs, mb_strtolower(ascii($term)));
+                            $full .= mb_strtolower(ascii($term)) . ' ';
                         }
                     }
                 }
             }
 
             $dt['id'] = $line['ID'];
-            $dt['full'] = $tit . ' ' . $abs . ' ' . $key . ' ' . $aut;
+            $dt['full'] = '';
             $dt['full'] = strip_tags($dt['full']);
             $dt['keyword'] = $akey;
             $dt['abstract'] = $aabs;
@@ -207,6 +213,7 @@ class Register extends Model
                 $dt['doi'] = '';
             }
 
+            $dt['full'] = $full;
 
             $id = $dt['id'];
             //$rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);

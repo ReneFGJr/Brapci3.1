@@ -47,7 +47,6 @@ class Search extends Model
 
             $dt = $this->search($q, $type);
 
-            pre($dt);
 
             $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE,
                         SESSION, LEGEND, TITLE, AUTHORS';
@@ -76,6 +75,7 @@ class Search extends Model
             echo (json_encode($dt));
             exit;
         }
+
     function recoverList($ids)
         {
             $cp = 'ID as article_id, json, type, YEAR as year';
@@ -236,7 +236,7 @@ class Search extends Model
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
 
-            print($dt);
+            pre($dt);
 
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
