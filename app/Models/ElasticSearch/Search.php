@@ -236,38 +236,20 @@ class Search extends Model
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
 
-            pre($hits);
-
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
-                if (isset($line['_source']['article_id'])) {
-                    if (!isset($line['_source']['type']))
-                        {
-                        $line['_source']['type'] = 'ARTICLE';
-                        }
-
-                    if (isset($line['_source']['id_jnl'])) {
-                        $jnl = $line['_source']['id_jnl'];
-                    } else {
-                        $jnl = 0;
-                    }
-
-                    if (isset($line['_source']['year'])) {
-                        $year = $line['_source']['year'];
-                    } else {
-                        $year = 0;
-                    }
-
-                    array_push($rsp['works'], array(
-                        'id' => $line['_source']['article_id'],
+                if (isset($line['_id'])) {
+                     array_push($rsp['works'], array(
+                        'id' => $line['_source']['_id'],
                         'score' => $line['_score'],
                         'type'=> $line['_source']['type'],
-                        'jnl'=>$jnl,
-                        'year'=>$year
+                        'jnl'=> $line['_source']['id_jnl'],
+                        'year'=>$line['_source']['year'],
                     ));
                 }
             }
         }
+        pre($rsp);
         return $rsp;
     }
 }
