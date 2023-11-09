@@ -231,6 +231,8 @@ class Search extends Model
         $rsp['query'] = $qs;
 
         $total = 0;
+
+        pre($dt);
         if (isset($dt['hits'])) {
             $rsp['total'] = $dt['hits']['total']['value'];
             $rsp['start'] = $start + 1;
