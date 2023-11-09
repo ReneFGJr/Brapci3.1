@@ -252,7 +252,7 @@ class Search extends Model
                 }
             }
         }
-        pre($rsp);
+
         return $rsp;
     }
 }
