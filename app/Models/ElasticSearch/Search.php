@@ -236,8 +236,6 @@ class Search extends Model
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
 
-            pre($dt);
-
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
                 if (isset($line['_source']['article_id'])) {
