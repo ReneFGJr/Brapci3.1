@@ -212,6 +212,8 @@ class Search extends Model
 
         $dt = $API->call($url, $method, $data);
 
+        echo "PRE";
+        pre($dt);
         /* Mostra resultados ****************************************************/
         $rsp = array();
         $rsp['data'] = $data;
@@ -232,7 +234,6 @@ class Search extends Model
 
         $total = 0;
 
-        pre($dt);
         if (isset($dt['hits'])) {
             $rsp['total'] = $dt['hits']['total']['value'];
             $rsp['start'] = $start + 1;
