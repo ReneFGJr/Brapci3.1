@@ -212,8 +212,6 @@ class Search extends Model
 
         $dt = $API->call($url, $method, $data);
 
-        echo "PRE";
-        pre($dt);
         /* Mostra resultados ****************************************************/
         $rsp = array();
         $rsp['data'] = $data;
