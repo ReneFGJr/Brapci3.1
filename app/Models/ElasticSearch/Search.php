@@ -47,7 +47,10 @@ class Search extends Model
 
             $dt = $this->search($q, $type);
 
-            $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, SESSION, LEGEND, TITLE, AUTHORS';
+            pre($dt);
+
+            $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE,
+                        SESSION, LEGEND, TITLE, AUTHORS';
 
             foreach($dt['works'] as $id=>$line)
                 {
@@ -65,6 +68,10 @@ class Search extends Model
                         }
 
                     $dt['works'][$id]['data'] = $ds;
+                }
+            if (!isset($dt['works']))
+                {
+                    $dt['works'] = [];
                 }
             echo (json_encode($dt));
             exit;
@@ -201,9 +208,7 @@ class Search extends Model
         $data['query']['bool']['filter']['range']['year']['lte'] = $df;
         $data['query']['bool']['filter']['range']['year']['boost'] = 2.0;
 
-
         $dt = $API->call($url, $method, $data);
-
 
         /* Mostra resultados ****************************************************/
         $rsp = array();
@@ -230,6 +235,8 @@ class Search extends Model
             $rsp['offset'] = $offset;
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
+
+            print($dt);
 
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
