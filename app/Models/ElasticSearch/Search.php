@@ -240,7 +240,7 @@ class Search extends Model
                 $line = $hits[$r];
                 if (isset($line['_id'])) {
                      array_push($rsp['works'], array(
-                        'id' => $line['_source']['_id'],
+                        'id' => $line['_id'],
                         'score' => $line['_score'],
                         'type'=> $line['_source']['type'],
                         'jnl'=> $line['_source']['id_jnl'],
