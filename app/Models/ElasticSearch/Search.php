@@ -171,24 +171,24 @@ class Search extends Model
 
         switch ($type) {
             case 'autoridade':
-                $url = 'brapci3.1/_search';
+                $url = 'brapci3.3/_search';
                 $data['query']['bool']['must'][1]['match']['collection'] = 'AC';
                 break;
             case 'person':
-                $url = 'brapci3.1/_search';
+                $url = 'brapci3.3/_search';
                 $data['query']['bool']['must'][1]['match']['collection'] = 'AU';
                 break;
             case 'books':
-                $url = 'brapci3.1/_search';
+                $url = 'brapci3.3/_search';
                 $data['query']['bool']['must'][1]['match']['collection'] = 'BK';
                 break;
             case 'benancib':
-                $url = 'brapci3.1/_search';
+                $url = 'brapci3.3/_search';
                 $data['query']['bool']['must'][1]['match']['id_jnl'] = 75;
                 break;
             default:
                 //$url = 'brp2/_search';
-                $url = 'brapci3.1/_search';
+                $url = 'brapci3.3/_search';
                 //$filter['match']['collection'] = 'AR';
                 break;
         }

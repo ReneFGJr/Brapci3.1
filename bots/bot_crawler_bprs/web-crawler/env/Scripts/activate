@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\Projeto\www\Brapci3.1\bots\bot_crawler_bprs\web-crawler\env"
+VIRTUAL_ENV="E:\Projeto\www\brapci3.3\bots\bot_crawler_bprs\web-crawler\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
