@@ -83,7 +83,7 @@ class API extends Model
 		}
 
 		$url = $this->server .  $path;
-		echo $url;
+
 		$headers = array('Accept: application/json', 'Content-Type: application/json',);
 
 		$ch = curl_init();
