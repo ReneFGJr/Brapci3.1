@@ -115,11 +115,7 @@ class API extends Model
 
 		$response = curl_exec($ch);
 
-		pre($response);
-
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-		pre($response);
 
 		return json_decode($response, true);
 	}
