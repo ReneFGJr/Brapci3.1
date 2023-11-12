@@ -54,7 +54,8 @@ class Search extends Model
             {
                 $dt['status'] = '500';
                 $dt['messagem'] = 'Erro de acesso ao servidor de busca';
-                return $dt;
+                echo (json_encode($dt));
+                exit;
             }
 
         foreach ($dt['works'] as $id => $line) {
