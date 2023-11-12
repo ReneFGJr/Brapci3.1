@@ -41,6 +41,34 @@ class Search extends Model
     protected $afterDelete    = [];
 
     function searchFull($q = '', $type = '')
+    {
+        $Search = new \App\Models\ElasticSearch\Search();
+        $Cover = new \App\Models\Base\Cover();
+
+        $dt = $this->search($q, $type);
+
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, SESSION, LEGEND, TITLE, AUTHORS';
+
+        foreach ($dt['works'] as $id => $line) {
+            $ida = $line['id'];
+            $ds = $Search
+                ->select($cp)
+                ->join('brapci.source_source', 'dataset.JOURNAL = source_source.id_jnl')
+                ->where('ID', $ida)
+                ->first();
+            if ($ds != '') {
+                $ds['cover'] = $Cover->cover($ds['id_jnl']);
+            } else {
+                $ds['erro'] = $ida;
+            }
+
+            $dt['works'][$id]['data'] = $ds;
+        }
+        echo (json_encode($dt));
+        exit;
+    }
+
+    function searchFullV2($q = '', $type = '')
         {
             $Search = new \App\Models\ElasticSearch\Search();
             $Cover = new \App\Models\Base\Cover();
