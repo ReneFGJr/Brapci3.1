@@ -50,6 +50,13 @@ class Search extends Model
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE,
                         SESSION, LEGEND, TITLE, AUTHORS';
 
+        if (!isset($dt['works']))
+            {
+                $dt['status'] = '500';
+                $dt['messagem'] = 'Erro de acesso ao servidor de busca';
+                return $dt;
+            }
+
         foreach ($dt['works'] as $id => $line) {
             $ida = $line['id'];
             $ds = $Search
