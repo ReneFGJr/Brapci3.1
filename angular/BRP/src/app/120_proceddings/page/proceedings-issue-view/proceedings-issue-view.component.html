@@ -1,33 +1,36 @@
 <div class="container" *ngIf="source">
-<div class="row">
-<div class="col-12">
-<h1>{{source.jnl_name}}</h1>
-<h2>{{source.issue.is_vol_roman}} {{source.jnl_name_abrev}}, {{source.issue.is_place}} - {{source.issue.is_year}}</h2>
-<h4>{{source.issue.is_thema}}</h4>
+  <div class="row">
+    <div class="col-12">
+      <h1>{{ source.source }}</h1>
+      <h2>
+        {{ source.nr }} {{ source.acron }}, {{ source.place }} -
+        {{ source.year }}
+      </h2>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-
 
 <div class="container" *ngIf="source">
-<div class="row">
-<div class="col-4">RRR</div>
+  <div class="row">
+    <div class="col-2 text-center">
+        <span style="font-size: 40px">{{ source.worksTotal}}</span>
+        <br>
+        TRABALHOS
+    </div>
 
-<div class="col-8">WORKS
-  <ol class="mt-2" style="margin: 0; padding: 0;" *ngFor="let works of source.works">
-
-  <h3>{{works.name}}</h3>
-
-  <li *ngFor="let item of works.works" class="fadeIn mb-3">
-      <a [routerLink]="['/v/'+item.siw_work_rdf]" class="link" routerLinkActive="router-link-active">
-      <span class="link bold">{{item.ldl_title}}</span><br/>
-      </a>
-      <i>{{item.ldl_authors}}</i>
-      {{item.siw_pag_ini}} <span *ngIf="item.siw_pag_end">-</span>{{item.siw_pag_end}}
-  </li>
-
-  </ol>
-
-</div>
-</div>
+    <div class="col-10">
+      WORKS
+      <ol>
+        <li
+          class="mt-2"
+          style="margin: 0; padding: 0"
+          *ngFor="let works of source.works"
+        >
+          {{ works.LEGEND}}
+          <br>
+          <span class="small"><i>{{ works.AUTHORS}}</i></span>
+        </li>
+      </ol>
+    </div>
+  </div>
 </div>

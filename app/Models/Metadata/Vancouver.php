@@ -45,6 +45,9 @@ class Vancouver extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($type) {
+			case 'B':
+				$tela = $this->vancouver_book($dt);
+				break;
 			default:
 				$tela = $this->vancouver_article($dt);
 		}
@@ -151,17 +154,11 @@ class Vancouver extends Model
 		$sx .= $this->authors($dt);
 		if ($sx != '') { $sx .= ' '; }
 		$sx .= '<b>'.$dt['title'].'</b>. ';
-		if (isset($dt['editora_local']))
+		if (isset($dt['publisher']))
 			{
-				$sx .= $dt['editora_local'] . ': ';
+				$sx .= $dt['publisher'];
 			} else {
-				$sx .= '[<i>S.l.</i>]: ';
-			}
-		if (isset($dt['editora']))
-			{
-				$sx .= $dt['editora'] . '';
-			} else {
-				$sx .= '[<i>s.n.</i>]';
+				$sx .= '[<i>S.l.,s.n.</i>]: ';
 			}
 
 		if (isset($dt['year'])) {
@@ -214,23 +211,24 @@ class Vancouver extends Model
 
 	function authors($dt)
 		{
-			$sx = '';
-			$etal = false;
-		if (isset($dt['Authors'])) {
-			$total = count($dt['Authors']);
-			$authors = '';
+		$sx = '';
+		$authors = '';
+		if (isset($dt['creator_author'])) {
+			$total = count($dt['creator_author']);
 			if ($total <= 3) {
-				for ($r = 0; $r < count($dt['Authors']); $r++) {
+				foreach ($dt['creator_author'] as $idk => $line) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($dt['Authors'][$r], 3);
+					$authors .= nbr_author($line['name'], 3);
 				}
-				$authors .= '. ';
 			} else {
-				$authors .= nbr_author($dt['Authors'][0], 3);
-				$authors .= '; <i>et al.</i> ';
-				$etal = true;
+				if ($total > 0)
+				{
+					$authors .= nbr_author($dt['creator_author'][0]['name'], 3);
+					$authors .= '; <i>et al.</i> ';
+					$etal = true;
+				}
 			}
 			$sx .= $authors;
 		}

@@ -33,7 +33,7 @@ services:
         links:
           - codeigniter4_mysql
         volumes:
-          - /d/projeto/www/Brapci3.1/:/var/www/html
+          - /d/projeto/www/brapci3.3/:/var/www/html
 
 #--------------------------------------------------------------------------#
 #--------------------------------------------------------------------------#

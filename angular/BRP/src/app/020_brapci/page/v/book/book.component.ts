@@ -9,7 +9,7 @@ export class BookComponent {
   public url: string = '';
   public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
-  public section=[{name:"LIVROS"}]
+  public section=[{name:"LIVRO"}]
 
   ngOnInit(): void {
     this.header = [];

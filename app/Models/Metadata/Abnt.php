@@ -43,6 +43,9 @@ class Abnt extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($type) {
+			case 'B':
+				$tela = $this->abnt_book($dt);
+				break;
 			case 'E':
 				$tela = $this->abnt_proceeding($dt);
 				break;
@@ -157,15 +160,10 @@ class Abnt extends Model
 			$sx .= ' ';
 		}
 		$sx .= '<b>' . $dt['title'] . '</b>. ';
-		if (isset($dt['editora_local'])) {
-			$sx .= $dt['editora_local'] . ': ';
+		if (isset($dt['publisher'])) {
+			$sx .= $dt['publisher'];
 		} else {
-			$sx .= '[<i>S.l.</i>]: ';
-		}
-		if (isset($dt['editora'])) {
-			$sx .= $dt['editora'] . '';
-		} else {
-			$sx .= '[<i>s.n.</i>]';
+			$sx .= '[<i>S.l.,s.n.</i>]: ';
 		}
 
 		if (isset($dt['year'])) {
@@ -217,21 +215,21 @@ class Abnt extends Model
 	{
 		$sx = '';
 		$etal = false;
-		if (isset($dt['Authors'])) {
-			$total = count($dt['Authors']);
+		if (isset($dt['creator_author'])) {
+			$total = count($dt['creator_author']);
 			$authors = '';
 			if ($total <= 3) {
-				foreach ($dt['Authors'] as $idk => $name) {
+				foreach ($dt['creator_author'] as $idk => $line) {
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($name, 2);
+					$authors .= nbr_author($line['name'], 2);
 				}
 				$authors .= '. ';
 			} else {
-				foreach($dt['Authors'] as $idk=>$name)
+				foreach($dt['creator_author'] as $idk=>$line)
 					{
-						$authors .= nbr_author($name, 2);
+						$authors .= nbr_author($line['name'], 2);
 						$authors .= '; <i>et al.</i> ';
 						break;
 					}

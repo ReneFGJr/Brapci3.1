@@ -40,7 +40,7 @@ class API extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 	protected $index = 'brapci2022';
-	public $server = '';
+	public $server = 'http://143.54.112.91:9200/';
 	protected $sz = 25;
 
 	function __construct()
@@ -83,6 +83,7 @@ class API extends Model
 		}
 
 		$url = $this->server .  $path;
+
 		$headers = array('Accept: application/json', 'Content-Type: application/json',);
 
 		$ch = curl_init();
@@ -113,6 +114,7 @@ class API extends Model
 		}
 
 		$response = curl_exec($ch);
+
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 		return json_decode($response, true);

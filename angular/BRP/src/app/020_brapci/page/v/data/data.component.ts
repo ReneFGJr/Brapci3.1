@@ -9,7 +9,7 @@ export class DataVComponent {
   @Input() public RDFdata: Array<any> | any;
   ngOnInit()
     {
-      console.log(this.RDFdata);
+      console.log(this.RDFdata.data);
     }
 
 }

@@ -91,10 +91,10 @@ class RDFmetadata extends Model
     }
 
     function langPref()
-        {
-            $dt = ['pt', 'es', 'en', 'nn'];
-            return $dt;
-        }
+    {
+        $dt = ['pt', 'es', 'en', 'nn'];
+        return $dt;
+    }
 
     function metadata($ID)
     {
@@ -104,11 +104,7 @@ class RDFmetadata extends Model
 
         $dt = $RDF->le($ID);
         $dd = [];
-        $dd['section'] = 'none';
-        $dd['cover'] = 'none';
-        $dd['title'] = 'none';
-        $dd['section'] = 'none';
-        $dd['section'] = 'none';
+
 
         $da = $dt['data'];
         foreach ($da as $id => $line) {
@@ -122,31 +118,116 @@ class RDFmetadata extends Model
             array_push($dd[$prop][$lang], $dc);
         }
         $dr['ID'] = $ID;
-        $dr['title'] = troca($this->simpleExtract($dd,'hasTitle'),["\n","\r"],'');
+        $dr['Class'] = $dt['concept']['c_class'];
+        $dr['title'] = troca($this->simpleExtract($dd, 'hasTitle'), ["\n", "\r"], '');
+        $dr['creator_author'] = [];
+        $dr['Authors'] = '';
+        if (isset($dd['hasOrganizator'])) {
+            $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '(org)');
+        } else {
+            $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor');
+        }
+        $dr['description'] = troca($this->simpleExtract($dd, 'hasAbstract'), ["\n", "\r"], '');
+        $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
+        $dr['year'] = $this->simpleExtract($dd, 'wasPublicationInDate');
+
+        $editora = $this->arrayExtract($dd, 'isPublisher');
+        $place = $this->arrayExtract($dd, 'isPlaceOfPublication');
+        $publisher = '';
+        for ($r = 0; $r < count($editora); $r++) {
+            $ln1 = $editora[$r];
+            if (isset($place[$r])) {
+                if ($publisher != '') {
+                    $publisher .= '; ';
+                }
+                $ln2 = $place[$r];
+                $publisher .= $ln2['name'] . ': ' . $ln1['name'];
+            } else {
+                if ($publisher != '') {
+                    $publisher .= '; ';
+                }
+                $publisher .= $ln1['name'] . ': [s.n.]';
+            }
+        }
+        $dr['publisher'] = $publisher;
+
+        $RDFimage = new \App\Models\RDF2\RDFimage();
+        $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
+
+        /******************* ISBN */
+        $ISBN = new \App\Models\ISBN\Index();
+        $isbn = $this->arrayExtract($dd, 'hasISBN');
+        $dr['isbn'] = '';
+        foreach ($isbn as $value) {
+            $visbn = $value['name'];
+            $visbn = $ISBN->format($visbn);
+            if ($dr['isbn'] != '') {
+                $dr['isbn'] .= ' | ';
+            }
+            $dr['isbn'] .= $visbn;
+        }
+
+
+        /************************** Pages */
+        $hasPage = $this->simpleExtract($dd, 'hasPage');
+        if ($hasPage != '') {
+            $dr['pages'] = $hasPage;
+        }
+
+        /************************** Resource */
+        $dr['resource_pdf'] = PATH.'/download/'.$ID;
+
+
+        /*********************** Section */
+        switch ($dr['Class']) {
+            case 'Book':
+                $dr['section'][0] = ['name' => 'Book - Livro'];
+                break;
+            default:
+                $dr['section'] = $this->arrayExtract($dd, 'hasSection');
+                if ($dr['section'] == []) {
+                    $dr['section'][0] = ['name' => 'No Section'];
+                }
+                break;
+        }
         $dr['data'] = $dd;
         return $dr;
     }
 
-    function simpleExtract($dt,$class)
-        {
-            $lang = $this->langPref();
-            if (isset($dt[$class]))
-                {
-                    foreach($dt as $nn=>$line)
-                        {
-                            if ($nn == $class)
-                                {
-                                    foreach($lang as $lg)
-                                        {
-                                            if (isset($line[$lg]))
-                                                {
-                                                    $rsp = key($line[$lg][0]);
-                                                    return($rsp);
-                                                }
-                                        }
-                                }
-                        }
+    function arrayExtract($dt, $class, $suf = '')
+    {
+        $RSP = [];
+        if (isset($dt[$class])) {
+            $data = $dt[$class];
+            foreach ($data as $lg) {
+                foreach ($lg as $ida => $line) {
+                    $name = [];
+                    $name['name'] = trim(key($line));
+                    $name['ID'] = $line[key($line)];
+                    if ($suf != '') {
+                        $name['complement'] = $suf;
+                    }
+                    array_push($RSP, $name);
                 }
-            pre($line);
+            }
         }
+        return $RSP;
+    }
+
+    function simpleExtract($dt, $class)
+    {
+        $lang = $this->langPref();
+        if (isset($dt[$class])) {
+            foreach ($dt as $nn => $line) {
+                if ($nn == $class) {
+                    foreach ($lang as $lg) {
+                        if (isset($line[$lg])) {
+                            $rsp = key($line[$lg][0]);
+                            return ($rsp);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

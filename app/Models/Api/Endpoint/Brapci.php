@@ -54,6 +54,11 @@ class Brapci extends Model
     function index($d1, $d2, $d3)
     {
         header('Access-Control-Allow-Origin: *');
+        if (get("test")!='')
+            {
+                header("Content-Type: application/json");
+            }
+
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
@@ -207,19 +212,51 @@ class Brapci extends Model
 
     function issue($issue)
     {
+        $Source = new \App\Models\Base\Sources();
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-        $dt = $Issues->find($issue);
+        $dt = $Issues->where('is_source_issue',$issue)->first();
 
-        $RSP = $this->getSource($dt['is_source']);
-        $RSP['issue'] = $dt;
+        if ($dt == null)
+            {
+                echo "Vazio";
+                echo '<a href="'.PATH. '/api/rdf/in/'.$issue.'">IN</a>';
+                exit;
+            }
 
-        $ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-        $RSP['oai'] = $ListIdentifiers->summary($dt['is_source'], $issue);
-        $RSP['works'] = $IssuesWorks->getWorks($dt['id_is']);
+        $dd = [];
 
-        return $RSP;
+        $dd['ID'] = $dt['is_source_issue'];
+        $dd['place'] = $dt['is_place'];
+        $dd['nr'] = $dt['is_vol_roman'];
+        $dd['place'] = $dt['is_place'];
+        $dd['works'] = $dt['is_works'];
+        $dd['year'] = $dt['is_year'];
+        $dd['id_jnl'] = $dt['is_source'];
+
+        $dj = $Source->where('id_jnl',$dt['is_source'])->first();
+        $dd['source'] = $dj['jnl_name'];
+        $dd['jnl_frbr'] = $dj['jnl_frbr'];
+        $dd['acron'] = $dj['jnl_name_abrev'];
+
+        $dt = $IssuesWorks
+            ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
+            ->where('siw_issue',$issue)
+            ->findAll();
+
+        $dw = [];
+        foreach($dt as $id=>$line)
+            {
+                $dq = [];
+                $dq['ID'] = $line['siw_work_rdf'];
+                $dq['LEGEND'] = $line['TITLE'];
+                $dq['AUTHORS'] = $line['AUTHORS'];
+                array_push($dw,$dq);
+            }
+        $dd['worksTotal'] = count($dt);
+        $dd['works'] = $dw;
+        return $dd;
     }
 
     function getSource($d1)
