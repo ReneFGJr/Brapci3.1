@@ -40,12 +40,13 @@
           <a class="nav-link" [routerLink]="['/tools']">Ferramentas</a>
         </li>
       </ul>
+      <!------------------ Login-->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="me-3 nav-link">
+          <app-login-icone [user]="user"></app-login-icone>
+        </li>
+      </ul>
     </div>
   </div>
-  <!------------------ Login-->
-  <ul class="navbar-nav">
-    <li class="me-3">
-      <app-login-icone [user]="user"></app-login-icone>
-    </li>
-  </ul>
+
 </nav>

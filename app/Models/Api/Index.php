@@ -106,6 +106,10 @@ class Index extends Model
                 $API = new \App\Models\Api\Endpoint\DoiLattesAuthor;
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
+            case 'tools':
+                $API = new \App\Models\Api\Endpoint\Tools;
+                $sx = $API->index($d1, $d2, $d3, $d4);
+                break;
 
             default:
                 $sx = $this->head();
