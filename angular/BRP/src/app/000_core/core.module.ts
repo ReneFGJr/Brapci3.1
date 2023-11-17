@@ -8,9 +8,7 @@ import { CoreBrapciModule } from '../020_brapci/core-brapci.module';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [
-    MainComponent,
-  ],
+  declarations: [MainComponent],
   imports: [
     CommonModule,
     CoreRoutingModule,
@@ -20,4 +18,4 @@ import { RouterModule } from '@angular/router';
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
-export class CoreModule { }
+export class CoreModule {}

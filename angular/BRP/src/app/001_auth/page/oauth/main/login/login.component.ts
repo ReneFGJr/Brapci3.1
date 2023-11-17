@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   result: any;
-
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -36,6 +35,7 @@ export class LoginComponent {
 
   ngOnInit()
     {
+        console.log('Login');
         if (this.userService.loged() == true)
           {
             this.router.navigate(['/']);

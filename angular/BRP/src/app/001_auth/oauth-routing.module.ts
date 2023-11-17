@@ -3,15 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainOauthComponent } from './page/oauth/main/main.component';
 import { LogoutComponent } from './page/oauth/main/logout/logout.component';
 import { LoginComponent } from './page/oauth/main/login/login.component';
+import { PerfilComponent } from './page/perfil/perfil.component';
 
 const routes: Routes = [
   {
-    path: '', component: MainOauthComponent, children:
-    [
-        { path: '', component: LoginComponent },
-        { path: 'logout', component: LogoutComponent }
-    ]
-  }
+    path: '',
+    component: MainOauthComponent,
+    children: [
+      { path: '', component: LoginComponent },
+      { path: 'signin', component: LoginComponent },
+      { path: 'logout', component: LogoutComponent },
+      { path: 'perfil', component: PerfilComponent },
+    ],
+  },
 ];
 
 @NgModule({
