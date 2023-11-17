@@ -68,6 +68,20 @@ class RDF extends Model
             return $dt;
         }
 
+    /********************* getClassType */
+    function getClassType($id)
+        {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $dt = $RDFconcept
+                ->join('rdf_class','cc_class = id_c')
+                ->where('id_cc',$id)->first();
+            if ($dt != null)
+                {
+                    return $dt['c_class'];
+                }
+            return "";
+        }
+
     /************* V */
     function v($id)
         {
@@ -114,7 +128,6 @@ class RDF extends Model
             if ($d['data'] == [])
                 {
                     $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
-                    $RDFtoolsImport->importRDF($id);
                     $d['data'] = $RDFdata->le($id);
                 }
             return $d;

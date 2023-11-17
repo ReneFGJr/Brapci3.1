@@ -90,7 +90,7 @@ class Rdf extends Model
                         {
                             $RSP = $RDFtools->importRDFAll();
                         } else {
-                            $RSP = $RDFtools->importRDF($d3);
+                            $RSP = $RDFtools->importRDF($d3,true);
                         }
                     break;
                 default:

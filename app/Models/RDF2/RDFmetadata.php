@@ -105,7 +105,6 @@ class RDFmetadata extends Model
         $dt = $RDF->le($ID);
         $dd = [];
 
-
         $da = $dt['data'];
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];

@@ -17,21 +17,21 @@ export class FormFileInputComponent {
   public uploadSubZ?: Subscription;
 
   onFileSelected(event: Array<any> | any) {
-    console.log(event);
     const file: File = event.target.files[0];
     if (file) {
-      console.log('+++++++++++++++++++++++++++++++++++++');
-      console.log(file);
+      console.log("Enviando");
       this.fileName = file.name;
       const formData = new FormData();
       formData.append('file', file);
       const upload$ = this.http.post(
-        'https://cip.brapci.inf.br/api/tools' + this.action + '/',
+        'https://cip.brapci.inf.br/api/tools/' + this.action,
         formData
       );
       upload$.subscribe();
+      console.log(upload$);
     }
   }
+
   reset() {
     this.uploadProgress = 0;
     this.uploadSub = this.uploadSubZ;

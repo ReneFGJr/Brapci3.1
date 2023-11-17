@@ -16,7 +16,6 @@ export class ThemeNavbarComponent {
 
   constructor(private userService: UserService, private router: Router) {
     document.addEventListener('click', (clickEvent: MouseEvent) => {
-      console.log('Click Event Details: ', clickEvent);
       this.fixed = 1;
       this.navbarClass = 'slideOutUp';
     });
@@ -48,11 +47,9 @@ export class ThemeNavbarComponent {
   }
 
   ngOnInit() {
-    console.log('NAVBAR');
     this.pos = 0;
     this.fixed = 0;
 
     this.user = this.userService.getUser();
-    console.log(this.user);
   }
 }
