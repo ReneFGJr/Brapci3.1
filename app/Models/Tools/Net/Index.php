@@ -55,10 +55,11 @@ class Index extends Model
                 $RSP['REQUEST'] = $_REQUEST;
         }
 
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-        header("Access-Control-Allow-Headers: Content-Type, Authorization");
-        header('Access-Control-Allow-Origin: *');
-        header("Content-type: application/json; charset=utf-8");
+        if (($d2 != 'import') and ($d2 != 'in')) {
+            header('Access-Control-Allow-Origin: *');
+            header("Content-Type: application/json");
+        }
+
         echo json_encode($RSP);
         exit;
     }

@@ -26,7 +26,7 @@ export class FormFileInputComponent {
       const formData = new FormData();
       formData.append('file', file);
       const upload$ = this.http.post(
-        'https://cip.brapci.inf.br/api/tools/' + this.action + '/',
+        'https://cip.brapci.inf.br/api/tools' + this.action + '/',
         formData
       );
       upload$.subscribe();
