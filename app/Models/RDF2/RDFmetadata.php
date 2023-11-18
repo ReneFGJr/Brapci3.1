@@ -166,9 +166,10 @@ class RDFmetadata extends Model
                 $Source = new \App\Models\Base\Sources();
                 $dj = $this->arrayExtract($dd, 'isPartOfSource');
                 $dj = $Source->where('jnl_frbr',$dj[0]['ID'])->first();
-
-                pre($dj);
                 $dr['publisher'] = $this->simpleExtract($dd, 'isPartOfSource');
+
+                $Cover = new \App\Models\Base\Cover();
+                $dr['cover'] = $Cover->cover($dj['id_jnl']);
             }
         pre($dr);
         /******************* ISBN */
