@@ -159,14 +159,13 @@ class RDFmetadata extends Model
 
         /************************************************************** ISSUE */
         $dr['issue'] = $this->arrayExtract($dd, 'hasIssueOf');
-        pre($dr);
 
         /*************************************** SOURCE JOURNAL / PROCEEDING */
         if ($publisher == '')
             {
                 $dr['publisher'] = $this->simpleExtract($dd, 'isPartOfSource');
             }
-
+        pre($dr);
         /******************* ISBN */
         $ISBN = new \App\Models\ISBN\Index();
         $isbn = $this->arrayExtract($dd, 'hasISBN');
