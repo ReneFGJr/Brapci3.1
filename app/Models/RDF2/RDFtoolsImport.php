@@ -475,6 +475,8 @@ class RDFtoolsImport extends Model
         $ID = $dt1['concept']['id_cc'];
         $RSP = $this->createConcept($dt1);
 
+        pre($dt1,false);
+
         /****************************** */
         $J = $Issue->where('is_source_issue', $ID)->first();
         if ($J == null) {
