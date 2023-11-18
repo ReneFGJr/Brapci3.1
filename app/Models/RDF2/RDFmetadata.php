@@ -152,16 +152,20 @@ class RDFmetadata extends Model
         }
         $dr['publisher'] = $publisher;
 
+        /************************************************************* COVER */
+        $RDFimage = new \App\Models\RDF2\RDFimage();
+        $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
+
+
+        /************************************************************** ISSUE */
+        $dr['issue'] = $this->simpleExtract($dd, 'hasIssueOf');
+        pre($dr);
+
         /*************************************** SOURCE JOURNAL / PROCEEDING */
         if ($publisher == '')
             {
                 $dr['publisher'] = $this->simpleExtract($dd, 'isPartOfSource');
             }
-
-
-
-        $RDFimage = new \App\Models\RDF2\RDFimage();
-        $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
 
         /******************* ISBN */
         $ISBN = new \App\Models\ISBN\Index();
