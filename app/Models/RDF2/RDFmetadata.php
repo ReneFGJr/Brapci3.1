@@ -163,6 +163,8 @@ class RDFmetadata extends Model
         /*************************************** SOURCE JOURNAL / PROCEEDING */
         if ($publisher == '')
             {
+                $dj = $this->arrayExtract($dd, 'isPartOfSource');
+                pre($dj);
                 $dr['publisher'] = $this->simpleExtract($dd, 'isPartOfSource');
             }
         pre($dr);
