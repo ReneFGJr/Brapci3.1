@@ -158,7 +158,7 @@ class RDFmetadata extends Model
 
 
         /************************************************************** ISSUE */
-        $dr['issue'] = $this->simpleExtract($dd, 'hasIssueOf');
+        $dr['issue'] = $this->arrayExtract($dd, 'hasIssueOf');
         pre($dr);
 
         /*************************************** SOURCE JOURNAL / PROCEEDING */
