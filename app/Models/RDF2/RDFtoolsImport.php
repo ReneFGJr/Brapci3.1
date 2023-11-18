@@ -191,6 +191,8 @@ class RDFtoolsImport extends Model
         $c['dateOfPublication'] = 'wasPublicationInDate';
         $c['hasSummary'] = '';
         $c['hasVolume'] = '';
+        $c['hasIssue'] = 'hasIssueOf';
+        $c['isPubishIn'] = 'isPartOfSource';
 
         if (isset($c[$class])) {
             $class = $c[$class];
@@ -214,6 +216,8 @@ class RDFtoolsImport extends Model
 
             $RDF2 = new \App\Models\RDF2\RDF();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+            echo h($class);
 
             switch ($class) {
                 case '':
