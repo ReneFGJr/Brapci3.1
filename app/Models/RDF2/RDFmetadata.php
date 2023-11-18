@@ -171,7 +171,7 @@ class RDFmetadata extends Model
                 $Cover = new \App\Models\Base\Cover();
                 $dr['cover'] = $Cover->cover($dj['id_jnl']);
             }
-        pre($dr);
+
         /******************* ISBN */
         $ISBN = new \App\Models\ISBN\Index();
         $isbn = $this->arrayExtract($dd, 'hasISBN');
