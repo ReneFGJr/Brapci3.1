@@ -475,7 +475,7 @@ class RDFtoolsImport extends Model
         $ID = $dt1['concept']['id_cc'];
         $RSP = $this->createConcept($dt1);
 
-        pre($dt1,false);
+        pre($dt1, false);
 
         /****************************** */
         $J = $Issue->where('is_source_issue', $ID)->first();
@@ -495,38 +495,41 @@ class RDFtoolsImport extends Model
         foreach ($dt1['data'] as $id => $line) {
             $class = $line['c_class'];
 
-            if ($class == 'hasIssue') {
-                $ID2 = $line['d_r1'];
-                if ($ID2 == $ID) {
-                    $ID2 = $line['d_r2'];
-                }
+            $ID2 = $line['d_r1'];
+            if ($ID2 == $ID) {
+                $ID2 = $line['d_r2'];
+            }
 
-                $dt = $RDFconcept->le($ID2);
-                $concept = $dt['c_class'];
+            switch ($class) {
+                default:
+                    echo h($class,4);
+                    break;
+                case  'hasIssue':
+                    $dt = $RDFconcept->le($ID2);
+                    $concept = $dt['c_class'];
 
-                switch ($concept) {
-                    case 'Journals':
-                        $propJ = $RDFclass->getClass('hasPublicationIssueOf');
-                        $lit = 0;
-                        $RDFdata->register($ID2, $propJ, $ID, $lit);
-                        break;
-                    case 'Proceeding':
-                        $lit = 0;
-                        $RDFdata->register($ID, $prop_issue, $ID2, $lit);
-                        $IssueWorks->register($JNL, $ID, $ID2);
-                        break;
-                    case 'Issue':
-                        echo h($concept, 4);
-                        pre($dt, false);
-                        break;
-                    default:
-                        echo '<br>===>' . $concept;
-                        break;
-                }
-                //pre($dt);
-                //$lit = 0;
-                //echo $ID . '==' . $prop_issue.'=='.$ID2.'<br>';
-
+                    switch ($concept) {
+                        case 'Journals':
+                            $propJ = $RDFclass->getClass('hasPublicationIssueOf');
+                            $lit = 0;
+                            $RDFdata->register($ID2, $propJ, $ID, $lit);
+                            break;
+                        case 'Proceeding':
+                            $lit = 0;
+                            $RDFdata->register($ID, $prop_issue, $ID2, $lit);
+                            $IssueWorks->register($JNL, $ID, $ID2);
+                            break;
+                        case 'Issue':
+                            echo h($concept, 4);
+                            pre($dt, false);
+                            break;
+                        default:
+                            echo '<br>===>' . $concept;
+                            break;
+                    }
+                    //pre($dt);
+                    //$lit = 0;
+                    //echo $ID . '==' . $prop_issue.'=='.$ID2.'<br>';
             }
         }
         //$RSP['data'] = $this->importData($dt1, $RSP['ID']);
@@ -542,36 +545,35 @@ class RDFtoolsImport extends Model
         if ($dt['concept']['c_class'] = 'Issue') {
             $data = $dt['data'];
             $ID = $dt['concept']['id_cc'];
-            foreach($data as $id=>$line)
-                {
-                    $class = $line['c_class'];
-                    $d1 = $line['d_r1'];
-                    $d2 = $line['d_r2'];
-                    $p = $line['d_p'];
-                    $l = $line['d_literal'];
-                    $id_cncpt = $d1;
-                    if ($id_cncpt == $ID) { $id_cncpt = $d2; }
-                    switch($class)
-                        {
-                            case 'hasIssue':
-                                $Class2 = $RDF2->getClassType($id_cncpt);
-                                switch($Class2)
-                                    {
-                                        case 'Proceeding':
-                                            $id_prop = $RDFclass->getClass('hasIssueOf');
-                                            $lit = 0;
-                                            $RDF2data->register($ID, $id_prop, $id_cncpt, $lit);
-                                            break;
-                                        default:
-                                            echo '<br>'.$Class2;
-                                            break;
-                                    }
+            foreach ($data as $id => $line) {
+                $class = $line['c_class'];
+                $d1 = $line['d_r1'];
+                $d2 = $line['d_r2'];
+                $p = $line['d_p'];
+                $l = $line['d_literal'];
+                $id_cncpt = $d1;
+                if ($id_cncpt == $ID) {
+                    $id_cncpt = $d2;
+                }
+                switch ($class) {
+                    case 'hasIssue':
+                        $Class2 = $RDF2->getClassType($id_cncpt);
+                        switch ($Class2) {
+                            case 'Proceeding':
+                                $id_prop = $RDFclass->getClass('hasIssueOf');
+                                $lit = 0;
+                                $RDF2data->register($ID, $id_prop, $id_cncpt, $lit);
                                 break;
                             default:
-                                echo "OK $class - ($id_cncpt) -- $d2 - $d1<br>";
+                                echo '<br>' . $Class2;
                                 break;
                         }
+                        break;
+                    default:
+                        echo "OK $class - ($id_cncpt) -- $d2 - $d1<br>";
+                        break;
                 }
+            }
             exit;
         } else {
             echo "Erro de Classe";
