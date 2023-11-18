@@ -183,7 +183,7 @@ class RDFmetadata extends Model
                 $dr['section'][0] = ['name' => 'Book - Livro'];
                 break;
             default:
-                $dr['section'] = $this->arrayExtract($dd, 'hasSection');
+                $dr['section'] = $this->arrayExtract($dd, 'hasSectionOf');
                 if ($dr['section'] == []) {
                     $dr['section'][0] = ['name' => 'No Section'];
                 }
