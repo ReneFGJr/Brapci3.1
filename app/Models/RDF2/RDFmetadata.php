@@ -134,6 +134,10 @@ class RDFmetadata extends Model
         {
             $dr = [];
             $dr['publisher'] = $dt['concept']['n_name'];
+            $dr['ID'] = $dt['concept']['id_cc'];
+
+            $data = $dt['data'];
+
             return $dr;
         }
 

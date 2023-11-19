@@ -1,0 +1,12 @@
+<app-theme-header [header]="header"></app-theme-header>
+<div *ngIf="data">
+  <app-banner-article [section]="data.section" [cover]="data.cover" [publisher]="data.publisher"></app-banner-article>
+</div>
+
+<div class="container">
+<div class="row">
+<div class="col-12">
+{{ data | json }}
+</div>
+</div>
+</div>
