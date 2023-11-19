@@ -54,7 +54,7 @@ class Brapci extends Model
     function index($d1, $d2, $d3)
     {
         header('Access-Control-Allow-Origin: *');
-        if (get("test")!='')
+        if (get("test")=='')
             {
                 header("Content-Type: application/json");
             }
