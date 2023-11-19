@@ -225,7 +225,13 @@ class RDFmetadata extends Model
             $dtIssue = $this->metadataIssue($dtIssue, $simple);
             $dr['Issue'] = $dtIssue;
             $dr['year'] = $dtIssue['is_year'];
-            $dr['publisher'] = $dtIssue['Publication'];
+            if (isset($dtIssue['Publication']))
+                {
+                    $dr['publisher'] = $dtIssue['Publication'];
+                } else {
+                    $dr['publisher'] = ':: Not informed Yet ::';
+                }
+
         }
 
         $editora = $this->arrayExtract($dd, 'isPublisher');
