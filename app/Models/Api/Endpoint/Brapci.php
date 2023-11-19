@@ -322,11 +322,13 @@ class Brapci extends Model
 
     function get($v, $id = 0)
     {
-        echo "OK";
-        exit;
+
         $RDF = new \App\Models\RDF2\RDF();
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
         $dt = $RDF->le($id);
+
+        echo "OK";
+        exit;
 
         $RSP = $RDFmetadata->metadata($id);
         $RSP['Class'] = $dt['concept']['c_class'];
