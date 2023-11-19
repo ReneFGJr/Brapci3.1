@@ -131,15 +131,47 @@ class RDFmetadata extends Model
     }
 
     function metadataSource($dt)
-        {
-            $dr = [];
-            $dr['publisher'] = $dt['concept']['n_name'];
-            $dr['ID'] = $dt['concept']['id_cc'];
+    {
+        $dr = [];
+        $dr['publisher'] = $dt['concept']['n_name'];
+        $dr['ID'] = $dt['concept']['id_cc'];
+        $issue = [];
+        $works = [];
+        $collection = [];
 
-            $data = $dt['data'];
+        $data = $dt['data'];
 
-            return $dr;
+        foreach ($data as $id => $line) {
+            $lang = $line['Lang'];
+            $prop = $line['Property'];
+
+            /*******************/
+            switch ($prop) {
+                case 'hasCollection':
+                    array_push($collection, $line['ID']);
+                break;
+
+                case 'hasEmail':
+                    $dr['Email'] = $line['Caption'];
+                    break;
+
+                case 'hasIdRegister':
+                    break;
+
+                case 'hasUrl':
+                    break;
+
+                case 'hasIssue':
+                    array_push($issue, $line['ID']);
+                    break;
+            }
         }
+
+        $dr['issue'] = $issue;
+        $dr['collection'] = $collection;
+
+        return $dr;
+    }
 
     function metadataIssue($dt, $simple = false)
     {
@@ -234,7 +266,9 @@ class RDFmetadata extends Model
 
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
-        if ($year != null) { $dr['year'] = $year; }
+        if ($year != null) {
+            $dr['year'] = $year;
+        }
 
         /***************************** ISSUE */
         $ISSUE = $this->arrayExtract($dd, 'hasIssueOf');
@@ -244,12 +278,11 @@ class RDFmetadata extends Model
             $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
             $dr['Issue'] = $dtIssue;
             $dr['year'] = $dtIssue['is_year'];
-            if (isset($dtIssue['Publication']))
-                {
-                    $dr['publisher'] = $dtIssue['Publication'];
-                } else {
-                    $dr['publisher'] = ':: Not informed Yet ::';
-                }
+            if (isset($dtIssue['Publication'])) {
+                $dr['publisher'] = $dtIssue['Publication'];
+            } else {
+                $dr['publisher'] = ':: Not informed Yet ::';
+            }
             $dr['legend'] = $LEGEND->show($dtIssue);
         }
 
@@ -325,7 +358,9 @@ class RDFmetadata extends Model
                 }
                 break;
         }
-        if ($simple == false) { $dr['data'] = $dd; }
+        if ($simple == false) {
+            $dr['data'] = $dd;
+        }
         return $dr;
     }
 
