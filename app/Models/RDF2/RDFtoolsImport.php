@@ -495,12 +495,11 @@ class RDFtoolsImport extends Model
         $ID2 = $J['jnl_frbr'];
         $lit = 0;
 
-        pre($ID2);
-
         if ($ID2 > 0)
             {
                 $prop_journal = $RDFclass->getClass('isPubishIn');
                 $RDFdata->register($ID2, $prop_journal, $ID, $lit);
+                pre($ID2 . '--' . $ID . '--' . $prop_journal);
             }
 
         $prop_issue = $RDFclass->getClass('hasIssueOf');
