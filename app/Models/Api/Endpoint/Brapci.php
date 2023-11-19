@@ -334,6 +334,8 @@ class Brapci extends Model
         $VANVOUVER = new \App\Models\Metadata\Vancouver();
         $APA = new \App\Models\Metadata\Apa();
 
+        echo "OK"; exit;
+
         $RSP['cited']['abnt'] = $ABNT->show($RSP, substr($RSP['Class'], 0, 1));
         $RSP['cited']['vancouver'] = $VANVOUVER->show($RSP, substr($RSP['Class'], 0, 1));
         $RSP['cited']['apa'] = $APA->show($RSP, substr($RSP['Class'], 0, 1));
