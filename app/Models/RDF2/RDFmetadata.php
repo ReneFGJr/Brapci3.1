@@ -140,7 +140,7 @@ class RDFmetadata extends Model
             $lang = $line['Lang'];
             $prop = $line['Property'];
             switch ($prop) {
-                case 'isPubishIn':
+                case 'hasPublicationIssueOf':
                     $dr['jnl_name'] = $line['Caption'];
                     $dr['jnl_rdf'] = $line['ID'];
                     break;
