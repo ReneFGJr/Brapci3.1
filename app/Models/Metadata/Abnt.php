@@ -48,6 +48,10 @@ class Abnt extends Model
 					$tela = '';
 					if (isset($dt['jnl_name'])) {
 						$tela .= $dt['jnl_name'];
+					} else {
+						if (isset($dt['publisher'])) {
+							$tela .= $dt['publisher'];
+						}
 					}
 					if (isset($dt['is_vol']))
 						{
