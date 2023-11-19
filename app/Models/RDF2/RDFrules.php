@@ -49,6 +49,7 @@ class RDFrules extends Model
                 ->join('rdf_class','id_c = d_p')
                 ->where('c_equivalent > 0')
                 ->findAll();
+                echo $RDFdata->getlastquery();
             pre($dt);
             exit;
 

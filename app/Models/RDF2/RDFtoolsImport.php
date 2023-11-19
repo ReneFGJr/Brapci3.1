@@ -193,6 +193,7 @@ class RDFtoolsImport extends Model
         $c['hasVolume'] = '';
         $c['hasIssue'] = 'hasIssueOf';
         $c['isPubishIn'] = 'isPartOfSource';
+        $c['hasIdRegister'] = 'hasID';
 
         if (isset($c[$class])) {
             $class = $c[$class];
@@ -650,6 +651,7 @@ class RDFtoolsImport extends Model
     {
         $dt['n_lang'] = 'nn';
         $RSP = $this->createConcept($dt1);
+        $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
     }
 

@@ -121,11 +121,19 @@ class RDFmetadata extends Model
             case 'Proceeding':
                 return $this->metadataWork($dt);
                 break;
+            case 'Journals':
+                return $this->metadataSource($dt);
+                break;
             default:
                 echo h($class);
                 exit;
         }
     }
+
+    function metadataSource($dt)
+        {
+            pre($dt);
+        }
 
     function metadataIssue($dt, $simple = false)
     {
@@ -140,10 +148,7 @@ class RDFmetadata extends Model
             $lang = $line['Lang'];
             $prop = $line['Property'];
 
-            /********* Convert */
-            if ($prop == 'isPubishIn') { $prop = 'hasPublicationIssueOf'; }
             /*******************/
-
             switch ($prop) {
                 case 'hasPublicationIssueOf':
                     $dr['publisher'] = $line['Caption'];
