@@ -558,6 +558,7 @@ class RDF extends Model
 				$sx .= $RDFData->exclude($id);
 				$sx .= $RDFConcept->exclude($id);
 			} else {
+				echo "ERRO DE CLASSE";
 				pre($dt,false);
 			}
 		} else {
