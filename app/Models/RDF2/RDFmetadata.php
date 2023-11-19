@@ -132,7 +132,9 @@ class RDFmetadata extends Model
 
     function metadataSource($dt)
         {
-            pre($dt);
+            $dr = [];
+            $dr['publisher'] = $dt['concept']['n_name'];
+            return $dr;
         }
 
     function metadataIssue($dt, $simple = false)
