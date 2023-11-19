@@ -46,7 +46,7 @@ class Legend extends Model
 			{
 				case 'Issue':
 					$tela = '';
-					if (isset($dt['publisher'])) {
+					if (isset($dt['publisher']) and ($dt['publisher'] != '')) {
 						$tela .= $dt['publisher'];
 					} else {
 						$tela .= '::Sem legenda::';
