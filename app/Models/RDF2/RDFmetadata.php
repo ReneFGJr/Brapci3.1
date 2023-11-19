@@ -113,6 +113,7 @@ class RDFmetadata extends Model
                 return $this->metadataIssue($dt);
                 break;
             case 'Article':
+                pre($dt);
                 return $this->metadataWork($dt);
                 break;
             case 'Book':
