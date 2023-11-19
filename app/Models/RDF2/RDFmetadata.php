@@ -183,7 +183,7 @@ class RDFmetadata extends Model
         return $dr;
     }
 
-    function metadataWork($dt)
+    function metadataWork($dt, $simple = true)
     {
         $RDF = new \App\Models\RDF2\RDF();
         $ID = $dt['concept']['id_cc'];
@@ -201,6 +201,7 @@ class RDFmetadata extends Model
             $dc[$line['Caption']] = $line['ID'];
             array_push($dd[$prop][$lang], $dc);
         }
+
         $dr['ID'] = $ID;
         $dr['Class'] = $dt['concept']['c_class'];
         $dr['title'] = troca($this->simpleExtract($dd, 'hasTitle'), ["\n", "\r"], '');
@@ -306,7 +307,7 @@ class RDFmetadata extends Model
                 }
                 break;
         }
-        $dr['data'] = $dd;
+        if (!$simple) { $dr['data'] = $dd; }
         return $dr;
     }
 
