@@ -63,10 +63,14 @@ class Rdf extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFrules = new \App\Models\RDF2\RDFrules();
         $RSP = [];
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'remissive':
+                    $RSP['data'] = $RDFrules->RDFremissive();
+                    break;
                 case 'getdata':
                     $RSP['data'] = $RDFconcept->getData($d3);
                     break;

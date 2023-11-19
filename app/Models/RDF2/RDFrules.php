@@ -42,6 +42,18 @@ class RDFrules extends Model
 
     public $message = '';
 
+    function RDFremissive()
+        {
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+            $dt = $RDFdata
+                ->join('rdf_class','id_c = d_p')
+                ->where('c_equivalent > 0')
+                ->findAll();
+            pre($dt);
+            exit;
+
+        }
+
     function validator($dt)
     {
         $RDF2 = new \App\Models\RDF2\RDF();
