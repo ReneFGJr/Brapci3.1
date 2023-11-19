@@ -137,6 +137,7 @@ class RDF extends Model
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $dt = $RDFconcept->find($id);
+            echo $RDFconcept->getlastquery();
             if ($dt == null)
                 {
                     return false;
