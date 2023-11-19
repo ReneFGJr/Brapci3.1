@@ -132,16 +132,21 @@ class RDFmetadata extends Model
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
         $dr = [];
-        $dr['jnl_name'] = '';
+        $dr['publisher'] = '';
         $dr['ID'] = $ID;
         $w = [];
         $dr['Class'] = $dt['concept']['c_class'];
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];
             $prop = $line['Property'];
+
+            /********* Convert */
+            if ($prop == 'isPubishIn') { $prop = 'hasPublicationIssueOf'; }
+            /*******************/
+
             switch ($prop) {
                 case 'hasPublicationIssueOf':
-                    $dr['jnl_name'] = $line['Caption'];
+                    $dr['publisher'] = $line['Caption'];
                     $dr['jnl_rdf'] = $line['ID'];
                     break;
                 case 'dateOfPublication':
@@ -185,6 +190,7 @@ class RDFmetadata extends Model
 
     function metadataWork($dt, $simple = false)
     {
+        $ABNT = new \App\Models\Metadata\Abnt();
         $RDF = new \App\Models\RDF2\RDF();
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
@@ -215,6 +221,7 @@ class RDFmetadata extends Model
         $dr['description'] = troca($this->simpleExtract($dd, 'hasAbstract'), ["\n", "\r"], '');
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
 
+
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
         if ($year != null) { $dr['year'] = $year; }
 
@@ -232,7 +239,7 @@ class RDFmetadata extends Model
                 } else {
                     $dr['publisher'] = ':: Not informed Yet ::';
                 }
-
+            $dr['legend'] = $ABNT->show($dtIssue);
         }
 
         $editora = $this->arrayExtract($dd, 'isPublisher');

@@ -47,7 +47,7 @@ class Abnt extends Model
 				case 'Issue':
 					$tela = '';
 					if (isset($dt['publisher'])) {
-						$tela .= $dt['publisher'];
+						$tela .= '<b>'.$dt['publisher']. '</b>';
 					}
 					if (isset($dt['is_vol']))
 						{
