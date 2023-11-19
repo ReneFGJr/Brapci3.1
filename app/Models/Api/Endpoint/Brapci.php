@@ -327,9 +327,6 @@ class Brapci extends Model
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
         $dt = $RDF->le($id);
 
-        echo "OK";
-        exit;
-
         $RSP = $RDFmetadata->metadata($id);
         $RSP['Class'] = $dt['concept']['c_class'];
 
@@ -337,6 +334,9 @@ class Brapci extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $VANVOUVER = new \App\Models\Metadata\Vancouver();
         $APA = new \App\Models\Metadata\Apa();
+
+        echo "OK";
+        exit;
 
         $RSP['cited']['abnt'] = $ABNT->show($RSP, substr($RSP['Class'], 0, 1));
         $RSP['cited']['vancouver'] = $VANVOUVER->show($RSP, substr($RSP['Class'], 0, 1));
