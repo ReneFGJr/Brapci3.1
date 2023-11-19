@@ -95,6 +95,7 @@ class RDFdata extends Model
             ->join('rdf_literal', 'RC1.cc_pref_term = id_n')
 
             ->where('d_r1', $id)
+            ->Orwhere('d_r2', $id)
             ->findAll();
 
         $cp = 'prefix_ref as Prefix';
