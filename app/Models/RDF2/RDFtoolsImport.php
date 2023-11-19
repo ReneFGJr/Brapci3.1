@@ -495,7 +495,7 @@ class RDFtoolsImport extends Model
         $ID2 = $J['jnl_frbr'];
         $lit = 0;
 
-        pre($J);
+        pre($ID2);
 
         if ($ID2 > 0)
             {
