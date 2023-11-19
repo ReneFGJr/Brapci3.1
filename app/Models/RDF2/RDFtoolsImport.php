@@ -478,10 +478,12 @@ class RDFtoolsImport extends Model
         $RSP = $this->createConcept($dt1);
 
         /****************************** */
-        $J = $Issue->where('is_source_issue', $ID)->first();
-        pre($J);
+        $J = $Issue
+            ->join('source_source', 'is_source = id_jnl')
+            ->where('is_source_issue', $ID)->first();
+
         if ($J == null) {
-            echo "XXXXXXXXXXX==$ID<br>";
+            echo "X NAO EXISTE ISSUE REGISTRADO XXXXXXXXXX==$ID<br>";
             $dt = $this->metadataIssue($dt1);
             pre($dt);
             echo "ISSUE not registred $ID";
@@ -490,9 +492,16 @@ class RDFtoolsImport extends Model
             exit;
         }
         $JNL = $J['is_source'];
+        $ID2 = $J['jnl_frbr'];
+        $lit = 0;
+
+        if ($ID2 > 0)
+            {
+                $prop_journal = $RDFclass->getClass('isPubishIn');
+                $RDFdata->register($ID2, $prop_journal, $ID, $lit);
+            }
 
         $prop_issue = $RDFclass->getClass('hasIssueOf');
-
         foreach ($dt1['data'] as $id => $line) {
             $class = $line['c_class'];
 
