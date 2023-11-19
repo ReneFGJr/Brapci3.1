@@ -127,64 +127,65 @@ class RDFmetadata extends Model
         }
     }
 
-    function metadataIssue($dt)
+    function metadataIssue($dt, $simple = false)
     {
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
         $dr = [];
         $dr['jnl_name'] = '';
+        $dr['ID'] = $ID;
         $w = [];
         $dr['Class'] = $dt['concept']['c_class'];
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];
             $prop = $line['Property'];
-            switch($prop)
-                {
-                    case 'isPubishIn':
-                        $dr['jnl_name'] = $line['Caption'];
-                        $dr['jnl_rdf'] = $line['ID'];
-                        break;
-                    case 'dateOfPublication':
-                        $dr['is_year'] = $line['Caption'];
-                        break;
-                    case 'hasVolumeNumber':
-                        $dr['is_nr'] = $line['Caption'];
-                        break;
-                    case 'hasVolume':
-                        $dr['is_vol'] = $line['Caption'];
-                        break;
-                    case 'hasIssueOf':
-                        if (!isset($dr['works']))
-                            {
-                                $dr['works'] = [];
-                            }
-                        array_push($w,$line['ID']);
-                        break;
-                }
-        }
-        if (isset($dr['jnl_rdf']))
-            {
-                $Source = new \App\Models\Base\Sources();
-                $dt = $Source->where('jnl_frbr',$dr['jnl_rdf'])->first();
-                $dr['Publication'] = $dt['jnl_name'];
-                $dr['PublicationAcronic'] = $dt['jnl_name_abrev'];
-                $dr['PublicationUrl'] = $dt['jnl_url'];
-            }
-        $dr['works'] = [];
-        foreach($w as $id=>$line)
-            {
-                $rsp = $this->simpleMetadata($line);
-                if ($rsp['data'] == [])
-                    {
-                        $rsp['data']['hasTitle'] = '::no title avaliable::';
+            switch ($prop) {
+                case 'isPubishIn':
+                    $dr['jnl_name'] = $line['Caption'];
+                    $dr['jnl_rdf'] = $line['ID'];
+                    break;
+                case 'dateOfPublication':
+                    $dr['is_year'] = $line['Caption'];
+                    break;
+                case 'hasVolumeNumber':
+                    $dr['is_nr'] = $line['Caption'];
+                    break;
+                case 'hasVolume':
+                    $dr['is_vol'] = $line['Caption'];
+                    break;
+                case 'hasIssueOf':
+                    if (!$simple) {
+                        if (!isset($dr['works'])) {
+                            $dr['works'] = [];
+                        }
+                        array_push($w, $line['ID']);
                     }
+                    break;
+            }
+        }
+        if (isset($dr['jnl_rdf'])) {
+            $Source = new \App\Models\Base\Sources();
+            $dt = $Source->where('jnl_frbr', $dr['jnl_rdf'])->first();
+            $dr['Publication'] = $dt['jnl_name'];
+            $dr['PublicationAcronic'] = $dt['jnl_name_abrev'];
+            $dr['PublicationUrl'] = $dt['jnl_url'];
+        }
+        if (!$simple) {
+            $dr['works'] = [];
+            foreach ($w as $id => $line) {
+                $rsp = $this->simpleMetadata($line);
+                if ($rsp['data'] == []) {
+                    $rsp['data']['hasTitle'] = '::no title avaliable::';
+                }
                 array_push($dr['works'], $rsp);
             }
+        }
         return $dr;
     }
 
     function metadataWork($dt)
     {
+        $RDF = new \App\Models\RDF2\RDF();
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
         /************ DD*/
@@ -212,9 +213,20 @@ class RDFmetadata extends Model
         }
         $dr['description'] = troca($this->simpleExtract($dd, 'hasAbstract'), ["\n", "\r"], '');
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
-        $dr['year'] = $this->simpleExtract($dd, 'wasPublicationInDate');
 
+        $year = $this->simpleExtract($dd, 'wasPublicationInDate');
+        if ($year != null) { $dr['year'] = $year; }
 
+        /***************************** ISSUE */
+        $ISSUE = $this->arrayExtract($dd, 'hasIssueOf');
+        if (isset($ISSUE[0])) {
+            $dtIssue = $RDF->le($ISSUE[0]['ID']);
+            $simple = true;
+            $dtIssue = $this->metadataIssue($dtIssue, $simple);
+            $dr['Issue'] = $dtIssue;
+            $dr['year'] = $dtIssue['is_year'];
+            $dr['publisher'] = $dtIssue['Publication'];
+        }
 
         $editora = $this->arrayExtract($dd, 'isPublisher');
         $place = $this->arrayExtract($dd, 'isPlaceOfPublication');
@@ -239,10 +251,6 @@ class RDFmetadata extends Model
         /************************************************************* COVER */
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
-
-
-        /************************************************************** ISSUE */
-        $dr['issue'] = $this->arrayExtract($dd, 'hasIssueOf');
 
         /*************************************** SOURCE JOURNAL / PROCEEDING */
         if ($publisher == '') {
