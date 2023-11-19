@@ -250,8 +250,6 @@ class RDFmetadata extends Model
             $dj = $this->arrayExtract($dd, 'isPartOfSource');
             if (isset($dj[0])) {
                 $dj = $Source->where('jnl_frbr', $dj[0]['ID'])->first();
-                echo "+=======JOURNAL PRE";
-                pre($dd);
                 $dr['publisher'] = $this->simpleExtract($dd, 'isPartOfSource');
                 $Cover = new \App\Models\Base\Cover();
                 $dr['cover'] = $Cover->cover($dj['id_jnl']);
