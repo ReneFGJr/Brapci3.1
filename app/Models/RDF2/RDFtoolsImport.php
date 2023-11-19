@@ -479,6 +479,7 @@ class RDFtoolsImport extends Model
 
         /****************************** */
         $J = $Issue->where('is_source_issue', $ID)->first();
+        pre($J);
         if ($J == null) {
             echo "XXXXXXXXXXX==$ID<br>";
             $dt = $this->metadataIssue($dt1);
