@@ -190,7 +190,7 @@ class RDFmetadata extends Model
 
     function metadataWork($dt, $simple = false)
     {
-        $ABNT = new \App\Models\Metadata\Abnt();
+        $LEGEND = new \App\Models\Metadata\Legend();
         $RDF = new \App\Models\RDF2\RDF();
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
@@ -239,7 +239,7 @@ class RDFmetadata extends Model
                 } else {
                     $dr['publisher'] = ':: Not informed Yet ::';
                 }
-            $dr['legend'] = $ABNT->show($dtIssue);
+            $dr['legend'] = $LEGEND->show($dtIssue);
         }
 
         $editora = $this->arrayExtract($dd, 'isPublisher');
