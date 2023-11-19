@@ -42,6 +42,26 @@ class Abnt extends Model
 
 	function show($dt, $type = 'A')
 	{
+		switch($dt['Class'])
+			{
+				case 'Issue':
+					$tela = '';
+					$tela .= $dt['Source'];
+					if (isset($dt['is_vol']))
+						{
+							if ($dt['is_vol'] != 'ERRO')
+								{
+									$tela .= ', v. '.$dt['is_vol'];
+								}
+						}
+					if (isset($dt['is_nr'])) {
+						if ($dt['is_nr'] != 'ERRO') {
+							$tela .= ', n. ' . $dt['is_nr'];
+						}
+					}
+				return $tela;
+				break;
+			}
 		switch ($type) {
 			case 'B':
 				$tela = $this->abnt_book($dt);

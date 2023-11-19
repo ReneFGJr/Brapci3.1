@@ -44,6 +44,30 @@ class Vancouver extends Model
 
 	function show($dt, $type = 'A')
 	{
+		switch ($dt['Class']) {
+			case 'Issue':
+				$tela = '';
+				$tela .= $dt['Source'];
+				if (isset($dt['is_vol'])) {
+					if ($dt['is_vol'] != 'ERRO') {
+						$tela .= ', ' . $dt['is_vol'];
+					}
+				}
+				if (isset($dt['is_nr'])) {
+					if ($dt['is_nr'] != 'ERRO') {
+						$tela .= '(' . $dt['is_nr'].')';
+					}
+				}
+
+				if (isset($dt['is_year'])) {
+					if ($dt['is_year'] != 'ERRO') {
+						$tela .= ', ' . $dt['is_year'];
+					}
+				}
+				return $tela;
+				break;
+		}
+
 		switch ($type) {
 			case 'B':
 				$tela = $this->vancouver_book($dt);
@@ -87,7 +111,7 @@ class Vancouver extends Model
 		} else {
 			$dri = [];
 			$jid = 0;
-			return "[erro abnt]";
+			return "[erro vancouver]";
 		}
 
 		switch($jid)

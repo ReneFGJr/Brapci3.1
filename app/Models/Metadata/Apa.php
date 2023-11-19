@@ -45,6 +45,30 @@ class Apa extends Model
 
 	function show($dt, $type = 'A')
 	{
+		switch ($dt['Class']) {
+			case 'Issue':
+				$tela = '';
+				$tela .= $dt['Source'];
+				if (isset($dt['is_vol'])) {
+					if ($dt['is_vol'] != 'ERRO') {
+						$tela .= ', ' . $dt['is_vol'];
+					}
+				}
+				if (isset($dt['is_nr'])) {
+					if ($dt['is_nr'] != 'ERRO') {
+						$tela .= '(' . $dt['is_nr'] . ')';
+					}
+				}
+
+				if (isset($dt['is_year'])) {
+					if ($dt['is_year'] != 'ERRO') {
+						$tela .= ', ' . $dt['is_year'];
+					}
+				}
+				return $tela;
+				break;
+		}
+
 		switch ($type) {
 			case 'B':
 				$tela = $this->apa_book($dt);
