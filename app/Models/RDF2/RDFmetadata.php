@@ -108,6 +108,7 @@ class RDFmetadata extends Model
         $dd = [];
 
         $class = $dt['concept']['c_class'];
+        echo '==='.$class;
         switch ($class) {
             case 'Issue':
                 return $this->metadataIssue($dt);
