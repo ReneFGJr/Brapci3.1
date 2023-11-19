@@ -46,7 +46,9 @@ class Abnt extends Model
 			{
 				case 'Issue':
 					$tela = '';
-					$tela .= $dt['Source'];
+					if (isset($dt['jnl_name'])) {
+						$tela .= $dt['jnl_name'];
+					}
 					if (isset($dt['is_vol']))
 						{
 							if ($dt['is_vol'] != 'ERRO')

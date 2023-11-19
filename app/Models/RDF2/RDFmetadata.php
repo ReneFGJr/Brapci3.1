@@ -132,6 +132,7 @@ class RDFmetadata extends Model
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
         $dr = [];
+        $dr['jnl_name'] = '';
         $w = [];
         $dr['Class'] = $dt['concept']['c_class'];
         foreach ($da as $id => $line) {
@@ -140,7 +141,7 @@ class RDFmetadata extends Model
             switch($prop)
                 {
                     case 'isPubishIn':
-                        $dr['Source'] = $line['Caption'];
+                        $dr['jnl_name'] = $line['Caption'];
                         $dr['jnl_rdf'] = $line['ID'];
                         break;
                     case 'dateOfPublication':
