@@ -328,6 +328,7 @@ class Brapci extends Model
         $dt = $RDF->le($id);
 
         $RSP = $RDFmetadata->metadata($id);
+
         $RSP['Class'] = $dt['concept']['c_class'];
 
         /************************************************* ABNT */

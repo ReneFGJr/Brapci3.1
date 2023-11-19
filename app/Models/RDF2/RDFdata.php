@@ -73,7 +73,6 @@ class RDFdata extends Model
         $cp = 'n_name as caption, id_cc as ID, cc_use as USE ';
         $cp .= ', prefix_ref as prefix, c_class as Class, "" as Prop ';
 
-
         $cp = '';
         $cp .= 'prefix_ref as Prefix,';
         $cp .= ', C1.c_class as Class';
@@ -95,6 +94,7 @@ class RDFdata extends Model
             ->join('rdf_literal', 'RC1.cc_pref_term = id_n')
 
             ->where('d_r1', $id)
+            ->where('d_r2 <> 0')
             ->findAll();
 
         $cp = 'prefix_ref as Prefix';
@@ -104,7 +104,6 @@ class RDFdata extends Model
         $cp .= ', n_name as Caption';
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
-        //$cp = '*';
 
         $dtB = $this
             ->select($cp . ',"R" as tp')
@@ -114,7 +113,24 @@ class RDFdata extends Model
             ->where('d_r2', $id)
             ->findAll();
 
-        $dt = array_merge($dtA, $dtB);
+        $cp = 'prefix_ref as Prefix';
+        $cp .= ', "Literal" as Class';
+        $cp .= ', c_class as Property';
+        $cp .= ', 0 as ID';
+        $cp .= ', n_name as Caption';
+        $cp .= ', n_lang as Lang';
+        $cp .= ', "" as URL';
+
+        $dtC = $this
+            ->select($cp . ',"R" as tp')
+            ->join('rdf_literal', 'd_literal = id_n')
+            ->join('rdf_class', 'd_p = id_c')
+            ->join('rdf_prefix', 'c_prefix = id_prefix')
+            ->where('d_r1', $id)
+            ->where('d_r2', 0)
+            ->findAll();
+
+        $dt = array_merge($dtA, $dtB, $dtC);
         $dt = $this->auxiliar($dt);
         return $dt;
     }
