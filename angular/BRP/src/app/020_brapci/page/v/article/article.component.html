@@ -6,6 +6,7 @@
 <div class="container mt-5" *ngIf="data">
   <div class="row">
     <div class="col-9">
+      <h3 *ngIf="data.legend">{{data.legend}}</h3>
       <h1 class="title text-center">{{ data.title }}</h1>
 
       <div class="text-end mb-5">
