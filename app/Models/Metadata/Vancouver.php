@@ -47,9 +47,9 @@ class Vancouver extends Model
 		switch ($dt['Class']) {
 			case 'Issue':
 				$tela = '';
-				if (isset($dt['jnl_name']))
+				if (isset($dt['publisher']))
 					{
-						$tela .= $dt['jnl_name'];
+						$tela .= $dt['publisher'];
 					}
 
 				if (isset($dt['is_vol'])) {
