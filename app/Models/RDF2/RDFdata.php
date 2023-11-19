@@ -86,7 +86,7 @@ class RDFdata extends Model
         //$cp = '*';
 
         $dtA = $this
-            ->select($cp)
+            ->select($cp.',"N" as tp')
             ->join('rdf_concept as RC1', 'RC1.id_cc = d_r2')
             ->join('rdf_class as C1', 'RC1.cc_class = C1.id_c')
             ->join('rdf_prefix', 'c_prefix = id_prefix')
@@ -107,7 +107,7 @@ class RDFdata extends Model
         //$cp = '*';
 
         $dtB = $this
-            ->select($cp)
+            ->select($cp . ',"R" as tp')
             ->join('rdf_literal', 'd_literal = id_n')
             ->join('rdf_class', 'd_p = id_c')
             ->join('rdf_prefix', 'c_prefix = id_prefix')
