@@ -183,7 +183,7 @@ class RDFmetadata extends Model
         return $dr;
     }
 
-    function metadataWork($dt, $simple = true)
+    function metadataWork($dt, $simple = false)
     {
         $RDF = new \App\Models\RDF2\RDF();
         $ID = $dt['concept']['id_cc'];
