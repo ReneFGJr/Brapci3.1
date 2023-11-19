@@ -1,0 +1,20 @@
+<app-theme-header [header]="header"></app-theme-header>
+<div *ngIf="data">
+  <app-banner-article [section]="data.is_year" [cover]="data.cover" [publisher]="data.jnl_name"></app-banner-article>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-9">
+      <li *ngFor="let item of data.works">
+        <a [routerLink]="['/v/'+item.ID]" routerLinkActive="router-link-active">
+          {{ item.data.hasTitle }}
+        </a>
+      </li>
+    </div>
+  </div>
+</div>
+
+<pre
+  >{{ data | json }}
+</pre>

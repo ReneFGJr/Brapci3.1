@@ -32,6 +32,7 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { BookComponent } from './page/v/book/book.component';
 import { DateComponent } from './page/v/date/date.component';
 import { BannerBookComponent } from './page/banner/banner-book.component';
+import { IssueBrapciComponent } from './page/v/issue/issue.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { BannerBookComponent } from './page/banner/banner-book.component';
     BookComponent,
     DateComponent,
     BannerBookComponent,
+    IssueBrapciComponent,
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,7 @@ import { BannerBookComponent } from './page/banner/banner-book.component';
     BrapciWelcomeComponent,
     PainelComponent,
     VComponent,
-    BasketComponent
+    BasketComponent,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
