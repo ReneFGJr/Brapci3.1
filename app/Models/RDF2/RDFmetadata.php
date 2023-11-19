@@ -222,8 +222,8 @@ class RDFmetadata extends Model
         $ISSUE = $this->arrayExtract($dd, 'hasIssueOf');
         if (isset($ISSUE[0])) {
             $dtIssue = $RDF->le($ISSUE[0]['ID']);
-            $simple = true;
-            $dtIssue = $this->metadataIssue($dtIssue, $simple);
+            $simpleIssue = true;
+            $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
             $dr['Issue'] = $dtIssue;
             $dr['year'] = $dtIssue['is_year'];
             if (isset($dtIssue['Publication']))
@@ -307,7 +307,7 @@ class RDFmetadata extends Model
                 }
                 break;
         }
-        if (!$simple) { $dr['data'] = $dd; }
+        if ($simple == false) { $dr['data'] = $dd; }
         return $dr;
     }
 
