@@ -61,6 +61,11 @@ class Abnt extends Model
 							$tela .= ', n. ' . $dt['is_nr'];
 						}
 					}
+					if (isset($dt['is_year'])) {
+						if ($dt['is_year'] != 'ERRO') {
+							$tela .= ', ' . $dt['is_year'];
+						}
+					}
 				return $tela;
 				break;
 			}
