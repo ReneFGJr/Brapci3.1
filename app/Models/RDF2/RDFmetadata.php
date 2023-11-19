@@ -51,7 +51,9 @@ class RDFmetadata extends Model
 
         $sm = [
             'hasTitle' => [],
-            'hasCover' => []
+            'hasCover' => [],
+            'hasSectionOf' => [],
+            'hasAuthor' => [],
         ];
 
         $da = $dt['data'];
@@ -105,6 +107,84 @@ class RDFmetadata extends Model
         $dt = $RDF->le($ID);
         $dd = [];
 
+        $class = $dt['concept']['c_class'];
+        switch ($class) {
+            case 'Issue':
+                return $this->metadataIssue($dt);
+                break;
+            case 'Article':
+                return $this->metadataWork($dt);
+                break;
+            case 'Book':
+                return $this->metadataWork($dt);
+                break;
+            case 'Proceeding':
+                return $this->metadataWork($dt);
+                break;
+            default:
+                echo h($class);
+                exit;
+        }
+    }
+
+    function metadataIssue($dt)
+    {
+        $ID = $dt['concept']['id_cc'];
+        $da = $dt['data'];
+        $dr = [];
+        $w = [];
+        $dr['Class'] = $dt['concept']['c_class'];
+        foreach ($da as $id => $line) {
+            $lang = $line['Lang'];
+            $prop = $line['Property'];
+            switch($prop)
+                {
+                    case 'isPubishIn':
+                        $dr['Source'] = $line['Caption'];
+                        $dr['jnl_rdf'] = $line['ID'];
+                        break;
+                    case 'dateOfPublication':
+                        $dr['is_year'] = $line['Caption'];
+                        break;
+                    case 'hasVolumeNumber':
+                        $dr['is_nr'] = $line['Caption'];
+                        break;
+                    case 'hasVolume':
+                        $dr['is_vol'] = $line['Caption'];
+                        break;
+                    case 'hasIssueOf':
+                        if (!isset($dr['works']))
+                            {
+                                $dr['works'] = [];
+                            }
+                        array_push($w,$line['ID']);
+                        break;
+                }
+        }
+        if (isset($dr['jnl_rdf']))
+            {
+                $Source = new \App\Models\Base\Sources();
+                $dt = $Source->where('jnl_frbr',$dr['jnl_rdf'])->first();
+                $dr['Publication'] = $dt['jnl_name'];
+                $dr['PublicationAcronic'] = $dt['jnl_name_abrev'];
+                $dr['PublicationUrl'] = $dt['jnl_url'];
+            }
+        $dr['works'] = [];
+        foreach($w as $id=>$line)
+            {
+                $rsp = $this->simpleMetadata($line);
+                if ($rsp['data'] == [])
+                    {
+                        $rsp['data']['hasTitle'] = '::no title avaliable::';
+                    }
+                array_push($dr['works'], $rsp);
+            }
+        return $dr;
+    }
+
+    function metadataWork($dt)
+    {
+        $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];
@@ -161,16 +241,17 @@ class RDFmetadata extends Model
         $dr['issue'] = $this->arrayExtract($dd, 'hasIssueOf');
 
         /*************************************** SOURCE JOURNAL / PROCEEDING */
-        if ($publisher == '')
-            {
-                $Source = new \App\Models\Base\Sources();
-                $dj = $this->arrayExtract($dd, 'isPartOfSource');
-                $dj = $Source->where('jnl_frbr',$dj[0]['ID'])->first();
+        if ($publisher == '') {
+            $Source = new \App\Models\Base\Sources();
+            $dj = $this->arrayExtract($dd, 'isPartOfSource');
+            if (isset($dj[0])) {
+                $dj = $Source->where('jnl_frbr', $dj[0]['ID'])->first();
+                pre($dd);
                 $dr['publisher'] = $this->simpleExtract($dd, 'isPartOfSource');
-
                 $Cover = new \App\Models\Base\Cover();
                 $dr['cover'] = $Cover->cover($dj['id_jnl']);
             }
+        }
 
         /******************* ISBN */
         $ISBN = new \App\Models\ISBN\Index();
@@ -193,7 +274,7 @@ class RDFmetadata extends Model
         }
 
         /************************** Resource */
-        $dr['resource_pdf'] = PATH.'/download/'.$ID;
+        $dr['resource_pdf'] = PATH . '/download/' . $ID;
 
 
         /*********************** Section */

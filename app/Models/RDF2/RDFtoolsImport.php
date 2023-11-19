@@ -462,6 +462,8 @@ class RDFtoolsImport extends Model
         return $RSP;
     }
 
+
+    /*********************************************************** ISSUE */
     function importIssue($dt1)
     {
         $RDF = new \App\Models\RDF2\RDF();
@@ -474,8 +476,6 @@ class RDFtoolsImport extends Model
         /********** TO DO */
         $ID = $dt1['concept']['id_cc'];
         $RSP = $this->createConcept($dt1);
-
-        pre($dt1, false);
 
         /****************************** */
         $J = $Issue->where('is_source_issue', $ID)->first();
@@ -502,9 +502,41 @@ class RDFtoolsImport extends Model
 
             switch ($class) {
                 default:
-                    echo h($class,4);
+                    echo h('Sem proriedade: '.$class,1);
+                    break;
+                case 'altLabel':
+                    /* NOOP */
+                    break;
+                case 'prefLabel':
+                    /* NOOP */
+                    break;
+                case 'dateOfPublication':
+                    $prop = 'dateOfPublication';
+                    $propJ = $RDFclass->getClass($prop);
+                    $lit = 0;
+                    $RDFdata->register($ID, $propJ, $ID2, $lit);
+                    break;
+                case 'isPubishIn':
+                    $prop = 'isPubishIn';
+                    $propJ = $RDFclass->getClass($prop);
+                    $lit = 0;
+                    echo "===";
+                    $RDFdata->register($ID, $propJ, $ID2, $lit);
+                    break;
+                case 'hasPublicationNumber':
+                    $prop = 'hasVolumeNumber';
+                    $propJ = $RDFclass->getClass($prop);
+                    $lit = 0;
+                    $RDFdata->register($ID, $propJ, $ID2, $lit);
+                    break;
+                case 'hasPublicationVolume':
+                    $prop = 'hasVolume';
+                    $propJ = $RDFclass->getClass($prop);
+                    $lit = 0;
+                    $RDFdata->register($ID, $propJ, $ID2, $lit);
                     break;
                 case  'hasIssue':
+                    /* hasIssueOf */
                     $dt = $RDFconcept->le($ID2);
                     $concept = $dt['c_class'];
 
@@ -520,8 +552,14 @@ class RDFtoolsImport extends Model
                             $IssueWorks->register($JNL, $ID, $ID2);
                             break;
                         case 'Issue':
-                            echo h($concept, 4);
+                            echo h('==='.$concept, 4);
                             pre($dt, false);
+                            break;
+                        case 'Article':
+                            $prop = 'hasIssueOf';
+                            $propJ = $RDFclass->getClass($prop);
+                            $lit = 0;
+                            $RDFdata->register($ID, $propJ, $ID2, $lit);
                             break;
                         default:
                             echo '<br>===>' . $concept;
