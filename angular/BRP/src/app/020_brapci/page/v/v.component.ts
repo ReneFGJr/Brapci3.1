@@ -25,7 +25,11 @@ export class VComponent {
         res => {
           this.data = res;
           this.type = this.data.Class;
-          console.log(res);
+          console.log(this.type);
+          if (this.type=='Journals')
+            {
+              console.log("=====================");
+            }
         },
         error => error
       )
