@@ -185,6 +185,9 @@ class RDFmetadata extends Model
         $dt = $Source->where('jnl_frbr', $dr['ID'])->first();
         $dr = array_merge($dr,$dt);
 
+        $Cover = new \App\Models\Base\Cover();
+        $dr['cover'] = $Cover->cover($dt['id_jnl']);
+
         return $dr;
     }
 
