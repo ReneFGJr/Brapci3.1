@@ -176,6 +176,7 @@ class RDFmetadata extends Model
                     break;
 
                 case 'hasUrl':
+                    $dr['URL'] = $line['Caption'];
                     break;
 
                 case 'hasIssue':
