@@ -4,24 +4,12 @@ import { BrapciService } from '../../../000_core/010_services/brapci.service';
 @Component({
   selector: 'app-brapci-banner',
   templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
 })
 export class BannerComponent {
-  public results: Array<any> | any
-  @Input() public title:string = '';
+  public results: Array<any> | any;
+  @Input() public section: Array<any> | any;
+  @Input() public cover: Array<any> | any;
+  @Input() public publisher: Array<any> | any;
 
-  constructor(
-    private brapciService: BrapciService,
-  ) { }
-
-  search(term: string)
-    {
-    this.brapciService.search(term,[]).subscribe(
-      res => {
-        this.results = res
-        console.log("=============")
-        console.log(res)
-      }
-    );
-    }
+  constructor(private brapciService: BrapciService) {}
 }

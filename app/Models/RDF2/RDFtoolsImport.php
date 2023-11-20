@@ -194,6 +194,7 @@ class RDFtoolsImport extends Model
         $c['hasIssue'] = 'hasIssueOf';
         $c['isPubishIn'] = 'isPartOfSource';
         $c['hasIdRegister'] = 'hasID';
+        $c['hasIssue'] = 'hasPublicationIssueOf';
 
         if (isset($c[$class])) {
             $class = $c[$class];

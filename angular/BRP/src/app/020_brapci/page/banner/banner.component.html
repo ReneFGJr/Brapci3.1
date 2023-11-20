@@ -1,25 +1,22 @@
-<div class="content-fluid banner banner_min text-white pb-5 pt-2">
-  <div class="row" *ngIf="title">
-    <div class="col-2"></div>
-    <div class="col-8 col-sm-8">
-      <span class="section">{{ title }}</span>
-    </div>
-  </div>
+<div
+  class="content-fluid banner banner_min_article text-white pb-5 pt-2"
+  *ngIf="section"
+>
   <div class="row">
-    <div class="col-12 col-sm-12 mt4">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 col-sm-12">
-            ZZZZZZZZZZZZZZZZZ
-          </div>
-        </div>
+    <div class="col-1"></div>
+    <div class="col-8">
+      <div *ngIf="publisher">
+        <span class="small">Publicação</span><br />
+        <span class="journal">{{ publisher }}</span>
+      </div>
+
+      <div class="section_div bg-brapci">
+        <span class="section">{{ section }}</span>
+      </div>
+      <div *ngIf="cover" class="cover_div slideInDown">
+        <img src="{{ cover }}" class="cover" style="width: 180px;"/>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="row">
-    XXXXXXXXXXXXXXXXX
+    <div class="col-3"></div>
   </div>
 </div>
