@@ -124,11 +124,28 @@ class RDFmetadata extends Model
             case 'Journals':
                 return $this->metadataSource($dt);
                 break;
+            case 'Subject':
+                return $this->metadataGeral($dt);
+                break;
+            case 'Section':
+                return $this->metadataGeral($dt);
+                break;
+            case 'Person':
+                return $this->metadataGeral($dt);
+                break;
             default:
-                echo h($class);
+                return $this->metadataGeral($dt);
                 exit;
         }
     }
+
+    function metadataGeral($dt)
+        {
+            $dr = [];
+            $dr['publisher'] = $dt['concept']['n_name'];
+            $dr['ID'] = $dt['concept']['id_cc'];
+            return $dr;
+        }
 
     function metadataSource($dt)
     {
