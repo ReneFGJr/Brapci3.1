@@ -172,13 +172,6 @@ class RDFmetadata extends Model
                     $dr['Email'] = $line['Caption'];
                     break;
 
-                case 'hasIdRegister':
-                    break;
-
-                case 'hasUrl':
-                    $dr['URL'] = $line['Caption'];
-                    break;
-
                 case 'hasIssue':
                     array_push($issue, $line['ID']);
                     break;
@@ -187,6 +180,10 @@ class RDFmetadata extends Model
 
         $dr['issue'] = $issue;
         $dr['collection'] = $collection;
+
+        $Source = new \App\Models\Base\Sources();
+        $dt = $Source->where('jnl_frbr', $dr['ID'])->first();
+        $dr = array_merge($dr,$dt);
 
         return $dr;
     }
