@@ -62,10 +62,11 @@ class RDFrules extends Model
         if (!$this->rule01($dt)) {
             $ok = false;
         }
+        echo "R1";
         if (($ok == true) and (!$this->rule02($dt))) {
             $ok = false;
         }
-
+        echo "R2";
         if ($ok == false) {
             pre($this->message);
         }
