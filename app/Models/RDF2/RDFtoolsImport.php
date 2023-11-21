@@ -153,6 +153,7 @@ class RDFtoolsImport extends Model
         $dt = $RDFconcept
             ->join('brapci.rdf_concept as b_rdf', 'rdf_concept.id_cc = b_rdf.id_cc', 'right')
             ->where('rdf_concept.id_cc is null')
+            ->where('rdf_concept.cc_class > 0')
             ->findAll(500);
 
         foreach ($dt as $id => $line) {
