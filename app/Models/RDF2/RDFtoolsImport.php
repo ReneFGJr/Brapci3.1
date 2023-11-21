@@ -149,7 +149,7 @@ class RDFtoolsImport extends Model
     function importRDFOld()
     {
         $dt = $this
-            ->join("df_concept","id_cc = ti_ID")
+            ->join("rdf_concept","id_cc = ti_ID")
             ->where("ti_ID is null")
             ->findAll(10);
         pre($dt);
