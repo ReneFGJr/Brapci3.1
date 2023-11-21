@@ -186,7 +186,13 @@ class RDFmetadata extends Model
             {
                 $dti = $Issues->getMetada($id);
                 $ANO = $dti['YEAR'];
-                array_push($ISSUE[$ANO],$dti);
+                if (!isset($ISSUE[$ANO]))
+                    {
+                        $ISSUE[$ANO] = [];
+                    }
+                    array_push($ISSUE[$ANO], $dti);
+
+
             }
         ksort($ISSUE);
         pre($ISSUE);
