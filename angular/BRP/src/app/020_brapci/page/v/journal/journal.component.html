@@ -106,9 +106,11 @@
     <ul *ngIf="data.issue">
 
       <div *ngFor="let item of data.issue">
-          <span>{{item.is_year}}</span>
-          <span *ngIf="item.is_vol">, v.{{item.is_vol}}</span>
-          <span *ngIf="item.is_nr">, n.{{item.is_nr}}</span>
+          <a [routerLink]="['/v/'+item.ID]" routerLinkActive="router-link-active">
+          <span class="h4 link">{{item.YEAR}}</span>
+          <span *ngIf="item.VOL">, v.{{item.VOL}}</span>
+          <span *ngIf="item.NR">, n.{{item.NR}}</span>
+          </a>
           <br/>
       </div>
 
