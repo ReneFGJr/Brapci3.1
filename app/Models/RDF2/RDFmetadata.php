@@ -182,21 +182,25 @@ class RDFmetadata extends Model
 
         $Issues = new \App\Models\Base\Issues();
         $ISSUE = [];
+        $YEARS = [];
         foreach($issue as $id)
             {
                 $dti = $Issues->getMetada($id);
                 $ANO = $dti['YEAR'];
-                if (!isset($ISSUE[$ANO]))
+                if (!isset($YEARS[$ANO]))
                     {
-                        $ISSUE[$ANO] = [];
+                $YEARS[$ANO] = $ANO;
                     }
-                    array_push($ISSUE[$ANO], $dti);
-
-
             }
-        krsort($ISSUE);
+        krsort($YEARS);
+        $sYEARS = [];
+        foreach($YEARS as $year)
+            {
+                array_push($sYEARS,$year);
+            }
 
         $dr['issue'] = $ISSUE;
+        $dr['issue_years'] = $YEARS;
 
         $dr = array_merge($dr, $dt);
 
