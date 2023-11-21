@@ -1,7 +1,6 @@
-
 <app-brapci-banner-general
   [publisher]="data.jnl_name"
-  ></app-brapci-banner-general>
+></app-brapci-banner-general>
 
 <div class="container" *ngIf="data">
   <div class="row">
@@ -34,7 +33,7 @@
   </div>
   <div class="row mt-5">
     <div class="col-12 col-lg-3">
-      <img [src]="data.cover" class="img-fluid mb-2" style="width: 100%;" />
+      <img [src]="data.cover" class="img-fluid mb-2" style="width: 100%" />
       <div id="jnl_issn" class="mb-3 portal" *ngIf="data.jnl_issn">
         <a
           href="https://portal.issn.org/resource/ISSN/{{ data.jnl_issn }}"
@@ -50,84 +49,96 @@
         ><br />
       </div>
       <div id="jnl_url" class="mb-3 portal" *ngIf="data.jnl_eissn">
-        <a href="{{ data.jnl_url }}" target="_blank">Site da Revista</a
-        ><br />
+        <a href="{{ data.jnl_url }}" target="_blank">Site da Revista</a><br />
       </div>
     </div>
     <div class="col-12 col-lg-9">
-<!-- Pagin 1-->
+      <!-- Pagin 1-->
       <div *ngIf="page === '1'">
         <label class="small">Nome da publicação</label>
         <br /><b>{{ data.jnl_name }}</b>
-        <br/>
+        <br />
 
         <label class="small mt-3">Abreviatura</label>
         <br /><b>{{ data.jnl_name_abrev }}</b>
-        <br/>
+        <br />
 
         <label class="small">ISSN</label>
-        <br/>
-          <span *ngIf="data.jnl_issn" class="me-4"><b>{{ data.jnl_issn }}</b></span>
-          <span *ngIf="data.jnl_eissn">eISSN: <b>{{ data.jnl_eissn }}</b></span>
-        <br/>
+        <br />
+        <span *ngIf="data.jnl_issn" class="me-4"
+          ><b>{{ data.jnl_issn }}</b></span
+        >
+        <span *ngIf="data.jnl_eissn"
+          >eISSN: <b>{{ data.jnl_eissn }}</b></span
+        >
+        <br />
 
         <label class="small">Vigência</label>
-        <br/><b>{{ data.jnl_ano_inicio }}-
-        <span *ngIf="data.jnl_ano_final > 0">{{ data.jnl_ano_final }}</span></b>
-        <br/>
+        <br /><b
+          >{{ data.jnl_ano_inicio }}-
+          <span *ngIf="data.jnl_ano_final > 0">{{
+            data.jnl_ano_final
+          }}</span></b
+        >
+        <br />
 
-        <div  *ngIf="data.periodicidade">
-        <label class="small">Periodicidade</label>
-        <br/><b>{{ data.periodicidade }}</b>
-        <br/>
+        <div *ngIf="data.periodicidade">
+          <label class="small">Periodicidade</label>
+          <br /><b>{{ data.periodicidade }}</b>
+          <br />
         </div>
 
-        <div  *ngIf="data.responsabilidade">
-        <label class="small">Responsabilidade</label>
-        <br/><b>{{ data.responsabilidade }}</b>
-        <br/>
+        <div *ngIf="data.responsabilidade">
+          <label class="small">Responsabilidade</label>
+          <br /><b>{{ data.responsabilidade }}</b>
+          <br />
         </div>
 
-        <div  *ngIf="data.qualis">
-        <label class="small">Qualis</label>
-        <br/><b>{{ data.qualis }}</b>
-        <br/>
+        <div *ngIf="data.qualis">
+          <label class="small">Qualis</label>
+          <br /><b>{{ data.qualis }}</b>
+          <br />
         </div>
 
-        <div  *ngIf="data.jnl_url">
-        <label class="small">Link da Revista</label>
-        <br/><b><a href="{{data.jnl_url}}" class="link" target="_blank">{{ data.jnl_url }}</a></b>
-        <br/>
+        <div *ngIf="data.jnl_url">
+          <label class="small">Link da Revista</label>
+          <br /><b
+            ><a href="{{ data.jnl_url }}" class="link" target="_blank">{{
+              data.jnl_url
+            }}</a></b
+          >
+          <br />
         </div>
-
       </div>
-<!-- Pagin 2-->
-  <div *ngIf="(page === '2')" >
-    <ul *ngIf="data.issue">
-
-      <div *ngFor="let ano of data.issue_years">
-          <h4>{{ ano }}</h4>
-          <ul>
-          {{ data.issue }}
-          <li *ngFor="let item of data.issue">
-          <a [routerLink]="['/v/'+item.ID]" routerLinkActive="router-link-active">
-          <span class="h4 link">{{item.YEAR}}</span>
-          <span *ngIf="item.VOL">, v.{{item.VOL}}</span>
-          <span *ngIf="item.NR">, n.{{item.NR}}</span>
-          </a>
-          </li>
-          </ul>
+      <!-- Pagin 2-->
+      <div *ngIf="page === '2'">
+        <div class="container">
+          <div *ngFor="let ano of data.issue_years" class="row">
+            <div class="col-12">
+              <h2 class="mt-3">{{ ano }}</h2>
+            </div>
+            <div *ngFor="let item of data.issue">
+              <li *ngIf="item.YEAR == ano">
+                <span>
+                  <a
+                    [routerLink]="['/v/' + item.ID]"
+                    routerLinkActive="router-link-active"
+                  >
+                    <span *ngIf="item.VOL">, {{ item.VOL }}</span>
+                    <span *ngIf="item.NR">, {{ item.NR }}</span>
+                  </a>
+                </span>
+              </li>
+            </div>
+          </div>
+        </div>
       </div>
-
-    </ul>
-  </div>
-<!-- Pagin 3-->
-    <div *ngIf="page === '3'">Pag 3</div>
-<!-- Pagin 4-->
-    <div *ngIf="page === '4'">Pag 4</div>
+      <!-- Pagin 3-->
+      <div *ngIf="page === '3'">Pag 3</div>
+      <!-- Pagin 4-->
+      <div *ngIf="page === '4'">Pag 4</div>
     </div>
 
-    <div style="height: 200px;"></div>
-
+    <div style="height: 200px"></div>
   </div>
 </div>

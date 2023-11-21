@@ -219,8 +219,6 @@ class RDFtoolsImport extends Model
             $RDF2 = new \App\Models\RDF2\RDF();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
-            echo h($class);
-
             switch ($class) {
                 case '':
                     //$RSP = $this->importGeneric($dt1);
@@ -574,7 +572,7 @@ class RDFtoolsImport extends Model
                             $RDFdata->register($ID, $propJ, $ID2, $lit);
                             break;
                         default:
-                            echo '<br>===>' . $concept;
+                            echo '<br>=CONCEPT==>' . $concept;
                             break;
                     }
                     //pre($dt);
