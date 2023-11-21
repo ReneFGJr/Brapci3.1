@@ -626,7 +626,6 @@ class RDFtoolsImport extends Model
             echo "Erro de Classe";
             pre($dt);
         }
-        exit;
     }
 
     function importPerson($dt1)
