@@ -163,9 +163,11 @@ class RDFtoolsImport extends Model
 
                 $d['ti_ID'] = $ID;
                 $this->set($d)->insert();
+
+                echo $ID.'; ';
             }
         echo "FIM\n";
-        if (count($dt) > 10) {
+        if (count($dt) > 1) {
             echo metarefresh('', 1);
         }
     }
