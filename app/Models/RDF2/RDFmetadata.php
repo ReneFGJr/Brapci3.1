@@ -131,13 +131,22 @@ class RDFmetadata extends Model
                 return $this->metadataGeral($dt);
                 break;
             case 'Person':
-                return $this->metadataGeral($dt);
+                return $this->metadataPerson($dt);
                 break;
             default:
                 return $this->metadataGeral($dt);
                 exit;
         }
     }
+
+    function metadataPerson($dt)
+        {
+            $dr = [];
+            $dr['name'] = $dt['concept']['n_name'];
+            $dr['ID'] = $dt['concept']['id_cc'];
+            $dr['data'] = $dt['data'];
+            return $dr;
+        }
 
     function metadataGeral($dt)
         {

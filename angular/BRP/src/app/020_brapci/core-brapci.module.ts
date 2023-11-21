@@ -36,6 +36,7 @@ import { IssueBrapciComponent } from './page/v/issue/issue.component';
 import { RDFinComponent } from './widget/rdfin/rdfin.component';
 import { JournalComponent } from './page/v/journal/journal.component';
 import { BrapciBannerComponent } from './widget/banner/banner.component';
+import { PersonComponent } from './page/v/person/person.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { BrapciBannerComponent } from './widget/banner/banner.component';
     RDFinComponent,
     JournalComponent,
     BrapciBannerComponent,
+    PersonComponent,
   ],
   imports: [
     CommonModule,
