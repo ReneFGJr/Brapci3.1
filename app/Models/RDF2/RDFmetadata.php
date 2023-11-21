@@ -181,7 +181,7 @@ class RDFmetadata extends Model
         $dr['collection'] = $collection;
 
         $Issues = new \App\Models\Base\Issues();
-        $ISSUE = [];
+        $ISSUE = $issue;
         $YEARS = [];
         foreach($issue as $id)
             {

@@ -100,9 +100,9 @@
       </div>
 <!-- Pagin 2-->
   <div *ngIf="(page === '2')" >
-    <ul *ngIf="issue">
+    <ul *ngIf="issue_years">
 
-      <div *ngFor="let item of issue">
+      <div *ngFor="let item of issue_years">
           <span>{{item.is_year}}</span>
           <span *ngIf="item.is_vol">, v.{{item.is_vol}}</span>
           <span *ngIf="item.is_nr">, n.{{item.is_nr}}</span>

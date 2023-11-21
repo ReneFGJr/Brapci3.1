@@ -105,13 +105,18 @@
   <div *ngIf="(page === '2')" >
     <ul *ngIf="data.issue">
 
-      <div *ngFor="let item of data.issue">
+      <div *ngFor="let ano of data.issue_years">
+          <h4>{{ ano }}</h4>
+          <ul>
+          {{ data.issue }}
+          <li *ngFor="let item of data.issue">
           <a [routerLink]="['/v/'+item.ID]" routerLinkActive="router-link-active">
           <span class="h4 link">{{item.YEAR}}</span>
           <span *ngIf="item.VOL">, v.{{item.VOL}}</span>
           <span *ngIf="item.NR">, n.{{item.NR}}</span>
           </a>
-          <br/>
+          </li>
+          </ul>
       </div>
 
     </ul>
