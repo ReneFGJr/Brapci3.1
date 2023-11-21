@@ -577,6 +577,10 @@ class RDFtoolsImport extends Model
                 case  'hasIssue':
                     /* hasIssueOf */
                     $dt = $RDFconcept->le($ID2);
+                    if ($dt == null)
+                        {
+                            return "ERRO ISSUE $ID";
+                        }
                     $concept = $dt['c_class'];
 
                     switch ($concept) {
