@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-banner-article',
-  templateUrl: './banner-article.component.html',
-  styleUrls: ['./banner.component.scss'],
+  templateUrl: './banner-article.component.html'
 })
 export class BannerArticleComponent {
   @Input() public section: Array<any> | any;

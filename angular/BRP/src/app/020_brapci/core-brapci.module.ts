@@ -33,6 +33,9 @@ import { BookComponent } from './page/v/book/book.component';
 import { DateComponent } from './page/v/date/date.component';
 import { BannerBookComponent } from './page/banner/banner-book.component';
 import { IssueBrapciComponent } from './page/v/issue/issue.component';
+import { RDFinComponent } from './widget/rdfin/rdfin.component';
+import { JournalComponent } from './page/v/journal/journal.component';
+import { BrapciBannerComponent } from './widget/banner/banner.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,9 @@ import { IssueBrapciComponent } from './page/v/issue/issue.component';
     DateComponent,
     BannerBookComponent,
     IssueBrapciComponent,
+    RDFinComponent,
+    JournalComponent,
+    BrapciBannerComponent,
   ],
   imports: [
     CommonModule,

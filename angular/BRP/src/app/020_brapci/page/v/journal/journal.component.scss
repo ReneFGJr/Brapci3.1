@@ -1,0 +1,29 @@
+.portal a
+  {
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 1px 20px;
+    width: 100%;
+    background-color: #eee;
+    text-align: center;
+  }
+
+.portal a:hover
+  {
+    color: #000;
+    background-color: #fff;
+  }
+.menu
+  {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: black;
+    border-bottom: 4px solid none;
+    cursor: pointer;
+  }
+.active
+  {
+    border-bottom: 4px solid rgb(6, 6, 117);
+  }

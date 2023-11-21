@@ -1,0 +1,126 @@
+
+<app-brapci-banner-general
+  [publisher]="data.jnl_name"
+  ></app-brapci-banner-general>
+
+<div class="container" *ngIf="data">
+  <div class="row">
+    <div class="col-12 col-lg-12 mt-3">
+      <a
+        (click)="selectPG('1')"
+        class="ms-3 menu"
+        [ngClass]="page == '1' ? 'active' : ''"
+        >Sobre</a
+      >
+      <a
+        (click)="selectPG('2')"
+        class="ms-3 menu"
+        [ngClass]="page == '2' ? 'active' : ''"
+        >Fascículos</a
+      >
+      <a
+        (click)="selectPG('3')"
+        class="ms-3 menu"
+        [ngClass]="page == '3' ? 'active' : ''"
+        >Indexadores</a
+      >
+      <a
+        (click)="selectPG('4')"
+        class="ms-3 menu"
+        [ngClass]="page == '4' ? 'active' : ''"
+        >Autores</a
+      >
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12 col-lg-3">
+      <img [src]="data.cover" class="img-fluid mb-2" style="width: 100%;" />
+      <div id="jnl_issn" class="mb-3 portal" *ngIf="data.jnl_issn">
+        <a
+          href="https://portal.issn.org/resource/ISSN/{{ data.jnl_issn }}"
+          target="_blank"
+          >ISSN Portal</a
+        ><br />
+      </div>
+      <div id="jnl_eissn" class="mb-3 portal" *ngIf="data.jnl_eissn">
+        <a
+          href="https://portal.issn.org/resource/ISSN/{{ data.jnl_eissn }}"
+          target="_blank"
+          >eISSN Portal</a
+        ><br />
+      </div>
+      <div id="jnl_url" class="mb-3 portal" *ngIf="data.jnl_eissn">
+        <a href="{{ data.jnl_url }}" target="_blank">Site da Revista</a
+        ><br />
+      </div>
+    </div>
+    <div class="col-12 col-lg-9">
+<!-- Pagin 1-->
+      <div *ngIf="page === '1'">
+        <label class="small">Nome da publicação</label>
+        <br /><b>{{ data.jnl_name }}</b>
+        <br/>
+
+        <label class="small mt-3">Abreviatura</label>
+        <br /><b>{{ data.jnl_name_abrev }}</b>
+        <br/>
+
+        <label class="small">ISSN</label>
+        <br/>
+          <span *ngIf="data.jnl_issn" class="me-4"><b>{{ data.jnl_issn }}</b></span>
+          <span *ngIf="data.jnl_eissn">eISSN: <b>{{ data.jnl_eissn }}</b></span>
+        <br/>
+
+        <label class="small">Vigência</label>
+        <br/><b>{{ data.jnl_ano_inicio }}-
+        <span *ngIf="data.jnl_ano_final > 0">{{ data.jnl_ano_final }}</span></b>
+        <br/>
+
+        <div  *ngIf="data.periodicidade">
+        <label class="small">Periodicidade</label>
+        <br/><b>{{ data.periodicidade }}</b>
+        <br/>
+        </div>
+
+        <div  *ngIf="data.responsabilidade">
+        <label class="small">Responsabilidade</label>
+        <br/><b>{{ data.responsabilidade }}</b>
+        <br/>
+        </div>
+
+        <div  *ngIf="data.qualis">
+        <label class="small">Qualis</label>
+        <br/><b>{{ data.qualis }}</b>
+        <br/>
+        </div>
+
+        <div  *ngIf="data.jnl_url">
+        <label class="small">Link da Revista</label>
+        <br/><b><a href="{{data.jnl_url}}" class="link" target="_blank">{{ data.jnl_url }}</a></b>
+        <br/>
+        </div>
+
+      </div>
+<!-- Pagin 2-->
+  <div *ngIf="(page === '2')" >
+    <ul *ngIf="data.issue">
+
+      <div *ngFor="let item of data.issue">
+          <span>{{item.is_year}}</span>
+          <span *ngIf="item.is_vol">, v.{{item.is_vol}}</span>
+          <span *ngIf="item.is_nr">, n.{{item.is_nr}}</span>
+          <br/>
+      </div>
+
+    </ul>
+  </div>
+<!-- Pagin 3-->
+    <div *ngIf="page === '3'">Pag 3</div>
+<!-- Pagin 4-->
+    <div *ngIf="page === '4'">Pag 4</div>
+    </div>
+
+    <div style="height: 200px;"></div>
+
+  </div>
+</div>

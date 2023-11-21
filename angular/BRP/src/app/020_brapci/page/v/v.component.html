@@ -6,5 +6,7 @@
 <app-brapci-book *ngIf="type=='Book'" [data]="data"></app-brapci-book>
 <app-brapci-date *ngIf="type=='Date'" [data]="data"></app-brapci-date>
 <app-brapci-issue *ngIf="type=='Issue'" [data]="data"></app-brapci-issue>
+<app-brapci-journal *ngIf="type=='Journals'" [data]="data">JOURNALS</app-brapci-journal>
 {{type}}
+<app-brapci-rdfin [data]="data"></app-brapci-rdfin>
 <app-theme-footer></app-theme-footer>

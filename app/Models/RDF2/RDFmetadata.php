@@ -172,7 +172,7 @@ class RDFmetadata extends Model
                     $dr['Email'] = $line['Caption'];
                     break;
 
-                case 'hasIssue':
+                case 'hasPublicationIssueOf':
                     array_push($issue, $line['ID']);
                     break;
             }

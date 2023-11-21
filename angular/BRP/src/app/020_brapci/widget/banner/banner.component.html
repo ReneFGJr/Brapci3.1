@@ -1,0 +1,22 @@
+<div
+  class="content-fluid banner banner_min_article text-white pb-5 pt-2"
+  *ngIf="publisher"
+>
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-8">
+      <div *ngIf="publisher">
+        <span class="small">Publicação</span><br />
+        <span class="journal">{{ publisher }}</span>
+      </div>
+
+      <div *ngIf="section" class="section_div bg-brapci">
+        <span class="section">{{ section }}</span>
+      </div>
+      <div *ngIf="cover" class="cover_div slideInDown">
+        <img src="{{ cover }}" class="cover" style="width: 180px;"/>
+      </div>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</div>
