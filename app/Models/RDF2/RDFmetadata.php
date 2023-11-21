@@ -181,14 +181,14 @@ class RDFmetadata extends Model
         $dr['collection'] = $collection;
 
         $Issues = new \App\Models\Base\Issues();
+        $ISSUE = [];
         foreach($issue as $id)
             {
-                echo $id;
                 $dt = $Issues->getMetada($id);
-                pre($dt);
+                array_push($ISSUE,$dt);
             }
 
-        $dr['issue'] = $issue;
+        $dr['issue'] = $ISSUE;
 
         $dr = array_merge($dr, $dt);
 
