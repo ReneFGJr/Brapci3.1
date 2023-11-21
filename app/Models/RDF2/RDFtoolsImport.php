@@ -164,7 +164,7 @@ class RDFtoolsImport extends Model
             }
         }
         echo "FIM\n";
-        if (count($dt) > 0)
+        if (count($dt) > 10)
             {
                 echo metarefresh('', 1);
             }
