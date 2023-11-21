@@ -106,7 +106,7 @@ class RDFrules extends Model
                         } else {
                             if (!$RDF2->valid($ID2)) {
                                 $ok = false;
-                                $this->message = 'Conceito Destino não localizado';
+                                $this->message = 'Conceito Destino não localizado ['.$ID2.']';
                             }
                         }
                 }
