@@ -401,6 +401,8 @@ class RDFtoolsImport extends Model
 
             $validator = $RDFrules->validator($dt);
 
+            echo "===>".$validator;
+
             if ($validator == true) {
                 foreach ($dados as $id => $line) {
                     /************************* Propriedade */
