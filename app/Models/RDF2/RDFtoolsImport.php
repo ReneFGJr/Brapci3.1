@@ -152,6 +152,7 @@ class RDFtoolsImport extends Model
             ->join("rdf_concept","id_cc = ti_ID")
             ->where("ti_ID is null")
             ->findAll(10);
+        echo $this->getlastquery();
         pre($dt);
 
     }
