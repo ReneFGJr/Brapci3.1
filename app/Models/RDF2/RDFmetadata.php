@@ -185,9 +185,11 @@ class RDFmetadata extends Model
         foreach($issue as $id)
             {
                 $dti = $Issues->getMetada($id);
-                pre($dti);
-                array_push($ISSUE,$dti);
+                $ANO = $dti['YEAR'];
+                array_push($ISSUE[$ANO],$dti);
             }
+        ksort($ISSUE);
+        pre($ISSUE);
 
         $dr['issue'] = $ISSUE;
 
