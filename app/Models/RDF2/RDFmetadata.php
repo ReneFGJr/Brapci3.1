@@ -185,6 +185,7 @@ class RDFmetadata extends Model
         foreach($issue as $id)
             {
                 $dti = $Issues->getMetada($id);
+                pre($dti);
                 array_push($ISSUE,$dti);
             }
 
