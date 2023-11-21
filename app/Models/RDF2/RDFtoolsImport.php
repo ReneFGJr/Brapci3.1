@@ -401,8 +401,6 @@ class RDFtoolsImport extends Model
 
             $validator = $RDFrules->validator($dt);
 
-            echo "===>".$validator;
-
             if ($validator == true) {
                 foreach ($dados as $id => $line) {
                     /************************* Propriedade */
@@ -443,6 +441,7 @@ class RDFtoolsImport extends Model
                 echo "Erro de Validação";
             }
         }
+        echo "OOOOOOOOOKKKKKKKK";
     }
 
     /********************************************* FIM DATA */
