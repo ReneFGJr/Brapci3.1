@@ -194,8 +194,7 @@ class RDFmetadata extends Model
 
 
             }
-        ksort($ISSUE);
-        pre($ISSUE);
+        krsort($ISSUE);
 
         $dr['issue'] = $ISSUE;
 
