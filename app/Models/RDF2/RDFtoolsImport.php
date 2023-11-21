@@ -163,8 +163,11 @@ class RDFtoolsImport extends Model
                 pre($RSP);
             }
         }
-        echo "FIM";
-        echo metarefresh('', 1);
+        echo "FIM\n";
+        if (count($dt) > 0)
+            {
+                echo metarefresh('', 1);
+            }
     }
 
     function classConvert($class)
