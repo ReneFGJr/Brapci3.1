@@ -148,13 +148,18 @@ class RDFtoolsImport extends Model
     /*************************************************** ALL */
     function importRDFOld()
     {
+        $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
         $dt = $this
             ->join("rdf_concept","id_cc = ti_ID","right")
             ->where("ti_ID is null")
             ->findAll(10);
         echo $this->getlastquery();
-        pre($dt);
 
+        foreach($dt as $id=>$line)
+            {
+                pre($line);
+                $RSP = $RDFtools->importRDF($d3, true);
+            }
     }
     /*************************************************** ALL */
     function importRDFAll()
