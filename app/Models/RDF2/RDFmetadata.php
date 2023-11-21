@@ -181,7 +181,7 @@ class RDFmetadata extends Model
         $dr['collection'] = $collection;
 
         $Issues = new \App\Models\Base\Issues();
-        $ISSUE = $issue;
+        $ISSUE = [];
         $YEARS = [];
         foreach($issue as $id)
             {
@@ -189,8 +189,9 @@ class RDFmetadata extends Model
                 $ANO = $dti['YEAR'];
                 if (!isset($YEARS[$ANO]))
                     {
-                $YEARS[$ANO] = $ANO;
+                        $YEARS[$ANO] = $ANO;
                     }
+                array_push($ISSUE,$dti);
             }
         krsort($YEARS);
         $sYEARS = [];
