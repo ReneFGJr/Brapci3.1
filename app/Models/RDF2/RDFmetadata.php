@@ -178,8 +178,19 @@ class RDFmetadata extends Model
             }
         }
 
-        $dr['issue'] = $issue;
         $dr['collection'] = $collection;
+
+        $Issues = new \App\Models\Base\Issues();
+        foreach($issue as $id)
+            {
+                echo $id;
+                $dt = $Issues->getMetada($id);
+                pre($dt);
+            }
+
+        $dr['issue'] = $issue;
+
+        $dr = array_merge($dr, $dt);
 
         $Source = new \App\Models\Base\Sources();
         $dt = $Source->where('jnl_frbr', $dr['ID'])->first();
