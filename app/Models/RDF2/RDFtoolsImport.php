@@ -14,7 +14,9 @@ class RDFtoolsImport extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'ti_ID', 'ti_update'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -153,12 +155,14 @@ class RDFtoolsImport extends Model
             ->join("rdf_concept","id_cc = ti_ID","right")
             ->where("ti_ID is null")
             ->findAll(10);
-        echo $this->getlastquery();
 
         foreach($dt as $id=>$line)
             {
-                pre($line);
-                $RSP = $RDFtools->importRDF($d3, true);
+                $ID = $line['id_cc'];
+                $RSP = $RDFtools->importRDF($ID, true);
+
+                $d['ti_ID'] = $ID;
+                $this->set($d)->insert();
             }
     }
     /*************************************************** ALL */
