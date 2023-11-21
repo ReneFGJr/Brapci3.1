@@ -200,7 +200,7 @@ class RDFmetadata extends Model
             }
 
         $dr['issue'] = $ISSUE;
-        $dr['issue_years'] = $YEARS;
+        $dr['issue_years'] = $sYEARS;
 
         $dr = array_merge($dr, $dt);
 
