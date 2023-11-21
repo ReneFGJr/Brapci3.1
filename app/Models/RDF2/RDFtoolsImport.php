@@ -579,7 +579,8 @@ class RDFtoolsImport extends Model
                     $dt = $RDFconcept->le($ID2);
                     if ($dt == null)
                         {
-                            return "ERRO ISSUE $ID";
+                            echo  "ERRO ISSUE $ID";
+                            return [];
                         }
                     $concept = $dt['c_class'];
 
