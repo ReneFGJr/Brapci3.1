@@ -405,7 +405,6 @@ class RDFtoolsImport extends Model
                 foreach ($dados as $id => $line) {
                     /************************* Propriedade */
                     $prop = trim($line['c_class']);
-                    echo '=>' . $prop . '<br>';
                     if ($prop != '') {
                         $prop = $this->propConvert($prop);
                         if ($prop != '') {
