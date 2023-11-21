@@ -93,6 +93,9 @@ class Rdf extends Model
                     if ($d3 == 'all')
                         {
                             $RSP = $RDFtools->importRDFAll();
+                        } elseif ($d3 == 'old')
+                        {
+                            $RSP = $RDFtools->importRDFOld();
                         } else {
                             $RSP = $RDFtools->importRDF($d3,true);
                         }

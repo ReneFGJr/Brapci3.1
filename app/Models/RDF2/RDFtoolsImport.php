@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class RDFtoolsImport extends Model
 {
     protected $DBGroup          = 'rdf2';
-    protected $table            = 'rdftoolsimports';
-    protected $primaryKey       = 'id';
+    protected $table            = 'rdt_temp_import';
+    protected $primaryKey       = 'id_ti';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -43,7 +43,7 @@ class RDFtoolsImport extends Model
     function zeraDB()
     {
         $sql = "TRUNCATE `rdf_class_domain`";
-        $this->db->query($sql);
+        //$this->db->query($sql);
 
         $sql = "TRUNCATE `rdf_class_range`";
         $this->db->query($sql);
@@ -145,6 +145,16 @@ class RDFtoolsImport extends Model
         }
     }
 
+    /*************************************************** ALL */
+    function importRDFOld()
+    {
+        $dt = $this
+            ->join("df_concept","id_cc = ti_ID")
+            ->where("ti_ID is null")
+            ->findAll(10);
+        pre($dt);
+
+    }
     /*************************************************** ALL */
     function importRDFAll()
     {
