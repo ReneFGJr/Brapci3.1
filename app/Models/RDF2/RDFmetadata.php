@@ -54,13 +54,17 @@ class RDFmetadata extends Model
             'hasCover' => [],
             'hasSectionOf' => [],
             'hasAuthor' => [],
-            'isPartOfSource'=>[]
         ];
 
         $da = $dt['data'];
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];
             $prop = $line['Property'];
+
+            if ($prop == 'isPartOfSource')
+                {
+                    pre($line);
+                }
 
             if (isset($sm[$prop])) {
                 if (!isset($dd[$prop][$lang])) {
