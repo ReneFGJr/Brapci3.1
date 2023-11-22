@@ -276,7 +276,11 @@ class RDFmetadata extends Model
             $dr['works'] = [];
             foreach ($w as $id => $line) {
                 $rsp = $this->simpleMetadata($line);
-                pre($rsp);
+                if (isset($rsp['jnl_frbr']))
+                    {
+                        $dr = $rsp['jnl_frbr'];
+                    }
+
                 if ($rsp['data'] == []) {
                     $rsp['data']['hasTitle'] = '::no title avaliable::';
                 }
