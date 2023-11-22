@@ -237,6 +237,8 @@ class RDFmetadata extends Model
             $lang = $line['Lang'];
             $prop = $line['Property'];
 
+            echo '<br>'.$prop;
+
             /*******************/
             switch ($prop) {
                 case 'hasPublicationIssueOf':
