@@ -47,6 +47,7 @@ class RDFmetadata extends Model
         $RDFdata = new \App\Models\RDF2\RDFdata();
 
         $dt = $RDF->le($ID);
+        pre($dt);
         $dd = [];
 
         $sm = [
