@@ -278,7 +278,7 @@ class RDFmetadata extends Model
                 $rsp = $this->simpleMetadata($line);
                 if (isset($rsp['jnl_frbr']))
                     {
-                        $dr = $rsp['jnl_frbr'];
+                        $dr['jnl_rdf'] = $rsp['jnl_frbr'];
                     }
 
                 if ($rsp['data'] == []) {
