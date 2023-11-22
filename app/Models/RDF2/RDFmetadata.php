@@ -233,6 +233,7 @@ class RDFmetadata extends Model
         $dr['ID'] = $ID;
         $w = [];
         $dr['Class'] = $dt['concept']['c_class'];
+        pre($dt);
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];
             $prop = $line['Property'];
