@@ -1,13 +1,19 @@
 <app-theme-header [header]="header"></app-theme-header>
-<div *ngIf="data">
-  <app-banner-article
+  <app-brapci-banner-general
     [section]="data.is_year"
     [cover]="data.cover"
     [publisher]="data.jnl_name"
-  ></app-banner-article>
+  ></app-brapci-banner-general>
+
+<div *ngIf="data">
+  <app-brapci-banner-general
+    [section]="data.is_year"
+    [cover]="data.cover"
+    [publisher]="data.jnl_name"
+  ></app-brapci-banner-general>
 </div>
 
-<div class="container">
+<div class="container mt-5">
   <div class="row">
     <div class="col-9">
       <ul>
@@ -25,7 +31,3 @@
     </div>
   </div>
 </div>
-
-<pre
-  >{{ data | json }}
-</pre>

@@ -260,6 +260,8 @@ class RDFmetadata extends Model
                         array_push($w, $line['ID']);
                     }
                     break;
+                default:
+                    $dt[$prop] = $line['Caption'];
             }
         }
         if (isset($dr['jnl_rdf'])) {
