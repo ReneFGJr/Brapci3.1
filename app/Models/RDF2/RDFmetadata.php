@@ -63,7 +63,7 @@ class RDFmetadata extends Model
 
             if ($prop == 'isPartOfSource')
                 {
-                    pre($line);
+                    $dd['jnl_frbr'] = $line['ID'];
                 }
 
             if (isset($sm[$prop])) {
