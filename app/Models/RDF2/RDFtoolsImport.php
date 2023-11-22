@@ -154,7 +154,7 @@ class RDFtoolsImport extends Model
         $dt = $this
             ->join("rdf_concept","id_cc = ti_ID","right")
             ->where("ti_ID is null")
-            ->findAll(50);
+            ->findAll(250);
 
         foreach($dt as $id=>$line)
             {
