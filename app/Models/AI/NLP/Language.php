@@ -60,6 +60,7 @@ class Language extends Model
 			if ($lang == 'fr-FR') { return 'fr'; }
 			if ($lang == 'ca-ES') { return 'es'; }
 			if ($lang == 'it-IT') { return 'it'; }
+			if ($lang == '0') { return 'pt'; }
 
 			echo '====ERRO IDIOMA=== ['.($lang).']';
 			exit;
