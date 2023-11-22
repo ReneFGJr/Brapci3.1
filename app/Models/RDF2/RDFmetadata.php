@@ -266,6 +266,19 @@ class RDFmetadata extends Model
                     break;
             }
         }
+
+        if (!$simple) {
+            $dr['works'] = [];
+            foreach ($w as $id => $line) {
+                $rsp = $this->simpleMetadata($line);
+                pre($rsp);
+                if ($rsp['data'] == []) {
+                    $rsp['data']['hasTitle'] = '::no title avaliable::';
+                }
+                array_push($dr['works'], $rsp);
+            }
+        }
+
         if (isset($dr['jnl_rdf'])) {
             $Source = new \App\Models\Base\Sources();
             $dt = $Source->where('jnl_frbr', $dr['jnl_rdf'])->first();
@@ -273,16 +286,7 @@ class RDFmetadata extends Model
             $dr['PublicationAcronic'] = $dt['jnl_name_abrev'];
             $dr['PublicationUrl'] = $dt['jnl_url'];
         }
-        if (!$simple) {
-            $dr['works'] = [];
-            foreach ($w as $id => $line) {
-                $rsp = $this->simpleMetadata($line);
-                if ($rsp['data'] == []) {
-                    $rsp['data']['hasTitle'] = '::no title avaliable::';
-                }
-                array_push($dr['works'], $rsp);
-            }
-        }
+
         return $dr;
     }
 
