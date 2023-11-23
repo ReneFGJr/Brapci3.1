@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import sys
 sys.path.insert(0, '../')
 
-import env
+import .env
 
 try:
   cnx = mysql.connector.connect(  user= 'root', password= '448545ct', host= '127.0.0.1', database= 'find', raise_on_warnings= True)
