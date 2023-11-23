@@ -9,8 +9,13 @@ import sys
 from oaipmh.client import Client
 from oaipmh.metadata import MetadataRegistry, oai_dc_reader
 
+#from oai_brapci import oai_log
+import oai_brapci
+
 import env
 # identify info
+
+print(oai_brapci.oai_log_register("1","Identify","1"))
 
 registry = MetadataRegistry()
 registry.registerReader('oai_dc', oai_dc_reader)
