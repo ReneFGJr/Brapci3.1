@@ -220,7 +220,7 @@ class Sources extends Model
                             $sx .= h($xlb,4);
                         }
                     $link = anchor(PATH . '/v/' . $line['jnl_frbr'], $line['jnl_name']);
-                    $sx .= bsc($link,10);
+                    $sx .= bsc($link,9);
 
                     $link = '';
                     if ($Socials->perfil('#ADM'))
@@ -230,6 +230,7 @@ class Sources extends Model
 
                     $sx .= bsc($link,1);
                     $sx .= bsc($line['year'], 1);
+                    $sx .= bsc($line['jnl_oai_status'], 1);
                 }
 
             $link = anchor(PATH . '/journals/check/0/auto', '(checkall)', 'target="_black" ');
