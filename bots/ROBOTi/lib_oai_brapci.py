@@ -40,7 +40,7 @@ def next_action():
     cursor.execute(query)
     row = cursor.fetchone()
     if (len(row) > 0):
-        TASK = row[1].decode()
+        TASK = row[1]
     else:
         TASK = 'none'
     return TASK
