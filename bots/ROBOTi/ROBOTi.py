@@ -8,7 +8,7 @@ if (len(sys.argv) > 1):
     elif(parm[1] == 'run'):
         act = lib_oai_brapci.next_action()
         print("Task: "+act)
-        if (act == 'IDENT'):
+        if (act == 'oai_identifty'):
             ID = lib_oai_brapci.getIDENTIFY()
 else:
     print("Argumentos não informado, veja ROBOTi --help")
