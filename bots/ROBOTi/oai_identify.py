@@ -22,7 +22,7 @@ def harvesting(ID:str, URL:str):
         ###################################### Select Database
         doc['id_jnl'] = ID
         lib_oai_brapci.identify_register(doc)
-    except Error as e:
+    except:
         #Registra Log de fim de colheita
         print("ERRO DE COLETA - "+ID)
         lib_oai_brapci.jnl_oai_status(ID,"404")
