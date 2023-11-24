@@ -23,6 +23,7 @@ def harvesting(ID:str, URL:str):
         identify = str(sickle.Identify())
     except:
         print("ERRO DE COLETA")
+        print(URL)
         print(ID)
         print("##############")
         lib_oai_brapci.jnl_oai_status(ID,"404")
