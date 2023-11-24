@@ -230,7 +230,14 @@ class Sources extends Model
 
                     $sx .= bsc($link,1);
                     $sx .= bsc($line['year'], 1);
-                    $sx .= bsc($line['jnl_oai_status'], 1);
+                    $sta = $line['jnl_oai_status'];
+                    switch($sta)
+                        {
+                            case '100';
+                                $sta = '<span class="btn btn-success">OK</span>';
+                                break;
+                        }
+                    $sx .= bsc($sta, 1);
                 }
 
             $link = anchor(PATH . '/journals/check/0/auto', '(checkall)', 'target="_black" ');
