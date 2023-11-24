@@ -1,34 +1,30 @@
 import mysql.connector
 from mysql.connector import errorcode
-import urllib.request
-import xml.etree.ElementTree as ET
+import xmltodict
+import lib_oai_brapci
+from sickle import Sickle
 
-import sys
-#sys.path.insert(0, '../')
+def harvesting(ID:str, URL:str):
 
-from oaipmh.client import Client
-from oaipmh.metadata import MetadataRegistry, oai_dc_reader
+    #Registra Log de início de colheita
+    lib_oai_brapci.oai_log_register(ID,"Identify","1")
 
-#from oai_brapci import oai_log
-import oai_brapci
+    ####################################### Get XML from OAI-PMH
+    sickle = Sickle(URL)
 
-import env
-# identify info
+    ####################################### Read XML File
+    try:
+        identify = str(sickle.Identify())
 
-print(oai_brapci.oai_log_register("1","Identify","1"))
+        ######################################### Read XML
+        doc = xmltodict.parse(identify)
 
-registry = MetadataRegistry()
-registry.registerReader('oai_dc', oai_dc_reader)
-URL = 'https://seer.ufrgs.br/emquestao/oai'
-#https://seer.ufrgs.br/emquestao/oai?verb=Identify
-client = Client(URL, registry)
-
-identify = client.identify()
-print("Repository name: {0}".format(identify.repositoryName()))
-print("Base URL: {0}".format(identify.baseURL()))
-print("Protocol version: {0}".format(identify.protocolVersion()))
-print("Granularity: {0}".format(identify.granularity()))
-print("Compression: {0}".format(identify.compression()))
-print("Deleted record: {0}".format(identify.deletedRecord()))
-print("Admin Email: {0}".format(identify.adminEmails()))
-print("Descriptions: {0}".format(identify.descriptions()))
+        ###################################### Select Database
+        doc['id_jnl'] = ID
+        lib_oai_brapci.identify_register(doc)
+    except:
+        #Registra Log de fim de colheita
+        lib_oai_brapci.oai_log_register(ID,"Identify","404")
+    finally:
+        lib_oai_brapci.oai_log_register(ID,"Identify","2")
+        ## FIM
