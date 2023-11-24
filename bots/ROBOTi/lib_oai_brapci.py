@@ -124,6 +124,10 @@ def identify_register(doc):
     finally:
         cnx.commit()
 
+def jnl_oai_status(ID:str,status:str):
+    query = f"update brapci.source_source set jnl_oai_status = {status} where id_jnl = {ID}"
+    print(query)
+
 def oai_log_register(id:str, verb:str, status:str):
     cnx = oai_mysql()
     query = "insert into brapci_oaipmh.oai_logs "

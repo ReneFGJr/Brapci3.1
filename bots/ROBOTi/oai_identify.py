@@ -25,6 +25,7 @@ def harvesting(ID:str, URL:str):
     except:
         #Registra Log de fim de colheita
         print("ERRO DE COLETA")
+        lib_oai_brapci.jnl_oai_status(ID,"404")
         lib_oai_brapci.oai_log_register(ID,"Identify","404")
     finally:
         lib_oai_brapci.oai_log_register(ID,"Identify","2")
