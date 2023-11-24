@@ -126,7 +126,7 @@ def identify_register(doc):
 
 def oai_log_register(id:str, verb:str, status:str):
     cnx = oai_mysql()
-    query = "insert into oai_logs "
+    query = "insert into brapci_oai.oai_logs "
     query += "(log_id_jnl, log_verb, log_status)"
     query += " VALUES "
     query += "(%s,%s,%s)"
