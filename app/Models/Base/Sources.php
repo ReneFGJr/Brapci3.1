@@ -236,6 +236,9 @@ class Sources extends Model
                             case '100';
                                 $sta = '<span class="btn btn-success p-0 full">OK</span>';
                                 break;
+                            case '200';
+                                $sta = '<span class="btn btn-secondary p-0 full">HISTORICA</span>';
+                                break;
                             case '510';
                                 $sta = '<span class="btn btn-danger p-0 full">ERRO</span>';
                                 break;
