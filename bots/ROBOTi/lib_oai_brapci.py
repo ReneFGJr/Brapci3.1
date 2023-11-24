@@ -19,7 +19,7 @@ def getIDENTIFY():
     month = now_time.month
     query = f"select id_jnl,jnl_url_oai,jnl_name from brapci.source_source \n"
     query += f"where (jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> '') \n"
-    query += f" and ((month(`update_at`) <> {month}) or (update_at is null)) "
+    #query += f" and ((month(`update_at`) <> {month}) or (update_at is null)) "
     query += f" and (jnl_oai_status <> '100') "
     query += "order by update_at"
 
