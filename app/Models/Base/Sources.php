@@ -234,7 +234,7 @@ class Sources extends Model
                     switch($sta)
                         {
                             case '100';
-                                $sta = '<span class="btn btn-success">OK</span>';
+                                $sta = '<span class="btn btn-success p-0 full">OK</span>';
                                 break;
                         }
                     $sx .= bsc($sta, 1);
