@@ -21,20 +21,23 @@ def harvesting(ID:str, URL:str):
     ####################################### Read XML File
     try:
         identify = str(sickle.Identify())
-
-        ######################################### Read XML
-        doc = xmltodict.parse(identify)
-
-        ###################################### Select Database
-        doc['id_jnl'] = ID
-        lib_oai_brapci.identify_register(doc)
     except:
-        #Registra Log de fim de colheita
         print("ERRO DE COLETA")
         print(ID)
         print("##############")
         lib_oai_brapci.jnl_oai_status(ID,"404")
         lib_oai_brapci.oai_log_register(ID,"Identify","404")
+
+    ######################################### Read XML
+    try:
+        doc = xmltodict.parse(identify)
+        ###################################### Select Database
+        doc['id_jnl'] = ID
+        lib_oai_brapci.identify_register(doc)
+    except:
+        print("Erro no formato do arquivo Identify")
+        print(identify)
+        #Registra Log de fim de colheita
     finally:
         lib_oai_brapci.oai_log_register(ID,"Identify","2")
         ## FIM
