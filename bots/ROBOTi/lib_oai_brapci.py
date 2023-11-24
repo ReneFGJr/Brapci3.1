@@ -53,8 +53,6 @@ def identify_register(doc):
     adminEmail = doc['Identify']['adminEmail']
     earliestDatestamp = doc['Identify']['earliestDatestamp']
     deletedRecord = doc['Identify']['deletedRecord']
-    granularity = doc['Identify']['granularity']
-    compression = doc['Identify']['compression']
     delimiter = doc['Identify']['description'][0]['oai-identifier']['delimiter']
     sampleIdentifier = doc['Identify']['description'][0]['oai-identifier']['sampleIdentifier']
     tool = doc['Identify']['description'][1]['toolkit']['title']
