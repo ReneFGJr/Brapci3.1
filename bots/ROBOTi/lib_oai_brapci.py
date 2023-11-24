@@ -22,9 +22,13 @@ def getIDENTIFY():
     query += f" and ((month(`update_at`) <> {month}) or (update_at is null)) "
     query += f" and (jnl_oai_status <> '100') "
     query += "order by update_at"
+
+    print(query)
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     cursor.execute(query)
+
     row = cursor.fetchone()
     if (len(row) > 0):
        ID = row[0]
