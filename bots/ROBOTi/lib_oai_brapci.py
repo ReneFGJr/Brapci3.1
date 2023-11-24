@@ -127,7 +127,7 @@ def jnl_oai_status(ID:str,status:str):
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
-    cursor.executemany(query, vals)
+    cursor.execute(query)
     cnx.commit()
     return True
 
