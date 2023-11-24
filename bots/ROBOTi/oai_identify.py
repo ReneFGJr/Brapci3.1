@@ -27,6 +27,7 @@ def harvesting(ID:str, URL:str):
         print("##############")
         lib_oai_brapci.jnl_oai_status(ID,"404")
         lib_oai_brapci.oai_log_register(ID,"Identify","404")
+        return ""
 
     ######################################### Read XML
     try:
