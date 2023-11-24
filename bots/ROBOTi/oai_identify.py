@@ -10,7 +10,13 @@ def harvesting(ID:str, URL:str):
     lib_oai_brapci.oai_log_register(ID,"Identify","1")
 
     ####################################### Get XML from OAI-PMH
-    sickle = Sickle(URL)
+    try:
+        sickle = Sickle(URL)
+    except:
+        print("ERRO DE COLETA DA URL")
+        print(URL)
+        lib_oai_brapci.jnl_oai_status(ID,"500")
+        lib_oai_brapci.oai_log_register(ID,"Identify","500")
 
     ####################################### Read XML File
     try:
