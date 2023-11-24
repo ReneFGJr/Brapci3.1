@@ -236,6 +236,12 @@ class Sources extends Model
                             case '100';
                                 $sta = '<span class="btn btn-success p-0 full">OK</span>';
                                 break;
+                            case '510';
+                                $sta = '<span class="btn btn-danger p-0 full">ERRO</span>';
+                                break;
+                            case '404';
+                                $sta = '<span class="btn btn-warning p-0 full">ERRO</span>';
+                                break;
                         }
                     $sx .= bsc($sta, 1);
                 }
