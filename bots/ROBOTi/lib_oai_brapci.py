@@ -62,7 +62,7 @@ def identify_register(doc):
     scheme = doc['Identify']['description'][0]['oai-identifier']['scheme']
     update_time = datetime.datetime.now()
 
-    query = "select * from brapci_oai.oai_identify where hv_id_jnl = "+str(id_jnl)
+    query = "select * from brapci_oaipmh.oai_identify where hv_id_jnl = "+str(id_jnl)
     try:
         cnx = oai_mysql()
         cursor = cnx.cursor()
@@ -141,7 +141,6 @@ def oai_mysql():
     dbconfig = env.db()
 
     try:
-        #cnx = MySQLConnection(user= 'root', password= '448545ct', host= '127.0.0.1', database= 'brapci_oai', raise_on_warnings= True)
         cnx = MySQLConnection(**dbconfig)
     except MySQLConnection.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
