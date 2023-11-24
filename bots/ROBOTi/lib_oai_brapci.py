@@ -15,8 +15,12 @@ def updateIDENTIFY(ID):
     cnx.commit()
 
 def getIDENTIFY():
+    now_time = datetime.datetime.now()
+    month = now_time.month
     query = "select id_jnl,jnl_url_oai,jnl_name from brapci.source_source "
-    query += "where jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> ''"
+    query += "where (jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> '')"
+    query += f" and ((month(`update_at`) <> {month}) or (update_at is null)) "
+    query += f" and (jnl_oai_status <> '100') "
     query += "order by update_at"
     cnx = oai_mysql()
     cursor = cnx.cursor()
