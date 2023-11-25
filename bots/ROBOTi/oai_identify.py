@@ -26,7 +26,7 @@ def harvesting(ID:str, URL:str):
         print("ERRO DE COLETA")
         print(URL)
         print(ID)
-        print(identify)
+        #print(identify)
 
         print("##############")
         lib_oai_brapci.jnl_oai_status(ID,"404")
