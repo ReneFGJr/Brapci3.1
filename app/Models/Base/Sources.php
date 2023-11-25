@@ -274,7 +274,7 @@ class Sources extends Model
                     $sp .= '<td>'.($s.'<br><span class="h4">'.$total. '</span>'). '</td>';
                 }
             $sp .= '</tr></table>';
-            $sx = $sp . $sx;
+            $sx = bs($sp) . $sx;
             //pre($dt);
             return $sx;
         }
