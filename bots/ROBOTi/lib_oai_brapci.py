@@ -26,6 +26,10 @@ def getIDENTIFY():
     query += f" and (jnl_oai_status <> '100')"
     query += " or (jnl_oai_status = '404') "
     query += ")"
+    query += " and "
+    query += "("
+    query += "(jnl_collection = 'JA') or (jnl_collection = 'JE')"
+    query += ")"
     query += "order by update_at"
 
     cnx = oai_mysql()
