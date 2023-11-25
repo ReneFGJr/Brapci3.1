@@ -251,13 +251,13 @@ class Sources extends Model
                                 $sta = '<span class="btn btn-success p-0 full">OK</span>';
                                 break;
                             case '200';
-                                $sta = '<span class="btn btn-secondary p-0 full">HISTORICA</span>';
+                                $sta = '<span class="btn btn-secondary p-0 ful small">HISTORICA</span>';
                                 break;
                             case '510';
                                 $sta = '<span class="btn btn-danger p-0 full">ERRO</span>';
                                 break;
                             case '404';
-                                $sta = '<span class="btn btn-warning p-0 full">ERRO</span>';
+                                $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
                                 break;
                         }
                     $sx .= bsc($sta, 1);
