@@ -2,6 +2,7 @@ from mysql.connector import MySQLConnection, Error
 from mysql.connector import errorcode
 import datetime
 import codecs
+import xmltodict
 
 def roboti_versao():
     return "v0.23.11.24"
@@ -14,7 +15,6 @@ def updateIDENTIFY(ID):
     cursor.execute(query)
     cursor.close()
     cnx.commit()
-    print("Update IdentiFT")
 
 def getIDENTIFY():
     now_time = datetime.datetime.now()
@@ -193,3 +193,16 @@ def help_roboti():
     print("")
     print("run  - executa próxima tarefa programada")
     print("")
+
+def test():
+        v = '<Identify xmlns="http://www.openarchives.org/OAI/2.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><repositoryName>ENANCIB</repositoryName><baseURL>https://conferencias.ufsc.br/index.php/enancib/2019/oai</baseURL><protocolVersion>2.0</protocolVersion><adminEmail>enancib2019@gmail.com</adminEmail><earliestDatestamp>2019-09-09T13:36:58Z</earliestDatestamp><deletedRecord>no</deletedRecord><granularity>YYYY-MM-DDThh:mm:ssZ</granularity><compression>gzip</compression><compression>deflate</compression><description><oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier      http://www.openarchives.org/OAI/2.0/oai-identifier.xsd"><scheme>oai</scheme><repositoryIdentifier>ocsbu.sites.ufsc.br</repositoryIdentifier><delimiter>:</delimiter><sampleIdentifier>oai:ocsbu.sites.ufsc.br:paper/1</sampleIdentifier></oai-identifier></description></Identify>'
+        v2 = v.replace('xsi:schemaLocation="http://oai.dlib.vt.edu/OAI/metadata/toolkit http://oai.dlib.vt.edu/OAI/metadata/toolkit.xsd"','')
+        try:
+            doc = xmltodict.parse(v2)
+        except:
+            print("ERRRO NO DOC")
+            print(v)
+            print("=========================")
+            print(v2)
+        finally:
+            print("OK-X")

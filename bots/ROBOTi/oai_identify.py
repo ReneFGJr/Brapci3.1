@@ -21,10 +21,12 @@ def harvesting(ID:str, URL:str):
     ####################################### Read XML File
     try:
         identify = str(sickle.Identify())
+        identify = identify.replace('xsi:schemaLocation="http://oai.dlib.vt.edu/OAI/metadata/toolkit http://oai.dlib.vt.edu/OAI/metadata/toolkit.xsd"','')
     except:
         print("ERRO DE COLETA")
         print(URL)
         print(ID)
+
         print("##############")
         lib_oai_brapci.jnl_oai_status(ID,"404")
         lib_oai_brapci.oai_log_register(ID,"Identify","404")

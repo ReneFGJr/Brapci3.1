@@ -11,5 +11,7 @@ if (len(sys.argv) > 1):
 
         if ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
             ID = lib_oai_brapci.getIDENTIFY()
+    elif(parm[1] == 'tst'):
+        ID = lib_oai_brapci.test()
 else:
     print("Argumentos não informado, veja ROBOTi --help")
