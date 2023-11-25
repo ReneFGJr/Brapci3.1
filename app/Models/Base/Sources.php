@@ -271,7 +271,7 @@ class Sources extends Model
             $sp = '';
             foreach($stx as $s=>$total)
                 {
-                    $sp .= bsc($s.'<br>'.$total);
+                    $sp .= bsc($s.'<br><span class="h4">'.$total. '</span>');
                 }
             $sp = bs($sp);
             $sx = $sp . $sx;
