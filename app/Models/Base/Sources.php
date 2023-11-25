@@ -206,6 +206,8 @@ class Sources extends Model
 
             $dt = $this
                 ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl', 'left')
+                ->where('jnl_collection','JA')
+                ->ORwhere('jnl_collection', 'JE')
                 ->OrderBy($fldo)
                 ->findAll();
 
