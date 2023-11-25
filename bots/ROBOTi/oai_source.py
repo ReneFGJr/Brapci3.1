@@ -5,9 +5,8 @@ import xml.etree.ElementTree as ET
 
 import sys
 #sys.path.insert(0, '../')
-
-
 import env
+
 try:
   cnx = mysql.connector.connect(  user= env.config['user'], password=env.config['password'], host= env.config['host'], database= env.config['database'], raise_on_warnings= True)
 except mysql.connector.Error as err:

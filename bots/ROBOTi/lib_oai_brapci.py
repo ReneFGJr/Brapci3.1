@@ -1,6 +1,7 @@
 from mysql.connector import MySQLConnection, Error
 from mysql.connector import errorcode
 import datetime
+import codecs
 
 def roboti_versao():
     return "v0.23.11.24"
@@ -19,9 +20,14 @@ def getIDENTIFY():
     month = now_time.month
     query = f"select id_jnl,jnl_url_oai,jnl_name from brapci.source_source \n"
     query += f"where (jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> '') \n"
-    query += f" and ((month(`update_at`) <> {month}) or (update_at is null)) "
-    query += f" and (jnl_oai_status <> '100') "
+    query += f" and ("
+    query += f"((month(`update_at`) <> {month}) or (update_at is null)) "
+    query += f" and (jnl_oai_status <> '100')"
+    query += " or (jnl_oai_status = '404') "
+    query += ")"
     query += "order by update_at"
+
+    print(query)
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
@@ -35,13 +41,20 @@ def getIDENTIFY():
         return ""
 
     if (len(row) > 0):
-       ID = row[0]
-       URL = row[1]
+       ID = G(row[0])
+       URL = G(row[1])
        if ID > 0:
            import oai_identify
            updateIDENTIFY(ID)
            oai_identify.harvesting(ID,URL)
     return 0
+
+def G(V):
+    try:
+        V = V.decode()
+    except:
+        V = V
+    return V
 
 def next_action():
     query = "select * from brapci_bots.cron "
@@ -53,9 +66,14 @@ def next_action():
     row = cursor.fetchone()
     if (len(row) > 0):
         TASK = row[1]
+        try:
+            TASK = TASK.decode()
+        except:
+            TASK = row[1]
     else:
         TASK = 'none'
     return TASK
+
 
 def identify_register(doc):
     id_jnl = doc['id_jnl']

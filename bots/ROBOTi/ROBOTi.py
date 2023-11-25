@@ -1,4 +1,5 @@
-import sys
+import sys, str
+import env
 import lib_oai_brapci
 
 if (len(sys.argv) > 1):
@@ -7,8 +8,8 @@ if (len(sys.argv) > 1):
         lib_oai_brapci.help_roboti()
     elif(parm[1] == 'run'):
         act = lib_oai_brapci.next_action()
-        print("Task: "+act)
-        if (act == 'oai_identifty'):
+
+        if ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
             ID = lib_oai_brapci.getIDENTIFY()
 else:
     print("Argumentos não informado, veja ROBOTi --help")
