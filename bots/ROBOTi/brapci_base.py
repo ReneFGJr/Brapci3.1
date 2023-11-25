@@ -1,6 +1,7 @@
 from mysql.connector import MySQLConnection, Error
 from mysql.connector import errorcode
 import datetime
+import xmltodict
 
 sourceName = ''
 URL = ''
@@ -89,3 +90,81 @@ def G(V):
     except:
         V = V
     return V
+
+def identify_register(id_jnl,docXML):
+    ######################################### Read XML
+    try:
+        doc = xmltodict.parse(docXML)
+    except:
+        print("Erro ao converter o XML")
+        return False
+
+    doc = doc['OAI-PMH']
+    repositoryName = doc['Identify']['repositoryName']
+    baseURL = doc['Identify']['baseURL']
+    protocolVersion = doc['Identify']['protocolVersion']
+    adminEmail = doc['Identify']['adminEmail']
+    earliestDatestamp = doc['Identify']['earliestDatestamp']
+    deletedRecord = doc['Identify']['deletedRecord']
+    delimiter = doc['Identify']['description'][0]['oai-identifier']['delimiter']
+    sampleIdentifier = doc['Identify']['description'][0]['oai-identifier']['sampleIdentifier']
+    tool = doc['Identify']['description'][1]['toolkit']['title']
+    tool_version = doc['Identify']['description'][1]['toolkit']['version']
+    scheme = doc['Identify']['description'][0]['oai-identifier']['scheme']
+    update_time = datetime.datetime.now()
+    query = "select * from brapci_oaipmh.oai_identify where hv_id_jnl = "+str(id_jnl)
+
+    print(doc)
+    try:
+        cnx = oai_mysql()
+        cursor = cnx.cursor()
+        cursor.execute(query)
+        row = cursor.fetchone()
+        print(row)
+        if (row == None):
+            print("NOVO")
+            query = "insert into oai_identify "
+            query += "("
+            query += "hv_id_jnl, hv_repositoryName, hv_baseURL, hv_protocolVersion"
+            query += ",hv_adminEmail, hv_earliestDatestamp, hv_deletedRecord"
+            query += ",hv_scheme, hv_tool_source, hv_tool_version, hv_sampleIdentifier"
+            query += ",hv_delimiter, hv_updated"
+            query += ")"
+            query += " VALUES "
+            query += "("
+            query += "%s,%s,%s,%s"
+            query += ",%s,%s,%s"
+            query += ",%s,%s,%s,%s"
+            query += ",%s,%s"
+            query += ")"
+            vals = [(id_jnl,repositoryName,baseURL,protocolVersion,adminEmail,earliestDatestamp,deletedRecord,scheme,tool,tool_version,sampleIdentifier,delimiter,update_time)]
+            cursor = cnx.cursor()
+            cursor.executemany(query, vals)
+            cnx.commit()
+
+        else:
+            print("UPDATE")
+
+            query = "update oai_identify set "
+            query += f"hv_repositoryName = '{repositoryName}' , "
+            query += f"hv_baseURL = '{baseURL}' , "
+            query += f"hv_protocolVersion = '{protocolVersion}' , "
+            query += f"hv_adminEmail = '{adminEmail}' , "
+            query += f"hv_earliestDatestamp = '{earliestDatestamp}' , "
+            query += f"hv_deletedRecord = '{deletedRecord}' , "
+            query += f"hv_tool_source = '{tool}' , "
+            query += f"hv_tool_version = '{tool_version}' , "
+            query += f"hv_sampleIdentifier = '{sampleIdentifier}' , "
+            query += f"hv_delimiter = '{delimiter}' , "
+            query += f"hv_updated = '{update_time}' "
+            query += f"where hv_id_jnl = {id_jnl}"
+
+            cursor = cnx.cursor()
+            try:
+                cursor.execute(query)
+            except:
+                print("Erro ao atualizar a tabela Identify")
+            finally:
+                cursor.close()
+    except:
+        print("ERRO Processamento do XML")
