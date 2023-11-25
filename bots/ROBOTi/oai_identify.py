@@ -31,9 +31,6 @@ def harvesting(ID:str, URL:str):
         identify = identify.replace(' >','>')
         identify = identify.replace(' >','>')
         identify = identify.replace(' >','>')
-        identify = identify.replace(' >','>')
-        identify = identify.replace(' >','>')
-        identify = identify.replace(' >','>')
     except:
         print("ERRO DE COLETA")
         print(URL)
