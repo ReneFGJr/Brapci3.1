@@ -205,11 +205,14 @@ class Sources extends Model
             $sa .= h('URL: ' . anchor($dt['jnl_url']), 6);
             $sa .= h('URL OAI: '.anchor($dt['jnl_url_oai']), 6);
             $sa .= h($dt['jnl_oai_last_harvesting'], 6);
+            $sa .= h('Updated: ' . stodbr($dt['update_at']), 6);
+
             $sa .= h('Status: ' . $dt['jnl_oai_status'], 6);
             $sa .= h($dt['jnl_oai_to_harvesting'], 6);
             $sa .= h('Collection: '.$dt['jnl_collection'], 6);
             $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
             $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
+
 
             $sx .= bsc($sa,10);
             $sx .= bsc($sb,2);
