@@ -236,9 +236,9 @@ class Sources extends Model
 
                     if (isset($stx[$sta]))
                         {
-                            $stx[$sta] = $stx[$sta] + 1
+                            $stx[$sta] = $stx[$sta] + 1;
                         } else {
-                            $stx[$sta] = 1
+                            $stx[$sta] = 1;
                         }
 
                     switch($sta)
