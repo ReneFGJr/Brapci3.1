@@ -35,7 +35,8 @@ def getIdentify(ID,URL):
         else:
             updateSource(ID,'501')
     else:
-        print("ERRO")
+        print("ERRO NA RECUPERACAO")
+        print(xml)
 
 ######################################### IdentifyProcess
 def IdentifyProcess(ID,xml):
