@@ -212,6 +212,7 @@ class Sources extends Model
             $xlb = '';
 
             $stx = [];
+            $tt = 0;
 
             foreach($dt as $id=>$line)
                 {
@@ -222,7 +223,8 @@ class Sources extends Model
                             $sx .= h($xlb,4);
                         }
                     $link = anchor(PATH . '/v/' . $line['jnl_frbr'], $line['jnl_name']);
-                    $sx .= bsc($link,9);
+                    $tt++;
+                    $sx .= bsc($tt.'. '.$link,9);
 
                     $link = '';
                     if ($Socials->perfil('#ADM'))
