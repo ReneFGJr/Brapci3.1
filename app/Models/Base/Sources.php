@@ -231,10 +231,10 @@ class Sources extends Model
                     $link = '';
                     if ($Socials->perfil('#ADM'))
                         {
-                            $link = anchor(PATH . '/journals/check/' . $line['jnl_frbr'], '(check)', 'target="_black" ');
+                            //$link = anchor(PATH . '/journals/check/' . $line['jnl_frbr'], '(check)', 'target="_black" ');
                         }
 
-                    $sx .= bsc($link,1);
+                    $sx .= bsc('',1);
                     $sx .= bsc($line['year'], 1);
                     $sta = $line['jnl_oai_status'];
 
