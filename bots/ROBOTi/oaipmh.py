@@ -46,6 +46,8 @@ def IdentifyProcess(ID,xml):
         print("XML OK")
     except:
         print("Erro ao Abrir o XML")
+        print(xml)
+
 
 def updateSource(ID,status):
     global sourceName
