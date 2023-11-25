@@ -56,6 +56,8 @@ def getNextIdentify():
     query += f"((month(`update_at`) <> {month}) or (update_at is null)) "
     query += f" and (jnl_oai_status <> '100')"
     query += " or (jnl_oai_status = '404') "
+    query += " or (jnl_oai_status = '500') "
+    query += " or (jnl_oai_status = '501') "
     query += ") and ("
     query += "(jnl_collection = 'JA') or (jnl_collection = 'JE')"
     query += ")"
