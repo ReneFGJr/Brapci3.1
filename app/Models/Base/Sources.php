@@ -211,6 +211,8 @@ class Sources extends Model
 
             $xlb = '';
 
+            $stx = [];
+
             foreach($dt as $id=>$line)
                 {
                     $lb = $line[$fld];
@@ -231,6 +233,14 @@ class Sources extends Model
                     $sx .= bsc($link,1);
                     $sx .= bsc($line['year'], 1);
                     $sta = $line['jnl_oai_status'];
+
+                    if (isset($stx[$sta]))
+                        {
+                            $stx[$sta] = $stx[$sta] + 1
+                        } else {
+                            $stx[$sta] = 1
+                        }
+
                     switch($sta)
                         {
                             case '100';
@@ -252,6 +262,15 @@ class Sources extends Model
             $link = anchor(PATH . '/journals/check/0/auto', '(checkall)', 'target="_black" ');
             $sx .= $link;
             $sx = bs($sx);
+
+            /************ Painel */
+            $sp = '';
+            foreach($stx as $s=>$total)
+                {
+                    $sp .= bsc($s.'<br>'.$total);
+                }
+            $sp = bs($sp);
+            $sx = $sp . $sx;
             //pre($dt);
             return $sx;
         }
