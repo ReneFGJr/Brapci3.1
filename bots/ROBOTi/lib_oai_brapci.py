@@ -15,13 +15,25 @@ def updateIDENTIFY(ID):
     cnx.commit()
 
 def getIDENTIFY():
-    query = "select id_jnl,jnl_url_oai,jnl_name from brapci.source_source "
-    query += "where jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> ''"
+    now_time = datetime.datetime.now()
+    month = now_time.month
+    query = f"select id_jnl,jnl_url_oai,jnl_name from brapci.source_source \n"
+    query += f"where (jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> '') \n"
+    query += f" and ((month(`update_at`) <> {month}) or (update_at is null)) "
+    query += f" and (jnl_oai_status <> '100') "
     query += "order by update_at"
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     cursor.execute(query)
+
     row = cursor.fetchone()
+
+    ################# Fim da Coleta
+    if row == None:
+        print("Nada para coletar")
+        return ""
+
     if (len(row) > 0):
        ID = row[0]
        URL = row[1]
@@ -53,8 +65,6 @@ def identify_register(doc):
     adminEmail = doc['Identify']['adminEmail']
     earliestDatestamp = doc['Identify']['earliestDatestamp']
     deletedRecord = doc['Identify']['deletedRecord']
-    granularity = doc['Identify']['granularity']
-    compression = doc['Identify']['compression']
     delimiter = doc['Identify']['description'][0]['oai-identifier']['delimiter']
     sampleIdentifier = doc['Identify']['description'][0]['oai-identifier']['sampleIdentifier']
     tool = doc['Identify']['description'][1]['toolkit']['title']
@@ -123,6 +133,15 @@ def identify_register(doc):
         print(e)
     finally:
         cnx.commit()
+
+def jnl_oai_status(ID:str,status:str):
+    query = f"update brapci.source_source set jnl_oai_status = {status} where id_jnl = {ID}"
+
+    cnx = oai_mysql()
+    cursor = cnx.cursor()
+    cursor.execute(query)
+    cnx.commit()
+    return True
 
 def oai_log_register(id:str, verb:str, status:str):
     cnx = oai_mysql()
