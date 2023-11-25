@@ -75,6 +75,10 @@ class Sources extends Model
                 $sx = $this->menu();
                 break;
 
+            case 'view':
+                    $sx = $this->view($d2);
+                break;
+
             case 'list':
                 switch($d2)
                     {
@@ -182,6 +186,36 @@ class Sources extends Model
             ->OrderBy('jnl_name')
             ->findAll();
             return json_encode($dt);
+        }
+
+    function view($id)
+        {
+            $dt = $this->where('id_jnl',$id)->first();
+
+            $sa = '';
+            $sb = '';
+            $sx = '';
+            $sa .= h($dt['jnl_name'],3);
+            $sa .= h($dt['jnl_name_abrev'], 5);
+            $sa .= h('ISSN: ' . $dt['jnl_issn'],6);
+            $sa .= h('eISSN: ' . $dt['jnl_eissn'], 6);
+            $sa .= h('Periodicidade: ' . $dt['jnl_periodicidade'], 6);
+            $sa .= h('Ano Início: ' . $dt['jnl_ano_inicio'], 6);
+            $sa .= h('Ano Final: ' . $dt['jnl_ano_final'], 6);
+            $sa .= h('URL: ' . anchor($dt['jnl_url']), 6);
+            $sa .= h('URL OAI: '.anchor($dt['jnl_url_oai']), 6);
+            $sa .= h($dt['jnl_oai_last_harvesting'], 6);
+            $sa .= h('Status: ' . $dt['jnl_oai_status'], 6);
+            $sa .= h($dt['jnl_oai_to_harvesting'], 6);
+            $sa .= h('Collection: '.$dt['jnl_collection'], 6);
+            $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
+            $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
+
+            $sx .= bsc($sa,10);
+            $sx .= bsc($sb,2);
+
+            $sx = bs($sx);
+            return $sx;
         }
 
     function list($type='')
