@@ -224,7 +224,7 @@ class Sources extends Model
                             $xlb = $lb;
                             $sx .= h($xlb,4);
                         }
-                    $link = anchor(PATH . '/v/' . $line['jnl_frbr'], $line['jnl_name']);
+                    $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
                     $tt++;
                     $sx .= bsc($tt.'. '.$link,9);
 
@@ -263,8 +263,6 @@ class Sources extends Model
                     $sx .= bsc($sta, 1);
                 }
 
-            $link = anchor(PATH . '/journals/check/0/auto', '(checkall)', 'target="_black" ');
-            $sx .= $link;
             $sx = bs($sx);
 
             /************ Painel */
