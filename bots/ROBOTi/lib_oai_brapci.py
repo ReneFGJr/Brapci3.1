@@ -14,6 +14,7 @@ def updateIDENTIFY(ID):
     cursor.execute(query)
     cursor.close()
     cnx.commit()
+    print("Update IdentiFT")
 
 def getIDENTIFY():
     now_time = datetime.datetime.now()
@@ -26,8 +27,6 @@ def getIDENTIFY():
     query += " or (jnl_oai_status = '404') "
     query += ")"
     query += "order by update_at"
-
-    print(query)
 
     cnx = oai_mysql()
     cursor = cnx.cursor()

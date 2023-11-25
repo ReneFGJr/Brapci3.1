@@ -1,4 +1,4 @@
-import sys, str
+import sys
 import env
 import lib_oai_brapci
 
