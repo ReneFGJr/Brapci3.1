@@ -268,12 +268,12 @@ class Sources extends Model
             $sx = bs($sx);
 
             /************ Painel */
-            $sp = '';
+            $sp = '<table class="table full"><tr>';
             foreach($stx as $s=>$total)
                 {
-                    $sp .= bsc($s.'<br><span class="h4">'.$total. '</span>');
+                    $sp .= '<td>'.($s.'<br><span class="h4">'.$total. '</span>'). '</td>';
                 }
-            $sp = bs($sp);
+            $sp = '</tr></table>';
             $sx = $sp . $sx;
             //pre($dt);
             return $sx;
