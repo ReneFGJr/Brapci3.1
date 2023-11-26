@@ -114,7 +114,6 @@ def identify_register(id_jnl,docXML):
     update_time = datetime.datetime.now()
     query = "select * from brapci_oaipmh.oai_identify where hv_id_jnl = "+str(id_jnl)
 
-    print(doc)
     try:
         cnx = oai_mysql()
         cursor = cnx.cursor()
