@@ -140,7 +140,7 @@ def identify_register(id_jnl,docXML):
             cursor = cnx.cursor()
             cursor.executemany(query, vals)
             cnx.commit()
-
+            oaipmh.updateSource(ID,'100')
         else:
             print("UPDATE")
 
@@ -161,6 +161,7 @@ def identify_register(id_jnl,docXML):
             cursor = cnx.cursor()
             try:
                 cursor.execute(query)
+                oaipmh.updateSource(ID,'100')
             except:
                 print("Erro ao atualizar a tabela Identify")
             finally:
