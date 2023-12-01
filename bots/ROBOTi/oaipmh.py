@@ -5,6 +5,11 @@ import xmltodict
 import datetime
 import requests
 
+#MODULO - OAIPHM
+#AUTHOR: Rene Faustino Gabriel Junior
+#DATA: 2023-12-01
+#VERSÂO: 2
+
 
 URL = "https://"
 
@@ -37,6 +42,7 @@ def getIdentify(ID,URL):
             updateSource(ID,'501')
     else:
         print("ERRO NA RECUPERACAO")
+        print("OAIPHM-getIdentify-len")
         print(xml)
 
 ######################################### IdentifyProcess
