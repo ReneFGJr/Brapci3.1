@@ -30,6 +30,7 @@ def identify():
         try:
             return cnt.text
         except:
+            print(f"... cnt.text empty - OAIPMH - Identify")
             return ""
 
 def getIdentify(ID,URL):
@@ -43,8 +44,7 @@ def getIdentify(ID,URL):
         else:
             updateSource(ID,'501')
     else:
-        print("ERRO NA RECUPERACAO")
-        print("OAIPHM-getIdentify-len")
+        print("ERRO OAIPHM-getIdentify-len")
         print(xml)
 
 ######################################### IdentifyProcess
