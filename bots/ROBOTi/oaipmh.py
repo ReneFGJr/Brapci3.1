@@ -19,10 +19,11 @@ def url(LINK:str):
 
 def identify():
     LINK = URL + '?verb=Identify'
-    print(f"... Recuperando {LINK}")
+    print(f"... Recuperando {LINK} - OAIPMH - Identify")
     try:
         cnt = requests.get(LINK)
     except:
+        print(f"... Erro request - OAIPMH - Identify")
         return ""
     finally:
         try:
