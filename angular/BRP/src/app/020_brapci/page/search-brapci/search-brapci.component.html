@@ -23,7 +23,7 @@
 
     <div class="form-group container" >
       <div class="row">
-        <div class="col-1">
+        <div class="col-3 col-sm-1">
           <span class="small bold">Ano Inicial</span>
           <select id="year_start" formControlName="year_start" class="form-control">
             <option *ngFor="let year of yearsI" value="{{ year.name }}">
@@ -32,7 +32,7 @@
           </select>
         </div>
 
-        <div class="col-1">
+        <div class="col-3 col-sm-1">
           <span class="small bold">Ano Final</span>
           <select id="year_end" formControlName="year_end" class="form-control">
             <option *ngFor="let year of yearsF" id="year_end" value="{{ year.name }}">
