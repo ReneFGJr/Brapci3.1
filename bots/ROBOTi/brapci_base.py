@@ -45,7 +45,7 @@ def next_action():
 
 
     TASK = 'none'
-    if ((row != 'None') and (row != 'NoneType'):
+    if ((row != 'None') and (row != 'NoneType')):
         if (len(row) > 0):
             TASK = row[1]
             try:
