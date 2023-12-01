@@ -293,12 +293,19 @@ class Sources extends Model
                             case '510';
                                 $sta = '<span class="btn btn-danger p-0 full">ERRO</span>';
                                 break;
+                            case '510';
+                                $sta = '<span class="btn btn-danger p-0 full">501</span>';
+                                break;
                             case '404';
                                 $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
                                 break;
                         }
                     $sx .= bsc($sta, 1);
                 }
+
+            $sx .= '<li>404 - Page not found</li>';
+            $sx .= '<li>501 - Content empty</li>';
+            $sx .= '<li>510 - Process Content error</li>';
 
             $sx = bs($sx);
 
