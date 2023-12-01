@@ -20,7 +20,7 @@ def getNextIdentify():
         oaipmh.updateSource(ID,'404')
         oaipmh.getIdentify(ID,brapci_base.URL)
     else:
-        print("Nada para coletar")
+        print("getNextIdentify - Nada para coletar")
 
 def getIDENTIFY():
     print(version())
