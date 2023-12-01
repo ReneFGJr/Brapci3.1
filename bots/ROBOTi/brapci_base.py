@@ -59,6 +59,8 @@ def getNextIdentify():
     query += f"((month(`update_at`) <> {month}) or (update_at is null)) "
     query += "order by update_at"
 
+    print(query)
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     cursor.execute(query)
