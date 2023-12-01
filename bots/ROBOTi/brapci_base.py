@@ -52,14 +52,13 @@ def getNextIdentify():
     now_time = datetime.datetime.now()
     month = now_time.month
     query = f"select id_jnl,jnl_url_oai,jnl_name from brapci.source_source \n"
-    query += f"where (jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> '') \n"
-    query += " and "
-    query += "(jnl_collection = 'JA') or (jnl_collection = 'JE')"
+    query += f"where \n"
+    query += f"(jnl_historic = 0 and jnl_active = 1 and jnl_url_oai <> '') \n"
+    query += " and \n"
+    query += "((jnl_collection = 'JA') or (jnl_collection = 'JE')) \n"
     query += f" and \n"
     query += f"(((month(`update_at`) <> {month}) or (update_at is null)) and (jnl_oai_status <> '100'))"
     query += "order by update_at"
-
-    print(query)
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
