@@ -23,7 +23,14 @@ def getNextIdentify():
         print("getNextIdentify - Nada para coletar")
 
 def getNextListIdentifier():
-    ID = brapci_base.getNextListIdentifier()
+    ROW = brapci_base.getNextListIdentifier()
+    try:
+        print("=x=>")
+        ID = ROW[0]
+        print(ID)
+        brapci_base.updateOaiIdentify(ID)
+    except:
+        print("ROBOTi - [ERRO] getNextListIdentifier")
 
 def getIDENTIFY():
     print(version())
