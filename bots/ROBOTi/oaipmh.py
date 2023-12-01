@@ -23,6 +23,7 @@ def identify():
     try:
         cnt = requests.get(LINK)
     except:
+        print(cnt.status_code)
         print(f"... Erro request - OAIPMH - Identify")
         return ""
     finally:
