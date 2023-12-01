@@ -291,10 +291,10 @@ class Sources extends Model
                                 $sta = '<span class="btn btn-secondary p-0 ful small">HISTORICA</span>';
                                 break;
                             case '510';
-                                $sta = '<span class="btn btn-danger p-0 full">ERRO</span>';
+                                $sta = '<span class="btn btn-danger p-0 full">ERRO 510</span>';
                                 break;
-                            case '510';
-                                $sta = '<span class="btn btn-danger p-0 full">501</span>';
+                            case '501';
+                                $sta = '<span class="btn btn-danger p-0 full">EERO 501</span>';
                                 break;
                             case '404';
                                 $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
