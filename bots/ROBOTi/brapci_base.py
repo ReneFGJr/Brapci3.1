@@ -69,7 +69,7 @@ def getNextIdentify():
     ################# Fim da Coleta
     if row == None:
         print("Nada para coletar")
-        return ""
+        return 0
 
     if (len(row) > 0):
        ID = G(row[0])
