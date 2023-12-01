@@ -2,6 +2,7 @@ from mysql.connector import MySQLConnection, Error
 from mysql.connector import errorcode
 import datetime
 import xmltodict
+import oaipmh
 
 sourceName = ''
 URL = ''
@@ -159,7 +160,7 @@ def identify_register(id_jnl,docXML):
                 cursor.execute(query)
                 oaipmh.updateSource(ID,'100')
             except:
-                print("Erro ao atualizar a tabela Identify")
+                print("Brapci-base - identify_register - Erro ao atualizar a tabela Identify")
             finally:
                 cursor.close()
     except:
