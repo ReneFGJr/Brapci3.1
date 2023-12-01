@@ -294,7 +294,7 @@ class Sources extends Model
                                 $sta = '<span class="btn btn-danger p-0 full">ERRO 510</span>';
                                 break;
                             case '501';
-                                $sta = '<span class="btn btn-warnig p-0 full">EERO 501</span>';
+                                $sta = '<span class="btn btn-warning p-0 full">ERRO 501</span>';
                                 break;
                             case '404';
                                 $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
