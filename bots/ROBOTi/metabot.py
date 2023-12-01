@@ -22,6 +22,9 @@ def getNextIdentify():
     else:
         print("getNextIdentify - Nada para coletar")
 
+def getNextListIdentifier():
+    ID = brapci_base.getNextListIdentifier()
+
 def getIDENTIFY():
     print(version())
     print("getIDENTIFY")

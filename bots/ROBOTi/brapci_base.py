@@ -1,5 +1,6 @@
 from mysql.connector import MySQLConnection, Error
 from mysql.connector import errorcode
+from pathlib import Path
 import datetime
 import xmltodict
 import oaipmh
@@ -30,22 +31,37 @@ def oai_mysql():
     return cnx
 
 def next_action():
+    now_time = datetime.datetime.now()
+    day = now_time.day
+
     query = "select * from brapci_bots.cron "
     query += "where cron_exec = 'python' "
-    query += ""
+    query += f"and ((cron_day = 0) or (cron_day = {day}))"
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     cursor.execute(query)
     row = cursor.fetchone()
-    if (len(row) > 0):
-        TASK = row[1]
-        try:
-            TASK = TASK.decode()
-        except:
+
+
+    TASK = 'none'
+    if (row != 'None'):
+        if (len(row) > 0):
             TASK = row[1]
-    else:
-        TASK = 'none'
+            try:
+                TASK = TASK.decode()
+            except:
+                TASK = row[1]
     return TASK
+
+def getNextListIdentifier():
+    global sourceName
+    global URL
+    query = f"select id_jnl,jnl_url_oai,jnl_name from brapci_oaipmh.oai_identify \n"
+    query += ' limit 1'
+    query += "order by update_at"
+    print(query)
+
 
 def getNextIdentify():
     global sourceName
@@ -165,3 +181,21 @@ def identify_register(id_jnl,docXML):
                 cursor.close()
     except:
         print("ERRO Processamento do XML")
+
+def dbtest():
+    print(".Brapci_base.dbtest.recuperando env.py")
+    file_exist = Path("env.py")
+
+    if file_exist.exists():
+        print("..O arquivo 'env.py' existe!")
+    else:
+        print("..[ERRO] O arquivo 'env.py' NÂO existe. Copie o modelo env.py.sample para env.py e modifique-o")
+
+    ######### Banco de Dados
+    print(".Brapci_base.dbtest.conectando com o Banco MySQL")
+    try:
+        cnt = oai_mysql()
+    except:
+        print("..[ERRO] Não foi possível conectar ao banco MySQL")
+    finally:
+        print("..Conexão OK")
