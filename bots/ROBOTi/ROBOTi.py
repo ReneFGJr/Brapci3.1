@@ -17,6 +17,8 @@ if (len(sys.argv) > 1):
         act = brapci_base.next_action()
 
         ####################################### GET
+        if (act == 'none'):
+            print("Sem ações agendada")
         if ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
             import metabot
             metabot.getNextIdentify()
