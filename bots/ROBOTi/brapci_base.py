@@ -45,14 +45,14 @@ def next_action():
 
 
     TASK = 'none'
-    if ((row != 'None') and (row != 'NoneType')):
-        print(row)
-        if (len(row) > 0):
+    try:
+        TASK = row[1]
+        try:
+            TASK = TASK.decode()
+        except:
             TASK = row[1]
-            try:
-                TASK = TASK.decode()
-            except:
-                TASK = row[1]
+    except:
+        TASK = 'none'
     return TASK
 
 def getNextListIdentifier():
