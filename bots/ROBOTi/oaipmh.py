@@ -42,7 +42,6 @@ def getIdentify(ID,URL):
         updateSource(ID,'500')
         if IdentifyProcess(ID,xml):
             updateSource(ID,'100')
-
         else:
             updateSource(ID,'501')
     else:
@@ -57,9 +56,11 @@ def IdentifyProcess(ID,xml):
         print("HELLO PRP")
         brapci_base.identify_register(ID,xml)
         print("XML OK")
+        return True
     except:
         print("Erro ao Abrir o XML")
         print(xml)
+        return False
 
 
 def updateSource(ID,status):
