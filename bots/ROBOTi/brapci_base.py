@@ -60,6 +60,7 @@ def getNextIdentify():
     query += "order by update_at"
 
     print(query)
+    XXXX
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
