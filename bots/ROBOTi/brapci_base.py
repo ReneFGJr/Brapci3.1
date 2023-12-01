@@ -60,7 +60,7 @@ def updateOaiIdentify(ID):
     data = now_time.strftime("%Y-%m-%d")
     query = f"update brapci_oaipmh.oai_identify \n"
     query += " set hv_updated_harvesting = '{data}' \n "
-    query += " where hv_id_jnl = {ID}"
+    query += f" where hv_id_jnl = {ID}"
     cnx = oai_mysql()
     cursor = cnx.cursor()
     try:
