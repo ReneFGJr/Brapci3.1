@@ -27,7 +27,6 @@ def identify():
         print(f"... Erro request - OAIPMH - Identify")
         return ""
     finally:
-        print(cnt.status_code)
         try:
             return cnt.text
         except:
