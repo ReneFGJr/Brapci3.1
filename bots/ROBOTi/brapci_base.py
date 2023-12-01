@@ -56,11 +56,10 @@ def getNextIdentify():
     query += " and "
     query += "(jnl_collection = 'JA') or (jnl_collection = 'JE')"
     query += f" and \n"
-    query += f"((month(`update_at`) <> {month}) or (update_at is null)) "
+    query += f"(((month(`update_at`) <> {month}) or (update_at is null)) and (jnl_oai_status <> '100'))"
     query += "order by update_at"
 
     print(query)
-    XXXX
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
