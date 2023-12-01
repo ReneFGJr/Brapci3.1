@@ -19,7 +19,7 @@ if (len(sys.argv) > 1):
         ####################################### GET
         if (act == 'none'):
             print("Sem ações agendada")
-        if ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
+        elif ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
             import metabot
             metabot.getNextIdentify()
         elif ((act == 'oai_listidentifiers') or (act == bytearray(b'oai_listidentifiers'))):
