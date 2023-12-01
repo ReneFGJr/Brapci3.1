@@ -21,7 +21,9 @@ def identify():
     LINK = URL + '?verb=Identify'
     print(f"... Recuperando {LINK} - OAIPMH - Identify")
     try:
-        cnt = requests.get(LINK)
+        cnt = requests.get(LINK,verify=False)
+    except requests.exceptions.SSLError:
+        pass
     except:
         print(cnt.status_code)
         print(f"... Erro request - OAIPMH - Identify")
