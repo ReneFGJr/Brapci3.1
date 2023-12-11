@@ -59,8 +59,12 @@ class Book extends Model
         switch($d2)
             {
                 case 'submit':
-                    $PS = array_merge($_POST,$_GET);
-                    echo json_encode($PS);
+                    $PS = array_merge($_POST, $_GET);
+                    $booksSubmit = new \App\Models\Books\BooksSubmit();
+                    $booksSubmit->register($PS);
+                    $dt=[];
+                    $dt['status'] = '200';
+                    $dt['message'] = 'Registro salvo';
                     break;
                 default:
                     $ISBN = new \App\Models\Functions\ISBN();
