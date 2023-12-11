@@ -66,7 +66,7 @@ class LabelPrint extends Model
                         $mpdf->AddPageByArray([
                             'margin-left' => 0,
                             'margin-right' => 0,
-                            'margin-top' => 5,
+                            'margin-top' => 10,
                             'margin-bottom' => 5,
                         ]);
                         $html = view('BrapciBooks/Labels/pimaco_a4255.html',$dt);
