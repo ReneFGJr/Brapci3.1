@@ -65,6 +65,8 @@ class Book extends Model
                     $dt=[];
                     $dt['status'] = '200';
                     $dt['message'] = 'Registro salvo';
+                    echo json_encode($dt);
+                    exit;
                     break;
                 default:
                     $ISBN = new \App\Models\Functions\ISBN();
