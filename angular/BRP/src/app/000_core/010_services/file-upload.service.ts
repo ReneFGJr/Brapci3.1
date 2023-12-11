@@ -13,6 +13,8 @@ export class FileUploadService {
   upload(file:any): Observable<any> {
     // Create form data
     const formData = new FormData();
+    console.log("==========FILE")
+    console.log(file)
 
     // Store form name as "file" with file data
     formData.append('file', file, file.name);

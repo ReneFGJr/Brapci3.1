@@ -102,7 +102,7 @@ class Brapci extends Model
         echo json_encode($RSP);
         exit;
     }
-
+    /******************************* UPLOAD */
     function upload()
     {
         $RSP = [];
@@ -118,7 +118,7 @@ class Brapci extends Model
             $file = $_FILES['file']['name'];
             $RSP = $TechinalProceessing->upload($file, $tmp);
             $RSP['message'] = 'Sucesso';
-            $RSP['fileID'] = 1;
+            //$RSP['fileID'] = 1;
         } else {
             $RSP['status'] = '500';
             $RSP['message'] = 'Erro na leitura do arquivos enviado';

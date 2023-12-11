@@ -49,8 +49,11 @@ class BooksSubmit extends Model
             $PSj = json_encode($PS);
             $dt = [];
             $dt['bs_post'] = $PSj;
-            $dt['bs_title'] = $PS['b_titulo'];
-            $dt['b_isbn'] = $PS['b_isbn'];
+            if (isset($PS['b_titulo']))
+                {
+                    $dt['bs_title'] = $PS['b_titulo'];
+                    $dt['b_isbn'] = $PS['b_isbn'];
+                }
             $this->set($dt)->insert();
         }
 }
