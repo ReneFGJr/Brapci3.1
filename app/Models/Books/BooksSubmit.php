@@ -15,7 +15,8 @@ class BooksSubmit extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_bs', 'bs_post', 'bs_status'
+        'id_bs', 'bs_post', 'bs_status',
+        'bs_title', 'b_isbn'
     ];
 
     // Dates
@@ -48,6 +49,8 @@ class BooksSubmit extends Model
             $PS = json_encode($PS);
             $dt = [];
             $dt['bs_post'] = $PS;
+            $dt['bs_title'] = $PS['b_titulo'];
+            $dt['b_isbn'] = $PS['b_isbn'];
             $this->set($dt)->insert();
         }
 }
