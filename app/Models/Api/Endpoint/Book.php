@@ -52,6 +52,10 @@ class Book extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
+        header('Access-Control-Allow-Origin: *');
+        if (get("test") == '') {
+            header("Content-Type: application/json");
+        }
         switch($d2)
             {
                 case 'submit':
