@@ -53,9 +53,9 @@ class LabelPrint extends Model
         {
             $dt = [];
             $da = [];
-            for ($r=0;$r < 200;$r++)
+            for ($r=0;$r < 27;$r++)
                 {
-                    array_push($da,['ln1'=>'205.10','ln2'=>'A123A']);
+                    array_push($da,['ln1'=>'205.'.$r,'ln2'=>'A123A']);
                 }
             $dt['labels'] = $da;
 
@@ -63,7 +63,13 @@ class LabelPrint extends Model
                 {
                     case 'test':
                         $mpdf = new \Mpdf\Mpdf();
-                        $html = view('BrapciBooks/Labels/pimax_01.html',$dt);
+                        $mpdf->AddPageByArray([
+                            'margin-left' => 0,
+                            'margin-right' => 0,
+                            'margin-top' => 5,
+                            'margin-bottom' => 5,
+                        ]);
+                        $html = view('BrapciBooks/Labels/pimaco_a4255.html',$dt);
                         $mpdf->WriteHTML($html);
                         header("Content-type:application/pdf");
                         $mpdf->Output('labels.pdf','I'); // opens in browser
