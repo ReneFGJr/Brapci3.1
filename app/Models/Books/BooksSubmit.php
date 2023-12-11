@@ -48,6 +48,6 @@ class BooksSubmit extends Model
             $PS = json_encode($PS);
             $dt = [];
             $dt['bs_post'] = $PS;
-            this->set($dt)->insert();
+            $this->set($dt)->insert();
         }
 }
