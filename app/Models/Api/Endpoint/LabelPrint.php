@@ -15,9 +15,9 @@ use CodeIgniter\Model;
 
 class LabelPrint extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'labelprints';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'books';
+    protected $table            = 'find_labels_model';
+    protected $primaryKey       = 'id_lb';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
