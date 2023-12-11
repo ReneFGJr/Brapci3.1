@@ -59,7 +59,8 @@ class Book extends Model
         switch($d2)
             {
                 case 'submit':
-                    echo json_encode($_POST);
+                    $PS = array_merge($_POST,$_GET);
+                    echo json_encode($PS);
                     break;
                 default:
                     $ISBN = new \App\Models\Functions\ISBN();
