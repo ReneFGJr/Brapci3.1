@@ -139,15 +139,13 @@ export class BookSubmitFormComponent {
     if (this.FormBook.status == 'VALID') {
       this.dt = this.FormBook.value;
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
-        console.log(res);
         this.books = res;
       });
     }
   }
 
   addPDF(newItem: string) {
-    console.log('=========FILE=======');
-    console.log(newItem);
     this.FormBook.controls['b_pdf'].setValue(newItem);
+    console.log("Botão addPDF")
   }
 }

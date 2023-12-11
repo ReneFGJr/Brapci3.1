@@ -65,6 +65,7 @@ class Book extends Model
                     $dt=[];
                     $dt['status'] = '200';
                     $dt['message'] = 'Registro salvo';
+                    $dt['data'] = $PS;
                     echo json_encode($dt);
                     exit;
                     break;

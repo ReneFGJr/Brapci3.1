@@ -26,9 +26,9 @@ export class UploadFileComponent {
   onUpload() {
     this.loading = !this.loading;
     this.fileUploadService.upload(this.file).subscribe((event: any) => {
-      console.log(event)
-      this.newItemEvent.emit(event.idf);
-      this.shortLink = 'ok';
+      console.log("======FILE=1======")
+      this.newItemEvent.emit(event);
+      console.log('======FILE=2======');
     });
   }
 }
