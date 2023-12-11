@@ -25,6 +25,9 @@ if (len(sys.argv) > 1):
         elif ((act == 'oai_listidentifiers') or (act == bytearray(b'oai_listidentifiers'))):
             import metabot
             metabot.getNextListIdentifier()
+        elif ((act == 'translate') or (act == bytearray(b'translate'))):
+            import translate
+            translate.translateNext()
         else:
             print(f".ROBOTi - Action not recognized {act}")
     elif(parm[1] == 'dbtest'):

@@ -52,11 +52,17 @@ class Book extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
-        $ISBN = new \App\Models\Functions\ISBN();
-        $isbn = get("isbn");
-        $isbn = $ISBN->format($isbn);
-
-
-        echo h($isbn);
+        switch($d2)
+            {
+                case 'submit':
+                    echo json_encode($_POST);
+                    break;
+                default:
+                    $ISBN = new \App\Models\Functions\ISBN();
+                    $isbn = get("isbn");
+                    $isbn = $ISBN->format($isbn);
+                    echo h($isbn);
+                    exit;
+            }
     }
 }

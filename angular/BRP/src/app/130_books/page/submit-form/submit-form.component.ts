@@ -1,4 +1,5 @@
-import { BrapciService } from '../../../000_core/010_services/brapci.service';
+import { Observable } from 'rxjs';
+import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 import { Component } from '@angular/core';
 import {
   FormGroup,
@@ -28,8 +29,13 @@ export class BookSubmitFormComponent {
   public msg_email = 'Informe seu e-mail do autor';
   public msg_licenca = 'Informe a licença da obra';
   public msg_check01 = 'Sou o autor ou organizador';
+  private dt: Array<any> = [];
+  public books:Array<any>|any
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private brapciService: BrapciService
+  ) {}
 
   public logo_brapcilivros: string = 'assets/img/logo_brapci_livros_mini.png';
 
@@ -79,7 +85,7 @@ export class BookSubmitFormComponent {
     },
   ];
 
-  createForm(bookSubmit: BookSubmit) {
+  createForm2(bookSubmit: BookSubmit) {
     this.FormBook = this.formBuilder.group({
       id_b: new FormControl(0),
       b_autor: new FormControl('', [
@@ -106,6 +112,23 @@ export class BookSubmitFormComponent {
     });
   }
 
+  createForm(bookSubmit: BookSubmit) {
+    this.FormBook = this.formBuilder.group({
+      id_b: new FormControl(0),
+      b_autor: new FormControl(''),
+      b_email: new FormControl(''),
+      b_titulo: new FormControl(''),
+      b_isbn: new FormControl(''),
+      b_licenca: new FormControl(''),
+      b_source: new FormControl(''),
+      b_rdf: new FormControl(''),
+      b_pdf: new FormControl(''),
+      b_user: new FormControl(''),
+      b_termSubmit: new FormControl(''),
+      b_check_01: new FormControl(''),
+    });
+  }
+
   ngOnInit() {
     this.createForm(new BookSubmit());
     console.log(this.FormBook);
@@ -114,7 +137,11 @@ export class BookSubmitFormComponent {
   onSubmit() {
     //this.submitted = true;
     if (this.FormBook.status == 'VALID') {
-      console.log(this.FormBook.status);
+      this.dt = this.FormBook.value;
+      this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
+        console.log(res);
+        this.books = res;
+      });
     }
   }
 
