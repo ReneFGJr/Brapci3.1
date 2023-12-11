@@ -124,8 +124,7 @@ class Brapci extends Model
             $RSP['message'] = 'Erro na leitura do arquivos enviado';
             $RSP['fileId'] = 0;
         }
-        echo json_encode($RSP);
-        exit;
+        return $RSP;
     }
 
     function rdf($d1, $d2 ,$d3='',$d4='',$d5='')
