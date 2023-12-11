@@ -248,6 +248,8 @@ class TechinalProceessing extends Model
             $RSP['message'] = lang('book.already_autodeosit') . ' - ' .
                 lang('already_autodeosit_info').' - '.$file_description;
         }
-        return $RSP;
+
+        echo json_encode($RSP);
+        exit;
     }
 }
