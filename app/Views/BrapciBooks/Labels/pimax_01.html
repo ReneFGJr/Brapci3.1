@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Etiquetas</title>
+</head>
+
+<body>
+<?php
+$sizeW = '100px';
+$sh = '; height: 80px';
+$ot = '; margin: 0px 5px 5px 0px';
+foreach($labels as $idx=>$line)
+    {
+        echo '<div style="text-align: left; ' .$ot. $sh.'; padding-top: 4px; padding-left: 5px; width: '.$sizeW.'; float: right; border: 1px solid #000;">';
+        echo $line['ln1'];
+        echo '<br>';
+        echo $line['ln2'];
+        echo '</div>';
+    }
+
+?>
+</body>
+
+</html>

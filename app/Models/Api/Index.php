@@ -102,6 +102,10 @@ class Index extends Model
                 $API = new \App\Models\Api\Endpoint\Genere;
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
+            case 'label':
+                $API = new \App\Models\Api\Endpoint\LabelPrint;
+                $sx = $API->index($d1, $d2, $d3, $d4);
+                break;
             case 'doiToFormation':
                 $API = new \App\Models\Api\Endpoint\DoiLattesAuthor;
                 $sx = $API->index($d1, $d2, $d3, $d4);

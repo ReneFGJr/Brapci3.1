@@ -14,6 +14,7 @@
         "google/auth": "^1.24",
         "kint-php/kint": "^4.1.1",
         "laminas/laminas-escaper": "^2.9",
+        "mpdf/mpdf": "*",
         "psr/log": "^1.1"
     },
     "require-dev": {
