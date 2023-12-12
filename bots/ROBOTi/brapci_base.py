@@ -6,6 +6,7 @@ import xmltodict
 import oaipmh
 
 sourceName = ''
+setSpec = []
 URL = ''
 def help_roboti():
     print("clear            - Zera os marcadores de coleta (recoletar)")
@@ -60,21 +61,29 @@ def next_action():
         TASK = 'none'
     return TASK
 
-def updateOaiIdentify(ID):
+def updateOaiIdentify(ID,token):
     now_time = datetime.datetime.now()
     data = now_time.strftime("%Y-%m-%d")
-    query = f"update brapci_oaipmh.oai_identify \n"
-    query += f" set hv_updated_harvesting = '{data}' \n "
-    query += f" where hv_id_jnl = {ID}"
 
-    cnx = oai_mysql()
-    cursor = cnx.cursor()
-    try:
-        cursor.execute(query)
-        print("=x=x=x=x=x=x= UPDATE")
-    except:
-        print(f"ROBOTi - [ERRO] Atualização - updateOaiIdentify({ID})")
-    cursor.close()
+    if token == '':
+        qr = f"update brapci_oaipmh.oai_identify \n"
+        qr += f" set hv_updated_harvesting = '{data}' \n "
+        qr += f" where hv_id_jnl = {ID}"
+        query(qr)
+
+        qr = f"update brapci.source_source \n"
+        qr += f" set jnl_oai_token = '' \n "
+        qr += f" , jnl_oai_last_harvesting = '{data}' \n "
+        qr += f" , jnl_oai_last_harvesting = '{data}' \n "
+        qr += f" where id_jnl = {ID}"
+        query(qr)
+
+    else:
+        qr = f"update brapci.source_source \n"
+        qr += f" set jnl_oai_token = '{token}' \n "
+        qr += f" where id_jnl = {ID}"
+        query(qr)
+
 
 def getListIdentifier(ID):
     query = f"select jnl_url_oai, jnl_oai_token from brapci.source_source where id_jnl = {ID}"
@@ -97,7 +106,7 @@ def getNextListIdentifier():
     day = now_time.day
     month = now_time.month
 
-    query = f"select hv_id_jnl, hv_baseURL "
+    query = f"select hv_id_jnl, hv_baseURL, hv_updated_harvesting "
     query += " from brapci_oaipmh.oai_identify \n"
     query += " inner join brapci.source_source ON id_jnl = hv_id_jnl \n"
     query += f" where (DAY(hv_updated_harvesting) <> {day}) "
@@ -157,49 +166,108 @@ def G(V):
     except:
         V = V
     return V
+
 ############################################### Verifica SetSpec
-def setSpecCheck(ID,ss):
-    for set in ss:
-        print('===>',set)
-        qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
-        cnx = oai_mysql()
-        cursor = cnx.cursor()
-        try:
-            cursor.execute(qr)
-            row = cursor.fetchone()
-            if not row:
-                print("insert",set,ID)
-                qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
-                query(qr)
-        except:
-            print("ROBOTi ERROR - getListIdentifier()")
-            row = []
-        cursor.close()
-    return row
+def setSpecCheck(ID,set):
+    qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
+    cnx = oai_mysql()
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(qr)
+        row = cursor.fetchone()
+        if not row:
+            qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
+            query(qr)
+            row = setSpecCheck(ID,set)
+    except:
+        print("ROBOTi ERROR - getListIdentifier()")
+        row = []
+    cursor.close()
+    return row[0]
+
+def checkListIdentify(ID,ss,docID,date,status):
+    deleted = 0
+    try:
+        if status != '':
+            deleted = 1
+    except:
+        print("Problema de Status")
+
+    date = date.replace('T',' ')
+    date = date.replace('Z','')
+    print(ID,ss,docID,date,status)
+    qr = f"select * from brapci_oaipmh.oai_listidentify \n "
+    qr += f"where oai_identifier = '{docID}' and oai_id_jnl = {ID} limit 1"
+    cnx = oai_mysql()
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(qr)
+        row = cursor.fetchone()
+        if not row:
+            qr = f"insert into brapci_oaipmh.oai_listidentify \n"
+            qr += "(oai_identifier, oai_id_jnl, oai_setSpec, oai_deleted, oai_datestamp) \n"
+            qr += " values "
+            qr += f"('{docID}',{ID},{ss}, {deleted}, '{date}')"
+            query(qr)
+    except:
+        print("ROBOTi ERROR - def checkListIdentify(ID,ss,docID,date):()")
+        row = []
+    cursor.close()
+    return True
 
 def processListIdentifiers(ID,docXML):
     ######################################### Read XML
     try:
         doc = xmltodict.parse(docXML)
-        print("=====================================")
         headers = doc['OAI-PMH']['ListIdentifiers']['header']
-        setSpec = []
 
-        for hd in headers:
-            ss = hd['setSpec'][0]
-            if not ss in setSpec:
-                setSpec.append(ss)
+        try:
+            for hd in headers:
+                try:
+                    ss = hd['setSpec'][0]
+                except:
+                    ss = hd['setSpec']
+                docID = hd['identifier']
+                date = hd['datestamp']
+
+                try:
+                    status = hd['@status']
+                except:
+                    status = ''
+                print("=8*A=")
+                print('==+==',ID,ss)
+                ssID = setSpecCheck(ID,ss)
+                print("=8*B=")
+
+                try:
+                    print("=8A=")
+                    checkListIdentify(ID,ssID,docID,date,status)
+                    print("=8B=")
+                except Exception as e:
+                    print("=9=")
+                    print("============================================")
+                    print(e)
+                    print("Erro de Registro no checkListIdentify",ID,ssID,docID,date,status)
+                    print("============================================")
+        except Exception as e:
+            print("=========",hd)
+            print("============================================")
+            print(e)
+            print("============================================")
+            print("Erro for hd in headers",ID,ssID,docID,date)
+
         try:
             token = doc['OAI-PMH']['ListIdentifiers']['resumptionToken']['#text']
         except:
             token = ''
-        print("setSpec",setSpec)
+
         print("TOKEN: ",token)
+        updateOaiIdentify(ID,token)
+        return True
 
         ###################################################### Check setSpec
-        setSpecCheck(ID,setSpec)
     except:
-        print("Erro ao converter o XML - ListIdentify")
+        print("Erro ao converter o XML - processListIdentifiers")
         return False
 
 

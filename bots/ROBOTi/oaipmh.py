@@ -4,6 +4,9 @@ import brapci_base
 import xmltodict
 import datetime
 import requests
+import urllib3
+
+urllib3.disable_warnings()
 
 #MODULO - OAIPHM
 #AUTHOR: Rene Faustino Gabriel Junior
@@ -18,10 +21,13 @@ def url(LINK:str):
     URL = LINK
 
 def ListIdentifiers(url,token):
-    LINK = url + '?verb=ListIdentifiers&metadataPrefix=oai_dc'
+    if token != '':
+        LINK = url + '?verb=ListIdentifiers&resumptionToken=' + token
+    else:
+        LINK = url + '?verb=ListIdentifiers&metadataPrefix=oai_dc'
     print(f"... Recuperando {LINK} - OAIPMH - LisyIdentifiers")
     try:
-        cnt = requests.get(LINK,verify=False, timeout=30.0)
+        cnt = requests.get(LINK,verify=False, timeout=90.0)
     except requests.exceptions.SSLError:
         pass
     except:

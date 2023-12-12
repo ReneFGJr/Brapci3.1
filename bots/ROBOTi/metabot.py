@@ -29,7 +29,6 @@ def getNextListIdentifier():
     ROW = brapci_base.getNextListIdentifier()
     try:
         ID = ROW[0]
-        #brapci_base.updateOaiIdentify(ID)
         return ID
     except:
         print("ROBOTi - [ERRO] getNextListIdentifier")
