@@ -71,14 +71,19 @@ def updateOaiIdentify(ID,token):
         qr = f"update brapci_oaipmh.oai_identify \n"
         qr += f" set hv_updated_harvesting = '{data}' \n "
         qr += f" where hv_id_jnl = {ID}"
-        print(qr)
-        query(qr)
+        cnx2 = oai_mysql()
+        cursor2 = cnx2.cursor()
+        rs = cursor2.execute(qr)
+        cursor2.close
 
         qr = f"update brapci.source_source \n"
         qr += f" set jnl_oai_token = '' \n "
         qr += f" , jnl_oai_last_harvesting = '{data}' \n "
         qr += f" where id_jnl = {ID}"
-        query(qr)
+        cnx3 = oai_mysql()
+        cursor3 = cnx3.cursor()
+        rs = cursor3.execute(qr)
+        cursor3.close
 
     else:
         qr = f"update brapci.source_source \n"
