@@ -25,12 +25,12 @@ def getNextIdentify():
 def getNextListIdentifier():
     ROW = brapci_base.getNextListIdentifier()
     try:
-        print("=x=>")
         ID = ROW[0]
-        print(ID)
-        brapci_base.updateOaiIdentify(ID)
+        #brapci_base.updateOaiIdentify(ID)
+        return ID
     except:
         print("ROBOTi - [ERRO] getNextListIdentifier")
+        return 0
 
 def getIDENTIFY():
     print(version())

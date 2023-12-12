@@ -59,8 +59,9 @@ def updateOaiIdentify(ID):
     now_time = datetime.datetime.now()
     data = now_time.strftime("%Y-%m-%d")
     query = f"update brapci_oaipmh.oai_identify \n"
-    query += " set hv_updated_harvesting = '{data}' \n "
+    query += f" set hv_updated_harvesting = '{data}' \n "
     query += f" where hv_id_jnl = {ID}"
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     try:
@@ -69,6 +70,23 @@ def updateOaiIdentify(ID):
     except:
         print(f"ROBOTi - [ERRO] Atualização - updateOaiIdentify({ID})")
     cursor.close()
+
+def getListIdentifier(ID):
+    query = f"select jnl_url_oai, jnl_oai_token from brapci.source_source where id_jnl = {ID}"
+
+    cnx = oai_mysql()
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(query)
+        row = cursor.fetchone()
+        url = G(row[0])
+        token = G(row[1])
+        print(url,token)
+    except:
+        print("ROBOTi ERROR - getListIdentifier()")
+        row = []
+    cursor.close()
+    return row
 
 def getNextListIdentifier():
     global sourceName
@@ -84,8 +102,6 @@ def getNextListIdentifier():
     query += f" or (MONTH(hv_updated_harvesting) <> {month}) \n"
     query += " order by hv_updated_harvesting \n"
     query += " limit 1 "
-
-    print(query)
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
