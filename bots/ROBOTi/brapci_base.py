@@ -76,7 +76,6 @@ def updateOaiIdentify(ID,token):
         qr = f"update brapci.source_source \n"
         qr += f" set jnl_oai_token = '' \n "
         qr += f" , jnl_oai_last_harvesting = '{data}' \n "
-        qr += f" , jnl_oai_last_harvesting = '{data}' \n "
         qr += f" where id_jnl = {ID}"
         query(qr)
 
