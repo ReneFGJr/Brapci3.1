@@ -4,6 +4,7 @@ from pathlib import Path
 import datetime
 import xmltodict
 import oaipmh
+import time
 
 sourceName = ''
 setSpec = []
@@ -178,7 +179,9 @@ def setSpecCheck(ID,set):
         if not row:
             qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
             query(qr)
+            time.sleep(5)
             row = setSpecCheck(ID,set)
+            print("===",row)
     except:
         print("ROBOTi ERROR - getListIdentifier()")
         row = []
