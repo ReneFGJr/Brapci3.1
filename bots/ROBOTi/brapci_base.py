@@ -67,6 +67,7 @@ def updateOaiIdentify(ID,token):
     data = now_time.strftime("%Y-%m-%d")
 
     if token == '':
+        print("FIM-FIM")
         qr = f"update brapci_oaipmh.oai_identify \n"
         qr += f" set hv_updated_harvesting = '{data}' \n "
         qr += f" where hv_id_jnl = {ID}"
