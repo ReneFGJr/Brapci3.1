@@ -115,6 +115,8 @@ def getNextListIdentifier():
     query += " order by hv_updated_harvesting \n"
     query += " limit 1 "
 
+    print(query)
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     try:
