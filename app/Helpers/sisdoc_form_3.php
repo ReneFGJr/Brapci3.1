@@ -219,3 +219,14 @@ function df($N, $pre = '', $pos = '')
     }
     return '';
 }
+
+function  ground($v)
+    {
+        $v = sonumero($v);
+        if ($v == '')
+            {
+                return 0;
+            } else {
+                return (int)$v;
+            }
+    }

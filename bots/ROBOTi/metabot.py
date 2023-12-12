@@ -9,6 +9,9 @@ def version():
     verstion = 'v. 23.11.25'
     return "MetaBot - "+verstion
 
+def clearMarkup():
+    brapci_base.clearMarkup()
+
 def getNextIdentify():
     # ************************ Recupera proxima coleta *
     ID = brapci_base.getNextIdentify()

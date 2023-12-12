@@ -17,6 +17,24 @@ def url(LINK:str):
     global URL
     URL = LINK
 
+def ListIdentifiers(url,token):
+    LINK = url + '?verb=ListIdentifiers&metadataPrefix=oai_dc'
+    print(f"... Recuperando {LINK} - OAIPMH - LisyIdentifiers")
+    try:
+        cnt = requests.get(LINK,verify=False, timeout=30.0)
+    except requests.exceptions.SSLError:
+        pass
+    except:
+        print(cnt.status_code)
+        print(f"... Erro request - OAIPMH - LisyIdentifiers")
+        return ""
+    finally:
+        try:
+            return cnt.text
+        except:
+            print(f"... cnt.text empty - OAIPMH - LisyIdentifiers")
+            return ""
+
 def identify():
     LINK = URL + '?verb=Identify'
     print(f"... Recuperando {LINK} - OAIPMH - Identify")

@@ -383,7 +383,7 @@ class Socials extends Model
 	function getID($t = '')
 	{
 		if (isset($_SESSION['id'])) {
-			$id = round($_SESSION['id']);
+			$id = ground($_SESSION['id']);
 		} else {
 			$id = 0;
 		}
@@ -709,7 +709,7 @@ class Socials extends Model
 	function perfil($id = 0)
 	{
 		$sx = '';
-		$id = round($id);
+		$id = ground($id);
 		if ($id == 0) {
 			$id = $this->getID();
 		}

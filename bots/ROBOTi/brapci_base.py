@@ -7,12 +7,17 @@ import oaipmh
 
 sourceName = ''
 URL = ''
+def help_roboti():
+    print("clear            - Zera os marcadores de coleta (recoletar)")
+    print("identify         - Recupera Identificadores das publicações")
+    print("listidentifiers  - Coletar registros das publicações (IDs)")
 
 def query(query):
     cnx = oai_mysql()
     cursor = cnx.cursor()
-    cursor.execute(query)
+    rs = cursor.execute(query)
     cursor.close
+    return rs
 
 
 def oai_mysql():
@@ -79,9 +84,6 @@ def getListIdentifier(ID):
     try:
         cursor.execute(query)
         row = cursor.fetchone()
-        url = G(row[0])
-        token = G(row[1])
-        print(url,token)
     except:
         print("ROBOTi ERROR - getListIdentifier()")
         row = []
@@ -155,13 +157,58 @@ def G(V):
     except:
         V = V
     return V
+############################################### Verifica SetSpec
+def setSpecCheck(ID,ss):
+    for set in ss:
+        print('===>',set)
+        qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
+        cnx = oai_mysql()
+        cursor = cnx.cursor()
+        try:
+            cursor.execute(qr)
+            row = cursor.fetchone()
+            if not row:
+                print("insert",set,ID)
+                qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
+                query(qr)
+        except:
+            print("ROBOTi ERROR - getListIdentifier()")
+            row = []
+        cursor.close()
+    return row
+
+def processListIdentifiers(ID,docXML):
+    ######################################### Read XML
+    try:
+        doc = xmltodict.parse(docXML)
+        print("=====================================")
+        headers = doc['OAI-PMH']['ListIdentifiers']['header']
+        setSpec = []
+
+        for hd in headers:
+            ss = hd['setSpec'][0]
+            if not ss in setSpec:
+                setSpec.append(ss)
+        try:
+            token = doc['OAI-PMH']['ListIdentifiers']['resumptionToken']['#text']
+        except:
+            token = ''
+        print("setSpec",setSpec)
+        print("TOKEN: ",token)
+
+        ###################################################### Check setSpec
+        setSpecCheck(ID,setSpec)
+    except:
+        print("Erro ao converter o XML - ListIdentify")
+        return False
+
 
 def identify_register(id_jnl,docXML):
     ######################################### Read XML
     try:
         doc = xmltodict.parse(docXML)
     except:
-        print("Erro ao converter o XML")
+        print("Erro ao converter o XML - Identify")
         return False
 
     doc = doc['OAI-PMH']
@@ -251,3 +298,10 @@ def dbtest():
         print("..[ERRO] Não foi possível conectar ao banco MySQL")
     finally:
         print("..Conexão OK")
+
+def clearMarkup():
+    qr = "update brapci.source_source set jnl_oai_status = '500', update_at = null, jnl_oai_last_harvesting = '1900-01-01' where jnl_active = 1 and jnl_historic = 0"
+    try:
+        query(qr)
+    except:
+        print("Erro de atualização de registros - clean")
