@@ -180,7 +180,10 @@ def setSpecCheck(ID,set):
             qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
             query(qr)
             time.sleep(5)
-            row = setSpecCheck(ID,set)
+
+            qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
+            cursor.execute(qr)
+            row = cursor.fetchone()
             print("===",row)
     except:
         print("ROBOTi ERROR - getListIdentifier()")
