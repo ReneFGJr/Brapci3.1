@@ -179,12 +179,11 @@ def setSpecCheck(ID,set):
         if not row:
             qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
             query(qr)
-            time.sleep(5)
+            time.sleep(1)
 
             qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
             cursor.execute(qr)
             row = cursor.fetchone()
-            print("===",row)
     except:
         print("ROBOTi ERROR - getListIdentifier()")
         row = []
@@ -240,17 +239,11 @@ def processListIdentifiers(ID,docXML):
                     status = hd['@status']
                 except:
                     status = ''
-                print("=8*A=")
-                print('==+==',ID,ss)
                 ssID = setSpecCheck(ID,ss)
-                print("=8*B=")
 
                 try:
-                    print("=8A=")
                     checkListIdentify(ID,ssID,docID,date,status)
-                    print("=8B=")
                 except Exception as e:
-                    print("=9=")
                     print("============================================")
                     print(e)
                     print("Erro de Registro no checkListIdentify",ID,ssID,docID,date,status)
