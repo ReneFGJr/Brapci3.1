@@ -18,14 +18,16 @@ def Listidentifiers():
         loop = 1
         while loop == 1:
             row = brapci_base.getListIdentifier(ID)
-            print(row)
-            xml = oaipmh.ListIdentifiers(row[0],row[1])
-            brapci_base.zeraToken(ID)
-            if (xml != ''):
-                loop = brapci_base.processListIdentifiers(ID,xml)
-            #loop = 0
+            if (row[0] != ''):
+                xml = oaipmh.ListIdentifiers(row[0],row[1])
+                brapci_base.zeraToken(ID)
+                if (xml != ''):
+                    loop = brapci_base.processListIdentifiers(ID,xml)
+            else:
+                loop = 0
+                print("Nada para processar - ListIdentifiers")
 
-
+########################################### Início
 print("ROBOTi",version())
 print("=====================")
 
