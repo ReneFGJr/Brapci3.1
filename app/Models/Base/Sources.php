@@ -18,7 +18,8 @@ class Sources extends Model
         'id_jnl', 'jnl_name', 'jnl_name_abrev',
         'jnl_issn', 'jnl_eissn', 'jnl_periodicidade',
         'jnl_ano_inicio', 'jnl_ano_final', 'jnl_url',
-        'jnl_url_oai', 'jnl_oai_from', 'jnl_cidade',
+        'jnl_url_oai', 'jnl_oai_from',
+        'jnl_status', 'jnl_cidade',
         'jnl_scielo', 'jnl_collection', 'jnl_active',
         'jnl_historic', 'jnl_frbr'
     ];
@@ -32,7 +33,9 @@ class Sources extends Model
         'hidden', 'string:100:#', 'string:20:#',
         'string:20:#', 'string:20', 'op: & :Q&Quadrimestral:S&Semestral:A&Anual:F&Continuos FLuxo',
         'year', 'year', 'string:20',
-        'string:20', 'string:20', 'string:20',
+        'string:20', 'string:20',
+        'op: & :100&Historica:200&Ativa:404&Fora do ar:500&Erro no acesso&501:Erro no conteúdo',
+        'string:20',
         'sn', 'string:20', 'sn',
         'sn', 'string:20'
     ];
