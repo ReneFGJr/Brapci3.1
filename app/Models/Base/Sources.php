@@ -217,7 +217,7 @@ class Sources extends Model
             $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
             $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
 
-            $sa .= '<a href="'.PATH. 'admin/source/edit/'.$dt['id_jnl'].'" class="btn btn-outline-primary">'.msg('edit').'</a>';
+            $sa .= '<a href="'.PATH. '/admin/source/edit/'.$dt['id_jnl'].'" class="btn btn-outline-primary">'.msg('edit').'</a>';
 
             $sx .= bsc($sa,10);
             $sx .= bsc($sb,2);
