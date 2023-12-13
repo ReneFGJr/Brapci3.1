@@ -18,6 +18,7 @@ def Listidentifiers():
         loop = 1
         while loop == 1:
             row = brapci_base.getListIdentifier(ID)
+            print(row)
             xml = oaipmh.ListIdentifiers(row[0],row[1])
             brapci_base.zeraToken(ID)
             if (xml != ''):
