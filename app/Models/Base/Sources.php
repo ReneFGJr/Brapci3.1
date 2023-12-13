@@ -37,7 +37,7 @@ class Sources extends Model
         'op: & :100&Histórico:200&Atual:404&Fora do Ar:500&Erro de acesso:501&Erro de acesso aos dados',
         'string:20',
         'sn', 'string:20', 'sn',
-        'sn', 'string:20','1900-01-01'
+        'sn', 'string:20','hv1900-01-01'
     ];
 
     // Dates
