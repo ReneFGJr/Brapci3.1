@@ -21,7 +21,7 @@ class Sources extends Model
         'jnl_url_oai', 'jnl_oai_from',
         'jnl_oai_status', 'jnl_cidade',
         'jnl_scielo', 'jnl_collection', 'jnl_active',
-        'jnl_historic', 'jnl_frbr'
+        'jnl_historic', 'jnl_frbr', 'update_at'
     ];
 
     protected $viewFields        = [
@@ -37,7 +37,7 @@ class Sources extends Model
         'op: & :100&Histórico:200&Atual:404&Fora do Ar:500&Erro de acesso:501&Erro de acesso aos dados',
         'string:20',
         'sn', 'string:20', 'sn',
-        'sn', 'string:20'
+        'sn', 'string:20','1900-01-01'
     ];
 
     // Dates
