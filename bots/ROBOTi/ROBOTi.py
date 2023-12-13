@@ -15,13 +15,14 @@ def Listidentifiers():
     import oaipmh
     ID = metabot.getNextListIdentifier()
     if (ID > 0):
-        row = brapci_base.getListIdentifier(ID)
         loop = 1
         while loop == 1:
+            row = brapci_base.getListIdentifier(ID)
             xml = oaipmh.ListIdentifiers(row[0],row[1])
+            brapci_base.zeraToken(ID)
             if (xml != ''):
-                brapci_base.processListIdentifiers(ID,xml)
-            loop = 0
+                loop = brapci_base.processListIdentifiers(ID,xml)
+            #loop = 0
 
 
 print("ROBOTi",version())

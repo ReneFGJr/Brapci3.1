@@ -62,28 +62,16 @@ def next_action():
         TASK = 'none'
     return TASK
 
+
 def updateOaiIdentify(ID,token):
     now_time = datetime.datetime.now()
     data = now_time.strftime("%Y-%m-%d")
 
     if token == '':
-        print("FIM-FIM")
-        qr = f"update brapci_oaipmh.oai_identify \n"
-        qr += f" set hv_updated_harvesting = '{data}' \n "
-        qr += f" where hv_id_jnl = {ID}"
-        cnx2 = oai_mysql()
-        cursor2 = cnx2.cursor()
-        rs = cursor2.execute(qr)
-        cursor2.close
-
-        qr = f"update brapci.source_source \n"
-        qr += f" set jnl_oai_token = '' \n "
-        qr += f" , jnl_oai_last_harvesting = '{data}' \n "
+        qr = f"update brapci.source_source "
+        qr += f" set jnl_oai_token = '', jnl_oai_last_harvesting = '{data}' "
         qr += f" where id_jnl = {ID}"
-        cnx3 = oai_mysql()
-        cursor3 = cnx3.cursor()
-        rs = cursor3.execute(qr)
-        cursor3.close
+        query(qr)
 
     else:
         qr = f"update brapci.source_source \n"
@@ -113,15 +101,13 @@ def getNextListIdentifier():
     day = now_time.day
     month = now_time.month
 
-    query = f"select hv_id_jnl, hv_baseURL, hv_updated_harvesting "
-    query += " from brapci_oaipmh.oai_identify \n"
-    query += " inner join brapci.source_source ON id_jnl = hv_id_jnl \n"
-    query += f" where (DAY(hv_updated_harvesting) <> {day}) "
-    query += f" or (MONTH(hv_updated_harvesting) <> {month}) \n"
-    query += " order by hv_updated_harvesting \n"
+    query = f"select id_jnl, jnl_url_oai, jnl_oai_last_harvesting, jnl_name "
+    query += " from brapci.source_source "
+    query += f" where (DAY(jnl_oai_last_harvesting) <> {day}) "
+    query += f" or (MONTH(jnl_oai_last_harvesting) <> {month}) \n"
+    query += f" or (jnl_oai_last_harvesting is null) \n"
+    query += " order by jnl_oai_last_harvesting \n"
     query += " limit 1 "
-
-    print(query)
 
     cnx = oai_mysql()
     cursor = cnx.cursor()
@@ -228,6 +214,15 @@ def checkListIdentify(ID,ss,docID,date,status):
     cursor.close()
     return True
 
+############################################################ zera Token of Journal
+def zeraToken(ID):
+    qr = f"update brapci.source_source set jnl_oai_token = '' where id_jnl = {ID}"
+    try:
+        query(qr)
+    except Exception as e:
+        print("============================================")
+        print(e)
+
 def processListIdentifiers(ID,docXML):
     ######################################### Read XML
     try:
@@ -270,10 +265,16 @@ def processListIdentifiers(ID,docXML):
 
         print("TOKEN: ",token)
         updateOaiIdentify(ID,token)
+
+        if (token == ''):
+            return False
         return True
 
         ###################################################### Check setSpec
-    except:
+    except Exception as e:
+        print(docXML)
+        print("=processListIdentifiers=====")
+        print(e)
         print("Erro ao converter o XML - processListIdentifiers")
         return False
 

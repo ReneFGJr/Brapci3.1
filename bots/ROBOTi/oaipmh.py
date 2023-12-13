@@ -21,13 +21,16 @@ def url(LINK:str):
     URL = LINK
 
 def ListIdentifiers(url,token):
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'}
+    data = {'v': 1}
     if token != '':
         LINK = url + '?verb=ListIdentifiers&resumptionToken=' + token
     else:
         LINK = url + '?verb=ListIdentifiers&metadataPrefix=oai_dc'
     print(f"... Recuperando {LINK} - OAIPMH - LisyIdentifiers")
     try:
-        cnt = requests.get(LINK,verify=False, timeout=90.0)
+        cnt = requests.get(LINK,verify=False, data=data, timeout=90.0, headers=headers, allow_redirects=True)
+        print(cnt.status_code)
     except requests.exceptions.SSLError:
         pass
     except:
@@ -43,9 +46,11 @@ def ListIdentifiers(url,token):
 
 def identify():
     LINK = URL + '?verb=Identify'
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'}
+
     print(f"... Recuperando {LINK} - OAIPMH - Identify")
     try:
-        cnt = requests.get(LINK,verify=False, timeout=2.5)
+        cnt = requests.get(LINK,verify=False, timeout=2.5, headers=headers)
     except requests.exceptions.SSLError:
         pass
     except:
