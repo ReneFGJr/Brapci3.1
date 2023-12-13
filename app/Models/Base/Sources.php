@@ -129,6 +129,7 @@ class Sources extends Model
 
             /******************* Para testes ***/
             case 'edit_issue':
+                $this->path_back = PATH. '/journals/view/'.$d2;
                 $sx = $this->editar_issue($d2, $d3);
                 break;
             case 'oai_check':
