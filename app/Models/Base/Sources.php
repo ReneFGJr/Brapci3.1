@@ -34,7 +34,7 @@ class Sources extends Model
         'string:20:#', 'string:20', 'op: & :Q&Quadrimestral:S&Semestral:A&Anual:F&Continuos FLuxo',
         'year', 'year', 'string:20',
         'string:20', 'string:20',
-        'op:100:Historica&200:Ativa&404:Fora do ar&500:Erro no acesso&501:Erro no conteúdo',
+        'op: & :Q&Quadrimestral:S&Semestral:A&Anual:F&Continuos FLuxo',
         'string:20',
         'sn', 'string:20', 'sn',
         'sn', 'string:20'
