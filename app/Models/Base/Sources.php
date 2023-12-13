@@ -79,6 +79,10 @@ class Sources extends Model
                     $sx = $this->view($d2);
                 break;
 
+            case 'viewid':
+                $sx = $this->view($d2);
+                break;
+
             case 'list':
                 switch($d2)
                     {
