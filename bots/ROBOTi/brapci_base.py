@@ -349,7 +349,7 @@ def identify_register(id_jnl,docXML):
             cursor = cnx.cursor()
             try:
                 cursor.execute(query)
-                oaipmh.updateSource(ID,'100')
+                oaipmh.updateSource(id_jnl,'100')
             except:
                 print("Brapci-base - identify_register - Erro ao atualizar a tabela Identify")
             finally:
