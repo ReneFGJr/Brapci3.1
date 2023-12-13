@@ -381,3 +381,9 @@ def clearMarkup():
         query(qr)
     except:
         print("Erro de atualização de registros - clean")
+
+    qr = "update brapci.source_source set jnl_oai_status = '100', update_at = null, jnl_oai_last_harvesting = '1900-01-01' where jnl_active = 1 and jnl_historic = 1"
+    try:
+        query(qr)
+    except:
+        print("Erro de atualização de registros - clean")
