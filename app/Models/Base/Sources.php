@@ -19,7 +19,7 @@ class Sources extends Model
         'jnl_issn', 'jnl_eissn', 'jnl_periodicidade',
         'jnl_ano_inicio', 'jnl_ano_final', 'jnl_url',
         'jnl_url_oai', 'jnl_oai_from',
-        'jnl_status', 'jnl_cidade',
+        'jnl_oai_status', 'jnl_cidade',
         'jnl_scielo', 'jnl_collection', 'jnl_active',
         'jnl_historic', 'jnl_frbr'
     ];
