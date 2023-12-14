@@ -63,10 +63,10 @@ function bt_cancel($url)
 }
 
 function validaCPF($cpf) {
- 
+
     // Extrai somente os números
     $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-     
+
     // Verifica se foi informado todos os digitos corretamente
     if (strlen($cpf) != 11) {
         return false;
@@ -476,10 +476,10 @@ function form_fields($typ, $fld, $vlr, $th = array(), $obg = 0, $pre = '')
             for ($r = 0; $r < count($opc); $r++) {
                 $sel = '';
                 $opx = explode('&', $opc[$r]);
-                if ($opx[0] == $vlr) {
+                if (trim($opx[0]) == trim($vlr)) {
                     $sel = 'selected';
                 }
-                $sg .= '<option class="' . $class_mandatory . ' value="' . $opx[0] . '" ' . $sel . '>' . $opx[1] . '</option>' . cr();
+                $sg .= '<option class="' . $class_mandatory . ' value="' . trim($opx[0]) . '" ' . $sel . '>' . $opx[1] . '</option>' . cr();
             }
             $sg .= '</select>' . cr();
             $sx .= $sg;
