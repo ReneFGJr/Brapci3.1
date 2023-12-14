@@ -50,7 +50,7 @@ def identify():
 
     print(f"... Recuperando {LINK} - OAIPMH - Identify")
     try:
-        cnt = requests.get(LINK,verify=False, timeout=2.5, headers=headers)
+        cnt = requests.get(LINK,verify=False, timeout=30, headers=headers)
     except requests.exceptions.SSLError:
         pass
     except Exception as e:
