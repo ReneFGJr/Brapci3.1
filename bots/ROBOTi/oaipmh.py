@@ -53,7 +53,9 @@ def identify():
         cnt = requests.get(LINK,verify=False, timeout=2.5, headers=headers)
     except requests.exceptions.SSLError:
         pass
-    except:
+    except Exception as e:
+        print("============================================")
+        print(e)
         print(cnt.status_code)
         print(f"... Erro request - OAIPMH - Identify")
         return ""
@@ -61,6 +63,7 @@ def identify():
         try:
             return cnt.text
         except:
+            print(cnt.text)
             print(f"... cnt.text empty - OAIPMH - Identify")
             return ""
 
