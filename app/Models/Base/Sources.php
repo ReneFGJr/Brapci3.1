@@ -34,10 +34,10 @@ class Sources extends Model
         'string:20:#', 'string:20', 'op: & :Q&Quadrimestral:S&Semestral:A&Anual:F&Continuos FLuxo',
         'year', 'year', 'string:20',
         'string:20', 'string:20',
-        'op: & :100&Histórico:200&Atual:404&Fora do Ar:500&Erro de acesso:501&Erro de acesso aos dados',
+        'op: & :100&Atual:200&Corrent:404&Fora do Ar:500&Erro de acesso:501&Erro de acesso aos dados',
         'string:20',
         'sn', 'string:20', 'sn',
-        'sn', 'string:20','hv1900-01-01'
+        'sn', 'string:20','set:1900-01-01'
     ];
 
     // Dates
@@ -198,6 +198,7 @@ class Sources extends Model
 
     function view($id)
         {
+            $Socials = new \App\Models\Socials();
             $dt = $this->where('id_jnl',$id)->first();
 
             $sa = '';
@@ -216,12 +217,15 @@ class Sources extends Model
             $sa .= h('Updated: ' . stodbr($dt['update_at']), 6);
 
             $sa .= h('Status: ' . $dt['jnl_oai_status'], 6);
-            $sa .= h($dt['jnl_oai_to_harvesting'], 6);
+            $sa .= h('To harvesting: '.$dt['jnl_oai_to_harvesting'], 6);
             $sa .= h('Collection: '.$dt['jnl_collection'], 6);
             $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
             $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
 
-            $sa .= '<a href="'.PATH. '/admin/source/edit/'.$dt['id_jnl'].'" class="btn btn-outline-primary">'.msg('edit').'</a>';
+            if ($Socials->perfil('#ADM')) {
+                $sa .= '<a href="' . PATH . '/admin/source/edit/' . $dt['id_jnl'] . '" class="btn btn-outline-primary">' . msg('edit') . '</a>';
+            }
+
 
             $sx .= bsc($sa,10);
             $sx .= bsc($sb,2);
@@ -272,16 +276,14 @@ class Sources extends Model
                         }
                     $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
                     $tt++;
-                    $sx .= bsc($tt.'. '.$link,9);
+                    $sx .= bsc($tt.'. '.$link,7, 'brp_row');
 
                     $link = '';
-                    if ($Socials->perfil('#ADM'))
-                        {
-                            //$link = anchor(PATH . '/journals/check/' . $line['jnl_frbr'], '(check)', 'target="_black" ');
-                        }
 
-                    $sx .= bsc('',1);
-                    $sx .= bsc($line['year'], 1);
+
+                    $sx .= bsc('',1, 'brp_row');
+                    $sx .= bsc($line['year'],1, 'brp_row');
+                    $sx .= bsc($line['update_at'],2, 'brp_row small');
                     $sta = $line['jnl_oai_status'];
 
                     if (isset($stx[$sta]))
@@ -297,10 +299,10 @@ class Sources extends Model
                                 $sta = '<span class="btn btn-success p-0 full">OK</span>';
                                 break;
                             case '200';
-                                $sta = '<span class="btn btn-secondary p-0 ful small">HISTORICA</span>';
+                                $sta = '<span class="btn btn-secondary p-0 full small">HISTORICA</span>';
                                 break;
-                            case '510';
-                                $sta = '<span class="btn btn-danger p-0 full">ERRO 510</span>';
+                            case '500';
+                                $sta = '<span class="btn btn-danger p-0 full small">ERRO 500</span>';
                                 break;
                             case '501';
                                 $sta = '<span class="btn btn-warning p-0 full">ERRO 501</span>';
@@ -309,7 +311,7 @@ class Sources extends Model
                                 $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
                                 break;
                         }
-                    $sx .= bsc($sta, 1);
+                    $sx .= bsc($sta,1, 'brp_row');
                 }
 
             $sx .= '<li>404 - Page not found</li>';

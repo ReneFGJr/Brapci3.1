@@ -471,7 +471,7 @@ function form_fields($typ, $fld, $vlr, $th = array(), $obg = 0, $pre = '')
             $op = array(1, 0);
             $opt = substr($typ, strpos($typ, ':') + 1, strlen($typ));
             $opc = explode(':', $opt);
-            $sg = '<select id="' . $fld . '" name="' . $fld . '" value="' . $vlr . '" class="form-control-lg mb-3 ' . $class_mandatory . '">' . cr();
+            $sg = '<select id="' . $fld . '" name="' . $fld . '" class="form-control-lg mb-3 ' . $class_mandatory . '">' . cr();
             $sg .= '<option value="">:: options ::</option>' . cr();
             for ($r = 0; $r < count($opc); $r++) {
                 $sel = '';
@@ -479,7 +479,7 @@ function form_fields($typ, $fld, $vlr, $th = array(), $obg = 0, $pre = '')
                 if (trim($opx[0]) == trim($vlr)) {
                     $sel = 'selected';
                 }
-                $sg .= '<option class="' . $class_mandatory . ' value="' . trim($opx[0]) . '" ' . $sel . '>' . $opx[1] . '</option>' . cr();
+                $sg .= '<option class="' . $class_mandatory . '" value="' . trim($opx[0]) . '" ' . $sel . '>' . $opx[1] . '</option>' . cr();
             }
             $sg .= '</select>' . cr();
             $sx .= $sg;

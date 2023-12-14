@@ -473,3 +473,14 @@ a.pgcd_nav-item-active:hover {
         opacity: 0;
     }
 }
+
+/***************************************** Tables */
+.brp_row
+  {
+    border-bottom: 1px solid #888;
+  }
+
+.brp_row:hover
+  {
+    background-color: #eee;
+  }
