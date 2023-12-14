@@ -66,16 +66,20 @@ def identify():
 
 def getIdentify(ID,URL):
     url(URL)
-    xml = identify()
-    if (len(xml) > 10):
-        updateSource(ID,'500')
-        if IdentifyProcess(ID,xml):
-            updateSource(ID,'100')
+    try:
+        xml = identify()
+        if (len(xml) > 10):
+            updateSource(ID,'500')
+            if IdentifyProcess(ID,xml):
+                updateSource(ID,'100')
+            else:
+                updateSource(ID,'501')
         else:
-            updateSource(ID,'501')
-    else:
-        print("ERRO OAIPHM-getIdentify-len")
-        print(xml)
+            print("ERRO OAIPHM-getIdentify-len")
+            print(xml)
+    except Exception as e:
+        print("============================================")
+        print(e)
 
 ######################################### IdentifyProcess
 def IdentifyProcess(ID,xml):
