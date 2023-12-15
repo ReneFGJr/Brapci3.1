@@ -82,6 +82,13 @@ class Index extends Model
                     case 'clean':
                         $sx .= $this->clean();
                         break;
+                    case 'thesa':
+                        $sx .= $this->thesa();
+                        break;
+                    case 'Levenshtein':
+                        $Levenshtein = new \App\Models\AI\NLP\Levenshtein();
+                        $sx .= $Levenshtein->test();
+                        break;
                     default:
                         $sx .= $this->menu();
                         $sx .= $d1;
@@ -131,6 +138,82 @@ class Index extends Model
             $sx .= bs(bsc($sa,6,'mt-5').bsc($sb,6, 'mt-5'));
             return $sx;
         }
+
+    function thesa()
+        {
+            $sx = '';
+            $sx .= h(lang('tools.clean_tools'),2);
+            $Forms = new \App\Models\AI\Forms();
+            $sx = '';
+            $sa = '';
+            $sa .= '<br>';
+            if (get("thesa") == '') { $_POST['thesa']  = 8; }
+            $sa .= 'Thesa ID:'.form_input('thesa',get("thesa")).'<br>';
+            $sa .= form_checkbox('renew', '1') . ' ' . lang('tools.renew') . '<br>';
+            $sa .= form_checkbox('clear', '1',get("clear")) . ' ' . lang('tools.clear_names') . '<br>';
+            $sx .= bsc($Forms->textarea('', $sa), 8);
+
+            $th = get("thesa");
+            dircheck("../.tmp");
+            dircheck("../.tmp/thesa");
+
+            $file = "../.tmp/thesa/".strzero($th,6).'.txt';
+            if ((!file_exists($file)) or (get("renew")))
+                {
+                    # Download
+                    $url = 'https://www.ufrgs.br/tesauros/index.php/thesa/terms_from_to/'.$th.'/csv';
+
+                    $sx .= 'Download '.$url;
+
+                    try {
+                        $txt2 = file_get_contents($url);
+                        $txt2 = utf8_encode($txt2);
+                        file_put_contents($file,$txt2);
+                    } catch (Exception $e) {
+                        $sx .= msg('Exceção capturada: '.  $e->getMessage(),3);
+                    }
+                } else {
+                    $txt2 = file_get_contents($file);
+                }
+
+            $txt = get("text");
+
+            if ($txt != '')
+                {
+                    $VocabularyControled = new \App\Models\AI\NLP\VocabularyControled();
+                    $rst = $VocabularyControled->text($txt,$txt2);
+                    if (get("clear")=='1') {
+                        $ln = explode(chr(13), $rst);
+                        $rst = '';
+                        foreach($ln as $id=>$line)
+                            {
+                                $lns = '';
+                                $ins = [];
+                                $ele = explode('[',$line);
+                                foreach($ele as $id2=>$inst2)
+                                    {
+                                        if ($pos = strpos($inst2,']'))
+                                            {
+                                                $inst = substr($inst2,0,$pos);
+                                                $ins[$inst] = 0;
+                                            }
+                                    }
+                                foreach($ins as $name=>$if)
+                                    {
+                                        if ($lns != '') { $lns .= ';'; }
+                                        $lns .= trim($name);
+                                    }
+                                if ($lns == '') { $lns = '[Sem instituição] - '.troca($line,chr(10),''); }
+                                $rst .= $lns.chr(13);
+                            }
+                    }
+                    $sx .= '<textarea class="full" rows=10>' . $rst . '</textarea>';
+                }
+
+
+
+            return $sx;
+        }
     function clean()
         {
             $sx = '';
@@ -139,7 +222,7 @@ class Index extends Model
             $sx = '';
             $sa = '';
             $sa .= '<br>';
-            for ($r=1;$r <= 5;$r++)
+            for ($r=1;$r <= 6;$r++)
                 {
                     $sa .= form_checkbox('chk'.$r, '1', (get("chk".$r))) . ' ' . lang('tools.p'.$r) . '<br>';
                 }
@@ -173,10 +256,24 @@ class Index extends Model
                 $txt = $Char->getTextLanguage($txt);
             }
 
-            $sx .= '<hr>';
-            $sx .= h(lang('tools.result'),4);
-            $sx .= '<textarea class="full" rows=10>'.$txt.'</textarea>';
+            if (get("chk5")) {
+                $sx .= '<li>' . lang('tools.p5') . ' - ' . date("H:i:s") . '</li>';
+                $Genere = new \App\Models\AI\Person\Genere();
+                $txt = $Genere->names($txt);
+            }
 
-            return $sx;
+            if (get("chk6")) {
+                $sx .= '<li>' . lang('tools.p6') . ' - ' . date("H:i:s") . '</li>';
+                $Name = new \App\Models\AI\Person\Name();
+                $txt = $Name->nbr_author($txt);
+            }
+
+            $sb = '<hr>';
+            $sb .= h(lang('tools.result'),4);
+            $sb .= '<textarea class="full" rows=10>'.$txt.'</textarea>';
+
+            $sx .= bsc($sb,12);
+
+            return bs($sx);
         }
 }

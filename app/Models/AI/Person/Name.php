@@ -1,24 +1,14 @@
 <?php
-/*
-@category API
-@package Brapci Identificação de Generos (Masc. / Fem.)
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
-@access public/private/apikey
-@example $PATH/api/gender/?name=RENE FAUSTINO GABRIEL JUNIOR
-@abstract API para determinar o genero da pessoa pelo Nome
-*/
 
-namespace App\Models\Api\Endpoint;
+namespace App\Models\AI\Person;
 
 use CodeIgniter\Model;
 
-class Genere extends Model
+class Name extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'genre';
-    protected $primaryKey       = 'id_gn';
+    protected $table            = 'names';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -50,21 +40,14 @@ class Genere extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1 = '', $d2 = '', $d3 = '')
-    {
-        $name = get("name");
-        if ($name != '') {
-            return $this->getGenere($name);
+    function nbr_author($name)
+        {
+        $nm = explode(chr(13), $name);
+        $txt = '';
+        foreach($nm as $id=>$nn)
+            {
+                $txt .= nbr_author($nn,2).chr(13);
+            }
+        return $txt;
         }
-        return "NnN";
-
-        $Genere = new \App\Models\Authority\Genere();
-    }
-
-    function getGenere($name)
-    {
-        $Genere = new \App\Models\AI\Person\Genere();
-        return $Genere->getGenere($name);
-    }
-
 }

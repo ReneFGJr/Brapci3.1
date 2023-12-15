@@ -94,6 +94,7 @@ class Index extends Model
 
         $menu['#' . lang('tools.Clean')] = lang('tools.clean_tools');
         $menu[URL . '/tools/nlp/clean'] = lang('tools.clean_tools');
+        $menu[URL . '/tools/nlp/thesa'] = lang('tools.clean_thesa');
 
         $menu['#' . lang('tools.NLP')] = lang('tools.nlp_tools');
         $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
