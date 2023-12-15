@@ -222,7 +222,7 @@ class Index extends Model
             $sx = '';
             $sa = '';
             $sa .= '<br>';
-            for ($r=1;$r <= 6;$r++)
+            for ($r=1;$r <= 7;$r++)
                 {
                     $sa .= form_checkbox('chk'.$r, '1', (get("chk".$r))) . ' ' . lang('tools.p'.$r) . '<br>';
                 }
@@ -242,6 +242,12 @@ class Index extends Model
                 $sx .= '<li>Removendo '.lang('tools.p2').' - ' . date("H:i:s") . '</li>';
                 $Char = new \App\Models\AI\NLP\Charsets();
                 $txt = $Char->remove_space($txt);
+            }
+
+            if (get("chk7")) {
+                $sx .= '<li>' . lang('tools.p7') . ' - ' . date("H:i:s") . '</li>';
+                $Name = new \App\Models\AI\Person\Name();
+                $txt = troca($txt,'"','');
             }
 
             if (get("chk3")) {

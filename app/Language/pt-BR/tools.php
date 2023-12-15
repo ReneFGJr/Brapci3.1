@@ -34,6 +34,7 @@ return [
         'p4' => 'Detectar idioma',
         'p5' => 'Detectar Gênero (Masc./Fem.)',
         'p6' => 'Padronização de Nomes de Autores',
+        'p7' => 'Remove (")',
         'clean_thesa' => 'Higienização de dados - Vocabulário controlado',
         '' => '',
         '' => '',
