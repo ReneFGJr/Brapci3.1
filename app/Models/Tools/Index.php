@@ -91,8 +91,15 @@ class Index extends Model
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
         $menu[URL . '/tools/lattes/search'] = lang('tools.lattes_search');
+
+        $menu['#' . lang('tools.Clean')] = lang('tools.clean_tools');
+        $menu[URL . '/tools/nlp/clean'] = lang('tools.clean_tools');
+
         $menu['#' . lang('tools.NLP')] = lang('tools.nlp_tools');
         $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
+
+
+
         $sx = menu($menu);
         return $sx;
     }

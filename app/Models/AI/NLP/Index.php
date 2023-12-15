@@ -79,6 +79,9 @@ class Index extends Model
                     case 'email':
                         $sx .= $this->email();
                         break;
+                    case 'clean':
+                        $sx .= $this->clean();
+                        break;
                     default:
                         $sx .= $this->menu();
                         $sx .= $d1;
@@ -126,6 +129,54 @@ class Index extends Model
 
                 }
             $sx .= bs(bsc($sa,6,'mt-5').bsc($sb,6, 'mt-5'));
+            return $sx;
+        }
+    function clean()
+        {
+            $sx = '';
+            $sx .= h(lang('tools.clean_tools'),2);
+            $Forms = new \App\Models\AI\Forms();
+            $sx = '';
+            $sa = '';
+            $sa .= '<br>';
+            for ($r=1;$r <= 5;$r++)
+                {
+                    $sa .= form_checkbox('chk'.$r, '1', (get("chk".$r))) . ' ' . lang('tools.p'.$r) . '<br>';
+                }
+
+            $sx .= $Forms->textarea('',$sa);
+
+            $txt = get("text");
+
+            if (get("chk1"))
+                {
+                    $sx .= '<li>Removendo ' . lang('tools.p1') . ' - ' . date("H:i:s") . '</li>';
+                    $Char = new \App\Models\AI\NLP\Charsets();
+                    $txt = $Char->replace_char($txt,';',chr(13));
+                }
+
+            if (get("chk2")) {
+                $sx .= '<li>Removendo '.lang('tools.p2').' - ' . date("H:i:s") . '</li>';
+                $Char = new \App\Models\AI\NLP\Charsets();
+                $txt = $Char->remove_space($txt);
+            }
+
+            if (get("chk3")) {
+                $sx .= '<li>' . lang('tools.p3') . ' - ' . date("H:i:s") . '</li>';
+                $Char = new \App\Models\AI\NLP\Charsets();
+                $txt = $Char->groupBy($txt);
+            }
+
+            if (get("chk4")) {
+                $sx .= '<li>' . lang('tools.p4') . ' - ' . date("H:i:s") . '</li>';
+                $Char = new \App\Models\AI\NLP\Charsets();
+                $txt = $Char->getTextLanguage($txt);
+            }
+
+            $sx .= '<hr>';
+            $sx .= h(lang('tools.result'),4);
+            $sx .= '<textarea class="full" rows=10>'.$txt.'</textarea>';
+
             return $sx;
         }
 }

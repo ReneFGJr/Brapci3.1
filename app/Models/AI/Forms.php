@@ -40,12 +40,13 @@ class Forms extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function textarea($url='')
+    function textarea($url='',$sp='')
         {
             $sx = '';
             $sx .= form_open();
-            $sx .= form_textarea(array('name'=>'text','id'=>'text','class'=>'form-control','rows'=>10,'value'=>get("text")));
+            $sx .= form_textarea(array('name'=>'text','id'=>'text','class'=>'form-control border border-secondary','rows'=>10,'value'=>get("text")));
             $sx .= form_submit(array('name'=>'submit','id'=>'submit','class'=>'btn btn-primary'),lang('tools.Process'));
+            $sx .= $sp;
             $sx .= form_close();
             return $sx;
         }
