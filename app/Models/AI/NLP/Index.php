@@ -248,6 +248,11 @@ class Index extends Model
                 $sx .= '<li>' . lang('tools.p7') . ' - ' . date("H:i:s") . '</li>';
                 $Name = new \App\Models\AI\Person\Name();
                 $txt = troca($txt,'"','');
+                $txt = troca($txt, '(', '');
+                $txt = troca($txt, ')', '');
+
+                $txt = troca($txt, '[', '');
+                $txt = troca($txt, ']', '');
             }
 
             if (get("chk3")) {

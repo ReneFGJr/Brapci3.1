@@ -34,7 +34,7 @@ return [
         'p4' => 'Detectar idioma',
         'p5' => 'Detectar Gênero (Masc./Fem.)',
         'p6' => 'Padronização de Nomes de Autores',
-        'p7' => 'Remove (")',
+        'p7' => 'Remove Aspas e Parenteses',
         'clean_thesa' => 'Higienização de dados - Vocabulário controlado',
         '' => '',
         '' => '',
