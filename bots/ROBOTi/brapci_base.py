@@ -403,7 +403,12 @@ def getRegister(id):
         cursor.close()
         cnx.close()
 
-        xml = oaipmh.getRegister(str(row[2],'utf-8'),row[3])
+        try:
+            identify = str(row[2],'utf-8')
+        except:
+            identify = row[2]
+
+        xml = oaipmh.getRegister(identify,row[3])
         return row[0]
     except Exception as e:
         print(e)
