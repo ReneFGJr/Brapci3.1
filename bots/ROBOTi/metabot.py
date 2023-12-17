@@ -51,19 +51,21 @@ def readfile(id):
     xml = f.read()
     return xml
 
-###################################################
+################################################### GET RECORD
 def GetRecord():
     # Busca proxima coleta
     id_reg = brapci_base.getNextRegister(1)
+    #brapci_base.updateRegisterStatus(id_reg,5)
     if id_reg > 0:
         if (cached(id_reg)):
             xml = readfile(id_reg)
         else:
             xml = brapci_base.getRegister(id_reg)
             cache_file_save(id_reg,xml)
-        print("===============")
-        print(xml)
+        print("===============",len(xml),id_reg)
         ######################## SAVE CACHE
+        if (len(xml) > 0):
+            brapci_base.updateRegisterStatus(id_reg,5)
     else:
         print("Nengum registro para coletar")
 

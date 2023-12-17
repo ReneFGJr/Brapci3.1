@@ -388,6 +388,14 @@ def clearMarkup():
     except:
         print("Erro de atualização de registros - clean")
 
+def updateRegisterStatus(id,sta):
+    now_time = datetime.datetime.now()
+    data = now_time.strftime("%Y%m%d")
+    qr = f"update brapci_oaipmh.oai_listidentify set "
+    qr += f"oai_update = {data}, "
+    qr += f"oai_status = {sta} "
+    qr += f"where id_oai = {id} "
+    query(qr)
 ############################################################################
 def getRegister(id):
     import oaipmh
@@ -414,6 +422,8 @@ def getRegister(id):
         print(e)
         print("Next Register Load OAI")
         return 0
+
+##########################################################################
 def getNextRegister(s):
     qr = f"select id_oai from brapci_oaipmh.oai_listidentify "
     qr += f"where oai_status = {s} "
