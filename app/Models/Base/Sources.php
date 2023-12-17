@@ -227,6 +227,10 @@ class Sources extends Model
             }
 
 
+            /************************* SB */
+            $oai = new \App\Models\Oaipmh\ListIdentifiers();
+            $sb .= $oai->painel($id);
+
             $sx .= bsc($sa,10);
             $sx .= bsc($sb,2);
 
@@ -234,8 +238,23 @@ class Sources extends Model
             return $sx;
         }
 
+    function historic_check()
+        {
+            $dt = $this
+                ->where('jnl_historic',1)
+                ->where('jnl_historic <> "200"')
+                ->findAll();
+            foreach($dt as $id=>$line)
+                {
+                    $dt['jnl_oai_status'] = '200';
+                    $this->set($dt)->where('id_jnl',$line['id_jnl'])->update();
+                }
+        }
+
     function list($type='')
         {
+            $this->historic_check();
+
             if ($type=='json')
                 {
                     return $this->list_json();
@@ -324,7 +343,8 @@ class Sources extends Model
             $sp = '<table class="table full"><tr>';
             foreach($stx as $s=>$total)
                 {
-                    $sp .= '<td>'.($s.'<br><span class="h4">'.$total. '</span>'). '</td>';
+                    $sl = lang('brapci.jnl_status_'.$s);
+                    $sp .= '<td width="20%"><div class="border border-primary m-2 p-2 text-center">'.($sl.'<br><span class="h4">'.$total. '</span>'). '</div></td>';
                 }
             $sp .= '</tr></table>';
             $sx = bs($sp) . $sx;
@@ -473,9 +493,6 @@ class Sources extends Model
 
 
         $items['/journals/list/0'] = lang('brapci.sources');
-
-        $items['/journals/list/1'] = lang('brapci.sources');
-        $items['/journals/list/2'] = lang('brapci.sources.lastpublications');
         if ($access)
             {
                 $items['/admin' . $mod . '/tableview'] = 'TableView';

@@ -45,6 +45,31 @@ class ListIdentifiers extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function painel($id)
+		{
+			$cp = 'li_s';
+			$dt = $this
+				->select($cp.', count(*) as total')
+				->where('li_jnl',$id)
+				->groupBy($cp)
+				->orderBy($cp)
+				->findAll();
+			$sx = '<table class="table full">';
+			foreach($dt as $id=>$line)
+				{
+					$sx .= '<tr>';
+					$sx .= '<td width="65%">';
+					$sx .= lang('brapci.oai_status_'.$line['li_s']);
+					$sx .= '</td>';
+					$sx .= '<td class="text-center">';
+					$sx .= $line['total'];
+					$sx .= '</td>';
+					$sx .= '</tr>';
+				}
+			$sx .= '</table>';
+			return $sx;
+		}
+
 	function row($l)
 	{
 		$sx = '';

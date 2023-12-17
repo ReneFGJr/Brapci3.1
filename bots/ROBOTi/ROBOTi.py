@@ -10,6 +10,10 @@ def ClearMarkup():
 def Identify():
     import metabot
     metabot.getNextIdentify()
+def GetRecord():
+    import metabot
+    metabot.GetRecord()
+
 def Listidentifiers():
     import metabot
     import oaipmh
@@ -47,6 +51,9 @@ if (len(sys.argv) > 1):
     elif ((parm[1] == 'identify') or (parm[1] == bytearray(b'identify'))):
         print("Verb: Identify")
         Identify()
+    elif ((parm[1] == 'getrecord') or (parm[1] == bytearray(b'getrecord'))):
+        print("Verb: GetRecord")
+        GetRecord()
     elif ((parm[1] == 'listidentifiers') or (parm[1] == bytearray(b'listidentifiers'))):
         print("Verb: Listidentifiers")
         Listidentifiers()

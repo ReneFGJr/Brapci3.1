@@ -387,3 +387,39 @@ def clearMarkup():
         query(qr)
     except:
         print("Erro de atualização de registros - clean")
+
+############################################################################
+def getRegister(id):
+    import oaipmh
+    qr = f"select id_oai, oai_id_jnl, oai_identifier, jnl_url_oai "
+    qr += f"from brapci_oaipmh.oai_listidentify "
+    qr += f"inner join brapci.source_source ON oai_id_jnl = id_jnl "
+    qr += f"where id_oai = {id} "
+    try:
+        cnx = oai_mysql()
+        cursor = cnx.cursor()
+        cursor.execute(qr)
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+
+        xml = oaipmh.getRegister(str(row[2],'utf-8'),row[3])
+        return row[0]
+    except Exception as e:
+        print(e)
+        print("Next Register Load OAI")
+        return 0
+def getNextRegister(s):
+    qr = f"select id_oai from brapci_oaipmh.oai_listidentify where oai_status = {s} order by oai_update limit 1"
+    try:
+        cnx = oai_mysql()
+        cursor = cnx.cursor()
+        cursor.execute(qr)
+        row = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        return row[0]
+    except Exception as e:
+        print(e)
+        print("Next Register OAI")
+        return 0

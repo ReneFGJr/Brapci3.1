@@ -12,6 +12,15 @@ def version():
 def clearMarkup():
     brapci_base.clearMarkup()
 
+###################################################
+def GetRecord():
+    # Busca proxima coleta
+    id_reg = brapci_base.getNextRegister(1)
+    if id_reg > 0:
+        brapci_base.getRegister(id_reg)
+    else:
+        print("Nengum registro para coletar")
+
 def getNextIdentify():
     # ************************ Recupera proxima coleta *
     ID = brapci_base.getNextIdentify()

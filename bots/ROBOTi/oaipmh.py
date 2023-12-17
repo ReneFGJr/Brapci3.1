@@ -84,14 +84,17 @@ def getIdentify(ID,URL):
         print("============================================")
         print(e)
 
+def getRegister(identify,url):
+    print("URL",url)
+    print("Identify",identify)
+
+
 ######################################### IdentifyProcess
 def IdentifyProcess(ID,xml):
     ######################################### Read XML
     try:
         doc = xmltodict.parse(xml)
-        print("HELLO PRP")
         brapci_base.identify_register(ID,xml)
-        print("XML OK")
         return True
     except:
         print("Erro ao Abrir o XML")
