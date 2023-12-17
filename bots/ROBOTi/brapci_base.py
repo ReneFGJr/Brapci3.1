@@ -409,13 +409,16 @@ def getRegister(id):
             identify = row[2]
 
         xml = oaipmh.getRegister(identify,row[3])
-        return row[0]
+        return xml
     except Exception as e:
         print(e)
         print("Next Register Load OAI")
         return 0
 def getNextRegister(s):
-    qr = f"select id_oai from brapci_oaipmh.oai_listidentify where oai_status = {s} order by oai_update limit 1"
+    qr = f"select id_oai from brapci_oaipmh.oai_listidentify "
+    qr += f"where oai_status = {s} "
+    qr += f"and oai_deleted = 0 "
+    qr += "order by oai_update limit 1"
     try:
         cnx = oai_mysql()
         cursor = cnx.cursor()

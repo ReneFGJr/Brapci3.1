@@ -4,6 +4,7 @@
 import oaipmh
 import datetime
 import brapci_base
+import os
 
 def version():
     verstion = 'v. 23.11.25'
@@ -12,12 +13,57 @@ def version():
 def clearMarkup():
     brapci_base.clearMarkup()
 
+################################################### CACHED FILE
+def cached(id):
+    file = directory(id)+'.getRecord.xml'
+    if os.path.exists(file):
+        return True
+    else:
+        return False
+
+def directory(id):
+    tp = str(id)
+    while len(tp) < 10:
+        tp = "0"+tp
+    tp1 = tp[0:4]
+    tp2 = tp[4:8]
+
+    if not os.path.isdir('../../.tmp'):
+        os.mkdir('../../.tmp')
+    if not os.path.isdir('../../.tmp/oai'):
+        os.mkdir('../../.tmp/oai')
+    if not os.path.isdir('../../.tmp/oai/'+tp1):
+        os.mkdir('../../.tmp/oai/'+tp1)
+    if not os.path.isdir('../../.tmp/oai/'+tp1+'/'+tp2):
+        os.mkdir('../../.tmp/oai/'+tp1+'/'+tp2)
+    dir = f"../../.tmp/oai/{tp1}/{tp2}/{tp}"
+    return dir
+
+def cache_file_save(id,txt):
+    file = directory(id)+'.getRecord.xml'
+    f = open(file, "w")
+    f.write(txt)
+    f.close()
+
+def readfile(id):
+    file = directory(id)+'.getRecord.xml'
+    f = open(file, "r")
+    xml = f.read()
+    return xml
+
 ###################################################
 def GetRecord():
     # Busca proxima coleta
     id_reg = brapci_base.getNextRegister(1)
     if id_reg > 0:
-        brapci_base.getRegister(id_reg)
+        if (cached(id_reg)):
+            xml = readfile(id_reg)
+        else:
+            xml = brapci_base.getRegister(id_reg)
+            cache_file_save(id_reg,xml)
+        print("===============")
+        print(xml)
+        ######################## SAVE CACHE
     else:
         print("Nengum registro para coletar")
 

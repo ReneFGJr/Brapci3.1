@@ -88,6 +88,29 @@ def getRegister(identify,url):
     print("URL",url)
     print("Identify",identify)
 
+    LINK = url + f"?verb=GetRecord&metadataPrefix=oai_dc&identifier={identify}"
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'}
+
+    print(f"... Recuperando {LINK} - OAIPMH - GetRegister")
+    try:
+        cnt = requests.get(LINK,verify=False, timeout=30, headers=headers)
+    except requests.exceptions.SSLError:
+        pass
+    except Exception as e:
+        print("============================================")
+        print(e)
+        print(cnt.status_code)
+        print(f"... Erro request - OAIPMH - Identify")
+        return ""
+    finally:
+        try:
+            return cnt.text
+        except:
+            print(cnt.text)
+            print(f"... cnt.text empty - OAIPMH - Identify")
+            return ""
+
+
 
 ######################################### IdentifyProcess
 def IdentifyProcess(ID,xml):
