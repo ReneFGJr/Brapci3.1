@@ -58,7 +58,6 @@ class Manegement extends Model
                         $sx = $Works->check();
                         break;
                     default:
-                        $sx .= 'MANEGEMENT - '.$d1;
                         $sx .= $this->painel();
                         $sx .= $this->subpainel();
                         break;
@@ -105,8 +104,8 @@ class Manegement extends Model
             $sc .= $Lattes->resume();
 
             $sx .= bsc($sb,3,'" style="border-right: 1px solid #AAA;');
-            $sx .= bsc($sc,3, '" style="border-right: 1px solid #AAA;');
-            $sx .= bsc($sd, 3, '" style="border-right: 1px solid #AAA;');
+            $sx .= bsc($sc,3,'" style="border-right: 1px solid #AAA;');
+            $sx .= bsc($sd,3,'" style="border-right: 1px solid #AAA;');
             $sx .= bsc($sa,3);
 
             $sx = bs($sx);

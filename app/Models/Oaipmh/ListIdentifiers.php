@@ -79,12 +79,17 @@ class ListIdentifiers extends Model
 				->groupBy($cp)
 				->orderBy($cp)
 				->findAll();
-			$sx = '<table class="table full">';
-			foreach($dt as $id=>$line)
+			$sx = h('OAI-PMH',6);
+			$sx .= '<table class="full small">';
+			foreach($dt as $idx=>$line)
 				{
-					$sx .= '<tr>';
+					$link = '<a href="'.PATH.'/journals/oai/'.$id.'/'.$line['oai_status'].'">';
+					$linka = '</a>';
+					$sx .= '<tr  class="border-top border-secondary p-2">';
 					$sx .= '<td width="65%">';
+					$sx .= $link;
 					$sx .= lang('brapci.oai_status_'.$line['oai_status']);
+					$sx .= $linka;
 					$sx .= '</td>';
 					$sx .= '<td class="text-center">';
 					$sx .= $line['total'];

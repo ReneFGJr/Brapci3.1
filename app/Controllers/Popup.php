@@ -25,6 +25,10 @@ class Popup extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         switch ($act) {
+            case 'oai':
+                $OAI = new \App\Models\Oaipmh\Index();
+                $sx = $OAI->index('getReg',$id2,$id3);
+                break;
             case  'admin':
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM")) {

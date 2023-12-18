@@ -40,7 +40,7 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($d1, $d2)
+	function index($d1='', $d2='')
 	{
 		$sx = '';
 		switch ($d1) {
@@ -51,6 +51,9 @@ class Index extends Model
 			case 'getregister':
 				$sx .= $this->getregister($d1, $d2);
 				break;
+			case 'getReg':
+				$sx .= $this->getReg($d2);
+				break;
 			default:
 				echo "OPS OAI $d1,$d2";
 				exit;
@@ -58,6 +61,23 @@ class Index extends Model
 
 		return $sx;
 	}
+
+	function getReg($id)
+		{
+			echo "OK";
+			exit;
+			$Source = new \App\Models\Base\Sources();
+			$file = $Source->filename($id);
+			if (file_exists($file))
+				{
+					header('Content-Type: text/xml');
+					$txt = file_get_contents($file);
+					echo $txt;
+					exit;
+				}
+			echo "File not harvesting ".$file;
+			exit;
+		}
 
 	function identify($d1, $d2)
 	{

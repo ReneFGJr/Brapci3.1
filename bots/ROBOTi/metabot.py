@@ -63,7 +63,7 @@ def GetRecord():
         else:
             xml = brapci_base.getRegister(id_reg)
             cache_file_save(id_reg,xml)
-        print("===============",len(xml),id_reg)
+        print("=============== LEN",len(xml),'IDreg',id_reg)
         ######################## SAVE CACHE
         if (len(xml) > 0):
             brapci_base.updateRegisterStatus(id_reg,5)

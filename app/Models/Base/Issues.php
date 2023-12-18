@@ -115,6 +115,29 @@ class Issues extends Model
         return $sx;
     }
 
+    function painel($id)
+        {
+            $sx = h(lang('brapci.Journal'),6,'mt-3');
+            $sx .= '<table class="full small">';
+            /*************************** ISSUE */
+            $dt = $this
+                ->select('count(*) as total')
+                ->where('is_source',$id)
+                ->findAll(1);
+            /*************************** WORKS */
+            $IssuesWorks = new \App\Models\Base\IssuesWorks();
+            $dj = $IssuesWorks
+                ->select('count(*) as total')
+                ->where('siw_journal', $id)
+                ->findAll(1);
+            $sx .= '<tr  class="border-top border-secondary p-2">';
+            $sx .= '<td width="65%">'.lang('brapci.issues'). ':</td><td class="text-center">'.$dt[0]['total']. '</td></tr>';
+            $sx .= '<tr  class="border-top border-secondary p-2">';
+            $sx .= '<td width="65%">' . lang('brapci.works') . ':</td><td class="text-center">' . $dj[0]['total'] . '</td></tr>';
+            $sx .= '</table>';
+            return $sx;
+        }
+
     function check_issues_journal_article()
         {
             $RDF = new \App\Models\Rdf\RDF();

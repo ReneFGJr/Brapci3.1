@@ -148,6 +148,9 @@ class Sources extends Model
             case 'oai':
                 $sx = $this->oai($d2, $d3);
                 break;
+            case 'oai_reg':
+                $sx = $this->oai_reg($d2, $d3);
+                break;
             case 'edit':
                 $sx = $this->editar($d2);
                 break;
@@ -231,10 +234,92 @@ class Sources extends Model
             $oai = new \App\Models\Oaipmh\ListIdentifiers();
             $sb .= $oai->painel($id);
 
+            /************************* ISSUE */
+            $Issues = new \App\Models\Base\Issues();
+            $sb .= $Issues->painel($id);
+
             $sx .= bsc($sa,9);
             $sx .= bsc($sb,3,'small');
 
             $sx = bs($sx);
+            return $sx;
+        }
+
+    function oai_reg($id)
+        {
+            $OAI = new \App\Models\Oaipmh\ListIdentifiers();
+            $dt = $OAI
+                ->join('oai_setspec', 'id_s = oai_setSpec')
+                ->where('id_oai', $id)
+                ->first();
+
+            $sa = h('ID: '.$dt['oai_identifier'],4);
+            $sa .= '<table class="full small">';
+            $sa .= '<tr>';
+            $sa .= '<td width="30%">'.lang('brapci.datestamp').'</td>';
+            $sa .= '<td width="70%">'. $dt['oai_datestamp'].'</td>';
+            $sa .= '</tr>';
+
+            $sa .= '<tr>';
+            $sa .= '<td width="30%">' . lang('brapci.setespc') . '</td>';
+            $sa .= '<td width="70%">' . $dt['s_id'] . '</td>';
+            $sa .= '</tr>';
+
+            $sa .= '</table>';
+            pre($dt,false);
+
+            $sb = $this->cache($id);
+
+            $sx = bsc($sa,6);
+            $sx .= bsc($sb, 6);
+            $sx = bs($sx);
+            return $sx;
+        }
+
+    function cache($id)
+        {
+            $file = $this->filename($id);
+            if (file_exists($file))
+                {
+                    $file = PATH.'/popup/oai/get/'.$id;
+                    echo $file;
+                    $sx = '<iframe class="full" style="height:400px" src="'.$file.'"></iframe>';
+                } else {
+                    $sx = $file.'-NOT';
+                }
+            return $sx;
+        }
+
+    function filename($id)
+        {
+            $ids = strzero($id,10);
+            $dir = '../.tmp/oai/'.substr($ids,0,4).'/'.substr($ids,4,4).'/';
+            $file = $dir .= $ids.'.getRecord.xml';
+            return $file;
+        }
+
+    function oai($jnl,$sta)
+        {
+            $sx = h(lang('brapci.oaipmh'),2);
+            $sx .= h(lang('brapci.oai_status_'.$sta), 4);
+            $OAI = new \App\Models\Oaipmh\ListIdentifiers();
+            $dt = $OAI
+                ->where('oai_id_jnl',$jnl)
+                ->where('oai_status',$sta)
+                ->orderBy('id_oai')
+                ->findAll();
+
+            $sx .= h(lang('brapci.total').' '.number_format(count($dt),0,',','.'), 6);
+
+            $sx .= '<ul>';
+            foreach($dt as $id=>$line)
+                {
+                    $link = '<a href="'.PATH.'/journals/oai_reg/'.$line['id_oai'].'">';
+                    $linka = '</a>';
+                    $sx .= '<li>'.$link.$line['oai_identifier'].$linka.'</li>';
+                }
+            $sx .= '</ul>';
+            $sx = bs(bsc($sx,12));
             return $sx;
         }
 
