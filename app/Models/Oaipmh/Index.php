@@ -69,6 +69,10 @@ class Index extends Model
 			if (file_exists($file))
 				{
 					$xml = file_get_contents($file);
+					$xml = troca($xml, 'oai_dc:','');
+					$xml = troca($xml, 'dc:', '');
+					//$xml = troca($xml, 'oai_dc:', '');
+					//$xml = troca($xml, 'oai_dc:', '');
 					$xml = (array)simplexml_load_string($xml);
 					pre($xml);
 					exit;
