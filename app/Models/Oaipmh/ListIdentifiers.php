@@ -50,6 +50,25 @@ class ListIdentifiers extends Model
 			$this->set($dt)->where('oai_deleted',1)->update();
 		}
 
+	function painel_mini($s=0,$jnl=0)
+		{
+		$cp = 'oai_status';
+		$this->select($cp . ', count(*) as total');
+		if ($jnl > 0)
+			{
+				$this->where('oai_id_jnl', $id);
+			}
+		if ($s > 0) {
+			$this->where('oai_status', $s);
+		}
+		$dt = $this
+			->groupBy($cp)
+			->orderBy($cp)
+			->findAll();
+
+		pre($dt);
+		}
+
 	function painel($id)
 		{
 			$this->check();

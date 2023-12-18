@@ -219,26 +219,16 @@ class Index extends Model
 		return $dir;
 	}
 
-	function resume($idj, $issue)
+	function resume($idj=0, $issue=0)
 	{
 		$dt = $this->to_harvesting_group($idj, $issue);
-		$dsp = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		$sx = h(msg('brapci.oaipmh'),4);
+		$sx .= '<ul style="font-size: 0.7em;">';
 		foreach ($dt as $id => $line) {
-			$dsp[$line['li_s']] = $line['total'];
+			$dsp[$line['oai_status']] = $line['total'];
+			$sx .= '<li>'.msg('brapci.oai_status_'.$line['oai_status']).' ('.$line['total'].')'.'</li>';
 		}
-		$sx = '<table width="100%">';
-		$sx .= '<tr>';
-		for ($r = 0; $r <= 9; $r++) {
-			$link = '<a href="' . PATH . '/proceedings/oai/I' . $issue . '/status/?status=' . $r . '">';
-			$linka = '</a>';
-			if ($dsp[$r] == 0) {
-				$linka = '';
-				$link = '';
-			}
-			$sx .= '<td width="10%">' . $link . $dsp[$r] . $linka . '</td>';
-		}
-		$sx .= '</tr>';
-		$sx .= '</table>';
+		$sx .= '</ul>';
 		return $sx;
 	}
 
@@ -247,15 +237,15 @@ class Index extends Model
 		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
 		if ($idj > 0) {
 			$dt = $OAI_ListIdentifiers
-				->select("count(*) as total, li_s")
-				->where('li_jnl', $idj)
-				->groupBy("li_s")
+				->select("count(*) as total, oai_status")
+				->where('oai_id_jnl', $idj)
+				->groupBy("oai_status")
 				->findAll();
 		} else {
 			$dt = $OAI_ListIdentifiers
-				->select("count(*) as total, li_s")
-				->where('li_issue', $issue)
-				->groupBy("li_s")
+				->select("count(*) as total, oai_status")
+				->where('oai_issue', $issue)
+				->groupBy("oai_status")
 				->findAll();
 		}
 		return $dt;

@@ -93,16 +93,18 @@ class Manegement extends Model
             $ElasticSearch = new \App\Models\ElasticSearch\Register();
             $sc = $ElasticSearch->resume();
 
+            /************************************************ CRON - OAIPMH */
+            $Oaipmh = new \App\Models\Oaipmh\Index();
+            $sd = $Oaipmh->resume();
+
             /************************************************ CRON - TAREFAS */
             $Lattes = new \App\Models\Api\Lattes\KtoN();
             $sc .= $Lattes->resume();
 
-
-
-
-            $sx .= bsc($sb,4,'" style="border-right: 1px solid #AAA;');
-            $sx .= bsc($sc, 4, '" style="border-right: 1px solid #AAA;');
-            $sx .= bsc($sa,4);
+            $sx .= bsc($sb,3,'" style="border-right: 1px solid #AAA;');
+            $sx .= bsc($sc,3, '" style="border-right: 1px solid #AAA;');
+            $sx .= bsc($sd, 3, '" style="border-right: 1px solid #AAA;');
+            $sx .= bsc($sa,3);
 
             $sx = bs($sx);
             return $sx;
