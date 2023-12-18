@@ -97,6 +97,9 @@ class Manegement extends Model
             $Oaipmh = new \App\Models\Oaipmh\Index();
             $sd = $Oaipmh->resume();
 
+            $OS = new \App\Models\Functions\OS();
+            $sd .= $OS->resume();
+
             /************************************************ CRON - TAREFAS */
             $Lattes = new \App\Models\Api\Lattes\KtoN();
             $sc .= $Lattes->resume();

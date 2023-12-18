@@ -191,7 +191,14 @@ return [
         'oai_status_5' => 'Coletado',
         'oai_status_9' => 'Deletado',
         'oai_status_8' => 'Processado',
-        'oaipmh'=> 'OAI-PMH'
+        'oaipmh'=> 'OAI-PMH',
+        'OS' => 'SO',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+        '' => '',
+
 
 
 
