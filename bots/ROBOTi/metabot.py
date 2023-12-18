@@ -56,6 +56,7 @@ def GetRecord():
     # Busca proxima coleta
     id_reg = brapci_base.getNextRegister(1)
     #brapci_base.updateRegisterStatus(id_reg,5)
+    brapci_base.updateRegisterStatus(id_reg,2)
     if id_reg > 0:
         if (cached(id_reg)):
             xml = readfile(id_reg)
