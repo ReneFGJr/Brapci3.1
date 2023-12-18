@@ -6,19 +6,18 @@ use CodeIgniter\Model;
 
 class ListIdentifiers extends Model
 {
-	protected $DBGroup              = 'default';
-	protected $table                = 'source_listidentifier';
-	protected $primaryKey           = 'id_li';
+	protected $DBGroup              = 'oai';
+	protected $table                = 'oai_listidentify';
+	protected $primaryKey           = 'id_oai';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
 	protected $returnType           = 'array';
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_li', 'li_identifier', 'li_setSpec',
-		'li_status', 'li_jnl', 'li_update',
-		'li_s', 'li_u', 'li_datestamp',
-		'li_issue', 'is_works', 'is_oai_token',
+		'id_oai', 'oai_update', 'oai_status',
+		'oai_id_jnl', 'oai_identifier', 'oai_datestamp',
+		'oai_setSpec', 'oai_deleted', 'oai_rdf'
 	];
 
 	// Dates
@@ -47,10 +46,10 @@ class ListIdentifiers extends Model
 
 	function painel($id)
 		{
-			$cp = 'li_s';
+			$cp = 'oai_status';
 			$dt = $this
 				->select($cp.', count(*) as total')
-				->where('li_jnl',$id)
+				->where('oai_id_jnl',$id)
 				->groupBy($cp)
 				->orderBy($cp)
 				->findAll();
@@ -59,7 +58,7 @@ class ListIdentifiers extends Model
 				{
 					$sx .= '<tr>';
 					$sx .= '<td width="65%">';
-					$sx .= lang('brapci.oai_status_'.$line['li_s']);
+					$sx .= lang('brapci.oai_status_'.$line['oai_status']);
 					$sx .= '</td>';
 					$sx .= '<td class="text-center">';
 					$sx .= $line['total'];

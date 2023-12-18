@@ -5,7 +5,7 @@ namespace Config;
 use CodeIgniter\Database\Config;
 
 /**
- * Database Configuration
+ * Database Cnfiguration
  */
 class Database extends Config
 {
@@ -178,6 +178,26 @@ class Database extends Config
         'username' => 'root',
         'password' => '',
         'database' => 'brapci_openaire',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
+    public $oai = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_oaipmh',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -635,6 +655,9 @@ class Database extends Config
 
         $this->dci['username'] = getenv('database.default.username');
         $this->dci['password'] = getenv('database.default.password');
+
+        $this->oai['username'] = getenv('database.default.username');
+        $this->oai['password'] = getenv('database.default.password');
 
         $this->observatorio['username'] = getenv('database.default.username');
         $this->observatorio['password'] = getenv('database.default.password');

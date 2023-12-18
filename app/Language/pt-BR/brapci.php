@@ -186,8 +186,8 @@ return [
         'jnl_status_404' => 'Fora do Ar',
         'jnl_status_501' => 'Erros de Acesso',
         '' => '',
-        '' => '',
-        '' => '',
+        'oai_status_1' => 'Para coletar',
+        'oai_status_5' => 'Coletado',
         '' => '',
         '' => '',
 
