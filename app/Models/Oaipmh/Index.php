@@ -70,7 +70,8 @@ class Index extends Model
 				{
 					//header('Content-Type: text/xml');
 					$txt = file_get_contents($file);
-					echo $txt;
+					$xml = (array)simplexml_load_string($xml);
+					pre($xml);
 					exit;
 				}
 			echo "File not harvesting ".$file;
