@@ -13,6 +13,24 @@ def version():
 def clearMarkup():
     brapci_base.clearMarkup()
 
+################################################### processRecord
+def processRecord():
+    ID = getNextProcess()
+    if ID > 0:
+        file = directory(ID)+'.getRecord.xml'
+        if os.path.exists(file):
+            import oaixml
+            oaixml.convertXMLtoJSON(file)
+
+    else:
+        print("Nada a processar")
+
+
+
+def getNextProcess():
+    import brapci_base
+    ID = brapci_base.getNextProcess(5)
+    return ID
 ################################################### CACHED FILE
 def cached(id):
     file = directory(id)+'.getRecord.xml'

@@ -13,6 +13,9 @@ def Identify():
 def GetRecord():
     import metabot
     metabot.GetRecord()
+def processRecord():
+    import metabot
+    metabot.processRecord()
 
 def Listidentifiers():
     import metabot
@@ -54,6 +57,9 @@ if (len(sys.argv) > 1):
     elif ((parm[1] == 'getrecord') or (parm[1] == bytearray(b'getrecord'))):
         print("Verb: GetRecord")
         GetRecord()
+    elif ((parm[1] == 'process') or (parm[1] == bytearray(b'process'))):
+        print("Verb: Process Register")
+        processRecord()
     elif ((parm[1] == 'listidentifiers') or (parm[1] == bytearray(b'listidentifiers'))):
         print("Verb: Listidentifiers")
         Listidentifiers()

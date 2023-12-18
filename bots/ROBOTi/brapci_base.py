@@ -37,6 +37,25 @@ def oai_mysql():
             print(err)
     return cnx
 
+def getNextProcess(s):
+    now_time = datetime.datetime.now()
+    day = now_time.day
+
+    query = "select id_oai from brapci_oaipmh.oai_listidentify "
+    query += f"where oai_status = {s} "
+    query += f"order by oai_update, id_oai "
+
+    cnx = oai_mysql()
+    cursor = cnx.cursor()
+    cursor.execute(query)
+    row = cursor.fetchone()
+
+    try:
+        ID = row[0]
+    except:
+        ID = 0
+    return ID
+
 def next_action():
     now_time = datetime.datetime.now()
     day = now_time.day

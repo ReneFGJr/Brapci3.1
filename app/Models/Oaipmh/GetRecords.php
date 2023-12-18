@@ -74,65 +74,10 @@ class GetRecords extends Model
 	function harvesting($id)
 	{
 		$RSP = [];
-		$OAI = new \App\Models\Oaipmh\Index();
-		// https://ebbc.inf.br/ojs/index.php/ebbc/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:ojs.pkp.sfu.ca:article/4
-
-		$OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-		$dt = $OAI_ListIdentifiers
-			->select("*")
-			->join('source_issue', 'li_issue = id_is', 'LEFT')
-			->join('source_source', 'li_jnl = id_jnl', 'LEFT')
-			->find($id);
-
-		if ($dt['is_url_oai'] != '') {
-			$url = trim($dt['is_url_oai']);
-			$id_li = $dt['id_li'];
-		} else {
-			$url = trim($dt['jnl_url_oai']);
-		}
-
-		$reg = $dt['li_identifier'];
-		$url .= '?verb=GetRecord';
-		$url .= '&';
-		$url .= 'metadataPrefix=oai_dc';
-		$url .= '&';
-		$url .= 'identifier=' . $reg;
-
-		//pre($dt);
-
-		/********************************* Sincroniza tabelas e atualizações */
-		$verif = $this->where('lr_identifier', $reg)->where('lr_jnl', $dt['jnl_frbr'])->findAll();
-		if (count($verif) > 0) {
-			if ($id_li > 0) {
-				$RSP['reprocessed'] = 'true';
-				//$OAI_ListIdentifiers->update_status($id_li, 9);
-				//$RSP['message'] = lang('brapci.already_process ');
-				//$RSP['status'] = '202';
-				//return $RSP;
-			}
-		}
-
-		$dir = $OAI->dir_tmp($dt['id_li']);
-		$file = $dir . 'GetRegister.xml';
-
-		if (file_exists($file)) {
-			$da = filectime($file);
-			$txt = file_get_contents($file);
-			$RSP['file_status'] = "CACHED";
-		} else {
-			$txt = $OAI->_call($url);
-			$RSP['file_status'] = "DOWNLOAD";
-			if (strlen($txt) > 0)
-				{
-					dircheck($dir);
-					file_put_contents($file,$txt);
-				}
-		}
-
 
 		/******************************* METHODS */
-		$method = $dt['jnl_oai_method'];
-		$RSP['method'] = $method;
+		$dt = $this->first();
+		pre($dt);
 
 		switch ($method) {
 			case 0:
