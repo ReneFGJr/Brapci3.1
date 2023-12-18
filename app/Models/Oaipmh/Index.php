@@ -68,7 +68,7 @@ class Index extends Model
 			$file = $Source->filename($id);
 			if (file_exists($file))
 				{
-					header('Content-Type: text/xml');
+					//header('Content-Type: text/xml');
 					$txt = file_get_contents($file);
 					echo $txt;
 					exit;
