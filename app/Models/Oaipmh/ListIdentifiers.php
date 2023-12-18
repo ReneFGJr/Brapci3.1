@@ -44,8 +44,15 @@ class ListIdentifiers extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function check()
+		{
+			$dt['oai_status'] = 9;
+			$this->set($dt)->where('oai_deleted',1)->update();
+		}
+
 	function painel($id)
 		{
+			$this->check();
 			$cp = 'oai_status';
 			$dt = $this
 				->select($cp.', count(*) as total')

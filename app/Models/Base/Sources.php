@@ -231,8 +231,8 @@ class Sources extends Model
             $oai = new \App\Models\Oaipmh\ListIdentifiers();
             $sb .= $oai->painel($id);
 
-            $sx .= bsc($sa,10);
-            $sx .= bsc($sb,2);
+            $sx .= bsc($sa,9);
+            $sx .= bsc($sb,3,'small');
 
             $sx = bs($sx);
             return $sx;
