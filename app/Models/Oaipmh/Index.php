@@ -64,8 +64,6 @@ class Index extends Model
 
 	function getReg($id)
 		{
-			echo "OK";
-			exit;
 			$Source = new \App\Models\Base\Sources();
 			$file = $Source->filename($id);
 			if (file_exists($file))
