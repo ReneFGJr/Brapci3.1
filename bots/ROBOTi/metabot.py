@@ -35,7 +35,7 @@ def getNextProcess():
 def cached(id):
     file = directory(id)+'.getRecord.xml'
     if os.path.exists(file):
-        xml = readfile(id_reg)
+        xml = readfile(id)
         if (len(xml) == 0):
             return False
         else:
