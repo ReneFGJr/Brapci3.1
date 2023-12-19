@@ -74,6 +74,8 @@ if (len(sys.argv) > 1):
             Identify()
         elif ((act == 'oai_listidentifiers') or (act == bytearray(b'oai_listidentifiers'))):
             Listidentifiers()
+        elif ((act == 'oai_getregister') or (act == bytearray(b'oai_getregister'))):
+            GetRecord()
         elif ((act == 'translate') or (act == bytearray(b'translate'))):
             import translate
             translate.translateNext()
