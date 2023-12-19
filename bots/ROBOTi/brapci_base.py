@@ -64,6 +64,8 @@ def next_action():
     query += "where cron_exec = 'python' "
     query += f"and ((cron_day = 0) or (cron_day = {day}))"
 
+    print(query)
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     cursor.execute(query)
