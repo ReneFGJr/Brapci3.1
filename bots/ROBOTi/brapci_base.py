@@ -62,7 +62,8 @@ def next_action():
 
     query = "select * from brapci_bots.cron "
     query += "where cron_exec = 'python' "
-    query += f"and ((cron_day = 0) or (cron_day = {day}))"
+    query += f"and ((cron_day = 0) or (cron_day = {day})) "
+    query += "order by cron_prior"
 
     print(query)
 
