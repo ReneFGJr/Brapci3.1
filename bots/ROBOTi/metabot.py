@@ -21,7 +21,7 @@ def processRecord():
         print("Recuperando ",file)
         if os.path.exists(file):
             import oaixml
-            oaixml.convertXMLtoJSON(file)
+            oaixml.convertXMLtoJSON(file,ID)
             brapci_base.updateRegisterStatus(ID,6)
 
     else:

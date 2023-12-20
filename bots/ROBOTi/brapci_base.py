@@ -350,7 +350,7 @@ def identify_register(id_jnl,docXML):
             cursor = cnx.cursor()
             cursor.executemany(query, vals)
             cnx.commit()
-            oaipmh.updateSource(ID,'100')
+            oaipmh.updateSource(id_jnl,'100')
         else:
             print("UPDATE")
 
@@ -418,7 +418,24 @@ def updateRegisterStatus(id,sta):
     qr += f"oai_status = {sta} "
     qr += f"where id_oai = {id} "
     query(qr)
+
 ############################################################################
+def getID(ID):
+    query = f"select s_id from brapci_oaipmh.oai_listidentify "
+    query += f"inner join brapci_oaipmh.oai_setspec ON oai_setSpec = id_s "
+    query += f"where id_oai = {ID}"
+
+    cnx = oai_mysql()
+    cursor = cnx.cursor()
+    try:
+        cursor.execute(query)
+        row = cursor.fetchone()
+    except:
+        print("ROBOTi ERROR - getID()")
+        row = []
+    cursor.close()
+    return row
+
 def getRegister(id):
     import oaipmh
     qr = f"select id_oai, oai_id_jnl, oai_identifier, jnl_url_oai "

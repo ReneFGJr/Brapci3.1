@@ -1,12 +1,15 @@
 import json
 import xmltodict
 
-def convertXMLtoJSON(file):
+def convertXMLtoJSON(file,ID):
     import language
     import nbr
     import issue
     import type_id
     import license
+    import brapci_base
+
+    DT = brapci_base.getID(ID)
 
     f = open(file, "r")
     docXML = f.read()
