@@ -10,6 +10,7 @@ def convertXMLtoJSON(file,ID):
     import brapci_base
 
     DT = brapci_base.getID(ID)
+    print(DT)
 
     f = open(file, "r")
     docXML = f.read()
