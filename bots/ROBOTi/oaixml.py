@@ -109,8 +109,6 @@ def convertXMLtoJSON(file):
                 for reg in TIT:
                     titulo = reg['#text']
                     lc = license.tipo(titulo)
-                    print(lc)
-                    print("Licença",lc,titulo)
                     dc_license.append(lc)
             else:
                 titulo = TIT
