@@ -71,7 +71,7 @@ class Index extends Model
 				{
 					$file = troca($file,'.xml','.json');
 				}
-
+			pre(file);
 			if (file_exists($file))
 				{
 					$xml = file_get_contents($file);
