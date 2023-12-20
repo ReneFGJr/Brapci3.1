@@ -10,8 +10,7 @@ def convertXMLtoJSON(file,ID):
     import brapci_base
 
     DT = brapci_base.getID(ID)
-    print(DT)
-
+    sect = DT[0]
     f = open(file, "r")
     docXML = f.read()
     f.close()
@@ -37,7 +36,7 @@ def convertXMLtoJSON(file,ID):
         dc_link = []
         dc_language = []
         dc_license = []
-        dc_section = []
+        dc_section = dict(section=sect)
 
 
         ############################################# Título
