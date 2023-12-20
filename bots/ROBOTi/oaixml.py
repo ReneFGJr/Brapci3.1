@@ -192,7 +192,7 @@ def convertXMLtoJSON(file,ID):
         print(e)
 
     try:
-        DC = [{'journal':dc_journal},'section':dc_section},{'title':dc_titulo},{'abstract':dc_abstract},{'author':dc_author},{'subject':dc_subject},{'source':dc_source},{'datePub':dc_datePub},{'DOI':dc_doi},{'http':dc_link},{'language':dc_language},{'license':dc_license}]
+        DC = [{'journal':dc_journal},{'section':dc_section},{'title':dc_titulo},{'abstract':dc_abstract},{'author':dc_author},{'subject':dc_subject},{'source':dc_source},{'datePub':dc_datePub},{'DOI':dc_doi},{'http':dc_link},{'language':dc_language},{'license':dc_license}]
     except Exception as e:
         print("ERRO NO DC",e)
 
