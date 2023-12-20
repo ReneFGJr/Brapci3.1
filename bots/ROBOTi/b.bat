@@ -1,4 +1,4 @@
 cls
-python ROBOTi.py identify
-python ROBOTi.py run
+python ROBOTi.py process
+timeout /t 15
 b.bat

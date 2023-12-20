@@ -2,6 +2,7 @@ import re
 
 def decode(n,lg,vl):
     n = n.lower()
+    print("ISSUE",n)
 
     try:
         vol = vl['vol']
@@ -31,6 +32,7 @@ def decode(n,lg,vl):
         vol = ''
         for cg in vols:
             volR = re.findall(cg+'\d',n)
+            volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
             if (vol == '') and (volR != []):
                 vol = volR[0]
                 vol = vol.replace(cg,'').strip()
@@ -39,13 +41,14 @@ def decode(n,lg,vl):
     ############################################## Recupera NUMERO
     ################### method 01 - (vol. X)
     try:
-        vols = ['nr. ','num.','n. ','n.']
+        vols = ['nr. ','num.','n. ','n.','núm.']
         nr = ''
         for cg in vols:
-            volR = re.findall(cg+'\d',n)
+            volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
+            #print("volRY",volR)
             if (nr == '') and (volR != []):
                 nr = volR[0]
-                nr = vol.replace(cg,'').strip()
+                nr = nr.replace(cg,'').strip()
     except Exception as e:
         print("Erro ao processar o NUMERO",e)
 
@@ -54,5 +57,5 @@ def decode(n,lg,vl):
         dc = dict(vol=vol,nr=nr,year=year,theme=theme)
     except Exception as e:
         print("Problema ao montar retorno",e)
-    #print(dc)
+    print("DC",dc)
     return dc
