@@ -290,8 +290,10 @@ class Sources extends Model
             if (file_exists($file))
                 {
                     $file = PATH.'/popup/oai/get/'.$id;
-                    echo $file;
-                    $sx = '<iframe class="full" style="height:600px" src="'.$file.'"></iframe>';
+                    $file2 = PATH . '/popup/oai/get/' . $id.'/json';
+                    echo $file2;
+                    $sx = '<iframe class="full" style="height:300px" src="'.$file.'"></iframe>';
+                    $sx = '<iframe class="full" style="height:300px" src="' . $file2 . '"></iframe>';
                 } else {
                     $sx = $file.'-NOT';
                 }
