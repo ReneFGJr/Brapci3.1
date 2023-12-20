@@ -315,7 +315,7 @@ class Sources extends Model
                 {
                     $OAI->where('oai_id_jnl', $jnl);
                 }
-            $OAI->where('oai_status',$sta)
+            $dt = $OAI->where('oai_status',$sta)
                 ->orderBy('id_oai')
                 ->findAll();
 
