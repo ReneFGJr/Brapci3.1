@@ -119,7 +119,6 @@ def convertXMLtoJSON(file):
         ############################################# identifier
         try:
             TIT = RCN['dc:identifier']
-            print("Identifier",TIT)
             if type(TIT) is list:
                 for reg in TIT:
                     reg = type_id.recognizer(reg)
