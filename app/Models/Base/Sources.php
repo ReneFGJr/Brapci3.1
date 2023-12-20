@@ -250,11 +250,20 @@ class Sources extends Model
             $OAI = new \App\Models\Oaipmh\ListIdentifiers();
             $dt = $OAI
                 ->join('oai_setspec', 'id_s = oai_setSpec')
+                ->join('brapci.source_source','id_jnl = oai_id_jnl')
                 ->where('id_oai', $id)
                 ->first();
 
-            $sa = h('ID: '.$dt['oai_identifier'],4);
+            $sa = h('ID: <b>'.$dt['oai_identifier']. '</b>',6);
             $sa .= '<table class="full small">';
+
+            $link = '<a href="'.PATH. '/journals/view/'.$dt['id_jnl'].'">';
+            $linka = '</a>';
+            $sa .= '<tr>';
+            $sa .= '<td width="30%">' . lang('brapci.journal') . '</td>';
+            $sa .= '<td width="70%">' . $link.$dt['jnl_name'].$linka . '</td>';
+            $sa .= '</tr>';
+
             $sa .= '<tr>';
             $sa .= '<td width="30%">'.lang('brapci.datestamp').'</td>';
             $sa .= '<td width="70%">'. $dt['oai_datestamp'].'</td>';
@@ -266,12 +275,11 @@ class Sources extends Model
             $sa .= '</tr>';
 
             $sa .= '</table>';
-            pre($dt,false);
 
             $sb = $this->cache($id);
 
-            $sx = bsc($sa,6);
-            $sx .= bsc($sb, 6);
+            $sx = bsc($sa,5);
+            $sx .= bsc($sb, 7);
             $sx = bs($sx);
             return $sx;
         }
@@ -283,7 +291,7 @@ class Sources extends Model
                 {
                     $file = PATH.'/popup/oai/get/'.$id;
                     echo $file;
-                    $sx = '<iframe class="full" style="height:400px" src="'.$file.'"></iframe>';
+                    $sx = '<iframe class="full" style="height:600px" src="'.$file.'"></iframe>';
                 } else {
                     $sx = $file.'-NOT';
                 }

@@ -18,6 +18,7 @@ def processRecord():
     ID = getNextProcess()
     if ID > 0:
         file = directory(ID)+'.getRecord.xml'
+        print("Recuperando ",file)
         if os.path.exists(file):
             import oaixml
             oaixml.convertXMLtoJSON(file)

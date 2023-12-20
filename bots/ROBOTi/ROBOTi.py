@@ -76,6 +76,8 @@ if (len(sys.argv) > 1):
             Listidentifiers()
         elif ((act == 'oai_getregister') or (act == bytearray(b'oai_getregister'))):
             GetRecord()
+        elif ((act == 'process') or (act == bytearray(b'process'))):
+            processRecord()
         elif ((act == 'translate') or (act == bytearray(b'translate'))):
             import translate
             translate.translateNext()

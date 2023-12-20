@@ -69,11 +69,18 @@ class Index extends Model
 			if (file_exists($file))
 				{
 					$xml = file_get_contents($file);
+					$xml = utf8_encode($xml);
 					$xml = troca($xml, 'oai_dc:','');
 					$xml = troca($xml, 'dc:', '');
 					//$xml = troca($xml, 'oai_dc:', '');
 					//$xml = troca($xml, 'oai_dc:', '');
-					$xml = (array)simplexml_load_string($xml);
+					try
+						{
+							$xml = (array)simplexml_load_string($xml);
+						} catch (Exception $e) {
+							echo 'Caught exception: ',  $e->getMessage(), "\n";
+						}
+
 					pre($xml);
 					exit;
 				}
