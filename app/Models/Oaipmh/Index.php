@@ -254,7 +254,7 @@ class Index extends Model
 		$sx = h(msg('brapci.oaipmh'),4);
 		$sx .= '<ul style="font-size: 0.7em;">';
 		foreach ($dt as $id => $line) {
-			$link = '<a href="' . PATH . '/journals/oai/' . $id . '/' . $line['oai_status'] . '">';
+			$link = '<a href="' . PATH . '/journals/oai/'.$idj.'/' . $line['oai_status'] . '">';
 			$linka = '</a>';
 
 			$dsp[$line['oai_status']] = $line['total'];
