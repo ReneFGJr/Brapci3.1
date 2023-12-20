@@ -1,7 +1,6 @@
 import re
 
 def tipo(n):
-    print("LLLLLLLLL",n)
     #if (n=='https://creativecommons.org/licenses/by/4.0'):
     #    return "CCBY4.0"
 
@@ -16,4 +15,6 @@ def tipo(n):
     other = re.findall('Copyright?[a-zA-Z0-9\/\.\-_\+]+',n)
     if (other != '') and (other != []):
         return "Copr"
+
+    print("Licença não localizada ",n)
     return "OO"

@@ -136,7 +136,6 @@ def convertXMLtoJSON(file):
         #relation
         try:
             TIT = RCN['dc:relation']
-            print("relation",TIT)
             if type(TIT) is list:
                 for reg in TIT:
                     reg = type_id.recognizer(reg)
@@ -193,7 +192,7 @@ def convertXMLtoJSON(file):
     except Exception as e:
         print("ERRO NO DC",e)
 
-    print("===JSON=============",file)
+    print("SAVE=",file)
     file = file.replace('.xml','.json')
     f = open(file,'w')
     f.write(json.dumps(DC))
