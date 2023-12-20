@@ -40,7 +40,7 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($d1='', $d2='')
+	function index($d1='', $d2 ='', $d3 = '')
 	{
 		$sx = '';
 		switch ($d1) {
@@ -52,7 +52,7 @@ class Index extends Model
 				$sx .= $this->getregister($d1, $d2);
 				break;
 			case 'getReg':
-				$sx .= $this->getReg($d2);
+				$sx .= $this->getReg($d2,$d3);
 				break;
 			default:
 				echo "OPS OAI $d1,$d2";
@@ -62,10 +62,16 @@ class Index extends Model
 		return $sx;
 	}
 
-	function getReg($id)
+	function getReg($id,$tp='')
 		{
 			$Source = new \App\Models\Base\Sources();
 			$file = $Source->filename($id);
+
+			if ($tp == 'json')
+				{
+					$file = troca($file,'.xml','.json');
+				}
+
 			if (file_exists($file))
 				{
 					$xml = file_get_contents($file);

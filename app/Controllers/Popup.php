@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 
 /* SESSION */
+
 $language = \Config\Services::language();
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
@@ -18,7 +19,7 @@ define("LIBRARY", '0000');
 
 class Popup extends BaseController
 {
-    public function index($act = '',$id='',$id2='',$id3='')
+    public function index($act = '', $id = '', $id2 = '', $id3 = '', $id4 = '')
     {
         $data['page_title'] = 'Brapci - POPUP - ' . ucfirst($act);
         $data['bg'] = 'bg-pq';
@@ -27,13 +28,13 @@ class Popup extends BaseController
         switch ($act) {
             case 'oai':
                 $OAI = new \App\Models\Oaipmh\Index();
-                $sx = $OAI->index('getReg',$id2,$id3);
+                $sx = $OAI->index('getReg', $id2, $id3, $id4);
                 break;
             case  'admin':
                 $Socials = new \App\Models\Socials();
                 if ($Socials->getAccess("#ADM")) {
                     $Admin = new \App\Models\Base\Admin\Index();
-                    $sx .= $Admin->index($id,$id2,$id3);
+                    $sx .= $Admin->index($id, $id2, $id3);
                 }
                 break;
             case 'remissive':
@@ -46,12 +47,11 @@ class Popup extends BaseController
                 break;
             case  'upload':
                 $Socials = new \App\Models\Socials();
-                if ($Socials->getAccess("#ADM"))
-                    {
-                        $id = get("id");
-                        $DownloadPDF = new \App\Models\Bots\DownloadPDF();
-                        $sx .= $DownloadPDF->upload($id);
-                    }
+                if ($Socials->getAccess("#ADM")) {
+                    $id = get("id");
+                    $DownloadPDF = new \App\Models\Bots\DownloadPDF();
+                    $sx .= $DownloadPDF->upload($id);
+                }
                 break;
             case 'lattesextrator':
                 $LattesExtrator = new \App\Models\LattesExtrator\Index();
