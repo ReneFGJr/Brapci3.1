@@ -68,10 +68,15 @@ class Index extends Model
 		$file = $Source->filename($id);
 
 		if ($tp == 'json') {
+
 			$file = troca($file, '.xml', '.json');
-			$txt = file_get_contents($file);
-			$txt = json_decode($txt);
-			pre($txt);
+			if (file_exists($file)) {
+				$txt = file_get_contents($file);
+				$txt = json_decode($txt);
+				pre($txt);
+			} else {
+				echo "Arquivo não existe ".$file;
+			}
 			exit;
 		} else {
 			if (file_exists($file)) {
