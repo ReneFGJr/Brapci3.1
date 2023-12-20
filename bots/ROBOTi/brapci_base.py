@@ -421,7 +421,7 @@ def updateRegisterStatus(id,sta):
 
 ############################################################################
 def getID(ID):
-    query = f"select s_id from brapci_oaipmh.oai_listidentify "
+    query = f"select s_id, oai_id_jnl as id_jnl from brapci_oaipmh.oai_listidentify "
     query += f"inner join brapci_oaipmh.oai_setspec ON oai_setSpec = id_s "
     query += f"where id_oai = {ID}"
 
