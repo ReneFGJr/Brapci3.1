@@ -196,8 +196,8 @@ def convertXMLtoJSON(file,ID):
     except Exception as e:
         print("ERRO NO DC",e)
 
-    print("SAVE=",file)
     file = file.replace('.xml','.json')
+    print("SAVE=",file)
     f = open(file,'w')
     f.write(json.dumps(DC))
     f.close()

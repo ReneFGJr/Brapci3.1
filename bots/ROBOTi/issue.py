@@ -19,9 +19,14 @@ def decode(n,lg,vl):
     ################### method 01 - (YEAR)
     try:
         yearR = re.findall('\(\d{4}\)',n)
+        if yearR == []:
+            yearR = re.findall('\ \d{4}\;',n)
+        if yearR == []:
+            yearR = re.findall('\ \d{4}',n)
         for y in yearR:
             year = y.replace('(','')
             year = year.replace(')','')
+            year = year.replace(';','')
     except Exception as e:
         print("Erro ao processar o Ano",e)
 

@@ -23,11 +23,8 @@ def processRecord():
             import oaixml
             oaixml.convertXMLtoJSON(file,ID)
             brapci_base.updateRegisterStatus(ID,6)
-
     else:
         print("Nada a processar")
-
-
 
 def getNextProcess():
     import brapci_base
