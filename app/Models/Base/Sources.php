@@ -291,8 +291,11 @@ class Sources extends Model
                 {
                     $file = PATH.'/popup/oai/get/'.$id;
                     $file2 = PATH . '/popup/oai/get/' . $id.'/json';
-                    echo $file2;
-                    $sx = '<iframe class="full" style="height:300px" src="'.$file.'" class="border border-secondary"></iframe>';
+
+                    $sx = '';
+                    $sx .= h('XML', 6);
+                    $sx .= '<iframe class="full" style="height:300px" src="'.$file.'" class="border border-secondary"></iframe>';
+                    $sx .= h('JSON',6);
                     $sx .= '<iframe class="full" style="height:300px" src="' . $file2 . '"></iframe>';
                 } else {
                     $sx = $file.'-NOT';
