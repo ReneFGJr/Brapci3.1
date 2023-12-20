@@ -22,6 +22,7 @@ def processRecord():
         if os.path.exists(file):
             import oaixml
             oaixml.convertXMLtoJSON(file)
+            brapci_base.updateRegisterStatus(ID,6)
 
     else:
         print("Nada a processar")
