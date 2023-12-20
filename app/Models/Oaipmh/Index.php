@@ -40,7 +40,7 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function index($d1='', $d2 ='', $d3 = '')
+	function index($d1 = '', $d2 = '', $d3 = '')
 	{
 		$sx = '';
 		switch ($d1) {
@@ -52,7 +52,7 @@ class Index extends Model
 				$sx .= $this->getregister($d1, $d2);
 				break;
 			case 'getReg':
-				$sx .= $this->getReg($d2,$d3);
+				$sx .= $this->getReg($d2, $d3);
 				break;
 			default:
 				echo "OPS OAI $d1,$d2";
@@ -62,36 +62,38 @@ class Index extends Model
 		return $sx;
 	}
 
-	function getReg($id,$tp='')
-		{
-			$Source = new \App\Models\Base\Sources();
-			$file = $Source->filename($id);
+	function getReg($id, $tp = '')
+	{
+		$Source = new \App\Models\Base\Sources();
+		$file = $Source->filename($id);
 
-			if ($tp == 'json')
-				{
-					$file = troca($file,'.xml','.json');
-				}
-			if (file_exists($file))
-				{
-					$xml = file_get_contents($file);
-					$xml = utf8_encode($xml);
-					$xml = troca($xml, 'oai_dc:','');
-					$xml = troca($xml, 'dc:', '');
-					//$xml = troca($xml, 'oai_dc:', '');
-					//$xml = troca($xml, 'oai_dc:', '');
-					try
-						{
-							$xml = (array)simplexml_load_string($xml);
-						} catch (Exception $e) {
-							echo 'Caught exception: ',  $e->getMessage(), "\n";
-						}
-
-					pre($xml);
-					exit;
-				}
-			echo "File not harvesting ".$file;
+		if ($tp == 'json') {
+			$file = troca($file, '.xml', '.json');
+			$txt = file_get_contents($file);
+			$txt = json_decode($txt);
+			pre($txt);
 			exit;
+		} else {
+			if (file_exists($file)) {
+				$xml = file_get_contents($file);
+				$xml = utf8_encode($xml);
+				$xml = troca($xml, 'oai_dc:', '');
+				$xml = troca($xml, 'dc:', '');
+				//$xml = troca($xml, 'oai_dc:', '');
+				//$xml = troca($xml, 'oai_dc:', '');
+				try {
+					$xml = (array)simplexml_load_string($xml);
+				} catch (Exception $e) {
+					echo 'Caught exception: ',  $e->getMessage(), "\n";
+				}
+
+				pre($xml);
+				exit;
+			}
 		}
+		echo "File not harvesting " . $file;
+		exit;
+	}
 
 	function identify($d1, $d2)
 	{
@@ -105,7 +107,7 @@ class Index extends Model
 			$RSP['message'] = bsmessage('Harvesting Identify - erro no id', 3);
 		} else {
 			$RSP['status'] = '200';
-			$RSP = $Identify->Identify($id,$dt);
+			$RSP = $Identify->Identify($id, $dt);
 		}
 		return $RSP;
 	}
@@ -115,7 +117,7 @@ class Index extends Model
 		$RSP = [];
 		switch ($d1) {
 			case 'identify':
-				$RSP = $this->identify($d1,$d2);
+				$RSP = $this->identify($d1, $d2);
 				break;
 			case 'getIssue':
 				$GetRecords = new \App\Models\Oaipmh\GetRecords();
@@ -253,17 +255,17 @@ class Index extends Model
 		return $dir;
 	}
 
-	function resume($idj=0, $issue=0)
+	function resume($idj = 0, $issue = 0)
 	{
 		$dt = $this->to_harvesting_group($idj, $issue);
-		$sx = h(msg('brapci.oaipmh'),4);
+		$sx = h(msg('brapci.oaipmh'), 4);
 		$sx .= '<ul style="font-size: 0.7em;">';
 		foreach ($dt as $id => $line) {
-			$link = '<a href="' . PATH . '/journals/oai/'.$idj.'/' . $line['oai_status'] . '">';
+			$link = '<a href="' . PATH . '/journals/oai/' . $idj . '/' . $line['oai_status'] . '">';
 			$linka = '</a>';
 
 			$dsp[$line['oai_status']] = $line['total'];
-			$sx .= '<li>'.$link.msg('brapci.oai_status_'.$line['oai_status']).$linka.' ('.$line['total'].')'.'</li>';
+			$sx .= '<li>' . $link . msg('brapci.oai_status_' . $line['oai_status']) . $linka . ' (' . $line['total'] . ')' . '</li>';
 		}
 		$sx .= '</ul>';
 		return $sx;
