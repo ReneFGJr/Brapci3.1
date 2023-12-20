@@ -311,9 +311,11 @@ class Sources extends Model
             $sx = h(lang('brapci.oaipmh'),2);
             $sx .= h(lang('brapci.oai_status_'.$sta), 4);
             $OAI = new \App\Models\Oaipmh\ListIdentifiers();
-            $dt = $OAI
-                ->where('oai_id_jnl',$jnl)
-                ->where('oai_status',$sta)
+            if ($jnl > 0)
+                {
+                    $OAI->where('oai_id_jnl', $jnl);
+                }
+            $OAI->where('oai_status',$sta)
                 ->orderBy('id_oai')
                 ->findAll();
 
