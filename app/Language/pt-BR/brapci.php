@@ -189,6 +189,7 @@ return [
         'oai_status_1' => 'Para coletar',
         'oai_status_2' => 'Problema de coleta',
         'oai_status_5' => 'Coletado',
+        'oai_status_6 '=> 'Pré-processado',
         'oai_status_9' => 'Deletado',
         'oai_status_8' => 'Processado',
         'oaipmh'=> 'OAI-PMH',
