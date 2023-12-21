@@ -97,8 +97,8 @@ class Mysql extends Model
                                 break;
                             case 'B':
                                 $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
-                                $scr .= 'echo ' . $line->Database . chr(10).chr(13);
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(10).chr(13);
+                                $scr .= 'echo ' . $line->Database . chr(13).chr(10);
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13).chr(10);
                                 break;
                             default:
                                 $sx .= '<li>' . $line->Database . '</li>';
