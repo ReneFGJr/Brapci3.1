@@ -81,7 +81,7 @@ class Index extends Model
 		} else {
 			if (file_exists($file)) {
 				$xml = file_get_contents($file);
-				$xml = utf8_encode($xml);
+				//$xml = utf8_encode($xml);
 				$xml = troca($xml, 'oai_dc:', '');
 				$xml = troca($xml, 'dc:', '');
 				//$xml = troca($xml, 'oai_dc:', '');
