@@ -83,7 +83,7 @@ class Mysql extends Model
                     switch($tp)
                         {
                             case 'B':
-                                $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/' . $line->Database . '.sql<br>';
+                                $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
                                 $scr .= 'echo "Backup ' . $line->Database . '"' . chr(13);
                                 $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13);
                                 break;
@@ -102,7 +102,7 @@ class Mysql extends Model
                     $scr = 'echo off'.cr().$scr;
                     $scr .= 'echo "Fim do Backup"' . chr(13);
                     $scr .= 'echo "COPIANDO PARA A REDE"' . chr(13);
-                    $scr .= 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(13);
+                    $scr .= 'cp /home/brapci/backup/sql/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(13);
                     try {
                         file_put_contents($file, $scr);
                     } catch (Exception $e) {
