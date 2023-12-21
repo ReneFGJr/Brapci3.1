@@ -20,7 +20,7 @@ export class SearchBrapciComponent {
   public works: Array<any> | any;
   public totalw: number = 0;
   public result: Array<any> | any;
-  public results: Array<any> | any;
+  public results: Array<any> = [];
   public filters: boolean = false;
   public advanceSearch: string = '';
   public term: string = '';
@@ -194,6 +194,8 @@ export class SearchBrapciComponent {
       let dataS = this.searchForm.value.year_start;
       let dataF = this.searchForm.value.year_end;
       let dt: Array<any> | any = { di: dataS, df: dataF };
+
+      this.totalw = 0;
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;

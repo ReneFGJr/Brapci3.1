@@ -3,11 +3,11 @@ import { BrapciService } from '../../../000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss']
+  templateUrl: './about.component.html'
 })
 export class AboutComponent {
   public resume:Array<any>|any
+  public header = {'title':'Sobre a Brapci'}
 
   constructor(
     private brapciService:BrapciService

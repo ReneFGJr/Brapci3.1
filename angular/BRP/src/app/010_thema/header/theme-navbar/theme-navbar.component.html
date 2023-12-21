@@ -33,11 +33,43 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/books']">Livros</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/dashboard']">Indicadores</a>
-        </li>
+
         <li class="nav-item" *ngIf="user.id">
           <a class="nav-link" [routerLink]="['/tools']">Ferramentas</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Sobre
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/about']"
+                >Sobre a Brapci</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/about/team']">Equipe</a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/about/source']"
+                >Fontes Indexadas</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/dashboard']"
+                >Indicadores</a
+              >
+            </li>
+          </ul>
         </li>
       </ul>
       <!------------------ Login-->
@@ -48,5 +80,4 @@
       </ul>
     </div>
   </div>
-
 </nav>

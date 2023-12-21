@@ -5,7 +5,7 @@
 
 <div class="container mt-5" *ngIf="data">
   <div class="row">
-    <div class="col-9">
+    <div class="col-9" *ngIf="data.Issue.ID">
       <a [routerLink]="['/v/'+data.Issue.ID]" routerLinkActive="router-link-active" class="link">
         <h3 *ngIf="data.legend">{{data.legend}}</h3>
       </a>

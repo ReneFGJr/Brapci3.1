@@ -4,9 +4,12 @@ import { MainComponent } from './000_main/main/main.component';
 import { VComponent } from '../020_brapci/page/v/v.component';
 import { BasketedComponent } from '../020_brapci/page/basketed/basketed.component';
 import { DashboardComponent } from '../020_brapci/page/dashboard/dashboard.component';
+import { AboutComponent } from '../020_brapci/page/about/about.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
+  { path: 'about', component: AboutComponent },
+  { path: 'about/:id', component: AboutComponent },
   { path: 'v/:id', component: VComponent },
   { path: 'v', component: VComponent },
   { path: 'basket/selected', component: BasketedComponent },
@@ -58,7 +61,9 @@ const routes: Routes = [
   {
     path: 'tools',
     loadChildren: () =>
-      import('../930_tools/brapci-tools.module').then((m) => m.BrapciToolsModule),
+      import('../930_tools/brapci-tools.module').then(
+        (m) => m.BrapciToolsModule
+      ),
   },
   {
     path: 'rdf',

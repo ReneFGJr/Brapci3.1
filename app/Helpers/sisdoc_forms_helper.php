@@ -52,12 +52,6 @@ function get($var)
 /* Funcao troca */
 function troca($qutf, $qc, $qt)
 {
-    if (!is_array($qc)) {
-        $qc = array($qc);
-    }
-    if (!is_array($qt)) {
-        $qt = array($qt);
-    }
     return (str_replace($qc, $qt, $qutf));
 }
 
