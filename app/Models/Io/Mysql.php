@@ -53,6 +53,9 @@ class Mysql extends Model
                     case 'backup':
                         $sa = $this->database('B');
                         break;
+                    case 'restore':
+                        $sa = $this->database('R');
+                        break;
                     default:
                         $sa ='';
                         break;
@@ -66,6 +69,7 @@ class Mysql extends Model
             $m = [];
             $m[PATH.'/admin/mysql/database'] = 'Database';
             $m[PATH . '/admin/mysql/backup'] = 'Backup Script';
+            $m[PATH . '/admin/mysql/restore'] = 'Restore Script';
             return menu($m);
         }
 
@@ -76,16 +80,25 @@ class Mysql extends Model
             $dt = $this->db->query($sql);
             $dt = $dt->getResult();
             $scr = '';
+            $scrR = 'echo "Preparando Restauração"'.chr(10);
+            $scrR .= "Excluindo backup atual" . chr(10);
+            $scrR .= "rm home/brapci/backup/sql/*.sql -R ".chr(10);
+
             foreach($dt as $id=>$line)
                 {
                     if ($line->Database != 'performance_schema')
                     {
                     switch($tp)
                         {
+                            case 'R':
+                                $sx .= 'mysql < ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
+                                $scr .= 'echo "Backup ' . $line->Database . '"' . chr(10);
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql' . chr(10);
+                                break;
                             case 'B':
                                 $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
-                                $scr .= 'echo "Backup ' . $line->Database . '"' . chr(13);
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13);
+                                $scr .= 'echo "Backup ' . $line->Database . '"' . chr(10);
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(10);
                                 break;
                             default:
                                 $sx .= '<li>' . $line->Database . '</li>';
@@ -94,15 +107,29 @@ class Mysql extends Model
                     }
                 }
 
-            if ($scr != '')
+        if ($tp == 'R') {
+            dircheck("/home/brapci/backup");
+            dircheck("/home/brapci/backup/sql");
+            $file = '/home/brapci/backup/mysql_restore';
+            $scr .= 'echo "Inciando copia"' . chr(10);
+            $scr .= 'echo "COPIANDO DA REDE"' . chr(10);
+            $scr .= 'cp /home/brapci/rede/pluto/Backup-SQL/sql/*.sql /home/brapci/backup/sql/.' . chr(10);
+            try {
+                file_put_contents($file, $scr);
+            } catch (Exception $e) {
+                $sx = bsmessage("Arquivo não liberado para gravação", 3);
+            }
+        }
+
+
+            if ($tp == 'B')
                 {
                     dircheck("/home/brapci/backup");
                     dircheck("/home/brapci/backup/sql");
                     $file = '/home/brapci/backup/mysql_backup';
-                    $scr = 'echo off'.cr().$scr;
-                    $scr .= 'echo "Fim do Backup"' . chr(13);
-                    $scr .= 'echo "COPIANDO PARA A REDE"' . chr(13);
-                    $scr .= 'cp /home/brapci/backup/sql/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(13);
+                    $scr .= 'echo "Fim do Backup"' . chr(10);
+                    $scr .= 'echo "COPIANDO PARA A REDE"' . chr(10);
+                    $scr .= 'cp /home/brapci/backup/sql/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(10);
                     try {
                         file_put_contents($file, $scr);
                     } catch (Exception $e) {
