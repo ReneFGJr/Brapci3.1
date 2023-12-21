@@ -80,9 +80,9 @@ class Mysql extends Model
             $dt = $this->db->query($sql);
             $dt = $dt->getResult();
             $scr = '';
-            $scrR = 'echo "Preparando Restauração"'.chr(10);
-            $scrR .= "Excluindo backup atual" . chr(10);
-            $scrR .= "rm home/brapci/backup/sql/*.sql -R ".chr(10);
+            $scrR = 'echo "Preparando Restauração"'.cr();
+            $scrR .= "Excluindo backup atual" . cr();
+            $scrR .= "rm home/brapci/backup/sql/*.sql -R ".cr();
 
             foreach($dt as $id=>$line)
                 {
@@ -92,13 +92,13 @@ class Mysql extends Model
                         {
                             case 'R':
                                 $sx .= 'mysql < ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
-                                $scr .= 'echo "Backup ' . $line->Database . '"' . chr(10);
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql' . chr(10);
+                                $scr .= 'echo "Backup ' . $line->Database . '"' . cr();
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql' . cr();
                                 break;
                             case 'B':
                                 $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
-                                $scr .= 'echo "Backup ' . $line->Database . '"' . chr(10);
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(10);
+                                $scr .= 'echo "Backup ' . $line->Database . '"' . cr();
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.cr();
                                 break;
                             default:
                                 $sx .= '<li>' . $line->Database . '</li>';
@@ -111,9 +111,9 @@ class Mysql extends Model
             dircheck("/home/brapci/backup");
             dircheck("/home/brapci/backup/sql");
             $file = '/home/brapci/backup/mysql_restore';
-            $scr .= 'echo "Inciando copia"' . chr(10);
-            $scr .= 'echo "COPIANDO DA REDE"' . chr(10);
-            $scr .= 'cp /home/brapci/rede/pluto/Backup-SQL/sql/*.sql /home/brapci/backup/sql/.' . chr(10);
+            $scr .= 'echo "Inciando copia"' . cr();
+            $scr .= 'echo "COPIANDO DA REDE"' . cr();
+            $scr .= 'cp /home/brapci/rede/pluto/Backup-SQL/sql/*.sql /home/brapci/backup/sql/.' . cr();
             try {
                 file_put_contents($file, $scr);
             } catch (Exception $e) {
@@ -127,9 +127,9 @@ class Mysql extends Model
                     dircheck("/home/brapci/backup");
                     dircheck("/home/brapci/backup/sql");
                     $file = '/home/brapci/backup/mysql_backup';
-                    $scr .= 'echo "Fim do Backup"' . chr(10);
-                    $scr .= 'echo "COPIANDO PARA A REDE"' . chr(10);
-                    $scr .= 'cp /home/brapci/backup/sql/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(10);
+                    $scr .= 'echo "Fim do Backup"' . cr();
+                    $scr .= 'echo "COPIANDO PARA A REDE"' . cr();
+                    $scr .= 'cp /home/brapci/backup/sql/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . cr();
                     try {
                         file_put_contents($file, $scr);
                     } catch (Exception $e) {
