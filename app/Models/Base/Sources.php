@@ -306,7 +306,7 @@ class Sources extends Model
     function filename($id)
         {
             $ids = strzero($id,10);
-            $dir = '../.tmp/oai/'.substr($ids,0,4).'/'.substr($ids,4,4).'/';
+            $dir = '_repository/oai/'.substr($ids,0,4).'/'.substr($ids,4,4).'/';
             $file = $dir .= $ids.'.getRecord.xml';
             return $file;
         }

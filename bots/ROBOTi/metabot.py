@@ -49,15 +49,15 @@ def directory(id):
     tp1 = tp[0:4]
     tp2 = tp[4:8]
 
-    if not os.path.isdir('../../.tmp'):
-        os.mkdir('../../.tmp')
-    if not os.path.isdir('../../.tmp/oai'):
-        os.mkdir('../../.tmp/oai')
-    if not os.path.isdir('../../.tmp/oai/'+tp1):
-        os.mkdir('../../.tmp/oai/'+tp1)
-    if not os.path.isdir('../../.tmp/oai/'+tp1+'/'+tp2):
-        os.mkdir('../../.tmp/oai/'+tp1+'/'+tp2)
-    dir = f"../../.tmp/oai/{tp1}/{tp2}/{tp}"
+    if not os.path.isdir('_repository'):
+        os.mkdir('_repository')
+    if not os.path.isdir('_repository/oai'):
+        os.mkdir('_repository/oai')
+    if not os.path.isdir('_repository/oai/'+tp1):
+        os.mkdir('_repository/oai/'+tp1)
+    if not os.path.isdir('_repository/oai/'+tp1+'/'+tp2):
+        os.mkdir('_repository/oai/'+tp1+'/'+tp2)
+    dir = f"_repository/oai/{tp1}/{tp2}/{tp}"
     return dir
 
 def cache_file_save(id,txt):
