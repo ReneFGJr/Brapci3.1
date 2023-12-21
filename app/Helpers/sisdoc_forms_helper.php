@@ -55,12 +55,11 @@ function troca($qutf, $qc, $qt)
     if (!is_array($qc)) {
         $qc = array($qc);
     }
-    if (!is_array($qt)) {
-        $qt = array($qt);
-    }
-    pre($qt,false);
-    pre($qc,false);
-    return (str_replace($qc, $qt, $qutf));
+    for($r=0;$r < count($qc);$r++)
+        {
+            $qutf = str_replace($qc[$r], $qt, $qutf);
+        }
+    return $qutf;
 }
 
 function perfil($tp = '')
