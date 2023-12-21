@@ -46,7 +46,7 @@ def decode(n,lg,vl):
     ############################################## Recupera NUMERO
     ################### method 01 - (vol. X)
     try:
-        vols = ['nr. ','num.','n. ','n.','núm.']
+        vols = ['nr. ','num.','n. ','n.','núm.', ' Esp', ' esp']
         nr = ''
         for cg in vols:
             volR = re.findall(" "+cg+"[a-zA-Z0-9\/\.\-_\+]+",n)
