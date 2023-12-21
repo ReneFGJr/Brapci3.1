@@ -1095,6 +1095,33 @@ class Socials extends Model
 		return $sx;
 	}
 
+	function token()
+		{
+			$sx = '';
+			$token = get("token");
+
+			if ($token != '')
+				{
+					$dt = $this->where('us_apikey',$token)->FindAll();
+					if ($dt != '')
+						{
+							$_SESSION['id'] = $dt[0]['id_us'];
+							$_SESSION['user'] = $dt[0]['us_nome'];
+							$_SESSION['email'] = $dt[0]['us_email'];
+							$_SESSION['apikey'] = $dt[0]['us_apikey'];
+							$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
+							$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
+							$sx .= metarefresh('/',0);
+						}
+				}
+
+			$sx .= form_open();
+			$sx .= form_password('token',$token,'full');
+			$sx .= form_submit('action','send');
+			$sx .= form_close();
+			return $sx;
+		}
+
 	function signin()
 	{
 		$sx = '';

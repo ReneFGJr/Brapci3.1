@@ -72,9 +72,9 @@ if (len(sys.argv) > 1):
             print("Sem ações agendada")
         elif ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
             Identify()
-        elif ((act == 'oai_listidentifiers') or (act == bytearray(b'oai_listidentifiers'))):
+        elif ((act == 'oai_listidentifiers') or (act == bytearray(b'oai_listidentifiers')) or (act == bytearray(b'l'))):
             Listidentifiers()
-        elif ((act == 'oai_getregister') or (act == bytearray(b'oai_getregister'))):
+        elif ((act == 'oai_getregister') or (act == bytearray(b'oai_getregister')) or (act == bytearray(b'g'))):
             GetRecord()
         elif ((act == 'process') or (act == bytearray(b'process'))):
             processRecord()

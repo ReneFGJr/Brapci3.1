@@ -39,6 +39,9 @@ class Social extends BaseController
         $Socials = new \App\Models\Socials();
         switch ($act)
             {
+                case 'token':
+                    $sa = $Socials->token();
+                    break;
                 case 'oauth2':
                     $Oauth2 = new \App\Models\Oauth2\Index();
                     $Oauth2->oauth2_feedback();
