@@ -52,9 +52,9 @@ function get($var)
 /* Funcao troca */
 function troca($qutf, $qc='', $qt='')
 {
-    echo "=====qutf".$qutf."<br>";
-    echo "=====qc" . $qc . "<br>";
-    echo "=====qt" . $qt . "<br>";
+    echo "=====qutf=[".$qutf."]<br>";
+    echo "=====qc=[" . $qc . "]<br>";
+    echo "=====qt=[" . $qt . "]<br>";
     return (str_replace($qc, $qt, $qutf));
 }
 
