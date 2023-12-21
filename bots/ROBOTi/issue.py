@@ -2,8 +2,6 @@ import re
 
 def decode(n,lg,vl):
     n = n.lower()
-    print("ISSUE",n)
-
     try:
         vol = vl['vol']
         nr =  vl['nr']
@@ -62,5 +60,4 @@ def decode(n,lg,vl):
         dc = dict(vol=vol,nr=nr,year=year,theme=theme)
     except Exception as e:
         print("Problema ao montar retorno",e)
-    print("DC",dc)
     return dc
