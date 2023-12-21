@@ -45,6 +45,10 @@ class Index extends Model
         $sx = '';
         $sx .h($act);
         switch ($act) {
+            case 'mysql':
+                $Mysql = new \App\Models\Io\Mysql();
+                $sx .= $Mysql->index($subact,$id,$id2,$id3);
+                break;
             case 'task_clear':
                 $BOTS = new \App\Models\Bots\Index();
 
@@ -141,7 +145,7 @@ class Index extends Model
                     $sb = h('Painel',3);
 
                     $sa = '';
-
+                            $img_mysql = '<img src="'.PATH.'/img/icons/mysql.svg" height="40">';
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
                             $sb .= '<a title="Bots" href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
@@ -149,6 +153,7 @@ class Index extends Model
                             $sb .= '<a title="Cron" href="'.PATH.'/admin/cron/" class="text-success me-2">'.bsicone('clock-1',32).'</a>';
                             $sb .= '<a title="Bugs" href="' . PATH . '/admin/bugs/" class="text-success me-2">' . bsicone('bug', 32) . '</a>';
                             $sb .= '<a title="Problems in Export File" href="' . PATH . '/admin/problems/" class="text-success me-2">' . bsicone('maid', 32) . '</a>';
+                            $sb .= '<a title="MySQL" href="' . PATH . '/admin/mysql/" class="text-success me-2">' . $img_mysql . '</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
 
