@@ -84,8 +84,8 @@ class Mysql extends Model
                         {
                             case 'B':
                                 $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/' . $line->Database . '.sql<br>';
-                                $scr .= 'echo "Backup ' . $line->Database . chr(13);
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/' . $line->Database . '.sql'.chr(13);
+                                $scr .= 'echo "Backup ' . $line->Database . '"' . chr(13);
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13);
                                 break;
                             default:
                                 $sx .= '<li>' . $line->Database . '</li>';
@@ -97,6 +97,7 @@ class Mysql extends Model
             if ($scr != '')
                 {
                     dircheck("/home/brapci/backup");
+                    dircheck("/home/brapci/backup/sql");
                     $file = '/home/brapci/backup/mysql_backup';
                     $scr = 'echo off'.cr().$scr;
                     $scr .= 'echo "Fim do Backup"' . chr(13);
