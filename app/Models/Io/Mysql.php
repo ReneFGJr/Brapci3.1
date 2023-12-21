@@ -92,12 +92,12 @@ class Mysql extends Model
                         {
                             case 'R':
                                 $scr .= 'echo "Backup ' . $line->Database . '"' . cr();
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql' . cr();
+                                $scr .= 'mysql ' . $line->Database . ' < /home/brapci/backup/sql/' . $line->Database . '.sql' . cr();
                                 $sx .= 'create database ' . $line->Database . ';<br>';
                                 break;
                             case 'B':
                                 $scr .= 'echo ' . $line->Database . chr(13);
-                                $scr .= 'mysqldump ' . $line->Database . ' < /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13);
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13);
                                 break;
                             default:
                                 $sx .= '<li>' . $line->Database . '</li>';
