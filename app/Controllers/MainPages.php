@@ -137,6 +137,7 @@ class MainPages extends BaseController
             default:
                 $id = 75;
                 $data['logo'] = view('Logos/logo_benancib');
+                $sx .= view('Brapci/Pages/search');
 
                 $Events = new \App\Models\Functions\Event();
                 $sx .= $Events->index('cards');
