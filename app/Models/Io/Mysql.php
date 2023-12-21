@@ -94,6 +94,7 @@ class Mysql extends Model
                                 $sx .= 'mysql < ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
                                 $scr .= 'echo "Backup ' . $line->Database . '"' . cr();
                                 $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql' . cr();
+                                $sx .= 'create database ' . $line->Database . ';<br>';
                                 break;
                             case 'B':
                                 $scr .= 'echo ' . $line->Database . chr(13);
