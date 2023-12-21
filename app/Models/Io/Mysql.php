@@ -102,8 +102,12 @@ class Mysql extends Model
                     $scr .= 'echo "Fim do Backup"' . chr(13);
                     $scr .= 'echo "COPIANDO PARA A REDE"' . chr(13);
                     $scr .= 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(13);
+                    try {
+                        file_put_contents($file, $scr);
+                    } catch (Exception $e) {
+                        $sx = bsmessage("Arquivo não liberado para gravação",3);
+                    }
 
-                    file_put_contents($file,$scr);
                 }
             return $sx;
         }
