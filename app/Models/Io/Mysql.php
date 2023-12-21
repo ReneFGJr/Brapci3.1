@@ -101,7 +101,7 @@ class Mysql extends Model
                     $scr = 'echo off'.cr().$scr;
                     $scr .= 'echo "Fim do Backup"' . chr(13);
                     $scr .= 'echo "COPIANDO PARA A REDE"' . chr(13);
-                    $scr .= 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . . chr(13);
+                    $scr .= 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . chr(13);
 
                     file_put_contents($file,$scr);
                 }
