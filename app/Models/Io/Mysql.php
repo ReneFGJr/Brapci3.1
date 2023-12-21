@@ -106,9 +106,11 @@ class Mysql extends Model
                     }
                 }
 
+        if ($tp == 'R') {
+            $sx .= '<pre>'.$scr.'</pre>';
+        }
+
         if ($tp == 'B') {
-            dircheck("/home/brapci/backup");
-            dircheck("/home/brapci/backup/sql");
             $file = '/home/brapci/backup/mysql_restore';
             $sx .= '<pre>';
             $sx .= 'pico /home/brapci/backup/mysql_backup'.cr();
