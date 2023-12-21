@@ -96,7 +96,6 @@ class Mysql extends Model
                                 $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql' . cr();
                                 break;
                             case 'B':
-                                $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql<br>';
                                 $scr .= 'echo ' . $line->Database . chr(13);
                                 $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/sql/' . $line->Database . '.sql'.chr(13);
                                 break;
@@ -107,36 +106,25 @@ class Mysql extends Model
                     }
                 }
 
-        if ($tp == 'R') {
+        if ($tp == 'B') {
             dircheck("/home/brapci/backup");
             dircheck("/home/brapci/backup/sql");
             $file = '/home/brapci/backup/mysql_restore';
-            $scr .= 'echo "Inciando copia"' . cr();
-            $scr .= 'echo "COPIANDO DA REDE"' . cr();
-            $scr .= 'cp /home/brapci/rede/pluto/Backup-SQL/sql/*.sql /home/brapci/backup/sql/.' . cr();
-            try {
-                file_put_contents($file, $scr);
-            } catch (Exception $e) {
-                $sx = bsmessage("Arquivo não liberado para gravação", 3);
-            }
+            $sx .= '<pre>';
+            $sx .= 'pico /home/brapci/backup/mysql_backup'.cr();
+            $sx .= 'chmod 700 /home/brapci/backup/mysql_backup' . cr();
+            $sx .= 'echo "==Remover Arquivos==';
+            $sx .= 'rm /home/brapci/backup/mysql_backup/sql/*' . cr();
+
+            $sx .= '/home/brapci/backup/mysql_backup' . cr();
+
+
+            $sx .= '</pre>';
+
+            $sx .= '<pre>'.$scr.'</pre>';
         }
 
 
-            if ($tp == 'B')
-                {
-                    dircheck("/home/brapci/backup");
-                    dircheck("/home/brapci/backup/sql");
-                    $file = '/home/brapci/backup/mysql_backup';
-                    $scr .= 'echo "Fim do Backup"' . cr();
-                    $scr .= 'echo "COPIANDO PARA A REDE"' . cr();
-                    $scr .= 'cp /home/brapci/backup/sql/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . cr();
-                    try {
-                        file_put_contents($file, $scr);
-                    } catch (Exception $e) {
-                        $sx = bsmessage("Arquivo não liberado para gravação",3);
-                    }
-
-                }
             return $sx;
         }
 }
