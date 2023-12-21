@@ -45,11 +45,6 @@ class MainPages extends BaseController
         $m[lang('brapci.journals')] = PATH.'/journals';
         $sx .= breadcrumbs($m);
 
-        $q = get("q") . get("qs");
-        if (strlen($q) > 0) {
-            $act = 'search';
-        }
-
         $act = trim($act);
 
         switch ($act) {
@@ -142,7 +137,6 @@ class MainPages extends BaseController
             default:
                 $id = 75;
                 $data['logo'] = view('Logos/logo_benancib');
-                $sx .= view('Brapci/Pages/search');
 
                 $Events = new \App\Models\Functions\Event();
                 $sx .= $Events->index('cards');
