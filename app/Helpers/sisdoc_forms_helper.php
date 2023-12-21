@@ -50,16 +50,15 @@ function get($var)
 }
 
 /* Funcao troca */
-function troca($qutf, $qc, $qt)
+function troca($qutf, $qc=[], $qt=[''])
 {
     if (!is_array($qc)) {
         $qc = array($qc);
     }
-    for($r=0;$r < count($qc);$r++)
-        {
-            $qutf = str_replace($qc[$r], $qt, $qutf);
-        }
-    return $qutf;
+    if (!is_array($qt)) {
+        $qt = array($qt);
+    }
+    return (str_replace($qc, $qt, $qutf));
 }
 
 function perfil($tp = '')
