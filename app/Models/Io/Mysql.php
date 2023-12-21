@@ -78,26 +78,30 @@ class Mysql extends Model
             $scr = '';
             foreach($dt as $id=>$line)
                 {
+                    if ($line->Database != 'performance_schema')
+                    {
                     switch($tp)
                         {
                             case 'B':
                                 $sx .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/' . $line->Database . '.sql<br>';
-                                $scr .= 'echo "Backup ' . $line->Database . cr();
-                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/' . $line->Database . '.sql'.cr();
+                                $scr .= 'echo "Backup ' . $line->Database . chr(13);
+                                $scr .= 'mysqldump ' . $line->Database . ' > /home/brapci/backup/' . $line->Database . '.sql'.chr(13);
                                 break;
                             default:
                                 $sx .= '<li>' . $line->Database . '</li>';
                                 break;
                         }
+                    }
                 }
 
             if ($scr != '')
                 {
                     dircheck("/home/brapci/backup");
                     $file = '/home/brapci/backup/mysql_backup';
-                    $scr .= 'echo "Fim do Backup"'.cr();
-                    $scr .= 'echo "COPIANDO PARA A REDE"'.cr();
-                    $scr .= 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . cr();
+                    $scr = 'echo off'.cr().$scr;
+                    $scr .= 'echo "Fim do Backup"' . chr(13);
+                    $scr .= 'echo "COPIANDO PARA A REDE"' . chr(13);
+                    $scr .= 'cp /home/brapci/backup/*.sql /home/brapci/rede/pluto/Backup-SQL/.' . . chr(13);
 
                     file_put_contents($file,$scr);
                 }
