@@ -35,9 +35,9 @@ def Listidentifiers():
                     try:
                         if (url == None):
                             url = ''
-
                         xml = oaipmh.ListIdentifiers(url,token)
                         brapci_base.zeraToken(XROW)
+                        print(xml)
                         if (xml != ''):
                             loop = brapci_base.processListIdentifiers(XROW,xml)
                     except Exception as e:
