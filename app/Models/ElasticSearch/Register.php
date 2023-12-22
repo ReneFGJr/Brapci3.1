@@ -433,10 +433,10 @@ class Register extends Model
                     $data['YEAR']  = $di['is_year'];
                 }
             } else {
-                $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
-                echo '============ISSUE==' . $data['ID'];
-                pre($data, false);
                 echo h('NÃO FOI LOCALIZADO O ISSUE');
+                $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
+                $da['ISSUE'] = 0;
+                return $da;
             }
         }
 
