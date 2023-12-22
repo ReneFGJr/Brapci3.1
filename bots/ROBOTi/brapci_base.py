@@ -184,6 +184,7 @@ def setSpecCheck(ID,set):
         cursor.execute(qr)
         row = cursor.fetchone()
         if not row:
+            print("     Inserindo setspec",set,ID)
             qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
             query(qr)
             time.sleep(1)
@@ -266,11 +267,10 @@ def processListIdentifiers(ID,docXML):
                     print("Erro de Registro no checkListIdentify",ID,ssID,docID,date,status)
                     print("============================================")
         except Exception as e:
-            print("=========",hd)
-            print("============================================")
+            print("==========================================ERRO 010 ==")
             print(e)
-            print("============================================")
-            print("Erro for hd in headers",ID,ssID,docID,date)
+            print("=====================================================")
+            print("Erro for hd in headers",ID,"ssID",ssID,"docID",docID,"date",date)
 
         try:
             token = doc['OAI-PMH']['ListIdentifiers']['resumptionToken']['#text']
