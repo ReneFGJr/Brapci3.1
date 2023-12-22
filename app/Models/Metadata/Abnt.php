@@ -242,6 +242,28 @@ class Abnt extends Model
 	{
 		$sx = '';
 		$etal = false;
+		if (isset($dt['Authors']))
+			{
+			$total = count($dt['Authors']);
+			$authors = '';
+			if ($total <= 3) {
+				foreach ($dt['Authors'] as $idk => $name) {
+					if ($authors != '') {
+						$authors .= '; ';
+					}
+					$authors .= nbr_author($name, 2);
+				}
+				$authors .= '. ';
+			} else {
+				foreach ($dt['Authors'] as $idk => $name) {
+					$authors .= nbr_author($name, 2);
+					$authors .= '; <i>et al.</i> ';
+					break;
+				}
+				$etal = true;
+			}
+			$sx .= $authors;
+			}
 		if (isset($dt['creator_author'])) {
 			$total = count($dt['creator_author']);
 			$authors = '';
