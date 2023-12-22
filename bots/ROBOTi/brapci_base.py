@@ -184,7 +184,7 @@ def setSpecCheck(ID,set):
     row = cursor.fetchone()
     cnx.close()
 
-    print(row)
+    print("ROW",row)
     x=1
     try:
         if not row:
