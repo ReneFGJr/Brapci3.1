@@ -806,7 +806,8 @@ class RDFExport extends Model
 		if (isset($dta['Authors']))
 			{
 				$authors = $ABNT->authors($dta);
-				$authors = trim((string)$dta['Authors']).'#';
+				pre($authors,false);
+				$authors = trim($dta['Authors']).'#';
 				$authors = troca($authors, '$', ';');
 				$authors = troca($authors,';#','');
 				$authors = troca($authors, '#', '');
