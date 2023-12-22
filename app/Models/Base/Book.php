@@ -124,7 +124,6 @@ class Book extends Model
         $RDF = new \App\Models\Rdf\RDF();
         $dt = $RDF->le($id);
         $dd['book'] = $dt['data'];
-        //pre($dt,false);
         $sx = view('Books/book_mini', $dd);
         return $sx;
     }

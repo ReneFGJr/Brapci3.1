@@ -51,7 +51,6 @@ class Volume extends Model
             if (sonumero($n) != $n)
                 {
                     echo h('ERRO DE VOLUME');
-                    //pre($n);
                     $n = '::Erro Volume:: '.$n;
                 }
             return $n;

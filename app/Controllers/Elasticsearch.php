@@ -93,6 +93,7 @@ class Elasticsearch extends BaseController
                                 $sa .= metarefresh(PATH.'/elasticsearch/list',1);
                                 $sx .= bs(bsc($sa,12));
                             } else {
+                                echo "DELETE - ELASTIC";
                                 pre($rst);
                             }
                     } else {

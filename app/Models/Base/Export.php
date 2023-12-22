@@ -427,7 +427,10 @@ class Export extends Model
             $sx .= view('Brapci/Headers/navbar', $data);
         }
         $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
+        /********************************** CRIA METADADOS EXPORTACAO */
         $sx .= $this->export_data($class, $type, $offset, $limit);
+
+        /********************************** ATUALIZA STATUS DOS ROBOS */
         if ($this->eof) {
             $this->remove_all($dta['task_id']);
         } else {

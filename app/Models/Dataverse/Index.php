@@ -57,7 +57,7 @@ class Index extends Model
                 ->where('dvn_collection', $collection)
                 ->where('dvn_id', $id)
                 ->first();
-
+            echo "DADOS Dataverse";
             pre($dt);
         }
 

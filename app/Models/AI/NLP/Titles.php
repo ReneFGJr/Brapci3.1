@@ -120,7 +120,7 @@ class Titles extends Model
                                 $lang = 'fr';
                                 break;
                             default:
-                                pre($row);
+                                echo "TITLES - PRE";
                                 break;
                         }
                 }

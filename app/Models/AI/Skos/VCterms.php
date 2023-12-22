@@ -65,7 +65,7 @@ class VCterms extends Model
             echo "RESP: ";
 
         /******************************** Classes */
-
+        echo "Classes - VC - PRE";
         pre($q);
     }
 
