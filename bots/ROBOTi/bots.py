@@ -54,7 +54,7 @@ def run():
     ####################################### NEXT
     act = brapci_base.next_actions()
 
-    print("Agendamentos ",len(act))
+    print("     Agendamentos ",len(act),' tarefas')
 
     for tasks in act:
         TASK = tasks[1]
