@@ -190,7 +190,7 @@ def setSpecCheck(ID,set):
                 print(qr)
                 query(qr)
             except Exception as e:
-                print("Erro ao inserir dados",e)
+                print("     ############ Erro ao inserir dados",e)
             time.sleep(1)
 
             qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
