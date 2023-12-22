@@ -110,12 +110,7 @@ def getNextIdentify():
 
 def getNextListIdentifier():
     ROW = brapci_base.getNextListIdentifier()
-    try:
-        ID = ROW[0]
-        return ID
-    except:
-        print("ROBOTi - [ERRO] getNextListIdentifier")
-        return 0
+    return ROW
 
 def getIDENTIFY():
     print(version())

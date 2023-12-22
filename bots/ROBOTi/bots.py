@@ -14,10 +14,11 @@ def processRecord():
 def Listidentifiers():
     import metabot
     import oaipmh
-    XROW = metabot.getNextListIdentifier()
+    XROWd = metabot.getNextListIdentifier()
+    XROW = XROWd[0]
 
     if XROW > 0:
-        print("Processando lista - item ",XROW)
+        print("Processando lista - Publicação ",XROWd[3])
 
         if (XROW > 0):
             loop = 1
