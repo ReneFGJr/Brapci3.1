@@ -197,7 +197,10 @@ def setSpecCheck(ID,set):
             cursor.execute(qr)
             row = cursor.fetchone()
 
-            #if not row is List:
+            if row is list:
+                print("OK")
+            else:
+                print(" ########## ERRO DE RECUPERACAO")
 
             print("Resultado do ROW - setSpec",row)
     except Exception as e:
