@@ -38,7 +38,7 @@ def Listidentifiers():
                         xml = oaipmh.ListIdentifiers(url,token)
                         brapci_base.zeraToken(XROW)
                         if (xml != ''):
-                            print("Processando lista de arquivos XML",len(XML))
+                            print("Processando lista de arquivos XML",len(xml))
                             loop = brapci_base.processListIdentifiers(XROW,xml)
                     except Exception as e:
                         loop = 0
