@@ -583,11 +583,11 @@ class Register extends Model
         }
 
         /*********************** CONVERT DADOS */
-        echo h("Checando Dados convertidos",4);
+        echo h("Convertendo Dados",4);
         $data = $this->data_convert_elastic($xdata);
-        echo "OK1";
+        echo h("Checando Dados convertidos", 4);
         $this->check($data, true, $id);
-        echo "OK2";
+        echo h("Fim da Checagem", 4);
 
         /* NOVO REGISTRO */
         if (count($dt) == 0) {
