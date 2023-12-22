@@ -177,6 +177,7 @@ def G(V):
 
 ############################################### Verifica SetSpec
 def setSpecCheck(ID,set):
+    print("... Verificando setSpec",set," de ",ID)
     qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
     cnx = oai_mysql()
     cursor = cnx.cursor()
@@ -186,32 +187,11 @@ def setSpecCheck(ID,set):
 
     print("ROW",row)
     x=1
-    try:
-        if not row:
-            print("     Inserindo setspec",set,ID)
-            try:
-                qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
-                print(qr)
-                query(qr)
-            except Exception as e:
-                print("     ############ Erro ao inserir dados",e)
-            time.sleep(1)
 
-            qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
-            cursor.execute(qr)
-            row = cursor.fetchone()
-
-            if row is list:
-                print("OK")
-            else:
-                print(" ########## ERRO DE RECUPERACAO")
-
-            print("Resultado do ROW - setSpec",row)
-    except Exception as e:
-        print("ROBOTi ERROR - getListIdentifier()")
-        print(e)
-        row = []
-    cursor.close()
+    #qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
+    #print(qr)
+    #query(qr)
+    time.sleep(10)
     return row[0]
 
 def checkListIdentify(ID,ss,docID,date,status):
