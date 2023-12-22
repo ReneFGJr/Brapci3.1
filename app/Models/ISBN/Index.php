@@ -61,7 +61,7 @@ class Index extends Model
 
     function format($isbn)
     {
-        $isbn = troca($isbn, 'ISBN', '');
+        $isbn = troca((string)$isbn, 'ISBN', '');
         $isbn = trim($isbn);
 
         if (strlen($isbn) == 13) {
@@ -86,8 +86,8 @@ class Index extends Model
         if (is_array($isbn)) {
             $isbn = $isbn['isbn13'];
         }
-        $isbn = troca($isbn, '-', '');
-        $isbn = troca($isbn, '.', '');
+        $isbn = troca((string)$isbn, '-', '');
+        $isbn = troca((string)$isbn, '.', '');
         $isbn = trim($isbn);
 
         if (substr($isbn, 0, 2) == '97') {
