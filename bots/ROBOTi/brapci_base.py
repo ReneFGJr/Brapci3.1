@@ -114,10 +114,11 @@ def getNextListIdentifier():
 
     query = f"select id_jnl, jnl_url_oai, jnl_oai_last_harvesting, jnl_name \n"
     query += " from brapci.source_source \n"
-    query += f" where (DAY(jnl_oai_last_harvesting) <> {day}) \n"
+    query += f" where ((DAY(jnl_oai_last_harvesting) <> {day}) \n"
     query += f" or (MONTH(jnl_oai_last_harvesting) <> {month}) \n"
     query += f" or (jnl_oai_last_harvesting is null) \n"
-    query += f" or ((update_at = '1900-01-01') or (update_at is null))\n"
+    query += f" or ((update_at = '1900-01-01') or (update_at is null)))\n"
+    query += f" and ((jnl_historic = 0) and (jnl_url_oai <> ''))"
     query += " order by jnl_oai_last_harvesting \n"
     query += " limit 1 "
 
