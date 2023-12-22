@@ -53,7 +53,7 @@ class Work extends Model
         $Socials = new \App\Models\Socials();
         $RDF = new \App\Models\RDF2\RDF();
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
-        $Metadados = new \App\Models\Base\Metadata();
+        $Metadados = new \App\Models\RDF2\RDFMetadata();
         $Download = new \App\Models\Base\Download();
         $Altmetrics = new \App\Models\MetricStudy\Altmetrics();
         $sc = '';
@@ -74,12 +74,13 @@ class Work extends Model
         switch($class)
             {
                 case 'BookChapter':
+                    pre($dt);
                     $bookID = $RDF->extract($dt, 'hasBookChapter');
                     /* DAdos do Livro */
                     $dc = $Metadados->metadata($dt);
 
                     $da = $RDF->le($bookID[0]);
-                    $da = $Metadados->metadata($da);
+                    $da = $Metadados->metadata($bookID[0]);
                     $da['Chapter'] = $dc;
                 break;
 

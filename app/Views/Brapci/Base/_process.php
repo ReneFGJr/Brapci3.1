@@ -1,4 +1,7 @@
 <?php
+
+use function RectorPrefix20220609\dump_node;
+
 $vars = array(
     'title',  'authors',
     'idioma', 'year',
@@ -7,8 +10,15 @@ $vars = array(
     'CatAncib', 'CDD', 'CDU',
     'files', 'summary',
     'license',
-    'issue', 'links'
+    'issue', 'links','abstract'
 );
+
+foreach ($vars as $v) {
+    if (!isset($$v)) {
+        $$v = '';
+    }
+}
+
 if (!isset($Keywords)) {
     $Keywords = array();
 }
@@ -25,75 +35,25 @@ if (isset($CatAncibArray)) {
 }
 
 $KeywordsLN = '';
-foreach ($Keywords as $name => $id) {
-    $lnt = explode(';', $name);
-    if (count($lnt) == 2) {
-        $KeywordsLN .= '<a href="' . PATH . '/v/' . $lnt[1] . '">' . $lnt[0] . '.</a> ';
-    }
+foreach ($subject as $idx => $subjx) {
+    $KeywordsLN .= '<a href="' . PATH . '/v/' . $subjx['ID'] . '">' . $subjx['name'] . '.</a> ';
 }
 $authors = '';
 $authorsLN = '';
 $authorsCP = '';
 
-if (isset($Authors)) {
-    foreach ($Authors as $id => $name) {
-        if (strpos($name, ';')) {
-            $name = explode(';', $name);
-        } else {
-            $name[0] = $name;
-            $name[1] = 0;
-        }
-        if ($name[1] > 0) {
-            $authors .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '<br>';
-            $authorsLN .= anchor(PATH . '/v/' . $name[1], $name[0], 'class=""') . '; ';
-        } else {
-            $authors .= $name . '<br>';
-            $authorsLN .= anchor(PATH . '/' . $name[1], $name[0], 'class=""') . '; ';
-        }
-        $authorsLN .= '.';
-        $authorsLN = troca($authorsLN, ';.', '.');
+if ((isset($creator_author)) and ($creator_author != '')) {
+    foreach ($creator_author as $id => $name) {
+        $authors .= anchor(PATH . '/v/' . $name['ID'], $name['name'], 'class=""') . '<br>';
     }
-}
-if (isset($Chapter['authors'])) {
-    $aux = $Chapter['authors'];
-    $authorsCP = troca($aux, '$', ';');
+    $authors = troca($authors, ';.', '.');
 }
 
-
-foreach ($vars as $v) {
-    if (!isset($$v)) {
-        $$v = '';
+/************************************************************** ABSTRACT */
+if (isset($data['hasAbstract']))
+    {
+    foreach ($data['hasAbstract'] as $lang => $name) {
+        $name = key($name[0]);
+        $abstract .= $name.'@'.(string)$lang.'<hr>';
     }
-}
-/**************** ISBN */
-if (is_array($isbn)) {
-    $isbn_v = '';
-    $isbna = array();
-    foreach ($isbn as $v) {
-        if (!isset($isbna[$v])) {
-            if ($isbn_v != '') {
-                $isbn_v .= '<br>';
-            }
-            $isbn_v .= $v;
-            $isbna[$v] = 1;
-        }
     }
-    $isbn = $isbn_v;
-}
-
-if (isset($Chapter)) {
-    $vars = array(
-        'title', 'idioma', 'authors',
-        'AuthorsLN', 'idioma', 'year',
-        'cover',
-        'url', 'keywords',
-        'files', 'summary', 'authorsChapet',
-        'DOIChapet', 'abstract', 'license',
-        'issue', 'links', 'pagi', 'pagf'
-    );
-    foreach ($vars as $v) {
-        if (!isset($Chapter[$v])) {
-            $Chapter[$v] = '';
-        }
-    }
-}

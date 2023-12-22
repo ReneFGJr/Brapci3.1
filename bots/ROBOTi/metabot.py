@@ -72,6 +72,10 @@ def readfile(id):
     xml = f.read()
     return xml
 
+###################################################  Listidentifiers
+def Listidentifiers():
+    print("Listidentifiers - Não implementado")
+
 ################################################### GET RECORD
 def GetRecord():
     # Busca proxima coleta

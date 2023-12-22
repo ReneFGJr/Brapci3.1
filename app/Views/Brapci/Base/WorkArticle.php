@@ -6,7 +6,7 @@ if (!isset($MidiasSociais)) {
 }
 $style = ' style="border-bottom: 1px solid #000;" ';
 
-$langs = array('pt-BR', 'en', 'es', 'fr');
+$langs = array('pt', 'en', 'es', 'fr');
 
 if (!isset($logo)) $logo = '';
 if (!isset($Title)) $Title = array();
@@ -67,8 +67,10 @@ $xbread = breadcrumbs($bread);
             /******************************** TITULO */
             $H = 2;
             foreach ($langs as $idioma) {
-                if (isset($Title[$idioma])) {
-                    echo '<h' . $H . ' class="text-center p-3">' . $Title[$idioma] . '</h' . $H . '>';
+                if (isset($data['hasTitle'][$idioma])) {
+                    $titLG = $data['hasTitle'][$idioma];
+                    $titLG = key($titLG[0]);
+                    echo '<h' . $H . ' class="text-center p-3">' . $titLG . '</h' . $H . '>';
                     $H++;
                 }
             }
@@ -84,8 +86,6 @@ $xbread = breadcrumbs($bread);
             <!-- AUTHORS -->
             <div class="text-end" id="authors">
                 <?php
-                $authors = troca($authors, '$', '; ');
-                $authors = substr($authors, 0, strlen($authors) - 2) . '.';
                 echo $authors;
                 ?>
             </div>
@@ -98,15 +98,7 @@ $xbread = breadcrumbs($bread);
             <p>
                 <?php
                 /******************************** ABSTRACT */
-                foreach ($langs as $idioma) {
-                    if (isset($Abstract[$idioma])) {
-
-                        echo '<div style="text-align: justify; font-size: 1em; line-height: 120%;"
-                                id="abstract_' . $idioma . '">';
-                        echo '<b>' . lang('brapci.abstract_' . $idioma) . '</b> ';
-                        echo $Abstract[$idioma] . '</div>';
-                    }
-                    $lgi = 0;
+                echo $abstract;
                     foreach ($Keywords as $term => $lg) {
                         if ($lg == $idioma) {
                             if ($lgi == 0) {
@@ -119,10 +111,7 @@ $xbread = breadcrumbs($bread);
                             echo '. ';
                         }
                     }
-                    if ($lgi > 0) {
-                        echo '<br/><br/>';
-                    }
-                }
+
                 ?>
             </p>
 
@@ -165,3 +154,6 @@ $xbread = breadcrumbs($bread);
     </div>
 </div>
 </div>
+
+
+<?php pre($data,false);?>

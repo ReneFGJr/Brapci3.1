@@ -109,7 +109,13 @@ class RDFmetadata extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
 
-        $dt = $RDF->le($ID);
+        if (is_array($ID))
+            {
+                $dt = $ID;
+            } else {
+                $dt = $RDF->le($ID);
+            }
+
         $dd = [];
 
         $class = $dt['concept']['c_class'];

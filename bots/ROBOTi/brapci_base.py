@@ -56,7 +56,7 @@ def getNextProcess(s):
         ID = 0
     return ID
 
-def next_action():
+def next_actions():
     now_time = datetime.datetime.now()
     day = now_time.day
 
@@ -65,25 +65,14 @@ def next_action():
     query += f"and ((cron_day = 0) or (cron_day = {day})) "
     query += "order by cron_prior"
 
-    print(query)
-
     cnx = oai_mysql()
     cursor = cnx.cursor()
     cursor.execute(query)
-    row = cursor.fetchone()
+    row = cursor.fetchall()
+    cnx.close()
 
-
-    TASK = 'none'
-    try:
-        TASK = row[1]
-        try:
-            TASK = TASK.decode()
-        except:
-            TASK = row[1]
-    except:
-        TASK = 'none'
-    return TASK
-
+    return row
+#####################################################################
 
 def updateOaiIdentify(ID,token):
     now_time = datetime.datetime.now()
@@ -123,11 +112,12 @@ def getNextListIdentifier():
     day = now_time.day
     month = now_time.month
 
-    query = f"select id_jnl, jnl_url_oai, jnl_oai_last_harvesting, jnl_name "
-    query += " from brapci.source_source "
-    query += f" where (DAY(jnl_oai_last_harvesting) <> {day}) "
+    query = f"select id_jnl, jnl_url_oai, jnl_oai_last_harvesting, jnl_name \n"
+    query += " from brapci.source_source \n"
+    query += f" where (DAY(jnl_oai_last_harvesting) <> {day}) \n"
     query += f" or (MONTH(jnl_oai_last_harvesting) <> {month}) \n"
     query += f" or (jnl_oai_last_harvesting is null) \n"
+    query += f" or ((update_at = '1900-01-01') or (update_at is null))\n"
     query += " order by jnl_oai_last_harvesting \n"
     query += " limit 1 "
 
@@ -137,7 +127,7 @@ def getNextListIdentifier():
         cursor.execute(query)
         row = cursor.fetchone()
     except:
-        print("ROBOTi - getNextListIdentifier()")
+        print("ROBOTi - ERRO - getNextListIdentifier()")
         row = []
     cursor.close()
     return row
