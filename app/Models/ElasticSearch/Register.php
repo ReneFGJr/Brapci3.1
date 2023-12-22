@@ -584,7 +584,9 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
+        echo "OK1";
         $this->check($data, true, $id);
+        echo "OK2";
 
         /* NOVO REGISTRO */
         if (count($dt) == 0) {
