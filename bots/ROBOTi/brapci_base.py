@@ -18,7 +18,7 @@ def query(query):
     cnx = oai_mysql()
     cursor = cnx.cursor()
     rs = cursor.execute(query)
-    cursor.close
+    cnx.close()
     return rs
 
 
