@@ -425,22 +425,18 @@ class Register extends Model
                 if ($di != '') {
                     $data['Issue']['ID'] = $data['Issue'][0];
                     $da['ISSUE'] = $data['Issue'][0];
-                    $data['Issue']['YEAR']  = 0;
-                    $data['Issue']['JOURNAL']  = 0;
-                    $data['Issue']['YEAR']  = 0;
-                    $data['Issue']['VOL']  = '';
-                    $data['Issue']['NR']  = '';
-                    $data['YEAR']  = '';
+                    $data['Issue']['YEAR']  = $di['is_year'];
+                    $data['Issue']['JOURNAL']  = $di['is_source'];
+                    $data['Issue']['YEAR']  = $di['is_year'];
+                    $data['Issue']['VOL']  = $di['is_vol'];
+                    $data['Issue']['NR']  = $di['is_nr'];
+                    $data['YEAR']  = $di['is_year'];
                 }
             } else {
                 $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
-                $data['Issue']['ID'] = 0;
-                $data['Issue']['YEAR']  = $di['is_year'];
-                $data['Issue']['JOURNAL']  = $di['is_source'];
-                $data['Issue']['YEAR']  = $di['is_year'];
-                $data['Issue']['VOL']  = $di['is_vol'];
-                $data['Issue']['NR']  = $di['is_nr'];
-                $data['YEAR']  = $di['is_year'];
+                echo '============ISSUE==' . $data['ID'];
+                pre($data, false);
+                echo h('NÃO FOI LOCALIZADO O ISSUE');
             }
         }
 
