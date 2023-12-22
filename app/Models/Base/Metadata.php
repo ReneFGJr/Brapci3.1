@@ -139,6 +139,7 @@ class Metadata extends Model
         if (isset($meta['data'])) {
             $data = $meta['data'];
             for ($r = 0; $r < count($data); $r++) {
+                pre($data,false);
                 $line = $data[$r];
                 $class = trim($line['c_class']);
                 $value = $line['n_name2'];
