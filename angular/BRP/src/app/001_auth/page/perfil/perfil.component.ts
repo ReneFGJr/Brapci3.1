@@ -16,9 +16,12 @@ export class PerfilComponent {
     this.user = this.userService.getUser();
   }
 
-  logout()
-    {
-      this.userService.logout();
-      this.router.navigate(['/']);
-    }
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/']);
+  }
+
+  cip() {
+    document.location.href = 'https://cip.brapci.inf.br/social/token/?token=' + this.user.token;
+  }
 }

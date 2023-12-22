@@ -722,6 +722,9 @@ class Database extends Config
         $this->public['username'] = getenv('database.default.username');
         $this->public['password'] = getenv('database.default.password');
 
+        $this->rdf['username'] = getenv('database.default.username');
+        $this->rdf['password'] = getenv('database.default.password');
+
         $this->rdf2['username'] = getenv('database.default.username');
         $this->rdf2['password'] = getenv('database.default.password');
 
