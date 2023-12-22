@@ -236,6 +236,7 @@ def zeraToken(ID):
         print(e)
 
 def processListIdentifiers(ID,docXML):
+    ssID = 0
     ######################################### Read XML
     try:
         doc = xmltodict.parse(docXML)
