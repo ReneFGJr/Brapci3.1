@@ -60,6 +60,8 @@ class V extends Model
         $class = $dt['concept']['c_class'];
         $mod = COLLECTION;
 
+        echo $class;
+
         switch ($class) {
             case 'Article':
                 $Work = new \App\Models\Base\Work();
