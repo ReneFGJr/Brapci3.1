@@ -25,16 +25,16 @@ if (len(sys.argv) > 1):
         ClearMarkup()
     elif ((parm[1] == 'identify') or (parm[1] == bytearray(b'identify'))):
         print("Verb: Identify")
-        Identify()
+        bots.Identify()
     elif ((parm[1] == 'getrecord') or (parm[1] == bytearray(b'getrecord'))):
         print("Verb: GetRecord")
-        GetRecord()
+        bots.GetRecord()
     elif ((parm[1] == 'process') or (parm[1] == bytearray(b'process'))):
         print("Verb: Process Register")
-        processRecord()
+        bots.processRecord()
     elif ((parm[1] == 'listidentifiers') or (parm[1] == bytearray(b'listidentifiers'))):
         print("Verb: Listidentifiers")
-        Listidentifiers()
+        bots.Listidentifiers()
     elif(parm[1] == 'dbtest'):
         ID = brapci_base.dbtest()
     elif(parm[1] == 'status'):
