@@ -246,6 +246,7 @@ def processListIdentifiers(ID,docXML):
 
         try:
             for hd in headers:
+                print("-- show hd",hd)
                 try:
                     ss = hd['setSpec'][0]
                 except:
@@ -255,14 +256,14 @@ def processListIdentifiers(ID,docXML):
 
                 try:
                     status = hd['@status']
-                except:
+                except Exception as e:
                     status = ''
                 ssID = setSpecCheck(ID,ss)
 
                 try:
                     checkListIdentify(ID,ssID,docID,date,status)
                 except Exception as e:
-                    print("============================================")
+                    print("====================================== 020 ==")
                     print(e)
                     print("Erro de Registro no checkListIdentify",ID,ssID,docID,date,status)
                     print("============================================")
