@@ -192,6 +192,8 @@ def setSpecCheck(ID,set):
             qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
             cursor.execute(qr)
             row = cursor.fetchone()
+
+            print("Resultado do ROW - setSpec",row)
     except:
         print("ROBOTi ERROR - getListIdentifier()")
         row = []
