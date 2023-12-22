@@ -108,8 +108,9 @@ class V extends Model
             default:
                 $sx .= '<br><br><br><br>';
                 $RDFdata = new \App\Models\RDF\RDFData();
-                $tela = $RDFdata->view_data($dt);
+
                 $sx = bs(bsc(h($class, 1) . bsmessage('Nor view')));
+                $sx .= $RDFdata->view_data($dt);
                 break;
         }
         return $sx;
