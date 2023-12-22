@@ -7,7 +7,7 @@ def convertXMLtoJSON(file,ID):
     import issue
     import type_id
     import license
-    import brapci_base
+    import bots.ROBOTi.OLD2.brapci_base as brapci_base
 
     DT = brapci_base.getID(ID)
     sect = DT[0]

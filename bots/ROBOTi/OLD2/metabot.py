@@ -3,7 +3,7 @@
 
 import oaipmh
 import datetime
-import brapci_base
+import bots.ROBOTi.OLD2.brapci_base as brapci_base
 import os
 
 def version():
@@ -27,7 +27,7 @@ def processRecord():
         print("Nada a processar")
 
 def getNextProcess():
-    import brapci_base
+    import bots.ROBOTi.OLD2.brapci_base as brapci_base
     ID = brapci_base.getNextProcess(5)
     return ID
 ################################################### CACHED FILE

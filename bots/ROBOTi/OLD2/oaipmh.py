@@ -1,6 +1,6 @@
 from mysql.connector import MySQLConnection, Error
 from mysql.connector import errorcode
-import brapci_base
+import bots.ROBOTi.OLD2.brapci_base as brapci_base
 import xmltodict
 import datetime
 import requests
@@ -20,6 +20,8 @@ def url(LINK:str):
     global URL
     URL = LINK
 
+
+#####################################################################################
 def ListIdentifiers(url,token):
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'}
     data = {'v': 1}
@@ -30,28 +32,29 @@ def ListIdentifiers(url,token):
     print(f"... Recuperando {LINK} - OAIPMH - LisyIdentifiers")
 
     try:
-        cnt = requests.get(LINK,verify=False, data=data, timeout=90.0, headers=headers, allow_redirects=True)
-        print(cnt.status_code)
+        cnt = requests.get(LINK,verify=False, data=data, timeout=30.0, headers=headers, allow_redirects=True)
     except requests.exceptions.SSLError:
         pass
-    except:
-        print(cnt.status_code)
+    except Exception as e:
+        print("ERRO:",cnt.status_code,e)
         print(f"... Erro request - OAIPMH - LisyIdentifiers")
         return ""
     finally:
         try:
             return cnt.text
-        except:
+        except Exception as e:
+            print("... ERRO: 404",e)
             print(f"... cnt.text empty - OAIPMH - LisyIdentifiers")
             return ""
 
+#####################################################################################
 def identify():
     LINK = URL + '?verb=Identify'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'}
 
     print(f"... Recuperando {LINK} - OAIPMH - Identify")
     try:
-        cnt = requests.get(LINK,verify=False, timeout=30, headers=headers)
+        cnt = requests.get(LINK,verify=False, timeout=120, headers=headers)
     except requests.exceptions.SSLError:
         pass
     except Exception as e:

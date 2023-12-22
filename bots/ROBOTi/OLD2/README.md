@@ -12,3 +12,6 @@ pip install mysql-connector-python
 pip install --upgrade google-cloud-translate
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path_to_your_service_account_key.json"
+
+
+pip install mysql-connector-python --upgrade

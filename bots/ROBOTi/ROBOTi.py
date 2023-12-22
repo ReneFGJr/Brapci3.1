@@ -1,13 +1,27 @@
+# @Author: Rene Faustino Gabriel Junior <renefgj@gmail.com>
+# @Data: 2023-12-22
+# @Title: Robos da Brapci (ROBOTi)
+
 import sys
-import env
-import brapci_base
-import bots
+import roboti_help
+import roboti_task
+from colorama import Fore
 
 def version():
-    return "v0.23.12.12"
-def ClearMarkup():
-    import metabot
-    metabot.clearMarkup()
+    return "v0.23.12.22"
+
+def run(parm):
+    act = parm[1]
+    print(Fore.BLUE+"Function: ",act)
+
+    #************************************************* Functions
+    #********************** ListIdentiers
+    if (act == '1'):
+        reg = roboti_task.nextHarvesting()
+
+
+
+    print(Fore.WHITE)
 
 
 ########################################### Início
@@ -16,28 +30,6 @@ print("===============================================")
 
 if (len(sys.argv) > 1):
     parm = sys.argv
-    if (parm[1] == '--help'):
-        brapci_base.help_roboti()
-    elif ((parm[1] == 'run') or (parm[1] == bytearray(b'run'))):
-        bots.run()
-    elif ((parm[1] == 'clear') or (parm[1] == bytearray(b'clear'))):
-        print("Verb: Clear Markups")
-        ClearMarkup()
-    elif ((parm[1] == 'identify') or (parm[1] == bytearray(b'identify'))):
-        print("Verb: Identify")
-        bots.Identify()
-    elif ((parm[1] == 'getrecord') or (parm[1] == bytearray(b'getrecord'))):
-        print("Verb: GetRecord")
-        bots.GetRecord()
-    elif ((parm[1] == 'process') or (parm[1] == bytearray(b'process'))):
-        print("Verb: Process Register")
-        bots.processRecord()
-    elif ((parm[1] == 'listidentifiers') or (parm[1] == bytearray(b'listidentifiers'))):
-        print("Verb: Listidentifiers")
-        bots.Listidentifiers()
-    elif(parm[1] == 'dbtest'):
-        ID = brapci_base.dbtest()
-    elif(parm[1] == 'status'):
-        print("STATUS: OK")
+    run(parm)
 else:
-    print("Argumentos não informado, veja ROBOTi --help")
+    roboti_help.help()

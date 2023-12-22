@@ -178,15 +178,17 @@ def G(V):
 ############################################### Verifica SetSpec
 def setSpecCheck(ID,set):
     print("... Verificando setSpec",set," de ",ID)
+
     qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
+
     cnx = oai_mysql()
     cursor = cnx.cursor()
     rs = cursor.execute(query)
-    row = cursor.fetchone()
+    row = rs.fetchall()
     cnx.close()
 
     print("ROW",row)
-    x=1
+    quit()
 
     #qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
     #print(qr)
@@ -242,7 +244,6 @@ def processListIdentifiers(ID,docXML):
 
         try:
             for hd in headers:
-                print("-- show hd",hd)
                 try:
                     ss = hd['setSpec'][0]
                 except:
@@ -250,12 +251,19 @@ def processListIdentifiers(ID,docXML):
                 docID = hd['identifier']
                 date = hd['datestamp']
 
+
+                ###########################################################################
+                print("... docID",docID,"setSept",ss,"date",date)
+
                 try:
                     status = hd['@status']
                 except Exception as e:
                     status = ''
                 ssID = setSpecCheck(ID,ss)
 
+                exit()
+
+                ###########################################################################
                 try:
                     checkListIdentify(ID,ssID,docID,date,status)
                 except Exception as e:
@@ -274,12 +282,12 @@ def processListIdentifiers(ID,docXML):
         except:
             token = ''
 
-        print("TOKEN: ",token)
-        updateOaiIdentify(ID,token)
+        #print("TOKEN: ",token)
+        #updateOaiIdentify(ID,token)
 
-        if (token == ''):
-            return False
-        return True
+        #if (token == ''):
+        #    return False
+        #return True
 
         ###################################################### Check setSpec
     except Exception as e:
@@ -385,6 +393,15 @@ def dbtest():
         print("..[ERRO] Não foi possível conectar ao banco MySQL")
     finally:
         print("..Conexão OK")
+
+def updateSource(id,status):
+    data = "2023-12-22"
+    qr = f"update brapci.source_source set jnl_oai_status = '{status}', update_at = {data}, jnl_oai_last_harvesting = '{data}' where id_jnl = {id} "
+    try:
+        query(qr)
+    except:
+        print("Erro de atualização de registros - update")
+
 
 def clearMarkup():
     qr = "update brapci.source_source set jnl_oai_status = '500', update_at = null, jnl_oai_last_harvesting = '1900-01-01' where jnl_active = 1 and jnl_historic = 0"

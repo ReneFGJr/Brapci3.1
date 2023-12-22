@@ -1,4 +1,4 @@
-import brapci_base
+import bots.ROBOTi.OLD2.brapci_base as brapci_base
 
 ############################### Funcoes
 def Identify():
@@ -21,6 +21,8 @@ def Listidentifiers():
         print("Processando lista - Publicação ",XROWd[3])
 
         if (XROW > 0):
+            brapci_base.updateSource(XROW,'500')
+
             loop = 1
             while loop == 1:
                 print("Recuperando dados do provedor")
@@ -40,10 +42,12 @@ def Listidentifiers():
                         if (xml != ''):
                             print("Processando lista de arquivos XML",len(xml))
                             loop = brapci_base.processListIdentifiers(XROW,xml)
+
                     except Exception as e:
                         loop = 0
                         print("Erro ao processar - ListIdentifiers (1)")
                         print(e)
+
                 else:
                     loop = 0
                     print("Nada para processar - ListIdentifiers (2)")
