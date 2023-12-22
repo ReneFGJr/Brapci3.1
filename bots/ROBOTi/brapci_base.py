@@ -185,9 +185,12 @@ def setSpecCheck(ID,set):
         row = cursor.fetchone()
         if not row:
             print("     Inserindo setspec",set,ID)
-            qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
-            print(qr)
-            query(qr)
+            try:
+                qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
+                print(qr)
+                query(qr)
+            except Exception as e:
+                print("Erro ao inserir dados",e)
             time.sleep(1)
 
             qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
