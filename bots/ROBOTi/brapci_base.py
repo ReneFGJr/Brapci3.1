@@ -186,6 +186,7 @@ def setSpecCheck(ID,set):
         if not row:
             print("     Inserindo setspec",set,ID)
             qr = f"insert into brapci_oaipmh.oai_setspec (s_id, s_id_jnl) values ('{set}',{ID})"
+            print(qr)
             query(qr)
             time.sleep(1)
 
