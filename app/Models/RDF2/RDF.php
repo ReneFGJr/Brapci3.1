@@ -68,6 +68,22 @@ class RDF extends Model
             return $dt;
         }
 
+    function show_class($dt)
+        {
+            $sx = '';
+            $cnt = $dt['concept'];
+            $sa = '<span style="font-size: 1.6em; font-weight: bold">'.$cnt['n_name']. '</span>';
+            $sa .= '<br>';
+            $sa .= $cnt['prefix_ref'].'.'.$cnt['c_class'];
+
+            $sb = $cnt['n_lang'];
+            $sb .= '<br><span class="small">Update: '.$cnt['cc_update'].'</span>';
+
+            $sx .= bsc($sa,10,'border-bottom border-secondary');
+            $sx .= bsc($sb,2, 'border-bottom border-secondary text-end');
+            return bs($sx);
+        }
+
     /********************* getClassType */
     function getClassType($id)
         {
@@ -185,6 +201,12 @@ class RDF extends Model
                 }
             $dt = $RDFconcept->findAll($limit,$offset);
             return $dt;
+        }
+
+    function view_data($dt)
+        {
+            $RDFdata = new \App\Models\Rdf2\RDFdata();
+            return $RDFdata->view_data($dt);
         }
     function extract($dt,$prop,$type='F')
         {

@@ -51,7 +51,7 @@ class Work extends Model
     function show($dt)
     {
         $Socials = new \App\Models\Socials();
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
         $Metadados = new \App\Models\Base\Metadata();
         $Download = new \App\Models\Base\Download();
@@ -67,7 +67,7 @@ class Work extends Model
 
         /***************************************** Recupe dados */
         $da = array();
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
 
         $class = $dt['concept']['c_class'];
 
@@ -162,7 +162,6 @@ class Work extends Model
             $da['edit'] .= '<a href="' . PATH . '/ai/nlp/fulltext/' . $dt['concept']['id_cc'] . '">' .
                     $img_ia . '</a>';
             $sc .= $RDF->view_data($dt);
-            echo "OK$sc"; exit;
         }
 
         /******************** MOSTRAR */
@@ -206,27 +205,6 @@ class Work extends Model
                 break;
         }
 
-        /*
-        if ($Socials->getAccess("#ADM#CAT#ENA"))
-            {
-                $sx .= bs(bsc('<a href="#data" onclick="showw();">'.bsicone('upload',10).'</a>',12,));
-                $sa = '<div name="data" id="data" style="display: none;">';
-                $sa .= $RDF->view_data($dt);
-                $sa .= '</div>';
-                $sx .= bs(bsc($sa,12));
-                $sx .= '
-                <script>
-                function showw()
-                    {
-                        $("#data").toggle("slow");
-                    }
-                </script>';
-
-                $sx .= h('Elastic');
-                $Elastic = new \App\Models\ElasticSearch\Register();
-                //$sx .= $Elastic->show($idc);
-            }
-            */
 
         return $sx;
     }

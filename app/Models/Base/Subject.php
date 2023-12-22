@@ -43,7 +43,7 @@ class Subject extends Model
     function v($dt)
         {
             $sx = '';
-            $RDF = new \App\Models\Rdf\RDF();
+            $RDF = new \App\Models\Rdf2\RDF();
             $sx .= $RDF->view_data($dt);
             $sx = bs(bsc($sx,12));
             return $sx;

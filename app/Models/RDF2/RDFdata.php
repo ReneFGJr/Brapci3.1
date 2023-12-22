@@ -153,6 +153,23 @@ class RDFdata extends Model
         return $dt;
     }
 
+    function view_data($dt)
+        {
+            $sx = '';
+            $data = $dt['data'];
+            if (count($data) == 0)
+                {
+                    $sx .= bsc(bsmessage('No records to show',3),12,'mt-3');
+                }
+            foreach($data as $id=>$line)
+                {
+                    $sx .= bsc($line['c_class'],3,'text-end');
+                    $sx .= bsc($line['n_name'], 9, 'border-top border-secondary');
+                    $sx .= bsc($line['n_lang'], 1,'border-top border-secondary small');
+                }
+            return bs($sx);
+        }
+
     function dataview($id)
     {
         $dt = $this->le($id);

@@ -43,7 +43,7 @@ class V extends Model
     function v($dt)
     {
         $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
 
         if (!is_array($dt)) {
             $dt = round($dt);
@@ -60,6 +60,7 @@ class V extends Model
         $class = $dt['concept']['c_class'];
         $mod = COLLECTION;
 
+        echo $class;
 
         switch ($class) {
             case 'Article':
@@ -99,6 +100,7 @@ class V extends Model
                 break;
             case 'Subject':
                 $Subject = new \App\Models\Base\Subject();
+                $sx .= $RDF->show_class($dt);
                 $sx .= $Subject->v($dt);
                 break;
             case 'Issue':
@@ -107,10 +109,11 @@ class V extends Model
                 break;
             default:
                 $sx .= '<br><br><br><br>';
-                $RDFdata = new \App\Models\RDF\RDFData();
+                $RDF = new \App\Models\RDF2\RDF();
 
                 $sx = bs(bsc(h($class, 1) . bsmessage('Nor view')));
-                $sx .= $RDFdata->view_data($dt);
+                $sx .= $RDF->show_class($dt);
+                $sx .= $RDF->view_data($dt);
                 break;
         }
         return $sx;
