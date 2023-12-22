@@ -66,10 +66,7 @@ class V extends Model
                 $Work = new \App\Models\Base\Work();
                 $sx = $Work->show($dt);
                 break;
-            case 'Book':
-                $Work = new \App\Models\Base\Work();
-                $sx = $Work->show($dt);
-                break;
+
             case 'Proceeding':
                 $Work = new \App\Models\Base\Work();
                 $sx = $Work->show($dt);
@@ -110,6 +107,8 @@ class V extends Model
                 break;
             default:
                 $sx .= '<br><br><br><br>';
+                $RDFdata = new \App\Models\RDF\RDFData();
+                $tela = $RDFdata->view_data($dt);
                 $sx = bs(bsc(h($class, 1) . bsmessage('Nor view')));
                 break;
         }
