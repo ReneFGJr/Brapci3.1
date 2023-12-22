@@ -12,7 +12,7 @@ def ClearMarkup():
 
 ########################################### Início
 print("ROBOTi",version())
-print("=====================")
+print("===============================================")
 
 if (len(sys.argv) > 1):
     parm = sys.argv

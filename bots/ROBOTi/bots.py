@@ -69,15 +69,19 @@ def execute(act):
     if (act == 'none'):
         print("Sem ações agendada")
     elif ((act == 'oai_identifty') or (act == bytearray(b'oai_identifty'))):
+        print("====================================== Identify")
         Identify()
     elif ((act == 'l') or (act == 'oai_listidentifiers') or (act == bytearray(b'oai_listidentifiers')) or (act == bytearray(b'l'))):
-        print("==============================List Identifiers")
+        print("============================== List Identifiers")
         Listidentifiers()
     elif ((act == 'oai_getregister') or (act == bytearray(b'oai_getregister')) or (act == bytearray(b'g'))):
+        print("===================================== GetRecord")
         GetRecord()
     elif ((act == 'process') or (act == bytearray(b'process'))):
+        print("================================ Process Record")
         processRecord()
     elif ((act == 'translate') or (act == bytearray(b'translate'))):
+        print("===================================== Translate")
         import translate
         translate.translateNext()
     else:
