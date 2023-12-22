@@ -180,9 +180,13 @@ def setSpecCheck(ID,set):
     qr = f"select * from brapci_oaipmh.oai_setspec where s_id = '{set}' and s_id_jnl = {ID} limit 1"
     cnx = oai_mysql()
     cursor = cnx.cursor()
+    rs = cursor.execute(query)
+    row = cursor.fetchone()
+    cnx.close()
+
+    print(row)
+    x=1
     try:
-        cursor.execute(qr)
-        row = cursor.fetchone()
         if not row:
             print("     Inserindo setspec",set,ID)
             try:
