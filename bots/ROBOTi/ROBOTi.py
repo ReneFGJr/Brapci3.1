@@ -1,6 +1,7 @@
 import sys
 import env
 import brapci_base
+import bots
 
 def version():
     return "v0.23.12.12"
@@ -18,7 +19,6 @@ if (len(sys.argv) > 1):
     if (parm[1] == '--help'):
         brapci_base.help_roboti()
     elif ((parm[1] == 'run') or (parm[1] == bytearray(b'run'))):
-        import bots
         bots.run()
     elif ((parm[1] == 'clear') or (parm[1] == bytearray(b'clear'))):
         print("Verb: Clear Markups")
