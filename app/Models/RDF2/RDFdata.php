@@ -163,6 +163,7 @@ class RDFdata extends Model
                 }
             foreach($data as $id=>$line)
                 {
+                    pre($line);
                     $sx .= bsc($line['c_class'],3,'text-end');
                     $sx .= bsc($line['n_name'], 9, 'border-top border-secondary');
                     $sx .= bsc($line['n_lang'], 1,'border-top border-secondary small');
