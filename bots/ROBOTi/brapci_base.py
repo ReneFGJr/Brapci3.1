@@ -194,9 +194,12 @@ def setSpecCheck(ID,set):
             cursor.execute(qr)
             row = cursor.fetchone()
 
+            #if not row is List:
+
             print("Resultado do ROW - setSpec",row)
-    except:
+    except Exception as e:
         print("ROBOTi ERROR - getListIdentifier()")
+        print(e)
         row = []
     cursor.close()
     return row[0]
