@@ -8,10 +8,10 @@ from colorama import Fore
 
 urllib3.disable_warnings()
 
-headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) '\
+xheaders = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) '\
         'AppleWebKit/537.36 (KHTML, like Gecko) '\
         'Chrome/75.0.3770.80 Safari/537.36'}
-zheaders = {
+headers = {
     "Accept": "*/*",
     "Accept-Encoding": "gzip, deflate",
     "Host": "brapci.inf.br",
