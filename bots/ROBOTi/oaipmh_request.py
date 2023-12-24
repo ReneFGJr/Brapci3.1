@@ -11,12 +11,14 @@ urllib3.disable_warnings()
 xheaders = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) '\
         'AppleWebKit/537.36 (KHTML, like Gecko) '\
         'Chrome/75.0.3770.80 Safari/537.36'}
-headers = {
+zheaders = {
     "Accept": "*/*",
     "Accept-Encoding": "gzip, deflate",
     "Host": "brapci.inf.br",
     "User-Agent": "python-requests/2.26.0",
   }
+
+headers = {'User-Agent': 'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'}
 
 def get(LINK):
     status_code = '000'
