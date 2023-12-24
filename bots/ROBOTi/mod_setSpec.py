@@ -5,6 +5,7 @@
 import database
 import time
 from colorama import Fore
+
 table = "brapci_oaipmh.oai_setspec"
 
 def register(id,jnl):
@@ -12,6 +13,10 @@ def register(id,jnl):
     qr += "where "
     qr += f"s_id = '{id}' "
     qr += f"and s_id_jnl = '{jnl}' "
+
+    if (id == ''):
+        print(Fore.RED+"ID não especificado"+Fore.WHITE)
+        quit()
 
     row = database.query(qr)
     if row == []:
