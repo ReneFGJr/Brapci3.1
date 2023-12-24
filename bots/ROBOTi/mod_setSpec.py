@@ -22,9 +22,9 @@ def register(id,jnl):
     if row == []:
         qi = f"insert into {table} "
         qi += "(s_id,s_id_jnl,s_ignore)"
-        qi += " values "
+        qi += " VALUES "
         qi += f"('{id}',{jnl},0)"
-        row = database.query(qi)
+        row = database.insert(qi)
         print(Fore.YELLOW+"... setSpec: "+Fore.GREEN+f" Novo setSpec {id} (JNL:{jnl})")
         time.sleep(0.5)
         row = database.query(qr)
