@@ -25,10 +25,10 @@ def register(id,jnl):
         qi += " values "
         qi += f"('{id}',{jnl},0)"
         row = database.query(qi)
-        print(Fore.YELLOW+"... setSpec: "+Fore.GREEN+f" Novo setSpec {id} ({jnl})")
+        print(Fore.YELLOW+"... setSpec: "+Fore.GREEN+f" Novo setSpec {id} (JNL:{jnl})")
         time.sleep(0.5)
         row = database.query(qr)
-
+    print(row)
     idset = row[0][0]
     return idset
     print(row)
