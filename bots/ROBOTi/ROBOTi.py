@@ -41,14 +41,13 @@ def run(parm):
             # Pahse IVd - Registra Identify
             mod_listidentify.registers(identifies,jnl)
 
-
-
-
-
         #oaipmh_setSpec.register('Zeb:ART',16)
 
     elif (act == 'clear'):
         roboti_clear.clear(0)
+    elif (act == 'testdb'):
+        import bot_test_db
+        bot_test_db.dbtest()
 
 
 
