@@ -70,9 +70,6 @@ def xml_identifies(xml,setSpec):
             spec = xdoc['setSpec']
 
         ############################ Register
-        print("deleted",deleted)
-        print("spec",spec)
-        print(setSpec)
         identifiers[id] = {'setSpec':setSpec[spec],'date':date,'deleted':deleted}
 
     return identifiers
