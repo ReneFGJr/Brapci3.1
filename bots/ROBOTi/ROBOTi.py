@@ -20,7 +20,7 @@ def run(parm):
     print(Fore.BLUE+"Function: ",act)
 
     #************************************************* Functions
-    #********************** ListIdentiers
+    #********************** ListIdentiers - LOOP
     if (act == '1'):
         loop = 1
         while loop > 0:
