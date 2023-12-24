@@ -1,10 +1,10 @@
 import mysql.connector
 import env
 def query(qr):
+    resultados = []
     try:
         # Conectar ao banco de dados com charset UTF-8
         config = env.db()
-        print(config)
         conexao = mysql.connector.connect(**config)
 
         # Criar um cursor
@@ -15,7 +15,7 @@ def query(qr):
 
         # Buscar todos os resultados
         resultados = cursor.fetchall()
-        return resultados
+
 
     except mysql.connector.Error as erro:
         print("Erro de Banco de Dados:", erro)
@@ -25,6 +25,8 @@ def query(qr):
         if conexao.is_connected():
             cursor.close()
             conexao.close()
+
+    return resultados
 
 def insert(qr):
     try:
