@@ -4,7 +4,7 @@ from colorama import Fore
 
 def dbtest():
     # Executar uma consulta
-    qr = "SELECT * FROM source_source limit 10"
+    qr = "SELECT * FROM source_source limit 3"
 
     resultados = database.query(qr)
 
