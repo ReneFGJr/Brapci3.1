@@ -8,6 +8,7 @@ import roboti_task
 import roboti_clear
 import mod_setSpec
 import mod_listidentify
+import mod_source
 import oaipmh_ListIdentifiers
 from colorama import Fore
 
@@ -21,6 +22,23 @@ def run(parm):
     #************************************************* Functions
     #********************** ListIdentiers
     if (act == '1'):
+        loop = 1
+        while loop > 0:
+            loop += 1
+            lp = ListIdentiers()
+            print("L O O P - ",loop)
+            if (loop > 50) or (lp == False):
+                loop = 0
+
+    elif (act == 'clear'):
+        roboti_clear.clear(0)
+    elif (act == 'testdb'):
+        import bot_test_db
+        bot_test_db.dbtest()
+
+    print(Fore.WHITE)
+
+def ListIdentiers ():
         # Phase I
         reg = roboti_task.nextHarvesting()
         # Phase II - Valie
@@ -41,17 +59,17 @@ def run(parm):
             # Pahse IVd - Registra Identify
             mod_listidentify.registers(identifies,jnl)
 
-        #oaipmh_setSpec.register('Zeb:ART',16)
+        #Phase V - Token
+        token = mod_source.token(xml)
+        mod_source.update(jnl,'200',token)
+        if token == '':
+            print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
+            loop = 0
+        else:
+            print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
+            loop = 1
+        return loop
 
-    elif (act == 'clear'):
-        roboti_clear.clear(0)
-    elif (act == 'testdb'):
-        import bot_test_db
-        bot_test_db.dbtest()
-
-
-
-    print(Fore.WHITE)
 
 
 ########################################### Início

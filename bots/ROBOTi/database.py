@@ -27,6 +27,8 @@ def query(qr):
             conexao.close()
 
     return resultados
+def update(qr):
+    return insert(qr)
 
 def insert(qr):
     try:
