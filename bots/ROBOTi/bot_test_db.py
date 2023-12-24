@@ -12,8 +12,9 @@ def dbtest():
 
     print(resultados)
 
-    for linha in resultados:
-        print(Fore.WHITE+linha['id_jnl']+Fore.BLUE+linha+Fore.White)
+    for ln in resultados:
+        print(Fore.WHITE,ln[0],Fore.BLUE)
+        print(ln,Fore.WHITE)
 
 def dbtest2():
     try:
