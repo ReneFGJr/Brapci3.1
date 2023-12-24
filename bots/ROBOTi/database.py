@@ -1,30 +1,30 @@
-from mysql.connector import MySQLConnection, Error
-from mysql.connector import errorcode
-
-def oai_mysql():
-    import env
-    dbconfig = env.db()
-
+import mysql.connector
+def query(qr):
     try:
-        cnx = MySQLConnection(**dbconfig)
-    except MySQLConnection.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-    return cnx
+        # Conectar ao banco de dados com charset UTF-8
+        conexao = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='448545ct',
+            database='brapci',
+            charset='utf8'
+        )
 
-def query(sql):
-    cnx = oai_mysql()
-    cursor = cnx.cursor()
-    try:
-        cursor.execute(query)
-        row = cursor.fetchall()
-    except Exception as e:
-        print("MySQL Error",e)
-        row = []
-    cursor.close()
-    cnx.close()
-    return row
+        # Criar um cursor
+        cursor = conexao.cursor()
+
+        # Executar uma consulta
+        cursor.execute(qr)
+
+        # Buscar todos os resultados
+        resultados = cursor.fetchall()
+        return resultados
+
+    except mysql.connector.Error as erro:
+        print("Erro de Banco de Dados:", erro)
+
+    finally:
+        # Fechar o cursor e a conexão
+        if conexao.is_connected():
+            cursor.close()
+            conexao.close()

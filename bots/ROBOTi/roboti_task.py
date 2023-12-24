@@ -9,19 +9,25 @@ def nextHarvesting():
     day = now_time.day
     month = now_time.month
 
-    q = f"select id_jnl, jnl_url_oai, jnl_oai_last_harvesting, jnl_name \n"
+    cp = "id_jnl, jnl_url_oai, jnl_oai_last_harvesting, jnl_name, jnl_oai_token"
+    q = f"select {cp} "
     q += " from brapci.source_source \n"
-    q += f" where ((DAY(jnl_oai_last_harvesting) <> {day}) \n"
-    q += f" or (MONTH(jnl_oai_last_harvesting) <> {month}) \n"
-    q += f" or (jnl_oai_last_harvesting is null) \n"
-    q += f" or ((update_at = '1900-01-01') or (update_at is null)))\n"
-    q += f" and ((jnl_historic = 0) \n"
-    q += f" and (jnl_url_oai <> '')"
-    q += f" and (jnl_collection <> 'EV')) \n"
-    q += " order by jnl_oai_last_harvesting \n"
-    q += " limit 1 "
-
+    q += " where "
+    q += " (jnl_historic = 0)"
+    q += " and (jnl_active = 1)"
+    q += " and (jnl_url_oai <> '')"
+    q += f" and (jnl_collection <> 'EV')"
+    q += " and ((year(update_at) < 2000)"
+    q += f"      or (MONTH(jnl_oai_last_harvesting) <> {month})"
+    q += " )"
+    q += " order by jnl_oai_last_harvesting"
+    q += " limit 1"
     row = database.query(q)
+    return row
 
-    print("NEXT",q)
-    print(Fore.GREEN,row,Fore.WHITE)
+def valid(row):
+    if row != []:
+        print(Fore.YELLOW+"... Harvesting: "+Fore.GREEN+row[0][3]+Fore.WHITE)
+        return True
+    else:
+        return False
