@@ -28,7 +28,10 @@ def register(id,jnl):
         print(Fore.YELLOW+"... setSpec: "+Fore.GREEN+f" Novo setSpec {id} (JNL:{jnl})")
         time.sleep(0.5)
         row = database.query(qr)
-    print(row)
+
+    if (row == []):
+        print(Fore.RED+"ERRO DE GRAVAÇÂO NO BANCO DE DADOS"+Fore.WHITE)
+        quit()
     idset = row[0][0]
     return idset
     print(row)
