@@ -64,9 +64,9 @@ def xml_identifies(xml,setSpec):
             deleted = 0
 
         ############################ setSepc
-        try:
+        if type(xdoc['setSpec']) is list:
             spec = xdoc['setSpec'][0]
-        except:
+        else:
             spec = xdoc['setSpec']
 
         ############################ Register
