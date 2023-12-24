@@ -46,6 +46,8 @@ def xml_identifies(xml,setSpec):
     xml = xml['content']
     identifiers = {}
 
+    print(xml)
+
     doc = xmltodict.parse(xml)
     doc = doc['OAI-PMH']
     doc = doc['ListIdentifiers']
