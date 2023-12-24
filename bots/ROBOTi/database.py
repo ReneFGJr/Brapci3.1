@@ -46,6 +46,7 @@ def insert(qr):
 
     finally:
         # Fechar o cursor e a conexão
+        conexao.commit()
         if conexao.is_connected():
             cursor.close()
             conexao.close()
