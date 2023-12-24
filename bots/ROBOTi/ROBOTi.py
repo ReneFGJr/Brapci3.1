@@ -60,15 +60,19 @@ def ListIdentiers ():
             mod_listidentify.registers(identifies,jnl)
 
         #Phase V - Token
-        token = mod_source.token(xml)
-        mod_source.update(jnl,'200',token)
-        if token == '':
-            print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
-            loop = 0
-        else:
-            print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
-            loop = 1
-        return loop
+        if (xml['status'] == '200'):
+            token = mod_source.token(xml)
+            mod_source.update(jnl,'200',token)
+            if token == '':
+                print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
+                loop = 0
+            else:
+                print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
+                loop = 1
+            return loop
+
+        if (xml['status'] != '200'):
+            mod_source.update(jnl,xml['status'],'')
 
 
 
