@@ -30,6 +30,7 @@ def xml_setSpec(xml):
         doc = doc['ListIdentifiers']
 
         for xdoc in doc['header']:
+            print(xdoc)
             try:
                 spec = xdoc['setSpec'][0]
             except:
