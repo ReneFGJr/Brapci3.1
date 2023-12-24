@@ -10,8 +10,6 @@ def dbtest():
 
     print(Fore.WHITE+"Resultados")
 
-    print(resultados)
-
     for ln in resultados:
         print(Fore.WHITE,ln[0],Fore.BLUE)
         print(ln,Fore.WHITE)
