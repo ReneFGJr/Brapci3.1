@@ -8,10 +8,13 @@ from colorama import Fore
 
 urllib3.disable_warnings()
 
+headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) '\
+        'AppleWebKit/537.36 (KHTML, like Gecko) '\
+        'Chrome/75.0.3770.80 Safari/537.36'}
+
 def get(LINK):
     status_code = '000'
 
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36'}
     data = {'v': 1}
     timeout = 30
 
