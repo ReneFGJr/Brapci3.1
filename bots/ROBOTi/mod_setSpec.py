@@ -31,6 +31,7 @@ def register(id,jnl):
 
     if (row == []):
         print(Fore.RED+"ERRO DE GRAVAÇÂO NO BANCO DE DADOS"+Fore.WHITE)
+        print(Fore.BLUE+qi+Fore.WHITE)
         quit()
     idset = row[0][0]
     return idset
