@@ -1,6 +1,15 @@
 import mysql.connector
-
+import database
 def dbtest():
+    # Executar uma consulta
+    qr = "SELECT * FROM source_source"
+
+    resultados = database.query(qr)
+
+    for linha in resultados:
+        print(linha)
+
+def dbtest2():
     try:
         # Conectar ao banco de dados com charset UTF-8
         conexao = mysql.connector.connect(
