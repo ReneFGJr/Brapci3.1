@@ -31,7 +31,6 @@ def query(qr):
 def insert(qr):
     try:
         config = env.db()
-        print(config)
         conexao = mysql.connector.connect(**config)
 
         # Criar um cursor
@@ -39,14 +38,15 @@ def insert(qr):
 
         # Executar uma consulta
         cursor.execute(qr)
-        return True
 
     except mysql.connector.Error as erro:
         print("Erro de Banco de Dados:", erro)
 
     finally:
         # Fechar o cursor e a conexão
+        cursor.commit()
         conexao.commit()
+
         if conexao.is_connected():
             cursor.close()
             conexao.close()
