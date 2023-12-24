@@ -5,6 +5,7 @@ from colorama import Fore
 def dbtest():
     # Executar uma consulta
     qr = "SELECT * FROM source_source limit 3"
+    qr = "SELECT * FROM brapci_oaipmh.oai_setspec limit 3"
 
     resultados = database.query(qr)
 
