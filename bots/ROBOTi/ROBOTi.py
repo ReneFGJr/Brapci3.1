@@ -26,8 +26,8 @@ def run(parm):
         while loop > 0:
             loop += 1
             lp = ListIdentiers()
-            print("L O O P - ",loop)
-            if (loop > 50) or (lp == False):
+            print("L O O P - ",loop,lp)
+            if (loop > 50) or (lp == 0):
                 loop = 0
 
     elif (act == 'clear'):
