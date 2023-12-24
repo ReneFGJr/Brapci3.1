@@ -9,6 +9,7 @@ from colorama import Fore
 table = "brapci_oaipmh.oai_setspec"
 
 def register(id,jnl):
+    id = id[0:255]
     qr = f"select * from {table} "
     qr += "where "
     qr += f"s_id = '{id}' "
