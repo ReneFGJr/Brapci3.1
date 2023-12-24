@@ -1,13 +1,17 @@
 import mysql.connector
 import database
+from colorama import Fore
+
 def dbtest():
     # Executar uma consulta
-    qr = "SELECT * FROM source_source"
+    qr = "SELECT * FROM source_source limit 10"
 
     resultados = database.query(qr)
 
+    print(Fore.WHITE+"Resultados")
+
     for linha in resultados:
-        print(linha)
+        print(Fore.WHITE+linha['id_jnl']+Fore.BLUE+linha+Fore.White)
 
 def dbtest2():
     try:
