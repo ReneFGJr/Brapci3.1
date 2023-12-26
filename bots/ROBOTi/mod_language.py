@@ -1,6 +1,8 @@
 def check(lg):
     if (lg == 'pt-BR'):
         lg = 'pt'
+    if (lg == 'pt-PT'):
+        lg = 'pt'
     if (lg == 'por'):
         lg = 'pt'
     if (lg == 'pt'):
@@ -11,5 +13,5 @@ def check(lg):
         lg = 'es'
     else:
         print("ERRO LANGUAGE ",lg)
-
+        quit()
     return lg
