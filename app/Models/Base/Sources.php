@@ -276,7 +276,12 @@ class Sources extends Model
 
             $sa .= '<tr>';
             $sa .= '<td width="30%">' . lang('brapci.deleted') . '</td>';
-            $sa .= '<td width="70%">' . sn($dt['s_deleted']) . '</td>';
+            $sa .= '<td width="70%">' . sn($dt['oai_deleted']) . '</td>';
+            $sa .= '</tr>';
+
+            $sa .= '<tr>';
+            $sa .= '<td width="30%">' . lang('brapci.status') . '</td>';
+            $sa .= '<td width="70%">' . sn($dt['oai_status']) . '</td>';
             $sa .= '</tr>';
 
             $sa .= '</table>';
