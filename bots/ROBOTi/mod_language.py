@@ -9,6 +9,8 @@ def check(lg):
         lg = 'pt'
     elif (lg == 'en-US'):
         lg = 'en'
+    elif (lg == 'eng'):
+        lg = 'en'
     elif (lg == 'es-ES'):
         lg = 'es'
     elif (lg == 'fr-FR'):
