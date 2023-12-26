@@ -50,7 +50,7 @@ def xml_identifies(xml,setSpec,jnl):
     try:
         doc = xmltodict.parse(xml)
     except Exception as e:
-        mod_source.update(jnl,'404',''):
+        mod_source.update(jnl,'404','')
         print("Erro no XML",e)
         quit()
 
