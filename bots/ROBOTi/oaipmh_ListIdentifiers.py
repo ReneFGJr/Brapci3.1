@@ -46,7 +46,11 @@ def xml_identifies(xml,setSpec):
     xml = xml['content']
     identifiers = {}
 
-    doc = xmltodict.parse(xml)
+    try:
+        doc = xmltodict.parse(xml)
+    except Exception as e:
+        print("Erro no XML",e)
+        quit()
     doc = doc['OAI-PMH']
     doc = doc['ListIdentifiers']
 
