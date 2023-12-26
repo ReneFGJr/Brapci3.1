@@ -13,6 +13,8 @@ def check(lg):
         lg = 'en'
     elif (lg == 'es-ES'):
         lg = 'es'
+    elif (lg == 'spa'):
+        lg = 'es'
     elif (lg == 'fr-FR'):
         lg = 'fr'
     else:
