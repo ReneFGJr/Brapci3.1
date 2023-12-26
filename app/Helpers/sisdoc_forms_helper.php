@@ -30,9 +30,9 @@ function clog($msg)
     echo $tela;
 }
 
-function sn(v)
+function sn($v)
     {
-        if (v == 0)
+        if ($v == 0)
             {
                 return lang("brapci.NO");
             } else {
