@@ -77,7 +77,7 @@ def ListIdentiers():
         # Phase IVb - Registers setSpecs
         setSpec = mod_setSpec.process(setSpec,reg)
         # Phase IVc - Identifica Identify
-        identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec)
+        identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,jnl)
         # Pahse IVd - Registra Identify
         mod_listidentify.registers(identifies,jnl)
 

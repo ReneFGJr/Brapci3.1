@@ -4,6 +4,7 @@
 
 from colorama import Fore
 import oaipmh_request
+import mod_source
 import xmltodict
 import mod_listidentify
 
@@ -42,13 +43,14 @@ def xml_setSpec(xml):
         print("Erro ao Abrir o XML",e)
         return {'status':False,'setSpec':setSpec}
 
-def xml_identifies(xml,setSpec):
+def xml_identifies(xml,setSpec,jnl):
     xml = xml['content']
     identifiers = {}
 
     try:
         doc = xmltodict.parse(xml)
     except Exception as e:
+        mod_source.update(jnl,'404',''):
         print("Erro no XML",e)
         quit()
 
