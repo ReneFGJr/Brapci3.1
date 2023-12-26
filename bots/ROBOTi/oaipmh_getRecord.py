@@ -235,15 +235,12 @@ def get(rg):
     file = mod_listidentify.directory(ID)+'.getRecord.xml'
     print(Fore.YELLOW+"... Arquivo: "+Fore.GREEN+f"{file}"+Fore.WHITE)
 
-    if os.path.exists(file):
-        print("FILE EXISTE")
-        mod_listidentify.updateStatus(ID,5)
-    else:
-        xml = oaipmh_request.get(LINK)
-        if (xml['status'] == '200'):
-            f = open(file,'w')
-            f.write(xml['content'])
-            f.close()
-        mod_listidentify.updateStatus(ID,5)
-        time.sleep(0.1)
+    xml = oaipmh_request.get(LINK)
+    if (xml['status'] == '200'):
+        f = open(file,'w')
+        f.write(xml['content'])
+        f.close()
+    mod_listidentify.updateStatus(ID,5)
+    time.sleep(0.1)
+
     return True
