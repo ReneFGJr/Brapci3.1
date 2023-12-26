@@ -19,6 +19,8 @@ def check(lg):
         lg = 'fr'
     elif (lg == 'fr-CA'):
         lg = 'fr'
+    elif (lg == 'fra'):
+        lg = 'fr'
     else:
         print("ERRO LANGUAGE ",lg)
         quit()
