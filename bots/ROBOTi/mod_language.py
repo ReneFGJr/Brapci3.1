@@ -31,6 +31,8 @@ def check(lg):
         lg = 'it'
     elif (lg == 'ita'):
         lg = 'it'
+    elif (lg == 'de-DE'):
+        lg = 'de'
     else:
         print("ERRO LANGUAGE ",lg)
         quit()
