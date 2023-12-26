@@ -51,6 +51,7 @@ def xml_identifies(xml,setSpec):
     except Exception as e:
         print("Erro no XML",e)
         quit()
+
     doc = doc['OAI-PMH']
     doc = doc['ListIdentifiers']
 
