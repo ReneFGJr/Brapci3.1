@@ -84,7 +84,7 @@ def ListIdentiers():
     #Phase V - Token
     if (xml['status'] == '200'):
         token = mod_source.token(xml)
-        mod_source.update(jnl,'200',token)
+        mod_source.update(jnl,'100',token)
         if token == '':
             print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
             loop = 0
@@ -92,8 +92,7 @@ def ListIdentiers():
             print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
             loop = 1
         return loop
-
-    if (xml['status'] != '200'):
+    else:
         mod_source.update(jnl,xml['status'],'')
 
 
