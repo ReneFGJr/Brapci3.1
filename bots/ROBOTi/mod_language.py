@@ -23,6 +23,10 @@ def check(lg):
         lg = 'fr'
     elif (lg == 'cat'):
         lg = 'ct'
+    elif (lg == 'it-IT'):
+        lg = 'it'
+    elif (lg == 'iti'):
+        lg = 'it'
     else:
         print("ERRO LANGUAGE ",lg)
         quit()
