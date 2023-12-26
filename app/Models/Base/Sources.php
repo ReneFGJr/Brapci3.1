@@ -281,7 +281,7 @@ class Sources extends Model
 
             $sa .= '<tr>';
             $sa .= '<td width="30%">' . lang('brapci.status') . '</td>';
-            $sa .= '<td width="70%">' . ($dt['oai_status']) . '</td>';
+            $sa .= '<td width="70%">' . msg("brapci.oai_status_".$dt['oai_status']) . '</td>';
             $sa .= '</tr>';
 
             $sa .= '</table>';
