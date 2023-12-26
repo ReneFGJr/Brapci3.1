@@ -1,16 +1,18 @@
 def check(lg):
     if (lg == 'pt-BR'):
         lg = 'pt'
-    if (lg == 'pt-PT'):
+    elif (lg == 'pt-PT'):
         lg = 'pt'
-    if (lg == 'por'):
+    elif (lg == 'por'):
         lg = 'pt'
-    if (lg == 'pt'):
+    elif (lg == 'pt'):
         lg = 'pt'
     elif (lg == 'en-US'):
         lg = 'en'
     elif (lg == 'es-ES'):
         lg = 'es'
+    elif (lg == 'fr-FR'):
+        lg = 'fr'
     else:
         print("ERRO LANGUAGE ",lg)
         quit()
