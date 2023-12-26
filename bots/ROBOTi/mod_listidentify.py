@@ -4,6 +4,7 @@
 
 import database
 import datetime
+import os
 from colorama import Fore
 
 table = "brapci_oaipmh.oai_listidentify"
@@ -48,3 +49,31 @@ def register(id,jnl,setSpec,stamp,deleted):
         print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
 
     return True
+
+def updateStatus(ID,status):
+    update = datetime.datetime.now().strftime('%Y%m%d')
+    now = datetime.datetime.now().strftime('%Y-%m-%d')
+
+    qr = f"update {table} set "
+    qr += f"oai_status = {status}, "
+    qr += f"oai_update = {now} "
+    qr += f"where id_oai = {ID} "
+    database.update(qr)
+
+def directory(id):
+    tp = str(id)
+    while len(tp) < 10:
+        tp = "0"+tp
+    tp1 = tp[0:4]
+    tp2 = tp[4:8]
+
+    if not os.path.isdir('../../public/_repository'):
+        os.mkdir('../../public/_repository')
+    if not os.path.isdir('../../public/_repository/oai'):
+        os.mkdir('../../public/_repository/oai')
+    if not os.path.isdir('../../public/_repository/oai/'+tp1):
+        os.mkdir('../../public/_repository/oai/'+tp1)
+    if not os.path.isdir('../../public/_repository/oai/'+tp1+'/'+tp2):
+        os.mkdir('../../public/_repository/oai/'+tp1+'/'+tp2)
+    dir = f"../../public/_repository/oai/{tp1}/{tp2}/{tp}"
+    return dir

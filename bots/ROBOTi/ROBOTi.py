@@ -10,6 +10,7 @@ import mod_setSpec
 import mod_listidentify
 import mod_source
 import oaipmh_ListIdentifiers
+import oaipmh_getRecord
 from colorama import Fore
 
 def version():
@@ -29,7 +30,16 @@ def run(parm):
             print("L O O P - ",loop,lp)
             if (loop > 50) or (lp == 0):
                 loop = 0
-
+    #********************** ListIdentiers - LOOP
+    if (act == '2'):
+        loop = 1
+        while loop > 0:
+            loop += 1
+            lp = GetRecord()
+            print("L O O P - ",loop,lp)
+            if (loop > 5) or (lp == 0):
+                loop = 0
+    #********************** Clear
     elif (act == 'clear'):
         roboti_clear.clear(0)
     elif (act == 'testdb'):
@@ -38,41 +48,53 @@ def run(parm):
 
     print(Fore.WHITE)
 
-def ListIdentiers ():
-        # Phase I
-        reg = roboti_task.nextHarvesting()
-        # Phase II - Valie
-        if not (roboti_task.valid(reg)):
-            return False
-        # Phase III - GetList
-        jnl = reg[0][0]
-        xml = oaipmh_ListIdentifiers.get(reg[0])
+def GetRecord():
+    # Phase I - get Next Records
+    reg = roboti_task.nextGetRecords()
 
-        # Phase IV - Check and Process XML File
-        if (xml['status'] == '200'):
-            # Phase IVa - Get setSpecs
-            setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
-            # Phase IVb - Registers setSpecs
-            setSpec = mod_setSpec.process(setSpec,reg)
-            # Phase IVc - Identifica Identify
-            identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec)
-            # Pahse IVd - Registra Identify
-            mod_listidentify.registers(identifies,jnl)
+    # Phase II - Coleta arquivos
+    if (reg != []):
+        for it in reg:
+            oaipmh_getRecord.get(it)
 
-        #Phase V - Token
-        if (xml['status'] == '200'):
-            token = mod_source.token(xml)
-            mod_source.update(jnl,'200',token)
-            if token == '':
-                print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
-                loop = 0
-            else:
-                print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
-                loop = 1
-            return loop
+    # Phase III - Fim do processo
+    print(Fore.GREEN+"... Fim do processamento"+Fore.WHITE)
 
-        if (xml['status'] != '200'):
-            mod_source.update(jnl,xml['status'],'')
+def ListIdentiers():
+    # Phase I
+    reg = roboti_task.nextHarvesting()
+    # Phase II - Valie
+    if not (roboti_task.valid(reg)):
+        return False
+    # Phase III - GetList
+    jnl = reg[0][0]
+    xml = oaipmh_ListIdentifiers.get(reg[0])
+
+    # Phase IV - Check and Process XML File
+    if (xml['status'] == '200'):
+        # Phase IVa - Get setSpecs
+        setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
+        # Phase IVb - Registers setSpecs
+        setSpec = mod_setSpec.process(setSpec,reg)
+        # Phase IVc - Identifica Identify
+        identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec)
+        # Pahse IVd - Registra Identify
+        mod_listidentify.registers(identifies,jnl)
+
+    #Phase V - Token
+    if (xml['status'] == '200'):
+        token = mod_source.token(xml)
+        mod_source.update(jnl,'200',token)
+        if token == '':
+            print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
+            loop = 0
+        else:
+            print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
+            loop = 1
+        return loop
+
+    if (xml['status'] != '200'):
+        mod_source.update(jnl,xml['status'],'')
 
 
 
