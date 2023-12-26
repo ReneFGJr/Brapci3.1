@@ -27,7 +27,7 @@ def run(parm):
         while loop > 0:
             loop += 1
             lp = ListIdentiers()
-            print("L O O P - ",loop,lp)
+            print("LOOP - ",loop)
             if (loop > 50) or (lp == 0):
                 loop = 0
     #********************** ListIdentiers - LOOP
@@ -36,7 +36,7 @@ def run(parm):
         while loop > 0:
             loop += 1
             lp = GetRecord()
-            print("L O O P - ",loop,lp)
+            print("LOOP - ",loop)
             if (loop > 5) or (lp == 0):
                 loop = 0
     #********************** Clear
