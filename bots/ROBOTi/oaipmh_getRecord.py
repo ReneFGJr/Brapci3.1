@@ -211,9 +211,16 @@ def process(rg):
 
         file = path.replace('.xml','.json')
 
-        f = open(file,'w')
-        f.write(json.dumps(DC))
-        f.close()
+
+        try:
+            f = open(file,'w')
+            f.write(json.dumps(DC))
+            f.close()
+        except Exception as e:
+            print(DC)
+            print("Erro",e)
+
+
 
         mod_listidentify.updateStatus(ID,6)
 
