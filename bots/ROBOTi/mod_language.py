@@ -25,7 +25,7 @@ def check(lg):
         lg = 'ct'
     elif (lg == 'it-IT'):
         lg = 'it'
-    elif (lg == 'iti'):
+    elif (lg == 'ita'):
         lg = 'it'
     else:
         print("ERRO LANGUAGE ",lg)
