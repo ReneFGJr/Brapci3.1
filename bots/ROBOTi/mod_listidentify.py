@@ -54,7 +54,7 @@ def register(id,jnl,setSpec,stamp,deleted):
         id_oai = row[0][0]
         if (deleted != deleted_db):
             qu = f"update {table} set "
-            qu += f"oai_deleted = {deleted} "
+            qu += f"oai_deleted = {deleted}, "
             qu += f"oai_status = {status} "
             qu += f"where id_oai = {id_oai} "
             database.update(qu)
