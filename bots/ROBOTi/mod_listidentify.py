@@ -46,8 +46,16 @@ def register(id,jnl,setSpec,stamp,deleted):
 
         print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id+Fore.WHITE)
     else:
-        print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
-
+        deleted_db = row[0][8]
+        id_oai = row[0][0]
+        if (deleted != deleted_db):
+            qu = f"update {table} set "
+            qu += f"oai_deleted = {deleted} "
+            qu += f"where id_oai = {id_oai} "
+            database.update(qu)
+            print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id+Fore.WHITE)
+        else:
+            print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
     return True
 
 def updateStatus(ID,status):

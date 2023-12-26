@@ -46,8 +46,6 @@ def xml_identifies(xml,setSpec):
     xml = xml['content']
     identifiers = {}
 
-    print(xml)
-
     doc = xmltodict.parse(xml)
     doc = doc['OAI-PMH']
     doc = doc['ListIdentifiers']
@@ -57,11 +55,12 @@ def xml_identifies(xml,setSpec):
         date = xdoc['datestamp']
 
         ############################ Registro deletado
+        deleted = 0
         try:
             deleted = xdoc['@status']
+            if (deleted == 'deleted'):
+                deleted = 1
         except Exception as e:
-            deleted = 1
-        finally:
             deleted = 0
 
         ############################ setSepc
@@ -72,5 +71,4 @@ def xml_identifies(xml,setSpec):
 
         ############################ Register
         identifiers[id] = {'setSpec':setSpec[spec],'date':date,'deleted':deleted}
-
     return identifiers
