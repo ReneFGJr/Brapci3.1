@@ -10,6 +10,13 @@ from colorama import Fore
 
 table = "brapci.source_source"
 
+def getID(ID):
+    qr = f"select * from {table} where id_jnl = {ID}"
+    row = database.query(qr)
+    if (row != []):
+        row = row[0]
+    return row
+
 def update(jnl,status,token):
     update = datetime.datetime.now().strftime('%Y%m%d')
     now = datetime.datetime.now().strftime('%Y-%m-%d')

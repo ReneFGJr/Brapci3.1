@@ -39,6 +39,17 @@ def run(parm):
             print("LOOP - ",loop)
             if (loop > 5) or (lp == 0):
                 loop = 0
+
+    #********************** ListIdentiers - LOOP
+    if (act == '3'):
+        loop = 1
+        while loop > 0:
+            loop += 1
+            lp = ProcessRecord()
+            print("LOOP - ",loop)
+            if (loop > 10) or (lp == 0):
+                loop = 0
+
     #********************** Clear
     elif (act == 'clear'):
         roboti_clear.clear(0)
@@ -48,9 +59,18 @@ def run(parm):
 
     print(Fore.WHITE)
 
+def ProcessRecord():
+    # Phase I - get Next Records
+    reg = roboti_task.nextGetRecords(5)
+
+    # Phase II - Processa arquivos
+    if (reg != []):
+        for it in reg:
+            oaipmh_getRecord.process(it)
+
 def GetRecord():
     # Phase I - get Next Records
-    reg = roboti_task.nextGetRecords()
+    reg = roboti_task.nextGetRecords(1)
 
     # Phase II - Coleta arquivos
     if (reg != []):
