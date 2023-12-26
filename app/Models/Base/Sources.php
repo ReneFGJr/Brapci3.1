@@ -404,6 +404,7 @@ class Sources extends Model
                     $sx .= bsc($line['year'],1, 'brp_row');
                     $sx .= bsc(substr((string)$line['update_at'],0,10),2, 'brp_row small');
                     $sta = $line['jnl_oai_status'];
+                    echo $sta.' ';
 
                     if (isset($stx[$sta]))
                         {
