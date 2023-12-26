@@ -53,7 +53,7 @@ class Work extends Model
         $Socials = new \App\Models\Socials();
         $RDF = new \App\Models\RDF2\RDF();
         $MidiasSociais = new \App\Models\MidiasSociais\Index();
-        $Metadados = new \App\Models\RDF2\RDFMetadata();
+        $Metadados = new \App\Models\RDF2\RDFmetadata();
         $Download = new \App\Models\Base\Download();
         $Altmetrics = new \App\Models\MetricStudy\Altmetrics();
         $sc = '';
