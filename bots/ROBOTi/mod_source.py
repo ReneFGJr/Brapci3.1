@@ -16,17 +16,17 @@ def update(jnl,status,token):
 
     if not token == '':
         qr = f"update {table} set "
-        qr += f"jnl_oai_token = '{token}', "
-        qr += f"jnl_oai_status = '{status}' "
+        qr += f"jnl_oai_token = '{token}' "
         qr += f" where id_jnl = {jnl}"
-        print("Update",qr)
         database.update(qr)
     else:
         qr = f"update {table} set "
         qr += f"jnl_oai_token = '', "
         qr += f"update_at = '{update}', "
+        qr += f"jnl_oai_status = '{status}', "
         qr += f"jnl_oai_last_harvesting = '{now}' "
         qr += f" where id_jnl = {jnl}"
+        print("Update",qr)
         database.update(qr)
 
 def token(xml):
