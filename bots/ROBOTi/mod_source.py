@@ -19,6 +19,7 @@ def update(jnl,status,token):
         qr += f"jnl_oai_token = '{token}', "
         qr += f"jnl_oai_status = '{status}' "
         qr += f" where id_jnl = {jnl}"
+        print("Update",qr)
         database.update(qr)
     else:
         qr = f"update {table} set "

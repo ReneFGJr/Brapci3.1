@@ -54,7 +54,13 @@ def xml_identifies(xml,setSpec,jnl):
         print("Erro no XML",e)
         quit()
 
-    doc = doc['OAI-PMH']
+    try:
+        doc = doc['OAI-PMH']
+    except Exception as e:
+        mod_source.update(jnl,'501','')
+        print("Erro no XML",e)
+        quit()
+
     doc = doc['ListIdentifiers']
 
     for xdoc in doc['header']:
