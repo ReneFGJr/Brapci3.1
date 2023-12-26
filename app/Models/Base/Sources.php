@@ -274,6 +274,11 @@ class Sources extends Model
             $sa .= '<td width="70%">' . $dt['s_id'] . '</td>';
             $sa .= '</tr>';
 
+            $sa .= '<tr>';
+            $sa .= '<td width="30%">' . lang('brapci.deleted') . '</td>';
+            $sa .= '<td width="70%">' . sn($dt['s_deleted']) . '</td>';
+            $sa .= '</tr>';
+
             $sa .= '</table>';
 
             $sb = $this->cache($id);
