@@ -29,5 +29,5 @@ def get(rg):
             f.write(xml['content'])
             f.close()
         mod_listidentify.updateStatus(ID,5)
-        time.sleep(0.5)
+        time.sleep(0.1)
     return True
