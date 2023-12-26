@@ -217,7 +217,7 @@ def process(rg):
             f.write(json.dumps(DC))
             f.close()
         except Exception as e:
-            print(DC)
+            mod_listidentify.updateStatus(ID,1)
             print("Erro",e)
 
 
