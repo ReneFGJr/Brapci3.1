@@ -18,6 +18,10 @@ def registers(ids,jnl):
     return True
 
 def register(id,jnl,setSpec,stamp,deleted):
+    status = 1
+    if (deleted == 1):
+        status = 9
+
     qr = "select * "
     qr += f"from {table} "
     qr += "where "
@@ -38,7 +42,7 @@ def register(id,jnl,setSpec,stamp,deleted):
         qi += "oai_setSpec, oai_deleted, oai_rdf"
         qi += ")"
         qi += " values "
-        qi += f"({update},1,{jnl},"
+        qi += f"({update},{status},{jnl},"
         qi += f"{issue}, '{id}','{stamp}',"
         qi += f"{setSpec}, {deleted},0"
         qi += ")"
@@ -51,6 +55,7 @@ def register(id,jnl,setSpec,stamp,deleted):
         if (deleted != deleted_db):
             qu = f"update {table} set "
             qu += f"oai_deleted = {deleted} "
+            qu += f"oai_status = {status} "
             qu += f"where id_oai = {id_oai} "
             database.update(qu)
             print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id+Fore.WHITE)
