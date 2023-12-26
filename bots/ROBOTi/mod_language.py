@@ -17,6 +17,8 @@ def check(lg):
         lg = 'es'
     elif (lg == 'spa'):
         lg = 'es'
+    elif (lg == 'es'):
+        lg = 'es'
     elif (lg == 'fr-FR'):
         lg = 'fr'
     elif (lg == 'fr-CA'):
