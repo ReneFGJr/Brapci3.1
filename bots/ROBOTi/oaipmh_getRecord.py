@@ -4,7 +4,7 @@
 
 from colorama import Fore
 import oaipmh_request
-import xmltodict
+import time
 import mod_listidentify
 import os.path
 
@@ -29,4 +29,5 @@ def get(rg):
             f.write(xml['content'])
             f.close()
         mod_listidentify.updateStatus(ID,5)
+        time.sleep(0.5)
     return True
