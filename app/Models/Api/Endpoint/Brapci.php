@@ -331,9 +331,6 @@ class Brapci extends Model
                 $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
                 $RDFtools->importRDF($id);
                 $dt = $RDF->le($id);
-                pre($dt);
-                print("IMPORT");
-                exit;
             }
 
         switch($v)

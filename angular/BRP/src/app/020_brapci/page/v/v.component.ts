@@ -27,7 +27,7 @@ export class VComponent {
           this.data = res;
           this.type = this.data.Class;
           console.log(this.type);
-          this.header.title = "XXXXXXXXXX"
+          this.header.title = this.type
           if (this.type=='Journals')
             {
               console.log("=====================");
