@@ -353,8 +353,6 @@ class RDFmetadata extends Model
         $ISSUE2 = $this->arrayExtract($dd, 'hasPublicationIssueOf');
         $ISSUE = array_merge($ISSUE1,$ISSUE2);
 
-        pre($ISSUE);
-
         if (isset($ISSUE[0])) {
             $dtIssue = $RDF->le($ISSUE[0]['ID']);
             $simpleIssue = true;
