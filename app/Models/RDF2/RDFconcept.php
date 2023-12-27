@@ -53,7 +53,8 @@ class RDFconcept extends Model
                 ->join('rdf_literal', 'cc_pref_term = id_n','left')
                 ->join('rdf_class', 'id_c = cc_class')
                 ->join('rdf_prefix', 'id_prefix = c_prefix')
-                ->find($id);
+                ->where('id_cc',$id)
+                ->first();
 
             /* Data */
 
