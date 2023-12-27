@@ -194,12 +194,14 @@ class Register extends Model
 
                 if (!isset($dt['Class']))
                     {
-                        $dt['Class'] = 'XXX';
+                        $xclass = 'XXX';
+                    } else {
+                        $xclass = $dt['Class'];
                     }
 
-                echo h($dt['Class']);
+                echo h($xclass);
 
-                Switch(trim($dt['Class']))
+                Switch(trim($xclass))
                     {
                         case 'BookChapter':
                             $dt['jounal'] = $dt['books'];
@@ -209,7 +211,7 @@ class Register extends Model
                         $dt['jounal'] = 'Erro de processamento';
                         $dt['id_jnl'] = 0;
                         $dt['collection'] = 'Erro';
-                        echo "+++++++++++++++++++";
+                        echo "+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+x+";
                         pre($DT);
                         break;
                     }
