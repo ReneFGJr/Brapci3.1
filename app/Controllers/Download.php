@@ -26,6 +26,11 @@ class Download extends BaseController
         switch ($class) {
             case 'Article':
                 $id = $RDF->extract($dt, 'hasFileStorage');
+                if (!isset($id[0]))
+                    {
+                        echo "PDF não localizado";
+                        exit;
+                    }
                 $id = $id[0];
                 break;
             case 'Proceeding':
