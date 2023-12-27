@@ -191,7 +191,11 @@ class Register extends Model
                     $dt['collection'] = 'ER';
                 }
             } else {
-                pre($dt);
+                if (!isset($dt['Class']))
+                    {
+                        $dt['Class'] = 'XXX';
+                    }
+
                 Switch($dt['Class'])
                     {
                         case 'BookChapter':
