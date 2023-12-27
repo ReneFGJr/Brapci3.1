@@ -424,9 +424,11 @@ class Register extends Model
             {
                 if (!isset($data['year']))
                     {
-                        pre($data);
+                        $da['YEAR'] = date("Y");
+                    } else {
+                        $da['YEAR'] = $data['year'];
                     }
-                $da['YEAR'] = $data['year'];
+
                 $da['TITLE'] = $data['title'];
             }
 
