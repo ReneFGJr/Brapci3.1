@@ -422,6 +422,10 @@ class Register extends Model
         /****************************************** */
         if ($da['CLASS'] == 'Book')
             {
+                if (!isset($data['year']))
+                    {
+                        pre($data);
+                    }
                 $da['YEAR'] = $data['year'];
                 $da['TITLE'] = $data['title'];
             }
