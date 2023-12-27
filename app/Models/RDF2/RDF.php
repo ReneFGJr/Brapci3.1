@@ -186,6 +186,7 @@ class RDF extends Model
             if ($d['data'] == [])
                 {
                     $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
+                    $RDFtoolsImport->importRDF($id);
                     $d['data'] = $RDFdata->le($id);
                 }
             return $d;
