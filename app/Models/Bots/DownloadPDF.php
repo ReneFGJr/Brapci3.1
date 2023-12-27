@@ -245,10 +245,16 @@ class DownloadPDF extends Model
     function create_FileStorage($id, $filename)
     {
         $RDF = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFData = new \App\Models\RDF2\RDFdata();
         $RDFLiteral = new \App\Models\RDF2\RDFliteral();
 
-        $r2 = $RDF->RDF_concept($filename, 'FileStorage');
+        $dt = [];
+        $dt['name'] = $filename;
+        $dt['Class'] = 'FileStorage';
+
+        pre($dt);
+        $r2 = $RDFconcept->createConcept($dt);
 
         /* TIPO DO ARQUIVO */
         $r3 = $RDF->RDF_concept('PDF', 'FileType', 'pt-BR', '');

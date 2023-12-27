@@ -191,7 +191,7 @@ class Download extends Model
             exit;
         } else {
             echo '<center>';
-            echo h('File not found in this server (' . $class . ')', 4);
+            echo h('File not found in this server (' . $file . ')', 4);
             echo $file;
             echo '</center>';
             echo '<hr>';

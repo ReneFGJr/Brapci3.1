@@ -38,6 +38,7 @@ import { JournalComponent } from './page/v/journal/journal.component';
 import { BrapciBannerComponent } from './widget/banner/banner.component';
 import { PersonComponent } from './page/v/person/person.component';
 import { GenericComponent } from './page/v/generic/generic.component';
+import { FilestorageComponent } from './page/v/filestorage/filestorage.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { GenericComponent } from './page/v/generic/generic.component';
     BrapciBannerComponent,
     PersonComponent,
     GenericComponent,
+    FilestorageComponent,
   ],
   imports: [
     CommonModule,

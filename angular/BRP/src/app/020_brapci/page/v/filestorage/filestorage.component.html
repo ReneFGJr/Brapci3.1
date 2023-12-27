@@ -1,0 +1,13 @@
+<div class="container" *ngIf="data">
+<div class="row">
+<div class="col-12">
+    <h1>{{data.Class}}</h1>
+    ID: <span class="big"><b>{{ data.ID }}</b></span>
+    <hr>
+    Place: {{data.publisher}}
+    <br>
+    <br>
+    <a href="https://cip.brapci.inf.br/download/{{data.ID}}" class="btn btn-danger" target="_blank">Donwload</a>
+</div>
+</div>
+</div>
