@@ -18,7 +18,7 @@ class Register extends Model
         'id_ds', 'ID', 'json', 'CLASS',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
         'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION',
-        'LEGEND'
+        'LEGEND','new'
     ];
 
     // Dates
