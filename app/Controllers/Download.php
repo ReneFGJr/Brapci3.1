@@ -63,7 +63,6 @@ class Download extends BaseController
                 break;
         }
         $Download = new \App\Models\Base\Download();
-        echo "DOWNLOAD $id";
         $Download->download_pdf($id);
         exit;
     }
