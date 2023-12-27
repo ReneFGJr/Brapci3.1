@@ -190,6 +190,8 @@ class Register extends Model
                 } else {
                     $dt['collection'] = 'ER';
                 }
+            } else {
+                $dt['collection'] = 'BK';
             }
 
             /**************************************************** */
