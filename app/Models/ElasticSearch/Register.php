@@ -192,7 +192,6 @@ class Register extends Model
                 }
             } else {
                 $dt['collection'] = 'BK';
-                pre($line);
             }
 
             /**************************************************** */
@@ -219,6 +218,8 @@ class Register extends Model
 
             $id = $dt['id'];
             //$rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
+
+            pre($dt);
 
             /* Second Server */
             $API->server = 'http://143.54.112.91:9200/';
