@@ -10,6 +10,19 @@ if (!isset($GOOGLEID)) {
 $data['GOOGLEID'] = $GOOGLEID;
 ?>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12713129-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-12713129-1');
+</script>
+
 <head>
     <title><?= $page_title; ?> </title>
 
@@ -49,7 +62,7 @@ $data['GOOGLEID'] = $GOOGLEID;
     <?= view('Google/Analytics', $data); ?>
 </head>
 <div id="loading" style="display: none;">
-    <p><img src="<?=PATH.'/img/thema/wait.gif';?>" /> Please Wait</p>
+    <p><img src="<?= PATH . '/img/thema/wait.gif'; ?>" /> Please Wait</p>
 </div>
 
 <script>
