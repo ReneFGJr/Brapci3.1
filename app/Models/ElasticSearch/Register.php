@@ -624,7 +624,7 @@ class Register extends Model
         echo h("Fim da Checagem", 4);
 
         /* NOVO REGISTRO */
-        pre($data);
+
         if (count($dt) == 0) {
             if (count($data) > 0) {
                 $data['status'] = 1;
