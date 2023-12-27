@@ -29,11 +29,15 @@ class Download extends BaseController
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
+                        pre($dt);
                         foreach($dt['data'] as $id=>$line)
                             {
                                 pre($line);
+                                if ($line['c_class'] == 'X')
+                                    {
+                                        $Download->download_methods($line, $id);
+                                    }
                             }
-                        $Download->download_methods($dt,$id);
                         $id = $RDF->extract($dt, 'hasFileStorage');
                         if (!isset($id[0])) {
                             echo "PDF não disponível";
