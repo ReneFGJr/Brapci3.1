@@ -33,7 +33,7 @@ class Download extends BaseController
                         foreach($dt['data'] as $id=>$line)
                             {
                                 pre($line);
-                                if ($line['c_class'] == 'X')
+                                if ($line['c_class'] == 'hasRegisterId')
                                     {
                                         $Download->download_methods($line, $id);
                                     }
