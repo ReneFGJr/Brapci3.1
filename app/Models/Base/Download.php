@@ -112,7 +112,6 @@ class Download extends Model
                     $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
                     $dt['n_name'] = $name;
                     $RDFLiteral->set($dt)->where('id_n',$dt['id_n'])->update();
-                    pre($dt);
                 }
 
             if (substr($name,0,4) == 'http')
