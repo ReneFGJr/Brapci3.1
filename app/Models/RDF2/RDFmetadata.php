@@ -241,73 +241,19 @@ class RDFmetadata extends Model
     {
         $Issues = new \App\Models\Base\Issues();
         $IDissue = $dt['concept']['id_cc'];
-        $di = $Issues->where('is_source_issue',$IDissue)->first();
-        pre($di);
-        $ID = $dt['concept']['id_cc'];
-        $da = $dt['data'];
+        $di = $Issues
+            ->Join('brapci.source_source', 'id_jnl = is_source')
+            ->where('is_source_issue',$IDissue)->first();
         $dr = [];
-        $dr['publisher'] = '';
-        $dr['ID'] = $ID;
-        $w = [];
-        $dr['Class'] = $dt['concept']['c_class'];
-
-        foreach ($da as $id => $line) {
-            $lang = $line['Lang'];
-            $prop = $line['Property'];
-
-            /*******************/
-            switch ($prop) {
-                case 'hasPublicationIssueOf':
-                    $dr['publisher'] = $line['Caption'];
-                    $dr['jnl_rdf'] = $line['ID'];
-                    break;
-                case 'dateOfPublication':
-                    $dr['is_year'] = $line['Caption'];
-                    break;
-                case 'hasVolumeNumber':
-                    $dr['is_nr'] = $line['Caption'];
-                    break;
-                case 'hasVolume':
-                    $dr['is_vol'] = $line['Caption'];
-                    break;
-                case 'hasIssueOf':
-                    if (!$simple) {
-                        if (!isset($dr['works'])) {
-                            $dr['works'] = [];
-                        }
-                        array_push($w, $line['ID']);
-                    }
-                    break;
-                default:
-                    $dr[$prop] = $line['Caption'];
-                    break;
+        if ($di != [])
+            {
+                    $dr['publisher'] = $di['jnl_name'];
+                    $dr['jnl_rdf'] = $di['is_source_issue'];
+                    $dr['is_year'] = $di['is_year'];
+                    $dr['is_nr'] = $di['is_nr'];
+                    $dr['is_vol_roman'] = $di['is_vol_roman'];
+                    $dr['is_vol'] = $di['is_vol'];
             }
-        }
-
-        if (!$simple) {
-            $dr['works'] = [];
-            foreach ($w as $id => $line) {
-                $rsp = $this->simpleMetadata($line);
-                if (isset($rsp['jnl_frbr']))
-                    {
-                        $dr['jnl_rdf'] = $rsp['jnl_frbr'];
-                    }
-
-                if ($rsp['data'] == []) {
-                    $rsp['data']['hasTitle'] = '::no title avaliable::';
-                }
-                array_push($dr['works'], $rsp);
-            }
-        }
-
-        if (isset($dr['jnl_rdf'])) {
-            $Source = new \App\Models\Base\Sources();
-            $dt = $Source->where('jnl_frbr', $dr['jnl_rdf'])->first();
-            $dr['Publication'] = $dt['jnl_name'];
-            $dr['PublicationAcronic'] = $dt['jnl_name_abrev'];
-            $dr['PublicationUrl'] = $dt['jnl_url'];
-        }
-
         return $dr;
     }
 
