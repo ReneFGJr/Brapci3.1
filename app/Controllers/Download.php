@@ -33,9 +33,8 @@ class Download extends BaseController
 
         switch ($class) {
             case 'Article':
-                echo "OK";
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
-                pre($id);
+                /* Se não identificado o PDF */
                 if (!isset($id[0]))
                     {
                     echo "OK2";
@@ -64,6 +63,7 @@ class Download extends BaseController
                 break;
         }
         $Download = new \App\Models\Base\Download();
+        echo "DOWNLOAD $id";
         $Download->download_pdf($id);
         exit;
     }
