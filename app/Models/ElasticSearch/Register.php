@@ -191,11 +191,19 @@ class Register extends Model
                     $dt['collection'] = 'ER';
                 }
             } else {
-                $dt['jounal'] = 'Erro de processamento';
-                $dt['id_jnl'] = 0;
-                $dt['collection'] = 'Erro';
-                echo "+++++++++++++++++++";
-                pre($DT);
+                Switch($dt['Class'])
+                    {
+                        case 'BookChapter':
+                            $dt['jounal'] = $dt['books'];
+                        break;
+                        default:
+                        $dt['jounal'] = 'Erro de processamento';
+                        $dt['id_jnl'] = 0;
+                        $dt['collection'] = 'Erro';
+                        echo "+++++++++++++++++++";
+                        pre($DT);
+                        break;
+                    }
             }
 
             $dt['year'] = $line['YEAR'];
