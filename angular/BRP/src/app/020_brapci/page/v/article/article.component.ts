@@ -11,6 +11,7 @@ export class ArticleComponent {
   public header:Array<any>|any = null
 
   ngOnInit(): void {
+    console.log(this.data)
     this.header = []
     this.header = {'title':'Artigo'}
     //this.url = this.data.id;
