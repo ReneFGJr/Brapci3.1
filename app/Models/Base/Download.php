@@ -41,7 +41,7 @@ class Download extends Model
     protected $afterDelete    = [];
 
     function show_resources($dt)
-        {
+    {
         $ok = 0;
         $sx = '';
         /************************************************************ PDF */
@@ -60,8 +60,7 @@ class Download extends Model
             $sx .= view('Brapci/Base/DOI', $dt);
             $ok = 1;
         }
-        if (1==2)
-        {
+        if (1 == 2) {
             /*************************** DOWNLOAD PDF - AUTOBOT */
             $DownloadBot = new \App\Models\Bots\DownloadPDF();
             $sx .= $DownloadBot->toHarvesting($id_cc);
@@ -72,7 +71,7 @@ class Download extends Model
             }
         }
         return $sx;
-        }
+    }
 
     function download_tools($id)
     {
@@ -82,112 +81,110 @@ class Download extends Model
 
         $data = $dt['data'];
 
-        foreach($data as $idx=>$line)
-            {
-                $class = $line['c_class'];
+        foreach ($data as $idx => $line) {
+            $class = $line['c_class'];
 
-                switch($class)
-                    {
-                        case 'hasRegisterId':
-                            $sx .= $this->download_methods($line,$id);
-                    }
+            switch ($class) {
+                case 'hasRegisterId':
+                    $sx .= $this->download_methods($line, $id);
             }
+        }
         echo $sx;
         return $sx;
     }
 
-    function download_methods($dt,$id)
-        {
-            if (isset($dt['n_name']))
-                {
-                    $name = $dt['n_name'];
-                } else {
-                    $name = 'ERRO';
-                }
-
-            if (strpos($name,'/XIXENANCIB/') or (strpos($name, 'xviiienancib/')))
-                {
-                    $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
-                    $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
-                    $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
-                    $dt['n_name'] = $name;
-                    $RDFLiteral->set($dt)->where('id_n',$dt['id_n'])->update();
-                }
-
-            if (substr($name,0,4) == 'http')
-                {
-                    $url = $name;
-                    echo h($url,5);
-                    $fileURL = $this->ocs_2($url);
-                    if (substr($fileURL,0,4) == 'http')
-                        {
-                            $DownloadPDF = new \App\Models\Bots\DownloadPDF();
-                            $dir = $DownloadPDF->directory($id);
-                            $filePDF = $dir.'work_' . strzero($id, 8) . '.pdf';
-
-                            $data = array();
-                            echo view('Brapci/Headers/header',$data);
-                            echo '<center>';
-                            echo '<img src="'.URL.'/img/thema/wait.gif">';
-                            echo '<br>';
-                            echo 'Aguarde...';
-                            echo '</center>';
-
-                            $txtFile = read_link($fileURL);
-                            file_put_contents($filePDF, $txtFile);
-                            $id = $DownloadPDF->create_FileStorage($id, $filePDF);
-
-                            echo metarefresh('',0);
-                        }
-                }
+    function download_methods($dt, $id)
+    {
+        if (isset($dt['n_name'])) {
+            $name = $dt['n_name'];
+        } else {
+            $name = 'ERRO';
         }
 
-    function ocs_2($url)
-        {
-            if (strpos($url, 'paper/view'))
-                {
-                    $txt = read_link($url);
-                    if (strpos($txt, 'noframes'))
-                        {
-                            $url = troca($url, 'paper/view', 'paper/viewPaper');
-                            $txt = read_link($url);
-                            echo 'Change: '.$url;
-                        }
-                    if ($pos = strpos($txt, 'citation_pdf_url'))
-                        {
-                            $txt = substr($txt,$pos,300);
-                            $st = 'content="';
-                            $txt = substr($txt,strpos($txt,$st)+strlen($st),strlen($txt));
-                            $txt = substr($txt,0,strpos($txt,'"'));
-                            if (substr($txt,0,4) == 'http')
-                                {
-                                    return $txt;
-                                }
-                        } else {
-                            echo 'ERRO: '.$url;
-                            echo '<br>Size: '.strlen($txt);
-                            echo $txt;
-                        }
-
-                    exit;
-                }
+        if (strpos($name, '/XIXENANCIB/') or (strpos($name, 'xviiienancib/'))) {
+            $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
+            $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
+            $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+            $dt['n_name'] = $name;
+            $RDFLiteral->set($dt)->where('id_n', $dt['id_n'])->update();
         }
 
-    function send_file($file)
-        {
-            if (file_exists($file)) {
-                header('Content-type: application/pdf');
-                readfile($file);
-                exit;
-            } else {
+        if (substr($name, 0, 4) == 'http') {
+            $url = $name;
+            echo h($url, 5);
+            $fileURL = $this->ocs_2($url);
+            if (substr($fileURL, 0, 4) == 'http') {
+                $DownloadPDF = new \App\Models\Bots\DownloadPDF();
+                $dir = $DownloadPDF->directory($id);
+                $filePDF = $dir . 'work_' . strzero($id, 8) . '.pdf';
+
+                $data = array();
+                echo view('Brapci/Headers/header', $data);
                 echo '<center>';
-                echo h('File not found in this server (' . $class . ')', 4);
-                echo $file;
+                echo '<img src="' . URL . '/img/thema/wait.gif">';
+                echo '<br>';
+                echo 'Aguarde...';
                 echo '</center>';
-                echo '<hr>';
-                exit;
+
+                $txtFile = read_link($fileURL);
+                file_put_contents($filePDF, $txtFile);
+                $id = $DownloadPDF->create_FileStorage($id, $filePDF);
+
+                echo metarefresh('', 0);
             }
         }
+    }
+
+    function ocs_2($url)
+    {
+        if (strpos($url, 'article/view')) {
+            $txt = read_link($url);
+            echo "OK";
+            exit;
+        }
+
+
+        if (strpos($url, 'paper/view')) {
+            $txt = read_link($url);
+
+            if (strpos($txt, 'noframes')) {
+                $url = troca($url, 'paper/view', 'paper/viewPaper');
+                $txt = read_link($url);
+                echo 'Change: ' . $url;
+            }
+            if ($pos = strpos($txt, 'citation_pdf_url')) {
+                $txt = substr($txt, $pos, 300);
+                $st = 'content="';
+                $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
+                $txt = substr($txt, 0, strpos($txt, '"'));
+                if (substr($txt, 0, 4) == 'http') {
+                    return $txt;
+                }
+            } else {
+                echo 'ERRO: ' . $url;
+                echo '<br>Size: ' . strlen($txt);
+                echo $txt;
+            }
+
+            exit;
+        }
+    }
+
+    function send_file($file)
+    {
+        if (file_exists($file)) {
+            header('Content-type: application/pdf');
+            readfile($file);
+            exit;
+        } else {
+            echo '<center>';
+            echo h('File not found in this server (' . $class . ')', 4);
+            echo $file;
+            echo '</center>';
+            echo '<hr>';
+            exit;
+        }
+    }
 
     function download_pdf($id)
     {
