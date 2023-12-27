@@ -37,6 +37,7 @@ class Download extends BaseController
                                     }
                             }
                         $id = $RDF->extract($dt, 'hasFileStorage');
+
                         if (!isset($id[0])) {
                             echo "PDF não disponível";
                             exit;

@@ -113,6 +113,7 @@ class Download extends Model
             $url = $name;
             echo h($url, 5);
             $fileURL = $this->ocs_2($url);
+            print($fileURL);
             if (substr($fileURL, 0, 4) == 'http') {
                 $DownloadPDF = new \App\Models\Bots\DownloadPDF();
                 $dir = $DownloadPDF->directory($id);
