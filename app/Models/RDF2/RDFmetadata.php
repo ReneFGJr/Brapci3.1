@@ -348,25 +348,7 @@ class RDFmetadata extends Model
             $dr['year'] = $year;
         }
 
-        /***************************** ISSUE */
-        $ISSUE1 = $this->arrayExtract($dd, 'hasIssueOf');
-        $ISSUE2 = $this->arrayExtract($dd, 'hasPublicationIssueOf');
-        $ISSUE = array_merge($ISSUE1,$ISSUE2);
-
-        if (isset($ISSUE[0])) {
-            $dtIssue = $RDF->le($ISSUE[0]['ID']);
-            $simpleIssue = true;
-            $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
-            $dr['Issue'] = $dtIssue;
-            $dr['year'] = $dtIssue['is_year'];
-            if (isset($dtIssue['Publication'])) {
-                $dr['publisher'] = $dtIssue['Publication'];
-            } else {
-                $dr['publisher'] = ':: Not informed Yet ::';
-            }
-            $dr['legend'] = $LEGEND->show($dtIssue);
-        }
-
+        /**************************************** Publisher */
         $editora = $this->arrayExtract($dd, 'isPublisher');
         $place = $this->arrayExtract($dd, 'isPlaceOfPublication');
         $publisher = '';
@@ -386,6 +368,26 @@ class RDFmetadata extends Model
             }
         }
         $dr['publisher'] = $publisher;
+
+        /***************************** ISSUE */
+        $ISSUE1 = $this->arrayExtract($dd, 'hasIssueOf');
+        $ISSUE2 = $this->arrayExtract($dd, 'hasPublicationIssueOf');
+        $ISSUE = array_merge($ISSUE1,$ISSUE2);
+
+        if (isset($ISSUE[0])) {
+            $dtIssue = $RDF->le($ISSUE[0]['ID']);
+            $simpleIssue = true;
+            $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
+            $dr['Issue'] = $dtIssue;
+            $dr['year'] = $dtIssue['is_year'];
+            if (!isset($dtIssue['Publication'])) {
+                $dr['publisher'] = ':: Not informed Yet ::';
+            } else {
+                $dt['publisher'] = $dr['publisher'];
+            }
+            $dr['legend'] = $LEGEND->show($dtIssue);
+        }
+
 
         /************************************************************* COVER */
         $RDFimage = new \App\Models\RDF2\RDFimage();
