@@ -423,6 +423,7 @@ class Register extends Model
         if ($da['CLASS'] == 'Book')
             {
                 $da['YEAR'] = $data['year'];
+                pre($data);
             }
 
         /* verifica se tem o ISSUE */
