@@ -102,8 +102,7 @@ class Download extends Model
                 {
                     $name = $dt['n_name'];
                 } else {
-                    $name = '';
-                    pre($dt);
+                    $name = 'ERRO';
                 }
 
             if (strpos($name,'/XIXENANCIB/') or (strpos($name, 'xviiienancib/')))
