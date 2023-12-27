@@ -268,6 +268,8 @@ class RDF extends Model
                         {
                             /******************************** FIRST */
                             if ($type == 'F') { return($line['Caption']); }
+                            array_push($dt,$line['ID']);
+                            $st .= $line['Caption'].';';
                         }
                 }
             if ($type == 'A') { return $dr; }
