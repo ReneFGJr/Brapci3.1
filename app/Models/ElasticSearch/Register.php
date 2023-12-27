@@ -191,6 +191,9 @@ class Register extends Model
                     $dt['collection'] = 'ER';
                 }
             } else {
+
+                echo h($dt['Class']);
+
                 if (!isset($dt['Class']))
                     {
                         $dt['Class'] = 'XXX';
