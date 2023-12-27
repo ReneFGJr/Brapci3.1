@@ -178,8 +178,11 @@ class Work extends Model
                 break;
             case 'Proceeding':
                 $Issue = new \App\Models\Base\Issues();
-                $idi = $Issue->where('is_source_issue', $da['issue_id'])->first();
-                $da['sub_header'] = $Issue->issue($idi['id_is']);
+                if (isset($da['issue_id']))
+                    {
+                        $idi = $Issue->where('is_source_issue', $da['issue_id'])->first();
+                        $da['sub_header'] = $Issue->issue($idi['id_is']);
+                    }
                 $da['issue'] = '';
                 $sx .= view('Brapci/Base/Work', $da);
                 //$sx .= $RDF->view_data($dt);
