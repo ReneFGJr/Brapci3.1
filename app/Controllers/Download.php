@@ -28,7 +28,7 @@ class Download extends BaseController
                 $id = $RDF->extract($dt, 'hasFileStorage');
                 if (!isset($id[0]))
                     {
-                        $Download = new \App\Models\base\Download();
+                        $Download = new \App\Models\Base\Download();
                         $Download->download_tools($id);
                         $id = $RDF->extract($dt, 'hasFileStorage');
                         if (!isset($id[0])) {
