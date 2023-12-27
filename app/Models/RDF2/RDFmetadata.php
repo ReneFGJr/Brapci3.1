@@ -240,7 +240,7 @@ class RDFmetadata extends Model
     function metadataIssue($dt, $simple = false)
     {
         $Issues = new \App\Models\Base\Issues();
-        $IDissue = $dr['concept']['id_cc'];
+        $IDissue = $dt['concept']['id_cc'];
         $di = $Issues->where('is_source_issue',$IDissue)->first();
         pre($di);
         $ID = $dt['concept']['id_cc'];
