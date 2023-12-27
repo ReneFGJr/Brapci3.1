@@ -423,7 +423,7 @@ class Register extends Model
         if ($da['CLASS'] == 'Book')
             {
                 $da['YEAR'] = $data['year'];
-                pre($data);
+                $da['TITLE'] = $data['title'];
             }
 
         /* verifica se tem o ISSUE */
@@ -509,6 +509,15 @@ class Register extends Model
         $da['AUTHORS'] = '';
         if (isset($data['Authors'])) {
             foreach ($data['Authors'] as $ida => $name) {
+                if ($da['AUTHORS'] != '') {
+                    $da['AUTHORS'] .= '; ';
+                }
+                $da['AUTHORS'] .= nbr_author($name, 7);
+            }
+        }
+
+        if (isset($data['Organizator'])) {
+            foreach ($data['Organizator'] as $ida => $name) {
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
