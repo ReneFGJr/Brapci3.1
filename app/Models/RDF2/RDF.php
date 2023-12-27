@@ -50,13 +50,55 @@ class RDF extends Model
                         break;
                     case 'source':
                         break;
-                    default:
+                    case '404':
                         $RSP = $this->default();
                         break;
+                    case 'Class':
+                        $sx = '';
+                        $RDFclass = new \App\Models\RDF2\RDFclass();
+                        $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
+
+                        if ($d2 == '')
+                        {
+                            $Class = $RDFclass->getClasses();
+                            $sx = '<div style="column-count: 3;">';
+                            $sx .= '<ul>';
+                            foreach($Class as $id=>$line)
+                                {
+                                    $link = '<a href="'.PATH.'/rdf/Class/'.$line['Class'].'">';
+                                    $linka = '</a>';
+                                    $sx .= '<li>'.$link.$line['Class'].$linka.'</li>'.cr();
+                                }
+                            $sx .= '</ul>';
+                            $sx .= '</div>';
+                        } else {
+                            $dt =  $RDFclass->get($d2);
+                            $sx .= h("Class",6);
+                            $sx .= h($dt['Class']);
+                            $sx .= h($dt['prefix'],5);
+
+                            $sx .= '<hr>';
+                            $sx .= anchor(PATH.'/rdf/Class/'.$d2.'/reimport','Reimporta',['class'=>'btn btn-outline-warning']);
+                            $sx .= anchor(PATH . '/api/rdf/in/all', 'Importa', ['class' => 'ms-2 btn btn-outline-danger']);
+                            if ($d3 == 'reimport')
+                                {
+                                    $RDFtoolsImport->reimport($dt['id']);
+                                }
+                        }
+                        return bs(bsc($sx));
+                    default:
+                        return bs(bsc($this->menu(),12));
                 }
             $RSP['time'] = date("Y-m-dTH:i:s");
             echo json_encode($RSP);
             exit;
+        }
+
+    function menu()
+        {
+            $menu = [];
+            $menu[PATH.'/rdf/Class'] = "Classes";
+            return menu($menu);
         }
 
     /************* Default */

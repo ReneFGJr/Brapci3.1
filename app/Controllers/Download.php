@@ -23,13 +23,12 @@ class Download extends BaseController
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
-        pre($dt);
-
         if ($dt == [])
             {
                 $sx = bsmessage("Item não existe - Download PDF - ".$id);
                 return $sx;
             }
+
         $class = $dt['concept']['c_class'];
         switch ($class) {
             case 'Article':

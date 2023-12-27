@@ -31,11 +31,9 @@ class RDF extends BaseController
         $data['title'] = 'Brapci - RDF';
         $data['bg'] = 'bg-admin';
         $sx = '';
-        $cab = cab();
+        $sx .= cab();
         $RDF2 = new \App\Models\RDF2\RDF();
-
-        $RDF = new \App\Models\Rdf\RDF();
-        $sx .= $RDF->index($d1, $d2, $d3, $d4,$d5, $cab);
+        $sx .= $RDF2->index($d1, $d2, $d3, $d4,$d5, $cab);
 
         $sx .= view('Brapci/Headers/footer', $data);
 

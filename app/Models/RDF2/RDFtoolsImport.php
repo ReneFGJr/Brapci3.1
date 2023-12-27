@@ -51,6 +51,33 @@ class RDFtoolsImport extends Model
         $this->db->query($sql);
     }
 
+    function reimport($id=0)
+        {
+
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+            $dt = $RDFconcept->select('id_cc')->where('cc_class',$id)->FindAll();
+            $ids = [];
+            $n = 0;
+            foreach($dt as $line)
+                {
+                    if ($n==0)
+                        {
+                            $this->where('ti_ID',$line['id_cc']);
+                        } else {
+                            $this->Orwhere('ti_ID', $line['id_cc']);
+                        }
+                    if ($n > 100)
+                        {
+                            $n = 0;
+                            $this->delete();
+                        }
+                }
+            if ($n > 0) {
+                $this->delete();
+            }
+        }
+
     function import($file)
     {
         $RDFclass = new \App\Models\RDF2\RDFclass();
@@ -179,7 +206,7 @@ class RDFtoolsImport extends Model
         $dt = $RDFconcept
             ->join('brapci.rdf_concept as b_rdf', 'rdf_concept.id_cc = b_rdf.id_cc', 'right')
             ->where('rdf_concept.id_cc is null')
-            ->where('rdf_concept.cc_class > 0')
+            //->where('rdf_concept.cc_class > 0 ')
             ->findAll(500);
 
         foreach ($dt as $id => $line) {
@@ -669,6 +696,7 @@ class RDFtoolsImport extends Model
         $dt1['concept']['n_name'] = nbr_author($dt1['concept']['n_name'], 7);
         $dt1['concept']['n_lang'] = 'nn';
         $RSP = $this->createConcept($dt1);
+        $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
     }
 
@@ -677,6 +705,7 @@ class RDFtoolsImport extends Model
         $dt1['concept']['n_name'] = nbr_author($dt1['concept']['n_name'], 7);
         $dt1['concept']['n_lang'] = 'nn';
         $RSP = $this->createConcept($dt1);
+        $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
     }
 
@@ -698,6 +727,7 @@ class RDFtoolsImport extends Model
     function importGeneric($dt1)
     {
         $RSP = $this->createConcept($dt1);
+        $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
     }
 

@@ -74,7 +74,9 @@ class RDFclass extends Model
         {
 
             $Class = trim($Class);
-            $this->where('c_class',$Class);
+            $this
+                ->join('rdf_prefix', 'id_prefix = c_prefix')
+                ->where('c_class',$Class);
             if ($prefix != '')
                 {
                     $this->where('c_prefix', $prefix);
