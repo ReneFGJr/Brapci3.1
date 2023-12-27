@@ -219,8 +219,6 @@ class Register extends Model
             $id = $dt['id'];
             //$rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
 
-            pre($dt);
-
             /* Second Server */
             $API->server = 'http://143.54.112.91:9200/';
             $rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
@@ -231,6 +229,7 @@ class Register extends Model
                 ' (' . $dt['collection'] . ')<br>';
 
             $this->exported($id,0);
+            pre($dt);
         }
 
         /****************************************************************************** LOOP */
