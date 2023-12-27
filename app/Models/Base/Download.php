@@ -152,6 +152,7 @@ class Download extends Model
                     $txt = read_link($url);
                     echo 'Change: ' . $url;
                 }
+            }
         }
 
 
