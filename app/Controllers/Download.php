@@ -29,7 +29,6 @@ class Download extends BaseController
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
-                        pre($dt);
                         foreach($dt['data'] as $id=>$line)
                             {
                                 pre($line);
