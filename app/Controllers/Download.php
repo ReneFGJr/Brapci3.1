@@ -31,8 +31,7 @@ class Download extends BaseController
                         $Download = new \App\Models\Base\Download();
                         foreach($dt['data'] as $id=>$line)
                             {
-                                pre($line);
-                                if ($line['c_class'] == 'hasRegisterId')
+                                if (trim($line['c_class']) == 'hasRegisterId')
                                     {
                                         $Download->download_methods($line, $id);
                                     }
