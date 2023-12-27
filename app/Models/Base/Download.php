@@ -129,8 +129,6 @@ class Download extends Model
 
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
-                pre($filePDF,false);
-                pre($txtFile);
                 $id = $DownloadPDF->create_FileStorage($id, $filePDF);
 
                 echo metarefresh('', 5);
