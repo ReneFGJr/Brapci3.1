@@ -444,7 +444,7 @@ class Register extends Model
                     $data['YEAR']  = $di['is_year'];
                 }
             } else {
-                echo h('NÃO FOI LOCALIZADO O ISSUE');
+                echo h('NÃO FOI LOCALIZADO O ISSUE',9);
                 $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
                 $da['ISSUE'] = 0;
                 return $da;
@@ -473,7 +473,6 @@ class Register extends Model
         }
 
         if (!isset($da['YEAR'])) {
-            pre($da);
             $da['YEAR'] = 9998;
         }
         if ($da['YEAR'] == '') {
@@ -596,6 +595,7 @@ class Register extends Model
         /*********************** CONVERT DADOS */
         echo h("Convertendo Dados",4);
         $data = $this->data_convert_elastic($xdata);
+        pre($data);
         echo h("Checando Dados convertidos", 4);
         $this->check($data, true, $id);
         echo h("Fim da Checagem", 4);
