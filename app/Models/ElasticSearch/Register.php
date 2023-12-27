@@ -192,6 +192,10 @@ class Register extends Model
                 }
             }
 
+            /**************************************************** */
+            //$dt['collection']
+            pre($DT,false);
+
             $dt['year'] = $line['YEAR'];
             $dt['type'] = $line['CLASS'];
 
