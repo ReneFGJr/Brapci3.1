@@ -8,8 +8,8 @@
     <br>
     <br>
     <a href="https://cip.brapci.inf.br/download/{{data.ID}}" class="btn btn-danger" target="_blank">Donwload</a>
-
-    <app-v-data [RDFdata]="data.data"></app-v-data>
+    {{data | json}}
+    <app-v-data [RDFdata]="data"></app-v-data>
 </div>
 </div>
 </div>
