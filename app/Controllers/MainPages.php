@@ -105,6 +105,10 @@ class MainPages extends BaseController
                 $V = new \App\Models\Base\V();
                 $sx .= $V->v($subact);
                 break;
+            case 'res':
+                $V = new \App\Models\Base\V();
+                $sx .= $V->v($id);
+                break;
             case 'a':
                 $sx .= $this->a($subact);
                 break;

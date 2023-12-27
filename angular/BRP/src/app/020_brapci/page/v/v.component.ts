@@ -27,11 +27,7 @@ export class VComponent {
           this.data = res;
           this.type = this.data.Class;
           console.log(this.type);
-          this.header.title = this.type
-          if (this.type=='Journals')
-            {
-              console.log("=====================");
-            }
+          this.header.title = this.data.title + ' | ' + this.data.Authors;
         },
         error => error
       )
