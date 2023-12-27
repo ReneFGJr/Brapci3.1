@@ -59,8 +59,9 @@ class Register extends Model
             $offset = 0;
         }
         $dtt = $this->countAllResults();
+        //$dtt = $this->countAllNews();
 
-        $dta = $this->FindAll($limit, $offset);
+        $dta = $this->where('new',1)->FindAll($limit);
 
         $type = 'prod';
 
@@ -227,7 +228,11 @@ class Register extends Model
                 $rst['result'] . ' v.' .
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
+
+            $this->exported($id,0);
         }
+
+        /****************************************************************************** LOOP */
         if (count($dta) == $limit) {
             $sx .= metarefresh(PATH . '/elasticsearch/update_index?offset=' . ($offset + $limit), 1);
         } else {
@@ -236,6 +241,13 @@ class Register extends Model
         $sx = bs(bsc($sx, 12));
         return $sx;
     }
+
+    function exported($id,$new)
+        {
+            $dta = [];
+            $dta['new'] = $new;
+            $this->set($dta)->where('ID', $id)->update();
+        }
 
     function set_status($id, $dta)
     {
