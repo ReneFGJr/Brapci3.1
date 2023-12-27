@@ -192,8 +192,9 @@ class Register extends Model
                 }
             } else {
                 $dt['collection'] = 'BK';
-                pre($DT);
             }
+
+            pre($DT);
 
             /**************************************************** */
             //$dt['collection']
