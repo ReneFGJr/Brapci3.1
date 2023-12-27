@@ -182,15 +182,11 @@ class RDF extends Model
             $d['concept'] = $RDFconcept->le($id);
             $d['data'] = $RDFdata->le($id);
 
-            pre($d);
-
             /************************* Remover */
             if ($d['data'] == [])
                 {
-                    echo "Importados registros da base antigo";
                     $RDFtoolsImport = new \App\Models\RDF2\RDFtoolsImport();
                     $RDFtoolsImport->importRDF($id);
-                    exit;
                     $d['data'] = $RDFdata->le($id);
                 }
             return $d;
