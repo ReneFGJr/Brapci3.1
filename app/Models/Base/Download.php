@@ -98,7 +98,14 @@ class Download extends Model
 
     function download_methods($dt,$id)
         {
-            $name = $dt['n_name'];
+            if (isset($dt['n_name']))
+                {
+                    $name = $dt['n_name'];
+                } else {
+                    $name = '';
+                    pre($dt);
+                }
+
             if (strpos($name,'/XIXENANCIB/') or (strpos($name, 'xviiienancib/')))
                 {
                     $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
