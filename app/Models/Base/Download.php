@@ -201,7 +201,7 @@ class Download extends Model
 
     function download_pdf($id)
     {
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
         pre($dt);
