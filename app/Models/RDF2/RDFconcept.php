@@ -48,6 +48,7 @@ class RDFconcept extends Model
         {
             $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, cc_status, cc_created, cc_update';
             //$cp = '*';
+            pre($id,false);
             $dc = $this
                 ->select($cp)
                 ->join('rdf_literal', 'cc_pref_term = id_n','left')
