@@ -196,6 +196,8 @@ class Register extends Model
                         $dt['Class'] = 'XXX';
                     }
 
+                echo h($dt['Class']);
+
                 Switch(trim($dt['Class']))
                     {
                         case 'BookChapter':
