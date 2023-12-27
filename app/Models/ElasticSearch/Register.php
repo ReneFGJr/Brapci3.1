@@ -194,8 +194,6 @@ class Register extends Model
                 $dt['collection'] = 'BK';
             }
 
-            pre($DT);
-
             /**************************************************** */
             //$dt['collection']
 
