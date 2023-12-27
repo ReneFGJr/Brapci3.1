@@ -34,8 +34,6 @@ class Download extends BaseController
         switch ($class) {
             case 'Article':
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
-                pre($dt,false);
-                pre($id);
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
