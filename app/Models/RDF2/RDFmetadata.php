@@ -381,9 +381,9 @@ class RDFmetadata extends Model
             $dr['Issue'] = $dtIssue;
             $dr['year'] = $dtIssue['is_year'];
             if (!isset($dtIssue['Publication'])) {
-                $dr['publisher'] = ':: Not informed Yet ::';
+                $dr['publisher'] = $dtIssue['Publication'];
             } else {
-                $dt['publisher'] = $dr['publisher'];
+                $dr['publisher'] = ':: Not informed Yet ::';
             }
             $dr['legend'] = $LEGEND->show($dtIssue);
         }
