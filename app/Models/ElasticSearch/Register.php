@@ -414,11 +414,16 @@ class Register extends Model
 
     function data_convert_elastic($data)
     {
-        pre($data);
         $da = array();
         $da['ID'] = $data['ID'];
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
+
+        /****************************************** */
+        if ($da['CLASS'] == 'Book')
+            {
+                $da['YEAR'] = $da['year'];
+            }
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
