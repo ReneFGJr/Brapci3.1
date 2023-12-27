@@ -45,6 +45,7 @@ export class SearchBrapciComponent {
   public yearsF: Array<any> = [];
 
   list: any[];
+  fields: any[];
 
   listArray: string[] = [];
   sum = 1;
@@ -63,13 +64,20 @@ export class SearchBrapciComponent {
       { name: 'Eventos', value: 'EV', checked: true },
       { name: 'Livros e Capítulos de Livros', value: 'BK', checked: true },
     ];
+    /************************************************************ Fields */
+    this.fields = [
+      { name: 'Título', value: 'TI', checked: true },
+      { name: 'Resumo', value: 'AB', checked: true },
+      { name: 'Palavras-chave', value: 'KW', checked: true },
+      { name: 'Autor', value: 'AU', checked: true },
+    ];
     /*********************************************************** BASKET */
     this.basket = this.localStorageService.get('marked');
     if (this.basket === null) {
       this.basket = [];
     }
     this.marked = this.fb.group({
-      website: this.fb.array([], [Validators.required])
+      website: this.fb.array([], [Validators.required]),
     });
     this.selected = this.basket.length;
 
@@ -138,12 +146,11 @@ export class SearchBrapciComponent {
     let it = this.basket;
     const wb: FormArray = this.marked.get('website') as FormArray;
 
-    if (it != null)
-    {
+    if (it != null) {
       it.map((idx: string) => {
-          let xid = wb.controls.findIndex((x) => x.value === idx);
-          wb.removeAt(xid);
-      })
+        let xid = wb.controls.findIndex((x) => x.value === idx);
+        wb.removeAt(xid);
+      });
     }
 
     it.map((idx: string) => {

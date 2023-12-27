@@ -140,11 +140,44 @@ class Elasticsearch extends BaseController
         $sx = '';
         if (get("search") != '') {
             $q = get("search");
-            $Search = new \App\Models\ElasticSearch\Search();
-            $SearchElastic = new \App\Models\ElasticSearch\Index();
-            $sx .= $SearchElastic->show_works($Search->search($q),'');
+            $api = "https://cip.brapci.inf.br/api/brapci/search/v1?q=". htmlentities(get("search"));
+            $api = troca($api,' ','%20');
+            $api .= '&di='.get("di");
+            $api .= '&df='.get("df");
+            $json = file_get_contents($api);
+            $json = (array)json_decode($json);
+            $sa = 'TOTAL: '.$json['total'];
+
+            $sb = '';
+            $work = (array)$json['works'];
+            foreach($work as $id=>$line)
+                {
+                    $line = (array)$line;
+
+                    $link = '<a href="'.PATH.'/v/'.$line['data']->ID.'">';
+                    $linka = '</a>';
+                    $sx .= '<table class="full">';
+                    $sx .= '<tr>';
+                    $sx .= '<td width="80px">';
+                    $sx .= '<img src="'.$line['data']->cover.'" width="75px" class="border border-secondary p-2 mb-3">';
+                    $sx .= '</td>';
+                    $sx .= '<td valign="top" class="ps-2 small">';
+                    $sx .= '<b>'.$link.$line['data']->TITLE.$linka.'</b>';
+                    $sx .= '<br><i>'.$line['data']->AUTHORS. '</i>';
+                    $sx .= '<br>'.$line['data']->LEGEND.'</i>';
+                    $sx .= '</td>';
+                    $sx .= '</tr>';
+                    $sx .= '</table>';
+
+                    //$sx .= h($line['data']->TITLE, 6,);
+                    //pre($line);
+                }
+
+            //pre($json,false);
+            //$sx .= $SearchElastic->show_works($Search->search($q),'');
+            $sx .= bsc($sa,4);
         }
-        return $sx;
+        return bs($sx);
     }
 
     private function  menu()

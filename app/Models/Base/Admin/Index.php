@@ -146,6 +146,7 @@ class Index extends Model
 
                     $sa = '';
                             $img_mysql = '<img src="'.PATH.'/img/icons/mysql.svg" height="40">';
+                            $img_elastic = '<img src="'.PATH.'/img/icons/elasticsearch.png" height="40">';
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
                             $sb .= '<a title="Bots" href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
@@ -154,6 +155,7 @@ class Index extends Model
                             $sb .= '<a title="Bugs" href="' . PATH . '/admin/bugs/" class="text-success me-2">' . bsicone('bug', 32) . '</a>';
                             $sb .= '<a title="Problems in Export File" href="' . PATH . '/admin/problems/" class="text-success me-2">' . bsicone('maid', 32) . '</a>';
                             $sb .= '<a title="MySQL" href="' . PATH . '/admin/mysql/" class="text-success me-2">' . $img_mysql . '</a>';
+                            $sb .= '<a title="ElasticSearch" href="' . PATH . '/elasticsearch/" class="text-success me-2">' . $img_elastic . '</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
 

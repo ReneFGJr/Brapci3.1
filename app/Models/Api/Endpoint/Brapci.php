@@ -326,7 +326,23 @@ class Brapci extends Model
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
         $dt = $RDF->le($id);
 
-        $RSP = $RDFmetadata->metadata($id);
+        if ($dt['data'] == [])
+            {
+                $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
+                $RDFtools->importRDF($id);
+                $dt = $RDF->le($id);
+                pre($dt);
+                print("IMPORT");
+                exit;
+            }
+
+        switch($v)
+            {
+                default:
+                $RSP = $RDFmetadata->metadata($id);
+            }
+
+
 
         $RSP['Class'] = $dt['concept']['c_class'];
 
