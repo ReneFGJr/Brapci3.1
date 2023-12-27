@@ -36,6 +36,7 @@ class Download extends BaseController
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
                 if (!isset($id[0]))
                     {
+                        echo "OK";
                         $Download = new \App\Models\Base\Download();
                         foreach($dt['data'] as $id=>$line)
                             {
