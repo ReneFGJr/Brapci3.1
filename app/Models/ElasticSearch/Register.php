@@ -229,7 +229,6 @@ class Register extends Model
                 ' (' . $dt['collection'] . ')<br>';
 
             $this->exported($id,0);
-            pre($dt);
         }
 
         /****************************************************************************** LOOP */
