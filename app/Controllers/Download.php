@@ -20,7 +20,7 @@ class Download extends BaseController
 {
     function download($id = '')
     {
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
         pre($dt);
