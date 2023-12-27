@@ -326,6 +326,7 @@ class Brapci extends Model
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
         $dt = $RDF->le($id);
 
+        /*********************************** Importar dados */
         if ($dt['data'] == [])
             {
                 $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
@@ -335,13 +336,17 @@ class Brapci extends Model
 
         switch($v)
             {
+                case 'v1':
+                    $RSP = $RDFmetadata->metadata($id);
+                    break;
                 default:
-                $RSP = $RDFmetadata->metadata($id);
+                    $RSP = $RDFmetadata->metadata($id);
+                    break;
             }
 
 
-
         $RSP['Class'] = $dt['concept']['c_class'];
+
 
         /************************************************* ABNT */
         $ABNT = new \App\Models\Metadata\Abnt();
