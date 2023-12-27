@@ -113,7 +113,7 @@ class Download extends Model
             $url = $name;
             echo h($url, 5);
             $fileURL = $this->ocs_2($url);
-            print($fileURL);
+
             if (substr($fileURL, 0, 4) == 'http') {
                 $DownloadPDF = new \App\Models\Bots\DownloadPDF();
                 $dir = $DownloadPDF->directory($id);
@@ -129,9 +129,11 @@ class Download extends Model
 
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
+                pre($filePDF,false);
+                pre($txtFile);
                 $id = $DownloadPDF->create_FileStorage($id, $filePDF);
 
-                echo metarefresh('', 0);
+                echo metarefresh('', 5);
             }
         }
     }
