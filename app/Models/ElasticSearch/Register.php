@@ -196,11 +196,12 @@ class Register extends Model
                         $dt['Class'] = 'XXX';
                     }
 
-                Switch($dt['Class'])
+                Switch(trim($dt['Class']))
                     {
                         case 'BookChapter':
                             $dt['jounal'] = $dt['books'];
                         break;
+
                         default:
                         $dt['jounal'] = 'Erro de processamento';
                         $dt['id_jnl'] = 0;
