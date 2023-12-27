@@ -3,15 +3,11 @@
 if (!isset($page_title)) {
     $page_title = 'Brapci - Homepage';
 }
-/*************** GoogleAnalytics */
-if (!isset($GOOGLEID)) {
-    $GOOGLEID = 'UA-12713129-1';
-}
-$data['GOOGLEID'] = $GOOGLEID;
+$data['GOOGLEID'] = 'G-HSS9RYF8ZS';
 ?>
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-12713129-1"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HSS9RYF8ZS"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
 
@@ -20,7 +16,7 @@ $data['GOOGLEID'] = $GOOGLEID;
     }
     gtag('js', new Date());
 
-    gtag('config', 'UA-12713129-1');
+    gtag('config', 'G-HSS9RYF8ZS');
 </script>
 
 <head>
