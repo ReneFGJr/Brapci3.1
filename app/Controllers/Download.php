@@ -33,10 +33,10 @@ class Download extends BaseController
 
         switch ($class) {
             case 'Article':
+                echo "OK";
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
                 if (!isset($id[0]))
                     {
-                        echo "OK";
                         $Download = new \App\Models\Base\Download();
                         foreach($dt['data'] as $id=>$line)
                             {
