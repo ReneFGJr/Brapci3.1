@@ -182,6 +182,8 @@ class RDF extends Model
             $d['concept'] = $RDFconcept->le($id);
             $d['data'] = $RDFdata->le($id);
 
+            pre($d);
+
             /************************* Remover */
             if ($d['data'] == [])
                 {
