@@ -139,8 +139,19 @@ class Download extends Model
     {
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
-            echo "OK";
-            exit;
+            if ($pos = strpos($txt, 'citation_pdf_url')) {
+                $txt = substr($txt, $pos, 300);
+                $st = 'content="';
+                $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
+                $txt = substr($txt, 0, strpos($txt, '"'));
+                if (substr($txt, 0, 4) == 'http') {
+                    return $txt;
+                }
+                if (strpos($txt, 'noframes')) {
+                    $url = troca($url, 'paper/view', 'paper/viewPaper');
+                    $txt = read_link($url);
+                    echo 'Change: ' . $url;
+                }
         }
 
 
