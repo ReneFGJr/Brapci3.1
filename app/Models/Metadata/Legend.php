@@ -68,6 +68,8 @@ class Legend extends Model
 							$tela .= ', ' . $dt['is_year'];
 						}
 					}
+				$tela = troca($tela,'n. n.','n.');
+				$tela = troca($tela, 'v. v.', 'v.');
 				return $tela;
 				break;
 			}
