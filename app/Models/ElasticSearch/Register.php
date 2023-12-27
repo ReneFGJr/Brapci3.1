@@ -192,8 +192,6 @@ class Register extends Model
                 }
             } else {
 
-                echo h($dt['Class']);
-
                 if (!isset($dt['Class']))
                     {
                         $dt['Class'] = 'XXX';
