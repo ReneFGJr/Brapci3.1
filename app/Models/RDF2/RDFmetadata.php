@@ -239,6 +239,7 @@ class RDFmetadata extends Model
 
     function metadataIssue($dt, $simple = false)
     {
+        $Issues = new \App\Models\Base\Issues();
         pre($dt);
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
