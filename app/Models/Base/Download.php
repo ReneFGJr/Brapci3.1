@@ -77,7 +77,7 @@ class Download extends Model
     function download_tools($id)
     {
         $sx = bsicone('harvesting');
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\Rdf2\RDF();
         $dt = $RDF->le($id);
 
         $data = $dt['data'];
