@@ -513,22 +513,16 @@ class Register extends Model
             }
         }
         /***************************************************** */
-        if (isset($data['Journal'])) {
-            $da['LEGEND'] = $data['Journal'];
-        } else {
-            $da['LEGEND'] = 'sem título do periódico';
-        }
+        switch($data['Class'])
+            {
+                case 'Article':
+                    $da['LEGEND'] = $data['Journal'];
+                break;
 
-        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != '')) {
-            $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
-        }
-
-        if (isset($data['Issue']['NR']) and ($data['Issue']['NR'] != '')) {
-            $da['LEGEND'] .= ', ' . $data['Issue']['NR'];
-        }
-        if (isset($data['Issue']['YEAR']) and ($data['Issue']['YEAR'] != '')) {
-            $da['LEGEND'] .= ', ' . $data['Issue']['YEAR'];
-        }
+                default:
+                    echo "Class Legend not found ".$data['Class'];
+                    exit;
+            }
         $da['updated_at'] = date("Y-m-d H:i:s");
 
         pre($da);
