@@ -527,7 +527,7 @@ class Register extends Model
 
                 /**************************************** Legend Article */
                 case 'Book':
-                    $da['LEGEND'] = $data['Title'];
+                    $da['LEGEND'] = $da['Title'];
                     if ($data['Issue']['year'] != '') {
                         pre($data['Issue']['year'],false);
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
