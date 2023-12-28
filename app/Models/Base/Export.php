@@ -455,12 +455,10 @@ class Export extends Model
 
             /*********************** Metadata */
             $Metadata->metadata($cline);
-            pre($Metadata->metadata);
 
             $meta = $Metadata->metadata;
 
             $delete = 0;
-            pre($meta);
             if (!isset($meta['Class'])) {
                 $delete = 1;
             } else {
