@@ -118,10 +118,9 @@ class Metadata extends Model
             $this->lets('Class', trim($concept['c_class']));
             $this->lets('ID', trim($concept['id_cc']));
             $m = '';
-
+            pre($concept);
             $MC = [
                 'ID'=> 'id_cc',
-                'Type'=> 'c_class',
                 'Identifier'=> 'n_name',
                 'Class'=>'c_class'
             ];
