@@ -406,7 +406,7 @@ class Export extends Model
                 return $sx;
                 break;
             case 'EXPORT_SELECTED':
-                $sx .= bs(bsc('EXPORT_SELECTED',12));
+                $sx .= bs(bsc('EXPORT_SELECTED', 12));
                 $sx .= $this->export_reindex();
                 return $sx;
                 break;
@@ -441,10 +441,10 @@ class Export extends Model
     }
 
     function export_elastic()
-        {
-            echo "EXPORT ELASTIC = UNDE";
-            //$this->remove_all('EXPORT_ELASTIC');
-        }
+    {
+        echo "EXPORT ELASTIC = UNDE";
+        //$this->remove_all('EXPORT_ELASTIC');
+    }
 
     function export_reindex()
     {
@@ -482,7 +482,7 @@ class Export extends Model
             $this->remove_all('EXPORT_SELECTED');
         } else {
             $sx .= '<hr>Redirecionando';
-            $sx .= metarefresh('',2);
+            $sx .= metarefresh('', 2);
         }
         return $sx;
     }
@@ -490,13 +490,13 @@ class Export extends Model
     function export_data($class, $type, $offset, $limit)
     {
         echo metarefresh('', 10);
-        $RDF = new \App\Models\Rdf\RDF();
-        $RDFClass = new \App\Models\Rdf\RDFClass();
-        $RDFConcept = new \App\Models\Rdf\RDFConcept();
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFClass = new \App\Models\RDF2\RDFclass();
+        $RDFConcept = new \App\Models\RDF2\RDFconcept();
         $Metadata = new \App\Models\Base\Metadata();
         $ElasticRegister = new \App\Models\ElasticSearch\Register();
 
-        $id = $RDFClass->Class($class, false);
+        $id = $RDFClass->getClass($class, false);
 
         $total = $RDFConcept->select('count(*) as total')
             ->where('cc_class', $id)
@@ -516,6 +516,7 @@ class Export extends Model
 
         $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
+
         for ($r = 0; $r < count($ids); $r++) {
             $xline = $ids[$r];
             $idr = $xline['id_cc'];
@@ -528,6 +529,7 @@ class Export extends Model
             $meta = $Metadata->metadata;
 
             $delete = 0;
+            pre($meta);
             if (!isset($meta['Class'])) {
                 $delete = 1;
             } else {
@@ -540,34 +542,25 @@ class Export extends Model
                 //$RDF->exclude($idr);
                 $sx .= '<li>' . strzero($idr, 8) . ' DELETED</li>';
             } else {
-                //$meta['year'] = '';
-                if (count($meta) > 0) {
-                    /***************************** KEYWORD */
-                    if (!isset($meta['Keywords'])) {
-                        $meta['KEYWORD'] = 0;
-                    } else {
-                        $meta['KEYWORD'] = 1;
-                    }
-                    /***************************** KEYWORD */
-                    if (!isset($meta['Abstract'])) {
-                        $meta['ABSTRACT'] = 0;
-                    } else {
-                        $meta['ABSTRACT'] = 1;
-                    }
-                    /************************** pdf */
-                    if (!isset($meta['PDF_id'])) {
-                        $meta['PDF'] = 0;
-                    } else {
-                        $meta['PDF'] = 1;
-                    }
+                /********************************* CHECK */
+                $meta['KEYWORD'] = 0;
+                $meta['ABSTRACT'] = 0;
+                $meta['PDF'] = 0;
 
-                    $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
-                        $ElasticRegister->data($idr, $meta) . '</li>';
+                $ck = ['Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File', 'PDF'];
+                foreach ($ck as $fld => $met) {
+                    if (isset($meta[$fld])) {
+                        $meta[$met] = 1;
+                    }
                 }
+
+                pre($meta);
+
+                $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
+                    $ElasticRegister->data($idr, $meta) . '</li>';
             }
         }
         $sx .= '</ul>';
         return $sx;
     }
 }
-;
