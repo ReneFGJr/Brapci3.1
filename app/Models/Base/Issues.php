@@ -121,7 +121,7 @@ class Issues extends Model
             $cp = 'is_year, is_vol, is_nr, is_thema';
             $dt = $WorkIssue
                 ->select($cp)
-                ->join('source_issue', 'is_is = siw_issue')
+                ->join('source_issue', 'id_is = siw_issue')
                 ->first();
             pre($dt);
         }
