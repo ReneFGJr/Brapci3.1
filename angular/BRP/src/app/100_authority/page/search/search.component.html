@@ -1,9 +1,12 @@
 <form [formGroup]="angForm" (ngSubmit)="onSearch()">
   <div class="input-group mb-3 text-field">
-    <input type="text" class="search" style="padding-left: 5px; width: 90%; float: left" formControlName="term" (keyup)="onKeyPress()"
+    <input type="text" class="search"
+      class="border border-secondary full big"
+      formControlName="term" (keyup)="onKeyPress()"
+      style="width: 100%; font-size: 2em;"
       required />
     <label class="search">Informe o nome da autoridade para busca</label>
-    <i class="bi bi-search" style="position: relative; left: -20px; top: 5px; font-size: 1.5em"
+    <i class="bi bi-search" style="position: relative; right: -360px; top: -28px; font-size: 1.5em"
       (click)="onSearch()"></i>
   </div>
 </form>

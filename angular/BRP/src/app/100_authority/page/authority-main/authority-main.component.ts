@@ -9,5 +9,5 @@ import { UserService } from 'src/app/001_auth/service/user.service';
   styleUrls: ['./authority-main.component.scss']
 })
 export class AuthorityMainComponent {
-
+  header = {'header':'Busca por autoridades'}
 }
