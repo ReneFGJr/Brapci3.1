@@ -529,7 +529,6 @@ class Register extends Model
                 case 'Book':
                     $da['LEGEND'] = $da['TITLE'];
                     if ($data['Issue']['year'] != '') {
-                        pre($data['Issue']['year'],false);
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
                     }
                     $da['JOURNAL'] = 1;
@@ -541,9 +540,6 @@ class Register extends Model
                     exit;
             }
         $da['updated_at'] = date("Y-m-d H:i:s");
-
-        pre($da);
-
         return $da;
     }
 
