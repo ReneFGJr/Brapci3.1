@@ -517,6 +517,9 @@ class Register extends Model
             {
                 case 'Article':
                     $da['LEGEND'] = $data['Issue']['journal'];
+                    if ($data['Issue']['vol'] != '') { $da['LEGEND'] .= ', v. '. $data['Issue']['vol']; }
+                    if ($data['Issue']['nr'] != '') { $da['LEGEND'] .= ', n. '. $data['Issue']['nr']; }
+                    if ($data['Issue']['year'] != '') { $da['LEGEND'] .= ', '. $data['year']['nr']; }
                 break;
 
                 default:
