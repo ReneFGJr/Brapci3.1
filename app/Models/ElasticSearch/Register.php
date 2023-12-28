@@ -535,6 +535,15 @@ class Register extends Model
                     $da['ISSUE'] = 1;
                     break;
 
+                case 'BookChapter':
+                    $da['LEGEND'] = 'Capítulo de livro - '.$da['TITLE'];
+                    if ($data['Issue']['year'] != '') {
+                        $da['LEGEND'] .= ', ' . $data['Issue']['year'];
+                    }
+                    $da['JOURNAL'] = 1;
+                    $da['ISSUE'] = 1;
+                    break;
+
                 default:
                     echo "Class Legend not found ".$data['Class'];
                     exit;
