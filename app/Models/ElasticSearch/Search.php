@@ -47,6 +47,8 @@ class Search extends Model
 
         $dt = $this->search($q, $type);
 
+        pre($dt);
+
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE,
                         SESSION, LEGEND, TITLE, AUTHORS';
 
