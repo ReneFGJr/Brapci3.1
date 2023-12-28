@@ -414,6 +414,7 @@ class Register extends Model
 
     function data_convert_elastic($data)
     {
+        pre($data,false);
         $da = array();
         $da['ID'] = $data['ID'];
         $da['json'] = json_encode($data);
