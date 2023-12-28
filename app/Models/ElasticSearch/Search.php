@@ -245,6 +245,7 @@ class Search extends Model
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
                 if (isset($line['_id'])) {
+                    pre($rsp);
                     array_push($rsp['works'], array(
                         'id' => $line['_id'],
                         'score' => $line['_score'],
