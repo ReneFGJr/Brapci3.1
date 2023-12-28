@@ -520,6 +520,8 @@ class Register extends Model
                     if ($data['Issue']['vol'] != '') { $da['LEGEND'] .= ', v. '. $data['Issue']['vol']; }
                     if ($data['Issue']['nr'] != '') { $da['LEGEND'] .= ', n. '. $data['Issue']['nr']; }
                     if ($data['Issue']['year'] != '') { $da['LEGEND'] .= ', '. $data['Issue']['year']; }
+                    $da['JOURNAL'] = 1;
+                    $da['ISSUE'] = 1;
                 break;
 
                 default:
