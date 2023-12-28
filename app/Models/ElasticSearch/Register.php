@@ -516,7 +516,7 @@ class Register extends Model
         switch($data['Class'])
             {
                 case 'Article':
-                    $da['LEGEND'] = $data['Journal'];
+                    $da['LEGEND'] = $data['Issue']['Journal'];
                 break;
 
                 default:
