@@ -616,6 +616,7 @@ class Register extends Model
         /*********************** CONVERT DADOS */
         echo h("Convertendo Dados",4);
         $data = $this->data_convert_elastic($xdata);
+        pre($xdata,false);
         pre($data);
 
         echo h("Checando Dados convertidos", 4);
