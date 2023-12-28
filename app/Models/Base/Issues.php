@@ -115,6 +115,13 @@ class Issues extends Model
         return $sx;
     }
 
+    function getIssueWork($id)
+        {
+            $WorkIssue = new \App\Models\Base\IssuesWorks();
+            $dt = $WorkIssue->first();
+            pre($dt);
+        }
+
     function painel($id)
         {
             $sx = h(lang('brapci.Journal'),6,'mt-3');

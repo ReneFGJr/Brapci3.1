@@ -115,10 +115,6 @@ class Metadata extends Model
         $this->metadata = array();
         if (isset($meta['concept'])) {
             $concept = $meta['concept'];
-            $this->lets('Class', trim($concept['c_class']));
-            $this->lets('ID', trim($concept['id_cc']));
-            $m = '';
-
             $MC = [
                 'ID'=> 'id_cc',
                 'Identifier'=> 'n_name',
@@ -171,6 +167,10 @@ class Metadata extends Model
                             array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
                         }
                     }
+
+                    /********************************** Issue */
+                    $ISU = $Issue->getIssueWork($M['ID']);
+                    pre($ISU);
                 }
             }
             $this->metadata = $M;
