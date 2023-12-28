@@ -119,10 +119,22 @@ class Metadata extends Model
             $this->lets('ID', trim($concept['id_cc']));
             $m = '';
 
-            echo "OK";
-            pre($concept);
+            $MC = [
+                'ID'=> 'id_cc',
+                'Type'=> 'c_class',
+                'Identifier'=> 'n_name',
+                'Class'=>'c_class'
+            ];
 
-            $MC = [''];
+            foreach($MC as $fld1=>$fld2)
+                {
+                    if (isset($concept[$fld2]))
+                        {
+                            $M[$fld1] = $concept[$fld2];
+                        }
+                }
+
+            pre($M);
 
             foreach ($concept as $class => $value) {
                 switch ($class) {
