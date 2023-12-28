@@ -504,13 +504,13 @@ class Register extends Model
             }
         }
 
-        if (isset($data['Organizator'])) {
-            foreach ($data['Organizator'] as $ida => $name) {
-                echo '==>'.$name;
+        if (isset($data['Organizer'])) {
+            foreach ($data['Organizer'] as $ida => $name) {
+                echo '==>'.$name['value'];
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
-                $da['AUTHORS'] .= nbr_author($name, 7);
+                $da['AUTHORS'] .= nbr_author($name['value'], 7);
             }
         }
         /***************************************************** */
