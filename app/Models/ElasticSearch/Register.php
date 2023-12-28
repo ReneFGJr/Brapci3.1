@@ -506,6 +506,7 @@ class Register extends Model
 
         if (isset($data['Organizator'])) {
             foreach ($data['Organizator'] as $ida => $name) {
+                echo '==>'.$name;
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
@@ -515,6 +516,7 @@ class Register extends Model
         /***************************************************** */
         switch($data['Class'])
             {
+                /**************************************** Legend Article */
                 case 'Article':
                     $da['LEGEND'] = $data['Issue']['journal'];
                     if ($data['Issue']['vol'] != '') { $da['LEGEND'] .= ', v. '. $data['Issue']['vol']; }
@@ -523,6 +525,16 @@ class Register extends Model
                     $da['JOURNAL'] = 1;
                     $da['ISSUE'] = 1;
                 break;
+
+                /**************************************** Legend Article */
+                case 'Book':
+                    $da['LEGEND'] = $data['Title'];
+                    if ($data['Issue']['year'] != '') {
+                        $da['LEGEND'] .= ', ' . $data['Issue']['year'];
+                    }
+                    $da['JOURNAL'] = 1;
+                    $da['ISSUE'] = 1;
+                    break;
 
                 default:
                     echo "Class Legend not found ".$data['Class'];
