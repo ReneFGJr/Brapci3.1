@@ -248,6 +248,7 @@ class RDFtoolsImport extends Model
         $c['dateOfPublication'] = 'wasPublicationInDate';
         $c['hasSummary'] = '';
         $c['hasVolume'] = '';
+        $c['fullText'] = '';
         $c['hasIssue'] = 'hasIssueOf';
         $c['isPubishIn'] = 'isPartOfSource';
         $c['hasIdRegister'] = 'hasID';
