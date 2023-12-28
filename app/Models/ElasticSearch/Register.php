@@ -616,7 +616,6 @@ class Register extends Model
         $data = $this->data_convert_elastic($xdata);
 
         $this->check($data, true, $id);
-        echo h("Fim da Checagem", 4);
 
         /* NOVO REGISTRO */
 
