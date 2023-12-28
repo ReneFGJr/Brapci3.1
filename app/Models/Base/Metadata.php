@@ -175,7 +175,6 @@ class Metadata extends Model
                         {
                             $M['YEAR'] = $ISU['year'];
                         }
-                    pre($ISU);
                 }
             }
             $this->metadata = $M;
