@@ -504,7 +504,6 @@ class Register extends Model
             }
         }
         echo h("XX");
-        pre($data['Organizer']);
         if (isset($data['Organizer'])) {
             pre($data['Organizer']);
             foreach ($data['Organizer'] as $ida => $name) {
