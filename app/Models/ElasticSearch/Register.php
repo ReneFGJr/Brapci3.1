@@ -503,7 +503,8 @@ class Register extends Model
                 $da['AUTHORS'] .= nbr_author($name, 7);
             }
         }
-
+        echo h("XX");
+        pre($data['Organizer']);
         if (isset($data['Organizer'])) {
             pre($data['Organizer']);
             foreach ($data['Organizer'] as $ida => $name) {
