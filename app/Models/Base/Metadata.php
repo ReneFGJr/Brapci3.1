@@ -174,6 +174,7 @@ class Metadata extends Model
                     if (isset($ISU['year']))
                         {
                             $M['YEAR'] = $ISU['year'];
+                            $M['ISSUE'] = $ISU['issue'];
                         }
                 }
             }
