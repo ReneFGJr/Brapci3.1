@@ -170,6 +170,7 @@ class Metadata extends Model
 
                     /********************************** Issue */
                     $ISU = $Issue->getIssue4Work($M['ID']);
+                    pre($ISU);
                     $M['Issue'] = $ISU;
                     if (isset($ISU['year']))
                         {
