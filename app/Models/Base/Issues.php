@@ -118,7 +118,7 @@ class Issues extends Model
     function getIssue4Work($id)
         {
             $WorkIssue = new \App\Models\Base\IssuesWorks();
-            $cp = 'siw_issue as issue, is_year as year, is_vol as vol, is_nr as nr, is_thema as thema, jnl_name, id_jnl';
+            $cp = 'siw_issue as issue, is_year as year, is_vol as vol, is_nr as nr, is_thema as thema, jnl_name as journal, id_jnl';
             $dt = $WorkIssue
                 ->select($cp)
                 ->join('source_issue', 'id_is = siw_issue')
