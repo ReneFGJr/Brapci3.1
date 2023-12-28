@@ -605,7 +605,8 @@ class Register extends Model
 
     function data($id, $xdata)
     {
-
+        echo "===".$id;
+        exit;
         $dt = $this->where('ID', round($id))->findAll();
         if (count($xdata) == 0) {
             echo '======================== A001 ==';
