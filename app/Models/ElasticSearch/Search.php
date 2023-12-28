@@ -249,7 +249,7 @@ class Search extends Model
                         'id' => $line['_id'],
                         'score' => $line['_score'],
                         'type' => $line['_source']['type'],
-                        'jnl' => $line['_source']['id_jnl'],
+                        //'jnl' => $line['_source']['id_jnl'],
                         'year' => $line['_source']['year'],
                     ));
                 }
