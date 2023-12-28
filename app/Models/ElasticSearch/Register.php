@@ -605,8 +605,6 @@ class Register extends Model
 
     function data($id, $xdata)
     {
-        echo "===".$id;
-        exit;
         $dt = $this->where('ID', round($id))->findAll();
         if (count($xdata) == 0) {
             echo '======================== A001 ==';
@@ -618,6 +616,7 @@ class Register extends Model
         /*********************** CONVERT DADOS */
         echo h("Convertendo Dados",4);
         $data = $this->data_convert_elastic($xdata);
+        pre($data);
 
         echo h("Checando Dados convertidos", 4);
 
