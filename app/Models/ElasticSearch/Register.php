@@ -476,10 +476,17 @@ class Register extends Model
 
         if (isset($data['Title']))
             {
+                $tit = '';
+                $tit2 = '';
                 foreach($data['Title'] as $id=>$line)
                     {
-                        pre($line,false);
+                        if ($tit2 == '') { $tit2 = $line['value']; }
+                        if ($line['lang'] == 'pt'){
+                            $tit = $line['value'];
+                        }
                     }
+                if ($tit == '') { $tit = $tit2; }
+                $da['TITLE'] = $tit;
             } else {
                 $da['TITLE'] = ':: Sem titulo ::';
             }
