@@ -478,7 +478,8 @@ class Export extends Model
 
                 $ck = ['Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File'=>'PDF'];
                 foreach ($ck as $fld => $met) {
-                    echo '===>'.$met.'<br>';
+
+                    echo '===>'.$fld.'=='.$met.'<br>';
                     if (isset($meta[$met])) {
                         $meta[$met] = 1;
                     }
