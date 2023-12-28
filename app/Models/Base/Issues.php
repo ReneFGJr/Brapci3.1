@@ -114,16 +114,16 @@ class Issues extends Model
         }
         return $sx;
     }
-
-    function getIssueWork($id)
+    /******************************************************* 2024 - GetIssue From Work */
+    function getIssue4Work($id)
         {
             $WorkIssue = new \App\Models\Base\IssuesWorks();
-            $cp = 'is_year, is_vol, is_nr, is_thema';
+            $cp = 'is_year as year, is_vol as vol, is_nr as nr, is_thema as thema';
             $dt = $WorkIssue
                 ->select($cp)
                 ->join('source_issue', 'id_is = siw_issue')
                 ->first();
-            pre($dt);
+            return $dt;
         }
 
     function painel($id)
