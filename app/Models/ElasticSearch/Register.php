@@ -474,7 +474,17 @@ class Register extends Model
                 }
         }
 
-        $da['TITLE'] = $data['Title'];
+        if (isset($data['Title']))
+            {
+                foreach($data['Title'] as $id=>$line)
+                    {
+                        pre($line,false);
+                    }
+            } else {
+                $da['TITLE'] = ':: Sem titulo ::';
+            }
+
+
 
         /***************************************************** */
         $da['AUTHORS'] = '';
