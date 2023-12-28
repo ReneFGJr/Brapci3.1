@@ -483,8 +483,6 @@ class Export extends Model
                     }
                 }
 
-                pre($meta);
-
                 $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                     $ElasticRegister->data($idr, $meta) . '</li>';
             }
