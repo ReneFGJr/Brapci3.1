@@ -606,8 +606,6 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
-        pre($xdata,false);
-        pre($data);
 
         $this->check($data, true, $id);
         echo h("Fim da Checagem", 4);
