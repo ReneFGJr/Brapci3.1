@@ -474,7 +474,7 @@ class Register extends Model
                 }
         }
 
-        $da['TITLE'] = $data['title'];
+        $da['TITLE'] = $data['Title'];
 
         /***************************************************** */
         $da['AUTHORS'] = '';
@@ -513,6 +513,8 @@ class Register extends Model
             $da['LEGEND'] .= ', ' . $data['Issue']['YEAR'];
         }
         $da['updated_at'] = date("Y-m-d H:i:s");
+
+        pre($da);
 
         return $da;
     }
