@@ -505,7 +505,6 @@ class Register extends Model
         }
         echo h("XX");
         if (isset($data['Organizer'])) {
-            pre($data['Organizer']);
             foreach ($data['Organizer'] as $ida => $name) {
                 echo '==>'.$name['value'];
                 if ($da['AUTHORS'] != '') {
