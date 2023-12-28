@@ -118,7 +118,7 @@ class Metadata extends Model
             $this->lets('Class', trim($concept['c_class']));
             $this->lets('ID', trim($concept['id_cc']));
             $m = '';
-            pre($concept);
+
             $MC = [
                 'ID'=> 'id_cc',
                 'Identifier'=> 'n_name',
@@ -133,23 +133,6 @@ class Metadata extends Model
                         }
                 }
 
-            pre($M);
-
-            foreach ($concept as $class => $value) {
-                switch ($class) {
-                    case 'c_class':
-                        $this->lets('Type', $value);
-                        break;
-                    case 'id_cc':
-                        $this->lets('Article_id', $value);
-                        break;
-                    case 'n_name':
-                        $this->lets('Identifier', $value);
-                        break;
-                    default:
-                        break;
-                }
-            }
         }
 
         /************************************************************** PROPERTIES **/
@@ -191,6 +174,7 @@ class Metadata extends Model
                 }
             }
             $this->metadata = $M;
+            pre($M);
             return $this->metadata;
         }
     }
