@@ -3,14 +3,15 @@
 <app-brapci-article *ngIf="type=='Article'" [data]="data"></app-brapci-article>
 <app-brapci-proceeding *ngIf="type=='Proceeding'" [data]="data"></app-brapci-proceeding>
 <app-brapci-subject *ngIf="type=='Subject'" [data]="data"></app-brapci-subject>
-<app-brapci-book *ngIf="type=='Book'" [data]="data"></app-brapci-book>
 <app-brapci-date *ngIf="type=='Date'" [data]="data"></app-brapci-date>
 <app-brapci-issue *ngIf="type=='Issue'" [data]="data"></app-brapci-issue>
-<app-brapci-journal *ngIf="type=='Journals'" [data]="data">JOURNALS</app-brapci-journal>
+<app-brapci-journal *ngIf="type=='Journals'" [data]="data"></app-brapci-journal>
+<app-brapci-book *ngIf="type=='Book'" [data]="data"></app-brapci-book>
+<app-brapci-bookchapter *ngIf="type=='BookChapter'" [data]="data"></app-brapci-bookchapter>
 <app-brapci-person *ngIf="type=='Person'" [data]="data"></app-brapci-person>
 <app-brapci-filestorage *ngIf="type=='FileStorage'" [data]="data"></app-brapci-filestorage>
 <app-generic *ngIf="type=='Section'" [data]="data"></app-generic>
 
-{{type}}
+[[ {{type}} ]]
 <app-brapci-rdfin [data]="data"></app-brapci-rdfin>
 <app-theme-footer></app-theme-footer>

@@ -1,0 +1,99 @@
+<app-theme-header [header]="header"></app-theme-header>
+<div *ngIf="data">
+  <app-banner-book
+    [section]="data.section"
+    [cover]="data.cover"
+    [caption]="data.title"
+  ></app-banner-book>
+</div>
+XXX
+<div class="container mt-5" *ngIf="data">
+  <div class="row">
+    <div class="col-9 text-end">
+      <div class="row">
+        <div class="col-2 text-end"><b>Autor(es)</b></div>
+        <div class="col-10 text-start">
+          <span *ngFor="let item of data.creator_author" class="text-end">
+            <a [routerLink]="['/v/' + item.ID]" class="link">{{ item.name }}</a>
+            <span *ngIf="item.complement"> {{ item.complement }}</span> |
+          </span>
+        </div>
+
+        <div class="col-2 text-end mt-2"><b>Editora</b></div>
+        <div class="col-10 text-start mt-2">
+          {{ data.publisher }}
+        </div>
+
+        <div class="col-2 text-end mt-2"><b>Ano</b></div>
+        <div class="col-10 text-start mt-2">
+          {{ data.year }}
+        </div>
+
+        <div class="col-2 text-end mt-2"><b>ISBN</b></div>
+        <div class="col-10 text-start mt-2">
+          {{ data.isbn }}
+        </div>
+
+        <div *ngIf="data.pages" class="col-2 text-end mt-2"><b>Pages</b></div>
+        <div *ngIf="data.pages" class="col-10 text-start mt-2">
+          {{ data.pages }}
+        </div>
+      </div>
+    </div>
+
+    <!---------------------------------------------- RESUMO-->
+
+    <div class="col-9">
+      <div class="row">
+        <div class="col-2 text-end mt-2"><b>Resumo</b></div>
+        <div class="col-10 text-start mt-2 small">
+          {{ data.description }}
+        </div>
+      </div>
+    </div>
+
+    <!---------------------------------------------- ACESSO-->
+
+    <div class="col-3">
+      <app-component-pdf
+        [url]="data.resource_pdf"
+        [id]="data.id"
+      ></app-component-pdf>
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------------- PART II-->
+<div class="container">
+  <div class="row">
+    <div class="col-2 text-end mt-2">Palavras-chave</div>
+    <div class="col-10 text-start mt-2">
+      <span *ngFor="let item of data.subject" class="text-end">
+        <a class="keywords" [routerLink]="['/v/' + item.ID]" class="keywords">{{
+          item.name
+        }}</a>
+      </span>
+    </div>
+
+    <div class="col-12 mt-5">
+      <!--------------- Cite -->
+      <app-v-cite [citacao]="data.cited"></app-v-cite>
+
+      <!--------------- Data -->
+      <img [src]="rdf" height="32px" />
+      <app-v-data [RDFdata]="data.data"></app-v-data>
+    </div>
+
+    <div class="col-12 col-lg-2 mt-5">
+      <app-component-pdf
+        [url]="data.resource_pdf"
+        [id]="data.id"
+      ></app-component-pdf>
+
+      <!--
+      <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
+      -->
+    </div>
+  </div>
+</div>
+<div style="height: 100px"></div>

@@ -414,7 +414,7 @@ class Register extends Model
 
     function data_convert_elastic($data)
     {
-        pre($data,false);
+        # pre($data,false);
         $da = array();
         $da['ID'] = $data['ID'];
         $da['json'] = json_encode($data);
@@ -584,7 +584,6 @@ class Register extends Model
     function checkYear($dt)
     {
         if (!isset($dt['YEAR'])) {
-            pre($dt, false);
             return "YEAR not set<br>";
         } else {
             return "";
@@ -593,9 +592,9 @@ class Register extends Model
     function checkIssue($dt)
     {
         if (!isset($dt['ISSUE'])) {
-            pre((array)json_decode($dt['json']), false);
+            #pre((array)json_decode($dt['json']), false);
             $dt['json'] = '';
-            pre($dt, false);
+            #pre($dt, false);
             return "ISSUE not set<br>";
         } else {
             return "";

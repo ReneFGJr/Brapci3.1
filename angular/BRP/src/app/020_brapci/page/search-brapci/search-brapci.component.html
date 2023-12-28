@@ -89,6 +89,7 @@
         style="animation-delay: 500ms"
       >
       {{items.type}}
+      {{items | json}}
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">
@@ -240,7 +241,7 @@
               routerLinkActive="router-link-active"
               target="_blank"
             >
-              {{ items.data.ldl_title }}
+              {{ items.data.TITLE }}
             </a>
             <br />
             <i>{{ items.data.ldl_authors }}</i> <br />{{
