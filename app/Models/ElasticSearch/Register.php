@@ -419,49 +419,13 @@ class Register extends Model
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
 
-        /****************************************** */
-        if ($da['CLASS'] == 'Book')
-            {
-                if (!isset($data['year']))
-                    {
-                        $da['YEAR'] = date("Y");
-                    } else {
-                        $da['YEAR'] = $data['year'];
-                    }
-
-                $da['TITLE'] = $data['title'];
-            }
-
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
-            $da['ISSUE'] = $data['Issue']['ID'];
-            $da['YEAR'] = $data['Issue']['YEAR'];
-            $da['JOURNAL'] = $data['Issue']['JOURNAL'];
-            $da['VOL'] = $data['Issue']['VOL'];
-            $da['NR'] = $data['Issue']['NR'];
-        } else {
-            $Issues = new \App\Models\Base\Issues();
-            $IssuesWorks = new \App\Models\Base\IssuesWorks();
-
-            /* Recupera ISSUE do WorkIssue */
-            if (isset($data['Issue'][0])) {
-                $di = $Issues->where('is_source_issue', $data['Issue'][0])->first();
-                if ($di != '') {
-                    $data['Issue']['ID'] = $data['Issue'][0];
-                    $da['ISSUE'] = $data['Issue'][0];
-                    $data['Issue']['YEAR']  = $di['is_year'];
-                    $data['Issue']['JOURNAL']  = $di['is_source'];
-                    $data['Issue']['YEAR']  = $di['is_year'];
-                    $data['Issue']['VOL']  = $di['is_vol'];
-                    $data['Issue']['NR']  = $di['is_nr'];
-                    $data['YEAR']  = $di['is_year'];
-                }
-            } else {
-                echo h('NÃO FOI LOCALIZADO O ISSUE',9);
-                $di = $IssuesWorks->where('siw_work_rdf', $data['ID'])->first();
-                $da['ISSUE'] = 0;
-                return $da;
-            }
+            $da['ISSUE'] = $data['Issue']['issue'];
+            $da['YEAR'] = $data['Issue']['year'];
+            $da['JOURNAL'] = $data['Issue']['thema'];
+            $da['VOL'] = $data['Issue']['vol'];
+            $da['NR'] = $data['Issue']['nr'];
         }
 
         if ((isset($data['YEAR'])) and ($data['YEAR'] != '')) {
@@ -614,12 +578,9 @@ class Register extends Model
         }
 
         /*********************** CONVERT DADOS */
-        echo h("Convertendo Dados",4);
         $data = $this->data_convert_elastic($xdata);
         pre($xdata,false);
         pre($data);
-
-        echo h("Checando Dados convertidos", 4);
 
         $this->check($data, true, $id);
         echo h("Fim da Checagem", 4);
