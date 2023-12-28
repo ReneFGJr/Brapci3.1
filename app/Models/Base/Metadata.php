@@ -119,6 +119,9 @@ class Metadata extends Model
             $this->lets('ID', trim($concept['id_cc']));
             $m = '';
 
+            echo "OK";
+            pre($concept);
+
             $MC = [''];
 
             foreach ($concept as $class => $value) {

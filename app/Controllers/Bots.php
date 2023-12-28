@@ -61,7 +61,6 @@ class Bots extends BaseController
                 break;
 
             case 'export':
-                echo agent();
                 $Export = new \App\Models\Base\Export();
                 $sx .= $Export->cron($act2, $act3);
                 break;

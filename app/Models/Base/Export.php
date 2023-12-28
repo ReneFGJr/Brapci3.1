@@ -186,123 +186,46 @@ class Export extends Model
     function cron($d1, $d2, $d3 = '')
     {
         $sx = '';
-        switch ($d1) {
-            case 'articles':
-                switch ($d2) {
-                    case 'start':
-                        $this->remove_all('EXPORT_ARTICLE');
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task_remove('EXPORT_ARTICLE');
-                        $dt = $BOTS->task('EXPORT_ARTICLE');
-                        $sx .= 'Started ' . $d2 . ' export';
-                        $sx .= '<hr>';
-                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
-                        break;
-                    default:
-                        echo "OK ==> $d2";
-                }
-                break;
+        $tps = [
+            'articles' => 'EXPORT_ARTICLE',
+            'books' => 'EXPORT_BOOK',
+            'corporate' => 'EXPORT_CORPORATEBODY',
+            'authority' => 'EXPORT_AUTHORITY',
+            'booksChapter' => 'EXPORT_BOOKCHAPTER',
+            'proceeding' => 'EXPORT_PROCEEDING'
+        ];
+        if ($d1 != '') {
+            $dt1 = $tps[$d1];
+            switch ($d2) {
+                case 'start':
+                    $this->remove_all($dt1);
+                    $BOTS = new \App\Models\Bots\Index();
+                    $BOTS->task_remove($dt1);
+                    $dt = $BOTS->task($dt1);
+                    $sx .= 'Started ' . $d2 . ' export';
+                    $sx .= '<hr>';
+                    $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
+                    break;
+                default:
+                    $sx = "OK ==> $d2";
+            }
+        } else {
+            $dtd = $this->next();
 
-            case 'books':
-                switch ($d2) {
-                    case 'start':
-                        $this->remove_all('EXPORT_BOOK');
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task_remove('EXPORT_BOOK');
-                        $dt = $BOTS->task('EXPORT_BOOK');
-                        $sx .= 'Started ' . $d2 . ' export';
-                        $sx .= '<hr>';
-                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
-                        break;
-                    default:
-                        echo "OK ==> $d2";
-                }
-                break;
-
-            case 'corporate':
-                switch ($d2) {
-                    case 'start':
-                        $this->remove_all('EXPORT_CORPORATEBODY');
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task_remove('EXPORT_CORPORATEBODY');
-                        $dt = $BOTS->task('EXPORT_CORPORATEBODY');
-                        $sx .= 'Started ' . $d2 . ' export';
-                        $sx .= '<hr>';
-                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
-                        break;
-                    default:
-                        echo "OK ==> $d2";
-                }
-                break;
-
-            case 'authority':
-                switch ($d2) {
-                    case 'start':
-                        $this->remove_all('EXPORT_AUTHORITY');
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task_remove('EXPORT_AUTHORITY');
-                        $dt = $BOTS->task('EXPORT_AUTHORITY');
-                        $sx .= 'Started ' . $d2 . ' export';
-                        $sx .= '<hr>';
-                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
-                        break;
-                    default:
-                        echo "OK ==> $d2";
-                }
-                break;
-
-            case 'booksChapter':
-                switch ($d2) {
-                    case 'start':
-                        $this->remove_all('EXPORT_BOOKCHAPTER');
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task_remove('EXPORT_BOOKCHAPTER');
-                        $dt = $BOTS->task('EXPORT_BOOKCHAPTER');
-                        $sx .= 'Started ' . $d2 . ' export';
-                        $sx .= '<hr>';
-                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
-                        break;
-                    default:
-                        echo "OK ==> $d2";
-                }
-                break;
-
-            case 'proceeding':
-                switch ($d2) {
-                    case 'start':
-                        $this->remove_all('EXPORT_PROCEEDING');
-                        $BOTS = new \App\Models\Bots\Index();
-                        $BOTS->task_remove('EXPORT_PROCEEDING');
-                        $dt = $BOTS->task('EXPORT_PROCEEDING');
-                        $sx .= 'Started ' . $d2 . ' export';
-                        $sx .= '<hr>';
-                        $sx .= anchor(PATH . 'bots/export', 'Start Export', array('class' => 'btn btn-outline-primary'));
-                        break;
-                    default:
-                        echo "OK $d2";
-                }
-                break;
-                /************************************ DEFAULT */
-            default:
-                if ($d1 == '') {
-                    $dtd = $this->next();
-
-                    if (count($dtd) > 0) {
-                        $sx .= $this->export_works($dtd);
-                    } else {
-                        if (agent()) {
-                            $sx .= bsmessage('No task at Cron', 2);
-                        } else {
-                            $sx .= 'No task at Cron';
-                        }
-                    }
+            if (count($dtd) > 0) {
+                $sx .= $this->export_works($dtd);
+            } else {
+                if (agent()) {
+                    $sx .= bsmessage('No task at Cron', 2);
                 } else {
-                    echo "OPS EXPORT NOT FOUND [$d1]";
+                    $sx .= 'No task at Cron';
                 }
+            }
         }
         $sx = bs(bsc($sx));
         return $sx;
     }
+
 
 
     function menu()
@@ -340,7 +263,6 @@ class Export extends Model
         $limit = 500;
 
         $TYPE = $dta['task_id'];
-
         switch ($TYPE) {
             case 'EXPORT_ARTICLE':
                 $class = 'Article';
@@ -428,6 +350,7 @@ class Export extends Model
         }
         $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
         /********************************** CRIA METADADOS EXPORTACAO */
+
         $sx .= $this->export_data($class, $type, $offset, $limit);
 
         /********************************** ATUALIZA STATUS DOS ROBOS */
@@ -496,36 +419,45 @@ class Export extends Model
         $Metadata = new \App\Models\Base\Metadata();
         $ElasticRegister = new \App\Models\ElasticSearch\Register();
 
-        $id = $RDFClass->getClass($class, false);
+        $idc = $RDFClass->getClass($class, false);
 
         $total = $RDFConcept->select('count(*) as total')
-            ->where('cc_class', $id)
+            ->where('cc_class', $idc)
             ->where('cc_status <> 99')
             ->findAll();
+
         $ids = $RDFConcept
-            ->where('cc_class', $id)
+            ->where('cc_class', $idc)
             ->where('cc_status <> 99')
             ->findAll($limit, $offset);
+
+
         if (count($ids) == 0) {
             $this->eof = 1;
             return "FIM2-ids";
         }
 
         $sx = h($class);
+
         $total = $total[0]['total'];
 
         $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
 
-        for ($r = 0; $r < count($ids); $r++) {
-            $xline = $ids[$r];
+
+        foreach($ids as $idz=>$xline)
+        {
             $idr = $xline['id_cc'];
 
-            $line = $RDF->le($idr);
-            $Metadata->metadata = array();
+            $cline = $RDF->le($idr);
+            echo '==>' . $idr . '<hr>';
+            exit;
+
+            $Metadata->metadata = [];
 
             /*********************** Metadata */
-            $Metadata->metadata($line);
+            pre($Metadata->metadata);
+            $Metadata->metadata($cline);
             $meta = $Metadata->metadata;
 
             $delete = 0;
