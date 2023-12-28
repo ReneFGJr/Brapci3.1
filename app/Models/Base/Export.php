@@ -450,8 +450,6 @@ class Export extends Model
             $idr = $xline['id_cc'];
 
             $cline = $RDF->le($idr);
-            echo '==>' . $idr . '<hr>';
-            exit;
 
             $Metadata->metadata = [];
 
