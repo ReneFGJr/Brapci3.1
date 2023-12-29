@@ -73,19 +73,21 @@ class Search extends Model
                 }
                 $n++;
         }
-        echo $Search->getlastquery();
+
         $ds = $Search->findAll();
-        pre($dt,false);
-        pre($ds);
+
+        /********************* Organiza Array Por ID */
         $dsr = [];
         foreach($ds as $id=>$line)
             {
-                pre($line);
-                $dsr[$idr] = 1;
+                $IDt = $line['ID'];
+                $dsr[$IDt] = $line;
             }
 
-        foreach ($dt['works'] as $id => $line) {
-            $dt['works'][$id]['data'] = $ds[$id];
+        /******************** Completa recuperação com as ID */
+        foreach ($dt['works'] as $idx => $line) {
+            $idt = $line['id'];
+            $dt['works'][$id]['data'] = $dsr[$idt];
         }
 
         if (!isset($dt['works'])) {
