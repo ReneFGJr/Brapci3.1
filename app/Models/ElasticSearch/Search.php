@@ -73,8 +73,6 @@ class Search extends Model
         }
         $ds = $Search->findAll();
 
-        pre($ds);
-
         $dt['works'][$id]['data'] = $ds;
 
         if (!isset($dt['works'])) {
