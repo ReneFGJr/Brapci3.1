@@ -419,6 +419,7 @@ class Register extends Model
         $da['ID'] = $data['ID'];
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
+        $da['COVER'] = PATH. '/img/books/no_cover.png';
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
@@ -491,6 +492,14 @@ class Register extends Model
                 $da['TITLE'] = ':: Sem titulo ::';
             }
 
+        /********************************************** COVER */
+        if (isset($data['Cover']))
+            {
+                if (isset($data['Cover'][0]))
+                    {
+                        $da['COVER'] = $data['Cover'][0]['value'];
+                    }
+            }
 
 
         /***************************************************** */
@@ -614,6 +623,8 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
+
+        pre($data);
 
         $this->check($data, true, $id);
 
