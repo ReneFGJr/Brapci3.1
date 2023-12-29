@@ -84,8 +84,6 @@ class Search extends Model
                 $dsr[$IDt] = $line;
             }
 
-        pre($dsr);
-
         /******************** Completa recuperação com as ID */
         foreach ($dt['works'] as $idx => $line) {
             $idt = $line['id'];
