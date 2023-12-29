@@ -165,9 +165,11 @@ class RDFdata extends Model
                 {
                     $link = '';
                     $linka = '';
+                    $alt = '';
+                    pre($line);
                     if ($line['ID'] > 0)
                         {
-                            $link = '<a href="'.PATH.'/v/'.$line['ID'].'">';
+                            $link = '<a href="'.PATH.'/v/'.$line['ID'].'" title="'.$alt.'">';
                             $linka = '</a>';
                         }
                     $sx .= bsc($line['Class'],3,'text-end');
