@@ -165,8 +165,8 @@ class RDFdata extends Model
                 {
                     $link = '';
                     $linka = '';
-                    $alt = '';
-                    pre($line);
+                    $alt = $line['Property'];
+
                     if ($line['ID'] > 0)
                         {
                             $link = '<a href="'.PATH.'/v/'.$line['ID'].'" title="'.$alt.'">';
