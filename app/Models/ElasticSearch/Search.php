@@ -61,7 +61,7 @@ class Search extends Model
         /* Retorno */
         $n = 0;
         $Search->select($cp);
-        $Search->join('brapci.source_source','JOURNAL = id_jnl','RIGHT');
+        $Search->join('brapci.source_source','JOURNAL = id_jnl','LEFT');
         foreach ($dt['works'] as $id => $line) {
             $ida = $line['id'];
             if ($n == 0)
