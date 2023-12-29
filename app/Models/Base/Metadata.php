@@ -187,6 +187,9 @@ class Metadata extends Model
                 case 'BookChapter':
                     $M['COVER'] = $BaseCover->bookChapter($M['ID']);
                     break;
+                case 'Bookr':
+                    $M['COVER'] = $BaseCover->book($M['ID']);
+                    break;
             }
             $this->metadata = $M;
             return $this->metadata;
