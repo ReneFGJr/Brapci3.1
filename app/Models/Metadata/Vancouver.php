@@ -181,7 +181,12 @@ class Vancouver extends Model
 		$sx = '';
 		$sx .= $this->authors($dt);
 		if ($sx != '') { $sx .= ' '; }
-		$sx .= '<b>'.$dt['title'].'</b>. ';
+		if (isset($dt['title'])) {
+			$sx .= '<b>' . $dt['title'] . '</b>. ';
+		} else {
+			$sx .= '<b>::Sem título::</b>';
+		}
+
 		if (isset($dt['publisher']))
 			{
 				$sx .= $dt['publisher'];

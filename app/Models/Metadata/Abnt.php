@@ -181,7 +181,6 @@ class Abnt extends Model
 
 	function abnt_book($dt)
 	{
-
 		$sx = '';
 		$sx .= $this->authors($dt);
 		if ($sx != '') {
