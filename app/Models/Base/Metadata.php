@@ -187,7 +187,7 @@ class Metadata extends Model
                 case 'BookChapter':
                     $M['COVER'] = $BaseCover->bookChapter($M['ID']);
                     break;
-                case 'Bookr':
+                case 'Book':
                     $M['COVER'] = $BaseCover->book($M['ID']);
                     break;
             }
