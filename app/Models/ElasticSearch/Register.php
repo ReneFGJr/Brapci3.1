@@ -15,7 +15,7 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_ds', 'ID', 'json', 'CLASS',
+        'id_ds', 'ID', 'json', 'CLASS','COVER',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
         'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION',
         'LEGEND','new'
