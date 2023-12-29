@@ -172,9 +172,8 @@ class RDFdata extends Model
                             $link = '<a href="'.PATH.'/v/'.$line['ID'].'" title="'.$alt.'">';
                             $linka = '</a>';
                         }
-                    $sx .= bsc($line['Class'],2,'text-end small');
                     $sx .= bsc($line['Property'], 2, 'text-end small');
-                    $sx .= bsc($link.$line['Caption']. $linka, 7, 'border-top border-secondary');
+                    $sx .= bsc($link.$line['Caption']. $linka . '<sup>'. $line['Class'].'</sup>', 9, 'border-top border-secondary');
                     $sx .= bsc($line['Lang'], 1,'border-top border-secondary small');
                 }
             return bs($sx);
