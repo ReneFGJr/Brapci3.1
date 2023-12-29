@@ -89,7 +89,6 @@
         style="animation-delay: 500ms"
       >
       {{items.type}}
-      {{items | json}}
         <!------------- ARTICLE -->
         <tr *ngIf="items.type === 'Article' && items.data != null" valign="top">
           <td width="80px" *ngIf="items.data.cover">
@@ -184,56 +183,15 @@
             />
           </td>
 
-          <td *ngIf="items.data.ldl_title" class="ms-2">
+          <td *ngIf="items.data.TITLE" class="ms-2">
             <input
               type="checkbox"
-              id="mk{{ items.data.article_id }}"
+              id="mk{{ items.data.ID }}"
               class="small"
               title="{{ msg_data_mark }}"
-              [value]="items.data.article_id"
-            />
-            <a
-              class="work"
-              [routerLink]="['/v/' + items.id]"
-              routerLinkActive="router-link-active"
-              target="_blank"
+              [value]="items.data.ID"
               (change)="markDOwn($event)"
-            >
-              {{ items.data.ldl_title }}
-            </a>
-            <br />
-            <i>{{ items.data.ldl_authors }}</i> <br />{{
-              items.data.ldl_legend
-            }}
-            <br /><span class="small documment_type documment_type_book"
-              >Livro</span
-            >
-          </td>
-          <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
-        </tr>
-
-        <!------------- CAPITULO DE LIVRO -->
-        <tr
-          *ngIf="items.type === 'BookChapter' && items.data != null"
-          valign="top"
-        >
-          <td width="80px" *ngIf="items.data.cover">
-            <img
-              [src]="items.data.cover"
-              title="{{ msg_cover }}: {{ items.data.ldl_legend }}"
-              style="width: 80px; float: left; margin: 5px"
-              class="cover me-3"
-              (change)="markDOwn($event)"
-            />
-          </td>
-
-          <td *ngIf="items.data.ldl_title" class="ms-2">
-            <input
-              type="checkbox"
-              id="mk{{ items.data.article_id }}"
-              class="small"
-              title="{{ msg_data_mark }}"
-              [value]="items.data.article_id"
+              [checked]="checked(items.data.ID)"
             />
             <a
               class="work"
@@ -244,11 +202,51 @@
               {{ items.data.TITLE }}
             </a>
             <br />
-            <i>{{ items.data.ldl_authors }}</i> <br />{{
-              items.data.ldl_legend
+            <i>{{ items.data.AUTHORS }}</i> <br />{{
+              items.data.LEGEND
             }}
-            <br /><span class="small documment_type documment_type_bookChapter"
-              >Capítulo de Livro</span
+            <br /><span class="small documment_type documment_type_article"
+              >Artigo</span
+            >
+          </td>
+          <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
+        </tr>
+
+        <!------------- CAPITULO DE LIVRO -->
+        <tr *ngIf="items.type === 'BookChapter' && items.data != null" valign="top">
+          <td width="80px" *ngIf="items.data.cover">
+            <img
+              [src]="items.data.cover"
+              title="{{ msg_cover }}: {{ items.data.ldl_legend }}"
+              style="width: 80px; float: left; margin: 5px"
+              class="cover me-3"
+            />
+          </td>
+
+          <td *ngIf="items.data.TITLE" class="ms-2">
+            <input
+              type="checkbox"
+              id="mk{{ items.data.ID }}"
+              class="small"
+              title="{{ msg_data_mark }}"
+              [value]="items.data.ID"
+              (change)="markDOwn($event)"
+              [checked]="checked(items.data.ID)"
+            />
+            <a
+              class="work"
+              [routerLink]="['/v/' + items.id]"
+              routerLinkActive="router-link-active"
+              target="_blank"
+            >
+              {{ items.data.TITLE }}
+            </a>
+            <br />
+            <i>{{ items.data.AUTHORS }}</i> <br />{{
+              items.data.LEGEND
+            }}
+            <br /><span class="small documment_type documment_type_article"
+              >Artigo</span
             >
           </td>
           <td width="50px;" *ngIf="items.data.ldl_title">{{ items.year }}</td>
