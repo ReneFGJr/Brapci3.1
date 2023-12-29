@@ -498,6 +498,7 @@ class Register extends Model
                 $da['COVER'] = $data['COVER'];
             }
 
+        pre($da);
 
         /***************************************************** */
         $da['AUTHORS'] = '';
