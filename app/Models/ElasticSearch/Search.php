@@ -87,7 +87,11 @@ class Search extends Model
         /******************** Completa recuperação com as ID */
         foreach ($dt['works'] as $idx => $line) {
             $idt = $line['id'];
-            $dt['works'][$idx]['data'] = $dsr[$idt];
+            if (isset($dsr[$idt]))
+                {
+                    $dt['works'][$idx]['data'] = $dsr[$idt];
+                }
+
         }
 
         if (!isset($dt['works'])) {
