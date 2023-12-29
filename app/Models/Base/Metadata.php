@@ -191,8 +191,13 @@ class Metadata extends Model
                     $M['COVER'] = $BaseCover->book($M['ID']);
                     break;
                 case 'Article':
-                    pre($M);
-                    $M['COVER'] = $BaseCover->book($M['ID']);
+                    if (isset($M['Issue']['id_jnl']))
+                        {
+                            $jnl = $M['Issue']['id_jnl'];
+                        } else {
+                            $jnl = 99999;
+                        }
+                    $M['COVER'] = $BaseCover->cover($jnl);
                     break;
             }
             $this->metadata = $M;
