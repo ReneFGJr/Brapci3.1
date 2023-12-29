@@ -48,7 +48,7 @@ class Search extends Model
         $dt = $this->search($q, $type);
 
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE,
-                        SESSION, LEGEND, TITLE, AUTHORS';
+                        SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
 
         if (!isset($dt['works']))
             {
@@ -60,6 +60,7 @@ class Search extends Model
 
         /* Retorno */
         $n = 0;
+        $Search->select($cp);
         foreach ($dt['works'] as $id => $line) {
             $ida = $line['id'];
             if ($n == 0)
@@ -71,21 +72,7 @@ class Search extends Model
         }
         $ds = $Search->findAll();
 
-        foreach($ds as $id=>$line)
-            {
-                echo h("LINE");
-                pre($line);
-            }
-
-
-            if ($ds != '') {
-                pre($ds);
-                $ds['cover'] = $Cover->cover($ds['id_jnl']);
-            } else {
-                $ds['erro'] = $ida;
-            }
-
-            $dt['works'][$id]['data'] = $ds;
+        $dt['works'][$id]['data'] = $ds;
 
         if (!isset($dt['works'])) {
             $dt['works'] = [];
