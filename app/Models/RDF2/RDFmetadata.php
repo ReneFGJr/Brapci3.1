@@ -129,6 +129,9 @@ class RDFmetadata extends Model
             case 'Book':
                 return $this->metadataWork($dt);
                 break;
+            case 'BookChapter':
+                return $this->metadataWork($dt);
+                break;
             case 'Proceeding':
                 return $this->metadataWork($dt);
                 break;
