@@ -58,18 +58,7 @@ class Search extends Model
                 exit;
             }
 
-        /* Journals */
-        $Source = new \App\Models\Base\Sources();
-        $SRC = $Source->select('id_jnl,jnl_name')->findAll();
-        $src = [];
-        foreach($SRC as $ids=>$sname)
-            {
-                $src[$ids] = $sname;
-            }
-
-        $Search->select($cp)
-                ->join('brapci.source_source', 'dataset.JOURNAL = source_source.id_jnl', 'LEFT');
-
+        /* Retorno */
         $n = 0;
         foreach ($dt['works'] as $id => $line) {
             $ida = $line['id'];
@@ -82,7 +71,11 @@ class Search extends Model
         }
         $ds = $Search->findAll();
 
-        pre($ds);
+        foreach($ds as $id=>$line)
+            {
+
+            }
+
 
             if ($ds != '') {
                 pre($ds);
