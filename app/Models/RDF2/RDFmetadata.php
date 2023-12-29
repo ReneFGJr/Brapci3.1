@@ -342,6 +342,9 @@ class RDFmetadata extends Model
         }
         $dr['publisher'] = $publisher;
 
+        /************************** Resource */
+        $dr['resource_pdf'] = PATH . '/download/' . $ID;
+
         /************************************************************* COVER */
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
@@ -358,14 +361,15 @@ class RDFmetadata extends Model
                 if (isset($book[0]))
                     {
                         $bk  = [];
-                        $book = $book[0]['ID'];
-                        $book = $RDF->le($book);
+                        $bookID = $book[0]['ID'];
+                        $book = $RDF->le($bookID);
 
                         $dr['cover'] = $this->ExtractFromData($book, 'hasCover','text');
                         $bk['cover'] = $dr['cover'];
                         $bk['Publisher'] = $this->ExtractFromData($book,'isPublisher', 'text');
                         $bk['Title'] = $this->ExtractFromData($book,'hasTitle', 'text');
                         $dr['book'] = $bk;
+                        $dr['resource_pdf'] = PATH . '/download/' . $bookID;
                     }
             }
 
@@ -400,10 +404,6 @@ class RDFmetadata extends Model
         if ($hasPage != '') {
             $dr['pages'] = $hasPage;
         }
-
-        /************************** Resource */
-        $dr['resource_pdf'] = PATH . '/download/' . $ID;
-
 
         /*********************** Section */
         switch ($dr['Class']) {
