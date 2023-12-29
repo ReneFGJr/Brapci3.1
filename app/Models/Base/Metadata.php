@@ -100,7 +100,7 @@ class Metadata extends Model
         $M = [];
         $RDF = new \App\Models\RDF2\RDF();
         $RDFData = new \App\Models\RDF2\RDFdata();
-        $COVER = new \App\Models\Base\Cover();
+        $BaseCover = new \App\Models\Base\Cover();
         $ISBN = new \App\Models\ISBN\Index();
         $Source = new \App\Models\Base\Sources();
         $Issue = new \App\Models\Base\Issues();
@@ -111,6 +111,7 @@ class Metadata extends Model
         }
 
         $idcc = $meta['concept']['id_cc'];
+        $class = $meta['concept']['c_class'];
 
         $this->metadata = array();
         if (isset($meta['concept'])) {
@@ -179,6 +180,15 @@ class Metadata extends Model
                         }
                 }
             }
+
+
+            /********************************** Cover */
+            switch ($M['Class']) {
+                case 'BookChapter':
+                    $M['COVER'] = $BaseCover->bookChapter($M['ID']);
+                    break;
+            }
+
             $this->metadata = $M;
             return $this->metadata;
         }

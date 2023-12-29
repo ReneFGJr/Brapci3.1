@@ -171,15 +171,21 @@ class Cover extends Model
 
     function bookChapter($id = '')
     {
-        $RDF = new \App\Models\Rdf\RDF();
-        $dir = 'img/'.$RDF->directory($id);
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $dt = $RDF->le($id);
 
-        $img = $dir.'image.jpg';
-        echo '<br>'.$img.'<br>';
-        if (file_exists($img))
+        /************* Recupera o Livro */
+        $cover = $RDF->extract($dt, 'hasBookChapter','A');
+        $img = '';
+        if (isset($cover[0]))
             {
-                echo "XOK";
-            } else {
+                /************* Metadados do Livro */
+                $dt = $RDF->le($cover[0]);
+                $img = trim($RDF->extract($dt, 'hasCover', 'F'));
+            }
+        if ($img=='')
+            {
                 $img = 'img/books/no_cover.png';
             }
         return $img;

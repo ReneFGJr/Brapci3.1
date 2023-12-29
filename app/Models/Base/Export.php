@@ -461,7 +461,6 @@ class Export extends Model
             $Metadata->metadata = [];
 
             /**************************************************************/
-            /**************************************************************/
             /*************************************************** Metadata */
             /**************************************************************/
             $Metadata->metadata($cline);
@@ -496,6 +495,7 @@ class Export extends Model
                         $meta[$met] = 1;
                     }
                 }
+
 
                 $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                     $ElasticRegister->data($idr, $meta) . '</li>';
