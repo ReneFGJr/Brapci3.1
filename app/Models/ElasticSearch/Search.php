@@ -73,7 +73,8 @@ class Search extends Model
 
         foreach($ds as $id=>$line)
             {
-
+                echo h("LINE");
+                pre($line);
             }
 
 
