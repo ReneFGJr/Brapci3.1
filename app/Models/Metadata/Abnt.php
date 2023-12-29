@@ -181,6 +181,9 @@ class Abnt extends Model
 
 	function abnt_book($dt)
 	{
+
+		pre($dt);
+
 		$sx = '';
 		$sx .= $this->authors($dt);
 		if ($sx != '') {
@@ -242,8 +245,6 @@ class Abnt extends Model
 	{
 		$sx = '';
 		$etal = false;
-
-		pre($dt);
 
 		if (isset($dt['creator_author'])) {
 			$total = count($dt['creator_author']);
