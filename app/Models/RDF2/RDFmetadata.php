@@ -346,6 +346,29 @@ class RDFmetadata extends Model
         $RDFimage = new \App\Models\RDF2\RDFimage();
         $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
 
+
+        /*************************************** SOURCE TYPES ****************/
+        $Class = $dt['concept']['c_class'];
+
+        /*************************************** SOURCE BOOK CHAPTER *********/
+        if ($Class == 'BookChapter')
+            {
+                /* Recupera Livros */
+                $book = $this->arrayExtract($dd, 'hasBookChapter');
+                if (isset($book[0]))
+                    {
+                        $bk  = [];
+                        $book = $book[0]['ID'];
+                        $book = $RDF->le($book);
+
+                        $dr['cover'] = $this->ExtractFromData($book, 'hasCover','text');
+                        $bk['cover'] = $dr['cover'];
+                        $bk['Publisher'] = $this->ExtractFromData($book,'isPublisher', 'text');
+                        $bk['Title'] = $this->ExtractFromData($book,'hasTitle', 'text');
+                        $dr['book'] = $bk;
+                    }
+            }
+
         /*************************************** SOURCE JOURNAL / PROCEEDING */
         if ($publisher == '') {
             $Source = new \App\Models\Base\Sources();
@@ -419,6 +442,42 @@ class RDFmetadata extends Model
         }
         return $RSP;
     }
+
+    function ExtractFromData($dt,$class,$type='T')
+        {
+            $type = UpperCase(substr($type,0,1));
+            if (isset($dt['data']))
+                {
+                    $dt = $dt['data'];
+                }
+
+            $tx = '';
+            $ts = '';
+            $ta = [];
+            foreach($dt as $id=>$line)
+                {
+                    $prop = trim($line['Property']);
+                    if ($prop == $class)
+                        {
+                            if ($tx != '') { $tx .= '; '; }
+                            $tx .= $line['Caption'];
+                            if ($ts == '') { $ts = $line['Caption'] ; }
+                            array_push($ta,['ID'=>$line['ID'],'name'=>$line['Caption']]);
+                        }
+                }
+            switch($type)
+                {
+                    case 'T':
+                        return $tx;
+                        break;
+                    case 'S':
+                        return $ts;
+                        break;
+                    default:
+                        return $ta;
+                        break;
+                }
+        }
 
     function simpleExtract($dt, $class)
     {
