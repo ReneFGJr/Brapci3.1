@@ -505,16 +505,15 @@ class Register extends Model
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
-                $da['AUTHORS'] .= nbr_author($name, 7);
+                $da['AUTHORS'] .= nbr_author($name['value'], 7);
             }
         }
-
         if (isset($data['Organizer'])) {
             foreach ($data['Organizer'] as $ida => $name) {
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
-                $da['AUTHORS'] .= nbr_author($name['value'], 7);
+                $da['AUTHORS'] .= nbr_author($name['value'], 7).'(Org.)';
             }
         }
         /***************************************************** */
@@ -619,6 +618,11 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
+
+        if ($data['AUTHORS'] == '')
+            {
+
+            }
 
         $this->check($data, true, $id);
 

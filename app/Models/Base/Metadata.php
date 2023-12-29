@@ -148,6 +148,7 @@ class Metadata extends Model
                     //echo $prop . '<br>';
                     $p = [
                         'hasOrganizator' => 'Organizer',
+                        'hasAuthor' => 'Authors',
                         'hasSubject' => 'Subject',
                         'hasCover' => 'Cover',
                         'isPublisher' => 'Editor',
