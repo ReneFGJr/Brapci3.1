@@ -97,7 +97,6 @@ class Metadata extends Model
 
     function metadata($meta, $erros = false)
     {
-        pre($meta);
         $M = [];
         $RDF = new \App\Models\RDF2\RDF();
         $RDFData = new \App\Models\RDF2\RDFdata();
