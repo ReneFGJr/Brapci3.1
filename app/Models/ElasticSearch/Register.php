@@ -529,7 +529,17 @@ class Register extends Model
                     $da['ISSUE'] = 1;
                 break;
 
-                /**************************************** Legend Article */
+                /**************************************** Legend Proceeding */
+                case 'Proceeding':
+                    $da['LEGEND'] = $da['TITLE'];
+                    if ($data['Issue']['year'] != '') {
+                        $da['LEGEND'] .= ', ' . $data['Issue']['year'];
+                    }
+                    $da['JOURNAL'] = 1;
+                    $da['ISSUE'] = 1;
+                    break;
+
+                /**************************************** Legend Book */
                 case 'Book':
                     $da['LEGEND'] = $da['TITLE'];
                     if ($data['Issue']['year'] != '') {
