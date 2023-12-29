@@ -73,7 +73,9 @@ class Search extends Model
         }
         $ds = $Search->findAll();
 
-        $dt['works'][$id]['data'] = $ds;
+        foreach ($dt['works'] as $id => $line) {
+            $dt['works'][$id]['data'] = $ds[$id];
+        }
 
         if (!isset($dt['works'])) {
             $dt['works'] = [];
