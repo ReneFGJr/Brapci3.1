@@ -344,7 +344,6 @@ class RDFmetadata extends Model
 
         /************************************************************* COVER */
         $RDFimage = new \App\Models\RDF2\RDFimage();
-        pre($dd);
         $dr['cover'] = $this->simpleExtract($dd, 'hasCover');
 
         /*************************************** SOURCE JOURNAL / PROCEEDING */
