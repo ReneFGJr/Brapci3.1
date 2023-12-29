@@ -171,7 +171,7 @@ class RDFdata extends Model
                             $linka = '</a>';
                         }
                     $sx .= bsc($line['Class'],3,'text-end');
-                    $sx .= bsc($link.$line['Caption'].$Linka, 9, 'border-top border-secondary');
+                    $sx .= bsc($link.$line['Caption']. $linka, 9, 'border-top border-secondary');
                     $sx .= bsc($line['Lang'], 1,'border-top border-secondary small');
                 }
             return bs($sx);
