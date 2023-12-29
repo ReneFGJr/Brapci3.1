@@ -152,6 +152,8 @@ class Cover extends Model
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $dt = $RDF->le($id);
 
+        pre($dt);
+
         /************* Recupera o Livro */
         $img = trim($RDF->extract($dt, 'hasCover', 'F'));
         if ($img == '') {
