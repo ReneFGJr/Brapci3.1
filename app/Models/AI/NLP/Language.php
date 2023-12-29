@@ -59,8 +59,14 @@ class Language extends Model
 			if ($lang == 'fr-CA') { return 'fr'; }
 			if ($lang == 'fr-FR') { return 'fr'; }
 			if ($lang == 'ca-ES') { return 'es'; }
+
+			/* Italiano */
 			if ($lang == 'it-IT') { return 'it'; }
 			if ($lang == 'it') { return 'it'; }
+			/* Alemao */
+			if ($lang == 'de-DE') { return 'de'; }
+
+
 			if ($lang == '0') { return 'pt'; }
 			if ($lang == 'NnN') { return 'nn'; }
 
