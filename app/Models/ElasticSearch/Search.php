@@ -72,6 +72,12 @@ class Search extends Model
                 }
         }
         $ds = $Search->findAll();
+        $dsr = [];
+        foreach($ds as $id=>$line)
+            {
+                pre($line);
+                $dsr[$idr] = 1;
+            }
 
         foreach ($dt['works'] as $id => $line) {
             $dt['works'][$id]['data'] = $ds[$id];
