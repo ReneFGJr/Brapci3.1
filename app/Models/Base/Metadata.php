@@ -200,6 +200,7 @@ class Metadata extends Model
                     $M['COVER'] = $BaseCover->cover($jnl);
                     break;
             }
+            pre($M);
             $this->metadata = $M;
             return $this->metadata;
         }
