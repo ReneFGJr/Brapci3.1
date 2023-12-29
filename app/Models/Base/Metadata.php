@@ -188,7 +188,6 @@ class Metadata extends Model
                     $M['COVER'] = $BaseCover->bookChapter($M['ID']);
                     break;
             }
-
             $this->metadata = $M;
             return $this->metadata;
         }

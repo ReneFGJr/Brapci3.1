@@ -493,12 +493,9 @@ class Register extends Model
             }
 
         /********************************************** COVER */
-        if (isset($data['Cover']))
+        if (isset($data['COVER']))
             {
-                if (isset($data['Cover'][0]))
-                    {
-                        $da['COVER'] = $data['Cover'][0]['value'];
-                    }
+                $da['COVER'] = $data['COVER'];
             }
 
 
