@@ -73,7 +73,9 @@ class Search extends Model
                 } else {
                     $Search->Orwhere('ID', $ida);
                 }
+                $n++;
         }
+        echo $Search->getlastquery();
         $ds = $Search->findAll();
         pre($dt,false);
         pre($ds);
