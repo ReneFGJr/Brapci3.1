@@ -92,7 +92,7 @@ class Search extends Model
             }
 
             $dt['works'][$id]['data'] = $ds;
-        }
+
         if (!isset($dt['works'])) {
             $dt['works'] = [];
         }
