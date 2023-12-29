@@ -122,12 +122,14 @@ class Cover extends Model
     function cover($jnl=0)
         {
             $img = '_repository/cover/cover_issue_'.strzero($jnl,4).'.jpg';
+            echo $img;
             if (file_exists($img))
                 {
                     return URL.'/'.$img;
                 }
+            exit;
 
-            $img = '_repository/cover/cover_issue_' . strzero($jnl, 4) . '.pnh';
+            $img = '_repository/cover/cover_issue_' . strzero($jnl, 4) . '.png';
             if (file_exists($img)) {
                 return URL . '/' . $img;
             }
