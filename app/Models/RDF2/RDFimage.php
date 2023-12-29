@@ -72,7 +72,7 @@ class RDFimage extends Model
                         $nfile = $dir.'image.jpg';
                         if (file_exists($nfile))
                             {
-                                $url = PATH . $nfile;
+                                $url = PATH . '/'.$nfile;
                                 return $url;
                             }
                     echo "ERRO";
@@ -86,16 +86,16 @@ class RDFimage extends Model
                 case 'image/png':
                     $nfile = $dir . 'image.png';
                     if (file_exists($nfile)) {
-                        return PATH . $nfile;
+                        return PATH . '/' . $nfile;
                     }
 
                     if (file_exists($tumb)) {
-                        return PATH . $tumb;
+                        return PATH . '/' . $tumb;
                     }
 
                     break;
                 }
         }
-        return PATH.'img/cover/no_cover.png';
+        return PATH.'/img/cover/no_cover.png';
     }
 }
