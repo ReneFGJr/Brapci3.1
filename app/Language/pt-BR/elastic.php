@@ -22,6 +22,7 @@ return[
         'cluster_name'=>'Clustter',
         'elasticsearch'=>'ElasticSearch',
         'register_test'=>'Registrar Teste',
+        'export_database' => 'Exportar para o ElasticSearch (#)',
         '' => '',
         '' => '',
         '' => '',

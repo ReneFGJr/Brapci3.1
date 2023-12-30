@@ -196,7 +196,6 @@ return [
         'OS' => 'SO',
         'issues' => 'Fascículos',
         'Journal' => 'Publicação',
-        'export_database' => 'Exportar para o ElasticSearch (#)',
         '' => '',
         '' => '',
 
