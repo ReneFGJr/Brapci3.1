@@ -262,7 +262,7 @@ class Export extends Model
     {
         $sx = '';
         $offset = round(0);
-        $limit = 500;
+        $limit = 20;
 
         $TYPE = $dta['task_id'];
         switch ($TYPE) {
@@ -462,7 +462,7 @@ class Export extends Model
             /**************************************************************/
             $Metadata->metadata($cline);
             $meta = $Metadata->metadata;
-            pre($meta);
+            pre($meta,false);
 
             $delete = 0;
             if (!isset($meta['Class'])) {
