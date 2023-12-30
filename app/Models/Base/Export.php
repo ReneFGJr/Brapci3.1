@@ -438,9 +438,6 @@ class Export extends Model
             ->where('cc_status <> 99')
             ->findAll($limit, $offset);
 
-            pre($ids);
-
-
         if (count($ids) == 0) {
             $this->eof = 1;
             return "FIM2-ids";
@@ -459,6 +456,8 @@ class Export extends Model
             $idr = $xline['id_cc'];
 
             $cline = $RDF->le($idr);
+
+            pre($cline);
 
             $Metadata->metadata = [];
 
