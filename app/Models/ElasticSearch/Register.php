@@ -452,10 +452,10 @@ class Register extends Model
         }
 
         if (!isset($da['YEAR'])) {
-            $da['YEAR'] = 9998;
+            $da['YEAR'] = '2000';
         }
         if ($da['YEAR'] == '') {
-            $da['year'] = 9997;
+            $da['year'] = '2000';
         }
 
         if (isset($data['PDF'])) {

@@ -121,6 +121,50 @@ class Issues extends Model
             $Issue = new \App\Models\Base\Issues();
             $IssueWorks = new \App\Models\Base\IssuesWorks();
             $Source = new \App\Models\Base\Sources();
+            $Register = new \App\Models\ElasticSearch\Register();
+
+            /************************* BOOK OU CHAPTER */
+            if (isset($meta['concept'])) {
+                //pre($meta, false);
+                $dr = [];
+                $class = $meta['concept']['c_class'];
+                /******************** Capítulo  */
+                if  ($class == 'BookChapter') {
+                    $book =  $RDF->extract($meta, 'hasBookChapter','A');
+                    if (isset($book[0]))
+                        {
+                            $dt = $Register
+                                ->where('ID', $book[0])
+                                ->first();
+                            if ($dt == [])
+                                {
+                                    echo "Livro não localizado, exporte primeiro o livro";
+                                    exit;
+                                }
+                            $dr['year'] =  $dt['YEAR'];
+                        } else {
+                            $dr['year'] =  2000;
+                        }
+                    $dr['issue'] = 0;
+                    $dr['vol'] = '';
+                    $dr['nr'] = '';
+                    $dr['thema'] = '';
+                    return $dr;
+
+
+                }
+
+                /******************** Capítulo  */
+                if ($class == 'Book') {
+                    $dr['year'] =  $RDF->extract($meta, 'wasPublicationInDate');
+                    $dr['issue'] = 0;
+                    $dr['vol'] = '';
+                    $dr['nr'] = '';
+                    $dr['thema'] = '';
+                    return $dr;
+                }
+            }
+
 
             $WorkIssue = new \App\Models\Base\IssuesWorks();
             $cp = 'siw_issue as issue, is_year as year, is_vol as vol, is_nr as nr, is_thema as thema, jnl_name as journal, id_jnl';
