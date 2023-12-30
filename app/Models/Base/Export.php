@@ -438,6 +438,8 @@ class Export extends Model
             ->where('cc_status <> 99')
             ->findAll($limit, $offset);
 
+            pre($ids);
+
 
         if (count($ids) == 0) {
             $this->eof = 1;
