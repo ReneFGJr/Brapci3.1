@@ -170,7 +170,7 @@ class Issues extends Model
                             $this->register($dt);
 
                             $IssueWorks->register($dr['id_jnl'], $issue[0], $ida);
-                            sleep(1);
+                            //sleep(1);
 
                             $dt = $WorkIssue
                             ->select($cp)
@@ -487,13 +487,10 @@ class Issues extends Model
                 $w = [];
                 foreach($prop as $id=>$line)
                     {
-                        $prop = trim($line['c_class']);
-                        $dd1 = $line['d_r1'];
-                        $dd2 = $line['d_r2'];
-                        $vv1 = $line['n_name'];
-                        $vv2 = $line['n_name2'];
-                        $lg1 = $line['n_lang'];
-                        $lg2 = $line['n_lang2'];
+                        $prop = trim($line['Property']);
+                        $dd1 = $line['ID'];
+                        $vv2 = $line['Caption'];
+                        $lg1 = $line['Lang'];
                         //echo '<br>'.$prop . ' '.$dd1.' '.$dd2.' '.$vv1.' '. $vv2;
                         switch($prop)
                             {
@@ -507,7 +504,13 @@ class Issues extends Model
                                 case 'hasPublicationNumber':
                                     $RSP['is_nr'] = $vv2;
                                     break;
+                                case 'hasVolumeNumber':
+                                    $RSP['is_nr'] = $vv2;
+                                    break;
                                 case 'hasPublicationVolume':
+                                    $RSP['is_vol'] = $vv2;
+                                    break;
+                                case 'hasVolume':
                                     $RSP['is_vol'] = $vv2;
                                     break;
                                 case 'dateOfPublication':

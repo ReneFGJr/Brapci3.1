@@ -117,19 +117,16 @@ class Metadata extends Model
         if (isset($meta['concept'])) {
             $concept = $meta['concept'];
             $MC = [
-                'ID'=> 'id_cc',
-                'Identifier'=> 'n_name',
-                'Class'=>'c_class'
+                'ID' => 'id_cc',
+                'Identifier' => 'n_name',
+                'Class' => 'c_class'
             ];
 
-            foreach($MC as $fld1=>$fld2)
-                {
-                    if (isset($concept[$fld2]))
-                        {
-                            $M[$fld1] = $concept[$fld2];
-                        }
+            foreach ($MC as $fld1 => $fld2) {
+                if (isset($concept[$fld2])) {
+                    $M[$fld1] = $concept[$fld2];
                 }
-
+            }
         }
 
         /************************************************************** PROPERTIES **/
@@ -166,18 +163,25 @@ class Metadata extends Model
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
                             }
-                            array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
+                            #array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
+                            if ($lang != 'nn') {
+                                if (!isset($M[$cls][$lang])) {
+                                    $M[$cls][$lang] = [];
+                                }
+                                array_push($M[$cls][$lang], $value);
+                            } else {
+                                array_push($M[$cls], $value);
+                            }
                         }
                     }
 
                     /********************************** Issue */
-                    $ISU = $Issue->getIssue4Work($M['ID'],$meta);
+                    $ISU = $Issue->getIssue4Work($M['ID'], $meta);
                     $M['Issue'] = $ISU;
-                    if (isset($ISU['year']))
-                        {
-                            $M['YEAR'] = $ISU['year'];
-                            $M['ISSUE'] = $ISU['issue'];
-                        }
+                    if (isset($ISU['year'])) {
+                        $M['YEAR'] = $ISU['year'];
+                        $M['ISSUE'] = $ISU['issue'];
+                    }
                 }
             }
             /********************************** Cover */
@@ -189,12 +193,11 @@ class Metadata extends Model
                     $M['COVER'] = $BaseCover->book($M['ID']);
                     break;
                 case 'Article':
-                    if (isset($M['Issue']['id_jnl']))
-                        {
-                            $jnl = $M['Issue']['id_jnl'];
-                        } else {
-                            $jnl = 99999;
-                        }
+                    if (isset($M['Issue']['id_jnl'])) {
+                        $jnl = $M['Issue']['id_jnl'];
+                    } else {
+                        $jnl = 99999;
+                    }
                     $M['COVER'] = $BaseCover->cover($jnl);
                     break;
             }

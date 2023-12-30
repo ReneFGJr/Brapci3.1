@@ -479,11 +479,11 @@ class Register extends Model
             {
                 $tit = '';
                 $tit2 = '';
-                foreach($data['Title'] as $id=>$line)
+                foreach($data['Title'] as $lang=>$line)
                     {
-                        if ($tit2 == '') { $tit2 = $line['value']; }
-                        if ($line['lang'] == 'pt'){
-                            $tit = $line['value'];
+                        if ($tit2 == '') { $tit2 = $line[0]; }
+                        if ($lang == 'pt'){
+                            $tit = $line[0];
                         }
                     }
                 if ($tit == '') { $tit = $tit2; }
@@ -505,17 +505,19 @@ class Register extends Model
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
-                $da['AUTHORS'] .= nbr_author($name['value'], 7);
+                $da['AUTHORS'] .= nbr_author($name, 7);
             }
+
         }
         if (isset($data['Organizer'])) {
             foreach ($data['Organizer'] as $ida => $name) {
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
-                $da['AUTHORS'] .= nbr_author($name['value'], 7).'(Org.)';
+                $da['AUTHORS'] .= nbr_author($name, 7).'(Org.)';
             }
         }
+
         /***************************************************** */
         switch($data['Class'])
             {
@@ -624,7 +626,7 @@ class Register extends Model
 
     function data($id, $xdata)
     {
-        $dt = $this->where('ID', round($id))->findAll();
+        $dt = $this->where('ID', round($id))->first();
         if (count($xdata) == 0) {
             echo '======================== A001 ==';
             $sx = lang('brapci.skip') . ' deleted';
@@ -638,7 +640,7 @@ class Register extends Model
 
         /* NOVO REGISTRO */
 
-        if (count($dt) == 0) {
+        if ($dt==[]) {
             if (count($data) > 0) {
                 $data['status'] = 1;
                 $this->set($data)->insert();
