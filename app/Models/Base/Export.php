@@ -454,19 +454,15 @@ class Export extends Model
         foreach($ids as $idz=>$xline)
         {
             $idr = $xline['id_cc'];
-
             $cline = $RDF->le($idr);
-
-            pre($cline);
-
             $Metadata->metadata = [];
 
             /**************************************************************/
             /*************************************************** Metadata */
             /**************************************************************/
             $Metadata->metadata($cline);
-
             $meta = $Metadata->metadata;
+            pre($meta);
 
             $delete = 0;
             if (!isset($meta['Class'])) {
