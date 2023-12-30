@@ -115,15 +115,78 @@ class Issues extends Model
         return $sx;
     }
     /******************************************************* 2024 - GetIssue From Work */
-    function getIssue4Work($id)
+    function getIssue4Work($ida, $meta=[])
         {
+            $RDF = new \App\Models\RDF2\RDF();
+            $Issue = new \App\Models\Base\Issues();
+            $IssueWorks = new \App\Models\Base\IssuesWorks();
+            $Source = new \App\Models\Base\Sources();
+
             $WorkIssue = new \App\Models\Base\IssuesWorks();
             $cp = 'siw_issue as issue, is_year as year, is_vol as vol, is_nr as nr, is_thema as thema, jnl_name as journal, id_jnl';
             $dt = $WorkIssue
                 ->select($cp)
-                ->join('source_issue', 'id_is = siw_issue')
+                ->join('source_issue', 'is_source_issue = siw_issue')
                 ->join('brapci.source_source', 'id_jnl = is_source')
+                ->where('siw_work_rdf',$ida)
                 ->first();
+
+            if ($dt != [])
+                {
+                   return $dt;
+                }
+                else
+                {
+                    $issue = $RDF->extract($meta, 'hasPublicationIssueOf','A');
+                    if ($issue != [])
+                        {
+                            $dr = [];
+                            $jnl_rdf = $RDF->extract($meta, 'isPartOfSource','A');
+                            if ($jnl_rdf != [])
+                                {
+                                    $Src = $Source->where('jnl_frbr',$jnl_rdf[0])->first();
+                                    $dr['journal'] = $Src['jnl_name'];
+                                    $dr['id_jnl'] = $Src['id_jnl'];
+                                } else {
+                                    echo "Erro de coleta do Journal (Issue)";
+                                    exit;
+                                }
+
+                            $dti = $this->getMetada($issue[0]);
+                            $dr['issue'] = $issue[0];
+                            $dr['year'] = $dti['YEAR'];
+                            $dr['vol'] = $dti['VOL'];
+                            $dr['nr'] = $dti['NR'];
+                            $dr['thema'] = '';
+
+                            $dt = [];
+                            $dt['is_visible'] = 1;
+                            $dt['is_source'] = $dr['id_jnl'];
+                            $dt['is_source_issue'] = $issue[0];
+                            $dt['is_year'] = $dr['year'];
+                            $dt['is_vol'] = $dr['vol'];
+                            $dt['is_vol_roman'] = '';
+                            $dt['is_nr'] = $dr['nr'];
+                            $this->register($dt);
+
+                            $IssueWorks->register($dr['id_jnl'], $issue[0], $ida);
+                            sleep(1);
+
+                            $dt = $WorkIssue
+                            ->select($cp)
+                                ->join('source_issue', 'is_source_issue = siw_issue')
+                                ->join('brapci.source_source', 'id_jnl = is_source')
+                                ->where('siw_work_rdf', $ida)
+                                ->first();
+                            return $dt;
+                        }
+
+                    $source = $RDF->extract($meta, 'hasSource');
+                    echo h("ISSUE Não localizado");
+                    echo $WorkIssue->getlastquery();
+                    pre($dt,false);
+                    exit;
+                }
             return $dt;
         }
 
@@ -152,9 +215,9 @@ class Issues extends Model
 
     function check_issues_journal_article()
         {
-            $RDF = new \App\Models\Rdf\RDF();
+            $RDF = new \App\Models\RDF2\RDF();
             $prop = $RDF->getClass('isPubishIn');
-            $RDFdata = new \App\Models\Rdf\RDFData();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
 
             $cp = 'class.c_class, prop.c_class, id_cc, id_d, d_r1, d_r2';
             //$cp = '*';
@@ -198,9 +261,9 @@ class Issues extends Model
 
     function check_issues_type()
         {
-            $RDF = new \App\Models\Rdf\RDF();
+            $RDF = new \App\Models\RDF2\RDF();
             $prop = $RDF->getClass('hasIssue');
-            $RDFdata = new \App\Models\Rdf\RDFData();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
 
             $dt = $RDFdata->select('class.c_class, prop.c_class, id_cc, id_d')
             ->join('rdf_concept','d_r2 = id_cc')
@@ -225,7 +288,7 @@ class Issues extends Model
     {
         $sx = '';
         /************************************************* IssueProceeding */
-        $RDFConcept = new \App\Models\Rdf\RDFConcept();
+        $RDFConcept = new \App\Models\RDF2\RDFconcept();
         $Issue = new \App\Models\Base\Issues();
 
         $dt = $Issue
@@ -267,8 +330,8 @@ class Issues extends Model
                 return $sx;
             }
         /************************************************* IssueProceeding */
-        $RDFConcept = new \App\Models\Rdf\RDFConcept();
-        $RDFData = new \App\Models\Rdf\RDFData();
+        $RDFConcept = new \App\Models\RDF2\RDFconcept();
+        $RDFData = new \App\Models\RDF2\RDFdata();
         $dt = $RDFConcept->countClass('IssueProceeding');
         if ($dt['total'] > 0)
             {
@@ -300,8 +363,8 @@ class Issues extends Model
     function checkIssues()
         {
             $sx = '';
-            $RDFConcept = new \App\Models\Rdf\RDFConcept();
-            $RDF = new \App\Models\Rdf\RDF();
+            $RDFConcept = new \App\Models\RDF2\RDFconcept();
+            $RDF = new \App\Models\RDF2\RDF();
             $Class = 'Issue';
             $c1 = $RDF->getClass($Class);
 
@@ -358,7 +421,7 @@ class Issues extends Model
         function getIssue($id)
             {
                 $sx = '';
-                $RDF = new \App\Models\Rdf\RDF();
+                $RDF = new \App\Models\RDF2\RDF();
                 $dt = $RDF->le($id);
                 if ($dt == [])
                     {
@@ -416,7 +479,7 @@ class Issues extends Model
 
         function getDadosIssue($dt)
             {
-                $RDF = new \App\Models\Rdf\RDF();
+                $RDF = new \App\Models\RDF2\RDF();
                 $Metadata = new \App\Models\Base\Metadata();
                 $prop = $dt['data'];
                 $RSP = [];
@@ -808,8 +871,8 @@ class Issues extends Model
     function v($dt)
     {
         $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
-        $RDFdata = new \App\Models\Rdf\RDFData();
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
         $sx .= bs(bsc(h('Class: ' . $dt['concept']['c_class'], 4), 12));
 
         $sx .= $RDFdata->view_data($dt);

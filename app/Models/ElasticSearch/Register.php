@@ -521,12 +521,18 @@ class Register extends Model
             {
                 /**************************************** Legend Article */
                 case 'Article':
+                    if (!is_array($data['Issue']))
+                        {
+                            echo h("OPS, Issue is string, LEGEND");
+                            PRE($data, false);
+                        }
                     $da['LEGEND'] = $data['Issue']['journal'];
+
                     if ($data['Issue']['vol'] != '') { $da['LEGEND'] .= ', v. '. $data['Issue']['vol']; }
                     if ($data['Issue']['nr'] != '') { $da['LEGEND'] .= ', n. '. $data['Issue']['nr']; }
                     if ($data['Issue']['year'] != '') { $da['LEGEND'] .= ', '. $data['Issue']['year']; }
-                    $da['JOURNAL'] = 1;
-                    $da['ISSUE'] = 1;
+                    $da['JOURNAL'] = $data['Issue']['id_jnl'];
+                    $da['ISSUE'] = $data['Issue']['issue'];
                 break;
 
                 /**************************************** Legend Proceeding */
@@ -535,8 +541,8 @@ class Register extends Model
                     if ($data['Issue']['year'] != '') {
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
                     }
-                    $da['JOURNAL'] = 1;
-                    $da['ISSUE'] = 1;
+                    $da['JOURNAL'] = X;
+                    $da['ISSUE'] = X;
                     break;
 
                 /**************************************** Legend Book */
@@ -545,8 +551,8 @@ class Register extends Model
                     if ($data['Issue']['year'] != '') {
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
                     }
-                    $da['JOURNAL'] = 1;
-                    $da['ISSUE'] = 1;
+                    $da['JOURNAL'] = 0;
+                    $da['ISSUE'] = 0;
                     break;
 
                 case 'BookChapter':
@@ -554,8 +560,8 @@ class Register extends Model
                     if ($data['Issue']['year'] != '') {
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
                     }
-                    $da['JOURNAL'] = 1;
-                    $da['ISSUE'] = 1;
+                    $da['JOURNAL'] = 0;
+                    $da['ISSUE'] = 0;
                     break;
 
                 default:
@@ -628,12 +634,6 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
-
-        if ($data['AUTHORS'] == '')
-            {
-
-            }
-
         $this->check($data, true, $id);
 
         /* NOVO REGISTRO */

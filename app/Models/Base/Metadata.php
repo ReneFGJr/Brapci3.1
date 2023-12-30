@@ -171,18 +171,15 @@ class Metadata extends Model
                     }
 
                     /********************************** Issue */
-                    $ISU = $Issue->getIssue4Work($M['ID']);
+                    $ISU = $Issue->getIssue4Work($M['ID'],$meta);
                     $M['Issue'] = $ISU;
                     if (isset($ISU['year']))
                         {
                             $M['YEAR'] = $ISU['year'];
                             $M['ISSUE'] = $ISU['issue'];
-
                         }
                 }
             }
-
-
             /********************************** Cover */
             switch ($M['Class']) {
                 case 'BookChapter':
