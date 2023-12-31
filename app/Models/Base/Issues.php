@@ -194,9 +194,9 @@ class Issues extends Model
                                     $nnn = explode(":",$nnn);
                                     $id_jnl = round(substr($nnn[2],0,5));
                                     $Src = $Source->where('id_jnl', $id_jnl)->first();
-                                    pre($Src);
-                                    exit;
+                                    $jnl_rdf = [$Src['jnl_frbr']];
                                 }
+                            /********** Recupera Normal */
                             if ($jnl_rdf != [])
                                 {
                                     $Src = $Source->where('jnl_frbr',$jnl_rdf[0])->first();
