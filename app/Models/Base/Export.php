@@ -520,7 +520,8 @@ class Export extends Model
             }
         }
         $sx .= '</ul>';
-        $sx .= 'FIM';
+        $sx .= '<br>FIM: ' . date("Y-m-d H:i:s");
+
         return $sx;
     }
 }
