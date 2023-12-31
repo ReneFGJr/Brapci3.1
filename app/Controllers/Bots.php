@@ -12,7 +12,7 @@ define("PATH", getenv("app.baseURL") . getenv("app.baseURL.prefix"));
 define("COLLECTION", '/bots');
 define("PREFIX", '');
 define("LIBRARY", '0000');
-define("VERSION_BOT", 'v0.23.01.11');
+define("VERSION_BOT", 'v0.23.12.30');
 
 class Bots extends BaseController
 {
@@ -33,6 +33,10 @@ class Bots extends BaseController
         $web = agent();
 
         switch ($act) {
+            case 'cron':
+                $Cron = new \App\Models\Bots\Cron();
+                $sx .= $Cron->index($act2, $act3);
+                break;
             case 'check':
                 $RDFCheck = new \App\Models\Rdf\RDFChecks();
                 switch($act2)

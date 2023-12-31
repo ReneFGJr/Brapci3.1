@@ -114,137 +114,18 @@ class Issues extends Model
         }
         return $sx;
     }
-    /******************************************************* 2024 - GetIssue From Work */
-    function getIssue4Work($ida, $meta=[])
+
+    function getIssue4Work($ID,$dt,$rg)
         {
-            $RDF = new \App\Models\RDF2\RDF();
-            $Issue = new \App\Models\Base\Issues();
-            $IssueWorks = new \App\Models\Base\IssuesWorks();
-            $Source = new \App\Models\Base\Sources();
-            $Register = new \App\Models\ElasticSearch\Register();
-
-            /************************* BOOK OU CHAPTER */
-            if (isset($meta['concept'])) {
-                //pre($meta, false);
-                $dr = [];
-                $class = $meta['concept']['c_class'];
-                /******************** Capítulo  */
-                if  ($class == 'BookChapter') {
-                    $book =  $RDF->extract($meta, 'hasBookChapter','A');
-                    if (isset($book[0]))
-                        {
-                            $dt = $Register
-                                ->where('ID', $book[0])
-                                ->first();
-                            if ($dt == [])
-                                {
-                                    echo "Livro não localizado, exporte primeiro o livro";
-                                    exit;
-                                }
-                            $dr['year'] =  $dt['YEAR'];
-                        } else {
-                            $dr['year'] =  2000;
-                        }
-                    $dr['issue'] = 0;
-                    $dr['vol'] = '';
-                    $dr['nr'] = '';
-                    $dr['thema'] = '';
-                    return $dr;
-
-
-                }
-
-                /******************** Capítulo  */
-                if ($class == 'Book') {
-                    $dr['year'] =  $RDF->extract($meta, 'wasPublicationInDate');
-                    $dr['issue'] = 0;
-                    $dr['vol'] = '';
-                    $dr['nr'] = '';
-                    $dr['thema'] = '';
-                    return $dr;
-                }
-            }
-
-
-            $WorkIssue = new \App\Models\Base\IssuesWorks();
-            $cp = 'siw_issue as issue, is_year as year, is_vol as vol, is_nr as nr, is_thema as thema, jnl_name as journal, id_jnl';
-            $dt = $WorkIssue
-                ->select($cp)
-                ->join('source_issue', 'is_source_issue = siw_issue')
-                ->join('brapci.source_source', 'id_jnl = is_source')
-                ->where('siw_work_rdf',$ida)
-                ->first();
-
-            if ($dt != [])
-                {
-                   return $dt;
-                }
-                else
-                {
-                    $issue = $RDF->extract($meta, 'hasPublicationIssueOf','A');
-                    if ($issue != [])
-                        {
-                            $dr = [];
-                            $jnl_rdf = $RDF->extract($meta, 'isPartOfSource','A');
-                            /********** Recupera Pelo nome */
-                            if ($jnl_rdf == [])
-                                {
-                                    $meta2 = $RDF->le($issue[0]);
-                                    $nnn = $meta2['concept']['n_name'];
-                                    $nnn = explode(":",$nnn);
-                                    $id_jnl = round(substr($nnn[2],0,5));
-                                    $Src = $Source->where('id_jnl', $id_jnl)->first();
-                                    $jnl_rdf = [$Src['jnl_frbr']];
-                                }
-                            /********** Recupera Normal */
-                            if ($jnl_rdf != [])
-                                {
-                                    $Src = $Source->where('jnl_frbr',$jnl_rdf[0])->first();
-                                    $dr['journal'] = $Src['jnl_name'];
-                                    $dr['id_jnl'] = $Src['id_jnl'];
-                                } else {
-                                    pre($jnl_rdf,false);
-                                    echo "Erro de coleta do Journal (Issue)";
-                                    pre($meta);
-                                    exit;
-                                }
-
-                            $dti = $this->getMetada($issue[0]);
-                            $dr['issue'] = $issue[0];
-                            $dr['year'] = $dti['YEAR'];
-                            $dr['vol'] = $dti['VOL'];
-                            $dr['nr'] = $dti['NR'];
-                            $dr['thema'] = '';
-
-                            $dt = [];
-                            $dt['is_visible'] = 1;
-                            $dt['is_source'] = $dr['id_jnl'];
-                            $dt['is_source_issue'] = $issue[0];
-                            $dt['is_year'] = $dr['year'];
-                            $dt['is_vol'] = $dr['vol'];
-                            $dt['is_vol_roman'] = '';
-                            $dt['is_nr'] = $dr['nr'];
-                            $this->register($dt);
-
-                            $IssueWorks->register($dr['id_jnl'], $issue[0], $ida);
-                            //sleep(1);
-
-                            $dt = $WorkIssue
-                            ->select($cp)
-                                ->join('source_issue', 'is_source_issue = siw_issue')
-                                ->join('brapci.source_source', 'id_jnl = is_source')
-                                ->where('siw_work_rdf', $ida)
-                                ->first();
-                            return $dt;
-                        }
-
-                    $source = $RDF->extract($meta, 'hasSource');
-                    echo h("ISSUE Não localizado");
-                    echo $WorkIssue->getlastquery();
-                    pre($dt,false);
-                    exit;
-                }
-            return $dt;
+            $ISU = [];
+            $ISU['year'] = $rg['is_year'];
+            $ISU['issue'] = $rg['is_source_issue'] ;
+            $ISU['vol'] = $rg['is_vol'];
+            $ISU['nr'] = $rg['is_nr'] ;
+            $ISU['thema'] = $rg['is_thema'];
+            $ISU['id_jnl'] = $rg['siw_journal'];
+            $ISU['journal'] = $rg['jnl_name'];
+            return $ISU;
         }
 
     function painel($id)

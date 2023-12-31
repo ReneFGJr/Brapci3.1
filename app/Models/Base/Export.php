@@ -43,6 +43,7 @@ class Export extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
     var $eof = 0;
+    var $debug = 0;
 
     function index($d1, $d2, $d3)
     {
@@ -262,7 +263,6 @@ class Export extends Model
     {
         $sx = '';
         $offset = round(0);
-        $limit = 50;
 
         $TYPE = $dta['task_id'];
         switch ($TYPE) {
@@ -350,14 +350,14 @@ class Export extends Model
             $sx .= view('Brapci/Headers/header', $data);
             $sx .= view('Brapci/Headers/navbar', $data);
         }
-        $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
 
         /**************************************************************/
         /**************************************************************/
         /**************************************************************/
         /********************************** CRIA METADADOS EXPORTACAO */
         /**************************************************************/
-
+        $limit = 1000;
+        $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
         $sx .= $this->export_data($class, $type, $offset, $limit);
 
         /********************************** ATUALIZA STATUS DOS ROBOS */
@@ -417,9 +417,21 @@ class Export extends Model
         return $sx;
     }
 
+    function difTime($di,$df,$label='')
+        {
+            if ($this->debug)
+            {
+            $d1 = $df[0].'.'.$df[1];
+            $d2 = $di[0].'.'.$di[1];
+            echo number_format($d1-$d2,25).' seg - '.$label.'='.'<br>';
+            }
+        }
+
     function export_data($class, $type, $offset, $limit)
     {
         echo metarefresh('', 10);
+        $nm = 0;
+        $di = hrtime();
         $RDF = new \App\Models\RDF2\RDF();
         $RDFClass = new \App\Models\RDF2\RDFclass();
         $RDFConcept = new \App\Models\RDF2\RDFconcept();
@@ -428,15 +440,22 @@ class Export extends Model
 
         $idc = $RDFClass->getClass($class, false);
 
+        echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++).' Total');
         $total = $RDFConcept->select('count(*) as total')
             ->where('cc_class', $idc)
             ->where('cc_status <> 99')
             ->findAll();
 
+        echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++).' Select');
         $ids = $RDFConcept
+            ->join('brapci.source_issue_work','siw_work_rdf = id_cc')
+            ->join('brapci.source_issue', 'is_source_issue = siw_issue')
+            ->join('brapci.source_source', 'id_jnl = siw_journal')
             ->where('cc_class', $idc)
             ->where('cc_status <> 99')
             ->findAll($limit, $offset);
+
+        echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Select END');
 
         if (count($ids) == 0) {
             $this->eof = 1;
@@ -447,12 +466,13 @@ class Export extends Model
 
         $total = $total[0]['total'];
 
-        $sx .= '<br>Processado: ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
+        $sx .= '<br>Processado: '.date("Y-m-d H:i:s") .' - ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
 
 
         foreach($ids as $idz=>$xline)
         {
+            echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Process '.$xline['id_cc']);
             $idr = $xline['id_cc'];
             $cline = $RDF->le($idr);
             $Metadata->metadata = [];
@@ -460,8 +480,9 @@ class Export extends Model
             /**************************************************************/
             /*************************************************** Metadata */
             /**************************************************************/
-            $Metadata->metadata($cline);
+            $Metadata->metadata($cline, $xline);
             $meta = $Metadata->metadata;
+            echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Metadata ' . $xline['id_cc']);
             //pre($meta,false);
 
             $delete = 0;
@@ -495,9 +516,11 @@ class Export extends Model
 
                 $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                     $ElasticRegister->data($idr, $meta) . '</li>';
+                //$sx .= '<li>' . strzero(trim($meta['ID']), 8) . '</li>';
             }
         }
         $sx .= '</ul>';
+        $sx .= 'FIM';
         return $sx;
     }
 }

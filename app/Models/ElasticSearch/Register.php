@@ -518,6 +518,9 @@ class Register extends Model
             }
         }
 
+
+
+
         /***************************************************** */
         switch($data['Class'])
             {

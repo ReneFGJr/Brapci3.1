@@ -95,7 +95,7 @@ class Metadata extends Model
     }
 
 
-    function metadata($meta, $erros = false)
+    function metadata($meta, $reg)
     {
         $M = [];
         $RDF = new \App\Models\RDF2\RDF();
@@ -147,6 +147,7 @@ class Metadata extends Model
                         'hasOrganizator' => 'Organizer',
                         'hasAuthor' => 'Authors',
                         'hasSubject' => 'Subject',
+                        'hasAbstract'=>'Abstract',
                         'hasCover' => 'Cover',
                         'isPublisher' => 'Editor',
                         'wasPublicationInDate' => 'Year',
@@ -176,7 +177,7 @@ class Metadata extends Model
                     }
 
                     /********************************** Issue */
-                    $ISU = $Issue->getIssue4Work($M['ID'], $meta);
+                    $ISU = $Issue->getIssue4Work($M['ID'], $meta, $reg);
                     $M['Issue'] = $ISU;
                     if (isset($ISU['year'])) {
                         $M['YEAR'] = $ISU['year'];
