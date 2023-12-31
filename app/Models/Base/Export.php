@@ -258,7 +258,8 @@ class Export extends Model
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');
 
         $menu['#CHECKS'] = "";
-        $menu[PATH . 'admin/export/without/Article'] = lang('brapci.article_without_issue') . ' ' . lang('brapci.article_without_issue');
+        $menu[PATH . 'admin/export/without/Article'] = lang('brapci.article_without_issue') . ' ' . lang('brapci.article_without_issue').' '. lang('brapci.articles');;
+        $menu[PATH . 'admin/export/without/proceeding'] = lang('brapci.article_without_issue') . ' ' . lang('brapci.article_without_issue').' '.lang('brapci.proceeding');;
 
         $sx = menu($menu);
         $sx = bs(bsc($sx));
@@ -542,6 +543,15 @@ class Export extends Model
                     ->where('cc_class', $idc)
                     ->where('cc_status <> 99')
                     ->findAll($limit, $offset);
+                    break;
+                case 'Proceeding':
+                    $ids = $RDFConcept
+                        ->join('brapci.source_issue_work', 'siw_work_rdf = id_cc')
+                        ->join('brapci.source_issue', 'is_source_issue = siw_issue')
+                        ->join('brapci.source_source', 'id_jnl = siw_journal')
+                        ->where('cc_class', $idc)
+                        ->where('cc_status <> 99')
+                        ->findAll($limit, $offset);
                     break;
                 case 'Book':
                     $ids = $RDFConcept

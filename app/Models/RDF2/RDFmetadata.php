@@ -265,6 +265,7 @@ class RDFmetadata extends Model
     {
         $LEGEND = new \App\Models\Metadata\Legend();
         $RDF = new \App\Models\RDF2\RDF();
+        $Issues = new \App\Models\Base\Issues();
         $ID = $dt['concept']['id_cc'];
         $da = $dt['data'];
         /************ DD*/
@@ -308,6 +309,11 @@ class RDFmetadata extends Model
         $ISSUE = array_merge($ISSUE1,$ISSUE2);
 
         if (isset($ISSUE[0])) {
+            $DTI = $Issues->where('is_source_issue',$ISSUE[0]['ID'])->first();
+            echo '==='. $ISSUE[0]['ID'];
+            pre($DTI);
+
+            pre($ISSUE);
             $dtIssue = $RDF->le($ISSUE[0]['ID']);
             $simpleIssue = true;
             $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
