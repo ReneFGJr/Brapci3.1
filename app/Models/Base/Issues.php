@@ -184,17 +184,18 @@ class Issues extends Model
                     $issue = $RDF->extract($meta, 'hasPublicationIssueOf','A');
                     if ($issue != [])
                         {
+                            $meta2 = $RDF->le($issue[0]);
                             $dr = [];
-                            $jnl_rdf = $RDF->extract($meta, 'isPartOfSource','A');
+                            $jnl_rdf = $RDF->extract($meta2, 'isPartOfSource','A');
                             if ($jnl_rdf != [])
                                 {
                                     $Src = $Source->where('jnl_frbr',$jnl_rdf[0])->first();
                                     $dr['journal'] = $Src['jnl_name'];
                                     $dr['id_jnl'] = $Src['id_jnl'];
                                 } else {
-                                    pre($jnl_rdf,false);
+                                    pre($issue,false);
                                     echo "Erro de coleta do Journal (Issue)";
-                                    pre($meta);
+                                    pre($meta2);
                                     exit;
                                 }
 
