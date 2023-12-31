@@ -191,7 +191,8 @@ class Issues extends Model
                                 {
                                     $meta2 = $RDF->le($issue[0]);
                                     $nnn = $meta2['concept']['n_name'];
-                                    echo h($nnn);
+                                    $nnn = explode(":",$nnn);
+                                    pre($nnn);
                                     exit;
                                 }
                             if ($jnl_rdf != [])
