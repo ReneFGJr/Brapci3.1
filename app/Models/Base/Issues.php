@@ -192,7 +192,9 @@ class Issues extends Model
                                     $meta2 = $RDF->le($issue[0]);
                                     $nnn = $meta2['concept']['n_name'];
                                     $nnn = explode(":",$nnn);
-                                    pre($nnn);
+                                    $id_jnl = round($nnn[2],0,5);
+                                    $Src = $Source->where('id_jnl', $id_jnl)->first();
+                                    pre($Src);
                                     exit;
                                 }
                             if ($jnl_rdf != [])
