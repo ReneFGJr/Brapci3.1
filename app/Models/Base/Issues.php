@@ -386,7 +386,6 @@ class Issues extends Model
                 $dt = $this
                     ->set($dt)
                     ->where('is_source_issue',$dt['is_source_issue'])
-                    ->orwhere('xx_is_issue', $dt['is_source_issue'])
                     ->first();
                 if ($dt == '')
                     {
@@ -433,7 +432,6 @@ class Issues extends Model
                         switch($prop)
                             {
                                 case 'hasIssue':
-                                    array_push($w,$dd2);
                                     array_push($w, $dd1);
                                     break;
                                 case 'hasPlace':

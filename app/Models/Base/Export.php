@@ -52,6 +52,9 @@ class Export extends Model
         $bread['Admin'] = PATH . '/admin';
         $sx .= breadcrumbs($bread);
         switch ($d1) {
+            case 'without':
+                $sx .= $this->export_data_without($d2);
+                break;
             case 'index':
                 $RDFExport = new \App\Models\Rdf\RDFExport();
                 $sx .= $RDFExport->export($d2, $d3);
@@ -254,6 +257,9 @@ class Export extends Model
         $menu['#BOTS'] = "";
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');
 
+        $menu['#CHECKS'] = "";
+        $menu[PATH . 'admin/export/without/Article'] = lang('brapci.article_without_issue') . ' ' . lang('brapci.article_without_issue');
+
         $sx = menu($menu);
         $sx = bs(bsc($sx));
         return $sx;
@@ -425,6 +431,84 @@ class Export extends Model
             $d2 = $di[0].'.'.$di[1];
             echo number_format($d1-$d2,25).' seg - '.$label.'='.'<br>';
             }
+        }
+
+    function export_data_without($class)
+        {
+        $sx = '';
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFClass = new \App\Models\RDF2\RDFclass();
+        $RDFConcept = new \App\Models\RDF2\RDFconcept();
+        $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
+        $Issue = new \App\Models\Base\Issues();
+        $IssuesWorks = new \App\Models\Base\IssuesWorks();
+
+
+        $idc = $RDFClass->getClass($class, false);
+
+        $ids = $RDFConcept
+            ->join('brapci.source_issue_work','siw_work_rdf = id_cc', 'left')
+            ->join('brapci.source_issue', 'is_source_issue = siw_issue', 'left')
+            //->join('brapci.source_source','id_jnl = siw_journal', 'left')
+            ->where('cc_class', $idc)
+            ->where('cc_status <> 99')
+            ->where('siw_issue is null')
+            ->findAll(100);
+            //echo $RDFConcept->getlastquery();
+
+            if (count($ids) > 0)
+                {
+                    $sx .= metarefresh('',5);
+                }
+            foreach($ids as $id=>$line)
+                {
+                    $ID = $line['id_cc'];
+                    $dt = $RDF->le($ID);
+
+                    if ($dt['data'] == [])
+                        {
+                            $RDFtools->reimport($ID);
+                            $dt = $RDF->le($ID);
+                            $sx .= '<li>Importando ... '.$ID.'</li>';
+                            if ($dt['data'] == [])
+                                {
+                                    $sx .= '<li>Deletado '.$ID.'</li>';
+                                    $RDFConcept->updateStatus($ID,99);
+                                } else {
+                                    echo h("OK");
+                                    pre($dt);
+                                }
+                        } else {
+                            $issue1 = $RDF->extract($dt, 'hasPublicationIssueOf','A');
+
+                            //$issue2 = $RDF->extract($dt, 'hasPublicationIssueOf');
+                            if ($issue1 != [])
+                                {
+                                    $sx .= '<li>Importando Registros de ISSUE - ' . $issue1[0] . '</li>';
+                                    $DTI = $Issue->where('is_source_issue',$issue1[0])->first();
+                                    //$sx .= '<li>'.$Issue->getlastquery().'</li>';
+                                    if (isset($DTI['is_source_issue']))
+                                        {
+                                            $IssuesWorks->register($DTI['is_source'],$DTI['is_source_issue'],$ID);
+                                            $sx .= '<li>Atualizado '.$ID.'</li>';
+                                        } else {
+                                            $sx .= "<li>ISSUE NÂO EXISTE $ID </li>";
+                                            $SRC = $RDF->extract($dt, 'hasPublicationIssueOf','A');
+                                            if (isset($SRC[0]))
+                                                {
+                                                    $DTI = $RDF->le($SRC[0]);
+                                                    $DTO = $Issue->getDadosIssue($DTI);
+                                                    $DTO['is_source_issue'] = $issue1[0];
+                                                    $Issue->register($DTO);
+                                                    $sx .= '<li>ISSUE Registrado ' . $SRC[0] . '</li>';
+                                                } else {
+                                                    $sx .= '<li>ISSUE Não localizado na base de dados '.$SRC[0].'</li>';
+                                                }
+                                        }
+                                }
+                        }
+                }
+            return $sx;
         }
 
     function export_data($class, $type, $offset, $limit)

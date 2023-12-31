@@ -145,4 +145,10 @@ class RDFconcept extends Model
                 ->findAll();
             return $dt;
         }
+
+    function updateStatus($id,$status)
+        {
+            $dt['cc_status'] = $status;
+            $this->set($dt)->where('id_cc',$id)->update();
+        }
 }
