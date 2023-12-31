@@ -184,11 +184,16 @@ class Issues extends Model
                     $issue = $RDF->extract($meta, 'hasPublicationIssueOf','A');
                     if ($issue != [])
                         {
-                            echo '===>ISSUE:'.$issue[0].'<br>';
-                            $meta2 = $RDF->le($issue[0]);
-                            pre($meta2);
                             $dr = [];
                             $jnl_rdf = $RDF->extract($meta, 'isPartOfSource','A');
+                            /********** Recupera Pelo nome */
+                            if ($jnl_rdf == [])
+                                {
+                                    $meta2 = $RDF->le($issue[0]);
+                                    $nnn = $meta2['concept']['n_name'];
+                                    echo h($nnn);
+                                    exit;
+                                }
                             if ($jnl_rdf != [])
                                 {
                                     $Src = $Source->where('jnl_frbr',$jnl_rdf[0])->first();
