@@ -193,6 +193,7 @@ class Issues extends Model
                                     $dr['id_jnl'] = $Src['id_jnl'];
                                 } else {
                                     echo "Erro de coleta do Journal (Issue)";
+                                    pre($meta);
                                     exit;
                                 }
 
