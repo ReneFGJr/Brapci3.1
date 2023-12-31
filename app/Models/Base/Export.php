@@ -525,19 +525,42 @@ class Export extends Model
         $idc = $RDFClass->getClass($class, false);
 
         echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++).' Total');
+
         $total = $RDFConcept->select('count(*) as total')
             ->where('cc_class', $idc)
             ->where('cc_status <> 99')
             ->findAll();
 
         echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++).' Select');
-        $ids = $RDFConcept
-            ->join('brapci.source_issue_work','siw_work_rdf = id_cc')
-            ->join('brapci.source_issue', 'is_source_issue = siw_issue')
-            ->join('brapci.source_source', 'id_jnl = siw_journal')
-            ->where('cc_class', $idc)
-            ->where('cc_status <> 99')
-            ->findAll($limit, $offset);
+        switch($class)
+            {
+                case 'Article':
+                $ids = $RDFConcept
+                    ->join('brapci.source_issue_work', 'siw_work_rdf = id_cc')
+                    ->join('brapci.source_issue', 'is_source_issue = siw_issue')
+                    ->join('brapci.source_source', 'id_jnl = siw_journal')
+                    ->where('cc_class', $idc)
+                    ->where('cc_status <> 99')
+                    ->findAll($limit, $offset);
+                    break;
+                case 'Book':
+                    $ids = $RDFConcept
+                        ->where('cc_class', $idc)
+                        ->where('cc_status <> 99')
+                        ->findAll($limit, $offset);
+                    break;
+                case 'BookChapter':
+                    $ids = $RDFConcept
+                        ->where('cc_class', $idc)
+                        ->where('cc_status <> 99')
+                        ->findAll($limit, $offset);
+                    break;
+                default:
+                    echo h('Class:'.$class);
+                    exit;
+
+
+            }
 
         echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Select END');
 

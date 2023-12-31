@@ -117,7 +117,35 @@ class Issues extends Model
 
     function getIssue4Work($ID,$dt,$rg)
         {
+            $RDF = new \App\Models\RDF2\RDF();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $ISU = [];
+            if ($dt['concept']['c_class'] == 'Book')
+                {
+                    $ISU['year'] = $RDF->extract($dt, 'wasPublicationInDate');
+                    $ISU['id_jnl'] = 0;
+                    $ISU['journal'] = '';
+                    $ISU['issue'] = 0;
+                    return $ISU;
+                }
+
+                if ($dt['concept']['c_class'] == 'BookChapter') {
+                    $book = $RDF->extract($dt, 'hasBookChapter','A');
+                    if ($book == [])
+                        {
+                            echo metarefresh('',1);
+                            echo "Capítulo pedido, excluíndo $ID";
+                            $RDFconcept->updateStatus($ID,99);
+                            exit;
+                        }
+                    $DB = $RDF->le($book[0]);
+                    $ISU['year'] = $RDF->extract($DB, 'wasPublicationInDate');
+                    $ISU['id_jnl'] = 0;
+                    $ISU['journal'] = '';
+                    $ISU['issue'] = 0;
+                    return $ISU;
+                }
+
             $ISU['year'] = $rg['is_year'];
             $ISU['issue'] = $rg['is_source_issue'] ;
             $ISU['vol'] = $rg['is_vol'];
