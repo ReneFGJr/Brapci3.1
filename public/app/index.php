@@ -34,6 +34,7 @@ function res($pt)
                                 } else {
                                     e404();
                                 }
+                            break;
                         default:
                             e404();
                     }
@@ -42,7 +43,8 @@ function res($pt)
 
 function v($id)
     {
-        echo "===========".$id;
+        header("Location: https://brapci.inf.br/#/v/".$id);
+        die();
     }
 
 function e404()
