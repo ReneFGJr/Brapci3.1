@@ -44,6 +44,10 @@ class Abnt extends Model
 	{
 		switch($dt['Class'])
 			{
+				case 'Article':
+					$tela = $this->abnt_article($dt);
+					return $tela;
+					break;
 				case 'Issue':
 					$tela = '';
 					if (isset($dt['publisher'])) {
@@ -69,6 +73,7 @@ class Abnt extends Model
 				return $tela;
 				break;
 			}
+
 		switch ($type) {
 			case 'B':
 				$tela = $this->abnt_book($dt);
@@ -77,7 +82,7 @@ class Abnt extends Model
 				$tela = $this->abnt_proceeding($dt);
 				break;
 			default:
-				$tela = $this->abnt_article($dt);
+				$tela = $type;
 		}
 		return $tela;
 	}
@@ -293,46 +298,12 @@ class Abnt extends Model
 		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
-		if (isset($dt['Journal'])) {
-			$tela .= '. <b>' . nbr_title($dt['Journal'], 7) . '</b>';
-		}
-		/******************************** VOL */
-		if (isset($dt['issue']['issue_vol']) > 0) {
-			$nr = trim($dt['issue']['issue_vol']);
-			if (strlen($nr) > 0) {
-				if (strpos(' ' . $dt['issue']['issue_vol'], 'v.')) {
-					$tela .= ', ' . $dt['issue']['issue_vol'];
-				} else {
-					$tela .= ', v.' . $dt['issue']['issue_vol'];
-				}
-			}
-		}
-		/******************************** NR **/
-		if (isset($dt['legend']) and ($dt['legend'] != '')) {
-			$tela .= '. ' . $dt['legend'];
-		} else {
+		$tela .= '. ' . troca($dt['legend'],$dt['publisher'],'<b>'.$dt['publisher'].'</b>');
 
-			if (isset($dt['issue']['Issue_nr']) > 0) {
-				$nr = trim($dt['issue']['Issue_nr']);
-				if (strlen($nr) > 0) {
-					if (strpos(' ' . $dt['issue']['Issue_nr'], 'n.')) {
-						$tela .= ', ' . $dt['issue']['Issue_nr'];
-					} else {
-						$tela .= ', n.' . $dt['issue']['Issue_nr'];
-					}
-				}
-			}
-
-			if (isset($dt['issue']['year'])) {
-				$tela .= ', ' . trim($dt['issue']['year']);
-			} else {
-				$tela .= ', ' . '[????]';
-			}
-
-			if (isset($dt['pages'])) {
-				$tela .= ', p ' . $dt['pages'];
-			}
+		if (isset($dt['pages'])) {
+			$tela .= ', p ' . $dt['pages'];
 		}
+
 		$tela .= '.';
 
 		/******** LIMPAR */
