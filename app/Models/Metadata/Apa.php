@@ -46,6 +46,9 @@ class Apa extends Model
 	function show($dt, $type = 'A')
 	{
 		switch ($dt['Class']) {
+			case 'Article':
+				$tela = $this->apa_article($dt);
+				break;
 			case 'Issue':
 				$tela = '';
 				if (isset($dt['publisher'])) {
@@ -291,8 +294,8 @@ class Apa extends Model
 		$tela .= $this->authors($dt);
 
 		/*********************************** ANO */
-		if (isset($dt['issue']['year'])) {
-			$tela .= ' (' . trim($dt['issue']['year']) . ')';
+		if (isset($dt['year'])) {
+			$tela .= ' (' . trim($dt['year']) . ')';
 		} else {
 			$tela .= ' (????)';
 		}
@@ -300,33 +303,21 @@ class Apa extends Model
 
 		$tela .= '. ' . $title;
 
-		if (isset($dt['Journal'])) {
-			$tela .= '. ' . nbr_title($dt['Journal'], 7);
+		if (isset($dt['publisher'])) {
+			$tela .= '. ' . nbr_title($dt['publisher'], 7);
 		}
 
 
 
 		/******************************** VOL */
-		if (isset($dt['issue']['issue_vol']) > 0) {
-			$nr = trim($dt['issue']['issue_vol']);
-			if (strlen($nr) > 0) {
-				if (strpos(' ' . $dt['issue']['issue_vol'], 'v.')) {
-					$tela .= '; ' . $dt['issue']['issue_vol'];
-				} else {
-					$tela .= '; ' . trim(troca($dt['issue']['issue_vol'], 'v.', ''));
-				}
-			}
+		if (isset($dt['Issue']['is_vol']) > 0) {
+			$nr = trim($dt['Issue']['is_vol']);
+			$tela .= '; ' . trim(troca($dt['Issue']['is_vol'], 'v.', ''));
 		}
 		/******************************** NR **/
-		if (isset($dt['issue']['Issue_nr']) > 0) {
-			$nr = trim($dt['issue']['Issue_nr']);
-			if (strlen($nr) > 0) {
-				if (strpos(' ' . $dt['issue']['Issue_nr'], 'n.')) {
-					$tela .= '(' . trim(troca($dt['issue']['Issue_nr'], 'n.', '')) . ')';
-				} else {
-					$tela .= '(' . $dt['issue']['Issue_nr'] . ')';
-				}
-			}
+		if (isset($dt['Issue']['is_nr']) > 0) {
+			$nr = trim($dt['Issue']['is_nr']);
+			$tela .= '(' . trim(troca($dt['Issue']['is_nr'], 'n.', '')) . ')';
 		}
 
 
