@@ -257,13 +257,13 @@ class Abnt extends Model
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($line['name'], 2);
+					$authors .= nbr_author(ascii($line['name']), 2);
 				}
 				$authors .= '. ';
 			} else {
 				foreach($dt['creator_author'] as $idk=>$line)
 					{
-						$authors .= nbr_author($line['name'], 2);
+						$authors .= nbr_author(ascii($line['name']), 2);
 						$authors .= '; <i>et al.</i> ';
 						break;
 					}

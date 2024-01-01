@@ -321,7 +321,6 @@ class Brapci extends Model
 
     function get($v, $id = 0)
     {
-
         $RDF = new \App\Models\RDF2\RDF();
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
         $dt = $RDF->le($id);
@@ -333,7 +332,6 @@ class Brapci extends Model
                 $RDFtools->importRDF($id);
                 $dt = $RDF->le($id);
             }
-
         switch($v)
             {
                 case 'v1':

@@ -255,7 +255,7 @@ class Apa extends Model
 							$authors .= ' & ';
 						}
 					}
-					$authors .= nbr_author($dt['creator_author'][$r]['name'], 2);
+					$authors .= nbr_author(ascii($dt['creator_author'][$r]['name']), 2);
 				}
 				$authors .= '. ';
 			} else {
@@ -263,9 +263,9 @@ class Apa extends Model
 					if ($authors != '') {
 						$authors .= ', ';
 					}
-					$authors .= nbr_author($dt['creator_author'][$r]['name'], 2);
+					$authors .= nbr_author(ascii($dt['creator_author'][$r]['name']), 2);
 				}
-				$authors .= '... ' . nbr_author($dt['creator_author'][($total - 1)]['name'], 2);
+				$authors .= '... ' . nbr_author(ascii($dt['creator_author'][($total - 1)]['name']), 2);
 			}
 			$sx .= $authors;
 		}

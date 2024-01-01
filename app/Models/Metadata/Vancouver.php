@@ -253,12 +253,12 @@ class Vancouver extends Model
 					if ($authors != '') {
 						$authors .= '; ';
 					}
-					$authors .= nbr_author($line['name'], 3);
+					$authors .= nbr_author(ascii($line['name']), 3);
 				}
 			} else {
 				if ($total > 0)
 				{
-					$authors .= nbr_author($dt['creator_author'][0]['name'], 3);
+					$authors .= nbr_author(ascii($dt['creator_author'][0]['name']), 3);
 					$authors .= '; <i>et al.</i> ';
 					$etal = true;
 				}

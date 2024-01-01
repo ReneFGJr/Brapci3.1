@@ -168,10 +168,17 @@ function nbr_author($xa,$xp)
                     /* Sobrenome e Nome CURTO*/
                     case '2':
                         $TOT = count($NM2);
+                        $nt = 1;
                         foreach ($NM2 as $id=>$xname)
                             {
                                 $Fname = $xname;
-                                $name .= substr($xname, 0, 1) . '. ';
+
+                                if ($nt < $TOT)
+                                    {
+                                        $name .= substr($xname, 0, 1) . '. ';
+                                    }
+                                $nt++;
+
                             }
                         $Fname .= ', ';
                         $name = $Fname.$name;
