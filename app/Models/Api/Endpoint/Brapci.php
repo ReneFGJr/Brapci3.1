@@ -323,7 +323,8 @@ class Brapci extends Model
     {
         $RDF = new \App\Models\RDF2\RDF();
         $Views = new \App\Models\Functions\Views();
-        //$Downloads = new \App\Models\Functions\
+        $Downloads = new \App\Models\Functions\Download();
+        $Likes = new \App\Models\Functions\Likes();
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
 
         /* Monitoramento de Visualizações */
@@ -352,6 +353,8 @@ class Brapci extends Model
 
         $RSP['Class'] = $dt['concept']['c_class'];
         $RSP['Views'] = $Views->views($id);
+        $RSP['Download'] = $Downloads->views($id);
+        $RSP['Likes'] = $Likes->views($id);
 
 
         /************************************************* ABNT */
