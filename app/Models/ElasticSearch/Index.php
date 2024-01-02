@@ -345,7 +345,7 @@ class Index extends Model
 
 	function show_error($d1,$d2,$d3)
 		{
-			$RDF = new \App\Models\Rdf\RDF();
+			$RDF = new \App\Models\RDF2\RDF();
 			$sx = '';
 			switch($d1)
 				{
@@ -360,15 +360,16 @@ class Index extends Model
 							{
 								case 'pdf':
 									$sx .= h('PDF Erros',2);
-									$dt = $API->select('ID')->where('PDF',0)->findAll();
+									$dt = $API->where('PDF',0)->findAll();
 									$sx .= h('Total: ' . count($dt), 6);
-									foreach($dt as $id=>$ida)
+									foreach($dt as $id=>$line)
 										{
 											$link = '<a href="'.
-												PATH.'/v/'.$ida['ID'].
+												'https://brapci.inf.br/#/v/'. $line['ID'].
 												'" target="_blank">';
 											$linka = '</a>';
-											$sx .= '<li>'.$link.$RDF->c($ida['ID']).$linka.'</li>'.cr();
+											$name = $line['CLASS'].': '.$line['ID'];
+											$sx .= '<li>'.$link.$name.$linka.'</li>'.cr();
 										}
 								break;
 							}

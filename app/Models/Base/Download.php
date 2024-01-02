@@ -113,11 +113,14 @@ class Download extends Model
         }
 
         if (strpos($name, '/XIXENANCIB/') or (strpos($name, 'xviiienancib/'))) {
+            $nameO = $name;
             $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
-            $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
-            $dt['n_name'] = $name;
-            $RDFLiteral->set($dt)->where('id_n', $dt['id_n'])->update();
+            $RDFLiteral = new \App\Models\RDF2\RDFliteral();
+            $dtd = $RDFLiteral->where('n_name',$nameO)->first();
+            $ddd = $RDFLiteral->first();
+            $ddd['n_name'] = $name;
+            $RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
         }
 
         if (substr($name, 0, 4) == 'http') {
@@ -144,13 +147,8 @@ class Download extends Model
 
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
-
-                //echo "<br>===" . $idc;
-                //echo "<br>===" . $filePDF;
-
                 $id = $this->create_FileStorage($idc, $filePDF);
-
-                echo metarefresh('', 5);
+                echo metarefresh('', 1);
             }
         }
     }
@@ -175,6 +173,11 @@ class Download extends Model
         $prop = 'hasFileStorage';
         $id_prop = $RDFproperty->getProperty($prop);
         $RDFdata->register($id, $id_prop, $r2, 0);
+
+        /************ Atualizar Dataset */
+        $Elastic = new \App\Models\ElasticSearch\Register();
+        $dd['PDF'] = 1;
+        $Elastic->set($dd)->where('ID',$id)->update();
         return $r2;
     }
 
