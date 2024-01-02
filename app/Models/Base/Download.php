@@ -121,6 +121,8 @@ class Download extends Model
             $ddd = $RDFLiteral->first();
             $ddd['n_name'] = $name;
             $RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
+            echo '=='. $RDFLiteral->getlastquery();
+            exit;
         }
 
         if (substr($name, 0, 4) == 'http') {
