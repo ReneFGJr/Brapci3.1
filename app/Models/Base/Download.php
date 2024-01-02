@@ -118,14 +118,13 @@ class Download extends Model
             $nameO = $name;
             $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
-            $name = troca($name,'www.periodicos.ufpb.br/ojs/', 'www.pbcib.com');
+            $name = troca($name, 'http://www.periodicos.ufpb.br/ojs/', 'https://www.pbcib.com/');
+
             $RDFLiteral = new \App\Models\RDF2\RDFliteral();
             $dtd = $RDFLiteral->where('n_name',$nameO)->first();
             $ddd = $RDFLiteral->first();
             $ddd['n_name'] = $name;
             $RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
-            echo '=='. $RDFLiteral->getlastquery();
-            exit;
         }
 
         if (substr($name, 0, 4) == 'http') {
