@@ -38,6 +38,9 @@ class Download extends BaseController
             case 'Proceeding':
                 $id = $this->download_01($dt);
                 break;
+            case 'Book':
+                $id = $this->download_01($dt);
+                break;
             default:
                 echo "Download Class:".$class;
                 exit;
