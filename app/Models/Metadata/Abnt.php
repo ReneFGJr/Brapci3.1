@@ -44,6 +44,10 @@ class Abnt extends Model
 	{
 		switch($dt['Class'])
 			{
+				case 'Proceeding':
+					$tela = $this->abnt_proceeding($dt);
+					return $tela;
+					break;
 				case 'Article':
 					$tela = $this->abnt_article($dt);
 					return $tela;
