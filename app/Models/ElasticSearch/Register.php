@@ -492,6 +492,8 @@ class Register extends Model
                 $da['TITLE'] = ':: Sem titulo ::';
             }
 
+            pre($da);
+
         /********************************************** COVER */
         if (isset($data['COVER']))
             {
