@@ -130,6 +130,7 @@ class Download extends Model
         }
 
         if (substr($name, 0, 4) == 'http') {
+            $name = troca($name, 'http://', 'https://');
             $url = $name;
             echo h('<a href="' . $url . '">' . $url . '</a>', 5);
             $fileURL = $this->ocs_2($url);
