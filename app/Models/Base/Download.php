@@ -111,7 +111,7 @@ class Download extends Model
 
         if (substr($name, 0, 4) == 'http') {
             $url = $name;
-            echo h($url, 5);
+            echo h('<a href="'.$url.'">'.$url. '</a>', 5);
             $fileURL = $this->ocs_2($url);
 
             if (substr($fileURL, 0, 4) == 'http') {
