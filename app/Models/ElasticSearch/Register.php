@@ -434,9 +434,6 @@ class Register extends Model
             $da['YEAR'] = $data['YEAR'];
         }
 
-        if ((isset($data['JOURNAL'])) and ($data['JOURNAL'] != '')) {
-            $da['JOURNAL'] = $data['JOURNAL'];
-        }
         /**************************** KEYWORDS */
         if (isset($data['Keywords'])) {
             $da['KEYWORD'] = 1;
@@ -463,6 +460,7 @@ class Register extends Model
         } else {
             $data['PDF'] = 0;
         }
+        pre($data,false);
         if (isset($data['Issue']['JOURNAL']))
             {
                 $da['JOURNAL'] = $data['Issue']['JOURNAL'];
