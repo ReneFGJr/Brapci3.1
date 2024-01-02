@@ -29,13 +29,13 @@ class Download extends BaseController
                 return $sx;
             }
 
+            pre($dt);
+
         $class = $dt['concept']['c_class'];
 
         switch ($class) {
             case 'Article':
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
-                pre($id);
-                exit;
                 /* Se não identificado o PDF */
                 if (!isset($id[0]))
                     {
