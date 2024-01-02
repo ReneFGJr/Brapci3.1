@@ -568,8 +568,6 @@ class Export extends Model
                 default:
                     echo h('Class:'.$class);
                     exit;
-
-
             }
 
         echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Select END');
@@ -599,6 +597,7 @@ class Export extends Model
             /**************************************************************/
             $Metadata->metadata($cline, $xline);
             $meta = $Metadata->metadata;
+            pre($meta);
             echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Metadata ' . $xline['id_cc']);
             //pre($meta,false);
 
