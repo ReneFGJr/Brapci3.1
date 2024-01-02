@@ -546,7 +546,8 @@ class Register extends Model
                     if ($data['Issue']['year'] != '') {
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
                     }
-                    $da['JOURNAL'] = $data['Issue']['journal'];
+                    $da['JOURNAL'] = $data['Issue']['id_jnl'];
+                    $da['PUBLISHER'] = $data['Issue']['journal'];
                     $da['ISSUE'] = $data['Issue']['issue'];
                     break;
 
