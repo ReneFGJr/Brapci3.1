@@ -491,7 +491,7 @@ class Register extends Model
             } else {
                 $da['TITLE'] = ':: Sem titulo ::';
             }
-
+            pre($data,false);
             pre($da);
 
         /********************************************** COVER */
