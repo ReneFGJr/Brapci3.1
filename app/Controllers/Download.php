@@ -57,18 +57,20 @@ class Download extends BaseController
 
     function download_01($dt)
         {
+            $ida = $dt['concept']['id_cc'];
+
             $RDF = new \App\Models\RDF2\RDF();
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
                 /* Se não identificado o PDF */
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
-                        echo "Tenta recuperar PDF";
-                        foreach($dt['data'] as $id=>$line)
+                        echo "Tentando recuperar PDF";
+                        foreach($dt['data'] as $idz=>$line)
                             {
                                 if (trim($line['Property']) == 'hasRegisterId')
                                     {
-                                        $Download->download_methods($line, $id);
+                                        $Download->download_methods($line, $ida);
                                     }
                             }
                         $id = $RDF->extract($dt, 'hasFileStorage');

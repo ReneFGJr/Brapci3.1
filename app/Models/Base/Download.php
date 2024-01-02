@@ -93,8 +93,19 @@ class Download extends Model
         return $sx;
     }
 
-    function download_methods($dt, $id)
+    function download_methods($dt, $idc)
     {
+        $RDF = new \App\Models\RDF2\RDF();
+
+        $IssueWorks = new \App\Models\Base\IssuesWorks();
+        $dw = $IssueWorks->where('siw_work_rdf', $idc)->first();
+        if ($dw == []) {
+            echo "Erro de Download methods WORK Issue";
+            exit;
+        }
+        $jnl = $dw['siw_journal'];
+
+
         if (isset($dt['Caption'])) {
             $name = $dt['Caption'];
         } else {
@@ -111,13 +122,14 @@ class Download extends Model
 
         if (substr($name, 0, 4) == 'http') {
             $url = $name;
-            echo h('<a href="'.$url.'">'.$url. '</a>', 5);
+            echo h('<a href="' . $url . '">' . $url . '</a>', 5);
             $fileURL = $this->ocs_2($url);
 
             if (substr($fileURL, 0, 4) == 'http') {
-                $DownloadPDF = new \App\Models\Bots\DownloadPDF();
-                $dir = $DownloadPDF->directory($id);
-                $filePDF = $dir . 'work_' . strzero($id, 8) . '.pdf';
+                echo "OK";
+                $dir = $this->directory($idc);
+                echo "OK2";
+                $filePDF = $dir . 'work_' . strzero($idc, 8) . '#' . strzero($jnl, 5) . '.pdf';
 
                 $data = array();
                 echo view('Brapci/Headers/header', $data);
@@ -127,14 +139,121 @@ class Download extends Model
                 echo 'Aguarde...';
                 echo '</center>';
 
-                echo metarefresh($fileURL,1);
-                exit;
+                //echo metarefresh($fileURL,5);
+                //exit;
 
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
-                $id = $DownloadPDF->create_FileStorage($id, $filePDF);
 
-                echo metarefresh('', 1);
+                //echo "<br>===" . $idc;
+                //echo "<br>===" . $filePDF;
+
+                $id = $this->create_FileStorage($idc, $filePDF);
+
+                echo metarefresh('', 5);
+            }
+        }
+    }
+
+    function create_FileStorage($id, $filename)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+
+        $dt = [];
+        $dt['Name'] = $filename;
+        $dt['Lang'] = 'nn';
+        $dt['Class'] = 'FileStorage';
+
+        $id_prop = $RDFproperty->getProperty('hasFileStorage');
+
+        $r2 = $RDFconcept->createConcept($dt);
+        $this->updatePropierties($r2);
+
+        $prop = 'hasFileStorage';
+        $id_prop = $RDFproperty->getProperty($prop);
+        $RDFdata->register($id, $id_prop, $r2, 0);
+        return $r2;
+    }
+
+    function updateLiteral($id, $pr, $name, $lang = 'nn')
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+        $RDFLiteral = new \App\Models\RDF2\RDFliteral();
+
+        $idp = $RDFproperty->getProperty($pr);
+        $idl = $RDFLiteral->register($name, $lang);
+        echo 'LDL>'. $idl.'<br>';
+        $idd = $RDFdata
+            ->where('d_r1', $id)
+            ->where('d_p', $idp)
+            ->first();
+        if ($idd == []) {
+            $d = [];
+            $d['d_r1'] = $id;
+            $d['d_p'] = $idp;
+            $d['d_r2'] = 0;
+            $d['d_literal'] = $idl;
+            $RDFdata->set($d)->insert();
+        } else {
+            $d = [];
+            $d['d_literal'] = $idl;
+            $RDFdata->set($d)->where('id_d', $idd['id_d']);
+        }
+    }
+
+    function updatePropierties($id)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFLiteral = new \App\Models\RDF2\RDFliteral();
+        $dt = $RDF->le($id);
+        $prop = [
+            'hasFileType' => 'FileType',
+            'hasFileSize' => 'Literal',
+            'prefLabel' => 'Literal',
+            'hasDateTime' => 'Date',
+            'hasFileStorage'=>'ID'
+        ];
+
+        $file = $dt['concept']['n_name'];
+        if (file_exists($file)) {
+            foreach ($prop as $pr => $cl) {
+                $pr = trim($pr);
+                echo '[' . $pr . '==' . $cl;
+                $dr = $RDF->extract($dt, $pr);
+
+                switch ($pr) {
+                    case 'hasFileType':
+                        $path_parts = pathinfo($file);
+                        $extension = UpperCase($path_parts['extension']);
+                        $dx = [];
+                        $dx['Name'] = $extension;
+                        $dx['Lang'] = 'nn';
+                        $dx['Class'] = $cl;
+                        $r3 = $RDFconcept->createConcept($dx);
+                        $id_prop = $RDFproperty->getProperty($pr);
+                        $RDFdata->register($id, $id_prop, $r3, 0);
+                        break;
+                    case 'hasDateTime':
+                        $date = date("Y-m-d");
+                        $this->updateLiteral($id,$pr,$date);
+                        break;
+                    case 'prefLabel':
+                        $file = date("Y-m-d");
+                        $this->updateLiteral($id, $pr, $file);
+                        break;
+                    case 'hasFileSize':
+                        $size = filesize($file);
+                        $this->updateLiteral($id, $pr, $size);
+                        break;
+                }
             }
         }
     }
@@ -234,5 +353,27 @@ class Download extends Model
                 }
                 break;
         }
+    }
+    function directory($id)
+    {
+        if ($id == 0) {
+            $dir = '../.tmp/pdf/';
+        } else {
+            $dir = '_repository/';
+            dircheck($dir);
+            $nr = strzero($id, 8);
+            $dir .= substr($nr, 0, 2) . '/';
+            $dir .= substr($nr, 2, 2) . '/';
+            $dir .= substr($nr, 4, 2) . '/';
+            $dir .= substr($nr, 6, 2) . '/';
+        }
+        $d = explode('/', $dir);
+        $dir = $d[0];
+        for ($r = 1; $r < count($d); $r++) {
+            $dir .= '/' . $d[$r];
+            //echo '<br>==>' . $dir;
+            dircheck($dir);
+        }
+        return $dir;
     }
 }

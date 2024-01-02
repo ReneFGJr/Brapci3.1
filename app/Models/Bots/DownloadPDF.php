@@ -220,63 +220,8 @@ class DownloadPDF extends Model
         return $fileO;
     }
 
-    function directory($id)
-    {
-        if ($id == 0) {
-            $dir = '../.tmp/pdf/';
-        } else {
-            $dir = '_repository/';
-            dircheck($dir);
-            $nr = strzero($id, 8);
-            $dir .= substr($nr, 0, 2) . '/';
-            $dir .= substr($nr, 2, 2) . '/';
-            $dir .= substr($nr, 4, 2) . '/';
-            $dir .= substr($nr, 6, 2) . '/';
-        }
-        $d = explode('/', $dir);
-        $dir = $d[0];
-        for ($r = 1; $r < count($d); $r++) {
-            $dir .= '/' . $d[$r];
-            //echo '<br>==>' . $dir;
-            dircheck($dir);
-        }
-        return $dir;
-    }
-    function create_FileStorage($id, $filename)
-    {
-        $RDF = new \App\Models\RDF2\RDF();
-        $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $RDFData = new \App\Models\RDF2\RDFdata();
-        $RDFLiteral = new \App\Models\RDF2\RDFliteral();
 
-        $dt = [];
-        $dt['name'] = $filename;
-        $dt['Class'] = 'FileStorage';
 
-        pre($dt);
-        $r2 = $RDFconcept->createConcept($dt);
-
-        /* TIPO DO ARQUIVO */
-        $r3 = $RDF->RDF_concept('PDF', 'FileType', 'pt-BR', '');
-        $prop = 'hasFileType';
-        $RDF->propriety($r2, $prop, $r3, 0);
-
-        /* Tamanho do Arquivo */
-        $prop = 'hasFileSize';
-        $size = filesize($filename);
-        $id_size = $RDFLiteral->name($size, 'pt-BR');
-        $RDF->propriety($r2, $prop, 0, $id_size);
-
-        /* DATA DA COLETA DO ARQUIVO */
-        $prop = 'hasDateTime';
-        $idd = $RDF->RDF_concept(DATE("Y-m-d"), 'Date');
-        $RDF->propriety($r2, $prop, $idd, 0);
-
-        $prop = 'hasFileStorage';
-        $RDF->propriety($id, $prop, $r2, 0);
-
-        return $r2;
-    }
 
     /*********************************************************** CHECK METHOD */
     function check_method($txt, $id)

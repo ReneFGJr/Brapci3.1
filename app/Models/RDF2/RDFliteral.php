@@ -50,9 +50,10 @@ class RDFliteral extends Model
             $lang = $Language->normalize($lang);
 
             $dt = $this->where('n_name',$name)->findAll();
+
             if (count($dt) > 0)
                 {
-                    foreach($dt as $id=>$line)
+                    foreach($dt as $idx=>$line)
                         {
                             if ($line['n_lang'] == $lang)
                                 {

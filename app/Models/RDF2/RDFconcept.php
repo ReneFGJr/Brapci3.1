@@ -71,7 +71,8 @@ class RDFconcept extends Model
 
             /********************* Classe */
             $RDFclass = new \App\Models\RDF2\RDFclass();
-            $d['cc_class'] = $RDFclass->getClass($dt['Class']);
+            $class = $RDFclass->getClass($dt['Class']);
+            $d['cc_class'] = $class;
             $d['cc_use'] = 0;
             $d['cc_origin'] = '';
             $d['cc_update'] = date("Y-m-d");
@@ -80,26 +81,18 @@ class RDFconcept extends Model
             /* Verifica se existe a Classe */
             if ($d['cc_class'] <= 0) { return -1; }
 
-            /* Verifica se já existe */
-            $new = true;
+            $DTI = $this
+                ->where('cc_class',$class)
+                ->where('cc_pref_term', $d['cc_pref_term'])
+                ->first();
 
-            /********************* COM o ID */
-            if (isset($dt['ID'])) {
-                $d['id_cc'] = $dt['ID'];
-                $dti = $this->find($dt['ID']);
-                if ($dti != null)
+              if ($DTI != [])
                     {
-                        $new = false;
-                        $ID = $dti['id_cc'];
+                        $iDTC = $DTI['id_cc'];
+                    } else {
+                        $iDTC = $this->set($d)->insert();
                     }
-            }
-            if ($new == true)
-            {
-                $ID = $this->set($d)->insert();
-            } else {
-                $this->set($d)->where('id_cc',$ID)->update();
-            }
-            return $ID;
+            return $iDTC;
         }
 
     function totalProp($class)
