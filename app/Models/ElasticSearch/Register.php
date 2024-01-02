@@ -434,6 +434,9 @@ class Register extends Model
             $da['YEAR'] = $data['YEAR'];
         }
 
+        if ((isset($data['JOURNAL'])) and ($data['JOURNAL'] != '')) {
+            $da['JOURNAL'] = $data['JOURNAL'];
+        }
         /**************************** KEYWORDS */
         if (isset($data['Keywords'])) {
             $da['KEYWORD'] = 1;
@@ -460,10 +463,9 @@ class Register extends Model
         } else {
             $data['PDF'] = 0;
         }
-        pre($data,false);
-        if (isset($data['Issue']['JOURNAL']))
+        if (isset($data['Issue']['id_jnl']))
             {
-                $da['JOURNAL'] = $data['Issue']['JOURNAL'];
+                $da['JOURNAL'] = $data['Issue']['id_jnl'];
             }
 
         if (isset($data['id_jnl'])) {
@@ -637,7 +639,6 @@ class Register extends Model
 
         /*********************** CONVERT DADOS */
         $data = $this->data_convert_elastic($xdata);
-        pre($data);
         $this->check($data, true, $id);
 
         /* NOVO REGISTRO */
