@@ -322,7 +322,13 @@ class Brapci extends Model
     function get($v, $id = 0)
     {
         $RDF = new \App\Models\RDF2\RDF();
+        $View = new \App\Models\Functions\Views();
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
+
+        /* Monitoramento de Visualizações */
+        $View->register($id);
+
+        /* Le Registro do RDF */
         $dt = $RDF->le($id);
 
         /*********************************** Importar dados */
