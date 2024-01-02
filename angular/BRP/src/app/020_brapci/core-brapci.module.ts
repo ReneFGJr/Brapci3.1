@@ -40,6 +40,8 @@ import { PersonComponent } from './page/v/person/person.component';
 import { GenericComponent } from './page/v/generic/generic.component';
 import { FilestorageComponent } from './page/v/filestorage/filestorage.component';
 import { BookchapterComponent } from './page/v/bookchapter/bookchapter.component';
+import { BannerBenancibComponent } from './page/banner/banner-benancib/banner-benancib.component';
+import { BenancibComponent } from './page/v/benancib/benancib.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { BookchapterComponent } from './page/v/bookchapter/bookchapter.component
     GenericComponent,
     FilestorageComponent,
     BookchapterComponent,
+    BannerBenancibComponent,
+    BenancibComponent,
   ],
   imports: [
     CommonModule,

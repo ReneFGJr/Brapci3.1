@@ -1,0 +1,43 @@
+<app-theme-header [header]="header"></app-theme-header>
+<div *ngIf="data">
+  <app-banner-benancib [section]="data.section" [cover]="data.cover" [publisher]="data.publisher"></app-banner-benancib>
+</div>
+
+<div class="container mt-5" *ngIf="data">
+  <div class="row">
+    <div class="col-9">
+      <h1 class="title text-center">{{ data.title }}</h1>
+
+      <div class="text-end mb-5">
+        <span *ngFor="let item of data.creator_author" class="text-end">
+          <a class="author" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
+        </span>
+      </div>
+    </div>
+    <div class="col=3"></div>
+    <div class="col-12 col-lg-10 mb-3">
+      <p style="text-align:justify"><b>Resumo</b>: {{ data.description }}</p>
+      <p><b>Palavras-chave: </b>
+        <span *ngFor="let item of data.subject" class="text-end">
+          <a class="keywords" [routerLink]="['/v/'+item.id]" >{{ item.name }}</a>
+        </span>
+      </p>
+
+      <!--------------- Cite -->
+      <app-v-cite [citacao]="data.cited"></app-v-cite>
+
+      <!--------------- Data -->
+      <img [src]="rdf" height="32px">
+      <app-v-data [RDFdata]="data.data"></app-v-data>
+    </div>
+
+    <div class="col-12 col-lg-2">
+      <app-component-pdf [url]="data.resource_pdf" [id]="data.id"></app-component-pdf>
+
+      <!--
+      <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
+      -->
+    </div>
+  </div>
+</div>
+<div style="height: 100px"></div>

@@ -1,7 +1,8 @@
 <app-theme-header [header]="header" [data]="data"></app-theme-header>
 <app-theme-navbar></app-theme-navbar>
 <app-brapci-article *ngIf="type=='Article'" [data]="data"></app-brapci-article>
-<app-brapci-proceeding *ngIf="type=='Proceeding'" [data]="data"></app-brapci-proceeding>
+<app-brapci-proceeding *ngIf="(type=='Proceeding')" [data]="data"></app-brapci-proceeding>
+<app-benancib *ngIf="(type=='Benancib')" [data]="data"></app-benancib>
 <app-brapci-subject *ngIf="type=='Subject'" [data]="data"></app-brapci-subject>
 <app-brapci-date *ngIf="type=='Date'" [data]="data"></app-brapci-date>
 <app-brapci-issue *ngIf="type=='Issue'" [data]="data"></app-brapci-issue>

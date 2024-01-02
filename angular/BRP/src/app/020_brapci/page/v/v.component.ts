@@ -4,33 +4,36 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-v',
-  templateUrl: './v.component.html'
+  templateUrl: './v.component.html',
 })
 export class VComponent {
   public type: string = 'NA';
-  public data: Array<any> | any
-  public sub: Array<any> | any
+  public data: Array<any> | any;
+  public sub: Array<any> | any;
   public id: number = 0;
-  public header = {'title':'Brapci'}
+  public header = { title: 'Brapci' };
 
   constructor(
     private brapciService: BrapciService,
-    private route: ActivatedRoute,
-  ) { }
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = + params['id']; // (+) converts string 'id' to a number
+    this.sub = this.route.params.subscribe((params) => {
+      this.id = +params['id']; // (+) converts string 'id' to a number
 
       this.brapciService.getId(this.id).subscribe(
-        res => {
+        (res) => {
           this.data = res;
           this.type = this.data.Class;
-          console.log(this.type);
+          if (this.data.Issue.jnl_rdf == 103980)
+            {
+              this.type = 'Benancib'
+            }
           this.header.title = this.data.title + ' | ' + this.data.Authors;
         },
-        error => error
-      )
+        (error) => error
+      );
     });
   }
 }

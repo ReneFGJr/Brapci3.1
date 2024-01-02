@@ -1,4 +1,5 @@
 <app-theme-header [header]="header"></app-theme-header>
+<app-header-brapci-livros></app-header-brapci-livros>
 <div *ngIf="data">
   <app-banner-book
     [section]="data.section"
@@ -6,8 +7,11 @@
     [caption]="data.title"
   ></app-banner-book>
 </div>
-XXX
+
 <div class="container mt-5" *ngIf="data">
+  <div class="row">
+  <div class="col-9 text-center h1">{{ data.title }}</div>
+  </div>
   <div class="row">
     <div class="col-9 text-end">
       <div class="row">
@@ -59,6 +63,9 @@ XXX
         [url]="data.resource_pdf"
         [id]="data.id"
       ></app-component-pdf>
+      <app-likes [data]="data.Likes"></app-likes>
+      <app-views [data]="data.Views"></app-views>
+      <app-downloads [data]="data.Downloads"></app-downloads>
     </div>
   </div>
 </div>
