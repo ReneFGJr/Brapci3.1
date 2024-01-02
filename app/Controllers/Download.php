@@ -35,6 +35,28 @@ class Download extends BaseController
 
         switch ($class) {
             case 'Article':
+                $id = $this->download_01($dt);
+                break;
+            case 'Proceeding':
+                $id = $this->download_01($dt);
+                break;
+            default:
+                echo "Download Class:".$class;
+                exit;
+        }
+        if ($id > 0)
+            {
+                $Download = new \App\Models\Base\Download();
+                $Download->download_pdf($id);
+            } else {
+                echo "ERRO NO ACESSO AO PDF";
+            }
+        exit;
+    }
+
+    function download_01($dt)
+        {
+            $RDF = new \App\Models\RDF2\RDF();
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
                 /* Se não identificado o PDF */
                 if (!isset($id[0]))
@@ -58,14 +80,6 @@ class Download extends BaseController
 
                     }
                 $id = $id[0];
-                break;
-            case 'Proceeding':
-                $id = $RDF->extract($dt, 'hasFileStorage');
-                $id = $id[0];
-                break;
+                exit;
         }
-        $Download = new \App\Models\Base\Download();
-        $Download->download_pdf($id);
-        exit;
-    }
 }
