@@ -518,9 +518,6 @@ class Register extends Model
             }
         }
 
-
-
-
         /***************************************************** */
         switch($data['Class'])
             {
@@ -575,8 +572,8 @@ class Register extends Model
                     exit;
             }
         $da['updated_at'] = date("Y-m-d H:i:s");
-        //pre($data, false);
-        //pre($da);
+        pre($data, false);
+        pre($da);
 
         return $da;
     }
