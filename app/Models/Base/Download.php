@@ -127,6 +127,9 @@ class Download extends Model
                 echo 'Aguarde...';
                 echo '</center>';
 
+                echo metarefresh($fileURL,1);
+                exit;
+
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
                 $id = $DownloadPDF->create_FileStorage($id, $filePDF);
