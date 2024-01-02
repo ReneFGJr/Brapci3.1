@@ -272,6 +272,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $search  = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'database' => 'brapci_search',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $observatorio = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -658,6 +678,9 @@ class Database extends Config
 
         $this->oai['username'] = getenv('database.default.username');
         $this->oai['password'] = getenv('database.default.password');
+
+        $this->search['username'] = getenv('database.default.username');
+        $this->search['password'] = getenv('database.default.password');
 
         $this->observatorio['username'] = getenv('database.default.username');
         $this->observatorio['password'] = getenv('database.default.password');
