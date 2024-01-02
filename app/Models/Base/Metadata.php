@@ -201,6 +201,14 @@ class Metadata extends Model
                     }
                     $M['COVER'] = $BaseCover->cover($jnl);
                     break;
+                case 'Proceeding':
+                    if (isset($M['Issue']['id_jnl'])) {
+                        $jnl = $M['Issue']['id_jnl'];
+                    } else {
+                        $jnl = 99999;
+                    }
+                    $M['COVER'] = $BaseCover->cover($jnl);
+                    break;
             }
             $this->metadata = $M;
             return $this->metadata;
