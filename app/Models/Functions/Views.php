@@ -57,8 +57,9 @@ class Views extends Model
         $this->insert($data);
     }
 
-    function show($id)
+    function views($id)
         {
-            $this->where('a_v',$id);
+            $dt = $this->select('count(*) as total')->where('a_v',$id)->first();
+            return $dt['total'];
         }
 }

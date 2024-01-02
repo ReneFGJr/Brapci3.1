@@ -322,11 +322,12 @@ class Brapci extends Model
     function get($v, $id = 0)
     {
         $RDF = new \App\Models\RDF2\RDF();
-        $View = new \App\Models\Functions\Views();
+        $Views = new \App\Models\Functions\Views();
+        //$Downloads = new \App\Models\Functions\
         $RDFmetadata = new \App\Models\RDF2\RDFmetadata();
 
         /* Monitoramento de Visualizações */
-        $View->register($id);
+        $Views->register($id);
 
         /* Le Registro do RDF */
         $dt = $RDF->le($id);
@@ -350,6 +351,7 @@ class Brapci extends Model
 
 
         $RSP['Class'] = $dt['concept']['c_class'];
+        $RSP['Views'] = $Views->views($id);
 
 
         /************************************************* ABNT */
