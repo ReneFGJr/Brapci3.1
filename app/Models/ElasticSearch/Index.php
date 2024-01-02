@@ -369,6 +369,7 @@ class Index extends Model
 												'" target="_blank">';
 											$linka = '</a>';
 											$name = $line['CLASS'].': '.$line['ID'];
+											$name .= ' - '.$line['LEGEND'];
 											$sx .= '<li>'.$link.$name.$linka.'</li>'.cr();
 										}
 								break;
