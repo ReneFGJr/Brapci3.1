@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class Download extends Model
 {
     protected $DBGroup          = 'click';
-    protected $table            = 'downloads';
+    protected $table            = 'download';
     protected $primaryKey       = 'id_dw';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
