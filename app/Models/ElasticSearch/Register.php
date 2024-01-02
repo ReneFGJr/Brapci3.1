@@ -491,8 +491,6 @@ class Register extends Model
             } else {
                 $da['TITLE'] = ':: Sem titulo ::';
             }
-            pre($data,false);
-            pre($da);
 
         /********************************************** COVER */
         if (isset($data['COVER']))
@@ -576,6 +574,9 @@ class Register extends Model
                     exit;
             }
         $da['updated_at'] = date("Y-m-d H:i:s");
+        pre($data, false);
+        pre($da);
+
         return $da;
     }
 
