@@ -44,13 +44,13 @@ class Vancouver extends Model
 
 	function show($dt, $type = 'A')
 	{
+		$tela = '';
 		switch ($dt['Class']) {
 			case 'Article':
 				$tela = $this->vancouver_article($dt);
 				return $tela;
 				break;
 			case 'Issue':
-				$tela = '';
 				if (isset($dt['publisher']))
 					{
 						$tela .= $dt['publisher'];
