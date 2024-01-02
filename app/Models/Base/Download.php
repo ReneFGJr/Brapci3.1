@@ -95,8 +95,8 @@ class Download extends Model
 
     function download_methods($dt, $id)
     {
-        if (isset($dt['n_name'])) {
-            $name = $dt['n_name'];
+        if (isset($dt['Caption'])) {
+            $name = $dt['Caption'];
         } else {
             $name = 'ERRO';
         }
@@ -126,6 +126,9 @@ class Download extends Model
                 echo '<br>';
                 echo 'Aguarde...';
                 echo '</center>';
+
+                metarefresh($fileURL);
+                exit;
 
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
