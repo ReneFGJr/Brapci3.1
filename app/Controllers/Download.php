@@ -29,8 +29,6 @@ class Download extends BaseController
                 return $sx;
             }
 
-            pre($dt);
-
         $class = $dt['concept']['c_class'];
 
         switch ($class) {
@@ -61,9 +59,8 @@ class Download extends BaseController
                 /* Se não identificado o PDF */
                 if (!isset($id[0]))
                     {
-                    echo "OK2";
                         $Download = new \App\Models\Base\Download();
-                    echo "OK3";
+                        echo "Tenta recuperar PDF";
                         foreach($dt['data'] as $id=>$line)
                             {
                                 if (trim($line['c_class']) == 'hasRegisterId')
