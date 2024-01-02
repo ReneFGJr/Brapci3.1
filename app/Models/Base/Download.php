@@ -130,6 +130,9 @@ class Download extends Model
             echo h('<a href="' . $url . '">' . $url . '</a>', 5);
             $fileURL = $this->ocs_2($url);
 
+            echo "+++";
+            pre($fileURL);
+
             if (substr($fileURL, 0, 4) == 'http') {
                 echo "OK";
                 $dir = $this->directory($idc);
