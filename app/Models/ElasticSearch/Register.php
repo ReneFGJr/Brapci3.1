@@ -543,10 +543,11 @@ class Register extends Model
                 /**************************************** Legend Proceeding */
                 case 'Proceeding':
                     $da['LEGEND'] = $da['TITLE'];
+                    $da['LEGEND'] .= ', In:'. $data['Issue']['id_jnl'];
                     if ($data['Issue']['year'] != '') {
-                        $da['LEGEND'] .= ', ' . $data['Issue']['year'];
+                        $da['LEGEND'] .= ', ' . $data['Issue']['journal'];
                     }
-                    $da['JOURNAL'] = $data['Issue']['journal'];
+                    $da['JOURNAL'] = $data['Issue']['id_jnl'];
                     $da['ISSUE'] = $data['Issue']['issue'];
                     break;
 
@@ -574,8 +575,8 @@ class Register extends Model
                     exit;
             }
         $da['updated_at'] = date("Y-m-d H:i:s");
-        pre($data, false);
-        pre($da);
+        //pre($data, false);
+        //pre($da);
 
         return $da;
     }
