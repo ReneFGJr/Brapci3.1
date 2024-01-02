@@ -77,6 +77,6 @@ class Download extends BaseController
 
                     }
                 $id = $id[0];
-                exit;
+                return $id;
         }
 }
