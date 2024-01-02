@@ -127,7 +127,7 @@ class Download extends Model
                 echo 'Aguarde...';
                 echo '</center>';
 
-                metarefresh($fileURL);
+                echo metarefresh($fileURL,1);
                 exit;
 
                 $txtFile = read_link($fileURL);
