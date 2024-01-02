@@ -11,6 +11,7 @@ export class BannerBenancibComponent {
   @Input() public cover: string = '';
   @Input() public caption: string = '';
 
-  logo_benancib = '/assets/img/logo_benancib.png'
+  logo_benancib = '/assets/img/logo_benancib.png';
+  logo_benancib_icone = '/assets/img/logo_benancib.gif';
   ngOnInit() {}
 }

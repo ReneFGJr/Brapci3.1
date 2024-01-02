@@ -263,6 +263,10 @@ class Search extends Model
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
 
+            /*************************************** Grava Consulta */
+            $SearchREG = new \App\Models\Functions\Search();
+
+
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
                 if (isset($line['_id'])) {
