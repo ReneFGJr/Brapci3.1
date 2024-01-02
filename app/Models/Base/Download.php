@@ -114,11 +114,13 @@ class Download extends Model
 
         if (strpos($name, '/XIXENANCIB/')
                 or (strpos($name, 'xviiienancib/'))
+                or (strpos($name, 'http://'))
                 or (strpos($name, 'www.periodicos.ufpb.br/ojs/'))) {
             $nameO = $name;
             $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
             $name = troca($name, 'http://www.periodicos.ufpb.br/ojs/', 'https://www.pbcib.com/');
+            $name = troca($name, 'http://', 'https://');
 
             $RDFLiteral = new \App\Models\RDF2\RDFliteral();
             $dtd = $RDFLiteral->where('n_name',$nameO)->first();
