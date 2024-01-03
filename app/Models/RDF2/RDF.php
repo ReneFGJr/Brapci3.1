@@ -44,6 +44,10 @@ class RDF extends Model
     {
         $RSP = [];
         switch ($d1) {
+            case 'form':
+                $RDFform = new \App\Models\RDF2\RDFform();
+                $sx .= $RDFform->index($d2,$d3,$d4);
+                break;
             case 'import':
                 $RSP = $this->import();
                 break;

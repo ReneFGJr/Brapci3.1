@@ -54,8 +54,10 @@ class BooksSubmit extends Model
                 ->findAll();
             foreach($dt as $id=>$line)
                 {
+                    $link = '<a class="text-danger" href="'.PATH.'admin/book/status/'.$line['bs_status'].'">';
+                    $linka = '</a>';
                     $sx .= '<li class="text-danger" style="font-size: 0.7em;">';
-                    $sx .= lang('brapci.book_status_'.$line['bs_status']);
+                    $sx .= $link.lang('brapci.book_status_'.$line['bs_status']).$linka;
                     $sx .= ' <b>';
                     $sx .= '('.$line['total'].')';
                     $sx .= '</b>';

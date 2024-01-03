@@ -52,7 +52,9 @@ class TechinalProceessing extends Model
             $data['tp_status'] = $act;
             $this->set($data)->where('id_tp', $a)->update();
         }
-        $dt = $this->find($a);
+        $dt = $this
+            ->join('brapci_books.books_submit', 'bs_arquivo = tp_checksun')
+            ->find($a);
 
         /****************************************** Display */
         $sx = '';
@@ -69,6 +71,9 @@ class TechinalProceessing extends Model
                 $catlog .= $this->btn_aproved($a);
                 $catlog .= ' ';
                 $catlog .= $this->btn_inferred($a);
+
+                $catlog .= $this->dados_submit($dt);
+
                 break;
             case 1:
                 $catlog .= h(lang('book.status_1'), 4);
@@ -100,6 +105,7 @@ class TechinalProceessing extends Model
                 $rdfurl = URL.'/rdf/form/editRDF/'. $idr;
                 $catlog .= $this->btn_supply($a);
                 $catlog .= $this->btn_publish($a);
+                echo '<br>RDF: '.$rdfurl;
                 $catlog .= '<iframe src="' . $rdfurl . '" style="width: 100%; height:600px;"></iframe>';
                 break;
 
@@ -112,56 +118,79 @@ class TechinalProceessing extends Model
 
         $sx .= bsc($catlog, 5);
         $screen = URL . '/' . $dt['tp_up'];
+        echo $screen;
         $iframe = '<iframe src="' . $screen . '" style="width: 100%; height:600px;"></iframe>';
         $sx .= bsc($iframe, 7);
         $sx = bs($sx);
         return $sx;
     }
 
+    function dados_submit($dt)
+        {
+            $data = $dt['bs_post'];
+            $data = json_decode($data);
+            $data = (array)$data;
+
+            $sx = '';
+            $sx .= 'Autor: <b>'.$data['b_autor']. '</b><br>';
+            $sx .= 'e-mail:' . $data['b_email'] . '<br>';
+            $sx .= 'Título:' . $data['b_titulo'] . '<br>';
+            $sx .= 'ISBN:' . $data['b_isbn'] . '<br>';
+            $sx .= 'Licença:' . $data['b_licenca'] . '<br>';
+            return $sx;
+
+        }
+
     /******************************************** BTNS */
     function btn_inferred($s)
     {
-        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=5" title="' . lang('book.send_to') . ' ' . lang('book.status_5') . ' "class="btn btn-ouline-primary p-2">';
+        $sx = '<a href="' . URL . '/admin/book/auto/' . $s . '?act=5" title="' . lang('book.send_to') . ' ' . lang('book.status_5') . ' "class="btn btn-ouline-primary p-2">';
         $sx .= bsicone('trash', 32);
+        $sx .= 'Não aceitar';
         $sx .= '</a>';
-        return $sx;
+        return '<li>' . $sx . '</li>';
     }
     function btn_supply($s)
     {
-        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=2" title="' . lang('book.send_to') . ' ' . lang('book.status_2') . ' "class="btn btn-ouline-primary p-2">';
+        $sx = '<a href="' . URL . '/admin/book/auto/' . $s . '?act=2" title="' . lang('book.send_to') . ' ' . lang('book.status_2') . ' "class="btn btn-ouline-primary p-2">';
         $sx .= bsicone('circle-2', 32);
+        $sx .= 'Supply';
         $sx .= '</a>';
-        return $sx;
+        return '<li>' . $sx . '</li>';
     }
     function btn_publish($s)
     {
-        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';
+        $sx = '<a href="' . URL . '/admin/book/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';
         $sx .= bsicone('reload', 32);
+        $sx .= 'Publicar';
         $sx .= '</a>';
-        return $sx;
+        return '<li>'.$sx.'</li>';
     }
     function btn_archive($s)
     {
-        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';
+        $sx = '<a href="' . URL . '/admin/book/auto/' . $s . '?act=4" title="' . lang('book.send_to') . ' ' . lang('book.status_4') . ' "class="btn btn-ouline-primary p-2">';
         $sx .= bsicone('trash', 32);
+        $sx .= ' Arquivar';
         $sx .= '</a>';
-        return $sx;
+        return '<li>' . $sx . '</li>';
     }
 
     function btn_aproved($s)
     {
-        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=1" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
+        $sx = '<a href="' . URL . '/admin/book/auto/' . $s . '?act=1" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
         $sx .= bsicone('upload', 32);
+        $sx .= ' Aprovado';
         $sx .= '</a>';
-        return $sx;
+        return '<li>' . $sx . '</li>';
     }
 
     function btn_catalog($s)
     {
-        $sx = '<a href="' . URL . COLLECTION . '/admin/auto/' . $s . '?act=3" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
+        $sx = '<a href="' . URL . '/admin/book/auto/' . $s . '?act=3" class="btn btn-ouline-primary p-2" title="' . lang('book.send_to') . ' ' . lang('book.status_1') . '">';
         $sx .= bsicone('upload', 32);
+        $sx .= 'Aprovar';
         $sx .= '</a>';
-        return $sx;
+        return '<li>' . $sx . '</li>';
     }
 
 
@@ -171,7 +200,7 @@ class TechinalProceessing extends Model
         $dt = $this->where('tp_status', $a)->findAll();
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
-            $link = '<a href="' . PATH . COLLECTION . '/admin/auto/' . $line['id_tp'] . '">';
+            $link = '<a href="' . PATH . '/admin/book/auto/' . $line['id_tp'] . '">';
             $linka = '</a>';
             $sa = h('<b>' . $link . $line['tp_file'] . $linka . '</b>', 4);
             $sx .= '<p>' . lang('books.uploaded') . ': ' . $line['tp_created'];
@@ -199,7 +228,7 @@ class TechinalProceessing extends Model
         }
 
         for ($r = 0; $r <= 5; $r++) {
-            $link = '<a href="' . PATH . COLLECTION . '/admin/status/' . $r . '" style="color: black;">';
+            $link = '<a href="' . PATH . 'admin/book/status/' . $r . '" style="color: black;">';
             $linka = '</a>';
             $label = $link . lang('book.status_' . $r) . $linka . '<br>';
             $sx .= bsc($label . '<b style="font-size: 40px">' . $link . $st[$r] . $linka . '</b>', 2, 'text-center');

@@ -45,6 +45,10 @@ class Index extends Model
         $sx = '';
         $sx .h($act);
         switch ($act) {
+            case 'book':
+                $Book = new \App\Models\Books\Index();
+                $sx .= $Book->index($subact,$id,$id2,$id3);
+                break;
             case 'mysql':
                 $Mysql = new \App\Models\Io\Mysql();
                 $sx .= $Mysql->index($subact,$id,$id2,$id3);

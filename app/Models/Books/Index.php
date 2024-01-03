@@ -46,6 +46,12 @@ class Index extends Model
         $sx =  '';
         $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
         switch ($d1) {
+            case 'status':
+                $sx .= $TechinalProceessing->show_pt($d2);
+                break;
+            case 'auto':
+                $sx .= $TechinalProceessing->process($d2);
+                break;
             case 'autoloader':
                 switch ($d2) {
                     case 'ajax':
@@ -55,12 +61,11 @@ class Index extends Model
                 $sx .= $this->autoloader();
                 break;
         }
-        $sx .= h($d1);
 
         $Socials = new \App\Models\Socials();
         $user = $Socials->getAccess("#ADM");
 
-        if ($user) {
+        if (($user) and ($d2 == '')) {
             $sx .= $TechinalProceessing->resume();
         }
         $sx = bs($sx);
@@ -176,20 +181,4 @@ class Index extends Model
         }
     }
 
-    function btnAutoDeposit()
-    {
-        $sx = '<button type="button" class="btn btn-primary btn-lg">Autodeposito</button>';
-        return $sx;
-    }
-
-    function autoloader()
-    {
-        $data = array();
-        $sx = '';
-        $sx .= view('BrapciBooks/Pages/autodeposit');
-        $sx .= view('BrapciBooks/Terms/termBR');
-
-        $sx .= view('Books/autodeposit_01', $data);
-        return $sx;
-    }
 }

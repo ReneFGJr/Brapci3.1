@@ -74,10 +74,10 @@ class RDFimage extends Model
                             {
                                 $url = PATH . '/'.$nfile;
                                 return $url;
+                            } else {
+                                return PATH . '/img/cover/no_cover.png';
                             }
-                    echo "ERRO";
-                    pre($_SERVER);
-                    exit;
+
                         if (file_exists($tumb)) {
                             return PATH.$tumb;
                         }
