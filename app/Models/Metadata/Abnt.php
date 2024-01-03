@@ -50,7 +50,7 @@ class Abnt extends Model
 			$legend = $this->ref_legend($dt['Issue']);
 			$ref = $authors . '. ' . $title . '. ' . $legend;
 			$ref .= '. Acesso em:'.date("d").'/'. mes_abreviado(date("m")).'/'.date("Y");
-			$ref .= '. Disponível em:'.$URL.$dt['ID'];
+			$ref .= '. Disponível em: '.anchor($URL.$dt['ID']);
 			$ref = troca($ref,'..','.');
 			return($ref);
 		}
