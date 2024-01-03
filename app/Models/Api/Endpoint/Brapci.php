@@ -402,7 +402,6 @@ class Brapci extends Model
 
         foreach ($dt as $id => $line) {
             $ABNT = new \App\Models\Metadata\Abnt();
-            pre($line);
             $type = $line['CLASS'];
             $ln = [];
             $ln['title'] = $line['ldl_title'];
