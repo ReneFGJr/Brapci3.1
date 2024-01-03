@@ -103,7 +103,7 @@ class Search extends Model
 
     function recoverList($ids)
     {
-        $cp = 'ID as article_id, json, type, YEAR as year';
+        $cp = 'ID as article_id, json, CLASS as type, YEAR as year';
         $this->select($cp);
         $this->where('ID', $ids[0]);
         for ($r = 1; $r < count($ids); $r++) {
