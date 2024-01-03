@@ -47,7 +47,9 @@ class Abnt extends Model
 			$authors = $this->ref_authors($dt['Authors']);
 			$title = $this->ref_title($dt['Title']);
 			$legend = $this->ref_legend($dt['Issue']);
-			return($Class.'=='.$authors.'. '.$title.'. '.$legend);
+			$ref = $authors . '. ' . $title . '. ' . $legend;
+			$ref = troca($ref,'..','.');
+			return($ref);
 		}
 	function ref_legend($dt)
 		{
