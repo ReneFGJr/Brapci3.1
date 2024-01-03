@@ -111,15 +111,16 @@ class Search extends Model
         for ($r = 1; $r < count($ids); $r++) {
             $this->Orwhere('ID', $ids[$r]);
         }
-        $dt = $this->findAll();
+        $dts = $this->findAll();
         echo $this->getlastquery();
+        pre($dts,false);
 
         $dr = [];
         $ARTI = [];
         $BOOK = [];
         $CHAP = [];
         $PROC = [];
-        foreach ($dt as $id => $line) {
+        foreach ($dts as $id => $line) {
 
             $js = (array)json_decode($line['json']);
             $ds =  $abnt->ref($js);
