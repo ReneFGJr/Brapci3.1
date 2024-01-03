@@ -316,7 +316,7 @@ class Abnt extends Model
 				$Issue = (array)$dt['Issue'];
 				$tela .= '. <b>'. (string)$Issue['journal'].'</b>';
 				if ($Issue['vol'] != '') { $tela .= ', '. (string)$Issue['vol']; }
-				if ($Issue['vol'] != '') { $tela .= ', ' . $tela .= (string)$Issue['nr']; }
+				if ($Issue['nr'] != '') { $tela .= ', ' . $tela .= (string)$Issue['nr']; }
 				$tela .= (string)$Issue['year'];
 			} else {
 				$tela .= '. ' . troca($dt['legend'], $dt['publisher'], '<b>' . $dt['publisher'] . '</b>');
