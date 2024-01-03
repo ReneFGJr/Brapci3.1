@@ -51,47 +51,42 @@ class Search extends Model
                         SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
 
 
-        if (!isset($dt['works']))
-            {
-                $dt['status'] = '500';
-                $dt['messagem'] = 'Erro de acesso ao servidor de busca';
-                echo (json_encode($dt));
-                exit;
-            }
+        if (!isset($dt['works'])) {
+            $dt['status'] = '500';
+            $dt['messagem'] = 'Erro de acesso ao servidor de busca';
+            echo (json_encode($dt));
+            exit;
+        }
 
         /* Retorno */
         $n = 0;
         $Search->select($cp);
-        $Search->join('brapci.source_source','JOURNAL = id_jnl','LEFT');
+        $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
         foreach ($dt['works'] as $id => $line) {
             $ida = $line['id'];
-            if ($n == 0)
-                {
-                    $Search->where('ID', $ida);
-                } else {
-                    $Search->Orwhere('ID', $ida);
-                }
-                $n++;
+            if ($n == 0) {
+                $Search->where('ID', $ida);
+            } else {
+                $Search->Orwhere('ID', $ida);
+            }
+            $n++;
         }
 
         $ds = $Search->findAll();
 
         /********************* Organiza Array Por ID */
         $dsr = [];
-        foreach($ds as $id=>$line)
-            {
-                $IDt = $line['ID'];
-                $dsr[$IDt] = $line;
-            }
+        foreach ($ds as $id => $line) {
+            $IDt = $line['ID'];
+            $dsr[$IDt] = $line;
+        }
 
         /******************** Completa recuperação com as ID */
         foreach ($dt['works'] as $idx => $line) {
             $idt = $line['id'];
-            if (isset($dsr[$idt]))
-                {
-                    $dt['works'][$idx]['data'] = $dsr[$idt];
-                }
-
+            if (isset($dsr[$idt])) {
+                $dt['works'][$idx]['data'] = $dsr[$idt];
+            }
         }
 
         if (!isset($dt['works'])) {
@@ -101,7 +96,7 @@ class Search extends Model
         exit;
     }
 
-    function recoverList($ids,$tp="abnt")
+    function recoverList($ids, $tp = "abnt")
     {
         $abnt = new \App\Models\Metadata\Abnt();
 
@@ -112,8 +107,6 @@ class Search extends Model
             $this->Orwhere('ID', $ids[$r]);
         }
         $dts = $this->findAll();
-        echo $this->getlastquery();
-        pre($dts,false);
 
         $dr = [];
         $ARTI = [];
@@ -125,10 +118,9 @@ class Search extends Model
             $js = (array)json_decode($line['json']);
             $ds =  $abnt->ref($js);
             $Class  = $js['Class'];
-            if ($Class == 'Article')
-                {
-                    array_push($ARTI, $ds);
-                }
+            if ($Class == 'Article') {
+                array_push($ARTI, $ds);
+            }
             if ($Class == 'Proceeding') {
                 array_push($PROC, $ds);
             }
@@ -137,7 +129,6 @@ class Search extends Model
         $dr['Proceedings'] = $PROC;
         $dr['Books'] = $BOOK;
         $dr['BooksChapter'] = $CHAP;
-        pre($dr);
         return $dr;
     }
 
