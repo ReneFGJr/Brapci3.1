@@ -290,7 +290,7 @@ class Abnt extends Model
 	{
 		if (!isset($dt['title'])) {
 			$dt['title'] = '::none::';
-		}
+		} else {
 		if (isset($dt['Title']))
 			{
 				foreach($dt['Title'] as $lang=>$title)
@@ -299,6 +299,7 @@ class Abnt extends Model
 						break;
 					}
 			}
+		}
 		$title = trim(html_entity_decode($dt['title']));
 		$title = trim(mb_strtolower($title));
 		$tu = mb_strtoupper($title);
