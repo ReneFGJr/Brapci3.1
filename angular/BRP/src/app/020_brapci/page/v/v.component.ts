@@ -26,7 +26,7 @@ export class VComponent {
         (res) => {
           this.data = res;
           this.type = this.data.Class;
-          if (this.data.Issue.jnl_rdf == 199828)
+          if (this.data.Issue.jnl_rdf == 75)
           {
             this.type = 'Benancib';
           }
