@@ -125,6 +125,7 @@ class Search extends Model
                 array_push($PROC, $ds);
             }
         }
+        sort($ARTI);
         $dr['Articles'] = $ARTI;
         $dr['Proceedings'] = $PROC;
         $dr['Books'] = $BOOK;
