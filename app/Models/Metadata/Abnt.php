@@ -302,7 +302,17 @@ class Abnt extends Model
 		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
-		$tela .= '. ' . troca($dt['legend'],$dt['publisher'],'<b>'.$dt['publisher'].'</b>');
+		if (!isset($dt['legend']))
+			{
+				$tela .= '. <b>'. $dt['Issue']['journal'].'</b>';
+				if ($dt['Issue']['vol'] != '') { $tela .= ', '. $dt['Issue']['vol']; }
+				if ($dt['Issue']['vol'] != '') { $tela .= ', ' . $tela .= $dt['Issue']['nr']; }
+				$tela .= $dt['Issue']['year'];
+			} else {
+				$tela .= '. ' . troca($dt['legend'], $dt['publisher'], '<b>' . $dt['publisher'] . '</b>');
+			}
+
+
 
 		if (isset($dt['pages'])) {
 			$tela .= ', p ' . $dt['pages'];
