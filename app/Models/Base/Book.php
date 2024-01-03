@@ -40,6 +40,11 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function resume()
+        {
+            $BooksSubmit = new \App\Models\Books\BooksSubmit();
+            return $BooksSubmit->resume();
+        }
     /*********** Funcoes da versão nova */
     function vitrine($q='')
         {

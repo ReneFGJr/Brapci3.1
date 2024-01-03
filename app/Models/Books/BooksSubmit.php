@@ -43,6 +43,27 @@ class BooksSubmit extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function resume()
+        {
+            $sx = '';
+            $dt = $this
+                ->select("count(*) as total, bs_status")
+                ->where('bs_status',0)
+                ->groupBy('bs_status')
+                ->orderBy('bs_status');
+
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= '<li class="text-danger">';
+                    $sx .= lang('brapci.book_status_'.$line['bs_status']);
+                    $sx .= ' <b>';
+                    $sx .= $line['total'];
+                    $sx .= '</b>';
+                    $sx .= '</li>';
+                }
+            return $sx;
+        }
+
     function register()
         {
             $PS = array_merge($_POST, $_GET);

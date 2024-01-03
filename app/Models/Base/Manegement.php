@@ -88,9 +88,12 @@ class Manegement extends Model
             $Sources = new \App\Models\Base\Sources();
             $sb = $Sources->resume();
 
-            /************************************************ CRON - TAREFAS */
+            /****************************************** CRON - ElasticSearch */
             $ElasticSearch = new \App\Models\ElasticSearch\Register();
             $sc = $ElasticSearch->resume();
+
+            $Books = new \App\Models\Base\Book();
+            $sc = $Books->resume();
 
             /************************************************ CRON - OAIPMH */
             $Oaipmh = new \App\Models\Oaipmh\Index();
