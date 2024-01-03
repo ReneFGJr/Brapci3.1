@@ -42,12 +42,15 @@ class Abnt extends Model
 
 	function ref($dt,$type='A')
 		{
+			$URL = PATH.'v/';
 			$Class = $dt['Class'];
 			/********************** Authors */
 			$authors = $this->ref_authors($dt['Authors']);
 			$title = $this->ref_title($dt['Title']);
 			$legend = $this->ref_legend($dt['Issue']);
 			$ref = $authors . '. ' . $title . '. ' . $legend;
+			$ref .= '. Acesso em:'.date("d").'/'. mes_abreviado(date("m")).'/'.date("Y");
+			$ref .= '. Disponível em:'.$URL.$dt['ID'];
 			$ref = troca($ref,'..','.');
 			return($ref);
 		}
