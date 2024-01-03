@@ -112,6 +112,7 @@ class Search extends Model
             $this->Orwhere('ID', $ids[$r]);
         }
         $dt = $this->findAll();
+        echo $this->getlastquery();
 
         $dr = [];
         $ARTI = [];

@@ -391,9 +391,7 @@ class Brapci extends Model
     function basket($row)
     {
         $RSP['row'] = $row;
-        pre($row,false);
         $l = explode(',', $row);
-        pre($l, false);
         $Elastic = new \App\Models\ElasticSearch\Search();
         $dt = $Elastic->recoverList($l);
 
