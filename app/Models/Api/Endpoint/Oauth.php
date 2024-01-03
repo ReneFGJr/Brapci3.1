@@ -56,6 +56,10 @@ class Oauth extends Model
     {
 
         switch ($d1) {
+            case 'signup':
+                $dd = $this->signup();
+                echo json_encode($dd);
+                exit;
             case  'signin':
                 $dd = $this->signin();
                 echo json_encode($dd);
@@ -85,6 +89,37 @@ class Oauth extends Model
 
             echo json_encode($dd);
             exit;
+        }
+
+    function signup()
+        {
+            $dd = [];
+            $dd['process'] = date("Y-m-d H:i:s");
+            $Socials = new \App\Models\Socials();
+
+            $sx = $Socials->signup();
+            $status = $Socials->error;
+            switch($status)
+                {
+                    case '510':
+                        $msg = msg("brapci.email_invalid");
+                        break;
+                    case '511':
+                        $msg = msg("brapci.email_already_exist");
+                        break;
+                    default:
+                        $msg = msg('brapci.valid');
+                }
+            $dd['message'] = $msg;
+            $dd['status'] = $status;
+
+            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+            header("Access-Control-Allow-Headers: Content-Type, Authorization");
+            header('Access-Control-Allow-Origin: *');
+            header("Content-type: application/json; charset=utf-8");
+
+            return $dd;
+
         }
 
     function signin()

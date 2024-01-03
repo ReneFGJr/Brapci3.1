@@ -76,6 +76,20 @@ export class UserService {
   //private url: string = 'http://brp/api/';
 
   /************************************************ API CONSULTA */
+  public signUp(name: string, email:string, institution:string): Observable<Array<any>> {
+    let url = `${this.url}socials/signup`;
+    console.log(url)
+
+    var formData: any = new FormData();
+    formData.append('signup_name', name);
+    formData.append('signup_email', email);
+    formData.append('signup_institution', institution);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
   public loginSubmitHttp(login: string, pass: string): Observable<Array<any>> {
     let url = `${this.url}socials/signin`;
 

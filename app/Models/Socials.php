@@ -61,6 +61,7 @@ class Socials extends Model
 	var $path;
 	var $path_back;
 	var $id = 0;
+	var $error = 0;
 
 	function user()
 	{
@@ -1314,6 +1315,7 @@ class Socials extends Model
 		if (!check_email($user)) {
 			$sx .= '<h2>' . lang('social.email_invalid') . '<h2>';
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
+			$this->error = 510;
 			return $sx;
 		}
 
