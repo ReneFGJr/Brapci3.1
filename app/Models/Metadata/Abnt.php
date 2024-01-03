@@ -304,10 +304,11 @@ class Abnt extends Model
 
 		if (!isset($dt['legend']))
 			{
-				$tela .= '. <b>'. (string)$dt['Issue']['journal'].'</b>';
-				if ($dt['Issue']['vol'] != '') { $tela .= ', '. (string)$dt['Issue']['vol']; }
-				if ($dt['Issue']['vol'] != '') { $tela .= ', ' . $tela .= (string)$dt['Issue']['nr']; }
-				$tela .= (string)$dt['Issue']['year'];
+				$Issue = (array)$dt['Issue'];
+				$tela .= '. <b>'. (string)$Issue['journal'].'</b>';
+				if ($Issue['vol'] != '') { $tela .= ', '. (string)$Issue['vol']; }
+				if ($Issue['vol'] != '') { $tela .= ', ' . $tela .= (string)$Issue['nr']; }
+				$tela .= (string)$Issue['year'];
 			} else {
 				$tela .= '. ' . troca($dt['legend'], $dt['publisher'], '<b>' . $dt['publisher'] . '</b>');
 			}
