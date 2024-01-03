@@ -393,17 +393,8 @@ class Brapci extends Model
         $RSP['row'] = $row;
         $l = explode(',', $row);
         $Elastic = new \App\Models\ElasticSearch\Search();
-        $dt = $Elastic->recoverList($l);
-
-        $ARTI = [];
-        $EVEN = [];
-        $BOOK = [];
-        $CAPT = [];
-
-        sort($ARTI);
-
-        $RSP['ABNT']['Article'] = $ARTI;
-        $RSP['work'] = $dt;
+        $dt = $Elastic->recoverList($l,'abnt');
+        $RSP['ABNT'] = $dt;
         return $RSP;
     }
 }

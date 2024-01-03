@@ -116,7 +116,12 @@ class Search extends Model
         foreach ($dts as $id => $line) {
 
             $js = (array)json_decode($line['json']);
-            $ds =  $abnt->ref($js);
+            switch($tp)
+                {
+                    default:
+                    $ds =  $abnt->ref($js);
+                }
+
             $Class  = $js['Class'];
             if ($Class == 'Article') {
                 array_push($ARTI, $ds);
