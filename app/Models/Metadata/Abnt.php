@@ -45,8 +45,25 @@ class Abnt extends Model
 			/********************** Authors */
 			$authors = $this->ref_authors($dt['Authors']);
 			$title = $this->ref_title($dt['Title']);
-			echo h($authors.'. '.$title);
+			$legend = $this->ref_legend($dt['Issue']);
+			echo h($authors.'. '.$title.'. '.$legend);
 			exit;
+		}
+	function ref_legend($dt)
+		{
+			$dt = (array)$dt;
+			$leg = $dt['journal'];
+			if (isset($dt['vol']))
+				{
+					$leg .= ', '.$dt['vol'];
+				}
+			if (isset($dt['nr'])) {
+				$leg .= ', ' . $dt['nr'];
+			}
+			if (isset($dt['year'])) {
+				$leg .= ', ' . $dt['year'];
+			}
+			return $leg;
 		}
 
 	function ref_title($dt,$lg_pref='pt')
