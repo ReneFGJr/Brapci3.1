@@ -252,7 +252,7 @@ class RDFmetadata extends Model
             {
                     $dr['Class'] = 'Issue';
                     $dr['publisher'] = $di['jnl_name'];
-                    $dr['jnl_rdf'] = $di['is_source_issue'];
+                    $dr['jnl_rdf'] = $di['is_source'];
                     $dr['is_year'] = $di['is_year'];
                     $dr['is_nr'] = $di['is_nr'];
                     $dr['is_vol_roman'] = $di['is_vol_roman'];
