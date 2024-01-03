@@ -400,34 +400,6 @@ class Brapci extends Model
         $BOOK = [];
         $CAPT = [];
 
-        foreach ($dt as $id => $line) {
-            $ABNT = new \App\Models\Metadata\Abnt();
-            pre($line);
-            $type = $line['CLASS'];
-            $ln = [];
-            $ln['title'] = $line['ldl_title'];
-            $ln['Authors'] = explode(';', $line['ldl_authors']);
-            $ln['jnl_name'] = $line['ldl_legend'];
-            $ln['is_year'] = $line['year'];
-            $ln['legend'] = $line['ldl_legend'];
-            $ln['ID'] = $line['article_id'];
-
-            switch ($type) {
-                case 'Proceeding':
-                    $ref = $ABNT->show($ln, 'E');
-                    array_push($ARTI, $ref);
-                    break;
-                case 'Article':
-                    $ref = $ABNT->show($ln, 'A');
-                    array_push($ARTI, $ref);
-                    break;
-                default:
-                    $ref = $ABNT->show($ln, 'A');
-                    array_push($ARTI, $ref);
-                    break;
-            }
-        }
-
         sort($ARTI);
 
         $RSP['ABNT']['Article'] = $ARTI;

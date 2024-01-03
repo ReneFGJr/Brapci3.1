@@ -114,12 +114,24 @@ class Search extends Model
         $dt = $this->findAll();
 
         $dr = [];
+        $ARTI = [];
+        $BOOK = [];
+        $CHAP = [];
+        $PROC = [];
         foreach ($dt as $id => $line) {
 
             $js = (array)json_decode($line['json']);
             $ds =  $abnt->ref($js);
-            array_push($dr, $ds);
+            $Class  = $js['Class'];
+            if ($Class == 'Article')
+                {
+                    array_push($ARTI, $ds);
+                }
         }
+        $dr['Articles'] = $ARTI;
+        $dr['Proceedings'] = $PROC;
+        $dr['Books'] = $BOOK;
+        $dr['BooksChapter'] = $CHAP;
         pre($dr);
         return $dr;
     }
