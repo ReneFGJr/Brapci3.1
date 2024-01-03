@@ -117,9 +117,9 @@ class Search extends Model
         foreach ($dt as $id => $line) {
 
             $js = (array)json_decode($line['json']);
-
+            pre($js, false);
             echo $abnt->show($js);
-            pre($js);
+
             $ds = [];
 
             array_push($dr, $ds);
