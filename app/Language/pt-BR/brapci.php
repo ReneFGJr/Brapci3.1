@@ -196,7 +196,7 @@ return [
         'OS' => 'SO',
         'issues' => 'Fascículos',
         'Journal' => 'Publicação',
-        '' => '',
+        'book_status_0' => 'Submetidos',
         '' => '',
 
 

@@ -50,16 +50,20 @@ class BooksSubmit extends Model
                 ->select("count(*) as total, bs_status")
                 ->where('bs_status',0)
                 ->groupBy('bs_status')
-                ->orderBy('bs_status');
-
+                ->orderBy('bs_status')
+                ->findAll();
             foreach($dt as $id=>$line)
                 {
-                    $sx .= '<li class="text-danger">';
+                    $sx .= '<li class="text-danger" style="font-size: 0.7em;">';
                     $sx .= lang('brapci.book_status_'.$line['bs_status']);
                     $sx .= ' <b>';
-                    $sx .= $line['total'];
+                    $sx .= '('.$line['total'].')';
                     $sx .= '</b>';
                     $sx .= '</li>';
+                }
+            if ($sx != '')
+                {
+                    $sx = '<b>Livros submetidos</b>'.$sx;
                 }
             return $sx;
         }
