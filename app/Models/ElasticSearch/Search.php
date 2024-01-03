@@ -118,7 +118,7 @@ class Search extends Model
 
             $js = (array)json_decode($line['json']);
             pre($js, false);
-            echo $abnt->show($js);
+            echo $abnt->ref($js);
 
             $ds = [];
 

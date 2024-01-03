@@ -40,6 +40,45 @@ class Abnt extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function ref($dt,$type='A')
+		{
+			/********************** Authors */
+			$authors = $this->ref_authors($dt['Authors']);
+			echo h($authors);
+			exit;
+		}
+
+	function ref_authors($dt)
+	{
+		$sx = '';
+		$etal = false;
+
+		if (isset($dt[0])) {
+			$total = count($dt);
+			$authors = '';
+			if ($total <= 3) {
+				foreach ($dt as $idk => $name) {
+					if ($authors != '') {
+						$authors .= '; ';
+					}
+					$authors .= nbr_author(ascii($name), 2);
+				}
+				$authors .= '. ';
+			} else {
+				foreach ($dt as $idk => $name) {
+					$authors .= nbr_author(ascii($name), 2);
+					$authors .= '; <i>et al.</i> ';
+					break;
+				}
+				$etal = true;
+			}
+			$sx .= $authors;
+		}
+		$sx = troca($sx, '..', '.');
+		$sx = trim($sx);
+		return $sx;
+	}
+
 	function show($dt, $type = 'A')
 	{
 		switch($dt['Class'])
