@@ -44,8 +44,20 @@ class Abnt extends Model
 		{
 			/********************** Authors */
 			$authors = $this->ref_authors($dt['Authors']);
-			echo h($authors);
+			$title = $this->ref_title($dt['Title']);
+			echo h($authors.'. '.$title);
 			exit;
+		}
+
+	function ref_title($dt,$lg_pref='pt')
+		{
+			$title = '[...]';
+			foreach($dt as $lang=>$line)
+				{
+					$title = $line['0'];
+					break;
+				}
+			return $title;
 		}
 
 	function ref_authors($dt)
