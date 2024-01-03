@@ -113,6 +113,7 @@ class Search extends Model
 
         $dr = [];
         foreach ($dt as $id => $line) {
+            pre($line);
             $js = (array)json_decode($line['json']);
             $ds = [];
             $ds['article_id'] = $line['article_id'];
