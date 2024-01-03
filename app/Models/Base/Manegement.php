@@ -93,7 +93,7 @@ class Manegement extends Model
             $sc = $ElasticSearch->resume();
 
             $Books = new \App\Models\Base\Book();
-            $sc = $Books->resume();
+            $sc .= $Books->resume();
 
             /************************************************ CRON - OAIPMH */
             $Oaipmh = new \App\Models\Oaipmh\Index();
