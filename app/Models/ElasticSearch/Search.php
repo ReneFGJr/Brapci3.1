@@ -117,13 +117,10 @@ class Search extends Model
         foreach ($dt as $id => $line) {
 
             $js = (array)json_decode($line['json']);
-            pre($js, false);
-            echo $abnt->ref($js);
-
-            $ds = [];
-
+            $ds =  $abnt->ref($js);
             array_push($dr, $ds);
         }
+        pre($dr);
         return $dr;
     }
 

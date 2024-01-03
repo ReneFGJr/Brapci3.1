@@ -42,6 +42,7 @@ class Abnt extends Model
 
 	function ref($dt,$type='A')
 		{
+			$Class = $dt['Class'];
 			/********************** Authors */
 			$authors = $this->ref_authors($dt['Authors']);
 			$title = $this->ref_title($dt['Title']);
@@ -52,7 +53,7 @@ class Abnt extends Model
 	function ref_legend($dt)
 		{
 			$dt = (array)$dt;
-			$leg = $dt['journal'];
+			$leg = '<b>'.$dt['journal']. '</b>';
 			if (isset($dt['vol']))
 				{
 					$leg .= ', '.$dt['vol'];
