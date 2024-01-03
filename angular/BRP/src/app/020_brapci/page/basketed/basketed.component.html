@@ -10,22 +10,22 @@
   <div *ngIf="row">
     <h2>Artigos</h2>
     <div *ngFor="let item of row.ABNT.Articles" class="mb-2">
-      {{ item }}
+      <div [innerHTML]="item"></div>
     </div>
 
     <h2>Anais de eventos</h2>
     <div *ngFor="let item of row.ABNT.Proceedings" class="mb-2">
-      {{ item }}
+      <div [innerHTML]="item"></div>
     </div>
 
     <h2>Livros</h2>
     <div *ngFor="let item of row.ABNT.Books" class="mb-2">
-      {{ item }}
+      <div [innerHTML]="item"></div>
     </div>
 
     <h2>Capítulos de livros</h2>
     <div *ngFor="let item of row.ABNT.BooksChapter" class="mb-2">
-      {{ item }}
+      <div [innerHTML]="item"></div>
     </div>
   </div>
 </div>
