@@ -129,6 +129,9 @@ class Search extends Model
                 {
                     array_push($ARTI, $ds);
                 }
+            if ($Class == 'Proceeding') {
+                array_push($PROC, $ds);
+            }
         }
         $dr['Articles'] = $ARTI;
         $dr['Proceedings'] = $PROC;
