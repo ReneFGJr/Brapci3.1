@@ -124,6 +124,12 @@ class Search extends Model
             if ($Class == 'Proceeding') {
                 array_push($PROC, $ds);
             }
+            if ($Class == 'Book') {
+                array_push($BOOK, $ds);
+            }
+            if ($Class == 'BookChapter') {
+                array_push($CHAP, $ds);
+            }
         }
         sort($ARTI);
         sort($PROC);
