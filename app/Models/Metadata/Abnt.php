@@ -42,8 +42,8 @@ class Abnt extends Model
 
 	function ref($dt,$type='A')
 		{
-			$URL = PATH.'v/';
-			$URL = troca($URL,'//cip.','//');
+			$URL = 'https://brapci.inf.br/index.php/res/v/';
+
 			$Class = $dt['Class'];
 			/********************** Authors */
 			$authors = $this->ref_authors($dt['Authors']);
