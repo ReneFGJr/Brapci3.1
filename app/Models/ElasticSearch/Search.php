@@ -101,8 +101,10 @@ class Search extends Model
         exit;
     }
 
-    function recoverList($ids)
+    function recoverList($ids,$tp="abnt")
     {
+        $abnt = new \App\Models\Metadata\Abnt();
+
         $cp = 'ID as article_id, json, CLASS as type, YEAR as year';
         $this->select($cp);
         $this->where('ID', $ids[0]);
@@ -115,12 +117,11 @@ class Search extends Model
         foreach ($dt as $id => $line) {
 
             $js = (array)json_decode($line['json']);
+
+            echo $abnt->show($js);
             pre($js);
             $ds = [];
-            $ds['article_id'] = $line['article_id'];
-            $ds['year'] = $line['year'];
-            $ds['ldl_title'] = $line['article_id'];
-            $ds['ldl_authors'] = $line['article_id'];
+
             array_push($dr, $ds);
         }
         return $dr;
