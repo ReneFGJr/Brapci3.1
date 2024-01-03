@@ -112,6 +112,7 @@ class Search extends Model
         $dt = $this->findAll();
 
         $dr = [];
+        $dr['ids'] = $ids;
         foreach ($dt as $id => $line) {
             $js = (array)json_decode($line['json']);
             $ds = [];
