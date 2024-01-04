@@ -26,6 +26,10 @@ class Popup extends BaseController
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
         switch ($act) {
+            case 'rdf':
+                $RDF = new \App\Models\RDF2\RDF();
+                $sx .= $RDF->index('popup',$id,$id2,$id3,$id4);
+                break;
             case 'oai':
                 $OAI = new \App\Models\Oaipmh\Index();
                 $sx = $OAI->index('getReg', $id2, $id3, $id4);

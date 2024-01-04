@@ -46,7 +46,7 @@ class RDFconcept extends Model
 
     function le($id)
         {
-            $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, cc_status, cc_created, cc_update, cc_version';
+            $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, cc_status, cc_created, cc_update, cc_version, id_c';
             //$cp = '*';
             $dc = $this
                 ->select($cp)

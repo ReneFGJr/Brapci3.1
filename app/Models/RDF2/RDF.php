@@ -42,11 +42,23 @@ class RDF extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
+        $sx = '';
         $RSP = [];
         switch ($d1) {
+            case 'popup':
+                $data['page_title'] = 'Brapci - POPUP';
+                $data['bg'] = 'bg-pq';
+                $sx .= $this->popup($d2, $d3, $d4);
+                return $sx;
+                break;
             case 'form':
+                $data['page_title'] = 'Brapci - POPUP';
+                $data['bg'] = 'bg-pq';
+                $sx = '';
+                $sx .= view('Brapci/Headers/header', $data);
                 $RDFform = new \App\Models\RDF2\RDFform();
-                $sx .= $RDFform->index($d2,$d3,$d4);
+                $sx .= $RDFform->index($d2, $d3, $d4);
+                return $sx;
                 break;
             case 'import':
                 $RSP = $this->import();
@@ -113,6 +125,37 @@ class RDF extends Model
         $menu = [];
         $menu[PATH . '/rdf/Class'] = "Classes";
         return menu($menu);
+    }
+
+    function popup($d1, $d2, $d3)
+    {
+        $sx = '';
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
+        switch ($d1) {
+            case 'add':
+                $sx .= '<div class="text-center">';
+                $RDFform = new \App\Models\RDF2\RDFform();
+                $sx .= $RDFform->add($d2,$d3);
+                $sx .= '</div>';
+                break;
+            case 'delete':
+                $sx .= '<div class="text-center">';
+                ############################## DELETE
+                $conf = get("confirm");
+                if ($conf != '') {
+
+                    $sx .= '<h1 class="text-center">' . lang('brapci.excluded_item') . '</h1>';
+                    $sx .= '<span class="btn btn-outline-primary" onclick="wclose();">' . lang("brapci.close") . '</span>';
+                    $RDFdata->where('id_d', $d2)->delete();
+                } else {
+                    $dt = $RDFdata
+                        ->find($d2);
+                    $sx .= '<a class="btn btn-outline-danger" href="' . PATH . '/popup/rdf/delete/' . $d2 . '?confirm=True">' . lang("brapci.exclude") . '</a>';
+                }
+                $sx .= '</div>';
+        }
+        return $sx;
     }
 
     /************* Default */

@@ -33,12 +33,7 @@ class RDF extends BaseController
         $sx = '';
         $sx .= cab();
         $RDF2 = new \App\Models\RDF2\RDF();
-        $sx .= $RDF2->index($d1, $d2, $d3, $d4,$d5, $cab);
-
-        if (get("footer") == '')
-        {
-            $sx .= view('Brapci/Headers/footer', $data);
-        }
+        $sx = $RDF2->index($d1, $d2, $d3, $d4,$d5, $cab);
         return $sx;
     }
 
