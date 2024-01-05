@@ -59,6 +59,10 @@ class Index extends Model
         $dt = $Socials->find($user);
 
         switch ($d1) {
+            case 'ars':
+                $tools = new \App\Models\Tools\Net\Index();
+                $sx .= $tools->index($d2,$d3,$d4);
+                break;
             case 'openaire':
                 $Openaire = new \App\Models\Tools\Openaire\Index();
                 $sx .= $Openaire->index($d2,$d3, $d4, $d5);
@@ -91,6 +95,9 @@ class Index extends Model
         $menu['#Lattes Tools'] = lang('tools.Lattes_tools');
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
         $menu[URL . '/tools/lattes/search'] = lang('tools.lattes_search');
+
+        $menu['#' . lang('tools.ARS')] = lang('tools.ARS');
+        $menu[URL . '/tools/ars/txt4net'] = lang('tools.ARS_txt4net');
 
         $menu['#' . lang('tools.Clean')] = lang('tools.clean_tools');
         $menu[URL . '/tools/nlp/clean'] = lang('tools.clean_tools');
