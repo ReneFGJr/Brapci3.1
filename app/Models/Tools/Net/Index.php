@@ -44,11 +44,13 @@ class Index extends Model
     {
         $sx = '';
         switch ($d1) {
-            case 'txt4net':
-                $chk = ['','','','',''];
-                if (get("author_abrev") != '') { $chk[0] = 'checked';}
+            case 'txt4count':
+                $chk = ['', '', '', '', ''];
+                if (get("author_abrev") != '') {
+                    $chk[0] = 'checked';
+                }
                 $sx = '';
-                $sa = h(lang('tools.ARS_txt4net'),2);
+                $sa = h(lang('tools.ARS_txt4count'), 2);
                 $sa .= form_open_multipart();
                 $sa .= form_upload('files');
                 $sa .= form_submit('action', lang('brapci.send'));
@@ -56,29 +58,68 @@ class Index extends Model
                 $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
                 $sa .= '<br>';
                 $sa .= '<br>';
-                $sa .= h(lang('tools.Options'),2);
-                $sa .= form_checkbox('author_abrev','1',$chk[0]).' '.lang('tools.txt4net.author_abrev');
+                $sa .= h(lang('tools.Options'), 2);
+                $sa .= form_checkbox('author_abrev', '1', $chk[0]) . ' ' . lang('tools.txt4net.author_abrev');
                 $sa .= form_close();
 
                 $sb = '';
                 $sb .= h('Instruções');
-                for($r=0;$r < 20;$r++)
-                    {
-                        $nn = 'tools.txt4net.line_' . $r;
-                        $ln = lang($nn);
-                        if ($nn != $ln)
-                            {
-                                $sb .= '<p>'.$r.' ' .$ln.'</p>';
-                            }
+                for ($r = 0; $r < 20; $r++) {
+                    $nn = 'tools.txt4count.line_' . $r;
+                    $ln = lang($nn);
+                    if ($nn != $ln) {
+                        $sb .= '<p>' . ' ' . $ln . '</p>';
                     }
+                }
 
                 $sx = bs(bsc($sa, 6) . bsc($sb, 6));
 
                 if (isset($_FILES['files']['tmp_name'])) {
                     if ($_FILES['files']['error'] == 0) {
                         $txt = file_get_contents($_FILES['files']['tmp_name']);
-                        $net = $this->csv_to_net($txt,$chk);
-                        $this->file_download($net,'.net');
+                        $net = $this->csv_to_count($txt, $chk);
+                        $this->file_download($net, '.csv');
+                    }
+                }
+
+                return $sx;
+                break;
+
+            case 'txt4net':
+                $chk = ['', '', '', '', ''];
+                if (get("author_abrev") != '') {
+                    $chk[0] = 'checked';
+                }
+                $sx = '';
+                $sa = h(lang('tools.ARS_txt4net'), 2);
+                $sa .= form_open_multipart();
+                $sa .= form_upload('files');
+                $sa .= form_submit('action', lang('brapci.send'));
+                $sa .= '<br>';
+                $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
+                $sa .= '<br>';
+                $sa .= '<br>';
+                $sa .= h(lang('tools.Options'), 2);
+                $sa .= form_checkbox('author_abrev', '1', $chk[0]) . ' ' . lang('tools.txt4net.author_abrev');
+                $sa .= form_close();
+
+                $sb = '';
+                $sb .= h('Instruções');
+                for ($r = 0; $r < 20; $r++) {
+                    $nn = 'tools.txt4net.line_' . $r;
+                    $ln = lang($nn);
+                    if ($nn != $ln) {
+                        $sb .= '<p>' . $ln . '</p>';
+                    }
+                }
+
+                $sx = bs(bsc($sa, 6) . bsc($sb, 6));
+
+                if (isset($_FILES['files']['tmp_name'])) {
+                    if ($_FILES['files']['error'] == 0) {
+                        $txt = file_get_contents($_FILES['files']['tmp_name']);
+                        $net = $this->csv_to_net($txt, $chk);
+                        $this->file_download($net, '.net');
                     }
                 }
                 return $sx;
@@ -103,16 +144,16 @@ class Index extends Model
         exit;
     }
 
-    function file_download($txt,$type='.net')
-        {
-            $arquivo = 'brapci_' . date("Ymd_His") . $type;
-            //header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            //header ("Pragma: no-cache");
-            header("Content-type: application/x-msexcel");
-            header("Content-Disposition: attachment; filename=\"{$arquivo}\"");
-            echo $txt;
-            exit;
-        }
+    function file_download($txt, $type = '.net')
+    {
+        $arquivo = 'brapci_' . date("Ymd_His") . $type;
+        //header ("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        //header ("Pragma: no-cache");
+        header("Content-type: application/x-msexcel");
+        header("Content-Disposition: attachment; filename=\"{$arquivo}\"");
+        echo $txt;
+        exit;
+    }
 
     function trata($txt)
     {
@@ -139,7 +180,44 @@ class Index extends Model
         return ($txt);
     }
 
-    function csv_to_net($txt,$opt)
+    function csv_to_count($txt, $opt)
+    {
+        set_time_limit(3600);
+        $txt = $this->trata($txt);
+        $txt = troca($txt, '.,', ';');
+        $txt = troca($txt, chr(10), ';');
+        $txt = troca($txt, chr(13), ';');
+        $lns = explode(';', $txt);
+        $auth = [];
+
+        foreach ($lns as $id => $aul) {
+            $aul = trim($aul);
+            if ($aul != '') {
+                $aul = explode(';', $aul);
+                foreach ($aul as $idx => $au) {
+                    if ($opt[0] != '') {
+                        $mm = nbr_author($au, 2);
+                    } else {
+                        $mm = $au;
+                    }
+                    if (isset($auth[$mm])) {
+                        $auth[$mm] = $auth[$mm] + 1;
+                    } else {
+                        $auth[$mm] = 1;
+                    }
+                }
+            }
+        }
+        $rsp = 'element;total'.cr();
+        foreach($auth as $name=>$total)
+            {
+                $rsp .= $name.';'.$total.cr();
+            }
+        return $rsp;
+
+    }
+
+    function csv_to_net($txt, $opt)
     {
         set_time_limit(3600);
         $txt = $this->trata($txt);
