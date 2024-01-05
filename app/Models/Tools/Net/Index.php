@@ -56,7 +56,7 @@ class Index extends Model
                 $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
                 $sa .= '<br>';
                 $sa .= '<br>';
-                $sa .= h('tools.Options',2);
+                $sa .= h(lang('tools.Options'),2);
                 $sa .= form_checkbox('author_abrev','1',$chk[0]).' Sobrenome do autor, abreviatura';
                 $sa .= form_close();
 
