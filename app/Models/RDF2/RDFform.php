@@ -55,7 +55,9 @@ class RDFform extends Model
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
 
-            $dt = $RDFliteral->like($t, 'match')
+            $dt = $RDFliteral
+                ->select('n_name, id_n')
+                ->like('n_name',$t)
                 ->orderBy('n_name')
                 ->findAll(40);
             return $dt;
