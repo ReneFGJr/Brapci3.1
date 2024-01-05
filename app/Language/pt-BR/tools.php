@@ -40,6 +40,7 @@ return [
         'ARS' => 'Conversores de Redes de Colaboração',
         'ARS_txt4net' => 'Converter .txt para .net',
         'Options' => 'Parametros',
+        'txt4net.author_abrev' => 'Abreviar nome de autores',
         'txt4net.line_0' => 'Esta ferramenta converte registros separados por ponto e virgula em arquivos de rede (.net) para ser usado pelo PAJEK e VozViewer',
         'txt4net.line_1' => 'O conteúdo do arquivo deve ter diversas linhas, e em cada linha ter os elementos separados por ponto e virgula (;)',
         'txt4net.line_2' => 'Ex:<br><tt>Autor1;Autor2;Autor3<br>Autor4;Autor5;Autor1;Autor3;Autor5</tt>',
