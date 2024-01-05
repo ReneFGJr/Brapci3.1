@@ -51,6 +51,16 @@ class RDFform extends Model
         return $sx;
     }
 
+    function search($t='',$class='')
+        {
+            $RDFliteral = new \App\Models\RDF2\RDFliteral();
+
+            $dt = $RDFliteral->like($t, 'match')
+                ->orderBy('n_name')
+                ->findAll(40);
+            return $dt;
+        }
+
     function add($d1,$d2)
         {
             $sx = '';

@@ -63,11 +63,15 @@ class Rdf extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFform = new \App\Models\RDF2\RDFform();
         $RDFrules = new \App\Models\RDF2\RDFrules();
         $RSP = [];
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'search':
+                    $RSP['data'] = $RDFform->search($d3,$d4);
+                    break;
                 case 'remissive':
                     $RSP['data'] = $RDFrules->RDFremissive();
                     break;
