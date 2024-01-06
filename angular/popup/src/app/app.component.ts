@@ -11,6 +11,7 @@ export class AppComponent {
   busy: number = 0;
   search: any = ''
   title = 'popup'
+  prop: string = ''
   term:string = ''
   btn_new: string = 'false'
   btn_cancel: string = ''
@@ -38,7 +39,7 @@ export class AppComponent {
 
       if (this.search.length > 2) {
         console.log(this.search);
-        this.apiService.api(1,this.search);
+        this.apiService.api(1,this.search,this.prop);
       }
       this.busy = 0;
     }

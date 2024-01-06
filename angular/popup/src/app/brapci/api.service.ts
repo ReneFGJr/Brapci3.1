@@ -11,12 +11,13 @@ export class ApiService {
 
   constructor(private HttpClient: HttpClient) {}
 
-  public api(id: number,term:string): Observable<Array<any>> {
-    let url = `${this.url}rdf/search/` + id;
+  public api(id: number,term:string,prop:string): Observable<Array<any>> {
+    let url = `${this.url}rdf/search/`;
     console.log(`Fontes: ${url}`);
     var formData: any = new FormData();
-    formData.append('term', term);
+    formData.append('q', term);
     formData.append('concept', id);
+    formData.append('propriey', prop);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,

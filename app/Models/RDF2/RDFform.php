@@ -51,15 +51,45 @@ class RDFform extends Model
         return $sx;
     }
 
-    function search($t='',$class='')
+    function search()
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $RDFclassRange = new \App\Models\RDF2\RDFclassRange();
 
-            $dt = $RDFliteral
-                ->select('n_name, id_n')
-                ->like('n_name',$t)
-                ->orderBy('n_name')
-                ->findAll(40);
+            $q = get("q");
+            $prop = get("prop");
+            /* Filter de Range of Classes */
+            $concept = get("id");
+
+            /** */
+            $prop = 31;
+
+            /************ Recupera o RANGE de possibilidades */
+            $classes = [];
+            $dtc = $RDFclassRange
+                ->select('cr_range')
+                ->where('cr_property',$prop)
+                ->findAll();
+            $dtci = [];
+            $qi = explode(' ',$q);
+            foreach($dtc as $idx=>$idy)
+                {
+                    array_push($dtci,round($idy['cr_range']));
+                }
+
+            $RDFliteral->select('id_cc as ID, n_name as Name, n_lang as Lang, c_class as Class');
+            $RDFliteral->join('rdf_data', 'id_n = d_literal');
+            $RDFliteral->join('rdf_concept', 'd_r1 = id_cc');
+            $RDFliteral->join('rdf_class', 'cc_class = id_c');
+            $RDFliteral->orWhereIn('cc_class', $dtci);
+            foreach($qi as $id=>$ti)
+                {
+            $RDFliteral->Like('n_name', $ti);
+                }
+            $RDFliteral->orderBy('n_name');
+            $dt = $RDFliteral->findAll(40);
+
             return $dt;
         }
 
