@@ -36,7 +36,7 @@ export class AppComponent {
       console.log('==>' + this.search.length);
       if (this.search.length > 2) {
         this.busy = 1;
-        console.log("==>"+this.search);
+        console.log("=LOG=>"+this.search);
         this.apiService.api(1, this.search, this.prop).subscribe(
           (res) => {
             this.Concepts = res

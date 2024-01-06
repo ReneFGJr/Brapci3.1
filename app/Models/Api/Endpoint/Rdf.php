@@ -109,6 +109,5 @@ class Rdf extends Model
                     break;
             }
         echo json_encode($RSP);
-        exit;
     }
 }
