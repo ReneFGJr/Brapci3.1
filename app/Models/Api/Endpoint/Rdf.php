@@ -53,10 +53,10 @@ class Rdf extends Model
     function index($d1, $d2, $d3, $d4)
     {
         /* NAO USADO PARA AS APIS */
+        header('Access-Control-Allow-Origin: *');
 
         if (($d2 != 'import') and ($d2 != 'in'))
         {
-            header('Access-Control-Allow-Origin: *');
             header("Content-Type: application/json");
         }
 
