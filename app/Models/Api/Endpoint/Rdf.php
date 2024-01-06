@@ -56,6 +56,7 @@ class Rdf extends Model
 
         if (($d2 != 'import') and ($d2 != 'in'))
         {
+            echo "OK";
             header('Access-Control-Allow-Origin: *');
             header("Content-Type: application/json");
         }

@@ -41,6 +41,7 @@ export class AppComponent {
           (res) => {
             this.Concepts = res
             this.Concepts = this.Concepts
+            console.log("+===================")
             console.log(this.Concepts);
             this.busy = 0;
           }
