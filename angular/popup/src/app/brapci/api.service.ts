@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   http: any;
+
   private url: string = 'https://cip.brapci.inf.br/api/';
 
   constructor(private HttpClient: HttpClient) {}
@@ -14,6 +15,7 @@ export class ApiService {
   public api(id: number,term:string,prop:string): Observable<Array<any>> {
     let url = `${this.url}rdf/search/`;
     console.log(`Fontes: ${url}`);
+    console.log(`Params: ${term},${id},${prop}`);
     var formData: any = new FormData();
     formData.append('q', term);
     formData.append('concept', id);

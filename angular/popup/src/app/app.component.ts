@@ -17,10 +17,7 @@ export class AppComponent {
   btn_cancel: string = ''
   btn_aplly: string = 'false'
 
-  Concpets:Array<any> = [
-    {Name:'Hello World',id:'1'},
-    {Name:'RDF',id:'2'}
-  ]
+  Concepts:Array<any> = []
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,15 +30,24 @@ export class AppComponent {
   }
 
   keyUp() {
+    console.log(this.busy)
     if (this.busy == 0) {
-      this.busy = 1;
       this.search = this.name.value;
-
+      console.log('==>' + this.search.length);
       if (this.search.length > 2) {
-        console.log(this.search);
-        this.apiService.api(1,this.search,this.prop);
+        this.busy = 1;
+        console.log("==>"+this.search);
+        this.apiService.api(1, this.search, this.prop).subscribe(
+          (res) => {
+            this.Concepts = res
+            this.Concepts = this.Concepts
+            console.log(this.Concepts);
+            this.busy = 0;
+          }
+        );
+
       }
-      this.busy = 0;
+
     }
   }
 }

@@ -58,6 +58,10 @@ class RDFform extends Model
             $RDFclassRange = new \App\Models\RDF2\RDFclassRange();
 
             $q = get("q");
+            if (strlen($q) < 3)
+                {
+                    return [];
+                }
             $prop = get("prop");
             /* Filter de Range of Classes */
             $concept = get("id");

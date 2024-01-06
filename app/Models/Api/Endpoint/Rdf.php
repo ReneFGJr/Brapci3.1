@@ -70,8 +70,7 @@ class Rdf extends Model
         switch($d2)
             {
                 case 'search':
-                    $RSP['post'] = $_POST;
-                    $RSP['data'] = $RDFform->search($d3,$d4);
+                    $RSP = $RDFform->search($d3,$d4);
                     break;
                 case 'remissive':
                     $RSP['data'] = $RDFrules->RDFremissive();

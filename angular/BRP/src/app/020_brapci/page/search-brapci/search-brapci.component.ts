@@ -204,7 +204,8 @@ export class SearchBrapciComponent {
 
       this.totalw = 0;
 
-      this.brapciService.search(term, dt).subscribe((res) => {
+      this.brapciService.search(term, dt).subscribe(
+        (res) => {
         this.result = res;
         this.results = this.result.works;
         this.works = [];

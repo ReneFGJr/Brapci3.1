@@ -13,7 +13,7 @@
       <br>
 
     <select #selectElem (change)="setTerm(selectElem.value)" class="full form-controls" size="6">
-        <option *ngFor="let user of Concpets" [value]="user.id">
+        <option *ngFor="let user of Concepts" [value]="user.id">
             {{user.Name}}
         </option>
     </select>
