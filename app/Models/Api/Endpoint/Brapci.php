@@ -62,6 +62,10 @@ class Brapci extends Model
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
+            case 'page':
+                $WP = new \App\Models\WP\Index();
+                $RSP = $WP->api($d2);
+                break;
             case 'basket':
                 $RSP = $this->basket(get("row") . get("q"));
                 break;
