@@ -16,6 +16,22 @@ export class SearchBrapciAdvComponent {
   public loading: boolean = false;
   public style: string = '';
   public logo: string = '/assets/img/brand_brapci_shadown.png';
+  public form: Array<any> = [];
+  public field: Array<any> = [{ op: 'AND', type: '*', q: '' }];
+
+  public optionsType: Array<any> = [
+    { id: 0, name: 'Todos os campos' },
+    { id: 1, name: 'Título' },
+    { id: 2, name: 'Resumo' },
+    { id: 3, name: 'Palavras-chave' },
+    { id: 4, name: 'Autor' },
+  ]
+
+  public operadorType: Array<any> = [
+    { id: 'AND', name: "AND" },
+    { id: 'OR', name: "OR" },
+    { id: 'NOT', name: "NOT" }
+  ]
 
   public loaging_img: string = '/assets/img/loading.svg';
 
@@ -32,10 +48,22 @@ export class SearchBrapciAdvComponent {
 
   ngOnInit() {
     this.createForm();
-    this.style = 'noshow';
+    this.form.push(this.field);
   }
 
-  clickSearch() {
+  newField() {
+    this.form.push(this.field);
+  }
+
+  onType(pos: string, id: number = 0) {
+    this.form[id][0].type = pos;
+  }
+
+  onBoolean(pos: string, id: number = 0) {
+    this.form[id][0].op = pos;
+  }
+
+  clickSearchBasic() {
     this.router.navigate(['/']);
   }
 

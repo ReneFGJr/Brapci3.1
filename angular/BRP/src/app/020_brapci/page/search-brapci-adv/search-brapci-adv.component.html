@@ -4,41 +4,68 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-2 col-lg-3"></div>
-    <div class="col-10 col-lg-6"><img [src]="logo" class="img-fluid" alt="Logotipo da Brapci em branco com sombras" /></div>
+    <div class="col-10 col-lg-6">
+      <img
+        [src]="logo"
+        class="img-fluid"
+        alt="Logotipo da Brapci em branco com sombras"
+      />
+    </div>
     <div class="col-2 col-lg-3"></div>
   </div>
 </div>
 <!---- CAMPO -->
-<div class="container">
-  <div class="row">
-    <div class="col-12">
+<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+  <div class="container">
+    <div class="row">
+      <div class="col-11">
+        <h1>Busca Avançada</h1>
 
+        <label>Termos de busca</label>
+        <br />
+        <table class="table full">
+          <tr *ngFor="let item of form; index as i" class="p-2 mt-3">
+            <td width="3%" class="text-center p-2">{{ i + 1 }}</td>
+            <td width="15%" *ngIf="i == 0" class="p-2">&nbsp;</td>
+            <td width="15%" *ngIf="i > 0" class="p-2">
+              <select name="o{{i}}" class="shadow rounded full" (change)="onBoolean($any($event.target).value,i)">
+                <option *ngFor="let o of operadorType" [value]="o.id">{{o.name}}</option>
+              </select>
+            </td>
 
-      <h1>Busca Avançada</h1>
-      <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
-        <label for="search">Termos de busca</label>
-        <input
-          id="search"
-          type="search"
-          placeholder="Digite aqui"
-          formControlName="term"
-          autofocus
-          required
-          class="shadow rounded p-2"
-        />
+            <td>
+              <input type="text" id="f{{i}}" class="full shadow rounded border border-secondary p-2" />
+            </td>
+
+            <td width="20%">
+              <select name="t{{i}}" class="shadow rounded p-2 full" (change)="onType($any($event.target).value,i)">
+                <option *ngFor="let o of optionsType" [value]="o.id">
+                    {{o.name}}
+                </option>
+              </select>
+            </td>
+          </tr>
+
+          <tr><td class="text-center p-3" colspan="5">
+          <span class="link" (click)="newField();">+ Adicionar novo campo</span>
+          </td></tr>
+        </table>
+        {{ form | json }}
+
+        <br />
+        <small class="link ms-4" (click)="clickSearchBasic()">busca simples</small>
+        <br />
+      </div>
+      <div class="col-1">
         <button type="submit" *ngIf="!loading">
           <i class="bi bi-search"></i>
         </button>
         <button type="submit" *ngIf="loading">
           <img [src]="loaging_img" style="height: 65px" />
         </button>
-
-        <br />
-
-        <small class="link ms-4" (click)="clickSearch()">busca simples</small>
-      </form>
+      </div>
     </div>
   </div>
-</div>
+</form>
 
 <app-theme-footer></app-theme-footer>

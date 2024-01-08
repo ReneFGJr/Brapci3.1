@@ -61,8 +61,9 @@ export class SearchResultComponent {
   public msg_of: string = 'de';
 
   ngOnChanges() {
-    this.works = [];
+    this.works = []
     let max = 5;
+    this.totalw = 0
     if (this.results.length < max) {
       max = this.results.length;
     }
