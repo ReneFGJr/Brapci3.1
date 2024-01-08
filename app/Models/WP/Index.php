@@ -69,7 +69,7 @@ class Index extends Model
             $ln = [];
             foreach($dt as $idx=>$line)
                 {
-                    $lnl = ['linha'=>$line['a_texto'],'lang'=>$line['a_lang']];
+                    $lnl = ['row'=>$line['a_texto'],'lang'=>$line['a_lang']];
                     array_push($ln,$lnl);
                 }
             return $ln;
