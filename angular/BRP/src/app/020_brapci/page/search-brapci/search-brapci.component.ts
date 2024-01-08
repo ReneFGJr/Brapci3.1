@@ -9,6 +9,7 @@ import {
 import { BrapciService } from '../../../000_core/010_services/brapci.service';
 import { LocalStorageService } from '../../../000_core/010_services/local-storage.service';
 import { map } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-brapci',
@@ -19,6 +20,7 @@ export class SearchBrapciComponent {
   public selected: number = 0;
   public works: Array<any> | any;
   public totalw: number = 0;
+  public total: number = 0;
   public result: Array<any> | any;
   public results: Array<any> = [];
   public filters: boolean = false;
@@ -39,8 +41,6 @@ export class SearchBrapciComponent {
   public msg_show: string = 'Mostrando';
   public msg_of: string = 'de';
 
-  public marked: FormGroup;
-
   public yearsI: Array<any> = [];
   public yearsF: Array<any> = [];
 
@@ -55,7 +55,8 @@ export class SearchBrapciComponent {
   constructor(
     private fb: FormBuilder,
     private brapciService: BrapciService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     /************************************************************ Collection */
     this.list = [
@@ -76,9 +77,7 @@ export class SearchBrapciComponent {
     if (this.basket === null) {
       this.basket = [];
     }
-    this.marked = this.fb.group({
-      website: this.fb.array([], [Validators.required]),
-    });
+
     this.selected = this.basket.length;
 
     /*************************************************************** FILTRO ANO - STAND*/
@@ -116,85 +115,14 @@ export class SearchBrapciComponent {
   }
 
   clickadvanceSearch() {
-    console.log('Adcanced Search');
+    this.router.navigate(['/search-adv']);
   }
-
-  /**************************** MARK */
-  markDOwn(e: any) {
-    let id = 'mk' + e;
-    let checkbox = document.getElementById(id) as HTMLInputElement | null;
-
-    const wb: FormArray = this.marked.get('website') as FormArray;
-
-    if (e.target.checked) {
-      /********* Verifica se existe */
-      const index = wb.controls.findIndex((x) => x.value === e.target.value);
-      if (index > 0) {
-      } else {
-        wb.push(new FormControl(e.target.value));
-      }
-    } else {
-      const index = wb.controls.findIndex((x) => x.value === e.target.value);
-      wb.removeAt(index);
-    }
-    this.localStorageService.set('marked', wb.value);
-    this.basket = wb.value;
-    this.selected = this.basket.length;
-  }
-
-  updateBasket(e: string) {
-    let it = this.basket;
-    const wb: FormArray = this.marked.get('website') as FormArray;
-
-    if (it != null) {
-      it.map((idx: string) => {
-        let xid = wb.controls.findIndex((x) => x.value === idx);
-        wb.removeAt(xid);
-      });
-    }
-
-    it.map((idx: string) => {
-      let id = 'mk' + idx;
-      let checkbox = document.getElementById(id) as HTMLInputElement | null;
-      if (checkbox != null) {
-        checkbox.checked = false;
-      }
-    });
-
-    this.basket = [];
-    this.localStorageService.remove('mark');
-    this.selected = 0;
-  }
-
-  checked(id: string) {
-    if (this.basket.includes(id)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**************************** SCROLL */
-  onScrollDown(ev: any) {
-    let max = 1;
-    let ini: number = this.totalw;
-    let fim: number = ini + max;
-    let tot: number = this.results.length;
-    if (fim > tot) {
-      fim = tot;
-    }
-
-    for (let i = ini; i < fim; i++) {
-      this.works.push(this.results[i]);
-      this.totalw++;
-    }
-  }
-
-  onScrollUp(ev: any) {}
 
   onSearch() {
     var map = new Map();
     if (this.searchForm.valid) {
+      this.result = []
+      this.results = []
       let term = this.searchForm.value.term;
       this.loading = true;
 
@@ -204,8 +132,7 @@ export class SearchBrapciComponent {
 
       this.totalw = 0;
 
-      this.brapciService.search(term, dt).subscribe(
-        (res) => {
+      this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
         this.results = this.result.works;
         this.works = [];
@@ -217,6 +144,7 @@ export class SearchBrapciComponent {
           this.works.push(this.results[i]);
           this.totalw++;
         }
+        this.total = this.result.total;
         this.loading = false;
       });
     } else {

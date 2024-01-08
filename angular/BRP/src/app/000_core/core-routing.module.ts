@@ -5,9 +5,11 @@ import { VComponent } from '../020_brapci/page/v/v.component';
 import { BasketedComponent } from '../020_brapci/page/basketed/basketed.component';
 import { DashboardComponent } from '../020_brapci/page/dashboard/dashboard.component';
 import { AboutComponent } from '../020_brapci/page/about/about.component';
+import { SearchBrapciAdvComponent } from '../020_brapci/page/search-brapci-adv/search-brapci-adv.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
+  { path: 'search-adv', component: SearchBrapciAdvComponent },
   { path: 'about', component: AboutComponent },
   { path: 'about/:id', component: AboutComponent },
   { path: 'v/:id', component: VComponent },

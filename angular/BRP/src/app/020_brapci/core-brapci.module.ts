@@ -42,6 +42,9 @@ import { FilestorageComponent } from './page/v/filestorage/filestorage.component
 import { BookchapterComponent } from './page/v/bookchapter/bookchapter.component';
 import { BannerBenancibComponent } from './page/banner/banner-benancib/banner-benancib.component';
 import { BenancibComponent } from './page/v/benancib/benancib.component';
+import { SearchBrapciAdvComponent } from './page/search-brapci-adv/search-brapci-adv.component';
+import { SearchComponent } from './page/search/search.component';
+import { SearchResultComponent } from './page/search-result/search-result.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +85,9 @@ import { BenancibComponent } from './page/v/benancib/benancib.component';
     BookchapterComponent,
     BannerBenancibComponent,
     BenancibComponent,
+    SearchBrapciAdvComponent,
+    SearchComponent,
+    SearchResultComponent,
   ],
   imports: [
     CommonModule,
