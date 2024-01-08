@@ -46,7 +46,7 @@ class Index extends Model
         $sx .h($act);
         switch ($act) {
             case 'page':
-                $WP = new \App\Models\WP\index();
+                $WP = new \App\Models\WP\Index();
                 $sx .= $WP->index($subact, $id, $id2, $id3);
                 break;
             case 'book':

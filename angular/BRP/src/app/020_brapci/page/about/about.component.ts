@@ -6,7 +6,7 @@ import { BrapciService } from '../../../000_core/010_services/brapci.service';
   templateUrl: './about.component.html'
 })
 export class AboutComponent {
-  public resume:Array<any>|any
+  public content:Array<any>|any
   public header = {'title':'Sobre a Brapci'}
 
   constructor(
@@ -14,9 +14,9 @@ export class AboutComponent {
   ) {}
 
   ngOnInit(): void {
-    this.brapciService.generic('resume').subscribe(
+    this.brapciService.generic('page/about').subscribe(
       res=>{
-        this.resume = res
+        this.content = res;
         console.log(res);
       }
     )
