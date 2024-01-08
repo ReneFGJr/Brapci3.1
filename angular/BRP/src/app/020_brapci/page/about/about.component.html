@@ -2,17 +2,19 @@
 <app-theme-navbar></app-theme-navbar>
 <router-outlet></router-outlet>
 
-
 <div class="container">
   <div class="row">
+    <div
+      *ngFor="let item of content"
+      class="col-12"
+      [innerHTML]="item.row"
+    ></div>
 
-  <div *ngFor="let item of content" class="col-12">
-  {{}}
-  </div>
-
-  <div>Conformidade:
-  <p>https://www.acessibilidade.gov.pt/</p>
-  <p>https://accessmonitor.acessibilidade.gov.pt/</p>
+    <div class="mt-5 pt-5">
+      <h4>Conformidades em testes:</h4>
+      <li>https://www.acessibilidade.gov.pt/</li>
+      <li>https://accessmonitor.acessibilidade.gov.pt/</li>
+    </div>
   </div>
 </div>
 
