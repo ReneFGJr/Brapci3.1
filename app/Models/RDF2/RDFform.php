@@ -117,11 +117,32 @@ class RDFform extends Model
                 ->where('cd_domain',$idc)
                 ->where('cd_property',$idp)
                 ->findAll();
-            pre($dt,false);
+            $types = '';
+            foreach($dt as $id=>$line)
+                {
+                    if ($types != '') { $types .= ', '; }
+                    $types .= $line['c_class'];
+                }
 
-            $sx = form_open();
-            $sx .= form_input('term');
+            $sx .= '<div class="container-fluid">';
+            $sx .= '<div class="row">';
+            $sx .= '<div class="col-12">';
+            $sx .= form_open();
+            $sx .= form_label("Termo de busca");
+            $sx .= form_input('term',get("term"), 'class="full form-control border border-secondary"');
+            $sx .= form_label("Selecione o conceito - ".$d2.' - '.$types.'.');
+            $sx .= '<select name="opt" class="full form-control border border-secondary" size=6>';
+            $sx .= '</select>';
+            $sx .= '<hr>';
+            $sx .= '<button id="btn_add" class="btn btn-outline-secondary me-2" disabled>Inserir Conceito</button>';
+            $sx .= '<button id="btn_sign" class="btn btn-outline-primary me-2" disabled>Salvar e fechar</button>';
+            $sx .= '<button id="btn_signc" class="btn btn-outline-primary me-2" disabled>Salbar e continuar</button>';
+            $sx .= '<button id="btn_cancel" onclick="wclose();" class="btn btn-outline-warning me-2">Cancelar</button>';
             $sx .= form_close();
+            $sx .= '</div></div></div>';
+
+
+
 
             return $sx;
         }
@@ -137,7 +158,7 @@ class RDFform extends Model
 
         $cp = "lt1.n_name as lt1, lt2.n_name as lt2,";
         $cp .= "lt1.n_lang as lg1, lt2.n_lang as lg2,";
-        $cp .= "c_class, d_r1, d_p, d_r2, d_literal,id_d ";
+        $cp .= "c_class, d_r1, d_p, d_r2, d_literal,id_d,id_c,rf_order,rf_label ";
 
         $dt = $this
             ->select($cp)
@@ -146,8 +167,10 @@ class RDFform extends Model
             ->join('brapci_rdf.rdf_literal as lt1', 'd_literal = lt1.id_n', "left")
             ->join('brapci_rdf.rdf_concept', 'd_r2 = id_cc', 'left')
             ->join('brapci_rdf.rdf_literal as lt2', 'cc_pref_term = lt2.id_n', "left")
+            ->join('brapci_rdf.rdf_form', 'id_c = rf_class', "left")
             ->where('cd_domain', $idc)
             ->where('d_r1', $id)
+            ->orderBy('rf_order')
             ->findAll();
 
         $sx = '<table class="table full">' . cr();
@@ -179,13 +202,15 @@ class RDFform extends Model
                 $linkEd .= '</span>' . cr();
             }
 
-            $dr2 = trim($line['d_r2']);
+            $dr2 = round($line['d_r2']);
             if ($dr2 > 0) {
                 $link = '<a href="' . PATH . '/v/' . $dr2 . '">';
                 $linka = '</a>';
             }
 
-            $name = trim($line['lt1']) . trim($line['lt2']);
+            $name = '';
+            if ($line['lt1'] != null) { $name .= trim($line['lt1']); }
+            if ($line['lt2'] != null) { $name .= trim($line['lt2']); }
             if ($name != '') {
                 $sx .= $linkEd;
                 $sx .= $link . $name . $linka . '@' . $line['lg1'] . $line['lg2'] . cr();

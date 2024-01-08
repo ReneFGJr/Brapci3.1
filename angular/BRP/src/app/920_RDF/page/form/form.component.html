@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Brapci Editor RDF</h1>
+      <div *ngIf="busy" style="position:absolute; top:0px; right: 0px;">BUSY</div>
+      <!--
+      <router-outlet></router-outlet>
+      -->
+
+      Termo de Busca: <input [formControl]="name" class="full" (keyup)="keyUp()">
+
+      [{{name.value}}]
+      <br>
+
+    <select #selectElem (change)="setTerm(selectElem.value)" class="full form-controls" size="6">
+        <option *ngFor="let user of Concepts" [value]="user.id">
+            {{user.Name}}
+        </option>
+    </select>
+
+      <br>
+      <button [disabled]="btn_new" class="me-2 p-2 btn btn-outline-danger">Cadastrar Item</button>
+      <button [disabled]="btn_aplly" class="me-2 p-2 btn btn-outline-primary">Adicionar</button>
+      <button [disabled]="btn_cancel" class="me-2 p-2 btn btn-outline-warning">Canclear</button>
+      T: {{ term }}
+    </div>
+  </div>
+</div>

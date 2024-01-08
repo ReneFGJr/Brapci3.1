@@ -25,6 +25,21 @@ export class BrapciService {
     );
   }
 
+  public api(id: number, term: string, prop: string): Observable<Array<any>> {
+    let url = `${this.url}rdf/search/`;
+    console.log(`Fontes: ${url}`);
+    console.log(`Params: ${term},${id},${prop}`);
+    var formData: any = new FormData();
+    formData.append('q', term);
+    formData.append('concept', id);
+    formData.append('propriey', prop);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
+
   public api_post(type: string, dt: Array<any> = []): Observable<Array<any>> {
     let url = `${this.url}` + type;
     console.log(`Buscador: ${url}`);
