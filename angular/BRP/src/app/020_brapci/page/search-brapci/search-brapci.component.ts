@@ -134,6 +134,7 @@ export class SearchBrapciComponent {
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
+        console.log(res)
         this.results = this.result.works;
         this.works = [];
         let max = 5;

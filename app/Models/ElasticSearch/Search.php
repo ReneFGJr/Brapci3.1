@@ -300,6 +300,10 @@ class Search extends Model
         $rsp['data_get'] = $_GET;
         $rsp['url'] = $url;
 
+        /*************************** */
+        $rsp['words'] = $wd;
+
+
         if (isset($dt['error'])) {
             $sx = $rsp['error'] = bsmessage(
                 h("ERRO") .

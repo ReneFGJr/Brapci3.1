@@ -67,6 +67,7 @@ export class SearchResultComponent {
     if (this.results.length < max) {
       max = this.results.length;
     }
+
     for (let i = 0; i < max; i++) {
       this.works.push(this.results[i]);
       this.totalw++;
