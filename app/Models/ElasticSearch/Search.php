@@ -200,7 +200,7 @@ class Search extends Model
                 }
             }
 
-        $wd = explode(' ',$q);
+        $wd = explode(' ',$qp);
         foreach($wd as $id=>$word)
             {
                 $word = troca($word,'_',' ');
