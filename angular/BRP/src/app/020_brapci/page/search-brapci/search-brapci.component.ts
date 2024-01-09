@@ -134,7 +134,7 @@ export class SearchBrapciComponent {
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
-        console.log(res)
+        console.log('Estratégia de busca',this.result.words);
         this.results = this.result.works;
         this.works = [];
         let max = 5;
