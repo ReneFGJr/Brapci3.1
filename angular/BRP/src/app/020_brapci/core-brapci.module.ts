@@ -45,6 +45,7 @@ import { BenancibComponent } from './page/v/benancib/benancib.component';
 import { SearchBrapciAdvComponent } from './page/search-brapci-adv/search-brapci-adv.component';
 import { SearchComponent } from './page/search/search.component';
 import { SearchResultComponent } from './page/search-result/search-result.component';
+import { TipsComponent } from './page/tips/tips.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { SearchResultComponent } from './page/search-result/search-result.compon
     SearchBrapciAdvComponent,
     SearchComponent,
     SearchResultComponent,
+    TipsComponent,
   ],
   imports: [
     CommonModule,

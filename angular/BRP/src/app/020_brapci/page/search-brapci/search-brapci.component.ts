@@ -44,6 +44,9 @@ export class SearchBrapciComponent {
   public yearsI: Array<any> = [];
   public yearsF: Array<any> = [];
   public currentYear: number;
+  public terms:string = ''
+
+  public tips:string = ''
 
   list: any[];
   fields: any[];
@@ -109,6 +112,22 @@ export class SearchBrapciComponent {
     });
   }
 
+  keyUp()
+    {
+      let term = this.searchForm.value.term;
+      if (term.includes(' ')) {
+        if (term.includes('"'))
+          {
+            this.tips = '';
+          }
+          else {
+            this.tips = '1';
+          }
+      } else {
+        this.tips = '';
+      }
+    }
+
   ngOnInit() {
     this.createForm();
     this.style = 'noshow';
@@ -121,7 +140,8 @@ export class SearchBrapciComponent {
   }
 
   clickadvanceSearch() {
-    this.router.navigate(['/search-adv']);
+    alert("Em desenvolvimento e testes, aguarde")
+    //this.router.navigate(['/search-adv']);
   }
 
   fieldChange(v:string)

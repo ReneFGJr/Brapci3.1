@@ -8,6 +8,7 @@
     autofocus
     required
     class="shadow rounded p-2"
+    (keyup)="keyUp()"
   />
   <button type="submit" *ngIf="!loading"><i class="bi bi-search"></i></button>
   <button type="submit" *ngIf="loading">
@@ -58,6 +59,8 @@
     </div>
   </div>
 </form>
+
+<app-search-tips *ngIf="tips" [terms]="terms"></app-search-tips>
 
 
 <!-- brapci-basket [total]="selected" (basketRow)="updateBasket($event)"></brapci-basket -->
