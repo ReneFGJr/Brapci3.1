@@ -225,8 +225,8 @@ class Search extends Model
         foreach($wd as $id=>$word)
             {
                 $word = troca($word,'_',' ');
-                $strategy['must'][$id]['match_phrase']['full'] = ascii($word);
-                //$strategy['must'][$id]['match_phrase'][$field] = ascii($word);
+                //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
+                $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
             }
 
 
