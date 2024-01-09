@@ -200,31 +200,36 @@ class Search extends Model
                 }
             }
 
+        /******************** Fields */
+        $flds = get("field");
+
+        switch ($flds) {
+            case 'AU':
+                $field = 'authors';
+                break;
+            case 'AB':
+                $field = 'abstract';
+                break;
+            case 'KW':
+                $field = 'keyword';
+                break;
+            case 'TI':
+                $field = 'title';
+                break;
+            default:
+                $field = 'full';
+                break;
+        }
+
         $wd = explode(' ',$qp);
         foreach($wd as $id=>$word)
             {
                 $word = troca($word,'_',' ');
-                $strategy['must'][$id]['match_phrase']['full'] = ascii($word);
+                $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
             }
 
 
-        /******************** Fields */
-        $flds = round('0' . get("field"));
 
-        switch ($flds) {
-            case 1:
-                $fields = array("title");
-                break;
-            case 2:
-                $fields = array("abstract");
-                break;
-            case 3:
-                $fields = array("subject");
-                break;
-            default:
-                $fields = array("title^10", "abstract", "subject^5", "authors");
-                break;
-        }
 
         //$query['multi_match']['fields'] = $fields;
 

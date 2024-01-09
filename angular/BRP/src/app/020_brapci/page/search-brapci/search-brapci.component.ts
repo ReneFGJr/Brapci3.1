@@ -43,6 +43,7 @@ export class SearchBrapciComponent {
 
   public yearsI: Array<any> = [];
   public yearsF: Array<any> = [];
+  public currentYear: number;
 
   list: any[];
   fields: any[];
@@ -50,7 +51,9 @@ export class SearchBrapciComponent {
   listArray: string[] = [];
   sum = 1;
   display = 5;
-  direction = '';
+  direction = ''
+
+  field_search:string = 'FL'
 
   constructor(
     private fb: FormBuilder,
@@ -71,6 +74,7 @@ export class SearchBrapciComponent {
       { name: 'Resumo', value: 'AB', checked: true },
       { name: 'Palavras-chave', value: 'KW', checked: true },
       { name: 'Autor', value: 'AU', checked: true },
+      { name: 'Todos os campos', value: 'FL', checked: true },
     ];
     /*********************************************************** BASKET */
     this.basket = this.localStorageService.get('marked');
@@ -81,7 +85,8 @@ export class SearchBrapciComponent {
     this.selected = this.basket.length;
 
     /*************************************************************** FILTRO ANO - STAND*/
-    let yearE = 2024;
+    this.currentYear = new Date().getFullYear();
+    let yearE = this.currentYear + 1;
     let yearS = 1960;
     for (let i = yearS; i <= yearE; i++) {
       this.yearsI.push({ name: i });
@@ -99,6 +104,7 @@ export class SearchBrapciComponent {
       term: [this.term, Validators.required],
       year_start: [this.year_start, Validators.required],
       year_end: [this.year_end, Validators.required],
+      field: [this.field_search, Validators.required],
       api_version: [this.APIversion, Validators.required],
     });
   }
@@ -118,23 +124,31 @@ export class SearchBrapciComponent {
     this.router.navigate(['/search-adv']);
   }
 
+  fieldChange(v:string)
+    {
+      this.field_search = v
+      console.log('Change to',v)
+    }
+
   onSearch() {
     var map = new Map();
     if (this.searchForm.valid) {
-      this.result = []
-      this.results = []
+      this.result = [];
+      this.results = [];
       let term = this.searchForm.value.term;
       this.loading = true;
 
+      let fld = this.searchForm.value.fld;
+
       let dataS = this.searchForm.value.year_start;
       let dataF = this.searchForm.value.year_end;
-      let dt: Array<any> | any = { di: dataS, df: dataF };
+      let dt: Array<any> | any = { di: dataS, df: dataF, field: this.field_search };
 
       this.totalw = 0;
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
-        console.log('Estratégia de busca',this.result.words);
+        console.log('Estratégia de busca', this.result.words);
         this.results = this.result.works;
         this.works = [];
         let max = 5;

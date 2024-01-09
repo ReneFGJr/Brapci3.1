@@ -13,7 +13,6 @@
   <button type="submit" *ngIf="loading">
     <img [src]="loaging_img" style="height: 65px" />
   </button>
-
   <br/>
 
   <small class="link ms-3" (click)="clickFilters()">filtros</small>
@@ -42,7 +41,7 @@
           </select>
         </div>
 
-        <div class="col-4 col-sm-3">
+        <div class="col-4 col-sm-4">
           <span class="small bold">Coleções</span>
               <div *ngFor="let item of list">
                 <input type="checkbox" value="{{ item.value }}" [checked]="item.checked"> {{ item.name }} <br/>
@@ -52,7 +51,7 @@
         <div class="col-4 col-sm-3">
           <span class="small bold">Campos</span>
               <div *ngFor="let item of fields">
-                <input type="checkbox" value="{{ item.value }}" [checked]="item.checked"> {{ item.name }} <br/>
+                <input type="radio" name="fields" (change)="fieldChange(item.value)" value="{{ item.value }}" [checked]="item.checked"> {{ item.name }} <br/>
               </div>
         </div>
       </div>
