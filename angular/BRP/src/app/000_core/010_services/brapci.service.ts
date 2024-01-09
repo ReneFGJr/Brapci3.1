@@ -145,6 +145,22 @@ export class BrapciService {
     );
   }
 
+  public searchAdv(dt: Array<any>)
+    {
+      console.log(dt)
+      let url = `${this.url}brapci/search/a1`;
+      console.log(`Buscador: ${url}`);
+      var formData: any = new FormData();
+      formData.append('offset', '1000');
+
+      formData.append('data', dt);
+
+      return this.HttpClient.post<Array<any>>(url, formData).pipe(
+        (res) => res,
+        (error) => error
+      );
+    }
+
   public search(term: string, dt: Array<any>): Observable<Array<any>> {
     let url = `${this.url}brapci/search/v1`;
     console.log(`Buscador: ${url}`);

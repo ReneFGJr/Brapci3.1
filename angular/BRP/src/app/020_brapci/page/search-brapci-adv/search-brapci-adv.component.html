@@ -15,7 +15,7 @@
   </div>
 </div>
 <!---- CAMPO -->
-<form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+<form [formGroup]="searchForm" (ngSubmit)="onAdvancedSearch()">
   <div class="container">
     <div class="row">
       <div class="col-11">
@@ -24,20 +24,26 @@
         <label>Termos de busca</label>
         <br />
         <table class="table full">
+
           <tr *ngFor="let item of form; index as i" class="p-2 mt-3">
+            <!---- OPERADOR -->
             <td width="3%" class="text-center p-2">{{ i + 1 }}</td>
+            <!-- First Line -->
             <td width="15%" *ngIf="i == 0" class="p-2">&nbsp;</td>
+            <!-- Second Line -->
             <td width="15%" *ngIf="i > 0" class="p-2">
               <select name="o{{i}}" class="shadow rounded full" (change)="onBoolean($any($event.target).value,i)">
-                <option *ngFor="let o of operadorType" [value]="o.id">{{o.name}}</option>
+                <option *ngFor="let a of operadorType" [value]="a.id">{{a.name}}</option>
               </select>
             </td>
 
             <td>
-              <input type="text" id="f{{i}}" class="full shadow rounded border border-secondary p-2" />
+              <!---- TERMO -->
+              <input type="text" id="f{{i}}" (keyup)="pressKeyUp($any($event.target).value,i)" class="full shadow rounded border border-secondary p-2" />
             </td>
 
-            <td width="20%">
+            <td width="20%" class="ps-2">
+              <!---- TIPO -->
               <select name="t{{i}}" class="shadow rounded p-2 full" (change)="onType($any($event.target).value,i)">
                 <option *ngFor="let o of optionsType" [value]="o.id">
                     {{o.name}}
@@ -57,7 +63,7 @@
         <br />
       </div>
       <div class="col-1">
-        <button type="submit" *ngIf="!loading">
+        <button type="submit" *ngIf="!loading" (click)="onAdvancedSearch()">
           <i class="bi bi-search"></i>
         </button>
         <button type="submit" *ngIf="loading">

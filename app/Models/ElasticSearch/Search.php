@@ -175,7 +175,35 @@ class Search extends Model
         $strategy = [];
         //$strategy['must']['term']['full'] = ascii($qs);
         //$strategy['must'][0]['match']['full'] = ascii($qs);
-        $strategy['must'][0]['match_phrase']['full'] = ascii($qs);
+        /************** Trata Termos */
+        $aspas = false;
+        $qp = '';
+        $q = ascii($q);
+        $q = mb_strtolower($q);
+
+        for ($r=0;$r < strlen($q);$r++)
+            {
+                $c = substr($q,$r,1);
+                if ($c == '"')
+                    {
+                        $aspas = !$aspas;
+                    }
+                else {
+                    if (($c == ' ') and ($aspas == true))
+                        {
+                            $c = '_';
+                        }
+                    $qp .= $c;
+                }
+            }
+
+        $wd = explode(' ',$q);
+        foreach($wd as $id=>$word)
+            {
+                $word = troca($word,'_',' ');
+                $strategy['must'][$id]['match_phrase']['full'] = ascii($word);
+            }
+
 
         /******************** Fields */
         $flds = round('0' . get("field"));
@@ -205,6 +233,8 @@ class Search extends Model
         $data['size'] = $offset;
         $data['from'] = $start;
         $data['query']['bool'] = $strategy;
+
+
 
         $sx =  '';
 
