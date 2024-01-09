@@ -63,7 +63,7 @@ class Brapci extends Model
         $RSP['status'] = '200';
         switch ($d1) {
             case 'indexs':
-                $RSP= $this->indexs($d2);
+                $RSP= $this->indexs($d2,$d3);
                 break;
             case 'page':
                 $WP = new \App\Models\WP\Index();
@@ -120,14 +120,15 @@ class Brapci extends Model
     }
 
     /******************************** indexs */
-    function indexs($t)
+    function indexs($t,$l='A')
         {
+            if ($l == '') { $l = 'A'; }
             $RDF = new \App\Models\RDF2\RDF();
             $RSP = [];
             switch($t)
                 {
                     case 'subject':
-                        $RDP['data'] = $RDF->index_list('Subject');
+                        $RSP['data'] = $RDF->index_list('Subject',$l);
                     break;
                     default:
                     $RSP['status'] = 404;
