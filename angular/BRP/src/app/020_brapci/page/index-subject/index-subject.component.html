@@ -1,4 +1,15 @@
-Total: {{(data.data).length}}
-<li *ngFor="let item of data.data">
-  <a [routerLink]="['/v/'+item.id_cc]">{{item.n_name}}</a>
-</li>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item" *ngFor="let item of ltrs">
+    <a (click)="goUrl('/indexs/subject/' + item)" class="page-link" style="cursor: pointer;">{{item}}</a>
+    </li>
+  </ul>
+</nav>
+
+  Total: {{ data.data.length }}
+  <div style="column-count: 3">
+    <li *ngFor="let item of data.data" style="list-style-type: none">
+      <a class="link" [routerLink]="['/v/' + item.id_cc]">{{ item.n_name }}</a>
+      <sup>({{ item.n_lang }})</sup>
+    </li>
+  </div>
