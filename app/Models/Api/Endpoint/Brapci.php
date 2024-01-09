@@ -62,6 +62,9 @@ class Brapci extends Model
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
+            case 'indexs':
+                $RSP= $this->indexs($d2);
+                break;
             case 'page':
                 $WP = new \App\Models\WP\Index();
                 $RSP = $WP->api($d2);
@@ -115,6 +118,23 @@ class Brapci extends Model
         echo json_encode($RSP);
         exit;
     }
+
+    /******************************** indexs */
+    function indexs($t)
+        {
+            $RDF = new \App\Models\RDF2\RDF();
+            $RSP = [];
+            switch($t)
+                {
+                    case 'subject':
+                        $RDP['data'] = $RDF->index_list('Subject');
+                    break;
+                    default:
+                    $RSP['status'] = 404;
+                    $RSP['message'] = 'Index '.$t.' not found';
+                }
+            return $RSP;
+        }
     /******************************* UPLOAD */
     function upload()
     {

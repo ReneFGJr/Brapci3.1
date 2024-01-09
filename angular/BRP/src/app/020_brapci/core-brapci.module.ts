@@ -46,6 +46,8 @@ import { SearchBrapciAdvComponent } from './page/search-brapci-adv/search-brapci
 import { SearchComponent } from './page/search/search.component';
 import { SearchResultComponent } from './page/search-result/search-result.component';
 import { TipsComponent } from './page/tips/tips.component';
+import { IndexSubjectComponent } from './page/index-subject/index-subject.component';
+import { IndexsComponent } from './page/indexs/indexs.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,8 @@ import { TipsComponent } from './page/tips/tips.component';
     SearchComponent,
     SearchResultComponent,
     TipsComponent,
+    IndexSubjectComponent,
+    IndexsComponent,
   ],
   imports: [
     CommonModule,

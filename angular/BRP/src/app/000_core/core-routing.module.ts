@@ -6,12 +6,15 @@ import { BasketedComponent } from '../020_brapci/page/basketed/basketed.componen
 import { DashboardComponent } from '../020_brapci/page/dashboard/dashboard.component';
 import { AboutComponent } from '../020_brapci/page/about/about.component';
 import { SearchBrapciAdvComponent } from '../020_brapci/page/search-brapci-adv/search-brapci-adv.component';
+import { IndexsComponent } from '../020_brapci/page/indexs/indexs.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
   { path: 'search-adv', component: SearchBrapciAdvComponent },
   { path: 'about', component: AboutComponent },
   { path: 'about/:id', component: AboutComponent },
+  { path: 'indexs', component: IndexsComponent },
+  { path: 'indexs/:id', component: IndexsComponent },
   { path: 'v/:id', component: VComponent },
   { path: 'v', component: VComponent },
   { path: 'basket/selected', component: BasketedComponent },

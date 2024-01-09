@@ -127,6 +127,19 @@ class RDF extends Model
         return menu($menu);
     }
 
+    function index_list($i)
+        {
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $idc = $RDFclass->getClass($i);
+            $dt = $RDFconcept
+                ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+                ->where('cc_class',$idc)
+                ->findAll(100);
+            pre($dt);
+
+        }
+
     function popup($d1, $d2, $d3)
     {
         $sx = '';
