@@ -181,6 +181,9 @@ class Search extends Model
         $q = ascii($q);
         $q = mb_strtolower($q);
 
+        /*********** REMOVE O AND */
+        $q = troca($q,' and ','');
+
         for ($r=0;$r < strlen($q);$r++)
             {
                 $c = substr($q,$r,1);
