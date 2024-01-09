@@ -35,6 +35,8 @@ def check(lg):
         lg = 'de'
     elif (lg == '0'):
         lg = 'nn'
+    elif (lg == 'mul'):
+        lg = 'nn'
     else:
         print("ERRO LANGUAGE ",lg)
         quit()
