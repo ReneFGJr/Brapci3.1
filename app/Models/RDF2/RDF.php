@@ -139,7 +139,7 @@ class RDF extends Model
                 ->where('cc_class',$idc)
                 ->like('n_name',$l,'after')
                 ->orderBy('n_name')
-                ->findAll(100);
+                ->findAll(5000);
             return $dt;
 
         }
