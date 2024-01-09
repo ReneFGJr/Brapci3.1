@@ -5,6 +5,7 @@
 <div class="container">
   <div class="row">
       <h1>Índice {{type}}</h1>
+      <app-index-subject [data]="data" *ngIf="type == 'subject' and data"></app-index-subject>
   </div>
 </div>
 

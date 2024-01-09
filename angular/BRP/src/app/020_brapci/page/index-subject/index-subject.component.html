@@ -1,1 +1,4 @@
 <p>index-subject works!</p>
+<li *ngFor="let item of data.data">
+  <a [routerLink]="['/user/bob']">{{item.n_name}}</a>
+</li>

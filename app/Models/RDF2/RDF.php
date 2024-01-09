@@ -138,6 +138,7 @@ class RDF extends Model
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                 ->where('cc_class',$idc)
                 ->like('n_name',$l,'after')
+                ->orderBy('n_name')
                 ->findAll(100);
             return $dt;
 
