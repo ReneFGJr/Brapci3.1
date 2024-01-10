@@ -20,7 +20,7 @@ function res($pt)
                 if (isset($pt[3])) {
                     v($pt[3]);
                 } else {
-                    e404();
+                    e404($pt);
                 }
                 break;
             default:
@@ -35,8 +35,8 @@ function v($id)
     die();
 }
 
-function e404()
+function e404($pr)
 {
-    echo "Página não localizada 404";
+    echo "Página não localizada 404<br>";
     print_r($_SERVER['PATH_INFO']);
 }
