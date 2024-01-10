@@ -15,7 +15,7 @@ if (isset($pt[1])) {
 
 function indice($pt)
 {
-  pre($t);
+  pre($pt);
   if (!isset($pt[2]))
     {
       $pt[2] = 'subject';
