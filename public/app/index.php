@@ -24,7 +24,7 @@ function res($pt)
                 }
                 break;
             default:
-                e404();
+                e404($pt);
         }
     }
 }
@@ -35,8 +35,8 @@ function v($id)
     die();
 }
 
-function e404($pr)
+function e404($pt)
 {
     echo "Página não localizada 404<br>";
-    print_r($_SERVER['PATH_INFO']);
+    print_r($pt);
 }
