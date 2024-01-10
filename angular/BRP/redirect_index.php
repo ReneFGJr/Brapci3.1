@@ -15,7 +15,6 @@ if (isset($pt[1])) {
 
 function indice($pt)
 {
-  pre($pt);
   if (!isset($pt[2]))
     {
       $pt[2] = 'subject';
@@ -30,6 +29,7 @@ function indice($pt)
 
 function res($pt)
 {
+  pre($pt);
     if (isset($pt[2])) {
         switch ($pt[2]) {
             case 'indice':
