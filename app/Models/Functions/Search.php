@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Search extends Model
 {
-    protected $DBGroup          = 'search';
+    protected $DBGroup          = 'click';
     protected $table            = '_search';
     protected $primaryKey       = 'id_s';
     protected $useAutoIncrement = true;
