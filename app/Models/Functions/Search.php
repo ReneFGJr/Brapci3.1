@@ -59,7 +59,7 @@ class Search extends Model
         $data['s_type'] = get("type");
         $data['s_order'] = get("type");
         $data['s_total'] = $total;
-        $data['s_IP'] = $ip;
+        $data['s_ip'] = $ip;
         $data['s_user'] = $user;
         $this->insert($data);
     }
