@@ -4,7 +4,14 @@
 
 <div class="container">
   <div class="row" *ngIf="data">
-      <h1>Índice {{type}}</h1>
+      <h1>Índice {{type}} X</h1>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" *ngFor="let item of ltrs">
+          <a (click)="getTerms(item)" class="page-link" style="cursor: pointer;">{{item}}</a>
+          </li>
+        </ul>
+      </nav>
       <app-index-subject [data]="data" *ngIf="type == 'subject'"></app-index-subject>
   </div>
 </div>

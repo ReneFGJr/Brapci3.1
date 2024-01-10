@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 
 @Component({
@@ -14,14 +14,59 @@ export class IndexsComponent {
   public ltr: string = '';
   public sub: Array<any> | any;
 
+  public langs: Array<any> = ['pt','en','es']
+  public lang: string = ''
+
+  public ltrs: Array<any> = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'X',
+    'Y',
+    'W',
+    'Z',
+  ];
+
   constructor(
     public brapciService: BrapciService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
-  ngOnChange()
+  ngOnChange() {
+    console.log('NEW');
+  }
+
+  getLang(lg:string)
     {
-      console.log("NEW")
+      this.lang = lg
+    }
+  getTerms(ltr:string)
+    {
+      this.ltr = ltr
+      this.brapciService
+        .generic('indexs/' + this.type + '/' + this.ltr)
+        .subscribe((res) => {
+          this.data = res;
+        });
     }
 
   ngOnInit() {
@@ -32,10 +77,6 @@ export class IndexsComponent {
     });
 
     console.log(this.type);
-    this.brapciService
-      .generic('indexs/' + this.type + '/' + this.ltr)
-      .subscribe((res) => {
-        this.data = res;
-      });
+    this.getTerms(this.ltr)
   }
 }

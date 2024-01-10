@@ -26,10 +26,13 @@ export class VComponent {
         (res) => {
           this.data = res;
           this.type = this.data.Class;
-          if (this.data.Issue.jnl_rdf == 75)
-          {
-            this.type = 'Benancib';
-          }
+          if (this.data.Issue != undefined)
+            {
+              if (this.data.Issue.jnl_rdf == 75)
+              {
+                this.type = 'Benancib';
+              }
+            }
           this.header.title = this.data.title + ' | ' + this.data.Authors;
         },
         (error) => error

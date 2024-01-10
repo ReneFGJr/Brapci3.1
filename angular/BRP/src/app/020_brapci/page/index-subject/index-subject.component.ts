@@ -8,15 +8,6 @@ import { Router } from '@angular/router';
 export class IndexSubjectComponent {
   @Input() public data: Array<any> | any;
 
- constructor(private router: Router) { }
-
-  public ltrs: Array<any> = ['A', 'B', 'C', 'D' ,'E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','X','Y','W','Z'];
-
-  goUrl(url:string)
-  {
-    this.router.navigate([url]);
-  }
-
   ngOnChange()
     {
       console.log("NEW-CHANGE")
