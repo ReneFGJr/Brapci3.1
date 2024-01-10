@@ -7,6 +7,8 @@ if (isset($pt[1])) {
         case 'res':
             res($pt);
             break;
+        default:
+          print_r($pt);
     }
 }
 
@@ -36,4 +38,5 @@ function v($id)
 function e404()
 {
     echo "Página não localizada 404";
+    print_r($_SERVER['PATH_INFO']);
 }
