@@ -7,9 +7,6 @@ if (isset($pt[1])) {
         case 'res':
             res($pt);
             break;
-        case 'indice':
-            indice($pt);
-            break;
         default:
           echo "<h1>PATH</h1>";
           pre($pt, false);
@@ -34,6 +31,9 @@ function res($pt)
 {
     if (isset($pt[2])) {
         switch ($pt[2]) {
+            case 'indice':
+              indice($pt);
+              break;
             case 'v':
                 if (isset($pt[3])) {
                     v($pt[3]);
