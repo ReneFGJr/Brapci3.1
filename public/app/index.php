@@ -56,4 +56,5 @@ function v($id)
 function e404()
 {
     echo "Página não localizada 404";
+    pre($_SERVER['PATH_INFO']);
 }
