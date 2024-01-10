@@ -23,6 +23,12 @@ function res($pt)
                     e404($pt);
                 }
                 break;
+            case 'indice':
+              if (!isset($pt[3])) { $pt[3] = 'subject'; }
+              if (!isset($pt[4])) { $pt[4] = 'A'; }
+              header("Location: https://brapci.inf.br/#/indexs/".$pt[3]."/".$pt[4]);
+              die();
+              break;
             default:
                 e404($pt);
         }
