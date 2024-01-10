@@ -182,7 +182,7 @@ class Search extends Model
         $q = mb_strtolower($q);
 
         /*********** REMOVE O AND */
-        $q = troca($q,' and ','');
+        $q = trim(troca(' '.$q.' ',' and ',''));
 
         for ($r=0;$r < strlen($q);$r++)
             {
