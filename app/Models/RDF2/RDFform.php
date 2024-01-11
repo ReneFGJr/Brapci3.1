@@ -14,7 +14,9 @@ class RDFform extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_f'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -129,7 +131,10 @@ class RDFform extends Model
             $sx .= '<div class="col-12">';
             $sx .= form_open();
             $sx .= form_label("Termo de busca");
-            $sx .= form_input('term',get("term"), 'class="full form-control border border-secondary"');
+            $sx .= '<div class="input-group mb-3">
+                    <input name="term" id="term" type="text" class="full form-control border border-secondary" placeholder="Termo de busca" aria-label="Termo de Busca" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="submitAction()">Busca</button>
+                    </div>';
             $sx .= form_label("Selecione o conceito - ".$d2.' - '.$types.'.');
             $sx .= '<select name="opt" class="full form-control border border-secondary" size=6>';
             $sx .= '</select>';
@@ -141,7 +146,9 @@ class RDFform extends Model
             $sx .= form_close();
             $sx .= '</div></div></div>';
 
-
+            $sx .= '<script>'.cr();
+            $sx .= 'function submitAction() { alert("SUBMIT"); }';
+            $sx .= '</script>' . cr();
 
 
             return $sx;
@@ -162,16 +169,18 @@ class RDFform extends Model
 
         $dt = $this
             ->select($cp)
-            ->join('brapci_rdf.rdf_data', 'd_p = cd_property', "left")
-            ->join('brapci_rdf.rdf_class', 'd_p = id_c', "left")
+            ->join('brapci_rdf.rdf_class', 'cd_property = id_c', "left")
+            ->join('brapci_rdf.rdf_form', 'id_c = rf_class', "left")
+            ->join('brapci_rdf.rdf_data', 'cd_property = d_p', "left")
             ->join('brapci_rdf.rdf_literal as lt1', 'd_literal = lt1.id_n', "left")
             ->join('brapci_rdf.rdf_concept', 'd_r2 = id_cc', 'left')
             ->join('brapci_rdf.rdf_literal as lt2', 'cc_pref_term = lt2.id_n', "left")
-            ->join('brapci_rdf.rdf_form', 'id_c = rf_class', "left")
             ->where('cd_domain', $idc)
-            ->where('d_r1', $id)
-            ->orderBy('rf_order')
+            ->where('(d_r1 = '.$id.' or d_r1 is null)')
+            ->orderBy('rf_order, c_class')
             ->findAll();
+
+            echo $this->getlastquery();
 
         $sx = '<table class="table full">' . cr();
         foreach ($dt as $idx => $line) {
@@ -197,7 +206,7 @@ class RDFform extends Model
                     $linkEd .= '</span>' . cr();
                 }
 
-                $linkEd .= '<span onclick="newxy2(\'' . PATH . '/popup/rdf/add/'.$id.'/' . $line['c_class'] . '\',800,600);" class="cursor">';
+                $linkEd .= '<span onclick="newxy2(\'' . PATH . '/popup/rdf/add/'.$id.'/' . $line['c_class'] . '\',1024,800);" class="cursor">';
                 $linkEd .= bsicone('plus');
                 $linkEd .= '</span>' . cr();
             }
