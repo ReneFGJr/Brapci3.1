@@ -24,6 +24,7 @@ return [
         'lattes_articles' => 'artigos',
         'lattes_events' => 'trabalhos em eventos',
         'lattes_formacao' => 'formação',
+        'lattes_keywords' => 'Palavras-chave',
         'openaier' => 'OpenAire API (Database)',
         'lattes_producao_artistica' => 'Produção Artistica',
         'clean_tools' => 'Ferramenta de limpeza de dados',
@@ -49,5 +50,6 @@ return [
         'txt4net.line_3' => 'O arquivo deve estar em formato txt, o retorno será um arquivo na extensão .net',
         'txt4count.line_0' => 'Esta ferramenta realiza uma contagem de todos os elementos separados por ponto e virgula',
         'txt4count.line_1' => 'Pode ser utilizado para autores, palavras-chave, entre outros elementos',
+
         '' => '',
 ];
