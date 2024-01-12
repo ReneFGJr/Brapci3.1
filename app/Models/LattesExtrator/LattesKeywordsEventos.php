@@ -45,7 +45,7 @@ class LattesKeywordsEventos extends Model
     function csv($prj=0)
         {
             $dt = $this
-                ->select('lp_authors, lp_ano, ky_name, kp_producao, lp_title')
+                ->select('le_authors, le_ano, ky_name, kp_producao, le_title')
                 ->join('lattesproducao_evento', '(id_le = kp_producao) and (kp_tipo = "E")')
                 ->join('brapci_tools.projects_harvesting_xml', '(hx_id_lattes =  le_author) and (hx_project = ' . $prj . ')')
                 ->join('lattes_keywords', 'kp_keyword = id_ky')
@@ -58,7 +58,7 @@ class LattesKeywordsEventos extends Model
             foreach($dt as $id=>$line)
                 {
                     $prod = $line['kp_producao'];
-                    $name = '"'.$line['lp_authors']. '","' . $line['lp_ano'] . '","' . $line['lp_title'] . '"';
+                    $name = '"'.$line['le_authors']. '","' . $line['le_ano'] . '","' . $line['le_title'] . '"';
                     if ($prod != $xcap)
                         {
                            if ($xcap != '') { $sx .=  cr(); }
