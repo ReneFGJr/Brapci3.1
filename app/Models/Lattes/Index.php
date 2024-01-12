@@ -122,6 +122,11 @@ class Index extends Model
                             $txt = $LattesOrientacao->csv($d2);
                             break;
 
+                        case '9':
+                            $LattesKeywordsEventos = new \App\Models\LattesExtrator\LattesKeywordsEventos();
+                            $txt = $LattesKeywordsEventos->csv($d2);
+                            break;
+
                     }
                 if ($ok==1)
                     {
@@ -368,11 +373,13 @@ class Index extends Model
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/3', lang('tools.export') . ' ' . lang('tools.lattes_events')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/2', lang('tools.export') . ' ' . lang('tools.lattes_formacao')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/4', lang('tools.export') . ' ' . lang('tools.lattes_producao_artistica')) . ' (csv)</li>';
-            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/5', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/5', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (Article) (csv)</li>';
+            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/5', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (Proceeding) (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('tools.export') . ' ' . lang('tools.openaier')) . ' (api)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/6', lang('tools.export') . ' ' . lang('tools.lattes_academic_education')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/7', lang('tools.export') . ' ' . lang('tools.lattes_affiliation')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/8', lang('tools.export') . ' ' . lang('tools.lattes_orientations')) . ' (csv)</li>';
+
             $sx .= '</ul>';
             return $sx;
         }
