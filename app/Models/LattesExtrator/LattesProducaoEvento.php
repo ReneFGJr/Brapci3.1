@@ -108,6 +108,9 @@ class LattesProducaoEvento extends Model
 			->findAll();
 
 
+			pre($dt);
+
+
 
 		header("Content-Type: text/csv");
 		header("Content-Disposition: attachment; filename=brapci_tools_production_" . date("Ymd-His") . ".csv");
