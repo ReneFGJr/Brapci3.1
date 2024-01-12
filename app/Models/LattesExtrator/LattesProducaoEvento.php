@@ -107,11 +107,6 @@ class LattesProducaoEvento extends Model
 			->orderBy('le_seq')
 			->findAll();
 
-
-			pre($dt);
-
-
-
 		header("Content-Type: text/csv");
 		header("Content-Disposition: attachment; filename=brapci_tools_production_" . date("Ymd-His") . ".csv");
 		header("Pragma: no-cache");
@@ -127,8 +122,10 @@ class LattesProducaoEvento extends Model
 			$sa .= '"' . $line['le_ano'] . '",';
 			$sa .= '"' . $line['le_doi'] . '",';
 			$sa .= '"' . $line['le_issn'] . '",';
-			$sa .= '"' . $line['le_journal'] . '",';
+			$sa .= '"' . $line['le_event'] . '",';
 			$sa .= '"' . $this->natureza($line['le_natureza']) . '",';
+			$sa .= '"' . $line['le_place'] . '",';
+			$sa .= '"' . $line['le_country'] . '",';
 			$sa = troca($sa, chr(13), '');
 			$sa = troca($sa, chr(10), '');
 			$sx = $sa . chr(13);
