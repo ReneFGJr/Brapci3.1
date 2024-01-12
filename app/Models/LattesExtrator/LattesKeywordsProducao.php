@@ -75,7 +75,7 @@ class LattesKeywordsProducao extends Model
             foreach($dt as $id=>$line)
                 {
                     $prod = $line['kp_producao'];
-                    $name = '"'.$line['lp_authors'].'","'.$line['lp_title'].'"';
+                    $name = '"'.$line['lp_authors']. '","' . $line['lp_ano'] . '","' . $line['lp_title'] . '"';
                     if ($prod != $xcap)
                         {
                            if ($xcap != '') { $sx .=  cr(); }
