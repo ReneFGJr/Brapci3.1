@@ -73,6 +73,15 @@ class LattesProducaoEvento extends Model
 			case 'RESUMO':
 				$nat = 'RS';
 				break;
+			case 'CP':
+				$nat = 'CP';
+				break;
+			case 'RS':
+				$nat = 'RS';
+				break;
+			case 'RE':
+				$nat = 'RE';
+				break;
 			case 'RESUMO_EXPANDIDO':
 				$nat = 'RE';
 				break;
