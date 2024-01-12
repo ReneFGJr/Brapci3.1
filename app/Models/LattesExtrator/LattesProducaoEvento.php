@@ -99,7 +99,7 @@ class LattesProducaoEvento extends Model
 	function csv($id)
 	{
 		set_time_limit(0);
-		$cp = 'le_author, le_authors, le_title, le_ano, le_doi, le_issn, le_journal, le_natureza';
+		$cp = 'le_author, le_authors, le_title, le_ano, le_doi, le_issn, le_event, le_natureza, le_place, le_country';
 		$dt = $this
 			->select($cp)
 			->join('brapci_tools.projects_harvesting_xml', 'le_author  = hx_id_lattes')
@@ -117,7 +117,7 @@ class LattesProducaoEvento extends Model
 		header("Pragma: no-cache");
 		header("Expires: 0");
 
-		echo 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,JOURNAL,NATUREZA' . chr(13);
+		echo 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,EVENT,NATUREZA,PLACE,COUNTRY' . chr(13);
 
 		foreach ($dt as $id => $line) {
 			$sa = '';
