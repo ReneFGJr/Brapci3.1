@@ -96,6 +96,44 @@ class LattesProducaoEvento extends Model
 		return 0;
 	}
 
+	function csv($id)
+	{
+		set_time_limit(0);
+		$cp = 'lp_author, lp_authors, lp_title, lp_ano, lp_doi, lp_issn, lp_journal, lp_natureza';
+		$dt = $this
+			->select($cp)
+			->join('brapci_tools.projects_harvesting_xml', 'lp_author  = hx_id_lattes')
+			->where('hx_project', $id)
+			->orderBy('lp_seq')
+			->findAll();
+
+
+
+		header("Content-Type: text/csv");
+		header("Content-Disposition: attachment; filename=brapci_tools_production_" . date("Ymd-His") . ".csv");
+		header("Pragma: no-cache");
+		header("Expires: 0");
+
+		echo 'IDLATTES,AUTHORS,TITLE,YEAR,DOI,ISSN,JOURNAL,NATUREZA' . chr(13);
+
+		foreach ($dt as $id => $line) {
+			$sa = '';
+			$sa .= '"' . $line['lp_author'] . '",';
+			$sa .= '"' . $line['lp_authors'] . '",';
+			$sa .= '"' . $line['lp_title'] . '",';
+			$sa .= '"' . $line['lp_ano'] . '",';
+			$sa .= '"' . $line['lp_doi'] . '",';
+			$sa .= '"' . $line['lp_issn'] . '",';
+			$sa .= '"' . $line['lp_journal'] . '",';
+			$sa .= '"' . $this->natureza($line['lp_natureza']) . '",';
+			$sa = troca($sa, chr(13), '');
+			$sa = troca($sa, chr(10), '');
+			$sx = $sa . chr(13);
+			echo $sx;
+		}
+		exit;
+	}
+
 	function producao($id)
 	{
 		$tela = '';
