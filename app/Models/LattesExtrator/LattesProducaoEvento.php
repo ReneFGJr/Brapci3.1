@@ -99,12 +99,12 @@ class LattesProducaoEvento extends Model
 	function csv($id)
 	{
 		set_time_limit(0);
-		$cp = 'lp_author, lp_authors, lp_title, lp_ano, lp_doi, lp_issn, lp_journal, lp_natureza';
+		$cp = 'le_author, le_authors, le_title, le_ano, le_doi, le_issn, le_journal, le_natureza';
 		$dt = $this
 			->select($cp)
-			->join('brapci_tools.projects_harvesting_xml', 'lp_author  = hx_id_lattes')
+			->join('brapci_tools.projects_harvesting_xml', 'le_author  = hx_id_lattes')
 			->where('hx_project', $id)
-			->orderBy('lp_seq')
+			->orderBy('le_seq')
 			->findAll();
 
 
@@ -118,14 +118,14 @@ class LattesProducaoEvento extends Model
 
 		foreach ($dt as $id => $line) {
 			$sa = '';
-			$sa .= '"' . $line['lp_author'] . '",';
-			$sa .= '"' . $line['lp_authors'] . '",';
-			$sa .= '"' . $line['lp_title'] . '",';
-			$sa .= '"' . $line['lp_ano'] . '",';
-			$sa .= '"' . $line['lp_doi'] . '",';
-			$sa .= '"' . $line['lp_issn'] . '",';
-			$sa .= '"' . $line['lp_journal'] . '",';
-			$sa .= '"' . $this->natureza($line['lp_natureza']) . '",';
+			$sa .= '"' . $line['le_author'] . '",';
+			$sa .= '"' . $line['le_authors'] . '",';
+			$sa .= '"' . $line['le_title'] . '",';
+			$sa .= '"' . $line['le_ano'] . '",';
+			$sa .= '"' . $line['le_doi'] . '",';
+			$sa .= '"' . $line['le_issn'] . '",';
+			$sa .= '"' . $line['le_journal'] . '",';
+			$sa .= '"' . $this->natureza($line['le_natureza']) . '",';
 			$sa = troca($sa, chr(13), '');
 			$sa = troca($sa, chr(10), '');
 			$sx = $sa . chr(13);
