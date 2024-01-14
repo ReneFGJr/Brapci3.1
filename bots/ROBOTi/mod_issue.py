@@ -10,13 +10,13 @@ import mod_class
 import database
 
 def process(rg):
-    print(rg)
     ID = rg[0]
     JNL = rg[6]
 
     print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
     path = mod_listidentify.directory(rg[0])+'.getRecord.json'
+    print(path)
     f = open(path)
     data = json.load(f)
     f.close()
