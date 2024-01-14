@@ -73,6 +73,9 @@ def check_method02(data,jnl,id):
 
     title = []
 
+    print(data)
+    quit()
+
     for i in range(len(data)):
         keys = data[i].keys()
         for k in keys:
