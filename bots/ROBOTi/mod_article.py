@@ -72,7 +72,6 @@ def check_method01(id,jnl):
 def check_method02(data,jnl,id):
 
     title = []
-    data = []
 
     for i in range(len(data)):
         keys = data[i].keys()
