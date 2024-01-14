@@ -98,7 +98,7 @@ def check_method02(data,jnl,id):
         TITLE = title[i]
         if i==0:
             qr += f"where n_name = '{TITLE}'"
-        else
+        else:
             qr += f"OR n_name = '{TITLE}'"
     qr += "group by id_cc"
     row = database.query(qr)
