@@ -10,6 +10,7 @@ import mod_class
 import database
 
 def process(rg):
+    print(rg)
     ID = rg[0]
     JNL = rg[6]
 
