@@ -33,6 +33,10 @@ def process(rg):
         print("Method 02")
         IDX = check_method02(rg,IDA,JNL)
 
+        print("================== NAO EXISTE")
+
+        quit()
+
 
     except Exception as e:
         #mod_listidentify.updateStatus(ID,1)
