@@ -9,6 +9,7 @@ import roboti_clear
 import mod_setSpec
 import mod_listidentify
 import mod_source
+import mod_article
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
 import mod_issue
@@ -61,6 +62,17 @@ def run(parm):
             if (loop > 10) or (lp == 0):
                 loop = 0
 
+    #********************** Article - LOOP
+    if (act == '5'):
+        loop = 1
+        end = 1
+        while loop > 0:
+            loop += 1
+            lp = ProcessArticle()
+            print("LOOP - ",loop)
+            if (loop > end) or (lp == 0):
+                loop = 0
+
     #********************** Clear
     elif (act == 'clear'):
         roboti_clear.clear(0)
@@ -69,6 +81,15 @@ def run(parm):
         bot_test_db.dbtest()
 
     print(Fore.WHITE)
+
+def ProcessArticle():
+    # Phase I - get Next Records
+    reg = roboti_task.nextGetRecords(7)
+
+    # Phase II - Processa arquivos
+    if (reg != []):
+        for it in reg:
+            mod_article.process(it)
 
 def ProcessRecordIssue():
     # Phase I - get Next Records
