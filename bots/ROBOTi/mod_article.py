@@ -57,6 +57,9 @@ def check_method01(id,jnl):
     qr += "group by id_cc"
     row = database.query(qr)
 
+    if row == []:
+        return 0
+
     if (len(row) == 1):
         return row[0][0]
 
