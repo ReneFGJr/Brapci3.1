@@ -73,7 +73,7 @@ def process(rg):
 
         mod_listidentify.updateStatus(ID,7)
     except:
-        mod_listidentify.updateStatus(ID,0)
+        mod_listidentify.updateStatus(ID,1)
 
 def extract_numbers(text):
     # Utilizando compreensão de lista e isdigit() para extrair números
