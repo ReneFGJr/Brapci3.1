@@ -32,8 +32,10 @@ def process(rg):
 
         print("Method 02")
         IDX = check_method02(data,IDA,JNL)
-
-        print("================== NAO EXISTE")
+        if IDX == 0:
+            print("================== NAO EXISTE")
+        else:
+            print("IDX==",IDX)
 
         quit()
 
@@ -73,9 +75,6 @@ def check_method02(data,jnl,id):
 
     title = []
 
-    print(data)
-    quit()
-
     for i in range(len(data)):
         keys = data[i].keys()
         for k in keys:
@@ -92,6 +91,7 @@ def check_method02(data,jnl,id):
 
     ################################### Verifica se não existe cadastrado
     print(title)
+    quit()
 
     ## Method 01 - ID
 
