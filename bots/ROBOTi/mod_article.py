@@ -27,6 +27,7 @@ def process(rg):
         #Verifica se existe o ID = METHODO 01
         IDX = check_method01(IDA,JNL)
         if IDX > 0:
+            mod_listidentify.updateRDF(ID,IDX)
             mod_listidentify.updateStatus(ID,8)
             return ""
 

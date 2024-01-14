@@ -63,6 +63,16 @@ def register(id,jnl,setSpec,stamp,deleted):
             print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
     return True
 
+def updateRDF(ID,rdf):
+    update = datetime.datetime.now().strftime('%Y%m%d')
+    now = datetime.datetime.now().strftime('%Y-%m-%d')
+
+    qr = f"update {table} set "
+    qr += f"oai_rdf = {rdf}, "
+    qr += f"oai_update = {now} "
+    qr += f"where id_oai = {ID} "
+    database.update(qr)
+
 def updateStatus(ID,status):
     update = datetime.datetime.now().strftime('%Y%m%d')
     now = datetime.datetime.now().strftime('%Y-%m-%d')
