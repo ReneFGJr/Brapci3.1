@@ -41,6 +41,9 @@ class Download extends BaseController
             case 'Book':
                 $id = $this->download_01($dt);
                 break;
+            case 'FileStorage':
+                $id = $this->download_02($dt);
+                break;
             default:
                 echo "Download Class:".$class;
                 exit;
@@ -84,4 +87,13 @@ class Download extends BaseController
                 $id = $id[0];
                 return $id;
         }
+
+    function download_02($dt)
+    {
+        $file = $dt['concept']['n_name'];
+        $Download = new \App\Models\Base\Download();
+        $Download->send_file($file);
+        exit;
+        return 0;
+    }
 }

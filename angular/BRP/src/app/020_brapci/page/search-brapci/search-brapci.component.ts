@@ -152,11 +152,10 @@ export class SearchBrapciComponent {
 
   onSearch() {
     var map = new Map();
-    if (this.searchForm.valid) {
+    if ((this.searchForm.valid) && (this.loading == false)) {
       this.result = [];
       this.results = [];
       let term = this.searchForm.value.term;
-      this.loading = true;
 
       let fld = this.searchForm.value.fld;
 
@@ -185,6 +184,7 @@ export class SearchBrapciComponent {
     } else {
       console.log('NÃO OK');
     }
+    this.loading = true;
   }
   onKeyPress() {}
 }

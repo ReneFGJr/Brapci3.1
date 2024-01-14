@@ -16,6 +16,17 @@ function res($pt)
 {
     if (isset($pt[2])) {
         switch ($pt[2]) {
+            /************************************ DOWNLOAD */
+            case 'download':
+                if (!isset($pt[3])) {
+                  $pt[3] = '0';
+                }
+                header("Location: https://cip.brapci.inf.br/download/" . $pt[3]);
+                die();
+                break;
+            break;
+
+            /********************************************* */
             case 'v':
                 if (isset($pt[3])) {
                     v($pt[3]);

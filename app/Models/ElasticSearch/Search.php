@@ -44,6 +44,7 @@ class Search extends Model
     {
         $Search = new \App\Models\ElasticSearch\Search();
         $Cover = new \App\Models\Base\Cover();
+        $SearchDB = new \App\Models\Functions\Search();
 
         $dt = $this->search($q, $type);
 
@@ -57,6 +58,9 @@ class Search extends Model
             echo (json_encode($dt));
             exit;
         }
+
+        /***************** Grava convulta */
+        $SearchDB->register($q, count($dt['works']),$type);
 
         /* Retorno */
         $n = 0;
@@ -182,7 +186,7 @@ class Search extends Model
         $q = mb_strtolower($q);
 
         /*********** REMOVE O AND */
-        $q = troca($q,' and ','');
+        $q = trim(troca(' '.$q.' ',' and ',' '));
 
         for ($r=0;$r < strlen($q);$r++)
             {

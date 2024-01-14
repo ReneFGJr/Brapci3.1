@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Search extends Model
 {
-    protected $DBGroup          = 'search';
+    protected $DBGroup          = 'click';
     protected $table            = '_search';
     protected $primaryKey       = 'id_s';
     protected $useAutoIncrement = true;
@@ -47,19 +47,21 @@ class Search extends Model
 
     function register($q='',$total=0)
     {
+
         $ip = $_SERVER['REMOTE_ADDR'];
         if (isset($_SESSION['user_id'])) {
             $user = $_SESSION['user_id'];
         } else {
             $user = 0;
         }
+        $ip = $_SESSION['__ci_last_regenerate'];
         $data['s_date'] = date("Y-m-d");
         $data['s_hour'] = date("H:i:s");
         $data['s_query'] = $q;
         $data['s_type'] = get("type");
         $data['s_order'] = get("type");
         $data['s_total'] = $total;
-        $data['s_IP'] = $ip;
+        $data['s_ip'] = $ip;
         $data['s_user'] = $user;
         $this->insert($data);
     }

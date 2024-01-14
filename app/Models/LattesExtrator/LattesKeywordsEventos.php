@@ -4,7 +4,7 @@ namespace App\Models\LattesExtrator;
 
 use CodeIgniter\Model;
 
-class LattesKeywordsProducao extends Model
+class LattesKeywordsEventos extends Model
 {
     protected $DBGroup          = 'lattes';
     protected $table            = 'lattes_keyword_producao';
@@ -42,29 +42,12 @@ class LattesKeywordsProducao extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($prod, $key,$type)
-        {
-            $dt = $this
-                ->where('kp_keyword',$key)
-                ->where('kp_producao', $prod)
-                ->where('kp_tipo',$type)
-                ->first();
-            if ($dt == '')
-                {
-                    $dt['kp_keyword'] = $key;
-                    $dt['kp_producao'] = $prod;
-                    $dt['kp_tipo'] = $type;
-                    $this->set($dt)->insert();
-                }
-            return true;
-        }
-
     function csv($prj=0)
         {
             $dt = $this
-                ->select('lp_authors, lp_ano, ky_name, kp_producao, lp_title')
-                ->join('LattesProducao', '(id_lp = kp_producao) and (kp_tipo = "A")')
-                ->join('brapci_tools.projects_harvesting_xml', '(hx_id_lattes =  lp_author) and (hx_project = ' . $prj . ')')
+                ->select('le_authors, le_ano, ky_name, kp_producao, le_title')
+                ->join('lattesproducao_evento', '(id_le = kp_producao) and (kp_tipo = "E")')
+                ->join('brapci_tools.projects_harvesting_xml', '(hx_id_lattes =  le_author) and (hx_project = ' . $prj . ')')
                 ->join('lattes_keywords', 'kp_keyword = id_ky')
                 ->where('1=1')
                 ->findAll();
@@ -75,7 +58,7 @@ class LattesKeywordsProducao extends Model
             foreach($dt as $id=>$line)
                 {
                     $prod = $line['kp_producao'];
-                    $name = '"'.$line['lp_authors']. '","' . $line['lp_ano'] . '","' . $line['lp_title'] . '"';
+                    $name = '"'.$line['le_authors']. '","' . $line['le_ano'] . '","' . $line['le_title'] . '"';
                     if ($prod != $xcap)
                         {
                            if ($xcap != '') { $sx .=  cr(); }
