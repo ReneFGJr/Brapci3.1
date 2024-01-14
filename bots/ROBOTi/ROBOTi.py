@@ -11,6 +11,7 @@ import mod_listidentify
 import mod_source
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
+import mod_issue
 from colorama import Fore
 
 def version():
@@ -40,12 +41,22 @@ def run(parm):
             if (loop > 5) or (lp == 0):
                 loop = 0
 
-    #********************** ListIdentiers - LOOP
+    #********************** Preprocess - LOOP
     if (act == '3'):
         loop = 1
         while loop > 0:
             loop += 1
             lp = ProcessRecord()
+            print("LOOP - ",loop)
+            if (loop > 10) or (lp == 0):
+                loop = 0
+
+    #********************** CheckEdition - LOOP
+    if (act == '4'):
+        loop = 1
+        while loop > 0:
+            loop += 1
+            lp = ProcessRecordIssue()
             print("LOOP - ",loop)
             if (loop > 10) or (lp == 0):
                 loop = 0
@@ -58,6 +69,15 @@ def run(parm):
         bot_test_db.dbtest()
 
     print(Fore.WHITE)
+
+def ProcessRecordIssue():
+    # Phase I - get Next Records
+    reg = roboti_task.nextGetRecords(6)
+
+    # Phase II - Processa arquivos
+    if (reg != []):
+        for it in reg:
+            mod_issue.process(it)
 
 def ProcessRecord():
     # Phase I - get Next Records
