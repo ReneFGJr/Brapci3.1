@@ -16,60 +16,64 @@ def process(rg):
     print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
     path = mod_listidentify.directory(rg[0])+'.getRecord.json'
-    print(path)
-    f = open(path)
-    data = json.load(f)
-    f.close()
 
-    source = []
+    try:
+        print(path)
+        f = open(path)
+        data = json.load(f)
+        f.close()
 
-    for i in range(len(data)):
-        keys = data[i].keys()
-        for k in keys:
-            ##print(f'RSP: {k}')
-            if (k == 'source'):
-                ##print("HELLO",k,i)
-                source = data[i][k]
+        source = []
 
-    vol = formatVol(source['vol'])
-    nr = formatNr(source['nr'])
-    year = source['year']
+        for i in range(len(data)):
+            keys = data[i].keys()
+            for k in keys:
+                ##print(f'RSP: {k}')
+                if (k == 'source'):
+                    ##print("HELLO",k,i)
+                    source = data[i][k]
 
-    qr = 'select * from brapci.source_issue '
-    qr += 'where '
-    qr += 'is_source = '+str(JNL)
-    qr += ' AND is_year = '+str(source['year'])
-    qr += ' AND is_vol = \''+vol+'\''
-    qr += ' AND is_nr = \''+nr+'\''
-    row = database.query(qr)
+        vol = formatVol(source['vol'])
+        nr = formatNr(source['nr'])
+        year = source['year']
 
-    if (row == []):
-        ## **************************************** Criando ISSUE Concept *
-        JNLs = 'ISSUE:JNL:'+str(JNL)
-        while len(JNLs) < 5:
-            JNLs = '0' + JNLs
-        JNLs += ':'+str(year)
-        JNLs += '-'+extract_numbers(vol)
-        JNLs += '-'+extract_numbers(nr)
-
-        lt = mod_literal.register(JNLs,'nn')
-
-        cl = mod_class.getClass('Issue')
-
-
-        Issue = mod_concept.register(cl,lt)
-
-        qr = "insert into brapci.source_issue "
-        qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
-        qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
-        qr += "is_url_oai)"
-        qr += ' values '
-        qr += f"({JNL},{year},'{vol}','','{nr}','', "
-        qr += f"{Issue}, '', "
-        qr += "'','','','')"
+        qr = 'select * from brapci.source_issue '
+        qr += 'where '
+        qr += 'is_source = '+str(JNL)
+        qr += ' AND is_year = '+str(source['year'])
+        qr += ' AND is_vol = \''+vol+'\''
+        qr += ' AND is_nr = \''+nr+'\''
         row = database.query(qr)
 
-    mod_listidentify.updateStatus(ID,7)
+        if (row == []):
+            ## **************************************** Criando ISSUE Concept *
+            JNLs = 'ISSUE:JNL:'+str(JNL)
+            while len(JNLs) < 5:
+                JNLs = '0' + JNLs
+            JNLs += ':'+str(year)
+            JNLs += '-'+extract_numbers(vol)
+            JNLs += '-'+extract_numbers(nr)
+
+            lt = mod_literal.register(JNLs,'nn')
+
+            cl = mod_class.getClass('Issue')
+
+
+            Issue = mod_concept.register(cl,lt)
+
+            qr = "insert into brapci.source_issue "
+            qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
+            qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
+            qr += "is_url_oai)"
+            qr += ' values '
+            qr += f"({JNL},{year},'{vol}','','{nr}','', "
+            qr += f"{Issue}, '', "
+            qr += "'','','','')"
+            row = database.query(qr)
+
+        mod_listidentify.updateStatus(ID,7)
+    except:
+        mod_listidentify.updateStatus(ID,0)
 
 def extract_numbers(text):
     # Utilizando compreensão de lista e isdigit() para extrair números
