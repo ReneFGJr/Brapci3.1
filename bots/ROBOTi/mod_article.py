@@ -31,7 +31,7 @@ def process(rg):
             return ""
 
         print("Method 02")
-        IDX = check_method02(rg,IDA,JNL)
+        IDX = check_method02(data,IDA,JNL)
 
         print("================== NAO EXISTE")
 
