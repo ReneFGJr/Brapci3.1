@@ -18,7 +18,7 @@ def process(rg):
     path = mod_listidentify.directory(rg[0])+'.getRecord.json'
 
     try:
-        print(path)
+        ##print(path)
         f = open(path)
         data = json.load(f)
         f.close()
