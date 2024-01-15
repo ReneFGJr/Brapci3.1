@@ -30,7 +30,7 @@ def register(id,jnl,name):
         time.sleep(0.5)
         row = database.query(qr)
     else:
-        if row[0][3] = '':
+        if row[0][3] == '':
             qu = f"update {table} set "
             qu = f" s_name = '{name}' "
             qu += "where "
