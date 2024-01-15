@@ -46,6 +46,7 @@ def process(rg):
 
 
         ########################################## Inserir Trabalho
+        print("IDX",IDX)
         create_article(rg,data,JNL)
         quit()
 
