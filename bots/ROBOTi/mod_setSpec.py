@@ -30,14 +30,15 @@ def register(id,jnl,name):
         time.sleep(0.5)
         row = database.query(qr)
     else:
-        #if row[0][3] == '':
-        qu = f"update {table} set "
-        qu += f" s_name = '{name}' "
-        qu += "where "
-        qu += f"s_id = '{id}' "
-        qu += f"and s_id_jnl = '{jnl}' "
-        print(qu)
-        database.update(qu)
+        if row[0][3] == '':
+            qu = f"update {table} set "
+            qu += f" s_name = '{name}' "
+            qu += "where "
+            qu += f"s_id = '{id}' "
+            qu += f"and s_id_jnl = '{jnl}' "
+            database.update(qu)
+            print(Fore.YELLOW+"... setSpec: "+Fore.BLUE+f" Atualizado setSpec {id} (JNL:{jnl})")
+
 
     if (row == []):
         print(Fore.RED+"ERRO DE GRAVAÇÂO NO BANCO DE DADOS"+Fore.WHITE)
@@ -45,8 +46,6 @@ def register(id,jnl,name):
         quit()
     idset = row[0][0]
     return idset
-    print(row)
-    quit()
 
 def process(sets,regs):
     jnl = regs[0][0]

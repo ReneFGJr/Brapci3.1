@@ -130,9 +130,8 @@ def ListIdentiers():
 
     xml = oaipmh_ListIdentifiers.getSetSpec(reg[0])
     if (xml['status'] == '200'):
-        setSpec = oaipmh_ListIdentifiers.xml_setSpecList(xml,reg[0])
-        print("OK",setSpec)
-    quit()
+        setSpec = oaipmh_ListIdentifiers.xml_setSpecList(xml,reg[0][0])
+    print("OK")
     # Phase III - GetList
     jnl = reg[0][0]
     xml = oaipmh_ListIdentifiers.get(reg[0])

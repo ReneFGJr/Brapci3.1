@@ -57,7 +57,6 @@ def xml_setSpecList(xml,jnl):
             name = setSpec[Item]
             name = name[:255]
             mod_setSpec.register(setS,jnl,name)
-        quit()
 
         return {'status':True,'setSpec':setSpec}
 
