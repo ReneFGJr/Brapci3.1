@@ -52,8 +52,6 @@ def process(sets,regs):
     name = regs[0][3]
     setsP = {}
 
-    print("REGS",regs)
-
     if sets['status']:
         for setSpec in sets['setSpec']:
             setsP[setSpec] = register(setSpec,jnl,name)
