@@ -118,7 +118,7 @@ class RDFdata extends Model
             ->where('d_r2', $id)
             ->findAll();
 
-            echo $this->getlastquery();
+            //echo $this->getlastquery();
 
         $cp = 'prefix_ref as Prefix';
         $cp .= ', "Literal" as Class';
