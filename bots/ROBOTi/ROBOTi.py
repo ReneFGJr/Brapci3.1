@@ -127,6 +127,12 @@ def ListIdentiers():
     # Phase II - Valie
     if not (roboti_task.valid(reg)):
         return False
+
+    xml = oaipmh_ListIdentifiers.getSetSpec(reg[0])
+    if (xml['status'] == '200'):
+        setSpec = oaipmh_ListIdentifiers.xml_setSpecList(xml,reg[0])
+        print("OK",setSpec)
+    quit()
     # Phase III - GetList
     jnl = reg[0][0]
     xml = oaipmh_ListIdentifiers.get(reg[0])
@@ -135,8 +141,6 @@ def ListIdentiers():
     if (xml['status'] == '200'):
         # Phase IVa - Get setSpecs
         setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
-        print(setSpec)
-        quit()
         # Phase IVb - Registers setSpecs
         setSpec = mod_setSpec.process(setSpec,reg)
         # Phase IVc - Identifica Identify

@@ -7,6 +7,13 @@ import oaipmh_request
 import mod_source
 import xmltodict
 import mod_listidentify
+import mod_setSpec
+
+def getSetSpec(jnl):
+    url = jnl[1]
+    LINK = url + '?verb=ListSets'
+    xml = oaipmh_request.get(LINK)
+    return xml
 
 def get(jnl):
     token = jnl[4]
@@ -21,6 +28,42 @@ def get(jnl):
     xml = oaipmh_request.get(LINK)
 
     return xml
+
+def xml_setSpecList(xml,jnl):
+    xml = xml['content']
+    setSpec = {}
+    try:
+        doc = xmltodict.parse(xml)
+        doc = doc['OAI-PMH']
+        doc = doc['ListSets']
+
+        for xdoc in doc['set']:
+
+            if type(xdoc['setSpec']) is list:
+                spec = xdoc['setSpec'][0]
+            else:
+                spec = xdoc['setSpec']
+
+            if type(xdoc['setName']) is list:
+                specName = xdoc['setName'][0]
+            else:
+                specName = xdoc['setName']
+
+            if not spec in setSpec:
+                setSpec[spec] = specName
+
+        for Item in setSpec:
+            setS = Item
+            name = setSpec[Item]
+            name = name[:255]
+            mod_setSpec.register(setS,jnl,name)
+        quit()
+
+        return {'status':True,'setSpec':setSpec}
+
+    except Exception as e:
+        print("Erro ao Abrir o XML",e)
+        return {'status':False,'setSpec':setSpec}
 
 def xml_setSpec(xml):
     xml = xml['content']
