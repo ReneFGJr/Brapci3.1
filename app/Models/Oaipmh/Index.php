@@ -86,6 +86,7 @@ class Index extends Model
 				$xml = troca($xml, 'dc:', '');
 				//$xml = troca($xml, 'oai_dc:', '');
 				//$xml = troca($xml, 'oai_dc:', '');
+				$xml = troca($xml, chr(8), '');
 				try {
 					$xml = (array)simplexml_load_string($xml);
 				} catch (Exception $e) {
