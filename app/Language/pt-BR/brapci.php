@@ -181,7 +181,7 @@ return [
         'insered' => '<span class="text-primary mb-bold">Inserido</span>',
         'Artistic' => 'Artística',
         'jnl_status_100' => 'Ativa',
-        'jnl_status_500' => 'Problema Acesso',
+        'jnl_status_500' => 'Para coletar',
         'jnl_status_200' => 'Publicação Encerrada',
         'jnl_status_404' => 'Fora do Ar',
         'jnl_status_501' => 'Erros de Acesso',
