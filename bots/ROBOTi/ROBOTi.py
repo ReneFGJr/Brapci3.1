@@ -135,6 +135,8 @@ def ListIdentiers():
     if (xml['status'] == '200'):
         # Phase IVa - Get setSpecs
         setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
+        print(setSpec)
+        quit()
         # Phase IVb - Registers setSpecs
         setSpec = mod_setSpec.process(setSpec,reg)
         # Phase IVc - Identifica Identify
