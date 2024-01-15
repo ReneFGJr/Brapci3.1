@@ -144,10 +144,12 @@ def create_article(rg,data,jnl):
 
     IDClass = mod_class.getClass('Article')
 
-    print("CREATE",ID,IDClass)
+
 
     ##################################### Registra o Literal
     IDliteral = mod_literal.register(ID,'nn')
+
+    print("CREATE",ID,IDClass,IDliteral)
     IDC = mod_concept.register(IDClass,IDliteral)
 
     for i in range(len(data)):
