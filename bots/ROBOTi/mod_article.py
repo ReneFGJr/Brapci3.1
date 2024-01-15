@@ -49,6 +49,7 @@ def process(rg):
         print("IDX",IDX)
 
         if (IDX == 0):
+            print("CREATE WORK")
             IDX = create_article(rg,data,JNL)
             quit()
 
