@@ -90,9 +90,7 @@ class Index extends Model
 					{
 						$xml = troca($xml, chr($r), '['.$r.']');
 					}
-				$xml = troca($xml, '&lt;', '<');
-				$xml = troca($xml, '&gt;', '>');
-
+				pre($xml)
 
 				try {
 					$xml = (array)simplexml_load_string($xml);
