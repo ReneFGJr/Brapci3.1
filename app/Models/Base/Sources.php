@@ -34,7 +34,7 @@ class Sources extends Model
         'string:20:#', 'string:20', 'op: & :Q&Quadrimestral:S&Semestral:A&Anual:F&Continuos FLuxo',
         'year', 'year', 'string:20',
         'string:20', 'string:20',
-        'op: & :100&Atual:200&Corrent:404&Fora do Ar:500&Erro de acesso:501&Erro de acesso aos dados',
+        'op: & :100&Atual:200&Corrent:404&Fora do Ar:500&Para coletar:501&Erro de acesso aos dados',
         'string:20',
         'sn', 'string:20', 'sn',
         'sn', 'string:20','set:1900-01-01'
@@ -431,7 +431,7 @@ class Sources extends Model
                                 $sta = '<span class="btn btn-secondary p-0 full small">HISTORICA</span>';
                                 break;
                             case '500';
-                                $sta = '<span class="btn btn-danger p-0 full small">ERRO 500</span>';
+                                $sta = '<span class="btn btn-warning p-0 full small">COLETAR</span>';
                                 break;
                             case '501';
                                 $sta = '<span class="btn btn-warning p-0 full">ERRO 501</span>';
