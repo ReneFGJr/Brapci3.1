@@ -32,12 +32,11 @@ def register(id,jnl,name):
     else:
         if row[0][3] == '':
             qu = f"update {table} set "
-            qu = f" s_name = '{name}' "
+            qu += f" s_name = '{name}' "
             qu += "where "
             qu += f"s_id = '{id}' "
             qu += f"and s_id_jnl = '{jnl}' "
             print(qu)
-            quit()
             database.update(qu)
 
     if (row == []):
