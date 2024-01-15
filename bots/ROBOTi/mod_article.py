@@ -47,8 +47,10 @@ def process(rg):
 
         ########################################## Inserir Trabalho
         print("IDX",IDX)
-        create_article(rg,data,JNL)
-        quit()
+
+        if (IDX == 0):
+            IDX = create_article(rg,data,JNL)
+            quit()
 
 
     except Exception as e:
