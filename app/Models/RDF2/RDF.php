@@ -45,6 +45,9 @@ class RDF extends Model
         $sx = '';
         $RSP = [];
         switch ($d1) {
+            case 'v':
+                $sx = $this->view($d2);
+                break;
             case 'popup':
                 $data['page_title'] = 'Brapci - POPUP';
                 $data['bg'] = 'bg-pq';
@@ -126,6 +129,12 @@ class RDF extends Model
         $menu[PATH . '/rdf/Class'] = "Classes";
         return menu($menu);
     }
+
+    function view($id)
+        {
+            $dt = $this->v($id);
+            pre($dt);
+        }
 
     function index_list($i,$l='A')
         {

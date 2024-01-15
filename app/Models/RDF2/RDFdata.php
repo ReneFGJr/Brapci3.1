@@ -97,21 +97,28 @@ class RDFdata extends Model
             ->where('d_r2 <> 0')
             ->findAll();
 
-        $cp = 'prefix_ref as Prefix';
-        $cp .= ', "Literal" as Class';
-        $cp .= ', c_class as Property';
-        $cp .= ', 0 as ID';
+        $cp = '';
+        $cp .= 'prefix_ref as Prefix,';
+        $cp .= ', C1.c_class as Class';
+        $cp .= ', C2.c_class as Property';
+        $cp .= ', RC1.id_cc as ID';
         $cp .= ', n_name as Caption';
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
 
         $dtB = $this
-            ->select($cp . ',"R" as tp')
-            ->join('rdf_literal', 'd_literal = id_n')
-            ->join('rdf_class', 'd_p = id_c')
+            ->select($cp . ',"N" as tp')
+            ->join('rdf_concept as RC1', 'RC1.id_cc = d_r1')
+            ->join('rdf_class as C1', 'RC1.cc_class = C1.id_c')
             ->join('rdf_prefix', 'c_prefix = id_prefix')
+
+            ->join('rdf_class as C2', 'd_p = C2.id_c')
+            ->join('rdf_literal', 'RC1.cc_pref_term = id_n')
+
             ->where('d_r2', $id)
             ->findAll();
+
+            echo $this->getlastquery();
 
         $cp = 'prefix_ref as Prefix';
         $cp .= ', "Literal" as Class';

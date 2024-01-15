@@ -1,3 +1,10 @@
+def detect(t):
+    l = 'nn'
+    if '@' in t:
+        l = t[-2:]
+        t = t[:-3]
+    return [t,l]
+
 def check(lg):
     if (lg == 'pt-BR'):
         lg = 'pt'

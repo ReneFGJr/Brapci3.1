@@ -25,6 +25,8 @@ def query(qr):
         if conexao.is_connected():
             cursor.close()
             conexao.close()
+        else:
+            print("Conexão já estava finalizadas")
 
     return resultados
 def update(qr):

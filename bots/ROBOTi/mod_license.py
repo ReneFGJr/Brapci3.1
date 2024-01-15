@@ -1,4 +1,24 @@
 import re
+import mod_literal
+import mod_class
+import mod_concept
+import mod_data
+
+def register_literal(IDC,term):
+    term = nbr_licence(term)
+
+    IDliteral = mod_literal.register(term,'nn')
+    IDClass = mod_class.getClass('License')
+
+    IDCt = mod_concept.register(IDClass,IDliteral)
+    return mod_data.register(IDC,'hasLicense',IDCt)
+
+def nbr_licence(T):
+    if T == 'Copr':
+        T = 'Copyright (c)'
+    else:
+        T = T.upper()
+    return T
 
 def tipo(n):
     #if (n=='https://creativecommons.org/licenses/by/4.0'):
