@@ -8,9 +8,9 @@ from colorama import Fore
 
 table = "brapci_oaipmh.oai_setspec"
 
-def register(id,jnl):
+def register(id,jnl,name):
     id = id[0:255]
-    qr = f"select * from {table} "
+    qr = f"select id_s,s_id,s_id_jnl,s_name from {table} "
     qr += "where "
     qr += f"s_id = '{id}' "
     qr += f"and s_id_jnl = '{jnl}' "
@@ -22,13 +22,23 @@ def register(id,jnl):
     row = database.query(qr)
     if row == []:
         qi = f"insert into {table} "
-        qi += "(s_id,s_id_jnl,s_ignore)"
+        qi += "(s_id,s_id_jnl,s_name,s_ignore)"
         qi += " VALUES "
-        qi += f"('{id}',{jnl},0)"
+        qi += f"('{id}',{jnl},'{name}',0)"
         row = database.insert(qi)
         print(Fore.YELLOW+"... setSpec: "+Fore.GREEN+f" Novo setSpec {id} (JNL:{jnl})")
         time.sleep(0.5)
         row = database.query(qr)
+    else:
+        if row[0][3] = '':
+            qu = f"update {table} set "
+            qu = f" s_name = '{name}' "
+            qu += "where "
+            qu += f"s_id = '{id}' "
+            qu += f"and s_id_jnl = '{jnl}' "
+            print(qu)
+            quit()
+            database.update(qu)
 
     if (row == []):
         print(Fore.RED+"ERRO DE GRAVAÇÂO NO BANCO DE DADOS"+Fore.WHITE)
