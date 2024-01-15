@@ -87,6 +87,7 @@ def formatVol(vol):
         vol = vol
     else:
         vol = 'v. '+vol
+    vol = vol.replace("'","")
     return vol
 
 def formatNr(nr):
@@ -115,6 +116,8 @@ def formatNr(nr):
 
     if nr == 'n. ':
         nr = ''
+
+    nr = nr.replace("'","")
     return nr
 
 def decode(n,lg,vl):
