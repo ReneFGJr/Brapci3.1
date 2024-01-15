@@ -51,7 +51,7 @@ def register(id,jnl,name):
 
 def process(sets,regs):
     jnl = regs[0][0]
-    name = regs[0][4]
+    name = regs[0][3]
     print(name)
     quit()
     setsP = {}
