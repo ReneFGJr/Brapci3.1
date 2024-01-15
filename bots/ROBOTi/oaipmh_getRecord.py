@@ -238,7 +238,7 @@ def get(rg):
     xml = oaipmh_request.get(LINK)
     if (xml['status'] == '200'):
         txt = xml['content']
-        txt = txt.replace(chr(8),'')
+        txt = txt.replace(chr(2),'')
         f = open(file,'w')
         f.write(txt)
         f.close()
