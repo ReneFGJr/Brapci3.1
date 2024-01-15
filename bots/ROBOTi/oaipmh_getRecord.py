@@ -237,8 +237,10 @@ def get(rg):
 
     xml = oaipmh_request.get(LINK)
     if (xml['status'] == '200'):
+        txt = xml['content']
+        txt = txt.replca(chr(8),'')
         f = open(file,'w')
-        f.write(xml['content'])
+        f.write(txt)
         f.close()
     mod_listidentify.updateStatus(ID,5)
     time.sleep(0.1)
