@@ -52,11 +52,9 @@ def register(id,jnl,name):
 def process(sets,regs):
     jnl = regs[0][0]
     name = regs[0][3]
-    print(name)
-    quit()
     setsP = {}
 
     if sets['status']:
         for setSpec in sets['setSpec']:
-            setsP[setSpec] = register(setSpec,jnl)
+            setsP[setSpec] = register(setSpec,jnl,name)
     return setsP
