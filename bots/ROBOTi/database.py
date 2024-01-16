@@ -18,7 +18,7 @@ def query(qr):
 
 
     except mysql.connector.Error as erro:
-        print("Erro de Banco de Dados:", erro)
+        print("Erro de Banco de Dados #31:", erro)
         print(qr)
     finally:
         # Fechar o cursor e a conexão
