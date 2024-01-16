@@ -75,11 +75,10 @@ class Sections extends Model
                     $ids = $this->getSection('Artigo');
                     $d['s_section'] = $ids;
                     $SetSpec->set($d)->where('id_s', $line['id_s'])->update();
-                    echo $SetSpec->getlastquery();
-                    $sx = metarefresh(PATH. 'admin/section');
-                    return $sx;
-                    exit;
                 }
+                $sx = metarefresh(PATH . 'admin/section');
+                return $sx;
+                exit;
             }
 
         foreach ($dt as $id => $line) {
