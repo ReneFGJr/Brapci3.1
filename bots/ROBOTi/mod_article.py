@@ -252,7 +252,7 @@ def create_article(rg,data,jnl):
                 row = database.query(qr)
                 IDsec = row[0][0]
 
-                mod_data.register(IDC,'hasSection',IDsec)
+                mod_data.register(IDC,'hasSectionOf',IDsec)
                 quit()
 
             #################################### Source ISSUE
