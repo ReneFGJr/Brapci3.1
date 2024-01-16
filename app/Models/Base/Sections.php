@@ -495,7 +495,7 @@ class Sections extends Model
             }
             $sx .= '</li>';
         }
-        return $sx;
+        return bs(bsc($sx,12));
     }
 
     function normalize($sec, $idj)
