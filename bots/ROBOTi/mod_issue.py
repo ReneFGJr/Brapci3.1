@@ -43,7 +43,7 @@ def identify(rg):
         row = database.query(qr)
 
         if (row == []):
-            create_issue(JNL,year,vol,nr)
+            row = create_issue(JNL,year,vol,nr)
 
     except Exception as e:
         print("Erro ISSE",e)
@@ -69,16 +69,17 @@ def create_issue(JNL,year,vol,nr):
     row = database.query(qr)
 
     if row == []:
-        qr = "insert into brapci.source_issue "
-        qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
-        qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
-        qr += "is_url_oai)"
-        qr += ' values '
-        qr += f"({JNL},{year},'{vol}','','{nr}','', "
-        qr += f"{Issue}, '', "
-        qr += "'','','','')"
-        database.insert(qr)
-    return True
+        qri = "insert into brapci.source_issue "
+        qri += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
+        qri += "is_source_issue, is_place, is_edition, is_cover, is_card,"
+        qri += "is_url_oai)"
+        qri += ' values '
+        qri += f"({JNL},{year},'{vol}','','{nr}','', "
+        qri += f"{Issue}, '', "
+        qri += "'','','','')"
+        database.insert(qri)
+        row = database.query(qr)
+    return row
 
 def process(rg):
     ID = rg[0]
