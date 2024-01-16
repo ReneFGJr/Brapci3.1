@@ -64,24 +64,30 @@ def register(id,jnl,setSpec,stamp,deleted):
     return True
 
 def updateRDF(ID,rdf):
-    update = datetime.datetime.now().strftime('%Y%m%d')
-    now = datetime.datetime.now().strftime('%Y-%m-%d')
+    try:
+        update = datetime.datetime.now().strftime('%Y%m%d')
+        now = datetime.datetime.now().strftime('%Y-%m-%d')
 
-    qr = f"update {table} set "
-    qr += f"oai_rdf = {rdf}, "
-    qr += f"oai_update = {now} "
-    qr += f"where id_oai = {ID} "
-    database.update(qr)
+        qr = f"update {table} set "
+        qr += f"oai_rdf = {rdf}, "
+        qr += f"oai_update = {now} "
+        qr += f"where id_oai = {ID} "
+        database.update(qr)
+    except Exception as e:
+        print("ERRO #24",e)
 
 def updateIssue(ID,issue):
-    update = datetime.datetime.now().strftime('%Y%m%d')
-    now = datetime.datetime.now().strftime('%Y-%m-%d')
+    try:
+        update = datetime.datetime.now().strftime('%Y%m%d')
+        now = datetime.datetime.now().strftime('%Y-%m-%d')
 
-    qr = f"update {table} set "
-    qr += f"oai_issue = {issue}, "
-    qr += f"oai_update = {now} "
-    qr += f"where id_oai = {ID} "
-    database.update(qr)
+        qr = f"update {table} set "
+        qr += f"oai_issue = {issue}, "
+        qr += f"oai_update = {now} "
+        qr += f"where id_oai = {ID} "
+        database.update(qr)
+    except Exception as e:
+        print("ERRO #23",e)
 
 def updateStatus(ID,status):
     update = datetime.datetime.now().strftime('%Y%m%d')
