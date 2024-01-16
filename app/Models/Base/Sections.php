@@ -69,7 +69,7 @@ class Sections extends Model
             ->orderby('s_name')
             ->findAll(40);
 
-        if (get("confirm")=="True")
+        if (get("confirm")!="")
             {
                 foreach ($dt as $id => $line) {
                     $ids = $this->getSection('Artigo');
