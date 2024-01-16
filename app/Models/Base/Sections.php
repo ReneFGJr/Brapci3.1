@@ -475,6 +475,7 @@ class Sections extends Model
 
     function list_not_group()
     {
+        $sx = '';
         $SetSpec = new \App\Models\Oaipmh\SetSpec();
         $dt = $this
             ->join('brapci_oaipmh.oai_setspec', 'id_sc = s_section', 'right')
