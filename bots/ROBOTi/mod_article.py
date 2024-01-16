@@ -145,6 +145,7 @@ def create_article(rg,data,jnl):
     ID = id + "#"+jnl
 
     IDClass = mod_class.getClass('Article')
+    print(rg)
 
     ##################################### Registra o Literal
     IDliteral = mod_literal.register(ID,'nn')
