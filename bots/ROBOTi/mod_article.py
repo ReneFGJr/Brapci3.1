@@ -249,11 +249,9 @@ def create_article(rg,data,jnl):
                 qr = "select sc_rdf, sc_name, s_section from brapci_oaipmh.oai_setspec "
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
-                row = database.query(qr);
+                row = database.query(qr)
                 sec = row[0][0]
-                IDs = mod_section.getSection(sec)
-
-                print("ROW",row)
+                print("ROW",sec)
                 quit()
                 #mod_journal.register(IDC,J)
 
