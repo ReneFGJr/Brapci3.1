@@ -73,6 +73,16 @@ def updateRDF(ID,rdf):
     qr += f"where id_oai = {ID} "
     database.update(qr)
 
+def updateIssue(ID,issue):
+    update = datetime.datetime.now().strftime('%Y%m%d')
+    now = datetime.datetime.now().strftime('%Y-%m-%d')
+
+    qr = f"update {table} set "
+    qr += f"oai_issue = {issue}, "
+    qr += f"oai_update = {now} "
+    qr += f"where id_oai = {ID} "
+    database.update(qr)
+
 def updateStatus(ID,status):
     update = datetime.datetime.now().strftime('%Y%m%d')
     now = datetime.datetime.now().strftime('%Y-%m-%d')
