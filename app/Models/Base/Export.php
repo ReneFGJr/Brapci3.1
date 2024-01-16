@@ -540,8 +540,10 @@ class Export extends Model
                     ->join('brapci.source_issue_work', 'siw_work_rdf = id_cc')
                     ->join('brapci.source_issue', 'is_source_issue = siw_issue')
                     ->join('brapci.source_source', 'id_jnl = siw_journal')
+                    ->join('brapci_elastic.dataset','id_cc = ID','left')
                     ->where('cc_class', $idc)
                     ->where('cc_status <> 99')
+                    ->where('ID is null')
                     ->findAll($limit, $offset);
                     break;
                 case 'Proceeding':
