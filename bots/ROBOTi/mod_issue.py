@@ -106,6 +106,7 @@ def extract_numbers(text):
     return t
 
 def formatVol(vol):
+    vol = vol.replace("'","")
     if 'v.' in vol:
         vol = vol
     else:
@@ -116,6 +117,7 @@ def formatVol(vol):
     return vol
 
 def formatNr(nr):
+    nr = nr.replace("'","")
     nr = nr.replace('especial','esp')
     m = []
     m.append('jan')

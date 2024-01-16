@@ -155,9 +155,7 @@ def create_article(rg,data,jnl):
     print("CREATE",ID,IDClass,IDliteral,IDC)
 
     # ISSUE ########################################################### ISSUE
-    print("OK")
     row = mod_issue.extractData(rg[0],jnl)
-    print("OK2",row)
     quit()
     # DATA ############################################################ DATA
 
