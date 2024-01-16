@@ -31,8 +31,6 @@ class Download extends BaseController
 
         $class = $dt['concept']['c_class'];
 
-        print($class);
-
         switch ($class) {
             case 'Article':
                 $id = $this->download_01($dt);
@@ -70,13 +68,17 @@ class Download extends BaseController
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
-                        echo "Tentando recuperar PDF";
+                        echo "Tentando recuperar PDF - ";
                         foreach($dt['data'] as $idz=>$line)
                             {
                                 if (trim($line['Property']) == 'hasRegisterId')
                                     {
                                         $Download->download_methods($line, $ida);
                                     }
+                                if (trim($line['Property']) == 'hasURL') {
+                                    $Download->download_methods($line, $ida);
+                                }
+
                             }
                         $id = $RDF->extract($dt, 'hasFileStorage');
 
