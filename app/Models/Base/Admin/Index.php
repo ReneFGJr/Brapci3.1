@@ -49,6 +49,7 @@ class Index extends Model
                 $sx .= h("Sections");
                 $section = new \App\Models\Base\Sections();
                 $sx .= $section->list_not_group();
+                $sx .= $section->create_sections();
                 break;
             case 'page':
                 $WP = new \App\Models\WP\Index();

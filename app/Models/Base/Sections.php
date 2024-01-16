@@ -15,7 +15,7 @@ class Sections extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_sc', 'sc_name', 'sc_index', 's_section'
+        'id_sc', 'sc_name', 'sc_index', 'sc_section', 'sc_rdf'
     ];
 
     // Dates
@@ -57,6 +57,27 @@ class Sections extends Model
         echo "Não existe $name";
         pre($dt);
     }
+
+    function create_sections()
+        {
+            $RDF = new \App\Models\RDF2\RDF();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+            $dt = $this->where('sc_rdf',0)->findAll();
+
+            foreach($dt as $idx=>$line)
+                {
+
+                    $dc = [];
+                    $dc['Name'] = $line['sc_name'];
+                    $dc['Lang'] = 'pt';
+                    $dc['Class'] = 'Section';
+                    $IDC = $RDFconcept->createConcept($dc);
+                    $da['sc_rdf'] = $IDC;
+                    $this->set($da)->where('id_sc',$line['id_sc'])->update();
+                }
+
+        }
 
     function list_not_group()
     {
