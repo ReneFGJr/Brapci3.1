@@ -14,6 +14,7 @@ import mod_class
 import mod_data
 import mod_journal
 import mod_subject
+import mod_section
 import database
 
 def process(rg):
@@ -245,10 +246,14 @@ def create_article(rg,data,jnl):
                 S = data[i][k]
                 ids = S['section']
 
-                qr = "select sc_name from brapci_oaipmh.oai_setspec "
+                qr = "select sc_name, s_section from brapci_oaipmh.oai_setspec "
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
                 row = database.query(qr);
+                sec = row[0][0]
+                print("Sec",sec)
+                IDs = mod_section.getSection(sec)
+
                 print("ROW",row)
                 quit()
                 #mod_journal.register(IDC,J)
