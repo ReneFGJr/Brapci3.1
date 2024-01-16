@@ -9,16 +9,13 @@ import mod_concept
 import mod_class
 import database
 
-def process(rg):
+def identify(rg):
     ID = rg[0]
     JNL = rg[6]
 
-    print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
-
-    path = mod_listidentify.directory(rg[0])+'.getRecord.json'
-
     try:
-        ##print(path)
+        path = mod_listidentify.directory(rg[0])+'.getRecord.json'
+
         f = open(path)
         data = json.load(f)
         f.close()
@@ -40,43 +37,53 @@ def process(rg):
         qr = 'select * from brapci.source_issue '
         qr += 'where '
         qr += 'is_source = '+str(JNL)
-        qr += ' AND is_year = '+str(source['year'])
+        qr += ' AND is_year = '+str(year])
         qr += ' AND is_vol = \''+vol+'\''
         qr += ' AND is_nr = \''+nr+'\''
         row = database.query(qr)
 
         if (row == []):
-            ## **************************************** Criando ISSUE Concept *
-            JNLs = 'ISSUE:JNL:'+str(JNL)
-            while len(JNLs) < 5:
-                JNLs = '0' + JNLs
-            JNLs += ':'+str(year)
-            JNLs += '-'+extract_numbers(vol)
-            JNLs += '-'+extract_numbers(nr)
+            create_issue(JNL,year,vol,nr)
 
-            lt = mod_literal.register(JNLs,'nn')
+    except Exception as e:
+        print("Erro ISSE",e)
+        row = []
 
-            cl = mod_class.getClass('Issue')
+    return row
 
+def create_issue(JNL,year,vol,nr):
 
-            Issue = mod_concept.register(cl,lt)
+    JNLs = 'ISSUE:JNL:'+str(JNL)
+    while len(JNLs) < 5:
+        JNLs = '0' + JNLs
+    JNLs += ':'+str(year)
+    JNLs += '-'+extract_numbers(vol)
+    JNLs += '-'+extract_numbers(nr)
 
-            qr = "insert into brapci.source_issue "
-            qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
-            qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
-            qr += "is_url_oai)"
-            qr += ' values '
-            qr += f"({JNL},{year},'{vol}','','{nr}','', "
-            qr += f"{Issue}, '', "
-            qr += "'','','','')"
-            row = database.query(qr)
+    lt = mod_literal.register(JNLs,'nn')
+    cl = mod_class.getClass('Issue')
+    Issue = mod_concept.register(cl,lt)
 
-            IDI = rg[0]
-            qr = "update brapci_oaipmh.oai_listidentify "
-            qr = "set oai_issue = {Issue} "
-            qr = f"where id_oai = {IDI}"
-            row = database.update(qr)
+    qr = "insert into brapci.source_issue "
+    qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
+    qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
+    qr += "is_url_oai)"
+    qr += ' values '
+    qr += f"({JNL},{year},'{vol}','','{nr}','', "
+    qr += f"{Issue}, '', "
+    qr += "'','','','')"
+    database.insert(qr)
+    return True
 
+def process(rg):
+    ID = rg[0]
+    JNL = rg[6]
+
+    print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
+
+    ######################### Identify ##
+    try:
+        row = identify(rg)
         mod_listidentify.updateStatus(ID,7)
     except:
         mod_listidentify.updateStatus(ID,1)
