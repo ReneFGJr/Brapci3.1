@@ -9,8 +9,13 @@ import mod_concept
 import mod_class
 import database
 
-def extractData(ID,JNL):
-    path = mod_listidentify.directory(ID)+'.getRecord.json'
+def process(rg):
+    ID = rg[0]
+    JNL = rg[6]
+
+    print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
+
+    path = mod_listidentify.directory(rg[0])+'.getRecord.json'
 
     try:
         ##print(path)
@@ -38,8 +43,6 @@ def extractData(ID,JNL):
         qr += ' AND is_year = '+str(source['year'])
         qr += ' AND is_vol = \''+vol+'\''
         qr += ' AND is_nr = \''+nr+'\''
-
-        print(qr)
         row = database.query(qr)
 
         if (row == []):
@@ -52,7 +55,10 @@ def extractData(ID,JNL):
             JNLs += '-'+extract_numbers(nr)
 
             lt = mod_literal.register(JNLs,'nn')
+
             cl = mod_class.getClass('Issue')
+
+
             Issue = mod_concept.register(cl,lt)
 
             qr = "insert into brapci.source_issue "
@@ -65,21 +71,15 @@ def extractData(ID,JNL):
             qr += "'','','','')"
             row = database.query(qr)
 
-    except Exception as e:
-        print("ERRO #02",e)
-        row = []
-    return row
+            IDI = rg[0]
+            qr = "update brapci_oaipmh.oai_listidentify "
+            qr = "set oai_issue = {Issue} "
+            qr = f"where id_oai = {IDI}"
+            row = database.update(qr)
 
-def process(rg):
-    ID = rg[0]
-    JNL = rg[6]
-
-    try:
-        row = extractData(ID,JNL)
         mod_listidentify.updateStatus(ID,7)
     except:
         mod_listidentify.updateStatus(ID,1)
-
 
 def extract_numbers(text):
     # Utilizando compreensão de lista e isdigit() para extrair números
