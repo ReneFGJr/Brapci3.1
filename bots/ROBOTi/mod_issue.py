@@ -84,6 +84,7 @@ def process(rg):
     ######################### Identify ##
     try:
         row = identify(rg)
+        print(row)
         mod_listidentify.updateStatus(ID,7)
     except:
         mod_listidentify.updateStatus(ID,1)
