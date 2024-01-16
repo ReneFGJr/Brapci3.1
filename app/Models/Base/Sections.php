@@ -181,6 +181,7 @@ class Sections extends Model
             or (strpos($n, 'autores convidados'))
             or (strpos($n, 'capa'))
             or (strpos($n, 'directorio'))
+            or (strpos($n, 'cra ditos'))
 
          ) {
             return $this->getSection('Expediente');
