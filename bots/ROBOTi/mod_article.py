@@ -15,6 +15,7 @@ import mod_data
 import mod_journal
 import mod_subject
 import mod_section
+import mod_issue
 import database
 
 def process(rg):
@@ -152,7 +153,12 @@ def create_article(rg,data,jnl):
     IDC = mod_concept.register(IDClass,IDliteral)
     print("CREATE",ID,IDClass,IDliteral,IDC)
 
-    # ISSUE ###########################################################
+    # ISSUE ########################################################### ISSUE
+    print("OK")
+    row = mod_issue.extractData(id,jnl)
+    print("OK2",row)
+    quit()
+    # DATA ############################################################ DATA
 
     for i in range(len(data)):
         keys = data[i].keys()
