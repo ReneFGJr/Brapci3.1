@@ -495,6 +495,7 @@ class Sections extends Model
             }
             $sx .= '</li>';
         }
+        $sx .= '<a href="?confirm=True">Confirm</a>';
         return bs(bsc($sx,12));
     }
 
