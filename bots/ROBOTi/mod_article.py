@@ -244,8 +244,8 @@ def create_article(rg,data,jnl):
                 #ok = True
                 S = data[i][k]
                 ids = S['section']
-                print("Section",S['section']);
-                qr = "select * from brapci_oaipmh.oai_setspec "
+
+                qr = "select sc_name from brapci_oaipmh.oai_setspec "
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
                 row = database.query(qr);
