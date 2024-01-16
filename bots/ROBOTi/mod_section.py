@@ -7,7 +7,7 @@ import database
 table = "brapci.section"
 
 def getSection(Name):
-    qr = "select * from brapci.sections where sc_name = '{Name}'"
+    qr = f"select * from brapci.sections where sc_name = '{Name}'"
     row = database.query(qr)
     print(row)
     quit()
