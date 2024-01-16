@@ -213,7 +213,7 @@ class Sections extends Model
 
         /************************************* Multimídia */
         if (((strpos($n, 'registro audiovisual')))
-            //or (strpos($n, 'ensayo'))
+            or (strpos($n, 'imagens comentadas'))
             //or (strpos($n, 'essays'))
             //or (strpos($n, 'reflexiones'))
         ) {
