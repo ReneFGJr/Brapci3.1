@@ -58,6 +58,44 @@ class Sections extends Model
         pre($dt);
     }
 
+    function list_not_group()
+    {
+        $sx = '';
+        $SetSpec = new \App\Models\Oaipmh\SetSpec();
+        $dt = $this
+            ->join('brapci_oaipmh.oai_setspec', 'id_sc = s_section', 'right')
+            ->where('id_sc is null')
+            ->where('s_name <> ""')
+            ->orderby('s_name')
+            ->findAll(40);
+
+        if (get("confirm"=="True"))
+            {
+                foreach ($dt as $id => $line) {
+                    $ids = $this->getSection('Artigo');
+                    $d['s_section'] = $ids;
+                    $SetSpec->set($d)->where('id_s', $line['id_s'])->update();
+                    $sx = metarefresh(PATH. 'admin/section');
+                    return $sx;
+                    exit;
+                }
+            }
+
+        foreach ($dt as $id => $line) {
+            $name = $line['s_name'];
+            $setspec = $line['s_id'];
+            $sx .= '<li>' . $name . ' (' . $setspec . ')';
+            $ids = $this->identify($name, $setspec);
+            if ($ids > 0) {
+                $d['s_section'] = $ids;
+                $SetSpec->set($d)->where('id_s', $line['id_s'])->update();
+            }
+            $sx .= '</li>';
+        }
+        $sx .= '<a href="?confirm=True">Confirm</a>';
+        return bs(bsc($sx, 12));
+    }
+
     function identify($n, $se)
     {
         $n = mb_strtolower(ascii($n));
@@ -472,31 +510,7 @@ class Sections extends Model
         return $this->getSection('Artigo');
     }
 
-    function list_not_group()
-    {
-        $sx = '';
-        $SetSpec = new \App\Models\Oaipmh\SetSpec();
-        $dt = $this
-            ->join('brapci_oaipmh.oai_setspec', 'id_sc = s_section', 'right')
-            ->where('id_sc is null')
-            ->where('s_name <> ""')
-            ->orderby('s_name')
-            ->findAll(40);
 
-        foreach ($dt as $id => $line) {
-            $name = $line['s_name'];
-            $setspec = $line['s_id'];
-            $sx .= '<li>'.$name.' ('.$setspec.')';
-            $ids = $this->identify($name, $setspec);
-            if ($ids > 0) {
-                $d['s_section'] = $ids;
-                $SetSpec->set($d)->where('id_s', $line['id_s'])->update();
-            }
-            $sx .= '</li>';
-        }
-        $sx .= '<a href="?confirm=True">Confirm</a>';
-        return bs(bsc($sx,12));
-    }
 
     function normalize($sec, $idj)
     {
