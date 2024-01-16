@@ -507,6 +507,14 @@ class Sections extends Model
             return $this->getSection('Retratação & Advertência');
         }
 
+        /************************************* Advertência */
+        if (((strpos($n, 'errata')))
+            //or (strpos($n, 'retratacao'))
+            //or (strpos($n, 'retration'))
+        ) {
+            return $this->getSection('Errata');
+        }
+
         /************************************* Nota */
         if (
             (strpos($n, 'agradecimentos'))
