@@ -486,13 +486,15 @@ class Sections extends Model
         foreach ($dt as $id => $line) {
             $name = $line['s_name'];
             $setspec = $line['s_id'];
+            $sx .= '<li>'.$name.' ('.$setspec.')';
             $ids = $this->identify($name, $setspec);
             if ($ids > 0) {
                 $d['s_section'] = $ids;
                 $SetSpec->set($d)->where('id_s', $line['id_s'])->update();
             }
+            $sx .= '</li>';
         }
-        pre($dt);
+        return $sx
     }
 
     function normalize($sec, $idj)
