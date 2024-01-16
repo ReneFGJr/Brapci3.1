@@ -84,7 +84,7 @@ def process(rg):
     ######################### Identify ##
     try:
         row = identify(rg)
-        ISSUE = row[3]
+        ISSUE = row[0][3]
         print("Dados",row,ID,ISSUE)
         quit()
         mod_listidentify.updateIssue(ID,ISSUE)
