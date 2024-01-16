@@ -133,7 +133,8 @@ class Sections extends Model
 
         /************************************* Editorial */
         if (((strpos($se, ':ED')))
-            //or (strpos($n, 'archeion online'))
+            or (strpos($n, 'conteudo desta edição'))
+            or (strpos($n, 'editorial'))
         ) {
             return $this->getSection('Editorial');
         }
