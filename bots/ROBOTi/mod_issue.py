@@ -9,13 +9,8 @@ import mod_concept
 import mod_class
 import database
 
-def process(rg):
-    ID = rg[0]
-    JNL = rg[6]
-
-    print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
-
-    path = mod_listidentify.directory(rg[0])+'.getRecord.json'
+def extractData(ID,JNL):
+    path = mod_listidentify.directory(ID)+'.getRecord.json'
 
     try:
         ##print(path)
@@ -55,10 +50,7 @@ def process(rg):
             JNLs += '-'+extract_numbers(nr)
 
             lt = mod_literal.register(JNLs,'nn')
-
             cl = mod_class.getClass('Issue')
-
-
             Issue = mod_concept.register(cl,lt)
 
             qr = "insert into brapci.source_issue "
@@ -71,9 +63,21 @@ def process(rg):
             qr += "'','','','')"
             row = database.query(qr)
 
+    except Exception as e:
+        print("ERRO #02",e)
+        row = []
+    return row
+
+def process(rg):
+    ID = rg[0]
+    JNL = rg[6]
+
+    try:
+        row = extractData(ID,JNL)
         mod_listidentify.updateStatus(ID,7)
     except:
         mod_listidentify.updateStatus(ID,1)
+
 
 def extract_numbers(text):
     # Utilizando compreensão de lista e isdigit() para extrair números

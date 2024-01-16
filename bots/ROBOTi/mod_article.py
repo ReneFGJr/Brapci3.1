@@ -152,6 +152,8 @@ def create_article(rg,data,jnl):
     IDC = mod_concept.register(IDClass,IDliteral)
     print("CREATE",ID,IDClass,IDliteral,IDC)
 
+    # ISSUE ###########################################################
+
     for i in range(len(data)):
         keys = data[i].keys()
         for k in keys:
@@ -251,9 +253,7 @@ def create_article(rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
                 IDsec = row[0][0]
-
                 mod_data.register(IDC,'hasSectionOf',IDsec)
-                quit()
 
             #################################### Source ISSUE
             if (k == 'sourceX'):
