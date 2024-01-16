@@ -71,7 +71,6 @@ class Download extends BaseController
                         echo "Tentando recuperar PDF - ";
                         foreach($dt['data'] as $idz=>$line)
                             {
-                                pre($line,false);
                                 if (trim($line['Property']) == 'hasRegisterId')
                                     {
                                         $Download->download_methods($line, $ida);
