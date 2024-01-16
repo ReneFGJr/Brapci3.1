@@ -100,6 +100,8 @@ class Download extends Model
         $IssueWorks = new \App\Models\Base\IssuesWorks();
         $dw = $IssueWorks->where('siw_work_rdf', $idc)->first();
         if ($dw == []) {
+            echo $IssueWorks->getlastquery();
+            echo '<hr>';
             echo "Erro de Download methods WORK Issue";
             exit;
         }
