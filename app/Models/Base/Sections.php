@@ -126,6 +126,7 @@ class Sections extends Model
             or (strpos($n, 'congresso'))
             or (strpos($n, 'enancib'))
             or (strpos($n, 'ebbc'))
+            or (strpos($n, 'conferencia'))
         ) {
             return $this->getSection('Anais');
         }
