@@ -38,6 +38,8 @@ def extractData(ID,JNL):
         qr += ' AND is_year = '+str(source['year'])
         qr += ' AND is_vol = \''+vol+'\''
         qr += ' AND is_nr = \''+nr+'\''
+
+        print(qr)
         row = database.query(qr)
 
         if (row == []):
