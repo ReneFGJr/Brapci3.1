@@ -419,6 +419,7 @@ class Sections extends Model
             or (strpos($n, 'revisao'))
             or (strpos($n, 'revisao de literatura'))
             or (strpos($n, 'revisoes de literatura'))
+            or (strpos($n, 'artigo de revisao'))
 
 
         ) {
