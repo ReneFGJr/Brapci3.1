@@ -63,7 +63,6 @@ class Sections extends Model
         $n = mb_strtolower(ascii($n));
         $se = ' ' . $se;
         $n = ' ' . $n;
-        echo $n . '=> '.$se. '<br>';
 
         /************************************* Artigo traduzido */
         if (((strpos($n, 'traducao')))
