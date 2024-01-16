@@ -243,12 +243,7 @@ def create_article(rg,data,jnl):
             if (k == 'section'):
                 #ok = True
                 S = data[i][k]
-                print("Section",S)
-                for it in range(len(S)):
-                    print("IT",it)
-                    print("IT-",S[it])
-                    sec = S[it]
-                    print("PPP",sec,jnl,S)
+                print(S['section']);
                 quit()
                 #mod_journal.register(IDC,J)
 
