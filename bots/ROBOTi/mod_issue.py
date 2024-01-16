@@ -43,7 +43,6 @@ def identify(rg):
         row = database.query(qr)
 
         if (row == []):
-            print(qr)
             create_issue(JNL,year,vol,nr)
 
     except Exception as e:
@@ -65,15 +64,20 @@ def create_issue(JNL,year,vol,nr):
     cl = mod_class.getClass('Issue')
     Issue = mod_concept.register(cl,lt)
 
-    qr = "insert into brapci.source_issue "
-    qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
-    qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
-    qr += "is_url_oai)"
-    qr += ' values '
-    qr += f"({JNL},{year},'{vol}','','{nr}','', "
-    qr += f"{Issue}, '', "
-    qr += "'','','','')"
-    database.insert(qr)
+    qr = "select * from brapci.source_issue "
+    qr += f"where is_source_issue = {Issue}"
+    row = database.query(qr)
+
+    if row == []:
+        qr = "insert into brapci.source_issue "
+        qr += "(is_source, is_year, is_vol, is_vol_roman, is_nr, is_thema, "
+        qr += "is_source_issue, is_place, is_edition, is_cover, is_card,"
+        qr += "is_url_oai)"
+        qr += ' values '
+        qr += f"({JNL},{year},'{vol}','','{nr}','', "
+        qr += f"{Issue}, '', "
+        qr += "'','','','')"
+        database.insert(qr)
     return True
 
 def process(rg):
