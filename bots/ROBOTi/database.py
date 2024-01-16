@@ -19,7 +19,7 @@ def query(qr):
 
     except mysql.connector.Error as erro:
         print("Erro de Banco de Dados:", erro)
-
+        print(qr)
     finally:
         # Fechar o cursor e a conexão
         if conexao.is_connected():
