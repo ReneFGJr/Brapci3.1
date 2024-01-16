@@ -250,11 +250,10 @@ def create_article(rg,data,jnl):
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
-                sec = row[0][0]
-                print("ROW",row)
-                print("ROW",sec)
+                IDsec = row[0][0]
+
+                mod_data.register(IDC,'hasSection',IDsec)
                 quit()
-                #mod_journal.register(IDC,J)
 
             #################################### Source ISSUE
             if (k == 'sourceX'):
