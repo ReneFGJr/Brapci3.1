@@ -251,6 +251,7 @@ def create_article(rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
                 sec = row[0][0]
+                print("ROW",row)
                 print("ROW",sec)
                 quit()
                 #mod_journal.register(IDC,J)
