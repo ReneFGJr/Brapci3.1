@@ -43,6 +43,7 @@ def identify(rg):
         row = database.query(qr)
 
         if (row == []):
+            print(qr)
             create_issue(JNL,year,vol,nr)
 
     except Exception as e:
