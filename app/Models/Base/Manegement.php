@@ -70,6 +70,7 @@ class Manegement extends Model
             $menu['#Check'] = 3;
             $menu[PATH. 'admin/source'] = 'Journals';
             $menu[PATH . 'admin/issue'] = 'Issue';
+            $menu[PATH . 'admin/section'] = 'Sections';
 
             $sx = menu($menu);
 

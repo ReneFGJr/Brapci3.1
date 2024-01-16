@@ -45,6 +45,11 @@ class Index extends Model
         $sx = '';
         $sx .h($act);
         switch ($act) {
+            case 'section':
+                $sx .= h("Sections");
+                $section = new \App\Models\Base\Sections();
+                $sx .= $section->list_not_group();
+                break;
             case 'page':
                 $WP = new \App\Models\WP\Index();
                 $sx .= $WP->index($subact, $id, $id2, $id3);

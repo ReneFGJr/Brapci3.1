@@ -3,9 +3,7 @@ import mod_class
 import mod_concept
 import mod_data
 
-def register_literal(IDC,term,lg):
-    IDliteral = mod_literal.register(term,lg)
-    IDClass = mod_class.getClass('Subject')
+table = "brapci.section"
 
-    IDCt = mod_concept.register(IDClass,IDliteral)
-    return mod_data.register(IDC,'hasSubject',IDCt)
+def getSection(JNL,Name):
+    return 0

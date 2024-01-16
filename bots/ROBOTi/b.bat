@@ -1,4 +1,4 @@
 cls
-python ROBOTi.py process
-timeout /t 15
+python ROBOTi.py 5
+timeout /t 3
 b.bat
