@@ -243,7 +243,12 @@ def create_article(rg,data,jnl):
             if (k == 'section'):
                 #ok = True
                 S = data[i][k]
-                print(S['section']);
+                ids = S['section']
+                print("Section",S['section']);
+                qr = "select * from brapci_oaipmh.oai_setspec "
+                qr += f"where id_s = {ids}"
+                row = database.query($qr);
+                print("ROW",row)
                 quit()
                 #mod_journal.register(IDC,J)
 
