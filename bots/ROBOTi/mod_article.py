@@ -251,7 +251,6 @@ def create_article(rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr);
                 sec = row[0][0]
-                print("Sec",sec)
                 IDs = mod_section.getSection(sec)
 
                 print("ROW",row)
