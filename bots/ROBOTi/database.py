@@ -44,7 +44,8 @@ def insert(qr):
         cursor.execute(qr)
 
     except mysql.connector.Error as erro:
-        print("Erro de Banco de Dados:", erro)
+        print("Erro de Banco de Dados #32:", erro)
+        print(qr)
 
     finally:
         # Fechar o cursor e a conexão
