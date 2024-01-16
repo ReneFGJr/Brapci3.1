@@ -241,8 +241,9 @@ def create_article(rg,data,jnl):
 
             #################################### Journal
             if (k == 'section'):
-                ok = True
+                #ok = True
                 S = data[i][k]
+                print("Section",S)
                 for it in range(len(S)):
                     sec = S[it]
                     print("PPP",sec,jnl,S)
