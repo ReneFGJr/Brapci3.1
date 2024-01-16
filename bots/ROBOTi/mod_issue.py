@@ -85,8 +85,6 @@ def process(rg):
     try:
         row = identify(rg)
         ISSUE = row[0][3]
-        print("Dados",row,ID,ISSUE)
-        quit()
         mod_listidentify.updateIssue(ID,ISSUE)
         mod_listidentify.updateStatus(ID,7)
     except Exception as e:
