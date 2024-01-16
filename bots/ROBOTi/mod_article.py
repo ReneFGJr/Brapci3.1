@@ -57,7 +57,7 @@ def process(rg):
 
 
     except Exception as e:
-        #mod_listidentify.updateStatus(ID,1)
+        mod_listidentify.updateStatus(ID,1)
         print("ERRO",e)
 
 def check_method01(id,jnl):
@@ -145,18 +145,21 @@ def create_article(rg,data,jnl):
     ID = id + "#"+jnl
 
     IDClass = mod_class.getClass('Article')
-    print(rg)
-
     ##################################### Registra o Literal
     IDliteral = mod_literal.register(ID,'nn')
 
     ##################################### Create Concept
     IDC = mod_concept.register(IDClass,IDliteral)
-    print("CREATE",ID,IDClass,IDliteral,IDC)
+    print("CREATE #",ID,IDClass,IDliteral,IDC)
 
     # ISSUE ########################################################### ISSUE
-    row = mod_issue.extractData(rg[0],jnl)
-    quit()
+    row = mod_issue.identify(rg)
+    if row != []:
+        IDissue = row[0][3]
+        mod_data.register(IDissue,'hasSectionOf',IDC)
+    else:
+        print("OPS")
+        quit()
     # DATA ############################################################ DATA
 
     for i in range(len(data)):
@@ -249,7 +252,7 @@ def create_article(rg,data,jnl):
 
             #################################### Journal
             if (k == 'section'):
-                #ok = True
+                ok = True
                 S = data[i][k]
                 ids = S['section']
 
@@ -261,16 +264,14 @@ def create_article(rg,data,jnl):
                 mod_data.register(IDC,'hasSectionOf',IDsec)
 
             #################################### Source ISSUE
-            if (k == 'sourceX'):
+            if (k == 'source'):
                 T = data[i][k]
-                print(T)
-                quit()
-                for it in range(len(T)):
-                    lgs = mod_language.detect(T[it])
-                    mod_data.register_literal(IDC,'hasAbstract',lgs[0],lgs[1])
+                ok = True
 
             if ok == 0:
                 print(f'RSP: {k}')
+                quit()
     #################################### Title
+    mod_listidentify.updateStatus(rg[0],10)
     print(IDC)
     quit()
