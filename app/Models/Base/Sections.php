@@ -180,6 +180,8 @@ class Sections extends Model
             or (strpos($n, 'revisores'))
             or (strpos($n, 'autores convidados'))
             or (strpos($n, 'capa'))
+            or (strpos($n, 'directorio'))
+
          ) {
             return $this->getSection('Expediente');
         }
@@ -227,7 +229,7 @@ class Sections extends Model
 
         /************************************* Palestra */
         if (((strpos($n, 'palestra')))
-            //or (strpos($n, 'opinion'))
+            or (strpos($n, 'discurso'))
             //or (strpos($n, 'opinion'))
         ) {
             return $this->getSection('Palestra');
