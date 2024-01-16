@@ -37,7 +37,7 @@ def identify(rg):
         qr = 'select * from brapci.source_issue '
         qr += 'where '
         qr += 'is_source = '+str(JNL)
-        qr += ' AND is_year = '+str(year])
+        qr += ' AND is_year = '+str(year)
         qr += ' AND is_vol = \''+vol+'\''
         qr += ' AND is_nr = \''+nr+'\''
         row = database.query(qr)
