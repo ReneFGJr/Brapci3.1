@@ -33,6 +33,8 @@ def identify(rg):
         vol = formatVol(source['vol'])
         nr = formatNr(source['nr'])
         year = source['year']
+        if year == '':
+            year = 9999
 
         qr = 'select * from brapci.source_issue '
         qr += 'where '
