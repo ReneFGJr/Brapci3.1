@@ -52,7 +52,7 @@ def run(parm):
             if (loop > 10) or (lp == 0):
                 loop = 0
 
-    #********************** CheckEdition - LOOP
+    #********************** CheckEdition - LOOP - 6
     if (act == '4'):
         loop = 1
         while loop > 0:
