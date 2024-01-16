@@ -87,7 +87,9 @@ def process(rg):
         print(row)
         quit()
         mod_listidentify.updateStatus(ID,7)
-    except:
+    except Exception as e:
+        print("ERROR #22",e)
+        quit()
         mod_listidentify.updateStatus(ID,1)
 
 def extract_numbers(text):

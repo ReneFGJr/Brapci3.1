@@ -62,7 +62,7 @@ def run(parm):
             if (loop > 10) or (lp == 0):
                 loop = 0
 
-    #********************** Article - LOOP
+    #********************** Article - LOOP - 7
     if (act == '5'):
         loop = 1
         end = 1
