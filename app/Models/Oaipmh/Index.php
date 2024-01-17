@@ -291,11 +291,19 @@ class Index extends Model
 				->groupBy("oai_status")
 				->findAll();
 		} else {
-			$dt = $OAI_ListIdentifiers
+			if ($issue > 0)
+			{
+				$dt = $OAI_ListIdentifiers
 				->select("count(*) as total, oai_status")
 				->where('oai_issue', $issue)
 				->groupBy("oai_status")
 				->findAll();
+			} else {
+				$dt = $OAI_ListIdentifiers
+				->select("count(*) as total, oai_status")
+				->groupBy("oai_status")
+				->findAll();
+			}
 		}
 		return $dt;
 	}
