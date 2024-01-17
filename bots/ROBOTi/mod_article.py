@@ -16,6 +16,7 @@ import mod_journal
 import mod_subject
 import mod_section
 import mod_issue
+import mod_source_issue_work
 import database
 
 def process(rg):
@@ -157,6 +158,8 @@ def create_article(rg,data,jnl):
     if row != []:
         IDissue = row[0][3]
         mod_data.register(IDissue,'hasSectionOf',IDC)
+
+        mod_source_issue_work.register(jnl,IDissue,IDC)
     else:
         print("OPS")
         quit()
