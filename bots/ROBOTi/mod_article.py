@@ -81,11 +81,13 @@ def check_method01(id,jnl):
 
     if (len(row) == 1):
         return row[0][0]
+    else {
+        if (len(row) > ):
+            return row[0][0]
+    }
 
-    print("MAIS DE UM IDC")
+    print("NENHUM IDC")
     print(row)
-
-    print(ID)
     quit()
 
 def check_method02(data,jnl,id):
