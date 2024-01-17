@@ -87,7 +87,7 @@ def process(rg):
     ID = rg[0]
     JNL = rg[6]
 
-    print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
+    print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
     ######################### Identify ##
     try:
