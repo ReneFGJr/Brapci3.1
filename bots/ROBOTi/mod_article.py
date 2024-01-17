@@ -158,7 +158,7 @@ def create_article(rg,data,jnl):
     if row != []:
         IDissue = row[0][3]
         mod_data.register(IDissue,'hasSectionOf',IDC)
-
+        print("ISSE-WORK")
         mod_source_issue_work.register(jnl,IDissue,IDC)
     else:
         print("OPS")
