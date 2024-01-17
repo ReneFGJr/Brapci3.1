@@ -101,7 +101,9 @@ class Download extends Model
         $IssueWorks = new \App\Models\Base\IssuesWorks();
         $dw = $IssueWorks->where('siw_work_rdf', $idc)->first();
         if ($dw == []) {
-            $dt = $OAI->first();
+            $dt = $OAI
+                ->where('oai_rdf',$idc)
+                ->first();
             pre($dt);
             echo $IssueWorks->getlastquery();
             echo '<hr>';
