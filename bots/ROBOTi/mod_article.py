@@ -81,10 +81,9 @@ def check_method01(id,jnl):
 
     if (len(row) == 1):
         return row[0][0]
-    else {
-        if (len(row) > ):
+    else:
+        if (len(row) > 0):
             return row[0][0]
-    }
 
     print("NENHUM IDC")
     print(row)
