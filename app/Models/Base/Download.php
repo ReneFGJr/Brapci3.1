@@ -96,17 +96,10 @@ class Download extends Model
     function download_methods($dt, $idc)
     {
         $RDF = new \App\Models\RDF2\RDF();
-        $OAI = new \App\Models\Base\IssuesWorks();
 
         $IssueWorks = new \App\Models\Base\IssuesWorks();
         $dw = $IssueWorks->where('siw_work_rdf', $idc)->first();
         if ($dw == []) {
-            $dt = $OAI
-                //->where('oai_rdf',$idc)
-                ->first();
-                echo $OAI->getlastquery();
-            pre($dt);
-            echo $IssueWorks->getlastquery();
             echo '<hr>';
             echo "Erro de Download methods WORK Issue";
             exit;

@@ -45,19 +45,18 @@ class ListIdentifiers extends Model
 	protected $afterDelete          = [];
 
 	function check()
-		{
-			$dt['oai_status'] = 9;
-			$this->set($dt)->where('oai_deleted',1)->update();
-		}
+	{
+		$dt['oai_status'] = 9;
+		$this->set($dt)->where('oai_deleted', 1)->update();
+	}
 
-	function painel_mini($s=0,$jnl=0)
-		{
+	function painel_mini($s = 0, $jnl = 0)
+	{
 		$cp = 'oai_status';
 		$this->select($cp . ', count(*) as total');
-		if ($jnl > 0)
-			{
-				$this->where('oai_id_jnl', $id);
-			}
+		if ($jnl > 0) {
+			$this->where('oai_id_jnl', $id);
+		}
 		if ($s > 0) {
 			$this->where('oai_status', $s);
 		}
@@ -67,38 +66,37 @@ class ListIdentifiers extends Model
 			->findAll();
 
 		pre($dt);
-		}
+	}
 
 	function painel($id)
-		{
-			$this->check();
-			$cp = 'oai_status';
-			$dt = $this
-				->select($cp.', count(*) as total')
-				->where('oai_id_jnl',$id)
-				->groupBy($cp)
-				->orderBy($cp)
-				->findAll();
-			$sx = h('OAI-PMH',6);
-			$sx .= '<table class="full small">';
-			foreach($dt as $idx=>$line)
-				{
-					$link = '<a href="'.PATH.'/journals/oai/'.$id.'/'.$line['oai_status'].'">';
-					$linka = '</a>';
-					$sx .= '<tr  class="border-top border-secondary p-2">';
-					$sx .= '<td width="65%">';
-					$sx .= $link;
-					$sx .= lang('brapci.oai_status_'.$line['oai_status']);
-					$sx .= $linka;
-					$sx .= '</td>';
-					$sx .= '<td class="text-center">';
-					$sx .= $line['total'];
-					$sx .= '</td>';
-					$sx .= '</tr>';
-				}
-			$sx .= '</table>';
-			return $sx;
+	{
+		$this->check();
+		$cp = 'oai_status';
+		$dt = $this
+			->select($cp . ', count(*) as total')
+			->where('oai_id_jnl', $id)
+			->groupBy($cp)
+			->orderBy($cp)
+			->findAll();
+		$sx = h('OAI-PMH', 6);
+		$sx .= '<table class="full small">';
+		foreach ($dt as $idx => $line) {
+			$link = '<a href="' . PATH . '/journals/oai/' . $id . '/' . $line['oai_status'] . '">';
+			$linka = '</a>';
+			$sx .= '<tr  class="border-top border-secondary p-2">';
+			$sx .= '<td width="65%">';
+			$sx .= $link;
+			$sx .= lang('brapci.oai_status_' . $line['oai_status']);
+			$sx .= $linka;
+			$sx .= '</td>';
+			$sx .= '<td class="text-center">';
+			$sx .= $line['total'];
+			$sx .= '</td>';
+			$sx .= '</tr>';
 		}
+		$sx .= '</table>';
+		return $sx;
+	}
 
 	function update_status($idi, $status)
 	{
@@ -154,26 +152,25 @@ class ListIdentifiers extends Model
 		return $sx;
 	}
 
-	function summary($idj,$issue)
-		{
-			$DT = [];
-			$cp = 'li_s as status';
-			$this->select($cp.', count(*) as total');
-			$this->where('li_jnl',$idj);
-			$this->where('li_issue', $issue);
-			$this->groupBy('li_s');
-			$dt = $this->findAll();
+	function summary($idj, $issue)
+	{
+		$DT = [];
+		$cp = 'li_s as status';
+		$this->select($cp . ', count(*) as total');
+		$this->where('li_jnl', $idj);
+		$this->where('li_issue', $issue);
+		$this->groupBy('li_s');
+		$dt = $this->findAll();
 
-			foreach($dt as $id=>$lst)
-				{
-					$DT['status_'.$lst['status']] = $lst['total'];
-				}
-			return $DT;
+		foreach ($dt as $id => $lst) {
+			$DT['status_' . $lst['status']] = $lst['total'];
 		}
+		return $DT;
+	}
 
 	function resume($idj)
 	{
-		$rs = array(0, 0, 0, 0, 0, 0, 0, 0, 0);
+		$rs = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		$sx = '';
 		$dt =
 			$this
@@ -186,7 +183,7 @@ class ListIdentifiers extends Model
 			$st = $line['li_s'];
 			$rs[$st] = $line['total'];
 		}
-		$show = array(1, 2, 3, 4, 5, 9);
+		$show = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 		foreach ($show as $n => $i) {
 			$msg = '<span class="small">' . lang('brapci.oai_status_' . $n) . '</span>';
 			$msg .= h($rs[$n]);
