@@ -67,7 +67,7 @@ def run(parm):
         loop = 1
         end = 1
         while loop > 0:
-            loop += 1
+            loop += 4
             lp = ProcessArticle()
             print("LOOP - ",loop)
             if (loop > end) or (lp == 0):

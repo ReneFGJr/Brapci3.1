@@ -24,7 +24,7 @@ def process(rg):
     JNL = rg[6]
     IDA = rg[1]
 
-    print(Fore.YELLOW+f"... Processando ISSUE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
+    print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(ID)+'.getRecord.json'
 
     try:
@@ -54,8 +54,7 @@ def process(rg):
         if (IDX == 0):
             print("CREATE WORK")
             IDX = create_article(rg,data,JNL)
-            quit()
-
+            mod_listidentify.updateStatus(ID,8)
 
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
