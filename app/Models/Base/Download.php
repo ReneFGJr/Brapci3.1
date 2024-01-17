@@ -104,6 +104,7 @@ class Download extends Model
             $dt = $OAI
                 ->where('oai_rdf',$idc)
                 ->first();
+                echo $OAI->getlastquery();
             pre($dt);
             echo $IssueWorks->getlastquery();
             echo '<hr>';
