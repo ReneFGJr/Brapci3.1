@@ -316,8 +316,10 @@ class Download extends Model
                         $txt = substr($txt,strpos($txt, '?file=')+6,strlen($txt));
                         $txt = urldecode($txt);
                     }
-                echo h('['.$txt.']');
-                exit;
+                if (susbtr($txt,0,4) == 'http')
+                    {
+                        return $txt;
+                    }
             }
         }
 
