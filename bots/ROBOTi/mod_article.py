@@ -58,7 +58,7 @@ def process(rg):
 
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
-        print("ERRO",e)
+        print("ERRO ARTICLE",e)
 
 def check_method01(id,jnl):
     jnl = str(jnl)

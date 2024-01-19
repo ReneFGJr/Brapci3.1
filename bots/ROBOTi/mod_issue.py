@@ -48,7 +48,7 @@ def identify(rg):
             row = create_issue(JNL,year,vol,nr)
 
     except Exception as e:
-        print("Erro ISSE",e)
+        print("Erro ISSUE",e)
         row = []
 
     return row
