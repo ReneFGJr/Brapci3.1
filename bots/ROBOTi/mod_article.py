@@ -156,7 +156,8 @@ def create_article(rg,data,jnl):
     print("CREATE #",ID,IDClass,IDliteral,"IDC:",IDC)
 
     ##################################### OCS ID
-    mod_data.register_literal(IDC,'hasUrl',idOCS,'nn')
+    print("Registres",IDC,idOCS)
+    mod_data.register_literal(IDC,'hasID',idOCS,'nn')
 
     # ISSUE ########################################################### ISSUE
     row = mod_issue.identify(rg)
