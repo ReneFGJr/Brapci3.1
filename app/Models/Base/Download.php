@@ -305,7 +305,7 @@ class Download extends Model
 
                 }
 
-            pre($txt,false);
+            pre(substr($txt,0,100),false);
 
             /********************* IFRAME */
             if (substr($txt, 0, 2) == '<iframe') {
