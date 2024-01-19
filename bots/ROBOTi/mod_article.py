@@ -213,7 +213,6 @@ def create_article(rg,data,jnl):
 
                     DOI = T[it]['value']
                     DOI = DOI[0]
-                    print("DOI",DOI)
                     mod_data.register_literal(IDC,'hasDOI',DOI,'nn')
 
             ######################################################## Concepts
