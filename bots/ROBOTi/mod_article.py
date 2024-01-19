@@ -152,13 +152,13 @@ def create_article(rg,data,jnl):
     ##################################### Create Concept
     IDC = mod_concept.register(IDClass,IDliteral)
     print("CREATE #",ID,IDClass,IDliteral,"IDC:",IDC)
-    quit()
 
     # ISSUE ########################################################### ISSUE
     row = mod_issue.identify(rg)
     if row != []:
         IDissue = row[0][3]
-        print(IDissue)
+        print("IDissue",IDissue)
+        quit()
         if (IDissue > 0):
             mod_data.register(IDissue,'hasSectionOf',IDC)
             print("ISSE-WORK")
