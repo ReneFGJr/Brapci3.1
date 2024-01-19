@@ -318,7 +318,7 @@ class Download extends Model
                 echo h('['.$txt.']');
                 echo h('[' . htmlspecialchars_decode($txt) . ']');
                 echo h('[' . htmlspecialchars($txt) . ']');
-                echo h('[' . htmlspecialchars_decode($txt) . ']');
+                echo h('[' . urldecode($txt) . ']');
                 exit;
             }
         }
