@@ -281,9 +281,9 @@ class Download extends Model
 
     function ocs_2($url)
     {
-        pre($url);
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
+            pre($txt);
             if ($pos = strpos($txt, 'citation_pdf_url')) {
                 $txt = substr($txt, $pos, 300);
                 $st = 'content="';
