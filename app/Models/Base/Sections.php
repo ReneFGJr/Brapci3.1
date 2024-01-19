@@ -84,9 +84,7 @@ class Sections extends Model
         $sx = '';
         $SetSpec = new \App\Models\Oaipmh\SetSpec();
         $dt = $SetSpec
-            ->join('brapci.sections', 'id_sc = s_section', 'left')
-            ->where('s_name is null')
-            //->where('s_name <> ""')
+            ->where('s_section',0)
             ->orderby('s_name')
             ->findAll(40);
             $sx .= '<pre>'. $SetSpec->getlastquery().'</pre>';
