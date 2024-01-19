@@ -130,13 +130,13 @@ class Download extends Model
             //$RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
         }
 
-        echo $name;
-        exit;
 
         if (substr($name, 0, 4) == 'http') {
             $name = troca($name, 'http://', 'https://');
             $url = $name;
             echo h('<a href="' . $url . '">' . $url . '</a>', 5);
+
+            /******************************************************* Recupera via OCS2 */
             $fileURL = $this->ocs_2($url);
 
             if ($fileURL == '')
@@ -281,6 +281,7 @@ class Download extends Model
 
     function ocs_2($url)
     {
+        pre($url);
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
             if ($pos = strpos($txt, 'citation_pdf_url')) {
