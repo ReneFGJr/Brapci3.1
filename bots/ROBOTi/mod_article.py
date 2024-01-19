@@ -143,6 +143,8 @@ def create_article(rg,data,jnl):
         jnl = "0"+jnl
 
     id = rg[1]
+    idOCS = rg[1]
+
     ID = id + "#"+jnl
 
     IDClass = mod_class.getClass('Article')
@@ -152,6 +154,9 @@ def create_article(rg,data,jnl):
     ##################################### Create Concept
     IDC = mod_concept.register(IDClass,IDliteral)
     print("CREATE #",ID,IDClass,IDliteral,"IDC:",IDC)
+
+    ##################################### OCS ID
+    mod_data.register_literal(IDC,'hasUrl',idOCS,'nn')
 
     # ISSUE ########################################################### ISSUE
     row = mod_issue.identify(rg)
