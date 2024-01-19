@@ -128,6 +128,7 @@ class Sections extends Model
         if (((strpos($n, 'traducao')))
             or (strpos($n, 'traduaaes'))
             or (strpos($n, 'traducoes'))
+            or (strpos($n, 'trad'))
             or (strpos($n, 'traducciones'))
 
         ) {
@@ -148,7 +149,7 @@ class Sections extends Model
             or (strpos($n, 'congresso'))
             or (strpos($n, 'enancib'))
             or (strpos($n, 'ebbc'))
-            or (strpos($n, 'eica'))
+            or (strpos($n, 'eiica'))
             or (strpos($n, 'conferencia'))
             or (strpos($n, 'evento'))
         ) {
