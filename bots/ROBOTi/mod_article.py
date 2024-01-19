@@ -157,9 +157,14 @@ def create_article(rg,data,jnl):
     row = mod_issue.identify(rg)
     if row != []:
         IDissue = row[0][3]
-        mod_data.register(IDissue,'hasSectionOf',IDC)
-        print("ISSE-WORK")
-        mod_source_issue_work.register(jnl,IDissue,IDC)
+        print(IDissue)
+        if (IDissue > 0):
+            mod_data.register(IDissue,'hasSectionOf',IDC)
+            print("ISSE-WORK")
+            mod_source_issue_work.register(jnl,IDissue,IDC)
+        else:
+            print("Erro ISSUE inválido");
+            quit()
     else:
         print("OPS")
         quit()
@@ -264,6 +269,7 @@ def create_article(rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
                 IDsec = row[0][0]
+                print("=>Section")
                 mod_data.register(IDC,'hasSectionOf',IDsec)
 
             #################################### Source ISSUE
