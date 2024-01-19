@@ -302,8 +302,10 @@ class Download extends Model
             /********************* EBOOK */
             if (substr($txt,0,2) =='PK')
                 {
-                    echo "+===================================";
+
                 }
+
+            pre($txt);
 
             /********************* IFRAME */
             if (substr($txt, 0, 2) == '<iframe') {
