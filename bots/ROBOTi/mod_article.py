@@ -267,6 +267,7 @@ def create_article(rg,data,jnl):
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
+                print("ROW",row)
                 IDsec = row[0][0]
                 print("=>Section",IDsec)
                 mod_data.register(IDC,'hasSectionOf',IDsec)
