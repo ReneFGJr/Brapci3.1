@@ -5,11 +5,6 @@ import mod_data
 
 def register_literal(IDC,term,lg):
 
-    print("PRE",term)
-    term = prepare(term)
-    print("POS",term)
-    quit()
-
     IDliteral = mod_literal.register(term,lg)
     IDClass = mod_class.getClass('Subject')
 
