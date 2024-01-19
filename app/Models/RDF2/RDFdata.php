@@ -95,6 +95,7 @@ class RDFdata extends Model
 
             ->where('d_r1', $id)
             ->where('d_r2 <> 0')
+            ->orderBy('id_d')
             ->findAll();
 
         $cp = '';
@@ -116,6 +117,7 @@ class RDFdata extends Model
             ->join('rdf_literal', 'RC1.cc_pref_term = id_n')
 
             ->where('d_r2', $id)
+            ->orderBy('id_d')
             ->findAll();
 
             //echo $this->getlastquery();
@@ -135,6 +137,7 @@ class RDFdata extends Model
             ->join('rdf_prefix', 'c_prefix = id_prefix')
             ->where('d_r1', $id)
             ->where('d_r2', 0)
+            ->orderBy('id_d')
             ->findAll();
 
         $dt = array_merge($dtA, $dtB, $dtC);
