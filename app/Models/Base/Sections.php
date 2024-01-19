@@ -148,6 +148,7 @@ class Sections extends Model
             or (strpos($n, 'congresso'))
             or (strpos($n, 'enancib'))
             or (strpos($n, 'ebbc'))
+            or (strpos($n, 'eica'))
             or (strpos($n, 'conferencia'))
             or (strpos($n, 'evento'))
         ) {
