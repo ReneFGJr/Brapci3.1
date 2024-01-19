@@ -305,10 +305,9 @@ class Download extends Model
 
                 }
 
-            pre(substr($txt,0,100),false);
 
             /********************* IFRAME */
-            if (substr($txt, 0, 2) == '<iframe') {
+            if (strpos($txt,'<iframe')) {
                 pre("IFRAME");
                 $pos = strpos($txt,'<iframe');
                 $txt = substr($txt,$pos+10,300);
