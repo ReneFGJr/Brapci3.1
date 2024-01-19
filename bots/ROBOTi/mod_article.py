@@ -167,8 +167,6 @@ def create_article(rg,data,jnl):
     else:
         print("OPS")
         quit()
-    print("FIM")
-    quit()
     # DATA ############################################################ DATA
 
     for i in range(len(data)):
@@ -270,7 +268,7 @@ def create_article(rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
                 IDsec = row[0][0]
-                print("=>Section")
+                print("=>Section",IDsec)
                 mod_data.register(IDC,'hasSectionOf',IDsec)
 
             #################################### Source ISSUE
