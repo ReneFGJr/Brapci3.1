@@ -41,4 +41,16 @@ class GoogleTranslate extends Model
     protected $afterDelete    = [];
 
     //https://cloud.google.com/translate/docs/reference/rest/?apix=true
+
+    function translate($txt,$ori,$target)
+        {
+            $url = 'https://translation.googleapis.com/language/translate/v2';
+            $url .= '?q='.html_entity_decode($txt);
+            $url .= '&target='.$target;
+            $url .= '&source='.$ori;
+            $url .= '&key='.$_ENV['google_apikey_translate'];
+
+
+
+        }
 }
