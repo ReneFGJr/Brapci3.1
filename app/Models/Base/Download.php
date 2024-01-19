@@ -311,9 +311,9 @@ class Download extends Model
                 pre("IFRAME",false);
                 $pos = strpos($txt,'<iframe');
                 echo "=POS=".$pos;
-                $txt = substr($txt,$pos+12,300);
+                $txt = substr($txt,$pos+13,300);
                 echo "=TXT=" . $txt;
-                $txt = substr($txt,0,'</');
+                $txt = substr($txt,0,'"');
                 echo h('['.$txt.']');
                 exit;
             }
