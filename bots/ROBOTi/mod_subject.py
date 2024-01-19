@@ -25,6 +25,11 @@ def prepare(T):
             for ix in range(len(TE)):
                 TEe = TE[ix]
                 TR.append([TEe,lg])
+        elif '; ' in TE:
+            TE = TE.split('. ')
+            for ix in range(len(TE)):
+                TEe = TE[ix]
+                TR.append([TEe,lg])
         else:
                 TR.append([TE,lg])
 
