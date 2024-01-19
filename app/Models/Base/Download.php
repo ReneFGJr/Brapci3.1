@@ -314,11 +314,9 @@ class Download extends Model
                 if (strpos($txt, '?file='))
                     {
                         $txt = substr($txt,strpos($txt, '?file=')+6,strlen($txt));
+                        $txt = urldecode($txt);
                     }
                 echo h('['.$txt.']');
-                echo h('[' . htmlspecialchars_decode($txt) . ']');
-                echo h('[' . htmlspecialchars($txt) . ']');
-                echo h('[' . urldecode($txt) . ']');
                 exit;
             }
         }
