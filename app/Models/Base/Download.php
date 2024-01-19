@@ -308,12 +308,13 @@ class Download extends Model
 
             /********************* IFRAME */
             if (strpos($txt,'<iframe')) {
-                pre("IFRAME",false);
                 $pos = strpos($txt,'<iframe');
-                echo "=POS=".$pos;
                 $txt = substr($txt,$pos+13,300);
-                echo "=TXT=" . $txt;
                 $txt = substr($txt,0,strpos($txt,'"'));
+                if (strpos($txt, '?file='))
+                    {
+                        $txt = substr($txt,strpos($txt, '?file=')+6,strlen($txt));
+                    }
                 echo h('['.$txt.']');
                 exit;
             }
