@@ -103,7 +103,8 @@ class Sections extends Model
 
         foreach ($dt as $id => $line) {
             $name = $line['s_name'];
-            if ($name == '') { $name = ':Vazio:'; }
+            if ($name == '')
+                { $name = $line['s_id']; }
             $setspec = $line['s_id'];
             $sx .= '<li>' . $name . ' (' . $setspec . ')';
             $ids = $this->identify($name, $setspec);
