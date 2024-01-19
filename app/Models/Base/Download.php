@@ -284,7 +284,7 @@ class Download extends Model
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
 
-            echo h(substr($txt,0,10),3);
+            echo h('['.substr($txt,0,10).']',3);
 
             if ($pos = strpos($txt, 'citation_pdf_url')) {
                 $txt = substr($txt, $pos, 300);
