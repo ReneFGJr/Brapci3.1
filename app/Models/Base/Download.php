@@ -130,6 +130,9 @@ class Download extends Model
             //$RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
         }
 
+        echo $name;
+        exit;
+
         if (substr($name, 0, 4) == 'http') {
             $name = troca($name, 'http://', 'https://');
             $url = $name;

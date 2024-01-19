@@ -68,7 +68,7 @@ class Download extends BaseController
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
-                        echo "Tentando recuperar PDF - ";
+                        echo "Tentando recuperar PDF";
                         foreach($dt['data'] as $idz=>$line)
                             {
                                 if (trim($line['Property']) == 'hasRegisterId')
