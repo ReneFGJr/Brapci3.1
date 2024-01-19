@@ -281,6 +281,7 @@ def create_article(rg,data,jnl):
                 print(f'RSP: {k}')
                 quit()
     #################################### Title
+    quit()
     mod_listidentify.updateStatus(rg[0],10)
     print(IDC)
     quit()
