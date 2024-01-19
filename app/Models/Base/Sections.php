@@ -435,7 +435,7 @@ class Sections extends Model
             or (strpos($n, 'dosier'))
             or (strpos($n, 'dossier'))
             or (strpos($n, 'dossia'))
-            or (strpos($n, 'Dossi'))
+            or (strpos($n, 'dossi'))
         ) {
             return $this->getSection('Dossiê');
         }
