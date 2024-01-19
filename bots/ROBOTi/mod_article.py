@@ -152,6 +152,7 @@ def create_article(rg,data,jnl):
     ##################################### Create Concept
     IDC = mod_concept.register(IDClass,IDliteral)
     print("CREATE #",ID,IDClass,IDliteral,IDC)
+    quit()
 
     # ISSUE ########################################################### ISSUE
     row = mod_issue.identify(rg)
