@@ -301,6 +301,7 @@ class Download extends Model
 
             if (substr($txt,0,2) =='PK')
                 {
+                    echo "+===================================";
                     echo $url;
                     exit;
                     return $url;
