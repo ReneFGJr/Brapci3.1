@@ -270,6 +270,7 @@ def create_article(rg,data,jnl):
                 IDsec = row[0][0]
                 print("=>Section",IDsec)
                 mod_data.register(IDC,'hasSectionOf',IDsec)
+                print("=>Section (FIM)",IDsec)
 
             #################################### Source ISSUE
             if (k == 'source'):
