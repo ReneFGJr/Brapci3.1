@@ -316,7 +316,9 @@ class Download extends Model
                         $txt = substr($txt,strpos($txt, '?file=')+6,strlen($txt));
                     }
                 echo h('['.$txt.']');
-                echo h('[' . html_entity_decode($txt) . ']');
+                echo h('[' . htmlspecialchars_decode($txt) . ']');
+                echo h('[' . htmlspecialchars($txt) . ']');
+                echo h('[' . htmlspecialchars_decode($txt) . ']');
                 exit;
             }
         }
