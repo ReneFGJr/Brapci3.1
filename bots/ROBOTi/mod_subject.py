@@ -4,8 +4,10 @@ import mod_concept
 import mod_data
 
 def register_literal(IDC,term,lg):
-    print(term)
 
+    print("PRE",term)
+    term = prepare(term)
+    print("POS",term)
     quit()
 
     IDliteral = mod_literal.register(term,lg)
