@@ -223,8 +223,6 @@ def create_article(rg,data,jnl):
                 T = data[i][k]
                 T = mod_subject.prepare(T)
 
-                print("PRE",T)
-
                 for it in range(len(T)):
                     mod_subject.register_literal(IDC,T[it][0],T[it][1])
 
