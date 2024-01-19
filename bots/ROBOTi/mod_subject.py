@@ -21,17 +21,20 @@ def prepare(T):
             lg = TE[-2:]
             TE = TE[0:-3]
 
+        nt = False
         if '. ' in TE:
             TE = TE.split('. ')
             for ix in range(len(TE)):
                 TEe = TE[ix]
                 TR.append([TEe,lg])
-        elif '; ' in TE:
+                nt = True
+        if '; ' in TE:
             TE = TE.split('. ')
             for ix in range(len(TE)):
                 TEe = TE[ix]
                 TR.append([TEe,lg])
-        else:
+                nt = True
+        if nt==False:
                 TR.append([TE,lg])
 
     ####################### Normalize
