@@ -28,12 +28,19 @@ def prepare(T):
                 TEe = TE[ix]
                 TR.append([TEe,lg])
                 nt = True
-        if '; ' in TE:
-            TE = TE.split('. ')
+        if ';' in TE:
+            TE = TE.split(';')
             for ix in range(len(TE)):
                 TEe = TE[ix]
                 TR.append([TEe,lg])
                 nt = True
+        if ':' in TE:
+            TE = TE.split(':')
+            for ix in range(len(TE)):
+                TEe = TE[ix]
+                TR.append([TEe,lg])
+                nt = True
+
         if nt==False:
                 TR.append([TE,lg])
 
