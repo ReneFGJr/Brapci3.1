@@ -313,7 +313,7 @@ class Download extends Model
                 echo "=POS=".$pos;
                 $txt = substr($txt,$pos+13,300);
                 echo "=TXT=" . $txt;
-                $txt = substr($txt,0,'"');
+                $txt = substr($txt,0,strpos($txt,'"'));
                 echo h('['.$txt.']');
                 exit;
             }
