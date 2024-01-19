@@ -267,11 +267,14 @@ def create_article(rg,data,jnl):
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
-                print("ROW",row,qr)
                 IDsec = row[0][0]
-                print("=>Section",IDsec)
-                mod_data.register(IDC,'hasSectionOf',IDsec)
-                print("=>Section (FIM)",IDsec)
+                if (IDsec == None or IDsec < 1):
+                    print("Erro Section")
+                    quit()
+                else:
+                    print("=>Section",IDsec)
+                    mod_data.register(IDC,'hasSectionOf',IDsec)
+                    print("=>Section (FIM)",IDsec)
 
             #################################### Source ISSUE
             if (k == 'source'):
