@@ -15,14 +15,12 @@ def register_literal(IDC,term):
     return mod_data.register(IDC,'hasLicense',IDCt)
 
 def nbr_licence(T):
-    if '#text' in T:
-        print("ARRAY")
     if T == 'Copr':
         T = 'Copyright (c)'
     elif T == 'Copyright':
         T = 'Copyright (c)'
     else:
-        T = T.upper()
+        T = "RESERVED"
     return T
 
 def tipo(n):
