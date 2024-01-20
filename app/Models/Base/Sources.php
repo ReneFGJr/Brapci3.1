@@ -37,7 +37,7 @@ class Sources extends Model
         'op: & :100&Atual:200&Corrent:404&Fora do Ar:500&Para coletar:501&Erro de acesso aos dados',
         'string:20',
         'sn', 'string:20', 'sn',
-        'sn', 'string:20','set:1900-01-01'
+        'sn', 'string:20', 'set:1900-01-01'
     ];
 
     // Dates
@@ -79,7 +79,7 @@ class Sources extends Model
                 break;
 
             case 'view':
-                    $sx = $this->view($d2);
+                $sx = $this->view($d2);
                 break;
 
             case 'viewid':
@@ -87,25 +87,24 @@ class Sources extends Model
                 break;
 
             case 'list':
-                switch($d2)
-                    {
-                        case '0':
-                            $sx = $this->list();
-                            break;
-                        case '1':
-                            $sx = $this->list();
-                            break;
-                        case '2':
-                            $sx = $this->list('b');
-                            break;
-                        default:
+                switch ($d2) {
+                    case '0':
+                        $sx = $this->list();
                         break;
-                    }
+                    case '1':
+                        $sx = $this->list();
+                        break;
+                    case '2':
+                        $sx = $this->list('b');
+                        break;
+                    default:
+                        break;
+                }
 
                 break;
 
             case 'check':
-                $sx = $this->check($d2,$d3);
+                $sx = $this->check($d2, $d3);
                 break;
 
             case 'menu':
@@ -113,12 +112,12 @@ class Sources extends Model
                 break;
 
             case 'tableview':
-                $this->path = PATH.'admin/source';
-                $this->path_back = PATH. 'admin/source/tableview';
-                $sx = bs(bsc(tableview($this,$_POST)));
+                $this->path = PATH . 'admin/source';
+                $this->path_back = PATH . 'admin/source/tableview';
+                $sx = bs(bsc(tableview($this, $_POST)));
                 break;
 
-            /******************* Implementando */
+                /******************* Implementando */
             case 'issue':
                 $sx = $this->issue($d1, $d2, $d3);
                 break;
@@ -127,16 +126,16 @@ class Sources extends Model
                 $sx = 'Harvesting';
                 break;
 
-            /******************* Para testes ***/
+                /******************* Para testes ***/
             case 'edit_issue':
-                $this->path_back = PATH. '/journals/view/'.$d2;
+                $this->path_back = PATH . '/journals/view/' . $d2;
                 $sx = $this->editar_issue($d2, $d3);
                 break;
             case 'oai_check':
                 $sx = $this->oai_check();
                 break;
             case 'edit':
-                $d2 = round('0'.trim($d2));
+                $d2 = round('0' . trim($d2));
                 $sx = $this->editar($d2);
                 break;
             case 'viewid':
@@ -159,356 +158,358 @@ class Sources extends Model
     }
 
     function getCollections()
-        {
-            $c = [];
-            $dt = $this->findAll();
-            foreach($dt as $id=>$line)
-                {
-                    $col = $line['jnl_collection'];
-                    switch($col)
-                        {
-                            case 'JA':
-                                $col = 'Revista Brasileira';
-                                break;
-                            case 'JE':
-                                $col = 'Revistas Estrangeira';
-                                break;
-                            case 'EV':
-                                $col = 'Anais de evento';
-                                break;
-                        }
-                    $c[$line['id_jnl']] = $col;
-                }
-            return $c;
+    {
+        $c = [];
+        $dt = $this->findAll();
+        foreach ($dt as $id => $line) {
+            $col = $line['jnl_collection'];
+            switch ($col) {
+                case 'JA':
+                    $col = 'Revista Brasileira';
+                    break;
+                case 'JE':
+                    $col = 'Revistas Estrangeira';
+                    break;
+                case 'EV':
+                    $col = 'Anais de evento';
+                    break;
+            }
+            $c[$line['id_jnl']] = $col;
         }
+        return $c;
+    }
 
-    function check($id,$id2)
-        {
-            $Issue = new \App\Models\Base\Issues();
-            $sx = $Issue->check($id,$id2);
-            return $sx;
-        }
+    function check($id, $id2)
+    {
+        $Issue = new \App\Models\Base\Issues();
+        $sx = $Issue->check($id, $id2);
+        return $sx;
+    }
 
     function list_json()
-        {
-            $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final, jnl_historic, jnl_active, jnl_frbr';
-            $dt = $this
+    {
+        $cp = 'id_jnl, jnl_name, jnl_name_abrev, jnl_issn, jnl_eissn, jnl_ano_inicio, jnl_ano_final, jnl_historic, jnl_active, jnl_frbr';
+        $dt = $this
             ->select($cp)
             ->OrderBy('jnl_name')
             ->findAll();
-            return json_encode($dt);
-        }
+        return json_encode($dt);
+    }
 
     function view($id)
-        {
-            $Socials = new \App\Models\Socials();
-            $dt = $this->where('id_jnl',$id)->first();
+    {
+        $Socials = new \App\Models\Socials();
+        $dt = $this->where('id_jnl', $id)->first();
 
-            $sa = '';
-            $sb = '';
-            $sx = '';
-            $sa .= h($dt['jnl_name'],3);
-            $sa .= h($dt['jnl_name_abrev'], 5);
-            $sa .= h('ISSN: ' . $dt['jnl_issn'],6);
-            $sa .= h('eISSN: ' . $dt['jnl_eissn'], 6);
-            $sa .= h('Periodicidade: ' . $dt['jnl_periodicidade'], 6);
-            $sa .= h('Ano Início: ' . $dt['jnl_ano_inicio'], 6);
-            $sa .= h('Ano Final: ' . $dt['jnl_ano_final'], 6);
-            $sa .= h('URL: ' . anchor($dt['jnl_url']), 6);
-            $sa .= h('URL OAI: '.anchor($dt['jnl_url_oai']), 6);
-            $sa .= h($dt['jnl_oai_last_harvesting'], 6);
-            $sa .= h('Updated: ' . stodbr($dt['update_at']), 6);
+        $sa = '';
+        $sb = '';
+        $sx = '';
+        $sa .= h($dt['jnl_name'], 3);
+        $sa .= h($dt['jnl_name_abrev'], 5);
+        $sa .= h('ISSN: ' . $dt['jnl_issn'], 6);
+        $sa .= h('eISSN: ' . $dt['jnl_eissn'], 6);
+        $sa .= h('Periodicidade: ' . $dt['jnl_periodicidade'], 6);
+        $sa .= h('Ano Início: ' . $dt['jnl_ano_inicio'], 6);
+        $sa .= h('Ano Final: ' . $dt['jnl_ano_final'], 6);
+        $sa .= h('URL: ' . anchor($dt['jnl_url']), 6);
+        $sa .= h('URL OAI: ' . anchor($dt['jnl_url_oai']), 6);
+        $sa .= h($dt['jnl_oai_last_harvesting'], 6);
+        $sa .= h('Updated: ' . stodbr($dt['update_at']), 6);
 
-            $sa .= h('Status: ' . $dt['jnl_oai_status'], 6);
-            $sa .= h('To harvesting: '.$dt['jnl_oai_to_harvesting'], 6);
-            $sa .= h('Collection: '.$dt['jnl_collection'], 6);
-            $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
-            $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
+        $sa .= h('Status: ' . $dt['jnl_oai_status'], 6);
+        $sa .= h('To harvesting: ' . $dt['jnl_oai_to_harvesting'], 6);
+        $sa .= h('Collection: ' . $dt['jnl_collection'], 6);
+        $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
+        $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
 
-            if ($Socials->perfil('#ADM')) {
-                $sa .= '<a href="' . PATH . '/admin/source/edit/' . $dt['id_jnl'] . '" class="btn btn-outline-primary">' . msg('edit') . '</a>';
-            }
-
-
-            /************************* SB */
-            $oai = new \App\Models\Oaipmh\ListIdentifiers();
-            $sb .= $oai->painel($id);
-
-            /************************* ISSUE */
-            $Issues = new \App\Models\Base\Issues();
-            $sb .= $Issues->painel($id);
-
-            $sx .= bsc($sa,9);
-            $sx .= bsc($sb,3,'small');
-
-            $sx = bs($sx);
-            return $sx;
+        if ($Socials->perfil('#ADM')) {
+            $sa .= '<a href="' . PATH . '/admin/source/edit/' . $dt['id_jnl'] . '" class="btn btn-outline-primary">' . msg('edit') . '</a>';
         }
+
+
+        /************************* SB */
+        $oai = new \App\Models\Oaipmh\ListIdentifiers();
+        $sb .= $oai->painel($id);
+
+        /************************* ISSUE */
+        $Issues = new \App\Models\Base\Issues();
+        $sb .= $Issues->painel($id);
+
+        $sx .= bsc($sa, 9);
+        $sx .= bsc($sb, 3, 'small');
+
+        $sx = bs($sx);
+        return $sx;
+    }
 
     function oai_reg($id)
-        {
-            $Socials = new \App\Models\Socials();
-            $OAI = new \App\Models\Oaipmh\ListIdentifiers();
-            $dt = $OAI
-                ->join('oai_setspec', 'id_s = oai_setSpec')
-                ->join('brapci.source_source','id_jnl = oai_id_jnl')
-                ->where('id_oai', $id)
-                ->first();
+    {
+        $Socials = new \App\Models\Socials();
+        $OAI = new \App\Models\Oaipmh\ListIdentifiers();
+        $dt = $OAI
+            ->join('oai_setspec', 'id_s = oai_setSpec')
+            ->join('brapci.source_source', 'id_jnl = oai_id_jnl')
+            ->where('id_oai', $id)
+            ->first();
 
-            $sa = h('ID: <b>'.$dt['oai_identifier']. '</b>',6);
-            $sa .= '<table class="full small">';
+        $sa = h('ID: <b>' . $dt['oai_identifier'] . '</b>', 6);
+        $sa .= '<table class="full small">';
 
-            $link = '<a href="'.PATH. '/journals/view/'.$dt['id_jnl'].'">';
+        $link = '<a href="' . PATH . '/journals/view/' . $dt['id_jnl'] . '">';
+        $linka = '</a>';
+        $sa .= '<tr>';
+        $sa .= '<td width="30%">' . lang('brapci.journal') . '</td>';
+        $sa .= '<td width="70%">' . $link . $dt['jnl_name'] . $linka . '</td>';
+        $sa .= '</tr>';
+
+        $sa .= '<tr>';
+        $sa .= '<td width="30%">' . lang('brapci.datestamp') . '</td>';
+        $sa .= '<td width="70%">' . $dt['oai_datestamp'] . '</td>';
+        $sa .= '</tr>';
+
+        $sa .= '<tr>';
+        $sa .= '<td width="30%">' . lang('brapci.setespc') . '</td>';
+        $sa .= '<td width="70%">' . $dt['s_id'] . '</td>';
+        $sa .= '</tr>';
+
+        $sa .= '<tr>';
+        $sa .= '<td width="30%">' . lang('brapci.deleted') . '</td>';
+        $sa .= '<td width="70%">' . sn($dt['oai_deleted']) . '</td>';
+        $sa .= '</tr>';
+
+        $sa .= '<tr>';
+        $sa .= '<td width="30%">' . lang('brapci.status') . '</td>';
+        $sa .= '<td width="70%">' . msg("brapci.oai_status_" . $dt['oai_status']) . '</td>';
+        $sa .= '</tr>';
+
+        if ($dt['oai_rdf'] > 0) {
+            $link = '<a href="' . PATH . '/v/' . $dt['oai_rdf'] . '">';
             $linka = '</a>';
             $sa .= '<tr>';
-            $sa .= '<td width="30%">' . lang('brapci.journal') . '</td>';
-            $sa .= '<td width="70%">' . $link.$dt['jnl_name'].$linka . '</td>';
+            $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
+            $sa .= '<td width="70%">' . $link . $dt['oai_rdf'] . '</td>';
             $sa .= '</tr>';
-
-            $sa .= '<tr>';
-            $sa .= '<td width="30%">'.lang('brapci.datestamp').'</td>';
-            $sa .= '<td width="70%">'. $dt['oai_datestamp'].'</td>';
-            $sa .= '</tr>';
-
-            $sa .= '<tr>';
-            $sa .= '<td width="30%">' . lang('brapci.setespc') . '</td>';
-            $sa .= '<td width="70%">' . $dt['s_id'] . '</td>';
-            $sa .= '</tr>';
-
-            $sa .= '<tr>';
-            $sa .= '<td width="30%">' . lang('brapci.deleted') . '</td>';
-            $sa .= '<td width="70%">' . sn($dt['oai_deleted']) . '</td>';
-            $sa .= '</tr>';
-
-            $sa .= '<tr>';
-            $sa .= '<td width="30%">' . lang('brapci.status') . '</td>';
-            $sa .= '<td width="70%">' . msg("brapci.oai_status_".$dt['oai_status']) . '</td>';
-            $sa .= '</tr>';
-
-            if ($dt['oai_rdf'] > 0)
-                {
-                    $link = '<a href="'.PATH.'/v/'. $dt['oai_rdf'].'">';
-                    $linka = '</a>';
-                    $sa .= '<tr>';
-                    $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
-                    $sa .= '<td width="70%">' . $link. $dt['oai_rdf'] . '</td>';
-                    $sa .= '</tr>';
-                    if ($Socials->perfil("#ADM"))
-                        {
-                            $link = '<a href="' . PATH . '/v/' . $dt['oai_rdf'] . '">';
-                            $linka = '</a>';
-                            $sa .= '<tr>';
-                            $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
-                            $sa .= '<td width="70%">' . $link . $dt['oai_rdf'] . '</td>';
-                            $sa .= '</tr>';
-                        }
-                }
-
-            $sa .= '</table>';
-
-            pre($dt,false);
-
-            $sb = $this->cache($id);
-
-            $sx = bsc($sa,5);
-            $sx .= bsc($sb, 7);
-            $sx = bs($sx);
-            return $sx;
         }
+
+        if ($Socials->perfil("#ADM")) {
+            if (get("harvesting") != '') {
+                $d = [];
+                $d['oai_status'] = 1;
+                $OAI->set($d)->where('id_oai', $dt['id_oai'])->update();
+                return metarefresh(PATH . '/journals/oai_reg/' . $dt['id_oai']);
+            }
+            if (get("deleted") != '') {
+                $d = [];
+                $d['oai_status'] = 9;
+                $OAI->set($d)->where('id_oai', $dt['id_oai'])->update();
+                return metarefresh(PATH . '/journals/oai_reg/' . $dt['id_oai']);
+            }
+            $link = '<a class="btn btn-outline-danger" href="' . PATH . '/journals/oai_reg/' . $dt['id_oai'] . '?deleted=True">';
+            $link .= lang("brapci.delete");
+            $link .= '</a>';
+
+            $linkb = '<a class="ms-2 btn btn-outline-success" href="' . PATH . '/journals/oai_reg/' . $dt['id_oai'] . '?harvesting=True">';
+            $linkb .= lang("brapci.harvesting");
+            $linkb .= '</a>';
+
+            $sa .= '<tr>';
+            $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
+            $sa .= '<td width="70%">' . $link . $linkb . '</td>';
+            $sa .= '</tr>';
+        }
+
+        $sa .= '</table>';
+
+        pre($dt, false);
+
+        $sb = $this->cache($id);
+
+        $sx = bsc($sa, 5);
+        $sx .= bsc($sb, 7);
+        $sx = bs($sx);
+        return $sx;
+    }
 
     function cache($id)
-        {
-            $file = $this->filename($id);
-            if (file_exists($file))
-                {
-                    $file = PATH.'/popup/oai/get/'.$id;
-                    $file2 = PATH . '/popup/oai/get/' . $id.'/json';
+    {
+        $file = $this->filename($id);
+        if (file_exists($file)) {
+            $file = PATH . '/popup/oai/get/' . $id;
+            $file2 = PATH . '/popup/oai/get/' . $id . '/json';
 
-                    $sx = '';
-                    $sx .= h('XML', 6);
-                    $sx .= '<iframe class="full" style="height:300px" src="'.$file.'" class="border border-secondary"></iframe>';
-                    $sx .= h('JSON',6);
-                    $sx .= '<iframe class="full" style="height:300px" src="' . $file2 . '"></iframe>';
-                } else {
-                    $sx = $file.'-NOT';
-                }
-            return $sx;
+            $sx = '';
+            $sx .= h('XML', 6);
+            $sx .= '<iframe class="full" style="height:300px" src="' . $file . '" class="border border-secondary"></iframe>';
+            $sx .= h('JSON', 6);
+            $sx .= '<iframe class="full" style="height:300px" src="' . $file2 . '"></iframe>';
+        } else {
+            $sx = $file . '-NOT';
         }
+        return $sx;
+    }
 
     function filename($id)
-        {
-            $ids = strzero($id,10);
-            $dir = '_repository/oai/'.substr($ids,0,4).'/'.substr($ids,4,4).'/';
-            $file = $dir .= $ids.'.getRecord.xml';
-            return $file;
+    {
+        $ids = strzero($id, 10);
+        $dir = '_repository/oai/' . substr($ids, 0, 4) . '/' . substr($ids, 4, 4) . '/';
+        $file = $dir .= $ids . '.getRecord.xml';
+        return $file;
+    }
+
+    function oai($jnl, $sta)
+    {
+        $sx = h(lang('brapci.oaipmh'), 2);
+        $sx .= h(lang('brapci.oai_status_' . $sta), 4);
+        $OAI = new \App\Models\Oaipmh\ListIdentifiers();
+        if ($jnl > 0) {
+            $OAI->where('oai_id_jnl', $jnl);
         }
+        $dt = $OAI->where('oai_status', $sta)
+            ->orderBy('id_oai')
+            ->findAll();
 
-    function oai($jnl,$sta)
-        {
-            $sx = h(lang('brapci.oaipmh'),2);
-            $sx .= h(lang('brapci.oai_status_'.$sta), 4);
-            $OAI = new \App\Models\Oaipmh\ListIdentifiers();
-            if ($jnl > 0)
-                {
-                    $OAI->where('oai_id_jnl', $jnl);
-                }
-            $dt = $OAI->where('oai_status',$sta)
-                ->orderBy('id_oai')
-                ->findAll();
+        $sx .= h(lang('brapci.total') . ' ' . number_format(count($dt), 0, ',', '.'), 6);
 
-            $sx .= h(lang('brapci.total').' '.number_format(count($dt),0,',','.'), 6);
-
-            $sx .= '<ul>';
-            foreach($dt as $id=>$line)
-                {
-                    $link = '<a href="'.PATH.'/journals/oai_reg/'.$line['id_oai'].'">';
-                    $linka = '</a>';
-                    $sx .= '<li>'.$link.$line['oai_identifier'].$linka.'</li>';
-                }
-            $sx .= '</ul>';
-            $sx = bs(bsc($sx,12));
-            return $sx;
+        $sx .= '<ul>';
+        foreach ($dt as $id => $line) {
+            $link = '<a href="' . PATH . '/journals/oai_reg/' . $line['id_oai'] . '">';
+            $linka = '</a>';
+            $sx .= '<li>' . $link . $line['oai_identifier'] . $linka . '</li>';
         }
+        $sx .= '</ul>';
+        $sx = bs(bsc($sx, 12));
+        return $sx;
+    }
 
     function historic_check()
-        {
-            $dt = $this
-                ->where('jnl_historic',1)
-                ->where('jnl_historic <> "200"')
-                ->findAll();
-            foreach($dt as $id=>$line)
-                {
-                    $dt['jnl_oai_status'] = '200';
-                    $this->set($dt)->where('id_jnl',$line['id_jnl'])->update();
-                }
+    {
+        $dt = $this
+            ->where('jnl_historic', 1)
+            ->where('jnl_historic <> "200"')
+            ->findAll();
+        foreach ($dt as $id => $line) {
+            $dt['jnl_oai_status'] = '200';
+            $this->set($dt)->where('id_jnl', $line['id_jnl'])->update();
+        }
+    }
+
+    function list($type = '')
+    {
+        $this->historic_check();
+
+        if ($type == 'json') {
+            return $this->list_json();
+        }
+        $Socials = new \App\Models\Socials();
+        $sx = '';
+        switch ($type) {
+            case 'b':
+                $fld = 'year';
+                $fldo = $fld . ' DESC';
+                break;
+            default:
+                $fld = 'jnl_name';
+                $fldo = $fld;
+                break;
         }
 
-    function list($type='')
-        {
-            $this->historic_check();
+        $dt = $this
+            ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl', 'left')
+            ->where('jnl_collection', 'JA')
+            ->ORwhere('jnl_collection', 'JE')
+            ->OrderBy($fldo)
+            ->findAll();
 
-            if ($type=='json')
-                {
-                    return $this->list_json();
-                }
-            $Socials = new \App\Models\Socials();
-            $sx = '';
-            switch($type)
-                {
-                    case 'b':
-                        $fld = 'year';
-                        $fldo = $fld.' DESC';
-                        break;
-                    default:
-                        $fld = 'jnl_name';
-                        $fldo = $fld;
-                        break;
-                }
+        $xlb = '';
 
-            $dt = $this
-                ->join('(SELECT `is_source`, max(is_year) as year FROM `source_issue` GROUP BY `is_source`) as issues', 'is_source = id_jnl', 'left')
-                ->where('jnl_collection','JA')
-                ->ORwhere('jnl_collection', 'JE')
-                ->OrderBy($fldo)
-                ->findAll();
+        $stx = [];
+        $tt = 0;
 
-            $xlb = '';
+        foreach ($dt as $id => $line) {
+            $lb = $line[$fld];
+            if (($type != '') and ($xlb != $lb)) {
+                $xlb = $lb;
+                $sx .= h($xlb, 4);
+            }
+            $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
+            $tt++;
+            $sx .= bsc($tt . '. ' . $link, 7, 'brp_row');
 
-            $stx = [];
-            $tt = 0;
-
-            foreach($dt as $id=>$line)
-                {
-                    $lb = $line[$fld];
-                    if (($type != '') and ($xlb != $lb))
-                        {
-                            $xlb = $lb;
-                            $sx .= h($xlb,4);
-                        }
-                    $link = anchor(PATH . '/journals/view/' . $line['id_jnl'], $line['jnl_name']);
-                    $tt++;
-                    $sx .= bsc($tt.'. '.$link,7, 'brp_row');
-
-                    $link = '';
+            $link = '';
 
 
-                    $sx .= bsc('',1, 'brp_row');
-                    $sx .= bsc($line['year'],1, 'brp_row');
-                    $sx .= bsc(substr((string)$line['update_at'],0,10),2, 'brp_row small');
-                    $sta = $line['jnl_oai_status'];
+            $sx .= bsc('', 1, 'brp_row');
+            $sx .= bsc($line['year'], 1, 'brp_row');
+            $sx .= bsc(substr((string)$line['update_at'], 0, 10), 2, 'brp_row small');
+            $sta = $line['jnl_oai_status'];
 
-                    if (isset($stx[$sta]))
-                        {
-                            $stx[$sta] = $stx[$sta] + 1;
-                        } else {
-                            $stx[$sta] = 1;
-                        }
+            if (isset($stx[$sta])) {
+                $stx[$sta] = $stx[$sta] + 1;
+            } else {
+                $stx[$sta] = 1;
+            }
 
-                    switch($sta)
-                        {
-                            case '100';
-                                $sta = '<span class="btn btn-success p-0 full">OK</span>';
-                                break;
-                            case '200';
-                                $sta = '<span class="btn btn-secondary p-0 full small">HISTORICA</span>';
-                                break;
-                            case '500';
-                                $sta = '<span class="btn btn-warning p-0 full small">COLETAR</span>';
-                                break;
-                            case '501';
-                                $sta = '<span class="btn btn-warning p-0 full">ERRO 501</span>';
-                                break;
-                            case '404';
-                                $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
-                                break;
-                        }
-                    $sx .= bsc($sta,1, 'brp_row');
-                }
-
-            $sx .= '<li>404 - Page not found</li>';
-            $sx .= '<li>501 - Content empty</li>';
-            $sx .= '<li>510 - Process Content error</li>';
-
-            $sx = bs($sx);
-
-            /************ Painel */
-            $sp = '<table class="table full"><tr>';
-            foreach($stx as $s=>$total)
-                {
-                    $sl = lang('brapci.jnl_status_'.$s);
-                    $sp .= '<td width="20%"><div class="border border-primary m-2 p-2 text-center">'.($sl.'<br><span class="h4">'.$total. '</span>'). '</div></td>';
-                }
-            $sp .= '</tr></table>';
-            $sx = bs($sp) . $sx;
-            //pre($dt);
-            return $sx;
+            switch ($sta) {
+                case '100';
+                    $sta = '<span class="btn btn-success p-0 full">OK</span>';
+                    break;
+                case '200';
+                    $sta = '<span class="btn btn-secondary p-0 full small">HISTORICA</span>';
+                    break;
+                case '500';
+                    $sta = '<span class="btn btn-warning p-0 full small">COLETAR</span>';
+                    break;
+                case '501';
+                    $sta = '<span class="btn btn-warning p-0 full">ERRO 501</span>';
+                    break;
+                case '404';
+                    $sta = '<span class="btn btn-danger p-0 full small">ERRO 404</span>';
+                    break;
+            }
+            $sx .= bsc($sta, 1, 'brp_row');
         }
 
+        $sx .= '<li>404 - Page not found</li>';
+        $sx .= '<li>501 - Content empty</li>';
+        $sx .= '<li>510 - Process Content error</li>';
 
-    function source_list_block($type='EV')
-        {
-            $dt = $this->where('jnl_collection',$type)->orderBy('jnl_name_abrev')->findAll();
-            $sx = '';
-            for ($r=0; $r < count($dt); $r++)
-                {
-                    $line = $dt[$r];
+        $sx = bs($sx);
 
-                    $link = '<a href="'. PATH. COLLECTION . '/source/'. $line['id_jnl'] . '" class="text-secondary">';
-                    $linka = '</a>';
-
-                    $sa = '';
-                    $sa .= $link;
-                    $sa .= h($line['jnl_name_abrev'], 2);
-                    $sa .= $line['jnl_name'];
-                    $sa .= $linka;
-
-                    $sx .= bsc($sa,4,'text-center border border-primary p-2');
-                    //pre($line);
-                }
-            $sx = bs($sx);
-            return $sx;
-
+        /************ Painel */
+        $sp = '<table class="table full"><tr>';
+        foreach ($stx as $s => $total) {
+            $sl = lang('brapci.jnl_status_' . $s);
+            $sp .= '<td width="20%"><div class="border border-primary m-2 p-2 text-center">' . ($sl . '<br><span class="h4">' . $total . '</span>') . '</div></td>';
         }
+        $sp .= '</tr></table>';
+        $sx = bs($sp) . $sx;
+        //pre($dt);
+        return $sx;
+    }
+
+
+    function source_list_block($type = 'EV')
+    {
+        $dt = $this->where('jnl_collection', $type)->orderBy('jnl_name_abrev')->findAll();
+        $sx = '';
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+
+            $link = '<a href="' . PATH . COLLECTION . '/source/' . $line['id_jnl'] . '" class="text-secondary">';
+            $linka = '</a>';
+
+            $sa = '';
+            $sa .= $link;
+            $sa .= h($line['jnl_name_abrev'], 2);
+            $sa .= $line['jnl_name'];
+            $sa .= $linka;
+
+            $sx .= bsc($sa, 4, 'text-center border border-primary p-2');
+            //pre($line);
+        }
+        $sx = bs($sx);
+        return $sx;
+    }
 
     function list_selected()
     {
@@ -625,22 +626,21 @@ class Sources extends Model
 
 
         $items['/journals/list/0'] = lang('brapci.sources');
-        if ($access)
-            {
-                $items['/admin' . $mod . '/tableview'] = 'TableView';
-            }
+        if ($access) {
+            $items['/admin' . $mod . '/tableview'] = 'TableView';
+        }
 
         $sb = menu($items);
         $sa = $this->resume();
 
-        $sx = bs(bsc($sa,4).bsc($sb,6));
+        $sx = bs(bsc($sa, 4) . bsc($sb, 6));
         return $sx;
     }
 
     /******************************************** RESUME */
     function resume()
     {
-        $sx = h(lang('brapci.sources'),4);
+        $sx = h(lang('brapci.sources'), 4);
         $dt = $this->select('count(*) as total, jnl_collection, jnl_historic')
             ->groupBy('jnl_collection, jnl_historic')
             ->findAll();
@@ -648,25 +648,23 @@ class Sources extends Model
         $types = array();
         $historic = array();
         $tot = 0;
-        for ($r=0;$r < count($dt);$r++)
-            {
-                $line = $dt[$r];
-                $type = $line['jnl_collection'];
-                $hist = $line['jnl_historic'];
+        for ($r = 0; $r < count($dt); $r++) {
+            $line = $dt[$r];
+            $type = $line['jnl_collection'];
+            $hist = $line['jnl_historic'];
 
-                if (!isset($types[$type])) $types[$type] = 0;
-                if (!isset($historic[$hist])) $historic[$hist] = 0;
+            if (!isset($types[$type])) $types[$type] = 0;
+            if (!isset($historic[$hist])) $historic[$hist] = 0;
 
-                $types[$type] = $types[$type] + $line['total'];
-                $historic[$hist] = $historic[$hist] + $line['total'];
-                $tot = $tot + $line['total'];
-            }
+            $types[$type] = $types[$type] + $line['total'];
+            $historic[$hist] = $historic[$hist] + $line['total'];
+            $tot = $tot + $line['total'];
+        }
         $sx .= '<b style="font-size: 0.7em;">Total ' . $tot . '</b>';
         $sx .= '<ul style="font-size: 0.7em;">';
-        foreach($types as $type=>$total)
-            {
-                $sx .= '<li>'.lang('brapci.source_type.'.$type).' ('.$total.')</li>';
-            }
+        foreach ($types as $type => $total) {
+            $sx .= '<li>' . lang('brapci.source_type.' . $type) . ' (' . $total . ')</li>';
+        }
         $sx .= '</ul>';
 
         $sx .= '<ul style="font-size: 0.7em;">';
@@ -705,29 +703,27 @@ class Sources extends Model
     }
 
     function start_end($dt)
-        {
-            $dd = '';
-            $di = $dt['jnl_ano_inicio'];
-            $df = $dt['jnl_ano_final'];
+    {
+        $dd = '';
+        $di = $dt['jnl_ano_inicio'];
+        $df = $dt['jnl_ano_final'];
 
-            if ($di != '')
-                {
-                    $dd .= $di.'-';
-                } else {
-                    if ($df != '')
-                        {
-                            $dd .= $df;
-                        }
-                }
-            return $dd;
+        if ($di != '') {
+            $dd .= $di . '-';
+        } else {
+            if ($df != '') {
+                $dd .= $df;
+            }
         }
+        return $dd;
+    }
 
-    function openaccess($dt=array())
-        {
-            $dt = array();
-            $sx = 'OL';
-            return $sx;
-        }
+    function openaccess($dt = array())
+    {
+        $dt = array();
+        $sx = 'OL';
+        return $sx;
+    }
 
     function journal_header($dt, $resume = true)
     {
@@ -755,7 +751,7 @@ class Sources extends Model
         //$jnl .= bsc($this->active($dt), 8);
         $jnl .= '</div>';
 
-        if (1==1) {
+        if (1 == 1) {
             $Oaipmh = new \App\Models\Oaipmh\Index();
             $jnl .= $Oaipmh->links($dt['id_jnl']);
         }
@@ -790,20 +786,19 @@ class Sources extends Model
         $subp = $Harvesting->painel($dt);
 
         $jn_rdf = $dt['jnl_frbr'];
-        if ($jn_rdf == 0)
-            {
-               $sx .= bsc(bsmessage("ERRO: JN_RDF not defined"),9);
-               $sx .= bsc($painel, 3);
-            } else {
-                $sx .= bsc($subp, 9);
-                $sx .= bsc($painel, 3);
-            }
+        if ($jn_rdf == 0) {
+            $sx .= bsc(bsmessage("ERRO: JN_RDF not defined"), 9);
+            $sx .= bsc($painel, 3);
+        } else {
+            $sx .= bsc($subp, 9);
+            $sx .= bsc($painel, 3);
+        }
 
 
         /********* ISSUE */
         $sx .= h("ISSUE");
 
-        $sx .= bsc($Issues->issuesRow($id),12);
+        $sx .= bsc($Issues->issuesRow($id), 12);
         $sx = bs($sx);
 
 
@@ -814,7 +809,7 @@ class Sources extends Model
         /********************************************** Botoes de edições */
         //$sx .= bs(bsc($JournalIssue->btn_new_issue($dt), 12, 'mt-4'));
 
-        return $sh.$sx;
+        return $sh . $sx;
     }
 
     /********************************************************************************** ADMIN EDIT */
@@ -846,11 +841,10 @@ class Sources extends Model
         $this->where("jnl_collection = 'JA'");
         $this->ORwhere("jnl_collection = 'JE'");
         $this->ORwhere("jnl_collection = 'EV'");
-        if (isset($_POST['search_field']))
-            {
-                $fldn = $fld[$_POST['search_field']];
-                $this->like($fldn,get("search"));
-            }
+        if (isset($_POST['search_field'])) {
+            $fldn = $fld[$_POST['search_field']];
+            $this->like($fldn, get("search"));
+        }
         $this->path = (PATH . 'admin/source');
         $sx = tableview($this);
         $sx = bs(bsc($sx, 12));
