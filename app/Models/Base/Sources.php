@@ -247,6 +247,7 @@ class Sources extends Model
 
     function oai_reg($id)
         {
+            $Socials = new \App\Models\Socials();
             $OAI = new \App\Models\Oaipmh\ListIdentifiers();
             $dt = $OAI
                 ->join('oai_setspec', 'id_s = oai_setSpec')
@@ -284,7 +285,28 @@ class Sources extends Model
             $sa .= '<td width="70%">' . msg("brapci.oai_status_".$dt['oai_status']) . '</td>';
             $sa .= '</tr>';
 
+            if ($dt['oai_rdf'] > 0)
+                {
+                    $link = '<a href="'.PATH.'/v/'. $dt['oai_rdf'].'">';
+                    $linka = '</a>';
+                    $sa .= '<tr>';
+                    $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
+                    $sa .= '<td width="70%">' . $link. $dt['oai_rdf'] . '</td>';
+                    $sa .= '</tr>';
+                    if ($Socials->perfil("#ADM"))
+                        {
+                            $link = '<a href="' . PATH . '/v/' . $dt['oai_rdf'] . '">';
+                            $linka = '</a>';
+                            $sa .= '<tr>';
+                            $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
+                            $sa .= '<td width="70%">' . $link . $dt['oai_rdf'] . '</td>';
+                            $sa .= '</tr>';
+                        }
+                }
+
             $sa .= '</table>';
+
+            pre($dt,false);
 
             $sb = $this->cache($id);
 
