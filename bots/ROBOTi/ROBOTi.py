@@ -65,9 +65,9 @@ def run(parm):
     #********************** Article - LOOP - 7
     if (act == '5'):
         loop = 1
-        end = 1
+        end = 5
         while loop > 0:
-            loop += 4
+            loop += 1
             lp = ProcessArticle()
             print("LOOP - ",loop)
             if (loop > end) or (lp == 0):
