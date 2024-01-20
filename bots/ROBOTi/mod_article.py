@@ -246,7 +246,7 @@ def create_article(rg,data,jnl):
             if (k == 'license'):
                 ok = True
                 T = data[i][k]
-                print("ISSE-WORK-LICENSE",T)
+                print("ISSE-WORK-LICENSE")
                 for it in range(len(T)):
                     mod_license.register_literal(IDC,T[it])
 
@@ -305,7 +305,4 @@ def create_article(rg,data,jnl):
                 print(f'RSP: {k}')
                 quit()
     #################################### Title
-    quit()
     mod_listidentify.updateStatus(rg[0],10)
-    print(IDC)
-    quit()
