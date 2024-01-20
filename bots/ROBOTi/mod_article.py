@@ -167,8 +167,8 @@ def create_article(rg,data,jnl):
     if row != []:
         IDissue = row[0][3]
         if (IDissue > 0):
-            mod_data.register(IDissue,'hasIssueOf',IDC)
             print("ISSE-WORK")
+            mod_data.register(IDissue,'hasIssueOf',IDC)
             mod_source_issue_work.register(jnl,IDissue,IDC)
         else:
             print("Erro ISSUE inválido");
@@ -184,6 +184,7 @@ def create_article(rg,data,jnl):
             ok = 0
             #################################### TITLE
             if (k == 'title'):
+                print("ISSE-WORK-TITLE")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -192,6 +193,7 @@ def create_article(rg,data,jnl):
 
             #################################### Abstract
             if (k == 'abstract'):
+                print("ISSE-WORK-ABSTRACT")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -201,6 +203,7 @@ def create_article(rg,data,jnl):
 
             #################################### URL
             if (k == 'http'):
+                print("ISSE-WORK-HTTP")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -210,6 +213,7 @@ def create_article(rg,data,jnl):
 
             #################################### DOI
             if (k == 'DOI'):
+                print("ISSE-WORK-DOI")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -222,6 +226,7 @@ def create_article(rg,data,jnl):
 
             #################################### Subject
             if (k == 'subject'):
+                print("ISSE-WORK-SUBJECT")
                 ok = True
                 T = data[i][k]
                 T = mod_subject.prepare(T)
@@ -231,6 +236,7 @@ def create_article(rg,data,jnl):
 
             #################################### Author
             if (k == 'author'):
+                print("ISSE-WORK-AUTHOR")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -238,6 +244,7 @@ def create_article(rg,data,jnl):
 
             #################################### Licence
             if (k == 'license'):
+                print("ISSE-WORK-LICENSE")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -245,6 +252,7 @@ def create_article(rg,data,jnl):
 
             #################################### datePub
             if (k == 'datePub'):
+                print("ISSE-WORK-DATEPUB")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -252,6 +260,7 @@ def create_article(rg,data,jnl):
 
             #################################### Language
             if (k == 'language'):
+                print("ISSE-WORK-LANGUAGE")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -260,6 +269,7 @@ def create_article(rg,data,jnl):
 
             #################################### Journal
             if (k == 'journal'):
+                print("ISSE-WORK-JJOURNAL")
                 ok = True
                 J = data[i][k]
                 J = J['id_jnl']
@@ -267,6 +277,7 @@ def create_article(rg,data,jnl):
 
             #################################### Journal
             if (k == 'section'):
+                print("ISSE-WORK-SECTION")
                 ok = True
                 S = data[i][k]
                 ids = S['section']
@@ -286,6 +297,7 @@ def create_article(rg,data,jnl):
 
             #################################### Source ISSUE
             if (k == 'source'):
+                print("ISSE-WORK-SOURCE")
                 T = data[i][k]
                 ok = True
 
