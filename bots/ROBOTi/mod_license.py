@@ -5,7 +5,6 @@ import mod_concept
 import mod_data
 
 def register_literal(IDC,term):
-    print("LICENCA",term)
     term = nbr_licence(term)
 
     IDliteral = mod_literal.register(term,'nn')
