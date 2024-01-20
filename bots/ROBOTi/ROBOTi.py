@@ -76,7 +76,7 @@ def run(parm):
 
     if (act == '100'):
         loop = 1
-        end = 5
+        end = 1
         while loop > 0:
             loop += 1
             lp = mod_data.DataDouble()

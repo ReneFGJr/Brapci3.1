@@ -57,7 +57,7 @@ def DataDouble():
     qr += ") T1 "
     qr += "where total > 1 "
     qr += "order by total desc, d_r1 "
-    qr += "limit 10 "
+    qr += "limit 100 "
     row = database.query(qr)
 
     for l in row:
@@ -67,4 +67,4 @@ def DataDouble():
         print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ida)+','+str(total)+", ID:"+ID+Fore.WHITE)
         qd = f"delete from brapci_rdf.rdf_data where id_d = {ida}"
         database.update(qd)
-        time.sleep(1)
+        time.sleep(0.1)
