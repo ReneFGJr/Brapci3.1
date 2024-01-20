@@ -20,7 +20,10 @@ def nbr_licence(T):
     elif T == 'Copyright':
         T = 'Copyright (c)'
     else:
-        T = "RESERVED"
+        try:
+            T = T.upper()
+        except:
+            T = "RESERVERD"
     return T
 
 def tipo(n):
