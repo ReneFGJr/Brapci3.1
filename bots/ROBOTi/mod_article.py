@@ -244,9 +244,9 @@ def create_article(rg,data,jnl):
 
             #################################### Licence
             if (k == 'license'):
-                print("ISSE-WORK-LICENSE")
                 ok = True
                 T = data[i][k]
+                print("ISSE-WORK-LICENSE",T)
                 for it in range(len(T)):
                     mod_license.register_literal(IDC,T[it])
 
@@ -269,7 +269,7 @@ def create_article(rg,data,jnl):
 
             #################################### Journal
             if (k == 'journal'):
-                print("ISSE-WORK-JJOURNAL")
+                print("ISSE-WORK-JOURNAL")
                 ok = True
                 J = data[i][k]
                 J = J['id_jnl']
