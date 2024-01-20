@@ -41,5 +41,5 @@ def tipo(n):
     if (other != '') and (other != []):
         return "Copr"
 
-    print("Licença não localizada ",n)
-    return "OO"
+    #print("Licença não localizada ",n)
+    return "RESERVED"
