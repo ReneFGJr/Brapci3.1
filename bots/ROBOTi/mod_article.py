@@ -306,4 +306,4 @@ def create_article(rg,data,jnl):
                 quit()
     #################################### Title
     mod_listidentify.updateStatus(rg[0],10)
-    print("============================ FINALIZADO COM SUCESSO")
+    print("============================ FINALIZADO COM SUCESSO",rg[0])
