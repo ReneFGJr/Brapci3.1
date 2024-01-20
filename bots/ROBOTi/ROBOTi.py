@@ -9,6 +9,7 @@ import roboti_clear
 import mod_setSpec
 import mod_listidentify
 import mod_source
+import mod_data
 import mod_article
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
@@ -73,6 +74,16 @@ def run(parm):
             if (loop > end) or (lp == 0):
                 loop = 0
 
+    if (act == '100'):
+        loop = 1
+        end = 5
+        while loop > 0:
+            loop += 1
+            lp = mod_data.DataDouble()
+            print("LOOP - ",loop)
+            if (loop > end) or (lp == 0):
+                loop = 0
+
     #********************** Clear
     elif (act == 'clear'):
         roboti_clear.clear(0)
@@ -81,6 +92,9 @@ def run(parm):
         bot_test_db.dbtest()
 
     print(Fore.WHITE)
+
+def DataDouble():
+    mod_data.removeDouble()
 
 def ProcessArticle():
     # Phase I - get Next Records

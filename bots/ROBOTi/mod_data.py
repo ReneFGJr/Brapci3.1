@@ -8,6 +8,7 @@ import mod_literal
 import mod_concept
 import mod_class
 import database
+import time
 
 def register(IDC,prop,IDP):
     IDprop = mod_class.getClass(prop)
@@ -47,3 +48,23 @@ def register_literal(IDC,prop,name,lang):
         row = database.query(qr)
 
     return row
+
+def DataDouble():
+    qr = "select * FROM ("
+    qr += "SELECT max(id_d) as max, count(*) as total, d_r1,d_p,d_r2,d_literal "
+    qr += "FROM brapci_rdf.rdf_data "
+    qr += "group by d_r1,d_p,d_r2,d_literal "
+    qr += ") T1 "
+    qr += "where total > 1 "
+    qr += "order by total desc, d_r1 "
+    qr += "limit 10 "
+    row = database.query(qr)
+
+    for l in row:
+        ida = l[0]
+        total = l[1]
+        ID = str(l[2])
+        print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ida)+','+str(total)+", ID:"+ID+Fore.WHITE)
+        qd = f"delete from brapci_rdf.rdf_data where id_d = {ida}"
+        database.update(qd)
+        time.sleep(1)

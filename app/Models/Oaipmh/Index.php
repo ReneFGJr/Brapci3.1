@@ -275,7 +275,7 @@ class Index extends Model
 			$linka = '</a>';
 
 			$dsp[$line['oai_status']] = $line['total'];
-			$sx .= '<li>' . $link . msg('brapci.oai_status_' . $line['oai_status']) . $linka . ' (' . $line['total'] . ')' . '</li>';
+			$sx .= '<li>' . $link . msg('brapci.oai_status_' . $line['oai_status']) . $linka . ' (' . number_format($line['total'],0,',','.') . ')' . '</li>';
 		}
 		$sx .= '</ul>';
 		return $sx;
