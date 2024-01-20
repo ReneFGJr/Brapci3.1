@@ -54,7 +54,7 @@ def process(rg):
         if (IDX == 0):
             print("CREATE WORK")
             IDX = create_article(rg,data,JNL)
-            mod_listidentify.updateStatus(ID,8)
+            mod_listidentify.updateStatus(ID,10)
 
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
