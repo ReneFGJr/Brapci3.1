@@ -292,6 +292,8 @@ class Sources extends Model
         }
 
         if ($Socials->perfil("#ADM")) {
+            $linka = '';
+            $linkb = '';
             if (get("harvesting") != '') {
                 $d = [];
                 $d['oai_status'] = 1;
@@ -304,23 +306,27 @@ class Sources extends Model
                 $OAI->set($d)->where('id_oai', $dt['id_oai'])->update();
                 return metarefresh(PATH . '/journals/oai_reg/' . $dt['id_oai']);
             }
-            $link = '<a class="btn btn-outline-danger" href="' . PATH . '/journals/oai_reg/' . $dt['id_oai'] . '?deleted=True">';
-            $link .= lang("brapci.delete");
-            $link .= '</a>';
+            if ($dt['oai_status'] != 9) {
+                $linka = '<a class="btn btn-outline-danger" href="' . PATH . '/journals/oai_reg/' . $dt['id_oai'] . '?deleted=True">';
+                $linka .= lang("brapci.delete");
+                $linka .= '</a>';
 
-            $linkb = '<a class="ms-2 btn btn-outline-success" href="' . PATH . '/journals/oai_reg/' . $dt['id_oai'] . '?harvesting=True">';
-            $linkb .= lang("brapci.harvesting");
-            $linkb .= '</a>';
+            }
+
+            if ($dt['oai_status'] != 1)
+            {
+                $linkb = '<a class="ms-2 btn btn-outline-success" href="' . PATH . '/journals/oai_reg/' . $dt['id_oai'] . '?harvesting=True">';
+                $linkb .= lang("brapci.harvesting");
+                $linkb .= '</a>';
+            }
 
             $sa .= '<tr>';
             $sa .= '<td width="30%">' . lang('brapci.concept') . '</td>';
-            $sa .= '<td width="70%">' . $link . $linkb . '</td>';
+            $sa .= '<td width="70%">' . $linka . $linkb . '</td>';
             $sa .= '</tr>';
         }
 
         $sa .= '</table>';
-
-        pre($dt, false);
 
         $sb = $this->cache($id);
 
