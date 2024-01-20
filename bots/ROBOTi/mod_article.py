@@ -61,7 +61,6 @@ def process(rg):
         print("ERRO ARTICLE",e)
 
 def check_method01(id,jnl):
-    print("Method 01")
     jnl = str(jnl)
     while (len(jnl) < 5):
         jnl = "0"+jnl
@@ -75,8 +74,6 @@ def check_method01(id,jnl):
     qr += f"where n_name = '{ID}' or n_name = '{id}'"
     qr += "group by id_cc"
     row = database.query(qr)
-
-    print("ROW",len(row))
 
     if row == []:
         return 0
