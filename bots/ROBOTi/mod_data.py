@@ -66,4 +66,4 @@ def DataDouble():
         print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ida)+','+str(total)+", ID:"+ID+Fore.WHITE)
         qd = f"delete from brapci_rdf.rdf_data where id_d = {ida}"
         database.update(qd)
-        time.sleep(0.1)
+        time.sleep(0.01)
