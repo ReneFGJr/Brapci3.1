@@ -185,7 +185,7 @@ return [
         'jnl_status_200' => 'Publicação Encerrada',
         'jnl_status_404' => 'Fora do Ar',
         'jnl_status_501' => 'Erros de Acesso',
-        '' => '',
+        'email_invalid' => 'E-mail já cadastrado ou inválido',
         'oai_status_1' => 'Para coletar',
         'oai_status_2' => 'Problema de coleta',
         'oai_status_5' => 'Coletado',
