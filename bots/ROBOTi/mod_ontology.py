@@ -31,3 +31,4 @@ def checkData():
             database.update(qu)
         else:
             print(ID,C2,C3,CA1,CA2)
+            qu = f"update brapci_rdf.rdf_data set d_trust = -1 where id_d = {ID}"
