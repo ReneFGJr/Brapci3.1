@@ -49,6 +49,16 @@ def register_literal(IDC,prop,name,lang):
 
     return row
 
+def DataDoubleInverse():
+    qr = "SELECT data1.d_r1, data1.d_r2, data2.d_r1, data2.d_r2, "
+    qr += "data1.d_p as p1, data2.d_p as p2, c_class "
+    qr += "FROM `rdf_data` as data1 "
+    qr += "inner join rdf_data as data2 on data1.d_r1 = data2.d_r2 "
+    qr += "inner join rdf_concept ON data1.d_r1 = id_cc "
+    qr += "inner join rdf_class ON cc_class = id_c "
+    qr += "where data1.d_r2 = data2.d_r1 "
+    qr += "and data1.d_p = data2.d_p; "
+
 def DataDouble():
     qr = "select * FROM ("
     qr += "SELECT max(id_d) as max, count(*) as total, d_r1,d_p,d_r2,d_literal "

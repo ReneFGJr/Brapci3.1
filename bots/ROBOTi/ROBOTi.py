@@ -75,14 +75,9 @@ def run(parm):
                 loop = 0
 
     if (act == '100'):
-        loop = 1
-        end = 1
-        while loop > 0:
-            loop += 1
-            lp = mod_data.DataDouble()
-            print("LOOP - ",loop)
-            if (loop > end) or (lp == 0):
-                loop = 0
+        lp = mod_data.DataDouble()
+    if (act == '101'):
+        lp = mod_data.DataDoubleInverse()
 
     #********************** Clear
     elif (act == 'clear'):
