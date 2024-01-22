@@ -1178,9 +1178,8 @@ class Socials extends Model
 		$dt = $this->where('us_email', $email)->findAll();
 
 		if (count($dt) == 0) {
-			$sx = '<h2>' . lang('social.email_not_found') . '</h2>';
-			$sx .= '<span class="psw" onclick="showForgotPassword()">Voltar</span>';
-			echo $sx;
+			$sx = lang('social.email_not_found');
+			return $sx;
 			exit;
 		}
 		$sx = '<h2>' . lang('social.email_send_your_account') . '</h2>';
