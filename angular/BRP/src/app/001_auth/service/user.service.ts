@@ -96,12 +96,25 @@ export class UserService {
       (error) => error
     );
   }
+  /** Send Message */
+  public questionHttp(email:string,text:string) {
+    let url = `${this.url}socials/contact`;
+
+    console.log(url)
+
+    var formData: any = new FormData();
+    formData.append('email', email);
+    formData.append('text', text);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
 
   /* Forgot */
   public forgotHttp(email: string): Observable<Array<any>> {
     let url = `${this.url}socials/forgot`;
-
-    console.log(url)
 
     var formData: any = new FormData();
     formData.append('email', email);

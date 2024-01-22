@@ -23,6 +23,11 @@ export class LoginComponent {
     password: ['', Validators.required],
   });
 
+  public questionForm: FormGroup = this.formBuilder.group({
+    email: ['', Validators.required],
+    text: ['', Validators.required],
+  });
+
   public forgotForm: FormGroup = this.formBuilder.group({
     email: ['', Validators.required],
   });
@@ -45,6 +50,31 @@ export class LoginComponent {
     let prism = document.querySelector('.rec-prism');
     console.log(prism);
     this.Prism = 'p1';
+  }
+
+  showThankYou() {
+    this.Prism = 'pWait';
+    let email = this.questionForm.value.email;
+    let text = this.oauthForm.value.text;
+    if (this.oauthForm.valid) {
+      this.Prism = 'pWait';
+      this.userService.questionHttp(email, text).subscribe(
+        (res) => {
+          this.result = res;
+          this.result['message'] + ' ' + this.result['error'];
+          this.Prism = 'pError';
+          this.message = 'Dados inválidos';
+        },
+        (error) => {
+          console.log('ERRO:' + error);
+          this.message = 'Dados inválidos';
+          this.Prism = 'pError';
+        }
+      );
+    } else {
+      this.message = 'Dados inválidos';
+      this.Prism = 'pError';
+    }
   }
 
   signin() {

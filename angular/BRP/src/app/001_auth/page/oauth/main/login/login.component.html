@@ -123,29 +123,35 @@
           <!-- Contact US ------------------------------------------>
           <div class="face face-left">
             <div class="content">
+              <form [formGroup]="questionForm" (ngSubmit)="signin()">
               <h2>Entre em contato</h2>
               <div class="field-wrapper">
-                <input type="text" name="email" placeholder="email" />
+                <input
+                  type="text"
+                  formControlName="email"
+                  placeholder="seu e-mail"
+                />
                 <label>e-mail</label>
               </div>
               <div class="field-wrapper">
                 <textarea
                   placeholder="Digite sua mensagem"
                   rows="5"
+                  formControlName="text"
                   class="border border-secondary p-2 rounded"
                   style="font-size: 0.7em"
                 ></textarea>
                 <label>-Digite sua mensagem</label>
               </div>
               <div class="field-wrapper">
-                <input type="submit" onclick="showThankYou()" />
+                <input type="submit" (click)="showThankYou()" [disabled]="!questionForm.valid"/>
                 <span class="singin" (click)="moveBTN('pLogin')"
-                  >Já tem usuário? Acessar</span
-                >
+                  >Já tem usuário? Acessar</span>
               </div>
+              </form>
             </div>
           </div>
-          <!-- Contact US ------------------------------------------>
+          <!-- Wait ------------------------------------------>
           <div class="face face-bottom">
             <div class="content">
               <div id="board">
@@ -159,4 +165,3 @@
     </div>
   </div>
 </div>
-[[{{ email }}]]
