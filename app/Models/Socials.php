@@ -1182,8 +1182,9 @@ class Socials extends Model
 			return $sx;
 			exit;
 		}
-		$sx = '';
+		$sx = '<b>' . lang('social.email_send_your_account') . '</b><br>';
 		$sx .= '<span class="small">' . lang('social.forgout_info') . '</span>';
+		$sx .= '<span class="psw" onclick="showLogin()()">' . lang('social.return_login') . '</span>';
 
 		$user = $dt[0];
 		$email = $user['us_email'];
