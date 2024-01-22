@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   result: any;
 
-  public data:Array<any>|any
+  public data: Array<any> | any;
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -29,6 +29,8 @@ export class LoginComponent {
   public Prism = '';
   public email: string = '';
   public message: string = '';
+
+  public image_wait: string = 'assets/img/loading_gear.gif';
 
   ngOnInit() {
     console.log('Login');
@@ -78,38 +80,35 @@ export class LoginComponent {
     }
   }
 
-  signUP()
-    {
-        this.userService
-          .signUp(
-            this.oauthForm.value.signup_name,
-            this.oauthForm.value.signup_email,
-            this.oauthForm.value.signup_institution
-          )
-          .subscribe((res) => {
-            console.log(res);
-            this.data = res;
-            this.message = this.data.message;
-            this.Prism = 'pError';
-          });
-    }
+  signUP() {
+    this.userService
+      .signUp(
+        this.oauthForm.value.signup_name,
+        this.oauthForm.value.signup_email,
+        this.oauthForm.value.signup_institution
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this.data = res;
+        this.message = this.data.message;
+        this.Prism = 'pError';
+      });
+  }
 
   forgout() {
     if (this.forgotForm.valid) {
       this.Prism = 'pWait';
 
-        this.userService
-          .forgotHttp(this.forgotForm.value.email)
-          .subscribe((res) => {
-            console.log(res);
-            this.data = res;
-            this.message = this.data.message;
-            this.Prism = 'pError';
-          });
-
-      alert('ERRO DE CONEXÃO');
+      this.userService
+        .forgotHttp(this.forgotForm.value.email)
+        .subscribe((res) => {
+          console.log(res);
+          this.data = res;
+          this.message = this.data.message;
+          this.Prism = 'pError';
+        });
     } else {
-      this.message = 'Dados inválidos';
+      this.message = '<h1>Erro</h1><p>Dados inválidos</p>';
       this.Prism = 'pError';
     }
   }

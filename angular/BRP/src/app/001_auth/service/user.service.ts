@@ -101,6 +101,8 @@ export class UserService {
   public forgotHttp(email: string): Observable<Array<any>> {
     let url = `${this.url}socials/forgot`;
 
+    console.log(url)
+
     var formData: any = new FormData();
     formData.append('email', email);
 

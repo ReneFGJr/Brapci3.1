@@ -49,7 +49,7 @@ return [
 	'no_logs' => 'Sem acessos',
 	'email_send_your_account' => 'Envio confirmado',
 	'return_login' => 'Voltar ao login',
-	'forgout_info' => 'Um email foi enviado para sua caixa de entra com as instruções para gerar uma nova senha.',
+	'forgout_info' => 'Um email foi enviado com as instruções para gerar uma nova senha.',
 	'email_not_found' => 'e-mail não localizado',
 	'forgout_email_title' => 'Solicitação de nova senha',
 	'forgout_email_text' => 'Uma solicitação de nova senha foi solicitada para o usuário',

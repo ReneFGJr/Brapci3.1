@@ -116,7 +116,6 @@ function menu($menu)
 function check_email($email)
 {
     $emailArray = explode("@", $email);
-    $emailArray = explode("@", $email);
     if (count($emailArray) != 2) {
         return false;
     }

@@ -6,9 +6,8 @@
           <!--- BOARD ----------------------------------------------->
           <div class="face face-top">
             <div class="content">
-              <h2>Erro de acesso</h2>
               <small>mensagem:</small>
-              <h3 style="color: red">{{ message }}</h3>
+              <div [innerHTML]="message"></div>
               <span class="singin" (click)="moveBTN('pLogin')">voltar</span>
             </div>
           </div>
@@ -151,6 +150,7 @@
             <div class="content">
               <div id="board">
                 <h2>conectando, aguarde ...</h2>
+                <img [src]="image_wait">
               </div>
             </div>
           </div>
