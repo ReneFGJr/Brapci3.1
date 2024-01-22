@@ -17,7 +17,7 @@ import mod_issue
 from colorama import Fore
 
 def version():
-    return "v0.23.12.22"
+    return "v0.24.01.20"
 
 def run(parm):
     act = parm[1]

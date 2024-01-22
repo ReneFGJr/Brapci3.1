@@ -54,8 +54,11 @@ class Oauth extends Model
 
     function index($d1, $d2, $d3)
     {
-
         switch ($d1) {
+            case 'forgot':
+                $dd = $this->forgot();
+                echo json_encode($dd);
+                exit;
             case 'signup':
                 $dd = $this->signup();
                 echo json_encode($dd);
@@ -89,6 +92,25 @@ class Oauth extends Model
 
             echo json_encode($dd);
             exit;
+        }
+
+    function forgot()
+        {
+            $Socials = new \App\Models\Socials();
+            $email = get("email");
+            $dd = [];
+            $dd['email'] = $email;
+            $dd['data'] = date("Y-m-dTH:i:s");
+            $dd['message'] = $Socials->forgout($email);
+
+            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+            header("Access-Control-Allow-Headers: Content-Type, Authorization");
+            header('Access-Control-Allow-Origin: *');
+            header("Content-type: application/json; charset=utf-8");
+            //echo json_encode($dd);
+            //exit;
+
+            return $dd;
         }
 
     function signup()

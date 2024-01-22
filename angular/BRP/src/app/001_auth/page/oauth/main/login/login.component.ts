@@ -97,6 +97,16 @@ export class LoginComponent {
   forgout() {
     if (this.forgotForm.valid) {
       this.Prism = 'pWait';
+
+        this.userService
+          .forgotHttp(this.forgotForm.value.email)
+          .subscribe((res) => {
+            console.log(res);
+            this.data = res;
+            this.message = this.data.message;
+            this.Prism = 'pError';
+          });
+
       alert('ERRO DE CONEXÃO');
     } else {
       this.message = 'Dados inválidos';

@@ -5,15 +5,15 @@ import { Observable } from 'rxjs';
 import { LocalStorageService } from '../service/local-storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   http: any;
   constructor(
     private HttpClient: HttpClient,
     private CookieService: CookieService,
-    private LocalStorageService: LocalStorageService,
-  ) { }
+    private LocalStorageService: LocalStorageService
+  ) {}
 
   public user: Array<any> = [];
   public logged: boolean = false;
@@ -30,8 +30,7 @@ export class UserService {
     this.user = this.LocalStorageService.get('user');
     if (this.user == null) {
       return [];
-    }
-    else {
+    } else {
       this.user = this.user[0];
       return this.user;
     }
@@ -46,9 +45,13 @@ export class UserService {
       /*********************** Push */
       this.user = [];
       this.user.push({
-        id: res['id'], displayName: res['displayName'], email: res['email'],
-        givenName: res['givenName'], sn: res['sn'],
-        token: res['token'], persistentId: res['persistent-id']
+        id: res['id'],
+        displayName: res['displayName'],
+        email: res['email'],
+        givenName: res['givenName'],
+        sn: res['sn'],
+        token: res['token'],
+        persistentId: res['persistent-id'],
       });
 
       /*********************** LocalStorage */
@@ -64,11 +67,10 @@ export class UserService {
   public loged(): boolean {
     this.user = this.LocalStorageService.get('user');
     if (this.user == null) {
-        return false;
-    }
-    else {
+      return false;
+    } else {
       this.user = this.user[0];
-        return true;
+      return true;
     }
   }
 
@@ -76,9 +78,13 @@ export class UserService {
   //private url: string = 'http://brp/api/';
 
   /************************************************ API CONSULTA */
-  public signUp(name: string, email:string, institution:string): Observable<Array<any>> {
+  public signUp(
+    name: string,
+    email: string,
+    institution: string
+  ): Observable<Array<any>> {
     let url = `${this.url}socials/signup`;
-    console.log(url)
+    console.log(url);
 
     var formData: any = new FormData();
     formData.append('signup_name', name);
@@ -90,6 +96,21 @@ export class UserService {
       (error) => error
     );
   }
+
+  /* Forgot */
+  public forgotHttp(email: string): Observable<Array<any>> {
+    let url = `${this.url}socials/forgot`;
+
+    var formData: any = new FormData();
+    formData.append('email', email);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
+
+  /* Login */
   public loginSubmitHttp(login: string, pass: string): Observable<Array<any>> {
     let url = `${this.url}socials/signin`;
 
@@ -98,8 +119,8 @@ export class UserService {
     formData.append('pwd', pass);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      res => res,
-      error => error
+      (res) => res,
+      (error) => error
     );
   }
 }
