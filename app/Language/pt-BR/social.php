@@ -33,7 +33,7 @@ return [
 	'signup_email' => 'e-mail',
 	'signup_institution' => 'Nome da instituição',
 	'signup' => 'Cadastrar-se',
-	'social_check_you_email' => 'Sua senha provisório foi enviada para o seu e-mail',
+	'social_check_you_email' => 'Sua senha provisória foi enviada para o seu e-mail',
 	'user_find' => 'buscar usuário',
 	'remove' => 'remover',
 	'user_add' => 'associar',

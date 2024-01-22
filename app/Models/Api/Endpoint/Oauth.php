@@ -123,6 +123,7 @@ class Oauth extends Model
             $status = $Socials->error;
             switch($status)
                 {
+
                     case '510':
                         $msg = msg("brapci.email_invalid");
                         break;
@@ -130,7 +131,8 @@ class Oauth extends Model
                         $msg = msg("brapci.email_already_exist");
                         break;
                     default:
-                        $msg = msg('brapci.valid');
+                        $msg = $sx;
+                        break;
                 }
             $dd['message'] = $msg;
             $dd['status'] = $status;
