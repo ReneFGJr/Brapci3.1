@@ -14,6 +14,7 @@ import mod_article
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
 import mod_issue
+import mod_ontology
 from colorama import Fore
 
 def version():
@@ -78,6 +79,8 @@ def run(parm):
         lp = mod_data.DataDouble()
     if (act == '101'):
         lp = mod_data.DataDoubleInverse()
+    if (act == '110'):
+        lp = mod_ontology.checkData()
 
     #********************** Clear
     elif (act == 'clear'):
