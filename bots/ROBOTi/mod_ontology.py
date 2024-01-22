@@ -2,7 +2,7 @@ import database
 
 def checkData():
     qr = "select * "
-    qr = "select id_d, C2.cc_class as class2, cr_range "
+    qr = "select id_d, C2.cc_class as class2, cr_range, d_r1, d_r2 "
     qr += "FROM brapci_rdf.rdf_data "
     qr += "inner Join brapci_rdf.rdf_class_range ON cr_property = d_p "
     qr += "Inner Join brapci_rdf.rdf_concept as C2 ON C2.id_cc = d_r2 "
