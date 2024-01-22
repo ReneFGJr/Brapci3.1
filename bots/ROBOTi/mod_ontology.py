@@ -18,6 +18,9 @@ def checkData():
         C2 = item[1]
         C3 = item[2]
 
+        CA1 = item[3]
+        CA2 = item[4]
+
         if C2 == C3:
             qu = f"update brapci_rdf.rdf_data set d_trust = 1 where id_d = {ID}"
             print(".", end='')
@@ -27,4 +30,4 @@ def checkData():
                 print("")
             database.update(qu)
         else:
-            print(ID,C2,C3)
+            print(ID,C2,C3,CA1,CA2)
