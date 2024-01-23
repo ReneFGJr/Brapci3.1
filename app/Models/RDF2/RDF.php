@@ -45,6 +45,11 @@ class RDF extends Model
         $sx = '';
         $RSP = [];
         switch ($d1) {
+            case 'resume':
+                $RDFdata = new \App\Models\RDF2\RDFdata();
+                $sx .= $RDFdata->resume();
+                return $sx;
+                break;
             case 'withoutClass':
                 $RDFdata = new \App\Models\RDF2\RDFdata();
                 $sx .= $RDFdata->withoutClass();
@@ -133,6 +138,7 @@ class RDF extends Model
         $menu = [];
         $menu[PATH . '/rdf/Class'] = "Classes";
         $menu[PATH . '/rdf/withoutClass'] = "WithOutClasses";
+        $menu[PATH . '/rdf/resume'] = "Resume";
         return menu($menu);
     }
 

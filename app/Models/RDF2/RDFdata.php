@@ -195,6 +195,20 @@ class RDFdata extends Model
         return ($dt);
     }
 
+    function resume()
+    {
+        $dt = $this->select('count(*) as total, d_trust')
+        ->groupby('d_trust')
+        ->orderby('d_trust')
+        ->findAll();
+        $sx = h("Resume");
+        foreach($dt as $id=>$line)
+            {
+                $sx .= '<li>'.$line['d_trust'].' ('.$line['total'].')</li>';
+            }
+        return bs(bsc($sx,12));
+    }
+
     function withoutClass()
         {
             if (get("d1") != '')
