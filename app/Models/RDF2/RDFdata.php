@@ -224,6 +224,8 @@ class RDFdata extends Model
                     $sql .= " d_trust = 0 ";
                     $sql .= "where (d_r1 = $d1) and (d_r2 = $d2) and (d_p = $dp) ";
                     $this->db->query($sql);
+                    echo $sql;
+                    exit;
                     $sx = metarefresh(PATH. '/rdf/withoutClass');
                     return $sx;
                 }
