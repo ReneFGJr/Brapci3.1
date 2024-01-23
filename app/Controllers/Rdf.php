@@ -17,10 +17,14 @@ define("PREFIX", '');
 define("LIBRARY", '0000');
 define("COLLECTION", '/rdf');
 
-function cab()
+function cab($data='')
 {
     $data['title'] = 'RDF Editor';
     $sx = view('Brapci/Headers/header', $data);
+    if ($data['show'])
+        {
+            $sx .= view('Brapci/Headers/navbar', $data);
+        }
     return $sx;
 }
 
@@ -30,10 +34,12 @@ class RDF extends BaseController
     {
         $data['title'] = 'Brapci - RDF';
         $data['bg'] = 'bg-admin';
+        $data['show'] = True;
+        $data['menu'] = [];
         $sx = '';
-        $sx .= cab();
+        $sx .= cab($data);
         $RDF2 = new \App\Models\RDF2\RDF();
-        $sx = $RDF2->index($d1, $d2, $d3, $d4,$d5, $cab);
+        $sx .= $RDF2->index($d1, $d2, $d3, $d4,$d5, $cab);
         return $sx;
     }
 

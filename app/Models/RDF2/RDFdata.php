@@ -194,4 +194,67 @@ class RDFdata extends Model
         $dt = $this->le($id);
         return ($dt);
     }
+
+    function withoutClass()
+        {
+            if (get("d1") != '')
+                {
+                    $d1 = get("d1");
+                    $d2 = get("d2");
+                    $dp = get("p");
+                    $sql = "update brapci_rdf.rdf_data ";
+                    $sql .= " set d_library = d_r1, ";
+                    $sql .= " d_r1 = d_r2, ";
+                    $sql .= " d_r2 = d_library, ";
+                    $sql .= " d_library = 0, ";
+                    $sql .= " d_trust = 0 ";
+                    $sql .= "where (d_r1 = $d1) and (d_r2 = $d2) and (d_p = $dp) ";
+                    $this->db->query($sql);
+                    $sx = metarefresh(PATH. '/rdf/withoutClass');
+                    return $sx;
+                }
+            $st = 0;
+            $dt = $this
+                ->select("d_p, cn0.c_class as c1 , cn0.id_c as idc1, cn1.c_class as c2, cn2.id_c as idc2, cn2.c_class as c3, count(*) as total ")
+                ->join('rdf_concept as c1','d_r1 = c1.id_cc')
+                ->join('rdf_concept as c2','d_r2 = c2.id_cc')
+                ->join('rdf_class as cn0', 'cn0.id_c = c1.cc_class')
+                ->join('rdf_class as cn1', 'cn1.id_c = d_p')
+                ->join('rdf_class as cn2', 'cn2.id_c = c2.cc_class')
+
+                ->where('d_trust',$st)
+                ->groupby('d_p, cn0.c_class, cn1.c_class, cn2.c_class')
+                ->orderby('cn0.c_class, cn1.c_class, cn2.c_class')
+                ->findAll();
+
+            $sx = '<table class="table full">';
+            foreach($dt as $id=>$line)
+                {
+                    $link = '<a href="'.PATH. '/rdf/withoutClass/?d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'].'">Invert</a>';
+                    $sx .= '<tr>';
+                    $sx .= '<td>';
+                    $sx .= $line['c1'];
+                    $sx .= '</td>';
+
+                    $sx .= '<td>';
+                    $sx .= $line['c2'];
+                    $sx .= '</td>';
+
+                    $sx .= '<td>';
+                    $sx .= $line['c3'];
+                    $sx .= '</td>';
+
+                    $sx .= '<td>';
+                    $sx .= $line['total'];
+                    $sx .= '</td>';
+
+                    $sx .= '<td>';
+                    $sx .= $link;
+                    $sx .= '</td>';
+
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            return bs(bsc($sx,12));
+        }
 }

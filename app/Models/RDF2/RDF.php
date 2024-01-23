@@ -45,6 +45,11 @@ class RDF extends Model
         $sx = '';
         $RSP = [];
         switch ($d1) {
+            case 'withoutClass':
+                $RDFdata = new \App\Models\RDF2\RDFdata();
+                $sx .= $RDFdata->withoutClass();
+                return $sx;
+                break;
             case 'v':
                 $sx = $this->view($d2);
                 break;
@@ -127,6 +132,7 @@ class RDF extends Model
     {
         $menu = [];
         $menu[PATH . '/rdf/Class'] = "Classes";
+        $menu[PATH . '/rdf/withoutClass'] = "WithOutClasses";
         return menu($menu);
     }
 
