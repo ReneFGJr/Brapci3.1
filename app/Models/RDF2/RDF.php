@@ -40,11 +40,17 @@ class RDF extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3, $d4)
+    function index($d1, $d2, $d3, $d4, $cab)
     {
         $sx = '';
         $RSP = [];
         switch ($d1) {
+            case 'a':
+                $RDFform = new \App\Models\RDF2\RDFform();
+                $sx .= $cab;
+                $sx .= $RDFform->editRDF($d2);
+                return $sx;
+                break;
             case 'resume':
                 $RDFdata = new \App\Models\RDF2\RDFdata();
                 $sx .= $RDFdata->resume();
@@ -52,7 +58,7 @@ class RDF extends Model
                 break;
             case 'withoutClass':
                 $RDFdata = new \App\Models\RDF2\RDFdata();
-                $sx .= $RDFdata->withoutClass();
+                $sx .= $RDFdata->withoutClass($d2);
                 return $sx;
                 break;
             case 'v':
@@ -137,7 +143,9 @@ class RDF extends Model
     {
         $menu = [];
         $menu[PATH . '/rdf/Class'] = "Classes";
-        $menu[PATH . '/rdf/withoutClass'] = "WithOutClasses";
+        $menu[PATH . '/rdf/withoutClass/-1'] = "WithOutClasses (-1)";
+        $menu[PATH . '/rdf/withoutClass/0'] = "WithOutClasses (0)";
+        $menu[PATH . '/rdf/withoutClass/1'] = "WithOutClasses (1)";
         $menu[PATH . '/rdf/resume'] = "Resume";
         return menu($menu);
     }

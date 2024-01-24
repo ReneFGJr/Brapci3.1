@@ -204,9 +204,9 @@ class RDFdata extends Model
         return bs(bsc($sx, 12));
     }
 
-    function withoutClass()
+    function withoutClass($d2)
     {
-        $st = 0;
+        $st = $d2;
         if (get("d1") != '') {
 
             $d1 = get("d1");
@@ -239,7 +239,7 @@ class RDFdata extends Model
                     $sql .= "where (id_d = $id) ";
                     $this->db->query($sql);
                 }
-            $sx = metarefresh(PATH . '/rdf/withoutClass');
+            $sx = metarefresh(PATH . '/rdf/withoutClass/'.$d2);
             return $sx;
         }
 

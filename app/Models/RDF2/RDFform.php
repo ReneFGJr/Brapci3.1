@@ -317,9 +317,11 @@ class RDFform extends Model
             ->orderBy('rf_order, c_class')
             ->findAll();
 
-            echo $this->getlastquery();
+        //pre($dt,false);
+        $sx = '';
+        $sx .= h("Class:".$Class);
 
-        $sx = '<table class="table full">' . cr();
+        $sx .= '<table class="table full">' . cr();
         foreach ($dt as $idx => $line) {
             $sx .= '<tr>';
             $sx .= '<td valign="top" style="text-align: right;">';
