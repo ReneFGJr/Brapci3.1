@@ -368,4 +368,11 @@ class RDF extends Model
             return $st;
         }
     }
+    function E404()
+    {
+        $sx = '<h1>' . 'ERROR: 404' . '</h1>';
+        $sx .= '<p>' . lang('rdf.concept_was_deleted') . '</p>';
+        $sx .= '<button onclick="history.back()">Go Back</button>';
+        return ($sx);
+    }
 }

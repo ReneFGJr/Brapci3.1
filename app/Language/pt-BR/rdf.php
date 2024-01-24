@@ -80,5 +80,12 @@ return [
     'sc_group' => 'Grupo de Edição',
     'sc_ord' => 'Ordem de mostragem',
     'LocalLibrary' => 'Aplícavel somente nesta biblioteca',
+    'concept_was_deleted'=>'Este conceito foi excluído',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
     '' => '',
 ];
