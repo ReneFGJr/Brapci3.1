@@ -349,11 +349,16 @@ class RDFform extends Model
                 $linkEd .= bsicone('plus');
                 $linkEd .= '</span>' . cr();
             }
-            pre($line,false);
-            $dr2 = round($line['d_r2']);
-            if ($dr2 > 0) {
-                $link = '<a href="' . PATH . '/v/' . $dr2 . '">';
-                $linka = '</a>';
+
+            $linka = '';
+            $link = '';
+            if ($line['d_r2'] != '')
+            {
+                $dr2 = round($line['d_r2']);
+                if ($dr2 > 0) {
+                    $link = '<a href="' . PATH . '/v/' . $dr2 . '">';
+                    $linka = '</a>';
+                }
             }
 
             $name = '';
