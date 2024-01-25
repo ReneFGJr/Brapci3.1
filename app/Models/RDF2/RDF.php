@@ -49,7 +49,7 @@ class RDF extends Model
                 $RDFform = new \App\Models\RDF2\RDFform();
                 $sx .= $cab;
                 $sx .= $RDFform->editRDF($d2);
-                return $sx;
+                return bs(bsc($sx,12));
                 break;
             case 'resume':
                 $RDFdata = new \App\Models\RDF2\RDFdata();
