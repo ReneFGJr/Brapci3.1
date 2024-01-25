@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { BrapciService } from '../../../000_core/010_services/brapci.service';
 import { LocalStorageService } from '../../../000_core/010_services/local-storage.service';
-import { map } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,9 +43,9 @@ export class SearchBrapciComponent {
   public yearsI: Array<any> = [];
   public yearsF: Array<any> = [];
   public currentYear: number;
-  public terms:string = ''
+  public terms: string = '';
 
-  public tips:string = ''
+  public tips: string = '';
 
   list: any[];
   fields: any[];
@@ -54,9 +53,10 @@ export class SearchBrapciComponent {
   listArray: string[] = [];
   sum = 1;
   display = 5;
-  direction = ''
+  direction = '';
+  notFound: string = '';
 
-  field_search:string = 'FL'
+  field_search: string = 'FL';
 
   constructor(
     private fb: FormBuilder,
@@ -112,21 +112,18 @@ export class SearchBrapciComponent {
     });
   }
 
-  keyUp()
-    {
-      let term = this.searchForm.value.term;
-      if (term.includes(' ')) {
-        if (term.includes('"'))
-          {
-            this.tips = '';
-          }
-          else {
-            this.tips = '1';
-          }
-      } else {
+  keyUp() {
+    let term = this.searchForm.value.term;
+    if (term.includes(' ')) {
+      if (term.includes('"')) {
         this.tips = '';
+      } else {
+        this.tips = '1';
       }
+    } else {
+      this.tips = '';
     }
+  }
 
   ngOnInit() {
     this.createForm();
@@ -140,19 +137,18 @@ export class SearchBrapciComponent {
   }
 
   clickadvanceSearch() {
-    alert("Em desenvolvimento e testes, aguarde")
+    alert('Em desenvolvimento e testes, aguarde');
     //this.router.navigate(['/search-adv']);
   }
 
-  fieldChange(v:string)
-    {
-      this.field_search = v
-      console.log('Change to',v)
-    }
+  fieldChange(v: string) {
+    this.field_search = v;
+    console.log('Change to', v);
+  }
 
   onSearch() {
     var map = new Map();
-    if ((this.searchForm.valid) && (this.loading == false)) {
+    if (this.searchForm.valid && this.loading == false) {
       this.result = [];
       this.results = [];
       let term = this.searchForm.value.term;
@@ -161,9 +157,14 @@ export class SearchBrapciComponent {
 
       let dataS = this.searchForm.value.year_start;
       let dataF = this.searchForm.value.year_end;
-      let dt: Array<any> | any = { di: dataS, df: dataF, field: this.field_search };
+      let dt: Array<any> | any = {
+        di: dataS,
+        df: dataF,
+        field: this.field_search,
+      };
 
       this.totalw = 0;
+      this.tips = '';
 
       this.brapciService.search(term, dt).subscribe((res) => {
         this.result = res;
@@ -171,6 +172,9 @@ export class SearchBrapciComponent {
         this.results = this.result.works;
         this.works = [];
         let max = 5;
+        if (this.results.length == 0) {
+          this.notFound = 'True';
+        }
         if (this.results.length < max) {
           max = this.results.length;
         }

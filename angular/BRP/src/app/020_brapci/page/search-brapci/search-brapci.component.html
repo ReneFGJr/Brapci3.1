@@ -65,4 +65,10 @@
 
 <!-- brapci-basket [total]="selected" (basketRow)="updateBasket($event)"></brapci-basket -->
 
-<app-search-result *ngIf="total > 0" [results]="results" [result]="total"></app-search-result>
+<div *ngIf="notFound" class="alert alert-danger mt-3 mb-3" role="alert">
+Nenhum registro localizado
+</div>
+
+
+
+<app-search-result *ngIf="total >= 0" [results]="results" [result]="total"></app-search-result>

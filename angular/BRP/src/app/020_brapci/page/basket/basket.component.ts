@@ -1,6 +1,6 @@
 import { Router, RouterLink } from '@angular/router';
 import { LocalStorageService } from './../../../001_auth/service/local-storage.service';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'brapci-basket',
@@ -8,17 +8,22 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class BasketComponent {
   @Input() public total: number = 0;
+  @Input() public result: Array<any> | any;
   @Output() basketRow = new EventEmitter();
   public basketValue: Array<any> | any;
+  public total_result = 0;
 
   constructor(
     private localStorageService: LocalStorageService,
     private router: Router
-    ) {}
+  ) {}
   public selected: number = 0;
 
   ngOnInit() {
     this.basketValue = this.localStorageService.get('marked');
+    console.log('BASKET');
+    console.log(this.result);
+    //this.total_result = this.result.length;
     if (this.basketValue != null) {
       this.selected = this.basketValue.length;
     } else {
@@ -26,10 +31,24 @@ export class BasketComponent {
     }
   }
 
-  showSelected()
+  selectAll()
     {
-        this.router.navigate(['basket/selected']);
+      alert("Select All")
+      console.log("Result="+this.result)
+      for (let i = 0; i <= this.result.length; i++) {
+          console.log("==>"+i)
+        }
     }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    console.log('MOV');
+  }
+
+  showSelected() {
+    this.router.navigate(['basket/selected']);
+  }
 
   clear() {
     this.localStorageService.remove('marked');

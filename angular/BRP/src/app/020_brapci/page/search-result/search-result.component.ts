@@ -36,12 +36,13 @@ export class SearchResultComponent {
       website: this.fb.array([], [Validators.required]),
     });
 
-    this.selected = this.basket.length;
     /*********************************************************** BASKET */
     this.basket = this.localStorageService.get('marked');
     if (this.basket === null) {
       this.basket = [];
     }
+
+    this.selected = this.basket.length;
   }
 
   public selected: number = 0;
@@ -61,9 +62,9 @@ export class SearchResultComponent {
   public msg_of: string = 'de';
 
   ngOnChanges() {
-    this.works = []
+    this.works = [];
     let max = 5;
-    this.totalw = 0
+    this.totalw = 0;
     if (this.results.length < max) {
       max = this.results.length;
     }
@@ -72,6 +73,26 @@ export class SearchResultComponent {
       this.works.push(this.results[i]);
       this.totalw++;
     }
+  }
+
+  ngOnInit() {
+    this.total = this.results.length;
+  }
+
+  selectAll() {
+
+    alert("Select All")
+    let works = this.result;
+    this.basket = this.localStorageService.get('marked');
+
+    for (var i = 0; i < works.length; i++) {
+      let idx = works[i]['id'];
+      console.log("+>"+idx)
+    }
+
+    this.selected = this.basket.length;
+
+    //this.localStorageService.set('marked', wb.value);
   }
 
   /**************************** MARK */

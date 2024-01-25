@@ -1,9 +1,12 @@
 <brapci-basket
   [total]="selected"
+  [result]="results"
   (basketRow)="updateBasket($event)"
 ></brapci-basket>
 
 <h1 *ngIf="works" class="mt-3">Resultado da busca</h1>
+
+<div *ngIf="total > 0"><span class="btn btn-outline-primary" (click)="selectAll()">Selecionar todos os registros</span></div>
 
 <div
   class="col-12 col-sm-12 search-results"
@@ -12,6 +15,7 @@
 >
   {{ msg_show }} {{ totalw }} {{ msg_of }} {{ result }} {{ msg_result }}
 </div>
+
 <div class="col-12 col-sm-12 search-results" *ngIf="works && result == 0">
   <div class="alert alert-primary" role="alert">
     {{ msg_noresult }}
