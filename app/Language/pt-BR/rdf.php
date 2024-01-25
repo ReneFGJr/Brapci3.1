@@ -81,7 +81,7 @@ return [
     'sc_ord' => 'Ordem de mostragem',
     'LocalLibrary' => 'Aplícavel somente nesta biblioteca',
     'concept_was_deleted'=>'Este conceito foi excluído',
-    'rdf.group_AUTHORITY' => 'AUTORIDADES',
+    'group_AUTHORITY' => 'AUTORIDADES',
     'group_ID' => 'IDENTIFICADORES',
     'group_JOURNAL' => 'DADOS DA PUBLICAÇÃO',
     'group_REPOSITORY' => 'REPOSITÓRIOS',
