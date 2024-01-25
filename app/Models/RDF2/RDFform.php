@@ -365,6 +365,10 @@ class RDFform extends Model
             if ($line['d_r2'] != '')
             {
                 $dr2 = round($line['d_r2']);
+                IF ($dr2 == $id)
+                    {
+                        $dr2 = round($line['d_r1']);
+                    }
                 if ($dr2 > 0) {
                     $link = '<a href="' . PATH . '/v/' . $dr2 . '">';
                     $linka = '</a>';
