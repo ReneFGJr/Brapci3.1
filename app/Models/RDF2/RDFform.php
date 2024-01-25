@@ -328,7 +328,7 @@ class RDFform extends Model
             if ($GRP != $xGRP)
                 {
                 $sx .= '<tr>';
-                $sx .= '<th rowspan=5 class="h4 border-top border-botton border-secondary">'.lang('rdf.group_'.$GRP).'</th>';
+                $sx .= '<th colspan=5 class="h4 border-top border-botton border-secondary">'.lang('rdf.group_'.$GRP).'</th>';
                 $sx .= '</tr>';
                 $xGRP = $GRP;
                 }
