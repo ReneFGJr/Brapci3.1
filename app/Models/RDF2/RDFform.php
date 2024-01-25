@@ -350,7 +350,7 @@ class RDFform extends Model
                 $linkEd .= '</span>' . cr();
             }
 
-            $dr2 = round($line['d_r2']);
+            $dr2 = ground($line['d_r2']);
             if ($dr2 > 0) {
                 $link = '<a href="' . PATH . '/v/' . $dr2 . '">';
                 $linka = '</a>';
