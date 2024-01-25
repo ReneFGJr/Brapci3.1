@@ -27,7 +27,7 @@ class Download extends BaseController
             {
                 $sx = $RDF->E404();
                 $sx .= bsmessage("Item não existe - Download PDF - ".$id);
-                pre($dt);
+                //pre($dt);
                 return $sx;
             }
 
