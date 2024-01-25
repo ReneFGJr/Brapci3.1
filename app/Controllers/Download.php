@@ -23,7 +23,7 @@ class Download extends BaseController
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
-        if (($dt == []) or (!isset($dt['concept']['c+class'])))
+        if (($dt == []) or (!isset($dt['concept']['c_class'])))
             {
                 $sx = $RDF->E404();
                 $sx .= bsmessage("Item não existe - Download PDF - ".$id);
