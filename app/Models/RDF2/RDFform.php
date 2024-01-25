@@ -302,7 +302,7 @@ class RDFform extends Model
 
         $cp = "lt1.n_name as lt1, lt2.n_name as lt2,";
         $cp .= "lt1.n_lang as lg1, lt2.n_lang as lg2,";
-        $cp .= "c_class, d_r1, d_p, d_r2, d_literal,id_d,id_c,rf_order,rf_label ";
+        $cp .= "c_class, d_r1, d_p, d_r2, d_literal,id_d,id_c,rf_order,rf_group ";
 
         $dt = $this
             ->select($cp)
@@ -322,7 +322,16 @@ class RDFform extends Model
         $sx .= h("Class:".$Class);
 
         $sx .= '<table class="table full">' . cr();
+        $xGRP = '';
         foreach ($dt as $idx => $line) {
+            $GRP = $line['rf_group'];
+            if ($GRP != $xGRP)
+                {
+                $sx .= '<tr>';
+                $sx .= '<th rowspan=5 class="h4">'.$lang('rdf.group_'.$GRP).'</th>';
+                $sx .= '</tr>';
+                $xGRP = $GRP;
+                }
             $sx .= '<tr>';
             $sx .= '<td valign="top" style="text-align: right;">';
             $sx .= $line['c_class'];
