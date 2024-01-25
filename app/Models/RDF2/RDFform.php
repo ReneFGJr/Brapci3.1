@@ -314,6 +314,7 @@ class RDFform extends Model
             ->join('brapci_rdf.rdf_literal as lt2', 'cc_pref_term = lt2.id_n', "left")
             ->where('cd_domain', $idc)
             ->where('(d_r1 = '.$id.' or d_r1 is null)')
+            ->orwhere('(d_r2 = ' . $id . ')')
             ->orderBy('rf_order, c_class')
             ->findAll();
 
