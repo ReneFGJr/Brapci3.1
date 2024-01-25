@@ -87,5 +87,7 @@ return [
     'group_REPOSITORY' => 'REPOSITÓRIOS',
     'group_SOURCE' => 'SOBRE A FONTE',
     'group_SUBJECT' => 'ASSUNTO',
+    'group_TITLE' => 'TÍTULO',
+    'group_NOTES' => 'NOTAS',
     '' => '',
 ];
