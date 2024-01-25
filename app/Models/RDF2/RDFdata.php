@@ -208,7 +208,7 @@ class RDFdata extends Model
     {
         $st = $d2;
         if (get("d1") != '') {
-
+            $st = $d2;
             $d1 = get("d1");
             $d2 = get("d2");
             $dp = get("p");
@@ -239,7 +239,7 @@ class RDFdata extends Model
                     $sql .= "where (id_d = $id) ";
                     $this->db->query($sql);
                 }
-            $sx = metarefresh(PATH . '/rdf/withoutClass/'.$d2);
+            $sx = metarefresh(PATH . '/rdf/withoutClass/'.$st);
             return $sx;
         }
 
@@ -258,7 +258,7 @@ class RDFdata extends Model
 
         $sx = '<table class="table full">';
         foreach ($dt as $id => $line) {
-            $link = '<a href="' . PATH . '/rdf/withoutClass/?d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Invert</a>';
+            $link = '<a href="' . PATH . '/rdf/withoutClass/'.$d2.'?d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Invert</a>';
             $sx .= '<tr>';
             $sx .= '<td>';
             $sx .= $line['c1'];
