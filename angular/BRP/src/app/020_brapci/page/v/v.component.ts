@@ -31,7 +31,11 @@ export class VComponent {
               if (this.data.Issue.jnl_rdf == 75)
               {
                 this.type = 'Benancib';
+              } else if (this.data.Issue.jnl_rdf == 18)
+              {
+                //this.type = 'EBBC';
               }
+              console.log("TYPE:"+this.data.Issue.jnl_rdf);
             }
           this.header.title = this.data.title + ' | ' + this.data.Authors;
         },

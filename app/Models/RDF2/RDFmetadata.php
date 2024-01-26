@@ -243,6 +243,7 @@ class RDFmetadata extends Model
     function metadataIssue($dt, $simple = false)
     {
         $Issues = new \App\Models\Base\Issues();
+        $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $IDissue = $dt['concept']['id_cc'];
         $di = $Issues
             ->Join('brapci.source_source', 'id_jnl = is_source')
@@ -257,6 +258,8 @@ class RDFmetadata extends Model
                     $dr['is_nr'] = $di['is_nr'];
                     $dr['is_vol_roman'] = $di['is_vol_roman'];
                     $dr['is_vol'] = $di['is_vol'];
+
+                    $dr['works'] = $IssuesWorks->issueWorks($IDissue);
             }
         return $dr;
     }

@@ -67,6 +67,7 @@ class IssuesWorks extends Model
         return true;
     }
 
+
     function issueWorks($id_rdf)
     {
         $dt = $this

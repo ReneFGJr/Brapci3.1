@@ -11,6 +11,21 @@ export class BenancibComponent {
   public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
   public section = [{ name: 'LIVRO' }];
+  public langs: Array<any> = ['pt', 'en', 'es', 'fr'];
+  public abstract: Array<any> = [
+    { pt: 'Resumo', en: 'Abstract', es: 'Resumen', fr: 'Résumé' },
+  ];
+  public keywords: Array<any> = [
+    {
+      pt: 'Palavras-chave',
+      en: 'Keywords',
+      es: 'Palabras clave',
+      fr: 'Mots clés',
+    },
+  ];
+
+  objectKeys = Object.keys;
+  objectValues = Object.values;
 
   ngOnInit(): void {
     this.header = [];
