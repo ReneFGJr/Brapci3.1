@@ -331,3 +331,37 @@ $backgroundGrad: rgb(106, 92, 195);
     width: 100%;
     border-bottom: 1px solid #161654;
   }
+
+
+/****************************/
+.title
+  {
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+  }
+
+.title_pt
+  {
+    color:#161654;
+  }
+
+.title_en
+  {
+    color:#454;
+    font-size: 1.1rem;
+  }
+
+.title_es
+  {
+    color:#744;
+    font-size: 1.1rem;
+  }
+
+.abstract
+  {
+    text-align: justify;
+    font-size: 0.8em;
+    line-height: 1.0rem;
+    padding: 0px 0px 10px 0px;
+  }
