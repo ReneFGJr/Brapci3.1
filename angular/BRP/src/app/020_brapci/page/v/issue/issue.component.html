@@ -6,6 +6,7 @@
   ></app-brapci-banner-general>
 
 <div *ngIf="data">
+{{data.works | json}}
   <app-brapci-banner-general
     [section]="data.is_year"
     [cover]="data.cover"

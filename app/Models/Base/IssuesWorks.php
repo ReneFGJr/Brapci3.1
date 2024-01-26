@@ -71,6 +71,7 @@ class IssuesWorks extends Model
     function issueWorks($id_rdf)
     {
         $dt = $this
+            ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
             ->where('siw_issue', $id_rdf)
             ->orderBy('siw_order, siw_pag_ini')
             ->findAll();

@@ -9,4 +9,9 @@ export class IssueBrapciComponent {
   public url: string = '';
   public header: Array<any> | any = null;
   public section = [{ name: 'DATA' }];
+
+  ngOnInit()
+    {
+      console.log(this.data.works)
+    }
 }
