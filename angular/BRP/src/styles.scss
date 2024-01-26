@@ -91,6 +91,20 @@ h6 {
   font-weight: bold;
 }
 
+.cited {
+  font-size: 0.8rem;
+  line-height: 0.9rem;
+  padding-bottom: 8px;
+}
+
+.cited a {
+  font-size: 0.8rem;
+  line-height: 0.9rem;
+  padding-bottom: 8px;
+  color: #77a;
+  text-decoration: none;
+}
+
 .keywords_item {
   font-size: 0.7rem;
   border: 1px solid #555;

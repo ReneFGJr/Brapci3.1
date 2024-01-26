@@ -36,22 +36,22 @@
 
   <div *ngIf="row">
     <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Articles.length > 0">Artigos</h2>
-    <div *ngFor="let item of row.ABNT.Articles" class="mb-2">
+    <div *ngFor="let item of row.ABNT.Articles" class="mb-2 cited">
       <div [innerHTML]="item"></div>
     </div>
 
     <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Proceedings.length > 0">Anais de eventos</h2>
-    <div *ngFor="let item of row.ABNT.Proceedings" class="mb-2">
+    <div *ngFor="let item of row.ABNT.Proceedings" class="mb-2 cited">
       <div [innerHTML]="item"></div>
     </div>
 
     <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Books.length > 0">Livros</h2>
-    <div *ngFor="let item of row.ABNT.Books" class="mb-2">
+    <div *ngFor="let item of row.ABNT.Books" class="mb-2 cited">
       <div [innerHTML]="item"></div>
     </div>
 
     <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.BooksChapter.length > 0">Capítulos de livros</h2>
-    <div *ngFor="let item of row.ABNT.BooksChapter" class="mb-2">
+    <div *ngFor="let item of row.ABNT.BooksChapter" class="mb-2 cited">
       <div [innerHTML]="item"></div>
     </div>
   </div>
