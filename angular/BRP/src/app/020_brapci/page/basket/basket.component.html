@@ -1,5 +1,5 @@
 <div *ngIf="total || 1 > 0" class="mt-2 mb-2">
-  <span class="basket handle small btn btn-outline-primary me-2" (click)="showSelected();"> {{ total }} Items selecionados </span>
-  <span class="basket handle small btn btn-outline-warning me-2" (click)="clear()">Limpar seleção</span>
-  <span *ngIf="total_result >= 0" class="basket handle small btn btn-outline-success me-2" (click)="selectAll()">Selecionar tudo</span>
+  <span *ngIf="total > 0" class="basket handle small btn btn-outline-primary me-2" (click)="showSelected();"> {{ total }} Items selecionados </span>
+  <span *ngIf="total > 0" class="basket handle small btn btn-outline-warning me-2" (click)="clear()">Limpar seleção</span>
+  <span *ngIf="total_result > 0" class="basket handle small btn btn-outline-success me-2" (click)="selectAll()">Selecionar {{total_result}} resultados</span>
 </div>

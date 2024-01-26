@@ -1,29 +1,56 @@
-<app-theme-header></app-theme-header>
+<app-theme-header [header]="header"></app-theme-header>
 <app-theme-navbar></app-theme-navbar>
+
 <div class="container">
   <div class="row">
     <div class="col-12">
       <brapci-basket [total]="total"></brapci-basket>
     </div>
   </div>
+  <h1>Lista de Referências</h1>
+  <div *ngIf="total == 0" class="alert alert-warning">
+    Nenhum Item Selecionado
+  </div>
+
+  <div class="row border-top border-bottom border-secondary">
+    <div class="text-center col-3 " *ngIf="row">
+    <span class="h5">Artigos</span><br>
+    {{row.ABNT.Articles.length}}
+  </div>
+
+    <div class="text-center col-3 " *ngIf="row">
+    <span class="h5">Trabalhos em Eventos</span><br>
+    {{row.ABNT.Proceedings.length}}
+  </div>
+
+    <div class="text-center col-3 " *ngIf="row">
+    <span class="h5">Livros</span><br>
+    {{row.ABNT.Books.length}}
+  </div>
+
+    <div class="text-center col-3 " *ngIf="row">
+    <span class="h5">Capítulos de Livros</span><br>
+    {{row.ABNT.BooksChapter.length}}
+  </div>
+  </div>
 
   <div *ngIf="row">
-    <h2>Artigos</h2>
+    <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Articles.length > 0">Artigos</h2>
     <div *ngFor="let item of row.ABNT.Articles" class="mb-2">
       <div [innerHTML]="item"></div>
     </div>
 
-    <h2>Anais de eventos</h2>
+    <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Proceedings.length > 0">Anais de eventos</h2>
     <div *ngFor="let item of row.ABNT.Proceedings" class="mb-2">
       <div [innerHTML]="item"></div>
     </div>
 
-    <h2>Livros</h2>
+    <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Books.length > 0">Livros</h2>
     <div *ngFor="let item of row.ABNT.Books" class="mb-2">
       <div [innerHTML]="item"></div>
     </div>
 
-    <h2>Capítulos de livros</h2>
+    <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.BooksChapter.length > 0">Capítulos de livros</h2>
     <div *ngFor="let item of row.ABNT.BooksChapter" class="mb-2">
       <div [innerHTML]="item"></div>
     </div>

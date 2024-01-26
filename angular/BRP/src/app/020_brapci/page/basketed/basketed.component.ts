@@ -11,6 +11,9 @@ export class BasketedComponent {
   public basket: Array<any> | any;
   public row: Array<any> | any;
   public total: number = 0;
+  public header: Array<any> | any = "Lista de Referências"
+  public edit:string = ''
+
   constructor(
     private localStorageService: LocalStorageService,
     private brapciService: BrapciService
@@ -19,6 +22,12 @@ export class BasketedComponent {
   ngOnInit() {
     this.basket = this.localStorageService.get('marked');
     console.log(this.basket);
+
+    if (this.basket == null)
+      {
+        this.basket = []
+      }
+
     this.total = this.basket.length;
 
     if (this.total > 0) {

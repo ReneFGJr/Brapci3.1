@@ -15,6 +15,7 @@ import {
 export class SearchResultComponent {
   @Input() public results: Array<any> | any;
   @Input() public result: Array<any> | any;
+  @Input() public searchAction: string = '';
 
   public APIversion: string = '1';
   public loading: boolean = false;
@@ -80,14 +81,13 @@ export class SearchResultComponent {
   }
 
   selectAll() {
-
-    alert("Select All")
+    alert('Select All');
     let works = this.result;
     this.basket = this.localStorageService.get('marked');
 
     for (var i = 0; i < works.length; i++) {
       let idx = works[i]['id'];
-      console.log("+>"+idx)
+      console.log('+>' + idx);
     }
 
     this.selected = this.basket.length;

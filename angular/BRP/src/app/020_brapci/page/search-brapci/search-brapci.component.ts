@@ -46,6 +46,7 @@ export class SearchBrapciComponent {
   public terms: string = '';
 
   public tips: string = '';
+  public search: string = '';
 
   list: any[];
   fields: any[];
@@ -184,6 +185,7 @@ export class SearchBrapciComponent {
         }
         this.total = this.result.total;
         this.loading = false;
+        this.search = 'T';
       });
     } else {
       console.log('NÃO OK');
