@@ -35,34 +35,31 @@
     </div>
 
     <!--------------------------- Abstract-->
-    <div class="col-12" *ngIf="data.data">
-      <div *ngFor="let lg of langs">
+    <div class="col-12 " *ngIf="data.data">
+      <div *ngFor="let lg of langs" class="mt-4">
         <div *ngIf="data.data.hasAbstract[lg]">
           <div
             class="abstract abstract_{{ lg }}"
             *ngFor="let i of objectKeys(data.data.hasAbstract[lg])"
-          >
+            >
+            <b>{{ abstract[0][lg] }}</b>:
             {{ objectKeys(data.data.hasAbstract[lg][0]) }}
             <sup class="small">({{ lg }})</sup>
           </div>
         </div>
-        Keywords:
+        <b class="keyword">{{ keywords[0][lg] }}</b>:
+        <span *ngIf="data.data.hasSubject[lg]" class="text-end">
+          <a  *ngFor="let i of objectKeys(data.data.hasSubject[lg])" class="keywords_item"
+                [routerLink]="['/v/'+objectValues(data.data.hasSubject[lg][i])]">
+             {{ objectKeys(data.data.hasSubject[lg][i]) }}
+          </a>
+        </span>
       </div>
     </div>
 
     <!--------------- Abstract -->
     <div class="col=3"></div>
     <div class="col-12 col-lg-10 mb-3">
-      <p style="text-align: justify"><b>Resumo</b>: {{ data.description }}</p>
-      <p>
-        <b>Palavras-chave: </b>
-        <span *ngFor="let item of data.subject" class="text-end">
-          <a class="keywords" [routerLink]="['/v/' + item.ID]">{{
-            item.name
-          }}</a>
-        </span>
-      </p>
-
       <!--------------- Cite -->
       <app-v-cite [citacao]="data.cited"></app-v-cite>
 

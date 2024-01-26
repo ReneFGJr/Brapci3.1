@@ -86,8 +86,13 @@ h6 {
   color: #000;
 }
 
-.keywords {
-  font-size: 0.9em;
+.keyword {
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.keywords_item {
+  font-size: 0.7rem;
   border: 1px solid #555;
   padding: 2px 10px;
   margin: 2px 2px;
@@ -98,7 +103,7 @@ h6 {
   line-height: 1.8rem;
   word-break: break-all;
 }
-.keywords:hover {
+.keywords_item:hover {
   background-color: #f8f8f8;
 }
 .cover_min
