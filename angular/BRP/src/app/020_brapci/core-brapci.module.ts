@@ -48,6 +48,7 @@ import { SearchResultComponent } from './page/search-result/search-result.compon
 import { TipsComponent } from './page/tips/tips.component';
 import { IndexSubjectComponent } from './page/index-subject/index-subject.component';
 import { IndexsComponent } from './page/indexs/indexs.component';
+import { LoveItComponent } from './page/loveit/loveit.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { IndexsComponent } from './page/indexs/indexs.component';
     HeaderComponent,
     BannerArticleComponent,
     PdfComponent,
+    LoveItComponent,
     PaginationComponent,
     JounalsComponent,
     BrapciWelcomeComponent,

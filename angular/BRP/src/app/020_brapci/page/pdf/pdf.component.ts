@@ -3,12 +3,13 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-component-pdf',
-  templateUrl: './pdf.component.html',
-  styleUrls: ['./action.component.scss']
+  templateUrl: './pdf.component.html'
 })
 export class PdfComponent {
   @Input() public url:string='';
   @Input() public id: string = '';
+
+  public pdf:string="/assets/icone/pdf.svg"
 
   constructor(
     public brapciService: BrapciService

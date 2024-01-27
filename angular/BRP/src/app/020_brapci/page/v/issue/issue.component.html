@@ -1,26 +1,39 @@
 <app-theme-header [header]="header"></app-theme-header>
-  <app-brapci-banner-general
-    [section]="data.is_year"
-    [cover]="data.cover"
-    [publisher]="data.jnl_name"
-  ></app-brapci-banner-general>
+<app-brapci-banner-general
+  [section]="data.is_year"
+  [cover]="data.cover"
+  [publisher]="data.jnl_name"
+></app-brapci-banner-general>
 
-<div *ngIf="data">
-  <app-brapci-banner-general
-    [section]="data.is_year"
-    [cover]="data.cover"
-    [publisher]="data.jnl_name"
-  ></app-brapci-banner-general>
-</div>
-
-<div class="container mt-5">
+<div class="container">
   <div class="row">
-    <div class="col-9">
-      <ul>
-        <li *ngFor="let item of data.works" class="mb-2">
-          <div [innerHTML]="item"></div>
-        </li>
-      </ul>
+    <div class="col-12 mt-3">
+      <h1>{{ data.publisher }}</h1>
     </div>
+    <div class="col-3 bold small border-top border-secondary">Nr.</div>
+    <div class="col-3 bold small border-top border-secondary">Vol.</div>
+    <div class="col-3 bold small border-top border-secondary">Year</div>
+    <div class="col-3 bold small border-top border-secondary">Classe</div>
+
+    <div class="col-3 h3 border-bottom border-secondary">{{ data.is_nr }}</div>
+    <div class="col-3 h3 border-bottom border-secondary">{{ data.is_vol }}</div>
+    <div class="col-3 h3 border-bottom border-secondary">{{ data.is_year }}</div>
+    <div class="col-3 h3 border-bottom border-secondary">{{ data.Class }}</div>
   </div>
+
+  <div *ngIf="data">
+    <app-brapci-banner-general
+      [section]="data.is_year"
+      [cover]="data.cover"
+      [publisher]="data.jnl_name"
+    ></app-brapci-banner-general>
+  </div>
+
+      <div class="col-9 mt-5">
+        <ul>
+          <li *ngFor="let item of data.works" class="mb-2">
+            <div [innerHTML]="item"></div>
+          </li>
+        </ul>
+      </div>
 </div>

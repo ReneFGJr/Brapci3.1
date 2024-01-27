@@ -12,6 +12,6 @@ export class IssueBrapciComponent {
 
   ngOnInit()
     {
-      console.log(this.data.works)
+      console.log(this.data)
     }
 }
