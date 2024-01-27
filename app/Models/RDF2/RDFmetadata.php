@@ -242,6 +242,7 @@ class RDFmetadata extends Model
 
     function metadataIssue($dt, $simple = false)
     {
+        $ABNT = new \App\Models\Metadata\Abnt();
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $IDissue = $dt['concept']['id_cc'];
@@ -259,7 +260,16 @@ class RDFmetadata extends Model
                     $dr['is_vol_roman'] = $di['is_vol_roman'];
                     $dr['is_vol'] = $di['is_vol'];
 
-                    $dr['works'] = $IssuesWorks->issueWorks($IDissue);
+                    $wk = $IssuesWorks->issueWorks($IDissue);
+                    $works = [];
+                    foreach($wk as $id=>$line)
+                        {
+                            $JSON = (array)json_decode($line['json']);
+                            $ref = $ABNT->ref($JSON, False);
+                            $ref = '<a href="'.PATH.'/index.php/res/v/'.$line['ID'].'" target="_blank">'.$ref.'</a>';
+                            array_push($works,$ref);
+                        }
+                    $dr['works'] = $works;
             }
         return $dr;
     }

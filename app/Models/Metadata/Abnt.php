@@ -40,48 +40,63 @@ class Abnt extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function ref($dt,$type='A')
-		{
-			$URL = 'https://brapci.inf.br/index.php/res/v/';
 
-			$Class = $dt['Class'];
-			/********************** Authors */
-			$authors = $this->ref_authors($dt['Authors']);
-			$title = $this->ref_title($dt['Title']);
-			$legend = $this->ref_legend($dt['Issue']);
-			$ref = $authors . '. ' . $title . '. ' . $legend;
-			$ref .= '. Acesso em: '.date("d").'/'. mes_abreviado(date("m")).'/'.date("Y");
-			$ref .= '. Disponível em: '.'<a href="'.$URL.$dt['ID'].'" target="_blank">' . $URL . $dt['ID'].'</a>';
-			$ref = troca($ref,'..','.');
-			return($ref);
+
+	function ref($dt, $url = True)
+	{
+		$URL = 'https://brapci.inf.br/index.php/res/v/';
+
+		$Class = $dt['Class'];
+		/********************** Authors */
+		$authors = $this->ref_authors($dt['Authors']);
+		$title = $this->ref_title($dt['Title']);
+		$legend = $this->ref_legend($dt['Issue']);
+		$ref = $authors . '. ' . $title . '. ' . $legend;
+		if ($url) {
+			$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
+			$ref .= '. Disponível em: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
 		}
+		$ref = troca($ref, '..', '.');
+		$ref = troca($ref, ', ,', ',');
+		return ($ref);
+	}
 	function ref_legend($dt)
-		{
-			$dt = (array)$dt;
-			$leg = '<b>'.$dt['journal']. '</b>';
-			if (isset($dt['vol']))
-				{
-					$leg .= ', '.$dt['vol'];
+	{
+		$dt = (array)$dt;
+		$leg = '<b>' . $dt['journal'] . '</b>';
+		if ($dt['vol'] != '') {
+			if (isset($dt['vol'])) {
+				if ($dt['vol'] == sonumero($dt['vol'])) {
+					$leg .= ', v. ' . $dt['vol'];
+				} else {
+					$leg .= ', ' . $dt['vol'];
 				}
-			if (isset($dt['nr'])) {
-				$leg .= ', ' . $dt['nr'];
 			}
-			if (isset($dt['year'])) {
-				$leg .= ', ' . $dt['year'];
-			}
-			return $leg;
 		}
+		if (isset($dt['nr'])) {
+			if ($dt['nr'] != '') {
+				if ($dt['nr'] == sonumero($dt['nr'])) {
+					$leg .= ', v. ' . $dt['nr'];
+				} else {
+					$leg .= ', ' . $dt['nr'];
+				}
+			}
+		}
+		if (isset($dt['year'])) {
+			$leg .= ', ' . $dt['year'];
+		}
+		return $leg;
+	}
 
-	function ref_title($dt,$lg_pref='pt')
-		{
-			$title = '[...]';
-			foreach($dt as $lang=>$line)
-				{
-					$title = $line['0'];
-					break;
-				}
-			return $title;
+	function ref_title($dt, $lg_pref = 'pt')
+	{
+		$title = '[...]';
+		foreach ($dt as $lang => $line) {
+			$title = $line['0'];
+			break;
 		}
+		return $title;
+	}
 
 	function ref_authors($dt)
 	{
@@ -116,41 +131,38 @@ class Abnt extends Model
 
 	function show($dt, $type = 'A')
 	{
-		switch($dt['Class'])
-			{
-				case 'Proceeding':
-					$tela = $this->abnt_proceeding($dt);
-					return $tela;
-					break;
-				case 'Article':
-					$tela = $this->abnt_article($dt);
-					return $tela;
-					break;
-				case 'Issue':
-					$tela = '';
-					if (isset($dt['publisher'])) {
-						$tela .= '<b>'.$dt['publisher']. '</b>';
-					}
-					if (isset($dt['is_vol']))
-						{
-							if ($dt['is_vol'] != 'ERRO')
-								{
-									$tela .= ', v. '.$dt['is_vol'];
-								}
-						}
-					if (isset($dt['is_nr'])) {
-						if ($dt['is_nr'] != 'ERRO') {
-							$tela .= ', n. ' . $dt['is_nr'];
-						}
-					}
-					if (isset($dt['is_year'])) {
-						if ($dt['is_year'] != 'ERRO') {
-							$tela .= ', ' . $dt['is_year'];
-						}
-					}
+		switch ($dt['Class']) {
+			case 'Proceeding':
+				$tela = $this->abnt_proceeding($dt);
 				return $tela;
 				break;
-			}
+			case 'Article':
+				$tela = $this->abnt_article($dt);
+				return $tela;
+				break;
+			case 'Issue':
+				$tela = '';
+				if (isset($dt['publisher'])) {
+					$tela .= '<b>' . $dt['publisher'] . '</b>';
+				}
+				if (isset($dt['is_vol'])) {
+					if ($dt['is_vol'] != 'ERRO') {
+						$tela .= ', v. ' . $dt['is_vol'];
+					}
+				}
+				if (isset($dt['is_nr'])) {
+					if ($dt['is_nr'] != 'ERRO') {
+						$tela .= ', n. ' . $dt['is_nr'];
+					}
+				}
+				if (isset($dt['is_year'])) {
+					if ($dt['is_year'] != 'ERRO') {
+						$tela .= ', ' . $dt['is_year'];
+					}
+				}
+				return $tela;
+				break;
+		}
 
 		switch ($type) {
 			case 'B':
@@ -220,10 +232,9 @@ class Abnt extends Model
 			$tela .= ', ' . $dri['is_year'];
 		}
 
-		if (isset($dri['legend']) and ($dri['lenged'] != ''))
-			{
-				$tela .= '. '.$dri['legend'];
-			}
+		if (isset($dri['legend']) and ($dri['lenged'] != '')) {
+			$tela .= '. ' . $dri['legend'];
+		}
 
 		$tela .= '. <b>Anais</b> [.] ';
 
@@ -269,12 +280,11 @@ class Abnt extends Model
 		if ($sx != '') {
 			$sx .= ' ';
 		}
-		if (isset($dt['title']))
-			{
-				$sx .= '<b>' . $dt['title'] . '</b>. ';
-			} else {
-				$sx .= '<b>::Sem título::</b>';
-			}
+		if (isset($dt['title'])) {
+			$sx .= '<b>' . $dt['title'] . '</b>. ';
+		} else {
+			$sx .= '<b>::Sem título::</b>';
+		}
 
 		if (isset($dt['publisher'])) {
 			$sx .= $dt['publisher'];
@@ -344,12 +354,11 @@ class Abnt extends Model
 				}
 				$authors .= '. ';
 			} else {
-				foreach($dt['creator_author'] as $idk=>$line)
-					{
-						$authors .= nbr_author(ascii($line['name']), 2);
-						$authors .= '; <i>et al.</i> ';
-						break;
-					}
+				foreach ($dt['creator_author'] as $idk => $line) {
+					$authors .= nbr_author(ascii($line['name']), 2);
+					$authors .= '; <i>et al.</i> ';
+					break;
+				}
 				$etal = true;
 			}
 			$sx .= $authors;
@@ -365,13 +374,11 @@ class Abnt extends Model
 		if (!isset($dt['title'])) {
 			$dt['title'] = '::none::';
 		} else {
-		if (isset($dt['Title']))
-			{
-				foreach($dt['Title'] as $lang=>$title)
-					{
-						$dt['title'] = $title;
-						break;
-					}
+			if (isset($dt['Title'])) {
+				foreach ($dt['Title'] as $lang => $title) {
+					$dt['title'] = $title;
+					break;
+				}
 			}
 		}
 		$title = trim(html_entity_decode($dt['title']));
@@ -385,25 +392,23 @@ class Abnt extends Model
 		$tela .= $this->authors($dt);
 		$tela .= '. ' . $title;
 
-		if (!isset($dt['legend']))
-			{
-				if (isset($dt['Issue']))
-					{
-						$Issue = (array)$dt['Issue'];
-						$tela .= '. <b>' . (string)$Issue['journal'] . '</b>';
-						if ($Issue['vol'] != '') {
-							$tela .= ', ' . (string)$Issue['vol'];
-						}
-						if ($Issue['nr'] != '') {
-							$tela .= ', ' . $tela .= (string)$Issue['nr'];
-						}
-						$tela .= (string)$Issue['year'];
-					} else {
-						$tela .= 'Erro ISSUE';
-					}
+		if (!isset($dt['legend'])) {
+			if (isset($dt['Issue'])) {
+				$Issue = (array)$dt['Issue'];
+				$tela .= '. <b>' . (string)$Issue['journal'] . '</b>';
+				if ($Issue['vol'] != '') {
+					$tela .= ', ' . (string)$Issue['vol'];
+				}
+				if ($Issue['nr'] != '') {
+					$tela .= ', ' . $tela .= (string)$Issue['nr'];
+				}
+				$tela .= (string)$Issue['year'];
 			} else {
-				$tela .= '. ' . troca($dt['legend'], $dt['publisher'], '<b>' . $dt['publisher'] . '</b>');
+				$tela .= 'Erro ISSUE';
 			}
+		} else {
+			$tela .= '. ' . troca($dt['legend'], $dt['publisher'], '<b>' . $dt['publisher'] . '</b>');
+		}
 
 
 
