@@ -58,6 +58,8 @@ class Download extends Model
 
     function views($id)
     {
+        $dt = $this->first();
+        pre($dt);
         $dt = $this->select('count(*) as total')->where('dw_rdf', $id)->first();
         return $dt['total'];
     }
