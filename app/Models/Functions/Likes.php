@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Likes extends Model
 {
     protected $DBGroup          = 'click';
-    protected $table            = 'likes';
-    protected $primaryKey       = 'id_l';
+    protected $table            = 'like';
+    protected $primaryKey       = 'id_dl';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -58,7 +58,7 @@ class Likes extends Model
 
     function views($id)
     {
-        $dt = $this->select('count(*) as total')->where('l_v', $id)->first();
+        $dt = $this->select('count(*) as total')->where('dl_rdf', $id)->first();
         return $dt['total'];
     }
 }

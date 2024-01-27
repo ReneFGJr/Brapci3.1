@@ -40,7 +40,27 @@ class Abnt extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function short($dt, $url = True)
+	{
+		$URL = 'https://brapci.inf.br/index.php/res/v/';
 
+		$Class = $dt['Class'];
+		$link = '<a href="'.$URL.$dt['ID'].'" target="_blank">';
+		$linka = '</a>';
+
+		/********************** Authors */
+		$authors = $this->ref_authors($dt['Authors']);
+		$title = $link.$this->ref_title($dt['Title']).$linka;
+		$legend = $this->ref_legend($dt['Issue']);
+		$ref = $authors . '. ' . $title . '. ' . $legend;
+		if ($url) {
+			$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
+			$ref .= '. Disponível em: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
+		}
+		$ref = troca($ref, '..', '.');
+		$ref = troca($ref, ', ,', ',');
+		return ($ref);
+	}
 
 	function ref($dt, $url = True)
 	{
@@ -60,6 +80,7 @@ class Abnt extends Model
 		$ref = troca($ref, ', ,', ',');
 		return ($ref);
 	}
+
 	function ref_legend($dt)
 	{
 		$dt = (array)$dt;

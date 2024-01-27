@@ -6,7 +6,6 @@
   ></app-brapci-banner-general>
 
 <div *ngIf="data">
-{{data.works | json}}
   <app-brapci-banner-general
     [section]="data.is_year"
     [cover]="data.cover"
@@ -19,14 +18,7 @@
     <div class="col-9">
       <ul>
         <li *ngFor="let item of data.works" class="mb-2">
-          <a
-            [routerLink]="['/v/' + item.ID]"
-            routerLinkActive="router-link-active"
-            class="link"
-          >
-            <b>{{ item.data.hasTitle }}</b>
-          </a>
-          <br /><i>{{ item.data.hasAuthor }}</i>
+          <div [innerHTML]="item"></div>
         </li>
       </ul>
     </div>

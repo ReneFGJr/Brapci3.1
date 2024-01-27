@@ -265,8 +265,7 @@ class RDFmetadata extends Model
                     foreach($wk as $id=>$line)
                         {
                             $JSON = (array)json_decode($line['json']);
-                            $ref = $ABNT->ref($JSON, False);
-                            $ref = '<a href="'.PATH.'/index.php/res/v/'.$line['ID'].'" target="_blank">'.$ref.'</a>';
+                            $ref = $ABNT->short($JSON, False);
                             array_push($works,$ref);
                         }
                     $dr['works'] = $works;
