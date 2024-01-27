@@ -15,7 +15,7 @@ class Download extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'd_v', 'd_IP', 'd_user'
+        'dw_rdf', 'dw_ip', 'dw_user'
     ];
 
     // Dates
@@ -50,16 +50,14 @@ class Download extends Model
         } else {
             $user = 0;
         }
-        $data['d_v'] = $id;
-        $data['d_IP'] = $ip;
-        $data['d_user'] = $user;
+        $data['dw_rdf'] = $id;
+        $data['dw_ip'] = $ip;
+        $data['dw_user'] = $user;
         $this->insert($data);
     }
 
     function views($id)
     {
-        $dt = $this->first();
-        pre($dt);
         $dt = $this->select('count(*) as total')->where('dw_rdf', $id)->first();
         return $dt['total'];
     }
