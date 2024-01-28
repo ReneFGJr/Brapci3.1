@@ -50,6 +50,18 @@
     </div>
 
     <!--------------------------- Abstract-->
+    <div class="col-3 text-end " *ngIf="data.data.hasAuthor">
+
+      <!-- Author-------------------------------------->
+      <div class="text-end mb-5">
+        <span *ngFor="let item of data.creator_author" class="text-end">
+          <a class="author" [routerLink]="['/routePath']">{{ item.name }}</a
+          ><br />
+        </span>
+      </div>
+    </div>
+
+    <!--------------------------- Abstract-->
     <div class="col-12 " *ngIf="data.data">
       <div *ngFor="let lg of langs" class="mt-4">
         <div *ngIf="data.data.hasAbstract[lg]">
