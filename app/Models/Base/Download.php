@@ -329,11 +329,12 @@ class Download extends Model
                         $pos--;
                     }
                 $txt = substr($Otxt,$pos+1,200);
-                echo '<br>'.$txt;
                 $txt = substr($txt,0,strpos($txt,'"'));
-                echo '<br>' . $txt;
-                echo '==='.$pos;
-                pre($txt);
+                if (substr($txt,0,4) == 'http')
+                    {
+                        pre($txt);
+                        return $txt;
+                    }
 
             }
 
