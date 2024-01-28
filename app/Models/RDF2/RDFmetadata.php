@@ -495,7 +495,7 @@ class RDFmetadata extends Model
         /********** Não exist Subject */
         if (!isset($dr['hasSubject']))
             {
-                $dt['hasSubject'] = [];
+                $dr['hasSubject'] = [];
             }
         if ($simple == false) {
             $dr['data'] = $dd;
