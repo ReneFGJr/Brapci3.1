@@ -147,9 +147,7 @@ class Download extends Model
                 }
 
             if (substr($fileURL, 0, 4) == 'http') {
-                echo "OK";
                 $dir = $this->directory($idc);
-                echo "OK2";
                 $filePDF = $dir . 'work_' . strzero($idc, 8) . '#' . strzero($jnl, 5) . '.pdf';
 
                 $data = array();
@@ -167,6 +165,7 @@ class Download extends Model
                 file_put_contents($filePDF, $txtFile);
                 $id = $this->create_FileStorage($idc, $filePDF);
                 echo metarefresh('', 1);
+                exit;
             }
         }
     }
