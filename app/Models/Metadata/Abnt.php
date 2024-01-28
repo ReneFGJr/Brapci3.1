@@ -42,7 +42,7 @@ class Abnt extends Model
 
 	function short($dt, $url = True)
 	{
-		$rdf = '';
+		$ref = '';
 		$URL = 'https://brapci.inf.br/index.php/res/v/';
 
 		$Class = $dt['Class'];
@@ -69,6 +69,7 @@ class Abnt extends Model
 			$ref = troca($ref, '..', '.');
 			$ref = troca($ref, ', ,', ',');
 		}
+		if ($ref == '') { $ref = "Class: ".$Class; }
 		return ($ref);
 	}
 
