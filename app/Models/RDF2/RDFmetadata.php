@@ -172,6 +172,8 @@ class RDFmetadata extends Model
             $dr['ID'] = $dt['concept']['id_cc'];
             $dr['data'] = $dt['data'];
 
+            pre($dt);
+
             $n = 0;
             $dataset->select('*');
             foreach($dt['data'] as $ida=>$linea)
