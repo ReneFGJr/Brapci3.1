@@ -310,7 +310,7 @@ class Download extends Model
                 {
                     $pos == strpos($Otxt, 'article__btn pdf');
                     $txt = substr($Otxt,$pos,300);
-                    $txt = substr($txt,'http',300);
+                    $txt = substr($txt,strpos($txt,'http'),300);
                     $txt = substr($txt,0,strpos($txt,'"'));
                     echo h($txt);
                     exit;
