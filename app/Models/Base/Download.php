@@ -311,12 +311,10 @@ class Download extends Model
                     echo "<br>Methos BTN PDF";
                     $pos = strpos($Otxt, '_btn pdf');
                     $txt = substr($Otxt,$pos,300);
-                    echo '<br>1. '.$txt;
                     $txt = substr($txt,strpos($txt,'http'),300);
-                echo '<br>' . $txt;
                     $txt = substr($txt,0,strpos($txt,'"'));
-                echo '<br>' . $txt;
-                    echo h($txt);
+                    $txt = $this->ocs_2($txt);
+                    echo '<br>'.$txt;
                     exit;
                 }
 
