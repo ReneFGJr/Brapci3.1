@@ -130,6 +130,7 @@ class Download extends Model
             //$RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
         }
 
+        echo h($name);
 
         if (substr($name, 0, 4) == 'http') {
             $name = troca($name, 'http://', 'https://');
@@ -281,7 +282,6 @@ class Download extends Model
     function ocs_2($url)
     {
         $Otxt = 'VAZIO';
-        echo '===>'.$url;
 
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
