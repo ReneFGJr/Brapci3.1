@@ -42,23 +42,33 @@ class Abnt extends Model
 
 	function short($dt, $url = True)
 	{
+		$rdf = '';
 		$URL = 'https://brapci.inf.br/index.php/res/v/';
 
 		$Class = $dt['Class'];
 		$link = '<a href="'.$URL.$dt['ID'].'" target="_blank" class="link">';
 		$linka = '</a>';
 
+		switch($Class)
+			{
+				case 'Issue':
+					return "ISSUE - Construção";
+			}
+
 		/********************** Authors */
-		$authors = $this->ref_authors($dt['Authors']);
-		$title = $link.$this->ref_title($dt['Title']).$linka;
-		$legend = $this->ref_legend($dt['Issue']);
-		$ref = $authors . '. ' . $title . '. ' . $legend;
-		if ($url) {
-			$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
-			$ref .= '. Disponível em: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
+		if (isset($dt['Authors']))
+		{
+			$authors = $this->ref_authors($dt['Authors']);
+			$title = $link.$this->ref_title($dt['Title']).$linka;
+			$legend = $this->ref_legend($dt['Issue']);
+			$ref = $authors . '. ' . $title . '. ' . $legend;
+			if ($url) {
+				$ref .= '. Acesso em: ' . date("d") . '/' . mes_abreviado(date("m")) . '/' . date("Y");
+				$ref .= '. Disponível em: ' . '<a href="' . $URL . $dt['ID'] . '" target="_blank">' . $URL . $dt['ID'] . '</a>';
+			}
+			$ref = troca($ref, '..', '.');
+			$ref = troca($ref, ', ,', ',');
 		}
-		$ref = troca($ref, '..', '.');
-		$ref = troca($ref, ', ,', ',');
 		return ($ref);
 	}
 
