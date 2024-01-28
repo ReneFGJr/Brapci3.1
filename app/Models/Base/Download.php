@@ -282,6 +282,7 @@ class Download extends Model
     function ocs_2($url)
     {
         $Otxt = 'VAZIO';
+        echo '=='.$url;
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
             $Otxt = $txt;
