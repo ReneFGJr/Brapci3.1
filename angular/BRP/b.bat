@@ -1,4 +1,4 @@
 echo "Criando Aplicacao"
-build.bat
+call build.bat
 echo "INDEX"
-buuld_index.bat
+call build_index.bat
