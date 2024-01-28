@@ -328,7 +328,7 @@ class Download extends Model
                     {
                         $pos--;
                     }
-                $txt = substr($Otxt,$pos,200);
+                $txt = substr($Otxt,$pos+1,200);
                 echo '<br>'.$txt;
                 $txt = substr($txt,0,strpos($txt,'"'));
                 echo '<br>' . $txt;
