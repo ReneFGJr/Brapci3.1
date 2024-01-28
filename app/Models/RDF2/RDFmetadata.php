@@ -497,6 +497,10 @@ class RDFmetadata extends Model
             {
                 $dr['hasSubject']['pt'] = [];
             }
+
+        if (!isset($dr['hasAbstract'])) {
+            $dr['hasAbstract']['pt'] = [];
+        }
         if ($simple == false) {
             $dr['data'] = $dd;
         }
