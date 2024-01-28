@@ -308,6 +308,7 @@ class Download extends Model
                 }
 
             /********************* IFRAME */
+            pre($Otxt);
             if (strpos($Otxt, 'class="download"') > 0) {
                 $pos == strpos($Otxt, 'class="download"');
                 $txt = substr($Otxt,$pos-100,100);
