@@ -313,6 +313,7 @@ class Download extends Model
                     $txt = substr($Otxt,$pos,300);
                     $txt = substr($txt,strpos($txt,'http'),300);
                     $txt = substr($txt,0,strpos($txt,'"'));
+                    pre($txt);
                     $txt = $this->ocs_2($txt);
                     echo '<br>'.$txt;
                     exit;
