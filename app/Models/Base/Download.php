@@ -325,9 +325,13 @@ class Download extends Model
             if (strpos($Otxt, 'article/download/') > 0) {
                 $pos = strpos($Otxt, 'article/download/');
                 while (substr($Otxt,$pos,1) != '"')
-                    {}
-                $txt = substr($Otxt,$pos-100,100);
-                $txt = substr($txt,strpos($txt,'http'),100);
+                    {
+                        $pos--;
+                    }
+                $txt = substr($Otxt,$pos,200);
+                echo '<br>'.$txt;
+                $txt = substr($txt,0,strpos($txt,'"'));
+                echo '<br>' . $txt;
                 echo '==='.$pos;
                 pre($txt);
 
