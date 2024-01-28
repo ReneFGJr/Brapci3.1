@@ -96,7 +96,7 @@ class Abnt extends Model
 	{
 		$dt = (array)$dt;
 		$leg = '<b>' . $dt['journal'] . '</b>';
-		if ($dt['vol'] != '') {
+		if (isset($dt['vol'])) {
 			if (isset($dt['vol'])) {
 				if ($dt['vol'] == sonumero($dt['vol'])) {
 					$leg .= ', v. ' . $dt['vol'];
