@@ -3,11 +3,11 @@
     <div class="col-12">
       <h2>{{ data.Class }}: {{ data.publisher }}</h2>
     </div>
-    <div class="col-3">Assunto</div>
-    <div class="col-9">
-      <div *ngFor="let item of data.works">
-        <div [innerHTML]="item"></div>
-      </div>
+    <div class="col-1">Assunto</div>
+    <div class="col-11">
+      <li *ngFor="let item of data.works">
+        <span [innerHTML]="item"></span>
+      </li>
     </div>
   </div>
 </div>
