@@ -282,7 +282,10 @@ class Download extends Model
     function ocs_2($url)
     {
         $Otxt = 'VAZIO';
-        echo '=='.$url;
+
+        /*************************** Tratamentos */
+        $url = troca($url, '//seer.ufs.br/index.php/', '//periodicos.ufs.br/');
+
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
             $Otxt = $txt;
