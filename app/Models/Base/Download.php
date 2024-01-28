@@ -281,8 +281,10 @@ class Download extends Model
 
     function ocs_2($url)
     {
+        $Otxt = 'VAZIO';
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
+            $Otxt = $txt;
 
             if ($pos = strpos($txt, 'citation_pdf_url')) {
                 $txt = substr($txt, $pos, 300);
@@ -304,6 +306,8 @@ class Download extends Model
                 {
 
                 }
+
+            pre($Otxt);
 
 
             /********************* IFRAME */
@@ -346,7 +350,6 @@ class Download extends Model
                 echo $txt;
             }
         }
-        pre($txt);
         exit;
     }
 
