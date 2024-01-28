@@ -306,12 +306,17 @@ class Download extends Model
             }
 
             /********************* EBOOK */
-            if (substr($txt,0,2) =='PK')
+            if (strpos($Otxt,'article__btn pdf') > 0)
                 {
-
+                    $pos == strpos($Otxt, 'article__btn pdf');
+                    $txt = substr($Otxt,$pos,300);
+                    $txt = substr($txt,'http',300);
+                    $txt = substr($txt,0,strpos($txt,'"'));
+                    echo h($txt);
+                    exit;
                 }
 
-            /********************* IFRAME */
+            /********************* Article Download */
             if (strpos($Otxt, 'article/download/') > 0) {
                 $pos == strpos($Otxt, 'article/download/');
                 while (substr($Otxt,$pos,1) != '"')
