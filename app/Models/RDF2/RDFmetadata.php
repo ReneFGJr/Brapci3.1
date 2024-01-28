@@ -195,7 +195,8 @@ class RDFmetadata extends Model
                     }
                 }
             $dx = $dataset->findAll(100);
-            pre($dataset->getlastquery());
+            echo $dataset->getlastquery();
+            exit;
             $works = [];
             foreach($dx as $id=>$line)
                 {
