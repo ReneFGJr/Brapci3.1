@@ -139,7 +139,7 @@ class RDFmetadata extends Model
                 return $this->metadataSource($dt);
                 break;
             case 'Subject':
-                return $this->metadataGeral($dt);
+                return $this->metadataSubject($dt);
                 break;
             case 'Section':
                 return $this->metadataGeral($dt);
@@ -160,6 +160,48 @@ class RDFmetadata extends Model
             $dr['ID'] = $dt['concept']['id_cc'];
             $dr['data'] = $dt['data'];
 
+            return $dr;
+        }
+
+    function metadataSubject($dt)
+        {
+            $ABNT = new \App\Models\Metadata\Abnt();
+            $dataset = new \App\Models\ElasticSearch\Search();
+            $dr = [];
+            $dr['publisher'] = $dt['concept']['n_name'];
+            $dr['ID'] = $dt['concept']['id_cc'];
+            $dr['data'] = $dt['data'];
+
+            $n = 0;
+            foreach($dt['data'] as $ida=>$linea)
+                {
+                    $type = $linea['Class'];
+                    $ok = 0;
+                    switch($type)
+                        {
+                            case 'Proceeding':
+                                $ok = 1;
+                        }
+                if ($ok == 1)
+                    {
+                        if ($n == 0)
+                            {
+                                $dataset->where('ID',$linea['ID']);
+                            } else {
+                                $dataset->orwhere('ID', $linea['ID']);
+                            }
+                        $n++;
+                    }
+                }
+            $dx = $dataset->findAll();
+            $works = [];
+            foreach($dx as $id=>$line)
+                {
+                    $JSON = (array)json_decode($line['json']);
+                    $ref = $ABNT->short($JSON, False);
+                    array_push($works,$ref);
+                }
+            $dr['works'] = $works;
             return $dr;
         }
 
