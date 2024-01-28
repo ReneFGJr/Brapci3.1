@@ -308,7 +308,7 @@ class Download extends Model
             /********************* EBOOK */
             if (strpos($Otxt,'_btn pdf') > 0)
                 {
-                    echo "<br>Methos BTN PDF";
+                    echo "<br>Methodo BTN PDF";
                     $pos = strpos($Otxt, '_btn pdf');
                     $txt = substr($Otxt,$pos,300);
                     $txt = substr($txt,strpos($txt,'http'),300);
@@ -316,7 +316,7 @@ class Download extends Model
 
                     if (substr($txt,0,4) == 'http')
                         {
-                            echo "Lendo ".$txt;
+                            echo "<br>Lendo ".$txt;
                             $Otxt = read_link($txt);
                         }
                 }
@@ -332,7 +332,6 @@ class Download extends Model
                 $txt = substr($txt,0,strpos($txt,'"'));
                 if (substr($txt,0,4) == 'http')
                     {
-                        pre($txt);
                         return $txt;
                     }
 
