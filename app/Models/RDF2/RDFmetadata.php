@@ -371,7 +371,7 @@ class RDFmetadata extends Model
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
-        if ($dr['subject'] = [])
+        if ($dr['subject'] == [])
             {
                 $dr['subject']['pt'] = [];
             }
