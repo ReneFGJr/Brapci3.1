@@ -172,8 +172,6 @@ class RDFmetadata extends Model
             $dr['ID'] = $dt['concept']['id_cc'];
             $dr['data'] = $dt['data'];
 
-            pre($dt);
-
             $n = 0;
             $dataset->select('*');
             foreach($dt['data'] as $ida=>$linea)
@@ -184,6 +182,16 @@ class RDFmetadata extends Model
                         {
                             case 'Proceeding':
                                 $ok = 1;
+                                break;
+                            case 'Article':
+                                $ok = 1;
+                                break;
+                            case 'Book':
+                                $ok = 1;
+                                break;
+                            case 'BookChapter':
+                                $ok = 1;
+                                break;
                         }
                 if ($ok == 1)
                     {
@@ -196,15 +204,18 @@ class RDFmetadata extends Model
                         $n++;
                     }
                 }
-            $dx = $dataset->findAll(100);
-            echo $dataset->getlastquery();
-            exit;
+
+            /***************************** Works */
             $works = [];
-            foreach($dx as $id=>$line)
+            if ($n > 0)
                 {
-                    $JSON = (array)json_decode($line['json']);
-                    $ref = $ABNT->short($JSON, False);
-                    array_push($works,$ref);
+                    $dx = $dataset->findAll(100);
+                    foreach ($dx as $id => $line) {
+                        $JSON = (array)json_decode($line['json']);
+                        $ref = $ABNT->short($JSON, False);
+                        array_push($works, $ref);
+                    }
+
                 }
             $dr['works'] = $works;
             return $dr;
