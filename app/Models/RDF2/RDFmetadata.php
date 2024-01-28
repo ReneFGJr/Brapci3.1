@@ -375,7 +375,7 @@ class RDFmetadata extends Model
             {
                 $dr['subject']['pt'] = [];
             }
-
+        pre($dr);
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
         if ($year != null) {
