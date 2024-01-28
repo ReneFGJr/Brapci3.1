@@ -173,6 +173,7 @@ class RDFmetadata extends Model
             $dr['data'] = $dt['data'];
 
             $n = 0;
+            $dataset->select('*');
             foreach($dt['data'] as $ida=>$linea)
                 {
                     $type = $linea['Class'];
