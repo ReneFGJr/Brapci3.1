@@ -78,8 +78,9 @@ class Download extends BaseController
                                         $Download->download_methods($line, $ida);
                                     }
                                 if (trim($line['Property']) == 'hasUrl') {
-                                    echo "<br>Method hasURL ";
+                                    echo "<li>Method hasURL";
                                     $Download->download_methods($line, $ida);
+                                    echo '</li>';
                                 }
 
                             }

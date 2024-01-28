@@ -345,9 +345,9 @@ class Download extends Model
                 echo '<br>Size: ' . strlen($txt);
                 echo $txt;
             }
-
-            exit;
         }
+        pre($txt);
+        exit;
     }
 
     function send_file($file)
