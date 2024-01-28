@@ -323,7 +323,7 @@ class Download extends Model
 
             /********************* Article Download */
             if (strpos($Otxt, 'article/download/') > 0) {
-                $pos == strpos($Otxt, 'article/download/');
+                $pos = strpos($Otxt, 'article/download/');
                 while (substr($Otxt,$pos,1) != '"')
                     {}
                 $txt = substr($Otxt,$pos-100,100);
