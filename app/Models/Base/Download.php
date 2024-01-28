@@ -316,6 +316,7 @@ class Download extends Model
 
                     if (substr($txt,0,4) == 'http')
                         {
+                            echo "Lendo ".$txt;
                             $Otxt = read_link($txt);
                         }
                 }
