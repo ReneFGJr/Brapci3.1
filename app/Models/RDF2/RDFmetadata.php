@@ -193,7 +193,7 @@ class RDFmetadata extends Model
                         $n++;
                     }
                 }
-            $dx = $dataset->findAll(1000);
+            $dx = $dataset->findAll(100);
             pre($dataset->getlastquery());
             $works = [];
             foreach($dx as $id=>$line)
