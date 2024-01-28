@@ -371,10 +371,6 @@ class RDFmetadata extends Model
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
         $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
-        if ($dr['subject'] == [])
-            {
-                $dr['subject']['pt'] = [];
-            }
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
         if ($year != null) {
@@ -496,6 +492,11 @@ class RDFmetadata extends Model
                 }
                 break;
         }
+        /********** Não exist Subject */
+        if (!isset($dr['hasSubject']))
+            {
+                $dt['hasSubject'] = [];
+            }
         if ($simple == false) {
             $dr['data'] = $dd;
         }
