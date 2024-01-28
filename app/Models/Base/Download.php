@@ -281,6 +281,7 @@ class Download extends Model
     function ocs_2($url)
     {
         $Otxt = 'VAZIO';
+
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
             $Otxt = $txt;
@@ -298,6 +299,14 @@ class Download extends Model
                     $txt = read_link($url);
                     echo 'Change: ' . $url;
                 }
+            }
+
+            if ($pos = strpos($txt, 'article__btn pdf')) {
+                $txt = substr($txt, $pos, 300);
+                $txt = substr($txt,strpos($txt,'http'),300);
+                $txt = substr($txt,0,strpos($txt,'"'));
+                echo h($txt);
+                exit;
             }
 
             /********************* EBOOK */
