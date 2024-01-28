@@ -165,6 +165,7 @@ class RDFmetadata extends Model
 
     function metadataSubject($dt)
         {
+            $limit = 2000;
             $ABNT = new \App\Models\Metadata\Abnt();
             $dataset = new \App\Models\ElasticSearch\Search();
             $dr = [];
@@ -209,13 +210,17 @@ class RDFmetadata extends Model
             $works = [];
             if ($n > 0)
                 {
-                    $dx = $dataset->findAll(100);
+                    $dx = $dataset->findAll($limit);
                     foreach ($dx as $id => $line) {
                         $JSON = (array)json_decode($line['json']);
                         $ref = $ABNT->short($JSON, False);
                         array_push($works, $ref);
                     }
 
+                    if ($n >= $limit)
+                        {
+                            array_push($works, "Limitado em $limit registros");
+                        }
                 }
             $dr['works'] = $works;
             return $dr;
