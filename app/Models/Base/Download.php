@@ -130,7 +130,6 @@ class Download extends Model
             //$RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
         }
 
-        echo h($name);
 
         if (substr($name, 0, 4) == 'http') {
             $name = troca($name, 'http://', 'https://');
@@ -148,7 +147,9 @@ class Download extends Model
                 }
 
             if (substr($fileURL, 0, 4) == 'http') {
+                echo "OK";
                 $dir = $this->directory($idc);
+                echo "OK2";
                 $filePDF = $dir . 'work_' . strzero($idc, 8) . '#' . strzero($jnl, 5) . '.pdf';
 
                 $data = array();
@@ -166,7 +167,6 @@ class Download extends Model
                 file_put_contents($filePDF, $txtFile);
                 $id = $this->create_FileStorage($idc, $filePDF);
                 echo metarefresh('', 1);
-                exit;
             }
         }
     }
@@ -282,7 +282,6 @@ class Download extends Model
     function ocs_2($url)
     {
         $Otxt = 'VAZIO';
-
         if (strpos($url, 'article/view')) {
             $txt = read_link($url);
             $Otxt = $txt;
@@ -301,14 +300,6 @@ class Download extends Model
                     echo 'Change: ' . $url;
                 }
             }
-            echo "[3]";
-            if ($pos = strpos($txt, 'article__btn pdf')) {
-                $txt = substr($txt, $pos, 300);
-                $txt = substr($txt,strpos($txt,'http'),300);
-                $txt = substr($txt,0,strpos($txt,'"'));
-                echo h($txt);
-                exit;
-            }
 
             /********************* EBOOK */
             if (substr($txt,0,2) =='PK')
@@ -318,16 +309,13 @@ class Download extends Model
 
             /********************* IFRAME */
             if (strpos($Otxt, 'article/download/') > 0) {
-                $pos = strpos($Otxt, 'article/download/');
-                while ((substr($Otxt,$pos,1) != '"') and ($pos > 0))
-                    {
-                        $pos--;
-                    }
-                $txt = substr($Otxt,$pos,100);
-                $txt = substr($txt, strpos($txt, '"')+1,100);
-                $txt = substr($txt,0,strpos($txt,'"'));
-                if (substr($txt, 0, 4) == 'http') {
-                    return $txt;                }
+                $pos == strpos($Otxt, 'article/download/');
+                while (substr($Otxt,$pos,1) != '"')
+                    {}
+                $txt = substr($Otxt,$pos-100,100);
+                $txt = substr($txt,strpos($txt,'http'),100);
+                echo '==='.$pos;
+                pre($txt);
 
             }
 
