@@ -300,7 +300,7 @@ class Download extends Model
                     echo 'Change: ' . $url;
                 }
             }
-
+            echo "[3]";
             if ($pos = strpos($txt, 'article__btn pdf')) {
                 $txt = substr($txt, $pos, 300);
                 $txt = substr($txt,strpos($txt,'http'),300);
