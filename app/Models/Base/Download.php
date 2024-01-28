@@ -308,12 +308,17 @@ class Download extends Model
                 }
 
             /********************* IFRAME */
-            pre($Otxt);
-            if (strpos($Otxt, 'class="download"') > 0) {
-                $pos == strpos($Otxt, 'class="download"');
-                $txt = substr($Otxt,$pos-100,100);
-                $txt = substr($txt,strpos($txt,'http'),100);
-                echo '==='.$pos;
+            if (strpos($Otxt, 'article/download/') > 0) {
+                $pos == strpos($Otxt, 'article/download/');
+                while (substr($Otxt,$pos,1) != '"')
+                    {
+                        $pos--;
+                    }
+                $txt = substr($Otxt,$pos,100);
+                echo '<br>'.$txt;
+                $txt = substr($txt,0,strpos($txt,'"'));
+                echo '<br>' . $txt;
+                echo '<br>==='.$pos;
                 pre($txt);
 
             }
