@@ -310,7 +310,7 @@ class Download extends Model
             /********************* IFRAME */
             if ($pos = strpos($txt, 'class="download"') > 0) {
                 $txt = substr($txt,$pos-100,100);
-                $txt = substr($txt,strpos($txt,'http',100));
+                $txt = substr($txt,strpos($txt,'http'),100);
                 pre($txt);
 
             }
