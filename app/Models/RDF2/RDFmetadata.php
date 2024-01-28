@@ -492,15 +492,16 @@ class RDFmetadata extends Model
                 }
                 break;
         }
-        /********** Não exist Subject */
-        if (!isset($dr['hasSubject']))
-            {
-                $dr['hasSubject']['pt'] = [];
-            }
 
-        if (!isset($dr['hasAbstract'])) {
-            $dr['hasAbstract']['pt'] = [];
+        /********** Não exist Subject */
+        if (!isset($dd['hasSubject'])) {
+            $dd['hasSubject']['pt'] = [];
         }
+
+        if (!isset($dd['hasAbstract'])) {
+            $dd['hasAbstract']['pt'] = [];
+        }
+
         if ($simple == false) {
             $dr['data'] = $dd;
         }
