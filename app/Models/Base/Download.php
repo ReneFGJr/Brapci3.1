@@ -310,7 +310,7 @@ class Download extends Model
             /********************* IFRAME */
             if (strpos($Otxt, 'article/download/') > 0) {
                 $pos == strpos($Otxt, 'article/download/');
-                while (substr($Otxt,$pos,1) != '"')
+                while ((substr($Otxt,$pos,1) != '"') and ($pos > 0))
                     {
                         $pos--;
                     }
