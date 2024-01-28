@@ -306,12 +306,12 @@ class Download extends Model
             }
 
             /********************* EBOOK */
-            if (strpos($Otxt,'article__btn pdf') > 0)
+            if (strpos($Otxt,'_btn pdf') > 0)
                 {
                     echo "<br>Methos BTN PDF";
-                    $pos == strpos($Otxt, 'article__btn pdf');
+                    $pos = strpos($Otxt, '_btn pdf');
                     $txt = substr($Otxt,$pos,300);
-                    echo '<br>'.$txt;
+                    echo '<br>1. '.$txt;
                     $txt = substr($txt,strpos($txt,'http'),300);
                 echo '<br>' . $txt;
                     $txt = substr($txt,0,strpos($txt,'"'));
