@@ -315,9 +315,11 @@ class Download extends Model
                         $pos--;
                     }
                 $txt = substr($Otxt,$pos,100);
-                echo '<br>'.$txt;
+                echo '<br>T1='.$txt;
+                $txt = substr($txt, strpos($txt, '"')+1,100);
+                echo '<br>T2=' . $txt;
                 $txt = substr($txt,0,strpos($txt,'"'));
-                echo '<br>' . $txt;
+                echo '<br>T2=' . $txt;
                 echo '<br>==='.$pos;
                 pre($txt);
 
