@@ -111,7 +111,6 @@ class Docentes extends Model
                     $bg = 'FF0000';
                     foreach($dados as $idd=>$ddados)
                         {
-                            PRE($ddados);
                             $nc++;
                             $crt = $crt + $ddados['di_crd'];
                             if ($nc > 1)
@@ -132,7 +131,7 @@ class Docentes extends Model
                                     ' <sup>'.$ddados['di_tipo'].$etapa.'</td>';
                             $sx .= '<td width="10%" style="background-color: $cor$;" class="border border-secondary text-center">' . $ddados['c_curso'].'</sup></td>';
                             $sx .= '<td width="2%" class="border border-secondary text-center">' . $ddados['e_turma'] . '</td>';
-                            $sx .= '<td width="2%" class="border border-secondary  text-center">' . $ddados['di_crd'] . '</td>';
+                            $sx .= '<td width="2%" class="border border-secondary  text-center">' . $ddados['e_credito'].'/'.$ddados['di_crd'] . '</td>';
                             $sx .= '<td width="10%" class="border border-secondary  text-center">' . $sala . '</td>';
                             if ($nc > 1) {
                                 $sx .= '</tr>';
