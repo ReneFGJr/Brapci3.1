@@ -111,6 +111,7 @@ class Docentes extends Model
                     $bg = 'FF0000';
                     foreach($dados as $idd=>$ddados)
                         {
+                            PRE($ddados);
                             $nc++;
                             $crt = $crt + $ddados['di_crd'];
                             if ($nc > 1)
