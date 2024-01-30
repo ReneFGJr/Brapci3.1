@@ -212,8 +212,9 @@ class RDFdata extends Model
             $d1 = get("d1");
             $d2 = get("d2");
             $dp = get("p");
+            $ac = get("act");
 
-            $dt = $this
+                $dt = $this
                 ->select("id_d, d_p, cn0.c_class as c1 , cn0.id_c as idc1, cn1.c_class as c2, cn2.id_c as idc2, cn2.c_class as c3")
                 ->join('rdf_concept as c1', 'd_r1 = c1.id_cc')
                 ->join('rdf_concept as c2', 'd_r2 = c2.id_cc')
@@ -229,7 +230,8 @@ class RDFdata extends Model
 
             foreach($dt as $id=>$line)
                 {
-                    $id = $line['id_d'];
+                $id = $line['id_d'];
+                if ($ac == 'I') {
                     $sql = "update brapci_rdf.rdf_data ";
                     $sql .= " set d_library = d_r1, ";
                     $sql .= " d_r1 = d_r2, ";
@@ -237,8 +239,12 @@ class RDFdata extends Model
                     $sql .= " d_library = 0, ";
                     $sql .= " d_trust = 0 ";
                     $sql .= "where (id_d = $id) ";
-                    $this->db->query($sql);
+                } elseif ($ac = 'R') {
+                    $sql = "update brapci_rdf.rdf_data ";
+                    $sql .= " set d_trust = 0 ";
+                    $sql .= "where (id_d = $id) ";
                 }
+                $this->db->query($sql);
             $sx = metarefresh(PATH . '/rdf/withoutClass/'.$st);
             return $sx;
         }
@@ -258,7 +264,8 @@ class RDFdata extends Model
 
         $sx = '<table class="table full">';
         foreach ($dt as $id => $line) {
-            $link = '<a href="' . PATH . '/rdf/withoutClass/'.$d2.'?d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Invert</a>';
+            $linka = '<a href="' . PATH . '/rdf/withoutClass/'.$d2.'?act=I&d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Invert</a>';
+            $linkb = '<a href="' . PATH . '/rdf/withoutClass/' . $d2 . '?act=R&d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Revalid</a>';
             $sx .= '<tr>';
             $sx .= '<td>';
             $sx .= $line['c1'];
@@ -277,7 +284,7 @@ class RDFdata extends Model
             $sx .= '</td>';
 
             $sx .= '<td>';
-            $sx .= $link;
+            $sx .= $linka.' '.$linkb;
             $sx .= '</td>';
 
             $sx .= '</tr>';
