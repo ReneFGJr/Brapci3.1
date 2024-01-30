@@ -290,12 +290,62 @@ class RDFform extends Model
         return $sx;
     }
 
+    function show_data($dt,$prop)
+        {
+            $sx = '';
+            foreach($dt as $id=>$line)
+                {
+                    if ($line['Property'] == $prop)
+                        {
+                            if ($sx != '') { $sx .= '<br>'; }
+                            $sx .= bsicone('edit',16);
+                            $sx .= bsicone('trash', 16);
+                            $sx .= '&nbsp;';
+                            $sx .= $line['Caption'];
+                            $sx .= '<sup>'.$line['Lang'].'</sup>';
+                        }
+                }
+            return $sx;
+        }
+
     function editRDF($id)
     {
+        $sx = '';
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
 
         $dt = $RDF->le($id);
+
+        $cp = '*';
+
+        $df = $this
+            ->select($cp)
+            ->join('brapci_rdf.rdf_class', 'id_c = cd_property')
+            ->join('brapci_rdf.rdf_form', 'rf_class = cd_property', 'left')
+            ->where('cd_domain', $dt['concept']['id_c'])
+            ->orderBy('rf_order, rf_group')
+            ->findAll();
+
+        $xgrp = '';
+        $data = $dt['data'];
+        foreach($df as $idf=>$linef)
+            {
+                $grp = $linef['rf_group'];
+
+                if ($grp != $xgrp)
+                    {
+                        $sx .= '<tr>';
+                        $sx .= '<th><h4>'.lang('brapci.'.$grp).'</h4></th>';
+                        $sx .= '</tr>';
+                    }
+                $sx .= bsc(lang('rdf.'.$linef['c_class']),2,'text-end');
+                $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id),10,'border-top border-secondary mb-3');
+            }
+        return bs($sx);
+        pre($df,false);
+        pre($dt);
+
+
 
         $Class = $dt['concept']['c_class'];
         $idc = $RDFclass->getClass($Class);
