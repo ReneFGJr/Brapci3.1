@@ -45,9 +45,6 @@ class RDFtoolsImport extends Model
     function zeraDB()
     {
         $sql = "TRUNCATE `rdf_class_domain`";
-        //$this->db->query($sql);
-
-        $sql = "TRUNCATE `rdf_class_range`";
         $this->db->query($sql);
     }
 
@@ -82,7 +79,6 @@ class RDFtoolsImport extends Model
     {
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFclassDomain = new \App\Models\RDF2\RDFclassDomain();
-        $RDFclassRange = new \App\Models\RDF2\RDFclassRange();
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
 
         if (file_exists($file)) {
@@ -141,24 +137,25 @@ class RDFtoolsImport extends Model
 
                     /* Recupera URL do Label */
                     $type = trim((string)$vlr->rdfs_label);
-                    /*************** Range */
-                    foreach ($vlr->rdfs_range as $data => $p2) {
+
+                    /*************** Domain */
+                    foreach ($vlr->rdfs_domain as $data => $p2) {
+
                         foreach ($p2->attributes() as $a => $b) {
                             $b = (string)$b;
-                            $idu = $url[$b];
-                            $idc = $Property[$label];
-                            $RDFclassRange->register($idc, $idu);
-                        }
-                        /*************** Domain */
-                        foreach ($vlr->rdfs_domain as $data => $p2) {
-                            foreach ($p2->attributes() as $a => $b) {
-                                $b = (string)$b;
-                                $idu = $url[$b];
-                                $idc = $Property[$label];
-                                $RDFclassDomain->register($idc, $idu);
+
+                            $idc = $url[$b];
+                            $idp = $Property[$label];
+
+                            foreach ($vlr->rdfs_range as $data => $r2) {
+                                foreach ($r2->attributes() as $a => $b) {
+                                    $b = (string)$b;
+                                    $idr = $url[$b];
+                                    $RDFclassDomain->register($idc, $idp, $idr);
+                                }
                             }
-                        }
                     }
+                }
                 }
             }
             echo "FIM da IMPORTAÇÂO";

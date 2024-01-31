@@ -205,6 +205,8 @@ class RDFform extends Model
             $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
             $RDFproperty = new \App\Models\RDF2\RDFproperty();
+            $RDFdomain = new \App\Models\RDF2\RDFclassDomain();
+
             $dt = $RDF->le($d1);
             $sx .= 'Class: <b>'.$dt['concept']['c_class']. '</b>';
             $sx .= '<hr>';
@@ -212,14 +214,14 @@ class RDFform extends Model
             $idp = $RDFproperty->getProperty($d2);
 
             /*********************************** Class */
-            $class = 1;
+            $class = $dt['concept']['id_c'];
+
 
             /********************************** Ranges */
             $cp = "c_class";
             $dt = $this
                 ->select($cp)
-                ->join('rdf_class_range', 'cr_property = cd_property')
-                ->join('rdf_class','cr_range = id_c')
+                ->join('rdf_class','cd_range = id_c')
                 ->where('cd_domain',$idc)
                 ->where('cd_property',$idp)
                 ->findAll();
@@ -240,7 +242,7 @@ class RDFform extends Model
                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="submitAction()">Busca</button>
                     </div>';
             //$sx .= form_label("Selecione o conceito - ".$d2.' - '.$types.'.');
-            $sx .= '<div id="dd51a"><select name="opt" class="full form-control border border-secondary" size=6></div>';
+            $sx .= '<div id="dd51a" name="dd51a"><select name="opt" class="full form-control border border-secondary" size=6></div>';
             $sx .= '</select>';
             $sx .= '<hr>';
             $sx .= '<button id="btn_add" class="btn btn-outline-secondary me-2" disabled>Inserir Conceito</button>';
@@ -256,7 +258,7 @@ class RDFform extends Model
                         url = "'.PATH.'/api/rdf/searchSelect/"
                         url += "?prop='.$d2. '"
                         url += "&class=' . $class . '"
-                        url += "&q=term"
+                        url += "&q="+term
 
                         $.ajax(
                             {
@@ -275,15 +277,57 @@ class RDFform extends Model
 
     function searchSelect()
     {
+        $sx = '';
+        $Class = new \App\Models\RDF2\RDFclass();
+        $Property = new \App\Models\RDF2\RDFproperty();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdomain = new \App\Models\RDF2\RDFclassDomain();
+
         $q = get("q");
         $prop = get("prop");
         $class = get("class");
+        $IDprop = $Property->getProperty($prop);
+
+        /*** Check Rule Domain*/
+        $dtd = $RDFdomain
+            ->join('brapci_rdf.rdf_class as C1','cd_range = id_c')
+            ->where('cd_domain', $class)
+            ->where('cd_property', $IDprop)
+            ->findAll();
+        $Range = [];
+        $RG = [];
+        foreach($dtd as $idr=>$liner)
+            {
+            $Range[$liner['cd_range']] = $liner['c_class'];
+            array_push($RG, $liner['id_c']);
+            }
+        /**************** Range Select Class ********/
+        $n = 0;
+
+        $RDFconcept->select('id_cc, n_name, cc_use');
+        $RDFconcept->join('brapci_rdf.rdf_literal','cc_pref_term = id_n');
+
+        $RDFconcept->like('n_name', $q);
+        $RDFconcept->whereIn('cc_class', $RG);
+        foreach($Range as $idr=>$name)
+            {
+                //$RDFconcept->orwhere('cc_class',$idr);
+            }
+        $RDFconcept->orderby('n_name');
+        $drr = $RDFconcept->findAll(100);
+
+
         $sx = '<select name="id" class="full form-control border border-secondary" size=6>';
         $sx .= '<option>::Select</option>';
+        foreach($drr as $id=>$line)
+            {
+                $sx .= '<option value="'.$line['id_cc'].'">'.$line['n_name'].' ('.$line['id_cc'].'=>'.$line['cc_use'].')</option>'.cr();
+            }
         $sx .= '</select>';
         $sx .= 'q='.$q;
         $sx .= '<br>prop=' . $prop;
         $sx .= '<br>class=' . $class;
+
         echo $sx;
         exit;
 
@@ -332,6 +376,10 @@ class RDFform extends Model
             {
                 $grp = $linef['rf_group'];
 
+                $linkEd = '<span onclick="newxy2(\'' . PATH . '/popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,800);" class="cursor">';
+                $linkEd .= bsicone('plus');
+                $linkEd .= '</span>' . cr();
+
                 if ($grp != $xgrp)
                     {
                         $xgrp = $grp;
@@ -339,107 +387,9 @@ class RDFform extends Model
                         $sx .= '<th><h4>'.lang('brapci.'.$grp).'</h4></th>';
                         $sx .= '</tr>';
                     }
-                $link = '&nbsp;'.'<span onclick="newwin(\'x\',800,600);" class="link pointer">'.bsicone('plus',16). '</span>';
-                $sx .= bsc(lang('rdf.'.$linef['c_class']).$link,2,'text-end');
+                $sx .= bsc(lang('rdf.'.$linef['c_class']).$linkEd,2,'text-end');
                 $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id),10,'border-top border-secondary mb-3');
             }
         return bs($sx);
-        pre($df,false);
-        pre($dt);
-
-
-
-        $Class = $dt['concept']['c_class'];
-        $idc = $RDFclass->getClass($Class);
-
-        $cp = "lt1.n_name as lt1, lt2.n_name as lt2,";
-        $cp .= "lt1.n_lang as lg1, lt2.n_lang as lg2,";
-        $cp .= "c_class, d_r1, d_p, d_r2, d_literal,id_d,id_c,rf_order,rf_group ";
-
-        $dt = $this
-            ->select($cp)
-            ->join('brapci_rdf.rdf_class', 'cd_property = id_c', "left")
-            ->join('brapci_rdf.rdf_form', 'id_c = rf_class', "left")
-            ->join('brapci_rdf.rdf_data', 'cd_property = d_p', "left")
-            ->join('brapci_rdf.rdf_literal as lt1', 'd_literal = lt1.id_n', "left")
-            ->join('brapci_rdf.rdf_concept', 'd_r2 = id_cc', 'left')
-            ->join('brapci_rdf.rdf_literal as lt2', 'cc_pref_term = lt2.id_n', "left")
-            ->where('cd_domain', $idc)
-            ->where('(d_r1 = '.$id.' or d_r1 is null)')
-            ->orwhere('(d_r2 = ' . $id . ')')
-            ->orderBy('rf_order, c_class')
-            ->findAll();
-
-        //pre($dt,false);
-        $sx = '';
-        $sx .= h("Class:".$Class);
-
-        $sx .= '<table class="table full">' . cr();
-        $xGRP = '';
-        foreach ($dt as $idx => $line) {
-            $GRP = $line['rf_group'];
-            if ($GRP != $xGRP)
-                {
-                $sx .= '<tr>';
-                $sx .= '<th colspan=5 class="h4 border-top border-bottom text-center border-secondary">'.lang('rdf.group_'.$GRP).'</th>';
-                $sx .= '</tr>';
-                $xGRP = $GRP;
-                }
-            $sx .= '<tr>';
-            $sx .= '<td valign="top" style="text-align: right;">';
-            $sx .= $line['c_class'];
-            $sx .= '</td>';
-
-            $sx .= '<td valign="top">';
-            $link = '';
-            $linka = '';
-
-            $idd = $line['id_d'];
-            $linkEd = '';
-            if ($idd > 0) {
-                $linkEd = '<span onclick="newxy2(\'' . PATH . '/popup/rdf/delete/' . $idd . '\',800,600);" class="cursor">';
-                $linkEd .= bsicone('trash');
-                $linkEd .= '</span>' . cr();
-
-                if ($line['d_literal'] > 0) {
-                    $linkEd .= '<span onclick="newxy2(\'' . PATH . '/popup/rdf/edit/' . $idd . '\',800,600);" class="cursor">';
-                    $linkEd .= bsicone('edit');
-                    $linkEd .= '</span>' . cr();
-                }
-
-                $linkEd .= '<span onclick="newxy2(\'' . PATH . '/popup/rdf/add/'.$id.'/' . $line['c_class'] . '\',1024,800);" class="cursor">';
-                $linkEd .= bsicone('plus');
-                $linkEd .= '</span>' . cr();
-            }
-
-            $linka = '';
-            $link = '';
-            if ($line['d_r2'] != '')
-            {
-                $dr2 = round($line['d_r2']);
-                IF ($dr2 == $id)
-                    {
-                        $dr2 = round($line['d_r1']);
-                    }
-                if ($dr2 > 0) {
-                    $link = '<a href="' . PATH . '/v/' . $dr2 . '">';
-                    $linka = '</a>';
-                }
-            }
-
-            $name = '';
-            if ($line['lt1'] != null) { $name .= trim($line['lt1']); }
-            if ($line['lt2'] != null) { $name .= trim($line['lt2']); }
-            if ($name != '') {
-                $sx .= $linkEd;
-                $sx .= $link . $name . $linka . '@' . $line['lg1'] . $line['lg2'] . cr();
-            }
-
-            $sx .= '</td>' . cr();
-
-            $sx .= '</tr>' . cr();
-        }
-        $sx .= '</table>';
-        return $sx;
-    }
+     }
 }

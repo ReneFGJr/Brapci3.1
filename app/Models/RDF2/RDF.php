@@ -61,6 +61,11 @@ class RDF extends Model
                 $sx .= $RDFdata->withoutClass($d2);
                 return $sx;
                 break;
+            case 'rules':
+                $RDFclassDomain = new \App\Models\RDF2\RDFclassDomain();
+                $sx .= $RDFclassDomain->rules($d2);
+                return $sx;
+                break;
             case 'v':
                 $sx = $this->view($d2);
                 break;
@@ -147,6 +152,7 @@ class RDF extends Model
         $menu[PATH . '/rdf/withoutClass/0'] = "WithOutClasses (0)";
         $menu[PATH . '/rdf/withoutClass/1'] = "WithOutClasses (1)";
         $menu[PATH . '/rdf/resume'] = "Resume";
+        $menu[PATH . '/rdf/rules'] = "Ontology (Rules)";
         return menu($menu);
     }
 

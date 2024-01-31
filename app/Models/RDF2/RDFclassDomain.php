@@ -15,7 +15,7 @@ class RDFclassDomain extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'cd_property', 'cd_domain'
+        'cd_property', 'cd_domain','cd_range'
     ];
 
     // Dates
@@ -42,15 +42,51 @@ class RDFclassDomain extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($class, $range)
+    function rules()
+        {
+            $cp = '*';
+            $cp = 'C1.c_class as domain';
+            $cp .= ', C2.c_class as prop';
+            $cp .= ', C3.c_class as range';
+            $dt = $this
+                ->select($cp)
+                ->join('brapci_rdf.rdf_class as C1','C1.id_c = cd_domain', 'left')
+                ->join('brapci_rdf.rdf_class as C2', 'C2.id_c = cd_property','left')
+                ->join('brapci_rdf.rdf_class as C3','C3.id_c = cd_range', 'left')
+                ->orderBy('C1.c_class,C2.c_class,C3.c_class')
+                ->findAll();
+
+            $sx = '<table class="table full">';
+            $sx .= '<tr>
+                    <th witth="33%">Domain</th>
+                    <th witth="33%">Propriety</th>
+                    <th witth="33%">Range</th>
+                    </tr>
+                    ';
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= '<tr>';
+                    $sx .= '<td>'.$line['domain'].'</td>';
+                    $sx .= '<td>' . $line['prop'] . '</td>';
+                    $sx .= '<td>' . $line['range'] . '</td>';
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            return bs(bsc($sx,12));
+        }
+
+    function register($class, $prop, $range)
     {
-        $this->where('cd_property', $class);
-        $this->where('cd_domain', $range);
+        $this->where('cd_property', $prop);
+        $this->where('cd_domain', $class);
+        $this->where('cd_range', $range);
         $dt = $this->first();
         if ($dt == null) {
             $d = [];
-            $d['cd_property'] = $class;
-            $d['cd_domain'] = $range;
+            $d['cd_property'] = $prop;
+            $d['cd_domain'] = $class;
+            $d['cd_range'] = $range;
+
             return $this->set($d)->insert();
         } else {
             return $dt['id_cd'];

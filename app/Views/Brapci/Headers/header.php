@@ -57,8 +57,9 @@ $data['GOOGLEID'] = 'G-HSS9RYF8ZS';
 
     <?= view('Google/Analytics', $data); ?>
 </head>
-<div id="loading" style="display: none;">
-    <p><img src="<?= PATH . '/img/thema/wait.gif'; ?>" /> Please Wait</p>
+<div id="loading" style="display: none; position:absolute; top: 0px">
+    <img src="<?= PATH . '/img/thema/wait.gif'; ?>" style="position: absolute; top: 0px; rigth: 0px; left: 0px; height: 42px;" />
+    <span style="margin-left: 50px; margin-top: 30px;">Loading ...</span>
 </div>
 
 <script>
