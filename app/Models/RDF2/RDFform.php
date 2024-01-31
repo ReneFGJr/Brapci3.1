@@ -307,7 +307,10 @@ class RDFform extends Model
         $RDFconcept->select('id_cc, n_name, n_lang, cc_use');
         $RDFconcept->join('brapci_rdf.rdf_literal','cc_pref_term = id_n');
 
-        $RDFconcept->like('n_name', $q);
+        $q = explode(' ',$q.' ');
+        pre($q,false);
+
+        $RDFconcept->likeIn('n_name', $q);
         $RDFconcept->whereIn('cc_class', $RG);
         foreach($Range as $idr=>$name)
             {
