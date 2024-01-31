@@ -307,10 +307,19 @@ class RDFform extends Model
         $RDFconcept->select('id_cc, n_name, n_lang, cc_use');
         $RDFconcept->join('brapci_rdf.rdf_literal','cc_pref_term = id_n');
 
-        $q = explode(' ',$q.' ');
-        pre($q,false);
+        $q = explode(' ',trim($q));
 
-        $RDFconcept->likeIn('n_name', $q);
+        foreach($q as $idq=>$qt)
+            {
+                $qt = trim($qt);
+
+                if ($qt != '')
+                {
+                    $RDFconcept->like('n_name', $qt);
+                }
+
+            }
+
         $RDFconcept->whereIn('cc_class', $RG);
         foreach($Range as $idr=>$name)
             {
@@ -318,6 +327,8 @@ class RDFform extends Model
             }
         $RDFconcept->orderby('n_name');
         $drr = $RDFconcept->findAll(100);
+
+        //echo $RDFconcept->getlastquery();
 
 
         $sx = '<select name="id" class="full form-control border border-secondary" size=6>';
@@ -327,9 +338,6 @@ class RDFform extends Model
                 $sx .= '<option value="'.$line['id_cc'].'">'.$line['n_name'].' ['.$line['n_lang'].'] ('.$line['id_cc'].'=>'.$line['cc_use'].')</option>'.cr();
             }
         $sx .= '</select>';
-        $sx .= 'q='.$q;
-        $sx .= '<br>prop=' . $prop;
-        $sx .= '<br>class=' . $class;
 
         echo $sx;
         exit;
