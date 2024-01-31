@@ -334,11 +334,13 @@ class RDFform extends Model
 
                 if ($grp != $xgrp)
                     {
+                        $xgrp = $grp;
                         $sx .= '<tr>';
                         $sx .= '<th><h4>'.lang('brapci.'.$grp).'</h4></th>';
                         $sx .= '</tr>';
                     }
-                $sx .= bsc(lang('rdf.'.$linef['c_class']),2,'text-end');
+                $link = '&nbsp;'.'<span onclick="newwin(\'x\',800,600);" class="link pointer">'.bsicone('plus',16). '</span>';
+                $sx .= bsc(lang('rdf.'.$linef['c_class']).$link,2,'text-end');
                 $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id),10,'border-top border-secondary mb-3');
             }
         return bs($sx);
