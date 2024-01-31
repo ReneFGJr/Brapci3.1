@@ -304,7 +304,7 @@ class RDFform extends Model
         /**************** Range Select Class ********/
         $n = 0;
 
-        $RDFconcept->select('id_cc, n_name, cc_use');
+        $RDFconcept->select('id_cc, n_name, n_lang, cc_use');
         $RDFconcept->join('brapci_rdf.rdf_literal','cc_pref_term = id_n');
 
         $RDFconcept->like('n_name', $q);
@@ -321,7 +321,7 @@ class RDFform extends Model
         $sx .= '<option>::Select</option>';
         foreach($drr as $id=>$line)
             {
-                $sx .= '<option value="'.$line['id_cc'].'">'.$line['n_name'].' ('.$line['id_cc'].'=>'.$line['cc_use'].')</option>'.cr();
+                $sx .= '<option value="'.$line['id_cc'].'">'.$line['n_name'].' ['.$line['n_lang'].'] ('.$line['id_cc'].'=>'.$line['cc_use'].')</option>'.cr();
             }
         $sx .= '</select>';
         $sx .= 'q='.$q;
