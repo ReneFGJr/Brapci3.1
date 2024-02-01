@@ -1131,7 +1131,7 @@ class Socials extends Model
 		$dt = $this->user_exists($user);
 
 		if (isset($dt[0])) {
-			pre($dt);
+
 			if ($dt[0]['us_password'] == md5($pwd)) {
 				if(trim($dt[0]['us_apikey']) == '')
 					{
@@ -1142,6 +1142,8 @@ class Socials extends Model
 						$this->set($dq)->where('id_us',$dt[0]['id_us'])->update();
 						$dt[0]['us_apikey'] = $apikey;
 					}
+					echo "OK";
+				pre($dt);
 				$_SESSION['id'] = $dt[0]['id_us'];
 				$_SESSION['user'] = $dt[0]['us_nome'];
 				$_SESSION['email'] = $dt[0]['us_email'];
