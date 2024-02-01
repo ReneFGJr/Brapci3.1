@@ -44,6 +44,46 @@ class Index extends Model
     {
         $sx = '';
         switch ($d1) {
+            case 'txt4matrix':
+                $chk = ['', '', '', '', ''];
+                if (get("author_abrev") != '') {
+                    $chk[0] = 'checked';
+                }
+                $sx = '';
+                $sa = h(lang('tools.ARS_txt4matrix'), 2);
+                $sa .= form_open_multipart();
+                $sa .= form_upload('files');
+                $sa .= form_submit('action', lang('brapci.send'));
+                $sa .= '<br>';
+                $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
+                $sa .= '<br>';
+                $sa .= '<br>';
+                $sa .= h(lang('tools.Options'), 2);
+                $sa .= form_checkbox('author_abrev', '1', $chk[0]) . ' ' . lang('tools.txt4net.author_abrev');
+                $sa .= form_close();
+
+                $sb = '';
+                $sb .= h('Instruções');
+                for ($r = 0; $r < 20; $r++) {
+                    $nn = 'tools.txt4net.line_' . $r;
+                    $ln = lang($nn);
+                    if ($nn != $ln) {
+                        $sb .= '<p>' . $ln . '</p>';
+                    }
+                }
+
+                $sx = bs(bsc($sa, 6) . bsc($sb, 6));
+
+                if (isset($_FILES['files']['tmp_name'])) {
+                    if ($_FILES['files']['error'] == 0) {
+                        $txt = file_get_contents($_FILES['files']['tmp_name']);
+                        $net = $this->csv_to_matrix_ocorrencia($txt, $chk);
+                        $this->file_download($net, '.csv');
+                    }
+                }
+                return $sx;
+                break;
+                break;
             case 'txt4count':
                 $chk = ['', '', '', '', ''];
                 if (get("author_abrev") != '') {
@@ -180,6 +220,109 @@ class Index extends Model
         return ($txt);
     }
 
+    function csv_to_matrix_ocorrencia($txt)
+    {
+        $txt = $this->trata($txt);
+        $txt = troca($txt, '.,', ';');
+        $txt = troca($txt, ';', '£');
+        $txt = troca($txt, chr(10), ';');
+        $txt = troca($txt, chr(13), ';');
+        $lns = explode(';', $txt);
+
+        $nx = array();
+        $ns = array();
+        $nf = array();
+
+        for ($r = 0; $r < count($lns); $r++) {
+            $mn = $lns[$r];
+            $mn = troca($mn, '£', ';');
+            $an = explode(';', $mn . ';');
+            $au = [];
+
+            $ax = array();
+            $ai = array();
+            for ($z = 0; $z < count($an); $z++) {
+                $nn = $an[$z];
+                if (!isset($ax[$nn])) {
+                    $nn = trim($nn);
+                    if ($nn != '')
+                        {
+                            array_push($ai, $nn);
+                            $ax[$nn] = $nn;
+                        }
+                }
+            }
+
+            $au = $ai;
+
+            for ($a = 0; $a < count($au); $a++) {
+                if (get("dd1") == '1') {
+                    $mm = nbr_author($au[$a], 5);
+                } else {
+                    $mm = $au[$a];
+                }
+
+                $mm = troca($mm, ',', '');
+                $mm = troca($mm, '. ', '');
+                $mm = troca($mm, '.', '');
+                $au[$a] = $mm;
+            }
+
+            for ($a = 0; $a < count($au); $a++) {
+                $mm = $au[$a];
+                if (isset($ns[$mm])) {
+                    $ns[$mm] = $ns[$mm] + 1;
+                } else {
+                    $ns[$mm] = 1;
+                    array_push($nf, $mm);
+                }
+
+                /* monta matriz */
+                if ($a == 0) {
+                    /**************** Primeiro Autor **********************/
+                    if (isset($nx[$au[0]][$au[0]])) {
+                        $nx[$au[0]][$au[0]] = $nx[$au[0]][$au[0]] + 1;
+                    } else {
+                        $nx[$au[0]][$au[0]] = 1;
+                    }
+                } else {
+                    /*************** Outros autores ***********************/
+                    for ($b = 0; $b < $a; $b++) {
+                        $ma = $au[$b];
+
+                        if (isset($nx[$ma][$mm])) {
+                            $nx[$ma][$mm] = $nx[$ma][$mm] + 1;
+                            $nx[$mm][$ma] = $nx[$mm][$ma] + 1;
+                        } else {
+                            $nx[$ma][$mm] = 1;
+                            $nx[$mm][$ma] = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*  matriz */
+        $sx = '#;';
+        foreach ($nf as $key => $val1) {
+            $sx .= '' . $val1 . ';';
+        }
+        $sx .= '' . cr();
+        foreach ($nf as $key => $val1) {
+            $sx .= '' . $val1 . ';';
+            foreach ($nf as $key2 => $val2) {
+                if ((isset($nx[$val1][$val2])) and ($val1 != $val2)) {
+                    $sx .= '' . $nx[$val1][$val2] . ';';
+                } else {
+                    $sx .= '0;';
+                }
+            }
+            $sx .= '' . cr();
+        }
+        $sx  .= '';
+        return ($sx);
+    }
+
     function csv_to_count($txt, $opt)
     {
         set_time_limit(3600);
@@ -208,13 +351,11 @@ class Index extends Model
                 }
             }
         }
-        $rsp = 'element;total'.cr();
-        foreach($auth as $name=>$total)
-            {
-                $rsp .= $name.';'.$total.cr();
-            }
+        $rsp = 'element;total' . cr();
+        foreach ($auth as $name => $total) {
+            $rsp .= $name . ';' . $total . cr();
+        }
         return $rsp;
-
     }
 
     function csv_to_net($txt, $opt)
@@ -234,23 +375,23 @@ class Index extends Model
         for ($r = 0; $r < count($lns); $r++) {
             $mn = $lns[$r];
             $mn = troca($mn, '£', ';');
-            $au = explode(';', $mn . ';');
+            $aa = explode(';', $mn . ';');
+            $au = [];
 
-            for ($a = 0; $a < count($au); $a++) {
+            for ($a = 0; $a < count($aa); $a++) {
                 if ($opt[0] != '') {
-                    $mm = nbr_author($au[$a], 2);
+                    $mm = nbr_author($aa[$a], 2);
                 } else {
-                    $mm = $au[$a];
+                    $mm = $aa[$a];
                 }
 
                 $mm = troca($mm, ',', '');
                 $mm = troca($mm, '. ', '');
                 $mm = troca($mm, '.', '');
-                if ($mm != '')
-                    {
-                        $au[$a] = $mm;
-                    }
-
+                $mm = trim($mm);
+                if ($mm != '') {
+                    $au[$a] = $mm;
+                }
             }
 
             for ($a = 0; $a < count($au); $a++) {
