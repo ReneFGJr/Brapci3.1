@@ -57,7 +57,6 @@ class RDFform extends Model
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $RDFclassRange = new \App\Models\RDF2\RDFclassRange();
 
             $q = get("q");
             if (strlen($q) < 3)
