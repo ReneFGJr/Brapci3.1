@@ -246,7 +246,11 @@ class Index extends Model
                 $mm = troca($mm, ',', '');
                 $mm = troca($mm, '. ', '');
                 $mm = troca($mm, '.', '');
-                $au[$a] = $mm;
+                if ($mm != '')
+                    {
+                        $au[$a] = $mm;
+                    }
+
             }
 
             for ($a = 0; $a < count($au); $a++) {
