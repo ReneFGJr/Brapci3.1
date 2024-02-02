@@ -1131,8 +1131,9 @@ class Socials extends Model
 		$dt = $this->user_exists($user);
 
 		if (isset($dt[0])) {
+
 			if ($dt[0]['us_password'] == md5($pwd)) {
-				if(trim($dt[0]['us_apikey']) == '')
+				if(($dt[0]['us_apikey'] == '') or ($dt[0]['us_apikey'] == null))
 					{
 						$apikey = md5($dt[0]['us_password'] . $dt[0]['us_login']);
 						$dq = [];
@@ -1333,7 +1334,7 @@ class Socials extends Model
 		return $sx;
 	}
 
-	function user_add($user, $name, $inst)
+	function user_add($user='', $name='', $inst='')
 	{
 		$pw1 = substr(md5($user), 0, 6);
 		$data = [

@@ -98,6 +98,7 @@ class Index extends Model
 
         $menu['#' . lang('tools.ARS')] = lang('tools.ARS');
         $menu[URL . '/tools/ars/txt4net'] = lang('tools.ARS_txt4net');
+        $menu[URL . '/tools/ars/txt4matrix'] = lang('tools.ARS_txt4matrix');
         $menu[URL . '/tools/ars/txt4count'] = lang('tools.ARS_txt4count');
 
         $menu['#' . lang('tools.Clean')] = lang('tools.clean_tools');

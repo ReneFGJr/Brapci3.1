@@ -55,6 +55,10 @@ class Tools extends Model
         $Net = new \App\Models\Tools\Net\Index();
         switch($d2)
             {
+                case 'txt4matrix':
+                    $Net->index($d1, $d2, $d3, $d4);
+                    exit;
+                    break;
                 case 'txt4net':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
