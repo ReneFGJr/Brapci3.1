@@ -12,6 +12,7 @@
 
 namespace App\Models\Api\Endpoint;
 
+use App\Models\RDF\RDFClass;
 use CodeIgniter\Model;
 
 class Rdf extends Model
@@ -69,6 +70,17 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'dataAdd':
+                    /************************ REGISTRA */
+                    $RDFClass = new \App\Models\RDF2\RDFclass();
+                    $RDFdata = new \App\Models\RDF2\RDFdata();
+                    $ID = get("source");
+                    $id_prop = $RDFClass->getClass(get("prop"));
+                    $ID2 = get("resource");
+                    $lit = 0;
+                    $RDFdata->register($ID, $id_prop, $ID2, $lit);
+                    $RSP = $RDFform->searchSelect('', '');
+                    break;
                 case 'searchSelect':
                     $RSP = $RDFform->searchSelect($d3,$d4);
                     break;

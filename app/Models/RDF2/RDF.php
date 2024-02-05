@@ -44,6 +44,7 @@ class RDF extends Model
     {
         $sx = '';
         $RSP = [];
+
         switch ($d1) {
             case 'a':
                 $RDFform = new \App\Models\RDF2\RDFform();

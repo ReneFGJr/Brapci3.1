@@ -234,25 +234,102 @@ class RDFform extends Model
             $sx .= '<div class="container-fluid">';
             $sx .= '<div class="row">';
             $sx .= '<div class="col-12">';
-            $sx .= form_open();
+            //$sx .= form_open();
             $sx .= form_label("Termo de busca");
             $sx .= '<div class="input-group mb-3">
                     <input name="term" id="term" type="text" class="full form-control border border-secondary" placeholder="Termo de busca" aria-label="Termo de Busca" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="submitAction()">Busca</button>
                     </div>';
             //$sx .= form_label("Selecione o conceito - ".$d2.' - '.$types.'.');
-            $sx .= '<div id="dd51a" name="dd51a"><select name="opt" class="full form-control border border-secondary" size=6></div>';
+            $sx .= '<div id="dd51a" name="dd51a">
+                        <select name="opt" if="opt" class="full form-control border border-secondary" size=6></div>';
             $sx .= '</select>';
+            $sx .= '</div>';
+            $sx .= '<div id="btns" class="mt-4">';
             $sx .= '<hr>';
             $sx .= '<button id="btn_add" class="btn btn-outline-secondary me-2" disabled>Inserir Conceito</button>';
-            $sx .= '<button id="btn_sign" class="btn btn-outline-primary me-2" disabled>Salvar e fechar</button>';
-            $sx .= '<button id="btn_signc" class="btn btn-outline-primary me-2" disabled>Salbar e continuar</button>';
-            $sx .= '<button id="btn_cancel" onclick="wclose();" class="btn btn-outline-warning me-2">Cancelar</button>';
-            $sx .= form_close();
+            $sx .= '<button id="btn_sign" onclick="sign(true);" class="btn btn-outline-secondary me-2" disabled>Salvar e fechar</button>';
+            $sx .= '<button id="btn_signc" onclick="sign(false);" class="btn btn-outline-secondary me-2" disabled>Salbar e continuar</button>';
+            $sx .= '<button id="btn_cancel" onclick="wclose();" class="btn btn-warning me-2">Cancelar</button>';
+            $sx .= '<input id="ID" value="">';
+            //$sx .= form_close();
             $sx .= '</div></div></div>';
 
             $sx .= '<script>'.cr();
+
+            $sx .= 'function sign(close) {
+                        ID = $("#ID").val()
+                        if (ID != "")
+                        {
+                        url = "' . PATH . '/api/rdf/dataAdd/"
+                        url += "?prop=' . $d2 . '"
+                        url += "&class=' . $class . '"
+                        url += "&source='.$d1.'"
+                        url += "&resource="+ID
+
+                        console.log(url)
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: url,
+                                success: function(data){
+                                    $("#dd51a").html(data);
+                                    if (close == true)
+                                        {
+                                            wclose();
+                                        }
+                                }
+                            })
+                        }
+                    }';
+
+
+            $sx .= 'function getval(sel)
+                    {
+                        v = sel.value;
+                        $("#ID").val(v)
+                        btns(v);
+                    }';
+            $sx .= 'function btns(v) {
+                        const button1 = document.getElementById("btn_add");
+                        const button2 = document.getElementById("btn_sign");
+                        const button3 = document.getElementById("btn_signc");
+                        $(button1).removeClass("btn-primary");
+                        $(button2).removeClass("btn-primary");
+                        $(button3).removeClass("btn-primary");
+
+                        $(button1).addClass("btn-outline-secondary");
+                        $(button2).addClass("btn-outline-secondary");
+                        $(button3).addClass("btn-outline-secondary");
+
+                        if (v != "")
+                            {
+                               button1.disabled = true;
+                               button2.disabled = false;
+                               button3.disabled = false;
+                               $(button2).removeClass("btn-outline-secondary");
+                               $(button2).addClass("btn-primary");
+                               $(button3).removeClass("btn-outline-secondary");
+                               $(button3).addClass("btn-primary");
+                            } else {
+                               term = $("#term").val()
+                               if (term != "")
+                               {
+                                    $(button1).removeClass("btn-outline-secondary");
+                                    $(button1).addClass("btn-primary");
+                                    button1.disabled = false;
+                                    button2.disabled = true;
+                                    button3.disabled = true;
+                               } else {
+                                    button1.disabled = true;
+                                    button2.disabled = true;
+                                    button3.disabled = true;
+                                }
+                            }
+                    }';
             $sx .= 'function submitAction() {
+                        btns("")
                         term = $("#term").val()
                         url = "'.PATH.'/api/rdf/searchSelect/"
                         url += "?prop='.$d2. '"
@@ -330,8 +407,11 @@ class RDFform extends Model
         //echo $RDFconcept->getlastquery();
 
 
-        $sx = '<select name="id" class="full form-control border border-secondary" size=6>';
-        $sx .= '<option>::Select</option>';
+        $sx = '<select name="opt" id="opt"
+                    onchange="getval(this);"
+                    class="full form-control border border-secondary"
+                    size=6>';
+        $sx .= '<option value="">::Select</option>';
         foreach($drr as $id=>$line)
             {
                 $sx .= '<option value="'.$line['id_cc'].'">'.$line['n_name'].' ['.$line['n_lang'].'] ('.$line['id_cc'].'=>'.$line['cc_use'].')</option>'.cr();
@@ -369,6 +449,9 @@ class RDFform extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
 
         $dt = $RDF->le($id);
+
+        $sx .= bsc(h($dt['concept']['n_name'],3));
+        $sx .= bsc(h($dt['concept']['c_class'],6).'<hr>');
 
         $cp = '*';
 
