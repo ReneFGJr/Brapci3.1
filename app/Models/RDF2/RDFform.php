@@ -240,18 +240,39 @@ class RDFform extends Model
         $sx .= '<div class="col-12">';
         if ($Literal == true) {
             $sx .= 'Literal';
-            $sx .= '<textarea class="form-control border border-secondary" onkeyup="checkTxt()" rows=5 id="txt" name="txt">'.get("txt").'</textarea>';
+            $sx .= '<textarea class="form-control border border-secondary" onkeyup="checkTxt()" rows=5 id="txt" name="txt">' . get("txt") . '</textarea>';
             $sx .= '<br>';
             $sx .= '<button id="btn_sign_text" onclick="saveTXT();" class="btn btn-outline-secondary me-2" disabled>Salvar e fechar</button>';
             $sx .= '<button id="btn_cancel_text" onclick="wclose();" class="btn btn-warning me-2">Cancelar</button>';
-            $sx .= '<input id="IDc" value="'.$d1.'">';
+            $sx .= '<input id="IDc" type="hidden" value="' . $d1 . '">';
             $sx .= '</div></div></div>';
 
             $sx .= '<script>
                     function saveTXT()
                         {
-                            alert("Send")
+                            vlr = $("#txt").val()
+                            if (vlr != "")
+                                {
+                        url = "' . PATH . '/api/rdf/dataAddLiteral/"
+                        url += "?prop=' . $d2 . '"
+                        url += "&class=' . $class . '"
+                        url += "&source=' . $d1 . '"
+                        url += "&txt="+vlr
+
+                        console.log(url)
+
+                        $.ajax(
+                            {
+                                type: "POST",
+                                url: url,
+                                success: function(data){
+                                     wclose();
+                                }
+                            })
+                                }
+
                         }
+
                     function checkTxt()
                         {
                             const button1 = document.getElementById("btn_sign_text");
@@ -260,9 +281,11 @@ class RDFform extends Model
                             vlr = $("#txt").val()
                             if (vlr != "")
                                 {
+                                    button1.disabled = false;
                                     $(button1).removeClass("btn-outline-secondary");
                                     $(button1).addClass("btn-primary");
                                 } else {
+                                    button1.disabled = true;
                                     $(button1).addClass("btn-outline-secondary");
                                 }
                         }
@@ -295,25 +318,12 @@ class RDFform extends Model
                         if (ID != "")
                         {
                         url = "' . PATH . '/api/rdf/dataAdd/"
-                        url += "?prop=' . $d2 . '"
-                        url += "&class=' . $class . '"
-                        url += "&source=' . $d1 . '"
-                        url += "&resource="+ID
+                        param = {prop:"'.$d2.'", class:"'.$class.'", source: "'.$d1. '",resource: ID}
 
-                        console.log(url)
-
-                        $.ajax(
-                            {
-                                type: "POST",
-                                url: url,
-                                success: function(data){
-                                    $("#dd51a").html(data);
-                                    if (close == true)
-                                        {
-                                            wclose();
-                                        }
-                                }
-                            })
+                        $.post(url, param, function(response){
+                            alert("success");
+                            wclose();
+                        });
                         }
                     }';
 

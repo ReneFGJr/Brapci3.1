@@ -70,6 +70,22 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'dataAddLiteral':
+                    /************************ REGISTRA */
+                    $RDFClass = new \App\Models\RDF2\RDFclass();
+                    $RDFdata = new \App\Models\RDF2\RDFdata();
+                    $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                    $Language = new \App\Models\AI\NLP\Language();
+                    $Literal = get("txt");
+                    $lang = $Language->getTextLanguage($Literal);
+
+                    $id_prop = $RDFClass->getClass(get("prop"));
+                    $ID = get("source");
+                    $ID2 = 0;
+                    $lit = $RDFliteral->register($Literal,$lang);
+
+                    $RDFdata->register($ID, $id_prop, $ID2, $lit);
+                    break;
                 case 'dataAdd':
                     /************************ REGISTRA */
                     $RDFClass = new \App\Models\RDF2\RDFclass();
