@@ -55,7 +55,7 @@ export class PopUpIndexComponent {
   }
 
   submitAction() {
-    let url = '/rdf/searchSelect/';
+    let url = 'rdf/searchSelect/';
     let data = [
       { prop: this.propriety },
       { class: this.class },

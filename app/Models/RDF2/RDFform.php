@@ -400,7 +400,8 @@ class RDFform extends Model
 
     function searchSelect()
     {
-        pre($_POST);
+        pre($_POST,false);
+        pre($_GET, false);
         $sx = '';
         $Class = new \App\Models\RDF2\RDFclass();
         $Property = new \App\Models\RDF2\RDFproperty();
