@@ -76,6 +76,7 @@ export class RdfFormComponent {
 
     this.brapciService.api_post(url, data).subscribe((res) => {
       console.log(res);
+      console.log(this.searchForm);
       this.result = res;
     });
   }

@@ -321,7 +321,7 @@ class RDFform extends Model
                         if (ID != "")
                         {
                         url = "' . PATH . '/api/rdf/dataAdd/"
-                        param = {prop:"'.$d2.'", class:"'.$class.'", source: "'.$d1. '",resource: ID}
+                        param = {prop:"' . $d2 . '", class:"' . $class . '", source: "' . $d1 . '",resource: ID}
 
                         $.post(url, param, function(response){
                             alert("success");
@@ -412,8 +412,7 @@ class RDFform extends Model
         $prop = get("prop");
         $ID = get("ID");
 
-        if(($q == '') or ($prop == '') or ($ID == ''))
-            {
+        if (($q == '') or ($prop == '') or ($ID == '')) {
             $RSP = [];
             $RSP['status'] = '500';
             $RSP['message'] = 'Busca q ou ID ou prop vazio';
@@ -421,45 +420,34 @@ class RDFform extends Model
             $RSP['data']['prop'] = $prop;
             $RSP['data']['ID'] = $ID;
             return $RSP;
-            }
+        }
 
         /************************************ GET PROPRIETY */
 
         $IDprop = $Property->getProperty($prop);
         $dtc = $RDF->le($ID);
-        pre($dtc);
-        if (!isset($dtc['concept']['c_class']))
-            {
-                $RSP = [];
-                $RSP['status'] = '500';
-                $RSP['message'] = 'Conceito não existe';
-                return $RSP;
-            }
-        $class = $dtc['id_c'];
-        pre("O2K");
+        if (!isset($dtc['concept']['c_class'])) {
+            $RSP = [];
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Conceito não existe';
+            return $RSP;
+        }
+        $class = $dtc['concept']['id_c'];
+
         /*** Check Rule Domain*/
         $dtd = $RDFdomain
             ->join('brapci_rdf.rdf_class as C1', 'cd_range = id_c')
-            //->where('cd_domain', $class)
-            //->where('cd_property', $IDprop)
+            ->where('cd_domain', $class)
+            ->where('cd_property', $IDprop)
             ->findAll(1);
 
-        if ($dtd == [])
-            {
-                $RSP = [];
-                $RSP['status'] = '500';
-                $RSP['message'] = 'Classe não é compatível com a propriedade';
-                $RSP['query'] = $RDFdomain->getlastquery();
-                return $RSP;
-            }
-
-
-        echo "q=$q<br>";
-        echo "prop=$prop<br>";
-        echo "class=$class<br>";
-        echo "IDprop=$IDprop<br>";
-
-        pre($dtd);
+        if ($dtd == []) {
+            $RSP = [];
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Classe não é compatível com a propriedade';
+            $RSP['query'] = $RDFdomain->getlastquery();
+            return $RSP;
+        }
 
         $Range = [];
         $RG = [];
@@ -470,7 +458,7 @@ class RDFform extends Model
         /**************** Range Select Class ********/
         $n = 0;
 
-        $RDFconcept->select('id_cc, n_name, n_lang, cc_use');
+        $RDFconcept->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use');
         $RDFconcept->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n');
 
         $q = explode(' ', trim($q));
@@ -489,24 +477,8 @@ class RDFform extends Model
         }
         $RDFconcept->orderby('n_name');
         $drr = $RDFconcept->findAll(100);
+        return $drr;
 
-        //echo $RDFconcept->getlastquery();
-
-
-        $sx = '<select name="opt" id="opt"
-                    onchange="getval(this);"
-                    class="full form-control border border-secondary"
-                    size=6>';
-        $sx .= '<option value="">::Select</option>';
-        foreach ($drr as $id => $line) {
-            $sx .= '<option value="' . $line['id_cc'] . '">' . $line['n_name'] . ' [' . $line['n_lang'] . '] (' . $line['id_cc'] . '=>' . $line['cc_use'] . ')</option>' . cr();
-        }
-        $sx .= '</select>';
-
-        echo $sx;
-        exit;
-
-        return $sx;
     }
 
     function show_data($dt, $prop)
