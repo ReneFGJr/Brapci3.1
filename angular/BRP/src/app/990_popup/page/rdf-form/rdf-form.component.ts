@@ -44,7 +44,6 @@ export class RdfFormComponent {
 
       this.fields = [
         { name: 'Term', value: '', checked: true },
-        { name: 'Select', value: [], checked: true },
         { name: 'ID', value: this.ID, checked: true },
         { name: 'prop', value: this.propriety, checked: true },
       ];
@@ -68,9 +67,12 @@ export class RdfFormComponent {
     let url = 'rdf/searchSelect';
 
     console.log(this.fields);
+    let q = this.searchForm.value['term']
+    let xclass = this.class
+    let ID = this.ID
+    let prop = this.propriety
 
-
-    this.brapciService.api_post(url, this.fields).subscribe((res) => {
+    this.brapciService.RDFapi(url,ID,prop,xclass,q).subscribe((res) => {
       console.log('===================');
       console.log(res);
       console.log(this.searchForm);

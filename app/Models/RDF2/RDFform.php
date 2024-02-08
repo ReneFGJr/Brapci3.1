@@ -417,6 +417,8 @@ class RDFform extends Model
         $RSP['data']['prop'] = $prop;
         $RSP['data']['ID'] = $ID;
 
+        return $RSP;
+
         if (($q == '') or ($prop == '') or ($ID == '')) {
             $RSP = [];
             $RSP['status'] = '500';
@@ -450,7 +452,6 @@ class RDFform extends Model
             $RSP = [];
             $RSP['status'] = '500';
             $RSP['message'] = 'Classe não é compatível com a propriedade';
-            $RSP['query'] = $RDFdomain->getlastquery();
             return $RSP;
         }
 

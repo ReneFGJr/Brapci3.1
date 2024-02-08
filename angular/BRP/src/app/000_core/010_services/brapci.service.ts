@@ -25,6 +25,22 @@ export class BrapciService {
     );
   }
 
+  public RDFapi(act:string,ID:string,prop:string,xclass:string,term:string): Observable<Array<any>>
+    {
+        let url = `${this.url}`+act;
+        console.log(url)
+        var formData: any = new FormData();
+        formData.append('q', term);
+        formData.append('concept', ID);
+        formData.append('propriey', prop);
+        formData.append('class', xclass);
+
+      return this.HttpClient.post<Array<any>>(url, formData).pipe(
+        (res) => res,
+        (error) => error
+      );
+    }
+
   public api(id: number, term: string, prop: string): Observable<Array<any>> {
     let url = `${this.url}rdf/search/`;
     console.log(`Fontes: ${url}`);
