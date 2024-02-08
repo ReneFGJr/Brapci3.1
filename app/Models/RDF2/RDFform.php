@@ -462,6 +462,9 @@ class RDFform extends Model
         /**************** Range Select Class ********/
         $n = 0;
 
+        $RSP['data']['range'] = $RG;
+        return $RSP;
+
         $RDFconcept->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use');
         $RDFconcept->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n');
 
