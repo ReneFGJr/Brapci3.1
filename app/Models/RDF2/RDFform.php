@@ -400,8 +400,7 @@ class RDFform extends Model
 
     function searchSelect()
     {
-        pre($_POST,false);
-        pre($_GET, false);
+
         $sx = '';
         $Class = new \App\Models\RDF2\RDFclass();
         $Property = new \App\Models\RDF2\RDFproperty();
@@ -419,6 +418,22 @@ class RDFform extends Model
             ->where('cd_domain', $class)
             ->where('cd_property', $IDprop)
             ->findAll();
+
+        if ($dtd == [])
+            {
+                $RSP = [];
+                $RSP['status'] = '500';
+                $RSP['message'] = 'Classe não é compatível com a propriedade';
+                $RSP['query'] = $RDFdomain->getlastquery();
+                return $RSP;
+            }
+
+
+        echo "q=$q<br>";
+        echo "prop=$prop<br>";
+        echo "class=$class<br>";
+        echo "IDprop=$IDprop<br>";
+
         $Range = [];
         $RG = [];
         foreach ($dtd as $idr => $liner) {
