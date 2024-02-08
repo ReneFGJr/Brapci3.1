@@ -22,7 +22,7 @@ export class RdfFormComponent {
   /*************** Inport */
   public propriety: string = 'hasAuthor';
   public class: string = 'Article';
-  public ID: number = 0;
+  public ID: string = '0';
 
   /********************* BTN */
   public btn1: boolean = true;
@@ -39,7 +39,7 @@ export class RdfFormComponent {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
-      this.ID = +params['id']; // (+) converts string 'id' to a number
+      this.ID = params['id']; // (+) converts string 'id' to a number
       this.propriety = params['prop']; // (+) converts string 'id' to a number
 
       this.fields = [
@@ -54,27 +54,24 @@ export class RdfFormComponent {
   }
 
   term: string = '';
-  select: Array<any> = [{ x: 'a' }, { y: 'b' }];
+  select: Array<any> = [{ x: 'a' }, { y: 'b' }, {z:'z'}];
 
   createForm() {
     this.searchForm = this.fb.group({
       term: [this.term, Validators.required],
-      select: [this.select],
       ID: this.ID,
       prop: this.propriety,
     });
   }
 
   submitAction() {
-    let url = 'rdf/searchSelect/';
-    let data = [
-      { prop: this.propriety },
-      { class: this.class },
-      { ID: this.ID },
-      { q: this.searchForm.value['term'] },
-    ];
+    let url = 'rdf/searchSelect';
 
-    this.brapciService.api_post(url, data).subscribe((res) => {
+    console.log(this.fields);
+
+
+    this.brapciService.api_post(url, this.fields).subscribe((res) => {
+      console.log('===================');
       console.log(res);
       console.log(this.searchForm);
       this.result = res;

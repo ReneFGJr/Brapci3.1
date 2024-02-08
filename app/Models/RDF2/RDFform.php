@@ -412,6 +412,11 @@ class RDFform extends Model
         $prop = get("prop");
         $ID = get("ID");
 
+        $RSP = [];
+        $RSP['data']['q'] = $q;
+        $RSP['data']['prop'] = $prop;
+        $RSP['data']['ID'] = $ID;
+
         if (($q == '') or ($prop == '') or ($ID == '')) {
             $RSP = [];
             $RSP['status'] = '500';
@@ -477,7 +482,8 @@ class RDFform extends Model
         }
         $RDFconcept->orderby('n_name');
         $drr = $RDFconcept->findAll(100);
-        return $drr;
+        $RSP['items'] = $drr;
+        return $RSP;
 
     }
 
