@@ -75,6 +75,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('../920_RDF/rdf.module').then((m) => m.RdfModule),
   },
+  {
+    path: 'popup',
+    loadChildren: () =>
+      import('../990_popup/popup.module').then((m) => m.PopupModule),
+  },
 ];
 
 @NgModule({

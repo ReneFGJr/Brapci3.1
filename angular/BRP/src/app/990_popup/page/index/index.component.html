@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>RDF Editor</h1>
+
+      ==>{{ searchForm.value | json }}
+      <!---------------------------------- Form Concept -->
+      <div *ngIf="literal == false">
+        <form [formGroup]="searchForm" (submit)="onSearch()">
+          <label for="search">Termos de busca</label>
+          <div class="input-group mb-3">
+            <input
+              id="term"
+              type="term"
+              placeholder="Digite aqui"
+              formControlName="term"
+              autofocus
+              required
+              (keyup)="keyUp()"
+              aria-label="Termo de Busca"
+              aria-describedby="button-addon2"
+            />
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-addon2"
+              (click)="submitAction()"
+            >
+              Busca
+            </button>
+
+            <button type="submit" *ngIf="loading">
+              <img [src]="loaging_img" style="height: 65px" />
+            </button>
+            <br />
+          </div>
+          <!----------- List of Concepts-->
+          <select class="full" size="6">
+            <option *ngFor="let item of select">
+              {{ item | json }}
+            </option>
+          </select>
+        </form>
+      </div>
+
+      <!---------------------------------- Form Literal -->
+      <div *ngIf="literal == false">
+        <form [formGroup]="searchForm" (submit)="onSearch()"></form>
+      </div>
+    </div>
+  </div>
+</div>

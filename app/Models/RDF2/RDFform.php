@@ -71,10 +71,13 @@ class RDFform extends Model
 
         /************ Recupera o RANGE de possibilidades */
         $classes = [];
+        $dtc = [];
+        /*
         $dtc = $RDFclassRange
             ->select('cr_range')
             ->where('cr_property', $prop)
             ->findAll();
+        */
         $dtci = [];
         $qi = explode(' ', $q);
         foreach ($dtc as $idx => $idy) {
@@ -397,6 +400,7 @@ class RDFform extends Model
 
     function searchSelect()
     {
+        pre($_POST);
         $sx = '';
         $Class = new \App\Models\RDF2\RDFclass();
         $Property = new \App\Models\RDF2\RDFproperty();
