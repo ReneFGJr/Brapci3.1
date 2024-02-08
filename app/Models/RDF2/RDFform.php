@@ -417,8 +417,6 @@ class RDFform extends Model
         $RSP['data']['prop'] = $prop;
         $RSP['data']['ID'] = $ID;
 
-        return $RSP;
-
         if (($q == '') or ($prop == '') or ($ID == '')) {
             $RSP = [];
             $RSP['status'] = '500';
