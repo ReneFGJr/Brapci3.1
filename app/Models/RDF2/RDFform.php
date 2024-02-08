@@ -411,18 +411,32 @@ class RDFform extends Model
         $q = get("q");
         $prop = get("prop");
         $ID = get("ID");
+
+        if(($q == '') or ($prop == '') or ($ID == ''))
+            {
+            $RSP = [];
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Busca q ou ID ou prop vazio';
+            $RSP['data']['q'] = $q;
+            $RSP['data']['prop'] = $prop;
+            $RSP['data']['ID'] = $ID;
+            return $RSP;
+            }
+
+        /************************************ GET PROPRIETY */
+
         $IDprop = $Property->getProperty($prop);
         $dtc = $RDF->le($ID);
+        pre($dtc);
         if (!isset($dtc['concept']['c_class']))
             {
                 $RSP = [];
                 $RSP['status'] = '500';
                 $RSP['message'] = 'Conceito não existe';
-                $RSP['query'] = $RDFdomain->getlastquery();
                 return $RSP;
             }
         $class = $dtc['id_c'];
-
+        pre("O2K");
         /*** Check Rule Domain*/
         $dtd = $RDFdomain
             ->join('brapci_rdf.rdf_class as C1', 'cd_range = id_c')
