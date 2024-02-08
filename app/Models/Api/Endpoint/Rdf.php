@@ -56,6 +56,7 @@ class Rdf extends Model
         /* NAO USADO PARA AS APIS */
         header('Access-Control-Allow-Origin: *');
 
+
         if (($d2 != 'import') and ($d2 != 'in') and ($d2 != 'searchSelect'))
         {
             header("Content-Type: application/json");
@@ -139,6 +140,7 @@ class Rdf extends Model
                     $RSP = $RDFclass->getClasses();
                     break;
             }
+        header('Access-Control-Allow-Origin: *');
         echo json_encode($RSP);
     }
 }

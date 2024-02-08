@@ -402,6 +402,7 @@ class RDFform extends Model
     {
 
         $sx = '';
+        $RDF = new \App\Models\RDF2\RDF();
         $Class = new \App\Models\RDF2\RDFclass();
         $Property = new \App\Models\RDF2\RDFproperty();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
@@ -409,15 +410,25 @@ class RDFform extends Model
 
         $q = get("q");
         $prop = get("prop");
-        $class = get("class");
+        $ID = get("ID");
         $IDprop = $Property->getProperty($prop);
+        $dtc = $RDF->le($ID);
+        if (!isset($dtc['concept']['c_class']))
+            {
+                $RSP = [];
+                $RSP['status'] = '500';
+                $RSP['message'] = 'Conceito não existe';
+                $RSP['query'] = $RDFdomain->getlastquery();
+                return $RSP;
+            }
+        $class = $dtc['id_c'];
 
         /*** Check Rule Domain*/
         $dtd = $RDFdomain
             ->join('brapci_rdf.rdf_class as C1', 'cd_range = id_c')
-            ->where('cd_domain', $class)
-            ->where('cd_property', $IDprop)
-            ->findAll();
+            //->where('cd_domain', $class)
+            //->where('cd_property', $IDprop)
+            ->findAll(1);
 
         if ($dtd == [])
             {
@@ -433,6 +444,8 @@ class RDFform extends Model
         echo "prop=$prop<br>";
         echo "class=$class<br>";
         echo "IDprop=$IDprop<br>";
+
+        pre($dtd);
 
         $Range = [];
         $RG = [];
@@ -523,10 +536,11 @@ class RDFform extends Model
 
         $xgrp = '';
         $data = $dt['data'];
+        $PATH = 'http://localhost:4200/#/';
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
 
-            $linkEd = '<span onclick="newxy2(\'' . PATH . '/popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
+            $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
             $linkEd .= bsicone('plus');
             $linkEd .= '</span>' . cr();
 
