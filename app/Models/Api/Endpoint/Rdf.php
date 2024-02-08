@@ -140,7 +140,8 @@ class Rdf extends Model
                     $RSP = $RDFclass->getClasses();
                     break;
             }
-        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Headers: Content-Type");
         echo json_encode($RSP);
     }
 }
