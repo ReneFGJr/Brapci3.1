@@ -408,7 +408,7 @@ class RDFform extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdomain = new \App\Models\RDF2\RDFclassDomain();
 
-        $q = get("q");
+        $q = get("q").get("term");
         $prop = get("prop");
         $ID = get("ID");
 

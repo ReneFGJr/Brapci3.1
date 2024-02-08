@@ -25,7 +25,7 @@ export class BrapciService {
     );
   }
 
-  public RDFapi(act:string,ID:string,prop:string,xclass:string,term:string): Observable<Array<any>>
+  public RDFapi(act:string,ID:string,prop:string,term:string): Observable<Array<any>>
     {
         let url = `${this.url}`+act;
         console.log(url)
@@ -33,7 +33,6 @@ export class BrapciService {
         formData.append('q', term);
         formData.append('concept', ID);
         formData.append('propriey', prop);
-        formData.append('class', xclass);
 
       return this.HttpClient.post<Array<any>>(url, formData).pipe(
         (res) => res,

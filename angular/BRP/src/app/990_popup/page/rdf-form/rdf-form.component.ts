@@ -47,8 +47,8 @@ export class RdfFormComponent {
         { name: 'ID', value: this.ID, checked: true },
         { name: 'prop', value: this.propriety, checked: true },
       ];
+
       this.createForm();
-      console.log(this.fields);
     });
   }
 
@@ -65,19 +65,14 @@ export class RdfFormComponent {
 
   submitAction() {
     let url = 'rdf/searchSelect';
+    let data = this.searchForm.value;
 
-    console.log(this.fields);
-    let q = this.searchForm.value['term']
-    let xclass = this.class
-    let ID = this.ID
-    let prop = this.propriety
-
-    this.brapciService.RDFapi(url,ID,prop,xclass,q).subscribe((res) => {
-      console.log('===================');
-      console.log(res);
-      console.log(this.searchForm);
-      this.result = res;
-    });
+    //this.brapciService.RDFapi(url,ID,prop,q).subscribe((res) => {
+      this.brapciService.api_post(url, data).subscribe((res) => {
+        console.log('===================');
+        console.log(res);
+        this.result = res;
+      });
   }
 
   keyUp() {}
