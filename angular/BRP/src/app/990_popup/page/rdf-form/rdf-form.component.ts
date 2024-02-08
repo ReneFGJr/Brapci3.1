@@ -69,8 +69,6 @@ export class RdfFormComponent {
 
     //this.brapciService.RDFapi(url,ID,prop,q).subscribe((res) => {
       this.brapciService.api_post(url, data).subscribe((res) => {
-        console.log('===================');
-        console.log(res);
         this.result = res;
       });
   }
