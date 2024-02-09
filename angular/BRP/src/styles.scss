@@ -26,6 +26,24 @@ h6 {
   font-family: 'Raleway', sans-serif;
 }
 
+.aH
+  {
+    text-transform: uppercase;
+    background: #369;
+    color: #fff;
+    padding: 5px 0px 5px 10px;
+    margin: 0 0 0 0;
+    font-family:sans-serif;
+    font-weight: bold;
+  }
+
+.onHover:hover
+  {
+    background-color: #DDD;
+    cursor: pointer;
+  }
+
+
 .foot_tag a {
   text-decoration: none;
 }

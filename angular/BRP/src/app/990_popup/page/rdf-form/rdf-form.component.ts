@@ -7,7 +7,6 @@ import { LocalStorageService } from 'src/app/001_auth/service/local-storage.serv
 @Component({
   selector: 'app-rdf-form',
   templateUrl: './rdf-form.component.html',
-  styleUrls: ['./rdf-form.component.scss'],
 })
 export class RdfFormComponent {
   public loading: boolean = false;
@@ -18,6 +17,12 @@ export class RdfFormComponent {
 
   public result: Array<any> = [];
   public sub: Array<any> | any;
+
+  /**************** Params */
+  public tclass: Array<any> | any = [
+    { name: 'Literal', selected: false },
+    { name: 'Author', selected: false },
+  ];
 
   /*************** Inport */
   public propriety: string = 'hasAuthor';
@@ -46,6 +51,8 @@ export class RdfFormComponent {
         { name: 'Term', value: '', checked: true },
         { name: 'ID', value: this.ID, checked: true },
         { name: 'prop', value: this.propriety, checked: true },
+
+        this.recoverResources(this.ID,this.propriety)
       ];
 
       this.createForm();
@@ -53,7 +60,20 @@ export class RdfFormComponent {
   }
 
   term: string = '';
-  select: Array<any> = [{ x: 'a' }, { y: 'b' }, {z:'z'}];
+  select: Array<any> = [{ x: 'a' }, { y: 'b' }, { z: 'z' }];
+
+  recoverResources(ID:string, prop:string)
+    {
+       console.log("ID="+ID)
+       console.log("prop="+prop)
+
+       let url = 'rdf/getResource'
+       let data:Array<any> | any = {ID:ID, prop:prop}
+
+       this.brapciService.api_post(url, data).subscribe((res) => {
+         this.tclass = res;
+       });
+    }
 
   createForm() {
     this.searchForm = this.fb.group({
@@ -68,9 +88,9 @@ export class RdfFormComponent {
     let data = this.searchForm.value;
 
     //this.brapciService.RDFapi(url,ID,prop,q).subscribe((res) => {
-      this.brapciService.api_post(url, data).subscribe((res) => {
-        this.result = res;
-      });
+    this.brapciService.api_post(url, data).subscribe((res) => {
+      this.result = res;
+    });
   }
 
   keyUp() {}
@@ -79,8 +99,7 @@ export class RdfFormComponent {
     alert('Search');
   }
 
-  wclose()
-    {
-      alert("CLOSE")
-    }
+  wclose() {
+    alert('CLOSE');
+  }
 }

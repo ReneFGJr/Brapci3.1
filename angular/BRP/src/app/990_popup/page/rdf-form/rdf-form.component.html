@@ -1,8 +1,10 @@
-<div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1>RDF Editor</h1>
+<div class="aH">RDF Editor</div>
 
+
+<!----------------------------------------------------- FORM -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-10">
       ==>{{ searchForm.value | json }}
       <!---------------------------------- Form Concept -->
       <div *ngIf="literal == false">
@@ -41,11 +43,18 @@
             </option>
           </select>
 
-
-          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn1">Include</button>
-          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn2">Save & Close</button>
-          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn3">Save & Continue</button>
-          <button class="btn btn-outline-warning me-2 mt-3" (click)="wclose()">Close</button>
+          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn1">
+            Include
+          </button>
+          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn2">
+            Save & Close
+          </button>
+          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn3">
+            Save & Continue
+          </button>
+          <button class="btn btn-outline-warning me-2 mt-3" (click)="wclose()">
+            Close
+          </button>
         </form>
       </div>
 
@@ -54,5 +63,26 @@
         <form [formGroup]="searchForm" (submit)="onSearch()"></form>
       </div>
     </div>
+
+  <!------------------ Class Type -->
+  <div class="col-2 text-end">
+    <!-- ID -->
+    <div class="border-bottom border-secondary small center bold">Persistent ID</div>
+    <div class="mb-3">{{ID}}</div>
+
+    <!-- Class -->
+    <div class="border-bottom border-secondary small center bold">Class</div>
+    <div class="mb-3">{{class}}</div>
+
+    <!-- Propriety -->
+    <div class="border-bottom border-secondary small center bold">Propriety</div>
+    <div class="mb-3">{{propriety}}</div>
+
+    <!-- Resource -->
+    <div class="border-bottom border-secondary small center bold">Resource</div>
+    <div *ngFor="let item of tclass" class="onHover">
+      {{item['name']}}
+    </div>
   </div>
+    </div>
 </div>
