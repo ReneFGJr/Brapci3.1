@@ -19,10 +19,7 @@ export class RdfFormComponent {
   public sub: Array<any> | any;
 
   /**************** Params */
-  public tclass: Array<any> | any = [
-    { name: 'Literal', selected: false },
-    { name: 'Author', selected: false },
-  ];
+  public tclass: Array<any> | any = [];
 
   /*************** Inport */
   public propriety: string = 'hasAuthor';
@@ -52,7 +49,7 @@ export class RdfFormComponent {
         { name: 'ID', value: this.ID, checked: true },
         { name: 'prop', value: this.propriety, checked: true },
 
-        this.recoverResources(this.ID,this.propriety)
+        this.recoverResources(this.ID, this.propriety),
       ];
 
       this.createForm();
@@ -62,21 +59,26 @@ export class RdfFormComponent {
   term: string = '';
   select: Array<any> = [{ x: 'a' }, { y: 'b' }, { z: 'z' }];
 
-  recoverResources(ID:string, prop:string)
+  selectResource(ID:Array<any>)
     {
-       console.log("ID="+ID)
-       console.log("prop="+prop)
-
-       let url = 'rdf/getResource'
-       let data:Array<any> | any = {ID:ID, prop:prop}
-
-       this.brapciService.api_post(url, data).subscribe((res) => {
-         this.tclass = res;
-         console.log("===================RESOURCE")
-         console.log(res);
-         console.log('===================RESOURCE');
-       });
+      alert("Resource "+ID)
     }
+
+  recoverResources(ID: string, prop: string) {
+    console.log('ID=' + ID);
+    console.log('prop=' + prop);
+
+    let url = 'rdf/getResource';
+    let data: Array<any> | any = { ID: ID, prop: prop };
+
+    this.brapciService.api_post(url, data).subscribe((res) => {
+      this.tclass = res;
+      this.tclass = this.tclass['resource'];
+      console.log('===================RESOURCE');
+      console.log(this.tclass);
+      console.log('===================RESOURCE');
+    });
+  }
 
   createForm() {
     this.searchForm = this.fb.group({

@@ -81,7 +81,7 @@
     <!-- Resource -->
     <div class="border-bottom border-secondary small center bold">Resource</div>
     <div *ngFor="let item of tclass" class="onHover">
-      {{item['name']}}
+      <span (click)="selectResource(item['Class'])">{{item['Class']}}</span>
     </div>
   </div>
     </div>
