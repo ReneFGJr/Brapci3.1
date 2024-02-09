@@ -16,6 +16,7 @@ export class RdfFormComponent {
   public literal: boolean = false;
 
   public result: Array<any> = [];
+  public concepts: Array<any> = [];
   public sub: Array<any> | any;
 
   /**************** Params */
@@ -59,10 +60,9 @@ export class RdfFormComponent {
   term: string = '';
   select: Array<any> = [{ x: 'a' }, { y: 'b' }, { z: 'z' }];
 
-  selectResource(ID:Array<any>)
-    {
-      alert("Resource "+ID)
-    }
+  selectResource(ID: Array<any>) {
+    alert('Resource ' + ID);
+  }
 
   recoverResources(ID: string, prop: string) {
     console.log('ID=' + ID);
@@ -74,9 +74,6 @@ export class RdfFormComponent {
     this.brapciService.api_post(url, data).subscribe((res) => {
       this.tclass = res;
       this.tclass = this.tclass['resource'];
-      console.log('===================RESOURCE');
-      console.log(this.tclass);
-      console.log('===================RESOURCE');
     });
   }
 
@@ -90,15 +87,19 @@ export class RdfFormComponent {
 
   submitAction() {
     let url = 'rdf/searchSelect';
-    let q = this.searchForm.value['term']
+    let q = this.searchForm.value['term'];
     let ID = this.searchForm.value['ID'];
     let prop = this.searchForm.value['prop'];
 
     let data: Array<any> | any = { q: q, ID: ID, prop: prop };
 
+    console.log("==================================")
+    console.log(data);
+
     this.brapciService.api_post(url, data).subscribe((res) => {
-      console.log(res)
-      //this.result = res;
+      this.concepts = res;
+      //this.concepts = this.concepts[0];
+      console.log(this.concepts)
     });
   }
 

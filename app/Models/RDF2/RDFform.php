@@ -482,8 +482,7 @@ class RDFform extends Model
             //$RDFconcept->orwhere('cc_class',$idr);
         }
         $RDFconcept->orderby('n_name');
-        $drr = $RDFconcept->findAll(100);
-        $RSP['items'] = $drr;
+        $RSP = $RDFconcept->findAll(100);
         return $RSP;
 
     }

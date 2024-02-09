@@ -37,8 +37,9 @@
             <br />
           </div>
           <!----------- List of Concepts-->
+          {{ concepts | json }}
           <select class="full" size="6">
-            <option *ngFor="let item of result">
+            <option *ngFor="let item of concepts">
               {{ item | json }}
             </option>
           </select>
