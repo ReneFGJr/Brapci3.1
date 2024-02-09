@@ -72,6 +72,9 @@ export class RdfFormComponent {
 
        this.brapciService.api_post(url, data).subscribe((res) => {
          this.tclass = res;
+         console.log("===================RESOURCE")
+         console.log(res);
+         console.log('===================RESOURCE');
        });
     }
 

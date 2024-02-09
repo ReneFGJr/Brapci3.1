@@ -57,9 +57,13 @@ class Rdf extends Model
         header('Access-Control-Allow-Origin: *');
 
 
-        if (($d2 != 'import') and ($d2 != 'in') and ($d2 != 'searchSelect'))
+        if (get("test") == '')
         {
-            header("Content-Type: application/json");
+            if (($d2 != 'import') and ($d2 != 'in') and ($d2 != 'searchSelect'))
+            {
+                header("Access-Control-Allow-Headers: Content-Type");
+                header("Content-Type: application/json");
+            }
         }
 
         $RDF = new \App\Models\RDF2\RDF();
@@ -67,10 +71,22 @@ class Rdf extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFform = new \App\Models\RDF2\RDFform();
         $RDFrules = new \App\Models\RDF2\RDFrules();
+        $RDFclassDomain = new \App\Models\RDF2\RDFclassDomain();
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
         $RSP = [];
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'getResource':
+                    $RSP = [];
+                    $RSP['ID'] = get("ID");
+                    $RSP['prop'] = get("prop");
+                    $dt = $RDF->le($RSP['ID']);
+                    $ClassID = $dt['concept']['id_c'];
+                    $RSP['ClassID'] = $ClassID;
+                    $propID = $RDFproperty->getProperty($RSP['prop']);
+                    $RSP['resource'] = $RDFclassDomain->getResources($ClassID,$propID);
+                    break;
                 case 'dataAddLiteral':
                     /************************ REGISTRA */
                     $RDFClass = new \App\Models\RDF2\RDFclass();
@@ -140,8 +156,6 @@ class Rdf extends Model
                     $RSP = $RDFclass->getClasses();
                     break;
             }
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Headers: Content-Type");
         echo json_encode($RSP);
         exit;
     }
