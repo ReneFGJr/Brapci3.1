@@ -140,6 +140,7 @@ export class RdfFormComponent {
           } else {
             this.selectedID = '';
             this.btnChecks();
+            window.opener.location.reload();
           }
       });
     }
@@ -147,6 +148,7 @@ export class RdfFormComponent {
   keyUp() {}
 
   wclose() {
+    window.opener.location.reload();
     window.self.close();
   }
 }
