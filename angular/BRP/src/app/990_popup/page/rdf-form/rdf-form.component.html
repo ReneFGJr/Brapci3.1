@@ -8,7 +8,7 @@
       ==>{{ searchForm.value | json }}
       <!---------------------------------- Form Concept -->
       <div *ngIf="literal == false">
-        <form [formGroup]="searchForm" (submit)="onSearch()">
+        <form [formGroup]="searchForm">
           <label>Termos de busca</label>
           <div class="input-group mb-3">
             <input
@@ -37,20 +37,24 @@
             <br />
           </div>
           <!----------- List of Concepts-->
-          {{ concepts | json }}
           <select class="full" size="6">
-            <option *ngFor="let item of concepts">
-              {{ item | json }}
+            <option *ngFor="let item of concepts" [value]="item.ID"  (click)="selectResource(item.ID)">
+              {{ item.name }}
             </option>
           </select>
 
-          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn1">
+          <button [ngClass]="btn1 == false ? 'btn-primary' : 'btn-outline-secondary'"
+            class="btn me-2 mt-3" [disabled]="btn1">
             Include
           </button>
-          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn2">
+          <button [ngClass]="btn2 == false ? 'btn-primary' : 'btn-outline-secondary'"
+            (click)="save(true)"
+            class="btn me-2 mt-3" [disabled]="btn2">
             Save & Close
           </button>
-          <button class="btn btn-outline-secondary me-2 mt-3" [disabled]="btn3">
+          <button [ngClass]="btn3 == false ? 'btn-primary' : 'btn-outline-secondary'"
+            (click)="save(false)"
+            class="btn me-2 mt-3" [disabled]="btn3">
             Save & Continue
           </button>
           <button class="btn btn-outline-warning me-2 mt-3" (click)="wclose()">
@@ -61,7 +65,7 @@
 
       <!---------------------------------- Form Literal -->
       <div *ngIf="literal == false">
-        <form [formGroup]="searchForm" (submit)="onSearch()"></form>
+        <form [formGroup]="searchForm"></form>
       </div>
     </div>
 
@@ -84,6 +88,16 @@
     <div *ngFor="let item of tclass" class="onHover">
       <span (click)="selectResource(item['Class'])">{{item['Class']}}</span>
     </div>
+
+    <!-- Seelcted -->
+    <div class="border-bottom border-secondary small center bold mt-3">Selected</div>
+    <div *ngIf="!selectedID">
+      <i>none</i>
+    </div>
+    <div *ngIf="selectedID">
+      {{selectedID}}
+    </div>
+
   </div>
     </div>
 </div>

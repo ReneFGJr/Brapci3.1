@@ -18,6 +18,7 @@ export class RdfFormComponent {
   public result: Array<any> = [];
   public concepts: Array<any> = [];
   public sub: Array<any> | any;
+  public selectedID: string = ''
 
   /**************** Params */
   public tclass: Array<any> | any = [];
@@ -60,9 +61,33 @@ export class RdfFormComponent {
   term: string = '';
   select: Array<any> = [{ x: 'a' }, { y: 'b' }, { z: 'z' }];
 
-  selectResource(ID: Array<any>) {
-    alert('Resource ' + ID);
+  selectResource(ID: string) {
+    this.selectedID = ID;
+    this.btnChecks()
   }
+
+  btnChecks()
+    {
+      this.btn1 = true;
+      this.btn2 = true;
+      this.btn3 = true;
+      /************** Selecionado */
+      if (this.selectedID != '')
+        {
+          this.btn2 = false;
+          this.btn3 = false;
+        }
+      /************** Novo */
+      if (this.selectedID == '')
+        {
+          if (this.concepts.length == 0)
+            {
+              this.btn1 = false;
+            } else {
+              /* Existe item na lista */
+            }
+        }
+    }
 
   recoverResources(ID: string, prop: string) {
     console.log('ID=' + ID);
@@ -93,21 +118,34 @@ export class RdfFormComponent {
 
     let data: Array<any> | any = { q: q, ID: ID, prop: prop };
 
-    console.log("==================================")
-    console.log(data);
-
     this.brapciService.api_post(url, data).subscribe((res) => {
       this.concepts = res;
-      //this.concepts = this.concepts[0];
-      console.log(this.concepts)
+      this.selectedID = ''
+      this.btnChecks();
     });
   }
 
-  keyUp() {}
+  save(close:boolean)
+    {
+      let url = 'rdf/dataAdd';
+      let resource = this.selectedID;
+      let source = this.searchForm.value['ID'];
+      let prop = this.searchForm.value['prop'];
+      let data: Array<any> | any = { source: source, prop: prop, resource: resource };
+      this.brapciService.api_post(url, data).subscribe((res) => {
+        this.concepts = res;
+        if (close)
+          {
+	          window.opener.location.reload();
+            window.close();
+          } else {
+            this.selectedID = '';
+            this.btnChecks();
+          }
+      });
+    }
 
-  onSearch() {
-    alert('Search');
-  }
+  keyUp() {}
 
   wclose() {
     alert('CLOSE');
