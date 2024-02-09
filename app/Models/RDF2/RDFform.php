@@ -417,10 +417,10 @@ class RDFform extends Model
         $RSP['data']['prop'] = $prop;
         $RSP['data']['ID'] = $ID;
 
-        if (($q == '') or ($prop == '') or ($ID == '')) {
+        if (($prop == '') or ($ID == '')) {
             $RSP = [];
             $RSP['status'] = '500';
-            $RSP['message'] = 'Busca q ou ID ou prop vazio';
+            $RSP['message'] = 'Busca Inválida, o campo ID ou prop está vazio';
             $RSP['data']['q'] = $q;
             $RSP['data']['prop'] = $prop;
             $RSP['data']['ID'] = $ID;

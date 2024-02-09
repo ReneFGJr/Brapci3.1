@@ -90,11 +90,15 @@ export class RdfFormComponent {
 
   submitAction() {
     let url = 'rdf/searchSelect';
-    let data = this.searchForm.value;
+    let q = this.searchForm.value['term']
+    let ID = this.searchForm.value['ID'];
+    let prop = this.searchForm.value['prop'];
 
-    //this.brapciService.RDFapi(url,ID,prop,q).subscribe((res) => {
+    let data: Array<any> | any = { q: q, ID: ID, prop: prop };
+
     this.brapciService.api_post(url, data).subscribe((res) => {
-      this.result = res;
+      console.log(res)
+      //this.result = res;
     });
   }
 
