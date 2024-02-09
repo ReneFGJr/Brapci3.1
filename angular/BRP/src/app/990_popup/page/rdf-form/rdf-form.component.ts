@@ -136,8 +136,7 @@ export class RdfFormComponent {
         this.concepts = res;
         if (close)
           {
-	          window.opener.location.reload();
-            window.close();
+            this.wclose()
           } else {
             this.selectedID = '';
             this.btnChecks();
@@ -148,6 +147,6 @@ export class RdfFormComponent {
   keyUp() {}
 
   wclose() {
-    alert('CLOSE');
+    window.self.close();
   }
 }
