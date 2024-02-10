@@ -85,7 +85,8 @@ def run(parm):
 
     if (act == 'lattesK'):
         file = parm[2]
-        lp = mod_lattes.import_file(file)
+        hd = parm[3]
+        lp = mod_lattes.import_file(file,hd)
 
     #********************** Clear
     elif (act == 'clear'):
