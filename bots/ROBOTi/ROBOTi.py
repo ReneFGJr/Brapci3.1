@@ -15,10 +15,11 @@ import oaipmh_ListIdentifiers
 import oaipmh_getRecord
 import mod_issue
 import mod_ontology
+import mod_lattes
 from colorama import Fore
 
 def version():
-    return "v0.24.01.20"
+    return "v0.24.02.10"
 
 def run(parm):
     act = parm[1]
@@ -81,6 +82,10 @@ def run(parm):
         lp = mod_data.DataDoubleInverse()
     if (act == '110'):
         lp = mod_ontology.checkData()
+
+    if (act == 'lattesK'):
+        file = parm[2]
+        lp = mod_lattes.import_file(file)
 
     #********************** Clear
     elif (act == 'clear'):

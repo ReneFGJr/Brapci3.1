@@ -63,6 +63,9 @@ class Index extends Model
         $sx = "";
         $sx .= h(lang('tools.Lattes_tools'), 2);
         switch ($d1) {
+            case 'convert':
+                $sx = $this->convert_code();
+                break;
             case 'in':
                 $sx = 'FORM';
                 $lattes = get("lattes");
@@ -531,4 +534,48 @@ class Index extends Model
         $sx .= form_close();
         return $sx;
     }
+
+    function convert_process()
+        {
+            $sx = '';
+            $tmp = $_FILES['lattes']['tmp_name'];
+            $txt = file_get_contents($tmp);
+            $IDs = [];
+            $ts = 'abreDetalhe(&#39;';
+            $te = '&#39;';
+            $loop = 0;
+            $limit = 10;
+            $sx .= '<ol>';
+            while(($pos=strpos($txt,$ts)) > 0)
+                {
+                    $txt = substr($txt,$pos+strlen($ts),strlen($txt));
+                    $ID = trim(substr($txt,0,strpos($txt,$te)));
+                    array_push($IDs,$ID);
+                    $sx .= '<li>'.$ID.'</li>';
+                    $loop++;
+                    if ($loop >= $limit)
+                        {
+                            $sx = bsmessage("Limite de $limit foi atingido",3).$sx;
+                            break;
+                        }
+                }
+            $sx .= '</ol>';
+            return $sx;
+        }
+
+    function convert_code()
+        {
+            if (isset($_FILES['lattes']['name']))
+                {
+                    return $this->convert_process();
+                }
+
+            $sx = '';
+            $sx .= h('Conversão de curriculos K para 16 dígitos');
+            $sx .= form_open_multipart();
+            $sx .= form_upload('lattes');
+            $sx .= form_submit('action','Send');
+            $sx .= form_close();
+            return $sx;
+        }
 }

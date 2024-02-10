@@ -80,6 +80,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('../990_popup/popup.module').then((m) => m.PopupModule),
   },
+  {
+    path: 'event',
+    loadChildren: () =>
+      import('../150_events/events.module').then((m) => m.EventsModule),
+  },
 ];
 
 @NgModule({

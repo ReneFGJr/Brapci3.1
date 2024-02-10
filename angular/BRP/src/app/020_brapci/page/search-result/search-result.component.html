@@ -24,8 +24,6 @@
 
 <div class="container">
   <!-------------- Resultados -->
-  ==>{{ marked.value | json }}
-
   <div class="list-group row" infinite-scroll (scrolled)="onScrollDown($event)">
     <form [formGroup]="marked">
       <table

@@ -108,6 +108,8 @@ class Index extends Model
         $menu['#' . lang('tools.NLP')] = lang('tools.nlp_tools');
         $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
 
+        $menu['#' . lang('tools.Lattes')] = lang('tools.Lattes');
+        $menu[URL . '/tools/lattes/convert'] = lang('tools.lattes_convert_code');
 
 
         $sx = menu($menu);
