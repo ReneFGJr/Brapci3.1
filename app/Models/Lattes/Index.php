@@ -537,6 +537,7 @@ class Index extends Model
 
     function convert_process()
         {
+            $kto16 = new \App\Models\Lattes\Kto16();
             $sx = '';
             $tmp = $_FILES['lattes']['tmp_name'];
             $txt = file_get_contents($tmp);
@@ -544,14 +545,15 @@ class Index extends Model
             $ts = 'abreDetalhe(&#39;';
             $te = '&#39;';
             $loop = 0;
-            $limit = 10;
+            $limit = 100;
             $sx .= '<ol>';
             while(($pos=strpos($txt,$ts)) > 0)
                 {
                     $txt = substr($txt,$pos+strlen($ts),strlen($txt));
                     $ID = trim(substr($txt,0,strpos($txt,$te)));
                     array_push($IDs,$ID);
-                    $sx .= '<li>'.$ID.'</li>';
+                    $proc = $kto16->kton($ID);
+                    $sx .= '<li>'.$ID.' '.$proc.'</li>';
                     $loop++;
                     if ($loop >= $limit)
                         {

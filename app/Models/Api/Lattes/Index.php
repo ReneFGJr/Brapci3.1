@@ -49,7 +49,7 @@ class Index extends Model
         $sx = '';
         switch ($d1) {
             case 'kton':
-                $KtoN = new \App\Models\Api\Lattes\KtoN();
+                $KtoN = new \App\Models\Lattes\Kto16();
                 $sx .= $KtoN->list($d2);
                 break;
             case 'extract':
