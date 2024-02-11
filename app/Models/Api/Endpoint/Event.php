@@ -74,6 +74,15 @@ class Event extends Model
             ->where("ev_data_end >= '".$dt."'")
             ->orderby('ev_data_start')
             ->findAll();
+        foreach($dt as $id=>$line)
+            {
+                $img = $line['logo'];
+                if (substr($img,0,4) != 'http')
+                    {
+                        $logo = PATH. $img;
+                        $dt[$id]['logo'] = $logo;
+                    }
+            }
         echo json_encode($dt);
         exit;
         }

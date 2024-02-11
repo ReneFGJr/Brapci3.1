@@ -16,6 +16,7 @@ export class EventComponent {
     let dt:Array<any> = []
     this.brapciService.api_post(url, dt).subscribe((res) => {
       this.result = res;
+      console.log(res)
     });
   }
 }
