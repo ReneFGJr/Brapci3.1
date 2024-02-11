@@ -4,7 +4,7 @@ namespace App\Models\Lattes;
 
 use CodeIgniter\Model;
 
-class Kto16 extends Model
+class Kto16tmp extends Model
 {
     protected $DBGroup          = 'lattes';
     protected $table            = 'k_to_n';
@@ -44,8 +44,31 @@ class Kto16 extends Model
 
     function resume()
     {
-        $kto16 = new \App\Models\Lattes\Kto16tmp();
-        return $kto16->resume();
+        $sx = '';
+        $dt = $this
+            ->select('count(*) as total, kn_status')
+            ->where('kn_status', 1)
+            ->groupBy('kn_status')
+            ->orderBy('total desc')
+            ->findAll();
+        $sx = '<table width="100%" class="table" style="font-size: 0.7em;>';
+        $sx .= '<tr><th colspan=2"><th>' . lang('brapci.lattes_kton') . '</th></tr>';
+        foreach ($dt as $id => $line) {
+            $link = '<a href="' . PATH . 'admin/lattes/kton/' . $line['kn_status'] . '">';
+            $linka = '</a>';
+            $sx .= '<tr>';
+            $sx .= '<td width="80%">';
+            $sx .= $link . lang('brapci.lattes_kton_' . $line['kn_status']) . $linka;
+            $sx .= '</td>';
+
+            $sx .= '<td width="20%" class="text-end">';
+            $sx .= $line['total'];
+            $sx .= '</td>';
+
+            $sx .= '</tr>';
+        }
+        $sx .= '</table>';
+        return $sx;
     }
 
     function register($k)
@@ -55,8 +78,7 @@ class Kto16 extends Model
             $data['kn_idk'] = $k;
             $data['kn_idn'] = '';
             $data['kn_status'] = 1;
-            $kto16 = new \App\Models\Lattes\Kto16tmp();
-            $kto16->set($data)->insert();
+            $this->set($data)->insert();
         }
     }
 
