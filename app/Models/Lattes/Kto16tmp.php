@@ -69,7 +69,7 @@ class Kto16tmp extends Model
         }
         if ($dt == []) {
             $link = '<a href="#">';
-            $link .= '</a>';
+            $linka = '</a>';
             $sx .= '<td width="80%">';
             $sx .= $link . lang('brapci.without') . $linka;
             $sx .= '</td>';
