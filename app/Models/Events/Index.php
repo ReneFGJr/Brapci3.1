@@ -1,30 +1,25 @@
 <?php
 
-namespace App\Models\Api\Endpoint;
-/*
-@category API
-@package Lattes Tools
-@name
-@author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2023 CC-BY
-@access public/private/apikey
-@example https://brapci.inf.br/api/lattes/convert/K2999994T9
-@abstract API para uso do Lattes
-*/
+namespace App\Models\Events;
 
 use CodeIgniter\Model;
 
-class Lattes extends Model
+class Index extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'lattes';
-    protected $primaryKey       = 'id';
+    protected $table            = 'event';
+    protected $primaryKey       = 'id_ev';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_ev ', 'ev_name', 'ev_place',
+        'ev_ative', 'ev_permanent', 'ev_data_start',
+        'ev_data_end', 'ev_deadline', 'ev_url',
+        'ev_description', 'ev_image', 'ev_count'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -52,14 +47,20 @@ class Lattes extends Model
 
     function index($d1,$d2,$d3)
         {
+            header('Access-Control-Allow-Origin: *');
+            if (get("test") == '') {
+                header("Content-Type: application/json");
+            }
             switch($d1)
                 {
-                    case 'convert':
-                        //$API = new \App\Models\Api\Lattes\KtoN();
-                        $API = new \App\Models\Lattes\Kto16();
-                        $RSP = $API->convert_KtoN($d2);
-                        echo $RSP;
-                        exit;
+                    default:
+                        $this->events($d2);
                 }
+        }
+
+    function events($type=1)
+        {
+            $dt = $this->findAll();
+            return ($dt);
         }
 }

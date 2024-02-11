@@ -15,7 +15,7 @@ class Kto16 extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        '','',''
+        'kn_idk', 'kn_idn', 'kn_status'
     ];
 
     // Dates
@@ -110,8 +110,7 @@ class Kto16 extends Model
                 $this->register($n);
                 $k = '';
             }
-        $rsp['lattes'] = $k;
-        return $rsp;
+        return $k;
     }
 
     function list($status)

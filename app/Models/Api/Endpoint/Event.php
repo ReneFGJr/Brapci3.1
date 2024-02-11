@@ -1,24 +1,24 @@
 <?php
-
-namespace App\Models\Api\Endpoint;
 /*
 @category API
-@package Lattes Tools
+@package Eventos
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2023 CC-BY
-@access public/private/apikey
-@example https://brapci.inf.br/api/lattes/convert/K2999994T9
-@abstract API para uso do Lattes
+@copyright 2024 CC-BY
+@access public
+@example $URL/api/event/
+@abstract API para consulta de eventos ativos na área
 */
+
+namespace App\Models\Api\Endpoint;
 
 use CodeIgniter\Model;
 
-class Lattes extends Model
+class Event extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'lattes';
-    protected $primaryKey       = 'id';
+    protected $table            = 'event';
+    protected $primaryKey       = 'id_ev';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -50,16 +50,31 @@ class Lattes extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1,$d2,$d3)
+    function index($d1, $d2, $d3)
+    {
+        header('Access-Control-Allow-Origin: *');
+        if (get("test") == '') {
+            header("Content-Type: application/json");
+        }
+        switch ($d1) {
+            default:
+                $this->list($d2);
+        }
+    }
+
+    function list($status=0)
         {
-            switch($d1)
-                {
-                    case 'convert':
-                        //$API = new \App\Models\Api\Lattes\KtoN();
-                        $API = new \App\Models\Lattes\Kto16();
-                        $RSP = $API->convert_KtoN($d2);
-                        echo $RSP;
-                        exit;
-                }
+        $dt = date("Y-m-d");
+        $dt = "2023-01-01";
+        $cp = 'ev_name as name, ev_place as place, ';
+        $cp .= 'ev_data_start as start, ev_data_end as end, ev_url as URL, ';
+        $cp .= 'ev_image as logo';
+        $dt = $this
+            ->select($cp)
+            ->where("ev_data_end >= '".$dt."'")
+            ->orderby('ev_data_start')
+            ->findAll();
+        echo json_encode($dt);
+        exit;
         }
 }

@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'event':
+                $Event = new \App\Models\Api\Endpoint\Event();
+                $Event->index($d2,$d3,$d4);
+                break;
             case 'handle':
                 $Handle = new \App\Models\Handle\Index();
                 $sx = $Handle->index($d2,$d3,$d4);

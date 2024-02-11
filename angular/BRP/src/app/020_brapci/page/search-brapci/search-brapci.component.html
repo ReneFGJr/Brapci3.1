@@ -65,3 +65,7 @@
 
 <!-- brapci-basket [total]="selected" (basketRow)="updateBasket($event)"></brapci-basket -->
 <app-search-result *ngIf="total >= 0" [results]="results" [result]="total" [searchAction]="search"></app-search-result>
+
+<div class="col-3 border border-secondary p-2" *ngIf="total == 0">
+<app-event></app-event>
+</div>

@@ -49,6 +49,7 @@ import { TipsComponent } from './page/tips/tips.component';
 import { IndexSubjectComponent } from './page/index-subject/index-subject.component';
 import { IndexsComponent } from './page/indexs/indexs.component';
 import { LoveItComponent } from './page/loveit/loveit.component';
+import { EventComponent } from './widget/event/event.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { LoveItComponent } from './page/loveit/loveit.component';
     TipsComponent,
     IndexSubjectComponent,
     IndexsComponent,
+    EventComponent,
   ],
   imports: [
     CommonModule,

@@ -546,14 +546,22 @@ class Index extends Model
             $te = '&#39;';
             $loop = 0;
             $limit = 100;
+            $sx .= h('Convertidos');
             $sx .= '<ol>';
+            $se = '<ol>';
             while(($pos=strpos($txt,$ts)) > 0)
                 {
                     $txt = substr($txt,$pos+strlen($ts),strlen($txt));
                     $ID = trim(substr($txt,0,strpos($txt,$te)));
                     array_push($IDs,$ID);
                     $proc = $kto16->kton($ID);
-                    $sx .= '<li>'.$ID.' '.$proc.'</li>';
+                    if ($proc == 'ERRO')
+                        {
+                            $se .= '<li>' . $ID . '</li>';
+                        } else {
+                            $sx .= '<li>'. $proc . '</li>';
+                        }
+
                     $loop++;
                     if ($loop >= $limit)
                         {
@@ -562,6 +570,9 @@ class Index extends Model
                         }
                 }
             $sx .= '</ol>';
+            $se .= '</ol>';
+
+            $sx .= h('Não localizados').$se;
             return $sx;
         }
 
