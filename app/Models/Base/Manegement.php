@@ -104,7 +104,7 @@ class Manegement extends Model
             $sd .= $OS->resume();
 
             /************************************************ CRON - TAREFAS */
-            $Lattes = new \App\Models\Api\Lattes\KtoN();
+            $Lattes = new \App\Models\Lattes\Kto16();
             $sc .= $Lattes->resume();
 
             $sx .= bsc($sb,3,'" style="border-right: 1px solid #AAA;');
