@@ -67,7 +67,7 @@ class Event extends Model
         $dt = date("Y-m-d");
         $dt = "2023-01-01";
         $cp = 'ev_name as name, ev_place as place, ';
-        $cp .= 'ev_data_start as start, ev_data_end as end, ev_url as URL, ';
+        $cp .= 'ev_data_start as start, ev_data_end as end, id_ev as URL, ';
         $cp .= 'ev_image as logo';
         $dt = $this
             ->select($cp)
@@ -81,6 +81,7 @@ class Event extends Model
                 $dt[$id]['logo'] = $logo;
             }
             $dt[$id]['date'] = $this->format_date($line['start'], $line['end']);
+            $dt[$id]['URL'] .= PATH.'/api/event/redirect/'.$line['URL'];
         }
         echo json_encode($dt);
         exit;

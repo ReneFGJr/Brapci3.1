@@ -1,8 +1,7 @@
-<div *ngFor="let item of result">
+<div *ngFor="let item of result" class="mb-4">
 <a [routerLink]="item.URL">
 <img [src]="item.logo" class="img-fluid">
 </a>
-<span class="small bold">{{item.name}}</span>
-<br>
-{{ item.start }} {{ item.end }}
+<div class="small bold" [innerHTML]="item.name"></div>
+<div class="small" [innerHTML]="item.date"></div>
 </div>
