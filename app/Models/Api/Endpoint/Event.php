@@ -81,7 +81,7 @@ class Event extends Model
                 $dt[$id]['logo'] = $logo;
             }
             $dt[$id]['date'] = $this->format_date($line['start'], $line['end']);
-            $dt[$id]['URL'] .= PATH.'/api/event/redirect/'.$line['URL'];
+            $dt[$id]['URL'] = PATH.'/api/event/redirect/'.$line['URL'];
         }
         echo json_encode($dt);
         exit;
