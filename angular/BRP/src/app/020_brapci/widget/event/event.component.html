@@ -1,5 +1,8 @@
 <div *ngFor="let item of result">
-<span>{{item.name}}</span>
-<img [src]="item.logo">
-{{ item | json }}
+<a [routerLink]="item.URL">
+<img [src]="item.logo" class="img-fluid">
+</a>
+<span class="small bold">{{item.name}}</span>
+<br>
+{{ item.start }} {{ item.end }}
 </div>
