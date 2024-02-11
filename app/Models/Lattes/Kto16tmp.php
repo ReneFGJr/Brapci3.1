@@ -73,7 +73,7 @@ class Kto16tmp extends Model
         } else {
             $link = '<a href="#" class="text-success">';
             $linka = '</a>';
-            $sx .= '<li class="text-success" style="font-size: 0.7rem;">';
+            $sx .= '<li class="text-success" style="font-size: 0.7em;">';
             $sx .= $link . lang('brapci.without') . $linka;
             $sx .= '</li>';
         }
