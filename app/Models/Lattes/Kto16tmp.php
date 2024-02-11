@@ -67,6 +67,13 @@ class Kto16tmp extends Model
 
             $sx .= '</tr>';
         }
+        if ($dt == []) {
+            $link = '<a href="#">';
+            $link .= '</a>';
+            $sx .= '<td width="80%">';
+            $sx .= $link . lang('brapci.without') . $linka;
+            $sx .= '</td>';
+        }
         $sx .= '</table>';
         return $sx;
     }
@@ -83,16 +90,16 @@ class Kto16tmp extends Model
     }
 
     function kton($n)
-        {
-            $n = trim($n);
-            if (substr($n, 0, 1) != 'K') {
-                $dt = $this->where('kn_idk',$n)->first();
-                $RSP = $dt['kn_idn'];
-            } else {
-                $RSP = 'ERRO';
-            }
-            return $RSP;
+    {
+        $n = trim($n);
+        if (substr($n, 0, 1) != 'K') {
+            $dt = $this->where('kn_idk', $n)->first();
+            $RSP = $dt['kn_idn'];
+        } else {
+            $RSP = 'ERRO';
         }
+        return $RSP;
+    }
 
     function convert_KtoN($n)
     {
@@ -105,11 +112,10 @@ class Kto16tmp extends Model
             exit;
         }
         $k = $this->kton($n);
-        if ($k == 'ERRO')
-            {
-                $this->register($n);
-                $k = '';
-            }
+        if ($k == 'ERRO') {
+            $this->register($n);
+            $k = '';
+        }
         return $k;
     }
 
