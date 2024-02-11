@@ -67,14 +67,14 @@ class Kto16tmp extends Model
 
             $sx .= '</tr>';
         }
+        $sx .= '</table>';
         if ($dt == []) {
             $link = '<a href="#">';
             $linka = '</a>';
-            $sx .= '<td width="80%">';
+            $sx = '<li>';
             $sx .= $link . lang('brapci.without') . $linka;
-            $sx .= '</td>';
+            $sx .= '</li>';
         }
-        $sx .= '</table>';
         return $sx;
     }
 
