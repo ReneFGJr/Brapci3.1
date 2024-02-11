@@ -51,24 +51,26 @@ class Kto16tmp extends Model
             ->groupBy('kn_status')
             ->orderBy('total desc')
             ->findAll();
-        $sx = '<table width="100%" class="table" style="font-size: 0.7em;>';
-        $sx .= '<tr><th colspan=2"><th>' . lang('brapci.lattes_kton') . '</th></tr>';
-        foreach ($dt as $id => $line) {
-            $link = '<a href="' . PATH . 'admin/lattes/kton/' . $line['kn_status'] . '">';
-            $linka = '</a>';
-            $sx .= '<tr>';
-            $sx .= '<td width="80%">';
-            $sx .= $link . lang('brapci.lattes_kton_' . $line['kn_status']) . $linka;
-            $sx .= '</td>';
+        $sx = '<b>' . lang('brapci.lattes_kton') . '</b>';
+        if ($dt != []) {
+            $sx .= '<table width="100%" class="table" style="font-size: 0.7em;>';
+            $sx .= '<tr><th colspan=2"><th>' . lang('brapci.lattes_kton') . '</th></tr>';
+            foreach ($dt as $id => $line) {
+                $link = '<a href="' . PATH . 'admin/lattes/kton/' . $line['kn_status'] . '">';
+                $linka = '</a>';
+                $sx .= '<tr>';
+                $sx .= '<td width="80%">';
+                $sx .= $link . lang('brapci.lattes_kton_' . $line['kn_status']) . $linka;
+                $sx .= '</td>';
 
-            $sx .= '<td width="20%" class="text-end">';
-            $sx .= $line['total'];
-            $sx .= '</td>';
+                $sx .= '<td width="20%" class="text-end">';
+                $sx .= $line['total'];
+                $sx .= '</td>';
 
-            $sx .= '</tr>';
-        }
-        $sx .= '</table>';
-        if ($dt == []) {
+                $sx .= '</tr>';
+            }
+            $sx .= '</table>';
+        } else {
             $link = '<a href="#">';
             $linka = '</a>';
             $sx = '<li>';
