@@ -1,5 +1,6 @@
+<div *ngIf="result" class="h5 bold">Próximos eventos</div>
 <div *ngFor="let item of result" class="mb-4">
-<a [routerLink]="item.URL">
+<a href="{{item.URL}}" target="_blank">
 <img [src]="item.logo" class="img-fluid">
 </a>
 <div class="small bold" [innerHTML]="item.name"></div>

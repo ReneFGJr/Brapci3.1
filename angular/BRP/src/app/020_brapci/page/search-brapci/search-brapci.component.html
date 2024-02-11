@@ -14,19 +14,26 @@
   <button type="submit" *ngIf="loading">
     <img [src]="loaging_img" style="height: 65px" />
   </button>
-  <br/>
+  <br />
 
   <small class="link ms-3" (click)="clickFilters()">filtros</small>
   <small class="link ms-4" (click)="clickadvanceSearch()">busca avançada</small>
 
-  <div [ngClass]="style" class="pb-3 border border-secondary rounded shadow bg-body">
+  <div
+    [ngClass]="style"
+    class="pb-3 border border-secondary rounded shadow bg-body"
+  >
     <h3 class="ps-2">Filtros</h3>
 
-    <div class="form-group container" >
+    <div class="form-group container">
       <div class="row">
         <div class="col-3 col-sm-2">
           <span class="small bold">Ano Inicial</span>
-          <select id="year_start" formControlName="year_start" class="form-control">
+          <select
+            id="year_start"
+            formControlName="year_start"
+            class="form-control"
+          >
             <option *ngFor="let year of yearsI" value="{{ year.name }}">
               {{ year.name }}
             </option>
@@ -36,7 +43,11 @@
         <div class="col-3 col-sm-2">
           <span class="small bold">Ano Final</span>
           <select id="year_end" formControlName="year_end" class="form-control">
-            <option *ngFor="let year of yearsF" id="year_end" value="{{ year.name }}">
+            <option
+              *ngFor="let year of yearsF"
+              id="year_end"
+              value="{{ year.name }}"
+            >
               {{ year.name }}
             </option>
           </select>
@@ -44,16 +55,28 @@
 
         <div class="col-4 col-sm-4">
           <span class="small bold">Coleções</span>
-              <div *ngFor="let item of list">
-                <input type="checkbox" value="{{ item.value }}" [checked]="item.checked"> {{ item.name }} <br/>
-              </div>
+          <div *ngFor="let item of list">
+            <input
+              type="checkbox"
+              value="{{ item.value }}"
+              [checked]="item.checked"
+            />
+            {{ item.name }} <br />
+          </div>
         </div>
 
         <div class="col-4 col-sm-3">
           <span class="small bold">Campos</span>
-              <div *ngFor="let item of fields">
-                <input type="radio" name="fields" (change)="fieldChange(item.value)" value="{{ item.value }}" [checked]="item.checked"> {{ item.name }} <br/>
-              </div>
+          <div *ngFor="let item of fields">
+            <input
+              type="radio"
+              name="fields"
+              (change)="fieldChange(item.value)"
+              value="{{ item.value }}"
+              [checked]="item.checked"
+            />
+            {{ item.name }} <br />
+          </div>
         </div>
       </div>
     </div>
@@ -62,10 +85,19 @@
 
 <app-search-tips *ngIf="tips" [terms]="terms"></app-search-tips>
 
-
 <!-- brapci-basket [total]="selected" (basketRow)="updateBasket($event)"></brapci-basket -->
-<app-search-result *ngIf="total >= 0" [results]="results" [result]="total" [searchAction]="search"></app-search-result>
+<app-search-result
+  *ngIf="total >= 0"
+  [results]="results"
+  [result]="total"
+  [searchAction]="search"
+></app-search-result>
 
-<div class="col-4 border border-secondary p-2" *ngIf="total == 0">
-<app-event></app-event>
+<div class="row">
+  <div class="col-3"></div>
+  <div class="col-3"></div>
+  <div class="col-3"></div>
+  <div class="col-3 border border-secondary p-2" *ngIf="total == 0">
+    <app-event></app-event>
+  </div>
 </div>

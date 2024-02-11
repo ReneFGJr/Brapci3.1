@@ -57,6 +57,26 @@ class Event extends Model
             header("Content-Type: application/json");
         }
         switch ($d1) {
+            case 'redirect':
+                $d2 = sonumero($d2);
+                if ($d2 == '')
+                    {
+                        echo "ERRO DE ID - REDIRECT EVENTO";
+                        exit;
+                    }
+                $dt = $this->find($d2);
+                if ($dt != [])
+                    {
+                        $url = $dt['ev_url'];
+                        $dd['ev_count'] = $dt['ev_count'] + 1;
+                        $this->set($dd)->where('id_ev',$dt['id_ev']);
+                        header('Location: '.$url);
+                        exit;
+                    } else {
+                        echo "ID NÂO LOCALIZADO - REDIRECT EVENTO";
+                        exit;
+                    }
+                break;
             default:
                 $this->list($d2);
         }
@@ -81,7 +101,7 @@ class Event extends Model
                 $dt[$id]['logo'] = $logo;
             }
             $dt[$id]['date'] = $this->format_date($line['start'], $line['end']);
-            $dt[$id]['URL'] = PATH.'/api/event/redirect/'.$line['URL'];
+            $dt[$id]['URL'] = PATH.'api/event/redirect/'.$line['URL'];
         }
         echo json_encode($dt);
         exit;
