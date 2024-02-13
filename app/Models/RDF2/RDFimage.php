@@ -109,7 +109,7 @@ class RDFimage extends Model
         $idc = $RDFconcept->createConcept($dt);
 
         /************************** Incula Imagem com Conceito */
-        $RDFdata->register($ID, 'hasContentType', $idc, 0);
+        $RDFdata->register($ID, 'hasCover', $idc, 0);
 
         /***************************************** ContentType */
         $dt = [];
