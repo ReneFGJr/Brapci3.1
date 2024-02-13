@@ -173,6 +173,7 @@ class RDFimage extends Model
         }
 
         echo $dir;
+        echo '<br>'.$type;
         exit;
 
         if ($dir != '') {
