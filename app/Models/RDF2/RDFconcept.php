@@ -145,7 +145,7 @@ class RDFconcept extends Model
             $this->set($dt)->where('id_cc',$id)->update();
         }
 
-    function registerLiteral($idc,$name,$lang='',$prop)
+    function registerLiteral($idc,$name,$lang='',$prop='')
         {
             $RDFdata = new \App\Models\RDF2\RDFdata();
             $RDFliteral = new \App\Models\RDF2\RDFliteral();

@@ -63,7 +63,7 @@ return [
     'Check_class_duplicate' => 'Verificando classes duplicadas',
     'rdf_check_ok' => 'Checagem finalizada!',
     '' => '',
-    'hasSubjectAuthor' => 'Assunto (Autor)',
+    'hasSubjectAuthor' => 'Assunto do Autor',
     'hasIllustrator' => 'Ilustrador',
     'isPlaceOfPublication' => 'Local de Publicação',
     'hasClassificationCDU' => 'Classificação CDU',
