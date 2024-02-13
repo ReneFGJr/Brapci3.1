@@ -62,8 +62,8 @@ export class RdfFormComponent {
     if (this.file) {
       const formData = new FormData();
 
-      //let url = this.brapciService.url + 'upload/cover/' + this.ID
-      let url = 'http://brp/api/' + 'upload/cover/' + this.ID
+      let url = this.brapciService.url + 'upload/cover/' + this.ID
+      //let url = 'http://brp/api/' + 'upload/cover/' + this.ID
       console.log(url)
 
       formData.append('file', this.file, this.file.name);

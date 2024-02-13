@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkBRP=self.webpackChunkBRP||[]).push([[173],{173:(D,_,E)=>{E.r(_),E.d(_,{EventsModule:()=>a});var o=E(6814),t=E(95),M=E(594),s=E(2692),P=E(6283),l=E(9468);let a=(()=>{class n{}return n.\u0275fac=function(O){return new(O||n)},n.\u0275mod=l.oAB({type:n}),n.\u0275inj=l.cJS({imports:[o.ez,t.UX,M.Bz,s.O,P.Rq]}),n})()}}]);
