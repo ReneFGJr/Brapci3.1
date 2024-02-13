@@ -172,11 +172,13 @@ class RDFimage extends Model
             }
         }
 
+        echo $dir;
+        exit;
+
         if ($dir != '') {
             switch ($type) {
                 case 'image/jpeg':
                     $nfile = $dir . 'image.jpg';
-                    echo $nfile;
                     if (file_exists($nfile)) {
                         $url = PATH . '/' . $nfile;
                         return $url;
