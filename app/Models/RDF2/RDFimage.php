@@ -59,7 +59,7 @@ class RDFimage extends Model
                 break;
             default:
                 $dd = [];
-                $dd['erro'] = 'Tipo '.$type.' não existe';
+                $dd['erro'] = 'Tipo '.$d1.' não existe';
                 echo json_encode($dd);
                 exit;
 
