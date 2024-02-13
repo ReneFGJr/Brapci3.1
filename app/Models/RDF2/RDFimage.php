@@ -76,6 +76,8 @@ class RDFimage extends Model
 
     function saveImage($ID)
     {
+        echo json_encode($_FILES);
+        exit;
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
