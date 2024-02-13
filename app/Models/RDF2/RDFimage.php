@@ -83,9 +83,6 @@ class RDFimage extends Model
 
         $name = md5($ID);
 
-        echo json_encode($_FILES);
-        exit;
-
         $dire = $this->directory($ID);
         $ext = '.xxx';
 
