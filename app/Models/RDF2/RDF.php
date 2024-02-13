@@ -209,10 +209,10 @@ class RDF extends Model
                 ############################## DELETE
                 $conf = get("confirm");
                 if ($conf != '') {
-
                     $sx .= '<h1 class="text-center">' . lang('brapci.excluded_item') . '</h1>';
                     $sx .= '<span class="btn btn-outline-primary" onclick="wclose();">' . lang("brapci.close") . '</span>';
                     $RDFdata->where('id_d', $d2)->delete();
+                    echo $RDFdata->getlastquery();
                 } else {
                     $dt = $RDFdata
                         ->find($d2);

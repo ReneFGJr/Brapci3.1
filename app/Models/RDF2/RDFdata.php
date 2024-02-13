@@ -75,9 +75,6 @@ class RDFdata extends Model
 
     function le($id)
     {
-        $cp = 'n_name as caption, id_cc as ID, cc_use as USE ';
-        $cp .= ', prefix_ref as prefix, c_class as Class, "" as Prop ';
-
         $cp = '';
         $cp .= 'prefix_ref as Prefix,';
         $cp .= ', C1.c_class as Class';
@@ -86,6 +83,7 @@ class RDFdata extends Model
         $cp .= ', n_name as Caption';
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
+        $cp .= ', id_d as idD ';
 
         //$cp = '*';
 
@@ -111,6 +109,7 @@ class RDFdata extends Model
         $cp .= ', n_name as Caption';
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
+        $cp .= ', id_d as idD ';
 
         $dtB = $this
             ->select($cp . ',"N" as tp')
@@ -134,6 +133,7 @@ class RDFdata extends Model
         $cp .= ', n_name as Caption';
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
+        $cp .= ', id_d as idD ';
 
         $dtC = $this
             ->select($cp . ',"R" as tp')

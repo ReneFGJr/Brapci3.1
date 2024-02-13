@@ -195,8 +195,9 @@ class RDFform extends Model
                 if ($sx != '') {
                     $sx .= '<br>';
                 }
+                $idD = $line['idD'];
                 $sx .= bsicone('edit', 16);
-                $sx .= bsicone('trash', 16);
+                $sx .= '<span class="pointer text-red" onclick="newxy(\''.PATH.'/popup/rdf/delete/'.$idD.'\',800,300);">'.bsicone('trash', 16). '</span>';
                 $sx .= '&nbsp;';
                 $sx .= $line['Caption'];
                 $sx .= '<sup>' . $line['Lang'] . '</sup>';
@@ -212,6 +213,11 @@ class RDFform extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
 
         $dt = $RDF->le($id);
+        if (!isset($dt['concept']['n_name']))
+            {
+                echo $RDF->e404();
+                exit;
+            }
 
         $sx .= bsc(h($dt['concept']['n_name'], 3));
         $sx .= bsc(h($dt['concept']['c_class'], 6) . '<hr>');
