@@ -84,7 +84,7 @@ class RDFclassDomain extends Model
             ->join('brapci_rdf.rdf_class','cd_range = id_c')
             ->where('cd_domain',$class)
             ->where('cd_property',$prop)
-        ->findAll(1);
+        ->findAll();
         return $dt;
     }
 
