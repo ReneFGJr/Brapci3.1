@@ -86,11 +86,6 @@ class RDFimage extends Model
         $dire = $this->directory($ID);
         $ext = '.xxx';
 
-        $dd = [];
-        $dd['a'] = $type;
-        echo json_encode($dd);
-        exit;
-
         switch ($type) {
             case 'image/jpeg':
                 $ext = '.jpg';
