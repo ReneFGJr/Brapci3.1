@@ -85,6 +85,8 @@ class RDFclassDomain extends Model
             ->where('cd_domain',$class)
             ->where('cd_property',$prop)
         ->findAll();
+        echo $this->getlastquery();
+        exit;
         return $dt;
     }
 
