@@ -144,4 +144,24 @@ class RDFconcept extends Model
             $dt['cc_status'] = $status;
             $this->set($dt)->where('id_cc',$id)->update();
         }
+
+    function registerLiteral($idc,$name,$lang='',$prop)
+        {
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+            $RDFliteral = new \App\Models\RDF2\RDFliteral();
+            $RDFproperty = new \App\Models\RDF2\RDFproperty();
+            $Language = new \App\Models\AI\NLP\Language();
+
+            $id_prop = $RDFproperty->getProperty($prop);
+            $name = $name;
+            if ($lang == '')
+                {
+                    $lang = $Language->getTextLanguage($name);
+                }
+
+            $lock = 1;
+            $lit = $RDFliteral->register($name, $lang, $lock);
+            $RDFdata->register($idc, $id_prop, 0, $lit);
+            return true;
+        }
 }

@@ -41,9 +41,48 @@ class Index extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
-    function index($d1 = '', $d2 = '', $d3 = '')
+
+    function index($d1='',$d2='',$d3='')
+        {
+            $sx = '';
+            $BookSubmit = new \App\Models\Books\BooksSubmit();
+            switch($d1)
+                {
+                    case 'change':
+                        switch($d3)
+                            {
+                                case '2':
+                                    /* Create a Book */
+                                    $Book = new \App\Models\Books\Book();
+                                    $dt = $BookSubmit->find($d2);
+                                    $dta = (array)json_decode($dt['bs_post']);
+                                    $idc = $Book->create_book($dta);
+                                    $dd['bs_rdf'] = $idc;
+                                    $BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
+                                break;
+                            }
+                        $BookSubmit->chache_status($d2, $d3);
+                        $sx = bs(bsc($BookSubmit->view($d2), 12));
+                        break;
+                    break;
+                    case 'view':
+                    $sx = bs(bsc($BookSubmit->view($d2), 12));
+                    break;
+
+                    case 'status':
+                    $sx = bs(bsc($BookSubmit->list($d2),12,'small'));
+                    break;
+                    default:
+
+                    break;
+                }
+            return $sx;
+        }
+
+    function Xindex($d1 = '', $d2 = '', $d3 = '')
     {
         $sx =  '';
+        echo $d1.'='.$d2.'='.$d3;
         $TechinalProceessing = new \App\Models\Books\TechinalProceessing();
         switch ($d1) {
             case 'status':
