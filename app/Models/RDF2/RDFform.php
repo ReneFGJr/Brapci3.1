@@ -246,6 +246,7 @@ class RDFform extends Model
         //$PATH = 'http://localhost:4200/#/';
         $PATH = 'https://brapci.inf.br/#/';
         foreach ($df as $idf => $linef) {
+            pre($linef,false);
             $grp = $linef['rf_group'];
 
             $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
