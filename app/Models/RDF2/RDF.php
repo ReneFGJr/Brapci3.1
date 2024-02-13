@@ -197,7 +197,7 @@ class RDF extends Model
         $sx = '';
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $RDFdata = new \App\Models\RDF2\RDFdata();
-        $Language = new \App\Models\Ai\NLP\Language();
+        $Language = new \App\Models\AI\NLP\Language();
 
         switch ($d1) {
             case 'literal':
