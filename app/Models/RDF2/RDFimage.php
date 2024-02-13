@@ -176,6 +176,7 @@ class RDFimage extends Model
             switch ($type) {
                 case 'image/jpeg':
                     $nfile = $dir . 'image.jpg';
+                    echo $nfile;
                     if (file_exists($nfile)) {
                         $url = PATH . '/' . $nfile;
                         return $url;
