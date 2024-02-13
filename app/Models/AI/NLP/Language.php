@@ -42,39 +42,81 @@ class Language extends Model
 	var $statistic = array();
 
 	function normalize($lang)
-		{
-			if ($lang == '') { return 'nn'; }
-			if ($lang == 'nn') { return 'nn'; }
-			if ($lang == 'NaN') { return 'nn'; }
-			if ($lang == 'pt-BR') { return 'pt'; }
-			if ($lang == 'pt-PT') { return 'pt'; }
-			if ($lang == 'pt') { return 'pt'; }
-			if ($lang == 'BUpt-') { return 'pt'; }
-			if ($lang == 'por') { return 'pt'; }
-			if ($lang == 'en') { return 'en'; }
-			if ($lang == 'es') { return 'es'; }
-			if ($lang == 'fr') { return 'fr'; }
-			if ($lang == 'es-ES') { return 'es'; }
-			if ($lang == 'BUen-') { return 'en'; }
-			if ($lang == 'fr-CA') { return 'fr'; }
-			if ($lang == 'fr-FR') { return 'fr'; }
-			if ($lang == 'ca-ES') { return 'es'; }
-
-			/* Italiano */
-			if ($lang == 'it-IT') { return 'it'; }
-			if ($lang == 'it') { return 'it'; }
-			/* Alemao */
-			if ($lang == 'de-DE') { return 'de'; }
-
-
-			if ($lang == '0') { return 'pt'; }
-			if ($lang == 'NnN') { return 'nn'; }
-
-
-			echo '====ERRO IDIOMA=== ['.($lang).']';
-			exit;
-			return $lang;
+	{
+		if ($lang == '') {
+			return 'nn';
 		}
+		if ($lang == 'nn') {
+			return 'nn';
+		}
+		if ($lang == 'NaN') {
+			return 'nn';
+		}
+		if ($lang == 'pt-BR') {
+			return 'pt';
+		}
+		if ($lang == 'pt-PT') {
+			return 'pt';
+		}
+		if ($lang == 'pt') {
+			return 'pt';
+		}
+		if ($lang == 'BUpt-') {
+			return 'pt';
+		}
+		if ($lang == 'por') {
+			return 'pt';
+		}
+		if ($lang == 'en') {
+			return 'en';
+		}
+		if ($lang == 'es') {
+			return 'es';
+		}
+		if ($lang == 'fr') {
+			return 'fr';
+		}
+		if ($lang == 'es-ES') {
+			return 'es';
+		}
+		if ($lang == 'BUen-') {
+			return 'en';
+		}
+		if ($lang == 'fr-CA') {
+			return 'fr';
+		}
+		if ($lang == 'fr-FR') {
+			return 'fr';
+		}
+		if ($lang == 'ca-ES') {
+			return 'es';
+		}
+
+		/* Italiano */
+		if ($lang == 'it-IT') {
+			return 'it';
+		}
+		if ($lang == 'it') {
+			return 'it';
+		}
+		/* Alemao */
+		if ($lang == 'de-DE') {
+			return 'de';
+		}
+
+
+		if ($lang == '0') {
+			return 'pt';
+		}
+		if ($lang == 'NnN') {
+			return 'nn';
+		}
+
+
+		echo '====ERRO IDIOMA=== [' . ($lang) . ']';
+		exit;
+		return $lang;
+	}
 
 	function getTextLanguage($text)
 	{
@@ -209,16 +251,20 @@ class Language extends Model
 		return $sx;
 	}
 
-	function getTextLanguage_process($text)
+	function languages()
 	{
-		$text = ascii(mb_strtolower($text));
-		$supported_languages = array(
+		return array(
 			'en',
 			'de',
 			'es',
 			'pt',
-
 		);
+	}
+
+	function getTextLanguage_process($text)
+	{
+		$text = ascii(mb_strtolower($text));
+		$supported_languages = $this->languages();
 		// German Word list
 		// from http://wortschatz.uni-leipzig.de/Papers/top100de.txt
 		$wordList['de'] = array(

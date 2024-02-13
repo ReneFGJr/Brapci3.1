@@ -84,6 +84,7 @@ class RDFdata extends Model
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
         $cp .= ', id_d as idD ';
+        $cp .= ', id_n as idL ';
 
         //$cp = '*';
 
@@ -110,6 +111,7 @@ class RDFdata extends Model
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
         $cp .= ', id_d as idD ';
+        $cp .= ', id_n as idL ';
 
         $dtB = $this
             ->select($cp . ',"N" as tp')
@@ -134,6 +136,7 @@ class RDFdata extends Model
         $cp .= ', n_lang as Lang';
         $cp .= ', "" as URL';
         $cp .= ', id_d as idD ';
+        $cp .= ', id_n as idL ';
 
         $dtC = $this
             ->select($cp . ',"R" as tp')

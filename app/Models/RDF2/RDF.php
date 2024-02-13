@@ -195,9 +195,56 @@ class RDF extends Model
     function popup($d1, $d2, $d3)
     {
         $sx = '';
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $RDFdata = new \App\Models\RDF2\RDFdata();
+        $Language = new \App\Models\Ai\NLP\Language();
 
         switch ($d1) {
+            case 'literal':
+                if (get("action"))
+                    {
+                        $vlr = get("name");
+                        $lock = get("lock");
+                        $lang = get("lang");
+                        if ($lock == '') { $lock = '0'; }
+                        $dd['n_name'] = $vlr;
+                        $dd['n_lang'] = $lang;
+                        $dd['n_lock'] = $lock;
+                        $RDFliteral->set($dd)->where('id_n',$d2)->update();
+                        echo wclose();
+                    } else {
+                        $dt = $RDFliteral->find($d2);
+                        $vlr = $dt['n_name'];
+                        $lang = $dt['n_lang'];
+                        $lock = $dt['n_lock'];
+                    }
+                    $idioma = $Language->languages();
+                    $params = ['name'=>'name','value'=>$vlr,'rows'=>5,'class'=>'form-control full border border-secondary'];
+                    $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                    $dt = $RDFliteral->find($d2);
+                    $sx = form_open();
+                    $sx .= form_textarea($params);
+                    $sx .= form_checkbox('lock','1',$lock). ' Registro travado';
+
+                    $sx .= '<div>';
+                    $sx .= 'Language: '.$lang.' ';
+                    $sx .= '<select name="lang">';
+                    foreach($idioma as $id=>$lg)
+                        {
+                            $chk = '';
+                            if ($lg == $lang) { $chk = 'selected'; }
+                            $sx .= '<option value="'.$lg.'" '.$chk.'>'.$lg.'</option>';
+                        }
+                    $sx .= '</select>';
+                    $sx .= '</div>';
+
+                    $sx .= '<div>';
+                    $sx .= form_submit('action',lang('brapci.save'),['class'=>'mt-4 btn btn-outline-primary']);
+                    $sx .= '</div>';
+                    $sx .= form_close();
+
+                    $sx = bs(bsc($sx,12));
+                break;
             case 'add':
                 $sx .= '<div class="text-center">';
                 $RDFform = new \App\Models\RDF2\RDFform();

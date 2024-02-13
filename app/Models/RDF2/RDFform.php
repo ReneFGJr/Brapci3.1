@@ -196,8 +196,17 @@ class RDFform extends Model
                     $sx .= '<br>';
                 }
                 $idD = $line['idD'];
-                $sx .= bsicone('edit', 16);
+                /* Edit */
+                if ($line['Class'] == 'Literal')
+                    {
+                        $idL = $line['idL'];
+                        $sx .= '<span class="pointer text-red" onclick="newxy(\'' . PATH . '/popup/rdf/literal/' . $idL . '\',800,300);">' . bsicone('edit', 16) . '</span>';
+                    }
+
+                /* Delete */
                 $sx .= '<span class="pointer text-red" onclick="newxy(\''.PATH.'/popup/rdf/delete/'.$idD.'\',800,300);">'.bsicone('trash', 16). '</span>';
+
+                /* Label */
                 $sx .= '&nbsp;';
                 $sx .= $line['Caption'];
                 $sx .= '<sup>' . $line['Lang'] . '</sup>';
