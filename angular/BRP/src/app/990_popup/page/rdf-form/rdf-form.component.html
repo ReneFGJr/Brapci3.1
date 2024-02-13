@@ -1,13 +1,42 @@
 <div class="aH">RDF Editor</div>
 
-
 <!----------------------------------------------------- FORM -->
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="xClass">
   <div class="row">
     <div class="col-10">
       ==>{{ searchForm.value | json }}
+      <div *ngIf="xClass == 'Image'">
+        <h2>Single File Upload</h2>
+
+        <input
+          type="file"
+          class="file-input"
+          (change)="onChange($event)"
+          #fileUpload
+        />
+
+        <div *ngIf="file">
+          <section class="file-info">
+            File details:
+            <ul>
+              <li>Name: {{ file.name }}</li>
+              <li>Type: {{ file.type }}</li>
+              <li>Size: {{ file.size }} bytes</li>
+            </ul>
+          </section>
+
+          <button (click)="onUpload()">Upload the file</button>
+
+          <section [ngSwitch]="status">
+            <p *ngSwitchCase="'uploading'">⏳ Uploading...</p>
+            <p *ngSwitchCase="'success'">✅ Done!</p>
+            <p *ngSwitchCase="'fail'">❌ Error!</p>
+            <p *ngSwitchDefault>😶 Waiting to upload...</p>
+          </section>
+        </div>
+      </div>
       <!---------------------------------- Form Concept -->
-      <div *ngIf="literal == false">
+      <div *ngIf="literal == false && xClass != 'Image'">
         <form [formGroup]="searchForm">
           <label>Termos de busca</label>
           <div class="input-group mb-3">
@@ -38,23 +67,36 @@
           </div>
           <!----------- List of Concepts-->
           <select class="full" size="6">
-            <option *ngFor="let item of concepts" [value]="item.ID"  (click)="selectResource(item.ID)">
+            <option
+              *ngFor="let item of concepts"
+              [value]="item.ID"
+              (click)="selectResource(item.ID)"
+            >
               {{ item.name }}
             </option>
           </select>
 
-          <button [ngClass]="btn1 == false ? 'btn-primary' : 'btn-outline-secondary'"
-            class="btn me-2 mt-3" [disabled]="btn1">
+          <button
+            [ngClass]="btn1 == false ? 'btn-primary' : 'btn-outline-secondary'"
+            class="btn me-2 mt-3"
+            [disabled]="btn1"
+          >
             Include
           </button>
-          <button [ngClass]="btn2 == false ? 'btn-primary' : 'btn-outline-secondary'"
+          <button
+            [ngClass]="btn2 == false ? 'btn-primary' : 'btn-outline-secondary'"
             (click)="save(true)"
-            class="btn me-2 mt-3" [disabled]="btn2">
+            class="btn me-2 mt-3"
+            [disabled]="btn2"
+          >
             Save & Close
           </button>
-          <button [ngClass]="btn3 == false ? 'btn-primary' : 'btn-outline-secondary'"
+          <button
+            [ngClass]="btn3 == false ? 'btn-primary' : 'btn-outline-secondary'"
             (click)="save(false)"
-            class="btn me-2 mt-3" [disabled]="btn3">
+            class="btn me-2 mt-3"
+            [disabled]="btn3"
+          >
             Save & Continue
           </button>
           <button class="btn btn-outline-warning me-2 mt-3" (click)="wclose()">
@@ -69,35 +111,42 @@
       </div>
     </div>
 
-  <!------------------ Class Type -->
-  <div class="col-2 text-end">
-    <!-- ID -->
-    <div class="border-bottom border-secondary small center bold">Persistent ID</div>
-    <div class="mb-3">{{ID}}</div>
+    <!------------------ Class Type -->
+    <div class="col-2 text-end">
+      <!-- ID -->
+      <div class="border-bottom border-secondary small center bold">
+        Persistent ID
+      </div>
+      <div class="mb-3">{{ ID }}</div>
 
-    <!-- Class -->
-    <div class="border-bottom border-secondary small center bold">Class</div>
-    <div class="mb-3">{{class}}</div>
+      <!-- Class -->
+      <div class="border-bottom border-secondary small center bold">Class</div>
+      <div class="mb-3">{{ class }}</div>
 
-    <!-- Propriety -->
-    <div class="border-bottom border-secondary small center bold">Propriety</div>
-    <div class="mb-3">{{propriety}}</div>
+      <!-- Propriety -->
+      <div class="border-bottom border-secondary small center bold">
+        Propriety
+      </div>
+      <div class="mb-3">{{ propriety }}</div>
 
-    <!-- Resource -->
-    <div class="border-bottom border-secondary small center bold">Resource</div>
-    <div *ngFor="let item of tclass" class="onHover">
-      <span (click)="selectResource(item['Class'])">{{item['Class']}}</span>
+      <!-- Resource -->
+      <div class="border-bottom border-secondary small center bold">
+        Resource
+      </div>
+      <div *ngFor="let item of tclass" class="onHover">
+        <span (click)="selectResource(item['Class'])">{{ item["Class"] }}</span>
+      </div>
+
+      <!-- Seelcted -->
+      <div class="border-bottom border-secondary small center bold mt-3">
+        Selected
+      </div>
+      <div *ngIf="!selectedID">
+        <i>none</i>
+      </div>
+      <div *ngIf="selectedID">
+        {{ selectedID }}
+      </div>
     </div>
-
-    <!-- Seelcted -->
-    <div class="border-bottom border-secondary small center bold mt-3">Selected</div>
-    <div *ngIf="!selectedID">
-      <i>none</i>
-    </div>
-    <div *ngIf="selectedID">
-      {{selectedID}}
-    </div>
-
   </div>
-    </div>
 </div>

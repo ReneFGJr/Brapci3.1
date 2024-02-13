@@ -50,6 +50,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'upload':
+                $RDFimage = new \App\Models\RDF2\RDFimage();
+                $RDFimage->upload($d2,$d3);
+                exit;
             case 'event':
                 $Event = new \App\Models\Api\Endpoint\Event();
                 $Event->index($d2,$d3,$d4);

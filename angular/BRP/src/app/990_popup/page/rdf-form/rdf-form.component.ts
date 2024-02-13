@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +19,7 @@ export class RdfFormComponent {
   public result: Array<any> = [];
   public concepts: Array<any> = [];
   public sub: Array<any> | any;
-  public selectedID: string = ''
+  public selectedID: string = '';
 
   /**************** Params */
   public tclass: Array<any> | any = [];
@@ -26,6 +27,7 @@ export class RdfFormComponent {
   /*************** Inport */
   public propriety: string = 'hasAuthor';
   public class: string = 'Article';
+  public xClass: string = '';
   public ID: string = '0';
 
   /********************* BTN */
@@ -33,13 +35,53 @@ export class RdfFormComponent {
   public btn2: boolean = true;
   public btn3: boolean = true;
 
+  /******************** File */
+  status: 'initial' | 'uploading' | 'success' | 'fail' = 'initial'; // Variable to store file status
+  file: File | null = null; // Variable to store file
+
   constructor(
     private fb: FormBuilder,
     private brapciService: BrapciService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private http: HttpClient
   ) {}
+
+  // On file Select
+  onChange(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.status = 'initial';
+      this.file = file;
+    }
+  }
+  //https://uploadcare.com/blog/how-to-upload-files-in-angular/
+  onUpload() {
+    if (this.file) {
+      const formData = new FormData();
+
+      //let url = this.brapciService.url + 'upload/cover/' + this.ID
+      let url = 'http://brp/api/' + 'upload/cover/' + this.ID
+      console.log(url)
+
+      formData.append('file', this.file, this.file.name);
+      const upload$ = this.http.post(url, formData);
+      this.status = 'uploading';
+
+      upload$.subscribe({
+        next: (x) => {
+          console.log(x)
+          this.status = 'success';
+        },
+        error: (error: any) => {
+          this.status = 'fail';
+          return (error);
+        },
+      });
+    }
+  }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
@@ -63,31 +105,27 @@ export class RdfFormComponent {
 
   selectResource(ID: string) {
     this.selectedID = ID;
-    this.btnChecks()
+    this.btnChecks();
   }
 
-  btnChecks()
-    {
-      this.btn1 = true;
-      this.btn2 = true;
-      this.btn3 = true;
-      /************** Selecionado */
-      if (this.selectedID != '')
-        {
-          this.btn2 = false;
-          this.btn3 = false;
-        }
-      /************** Novo */
-      if (this.selectedID == '')
-        {
-          if (this.concepts.length == 0)
-            {
-              this.btn1 = false;
-            } else {
-              /* Existe item na lista */
-            }
-        }
+  btnChecks() {
+    this.btn1 = true;
+    this.btn2 = true;
+    this.btn3 = true;
+    /************** Selecionado */
+    if (this.selectedID != '') {
+      this.btn2 = false;
+      this.btn3 = false;
     }
+    /************** Novo */
+    if (this.selectedID == '') {
+      if (this.concepts.length == 0) {
+        this.btn1 = false;
+      } else {
+        /* Existe item na lista */
+      }
+    }
+  }
 
   recoverResources(ID: string, prop: string) {
     console.log('ID=' + ID);
@@ -99,6 +137,8 @@ export class RdfFormComponent {
     this.brapciService.api_post(url, data).subscribe((res) => {
       this.tclass = res;
       this.tclass = this.tclass['resource'];
+      this.xClass = this.tclass[0]['Class'];
+      console.log("+++++++++++"+this.xClass)
     });
   }
 
@@ -120,30 +160,32 @@ export class RdfFormComponent {
 
     this.brapciService.api_post(url, data).subscribe((res) => {
       this.concepts = res;
-      this.selectedID = ''
+      this.selectedID = '';
       this.btnChecks();
     });
   }
 
-  save(close:boolean)
-    {
-      let url = 'rdf/dataAdd';
-      let resource = this.selectedID;
-      let source = this.searchForm.value['ID'];
-      let prop = this.searchForm.value['prop'];
-      let data: Array<any> | any = { source: source, prop: prop, resource: resource };
-      this.brapciService.api_post(url, data).subscribe((res) => {
-        this.concepts = res;
-        if (close)
-          {
-            this.wclose()
-          } else {
-            this.selectedID = '';
-            this.btnChecks();
-            window.opener.location.reload();
-          }
-      });
-    }
+  save(close: boolean) {
+    let url = 'rdf/dataAdd';
+    let resource = this.selectedID;
+    let source = this.searchForm.value['ID'];
+    let prop = this.searchForm.value['prop'];
+    let data: Array<any> | any = {
+      source: source,
+      prop: prop,
+      resource: resource,
+    };
+    this.brapciService.api_post(url, data).subscribe((res) => {
+      this.concepts = res;
+      if (close) {
+        this.wclose();
+      } else {
+        this.selectedID = '';
+        this.btnChecks();
+        window.opener.location.reload();
+      }
+    });
+  }
 
   keyUp() {}
 

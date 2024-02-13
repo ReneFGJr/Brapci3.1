@@ -44,6 +44,11 @@ class RDFdata extends Model
 
     function register($ID, $id_prop, $ID2, $lit)
     {
+        if (sonumero($id_prop) != $id_prop)
+            {
+                $RDFpropierty = new \App\Models\RDF2\RDFproperty();
+                $id_prop = $RDFpropierty->getProperty($id_prop);
+            }
         $d = [];
         $d['d_r1'] = $ID;
         $d['d_r2'] = $ID2;

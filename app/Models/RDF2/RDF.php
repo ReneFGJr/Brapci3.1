@@ -69,6 +69,7 @@ class RDF extends Model
                 break;
             case 'v':
                 $sx = $this->view($d2);
+                return $sx;
                 break;
             case 'popup':
                 $data['page_title'] = 'Brapci - POPUP';
@@ -160,7 +161,18 @@ class RDF extends Model
     function view($id)
         {
             $dt = $this->v($id);
-            pre($dt);
+            $sx = '';
+            $sx .= h('Class: '.$dt['concept']['c_class']);
+            $sx .= h('prefLabel: ' . $dt['concept']['n_name'],4);
+            foreach($dt['data'] as $id=>$line)
+                {
+                    $sx .= bsc($line['Class'],3,'small text-end');
+                    $name = $line['Caption'];
+                    if ($line['ID'] > 0)
+                    { $name = '<a href="'.PATH.'/v/'.$line['ID'].'">'.$name.'</a>'; }
+                    $sx .= bsc($name,9);
+                }
+            return bs($sx);
         }
 
     function index_list($i,$l='A')
