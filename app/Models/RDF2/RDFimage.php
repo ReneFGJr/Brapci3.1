@@ -158,6 +158,8 @@ class RDFimage extends Model
         $tumb = '';
         $type = '';
 
+        pre($data);
+
         foreach ($data as $id => $line) {
             $prop = $line['Property'];
             if ($prop == 'hasFileDirectory') {
