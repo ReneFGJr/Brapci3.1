@@ -83,7 +83,6 @@ class Rdf extends Model
                     $RSP['prop'] = get("prop");
                     $dt = $RDF->le($RSP['ID']);
                     $ClassID = $dt['concept']['id_c'];
-                    pre($dt);
                     $RSP['ClassID'] = $ClassID;
                     $propID = $RDFproperty->getProperty($RSP['prop']);
                     $RSP['resource'] = $RDFclassDomain->getResources($ClassID,$propID);
