@@ -53,10 +53,6 @@ class RDFimage extends Model
         $status = 'NONE';
         switch ($d1) {
             case 'cover':
-                $dd = [];
-                $dd['a'] = 'A';
-                echo json_encode($dd); exit;
-
                 $idc = $this->saveImage($ID);
                 $RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED '.$ID.'-'.$idc;
@@ -82,6 +78,12 @@ class RDFimage extends Model
         $name = md5($ID);
         $dire = $this->directory($ID);
         $ext = '.xxx';
+
+        $dd = [];
+        $dd['a'] = $type;
+        echo json_encode($dd);
+        exit;
+
         switch ($type) {
             case 'image/jpeg':
                 $ext = '.jpg';
