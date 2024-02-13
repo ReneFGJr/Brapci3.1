@@ -53,6 +53,10 @@ class RDFimage extends Model
         $status = 'NONE';
         switch ($d1) {
             case 'cover':
+                $dd = [];
+                $dd['a'] = 'A';
+                echo json_encode($dd); exit;
+
                 $idc = $this->saveImage($ID);
                 $RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED '.$ID.'-'.$idc;
