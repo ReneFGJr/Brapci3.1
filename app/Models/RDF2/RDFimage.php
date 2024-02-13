@@ -57,6 +57,12 @@ class RDFimage extends Model
                 $RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED '.$ID.'-'.$idc;
                 break;
+            default:
+                $dd = [];
+                $dd['erro'] = 'Tipo '.$type.' não existe';
+                echo json_encode($dd);
+                exit;
+
         }
         $RSP = [];
         $RSP['id'] = $idc;
