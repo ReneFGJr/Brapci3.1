@@ -26,10 +26,11 @@ export class RdfFormComponent {
   public tclass: Array<any> | any = [];
 
   /*************** Inport */
-  public propriety: string = 'hasAuthor';
-  public class: string = 'Article';
-  public xClass: string = '';
-  public ID: string = '0';
+  public propriety: string = 'hasAuthor'
+  public class: string = 'Article'
+  public xClass: string = ''
+  public ID: string = '0'
+  public text: string = ''
 
   /********************* BTN */
   public btn1: boolean = true;
@@ -155,6 +156,9 @@ export class RdfFormComponent {
       this.tclass = res;
       this.tclass = this.tclass['resource'];
       this.xClass = this.tclass[0]['Class'];
+      if (this.xClass == 'Literal') {
+        this.literal = true;
+      }
       console.log('+++++++++++' + this.xClass);
     });
   }
@@ -164,8 +168,25 @@ export class RdfFormComponent {
       term: [this.term, Validators.required],
       ID: this.ID,
       prop: this.propriety,
+      text: this.text
     });
   }
+
+  onSaveText()
+    {
+      let url = 'rdf/createLiteral';
+      let q = this.searchForm.value['text'];
+      alert(q)
+      let ID = this.searchForm.value['ID'];
+      let prop = this.searchForm.value['prop'];
+
+      let data: Array<any> | any = { q: q, ID: ID, prop: prop };
+
+      this.brapciService.api_post(url, data).subscribe((res) => {
+        console.log(res);
+      });
+
+    }
 
   submitAction() {
     let url = 'rdf/searchSelect';
