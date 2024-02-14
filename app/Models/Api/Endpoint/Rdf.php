@@ -81,7 +81,7 @@ class Rdf extends Model
                     $RDFconcept = new \App\Models\RDF2\RDFconcept();
                     $dd = [];
                     $dd['Class'] = $d3;
-                    $dd['name'] = get("name");
+                    $dd['Name'] = get("name");
                     $dd['id'] = $RDFconcept->createConcept($dd);
                     echo json_encode($dd);
                     exit;
