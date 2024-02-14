@@ -78,8 +78,10 @@ class Rdf extends Model
         switch($d2)
             {
                 case 'createConcept':
+                    $RDFconcept = new \App\Models\RDF2\RDFconcept();
                     $dd = [];
-                    $dd['concept'] = $d3;
+                    $dd['Class'] = $d3;
+                    $dd['name'] = get("name");
                     echo json_encode($dd);
                     exit;
                 case 'getResource':
