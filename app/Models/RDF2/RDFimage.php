@@ -91,7 +91,6 @@ class RDFimage extends Model
         $type = $_FILES['file']['type'];
         $size = $_FILES['file']['size'];
 
-        $name = md5($ID);
 
         if ($ccClass == 'Book')
             {
@@ -124,6 +123,7 @@ class RDFimage extends Model
 
         /* Create concept */
         $dt = [];
+        $name = $dest;
         $dt['Name'] = $name;
         $dt['Lang'] = 'nn';
         $dt['Class'] = 'FileStorage';
