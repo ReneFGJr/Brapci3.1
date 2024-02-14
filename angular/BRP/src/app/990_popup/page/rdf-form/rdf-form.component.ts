@@ -15,6 +15,7 @@ export class RdfFormComponent {
   public loaging_img: string = '/assets/img/loading.svg';
   public fields: any[] = [];
   public literal: boolean = false;
+  public type:string = 'null'
 
   public result: Array<any> = [];
   public concepts: Array<any> = [];
@@ -61,10 +62,16 @@ export class RdfFormComponent {
   onUpload() {
     if (this.file) {
       const formData = new FormData();
+      this.type = 'cover';
 
-      let url = this.brapciService.url + 'upload/cover/' + this.ID
-      //let url = 'http://brp/api/' + 'upload/cover/' + this.ID
-      console.log(url)
+      if (this.propriety == 'hasFileStorage') {
+        this.type = 'pdf';
+      }
+      console.log(this.propriety);
+      console.log('+++' + this.type);
+      //let url = this.brapciService.url + 'upload/'+this.type + '/' + this.ID;
+      let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
+      console.log(url);
 
       formData.append('file', this.file, this.file.name);
       const upload$ = this.http.post(url, formData);
@@ -72,12 +79,12 @@ export class RdfFormComponent {
 
       upload$.subscribe({
         next: (x) => {
-          console.log(x)
+          console.log(x);
           this.status = 'success';
         },
         error: (error: any) => {
           this.status = 'fail';
-          return (error);
+          return error;
         },
       });
     }
@@ -128,9 +135,6 @@ export class RdfFormComponent {
   }
 
   recoverResources(ID: string, prop: string) {
-    console.log('ID=' + ID);
-    console.log('prop=' + prop);
-
     let url = 'rdf/getResource';
     let data: Array<any> | any = { ID: ID, prop: prop };
 

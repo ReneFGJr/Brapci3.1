@@ -57,6 +57,11 @@ class RDFimage extends Model
                 $RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED '.$ID.'-'.$idc;
                 break;
+            case 'pdf':
+                $idc = $this->savePDF($ID);
+                $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
+                $status = 'SAVED ' . $ID . '-' . $idc;
+                break;
             default:
                 $dd = [];
                 $dd['erro'] = 'Tipo '.$d1.' não existe';
@@ -74,8 +79,13 @@ class RDFimage extends Model
         exit;
     }
 
-    function saveImage($ID)
+    function savePDF($ID)
     {
+        $RDF = new \App\Models\RDF2\RDF();
+        $da = $RDF->le($ID);
+        $da['ID'] = $ID;
+        echo json_encode($da);
+        exit;
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
@@ -83,16 +93,18 @@ class RDFimage extends Model
 
         $name = md5($ID);
 
-        $dire = $this->directory($ID);
+        $dire = $this->directory($ID, '_repository/book/');
         $ext = '.xxx';
 
         switch ($type) {
-            case 'image/jpeg':
-                $ext = '.jpg';
+            case 'application/pdf':
+                $ext = '.pdf';
                 break;
-            case 'image/png':
-                $ext = '.png';
-                break;
+            default:
+                $dd = [];
+                $dd['type'] = $type;
+                echo json_encode($dd);
+                exit;
         }
         $dest = $dire . 'image' . $ext;
         move_uploaded_file($tmp, $dest);
@@ -139,13 +151,85 @@ class RDFimage extends Model
 
         return $idc;
     }
-    function directory($id)
+
+    function saveImage($ID)
+    {
+        $fileName = $_FILES['file']['name'];
+        $tmp = $_FILES['file']['tmp_name'];
+        $type = $_FILES['file']['type'];
+        $size = $_FILES['file']['size'];
+
+        $name = md5($ID);
+
+        $dire = $this->directory($ID);
+        $ext = '.xxx';
+
+        switch ($type) {
+            case 'image/jpeg':
+                $ext = '.jpg';
+                break;
+            case 'image/png':
+                $ext = '.png';
+                break;
+            default:
+                $dd = [];
+                $dd['type'] = $type;
+                echo json_encode($dd);
+                exit;
+        }
+        $dest = $dire . 'image' . $ext;
+        move_uploaded_file($tmp, $dest);
+
+        /********************************************** */
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
+        /* Create concept */
+        $dt = [];
+        $dt['Name'] = $name;
+        $dt['Lang'] = 'nn';
+        $dt['Class'] = 'Image';
+        $idc = $RDFconcept->createConcept($dt);
+
+        /************************** Incula Imagem com Conceito */
+        $RDFdata->register($ID, 'hasCover', $idc, 0);
+
+        /***************************************** ContentType */
+        $dt = [];
+        $dt['Name'] = $type;
+        $dt['Lang'] = 'nn';
+        $dt['Class'] = 'ContentType';
+        $idt = $RDFconcept->createConcept($dt);
+        $RDFdata->register($idc, 'hasContentType', $idt, 0);
+
+        /***************************************** Literal Directory */
+        $name = $dire;
+        $prop = 'hasFileDirectory';
+        $lang = 'nn';
+        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+
+        /***************************************** Literal hasFileName */
+        $name = $fileName;
+        $prop = 'hasFileName';
+        $lang = 'nn';
+        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+
+        /***************************************** Literal hasFileName */
+        $name = $fileName;
+        $prop = 'hasFileName';
+        $lang = 'nn';
+        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+
+        return $idc;
+    }
+    function directory($id,$pre='img/c')
     {
         $id = strzero($id, 8);
-        $file = 'img/c/' . substr($id, 0, 2) . '/' . substr($id, 2, 2) . '/' . substr($id, 4, 2) . '/' . substr($id, 6, 2) . '/';
+        $file = $pre . substr($id, 0, 2) . '/' . substr($id, 2, 2) . '/' . substr($id, 4, 2) . '/' . substr($id, 6, 2) . '/';
         dircheck($file);
         return $file;
     }
+
 
     function cover($ID)
     {

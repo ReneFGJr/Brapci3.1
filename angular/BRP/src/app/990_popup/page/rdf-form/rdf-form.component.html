@@ -1,11 +1,11 @@
-<div class="aH">RDF Editor</div>
+<div class="aH">RDF Editor - {{class}}</div>
 
 <!----------------------------------------------------- FORM -->
 <div class="container-fluid" *ngIf="xClass">
   <div class="row">
     <div class="col-10">
-      ==>{{ searchForm.value | json }}
-      <div *ngIf="xClass == 'Image'">
+      ==>{{ tclass | json }}
+      <div *ngIf="xClass == 'Image' || xClass == 'FileStorage'">
         <h2>Single File Upload</h2>
 
         <input
@@ -36,7 +36,7 @@
         </div>
       </div>
       <!---------------------------------- Form Concept -->
-      <div *ngIf="literal == false && xClass != 'Image'">
+      <div *ngIf="literal == false && xClass != 'Image' && xClass != 'FileStorage'">
         <form [formGroup]="searchForm">
           <label>Termos de busca</label>
           <div class="input-group mb-3">
