@@ -95,9 +95,9 @@ class RDFimage extends Model
         if ($ccClass == 'Book')
             {
                 $dire = $this->directory($ID, '_repository/book/');
+                $ttt = 'book';
             } else {
                 $dd['Erro'] = $ccClass .' não foi mapeada';
-                $ttt = 'book';
                 echo json_encode($dd);
                 exit;
             }

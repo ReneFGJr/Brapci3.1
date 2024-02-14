@@ -15,7 +15,7 @@ export class RdfFormComponent {
   public loaging_img: string = '/assets/img/loading.svg';
   public fields: any[] = [];
   public literal: boolean = false;
-  public type:string = 'null'
+  public type: string = 'null';
 
   public result: Array<any> = [];
   public concepts: Array<any> = [];
@@ -69,7 +69,7 @@ export class RdfFormComponent {
       }
       console.log(this.propriety);
       console.log('+++' + this.type);
-      let url = this.brapciService.url + 'upload/'+this.type + '/' + this.ID;
+      let url = this.brapciService.url + 'upload/' + this.type + '/' + this.ID;
       //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
       console.log(url);
 
@@ -88,6 +88,19 @@ export class RdfFormComponent {
         },
       });
     }
+  }
+
+  createConcept() {
+    let vlr = this.searchForm.value['term'];
+    let dt = alert(vlr);
+    alert('Created');
+    let url = 'rdf/createConcept/' + this.xClass;
+    let data: Array<any> | any = { name: vlr };
+    console.log(url);
+    this.brapciService.api_post(url, data).subscribe((res) => {
+      console.log(res);
+      this.submitAction();
+    });
   }
 
   ngOnInit() {
@@ -142,7 +155,7 @@ export class RdfFormComponent {
       this.tclass = res;
       this.tclass = this.tclass['resource'];
       this.xClass = this.tclass[0]['Class'];
-      console.log("+++++++++++"+this.xClass)
+      console.log('+++++++++++' + this.xClass);
     });
   }
 

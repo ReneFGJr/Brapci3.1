@@ -80,6 +80,7 @@
             [ngClass]="btn1 == false ? 'btn-primary' : 'btn-outline-secondary'"
             class="btn me-2 mt-3"
             [disabled]="btn1"
+            (click)="createConcept()"
           >
             Include
           </button>

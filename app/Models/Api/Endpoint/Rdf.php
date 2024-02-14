@@ -77,6 +77,11 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'createConcept':
+                    $dd = [];
+                    $dd['concept'] = $d3;
+                    echo json_encode($dd);
+                    exit;
                 case 'getResource':
                     $RSP = [];
                     $RSP['ID'] = get("ID");
