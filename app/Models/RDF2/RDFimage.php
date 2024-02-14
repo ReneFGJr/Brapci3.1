@@ -83,6 +83,8 @@ class RDFimage extends Model
     {
         $RDF = new \App\Models\RDF2\RDF();
         $da = $RDF->le($ID);
+        $ccClass = $da['concept']['c_class'];
+        $ttt = 'Indefinido';
 
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
@@ -91,7 +93,16 @@ class RDFimage extends Model
 
         $name = md5($ID);
 
-        $dire = $this->directory($ID, '_repository/book/');
+        if ($ccClass == 'Book')
+            {
+                $dire = $this->directory($ID, '_repository/book/');
+            } else {
+                $dd['Erro'] = $ccClass .' não foi mapeada';
+                $ttt = 'book';
+                echo json_encode($dd);
+                exit;
+            }
+
         $ext = '.xxx';
 
         switch ($type) {
@@ -104,7 +115,7 @@ class RDFimage extends Model
                 echo json_encode($dd);
                 exit;
         }
-        $dest = $dire . 'book' . $ext;
+        $dest = $dire . $ttt . $ext;
         move_uploaded_file($tmp, $dest);
 
         /********************************************** */
