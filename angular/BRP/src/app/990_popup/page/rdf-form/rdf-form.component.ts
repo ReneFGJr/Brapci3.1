@@ -69,8 +69,8 @@ export class RdfFormComponent {
       }
       console.log(this.propriety);
       console.log('+++' + this.type);
-      //let url = this.brapciService.url + 'upload/'+this.type + '/' + this.ID;
-      let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
+      let url = this.brapciService.url + 'upload/'+this.type + '/' + this.ID;
+      //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
       console.log(url);
 
       formData.append('file', this.file, this.file.name);
