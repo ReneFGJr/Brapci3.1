@@ -82,6 +82,7 @@ class Rdf extends Model
                     $dd = [];
                     $dd['Class'] = $d3;
                     $dd['name'] = get("name");
+                    $dd['id'] = $RDFconcept->createConcept($dd);
                     echo json_encode($dd);
                     exit;
                 case 'getResource':
