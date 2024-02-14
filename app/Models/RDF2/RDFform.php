@@ -232,12 +232,14 @@ class RDFform extends Model
         $sx .= bsc(h($dt['concept']['c_class'], 6) . '<hr>');
 
         $cp = '*';
+        $cp = 'c_class, rf_group';
 
         $df = $this
             ->select($cp)
             ->join('brapci_rdf.rdf_class', 'id_c = cd_property')
             ->join('brapci_rdf.rdf_form', 'rf_class = cd_property', 'left')
             ->where('cd_domain', $dt['concept']['id_c'])
+            ->groupby($cp)
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
@@ -246,7 +248,6 @@ class RDFform extends Model
         //$PATH = 'http://localhost:4200/#/';
         $PATH = 'https://brapci.inf.br/#/';
         foreach ($df as $idf => $linef) {
-            pre($linef,false);
             $grp = $linef['rf_group'];
 
             $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
