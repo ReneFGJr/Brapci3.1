@@ -232,7 +232,7 @@ class RDFform extends Model
         $sx .= bsc(h($dt['concept']['c_class'], 6) . '<hr>');
 
         $cp = '*';
-        $cp = 'c_class, rf_group';
+        $cp = 'c_class, rf_group, id_c';
 
         $df = $this
             ->select($cp)
@@ -260,7 +260,7 @@ class RDFform extends Model
                 $sx .= '<th><h4>' . lang('brapci.' . $grp) . '</h4></th>';
                 $sx .= '</tr>';
             }
-            $sx .= bsc(lang('rdf.' . $linef['c_class']) . $linkEd, 2, 'text-end');
+            $sx .= bsc('<span title="'.$linef['id_c'].'">'.lang('rdf.' . $linef['c_class']) . '</span>'. $linkEd, 2, 'text-end');
             $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id), 10, 'border-top border-secondary mb-3');
         }
         return bs($sx);

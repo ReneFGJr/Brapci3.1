@@ -84,6 +84,7 @@ class RDF extends Model
                 $sx .= view('Brapci/Headers/header', $data);
                 $RDFform = new \App\Models\RDF2\RDFform();
                 $sx .= $RDFform->index($d2, $d3, $d4);
+                $sx .= view('Brapci/Headers/footer', $data);
                 return $sx;
                 break;
             case 'import':
