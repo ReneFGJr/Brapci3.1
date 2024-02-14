@@ -6,6 +6,8 @@ def detect(t):
     return [t,l]
 
 def check(lg):
+    if (lg == 'pt.'):
+        lg = 'pt'
     if (lg == 'pt-BR'):
         lg = 'pt'
     elif (lg == 'pt-PT'):
