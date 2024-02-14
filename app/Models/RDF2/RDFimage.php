@@ -83,9 +83,7 @@ class RDFimage extends Model
     {
         $RDF = new \App\Models\RDF2\RDF();
         $da = $RDF->le($ID);
-        $da['ID'] = $ID;
-        echo json_encode($da);
-        exit;
+
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
@@ -106,7 +104,7 @@ class RDFimage extends Model
                 echo json_encode($dd);
                 exit;
         }
-        $dest = $dire . 'image' . $ext;
+        $dest = $dire . 'book' . $ext;
         move_uploaded_file($tmp, $dest);
 
         /********************************************** */
@@ -117,11 +115,11 @@ class RDFimage extends Model
         $dt = [];
         $dt['Name'] = $name;
         $dt['Lang'] = 'nn';
-        $dt['Class'] = 'Image';
+        $dt['Class'] = 'FileStorage';
         $idc = $RDFconcept->createConcept($dt);
 
         /************************** Incula Imagem com Conceito */
-        $RDFdata->register($ID, 'hasCover', $idc, 0);
+        $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
 
         /***************************************** ContentType */
         $dt = [];
