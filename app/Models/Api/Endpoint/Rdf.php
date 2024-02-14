@@ -79,9 +79,11 @@ class Rdf extends Model
             {
                 case 'createConcept':
                     $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                    $Language = new \App\Models\AI\NLP\Language();
                     $dd = [];
                     $dd['Class'] = $d3;
                     $dd['Name'] = get("name");
+                    $dd['Lang'] = $Language->getTextLanguage($dd['Name']);
                     $dd['id'] = $RDFconcept->createConcept($dd);
                     echo json_encode($dd);
                     exit;
