@@ -501,8 +501,22 @@ class Register extends Model
         /***************************************************** */
         $da['AUTHORS'] = '';
         if (isset($data['Authors'])) {
-            pre($data['Authors'],false);
+            $au = [];
             foreach ($data['Authors'] as $ida => $name) {
+                if ($ida == sonumero($ida))
+                    {
+                        array_push($au,$name);
+                    } else {
+                        if (is_array($name))
+                            {
+                                foreach($name as $idb=>$nameb)
+                                    {
+                                        array_push($au, $nameb);
+                                    }
+                            }
+                    }
+            }
+            foreach ($au as $ida => $name) {
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
