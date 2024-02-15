@@ -178,6 +178,7 @@ class Register extends Model
             $dt['abstract'] = $aabs;
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
+
             if (isset($DT['Journal'])) {
                 $dt['jounal'] = $DT['Journal'];
                 if (isset($DT['id_jnl'])) {
@@ -193,7 +194,8 @@ class Register extends Model
             } else {
                 $dt['collection'] = 'BK';
             }
-
+            pre($dt,false);
+            pre($DT);
             /**************************************************** */
             //$dt['collection']
 
