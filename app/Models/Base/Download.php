@@ -288,9 +288,8 @@ class Download extends Model
 
         if (strpos($url, 'article/view')) {
             echo "Coletando $url<br>";
-            $txt = read_link($url);
+            $txt = read_link($url,'curl',True);
             $Otxt = $txt;
-            pre($txt);
 
             if ($pos = strpos($txt, 'citation_pdf_url')) {
                 echo "Identificado Metadata 'citation_pdf_url'";
