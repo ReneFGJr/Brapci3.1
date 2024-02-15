@@ -184,7 +184,7 @@ class Register extends Model
                 pre($Issue,false);
                 $idj = $Issue['id_jnl'];
                 if (isset($JNL[$idj])) {
-                    $dt['collection'] = $JNL[$dt['id_jnl']];
+                    $dt['collection'] = $JNL[$idj];
                 } else {
                     $dt['collection'] = 'ER';
                 }
