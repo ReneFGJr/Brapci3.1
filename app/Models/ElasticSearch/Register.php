@@ -639,6 +639,7 @@ class Register extends Model
         }
 
         /*********************** CONVERT DADOS */
+        pre($xdata,false);
         $data = $this->data_convert_elastic($xdata);
         $this->check($data, true, $id);
 
