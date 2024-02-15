@@ -202,8 +202,6 @@ class Register extends Model
                     }
 
             }
-            pre($dt,false);
-            pre($DT);
             /**************************************************** */
             //$dt['collection']
 
