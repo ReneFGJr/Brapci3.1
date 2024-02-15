@@ -181,6 +181,7 @@ class Register extends Model
 
             if (isset($DT['Issue'])) {
                 $Issue = (array)$DT['Issue'];
+                pre($Issue,false);
                 $idj = $Issue['id_jnl'];
                 if (isset($JNL[$idj])) {
                     $dt['collection'] = $JNL[$dt['id_jnl']];
