@@ -333,11 +333,7 @@ class Disciplinas extends Model
         $sx .= '<table width="100%" style="font-size: 0.8em;">';
         foreach ($dt as $id => $line) {
             $curso = $line['c_curso'];
-            if ($curso != $xcurso) {
-                $xcurso = $curso;
-                $sx .= '<tr><th colspan=10" class="pt-3 h3">' . $curso . '</tr>';
-                $sx .= $sh;
-            }
+
             $sx .= '<tr>';
             foreach ($w as $fld => $class) {
                 $sx .= '<td class="border border-secondary p-1 ' . $class . '">' . $line[$fld] . '</td>';
