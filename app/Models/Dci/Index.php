@@ -76,6 +76,9 @@ class Index extends Model
                                 case '2':
                                     $sx .= $Disciplinas->show_semestre_row($sem);
                                 break;
+                                case '3':
+                                    $sx .= $Disciplinas->show_semestre_disciplinas($sem);
+                                break;
 
                                 default:
                                     $sx .= '[[['.$d2.']]]';

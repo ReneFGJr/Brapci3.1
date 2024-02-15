@@ -292,6 +292,63 @@ class Disciplinas extends Model
         return $sx;
     }
 
+    function show_semestre_disciplinas($id = 0, $curso = 0)
+    {
+        $sem = 1;
+        $sx = '';
+        $m = [];
+        $m['Departamento'] = PATH . '/dci';
+        $m['Semestre'] = PATH . '/dci/semestre/2';
+        $sf = breadcrumbs($m);
+        $this
+            ->join('curso', 'di_curso = id_c')
+            ->join('encargos', 'e_disciplina = id_di')
+            ->join('docentes', 'e_docente = id_dc', 'LEFT')
+            ->join('horario', 'e_horario = id_h', 'LEFT')
+            ->where('id_di > 0')
+            //->where('id_h > 0')
+            ->where('e_semestre', $sem)
+            ->orderBy('di_disciplina,id_c,di_codigo,di_etapa,h_hora_ini');
+        $dt = $this->findAll();
+
+        $w = array(
+            'di_codigo' => 'text-center',
+            'di_disciplina' => 'text-start',
+            'dc_nome' => 'text-start',
+            'h_dia' => 'text-center',
+            'h_hora_ini' => 'text-center',
+            'h_hora_fim' => 'text-center',
+            'di_ch' => 'text-center'
+        );
+        $sh = '<tr>
+                <th>código</th>
+                <th>disciplina</th>
+                <th>professor</th>
+                <th>dia</th>
+                <th>início</th>
+                <th>fim</th>
+                <th>CH</th>
+                </tr>';
+        $xcurso = '';
+        $sx .= '<table width="100%" style="font-size: 0.8em;">';
+        foreach ($dt as $id => $line) {
+            $curso = $line['c_curso'];
+            if ($curso != $xcurso) {
+                $xcurso = $curso;
+                $sx .= '<tr><th colspan=10" class="pt-3 h3">' . $curso . '</tr>';
+                $sx .= $sh;
+            }
+            $sx .= '<tr>';
+            foreach ($w as $fld => $class) {
+                $sx .= '<td class="border border-secondary p-1 ' . $class . '">' . $line[$fld] . '</td>';
+            }
+            $sx .= '</tr>' . cr();
+        }
+        $sx .= '</table>';
+        $sx = bs(bsc($sf, 12) . bsc($sx, 12));
+        return $sx;
+    }
+
     function show_semestre_row($id = 0, $curso = 0)
     {
         $sem = 1;
