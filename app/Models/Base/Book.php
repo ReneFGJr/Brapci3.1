@@ -51,7 +51,7 @@ class Book extends Model
             $RDF2 = new \App\Models\RDF2\RDF();
             $RDF2metadata = new \App\Models\RDF2\RDFmetadata();
             $Class = 'Book';
-            $dt = $RDF2->recoverClass($Class,$q,0,12,'desc');
+            $dt = $RDF2->recoverClass($Class,$q,0,100,'desc');
             $d = [];
 
             foreach($dt as $n=>$dta)
