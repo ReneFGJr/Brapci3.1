@@ -179,20 +179,25 @@ class Register extends Model
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
 
-            if (isset($DT['Journal'])) {
-                $dt['jounal'] = $DT['Journal'];
-                if (isset($DT['id_jnl'])) {
-                    $dt['id_jnl'] = $DT['id_jnl'];
-                    if (isset($JNL[$dt['id_jnl']])) {
-                        $dt['collection'] = $JNL[$dt['id_jnl']];
-                    } else {
-                        $dt['collection'] = 'ER';
-                    }
+            if (isset($DT['Issue'])) {
+                $idj = $DT['Issue']['id_jnl'];
+                if (isset($JNL[$idj])) {
+                    $dt['collection'] = $JNL[$dt['id_jnl']];
                 } else {
                     $dt['collection'] = 'ER';
                 }
             } else {
-                $dt['collection'] = 'BK';
+                switch ($dt['Class'])
+                    {
+                        case 'Book':
+                            $dt['collection'] = 'BK';
+                            break;
+                        case 'Proceeding':
+                            $dt['collection'] = 'EV';
+                            break;
+
+                    }
+
             }
             pre($dt,false);
             pre($DT);
