@@ -89,7 +89,10 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
                     echo "ERRO CURL: " . $erro;
                     echo '<br>'.$url;
                     $txt = file_get_contents($url);
-                    pre($txt);
+                    if (strlen($txt) > 100)
+                        {
+                            $data = $txt;
+                        }
                 }
 
             return ($data);
