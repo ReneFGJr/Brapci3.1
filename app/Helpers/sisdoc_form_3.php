@@ -88,6 +88,8 @@ function read_link($url, $read = 'CURL',$force=false, $headers=[])
                 } else {
                     echo "ERRO CURL: " . $erro;
                     echo '<br>'.$url;
+                    $txt = file_get_contents($url);
+                    pre($txt);
                 }
 
             return ($data);
