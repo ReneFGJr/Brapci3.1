@@ -384,10 +384,6 @@ class RDF extends Model
 
             $sx .= $RDFtoolsImport->import($file);
         }
-
-        $sx .= 'https://webprotege.stanford.edu/donwload?project='
-        echo $sx;
-        exit;
     }
 
     function recoverClass($class, $limit = 20, $offset = 0, $ord = 'N')
