@@ -287,6 +287,7 @@ class Download extends Model
         $url = troca($url, '//seer.ufs.br/index.php/', '//periodicos.ufs.br/');
 
         if (strpos($url, 'article/view')) {
+            echo "Coletando $url<br>";
             $txt = read_link($url);
             $Otxt = $txt;
 
