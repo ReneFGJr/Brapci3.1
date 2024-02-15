@@ -180,8 +180,8 @@ class Register extends Model
             $dt['title'] = $atit;
 
             if (isset($DT['Issue'])) {
-                pre($DT);
-                $idj = $DT['Issue']['id_jnl'];
+                $Issue = (array)$DT['Issue'];
+                $idj = $Issue['id_jnl'];
                 if (isset($JNL[$idj])) {
                     $dt['collection'] = $JNL[$dt['id_jnl']];
                 } else {
