@@ -298,6 +298,7 @@ class Download extends Model
                 $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
                 $txt = substr($txt, 0, strpos($txt, '"'));
                 if (substr($txt, 0, 4) == 'http') {
+                    echo "Localizado $txt";
                     return $txt;
                 }
                 if (strpos($txt, 'noframes')) {
