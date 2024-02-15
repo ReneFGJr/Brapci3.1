@@ -290,10 +290,10 @@ class Download extends Model
             echo "Coletando $url<br>";
             $txt = read_link($url);
             $Otxt = $txt;
+            pre($txt);
 
             if ($pos = strpos($txt, 'citation_pdf_url')) {
                 echo "Identificado Metadata 'citation_pdf_url'";
-                pre($txt);
                 $txt = substr($txt, $pos, 300);
                 $st = 'content="';
                 $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
