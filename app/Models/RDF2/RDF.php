@@ -396,7 +396,7 @@ class RDF extends Model
             $class = $RDFclass->getClass($class);
         }
         if ($limit == '') {
-            $limit = 20;
+            $limit = 4*26;
         }
         $dt = $RDFconcept
             ->select('id_cc')
