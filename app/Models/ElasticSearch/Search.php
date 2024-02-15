@@ -125,6 +125,10 @@ class Search extends Model
             switch($tp)
                 {
                     default:
+                    if (!isset($js['Authors']))
+                        {
+                            $js['Authors'] = [];
+                        }
                     $ds =  $abnt->ref($js);
                 }
 
