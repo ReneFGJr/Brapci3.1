@@ -183,9 +183,9 @@ class Register extends Model
                 $Issue = (array)$DT['Issue'];
                 $idj = $Issue['id_jnl'];
                 $DTS = $Source->find($idj);
-                pre($DTS,false);
-                if (isset($JNL[$idj])) {
-                    $dt['collection'] = 'AR';
+
+                if ($DTS['jnl_collection']) {
+                    $dt['collection'] = $DTS['jnl_collection'];
                 } else {
                     $dt['collection'] = 'ER';
                 }
