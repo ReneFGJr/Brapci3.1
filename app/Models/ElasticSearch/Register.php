@@ -501,6 +501,7 @@ class Register extends Model
         /***************************************************** */
         $da['AUTHORS'] = '';
         if (isset($data['Authors'])) {
+            pre($data['Authors'],false);
             foreach ($data['Authors'] as $ida => $name) {
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
@@ -639,7 +640,6 @@ class Register extends Model
         }
 
         /*********************** CONVERT DADOS */
-        pre($xdata,false);
         $data = $this->data_convert_elastic($xdata);
         $this->check($data, true, $id);
 
