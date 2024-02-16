@@ -77,6 +77,11 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'createLiteral':
+                    $dd = [];
+                    $dd['post'] = $_POST;
+                    echo json_encode($dd);
+                    break;
                 case 'createConcept':
                     $RDFconcept = new \App\Models\RDF2\RDFconcept();
                     $Language = new \App\Models\AI\NLP\Language();

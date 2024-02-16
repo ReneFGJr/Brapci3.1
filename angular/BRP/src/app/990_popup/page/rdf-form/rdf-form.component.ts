@@ -156,7 +156,7 @@ export class RdfFormComponent {
       this.tclass = res;
       this.tclass = this.tclass['resource'];
       this.xClass = this.tclass[0]['Class'];
-      if (this.xClass == 'Literal') {
+      if (this.xClass == 'Literal' || this.xClass == 'URL') {
         this.literal = true;
       }
       console.log('+++++++++++' + this.xClass);
@@ -176,7 +176,7 @@ export class RdfFormComponent {
     {
       let url = 'rdf/createLiteral';
       let q = this.searchForm.value['text'];
-      alert(q)
+      alert('TEXTE - '+q)
       let ID = this.searchForm.value['ID'];
       let prop = this.searchForm.value['prop'];
 
