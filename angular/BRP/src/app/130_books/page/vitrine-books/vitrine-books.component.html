@@ -25,9 +25,11 @@
                     <span *ngIf="!item.data.hasTitle">SEM TÌTULO</span>
                   </b>
                   <br />
-                  <i>Authors</i>
+                  <i *ngIf="item.data.hasAuthor">{{item.data.hasAuthor}}</i>
                   <br />
+                  <!--
                   (ANO)
+                  -->
                 </div>
               </div>
             </li>
