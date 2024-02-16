@@ -81,6 +81,7 @@ class Rdf extends Model
                     $dd = [];
                     $dd['post'] = $_POST;
                     echo json_encode($dd);
+                    exit;
                     break;
                 case 'createConcept':
                     $RDFconcept = new \App\Models\RDF2\RDFconcept();
