@@ -73,9 +73,8 @@ class Event extends Model
                         $url = $dt['ev_url'];
                         $dd['ev_count'] = $dt['ev_count'] + 1;
                         $this->set($dd)->where('id_ev',$dt['id_ev'])->update();
-                        echo $this->getlastquery();
-                        pre($dt);
-                        exit;
+                        //echo $this->getlastquery();
+                        //pre($dt);
                         header('Location: '.$url);
                         exit;
                     } else {
