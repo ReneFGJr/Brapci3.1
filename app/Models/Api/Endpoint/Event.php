@@ -25,7 +25,7 @@ class Event extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'ev_count'
+        'ev_count', 'id_ev'
     ];
 
     // Dates
@@ -67,7 +67,7 @@ class Event extends Model
                         echo "ERRO DE ID - REDIRECT EVENTO";
                         exit;
                     }
-                $dt = $this->find($d2);
+                $dt = $this->where('id_ev',$d2)->first();
                 if ($dt != [])
                     {
                         $url = $dt['ev_url'];
