@@ -69,10 +69,14 @@ class Rdf extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFform = new \App\Models\RDF2\RDFform();
         $RDFrules = new \App\Models\RDF2\RDFrules();
         $RDFclassDomain = new \App\Models\RDF2\RDFclassDomain();
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
+        $Language = new \App\Models\AI\NLP\Language();
+
         $RSP = [];
         //header("Content-Type: application/json");
         switch($d2)
@@ -80,6 +84,18 @@ class Rdf extends Model
                 case 'createLiteral':
                     $dd = [];
                     $dd['post'] = $_POST;
+                    $q = get("q");
+                    $ID = get("ID");
+                    $prop = get('prop');
+
+                    /* Register IDn */
+                    $lang = $Language->getTextLanguage($q);
+                    $idn = $RDFliteral->register($q,$lang);
+
+                    /* Register Data */
+                    $RDFdata->register($ID,$prop,0,$idn);
+                    $dd['status'] = '200';
+                    $dd['idn'] = $idn;
                     echo json_encode($dd);
                     exit;
                     break;
