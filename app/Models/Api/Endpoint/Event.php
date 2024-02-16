@@ -24,7 +24,9 @@ class Event extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'ev_count'
+    ];
 
     // Dates
     protected $useTimestamps = false;
@@ -71,8 +73,6 @@ class Event extends Model
                         $url = $dt['ev_url'];
                         $dd['ev_count'] = $dt['ev_count'] + 1;
                         $this->set($dd)->where('id_ev',$dt['id_ev']);
-                        echo $this->getlastquery();
-                        exit;
                         header('Location: '.$url);
                         exit;
                     } else {
