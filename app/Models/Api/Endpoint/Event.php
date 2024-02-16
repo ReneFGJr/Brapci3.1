@@ -56,6 +56,7 @@ class Event extends Model
         if (get("test") == '') {
             header("Content-Type: application/json");
         }
+
         switch ($d1) {
             case 'redirect':
                 $d2 = sonumero($d2);
@@ -70,6 +71,8 @@ class Event extends Model
                         $url = $dt['ev_url'];
                         $dd['ev_count'] = $dt['ev_count'] + 1;
                         $this->set($dd)->where('id_ev',$dt['id_ev']);
+                        echo $this->getlastquery();
+                        exit;
                         header('Location: '.$url);
                         exit;
                     } else {
