@@ -172,6 +172,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+  public $kanban = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'kanban',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $openaire = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -678,6 +698,9 @@ class Database extends Config
 
         $this->oai['username'] = getenv('database.default.username');
         $this->oai['password'] = getenv('database.default.password');
+
+        $this->kanban['username'] = getenv('database.default.username');
+        $this->kanban['password'] = getenv('database.default.password');
 
         $this->search['username'] = getenv('database.default.username');
         $this->search['password'] = getenv('database.default.password');

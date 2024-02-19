@@ -10,8 +10,8 @@ export class BrapciService {
   http: any;
   constructor(private HttpClient: HttpClient) {}
 
-  public url: string = 'https://cip.brapci.inf.br/api/';
-  //private url: string = 'http://brp/api/';
+  //public url: string = 'https://cip.brapci.inf.br/api/';
+  public url: string = 'http://brp/api/';
 
   public getId(id: number): Observable<Array<any>> {
     let url = `${this.url}brapci/get/v1/` + id;
@@ -25,20 +25,24 @@ export class BrapciService {
     );
   }
 
-  public RDFapi(act:string,ID:string,prop:string,term:string): Observable<Array<any>>
-    {
-        let url = `${this.url}`+act;
-        console.log(url)
-        var formData: any = new FormData();
-        formData.append('q', term);
-        formData.append('concept', ID);
-        formData.append('propriey', prop);
+  public RDFapi(
+    act: string,
+    ID: string,
+    prop: string,
+    term: string
+  ): Observable<Array<any>> {
+    let url = `${this.url}` + act;
+    console.log(url);
+    var formData: any = new FormData();
+    formData.append('q', term);
+    formData.append('concept', ID);
+    formData.append('propriey', prop);
 
-      return this.HttpClient.post<Array<any>>(url, formData).pipe(
-        (res) => res,
-        (error) => error
-      );
-    }
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
 
   public api(id: number, term: string, prop: string): Observable<Array<any>> {
     let url = `${this.url}rdf/search/`;
@@ -160,21 +164,20 @@ export class BrapciService {
     );
   }
 
-  public searchAdv(dt: Array<any>)
-    {
-      console.log(dt)
-      let url = `${this.url}brapci/search/a1`;
-      console.log(`Buscador: ${url}`);
-      var formData: any = new FormData();
-      formData.append('offset', '1000');
+  public searchAdv(dt: Array<any>) {
+    console.log(dt);
+    let url = `${this.url}brapci/search/a1`;
+    console.log(`Buscador: ${url}`);
+    var formData: any = new FormData();
+    formData.append('offset', '1000');
 
-      formData.append('data', dt);
+    formData.append('data', dt);
 
-      return this.HttpClient.post<Array<any>>(url, formData).pipe(
-        (res) => res,
-        (error) => error
-      );
-    }
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
 
   public search(term: string, dt: Array<any>): Observable<Array<any>> {
     let url = `${this.url}brapci/search/v1`;
