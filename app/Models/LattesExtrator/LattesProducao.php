@@ -241,7 +241,11 @@ class LattesProducao extends Model
 					$p['lp_nr'] = $nr;
 
 					/****************** AUTHORES */
-					$auth = (array)$line['AUTORES'];
+					if (isset($line['AUTORES'])) {
+						$auth = (array)$line['AUTORES'];
+					} else {
+						$auth = [];
+					}
 					$authn = '';
 					if (count($auth) == 1) {
 						$autx = $auth;

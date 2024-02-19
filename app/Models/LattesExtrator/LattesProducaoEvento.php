@@ -242,7 +242,11 @@ class LattesProducaoEvento extends Model
 					$p['le_natureza'] = $this->natureza($dados['NATUREZA']);
 
 					/****************** AUTHORES */
-					$auth = (array)$line['AUTORES'];
+					if (isset($line['AUTORES'])) {
+						$auth = (array)$line['AUTORES'];
+					} else {
+						$auth = [];
+					}
 					$authn = '';
 					if (count($auth) == 1) {
 						$autx = $auth;
