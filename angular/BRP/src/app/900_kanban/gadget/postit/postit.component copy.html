@@ -1,0 +1,30 @@
+<div *ngIf="tasks != []">
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  <div class="postit example-box" *ngFor="let item of tasks" cdkDrag>
+    {{ item | json }}
+  </div>
+</div>
+
+<div class="row">
+  <!-- Backlog-->
+  <div class="col-12 col-lg-3 p-1 border-secondary border rounded">
+    <div class="bg-secondary rounded text-black bold text-center p-2">
+      BACKLOG
+    </div>
+  </div>
+  <!-- To DO -->
+  <div class="col-12 col-lg-3 p-1 border-danger border rounded">
+    <div class="bg-danger rounded text-white bold text-center p-2">
+    TO DO
+    </div>
+  </div>
+  <!-- To DOING -->
+  <div class="col-12 col-lg-3 p-1 border-warning border rounded">
+    <div class="bg-warning rounded text-black bold text-center p-2">DOING</div>
+  </div>
+  <!-- REVIEW/DONW -->
+  <div class="col-12 col-lg-3 p-1 border-primary border rounded">
+    <div class="bg-primary rounded text-white bold text-center p-2">REVIEW</div>
+  </div>
+</div>
+</div>
