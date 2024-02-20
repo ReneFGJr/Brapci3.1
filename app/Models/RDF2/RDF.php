@@ -88,7 +88,7 @@ class RDF extends Model
                 return $sx;
                 break;
             case 'import':
-                $RSP = $this->import();
+                return $RSP = $this->import();
                 break;
             case 'source':
                 break;
@@ -383,7 +383,9 @@ class RDF extends Model
             $file = $_FILES['OWL']['tmp_name'];
 
             $sx .= $RDFtoolsImport->import($file);
+            return $sx;
         }
+        return $sx;
     }
 
     function recoverClass($class, $limit = 20, $offset = 0, $ord = 'N')

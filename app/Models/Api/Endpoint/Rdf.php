@@ -167,7 +167,7 @@ class Rdf extends Model
                     break;
                 case 'import':
                     $RDF = new \App\Models\RDF2\RDF();
-                    $RSP = $RDF->import();
+                    return $RSP = $RDF->import();
                     break;
                 case 'resume':
                     $RDF = new \App\Models\RDF2\RDF();
