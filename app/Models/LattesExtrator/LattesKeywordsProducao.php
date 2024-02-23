@@ -87,7 +87,7 @@ class LattesKeywordsProducao extends Model
             $sx .= cr();
 
         header("Content-Type: text/csv");
-        header("Content-Disposition: attachment; filename=brapci_tools_keywords_" . date("Ymd-His") . ".csv");
+        header("Content-Disposition: attachment; filename=brapci_tools_keywords_production_" . date("Ymd-His") . ".csv");
         header("Pragma: no-cache");
         header("Expires: 0");
 

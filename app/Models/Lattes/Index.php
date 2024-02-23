@@ -109,7 +109,7 @@ class Index extends Model
                             $LattesKeywordsProducao = new \App\Models\LattesExtrator\LattesKeywordsProducao();
                             $txt = $LattesKeywordsProducao->csv($d2);
                             break;
-
+                        /********* Duplicado */
                         case '6':
                             $LattesFormacao = new \App\Models\LattesExtrator\LattesFormacao();
                             $txt = $LattesFormacao->csv($d2);
@@ -379,7 +379,7 @@ class Index extends Model
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/5', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (Article) (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/9', lang('tools.export') . ' ' . lang('tools.lattes_keywords')) . ' (Proceeding) (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/openaier', lang('tools.export') . ' ' . lang('tools.openaier')) . ' (api)</li>';
-            $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/6', lang('tools.export') . ' ' . lang('tools.lattes_academic_education')) . ' (csv)</li>';
+            #$sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/6', lang('tools.export') . ' ' . lang('tools.lattes_academic_education')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/7', lang('tools.export') . ' ' . lang('tools.lattes_affiliation')) . ' (csv)</li>';
             $sx .= '<li>' . anchor(PATH . 'tools/project/api/' . $prj . '/lattes/export/8', lang('tools.export') . ' ' . lang('tools.lattes_orientations')) . ' (csv)</li>';
 
