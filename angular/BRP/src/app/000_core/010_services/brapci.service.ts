@@ -10,8 +10,8 @@ export class BrapciService {
   http: any;
   constructor(private HttpClient: HttpClient) {}
 
-  //public url: string = 'https://cip.brapci.inf.br/api/';
-  public url: string = 'http://brp/api/';
+  public url: string = 'https://cip.brapci.inf.br/api/';
+  //public url: string = 'http://brp/api/';
 
   public getId(id: number): Observable<Array<any>> {
     let url = `${this.url}brapci/get/v1/` + id;
