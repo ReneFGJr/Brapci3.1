@@ -340,7 +340,7 @@ class LattesOrientacao extends Model
 		}
 
 		header("Content-Type: text/csv");
-		header("Content-Disposition: attachment; filename=brapci_tools_affiliation_" . date("Ymd-His") . ".csv");
+		header("Content-Disposition: attachment; filename=brapci_tools_orientations_" . date("Ymd-His") . ".csv");
 		header("Pragma: no-cache");
 		header("Expires: 0");
 		echo $sx;
