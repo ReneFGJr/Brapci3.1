@@ -26,9 +26,11 @@
           style="margin: 0; padding: 0"
           *ngFor="let works of source.works"
         >
+          <a [routerLink]="['/v/' + works.ID]" class="link">
           {{ works.LEGEND}}
           <br>
           <span class="small"><i>{{ works.AUTHORS}}</i></span>
+          </a>
         </li>
       </ol>
     </div>
