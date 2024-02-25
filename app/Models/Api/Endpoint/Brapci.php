@@ -62,6 +62,11 @@ class Brapci extends Model
         $RSP = [];
         $RSP['status'] = '200';
         switch ($d1) {
+            case 'news':
+                $News = new \App\Models\Base\News();
+                $RSP = $this->news($d2, $d3);
+                echo json_encode($RSP);
+                break;
             case 'indexs':
                 $RSP= $this->indexs($d2,$d3);
                 break;
