@@ -61,7 +61,7 @@ class Oauth extends Model
 
         switch ($d1) {
             case 'validApiRecover':
-                $key = get($apikey);
+                $key = get("apikey");
                 $dd=$this->validRecover($key);
                 echo json_encode($dd);
                 exit;
