@@ -54,6 +54,7 @@ class Oauth extends Model
 
     function index($d1, $d2, $d3)
     {
+        pre($d1);
         switch ($d1) {
             case 'validApiRecover':
                 $RSP = $_POST();
