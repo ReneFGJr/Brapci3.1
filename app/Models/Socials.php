@@ -1174,6 +1174,13 @@ class Socials extends Model
 		return $sx;
 	}
 
+	function getRecoverKey($email)
+		{
+			$key =  md5(date("Ymd") . $email);
+			return $key;
+		}
+
+
 	function forgout()
 	{
 		$email = get("email");
@@ -1186,7 +1193,7 @@ class Socials extends Model
 		} else {
 			$user = $dt[0];
 			$email = $user['us_email'];
-			$key =  md5(date("Ymd") . $email);
+			$key = $this->getRecoverKey($email);
 			$dd['us_recover'] = $key;
 			$this->set($dd)->where('id_us',$user['id_us'])->update();
 		}
@@ -1235,6 +1242,7 @@ class Socials extends Model
 				$dt['status'] = '500';
 				$dt['messagem'] = 'API Inválida';
 			} else {
+				$key = $this->getRecoverKey($dt['email']);
 				$dt['status'] = '200';
 			}
 		} else {
