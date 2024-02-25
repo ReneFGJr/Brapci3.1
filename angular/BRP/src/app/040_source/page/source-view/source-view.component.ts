@@ -13,6 +13,7 @@ export class SourceViewComponent {
   public source: Array<any> | any;
   public id: number = 0;
 
+
   constructor(
     private brapciService: BrapciService,
     private route: ActivatedRoute

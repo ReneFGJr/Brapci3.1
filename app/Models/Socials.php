@@ -23,7 +23,7 @@ class Socials extends Model
 		'id_us', 'us_nome', 'us_email', 'us_affiliation',
 		'us_image', 'us_genero', 'us_verificado',
 		'us_login', 'us_password', 'us_autenticador',
-		'us_oauth2', 'us_lastaccess', 'us_apikey_active', 'us_apikey'
+		'us_oauth2', 'us_lastaccess', 'us_apikey_active', 'us_apikey', 'us_recover'
 	];
 
 	var $typeFields        = [
@@ -62,6 +62,7 @@ class Socials extends Model
 	var $path_back;
 	var $id = 0;
 	var $error = 0;
+	var $site = 'https://brapci.inf.br/#/';
 
 	function user()
 	{
@@ -1182,16 +1183,19 @@ class Socials extends Model
 			$sx = lang('social.email_not_found');
 			return $sx;
 			exit;
+		} else {
+			$user = $dt[0];
+			$email = $user['us_email'];
+			$key =  md5(date("Ymd") . $email);
+			$dd['us_recover'] = $key;
+			$this->set($dd)->where('id_us',$user['id_us'])->update();
 		}
 		$sx = '<b>' . lang('social.email_send_your_account') . '</b><br>';
 		$sx .= '<span class="small">' . lang('social.forgout_info') . '</span>';
 
-		$user = $dt[0];
-		$email = $user['us_email'];
 
-		$key =  md5(date("YmdHis") . $email);
 		$_SESSION['forgout'] = $key;
-		$link = PATH . '/social/forgout/' . $user['id_us'] . '?key=' . $key;
+		$link = $this->site .'/pass/' . $user['id_us'] . '?key=' . $key;
 		$link_html = '<a href="' . $link . '">' . lang('social.forgout_email_link') . '</a>';
 
 		/*********************************/

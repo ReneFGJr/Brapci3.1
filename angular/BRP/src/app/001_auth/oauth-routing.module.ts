@@ -4,6 +4,7 @@ import { MainOauthComponent } from './page/oauth/main/main.component';
 import { LogoutComponent } from './page/oauth/main/logout/logout.component';
 import { LoginComponent } from './page/oauth/main/login/login.component';
 import { PerfilComponent } from './page/perfil/perfil.component';
+import { ChangePasswordComponent } from './page/oauth/change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'signin', component: LoginComponent },
       { path: 'logout', component: LogoutComponent },
       { path: 'perfil', component: PerfilComponent },
+      { path: 'pass/:id', component: ChangePasswordComponent },
     ],
   },
 ];
