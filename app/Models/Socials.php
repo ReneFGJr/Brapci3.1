@@ -1229,7 +1229,8 @@ class Socials extends Model
 	function validRecover($key)
 	{
 		if ($key != '') {
-			$dt = $this->where('us_recover', $key)->first();
+			$cp = 'us_name as fullname, id_us as ID, us_email as email';
+			$dt = $this->select($cp)->where('us_recover', $key)->first();
 			if ($dt == []) {
 				$dt['status'] = '500';
 				$dt['messagem'] = 'API Inválida';
