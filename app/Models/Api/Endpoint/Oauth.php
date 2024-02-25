@@ -67,9 +67,14 @@ class Oauth extends Model
                 $passv = get('pass2');
                 if (($pass == $passv) and (strlen($pass) > 5))
                     {
-                        $dd = $Socials->chagePassword($key,$pass);
-                        $dd['status'] = '200';
-                        $dd['message'] = lang('brapci.successfull');
+                        if ($Socials->chagePassword($key,$pass) == True)
+                            {
+                                $dd['status'] = '200';
+                                $dd['message'] = lang('brapci.successfull');
+                            } else {
+                                $dd['status'] = '200';
+                                $dd['message'] = lang('brapci.apikey_expired');
+                            }
                     } else {
                         $dd = $_POST;
                         $dd['status'] = '500';

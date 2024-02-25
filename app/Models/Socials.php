@@ -68,12 +68,16 @@ class Socials extends Model
 		{
 			$dt = $this->where('us_recover',$apikey)->first();
 			$password = md5($pass);
-			pre($dt);
-			$this
-				->set('us_password', $password)
-				->where('id_us', $dt['us_id'])
-				->update();
-			return True;
+			if ($dt != [])
+				{
+					$this
+					->set('us_password', $password)
+					->where('id_us', $dt['id_us'])
+					->update();
+					return True;
+				} else {
+					return false;
+				}
 		}
 
 	function user()
