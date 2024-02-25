@@ -55,10 +55,16 @@ class Oauth extends Model
     function index($d1, $d2, $d3)
     {
         switch ($d1) {
+            case 'validApiRecover':
+                $RSP = $_POST();
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'forgot':
                 $dd = $this->forgot();
                 echo json_encode($dd);
                 exit;
+                break;
             case 'signup':
                 $dd = $this->signup();
                 echo json_encode($dd);
