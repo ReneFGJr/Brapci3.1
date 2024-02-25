@@ -66,7 +66,7 @@ class Socials extends Model
 
 	function chagePassword($apikey,$pass)
 		{
-			$dt = $this->where('api_recover',$apikey)->first();
+			$dt = $this->where('us_recover',$apikey)->first();
 			pre($dt);
 		}
 
