@@ -64,6 +64,12 @@ class Socials extends Model
 	var $error = 0;
 	var $site = 'https://brapci.inf.br/#/';
 
+	function chagePassword($apikey,$pass)
+		{
+			$dt = $this->where('api_recover',$apikey)->first();
+			pre($dt);
+		}
+
 	function user()
 	{
 		$sx = '';
