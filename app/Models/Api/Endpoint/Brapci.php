@@ -65,7 +65,7 @@ class Brapci extends Model
         switch ($d1) {
             case 'news':
                 $News = new \App\Models\Base\News();
-                $RSP = $this->news($d2, $d3);
+                $RSP = $News->news($d2, $d3);
                 echo json_encode($RSP);
                 break;
             case 'indexs':
