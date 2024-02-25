@@ -61,8 +61,9 @@ class Oauth extends Model
 
         switch ($d1) {
             case 'validApiRecover':
+                $Socials = new \App\Models\Socials();
                 $key = get("apikey");
-                $dd=$this->validRecover($key);
+                $dd= $Socials->validRecover($key);
                 echo json_encode($dd);
                 exit;
                 break;
@@ -104,26 +105,6 @@ class Oauth extends Model
 
             echo json_encode($dd);
             exit;
-        }
-
-    function validRecover($key)
-        {
-            if ($key != '')
-                {
-                    $dt = $this->where('us_recover',$key)->first();
-                    if ($dt == [])
-                        {
-                            $dt['status'] = '500';
-                            $dt['messagem'] = 'API Inválida';
-                        } else {
-                            $dt['status'] = '200';
-                        }
-
-                } else {
-                    $dt['status'] = '500';
-                    $dt['messagem'] = 'API não informada';
-                }
-            return $dt;
         }
 
     function forgot()

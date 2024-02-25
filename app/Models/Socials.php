@@ -1226,6 +1226,23 @@ class Socials extends Model
 		return $sx;
 	}
 
+	function validRecover($key)
+	{
+		if ($key != '') {
+			$dt = $this->where('us_recover', $key)->first();
+			if ($dt == []) {
+				$dt['status'] = '500';
+				$dt['messagem'] = 'API Inválida';
+			} else {
+				$dt['status'] = '200';
+			}
+		} else {
+			$dt['status'] = '500';
+			$dt['messagem'] = 'API não informada';
+		}
+		return $dt;
+	}
+
 	function forgout_form($d1 = '', $d2 = '')
 	{
 		$sx = '';
