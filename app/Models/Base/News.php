@@ -53,7 +53,7 @@ class News extends Model
                     $ver = $line['nw_build'];
                     if ($ver != $xver)
                         {
-                            $sx .= h($ver,6);
+                            $sx .= h($ver,4);
                             $xver = $ver;
                         }
                     $sx .= '<li title="'.$line['nw_description'].'">'.$line['nw_title'].'</li>';
