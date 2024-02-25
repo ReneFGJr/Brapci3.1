@@ -69,8 +69,10 @@ class Oauth extends Model
                     {
                         $dd = $Socials->chagePassword($key,$pass);
                         $dd['status'] = '200';
+                        $dd['message'] = lang('brapci.successfull');
                     } else {
                         $dd['status'] = '500';
+                        $dd['message'] = lang('brapci.error');
                         $dd = $_POST;
                     }
                 echo json_encode($dd);

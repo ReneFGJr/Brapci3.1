@@ -83,8 +83,7 @@ export class ChangePasswordComponent {
 
       this.brapciService.api_post(url, dt).subscribe((res) => {
         this.user = res;
-        this.apikey = this.user.apikey;
-        console.log(res);
+        this.message = this.user.message;
         this.form = '';
       });
     }
