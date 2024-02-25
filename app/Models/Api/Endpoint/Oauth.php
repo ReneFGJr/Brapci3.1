@@ -56,7 +56,7 @@ class Oauth extends Model
     {
         switch ($d1) {
             case 'validApiRecover':
-                $RSP = $_POST();
+                $RSP = $_POST;
                 echo json_encode($RSP);
                 exit;
                 break;
