@@ -20,7 +20,7 @@ export class ChangePasswordComponent {
       this.apikey = params['id']; // (+) converts string 'id' to a number
       this.formCliente.controls['apikey'].setValue(this.apikey);
 
-      let url = 'social/validApiRecover/'
+      let url = 'socials/validApiRecover/'
       let dt: Array<any> | any = {apikey: this.apikey };
 
       this.brapciService.api_post(url,dt).subscribe(
