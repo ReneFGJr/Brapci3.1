@@ -71,6 +71,7 @@ class Index extends Model
                 $sx = $Authority->index($d2, $d3, $d4);
                 break;
             case 'brapci':
+                echo "$d1,$d2";
                 $Brapci = new \App\Models\Api\Endpoint\Brapci();
                 $sx = $Brapci->index($d2, $d3, $d4);
                 break;
