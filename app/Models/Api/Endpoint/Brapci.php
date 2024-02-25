@@ -54,6 +54,8 @@ class Brapci extends Model
 
     function index($d1, $d2, $d3)
     {
+        echo "$d1,$d2,$d3";
+        exit;
         header('Access-Control-Allow-Origin: *');
         if ((get("test")=='') and (get("header") == ''))
             {
