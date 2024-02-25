@@ -65,6 +65,12 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'setCookie':
+                $dd['status'] = '200';
+                $dd['cookie'] = md5($_SERVER['HTTP_COOKIE']);
+                echo json_encode($dd);
+                exit;
+                break;
             case 'news':
                 $News = new \App\Models\Base\News();
                 $RSP = $News->news($d2, $d3);

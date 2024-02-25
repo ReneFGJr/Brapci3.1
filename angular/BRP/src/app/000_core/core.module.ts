@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { NgModule } from '@angular/core';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 
@@ -16,6 +17,12 @@ import { RouterModule } from '@angular/router';
     CoreBrapciModule,
     RouterModule,
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [
+    CookieService ,
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
+  ],
 })
 export class CoreModule {}
