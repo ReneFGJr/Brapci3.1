@@ -80,12 +80,14 @@ export class ChangePasswordComponent {
     if (this.message == '') {
       let url = 'socials/chagePassword';
       let dt: Array<any> | any = this.formCliente;
+      console.log(dt)
 
       this.brapciService.api_post(url, dt).subscribe((res) => {
         this.user = res;
+        console.log(this.user);
         this.message = this.user.message;
         this.form = '';
-        console.log(this.user)
+
       });
     }
 
