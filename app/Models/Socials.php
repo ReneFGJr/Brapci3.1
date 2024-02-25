@@ -72,6 +72,7 @@ class Socials extends Model
 				{
 					$this
 					->set('us_password', $password)
+					->set('us_recover', '')
 					->where('id_us', $dt['id_us'])
 					->update();
 					return True;
