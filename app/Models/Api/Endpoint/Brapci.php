@@ -63,7 +63,8 @@ class Brapci extends Model
 
         $RSP = [];
         $RSP['status'] = '200';
-        echo $d1;
+        echo "========================";
+        echo "d1=$d1,d2=$d2,d3=$d3";
         exit;
         switch ($d1) {
             case 'news':
