@@ -54,8 +54,7 @@ class Brapci extends Model
 
     function index($d1, $d2, $d3)
     {
-        echo "$d1,$d2,$d3";
-        exit;
+
         header('Access-Control-Allow-Origin: *');
         if ((get("test")=='') and (get("header") == ''))
             {
@@ -69,6 +68,7 @@ class Brapci extends Model
                 $News = new \App\Models\Base\News();
                 $RSP = $News->news($d2, $d3);
                 echo json_encode($RSP);
+                exit;
                 break;
             case 'indexs':
                 $RSP= $this->indexs($d2,$d3);
