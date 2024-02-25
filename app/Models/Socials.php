@@ -1195,7 +1195,7 @@ class Socials extends Model
 
 
 		$_SESSION['forgout'] = $key;
-		$link = $this->site .'pass/' . $key;
+		$link = $this->site .'social/pass/' . $key;
 		$link_html = '<a href="' . $link . '">' . lang('social.forgout_email_link') . '</a>';
 
 		/*********************************/
