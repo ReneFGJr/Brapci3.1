@@ -60,6 +60,14 @@ class Oauth extends Model
         }
 
         switch ($d1) {
+            case 'chagePassword':
+                $Socials = new \App\Models\Socials();
+                $key = get("apikey");
+                $dd = $_POST;
+                //$dd = $Socials->chagePassword($key,$pass);
+                echo json_encode($dd);
+                exit;
+                break;
             case 'validApiRecover':
                 $Socials = new \App\Models\Socials();
                 $key = get("apikey");

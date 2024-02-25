@@ -1236,7 +1236,7 @@ class Socials extends Model
 	function validRecover($key)
 	{
 		if ($key != '') {
-			$cp = 'us_nome as fullname, id_us as ID, us_email as email';
+			$cp = 'us_nome as fullname, id_us as ID, us_email as email, us_recover as apikey';
 			$dt = $this->select($cp)->where('us_recover', $key)->first();
 			if ($dt == []) {
 				$dt['status'] = '500';
