@@ -16,9 +16,12 @@ export class NewsComponent {
 
   ngOnInit() {
       let dt:Array<any> | any = {}
-      let url='brapic/news'
+      let url = 'brapci/news';
       this.brapciService.api_post(url,dt).subscribe((res) => {
+        console.log("============S")
         console.log(res)
+        console.log('============F');
+        this.result = res
       });
   }
 }

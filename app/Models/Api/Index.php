@@ -54,10 +54,12 @@ class Index extends Model
                 $Kanban = new \App\Models\Api\Endpoint\Kanban();
                 $Kanban->index($d2, $d3);
                 exit;
+                break;
             case 'upload':
                 $RDFimage = new \App\Models\RDF2\RDFimage();
                 $RDFimage->upload($d2,$d3);
                 exit;
+                break;
             case 'event':
                 $Event = new \App\Models\Api\Endpoint\Event();
                 $Event->index($d2,$d3,$d4);
