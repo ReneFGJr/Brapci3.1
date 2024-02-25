@@ -8,6 +8,7 @@
 @access public/private/apikey
 @example $URL/api/brapci/services
 @example $URL/api/brapci/search?q=TERM&di=1972&df=2023
+@example $URL/api/brapci/news #Novidades da Brapci
 */
 
 namespace App\Models\Api\Endpoint;
