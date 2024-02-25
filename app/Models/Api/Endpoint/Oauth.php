@@ -62,7 +62,7 @@ class Oauth extends Model
         switch ($d1) {
             case 'chagePassword':
                 $dd = $_POST;
-                echo json($dd);
+                echo json_encode($dd);
                 exit;
                 $Socials = new \App\Models\Socials();
                 $key = get("apikey");
