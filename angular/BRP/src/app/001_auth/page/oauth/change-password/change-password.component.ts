@@ -85,6 +85,7 @@ export class ChangePasswordComponent {
         this.user = res;
         this.message = this.user.message;
         this.form = '';
+        console.log(this.user)
       });
     }
 
