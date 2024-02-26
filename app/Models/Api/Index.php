@@ -3,6 +3,9 @@
 namespace App\Models\Api;
 
 use CodeIgniter\Model;
+use CodeIgniter\Cookie\Cookie;
+use DateTime;
+use DateTimeZone;
 
 class Index extends Model
 {
@@ -50,6 +53,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'cookies':
+                $this->cookies();
+                exit;
+                break;
             case 'kanban':
                 $Kanban = new \App\Models\Api\Endpoint\Kanban();
                 $Kanban->index($d2, $d3);
@@ -140,6 +147,13 @@ class Index extends Model
         }
         return $sx;
     }
+
+    function cookies()
+        {
+            $cookie = new Cookie('section');
+            $dt = $cookie->getName();
+            pre($cookie);
+        }
 
     function recoverTag($txt, $tag)
     {

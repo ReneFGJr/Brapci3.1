@@ -8,7 +8,10 @@ import { Observable } from 'rxjs';
 })
 export class BrapciService {
   http: any;
-  constructor(private HttpClient: HttpClient) {}
+  constructor(
+    private HttpClient: HttpClient,
+    private cookieService: CookieService,
+    ) {}
 
   public url: string = 'https://cip.brapci.inf.br/api/';
   //public url: string = 'http://brp/api/';
