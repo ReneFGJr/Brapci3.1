@@ -19,6 +19,7 @@ export class MainComponent {
       let url = 'brapci/setCookie'
       console.log(this)
       this.brapciService.api_post(url).subscribe((res) => {
+        console.log("===COOKIE");
         console.log(res)
       });
     }

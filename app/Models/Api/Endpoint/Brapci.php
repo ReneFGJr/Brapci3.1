@@ -67,7 +67,13 @@ class Brapci extends Model
         switch ($d1) {
             case 'setCookie':
                 $dd['status'] = '200';
-                $dd['cookie'] = md5($_SERVER['HTTP_COOKIE']);
+                if (isset($_SERVER['HTTP_COOKIE']))
+                    {
+                        $dd['cookie'] = md5($_SERVER['HTTP_COOKIE']);
+                    } else {
+                        $dd['cookie'] = md5(date("YmdHis"));
+                    }
+
                 echo json_encode($dd);
                 exit;
                 break;
