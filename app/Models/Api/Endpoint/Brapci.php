@@ -73,7 +73,6 @@ class Brapci extends Model
                     } else {
                         $dd['cookie'] = md5(date("YmdHis"));
                     }
-
                 echo json_encode($dd);
                 exit;
                 break;

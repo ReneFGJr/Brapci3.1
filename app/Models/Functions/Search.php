@@ -54,6 +54,8 @@ class Search extends Model
         } else {
             $user = 0;
         }
+        $section = get("section");
+
         $ip = $_SESSION['__ci_last_regenerate'];
         $data['s_date'] = date("Y-m-d");
         $data['s_hour'] = date("H:i:s");
@@ -63,6 +65,7 @@ class Search extends Model
         $data['s_total'] = $total;
         $data['s_ip'] = $ip;
         $data['s_user'] = $user;
+        $data['s_section'] = $section;
         $this->insert($data);
     }
 

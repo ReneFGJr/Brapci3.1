@@ -48,6 +48,8 @@ export class SearchBrapciComponent {
   public tips: string = '';
   public search: string = '';
 
+  public sessionStorage = sessionStorage;
+
   list: any[];
   fields: any[];
 
@@ -129,6 +131,7 @@ export class SearchBrapciComponent {
   ngOnInit() {
     this.createForm();
     this.style = 'noshow';
+    console.log(this.sessionStorage);
   }
 
   clickFilters() {
