@@ -49,6 +49,9 @@ class RDFimage extends Model
             header("Content-Type: application/json");
         }
 
+        echo $d1 . '-' . $d2;
+        exit;
+
         $ID = $d2;
         $status = 'NONE';
         switch ($d1) {
@@ -58,8 +61,6 @@ class RDFimage extends Model
                 $status = 'SAVED '.$ID.'-'.$idc;
                 break;
             case 'pdf':
-                echo $d1.'-'.$d2;
-                exit;
                 $idc = $this->savePDF($ID);
                 $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
                 $status = 'SAVED ' . $ID . '-' . $idc;
