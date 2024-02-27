@@ -121,7 +121,17 @@ class RDFimage extends Model
 
 
         $dest = $dire . $ttt . $ext;
+
+
         move_uploaded_file($tmp, $dest);
+
+        $dd = [];
+        $dd['status'] = '200';
+        $dd['tmp'] = $tmp;
+        $dd['dest'] = $dest;
+        echo json_encode($dd);
+        exit;
+
         /********************************************** */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
