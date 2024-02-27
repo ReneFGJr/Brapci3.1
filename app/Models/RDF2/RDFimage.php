@@ -87,6 +87,9 @@ class RDFimage extends Model
     {
         $RDF = new \App\Models\RDF2\RDF();
         $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        /********************************************** */
+
         $da = $RDF->le($ID);
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
@@ -124,10 +127,6 @@ class RDFimage extends Model
         $dest = $dire . $ttt . $ext;
         move_uploaded_file($tmp, $dest);
 
-        /********************************************** */
-        $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $RDFdata = new \App\Models\RDF2\RDFdata();
-
         /* Create concept */
         $dt = [];
         $name = $dest;
@@ -139,6 +138,14 @@ class RDFimage extends Model
         /************************** Incula Imagem com Conceito */
         $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
 
+        /***************************************** ContentType */
+        $dt = [];
+        $dt['Name'] = $type;
+        $dt['Lang'] = 'nn';
+        $dt['Class'] = 'ContentType';
+        $idt = $RDFconcept->createConcept($dt);
+        $RDFdata->register($idc, 'hasContentType', $idt, 0);
+
         $dd = [];
         $dd['status'] = '200';
         $dd['tmp'] = $tmp;
@@ -147,14 +154,6 @@ class RDFimage extends Model
         $dd['ID'] = $ID;
         echo json_encode($dd);
         exit;
-
-        /***************************************** ContentType */
-        $dt = [];
-        $dt['Name'] = $type;
-        $dt['Lang'] = 'nn';
-        $dt['Class'] = 'ContentType';
-        $idt = $RDFconcept->createConcept($dt);
-        $RDFdata->register($idc, 'hasContentType', $idt, 0);
 
         /***************************************** Literal Directory */
         $name = $dire;
@@ -173,6 +172,15 @@ class RDFimage extends Model
         $prop = 'hasFileName';
         $lang = 'nn';
         $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+
+        $dd = [];
+        $dd['status'] = '200';
+        $dd['tmp'] = $tmp;
+        $dd['dest'] = $dest;
+        $dd['idc'] = $idc;
+        $dd['ID'] = $ID;
+        echo json_encode($dd);
+        exit;
 
         return $idc;
     }
