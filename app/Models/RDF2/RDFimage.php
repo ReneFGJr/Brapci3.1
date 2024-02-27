@@ -152,6 +152,13 @@ class RDFimage extends Model
         $lang = 'nn';
         $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
+
+        /***************************************** Literal hasFileName */
+        $name = $fileName;
+        $prop = 'hasFileName';
+        $lang = 'nn';
+        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+
         $dd = [];
         $dd['status'] = '200';
         $dd['tmp'] = $tmp;
@@ -160,12 +167,6 @@ class RDFimage extends Model
         $dd['ID'] = $ID;
         echo json_encode($dd);
         exit;
-
-        /***************************************** Literal hasFileName */
-        $name = $fileName;
-        $prop = 'hasFileName';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
         /***************************************** Literal hasFileName */
         $name = $fileName;
