@@ -125,12 +125,10 @@ class RDFimage extends Model
         $dd['status'] = '200';
         $dd['tmp'] = $tmp;
         $dd['dest'] = $dest;
-        echo json_encode($dd);
-        exit;
 
         move_uploaded_file($tmp, $dest);
 
-
+        echo json_encode($dd);
         exit;
 
         /********************************************** */
