@@ -95,6 +95,8 @@ class RDFimage extends Model
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
         $size = $_FILES['file']['size'];
+        $ext = '.qqq';
+        $dire = '_repository';
 
         switch ($ccClass)
             {
