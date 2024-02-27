@@ -116,23 +116,17 @@ class RDFimage extends Model
                     break;
             }
 
-        $dd = [];
-        $dd['status'] = '200';
-        echo json_encode($dd);
-        exit;
 
-        switch ($type) {
-            case 'application/pdf':
-                $ext = '.pdf';
-                break;
-            default:
-                $dd = [];
-                $dd['type'] = $type;
-                echo json_encode($dd);
-                exit;
-        }
+
         $dest = $dire . $ttt . $ext;
         move_uploaded_file($tmp, $dest);
+
+        $dd = [];
+        $dd['status'] = '200';
+        $dd['tmp'] = $tmp;
+        $dd['dest'] = $dest;
+        echo json_encode($dd);
+        exit;
 
         /********************************************** */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
