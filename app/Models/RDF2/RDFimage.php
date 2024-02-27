@@ -49,9 +49,6 @@ class RDFimage extends Model
             header("Content-Type: application/json");
         }
 
-        echo $d1 . '-' . $d2;
-        exit;
-
         $ID = $d2;
         $status = 'NONE';
         switch ($d1) {
