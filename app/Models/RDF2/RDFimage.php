@@ -85,7 +85,7 @@ class RDFimage extends Model
         $da = $RDF->le($ID);
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
-
+        $da['ID'] = $ID;
         echo json_encode($da);
 
         $fileName = $_FILES['file']['name'];
