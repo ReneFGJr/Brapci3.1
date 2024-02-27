@@ -116,7 +116,10 @@ class RDFimage extends Model
                     break;
             }
 
-
+        $dd = [];
+        $dd['status'] = '200';
+        echo json_encode($dd);
+        exit;
 
         switch ($type) {
             case 'application/pdf':
