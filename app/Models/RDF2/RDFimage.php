@@ -86,6 +86,8 @@ class RDFimage extends Model
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
 
+        echo json_encode($da);
+
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
@@ -94,14 +96,19 @@ class RDFimage extends Model
         echo $ccClass;
         exit;
 
-        if ($ccClass == 'Book')
+        switch ($ccClass)
             {
-                $dire = $this->directory($ID, '_repository/book/');
-                $ttt = 'book';
-            } else {
-                $dd['Erro'] = $ccClass .' não foi mapeada';
-                echo json_encode($dd);
-                exit;
+                case 'Book':
+                    $dire = $this->directory($ID, '_repository/book/');
+                    $ttt = 'book';
+                    break;
+                case 'pdf':
+                    $x = '1';
+                default:
+                    $dd['Erro'] = $ccClass .' não foi mapeada';
+                    echo json_encode($dd);
+                    exit;
+                    break;
             }
 
         $ext = '.xxx';
