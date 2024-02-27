@@ -168,21 +168,6 @@ class RDFimage extends Model
         echo json_encode($dd);
         exit;
 
-        /***************************************** Literal hasFileName */
-        $name = $fileName;
-        $prop = 'hasFileName';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
-
-        $dd = [];
-        $dd['status'] = '200';
-        $dd['tmp'] = $tmp;
-        $dd['dest'] = $dest;
-        $dd['idc'] = $idc;
-        $dd['ID'] = $ID;
-        echo json_encode($dd);
-        exit;
-
         return $idc;
     }
 
