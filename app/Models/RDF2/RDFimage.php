@@ -86,13 +86,15 @@ class RDFimage extends Model
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
 
+        echo json_encode($_FILES);
+        exit;
+
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
         $size = $_FILES['file']['size'];
 
-        echo json_encode($_FILES);
-        exit;
+
 
 
         if ($ccClass == 'Book')
