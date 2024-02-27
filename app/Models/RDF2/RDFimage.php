@@ -59,6 +59,8 @@ class RDFimage extends Model
                 break;
             case 'pdf':
                 $idc = $this->savePDF($ID);
+                echo $idc;
+                exit;
                 $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
                 $status = 'SAVED ' . $ID . '-' . $idc;
                 break;
@@ -86,7 +88,6 @@ class RDFimage extends Model
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
         $da['ID'] = $ID;
-        echo json_encode($da);
 
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
