@@ -125,12 +125,7 @@ class RDFimage extends Model
 
         move_uploaded_file($tmp, $dest);
 
-        $dd = [];
-        $dd['status'] = '200';
-        $dd['tmp'] = $tmp;
-        $dd['dest'] = $dest;
-        echo json_encode($dd);
-        exit;
+
 
         /********************************************** */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
@@ -143,6 +138,14 @@ class RDFimage extends Model
         $dt['Lang'] = 'nn';
         $dt['Class'] = 'FileStorage';
         $idc = $RDFconcept->createConcept($dt);
+
+        $dd = [];
+        $dd['status'] = '200';
+        $dd['tmp'] = $tmp;
+        $dd['dest'] = $dest;
+        $dd['idc'] = $idc;
+        echo json_encode($dd);
+        exit;
 
         /************************** Incula Imagem com Conceito */
         $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
