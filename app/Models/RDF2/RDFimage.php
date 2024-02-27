@@ -59,10 +59,12 @@ class RDFimage extends Model
                 break;
             case 'pdf':
                 $idc = $this->savePDF($ID);
-                echo $idc;
-                exit;
-                $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
-                $status = 'SAVED ' . $ID . '-' . $idc;
+                //$RDFdata->register($ID, 'hasFileStorage', $idc, 0);
+                //$status = 'SAVED ' . $ID . '-' . $idc;
+                $dd = [];
+                $dd['status'] = '200';
+                $dd['ID'] = $idc;
+                echo json_encode($dd);
                 break;
             default:
                 $dd = [];
@@ -94,25 +96,27 @@ class RDFimage extends Model
         $type = $_FILES['file']['type'];
         $size = $_FILES['file']['size'];
 
-        echo json_encode($dd = [$ccClass,'type']);
-        exit;
-
         switch ($ccClass)
             {
                 case 'Book':
                     $dire = $this->directory($ID, '_repository/book/');
                     $ttt = 'book';
+                    $ext = '.pdf';
                     break;
-                case 'pdf':
+                case 'pdfx':
+                    $dire = $this->directory($ID, '_repository/book/');
                     $x = '1';
+                    $ext = '.xxx';
                 default:
+                    echo json_encode($dd = [$ccClass, 'type']);
+                    exit;
                     $dd['Erro'] = $ccClass .' não foi mapeada';
                     echo json_encode($dd);
                     exit;
                     break;
             }
 
-        $ext = '.xxx';
+
 
         switch ($type) {
             case 'application/pdf':
