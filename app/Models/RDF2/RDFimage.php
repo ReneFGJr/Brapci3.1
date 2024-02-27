@@ -146,6 +146,12 @@ class RDFimage extends Model
         $idt = $RDFconcept->createConcept($dt);
         $RDFdata->register($idc, 'hasContentType', $idt, 0);
 
+        /***************************************** Literal Directory */
+        $name = $dire;
+        $prop = 'hasFileDirectory';
+        $lang = 'nn';
+        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+
         $dd = [];
         $dd['status'] = '200';
         $dd['tmp'] = $tmp;
@@ -154,12 +160,6 @@ class RDFimage extends Model
         $dd['ID'] = $ID;
         echo json_encode($dd);
         exit;
-
-        /***************************************** Literal Directory */
-        $name = $dire;
-        $prop = 'hasFileDirectory';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
         /***************************************** Literal hasFileName */
         $name = $fileName;
