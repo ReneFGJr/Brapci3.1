@@ -104,8 +104,8 @@ class RDFimage extends Model
                     $ext = '.pdf';
                     break;
                 case 'pdfx':
-                    $dire = $this->directory($ID, '_repository/book/');
-                    $x = '1';
+                    $dire = $this->directory($ID);
+                    $ttt = 'article';
                     $ext = '.xxx';
                 default:
                     echo json_encode($dd = [$ccClass, 'type']);
