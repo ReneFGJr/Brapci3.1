@@ -91,6 +91,9 @@ class RDFimage extends Model
         $type = $_FILES['file']['type'];
         $size = $_FILES['file']['size'];
 
+        echo $ccClass;
+        exit;
+
         if ($ccClass == 'Book')
             {
                 $dire = $this->directory($ID, '_repository/book/');
