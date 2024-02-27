@@ -86,6 +86,7 @@ class RDFimage extends Model
     function savePDF($ID)
     {
         $RDF = new \App\Models\RDF2\RDF();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
         $da = $RDF->le($ID);
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
@@ -121,11 +122,7 @@ class RDFimage extends Model
 
 
         $dest = $dire . $ttt . $ext;
-
-
         move_uploaded_file($tmp, $dest);
-
-
 
         /********************************************** */
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
@@ -139,16 +136,17 @@ class RDFimage extends Model
         $dt['Class'] = 'FileStorage';
         $idc = $RDFconcept->createConcept($dt);
 
+        /************************** Incula Imagem com Conceito */
+        $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
+
         $dd = [];
         $dd['status'] = '200';
         $dd['tmp'] = $tmp;
         $dd['dest'] = $dest;
         $dd['idc'] = $idc;
+        $dd['ID'] = $ID;
         echo json_encode($dd);
         exit;
-
-        /************************** Incula Imagem com Conceito */
-        $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
 
         /***************************************** ContentType */
         $dt = [];
