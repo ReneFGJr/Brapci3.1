@@ -94,7 +94,7 @@ class RDFimage extends Model
         $type = $_FILES['file']['type'];
         $size = $_FILES['file']['size'];
 
-        echo $ccClass;
+        echo json_encode($dd = [$ccClass,'type']);
         exit;
 
         switch ($ccClass)
