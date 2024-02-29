@@ -15,7 +15,7 @@ export class VitrineBooksComponent {
 
   ngOnInit()
     {
-    this.brapciService.generic('book/vitrine').subscribe((res) => {
+    this.brapciService.api_post('book/vitrine').subscribe((res) => {
         console.log(res);
         this.books = res;
       });

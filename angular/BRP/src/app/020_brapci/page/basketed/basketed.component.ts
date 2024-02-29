@@ -14,6 +14,7 @@ export class BasketedComponent {
   public header: Array<any> | any = "Lista de Referências"
   public edit:string = ''
 
+
   constructor(
     private localStorageService: LocalStorageService,
     private brapciService: BrapciService

@@ -7,6 +7,7 @@ import { DashboardComponent } from '../020_brapci/page/dashboard/dashboard.compo
 import { AboutComponent } from '../020_brapci/page/about/about.component';
 import { SearchBrapciAdvComponent } from '../020_brapci/page/search-brapci-adv/search-brapci-adv.component';
 import { IndexsComponent } from '../020_brapci/page/indexs/indexs.component';
+import { ExportComponent } from '../020_brapci/page/export/export.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'v/:id', component: VComponent },
   { path: 'v', component: VComponent },
   { path: 'basket/selected', component: BasketedComponent },
+  { path: 'basket/export/:id', component: ExportComponent },
   { path: 'dashboard', component: DashboardComponent },
   {
     path: 'authority',

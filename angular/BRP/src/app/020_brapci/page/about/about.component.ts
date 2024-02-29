@@ -14,7 +14,7 @@ export class AboutComponent {
   ) {}
 
   ngOnInit(): void {
-    this.brapciService.generic('page/about').subscribe(
+    this.brapciService.api_post('page/about').subscribe(
       res=>{
         this.content = res;
         console.log(res);

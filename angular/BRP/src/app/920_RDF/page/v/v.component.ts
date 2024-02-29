@@ -16,7 +16,7 @@ export class RDFVComponent {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
-      this.brapciService.generic('rdf/get/' + params['id']).subscribe(
+      this.brapciService.api_post('rdf/get/' + params['id']).subscribe(
         (res) => {
           this.data = res;
         },

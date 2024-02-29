@@ -17,15 +17,10 @@ export class BrapciService {
   //public url: string = 'http://brp/api/';
 
   public getId(id: number): Observable<Array<any>> {
-    let url = `${this.url}brapci/get/v1/` + id;
-    console.log(`Buscador: ${url}`);
-    var formData: any = new FormData();
-    //formData.append('q', id);
+    let url = 'brapci/get/v1/' + id;
+    let dt: Array<any> | any = [];
 
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
+    return this.api_post(url,dt)
   }
 
   public RDFapi(
@@ -48,18 +43,9 @@ export class BrapciService {
   }
 
   public api(id: number, term: string, prop: string): Observable<Array<any>> {
-    let url = `${this.url}rdf/search/`;
-    console.log(`Fontes: ${url}`);
-    console.log(`Params: ${term},${id},${prop}`);
-    var formData: any = new FormData();
-    formData.append('q', term);
-    formData.append('concept', id);
-    formData.append('propriey', prop);
-
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
+    let url = 'rdf/search/';
+    let dt: Array<any> | any = [{ q: term, concept: id, propriey: prop}];
+    return this.api_post(url, dt);
   }
 
   public api_post(type: string, dt: Array<any> = []): Observable<Array<any>> {
@@ -70,6 +56,9 @@ export class BrapciService {
       formData.append(key, dt[key]);
     }
 
+    let apikey = this.cookieService.get('section');
+    formData.append('user', apikey);
+
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
       (error) => error
@@ -77,45 +66,17 @@ export class BrapciService {
   }
 
   public sources(type: string): Observable<Array<any>> {
-    let url = `${this.url}brapci/source/` + type;
-    console.log(`Fontes: ${url}`);
-    var formData: any = new FormData();
-
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
-  }
-
-  public generic_post(type: string, dt: Array<any>): Observable<Array<any>> {
-    let url = `${this.url}brapci/` + type;
-    console.log(`Buscador: ${url}`);
-    var formData: any = new FormData();
-    for (const key in dt) {
-      formData.append(key, dt[key]);
-    }
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
-  }
-
-  public generic(type: string): Observable<Array<any>> {
-    let url = `${this.url}brapci/` + type;
-    console.log(`Fontes: ${url}`);
-    var formData: any = new FormData();
-
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
+    let url = `brapci/source/` + type;
+    let dt: Array<any> | any = [];
+    return this.api_post(url, dt);
   }
 
   public basket(list: string): Observable<Array<any>> {
     let url = `${this.url}brapci/basket`;
-    console.log(`Fontes: ${url}`);
     var formData: any = new FormData();
     formData.append('row', list);
+    let apikey = this.cookieService.get('section');
+    formData.append('user', apikey);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
@@ -138,6 +99,8 @@ export class BrapciService {
     let url = `${this.url}brapci/issue/` + id;
     console.log(`Fontes: ${url}`);
     var formData: any = new FormData();
+    let apikey = this.cookieService.get('section');
+    formData.append('user', apikey);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
@@ -146,14 +109,9 @@ export class BrapciService {
   }
 
   public getIssue(id: number): Observable<Array<any>> {
-    let url = `${this.url}brapci/issue/` + id;
-    console.log(`GETISSUE: ${url}`);
-    var formData: any = new FormData();
-
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
-      (res) => res,
-      (error) => error
-    );
+    let url = `brapci/issue/` + id;
+    let dt: Array<any> | any = [];
+    return this.api_post(url, dt);
   }
 
   public harvestingIssue(id: number): Observable<Array<any>> {

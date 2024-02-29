@@ -63,7 +63,7 @@ export class IndexsComponent {
     {
       this.ltr = ltr
       this.brapciService
-        .generic('indexs/' + this.type + '/' + this.ltr)
+        .api_post('indexs/' + this.type + '/' + this.ltr)
         .subscribe((res) => {
           this.data = res;
         });

@@ -65,6 +65,11 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'export':
+                $Basket = new \App\Models\ElasticSearch\Index();
+                $Basket->export($d2);
+                exit;
+                break;
             case 'setCookie':
                 $dd['status'] = '200';
                 if (isset($_SERVER['HTTP_COOKIE']))

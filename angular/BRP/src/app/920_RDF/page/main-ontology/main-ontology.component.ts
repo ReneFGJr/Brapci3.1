@@ -12,7 +12,7 @@ export class MainRdfOntologyComponent {
 
   ngOnInit()
     {
-      this.brapciService.generic('rdf').subscribe((res) => {
+      this.brapciService.api_post('rdf').subscribe((res) => {
         this.rdf = res;
       });
     }

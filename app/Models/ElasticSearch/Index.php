@@ -380,5 +380,14 @@ class Index extends Model
 			return $sx;
 		}
 
+		function export($type)
+			{
+				$dd = [];
+				$dd['type'] = $type;
+				$dd['post'] = $_POST;
+				echo json_encode($dd);
+				exit;
+			}
+
 
 }

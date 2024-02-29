@@ -51,6 +51,8 @@ import { IndexsComponent } from './page/indexs/indexs.component';
 import { LoveItComponent } from './page/loveit/loveit.component';
 import { EventComponent } from './widget/event/event.component';
 import { NewsComponent } from './widget/news/news.component';
+import { BasketedExportComponent } from './page/basketed-export/basketed-export.component';
+import { ExportComponent } from './page/export/export.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +102,8 @@ import { NewsComponent } from './widget/news/news.component';
     IndexsComponent,
     EventComponent,
     NewsComponent,
+    BasketedExportComponent,
+    ExportComponent,
   ],
   imports: [
     CommonModule,
