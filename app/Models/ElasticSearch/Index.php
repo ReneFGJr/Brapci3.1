@@ -418,6 +418,7 @@ class Index extends Model
 		}
 		$dir = '.tmp/export/brapci_'.date("Ymd-His").'.'.$type;
 		$dd['download'] = PATH.$dir;
+		file_put_contents($dir,$sx);
 		echo json_encode($dd);
 		exit;
 	}
