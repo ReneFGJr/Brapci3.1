@@ -400,7 +400,8 @@ class Index extends Model
 
 				$sx = '';
 				$sep = ';';
-				pre($dt);
+				echo json_encode($dt);
+				exit;
 				/*
 				foreach($dt as $i=>$line)
 					{
