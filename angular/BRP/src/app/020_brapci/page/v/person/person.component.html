@@ -2,11 +2,40 @@
   <div class="row">
     <div class="col-9">
       <h1>{{ data.name }}</h1>
-      <ul>
-        <li class="mb-2" *ngFor="let item of data.works; let i = index" [innerHtml]="item">
-        </li>
-      </ul>
+
+      <div *ngIf="data.works.Article">
+        <h2 class="brp_h2 mt-4" *ngIf="data.works.Article.length > 0">
+          Artigos
+        </h2>
+        <div *ngFor="let item of data.works.Article" class="mb-2 cited">
+          <div [innerHTML]="item"></div>
+        </div>
+      </div>
+
+      <div *ngIf="data.works.Proceeding">
+        <h2 class="brp_h2 mt-4" *ngIf="data.works.Proceeding.length > 0">
+          Artigos em eventos
+        </h2>
+        <div *ngFor="let item of data.works.Proceeding" class="mb-2 cited">
+          <div [innerHTML]="item"></div>
+        </div>
+      </div>
+
+      <div *ngIf="data.works.Book">
+        <h2 class="brp_h2 mt-4" *ngIf="data.works.Book.length > 0">Livros</h2>
+        <div *ngFor="let item of data.works.Book" class="mb-2 cited">
+          <div [innerHTML]="item"></div>
+        </div>
+      </div>
+
+      <div *ngIf="data.works.BookChapter">
+        <h2 class="brp_h2 mt-4" *ngIf="data.works.BookChapter.length > 0">
+          Capítulos de Livros
+        </h2>
+        <div *ngFor="let item of data.works.BookChapter" class="mb-2 cited">
+          <div [innerHTML]="item"></div>
+        </div>
+      </div>
     </div>
   </div>
-
 </div>

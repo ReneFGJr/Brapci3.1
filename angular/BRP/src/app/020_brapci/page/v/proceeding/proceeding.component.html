@@ -8,9 +8,14 @@
     <div class="col-9">
       <h1 class="title text-center">{{ data.title }}</h1>
 
+          <!--------------------------- Author-->
+    <div class="col-3 text-end " *ngIf="data.data.hasAuthor">
+
+      <!-- Author-------------------------------------->
       <div class="text-end mb-5">
         <span *ngFor="let item of data.creator_author" class="text-end">
-          <a class="author" [routerLink]="['/routePath']" >{{ item.name }}</a><br>
+          <a class="author" [routerLink]="['/v/'+item.ID]">{{ item.name }}</a
+          ><br />
         </span>
       </div>
     </div>
