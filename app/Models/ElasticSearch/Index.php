@@ -416,7 +416,10 @@ class Index extends Model
 			}
 			$sx .= chr(13);
 		}
-		$dir = '.tmp/export/brapci_'.date("Ymd-His").'.'.$type;
+		$dir = '.tmp/export';
+		dircheck($dir);
+
+		$dir .= '/brapci_'.date("Ymd-His").'.'.$type;
 		$dd['download'] = PATH.$dir;
 		file_put_contents($dir,$sx);
 		echo json_encode($dd);
