@@ -381,8 +381,6 @@ class Index extends Model
 		$dd['user'] = $user;
 		$dd['item'] = $row;
 
-		echo json_encode($dd);
-		exit;
 
 		$cp = '*';
 		$Register->select($cp);
@@ -418,9 +416,9 @@ class Index extends Model
 			}
 			$sx .= chr(13);
 		}
-
-		header("Content-type: text/csv");
-		echo $sx;
+		$dir = '.tmp/export/brapci_'.date("Ymd-His").'.'.$type;
+		$dd['download'] = PATH.$dir;
+		echo json_encode($dd);
 		exit;
 	}
 }
