@@ -402,14 +402,20 @@ class Index extends Model
 
 				$sx = '';
 				$sep = ';';
+				$fld = ['ID','CLASS','YEAR','AUTHORS','TITLE','SESSIONS'];
 				foreach($dt as $i=>$line)
 					{
-						$sx .= $line['ID'] . $sep;
-						$sx .= $line['CLASS'].$sep;
-						$sx .= $line['YEAR'] . $sep;
-						$sx .= $line['TITLE'] . $sep;
-						$sx .= $line['AUTHORS'] . $sep;
-						$sx .= $line['SESSION'] . $sep;
+						foreach($fld as $name)
+							{
+								$vlr = $line[$fld];
+								if ($vlr == sonumero($vlr))
+									{
+										$sx .= $line[$fld] . $sep;
+									} else {
+										$sx .= '"'.$line[$fld].'"' . $sep;
+									}
+
+							}
 						$sx .= chr(13);
 					}
 
