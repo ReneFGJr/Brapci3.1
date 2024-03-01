@@ -371,8 +371,30 @@ class Index extends Model
 		return $sx;
 	}
 	/*************************************** EXPORT TO CSV */
-	function export($type,$sep = ',')
+	function export($type)
 	{
+		switch($type)
+			{
+				case 'csv':
+					$begin = '';
+					$sep = ',';
+					$pre = '';
+					$pos = '';
+					$end = '';
+					$linS = '';
+					$linE = '';
+					break;
+				case 'xls':
+					$begin = '<table>';
+					$sep = '';
+					$linS = '<tr>';
+					$linE = '</tr>';
+					$pre = '<td>';
+					$pos = '</td>';
+					$end = '</table>';
+					break;
+			}
+
 		$Register = new \App\Models\ElasticSearch\Register();
 		$user = get('user');
 		$row = explode(',', get('row'));
@@ -393,29 +415,33 @@ class Index extends Model
 		$dt = $Register->findALl(10);
 
 		$sx = '';
-
+		$sx .= $begin;
 
 		$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS', 'TITLE', 'SESSIONS'];
+		$sx .= $linS;
 		foreach ($fld as $name) {
-			$sx .= $name.$sep;
+			$sx .= $pre.$name.$pos.$sep;
 		}
+		$sx .= $end;
 		$sx .= chr(13);
 		foreach ($dt as $i => $line) {
 			//pre($line, false);
 			foreach ($fld as $name) {
 				if (isset($line[$name])) {
 					$vlr = $line[$name];
+
 					if ($vlr == sonumero($vlr)) {
-						$sx .= $vlr . $sep;
+						$sx .= $pre.$vlr.$pos . $sep;
 					} else {
-						$sx .= '"' . $vlr . '"' . $sep;
+						$sx .= $pre.'"' . $vlr . '"' . $sep.$pos;
 					}
 				} else {
-					$sx .= 'null' . $sep;
+					$sx .= $pre.'null' . $pos.$sep;
 				}
 			}
 			$sx .= chr(13);
 		}
+		$sx .= $end;
 		$dir = '.tmp/export';
 		dircheck($dir);
 

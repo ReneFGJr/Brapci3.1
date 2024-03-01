@@ -20,14 +20,12 @@ export class ExportComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      console.log(params);
       this.type = params['id'];
 
       /* Recupera ID */
     });
 
     this.basket = this.localStorageService.get('marked');
-    console.log(this.basket);
 
     if (this.basket == null) {
       this.basket = [];
@@ -40,7 +38,6 @@ export class ExportComponent {
       this.brapciService
         .api_post('brapci/export/' + this.type, dt)
         .subscribe((res) => {
-          console.log(res);
           this.row = res;
         });
     }
