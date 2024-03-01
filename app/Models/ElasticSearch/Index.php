@@ -371,7 +371,7 @@ class Index extends Model
 		return $sx;
 	}
 	/*************************************** EXPORT TO CSV */
-	function export($type)
+	function export($type,$sep = ',')
 	{
 		$Register = new \App\Models\ElasticSearch\Register();
 		$user = get('user');
@@ -380,6 +380,9 @@ class Index extends Model
 		$dd['type'] = $type;
 		$dd['user'] = $user;
 		$dd['item'] = $row;
+
+		echo json_encode($dd);
+		exit;
 
 		$cp = '*';
 		$Register->select($cp);
@@ -392,7 +395,8 @@ class Index extends Model
 		$dt = $Register->findALl(10);
 
 		$sx = '';
-		$sep = ';';
+
+
 		$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS', 'TITLE', 'SESSIONS'];
 		foreach ($fld as $name) {
 			$sx .= $name.$sep;
