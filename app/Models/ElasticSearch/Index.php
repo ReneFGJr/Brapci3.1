@@ -383,7 +383,7 @@ class Index extends Model
 		function export($type)
 			{
 				$user = $_POST['user'];
-				$row = explode(';',$_POST['row']);
+				$row = explode(',',$_POST['row']);
 				$dd = [];
 				$dd['type'] = $type;
 				$dd['user'] = $user;
