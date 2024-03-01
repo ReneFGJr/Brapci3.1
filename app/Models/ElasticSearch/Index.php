@@ -415,7 +415,7 @@ class Index extends Model
 			$sx .= chr(13);
 		}
 
-//		header("Content-type: text/csv");
+		header("Content-type: text/csv");
 		echo $sx;
 		exit;
 	}
