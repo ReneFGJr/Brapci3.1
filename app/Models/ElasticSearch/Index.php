@@ -416,7 +416,7 @@ class Index extends Model
 
 		$sx = '';
 
-		switch ($tp) {
+		switch ($type) {
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
 				foreach($dt as $id=>$line)
