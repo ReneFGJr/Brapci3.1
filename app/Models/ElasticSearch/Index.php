@@ -388,6 +388,15 @@ class Index extends Model
 				$dd['type'] = $type;
 				$dd['user'] = $user;
 				$dd['item'] = $row;
+
+				$cp = '*';
+				$this->select($cp);
+				foreach($row as $id=>$line)
+					{
+						$this->Orwhere('ID',$line);
+					}
+				$dt = $this->findALl(10);
+				$dd['data'] = $dt;
 				echo json_encode($dd);
 				exit;
 			}
