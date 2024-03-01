@@ -412,7 +412,7 @@ class Index extends Model
 			{
 				$Register->Orwhere('ID',$line);
 			}
-		$dt = $Register->findALl(10);
+		$dt = $Register->findALl(2000);
 
 		$sx = '';
 		$sx .= $begin;
