@@ -402,7 +402,6 @@ class Index extends Model
 
 				$sx = '';
 				$sep = ';';
-				pre($dt,false);
 				foreach($dt as $i=>$line)
 					{
 						$sx .= $line['ID'] . $sep;
