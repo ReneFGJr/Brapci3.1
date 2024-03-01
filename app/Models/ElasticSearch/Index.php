@@ -425,7 +425,7 @@ class Index extends Model
 		$sx .= $end;
 		$sx .= chr(13);
 		foreach ($dt as $i => $line) {
-			//pre($line, false);
+			$sx .= $linS;
 			foreach ($fld as $name) {
 				if (isset($line[$name])) {
 					$vlr = $line[$name];
@@ -439,10 +439,13 @@ class Index extends Model
 					$sx .= $pre.'null' . $pos.$sep;
 				}
 			}
+			$sx .= $linE;
 			$sx .= chr(13);
 		}
 		$sx .= $end;
+		$sx .= chr(13);
 		$dir = '.tmp/export';
+
 		dircheck($dir);
 
 		$dir .= '/brapci_'.date("Ymd-His").'.'.$type;
