@@ -396,7 +396,8 @@ class Index extends Model
 		$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS', 'TITLE', 'SESSIONS'];
 		foreach ($dt as $i => $line) {
 			foreach ($fld as $name) {
-				if (isset($line[$fld])) {
+				echo '=='.$name;
+				if (isset($line[$name])) {
 					$vlr = $line[$fld];
 					if ($vlr == sonumero($vlr)) {
 						$sx .= $line[$fld] . $sep;
