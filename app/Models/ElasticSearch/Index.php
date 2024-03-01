@@ -382,6 +382,7 @@ class Index extends Model
 
 		function export($type)
 			{
+				$Register = new \App\Models\ElasticSearch\Register();
 				$user = get('user');
 				$row = explode(',',get('row'));
 				$dd = [];
@@ -390,12 +391,12 @@ class Index extends Model
 				$dd['item'] = $row;
 
 				$cp = '*';
-				$this->select($cp);
+				$Register->select($cp);
 				foreach($row as $id=>$line)
 					{
-						$this->Orwhere('ID',$line);
+						$Register->Orwhere('ID',$line);
 					}
-				$dt = $this->findALl(10);
+				$dt = $Register->findALl(10);
 				$dd['data'] = $dt;
 				echo json_encode($dd);
 				exit;
