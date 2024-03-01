@@ -373,29 +373,30 @@ class Index extends Model
 	/*************************************** EXPORT TO CSV */
 	function export($type)
 	{
-		switch($type)
-			{
-				case 'csv':
-					$begin = '';
-					$sep = ',';
-					$pre = '';
-					$pos = '';
-					$end = '';
-					$linS = '';
-					$linE = '';
-					$string = '"';
-					break;
-				case 'xls':
-					$begin = '<table>'.chr(13);
-					$sep = '';
-					$linS = '<tr>';
-					$linE = '</tr>';
-					$pre = '<td>';
-					$pos = '</td>';
-					$end = '</table>';
-					$string = '';
-					break;
-			}
+		switch ($type) {
+			case 'csv':
+				$begin = '';
+				$sep = ',';
+				$pre = '';
+				$pos = '';
+				$end = '';
+				$linS = '';
+				$linE = '';
+				$string = '"';
+				$tp = 'dataset';
+				break;
+			case 'xls':
+				$begin = '<table>' . chr(13);
+				$sep = '';
+				$linS = '<tr>';
+				$linE = '</tr>';
+				$pre = '<td>';
+				$pos = '</td>';
+				$end = '</table>';
+				$string = '';
+				$tp = 'dataset';
+				break;
+		}
 
 		$Register = new \App\Models\ElasticSearch\Register();
 		$user = get('user');
@@ -408,49 +409,61 @@ class Index extends Model
 
 		$cp = '*';
 		$Register->select($cp);
-		foreach($row as $id=>$line)
-			{
-				$Register->Orwhere('ID',$line);
-			}
+		foreach ($row as $id => $line) {
+			$Register->Orwhere('ID', $line);
+		}
 		$dt = $Register->findALl(2000);
 
 		$sx = '';
-		$sx .= $begin;
 
-		$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS', 'TITLE', 'SESSIONS'];
-		$sx .= $linS;
-		foreach ($fld as $name) {
-			$sx .= $pre.$name.$pos.$sep;
-		}
-		$sx .= $linE;
-		$sx .= chr(13);
-		foreach ($dt as $i => $line) {
-			$sx .= $linS;
-			foreach ($fld as $name) {
-				if (isset($line[$name])) {
-					$vlr = $line[$name];
-
-					if ($vlr == sonumero($vlr)) {
-						$sx .= $pre.$vlr.$pos . $sep;
-					} else {
-						$sx .= $pre. $string . $vlr . $string . $sep.$pos;
+		switch ($tp) {
+			case 'doc':
+				$ABNT = new \App\Models\Metadata\Abnt();
+				foreach($dt as $id=>$line)
+					{
+						$data = (array)json_decode($line);
+						$sx .= $ABNT->short($data).chr(13);
 					}
-				} else {
-					$sx .= $pre.'null' . $pos.$sep;
-				}
-			}
-			$sx .= $linE;
-			$sx .= chr(13);
-		}
-		$sx .= $end;
-		$sx .= chr(13);
-		$dir = '.tmp/export';
+				break;
+			case 'dataset':
+				$sx .= $begin;
 
+				$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS', 'TITLE', 'SESSIONS'];
+				$sx .= $linS;
+				foreach ($fld as $name) {
+					$sx .= $pre . $name . $pos . $sep;
+				}
+				$sx .= $linE;
+				$sx .= chr(13);
+				foreach ($dt as $i => $line) {
+					$sx .= $linS;
+					foreach ($fld as $name) {
+						if (isset($line[$name])) {
+							$vlr = $line[$name];
+
+							if ($vlr == sonumero($vlr)) {
+								$sx .= $pre . $vlr . $pos . $sep;
+							} else {
+								$sx .= $pre . $string . $vlr . $string . $sep . $pos;
+							}
+						} else {
+							$sx .= $pre . 'null' . $pos . $sep;
+						}
+					}
+					$sx .= $linE;
+					$sx .= chr(13);
+				}
+				$sx .= $end;
+				$sx .= chr(13);
+				break;
+		}
+
+		$dir = '.tmp/export';
 		dircheck($dir);
 
-		$dir .= '/brapci_'.date("Ymd-His").'.'.$type;
-		$dd['download'] = PATH.$dir;
-		file_put_contents($dir,$sx);
+		$dir .= '/brapci_' . date("Ymd-His") . '.' . $type;
+		$dd['download'] = PATH . $dir;
+		file_put_contents($dir, $sx);
 		echo json_encode($dd);
 		exit;
 	}

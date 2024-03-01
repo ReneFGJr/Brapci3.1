@@ -155,11 +155,31 @@ class RDFmetadata extends Model
 
     function metadataPerson($dt)
         {
+            $limit = 1000;
+            $ABNT = new \App\Models\Metadata\Abnt();
+            $dataset = new \App\Models\ElasticSearch\Search();
+
             $dr = [];
             $dr['name'] = $dt['concept']['n_name'];
             $dr['ID'] = $dt['concept']['id_cc'];
-            $dr['data'] = $dt['data'];
+            //$dr['data'] = $dt['data'];
 
+            $dataset->select('*');
+            foreach($dt['data'] as $id=>$line)
+                {
+                    $ID = $line['ID'];
+                    $dataset->orwhere('ID', $ID);
+                }
+            $dx = $dataset->findAll($limit);
+
+            $works = [];
+            foreach ($dx as $id => $line) {
+                $JSON = (array)json_decode($line['json']);
+                $ref = $ABNT->short($JSON, False);
+                array_push($works, $ref);
+            }
+
+            $dr['works'] = $works;
             return $dr;
         }
 
