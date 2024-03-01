@@ -385,7 +385,7 @@ class Index extends Model
 					$linE = '';
 					break;
 				case 'xls':
-					$begin = '<table>';
+					$begin = '<table>'.chr(13);
 					$sep = '';
 					$linS = '<tr>';
 					$linE = '</tr>';
@@ -422,7 +422,7 @@ class Index extends Model
 		foreach ($fld as $name) {
 			$sx .= $pre.$name.$pos.$sep;
 		}
-		$sx .= $end;
+		$sx .= $linE;
 		$sx .= chr(13);
 		foreach ($dt as $i => $line) {
 			$sx .= $linS;
