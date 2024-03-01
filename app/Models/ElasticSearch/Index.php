@@ -398,7 +398,21 @@ class Index extends Model
 					}
 				$dt = $Register->findALl(10);
 				$dd['data'] = $dt;
-				echo json_encode($dd);
+
+				$sx = '';
+				$sep = ';';
+				foreach($dt as $i=>$line)
+					{
+						$sx .= $line['ID'] . $sep;
+						$sx .= $line['CLASS'].$sep;
+						$sx .= $line['YEAR'] . $sep;
+						$sx .= $line['TITLE'] . $sep;
+						$sx .= $line['AUTHORS'] . $sep;
+						$sx .= $line['SESSION'] . $sep;
+						$sx .= chr(13);
+					}
+				header("Content-type: text/csv");
+				echo $sx;
 				exit;
 			}
 
