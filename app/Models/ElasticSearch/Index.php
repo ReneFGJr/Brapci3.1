@@ -383,6 +383,7 @@ class Index extends Model
 					$end = '';
 					$linS = '';
 					$linE = '';
+					$string = '"';
 					break;
 				case 'xls':
 					$begin = '<table>'.chr(13);
@@ -392,6 +393,7 @@ class Index extends Model
 					$pre = '<td>';
 					$pos = '</td>';
 					$end = '</table>';
+					$string = '';
 					break;
 			}
 
@@ -433,7 +435,7 @@ class Index extends Model
 					if ($vlr == sonumero($vlr)) {
 						$sx .= $pre.$vlr.$pos . $sep;
 					} else {
-						$sx .= $pre.'"' . $vlr . '"' . $sep.$pos;
+						$sx .= $pre. $string . $vlr . $string . $sep.$pos;
 					}
 				} else {
 					$sx .= $pre.'null' . $pos.$sep;
