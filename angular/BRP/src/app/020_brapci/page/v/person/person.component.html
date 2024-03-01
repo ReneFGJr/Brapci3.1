@@ -2,6 +2,11 @@
   <div class="row">
     <div class="col-9">
       <h1>{{ data.name }}</h1>
+      <ul>
+        <li class="mb-2" *ngFor="let item of data.works; let i = index" [innerHtml]="item">
+        </li>
+      </ul>
     </div>
   </div>
+
 </div>

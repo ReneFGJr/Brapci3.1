@@ -176,8 +176,13 @@ class RDFmetadata extends Model
             $works = [];
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
+                $type = $line['CLASS'];
                 $ref = $ABNT->short($JSON, False);
-                array_push($works, $ref);
+                if (!isset($works[$type]))
+                    {
+                        $works[$type] = [];
+                    }
+                array_push($works[$type], $ref);
             }
 
             $dr['works'] = $works;
