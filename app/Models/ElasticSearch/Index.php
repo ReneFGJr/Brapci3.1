@@ -397,6 +397,7 @@ class Index extends Model
 		foreach ($dt as $i => $line) {
 			foreach ($fld as $name) {
 				echo '=='.$name;
+				pre($line);
 				if (isset($line[$name])) {
 					$vlr = $line[$fld];
 					if ($vlr == sonumero($vlr)) {
