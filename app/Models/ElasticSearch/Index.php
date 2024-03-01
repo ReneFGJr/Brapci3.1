@@ -400,6 +400,8 @@ class Index extends Model
 
 				$sx = '';
 				$sep = ';';
+				pre($dt);
+				/*
 				foreach($dt as $i=>$line)
 					{
 						$sx .= $line['ID'] . $sep;
@@ -410,6 +412,7 @@ class Index extends Model
 						$sx .= $line['SESSION'] . $sep;
 						$sx .= chr(13);
 					}
+					*/
 				header("Content-type: text/csv");
 				echo $sx;
 				exit;
