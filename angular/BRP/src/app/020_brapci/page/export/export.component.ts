@@ -36,9 +36,9 @@ export class ExportComponent {
     this.total = this.basket.length;
 
     if (this.total > 0) {
-      let dt: Array<any> | any = [{ row: this.basket }];
+      let dt: Array<any> | any = { row: this.basket };
       this.brapciService
-        .api_post('api/brapci/export/' + this.type, dt)
+        .api_post('brapci/export/' + this.type, dt)
         .subscribe((res) => {
           console.log(res);
           this.row = res;

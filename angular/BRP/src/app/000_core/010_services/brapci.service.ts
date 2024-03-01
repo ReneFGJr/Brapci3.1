@@ -52,12 +52,12 @@ export class BrapciService {
     let url = `${this.url}` + type;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
+    let apikey = this.cookieService.get('section');
+    formData.append('user', apikey);
+
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
-
-    let apikey = this.cookieService.get('section');
-    formData.append('user', apikey);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,

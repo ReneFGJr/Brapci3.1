@@ -382,9 +382,12 @@ class Index extends Model
 
 		function export($type)
 			{
+				$user = $_POST['user'];
+				$row = explode(';',$_POST['row']);
 				$dd = [];
 				$dd['type'] = $type;
-				$dd['post'] = $_POST;
+				$dd['user'] = $user;
+				$dd['item'] = $row;
 				echo json_encode($dd);
 				exit;
 			}
