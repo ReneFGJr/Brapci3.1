@@ -399,7 +399,7 @@ class Index extends Model
 			foreach ($fld as $name) {
 				echo '=='.$name;
 				if (isset($line[$name])) {
-					$vlr = $line[$fld];
+					$vlr = $line[$name];
 					if ($vlr == sonumero($vlr)) {
 						$sx .= $line[$fld] . $sep;
 					} else {
