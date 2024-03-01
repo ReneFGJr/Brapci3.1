@@ -400,11 +400,11 @@ class Index extends Model
 
 				$sx = '';
 				$sep = ';';
-				echo json_encode($dt);
-				exit;
-				/*
 				foreach($dt as $i=>$line)
 					{
+						echo json_encode($dt);
+						exit;
+						/*
 						$sx .= $line['ID'] . $sep;
 						$sx .= $line['CLASS'].$sep;
 						$sx .= $line['YEAR'] . $sep;
@@ -412,6 +412,7 @@ class Index extends Model
 						$sx .= $line['AUTHORS'] . $sep;
 						$sx .= $line['SESSION'] . $sep;
 						$sx .= chr(13);
+						*/
 					}
 					*/
 				header("Content-type: text/csv");
