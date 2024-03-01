@@ -392,10 +392,12 @@ class Index extends Model
 
 				$cp = '*';
 				$Register->select($cp);
+				/*
 				foreach($row as $id=>$line)
 					{
 						$Register->Orwhere('ID',$line);
 					}
+				*/
 				$dt = $Register->findALl(10);
 
 				$sx = '';
