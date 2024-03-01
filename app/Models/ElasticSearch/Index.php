@@ -401,9 +401,9 @@ class Index extends Model
 				if (isset($line[$name])) {
 					$vlr = $line[$name];
 					if ($vlr == sonumero($vlr)) {
-						$sx .= $line[$fld] . $sep;
+						$sx .= $vlr . $sep;
 					} else {
-						$sx .= '"' . $line[$fld] . '"' . $sep;
+						$sx .= '"' . $vlr . '"' . $sep;
 					}
 				} else {
 					$sx .= 'null' . $sep;
