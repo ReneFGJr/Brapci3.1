@@ -170,7 +170,7 @@ class RDFmetadata extends Model
                     $ID = $line['ID'];
                     $dataset->orwhere('ID', $ID);
                 }
-            $dataset->orderBy('YEAR desc');
+            $dataset->orderBy('CLASS, YEAR desc');
             $dx = $dataset->findAll($limit);
 
             $works = [];
