@@ -405,6 +405,8 @@ class Index extends Model
 		$dd['type'] = $type;
 		$dd['user'] = $user;
 		$dd['item'] = $row;
+		$dd['post'] = $_POST;
+		$dd['get'] = $_GET;
 
 
 		$cp = '*';
