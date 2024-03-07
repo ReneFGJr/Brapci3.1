@@ -19,7 +19,6 @@ def checkLiteralExist():
     row = database.query(qr)
 
     for item in row:
-        print(item)
         ID = item[0]
         qu = "update brapci_rdf.rdf_data "
         qu += " set d_trust = 1 "
