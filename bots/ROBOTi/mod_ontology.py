@@ -2,12 +2,10 @@ import database
 
 def checkData():
     qr = "select * "
-    qr = "select id_d, C2.cc_class as class2, cr_range, d_r1, d_r2 "
-    qr += "FROM brapci_rdf.rdf_data "
-    qr += "inner Join brapci_rdf.rdf_class_domain ON cr_property = d_p "
-    qr += "Inner Join brapci_rdf.rdf_concept as C2 ON C2.id_cc = d_r2 "
-    qr += "where d_trust = 0 "
-    qr += "limit 1000"
+    qr = "select * FROM brapci_rdf.rdf_data "
+    qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
+    qr += "left join brapci_rdf.rdf_class_domain ON d_p = id_cd "
+    qr += "where d_trust = 0 limit 10; "
     print(qr)
 
     row = database.query(qr)
