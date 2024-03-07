@@ -39,7 +39,6 @@ def checkLiteralExist():
         qu += " set d_trust = 1 "
         qu += f" where id_d = {ID}"
         database.update(qu)
-        print(f"Atualizado Literal Data - {ID}")
 
 def checkDataConceptExist():
     print("Checando relações Orfã")
