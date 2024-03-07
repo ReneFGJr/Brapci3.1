@@ -374,6 +374,9 @@ class Index extends Model
 	function export($type)
 	{
 		switch ($type) {
+			case 'doc':
+				$tp='doc';
+				break;
 			case 'csv':
 				$begin = '';
 				$sep = ',';
@@ -418,7 +421,7 @@ class Index extends Model
 
 		$sx = '';
 
-		switch ($type) {
+		switch ($tp) {
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
 				foreach($dt as $id=>$line)
