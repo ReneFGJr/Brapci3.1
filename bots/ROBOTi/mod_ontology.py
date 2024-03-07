@@ -5,7 +5,7 @@ def checkLiteralExist():
     qr += "where "
     qr += " d_r2 = 0 "
     qr += " and d_p <> 0"
-    qr += " and d_r2 > 0"
+    qr += " and d_r1 > 0"
     qr += " and d_literal > 0"
     print('103a - Liberando entradas Literais')
     print(qr)
