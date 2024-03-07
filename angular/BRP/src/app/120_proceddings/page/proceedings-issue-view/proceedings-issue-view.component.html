@@ -41,10 +41,9 @@
       </ol>
 
       AUTORES
-      {{source.authors | json}}
       <ol>
       <li *ngFor="let author of source.authors">
-        {{ author }}
+        {{ author.name }} <sup>{{author.total}}</sup>
       </li>
       </ol>
     </div>

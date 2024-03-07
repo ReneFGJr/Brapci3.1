@@ -26,7 +26,7 @@
       <!-- Author-------------------------------------->
       <div class="text-end mb-5">
         <span *ngFor="let item of data.creator_author" class="text-end">
-          <a class="author" [routerLink]="['/routePath']">{{ item.name }}</a
+          <a class="author" [routerLink]="['/v/'+item.ID]">{{ item.name }}</a
           ><br />
         </span>
       </div>
