@@ -426,8 +426,7 @@ class Index extends Model
 				$ABNT = new \App\Models\Metadata\Abnt();
 				foreach($dt as $id=>$line)
 					{
-						pre($line);
-						$data = (array)json_decode($line);
+						$data = (array)json_decode($line['json']);
 						$sx .= $ABNT->short($data).chr(13);
 					}
 				break;
