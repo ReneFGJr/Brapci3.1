@@ -8,15 +8,20 @@ def resume():
     print(row)
 
 def checkLiteralExist():
-    qr = "update brapci_rdf.rdf_data "
-    qr += "set d_trust = 1 "
+    qr = "select * from brapci_rdf.rdf_data"
     qr += "where "
     qr += " d_r2 = 0 "
     qr += " and d_p <> 0"
     qr += " and d_r1 > 0"
     qr += " and d_literal > 0"
+    qr += " limit 10"
     print('103a - Liberando entradas Literais')
     row = database.query(qr)
+
+    for item in row:
+        print(item)
+        qr = "update brapci_rdf.rdf_data "
+        qr += "set d_trust = 1 "
 
 def checkDataConceptExist():
     checkLiteralExist()
