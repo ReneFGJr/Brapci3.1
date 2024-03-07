@@ -304,16 +304,29 @@ class Brapci extends Model
             ->findAll();
 
         $dw = [];
+        $au = [];
         foreach($dt as $id=>$line)
             {
                 $dq = [];
                 $dq['ID'] = $line['siw_work_rdf'];
                 $dq['LEGEND'] = $line['TITLE'];
                 $dq['AUTHORS'] = $line['AUTHORS'];
+                $aut = troca($dq['AUTHORS'],'; ',';');
+                $aut = explode(';',$aut);
+                foreach($aut as $ida=>$nome)
+                    {
+                        if (!isset($au[$nome]))
+                            {
+                                $au[$nome] = 1;
+                            } else {
+                                $au[$nome] = $au[$nome] + 1;
+                            }
+                    }
                 array_push($dw,$dq);
             }
         $dd['worksTotal'] = count($dt);
         $dd['works'] = $dw;
+        $dd['authors'] = $au;
         return $dd;
     }
 
