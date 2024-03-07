@@ -26,10 +26,14 @@ def checkLiteralExist():
     qr += " and d_literal > 0"
     qr += " and d_trust = 0"
     qr += " limit 100000"
-    print('103a - Liberando entradas Literais')
+    print('102 - Liberando entradas Literais')
     row = database.query(qr)
-
+    ini = 0
     for item in row:
+        ini = ini + 1
+        if ini > 1000:
+            ini = 0
+            print(".",end='')
         ID = item[0]
         qu = "update brapci_rdf.rdf_data "
         qu += " set d_trust = 1 "
