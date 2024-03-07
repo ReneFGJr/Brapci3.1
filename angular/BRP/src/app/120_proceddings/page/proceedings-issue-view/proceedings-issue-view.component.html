@@ -16,6 +16,12 @@
         <span style="font-size: 40px">{{ source.worksTotal}}</span>
         <br>
         TRABALHOS
+
+        <br/><br/>
+
+        <span class="mt-5" style="font-size: 40px">{{ source.authorsTotal}}</span>
+        <br>
+        AUTORES
     </div>
 
     <div class="col-10">
@@ -32,6 +38,14 @@
           <span class="small"><i>{{ works.AUTHORS}}</i></span>
           </a>
         </li>
+      </ol>
+
+      AUTORES
+      {{source.authors | json}}
+      <ol>
+      <li *ngFor="let author of source.authors">
+        {{ author }}
+      </li>
       </ol>
     </div>
   </div>

@@ -6,10 +6,10 @@
 
     <div  *ngFor="let issue of source.source.issue" class="col-4">
         <div class="cover issue p-2 m-2" (click)="viewIssue(issue.ID)">
-          <span class="issue-name">{{issue.acron}}</span>
-          <span class="issue-nr">{{issue.vol}}</span>
-          <span class="issue-place">{{issue.place}}</span>
-          <span class="issue-year">{{issue.year}}</span>
+          <div class="issue-name">{{issue.acron}}</div>
+          <div class="issue-nr">{{issue.vol}}</div>
+          <div class="issue-place">{{issue.place}}</div>
+          <div class="issue-year">{{issue.year}}</div>
      </div>
 
   </div>

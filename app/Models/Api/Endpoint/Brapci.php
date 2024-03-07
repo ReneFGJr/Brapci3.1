@@ -317,17 +317,23 @@ class Brapci extends Model
                     {
                         if (!isset($au[$nome]))
                             {
-                                $au[$nome] = 1;
+                                $au[$nome] = ['name'=>$nome,'ID'=>0,'total'=>1];
                             } else {
-                                $au[$nome] = $au[$nome] + 1;
+                                $au[$nome]['total'] = $au[$nome]['total'] + 1;
                             }
                     }
                 array_push($dw,$dq);
             }
+        /******** Authors */
+        ksort($au);
+        $nm = [];
+        foreach($au as $name=>$line)
+            {
+                array_push($nm,$line);
+            }
         $dd['worksTotal'] = count($dt);
         $dd['works'] = $dw;
-        ksort($au);
-        $dd['authors'] = $au;
+        $dd['authors'] = $nm;
         $dd['authorsTotal'] = count($au);
         return $dd;
     }
