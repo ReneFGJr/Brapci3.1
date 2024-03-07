@@ -23,7 +23,7 @@ def checkLiteralExist():
         ID = item[0]
         qr = "update brapci_rdf.rdf_data "
         qr += " set d_trust = 1 "
-        qr += " where id_d = " + ID
+        qr += f" where id_d = {ID}"
         print(qr)
 
 def checkDataConceptExist():
