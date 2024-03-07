@@ -80,6 +80,8 @@ def run(parm):
         lp = mod_data.DataDouble()
     if (act == '101'):
         lp = mod_ontology.checkDataInverse()
+    if (act == '102'):
+        lp = mod_ontology.checkLiteralExist()
     if (act == '105'):
         lp = mod_ontology.checkDataConceptExist()
     if (act == '110'):

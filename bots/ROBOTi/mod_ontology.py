@@ -25,7 +25,7 @@ def checkLiteralExist():
     qr += " and d_r1 > 0"
     qr += " and d_literal > 0"
     qr += " and d_trust = 0"
-    qr += " limit 10000"
+    qr += " limit 100000"
     print('103a - Liberando entradas Literais')
     row = database.query(qr)
 
@@ -38,7 +38,6 @@ def checkLiteralExist():
         print(f"Atualizado Literal Data - {ID}")
 
 def checkDataConceptExist():
-    checkLiteralExist()
     print("Checando relações Orfã")
     qr = "select id_d, d_r1, d_r2 FROM brapci_rdf.rdf_data "
     qr += "left join brapci_rdf.rdf_concept ON d_r2 = id_cc "
