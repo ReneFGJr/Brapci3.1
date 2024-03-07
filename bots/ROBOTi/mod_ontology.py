@@ -14,7 +14,7 @@ def checkLiteralExist():
     qr += " and d_p <> 0"
     qr += " and d_r1 > 0"
     qr += " and d_literal > 0"
-    qr += " limit 10"
+    qr += " limit 10000"
     print('103a - Liberando entradas Literais')
     row = database.query(qr)
 
