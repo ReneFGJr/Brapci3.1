@@ -2,7 +2,7 @@ import database
 
 def checkDataConceptExist():
     print("Checando relações Orfã")
-    qr = "select * "
+    qr = "select d_r2 "
     qr = "select * FROM brapci_rdf.rdf_data "
     qr += "left join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "where d_trust = 0 and id_cc is null limit 10 "
