@@ -5,7 +5,7 @@ def checkData():
     qr = "select * FROM brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "left join brapci_rdf.rdf_class_domain ON d_p = id_cd "
-    qr += "where d_trust = 0 limit 10; "
+    qr += "where d_trust = 0 limit 1000 "
     print(qr)
 
     row = database.query(qr)
