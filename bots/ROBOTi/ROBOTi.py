@@ -80,6 +80,8 @@ def run(parm):
         lp = mod_data.DataDouble()
     if (act == '101'):
         lp = mod_data.DataDoubleInverse()
+    if (act == '105'):
+        lp = mod_data.checkDataConceptExist()
     if (act == '110'):
         lp = mod_ontology.checkData()
 
