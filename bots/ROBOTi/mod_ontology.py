@@ -8,6 +8,7 @@ def checkLiteralExist():
     qr += " and d_r2 > 0"
     qr += " and d_literal > 0"
     print('103a - Liberando entradas Literais')
+    print(qr)
     row = database.query(qr)
 
 def checkDataConceptExist():
