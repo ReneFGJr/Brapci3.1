@@ -326,7 +326,9 @@ class Brapci extends Model
             }
         $dd['worksTotal'] = count($dt);
         $dd['works'] = $dw;
+        ksort($au);
         $dd['authors'] = $au;
+        $dd['authorsTotal'] = count($au);
         return $dd;
     }
 
