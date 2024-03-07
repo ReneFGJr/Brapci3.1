@@ -1,4 +1,12 @@
 import database
+
+def resume()
+    qr = "SELECT count(*) as total, d_trust "
+    qr += " FROM rdf_data "
+    qr += " group by d_trust"
+    row = database.query(qr)
+    print(row)
+
 def checkLiteralExist():
     qr = "update brapci_rdf.rdf_data "
     qr += "set d_trust = 1 "
@@ -8,7 +16,6 @@ def checkLiteralExist():
     qr += " and d_r1 > 0"
     qr += " and d_literal > 0"
     print('103a - Liberando entradas Literais')
-    print(qr)
     row = database.query(qr)
 
 def checkDataConceptExist():

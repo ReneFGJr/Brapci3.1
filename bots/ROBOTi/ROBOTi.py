@@ -84,6 +84,8 @@ def run(parm):
         lp = mod_ontology.checkDataConceptExist()
     if (act == '110'):
         lp = mod_ontology.checkData()
+    if (act == '120'):
+        lp = mod_ontology.resume()
 
     if (act == 'lattesK'):
         file = parm[2]
