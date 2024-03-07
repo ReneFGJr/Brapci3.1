@@ -5,8 +5,8 @@ def checkData():
     qr = "select * FROM brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "left join brapci_rdf.rdf_class_domain ON d_p = id_cd "
-    qr += "where d_trust = 0 limit 1000 "
-    print(qr)
+    qr += "where d_trust = 0 limit 30000 "
+    print("100 - Checando Ontologias")
 
     row = database.query(qr)
 
@@ -33,4 +33,4 @@ def checkData():
             qu = f"update brapci_rdf.rdf_data set d_trust = -1 where id_d = {ID}"
             database.update(qu)
 
-    qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
+    #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
