@@ -9,7 +9,7 @@ def resume():
 
 def checkLiteralExist():
     qr = "select * from brapci_rdf.rdf_data"
-    qr += "where "
+    qr += " where "
     qr += " d_r2 = 0 "
     qr += " and d_p <> 0"
     qr += " and d_r1 > 0"
