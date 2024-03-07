@@ -21,10 +21,11 @@ def checkLiteralExist():
     for item in row:
         print(item)
         ID = item[0]
-        qr = "update brapci_rdf.rdf_data "
-        qr += " set d_trust = 1 "
-        qr += f" where id_d = {ID}"
-        print(qr)
+        qu = "update brapci_rdf.rdf_data "
+        qu += " set d_trust = 1 "
+        qu += f" where id_d = {ID}"
+        database.update(qu)
+        print(f"Atualizado {ID}")
 
 def checkDataConceptExist():
     checkLiteralExist()
