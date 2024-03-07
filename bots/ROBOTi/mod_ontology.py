@@ -1,6 +1,6 @@
 import database
 
-def resume()
+def resume():
     qr = "SELECT count(*) as total, d_trust "
     qr += " FROM rdf_data "
     qr += " group by d_trust"
