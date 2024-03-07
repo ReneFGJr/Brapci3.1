@@ -105,6 +105,8 @@ function form($th)
     $fl = $th->allowedFields;
     $tp = $th->typeFields;
 
+    $th->id = sonumero($th->id);
+    if ($th->id == '') { $th->id = 0; }
     $id = round($th->id);
 
     /* Sem PATH */
