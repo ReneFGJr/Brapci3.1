@@ -31,7 +31,7 @@ def checkLiteralExist():
     ini = 0
     for item in row:
         ini = ini + 1
-        if ini > 1000:
+        if ini > 100:
             ini = 0
             print(".",end='')
         ID = item[0]
