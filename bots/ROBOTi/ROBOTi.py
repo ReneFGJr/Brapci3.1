@@ -19,7 +19,7 @@ import mod_lattes
 from colorama import Fore
 
 def version():
-    return "v0.24.02.10"
+    return "v0.24.03.07"
 
 def run(parm):
     act = parm[1]

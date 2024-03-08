@@ -29,6 +29,10 @@ class Dados extends BaseController
         $sx .= view('Brapci/Headers/header', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
         switch ($act) {
+            case 'brcris':
+                $BRCris = new \App\Models\BrCris\Person();
+                $sx .= $BRCris->seek('RENE FAUSTINO GABRIEL JUNIOR');
+                break;
             case 'tombstone':
                 $DOI = new \App\Models\DOI\Index();
                 $sx .= $DOI->tombstone($subact, $id, $id2, $id3, $id4);

@@ -113,6 +113,7 @@ class Index extends Model
         $menu[PATH . COLLECTION . '/tombstone'] = lang('data.tombstone');
         $menu[PATH . COLLECTION . '/dataverse'] = lang('data.dataverse');
 
+        $menu[PATH . COLLECTION . '/brcris'] = lang('data.BrCris');
         $sx = '';
         $sx .= MENU($menu);
 
