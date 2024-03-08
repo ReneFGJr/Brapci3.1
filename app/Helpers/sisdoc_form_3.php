@@ -124,6 +124,10 @@ function check_email($email)
     if (count($emailArray) != 2) {
         return false;
     }
+    if ((isset($emailArray[1]) and ($emailArray[1] == 'gmail')))
+        {
+            return true;
+        }
     if (checkdnsrr(array_pop($emailArray), "MX")) {
         return true;
     } else {
