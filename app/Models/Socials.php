@@ -1357,15 +1357,16 @@ class Socials extends Model
 		$user = get("signup_email");
 		$name = get("signup_name");
 		$inst = get("signup_institution");
+		echo json_encode($_POST);
+		exit;
 
-		/*
 		if (!check_email($user)) {
 			$sx .= '<h2>' . lang('social.email_invalid') . '<h2>';
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
 			$this->error = 510;
 			return $sx;
 		}
-		*/
+
 		$dt = $this->user_exists($user);
 
 		if (!isset($dt[0])) {
@@ -1376,8 +1377,7 @@ class Socials extends Model
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
 		} else {
 			$sx .= '<h2>' . lang('social.user_already') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-		}
+			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';		}
 		return $sx;
 	}
 
