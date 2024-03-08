@@ -1377,7 +1377,6 @@ class Socials extends Model
 		} else {
 			$sx .= '<h2>' . lang('social.user_already') . '<h2>';
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
-			pre($dt);
 		}
 		return $sx;
 	}
