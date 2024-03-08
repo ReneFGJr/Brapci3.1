@@ -58,30 +58,30 @@
           <!-- FORGOT --------------------------------------------->
           <div class="face face-back">
             <div class="content">
-             <form [formGroup]="forgotForm" (ngSubmit)="forgout()">
-              <h2>Esqueceu a senha?</h2>
-              <small
-                >Entre com seu e-mail para podermos enviar um link para ressetar
-                sua senha</small
-              >
-              <div class="field-wrapper">
-                <input
-                  type="text"
-                  formControlName="email"
-                  placeholder="seu e-mail"
-                />
-                <label>e-mail</label>
-              </div>
-              <button
-                class="btn btn-primary"
-                style="width: 100%"
-                [disabled]="forgotForm.invalid"
-              >
-                Entrar
-              </button>
-              <span class="singin" (click)="moveBTN('pLogin')"
-                >Já tem usuário? Acessar</span
-              >
+              <form [formGroup]="forgotForm" (ngSubmit)="forgout()">
+                <h2>Esqueceu a senha?</h2>
+                <small
+                  >Entre com seu e-mail para podermos enviar um link para
+                  ressetar sua senha</small
+                >
+                <div class="field-wrapper">
+                  <input
+                    type="text"
+                    formControlName="email"
+                    placeholder="seu e-mail"
+                  />
+                  <label>e-mail</label>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  style="width: 100%"
+                  [disabled]="forgotForm.invalid"
+                >
+                  Entrar
+                </button>
+                <span class="singin" (click)="moveBTN('pLogin')"
+                  >Já tem usuário? Acessar</span
+                >
               </form>
             </div>
           </div>
@@ -89,32 +89,44 @@
           <div class="face face-right">
             <div class="content">
               <h2>Cadastrar-se</h2>
-              <div class="field-wrapper">
-                <input type="text" id="signup_name" placeholder="name" />
-                <label>Nome completo do usuário</label>
-              </div>
-              <div class="field-wrapper">
-                <input type="text" id="signup_email" placeholder="name" />
-                <label>e-mail</label>
-              </div>
-              <div class="field-wrapper">
-                <input
-                  type="text"
-                  id="signup_institution"
-                  placeholder="name"
-                  value="{{ email }}"
-                />
-                <label>Nome da instituição</label>
-              </div>
-              <div class="field-wrapper">
-                <button
-                  class="btn btn-primary"
-                  style="width: 100%"
-                  (click)="signUP()"
-                >
-                  Cadastrar-se
-                </button>
-              </div>
+              <form [formGroup]="oauthSignUp" (ngSubmit)="signUP()">
+                <div class="field-wrapper">
+                  <input
+                    type="text"
+                    formControlName="signup_name"
+                    id="signup_name"
+                    placeholder="name"
+                  />
+                  <label>Nome completo do usuário</label>
+                </div>
+                <div class="field-wrapper">
+                  <input
+                    type="text"
+                    formControlName="signup_email"
+                    placeholder="Seu e-mail"
+                  />
+                  <label>e-mail</label>
+                </div>
+                <div class="field-wrapper">
+                  <input
+                    type="text"
+                    id="signup_institution"
+                    placeholder="name"
+                    formControlName="signup_institution"
+                    value="{{ email }}"
+                  />
+                  <label>Nome da instituição</label>
+                </div>
+                <div class="field-wrapper">
+                  <button
+                    class="btn btn-primary"
+                    style="width: 100%"
+                    (click)="signUP()"
+                  >
+                    Cadastrar-se
+                  </button>
+                </div>
+              </form>
               <span class="singin" (click)="moveBTN('pLogin')"
                 >Já tem usuário? Acessar</span
               >
@@ -124,30 +136,35 @@
           <div class="face face-left">
             <div class="content">
               <form [formGroup]="questionForm" (ngSubmit)="signin()">
-              <h2>Entre em contato</h2>
-              <div class="field-wrapper">
-                <input
-                  type="text"
-                  formControlName="email"
-                  placeholder="seu e-mail"
-                />
-                <label>e-mail</label>
-              </div>
-              <div class="field-wrapper">
-                <textarea
-                  placeholder="Digite sua mensagem"
-                  rows="5"
-                  formControlName="text"
-                  class="border border-secondary p-2 rounded"
-                  style="font-size: 0.7em"
-                ></textarea>
-                <label>-Digite sua mensagem</label>
-              </div>
-              <div class="field-wrapper">
-                <input type="submit" (click)="showThankYou()" [disabled]="!questionForm.valid"/>
-                <span class="singin" (click)="moveBTN('pLogin')"
-                  >Já tem usuário? Acessar</span>
-              </div>
+                <h2>Entre em contato</h2>
+                <div class="field-wrapper">
+                  <input
+                    type="text"
+                    formControlName="email"
+                    placeholder="seu e-mail"
+                  />
+                  <label>e-mail</label>
+                </div>
+                <div class="field-wrapper">
+                  <textarea
+                    placeholder="Digite sua mensagem"
+                    rows="5"
+                    formControlName="text"
+                    class="border border-secondary p-2 rounded"
+                    style="font-size: 0.7em"
+                  ></textarea>
+                  <label>-Digite sua mensagem</label>
+                </div>
+                <div class="field-wrapper">
+                  <input
+                    type="submit"
+                    (click)="showThankYou()"
+                    [disabled]="!questionForm.valid"
+                  />
+                  <span class="singin" (click)="moveBTN('pLogin')"
+                    >Já tem usuário? Acessar</span
+                  >
+                </div>
               </form>
             </div>
           </div>
@@ -156,7 +173,7 @@
             <div class="content">
               <div id="board">
                 <h2>conectando, aguarde ...</h2>
-                <img [src]="image_wait">
+                <img [src]="image_wait" />
               </div>
             </div>
           </div>

@@ -23,6 +23,12 @@ export class LoginComponent {
     password: ['', Validators.required],
   });
 
+  public oauthSignUp: FormGroup = this.formBuilder.group({
+    signup_name: ['', Validators.required],
+    signup_email: ['', Validators.required],
+    signup_institution: ['', Validators.required],
+  });
+
   public questionForm: FormGroup = this.formBuilder.group({
     email: ['', Validators.required],
     text: ['', Validators.required],
@@ -113,9 +119,9 @@ export class LoginComponent {
   signUP() {
     this.userService
       .signUp(
-        this.oauthForm.value.signup_name,
-        this.oauthForm.value.signup_email,
-        this.oauthForm.value.signup_institution
+        this.oauthSignUp.value.signup_name,
+        this.oauthSignUp.value.signup_email,
+        this.oauthSignUp.value.signup_institution
       )
       .subscribe((res) => {
         console.log(res);

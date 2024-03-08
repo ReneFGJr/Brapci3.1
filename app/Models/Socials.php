@@ -1358,7 +1358,6 @@ class Socials extends Model
 		$name = get("signup_name");
 		$inst = get("signup_institution");
 
-
 		if (!check_email($user)) {
 			$sx .= '<h2>' . lang('social.email_invalid') . '<h2>';
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
