@@ -1357,8 +1357,7 @@ class Socials extends Model
 		$user = get("signup_email");
 		$name = get("signup_name");
 		$inst = get("signup_institution");
-		echo json_encode($_POST);
-		exit;
+
 
 		if (!check_email($user)) {
 			$sx .= '<h2>' . lang('social.email_invalid') . '<h2>';
