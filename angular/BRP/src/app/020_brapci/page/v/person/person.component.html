@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-9">
+    <div class="col-7">
       <h1>{{ data.name }}</h1>
 
       <div *ngIf="data.works.Article">
@@ -35,6 +35,11 @@
         <div *ngFor="let item of data.works.BookChapter" class="mb-2 cited">
           <div [innerHTML]="item"></div>
         </div>
+      </div>
+    </div>
+    <div class="col-5">
+      <div class="chart-container">
+          <canvas  id="MyChart" >{{ chart }}</canvas>
       </div>
     </div>
   </div>
