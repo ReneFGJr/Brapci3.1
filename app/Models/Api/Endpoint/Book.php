@@ -70,7 +70,7 @@ class Book extends Model
                     exit;
                     break;
                 default:
-                    $ISBN = new \App\Models\Functions\ISBN();
+                    $ISBN = new \App\Models\Functions\Isbn();
                     $isbn = get("isbn");
                     $isbn = $ISBN->format($isbn);
                     echo h($isbn);
