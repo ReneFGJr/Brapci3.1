@@ -54,7 +54,7 @@ class Index extends Model
     {
         switch ($d1) {
             case 'page':
-                $WP = new \App\Models\WP\index();
+                $WP = new \App\Models\WP\Index();
                 $RSP = $WP->api($d2);
                 echo json_encode($RSP);
                 exit;
