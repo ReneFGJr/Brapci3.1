@@ -53,6 +53,12 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4)
     {
         switch ($d1) {
+            case 'page':
+                $WP = new \App\Models\WP\index();
+                $RSP = $WP->api($d2);
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'cookies':
                 $this->cookies();
                 exit;
