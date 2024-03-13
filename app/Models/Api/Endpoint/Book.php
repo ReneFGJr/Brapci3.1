@@ -58,6 +58,12 @@ class Book extends Model
         }
         switch($d2)
             {
+                case 'vitrine':
+                    $Book = new \App\Models\Base\Book();
+                    $dt = $Book->vitrine('');
+                    echo json_encode($dt);
+                    exit;
+                    break;
                 case 'submit':
                     $PS = array_merge($_POST, $_GET);
                     $booksSubmit = new \App\Models\Books\BooksSubmit();
