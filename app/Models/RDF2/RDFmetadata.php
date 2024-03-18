@@ -191,6 +191,7 @@ class RDFmetadata extends Model
                 $auth = explode(';',$auth);
                 foreach($auth as $ida=>$nomea)
                     {
+                        $nomea = trim($nomea);
                         if (isset($coauthors[$nomea]))
                             {
                                 $coauthors[$nomea] = $coauthors[$nomea] + 1;
