@@ -169,7 +169,7 @@ class Metadata extends Model
                             if (($cls == 'Organizer') or ($cls == 'Authors'))
                                 {
                                     $lang = 'nn';
-                                    pre($line);
+                                    pre($data);
                                 }
 
                             if ($lang != 'nn') {
