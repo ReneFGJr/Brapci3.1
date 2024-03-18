@@ -599,6 +599,7 @@ class Export extends Model
             /**************************************************************/
             $Metadata->metadata($cline, $xline);
             $meta = $Metadata->metadata;
+            pre($meta, true);
             echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Metadata ' . $xline['id_cc']);
             //pre($meta,false);
 
@@ -630,7 +631,6 @@ class Export extends Model
                         $meta[$met] = 1;
                     }
                 }
-                pre($meta,true);
                 $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
                     $ElasticRegister->data($idr, $meta) . '</li>';
                 //$sx .= '<li>' . strzero(trim($meta['ID']), 8) . '</li>';
