@@ -18,21 +18,48 @@ export class PersonComponent {
   //https://www.educative.io/answers/how-to-create-a-pie-chart-using-chartjs-in-angular
   createChart() {
     this.chart = new Chart('MyChart', {
-      type: 'pie', //this denotes tha type of chart
+      type: 'doughnut', //this denotes tha type of chart
       // type: 'doughnut',
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+        aspectRatio: 2.5,
+      },
 
       data: {
         // values on X-Axis
         labels: this.data.chart_coauthors.labels,
         datasets: [
           {
-            label: 'A',
+            label: 'Colaboração do Autor',
             data: this.data.chart_coauthors.total,
             hoverOffset: 4,
+            backgroundColor: [
+              '#000020',
+              '#000040',
+              '#000060',
+              '#000080',
+              '#0000A0',
+              '#0000B0',
+              '#0000C0',
+              '#0000D0',
+              '#0000E0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+              '#0000F0',
+            ],
           },
         ],
       },
-      options: { aspectRatio: 2.5 },
     });
   }
 }
