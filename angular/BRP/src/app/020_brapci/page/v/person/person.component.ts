@@ -12,6 +12,13 @@ export class PersonComponent {
   constructor() {}
   ngOnInit(): void {
     this.createChart();
+    console.log('NEW LOAD');
+  }
+
+  ngOnChanges(): void {
+    this.chart.destroy();
+    this.createChart();
+    console.log('CHANGE');
   }
 
   public chart: any;
