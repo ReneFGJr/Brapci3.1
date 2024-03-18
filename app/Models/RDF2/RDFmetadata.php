@@ -227,6 +227,8 @@ class RDFmetadata extends Model
             $graph['total'] = [];
             foreach($coauthors as $name=>$total)
                 {
+                    if ($name != $dr['name'])
+                    {
                     if ($total > $max)
                         {
                             $max = $total;
@@ -237,7 +239,7 @@ class RDFmetadata extends Model
                             array_push($graph['labels'],$name);
                             array_push($graph['total'], $total);
                         }
-
+                    }
                 }
             $dr['chart_coauthors'] = $graph;
 
