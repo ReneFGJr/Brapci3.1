@@ -27,7 +27,7 @@ export class PersonComponent {
         datasets: [
           {
             label: 'A',
-            data: [9168.2, 1417.8, 3335.1, 1165.0, 2078.9],
+            data: this.data.chart_coauthors.total,
             hoverOffset: 4,
           },
         ],
