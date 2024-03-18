@@ -204,6 +204,7 @@ class RDFmetadata extends Model
             foreach($coauthors as $nome=>$total)
                 {
                     $a = [];
+                    $nome = trim($nome);
                     $a['nome'] = $nome;
                     $a['colaborations'] = $total;
                     array_push($coath,$a);
