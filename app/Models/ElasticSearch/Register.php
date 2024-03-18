@@ -621,7 +621,6 @@ class Register extends Model
     function checkJournal($dt)
     {
         if (!isset($dt['JOURNAL']) or ($dt['JOURNAL'] < 1)) {
-            //pre($dt, false);
             $RDF = new \App\Models\Rdf\RDF();
             $RDF->exclude($dt['ID']);
             return "";
@@ -641,9 +640,7 @@ class Register extends Model
     function checkIssue($dt)
     {
         if (!isset($dt['ISSUE'])) {
-            #pre((array)json_decode($dt['json']), false);
             $dt['json'] = '';
-            #pre($dt, false);
             return "ISSUE not set<br>";
         } else {
             return "";
