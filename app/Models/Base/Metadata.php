@@ -169,7 +169,10 @@ class Metadata extends Model
                             if (($cls == 'Organizer') or ($cls == 'Authors'))
                                 {
                                     $lang = 'nn';
-                                    pre($line);
+                                    $auth2 = [];
+                                    $auth2['name'] = $line['Caption'];
+                                    $auth2['ID'] = $line['ID'];
+                                    array_push($auth,$auth2);
                                 }
 
                             if ($lang != 'nn') {
@@ -185,6 +188,7 @@ class Metadata extends Model
 
                     /********************************** Issue */
                     $ISU = $Issue->getIssue4Work($M['ID'], $meta, $reg);
+                    $M['authors'] = $auth;
                     $M['Issue'] = $ISU;
                     if (isset($ISU['year'])) {
                         $M['YEAR'] = $ISU['year'];
@@ -218,6 +222,7 @@ class Metadata extends Model
                     break;
             }
             $this->metadata = $M;
+            pre($this->metadata);
             return $this->metadata;
         }
     }
