@@ -405,7 +405,7 @@ class Export extends Model
             $Metadata->metadata = array();
 
             /*********************** Metadata */
-            $Metadata->metadata($line);
+            $Metadata->metadata($xline);
             $meta = $Metadata->metadata;
 
             $sx .= '<li>' . strzero(trim($meta['ID']), 8) . ' ' .
