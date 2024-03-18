@@ -173,8 +173,8 @@ class Cover extends Model
             {
                 /************* Metadados do Livro */
                 $dt = $RDF->le($cover[0]);
-                pre($dt);
                 $img = trim($RDF->extract($dt, 'hasCover', 'F'));
+                pre($img,false);
             }
         if ($img=='')
             {
