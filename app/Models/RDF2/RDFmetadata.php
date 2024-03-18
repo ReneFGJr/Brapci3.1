@@ -222,6 +222,7 @@ class RDFmetadata extends Model
             $limit = 10;
             $max = 0;
             $ini = 0;
+            $last = 0;
             $graph = [];
             $graph['labels'] = [];
             $graph['total'] = [];
@@ -234,11 +235,12 @@ class RDFmetadata extends Model
                             $max = $total;
                         }
                     $ini++;
-                    if ($ini < $limit)
+                    if (($ini < $limit) and ($total != $last))
                         {
                             array_push($graph['labels'],$name);
                             array_push($graph['total'], $total);
                         }
+                        $last = $total;
                     }
                 }
             $dr['chart_coauthors'] = $graph;
