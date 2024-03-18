@@ -219,9 +219,24 @@ class RDFmetadata extends Model
 
             /************ Grafico Coautorias */
             arsort($coauthors);
-            pre($coauthors);
+            $limit = 10;
+            $max = 0;
+            $ini = 0;
             $graph = [];
-            $graph['labels'] = ['A1','B1','C1','D1','E1'];
+            $graph['labels'] = [];
+            foreach($coauthors as $name=>$total)
+                {
+                    if ($total > $max)
+                        {
+                            $max = $total;
+                        }
+                    $ini++;
+                    if ($ini < $limit)
+                        {
+                            array_push($graph['labels'],$name);
+                        }
+
+                }
             $dr['chart_coauthors'] = $graph;
 
 
