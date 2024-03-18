@@ -158,6 +158,7 @@ class Metadata extends Model
                         'isPlaceOfPublication' => 'Place',
                         'hasFileStorage' => 'File',
                     ];
+                    $auth = [];
 
                     foreach ($p as $prp => $cls) {
                         if ($prop == $prp) {
@@ -165,7 +166,11 @@ class Metadata extends Model
                                 $M[$cls] = [];
                             }
                             #array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
-                            if (($cls == 'Organizer') or ($cls == 'Authors')) { $lang = 'nn'; }
+                            if (($cls == 'Organizer') or ($cls == 'Authors'))
+                                {
+                                    $lang = 'nn';
+                                    pre($line);
+                                }
 
                             if ($lang != 'nn') {
                                 if (!isset($M[$cls][$lang])) {
