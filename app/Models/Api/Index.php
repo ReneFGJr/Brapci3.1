@@ -52,7 +52,24 @@ class Index extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
+        /* NAO USADO PARA AS APIS */
+        header('Access-Control-Allow-Origin: *');
+
+
+        if (get("test") == '') {
+            if (($d2 != 'import') and ($d2 != 'in') and ($d2 != 'searchSelect')) {
+                header("Access-Control-Allow-Headers: Content-Type");
+                header("Content-Type: application/json");
+            }
+        }
+
         switch ($d1) {
+            case 'page':
+                $WP = new \App\Models\WP\Index();
+                $RSP = $WP->api($d2);
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'cookies':
                 $this->cookies();
                 exit;
