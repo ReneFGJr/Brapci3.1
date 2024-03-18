@@ -15,10 +15,11 @@ import { Txt4gephiComponent } from './tools/txt4gephi/txt4gephi.component';
 import { FormFileInputComponent } from './widget/form-file-input/form-file-input.component';
 import { TextFormComponent } from './widget/text-form/text-form.component';
 import { BannerComponent } from './widget/banner/banner.component';
+import { AmostraComponent } from './page/amostra/amostra.component';
 
 
 @NgModule({
-  declarations: [ToolsMainComponent, ToolsIconsComponent, Txt4netComponent, Txt4matrixComponent, Txt4charComponent, TxtChangeComponent, Txt4gephiComponent, FormFileInputComponent, TextFormComponent, BannerComponent],
+  declarations: [ToolsMainComponent, ToolsIconsComponent, Txt4netComponent, Txt4matrixComponent, Txt4charComponent, TxtChangeComponent, Txt4gephiComponent, FormFileInputComponent, TextFormComponent, BannerComponent, AmostraComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

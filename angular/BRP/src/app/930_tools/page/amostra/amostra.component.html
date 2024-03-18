@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-4">
+      <h2>Amostra</h2>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label>
+            Tamanho da populacao:
+            <br />
+            <input
+              class="big border border-secondary"
+              formControlName="populacao"
+              placeholder="Tamanho da populacao"
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Erro amostral:
+            <br />
+            <input
+              class="big border border-secondary"
+              formControlName="erro_amostral"
+              placeholder="Erro amostral"
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Confiança:
+            <br />
+            <select id="confianca" formControlName="confianca" class="big"  >
+               <option *ngFor="let c of confianca_niveis" [value]="c" >{{ c }}</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Distribuicao:
+            <br />
+            <input
+              class="big border border-secondary"
+              formControlName="distribuicao"
+              placeholder="Distribuicao"
+            />
+          </label>
+        </div>
+
+        <div class="mt-2">
+          <button class="btn btn-primary">Calcular</button>
+        </div>
+
+        <div class="mt-2">{{ myForm.value | json }}</div>
+      </form>
+    </div>
+    <div class="h1">
+    Total da amostra: {{amostra  | number:'1.0-0'}}
+    </div>
+  </div>
+</div>
