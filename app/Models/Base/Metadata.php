@@ -165,6 +165,8 @@ class Metadata extends Model
                                 $M[$cls] = [];
                             }
                             #array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
+                            if ($cls == 'Organizer') { $lang = 'nn'; }
+
                             if ($lang != 'nn') {
                                 if (!isset($M[$cls][$lang])) {
                                     $M[$cls][$lang] = [];

@@ -537,7 +537,7 @@ class Register extends Model
                 if ($da['AUTHORS'] != '') {
                     $da['AUTHORS'] .= '; ';
                 }
-                $da['AUTHORS'] .= nbr_author($name, 7).'(Org.)';
+                $da['AUTHORS'] .= nbr_author($name, 7).' (Org.)';
             }
         }
 
