@@ -132,6 +132,7 @@ class Metadata extends Model
         /************************************************************** PROPERTIES **/
         if (isset($meta['data'])) {
             $data = $meta['data'];
+            pre($data);
             foreach ($data as $idl => $line) {
 
                 if (isset($line['Class'])) {

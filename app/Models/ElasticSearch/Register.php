@@ -552,7 +552,7 @@ class Register extends Model
                     if (!is_array($data['Issue']))
                         {
                             echo h("OPS, Issue is string, LEGEND");
-                            PRE($data, false);
+                            PRE($data);
                         }
                     $da['LEGEND'] = $data['Issue']['journal'];
 
