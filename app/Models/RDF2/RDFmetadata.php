@@ -219,7 +219,7 @@ class RDFmetadata extends Model
 
             /************ Grafico Coautorias */
             $graph = [];
-            $graph['labels'] = ['A','B','C','D'];
+            $graph['labels'] = ['A1','B1','C1','D1','E1'];
             $dr['chart_coauthors'] = $graph;
 
 
