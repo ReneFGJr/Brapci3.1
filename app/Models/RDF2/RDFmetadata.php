@@ -174,6 +174,9 @@ class RDFmetadata extends Model
             $dx = $dataset->findAll($limit);
 
             $works = [];
+            $coauthors = [];
+            $coath = [];
+
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $type = $line['CLASS'];
@@ -183,9 +186,32 @@ class RDFmetadata extends Model
                         $works[$type] = [];
                     }
                 array_push($works[$type], $ref);
+                /********** Authors */
+                $auth = $line['AUTHORS'];
+                $auth = explode(';',$auth);
+                foreach($auth as $ida=>$nomea)
+                    {
+                        if (isset($coauthors[$nomea]))
+                            {
+                                $coauthors[$nomea] = $coauthors[$nomea] + 1;
+                            } else {
+                                $coauthors[$nomea] = 1;
+                            }
+                    }
             }
-
+            /********** Ordena coauthors */
+            ksort($coauthors);
+            foreach($coauthors as $nome=>$total)
+                {
+                    $a = [];
+                    $a['nome'] = $nome;
+                    $a['colaborations'] = $total;
+                    array_push($coath,$a);
+                }
             $dr['works'] = $works;
+            $dr['coauthors'] = $coath;
+
+
             return $dr;
         }
 

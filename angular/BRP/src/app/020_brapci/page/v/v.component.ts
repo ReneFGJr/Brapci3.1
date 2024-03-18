@@ -38,7 +38,7 @@ export class VComponent {
               console.log("TYPE:"+this.data.Issue.jnl_rdf);
             }
 
-          if (this.type = 'Person')
+          if (this.type == 'Person')
             {
               this.header.title = this.data.name + ' | ' + ' Autor';
             } else {
