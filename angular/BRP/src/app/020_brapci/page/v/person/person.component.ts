@@ -23,7 +23,7 @@ export class PersonComponent {
 
       data: {
         // values on X-Axis
-        labels: ['A','B','C','D','E'],
+        labels: this.data.chart_coauthors.labels,
         datasets: [
           {
             label: 'A',
