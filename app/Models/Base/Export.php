@@ -599,9 +599,8 @@ class Export extends Model
             /**************************************************************/
             $Metadata->metadata($cline, $xline);
             $meta = $Metadata->metadata;
-            pre($meta, true);
+            pre($meta, false);
             echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Metadata ' . $xline['id_cc']);
-            //pre($meta,false);
 
             $delete = 0;
             if (!isset($meta['Class'])) {
