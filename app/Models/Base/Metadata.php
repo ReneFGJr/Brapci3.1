@@ -187,8 +187,6 @@ class Metadata extends Model
                             }
                         }
                     }
-                    pre($line,false);
-                    pre($authF,false);
 
                     /********************************** Issue */
                     $ISU = $Issue->getIssue4Work($M['ID'], $meta, $reg);
