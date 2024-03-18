@@ -23,10 +23,10 @@ export class PersonComponent {
 
       data: {
         // values on X-Axis
-        labels: [],
+        labels: ['A','B','C','D','E'],
         datasets: [
           {
-            label: 'Area and Production of Important Crops (2020-21)',
+            label: 'A',
             data: [9168.2, 1417.8, 3335.1, 1165.0, 2078.9],
             hoverOffset: 4,
           },

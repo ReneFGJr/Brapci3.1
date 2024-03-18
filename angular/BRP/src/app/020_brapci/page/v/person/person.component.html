@@ -45,8 +45,8 @@
         <h4><b><i>{{ data.coauthors.length }} Coautores</i></b></h4>
         <ol>
           <li *ngFor="let auth of data.coauthors" [ngClass]="{bold: auth.colaborations > 5}">
-            {{ auth.nome }}
-            <sup title="Colaborations">{{ auth.colaborations }}</sup>
+            <a class="link" [routerLink]="['/v/'+auth.ID]">{{ auth.nome }}</a>
+            <sup class="ms-1" title="Colaborations">{{ auth.colaborations }}</sup>
           </li>
         </ol>
       </div>
