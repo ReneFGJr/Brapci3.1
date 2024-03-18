@@ -176,10 +176,10 @@ class RDFmetadata extends Model
             $works = [];
             $coauthors = [];
             $coath = [];
+            $coathID = [];
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
-                pre($JSON);
                 $type = $line['CLASS'];
                 $ref = $ABNT->short($JSON, False);
                 if (!isset($works[$type]))
@@ -188,11 +188,12 @@ class RDFmetadata extends Model
                     }
                 array_push($works[$type], $ref);
                 /********** Authors */
-                $auth = $line['AUTHORS'];
-                $auth = explode(';',$auth);
-                foreach($auth as $ida=>$nomea)
+                $auth = $line['authors'];
+                foreach($auth as $ida=>$linenm)
                     {
-                        $nomea = trim($nomea);
+                        $nomea = trim($linenm['name']);
+                        $IDa = $linenm['ID'];
+                        $coathID[$nomea] = $IDa;
                         if (isset($coauthors[$nomea]))
                             {
                                 $coauthors[$nomea] = $coauthors[$nomea] + 1;
@@ -208,6 +209,7 @@ class RDFmetadata extends Model
                     $a = [];
                     $nome = trim($nome);
                     $a['nome'] = $nome;
+                    $a['ID'] = $coathID[$nome];
                     $a['colaborations'] = $total;
                     array_push($coath,$a);
                 }
