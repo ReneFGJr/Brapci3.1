@@ -5,7 +5,7 @@
 
       <div *ngIf="data.works.Article">
         <h2 class="brp_h2 mt-4" *ngIf="data.works.Article.length > 0">
-          Artigos
+          Artigos <sup>{{data.works.Article.length}}</sup>
         </h2>
         <div *ngFor="let item of data.works.Article" class="mb-2 cited">
           <div [innerHTML]="item"></div>
@@ -14,7 +14,7 @@
 
       <div *ngIf="data.works.Proceeding">
         <h2 class="brp_h2 mt-4" *ngIf="data.works.Proceeding.length > 0">
-          Artigos em eventos
+          Artigos em eventos <sup>{{data.works.Proceeding.length}}</sup>
         </h2>
         <div *ngFor="let item of data.works.Proceeding" class="mb-2 cited">
           <div [innerHTML]="item"></div>
@@ -22,7 +22,7 @@
       </div>
 
       <div *ngIf="data.works.Book">
-        <h2 class="brp_h2 mt-4" *ngIf="data.works.Book.length > 0">Livros</h2>
+        <h2 class="brp_h2 mt-4" *ngIf="data.works.Book.length > 0">Livros <sup>{{data.works.Book.length}}</sup></h2>
         <div *ngFor="let item of data.works.Book" class="mb-2 cited">
           <div [innerHTML]="item"></div>
         </div>
@@ -39,7 +39,16 @@
     </div>
     <div class="col-5">
       <div class="chart-container">
-          <canvas  id="MyChart" >{{ chart }}</canvas>
+        <canvas id="MyChart">{{ chart }}</canvas>
+      </div>
+      <div>
+        <h4><b><i>{{ data.coauthors.length }} Coautores</i></b></h4>
+        <ol>
+          <li *ngFor="let auth of data.coauthors" [ngClass]="{bold: auth.colaborations > 5}">
+            {{ auth.nome }}
+            <sup title="Colaborations">{{ auth.colaborations }}</sup>
+          </li>
+        </ol>
       </div>
     </div>
   </div>
