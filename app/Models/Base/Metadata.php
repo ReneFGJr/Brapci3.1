@@ -130,6 +130,26 @@ class Metadata extends Model
         }
 
         /************************************************************** PROPERTIES **/
+        $authF = [];
+
+        /******************************** Fields */
+        //echo $prop . '<br>';
+        $p = [
+            'hasOrganizator' => 'Organizer',
+            'hasAuthor' => 'Authors',
+            'hasSubject' => 'Subject',
+            'hasAbstract' => 'Abstract',
+            'hasCover' => 'Cover',
+            'isPublisher' => 'Editor',
+            'wasPublicationInDate' => 'Year',
+            'hasISBN' => 'ISBN',
+            'hasTitle' => 'Title',
+            'hasClassificationCDD' => 'CDD',
+            'hasClassificationCDU' => 'CDU',
+            'isPlaceOfPublication' => 'Place',
+            'hasFileStorage' => 'File',
+        ];
+
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
@@ -140,25 +160,6 @@ class Metadata extends Model
                     $lang = $line['Lang'];
                     $prop = $line['Property'];
                     $ID = $line['ID'];
-
-                    /******************************** Fields */
-                    //echo $prop . '<br>';
-                    $p = [
-                        'hasOrganizator' => 'Organizer',
-                        'hasAuthor' => 'Authors',
-                        'hasSubject' => 'Subject',
-                        'hasAbstract'=>'Abstract',
-                        'hasCover' => 'Cover',
-                        'isPublisher' => 'Editor',
-                        'wasPublicationInDate' => 'Year',
-                        'hasISBN' => 'ISBN',
-                        'hasTitle' => 'Title',
-                        'hasClassificationCDD' => 'CDD',
-                        'hasClassificationCDU' => 'CDU',
-                        'isPlaceOfPublication' => 'Place',
-                        'hasFileStorage' => 'File',
-                    ];
-                    $authF = [];
 
                     foreach ($p as $prp => $cls) {
                         if ($prop == $prp) {
@@ -186,6 +187,8 @@ class Metadata extends Model
                             }
                         }
                     }
+
+                    pre($authF);
 
                     /********************************** Issue */
                     $ISU = $Issue->getIssue4Work($M['ID'], $meta, $reg);
