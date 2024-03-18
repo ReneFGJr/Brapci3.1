@@ -189,9 +189,9 @@ class RDFmetadata extends Model
                 array_push($works[$type], $ref);
                 /********** Authors */
                 $auth = $JSON['authors'];
-                pre($auth);
                 foreach($auth as $ida=>$linenm)
                     {
+                        $linenm = (array)$linenm;
                         $nomea = trim($linenm['name']);
                         $IDa = $linenm['ID'];
                         $coathID[$nomea] = $IDa;
