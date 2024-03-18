@@ -174,6 +174,7 @@ class Metadata extends Model
                                     $auth2['ID'] = $line['ID'];
                                     array_push($authF,$auth2);
                                 }
+                                echo $cls.'<br>';
 
                             if ($lang != 'nn') {
                                 if (!isset($M[$cls][$lang])) {
