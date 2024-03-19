@@ -232,7 +232,7 @@ class RDFmetadata extends Model
                     if ($name != $dr['name'])
                     {
                     $ini++;
-                    echo "$ini,$limit,$total,$last,". ($ini < $limit).'-'.($total != $last)."<br>";
+                    echo "$ini,$limit,$total,$last,[". ($ini < $limit).']-['.($total != $last)."]<br>";
                     if (($ini < $limit) and ($total != $last))
                         {
                             array_push($graph['labels'],$name);
