@@ -10,7 +10,9 @@ def check_duplicate():
 
     qr = "select * "
     qr += " from rdf_concept "
+    qr += " inner join rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
+    qr += " order by n_name, id_cc"
     print(qr)
 
 def register_literal(IDC,name):
