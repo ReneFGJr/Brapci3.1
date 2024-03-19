@@ -37,12 +37,12 @@ export class PersonComponent {
         datasets: [
           {
             label: 'Sales',
-            data: this.data.chart_years.article,
+            data: this.data.chart_years.data.article,
             backgroundColor: 'blue',
           },
           {
             label: 'Profit',
-            data: this.data.chart_years.procedding,
+            data: this.data.chart_years.data.procedding,
             backgroundColor: 'limegreen',
           },
         ],
