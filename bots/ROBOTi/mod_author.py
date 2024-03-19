@@ -22,7 +22,7 @@ def check_duplicate():
     for reg in row:
         name=reg[2]
 
-        if (name == lastName):
+        if ((name == lastName) and (name != '::Em Branco::')):
             print(lastName)
             print(reg,name)
 
