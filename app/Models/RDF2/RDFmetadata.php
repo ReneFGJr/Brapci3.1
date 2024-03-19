@@ -231,10 +231,6 @@ class RDFmetadata extends Model
                 {
                     if ($name != $dr['name'])
                     {
-                    if ($total > $max)
-                        {
-                            $max = $total;
-                        }
                     $ini++;
                     if (($ini < $limit) and ($total != $last))
                         {
@@ -244,6 +240,10 @@ class RDFmetadata extends Model
                             $outros = $outros + $total;
                         }
                         $last = $total;
+
+                        if ($total > $max) {
+                            $max = $total;
+                        }
                     }
                 }
             if ($outros > 0)
@@ -251,6 +251,7 @@ class RDFmetadata extends Model
                     array_push($graph['labels'], 'Outros');
                     array_push($graph['total'], $outros);
                 }
+                pre($graph);
             $dr['chart_coauthors'] = $graph;
 
 
