@@ -21,7 +21,13 @@ def check_duplicate():
     lastName = 'x'
     for reg in row:
         name=reg[2]
-        print(reg,name)
+
+        if (name == lastName):
+            print(lastName)
+            print(reg,name)
+
+        reg2 = reg
+        lastName = name
 
 
 def register_literal(IDC,name):
