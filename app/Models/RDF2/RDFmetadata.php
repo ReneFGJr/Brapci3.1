@@ -193,8 +193,8 @@ class RDFmetadata extends Model
                 $type = $line['CLASS'];
 
                 /************************************** Producao */
-                $year = 1970 - $line['YEAR'];
-                if ($year > 0)
+                $year = $line['YEAR'] - 1970;
+                if ($year >= 0)
                     {
                         $ds[$type][$year] = $ds[$type][$year] + 1;
                     }
