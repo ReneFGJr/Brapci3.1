@@ -16,6 +16,7 @@ import oaipmh_getRecord
 import mod_issue
 import mod_ontology
 import mod_lattes
+import mod_author
 from colorama import Fore
 
 def version():
@@ -88,6 +89,8 @@ def run(parm):
         lp = mod_ontology.checkData()
     if (act == '120'):
         lp = mod_ontology.resume()
+    if (act == '200'):
+        lp = mod_author.check_duplicate()
 
     if (act == 'lattesK'):
         file = parm[2]

@@ -3,6 +3,11 @@ import mod_class
 import mod_concept
 import mod_data
 
+def check_duplicate():
+    print("Check Duplicate")
+    IDClass = mod_class.getClass("Person")
+    print(IDClass)
+
 def register_literal(IDC,name):
     name = nbr_author(name)
 

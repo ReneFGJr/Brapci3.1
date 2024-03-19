@@ -36,14 +36,24 @@ export class PersonComponent {
 
         datasets: [
           {
-            label: 'Sales',
-            data: this.data.chart_years.data.article,
+            label: 'Article',
+            data: this.data.chart_years.data.Article,
             backgroundColor: 'blue',
           },
           {
-            label: 'Profit',
-            data: this.data.chart_years.data.procedding,
+            label: 'Proceeding',
+            data: this.data.chart_years.data.Proceeding,
             backgroundColor: 'limegreen',
+          },
+          {
+            label: 'Book',
+            data: this.data.chart_years.data.Book,
+            backgroundColor: 'brown',
+          },
+          {
+            label: 'BookChapter',
+            data: this.data.chart_years.data.BookChapter,
+            backgroundColor: 'red',
           },
         ],
       },
