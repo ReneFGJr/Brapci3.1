@@ -232,7 +232,6 @@ class RDFmetadata extends Model
                     if ($name != $dr['name'])
                     {
                     $ini++;
-                    echo "$ini,$limit,$total,$last,[". ($ini < $limit).']-['.($total != $last)."]<br>";
                     if (($ini < $limit) or ($total == $last))
                         {
                             array_push($graph['labels'],$name);
@@ -252,7 +251,6 @@ class RDFmetadata extends Model
                     array_push($graph['labels'], 'Outros');
                     array_push($graph['total'], $outros);
                 }
-                pre($graph);
             $dr['chart_coauthors'] = $graph;
 
 
