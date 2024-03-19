@@ -8,6 +8,11 @@ def check_duplicate():
     IDClass = mod_class.getClass("Person")
     print(IDClass)
 
+    qr = "select * "
+    qr += " from rdf_concept "
+    qr += f" where cc_class = {IDClass}"
+    print(qr)
+
 def register_literal(IDC,name):
     name = nbr_author(name)
 
