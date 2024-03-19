@@ -13,12 +13,14 @@ def check_duplicate():
     qr += " from brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
+    qr += " and id_cc = cc_use "
     qr += " order by n_name, id_cc"
     qr += " limit 100"
 
     row = database.query(qr)
-    print(row)
-    print(qr)
+
+    for reg in row:
+        print(reg)
 
 def register_literal(IDC,name):
     name = nbr_author(name)
