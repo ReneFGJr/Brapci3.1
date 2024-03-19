@@ -225,6 +225,7 @@ class RDFmetadata extends Model
 
             $dr['chart_years'] = [];
             $dr['chart_years']['labels'] = $prod_label;
+            $dt['chart_years']['data'] = $ds;
 
 
             /********** Ordena coauthors */
