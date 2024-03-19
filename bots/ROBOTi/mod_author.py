@@ -18,9 +18,11 @@ def check_duplicate():
     qr += " limit 100"
 
     row = database.query(qr)
-
+    lastName = 'x'
     for reg in row:
-        print(reg)
+        name=reg[2]
+        print(reg,name)
+
 
 def register_literal(IDC,name):
     name = nbr_author(name)
