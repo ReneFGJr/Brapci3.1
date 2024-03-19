@@ -187,6 +187,8 @@ class RDFmetadata extends Model
             $ds = [];
             $ds['Article'] = $prod;
             $ds['Procedding'] = $prod;
+            $ds['BookChapter'] = $prod;
+            $ds['Book'] = $prod;
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
