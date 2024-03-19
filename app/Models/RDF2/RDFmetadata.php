@@ -224,6 +224,7 @@ class RDFmetadata extends Model
             $ini = 0;
             $last = 0;
             $graph = [];
+            $outros = 0;
             $graph['labels'] = [];
             $graph['total'] = [];
             foreach($coauthors as $name=>$total)
@@ -239,9 +240,16 @@ class RDFmetadata extends Model
                         {
                             array_push($graph['labels'],$name);
                             array_push($graph['total'], $total);
+                        } else {
+                            $outros = $outros + $total;
                         }
                         $last = $total;
                     }
+                }
+            if ($outros > 0)
+                {
+                    array_push($graph['labels'], 'Outros');
+                    array_push($graph['total'], $outros);
                 }
             $dr['chart_coauthors'] = $graph;
 
