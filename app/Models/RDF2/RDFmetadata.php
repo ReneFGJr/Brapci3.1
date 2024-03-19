@@ -182,7 +182,7 @@ class RDFmetadata extends Model
             for($r=1970;$r <= (date("Y")+1);$r++)
                 {
                     array_push($prod_label,$r);
-                    array_push($prod, 0 + $r);
+                    array_push($prod, 0);
                 }
             $ds = [];
             $ds['article'] = $prod;
