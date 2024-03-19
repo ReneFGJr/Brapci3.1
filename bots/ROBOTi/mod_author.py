@@ -2,6 +2,7 @@ import mod_literal
 import mod_class
 import mod_concept
 import mod_data
+import database
 
 def check_duplicate():
     print("Check Duplicate")
@@ -9,10 +10,14 @@ def check_duplicate():
     print(IDClass)
 
     qr = "select * "
-    qr += " from rdf_concept "
-    qr += " inner join rdf_literal ON id_n = cc_pref_term"
+    qr += " from brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
     qr += " order by n_name, id_cc"
+    qr += " limit 100"
+
+    row = database.query(qr)
+    print(row)
     print(qr)
 
 def register_literal(IDC,name):
