@@ -186,7 +186,7 @@ class RDFmetadata extends Model
                 }
             $ds = [];
             $ds['Article'] = $prod;
-            $ds['Procedding'] = $prod;
+            $ds['Proceeding'] = $prod;
             $ds['BookChapter'] = $prod;
             $ds['Book'] = $prod;
 
