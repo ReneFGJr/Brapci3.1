@@ -233,7 +233,7 @@ class RDFmetadata extends Model
                     {
                     $ini++;
                     echo "$ini,$limit,$total,$last,[". ($ini < $limit).']-['.($total != $last)."]<br>";
-                    if (($ini < $limit) and ($total != $last))
+                    if (($ini < $limit) or ($total == $last))
                         {
                             array_push($graph['labels'],$name);
                             array_push($graph['total'], $total);
