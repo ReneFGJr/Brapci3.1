@@ -9,7 +9,7 @@ def check_duplicate():
     IDClass = mod_class.getClass("Person")
     print(IDClass)
 
-    qr = "select * "
+    qr = "select id_cc, cc_use, n_name  "
     qr += " from brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
