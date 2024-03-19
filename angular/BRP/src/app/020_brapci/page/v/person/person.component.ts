@@ -30,7 +30,6 @@ export class PersonComponent {
     this.production = new Chart('MyProduction', {
       type: 'bar', //this denotes tha type of chart
 
-
       data: {
         // values on X-Axis
         labels: this.data.chart_years.labels,
@@ -38,31 +37,31 @@ export class PersonComponent {
         datasets: [
           {
             label: 'Sales',
-            data: ['467', '576', '572', '79', '92', '574', '573', '576'],
+            data: this.data.chart_years.article,
             backgroundColor: 'blue',
           },
           {
             label: 'Profit',
-            data: ['542', '542', '536', '327', '17', '0.00', '538', '541'],
+            data: this.data.chart_years.procedding,
             backgroundColor: 'limegreen',
           },
         ],
       },
       options: {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Stacked Bar chart for pollution status'
-                    },
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                    },
-                    y: {
-                        stacked: true
-                    }
-                },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Stacked Bar chart for pollution status',
+          },
+        },
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+          },
+        },
         aspectRatio: 2.5,
       },
     });

@@ -182,14 +182,22 @@ class RDFmetadata extends Model
             for($r=1970;$r <= (date("Y")+1);$r++)
                 {
                     array_push($prod_label,$r);
+                    array_push($prod, 0);
                 }
+            $ds = [];
+            $ds['article'] = $prod;
+            $ds['procedding'] = $prod;
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $type = $line['CLASS'];
 
                 /************************************** Producao */
-                $year = $line['YEAR'];
+                $year = 1970 - $line['YEAR'];
+                if ($year > 0)
+                    {
+
+                    }
 
 
                 $ref = $ABNT->short($JSON, False);
