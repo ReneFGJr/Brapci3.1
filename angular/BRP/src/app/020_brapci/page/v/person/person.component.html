@@ -3,6 +3,10 @@
     <div class="col-7">
       <h1>{{ data.name }}</h1>
 
+      <div class="chart-container">
+      <canvas  id="MyProduction" >{{ production }}</canvas>
+      </div>
+
       <div *ngIf="data.works.Article">
         <h2 class="brp_h2 mt-4" *ngIf="data.works.Article.length > 0">
           Artigos <sup>{{data.works.Article.length}}</sup>

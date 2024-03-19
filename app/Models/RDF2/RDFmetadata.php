@@ -177,10 +177,21 @@ class RDFmetadata extends Model
             $coauthors = [];
             $coath = [];
             $coathID = [];
+            $prod = [];
+            $prod_label = [];
+            for($r=1970;$r <= (date("Y")+1);$r++)
+                {
+                    array_push($prod_label,$r);
+                }
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $type = $line['CLASS'];
+
+                /************************************** Producao */
+                $year = $line['YEAR'];
+
+
                 $ref = $ABNT->short($JSON, False);
                 if (!isset($works[$type]))
                     {
@@ -203,6 +214,11 @@ class RDFmetadata extends Model
                             }
                     }
             }
+
+            $dr['chart_years'] = [];
+            $dr['chart_years']['labels'] = $prod_label;
+
+
             /********** Ordena coauthors */
             ksort($coauthors);
             foreach($coauthors as $nome=>$total)
@@ -246,6 +262,7 @@ class RDFmetadata extends Model
                         }
                     }
                 }
+
             if ($outros > 0)
                 {
                     array_push($graph['labels'], 'Outros');

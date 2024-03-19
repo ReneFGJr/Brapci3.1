@@ -4,24 +4,70 @@ import Chart from 'chart.js/auto';
 @Component({
   selector: 'app-brapci-person',
   templateUrl: './person.component.html',
-  styleUrls: ['./person.component.scss'],
 })
 export class PersonComponent {
   @Input() public data: Array<any> | any;
 
   constructor() {}
-  ngOnInit(): void {
-    this.createChart();
-    console.log('NEW LOAD');
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
-    this.chart.destroy();
+    if (this.chart != undefined) {
+      this.chart.destroy();
+    }
+    if (this.production != undefined) {
+      this.production.destroy();
+    }
+
     this.createChart();
-    console.log('CHANGE');
+    this.createProduction();
   }
 
   public chart: any;
+  public production: any;
+
+  createProduction() {
+    this.production = new Chart('MyProduction', {
+      type: 'bar', //this denotes tha type of chart
+
+
+      data: {
+        // values on X-Axis
+        labels: this.data.chart_years.labels,
+
+        datasets: [
+          {
+            label: 'Sales',
+            data: ['467', '576', '572', '79', '92', '574', '573', '576'],
+            backgroundColor: 'blue',
+          },
+          {
+            label: 'Profit',
+            data: ['542', '542', '536', '327', '17', '0.00', '538', '541'],
+            backgroundColor: 'limegreen',
+          },
+        ],
+      },
+      options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Stacked Bar chart for pollution status'
+                    },
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                    },
+                    y: {
+                        stacked: true
+                    }
+                },
+        aspectRatio: 2.5,
+      },
+    });
+  }
+
   //https://www.educative.io/answers/how-to-create-a-pie-chart-using-chartjs-in-angular
   createChart() {
     this.chart = new Chart('MyChart', {
