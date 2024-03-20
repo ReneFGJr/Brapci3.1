@@ -16,6 +16,8 @@ def identify(rg):
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
 
+        print("PATH: "+path)
+
         f = open(path)
         data = json.load(f)
         f.close()
