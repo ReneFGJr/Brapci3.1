@@ -91,6 +91,7 @@ def process(rg):
 
     ######################### Identify ##
     try:
+        print("REG"+rg)
         row = identify(rg)
         ISSUE = row[0][3]
         mod_listidentify.updateIssue(ID,ISSUE)
