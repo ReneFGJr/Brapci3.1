@@ -14,11 +14,13 @@ def identify(rg):
     JNL = rg[6]
 
     try:
-        path = mod_listidentify.directory(rg[0])+'.getRecord.json'
+        path = mod_listidentify.directory(ID)+'.getRecord.json'
 
         f = open(path)
         data = json.load(f)
         f.close()
+
+        print(data)
 
         source = []
 
@@ -86,7 +88,6 @@ def create_issue(JNL,year,vol,nr):
 def process(rg):
     ID = rg[0]
     JNL = rg[6]
-    #ISSUE = rg[7]
 
     print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
