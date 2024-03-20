@@ -1,10 +1,13 @@
 import database
 
 def check_trim():
-    qr = f"select * from brapci_rdf.rdf_literal where (n_name like ' %')"
+    qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %')"
     row = database.query(qr)
     for ln in row:
-        print(ln)
+        name = ln[1]
+        id = ln[0]
+        qru = "update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
+        print(qru)
 
 def register(term,lang):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{term}') and (n_lang = '{lang}')"
