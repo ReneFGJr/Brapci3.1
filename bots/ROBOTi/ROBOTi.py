@@ -126,6 +126,7 @@ def ProcessRecordIssue():
     reg = roboti_task.nextGetRecords(6)
 
     # Phase II - Processa arquivos
+    print(reg)
     if (reg != []):
         for it in reg:
             mod_issue.process(it)
