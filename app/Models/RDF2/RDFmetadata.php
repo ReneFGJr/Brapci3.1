@@ -200,11 +200,14 @@ class RDFmetadata extends Model
                 $type = $line['CLASS'];
 
                 /************************************** Cloud */
-                if (isset($JSON['Subject']['pt']))
+                if (isset($JSON['Subject']))
                     {
                         $wd = (array)$JSON['Subject'];
-                        $wd = (array)$wd['pt'];
-                        pre($wd);
+                        if (isset($wd['pt']))
+                            {
+                                $wd = (array)$wd['pt'];
+                                pre($wd);
+                            }
                     }
 
                 /************************************** Producao */
