@@ -202,7 +202,7 @@ class RDFmetadata extends Model
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
 
-                pre($JSON);
+
 
                 $type = $line['CLASS'];
 
@@ -223,6 +223,22 @@ class RDFmetadata extends Model
                                             }
                                     }
                             }
+                    }
+                /************************************** Journal */
+                if (isset($JSON['Issue']))
+                    {
+                        $IssueJ = (array)$JSON['Issue'];
+                        if (isset($IssueJ['journal']))
+                            {
+                                $IssueJ = (string)$IssueJ['journal'];
+                                if (isset($journal[$IssuJ]))
+                                    {
+                                        $journal[$IssueJ] = $journal[$IssuJ] + 1;
+                                    } else {
+                                        $journal[$IssueJ] = 1;
+                                    }
+                            }
+
                     }
 
                 /************************************** Producao */
@@ -326,6 +342,14 @@ class RDFmetadata extends Model
                     array_push($wtag,$tg);
                 }
             $dr['dataTAG'] = $wtag;
+
+            /************************************* Publisher */
+            arsort($journal);
+            $jour = [];
+            foreach($journal as $idj=>$line)
+                {
+                    pre($line);
+                }
 
 
             return $dr;
