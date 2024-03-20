@@ -146,13 +146,14 @@ def process(rg):
                 TIT = RCN['dc:identifier']
                 if type(TIT) is list:
                     for reg in TIT:
+                        print("ID"+reg)
                         reg = mod_type_id.recognizer(reg)
                         if (reg['type'] == 'DOI'):
                             dc_doi.append(reg)
                         if (reg['type'] == 'HTTP'):
                             dc_link.append(reg)
             except Exception as e:
-                print("Erro a processar o Identifier",e)
+                print("Erro a processar o Identifier #1",e)
 
 
             #relation
@@ -173,7 +174,7 @@ def process(rg):
                             dc_link.append(reg)
 
             except Exception as e:
-                print("Erro a processar o Identifier",e)
+                print("Erro a processar o Identifier #2 - Relations",e)
 
 
             ############################################# Source
