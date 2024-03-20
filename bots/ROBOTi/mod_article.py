@@ -44,7 +44,7 @@ def process(rg):
         print("Method 02")
         IDX = check_method02(data,IDA,JNL)
         if IDX == 0:
-            print("================== NAO EXISTE")
+            print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
         else:
             print("IDX==",IDX)
 
@@ -53,7 +53,7 @@ def process(rg):
         print("IDX",IDX)
 
         if (IDX == 0):
-            print("CREATE WORK")
+            print("  CREATE WORK")
             IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
 
