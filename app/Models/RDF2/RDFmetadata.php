@@ -313,7 +313,7 @@ class RDFmetadata extends Model
             foreach($tag as $kw=>$total)
                 {
                     $tg['text'] = $kw;
-                    $tg['value'] = $total;
+                    $tg['value'] = $total * 10;
                     array_push($wtag,$tg);
                 }
             $dr['dataTAG'] = $wtag;
