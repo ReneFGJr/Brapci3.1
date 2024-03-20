@@ -61,7 +61,7 @@ export class PersonComponent {
         plugins: {
           title: {
             display: true,
-            text: 'Stacked Bar chart for pollution status',
+            text: 'Produção Científica por ano/tipo',
           },
         },
         scales: {

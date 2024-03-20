@@ -54,6 +54,8 @@ def process(rg):
             print("  CREATE WORK")
             IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
+        else:
+            article_data(IDX,rg,data,JNL)
 
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
@@ -157,6 +159,9 @@ def create_article(rg,data,jnl):
     ##################################### OCS ID
     print("..Registres",IDC,idOCS)
     mod_data.register_literal(IDC,'hasID',idOCS,'nn')
+    article_data(IDC,rg,data,jnl)
+
+def article_data(IDC,rg,data,jnl):
 
     # ISSUE ########################################################### ISSUE
     row = mod_issue.identify(rg)
@@ -172,8 +177,8 @@ def create_article(rg,data,jnl):
     else:
         print("OPS")
         quit()
-    # DATA ############################################################ DATA
 
+    # DATA ############################################################ DATA
     for i in range(len(data)):
         keys = data[i].keys()
         for k in keys:
