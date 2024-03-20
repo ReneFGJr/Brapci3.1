@@ -154,7 +154,7 @@ class Index extends Model
                 break;
             case 'indexs':
                 $Brapci = new \App\Models\Api\Endpoint\Brapci;
-                $sx = $Brapci->indexs($d1, $d2);
+                $sx = $Brapci->indexs($d2, $d3);
                 break;
             default:
                 $sx = $this->head();
