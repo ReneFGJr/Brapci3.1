@@ -24,18 +24,15 @@ def check_duplicate():
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             remissive(IDn1,IDn2)
-            print(lastName)
-            print(IDn1,IDn2)
-            print(reg,name)
 
-
-        reg2 = reg
-        lastName = name
-        IDn2 = IDn1
+        else:
+            reg2 = reg
+            lastName = name
+            IDn2 = IDn1
 
 def remissive(ID1,ID2):
     if ID2 < ID1:
-        ID3 = ID2
+        ID3 = ID1
         ID1 = ID2
         ID2 = ID3
     mod_data.remicive(ID1,ID2)
