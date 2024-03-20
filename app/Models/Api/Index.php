@@ -153,7 +153,7 @@ class Index extends Model
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
             case 'indexs':
-                $Indexshow = new \App\Models\Base\Indexshow();
+                $Indexshow = new \App\Models\Base\IndexShow();
                 $sx = $Indexshow->show_index($d1, $d2, $d3, $d4);
                 break;
             default:
