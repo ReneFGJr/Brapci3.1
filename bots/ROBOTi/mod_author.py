@@ -20,7 +20,6 @@ def check_duplicate():
     for reg in row:
         name=reg[2]
         name.replace('-',' ')
-        print("+++++"+name)
 
         IDn1 = reg[0]
 
