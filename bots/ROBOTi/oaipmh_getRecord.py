@@ -142,6 +142,7 @@ def process(rg):
                 print("Erro a processar o Licenca",e)
 
             ############################################# identifier
+            print(RCN)
             try:
                 TIT = RCN['dc:identifier']
                 if type(TIT) is list:
@@ -153,7 +154,7 @@ def process(rg):
                         if (reg['type'] == 'HTTP'):
                             dc_link.append(reg)
             except Exception as e:
-                print("Erro a processar o Identifier #1",e)
+                print("Erro a processar o Identifier #1 - Identifier",e)
 
 
             #relation
