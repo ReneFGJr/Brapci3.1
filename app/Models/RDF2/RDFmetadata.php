@@ -346,9 +346,10 @@ class RDFmetadata extends Model
             /************************************* Publisher */
             arsort($journal);
             $jour = [];
-            foreach($journal as $idj=>$line)
+            foreach($journal as $nameJ=>$total)
                 {
-                    pre($line);
+                    echo $nameJ.'='.$total;
+                    exit;
                 }
 
 
