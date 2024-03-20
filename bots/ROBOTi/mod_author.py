@@ -23,6 +23,7 @@ def check_duplicate():
         IDn1 = reg[0]
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
+            remisive(IDn1,IDn2)
             print(lastName)
             print(IDn1,IDn2)
             print(reg,name)
@@ -32,6 +33,12 @@ def check_duplicate():
         lastName = name
         IDn2 = IDn1
 
+def remissive(ID1,ID2):
+    if ID2 < ID1:
+        ID3 = ID2
+        ID1 = ID2
+        ID2 = ID3
+        mod_data.remicive(ID1,ID2)
 
 def register_literal(IDC,name):
     name = nbr_author(name)
