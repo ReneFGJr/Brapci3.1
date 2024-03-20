@@ -86,6 +86,7 @@ def create_issue(JNL,year,vol,nr):
 def process(rg):
     ID = rg[0]
     JNL = rg[6]
+    #ISSUE = rg[7]
 
     print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 

@@ -128,8 +128,6 @@ def ProcessRecordIssue():
     # Phase II - Processa arquivos
     if (reg != []):
         for it in reg:
-            print("+==============")
-            print(it)
             mod_issue.process(it)
 
 def ProcessRecord():
