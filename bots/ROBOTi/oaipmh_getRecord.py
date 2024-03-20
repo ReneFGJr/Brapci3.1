@@ -220,7 +220,7 @@ def process(rg):
             mod_listidentify.updateStatus(ID,1)
             print("Erro",e)
 
-
+        print(DC)
 
         #mod_listidentify.updateStatus(ID,6)
 
