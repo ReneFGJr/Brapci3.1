@@ -231,9 +231,9 @@ class RDFmetadata extends Model
                         if (isset($IssueJ['journal']))
                             {
                                 $IssueJ = (string)$IssueJ['journal'];
-                                if (isset($journal[$IssuJ]))
+                                if (isset($journal[$IssueJ]))
                                     {
-                                        $journal[$IssueJ] = $journal[$IssuJ] + 1;
+                                        $journal[$IssueJ] = $journal[$IssueJ] + 1;
                                     } else {
                                         $journal[$IssueJ] = 1;
                                     }
