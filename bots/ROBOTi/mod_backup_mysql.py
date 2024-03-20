@@ -21,8 +21,9 @@ def main():
         cmd = f"mysqldump {db} > /backup/{db}_{date}.sql"
 
         print(cmd)
-        result = subprocess.run([sys.executable, "-c", cmd], capture_output=True, shell=True, text=True, timeout=600)
-        print("stdout:", result.stdout)
-        print("stderr:", result.stderr)
+        #result = subprocess.run([sys.executable, "-c", cmd], capture_output=True, shell=True, text=True, timeout=600)
+        subprocess.Popen(cmd, shell=True)
+        #print("stdout:", result.stdout)
+        #print("stderr:", result.stderr)
 
 main()
