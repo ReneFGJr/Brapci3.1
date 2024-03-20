@@ -179,7 +179,11 @@ class RDFmetadata extends Model
             $coathID = [];
             $prod = [];
             $prod_label = [];
-            for($r=1970;$r <= (date("Y")+1);$r++)
+            $tag = [];
+
+            $dta = 1980;
+
+            for($r=$dta;$r <= (date("Y")+1);$r++)
                 {
                     array_push($prod_label,$r);
                     array_push($prod, 0);
@@ -192,10 +196,11 @@ class RDFmetadata extends Model
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
+                pre($JSON);
                 $type = $line['CLASS'];
 
                 /************************************** Producao */
-                $year = $line['YEAR'] - 1970;
+                $year = $line['YEAR'] - $dta;
                 if ($year >= 0)
                     {
                         if (isset($ds[$type][$year]))

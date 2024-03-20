@@ -53,6 +53,7 @@ import { EventComponent } from './widget/event/event.component';
 import { NewsComponent } from './widget/news/news.component';
 import { BasketedExportComponent } from './page/basketed-export/basketed-export.component';
 import { ExportComponent } from './page/export/export.component';
+import { AngularD3CloudModule } from 'angular-d3-cloud';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { ExportComponent } from './page/export/export.component';
     RouterModule,
     ThemeModule,
     InfiniteScrollModule,
+    AngularD3CloudModule,
   ],
   exports: [
     BannerComponent,

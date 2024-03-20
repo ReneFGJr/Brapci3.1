@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Component({
@@ -6,7 +6,8 @@ import Chart from 'chart.js/auto';
   templateUrl: './person.component.html',
 })
 export class PersonComponent {
-  @Input() public data: Array<any> | any;
+  @Input() public data: Array<any> | any
+  public dataTAG:Array<any>|any
 
   constructor() {}
   ngOnInit(): void {}
@@ -21,6 +22,8 @@ export class PersonComponent {
 
     this.createChart();
     this.createProduction();
+
+    this.dataTAG = this.data.dataTAG;
   }
 
   public chart: any;
@@ -123,5 +126,13 @@ export class PersonComponent {
         ],
       },
     });
+  }
+
+  /********************** Cloud */
+  //    { text: 'RENE', value: 20 },
+  //    { text: 'GABRIEL', value: 10 },
+  //  ];
+  onWorkClick() {
+    alert('OK');
   }
 }
