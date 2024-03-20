@@ -212,6 +212,7 @@ def process(rg):
                         dc_language.append(mod_language.check(reg))
                 else:
                     reg = TIT
+                    print("Author "+reg)
                     dc_language.append(mod_language.check(reg))
             except Exception as e:
                 print("Erro a processar o Author",e)
