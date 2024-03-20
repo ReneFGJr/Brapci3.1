@@ -37,7 +37,6 @@ def remicive(ID1,ID2):
     ]
     for qrt in qr:
         database.update(qrt)
-        print(qrt)
 
 def register_literal(IDC,prop,name,lang):
     IDprop = mod_class.getClass(prop)
