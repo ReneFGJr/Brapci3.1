@@ -178,8 +178,6 @@ def process(rg):
             try:
                 source = dict(vol='',nr='',year='',theme='')
                 TIT = RCN['dc:source']
-                print("+=====================================")
-                print(TIT)
                 if type(TIT) is list:
                     for reg in TIT:
                         lg = mod_language.check(reg['@xml:lang'])
@@ -194,6 +192,8 @@ def process(rg):
                         dc_source = sourceName
             except Exception as e:
                 print("Erro a processar o Source - ",e)
+
+            print("FIM")
 
             ############################################# Language
             try:
