@@ -314,6 +314,7 @@ class RDFmetadata extends Model
 
             /************************************** Cloud */
             $wtag = [];
+            arsort($tag);
             foreach($tag as $kw=>$total)
                 {
                     $tg['text'] = $kw;
