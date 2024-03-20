@@ -206,7 +206,15 @@ class RDFmetadata extends Model
                         if (isset($wd['pt']))
                             {
                                 $wd = (array)$wd['pt'];
-                                pre($wd);
+                                foreach($wd as $idw=>$kwd)
+                                    {
+                                        if (isset($tag[$kwd]))
+                                            {
+                                                $tag[$kwd] = $tag[$kwd] + 1;
+                                            } else {
+                                                $tag[$kwd] = 1;
+                                            }
+                                    }
                             }
                     }
 
@@ -299,6 +307,15 @@ class RDFmetadata extends Model
                     array_push($graph['total'], $outros);
                 }
             $dr['chart_coauthors'] = $graph;
+
+            /************************************** Cloud */
+            $wtag = [];
+            foreach($tag as $kw=>$total)
+                {
+                    $tg['text'] = $kw;
+                    $tg['value'] = $total;
+                    pre($tg);
+                }
 
 
             return $dr;
