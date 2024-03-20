@@ -8,7 +8,8 @@ def check_trim():
         name = name.strip().capitalize()
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
-        print(qru)
+        database.update(qru)
+        print(name)
 
 def register(term,lang):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{term}') and (n_lang = '{lang}')"
