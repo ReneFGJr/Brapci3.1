@@ -30,11 +30,13 @@ def register(IDC,prop,IDP):
     return row
 
 def remicive(ID1,ID2):
-    qr = f"update brapci_rdf.rdf_data set d_r1 = {ID1} where d_r1 = {ID2} ; \n"
-    qr += f"update brapci_rdf.rdf_data set d_r2 = {ID1} where d_r2 = {ID2} ; \n"
-    qr += f"update brapci_rdf.rdf_concept set cc_use = {ID1} where id_cc = {ID2} ; \n"
+    qr = [
+        f"update brapci_rdf.rdf_data set d_r1 = {ID1} where d_r1 = {ID2}",
+        f"update brapci_rdf.rdf_data set d_r2 = {ID1} where d_r2 = {ID2}",
+        f"update brapci_rdf.rdf_concept set cc_use = {ID1} where id_cc = {ID2}"
+    ]
 
-    database.insert(qr)
+    database.update(qr)
     print(qr)
 
 def register_literal(IDC,prop,name,lang):
