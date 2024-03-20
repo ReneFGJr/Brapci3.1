@@ -92,11 +92,9 @@ def process(rg):
                 TIT = RCN['dc:creator']
                 if type(TIT) is list:
                     for reg in TIT:
-                        print("Author "+reg)
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
-                    print("Author "+reg)
                     dc_author.append(mod_nbr.nbr_author(reg))
             except Exception as e:
                 print("Erro a processar o Author (creator)",e)
