@@ -19,7 +19,10 @@ def check_duplicate():
     lastName = 'x'
     for reg in row:
         name=reg[2]
+        print(name)
         name.replace('-',' ')
+        print(name)
+
         IDn1 = reg[0]
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
