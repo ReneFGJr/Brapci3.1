@@ -9,6 +9,7 @@ def main():
     #print(config)
     #return 0
     date = datetime.date.today()
+    date = date.strftime('%Y%m%d')
 
     qr = "SHOW DATABASES;"
     row = database.query(qr)
