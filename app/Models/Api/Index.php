@@ -153,8 +153,8 @@ class Index extends Model
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
             case 'indexs':
-                $RDF = new \App\Models\RDF2\RDF();
-                $sx = $RDF->index_list($d1, $d2, $d3, $d4);
+                $Brapci = new \App\Models\API\Endpoint\Brapindexs($d2,$d3);
+                $sx = $Brapci->indexs($d1, $d2);
                 break;
             default:
                 $sx = $this->head();
