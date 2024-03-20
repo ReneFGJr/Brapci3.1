@@ -6,7 +6,7 @@
       <div class="mt-2"><b>Produção Científica por ano/tipo do autor</b></div>
       <div
         class="chart-container"
-        style="background-color: #efefef; border: 2px solid #000"
+        style="background-color: #efefef; border: 2px solid #CCC"
       >
         <canvas id="MyProduction">{{ production }}</canvas>
       </div>
@@ -14,10 +14,10 @@
       <!-- TAGCLOUD-->
       <div class="mt-2"><b>Nuvem de TAGs de assuntos do Autor</b></div>
       <!-- app.component.html -->
-      <div style="background-color: #efefef; border: 2px solid #000">
+      <div style="background-color: #efefef; border: 2px solid #CCC" class="d-none d-xl-block">
         <angular-d3-cloud
           [data]="dataTAG"
-          [width]="700"
+          [width]="650"
           [height]="300"
           [padding]="1"
           font="serif"

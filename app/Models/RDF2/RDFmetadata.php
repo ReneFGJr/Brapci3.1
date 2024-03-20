@@ -180,6 +180,7 @@ class RDFmetadata extends Model
             $prod = [];
             $prod_label = [];
             $tag = [];
+            $journal = [];
 
             $dta = get("di");
             if ($dta == '')
@@ -200,6 +201,8 @@ class RDFmetadata extends Model
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
+
+                pre($JSON);
 
                 $type = $line['CLASS'];
 
