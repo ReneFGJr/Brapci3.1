@@ -196,8 +196,16 @@ class RDFmetadata extends Model
 
             foreach ($dx as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
-                pre($JSON);
+
                 $type = $line['CLASS'];
+
+                /************************************** Cloud */
+                if (isset($JSON['Subject']['pt']))
+                    {
+                        $wd = (array)$JSON['Subject'];
+                        $wd = (array)$wd['pt'];
+                        pre($wd);
+                    }
 
                 /************************************** Producao */
                 $year = $line['YEAR'] - $dta;
