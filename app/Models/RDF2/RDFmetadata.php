@@ -348,10 +348,12 @@ class RDFmetadata extends Model
             $jour = [];
             foreach($journal as $nameJ=>$total)
                 {
-                    echo $nameJ.'='.$total;
-                    exit;
+                    $Aj = [];
+                    $aj['name'] = $nameJ;
+                    $aj['total'] = $total;
+                    array_push($jour,$aj);
                 }
-
+            $dr['dataJOUR'] = $jour;
 
             return $dr;
         }
