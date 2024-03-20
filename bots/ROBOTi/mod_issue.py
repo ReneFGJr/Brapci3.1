@@ -12,9 +12,9 @@ import traceback
 
 def identify(rg):
     print("==============")
-    print(rg)
     ID = rg[0]
     JNL = rg[6]
+    print("Identify",ID,JNL)
 
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
