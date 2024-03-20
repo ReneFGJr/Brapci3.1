@@ -128,11 +128,7 @@ export class PersonComponent {
     });
   }
 
-  /********************** Cloud */
-  //    { text: 'RENE', value: 20 },
-  //    { text: 'GABRIEL', value: 10 },
-  //  ];
   onWorkClick() {
-    alert('OK');
+
   }
 }

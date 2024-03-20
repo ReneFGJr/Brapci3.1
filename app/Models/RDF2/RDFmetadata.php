@@ -314,8 +314,9 @@ class RDFmetadata extends Model
                 {
                     $tg['text'] = $kw;
                     $tg['value'] = $total;
-                    pre($tg);
+                    array_push($wtag,$tg);
                 }
+            $dr['dataTAG'] = $wtag;
 
 
             return $dr;
