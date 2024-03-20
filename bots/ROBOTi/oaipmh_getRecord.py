@@ -183,10 +183,11 @@ def process(rg):
                 if type(TIT) is list:
                     for reg in TIT:
                         lg = mod_language.check(reg['@xml:lang'])
+                        print("1")
                         sourceName = mod_issue.decode(reg['#text'],lg,source)
-                        print("LG==="+reg['#text'])
-                        print(f"Source:Name=>{sourceName}")
+                        print("2")
                         dc_source = sourceName
+                        print("3")
                 else:
                         lg = mod_language.check(TIT['@xml:lang'])
                         sourceName = mod_issue.decode(TIT['#text'],lg,source)
