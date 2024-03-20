@@ -6,7 +6,7 @@ def check_trim():
     for ln in row:
         name = ln[1]
         id = ln[0]
-        qru = "update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
+        qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         print(qru)
 
 def register(term,lang):
