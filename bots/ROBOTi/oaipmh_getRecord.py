@@ -92,12 +92,14 @@ def process(rg):
                 TIT = RCN['dc:creator']
                 if type(TIT) is list:
                     for reg in TIT:
+                        print("Author "+reg)
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
+                    print("Author "+reg)
                     dc_author.append(mod_nbr.nbr_author(reg))
             except Exception as e:
-                print("Erro a processar o Author",e)
+                print("Erro a processar o Author (creator)",e)
 
             ############################################# Assuntos
             try:
@@ -208,14 +210,12 @@ def process(rg):
                 TIT = RCN['dc:language']
                 if type(TIT) is list:
                     for reg in TIT:
-                        print("Author "+reg)
                         dc_language.append(mod_language.check(reg))
                 else:
                     reg = TIT
-                    print("Author "+reg)
                     dc_language.append(mod_language.check(reg))
             except Exception as e:
-                print("Erro a processar o Author",e)
+                print("Erro a processar o Linguage",e)
         except Exception as e:
             print(Fore.RED,"Erro no XML",Fore.WHITE)
             print(e)
