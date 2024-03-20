@@ -183,13 +183,13 @@ def process(rg):
                 if type(TIT) is list:
                     for reg in TIT:
                         lg = mod_language.check(reg['@xml:lang'])
-                        source = mod_issue.decode(reg['#text'],lg,source)
-                        print(f"Source:Name=>{source}")
-                        dc_source = source
+                        sourceName = mod_issue.decode(reg['#text'],lg,source)
+                        print(f"Source:Name=>{sourceName}")
+                        dc_source = sourceName
                 else:
                         lg = mod_language.check(TIT['@xml:lang'])
-                        source = mod_issue.decode(TIT['#text'],lg,source)
-                        dc_source = source
+                        sourceName = mod_issue.decode(TIT['#text'],lg,source)
+                        dc_source = sourceName
             except Exception as e:
                 print("Erro a processar o Source - ",e)
 
