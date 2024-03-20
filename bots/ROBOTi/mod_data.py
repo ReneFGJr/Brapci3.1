@@ -35,8 +35,6 @@ def remicive(ID1,ID2):
     qr = f"update brapci_rdf.rdf_data set d_r2 = ID1 where d_r2 = ID2"
     print(qr)
 
-
-
 def register_literal(IDC,prop,name,lang):
     IDprop = mod_class.getClass(prop)
     IDliteral = mod_literal.register(name,lang)
