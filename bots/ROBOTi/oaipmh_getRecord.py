@@ -182,7 +182,10 @@ def process(rg):
                 TIT = RCN['dc:source']
                 if type(TIT) is list:
                     for reg in TIT:
-                        lg = mod_language.check(reg['@xml:lang'])
+                        try:
+                            lg = mod_language.check(reg['@xml:lang'])
+                        except Exception as e:
+                            print(reg)
                         sourceName = mod_issue.decode(reg['#text'],lg,source)
                         dc_source = sourceName
                 else:
