@@ -86,6 +86,20 @@
             }}</sup>
           </li>
         </ol>
+        <!-------------- SUBJECTS-->
+        <h4>
+          <b
+            ><i>{{ data.dataTAG.length }} Assuntos</i></b
+          >
+        </h4>
+        <ol>
+          <li
+            *ngFor="let subj of data.dataTAG"
+            [ngClass]="{ bold: subj.value > 50 }"
+          >
+            {{ subj["text"] }} <sup>{{ subj["value"] / 10 }}</sup>
+          </li>
+        </ol>
       </div>
     </div>
   </div>
