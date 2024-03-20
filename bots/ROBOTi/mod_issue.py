@@ -150,12 +150,11 @@ def formatNr(nr):
     return nr
 
 def decode(n,lg,vl):
-    print("4")
     try:
         n = n.lower()
     except:
         print("Erro no Lower da Legemda")
-    print("5")
+
     try:
         vol = vl['vol']
         nr =  vl['nr']
@@ -167,7 +166,6 @@ def decode(n,lg,vl):
         year = ''
         theme = ''
         print("ERRO de Processamento da legenda - ".e)
-    print("6A")
 
     ############################################## Recupera ANO
     ################### method 01 - (YEAR)
@@ -216,4 +214,6 @@ def decode(n,lg,vl):
         dc = dict(vol=vol,nr=nr,year=year,theme=theme)
     except Exception as e:
         print("Problema ao montar retorno",e)
+
+    print("=========")
     return dc
