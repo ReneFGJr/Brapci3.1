@@ -6,8 +6,8 @@ import Chart from 'chart.js/auto';
   templateUrl: './person.component.html',
 })
 export class PersonComponent {
-  @Input() public data: Array<any> | any
-  public dataTAG:Array<any>|any
+  @Input() public data: Array<any> | any;
+  public dataTAG: Array<any> | any;
 
   constructor() {}
   ngOnInit(): void {}
@@ -19,15 +19,42 @@ export class PersonComponent {
     if (this.production != undefined) {
       this.production.destroy();
     }
+    if (this.journals != undefined) {
+      this.journals.destroy();
+    }
 
     this.createChart();
     this.createProduction();
+    this.createJournals();
 
     this.dataTAG = this.data.dataTAG;
   }
 
   public chart: any;
   public production: any;
+  public journals: any;
+
+  createJournals() {
+   this.journals = new Chart('MyJournals', {
+     type: 'polarArea', //this denotes tha type of chart
+
+     data: {
+       // values on X-Axis
+       labels: this.data.dataJOUR.name,
+
+       datasets: [
+         {
+           label: 'Article',
+           data: this.data.dataJOUR,
+           backgroundColor: 'blue',
+         },
+       ],
+     },
+     options: {
+       aspectRatio: 2.5,
+     },
+   });
+  }
 
   createProduction() {
     this.production = new Chart('MyProduction', {
@@ -128,7 +155,5 @@ export class PersonComponent {
     });
   }
 
-  onWorkClick() {
-
-  }
+  onWorkClick() {}
 }

@@ -346,12 +346,13 @@ class RDFmetadata extends Model
             /************************************* Publisher */
             arsort($journal);
             $jour = [];
+            $jour['labels'] = [];
+            $jour['data'] = [];
             foreach($journal as $nameJ=>$total)
                 {
                     $Aj = [];
-                    $aj['name'] = $nameJ;
-                    $aj['total'] = $total;
-                    array_push($jour,$aj);
+                    array_push($jour['labels'],$nameJ);
+                    array_push($jour['data'], $total);
                 }
             $dr['dataJOUR'] = $jour;
 
