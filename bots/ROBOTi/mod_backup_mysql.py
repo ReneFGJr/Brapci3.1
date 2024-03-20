@@ -20,7 +20,8 @@ def main():
         #cmd = "mysqldump -u "+config['user']+ " -p "+config['password']+" "+data[0]+" > /backup/"+data[0]+"_"+date+".sql"
         cmd = f"mysqldump {db} > /backup/{db}_{date}.sql"
 
-        result = subprocess.run([sys.executable, "-c", cmd], capture_output=True, shell=True, text=True, timeout=60)
+        #result = subprocess.run([sys.executable, "-c", cmd], capture_output=True, shell=True, text=True, timeout=60)
+        result = subprocess.run([sys.executable, "-c", cmd], capture_output=True, text=True, timeout=60)
         print("stdout:", result.stdout)
         print("stderr:", result.stderr)
 
