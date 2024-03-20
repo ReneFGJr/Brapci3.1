@@ -184,6 +184,7 @@ def process(rg):
                     for reg in TIT:
                         lg = mod_language.check(reg['@xml:lang'])
                         source = mod_issue.decode(reg['#text'],lg,source)
+                        print(f"Source:Name=>{source}")
                         dc_source = source
                 else:
                         lg = mod_language.check(TIT['@xml:lang'])
