@@ -178,6 +178,8 @@ def process(rg):
             try:
                 source = dict(vol='',nr='',year='',theme='')
                 TIT = RCN['dc:source']
+                print("+=====================================")
+                print(TIT)
                 if type(TIT) is list:
                     for reg in TIT:
                         lg = mod_language.check(reg['@xml:lang'])
