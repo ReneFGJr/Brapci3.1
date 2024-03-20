@@ -55,6 +55,7 @@ def process(rg):
             IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
         else:
+            print(f"  UPDATE WORK ({IDX})")
             article_data(IDX,rg,data,JNL)
 
     except Exception as e:
