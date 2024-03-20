@@ -154,7 +154,13 @@ class Brapci extends Model
                 {
                     case 'subject':
                         $RSP['data'] = $RDF->index_list('Subject',$l);
-                    break;
+                        break;
+                    case 'author':
+                        $RSP['data'] = $RDF->index_list('Person', $l);
+                        break;
+                    case 'bodycompany':
+                        $RSP['data'] = $RDF->index_list('BodyCompany', $l);
+                        break;
                     default:
                     $RSP['status'] = 404;
                     $RSP['message'] = 'Index '.$t.' not found';
