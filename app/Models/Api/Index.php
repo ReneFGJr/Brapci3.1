@@ -152,7 +152,10 @@ class Index extends Model
                 $API = new \App\Models\Api\Endpoint\Tools;
                 $sx = $API->index($d1, $d2, $d3, $d4);
                 break;
-
+            case 'indexs':
+                $Indexshow = new \App\Models\Base\Indexshow();
+                $sx = $Indexshow->show_index($d1, $d2, $d3, $d4);
+                break;
             default:
                 $sx = $this->head();
                 $sx .= bs(bsc(h('Brapci API - v0.23.06.16', 1), 12));
