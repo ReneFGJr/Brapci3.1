@@ -142,17 +142,23 @@ def process(rg):
                 print("Erro a processar o Licenca",e)
 
             ############################################# identifier
-            print("======>"+RCN['dc:identifier'])
             try:
                 TIT = RCN['dc:identifier']
                 if type(TIT) is list:
                     for reg in TIT:
-                        print("ID"+reg)
                         reg = mod_type_id.recognizer(reg)
                         if (reg['type'] == 'DOI'):
                             dc_doi.append(reg)
                         if (reg['type'] == 'HTTP'):
                             dc_link.append(reg)
+                else:
+                    reg = mod_type_id.recognizer(reg)
+                    if (reg['type'] == 'DOI'):
+                        dc_doi.append(reg)
+                    if (reg['type'] == 'HTTP'):
+                        dc_link.append(reg)
+
+
             except Exception as e:
                 print("Erro a processar o Identifier #1 - Identifier",e)
 
