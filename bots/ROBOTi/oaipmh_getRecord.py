@@ -186,12 +186,18 @@ def process(rg):
                             lg = mod_language.check(reg['@xml:lang'])
                         except Exception as e:
                             print("+++++++++++++++++++"+reg)
-                        sourceName = mod_issue.decode(reg['#text'],lg,source)
-                        dc_source = sourceName
+                        else:
+                            sourceName = mod_issue.decode(reg['#text'],lg,source)
+                            dc_source = sourceName
                 else:
+                    try:
                         lg = mod_language.check(TIT['@xml:lang'])
+                    except Exception as e:
+                         print("+++++++++++++++++++"+reg)
+                    else:
                         sourceName = mod_issue.decode(TIT['#text'],lg,source)
                         dc_source = sourceName
+
             except Exception as e:
                 print("Erro a processar o Source # - ",e)
                 mensagem = traceback.format_exc()
