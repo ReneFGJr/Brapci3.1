@@ -25,9 +25,6 @@ def identify(rg):
         data = json.load(f)
         f.close()
 
-        print("=====================")
-        print(data)
-
         source = []
 
         for i in range(len(data)):
