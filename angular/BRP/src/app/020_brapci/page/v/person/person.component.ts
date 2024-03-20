@@ -40,12 +40,12 @@ export class PersonComponent {
 
      data: {
        // values on X-Axis
-       labels: this.data.dataJOUR.name,
+       labels: this.data.dataJOUR.labels,
 
        datasets: [
          {
            label: 'Article',
-           data: this.data.dataJOUR,
+           data: this.data.dataJOUR.data,
            backgroundColor: 'blue',
          },
        ],
