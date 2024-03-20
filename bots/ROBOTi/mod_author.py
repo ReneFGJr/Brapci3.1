@@ -7,7 +7,6 @@ import database
 def check_duplicate():
     print("Check Duplicate")
     IDClass = mod_class.getClass("Person")
-    print(IDClass)
 
     qr = "select id_cc, cc_use, n_name  "
     qr += " from brapci_rdf.rdf_concept "
@@ -21,13 +20,17 @@ def check_duplicate():
     lastName = 'x'
     for reg in row:
         name=reg[2]
+        IDn1 = reg[0]
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(lastName)
+            print(IDn1,IDn2)
             print(reg,name)
+
 
         reg2 = reg
         lastName = name
+        IDn2 = IDn1
 
 
 def register_literal(IDC,name):
