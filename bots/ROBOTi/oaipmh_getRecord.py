@@ -191,7 +191,7 @@ def process(rg):
                         sourceName = mod_issue.decode(TIT['#text'],lg,source)
                         dc_source = sourceName
             except Exception as e:
-                print("Erro a processar o Source - ",e)
+                print("Erro a processar o Source # - ",e)
 
             ############################################# Language
             try:

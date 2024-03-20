@@ -215,5 +215,4 @@ def decode(n,lg,vl):
     except Exception as e:
         print("Problema ao montar retorno",e)
 
-    print("=========")
     return dc
