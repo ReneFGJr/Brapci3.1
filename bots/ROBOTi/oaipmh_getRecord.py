@@ -142,7 +142,7 @@ def process(rg):
                 print("Erro a processar o Licenca",e)
 
             ############################################# identifier
-            print(RCN)
+            print("======>"+RCN['dc:identifier'])
             try:
                 TIT = RCN['dc:identifier']
                 if type(TIT) is list:
