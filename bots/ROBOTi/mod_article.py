@@ -301,5 +301,5 @@ def create_article(rg,data,jnl):
                 print(f'RSP: {k}')
                 quit()
     #################################### Title
-    mod_listidentify.updateStatus(rg[0],10)
+    mod_listidentify.updateStatus(rg[0],11)
     print("============================ FINALIZADO COM SUCESSO",rg[0],"IDC ",IDC)
