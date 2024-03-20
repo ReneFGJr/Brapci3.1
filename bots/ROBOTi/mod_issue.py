@@ -167,7 +167,7 @@ def decode(n,lg,vl):
         year = ''
         theme = ''
         print("ERRO de Processamento da legenda - ".e)
-    print("6")
+    print("6A")
 
     ############################################## Recupera ANO
     ################### method 01 - (YEAR)
