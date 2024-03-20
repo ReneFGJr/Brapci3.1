@@ -208,6 +208,7 @@ def process(rg):
                 TIT = RCN['dc:language']
                 if type(TIT) is list:
                     for reg in TIT:
+                        print("Author "+reg)
                         dc_language.append(mod_language.check(reg))
                 else:
                     reg = TIT
