@@ -95,15 +95,12 @@ def process(rg):
 
     ######################### Identify ##
     try:
-        print("====================RG")
-        print(rg)
         row = identify(rg)
-        print("====================ROW")
-        print(row)
         ISSUE = row[0][3]
         mod_listidentify.updateIssue(ID,ISSUE)
         mod_listidentify.updateStatus(ID,7)
     except Exception as e:
+        mod_listidentify.updateStatus(ID,1)
         print("ERROR #22",e)
         mensagem = traceback.format_exc()
         print("Ocorreu um erro:", mensagem)
