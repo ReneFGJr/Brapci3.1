@@ -159,7 +159,6 @@ class Brapci extends Model
                     $RSP['status'] = 404;
                     $RSP['message'] = 'Index '.$t.' not found';
                 }
-                pre($RSP);
             return $RSP;
         }
     /******************************* UPLOAD */
