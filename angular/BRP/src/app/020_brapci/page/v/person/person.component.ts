@@ -35,25 +35,31 @@ export class PersonComponent {
   public journals: any;
 
   createJournals() {
-   this.journals = new Chart('MyJournals', {
-     type: 'polarArea', //this denotes tha type of chart
+    this.journals = new Chart('MyJournals', {
+      //type: 'polarArea', //this denotes tha type of chart
+      type: 'polarArea', //this denotes tha type of chart
 
-     data: {
-       // values on X-Axis
-       labels: this.data.dataJOUR.labels,
+      data: {
+        // values on X-Axis
+        labels: this.data.dataJOUR.labels,
 
-       datasets: [
-         {
-           label: 'Article',
-           data: this.data.dataJOUR.data,
-           backgroundColor: 'blue',
-         },
-       ],
-     },
-     options: {
-       aspectRatio: 2.5,
-     },
-   });
+        datasets: [
+          {
+            label: this.data.dataJOUR.labels,
+            data: this.data.dataJOUR.data,
+            backgroundColor: 'blue',
+          },
+        ],
+      },
+      options: {
+        aspectRatio: 0.5,
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+    });
   }
 
   createProduction() {

@@ -344,7 +344,7 @@ class RDFmetadata extends Model
             $dr['dataTAG'] = $wtag;
 
             /************************************* Publisher */
-            arsort($journal);
+            asort($journal);
             $jour = [];
             $jour['labels'] = [];
             $jour['data'] = [];
