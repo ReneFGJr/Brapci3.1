@@ -38,7 +38,7 @@ def remissive(ID1,ID2):
         ID3 = ID2
         ID1 = ID2
         ID2 = ID3
-        mod_data.remicive(ID1,ID2)
+    mod_data.remicive(ID1,ID2)
 
 def register_literal(IDC,name):
     name = nbr_author(name)
