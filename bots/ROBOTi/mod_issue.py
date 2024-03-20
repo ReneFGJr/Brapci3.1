@@ -104,7 +104,6 @@ def process(rg):
         print("ERROR #22",e)
         mensagem = traceback.format_exc()
         print("Ocorreu um erro:", mensagem)
-        quit()
         mod_listidentify.updateStatus(ID,1)
 
 def extract_numbers(text):
