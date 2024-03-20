@@ -8,6 +8,7 @@ import mod_literal
 import mod_concept
 import mod_class
 import database
+import traceback
 
 def identify(rg):
     ID = rg[0]
@@ -90,7 +91,6 @@ def create_issue(JNL,year,vol,nr):
 
 def process(rg):
     ID = rg[0]
-    JNL = rg[6]
 
     print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
@@ -106,6 +106,8 @@ def process(rg):
         mod_listidentify.updateStatus(ID,7)
     except Exception as e:
         print("ERROR #22",e)
+        mensagem = traceback.format_exc()
+        print("Ocorreu um erro:", mensagem)
         quit()
         mod_listidentify.updateStatus(ID,1)
 
