@@ -95,7 +95,7 @@ def process(rg):
         print(rg)
         row = identify(rg)
         print("====================ROW")
-        print(rg)
+        print(row)
         ISSUE = row[0][3]
         mod_listidentify.updateIssue(ID,ISSUE)
         mod_listidentify.updateStatus(ID,7)
