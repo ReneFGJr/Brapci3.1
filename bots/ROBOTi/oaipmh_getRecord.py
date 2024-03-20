@@ -193,8 +193,6 @@ def process(rg):
             except Exception as e:
                 print("Erro a processar o Source - ",e)
 
-            print("FIM")
-
             ############################################# Language
             try:
                 TIT = RCN['dc:language']

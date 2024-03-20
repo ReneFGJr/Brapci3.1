@@ -150,17 +150,21 @@ def formatNr(nr):
     return nr
 
 def decode(n,lg,vl):
-    n = n.lower()
+    try:
+        n = n.lower()
+    except:
+        print("Erro no Lower da Legemda")
     try:
         vol = vl['vol']
         nr =  vl['nr']
         year =  vl['year']
         theme =  vl['theme']
-    except:
+    except Exception as e:
         vol = ''
         nr = ''
         year = ''
         theme = ''
+        print("ERRO de Processamento da legenda - ".e)
 
     ############################################## Recupera ANO
     ################### method 01 - (YEAR)
