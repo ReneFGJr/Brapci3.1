@@ -91,9 +91,11 @@ def process(rg):
 
     ######################### Identify ##
     try:
-        print("====================")
+        print("====================RG")
         print(rg)
         row = identify(rg)
+        print("====================ROW")
+        print(rg)
         ISSUE = row[0][3]
         mod_listidentify.updateIssue(ID,ISSUE)
         mod_listidentify.updateStatus(ID,7)
