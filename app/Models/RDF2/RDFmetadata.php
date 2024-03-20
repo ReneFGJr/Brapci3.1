@@ -181,7 +181,11 @@ class RDFmetadata extends Model
             $prod_label = [];
             $tag = [];
 
-            $dta = 1980;
+            $dta = get("di");
+            if ($dta == '')
+                {
+                    $dta = 1990;
+                }
 
             for($r=$dta;$r <= (date("Y")+1);$r++)
                 {

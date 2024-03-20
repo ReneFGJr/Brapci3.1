@@ -63,8 +63,8 @@ export class PersonComponent {
       options: {
         plugins: {
           title: {
-            display: true,
-            text: 'Produção Científica por ano/tipo',
+            display: false,
+            text: '',
           },
         },
         scales: {
