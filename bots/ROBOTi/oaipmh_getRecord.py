@@ -173,12 +173,13 @@ def process(rg):
                             dc_doi.append(reg)
                         if (reg['type'] == 'HTTP'):
                             dc_link.append(reg)
-                if type(TIT) is str:
-                        reg = mod_type_id.recognizer(TIT)
-                        if (reg['type'] == 'DOI'):
-                            dc_doi.append(reg)
-                        if (reg['type'] == 'HTTP'):
-                            dc_link.append(reg)
+                else:
+                    reg = mod_type_id.recognizer(TIT)
+                    if (reg['type'] == 'DOI'):
+                        dc_doi.append(reg)
+                    if (reg['type'] == 'HTTP'):
+                        dc_link.append(reg)
+
 
             except Exception as e:
                 print("Erro a processar o Identifier #2 - Relations",e)
