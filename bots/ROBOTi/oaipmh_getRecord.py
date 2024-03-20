@@ -242,9 +242,7 @@ def process(rg):
             mod_listidentify.updateStatus(ID,1)
             print("Erro",e)
 
-        print(DC)
-
-        #mod_listidentify.updateStatus(ID,6)
+        mod_listidentify.updateStatus(ID,6)
 
 def get(rg):
     identify = rg[1]
