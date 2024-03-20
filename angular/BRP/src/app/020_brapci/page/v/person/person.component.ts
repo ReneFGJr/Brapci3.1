@@ -45,7 +45,7 @@ export class PersonComponent {
 
         datasets: [
           {
-            label: this.data.dataJOUR.labels,
+            //label: this.data.dataJOUR.data,
             data: this.data.dataJOUR.data,
             backgroundColor: 'blue',
           },
