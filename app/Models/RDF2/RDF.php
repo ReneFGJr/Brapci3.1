@@ -186,6 +186,7 @@ class RDF extends Model
                 ->select($cp)
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                 ->where('cc_class',$idc)
+                ->where('id_cc = cc_use')
                 ->like('n_name',$l,'after')
                 ->orderBy('n_name')
                 ->findAll(10000);
