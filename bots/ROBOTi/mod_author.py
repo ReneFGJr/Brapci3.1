@@ -15,6 +15,8 @@ def check_duplicate():
     qr += " and id_cc = cc_use "
     qr += " order by n_name, id_cc"
 
+    print(qr)
+
     row = database.query(qr)
     lastName = 'x'
     for reg in row:
