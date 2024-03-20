@@ -152,7 +152,7 @@ def process(rg):
                         if (reg['type'] == 'HTTP'):
                             dc_link.append(reg)
                 else:
-                    reg = mod_type_id.recognizer(reg)
+                    reg = mod_type_id.recognizer(TIT)
                     if (reg['type'] == 'DOI'):
                         dc_doi.append(reg)
                     if (reg['type'] == 'HTTP'):
