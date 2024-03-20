@@ -285,7 +285,7 @@ def create_article(rg,data,jnl):
                 row = database.query(qr)
                 IDsec = row[0][0]
                 if (IDsec == None or IDsec < 1):
-                    print("Erro Section")
+                    print("Erro Section IDsec="+IDsec)
                     quit()
                 else:
                     print("=>Section",IDsec)

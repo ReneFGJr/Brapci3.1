@@ -112,7 +112,7 @@ def run(parm):
 def DataDouble():
     mod_data.removeDouble()
 
-def ProcessArticle():
+def ProcessArticle(): ############################# 5
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(7)
 
