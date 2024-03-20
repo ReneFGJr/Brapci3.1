@@ -17,6 +17,8 @@ import mod_type_id
 import mod_license
 import mod_source
 
+import traceback
+
 
 def process(rg):
     ID = rg[0]
@@ -181,17 +183,16 @@ def process(rg):
                 if type(TIT) is list:
                     for reg in TIT:
                         lg = mod_language.check(reg['@xml:lang'])
-                        print("1")
                         sourceName = mod_issue.decode(reg['#text'],lg,source)
-                        print("2")
                         dc_source = sourceName
-                        print("3")
                 else:
                         lg = mod_language.check(TIT['@xml:lang'])
                         sourceName = mod_issue.decode(TIT['#text'],lg,source)
                         dc_source = sourceName
             except Exception as e:
                 print("Erro a processar o Source # - ",e)
+                mensagem = traceback.format_exc()
+                print("Ocorreu um erro:", mensagem)
 
             ############################################# Language
             try:
