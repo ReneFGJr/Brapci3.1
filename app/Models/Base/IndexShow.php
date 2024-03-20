@@ -40,6 +40,7 @@ class Indexshow extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     function showHTML($dt)
     {
         $sx = view('RDF/subject', $dt);
