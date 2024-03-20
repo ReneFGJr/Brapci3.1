@@ -238,11 +238,12 @@ def process(rg):
             f = open(file,'w')
             f.write(json.dumps(DC))
             f.close()
+            print("Arquivio salvo em "+file)
         except Exception as e:
             mod_listidentify.updateStatus(ID,1)
             print("Erro",e)
 
-        mod_listidentify.updateStatus(ID,6)
+        #mod_listidentify.updateStatus(ID,6)
 
 def get(rg):
     identify = rg[1]
