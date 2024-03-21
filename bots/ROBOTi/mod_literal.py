@@ -21,7 +21,7 @@ def check_all():
         save = False
 
         n = name2[0]
-        if (n == chr(127)):
+        if (n > chr(126)):
             name2 = name2.strip().capitalize()
             if name2 != name:
                 save = True
