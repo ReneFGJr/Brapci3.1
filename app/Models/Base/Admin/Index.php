@@ -217,7 +217,10 @@ class Index extends Model
                     $sx .= $link.$l.$linka.' ';
                     $i++;
                 }
-            $idx = 0;
+            if ($idx == '')
+                {
+                    $idx = 0;
+                }
 
             $dt = $RDFconcept
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
