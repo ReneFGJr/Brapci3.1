@@ -5,17 +5,20 @@ import mod_data
 import database
 
 def check_remissiva():
-    qr = "SELECT id_cc,cc_use,d_r1,d_r2 "
+    qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
     qr += "FROM brapci_rdf.rdf_concept "
     qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r1 "
+    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += "WHERE (id_cc <> cc_use) and (cc_use <> 0)"
     qr += " and (d_r1 <> 0) and (d_r2 <> 0)"
     row = database.query(qr)
 
-    print(qr)
     for reg in row:
         print(reg)
-        #remissive(IDn1,IDn2)
+        ID2 = row[0]
+        ID1 = row[1]
+        print('..'+row[4])
+        mod_data.remicive(ID1,ID2)
     return ""
 
 def check_duplicate():
