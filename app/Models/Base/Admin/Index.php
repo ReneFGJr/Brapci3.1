@@ -230,7 +230,7 @@ class Index extends Model
                 }
 
             $sx .= form_close();
-
+            $sx = bs(bsc($sx));
             return $sx;
         }
 
