@@ -216,7 +216,8 @@ class Index extends Model
             $name = $dt['concept']['n_name'];
             $sx .= h($name,2);
             $sx .= '<hr>';
-            $sx .= '';
+            $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
+            $sx .= '<hr>';
 
             $txt = explode(' ',$name);
 
