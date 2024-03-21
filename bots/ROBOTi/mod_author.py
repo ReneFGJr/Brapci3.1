@@ -6,8 +6,8 @@ import database
 
 def check_remissiva():
     qr = "SELECT id_cc,cc_use,d_r1,d_r2 "
-    qr += "FROM rdf_concept "
-    qr += "inner join rdf_data ON id_cc = d_r1 "
+    qr += "FROM brapci_rdf.rdf_concept "
+    qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r1 "
     qr += "WHERE (id_cc <> cc_use) and (cc_use <> 0)"
     qr += " and (d_r1 <> 0) and (d_r2 <> 0)"
     row = database.query(qr)
