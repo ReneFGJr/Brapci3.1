@@ -19,20 +19,21 @@ def check_all():
         name2 = name.replace('"','')
         name2 = name2.replace("'",'')
         save = False
+        try:
+            n = name2[0]
+            if (n > chr(126)):
+                name2 = name2.strip().capitalize()
+                if name2 != name:
+                    save = True
+                    print(name2)
 
-        n = name2[0]
-        if (n > chr(126)):
-            name2 = name2.strip().capitalize()
-            if name2 != name:
+            if (name != name2):
                 save = True
-                print(name2)
-
-        if (name != name2):
-            save = True
-            print("1="+name)
-            print("2="+name2)
-            print("============")
-
+                print("1="+name)
+                print("2="+name2)
+                print("============")
+        except:
+            print("skip")
         if save == True:
             #name = name.strip().capitalize()
             id = ln[0]
