@@ -219,6 +219,7 @@ class Index extends Model
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                 ->like('n_name', $txt[$idx])
                 ->where('cc_class', $idc)
+                ->where('cc_use = id_cc')
                 ->findAll(100);
             pre($dt);
 
