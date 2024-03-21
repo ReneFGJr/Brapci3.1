@@ -11,6 +11,8 @@ def check_remissiva():
     qr += "WHERE (id_cc <> cc_use) and (cc_use <> 0)"
     qr += " and (d_r1 <> 0) and (d_r2 <> 0)"
     row = database.query(qr)
+
+    print(qr)
     for reg in row:
         print(reg)
         #remissive(IDn1,IDn2)
