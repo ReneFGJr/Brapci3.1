@@ -90,6 +90,9 @@ class Authors extends Model
                                 {
                                     $link .= '<b>';
                                     $linka = '</b>'.$linka;
+                                } else {
+                                    $linka = '';
+                                    $link = '';
                                 }
                             $sx .= '<li>'.$link.$line['n_name'].' ('.$line['id_cc'].'-'.$line['cc_use'].')'.$linka.'</li>';
                         }
