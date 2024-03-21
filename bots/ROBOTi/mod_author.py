@@ -18,7 +18,7 @@ def check_remissiva():
         ID2 = row[0]
         ID1 = row[1]
         NAME = row[4]
-        print('..'+NAME)
+        print(NAME)
         mod_data.remicive(ID1,ID2)
         return 0
     return ""
