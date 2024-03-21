@@ -17,7 +17,22 @@ def check_remissiva():
         ID2 = reg[0]
         ID1 = reg[1]
         NAME = reg[4]
-        print(ID1,ID2,NAME)
+        print("Check1 -",ID1,ID2,NAME)
+        mod_data.remicive(ID1,ID2)
+
+    qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
+    qr += "FROM brapci_rdf.rdf_concept "
+    qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r2 "
+    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
+    qr += "WHERE (id_cc <> cc_use) and (cc_use <> 0)"
+    qr += " and (d_r1 <> 0) and (d_r2 <> 0)"
+    row = database.query(qr)
+
+    for reg in row:
+        ID2 = reg[0]
+        ID1 = reg[1]
+        NAME = reg[4]
+        print("Check2 -",ID1,ID2,NAME)
         mod_data.remicive(ID1,ID2)
     return ""
 
