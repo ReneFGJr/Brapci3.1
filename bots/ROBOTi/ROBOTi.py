@@ -94,6 +94,8 @@ def run(parm):
         lp = mod_literal.check_trim()
     if (act == '200'):
         lp = mod_author.check_duplicate()
+    if (act == '201'):
+        lp = mod_author.check_duplicate_2()
 
     if (act == 'lattesK'):
         file = parm[2]

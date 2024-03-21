@@ -4,6 +4,9 @@ import mod_concept
 import mod_data
 import database
 
+def check_duplicate_2():
+    return ""
+
 def check_duplicate():
     print("Check Duplicate")
     IDClass = mod_class.getClass("Person")
@@ -20,6 +23,7 @@ def check_duplicate():
     for reg in row:
         name=reg[2]
         name.replace('-',' ')
+        name.replace(' de ',' ')
 
         IDn1 = reg[0]
 
