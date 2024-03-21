@@ -198,7 +198,8 @@ class Index extends Model
             $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
             $dt = $RDF->le($d1);
-            pre($dt);
+            $sx .= h($dt['concept']['n_name'],2);
+            $sx .=
             return $sx;
         }
 
