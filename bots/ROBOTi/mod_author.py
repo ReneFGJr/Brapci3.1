@@ -22,11 +22,8 @@ def check_duplicate():
     lastName = 'x'
     for reg in row:
         name=reg[2]
-        name.replace('-',' ')
-        name.replace(' de ',' ')
-        if 'Moura' in name:
-            name = name.replace(' de ',' ')
-            print(name)
+        name = name.replace('-',' ')
+        name = name.replace(' de ',' ')
 
         IDn1 = reg[0]
 
