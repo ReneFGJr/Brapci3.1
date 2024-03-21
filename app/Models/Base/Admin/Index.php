@@ -201,10 +201,11 @@ class Index extends Model
             $idc = $RDFclass->getClass('Person');
 
             /***************** Change Class */
-            echo "$d3=d3";
-            if ($d4 == 'change')
+            if ($idx == 'change')
                 {
-                    echo "++++++++++++++";
+                    $idc = $RDFclass->getClass($d3);
+                    echo "++++++++++++++ $idc";
+                    $idx = 0;
                 }
 
             if (isset($_POST['ids']))
