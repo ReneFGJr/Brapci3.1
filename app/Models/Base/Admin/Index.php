@@ -200,6 +200,12 @@ class Index extends Model
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $idc = $RDFclass->getClass('Person');
 
+            /***************** Change Class */
+            if ($d3 == 'change')
+                {
+                    echo "++++++++++++++";
+                }
+
             if (isset($_POST['ids']))
                 {
                     $ids = $_POST['ids'];
@@ -217,6 +223,7 @@ class Index extends Model
             $sx .= h($name,2);
             $sx .= '<hr>';
             $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
+            $sx .= '<a href="' . PATH . 'admin/alias/'.$d1.'/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
             $sx .= '<hr>';
 
             $txt = explode(' ',$name);
