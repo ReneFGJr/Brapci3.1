@@ -24,10 +24,10 @@ def check_all():
             print("2="+name2)
             print("============")
 
-        #name = name.strip().capitalize()
-        id = ln[0]
-        qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
-        database.update(qru)
+            #name = name.strip().capitalize()
+            id = ln[0]
+            qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
+            database.update(qru)
         #print(name)
 
 def register(term,lang):
