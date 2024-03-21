@@ -23,7 +23,6 @@ def check_all():
         if n > "Ç":
             name2 = name2.strip().capitalize()
             print(name2)
-            return 0
 
         if (name != name2):
             print("1="+name)
@@ -34,6 +33,8 @@ def check_all():
             id = ln[0]
             qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
             database.update(qru)
+
+            return 0
         #print(name)
 
 def register(term,lang):
