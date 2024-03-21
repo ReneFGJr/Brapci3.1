@@ -15,10 +15,11 @@ def check_remissiva():
 
     for reg in row:
         print(reg)
-        ID2 = row[0]
-        ID1 = row[1]
-        NAME = row[4]
-        print(NAME)
+        ID2 = reg[0]
+        ID1 = reg[1]
+        NAME = reg[4]
+        print(ID1+ID2+NAME)
+        return 0
         mod_data.remicive(ID1,ID2)
         return 0
     return ""
