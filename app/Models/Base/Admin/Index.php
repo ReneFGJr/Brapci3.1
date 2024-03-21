@@ -236,6 +236,7 @@ class Index extends Model
                 ->like('n_name', $txt[$idx])
                 ->where('cc_class', $idc)
                 ->where('cc_use = id_cc')
+                ->where('id_cc <> '.$d1)
                 ->orderBy('n_name')
                 ->findAll(100);
 
