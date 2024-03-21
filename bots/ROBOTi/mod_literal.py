@@ -23,8 +23,9 @@ def check_all():
         n = name2[0]
         if (n == chr(127)):
             name2 = name2.strip().capitalize()
-            save = True
-            print(name2)
+            if name2 != name:
+                save = True
+                print(name2)
 
         if (name != name2):
             save = True
