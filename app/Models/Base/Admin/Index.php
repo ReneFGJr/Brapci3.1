@@ -198,9 +198,9 @@ class Index extends Model
             if (isset($_POST['ids']))
                 {
                     $ids = $_POST['ids'];
-                    foreach($ids as $i=>$idx)
+                    foreach($ids as $i=>$idz)
                         {
-                            echo '=='.$idx;
+                            echo '=='.$idz;
                             echo '<br>';
                         }
                 }
