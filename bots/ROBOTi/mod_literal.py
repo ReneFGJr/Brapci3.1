@@ -39,7 +39,6 @@ def check_all():
             qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
             database.update(qru)
 
-            return 0
         #print(name)
 
 def register(term,lang):
