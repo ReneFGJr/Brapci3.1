@@ -220,6 +220,7 @@ class Index extends Model
                 ->like('n_name', $txt[$idx])
                 ->where('cc_class', $idc)
                 ->where('cc_use = id_cc')
+                ->orderBy('n_name')
                 ->findAll(100);
 
             $sx .= form_open();
