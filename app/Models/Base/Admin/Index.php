@@ -257,7 +257,7 @@ class Index extends Model
 
             $sa .= form_submit('action','Join');
             $sa .= form_close();
-            $sx .= bsc($sx,12);
+            $sx = bsc($sx,12);
             $sx .= bsc($sa,6);
             $sx .= bsc($sb, 6);
             $sx = bs($sx);
