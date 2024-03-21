@@ -211,7 +211,9 @@ class Index extends Model
 
             foreach($txt as $l)
                 {
-                    $sx .= $l.'-';
+                    $link = '<a href="'.PATH.'">';
+                    $linka = '</a>';
+                    $sx .= $link.$l.$linka.' ';
                 }
             $idx = 0;
 
