@@ -100,7 +100,7 @@ def run(parm):
     if (act == '200'):
         lp = mod_author.check_duplicate()
     if (act == '201'):
-        lp = mod_author.check_duplicate_2()
+        lp = mod_author.check_remissiva()
 
     if (act == 'lattesK'):
         file = parm[2]
