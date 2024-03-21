@@ -45,6 +45,9 @@ class Index extends Model
         $sx = '';
         $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'alias':
+                $sx .= $this->alias($subact,$id,$id2,$id3);
+                break;
             case 'person':
                 $sx .= h("Ponto de acesso - Pessoas");
                 $Authors = new \App\Models\Base\Authors();
@@ -189,6 +192,13 @@ class Index extends Model
         }
         return $sx;
     }
+
+    function alias($d1,$d2,$d3,$d4)
+        {
+            $sx = '';
+            $sx .= "==$d1==$d2==$d3==$d4==";
+            return $sx;
+        }
 
     function issue($d1,$d2,$d3)
         {

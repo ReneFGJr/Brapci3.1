@@ -84,7 +84,7 @@ class Authors extends Model
 
                     foreach($dt as $id=>$line)
                         {
-                            $link = '<a href="'.PATH.'admin/person">';
+                            $link = '<a href="'.PATH.'admin/alias">';
                             $linka = '</a>';
                             if ($line['id_cc'] == $line['cc_use'])
                                 {
