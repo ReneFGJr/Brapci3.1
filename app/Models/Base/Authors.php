@@ -86,6 +86,11 @@ class Authors extends Model
                         {
                             $link = '<a href="'.PATH.'admin/person">';
                             $linka = '</a>';
+                            if ($line['id_cc'] == $line['cc_user'])
+                                {
+                                    $link .= '<b>';
+                                    $linka = '</b>'.$linka;
+                                }
                             $sx .= '<li>'.$link.$line['n_name'].' ('.$line['id_cc'].'-'.$line['cc_use'].')'.$linka.'</li>';
                         }
                 }
