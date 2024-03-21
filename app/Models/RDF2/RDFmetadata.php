@@ -369,7 +369,7 @@ class RDFmetadata extends Model
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $dt = $RDFconcept
-                ->select('n_name')
+                ->select('n_name as name')
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term ')
                 ->where('cc_use',$ID)
                 ->groupBy('n_name')
