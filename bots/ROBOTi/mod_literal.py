@@ -19,6 +19,11 @@ def check_all():
         name2 = name.replace('"','')
         name2 = name2.replace("'",'')
 
+        n = name2[0]
+        if n > 128:
+            print(name2)
+            return 0
+
         if (name != name2):
             print("1="+name)
             print("2="+name2)
