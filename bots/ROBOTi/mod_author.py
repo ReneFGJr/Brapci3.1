@@ -25,6 +25,7 @@ def check_duplicate():
         name.replace('-',' ')
         name.replace(' de ',' ')
         if 'Moura' in name:
+            name = name.replace(' de ',' ')
             print(name)
 
         IDn1 = reg[0]
