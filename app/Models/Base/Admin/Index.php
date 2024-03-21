@@ -239,7 +239,7 @@ class Index extends Model
                         {
                             $nn = troca($nn,$l,'<b>'.$l.'</b>');
                         }
-                    $sx .= form_checkbox('ids', $line['id_cc']) . ' ' . $nn . '<br>';
+                    $sx .= form_checkbox('ids[]', $line['id_cc']) . ' ' . $nn . '<br>';
                 }
             $sx .= form_submit('action','Join');
             $sx .= form_close();
