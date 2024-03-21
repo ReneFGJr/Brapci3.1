@@ -21,6 +21,7 @@ def check_all():
 
         n = name2[0]
         if n > "Ç":
+            name2 = name2.strip().capitalize()
             print(name2)
             return 0
 
