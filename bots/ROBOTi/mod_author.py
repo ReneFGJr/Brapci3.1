@@ -34,6 +34,7 @@ def check_remissiva():
         NAME = reg[4]
         print("Check2 -",ID1,ID2,NAME)
         mod_data.remicive(ID1,ID2)
+
     return ""
 
 def check_duplicate():

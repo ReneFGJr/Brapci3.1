@@ -43,20 +43,10 @@ class Manegement extends Model
     function index($d1,$d2,$d3)
         {
             $sx = '';
+            echo h($d2);
+
             switch($d1)
                 {
-                    case 'proceedings':
-                        $Works = new \App\Models\Base\Admin\Management\Work();
-                        $sx .= $Works->proceedings();
-                        break;
-                    case 'issue':
-                        $Issue = new \App\Models\Base\Admin\Management\Issue();
-                        $sx .= $Issue->check();
-                        break;
-                    case 'work':
-                        $Works = new \App\Models\Base\Admin\Management\Work();
-                        $sx = $Works->check();
-                        break;
                     default:
                         $sx .= $this->painel();
                         $sx .= $this->subpainel();
@@ -71,6 +61,7 @@ class Manegement extends Model
             $menu[PATH. 'admin/source'] = 'Journals';
             $menu[PATH . 'admin/issue'] = 'Issue';
             $menu[PATH . 'admin/section'] = 'Sections';
+            $menu[PATH . 'admin/person'] = 'Person';
 
             $sx = menu($menu);
 

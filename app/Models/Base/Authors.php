@@ -64,4 +64,42 @@ class Authors extends Model
         }
         return $auth;
     }
+
+    function search($txt)
+        {
+            $sx = '';
+            if ($txt != '')
+                {
+                    $RDF = new \App\Models\RDF2\RDF();
+                    $RDFclass = new \App\Models\RDF2\RDFclass();
+                    $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                    $idc = $RDFclass->getClass('Person');
+
+                    $sx = h($txt);
+                    $dt = $RDFconcept
+                        ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+                        ->like('n_name',$txt)
+                        ->findAll(100);
+                    $sx .= $RDFconcept->getlastquery();
+
+                    foreach($dt as $id=>$line)
+                        {
+                            $link = '<a href="'.PATH.'admin/person">';
+                            $linka = '</a>';
+                            $sx .= '<li>'.$link.$line['n_name'].' ('.$line['id_cc'].'-'.$line['cc_use'].')'.$linka.'</li>';
+                        }
+                }
+            return $sx;
+        }
+
+    function form_search()
+        {
+            $sx = '';
+            $sx .= form_open();
+            $sx .= form_label('Nome do autor');
+            $sx .= form_input('text',get('text'),['class'=>'border border-secondary full']);
+            $sx .= form_submit('action','Pesquisar',['class'=>'mt-2']);
+            $sx .= form_close();
+            return $sx;
+        }
 }

@@ -40,6 +40,13 @@ class Indexes extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function access_point()
+        {
+            $sx = '';
+            $sx .= h('Ponto de acesso (Autoridade Pessoa');
+            return $sx;
+        }
+
     function show_index($tp='',$lt='')
         {
             $sx = '';

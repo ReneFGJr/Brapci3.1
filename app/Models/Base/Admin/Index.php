@@ -43,8 +43,16 @@ class Index extends Model
     function index($act = '', $subact = '', $id ='', $id2 ='', $id3 = '')
     {
         $sx = '';
-        $sx .h($act);
+        $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'person':
+                $sx .= h("Ponto de acesso - Pessoas");
+                $Authors = new \App\Models\Base\Authors();
+                $sx .= $Authors->form_search();
+                $sx .= $Authors->search(get('text'));
+
+                $sx = bs(bsc($sx));
+                break;
             case 'section':
                 $sx .= h("Sections");
                 $section = new \App\Models\Base\Sections();
@@ -145,6 +153,7 @@ class Index extends Model
                 $sx .= $Sources->index($subact, $id, $id2, $id3);
                 break;
             default:
+
                 if (isset($_SESSION['id'])) {
                     $Socials = new \App\Models\Socials();
                     $BUGS = new \App\Models\Functions\Bugs();
