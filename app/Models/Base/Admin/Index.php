@@ -213,6 +213,8 @@ class Index extends Model
                 {
                     $sx .= $l.'-';
                 }
+            $idx = 0;
+            pre($txt);
 
             $dt = $RDFconcept
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
