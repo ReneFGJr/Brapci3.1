@@ -204,6 +204,9 @@ class Index extends Model
             if ($idx == 'change')
                 {
                     $idc = $RDFclass->getClass($d3);
+                    $dd = [];
+                    $dd['cc_class'] = $idc;
+                    $RDFconcept->set($dd)->where('id_cc',$d1)->update();
                     echo "++++++++++++++ $idc";
                     $idx = 0;
                 }
@@ -223,6 +226,8 @@ class Index extends Model
             $dt = $RDF->le($d1);
             $name = $dt['concept']['n_name'];
             $sx .= h($name,2);
+            pre($dt);
+            $sx .= $dt['concecp']['cc_class'];
             $sx .= '<hr>';
             $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
             $sx .= ' | ';
