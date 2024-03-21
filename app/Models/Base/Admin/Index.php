@@ -226,7 +226,12 @@ class Index extends Model
             $sx .= form_open();
             foreach($dt as $id=>$line)
                 {
-                    $sx .= form_checkbox('ids', $line['id_cc']) . ' x-x ' . $line['n_name'] . '<br>';
+                    $nn = $line['n_name'];
+                    foreach($txt as $l)
+                        {
+                            $nn = troca($nn,$l,'<b>'.$l.'</b>');
+                        }
+                    $sx .= form_checkbox('ids', $line['id_cc']) . ' ' . $nn . '<br>';
                 }
 
             $sx .= form_close();
