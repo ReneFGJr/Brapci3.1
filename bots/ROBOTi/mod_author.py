@@ -4,7 +4,13 @@ import mod_concept
 import mod_data
 import database
 
-def check_duplicate_2():
+def check_remissiva():
+    qr = "SELECT * FROM rdf_concept inner join rdf_data ON id_cc = d_r1 WHERE id_cc <> cc_use and cc_use <> 0"
+    row = database.query(qr)
+    lastName = 'x'
+    for reg in row:
+        print(reg)
+        #remissive(IDn1,IDn2)
     return ""
 
 def check_duplicate():
@@ -21,9 +27,8 @@ def check_duplicate():
     row = database.query(qr)
     lastName = 'x'
     for reg in row:
-        name=reg[2]
+        name = reg[2]
         name = name.replace('-',' ')
-        name = name.replace(' de ',' ')
 
         IDn1 = reg[0]
 
