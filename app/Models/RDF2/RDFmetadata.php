@@ -359,7 +359,22 @@ class RDFmetadata extends Model
                 }
             $dr['dataJOUR'] = $jour;
 
+            /****************************** Remissivas */
+            $dr['variants'] = $this->remissivas($dr['ID']);
+
             return $dr;
+        }
+
+    function remissivas($ID)
+        {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $dt = $this
+                ->select('n_name')
+                ->join('brapci_rdf.brapci_literal', 'id_n = cc_pref_term ')
+                ->where('cc_use',$ID)
+                ->groupBy('n_name')
+                ->findAll();
+            return $dt;
         }
 
     function metadataSubject($dt)
