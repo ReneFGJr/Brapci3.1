@@ -24,7 +24,6 @@ def check_duplicate():
         name=reg[2]
         name.replace('-',' ')
         name.replace(' de ',' ')
-        print(name)
 
         IDn1 = reg[0]
 
