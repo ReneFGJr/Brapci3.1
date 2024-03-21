@@ -195,19 +195,21 @@ class Index extends Model
 
     function alias($d1,$idx,$d3,$d4)
         {
+            $RDF = new \App\Models\RDF2\RDF();
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $idc = $RDFclass->getClass('Person');
+
             if (isset($_POST['ids']))
                 {
                     $ids = $_POST['ids'];
                     foreach($ids as $i=>$idz)
                         {
-                            echo '=='.$idz;
-                            echo '<br>';
+                            $dd['cc_use'] = $d1;
+                            $RDFconcept->set($dd)->where('id_cc',$idz)->update();
                         }
                 }
-            $RDF = new \App\Models\RDF2\RDF();
-            $RDFclass = new \App\Models\RDF2\RDFclass();
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $idc = $RDFclass->getClass('Person');
+
 
             $sx = '';
             $dt = $RDF->le($d1);
@@ -219,6 +221,7 @@ class Index extends Model
             $txt = explode(' ',$name);
 
             $i = 0;
+            $sxa = '';
             foreach($txt as $l)
                 {
                     $link = '<a href="'.PATH.'admin/alias/'.$d1.'/'.$i.'">';
@@ -240,7 +243,8 @@ class Index extends Model
                 ->orderBy('n_name')
                 ->findAll(100);
 
-            $sx .= form_open();
+            $sa = form_open();
+            $sb = '';
             foreach($dt as $id=>$line)
                 {
                     $nn = $line['n_name'];
@@ -248,11 +252,15 @@ class Index extends Model
                         {
                             $nn = troca($nn,$l,'<b>'.$l.'</b>');
                         }
-                    $sx .= form_checkbox('ids[]', $line['id_cc']) . ' ' . $nn . '<br>';
+                    $sa .= form_checkbox('ids[]', $line['id_cc']) . ' ' . $nn . '<br>';
                 }
-            $sx .= form_submit('action','Join');
-            $sx .= form_close();
-            $sx = bs(bsc($sx));
+
+            $sa .= form_submit('action','Join');
+            $sa .= form_close();
+            $sx .= bsc($sx,12);
+            $sx .= bsc($sa,6);
+            $sx .= bsc($sb, 6);
+            $sx = bs($sx);
             return $sx;
         }
 
