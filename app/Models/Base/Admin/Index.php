@@ -226,8 +226,7 @@ class Index extends Model
             $dt = $RDF->le($d1);
             $name = $dt['concept']['n_name'];
             $sx .= h($name,2);
-            pre($dt);
-            $sx .= $dt['concecp']['cc_class'];
+            $sx .= $dt['concecp']['c_class'];
             $sx .= '<hr>';
             $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
             $sx .= ' | ';
