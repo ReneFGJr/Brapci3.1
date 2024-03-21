@@ -195,7 +195,15 @@ class Index extends Model
 
     function alias($d1,$idx,$d3,$d4)
         {
-            pre($_POST,false);
+            if (isset($_POST['ids']))
+                {
+                    $ids = $_POST['ids'];
+                    foreach($ids as $i=>$idx)
+                        {
+                            echo '=='.$idx;
+                            echo '<br>';
+                        }
+                }
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
