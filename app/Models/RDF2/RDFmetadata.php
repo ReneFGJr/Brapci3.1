@@ -373,6 +373,7 @@ class RDFmetadata extends Model
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term ')
                 ->where('cc_use',$ID)
                 ->groupBy('n_name')
+                ->orderBy('n_name')
                 ->findAll();
             return $dt;
         }
