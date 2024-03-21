@@ -201,7 +201,8 @@ class Index extends Model
             $idc = $RDFclass->getClass('Person');
 
             /***************** Change Class */
-            if ($d3 == 'change')
+            echo "$d3=d3";
+            if ($d4 == 'change')
                 {
                     echo "++++++++++++++";
                 }
@@ -223,6 +224,7 @@ class Index extends Model
             $sx .= h($name,2);
             $sx .= '<hr>';
             $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
+            $sx .= ' | ';
             $sx .= '<a href="' . PATH . 'admin/alias/'.$d1.'/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
             $sx .= '<hr>';
 
