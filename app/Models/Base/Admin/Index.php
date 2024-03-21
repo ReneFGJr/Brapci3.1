@@ -195,6 +195,7 @@ class Index extends Model
 
     function alias($d1,$idx,$d3,$d4)
         {
+            pre($_POST,false);
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
