@@ -214,13 +214,13 @@ class Index extends Model
                     $sx .= $l.'-';
                 }
             $idx = 0;
-            pre($txt);
 
             $dt = $RDFconcept
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                 ->like('n_name', $txt[$idx])
                 ->where('cc_class', $idc)
                 ->findAll(100);
+            pre($dt);
 
             return $sx;
         }
