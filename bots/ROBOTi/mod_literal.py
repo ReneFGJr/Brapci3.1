@@ -20,7 +20,7 @@ def check_all():
         name2 = name2.replace("'",'')
 
         n = name2[0]
-        if n > 128:
+        if n > "Ç":
             print(name2)
             return 0
 
