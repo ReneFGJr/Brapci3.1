@@ -11,6 +11,25 @@ def check_trim():
         database.update(qru)
         print(name)
 
+def check_all():
+    qr = f"select id_n,n_name from brapci_rdf.rdf_literal"
+    row = database.query(qr)
+    for ln in row:
+        name = ln[1]
+        name2 = name.replace('"','')
+        name2 = name2.replace("'",'')
+
+        if (name != name2):
+            print("1="+name)
+            print("2="+name2)
+            print("============")
+
+        #name = name.strip().capitalize()
+        #id = ln[0]
+        #qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
+        #database.update(qru)
+        #print(name)
+
 def register(term,lang):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{term}') and (n_lang = '{lang}')"
     row = database.query(qr)

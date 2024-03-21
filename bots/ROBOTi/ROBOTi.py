@@ -90,8 +90,13 @@ def run(parm):
         lp = mod_ontology.checkData()
     if (act == '120'):
         lp = mod_ontology.resume()
+
+    #################### LITERAL
     if (act == '150'):
         lp = mod_literal.check_trim()
+    if (act == '151'):
+        lp = mod_literal.check_all()
+
     if (act == '200'):
         lp = mod_author.check_duplicate()
     if (act == '201'):
