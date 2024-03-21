@@ -221,7 +221,14 @@ class Index extends Model
                 ->where('cc_class', $idc)
                 ->where('cc_use = id_cc')
                 ->findAll(100);
-            pre($dt);
+
+            $sx .= form_open();
+            foreach($dt as $id=>$line)
+                {
+                    $sx .= form_checkbox('ids', $line['id_cc']) . ' - ' . $line['n_name'] . '<br>';
+                }
+
+            $sx .= form_close();
 
             return $sx;
         }
