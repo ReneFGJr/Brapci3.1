@@ -20,7 +20,6 @@ def check_remissiva():
         NAME = reg[4]
         print(reg)
         print(ID1,ID2,NAME)
-        return 0
         mod_data.remicive(ID1,ID2)
         return 0
     return ""
