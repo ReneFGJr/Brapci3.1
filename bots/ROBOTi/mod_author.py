@@ -18,7 +18,8 @@ def check_remissiva():
         ID2 = reg[0]
         ID1 = reg[1]
         NAME = reg[4]
-        print(ID1+ID2+NAME)
+        print(reg)
+        print(ID1,ID2,NAME)
         return 0
         mod_data.remicive(ID1,ID2)
         return 0
