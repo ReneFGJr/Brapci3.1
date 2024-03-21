@@ -368,7 +368,7 @@ class RDFmetadata extends Model
     function remissivas($ID)
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $dt = $this
+            $dt = $RDFconcept
                 ->select('n_name')
                 ->join('brapci_rdf.brapci_literal', 'id_n = cc_pref_term ')
                 ->where('cc_use',$ID)
