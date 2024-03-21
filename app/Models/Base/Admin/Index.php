@@ -240,7 +240,7 @@ class Index extends Model
                         }
                     $sx .= form_checkbox('ids', $line['id_cc']) . ' ' . $nn . '<br>';
                 }
-
+            $sx .= form_submit('action','Join');
             $sx .= form_close();
             $sx = bs(bsc($sx));
             return $sx;
