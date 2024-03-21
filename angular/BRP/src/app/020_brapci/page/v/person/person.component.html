@@ -113,6 +113,14 @@
             {{ subj["text"] }} <sup>{{ subj["value"] / 10 }}</sup>
           </li>
         </ol>
+
+        <span class="small">Ponto de acesso autorizado</span><br>
+        <b>{{data.name}}</b>
+        <br/><br/>
+        <span class="small">Variantes</span><br>
+        <li *ngFor="let vars of data.variants">
+          {{vars.name}}
+        </li>
       </div>
     </div>
   </div>

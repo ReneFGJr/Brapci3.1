@@ -161,7 +161,15 @@ class RDFmetadata extends Model
 
             $dr = [];
             $dr['name'] = $dt['concept']['n_name'];
-            $dr['ID'] = $dt['concept']['id_cc'];
+            $ID1 = $dt['concept']['id_cc'];
+            $ID2 = $dt['concept']['cc_use'];
+            if ($ID1 <> $ID2)
+                {
+                    $dr['ID'] = $ID2;
+                } else {
+                    $dr['ID'] = $ID1;
+                }
+
             //$dr['data'] = $dt['data'];
 
             $dataset->select('*');
