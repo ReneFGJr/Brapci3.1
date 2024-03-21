@@ -193,7 +193,7 @@ class Index extends Model
         return $sx;
     }
 
-    function alias($d1,$idx=0,$d3,$d4)
+    function alias($d1,$idx,$d3,$d4)
         {
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
