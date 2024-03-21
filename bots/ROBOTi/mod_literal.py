@@ -18,17 +18,21 @@ def check_all():
         name = ln[1]
         name2 = name.replace('"','')
         name2 = name2.replace("'",'')
+        save = False
 
         n = name2[0]
-        if n > "Ç":
+        if (n == chr(127)):
             name2 = name2.strip().capitalize()
+            save = True
             print(name2)
 
         if (name != name2):
+            save = True
             print("1="+name)
             print("2="+name2)
             print("============")
 
+        if save == True:
             #name = name.strip().capitalize()
             id = ln[0]
             qru = f"update brapci_rdf.rdf_literal set n_name = '{name2}' where id_n = {id}"
