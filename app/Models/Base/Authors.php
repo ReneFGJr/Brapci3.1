@@ -79,8 +79,9 @@ class Authors extends Model
                     $dt = $RDFconcept
                         ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                         ->like('n_name',$txt)
+                        ->where('cc_class',$idc)
                         ->findAll(100);
-                    $sx .= $RDFconcept->getlastquery();
+                    //$sx .= $RDFconcept->getlastquery();
 
                     foreach($dt as $id=>$line)
                         {

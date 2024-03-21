@@ -193,13 +193,33 @@ class Index extends Model
         return $sx;
     }
 
-    function alias($d1,$d2,$d3,$d4)
+    function alias($d1,$idx=0,$d3,$d4)
         {
-            $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $idc = $RDFclass->getClass('Person');
+
+            $sx = '';
             $dt = $RDF->le($d1);
-            $sx .= h($dt['concept']['n_name'],2);
-            $sx .=
+            $name = $dt['concept']['n_name'];
+            $sx .= h($name,2);
+            $sx .= '<hr>';
+            $sx .= '';
+
+            $txt = explode(' ',$name);
+
+            foreach($txt as $l)
+                {
+                    $sx .= $l.'-';
+                }
+
+            $dt = $RDFconcept
+                ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+                ->like('n_name', $txt[$idx])
+                ->where('cc_class', $idc)
+                ->findAll(100);
+
             return $sx;
         }
 
