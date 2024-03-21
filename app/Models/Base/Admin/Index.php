@@ -196,7 +196,9 @@ class Index extends Model
     function alias($d1,$d2,$d3,$d4)
         {
             $sx = '';
-            $sx .= "==$d1==$d2==$d3==$d4==";
+            $RDF = new \App\Models\RDF2\RDF();
+            $dt = $RDF->le($d1);
+            pre($dt);
             return $sx;
         }
 
