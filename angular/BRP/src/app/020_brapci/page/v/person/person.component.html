@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-7">
+    <div class="col-12 col-xl-7">
       <h1>{{ data.name }}</h1>
 
       <div class="mt-2"><b>Produção Científica por ano/tipo do autor</b></div>
@@ -63,7 +63,9 @@
         </div>
       </div>
     </div>
-    <div class="col-5">
+
+    <!----------------------------- RIGHT SIDE-->
+    <div class="col-xl-5 col-12">
       <div class="chart-container">
         <canvas id="MyChart" style="height: 300px; width: 100%">{{
           chart
@@ -90,10 +92,10 @@
         <!-------------- JOURNALS-->
         <h4>
           <b
-            ><i>{{ data.dataJOUR.length }} Revistas/Eventos</i></b
+            ><i>Pubicações em {{ data.dataJOUR.data.length }} Revistas/Eventos</i></b
           >
         </h4>
-        <div class="chart-container" style="height: 400px;">
+        <div class="chart-container" >
           <canvas  id="MyJournals" >{{ journals }}</canvas>
         </div>
 
