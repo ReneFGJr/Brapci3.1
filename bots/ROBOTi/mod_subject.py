@@ -33,7 +33,7 @@ def check_duplicate():
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(name,lastName)
-            #mod_data.remicive(IDn1,IDn2)
+            mod_data.remicive(IDn1,IDn2)
         else:
             reg2 = reg
             lastName = name
