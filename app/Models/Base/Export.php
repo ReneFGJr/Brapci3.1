@@ -537,6 +537,7 @@ class Export extends Model
         switch($class)
             {
                 case 'Article':
+                $offset = 0;
                 $ids = $RDFConcept
                     ->join('brapci.source_issue_work', 'siw_work_rdf = id_cc')
                     ->join('brapci.source_issue', 'is_source_issue = siw_issue')
