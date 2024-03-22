@@ -363,7 +363,7 @@ class Export extends Model
         /**************************************************************/
         /********************************** CRIA METADADOS EXPORTACAO */
         /**************************************************************/
-        $limit = 1000;
+        $limit = 1500;
         //$offset = 0;
         $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
         $sx .= $this->export_data($class, $type, $offset, $limit);
