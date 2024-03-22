@@ -28,6 +28,7 @@ def check_duplicate():
     lastLang = 'x'
     for reg in row:
         name = reg[2]
+        name = name.lower()
         name = name.replace('-',' ')
         name = name.replace('.','')
         name = name.strip(" ")
