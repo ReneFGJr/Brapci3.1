@@ -16,7 +16,7 @@ def check_duplicate():
     print("Check Duplicate - Subject")
     IDClass = mod_class.getClass("Subject")
 
-    qr = "select id_cc, cc_use, n_name  "
+    qr = "select id_cc, cc_use, n_name, n_lang  "
     qr += " from brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
@@ -25,18 +25,21 @@ def check_duplicate():
 
     row = database.query(qr)
     lastName = 'x'
+    lastLang = 'x'
     for reg in row:
         name = reg[2]
         name = name.replace('-',' ')
+        lang = reg[3]
 
         IDn1 = reg[0]
 
-        if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
+        if ((lang == lastLang) and (name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(name,'|',lastName)
             mod_data.remicive(IDn1,IDn2)
         else:
             reg2 = reg
             lastName = name
+            lastLang = lang
             IDn2 = IDn1
 
 
