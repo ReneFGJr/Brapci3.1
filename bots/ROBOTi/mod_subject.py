@@ -36,7 +36,7 @@ def check_duplicate():
         IDn1 = reg[0]
 
         if ((lang == lastLang) and (name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
-            print(name,'|',lastName)
+            print(reg[2],' =< ',name,'|',lastName)
             mod_data.remicive(IDn1,IDn2)
         else:
             reg2 = reg
