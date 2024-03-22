@@ -30,7 +30,7 @@ def check_duplicate():
         name = reg[2]
         name = name.replace('-',' ')
         name = name.replace('.','')
-        name = name.split(" ")
+        name = name.strip(" ")
         lang = reg[3]
 
         IDn1 = reg[0]
