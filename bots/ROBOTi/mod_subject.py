@@ -29,7 +29,7 @@ def check_duplicate():
     for reg in row:
         name = reg[2]
         name = name.lower()
-        name = name.replace('-',' ')
+        name = name.replace('-','')
         name = name.replace('.','')
         name = name.strip(" ")
         lang = reg[3]
