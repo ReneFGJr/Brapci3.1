@@ -11,6 +11,7 @@ import mod_listidentify
 import mod_source
 import mod_data
 import mod_article
+import mod_subject
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
 import mod_issue
@@ -97,10 +98,17 @@ def run(parm):
     if (act == '151'):
         lp = mod_literal.check_all()
 
+    ################### Author
     if (act == '200'):
         lp = mod_author.check_duplicate()
     if (act == '201'):
         lp = mod_author.check_remissiva()
+
+    ################### Subject
+    if (act == '210'):
+        lp = mod_subject.check_duplicate()
+    if (act == '211'):
+        lp = mod_subject.check_remissiva()
 
     if (act == 'lattesK'):
         file = parm[2]

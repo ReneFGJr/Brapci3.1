@@ -2,6 +2,7 @@ import mod_literal
 import mod_class
 import mod_concept
 import mod_data
+import database
 
 def register_literal(IDC,term,lg):
 
@@ -10,6 +11,34 @@ def register_literal(IDC,term,lg):
 
     IDCt = mod_concept.register(IDClass,IDliteral)
     return mod_data.register(IDC,'hasSubject',IDCt)
+
+def check_duplicate():
+    print("Check Duplicate - Subject")
+    IDClass = mod_class.getClass("Subject")
+
+    qr = "select id_cc, cc_use, n_name  "
+    qr += " from brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where cc_class = {IDClass}"
+    qr += " and id_cc = cc_use "
+    qr += " order by n_name, id_cc"
+
+    row = database.query(qr)
+    lastName = 'x'
+    for reg in row:
+        name = reg[2]
+        name = name.replace('-',' ')
+
+        IDn1 = reg[0]
+
+        if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
+            print(name,lastName)
+            #mod_data.remicive(IDn1,IDn2)
+        else:
+            reg2 = reg
+            lastName = name
+            IDn2 = IDn1
+
 
 def prepare(T):
     TR = []
