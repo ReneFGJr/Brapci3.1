@@ -643,6 +643,11 @@ class Export extends Model
         $sx .= '<br>FIM: ' . date("Y-m-d H:i:s");
         $sx .= '<br>Processados: '.$proc;
 
+        if ($proc == 0)
+            {
+                $this->eof = True;
+            }
+
         return $sx;
     }
 }
