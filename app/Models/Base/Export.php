@@ -363,7 +363,7 @@ class Export extends Model
         /**************************************************************/
         /********************************** CRIA METADADOS EXPORTACAO */
         /**************************************************************/
-        $limit = 1500;
+        $limit = 1000;
         //$offset = 0;
         $sx .= "<br>OFFSET: $offset - LIMIT $limit ";
         $sx .= $this->export_data($class, $type, $offset, $limit);
@@ -588,6 +588,8 @@ class Export extends Model
         $sx .= '<br>Processado: '.date("Y-m-d H:i:s") .' - ' . (number_format($offset / $total * 100, 1, ',', '.')) . '%';
         $sx .= '<ul>';
 
+        $proc = 0;
+
 
         foreach($ids as $idz=>$xline)
         {
@@ -620,6 +622,7 @@ class Export extends Model
                 //$RDF->exclude($idr);
                 $sx .= '<li>' . strzero($idr, 8) . ' DELETED</li>';
             } else {
+                $proc++;
                 /********************************* CHECK */
                 $meta['KEYWORD'] = 0;
                 $meta['ABSTRACT'] = 0;
@@ -638,6 +641,7 @@ class Export extends Model
         }
         $sx .= '</ul>';
         $sx .= '<br>FIM: ' . date("Y-m-d H:i:s");
+        $sx .= '<br>Processados: '.$proc;
 
         return $sx;
     }
