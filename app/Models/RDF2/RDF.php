@@ -187,7 +187,7 @@ class RDF extends Model
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                 ->where('cc_class',$idc)
                 ->where('id_cc = cc_use')
-                ->where("substring(n_name,0,1) = '$l'");
+                ->where("substring(n_name,1,1) = '$l'");
                 #->like('n_name',$l,'after');
             if ($lang != '')
                 {
@@ -195,7 +195,6 @@ class RDF extends Model
                 }
             $dt = $RDFconcept->orderBy('n_name')
                 ->findAll(10000);
-            pre($RDFconcept->getlastquery());
             return $dt;
 
         }
