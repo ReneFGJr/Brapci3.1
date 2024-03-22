@@ -195,6 +195,7 @@ class RDF extends Model
                 }
             $dt = $RDFconcept->orderBy('n_name')
                 ->findAll(10000);
+            pre($RDFconcept->getlastquery());
             return $dt;
 
         }
