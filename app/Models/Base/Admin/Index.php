@@ -207,7 +207,6 @@ class Index extends Model
                     $dd = [];
                     $dd['cc_class'] = $idc;
                     $RDFconcept->set($dd)->where('id_cc',$d1)->update();
-                    echo "++++++++++++++ $idc";
                     $idx = 0;
                 }
 
@@ -256,7 +255,7 @@ class Index extends Model
                 ->where('cc_use = id_cc')
                 ->where('id_cc <> '.$d1)
                 ->orderBy('n_name')
-                ->findAll(100);
+                ->findAll(1000);
 
             $sa = form_open();
             $sb = '';
