@@ -145,7 +145,7 @@ class Brapci extends Model
     }
 
     /******************************** indexs */
-    function indexs($t,$l='A')
+    function indexs($t,$l='A',$lang='')
         {
             if ($l == '') { $l = 'A'; }
             $RDF = new \App\Models\RDF2\RDF();
@@ -153,10 +153,10 @@ class Brapci extends Model
             switch($t)
                 {
                     case 'subject':
-                        $RSP['data'] = $RDF->index_list('Subject',$l);
+                        $RSP['data'] = $RDF->index_list('Subject',$l,$lang);
                         break;
                     case 'author':
-                        $RSP['data'] = $RDF->index_list('Person', $l);
+                        $RSP['data'] = $RDF->index_list('Person', $l,'');
                         break;
                     case 'bodycompany':
                         $RSP['data'] = $RDF->index_list('BodyCompany', $l);

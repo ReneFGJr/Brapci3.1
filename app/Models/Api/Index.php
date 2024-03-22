@@ -154,7 +154,7 @@ class Index extends Model
                 break;
             case 'indexs':
                 $Brapci = new \App\Models\Api\Endpoint\Brapci;
-                echo json_encode($Brapci->indexs($d2, $d3));
+                echo json_encode($Brapci->indexs($d2, $d3, $d4));
                 exit;
                 break;
             default:

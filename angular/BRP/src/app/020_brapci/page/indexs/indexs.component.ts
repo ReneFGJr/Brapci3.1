@@ -57,10 +57,10 @@ export class IndexsComponent {
   getLang(lg: string) {
     this.lang = lg;
   }
-  getTerms(ltr: string) {
+  getTerms(ltr: string, lang: string) {
     this.ltr = ltr;
     this.brapciService
-      .api_post('indexs/' + this.type + '/' + this.ltr)
+      .api_post('indexs/' + this.type + '/' + this.ltr + '/' + this.lang)
       .subscribe((res) => {
         this.data = res;
       });
@@ -70,15 +70,20 @@ export class IndexsComponent {
     this.sub = this.route.params.subscribe((params) => {
       //this.id = +params['id']; // (+) converts string 'id' to a number
       this.ltr = params['id']; // (+) converts string 'id' to a number
+      this.lang = params['lang']; // (+) converts string 'id' to a number
       this.type = params['type']; // (+) converts string 'id' to a number
-      if (this.type == 'author')
-        {
-          this.typeName = 'de Autores';
-        }
+      if (this.type == 'author') {
+        this.typeName = 'de Autores';
+      }
       if (this.type == 'subject') {
+        console.log('['+this.lang+']')
+        if ((this.lang == '') || (this.lang == undefined))
+        {
+          this.lang = 'pt';
+        }
         this.typeName = 'de Assuntos';
       }
-      this.getTerms(this.ltr);
+      this.getTerms(this.ltr, this.lang);
     });
   }
 }

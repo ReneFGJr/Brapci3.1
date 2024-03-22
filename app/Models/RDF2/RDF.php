@@ -176,19 +176,23 @@ class RDF extends Model
             return bs($sx);
         }
 
-    function index_list($i,$l='A')
+    function index_list($i,$l='A',$lang='')
         {
             $cp = 'n_name, n_lang, id_cc';
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $idc = $RDFclass->getClass($i);
-            $dt = $RDFconcept
+            $RDFconcept
                 ->select($cp)
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
                 ->where('cc_class',$idc)
                 ->where('id_cc = cc_use')
-                ->like('n_name',$l,'after')
-                ->orderBy('n_name')
+                ->like('n_name',$l,'after');
+            if ($lang != '')
+                {
+                    $RDFconcept->where('n_lang',$lang);
+                }
+            $dt = $RDFconcept->orderBy('n_name')
                 ->findAll(10000);
             return $dt;
 

@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'about/:id', component: AboutComponent },
   { path: 'indexs', component: IndexsComponent },
+  { path: 'indexs/:type/:id/:lang', component: IndexsComponent },
   { path: 'indexs/:type/:id', component: IndexsComponent },
   { path: 'v/:id', component: VComponent },
   { path: 'v', component: VComponent },

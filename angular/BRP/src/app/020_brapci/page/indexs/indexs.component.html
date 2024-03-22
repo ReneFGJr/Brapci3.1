@@ -8,10 +8,11 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li class="page-item" *ngFor="let item of ltrs">
-          <a (click)="getTerms(item)" class="page-link" style="cursor: pointer;">{{item}}</a>
+          <a (click)="getTerms(item,lang)" class="page-link" style="cursor: pointer;">{{item}}</a>
           </li>
         </ul>
       </nav>
+      <div>Language: {{lang}} </div>
       <app-index-subject [data]="data" *ngIf="type == 'subject'"></app-index-subject>
       <app-index-subject [data]="data" *ngIf="type == 'author'"></app-index-subject>
   </div>
