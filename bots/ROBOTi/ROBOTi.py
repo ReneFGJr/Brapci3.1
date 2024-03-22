@@ -108,7 +108,7 @@ def run(parm):
     if (act == '210'):
         lp = mod_subject.check_duplicate()
     if (act == '211'):
-        lp = mod_subject.check_remissiva()
+        lp = mod_author.check_remissiva()
 
     if (act == 'lattesK'):
         file = parm[2]

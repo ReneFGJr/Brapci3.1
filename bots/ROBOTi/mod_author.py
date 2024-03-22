@@ -53,6 +53,10 @@ def check_duplicate():
     for reg in row:
         name = reg[2]
         name = name.replace('-',' ')
+        name = name.replace(' de ',' ')
+        name = name.replace(' da ',' ')
+        name = name.replace(' dos ',' ')
+        name = name.replace(' e ',' ')
 
         IDn1 = reg[0]
 
