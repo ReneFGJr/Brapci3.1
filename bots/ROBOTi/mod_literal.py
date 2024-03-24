@@ -11,7 +11,7 @@ def check_double_name():
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         #database.update(qru)
-        print(name)
+        print(name, ln[2])
 
 def check_trim():
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %')"
