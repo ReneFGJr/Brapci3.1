@@ -160,7 +160,9 @@ class Index extends Model
         $idc = $RDFclass->getClass('Person');
         $row = $RDFconcept->searchTerm($name,$idc);
 
-        pre($idc);
+        echo json_encode($row);
+        exit;
+
 
         $n = mb_strtoupper(ASCII($n));
         $AuthName = new \App\Models\Authority\API\AuthName();
