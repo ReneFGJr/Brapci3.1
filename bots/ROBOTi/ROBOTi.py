@@ -27,6 +27,7 @@ def version():
 def run(parm):
     act = parm[1]
     print(Fore.BLUE+"Function: ",act)
+    print(Fore.WHITE)
 
     #************************************************* Functions
     #********************** ListIdentiers - LOOP
