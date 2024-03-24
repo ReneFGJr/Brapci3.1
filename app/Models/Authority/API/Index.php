@@ -93,7 +93,17 @@ class Index extends Model
         }
         $RSP = [];
 
-        $data = $this->search_base($n);
+        $n = get("term").$n;
+        if (strlen($n) < 3)
+            {
+                $data = [];
+                $RSP['message'] = 'Minimal 3 chars to search';
+                $RSP['status'] = '500';
+            } else {
+                $data = $this->search_base($n);
+                $RSP['status'] = '200';
+                $RSP['message'] = 'OK';
+            }
 
         /********** Calculos */
         $total = count($data);
