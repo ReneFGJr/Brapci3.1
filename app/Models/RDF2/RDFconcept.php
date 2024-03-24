@@ -65,6 +65,7 @@ class RDFconcept extends Model
         {
             $cp = 'id_cc as ID, n_name as Term, cc_use as use';
             $dt = $this
+                ->select($cp)
                 ->join('brapci_rdf.rdf_literal','id_n = cc_pref_term')
                 ->where('cc_class',$class)
                 ->like('n_name',$term)
