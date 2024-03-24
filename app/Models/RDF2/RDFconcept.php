@@ -63,10 +63,12 @@ class RDFconcept extends Model
 
     function searchTerm($term,$class)
         {
+            $cp = 'id_cc as ID, n_name as Term, cc_use as use';
             $dt = $this
                 ->join('brapci_rdf.rdf_literal','id_n = cc_pref_term')
                 ->where('cc_class',$class)
                 ->like('n_name',$term)
+                ->orderBy('n_name')
                 ->findAll();
             pre($dt);
         }
