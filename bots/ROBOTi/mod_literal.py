@@ -10,7 +10,7 @@ def check_double_name():
         sz = len(name)//2
         name1 = name[:sz]
         name2 = name[sz:]
-        if (name1 == name2):
+        if ((name1 == name2) & (sz > 10)):
             id = ln[0]
             qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
             #database.update(qru)
