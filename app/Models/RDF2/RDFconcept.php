@@ -61,6 +61,16 @@ class RDFconcept extends Model
             return $dc;
         }
 
+    function searchTerm($term,$class)
+        {
+            $dt = $this
+                ->join('brapci_rdf.rdf_literal','id_n = cc_pref_term')
+                ->where('cc_class',$class)
+                ->like('n_name',$term)
+                ->findAll();
+            pre($dt);
+        }
+
     function createConcept($dt)
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();

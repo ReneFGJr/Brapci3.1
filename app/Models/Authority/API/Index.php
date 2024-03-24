@@ -154,8 +154,12 @@ class Index extends Model
         /*************** Busca RDF */
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $name = get("term");
 
         $idc = $RDFclass->getClass('Person');
+        $row = $RDFconcept->searchTerm($name);
+
         pre($idc);
 
         $n = mb_strtoupper(ASCII($n));
