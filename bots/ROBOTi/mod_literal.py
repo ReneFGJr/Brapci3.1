@@ -10,10 +10,11 @@ def check_double_name():
         sz = len(name)//2
         name1 = name[:sz]
         name2 = name[sz:]
-        id = ln[0]
-        qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
-        #database.update(qru)
-        print(name, name1, '|', name2,' | sz',sz)
+        if (name1 == name2):
+            id = ln[0]
+            qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
+            #database.update(qru)
+            print(name, name1, '|', name2,' | sz',sz)
 
 def check_trim():
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %')"
