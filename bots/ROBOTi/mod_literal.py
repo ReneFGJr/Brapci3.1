@@ -3,8 +3,8 @@ import database
 def check_double_name():
     qr = f"select id_n,n_name, length(n_name)"
     qr += "from brapci_rdf.rdf_literal "
-    #qr += "where (n_name <> '')"
-    qr += "where (n_name like '%Ana Maria Miel%')"
+    qr += "where (n_name <> '')"
+    #qr += "where (n_name like '%Ana Maria Miel%')"
     row = database.query(qr)
     for ln in row:
         name = ln[1]
