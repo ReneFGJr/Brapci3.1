@@ -10,8 +10,8 @@ def check_double_name():
         sz = len(name)//2
         name1 = name[:sz]
         name2 = name[sz:]
-        name1 = name1[0:25]
-        name2 = name2[0:25]
+        name1 = name1[0:27]
+        name2 = name2[0:27]
         if (name1 == name2):
             if (sz > 10):
                 id = ln[0]
