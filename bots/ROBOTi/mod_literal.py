@@ -16,16 +16,16 @@ def check_double_name():
         name1 = name1[0:27]
         name2 = name2[0:27]
         name3 = name3[0:27]
-        #if (name1 == name2):
-        if (sz > 10):
-            id = ln[0]
-            qru = f"update brapci_rdf.rdf_literal set n_name = '{name1}' where id_n = {id}"
-            #database.update(qru)
-            print(name1)
-            print(name2)
-            print(name3)
-            print(sz)
-            print("=====================")
+        if (name1 == name2) or (name1 == name3):
+            if (sz > 10):
+                id = ln[0]
+                qru = f"update brapci_rdf.rdf_literal set n_name = '{name1}' where id_n = {id}"
+                #database.update(qru)
+                print(name1)
+                print(name2)
+                print(name3)
+                print(sz)
+                print("=====================")
 
 def check_trim():
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %')"
