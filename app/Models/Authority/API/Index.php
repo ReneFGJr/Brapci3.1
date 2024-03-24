@@ -158,7 +158,7 @@ class Index extends Model
         $name = get("term");
 
         $idc = $RDFclass->getClass('Person');
-        $row = $RDFconcept->searchTerm($name);
+        $row = $RDFconcept->searchTerm($name,$idc);
 
         pre($idc);
 
