@@ -7,7 +7,7 @@ def check_double_name():
     row = database.query(qr)
     for ln in row:
         name = ln[1]
-        sz = name.length()
+        sz = len(name)
         name1 = name[0:sz]
         name2 = name[sz+1:]
         id = ln[0]
