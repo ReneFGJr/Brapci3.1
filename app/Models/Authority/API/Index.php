@@ -160,7 +160,7 @@ class Index extends Model
         $idc = $RDFclass->getClass('Person');
         $row = $RDFconcept->searchTerm($name,$idc);
 
-        echo json_encode($row);
+        return $row;
         exit;
 
 

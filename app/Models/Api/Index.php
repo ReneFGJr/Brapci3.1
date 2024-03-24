@@ -55,7 +55,6 @@ class Index extends Model
         /* NAO USADO PARA AS APIS */
         header('Access-Control-Allow-Origin: *');
 
-
         if (get("test") == '') {
             if (($d2 != 'import') and ($d2 != 'in') and ($d2 != 'searchSelect')) {
                 header("Access-Control-Allow-Headers: Content-Type");
