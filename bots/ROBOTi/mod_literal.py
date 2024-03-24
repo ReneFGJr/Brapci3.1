@@ -13,7 +13,7 @@ def check_double_name():
         if (name1 == name2):
             if (sz > 10):
                 id = ln[0]
-                qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
+                qru = f"update brapci_rdf.rdf_literal set n_name = '{name1}' where id_n = {id}"
                 database.update(qru)
                 print(name1)
                 print(name2)
