@@ -31,17 +31,12 @@ export class AuthorityService {
 
   /************************************************ API CONSULTA */
   public searchList(term: string, type: string): Observable<Array<any>> {
-    let url = `${this.url}authority/search/`;
+    let url = `${this.url}authority/search`;
 
     /* ${term}/${type} */
     var formData: any = new FormData();
     formData.append('term', term);
     formData.append('type', type);
-
-    /*
-    formData.append('user', login);
-    formData.append('pwd', pass);
-    */
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
