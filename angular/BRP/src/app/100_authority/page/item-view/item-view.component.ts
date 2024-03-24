@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorityService } from '../../service/authority.service';
+import { AuthorityService } from '../../../000_core/010_services/authority.service';
 
 @Component({
   selector: 'app-item-view',

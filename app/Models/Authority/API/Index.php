@@ -151,6 +151,13 @@ class Index extends Model
 
     function search_base($n)
     {
+        /*************** Busca RDF */
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+
+        $idc = $RDFclass->getClass('Person');
+        pre($idc);
+
         $n = mb_strtoupper(ASCII($n));
         $AuthName = new \App\Models\Authority\API\AuthName();
         $flag = 'https://cip.brapci.inf.br/img/flags/flag-brazil.svg';
