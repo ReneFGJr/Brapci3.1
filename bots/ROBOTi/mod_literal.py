@@ -11,8 +11,11 @@ def check_double_name():
         sz = len(name)//2
         name1 = name[:sz]
         name2 = name[sz:]
+        sz+=1
+        name3 = name[sz:]
         name1 = name1[0:27]
         name2 = name2[0:27]
+        name3 = name3[0:27]
         #if (name1 == name2):
         if (sz > 10):
             id = ln[0]
@@ -20,6 +23,7 @@ def check_double_name():
             #database.update(qru)
             print(name1)
             print(name2)
+            print(name3)
             print(sz)
             print("=====================")
 
