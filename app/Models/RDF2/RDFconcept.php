@@ -71,7 +71,7 @@ class RDFconcept extends Model
                 ->like('n_name',$term)
                 ->orderBy('n_name')
                 ->findAll();
-            pre($dt);
+            return $dt;
         }
 
     function createConcept($dt)
