@@ -8,8 +8,8 @@ def check_double_name():
     for ln in row:
         name = ln[1]
         sz = len(name)
-        name1 = name[0:sz]
-        name2 = name[sz+1:]
+        name1 = name[:sz]
+        name2 = name[sz:]
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         #database.update(qru)
