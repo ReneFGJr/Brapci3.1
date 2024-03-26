@@ -159,6 +159,8 @@ class RDFmetadata extends Model
 
         $dr = [];
         $dr['name'] = $dt['concept']['n_name'];
+        $dr['name_abnt'] = nbr_author(ascii($dt['concept']['n_name']),2);
+
         $ID1 = $dt['concept']['id_cc'];
         $ID2 = $dt['concept']['cc_use'];
         if ($ID1 <> $ID2) {
@@ -365,9 +367,20 @@ class RDFmetadata extends Model
         /************ Network - Node */
         foreach($neta as $name=>$tot)
             {
+                $color = '#000088';
+                if ($tot > 10)
+                    {
+                        $color = '#0000FF';
+                    }
+                if ($name == $dr['name_abnt'])
+                    {
+                        $color = '#FF0000';
+                    }
                 //$dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
                 $tot = round(log($tot))*4+1;
-                $dn = ['id' => $name, 'color' => '#0000ff', 'marker' => ['radius' => $tot]];
+
+)
+                $dn = ['id' => $name, 'color' => $color, 'marker' => ['radius' => $tot]];
                 array_push($node,$dn);
             }
 
