@@ -41,6 +41,7 @@ class ROR extends Model
 	protected $afterDelete          = [];
 
 	var $api_url = 'https://api.ror.org/organizations';
+	//https://api.ror.org/organizations?query=uNIVERSIDADE%20FEDERAL%20DO%20RIO%20GRANDE%20DO%20SUL
 
 	function search($q)
 		{
@@ -56,8 +57,8 @@ class ROR extends Model
 					exit;
 					return;
 				}
-			$items = $txt['items'];	
-			$d = array();		
+			$items = $txt['items'];
+			$d = array();
 			for ($r=0;$r < count($items);$r++)
 				{
 					$inst = $items[$r];
@@ -75,7 +76,7 @@ class ROR extends Model
 						} else {
 							$d['established'] = '';
 						}
-					
+
 					/************************************* LAT & LONG */
 					if (isset($inst['lat']))
 						{
@@ -91,7 +92,7 @@ class ROR extends Model
 							$d['city'] = $inst['city'];
 						} else {
 							$d['city'] = '';
-						}						
+						}
 
 					$labels = $inst['labels'];
 					if (isset($inst['acronyms']))
@@ -105,7 +106,7 @@ class ROR extends Model
 						} else {
 							$d['acronyms'] = '';
 						}
-					
+
 					for ($y=0;$y < count($labels);$y++)
 						{
 							$name = $labels[$y];

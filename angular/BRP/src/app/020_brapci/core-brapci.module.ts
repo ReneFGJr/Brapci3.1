@@ -54,6 +54,7 @@ import { NewsComponent } from './widget/news/news.component';
 import { BasketedExportComponent } from './page/basketed-export/basketed-export.component';
 import { ExportComponent } from './page/export/export.component';
 import { AngularD3CloudModule } from 'angular-d3-cloud';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { AngularD3CloudModule } from 'angular-d3-cloud';
     ThemeModule,
     InfiniteScrollModule,
     AngularD3CloudModule,
+    HighchartsChartModule,
   ],
   exports: [
     BannerComponent,
