@@ -40,6 +40,7 @@ class ROR extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+
 	var $api_url = 'https://api.ror.org/organizations';
 	//https://api.ror.org/organizations?query=uNIVERSIDADE%20FEDERAL%20DO%20RIO%20GRANDE%20DO%20SUL
 
