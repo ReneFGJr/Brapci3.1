@@ -288,6 +288,7 @@ class RDFmetadata extends Model
                 }
             }
             /*****************************************/
+            pre($netw,false);
             foreach($netw as $n1=>$n2)
                 {
                     pre($n1,false);
