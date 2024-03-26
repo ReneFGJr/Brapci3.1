@@ -24,35 +24,37 @@ export class NetworkComponent {
     this.dataL = this.data.network.data
     this.dataN = this.data.network.nodes
     this.chartOptions = {
-        chart: {
-          type: 'networkgraph',
-          plotBorderWidth: 1,
-          backgroundColor: 'transparent',
-        },
-        title: {
-          text: '',
-        },
+      chart: {
+        type: 'networkgraph',
+        plotBorderWidth: 1,
+        backgroundColor: 'transparent',
+      },
+      title: {
+        text: '',
+      },
 
-        series: [
-          {
-            type: 'networkgraph',
-            dataLabels: {
-              enabled: true,
-              linkFormat: '',
-            },
-            layoutAlgorithm: {
-              enableSimulation: true,
-              //friction: -0.9,
-            },
-            marker: {
-              radius: 10, // Define um tamanho padrão para os nós
-            },
-            data: this.dataL,
-            nodes: this.dataN,
-            lineWidth: 5,
+      series: [
+        {
+          type: 'networkgraph',
+          dataLabels: {
+            enabled: true,
+            linkFormat: '',
           },
-        ],
-      }
+          layoutAlgorithm: {
+            enableSimulation: true,
+            friction: -0.9,
+            integration: 'verlet',
+            //repulsiveForce: 211,
+          },
+          marker: {
+            radius: 10, // Define um tamanho padrão para os nós
+          },
+          data: this.dataL,
+          nodes: this.dataN,
+          lineWidth: 5,
+        },
+      ],
+    };
   }
 
   constructor() {}

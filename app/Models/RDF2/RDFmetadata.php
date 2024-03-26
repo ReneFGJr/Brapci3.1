@@ -329,7 +329,7 @@ class RDFmetadata extends Model
             $nome = trim($nome);
             $a['nome'] = $nome;
             $a['ID'] = $coathID[$nome];
-            $a['colaborations'] = round(log($total)*5+1);
+            $a['colaborations'] = $total;
             array_push($coath, $a);
         }
         $dr['works'] = $works;
@@ -366,6 +366,7 @@ class RDFmetadata extends Model
         foreach($neta as $name=>$tot)
             {
                 //$dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
+                $tot = round(log($tot))*10+1;
                 $dn = ['id' => $name, 'color' => '#0000ff', 'marker' => ['radius' => $tot]];
                 array_push($node,$dn);
             }
