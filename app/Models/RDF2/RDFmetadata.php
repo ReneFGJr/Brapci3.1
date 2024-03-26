@@ -186,6 +186,7 @@ class RDFmetadata extends Model
         $tag = [];
         $journal = [];
         $netw = [];
+        $neta = [];
 
         $dta = get("di");
         if ($dta == '') {
@@ -258,7 +259,15 @@ class RDFmetadata extends Model
             foreach ($auth as $ida => $linenm) {
                 $name = nbr_author($linenm->name, 2);
                 array_push($netwa, $name);
+                if (!isset($neta[$name]))
+                    {
+                        $neta[$name] = 1;
+                    } else {
+                        $neta[$name] = $neta[$name] + 1;
+                    }
             }
+            /************************************** */
+
             for ($ar = 0; $ar < count($netwa); $ar++) {
                 for ($as = $ar + 1; $as < count($netwa); $as++) {
                     $n1 = $netwa[$ar];
@@ -278,6 +287,12 @@ class RDFmetadata extends Model
                     }
                 }
             }
+            /*****************************************/
+            foreach($netw as $n1=>$n2)
+                {
+                    pre($n1,false);
+                    pre($n2);
+                }
 
             /******************** Coauthors */
             foreach ($auth as $ida => $linenm) {
