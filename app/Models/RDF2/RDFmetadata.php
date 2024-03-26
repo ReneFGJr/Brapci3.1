@@ -376,8 +376,8 @@ class RDFmetadata extends Model
         }
         $dr['chart_coauthors'] = $graph;
 
-        $dr['network']['data'] = json_encode($netd);
-        $dr['network']['nodes'] = json_encode($node);
+        $dr['network']['data'] = ($netd);
+        $dr['network']['nodes'] = ($node);
 
         /************************************** Cloud */
         $wtag = [];

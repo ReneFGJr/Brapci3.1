@@ -20,9 +20,11 @@ export class NetworkComponent {
 
 
   ngOnInit(): void {
-    (this.dataL = this.data.network.data),
-      (this.dataN = this.data.network.nodes),
-      (this.chartOptions = {
+    console.log(this.data.network.data)
+
+    this.dataL = this.data.network.data
+    this.dataN = this.data.network.nodes
+    this.chartOptions = {
         chart: {
           type: 'networkgraph',
           plotBorderWidth: 1,
@@ -46,7 +48,7 @@ export class NetworkComponent {
             marker: {
               radius: 10, // Define um tamanho padrão para os nós
             },
-            data: this.dataL,
+            data: this.dataL.values,
             /*[
             { from: 'Node 1', to: 'Node 2' },
             { from: 'Node 1', to: 'Node 3', color: '#888', width: 2, dashStyle: 'dot' }, // Aresta mais grossa
@@ -64,7 +66,7 @@ export class NetworkComponent {
             lineWidth: 5,
           },
         ],
-      });
+      }
   }
 
   constructor() {}
