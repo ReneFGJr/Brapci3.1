@@ -276,7 +276,6 @@ class RDFmetadata extends Model
                             $netw[$n1][$n2] = 1;
                         }
                     }
-                    pre($netw, false);
                 }
             }
             pre($netw);
