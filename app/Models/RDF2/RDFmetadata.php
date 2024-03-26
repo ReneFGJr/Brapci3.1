@@ -187,6 +187,7 @@ class RDFmetadata extends Model
         $journal = [];
         $netw = [];
         $neta = [];
+        $node = [];
 
         $dta = get("di");
         if ($dta == '') {
@@ -288,7 +289,6 @@ class RDFmetadata extends Model
                 }
             }
             /*****************************************/
-            pre($netw,false);
             $netd = [];
             foreach($netw as $n1=>$n2)
                 {
@@ -298,7 +298,6 @@ class RDFmetadata extends Model
                             array_push($netd,$dd);
                         }
                 }
-            pre($netd);
 
             /******************** Coauthors */
             foreach ($auth as $ida => $linenm) {
@@ -359,13 +358,17 @@ class RDFmetadata extends Model
             }
         }
 
+        /************ Network - Node */
+        pre($neta);
+
         if ($outros > 0) {
             array_push($graph['labels'], 'Outros');
             array_push($graph['total'], $outros);
         }
         $dr['chart_coauthors'] = $graph;
 
-        $dr['network'] = json_encode($netw);
+        $dr['network']['data'] = json_encode($netd);
+        $dr['network']['nodes'] = json_encode($node);
 
         /************************************** Cloud */
         $wtag = [];
