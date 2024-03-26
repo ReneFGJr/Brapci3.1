@@ -274,7 +274,7 @@ class RDFmetadata extends Model
                         $name = $linenm->name;
                         for($r=0;$r < 20;$r++)
                             {
-                                echo (nbr_author($name, 5)).'<br>';
+                                echo (nbr_author($name, $r)).'<br>';
                             }
                         exit;
 
