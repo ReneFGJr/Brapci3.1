@@ -300,7 +300,7 @@ class RDFmetadata extends Model
                             $dd = [];
                             $dd['from'] = $n1;
                             $dd['to'] = $nm2;
-                            //, 'width'=>$tot];
+                            $dd['width'] = $tot;
                             array_push($netd,$dd);
                         }
                 }
