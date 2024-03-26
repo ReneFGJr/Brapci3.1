@@ -55,6 +55,7 @@ import { BasketedExportComponent } from './page/basketed-export/basketed-export.
 import { ExportComponent } from './page/export/export.component';
 import { AngularD3CloudModule } from 'angular-d3-cloud';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { NetworkComponent } from './widget/network/network.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
     NewsComponent,
     BasketedExportComponent,
     ExportComponent,
+    NetworkComponent,
   ],
   imports: [
     CommonModule,

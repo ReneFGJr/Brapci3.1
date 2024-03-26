@@ -12,7 +12,7 @@
       </div>
 
       <!-------------------- TagCloud-->
-      <div class="mt-2"><b>Nuvem de TAGs de assuntos do Autor</b></div>
+      <div class="mt-2 d-none d-xl-block"><b>Nuvem de TAGs de assuntos do Autor</b></div>
       <!-- app.component.html -->
       <div
         style="background-color: #efefef; border: 2px solid #ccc"
@@ -31,16 +31,8 @@
       </div>
       <!-------------------- NetWork-->
       <div class="mt-2"><b>Rede de coautoria</b></div>
-      <highcharts-chart
-        [Highcharts]="Highcharts"
-        [constructorType]="chartConstructor"
-        [options]="chartOptions"
-        [callbackFunction]="chartCallback"
-        [(update)]="updateFlag"
-        [oneToOne]="oneToOneFlag"
-        [runOutsideAngular]="runOutsideAngular"
-        style="width: 100%; height: 400px; display: block"
-      ></highcharts-chart>
+      <app-network></app-network>
+
 
       <div *ngIf="data.works.Article">
         <h2 class="brp_h2 mt-4" *ngIf="data.works.Article.length > 0">

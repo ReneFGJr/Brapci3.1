@@ -189,6 +189,7 @@ class RDFmetadata extends Model
             $prod_label = [];
             $tag = [];
             $journal = [];
+            $netw = [];
 
             $dta = get("di");
             if ($dta == '')
@@ -268,6 +269,8 @@ class RDFmetadata extends Model
                 array_push($works[$type], $ref);
                 /********** Authors */
                 $auth = $JSON['authors'];
+
+                pre($auth);
 
                 foreach($auth as $ida=>$linenm)
                     {
