@@ -277,7 +277,26 @@ class RDFmetadata extends Model
                         $name = nbr_author($linenm->name,2);
                         array_push($netwa,$name);
                     }
-                pre($netwa);
+                for($ar = 0;$ar < count($netwa);$ar++)
+                    {
+                        for($as = $ar+1;$as < count($netwa);$as++)
+                            {
+                                $n1 = $netwa[$ar];
+                                $n2 = $netwa[$as];
+                                if (isset($netw[$n1][$n2]))
+                                    {
+                                        if (isset($netw[$n2][$n1]))
+                                            {
+                                                $netw[$n1][$n2] = $netw[$n1][$n2] + 1;
+                                            } else {
+                                                $netw[$n1][$n2] = 1;
+                                            }
+                                    } else {
+                                        $netw[$n1][$n2] = $netw[$n1][$n2] + 1;
+                                    }
+                            }
+                    }
+                    pre($netw);
 
                 /******************** Coauthors */
                 foreach($auth as $ida=>$linenm)
