@@ -61,10 +61,9 @@ class RDFmetadata extends Model
             $lang = $line['Lang'];
             $prop = $line['Property'];
 
-            if ($prop == 'isPartOfSource')
-                {
-                    $dr['jnl_frbr'] = $line['ID'];
-                }
+            if ($prop == 'isPartOfSource') {
+                $dr['jnl_frbr'] = $line['ID'];
+            }
 
             if (isset($sm[$prop])) {
                 if (!isset($dd[$prop][$lang])) {
@@ -109,12 +108,11 @@ class RDFmetadata extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
 
-        if (is_array($ID))
-            {
-                $dt = $ID;
-            } else {
-                $dt = $RDF->le($ID);
-            }
+        if (is_array($ID)) {
+            $dt = $ID;
+        } else {
+            $dt = $RDF->le($ID);
+        }
 
         $dd = [];
 
@@ -154,344 +152,308 @@ class RDFmetadata extends Model
     }
 
     function metadataPerson($dt)
-        {
-            $limit = 1000;
-            $ABNT = new \App\Models\Metadata\Abnt();
-            $dataset = new \App\Models\ElasticSearch\Search();
+    {
+        $limit = 1000;
+        $ABNT = new \App\Models\Metadata\Abnt();
+        $dataset = new \App\Models\ElasticSearch\Search();
 
-            $dr = [];
-            $dr['name'] = $dt['concept']['n_name'];
-            $ID1 = $dt['concept']['id_cc'];
-            $ID2 = $dt['concept']['cc_use'];
-            if ($ID1 <> $ID2)
-                {
-                    $dr['ID'] = $ID2;
-                } else {
-                    $dr['ID'] = $ID1;
-                }
+        $dr = [];
+        $dr['name'] = $dt['concept']['n_name'];
+        $ID1 = $dt['concept']['id_cc'];
+        $ID2 = $dt['concept']['cc_use'];
+        if ($ID1 <> $ID2) {
+            $dr['ID'] = $ID2;
+        } else {
+            $dr['ID'] = $ID1;
+        }
 
-            //$dr['data'] = $dt['data'];
+        //$dr['data'] = $dt['data'];
 
-            $dataset->select('*');
-            foreach($dt['data'] as $id=>$line)
-                {
-                    $ID = $line['ID'];
-                    $dataset->orwhere('ID', $ID);
-                }
-            $dataset->orderBy('CLASS, YEAR desc');
-            $dx = $dataset->findAll($limit);
+        $dataset->select('*');
+        foreach ($dt['data'] as $id => $line) {
+            $ID = $line['ID'];
+            $dataset->orwhere('ID', $ID);
+        }
+        $dataset->orderBy('CLASS, YEAR desc');
+        $dx = $dataset->findAll($limit);
 
-            $works = [];
-            $coauthors = [];
-            $coath = [];
-            $coathID = [];
-            $prod = [];
-            $prod_label = [];
-            $tag = [];
-            $journal = [];
-            $netw = [];
+        $works = [];
+        $coauthors = [];
+        $coath = [];
+        $coathID = [];
+        $prod = [];
+        $prod_label = [];
+        $tag = [];
+        $journal = [];
+        $netw = [];
 
-            $dta = get("di");
-            if ($dta == '')
-                {
-                    $dta = 1990;
-                }
+        $dta = get("di");
+        if ($dta == '') {
+            $dta = 1990;
+        }
 
-            for($r=$dta;$r <= (date("Y")+1);$r++)
-                {
-                    array_push($prod_label,$r);
-                    array_push($prod, 0);
-                }
-            $ds = [];
-            $ds['Article'] = $prod;
-            $ds['Proceeding'] = $prod;
-            $ds['BookChapter'] = $prod;
-            $ds['Book'] = $prod;
+        for ($r = $dta; $r <= (date("Y") + 1); $r++) {
+            array_push($prod_label, $r);
+            array_push($prod, 0);
+        }
+        $ds = [];
+        $ds['Article'] = $prod;
+        $ds['Proceeding'] = $prod;
+        $ds['BookChapter'] = $prod;
+        $ds['Book'] = $prod;
 
-            foreach ($dx as $id => $line) {
-                $JSON = (array)json_decode($line['json']);
+        foreach ($dx as $id => $line) {
+            $JSON = (array)json_decode($line['json']);
 
 
 
-                $type = $line['CLASS'];
-
-                /************************************** Cloud */
-                if (isset($JSON['Subject']))
-                    {
-                        $wd = (array)$JSON['Subject'];
-                        if (isset($wd['pt']))
-                            {
-                                $wd = (array)$wd['pt'];
-                                foreach($wd as $idw=>$kwd)
-                                    {
-                                        if (isset($tag[$kwd]))
-                                            {
-                                                $tag[$kwd] = $tag[$kwd] + 1;
-                                            } else {
-                                                $tag[$kwd] = 1;
-                                            }
-                                    }
-                            }
-                    }
-                /************************************** Journal */
-                if (isset($JSON['Issue']))
-                    {
-                        $IssueJ = (array)$JSON['Issue'];
-                        if (isset($IssueJ['journal']))
-                            {
-                                $IssueJ = (string)$IssueJ['journal'];
-                                if (isset($journal[$IssueJ]))
-                                    {
-                                        $journal[$IssueJ] = $journal[$IssueJ] + 1;
-                                    } else {
-                                        $journal[$IssueJ] = 1;
-                                    }
-                            }
-
-                    }
-
-                /************************************** Producao */
-                $year = $line['YEAR'] - $dta;
-                if ($year >= 0)
-                    {
-                        if (isset($ds[$type][$year]))
-                            {
-                                $ds[$type][$year] = $ds[$type][$year] + 1;
-                            }
-                    }
-
-
-                $ref = $ABNT->short($JSON, False);
-                if (!isset($works[$type]))
-                    {
-                        $works[$type] = [];
-                    }
-                array_push($works[$type], $ref);
-                /********** Authors */
-
-                /******************** Network */
-                $auth = $JSON['authors'];
-                $netwa = [];
-                foreach ($auth as $ida => $linenm)
-                    {
-                        $name = nbr_author($linenm->name,2);
-                        array_push($netwa,$name);
-                    }
-                for($ar = 0;$ar < count($netwa);$ar++)
-                    {
-                        for($as = $ar+1;$as < count($netwa);$as++)
-                            {
-                                $n1 = $netwa[$ar];
-                                $n2 = $netwa[$as];
-                                if (isset($netw[$n1][$n2]))
-                                    {
-                                        if (isset($netw[$n2][$n1]))
-                                            {
-                                                $netw[$n2][$n1] = $netw[$n1][$n2] + 1;
-                                            } else {
-                                                if (!isset($netw[$n1]))
-                                                    {
-                                                        $netw[$n1] = [];
-                                                    }
-                                                $netw[$n1][$n2] = 1;
-                                            }
-                                    } else {
-                                        $netw[$n1][$n2] = $netw[$n1][$n2] + 1;
-                                    }
-                                    pre($netw,false);
-                            }
-                    }
-                    pre($netw);
-
-                /******************** Coauthors */
-                foreach($auth as $ida=>$linenm)
-                    {
-                        $linenm = (array)$linenm;
-                        $nomea = trim($linenm['name']);
-                        $IDa = $linenm['ID'];
-                        $coathID[$nomea] = $IDa;
-                        if (isset($coauthors[$nomea]))
-                            {
-                                $coauthors[$nomea] = $coauthors[$nomea] + 1;
-                            } else {
-                                $coauthors[$nomea] = 1;
-                            }
-                    }
-            }
-
-            $dr['chart_years'] = [];
-            $dr['chart_years']['labels'] = $prod_label;
-            $dr['chart_years']['data'] = $ds;
-
-
-            /********** Ordena coauthors */
-            ksort($coauthors);
-            foreach($coauthors as $nome=>$total)
-                {
-                    $a = [];
-                    $nome = trim($nome);
-                    $a['nome'] = $nome;
-                    $a['ID'] = $coathID[$nome];
-                    $a['colaborations'] = $total;
-                    array_push($coath,$a);
-                }
-            $dr['works'] = $works;
-            $dr['coauthors'] = $coath;
-
-            /************ Grafico Coautorias */
-            arsort($coauthors);
-            $limit = 10;
-            $max = 0;
-            $ini = 0;
-            $last = 0;
-            $graph = [];
-            $outros = 0;
-            $graph['labels'] = [];
-            $graph['total'] = [];
-            foreach($coauthors as $name=>$total)
-                {
-                    if ($name != $dr['name'])
-                    {
-                    $ini++;
-                    if (($ini < $limit) or ($total == $last))
-                        {
-                            array_push($graph['labels'],$name);
-                            array_push($graph['total'], $total);
-                        } else {
-                            $outros = $outros + $total;
-                        }
-                        $last = $total;
-
-                        if ($total > $max) {
-                            $max = $total;
-                        }
-                    }
-                }
-
-            if ($outros > 0)
-                {
-                    array_push($graph['labels'], 'Outros');
-                    array_push($graph['total'], $outros);
-                }
-            $dr['chart_coauthors'] = $graph;
+            $type = $line['CLASS'];
 
             /************************************** Cloud */
-            $wtag = [];
-            arsort($tag);
-            foreach($tag as $kw=>$total)
-                {
-                    $tg['text'] = $kw;
-                    $tg['value'] = $total * 10;
-                    array_push($wtag,$tg);
-                }
-            $dr['dataTAG'] = $wtag;
-
-            /************************************* Publisher */
-            arsort($journal);
-            $jour = [];
-            $jour['labels'] = [];
-            $jour['data'] = [];
-            foreach($journal as $nameJ=>$total)
-                {
-                    $Aj = [];
-                    if ($nameJ != '')
-                    {
-                        array_push($jour['labels'],$nameJ);
-                        array_push($jour['data'], $total);
+            if (isset($JSON['Subject'])) {
+                $wd = (array)$JSON['Subject'];
+                if (isset($wd['pt'])) {
+                    $wd = (array)$wd['pt'];
+                    foreach ($wd as $idw => $kwd) {
+                        if (isset($tag[$kwd])) {
+                            $tag[$kwd] = $tag[$kwd] + 1;
+                        } else {
+                            $tag[$kwd] = 1;
+                        }
                     }
                 }
-            $dr['dataJOUR'] = $jour;
+            }
+            /************************************** Journal */
+            if (isset($JSON['Issue'])) {
+                $IssueJ = (array)$JSON['Issue'];
+                if (isset($IssueJ['journal'])) {
+                    $IssueJ = (string)$IssueJ['journal'];
+                    if (isset($journal[$IssueJ])) {
+                        $journal[$IssueJ] = $journal[$IssueJ] + 1;
+                    } else {
+                        $journal[$IssueJ] = 1;
+                    }
+                }
+            }
 
-            /****************************** Remissivas */
-            $dr['variants'] = $this->remissivas($dr['ID']);
+            /************************************** Producao */
+            $year = $line['YEAR'] - $dta;
+            if ($year >= 0) {
+                if (isset($ds[$type][$year])) {
+                    $ds[$type][$year] = $ds[$type][$year] + 1;
+                }
+            }
 
-            return $dr;
+
+            $ref = $ABNT->short($JSON, False);
+            if (!isset($works[$type])) {
+                $works[$type] = [];
+            }
+            array_push($works[$type], $ref);
+            /********** Authors */
+
+            /******************** Network */
+            $auth = $JSON['authors'];
+            $netwa = [];
+            foreach ($auth as $ida => $linenm) {
+                $name = nbr_author($linenm->name, 2);
+                array_push($netwa, $name);
+            }
+            for ($ar = 0; $ar < count($netwa); $ar++) {
+                for ($as = $ar + 1; $as < count($netwa); $as++) {
+                    $n1 = $netwa[$ar];
+                    $n2 = $netwa[$as];
+                    if (isset($netw[$n1][$n2])) { {
+                            $netw[$n2][$n1] = $netw[$n1][$n2] + 1;
+                        }
+                    } else {
+                        if (isset($netw[$n2][$n1])) {
+                            $netw[$n2][$n1] = $netw[$n2][$n1] + 1;
+                        } else {
+                            if (!isset($netw[$n1])) {
+                                $netw[$n1] = [];
+                            }
+                            $netw[$n1][$n2] = 1;
+                        }
+                    }
+                    pre($netw, false);
+                }
+            }
+            pre($netw);
+
+            /******************** Coauthors */
+            foreach ($auth as $ida => $linenm) {
+                $linenm = (array)$linenm;
+                $nomea = trim($linenm['name']);
+                $IDa = $linenm['ID'];
+                $coathID[$nomea] = $IDa;
+                if (isset($coauthors[$nomea])) {
+                    $coauthors[$nomea] = $coauthors[$nomea] + 1;
+                } else {
+                    $coauthors[$nomea] = 1;
+                }
+            }
         }
+
+        $dr['chart_years'] = [];
+        $dr['chart_years']['labels'] = $prod_label;
+        $dr['chart_years']['data'] = $ds;
+
+
+        /********** Ordena coauthors */
+        ksort($coauthors);
+        foreach ($coauthors as $nome => $total) {
+            $a = [];
+            $nome = trim($nome);
+            $a['nome'] = $nome;
+            $a['ID'] = $coathID[$nome];
+            $a['colaborations'] = $total;
+            array_push($coath, $a);
+        }
+        $dr['works'] = $works;
+        $dr['coauthors'] = $coath;
+
+        /************ Grafico Coautorias */
+        arsort($coauthors);
+        $limit = 10;
+        $max = 0;
+        $ini = 0;
+        $last = 0;
+        $graph = [];
+        $outros = 0;
+        $graph['labels'] = [];
+        $graph['total'] = [];
+        foreach ($coauthors as $name => $total) {
+            if ($name != $dr['name']) {
+                $ini++;
+                if (($ini < $limit) or ($total == $last)) {
+                    array_push($graph['labels'], $name);
+                    array_push($graph['total'], $total);
+                } else {
+                    $outros = $outros + $total;
+                }
+                $last = $total;
+
+                if ($total > $max) {
+                    $max = $total;
+                }
+            }
+        }
+
+        if ($outros > 0) {
+            array_push($graph['labels'], 'Outros');
+            array_push($graph['total'], $outros);
+        }
+        $dr['chart_coauthors'] = $graph;
+
+        /************************************** Cloud */
+        $wtag = [];
+        arsort($tag);
+        foreach ($tag as $kw => $total) {
+            $tg['text'] = $kw;
+            $tg['value'] = $total * 10;
+            array_push($wtag, $tg);
+        }
+        $dr['dataTAG'] = $wtag;
+
+        /************************************* Publisher */
+        arsort($journal);
+        $jour = [];
+        $jour['labels'] = [];
+        $jour['data'] = [];
+        foreach ($journal as $nameJ => $total) {
+            $Aj = [];
+            if ($nameJ != '') {
+                array_push($jour['labels'], $nameJ);
+                array_push($jour['data'], $total);
+            }
+        }
+        $dr['dataJOUR'] = $jour;
+
+        /****************************** Remissivas */
+        $dr['variants'] = $this->remissivas($dr['ID']);
+
+        return $dr;
+    }
 
     function remissivas($ID)
-        {
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $dt = $RDFconcept
-                ->select('n_name as name')
-                ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term ')
-                ->where('cc_use',$ID)
-                ->groupBy('n_name')
-                ->orderBy('n_name')
-                ->findAll();
-            return $dt;
-        }
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $dt = $RDFconcept
+            ->select('n_name as name')
+            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term ')
+            ->where('cc_use', $ID)
+            ->groupBy('n_name')
+            ->orderBy('n_name')
+            ->findAll();
+        return $dt;
+    }
 
     function metadataSubject($dt)
-        {
-            $limit = 2000;
-            $ABNT = new \App\Models\Metadata\Abnt();
-            $dataset = new \App\Models\ElasticSearch\Search();
-            $dr = [];
-            $dr['publisher'] = $dt['concept']['n_name'];
-            $dr['ID'] = $dt['concept']['id_cc'];
-            $dr['data'] = $dt['data'];
+    {
+        $limit = 2000;
+        $ABNT = new \App\Models\Metadata\Abnt();
+        $dataset = new \App\Models\ElasticSearch\Search();
+        $dr = [];
+        $dr['publisher'] = $dt['concept']['n_name'];
+        $dr['ID'] = $dt['concept']['id_cc'];
+        $dr['data'] = $dt['data'];
 
-            $n = 0;
-            $dataset->select('*');
-            foreach($dt['data'] as $ida=>$linea)
-                {
-                    $type = $linea['Class'];
-                    $ok = 0;
-                    switch($type)
-                        {
-                            case 'Proceeding':
-                                $ok = 1;
-                                break;
-                            case 'Article':
-                                $ok = 1;
-                                break;
-                            case 'Book':
-                                $ok = 1;
-                                break;
-                            case 'BookChapter':
-                                $ok = 1;
-                                break;
-                        }
-                if ($ok == 1)
-                    {
-                        if ($n == 0)
-                            {
-                                $dataset->where('ID',$linea['ID']);
-                            } else {
-                                $dataset->orwhere('ID', $linea['ID']);
-                            }
-                        $n++;
-                    }
+        $n = 0;
+        $dataset->select('*');
+        foreach ($dt['data'] as $ida => $linea) {
+            $type = $linea['Class'];
+            $ok = 0;
+            switch ($type) {
+                case 'Proceeding':
+                    $ok = 1;
+                    break;
+                case 'Article':
+                    $ok = 1;
+                    break;
+                case 'Book':
+                    $ok = 1;
+                    break;
+                case 'BookChapter':
+                    $ok = 1;
+                    break;
+            }
+            if ($ok == 1) {
+                if ($n == 0) {
+                    $dataset->where('ID', $linea['ID']);
+                } else {
+                    $dataset->orwhere('ID', $linea['ID']);
                 }
-
-            /***************************** Works */
-            $works = [];
-            if ($n > 0)
-                {
-                    $dx = $dataset->findAll($limit);
-                    foreach ($dx as $id => $line) {
-                        $JSON = (array)json_decode($line['json']);
-                        $ref = $ABNT->short($JSON, False);
-                        array_push($works, $ref);
-                    }
-
-                    if ($n >= $limit)
-                        {
-                            array_push($works, "Limitado em $limit registros");
-                        }
-                }
-            $dr['works'] = $works;
-            return $dr;
+                $n++;
+            }
         }
+
+        /***************************** Works */
+        $works = [];
+        if ($n > 0) {
+            $dx = $dataset->findAll($limit);
+            foreach ($dx as $id => $line) {
+                $JSON = (array)json_decode($line['json']);
+                $ref = $ABNT->short($JSON, False);
+                array_push($works, $ref);
+            }
+
+            if ($n >= $limit) {
+                array_push($works, "Limitado em $limit registros");
+            }
+        }
+        $dr['works'] = $works;
+        return $dr;
+    }
 
     function metadataGeral($dt)
-        {
-            $dr = [];
-            $dr['publisher'] = $dt['concept']['n_name'];
-            $dr['ID'] = $dt['concept']['id_cc'];
-            $dr['data'] = $dt['data'];
-            return $dr;
-        }
+    {
+        $dr = [];
+        $dr['publisher'] = $dt['concept']['n_name'];
+        $dr['ID'] = $dt['concept']['id_cc'];
+        $dr['data'] = $dt['data'];
+        return $dr;
+    }
 
     function metadataSource($dt)
     {
@@ -512,7 +474,7 @@ class RDFmetadata extends Model
             switch ($prop) {
                 case 'hasCollection':
                     array_push($collection, $line['ID']);
-                break;
+                    break;
 
                 case 'hasEmail':
                     $dr['Email'] = $line['Caption'];
@@ -529,22 +491,19 @@ class RDFmetadata extends Model
         $Issues = new \App\Models\Base\Issues();
         $ISSUE = [];
         $YEARS = [];
-        foreach($issue as $id)
-            {
-                $dti = $Issues->getMetada($id);
-                $ANO = $dti['YEAR'];
-                if (!isset($YEARS[$ANO]))
-                    {
-                        $YEARS[$ANO] = $ANO;
-                    }
-                array_push($ISSUE,$dti);
+        foreach ($issue as $id) {
+            $dti = $Issues->getMetada($id);
+            $ANO = $dti['YEAR'];
+            if (!isset($YEARS[$ANO])) {
+                $YEARS[$ANO] = $ANO;
             }
+            array_push($ISSUE, $dti);
+        }
         krsort($YEARS);
         $sYEARS = [];
-        foreach($YEARS as $year)
-            {
-                array_push($sYEARS,$year);
-            }
+        foreach ($YEARS as $year) {
+            array_push($sYEARS, $year);
+        }
 
         $dr['issue'] = $ISSUE;
         $dr['issue_years'] = $sYEARS;
@@ -553,7 +512,7 @@ class RDFmetadata extends Model
 
         $Source = new \App\Models\Base\Sources();
         $dt = $Source->where('jnl_frbr', $dr['ID'])->first();
-        $dr = array_merge($dr,$dt);
+        $dr = array_merge($dr, $dt);
 
         $Cover = new \App\Models\Base\Cover();
         $dr['cover'] = $Cover->cover($dt['id_jnl']);
@@ -569,28 +528,26 @@ class RDFmetadata extends Model
         $IDissue = $dt['concept']['id_cc'];
         $di = $Issues
             ->Join('brapci.source_source', 'id_jnl = is_source')
-            ->where('is_source_issue',$IDissue)->first();
+            ->where('is_source_issue', $IDissue)->first();
         $dr = [];
-        if ($di != [])
-            {
-                    $dr['Class'] = 'Issue';
-                    $dr['publisher'] = $di['jnl_name'];
-                    $dr['jnl_rdf'] = $di['is_source'];
-                    $dr['is_year'] = $di['is_year'];
-                    $dr['is_nr'] = $di['is_nr'];
-                    $dr['is_vol_roman'] = $di['is_vol_roman'];
-                    $dr['is_vol'] = $di['is_vol'];
+        if ($di != []) {
+            $dr['Class'] = 'Issue';
+            $dr['publisher'] = $di['jnl_name'];
+            $dr['jnl_rdf'] = $di['is_source'];
+            $dr['is_year'] = $di['is_year'];
+            $dr['is_nr'] = $di['is_nr'];
+            $dr['is_vol_roman'] = $di['is_vol_roman'];
+            $dr['is_vol'] = $di['is_vol'];
 
-                    $wk = $IssuesWorks->issueWorks($IDissue);
-                    $works = [];
-                    foreach($wk as $id=>$line)
-                        {
-                            $JSON = (array)json_decode($line['json']);
-                            $ref = $ABNT->short($JSON, False);
-                            array_push($works,$ref);
-                        }
-                    $dr['works'] = $works;
+            $wk = $IssuesWorks->issueWorks($IDissue);
+            $works = [];
+            foreach ($wk as $id => $line) {
+                $JSON = (array)json_decode($line['json']);
+                $ref = $ABNT->short($JSON, False);
+                array_push($works, $ref);
             }
+            $dr['works'] = $works;
+        }
         return $dr;
     }
 
@@ -638,7 +595,7 @@ class RDFmetadata extends Model
         /***************************** ISSUE */
         $ISSUE1 = $this->arrayExtract($dd, 'hasIssueOf');
         $ISSUE2 = $this->arrayExtract($dd, 'hasPublicationIssueOf');
-        $ISSUE = array_merge($ISSUE1,$ISSUE2);
+        $ISSUE = array_merge($ISSUE1, $ISSUE2);
 
         if (isset($ISSUE[0])) {
             $dtIssue = $RDF->le($ISSUE[0]['ID']);
@@ -687,24 +644,22 @@ class RDFmetadata extends Model
         $Class = $dt['concept']['c_class'];
 
         /*************************************** SOURCE BOOK CHAPTER *********/
-        if ($Class == 'BookChapter')
-            {
-                /* Recupera Livros */
-                $book = $this->arrayExtract($dd, 'hasBookChapter');
-                if (isset($book[0]))
-                    {
-                        $bk  = [];
-                        $bookID = $book[0]['ID'];
-                        $book = $RDF->le($bookID);
+        if ($Class == 'BookChapter') {
+            /* Recupera Livros */
+            $book = $this->arrayExtract($dd, 'hasBookChapter');
+            if (isset($book[0])) {
+                $bk  = [];
+                $bookID = $book[0]['ID'];
+                $book = $RDF->le($bookID);
 
-                        $dr['cover'] = $this->ExtractFromData($book, 'hasCover','text');
-                        $bk['cover'] = $dr['cover'];
-                        $bk['Publisher'] = $this->ExtractFromData($book,'isPublisher', 'text');
-                        $bk['Title'] = $this->ExtractFromData($book,'hasTitle', 'text');
-                        $dr['book'] = $bk;
-                        $dr['resource_pdf'] = PATH . '/download/' . $bookID;
-                    }
+                $dr['cover'] = $this->ExtractFromData($book, 'hasCover', 'text');
+                $bk['cover'] = $dr['cover'];
+                $bk['Publisher'] = $this->ExtractFromData($book, 'isPublisher', 'text');
+                $bk['Title'] = $this->ExtractFromData($book, 'hasTitle', 'text');
+                $dr['book'] = $bk;
+                $dr['resource_pdf'] = PATH . '/download/' . $bookID;
             }
+        }
 
         /*************************************** SOURCE JOURNAL / PROCEEDING */
         if ($publisher == '') {
@@ -786,41 +741,41 @@ class RDFmetadata extends Model
         return $RSP;
     }
 
-    function ExtractFromData($dt,$class,$type='T')
-        {
-            $type = UpperCase(substr($type,0,1));
-            if (isset($dt['data']))
-                {
-                    $dt = $dt['data'];
-                }
-
-            $tx = '';
-            $ts = '';
-            $ta = [];
-            foreach($dt as $id=>$line)
-                {
-                    $prop = trim($line['Property']);
-                    if ($prop == $class)
-                        {
-                            if ($tx != '') { $tx .= '; '; }
-                            $tx .= $line['Caption'];
-                            if ($ts == '') { $ts = $line['Caption'] ; }
-                            array_push($ta,['ID'=>$line['ID'],'name'=>$line['Caption']]);
-                        }
-                }
-            switch($type)
-                {
-                    case 'T':
-                        return $tx;
-                        break;
-                    case 'S':
-                        return $ts;
-                        break;
-                    default:
-                        return $ta;
-                        break;
-                }
+    function ExtractFromData($dt, $class, $type = 'T')
+    {
+        $type = UpperCase(substr($type, 0, 1));
+        if (isset($dt['data'])) {
+            $dt = $dt['data'];
         }
+
+        $tx = '';
+        $ts = '';
+        $ta = [];
+        foreach ($dt as $id => $line) {
+            $prop = trim($line['Property']);
+            if ($prop == $class) {
+                if ($tx != '') {
+                    $tx .= '; ';
+                }
+                $tx .= $line['Caption'];
+                if ($ts == '') {
+                    $ts = $line['Caption'];
+                }
+                array_push($ta, ['ID' => $line['ID'], 'name' => $line['Caption']]);
+            }
+        }
+        switch ($type) {
+            case 'T':
+                return $tx;
+                break;
+            case 'S':
+                return $ts;
+                break;
+            default:
+                return $ta;
+                break;
+        }
+    }
 
     function simpleExtract($dt, $class)
     {
