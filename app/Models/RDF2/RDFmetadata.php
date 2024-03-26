@@ -289,11 +289,18 @@ class RDFmetadata extends Model
             }
             /*****************************************/
             pre($netw,false);
+            $netd = [];
             foreach($netw as $n1=>$n2)
                 {
                     pre($n1,false);
-                    pre($n2);
+                    pre($n2, false);
+                    foreach($n2 as $nm2)
+                        {
+                            $dd = ['from'=>$n1, 'to'=>$n2];
+                            array_push($netd,$dd);
+                        }
                 }
+            pre($netd);
 
             /******************** Coauthors */
             foreach ($auth as $ida => $linenm) {
