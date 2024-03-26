@@ -287,7 +287,7 @@ class RDFmetadata extends Model
                                     {
                                         if (isset($netw[$n2][$n1]))
                                             {
-                                                $netw[$n1][$n2] = $netw[$n1][$n2] + 1;
+                                                $netw[$n2][$n1] = $netw[$n1][$n2] + 1;
                                             } else {
                                                 $netw[$n1][$n2] = 1;
                                             }
