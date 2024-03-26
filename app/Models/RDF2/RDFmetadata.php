@@ -329,7 +329,7 @@ class RDFmetadata extends Model
             $nome = trim($nome);
             $a['nome'] = $nome;
             $a['ID'] = $coathID[$nome];
-            $a['colaborations'] = $total;
+            $a['colaborations'] = round(log($total)*5+1);
             array_push($coath, $a);
         }
         $dr['works'] = $works;
