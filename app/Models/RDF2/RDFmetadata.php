@@ -361,7 +361,8 @@ class RDFmetadata extends Model
         /************ Network - Node */
         foreach($neta as $name=>$tot)
             {
-                $dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
+                //$dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
+                $dn = ['id' => $name, 'color' => '#0000ff', 'marker' => ['radius' => $tot]];
                 array_push($node,$dn);
             }
 
