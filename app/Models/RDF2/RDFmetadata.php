@@ -271,6 +271,7 @@ class RDFmetadata extends Model
                 $auth = $JSON['authors'];
                 foreach ($auth as $ida => $linenm)
                     {
+                        pre($linenm);
                         pre(nbr_author($linenm['name']));
                     }
 
