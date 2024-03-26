@@ -278,7 +278,6 @@ class RDFmetadata extends Model
                     }
                 }
             }
-            pre($netw);
 
             /******************** Coauthors */
             foreach ($auth as $ida => $linenm) {
@@ -344,6 +343,8 @@ class RDFmetadata extends Model
             array_push($graph['total'], $outros);
         }
         $dr['chart_coauthors'] = $graph;
+
+        $dr['network'] = json_encode($netw);
 
         /************************************** Cloud */
         $wtag = [];
@@ -717,6 +718,7 @@ class RDFmetadata extends Model
         if ($simple == false) {
             $dr['data'] = $dd;
         }
+
         return $dr;
     }
 
