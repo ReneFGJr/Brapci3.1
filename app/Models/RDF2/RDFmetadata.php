@@ -258,8 +258,8 @@ class RDFmetadata extends Model
             $auth = $JSON['authors'];
             $netwa = [];
             foreach ($auth as $ida => $linenm) {
-                $name = ascii($name);
-                $name = nbr_author($linenm->name, 2);
+                $name = ascii($linenm->name);
+                $name = nbr_author($name, 2);
                 array_push($netwa, $name);
                 if (!isset($neta[$name]))
                     {
