@@ -268,18 +268,18 @@ class RDFmetadata extends Model
                     }
                 array_push($works[$type], $ref);
                 /********** Authors */
+
+                /******************** Network */
                 $auth = $JSON['authors'];
+                $netwa = [];
                 foreach ($auth as $ida => $linenm)
                     {
-                        $name = $linenm->name;
-                        for($r=0;$r < 20;$r++)
-                            {
-                                echo $r.'->'. (nbr_author($name, $r)).'<br>';
-                            }
-                        exit;
-
+                        $name = nbr_author($linenm->name,2);
+                        array_push($netwa,$name);
                     }
+                pre($netwa);
 
+                /******************** Coauthors */
                 foreach($auth as $ida=>$linenm)
                     {
                         $linenm = (array)$linenm;
