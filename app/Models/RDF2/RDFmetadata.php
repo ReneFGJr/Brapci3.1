@@ -359,7 +359,11 @@ class RDFmetadata extends Model
         }
 
         /************ Network - Node */
-        pre($neta);
+        foreach($neta as $name=>$tot)
+            {
+                $dn = ['id'=>$name, 'color'=>'#0000ff', 'marker'=>['radius'=>$tot]];
+                array_push($node,$dn);
+            }
 
         if ($outros > 0) {
             array_push($graph['labels'], 'Outros');
