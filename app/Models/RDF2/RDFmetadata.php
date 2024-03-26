@@ -296,7 +296,7 @@ class RDFmetadata extends Model
                     pre($n2, false);
                     foreach($n2 as $nm2)
                         {
-                            $dd = ['from'=>$n1, 'to'=>$n2];
+                            $dd = ['from'=>$n1, 'to'=> $nm2];
                             array_push($netd,$dd);
                         }
                 }
