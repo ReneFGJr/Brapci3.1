@@ -295,7 +295,10 @@ class RDFmetadata extends Model
                 {
                     foreach($n2 as $nm2=>$tot)
                         {
-                            $dd = ['from'=>$n1, 'to'=> $nm2, 'width'=>$tot];
+                            $dd = [];
+                            $dd['from'] = $n1;
+                            $dd['to'] = $nm2;
+                            //, 'width'=>$tot];
                             array_push($netd,$dd);
                         }
                 }
