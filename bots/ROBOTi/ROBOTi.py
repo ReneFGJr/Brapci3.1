@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # @Author: Rene Faustino Gabriel Junior <renefgj@gmail.com>
 # @Data: 2023-12-22
 # @Title: Robos da Brapci (ROBOTi)
