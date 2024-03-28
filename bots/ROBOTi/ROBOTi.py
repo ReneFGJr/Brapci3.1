@@ -226,7 +226,8 @@ def auto():
     print(row)
 
     for tk in row:
-        print("TK"+tk)
+        print("TK")
+        print(tk)
 
     run(['ROBOTI','1'])
 
