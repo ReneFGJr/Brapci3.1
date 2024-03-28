@@ -40,7 +40,7 @@ def check_remissiva():
         mod_data.remicive(ID1,ID2)
         dd = dd + 1
 
-    mod_logs.log('TASK_200',dd)
+    mod_logs.log('TASK_201',dd)
     return ""
 
 def check_duplicate():
