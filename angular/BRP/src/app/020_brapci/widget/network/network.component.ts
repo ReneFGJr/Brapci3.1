@@ -7,8 +7,6 @@ import Networkgraph from 'highcharts/modules/networkgraph';
 // Inicializa o módulo networkgraph
 Networkgraph(Highcharts);
 
-
-
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
@@ -32,23 +30,19 @@ export class NetworkComponent {
 
   ngOnChanges(): void {
     console.log('CHANGE');
-
-    const chart = this.chartComponent.chart; // Acesso à instância do gráfico Highcharts
-    // Agora você pode usar os métodos do Highcharts, como `series[0].setData(newData)`
-    console.log(chart.series);
-    chart.series[0].setData(this.data.network.data);
-    chart.series[0].nodes = this.data.network.data;
-
-    chart.redraw();
+    this.updateNodesAndLinks();
   }
 
-  updateNodesAndLinks(newNodes:any, newLinks:any): void {
+  updateNodesAndLinks(): void {
     // Supondo que `chartOptions` seja a propriedade vinculada ao <highcharts-chart>
-    this.chartOptions.series[0].data = this.data.network.data;
-    this.chartOptions.series[0].nodes = this.data.network.data;
+    console.log(this.chartOptions);
+    if (this.chartOptions != undefined) {
+      this.chartOptions.series[0].data = this.data.network.data;
+      this.chartOptions.series[0].nodes = this.data.network.data;
 
-    // Atualizar a referência para que o Angular detecte a mudança
-    this.chartOptions = { ...this.chartOptions };
+      // Atualizar a referência para que o Angular detecte a mudança
+      this.chartOptions = { ...this.chartOptions };
+    }
   }
 
   createGraf(): void {
