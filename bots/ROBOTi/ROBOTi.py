@@ -226,10 +226,9 @@ def auto():
     print(row)
 
     for tk in row:
-        print("TK")
-        print(tk)
-
-    run(['ROBOTI','1'])
+        tks = tk['1']
+        print(tks)
+        run(['ROBOTI','1'])
 
     mod_logs.log('CRON',0)
     return ""
