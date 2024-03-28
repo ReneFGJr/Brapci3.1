@@ -9,6 +9,7 @@ import mod_concept
 import mod_class
 import database
 import time
+import mod_logs
 
 def register(IDC,prop,IDP):
     IDprop = mod_class.getClass(prop)
@@ -66,6 +67,7 @@ def DataDouble():
     qr += "where total > 1 "
     qr += "limit 1000 "
     row = database.query(qr)
+    dd = 0
 
     for l in row:
         ida = l[0]
@@ -73,5 +75,7 @@ def DataDouble():
         ID = str(l[2])
         print(Fore.YELLOW+"... Excluindo dados duplicados "+Fore.GREEN+str(ida)+','+str(total)+", ID:"+ID+Fore.WHITE)
         qd = f"delete from brapci_rdf.rdf_data where id_d = {ida}"
+        dd = dd + 1
         database.update(qd)
         time.sleep(0.01)
+    mod_logs.log('TASK_100',dd)
