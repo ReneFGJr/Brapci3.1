@@ -31,6 +31,8 @@ def run(parm):
     print(Fore.WHITE)
 
     #************************************************* Functions
+    if ((act == 'help') or (act == '?')):
+        roboti_help.help()
     #********************** ListIdentiers - LOOP
     if (act == '1'):
         loop = 1
@@ -210,7 +212,9 @@ def ListIdentiers():
     else:
         mod_source.update(jnl,xml['status'],'')
 
-
+def auto():
+    print("Robo Automático CRON")
+    mod_logs.log('CRON',0)
 
 ########################################### Início
 print("ROBOTi",version())
@@ -221,8 +225,3 @@ if (len(sys.argv) > 1):
     run(parm)
 else:
     auto()
-    roboti_help.help()
-
-def auto():
-    print("Robo Automático CRON")
-    mod_logs.log('CRON',0)
