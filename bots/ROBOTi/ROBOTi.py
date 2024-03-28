@@ -174,6 +174,10 @@ def GetRecord():
     print(Fore.GREEN+"... Fim do processamento"+Fore.WHITE)
 
 def ListIdentiers():
+
+    if not roboti_task.task_active('HARVESTING'):
+        return ""
+
     # Phase I
     reg = roboti_task.nextHarvesting()
     # Phase II - Valie

@@ -43,3 +43,13 @@ def valid(row):
         return True
     else:
         return False
+
+def task_active(task):
+    qr = f"select * from brapci_bots.tasks where task_id = '{task}'"
+    row = database.query(qr)
+    print(row)
+
+def task_start(task,prio=0):
+    if not (task_active(task)):
+        qi = f"insert into brapci_bots.tasks (task_id, task_propriry, task_offset) values ('{task}',{prio},0)"
+        row = database.query(qi)
