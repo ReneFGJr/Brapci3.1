@@ -21,6 +21,7 @@ import mod_lattes
 import mod_author
 import mod_literal
 import mod_logs
+import database
 from colorama import Fore
 
 def version():
@@ -219,6 +220,10 @@ def ListIdentiers():
 
 def auto():
     print("Robo Automático CRON")
+
+    qr = "select * from brapci_bots.tasks"
+    row = database.query(qr)
+    print(row)
     run(['ROBOTI','1'])
     mod_logs.log('CRON',0)
 
