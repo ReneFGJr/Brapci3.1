@@ -19,6 +19,7 @@ import mod_ontology
 import mod_lattes
 import mod_author
 import mod_literal
+import mod_logs
 from colorama import Fore
 
 def version():
@@ -219,4 +220,9 @@ if (len(sys.argv) > 1):
     parm = sys.argv
     run(parm)
 else:
+    auto()
     roboti_help.help()
+
+def auto():
+    print("Robo Automático CRON")
+    mod_logs.log('CRON',0)
