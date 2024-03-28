@@ -3,8 +3,11 @@ import mod_class
 import mod_concept
 import mod_data
 import database
+import mod_logs
 
 def check_remissiva():
+    dd = 0
+
     qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
     qr += "FROM brapci_rdf.rdf_concept "
     qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r1 "
@@ -19,6 +22,7 @@ def check_remissiva():
         NAME = reg[4]
         print("Check1 -",ID1,ID2,NAME)
         mod_data.remicive(ID1,ID2)
+        dd = dd + 1
 
     qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
     qr += "FROM brapci_rdf.rdf_concept "
@@ -34,7 +38,9 @@ def check_remissiva():
         NAME = reg[4]
         print("Check2 -",ID1,ID2,NAME)
         mod_data.remicive(ID1,ID2)
+        dd = dd + 1
 
+    mod_logs.log('TASK_200',dd)
     return ""
 
 def check_duplicate():
@@ -50,6 +56,7 @@ def check_duplicate():
 
     row = database.query(qr)
     lastName = 'x'
+    dd = 0
     for reg in row:
         name = reg[2]
         name = name.replace('-',' ')
@@ -63,11 +70,12 @@ def check_duplicate():
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(name)
             remissive(IDn1,IDn2)
-
+            dd = dd + 1
         else:
             reg2 = reg
             lastName = name
             IDn2 = IDn1
+    mod_logs.log('TASK_200',dd)
 
 def remissive(ID1,ID2):
     if ID2 < ID1:

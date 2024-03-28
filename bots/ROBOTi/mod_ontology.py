@@ -1,4 +1,5 @@
 import database
+import mod_logs
 
 def resume():
     qr = "SELECT count(*) as total, d_trust "
@@ -61,6 +62,7 @@ def checkData():
 
     qu = ""
     n = 0
+    dd = 0
     for item in row:
         ID = item[0]
         C2 = item[1]
@@ -73,6 +75,7 @@ def checkData():
             qu = f"update brapci_rdf.rdf_data set d_trust = 1 where id_d = {ID}"
             print(".", end='')
             n = n + 1
+            dd = dd + 1
             if (n > 50):
                 n = 0
                 print("")
@@ -81,5 +84,5 @@ def checkData():
             print(ID,C2,C3,CA1,CA2)
             qu = f"update brapci_rdf.rdf_data set d_trust = -1 where id_d = {ID}"
             database.update(qu)
-
+    mod_logs.log('TASK_110',dd)
     #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
