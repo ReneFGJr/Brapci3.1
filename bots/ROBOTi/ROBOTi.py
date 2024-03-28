@@ -231,4 +231,4 @@ if (len(sys.argv) > 1):
     run(parm)
 else:
     auto()
-    run([{'ROBOTI','100'}])
+    run(['ROBOTI','100'])
