@@ -215,6 +215,7 @@ def ListIdentiers():
 
 def auto():
     print("Robo Automático CRON")
+
     mod_logs.log('CRON',0)
 
 ########################################### Início
@@ -226,3 +227,4 @@ if (len(sys.argv) > 1):
     run(parm)
 else:
     auto()
+    run([100])
