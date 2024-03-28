@@ -224,8 +224,14 @@ def auto():
     qr = "select * from brapci_bots.tasks"
     row = database.query(qr)
     print(row)
+
+    for tk in row:
+        print("TK"+tk)
+
     run(['ROBOTI','1'])
+
     mod_logs.log('CRON',0)
+    return ""
 
 ########################################### Início
 print("ROBOTi",version())
