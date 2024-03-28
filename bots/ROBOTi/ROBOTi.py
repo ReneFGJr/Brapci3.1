@@ -231,4 +231,4 @@ if (len(sys.argv) > 1):
     run(parm)
 else:
     auto()
-    run([100])
+    run([{100}])
