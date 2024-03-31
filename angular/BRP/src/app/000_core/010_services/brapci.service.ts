@@ -61,7 +61,7 @@ export class BrapciService {
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,
-      (error) => error
+      (error) => error,
     );
   }
 

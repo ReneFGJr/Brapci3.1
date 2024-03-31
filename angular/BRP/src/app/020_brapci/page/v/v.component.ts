@@ -44,7 +44,6 @@ export class VComponent {
             } else {
               this.header.title = this.data.title + ' | ' + this.data.Authors;
             }
-
         },
         (error) => error
       );

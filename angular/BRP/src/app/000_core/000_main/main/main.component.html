@@ -1,4 +1,15 @@
 <app-theme-header [header]="header"></app-theme-header>
 <app-theme-navbar></app-theme-navbar>
-<app-brapci-welcome></app-brapci-welcome>
+<app-brapci-welcome *ngIf="status_ok == 1"></app-brapci-welcome>
+
+<div *ngIf="status_ok == 0" class="container">
+  <div class="row mt-5">
+    <div class="col-12 alert alert-primary h2">
+      {{ status_message }}
+    </div>
+  </div>
+</div>
+
+<app-manutence *ngIf="status_ok == 9"></app-manutence>
+
 <app-theme-footer></app-theme-footer>
