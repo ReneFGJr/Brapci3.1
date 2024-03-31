@@ -9,3 +9,5 @@ npm install --save bootstrap-icons
 npm i --save @fortawesome/free-solid-svg-icons
 npm i --save @fortawesome/fontawesome-svg-core
 npm install --save angular-d3-cloud
+npm install highcharts-angular --save
+npm install --save-dev @types/node

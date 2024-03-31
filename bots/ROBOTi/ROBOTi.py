@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # @Author: Rene Faustino Gabriel Junior <renefgj@gmail.com>
 # @Data: 2023-12-22
 # @Title: Robos da Brapci (ROBOTi)
@@ -19,6 +20,8 @@ import mod_ontology
 import mod_lattes
 import mod_author
 import mod_literal
+import mod_logs
+import database
 from colorama import Fore
 
 def version():
@@ -30,6 +33,8 @@ def run(parm):
     print(Fore.WHITE)
 
     #************************************************* Functions
+    if ((act == 'help') or (act == '?')):
+        roboti_help.help()
     #********************** ListIdentiers - LOOP
     if (act == '1'):
         loop = 1
@@ -170,6 +175,10 @@ def GetRecord():
     print(Fore.GREEN+"... Fim do processamento"+Fore.WHITE)
 
 def ListIdentiers():
+
+    if not roboti_task.task_active('HARVESTING'):
+        return ""
+
     # Phase I
     reg = roboti_task.nextHarvesting()
     # Phase II - Valie
@@ -209,7 +218,20 @@ def ListIdentiers():
     else:
         mod_source.update(jnl,xml['status'],'')
 
+def auto():
+    print("Robo Automático CRON")
 
+    qr = "select * from brapci_bots.tasks"
+    row = database.query(qr)
+    print(row)
+
+    for tk in row:
+        tks = tk[1]
+        print(tks)
+        run(['ROBOTI','1'])
+
+    mod_logs.log('CRON',0)
+    return ""
 
 ########################################### Início
 print("ROBOTi",version())
@@ -219,4 +241,4 @@ if (len(sys.argv) > 1):
     parm = sys.argv
     run(parm)
 else:
-    roboti_help.help()
+    auto()

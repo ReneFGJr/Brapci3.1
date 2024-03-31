@@ -6,15 +6,18 @@
       <div class="mt-2"><b>Produção Científica por ano/tipo do autor</b></div>
       <div
         class="chart-container"
-        style="background-color: #efefef; border: 2px solid #CCC"
+        style="background-color: #efefef; border: 2px solid #ccc"
       >
         <canvas id="MyProduction">{{ production }}</canvas>
       </div>
 
-      <!-- TAGCLOUD-->
-      <div class="mt-2"><b>Nuvem de TAGs de assuntos do Autor</b></div>
+      <!-------------------- TagCloud-->
+      <div class="mt-2 d-none d-xl-block"><b>Nuvem de TAGs de assuntos do Autor</b></div>
       <!-- app.component.html -->
-      <div style="background-color: #efefef; border: 2px solid #CCC" class="d-none d-xl-block">
+      <div
+        style="background-color: #efefef; border: 2px solid #ccc"
+        class="d-none d-xl-block"
+      >
         <angular-d3-cloud
           [data]="dataTAG"
           [width]="650"
@@ -26,6 +29,10 @@
           (wordClick)="onWorkClick()"
         ></angular-d3-cloud>
       </div>
+      <!-------------------- NetWork-->
+      <div class="mt-2"><b>Rede de coautoria</b></div>
+      <app-network [data]="data"></app-network>
+
 
       <div *ngIf="data.works.Article">
         <h2 class="brp_h2 mt-4" *ngIf="data.works.Article.length > 0">
@@ -92,11 +99,13 @@
         <!-------------- JOURNALS-->
         <h4>
           <b
-            ><i>Pubicações em {{ data.dataJOUR.data.length }} Revistas/Eventos</i></b
+            ><i
+              >Pubicações em {{ data.dataJOUR.data.length }} Revistas/Eventos</i
+            ></b
           >
         </h4>
-        <div class="chart-container" >
-          <canvas  id="MyJournals" >{{ journals }}</canvas>
+        <div class="chart-container">
+          <canvas id="MyJournals">{{ journals }}</canvas>
         </div>
 
         <!-------------- SUBJECTS-->
@@ -114,12 +123,12 @@
           </li>
         </ol>
 
-        <span class="small">Ponto de acesso autorizado</span><br>
-        <b>{{data.name}}</b>
-        <br/><br/>
-        <span class="small">Variantes</span><br>
+        <span class="small">Ponto de acesso autorizado</span><br />
+        <b>{{ data.name }}</b>
+        <br /><br />
+        <span class="small">Variantes</span><br />
         <li *ngFor="let vars of data.variants">
-          {{vars.name}}
+          {{ vars.name }}
         </li>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-brapci-person',
@@ -8,6 +9,23 @@ import Chart from 'chart.js/auto';
 export class PersonComponent {
   @Input() public data: Array<any> | any;
   public dataTAG: Array<any> | any;
+
+  /* Hichart */
+  Highcharts: typeof Highcharts = Highcharts; // required
+
+  chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
+  chartOptions: Highcharts.Options = {
+    series: [
+      {
+        data: [1, 2, 3, 4, 5, 6, 7],
+        type: 'line',
+      },
+    ],
+  };
+  chartCallback: Highcharts.ChartCallbackFunction = function (chart) {}; // optional function, defaults to null
+  updateFlag: boolean = false; // optional boolean
+  oneToOneFlag: boolean = true; // optional boolean, defaults to false
+  runOutsideAngular: boolean = false; // optional boolean, defaults to false
 
   constructor() {}
   ngOnInit(): void {}
@@ -33,6 +51,8 @@ export class PersonComponent {
   public chart: any;
   public production: any;
   public journals: any;
+
+  createNetwork() {}
 
   createJournals() {
     this.journals = new Chart('MyJournals', {

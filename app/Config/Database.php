@@ -612,6 +612,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $thesa = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'thesa',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $vc = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -631,6 +651,8 @@ class Database extends Config
         'failover' => [],
         'port'     => 3306,
     ];
+
+
 
     public $wordpress = [
         'DSN'      => '',
@@ -773,6 +795,9 @@ class Database extends Config
 
         $this->rdf2['username'] = getenv('database.default.username');
         $this->rdf2['password'] = getenv('database.default.password');
+
+        $this->thesa['username'] = getenv('database.default.username');
+        $this->thesa['password'] = getenv('database.default.password');
 
         $this->vc['username'] = getenv('database.default.username');
         $this->vc['password'] = getenv('database.default.password');
