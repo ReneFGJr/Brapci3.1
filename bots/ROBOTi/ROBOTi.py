@@ -43,6 +43,10 @@ def run(parm):
     if (act == '2'):
         GetRecord()
 
+    #********************** ListIdentiers - LOOP
+    if (act == 'startHarvesting'):
+        startHarvesting()
+
     #********************** Preprocess - LOOP
     if (act == '3'):
         loop = 1
@@ -167,10 +171,17 @@ def GetRecord():
     # Phase III - Fim do processo
     print(Fore.GREEN+"... Fim do processamento"+Fore.WHITE)
 
+def startHarvesting():
+    if not roboti_task.task_active('HARVESTING'):
+        roboti_task.task_start('HARVESTING')
+        print("[Ativar Harvesting]")
+        return ""
+    else:
+        print("Coletardor já está ativo")
+
+
 def ListIdentiers():
 
-    if not roboti_task.task_active('HARVESTING'):
-        return ""
 
     # Phase I
     reg = roboti_task.nextHarvesting()
