@@ -13,10 +13,8 @@ def check_duplicate():
         ID = item[3]
 
         if (name == last):
-            {
-                print(ID,lastID,name)
-                tot = tot + 1
-            }
+            print(ID,lastID,name)
+            tot = tot + 1
         last = name
         lastID = ID
     print("Total",tot)
