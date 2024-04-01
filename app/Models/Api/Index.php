@@ -63,6 +63,14 @@ class Index extends Model
         }
 
         switch ($d1) {
+
+            case 'status':
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['message'] = 'Service OK!';
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'page':
                 $WP = new \App\Models\WP\Index();
                 $RSP = $WP->api($d2);

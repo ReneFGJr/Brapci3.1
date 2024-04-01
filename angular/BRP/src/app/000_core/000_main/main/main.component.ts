@@ -17,8 +17,11 @@ export class MainComponent {
   ngOnInit() {
     console.log('Starting Services');
       this.brapciService.api_post('status').subscribe(
-        (res) => {},
+        (res) => {
+          this.status_ok = 1;
+        },
         (error) => {
+          console.log(error)
           this.status_ok = 9
         }
       )
