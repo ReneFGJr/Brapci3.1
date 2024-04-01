@@ -64,6 +64,8 @@ def check_duplicate():
         name = name.replace(' da ',' ')
         name = name.replace(' dos ',' ')
         name = name.replace(' e ',' ')
+        name = name.replace('  ',' ')
+        name = name.replace('  ',' ')
 
         IDn1 = reg[0]
 
