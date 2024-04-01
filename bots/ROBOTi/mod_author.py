@@ -69,8 +69,8 @@ def check_duplicate():
 
         IDn1 = reg[0]
 
-        if name[0] == 'G':
-            print(name,'|',lastName)
+        #if name[0] == 'G':
+        #    print(name,'|',lastName)
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(name)
