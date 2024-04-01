@@ -40,6 +40,8 @@ def auto():
             run(['ROBOTI','1'])
         if (tks == 'GETRECORD'):
             run(['ROBOTI','2'])
+        if (tks == 'PROC_RECORD'):
+            run(['ROBOTI','3'])
 
     mod_logs.log('CRON',0)
     return ""
@@ -170,6 +172,12 @@ def ProcessRecord():
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(5)
 
+    if (reg == []):
+        print("Removendo TASK PROC_RECORD")
+        roboti_task.task_remove('PROC_RECORD')
+        print("Incluindo TASK PROC_ISSUE")
+        roboti_task.task_start('PROC_ISSUE')
+
     # Phase II - Processa arquivos
     if (reg != []):
         for it in reg:
@@ -178,6 +186,12 @@ def ProcessRecord():
 def GetRecord():
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(1)
+
+    if (reg == []):
+        print("Removendo TASK GETRECORD")
+        roboti_task.task_remove('GETRECORD')
+        print("Incluindo TASK PROC_RECORD")
+        roboti_task.task_start('PROC_RECORD')
 
     # Phase II - Coleta arquivos
     if (reg != []):
