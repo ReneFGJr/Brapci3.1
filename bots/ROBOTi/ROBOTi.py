@@ -186,6 +186,9 @@ def ListIdentiers():
 
     # Phase I
     reg = roboti_task.nextHarvesting()
+
+    print("===",reg)
+
     # Phase II - Valie
     if not (roboti_task.valid(reg)):
         return False
