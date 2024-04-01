@@ -26,7 +26,24 @@ import database
 from colorama import Fore
 
 def version():
-    return "v0.24.03.07"
+    return "v0.24.04.01"
+
+def auto():
+    print("Robo Automático CRON")
+
+    qr = "select * from brapci_bots.tasks"
+    row = database.query(qr)
+    print(row)
+
+    for tk in row:
+        tks = tk[1]
+        if (tks == 'HARVESTING'):
+            run(['ROBOTI','1'])
+        if (tks == 'GETRECORD'):
+            run(['ROBOTI','2'])
+
+    mod_logs.log('CRON',0)
+    return ""
 
 def run(parm):
     act = parm[1]
@@ -229,21 +246,6 @@ def ListIdentiers():
         return loop
     else:
         mod_source.update(jnl,xml['status'],'')
-
-def auto():
-    print("Robo Automático CRON")
-
-    qr = "select * from brapci_bots.tasks"
-    row = database.query(qr)
-    print(row)
-
-    for tk in row:
-        tks = tk[1]
-        print(tks)
-        run(['ROBOTI','1'])
-
-    mod_logs.log('CRON',0)
-    return ""
 
 ########################################### Início
 print("ROBOTi",version())
