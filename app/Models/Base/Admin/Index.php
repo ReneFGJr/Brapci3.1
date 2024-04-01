@@ -198,7 +198,9 @@ class Index extends Model
 
     function literal($id)
         {
-            pre($id);
+            $RDF = new \App\Models\RDF2\RDF();
+            $dt = $RDF->le($id);
+            pre($dt);
         }
 
     function alias($d1,$idx,$d3,$d4)
