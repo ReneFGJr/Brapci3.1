@@ -45,6 +45,9 @@ class Index extends Model
         $sx = '';
         $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'literal':
+                $sx .= $this->literal($subact, $id, $id2, $id3);
+                break;
             case 'alias':
                 $sx .= $this->alias($subact,$id,$id2,$id3);
                 break;
@@ -193,6 +196,11 @@ class Index extends Model
         return $sx;
     }
 
+    function literal($id)
+        {
+            pre($id)
+        }
+
     function alias($d1,$idx,$d3,$d4)
         {
             $RDF = new \App\Models\RDF2\RDF();
@@ -229,7 +237,9 @@ class Index extends Model
             $sx .= '<hr>';
             $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
             $sx .= ' | ';
-            $sx .= '<a href="' . PATH . 'admin/alias/'.$d1.'/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
+            $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/literal/' . $d1 .'">Editar Literal</a>';
+            $sx .= ' | ';
+            $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/alias/'.$d1.'/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
             $sx .= '<hr>';
 
             $txt = explode(' ',$name);
