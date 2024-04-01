@@ -44,6 +44,8 @@ def auto():
             run(['ROBOTI','3'])
         if (tks == 'PROC_ISSUE'):
             run(['ROBOTI','4'])
+        if (tks == 'PROC_WORK'):
+            run(['ROBOTI','5'])
 
     mod_logs.log('CRON',0)
     return ""
