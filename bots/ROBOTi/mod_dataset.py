@@ -11,7 +11,7 @@ def check_duplicate():
     tot = 0
 
     for item in row:
-        name = item[1]+item[2]
+        name = item[1]+item[2]+item[3]
         ID = item[3]
 
         if (name == last):
