@@ -16,6 +16,7 @@ import mod_subject
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
 import mod_issue
+import mod_dataset
 import mod_ontology
 import mod_lattes
 import mod_author
@@ -117,6 +118,10 @@ def run(parm):
         lp = mod_subject.check_duplicate()
     if (act == '211'):
         lp = mod_author.check_remissiva()
+
+    ################### Works
+    if (act == '220'):
+        lp = mod_dataset.check_duplicate()
 
     if (act == 'lattesK'):
         file = parm[2]
