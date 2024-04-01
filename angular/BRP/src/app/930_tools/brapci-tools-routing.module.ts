@@ -4,6 +4,9 @@ import { ToolsMainComponent } from './main/tools-main/tools-main.component';
 import { ToolsIconsComponent } from './page/main/tools-icons/tools-icons.component';
 import { Txt4netComponent } from './tools/txt4net/txt4net.component';
 import { AmostraComponent } from './page/amostra/amostra.component';
+import { PriceComponent } from './page/amostra/price.component';
+import { BradfordComponent } from './page/amostra/bradford.component';
+import { LotkaComponent } from './page/amostra/lotka.component';
 
 const routes: Routes = [
   {
@@ -19,6 +22,9 @@ const routes: Routes = [
       { path: 'txt4char', component: ToolsIconsComponent },
       { path: 'txtChange', component: ToolsIconsComponent },
       { path: 'amostra', component: AmostraComponent },
+      { path: 'price', component: PriceComponent },
+      { path: 'bradford', component: BradfordComponent },
+      { path: 'lotka', component: LotkaComponent },
     ],
   },
 ];

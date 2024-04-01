@@ -31,8 +31,10 @@
           <label>
             Confiança:
             <br />
-            <select id="confianca" formControlName="confianca" class="big"  >
-               <option *ngFor="let c of confianca_niveis" [value]="c" >{{ c }}</option>
+            <select id="confianca" formControlName="confianca" class="big">
+              <option *ngFor="let c of confianca_niveis" [value]="c">
+                {{ c }}
+              </option>
             </select>
           </label>
         </div>
@@ -53,11 +55,35 @@
           <button class="btn btn-primary">Calcular</button>
         </div>
 
-        <div class="mt-2">{{ myForm.value | json }}</div>
+        <div class="h4 bold mt-5">
+          Total da amostra: {{ amostra | number : "1.0-0" }}
+        </div>
       </form>
     </div>
-    <div class="h1">
-    Total da amostra: {{amostra  | number:'1.0-0'}}
+
+    <div class="col-12 col-lg-6">
+      <div *ngIf="amostra > 0">
+        <h2>Metodologia</h2>
+        <p>
+          Para assegurar a representatividade e a precisão dos dados coletados
+          nesta pesquisa, o tamanho da amostra foi calculado com base em um
+          intervalo de confiança de <b>{{ myForm.value.confianca }}%</b> e uma
+          margem de erro de <b>{{ myForm.value.erro_amostral }}%</b>, em uma
+          distribuição <b>{{ myForm.value.distribuicao }}</b
+          >. Esses parâmetros foram escolhidos para equilibrar a precisão
+          estatística com a viabilidade prática de coleta de dados. Através da
+          aplicação da fórmula para determinação do tamanho de amostra em
+          estudos de proporções, com a premissa de máxima variabilidade (p=0.5),
+          que proporciona o tamanho máximo da amostra para um dado nível de
+          confiança e margem de erro, o cálculo indicou a necessidade de uma
+          amostra mínima de aproximadamente
+          <b>{{ amostra | number : "1.0-0" }}</b> respondentes.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-2">
+      <app-menu-right-side></app-menu-right-side>
     </div>
   </div>
 </div>

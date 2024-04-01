@@ -16,10 +16,14 @@ import { FormFileInputComponent } from './widget/form-file-input/form-file-input
 import { TextFormComponent } from './widget/text-form/text-form.component';
 import { BannerComponent } from './widget/banner/banner.component';
 import { AmostraComponent } from './page/amostra/amostra.component';
+import { PriceComponent } from './page/amostra/price.component';
+import { BradfordComponent } from './page/amostra/bradford.component';
+import { LotkaComponent } from './page/amostra/lotka.component';
+import { MenuRightSideComponent } from './page/amostra/menu-right-side/menu-right-side.component';
 
 
 @NgModule({
-  declarations: [ToolsMainComponent, ToolsIconsComponent, Txt4netComponent, Txt4matrixComponent, Txt4charComponent, TxtChangeComponent, Txt4gephiComponent, FormFileInputComponent, TextFormComponent, BannerComponent, AmostraComponent],
+  declarations: [ToolsMainComponent, ToolsIconsComponent, Txt4netComponent, Txt4matrixComponent, Txt4charComponent, TxtChangeComponent, Txt4gephiComponent, FormFileInputComponent, TextFormComponent, BannerComponent, AmostraComponent, PriceComponent, BradfordComponent, LotkaComponent, MenuRightSideComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
