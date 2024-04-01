@@ -45,7 +45,7 @@ def auto():
         if (tks == 'PROC_ISSUE'):
             run(['ROBOTI','4'])
         if (tks == 'PROC_WORK'):
-            run(['ROBOTI','5'])
+            ProcessArticle()
 
     mod_logs.log('CRON',0)
     return ""
@@ -71,34 +71,15 @@ def run(parm):
 
     #********************** Preprocess - LOOP
     if (act == '3'):
-        loop = 1
-        while loop > 0:
-            loop += 1
-            lp = ProcessRecord()
-            print("LOOP - ",loop)
-            if (loop > 10) or (lp == 0):
-                loop = 0
+        ProcessRecord()
 
     #********************** CheckEdition - LOOP - 6
     if (act == '4'):
-        loop = 1
-        while loop > 0:
-            loop += 1
-            lp = ProcessRecordIssue()
-            print("LOOP - ",loop)
-            if (loop > 10) or (lp == 0):
-                loop = 0
+        ProcessRecordIssue()
 
     #********************** Article - LOOP - 7
     if (act == '5'):
-        loop = 1
-        end = 5
-        while loop > 0:
-            loop += 1
-            lp = ProcessArticle()
-            print("LOOP - ",loop)
-            if (loop > end) or (lp == 0):
-                loop = 0
+        ProcessArticle()
 
     if (act == '100'):
         lp = mod_data.DataDouble()
@@ -156,8 +137,8 @@ def DataDouble():
 
 def ProcessArticle(): ############################# 5
     # Phase I - get Next Records
+    #reg = roboti_task.nextGetRecords(6)
     reg = roboti_task.nextGetRecords(7)
-    reg = roboti_task.nextGetRecords(6)
     if (reg == []):
         print("Removendo TASK PROC_WORK")
         roboti_task.task_remove('PROC_WORK')
