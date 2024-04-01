@@ -1,7 +1,7 @@
 import database
 
 def check_duplicate():
-    qr = "select JOURNAL, TITLE, AUTHORS, ID from brapci_elastic.dataset "
+    qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
     qr += " where `use` = 0 "
     qr += "order by JOURNAL, TITLE, AUTHORS, YEAR, PDF desc, ID "
     row = database.query(qr)
@@ -11,7 +11,7 @@ def check_duplicate():
     tot = 0
 
     for item in row:
-        name = str(item[0]) + ' | ' + item[1]+' | ' + item[2]
+        name = str(item[0]) + ' | ' + item[1]+' | ' + item[2]+' | ' + item[4]
         ID = item[3]
 
         if (name == last):
