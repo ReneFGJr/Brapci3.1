@@ -198,9 +198,17 @@ class Index extends Model
 
     function literal($id)
         {
+            $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
             $dt = $RDF->le($id);
-            pre($dt);
+            if ($dt != '')
+                {
+                    $sx = form_open();
+                    $sx .= form_input('n_literal',$dt['concept']['n_name'],['class'=>'full']);
+                    $sx .= form_submit('action','SAVE');
+                    $sx .= form_close();
+                }
+            return $sx;
         }
 
     function alias($d1,$idx,$d3,$d4)
