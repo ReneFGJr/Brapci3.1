@@ -181,7 +181,8 @@ def startHarvesting():
 
 
 def ListIdentiers():
-
+    if not roboti_task.task_active('HARVESTING'):
+        return ""
 
     # Phase I
     reg = roboti_task.nextHarvesting()
