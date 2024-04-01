@@ -207,8 +207,9 @@ class Index extends Model
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $dd = [];
                 $dd['n_name'] = get("n_name");
-                pre($dd);
                 $this->set($dd)->where('id_n', $dt['concept']['id_n'])->update();
+                $sx = metarefresh(PATH.'admin/alias/'.$id);
+                return $sx;
             }
 
             if ($dt != '')
