@@ -14,7 +14,7 @@ def check_duplicate():
         name = str(item[0]) + ' | ' + item[1]+' | ' + item[2]+' | ' + str(item[4])
         ID = item[3]
 
-        if (name == last) and (len(name) > 150):
+        if (name == last) and (len(name) > 120):
             print(ID,lastID,name)
             tot = tot + 1
             qu = "update brapci_elastic.dataset "
