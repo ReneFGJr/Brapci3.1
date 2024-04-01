@@ -208,7 +208,7 @@ class Index extends Model
                 $dd = [];
                 $dd['n_name'] = get("n_name");
                 $idn = $dt['concept']['id_n'];
-                $this->set($dd)
+                $RDFliteral->set($dd)
                         ->where('id_n', $idn)
                         ->update();
                 $sx = metarefresh(PATH.'admin/alias/'.$id);
