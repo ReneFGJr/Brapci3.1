@@ -201,6 +201,15 @@ class Index extends Model
             $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
             $dt = $RDF->le($id);
+
+            if (get("action") != '') {
+                $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                $dd = [];
+                $dd['n_name'] = get("n_name");
+                pre($dd);
+                $this->set($dd)->where('id_n', $dt['concept']['id_n'])->update();
+            }
+
             if ($dt != '')
                 {
                     $sx = form_open();
