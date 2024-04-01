@@ -47,7 +47,10 @@ def valid(row):
 def task_active(task):
     qr = f"select * from brapci_bots.tasks where task_id = '{task}'"
     row = database.query(qr)
-    print(row)
+    if row == []:
+        return False
+    else:
+        return True
 
 def task_start(task,prio=0):
     if not (task_active(task)):
