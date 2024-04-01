@@ -1,7 +1,30 @@
 <div class="container">
   <div class="row">
     <div class="col-12 col-lg-4">
+      Cálculo
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <label>
+          Tamanho da populacao:
+          <br />
+          <input
+            class="big border border-secondary"
+            formControlName="populacao"
+            placeholder="Tamanho da populacao"
+          />
+        </label>
+
+        <div class="mt-2">
+          <button class="btn btn-primary">Calcular</button>
+        </div>
+
+        <div class="h4 bold mt-5">
+          Total da amostra: {{ amostra | number : "1.0-0" }}
+        </div>
+      </form>
+    </div>
+    <div class="col-12 col-lg-4">
       <h1>Lei de Price</h1>
+
       <p>
         Também conhecida como a Lei dos Quadrados, foi formulada por Derek J. de
         Solla Price. Esta lei diz que metade de toda a produção científica em um
@@ -9,8 +32,18 @@
         contribuíram para esse campo. Isso significa que um pequeno núcleo de
         autores é responsável por uma grande parte das publicações.
       </p>
+      <img [src]="assimetria">
+
+      <h1>Metodologia</h1>
+      <p>Nesta pesquisa, aplicamos a Lei de Price analisando as publicações
+      de uma amostra de <b>{{myForm.value.populacao | number : "1.0-0"}}</b> autores para identificar o núcleo
+      produtivo responsável por metade dos trabalhos, destacando assim a desigualdade na distribuição da
+      produtividade científica. O total de autores analisados foi de
+      <b>{{ amostra | number : "1.0-0"}}</b> autores,
+      compondo a Elite de Pesquisa do tema estudado.</p>
+      <p>PRICE, John Derek de Solla. <b>Litle science, big science</b>. New York: Columbia University Press, 1963.</p>
     </div>
-        <div class="col-12 col-lg-2">
+    <div class="col-12 col-lg-2">
       <app-menu-right-side></app-menu-right-side>
     </div>
   </div>
