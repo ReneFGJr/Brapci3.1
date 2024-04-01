@@ -207,7 +207,10 @@ class Index extends Model
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $dd = [];
                 $dd['n_name'] = get("n_name");
-                $this->set($dd)->where('id_n', $dt['concept']['id_n'])->update();
+                $idn = $dt['concept']['id_n'];
+                $this->set($dd)
+                        ->where('id_n', $idn)
+                        ->update();
                 $sx = metarefresh(PATH.'admin/alias/'.$id);
                 return $sx;
             }
