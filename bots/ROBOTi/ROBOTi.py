@@ -33,7 +33,6 @@ def auto():
 
     qr = "select * from brapci_bots.tasks"
     row = database.query(qr)
-    print(row)
 
     for tk in row:
         tks = tk[1]
