@@ -203,6 +203,7 @@ class Index extends Model
             $dt = $RDF->le($id);
 
             if (get("action") != '') {
+
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $dd = [];
                 $dd['n_name'] = get("n_name");
@@ -213,7 +214,7 @@ class Index extends Model
             if ($dt != '')
                 {
                     $sx = form_open();
-                    $sx .= form_input('n_literal',$dt['concept']['n_name'],['class'=>'full']);
+                    $sx .= form_input('n_name',$dt['concept']['n_name'],['class'=>'full']);
                     $sx .= form_submit('action','SAVE');
                     $sx .= form_close();
                 }
