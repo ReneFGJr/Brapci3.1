@@ -208,7 +208,7 @@ class Index extends Model
                     $sx .= form_submit('action','SAVE');
                     $sx .= form_close();
                 }
-            return $sx;
+            return bs(bsc($sx));
         }
 
     function alias($d1,$idx,$d3,$d4)
