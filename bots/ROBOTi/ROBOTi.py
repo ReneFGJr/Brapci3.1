@@ -42,6 +42,8 @@ def auto():
             run(['ROBOTI','2'])
         if (tks == 'PROC_RECORD'):
             run(['ROBOTI','3'])
+        if (tks == 'PROC_ISSUE'):
+            run(['ROBOTI','4'])
 
     mod_logs.log('CRON',0)
     return ""
@@ -153,6 +155,12 @@ def DataDouble():
 def ProcessArticle(): ############################# 5
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(7)
+    reg = roboti_task.nextGetRecords(6)
+    if (reg == []):
+        print("Removendo TASK PROC_WORK")
+        roboti_task.task_remove('PROC_WORK')
+        #//print("Incluindo TASK PROC_WORK")
+        #//roboti_task.task_start('PROC_WORK')
 
     # Phase II - Processa arquivos
     if (reg != []):
@@ -162,6 +170,11 @@ def ProcessArticle(): ############################# 5
 def ProcessRecordIssue():
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(6)
+    if (reg == []):
+        print("Removendo TASK PROC_ISSUE")
+        roboti_task.task_remove('PROC_ISSUE')
+        print("Incluindo TASK PROC_WORK")
+        roboti_task.task_start('PROC_WORK')
 
     # Phase II - Processa arquivos
     if (reg != []):
