@@ -198,7 +198,7 @@ class Index extends Model
 
     function literal($id)
         {
-            pre($id)
+            pre($id);
         }
 
     function alias($d1,$idx,$d3,$d4)
