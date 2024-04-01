@@ -38,22 +38,10 @@ def run(parm):
         roboti_help.help()
     #********************** ListIdentiers - LOOP
     if (act == '1'):
-        loop = 1
-        while loop > 0:
-            loop += 1
-            lp = ListIdentiers()
-            print("LOOP - ",loop)
-            if (loop > 50) or (lp == 0):
-                loop = 0
+        ListIdentiers()
     #********************** ListIdentiers - LOOP
     if (act == '2'):
-        loop = 1
-        while loop > 0:
-            loop += 1
-            lp = GetRecord()
-            print("LOOP - ",loop)
-            if (loop > 5) or (lp == 0):
-                loop = 0
+        GetRecord()
 
     #********************** Preprocess - LOOP
     if (act == '3'):
