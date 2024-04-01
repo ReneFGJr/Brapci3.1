@@ -5,6 +5,7 @@ def check_duplicate():
     row = database.query(qr)
 
     last = ''
+    lastID = ''
 
     for item in row:
         name = item[1]+item[2]
@@ -12,6 +13,7 @@ def check_duplicate():
 
         if (name == last):
             {
-                print(ID,name)
+                print(ID,lastID,name)
             }
         last = name
+        lastID = ID
