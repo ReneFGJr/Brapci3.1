@@ -63,7 +63,6 @@ def task_update(task,offset=0):
         row = database.update(qi)
 
 def task_remove(task,prio=0):
-    if not (task_active(task)):
+    if task_active(task):
         qr = f"delete from brapci_bots.tasks where task_id = '{task}'"
-        print(qr)
         row = database.update(qr)
