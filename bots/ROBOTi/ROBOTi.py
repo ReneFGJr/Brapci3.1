@@ -190,7 +190,7 @@ def ListIdentiers():
     if (reg == []):
         print("Removendo TASK")
         roboti_task.task_remove('HARVESTING')
-        roboti_task.task_active('GETRECORD')
+        roboti_task.task_start('GETRECORD')
 
     # Phase II - Valie
     if not (roboti_task.valid(reg)):
