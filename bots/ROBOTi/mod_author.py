@@ -69,6 +69,8 @@ def check_duplicate():
 
         IDn1 = reg[0]
 
+        print(name,lastName)
+
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(name)
             remissive(IDn1,IDn2)
