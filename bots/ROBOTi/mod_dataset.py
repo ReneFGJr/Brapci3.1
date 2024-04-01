@@ -6,6 +6,7 @@ def check_duplicate():
 
     last = ''
     lastID = ''
+    tot = 0
 
     for item in row:
         name = item[1]+item[2]
@@ -14,6 +15,8 @@ def check_duplicate():
         if (name == last):
             {
                 print(ID,lastID,name)
+                tot = tot + 1
             }
         last = name
         lastID = ID
+    print("Total",tot)
