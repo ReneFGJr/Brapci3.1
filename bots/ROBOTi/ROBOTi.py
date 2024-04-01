@@ -188,6 +188,7 @@ def ListIdentiers():
     reg = roboti_task.nextHarvesting()
 
     if (reg == []):
+        print("Removendo TASK")
         roboti_task.task_remove('HARVESTING')
 
 
