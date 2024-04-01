@@ -21,6 +21,7 @@ def check_duplicate():
             qu += f" set `use` = {lastID} "
             qu += f" where ID = {ID} "
             print("===>",qu)
+            database.update(qu)
 
         last = name
         lastID = ID
