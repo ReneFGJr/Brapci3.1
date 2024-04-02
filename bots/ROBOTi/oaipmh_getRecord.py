@@ -250,6 +250,9 @@ def get(rg):
     url = rg[2]
     ID = rg[0]
 
+    print(rg)
+    quit()
+
     LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify
     print(Fore.YELLOW+"... Recuperando: "+Fore.GREEN+f"{LINK}"+Fore.WHITE)
 
