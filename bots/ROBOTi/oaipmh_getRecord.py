@@ -259,6 +259,8 @@ def get(rg):
     ID = rg[0]
     urlIssue = rg[9]
 
+    print("========",urlIssue.find('http'))
+
     if (urlIssue.find('http') > 0):
         url = urlIssue
 
