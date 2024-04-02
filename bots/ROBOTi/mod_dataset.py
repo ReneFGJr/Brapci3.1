@@ -16,7 +16,7 @@ def check_type():
         print(item)
         ID = item[0]
 
-        qu = "update brapci_rdf.rdf_concept set cc_class = {classN} where id_cc = {ID} "
+        qu = f"update brapci_rdf.rdf_concept set cc_class = {classN} where id_cc = {ID} "
         print(qu)
 
 def check_duplicate():
