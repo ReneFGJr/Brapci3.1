@@ -9,6 +9,13 @@ def check_duplicate():
     print(qr)
     row = database.query(qr)
     for ln in row:
+        ID1 = ln[3]
+        ID2 = ln[4]
+        qu = f"update rdf_concept set cc_pref_term = {ID1} where cc_pref_term = {ID2}"
+        print(qu)
+        qu = f"update rdf_data set d_literal = {ID1} where d_literal = {ID2}"
+        print(qu)
+
         print(ln)
         quit()
 
