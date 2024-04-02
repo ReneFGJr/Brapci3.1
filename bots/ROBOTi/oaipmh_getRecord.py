@@ -259,9 +259,9 @@ def get(rg):
     ID = rg[0]
     urlIssue = rg[9]
 
-    print(urlIssue.find('http'))
+    substring = "http"
 
-    if (urlIssue.find('http') > 0):
+    if substring in urlIssue:
         url = urlIssue
 
     LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify
