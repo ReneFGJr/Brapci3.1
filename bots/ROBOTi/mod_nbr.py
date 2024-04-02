@@ -1,5 +1,6 @@
 def nbr_author(n):
     n2 = n
+    print('===>',n2)
     if (n.find(';')):
         p = n.find(';')
         n2 = n[0:p].strip()
