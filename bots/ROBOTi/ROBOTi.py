@@ -131,6 +131,10 @@ def run(parm):
     if (act == '220'):
         lp = mod_dataset.check_duplicate()
 
+    ################### Works
+    if (act == '230'):
+        lp = mod_dataset.check_type()
+
     if (act == 'lattesK'):
         file = parm[2]
         hd = parm[3]

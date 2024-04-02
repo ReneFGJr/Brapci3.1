@@ -1,5 +1,14 @@
 import database
 
+def check_type():
+    print("Checando tipo de publicação e o trabalho")
+    qr = "select * "
+    qr += " from brapci_elastic.dataset "
+    qr += " inner join brapci.source_source on JOURNAL = id_jnl "
+    qr += " where CLASS <> 'Proceeding' "
+    qr += " and jnl_collection = 'EV' "
+    row = database.query(qr)
+
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
     qr += " where `use` = 0 "
