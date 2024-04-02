@@ -32,7 +32,7 @@ def check_title():
     qr = f"select * from brapci_rdf.rdf_data "
     qr += " brapci_rdf.rdf_literal on id_n = d_literal"
     qr += " where (n_lang = 'nn')"
-    qr += f" d_p = {prop} "
+    qr += f" and d_p = {prop} "
     row = database.query(qr)
     for item in row:
         print(item)
