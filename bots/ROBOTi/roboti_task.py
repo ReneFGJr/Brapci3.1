@@ -3,7 +3,7 @@ import database
 from colorama import Fore
 
 def nextGetRecords(status):
-    cp = "id_oai, oai_identifier, jnl_url_oai, jnl_name_abrev, oai_setSpec, oai_rdf, id_jnl, s_id, oai_issue, is_url_oai"
+    cp = "id_oai, oai_identifier, jnl_url_oai, jnl_name_abrev, oai_setSpec, oai_rdf, id_jnl, s_id, oai_issue, is_url_oai, is_source_issue"
     qr = f"select {cp} from brapci_oaipmh.oai_listidentify "
     qr += " inner join brapci.source_source on oai_id_jnl = id_jnl "
     qr += " left join brapci.source_issue on oai_issue = id_is "
