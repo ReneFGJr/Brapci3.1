@@ -17,7 +17,7 @@ def check_type():
         ID = item[0]
 
         qu = f"update brapci_rdf.rdf_concept set cc_class = {classN} where id_cc = {ID} "
-        print(qu)
+        database.update(qu)
 
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
