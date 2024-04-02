@@ -249,7 +249,7 @@ class RDFtoolsImport extends Model
         $c['hasIssue'] = 'hasIssueOf';
         $c['isPubishIn'] = 'isPartOfSource';
         $c['hasIdRegister'] = 'hasID';
-        $c['hasIssue'] = 'hasPublicationIssueOf';
+        $c['hasIssue'] = 'hasIssueOf';
         $c['hasTitleAlternative'] = 'hasTitle';
         $c['hasPublicationVolume'] = 'hasVolume';
 
@@ -553,7 +553,7 @@ class RDFtoolsImport extends Model
 
         if ($ID2 > 0)
             {
-                $prop_journal = $RDFclass->getClass('hasPublicationIssueOf');
+                $prop_journal = $RDFclass->getClass('hasPartOfPublication');
                 $RDFdata->register($ID2, $prop_journal, $ID, $lit);
             }
 
@@ -613,7 +613,7 @@ class RDFtoolsImport extends Model
 
                     switch ($concept) {
                         case 'Journals':
-                            $propJ = $RDFclass->getClass('hasPublicationIssueOf');
+                            $propJ = $RDFclass->getClass('hasPartOfPublication');
                             $lit = 0;
                             $RDFdata->register($ID2, $propJ, $ID, $lit);
                             break;

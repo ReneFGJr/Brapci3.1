@@ -481,9 +481,8 @@ class Export extends Model
                                     pre($dt);
                                 }
                         } else {
-                            $issue1 = $RDF->extract($dt, 'hasPublicationIssueOf','A');
+                            $issue1 = $RDF->extract($dt, 'hasIssueOf','A');
 
-                            //$issue2 = $RDF->extract($dt, 'hasPublicationIssueOf');
                             if ($issue1 != [])
                                 {
                                     $sx .= '<li>Importando Registros de ISSUE - ' . $issue1[0] . '</li>';
@@ -495,7 +494,7 @@ class Export extends Model
                                             $sx .= '<li>Atualizado '.$ID.'</li>';
                                         } else {
                                             $sx .= "<li>ISSUE NÂO EXISTE $ID </li>";
-                                            $SRC = $RDF->extract($dt, 'hasPublicationIssueOf','A');
+                                            $SRC = $RDF->extract($dt, 'hasIssueOf','A');
                                             if (isset($SRC[0]))
                                                 {
                                                     $DTI = $RDF->le($SRC[0]);

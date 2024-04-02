@@ -527,7 +527,7 @@ class RDFmetadata extends Model
                     $dr['Email'] = $line['Caption'];
                     break;
 
-                case 'hasPublicationIssueOf':
+                case 'hasIssueOf':
                     array_push($issue, $line['ID']);
                     break;
             }
@@ -641,8 +641,7 @@ class RDFmetadata extends Model
 
         /***************************** ISSUE */
         $ISSUE1 = $this->arrayExtract($dd, 'hasIssueOf');
-        $ISSUE2 = $this->arrayExtract($dd, 'hasPublicationIssueOf');
-        $ISSUE = array_merge($ISSUE1, $ISSUE2);
+        $ISSUE = $ISSUE1;
 
         if (isset($ISSUE[0])) {
             $dtIssue = $RDF->le($ISSUE[0]['ID']);
