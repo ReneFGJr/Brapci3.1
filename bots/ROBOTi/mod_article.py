@@ -297,6 +297,9 @@ def article_data(IDC,rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
                 IDsec = row[0][0]
+
+                print(row)
+
                 if (IDsec == None or IDsec < 1):
                     print("Erro Section IDsec="+IDsec)
                     quit()
