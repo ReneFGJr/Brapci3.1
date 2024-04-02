@@ -4,7 +4,7 @@
     <h1>{{ source.source.jnl_name }}</h1>
     <h4>{{ source.source.jnl_name_abrev }}</h4>
 
-    <div  *ngFor="let issue of source.source.issue" class="col-4">
+    <div  *ngFor="let issue of source.source.issue" class="col-12 col-lg-4">
         <div class="cover issue p-2 m-2" (click)="viewIssue(issue.ID)">
           <div class="issue-name">{{issue.acron}}</div>
           <div class="issue-nr">{{issue.vol}}</div>

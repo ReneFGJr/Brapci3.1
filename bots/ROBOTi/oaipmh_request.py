@@ -46,5 +46,6 @@ def get(LINK):
         except Exception as e:
             status_code = '501'
             print("... ERRO: 404",e)
+            print("URL:",LINK)
             print(f"... cnt.text empty - OAIPMH - LisyIdentifiers")
             return {'content':'','status':status_code}

@@ -23,6 +23,7 @@ import mod_author
 import mod_literal
 import mod_logs
 import database
+import mod_proceeding
 from colorama import Fore
 
 def version():
@@ -46,6 +47,10 @@ def auto():
             run(['ROBOTI','4'])
         if (tks == 'PROC_WORK'):
             ProcessArticle()
+
+        ########### mod_proceeding
+        if (tks == 'PROCEEDING'):
+            mod_proceeding.harvesting()
 
     mod_logs.log('CRON',0)
     return ""
@@ -80,6 +85,10 @@ def run(parm):
     #********************** Article - LOOP - 7
     if (act == '5'):
         ProcessArticle()
+
+    #******************** Proceeding */
+    if (act == '11'):
+        mod_proceeding.harvesting()
 
     if (act == '100'):
         lp = mod_data.DataDouble()
