@@ -111,6 +111,8 @@ class Proceedings extends BaseController
             $Issues = new \App\Models\Base\Issues();
             $dt = $Issues->where('id_is',$id)->first();
             $url = 'https://brapci.inf.br/#/proceedings/issue/'.$dt['is_source_issue'];
+            header("Location:" . $url);
+            exit;
             echo $url;
             pre($dt);
             return $sx;
