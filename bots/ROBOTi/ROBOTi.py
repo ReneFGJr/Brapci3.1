@@ -89,6 +89,8 @@ def run(parm):
     #******************** Proceeding */
     if (act == '11'):
         mod_proceeding.harvesting()
+    if (act == '12'):
+        mod_proceeding.issue()
 
     if (act == '100'):
         lp = mod_data.DataDouble()
