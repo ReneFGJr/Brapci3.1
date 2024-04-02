@@ -260,7 +260,7 @@ def get(rg):
     #/urlIssue = str(rg[9])
 
     print("URL")
-    print(rg(8))
+    print(rg)
     quit()
 
     substring = "http"
