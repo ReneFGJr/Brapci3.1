@@ -36,39 +36,9 @@ class Proceedings extends BaseController
         $act = trim($act);
 
         switch ($act) {
-            case 'a':
-                $Socials = new \App\Models\Socials();
-                $cat = $Socials->getAccess("#ADM#CAT#ENA");
-                if ($cat == true) {
-                    $RDF = new \App\Models\Rdf\RDF();
-
-                    $link_a = PATH . '/rdf/form/editRDF/' . $subact;
-                    $link_b = PATH . '/rdf/view/pdf/' . $subact;;
-
-                    $sa = '<iframe src="' . $link_a . '" style="width: 100%; height:600px;"></iframe>';
-                    $sb = '<iframe src="' . $link_b . '" style="width: 100%; height:600px;"></iframe>';
-
-                    $sa = bsc($sa, 6);
-                    $sb = bsc($sb, 6);
-                    $sx .= '<a href="' . PATH . COLLECTION . '/v/' . $subact .
-                        '" class="btn btn-outline-primary">' .
-                        lang('brapci.return') . '</a>';
-                    $sx .= bs($sa . $sb);
-                } else {
-                    $sx .= bsmessage('Access not permited');
-                    $sx .= bs(bsc($sx, 12));
-                }
-                break;
             case 'v':
                 $Proceeding = new \App\Models\Base\Proceeding();
                 $sx .= $Proceeding->v($subact);
-                break;
-            case 'oai':
-                $sx .= $this->oai($subact, $id);
-                break;
-            case 'harvesting':
-                $OAI_ListIdentifiers = new \App\Models\Oaipmh\ListIdentifiers();
-                $sx .= $OAI_ListIdentifiers->harvesting($d2);
                 break;
             case 'issue':
                 $sx .= $this->issues($subact, $id);
@@ -137,7 +107,8 @@ class Proceedings extends BaseController
     function issues($subact, $id)
         {
             $Issues = new \App\Models\Base\Issues();
-            $sx = $Issues->index($subact, $id);
+            $dt = $Issues->where('id_is',$id)->first();
+            pre($dt);
             return $sx;
         }
 
