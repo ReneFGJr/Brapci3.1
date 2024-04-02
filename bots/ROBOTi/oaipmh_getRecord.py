@@ -249,9 +249,9 @@ def get(rg):
     identify = rg[1]
     url = rg[2]
     ID = rg[0]
-    print(rg)
-    print(rg[9])
-    quit()
+    urlIssue = rg[9]
+    if 'http' in urlIssue:
+        url = urlIssue
 
     LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify
     print(Fore.YELLOW+"... Recuperando: "+Fore.GREEN+f"{LINK}"+Fore.WHITE)
