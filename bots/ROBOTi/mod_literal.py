@@ -30,7 +30,7 @@ def check_double_name():
 def check_title():
     prop = 30
     qr = f"select * from brapci_rdf.rdf_data "
-    qr += " brapci_rdf.rdf_literal on id_n = d_literal"
+    qr += " inner join brapci_rdf.rdf_literal on id_n = d_literal"
     qr += " where (n_lang = 'nn')"
     qr += f" and d_p = {prop} "
     row = database.query(qr)
