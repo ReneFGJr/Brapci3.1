@@ -37,6 +37,7 @@ def check_title():
     for item in row:
         id_n = item[0]
         qu = f"update brapci_rdf.rdf_literal set n_lang = 'pt' where id_n = {id_n}"
+        print(qu)
         print(item[1])
         database.update(qu)
 
