@@ -4,7 +4,7 @@ import mod_nbr
 
 def check_duplicate():
     qr = "select * from "
-    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal group by n_name, n_lang) as tabela "
+    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal where n_delete = 0 group by n_name, n_lang) as tabela "
     qr += "where (total > 1)"
     print(qr)
     row = database.query(qr)
@@ -12,13 +12,13 @@ def check_duplicate():
         ID1 = ln[3]
         ID2 = ln[4]
         qu = f"update rdf_concept set cc_pref_term = {ID1} where cc_pref_term = {ID2}"
-        print(qu)
+        database.update(qu)
         qu = f"update rdf_data set d_literal = {ID1} where d_literal = {ID2}"
-        print(qu)
-        qu = f"update rdf_data set n_delete = 1 , n_name = concat('[DELETED]',n_name) where d_literal = {ID2}"
-        print(qu)
+        database.update(qu)
+        qu = f"update rdf_literal set n_delete = 1 , n_name = concat('[DELETED]',n_name) where id_n = {ID2}"
+        database.update(qu)
 
-        print(ln)
+        print(ln[0])
         quit()
 
 
