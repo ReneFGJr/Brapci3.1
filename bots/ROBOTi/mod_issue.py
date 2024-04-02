@@ -11,10 +11,10 @@ import database
 import traceback
 
 def identify(rg):
-    print("==============")
+    print("==============",rg)
     ID = rg[0]
     JNL = rg[6]
-    ISSUE = rg[8]
+    ISSUE = rg[9]
 
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
