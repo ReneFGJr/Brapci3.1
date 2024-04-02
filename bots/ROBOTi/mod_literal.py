@@ -46,7 +46,7 @@ def check_title():
         qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
         print(qu)
         print(item)
-        #database.update(qu)
+        database.update(qu)
 
 def check_trim():
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %')"
