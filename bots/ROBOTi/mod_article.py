@@ -52,7 +52,6 @@ def process(rg):
 
         ########################################## Inserir Trabalho
         if (IDX == 0):
-
             if (TYPE == 'EV'):
                 print("  CREATE WORK - PROCEEDING")
                 IDX = create_proceeding(rg,data,JNL)
@@ -145,7 +144,7 @@ def check_method02(data,jnl,id):
 
 ############################################## CONCEPT
 def create_proceeding(rg,data,jnl):
-    create_article(rg,data,jnl,Class='Proceeding')
+    create_article(rg,data,jnl,'Proceeding')
 
 def create_article(rg,data,jnl,Class='Article'):
     #Monta ID do trabalho com o ID do Journal
