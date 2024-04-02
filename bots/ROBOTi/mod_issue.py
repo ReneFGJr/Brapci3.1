@@ -55,6 +55,12 @@ def identify(rg):
         else:
             print("ISSUE JÀ EXISTE")
 
+            qr = 'select * from brapci.source_issue '
+            qr += 'where '
+            qr += 'is_source_issue = '+str(ISSUE)
+            row = database.query(qr)
+
+
     except Exception as e:
         print("Erro ISSUE",e)
         row = []
