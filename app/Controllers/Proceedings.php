@@ -106,8 +106,10 @@ class Proceedings extends BaseController
 
     function issues($subact, $id)
         {
+            $id = get("id").$id;
             $Issues = new \App\Models\Base\Issues();
             $dt = $Issues->where('id_is',$id)->first();
+            $dt = $Issues->first();
             pre($dt);
             return $sx;
         }
