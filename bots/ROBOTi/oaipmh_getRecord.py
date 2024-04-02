@@ -107,12 +107,14 @@ def process(rg):
                         subs = reg['#text']
                         subs = subs.split(';')
                         for reg2 in subs:
+                            reg2 = reg2.trim()
                             titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(reg['@xml:lang'])
                             dc_subject.append(titulo)
                 else:
                     subs = TIT['#text']
                     subs = subs.split(';')
                     for reg2 in subs:
+                        reg2 = reg2.trim()
                         titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(TIT['@xml:lang'])
                         dc_subject.append(titulo)
             except Exception as e:
