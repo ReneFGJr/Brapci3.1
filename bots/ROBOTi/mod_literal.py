@@ -11,11 +11,11 @@ def check_duplicate():
     for ln in row:
         ID1 = ln[3]
         ID2 = ln[4]
-        qu = f"update rdf_concept set cc_pref_term = {ID1} where cc_pref_term = {ID2}"
+        qu = f"update brapci_rdf.rdf_concept set cc_pref_term = {ID1} where cc_pref_term = {ID2}"
         database.update(qu)
-        qu = f"update rdf_data set d_literal = {ID1} where d_literal = {ID2}"
+        qu = f"update brapci_rdf.rdf_data set d_literal = {ID1} where d_literal = {ID2}"
         database.update(qu)
-        qu = f"update rdf_literal set n_delete = 1 , n_name = concat('[DELETED]',n_name) where id_n = {ID2}"
+        qu = f"update brapci_rdf.rdf_literal set n_delete = 1 , n_name = concat('[DELETED]',n_name) where id_n = {ID2}"
         database.update(qu)
 
         print(ln[0])
