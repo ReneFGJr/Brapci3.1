@@ -52,6 +52,8 @@ def process(rg):
         ########################################## Inserir Trabalho
         if (IDX == 0):
             print("  CREATE WORK")
+            print(rg)
+            quit()
             IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
         else:
