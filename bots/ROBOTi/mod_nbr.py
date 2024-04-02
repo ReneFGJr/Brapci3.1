@@ -1,11 +1,11 @@
 def nbr_author(n):
     n2 = n
-    if (n.find(';')):
+    if (n.find(';') > 0):
         p = n.find(';')
         n2 = n[0:p].strip()
     print('===>',n2)
 
-    if (n2.find(',')):
+    if (n2.find(',') > 0):
         p = n2.find(',')
         print("Virgula",p)
         n2 = n2[p+1:].strip() + ' ' + n2[0:p].strip()
