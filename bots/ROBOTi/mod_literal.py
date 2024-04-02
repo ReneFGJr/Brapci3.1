@@ -37,7 +37,10 @@ def check_title():
     row = database.query(qr)
     for item in row:
         id_n = item[0]
-        title = mod_nbr.nbr_title(item[1])
+        title = item[1]
+        title = title.replace('"','')
+        title = title.strip()
+        title = mod_nbr.nbr_title(title)
         qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
         print(qu)
         print(item)
