@@ -1,7 +1,7 @@
 def nbr_author(n):
     n2 = n
     if (n.find(';')):
-        p = n.find(',')
+        p = n.find(';')
         n2 = n[0:p].strip()
 
     if (n.find(',')):
