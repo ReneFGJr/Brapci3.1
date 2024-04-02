@@ -109,6 +109,13 @@ def run(parm):
     if (act == '120'):
         lp = mod_ontology.resume()
 
+    if (act == 'check'):
+        mod_concept.UpdateUse()
+        mod_literal.check_trim()
+        mod_literal.check_all()
+        mod_literal.check_title()
+
+
     #################### LITERAL
     if (act == '150'):
         lp = mod_literal.check_trim()
