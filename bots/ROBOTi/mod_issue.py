@@ -14,7 +14,7 @@ def identify(rg):
     print("==============",rg)
     ID = rg[0]
     JNL = rg[6]
-    ISSUE = rg[9]
+    ISSUE = rg[10]
     print(ISSUE)
 
     try:
