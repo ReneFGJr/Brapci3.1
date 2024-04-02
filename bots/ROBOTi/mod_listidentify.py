@@ -72,6 +72,7 @@ def updateRDF(ID,rdf):
         qr += f"oai_update = {now} "
         qr += f"where id_oai = {ID} "
         database.update(qr)
+
     except Exception as e:
         print("ERRO #24",e)
 
