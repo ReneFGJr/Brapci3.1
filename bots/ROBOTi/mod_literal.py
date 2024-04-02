@@ -4,7 +4,7 @@ import mod_nbr
 
 def check_duplicate():
     qr = "select * from "
-    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal) as tabela "
+    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal group by n_name, n_lang) as tabela "
     qr += "where (total > 1)"
     print(qr)
     row = database.query(qr)
