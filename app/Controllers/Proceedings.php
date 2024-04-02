@@ -106,10 +106,12 @@ class Proceedings extends BaseController
 
     function issues($subact, $id)
         {
+            $sx = '';
             $id = get("id").$id;
             $Issues = new \App\Models\Base\Issues();
             $dt = $Issues->where('id_is',$id)->first();
-            $dt = $Issues->first();
+            $url = 'https://brapci.inf.br/#/proceedings/issue/'.$dt['is_source_issue'];
+            echo $url;
             pre($dt);
             return $sx;
         }
