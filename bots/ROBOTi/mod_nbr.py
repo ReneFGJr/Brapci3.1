@@ -3,7 +3,7 @@ def nbr_author(n):
     if (n.find(';')):
         p = n.find(';')
         n2 = n[0:p].strip()
-
+    print('===>',n2)
     if (n2.find(',')):
         p = n2.find(',')
         n2 = n2[p+1:].strip() + ' ' + n2[0:p].strip()
