@@ -1,5 +1,9 @@
 import database
 
+def UpdateUse():
+    qu = "update brapci_rdf.rdf_concept set cc_use = id_cc where cc_use = 0"
+    database.update(qu)
+
 def register(cl,literal):
 
     qr = "select * from brapci_rdf.rdf_concept "

@@ -23,6 +23,7 @@ import mod_author
 import mod_literal
 import mod_logs
 import database
+import mod_concept
 import mod_proceeding
 from colorama import Fore
 
@@ -59,6 +60,9 @@ def run(parm):
     act = parm[1]
     print(Fore.BLUE+"Function: ",act)
     print(Fore.WHITE)
+
+    if (act == '0'):
+        mod_concept.UpdateUse()
 
     #************************************************* Functions
     if ((act == 'help') or (act == '?')):
