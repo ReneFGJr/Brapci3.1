@@ -15,8 +15,6 @@ def identify(rg):
     ID = rg[0]
     JNL = rg[6]
     ISSUE = rg[8]
-    print("Identify",ID,JNL,ISSUE)
-    quit()
 
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
@@ -29,30 +27,36 @@ def identify(rg):
 
         source = []
 
-        for i in range(len(data)):
-            keys = data[i].keys()
-            for k in keys:
-                ##print(f'RSP: {k}')
-                if (k == 'source'):
-                    ##print("HELLO",k,i)
-                    source = data[i][k]
+        if (ISSUE == 0):
+            print("ISSUE NÂO EXISTE")
+            quit()
+            for i in range(len(data)):
+                keys = data[i].keys()
+                for k in keys:
+                    ##print(f'RSP: {k}')
+                    if (k == 'source'):
+                        ##print("HELLO",k,i)
+                        source = data[i][k]
 
-        vol = formatVol(source['vol'])
-        nr = formatNr(source['nr'])
-        year = source['year']
-        if year == '':
-            year = 9999
+            vol = formatVol(source['vol'])
+            nr = formatNr(source['nr'])
+            year = source['year']
+            if year == '':
+                year = 9999
 
-        qr = 'select * from brapci.source_issue '
-        qr += 'where '
-        qr += 'is_source = '+str(JNL)
-        qr += ' AND is_year = '+str(year)
-        qr += ' AND is_vol = \''+vol+'\''
-        qr += ' AND is_nr = \''+nr+'\''
-        row = database.query(qr)
+            qr = 'select * from brapci.source_issue '
+            qr += 'where '
+            qr += 'is_source = '+str(JNL)
+            qr += ' AND is_year = '+str(year)
+            qr += ' AND is_vol = \''+vol+'\''
+            qr += ' AND is_nr = \''+nr+'\''
+            row = database.query(qr)
 
-        if (row == []):
-            row = create_issue(JNL,year,vol,nr)
+            if (row == []):
+                row = create_issue(JNL,year,vol,nr)
+        else:
+            print("ISSUE JÀ EXISTE")
+        quit()
 
     except Exception as e:
         print("Erro ISSUE",e)
