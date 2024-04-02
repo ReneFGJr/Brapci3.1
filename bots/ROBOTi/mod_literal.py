@@ -15,6 +15,8 @@ def check_duplicate():
         print(qu)
         qu = f"update rdf_data set d_literal = {ID1} where d_literal = {ID2}"
         print(qu)
+        qu = f"update rdf_data set n_delete = 1 , n_name = concat('[DELETED]',n_name) where d_literal = {ID2}"
+        print(qu)
 
         print(ln)
         quit()
