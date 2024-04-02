@@ -15,3 +15,9 @@ def nbr_subject(n):
     nA = n2[0:1].upper()
     n2 = nA+n2[1:]
     return n2
+
+def nbr_title(n):
+    n2 = n.lower()
+    nA = n2[0:1].upper()
+    n2 = nA+n2[1:]
+    return n2

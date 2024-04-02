@@ -1,5 +1,6 @@
 import database
 import mod_logs
+import mod_nbr
 def check_double_name():
     qr = f"select id_n,n_name, length(n_name)"
     qr += "from brapci_rdf.rdf_literal "
@@ -36,7 +37,8 @@ def check_title():
     row = database.query(qr)
     for item in row:
         id_n = item[0]
-        qu = f"update brapci_rdf.rdf_literal set n_lang = 'pt' where id_n = {id_n}"
+        title = mod_nbr.nbr_title(item[1])
+        qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
         print(qu)
         print(item)
         #database.update(qu)
