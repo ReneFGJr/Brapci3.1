@@ -15,7 +15,6 @@ def identify(rg):
     ID = rg[0]
     JNL = rg[6]
     ISSUE = rg[10]
-    print(ISSUE)
 
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
@@ -29,8 +28,6 @@ def identify(rg):
         source = []
 
         if (ISSUE == 0):
-            print("ISSUE NÂO EXISTE")
-            quit()
             for i in range(len(data)):
                 keys = data[i].keys()
                 for k in keys:
@@ -57,7 +54,6 @@ def identify(rg):
                 row = create_issue(JNL,year,vol,nr)
         else:
             print("ISSUE JÀ EXISTE")
-        quit()
 
     except Exception as e:
         print("Erro ISSUE",e)
