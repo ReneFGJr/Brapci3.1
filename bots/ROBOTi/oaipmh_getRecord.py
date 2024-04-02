@@ -104,8 +104,15 @@ def process(rg):
                 TIT = RCN['dc:subject']
                 if type(TIT) is list:
                     for reg in TIT:
-                        titulo = mod_nbr.nbr_subject(reg['#text'])+'@'+mod_language.check(reg['@xml:lang'])
-                        dc_subject.append(titulo)
+                        if ';' in reg:
+                            subs = reg['#text']
+                            subs = subs.split(';')
+                            for reg2 in subs:
+                                titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(reg['@xml:lang'])
+                            dc_subject.append(titulo)
+                        else:
+                            titulo = mod_nbr.nbr_subject(reg['#text'])+'@'+mod_language.check(reg['@xml:lang'])
+                            dc_subject.append(titulo)
                 else:
                     titulo = mod_nbr.nbr_subject(TIT['#text'])+'@'+mod_language.check(TIT['@xml:lang'])
                     dc_subject.append(titulo)
