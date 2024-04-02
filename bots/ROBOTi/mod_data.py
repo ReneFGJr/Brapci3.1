@@ -65,7 +65,7 @@ def DataDouble():
     qr += "group by d_r1,d_p,d_r2,d_literal "
     qr += ") T1 "
     qr += "where total > 1 "
-    qr += "limit 1000 "
+    #qr += "limit 1000 "
     row = database.query(qr)
     dd = 0
 
