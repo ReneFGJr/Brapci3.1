@@ -1,3 +1,4 @@
+import mod_class
 import database
 
 def check_type():
@@ -7,9 +8,16 @@ def check_type():
     qr += " inner join brapci.source_source on JOURNAL = id_jnl "
     qr += " where CLASS <> 'Proceeding' "
     qr += " and jnl_collection = 'EV' "
-    print(qr)
+
     row = database.query(qr)
-    print(row)
+
+    classN = mod_class.getClass('Proceeding')
+    for item in row:
+        print(item)
+        ID = item[0]
+
+        qu = "update brapci_rdf.rdf_concept set cc_class = {classN} where id_cc = {ID} "
+        print(qu)
 
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
