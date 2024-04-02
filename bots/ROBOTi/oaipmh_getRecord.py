@@ -258,6 +258,8 @@ def get(rg):
     url = rg[2]
     ID = rg[0]
     urlIssue = str(rg[9])
+    print(rg)
+    quit()
 
     substring = "http"
 
