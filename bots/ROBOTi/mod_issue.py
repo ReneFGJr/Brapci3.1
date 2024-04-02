@@ -15,6 +15,7 @@ def identify(rg):
     ID = rg[0]
     JNL = rg[6]
     ISSUE = rg[9]
+    print(ISSUE)
 
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
