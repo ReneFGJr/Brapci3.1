@@ -257,9 +257,10 @@ def get(rg):
     identify = rg[1]
     url = rg[2]
     ID = rg[0]
-    urlIssue = str(rg[9])
+    #/urlIssue = str(rg[9])
 
-    print("URL",rg(9))
+    print("URL")
+    print(rg(8))
     quit()
 
     substring = "http"
