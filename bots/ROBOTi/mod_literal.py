@@ -44,7 +44,7 @@ def check_title():
         title = title.strip()
         title = mod_nbr.nbr_title(title)
         qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
-        print('==>'.title)
+        print('==>',title)
         database.update(qu)
 
 def check_trim():
