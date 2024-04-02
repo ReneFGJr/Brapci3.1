@@ -14,7 +14,9 @@ def identify(rg):
     print("==============")
     ID = rg[0]
     JNL = rg[6]
-    print("Identify",ID,JNL)
+    ISSUE = rg[8]
+    print("Identify",ID,JNL,ISSUE)
+    quit()
 
     try:
         path = mod_listidentify.directory(ID)+'.getRecord.json'
@@ -90,9 +92,6 @@ def create_issue(JNL,year,vol,nr):
 
 def process(rg):
     ID = rg[0]
-
-    print(rg)
-    quit()
 
     print(Fore.YELLOW+f"... Processando ISSUE ARTICLE ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
 
