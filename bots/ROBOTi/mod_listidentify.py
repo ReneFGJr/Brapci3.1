@@ -9,15 +9,15 @@ from colorama import Fore
 
 table = "brapci_oaipmh.oai_listidentify"
 
-def registers(ids,jnl):
+def registers(ids,jnl,issue=0):
     for idr in ids:
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
         deleted = ids[idr]['deleted']
-        register(idr,jnl,setspec,date,deleted)
+        register(idr,jnl,setspec,date,deleted,issue)
     return True
 
-def register(id,jnl,setSpec,stamp,deleted):
+def register(id,jnl,setSpec,stamp,deleted,issue):
     status = 1
     if (deleted == 1):
         status = 9
@@ -29,7 +29,6 @@ def register(id,jnl,setSpec,stamp,deleted):
     qr += f"and (oai_setSpec = '{setSpec}') "
     row = database.query(qr)
 
-    issue = 0
     update = datetime.datetime.now().strftime('%Y%m%d')
 
     stamp = stamp.replace('T',' ')

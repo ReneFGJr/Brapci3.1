@@ -48,6 +48,12 @@ def register(id,jnl,name):
     idset = row[0][0]
     return idset
 
+def getSetSpec(JNL):
+    qr = "select s_id_jnl, s_section, s_id, s_name  from "+table+" "
+    qr += f"where s_id_jnl = {JNL}"
+    row = database.query(qr)
+    return row
+
 def process(sets,regs):
     jnl = regs[0][0]
     name = regs[0][3]
