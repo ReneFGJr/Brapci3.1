@@ -112,6 +112,8 @@ def run(parm):
         lp = mod_literal.check_all()
     if (act == '152'):
         lp = mod_literal.check_double_name()
+    if (act == '153'):
+        lp = mod_literal.check_title()
 
     ################### Author
     if (act == '200'):

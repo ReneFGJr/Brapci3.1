@@ -27,6 +27,16 @@ def check_double_name():
                 print(sz)
                 print("=====================")
 
+def check_title():
+    prop = 30
+    qr = f"select * from rdf_data "
+    qr += " brapci_rdf.rdf_literal on id_n = d_literal"
+    qr += " where (n_lang = 'nn')"
+    qr += f" d_p = {prop} "
+    row = database.query(qr)
+    for item in row:
+        print(item)
+
 def check_trim():
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %')"
     row = database.query(qr)
