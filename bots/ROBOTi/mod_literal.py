@@ -6,6 +6,7 @@ def check_duplicate():
     qr = "select * from "
     qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal) as tabela "
     qr += "where (total > 1)"
+    print(qr)
     row = database.query(qr)
     for ln in row:
         print(ln)
