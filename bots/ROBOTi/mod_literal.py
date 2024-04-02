@@ -39,6 +39,8 @@ def check_title():
         id_n = item[0]
         title = item[1]
         title = title.replace('"','')
+        title = title.replace('“','')
+        title = title.replace('”','')
         title = title.strip()
         title = mod_nbr.nbr_title(title)
         qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
