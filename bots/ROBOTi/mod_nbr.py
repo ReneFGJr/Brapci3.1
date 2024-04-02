@@ -5,6 +5,7 @@ def nbr_author(n):
         n2 = n[0:p].strip()
     print('===>',n2)
     if (n2.find(',')):
+        print("Virgula")
         p = n2.find(',')
         n2 = n2[p+1:].strip() + ' ' + n2[0:p].strip()
     n2.strip()
