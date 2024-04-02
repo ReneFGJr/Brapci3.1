@@ -37,7 +37,7 @@ def process(rg):
         #Verifica se existe o ID = METHODO 01
         IDX = check_method01(IDA,JNL)
         BYPASS = 0
-        if (IDX > 0) and (BYPASS = 1):
+        if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
             mod_listidentify.updateRDF(ID,IDX)
             mod_listidentify.updateStatus(ID,11)
