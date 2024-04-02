@@ -52,10 +52,13 @@ def process(rg):
 
         ########################################## Inserir Trabalho
         if (IDX == 0):
-            print("  CREATE WORK")
-            print(rg)
-            quit()
-            IDX = create_article(rg,data,JNL)
+
+            if (TYPE == 'EV'):
+                print("  CREATE WORK - PROCEEDING")
+                IDX = create_proceeding(rg,data,JNL)
+            else:
+                print("  CREATE WORK - ARTICLE")
+                IDX = create_article(rg,data,JNL)
             mod_listidentify.updateStatus(ID,10)
         else:
             print(f"  UPDATE WORK ({IDX})")
@@ -141,7 +144,10 @@ def check_method02(data,jnl,id):
     quit()
 
 ############################################## CONCEPT
-def create_article(rg,data,jnl):
+def create_proceeding(rg,data,jnl):
+    create_article(rg,data,jnl,Class='Proceeding')
+
+def create_article(rg,data,jnl,Class='Article'):
     #Monta ID do trabalho com o ID do Journal
     jnl = str(jnl)
     while (len(jnl) < 5):
@@ -152,7 +158,7 @@ def create_article(rg,data,jnl):
 
     ID = id + "#"+jnl
 
-    IDClass = mod_class.getClass('Article')
+    IDClass = mod_class.getClass(Class)
     ##################################### Registra o Literal
     IDliteral = mod_literal.register(ID,'nn')
 
