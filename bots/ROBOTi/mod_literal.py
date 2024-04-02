@@ -1,6 +1,17 @@
 import database
 import mod_logs
 import mod_nbr
+
+def check_duplicate():
+    qr = "select * from "
+    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n)) as tabela"
+    qr += "where (total > 1)"
+    row = database.query(qr)
+    for ln in row:
+        print(ln)
+        quit()
+
+
 def check_double_name():
     qr = f"select id_n,n_name, length(n_name)"
     qr += "from brapci_rdf.rdf_literal "

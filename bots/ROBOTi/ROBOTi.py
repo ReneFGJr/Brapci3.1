@@ -111,12 +111,15 @@ def run(parm):
 
     if (act == 'check'):
         mod_concept.UpdateUse()
+        mod_literal.check_duplicate()
         mod_literal.check_trim()
         mod_literal.check_all()
         mod_literal.check_title()
 
 
     #################### LITERAL
+    if (act == '140'):
+        lp = mod_literal.check_duplicate()
     if (act == '150'):
         lp = mod_literal.check_trim()
     if (act == '151'):
