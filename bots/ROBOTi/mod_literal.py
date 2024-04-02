@@ -17,9 +17,7 @@ def check_duplicate():
         database.update(qu)
         qu = f"update brapci_rdf.rdf_literal set n_delete = 1 , n_name = concat('[DELETED]',n_name) where id_n = {ID2}"
         database.update(qu)
-
         print(ln[0])
-        quit()
 
 
 def check_double_name():
