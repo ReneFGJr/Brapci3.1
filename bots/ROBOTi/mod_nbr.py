@@ -1,6 +1,5 @@
 def nbr_author(n):
     n2 = n
-    print('===>',n2)
     if (n.find(';')):
         p = n.find(';')
         n2 = n[0:p].strip()
@@ -9,6 +8,7 @@ def nbr_author(n):
         p = n2.find(',')
         n2 = n2[p+1:].strip() + ' ' + n2[0:p].strip()
     n2.strip()
+    print('===>',n2)
     return n2
 
 def nbr_subject(n):
