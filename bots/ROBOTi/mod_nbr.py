@@ -4,6 +4,7 @@ def nbr_author(n):
     if (n.find(';')):
         p = n.find(';')
         n2 = n[0:p].strip()
+        print("FOUND",p,n,n2)
 
     if (n.find(',')):
         p = n.find(',')
