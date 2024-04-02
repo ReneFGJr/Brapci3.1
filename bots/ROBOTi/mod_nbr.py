@@ -4,11 +4,10 @@ def nbr_author(n):
     if (n.find(';')):
         p = n.find(';')
         n2 = n[0:p].strip()
-        print("FOUND",p,'|',n,'|',n2)
 
-    if (n.find(',')):
-        p = n.find(',')
-        n2 = n[p+1:].strip() + ' ' + n[0:p].strip()
+    if (n2.find(',')):
+        p = n2.find(',')
+        n2 = n2[p+1:].strip() + ' ' + n2[0:p].strip()
     n2.strip()
     return n2
 
