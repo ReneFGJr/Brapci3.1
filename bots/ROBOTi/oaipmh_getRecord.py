@@ -105,18 +105,16 @@ def process(rg):
                 if type(TIT) is list:
                     for reg in TIT:
                         subs = reg['#text']
-                        if ';' in subs:
-                            subs = reg['#text']
-                            subs = subs.split(';')
-                            for reg2 in subs:
-                                titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(reg['@xml:lang'])
-                            dc_subject.append(titulo)
-                        else:
-                            titulo = mod_nbr.nbr_subject(subs)+'@'+mod_language.check(reg['@xml:lang'])
+                        subs = subs.split(';')
+                        for reg2 in subs:
+                            titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(reg['@xml:lang'])
                             dc_subject.append(titulo)
                 else:
-                    titulo = mod_nbr.nbr_subject(TIT['#text'])+'@'+mod_language.check(TIT['@xml:lang'])
-                    dc_subject.append(titulo)
+                    subs = TIT['#text']
+                    subs = subs.split(';')
+                    for reg2 in subs:
+                        titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(TIT['@xml:lang'])
+                        dc_subject.append(titulo)
             except Exception as e:
                 print("Erro a processar o Assuntos",e)
 
