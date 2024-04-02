@@ -189,6 +189,7 @@ class RDFmetadata extends Model
         $journal = [];
         $netw = [];
         $neta = [];
+        $netd = [];
         $node = [];
 
         $dta = get("di");
