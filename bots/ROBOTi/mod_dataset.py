@@ -2,7 +2,7 @@ import database
 
 def check_type():
     print("Checando tipo de publicação e o trabalho")
-    qr = "select * "
+    qr = "select ID, CLASS, jnl_name "
     qr += " from brapci_elastic.dataset "
     qr += " inner join brapci.source_source on JOURNAL = id_jnl "
     qr += " where CLASS <> 'Proceeding' "
