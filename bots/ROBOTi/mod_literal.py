@@ -35,9 +35,9 @@ def check_title():
     qr += f" and d_p = {prop} "
     row = database.query(qr)
     for item in row:
-        id_n = row[0]
+        id_n = item[0]
         qu = f"update brapci_rdf.rdf_literal set n_lang = 'pt' where id_n = {id_n}"
-        print(row[1])
+        print(item[1])
         database.update(qu)
 
 def check_trim():
