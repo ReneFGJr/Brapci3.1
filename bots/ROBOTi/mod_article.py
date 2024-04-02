@@ -295,7 +295,6 @@ def article_data(IDC,rg,data,jnl):
                 qr = "select sc_rdf, sc_name, s_section from brapci_oaipmh.oai_setspec "
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
-                print(qr)
                 row = database.query(qr)
                 IDsec = row[0][0]
                 if (IDsec == None or IDsec < 1):
