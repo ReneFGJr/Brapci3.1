@@ -250,7 +250,7 @@ def get(rg):
     url = rg[2]
     ID = rg[0]
     print(rg)
-    print(rg[8])
+    print(rg[9])
     quit()
 
     LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify
