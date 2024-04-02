@@ -7,7 +7,9 @@ def check_type():
     qr += " inner join brapci.source_source on JOURNAL = id_jnl "
     qr += " where CLASS <> 'Proceeding' "
     qr += " and jnl_collection = 'EV' "
+    print(qr)
     row = database.query(qr)
+    print(row)
 
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
