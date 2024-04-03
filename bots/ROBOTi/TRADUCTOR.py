@@ -4,5 +4,5 @@ import mod_PDF
 print("TRADUTOR 1.0")
 ID = 257709
 
-#mod_title.title(ID)
+mod_title.title(ID)
 mod_PDF.convert(ID)
