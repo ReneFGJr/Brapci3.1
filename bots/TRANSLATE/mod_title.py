@@ -1,5 +1,7 @@
 import database
 import mod_class
+import mod_literal
+import mod_GoogleTranslate
 
 def title(ID):
     prop = mod_class.getClass("hasTitle")
@@ -15,4 +17,14 @@ def title(ID):
     for item in row:
         lg = item[1]
         txt = item[0]
-        print(lg,txt)
+        if (lg == 'pt'):
+            pt = True
+        elif (lg == 'en'):
+            en = True
+        elif (lg == 'es'):
+            es = True
+
+    if (en):
+        term = "Ola Mundo"
+        mod_GoogleTranslate
+        mod_literal.register(term,'en')
