@@ -9,6 +9,7 @@ def process(ID):
     qr = "select n_name, n_lang from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n"
     qr += f" where d_r1 = {ID} and d_p = {prop}"
+    print(qr)
     row = database.query(qr)
 
     pt = False
