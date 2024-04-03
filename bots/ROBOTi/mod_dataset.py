@@ -9,8 +9,8 @@ def check_pbci():
     row = database.query(qr)
     for ln in row:
         print("=>",ln)
-        abs = ln[4]
-        print(abs)
+        abs = ln[4] # JSON Field
+        print(abs['pt']['abstract'])
         quit()
 
 def check_type():
