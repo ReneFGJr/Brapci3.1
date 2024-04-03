@@ -3,10 +3,15 @@ import database
 
 def check_pbci():
     qr = "select * from brapci_elastic.dataset "
-    qr += ""
+    qr += "where "
+    qr += " JOURNAL = 12 "
+    qr += " and use = 0 "
     row = database.query(qr)
     for ln in row:
         print("=>",ln)
+        abs = ln['JSON']
+        print(abs)
+        quit()
 
 def check_type():
     print("Checando tipo de publicação e o trabalho")
