@@ -26,9 +26,10 @@ def title(ID):
         elif (lg == 'es'):
             es = True
 
-    if (pt == True) or (en == True) or (es == True)
-    if (en):
-        print("Traduzindo para o Inglês",term)
-        mod_GoogleTranslate.translate(term,'en')
-        IDl = mod_literal.register(term,'en')
-        mod_data.register(ID,prop,0,IDl)
+    if (pt == True) or (en == True) or (es == True):
+
+        if (en):
+            print("Traduzindo para o Inglês",term)
+            mod_GoogleTranslate.translate(term,'en')
+            IDl = mod_literal.register(term,'en')
+            mod_data.register(ID,prop,0,IDl)
