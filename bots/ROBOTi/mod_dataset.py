@@ -12,7 +12,6 @@ def check_pbci():
         ID = ln[1]
         abs = ln[4] # JSON Field
         abs = json.loads(abs)
-        print(abs)
         try:
             txt = abs['Abstract']['pt'][0]
             if 'http' in txt:
@@ -22,7 +21,6 @@ def check_pbci():
         except:
             print("ERRO NO ABSTRACT ",ID)
             print(abs)
-            quit()
 
 
 
