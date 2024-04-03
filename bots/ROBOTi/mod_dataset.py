@@ -10,7 +10,7 @@ def check_pbci():
     for ln in row:
         abs = ln[4] # JSON Field
         print(abs)
-        print(abs.pt)
+        print(abs.Abstract)
         quit()
 
 def check_type():
