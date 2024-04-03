@@ -19,12 +19,12 @@ def title(ID):
         txt = item[0]
         if (lg == 'pt'):
             pt = True
+            term = txt
         elif (lg == 'en'):
             en = True
         elif (lg == 'es'):
             es = True
 
     if (en):
-        term = "Ola Mundo"
-        mod_GoogleTranslate
+        mod_GoogleTranslate.translate(term,'en')
         mod_literal.register(term,'en')
