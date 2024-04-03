@@ -7,4 +7,12 @@ def title(ID):
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n"
     qr += f" where d_r1 = {ID} and d_p = {prop}"
     row = database.query(qr)
-    print(row)
+
+    pt = False
+    en = False
+    es = False
+
+    for item in row:
+        lg = item[1]
+        txt = item[0]
+        print(lg,item)
