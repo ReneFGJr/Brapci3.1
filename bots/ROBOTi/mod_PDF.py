@@ -6,11 +6,12 @@ import mod_class
 import mod_literal
 import mod_GoogleTranslate
 
-def title(ID):
+def convert(ID):
     prop = mod_class.getClass("hasFileStorage")
     qr = "select n_name, n_lang from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n"
     qr += f" where d_r1 = {ID} and d_p = {prop}"
+    print(qr)
     row = database.query(qr)
 
     print(row)
