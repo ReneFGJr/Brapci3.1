@@ -1,5 +1,6 @@
 import mod_class
 import database
+import json
 
 def check_pbci():
     qr = "select * from brapci_elastic.dataset "
@@ -9,8 +10,9 @@ def check_pbci():
     row = database.query(qr)
     for ln in row:
         abs = ln[4] # JSON Field
+        abs = json.loads(abs)
         print(abs)
-        print(abs[5])
+        print(abs['Abstract'])
         quit()
 
 def check_type():
