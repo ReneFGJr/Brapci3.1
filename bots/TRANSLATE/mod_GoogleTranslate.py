@@ -1,6 +1,6 @@
 import os
 from google.cloud import translate_v2 as translate
-credential_path = '../../../brapci-90fc0f16c494.json'
+credential_path = '../../.Google.json'
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 
 translate_client = translate.Client()
