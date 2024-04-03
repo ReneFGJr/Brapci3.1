@@ -11,6 +11,8 @@ def title(ID):
     qr += f" where d_r1 = {ID} and d_p = {prop}"
     row = database.query(qr)
 
+    print(row)
+
     pt = False
     en = False
     es = False
