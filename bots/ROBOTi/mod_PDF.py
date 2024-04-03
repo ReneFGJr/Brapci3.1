@@ -12,10 +12,10 @@ def convert(ID):
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f" where d_r1 = {ID} and d_p = {prop}"
-    print(qr)
     row = database.query(qr)
 
-    print(row)
+    for ln in row:
+        print(ln[0])
 
 # Função para extrair texto do PDF
 def extrair_texto_pdf(caminho_arquivo):
