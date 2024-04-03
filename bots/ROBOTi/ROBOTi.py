@@ -148,6 +148,8 @@ def run(parm):
     ################### Works
     if (act == '230'):
         lp = mod_dataset.check_type()
+    if (act == '231'):
+        lp = mod_dataset.check_pbci()
 
     if (act == 'lattesK'):
         file = parm[2]

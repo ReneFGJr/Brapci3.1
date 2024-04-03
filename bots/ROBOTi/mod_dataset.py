@@ -1,6 +1,13 @@
 import mod_class
 import database
 
+def check_pbci():
+    qr = "select * from brapci_elastic.dataset "
+    qr += ""
+    row = database.query(qr)
+    for ln in row:
+        print("=>",ln)
+
 def check_type():
     print("Checando tipo de publicação e o trabalho")
     qr = "select ID, CLASS, jnl_name "
