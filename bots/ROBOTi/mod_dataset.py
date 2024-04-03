@@ -12,7 +12,7 @@ def check_pbci():
         abs = ln[4] # JSON Field
         abs = json.loads(abs)
         print(abs)
-        print(abs['Abstract'])
+        print(abs['Abstract']['pt'])
         quit()
 
 def check_type():
