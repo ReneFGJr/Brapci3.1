@@ -36,5 +36,6 @@ def extrair_texto_pdf(caminho_arquivo):
 
     with open(caminho_arquivo_txt, 'w', encoding='utf-8') as arquivo:
         arquivo.write(texto)
+        print("Convertido ",caminho_arquivo_txt)
 
     return texto
