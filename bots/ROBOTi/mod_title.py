@@ -20,15 +20,23 @@ def title(ID):
         txt = item[0]
         if (lg == 'pt'):
             pt = True
-            term = txt
+            termPT = txt
         elif (lg == 'en'):
             en = True
+            termEN = txt
         elif (lg == 'es'):
             es = True
+            termES = txt
 
     if (pt == True) or (en == True) or (es == True):
         if (pt) and (not en):
-            print("Traduzindo para o Inglês",term)
-            mod_GoogleTranslate.translate(term,'en')
-            IDl = mod_literal.register(term,'en')
+            print("Traduzindo do Portugues para o Inglês")
+            termEN = mod_GoogleTranslate.translate(termPT,'en')
+            IDl = mod_literal.register(termEN,'en')
+            mod_data.register(ID,"hasTitle",0,IDl)
+
+        if (pt) and (not es):
+            print("Traduzindo do Portugues para o Espanhol")
+            termEN = mod_GoogleTranslate.translate(termPT,'es')
+            IDl = mod_literal.register(termEN,'es')
             mod_data.register(ID,"hasTitle",0,IDl)
