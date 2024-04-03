@@ -17,8 +17,12 @@ def convert(ID):
 
     for ln in row:
         file = '/data/Brapci3.1/public/' + ln[0]
+        print(file)
         if os.path.isfile(file):
-            print(file)
+            print("  OK")
+        else:
+            print("  FILE NOT FOUND")
+
 
 # Função para extrair texto do PDF
 def extrair_texto_pdf(caminho_arquivo):
