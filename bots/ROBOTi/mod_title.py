@@ -31,4 +31,4 @@ def title(ID):
             print("Traduzindo para o Inglês",term)
             mod_GoogleTranslate.translate(term,'en')
             IDl = mod_literal.register(term,'en')
-            mod_data.register(ID,prop,0,IDl)
+            mod_data.register(ID,"hasTitle",0,IDl)
