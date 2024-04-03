@@ -5,7 +5,7 @@ def check_pbci():
     qr = "select * from brapci_elastic.dataset "
     qr += "where "
     qr += " JOURNAL = 12 "
-    qr += " and use = 0 "
+    qr += " and `use` = 0 "
     row = database.query(qr)
     for ln in row:
         print("=>",ln)
