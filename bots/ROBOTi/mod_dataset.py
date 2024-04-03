@@ -12,8 +12,12 @@ def check_pbci():
         abs = ln[4] # JSON Field
         abs = json.loads(abs)
         print(abs)
-        print(abs['Abstract']['pt'])
-        quit()
+        txt = abs['Abstract']['pt'][0]
+        if 'http' in txt:
+            print(txt)
+            quit()
+
+
 
 def check_type():
     print("Checando tipo de publicação e o trabalho")
