@@ -9,7 +9,7 @@ def check_pbci():
     row = database.query(qr)
     for ln in row:
         print("=>",ln)
-        abs = ln['JSON']
+        abs = ln[4]
         print(abs)
         quit()
 
