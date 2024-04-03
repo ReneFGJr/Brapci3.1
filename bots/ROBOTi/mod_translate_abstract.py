@@ -30,13 +30,13 @@ def process(ID):
 
     if (pt == True) or (en == True) or (es == True):
         if (pt) and (not en):
-            print("Traduzindo do Portugues para o Inglês")
+            print("Traduzindo ABSTRACT do Portugues para o Inglês")
             termEN = mod_GoogleTranslate.translate(termPT,'en')
             IDl = mod_literal.register(termEN,'en')
             mod_data.register(ID,"hasAbstract",0,IDl)
 
         if (pt) and (not es):
-            print("Traduzindo do Portugues para o Espanhol")
+            print("Traduzindo ABSTRACT do Portugues para o Espanhol")
             termEN = mod_GoogleTranslate.translate(termPT,'es')
             IDl = mod_literal.register(termEN,'es')
             mod_data.register(ID,"hasAbstract",0,IDl)
