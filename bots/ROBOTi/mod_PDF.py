@@ -19,6 +19,7 @@ def convert(ID):
         file = '/data/Brapci3.1/public/' + ln[0]
         print(file)
         if os.path.isfile(file):
+            extrair_texto_pdf(file)
             print("  OK")
         else:
             print("  FILE NOT FOUND")
