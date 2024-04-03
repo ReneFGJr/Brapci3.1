@@ -12,3 +12,6 @@ if (len(sys.argv) > 1):
     mod_translate_title.process(ID)
     mod_translate_abstract.process(ID)
     mod_PDF.convert(ID)
+else:
+    print("Without parameters")
+    print("ex: TRADUCTOR 2343")
