@@ -1,5 +1,6 @@
 import fitz  # Importa PyMuPDF
 import re
+import os
 import database
 import mod_data
 import mod_class
@@ -15,7 +16,9 @@ def convert(ID):
     row = database.query(qr)
 
     for ln in row:
-        print(ln[0])
+        file = '/data/Brapci3.1/public/' + ln[0]
+        if os.path.isfile(file):
+            print(file)
 
 # Função para extrair texto do PDF
 def extrair_texto_pdf(caminho_arquivo):
