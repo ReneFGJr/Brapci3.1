@@ -26,12 +26,8 @@ def title(ID):
         elif (lg == 'es'):
             es = True
 
-    print(txt,lg, pt,term)
-    quit()
-
     if (pt == True) or (en == True) or (es == True):
-
-        if (en):
+        if (pt) and (not en):
             print("Traduzindo para o Inglês",term)
             mod_GoogleTranslate.translate(term,'en')
             IDl = mod_literal.register(term,'en')
