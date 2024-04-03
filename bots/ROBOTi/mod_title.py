@@ -1,4 +1,5 @@
 import database
+import mod_data
 import mod_class
 import mod_literal
 import mod_GoogleTranslate
@@ -25,6 +26,9 @@ def title(ID):
         elif (lg == 'es'):
             es = True
 
+    if (pt == True) or (en == True) or (es == True)
     if (en):
+        print("Traduzindo para o Inglês",term)
         mod_GoogleTranslate.translate(term,'en')
-        mod_literal.register(term,'en')
+        IDl = mod_literal.register(term,'en')
+        mod_data.register(ID,prop,0,IDl)
