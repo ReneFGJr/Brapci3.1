@@ -11,8 +11,6 @@ def title(ID):
     qr += f" where d_r1 = {ID} and d_p = {prop}"
     row = database.query(qr)
 
-    print(row)
-
     pt = False
     en = False
     es = False
@@ -27,6 +25,9 @@ def title(ID):
             en = True
         elif (lg == 'es'):
             es = True
+
+    print(txt,lg)
+    quit()
 
     if (pt == True) or (en == True) or (es == True):
 
