@@ -15,4 +15,4 @@ def title(ID):
     for item in row:
         lg = item[1]
         txt = item[0]
-        print(lg,item)
+        print(lg,txt)
