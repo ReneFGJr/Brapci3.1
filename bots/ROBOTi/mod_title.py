@@ -26,7 +26,7 @@ def title(ID):
         elif (lg == 'es'):
             es = True
 
-    print(txt,lg)
+    print(txt,lg, pt,term)
     quit()
 
     if (pt == True) or (en == True) or (es == True):
