@@ -148,6 +148,7 @@ class Metadata extends Model
             'hasClassificationCDU' => 'CDU',
             'isPlaceOfPublication' => 'Place',
             'hasFileStorage' => 'File',
+            'hasSectionOf'=> 'Section',
         ];
 
         if (isset($meta['data'])) {
