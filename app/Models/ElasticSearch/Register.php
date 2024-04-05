@@ -431,8 +431,7 @@ class Register extends Model
         $da['CLASS'] = $data['Class'];
         $da['COVER'] = PATH. '/img/books/no_cover.png';
 
-        $da['COLLECTION'] = 'X';
-        pre($data);
+        $da['COLLECTION'] = $data['COLLECTION'];
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
