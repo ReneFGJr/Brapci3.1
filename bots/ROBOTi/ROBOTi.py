@@ -266,8 +266,7 @@ def ListIdentiers():
 
     # Phase III - GetList
     jnl = reg[0][0]
-
-    xml = oaipmh_ListIdentifiers.get(jnl)
+    xml = oaipmh_ListIdentifiers.get(reg[0])
 
     # Phase IV - Check and Process XML File
     if (xml['status'] == '200'):

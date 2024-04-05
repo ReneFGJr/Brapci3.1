@@ -16,6 +16,8 @@ def getSetSpec(jnl):
     return xml
 
 def get(jnl):
+    print("++++++++++++++++++")
+    print(jnl)
     token = jnl[4]
     url = jnl[1]
 
