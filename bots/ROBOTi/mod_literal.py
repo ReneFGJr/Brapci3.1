@@ -78,7 +78,7 @@ def check_trim():
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         database.update(qru)
         dd = dd + 1
-        print(name)
+        print('==>',name)
     mod_logs.log('TASK_100',dd)
 
 def check_all():
