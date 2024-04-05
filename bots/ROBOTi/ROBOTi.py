@@ -115,6 +115,10 @@ def run(parm):
         mod_literal.check_trim()
         mod_literal.check_all()
         mod_literal.check_title()
+        mod_author.check_remissiva()
+        mod_author.check_duplicate()
+        mod_dataset.check_duplicate()
+        mod_dataset.check_pbci()
 
 
     #################### LITERAL
