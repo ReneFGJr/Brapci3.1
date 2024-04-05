@@ -68,6 +68,7 @@ def check_title():
 
 def check_trim():
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal where (n_name like ' %') or (n_name like '%  %') or (n_name like '% :%')  or (n_name like '%::%')"
+    qr += " or (n_name like '% .%')"
     row = database.query(qr)
     dd=0
     for ln in row:
@@ -75,6 +76,7 @@ def check_trim():
         name = name.strip().capitalize()
         name = name.replace('  ',' ')
         name = name.replace(' :',':')
+        name = name.replace(' .','.')
         name = name.replace('::',':')
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
