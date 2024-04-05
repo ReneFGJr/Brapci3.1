@@ -20,16 +20,35 @@ import { PriceComponent } from './page/amostra/price.component';
 import { BradfordComponent } from './page/amostra/bradford.component';
 import { LotkaComponent } from './page/amostra/lotka.component';
 import { MenuRightSideComponent } from './page/amostra/menu-right-side/menu-right-side.component';
-
+import { QRCodeModule } from 'angularx-qrcode';
+import { QrcodeComponent } from './widget/qrcode/qrcode.component';
 
 @NgModule({
-  declarations: [ToolsMainComponent, ToolsIconsComponent, Txt4netComponent, Txt4matrixComponent, Txt4charComponent, TxtChangeComponent, Txt4gephiComponent, FormFileInputComponent, TextFormComponent, BannerComponent, AmostraComponent, PriceComponent, BradfordComponent, LotkaComponent, MenuRightSideComponent],
+  declarations: [
+    ToolsMainComponent,
+    ToolsIconsComponent,
+    Txt4netComponent,
+    Txt4matrixComponent,
+    Txt4charComponent,
+    TxtChangeComponent,
+    Txt4gephiComponent,
+    FormFileInputComponent,
+    TextFormComponent,
+    BannerComponent,
+    AmostraComponent,
+    PriceComponent,
+    BradfordComponent,
+    LotkaComponent,
+    MenuRightSideComponent,
+    QrcodeComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
     ThemeModule,
     BrapciToolsRoutingModule,
+    QRCodeModule,
   ],
 })
 export class BrapciToolsModule {}

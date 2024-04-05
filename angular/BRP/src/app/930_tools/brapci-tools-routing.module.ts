@@ -7,6 +7,7 @@ import { AmostraComponent } from './page/amostra/amostra.component';
 import { PriceComponent } from './page/amostra/price.component';
 import { BradfordComponent } from './page/amostra/bradford.component';
 import { LotkaComponent } from './page/amostra/lotka.component';
+import { QrcodeComponent } from './widget/qrcode/qrcode.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'price', component: PriceComponent },
       { path: 'bradford', component: BradfordComponent },
       { path: 'lotka', component: LotkaComponent },
+      { path: 'qrcode', component: QrcodeComponent },
     ],
   },
 ];

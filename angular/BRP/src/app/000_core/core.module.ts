@@ -19,7 +19,7 @@ import { ManutenceComponent } from './000_main/manutence/manutence.component';
     RouterModule,
   ],
   providers: [
-    CookieService ,
+    CookieService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,

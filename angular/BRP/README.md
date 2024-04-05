@@ -11,3 +11,8 @@ npm i --save @fortawesome/fontawesome-svg-core
 npm install --save angular-d3-cloud
 npm install highcharts-angular --save
 npm install --save-dev @types/node
+
+npm install angularx-qrcode@16.0.2 --save
+
+
+npm list

@@ -17,6 +17,7 @@ import { registerLocaleData } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SourceAddComponent } from './040_source/page/source-add/source-add.component';
 import { HomeComponent } from './130_books/page/home/home.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 registerLocaleData(ptBr);
 
@@ -34,6 +35,7 @@ registerLocaleData(ptBr);
     CoreBrapciModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    QRCodeModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],

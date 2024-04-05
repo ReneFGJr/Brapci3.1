@@ -1,0 +1,27 @@
+<div class="qrcodeImage">
+<qrcode [qrdata]=url [width]=size></qrcode>
+<hr>
+  <qrcode
+    [qrdata]=url
+    [colorDark]="'#000000ff'"
+    [colorLight]="'#ffffffff'"
+    [errorCorrectionLevel]="'M'"
+    [margin]="3"
+    [width]="150"
+  ></qrcode>
+
+  {{url}}
+
+  <!--
+    [imageSrc]="'./assets/angular-logo.png'"
+    [imageHeight]="25"
+    [imageWidth]="25"
+    [allowEmptyString]="true"
+    [ariaLabel]="'Brapci.inf.br'"
+    [cssClass]="'center'"
+    [scale]="2"
+    [title]="'RENE FAUSTINO GABRIEL JUNIOR'"
+    [elementType]="'canvas'"
+
+  -->
+</div>

@@ -656,6 +656,7 @@ class Register extends Model
         if (count($xdata) == 0) {
             echo '======================== A001 ==';
             $sx = lang('brapci.skip') . ' deleted';
+            pre($sx);
             pre($xdata);
             return $sx;
         }
