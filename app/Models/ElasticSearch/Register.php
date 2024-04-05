@@ -602,6 +602,7 @@ class Register extends Model
                     exit;
             }
         $da['updated_at'] = date("Y-m-d H:i:s");
+        $da['new'] = 1;
         return $da;
     }
 
