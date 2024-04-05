@@ -11,14 +11,14 @@ import database
 import time
 import mod_logs
 
-def register(IDC,prop,IDP):
+def register(IDC,prop,IDP,IDliteral=0):
     IDprop = mod_class.getClass(prop)
-    IDliteral = 0
 
     qr = "select * from brapci_rdf.rdf_data "
     qr += f"where d_r1 = {IDC}"
     qr += f" AND d_p = {IDprop}"
     qr += f" AND d_r2 = {IDP}"
+    qr += f" AND d_literal = {IDliteral}"
     row = database.query(qr)
     if row == []:
         qri = "insert into brapci_rdf.rdf_data "

@@ -1,5 +1,28 @@
 import mod_class
 import database
+import json
+
+def check_pbci():
+    qr = "select * from brapci_elastic.dataset "
+    qr += "where "
+    qr += " JOURNAL = 12 "
+    qr += " and `use` = 0 "
+    row = database.query(qr)
+    for ln in row:
+        ID = ln[1]
+        abs = ln[4] # JSON Field
+        abs = json.loads(abs)
+        try:
+            txt = abs['Abstract']['pt'][0]
+            if 'http' in txt:
+                print(ID)
+                qu = f"update brapci_elastic.dataset set `use` = -99 where ID = {ID}"
+                database.update(qu)
+        except:
+            print("ERRO NO ABSTRACT ",ID)
+            print(abs)
+
+
 
 def check_type():
     print("Checando tipo de publicação e o trabalho")

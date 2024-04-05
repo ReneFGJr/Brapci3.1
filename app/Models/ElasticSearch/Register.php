@@ -15,7 +15,7 @@ class Register extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_ds', 'ID', 'json', 'CLASS','COVER',
+        'id_ds', 'ID', 'json', 'CLASS','COVER', 'COLLECTION',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
         'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION',
         'LEGEND','new'
@@ -238,7 +238,7 @@ class Register extends Model
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
 
-            $this->exported($id,0);
+            $this->exported($id,1);
         }
 
         /****************************************************************************** LOOP */
@@ -430,6 +430,9 @@ class Register extends Model
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
         $da['COVER'] = PATH. '/img/books/no_cover.png';
+
+        $da['COLLECTION'] = 'X';
+        pre($data);
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
