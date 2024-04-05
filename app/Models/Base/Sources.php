@@ -201,6 +201,23 @@ class Sources extends Model
         $Socials = new \App\Models\Socials();
         $dt = $this->where('id_jnl', $id)->first();
 
+        if (get("act") == 'CREATERDF')
+            {
+                $RDF = new \App\Models\RDF2\RDF();
+                $RDFClass = new \App\Models\RDF2\RDFclass();
+                $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                $dd = [];
+                $dd['Name'] = $dt['jnl_name'];
+                $dd['Lang'] = 'pt';
+                $dd['Class'] = 'Journals';
+
+                $IDc = $RDFconcept->createConcept($dd);
+                $dd['jnl_frbr'] = $IDc;
+                $this->set($dd)->where('id_jnl',$id)->update();
+                metarefresh(PATH . 'admin/source/viewid/' . $id);
+            }
+
         $sa = '';
         $sb = '';
         $sx = '';
@@ -220,7 +237,15 @@ class Sources extends Model
         $sa .= h('To harvesting: ' . $dt['jnl_oai_to_harvesting'], 6);
         $sa .= h('Collection: ' . $dt['jnl_collection'], 6);
         $sa .= h('Historic: ' . $dt['jnl_historic'], 6);
-        $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
+        if ($dt['jnl_frbr'] == 0)
+            {
+                $sl = '<a href="' . PATH . 'admin/source/viewid/' . $id . '?act=CREATERDF">Criar RDF</a>';
+                $sa .= h('RDF: ' . $dt['jnl_frbr'].' '.$sl, 6);
+            } else {
+                $sa .= h('RDF: ' . $dt['jnl_frbr'], 6);
+
+            }
+
 
         if ($Socials->perfil('#ADM')) {
             $sa .= '<a href="' . PATH . '/admin/source/edit/' . $dt['id_jnl'] . '" class="btn btn-outline-primary">' . msg('edit') . '</a>';
