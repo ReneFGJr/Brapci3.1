@@ -19,8 +19,7 @@ def check_pbci():
                 qu = f"update brapci_elastic.dataset set `use` = -99 where ID = {ID}"
                 database.update(qu)
         except:
-            print("ERRO NO ABSTRACT ",ID)
-            print(abs)
+            print("ABSTRACT NORMAL PBCI",ID)
 
 
 
