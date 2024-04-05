@@ -266,7 +266,9 @@ def ListIdentiers():
 
     # Phase III - GetList
     jnl = reg[0][0]
+    print("++++++++++++++++++++++++++++++++++++++++")
     print(reg)
+    print("++++++++++++++++++++++++++++++++++++++++")
     xml = oaipmh_ListIdentifiers.get(reg[0])
 
     # Phase IV - Check and Process XML File
