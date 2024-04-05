@@ -202,9 +202,11 @@ class Metadata extends Model
             switch ($M['Class']) {
                 case 'BookChapter':
                     $M['COVER'] = $BaseCover->bookChapter($M['ID']);
+                    $M['COLLECTION'] = 'BC';
                     break;
                 case 'Book':
                     $M['COVER'] = $BaseCover->book($M['ID']);
+                    $M['COLLECTION'] = 'BK';
                     break;
                 case 'Article':
                     if (isset($M['Issue']['id_jnl'])) {
@@ -212,6 +214,9 @@ class Metadata extends Model
                     } else {
                         $jnl = 99999;
                     }
+                    /*******************************  */
+                    $SRC = $Source->where('id_jnl', $jnl)->first();
+                    $M['COLLECTION'] = $SRC['jnl_collection'];
                     $M['COVER'] = $BaseCover->cover($jnl);
                     break;
                 case 'Proceeding':
@@ -221,6 +226,7 @@ class Metadata extends Model
                         $jnl = 99999;
                     }
                     $M['COVER'] = $BaseCover->cover($jnl);
+                    $M['COLLECTION'] = 'EV';
                     break;
             }
             $this->metadata = $M;
