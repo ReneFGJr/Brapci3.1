@@ -51,6 +51,7 @@ def check(lg):
     elif (lg == 'mul'):
         lg = 'nn'
     else:
-        print("ERRO LANGUAGE ",lg)
-        quit()
+        lg = 'pt'
+        #print("ERRO LANGUAGE ",lg)
+        #quit()
     return lg
