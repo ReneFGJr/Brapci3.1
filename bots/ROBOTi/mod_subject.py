@@ -61,23 +61,27 @@ def prepare(T):
             TE = TE.split('. ')
             for ix in range(len(TE)):
                 TEe = TE[ix]
-                TR.append([TEe,lg])
-                nt = True
+                if TEe != '':
+                    TR.append([TEe,lg])
+                    nt = True
         if ';' in TE:
             TE = TE.split(';')
             for ix in range(len(TE)):
                 TEe = TE[ix]
-                TR.append([TEe,lg])
-                nt = True
+                if TEe != '':
+                    TR.append([TEe,lg])
+                    nt = True
         if ':' in TE:
             TE = TE.split(':')
             for ix in range(len(TE)):
                 TEe = TE[ix]
-                TR.append([TEe,lg])
-                nt = True
+                if TEe != '':
+                    TR.append([TEe,lg])
+                    nt = True
 
         if nt==False:
-                TR.append([TE,lg])
+                if TE != '':
+                    TR.append([TE,lg])
 
     ####################### Normalize
     for i in range(len(TR)):
