@@ -69,7 +69,7 @@ class Abnt extends Model
 			$ref = troca($ref, '..', '.');
 			$ref = troca($ref, ', ,', ',');
 		}
-		if ($ref == '') { $ref = "Class: ".$Class; }
+		if ($ref == '') { $ref = $link."Class: ".$Class.$linka; }
 		return ($ref);
 	}
 
