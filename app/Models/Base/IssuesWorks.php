@@ -70,20 +70,22 @@ class IssuesWorks extends Model
 
     function issueWorks($id_rdf)
     {
+        /*
         $dt = $this
             ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
             ->where('siw_issue', $id_rdf)
             ->orderBy('siw_order, siw_pag_ini')
             ->findAll();
+        */
 
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $IDp = $RDFclass->getClass('hasIssueOf');
         $dt = $RDFdata
+            ->join('brapci_elastic.dataset', 'ID = d_r2')
             ->where('d_p',$IDp)
             ->where('d_r1',$id_rdf)
             ->findAll();
-        pre($dt);
 
         return $dt;
     }
