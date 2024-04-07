@@ -67,9 +67,11 @@ def process(rg):
 
                     for reg in TIT:
                         titulo = reg['#text']+'@'+mod_language.check(reg['@xml:lang'])
+                        titulo = titulo.replace("'","´")
                         dc_titulo.append(titulo)
                 else:
                     titulo = TIT['#text']+'@'+mod_language.check(TIT['@xml:lang'])
+                    titulo = titulo.replace("'","´")
                     dc_titulo.append(titulo)
             except Exception as e:
                 print("Erro a processar o Título",e)
@@ -80,9 +82,11 @@ def process(rg):
                 if type(TIT) is list:
                     for reg in TIT:
                         titulo = reg['#text']+'@'+mod_language.check(reg['@xml:lang'])
+                        titulo = titulo.replace("'","´")
                         dc_abstract.append(titulo)
                 else:
                     titulo = TIT['#text']+'@'+mod_language.check(TIT['@xml:lang'])
+                    titulo = titulo.replace("'","´")
                     dc_abstract.append(titulo)
             except Exception as e:
                 print("Erro a processar o Resumo",e)
@@ -109,6 +113,7 @@ def process(rg):
                         for reg2 in subs:
                             reg2 = reg2.strip()
                             titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(reg['@xml:lang'])
+                            titulo = titulo.replace("'","´")
                             dc_subject.append(titulo)
                 else:
                     subs = TIT['#text']
@@ -116,6 +121,7 @@ def process(rg):
                     for reg2 in subs:
                         reg2 = reg2.strip()
                         titulo = mod_nbr.nbr_subject(reg2)+'@'+mod_language.check(TIT['@xml:lang'])
+                        titulo = titulo.replace("'","´")
                         dc_subject.append(titulo)
             except Exception as e:
                 print("Erro a processar o Assuntos",e)
