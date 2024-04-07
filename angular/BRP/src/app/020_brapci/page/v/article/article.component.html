@@ -62,7 +62,7 @@
     </div>
 
     <!--------------------------- Abstract-->
-    <div class="col-12 " *ngIf="data.data">
+    <div class="col-12 col-lg-9" *ngIf="data.data">
       <div *ngFor="let lg of langs" class="mt-4">
         <div *ngIf="data.data.hasAbstract[lg]">
           <div
@@ -83,6 +83,10 @@
       </div>
     </div>
 
+    <div class="col-12 col-lg-3" *ngIf="data.data">
+    []
+    </div>
+
     <!--------------- Abstract -->
     <div class="col=3"></div>
     <div class="col-12 col-lg-10 mb-3">
@@ -100,6 +104,10 @@
       <!--
       <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
       -->
+    </div>
+
+    <div class="col-12 col-lg-12">
+    VIEW TEXT
     </div>
   </div>
 </div>

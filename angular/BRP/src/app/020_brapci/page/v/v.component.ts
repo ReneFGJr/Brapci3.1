@@ -26,24 +26,43 @@ export class VComponent {
         (res) => {
           this.data = res;
           this.type = this.data.Class;
-          if (this.data.Issue != undefined)
-            {
-              if (this.data.Issue.jnl_rdf == 75)
-              {
-                this.type = 'Benancib';
-              } else if (this.data.Issue.jnl_rdf == 18)
-              {
-                //this.type = 'EBBC';
-              }
-              console.log("TYPE:"+this.data.Issue.jnl_rdf);
+          if (this.data.Issue != undefined) {
+            if (this.data.Issue.jnl_rdf == 75) {
+              this.type = 'Benancib';
+            } else if (this.data.Issue.jnl_rdf == 18) {
+              //this.type = 'EBBC';
             }
+            console.log('TYPE:' + this.data.Issue.jnl_rdf);
+          }
 
-          if (this.type == 'Person')
-            {
-              this.header.title = this.data.name + ' | ' + ' Autor';
+          console.log("TYPE=>"+this.data.Class)
+
+          if (this.type == 'Person') {
+            this.header.title = this.data.name + ' | ' + ' Autor';
+          } else {
+            if (this.type == 'Issue') {
+              if (this.data.is_vol_roman == '')
+                {
+                  this.header.title =
+                    this.data.publisher +
+                    ' | ' +
+                    this.data.is_year +
+                    ' | ' +
+                    this.data.is_vol +
+                    ' | ' +
+                    this.data.is_nr
+                    ;
+                } else {
+                  this.header.title =
+                    this.data.is_vol_roman + ' ' +this.data.publisher +
+                    ' | ' +
+                    this.data.is_year;
+                }
+
             } else {
-              this.header.title = this.data.title + ' | ' + this.data.Authors;
+
             }
+          }
         },
         (error) => error
       );
