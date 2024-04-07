@@ -1,4 +1,5 @@
 def nbr_author(n):
+    n = n.replace("'","´")
     n2 = n
     if (n.find(';') > 0):
         p = n.find(';')
