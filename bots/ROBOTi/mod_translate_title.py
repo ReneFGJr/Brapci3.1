@@ -31,14 +31,14 @@ def process(ID):
     if (pt == True) or (en == True) or (es == True):
         if (es) and (not pt):
             print("Traduzindo do Espanhol para o Portugues")
-            termPT = mod_GoogleTranslate.translate(termPT,'pt')
+            termPT = mod_GoogleTranslate.translate(termES,'pt')
             IDl = mod_literal.register(termPT,'pt')
             mod_data.register(ID,"hasTitle",0,IDl)
             pt = True
 
         if (en) and (not pt):
             print("Traduzindo do Inglês para o Portugues")
-            termPT = mod_GoogleTranslate.translate(termPT,'pt')
+            termPT = mod_GoogleTranslate.translate(termEN,'pt')
             IDl = mod_literal.register(termPT,'pt')
             mod_data.register(ID,"hasTitle",0,IDl)
             pt = True
