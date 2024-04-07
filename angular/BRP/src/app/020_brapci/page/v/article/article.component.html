@@ -84,7 +84,7 @@
     </div>
 
     <div class="col-12 col-lg-3" *ngIf="data.data">
-    []
+    <hr>
     </div>
 
     <!--------------- Abstract -->
@@ -107,7 +107,10 @@
     </div>
 
     <div class="col-12 col-lg-12">
-    VIEW TEXT
+    <span class="link" (click)="ViewFull()">View FULL</span>
+    <div class="full">
+      {{fulltext | json}}
+    </div>
     </div>
   </div>
 </div>

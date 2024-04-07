@@ -22,6 +22,8 @@ class Benancib extends BaseController
 {
     public function index($act = '', $subact = '', $id = '')
     {
+        redirect('https://brapci.inf.br/#/proceedings/issues/75');
+        exit;
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Benancib';
         $data['GOOGLEID'] = 'G-B720HV20XK';

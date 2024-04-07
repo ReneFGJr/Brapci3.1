@@ -1,3 +1,4 @@
+import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -6,12 +7,25 @@ import { Component, Input } from '@angular/core';
 })
 export class ArticleComponent {
   @Input() public data: Array<any> | any;
+
+  constructor(private brapciService: BrapciService) {}
+
   public url: string = '';
   public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
+  public fulltext: Array<any> | any = null;
   public langs: Array<any> = ['pt', 'en', 'es', 'fr'];
-  public abstract: Array<any> = [{'pt':'Resumo', 'en':'Abstract', 'es':'Resumen', 'fr':'Résumé'}];
-  public keywords: Array<any> = [{'pt':'Palavras-chave', 'en':'Keywords', 'es':'Palabras clave', 'fr':'Mots clés'}];
+  public abstract: Array<any> = [
+    { pt: 'Resumo', en: 'Abstract', es: 'Resumen', fr: 'Résumé' },
+  ];
+  public keywords: Array<any> = [
+    {
+      pt: 'Palavras-chave',
+      en: 'Keywords',
+      es: 'Palabras clave',
+      fr: 'Mots clés',
+    },
+  ];
   objectKeys = Object.keys;
   objectValues = Object.values;
 
@@ -23,5 +37,14 @@ export class ArticleComponent {
     //console.log(this.data);
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+  }
+
+  ViewFull() {
+    let data = [{ id: this.data.ID }];
+    this.brapciService.api_post('fulltext').subscribe((res) => {
+      this.fulltext = res;
+    });
+
+    alert('VIEW' + this.data.ID);
   }
 }
