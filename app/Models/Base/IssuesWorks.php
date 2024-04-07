@@ -79,8 +79,6 @@ class IssuesWorks extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $IDp = $RDFclass->getClass('hasIssueOf');
-        pre($IDp,false);
-        pre($id_rdf);
         $dt = $RDFdata
             ->where('d_p',$IDp)
             ->where('d_r1',$id_rdf)
