@@ -545,7 +545,9 @@ class RDFmetadata extends Model
         $dr = array_merge($dr, $dt);
 
         /******************** ISSUE */
-        $dti = $Issues->where('is_source',$IDjnl)->findAll();
+        $dti = $Issues->where('is_source',$IDjnl)
+            ->orderBy('is_vol desc, is_nr desc')
+            ->findAll();
 
         foreach ($dti as $idi=>$linei) {
             $dti = $Issues->getMetada(0,$linei);
