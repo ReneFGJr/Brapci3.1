@@ -75,6 +75,16 @@ class IssuesWorks extends Model
             ->where('siw_issue', $id_rdf)
             ->orderBy('siw_order, siw_pag_ini')
             ->findAll();
+
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $IDp = $RDFproperty->getProperties('hasIssueOf');
+        $dt = $RDFdata
+            ->where('d_p',$IDp)
+            ->where('d_r1',$id_rdf)
+            ->findAll();
+        pre($dt);
+
         return $dt;
     }
 
