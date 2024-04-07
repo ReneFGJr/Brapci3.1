@@ -548,7 +548,7 @@ class RDFmetadata extends Model
         $dti = $Issues->where('is_source',$IDjnl)->findAll();
 
         foreach ($dti as $idi=>$linei) {
-            $dti = $Issues->getMetada($linei);
+            $dti = $Issues->getMetada(0,$linei);
             $ANO = $dti['YEAR'];
             if (!isset($YEARS[$ANO])) {
                 $YEARS[$ANO] = $ANO;
