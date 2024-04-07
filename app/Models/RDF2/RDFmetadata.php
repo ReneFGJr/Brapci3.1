@@ -538,8 +538,17 @@ class RDFmetadata extends Model
         $Issues = new \App\Models\Base\Issues();
         $ISSUE = [];
         $YEARS = [];
-        foreach ($issue as $id) {
-            $dti = $Issues->getMetada($id);
+
+        $Source = new \App\Models\Base\Sources();
+        $dt = $Source->where('jnl_frbr', $dr['ID'])->first();
+        $IDjnl = $dt['id_jnl'];
+        $dr = array_merge($dr, $dt);
+
+        /******************** ISSUE */
+        $dti = $Issues->where('is_source',$IDjnl)->findAll();
+
+        foreach ($dti as $idi=>$linei) {
+            $dti = $Issues->getMetada($linei);
             $ANO = $dti['YEAR'];
             if (!isset($YEARS[$ANO])) {
                 $YEARS[$ANO] = $ANO;
@@ -555,10 +564,6 @@ class RDFmetadata extends Model
         $dr['issue'] = $ISSUE;
         $dr['issue_years'] = $sYEARS;
 
-        $dr = array_merge($dr, $dt);
-
-        $Source = new \App\Models\Base\Sources();
-        $dt = $Source->where('jnl_frbr', $dr['ID'])->first();
         $dr = array_merge($dr, $dt);
 
         $Cover = new \App\Models\Base\Cover();

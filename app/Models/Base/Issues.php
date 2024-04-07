@@ -359,9 +359,13 @@ class Issues extends Model
             return $sx;
         }
 
-        function getMetada($id)
+        function getMetada($id,$dt=[])
             {
-                    $dt = $this->where('is_source_issue',$id)->first();
+                if ($dt == [])
+                    {
+                        $dt = $this->where('is_source_issue', $id)->first();
+                    }
+
                     if ($dt == '')
                         {
                             $this->getIssue($id);
