@@ -240,7 +240,9 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSE-WORK-SUBJECT")
                 ok = True
                 T = data[i][k]
+                print("...T:",T)
                 T = mod_subject.prepare(T)
+                print("...T1:",T)
 
                 for it in range(len(T)):
                     mod_subject.register_literal(IDC,T[it][0],T[it][1])
