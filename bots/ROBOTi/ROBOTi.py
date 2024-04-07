@@ -3,6 +3,7 @@
 # @Data: 2023-12-22
 # @Title: Robos da Brapci (ROBOTi)
 
+import os
 import sys
 import roboti_help
 import roboti_task
@@ -296,6 +297,8 @@ def ListIdentiers():
 ########################################### Início
 print("ROBOTi",version())
 print("===============================================")
+diretorio = '/data/Brapci3.1/bots/ROBOTi'
+os.chdir(diretorio)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
