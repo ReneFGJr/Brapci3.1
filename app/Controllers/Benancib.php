@@ -23,7 +23,7 @@ class Benancib extends BaseController
     public function index($act = '', $subact = '', $id = '')
     {
         $url = 'https://brapci.inf.br/#/proceedings/issues/75';
-        if (get("text")=='')
+        if (get("test")=='')
             {
                 return redirect()->to($url);
                 exit;
