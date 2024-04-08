@@ -25,9 +25,6 @@ def process(rg):
     IDA = rg[1]
     TYPE = rg[11]
     IDX = rg[5]
-    print(rg)
-    print(IDX)
-    quit()
 
     print(Fore.YELLOW+f"... Processando ISSUE {TYPE} ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(ID)+'.getRecord.json'
@@ -39,8 +36,11 @@ def process(rg):
         f.close()
 
         #Verifica se existe o ID = METHODO 01
-        IDX = check_method01(IDA,JNL)
         BYPASS = 0
+
+        if IDX == 0:
+            IDX = check_method01(IDA,JNL)
+
         if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
             mod_listidentify.updateRDF(ID,IDX)
@@ -48,12 +48,12 @@ def process(rg):
             return ""
 
         print("Method 02")
-        IDX = check_method02(data,IDA,JNL)
-        if IDX == 0:
-            print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
-        else:
-            print("IDX==",IDX)
-
+        if (IDX == 0):
+            IDX = check_method02(data,IDA,JNL)
+            if IDX == 0:
+                print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
+            else:
+                print("IDX==",IDX)
 
         ########################################## Inserir Trabalho
         if (IDX == 0):
@@ -67,6 +67,7 @@ def process(rg):
         else:
             print(f"  UPDATE WORK ({IDX})")
             article_data(IDX,rg,data,JNL)
+            mod_listidentify.updateStatus(ID,12)
 
     except Exception as e:
         mod_listidentify.updateStatus(ID,1)
