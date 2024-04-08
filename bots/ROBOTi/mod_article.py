@@ -105,11 +105,11 @@ def check_method02(data,jnl,id):
     TITLE = TITLE.replace('@pt','')
     TITLE = TITLE.replace('@en','')
     TITLE = TITLE.replace('@es','')
-    print(4,data[4])
-    print(5,data[5])
-    print(6,data[6])
-    print(7,data[7])
-    print(8,data[8])
+
+    issue = data[6]
+    SOURCE = issue['source']
+    YEAR = SOURCE['year']
+    print(YEAR)
     quit()
     YEAR = data[5]
     print(TITLE)
