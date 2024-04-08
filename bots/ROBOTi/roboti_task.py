@@ -5,7 +5,11 @@ from colorama import Fore
 def nextGetRecords(status):
     limit = 10
     if (status == 5):
-        limit = 1000
+        limit = 250
+    if (status == 6):
+        limit = 250
+    if (status == 7):
+        limit = 250
     cp = "id_oai, oai_identifier, jnl_url_oai, jnl_name_abrev, oai_setSpec, oai_rdf, id_jnl, s_id, oai_issue, is_url_oai, is_source_issue, jnl_collection"
     qr = f"select {cp} from brapci_oaipmh.oai_listidentify "
     qr += " inner join brapci.source_source on oai_id_jnl = id_jnl "
