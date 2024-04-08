@@ -113,6 +113,7 @@ def run(parm):
 
     if (act == 'check'):
         mod_concept.UpdateUse()
+        mod_literal.check_utf8()
         mod_literal.check_duplicate()
         mod_literal.check_trim()
         mod_literal.check_all()
@@ -134,6 +135,8 @@ def run(parm):
         lp = mod_literal.check_double_name()
     if (act == '153'):
         lp = mod_literal.check_title()
+    if (act == '154'):
+        mod_literal.check_utf8()
 
     ################### Author
     if (act == '200'):
@@ -299,7 +302,7 @@ def ListIdentiers():
 print("ROBOTi",version())
 print("===============================================")
 diretorio = '/data/Brapci3.1/bots/ROBOTi'
-os.chdir(diretorio)
+#os.chdir(diretorio)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
