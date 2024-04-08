@@ -114,6 +114,8 @@ def check_method02(data,jnl,id):
         return 0
     else:
         print(row)
+        ID = row[0]
+        print(ID)
         quit()
         return row[0]['ID']
 
