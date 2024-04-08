@@ -1,28 +1,31 @@
 import database
 import mod_logs
 import mod_nbr
+import chardet
 
 def check_utf8():
     qr = "select id_n, n_name "
     qr += " from brapci_rdf.rdf_literal "
     qr += " where n_delete = 0"
+    qr += " and id_n = 157202 "
     #qr += "  and n_name like '%ã£%' "
     print(qr)
 
     row = database.query(qr)
-    for ln in row:
-        literal = str(ln[1])
-        if 'â' in literal:
-            #print(ln)
-            try:
-                print(literal)
-                quit()
-            except Exception as e:
-                print("ERRO CONVERT",e)
-#        except AttributeError:
-#            pass
-#        except UnicodeDecodeError:
-#            print(f"Problema de codificação encontrado: {literal}")
+    # Verificar cada registro individualmente
+    for id, dados in row:
+        try:
+            # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
+            if dados is not None:
+                dados = dados.encode('utf-8')
+                print(id,dados)
+                print(chardet.detect(dados))
+                dados.decode('utf-8')
+        except UnicodeDecodeError:
+            # Relata o registro com problemas de decodificação
+            print(f"Registro com ID {id} contém dados com erro de codificação.")
+
+
 def check_duplicate():
     qr = "select * from "
     qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal where n_delete = 0 group by n_name, n_lang) as tabela "
