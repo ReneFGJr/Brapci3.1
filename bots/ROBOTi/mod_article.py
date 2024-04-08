@@ -102,7 +102,6 @@ def check_method01(id,jnl):
     quit()
 
 def check_method02(data,jnl,id):
-    print('1',data[0])
     jnl = data[0]
     IDjnl = jnl['journal']['id_jnl']
     title = data[2]
