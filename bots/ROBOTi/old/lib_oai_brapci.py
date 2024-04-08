@@ -45,7 +45,7 @@ def identify_register(docXML,id_jnl):
         cursor = cnx.cursor()
         cursor.execute(query)
         row = cursor.fetchone()
-        print(row)
+
         if (row == None):
             print("NOVO")
             query = "insert into oai_identify "
