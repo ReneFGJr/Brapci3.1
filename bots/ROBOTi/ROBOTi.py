@@ -36,6 +36,7 @@ def auto():
 
     qr = "select * from brapci_bots.tasks"
     row = database.query(qr)
+    tks = 'CRON'
 
     for tk in row:
         tks = tk[1]
@@ -54,7 +55,7 @@ def auto():
         if (tks == 'PROCEEDING'):
             mod_proceeding.harvesting()
 
-    mod_logs.log('CRON',0)
+    mod_logs.log(tks,0)
     return ""
 
 def run(parm):
