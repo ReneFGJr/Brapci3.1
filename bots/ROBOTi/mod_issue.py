@@ -11,7 +11,6 @@ import database
 import traceback
 
 def identify(rg):
-    print("==============",rg)
     ID = rg[0]
     JNL = rg[6]
     ISSUE = rg[10]
