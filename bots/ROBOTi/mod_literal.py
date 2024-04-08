@@ -12,12 +12,10 @@ def check_utf8():
     row = database.query(qr)
     for ln in row:
         literal = str(ln[1])
-        if 'ã' in literal:
+        if 'â' in literal:
             #print(ln)
             try:
                 print(literal)
-                literalUTF = unicode(literal)
-                print(literalUTF)
                 quit()
             except Exception as e:
                 print("ERRO CONVERT",e)
