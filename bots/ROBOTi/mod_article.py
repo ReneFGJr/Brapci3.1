@@ -99,11 +99,11 @@ def check_method01(id,jnl):
 def check_method02(data,jnl,id):
     print('1',data[0])
     jnl = data[0]
-    print('1.1',jnl['journal'])
+    IDjnl = jnl['journal']['id_jnl']
+    qr = "select * from brapci_elastic.dataset where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
+    row = database.query(qr)
 
-    qr = "select * from brapci_elastic.dataset where TITLE = '{TITLE}'"
-    IDjnl = 1
-    print(qr,IDjnl)
+    print(row)
     quit()
     return 0
 
