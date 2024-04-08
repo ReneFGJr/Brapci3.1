@@ -105,7 +105,7 @@ def check_method02(data,jnl,id):
     TITLE = TITLE.replace('@pt','')
     TITLE = TITLE.replace('@en','')
     TITLE = TITLE.replace('@es','')
-    qr = f"select * from brapci_elastic.dataset "
+    qr = f"select ID from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     row = database.query(qr)
 
