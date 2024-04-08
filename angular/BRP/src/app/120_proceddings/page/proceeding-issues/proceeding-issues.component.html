@@ -1,4 +1,5 @@
-<app-banner-proceeding></app-banner-proceeding>
+<app-banner-benancib *ngIf="source.source.id_jnl == 75"></app-banner-benancib>
+<app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
 <div class="container" *ngIf="source">
   <div class="row">
     <h1>{{ source.source.jnl_name }}</h1>
