@@ -109,12 +109,10 @@ def check_method02(data,jnl,id):
     issue = data[6]
     SOURCE = issue['source']
     YEAR = SOURCE['year']
-    print(YEAR)
-    quit()
-    YEAR = data[5]
-    print(TITLE)
+
     qr = f"select ID from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
+    qr += f" amd YEAR = '{YEAR}' "
     row = database.query(qr)
 
     if row == []:
