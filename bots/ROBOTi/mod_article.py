@@ -100,7 +100,7 @@ def check_method02(data,jnl,id):
     print('1',data[0])
     jnl = data[0]
     IDjnl = jnl['journal']['id_jnl']
-    qr = "select * from brapci_elastic.dataset where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
+    qr = f"select * from brapci_elastic.dataset where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     row = database.query(qr)
 
     print(row)
