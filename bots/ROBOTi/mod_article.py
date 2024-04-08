@@ -100,7 +100,7 @@ def check_method02(data,jnl,id):
     print('1',data[0])
     jnl = data[0]
     IDjnl = jnl['journal']['id_jnl']
-    print(jnl)
+    print(data[2])
     TITLE = jnl['title']
     TITLE = TITLE.replace('@pt','')
     TITLE = TITLE.replace('@en','')
