@@ -113,6 +113,8 @@ def check_method02(data,jnl,id):
     if row == []:
         return 0
     else:
+        print(row)
+        quit()
         return row[0]['ID']
 
 
