@@ -97,9 +97,10 @@ def check_method01(id,jnl):
     quit()
 
 def check_method02(data,jnl,id):
-    print(data['journal'])
-    IDjnl = data[0][0]
+    print('1',data[0])
+    print('2',data['journal'])
     qr = "select * from brapci_elastic.dataset where TITLE = '{TITLE}'"
+    IDjnl = 1
     print(qr,IDjnl)
     quit()
     return 0
