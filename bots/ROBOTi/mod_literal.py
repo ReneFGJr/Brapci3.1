@@ -6,20 +6,25 @@ def check_utf8():
     qr = "select id_n, n_name "
     qr += " from brapci_rdf.rdf_literal "
     qr += " where n_delete = 0"
-    qr += "  and n_name like '%ã£%' "
+    #qr += "  and n_name like '%ã£%' "
     print(qr)
 
     row = database.query(qr)
     for ln in row:
-        #print(ln)
-        try:
-            literal = ln[1]
-            literal.decode('utf-8')
-            quit()
-        except AttributeError:
-            pass
-        except UnicodeDecodeError:
-            print(f"Problema de codificação encontrado: {literal}")
+        literal = ln[1]
+        if 'ã' in literal:
+            #print(ln)
+            try:
+                literalUTF = literal.decode('utf-8')
+                print(literal)
+                print(literalUTF)
+                quit()
+            except:
+                print("OPS")
+#        except AttributeError:
+#            pass
+#        except UnicodeDecodeError:
+#            print(f"Problema de codificação encontrado: {literal}")
 def check_duplicate():
     qr = "select * from "
     qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal where n_delete = 0 group by n_name, n_lang) as tabela "
