@@ -15,6 +15,7 @@ def check_utf8():
         if 'ã' in literal:
             #print(ln)
             try:
+                print(literal)
                 literalUTF = literal.decode('utf-8')
                 print(literal)
                 print(literalUTF)
