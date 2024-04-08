@@ -11,7 +11,7 @@ def check_utf8():
 
     row = database.query(qr)
     for ln in row:
-        literal = ln[1]
+        literal = str(ln[1])
         if 'ã' in literal:
             #print(ln)
             try:
