@@ -123,7 +123,6 @@ def check_method02(data,jnl,id):
     if row == []:
         return 0
     else:
-        print(row)
         ID = row[0]
         ID = ID[0]
         return ID
@@ -284,8 +283,6 @@ def article_data(IDC,rg,data,jnl):
                 qr += f"where id_s = {ids}"
                 row = database.query(qr)
                 IDsec = row[0][0]
-                print(qr)
-                print(row)
 
                 if (IDsec == None or IDsec < 1):
                     print("Erro Section IDsec="+IDsec)
