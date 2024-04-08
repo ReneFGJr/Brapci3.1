@@ -47,8 +47,9 @@ def process(rg):
             mod_listidentify.updateStatus(ID,11)
             return ""
 
-        print("Method 02")
+
         if (IDX == 0):
+            print("Method 02")
             IDX = check_method02(data,IDA,JNL)
             if IDX == 0:
                 print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
