@@ -19,8 +19,8 @@ def check_utf8():
                 print(literal)
                 print(literalUTF)
                 quit()
-            except:
-                print("OPS")
+            except Exception as e:
+                print("ERRO CONVERT",e)
 #        except AttributeError:
 #            pass
 #        except UnicodeDecodeError:
