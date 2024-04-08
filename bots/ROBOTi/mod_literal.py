@@ -16,7 +16,7 @@ def check_utf8():
             #print(ln)
             try:
                 print(literal)
-                literalUTF = literal.decode('utf-8')
+                literalUTF = unicode(literal)
                 print(literalUTF)
                 quit()
             except Exception as e:
