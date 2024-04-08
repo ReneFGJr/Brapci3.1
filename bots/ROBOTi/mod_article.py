@@ -100,9 +100,12 @@ def check_method02(data,jnl,id):
     print('1',data[0])
     jnl = data[0]
     IDjnl = jnl['journal']['id_jnl']
-    print(data)
-    qr = f"select * from brapci_elastic.dataset where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
-
+    TITLE = jnl['title']
+    TITLE = TITLE.replace('@pt','')
+    TITLE = TITLE.replace('@en','')
+    TITLE = TITLE.replace('@es','')
+    qr = f"select * from brapci_elastic.dataset "
+    qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     row = database.query(qr)
 
     print(row)
