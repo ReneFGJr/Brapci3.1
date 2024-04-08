@@ -110,53 +110,11 @@ def check_method02(data,jnl,id):
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     row = database.query(qr)
 
-    print(row)
-    quit()
-    return 0
+    if row == []:
+        return 0
+    else:
+        return row[0]['ID']
 
-    title = []
-
-    for i in range(len(data)):
-        keys = data[i].keys()
-        for k in keys:
-            ##print(f'RSP: {k}')
-            if (k == 'title'):
-                ##print("HELLO",k,i)
-                title = data[i][k]
-
-    for i in range(len(title)):
-        if '@' in title[i]:
-            title[i] = title[i][:-3]
-
-    ################################### Verifica se não existe cadastrado
-    ## Method 01 - ID
-
-    qr = "select id_cc from brapci_rdf.rdf_literal "
-    qr += f"inner join brapci_rdf.rdf_data ON d_literal = id_n "
-    qr += f"inner join brapci_rdf.rdf_concept ON d_r1 = id_cc "
-    ## Phase I
-    for i in range(len(title)):
-        TITLE = title[i]
-        if i==0:
-            qr += f"where n_name = '{TITLE}'"
-        else:
-            qr += f"OR n_name = '{TITLE}'"
-    qr += "group by id_cc"
-    row = database.query(qr)
-
-    print("MTH2=>",row)
-
-    quit()
-
-    ## Phase I - Check Name
-    for i in range(len(title)):
-        tit = title[i]
-        qr = "select * from brapci_elatic.dataset "
-        qr += f"where TITLE = '{tit}' "
-        print(qr)
-        row = database.query(qr)
-        print(row)
-    quit()
 
 ############################################## CONCEPT
 def create_proceeding(rg,data,jnl):
