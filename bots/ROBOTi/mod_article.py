@@ -115,9 +115,8 @@ def check_method02(data,jnl,id):
     else:
         print(row)
         ID = row[0]
-        print(ID[0])
-        quit()
-        return row[0]['ID']
+        ID = ID[0]
+        return ID
 
 
 ############################################## CONCEPT
