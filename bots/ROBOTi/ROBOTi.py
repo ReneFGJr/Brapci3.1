@@ -302,7 +302,7 @@ def ListIdentiers():
 print("ROBOTi",version())
 print("===============================================")
 diretorio = '/data/Brapci3.1/bots/ROBOTi'
-#os.chdir(diretorio)
+os.chdir(diretorio)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
