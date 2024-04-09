@@ -21,10 +21,9 @@ def invert():
             id_d = item[0]
             d_r1 = item[1]
             d_r2 = item[2]
-            qu = f"update brapci_rdf.rdf_data set d_r1 = {d_r2}, d_r2 = {d_r1} where id_d = {id_d}"
-            print(item)
-            print(qu)
-            quit()
+            qu = f"update brapci_rdf.rdf_data set d_r1 = {d_r2}, d_r2 = {d_r1}, d_trust = 0 where id_d = {id_d}"
+            database.update(qu)
+            print("Revert",id_d)
 
 
 
