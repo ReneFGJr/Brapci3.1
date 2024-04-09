@@ -318,6 +318,9 @@ class Brapci extends Model
                 $dq['ID'] = $line['siw_work_rdf'];
                 $dq['LEGEND'] = $line['TITLE'];
                 $dq['AUTHORS'] = $line['AUTHORS'];
+                $dq['PDF'] = $line['PDF'];
+                $dq['SESSION'] = $line['SESSION'];
+                $dq['USE'] = $line['use'];
                 $aut = troca($dq['AUTHORS'],'; ',';');
                 $aut = explode(';',$aut);
                 foreach($aut as $ida=>$nome)
