@@ -115,6 +115,7 @@ def run(parm):
         mod_concept.UpdateUse()
         mod_literal.check_utf8()
         mod_literal.check_duplicate()
+        mod_literal.check_double_name()
         mod_literal.check_trim()
         mod_literal.check_all()
         mod_literal.check_title()
@@ -122,6 +123,9 @@ def run(parm):
         mod_author.check_duplicate()
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
+        mod_subject.check_duplicate()
+        mod_subject.check_remissiva()
+
 
 
     #################### LITERAL
@@ -148,7 +152,7 @@ def run(parm):
     if (act == '210'):
         lp = mod_subject.check_duplicate()
     if (act == '211'):
-        lp = mod_author.check_remissiva()
+        lp = mod_subject.check_remissiva()
 
     ################### Works
     if (act == '220'):

@@ -3,6 +3,10 @@ import mod_class
 import mod_concept
 import mod_data
 import database
+import mod_author
+
+def check_remissiva():
+    mod_author.check_remissiva()
 
 def register_literal(IDC,term,lg):
 
