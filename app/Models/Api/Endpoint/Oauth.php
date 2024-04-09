@@ -216,13 +216,13 @@ class Oauth extends Model
 
                 /********************************** */
                 $adminX = 0;
-                pre($adminX,false);
                 $dd = (string)$Socials->validGroups($_SESSION['id']);
-                pre($dd, false);
+                print("================1==\n\r");
                 if (strpos(' '.$dd,'#ADM') > 0)
                     {
                         $adminX = 1;
                     }
+                print("================2==\n\r");
                 $dd['admin'] = $adminX;
                 pre($dd);
             } else {
