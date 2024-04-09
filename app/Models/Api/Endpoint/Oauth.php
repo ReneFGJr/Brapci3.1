@@ -217,14 +217,14 @@ class Oauth extends Model
                 /********************************** */
                 $adminX = 0;
                 pre($adminX,false);
-                $dd = $Socials->validGroups($_SESSION['id']);
+                $dd = (string)$Socials->validGroups($_SESSION['id']);
                 pre($dd, false);
                 if (strpos(' '.$dd,'#ADM') > 0)
                     {
                         $adminX = 1;
                     }
                 $dd['admin'] = $adminX;
-                pre($adminX);
+                pre($dd);
             } else {
                 $dd['status'] = '400';
                 $dd['message'] = 'Error Login';
