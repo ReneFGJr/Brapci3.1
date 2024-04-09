@@ -55,10 +55,6 @@ export class UserService {
         admin: res['admin'],
       });
 
-      console.log(this.user)
-      console.log("==============ADMIN: ",res['admin'])
-      alert("HELLO")
-
       /*********************** LocalStorage */
       this.LocalStorageService.set('user', this.user);
 

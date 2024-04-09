@@ -114,6 +114,8 @@ class RDFmetadata extends Model
             $dt = $RDF->le($ID);
         }
 
+        pre($dt);
+
         $dd = [];
 
         $class = $dt['concept']['c_class'];

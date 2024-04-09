@@ -17,7 +17,7 @@ export class ArticleComponent {
   public url: string = '';
   public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
-  public userID: Array<any> | any = null;
+
   public fulltext: Array<any> | any = null;
   public langs: Array<any> = ['pt', 'en', 'es', 'fr'];
   public abstract: Array<any> = [
@@ -35,16 +35,13 @@ export class ArticleComponent {
   objectValues = Object.values;
 
   ngOnInit(): void {
-    console.log(this.data);
     this.header = [];
     this.header = { title: 'Artigo' };
+
     //this.url = this.data.id;
     //console.log(this.data);
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-
-    this.userID = this.localStorageService.get('user');
-    console.log(this.userID)
   }
 
   ViewFull() {
