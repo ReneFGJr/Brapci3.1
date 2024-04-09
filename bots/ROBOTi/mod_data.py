@@ -11,6 +11,17 @@ import database
 import time
 import mod_logs
 
+def invert():
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0"
+    row = database.query(qr)
+    if row != []:
+        for item in row:
+            print(item)
+
+
+
+
 def register(IDC,prop,IDP,IDliteral=0):
     IDprop = mod_class.getClass(prop)
 

@@ -270,6 +270,8 @@ class RDFdata extends Model
             ->orderby('cn0.c_class, cn1.c_class, cn2.c_class')
             ->findAll();
 
+        /************************/
+
         $sx = '<table class="table full">';
         foreach ($dt as $id => $line) {
             $linka = '<a href="' . PATH . '/rdf/withoutClass/' . $d2 . '?act=I&d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Invert</a>';

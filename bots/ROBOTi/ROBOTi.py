@@ -124,6 +124,7 @@ def run(parm):
         mod_ontology.checkData()
         mod_author.check_remissiva()
         mod_author.check_duplicate()
+        mod_data.invert()
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
@@ -144,6 +145,8 @@ def run(parm):
         lp = mod_literal.check_title()
     if (act == '154'):
         mod_literal.check_utf8()
+    if (act == '155'):
+        mod_data.invert()
 
     ################### Author
     if (act == '200'):
