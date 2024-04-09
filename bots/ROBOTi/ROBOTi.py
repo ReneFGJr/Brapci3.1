@@ -129,7 +129,6 @@ def run(parm):
         mod_ontology.checkData()
         mod_author.check_remissiva()
         mod_author.check_duplicate()
-        mod_data.invert()
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
