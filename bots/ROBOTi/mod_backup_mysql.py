@@ -4,7 +4,7 @@ import sys
 import env
 import datetime
 
-def main():
+def backup_all():
     config = env.db()
     #print(config)
     #return 0
@@ -25,5 +25,3 @@ def main():
         subprocess.Popen(cmd, shell=True)
         #print("stdout:", result.stdout)
         #print("stderr:", result.stderr)
-
-main()

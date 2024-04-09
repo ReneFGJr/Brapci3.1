@@ -26,6 +26,7 @@ import mod_logs
 import database
 import mod_concept
 import mod_proceeding
+import mod_backup_mysql
 from colorama import Fore
 
 def version():
@@ -50,6 +51,8 @@ def auto():
             run(['ROBOTI','4'])
         if (tks == 'PROC_WORK'):
             ProcessArticle()
+        if (tks == 'BACKUP'):
+            mod_backup_mysql.backup_all()
 
         ########### mod_proceeding
         if (tks == 'PROCEEDING'):
@@ -69,6 +72,8 @@ def run(parm):
     #************************************************* Functions
     if ((act == 'help') or (act == '?')):
         roboti_help.help()
+    if (act =='backup'):
+        mod_backup_mysql.backup_all()
     #********************** ListIdentiers - LOOP
     if (act == '1'):
         ListIdentiers()
