@@ -202,6 +202,7 @@ class Oauth extends Model
             return $dd;
         } else {
             if (isset($_SESSION['apikey'])) {
+                $admin = 0;
                 $nome = $_SESSION['user'];
                 $dd['status'] = '200';
                 $dd['message'] = 'Loged';
