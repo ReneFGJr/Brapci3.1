@@ -212,6 +212,15 @@ class Oauth extends Model
                 $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
                 $dd['token'] = $_SESSION['apikey'];
                 $dd['persistent-id'] = PATH . 'api/socials/apikey/' . $dd['token'];
+
+                /********************************** */
+                $admin = 0;
+                $dd = $Socials->validGroups($_SESSION['id']);
+                if (strpos(' '.$dd,'#ADM') > 0)
+                    {
+                        $admin = 1;
+                    }
+                $dd['admin'] = $admin;
             } else {
                 $dd['status'] = '400';
                 $dd['message'] = 'Error Login';

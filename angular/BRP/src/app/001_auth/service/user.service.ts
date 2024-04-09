@@ -52,6 +52,7 @@ export class UserService {
         sn: res['sn'],
         token: res['token'],
         persistentId: res['persistent-id'],
+        admin: res['admin'],
       });
 
       /*********************** LocalStorage */

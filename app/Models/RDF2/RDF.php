@@ -467,7 +467,7 @@ class RDF extends Model
 
         if (isset($user['ID'])) {
             $perfil = ' ' . $user['perfil'];
-            if (strpos($perfil, '#ADM') > 0) {
+            if (strpos(' '.$perfil, '#ADM') > 0) {
                 $RDFconcept = new \App\Models\RDF2\RDFconcept();
                 $RDFdata = new \App\Models\RDF2\RDFdata();
 

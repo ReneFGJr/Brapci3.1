@@ -1,3 +1,4 @@
+import { LocalStorageService } from 'src/app/001_auth/service/local-storage.service';
 import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 import { Component, Input } from '@angular/core';
 
@@ -8,11 +9,15 @@ import { Component, Input } from '@angular/core';
 export class ArticleComponent {
   @Input() public data: Array<any> | any;
 
-  constructor(private brapciService: BrapciService) {}
+  constructor(
+    private brapciService: BrapciService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   public url: string = '';
   public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
+  public userID: Array<any> | any = null;
   public fulltext: Array<any> | any = null;
   public langs: Array<any> = ['pt', 'en', 'es', 'fr'];
   public abstract: Array<any> = [
@@ -37,6 +42,9 @@ export class ArticleComponent {
     //console.log(this.data);
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+
+    this.userID = this.localStorageService.get('user');
+    console.log(this.userID)
   }
 
   ViewFull() {
