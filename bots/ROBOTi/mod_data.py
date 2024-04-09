@@ -12,12 +12,19 @@ import time
 import mod_logs
 
 def invert():
+    print("150 - Invertendo Propriedades")
     qr = "select * from brapci_rdf.rdf_data "
     qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0"
     row = database.query(qr)
     if row != []:
         for item in row:
+            id_d = item.id_d
+            d_r1 = item.d_r1
+            d_r2 = item.d_r2
+            qu = f"update brapci_rdf.rdf_data set d_r1 = {d_r2}, d_r2 = {d_r1} where id_d = {id_d}"
             print(item)
+            print(qu)
+            quit()
 
 
 
