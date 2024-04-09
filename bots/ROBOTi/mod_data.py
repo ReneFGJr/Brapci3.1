@@ -18,9 +18,9 @@ def invert():
     row = database.query(qr)
     if row != []:
         for item in row:
-            id_d = item['id_d']
-            d_r1 = item['d_r1']
-            d_r2 = item['d_r2']
+            id_d = item[0]
+            d_r1 = item[1]
+            d_r2 = item[2]
             qu = f"update brapci_rdf.rdf_data set d_r1 = {d_r2}, d_r2 = {d_r1} where id_d = {id_d}"
             print(item)
             print(qu)
