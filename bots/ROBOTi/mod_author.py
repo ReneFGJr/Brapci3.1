@@ -100,9 +100,8 @@ def register_literal(IDC,name):
 
 def nbr_author(n):
     if ',' in n:
+        n = n.replace(',','')
         print("NOME COM VIRGULA",n)
-        print(n)
-        quit()
 
     nm = n.lower()
     nm = nm.split(' ')
