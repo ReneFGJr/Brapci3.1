@@ -46,7 +46,7 @@ class RDFconcept extends Model
 
     function le($id)
         {
-            $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, id_n, cc_status, cc_created, cc_update, cc_version, id_c';
+            $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, id_n, cc_status, cc_created, cc_update, cc_version, id_c, cc_pref_term';
             //$cp = '*';
             $dc = $this
                 ->select($cp)
@@ -57,6 +57,12 @@ class RDFconcept extends Model
                 ->first();
 
             /* Data */
+            $dc['status'] = '200';
+            if ($dc['cc_status'] == 9)
+                {
+                    $dc['message'] = 'Register canceled';
+                    $dc['status'] = '404';
+                }
 
             return $dc;
         }

@@ -50,7 +50,7 @@ class RDF extends Model
                 $RDFform = new \App\Models\RDF2\RDFform();
                 $sx .= $cab;
                 $sx .= $RDFform->editRDF($d2);
-                return bs(bsc($sx,12));
+                return bs(bsc($sx, 12));
                 break;
             case 'resume':
                 $RDFdata = new \App\Models\RDF2\RDFdata();
@@ -160,44 +160,42 @@ class RDF extends Model
     }
 
     function view($id)
-        {
-            $dt = $this->v($id);
-            $sx = '';
-            $sx .= h('Class: '.$dt['concept']['c_class']);
-            $sx .= h('prefLabel: ' . $dt['concept']['n_name'],4);
-            foreach($dt['data'] as $id=>$line)
-                {
-                    $sx .= bsc($line['Class'],3,'small text-end');
-                    $name = $line['Caption'];
-                    if ($line['ID'] > 0)
-                    { $name = '<a href="'.PATH.'/v/'.$line['ID'].'">'.$name.'</a>'; }
-                    $sx .= bsc($name,9);
-                }
-            return bs($sx);
+    {
+        $dt = $this->v($id);
+        $sx = '';
+        $sx .= h('Class: ' . $dt['concept']['c_class']);
+        $sx .= h('prefLabel: ' . $dt['concept']['n_name'], 4);
+        foreach ($dt['data'] as $id => $line) {
+            $sx .= bsc($line['Class'], 3, 'small text-end');
+            $name = $line['Caption'];
+            if ($line['ID'] > 0) {
+                $name = '<a href="' . PATH . '/v/' . $line['ID'] . '">' . $name . '</a>';
+            }
+            $sx .= bsc($name, 9);
         }
+        return bs($sx);
+    }
 
-    function index_list($i,$l='A',$lang='')
-        {
-            $cp = 'n_name, n_lang, id_cc';
-            $RDFclass = new \App\Models\RDF2\RDFclass();
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $idc = $RDFclass->getClass($i);
-            $RDFconcept
-                ->select($cp)
-                ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
-                ->where('cc_class',$idc)
-                ->where('id_cc = cc_use')
-                ->where("substring(n_name,1,1) = '$l'");
-                #->like('n_name',$l,'after');
-            if ($lang != '')
-                {
-                    $RDFconcept->where('n_lang',$lang);
-                }
-            $dt = $RDFconcept->orderBy('n_name')
-                ->findAll(10000);
-            return $dt;
-
+    function index_list($i, $l = 'A', $lang = '')
+    {
+        $cp = 'n_name, n_lang, id_cc';
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $idc = $RDFclass->getClass($i);
+        $RDFconcept
+            ->select($cp)
+            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+            ->where('cc_class', $idc)
+            ->where('id_cc = cc_use')
+            ->where("substring(n_name,1,1) = '$l'");
+        #->like('n_name',$l,'after');
+        if ($lang != '') {
+            $RDFconcept->where('n_lang', $lang);
         }
+        $dt = $RDFconcept->orderBy('n_name')
+            ->findAll(10000);
+        return $dt;
+    }
 
     function popup($d1, $d2, $d3)
     {
@@ -208,54 +206,56 @@ class RDF extends Model
 
         switch ($d1) {
             case 'literal':
-                if (get("action"))
-                    {
-                        $vlr = get("name");
-                        $lock = get("lock");
-                        $lang = get("lang");
-                        if ($lock == '') { $lock = '0'; }
-                        $dd['n_name'] = $vlr;
-                        $dd['n_lang'] = $lang;
-                        $dd['n_lock'] = $lock;
-                        $RDFliteral->set($dd)->where('id_n',$d2)->update();
-                        echo wclose();
-                    } else {
-                        $dt = $RDFliteral->find($d2);
-                        $vlr = $dt['n_name'];
-                        $lang = $dt['n_lang'];
-                        $lock = $dt['n_lock'];
+                if (get("action")) {
+                    $vlr = get("name");
+                    $lock = get("lock");
+                    $lang = get("lang");
+                    if ($lock == '') {
+                        $lock = '0';
                     }
-                    $idioma = $Language->languages();
-                    $params = ['name'=>'name','value'=>$vlr,'rows'=>5,'class'=>'form-control full border border-secondary'];
-                    $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                    $dd['n_name'] = $vlr;
+                    $dd['n_lang'] = $lang;
+                    $dd['n_lock'] = $lock;
+                    $RDFliteral->set($dd)->where('id_n', $d2)->update();
+                    echo wclose();
+                } else {
                     $dt = $RDFliteral->find($d2);
-                    $sx = form_open();
-                    $sx .= form_textarea($params);
-                    $sx .= form_checkbox('lock','1',$lock). ' Registro travado';
+                    $vlr = $dt['n_name'];
+                    $lang = $dt['n_lang'];
+                    $lock = $dt['n_lock'];
+                }
+                $idioma = $Language->languages();
+                $params = ['name' => 'name', 'value' => $vlr, 'rows' => 5, 'class' => 'form-control full border border-secondary'];
+                $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                $dt = $RDFliteral->find($d2);
+                $sx = form_open();
+                $sx .= form_textarea($params);
+                $sx .= form_checkbox('lock', '1', $lock) . ' Registro travado';
 
-                    $sx .= '<div>';
-                    $sx .= 'Language: '.$lang.' ';
-                    $sx .= '<select name="lang">';
-                    foreach($idioma as $id=>$lg)
-                        {
-                            $chk = '';
-                            if ($lg == $lang) { $chk = 'selected'; }
-                            $sx .= '<option value="'.$lg.'" '.$chk.'>'.$lg.'</option>';
-                        }
-                    $sx .= '</select>';
-                    $sx .= '</div>';
+                $sx .= '<div>';
+                $sx .= 'Language: ' . $lang . ' ';
+                $sx .= '<select name="lang">';
+                foreach ($idioma as $id => $lg) {
+                    $chk = '';
+                    if ($lg == $lang) {
+                        $chk = 'selected';
+                    }
+                    $sx .= '<option value="' . $lg . '" ' . $chk . '>' . $lg . '</option>';
+                }
+                $sx .= '</select>';
+                $sx .= '</div>';
 
-                    $sx .= '<div>';
-                    $sx .= form_submit('action',lang('brapci.save'),['class'=>'mt-4 btn btn-outline-primary']);
-                    $sx .= '</div>';
-                    $sx .= form_close();
+                $sx .= '<div>';
+                $sx .= form_submit('action', lang('brapci.save'), ['class' => 'mt-4 btn btn-outline-primary']);
+                $sx .= '</div>';
+                $sx .= form_close();
 
-                    $sx = bs(bsc($sx,12));
+                $sx = bs(bsc($sx, 12));
                 break;
             case 'add':
                 $sx .= '<div class="text-center">';
                 $RDFform = new \App\Models\RDF2\RDFform();
-                $sx .= $RDFform->add($d2,$d3);
+                $sx .= $RDFform->add($d2, $d3);
                 $sx .= '</div>';
                 break;
             case 'delete':
@@ -404,7 +404,7 @@ class RDF extends Model
             $class = $RDFclass->getClass($class);
         }
         if ($limit == '') {
-            $limit = 3*100;
+            $limit = 3 * 100;
         }
         $dt = $RDFconcept
             ->select('id_cc')
@@ -455,5 +455,62 @@ class RDF extends Model
         $sx .= '<p>' . lang('rdf.concept_was_deleted') . '</p>';
         $sx .= '<button onclick="history.back()">Go Back</button>';
         return ($sx);
+    }
+
+    function remove($ID)
+    {
+        $Socials = new \App\Models\Socials();
+        $user = $Socials->validToken();
+
+        $RSP = [];
+        $RSP['date'] = date("Y-m-d");
+
+        if (isset($user['ID'])) {
+            $perfil = ' ' . $user['perfil'];
+            if (strpos($perfil, '#ADM') > 0) {
+                $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                $RDFdata = new \App\Models\RDF2\RDFdata();
+
+                $dt = $RDFconcept->le($ID);
+                $RSP['status'] = $dt['status'];
+
+                $dr = $RDFdata
+                    ->where('d_r1', $ID)
+                    ->Orwhere('d_r2', $ID)
+                    ->findAll();
+                foreach ($dr as $idr => $line) {
+                    $dd = [];
+                    $dd['d_r1'] = $line['d_r1'] * (-1);
+                    $dd['d_p'] = $line['d_p'] * (-1);
+                    $dd['d_r2'] = $line['d_r2'] * (-1);
+                    $dd['d_literal'] = $line['d_literal'] * (-1);
+                    $dd['d_update'] = date("Y-m-d");
+                    $RDFdata->set($dd)
+                        ->where('d_r1', $ID)
+                        ->Orwhere('d_r2', $ID)
+                        ->update();
+                }
+
+                $dd = [];
+                $dd['cc_status'] = 9;
+                $dd['cc_update'] = date("Y-m-d");
+                if ($dt['cc_pref_term'] > 0) {
+                    $dd['cc_pref_term'] = $dt['cc_pref_term'] * (-1);
+                    $RSP['status'] = '300';
+                    $RSP['message'] = 'Success!';
+                } else {
+                    $RSP['message'] = 'This record already removed!';
+                }
+
+                $RDFconcept->set($dd)->where("id_cc", $ID)->update();
+            } else {
+                $RSP['status'] = '501';
+                $RSP['message'] = 'Access not Allow! - ' . trim($perfil);
+            }
+        } else {
+            $RSP = $user;
+        }
+
+        return $RSP;
     }
 }

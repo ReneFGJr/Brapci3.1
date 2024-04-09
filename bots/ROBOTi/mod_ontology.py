@@ -27,7 +27,7 @@ def checkLiteralExist():
     qr += " and d_literal > 0"
     qr += " and d_trust = 0"
     qr += " limit 100000"
-    print('102 - Liberando entradas Literais')
+    print('102 - Validando as entradas (Trust) entradas Literais')
     row = database.query(qr)
     ini = 0
     for item in row:

@@ -1114,6 +1114,48 @@ class Socials extends Model
 		return $sx;
 	}
 
+	function validGroups($ID)
+		{
+			$sql = "select * from users_group
+							LEFT JOIN users_group_members ON id_gr = grm_group
+							LEFT JOIN users ON grm_user = id_us
+							where grm_user = " . $ID . "
+							order by gr_name, us_nome";
+			$db = $this->db->query($sql);
+			$dt = $db->getResult();
+			$perfil = '';
+			foreach($dt as $id=>$line)
+				{
+					$perfil .= $line->gr_hash;
+				}
+			return $perfil;
+		}
+
+	function validToken()
+		{
+			$RSP = [];
+			$token = get("token");
+			if ($token != '') {
+				$dt = $this->where('us_apikey', $token)->First();
+				if ($dt != '')
+					{
+						$RSP['status'] = '200';
+						$RSP['user'] = $dt['us_nome'];
+						$RSP['ID'] = $dt['id_us'];
+						$RSP['email'] = $dt['us_email'];
+						$RSP['message'] = 'Success';
+						$RSP['perfil'] = $this->validGroups($RSP['ID']);
+					} else {
+						$RSP['status'] = '200';
+						$RSP['message'] = 'APIKEY is invalid!';
+					}
+			} else {
+				$RSP['status'] = '500';
+				$RSP['message'] = 'Token is empty';
+			}
+			return $RSP;
+		}
+
 	function token()
 		{
 			$sx = '';

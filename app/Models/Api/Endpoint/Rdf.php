@@ -99,6 +99,12 @@ class Rdf extends Model
                     echo json_encode($dd);
                     exit;
                     break;
+                case 'deleteConcept':
+                    $RDF = new \App\Models\RDF2\RDF();
+                    $dd = $RDF->remove($d3);
+                    echo json_encode($dd);
+                    exit;
+                    break;
                 case 'createConcept':
                     $RDFconcept = new \App\Models\RDF2\RDFconcept();
                     $Language = new \App\Models\AI\NLP\Language();
@@ -109,6 +115,7 @@ class Rdf extends Model
                     $dd['id'] = $RDFconcept->createConcept($dd);
                     echo json_encode($dd);
                     exit;
+                    break;
                 case 'getResource':
                     $RSP = [];
                     $RSP['ID'] = get("ID");
