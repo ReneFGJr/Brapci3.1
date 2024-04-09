@@ -307,6 +307,7 @@ class Brapci extends Model
         $dt = $IssuesWorks
             ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
             ->where('siw_issue',$issue)
+            ->orderBy('TITLE')
             ->findAll();
 
         $dw = [];
