@@ -432,6 +432,8 @@ class Index extends Model
                         $Elastic = new \App\Models\ElasticSearch\Register();
                         $offset = $d2;
 
+                        $sx .= h("OFFSET:",$offset,4);
+
                         $dt = $Elastic
                             ->select("ID")
                             ->where('PDF',0)
