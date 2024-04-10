@@ -440,7 +440,7 @@ class Index extends Model
                             ->where('(CLASS = "Article" or CLASS="Proceeding")')
                             ->orderby("ID")
                             ->findAll(5);
-                            echo $Elastic->getlastquery();
+
                         foreach($dt as $id=>$line)
                             {
                             $url = 'https://cip.brapci.inf.br//download/'.$line['ID'];
