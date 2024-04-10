@@ -41,6 +41,15 @@ def check_type():
         qu = f"update brapci_rdf.rdf_concept set cc_class = {classN} where id_cc = {ID} "
         database.update(qu)
 
+def remove_duplicate()
+    qr = "select ID, use from brapci_elastic.dataset "
+    qr += "where use > 0 and JOURNAL = 75 "
+    row = database.query(qr)
+
+    for item in row:
+        print(item)
+
+
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
     qr += " where `use` = 0 "
@@ -72,3 +81,4 @@ def check_duplicate():
         last = name
         lastID = ID
     print("Total",tot)
+    remove_duplicate()
