@@ -447,7 +447,7 @@ class Index extends Model
                             $sx .= '<iframe src="'.$url.'" style="width: 100%; height:300px"></iframe>';
                             $offset = $line['ID'];
                             }
-                        $sx .= metarefresh(PATH.'admin/pdf/harvesting/'.$offset,60);
+                        $sx .= metarefresh(PATH.'admin/pdf/harvesting/'.$offset,30);
                 }
             return bs(bsc($sx,12));
         }
