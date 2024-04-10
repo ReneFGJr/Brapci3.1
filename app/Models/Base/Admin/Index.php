@@ -429,19 +429,18 @@ class Index extends Model
                         if ($d2 == '') {
                             $d2 = '0';
                         }
-                        echo "+==" . $d2;
-                        $Elastic = new \App\Models\ElasticSearch\Register();
-                        $offset = $d2;
 
-                        $sx .= h("OFFSET:",$offset,4);
+                        $Elastic = new \App\Models\ElasticSearch\Register();
+                        $sx .= h("OFFSET:",$d2,4);
 
                         $dt = $Elastic
                             ->select("ID")
                             ->where('PDF',0)
-                            ->where('ID > '.$offset)
+                            ->where('ID > '.$id2)
                             ->where('CLASS = "Article" or CLASS="Proceeding" ')
                             ->orderby("ID")
                             ->findAll(10);
+                            echo $Elastic->getlastquery();
                         foreach($dt as $id=>$line)
                             {
                             $url = 'https://cip.brapci.inf.br//download/'.$line['ID'];
