@@ -48,10 +48,9 @@ def remove_duplicate():
     row = database.query(qr)
 
     for item in row:
-        print(item[0])
         url = 'https://cip.brapci.inf.br/api/rdf/deleteConcept/$ID?token=ff63a314d1ddd425517550f446e4175e'
         # Fazendo a chamada de API GET
-        url = url.replace('$ID',item[0])
+        url = url.replace('$ID',str(item[0]))
         print(url)
         quit()
         response = requests.get(url)
