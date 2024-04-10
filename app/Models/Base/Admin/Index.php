@@ -422,6 +422,7 @@ class Index extends Model
     function pdf($d1,$d2,$d3)
         {
             $sx = '';
+            echo "+==".$d2;
 
             switch($d1)
                 {
