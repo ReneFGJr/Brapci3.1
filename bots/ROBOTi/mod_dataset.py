@@ -1,6 +1,7 @@
 import mod_class
 import database
 import json
+import requests
 
 def check_pbci():
     qr = "select * from brapci_elastic.dataset "
@@ -48,6 +49,20 @@ def remove_duplicate():
 
     for item in row:
         print(item)
+        url = 'https://cip.brapci.inf.br/api/rdf/deleteConcept/$ID?token=ff63a314d1ddd425517550f446e4175e'
+        # Fazendo a chamada de API GET
+        url = url.replace('$ID',item[0])
+        print(url)
+        quit()
+        response = requests.get(url)
+
+        # Verificando se a chamada foi bem sucedida
+        if response.status_code == 200:
+            # Convertendo a resposta de JSON para um dicionário Python
+            data = response.json()
+            print(data)
+        else:
+            print("Falha na chamada da API: ", response.status_code)
 
 
 def check_duplicate():
