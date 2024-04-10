@@ -437,7 +437,7 @@ class Index extends Model
                             ->select("ID")
                             ->where('PDF',0)
                             ->where('ID > '.$d2)
-                            ->where('CLASS = "Article" or CLASS="Proceeding" ')
+                            ->where('(CLASS = "Article" or CLASS="Proceeding")')
                             ->orderby("ID")
                             ->findAll(10);
                             echo $Elastic->getlastquery();
