@@ -54,7 +54,7 @@ class Register extends Model
         $JNL = $Source->getCollections();
 
         $limit = 500;
-        $limit = 10;
+        $limit = 100;
         $offset = get('offset');
         if ($offset == '') {
             $offset = 0;
