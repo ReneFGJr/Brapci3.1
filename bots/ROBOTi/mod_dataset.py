@@ -42,8 +42,8 @@ def check_type():
         database.update(qu)
 
 def remove_duplicate():
-    qr = "select ID, use from brapci_elastic.dataset "
-    qr += "where use > 0 and JOURNAL = 75 "
+    qr = "select ID, `use` from brapci_elastic.dataset "
+    qr += " where `use` > 0 and JOURNAL = 75 "
     row = database.query(qr)
 
     for item in row:
