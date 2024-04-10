@@ -47,6 +47,7 @@ class Register extends Model
 
     function update_index()
     {
+        pre("OK");
         $full = '';
 
         /****************************** Biblioteca */
@@ -257,7 +258,6 @@ class Register extends Model
             $dta = [];
             $dta['new'] = $new;
             $this->set($dta)->where('ID', $id)->update();
-            pre($this->getlastquery());
         }
 
     function set_status($id, $dta)
