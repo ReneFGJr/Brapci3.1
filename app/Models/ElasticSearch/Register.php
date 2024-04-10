@@ -240,7 +240,7 @@ class Register extends Model
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
 
-            $this->exported($id,1);
+            $this->exported($id,0);
             echo h($id,1);
             pre($dt);
         }
