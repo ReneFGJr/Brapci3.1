@@ -235,14 +235,14 @@ class Register extends Model
             $API->server = 'http://143.54.112.91:9200/';
             $rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
 
-            pre($dt);
-
             $sx .= $id .= ' => ' .
                 $rst['result'] . ' v.' .
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
 
             $this->exported($id,1);
+            echo h($id,1);
+            pre($dt);
         }
 
         /****************************************************************************** LOOP */
