@@ -63,12 +63,13 @@ class Register extends Model
 
         $dta = $this->where('new',1)
             ->where('use',0)
+            ->orderBy('ID')
             ->FindAll($limit);
 
         $type = 'prod';
 
         $API = new \App\Models\ElasticSearch\API();
-        $sx = 'Export ElasticSearch v2.1 - ';
+        $sx = 'Export ElasticSearch v2.2 - ';
         $sx .= $offset . ' of ' . $dtt;
         if ($dtt > 0) {
             $percent = ($offset / $dtt * 100);
@@ -256,6 +257,7 @@ class Register extends Model
             $dta = [];
             $dta['new'] = $new;
             $this->set($dta)->where('ID', $id)->update();
+            pre($this->getlastquery());
         }
 
     function set_status($id, $dta)
