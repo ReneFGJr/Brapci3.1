@@ -439,7 +439,7 @@ class Index extends Model
                             ->where('ID > '.$d2)
                             ->where('(CLASS = "Article" or CLASS="Proceeding")')
                             ->orderby("ID")
-                            ->findAll(10);
+                            ->findAll(5);
                             echo $Elastic->getlastquery();
                         foreach($dt as $id=>$line)
                             {
