@@ -431,7 +431,7 @@ class Index extends Model
                         }
 
                         $Elastic = new \App\Models\ElasticSearch\Register();
-                        $sx .= h("OFFSET:",$d2,4);
+                        $sx .= h("OFFSET:".$d2,4);
 
                         $dt = $Elastic
                             ->select("ID")
