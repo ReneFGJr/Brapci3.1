@@ -26,7 +26,6 @@ export class VComponent {
       this.brapciService.getId(this.id).subscribe(
         (res) => {
           this.data = res;
-          console.log("----------",this.data)
           if (this.data.status == '404') {
              this.router.navigate(['404']);
           } else {
