@@ -436,6 +436,7 @@ class Index extends Model
                             ->select("ID")
                             ->where('PDF',0)
                             ->where('ID > '.$offset)
+                            ->orderby("ID")
                             ->findAll(10);
                         foreach($dt as $id=>$line)
                             {
