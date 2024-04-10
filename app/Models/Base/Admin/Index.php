@@ -422,7 +422,6 @@ class Index extends Model
     function pdf($d1,$d2,$d3)
         {
             $sx = '';
-            echo "+==".$d2;
 
             switch($d1)
                 {
@@ -430,6 +429,7 @@ class Index extends Model
                         if ($d2 == '') {
                             $d2 = '0';
                         }
+                        echo "+==" . $d2;
                         $Elastic = new \App\Models\ElasticSearch\Register();
                         $offset = $d2;
 
