@@ -18,7 +18,7 @@ class Register extends Model
         'id_ds', 'ID', 'json', 'CLASS','COVER', 'COLLECTION',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT',
         'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION',
-        'LEGEND','new'
+        'LEGEND','new','use'
     ];
 
     // Dates
@@ -47,7 +47,6 @@ class Register extends Model
 
     function update_index()
     {
-        pre("OK");
         $full = '';
 
         /****************************** Biblioteca */
@@ -55,6 +54,7 @@ class Register extends Model
         $JNL = $Source->getCollections();
 
         $limit = 500;
+        $limit = 10;
         $offset = get('offset');
         if ($offset == '') {
             $offset = 0;
@@ -234,6 +234,8 @@ class Register extends Model
             /* Second Server */
             $API->server = 'http://143.54.112.91:9200/';
             $rst = $API->call('brapci3.3/' . $type . '/' . $id, 'POST', $dt);
+
+            pre($dt);
 
             $sx .= $id .= ' => ' .
                 $rst['result'] . ' v.' .
