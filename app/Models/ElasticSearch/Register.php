@@ -239,10 +239,7 @@ class Register extends Model
                 $rst['result'] . ' v.' .
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
-
             $this->exported($id,0);
-            echo h($id,1);
-            pre($dt);
         }
 
         /****************************************************************************** LOOP */
