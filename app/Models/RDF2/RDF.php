@@ -470,9 +470,15 @@ class RDF extends Model
             if (strpos(' '.$perfil, '#ADM') > 0) {
                 $RDFconcept = new \App\Models\RDF2\RDFconcept();
                 $RDFdata = new \App\Models\RDF2\RDFdata();
+                $IssuesWorks = new \App\Models\Base\IssuesWorks();
+                $Elastic = new \App\Models\ElasticSearch\Register();
 
                 $dt = $RDFconcept->le($ID);
                 $RSP['status'] = $dt['status'];
+
+                $Elastic->where("ID",$ID)->delete();
+
+                $IssuesWorks->where("siw_work_rdf",$ID)->delete();
 
                 $dr = $RDFdata
                     ->where('d_r1', $ID)
