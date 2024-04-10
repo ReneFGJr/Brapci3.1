@@ -46,7 +46,7 @@ def check_duplicate():
     qr += " where `use` = 0 "
     qr += "order by JOURNAL, TITLE, AUTHORS, YEAR, PDF desc, ID "
 
-    qr = "select JOURNAL, TITLE, AUTHORS, ID, '2023' as YEAR from brapci_elastic.dataset "
+    qr = "select JOURNAL, TITLE, '' as AUTHORS, ID, '2023' as YEAR from brapci_elastic.dataset "
     qr += " where `use` = 0 and JOURNAL = 75 "
     qr += "order by JOURNAL, TITLE, AUTHORS, PDF desc, ID, YEAR "
 
