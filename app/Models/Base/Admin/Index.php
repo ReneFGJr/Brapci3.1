@@ -447,7 +447,13 @@ class Index extends Model
                             $sx .= '<iframe src="'.$url.'" style="width: 100%; height:300px"></iframe>';
                             $offset = $line['ID'];
                             }
-                        $sx .= metarefresh(PATH.'admin/pdf/harvesting/'.$offset,30);
+                        if (count($dt) > 0)
+                            {
+                                $sx .= metarefresh(PATH . 'admin/pdf/harvesting/' . $offset, 5);
+                            } else {
+                                $sx .= h("FIM DA COLETA");
+                            }
+
                 }
             return bs(bsc($sx,12));
         }
