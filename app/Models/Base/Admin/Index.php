@@ -45,6 +45,9 @@ class Index extends Model
         $sx = '';
         $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'pdf':
+                $sx .= $this->pdf($subact, $id, $id2, $id3);
+                break;
             case 'literal':
                 $sx .= $this->literal($subact, $id, $id2, $id3);
                 break;
@@ -415,4 +418,33 @@ class Index extends Model
         $sx = menu($m);
         return $sx;
     }
+
+    function pdf($d1,$d2,$d3)
+        {
+            $sx = '';
+
+            switch($d1)
+                {
+                    case 'harvesting':
+                        if ($d2 == '') {
+                            $d2 = '0';
+                        }
+                        $Elastic = new \App\Models\ElasticSearch\Register();
+                        $offset = $d2;
+
+                        $dt = $Elastic
+                            ->select("ID")
+                            ->where('PDF',0)
+                            ->where('ID > '.$offset)
+                            ->findAll(10);
+                        foreach($dt as $id=>$line)
+                            {
+                            $url = 'https://cip.brapci.inf.br//download/'.$line['ID'];
+                            $sx .= '<iframe src="'.$url.'" style="width: 100%; height:300px"></iframe>';
+                            $offset = $line['ID'];
+                            }
+                        $sx .= metarefresh(PATH.'admin/pdf/harvesting/'.$offset,5);
+                }
+            return bs(bsc($sx,12));
+        }
 }

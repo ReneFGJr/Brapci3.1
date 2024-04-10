@@ -32,12 +32,13 @@
           style="margin: 0; padding: 0"
           *ngFor="let works of source.works"
         >
-          <a [routerLink]="['/v/' + works.ID]" class="link">
+          <a [routerLink]="['/v/' + works.ID]"
+          [ngClass]="works.PDF == 1? 'text-primary':'text-danger'"
+          class="link">
           {{ works.LEGEND}}
           <br>
           <span class="small"><i>{{ works.AUTHORS}}</i></span>
           </a>
-          <br>{{works | json}}
         </li>
       </ol>
 
