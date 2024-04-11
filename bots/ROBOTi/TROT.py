@@ -22,3 +22,4 @@ def remover_linhas_iguais_arquivo(caminho_arquivo):
 
 file = '/data/Brapci3.1/public/_repository/1/2018/09/oai_febab_periodicos_emnuvens_com_br_article_449#00001.txt'
 remover_linhas_iguais_arquivo(file)
+print(file)
