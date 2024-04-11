@@ -772,6 +772,9 @@ class RDFmetadata extends Model
             $dr['data'] = $dd;
         }
 
+        $Cited = new \App\Models\Cited\Index();
+        $dr['cited'] = $Cited->show_ref($ID);
+
         return $dr;
     }
 
