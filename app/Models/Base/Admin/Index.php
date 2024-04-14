@@ -45,6 +45,10 @@ class Index extends Model
         $sx = '';
         $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'sitemap':
+                $SiteMap = new \App\Models\Sitemap\Index();
+                $sx .= $SiteMap->index($subact,$id,$id2);
+                break;
             case 'pdf':
                 $sx .= $this->pdf($subact, $id, $id2, $id3);
                 break;
@@ -180,6 +184,7 @@ class Index extends Model
                             $img_mysql = '<img src="'.PATH.'/img/icons/mysql.svg" height="40">';
                             $img_elastic = '<img src="'.PATH.'/img/icons/elasticsearch.png" height="40">';
                             $img_page = '<img src="' . PATH . '/img/icons/ckedit.png" height="40">';
+                            $img_sitemap = '<img src="' . PATH . '/img/icons/sitemap.png" height="40">';
                             $sa .= $this->benancib_admin();
                             $sa .= $this->menu();
                             $sb .= '<a title="Bots" href="'.PATH.'/bots/" class="text-success me-2">'.bsicone('android',32).'</a>';
@@ -190,6 +195,7 @@ class Index extends Model
                             $sb .= '<a title="MySQL" href="' . PATH . '/admin/mysql/" class="text-success me-2">' . $img_mysql . '</a>';
                             $sb .= '<a title="ElasticSearch" href="' . PATH . '/elasticsearch/" class="text-success me-2">' . $img_elastic . '</a>';
                             $sb .= '<a title="Content Page" href="' . PATH . '/admin/page/" class="text-success me-2">' . $img_page . '</a>';
+                            $sb .= '<a title="SiteMap" href="' . PATH . '/admin/sitemap/" class="text-success me-2">' . $img_sitemap . '</a>';
                             $sb .= $BUGS->resume();
                             $sb .= $this->reports();
 
