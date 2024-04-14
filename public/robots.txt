@@ -1,3 +1,3 @@
 User-agent: *
-Disallow: /admin
+Disallow:
 Sitemap: https://brapci.inf.br/sitemap.xml
