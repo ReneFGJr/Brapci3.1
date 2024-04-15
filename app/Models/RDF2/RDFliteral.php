@@ -79,4 +79,15 @@ class RDFliteral extends Model
                 }
             return $ID;
         }
+
+        function ascii()
+            {
+                $dt = $this
+                    ->like('n_name','%Ã£')
+                    ->findAll();
+                foreach($dt as $id=>$line)
+                    {
+                        pre($line);
+                    }
+            }
 }
