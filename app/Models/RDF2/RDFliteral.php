@@ -91,7 +91,13 @@ class RDFliteral extends Model
                         $name = utf8_decode($name);
                         $dd['n_name'] = $name;
                         $id = $line['id_n'];
-                        $this->set($dd)->where('id_n',$id)->update();
+                        if (strpos($name,'?'))
+                            {
+                                echo "OPS ";
+                            } else {
+                                $this->set($dd)->where('id_n', $id)->update();
+                            }
+
                         echo h($name.'-'.$id);
                         pre($line);
                     }
