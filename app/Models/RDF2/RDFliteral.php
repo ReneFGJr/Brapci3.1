@@ -93,12 +93,12 @@ class RDFliteral extends Model
                         $dd['n_name'] = $name;
                         $id = $line['id_n'];
                         $sx.= '<hr>'.hexdump($name).'<hr>';
-                        if (strpos($name,'?') or (strpos($name, '�')))
+                        if (strpos($name,'?') or (strpos($name, chr(227))))
                             {
                                 $sx .= bsmessage($name.' - '.$id,3);
                             } else {
                                 //$this->set($dd)->where('id_n', $id)->update();
-                                $sx .= h($name . '-' . $id,4);
+                                $sx .= h($name . '-' . $line['n_name']. ' - '.$id,4);
                             }
                     }
                 return $sx;
