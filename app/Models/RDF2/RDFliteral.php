@@ -94,9 +94,7 @@ class RDFliteral extends Model
                         $id = $line['id_n'];
                         if (strpos($name,'?'))
                             {
-                                echo "OPS ";
-                                echo h($name . '-' . $id);
-                                pre($line);
+                                $sx .= bsmessage($name.' - '.$id,3);
                             } else {
                                 $this->set($dd)->where('id_n', $id)->update();
                                 $sx .= h($name . '-' . $id,4);
