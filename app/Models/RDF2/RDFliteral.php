@@ -85,7 +85,7 @@ class RDFliteral extends Model
                 $sx = '';
                 $dt = $this
                     ->like('n_name','%Ã£')
-                    ->findAll(50);
+                    ->findAll(200);
                 foreach($dt as $id=>$line)
                     {
                         $name = $line['n_name'];
