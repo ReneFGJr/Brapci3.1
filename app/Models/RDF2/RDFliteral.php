@@ -95,7 +95,7 @@ class RDFliteral extends Model
                         $sx.= '<hr>'.hexdump($name).'<hr>';
                         if (strpos($name, chr(227)))
                             {
-                                $sx .= bsmessage($name.' - '.$id,3);
+                                $sx .= bsmessage('ORIGINAL:'.$line['n_name'].'<br>CONVERT:'.$name.' - '.$id,3);
                             } else {
                                 //$this->set($dd)->where('id_n', $id)->update();
                                 $sx .= h( $line['n_name'].'<br>TO: '.$name . '<br>==>'.$id,4);
