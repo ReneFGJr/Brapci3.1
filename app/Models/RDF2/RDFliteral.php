@@ -109,6 +109,7 @@ class RDFliteral extends Model
             }
     function convert_manual($n)
         {
+            $n = troca($n, 'ã'+chr(194), 'í');
             $n = troca($n, 'ã§','ç');
             $n = troca($n, 'ã£', 'ã');
             $n = troca($n, 'ã³','ó');
