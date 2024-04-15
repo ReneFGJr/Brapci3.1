@@ -97,7 +97,7 @@ class RDFliteral extends Model
                         if (strpos($name, chr(227)))
                             {
                                 $sx .= bsmessage('ORIGINAL:'.$line['n_name'].'<br>CONVERT:'.$name.' - '.$id,3);
-                                $name = $this->convert_manual($name);
+                                $name = $this->convert_manual($line['n_name']);
                                 $sx .= bsmessage('CONVERT:' . $name . ' - ' . $id, 1);
                             } else {
                                 $this->set($dd)->where('id_n', $id)->update();
