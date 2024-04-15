@@ -87,6 +87,9 @@ class RDFliteral extends Model
                     ->findAll();
                 foreach($dt as $id=>$line)
                     {
+                        $name = $line['n_name'];
+                        $name = utf8_decode($name);
+                        echo h($name);
                         pre($line);
                     }
             }
