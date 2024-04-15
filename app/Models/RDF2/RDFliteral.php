@@ -89,6 +89,9 @@ class RDFliteral extends Model
                     {
                         $name = $line['n_name'];
                         $name = utf8_decode($name);
+                        $dd['n_name'] = $name;
+                        $id = $line['id_n'];
+                        $this->set($dd)->where('id_n',$id)->update();
                         echo h($name);
                         pre($line);
                     }
