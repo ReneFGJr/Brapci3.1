@@ -66,16 +66,18 @@ class Index extends Model
     function create()
         {
             $Elastic = new \App\Models\ElasticSearch\Register();
-            $sx = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">' . cr();
             $loop = true;
             $offset = 0;
-            $limit = 1000;
+            $limit = 40000;
+            $sitemap = '';
+            $idn = 1;
             while($loop)
                 {
                     $dt = $Elastic
                         ->where('`use`',0)
                         ->findAll($limit,$offset);
                     $i = 0;
+                    $sx = '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">' . cr();
                     foreach($dt as $id=>$line)
                         {
                             $sx .= '<url>'.cr();
@@ -87,14 +89,14 @@ class Index extends Model
                             $offset++;
                             $i++;
                         }
-
+                    $sx .= '</urlset>';
+                    file_put_contents('sitemap_'.strzero($idn,2).'.xml', $sx);
+                    $idn++;
                     if (($i != $limit) or ($dt == []))
                         {
                             $loop = false;
                         }
                 }
-            $sx .= '</urlset>';
-            file_put_contents('sitemap.xml',$sx);
 
             $link = '<a href="'.PATH.'sitemap.xml">SiteMap.xml</a>';
 
