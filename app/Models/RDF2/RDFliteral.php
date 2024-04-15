@@ -89,6 +89,7 @@ class RDFliteral extends Model
                 foreach($dt as $id=>$line)
                     {
                         $name = $line['n_name'];
+                        $name = troca($name, '´',"'");
                         $name = utf8_decode($name);
                         $dd['n_name'] = $name;
                         $id = $line['id_n'];
