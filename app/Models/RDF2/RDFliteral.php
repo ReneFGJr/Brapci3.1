@@ -93,7 +93,7 @@ class RDFliteral extends Model
                         $dd['n_name'] = $name;
                         $id = $line['id_n'];
                         $sx.= '<hr>'.hexdump($name).'<hr>';
-                        if (strpos($name,'?') or (strpos($name, chr(227))))
+                        if (strpos($name, chr(227)))
                             {
                                 $sx .= bsmessage($name.' - '.$id,3);
                             } else {
