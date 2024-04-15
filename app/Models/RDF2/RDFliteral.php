@@ -100,6 +100,8 @@ class RDFliteral extends Model
                                 $name = $this->convert_manual($line['n_name']);
                                 $sx .= bsmessage('CONVERT:' . $name . ' - ' . $id, 1);
                                 $sx .= '<tt>'.hexdump($line['n_name']). '</tt>';
+                                $dd['n_name'] = $name;
+                                $this->set($dd)->where('id_n', $id)->update();
                             } else {
                                 $this->set($dd)->where('id_n', $id)->update();
                                 $sx .= h( $line['n_name'].'<br>TO: '.$name . '<br>==>'.$id,4);
