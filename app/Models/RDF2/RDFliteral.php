@@ -92,11 +92,11 @@ class RDFliteral extends Model
                         $name = utf8_decode($name);
                         $dd['n_name'] = $name;
                         $id = $line['id_n'];
-                        if (strpos($name,'?'))
+                        if (strpos($name,'?') or (strpos($name, '�')))
                             {
                                 $sx .= bsmessage($name.' - '.$id,3);
                             } else {
-                                $this->set($dd)->where('id_n', $id)->update();
+                                //$this->set($dd)->where('id_n', $id)->update();
                                 $sx .= h($name . '-' . $id,4);
                             }
                     }
