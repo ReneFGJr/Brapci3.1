@@ -111,6 +111,9 @@ class RDFliteral extends Model
             $n = troca($n, 'ã§','ç');
             $n = troca($n, 'ã£', 'ã');
             $n = troca($n, 'ã³','ó');
+            $n = troca($n, 'ãª','ê');
+            $n = troca($n, 'ãµ','õ');
+            $n = troca($n, 'ã©','é');
             return $n;
         }
 }
