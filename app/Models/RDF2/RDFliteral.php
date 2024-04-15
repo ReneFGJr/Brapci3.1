@@ -97,7 +97,8 @@ class RDFliteral extends Model
                         if (strpos($name, chr(227)))
                             {
                                 $sx .= bsmessage('ORIGINAL:'.$line['n_name'].'<br>CONVERT:'.$name.' - '.$id,3);
-                                $sx .= '<hr>' . hexdump($name) . '<hr>';
+                                $name = $this->convert_manual($name);
+                                $sx .= bsmessage('CONVERT:' . $name . ' - ' . $id, 1);
                             } else {
                                 $this->set($dd)->where('id_n', $id)->update();
                                 $sx .= h( $line['n_name'].'<br>TO: '.$name . '<br>==>'.$id,4);
@@ -105,4 +106,10 @@ class RDFliteral extends Model
                     }
                 return $sx;
             }
+    function convert_manual($n)
+        {
+            $n = troca($n, 'ã§','ç');
+            $n = troca($n, 'ã£', 'ã');
+            return $n;
+        }
 }
