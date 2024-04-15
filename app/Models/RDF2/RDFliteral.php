@@ -82,9 +82,10 @@ class RDFliteral extends Model
 
         function ascii()
             {
+                $sx = '';
                 $dt = $this
                     ->like('n_name','%Ã£')
-                    ->findAll();
+                    ->findAll(50);
                 foreach($dt as $id=>$line)
                     {
                         $name = $line['n_name'];
@@ -94,12 +95,13 @@ class RDFliteral extends Model
                         if (strpos($name,'?'))
                             {
                                 echo "OPS ";
+                                echo h($name . '-' . $id);
+                                pre($line);
                             } else {
                                 $this->set($dd)->where('id_n', $id)->update();
+                                $sx .= h($name . '-' . $id,4);
                             }
-
-                        echo h($name.'-'.$id);
-                        pre($line);
                     }
+                return $sx;
             }
 }
