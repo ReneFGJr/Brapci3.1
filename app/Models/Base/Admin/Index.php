@@ -45,6 +45,10 @@ class Index extends Model
         $sx = '';
         $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'asc':
+                $RDFliteral = new \App\Models\RDF2\RDFliteral();
+                $sx .= $RDFliteral->ascii();
+                break;
             case 'sitemap':
                 $SiteMap = new \App\Models\Sitemap\Index();
                 $sx .= $SiteMap->index($subact,$id,$id2);
