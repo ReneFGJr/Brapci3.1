@@ -35,6 +35,11 @@ const routes: Routes = [
       import('../001_auth/oauth.module').then((m) => m.OauthModule),
   },
   {
+    path: 'bots',
+    loadChildren: () =>
+      import('../bots/bots.module').then((m) => m.BotsModule),
+  },
+  {
     path: 'journals',
     loadChildren: () =>
       import('../110_journals/journals.module').then((m) => m.JournalsModule),
