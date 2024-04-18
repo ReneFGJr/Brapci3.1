@@ -30,14 +30,18 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'dataset',
+    loadChildren: () =>
+      import('../940_dataset/source.module').then((m) => m.SourceModule),
+  },
+  {
     path: 'social',
     loadChildren: () =>
       import('../001_auth/oauth.module').then((m) => m.OauthModule),
   },
   {
     path: 'bots',
-    loadChildren: () =>
-      import('../bots/bots.module').then((m) => m.BotsModule),
+    loadChildren: () => import('../bots/bots.module').then((m) => m.BotsModule),
   },
   {
     path: 'journals',
