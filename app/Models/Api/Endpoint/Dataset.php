@@ -81,7 +81,7 @@ class Dataset extends Model
         {
             $RSP = [];
             $Elastic= new \App\Models\ElasticSearch\Register();
-            $file = '.tmp/brapci_'.date("Ymd-His").'.'.$type;
+            $file = '.tmp/brapci_authors_'.date("Ymd-His").'.'.$type;
 
             $dt = $Elastic
                 ->select('AUTHORS')
