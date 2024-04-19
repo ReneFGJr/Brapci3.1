@@ -1,7 +1,13 @@
-<head *ngIf="header && data">
+<head *ngIf="data" lang="pt">
   <title>{{ header.title }} - Brapci</title>
-  <meta *ngFor="let meta of data.meta" name="meta.name" content="meta.value" />
+  <meta *ngFor="let meta of data.meta" name="meta.name" content="meta.content" />
 </head>
+<div *ngIf="data">
+  {{ data.meta | json}}
+  <li *ngFor="let meta of data.meta">
+      name="{{meta.name}}" content="{{meta.content}}"
+  </li>
+</div>
 
 <!-- Google tag (gtag.js) -->
 <script

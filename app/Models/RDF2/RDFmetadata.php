@@ -799,8 +799,41 @@ class RDFmetadata extends Model
                                     $dd['name'] = 'DC.Creator.PersonalName';
                                     $dd['content'] = $linea['name'];
                                     Array_push($RSP,$dd);
+                                    $dd['name'] = 'citation_author';
+                                    $dd['content'] = $linea['name'];
+                                    Array_push($RSP, $dd);
+
                                 }
                             break;
+
+                         /**************** DC.Subject */
+                        case 'subject':
+                            foreach ($value as $ida => $linea) {
+                                $dd = [];
+                                $dd['name'] = 'DC.Subject';
+                                $dd['content'] = $linea['name'];
+                                Array_push($RSP, $dd);
+                            }
+                            break;
+
+                        /**************** DC.Title */
+                        case 'title':
+                              $dd = [];
+                              $dd['name'] = 'DC.Title';
+                              $dd['content'] = $value;
+                              Array_push($RSP, $dd);
+                            break;
+
+                    /**************** DC.Subject */
+                    case 'subject':
+                        foreach ($value as $ida => $linea) {
+                            $dd = [];
+                            $dd['name'] = 'DC.Subject';
+                            $dd['content'] = $linea['name'];
+                            Array_push($RSP, $dd);
+                        }
+                        break;
+
                     }
             }
             return $RSP;
