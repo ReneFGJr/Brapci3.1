@@ -2,7 +2,7 @@
   <title>{{ header.title }} - Brapci</title>
   <meta *ngFor="let meta of data.meta" name="meta.name" content="meta.content" />
 </head>
-<div *ngIf="data">
+<div *ngIf="data && data=='1'">
   {{ data.meta | json}}
   <li *ngFor="let meta of data.meta">
       name="{{meta.name}}" content="{{meta.content}}"
