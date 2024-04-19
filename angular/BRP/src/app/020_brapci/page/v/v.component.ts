@@ -10,6 +10,7 @@ export class VComponent {
   public type: string = 'NA';
   public data: Array<any> | any;
   public sub: Array<any> | any;
+  public chaves: Array<any> | any;
   public id: number = 0;
   public header = { title: 'Brapci' };
 
@@ -47,11 +48,24 @@ export class VComponent {
 
           /************************** Article */
           if (this.type == 'Article') {
-            console.log('============================== OK');
-            let chaves = Object.keys(this.data.data.hasTitle.pt[0]);
-            console.log(chaves);
-            this.header.title = chaves[0] + ' | Article'
-
+            /******* Portugues */
+            if (this.data.data.hasTitle.pt) {
+              this.chaves = Object.keys(this.data.data.hasTitle.pt[0]);
+            } else {
+              /******** Spanish */
+              if (this.data.data.hasTitle.es) {
+                this.chaves = Object.keys(this.data.data.hasTitle.es[0]);
+              } else {
+                /******* English */
+                if (this.data.data.hasTitle.en) {
+                  this.chaves = Object.keys(this.data.data.hasTitle.en[0]);
+                } else {
+                  console.log('Chaves não existem');
+                }
+              }
+            }
+            console.log(this.chaves);
+            this.header.title = this.chaves[0] + ' | Article';
           }
 
           /************************** Issue */

@@ -784,6 +784,18 @@ class RDFmetadata extends Model
     function metadataHeader($m)
         {
             $RSP = [];
+
+
+        foreach($m as $key=>$value)
+            {
+                /*************** DC.Creator.PersonalName */
+                switch($key)
+                    {
+                        case 'creator_author':
+                            pre($value);
+                            break;
+                    }
+            }
             //pre($m);
             return $RSP;
         }

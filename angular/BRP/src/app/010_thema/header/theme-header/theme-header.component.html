@@ -1,4 +1,4 @@
-<head *ngIf="header; and: data">
+<head *ngIf="header && data">
   <title>{{ header.title }} - Brapci</title>
   <meta *ngFor="let meta of data.meta" name="meta.name" content="meta.value" />
 </head>
