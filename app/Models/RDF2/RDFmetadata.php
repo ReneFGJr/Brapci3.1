@@ -788,11 +788,15 @@ class RDFmetadata extends Model
 
         foreach($m as $key=>$value)
             {
-                /*************** DC.Creator.PersonalName */
+
                 switch($key)
                     {
+                        /*************** DC.Creator.PersonalName */
                         case 'creator_author':
-                            pre($value);
+                            foreach($value as $ida=>$linea)
+                                {
+
+                                }
                             break;
                     }
             }
