@@ -7,7 +7,7 @@ def check_end_dot():
     prop = 67
     qr = f"select id_n, n_name from brapci_rdf.rdf_data "
     qr += " inner join brapci_rdf.rdf_literal on id_n = d_literal"
-    qr += " where d_p = {prop} "
+    qr += f" where d_p = {prop} "
     row = database.query(qr)
     for item in row:
         id_n = item[0]
