@@ -7,12 +7,12 @@ def check_end_dot():
     prop = 67
     qr = f"select id_n, n_name from brapci_rdf.rdf_data "
     qr += " inner join brapci_rdf.rdf_literal on id_n = d_literal"
-    qr += " where (n_lang = 'nn')"
-    qr += f" and d_p = {prop} "
+    qr += " where d_p = {prop} "
     row = database.query(qr)
     for item in row:
         id_n = item[0]
         title = item[1]
+        titleO = item[1]
         title = title.replace('"','')
         title = title.replace('“','')
         title = title.replace('”','')
@@ -20,9 +20,10 @@ def check_end_dot():
             title = title[:-1]
         title = title.strip()
         title = mod_nbr.nbr_title(title)
-        #qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
-        print('==>',title)
-        database.update(qu)
+        if (title != titleO)
+            #qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
+            print('==>',title)
+            database.update(qu)
 
 def check_utf8():
     qr = "select id_n, n_name "
