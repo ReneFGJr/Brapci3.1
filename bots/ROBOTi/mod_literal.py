@@ -23,6 +23,7 @@ def check_end_dot():
         title = title.replace('”','')
         title = title.replace('- ','-')
         title = title.replace(' -','-')
+        title = title.replace('<sup>*</sup>','')
         if title[-1] == '.':
             title = title[:-1]
         title = title.strip()
