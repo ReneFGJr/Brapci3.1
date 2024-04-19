@@ -26,7 +26,7 @@ def check_end_dot():
         if (title != titleO):
             #qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
             print('==>',title)
-            database.update(qu)
+            #database.update(qu)
 
 def check_utf8():
     qr = "select id_n, n_name "
