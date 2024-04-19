@@ -9,7 +9,8 @@ def check_end_dot():
     qr += " inner join brapci_rdf.rdf_concept On d_r2 = id_cc"
     qr += " inner join brapci_rdf.rdf_literal on id_n = cc_pref_term"
     qr += f" where d_p = {prop} "
-    qr += "group by id_n, n_name"
+    qr += "group by id_n, n_name "
+    qr += "order by n_name "
 
     row = database.query(qr)
     for item in row:
