@@ -17,18 +17,20 @@ def check_end_dot():
         id_n = item[0]
         title = item[1]
         titleO = item[1]
+        title = title.replace('–','-')
         title = title.replace('"','')
         title = title.replace('“','')
         title = title.replace('”','')
         title = title.replace('- ','-')
+        title = title.replace(' -','-')
         if title[-1] == '.':
             title = title[:-1]
         title = title.strip()
         title = mod_nbr.nbr_title(title)
         if (title != titleO):
-            #qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
-            print('==>',title, id_n)
-            #database.update(qu)
+            qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
+            print('=SUBJECT=>',title, id_n)
+            database.update(qu)
 
 def check_utf8():
     qr = "select id_n, n_name "
