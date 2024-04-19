@@ -22,6 +22,8 @@ def invert():
     qr += " or (d_p = 33 and d_r1 = 9 and d_r2 = 6 ) "
     qr += " ) "
 
+    print(qr)
+
     row = database.query(qr)
     if row != []:
         for item in row:
@@ -49,7 +51,7 @@ def revalid():
             d_r2 = item[2]
             qu = f"update brapci_rdf.rdf_data set d_trust = 0 where id_d = {id_d}"
             database.update(qu)
-            print("Revert",id_d)
+            print("Revalid",id_d)
 
 
 def register(IDC,prop,IDP,IDliteral=0):
