@@ -20,7 +20,7 @@ def check_end_dot():
             title = title[:-1]
         title = title.strip()
         title = mod_nbr.nbr_title(title)
-        if (title != titleO)
+        if (title != titleO):
             #qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
             print('==>',title)
             database.update(qu)
