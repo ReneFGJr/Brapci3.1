@@ -124,6 +124,7 @@ def run(parm):
         mod_literal.check_trim()
         mod_literal.check_all()
         mod_literal.check_title()
+        mod_literal.check_end_dot()
         mod_dataset.check_type()
         mod_ontology.resume()
         mod_ontology.checkData()
@@ -133,6 +134,7 @@ def run(parm):
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
         mod_subject.check_remissiva()
+
 
 
 

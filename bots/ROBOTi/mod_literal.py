@@ -9,7 +9,8 @@ def check_end_dot():
     qr += " inner join brapci_rdf.rdf_concept On d_r2 = id_cc"
     qr += " inner join brapci_rdf.rdf_literal on id_n = cc_pref_term"
     qr += f" where d_p = {prop} "
-    print(qr)
+    qr += "group by id_n, n_name"
+
     row = database.query(qr)
     for item in row:
         id_n = item[0]
@@ -18,7 +19,6 @@ def check_end_dot():
         title = title.replace('"','')
         title = title.replace('“','')
         title = title.replace('”','')
-        print(title)
         if title[-1] == '.':
             title = title[:-1]
         title = title.strip()
