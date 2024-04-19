@@ -803,7 +803,6 @@ class RDFmetadata extends Model
                             break;
                     }
             }
-            pre($RSP);
             return $RSP;
         }
 
