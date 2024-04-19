@@ -795,12 +795,15 @@ class RDFmetadata extends Model
                         case 'creator_author':
                             foreach($value as $ida=>$linea)
                                 {
-
+                                    $dd = [];
+                                    $dd['name'] = 'DC.Creator.PersonalName';
+                                    $dd['content'] = $linea['name'];
+                                    Array_push($RSP,$dd);
                                 }
                             break;
                     }
             }
-            //pre($m);
+            pre($RSP);
             return $RSP;
         }
 
