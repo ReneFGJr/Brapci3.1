@@ -151,6 +151,8 @@ def run(parm):
         mod_literal.check_utf8()
     if (act == '155'):
         mod_data.invert()
+    if (act == '156'):
+        mod_literal.check_end_dot()
 
     ################### Author
     if (act == '200'):
