@@ -16,10 +16,10 @@ def invert():
     qr = "select id_d, d_r1, d_r2 from brapci_rdf.rdf_data "
     qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0 "
     qr += "and ("
-    qr += " (d_p = 33 and d_r1 = 9 and d_d2 = 10 ) "
-    qr += " or (d_p = 33 and d_r1 = 9 and d_d2 = 16 ) "
-    qr += " or (d_p = 33 and d_r1 = 9 and d_d2 = 7 ) "
-    qr += " or (d_p = 33 and d_r1 = 9 and d_d2 = 6 ) "
+    qr += " (d_p = 33 and d_r1 = 9 and d_r2 = 10 ) "
+    qr += " or (d_p = 33 and d_r1 = 9 and d_r2 = 16 ) "
+    qr += " or (d_p = 33 and d_r1 = 9 and d_r2 = 7 ) "
+    qr += " or (d_p = 33 and d_r1 = 9 and d_r2 = 6 ) "
     qr += " ) "
 
     row = database.query(qr)
@@ -37,8 +37,8 @@ def revalid():
     qr = "select id_d, d_r1, d_r2 from brapci_rdf.rdf_data "
     qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0 "
     qr += "and ("
-    qr += " (d_p = 33 and d_r1 = 10 and d_d2 = 9 ) "
-    qr += " or (d_p = 33 and d_r1 = 16 and d_d2 = 9 ) "
+    qr += " (d_p = 33 and d_r1 = 10 and d_r2 = 9 ) "
+    qr += " or (d_p = 33 and d_r1 = 16 and d_r2 = 9 ) "
     qr += " ) "
 
     row = database.query(qr)
