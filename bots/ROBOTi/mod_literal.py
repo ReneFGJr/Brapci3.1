@@ -145,6 +145,7 @@ def check_all():
         name = ln[1]
         name2 = name.replace('"','')
         name2 = name2.replace("'",'')
+        name2 = name2.replace("&amp.",'&')
         save = False
         try:
             n = name2[0]
@@ -160,7 +161,7 @@ def check_all():
                 print("2="+name2)
                 print("============")
         except:
-            print("skip")
+            print(f"skip erro - {name} - {name2}")
         if save == True:
             #name = name.strip().capitalize()
             id = ln[0]

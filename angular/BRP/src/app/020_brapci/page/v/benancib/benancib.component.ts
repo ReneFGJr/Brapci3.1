@@ -10,6 +10,8 @@ export class BenancibComponent {
   public url: string = '';
   public rdf: string = '/assets/img/icone_rdf.png';
   public header: Array<any> | any = null;
+  public chavesDoObjeto: Array<any> | any = null;
+  public valoresDoObjeto: Array<any> | any = null;
   public section = [{ name: 'LIVRO' }];
   public langs: Array<any> = ['pt', 'en', 'es', 'fr'];
   public abstract: Array<any> = [
@@ -30,5 +32,7 @@ export class BenancibComponent {
   ngOnInit(): void {
     this.header = [];
     this.header = { title: 'Livro' };
+    this.chavesDoObjeto = Object.keys(this.data.data.hasIssueOf.nn[0]);
+    this.valoresDoObjeto = Object.values(this.data.data.hasIssueOf.nn[0]);
   }
 }

@@ -7,6 +7,26 @@
   ></app-banner-benancib>
 </div>
 
+<div class="container-fluid pt-2 pb-3 text-center border-bottom border-secondary" *ngIf="data">
+  <div class="row">
+    <div class="col-12" *ngIf="data.data">
+      <a [routerLink]="['/v/' + valoresDoObjeto]" class="link">
+        <b>{{ chavesDoObjeto }}</b>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="data">
+  <div class="row">
+    <div class="col-12 text-end" *ngIf="data.data">
+      <span *ngFor="let item of data.section" class="me-2">
+        {{ item.name }}
+      </span>
+    </div>
+  </div>
+</div>
+
 <div class="container mt-5" *ngIf="data">
   <div class="row">
     <!--------------------------- TITLE-->
@@ -26,7 +46,7 @@
       <!-- Author-------------------------------------->
       <div class="text-end mb-5">
         <span *ngFor="let item of data.creator_author" class="text-end">
-          <a class="author" [routerLink]="['/v/'+item.ID]">{{ item.name }}</a
+          <a class="author" [routerLink]="['/v/' + item.ID]">{{ item.name }}</a
           ><br />
         </span>
       </div>
