@@ -783,7 +783,9 @@ class RDFmetadata extends Model
 
     function metadataHeader($m)
         {
-            pre($m);
+            $RSP = [];
+            //pre($m);
+            return $RSP;
         }
 
     function arrayExtract($dt, $class, $suf = '')
