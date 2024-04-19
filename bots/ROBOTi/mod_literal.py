@@ -19,13 +19,14 @@ def check_end_dot():
         title = title.replace('"','')
         title = title.replace('“','')
         title = title.replace('”','')
+        title = title.replace('- ','-')
         if title[-1] == '.':
             title = title[:-1]
         title = title.strip()
         title = mod_nbr.nbr_title(title)
         if (title != titleO):
             #qu = f"update brapci_rdf.rdf_literal set n_name = '{title}' where id_n = {id_n}"
-            print('==>',title)
+            print('==>',title, id_n)
             #database.update(qu)
 
 def check_utf8():
