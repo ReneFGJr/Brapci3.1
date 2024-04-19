@@ -155,6 +155,8 @@ def run(parm):
         mod_data.invert()
     if (act == '156'):
         mod_literal.check_end_dot()
+    if (act == '157'):
+        mod_data.revalid()
 
     ################### Author
     if (act == '200'):

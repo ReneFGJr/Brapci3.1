@@ -12,9 +12,16 @@ import time
 import mod_logs
 
 def invert():
-    print("150 - Invertendo Propriedades")
+    print("155 - Invertendo Propriedades")
     qr = "select id_d, d_r1, d_r2 from brapci_rdf.rdf_data "
-    qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0"
+    qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0 "
+    qr += "and ("
+    qr + " (d_p = 33 and d_r1 = 9 and d_d2 = 10 ) "
+    qr + " or (d_p = 33 and d_r1 = 9 and d_d2 = 16 ) "
+    qr + " or (d_p = 33 and d_r1 = 9 and d_d2 = 7 ) "
+    qr + " or (d_p = 33 and d_r1 = 9 and d_d2 = 6 ) "
+    qr + " ) "
+
     row = database.query(qr)
     if row != []:
         for item in row:
@@ -25,7 +32,24 @@ def invert():
             database.update(qu)
             print("Revert",id_d)
 
+def revalid():
+    print("157 - Invertendo Propriedades")
+    qr = "select id_d, d_r1, d_r2 from brapci_rdf.rdf_data "
+    qr += f"where d_trust = -1 and d_literal = 0 and d_r2 > 0 "
+    qr += "and ("
+    qr + " (d_p = 33 and d_r1 = 10 and d_d2 = 9 ) "
+    qr + " or (d_p = 33 and d_r1 = 16 and d_d2 = 9 ) "
+    qr + " ) "
 
+    row = database.query(qr)
+    if row != []:
+        for item in row:
+            id_d = item[0]
+            d_r1 = item[1]
+            d_r2 = item[2]
+            qu = f"update brapci_rdf.rdf_data set d_trust = 0 where id_d = {id_d}"
+            database.update(qu)
+            print("Revert",id_d)
 
 
 def register(IDC,prop,IDP,IDliteral=0):
