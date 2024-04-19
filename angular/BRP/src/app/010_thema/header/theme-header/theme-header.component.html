@@ -1,14 +1,18 @@
-<head *ngIf="header">
-<title>{{header.title}} - Brapci</title>
-{{data | json}}
+<head *ngIf="header; and: data">
+  <title>{{ header.title }} - Brapci</title>
+  <meta *ngFor="let meta of data.meta" name="meta.name" content="meta.value" />
 </head>
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HSS9RYF8ZS"></script>
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-HSS9RYF8ZS"
+></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HSS9RYF8ZS');
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-HSS9RYF8ZS");
 </script>

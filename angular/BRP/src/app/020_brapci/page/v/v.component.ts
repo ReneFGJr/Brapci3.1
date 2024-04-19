@@ -27,7 +27,7 @@ export class VComponent {
         (res) => {
           this.data = res;
           if (this.data.status == '404') {
-             this.router.navigate(['404']);
+            this.router.navigate(['404']);
           } else {
             this.type = this.data.Class;
             if (this.data.Issue != undefined) {
@@ -39,29 +39,39 @@ export class VComponent {
               console.log('TYPE:' + this.data.Issue.jnl_rdf);
             }
           }
+
           /***************************** HEADER TITLE */
           if (this.type == 'Person') {
             this.header.title = this.data.name + ' | ' + ' Autor';
-          } else {
-            if (this.type == 'Issue') {
-              if (this.data.is_vol_roman == '') {
-                this.header.title =
-                  this.data.publisher +
-                  ' | ' +
-                  this.data.is_year +
-                  ' | ' +
-                  this.data.is_vol +
-                  ' | ' +
-                  this.data.is_nr;
-              } else {
-                this.header.title =
-                  this.data.is_vol_roman +
-                  ' ' +
-                  this.data.publisher +
-                  ' | ' +
-                  this.data.is_year;
-              }
+          }
+
+          /************************** Article */
+          if (this.type == 'Article') {
+            console.log('============================== OK');
+            let chaves = Object.keys(this.data.data.hasTitle.pt[0]);
+            console.log(chaves);
+            this.header.title = chaves[0] + ' | Article'
+
+          }
+
+          /************************** Issue */
+          if (this.type == 'Issue') {
+            if (this.data.is_vol_roman == '') {
+              this.header.title =
+                this.data.publisher +
+                ' | ' +
+                this.data.is_year +
+                ' | ' +
+                this.data.is_vol +
+                ' | ' +
+                this.data.is_nr;
             } else {
+              this.header.title =
+                this.data.is_vol_roman +
+                ' ' +
+                this.data.publisher +
+                ' | ' +
+                this.data.is_year;
             }
           }
         },

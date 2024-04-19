@@ -1,5 +1,5 @@
-<app-theme-header [header]="header" [data]="data"></app-theme-header>
-<app-theme-navbar></app-theme-navbar>
+<app-theme-header [header]="header" [data]="data" *ngIf="data"></app-theme-header>
+<app-theme-navbar  *ngIf="data"></app-theme-navbar>
 <app-brapci-article
   *ngIf="type == 'Article'"
   [data]="data"

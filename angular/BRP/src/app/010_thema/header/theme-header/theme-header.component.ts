@@ -16,6 +16,9 @@ export class ThemeHeaderComponent {
   ) {}
 
   ngOnInit() {
+    console.log("===========================")
+    console.log(this.header)
+    console.log('===========================');
     if (this.cookieService.check('section')) {
       this.cookie.cookie = this.cookieService.get('section');
       this.cookieService.set('section', this.cookie.cookie);

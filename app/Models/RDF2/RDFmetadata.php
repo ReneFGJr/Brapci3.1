@@ -614,6 +614,7 @@ class RDFmetadata extends Model
         $da = $dt['data'];
         /************ DD*/
         $dd = [];
+        $meta = [];
 
         foreach ($da as $id => $line) {
             $lang = $line['Lang'];
@@ -775,8 +776,15 @@ class RDFmetadata extends Model
         $Cited = new \App\Models\Cited\Index();
         $dr['cites'] = $Cited->show_ref($ID);
 
+        $dr['meta'] = $this->metadataHeader($dr);
+
         return $dr;
     }
+
+    function metadataHeader($m)
+        {
+            pre($m);
+        }
 
     function arrayExtract($dt, $class, $suf = '')
     {
