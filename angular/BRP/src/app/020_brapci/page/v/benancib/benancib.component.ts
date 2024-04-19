@@ -32,7 +32,14 @@ export class BenancibComponent {
   ngOnInit(): void {
     this.header = [];
     this.header = { title: 'Livro' };
-    this.chavesDoObjeto = Object.keys(this.data.data.hasIssueOf.nn[0]);
-    this.valoresDoObjeto = Object.values(this.data.data.hasIssueOf.nn[0]);
+    if (this.data.data.hasIssueOf.nn) {
+      this.chavesDoObjeto = Object.keys(this.data.data.hasIssueOf.nn[0]);
+      this.valoresDoObjeto = Object.values(this.data.data.hasIssueOf.nn[0]);
+    } else {
+      if (this.data.data.hasIssueOf.pt) {
+        this.chavesDoObjeto = Object.keys(this.data.data.hasIssueOf.pt[0]);
+        this.valoresDoObjeto = Object.values(this.data.data.hasIssueOf.pt[0]);
+      }
+    }
   }
 }
