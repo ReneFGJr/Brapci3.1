@@ -24,3 +24,8 @@ def register(ID,REF):
     row = database.query(qr)
     if not row:
         print("NOVO")
+        qi = "insert into brapci_cited.cited_article "
+        qi += "(ca_rdf, ca_text, ca_status) "
+        qi += " values "
+        qi += "('{ID}','^{REF}',0)"
+        database.insert(qr)
