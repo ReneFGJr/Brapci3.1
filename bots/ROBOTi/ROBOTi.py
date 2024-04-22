@@ -25,6 +25,7 @@ import mod_literal
 import mod_logs
 import database
 import mod_concept
+import mod_cited
 import mod_proceeding
 import mod_backup_mysql
 from colorama import Fore
@@ -157,6 +158,10 @@ def run(parm):
         mod_literal.check_end_dot()
     if (act == '157'):
         mod_data.revalid()
+
+    ################### Cited
+    if (act == '160'):
+        mod_cited.cited()
 
     ################### Author
     if (act == '200'):
