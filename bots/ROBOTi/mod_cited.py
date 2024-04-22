@@ -11,5 +11,7 @@ def cited():
         ID = item[1]
         IDn = item[0]
         REF = item[2]
+
+        REF = REF.replace('/*ref*/','').strip()
         print(ID,IDn,REF)
         quit()
