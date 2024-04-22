@@ -19,10 +19,10 @@ def cited():
         quit()
 
 def removeLiteral(ID,IDn):
-    qr = f"delete from brapci_rdf.brapci_data where d_r1 = {ID} and d_literal = {IDn} "
+    qr = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} and d_literal = {IDn} "
     database.update(qr)
 
-    qr = f"select from brapci_rdf.brapci_data where d_literal = {IDn} "
+    qr = f"select from brapci_rdf.rdf_data where d_literal = {IDn} "
     row = database.query(qr)
     if not row:
         print("Deletar")
