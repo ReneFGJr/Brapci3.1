@@ -14,8 +14,13 @@ def cited():
 
         REF = REF.replace('/*ref*/','').strip()
         register(ID,REF)
+        removeLiteral(ID,IDn)
         print(ID,IDn,REF)
         quit()
+
+def removeLiteral(ID,IDn):
+    qr = "delete from brapci_data where d_r1 = {ID} and d_literal = {IDn} "
+    database.delete(qr)
 
 def register(ID,REF):
     qr = "select * from brapci_cited.cited_article "
@@ -23,12 +28,10 @@ def register(ID,REF):
     qr += f" and ca_rdf = {ID}"
     row = database.query(qr)
     if not row:
-        print("NOVO")
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_rdf, ca_text, ca_status) "
         qi += " values "
         qi += f"('{ID}','{REF}',0)"
-        print(qi)
         try:
             database.insert(qi)
         except Exception as e:
