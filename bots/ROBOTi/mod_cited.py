@@ -27,6 +27,9 @@ def register(ID,REF):
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_rdf, ca_text, ca_status) "
         qi += " values "
-        qi += f"('{ID}','^{REF}',0)"
+        qi += f"('{ID}','{REF}',0)"
         print(qi)
-        database.insert(qr)
+        try:
+            database.insert(qr)
+        except Exception as e:
+            print("ERRO CITED",e)
