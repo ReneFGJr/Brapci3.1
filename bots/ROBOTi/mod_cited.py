@@ -20,7 +20,7 @@ def cited():
 
 def removeLiteral(ID,IDn):
     qr = "delete from brapci_data where d_r1 = {ID} and d_literal = {IDn} "
-    database.delete(qr)
+    database.update(qr)
 
 def register(ID,REF):
     qr = "select * from brapci_cited.cited_article "
