@@ -30,6 +30,6 @@ def register(ID,REF):
         qi += f"('{ID}','{REF}',0)"
         print(qi)
         try:
-            database.insert(qr)
+            database.insert(qi)
         except Exception as e:
             print("ERRO CITED",e)
