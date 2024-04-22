@@ -13,5 +13,14 @@ def cited():
         REF = item[2]
 
         REF = REF.replace('/*ref*/','').strip()
+        register(ID,REF)
         print(ID,IDn,REF)
         quit()
+
+def register(ID,REF):
+    qr = "select * from brapci_cited.cited_article "
+    qr += f" where ca_text = '{REF}' "
+    qr += f" and ca_rdf = {ID}"
+    row = database.query(qr)
+    if not row:
+        print("NOVO")
