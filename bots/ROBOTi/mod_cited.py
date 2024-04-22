@@ -7,7 +7,6 @@ def cited():
     row = database.query(qr)
 
     for item in row:
-        print(item)
         ID = item[1]
         IDn = item[0]
         REF = item[2]
@@ -16,7 +15,6 @@ def cited():
         register(ID,REF)
         removeLiteral(ID,IDn)
         print(ID,IDn,REF)
-        quit()
 
 def removeLiteral(ID,IDn):
     qr = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} and d_literal = {IDn} "
