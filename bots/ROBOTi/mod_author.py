@@ -16,11 +16,10 @@ def check_dupla_remissiva():
 
     for reg in row:
         ID2 = reg[0]
-        ID1 = reg[1]
-        print(reg)
-        quit()
-        print("CheckD -",ID1,'<=',ID2,NAME)
+        ID1 = reg[2]
+        print("CheckD -",ID1,'<=',ID2)
         mod_data.remicive(ID1,ID2)
+        quit()
         dd = dd + 1
 
 def check_remissiva():
