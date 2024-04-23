@@ -14,15 +14,12 @@ def check_remissiva():
     qr += "WHERE cc_use <> id_cc and d_r2 > 0"
     row = database.query(qr)
 
-    print(qr)
-
     for reg in row:
         ID2 = reg[0]
         ID1 = reg[1]
         NAME = reg[3]
         print("Check1 -",ID1,'<=',ID2,NAME)
         mod_data.remicive(ID1,ID2)
-        quit()
         dd = dd + 1
 
     quit()
