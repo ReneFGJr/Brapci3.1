@@ -8,7 +8,7 @@ import mod_logs
 def check_use_zero():
     qr = "update "
     qr += "brapci_rdf.rdf_concept "
-    qr += "set cc_use = id_use "
+    qr += "set cc_use = id_cc "
     qr += "where cc_use = 0 "
     database.update(qr)
 
