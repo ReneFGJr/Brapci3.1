@@ -19,8 +19,8 @@ def check_dupla_remissiva():
         ID1 = reg[2]
         print("CheckD -",ID1,'<=',ID2)
         mod_data.remicive(ID1,ID2)
-        quit()
         dd = dd + 1
+    print("Dupla remissiva",dd)
 
 def check_remissiva():
     dd = 0
