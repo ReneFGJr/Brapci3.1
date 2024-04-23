@@ -7,7 +7,7 @@ import mod_logs
 
 def check_dupla_remissiva():
     qr = "SELECT c1.id_cc, c2.id_cc, c2.cc_use "
-    qr += "FROM `brapci_rdf.rdf_concept` as c1 "
+    qr += "FROM brapci_rdf.rdf_concept as c1 "
     qr += "INNER JOIN brapci_rdf.rdf_concept as c2 ON c1.cc_use = c2.id_cc "
     qr += "WHERE c1.cc_use <> c1.id_cc "
     qr += "and c2.id_cc <> c2.cc_use "
