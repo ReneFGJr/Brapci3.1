@@ -30,6 +30,7 @@ def check_dupla_remissiva():
         mod_data.remicive(ID1,ID2)
         dd = dd + 1
     print("Dupla remissiva",dd)
+    mod_logs.log('TASK_202',dd)
 
 def check_remissiva():
     check_use_zero()
@@ -55,24 +56,8 @@ def check_remissiva():
         ID2A = ID2
         ID1A = ID1
 
-    quit()
-    qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
-    qr += "FROM brapci_rdf.rdf_concept "
-    qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r2 "
-    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
-    qr += "WHERE (id_cc <> cc_use) and (cc_use <> 0)"
-    qr += " and (d_r1 <> 0) and (d_r2 <> 0)"
-    row = database.query(qr)
 
-    for reg in row:
-        ID2 = reg[0]
-        ID1 = reg[1]
-        NAME = reg[4]
-        print("Check2 -",ID1,ID2,NAME)
-        mod_data.remicive(ID1,ID2)
-        dd = dd + 1
-
-    mod_logs.log('TASK_201',dd)
+    mod_logs.log('TASK_202',dd)
     return ""
 
 def check_duplicate():
