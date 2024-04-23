@@ -8,9 +8,9 @@ import mod_logs
 def check_remissiva():
     dd = 0
 
-    qr = "SELECT id_cc, cc_use, id_n, n_name FROM `rdf_concept` "
-    qr += "inner join rdf_literal ON cc_pref_term = id_n "
-    qr += "inner join rdf_data ON d_r1 = cc_use "
+    qr = "SELECT id_cc, cc_use, id_n, n_name FROM `brapci_rdf.rdf_concept` "
+    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
+    qr += "inner join brapci_rdf.rdf_data ON d_r1 = cc_use "
     qr += "WHERE cc_use <> id_cc "
     row = database.query(qr)
 
