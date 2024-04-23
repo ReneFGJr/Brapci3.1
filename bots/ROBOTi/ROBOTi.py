@@ -167,6 +167,8 @@ def run(parm):
     if (act == '200'):
         lp = mod_author.check_duplicate()
     if (act == '201'):
+        lp = mod_author.check_dupla_remissiva()
+    if (act == '202'):
         lp = mod_author.check_remissiva()
 
     ################### Subject

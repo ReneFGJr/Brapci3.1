@@ -5,6 +5,25 @@ import mod_data
 import database
 import mod_logs
 
+def check_dupla_remissiva():
+    qr = "SELECT c1.id_cc, c2.id_cc, c2.cc_use "
+    qr += "FROM `brapci_rdf.rdf_concept` as c1 "
+    qr += "INNER JOIN brapci_rdf.rdf_concept as c2 ON c1.cc_use = c2.id_cc "
+    qr += "WHERE c1.cc_use <> c1.id_cc "
+    qr += "and c2.id_cc <> c2.cc_use "
+
+    row = database.query(qr)
+
+    for reg in row:
+        ID2 = reg[0]
+        ID1 = reg[1]
+        NAME = reg[3]
+        print(reg)
+        quit()
+        print("CheckD -",ID1,'<=',ID2,NAME)
+        mod_data.remicive(ID1,ID2)
+        dd = dd + 1
+
 def check_remissiva():
     dd = 0
 
