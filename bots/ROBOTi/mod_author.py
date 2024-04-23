@@ -17,7 +17,6 @@ def check_dupla_remissiva():
     for reg in row:
         ID2 = reg[0]
         ID1 = reg[1]
-        NAME = reg[3]
         print(reg)
         quit()
         print("CheckD -",ID1,'<=',ID2,NAME)
