@@ -8,22 +8,22 @@ import mod_logs
 def check_remissiva():
     dd = 0
 
-    qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
-    qr += "FROM brapci_rdf.rdf_concept "
-    qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r1 "
-    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
-    qr += "WHERE (id_cc <> cc_use) and (cc_use <> 0)"
-    qr += " and (d_r1 <> 0) and (d_r2 <> 0)"
+    qr = "SELECT id_cc, cc_use, id_n, n_name FROM `rdf_concept` "
+    qr += "inner join rdf_literal ON cc_pref_term = id_n "
+    qr += "inner join rdf_data ON d_r1 = cc_use "
+    qr += "WHERE cc_use <> id_cc "
     row = database.query(qr)
 
     for reg in row:
         ID2 = reg[0]
         ID1 = reg[1]
-        NAME = reg[4]
+        NAME = reg[3]
         print("Check1 -",ID1,ID2,NAME)
         mod_data.remicive(ID1,ID2)
+        quit()
         dd = dd + 1
 
+    quit()
     qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
     qr += "FROM brapci_rdf.rdf_concept "
     qr += "inner join brapci_rdf.rdf_data ON id_cc = d_r2 "
