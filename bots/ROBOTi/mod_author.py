@@ -32,13 +32,19 @@ def check_remissiva():
     qr += "WHERE cc_use <> id_cc and d_r2 > 0"
     row = database.query(qr)
 
+    ID2A = 0
+    ID1A = 0
+
     for reg in row:
         ID2 = reg[0]
         ID1 = reg[1]
         NAME = reg[3]
-        print("Check1 -",ID1,'<=',ID2,NAME)
-        mod_data.remicive(ID1,ID2)
-        dd = dd + 1
+        if (ID1 != ID1A) and (ID2A != ID2):
+            print("Check1 -",ID1,'<=',ID2,NAME)
+            mod_data.remicive(ID1,ID2)
+            dd = dd + 1
+        ID2A = ID2
+        ID1A = ID1
 
     quit()
     qr = "SELECT id_cc,cc_use,d_r1,d_r2, n_name "
