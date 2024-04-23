@@ -6,6 +6,7 @@ import database
 import mod_logs
 
 def check_dupla_remissiva():
+    dd = 0
     qr = "SELECT c1.id_cc, c2.id_cc, c2.cc_use "
     qr += "FROM brapci_rdf.rdf_concept as c1 "
     qr += "INNER JOIN brapci_rdf.rdf_concept as c2 ON c1.cc_use = c2.id_cc "
