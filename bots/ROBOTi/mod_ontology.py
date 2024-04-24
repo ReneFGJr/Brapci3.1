@@ -26,12 +26,12 @@ def classification():
         c2 = item[4]
         if (c2 == None):
             c2 = 0
-            print("None")
         qu = "update brapci_rdf.rdf_data "
         qu += "set "
         qu += f" d_c1 = {c1}, "
         qu += f" d_c2 = {c2}, "
         qu += f" where id_d = {id_d}"
+        print("Classification ",c1,c2)
         database.update(qu)
 
 def checkDataInverse():
