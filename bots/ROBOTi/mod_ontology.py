@@ -32,7 +32,7 @@ def classification():
         qu += f" d_c2 = {c2}, "
         qu += f" d_trust = 0 "
         qu += f" where id_d = {id_d}"
-        print("Classification ",c1,c2)
+        print("Classification ",id_d,c1,c2)
         database.update(qu)
 
 def checkDataInverse():
