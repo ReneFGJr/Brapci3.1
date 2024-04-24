@@ -16,11 +16,10 @@ def classification():
     qr += "inner join brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc "
     qr += "left join brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc "
     qr += "WHERE d_c1 = 0 "
-    qr += "limit 10 "
+    qr += "limit 10000 "
     row = database.query(qr)
 
     for item in row:
-        print(item)
         id_d = item[0]
         c1 = item[2]
         c2 = item[4]
