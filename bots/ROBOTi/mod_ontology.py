@@ -85,11 +85,6 @@ def checkDataConceptExist():
     print(row)
 
 def checkData():
-    qr = "SELECT id_d FROM brapci_rdf.rdf_class_domain "
-    qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c1 and cd_range = d_c2 and cd_property = d_p "
-    qr += "WHERE d_trust = 0 "
-    qr += "limit 1000; "
-
     qr = "SELECT d_c1, d_c2, d_p FROM brapci_rdf.rdf_class_domain "
     qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c1 and cd_range = d_c2 and cd_property = d_p "
     qr += "WHERE d_trust = 0 "
