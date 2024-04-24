@@ -7,7 +7,8 @@ def resume():
     qr += " FROM brapci_rdf.rdf_data "
     qr += " group by d_trust"
     row = database.query(qr)
-    print(row)
+    for item in row:
+        print(item)
 
 def classification():
     qr = " SELECT id_d, "
