@@ -32,7 +32,7 @@ def classification():
         qu += f" d_c1 = {c1}, "
         qu += f" d_c2 = {c2}, "
         qu += f" where id_d = {id_d}"
-        print(qu)
+        database.update(qu)
 
 def checkDataInverse():
     qr = "SELECT data1.d_r1, data1.d_r2, data2.d_r1, data2.d_r2, "
