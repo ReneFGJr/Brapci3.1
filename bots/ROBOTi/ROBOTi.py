@@ -110,6 +110,8 @@ def run(parm):
         lp = mod_ontology.checkDataInverse()
     if (act == '102'):
         lp = mod_ontology.checkLiteralExist()
+    if (act == '103'):
+        lp = mod_ontology.classification()
     if (act == '105'):
         lp = mod_ontology.checkDataConceptExist()
     if (act == '110'):

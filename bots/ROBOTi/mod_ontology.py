@@ -8,6 +8,18 @@ def resume():
     row = database.query(qr)
     print(row)
 
+def classification():
+    qr = " SELECT id_d, "
+    qr += "d_r1 as R1, c1.cc_class as C1, "
+    qr += "d_r2 as R2, c2.cc_class as C2 "
+    qr += "FROM brapci_rdf.rdf_data "
+    qr += "inner join brapci_rdf.rdf_concept as c1 ON d_r1 = c1.id_cc "
+    qr += "left join brapci_rdf.rdf_concept as c2 ON d_r2 = c2.id_cc "
+    qr += "WHERE d_c1 = 0 "
+    qr += "limit 10 "
+    row = database.query(qr)
+    print(row)
+
 def checkDataInverse():
     qr = "SELECT data1.d_r1, data1.d_r2, data2.d_r1, data2.d_r2, "
     qr += "data1.d_p as p1, data2.d_p as p2, c_class "
