@@ -119,6 +119,11 @@ def run(parm):
     if (act == '120'):
         lp = mod_ontology.resume()
 
+    if (act == 'ontology'):
+        mod_concept.UpdateUse()
+        mod_ontology.checkData()
+        mod_ontology.checkDataInverse()
+
     if (act == 'check'):
         mod_concept.UpdateUse()
         mod_literal.check_utf8()
