@@ -18,7 +18,20 @@ def classification():
     qr += "WHERE d_c1 = 0 "
     qr += "limit 10 "
     row = database.query(qr)
-    print(row)
+
+    for item in row:
+        print(item)
+        id_d = item[0]
+        c1 = item[2]
+        c2 = item[4]
+        if (c2 == None):
+            print("None")
+        qu = "update brapci_rdf.rdf_data "
+        qu = "set "
+        qu = f" d_c1 = {c1}, "
+        qu = f" d_c2 = {c2}, "
+        qu = f" where id_d = {id_d}"
+        print(qu)
 
 def checkDataInverse():
     qr = "SELECT data1.d_r1, data1.d_r2, data2.d_r1, data2.d_r2, "
