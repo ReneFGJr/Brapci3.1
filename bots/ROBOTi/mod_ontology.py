@@ -119,7 +119,7 @@ def checkData():
 def checkDataNull():
     qr = "SELECT d_c1, d_c2, d_p, count(*) as total FROM brapci_rdf.rdf_class_domain "
     qr += "left join brapci_rdf.rdf_data ON cd_domain= d_c1 and cd_range = d_c2 and cd_property = d_p "
-    qr += "WHERE d_trust = 0 and id_cd = null "
+    qr += "WHERE d_trust = 0 and id_cd IS NULL "
     qr += "group by d_c1, d_c2, d_p"
 
     print(qr)
