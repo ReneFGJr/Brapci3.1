@@ -25,6 +25,7 @@ def classification():
         c1 = item[2]
         c2 = item[4]
         if (c2 == None):
+            c2 = 0
             print("None")
         qu = "update brapci_rdf.rdf_data "
         qu = "set "
