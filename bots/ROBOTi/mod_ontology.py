@@ -1,5 +1,6 @@
 import database
 import mod_logs
+import mod_data
 
 def resume():
     qr = "SELECT count(*) as total, d_trust "
@@ -35,14 +36,20 @@ def classification():
         database.update(qu)
 
 def checkDataInverse():
-    qr = "SELECT data1.d_r1, data1.d_r2, data2.d_r1, data2.d_r2, "
-    qr += "data1.d_p as p1, data2.d_p as p2, c_class "
-    qr += "FROM `rdf_data` as data1 "
-    qr += "inner join rdf_data as data2 on data1.d_r1 = data2.d_r2 "
-    qr += "inner join rdf_concept ON data1.d_r1 = id_cc "
-    qr += "inner join rdf_class ON cc_class = id_c "
-    qr += "where data1.d_r2 = data2.d_r1 "
-    qr += "and data1.d_p = data2.d_p; "
+    qr = "SELECT * FROM rdf_class_domain "
+    qr += "inner join rdf_data ON `cd_domain`= d_c2 and cd_range = d_c1 and cd_property = d_p "
+    qr += "limit 10; "
+    print("100 - Checando Invertidas")
+
+    row = database.query(qr)
+
+    qu = ""
+    n = 0
+    dd = 0
+    for item in row:
+        print(row)
+        ID = item[0]
+        mod_data.invert_class(0,0)
 
 def checkLiteralExist():
     qr = "select * from brapci_rdf.rdf_data"
@@ -77,11 +84,10 @@ def checkDataConceptExist():
     print(row)
 
 def checkData():
-    qr = "select * "
-    qr = "select * FROM brapci_rdf.rdf_data "
-    qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
-    qr += "left join brapci_rdf.rdf_class_domain ON d_p = id_cd "
-    qr += "where d_trust = 0 limit 30000 "
+    qr = "SELECT id_d FROM rdf_class_domain "
+    qr += "inner join rdf_data ON `cd_domain`= d_c1 and cd_range = d_c2 and cd_property = d_p "
+    qr += "WHERE d_trust = 0 "
+    qr += "limit 10; "
     print("100 - Checando Ontologias")
 
     row = database.query(qr)
@@ -91,24 +97,10 @@ def checkData():
     dd = 0
     for item in row:
         ID = item[0]
-        C2 = item[1]
-        C3 = item[2]
 
-        CA1 = item[3]
-        CA2 = item[4]
-
-        if C2 == C3:
-            qu = f"update brapci_rdf.rdf_data set d_trust = 1 where id_d = {ID}"
-            print(".", end='')
-            n = n + 1
-            dd = dd + 1
-            if (n > 50):
-                n = 0
-                print("")
-            database.update(qu)
-        else:
-            print(ID,C2,C3,CA1,CA2)
-            qu = f"update brapci_rdf.rdf_data set d_trust = -1 where id_d = {ID}"
-            database.update(qu)
+        qu = f"update brapci_rdf.rdf_data set d_trust = 1 where id_d = {ID}"
+        n = n + 1
+        dd = dd + 1
+        database.update(qu)
     mod_logs.log('TASK_110',dd)
     #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"

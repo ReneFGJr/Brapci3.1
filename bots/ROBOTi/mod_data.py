@@ -69,6 +69,14 @@ def register(IDC,prop,IDP,IDliteral=0):
 
     return row
 
+def invert_class(C1,C2):
+    print("###### REVISAR");
+    qr = "select * from brapci_rdf.rdf_data where d_c1 = {C1} and d_c2 = {C2} "
+    row = database.query(qr)
+    for item in row:
+        print(item)
+        quit()
+
 def remicive(ID1,ID2):
     qr = [
         f"update brapci_rdf.rdf_data set d_r1 = {ID1} where d_r1 = {ID2}",
