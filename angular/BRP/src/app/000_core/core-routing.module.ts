@@ -105,10 +105,4 @@ const routes: Routes = [
 })
 export class CoreRoutingModule {
   constructor() {}
-
-  ngInitOn()
-    {
-      console.log('init')
-    }
-
 }
