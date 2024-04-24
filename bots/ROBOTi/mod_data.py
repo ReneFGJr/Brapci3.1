@@ -80,9 +80,8 @@ def invert_class(C1,C2,DP):
         C2 = item[4]
 
         qu = f"update brapci_rdf.rdf_data set d_trust = 0, d_r1 = {R2}, d_r2 = {R1}, d_c1 = {C2}, d_c2 = {C1} where id_d = {ID}"
-        print(qu)
+        print("Invert class",ID)
         database.update(qu)
-        quit()
 
 def remicive(ID1,ID2):
     qr = [
