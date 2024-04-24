@@ -87,7 +87,13 @@ def checkData():
     qr = "SELECT id_d FROM brapci_rdf.rdf_class_domain "
     qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c1 and cd_range = d_c2 and cd_property = d_p "
     qr += "WHERE d_trust = 0 "
-    qr += "limit 10000; "
+    qr += "limit 1000; "
+
+    qr = "SELECT d_c1, d_c2, d_p FROM brapci_rdf.rdf_class_domain "
+    qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c1 and cd_range = d_c2 and cd_property = d_p "
+    qr += "WHERE d_trust = 0 "
+    qr += "group by d_c1, d_c2, d_p"
+
     print("110 - Checando Ontologias")
 
     row = database.query(qr)
@@ -96,12 +102,14 @@ def checkData():
     n = 0
     dd = 0
     for item in row:
-        ID = item[0]
+        C1 = item[0]
+        C2 = item[1]
+        DP = item[2]
 
-        qu = f"update brapci_rdf.rdf_data set d_trust = 1 where id_d = {ID}"
+        qu = f"update brapci_rdf.rdf_data set d_trust = 1 where d_c1 = {C1} and d_c2 = {C2} and d_p= {DP}"
         n = n + 1
         dd = dd + 1
         database.update(qu)
-        print("Ontology Trust",ID)
+        print("Ontology Trust",C1,C2,DP)
     mod_logs.log('TASK_110',dd)
     #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
