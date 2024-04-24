@@ -116,12 +116,15 @@ def run(parm):
         lp = mod_ontology.checkDataConceptExist()
     if (act == '110'):
         lp = mod_ontology.checkData()
+    if (act == '111'):
+        lp = mod_ontology.checkDataNull()
     if (act == '120'):
         lp = mod_ontology.resume()
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
         mod_ontology.checkData()
+        mod_ontology.checkDataNull()
         mod_ontology.checkDataInverse()
 
     if (act == 'check'):
