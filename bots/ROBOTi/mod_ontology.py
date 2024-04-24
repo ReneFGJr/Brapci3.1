@@ -37,8 +37,8 @@ def classification():
         database.update(qu)
 
 def checkDataInverse():
-    qr = "SELECT * FROM rdf_class_domain "
-    qr += "inner join rdf_data ON cd_domain= d_c2 and cd_range = d_c1 and cd_property = d_p "
+    qr = "SELECT * FROM brapci_rdf.rdf_class_domain "
+    qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c2 and cd_range = d_c1 and cd_property = d_p "
     qr += "limit 10; "
     print("100 - Checando Invertidas")
 
