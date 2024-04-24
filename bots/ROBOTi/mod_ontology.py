@@ -85,7 +85,7 @@ def checkDataConceptExist():
     print(row)
 
 def checkData():
-    qr = "SELECT d_c1, d_c2, d_p FROM brapci_rdf.rdf_class_domain "
+    qr = "SELECT d_c1, d_c2, d_p, count(*) as total FROM brapci_rdf.rdf_class_domain "
     qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c1 and cd_range = d_c2 and cd_property = d_p "
     qr += "WHERE d_trust = 0 "
     qr += "group by d_c1, d_c2, d_p"
@@ -101,11 +101,12 @@ def checkData():
         C1 = item[0]
         C2 = item[1]
         DP = item[2]
+        TOTAL = item[3]
 
         qu = f"update brapci_rdf.rdf_data set d_trust = 1 where d_c1 = {C1} and d_c2 = {C2} and d_p= {DP}"
         n = n + 1
         dd = dd + 1
         database.update(qu)
-        print("Ontology Trust",C1,C2,DP)
+        print("Ontology Trust",C1,C2,DP,'Total:',TOTAL)
     mod_logs.log('TASK_110',dd)
     #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
