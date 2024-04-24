@@ -48,10 +48,8 @@ def checkDataInverse():
     n = 0
     dd = 0
     for item in row:
-        print(row)
-        ID = item[0]
-        quit()
-        mod_data.invert_class(0,0)
+        print(item)
+        #mod_data.invert_class(0,0)
 
 def checkLiteralExist():
     qr = "select * from brapci_rdf.rdf_data"
