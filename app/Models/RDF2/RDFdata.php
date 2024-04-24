@@ -230,8 +230,8 @@ class RDFdata extends Model
 
         $sx = '<table class="table full">';
         foreach ($dt as $id => $line) {
-            $linka = '<a href="' . PATH . '/rdf/withoutClass/' . $d2 . '?act=I&d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Invert</a>';
-            $linkb = '<a href="' . PATH . '/rdf/withoutClass/' . $d2 . '?act=R&d1=' . $line['idc1'] . '&p=' . $line['d_p'] . '&d2=' . $line['idc2'] . '">Revalid</a>';
+            $linka = '';
+            $linkb = '';
             $sx .= '<tr>';
             $sx .= '<td>';
             $sx .= $line['c1'];
