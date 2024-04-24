@@ -40,7 +40,7 @@ def checkDataInverse():
     qr = "SELECT d_c1, d_c2, d_p, count(*) as total FROM brapci_rdf.rdf_class_domain "
     qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c2 and cd_range = d_c1 and cd_property = d_p "
     qr += "group by d_c1, d_c2, d_p"
-    print("100 - Checando Invertidas")
+    print("101 - Checando Invertidas")
 
     row = database.query(qr)
 
@@ -55,6 +55,8 @@ def checkDataInverse():
         TOTAL = item[3]
 
         mod_data.invert_class(C1,C2,DP)
+        dd = dd + TOTAL
+    mod_logs.log('TASK_101',dd)
 
 def checkLiteralExist():
     qr = "select * from brapci_rdf.rdf_data"
