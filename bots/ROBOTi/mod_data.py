@@ -79,7 +79,7 @@ def invert_class(C1,C2,DP):
         C1 = item[3]
         C2 = item[4]
 
-        qu = "update brapci_rdf.rdf_data set d_trust = 0, d_r1 = {R2}, d_r2 = {R1}, d_c1 = {C2}, d_c2 = {C1} where id_d = {ID}"
+        qu = f"update brapci_rdf.rdf_data set d_trust = 0, d_r1 = {R2}, d_r2 = {R1}, d_c1 = {C2}, d_c2 = {C1} where id_d = {ID}"
         print(qu)
         database.update(qu)
         quit()
