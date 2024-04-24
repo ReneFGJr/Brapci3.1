@@ -122,6 +122,8 @@ def checkDataNull():
     qr += "WHERE d_trust = 0 and id_cd = null "
     qr += "group by d_c1, d_c2, d_p"
 
+    print(qr)
+
     print("110 - Checando Ontologias Nulas")
 
     row = database.query(qr)
