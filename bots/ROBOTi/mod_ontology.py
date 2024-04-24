@@ -115,7 +115,6 @@ def checkData():
         database.update(qu)
         print("Ontology Trust",C1,C2,DP,'Total:',TOTAL)
     mod_logs.log('TASK_110',dd)
-    #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
 
 def checkDataNull():
     qr = "SELECT d_c1, d_c2, d_p, count(*) as total FROM brapci_rdf.rdf_class_domain "
@@ -136,10 +135,9 @@ def checkDataNull():
         DP = item[2]
         TOTAL = item[3]
 
-        qu = f"update brapci_rdf.rdf_data set d_trust = 1 where d_c1 = {C1} and d_c2 = {C2} and d_p= {DP}"
+        qu = f"update brapci_rdf.rdf_data set d_trust = -1 where d_c1 = {C1} and d_c2 = {C2} and d_p= {DP}"
         n = n + 1
         dd = dd + 1
         database.update(qu)
-        print("Ontology Trust",C1,C2,DP,'Total:',TOTAL)
-    mod_logs.log('TASK_110',dd)
-    #qr = "update brapci_rdf.rdf_data set d_library = d_r1, d_r1 = d_r2, d_r2 = d_library, d_trust = 0, d_library = 0 where d_trust = -1"
+        print("Ontology not Trust",C1,C2,DP,'Total:',TOTAL)
+    mod_logs.log('TASK_111',dd)
