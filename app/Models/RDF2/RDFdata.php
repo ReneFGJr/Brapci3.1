@@ -215,50 +215,12 @@ class RDFdata extends Model
     function withoutClass($d2)
     {
         $st = $d2;
-        if (get("d1") != '') {
-            $st = $d2;
-            $d1 = get("d1");
-            $d2 = get("d2");
-            $dp = get("p");
-            $ac = get("act");
-
-            $dt = $this
-                ->select("id_d, d_p, cn0.c_class as c1 , cn0.id_c as idc1, cn1.c_class as c2, cn2.id_c as idc2, cn2.c_class as c3")
-                ->where('d_trust', $st)
-                ->where('d_p', $dp)
-                ->where('c1.cc_class', $d1)
-                ->where('c2.cc_class', $d2)
-                ->findAll();
-
-            foreach ($dt as $id => $line) {
-                $id = $line['id_d'];
-                if ($ac == 'I') {
-                    $sql = "update brapci_rdf.rdf_data ";
-                    $sql .= " set d_library = d_r1, ";
-                    $sql .= " d_r1 = d_r2, ";
-                    $sql .= " d_r2 = d_library, ";
-                    $sql .= " d_library = 0, ";
-                    $sql .= " d_trust = 0 ";
-                    $sql .= "where (id_d = $id) ";
-                } elseif ($ac = 'R') {
-                    $sql = "update brapci_rdf.rdf_data ";
-                    $sql .= " set d_trust = 0 ";
-                    $sql .= "where (id_d = $id) ";
-                }
-                $this->db->query($sql);
-            }
-            $sx = metarefresh(PATH . '/rdf/withoutClass/' . $st);
-            return $sx;
-        }
 
         $dt = $this
             ->select("d_p, cn0.c_class as c1 , cn0.id_c as idc1, cn1.c_class as c2, cn2.id_c as idc2, cn2.c_class as c3, count(*) as total ")
-            ->join('rdf_concept as c1', 'd_r1 = c1.id_cc')
-            ->join('rdf_concept as c2', 'd_r2 = c2.id_cc')
-            ->join('rdf_class as cn0', 'cn0.id_c = c1.cc_class')
+            ->join('rdf_class as cn0', 'cn0.id_c = d_c1')
             ->join('rdf_class as cn1', 'cn1.id_c = d_p')
-            ->join('rdf_class as cn2', 'cn2.id_c = c2.cc_class')
-
+            ->join('rdf_class as cn2', 'cn2.id_c = d_c2')
             ->where('d_trust', $st)
             ->groupby('d_p, cn0.c_class, cn1.c_class, cn2.c_class')
             ->orderby('cn0.c_class, cn1.c_class, cn2.c_class')
