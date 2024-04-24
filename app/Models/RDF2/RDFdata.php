@@ -224,12 +224,6 @@ class RDFdata extends Model
 
             $dt = $this
                 ->select("id_d, d_p, cn0.c_class as c1 , cn0.id_c as idc1, cn1.c_class as c2, cn2.id_c as idc2, cn2.c_class as c3")
-                ->join('rdf_concept as c1', 'd_r1 = c1.id_cc')
-                ->join('rdf_concept as c2', 'd_r2 = c2.id_cc')
-                ->join('rdf_class as cn0', 'cn0.id_c = c1.cc_class')
-                ->join('rdf_class as cn1', 'cn1.id_c = d_p')
-                ->join('rdf_class as cn2', 'cn2.id_c = c2.cc_class')
-
                 ->where('d_trust', $st)
                 ->where('d_p', $dp)
                 ->where('c1.cc_class', $d1)

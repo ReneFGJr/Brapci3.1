@@ -50,6 +50,7 @@ def checkDataInverse():
     for item in row:
         print(row)
         ID = item[0]
+        quit()
         mod_data.invert_class(0,0)
 
 def checkLiteralExist():
