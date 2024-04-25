@@ -77,7 +77,7 @@ def checkLiteralExist():
             print(".",end='')
         ID = item[0]
         qu = "update brapci_rdf.rdf_data "
-        qu += " set d_trust = 1 "
+        qu += " set d_trust = 2 "
         qu += f" where id_d = {ID}"
         database.update(qu)
 

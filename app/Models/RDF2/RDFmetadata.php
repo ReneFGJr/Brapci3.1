@@ -157,6 +157,8 @@ class RDFmetadata extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $dataset = new \App\Models\ElasticSearch\Search();
 
+        $worksID = [];
+
         $dr = [];
         $dr['name'] = $dt['concept']['n_name'];
         $dr['name_abnt'] = nbr_author(ascii($dt['concept']['n_name']),2);
@@ -210,8 +212,6 @@ class RDFmetadata extends Model
         foreach ($dx as $id => $line) {
             $JSON = (array)json_decode($line['json']);
 
-
-
             $type = $line['CLASS'];
 
             /************************************** Cloud */
@@ -243,6 +243,7 @@ class RDFmetadata extends Model
 
             /************************************** Producao */
             $year = $line['YEAR'] - $dta;
+            array_push($worksID,$line['ID']);
             if ($year >= 0) {
                 if (isset($ds[$type][$year])) {
                     $ds[$type][$year] = $ds[$type][$year] + 1;
@@ -419,6 +420,9 @@ class RDFmetadata extends Model
 
         /****************************** Remissivas */
         $dr['variants'] = $this->remissivas($dr['ID']);
+
+        /****************************** worksID ****/
+        $dr['worksID'] = $worksID;
 
         return $dr;
     }

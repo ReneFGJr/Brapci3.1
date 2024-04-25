@@ -3,6 +3,8 @@
     <div class="col-12 col-xl-7">
       <h1>{{ data.name }}</h1>
 
+      <app-basket-select [data]="data.worksID"></app-basket-select>
+
       <div class="mt-2"><b>Produção Científica por ano/tipo do autor</b></div>
       <div
         class="chart-container"

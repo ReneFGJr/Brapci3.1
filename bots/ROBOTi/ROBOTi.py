@@ -125,6 +125,7 @@ def run(parm):
         mod_concept.UpdateUse()
         mod_ontology.classification()
         mod_ontology.checkData()
+        mod_ontology.checkLiteralExist()
         mod_ontology.checkDataNull()
         mod_ontology.checkDataInverse()
 
