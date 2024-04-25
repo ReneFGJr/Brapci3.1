@@ -177,7 +177,6 @@ class RDFmetadata extends Model
         foreach ($dt['data'] as $id => $line) {
             $ID = $line['ID'];
             $dataset->orwhere('ID', $ID);
-            array_push($worksID,$ID);
         }
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
@@ -244,6 +243,7 @@ class RDFmetadata extends Model
 
             /************************************** Producao */
             $year = $line['YEAR'] - $dta;
+            array_push($worksID,$line['ID']);
             if ($year >= 0) {
                 if (isset($ds[$type][$year])) {
                     $ds[$type][$year] = $ds[$type][$year] + 1;
