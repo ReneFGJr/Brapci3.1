@@ -124,6 +124,7 @@ def run(parm):
     if (act == 'ontology'):
         mod_concept.UpdateUse()
         mod_ontology.checkData()
+        mod_ontology.checkLiteralExist()
         mod_ontology.checkDataNull()
         mod_ontology.checkDataInverse()
 
