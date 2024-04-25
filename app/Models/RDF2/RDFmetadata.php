@@ -157,6 +157,8 @@ class RDFmetadata extends Model
         $ABNT = new \App\Models\Metadata\Abnt();
         $dataset = new \App\Models\ElasticSearch\Search();
 
+        $worksID = [];
+
         $dr = [];
         $dr['name'] = $dt['concept']['n_name'];
         $dr['name_abnt'] = nbr_author(ascii($dt['concept']['n_name']),2);
@@ -175,6 +177,7 @@ class RDFmetadata extends Model
         foreach ($dt['data'] as $id => $line) {
             $ID = $line['ID'];
             $dataset->orwhere('ID', $ID);
+            array_push($worksID,$ID);
         }
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
@@ -209,8 +212,6 @@ class RDFmetadata extends Model
 
         foreach ($dx as $id => $line) {
             $JSON = (array)json_decode($line['json']);
-
-
 
             $type = $line['CLASS'];
 
@@ -419,6 +420,9 @@ class RDFmetadata extends Model
 
         /****************************** Remissivas */
         $dr['variants'] = $this->remissivas($dr['ID']);
+
+        /****************************** worksID ****/
+        $dr['worksID'] = $worksID;
 
         return $dr;
     }

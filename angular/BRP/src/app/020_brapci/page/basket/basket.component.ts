@@ -13,7 +13,6 @@ export class BasketComponent {
   public basketValue: Array<any> | any;
   public total_result = 0;
 
-
   constructor(
     private localStorageService: LocalStorageService,
     private router: Router
