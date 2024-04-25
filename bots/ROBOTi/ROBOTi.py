@@ -123,6 +123,7 @@ def run(parm):
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
+        mod_ontology.classification()
         mod_ontology.checkData()
         mod_ontology.checkDataNull()
         mod_ontology.checkDataInverse()
@@ -137,16 +138,12 @@ def run(parm):
         mod_literal.check_title()
         mod_literal.check_end_dot()
         mod_dataset.check_type()
-        mod_ontology.resume()
         mod_ontology.checkData()
         mod_author.check_remissiva()
         mod_author.check_duplicate()
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
-        mod_subject.check_remissiva()
-
-
 
 
     #################### LITERAL
