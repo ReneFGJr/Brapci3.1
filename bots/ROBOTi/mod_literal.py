@@ -39,7 +39,7 @@ def check_utf8():
     qr += " from brapci_rdf.rdf_literal "
     qr += " where n_delete = 0 "
     qr += " and n_name LIKE '%Ã³%' "
-    qr += " limit 10 "
+    qr += " limit 100 "
 
     row = database.query(qr)
     # Verificar cada registro individualmente
