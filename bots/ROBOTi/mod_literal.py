@@ -67,9 +67,10 @@ def check_utf8():
         #print("D",dados)
 
         dados = dados.decode('utf-8', errors='backslashreplace')
-        dados = dados.replace('\xe3\xb3','[ó]')
-
         print("E",dados)
+
+        dados = dados.replace('\xe3\xb3','[ó]')
+        print("F",dados)
         print("=================================")
 
     quit()
