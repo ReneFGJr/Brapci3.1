@@ -96,9 +96,7 @@ def remicive(ID1,ID2):
         f"update brapci_rdf.rdf_concept set cc_use = {ID1} where id_cc = {ID2}"
     ]
     for qrt in qr:
-        print(qrt)
         database.update(qrt)
-    quit()
 
     qd = "COMMIT"
     database.update(qd)
