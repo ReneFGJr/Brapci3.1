@@ -118,8 +118,11 @@ def run(parm):
         lp = mod_ontology.checkData()
     if (act == '111'):
         lp = mod_ontology.checkDataNull()
+    if (act == '112'):
+        mod_data.invert()
     if (act == '120'):
         lp = mod_ontology.resume()
+
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
@@ -161,8 +164,6 @@ def run(parm):
         lp = mod_literal.check_title()
     if (act == '154'):
         mod_literal.check_utf8()
-    if (act == '155'):
-        mod_data.invert()
     if (act == '156'):
         mod_literal.check_end_dot()
     if (act == '157'):

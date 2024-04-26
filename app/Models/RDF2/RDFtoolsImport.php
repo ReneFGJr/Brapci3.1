@@ -725,6 +725,7 @@ class RDFtoolsImport extends Model
 
     function importGeneric($dt1)
     {
+        pre($dt1);
         $RSP = $this->createConcept($dt1);
         $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
