@@ -57,7 +57,7 @@ def check_utf8():
             # Relata o registro com problemas de decodificação
             print(f"Registro com ID {id} contém dados com erro de codificação.")
 
-        quit()
+    quit()
 
 def check_duplicate():
     qr = "select * from "
