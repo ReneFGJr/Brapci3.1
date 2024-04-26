@@ -52,7 +52,7 @@ def check_utf8():
         dados = dados.replace('ã³','ó')
         print(dados)
         print(dados.encode('utf-8'))
-        print(dados.decode('utf-8'))
+        print(dados.encode('utf-8'))
         quit()
 
         dados4 = dados.encode('utf-8')
