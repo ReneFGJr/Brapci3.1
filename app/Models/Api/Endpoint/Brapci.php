@@ -292,14 +292,13 @@ class Brapci extends Model
         $dd = [];
 
         $dd['ID'] = $dt['is_source_issue'];
+        $dd['source']['id_jnl'] = $dt['is_source'];
         $dd['place'] = $dt['is_place'];
         $dd['nr'] = $dt['is_vol_roman'];
         $dd['place'] = $dt['is_place'];
         $dd['works'] = $dt['is_works'];
         $dd['year'] = $dt['is_year'];
         $dd['id_jnl'] = $dt['is_source'];
-
-        pre($dt);
 
         $dj = $Source->where('id_jnl',$dt['is_source'])->first();
         $dd['source'] = $dj['jnl_name'];
