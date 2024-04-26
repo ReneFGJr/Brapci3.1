@@ -52,6 +52,7 @@ def check_utf8():
                     dados = dados.replace("ã3", "ó")
                     dados = dados.replace("ã©",'é')
                     #dados = dados.replace('ã­','í')
+                    print('========','í'.encode('utf-8'))
                     if (dados != dados2):
                         qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
                         print("====================== UTF8")
