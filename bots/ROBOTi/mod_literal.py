@@ -63,7 +63,8 @@ def check_utf8():
             print("ERROR",dados)
         else:
             qu = f"update brapci_rdf.brapci_literal set n_name = '{dados}' where id_n = {id}"
-            print(qu)
+            database.update(qu)
+            print("UPDATE: ",dados)
 
         print("=================================")
 
