@@ -37,37 +37,22 @@ def check_end_dot():
 def check_utf8():
     qr = "select id_n, n_name "
     qr += " from brapci_rdf.rdf_literal "
-    qr += " where n_delete = 0"
+    qr += " where n_delete = 0 "
+    qr += " and n_name LIKE '%Ã%'"
 
     row = database.query(qr)
     # Verificar cada registro individualmente
     lista = ['á'.encode('utf8'),'é'.encode('utf8'),'í'.encode('utf8'),]
     for id, dados in row:
         dados2 = dados
+        texto_corrigido = unicodedata.normalize('NFKC', dados)
         try:
             # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
             ok = 0
 
             if dados is not None:
-                #dados = dados.encode('utf-8')
-                for cps in lista:
-                    print(cps)
-                    dadosB = ' '.join(format(ord(c), 'b').zfill(8) for c in dados)
-                    print(dadosB)
-                    if cps in dadosB:
-                        ok = 1
-                if ok == 1:
-                    dados = unicodedata.normalize('NFKC', dados)
-                    for cps in lista:
-                        dados = dados.replace(cps,cps.decode('utf8'))
-
-                    print('========','í'.encode('utf-8'))
-                    if (dados != dados2):
-                        qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
-                        print("====================== UTF8")
-                        print(qu)
-                        print(dados)
-                        print(dados2)
+                print(texto_corrigido)
+                #qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
 
         except UnicodeDecodeError:
             # Relata o registro com problemas de decodificação
