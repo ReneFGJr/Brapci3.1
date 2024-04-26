@@ -37,6 +37,8 @@ def classification():
         database.update(qu)
 
 def checkDataInverse():
+    print("101 - Check data inverted")
+
     qr = "SELECT d_c1, d_c2, d_p, count(*) as total FROM brapci_rdf.rdf_class_domain "
     qr += "inner join brapci_rdf.rdf_data ON cd_domain= d_c2 and cd_range = d_c1 and cd_property = d_p "
     qr += "group by d_c1, d_c2, d_p"
@@ -59,6 +61,8 @@ def checkDataInverse():
     mod_logs.log('TASK_101',dd)
 
 def checkLiteralExist():
+    print("102 - Literal Exist")
+
     qr = "select * from brapci_rdf.rdf_data"
     qr += " where "
     qr += " d_r2 = 0 "
@@ -70,8 +74,10 @@ def checkLiteralExist():
     print('102 - Validando as entradas (Trust) entradas Literais')
     row = database.query(qr)
     ini = 0
+    dd = 0
     for item in row:
         ini = ini + 1
+        dd = dd + 1
         if ini > 100:
             ini = 0
             print(".",end='')
@@ -80,6 +86,7 @@ def checkLiteralExist():
         qu += " set d_trust = 2 "
         qu += f" where id_d = {ID}"
         database.update(qu)
+    mod_logs.log('TASK_102',dd)
 
 def checkDataConceptExist():
     print("Checando relações Orfã")

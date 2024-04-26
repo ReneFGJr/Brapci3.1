@@ -97,6 +97,7 @@ def remicive(ID1,ID2):
     ]
     for qrt in qr:
         database.update(qrt)
+
     qd = "COMMIT"
     database.update(qd)
 
@@ -120,6 +121,8 @@ def register_literal(IDC,prop,name,lang):
     return row
 
 def DataDouble():
+    print("100 - Check duplicate")
+
     qr = "select * FROM ("
     qr += "SELECT max(id_d) as max, count(*) as total, d_r1,d_p,d_r2,d_literal "
     qr += "FROM brapci_rdf.rdf_data "

@@ -1,8 +1,15 @@
 import database
+import mod_logs
 
 def UpdateUse():
+    print("000 - Update USE")
     qu = "update brapci_rdf.rdf_concept set cc_use = id_cc where cc_use = 0"
     database.update(qu)
+
+    qd = "COMMIT"
+    database.update(qd)
+
+    mod_logs.log('TASK_000',0)
 
 def register(cl,literal):
 
@@ -17,4 +24,8 @@ def register(cl,literal):
         qri += f"({cl},0,0,{literal},'',0,2,'2000-01-01')"
         database.query(qri)
         row = database.query(qr)
+
+    qd = "COMMIT"
+    database.update(qd)
+
     return row[0][0]
