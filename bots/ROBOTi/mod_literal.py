@@ -69,6 +69,7 @@ def check_utf8():
                 dados = dados.replace('\\xe3\\xaa','ê')
                 dados = dados.replace('\\xe3\\xa8','è')
                 dados = dados.replace('\\xe3\\x89','é')
+                dados = dados.replace('\\xe3\\xb2','ô')
 
                 dados = dados.replace('\\xe3\\xbc','u')
                 dados = dados.replace('\\xe2\\xbf','¿')
@@ -91,6 +92,8 @@ def check_utf8():
                 dados = dados.replace('\\xb4',' ')
                 dados = dados.replace('\\xa6','...')
                 dados = dados.replace('\\xc2',' ')
+                dados = dados.replace('\\xe2',' ')
+
 
 
 
