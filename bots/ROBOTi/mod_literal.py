@@ -79,7 +79,7 @@ def check_utf8():
             if '\\x' in dados:
                 print("ERROR",dados)
                 dados = dados.encode('utf-8')
-                print(dados.hex())
+                print(dados.hex(' '))
             else:
                 ok = 1
         else:
