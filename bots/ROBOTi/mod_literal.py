@@ -46,13 +46,18 @@ def check_utf8():
         dados2 = dados
         try:
             # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
+            ok = 0
+
             if dados is not None:
                 #dados = dados.encode('utf-8')
-                if lista in dados:
+                for cps in lista:
+                    if cps in dados:
+                        ok = 1
+                if ok == 1:
                     dados = unicodedata.normalize('NFKC', dados)
-                    dados = dados.replace("ã3", "ó")
-                    dados = dados.replace("ã©",'é')
-                    #dados = dados.replace('ã­','í')
+                    for cps in lista:
+                        dados = dados.replace(cps,cps.decode('utf8'))
+
                     print('========','í'.encode('utf-8'))
                     if (dados != dados2):
                         qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
