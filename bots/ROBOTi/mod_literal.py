@@ -51,6 +51,7 @@ def check_utf8():
             if dados is not None:
                 #dados = dados.encode('utf-8')
                 for cps in lista:
+                    print(cps)
                     if cps in dados:
                         ok = 1
                 if ok == 1:
