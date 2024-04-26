@@ -195,31 +195,6 @@ class RDFtoolsImport extends Model
             echo metarefresh('', 1);
         }
     }
-    /*************************************************** ALL */
-    function importRDFAll()
-    {
-        echo "GetAll<hr>";
-        $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $dt = $RDFconcept
-            ->join('brapci.rdf_concept as b_rdf', 'rdf_concept.id_cc = b_rdf.id_cc', 'right')
-            ->where('rdf_concept.id_cc is null')
-            //->where('rdf_concept.cc_class > 0 ')
-            ->findAll(500);
-
-        foreach ($dt as $id => $line) {
-            $RSP = $this->importRDF($line['id_cc']);
-            echo $line['id_cc'] . ' ' . $line['cc_class'] . '<br>';
-            if ($RSP['status'] != '200') {
-                echo "ERRO";
-                pre($RSP);
-            }
-        }
-        echo "FIM\n";
-        if (count($dt) > 10)
-            {
-                echo metarefresh('', 1);
-            }
-    }
 
     function classConvert($class)
     {
@@ -262,155 +237,6 @@ class RDFtoolsImport extends Model
     /*************************************************** */
     function importRDF($id, $force = false)
     {
-        $RSP = [];
-        $RDF1 = new \App\Models\Rdf\RDF();
-        $Volume = new \App\Models\AI\NLP\Text\Volume();
-        $NumberVolume = new \App\Models\AI\NLP\Text\NumberVolume();
-
-        $dt1 = $RDF1->le($id);
-
-        if ($dt1 != []) {
-            $class = $this->classConvert($dt1['concept']['c_class']);
-            $dt1['concept']['c_class'] = $class;
-
-            $RDF2 = new \App\Models\RDF2\RDF();
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-
-            switch ($class) {
-                case '':
-                    //$RSP = $this->importGeneric($dt1);
-                    $RSP['status'] = '200';
-                    break;
-
-                case 'Article':
-                    $RSP = $this->importArticle($dt1);
-                    break;
-                case 'Book':
-                    $RSP = $this->importBook($dt1);
-                    break;
-                case 'BookChapter':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'CDU':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'CDD':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'ClassificationAncib':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Collection':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'ContentType':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'CorporateBody':
-                    $RSP = $this->importCorporateBody($dt1);
-                    break;
-                case 'Country':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Date':
-                    $RSP = $this->importDate($dt1);
-                    break;
-                case 'DOI':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'ExclusiveDisjunction':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'File':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Gender':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Image':
-                    $RSP = $this->importImage($dt1);
-                    break;
-                case 'ISBN':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'ISSN':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Issue':
-                    $RSP = $this->importIssue($dt1);
-                    break;
-                case 'CnpqPQ':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'License':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Linguage':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Number':
-                    $RSP = $this->importNumber($dt1);
-                    break;
-                case 'Page':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Person':
-                    $RSP = $this->importPerson($dt1);
-                    break;
-                case 'Place':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'PublicationVolume':
-                    $dt1['concept']['n_name'] = $Volume->normalize($dt1['concept']['n_name']);
-                    $dt1['concept']['n_lang'] = 'nn';
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'PublicationNumber':
-                    $dt1['concept']['n_name'] = $NumberVolume->normalize($dt1['concept']['n_name']);
-                    $dt1['concept']['n_lang'] = 'nn';
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Publisher':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Journals':
-                    $RSP = $this->importJournals($dt1);
-                    break;
-                case 'Proceeding':
-                    $RSP = $this->importProceeding($dt1);
-                    break;
-                case 'RORID':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'SerieName':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Section':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'Subject':
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'FileStorage':
-                    /* TO CHECK */
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-                case 'FileType':
-                    /* TO CHECK */
-                    $RSP = $this->importGeneric($dt1);
-                    break;
-
-                default:
-                    $RSP['status'] = '510';
-                    $RSP['message'] = $class . ' don´t have method';
-                    if (isset($dt1['concept']['id_cc'])) {
-                        $RSP['ID'] = $dt1['concept']['id_cc'];
-                    } else {
-                        $RSP['ID'] = 'Invalid ID';
-                    }
-            }
-        }
-
         $RSP['time'] = date("Y-m-d H:i:s");
         return $RSP;
     }
@@ -725,7 +551,6 @@ class RDFtoolsImport extends Model
 
     function importGeneric($dt1)
     {
-        pre($dt1);
         $RSP = $this->createConcept($dt1);
         $RSP['data'] = $this->importData($dt1, $RSP['ID']);
         return $RSP;
