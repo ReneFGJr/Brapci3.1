@@ -76,6 +76,8 @@ def check_utf8():
             dados = dados.replace(chr(194),'[\\xxxxxxxxxxxxxx]')
             dados = dados.replace(chr(128),'')
             dados = dados.replace('\\x9c','"')
+            dados = dados.replace('\\xb4',' ')
+
 
 
 
