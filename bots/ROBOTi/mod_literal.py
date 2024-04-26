@@ -68,21 +68,6 @@ def check_utf8():
         print("E",dados)
         print("=================================")
 
-        dados4 = dados.encode('utf-8')
-        dados2 = dados
-        dados3 = unicodedata.normalize('NFKC', dados)
-        for r in range(1,len(lista)):
-            print(listA[r],lista[r])
-            dados4.replace(listA[r],str(lista[r]))
-
-            print(dados)
-            print(dados2)
-            print(dados3)
-            print(dados4)
-            print("======================")
-            quit()
-            #qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
-
     quit()
 
 def check_duplicate():
