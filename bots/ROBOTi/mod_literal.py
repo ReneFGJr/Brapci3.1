@@ -47,7 +47,7 @@ def check_utf8():
             # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
             if dados is not None:
                 #dados = dados.encode('utf-8')
-                dados = dados.decode('utf-8')
+                dados = dados.encode('utf-8')
                 if (dados != dados2):
                     print("====================== UTF8")
                     print(dados)
