@@ -66,7 +66,7 @@ def checkDataInverse():
     mod_logs.log('TASK_101',dd)
 
 def checkLiteralExist():
-    print("102 - Literal Exist")
+    print('102 - Validando as entradas (Trust) entradas Literais')
 
     qr = "select * from brapci_rdf.rdf_data"
     qr += " where "
@@ -76,7 +76,7 @@ def checkLiteralExist():
     qr += " and d_literal > 0"
     qr += " and d_trust = 0"
     qr += " limit 100000"
-    print('102 - Validando as entradas (Trust) entradas Literais')
+
     row = database.query(qr)
     ini = 0
     dd = 0

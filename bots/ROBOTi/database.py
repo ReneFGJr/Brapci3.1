@@ -42,6 +42,7 @@ def insert(qr):
 
         # Executar uma consulta
         cursor.execute(qr)
+        conexao.commit()
 
     except mysql.connector.Error as erro:
         print("Erro de Banco de Dados #32:", erro)
@@ -49,7 +50,6 @@ def insert(qr):
 
     finally:
         # Fechar o cursor e a conexão
-        conexao.commit()
 
         if conexao.is_connected():
             cursor.close()
