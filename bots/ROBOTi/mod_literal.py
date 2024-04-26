@@ -106,13 +106,6 @@ def check_utf8():
                 dados = dados.replace('[espaá\\x91ol]','')
                 dados = dados.replace(' \\xb7','')
 
-
-
-
-
-
-
-
                 dados = dados.replace('i\\xad','í')
 
                 if '\\x' in dados:
@@ -136,7 +129,6 @@ def check_utf8():
 
             print("=================================")
 
-    quit()
 
 def check_duplicate():
     qr = "select * from "
