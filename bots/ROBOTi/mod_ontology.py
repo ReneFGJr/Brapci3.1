@@ -11,6 +11,7 @@ def resume():
         print(item)
 
 def classification():
+    print("103 - Ontology Classification")
     qr = " SELECT id_d, "
     qr += "d_r1 as R1, c1.cc_class as C1, "
     qr += "d_r2 as R2, c2.cc_class as C2 "
@@ -35,6 +36,8 @@ def classification():
         qu += f" where id_d = {id_d}"
         print("Classification ",id_d,c1,c2)
         database.update(qu)
+    qd = "COMMIT"
+    database.update(qd)
 
 def checkDataInverse():
     print("101 - Check data inverted")
@@ -58,6 +61,8 @@ def checkDataInverse():
 
         mod_data.invert_class(C1,C2,DP)
         dd = dd + TOTAL
+    qd = "COMMIT"
+    database.update(qd)
     mod_logs.log('TASK_101',dd)
 
 def checkLiteralExist():

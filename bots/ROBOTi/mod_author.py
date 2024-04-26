@@ -38,6 +38,8 @@ def check_dupla_remissiva():
 
 def check_remissiva():
     check_use_zero()
+    print("202 - Check author remissive")
+
     dd = 0
 
     qr = "SELECT id_cc, cc_use, id_n, n_name FROM brapci_rdf.rdf_concept "
