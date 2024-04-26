@@ -66,7 +66,7 @@ def check_utf8():
 
         dados = dados.decode('utf-8', errors='backslashreplace')
         print("E",dados)
-        if '\x' in dados:
+        if '\x9c' in dados:
             print("ERRO",dados)
         else:
             print("OK",dados)
