@@ -1,17 +1,18 @@
-<app-banner-benancib *ngIf="source.source.id_jnl == 75"></app-banner-benancib>
-<app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
-<div class="container" *ngIf="source">
-  <div class="row">
-    <h1>{{ source.source.jnl_name }}</h1>
-    <h4>{{ source.source.jnl_name_abrev }}</h4>
-
-    <div  *ngFor="let issue of source.source.issue" class="col-12 col-lg-4">
+<div *ngIf="source">
+  <app-banner-benancib *ngIf="source.source.id_jnl == 75"></app-banner-benancib>
+  <app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
+  <div class="container" *ngIf="source">
+    <div class="row">
+      <h1>{{ source.source.jnl_name }}</h1>
+      <h4>{{ source.source.jnl_name_abrev }}</h4>
+      <div *ngFor="let issue of source.source.issue" class="col-12 col-lg-4">
         <div class="cover issue p-2 m-2" (click)="viewIssue(issue.ID)">
-          <div class="issue-name">{{issue.acron}}</div>
-          <div class="issue-nr">{{issue.vol}}</div>
-          <div class="issue-place">{{issue.place}}</div>
-          <div class="issue-year">{{issue.year}}</div>
-     </div>
-
+          <div class="issue-name">{{ issue.acron }}</div>
+          <div class="issue-nr">{{ issue.vol }}</div>
+          <div class="issue-place">{{ issue.place }}</div>
+          <div class="issue-year">{{ issue.year }}</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

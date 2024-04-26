@@ -20,6 +20,8 @@ export class BasketSelectComponent {
   ) {}
 
   ngOnInit() {
+    console.log("================")
+    console.log(this.data)
     this.total_result = this.data.length;
     this.basketValue = this.localStorageService.get('marked');
     this.total = this.basketValue.length

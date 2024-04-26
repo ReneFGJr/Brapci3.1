@@ -1,3 +1,8 @@
+<div *ngIf="source">
+  <app-banner-benancib *ngIf="source.source.id_jnl == 75"></app-banner-benancib>
+  <app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
+</div>
+{{source | json}}
 <div class="container" *ngIf="source">
   <div class="row">
     <div class="col-12">
@@ -7,9 +12,14 @@
         {{ source.year }}
       </h2>
     </div>
+    <div class="col-12">
+        <app-basket-select [data]="source.worksID"></app-basket-select>
+    </div>
   </div>
 </div>
-<app-basket-select [data]="source.worksID"></app-basket-select>
+
+
+
 <div class="container" *ngIf="source">
   <div class="row">
     <div class="col-2 text-center">

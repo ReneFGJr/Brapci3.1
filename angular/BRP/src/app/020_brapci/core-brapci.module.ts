@@ -59,7 +59,7 @@ import { NetworkComponent } from './widget/network/network.component';
 import { RemoveConceptComponent } from './widget/remove-concept/remove-concept.component';
 import { Page404Component } from './widget/page404/page404.component';
 import { NumberComponent } from './page/v/number/number.component';
-import { BasketSelectComponent } from './widget/basket-select/basket-select.component';
+import { BasketSelectComponent } from '../010_thema/widgat/basket-select/basket-select.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +132,7 @@ import { BasketSelectComponent } from './widget/basket-select/basket-select.comp
     PainelComponent,
     VComponent,
     BasketComponent,
+    BasketSelectComponent,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })

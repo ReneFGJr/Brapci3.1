@@ -17,13 +17,13 @@ import { BenancibBannerComponent } from './banner/benancib/benancib.component';
     ProceedingListComponent,
     ProceedingIssuesComponent,
     ProceedingsIssueViewComponent,
-    BenancibBannerComponent
+    BenancibBannerComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     ProceddingsRoutingModule,
-    ThemeModule
-  ]
+    ThemeModule,
+  ],
 })
-export class ProceddingsModule { }
+export class ProceddingsModule {}
