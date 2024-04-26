@@ -144,8 +144,11 @@ def run(parm):
         mod_literal.check_end_dot()
         mod_dataset.check_type()
         mod_ontology.checkData()
+
+        mod_author.check_dupla_remissiva()
         mod_author.check_remissiva()
         mod_author.check_duplicate()
+
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
