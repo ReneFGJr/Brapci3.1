@@ -51,7 +51,9 @@ def check_utf8():
             ok = 0
 
             if dados is not None:
+                print(dados)
                 print(texto_corrigido)
+                print("======================")
                 #qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
 
         except UnicodeDecodeError:
