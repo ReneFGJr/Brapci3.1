@@ -45,7 +45,7 @@ def check_utf8():
     listA = ['á','é','í','ó','ú','Á','É','Í','Ó','Ú','ò','Ò','ã','Ã','õ','Õ']
     lista = []
     for list in listA:
-        lista.append(list.encode('utf-8'))
+        lista.append(list.decode('utf-8'))
 
     for id, dados in row:
         dados2 = dados
