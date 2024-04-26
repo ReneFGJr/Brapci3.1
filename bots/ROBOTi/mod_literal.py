@@ -41,13 +41,14 @@ def check_utf8():
 
     row = database.query(qr)
     # Verificar cada registro individualmente
+    lista = ['á'.encode('utf8'),'é'.encode('utf8'),'í'.encode('utf8'),]
     for id, dados in row:
         dados2 = dados
         try:
             # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
             if dados is not None:
                 #dados = dados.encode('utf-8')
-                if 'ã³' in dados:
+                if lista in dados:
                     dados = unicodedata.normalize('NFKC', dados)
                     dados = dados.replace("ã3", "ó")
                     dados = dados.replace("ã©",'é')
