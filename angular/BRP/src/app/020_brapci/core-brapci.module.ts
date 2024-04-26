@@ -59,7 +59,6 @@ import { NetworkComponent } from './widget/network/network.component';
 import { RemoveConceptComponent } from './widget/remove-concept/remove-concept.component';
 import { Page404Component } from './widget/page404/page404.component';
 import { NumberComponent } from './page/v/number/number.component';
-import { BasketSelectComponent } from '../010_thema/widgat/basket-select/basket-select.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +114,6 @@ import { BasketSelectComponent } from '../010_thema/widgat/basket-select/basket-
     RemoveConceptComponent,
     Page404Component,
     NumberComponent,
-    BasketSelectComponent,
   ],
   imports: [
     CommonModule,
@@ -132,7 +130,6 @@ import { BasketSelectComponent } from '../010_thema/widgat/basket-select/basket-
     PainelComponent,
     VComponent,
     BasketComponent,
-    BasketSelectComponent,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })

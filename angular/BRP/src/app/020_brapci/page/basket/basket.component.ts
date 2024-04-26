@@ -72,6 +72,7 @@ export class BasketComponent {
 
   clear() {
     this.localStorageService.remove('marked');
+    this.total_result = 0;
     this.basketRow.emit([]);
   }
 }

@@ -2,11 +2,10 @@
   <app-banner-benancib *ngIf="source.source.id_jnl == 75"></app-banner-benancib>
   <app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
 </div>
-{{source | json}}
 <div class="container" *ngIf="source">
   <div class="row">
     <div class="col-12">
-      <h1>{{ source.source }}</h1>
+      <h1>{{ source.source.name }}</h1>
       <h2>
         {{ source.nr }} {{ source.acron }}, {{ source.place }} -
         {{ source.year }}

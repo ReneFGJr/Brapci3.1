@@ -10,6 +10,7 @@ import { BrapciLivrosComponent } from './header/brapci-livros/brapci-livros.comp
 import { LikesComponent } from './widgat/likes/likes.component';
 import { DownloadsComponent } from './widgat/downloads/downloads.component';
 import { ViewsComponent } from './widgat/views/views.component';
+import { BasketSelectComponent } from './widgat/basket-select/basket-select.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ViewsComponent } from './widgat/views/views.component';
     LikesComponent,
     DownloadsComponent,
     ViewsComponent,
+    BasketSelectComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -33,6 +35,7 @@ import { ViewsComponent } from './widgat/views/views.component';
     ViewsComponent,
     LikesComponent,
     DownloadsComponent,
+    BasketSelectComponent,
   ],
 })
 export class ThemeModule {}
