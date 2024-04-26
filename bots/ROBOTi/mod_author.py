@@ -80,9 +80,13 @@ def check_duplicate():
         name = reg[2]
         name = name.replace('-',' ')
         name = name.replace(' de ',' ')
+        name = name.replace(' De ',' ')
         name = name.replace(' da ',' ')
+        name = name.replace(' Da ',' ')
         name = name.replace(' do ',' ')
+        name = name.replace(' Do ',' ')
         name = name.replace(' dos ',' ')
+        name = name.replace(' Dos ',' ')
         name = name.replace(' e ',' ')
         name = name.replace('  ',' ')
         name = name.replace('  ',' ')
