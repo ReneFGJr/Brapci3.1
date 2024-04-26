@@ -52,10 +52,8 @@ def check_utf8():
         #dados = dados.replace('Â³','Ó')
         #dados = dados.replace('ã³','ó')
         #dados = dados.replace('ã³','Â')
-        print(dados)
         dados = dados.replace('ã£','ó')
 
-        print("B",dados)
         dados = dados.encode('utf-8')
         # prin
         #print("B",dados)
@@ -68,10 +66,11 @@ def check_utf8():
 
         dados = dados.decode('utf-8', errors='backslashreplace')
         print("E",dados)
+        if '\x' in dados:
+            print("ERRO",dados)
+        else:
+            print("OK",dados)
 
-        dados = dados.replace('\xe3\xb3','[ó]')
-        dados = dados.replace(chr(179),'[{ó}]')
-        print("F",dados)
         print("=================================")
 
     quit()
