@@ -80,6 +80,7 @@ def check_utf8():
             dados = dados.replace('i\\xad','í')
 
             if '\\x' in dados:
+                print("====")
                 print("ERROR",dados)
                 dados = dados.encode('utf-8')
                 print(dados.hex(' '))
