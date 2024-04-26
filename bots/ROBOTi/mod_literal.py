@@ -52,12 +52,12 @@ def check_utf8():
                     print("====================== UTF8")
                     print(dados)
                     print(dados2)
-                    quit()
 
         except UnicodeDecodeError:
             # Relata o registro com problemas de decodificação
             print(f"Registro com ID {id} contém dados com erro de codificação.")
 
+        quit()
 
 def check_duplicate():
     qr = "select * from "
