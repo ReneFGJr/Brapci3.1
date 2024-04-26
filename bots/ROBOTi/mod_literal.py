@@ -70,6 +70,7 @@ def check_utf8():
         print("E",dados)
 
         dados = dados.replace('\xe3\xb3','[ó]')
+        dados = dados.replace(chr(179),'[{ó}]')
         print("F",dados)
         print("=================================")
 
