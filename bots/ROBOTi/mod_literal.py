@@ -58,13 +58,12 @@ def check_utf8():
         dados = dados.decode('utf-8')
         dados = dados.encode('latin1')
         dados = dados.decode('utf-8', errors='backslashreplace')
-        print("E",dados)
         dados = str(dados)
         if '\\x' in dados:
-            print("ERROR")
+            print("ERROR",dados)
         else:
-            print("OK")
-        print("G",dados)
+            qu = f"update brapci_rdf.brapci_literal set n_name = '{dados}' where id_n = {ID}"
+            print(qu)
 
         print("=================================")
 
