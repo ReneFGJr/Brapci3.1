@@ -63,7 +63,7 @@ def check_utf8():
         print("E",dados)
         dados = str(dados)
         print("F",dados)
-        dados = dados.replace('9ca','XXX')
+        dados = dados.replace('\\x9ca','XXX')
         print("G",dados)
 
         print("=================================")
