@@ -53,7 +53,7 @@ def check_utf8():
                 for cps in lista:
                     print(cps)
                     dadosB = ' '.join(format(ord(c), 'b').zfill(8) for c in dados)
-                    print(dadosB))
+                    print(dadosB)
                     if cps in dadosB:
                         ok = 1
                 if ok == 1:
