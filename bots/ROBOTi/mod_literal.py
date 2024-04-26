@@ -58,12 +58,7 @@ def check_utf8():
             print(dados2)
             print(dados3)
             print("======================")
-            quit()
             #qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
-
-        except UnicodeDecodeError:
-            # Relata o registro com problemas de decodificação
-            print(f"Registro com ID {id} contém dados com erro de codificação.")
 
     quit()
 
