@@ -61,6 +61,7 @@ def check_utf8():
         print(type(dados))
 
         print("E",dados)
+        print("F",bytes(dados))
 
         print("=================================")
 
