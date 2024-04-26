@@ -60,7 +60,7 @@ def check_utf8():
         dados = dados.decode('utf-8', errors='backslashreplace')
         dados = str(dados)
         if '\\x' in dados:
-            dados.replace('z\xe3z\xb3','ó')
+            dados = dados.replace('z\xe3z\xb3','ó')
             print("ERROR",dados)
         else:
             qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
