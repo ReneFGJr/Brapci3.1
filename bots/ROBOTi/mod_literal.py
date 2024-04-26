@@ -55,13 +55,13 @@ def check_utf8():
         print(dados)
         dados = dados.encode('utf-8')
         # prin
-        print("B",dados)
+        #print("B",dados)
 
         dados = dados.decode('utf-8')
-        print("C",dados)
+        #print("C",dados)
 
         dados = dados.encode('latin1')
-        print("D",dados)
+        #print("D",dados)
 
         dados = dados.decode('utf-8', errors='replace')
 
