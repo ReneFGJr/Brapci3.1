@@ -136,6 +136,8 @@ def check_trim():
         database.update(qru)
         dd = dd + 1
         print('==>',name)
+    qd = "COMMIT"
+    database.update(qd)
     mod_logs.log('TASK_100',dd)
 
 def check_all():
@@ -169,6 +171,8 @@ def check_all():
             database.update(qru)
 
         #print(name)
+    qd = "COMMIT"
+    database.update(qd)
 
 
 def register(term,lang):
@@ -182,6 +186,10 @@ def register(term,lang):
         row = database.query(qri)
         row = database.query(qr)
     rsp = row[0][0]
+
+    qd = "COMMIT"
+    database.update(qd)
+
     if (rsp == 0):
         print("OPS Register Name")
         quit()
