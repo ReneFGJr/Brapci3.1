@@ -81,6 +81,7 @@ def check_duplicate():
         name = name.replace('-',' ')
         name = name.replace(' de ',' ')
         name = name.replace(' da ',' ')
+        name = name.replace(' do ',' ')
         name = name.replace(' dos ',' ')
         name = name.replace(' e ',' ')
         name = name.replace('  ',' ')
@@ -89,7 +90,7 @@ def check_duplicate():
         IDn1 = reg[0]
 
         #if name[0] == 'G':
-        #    print(name,'|',lastName)
+        print(name,'|',lastName)
 
         if ((name == lastName) and (name != '::Em Branco::') and (name != '(empty)')):
             print(name)
