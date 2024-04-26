@@ -449,11 +449,13 @@ class RDFmetadata extends Model
         $dr['publisher'] = $dt['concept']['n_name'];
         $dr['ID'] = $dt['concept']['id_cc'];
         $dr['data'] = $dt['data'];
+        $wk = [];
 
         $n = 0;
         $dataset->select('*');
         foreach ($dt['data'] as $ida => $linea) {
             $type = $linea['Class'];
+            array_push($wk,$linea['ID']);
             $ok = 0;
             switch ($type) {
                 case 'Proceeding':
@@ -494,6 +496,8 @@ class RDFmetadata extends Model
             }
         }
         $dr['works'] = $works;
+        $dr['worksID'] = $wk;
+
         return $dr;
     }
 
