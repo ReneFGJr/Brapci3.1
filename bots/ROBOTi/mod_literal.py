@@ -52,7 +52,8 @@ def check_utf8():
                 #dados = dados.encode('utf-8')
                 for cps in lista:
                     print(cps)
-                    if cps in dados:
+                    dadosB = ' '.join(format(ord(c), 'b').zfill(8) for c in dados)
+                    if cps in dadosB:
                         ok = 1
                 if ok == 1:
                     dados = unicodedata.normalize('NFKC', dados)
