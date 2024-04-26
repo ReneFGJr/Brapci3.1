@@ -48,7 +48,7 @@ def check_utf8():
             if dados is not None:
                 #dados = dados.encode('utf-8')
                 if 'ã³' in dados:
-                    dados = dados.encode('utf-8')
+                    dados = dados.decode('utf-8')
                     if (dados != dados2):
                         print("====================== UTF8")
                         print(dados)
