@@ -45,7 +45,8 @@ def check_remissiva():
     qr = "SELECT id_cc, cc_use, id_n, n_name FROM brapci_rdf.rdf_concept "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += "inner join brapci_rdf.rdf_data ON ((d_r1 = id_cc) and (d_literal = 0)) "
-    qr += "WHERE cc_use <> id_cc and d_r2 > 0 and cc_use <> 0"
+    qr += "WHERE (cc_use <> id_cc) and (d_r2 > 0) and (cc_use <> 0)"
+    print(qr)
     row = database.query(qr)
 
     ID2A = 0
