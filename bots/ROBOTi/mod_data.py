@@ -22,8 +22,6 @@ def invert():
     qr += " or (d_p = 33 and d_r1 = 9 and d_r2 = 6 ) "
     qr += " ) "
 
-    print(qr)
-
     row = database.query(qr)
     if row != []:
         for item in row:
@@ -33,6 +31,8 @@ def invert():
             qu = f"update brapci_rdf.rdf_data set d_r1 = {d_r2}, d_r2 = {d_r1}, d_trust = 0 where id_d = {id_d}"
             database.update(qu)
             print("Revert",id_d)
+    qd = "COMMIT"
+    database.update(qd)
 
 def revalid():
     print("157 - Invertendo Propriedades")
@@ -48,6 +48,8 @@ def revalid():
             qu = f"update brapci_rdf.rdf_data set d_trust = 0 where id_d = {id_d}"
             database.update(qu)
             print("Revalid",id_d)
+    qd = "COMMIT"
+    database.update(qd)
 
 
 def register(IDC,prop,IDP,IDliteral=0):
@@ -66,6 +68,8 @@ def register(IDC,prop,IDP,IDliteral=0):
         qri += f"({IDC},{IDP},{IDprop},{IDliteral});"
         database.insert(qri)
         row = database.query(qr)
+    qd = "COMMIT"
+    database.update(qd)
 
     return row
 
@@ -82,6 +86,8 @@ def invert_class(C1,C2,DP):
         qu = f"update brapci_rdf.rdf_data set d_trust = 0, d_r1 = {R2}, d_r2 = {R1}, d_c1 = {C2}, d_c2 = {C1} where id_d = {ID}"
         print("Invert class",ID)
         database.update(qu)
+    qd = "COMMIT"
+    database.update(qd)
 
 def remicive(ID1,ID2):
     qr = [
@@ -91,6 +97,8 @@ def remicive(ID1,ID2):
     ]
     for qrt in qr:
         database.update(qrt)
+    qd = "COMMIT"
+    database.update(qd)
 
 def register_literal(IDC,prop,name,lang):
     IDprop = mod_class.getClass(prop)
