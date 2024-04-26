@@ -42,7 +42,12 @@ def check_utf8():
 
     row = database.query(qr)
     # Verificar cada registro individualmente
-    lista = ['á'.encode('utf8'),'é'.encode('utf8'),'í'.encode('utf8'),]
+    listA = ['á','é','í','ó','ú','Á','É','Í','Ó','Ú','ò','Ò','ã','Ã','õ','Õ']
+    lista = []
+    for list in listA:
+        lista.append(list.encode('utf-8'))
+    print(lista)
+    quit()
     for id, dados in row:
         dados2 = dados
         texto_corrigido = unicodedata.normalize('NFKC', dados)
