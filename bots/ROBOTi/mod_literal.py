@@ -62,9 +62,9 @@ def check_utf8():
         dados = dados.encode('latin1')
         print("D",dados)
 
-        dados = dados.decode('utf-8')
+        dados = dados.decode('utf-8', errors='replace')
 
-        print(dados)
+        print("E",dados)
         quit()
 
         dados4 = dados.encode('utf-8')
