@@ -46,11 +46,13 @@ def check_utf8():
     lista = []
     for list in listA:
         lista.append(list.encode('utf-8'))
-    print(lista)
-    quit()
+
     for id, dados in row:
         dados2 = dados
-        texto_corrigido = unicodedata.normalize('NFKC', dados)
+        dados3 = unicodedata.normalize('NFKC', dados)
+        for r in range(1,len(lista)):
+            print(listA[r],lista[r])
+        quit()
         try:
             # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
             ok = 0
