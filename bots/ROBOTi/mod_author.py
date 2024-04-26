@@ -69,6 +69,37 @@ def check_remissiva():
     mod_logs.log('TASK_202',dd)
     return ""
 
+def check_remissiva_2():
+    print("203 - Check author remissive forgot")
+
+    dd = 0
+
+    qr = "SELECT id_cc, cc_use, id_n, n_name FROM brapci_rdf.rdf_concept "
+    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
+    qr += "inner join brapci_rdf.rdf_data ON ((d_r1 = cc_use) and (d_literal = 0)) "
+    qr += "WHERE (cc_use <> id_cc) and (d_r2 > 0) and (cc_use <> 0)"
+    row = database.query(qr)
+
+    ID2A = 0
+    ID1A = 0
+
+    for reg in row:
+        ID2 = reg[0]
+        ID1 = reg[1]
+        NAME = reg[3]
+        if (ID1 != ID1A) and (ID2A != ID2):
+            print("Check1 -",ID1,'<=',ID2,NAME)
+            mod_data.remicive(ID1,ID2)
+            dd = dd + 1
+        ID2A = ID2
+        ID1A = ID1
+
+    qd = "COMMIT"
+    database.update(qd)
+
+    mod_logs.log('TASK_202',dd)
+    return ""
+
 def check_duplicate():
     print("200 - Check Duplicate Literal")
     IDClass = mod_class.getClass("Person")
