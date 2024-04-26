@@ -49,7 +49,7 @@ def check_utf8():
                 #dados = dados.encode('utf-8')
                 if 'ã³' in dados:
                     dados = unicodedata.normalize('NFKC', dados)
-                    dados = dados.replace("ã³", "ó")
+                    dados = dados.replace("ã3", "ó")
                     if (dados != dados2):
                         print("====================== UTF8")
                         print(dados)
