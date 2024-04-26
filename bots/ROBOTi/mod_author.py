@@ -91,8 +91,6 @@ def check_remissiva():
             qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {ID2}) or (d_r2 = {ID2}) limit 1"
             row2 = database.query(qr)
             if row2:
-                print(row2)
-                quit()
                 print("Check1 -",ID1,'<=',ID2,NAME)
                 mod_data.remicive(ID1,ID2)
                 dd = dd + 1
