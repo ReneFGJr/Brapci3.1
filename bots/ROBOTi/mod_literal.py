@@ -53,6 +53,9 @@ def check_utf8():
         #dados = dados.replace('ã³','Â')
         print(dados)
         dados = dados.encode('utf-8')
+        dados = dados.encode('latin1')
+        dados = dados.decode('utf-8')
+
         print(dados)
         quit()
 
