@@ -38,19 +38,24 @@ def check_utf8():
     qr = "select id_n, n_name "
     qr += " from brapci_rdf.rdf_literal "
     qr += " where n_delete = 0"
-    qr += " and (id_n = 157202 or id_n = 202980 or id_n = 701068 or id_n = 4)"
-    #qr += "  and n_name like '%ã£%' "
 
     row = database.query(qr)
     # Verificar cada registro individualmente
     for id, dados in row:
+        dados2 = dados
         try:
             # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
             if dados is not None:
                 dados = dados.encode('utf-8')
                 print(id,dados)
                 print(chardet.detect(dados))
-                dados.decode('utf-8')
+                dados = dados.decode('utf-8')
+                if (dados != dados2):
+                    print("====================== UTF8")
+                    print(dados)
+                    print(dados2)
+                    quit()
+
         except UnicodeDecodeError:
             # Relata o registro com problemas de decodificação
             print(f"Registro com ID {id} contém dados com erro de codificação.")
