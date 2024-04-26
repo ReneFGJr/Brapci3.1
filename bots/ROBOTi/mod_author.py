@@ -14,6 +14,7 @@ def check_use_zero():
 
 def check_dupla_remissiva():
     check_use_zero()
+    print("201 - Check Dupla Remissiva")
     dd = 0
     qr = "SELECT c1.id_cc, c2.id_cc, c2.cc_use "
     qr += "FROM brapci_rdf.rdf_concept as c1 "
@@ -61,7 +62,7 @@ def check_remissiva():
     return ""
 
 def check_duplicate():
-    print("Check Duplicate")
+    print("200 - Check Duplicate Literal")
     IDClass = mod_class.getClass("Person")
 
     qr = "select id_cc, cc_use, n_name  "
@@ -71,7 +72,6 @@ def check_duplicate():
     qr += " and id_cc = cc_use "
     qr += " order by n_name, id_cc"
 
-    print(qr)
 
     row = database.query(qr)
     lastName = 'x'
