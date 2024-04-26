@@ -47,7 +47,7 @@ def check_utf8():
     for id, dados in row:
 
         print(dados)
-        dados = unicodedata.normalize('NFKC', dados)
+        #dados = unicodedata.normalize('NFKC', dados)
         dados = dados.replace('Â³','Ó')
         dados = dados.replace('ã³','ó')
         print(dados)
