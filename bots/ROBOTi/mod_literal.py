@@ -58,12 +58,12 @@ def check_utf8():
         dados = dados.decode('utf-8')
         dados = dados.encode('latin1')
         dados = dados.decode('utf-8', errors='backslashreplace')
-        print(type(dados))
-
         print("E",dados)
         dados = str(dados)
-        print("F",dados)
-        dados = dados.replace('\\x9ca','XXX')
+        if '\\x' in dados:
+            print("ERROR")
+        else:
+            print("OK")
         print("G",dados)
 
         print("=================================")
