@@ -55,17 +55,9 @@ def check_utf8():
         #dados = dados.replace('ã£','ó')
 
         dados = dados.encode('utf-8')
-        dados2 = dados
-        # prin
-        #print("B",dados)
-
         dados = dados.decode('utf-8')
-        #print("C",dados)
-
         dados = dados.encode('latin1')
-        #print("D",dados)
-
-        dados = dados.decode('utf-8', errors='xmlcharrefreplace')
+        dados = dados.decode('utf-8', errors='surrogateescape')
         print("E",dados)
         if "ã³" in dados:
             print("ERRO:",dados)
