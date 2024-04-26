@@ -97,6 +97,7 @@ def check_utf8():
             dados = dados.replace('"','')
             qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
             database.insert(qu)
+            print("=================")
             print("UPDATE: ",qu)
 
         print("=================================")
