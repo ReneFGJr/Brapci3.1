@@ -52,7 +52,7 @@ def check_utf8():
         dados3 = unicodedata.normalize('NFKC', dados)
         for r in range(1,len(lista)):
             print(listA[r],lista[r])
-            dados.replace(listA[r],lista[r])
+            dados.replace(listA[r],str(lista[r]))
 
             print(dados)
             print(dados2)
