@@ -47,12 +47,8 @@ def check_utf8():
     for id, dados in row:
 
         print(dados)
-        dados = dados.encode('latin1')
-        dados3 = dados.decode('latin1')
-        #dados2 = dados.decode('utf8')
+        dados.replace('Â³','ó')
         print(dados)
-        #print(dados2)
-        print(dados3)
         quit()
 
         dados4 = dados.encode('utf-8')
