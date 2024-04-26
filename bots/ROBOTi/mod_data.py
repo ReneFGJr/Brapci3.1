@@ -131,4 +131,7 @@ def DataDouble():
         dd = dd + 1
         database.update(qd)
         time.sleep(0.01)
+
+    qd = "COMMIT"
+    database.update(qd)
     mod_logs.log('TASK_100',dd)
