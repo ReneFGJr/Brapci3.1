@@ -4,6 +4,7 @@ import json
 import requests
 
 def check_pbci():
+    d = 0
     qr = "select * from brapci_elastic.dataset "
     qr += "where "
     qr += " JOURNAL = 12 "
@@ -20,7 +21,8 @@ def check_pbci():
                 qu = f"update brapci_elastic.dataset set `use` = -99 where ID = {ID}"
                 database.update(qu)
         except:
-            print("ABSTRACT NORMAL PBCI",ID)
+            d=d+1
+            #print("ABSTRACT NORMAL PBCI",ID)
 
 
 
