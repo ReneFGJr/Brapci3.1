@@ -30,7 +30,10 @@ def check_dupla_remissiva():
         print("CheckD -",ID1,'<=',ID2)
         mod_data.remicive(ID1,ID2)
         dd = dd + 1
-    print("Dupla remissiva",dd)
+
+    qd = "COMMIT"
+    database.update(qd)
+
     mod_logs.log('TASK_202',dd)
 
 def check_remissiva():
@@ -57,6 +60,8 @@ def check_remissiva():
         ID2A = ID2
         ID1A = ID1
 
+    qd = "COMMIT"
+    database.update(qd)
 
     mod_logs.log('TASK_202',dd)
     return ""
@@ -71,7 +76,6 @@ def check_duplicate():
     qr += f" where cc_class = {IDClass}"
     qr += " and id_cc = cc_use "
     qr += " order by n_name, id_cc"
-
 
     row = database.query(qr)
     lastName = 'x'
@@ -101,6 +105,10 @@ def check_duplicate():
             reg2 = reg
             lastName = name
             IDn2 = IDn1
+
+    qd = "COMMIT"
+    database.update(qd)
+
     mod_logs.log('TASK_200',dd)
 
 def remissive(ID1,ID2):

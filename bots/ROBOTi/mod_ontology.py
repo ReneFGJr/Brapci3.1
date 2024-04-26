@@ -86,6 +86,10 @@ def checkLiteralExist():
         qu += " set d_trust = 2 "
         qu += f" where id_d = {ID}"
         database.update(qu)
+
+    qd = "COMMIT"
+    database.update(qd)
+
     mod_logs.log('TASK_102',dd)
 
 def checkDataConceptExist():
@@ -121,6 +125,10 @@ def checkData():
         dd = dd + 1
         database.update(qu)
         print("Ontology Trust",C1,C2,DP,'Total:',TOTAL)
+
+    qd = "COMMIT"
+    database.update(qd)
+
     mod_logs.log('TASK_110',dd)
 
 def checkDataNull():
@@ -149,4 +157,8 @@ def checkDataNull():
         dd = dd + 1
         database.update(qu)
         print("Ontology not Trust",C1,C2,DP,'Total:',TOTAL)
+
+    qd = "COMMIT"
+    database.update(qd)
+
     mod_logs.log('TASK_111',dd)
