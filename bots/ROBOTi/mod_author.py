@@ -88,9 +88,14 @@ def check_remissiva():
         ID1 = reg[1]
         NAME = reg[3]
         if (ID1 != ID1A) and (ID2A != ID2):
-            print("Check1 -",ID1,'<=',ID2,NAME)
-            mod_data.remicive(ID1,ID2)
-            dd = dd + 1
+            qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {ID1}) or (d_r2 = {ID1})"
+            row2 = database.query(qr)
+            if row2:
+                print(row2)
+                quit()
+                print("Check1 -",ID1,'<=',ID2,NAME)
+                mod_data.remicive(ID1,ID2)
+                dd = dd + 1
         ID2A = ID2
         ID1A = ID1
 
