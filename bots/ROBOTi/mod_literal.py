@@ -48,8 +48,8 @@ def check_utf8():
 
         print(dados)
         dados = unicodedata.normalize('NFKC', dados)
-        dados.replace('Â³','Ó')
-        dados.replace('ã³','ó')
+        dados = dados.replace('Â³','Ó')
+        dados = dados.replace('ã³','ó')
         print(dados)
         quit()
 
