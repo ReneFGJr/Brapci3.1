@@ -20,8 +20,9 @@ export class BasketSelectComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.data);
     this.total_result = this.data.length;
+    this.basketValue = this.localStorageService.get('marked');
+    this.total = this.basketValue.length
   }
 
   selectAll() {
@@ -30,10 +31,10 @@ export class BasketSelectComponent {
     if (this.basketValue == null) {
       this.basketValue = [];
     }
+
     for (let i = 0; i <= this.data.length; i++) {
       if (this.data[i] != null) {
-        let ID = this.data[i]['ID'];
-        console.log(ID)
+        let ID = this.data[i];
         let index = this.basketValue.indexOf(ID);
         if (index >= 0) {
           /* Já existe */
@@ -47,8 +48,12 @@ export class BasketSelectComponent {
     this.total = this.basketValue.length;
     this.total_result = 0;
   }
+
   clear() {
-    alert('Clear');
+    this.basketValue = []
+    this.localStorageService.set('marked', this.basketValue);
+    this.total = 0
+    alert("CLEAR")
   }
 
   showSelected() {

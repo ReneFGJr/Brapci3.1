@@ -312,10 +312,12 @@ class Brapci extends Model
 
         $dw = [];
         $au = [];
+        $wk = [];
         foreach($dt as $id=>$line)
             {
                 $dq = [];
                 $dq['ID'] = $line['siw_work_rdf'];
+                array_push($wk, $line['siw_work_rdf']);
                 $dq['LEGEND'] = $line['TITLE'];
                 $dq['AUTHORS'] = $line['AUTHORS'];
                 $dq['PDF'] = $line['PDF'];
@@ -343,6 +345,7 @@ class Brapci extends Model
             }
         $dd['worksTotal'] = count($dt);
         $dd['works'] = $dw;
+        $dd['worksID'] = $wk;
         $dd['authors'] = $nm;
         $dd['authorsTotal'] = count($au);
         return $dd;
