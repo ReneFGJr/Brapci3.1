@@ -52,7 +52,7 @@ def check_utf8():
         #dados = dados.replace('Â³','Ó')
         #dados = dados.replace('ã³','ó')
         #dados = dados.replace('ã³','Â')
-        dados = dados.replace('ã£','ó')
+        #dados = dados.replace('ã£','ó')
 
         dados = dados.encode('utf-8')
         dados2 = dados
@@ -67,7 +67,7 @@ def check_utf8():
 
         dados = dados.decode('utf-8', errors='backslashreplace')
         print("E",dados)
-        if "\x9c" in dados2:
+        if "ã³" in dados:
             print("ERRO:",dados)
         else:
             print("OK  :",dados)
