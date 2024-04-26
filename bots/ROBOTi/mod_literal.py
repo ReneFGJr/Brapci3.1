@@ -47,64 +47,69 @@ def check_utf8():
 
     for id, dados in row:
 
-        print(dados)
-        #dados = unicodedata.normalize('NFKC', dados)
-        #dados = dados.replace('Â³','Ó')
-        #dados = dados.replace('ã³','ó')
-        #dados = dados.replace('ã³','Â')
-        #dados = dados.replace('ã£','ó')
+        if ('Ã' in dados) or ('ã' in dados):
 
-        dados = dados.encode('utf-8')
-        dados = dados.decode('utf-8')
-        dados = dados.encode('latin1')
-        dados = dados.decode('utf-8', errors='backslashreplace')
-        dados = str(dados)
-        ok = 0
-        if '\\x' in dados:
-            dados = dados.replace('\\xe3\\xb3','ó')
-            dados = dados.replace('\\xe3\\xad','í')
-            dados = dados.replace('\\xe3\\xa7','ç')
-            dados = dados.replace('\\xe3\\xa7','ç')
-            dados = dados.replace('\\xe3\\xaa','ê')
+            print(dados)
+            #dados = unicodedata.normalize('NFKC', dados)
+            #dados = dados.replace('Â³','Ó')
+            #dados = dados.replace('ã³','ó')
+            #dados = dados.replace('ã³','Â')
+            #dados = dados.replace('ã£','ó')
 
-            dados = dados.replace('\\xe3\\xa1','á')
-            dados = dados.replace('\\xe3\\xb5','õ')
-            dados = dados.replace('\\xe3\\x8d','Í')
-            dados = dados.replace('\\xe3\\xa9','é')
-            dados = dados.replace('\\xe3\\xb1','ñ')
-            dados = dados.replace('\\xe2\\xa0',' ')
-
-
-            dados = dados.replace(chr(194),'[\\xxxxxxxxxxxxxx]')
-            dados = dados.replace(chr(128),'')
-            dados = dados.replace('\\x9c','"')
-            dados = dados.replace('\\xb4',' ')
-
-
-
-
-            dados = dados.replace('i\\xad','í')
-
+            dados = dados.encode('utf-8')
+            dados = dados.decode('utf-8')
+            dados = dados.encode('latin1')
+            dados = dados.decode('utf-8', errors='backslashreplace')
+            dados = str(dados)
+            ok = 0
             if '\\x' in dados:
-                print("====")
-                print("ERROR",dados)
-                dados = dados.encode('utf-8')
-                print(dados.hex(' '))
+                dados = dados.replace('\\xe3\\xb3','ó')
+                dados = dados.replace('\\xe3\\xad','í')
+                dados = dados.replace('\\xe3\\xa7','ç')
+                dados = dados.replace('\\xe3\\xa7','ç')
+                dados = dados.replace('\\xe3\\xaa','ê')
+
+                dados = dados.replace('\\xe3\\xa1','á')
+                dados = dados.replace('\\xe3\\xb5','õ')
+                dados = dados.replace('\\xe3\\x8d','Í')
+                dados = dados.replace('\\xe3\\xa9','é')
+                dados = dados.replace('\\xe3\\xb1','ñ')
+                dados = dados.replace('\\xe3\\xba','ú')
+
+
+                dados = dados.replace('\\xe2\\xa0',' ')
+
+
+                dados = dados.replace(chr(194),'[\\xxxxxxxxxxxxxx]')
+                dados = dados.replace(chr(128),'')
+                dados = dados.replace('\\x9c','"')
+                dados = dados.replace('\\xb4',' ')
+
+
+
+
+                dados = dados.replace('i\\xad','í')
+
+                if '\\x' in dados:
+                    print("====")
+                    print("ERROR",dados)
+                    dados = dados.encode('utf-8')
+                    print(dados.hex(' '))
+                else:
+                    ok = 1
             else:
                 ok = 1
-        else:
-            ok = 1
 
-        if ok == 1:
-            dados = dados.replace('”','')
-            dados = dados.replace('“','')
-            dados = dados.replace('"','')
-            qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
-            database.insert(qu)
-            print("=================")
-            print("UPDATE: ",qu)
+            if ok == 1:
+                dados = dados.replace('”','')
+                dados = dados.replace('“','')
+                dados = dados.replace('"','')
+                qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
+                database.insert(qu)
+                print("=================")
+                print("UPDATE: ",qu)
 
-        print("=================================")
+            print("=================================")
 
     quit()
 
