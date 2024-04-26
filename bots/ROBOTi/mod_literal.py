@@ -4,6 +4,7 @@ import mod_nbr
 import chardet
 
 def check_end_dot():
+    print("156 - Tratamento de assuntos com caracteres especiais")
     prop = 67
     qr = f"select id_n, n_name from brapci_rdf.rdf_data "
     qr += " inner join brapci_rdf.rdf_concept On d_r2 = id_cc"
