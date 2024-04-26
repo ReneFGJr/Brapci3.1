@@ -59,6 +59,7 @@ def check_utf8():
         dados = dados.encode('latin1')
         dados = dados.decode('utf-8', errors='backslashreplace')
         dados = str(dados)
+        ok = 0
         if '\\x' in dados:
             dados = dados.replace('\\xe3\\xb3','ó')
             dados = dados.replace('\\xe3\\xad','í')
@@ -68,16 +69,21 @@ def check_utf8():
 
             dados = dados.replace('\\xe3\\xa1','á')
             dados = dados.replace('\\xe3\\xb5','õ')
-            dados = dados.replace('\\xe3\\xaa','ê')
+            dados = dados.replace('\\xe3\\x8d','Í')
             dados = dados.replace('\\xe3\\xaa','ê')
             dados = dados.replace('\\xe3\\xaa','ê')
 
 
             dados = dados.replace('i\\xad','í')
 
-
-            print("ERROR",dados)
+            if '\\x' in dados:
+                print("ERROR",dados)
+            else:
+                ok = 1
         else:
+            ok = 1
+
+        if ok == 1:
             qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
             database.insert(qu)
             print("UPDATE: ",qu)
