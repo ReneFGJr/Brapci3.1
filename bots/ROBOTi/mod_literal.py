@@ -52,16 +52,14 @@ def check_utf8():
         dados3 = unicodedata.normalize('NFKC', dados)
         for r in range(1,len(lista)):
             print(listA[r],lista[r])
-        quit()
-        try:
-            # Tenta decodificar assumindo UTF-8. Note que isso requer que os dados sejam bytes.
-            ok = 0
+            dados.replace(listA[r],lista[r])
 
-            if dados is not None:
-                print(dados)
-                print(texto_corrigido)
-                print("======================")
-                #qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
+            print(dados)
+            print(dados2)
+            print(dados3)
+            print("======================")
+            quit()
+            #qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
 
         except UnicodeDecodeError:
             # Relata o registro com problemas de decodificação
