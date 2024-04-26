@@ -17,8 +17,8 @@ def check_pbci():
         try:
             txt = abs['Abstract']['pt'][0]
             if 'http' in txt:
-                print(ID)
                 qu = f"update brapci_elastic.dataset set `use` = -99 where ID = {ID}"
+                print(qu)
                 database.update(qu)
         except:
             d=d+1
