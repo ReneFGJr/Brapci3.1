@@ -36,8 +36,7 @@ def check_dupla_remissiva():
 
     mod_logs.log('TASK_202',dd)
 
-def check_remissiva():
-    check_use_zero()
+def check_remissiva_old():
     print("202 - Check author remissive")
 
     dd = 0
@@ -69,8 +68,9 @@ def check_remissiva():
     mod_logs.log('TASK_202',dd)
     return ""
 
-def check_remissiva_2():
-    print("203 - Check author remissive forgot")
+def check_remissiva():
+    check_use_zero()
+    print("202 - Check author remissive forgot")
 
     dd = 0
 
