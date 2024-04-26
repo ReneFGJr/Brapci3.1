@@ -63,23 +63,27 @@ def check_utf8():
             ok = 0
             if '\\x' in dados:
                 dados = dados.replace('\\xe3\\xb3','ó')
-                dados = dados.replace('\\xe3\\xad','í')
+                dados = dados.replace('\\xe3\\x89','é')
+                dados = dados.replace('\\xe3\\x91','ç')
+
+                dados = dados.replace('\\xe3\\xa0','á')
+                dados = dados.replace('\\xe3\\xa1','á')
+
                 dados = dados.replace('\\xe3\\xa7','ç')
-                dados = dados.replace('\\xe3\\xa7','ç')
+                dados = dados.replace('\\xe3\\xa9','é')
+
                 dados = dados.replace('\\xe3\\xaa','ê')
                 dados = dados.replace('\\xe3\\xa8','è')
-                dados = dados.replace('\\xe3\\x89','é')
-                dados = dados.replace('\\xe3\\xb2','ô')
+                dados = dados.replace('\\xe3\\xad','í')
                 dados = dados.replace('\\xe3\\xaf','ï')
 
+                dados = dados.replace('\\xe3\\xb2','ô')
+                dados = dados.replace('\\xe3\\xb5','õ')
                 dados = dados.replace('\\xe3\\xbc','u')
                 dados = dados.replace('\\xe2\\xbf','¿')
 
-                dados = dados.replace('\\xe3\\xa1','á')
-                dados = dados.replace('\\xe3\\xa0','á')
-                dados = dados.replace('\\xe3\\xb5','õ')
                 dados = dados.replace('\\xe3\\x8d','Í')
-                dados = dados.replace('\\xe3\\xa9','é')
+
                 dados = dados.replace('\\xe3\\xb1','ñ')
                 dados = dados.replace('\\xe3\\xba','ú')
                 dados = dados.replace('\\xe3\\xba','ú')
@@ -94,7 +98,7 @@ def check_utf8():
                 dados = dados.replace('\\xa6','...')
                 dados = dados.replace('\\xc2',' ')
                 dados = dados.replace('\\xe2',' ')
-                dados = dados.replace('[espaá\x91ol]','')
+                dados = dados.replace('[espaá\\x91ol]','')
 
 
 
