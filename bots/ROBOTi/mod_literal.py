@@ -1,7 +1,7 @@
 import database
 import mod_logs
 import mod_nbr
-import chardet
+import unicodedata
 
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
@@ -48,7 +48,7 @@ def check_utf8():
             if dados is not None:
                 #dados = dados.encode('utf-8')
                 if 'ã³' in dados:
-                    dados = dados.decode('utf-8')
+                    dados = unicodedata.normalize('NFKC', dados)
                     if (dados != dados2):
                         print("====================== UTF8")
                         print(dados)
