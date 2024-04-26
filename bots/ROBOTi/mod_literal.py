@@ -48,9 +48,11 @@ def check_utf8():
 
         print(dados)
         dados = dados.encode('latin1')
-        dados2 = dados.encode('utf8')
+        dados3 = dados.decode('latin1')
+        dados2 = dados.encode('utf-8')
         print(dados)
         print(dados2)
+        print(dados3)
         quit()
 
         dados4 = dados.encode('utf-8')
