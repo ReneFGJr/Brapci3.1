@@ -38,7 +38,12 @@ def check_utf8():
     qr = "select id_n, n_name "
     qr += " from brapci_rdf.rdf_literal "
     qr += " where n_delete = 0 "
-    qr += " and n_name LIKE '%Ã³%' or n_name LIKE '%Ã©%'"
+    qr += " and (n_name LIKE '%Ã³%' "
+    qr += "  or n_name LIKE '%Ã©%' "
+    qr += " or n_name LIKE '%ã±%' "
+    qr += " or n_name LIKE '%ãº%' "
+
+    qr += ") "
 
     row = database.query(qr)
     # Verificar cada registro individualmente
