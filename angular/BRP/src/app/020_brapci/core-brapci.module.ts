@@ -59,6 +59,7 @@ import { NetworkComponent } from './widget/network/network.component';
 import { RemoveConceptComponent } from './widget/remove-concept/remove-concept.component';
 import { Page404Component } from './widget/page404/page404.component';
 import { NumberComponent } from './page/v/number/number.component';
+import { EditConceptComponent } from './widget/edit-concept/edit-concept.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { NumberComponent } from './page/v/number/number.component';
     RemoveConceptComponent,
     Page404Component,
     NumberComponent,
+    EditConceptComponent,
   ],
   imports: [
     CommonModule,

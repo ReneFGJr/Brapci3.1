@@ -594,6 +594,7 @@ class RDFmetadata extends Model
         $dr = [];
         if ($di != []) {
             $dr['Class'] = 'Issue';
+            $dr['ID'] = $IDissue;
             $dr['publisher'] = $di['jnl_name'];
             $dr['jnl_rdf'] = $di['is_source'];
             $dr['is_year'] = $di['is_year'];
@@ -608,7 +609,10 @@ class RDFmetadata extends Model
                 $ref = $ABNT->short($JSON, False);
                 array_push($works, $ref);
             }
-            $dr['works'] = $works;
+            if (!$simple)
+                {
+                    $dr['works'] = $works;
+                }
         }
         return $dr;
     }

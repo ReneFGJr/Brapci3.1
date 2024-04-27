@@ -10,6 +10,7 @@
 <div class="container mt-5" *ngIf="data">
   <div class="row">
     <div class="col-9" *ngIf="data.Issue">
+      {{data.Issue | json}}
       <a
         [routerLink]="['/v/' + data.Issue.ID]"
         routerLinkActive="router-link-active"
@@ -98,6 +99,7 @@
 
       <!--------------- Administracao -->
       <app-remove-concept [ID]="data.ID"></app-remove-concept>
+      <app-edit-concept [ID]="data.ID"></app-edit-concept>
 
       <app-v-data [RDFdata]="data.data"></app-v-data>
     </div>
