@@ -14,5 +14,8 @@ npm install --save-dev @types/node
 
 npm install angularx-qrcode@16.0.2 --save
 
+################### material
+ng add @angular/material
+
 
 npm list

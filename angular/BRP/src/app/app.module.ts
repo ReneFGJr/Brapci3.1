@@ -18,6 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SourceAddComponent } from './040_source/page/source-add/source-add.component';
 import { HomeComponent } from './130_books/page/home/home.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 registerLocaleData(ptBr);
 
@@ -36,6 +39,9 @@ registerLocaleData(ptBr);
     BrowserAnimationsModule,
     ReactiveFormsModule,
     QRCodeModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],

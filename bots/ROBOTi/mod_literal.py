@@ -152,7 +152,8 @@ def check_utf8():
 
 def check_duplicate():
     qr = "select * from "
-    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal where n_delete = 0 group by n_name, n_lang) as tabela "
+    qr += "(select n_name, n_lang, count(*) as total, max(id_n), min(id_n) from brapci_rdf.rdf_literal "
+    qr += "where n_delete = 0 group by n_name, n_lang) as tabela "
     qr += "where (total > 1)"
 
     row = database.query(qr)
