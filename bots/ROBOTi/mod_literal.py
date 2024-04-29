@@ -44,6 +44,7 @@ def check_utf8():
     qr += " or n_name LIKE '%ãº%' "
     qr += " or n_name LIKE '%ã³%' "
     qr += " or n_name LIKE '%ã¡%' "
+    qr += " or n_name LIKE '%á!%' "
 
     qr += ") "
 
