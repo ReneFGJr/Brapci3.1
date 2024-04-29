@@ -127,6 +127,9 @@ def check_utf8():
                 dados = dados.replace('\\xf5','õ')
                 dados = dados.replace('\\xfa','ú')
                 dados = dados.replace('\\xfe','í')
+                dados = dados.replace('á\\xa2','á')
+                dados = dados.replace('á!','á')
+
 
                 dados = dados.replace('\\xe7á','çã')
                 dados = dados.replace('á\\x81','á')
