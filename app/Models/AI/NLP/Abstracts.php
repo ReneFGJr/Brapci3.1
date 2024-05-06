@@ -63,7 +63,7 @@ class Abstracts extends Model
         $RDFData = new \App\Models\RDF2\RDFdata();
         $dd = $RDFData
             ->select("count(*) as total")
-            ->join('rdf_name', 'id_n = d_literal')
+            ->join('rdf_literal', 'id_n = d_literal')
             ->where('d_p', $prop)
             ->findAll();
         $total = $dd[0]['total'];
