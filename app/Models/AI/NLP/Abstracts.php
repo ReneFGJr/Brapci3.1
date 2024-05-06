@@ -57,7 +57,8 @@ class Abstracts extends Model
         $RDFLiteral = new \App\Models\RDF2\RDFliteral();
 
         $RDF = new \App\Models\RDF2\RDF();
-        $prop = $RDF->getClass('hasAbstract');
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $prop = $RDFclass->getClass('hasAbstract');
 
         $RDFData = new \App\Models\Rdf2\RDFdata();
         $dd = $RDFData
