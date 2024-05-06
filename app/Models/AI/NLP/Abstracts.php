@@ -54,12 +54,12 @@ class Abstracts extends Model
         }
 
         $sx = '';
-        $RDFLiteral = new \App\Models\Rdf\RDFLiteral();
+        $RDFLiteral = new \App\Models\Rdf2\RDFLiteral();
 
         $RDF = new \App\Models\Rdf\RDF();
         $prop = $RDF->getClass('hasAbstract');
 
-        $RDFData = new \App\Models\Rdf\RDFData();
+        $RDFData = new \App\Models\Rdf2\RDFData();
         $dd = $RDFData
             ->select("count(*) as total")
             ->join('rdf_name', 'id_n = d_literal')
