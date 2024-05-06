@@ -69,7 +69,7 @@ class Abstracts extends Model
         $total = $dd[0]['total'];
 
         $dd = $RDFData
-            ->join('rdf_name', 'id_n = d_literal')
+            ->join('rdf_literal', 'id_n = d_literal')
             ->where('d_p', $prop)
             ->orderBy('id_d')
             ->get($limit, $dt['task_offset'])
