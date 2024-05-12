@@ -14,8 +14,18 @@
         [ngClass]="page == '2' ? 'active' : ''"
         >Lista de revistas</a
       >
+      <a
+        (click)="selectPG('3')"
+        class="ms-3 menu"
+        [ngClass]="page == '3' ? 'active' : ''"
+        >Distribuição Geográfica</a
+      >
     </div>
   </div>
+  <!---- PAGE 3-->
+
+
+  <!---- PAGE 2-->
   <div class="row" *ngIf="page === '2'">
     <ol>
       <li class="col-12" *ngFor="let item of journals">
@@ -28,7 +38,7 @@
       </li>
     </ol>
   </div>
-
+  <!---- PAGE 1-->
   <div class="row" *ngIf="page === '1'">
     <div class="col-12 col-sm-6 col-lg-2 mb-2" *ngFor="let item of journals">
       <a
