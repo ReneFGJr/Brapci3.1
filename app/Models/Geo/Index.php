@@ -47,15 +47,15 @@ class Index extends Model
 
     function getCity($name)
     {
-        $RSP = ['lat' => 0, 'long' => 0, 'altitude' => 0, 'name' => $name,'id'=>$name];
-        $COUNTRY = $RSP;
+        $CITY = ['lat' => 0, 'long' => 0, 'altitude' => 0, 'name' => $name,'id'=>$name];
+        $COUNTRY = $CITY;
         $dt = $this
             ->where('gc_name', $name)
             ->orwhere('id_gc', $name)
             ->first();
         if ($dt == []) {
         } else {
-            $RSP = [
+            $CITY = [
                 'lat' => $dt['gc_lat'],
                 'long' => $dt['gc_long'],
                 'altitude' => $dt['gc_alt'],
@@ -63,7 +63,9 @@ class Index extends Model
                 'id' => $dt['id_gc']
             ];
         }
+    $RSP = [];
     $RSP['country'] = $COUNTRY;
+    $RSP['city'] = $CITY;
     return $RSP;
     }
 }
