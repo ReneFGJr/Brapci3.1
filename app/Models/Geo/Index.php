@@ -58,6 +58,7 @@ class Index extends Model
                 'lat' => $dt['gc_lat'],
                 'long' => $dt['gc_long'],
                 'altitude' => $dt['gc_alt'],
+                'name'=>$dr['gc_name'],
                 'id' => $dt['id_gc']
             ];
         }
