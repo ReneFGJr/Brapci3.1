@@ -111,12 +111,14 @@
         </div>
 
         <!-- Cidade -->
-        <div *ngIf="data.geo.city">
+        <div *ngIf="data.geo.city" class="mt-2">
           <label class="small">Cidade</label>
           <br /><b>{{
               data.geo.city.name
             }}</b>
           <br />
+          Lat.: {{data.geo.city.lat}}
+          Long.: {{data.geo.city.long}}
         </div>
         <!-- Pais -->
         <div *ngIf="data.geo.country">

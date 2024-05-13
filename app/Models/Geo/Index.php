@@ -17,7 +17,7 @@ class Index extends Model
     protected $allowedFields    = [
         'id_gc', 'gc_use', 'gc_name',
         'gc_lat', 'gc_long', 'gc_alt',
-        'gc_type', 'gc_state', 'gc_conutry',
+        'gc_type', 'gc_state', 'gc_country',
         'gc_code_hichart'
     ];
 
