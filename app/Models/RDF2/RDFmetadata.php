@@ -512,6 +512,8 @@ class RDFmetadata extends Model
 
     function metadataSource($dt)
     {
+        $Geo = new \App\Models\Geo\Index();
+
         $dr = [];
         $dr['publisher'] = $dt['concept']['n_name'];
         $dr['ID'] = $dt['concept']['id_cc'];
@@ -578,6 +580,7 @@ class RDFmetadata extends Model
 
         $Cover = new \App\Models\Base\Cover();
         $dr['cover'] = $Cover->cover($dt['id_jnl']);
+        $dr['geo'] = $Geo->getCity($dt['jnl_cidade']);
 
         return $dr;
     }

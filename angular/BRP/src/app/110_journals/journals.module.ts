@@ -9,13 +9,16 @@ import { CoreRoutingModule } from './journals-routing.module';
 import { JournalWelcomeComponent } from './page/journal-welcome/journal-welcome.component';
 import { JournalViewComponent } from './page/journal-view/journal-view.component';
 import { JournalBannerComponent } from './page/journal-banner/journal-banner.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { ChatBrasilHighchartsComponent } from './widgat/chat-brasil-highcharts/chat-brasil-highcharts.component';
 
 @NgModule({
   declarations: [
     MainJournalComponent,
     JournalWelcomeComponent,
     JournalViewComponent,
-    JournalBannerComponent
+    JournalBannerComponent,
+    ChatBrasilHighchartsComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
@@ -25,6 +28,7 @@ import { JournalBannerComponent } from './page/journal-banner/journal-banner.com
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
+    HighchartsChartModule,
   ],
 })
-export class JournalsModule { }
+export class JournalsModule {}

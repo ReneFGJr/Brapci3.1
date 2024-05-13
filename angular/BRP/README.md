@@ -19,3 +19,5 @@ ng add @angular/material
 
 
 npm list
+
+npm install highcharts highcharts-angular @highcharts/map-collection
