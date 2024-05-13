@@ -48,6 +48,7 @@ class Index extends Model
     function getCity($name)
     {
         $RSP = ['lat' => 0, 'long' => 0, 'altitude' => 0, 'name' => $name,'id'=>$name];
+        $RSP['country'] = $RSP;
         $dt = $this
             ->where('gc_name', $name)
             ->orwhere('id_gc', $name)
