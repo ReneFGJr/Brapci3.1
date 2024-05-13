@@ -44,18 +44,28 @@ class Index extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public $country = 0;
+    public $state = 0;
 
-    function getCity($name)
+    function le($id)
     {
-        $CITY = ['lat' => 0, 'long' => 0, 'altitude' => 0, 'name' => $name,'id'=>$name];
-        $COUNTRY = $CITY;
-        $dt = $this
-            ->where('gc_name', $name)
-            ->orwhere('id_gc', $name)
-            ->first();
-        if ($dt == []) {
+        if ($id > 0) {
+            $dt = $this->where('id_gc', $id)->first();
+            $this->country = $dt['gc_country'];
         } else {
-            $CITY = [
+            $dt = [];
+        }
+
+        if ($dt == []) {
+            $RSP = [
+                'lat' => 0,
+                'long' => 0,
+                'altitude' => 0,
+                'name' => '',
+                'id' => $id
+            ];
+        } else {
+            $RSP = [
                 'lat' => $dt['gc_lat'],
                 'long' => $dt['gc_long'],
                 'altitude' => $dt['gc_alt'],
@@ -63,9 +73,16 @@ class Index extends Model
                 'id' => $dt['id_gc']
             ];
         }
-    $RSP = [];
-    $RSP['country'] = $COUNTRY;
-    $RSP['city'] = $CITY;
-    return $RSP;
+        return $RSP;
+    }
+
+    function getCity($id)
+    {
+        $CITY = $this->le($id);
+        $COUNTRY = $this->le($this->country);
+        $RSP = [];
+        $RSP['country'] = $COUNTRY;
+        $RSP['city'] = $CITY;
+        return $RSP;
     }
 }

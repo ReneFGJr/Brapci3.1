@@ -109,6 +109,23 @@
           >
           <br />
         </div>
+
+        <!-- Cidade -->
+        <div *ngIf="data.geo.city">
+          <label class="small">Cidade</label>
+          <br /><b>{{
+              data.geo.city.name
+            }}</b>
+          <br />
+        </div>
+        <!-- Pais -->
+        <div *ngIf="data.geo.country">
+          <label class="small">Pais</label>
+          <br /><b>{{
+              data.geo.country.name
+            }}</b>
+          <br />
+        </div>
       </div>
       <!-- Pagin 2-->
       <div *ngIf="page === '2'">
