@@ -93,13 +93,12 @@ def check_remissivaDB():
             print(ny,i1)
             print(nx,i2)
             if (i1 < i2):
-                print("menor")
                 mod_data.remicive(i2,i1)
             else:
-                print("maior")
                 mod_data.remicive(i1,i2)
         nx = ny
         i2 = i1
+    print("FIM - 205")
 
 def check_remissiva():
     check_use_zero()
