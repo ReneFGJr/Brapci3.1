@@ -131,6 +131,8 @@ class Metadata extends Model
 
         /************************************************************** PROPERTIES **/
         $authF = [];
+        $keyWD = '';
+        $abstC  = '';
 
         /******************************** Fields */
         //echo $prop . '<br>';
@@ -171,9 +173,22 @@ class Metadata extends Model
                             ##################################### KEYWORDS
                             if ($cls == 'Subject')
                                 {
-                                    echo h("SUBJECT");
-                                    pre($line);
+                                    if ($keyWD != '')
+                                    {
+                                        $keyWD .= '; ';
+                                    }
+                                    $keyWD .= trim($line['Caption']);
                                 }
+                            ##################################### abstract
+                            if ($cls == 'Abstract') {
+                                if ($abstC != '') {
+                                    $abstC .= chr(13);
+                                }
+                                $txt = troca(trim($line['Caption']), chr(13), ' ');
+                                $txt = troca($txt,chr(10),' ');
+                                $txt = trim($txt);
+                                $abstC .= $txt;
+                            }
                             #array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
                             if (($cls == 'Organizer') or ($cls == 'Authors'))
                                 {
@@ -236,6 +251,12 @@ class Metadata extends Model
                     $M['COLLECTION'] = 'EV';
                     break;
             }
+
+            $M['KEYWORDS'] = $keyWD;
+            $M['abstracts'] = $abstC;
+
+            pre($M);
+
             $this->metadata = $M;
             return $this->metadata;
         }
