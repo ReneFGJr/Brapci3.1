@@ -79,7 +79,6 @@ class Abnt extends Model
 			} else {
 				$title = '(sem título)';
 			}
-		pre($title);
 
 		$title = $link . $this->ref_title($title) . $linka;
 
