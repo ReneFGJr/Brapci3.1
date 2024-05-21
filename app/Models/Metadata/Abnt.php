@@ -64,6 +64,7 @@ class Abnt extends Model
 				if (isset($T['pt']))
 					{
 						$title = $T['pt'];
+						pre($T);
 					} elseIf ($T['es']) {
 						$title = $T['es'];
 					} elseif ($T['en']) {
@@ -79,7 +80,7 @@ class Abnt extends Model
 			} else {
 				$title = '(sem título)';
 			}
-
+		pre($title);
 
 		$title = $link . $this->ref_title($title) . $linka;
 
