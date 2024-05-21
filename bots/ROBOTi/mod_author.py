@@ -98,7 +98,6 @@ def check_remissivaDB():
             else:
                 print("maior")
                 mod_data.remicive(i1,i2)
-            quit()
         nx = ny
         i2 = i1
 
