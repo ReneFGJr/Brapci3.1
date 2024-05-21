@@ -170,6 +170,8 @@ class Metadata extends Model
                                 $M[$cls] = [];
                             }
 
+                            pre($line,false);
+
                             ##################################### KEYWORDS
                             if ($cls == 'Subject')
                                 {
