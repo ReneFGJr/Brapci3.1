@@ -473,6 +473,11 @@ class Index extends Model
 
 		$dir .= '/brapci_' . date("Ymd-His") . '.' . $type;
 		$dd['download'] = PATH . $dir;
+
+		if ($type == 'xls')
+			{
+				$sx = mb_convert_encoding($sx, "Windows-1252", "UTF-8");
+			}
 		file_put_contents($dir, $sx);
 		echo json_encode($dd);
 		exit;

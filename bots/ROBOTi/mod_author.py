@@ -75,6 +75,9 @@ def check_remissivaDB():
 
     IDClass = mod_class.getClass("Person")
 
+    qu = "TRUNCATE brapci_zz.concepts"
+    database.update(qu)
+
     qr = "select id_cc, cc_use, n_name  "
     qr += " from brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
@@ -89,15 +92,12 @@ def check_remissivaDB():
     for n in row:
         ny = n[2]
         i1 = n[0]
-        if ny == nx:
-            print(ny,i1)
-            print(nx,i2)
-            if (i1 < i2):
-                mod_data.remicive(i2,i1)
-            else:
-                mod_data.remicive(i1,i2)
-        nx = ny
-        i2 = i1
+        qi = "insert concepts "
+        qi += "(n_name, n_ID) "
+        qi += " values "
+        qi += f"('{ny}',{i1})"
+        print(qi)
+        quit()
     print("FIM - 205")
 
 def check_remissiva():
