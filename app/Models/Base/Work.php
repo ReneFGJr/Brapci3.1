@@ -311,7 +311,7 @@ class Work extends Model
     function show_reference($id)
     {
         $sx = '';
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
         $MARK = new \App\Models\Base\Mark();
         $chk = '';
         if ((isset($_SESSION['sel'])) and ($_SESSION['sel'] != '')) {
