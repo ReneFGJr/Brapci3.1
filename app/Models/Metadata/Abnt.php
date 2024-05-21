@@ -57,9 +57,11 @@ class Abnt extends Model
 
 		/******************************************************* */
 		$TIT = [];
-		foreach($dt['Title'] as $lg=>$tit)
+		if (isset($dt['Title']['pt']))
 			{
-				echo $lg.'=='.$tit;
+
+			} else {
+
 			}
 		pre($dt);
 
