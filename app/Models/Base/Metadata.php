@@ -134,8 +134,6 @@ class Metadata extends Model
         $keyWD = '';
         $abstC  = '';
 
-        pre($meta, true);
-
         /******************************** Fields */
         //echo $prop . '<br>';
         $p = [
