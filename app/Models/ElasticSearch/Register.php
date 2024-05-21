@@ -669,8 +669,6 @@ class Register extends Model
 
         /* NOVO REGISTRO */
 
-        pre($xdata);
-
         if ($dt==[]) {
             if (count($data) > 0) {
                 $data['status'] = 1;
