@@ -57,6 +57,7 @@ class Abnt extends Model
 
 		/******************************************************* */
 		$TIT = [];
+		$title = '';
 		if (isset($dt['Title']))
 			{
 				$T = (array)$dt['Title'];
@@ -80,7 +81,7 @@ class Abnt extends Model
 			}
 
 
-		$title = $link . $this->ref_title($dt['Title']) . $linka;
+		$title = $link . $this->ref_title($title) . $linka;
 
 		/********************** Authors */
 		if (isset($dt['Authors']))
