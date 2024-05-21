@@ -134,6 +134,8 @@ class Metadata extends Model
         $keyWD = '';
         $abstC  = '';
 
+        pre($meta, true);
+
         /******************************** Fields */
         //echo $prop . '<br>';
         $p = [
@@ -169,8 +171,6 @@ class Metadata extends Model
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
                             }
-
-                            pre($line,false);
 
                             ##################################### KEYWORDS
                             if ($cls == 'Subject')
