@@ -64,7 +64,6 @@ class Abnt extends Model
 				if (isset($T['pt']))
 					{
 						$title = $T['pt'][0];
-						pre($T);
 					} elseIf ($T['es']) {
 						$title = $T['es'][0];
 					} elseif ($T['en']) {
