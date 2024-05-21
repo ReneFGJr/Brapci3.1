@@ -58,11 +58,12 @@ class Abnt extends Model
 		/******************************************************* */
 		$TIT = [];
 		pre($dt);
-		if (isset($dt['Title']['pt']))
+		if (isset($dt['Title']))
 			{
-
+				$T = (array)$dt['Title'];
+				pre($T);
 			} else {
-
+				$title = '(sem título)';
 			}
 
 
