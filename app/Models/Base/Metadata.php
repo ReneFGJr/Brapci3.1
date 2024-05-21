@@ -253,9 +253,7 @@ class Metadata extends Model
             }
 
             $M['KEYWORDS'] = $keyWD;
-            $M['abstracts'] = $abstC;
-
-            pre($M);
+            $M['ABSTRACTS'] = $abstC;
 
             $this->metadata = $M;
             return $this->metadata;
