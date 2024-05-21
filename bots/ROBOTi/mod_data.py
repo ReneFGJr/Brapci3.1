@@ -90,6 +90,8 @@ def invert_class(C1,C2,DP):
     database.update(qd)
 
 def remicive(ID1,ID2):
+    if ID1 == 0: return ""
+    if ID2 == 0: return ""
     qr = [
         f"update brapci_rdf.rdf_data set d_r1 = {ID1} where d_r1 = {ID2}",
         f"update brapci_rdf.rdf_data set d_r2 = {ID1} where d_r2 = {ID2}",
