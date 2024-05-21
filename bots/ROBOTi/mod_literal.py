@@ -133,19 +133,7 @@ def check_utf8():
 
                 dados = dados.replace('\\xe7á','çã')
                 dados = dados.replace('á\\x81','á')
-
-
-
                 dados = dados.replace('\\xe0','à')
-
-
-
-
-
-
-
-
-
                 dados = dados.replace('i\\xad','í')
 
                 if '\\x' in dados:
@@ -264,6 +252,8 @@ def check_all():
         name2 = name.replace('"','')
         name2 = name2.replace("'",'')
         name2 = name2.replace("&amp.",'&')
+        name2 = name2.replace("&amp;",'&')
+
         save = False
         try:
             n = name2[0]
