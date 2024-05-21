@@ -323,7 +323,7 @@ class Work extends Model
         }
         $sx .= '<span class="reference">';
         $sx .= $MARK->mark($id);
-        $sx .= $RDF->c($id,'abnt') . cr();
+        //$sx .= $RDF->c($id,'abnt') . cr();
         $sx .= '</span>';
         return $sx;
     }
