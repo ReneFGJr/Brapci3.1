@@ -57,6 +57,10 @@ class Abnt extends Model
 
 		/******************************************************* */
 		$TIT = [];
+		foreach($dt['Title'] as $lg=>$tit)
+			{
+				echo $lg.'=='.$tit;
+			}
 		pre($dt);
 
 		$title = $link . $this->ref_title($dt['Title']) . $linka;
