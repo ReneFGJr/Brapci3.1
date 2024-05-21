@@ -68,6 +68,40 @@ def check_remissiva_old():
     mod_logs.log('TASK_202',dd)
     return ""
 
+def check_remissivaDB():
+    print("205 - Check author remissive in database")
+
+    dd = 0
+
+    IDClass = mod_class.getClass("Person")
+
+    qr = "select id_cc, cc_use, n_name  "
+    qr += " from brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where cc_class = {IDClass}"
+    qr += " and id_cc = cc_use "
+    qr += " order by n_name, id_cc"
+    row = database.query(qr)
+    nx = ''
+    ny = ''
+    i1 = 0
+    i2 = 0
+    for n in row:
+        ny = n[2]
+        i1 = n[0]
+        if ny == nx:
+            print(ny,i1)
+            print(nx,i2)
+            if (i1 < i2):
+                print("menor")
+                mod_data.remicive(i2,i1)
+            else:
+                print("maior")
+                mod_data.remicive(i1,i2)
+            quit()
+        nx = ny
+        i2 = i1
+
 def check_remissiva():
     check_use_zero()
     print("202 - Check author remissive forgot")

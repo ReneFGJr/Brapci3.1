@@ -183,6 +183,8 @@ def run(parm):
         lp = mod_author.check_dupla_remissiva()
     if (act == '202'):
         lp = mod_author.check_remissiva()
+    if (act == '205'):
+        lp = mod_author.check_remissivaDB()
 
     ################### Subject
     if (act == '210'):
