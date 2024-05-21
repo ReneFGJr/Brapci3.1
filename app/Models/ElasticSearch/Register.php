@@ -433,6 +433,9 @@ class Register extends Model
 
         $da['COLLECTION'] = $data['COLLECTION'];
 
+        $da['KEYWORDS'] = $data['KEYWORDS'];
+        $da['ABSTRACTS'] = $data['ABSTRACTS'];
+
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
             $da['ISSUE'] = $data['Issue']['issue'];
@@ -657,8 +660,6 @@ class Register extends Model
         if (count($xdata) == 0) {
             echo '======================== A001 ==';
             $sx = lang('brapci.skip') . ' deleted';
-
-            pre($xdata);
             return $sx;
         }
 
