@@ -63,7 +63,6 @@ class Fulltext extends Model
             }
 
             $txt = file_get_contents($files[1]);
-            pre($txt);
             $txt = $this->process($txt);
 
             echo "FULLTEXT - PRE";
