@@ -59,7 +59,7 @@ class Abnt extends Model
 		if (isset($dt['Authors']))
 		{
 			$authors = $this->ref_authors($dt['Authors']);
-			$title = $link.$this->ref_title($dt['Title']).$linka;
+
 			$legend = $this->ref_legend($dt['Issue']);
 			$ref = $authors . '. ' . $title . '. ' . $legend;
 			if ($url) {
@@ -69,6 +69,13 @@ class Abnt extends Model
 			$ref = troca($ref, '..', '.');
 			$ref = troca($ref, ', ,', ',');
 		}
+		/******************************************************* */
+		$TIT = [];
+		pre($dt);
+
+		$title = $link . $this->ref_title($dt['Title']) . $linka;
+
+
 		if ($ref == '') { $ref = $link."Class: ".$Class.$linka; }
 		return ($ref);
 	}
