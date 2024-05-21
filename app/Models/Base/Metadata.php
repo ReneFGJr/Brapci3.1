@@ -255,6 +255,8 @@ class Metadata extends Model
             $M['KEYWORDS'] = $keyWD;
             $M['ABSTRACTS'] = $abstC;
 
+            pre($M);
+
             $this->metadata = $M;
             return $this->metadata;
         }
