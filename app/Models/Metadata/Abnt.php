@@ -55,6 +55,12 @@ class Abnt extends Model
 					return "ISSUE - Construção";
 			}
 
+		/******************************************************* */
+		$TIT = [];
+		pre($dt);
+
+		$title = $link . $this->ref_title($dt['Title']) . $linka;
+
 		/********************** Authors */
 		if (isset($dt['Authors']))
 		{
@@ -69,11 +75,7 @@ class Abnt extends Model
 			$ref = troca($ref, '..', '.');
 			$ref = troca($ref, ', ,', ',');
 		}
-		/******************************************************* */
-		$TIT = [];
-		pre($dt);
 
-		$title = $link . $this->ref_title($dt['Title']) . $linka;
 
 
 		if ($ref == '') { $ref = $link."Class: ".$Class.$linka; }
