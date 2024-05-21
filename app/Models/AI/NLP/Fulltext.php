@@ -44,8 +44,12 @@ class Fulltext extends Model
     {
         $PDF = new \App\Models\AI\FILE\pdf();
         $sx = '';
-        echo "$d1,$d2,$d3";
+        IF ($d2=='')
+            {
+                $d2 = '101614';
+            }
         $files = $this->files($d2);
+
         if (isset($files[1]))
             {
                 $sx .= $files[1];
@@ -59,6 +63,7 @@ class Fulltext extends Model
             }
 
             $txt = file_get_contents($files[1]);
+            pre($txt);
             $txt = $this->process($txt);
 
             echo "FULLTEXT - PRE";
@@ -68,19 +73,15 @@ class Fulltext extends Model
 
     function files($id)
     {
-        $RDF = new \App\Models\Rdf\RDF();
+        $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
         $files = [];
 
-        $id_file = $RDF->extract($dt, 'hasFileStorage');
-        if (count($id_file) > 0) {
-            $dtf = $RDF->le($id_file[0]);
-            $file = $dtf['concept']['n_name'];
+        $file = $RDF->extract($dt, 'hasFileStorage');
+        if ($file != '') {
             $fileTXT = troca($file, '.pdf', '.txt');
             $files[0] = $file;
             $files[1] = $fileTXT;
-        } else {
-
         }
         return $files;
     }

@@ -53,7 +53,7 @@ class TermsCandidates extends Model
 
 			switch($d1)
 				{
-					case 'prepare':					
+					case 'prepare':
 						$TextPrepare = new \App\Models\AI\NLP\TextPrepare();
 						$dt = $MyFiles->where('id_file',$d2)->where('file_own',$user)->findAll();
 						$filename = $dt[0]['file_full'].'.txt';
@@ -72,15 +72,15 @@ class TermsCandidates extends Model
 							{
 								$sb .= bsmessage("Arquivo não encontrado! ".$filename,1);
 							}
-						
+
 						$sb .= '<a href="?action=save" class="btn btn-primary">Salvar</a>';
 						$sb .= ' | ';
 						$sb .= '<a href="'.PATH.MODULE.'ai/nlp/findTermsCandidates/file/'.$d2.'" class="btn btn-primary">Return</a>';
 						$sb .= '<hr>';
-						$sb .= troca($txt,chr(13),'<hr>');						
+						$sb .= troca($txt,chr(13),'<hr>');
 
 						$sa = bsc($sa,6);
-						$sb = bsc($sb,6);					
+						$sb = bsc($sb,6);
 						$sx = bs($sa.$sb);
 						break;
 
@@ -113,21 +113,21 @@ class TermsCandidates extends Model
 											$sb = '<iframe src="'.base_url(PATH.MODULE.'file/'.$d2.'/actions').'" width="100%" height="600">xxx</iframe>';
 										break;
 									}
-						}						
+						}
 						$sa = bsc($sa,6);
 						$sb = bsc($sb,6);
-						$sx = bs($sa.$sb);				
+						$sx = bs($sa.$sb);
 						break;
 					default:
 						$sx .= h(lang('ai.my_files_area'));
 						$sa = $MyFiles->list($user,'ai/nlp/findTermsCandidates');
-						$sb brapci.content_candidatesTerms= $MyFiles->tools();
+						$sb = $MyFiles->tools();
 						$sx .= bs(bsc($sa,6).bsc($sb,6));
 						break;
-				}			
+				}
 			return $sx;
 		}
 
 
-	
+
 }

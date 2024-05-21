@@ -31,9 +31,9 @@ class Tools extends BaseController
                 break;
 
            case 'project':
-            $Projects = new \App\Models\Tools\Projects();
-            $sx .= $Projects->index($subact,$id,$id2, $id3, $id4, $id5);
-            break;
+                $Projects = new \App\Models\Tools\Projects();
+                $sx .= $Projects->index($subact,$id,$id2, $id3, $id4, $id5);
+                break;
 
            default:
                 $sx .= $Tools->index($act,$subact,$id,$id2,$id3,$id4, $id5);

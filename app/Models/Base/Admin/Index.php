@@ -45,6 +45,10 @@ class Index extends Model
         $sx = '';
         $sx .h($act.' '.$subact);
         switch ($act) {
+            case 'AI':
+                $NLP = new \App\Models\AI\NLP\Index();
+                $sx .= $NLP->index($subact,$id,$id2);
+                break;
             case 'asc':
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $sx .= $RDFliteral->ascii();

@@ -62,6 +62,7 @@ class Manegement extends Model
             $menu[PATH . 'admin/issue'] = 'Issue';
             $menu[PATH . 'admin/section'] = 'Sections';
             $menu[PATH . 'admin/person'] = 'Person';
+            $menu[PATH . 'admin/AI'] = 'AI';
 
             $sx = menu($menu);
 
