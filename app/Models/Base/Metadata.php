@@ -167,6 +167,13 @@ class Metadata extends Model
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
                             }
+
+                            ##################################### KEYWORDS
+                            if ($cls == 'Subject')
+                                {
+                                    echo h("SUBJECT");
+                                    pre($line);
+                                }
                             #array_push($M[$cls], ['ID'=>$ID,'value' => $value, 'lang' => $lang]);
                             if (($cls == 'Organizer') or ($cls == 'Authors'))
                                 {
@@ -214,7 +221,7 @@ class Metadata extends Model
                     } else {
                         $jnl = 99999;
                     }
-                    /*******************************  */
+                    /******************************* Collection */
                     $SRC = $Source->where('id_jnl', $jnl)->first();
                     $M['COLLECTION'] = $SRC['jnl_collection'];
                     $M['COVER'] = $BaseCover->cover($jnl);

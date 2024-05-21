@@ -7,6 +7,8 @@
       <brapci-basket [total]="total"></brapci-basket>
     </div>
   </div>
+
+  <!-- Lista de Referências -->
   <h1>Lista de Referências</h1>
   <div *ngIf="total == 0" class="alert alert-warning">
     Nenhum Item Selecionado
@@ -34,8 +36,11 @@
   </div>
   </div>
 
+  <!-- Export -->
   <app-basketed-export [row]="row"></app-basketed-export>
 
+
+  <!-- Artigos -->
   <div *ngIf="row">
     <h2 class="brp_h2 mt-4" *ngIf="row.ABNT.Articles.length > 0">Artigos</h2>
     <div *ngFor="let item of row.ABNT.Articles" class="mb-2 cited">

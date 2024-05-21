@@ -377,6 +377,9 @@ class Index extends Model
 			case 'doc':
 				$tp='doc';
 				break;
+			case 'ris':
+				$tp = 'ris';
+				break;
 			case 'csv':
 				$begin = '';
 				$sep = ',';
@@ -422,6 +425,8 @@ class Index extends Model
 		$sx = '';
 
 		switch ($tp) {
+			case 'ris':
+				break;
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
 				foreach($dt as $id=>$line)
@@ -433,7 +438,7 @@ class Index extends Model
 			case 'dataset':
 				$sx .= $begin;
 
-				$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS', 'TITLE', 'SESSIONS','LEGEND'];
+				$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS','TITLE', 'KEYWORDS', 'ABSTRACTS', 'SESSION','LEGEND'];
 				$sx .= $linS;
 				foreach ($fld as $name) {
 					$sx .= $pre . $name . $pos . $sep;
