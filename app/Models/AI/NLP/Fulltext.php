@@ -141,27 +141,6 @@ class Fulltext extends Model
             }
         }
 
-        foreach ($ln as $id => $line) {
-            $line = trim($line);
-            $first = substr($line, 0, 1);
-            $up = ($first == UpperCase($first));
-            $lt = ord($first);
-
-            $lt = (($lt >= 65) and ($lt <= 90));
-
-            $last = substr($line, strlen($line) - 1, 1);
-            $end = false;
-            //echo $up.'='.$lt.'='.$line.'<br>';
-            if ($last == '.' or $last == '?' or $last == '!') {
-                $end = true;
-            }
-            //echo '<br>'.$up.'-'.$end.'-'.$line;
-            if (($up) and ($lt)) {
-                $txt .= chr(13) . $line;
-            } else {
-                $txt .= ' ' . $line;
-            }
-        }
         return $txt;
     }
 
