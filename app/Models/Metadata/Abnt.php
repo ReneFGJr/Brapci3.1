@@ -57,13 +57,14 @@ class Abnt extends Model
 
 		/******************************************************* */
 		$TIT = [];
+		pre($dt);
 		if (isset($dt['Title']['pt']))
 			{
 
 			} else {
 
 			}
-		pre($dt);
+
 
 		$title = $link . $this->ref_title($dt['Title']) . $linka;
 
