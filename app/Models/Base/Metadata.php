@@ -176,6 +176,7 @@ class Metadata extends Model
 
                             ##################################### PUBLICATION
                             if ($cls == 'Journal') {
+                                pre($line);
                                 $PUBLI = trim($line['Caption']);
                             }
 
