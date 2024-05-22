@@ -17,7 +17,7 @@ class Register extends Model
     protected $allowedFields    = [
         'id_ds', 'ID', 'json', 'CLASS','COVER', 'COLLECTION',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT', 'KEYWORDS','ABSTRACTS',
-        'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION',
+        'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION', 'PUBLICATION',
         'LEGEND','new','use'
     ];
 
@@ -435,6 +435,7 @@ class Register extends Model
 
         $da['KEYWORDS'] = $data['KEYWORDS'];
         $da['ABSTRACTS'] = $data['ABSTRACTS'];
+        $da['PUBLICATION'] = $data['PUBLICATION'];
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
