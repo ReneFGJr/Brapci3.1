@@ -92,13 +92,17 @@ class RIS extends Model
         /* Subjects */
         if (isset($ln['Subject']))
         {
-        foreach($ln['Subject'] as $lg=>$line)
-            {
-                foreach($line as $idx=>$word)
-                    {
-                        array_push($RSP, 'KW - ' . $word);
-                    }
-            }
+            foreach($ln['Subject'] as $lg=>$line)
+                {
+                    if (is_array($line))
+                        {
+                            foreach ($line as $idx => $word) {
+                                array_push($RSP, 'KW - ' . $word);
+                            }
+                        } else {
+                            array_push($RSP, 'KW - ' . $line.' ???');
+                        }
+                }
         }
 
         array_push($RSP, 'DB - ' . 'BRAPCI');
