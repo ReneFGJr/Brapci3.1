@@ -427,6 +427,8 @@ class Index extends Model
 		switch ($tp) {
 			case 'ris':
 				$RIS = new \App\Models\Metadata\RIS();
+				echo json_encode($_POST);
+				exit;
 				foreach ($dt as $id => $line) {
 					$data = (array)json_decode($line['json']);
 					$sx .= $RIS->short($data).chr(13);
