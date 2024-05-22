@@ -168,7 +168,7 @@ class Metadata extends Model
                     $ID = $line['ID'];
 
                     foreach ($p as $prp => $cls) {
-                        echo $cls.'<br>';
+
                         if ($prop == $prp) {
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
