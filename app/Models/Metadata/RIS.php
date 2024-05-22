@@ -41,7 +41,37 @@ class RIS extends Model
     protected $afterDelete    = [];
 
     function short($ln)
-        {
-            pre($ln);
+    {
+        $TYPE = 'JOUR';
+
+        $RSP = [];
+        array_push($RSP, 'TY - ' . $TYPE);
+
+        /* Autores */
+        foreach ($ln['Authors'] as $ida => $author) {
+            $name = nbr_author($author, 2);
+            array_push($RSP, 'AU - ' . $name);
         }
+
+        /* Title */
+        $Title = (array)$ln['Title'];
+        if (isset($Title['pt'])) {
+            array_push($RSP, 'TI - ' . $Title['pt'][0]);
+        } elseif (isset($Title['es'])) {
+            array_push($RSP, 'TI - ' . $Title['es'][0]);
+        } elseif (isset($Title['en'])) {
+            array_push($RSP, 'TI - ' . $Title['en'][0]);
+        } elseif (isset($Title['fr'])) {
+            array_push($RSP, 'TI - ' . $Title['fr'][0]);
+        }
+
+        /* Ano */
+        array_push($RSP, 'PY - ' . $ln['YEAR']);
+
+        /* Publicação */
+        array_push($RSP, 'T2 - ' . $ln['YEAR']);
+
+        pre($RSP,false);
+        pre($ln);
+    }
 }

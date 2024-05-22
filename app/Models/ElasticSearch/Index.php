@@ -431,7 +431,6 @@ class Index extends Model
 					$data = (array)json_decode($line['json']);
 					$sx .= $RIS->short($data).chr(13);
 				}
-
 				break;
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
