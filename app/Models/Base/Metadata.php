@@ -265,6 +265,8 @@ class Metadata extends Model
             $M['ABSTRACTS'] = $abstC;
             $M['SECTION'] = $sectN;
 
+            pre($M);
+
             $this->metadata = $M;
             return $this->metadata;
         }
