@@ -482,6 +482,11 @@ class Index extends Model
 		if (($type == 'xls') or ($type == 'ris'))
 			{
 				$sx = mb_convert_encoding($sx, "Windows-1252", "UTF-8");
+
+				if ($type == 'ris')
+					{
+						$dir .= '.doc';
+					}
 			}
 
 		file_put_contents($dir,$sx);
