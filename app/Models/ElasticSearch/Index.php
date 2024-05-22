@@ -439,6 +439,14 @@ class Index extends Model
 						$data = (array)json_decode($line['json']);
 						$sx .= $ABNT->short($data).chr(13);
 					}
+
+				$sh = '<<<EOD'.cr();
+				$sh .= '<!DOCTYPE html>'.cr();
+				$sh .= '<html><body>'.cr();
+				$sh .= $sx;
+				$sh .= '</body></html>'.cr();
+				$sh .= 'EOD;';
+				$sx = $sh;
 				break;
 			case 'dataset':
 				$sx .= $begin;
