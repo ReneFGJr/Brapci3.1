@@ -108,7 +108,7 @@ class RIS extends Model
         array_push($RSP, 'DB - ' . 'BRAPCI');
         array_push($RSP, 'M3 - ' . $ln['Class']);
         array_push($RSP, 'LA - ' . 'Portuguese');
-        array_push($RSP, 'N1 - ' . 'Portuguese');
+        //array_push($RSP, 'N1 - ' . 'Portuguese');
 
         /* Fim */
         array_push($RSP, 'ER - ');
