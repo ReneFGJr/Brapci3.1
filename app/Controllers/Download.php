@@ -74,22 +74,25 @@ class Download extends BaseController
             switch($ext)
                 {
                     case 'ris':
-                        header('Access-Control-Allow-Origin: *');
-                        //header("Access-Control-Allow-Headers: Content-Type");
-                        header('Content-Description: File Transfer');
                         header('Content-Type: application/x-research-info-systems');
-                        header('Content-Disposition: attachment; filename=' . basename($filePath));
-                        header('Expires: 0');
-                        header('Cache-Control: must-revalidate');
-                        header('Pragma: public');
-                        header('Content-Length: ' . filesize($filePath));
-                        ob_clean();
-                        flush();
-                        readfile($filePath);
+                        //header("Access-Control-Allow-Headers: Content-Type");
                         exit;
                         break;
-
+                    default:
+                        header('Content-Type: text/csv');
+                        break;
                 }
+
+            header('Content-Description: File Transfer');
+            header('Access-Control-Allow-Origin: *');
+            header('Content-Disposition: attachment; filename=' . basename($filePath));
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($filePath));
+            ob_clean();
+            flush();
+            readfile($filePath);
             exit;
         }
 
