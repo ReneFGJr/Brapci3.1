@@ -45,28 +45,28 @@ class RIS extends Model
         $TYPE = 'JOUR';
 
         $RSP = [];
-        array_push($RSP, 'TY - ' . $TYPE);
+        array_push($RSP, 'TY  - ' . $TYPE);
 
         /* Autores */
         foreach ($ln['Authors'] as $ida => $author) {
             $name = nbr_author($author, 2);
-            array_push($RSP, 'AU - ' . $name);
+            array_push($RSP, 'AU  - ' . $name);
         }
 
         /* Title */
         $Title = (array)$ln['Title'];
         if (isset($Title['pt'])) {
-            array_push($RSP, 'TI - ' . $Title['pt'][0]);
+            array_push($RSP, 'TI  - ' . $Title['pt'][0]);
         } elseif (isset($Title['es'])) {
-            array_push($RSP, 'TI - ' . $Title['es'][0]);
+            array_push($RSP, 'TI  - ' . $Title['es'][0]);
         } elseif (isset($Title['en'])) {
-            array_push($RSP, 'TI - ' . $Title['en'][0]);
+            array_push($RSP, 'TI  - ' . $Title['en'][0]);
         } elseif (isset($Title['fr'])) {
-            array_push($RSP, 'TI - ' . $Title['fr'][0]);
+            array_push($RSP, 'TI  - ' . $Title['fr'][0]);
         }
 
         /* Ano */
-        array_push($RSP, 'PY - ' . $ln['YEAR']);
+        array_push($RSP, 'PY  - ' . $ln['YEAR']);
 
 
 
@@ -76,16 +76,16 @@ class RIS extends Model
                 $Issue = (array)$ln['Issue'];
 
                 /* Publicação */
-                array_push($RSP, 'PB - ' . $Issue['journal']);
+                array_push($RSP, 'PB  - ' . $Issue['journal']);
 
                 /* Volume */
                 if ((isset($Issue['vol'])) and ($Issue['vol'] != ''))
                     {
-                        array_push($RSP, 'VL - ' . sonumero($Issue['vol']));
+                        array_push($RSP, 'VL  - ' . sonumero($Issue['vol']));
                     }
                 /* Number */
                 if ((isset($Issue['nr'])) and ($Issue['nr'] != '')) {
-                    array_push($RSP, 'IS - ' . sonumero($Issue['nr']));
+                    array_push($RSP, 'IS  - ' . sonumero($Issue['nr']));
                 }
             }
 
@@ -97,21 +97,21 @@ class RIS extends Model
                     if (is_array($line))
                         {
                             foreach ($line as $idx => $word) {
-                                array_push($RSP, 'KW - ' . $word);
+                                array_push($RSP, 'KW  - ' . $word);
                             }
                         } else {
-                            array_push($RSP, 'KW - ' . $line);
+                            array_push($RSP, 'KW  - ' . $line);
                         }
                 }
         }
 
-        array_push($RSP, 'DB - ' . 'BRAPCI');
-        array_push($RSP, 'M3 - ' . $ln['Class']);
-        array_push($RSP, 'LA - ' . 'Portuguese');
-        //array_push($RSP, 'N1 - ' . 'Portuguese');
+        array_push($RSP, 'DB  - ' . 'BRAPCI');
+        array_push($RSP, 'M3  - ' . $ln['Class']);
+        array_push($RSP, 'LA  - ' . 'Portuguese');
+        //array_push($RSP, 'N1  - ' . 'Portuguese');
 
         /* Fim */
-        array_push($RSP, 'ER - ');
+        array_push($RSP, 'ER  - ');
         $sx = '';
         foreach($RSP as $ln=>$content)
             {
