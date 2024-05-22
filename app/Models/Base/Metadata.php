@@ -176,7 +176,7 @@ class Metadata extends Model
                                 if ($sectN != '') {
                                     $sectN .= '; ';
                                 }
-                                $$sectN .= trim($line['Caption']);
+                                $sectN .= trim($line['Caption']);
                             }
 
                             ##################################### KEYWORDS
