@@ -153,9 +153,8 @@ class Metadata extends Model
             'isPlaceOfPublication' => 'Place',
             'hasFileStorage' => 'File',
             'hasSectionOf'=> 'Section',
+            'isPartOfSource','Journal'
         ];
-
-        PRE($meta);
 
         if (isset($meta['data'])) {
             $data = $meta['data'];
@@ -175,8 +174,8 @@ class Metadata extends Model
                             }
 
                             ##################################### PUBLICATION
-                            if ($cls == 'Section') {
-                                $PUBLI .= trim($line['Caption']);
+                            if ($cls == 'Journal') {
+                                $PUBLI = trim($line['Caption']);
                             }
 
                             ##################################### SECTION
@@ -272,6 +271,7 @@ class Metadata extends Model
             $M['KEYWORDS'] = $keyWD;
             $M['ABSTRACTS'] = $abstC;
             $M['SECTION'] = $sectN;
+            $M['PUBLICATION'] = $PUBLI;
 
             pre($M);
 
