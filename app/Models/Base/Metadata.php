@@ -173,8 +173,8 @@ class Metadata extends Model
 
                             ##################################### SECTION
                             if ($cls == 'Section') {
-                                if ($$sectN != '') {
-                                    $$sectN .= '; ';
+                                if ($sectN != '') {
+                                    $sectN .= '; ';
                                 }
                                 $$sectN .= trim($line['Caption']);
                             }
