@@ -48,10 +48,31 @@ export class BasketedExportComponent {
   }
 
  downloadFile(filePath:string){
+   var link = document.createElement('a');
+   link.href = filePath;
+   link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+   link.target = '_self'; // Usar _self pode ajudar a forçar o download
+   link.style.display = 'none'; // Esconder o link
+
+   document.body.appendChild(link);
+   link.click();
+   document.body.removeChild(link);
+   /*
+
     var link=document.createElement('a');
     link.href = filePath;
     link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+    /*
     link.target = '_blank'
     link.click();
-}
+
+    link.target = '_self'; // Usar _self pode ajudar a forçar o download
+    link.style.display = 'none'; // Esconder o link
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(filePath);
+    */
+ }
 }
