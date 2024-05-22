@@ -94,13 +94,13 @@ class RIS extends Model
             /* Title */
             $Title = (array)$ln['Abstract'];
             if (isset($Title['pt'])) {
-                array_push($RSP, 'AB  - ' . $Title['pt'][0]);
+                array_push($RSP, 'AB  - ' . troca(troca($Title['pt'][0],chr(13),' '),chr(10),' ');
             } elseif (isset($Title['es'])) {
-                array_push($RSP, 'AB  - ' . $Title['es'][0]);
+                array_push($RSP, 'AB  - ' . troca(troca($Title['es'][0],chr(13),' '),chr(10),' ');
             } elseif (isset($Title['en'])) {
-                array_push($RSP, 'AB  - ' . $Title['en'][0]);
+                array_push($RSP, 'AB  - ' . troca(troca($Title['en'][0],chr(13),' '),chr(10),' ');
             } elseif (isset($Title['fr'])) {
-                array_push($RSP, 'AB  - ' . $Title['fr'][0]);
+                array_push($RSP, 'AB  - ' . troca(troca($Title['fr'][0],chr(13),' '),chr(10),' ');
             }
         }
         /* Subjects */

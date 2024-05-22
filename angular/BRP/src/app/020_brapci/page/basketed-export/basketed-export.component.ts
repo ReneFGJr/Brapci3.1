@@ -40,39 +40,18 @@ export class BasketedExportComponent {
       this.brapciService
         .api_post('brapci/export/' + typeE, dt)
         .subscribe((res) => {
-          console.log(res,typeE);
+          console.log(res, typeE);
           this.row = res;
           this.downloadFile(this.row.download);
         });
     }
   }
 
- downloadFile(filePath:string){
-   var link = document.createElement('a');
-   link.href = filePath;
-   link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
-   link.target = '_self'; // Usar _self pode ajudar a forçar o download
-   link.style.display = 'none'; // Esconder o link
-
-   document.body.appendChild(link);
-   link.click();
-   document.body.removeChild(link);
-   /*
-
-    var link=document.createElement('a');
+  downloadFile(filePath: string) {
+    var link = document.createElement('a');
     link.href = filePath;
     link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
-    /*
-    link.target = '_blank'
+    link.target = '_blank';
     link.click();
-
-    link.target = '_self'; // Usar _self pode ajudar a forçar o download
-    link.style.display = 'none'; // Esconder o link
-
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(filePath);
-    */
- }
+  }
 }
