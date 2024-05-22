@@ -76,7 +76,7 @@ class RIS extends Model
                 $Issue = (array)$ln['Issue'];
 
                 /* Publicação */
-                array_push($RSP, 'T2 - ' . $Issue['journal']);
+                array_push($RSP, 'PB - ' . $Issue['journal']);
 
                 /* Volume */
                 if ((isset($Issue['vol'])) and ($Issue['vol'] != ''))
@@ -98,7 +98,19 @@ class RIS extends Model
                     }
             }
 
-        pre($RSP,false);
-        pre($ln);
+        array_push($RSP, 'DB - ' . 'BRAPCI');
+        array_push($RSP, 'M3 - ' . $ln['Class']);
+        array_push($RSP, 'LA - ' . 'Portuguese');
+        array_push($RSP, 'N1 - ' . 'Portuguese');
+
+        /* Fim */
+        array_push($RSP, 'ER - ');
+        $sx = '';
+        foreach($RSP as $ln=>$content)
+            {
+                $sx .= $content.chr(13);
+            }
+        $sx .= chr(13);
+        return $sx;
     }
 }
