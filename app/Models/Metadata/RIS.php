@@ -89,6 +89,20 @@ class RIS extends Model
                 }
             }
 
+        /* Abstract */
+        if (isset($ln['Abstract'])) {
+            /* Title */
+            $Title = (array)$ln['Abstract'];
+            if (isset($Title['pt'])) {
+                array_push($RSP, 'AB  - ' . $Title['pt'][0]);
+            } elseif (isset($Title['es'])) {
+                array_push($RSP, 'AB  - ' . $Title['es'][0]);
+            } elseif (isset($Title['en'])) {
+                array_push($RSP, 'AB  - ' . $Title['en'][0]);
+            } elseif (isset($Title['fr'])) {
+                array_push($RSP, 'AB  - ' . $Title['fr'][0]);
+            }
+        }
         /* Subjects */
         if (isset($ln['Subject']))
         {
