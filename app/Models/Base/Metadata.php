@@ -132,7 +132,8 @@ class Metadata extends Model
         /************************************************************** PROPERTIES **/
         $authF = [];
         $keyWD = '';
-        $abstC  = '';
+        $abstC = '';
+        $sectN = '';
 
         /******************************** Fields */
         //echo $prop . '<br>';
@@ -168,6 +169,14 @@ class Metadata extends Model
                         if ($prop == $prp) {
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
+                            }
+
+                            ##################################### SECTION
+                            if ($cls == 'Section') {
+                                if ($$sectN != '') {
+                                    $$sectN .= '; ';
+                                }
+                                $$sectN .= trim($line['Caption']);
                             }
 
                             ##################################### KEYWORDS
@@ -254,6 +263,7 @@ class Metadata extends Model
 
             $M['KEYWORDS'] = $keyWD;
             $M['ABSTRACTS'] = $abstC;
+            $M['SECTION'] = $sectN;
 
             $this->metadata = $M;
             return $this->metadata;
