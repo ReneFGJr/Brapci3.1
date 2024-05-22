@@ -477,8 +477,6 @@ class Index extends Model
 		dircheck($dir);
 
 		$dir .= '/brapci_' . date("Ymd-His") . '.' . $type;
-		$dd['download'] = PATH . $dir;
-
 		if (($type == 'xls') or ($type == 'ris'))
 			{
 				$sx = mb_convert_encoding($sx, "Windows-1252", "UTF-8");
@@ -488,7 +486,7 @@ class Index extends Model
 						$dir .= '.doc';
 					}
 			}
-
+		$dd['download'] = PATH . $dir;
 		file_put_contents($dir,$sx);
 
 		echo json_encode($dd);
