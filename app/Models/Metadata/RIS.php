@@ -90,6 +90,8 @@ class RIS extends Model
             }
 
         /* Subjects */
+        if (isset($ln['Subject']))
+        {
         foreach($ln['Subject'] as $lg=>$line)
             {
                 foreach($line as $idx=>$word)
@@ -97,6 +99,7 @@ class RIS extends Model
                         array_push($RSP, 'KW - ' . $word);
                     }
             }
+        }
 
         array_push($RSP, 'DB - ' . 'BRAPCI');
         array_push($RSP, 'M3 - ' . $ln['Class']);
