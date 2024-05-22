@@ -89,6 +89,7 @@ class RIS extends Model
         /* Subjects */
         foreach($ln['Subject'] as $lg=>$line)
             {
+                pre($line);
                 foreach($line as $idx=>$word)
                     {
                         array_push($RSP, 'KW - ' . $word);
