@@ -435,7 +435,7 @@ class Register extends Model
 
         $da['KEYWORDS'] = $data['KEYWORDS'];
         $da['ABSTRACTS'] = $data['ABSTRACTS'];
-        $da['PUBLISHER'] = $data['PUBLISHER'];
+        $da['PUBLICATION'] = $data['PUBLICATION'];
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
