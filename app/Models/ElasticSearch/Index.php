@@ -426,6 +426,12 @@ class Index extends Model
 
 		switch ($tp) {
 			case 'ris':
+				$RIS = new \App\Models\Metadata\RIS();
+				foreach ($dt as $id => $line) {
+					$data = (array)json_decode($line['json']);
+					$sx .= $RIS->short($data).chr(13);
+				}
+
 				break;
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
