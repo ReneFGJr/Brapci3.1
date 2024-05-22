@@ -486,7 +486,7 @@ class Index extends Model
 
 		if ($type == 'ris')
 			{
-				$zip = new ZipArchive();
+				$zip = new \ZipArchive();
 				$zipFileName = troca($dir,'.ris','.zip');
 
 				// Lista de arquivos para adicionar ao ZIP
