@@ -42,7 +42,7 @@ export class BasketedExportComponent {
         .subscribe((res) => {
           console.log(res,typeE);
           this.row = res;
-          //this.downloadFile(this.row.download);
+          this.downloadFile(this.row.download);
         });
     }
   }
@@ -51,6 +51,7 @@ export class BasketedExportComponent {
     var link=document.createElement('a');
     link.href = filePath;
     link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+    link.target = '_blank'
     link.click();
 }
 }

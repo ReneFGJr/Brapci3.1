@@ -100,7 +100,7 @@ class RIS extends Model
                                 array_push($RSP, 'KW - ' . $word);
                             }
                         } else {
-                            array_push($RSP, 'KW - ' . $line.' ???');
+                            array_push($RSP, 'KW - ' . $line);
                         }
                 }
         }
