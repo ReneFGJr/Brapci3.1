@@ -256,6 +256,7 @@ class Metadata extends Model
                     }
                     /******************************* Collection */
                     $SRC = $Source->where('id_jnl', $jnl)->first();
+                    $PUBLI = $SRC['jnl_name'];
                     $M['COLLECTION'] = $SRC['jnl_collection'];
                     $M['COVER'] = $BaseCover->cover($jnl);
                     break;
