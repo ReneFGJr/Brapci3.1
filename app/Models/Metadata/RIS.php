@@ -78,11 +78,11 @@ class RIS extends Model
                 /* Volume */
                 if ((isset($Issue['vol'])) and ($Issue['vol'] != ''))
                     {
-                        array_push($RSP, 'VL - ' . sonumero($ln['vol']));
+                        array_push($RSP, 'VL - ' . sonumero($Issue['vol']));
                     }
                 /* Number */
                 if ((isset($Issue['nr'])) and ($Issue['nr'] != '')) {
-                    array_push($RSP, 'IS - ' . sonumero($ln['nr']));
+                    array_push($RSP, 'IS - ' . sonumero($Issue['nr']));
                 }
             }
 
