@@ -438,7 +438,7 @@ class Index extends Model
 			case 'dataset':
 				$sx .= $begin;
 
-				$fld = ['ID', 'CLASS', 'YEAR', 'AUTHORS','TITLE', 'KEYWORDS', 'ABSTRACTS', 'SESSION','LEGEND'];
+				$fld = ['ID', 'CLASS', 'YEAR', 'PUBLICATION','AUTHORS','TITLE', 'KEYWORDS', 'ABSTRACTS', 'SESSION','LEGEND'];
 				$sx .= $linS;
 				foreach ($fld as $name) {
 					$sx .= $pre . $name . $pos . $sep;
