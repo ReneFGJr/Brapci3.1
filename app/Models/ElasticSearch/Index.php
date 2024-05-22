@@ -437,11 +437,12 @@ class Index extends Model
 				foreach($dt as $id=>$line)
 					{
 						$data = (array)json_decode($line['json']);
-						$sx .= $ABNT->short($data).chr(13);
+						$sx .= '<p>'.$ABNT->short($data).chr(13). '</p>';
 					}
 
 				$sh = '<<<EOD'.cr();
 				$sh .= '<!DOCTYPE html>'.cr();
+				$sh .= '<style>p {margin-bottom: 12px; }</style>'.cr();
 				$sh .= '<html><body>'.cr();
 				$sh .= $sx;
 				$sh .= '</body></html>'.cr();
