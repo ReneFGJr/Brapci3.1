@@ -134,6 +134,7 @@ class Metadata extends Model
         $keyWD = '';
         $abstC = '';
         $sectN = '';
+        $PUBLI = '';
 
         /******************************** Fields */
         //echo $prop . '<br>';
@@ -154,6 +155,8 @@ class Metadata extends Model
             'hasSectionOf'=> 'Section',
         ];
 
+        PRE($data);
+
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
@@ -169,6 +172,11 @@ class Metadata extends Model
                         if ($prop == $prp) {
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
+                            }
+
+                            ##################################### PUBLICATION
+                            if ($cls == 'Section') {
+                                $PUBLI .= trim($line['Caption']);
                             }
 
                             ##################################### SECTION
