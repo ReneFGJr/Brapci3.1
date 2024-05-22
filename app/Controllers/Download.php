@@ -18,8 +18,14 @@ define("COLLECTION", '');
 
 class Download extends BaseController
 {
-    function download($id = '')
+    function download($id = '',$id2='')
     {
+        /* Bibliografia */
+        if ($id == 'bib')
+            {
+                $this->download_export($id2);
+            }
+
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
@@ -59,6 +65,12 @@ class Download extends BaseController
             }
         exit;
     }
+
+    function download_export($file)
+        {
+            $txt = substr($file,-3,3);
+            pre($txt);
+        }
 
     function download_01($dt)
         {

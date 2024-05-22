@@ -476,12 +476,14 @@ class Index extends Model
 		$dir = '.tmp/export';
 		dircheck($dir);
 
-		$dir .= '/brapci_' . date("Ymd-His") . '.' . $type;
+		$fileName = 'brapci_' . date("Ymd-His") . '.' . $type;
+		$dir .= '/'.$fileName;
 		if (($type == 'xls') or ($type == 'ris'))
 			{
 				$sx = mb_convert_encoding($sx, "Windows-1252", "UTF-8");
 			}
 		$dd['download'] = PATH . $dir;
+		$dd['download'] = PATH . 'download/'
 		file_put_contents($dir,$sx);
 
 		echo json_encode($dd);
