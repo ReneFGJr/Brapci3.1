@@ -176,7 +176,7 @@ class Metadata extends Model
 
                             ##################################### PUBLICATION
                             if ($cls == 'Journal') {
-                                pre($line);
+                                /* Veja no proximo linha 256 para artigos*/
                                 $PUBLI = trim($line['Caption']);
                             }
 
@@ -275,8 +275,6 @@ class Metadata extends Model
             $M['ABSTRACTS'] = $abstC;
             $M['SECTION'] = $sectN;
             $M['PUBLICATION'] = $PUBLI;
-
-            pre($M);
 
             $this->metadata = $M;
             return $this->metadata;
