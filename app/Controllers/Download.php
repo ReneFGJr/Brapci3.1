@@ -75,7 +75,11 @@ class Download extends BaseController
                 {
                     case 'ris':
                         header('Content-Type: application/x-research-info-systems');
-                        //header("Access-Control-Allow-Headers: Content-Type");
+                        exit;
+                        break;
+                    case 'doc':
+
+                        header('Content-Type: text/html');
                         exit;
                         break;
                     default:
