@@ -484,18 +484,6 @@ class Index extends Model
 		$dd['download'] = PATH . $dir;
 		file_put_contents($dir,$sx);
 
-		if ($type == 'ris')
-			{
-				$zip = new \ZipArchive();
-				$zipFileName = troca($dir,'.ris','.zip');
-
-				// Lista de arquivos para adicionar ao ZIP
-				$filesToZip = [$dir];
-				if ($zip->open($zipFileName, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
-					die('Não foi possível criar o arquivo ZIP');
-				}
-				$dd['download'] = PATH . $zipFileName;
-			}
 		echo json_encode($dd);
 		exit;
 	}
