@@ -40,8 +40,9 @@ export class BasketedExportComponent {
       this.brapciService
         .api_post('brapci/export/' + typeE, dt)
         .subscribe((res) => {
+          console.log(res,typeE);
           this.row = res;
-          this.downloadFile(this.row.download);
+          //this.downloadFile(this.row.download);
         });
     }
   }
