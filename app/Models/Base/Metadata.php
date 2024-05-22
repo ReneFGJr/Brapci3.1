@@ -155,7 +155,7 @@ class Metadata extends Model
             'hasSectionOf'=> 'Section',
         ];
 
-        PRE($data);
+        PRE($meta);
 
         if (isset($meta['data'])) {
             $data = $meta['data'];
