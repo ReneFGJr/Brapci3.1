@@ -481,7 +481,7 @@ class Index extends Model
 			{
 				$sx = mb_convert_encoding($sx, "Windows-1252", "UTF-8");
 			}
-		$dd['download'] = $dir;
+		$dd['download'] = PATH . $dir;
 		file_put_contents($dir,$sx);
 
 		echo json_encode($dd);

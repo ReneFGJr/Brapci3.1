@@ -12,6 +12,7 @@ export class BasketedExportComponent {
   public sub: Array<any> | any;
   public basket: Array<any> | any;
   public total: number = 0;
+  public status: string = '';
 
   constructor(
     private brapciService: BrapciService,
@@ -37,12 +38,14 @@ export class BasketedExportComponent {
 
     if (this.total > 0) {
       let dt: Array<any> | any = { row: this.basket };
+      this.status = 'Preparando arquivo';
       this.brapciService
         .api_post('brapci/export/' + typeE, dt)
         .subscribe((res) => {
           console.log(res, typeE);
           this.row = res;
-          this.downloadFile(this.row.download);
+          this.status = this.row.download;
+          //this.downloadFile(this.row.download);
         });
     }
   }
