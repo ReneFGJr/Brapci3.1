@@ -71,6 +71,30 @@ class RIS extends Model
         /* Publicação */
         array_push($RSP, 'T2 - ' . $ln['YEAR']);
 
+        /* Issue */
+        if (isset($ln['Issue']))
+            {
+                $Issue = (array)$ln['Issue'];
+                /* Volume */
+                if ((isset($Issue['vol'])) and ($Issue['vol'] != ''))
+                    {
+                        array_push($RSP, 'VL - ' . sonumero($ln['vol']));
+                    }
+                /* Number */
+                if ((isset($Issue['nr'])) and ($Issue['nr'] != '')) {
+                    array_push($RSP, 'IS - ' . sonumero($ln['nr']));
+                }
+            }
+
+        /* Subjects */
+        foreach($ln['Subject'] as $lg=>$line)
+            {
+                foreach($line as $idx=>$word)
+                    {
+                        array_push($RSP, 'KW - ' . $word);
+                    }
+            }
+
         pre($RSP,false);
         pre($ln);
     }

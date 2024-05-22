@@ -133,7 +133,7 @@ class Fulltext extends Model
             }
         }
 
-        /********************************* So numeros */
+            /********************************* So numeros */
         foreach ($ln as $id => $line) {
             $line = troca($line, ' ', '');
             if ($line == sonumero($line)) {
