@@ -608,7 +608,6 @@ class Register extends Model
         $da['updated_at'] = date("Y-m-d H:i:s");
         $da['new'] = 1;
 
-        pre($da);
         return $da;
     }
 
