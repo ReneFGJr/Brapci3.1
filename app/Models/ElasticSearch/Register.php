@@ -576,7 +576,7 @@ class Register extends Model
                         $da['LEGEND'] .= ', ' . $data['Issue']['year'];
                     }
                     $da['JOURNAL'] = $data['Issue']['id_jnl'];
-                    $da['PUBLISHER'] = $data['Issue']['journal'];
+                    $da['PUBLICATION'] = $data['Issue']['journal'];
                     $da['ISSUE'] = $data['Issue']['issue'];
                     break;
 
@@ -588,6 +588,7 @@ class Register extends Model
                     }
                     $da['JOURNAL'] = 0;
                     $da['ISSUE'] = 0;
+                    $da['PUBLICATION'] = 'LIVRO';
                     break;
 
                 case 'BookChapter':
@@ -597,6 +598,7 @@ class Register extends Model
                     }
                     $da['JOURNAL'] = 0;
                     $da['ISSUE'] = 0;
+                    $da['PUBLICATION'] = 'CAPITULO DE LIVRO';
                     break;
 
                 default:
