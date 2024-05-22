@@ -68,13 +68,16 @@ class RIS extends Model
         /* Ano */
         array_push($RSP, 'PY - ' . $ln['YEAR']);
 
-        /* Publicação */
-        array_push($RSP, 'T2 - ' . $ln['YEAR']);
+
 
         /* Issue */
         if (isset($ln['Issue']))
             {
                 $Issue = (array)$ln['Issue'];
+
+                /* Publicação */
+                array_push($RSP, 'T2 - ' . $Issue['journal']);
+
                 /* Volume */
                 if ((isset($Issue['vol'])) and ($Issue['vol'] != ''))
                     {
