@@ -117,7 +117,7 @@ def check_method02(data,jnl,id):
 
     qr = f"select ID from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
-    qr += f" amd YEAR = '{YEAR}' "
+    qr += f" and YEAR = '{YEAR}' "
     row = database.query(qr)
 
     if row == []:
