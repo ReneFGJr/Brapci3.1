@@ -53,10 +53,10 @@ class News extends Model
                     $ver = $line['nw_build'];
                     if ($ver != $xver)
                         {
-                            $sx .= '<span class="bold mt-2" style="font-size: 1.3em;">'.$ver.'</span><br>';
+                            $sx .= '<span class="bold" style="font-size: 1.3em;">'.$ver.'</span><br>';
                             $xver = $ver;
                         }
-                    $sx .= '<li title="'.$line['nw_description'].'">'.$line['nw_title'].'</li>';
+                    $sx .= '<li class="mb-2" title="'.$line['nw_description'].'">'.$line['nw_title'].'</li>';
                 }
             $dd['text'] = $sx;
             $dd['status'] = '200';
