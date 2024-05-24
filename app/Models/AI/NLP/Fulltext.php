@@ -145,10 +145,12 @@ class Fulltext extends Model
                 foreach ($term as $ide2 => $term2) {
                     switch ($var) {
                         case 'vln':
-                            echo h($term2);
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
-                            echo h($termX);
-                            $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+                            if ($termX != '')
+                                {
+                                    $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+                                }
+
                             break;
                         case 'nmb':
                             $termX = sonumero($term2);
