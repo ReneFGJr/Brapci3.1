@@ -133,6 +133,48 @@ class Fulltext extends Model
             }
         }
 
+        /************ Volume */
+        $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
+        // Encontrar todos os e-mails no texto
+        preg_match_all($pattern, $txt, $matches);
+        foreach ($matches as $ide => $email) {
+            if (is_array($email)) {
+                foreach ($email as $ide2 => $email2) {
+                    $txt = troca($txt, $email2, '{volume:"' . $email2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $email, '{volume:"' . $email . '"}');
+            }
+        }
+
+        /************ Numero */
+        $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
+        // Encontrar todos os e-mails no texto
+        preg_match_all($pattern, $txt, $matches);
+        foreach ($matches as $ide => $email) {
+            if (is_array($email)) {
+                foreach ($email as $ide2 => $email2) {
+                    $txt = troca($txt, $email2, '{numero:"' . $email2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $email, '{numero:"' . $email . '"}');
+            }
+        }
+
+        /************ Página */
+        $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
+        // Encontrar todos os e-mails no texto
+        preg_match_all($pattern, $txt, $matches);
+        foreach ($matches as $ide => $email) {
+            if (is_array($email)) {
+                foreach ($email as $ide2 => $email2) {
+                    $txt = troca($txt, $email2, '{pagina:"' . $email2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $email, '{pagina:"' . $email . '"}');
+            }
+        }
+
 
         pre($txt);
         return $sx;

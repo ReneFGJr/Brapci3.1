@@ -8,6 +8,9 @@ $vc['Keywords:'] = '{keywords}';
 
 
 $vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{structure:"Introducao"}' . chr(13);
+$vc[chr(13) . 'REFERÊNCIAS' . chr(13)] = chr(13) . '{structure:"Introducao"}' . chr(13);
+$vc[chr(13) . 'REFERÊNCIAS BIBLIOGRÁFICAS' . chr(13)] = chr(13) . '{structure:"Introducao"}' . chr(13);
+
 $vc[chr(13) . '1 Introdução' . chr(13)] = chr(13) . '{structure:"Introducao"}' . chr(13);
 $vc[chr(13) . '1 INTRODUÇÃO' . chr(13)] = chr(13) . '{structure:"Introducao"}' . chr(13);
 
