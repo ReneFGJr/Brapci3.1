@@ -140,7 +140,7 @@ class Fulltext extends Model
     function findTxt($txt, $pattern, $var)
     {
         preg_match_all($pattern, $txt, $matches);
-        foreach ($$matches[0] as $ide2 => $term2) {
+        foreach ($matches[0] as $ide2 => $term2) {
             switch ($var) {
                 case 'vln':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
