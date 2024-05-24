@@ -39,3 +39,10 @@ foreach ($mesN as $m=>$N) {
     $vc[' ' . $N . ' '] = ' {date:"' . $m . '"} ';
     $vc['/' . $N . '.'] = ' {date:"' . $m . '"} ';
 }
+
+foreach ($mesN as $m => $N) {
+    $N = ucfirst($N);
+    $vc[' ' . $N . '.'] = ' {date:"' . $m . '"} ';
+    $vc[' ' . $N . ' '] = ' {date:"' . $m . '"} ';
+    $vc['/' . $N . '.'] = ' {date:"' . $m . '"} ';
+}
