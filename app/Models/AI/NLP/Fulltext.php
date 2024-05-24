@@ -216,6 +216,7 @@ class Fulltext extends Model
                 $txt = troca($txt, 'vol.' . $r, 'v. ' . $r);
                 $txt = troca($txt, 'n.' . $r, 'n. ' . $r);
                 $txt = troca($txt, 'num.' . $r, 'n. ' . $r);
+                $txt = troca($txt, 'p.' . $r, 'p. ' . $r);
             }
 
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
