@@ -148,22 +148,13 @@ class Fulltext extends Model
                 foreach ($term as $ide2 => $term2) {
                     switch ($var) {
                         case 'vln':
+                            pre($term2);
                             $term2 = trim(substr($term2, strpos($term2, ' '), 20));
                             break;
                     }
                     $txt = troca($txt, $term2, '{x2' . $var . ':"' . $term2 . '"}');
                 }
             }
-            /*
-            else {
-                switch ($var) {
-                    case 'vol':
-                        pre($term);
-                        break;
-                }
-            }
-                $txt = troca($txt, $term, '{x1'.$var.':"' . $term . '"}');
-            */
         }
         return $txt;
     }
