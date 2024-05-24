@@ -140,10 +140,10 @@ class Fulltext extends Model
         foreach ($matches as $ide => $email) {
             if (is_array($email)) {
                 foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{volume:"' . $email2 . '"}');
+                    $txt = troca($txt, $email2, '{vl:"' . $email2 . '"}');
                 }
             } else {
-                $txt = troca($txt, $email, '{volume:"' . $email . '"}');
+                $txt = troca($txt, $email, '{vl:"' . $email . '"}');
             }
         }
 
@@ -154,10 +154,10 @@ class Fulltext extends Model
         foreach ($matches as $ide => $email) {
             if (is_array($email)) {
                 foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{numero:"' . $email2 . '"}');
+                    $txt = troca($txt, $email2, '{nr:"' . $email2 . '"}');
                 }
             } else {
-                $txt = troca($txt, $email, '{numero:"' . $email . '"}');
+                $txt = troca($txt, $email, '{nr:"' . $email . '"}');
             }
         }
 
@@ -168,10 +168,10 @@ class Fulltext extends Model
         foreach ($matches as $ide => $email) {
             if (is_array($email)) {
                 foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{pagina:"' . $email2 . '"}');
+                    $txt = troca($txt, $email2, '{pgn:"' . $email2 . '"}');
                 }
             } else {
-                $txt = troca($txt, $email, '{pagina:"' . $email . '"}');
+                $txt = troca($txt, $email, '{pgn:"' . $email . '"}');
             }
         }
 
