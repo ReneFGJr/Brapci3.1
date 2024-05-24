@@ -144,7 +144,7 @@ class Fulltext extends Model
             switch ($var) {
                 case 'vln':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
-                    echo h($termX,5);
+                    echo h($termX.'-'.$term2,5);
                     break;
                 case 'nmb':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
