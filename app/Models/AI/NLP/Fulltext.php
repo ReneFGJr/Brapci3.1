@@ -93,32 +93,10 @@ class Fulltext extends Model
 
         /************ E-mail */
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $email) {
-            if (is_array($email)) {
-                foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{email:"' . $email2 . '"}');
-                }
-            } else {
-                $txt = troca($txt, $email, '{email:"' . $email . '"}');
-            }
-        }
-
+        $txt = $this->findTxt($txt, $pattern, 'email');
         /************ DOI */
         $pattern = '/10\.\d{4,9}\/[-._;()\/:A-Z0-9]+/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $email) {
-            if (is_array($email)) {
-                foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{DOI:"' . $email2 . '"}');
-                }
-            } else {
-                $txt = troca($txt, $email, '{DOI:"' . $email . '"}');
-            }
-        }
-
+        $txt = $this->findTxt($txt, $pattern, 'DOI');
         /************ LINK */
         $pattern = '/https?:\/\/[^\s]+/i';
         $txt = $this->findTxt($txt, $pattern, 'link');
