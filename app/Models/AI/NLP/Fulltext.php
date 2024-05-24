@@ -151,7 +151,7 @@ class Fulltext extends Model
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
                             break;
                         case 'pgn':
-                            $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                            $termX = sonumero($term2);
                             break;
                         default:
                             $termX = $term2;
