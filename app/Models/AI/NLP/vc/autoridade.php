@@ -5,6 +5,7 @@ $vc['Rene Faustino Gabriel Junior'] = '{person:"Rene Faustino Gabriel Junior"}';
 $vc['Leilah Santiago Bufrem'] = '{person:"Leilah Santiago Bufrem"}';
 $vc['José Simão de Paula Pinto'] = '{person:"José Simão de Paula Pinto"}';
 $vc['Elvis Fusco'] = '{person:"Elvis Fusco"}';
+$vc['Luiz Mucheroni'] = '{person:"Luiz Mucheroni"}';
 
 $vc['Revista da Escola de Biblioteconomia da UFMG'] = '{journal:"Revista da Escola de Biblioteconomia da UFMG"}';
 $vc['Revista de Biblioteconomia & Comunicação'] = '{journal:"Revista de Biblioteconomia & Comunicação"}';
