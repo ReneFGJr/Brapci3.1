@@ -144,7 +144,6 @@ class Fulltext extends Model
             switch ($var) {
                 case 'vln':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
-                    echo h($termX.'-'.$term2,5);
                     break;
                 case 'nmb':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
@@ -155,7 +154,7 @@ class Fulltext extends Model
                 default:
                     $termX = $term2;
             }
-            if ($termX == '') {
+            if ($termX != '') {
                 $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
             }
 
