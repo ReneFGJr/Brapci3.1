@@ -127,10 +127,10 @@ class Fulltext extends Model
         $txt = $this->findTxt($txt, $pattern, 'vln');
         /************ Numero */
         $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
-        //$txt = $this->findTxt($txt, $pattern, 'vln');
+        $txt = $this->findTxt($txt, $pattern, 'vln');
         /************ Página */
         $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
-        //$txt = $this->findTxt($txt, $pattern, 'pgn');
+        $txt = $this->findTxt($txt, $pattern, 'pgn');
 
 
         pre($txt);
@@ -150,7 +150,7 @@ class Fulltext extends Model
                         default:
                             $termX = $term2;
                     }
-                    $txt = troca($txt, $term2, '{x2' . $var . ':"' . $termX . '"}');
+                    $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
                 }
             }
         }
