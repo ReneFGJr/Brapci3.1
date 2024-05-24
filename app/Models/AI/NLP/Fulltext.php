@@ -145,9 +145,10 @@ class Fulltext extends Model
             $match[strzero(strlen($term2),5).$term2] = strlen($term2);
         }
         krsort($match);
-        pre($match);
 
         foreach ($match as $term2 => $ide2) {
+            $term2 = substr($term2,5,strlen($term2));
+            pre($term2);
             switch ($var) {
                 case 'vln':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
