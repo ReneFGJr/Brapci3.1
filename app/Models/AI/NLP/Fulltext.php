@@ -140,31 +140,25 @@ class Fulltext extends Model
     function findTxt($txt, $pattern, $var)
     {
         preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $term) {
-            if (is_array($term)) {
-                foreach ($term as $ide2 => $term2) {
-                    switch ($var) {
-                        case 'vln':
-                            $termX = trim(substr($term2, strpos($term2, ' '), 20));
-                            if ($termX != '')
-                                {
-                                    $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
-                                }
-
-                            break;
-                        case 'nmb':
-                            $termX = sonumero($term2);
-                            break;
-                        case 'pgn':
-                            $termX = sonumero($term2);
-                            break;
-                        default:
-                            $termX = $term2;
-                            if ($termX == '') {
-                                $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
-                            }
+        foreach ($$matches[0] as $ide2 => $term2) {
+            switch ($var) {
+                case 'vln':
+                    $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                    if ($termX != '') {
+                        $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
                     }
-                }
+                    break;
+                case 'nmb':
+                    $termX = sonumero($term2);
+                    break;
+                case 'pgn':
+                    $termX = sonumero($term2);
+                    break;
+                default:
+                    $termX = $term2;
+                    if ($termX == '') {
+                        $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+                    }
             }
         }
         return $txt;
