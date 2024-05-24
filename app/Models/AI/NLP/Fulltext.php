@@ -163,6 +163,10 @@ class Fulltext extends Model
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
 
+        /******************* JUNTAR LINHAS * virgula e ponto e virgula */
+        $txt = troca($txt,','.chr(13),', ');
+        $txt = troca($txt, ';' . chr(13), '; ');
+
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
@@ -188,7 +192,9 @@ class Fulltext extends Model
             }
         }
 
-        /********************************* caixa baixa */
+
+
+        /******************* JUNTAR LINHAS * caixa baixa */
         $lid = 0;
         foreach ($ln as $id => $line) {
             $line = trim($line);
@@ -207,6 +213,7 @@ class Fulltext extends Model
                     $lid = $id;
                 }
         }
+
 
         /********************************* So numeros */
         foreach ($ln as $id => $line) {
