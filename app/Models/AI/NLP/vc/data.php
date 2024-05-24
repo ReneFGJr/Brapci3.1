@@ -14,8 +14,8 @@ for ($r=1920;$r < date("Y")+10;$r++)
         $mesN = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
         foreach($mes as $m)
             {
-                $vc[' '.$m.'.'] = ' {date:"'. $mesN['m'] .'"} ';
-                $vc[' '.$m.' '] = ' {date:"'. $mesN['m'] .'"} ';
-                $vc['/'.$m.'.'] = ' {date:"'. $mesN['m'] .'"} ';
+                $vc[' '.$m.'.'] = ' {date:"'. $mesN[$m] .'"} ';
+                $vc[' '.$m.' '] = ' {date:"'. $mesN[$m] .'"} ';
+                $vc['/'.$m.'.'] = ' {date:"'. $mesN[$m] .'"} ';
             }
     }
