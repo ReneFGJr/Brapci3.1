@@ -144,7 +144,7 @@ class Fulltext extends Model
         foreach ($matches[0] as $ide2 => $term2) {
             $match[$term2] = strlen($term2);
         }
-        krsort($match);
+        rsort($match);
         pre($match);
 
         foreach ($match as $term2 => $ide2) {
