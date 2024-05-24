@@ -82,6 +82,12 @@ class Fulltext extends Model
             $txt = troca($txt, $t1, $t2);
         }
 
+        /************ E-mail */
+        $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
+        // Encontrar todos os e-mails no texto
+        preg_match_all($pattern, $text, $matches);
+        pre($matches);
+
 
         pre($txt);
         return $sx;
