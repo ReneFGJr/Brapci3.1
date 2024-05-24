@@ -124,7 +124,7 @@ class Fulltext extends Model
         $txt = $this->findTxt($txt, $pattern, 'link');
         /************ Volume */
         $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
-        $txt = $this->findTxt($txt,$pattern,'vln');
+        $txt = $this->findTxt($txt, $pattern, 'vln');
         /************ Numero */
         $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
         //$txt = $this->findTxt($txt, $pattern, 'vln');
@@ -138,19 +138,18 @@ class Fulltext extends Model
     }
 
     function findTxt($txt, $pattern, $var)
-        {
+    {
         preg_match_all($pattern, $txt, $matches);
         foreach ($matches as $ide => $term) {
             if (is_array($term)) {
                 foreach ($term as $ide2 => $term2) {
-                    switch($var)
-                        {
-                            case 'vln':
-                                $term2 = substr($term2,strpos($term2,' '),20);
-                                break;
-                        }
-                    echo h($var).'<hr>';
-                    $txt = troca($txt, $term2, '{x2'.$var.':"' . $term2 . '"}');
+                    switch ($var) {
+                        case 'vln':
+                            $term2 = substr($term2, strpos($term2, ' '), 20);
+                            break;
+                    }
+                    echo h($var) . '<hr>';
+                    $txt = troca($txt, $term2, '{x2' . $var . ':"' . $term2 . '"}');
                 }
             }
             /*
@@ -160,9 +159,9 @@ class Fulltext extends Model
                         pre($term);
                         break;
                 }
+            }
                 $txt = troca($txt, $term, '{x1'.$var.':"' . $term . '"}');
             */
-            }
         }
         return $txt;
     }
