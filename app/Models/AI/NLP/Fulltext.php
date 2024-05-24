@@ -86,7 +86,10 @@ class Fulltext extends Model
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
         // Encontrar todos os e-mails no texto
         preg_match_all($pattern, $txt, $matches);
-        pre($matches);
+        foreach($matches as $ide=>$email)
+            {
+                pre($email);
+            }
 
 
         pre($txt);
