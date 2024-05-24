@@ -121,63 +121,41 @@ class Fulltext extends Model
 
         /************ LINK */
         $pattern = '/https?:\/\/[^\s]+/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $email) {
-            if (is_array($email)) {
-                foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{link:"' . $email2 . '"}');
-                }
-            } else {
-                $txt = troca($txt, $email, '{link:"' . $email . '"}');
-            }
-        }
-
+        $txt = $this->findTxt($txt, $pattern, 'link');
         /************ Volume */
         $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $email) {
-            if (is_array($email)) {
-                foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{vl:"' . $email2 . '"}');
-                }
-            } else {
-                $txt = troca($txt, $email, '{vl:"' . $email . '"}');
-            }
-        }
-
+        $txt = $this->findTxt($txt,$pattern,'vln');
         /************ Numero */
         $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $email) {
-            if (is_array($email)) {
-                foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{nr:"' . $email2 . '"}');
-                }
-            } else {
-                $txt = troca($txt, $email, '{nr:"' . $email . '"}');
-            }
-        }
-
+        //$txt = $this->findTxt($txt, $pattern, 'vln');
         /************ Página */
         $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach ($matches as $ide => $email) {
-            if (is_array($email)) {
-                foreach ($email as $ide2 => $email2) {
-                    $txt = troca($txt, $email2, '{pgn:"' . $email2 . '"}');
-                }
-            } else {
-                $txt = troca($txt, $email, '{pgn:"' . $email . '"}');
-            }
-        }
+        //$txt = $this->findTxt($txt, $pattern, 'pgn');
 
 
         pre($txt);
         return $sx;
+    }
+
+    function findTxt($txt, $pattern, $var)
+        {
+        preg_match_all($pattern, $txt, $matches);
+        foreach ($matches as $ide => $term) {
+            if (is_array($term)) {
+                foreach ($term as $ide2 => $term2) {
+                    switch($var)
+                        {
+                            case 'vol':
+                                pre($term2);
+                                break;
+                        }
+                    $txt = troca($txt, $term2, '{'.$var.':"' . $term2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $term, '{'.$var.':"' . $term . '"}');
+            }
+        }
+        return $txt;
     }
 
     function files($id)
