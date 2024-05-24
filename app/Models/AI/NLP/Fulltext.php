@@ -127,7 +127,7 @@ class Fulltext extends Model
         $txt = $this->findTxt($txt, $pattern, 'vln');
         /************ Numero */
         $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
-        $txt = $this->findTxt($txt, $pattern, 'vln');
+        $txt = $this->findTxt($txt, $pattern, 'number');
         /************ Página */
         $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
         $txt = $this->findTxt($txt, $pattern, 'pgn');
@@ -144,6 +144,12 @@ class Fulltext extends Model
             if (is_array($term)) {
                 foreach ($term as $ide2 => $term2) {
                     switch ($var) {
+                        case 'vln':
+                            $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                            break;
+                        case 'number':
+                            $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                            break;
                         case 'vln':
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
                             break;
