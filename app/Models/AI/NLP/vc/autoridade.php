@@ -42,6 +42,9 @@ $vc['UEMS'] = '{sigla:"UEMS"}';
 $vc['UFMG'] = '{sigla:"UFMG"}';
 $vc['UFRRJ'] = '{sigla:"UFRRJ"}';
 $vc['UNICAP'] = '{sigla:"UNICAP"}';
+$vc['UFRGS'] = '{sigla:"UFRGS"}';
+$vc['UNESP'] = '{sigla:"UNESP"}';
+$vc['FURG'] = '{sigla:"FURG"}';
 
 /*********************** */
 
