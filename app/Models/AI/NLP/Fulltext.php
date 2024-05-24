@@ -88,7 +88,16 @@ class Fulltext extends Model
         preg_match_all($pattern, $txt, $matches);
         foreach($matches as $ide=>$email)
             {
-                pre($email);
+                if (is_array($email))
+                    {
+                        foreach($email as $ide2=>$email2)
+                            {
+                                $txt = troca($txt, $email2, '{email:"' . $email2 . '"}');
+                            }
+
+                    } else {
+                        $txt = troca($txt, $email, '{email:"' . $email . '"}');
+                    }
             }
 
 
