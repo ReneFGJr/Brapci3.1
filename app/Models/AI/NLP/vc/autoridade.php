@@ -13,11 +13,13 @@ $vc['Perspectivas em Ciência da Informação'] = '{journal:"Perspectivas em Ci�
 
 
 $vc['Universidade de São Paulo'] = '{org:"Universidade_de_São_Paulo"}';
+$vc['Universidade São Paulo'] = '{org:"Universidade_de_São_Paulo"}';
 $vc['Universidade Federal Fluminense'] = '{org:"Universidade_Federal_Fluminense"}';
 $vc['Universidade Estadual Paulista'] = '{org:"Universidade_Estadual_Paulista"}';
 $vc['Universidade Federal do Paraná'] = '{org:"Universidade_Federal_do_Paraná"}';
 $vc['Universidade Federal de Santa Catarina'] = '{org:"Universidade_Federal_de_Santa_Catarina"}';
 $vc['Universidade Federal do Rio de Janeiro'] = '{org:"Universidade_Federal_do_Rio_de_Janeiro"}';
+$vc['Instituto Federal do Rio de Janeiro'] = '{org:"Instituto_Federal_do_Rio_de_Janeiro"}';
 
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
