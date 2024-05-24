@@ -33,3 +33,9 @@ foreach ($mes as $m) {
     $vc[' ' . $m . ' '] = ' {date:"' . $mesN[$m] . '"} ';
     $vc['/' . $m . '.'] = ' {date:"' . $mesN[$m] . '"} ';
 }
+
+foreach ($mesN as $m=>$N) {
+    $vc[' ' . $N . '.'] = ' {date:"' . $m . '"} ';
+    $vc[' ' . $N . ' '] = ' {date:"' . $m . '"} ';
+    $vc['/' . $N . '.'] = ' {date:"' . $m . '"} ';
+}

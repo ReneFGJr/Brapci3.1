@@ -31,6 +31,13 @@ $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
 
 /*********************** */
-$vc['Recebido em '] = '{"Recebido em "}';
-$vc['Aceito em '] = '{"Recebido em "}';
+$vc['Recebido em '] = '{data:"Recebido"}';
+$vc['Recebido em:'] = '{data:"Recebido"}';
+
+$vc['Aceito em '] = '{data:"Aceito"}';
+$vc['Aprovado em:'] = '{data:"Aceito"}';
+$vc['Aprovado em '] = '{data:"Aceito"}';
+
+$vc['Publicado em '] = '{data:"Publicado"}';
+$vc['Publicado em:'] = '{data:"Publicado"}';
 ?>
