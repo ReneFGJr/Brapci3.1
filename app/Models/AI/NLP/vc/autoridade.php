@@ -10,7 +10,10 @@ $vc['Luiz Mucheroni'] = '{person:"Luiz Mucheroni"}';
 $vc['Revista da Escola de Biblioteconomia da UFMG'] = '{journal:"Revista da Escola de Biblioteconomia da UFMG"}';
 $vc['Revista de Biblioteconomia & Comunicação'] = '{journal:"Revista de Biblioteconomia & Comunicação"}';
 $vc['Perspectivas em Ciência da Informação'] = '{journal:"Perspectivas em Ciência da Informação"}';
+
+
 $vc['Universidade de São Paulo'] = '{org:"Universidade de São Paulo"}';
+$vc['Universidade Federal Fluminense'] = '{org:"Universidade Federal Fluminense"}';
 
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
@@ -24,10 +27,6 @@ $vc['(CCN)'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
 $vc['Universidade Federal do Paraná'] = '{org:"Universidade Federal do Paraná"}';
 $vc['UFPR'] = '{sigla:"UFPR"}';
-
-
-$vc['Curitiba'] = '{city:"Curitiba"}';
-
 $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
 

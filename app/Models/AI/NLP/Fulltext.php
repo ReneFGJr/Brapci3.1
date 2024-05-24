@@ -87,6 +87,11 @@ class Fulltext extends Model
             $txt = troca($txt, $t1, $t2);
         }
 
+        require("vc/places.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
         /************ E-mail */
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
         // Encontrar todos os e-mails no texto
