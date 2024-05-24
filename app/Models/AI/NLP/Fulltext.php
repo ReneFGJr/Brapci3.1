@@ -149,9 +149,6 @@ class Fulltext extends Model
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
                             echo h($termX);
                             $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
-                            pre($txt);
-                            exit;
-
                             break;
                         case 'nmb':
                             $termX = sonumero($term2);
@@ -165,9 +162,6 @@ class Fulltext extends Model
                                 $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
                             }
                     }
-
-
-
                 }
             }
         }
