@@ -214,7 +214,10 @@ class Fulltext extends Model
 
         for($r=1;$r <= 9;$r++)
             {
-                $txt = troca($txt, '.'.$r,'. '.$r);
+                $txt = troca($txt, 'v.'.$r,'v. '.$r);
+                $txt = troca($txt, 'vol.' . $r, 'v. ' . $r);
+                $txt = troca($txt, 'n.' . $r, 'n. ' . $r);
+                $txt = troca($txt, 'num.' . $r, 'n. ' . $r);
             }
 
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
