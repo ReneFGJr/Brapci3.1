@@ -12,8 +12,10 @@ $vc['Revista de Biblioteconomia & Comunicação'] = '{journal:"Revista de Biblio
 $vc['Perspectivas em Ciência da Informação'] = '{journal:"Perspectivas em Ciência da Informação"}';
 
 
-$vc['Universidade de São Paulo'] = '{org:"Universidade de São Paulo"}';
-$vc['Universidade Federal Fluminense'] = '{org:"Universidade Federal Fluminense"}';
+$vc['Universidade de São Paulo'] = '{org:"Universidade_de_São_Paulo"}';
+$vc['Universidade Federal Fluminense'] = '{org:"Universidade_Federal_Fluminense"}';
+$vc['Universidade Estadual Paulista'] = '{org:"Universidade_Estadual_Paulista"}';
+$vc['Universidade Federal do Paraná'] = '{org:"Universidade_Federal_do_Paraná"}';
 
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
@@ -25,7 +27,6 @@ $vc['Modelo Computacional e Semântico de Apoio'] = '{subtitulo}';
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 $vc['(CCN)'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
-$vc['Universidade Federal do Paraná'] = '{org:"Universidade Federal do Paraná"}';
 $vc['UFPR'] = '{sigla:"UFPR"}';
 $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
