@@ -9,6 +9,7 @@ $vc[chr(13) . 'Abstract:'] = chr(13) . '{RESUMO}' . chr(13);
 
 $vc['Palavras–chave:'] = '{keywords}';
 $vc['Keywords:'] = '{keywords}';
+$vc['Palavras-chave:'] = '{keywords}';
 
 
 $vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{structure:"Introducao"}' . chr(13);
