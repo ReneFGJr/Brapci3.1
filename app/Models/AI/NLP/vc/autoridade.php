@@ -22,6 +22,7 @@ $vc['Universidade Federal do Rio de Janeiro'] = '{org:"Universidade_Federal_do_R
 $vc['Universidade Federal Rural do Rio de Janeiro'] = '{org:"Universidade_Federal_Rural_do_Rio_de_Janeiro"}';
 $vc['Instituto Federal do Rio de Janeiro'] = '{org:"Instituto_Federal_do_Rio_de_Janeiro"}';
 
+$cv['Rede Nacional de Ensino e Pesquisa'] = '{org:"Rede_Nacional_de_Ensino_e_Pesquisa"}';
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
 $vc['Modelizando práticas para a socialização de informações'] = '{titulo}';
@@ -45,6 +46,8 @@ $vc['UNICAP'] = '{sigla:"UNICAP"}';
 $vc['UFRGS'] = '{sigla:"UFRGS"}';
 $vc['UNESP'] = '{sigla:"UNESP"}';
 $vc['FURG'] = '{sigla:"FURG"}';
+$vc['RNP'] = '{sigla:"RNP"}';
+$vc['IBICT'] = '{sigla:"IBICT"}';
 
 /*********************** */
 
