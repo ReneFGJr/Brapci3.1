@@ -124,7 +124,7 @@ class Fulltext extends Model
         $txt = $this->findTxt($txt, $pattern, 'link');
         /************ Volume */
         $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
-        //$txt = $this->findTxt($txt, $pattern, 'vln');
+        $txt = $this->findTxt($txt, $pattern, 'vln');
         /************ Numero */
         $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
         //$txt = $this->findTxt($txt, $pattern, 'nmb');
