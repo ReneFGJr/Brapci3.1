@@ -146,7 +146,6 @@ class Fulltext extends Model
                     switch ($var) {
                         case 'vln':
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
-                            pre($termX);
                             break;
                         default:
                             $termX = $term2;
