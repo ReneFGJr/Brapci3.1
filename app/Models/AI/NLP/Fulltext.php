@@ -152,6 +152,10 @@ class Fulltext extends Model
                             break;
                         case 'pgn':
                             $termX = sonumero($term2);
+                            if ($termX == '')
+                                {
+                                    pre($term2);
+                                }
                             break;
                         default:
                             $termX = $term2;
