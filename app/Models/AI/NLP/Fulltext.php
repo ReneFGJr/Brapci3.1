@@ -145,6 +145,7 @@ class Fulltext extends Model
                 foreach ($term as $ide2 => $term2) {
                     switch ($var) {
                         case 'vln':
+                            echo h($term2);
                             pre($matches);
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
                             break;
