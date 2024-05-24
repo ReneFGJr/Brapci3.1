@@ -15,6 +15,7 @@ $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo 
 
 $vc['Modelizando práticas para a socialização de informações'] = '{titulo}';
 $vc['Plataforma Informacional do Ecossistema Paulista de Inovação'] = '{titulo}';
+$vc['Modelo Computacional e Semântico de Apoio'] = '{subtitulo}';
 
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 $vc['(CCN)'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
