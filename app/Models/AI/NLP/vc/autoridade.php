@@ -44,12 +44,18 @@ $vc['UFRRJ'] = '{sigla:"UFRRJ"}';
 $vc['UNICAP'] = '{sigla:"UNICAP"}';
 
 /*********************** */
+
+$vc['Submetido em:'] = '{data:"Submetido"}';
+
 $vc['Recebido em '] = '{data:"Recebido"}';
 $vc['Recebido em:'] = '{data:"Recebido"}';
 
 $vc['Aceito em '] = '{data:"Aceito"}';
+$vc['Aceito em:'] = '{data:"Aceito"}';
 $vc['Aprovado em:'] = '{data:"Aceito"}';
 $vc['Aprovado em '] = '{data:"Aceito"}';
+$vc['Aprovado na ConfOA:'] = '{data:"Aceito"}';
+
 
 $vc['Publicado em '] = '{data:"Publicado"}';
 $vc['Publicado em:'] = '{data:"Publicado"}';
