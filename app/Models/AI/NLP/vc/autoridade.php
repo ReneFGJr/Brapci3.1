@@ -34,6 +34,11 @@ $vc['UFPR'] = '{sigla:"UFPR"}';
 $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
 $vc['USP'] = '{sigla:"USP"}';
+$vc['UESPI'] = '{sigla:"UESPI"}';
+$vc['UNB'] = '{sigla:"UnB"}';
+$vc['UnB'] = '{sigla:"UnB"}';
+$vc['UEMS'] = '{sigla:"UEMS"}';
+$vc['UFMG'] = '{sigla:"UFMG"}';
 
 
 /*********************** */
