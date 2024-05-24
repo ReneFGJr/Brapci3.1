@@ -40,7 +40,8 @@ $vc['UNB'] = '{sigla:"UnB"}';
 $vc['UnB'] = '{sigla:"UnB"}';
 $vc['UEMS'] = '{sigla:"UEMS"}';
 $vc['UFMG'] = '{sigla:"UFMG"}';
-
+$vc['UFRRJ'] = '{sigla:"UFRRJ"}';
+$vc['UNICAP'] = '{sigla:"UNICAP"}';
 
 /*********************** */
 $vc['Recebido em '] = '{data:"Recebido"}';
