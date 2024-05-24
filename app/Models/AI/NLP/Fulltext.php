@@ -150,7 +150,7 @@ class Fulltext extends Model
                         case 'number':
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
                             break;
-                        case 'vln':
+                        case 'pgn':
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
                             break;
                         default:
