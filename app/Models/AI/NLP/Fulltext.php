@@ -212,6 +212,11 @@ class Fulltext extends Model
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
 
+        for($r=1;$r <= 9;$r++)
+            {
+                $txt = troca($txt, '.'.$r,'. '.$r);
+            }
+
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
