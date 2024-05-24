@@ -156,7 +156,12 @@ class Fulltext extends Model
                         default:
                             $termX = $term2;
                     }
-                    $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+
+                    if ($termX == '')
+                        {
+                            $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+                        }
+
                 }
             }
         }
