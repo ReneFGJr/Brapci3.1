@@ -68,6 +68,13 @@ class RIS extends Model
         /* Ano */
         array_push($RSP, 'PY  - ' . $ln['YEAR']);
 
+        /* DOI */
+        pre($ln);
+        /*
+        array_push($RSP, 'DO  - ' . $ln['YEAR']);
+        array_push($RSP, 'DI  - ' . $ln['YEAR']);
+        */
+
 
 
         /* Issue */
@@ -124,7 +131,7 @@ class RIS extends Model
 
         array_push($RSP, 'DB  - ' . 'BRAPCI');
         array_push($RSP, 'M3  - ' . $ln['Class']);
-        array_push($RSP, 'LA  - ' . 'Portuguese');
+        array_push($RSP, 'LA  - ' . 'por');
         //array_push($RSP, 'N1  - ' . 'Portuguese');
 
         /* Fim */
