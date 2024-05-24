@@ -141,6 +141,7 @@ class Fulltext extends Model
         if ($txt == '') {
             return "";
         }
+        $txt = troca($txt,chr(10),chr(13));
         $txt = troca($txt, '•', '');
         $txt = troca($txt, '⇒', '');
         $txt = troca($txt, "'", '');
@@ -148,10 +149,10 @@ class Fulltext extends Model
         $txt = troca($txt, '“','');
         $txt = troca($txt, '“', '”');
 
-        $txt = troca($txt, chr(10) . chr(10), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
-        $txt = troca($txt, chr(10) . chr(13) . chr(10), chr(13), '[CR]');
-        $txt = troca($txt, chr(13) . chr(10) . chr(13), chr(10), '[CR]');
+        $txt = troca($txt, chr(13) . chr(13), '[CR]');
+        $txt = troca($txt, chr(13) . chr(13), '[CR]');
+
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
