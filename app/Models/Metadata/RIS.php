@@ -69,7 +69,7 @@ class RIS extends Model
         array_push($RSP, 'PY  - ' . $ln['YEAR']);
 
         /* DOI */
-        pre($ln);
+        //pre($ln);
         /*
         array_push($RSP, 'DO  - ' . $ln['YEAR']);
         array_push($RSP, 'DI  - ' . $ln['YEAR']);
