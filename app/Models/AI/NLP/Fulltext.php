@@ -105,6 +105,34 @@ class Fulltext extends Model
             }
         }
 
+        /************ DOI */
+        $pattern = '/10\.\d{4,9}\/[-._;()\/:A-Z0-9]+/i';
+        // Encontrar todos os e-mails no texto
+        preg_match_all($pattern, $txt, $matches);
+        foreach ($matches as $ide => $email) {
+            if (is_array($email)) {
+                foreach ($email as $ide2 => $email2) {
+                    $txt = troca($txt, $email2, '{DOI:"' . $email2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $email, '{DOI:"' . $email . '"}');
+            }
+        }
+
+        /************ LINK */
+        $pattern = '/https?:\/\/[^\s]+/i';
+        // Encontrar todos os e-mails no texto
+        preg_match_all($pattern, $txt, $matches);
+        foreach ($matches as $ide => $email) {
+            if (is_array($email)) {
+                foreach ($email as $ide2 => $email2) {
+                    $txt = troca($txt, $email2, '{link:"' . $email2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $email, '{link:"' . $email . '"}');
+            }
+        }
+
 
         pre($txt);
         return $sx;
