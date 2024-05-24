@@ -4,6 +4,7 @@ $vc = [];
 $vc['Rene Faustino Gabriel Junior'] = '{person:"Rene Faustino Gabriel Junior"}';
 $vc['Leilah Santiago Bufrem'] = '{person:"Leilah Santiago Bufrem"}';
 $vc['José Simão de Paula Pinto'] = '{person:"José Simão de Paula Pinto"}';
+$vc['Elvis Fusco'] = '{person:"Elvis Fusco"}';
 
 $vc['Revista da Escola de Biblioteconomia da UFMG'] = '{journal:"Revista da Escola de Biblioteconomia da UFMG"}';
 $vc['Revista de Biblioteconomia & Comunicação'] = '{journal:"Revista de Biblioteconomia & Comunicação"}';
@@ -32,17 +33,14 @@ $vc['Curitiba'] = '{city:"Curitiba"}';
 $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
 $vc['Open Archives Iniciative Protocol for Metadata Harvesting'] = '{term:"OAI-PMH"}';
+
+/*********************** */
 $vc['OAIPMH'] = '{term:"OAI-PMH"}';
 $vc['OAI-PMH'] = '{term:"OAI-PMH"}';
+$vc['Big Data'] = '{term:"BigData"}';
 
-$vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{REFERENCIAS}' . chr(13);
-$vc[chr(13) . '1 Introdução' . chr(13)] = chr(13) . '{INTRODUCAO}' . chr(13);
-$vc[chr(13) . 'Introdução' . chr(13)] = chr(13) . '{INTRODUCAO}' . chr(13);
 
-$vc[chr(13) . '2 Referencial teórico' . chr(13)] = chr(13) . '{REFERENCIAL_TEORICO}' . chr(13);
-$vc[chr(13) . 'Referencial teórico' . chr(13)] = chr(13) . '{REFERENCIAL_TEORICO}' . chr(13);
 
-$vc[chr(13) . '3 Metodologia' . chr(13)] = chr(13) . '{METODOLOGIA}' . chr(13);
 
 
 
