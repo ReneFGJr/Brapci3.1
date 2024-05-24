@@ -146,9 +146,9 @@ class Fulltext extends Model
                     switch ($var) {
                         case 'vln':
                             $term2 = substr($term2, strpos($term2, ' '), 20);
+                            pre($term2);
                             break;
                     }
-                    echo h($var) . '<hr>';
                     $txt = troca($txt, $term2, '{x2' . $var . ':"' . $term2 . '"}');
                 }
             }
