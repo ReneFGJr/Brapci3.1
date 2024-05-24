@@ -165,6 +165,8 @@ class Fulltext extends Model
         /******************* JUNTAR LINHAS * virgula e ponto e virgula */
         $txt = troca($txt, ',' . chr(13), ', ');
         $txt = troca($txt, ';' . chr(13), '; ');
+        $txt = troca($txt, ', ' . chr(13), ', ');
+        $txt = troca($txt, '; ' . chr(13), '; ');
 
         $ln = explode(chr(13), $txt);
         $end = false;
