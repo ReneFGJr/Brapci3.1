@@ -144,22 +144,20 @@ class Fulltext extends Model
             switch ($var) {
                 case 'vln':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
-                    if ($termX != '') {
-                        $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
-                    }
                     break;
                 case 'nmb':
-                    $termX = sonumero($term2);
+                    $termX = trim(substr($term2, strpos($term2, ' '), 20));
                     break;
                 case 'pgn':
-                    $termX = sonumero($term2);
+                    $termX = trim(substr($term2, strpos($term2, ' '), 20));
                     break;
                 default:
                     $termX = $term2;
-                    if ($termX == '') {
-                        $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
-                    }
             }
+            if ($termX == '') {
+                $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+            }
+
         }
         return $txt;
     }
