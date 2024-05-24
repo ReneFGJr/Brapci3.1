@@ -146,8 +146,10 @@ class Fulltext extends Model
                     switch ($var) {
                         case 'vln':
                             echo h($term2);
-                            pre($matches);
                             $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                            echo h($termX);
+                            exit;
+                            $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
                             break;
                         case 'nmb':
                             $termX = sonumero($term2);
@@ -157,12 +159,12 @@ class Fulltext extends Model
                             break;
                         default:
                             $termX = $term2;
+                            if ($termX == '') {
+                                $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+                            }
                     }
 
-                    if ($termX == '')
-                        {
-                            $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
-                        }
+
 
                 }
             }
