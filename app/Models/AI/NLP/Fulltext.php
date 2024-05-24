@@ -64,14 +64,13 @@ class Fulltext extends Model
 
         echo "FULLTEXT - PRE";
 
-        $txt = troca($txt,'[CR]','');
+        $txt = troca($txt, '[CR]', '');
         $txt = troca($txt, '  ', ' ');
 
         require("vc/autoridade.php");
-        foreach($vc as $t1=>$t2)
-            {
-                $txt = troca($txt,$t1,$t2);
-            }
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
         require("vc/data.php");
         foreach ($vc as $t1 => $t2) {
             $txt = troca($txt, $t1, $t2);
@@ -96,19 +95,15 @@ class Fulltext extends Model
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
         // Encontrar todos os e-mails no texto
         preg_match_all($pattern, $txt, $matches);
-        foreach($matches as $ide=>$email)
-            {
-                if (is_array($email))
-                    {
-                        foreach($email as $ide2=>$email2)
-                            {
-                                $txt = troca($txt, $email2, '{email:"' . $email2 . '"}');
-                            }
-
-                    } else {
-                        $txt = troca($txt, $email, '{email:"' . $email . '"}');
-                    }
+        foreach ($matches as $ide => $email) {
+            if (is_array($email)) {
+                foreach ($email as $ide2 => $email2) {
+                    $txt = troca($txt, $email2, '{email:"' . $email2 . '"}');
+                }
+            } else {
+                $txt = troca($txt, $email, '{email:"' . $email . '"}');
             }
+        }
 
 
         pre($txt);
@@ -151,25 +146,26 @@ class Fulltext extends Model
         if ($txt == '') {
             return "";
         }
-        $txt = troca($txt,chr(10),chr(13));
+        $txt = troca($txt, chr(10), chr(13));
         $txt = troca($txt, '•', '');
         $txt = troca($txt, '⇒', '');
         $txt = troca($txt, "'", '');
         $txt = troca($txt, '"', '');
-        $txt = troca($txt, '“','');
+        $txt = troca($txt, '“', '');
         $txt = troca($txt, '“', '”');
 
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
 
-        /******************* JUNTAR LINHAS * virgula e ponto e virgula */
-        $txt = troca($txt,','.chr(13),', ');
-        $txt = troca($txt, ';' . chr(13), '; ');
-
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
+
+        /******************* JUNTAR LINHAS * virgula e ponto e virgula */
+        $txt = troca($txt, ',' . chr(13), ', ');
+        $txt = troca($txt, ';' . chr(13), '; ');
+
         $ln = explode(chr(13), $txt);
         $end = false;
         $up = false;
@@ -198,20 +194,19 @@ class Fulltext extends Model
         $lid = 0;
         foreach ($ln as $id => $line) {
             $line = trim($line);
-            $char = substr(ascii($line),0,1);
+            $char = substr(ascii($line), 0, 1);
             if ((($char >= 'a') and ($char <= 'z'))
                 or ($char == '(')
                 or ($char == ')')
                 or ($char == ',')
                 or ($char == ';')
-            )
-                {
-                    $tln = trim($ln[$lid]).' [CR]'.trim($line);
-                    $ln[$lid] = $tln;
-                    unset($ln[$id]);
-                } else {
-                    $lid = $id;
-                }
+            ) {
+                $tln = trim($ln[$lid]) . ' [CR]' . trim($line);
+                $ln[$lid] = $tln;
+                unset($ln[$id]);
+            } else {
+                $lid = $id;
+            }
         }
 
 
