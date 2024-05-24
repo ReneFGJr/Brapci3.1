@@ -152,6 +152,11 @@ class Fulltext extends Model
                     $txt = troca($txt, $term2, '{'.$var.':"' . $term2 . '"}');
                 }
             } else {
+                switch ($var) {
+                    case 'vol':
+                        pre($term2);
+                        break;
+                }
                 $txt = troca($txt, $term, '{'.$var.':"' . $term . '"}');
             }
         }
