@@ -142,9 +142,9 @@ class Fulltext extends Model
         preg_match_all($pattern, $txt, $matches);
         $match = [];
         foreach ($matches[0] as $ide2 => $term2) {
-            $match[$term2] = strlen($term2);
+            $match[strzero(strlen($term2),5).$term2] = strlen($term2);
         }
-        rsort($match);
+        krsort($match);
         pre($match);
 
         foreach ($match as $term2 => $ide2) {
