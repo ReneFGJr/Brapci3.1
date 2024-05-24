@@ -19,6 +19,7 @@ $vc['Universidade Estadual Paulista'] = '{org:"Universidade_Estadual_Paulista"}'
 $vc['Universidade Federal do Paraná'] = '{org:"Universidade_Federal_do_Paraná"}';
 $vc['Universidade Federal de Santa Catarina'] = '{org:"Universidade_Federal_de_Santa_Catarina"}';
 $vc['Universidade Federal do Rio de Janeiro'] = '{org:"Universidade_Federal_do_Rio_de_Janeiro"}';
+$vc['Universidade Federal Rural do Rio de Janeiro'] = '{org:"Universidade_Federal_Rural_do_Rio_de_Janeiro"}';
 $vc['Instituto Federal do Rio de Janeiro'] = '{org:"Instituto_Federal_do_Rio_de_Janeiro"}';
 
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
