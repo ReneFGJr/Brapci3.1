@@ -25,26 +25,13 @@ $vc['(CCN)'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 $vc['Universidade Federal do Paraná'] = '{org:"Universidade Federal do Paraná"}';
 $vc['UFPR'] = '{sigla:"UFPR"}';
 
-$vc['Brapci'] = '{sigla:"Brapci"}';
-$vc['BRAPCI'] = '{sigla:"Brapci"}';
-$vc['BASE REFERENCIAL DE ARTIGOS DE PERIÓDICOS EM CIÊNCIA DA INFORMAÇÃO'] = '{sigla:"Brapci"}';
 
 $vc['Curitiba'] = '{city:"Curitiba"}';
 
 $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
-$vc['Open Archives Iniciative Protocol for Metadata Harvesting'] = '{term:"OAI-PMH"}';
 
 /*********************** */
-$vc['OAIPMH'] = '{term:"OAI-PMH"}';
-$vc['OAI-PMH'] = '{term:"OAI-PMH"}';
-$vc['Big Data'] = '{term:"BigData"}';
-
-
-
-
-
-
-
 $vc['Recebido em '] = '{"Recebido em "}';
 $vc['Aceito em '] = '{"Recebido em "}';
+?>

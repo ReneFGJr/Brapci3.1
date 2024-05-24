@@ -3,6 +3,7 @@ $vc = [];
 
 $vc[chr(13) . 'RESUMO' . chr(13)] = chr(13) . '{RESUMO}' . chr(13);
 $vc[chr(13) . 'ABSTRACT' . chr(13)] = chr(13) . '{RESUMO}' . chr(13);
+$vc['Palavras–chave:'] = '{keywords}';
 
 $vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{REFERENCIAS}' . chr(13);
 $vc[chr(13) . '1 Introdução' . chr(13)] = chr(13) . '{INTRODUCAO}' . chr(13);
