@@ -44,29 +44,46 @@ class Fulltext extends Model
     {
         $PDF = new \App\Models\AI\FILE\pdf();
         $sx = '';
-        IF ($d2=='')
-            {
-                $d2 = '101614';
-            }
+        if ($d2 == '') {
+            $d2 = '101614';
+        }
         $files = $this->files($d2);
 
-        if (isset($files[1]))
-            {
-                $sx .= $files[1];
-                if (!file_exists($files[1]))
-                    {
-                    /* Convert */
-                   $PDF->pdf_to_txt($files[0],$files[1]);
-                    }
-            } else {
-                $sx = bsmessage('Original not found',3);
+        if (isset($files[1])) {
+            $sx .= $files[1];
+            if (!file_exists($files[1])) {
+                /* Convert */
+                $PDF->pdf_to_txt($files[0], $files[1]);
             }
+        } else {
+            $sx = bsmessage('Original not found', 3);
+        }
 
-            $txt = file_get_contents($files[1]);
-            $txt = $this->process($txt);
+        $txt = file_get_contents($files[1]);
+        $txt = $this->process($txt);
 
-            echo "FULLTEXT - PRE";
-            pre($txt);
+        echo "FULLTEXT - PRE";
+
+        $txt = troca($txt,'[CR]','');
+        $txt = troca($txt, '  ', ' ');
+
+        require("vc/autoridade.php");
+        foreach($vc as $t1=>$t2)
+            {
+                $txt = troca($txt,$t1,$t2);
+            }
+        require("vc/data.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+        require("vc/metodologia.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+
+        pre($txt);
         return $sx;
     }
 
@@ -108,14 +125,22 @@ class Fulltext extends Model
         }
         $txt = troca($txt, '•', '');
         $txt = troca($txt, '⇒', '');
-        $txt = troca($txt, "'", '"');
-        $txt = troca($txt, chr(10), chr(13));
+        $txt = troca($txt, "'", '');
+        $txt = troca($txt, '"', '');
+        $txt = troca($txt, '“','');
+        $txt = troca($txt, '“', '”');
+
+        $txt = troca($txt, chr(10) . chr(10), '[CR]');
+        $txt = troca($txt, chr(13) . chr(13), '[CR]');
+        $txt = troca($txt, chr(10) . chr(13) . chr(10), chr(13), '[CR]');
+        $txt = troca($txt, chr(13) . chr(10) . chr(13), chr(10), '[CR]');
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
         $ln = explode(chr(13), $txt);
         $end = false;
         $up = false;
+
         $txt = '';
         $l = [];
 
@@ -127,13 +152,34 @@ class Fulltext extends Model
                 $l[$line] = $l[$line] + 1;
             }
         }
+
         foreach ($ln as $id => $line) {
             if ($l[$line] > 1) {
                 unset($ln[$id]);
             }
         }
 
-            /********************************* So numeros */
+        /********************************* caixa baixa */
+        $lid = 0;
+        foreach ($ln as $id => $line) {
+            $line = trim($line);
+            $char = substr(ascii($line),0,1);
+            if ((($char >= 'a') and ($char <= 'z'))
+                or ($char == '(')
+                or ($char == ')')
+                or ($char == ',')
+                or ($char == ';')
+            )
+                {
+                    $tln = trim($ln[$lid]).' [CR]'.trim($line);
+                    $ln[$lid] = $tln;
+                    unset($ln[$id]);
+                } else {
+                    $lid = $id;
+                }
+        }
+
+        /********************************* So numeros */
         foreach ($ln as $id => $line) {
             $line = troca($line, ' ', '');
             if ($line == sonumero($line)) {
@@ -141,6 +187,10 @@ class Fulltext extends Model
             }
         }
 
+        $txt = '';
+        foreach ($ln as $id => $t) {
+            $txt .= trim($t) . chr(13);
+        }
         return $txt;
     }
 
