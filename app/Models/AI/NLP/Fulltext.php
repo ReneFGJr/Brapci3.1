@@ -47,6 +47,13 @@ class Fulltext extends Model
         if ($d2 == '') {
             $d2 = '101614';
         }
+
+        $sx .= h("FULLTEXT - PRE");
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
+        echo $cmd;
+        exit;
+        $sx .= shell_exec($cmd);
+
         $files = $this->files($d2);
 
         if (!isset($files[0]))
@@ -67,13 +74,6 @@ class Fulltext extends Model
 
         $txt = file_get_contents($files[1]);
         $txt = $this->process($txt);
-
-        $sx .= h("FULLTEXT - PRE");
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py '.$d2;
-        echo $cmd;
-        exit;
-        $sx .= shell_exec($cmd);
-
 
 
         $txt = troca($txt, '[CR]', '');
