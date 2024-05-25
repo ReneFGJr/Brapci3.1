@@ -150,9 +150,12 @@ class Export extends Model
                 }
             krsort($dd);
             pre($dd);
-            foreach($dt as $id=>$line)
+            foreach($dd as $ld=>$ln)
                 {
-                    $vc['Big Data'] = '{term:"BigData"}';
+                    echo $ld;
+                    echo '<hr>';
+                    echo $ln;
+                    exit;
                     $sx .= '$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'}";'.chr(13);
                 }
             $sx .= cr().'?>';
