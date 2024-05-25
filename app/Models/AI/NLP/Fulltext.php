@@ -155,7 +155,7 @@ class Fulltext extends Model
             $RDF = new \App\Models\RDF2\RDF();
             $dt = $RDF->le($ID);
             $prop = 'hasAbstract';
-            $dtt = $RDF->extract($dt,$prop,'A');
+            $dtt = $RDF->extract($dt,$prop,'S');
             pre($dtt);
         }
 
