@@ -130,7 +130,7 @@ class Export extends Model
                 ->where('d_literal > 0');
             $dt = $RDFconcept->findAll();
 
-            $file = '../Model/AI/NLP/vc/subject.php';
+            $file = '../Models/AI/NLP/vc/subject.php';
             $sx = '<?php'.chr(13);
             $sx .= '$vc = [];'.chr(13);
             $sx .= chr(13);
