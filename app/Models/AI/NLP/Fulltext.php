@@ -152,10 +152,11 @@ class Fulltext extends Model
                 {
                     $tx = substr($tx,0,$pos);
                 }
-            $tx = troca($tx, ' {sigla:"','');
+            $tx = troca($tx, '{sigla:"','');
             $tx = troca($tx, '{keywords} ', '');
             $tx = troca($tx, '"}', '');
             $tx = troca($tx, '; ', ';');
+            $tx = troca($tx, ' ;', ';');
 
             /********** Termina com ponto */
             if (substr($tx,-1,1) == '.')
