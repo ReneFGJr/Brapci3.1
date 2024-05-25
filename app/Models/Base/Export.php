@@ -103,7 +103,7 @@ class Export extends Model
                 return $Export->cron($d1, 'start');
                 break;
             case 'subject':
-                $VC = new \App\Models\AI\NLP\Vc\Index();
+                $VC = new \App\Models\AI\NLP\vc\Index();
                 $VC->exportVC('Subject');
                 break;
             default:
