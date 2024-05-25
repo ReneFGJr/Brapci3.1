@@ -131,18 +131,18 @@ class Export extends Model
             $dt = $RDFconcept->findAll();
 
             $file = '../Model/AI/NLP/vc/subject.php';
-            $sx = '';
+            $sx = '<?php'.chr(13);
+            $sx .= '$vc = [];'.chr(13);
+            $sx .= chr(13);
             foreach($dt as $id=>$line)
                 {
                     $term = $line['Alt'];
                     $pref = $line['Pref'];
                     $ID = $line['ID'];
                     $vc['Big Data'] = '{term:"BigData"}';
-                    $sx = chr(10).'$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'"}'.cr();
-                    pre($sx);
-                    pre($line);
-                    $sx .= '';
+                    $sx = chr(10).'$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'}";'.cr();
                 }
+            $sx .= cr().'?>';
             file_put_contents($file,$sx);
             echo "OK";
         }
