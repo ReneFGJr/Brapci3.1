@@ -130,12 +130,12 @@ class Fulltext extends Model
 
         $st = 'Resultados';
 
-        //$txt = mb_strtolower($txt);
+        $txt = mb_strtolower($txt);
         $txt = troca($txt,chr(13),'<br>');
 
         $sx = '';
-        $sx .= bsc($files[1],12);
-        $sx .= bsc($txt,8);
+        $sx .= bsc('<b>'.$files[1]. '</b>'.'<hr>',12);
+        $sx .= bsc($txt,8,'small');
         $sx .= bsc($st,4);
         $sx = bs($sx);
 
