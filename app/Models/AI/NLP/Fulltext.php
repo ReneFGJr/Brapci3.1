@@ -153,6 +153,7 @@ class Fulltext extends Model
         {
             $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
+            $Language = new \App\Models\AI\NLP\Language();
             $dt = $RDF->le($ID);
             $prop = 'hasAbstract';
             $dtt = $RDF->extract($dt,$prop,'S');
@@ -168,9 +169,11 @@ class Fulltext extends Model
                     foreach($ln as $idl=>$line)
                         {
                             $line = trim($line);
-                            $tx .= ucfirst($line).'.';
+                            $tx .= ucfirst($line).'. ';
                         }
-                    pre($tx);
+                    $tx = trim($tx);
+                    $lang = $Language->getTextLanguage_process($tx);
+                    pre($lang);
                 } else {
                     $sx .= '<li>Resumo OK</li>';
                 }
