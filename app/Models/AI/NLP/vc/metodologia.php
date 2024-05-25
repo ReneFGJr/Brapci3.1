@@ -2,7 +2,7 @@
 $vc = [];
 
 $vc[chr(13) . 'RESUMO' . chr(13)] = chr(13) . '{RESUMO}' . chr(13);
-$vc[chr(13) . 'RESUMO'] = chr(13) . '{RESUMO}' . chr(13);
+$vc['RESUMO'.chr(13)] = chr(13) . '{RESUMO}' . chr(13);
 
 $vc[chr(13) . 'ABSTRACT' . chr(13)] = chr(13) . '{RESUMO}' . chr(13);
 $vc[chr(13) . 'RESUMEN' . chr(13)] = chr(13) . '{RESUMO}' . chr(13);
