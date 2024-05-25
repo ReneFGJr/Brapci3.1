@@ -135,6 +135,8 @@ class Fulltext extends Model
         $txt = mb_strtolower($txt);
 
         $st = 'Resultados';
+        $st .= $this->abstract($txt, $d2);
+
         $st .= $this->keywords($txt,$d2);
 
         $txt = troca($txt,chr(13),'<br>');
@@ -147,6 +149,13 @@ class Fulltext extends Model
 
         return $sx;
     }
+
+    function abstract($txt,$ID)
+        {
+            $RDF = new \App\Models\RDF2\RDF();
+            $dt = $RDF->le($ID);
+            pre($dt);
+        }
 
     function keywords($txt, $ID)
         {
