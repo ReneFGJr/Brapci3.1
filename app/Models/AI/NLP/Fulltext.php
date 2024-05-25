@@ -144,10 +144,10 @@ class Fulltext extends Model
         return $sx;
     }
 
-    function keywords($txt,$id)
+    function keywords($txt, $ID)
         {
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
-
+            $RDFdata = new \App\Models\RDF2\RDFdata();
 
             $tx = substr($txt,strpos($txt,'{keywords}'),strlen($txt));
             if ($pos = strpos($tx,'{resumo}'))
@@ -179,6 +179,11 @@ class Fulltext extends Model
                     $dd['Lang'] = $lang;
                     $dd['Class'] = 'Subject';
                     $IDC = $RDFconcept->createConcept($dd);
+
+                    $id_prop = 'hasSubject';
+                    $lit = 0;
+                    $RDFdata->register($ID, $id_prop, $IDC, $lit);
+
                     echo h($ky[$id]);
                     pre($IDC);
                 }
