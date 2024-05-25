@@ -50,15 +50,14 @@ class Fulltext extends Model
 
         $sx .= h("FULLTEXT - PRE");
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
-        $sx .= troca(shell_exec($cmd),chr(10),'<br>');
+        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
         $files = $this->files($d2);
 
-        if (!isset($files[0]))
-            {
-                return "Arquivos não existem";
-                exit;
-            }
+        if (!isset($files[0])) {
+            return "Arquivos não existem";
+            exit;
+        }
 
         if (isset($files[1])) {
             $sx .= $files[1];
@@ -112,19 +111,18 @@ class Fulltext extends Model
 
         $txt = ascii($txt);
         $txt = mb_strtoupper($txt);
-        $ch = ['.',',',';','?','!'];
-        foreach($ch as $chr)
-            {
-                $txt = troca($txt,$chr,' '.$chr);
-            }
+        $ch = ['.', ',', ';', '?', '!'];
+        foreach ($ch as $chr) {
+            $txt = troca($txt, $chr, ' ' . $chr);
+        }
 
         require("vc/subject.php");
         foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, ' '.$t1.' ', ' '.$t2.' ');
+            $txt = troca($txt, ' ' . $t1 . ' ', ' ' . $t2 . ' ');
         }
 
         foreach ($ch as $chr) {
-            $txt = troca($txt, ' '.$chr, $chr);
+            $txt = troca($txt, ' ' . $chr, $chr);
         }
 
         require("vc/places.php");
@@ -136,139 +134,131 @@ class Fulltext extends Model
         $txt = mb_strtolower($txt);
 
         $st .= $this->abstract($txt, $d2);
-        $st .= $this->keywords($txt,$d2);
+        $st .= $this->keywords($txt, $d2);
 
-        $txt = troca($txt,chr(13),'<br>');
+        $txt = troca($txt, chr(13), '<br>');
 
         $sx = '';
-        $sx .= bsc('<b>'.$files[1]. '</b>'.'<hr>',12);
-        $sx .= bsc($txt,8,'small');
-        $sx .= bsc($st,4);
+        $sx .= bsc('<b>' . $files[1] . '</b>' . '<hr>', 12);
+        $sx .= bsc($txt, 8, 'small');
+        $sx .= bsc($st, 4);
         $sx = bs($sx);
 
         return $sx;
     }
 
-    function abstract($txt,$ID)
-        {
-            $sx = '';
-            $RDF = new \App\Models\RDF2\RDF();
-            $RDFliteral = new \App\Models\RDF2\RDFliteral();
-            $Language = new \App\Models\AI\NLP\Language();
-            $RDFdata = new \App\Models\RDF2\RDFdata();
+    function abstract($txt, $ID)
+    {
+        $sx = '';
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $Language = new \App\Models\AI\NLP\Language();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
 
-            $dt = $RDF->le($ID);
-            $prop = 'hasAbstract';
-            $dtt = $RDF->extract($dt,$prop,'S');
+        $dt = $RDF->le($ID);
+        $prop = 'hasAbstract';
+        $dtt = $RDF->extract($dt, $prop, 'S');
 
-            if ($dtt == '')
-                {
-                    $sx .= h('Buscando resumo',4);
-                    $tx = substr($txt, strpos($txt, '{resumo}')+8, strlen($txt));
-                    $tx = substr($tx,0,strpos($tx,'{'));
-                    $tx = trim($tx);
-                    $ln = explode('.',$tx);
-                    $tx = '';
-                    foreach($ln as $idl=>$line)
-                        {
-                            $line = trim($line);
-                            $tx .= ucfirst($line).'. ';
-                        }
-                    $tx = troca($tx,'. .','.');
+        if ($dtt == '') {
+            $sx .= h('Buscando resumo', 4);
+            $tx = substr($txt, strpos($txt, '{resumo}') + 8, strlen($txt));
+            $tx = substr($tx, 0, strpos($tx, '{'));
+            $tx = trim($tx);
+            $ln = explode('.', $tx);
+            $tx = '';
+            foreach ($ln as $idl => $line) {
+                $line = trim($line);
+                $tx .= ucfirst($line) . '. ';
+            }
+            $tx = troca($tx, '. .', '.');
 
-                    $tx = trim($tx);
-                    $lang = $Language->getTextLanguage_process($tx);
-                    $lang = substr($lang,0,2);
+            $tx = trim($tx);
+            $lang = $Language->getTextLanguage_process($tx);
+            $lang = substr($lang, 0, 2);
 
-                    if (strlen($tx) < 4000)
-                        {
-                            $lit = $RDFliteral->register($tx, $lang);
-                            $id_prop = 'hasAbstract';
-                            $IDC = 0;
-                            $RDFdata->register($ID, $id_prop, $IDC, $lit);
-                            $sx .= '<li>Resumo incorporado</li>';
-                            $sx .= '<p>' . $tx . '</p>';
-                        } else {
-                            $sx .= '<li>Resumo muito longo ('.strlen($tx).')</li>';
-                        }
-
-                } else {
-                    $sx .= '<li>Resumo OK</li>';
-                }
-            return $sx;
+            if (strlen($tx) < 4000) {
+                $lit = $RDFliteral->register($tx, $lang);
+                $id_prop = 'hasAbstract';
+                $IDC = 0;
+                $RDFdata->register($ID, $id_prop, $IDC, $lit);
+                $sx .= '<li>Resumo incorporado</li>';
+                $sx .= '<p>' . $tx . '</p>';
+            } else {
+                $sx .= '<li>Resumo muito longo (' . strlen($tx) . ')</li>';
+            }
+        } else {
+            $sx .= '<li>Resumo OK</li>';
         }
+        return $sx;
+    }
 
     function keywords($txt, $ID)
-        {
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $RDFdata = new \App\Models\RDF2\RDFdata();
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
 
-            $tx = substr($txt,strpos($txt,'{keywords}'),strlen($txt));
-            if ($pos = strpos($tx,'{resumo}'))
-                {
-                    $tx = substr($tx,0,$pos);
-                }
-            $tx = troca($tx, '{sigla:"','');
-            $tx = troca($tx, '{keywords} ', '');
-            $tx = troca($tx, '"}', '');
-            $tx = troca($tx, '; ', ';');
-            $tx = troca($tx, ' ;', ';');
-            $tx = trim($tx);
-
-            /********** Termina com ponto */
-            if (substr($tx,strlen($tx)-1,1) == '.')
-                {
-                    $tx = substr($tx,0,strlen($tx)-1);
-                }
-
-            /********** KEYWORDS */
-            $tx = troca($tx,'.',';');
-            $tx = troca($tx, ',', ';');
-            $ky = explode(';',$tx);
-            $lang = 'pt';
-
-            if (count($ky) > 6)
-                {
-                    $sx = bsmessage("ERRO DE KEYWORD");
-                    return $sx;
-                }
-
-            foreach($ky as $id=>$key)
-                {
-                    $key = trim($key);
-                    $ky[$id] = ucfirst($key);
-                    $dd = [];
-                    $dd['Name'] = $ky[$id];
-                    $dd['Lang'] = $lang;
-                    $dd['Class'] = 'Subject';
-                    $IDC = $RDFconcept->createConcept($dd);
-
-                    $id_prop = 'hasSubject';
-                    $lit = 0;
-                    $RDFdata->register($ID, $id_prop, $IDC, $lit);
-                }
-
-            $sx = '<ul>';
-            foreach($ky as $id=>$key)
-                {
-                    $sx .= '<li>'.$key.'</li>';
-                }
-            $sx .= '</ul>';
-            return $sx;
-
+        $tx = substr($txt, strpos($txt, '{keywords}'), strlen($txt));
+        if ($pos = strpos($tx, '{resumo}')) {
+            $tx = substr($tx, 0, $pos);
         }
+        $tx = troca($tx, '{sigla:"', '');
+        $tx = troca($tx, '{keywords} ', '');
+        $tx = troca($tx, '"}', '');
+        $tx = troca($tx, '; ', ';');
+        $tx = troca($tx, ' ;', ';');
+        $tx = trim($tx);
+
+        /********** Termina com ponto */
+        if (substr($tx, strlen($tx) - 1, 1) == '.') {
+            $tx = substr($tx, 0, strlen($tx) - 1);
+        }
+
+        /********** KEYWORDS */
+        $tx = troca($tx, '.', ';');
+        $tx = troca($tx, ',', ';');
+        $ky = explode(';', $tx);
+        $lang = 'pt';
+
+        if (count($ky) > 6) {
+            $sx = bsmessage("ERRO DE KEYWORD");
+            return $sx;
+        }
+
+        foreach ($ky as $id => $key) {
+            $key = trim($key);
+            if (strlen($key > 2)) {
+                $ky[$id] = ucfirst($key);
+                $dd = [];
+                $dd['Name'] = $ky[$id];
+                $dd['Lang'] = $lang;
+                $dd['Class'] = 'Subject';
+                $IDC = $RDFconcept->createConcept($dd);
+
+                $id_prop = 'hasSubject';
+                $lit = 0;
+                $RDFdata->register($ID, $id_prop, $IDC, $lit);
+            }
+        }
+
+        $sx = '<ul>';
+        foreach ($ky as $id => $key) {
+            $sx .= '<li>' . $key . '</li>';
+        }
+        $sx .= '</ul>';
+        return $sx;
+    }
 
     function findTxt($txt, $pattern, $var)
     {
         preg_match_all($pattern, $txt, $matches);
         $match = [];
         foreach ($matches[0] as $ide2 => $term2) {
-            $match[strzero(strlen($term2),5).$term2] = strlen($term2);
+            $match[strzero(strlen($term2), 5) . $term2] = strlen($term2);
         }
         krsort($match);
 
         foreach ($match as $term2 => $ide2) {
-            $term2 = substr($term2,5,strlen($term2));
+            $term2 = substr($term2, 5, strlen($term2));
             switch ($var) {
                 case 'vln':
                     $termX = trim(substr($term2, strpos($term2, ' '), 20));
@@ -285,7 +275,6 @@ class Fulltext extends Model
             if ($termX != '') {
                 $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
             }
-
         }
         return $txt;
     }
@@ -338,14 +327,13 @@ class Fulltext extends Model
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
 
-        for($r=1;$r <= 9;$r++)
-            {
-                $txt = troca($txt, 'v.'.$r,'v. '.$r);
-                $txt = troca($txt, 'vol.' . $r, 'v. ' . $r);
-                $txt = troca($txt, 'n.' . $r, 'n. ' . $r);
-                $txt = troca($txt, 'num.' . $r, 'n. ' . $r);
-                $txt = troca($txt, 'p.' . $r, 'p. ' . $r);
-            }
+        for ($r = 1; $r <= 9; $r++) {
+            $txt = troca($txt, 'v.' . $r, 'v. ' . $r);
+            $txt = troca($txt, 'vol.' . $r, 'v. ' . $r);
+            $txt = troca($txt, 'n.' . $r, 'n. ' . $r);
+            $txt = troca($txt, 'num.' . $r, 'n. ' . $r);
+            $txt = troca($txt, 'p.' . $r, 'p. ' . $r);
+        }
 
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
