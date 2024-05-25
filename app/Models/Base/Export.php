@@ -127,6 +127,7 @@ class Export extends Model
                 ->where('cc_class',$class)
                 ->where('d_literal > 0');
             $dt = $RDFconcept->findAll();
+            echo $RDFconcept->getlastquery();
 
             $dir = '.tmp/vc/';
             dircheck($dir);
