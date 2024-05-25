@@ -231,6 +231,16 @@ class Index extends Model
 
             $txt = get("text");
 
+            if (get("chk8")) {
+                $sx .= '<li>' . lang('tools.p8') . ' - ' . date("H:i:s") . '</li>';
+                $txt = mb_convert_encoding($txt, 'ISO-8859-1','UTF-8');
+            }
+
+            if (get("chk9")) {
+                $sx .= '<li>' . lang('tools.p8') . ' - ' . date("H:i:s") . '</li>';
+                $txt = mb_convert_encoding($txt, 'UTF-8', 'ISO-8859-1');
+            }
+
             if (get("chk1"))
                 {
                     $sx .= '<li>Removendo ' . lang('tools.p1') . ' - ' . date("H:i:s") . '</li>';
