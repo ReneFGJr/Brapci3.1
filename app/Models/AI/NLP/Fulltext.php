@@ -174,6 +174,8 @@ class Fulltext extends Model
                             $line = trim($line);
                             $tx .= ucfirst($line).'. ';
                         }
+                    $tx = troca($tx,'. .','.');
+
                     $tx = trim($tx);
                     $lang = $Language->getTextLanguage_process($tx);
                     $lang = substr($lang,0,2);
