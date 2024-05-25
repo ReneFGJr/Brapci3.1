@@ -671,6 +671,7 @@ class RDFmetadata extends Model
             $simpleIssue = true;
             $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
             $dr['Issue'] = $dtIssue;
+            pre($ISSUE);
             $dr['year'] = $dtIssue['is_year'];
             if (isset($dtIssue['Publication'])) {
                 $dr['publisher'] = $dtIssue['Publication'];
