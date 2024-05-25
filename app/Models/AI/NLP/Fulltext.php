@@ -152,11 +152,22 @@ class Fulltext extends Model
 
     function abstract($txt,$ID)
         {
+            $sx = '';
             $RDF = new \App\Models\RDF2\RDF();
             $dt = $RDF->le($ID);
             $prop = 'hasAbstract';
             $dtt = $RDF->extract($dt,$prop,'S');
-            pre($dtt);
+
+            if ($dtt == '')
+                {
+                    $sx .= h('Buscando resumo',4);
+                    $tx = substr($txt, strpos($txt, '{resumo}')+8, strlen($txt));
+                    $tx = substr($tx,0,strpos($tx,'{'));
+                    pre($tx);
+                } else {
+                    $sx .= '<li>Resumo OK</li>';
+                }
+            return $sx;
         }
 
     function keywords($txt, $ID)
