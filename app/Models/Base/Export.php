@@ -136,8 +136,9 @@ class Export extends Model
                 {
                     $term = $line['Alt'];
                     $pref = $line['Pref'];
+                    $ID = $line['ID'];
                     $vc['Big Data'] = '{term:"BigData"}';
-                    $sx = chr(10).'$vc["'.$term.'"] = "{term:"'.$pref.'"}'.cr();
+                    $sx = chr(10).'$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'"}'.cr();
                     pre($sx);
                     pre($line);
                     $sx .= '';
