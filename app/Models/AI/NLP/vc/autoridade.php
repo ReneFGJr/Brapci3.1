@@ -48,9 +48,11 @@ $vc['UNESP'] = '{sigla:"UNESP"}';
 $vc['FURG'] = '{sigla:"FURG"}';
 $vc['RNP'] = '{sigla:"RNP"}';
 $vc['IBICT'] = '{sigla:"IBICT"}';
+$vc['Ibict'] = '{sigla:"IBICT"}';
 $vc['CNPq'] = '{sigla:"CNPq"}';
 $vc['CAPES'] = '{sigla:"CAPES"}';
 $vc['GT-RDP'] = '{sigla:"GT-RDP"}';
+
 
 /*********************** */
 
