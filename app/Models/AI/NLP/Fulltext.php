@@ -195,7 +195,13 @@ class Fulltext extends Model
                     $RDFdata->register($ID, $id_prop, $IDC, $lit);
                 }
 
-            pre($ky);
+            $sx = '<ul>';
+            foreach($ky as $id=>$key)
+                {
+                    $sx .= '<li>'.$key.'</li>';
+                }
+            $sx .= '</ul>';
+            return $sx;
 
         }
 
