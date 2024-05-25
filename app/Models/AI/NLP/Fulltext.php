@@ -133,7 +133,9 @@ class Fulltext extends Model
         //$txt = mb_strtolower($txt);
         $txt = troca($txt,chr(13),'<br>');
 
-        $sx = bsc($txt,8);
+        $sx = '';
+        $sx .= bsc($files[1],12);
+        $sx .= bsc($txt,8);
         $sx .= bsc($st,4);
         $sx = bs($sx);
 
