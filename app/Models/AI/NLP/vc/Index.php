@@ -56,6 +56,15 @@ class Index extends Model
     }
 
     function exportVC($d1)
+        {
+            switch($d1)
+                {
+                    case 'Word':
+                    break;
+                }
+        }
+
+    function exportVCsn($d1)
     {
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFclass = new \App\Models\RDF2\RDFclass();

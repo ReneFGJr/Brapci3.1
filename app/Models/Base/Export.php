@@ -106,6 +106,10 @@ class Export extends Model
                 $VC = new \App\Models\AI\NLP\vc\Index();
                 $VC->exportVC('Subject');
                 break;
+            case 'word':
+                $VC = new \App\Models\AI\NLP\vc\Index();
+                $VC->exportVC('Word');
+                break;
             default:
                 $sx = bsc($this->menu(), 12);
                 break;
@@ -256,6 +260,7 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/authors'] = lang('brapci.export') . ' ' . lang('brapci.index_person');
         $menu[PATH . 'admin/' . $mod . '/corporatebody'] = lang('brapci.export') . ' ' . lang('brapci.index_corporate');
         $menu[PATH . 'admin/' . $mod . '/subject'] = lang('brapci.export') . ' ' . lang('brapci.index_subject');
+        $menu[PATH . 'admin/' . $mod . '/word'] = lang('brapci.export') . ' ' . lang('brapci.index_word');
         $menu[PATH . 'admin/' . $mod . '/journal'] = lang('brapci.export') . ' ' . lang('brapci.index_journal');
         $menu[PATH . 'admin/' . $mod . '/proceeding'] = lang('brapci.export') . ' ' . lang('brapci.index_proceeding');
 
