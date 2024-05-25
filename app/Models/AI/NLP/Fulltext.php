@@ -128,6 +128,8 @@ class Fulltext extends Model
             //$txt = troca($txt, $t1, $t2);
         }
 
+        $st = 'Resultados';
+
         $sx = bsc($txt,8);
         $sx .= bsc($st,4);
         $sx = bs($sx);
