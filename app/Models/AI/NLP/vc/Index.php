@@ -82,9 +82,7 @@ class Index extends Model
             $pref = $line['Pref'];
             $pref = troca($pref, ' ', '_');
             $ID = $line['ID'];
-
-            $t = strzero(strlen($term), 5) . $term;
-            $dd[$t] = '{term:"' . $pref . ':' . $ID . '}"';
+            $this->register($term,$pref,$ID,1);
         }
 
 
@@ -100,21 +98,9 @@ class Index extends Model
             $pref = $line['Pref'];
             $pref = troca($pref, ' ', '_');
             $ID = $line['ID'];
-
-            $t = strzero(strlen($term), 5) . $term;
-            $dd[$t] = '{term:"' . $pref . ':' . $ID . '}"';
-        }
-
-        krsort($dd);
-
-        foreach ($dd as $ld => $ln) {
-            $ld = substr($ld, 5, strlen($ld));
-            if (strlen($ld) > 2) {
-                $sx .= '$vc["' . $ld . '"] = \'' . $ln . '\';' . chr(13);
+            $this->register($term, $pref, $ID, 1);
             }
-        }
-        $sx .= cr() . '?>';
-        file_put_contents($file, $sx);
-        echo "OK";
+        $sx = bsmessage('Exportação finalizada',1);
+        return bs(bsc($sx));
     }
 }

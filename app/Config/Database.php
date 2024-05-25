@@ -735,7 +735,6 @@ class Database extends Config
         $this->brapci_v3['username'] = getenv('database.default.username');
         $this->brapci_v3['password'] = getenv('database.default.password');
 
-
         $this->authority['username'] = getenv('database.default.username');
         $this->authority['password'] = getenv('database.default.password');
 
