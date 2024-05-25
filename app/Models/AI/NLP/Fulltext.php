@@ -49,7 +49,11 @@ class Fulltext extends Model
         }
         $files = $this->files($d2);
 
-        pre($files);
+        if (!isset($files[0]))
+            {
+                return "Arquivos não existem";
+                exit;
+            }
 
         if (isset($files[1])) {
             $sx .= $files[1];
@@ -124,10 +128,10 @@ class Fulltext extends Model
             //$txt = troca($txt, $t1, $t2);
         }
 
+        $sx = bsc($txt,8);
+        $sx .= bsc($st,4);
+        $sx = bs($sx);
 
-
-
-        pre($txt);
         return $sx;
     }
 
