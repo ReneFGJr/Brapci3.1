@@ -115,7 +115,7 @@ class Fulltext extends Model
 
         require("vc/places.php");
         foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
+            //$txt = troca($txt, $t1, $t2);
         }
 
 
