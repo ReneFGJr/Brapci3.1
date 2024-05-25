@@ -168,7 +168,7 @@ class Fulltext extends Model
                     foreach($ln as $idl=>$line)
                         {
                             $line = trim($line);
-                            $tx .= mb_convert_case($line, MB_CASE_TITLE, 'UTF-8').'.';
+                            $tx .= ucfirst($line).'.';
                         }
                     pre($tx);
                 } else {
@@ -214,7 +214,7 @@ class Fulltext extends Model
 
             foreach($ky as $id=>$key)
                 {
-                    $ky[$id] = mb_convert_case($key, MB_CASE_TITLE, 'UTF-8');
+                    $ky[$id] = ucfirst($key);
                     $dd = [];
                     $dd['Name'] = $ky[$id];
                     $dd['Lang'] = $lang;
