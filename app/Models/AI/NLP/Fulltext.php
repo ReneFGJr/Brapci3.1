@@ -102,10 +102,15 @@ class Fulltext extends Model
 
         $txt = ascii($txt);
         $txt = mb_strtoupper($txt);
+        $ch = ['.',',',';','?','!'];
+        foreach($ch as $chr)
+            {
+                $txt = troca($txt,$chr,' '.$chr);
+            }
 
         require("vc/subject.php");
         foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
+            $txt = troca($txt, ' '.$t1.' ', ' '.$t2.' ');
         }
 
         require("vc/places.php");
