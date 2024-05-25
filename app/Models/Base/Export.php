@@ -118,7 +118,7 @@ class Export extends Model
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $class = $RDFclass->getClass($d1);
-            $cp = 'L1.n_name as Pref, L2.n_name as Alt, id_cc as ID';
+            $cp = 'L2.n_name as Pref, L1.n_name as Alt, id_cc as ID';
             $RDFconcept
                 ->select($cp)
                 ->join('brapci_rdf.rdf_data','d_r1 = id_cc')
