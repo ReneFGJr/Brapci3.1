@@ -164,7 +164,10 @@ class Fulltext extends Model
                     $tx = substr($tx,0,strlen($tx));
                 }
 
-            pre($tx);
+            /********** KEYWORDS */
+            $ky = explode(';',$tx);
+
+            pre($ky);
 
         }
 
