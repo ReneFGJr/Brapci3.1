@@ -168,6 +168,11 @@ class Fulltext extends Model
             /********** KEYWORDS */
             $ky = explode(';',$tx);
 
+            foreach($ky as $id=>$key)
+                {
+                    $ky[$id] = mb_convert_case($key, MB_CASE_TITLE, 'UTF-8');
+                }
+
             pre($ky);
 
         }
