@@ -124,8 +124,6 @@ class Export extends Model
             ->join('brapci_rdf.rdf_literal as L2', 'cc_pref_term = L2.id_n')
                 ->join('brapci_rdf.rdf_data','d_r1 = id_cc', 'LEFT')
                 ->join('brapci_rdf.rdf_literal as L1', 'd_literal = L1.id_n','LEFT')
-
-
                 ->where('cc_class',$class)
                 ->where('d_literal > 0');
             $dt = $RDFconcept->findAll();
@@ -154,7 +152,7 @@ class Export extends Model
             foreach($dd as $ld=>$ln)
                 {
                     $ld = substr($ld,5,strlen($ld));
-                    $sx .= '$vc["'.$ld.'"] = '.$ln.';'.chr(13);
+                    $sx .= '$vc["'.$ld.'"] = "'.$ln.'";'.chr(13);
                 }
             $sx .= cr().'?>';
             file_put_contents($file,$sx);
