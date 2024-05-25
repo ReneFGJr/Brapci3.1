@@ -161,7 +161,7 @@ class Fulltext extends Model
             if ($dtt == '')
                 {
                     $sx .= h('Buscando resumo',4);
-                    $tx = substr($txt, strpos($txt, '{resumo}')+8, strlen($txt));
+                    $tx = substr($txt, strpos($txt, '{RESUMO}')+8, strlen($txt));
                     $tx = substr($tx,0,strpos($tx,'{'));
                     $tx = trim($tx);
                     pre($tx);
