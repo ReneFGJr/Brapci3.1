@@ -131,8 +131,7 @@ class Fulltext extends Model
         $txt = mb_strtolower($txt);
 
         $st = 'Resultados';
-        $st .= $this->keywords($txt);
-
+        $st .= $this->keywords($txt,$d2);
 
         $txt = troca($txt,chr(13),'<br>');
 
@@ -145,8 +144,11 @@ class Fulltext extends Model
         return $sx;
     }
 
-    function keywords($txt)
+    function keywords($txt,$id)
         {
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+
             $tx = substr($txt,strpos($txt,'{keywords}'),strlen($txt));
             if ($pos = strpos($tx,'{resumo}'))
                 {
@@ -167,10 +169,17 @@ class Fulltext extends Model
 
             /********** KEYWORDS */
             $ky = explode(';',$tx);
+            $lang = 'pt';
 
             foreach($ky as $id=>$key)
                 {
                     $ky[$id] = mb_convert_case($key, MB_CASE_TITLE, 'UTF-8');
+                    $dd = [];
+                    $dd['Name'] = $ky[$id];
+                    $dd['Lang'] = $lang;
+                    $dd['Class'] = 'Subject';
+                    $IDC = $RDFconcept->createConcept($dd);
+                    pre($IDC);
                 }
 
             pre($ky);
