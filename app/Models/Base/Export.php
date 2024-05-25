@@ -152,7 +152,7 @@ class Export extends Model
 
             foreach($dd as $ld=>$ln)
                 {
-                    $ld = substr($ln,5,strlen($ld));
+                    $ld = substr($ld,5,strlen($ld));
                     $sx .= '$vc["'.$ld.'"] = '.$ln.';'.chr(13);
                 }
             $sx .= cr().'?>';
