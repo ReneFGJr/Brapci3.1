@@ -222,7 +222,7 @@ class Index extends Model
             $sx = '';
             $sa = '';
             $sa .= '<br>';
-            for ($r=1;$r <= 7;$r++)
+            for ($r=1;$r <= 9;$r++)
                 {
                     $sa .= form_checkbox('chk'.$r, '1', (get("chk".$r))) . ' ' . lang('tools.p'.$r) . '<br>';
                 }

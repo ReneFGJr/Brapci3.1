@@ -36,6 +36,8 @@ return [
         'p5' => 'Detectar Gênero (Masc./Fem.)',
         'p6' => 'Padronização de Nomes de Autores',
         'p7' => 'Remove Aspas e Parenteses',
+        'p8' => 'Conferver WIN/UTF8',
+        'p9' => 'Conferver UTF8/ISO',
         'clean_thesa' => 'Higienização de dados - Vocabulário controlado',
         'Clean' => 'Limpeza de dados',
         'ARS' => 'Conversores de Redes de Colaboração',
