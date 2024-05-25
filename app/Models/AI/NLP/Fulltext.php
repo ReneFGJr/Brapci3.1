@@ -183,9 +183,6 @@ class Fulltext extends Model
                     $id_prop = 'hasSubject';
                     $lit = 0;
                     $RDFdata->register($ID, $id_prop, $IDC, $lit);
-
-                    echo h($ky[$id]);
-                    pre($IDC);
                 }
 
             pre($ky);
