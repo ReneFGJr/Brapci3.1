@@ -121,9 +121,10 @@ class Export extends Model
             $cp = 'L2.n_name as Pref, L1.n_name as Alt, id_cc as ID';
             $RDFconcept
                 ->select($cp)
-                ->join('brapci_rdf.rdf_data','d_r1 = id_cc')
-                ->join('brapci_rdf.rdf_literal as L1', 'd_literal = L1.id_n')
-                ->join('brapci_rdf.rdf_literal as L2', 'cc_pref_term = L2.id_n')
+            ->join('brapci_rdf.rdf_literal as L2', 'cc_pref_term = L2.id_n')
+                ->join('brapci_rdf.rdf_data','d_r1 = id_cc', 'LEFT')
+                ->join('brapci_rdf.rdf_literal as L1', 'd_literal = L1.id_n','LEFT')
+
 
                 ->where('cc_class',$class)
                 ->where('d_literal > 0');
