@@ -67,30 +67,6 @@ class Fulltext extends Model
         $txt = troca($txt, '[CR]', '');
         $txt = troca($txt, '  ', ' ');
 
-        require("vc/autoridade.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
-        }
-        require("vc/data.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
-        }
-
-        require("vc/metodologia.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
-        }
-
-        require("vc/subject.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
-        }
-
-        require("vc/places.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
-        }
-
         /************ E-mail */
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
         $txt = $this->findTxt($txt, $pattern, 'email');
@@ -109,6 +85,35 @@ class Fulltext extends Model
         /************ Página */
         $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
         $txt = $this->findTxt($txt, $pattern, 'pgn');
+
+        require("vc/autoridade.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+        require("vc/data.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+        require("vc/metodologia.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+        $txt = ascii($txt);
+        $txt = mb_strtoupper($txt);
+
+        require("vc/subject.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+        require("vc/places.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+
 
 
         pre($txt);
