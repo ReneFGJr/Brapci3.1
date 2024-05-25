@@ -7,7 +7,7 @@ import os
 diretorio = '/data/Brapci3.1/bots/ROBOTi'
 os.chdir(diretorio)
 
-print("TRADUTOR 1.0")
+print("TRADUTOR 1.1")
 
 if (len(sys.argv) > 1):
     parm = sys.argv
