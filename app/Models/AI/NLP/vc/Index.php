@@ -57,11 +57,14 @@ class Index extends Model
 
     function exportVC($d1)
         {
+            $sx = h($d1);
             switch($d1)
                 {
                     case 'Word':
                     break;
                 }
+
+            return $sx;
         }
 
     function exportVCsn($d1)
