@@ -102,6 +102,9 @@ class Export extends Model
                 $Export = new \App\Models\Base\Export();
                 return $Export->cron($d1, 'start');
                 break;
+            case 'subject':
+                $this->exportVC('Subject');
+                break;
             default:
                 $sx = bsc($this->menu(), 12);
                 break;
@@ -109,6 +112,13 @@ class Export extends Model
         $sx = bs($sx);
         return $sx;
     }
+
+    function exportVC($d1)
+        {
+            $RDF = new \App\Models\RDF2\RDF();
+            $class = $RDF->getClass($d1);
+            pre($class);
+        }
 
     function resume()
     {
@@ -248,11 +258,11 @@ class Export extends Model
         $menu[PATH . 'admin/' . $mod . '/authority'] = lang('brapci.export') . ' ' . lang('brapci.authority');
         $menu[PATH . 'admin/' . $mod . '/corporate'] = lang('brapci.export') . ' ' . lang('brapci.corporate');
 
-        $menu[PATH . 'admin/' . $mod . '/index/index_authors'] = lang('brapci.export') . ' ' . lang('brapci.index_person');
-        $menu[PATH . 'admin/' . $mod . '/index/index_corporatebody'] = lang('brapci.export') . ' ' . lang('brapci.index_corporate');
-        $menu[PATH . 'admin/' . $mod . '/index/index_subject'] = lang('brapci.export') . ' ' . lang('brapci.index_subject');
-        $menu[PATH . 'admin/' . $mod . '/index/index_journal'] = lang('brapci.export') . ' ' . lang('brapci.index_journal');
-        $menu[PATH . 'admin/' . $mod . '/index/index_proceeding'] = lang('brapci.export') . ' ' . lang('brapci.index_proceeding');
+        $menu[PATH . 'admin/' . $mod . '/authors'] = lang('brapci.export') . ' ' . lang('brapci.index_person');
+        $menu[PATH . 'admin/' . $mod . '/corporatebody'] = lang('brapci.export') . ' ' . lang('brapci.index_corporate');
+        $menu[PATH . 'admin/' . $mod . '/subject'] = lang('brapci.export') . ' ' . lang('brapci.index_subject');
+        $menu[PATH . 'admin/' . $mod . '/journal'] = lang('brapci.export') . ' ' . lang('brapci.index_journal');
+        $menu[PATH . 'admin/' . $mod . '/proceeding'] = lang('brapci.export') . ' ' . lang('brapci.index_proceeding');
 
         $menu['#BOTS'] = "";
         $menu[PATH . 'bots/'] = lang('brapci.export') . ' ' . lang('brapci.bots');

@@ -71,7 +71,6 @@ class Index extends Model
                 $Authors = new \App\Models\Base\Authors();
                 $sx .= $Authors->form_search();
                 $sx .= $Authors->search(get('text'));
-
                 $sx = bs(bsc($sx));
                 break;
             case 'section':
@@ -101,6 +100,7 @@ class Index extends Model
                 break;
             case 'issue':
                 $sx .= $this->issue($subact,$id,$id2,$id3);
+                break;
             case 'problems':
                 $Elastic = new \App\Models\ElasticSearch\Index();
                 $sx .= $Elastic->index($act, $subact, $id, $id2, $id3);

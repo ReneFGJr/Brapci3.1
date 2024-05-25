@@ -152,7 +152,7 @@ class Index extends Model
                             $Export = new \App\Models\Books\Export();
                             $sx .= $Export->index_authors();
                             break;
-                        case 'authors':
+                        case 'subject':
                             $sx .= '';
                             $Export = new \App\Models\Books\Export();
                             $sx .= $Export->index_subject();
