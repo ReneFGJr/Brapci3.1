@@ -108,7 +108,7 @@ class Export extends Model
                 break;
             case 'word':
                 $VC = new \App\Models\AI\NLP\vc\Index();
-                $VC->exportVC('Word');
+                $sx .= $VC->exportVC('Word');
                 break;
             default:
                 $sx = bsc($this->menu(), 12);
