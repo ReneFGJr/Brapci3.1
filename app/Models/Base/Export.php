@@ -146,7 +146,7 @@ class Export extends Model
                     $ID = $line['ID'];
 
                     $t = strzero(strlen($term),5) . $term;
-                    $dd[$term] = '{term:"'.$pref.':'.$ID.'}"';
+                    $dd[$t] = '{term:"'.$pref.':'.$ID.'}"';
                 }
             krsort($dd);
             pre($dd);
