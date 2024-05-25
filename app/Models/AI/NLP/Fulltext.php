@@ -172,6 +172,8 @@ class Fulltext extends Model
                 }
 
             /********** KEYWORDS */
+            $tx = troca($tx,'.',';');
+            $tx = troca($tx, ',', ';');
             $ky = explode(';',$tx);
             $lang = 'pt';
 
