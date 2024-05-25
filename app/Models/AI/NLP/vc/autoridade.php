@@ -1,7 +1,7 @@
 <?php
 $vc = [];
 
-$vc['Rene Faustino Gabriel Junior'] = '{person:"Rene Faustino Gabriel Junior"}';
+$vc['Rene Faustino Gabriel Junior'] = '{person:"Rene_Faustino_Gabriel_Junior"}';
 $vc['Leilah Santiago Bufrem'] = '{person:"Leilah Santiago Bufrem"}';
 $vc['José Simão de Paula Pinto'] = '{person:"José Simão de Paula Pinto"}';
 $vc['Elvis Fusco'] = '{person:"Elvis Fusco"}';
