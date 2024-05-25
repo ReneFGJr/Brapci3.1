@@ -116,7 +116,8 @@ class Export extends Model
     function exportVC($d1)
         {
             $RDF = new \App\Models\RDF2\RDF();
-            $class = $RDF->getClass($d1);
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $class = $RDFclass->getClass($d1);
             pre($class);
         }
 
