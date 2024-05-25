@@ -118,7 +118,10 @@ class Export extends Model
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $class = $RDFclass->getClass($d1);
-            pre($class);
+
+            $RDF->where('cc_class',$class);
+            $dt = $RDF->findAll(10);
+            pre($dt);
         }
 
     function resume()
