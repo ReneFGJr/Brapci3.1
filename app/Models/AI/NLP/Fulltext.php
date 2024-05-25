@@ -235,6 +235,7 @@ class Fulltext extends Model
 
             foreach($ky as $id=>$key)
                 {
+                    $key = trim($key);
                     $ky[$id] = ucfirst($key);
                     $dd = [];
                     $dd['Name'] = $ky[$id];
