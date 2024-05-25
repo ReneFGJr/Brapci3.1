@@ -155,7 +155,16 @@ class Export extends Model
                 ->join('brapci_rdf.rdf_literal as L2', 'cc_pref_term = L2.id_n')
                 ->where('cc_class', $class);
             $dt = $RDFconcept->findAll();
-            PRE($dt);
+            foreach ($dt as $id => $line) {
+                $term = ascii($line['Pref']);
+                $term = mb_strtoupper($term);
+                $pref = $line['Pref'];
+                $pref = troca($pref, ' ', '_');
+                $ID = $line['ID'];
+
+                $t = strzero(strlen($term), 5) . $term;
+                $dd[$t] = '{term:"' . $pref . ':' . $ID . '}"';
+            }
 
             krsort($dd);
 
