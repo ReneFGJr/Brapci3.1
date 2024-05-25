@@ -160,9 +160,9 @@ class Fulltext extends Model
             $tx = trim($tx);
 
             /********** Termina com ponto */
-            if (substr($tx,strlen($tx),1) == '.')
+            if (substr($tx,strlen($tx)-1,1) == '.')
                 {
-                    $tx = substr($tx,0,strlen($tx));
+                    $tx = substr($tx,0,strlen($tx)-1);
                 }
 
             /********** KEYWORDS */
