@@ -49,6 +49,8 @@ class Fulltext extends Model
         }
         $files = $this->files($d2);
 
+        pre($files);
+
         if (isset($files[1])) {
             $sx .= $files[1];
             if (!file_exists($files[1])) {
