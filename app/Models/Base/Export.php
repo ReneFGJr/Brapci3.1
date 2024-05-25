@@ -119,7 +119,11 @@ class Export extends Model
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $class = $RDFclass->getClass($d1);
 
-            $RDFconcept->where('cc_class',$class);
+            $RDFconcept
+                ->join('brapci_rdf.rdf_data','d_r1 = id_cc')
+                ->join('brapci_rdf.rdf_literal', 'd_literal = id_n')
+                ->where('cc_class',$class)
+                ->where('d_literal > 0');
             $dt = $RDFconcept->findAll(10);
             pre($dt);
         }
