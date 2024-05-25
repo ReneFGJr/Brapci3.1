@@ -179,6 +179,7 @@ class Fulltext extends Model
                     $dd['Lang'] = $lang;
                     $dd['Class'] = 'Subject';
                     $IDC = $RDFconcept->createConcept($dd);
+                    echo h($ky[$id]);
                     pre($IDC);
                 }
 
