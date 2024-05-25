@@ -45,6 +45,7 @@ class RDFliteral extends Model
     function register($name,$lang='pt_BR',$lock=1)
         {
             $new = true;
+            $name = trim($name);
 
             $Language = new \App\Models\AI\NLP\Language();
             $lang = $Language->normalize($lang);
