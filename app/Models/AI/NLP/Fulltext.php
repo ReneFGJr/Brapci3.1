@@ -163,7 +163,8 @@ class Fulltext extends Model
                     $tx = substr($txt, strpos($txt, '{resumo}')+8, strlen($txt));
                     $tx = substr($tx,0,strpos($tx,'{'));
                     $tx = trim($tx);
-                    pre($tx);
+                    $ln = explode('.',$tx);
+                    pre($ln);
                 } else {
                     $sx .= '<li>Resumo OK</li>';
                 }
