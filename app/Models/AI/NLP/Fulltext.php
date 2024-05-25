@@ -182,6 +182,8 @@ class Fulltext extends Model
                     $id_prop = 'hasAbstract';
                     $IDC = 0;
                     $RDFdata->register($ID, $id_prop, $IDC, $lit);
+                    $sx .= '<li>Resumo incorporado</li>';
+                    $sx .= '<p>'.$tx.'</p>';
                 } else {
                     $sx .= '<li>Resumo OK</li>';
                 }
