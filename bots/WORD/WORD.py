@@ -19,6 +19,7 @@ def run(parm):
 print("ROBOTi-WORD",version())
 print("===============================================")
 diretorio = '/data/Brapci3.1/bots/WORD/'
+diretorio = 'E:/Projeto/www/Brapci3.1/bots/WORD/'
 os.chdir(diretorio)
 
 if (len(sys.argv) > 1):

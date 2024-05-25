@@ -1,0 +1,718 @@
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+ARTIGOS ORIGINAIS
+https://doi.org/10.29397/reciis.v15i4.2382
+Aproximações da produção científica em ciências da saúde na ciência da
+informação no Brasil
+Approximations of scientific production in health sciences in the
+information science in Brazil
+Aproximaciones de la producción científica en ciencias de la salud en la
+ciencia de la información en Brasil
+Rene Faustino Gabriel Junior1,a
+rene.gabriel@ufrgs.br | https://orcid.org/0000-0003-1021-3360
+Fernanda Bochi2,b
+nandabochi@gmail.com | https://orcid.org/0000-0002-3275-0725
+Ana Maria Mielniczuk de Moura1,c
+ana.moura@ufrgs.br | https://orcid.org/0000-0002-7811-4660
+1 Universidade Federal do Rio Grande do Sul, Programa de Pós-Graduação em Ciência da Informação. Porto Alegre,
+  RS, Brasil.
+2 Universidade Estadual Paulista, Programa de Pós-Graduação em Ciência da Informação. Marília, SP, Brasil.
+a Doutorado em Ciência da Informação pela Universidade Estadual Paulista.
+b Mestrado em Comunicação e Informação pela Universidade Federal do Rio Grande do Sul.
+c Doutorado em Comunicação e Informação pela Universidade Federal do Rio Grande do Sul.
+RESUMO
+O trabalho apresentado neste artigo analisou as aproximações da produção científica em ciências da saúde
+na área de ciência da informação, no Brasil, com base nos artigos indexados na Base de Dados Referenciais
+de Artigos de Periódicos em Ciência da Informação (Brapci), no período de 1972 a 2020. A partir da coleta
+pelo termo -saúde-, os dados foram organizados a fim de: identificar os autores mais produtivos; descrever
+as formas de coautoria; investigar as características das revistas utilizadas para publicação; analisar as
+temáticas identificadas a partir das palavras-chave. Foram coletados 1.293 documentos, dos quais, após
+limpeza, totalizaram 1.140 registros, que foram administrados no software VOSviewer. Verificou-se que
+3,3% dos documentos em ciência da informação indexados na base abordam alguma questão da área de
+saúde. A Revista Eletrônica de Comunicação, Informação e Inovação em Saúde (Reciis) publicou 43,2% de
+todos os trabalhos recuperados e uma mostrou prevalência de autoria múltipla.
+Palavras-chave: Ciência da informação; Ciências da saúde; Produção científica; Colaboração científica;
+Estudos métricos da informação.
+ABSTRACT
+The work presented in this article analyzed the approximations of scientific production in health sciences
+in the area of information science in Brazil based on articles indexed by the Base de Dados Referenciais
+de Artigos de Periódicos em Ciência da Informação (Brapci) from 1972 to 2020. After searching the term
+-health-, the data were organized to in order to identify the most productive authors; to describe the forms
+of coauthorship; to investigate the characteristics of the journals used for publication; and to analyze the
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+825
+themes identified by means of the keywords. 1,293 documents were collected and after cleaning the total
+came to 1,140 records that were visualized using the VOSviewer software. It was verified that 3.3% of the
+documents concerning information science which was indexed in the database address some issue of health
+field. The Reciis - Revista Eletrônica de Comunicação, Informação e Inovação em Saúde (Electronic journal
+of communication, information and innovation in health) published 43.2% of all works obtained and has
+revealed a prevalence of multiple authorship.
+Keywords: Information science; Health sciences; Scientific production; Scientific collaboration; Metric
+information studies.
+RESUMEN
+El trabajo presentado analizó las aproximaciones de la producción científica en ciencias de la salud en el
+área de ciencias de la información en Brasil con base en artículos indexados en la Base de Dados Referenciais
+de Artigos de Periódicos em Ciência da Informação (Brapci) en el período de 1972 a 2020. A partir de la
+recolección del término 'salud', los datos fueron organizados para identificar a los autores más productivos;
+describir las formas de coautoría; investigar las características de las revistas utilizadas para la publicación;
+analizar los temas identificados a partir de las palabras clave. Han sido recopilados 1.293 documentos y
+después de la limpieza totalizaron 1.140 registros que han sido visualizados en el software VOSviewer. Se
+han verificado que 3.3% de los documentos conciernentes a la ciencia de la información indexados en la base
+de datos abordan algún tema del área de salud. La Reciis - Revista Eletrônica de Comunicação, Informação
+e Inovação em Saúde (Revista electrónica de comunicación, información y innovación en salud) publicó
+43,2% del total de trabajos recuperados y ha evidenciado un predominio de autoría múltiple.
+Palabras clave: Ciencia de la información; Ciencias de la salud; Producción científica; Colaboración
+científica; Estudios métricos de información.
+INFORMA??ES DO ARTIGO
+Este artigo compõe o dossiê Estudos métricos da informação científica em saúde, parte 1.
+Contribuição dos autores:
+Concepção e desenho do estudo: Rene Faustino Gabriel Junior.
+Aquisição, análise ou interpretação dos dados: Ana Maria Mielniczuk De Moura; Fernanda Bochi; Rene Faustino Gabriel
+Junior.
+Redação do manuscrito: Ana Maria Mielniczuk De Moura; Fernanda Bochi; Rene Faustino Gabriel Junior.
+Revisão crítica do conteúdo intelectual: Ana Maria Mielniczuk De Moura; Fernanda Bochi; Rene Faustino Gabriel Junior.
+Declaração de conflito de interesses: não há.
+Fontes de financiamento: Coordenação de Aperfeiçoamento de Pessoal de Nível Superior (Capes).
+Considerações éticas: não há.
+Agradecimentos/Contribuições adicionais: O presente trabalho foi realizado com apoio da Coordenação de
+Aperfeiçoamento de Pessoal de Nível Superior - Brasil (Capes) - Código de Financiamento 001.
+Histórico do artigo: submetido: 19 maio 2021 | aceito: 25 ago. 2021 | publicado: 10 nov. 2021.
+Apresentação anterior: não há.
+Licença CC BY-NC atribuição não comercial. Com essa licença é permitido acessar, baixar (download), copiar, imprimir,
+compartilhar, reutilizar e distribuir os artigos, desde que para uso não comercial e com a citação da fonte, conferindo os devidos
+créditos de autoria e menção   Reciis. Nesses casos, nenhuma permissão é necessária por parte dos autores ou dos editores.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+826
+INTRODU??O
+Dialogar sobre saúde no contexto da ciência da informação (CI) suscita uma série de reflexões importantes,
+uma vez que tanto as ciências sociais como a CI são áreas que buscam atender a necessidades sociais. Cientes
+da relevância da democratização do acesso e do uso das informações científicas em saúde, o Ministério da
+Saúde (MS), a Organização Pan-Americana da Saúde (Opas), o Escritório Regional da Organização Mundial
+da Saúde (OMS) e demais instituições assinaram um importante convênio que promoveu e expandiu as
+informações técnico-científicas das ciências da saúde. Nasceu, em 1967, a Biblioteca Regional de Medicina
+(Bireme), atendendo  s necessidades informacionais de profissionais, pesquisadores e estudantes da saúde
+em toda a América Latina e no Caribe. Em 1982, a fim de manifestar sua função da melhor forma, passou a ser
+chamada de Centro Latino-Americano e do Caribe de Informação em Ciências da Saúde. A Bireme se tornou
+uma referência em informação científica e técnica em saúde, promovendo atividades de gestão de informação
+e conhecimento científico com o intuito de ampliar o fluxo de informação na área (BIREME, 2017).
+Nesse processo da democratização do acesso   informação das publicações em saúde, foi criado,
+em 1992, o Congresso Regional de Informação em Ciências da Saúde (Crics), com a intenção de ser um
+congresso inovador no campo da informação e comunicação científica em saúde. Com mais de uma década
+de existência, o Seminário Internacional de Informação para a Saúde tornou-se um evento importante,
+promovendo interação e interlocução entre profissionais, pesquisadores e estudantes das áreas de CI,
+biblioteconomia, ciências da saúde, computação, gestão, ética e diversas outras, para discussão de temas
+relacionados   informação para a saúde. Isso permite compreender que existe uma consolidada e crescente
+colaboração entre as áreas. No Brasil, de acordo com as áreas de avaliação da Capes (2017), as ciências
+da saúde estão subdivididas em medicina, odontologia, farmácia, enfermagem, nutrição, saúde coletiva,
+fonoaudiologia, fisioterapia e terapia ocupacional e educação física. Essas áreas de conhecimento são
+segmentos que devem ser mais bem explorados pelos profissionais e pesquisadores da área de CI, uma vez
+que sua interdisciplinaridade possibilita o seu envolvimento com os diversos campos do saber.
+Beraquet e Ciol (2010) observaram que profissionais da CI, como os bibliotecários, ainda apresentavam
+uma visão limitada sobre o campo de atuação, permanecendo atrelados   ideia de que só podem atuar em
+ambientes convencionais. As autoras apresentaram uma reflexão sobre o campo de atuação do profissional
+em ambientes não tradicionais, como a área da saúde, contribuindo com o entendimento das competências
+e habilidades desse profissional, para atuarem nas diversas áreas das ciências da saúde.
+Prudêncio e Biolchini (2017) identificaram que a temática informação e saúde ainda é incipiente, sendo
+pouco abordada nos cursos de pós-graduação em CI. No entanto, destaca-se que na Associação Nacional de
+Pesquisa e Pós-Graduação em Ciência da Informação (Ancib), por exemplo, a partir da moção proposta, em
+2010, pelo Instituto de Comunicação e Informação Científica e Tecnológica em Saúde (Icict), desde 2011, foi
+incluído no Encontro Nacional de Pesquisa da Ancib (Enancib) o GT 11 - Informação e Saúde, que realiza
+estudos de teorias, métodos, estruturas e processos informacionais em diferentes contextos da saúde,
+considerada em sua abrangência e complexidade. Ele trata do impacto da informação, das tecnologias,
+da inovação em saúde, da informação nas organizações de saúde, da informação, da saúde e sociedade e
+das políticas de informação em saúde, assim como da formação e capacitação em informação em saúde
+(FIOCRUZ, 2013). Contudo, observa-se que, mesmo antes da criação do GT11, a Revista Eletrônica de
+Comunicação, Informação e Inovação em Saúde (Reciis) já dava importante contribuição para a ampliação
+dos estudos em ciências da saúde no âmbito da CI. Esse periódico de acesso aberto publica artigos de
+interesse para as áreas de comunicação científica, informação e saúde e vem contribuindo para o aumento
+do fluxo de informação sobre a temática, sendo coordenado e editado pelo Icict da Fundação Oswaldo Cruz
+(Fiocruz).
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+827
+Esse GT surgiu no evento realizado em 2011, e as pesquisas nele apresentadas são dedicadas a aspectos da
+informação em saúde e que estavam sendo discutidas em outros grupos de trabalho. Com a criação desse GT,
+que tem como proposta fomentar ainda mais os diálogos das pesquisas sobre teorias, métodos e estruturas
+informacionais nos mais diversos contextos da saúde, analisa-se o impacto da informação, das tecnologias e
+das inovações em saúde, inclusive nas organizações de saúde, além de questões mais amplas de informação,
+saúde e sociedade e as políticas informacionais em saúde (GARCIA; ARAUJO; SOUZA, 2019).
+A criação desse GT demonstra a consolidação das pesquisas na área da saúde no âmbito da CI, o que
+justifica investigar as aproximações da produção científica dessas áreas, objeto do estudo ora apresentado.
+O foco de análise do trabalho são os artigos indexados na Brapci, com o objetivo geral de analisar
+as aproximações da produção científica em ciências da saúde na área de CI, no Brasil. Como objetivos
+específicos, tem-se: identificar os autores mais produtivos na temática; descrever as formas de coautoria;
+investigar as características das revistas utilizadas para publicação; analisar as temáticas identificadas a
+partir das palavras-chave (assuntos).
+PRODU??O CIENTÍFICA E COLABORA??O CIENTÍFICA
+O desenvolvimento científico está fundamentado na premissa da comunicação, segundo a qual ela obtém
+informação e transmite também por meio da produção científica. A comunicação científica proporciona
+aos pesquisadores o intercâmbio de ideias e informações, de modo que tal atividade entra num fluxo
+helicoidal, como menciona Guimarães (2017). Como afirma Targino (2009), tal prática reitera o quanto a
+comunicação científica se fundamenta na informação e produção científica. A produção científica, segundo
+Lourenço (1997), está relacionada   produção documental sobre determinado assunto de interesse de uma
+comunidade científica, independentemente do suporte em que esteja, papel ou eletrônico. Para Botomé
+(1996), a produção científica só tem sentido se existir um destino para o que for produzido e consumido.
+Nessa linha, Meadows (1999) destaca que a produtividade científica tem importância na consolidação
+de novos conhecimentos em diferentes áreas de conhecimento. No entanto, para Targino (2009), a
+comunicação científica e todo o processo que envolve a divulgação da ciência têm como intuito mostrar a
+força da divulgação científica, principalmente, nas pesquisas envolvendo saúde.
+Nascimento e coautores (2021) constataram que o total da produção científica brasileira cresceu a uma
+taxa exponencial anual de 6,61% entre os anos de 1990 e 2017, observando, porém, uma desaceleração
+do crescimento dessa produção nas áreas avaliadas na primeira metade da década de 2000. Os autores
+afirmam que a produção científica nacional registrou um período de crescimento acelerado entre 1990
+e os primeiros anos da década de 2000, com taxas exponenciais anuais de até 17,6% (ciências sociais
+aplicadas) e dobrando de tamanho a cada quatro anos. Outro dado interessante apontado pelos autores é
+que a produção científica brasileira anual saltou de, aproximadamente, 40 mil artigos, em 1990, para mais
+de 391 mil, em 2016, maior valor da série. Nesse período, o número de artigos publicados por milhão de
+habitantes no país cresceu, aproximadamente, 500%, saindo de 340 publicações, em 1990, para mais de
+1.800, em 2017.
+Sidone, Haddad e Mena-Chalco (2016) apontam para uma desaceleração da produção nos últimos
+anos nas grandes áreas de ciências da saúde e ciências iológicas, fato também indicado por Nascimento
+e coautores (2021), ao constatarem que essas áreas registraram as menores taxas de crescimento, 5,87%
+(ciências biológicas) e 5,19% (ciências da saúde), no comparativo com as outras áreas do conhecimento.
+Mueller (2005) destaca que diversos aspectos específicos das grandes áreas podem ter influenciado o
+desempenho da produção científica recente, como a intensidade de programas de financiamento, o número
+de periódicos, a quantidade de cursos de graduação e pós-graduação, o número de docentes, pesquisadores
+e discentes, as metodologias de pesquisa, entre outros.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+828
+De acordo com Bicalho (2011), a CI tem sua origem interdisciplinar, trabalhando com a produção do
+conhecimento científico em todas as áreas do conhecimento. A autora destaca que, para o desenvolvimento
+da complexidade de seu objeto e dos problemas que deve tratar, a CI se apropriou de diversas teorias
+e metodologias de outras disciplinas, bem como da contribuição e participação de pesquisadores de
+diversas áreas do conhecimento. Porém, em seus resultados, não foi possível identificar a característica
+interdisciplinar da área. Em outro estudo, Smit (2002) destaca que existe uma aparente discrepância entre
+o que é dito (interdisciplinaridade da área) e o que é feito, existindo um isolamento da pesquisa em CI do
+ambiente de pesquisa de outras disciplinas. Em estudo mais recente, Moreira, Valentim e Santana (2018),
+ao realizar estudo sobre interdisciplinaridade da CI e suas contribuições para o estudo do compartilhamento
+de dados governamentais na internet, identificaram que existe uma aproximação na formação de mestres
+e doutores nos programas de pós-graduação (PPG) em CI oriundos de outras áreas do conhecimento,
+reforçando a característica interdisciplinar.
+Nesse contexto do processo de construção da produção científica, os pesquisadores compartilham
+objetivos e metas em comum, dependendo, algumas vezes, da participação efetiva das diferentes
+comunidades epistêmicas para o desenvolvimento de novos saberes. Essa participação e troca de
+conhecimento fazem crescer a busca de colaboração e o interesse por ela entre pesquisadores que atuam
+em uma mesma instituição ou não e, até mesmo, em áreas semelhantes ou distintas. Os primeiros estudos
+sobre colaboração científica datam do final da década de 1950 (SONNENWALD, 2008). Como definem Katz
+e Martin (1997), a colaboração científica ocorre quando dois cientistas compartilham dados, equipamentos
+ou ideias em um projeto, que resulta, geralmente, em experimentos e análises de pesquisa publicados em
+um artigo. Hilário, Grácio e Guimarães (2018) consideram que a colaboração é uma atividade adotada
+pelos pesquisadores como estratégia para viabilizar e potencializar a pesquisa. Para eles, a coautoria, um
+dos objetos deste estudo, se caracteriza como um item da colaboração científica, apresentando benefícios
+cognitivos para os pesquisadores envolvidos nessa prática colaborativa. No entanto, Hilário e Lazzaroto
+(2020) salientam que o indivíduo declarado como autor deve ter participação efetiva no processo de
+construção do conhecimento científico, apresentando contribuições substanciais para o desenvolvimento
+do trabalho, fato que, em alguns momentos, não ocorre no processo colaborativo, que, muitas vezes, está
+voltado para o abastecimento de uma carência de infraestrutura e recursos materiais. Porém, observa-se
+que, neste estudo, a coautoria entra como um produto da colaboração, conforme elucidado por Hilário,
+Grácio e Guimarães (2018).
+Vanz e Stumpf (2010), em seu trabalho de revisão sobre o assunto, concluem que a colaboração científica
+é um fenômeno antigo, que vem crescendo em todas as áreas da ciência e em todos os países, mostrando-se
+uma prática saudável e que beneficia não só a comunidade científica, como também as instituições e os países
+aos quais os pesquisadores estão vinculados. O acesso a equipamentos e materiais, o compartilhamento
+de conhecimento científico, a maior especialização e o aprofundamento das pesquisas são apenas alguns
+dos benefícios gerados pelas colaborações. E, para Glanzel (2001), o trabalho escrito em coautoria, uma
+das facetas da colaboração, apresenta maior probabilidade de aceite e maior número de citações, quando
+comparado a trabalhos publicados individualmente.
+Embora autoras como Hilário e Lazzarotto (2020) apresentem conceitos profundos sobre colaboração e
+aspectos éticos, este estudo buscou elucidar a importância da prática colaborativa para o desenvolvimento
+da informação em saúde, uma vez que a colaboração na produção de conhecimento tem se mantido num
+patamar alto nas diversas áreas do saber, tanto em âmbito nacional como internacional. Em relação
+ao total de colaborações científicas domésticas, ou seja, entre pesquisadores brasileiros, esse número
+cresceu de maneira bastante acelerada, saltando de cerca de 500 mil, no triênio 1992-1994, para cerca
+de 13 milhões, em 2007-2009 (SIDONE, HADDAD, MENA-CHALCO, 2016). Isso evidencia o papel
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+829
+fundamental desempenhado pela colaboração doméstica na evolução recente da produção científica
+brasileira. Semelhantemente ao padrão verificado na evolução da produção acadêmica, nota-se uma
+intensa desaceleração do aumento no total de colaborações, uma vez que a taxa de crescimento de 146%,
+observada entre os períodos de 1995-1997 e 1998-2000, reduziu-se para cerca de 40%, entre os últimos
+triênios, percentual que ainda permanece em patamar elevado.
+Na área de saúde, a prática da colaboração apresenta-se como fundamental e vem crescendo ao longo
+dos anos, tornando-se predominante nas publicações da área (SOBRAL et al., 2016). Entre os anos de 1998
+e 2000, os artigos de autoria única eram a maioria, sendo mais de 60% do quantitativo total. Entre 2004 e
+2006, o gráfico inverteu, e os artigos em colaboração já representavam cerca de 80% daqueles produzidos
+na área de saúde. Os autores também destacam que as motivações mais importantes dos pesquisadores
+em defesa da colaboração são: a possibilidade de enfrentar grandes problemas de pesquisa; a obtenção e/
+ou ampliação de fomento; o processo de validação dos trabalhos realizados em grupo; e a possibilidade de
+avaliar previamente os produtos de pesquisa em relação  s instâncias avaliadoras.
+Bettio, Alvarez e Vanz (2017) identificaram, no estudo sobre a produção e colaboração científica da
+Universidade Federal de Ciências da Saúde de Porto Alegre (UFCSPA), que a autoria múltipla se mostra
+predominante (98,6%). Desses trabalhos, 17,7% se realizaram em coautoria internacional. Estados Unidos,
+Reino Unido, Canadá, Espanha, França e Argentina são os principais parceiros. Dos 1.905 documentos com
+colaboração, 86,8% contam com duas ou mais instituições coautoras, com predomínio de universidades
+nacionais públicas, além de instituições hospitalares. Também na área da saúde, Maia (2006) investigou
+as características de colaboração dos professores do Programa de Pós-graduação em Epidemiologia
+da Universidade Federal de Pelotas, constatando que os professores publicam mais artigos em autoria
+compartilhada (93%) do que individuais. Contudo, como bem elucida Queiroz (2020), é importante
+salientar que a autoria múltipla, embora ocorra com frequência, não pode ser considerada uma prática
+unânime de todas as áreas do conhecimento.
+Diante do que foi exposto, compreende-se que existe uma sinergia muito forte entre a CI e as ciências
+da saúde, uma vez que ambas proporcionam recursos fundamentais para assegurar a qualidade de vida
+e o bem-estar humano. A primeira trata, organiza e comunica o que a segunda aplica, permitindo que o
+fluxo de informação e as colaborações entre pesquisadores ou instituições ocorram. Fato elucidado por
+Targino (2009), que considera a saúde, bem como a informação em saúde recursos básicos e fundamentais
+para elevar a qualidade de vida dos cidadãos de uma nação. Além disso, observa-se que estudos métricos,
+como os apresentados por Lazzarotto (2017), Grácio e Oliveira (2012) e Mattos e Job (2008), estão sendo
+relacionados  s pesquisas em saúde, o que permite identificar de forma quantitativa o que está sendo
+desenvolvido sobre CI e informação e saúde, oportunizando projetar estudos futuros.
+METODOLOGIA
+Para identificar a presença da área de saúde nas publicações brasileiras de CI, partiu-se de uma busca
+na Base de Dados Referenciais de Artigos de Periódicos em Ciência da Informação (Brapci), utilizando o
+termo -saúde- nos campos, no título, nas palavras-chave e no resumo, tendo como delimitação temporal
+os anos de 1972 até 2020 e publicações em revistas de ciências da informação brasileiras. Justifica-se a
+definição do início em 1972 por ser o ano da primeira publicação das três primeiras revistas especializadas
+em CI. De forma a restringir o recorte, optou-se por utilizar somente o termo -saúde-, garantindo desta
+forma maior proximidade com a proposta do estudo, e não buscando todas a variações possíveis das
+áreas subordinadas. A Brapci foi escolhida para a pesquisa por indexar 70 revistas brasileiras, 16 revistas
+estrangeiras, e os eventos do Encontro Nacional de Pesquisa e Pós-graduação em Ciência da Informação
+(Enancib), Encontro Brasileiro de Bibliometria e Cientometria (EBBC), Congresso de Gestão Estratégica
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+830
+da Informação e a Sociedade Brasileira para Organização do Conhecimento ISKO-Brasil (a sigla ISKO
+corresponde a International Society for Knowledge Organization).
+O resultado da busca possibilitou a identificação de 1.293 documentos. Com o intuito de delimitar para
+as revistas brasileiras, foi aplicado um filtro removendo as revistas estrangeiras e os eventos, resultando
+em um corpus de 1.140 registros. Considerando que a base tem indexados 39.343, isso significa que
+apenas 3,3% dos documentos em CI abordam alguma questão da área de saúde. Do total de trabalhos,
+foram identificados 2.263 autores, sendo que, destes, 1.902 (84,0%) tiveram apenas uma publicação, e
+224 (9,9%) duas publicações. Com mais de duas publicações no período analisado, foram identificados 137
+(6,1%) autores do total do corpus. Para gerar a correlação das palavras-chave, foram extraídos os termos de
+todos os trabalhos recuperados e excluídos os termos -ciência da informação- em outros idiomas, diferentes
+do português, por estarem presentes na maioria dos artigos. Ainda para padronizar, foram retirados os
+acentos dos termos. Com a aplicação desses filtros, foi criada a tabela de correção, utilizando as ferramentas
+bibliográficas disponíveis na Brapci (ARBOIT; BUFREM; LAZZAROTTO, 2010), e os termos enviados para
+o VOSviewer (CWTS, 2021) para criação do gráfico de aproximações temáticas. De modo a diminuir a
+poluição visual, foram definidos, na apresentação, os termos (nodes) que tivessem, no mínimo, 20 relações
+(arcs), e foi utilizada a aproximação de 10 e repulsão de 1, no modo fracionado. A escolha do uso da Brapci
+deu-se, sobretudo, por ser uma base de dados nacional da CI que indexa tudo o que é produzido na área,
+além de ser de fácil acesso e uso, mantendo-se atualizada e apresentando conteúdo de acesso aberto e
+possibilidade de acesso aos metadados.
+RESULTADOS E ANÁLISES
+Ao analisar o corpus constituído de 1.140 documentos, quanto ao tipo de autoria, pode-se observar que,
+do total de publicações, 292 (25,6%) foram de autoria única, e 848 (74,4%) de autoria múltipla, distribuídas
+em 367 (32,2%) em dupla autoria, 231 (20,3%) em autoria tripla, 124 (10,9%) em autoria quádrupla, 126
+(11,1%) com cinco ou mais autores. Um estudo realizado por Mattos e Job (2008) reitera os resultados deste
+estudo, pois aponta que, dos 34 artigos de autores brasileiros publicados na Scientometrics, no período
+de 1978 até 2006, nove apresentam autoria única, um tem cinco autores, quatro são de quatro autores, 10
+artigos foram escritos por dois, e 10 por três autores, indicando uma preferência por autoria compartilhada.
+A influência de poucas colaborações e coautorias na área de CI, no Brasil, é evidenciada pela pesquisa
+realizada por Mueller e Pecegueiro (2001), com base na revista Ciência da Informação, entre os anos de
+1990 e 1999. Eles constataram que 78,23% dos artigos foram assinados por um único autor. Resultado
+semelhante foi obtido por Bufrem e outros autores (2010), que analisaram 28 revistas de CI brasileiras,
+entre 1970 e 2008, obtendo um indicador de 68,1% de autoria única. Em uma análise diacrônica, Gabriel
+Junior (2017) analisou os tipos de autorias de 1972 até 2016 de forma cronológica, o que possibilitou
+identificar que as autorias únicas vêm diminuindo ao longo do tempo, com um forte crescimento a partir
+de 1994 da dupla autoria, que, em 2008, sobrepujou a autoria única. Entretanto, a média de autores por
+documentos não passou de 1,8 autores por trabalho.
+A média de coautores por trabalhos, nesta pesquisa, foi de 1,98 autores por documento. A Figura 1
+destaca os oito autores mais produtivos, com artigos publicados nas revistas de CI brasileiras, com 10
+ou mais publicações. Neves e Ferreira (2014), que analisaram as publicações de autores portugueses no
+repositório internacional e-Prints in Library and Information Science (e-LIS), observaram que 67% dos
+trabalhos eram de autoria única.
+Vanz (2009) identificou que existe uma diferenciação do número de autores por trabalho nas diversas
+áreas do conhecimento e que a física tem o maior número de coautores (13,3 por artigo), enquanto as áreas
+de saúde têm 4,6 a 7 autores por trabalho. Dessa forma, pode-se observar que o número de autores nas
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+831
+áreas de saúde é muito superior ao da área de CI, e que a aproximação da CI com essas áreas aumentou o
+número de coautores neste estudo. Uma análise realizada, na Reciis, por Bochner e outros autores (2014),
+identificou que a média de autores da CI, em 2013, era de 3,43, ou seja, houve um impacto direto da cultura
+dos pesquisadores da área de saúde.
+A Figura 1, a seguir, apresenta a série histórica das publicações dos autores que tiveram mais de 10
+publicações no período e corpus analisado.
+Figura 1 - Autores com dez ou mais publicações na área de saúde nos artigos em CI, no Brasil
+Fonte: elaborado pelos autores.
+Dos autores enfatizados, destaca-se Maria Cristina Soares Guimarães, a mais produtiva, com 27
+publicações, entre 2006 e 2019. A autora tem formação, na graduação, em engenharia química e mestrado
+e doutorado em ciência da informação pela UFRJ/Ibict. ? pesquisadora da Fundação Oswaldo Cruz
+e professora permanente do Programa de Pós-Graduação em Informação e Comunicação em Saúde do
+Icict (PPGICS/Icict). Guimarães foi a autora mais constante em suas publicações, com a identificação do
+primeiro trabalho, em 2006, e mantém as publicações até 2019.
+Cícera Henrique Silva tem graduação em biblioteconomia pela UniRio, mestrado pela UFRJ/Ibict e
+doutorado pela Université dAix-Marseille II. Atualmente, é pesquisadora colaboradora do Instituto de
+Comunicação e Informação Científica e Tecnológica em Saúde - Icict, desde 2005, é docente do curso
+de especialização lato sensu Informação Científica e Tecnológica em Saúde e, desde 2009, professora
+permanente do Programa de Pós-Graduação em Informação e Comunicação em Saúde - PPGICS/Icict.
+Foram identificados 17 trabalhos publicados, sendo que 11 deles em coautoria com Maria C. S. Guimarães,
+relacionados ao acesso aberto, acesso livre e repositório institucional, principalmente envolvendo o
+Repositório Institucional da Fiocruz (Arca).
+Com 12 trabalhos, destaca-se a professora do Departamento de Ciências da Informação da Universidade
+Federal do Ceará, Virgínia Bentes Pinto. Entre seus estudos na área de saúde, publicou sobre: uso de
+prontuários eletrônicos; representação e indexação de imagens; e linguagem documentária na área de
+saúde. Na Figura 1, pode-se observar que a autora iniciou o interesse pelo tema em 2006 e 2008, com
+uma publicação, retomando a temática a partir de 2015, com estudos do uso da instrumentalização da
+biblioteconomia e CI aplicados na saúde.
+Francisco José Aragão Pedroza Cunha, professor da Universidade Federal da Bahia (UFBA), vinculado
+ao Instituto de Ciência da Informação, pontua com 10 trabalhos. Tem graduação em administração de
+empresas, mestrado em CI pela UFBA e doutorado em difusão do conhecimento, com trabalhos publicados
+na temática de mecanismos de difusão de conhecimentos gerenciais entre os sistemas e redes de atenção
+saúde; gestão de documentos; e bases para a aprendizagem e a inovação organizacional em hospitais. Suas
+publicações têm início em 2014, sendo o pesquisador, entre os mais produtivos, o mais contemporâneo.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+832
+Maria Cristiane Barbosa Galvão, com 10 trabalhos na área, é professora doutora do Departamento de
+Medicina Social da Faculdade de Medicina de Ribeirão Preto da Universidade de São Paulo. Bacharel em
+biblioteconomia e documentação pela Universidade de São Paulo (1992), realizou mestrado em comunicação
+pela Universidade de São Paulo (1997) e doutorado em ciência da informação pela Universidade de Brasília
+(2003), período em que realizou estágio na Universidade de Montreal (2002-2003).
+Ressaltando o domínio do Icict da Fiocruz, destaca-se também, com 10 produções, Inesita Soares Araújo,
+graduada em comunicação social pela Universidade Federal de Pernambuco (UFPE), mestre e doutora em
+comunicação e cultura pela Universidade Federal do Rio de Janeiro (UFRJ). Atua como pesquisadora no
+Laboratório de Comunicação e Saúde do Instituto de Comunicação e Informação Científica e Tecnológica em
+Saúde (Laces/Icict) e docente permanente no Programa de Pós-Graduação em Informação e Comunicação
+em Saúde (PPGICS). Em 2012, publicou sete trabalhos com a temática relacionada   saúde.
+Rosany Bochner, também do Icict, com oito publicações, é graduada em estatística, mestre em
+engenharia de produção na área de pesquisa operacional pela UFRJ e doutora em saúde pública pela Escola
+Nacional de Saúde Pública Sérgio Arouca da Fundação Oswaldo Cruz (Ensp/Fiocruz). Pesquisa na área
+de probabilidade e estatística, com ênfase em análise de dados na área da saúde, além de ter participado
+do desenvolvimento de sistemas de informação em saúde e na elaboração de materiais educativos e de
+divulgação científica. Atua como pesquisadora do Laboratório de Informação Científica e Tecnológica em
+Saúde do Instituto de Comunicação e Informação Científica e Tecnológica em Saúde (Licts/Icict), coordena
+o Sistema Nacional de Informações Tóxico-Farmacológicas (Sinitox) e é membro permanente do corpo
+docente do Programa de Pós-Graduação em Informação e Comunicação em Saúde do Icict (PPGICS).
+Maurício Barcellos Almeida é professor do Departamento de Teoria e Gestão da Informação na
+Universidade Federal de Minas Gerais (UFMG), graduado em engenharia civil, mestre e doutor em ciência
+da informação pela UFMG. Pesquisa e atua, principalmente, com a temática de ontologias, representação
+do conhecimento e uso da terminologia nas práticas clínicas e em saúde, com cinco publicações na área.
+Esses resultados apontam uma crescente no que tange   atuação do cientista da informação nos estudos
+voltados para as ciências da saúde. que não pode ser observado no estudo de Mattos e Job (2008), visto
+que esses autores identificaram, no período analisado, que os pesquisadores mais produtivos não eram
+cientistas da informação, mas tinham suas formações nas áreas de ciências biológicas, epidemiologia e
+demais da saúde. No entanto, o estudo realizado por Prudencio e Biolchini (2018), em que analisaram os
+currículos dos cursos de biblioteconomia presenciais e a distância, mostrou uma tímida, porém crescente,
+abordagem das temáticas informação em saúde nas disciplinas de graduação.
+Na identificação das revistas mais produtivas, os artigos recuperados estavam distribuídos em 56 revistas
+brasileiras da área de CI, sendo que 17 delas concentram mais de 80% das publicações, concentrando as
+publicações em revistas B1 que, de acordo com o Qualis Capes, são periódicos de excelência nacional,
+predominantes na área. Isso demonstrou uma concentração em poucos títulos de revistas. A Tabela 1 e
+a Figura 2 ilustram os principais periódicos identificados na pesquisa em pauta. No estudo abordando os
+estudos métricos da informação como interdomínio entre CI e medicina, Lazzarotto (2017) identificou que,
+entre os 10 periódicos mais referenciados, seis são das ciências da saúde, dois são especificamente da CI -
+sendo um internacional (Journal of the Association for Information Science and Technologie - JASIST),
+um nacional (CI) - e os demais apresentam um caráter mais interdisciplinar. Tal resultado é interessante,
+visto que a Revista Ciência da Informação é a mais antiga da área no Brasil.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+833
+Tabela 1 - Periódicos com mais de vinte publicações na temática
+#
+Revista
+Total de
+docs
+Qualis
+2013
+2016
+SCImago
+Scopus
+1
+Revista Eletrônica de Comunicação, Informação e Inovação em Saúde
+492
+B1
+-
+2
+Ciência da Informação
+52
+B1
+Q4
+3
+Revista Fontes Documentais
+50
+-
+-
+4
+Revista Brasileira de Biblioteconomia e Documentação
+38
+B1
+-
+5
+Perspectivas em Ciência da Informação
+32
+A1
+Q2
+6
+Tendências da Pesquisa Brasileira em Ciência da Informação
+31
+B1
+-
+7
+Informação & Informação
+29
+A2
+-
+8
+Informação & Sociedade: Estudos
+27
+A1
+Q3
+9
+Revista P2P e INOVA??O
+26
+C
+-
+10
+Revista Digital de Biblioteconomia & Ciência da Informação
+20
+B1
+Q4
+11
+Perspectivas em Gestão & Conhecimento
+20
+B1
+-
+Fonte: elaborado pelos autores.
+No presente estudo, observa-se que tal resultado tem como destaque a Reciis, com 492 trabalhos, ou
+seja, 43,2% de todos os trabalhos recuperados. A Reciis surgiu em 2007 e tem em seu escopo publicações
+nas áreas de comunicação, informação e saúde coletiva. Está vinculada   Fiocruz e recebe financiamento
+do Instituto de Comunicação e Informação Científica e Tecnológica em Saúde da Fundação Oswaldo Cruz.
+A revista privilegia a publicação de textos com ênfase nas interfaces entre comunicação e saúde e entre
+informação e saúde.
+Seu primeiro editor foi Carlos José Saldanha Machado, pesquisador da Fiocruz e que, junto da equipe
+editorial, procurou agregar as multidisciplinaridades, envolvendo a área de CI e saúde coletiva, incitando
+pesquisadores de diversas áreas a publicarem sobre o tema.
+Figura 2 - Distribuição das publicações sobre as temáticas de saúde nas revistas de CI brasileiras
+Fonte: elaboração dos autores.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+834
+Alguns indicadores chamam a atenção, como os 17 trabalhos publicados na Revista Brasileira de
+Biblioteconomia e Documentação (RBBD), em 2017. Observou-se que 15 dos trabalhos identificados
+nesse ano foram publicados no número especial do XXVIII Congresso Brasileiro de Biblioteconomia,
+Documentação e Ciência da Informação (CBBD), envolvendo diversas práticas de bibliotecários em
+bibliotecas das áreas de saúde.
+Outro destaque dessa variação está na Revista Ciência da Informação, que, em 2019, publicou 13 trabalhos
+em um único ano, sendo 12 deles publicados no número 3, e apenas um, no número 1 do volume 48. O
+fascículo em questão, assim como a RBBD, publicou um suplemento especial dos trabalhos apresentados
+na 10ª Conferência Luso-Brasileira de Ciência Aberta (ConfOA).
+Também é possível observar o crescimento da média de publicações do tema nas revistas. Se excluirmos
+a Reciis da análise, temos o total de 358 publicações nos últimos cinco anos e, considerando as 56 revistas
+ativas em CI ativas no Brasil, obtém-se uma média de 1,3 artigo por ano publicado em cada revista, um
+indicador ainda muito baixo ao comparar com a média de 39 artigos que cada revista publica anualmente.
+Figura 3 - Produção diacrônica do tema de saúde nas revistas de CI brasileiras (1972-2020)
+Fonte: elaborado pelos autores.
+Porém, ao visualizar a Figura 3, observa-se que a temática vem crescendo, ainda que de forma tímida,
+a partir de 2002. Na linha do fortalecimento da relação entre informação, comunicação e saúde, o
+
+PPGCII-Ibict/UFRJ está criando, em 2021, a Revista Asklepion, que tem como foco estudos e teorias da
+informação na área da saúde; organização do conhecimento e gestão da informação em saúde; e outras
+temáticas relacionadas  s tecnologias de informação e comunicação, telemática, inteligência artificial
+relacionadas   saúde.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+835
+Figura 4 - Palavras-chave (português) e suas relações temáticas (1972-2020)
+Fonte: elaborado pelos autores.
+A pesquisa em pauta permite observar a prevalência de duas áreas: a primeira da biblioteconomia e a
+segunda de saúde pública; as temáticas que mais unem essas áreas se referem   informação, informação em
+saúde, educação, Sistema ?nico de Saúde e gestão da informação.
+Outro destaque pode ser observado no termo -acesso   informação-, que está mais próximo da saúde
+pública e do Sistema ?nico de Saúde que da área de biblioteconomia.
+Considerando que a área da saúde é composta por medicina, odontologia, farmácia, enfermagem,
+nutrição, fonoaudiologia, fisioterapia e terapia ocupacional e educação física, pode-se observar que não
+existe relação - ou há uma relação muito fraca - com a área de CI, sendo a saúde coletiva e/ou saúde
+pública que apresentam mais produção com a área de CI, influenciadas, principalmente, pelas pesquisas
+realizadas na Fiocruz/Icict.
+CONSIDERA??ES FINAIS
+A pesquisa aqui apresentada teve como objetivo geral analisar as aproximações da produção científica
+em ciências da saúde na área de CI, no Brasil, a partir dos artigos publicados em revistas brasileiras da área
+da CI e indexadas na Brapci, no período de 1972 a 2020.
+Constatou-se que apenas 3,3% dos documentos em CI indexados na base de dados Brapci abordam
+alguma questão da área de saúde, apesar de haver um GT específico para discussão da temática na ANCIB:
+o GT 11- Informação e Saúde.
+Quanto ao objetivo de identificar os autores mais produtivos na temática, são pesquisadores vinculados
+a institutos de pesquisa, com destaque: Maria Cristina Soares Guimarães, pesquisadora da Fundação
+Oswaldo Cruz e professora permanente do Programa de Pós-Graduação em Informação e Comunicação
+em Saúde do Icict (PPGICS/Icict), sendo a mais produtiva, com 27 publicações entre 2006 e 2019. Além
+de outros pesquisadores ligados a institutos de pesquisa, também foram identificados docentes vinculados
+a programas de pós-graduação de universidades públicas, como os da Universidade Federal da Bahia,
+Universidade Federal do Rio de Janeiro e Universidade Federal de Minas Gerais.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+836
+Em relação  s formas de coautoria, constatou-se que, do total de publicações, 292 (25,6%) foram de
+autoria única e 848 (74,4%) de autoria múltipla, distribuídas em 367 (32,2%) de dupla autoria, 231 (20,3%)
+com autoria tripla, 124 (10,9%) de autoria quádrupla, 126 (11,1%) com cinco ou mais autores. A média de
+coautores por trabalhos foi de 1,98, demonstrando que a autoria múltipla identificada está de acordo com o
+padrão consolidado na área da saúde.
+Já em relação  s características dos periódicos utilizados para publicação, constatou-se que existe uma
+diversidade entre as revistas que publicam trabalhos na área de saúde na CI, mas, na identificação das mais
+produtivas, os artigos recuperados estavam distribuídos em 56 revistas brasileiras da área de CI. Entre elas,
+apenas 17 concentram mais de 80% dos artigos, sendo 43,2% publicados pela Reciis e correspondentes a
+492 trabalhos. Isso demonstra uma concentração em poucos títulos de revistas que têm a interseção com a
+área da saúde.
+Quanto  s temáticas identificadas a partir das palavras-chave, essas mostram a prevalência de duas áreas,
+a biblioteconomia e a saúde pública, e as temáticas que mais unem essas áreas, referentes   informação,
+informação em saúde, educação, Sistema ?nico de Saúde e gestão da informação. Outro destaque pode ser
+observado no termo -acesso   informação?, que está mais próximo da saúde pública e do Sistema ?nico de
+Saúde que da área de biblioteconomia.
+Conclui-se que a temática vem crescendo, ainda que de forma tímida, a partir de 2002, e sugere-se
+novos estudos sobre a presença de trabalhos relacionados   área da saúde na CI, em revistas estrangeiras,
+de forma a comparar os resultados com os obtidos nesta pesquisa.
+REFER?NCIAS
+ARBOIT, Aline Elis; BUFREM, Leilah Santiago; LAZZAROTTO, Juliana. Configuração epistemológica na
+literatura periódica brasileira por meio de análise de citações (1972-2008). Perspectivas em Ciência da
+Informação, Belo Horizonte, v. 15, n. 2, p. 22-41, 2010. Disponível em: https://www.scielo.br/j/pci/a/D8dvPXVr
+CMPdhtzP9PygPcQ/?lang=pt&format=pdf. Acesso em: 14 maio 2021.
+BERAQUET, Vera Silvia Marao; CIOL, Renata. Atuação do bibliotecário em ambientes não tradicionais: o
+campo da saúde. Tendências da Pesquisa Brasileira em Ciência da Informação, [s. l.], v. 3, n. 1, p. 127-
+137, 2010. Disponível em: http://revistas.ancib.org/index.php/tpbci/article/view/182. Acesso em: 23 set. 2021.
+BETTIO, Maiara; ALVAREZ, Gonzalo Rubén; VANZ, Samile Andréa de Souza. Produção e colaboração
+científica da universidade federal de ciências da saúde de Porto Alegre. Informação & Informação, Londrina,
+v. 22, n. 1, p. 88-110, 2017. DOI: http://dx.doi.org/10.5433/1981-8920.2017v22n1p88. Disponível em: http://hdl.
+handle.net/10183/163684. Acesso em: 6 maio 2021.
+BICALHO, Lucinéia. Interações disciplinares presentes na pesquisa em ciência da informação.
+Transinformação, Campinas, v. 23, n. 2, p. 113-126, 2011. DOI: https://www.doi.org/10.1590/S0103-
+37862011000200003. Disponível em: https://www.scielo.br/j/tinf/a/6fyFtNVBYcnmWQRpcMV9LTc/?lang=pt.
+Acesso em: 23 set. 2021.
+BOCHNER, Rosany et al. Métricas contam a história e a trajetória da Revista Eletrônica de Comunicação,
+Informação e Inovação em Saúde - Reciis. Tendências da Pesquisa Brasileira em Ciência da Informação, [s.
+l.], v. 7, n. 2, 2014. Disponível em: http://hdl.handle.net/20.500.11959/brapci/119547. Acesso em: 14 maio 2021.
+BOTOM?, Silvio Paulo. Pesquisa alienada e ensino alienante: o equívoco da extensão universitária.
+Petrópolis: Vozes,1996.
+BUFREM, Leilah Santiago et al. Modelizando práticas para a socialização de informações: a construção de
+saberes no ensino superior. Perspectivas em Ciência da Informação, Belo Horizonte, v. 15, n. 2, p. 22-41,
+2010. DOI: https://doi.org/10.1590/S1413-99362010000200003. Disponível em: https://www.scielo.br/j/pci/a/DH
+V9RQMtPKMrRRrdDMzMVvh/?lang=pt. Acesso em: 23 set. 2021.
+CENTRE FOR SCIENCE AND TECHNOLOGY STUDIES (CWTS). Welcome to VOSviewer. Leiden: CWTS,
+2021. Disponível em: https://www.vosviewer.com/. Acesso em: 20 jun. 2021.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+837
+CENTRO LATINO-AMERICANO E DO CARIBE DE INFORMA??O EM CI?NCIAS DA SA?DE (BIREME).
+1967-2017: BIREME celebra 50 anos. Boletim BIREME, n. 5, 24 fev. 2017. Disponível em: https://boletin.
+bireme.org/pt/2017/02/24/1967-2017-bireme-celebra-50-anos/. Acesso em 30 jul. 2021.
+COORDENA??O DE APERFEI?OAMENTO DE PESSOAL DE NÍVEL SUPERIOR (CAPES). Tabela de
+áreas de conhecimento/avaliação. Brasília, DF: Capes, 2017. Disponível em: https://www.gov.br/capes/pt-br/
+acesso-a-informacao/acoes-e-programas/avaliacao/instrumentos/documentos-de-apoio-1/tabela-de-areas-de-
+conhecimento-avaliacao. Acesso em: 3 maio 2021.
+FUNDA??O OSWALDO CRUZ (FIOCRUZ). Instituto de Comunicação e Informação Científica e Tecnológica
+em Saúde (ICICT). Informação e comunicação científica para o SUS: relatório de atividades 2011-2012. Rio
+de Janeiro: Icict, 2013. Disponível em: https://www.icict.fiocruz.br/sites/www.icict.fiocruz.br/files/relatorio-final-
+grafica_Mauro_optm.pdf. Acesso em: 24 set. 2021.
+GABRIEL JUNIOR, Rene Faustino. Panorama dos 45 anos das revistas de ciência da informação no Brasil:
+um estudo na Brapci. In: ENCONTRO NACIONAL DE PESQUISA EM CI?NCIA DA INFORMA??O,18., 2017,
+Marília. Anais [...]. Marília: Unesp, 2017. Disponível em: http://hdl.handle.net/20.500.11959/brapci/105548.
+Acesso em: 12 maio 2021.
+GARCIA, João Paulo dos Santos; ARAUJO, Nelma Camêlo de; SOUZA, Edivanio Duarte de. Informação,
+gênero e sexualidade: uma análise da comunicação científica do grupo de trabalho -informação & saúde? -
+Enancib. Convergência em Ciência da Informação, São Cristóvão, v. 2 n. 2, p. 83-104, 2019. DOI: https://
+doi.org/10.33467/conci.v2i2.12837. Disponível em: https://seer.ufs.br/index.php/conci/article/view/12837/10197.
+Acesso em: 3 maio 2021.
+GL?NZEL, Wolfgang. National characteristics in international scientific coauthorship relations. Scientometrics,
+Amsterdã, v. 51, n.1, p. 69-115, 2001. DOI: https://doi.org/10.1023/A:1010512628145. Disponível em: https://
+link.springer.com/article/10.1023/A:1010512628145. Acesso em: 4 maio 2021.
+GRACIO, Maria Cláudia Cabrini; OLIVEIRA, Ely Francina Tannuri de. A inserção e o impacto internacional da
+pesquisa brasileira em -estudos métricos?: uma análise na base Scopus. Tendências da Pesquisa Brasileira
+em Ciência da Informação, [s. l.], v. 5, n. 1, p. 1-19, 2012. Disponível em: http://inseer.ibict.br/ancib/index.php/
+tpbci/article/view/71/113. Acesso em: 1 ago. 2021.
+GUIMAR?ES, José Augusto Chaves. Organização do conhecimento: passado, presente e futuro sob a
+perspectiva da ISKO. Informação & Informação, Londrina, v. 22, n. 2, p. 84-98, 2017. DOI: http://dx.doi.
+org/10.5433/1981-8920.2017v22n2p84. Disponível em: http://www.uel.br/revistas/uel/index.php/informacao/
+article/view/31443/21993. Acesso em: 2 ago. 2021.
+HILÁRIO, Carla Mara; GRÁCIO, Maria Cláudia Cabrini; GUIMAR?ES, José Augusto Chaves. Aspectos éticos
+da coautoria em publicações científicas. Em Questão, Porto Alegre, v. 24, n. 2, p. 12-36, 2018. DOI: https://
+doi.org/10.19132/1808-5245242.12-36. Disponível em: https://seer.ufrgs.br/EmQuestao/article/view/76312/0.
+Acesso em: 3 ago. 2021.
+HILÁRIO, Carla Mara; LAZZAROTO, Juliana. Indicadores de colaboração científica: aspectos éticos, práticos
+e formas de mensuração. In: GRÁCIO, Maria Cláudia Cabrini et al. (org.). Tópicos da bibliometria para
+bibliotecários universitários. Marília: Oficina Universitária, 2020. p. 71-92.
+KATZ, J. Sylvan; MARTIN, Ben R. What is research collaboration? Research Policy, Amsterdã, v. 26, n. 1, p.
+1-18, 1997. DOI: https://doi.org/10.1016/S0048-7333(96)00917-1. Disponível em: https://www.sciencedirect.
+com/science/article/abs/pii/S0048733396009171. Acesso em: 4 maio 2021.
+LAZZAROTTO, Juliana. Dimensões da pesquisa brasileira no interdomínio dos estudos métricos da
+informação em medicina. 2017. 201 f. Tese (Doutorado em Ciência da Informação) - Faculdade de Filosofia
+e Ciências, Universidade Estadual Paulista, Marília, São Paulo, 2017.
+LOUREN?O, Cíntia de Azevedo. A automação em bibliotecas: análise da produção via Biblioinfo (1986/1994).
+In: WITTER, Geraldina Porto (org.). Produção científica. Campinas: Átomo, 1997. p. 25-40.
+MAIA, Maria de Fátima Santos. A produção e o uso de informação em saúde: estudo bibliométrico da
+área de epidemiologia. 2006. 119 f. Dissertação (Mestrado em Comunicação e Informação) - Faculdade de
+Biblioteconomia e Comunicação, Universidade Federal do Rio Grande do Sul, Porto Alegre, 2006.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+GABRIEL JUNIOR, Rene Faustino; BOCHI, Fernanda; MOURA, Ana Maria Mielniczuk de
+838
+MATTOS, Ana Maria; JOB, Ivone. A produção científica brasileira no periódico Scientometrics de 1978 até
+2006. Encontros Bibli: Revista Eletrônica de Biblioteconomia e Ciência da Informação, Florianópolis, n.
+26, p. 47-61, 2008. DOI: https://doi.org/10.5007/1518-2924.2008v13n26p47. Disponível em: https://periodicos.
+ufsc.br/index.php/eb/article/view/1518-2924.2008v13n26p47/6934. Acesso em: 3 ago. 2021.
+MEADOWS, Arthur Jack. A comunicação científica. Brasília, DF: Briquet de Lemos/Livros, 1999.
+MOREIRA, Fábio Mosso; VALENTIM, Marta Lígia Pomim; SANTANA, Ricardo César Gonçalves. A
+interdisciplinaridade da ciência da informação e suas contribuições no estudo do compartilhamento de
+dados governamentais na internet. Em Questão, Porto Alegre, v. 24, n. 2, p. 300-329, 2018. DOI: https://
+doi.org/10.19132/1808-5245242.300-329. Disponível em: https://seer.ufrgs.br/index.php/EmQuestao/article/
+view/75308. Acesso em: 23 set. 2021.
+MUELLER, Suzana Pinheiro Machado. A publicação da ciência: áreas científicas e seus canais preferenciais.
+DataGramaZero: Revista de Ciência da Informação, [s, l.], v. 6, n.1, p.1-12, 2005. Disponível em: https://
+repositorio.unb.br/bitstream/10482/980/2/ARTIGO_PublicacaoCiencia.pdf. Acesso em: 2 maio 2021.
+MUELLER, Suzana Pinheiro Machado; PECEGUEIRO, Cláudia Maria Pinho de Abreu. O periódico Ciência da
+Informação na década de 90: um retrato da área refletido em seus artigos. Ciência da Informação, Brasília,
+DF, v. 30, n. 2, p. 47-63, 2001. Disponível em: http://revista.ibict.br/ciinf/article/view/924/961. Acesso em: 30
+maio 2021.
+NASCIMENTO, Dandara Souza Araújo et al. Projeções exponenciais da ciência brasileira: modelos e análises
+quantitativas da produção científica nacional publicada nos últimos 30 anos. Informação & Informação,
+Londrina, v. 26, n. 1, p. 53-73, 2021. DOI: http://dx.doi.org/10.5433/1981-8920.2021v26n1p53. Disponível em:
+http://www.uel.br/revistas/uel/index.php/informacao/article/view/40628. Acesso em: 2 maio 2021.
+NEVES, Bruno; FERREIRA, Carla. Caracterização da produção científica portuguesa em ciência da
+informação disponibilizada em acesso aberto no e-LIS. Cadernos BAD, Lisboa, n. 2, p. 95-98, 2014.
+Disponível em: http://hdl.handle.net/20.500.11959/brapci/68379. Acesso em: 6 maio 2021.
+PRUDENCIO, Dayanne da Silva; BIOLCHINI, Jorge Calmon de Almeida. Informação e saúde nos
+currículos dos cursos de biblioteconomia do Brasil. Tendências da Pesquisa Brasileira em Ciência da
+Informação, [s. l.], v. 11, n. 1, p. 1-22, 2018. Disponível em: https://revistas.ancib.org/index.php/tpbci/
+article/view/503/483. Acesso em: 3 ago. 2021.
+PRUDENCIO, Dayanne da Silva; BIOLCHINI, Jorge Calmon de Almeida. Temática informação e saúde
+na pós-graduação em ciência da informação. In: ENCONTRO NACIONAL DE PESQUISA EM CI?NCIA
+DA INFORMA??O, 18., 2017, Marília. Anais [...]. [S. l.]: Enancib, 2017. Disponível em: http://hdl.handle.
+net/20.500.11959/brapci/105330. Acesso em: 03 maio 2021.
+QUEIROZ, Daniela Gralha de Caneda. A autoria única nos artigos de periódicos das áreas de
+informação no Brasil (2009-2017). 2020. 283 f. Tese (Doutorado em Ciência da Informação) -
+Programa de Pós-graduação em Ciência da Informação, Universidade de Brasília, Brasília, DF, 2020.
+SIDONE, Otávio José Guerci; HADDAD, Eduardo Amaral; MENA-CHALCO, Jesús Pascual. A ciência
+nas regiões brasileiras: evolução da produção e das redes de colaboração científica. Transinformação,
+Campinas, v. 28, n. 1, p. 15-31, 2016. DOI: https://doi.org/10.1590/2318-08892016002800002. Disponível
+em: https://www.scielo.br/pdf/tinf/v28n1/0103-3786-tinf-28-01-00015.pdf. Acesso em: 4 maio 2021.
+SOBRAL, Natanael Vitor et al. Produção científica colaborativa na área da saúde tropical: uma análise
+da rede de colaboração do Programa de Pós-Graduação em Medicina Tropical da Universidade Federal
+de Pernambuco. Revista Eletrônica de Comunicação, Informação e Inovação em Saúde, Rio de
+Janeiro, v. 10, n. 1, p. 1-15, 2016. DOI: https://doi.org/10.29397/reciis.v10i1.1025. Disponível em: https://
+www.reciis.icict.fiocruz.br/index.php/reciis/article/view/1025. Acesso em: 10 maio 2021.
+SONNENWALD, Diane H. Scientific Collaboration. Annual Review of Information Science and
+Technology, New York, v. 42, n. 1, p. 643-681, 2008. DOI: https://doi.org/10.1002/aris.2007.1440410121.
+Disponível em: https://asistdl.onlinelibrary.wiley.com/doi/10.1002/aris.2007.1440410121. Acesso em: 29
+set. 2021.
+SMIT, Johanna Wilhelmina. A pesquisa na área de ciência da informação. Transinformação, Campinas,
+v. 14, n. 1, p. 25-28, 2002. DOI: http://dx.doi.org/10.1590/S0103-37862002000100003. Disponível em:
+https://www.scielo.br/j/tinf/a/sPdxSKgywKtFV5nj9L5mgXv/?lang=pt. Acesso em: 23 set. 2021.
+Reciis - Revista Eletrônica de Comunicação, Informação & Inovação em Saúde, Rio de Janeiro, v. 15, n. 4, p. 824-839, out./dez. 2021
+[www.reciis.icict.fiocruz.br] e-ISSN 1981-6278
+Artigo original | Aproximações da produção científica em ciências da saúde na ciência da informação no Brasil
+839
+TARGINO, Maria das Graças. Informação em saúde: potencialidades e limitações. Informação
+& Informação, Londrina, v. 14, n. 1, p. 52-81, 2009. Disponível em: https://www.brapci.inf.br/_
+repositorio/2010/05/pdf_388191884b_0010347.pdf. Acesso em: 1 ago. 2021.
+VANZ, Samile Andrea de Souza. As redes de colaboração científica no Brasil (2004-2006). 2009. 204
+p. Tese (Doutorado em Comunicação e Informação) - Faculdade de Biblioteconomia e Comunicação,
+Universidade Federal do Rio Grande do Sul, Porto Alegre, 2009.
+VANZ, Samile Andrea de Souza; STUMPF, Ida Regina Chittó. Colaboração científica: revisão teórico-
+conceitual. Perspectivas em Ciência da Informação, Belo Horizonte, v. 15, n. 2, p. 42-55, 2010.
+Disponível em: http://portaldeperiodicos.eci.ufmg.br/index.php/pci/article/view/1105/731. Acesso em: 2
+maio 2021.
