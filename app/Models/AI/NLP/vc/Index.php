@@ -43,8 +43,9 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($term,$pref,$id,$type)
-        {
+    function register($term, $pref, $id, $type)
+    {
+        if (strlen($term) > 2) {
             $dd['vc_term'] = $term;
             $dd['vc_pref'] = $pref;
             $dd['vc_ID'] = $id;
@@ -52,6 +53,7 @@ class Index extends Model
             $dd['vc_size'] = strlen($term);
             $this->set($dd)->insert();
         }
+    }
 
     function exportVC($d1)
     {
@@ -82,7 +84,7 @@ class Index extends Model
             $pref = $line['Pref'];
             $pref = troca($pref, ' ', '_');
             $ID = $line['ID'];
-            $this->register($term,$pref,$ID,1);
+            $this->register($term, $pref, $ID, 1);
         }
 
 
@@ -99,8 +101,8 @@ class Index extends Model
             $pref = troca($pref, ' ', '_');
             $ID = $line['ID'];
             $this->register($term, $pref, $ID, 1);
-            }
-        $sx = bsmessage('Exportação finalizada',1);
+        }
+        $sx = bsmessage('Exportação finalizada', 1);
         return bs(bsc($sx));
     }
 }
