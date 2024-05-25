@@ -113,6 +113,10 @@ class Fulltext extends Model
             $txt = troca($txt, ' '.$t1.' ', ' '.$t2.' ');
         }
 
+        foreach ($ch as $chr) {
+            $txt = troca($txt, ' '.$chr, $chr);
+        }
+
         require("vc/places.php");
         foreach ($vc as $t1 => $t2) {
             //$txt = troca($txt, $t1, $t2);
