@@ -129,7 +129,16 @@ class Export extends Model
                 ->where('cc_class',$class)
                 ->where('d_literal > 0');
             $dt = $RDFconcept->findAll();
-            pre($dt);
+
+            $file = '../Model/AI/NLP/vc/subject.php';
+            $sx = '';
+            foreach($dt as $id=>$line)
+                {
+                    pre($line);
+                    $sx .= '';
+                }
+            file_put_contents($file,$sx);
+            echo "OK";
         }
 
     function resume()
