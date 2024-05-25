@@ -175,6 +175,13 @@ class Fulltext extends Model
             $ky = explode(';',$tx);
             $lang = 'pt';
 
+            if (count($ky) > 6)
+                {
+                    echo h("ERRO");
+                    pre($ky);
+                    exit;
+                }
+
             foreach($ky as $id=>$key)
                 {
                     $ky[$id] = mb_convert_case($key, MB_CASE_TITLE, 'UTF-8');
