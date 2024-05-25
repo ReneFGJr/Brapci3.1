@@ -68,7 +68,13 @@ class Fulltext extends Model
         $txt = file_get_contents($files[1]);
         $txt = $this->process($txt);
 
-        echo "FULLTEXT - PRE";
+        $sx .= h("FULLTEXT - PRE");
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py '.$d2;
+        echo $cmd;
+        exit;
+        $sx .= shell_exec($cmd);
+
+
 
         $txt = troca($txt, '[CR]', '');
         $txt = troca($txt, '  ', ' ');
