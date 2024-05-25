@@ -152,11 +152,8 @@ class Export extends Model
 
             foreach($dd as $ld=>$ln)
                 {
-                    echo $ld;
-                    echo '<hr>';
-                    echo $ln;
-                    exit;
-                    $sx .= '$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'}";'.chr(13);
+                    $ld = substr($ln,5,strlen($ld));
+                    $sx .= '$vc["'.$ld.'"] = '.$ln.';'.chr(13);
                 }
             $sx .= cr().'?>';
             file_put_contents($file,$sx);
