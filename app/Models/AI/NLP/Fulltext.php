@@ -180,12 +180,18 @@ class Fulltext extends Model
                     $lang = $Language->getTextLanguage_process($tx);
                     $lang = substr($lang,0,2);
 
-                    $lit = $RDFliteral->register($tx, $lang);
-                    $id_prop = 'hasAbstract';
-                    $IDC = 0;
-                    $RDFdata->register($ID, $id_prop, $IDC, $lit);
-                    $sx .= '<li>Resumo incorporado</li>';
-                    $sx .= '<p>'.$tx.'</p>';
+                    if (strlen($tx) < 4000)
+                        {
+                            $lit = $RDFliteral->register($tx, $lang);
+                            $id_prop = 'hasAbstract';
+                            $IDC = 0;
+                            $RDFdata->register($ID, $id_prop, $IDC, $lit);
+                            $sx .= '<li>Resumo incorporado</li>';
+                            $sx .= '<p>' . $tx . '</p>';
+                        } else {
+                            $sx .= '<li>Resumo muito longo ('.strlen($tx).')</li>';
+                        }
+
                 } else {
                     $sx .= '<li>Resumo OK</li>';
                 }
