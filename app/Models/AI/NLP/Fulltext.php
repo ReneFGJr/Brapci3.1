@@ -177,9 +177,8 @@ class Fulltext extends Model
 
             if (count($ky) > 6)
                 {
-                    echo h("ERRO");
-                    pre($ky);
-                    exit;
+                    $sx = bsmessage("ERRO DE KEYWORD");
+                    return $sx;
                 }
 
             foreach($ky as $id=>$key)
