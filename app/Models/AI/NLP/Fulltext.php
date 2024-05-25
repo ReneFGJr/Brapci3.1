@@ -132,10 +132,10 @@ class Fulltext extends Model
             //$txt = troca($txt, $t1, $t2);
         }
 
-        $txt = mb_strtolower($txt);
-
         $st = 'Resultados';
         $st .= $this->abstract($txt, $d2);
+
+        $txt = mb_strtolower($txt);
 
         $st .= $this->keywords($txt,$d2);
 
@@ -163,6 +163,7 @@ class Fulltext extends Model
                     $sx .= h('Buscando resumo',4);
                     $tx = substr($txt, strpos($txt, '{resumo}')+8, strlen($txt));
                     $tx = substr($tx,0,strpos($tx,'{'));
+                    $tx = trim($tx);
                     pre($tx);
                 } else {
                     $sx .= '<li>Resumo OK</li>';
