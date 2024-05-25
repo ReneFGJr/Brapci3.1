@@ -103,7 +103,8 @@ class Export extends Model
                 return $Export->cron($d1, 'start');
                 break;
             case 'subject':
-                $this->exportVC('Subject');
+                $VC = new \App\Models\AI\NLP\Vc\Index();
+                $VC->exportVC('Subject');
                 break;
             default:
                 $sx = bsc($this->menu(), 12);
@@ -113,74 +114,6 @@ class Export extends Model
         return $sx;
     }
 
-    function exportVC($d1)
-        {
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $RDFclass = new \App\Models\RDF2\RDFclass();
-            $class = $RDFclass->getClass($d1);
-            $cp = 'L2.n_name as Pref, L1.n_name as Alt, id_cc as ID';
-            $RDFconcept
-                ->select($cp)
-                ->join('brapci_rdf.rdf_literal as L2', 'cc_pref_term = L2.id_n')
-                ->join('brapci_rdf.rdf_data','d_r1 = id_cc')
-                ->join('brapci_rdf.rdf_literal as L1', 'd_literal = L1.id_n')
-                ->where('cc_class',$class)
-                ->where('d_literal > 0');
-            $dt = $RDFconcept->findAll();
-
-            $dir = '.tmp/vc/';
-            dircheck($dir);
-            $file = $dir.'subject.php';
-            $sx = '<?php'.chr(13);
-            $sx .= '$vc = [];'.chr(13);
-            $sx .= chr(13);
-
-            $dd = [];
-            foreach ($dt as $id => $line)
-                {
-                    $term = ascii($line['Alt']);
-                    $term = mb_strtoupper($term);
-                    $pref = $line['Pref'];
-                    $pref = troca($pref, ' ', '_');
-                    $ID = $line['ID'];
-
-                    $t = strzero(strlen($term),5) . $term;
-                    $dd[$t] = '{term:"'.$pref.':'.$ID.'}"';
-                }
-
-
-                $cp = 'n_name as Pref, id_cc as ID';
-                $RDFconcept
-                ->select($cp)
-                ->join('brapci_rdf.rdf_literal as L2', 'cc_pref_term = L2.id_n')
-                ->where('cc_class', $class);
-            $dt = $RDFconcept->findAll();
-            foreach ($dt as $id => $line) {
-                $term = ascii($line['Pref']);
-                $term = mb_strtoupper($term);
-                $pref = $line['Pref'];
-                $pref = troca($pref, ' ', '_');
-                $ID = $line['ID'];
-
-                $t = strzero(strlen($term), 5) . $term;
-                $dd[$t] = '{term:"' . $pref . ':' . $ID . '}"';
-            }
-
-            krsort($dd);
-
-            foreach($dd as $ld=>$ln)
-                {
-                    $ld = substr($ld,5,strlen($ld));
-                    if (strlen($ld) > 2)
-                        {
-                            $sx .= '$vc["' . $ld . '"] = \'' . $ln . '\';' . chr(13);
-                        }
-
-                }
-            $sx .= cr().'?>';
-            file_put_contents($file,$sx);
-            echo "OK";
-        }
 
     function resume()
     {
