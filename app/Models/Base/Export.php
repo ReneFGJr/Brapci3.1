@@ -136,12 +136,22 @@ class Export extends Model
             $sx = '<?php'.chr(13);
             $sx .= '$vc = [];'.chr(13);
             $sx .= chr(13);
-            foreach($dt as $id=>$line)
+
+            $dd = [];
+            foreach ($dt as $id => $line)
                 {
                     $term = $line['Alt'];
                     $pref = $line['Pref'];
-                    $pref = troca($pref,' ','_');
+                    $pref = troca($pref, ' ', '_');
                     $ID = $line['ID'];
+
+                    $t = strzero(strlen($term),5) . $term;
+                    $dd[$term] = '{term:"'.$pref.':'.$ID.'}"';
+                }
+            krsort($dd);
+            pre($dd);
+            foreach($dt as $id=>$line)
+                {
                     $vc['Big Data'] = '{term:"BigData"}';
                     $sx .= '$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'}";'.chr(13);
                 }
