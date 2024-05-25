@@ -115,12 +115,12 @@ class Export extends Model
 
     function exportVC($d1)
         {
-            $RDF = new \App\Models\RDF2\RDF();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $class = $RDFclass->getClass($d1);
 
-            $RDF->where('cc_class',$class);
-            $dt = $RDF->findAll(10);
+            $RDFconcept->where('cc_class',$class);
+            $dt = $RDFconcept->findAll(10);
             pre($dt);
         }
 
