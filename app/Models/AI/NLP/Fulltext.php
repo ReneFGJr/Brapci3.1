@@ -155,6 +155,8 @@ class Fulltext extends Model
             $RDF = new \App\Models\RDF2\RDF();
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
             $Language = new \App\Models\AI\NLP\Language();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+
             $dt = $RDF->le($ID);
             $prop = 'hasAbstract';
             $dtt = $RDF->extract($dt,$prop,'S');
@@ -176,8 +178,10 @@ class Fulltext extends Model
                     $lang = $Language->getTextLanguage_process($tx);
                     $lang = substr($lang,0,2);
 
-                    $IDn = $RDFliteral->register($tx, $lang);
-                    pre($IDn);
+                    $lit = $RDFliteral->register($tx, $lang);
+                    $id_prop = 'hasAbstract';
+                    $IDC = 0;
+                    $RDFdata->register($ID, $id_prop, $IDC, $lit);
 
                 } else {
                     $sx .= '<li>Resumo OK</li>';
