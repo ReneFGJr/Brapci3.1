@@ -128,9 +128,12 @@ class Fulltext extends Model
             //$txt = troca($txt, $t1, $t2);
         }
 
-        $st = 'Resultados';
-
         $txt = mb_strtolower($txt);
+
+        $st = 'Resultados';
+        $st .= $this->keywords($txt);
+
+
         $txt = troca($txt,chr(13),'<br>');
 
         $sx = '';
@@ -141,6 +144,14 @@ class Fulltext extends Model
 
         return $sx;
     }
+
+    function keywords($txt)
+        {
+            $tx = substr($txt,strpos($txt,'{keywords}'),strlen($txt));
+            $tx = substr($tx,0,strpos($tx,'{'));
+            pre($tx);
+
+        }
 
     function findTxt($txt, $pattern, $var)
     {
