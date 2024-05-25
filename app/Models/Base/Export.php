@@ -140,7 +140,8 @@ class Export extends Model
             $dd = [];
             foreach ($dt as $id => $line)
                 {
-                    $term = $line['Alt'];
+                    $term = ascii($line['Alt']);
+                    $term = mb_strtoupper($term);
                     $pref = $line['Pref'];
                     $pref = troca($pref, ' ', '_');
                     $ID = $line['ID'];
