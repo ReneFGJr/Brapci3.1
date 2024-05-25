@@ -148,6 +148,7 @@ class Fulltext extends Model
     function keywords($txt)
         {
             $tx = substr($txt,strpos($txt,'{keywords}'),strlen($txt));
+            pre($tx);
             $tx = substr($tx,0,strpos($tx,'{'));
             pre($tx);
 
