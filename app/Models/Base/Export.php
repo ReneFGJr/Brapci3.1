@@ -140,6 +140,7 @@ class Export extends Model
                 {
                     $term = $line['Alt'];
                     $pref = $line['Pref'];
+                    $pref = troca($pref,' ','_');
                     $ID = $line['ID'];
                     $vc['Big Data'] = '{term:"BigData"}';
                     $sx .= '$vc["'.$term.'"] = "{term:"'.$pref.':'.$ID.'}";'.chr(13);
