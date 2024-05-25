@@ -164,7 +164,13 @@ class Fulltext extends Model
                     $tx = substr($tx,0,strpos($tx,'{'));
                     $tx = trim($tx);
                     $ln = explode('.',$tx);
-                    pre($ln);
+                    $tx = '';
+                    foreach($ln as $idl=>$line)
+                        {
+                            $line = trim($line);
+                            $tx .= mb_convert_case($line, MB_CASE_TITLE, 'UTF-8').'.';
+                        }
+                    pre($tx);
                 } else {
                     $sx .= '<li>Resumo OK</li>';
                 }
