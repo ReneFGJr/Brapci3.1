@@ -149,7 +149,7 @@ class Export extends Model
                     $dd[$t] = '{term:"'.$pref.':'.$ID.'}"';
                 }
             krsort($dd);
-            pre($dd);
+
             foreach($dd as $ld=>$ln)
                 {
                     echo $ld;
