@@ -53,6 +53,10 @@ $vc['CNPq'] = '{sigla:"CNPq"}';
 $vc['CAPES'] = '{sigla:"CAPES"}';
 $vc['GT-RDP'] = '{sigla:"GT-RDP"}';
 
+$vc['BrCris'] = '{sigla:"BrCris"}';
+$vc['BRCRIS'] = '{sigla:"BrCris"}';
+$vc['CRIS'] = '{sigla:"CRIS"}';
+
 
 /*********************** */
 
