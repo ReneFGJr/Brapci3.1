@@ -88,6 +88,7 @@ class Index extends Model
     function cited_register($id,$ref,$ord=0)
     {
         $dd = [];
+        $dd['ca_rdf'] = $id;
         $dd['ca_text'] = $ref;
         $dd['ca_status'] = 0;
         $dd['ca_ordem'] = $ord;
