@@ -169,11 +169,11 @@ class Fulltext extends Model
 
                             $txt = troca($txt,$s,'');
 
-                            /*
+
                             echo $s.'<=String<br>';
                             echo $varX . '<=varX<br>';
                             pre($txt);
-                            */
+
 
                             $s = troca($s,$varX,'');
                             $s = troca($s,'}','');
