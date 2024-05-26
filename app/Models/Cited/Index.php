@@ -64,17 +64,17 @@ class Index extends Model
 
         /* Zera Citações anteriores */
         $this->cited_zera($ID);
-        $ord = 1;
+        $ord = 0;
         for ($r = 0; $r < count($ln); $r++) {
             $ref = trim($ln[$r]);
             if ($ref != '')
                 {
-                    $this->cited_register($ID,$ref,$ord);
                     $ord++;
+                    $this->cited_register($ID,$ref,$ord);
                 }
         }
-
-
+        $sx = 'Processado '.count($ord).' referências';
+        return $sx;
     }
 
     function cited_register($id,$ref,$ord=0)
