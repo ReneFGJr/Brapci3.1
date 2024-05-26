@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $DBGroup              = 'default';
-    protected $table                = 'brapci_cited.cited_article';
+    protected $DBGroup              = 'brapci_cited';
+    protected $table                = 'cited_article';
     protected $primaryKey           = 'id_ca';
     protected $useAutoIncrement     = true;
     protected $insertID             = 0;

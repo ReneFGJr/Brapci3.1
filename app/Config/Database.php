@@ -672,6 +672,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $brapci_cited = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'brapci_v3',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
 
 
     public $wordpress = [
@@ -734,6 +754,9 @@ class Database extends Config
 
         $this->brapci_v3['username'] = getenv('database.default.username');
         $this->brapci_v3['password'] = getenv('database.default.password');
+
+        $this->brapci_cited['username'] = getenv('database.default.username');
+        $this->brapci_cited['password'] = getenv('database.default.password');
 
         $this->authority['username'] = getenv('database.default.username');
         $this->authority['password'] = getenv('database.default.password');
