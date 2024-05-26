@@ -11,8 +11,6 @@ $vc[chr(13) . 'RESUMEN' . chr(13)] = chr(13) . '{RESUMO}' . chr(13);
 $vc[chr(13) . 'Resumo:'] = chr(13) . '{RESUMO}' . chr(13);
 $vc[chr(13) . 'Abstract:'] = chr(13) . '{RESUMO}' . chr(13);
 
-
-
 $vc['Palavras–chave:'] = '{keywords}';
 $vc['Keywords:'] = '{keywords}';
 $vc['Palavras-chave:'] = '{keywords}';
