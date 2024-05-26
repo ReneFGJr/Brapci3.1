@@ -83,7 +83,7 @@ class Index extends Model
             }
             $sx = 'Processado ' . ($ord) . ' referências';
         } else {
-            $sx .= 'Citações já existem';
+            $sx = 'Citações já existem';
         }
         return $sx;
     }
