@@ -185,7 +185,7 @@ class Fulltext extends Model
 
     function sections($txt, $ID)
     {
-        $sx = '';
+        $sx = 'Seções';
         $RDF = new \App\Models\RDF2\RDF();
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $Language = new \App\Models\AI\NLP\Language();
@@ -209,8 +209,9 @@ class Fulltext extends Model
                 $lit = 0;
                 $RDFdata->register($ID, $id_prop, $IDC, $lit);
             }
+            $sx .= '<li>'.$key.'</li>';
         }
-
+        return $sx;
     }
 
     function abstract($txt, $ID)
