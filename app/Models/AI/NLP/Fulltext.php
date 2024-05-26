@@ -152,8 +152,10 @@ class Fulltext extends Model
         {
             $pos = 9999;
             $secs = [];
-            while ($pos > 0)
+            $loop = 0;
+            while (($pos > 0) and ($loop < 10))
                 {
+                    $loop++;
                     $varX = '{' . $var . ':';
                     $pos = strpos($txt, $varX);
                     if ($pos > 0)
@@ -168,8 +170,8 @@ class Fulltext extends Model
                             $s = troca($s,'"','');
                             $s = trim($s);
                             array_push($secs,$s);
-
                         }
+                    echo $pos.'<=POS<br>';
                 }
             pre($secs);
         }
