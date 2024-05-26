@@ -14,7 +14,15 @@ class Index extends Model
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
-    protected $allowedFields        = [];
+    protected $allowedFields        = [
+        'id_ca ', 'ca_id', 'ca_doi',
+        'ca_rdf ', 'ca_journal', 'ca_journal_origem',
+        'ca_year', 'ca_year_origem', 'ca_vol',
+        'ca_nr', 'ca_pag', 'ca_tipo',
+        'ca_text', 'ca_status', 'ca_ordem',
+        'ca_update_at'
+
+    ];
 
     // Dates
     protected $useTimestamps        = false;
@@ -83,6 +91,7 @@ class Index extends Model
         $dd['ca_text'] = $ref;
         $dd['ca_status'] = 0;
         $dd['ca_ordem'] = $ord;
+        $dd['ca_update_at'] = date("Y-m-d");
         $this->set($dd)->insert();
     }
 
