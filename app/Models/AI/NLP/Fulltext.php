@@ -183,13 +183,13 @@ class Fulltext extends Model
     function cited($txt,$ID)
         {
             $Cited = new \App\Models\Cited\Index();
-            $pos = strpos($txt, '{structure:"Referencia"}');
-            echo h($pos);
+            $var = '{structure:"Referencia"}';
+            $pos = strpos($txt, $var) + strlen($var);
             if ($pos > 0)
                 {
                     $ref = substr($txt, $pos, strlen($txt));
                     $ref = substr($ref, 0, strpos($ref, '{structure:"end"}'));
-                    $ref = troca($ref, '{structure:"referencia"}', '');
+                    $ref = troca($ref, '{structure:"Referencia"}', '');
                 }
             pre($ref);
         }
