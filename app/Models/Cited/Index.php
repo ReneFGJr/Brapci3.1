@@ -62,16 +62,31 @@ class Index extends Model
             }
         }
 
-        pre($ID);
-        $this->zera_cited($ID);
-
+        /* Zera Citações anteriores */
+        $this->cited_zera($ID);
+        $ord = 1;
         for ($r = 0; $r < count($ln); $r++) {
+            $ref = trim($ln[$r]);
+            if ($ref != '')
+                {
+                    $this->cited_register($ID,$ref,$ord);
+                    $ord++;
+                }
         }
 
 
     }
 
-    function zera_cited($id)
+    function cited_register($id,$ref,$ord=0)
+    {
+        $dd = [];
+        $dd['ca_text'] = $ref;
+        $dd['ca_status'] = 0;
+        $dd['ca_ordem'] = $ord;
+        $this->set($dd)->insert();
+    }
+
+    function cited_zera($id)
         {
             $this->where('ca_rdf',$id)->delete();
         }
