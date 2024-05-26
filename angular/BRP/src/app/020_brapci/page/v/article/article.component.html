@@ -96,21 +96,14 @@
       <!--------------- Data -->
       <img [src]="rdf" height="32px" />
 
-      <!--------------- Administracao -->
+    <!--------------- Administracao -->
+    <div>
       <app-remove-concept [ID]="data.ID"></app-remove-concept>
       <app-edit-concept [ID]="data.ID"></app-edit-concept>
-
-      <app-v-data [RDFdata]="data.data"></app-v-data>
+      <app-ai-process [ID]="data.ID"></app-ai-process>
     </div>
 
-    <div class="col-12 col-lg-12">
-
-      <div [innerHTML]="data.cites"></div>
-
-
-      <!--
-      <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
-      -->
+      <app-tabs-nav [data]="data"></app-tabs-nav>
     </div>
 
     <div class="col-12 col-lg-12">

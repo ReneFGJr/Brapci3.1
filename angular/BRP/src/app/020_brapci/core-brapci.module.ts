@@ -60,6 +60,8 @@ import { RemoveConceptComponent } from './widget/remove-concept/remove-concept.c
 import { Page404Component } from './widget/page404/page404.component';
 import { NumberComponent } from './page/v/number/number.component';
 import { EditConceptComponent } from './widget/edit-concept/edit-concept.component';
+import { AiProcessComponent } from './widget/ai-process/ai-process.component';
+import { TabsNavComponent } from './widget/tabs-nav/tabs-nav.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +118,8 @@ import { EditConceptComponent } from './widget/edit-concept/edit-concept.compone
     Page404Component,
     NumberComponent,
     EditConceptComponent,
+    AiProcessComponent,
+    TabsNavComponent,
   ],
   imports: [
     CommonModule,

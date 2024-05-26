@@ -1,4 +1,5 @@
 import database
+import re
 
 def cited():
     qr = "select id_n, d_r1, n_name from brapci_rdf.rdf_literal "
@@ -26,6 +27,13 @@ def removeLiteral(ID,IDn):
         print("Deletar")
         qr = f"delete from brapci_rdf.rdf_literal where id_n = {IDn} "
         database.update(qr)
+
+def year_identify(referencia):
+    # Padrão regex para identificar o ano
+    ano_pattern = re.compile(r'\b\d{4}\b')
+
+    # Encontrar o ano na referência
+    anos = ano_pattern.findall(referencia)
 
 
 def register(ID,REF):
