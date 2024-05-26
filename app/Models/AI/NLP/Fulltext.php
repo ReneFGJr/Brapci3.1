@@ -164,7 +164,7 @@ class Fulltext extends Model
         $Language = new \App\Models\AI\NLP\Language();
         $RDFdata = new \App\Models\RDF2\RDFdata();
 
-        $x = $this->recoverValue('Section',$txt);
+        $x = $this->recoverValue('section',$txt);
     }
 
     function abstract($txt, $ID)
