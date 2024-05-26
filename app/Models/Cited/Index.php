@@ -93,6 +93,7 @@ class Index extends Model
         $dd['ca_status'] = 0;
         $dd['ca_ordem'] = $ord;
         $dd['ca_update_at'] = date("Y-m-d");
+        pre($dd);
         $this->set($dd)->insert();
     }
 
