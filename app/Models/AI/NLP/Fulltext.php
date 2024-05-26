@@ -160,9 +160,14 @@ class Fulltext extends Model
                         {
                             $s = substr($txt,$pos+1,100);
                             $s = substr($s,0,strpos($s,'}'));
-                            pre($s);
+                            $s = troca($s,$varX,'');
+                            $s = troca($s,'}','');
+                            $s = troca($s,'"','');
+                            $s = trim($s);
+                            array_push($secs,$s);
                         }
                 }
+            pre($secs);
         }
 
     function sections($txt, $ID)
