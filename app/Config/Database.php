@@ -677,7 +677,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'brapci_v3',
+        'database' => 'brapci_cited',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
