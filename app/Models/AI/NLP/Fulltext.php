@@ -150,7 +150,9 @@ class Fulltext extends Model
 
     function recoverValue($var,$txt)
         {
-            $pos = strpos($txt,'{'.$var.':');
+            $varX = '{' . $var . ':';
+            echo h($varX);
+            $pos = strpos($txt,$varX);
             pre($pos);
         }
 
