@@ -154,7 +154,7 @@ class Fulltext extends Model
             pre($pos);
         }
 
-    function section($txt, $ID)
+    function sections($txt, $ID)
     {
         $sx = '';
         $RDF = new \App\Models\RDF2\RDF();
