@@ -135,6 +135,7 @@ class Fulltext extends Model
 
         $st .= $this->abstract($txt, $d2);
         $st .= $this->keywords($txt, $d2);
+        $st .= $this->sections($txt, $d2);
 
         $txt = troca($txt, chr(13), '<br>');
 
@@ -145,6 +146,23 @@ class Fulltext extends Model
         $sx = bs($sx);
 
         return $sx;
+    }
+
+    function recoverValue($var,$txt)
+        {
+            $pos = substr($txt,'{'.$var.':');
+            pre($pos);
+        }
+
+    function section($txt, $ID)
+    {
+        $sx = '';
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $Language = new \App\Models\AI\NLP\Language();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
+        $x = $this->recoverValue('Section',$txt);
     }
 
     function abstract($txt, $ID)
