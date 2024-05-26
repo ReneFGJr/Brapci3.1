@@ -166,7 +166,7 @@ class Fulltext extends Model
                             $s = substr($txt,$pos+1,100);
                             $s = substr($s,0,strpos($s,'}'));
 
-                            $txt = troca($txt,$s,'');
+                            $txt = troca($txt,$s,'{xxx}');
 
                             echo $s.'<=String<br>';
                             echo $varX . '<=varX<br>';
@@ -179,7 +179,8 @@ class Fulltext extends Model
                         }
                     echo $pos.'<=POS<br>';
                 }
-            pre($secs);
+            pre($secs,false);
+            pre($txt);
         }
 
     function sections($txt, $ID)
