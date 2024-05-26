@@ -158,8 +158,8 @@ class Fulltext extends Model
                     $pos = strpos($txt, $varX);
                     if ($pos > 0)
                         {
-                            $s = substr($txt,$pos,100);
-                            $s = substr($s,0,strpos($s,'}'));
+                            $s = substr($txt,$pos+1,100);
+                            $s = substr($s,0,strpos($s,'}')+1);
                             pre($s);
                         }
                 }
