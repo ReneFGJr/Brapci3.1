@@ -98,11 +98,7 @@ class Fulltext extends Model
         $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
         $txt = $this->findTxt($txt, $pattern, 'pgn');
 
-        /*********************** AUTORIDADE */
-        require("vc/autoridade.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
-        }
+        /*********************** MARCACAO PRIMARIA */
 
         /*********************** METODOLOGIA */
         require("vc/metodologia.php");
@@ -112,6 +108,16 @@ class Fulltext extends Model
 
         /*********************** MARCACAO PRIMARIA */
         $txtO = $txt;
+
+
+
+        /*********************** MARCACAO SECUNDARIA */
+
+        /*********************** AUTORIDADE */
+        require("vc/autoridade.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
 
         /*********************** DATA */
         require("vc/data.php");
