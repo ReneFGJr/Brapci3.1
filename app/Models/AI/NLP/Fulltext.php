@@ -150,10 +150,19 @@ class Fulltext extends Model
 
     function recoverValue($var,$txt)
         {
-            $varX = '{' . $var . ':';
-            echo h($varX);
-            $pos = strpos($txt,$varX);
-            pre($pos);
+            $pos = 9999;
+            $secs = [];
+            while ($pos > 0)
+                {
+                    $varX = '{' . $var . ':';
+                    $pos = strpos($txt, $varX);
+                    if ($pos > 0)
+                        {
+                            $s = substr($txt,$pos,100);
+                            $s = substr($s,0,'}');
+                            pre($s);
+                        }
+                }
         }
 
     function sections($txt, $ID)
