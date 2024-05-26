@@ -158,7 +158,7 @@ class Fulltext extends Model
                     $loop++;
                     $varX = '{' . $var . ':';
                     $pos = strpos($txt, $varX);
-                    if ($pos > 0)
+                    if ($pos != '')
                         {
                             $s = substr($txt,$pos+1,100);
                             $s = substr($s,0,strpos($s,'}'));
