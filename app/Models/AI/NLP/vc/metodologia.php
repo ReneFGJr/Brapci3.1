@@ -19,7 +19,9 @@ $vc['Palavras-chave:'] = '{keywords}';
 $vc['Palavras-Chave:'] = '{keywords}';
 
 $vc['Modalidade: Resumo Expandido:'] = '{section:"Resumo Expandido"}';
+$vc[chr(13) . 'Resumo Expandido' . chr(13)] = '{section:"Resumo Expandido"}';
 $vc['Modalidade: Trabalho Completo'] = '{section:"Trabalho Completo"}';
+
 $vc['GT 4 - Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
 $vc['GT-7 - Produção e Comunicação da Informação em Ciência, Tecnologia & Inovação'] = '{section:"GT-7"}';
 $vc['GT-8 - Informação e Tecnologia'] = '{section:"GT-8"}';
