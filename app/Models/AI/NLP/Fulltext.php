@@ -141,6 +141,7 @@ class Fulltext extends Model
         $st .= $this->abstract($txt, $d2);
         $st .= $this->keywords($txt, $d2);
         $st .= $this->sections($txtO, $d2);
+        $st .= $this->cited($txtO, $d2);
 
         $txt = troca($txt, chr(13), '<br>');
 
@@ -177,6 +178,15 @@ class Fulltext extends Model
                         }
                 }
             return $secs;
+        }
+
+    function cited($txt,$ID)
+        {
+            $Cited = new \App\Models\Cited\Index();
+            $ref = substr($txt, '{structure:"referencia"}',strlen($txt));
+            $ref = substr($ref,0,strpos($ref, '{structure:"end"}'));
+            $ref = troca($ref,'{structure:"referencia"}','');
+            pre($ref);
         }
 
     function sections($txt, $ID)
