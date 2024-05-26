@@ -61,8 +61,20 @@ class Index extends Model
                 $ln[$r] = '';
             }
         }
-        pre($ln);
+
+        pre($ID);
+        $this->zera_cited($ID);
+
+        for ($r = 0; $r < count($ln); $r++) {
+        }
+
+
     }
+
+    function zera_cited($id)
+        {
+            $this->where('ca_rdf',$id)->delete();
+        }
 
     function show($id)
     {
