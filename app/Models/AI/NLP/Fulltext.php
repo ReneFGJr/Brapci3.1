@@ -106,7 +106,7 @@ class Fulltext extends Model
 
         require("vc/metodologia.php");
         foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
+            $txt = trim(troca(' '.$txt, $t1, $t2));
         }
 
         $txt = ascii($txt);
