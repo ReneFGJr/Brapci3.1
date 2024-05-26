@@ -159,7 +159,7 @@ class Fulltext extends Model
                     if ($pos > 0)
                         {
                             $s = substr($txt,$pos,100);
-                            $s = substr($s,0,'}');
+                            $s = substr($s,0,strpos($s,'}'));
                             pre($s);
                         }
                 }
