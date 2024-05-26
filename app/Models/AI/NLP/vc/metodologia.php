@@ -28,6 +28,14 @@ $vc['GT 12 – Informação, Estudos Étnico-Raciais, Gênero e Diversidades:'] 
 $vc['GT-11 – Informação & Saúde'] = '{section:"GT-11"}';
 
 
+$vc['GT 4 – Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
+$vc['GT-7 – Produção e Comunicação da Informação em Ciência, Tecnologia & Inovação'] = '{section:"GT-7"}';
+$vc['GT-8 – Informação e Tecnologia:'] = '{section:"GT-8"}';
+$vc['GT 9 – Museu, Patrimônio e Informação'] = '{section:"GT-9"}';
+$vc['GT 12 – Informação, Estudos Étnico-Raciais, Gênero e Diversidades:'] = '{section:"GT-12"}';
+$vc['gt 11 - informacao & saude'] = '{section:"GT-11"}';
+
+
 $vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{structure:"Referencia"}' . chr(13);
 $vc[chr(13) . 'REFERÊNCIAS' . chr(13)] = chr(13) . '{structure:"Referencia"}' . chr(13);
 $vc[chr(13) . 'REFERÊNCIAS BIBLIOGRÁFICAS' . chr(13)] = chr(13) . '{structure:"Referencia"}' . chr(13);
