@@ -33,7 +33,7 @@ $vc['gt-7 – Produção e Comunicação da Informação em Ciência, Tecnologia
 $vc['gt-8 – Informação e Tecnologia'] = '{section:"GT-8"}';
 $vc['gt 9 – Museu, Patrimônio e Informação'] = '{section:"GT-9"}';
 $vc['gt 12 - informacao, estudos etnico-raciais, genero e diversidades'] = '{section:"GT-12"}';
-$vc['gt 11 - informacao & saúde'] = '{section:"GT-11"}';
+$vc['gt 11 - informacao & saude'] = '{section:"GT-11"}';
 
 
 $vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{structure:"Referencia"}' . chr(13);
