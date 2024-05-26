@@ -57,9 +57,8 @@ class Index extends Model
                 $lr = $r;
                 $nl = true;
             } else {
-                echo '<br>'.$ln[$lr];
-                echo '<br>=>'.$ln[$r];
-                echo '<hr>';
+                $ln[$lr] .= ' '.$ln[$r];
+                unset($lr[$r]);
             }
         }
         pre($ln);
