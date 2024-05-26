@@ -40,6 +40,12 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+    function process($txt,$ID)
+        {
+            $ln = explode(chr(13),$txt);
+            pre($ln);
+        }
+
 	function show($id)
 		{
 			$dt = $this->where('ca_rdf',$id)->findAll();

@@ -201,7 +201,8 @@ class Fulltext extends Model
                     $ref = substr($txt, $pos, strlen($txt));
                     $ref = substr($ref, 0, strpos($ref, '{structure:"End"}'));
                 }
-            pre($ref);
+            $sx = $Cited->process($ref,$ID);
+            return $sx;
         }
 
     function sections($txt, $ID)
