@@ -65,27 +65,36 @@ class Index extends Model
                 $lr = $r;
                 $nl = true;
             } else {
-                $ln[$lr] .= ' '.$ln[$r];
+                $ln[$lr] .= ' ' . $ln[$r];
                 $ln[$r] = '';
             }
         }
 
         /* Zera Citações anteriores */
-        $this->cited_zera($ID);
-        $ord = 0;
-        for ($r = 0; $r < count($ln); $r++) {
-            $ref = trim($ln[$r]);
-            if ($ref != '')
-                {
+        if ($this->cited_exist($ID) == 0) {
+            $this->cited_zera($ID);
+            $ord = 0;
+            for ($r = 0; $r < count($ln); $r++) {
+                $ref = trim($ln[$r]);
+                if ($ref != '') {
                     $ord++;
-                    $this->cited_register($ID,$ref,$ord);
+                    $this->cited_register($ID, $ref, $ord);
                 }
+            }
+            $sx = 'Processado ' . ($ord) . ' referências';
+        } else {
+            $sx .= 'Citações já existem';
         }
-        $sx = 'Processado '.($ord).' referências';
         return $sx;
     }
 
-    function cited_register($id,$ref,$ord=0)
+    function cited_exist($id)
+    {
+        $dt = $this->where('ca_rdf', $id)->findAll();
+        return count($dt);
+    }
+
+    function cited_register($id, $ref, $ord = 0)
     {
         $dd = [];
         $dd['ca_rdf'] = $id;
@@ -97,9 +106,9 @@ class Index extends Model
     }
 
     function cited_zera($id)
-        {
-            $this->where('ca_rdf',$id)->delete();
-        }
+    {
+        $this->where('ca_rdf', $id)->delete();
+    }
 
     function show($id)
     {
