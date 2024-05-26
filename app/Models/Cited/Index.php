@@ -81,7 +81,7 @@ class Index extends Model
                     $this->cited_register($ID,$ref,$ord);
                 }
         }
-        $sx = 'Processado '.count($ord).' referências';
+        $sx = 'Processado '.($ord).' referências';
         return $sx;
     }
 
