@@ -112,6 +112,8 @@ class Fulltext extends Model
             $txt = trim(troca($txt, $t1, $t2));
         }
 
+        pre($txt);
+
         $txt = ascii($txt);
         $txt = mb_strtoupper($txt);
         $ch = ['.', ',', ';', '?', '!'];
@@ -180,7 +182,6 @@ class Fulltext extends Model
                     echo $pos.'<=POS<br>';
                 }
             pre($secs,false);
-            pre($txt);
         }
 
     function sections($txt, $ID)
