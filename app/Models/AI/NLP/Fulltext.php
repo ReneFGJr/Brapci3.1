@@ -76,8 +76,8 @@ class Fulltext extends Model
         $txt = troca($txt, '[CR]', '');
         $txt = troca($txt, '  ', ' ');
 
-        $txt = '{structure:"Início"}' . chr(13) . $txt;
-        $txt .= chr(13). '{structure:"Fum"}' . chr(13);
+        $txt = '{structure:"Start"}' . chr(13) . $txt;
+        $txt .= chr(13). '{structure:"End"}' . chr(13);
 
         /************ E-mail */
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
@@ -169,9 +169,11 @@ class Fulltext extends Model
 
                             $txt = troca($txt,$s,'');
 
+                            /*
                             echo $s.'<=String<br>';
                             echo $varX . '<=varX<br>';
                             pre($txt);
+                            */
 
                             $s = troca($s,$varX,'');
                             $s = troca($s,'}','');
