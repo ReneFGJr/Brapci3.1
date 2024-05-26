@@ -22,6 +22,7 @@ $vc['Modalidade: Trabalho Completo'] = '{section:"Trabalho Completo"}';
 $vc['Modalidade de apresentação: Comunicação Oral'] = '{section:"Comunicação Oral"}';
 $vc['Modalidade da Apresentação: Pôster'] = '{section:"Pôster"}';
 $vc['Modalidade da Apresentação: Poster'] = '{section:"Pôster"}';
+$vc['Modalidade da apresentação: Pôster'] = '{section:"Pôster"}';
 $vc[chr(13) . 'Pôster' . chr(13)] = chr(13) . '{section:"Pôster"}' . chr(13);
 
 
