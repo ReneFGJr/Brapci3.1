@@ -112,6 +112,7 @@ class Fulltext extends Model
             echo $t1.'=>'.$t2.'<br>';
             $txt = trim(troca($txt, $t1, $t2));
         }
+        pre($txt);
 
         $txt = ascii($txt);
         $txt = mb_strtoupper($txt);
