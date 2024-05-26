@@ -164,8 +164,10 @@ class Fulltext extends Model
                             $s = substr($s,0,strpos($s,'}'));
 
                             $txt = troca($txt,$s,'');
+
                             echo $s.'<=String<br>';
                             echo $varX . '<=varX<br>';
+                            pre($txt);
 
                             $s = troca($s,$varX,'');
                             $s = troca($s,'}','');
