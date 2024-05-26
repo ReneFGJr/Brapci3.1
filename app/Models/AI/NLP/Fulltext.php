@@ -76,6 +76,9 @@ class Fulltext extends Model
         $txt = troca($txt, '[CR]', '');
         $txt = troca($txt, '  ', ' ');
 
+        $txt = '{structure:"Início"}' . chr(13) . $txt;
+        $txt .= chr(13). '{structure:"Fum"}' . chr(13);
+
         /************ E-mail */
         $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
         $txt = $this->findTxt($txt, $pattern, 'email');
@@ -106,8 +109,8 @@ class Fulltext extends Model
 
         require("vc/metodologia.php");
         foreach ($vc as $t1 => $t2) {
-            echo $t1.'=>'.$t2.'<br>';
-            $txt = trim(troca(' '.$txt, $t1, $t2));
+            //echo $t1.'=>'.$t2.'<br>';
+            $txt = trim(troca($txt, $t1, $t2));
         }
 
         $txt = ascii($txt);
