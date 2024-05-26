@@ -58,7 +58,7 @@ class Index extends Model
                 $nl = true;
             } else {
                 $ln[$lr] .= ' '.$ln[$r];
-                unset($lr[$r]);
+                $lr[$r] = '';
             }
         }
         pre($ln);
