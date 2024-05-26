@@ -196,7 +196,7 @@ class Fulltext extends Model
 
         foreach ($ky as $id => $key) {
             $key = trim($key);
-            $lang = $Language->getTextLanguage_process($tx);
+            $lang = $Language->getTextLanguage_process($key);
             if (strlen($key > 2)) {
                 $ky[$id] = ucfirst($key);
                 $dd = [];
