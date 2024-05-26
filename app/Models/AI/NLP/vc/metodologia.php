@@ -20,6 +20,8 @@ $vc['Modalidade: Resumo Expandido:'] = '{section:"Resumo Expandido"}';
 $vc[chr(13) . 'Resumo Expandido' . chr(13)] = chr(13).'{section:"Resumo Expandido"}'.chr(13);
 $vc['Modalidade: Trabalho Completo'] = '{section:"Trabalho Completo"}';
 $vc['Modalidade de apresentação: Comunicação Oral'] = '{section:"Comunicação Oral"}';
+$vc['Modalidade: Comunicação oral'] = '{section:"Comunicação Oral"}';
+
 $vc['Modalidade da Apresentação: Pôster'] = '{section:"Pôster"}';
 $vc['Modalidade da Apresentação: Poster'] = '{section:"Pôster"}';
 $vc['Modalidade da apresentação: Pôster'] = '{section:"Pôster"}';
@@ -30,6 +32,8 @@ $vc[chr(13) . 'Pôster' . chr(13)] = chr(13) . '{section:"Pôster"}' . chr(13);
 $vc['GT 4 - Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
 $vc['GT-7 - Produção e Comunicação da Informação em Ciência, Tecnologia & Inovação'] = '{section:"GT-7"}';
 $vc['GT-7 - Produção e Comunicação da Informação em Ciência, Tecnologia &Inovação'] = '{section:"GT-7"}';
+$vc['GT 7 – produção e comunicação da informação em Ciência, Tecnologia e Inovação'] = '{section:"GT-7"}';
+
 $vc['GT 7: Produção e Comunicação da Informação em CT&I'] = '{section:"GT-7"}';
 
 $vc['GT-8 - Informação e Tecnologia'] = '{section:"GT-8"}';
