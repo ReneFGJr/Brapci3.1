@@ -176,7 +176,6 @@ class Fulltext extends Model
                             array_push($secs,$s);
                         }
                 }
-                pre($secs);
             return $secs;
         }
 
