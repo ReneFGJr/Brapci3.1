@@ -88,16 +88,6 @@ class Fulltext extends Model
         /************ LINK */
         $pattern = '/https?:\/\/[^\s]+/i';
         $txt = $this->findTxt($txt, $pattern, 'link');
-        /************ Volume */
-        $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
-        $txt = $this->findTxt($txt, $pattern, 'vln');
-        /************ Numero */
-        $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
-        $txt = $this->findTxt($txt, $pattern, 'nmb');
-        /************ Página */
-        $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
-        $txt = $this->findTxt($txt, $pattern, 'pgn');
-
         /*********************** MARCACAO PRIMARIA */
 
         /*********************** METODOLOGIA */
@@ -120,6 +110,16 @@ class Fulltext extends Model
         }
 
         /*********************** DATA */
+        /************ Volume */
+        $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'vln');
+        /************ Numero */
+        $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'nmb');
+        /************ Página */
+        $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'pgn');
+
         require("vc/data.php");
         foreach ($vc as $t1 => $t2) {
             $txt = troca($txt, $t1, $t2);
