@@ -179,9 +179,8 @@ class Fulltext extends Model
                             $s = trim($s);
                             array_push($secs,$s);
                         }
-                    echo $pos.'<=POS<br>';
                 }
-            pre($secs,false);
+            return $secs;
         }
 
     function sections($txt, $ID)
@@ -191,8 +190,27 @@ class Fulltext extends Model
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $Language = new \App\Models\AI\NLP\Language();
         $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
-        $x = $this->recoverValue('section',$txt);
+        $ky = $this->recoverValue('section',$txt);
+
+        foreach ($ky as $id => $key) {
+            $key = trim($key);
+            $lang = $Language->getTextLanguage_process($tx);
+            if (strlen($key > 2)) {
+                $ky[$id] = ucfirst($key);
+                $dd = [];
+                $dd['Name'] = $ky[$id];
+                $dd['Lang'] = $lang;
+                $dd['Class'] = 'Section';
+                $IDC = $RDFconcept->createConcept($dd);
+
+                $id_prop = 'hasSectionOf';
+                $lit = 0;
+                $RDFdata->register($ID, $id_prop, $IDC, $lit);
+            }
+        }
+
     }
 
     function abstract($txt, $ID)
