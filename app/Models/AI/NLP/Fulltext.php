@@ -112,6 +112,8 @@ class Fulltext extends Model
             $txt = trim(troca($txt, $t1, $t2));
         }
 
+        $txtO = $txt;
+
         $txt = ascii($txt);
         $txt = mb_strtoupper($txt);
         $ch = ['.', ',', ';', '?', '!'];
@@ -138,7 +140,7 @@ class Fulltext extends Model
 
         $st .= $this->abstract($txt, $d2);
         $st .= $this->keywords($txt, $d2);
-        $st .= $this->sections($txt, $d2);
+        $st .= $this->sections($txtO, $d2);
 
         $txt = troca($txt, chr(13), '<br>');
 
