@@ -188,6 +188,7 @@ class Fulltext extends Model
             if ($pos > 0)
                 {
                     $ref = substr($txt, $pos, strlen($txt));
+                    pre($ref);
                     $ref = substr($ref, 0, strpos($ref, '{structure:"end"}'));
                     $ref = troca($ref, '{structure:"Referencia"}', '');
                 }
