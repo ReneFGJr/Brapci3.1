@@ -5,6 +5,8 @@ app = Flask(__name__)
 @app.route('/process', methods=['GET','POST'])
 def process_data():
     # Verificar se o Content-Type é 'application/json'
+    return request.content_type
+
     if request.content_type != 'application/json':
         return jsonify({'error': 'Content-Type must be application/json'}), 415
 
