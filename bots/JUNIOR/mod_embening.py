@@ -29,7 +29,7 @@ def registrarWD(texto,lang='pt'):
         if ' ' in t:
             print("OPS",'[',t,']')
             #quit()
-        elif len(t) > 5:
+        elif len(t) > 8:
             print("LEN",'[',t,']')
         else:
             if t != '':
