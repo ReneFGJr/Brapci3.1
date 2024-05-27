@@ -10,5 +10,7 @@ def registrar(texto):
     sib = separa_silabas(texto)
 
     for t in sib:
-        if t != None:
-            print('=>',t)
+        print('=>',t)
+        qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
+        row = database.query(qr)
+        print(row)
