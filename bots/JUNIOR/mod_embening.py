@@ -13,6 +13,10 @@ def registrar(texto,lang='pt'):
     sib = separa_silabas(texto)
 
     for t in sib:
+        # Remove espaços o início e no fim
+        t = t.strip()
+
+        #Para se tem espaço nas silabas
         if ' ' in t:
             print("OPS",'[',t,']')
             quit()
