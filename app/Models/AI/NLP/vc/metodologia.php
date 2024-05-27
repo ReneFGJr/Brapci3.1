@@ -30,9 +30,10 @@ $vc[chr(13) . 'Pôster' . chr(13)] = chr(13) . '{section:"Pôster"}' . chr(13);
 
 $vc['GT 2 - Organização e Representação do Conheciment'] = '{section:"GT-2"}';
 $vc['GT 4 - Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
+$vc['GT-6 - Informação, Educação e Trabalho'] = '{section:"GT-6"}';
 $vc['GT-7 - Produção e Comunicação da Informação em Ciência, Tecnologia & Inovação'] = '{section:"GT-7"}';
 $vc['GT-7 - Produção e Comunicação da Informação em Ciência, Tecnologia &Inovação'] = '{section:"GT-7"}';
-$vc['GT 7 – produção e comunicação da informação em Ciência, Tecnologia e Inovação'] = '{section:"GT-7"}';
+$vc['GT 7 - produção e comunicação da informação em Ciência, Tecnologia e Inovação'] = '{section:"GT-7"}';
 
 $vc['GT 7: Produção e Comunicação da Informação em CT&I'] = '{section:"GT-7"}';
 
