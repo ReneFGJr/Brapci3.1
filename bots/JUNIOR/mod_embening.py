@@ -5,7 +5,7 @@ def separa_silabas(palavra):
     dic = pyphen.Pyphen(lang='pt_BR')
     return dic.inserted(palavra).split('-')
 
-def registrar(texto):
+def registrar(texto,lang='pt'):
     texto = texto.lower()
     sib = separa_silabas(texto)
 
@@ -13,4 +13,12 @@ def registrar(texto):
         print('=>',t)
         qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
         row = database.query(qr)
-        print(row)
+        if row == []:
+            qi = "insert into brapci_ia.embending "
+            qi += "(e_txt, e_lang) "
+            qi += " values "
+            qi += f"('{t}','{lang}')"
+            database.insert(qi)
+            print("Inserido",t,lang)
+        else:
+            print("skip",t)
