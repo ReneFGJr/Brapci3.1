@@ -28,6 +28,7 @@ $vc['Modalidade da apresentação: Pôster'] = '{section:"Pôster"}';
 $vc[chr(13) . 'Pôster' . chr(13)] = chr(13) . '{section:"Pôster"}' . chr(13);
 
 
+$vc['GT 1 - Estudos Históricos e Epistemológicos da Ciência da Informação'] = '{section:"GT-1"}';
 $vc['GT 2 - Organização e Representação do Conheciment'] = '{section:"GT-2"}';
 $vc['GT 4 - Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
 $vc['GT-6 - Informação, Educação e Trabalho'] = '{section:"GT-6"}';
