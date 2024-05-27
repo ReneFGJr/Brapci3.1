@@ -38,7 +38,7 @@ def registrarWD(texto,lang='pt'):
             print("LEN",'[',t,']')
         else:
             if t != '':
-                qr = "select id_w from brapci_ia.embending where e_txt = '"+t+"'"
+                qr = "select id_e from brapci_ia.embending where e_txt = '"+t+"'"
                 row = database.query(qr)
                 if row == []:
                     qi = "insert into brapci_ia.embending "
