@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/process', methods=['POST'])
+@app.route('/process', methods=['POST','GET'])
 def process_data():
     # Verificar se o Content-Type é 'application/json'
     if request.content_type != 'application/json':
