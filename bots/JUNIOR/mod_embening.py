@@ -13,6 +13,9 @@ def registrar(texto,lang='pt'):
     sib = separa_silabas(texto)
 
     for t in sib:
+        if ' ' in t:
+            print("OPS",t)
+            quit()
         if t != '':
             qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
             row = database.query(qr)
