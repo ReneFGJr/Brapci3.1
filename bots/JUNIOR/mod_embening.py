@@ -14,7 +14,7 @@ def registrar(texto,lang='pt'):
 
     for t in sib:
         if ' ' in t:
-            print("OPS",t)
+            print("OPS",'[',t,']')
             quit()
         if t != '':
             qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
