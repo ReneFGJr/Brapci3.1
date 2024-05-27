@@ -19,16 +19,19 @@ def registrar(texto,lang='pt'):
         #Para se tem espaço nas silabas
         if ' ' in t:
             print("OPS",'[',t,']')
-            quit()
-        if t != '':
-            qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
-            row = database.query(qr)
-            if row == []:
-                qi = "insert into brapci_ia.embending "
-                qi += "(e_txt, e_lang) "
-                qi += " values "
-                qi += f"('{t}','{lang}')"
-                database.insert(qi)
-                print("Inserido",t,lang)
-            else:
-                print("skip",t)
+            #quit()
+        elif len(t) > 5:
+            print("LEN",'[',t,']')
+        else:
+            if t != '':
+                qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
+                row = database.query(qr)
+                if row == []:
+                    qi = "insert into brapci_ia.embending "
+                    qi += "(e_txt, e_lang) "
+                    qi += " values "
+                    qi += f"('{t}','{lang}')"
+                    database.insert(qi)
+                    print("Inserido",t,lang)
+                else:
+                    print("skip",t)
