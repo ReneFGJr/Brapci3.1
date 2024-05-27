@@ -5,5 +5,5 @@ print("================")
 
 txt = "Rene Faustino Gabriel Junior"
 txt = txt.lower()
-rx = mod_embening.separa_silabas(txt)
+rx = mod_embening.registrar(txt)
 print(rx)
