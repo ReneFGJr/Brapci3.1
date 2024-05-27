@@ -10,4 +10,5 @@ def registrar(texto):
     sib = separa_silabas(texto)
 
     for t in sib:
-        print(t)
+        if t != None:
+            print(t)
