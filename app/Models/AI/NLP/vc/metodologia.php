@@ -35,7 +35,6 @@ $vc['GT3 - Mediação, Circulação e Apropriação da Informação'] = '{sectio
 $vc['GT4 - Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
 $vc['GT5 - Política e Economia da Informação'] = '{section:"GT-5"}';
 $vc['GT5 - Política e economia da informação'] = '{section:"GT-5"}';
-$vc['GT5 - Política e Economia da Informação'] = '{section:"GT-5"}';
 $vc['GT6 - Informação, Educação e Trabalho'] = '{section:"GT-6"}';
 $vc['GT6 - INFORMAÇÃO, EDUCAÇÃO E TRABALHO'] = '{section:"GT-6"}';
 $vc['GT7 - Produção e Comunicação da Informação em Ciência, Tecnologia & Inovação'] = '{section:"GT-7"}';
