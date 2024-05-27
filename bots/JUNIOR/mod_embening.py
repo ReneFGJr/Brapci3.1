@@ -54,5 +54,5 @@ def registrarWD(texto,lang='pt'):
             for rw in row:
                 id = rw[0]
                 print(id)
-                wds.appdend(id)
+                wds.append(id)
         print(wds)
