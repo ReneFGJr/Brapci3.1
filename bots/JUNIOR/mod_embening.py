@@ -7,7 +7,7 @@ def separa_silabas(palavra):
     return dic.inserted(palavra).split('-')
 
 def registrar(texto,lang='pt'):
-    texto = re.sub(r'[\r\n\t\?\!\;\.\&\-0-9-]', ' ', texto)
+    texto = re.sub(r'[\r\n\t\?\!\;\.\&\-\/0-9-]', ' ', texto)
     print(texto)
 
 def registrarWD(texto,lang='pt'):
