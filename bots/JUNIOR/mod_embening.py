@@ -25,7 +25,7 @@ def registrarWD(texto,lang='pt'):
     wds = []
 
     sib = separa_silabas(texto)
-    print("=======",texto)
+    print("=======",sib)
 
     for t in sib:
         # Remove espaços o início e no fim
