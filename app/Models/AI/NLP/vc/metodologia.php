@@ -46,7 +46,7 @@ $vc['GT10 - Informação e Memória'] = '{section:"GT-10"}';
 $vc['GT11 - Informação & Saúde'] = '{section:"GT-11"}';
 $vc['GT11 - Informação e Saúde'] = '{section:"GT-11"}';
 $vc['GT12 - Informação, Estudos Étnico-Raciais, Gênero e Diversidades'] = '{section:"GT-12"}';
-
+$vc['GT ESPECIAL'] = '{section:"GT-ESPECIAL"}';
 
 $vc[chr(13) . 'Referências' . chr(13)] = chr(13) . '{structure:"Referencia"}' . chr(13);
 $vc[chr(13) . 'REFERÊNCIAS' . chr(13)] = chr(13) . '{structure:"Referencia"}' . chr(13);
