@@ -46,6 +46,7 @@ $vc['GT7: Produção e Comunicação da Informação em CT&I'] = '{section:"GT-7
 $vc['GT8 - Informação e Tecnologia'] = '{section:"GT-8"}';
 $vc['GT9 - Museu, Patrimônio e Informação'] = '{section:"GT-9"}';
 $vc['GT9 - Patrimônio, Museu e Informação'] = '{section:"GT-9"}';
+$vc['GT9 - '] = '{section:"GT-9"}';
 $vc['GT10 - Informação e Memória'] = '{section:"GT-10"}';
 $vc['GT11 - Informação & Saúde'] = '{section:"GT-11"}';
 $vc['GT11 - Informação e Saúde'] = '{section:"GT-11"}';
