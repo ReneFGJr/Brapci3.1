@@ -47,13 +47,12 @@ def registrarWD(texto,lang='pt'):
                     qi += " values "
                     qi += f"('{t}','{lang}')"
                     database.insert(qi)
-                    print("Inserido",t,lang)
 
                     row = database.query(qr)
                 else:
-                    print("skip",t)
+                    #hello
+                    x1 = 1
             for rw in row:
                 id = rw[0]
-                print(id)
                 wds.append(id)
         print(wds)
