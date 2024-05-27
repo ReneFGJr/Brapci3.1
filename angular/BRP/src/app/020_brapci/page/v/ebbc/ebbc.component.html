@@ -1,0 +1,114 @@
+<app-theme-header [header]="header"></app-theme-header>
+<div *ngIf="data">
+<app-banner-ebbc
+    [section]="data.section"
+    [cover]="data.cover"
+    [publisher]="data.publisher"
+></app-banner-ebbc>
+</div>
+
+<div
+  class="container-fluid pt-2 pb-3 text-center border-bottom border-secondary"
+  *ngIf="data"
+>
+  <div class="row">
+    <div class="col-12" *ngIf="data.data">
+      <a [routerLink]="['/v/' + valoresDoObjeto]" class="link">
+        <b>{{ chavesDoObjeto }}</b>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container" *ngIf="data">
+  <div class="row">
+    <div class="col-12 text-end" *ngIf="data.data">
+      <span *ngFor="let item of data.section" class="me-2 section">
+        {{ item.name }}
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="data">
+  <div class="row">
+    <!--------------------------- TITLE-->
+    <div class="col-10" *ngIf="data.data">
+      <h1 *ngFor="let lg of langs">
+        <div *ngIf="data.data.hasTitle[lg]">
+          <div
+            class="text-center title title_{{ lg }}"
+            *ngFor="let i of objectKeys(data.data.hasTitle[lg])"
+          >
+            {{ objectKeys(data.data.hasTitle[lg][0]) }}
+            <sup class="small">({{ lg }})</sup>
+          </div>
+        </div>
+      </h1>
+
+      <!-- Author-------------------------------------->
+      <div class="text-end mb-5">
+        <span *ngFor="let item of data.creator_author" class="text-end">
+          <a class="author" [routerLink]="['/v/' + item.ID]">{{ item.name }}</a
+          ><br />
+        </span>
+      </div>
+    </div>
+
+    <div class="col-2 border-start border-secondary">
+      <app-component-pdf
+        [url]="data.resource_pdf"
+        [id]="data.id"
+      ></app-component-pdf>
+
+      <!--
+      <app-altmetrix-plumx [doi]="data.doi"></app-altmetrix-plumx>
+      -->
+    </div>
+
+    <!--------------------------- Abstract-->
+    <div class="col-12" *ngIf="data.data">
+      <div *ngFor="let lg of langs" class="mt-4">
+        <div *ngIf="data.data.hasAbstract[lg]">
+          <div
+            class="abstract abstract_{{ lg }}"
+            *ngFor="let i of objectKeys(data.data.hasAbstract[lg])"
+          >
+            <b>{{ abstract[0][lg] }}</b
+            >:
+            {{ objectKeys(data.data.hasAbstract[lg][0]) }}
+          </div>
+        </div>
+        <b class="keyword">{{ keywords[0][lg] }}</b
+        >:
+        <span *ngIf="data.data.hasSubject[lg]" class="text-end">
+          <a
+            *ngFor="let i of objectKeys(data.data.hasSubject[lg])"
+            class="keywords_item"
+            [routerLink]="['/v/' + objectValues(data.data.hasSubject[lg][i])]"
+          >
+            {{ objectKeys(data.data.hasSubject[lg][i]) }}
+          </a>
+        </span>
+      </div>
+    </div>
+
+    <!--------------- Cite -->
+    <app-v-cite [citacao]="data.cited"></app-v-cite>
+
+    <!--------------- Data -->
+    <img [src]="rdf" style="width: 64px" />
+
+    <!--------------- Administracao -->
+    <div>
+      <app-remove-concept [ID]="data.ID"></app-remove-concept>
+      <app-edit-concept [ID]="data.ID"></app-edit-concept>
+      <app-ai-process [ID]="data.ID"></app-ai-process>
+    </div>
+
+    <app-tabs-nav [data]="data"></app-tabs-nav>
+  </div>
+
+</div>
+
+<div style="height: 100px"></div>
