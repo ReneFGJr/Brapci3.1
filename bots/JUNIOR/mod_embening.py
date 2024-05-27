@@ -22,6 +22,8 @@ def registrarWD(texto,lang='pt'):
     texto = texto.lower()
     texto = re.sub(r'[^a-zA-Z\s]', '', texto)
 
+    w = []
+
     sib = separa_silabas(texto)
 
     for t in sib:
@@ -36,7 +38,7 @@ def registrarWD(texto,lang='pt'):
             print("LEN",'[',t,']')
         else:
             if t != '':
-                qr = "select * from brapci_ia.embending where e_txt = '"+t+"'"
+                qr = "select id_w from brapci_ia.embending where e_txt = '"+t+"'"
                 row = database.query(qr)
                 if row == []:
                     qi = "insert into brapci_ia.embending "
@@ -45,5 +47,9 @@ def registrarWD(texto,lang='pt'):
                     qi += f"('{t}','{lang}')"
                     database.insert(qi)
                     print("Inserido",t,lang)
+
+                    row = database.query(qr)
                 else:
                     print("skip",t)
+            w.appdend(row[0])
+        print(w)
