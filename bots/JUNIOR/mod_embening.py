@@ -22,7 +22,7 @@ def registrarWD(texto,lang='pt'):
     texto = texto.lower()
     texto = re.sub(r'[^a-zA-Z\s]', '', texto)
 
-    w = []
+    wds = []
 
     sib = separa_silabas(texto)
 
@@ -52,6 +52,7 @@ def registrarWD(texto,lang='pt'):
                 else:
                     print("skip",t)
             for rw in row:
-                print(rw[0])
-                w.appdend(rw[0])
-        print(w)
+                id = rw[0]
+                print(id)
+                wds.appdend(id)
+        print(wds)
