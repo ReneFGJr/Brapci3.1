@@ -51,5 +51,6 @@ def registrarWD(texto,lang='pt'):
                     row = database.query(qr)
                 else:
                     print("skip",t)
+            print(row)
             w.appdend(row[0])
         print(w)
