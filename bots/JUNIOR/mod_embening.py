@@ -11,4 +11,4 @@ def registrar(texto):
 
     for t in sib:
         if t != None:
-            print(t)
+            print('=>',t)
