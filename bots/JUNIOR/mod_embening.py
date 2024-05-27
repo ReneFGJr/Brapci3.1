@@ -1,3 +1,4 @@
+import re
 import pyphen
 import database
 
@@ -7,6 +8,10 @@ def separa_silabas(palavra):
 
 def registrar(texto,lang='pt'):
     texto = texto.lower()
+    texto = re.sub(r'[^a-zA-Z\s]', '', texto)
+    print(texto)
+    quit()
+
     sib = separa_silabas(texto)
 
     for t in sib:
