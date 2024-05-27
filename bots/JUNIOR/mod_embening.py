@@ -8,7 +8,7 @@ def separa_silabas(palavra):
 
 def registrar(texto,lang='pt'):
     texto = re.sub(r'[\r\n\t\?\!\;\.\&\-\/\,\:\(\)\{\}\[\]0-9-]', ' ', texto)
-    print(texto)
+    registrarWD(texto)
 
 def registrarWD(texto,lang='pt'):
     texto = texto.lower()
