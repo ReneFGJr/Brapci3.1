@@ -6,6 +6,12 @@ def separa_silabas(palavra):
     dic = pyphen.Pyphen(lang='pt_BR')
     return dic.inserted(palavra).split('-')
 
+def separar_em_pares(palavra):
+    pares = []
+    for i in range(0, len(palavra), 2):
+        pares.append(palavra[i:i+2])
+    return pares
+
 def registrar(texto,lang='pt'):
     texto = re.sub(r'[\r\n\t\?\!\;\.\&\-\/\,\:\(\)\{\}\[\]0-9-]', ' ', texto)
     texto = texto.replace(chr(13),' ')
@@ -24,7 +30,7 @@ def registrarWD(texto,lang='pt'):
 
     wds = []
 
-    sib = separa_silabas(texto)
+    sib = separar_em_pares(texto)
     print("=======",sib)
 
     for t in sib:
