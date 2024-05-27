@@ -40,6 +40,7 @@ $vc['GT-8 - Informação e Tecnologia'] = '{section:"GT-8"}';
 $vc['GT 9 - Museu, Patrimônio e Informação'] = '{section:"GT-9"}';
 $vc['GT 10 - Informação e Memória'] = '{section:"GT-10"}';
 $vc['GT 11 - Informação & Saúde'] = '{section:"GT-11"}';
+$vc['GT-11 - Informação & Saúde'] = '{section:"GT-11"}';
 $vc['GT-11 - Informação e Saúde'] = '{section:"GT-11"}';
 $vc['GT 12 - Informação, Estudos Étnico-Raciais, Gênero e Diversidades:'] = '{section:"GT-12"}';
 
