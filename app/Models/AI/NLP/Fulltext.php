@@ -412,6 +412,10 @@ class Fulltext extends Model
         $txt = troca($txt, '“', '');
         $txt = troca($txt, '“', '”');
         $txt = troca($txt, '–','-');
+        $txt = troca($txt, 'GT ', 'GT');
+        $txt = troca($txt, 'GT - ', 'GT');
+        $txt = troca($txt, 'GT-', 'GT');
+        $txt = troca($txt, 'GT- ', 'GT');
 
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
