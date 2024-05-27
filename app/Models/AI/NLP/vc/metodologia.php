@@ -32,6 +32,7 @@ $vc['GT1 - Estudos Históricos e Epistemológicos da Ciência da Informação'] 
 $vc['GT2 - Organização e Representação do Conheciment'] = '{section:"GT-2"}';
 $vc['GT4 - Gestão da Informação e do Conhecimento'] = '{section:"GT-4"}';
 $vc['GT5 - Política e Economia da Informação'] = '{section:"GT-5"}';
+$vc['GT5 - Política e economia da informação'] = '{section:"GT-5"}';
 $vc['GT6 - Informação, Educação e Trabalho'] = '{section:"GT-6"}';
 $vc['GT7 - Produção e Comunicação da Informação em Ciência, Tecnologia & Inovação'] = '{section:"GT-7"}';
 $vc['GT7 - Produção e Comunicação da Informação em Ciência, Tecnologia &Inovação'] = '{section:"GT-7"}';
