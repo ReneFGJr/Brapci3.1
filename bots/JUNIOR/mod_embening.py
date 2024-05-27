@@ -25,6 +25,7 @@ def registrarWD(texto,lang='pt'):
     wds = []
 
     sib = separa_silabas(texto)
+    print("=======",texto)
 
     for t in sib:
         # Remove espaços o início e no fim
@@ -55,5 +56,4 @@ def registrarWD(texto,lang='pt'):
                 id = rw[0]
                 print(id)
                 wds.append(id)
-        print(t)
         print(wds)
