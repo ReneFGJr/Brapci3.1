@@ -12,10 +12,8 @@ def registrar(texto,lang='pt'):
         texto = texto.replace('  ',' ')
 
     words = texto.split(' ')
-    print(words)
-    quit()
-
-    registrarWD(texto)
+    for w in words:
+        registrarWD(w)
 
 def registrarWD(texto,lang='pt'):
     texto = texto.lower()
