@@ -3,6 +3,7 @@ import mod_embening
 print("JUNIOR AI v0.1.0")
 print("================")
 
-rx = mod_embening.separa_silabas("Rene Faustino Gabriel Junior")
-rx = rx.lower()
+txt = "Rene Faustino Gabriel Junior"
+txt = txt.lower()
+rx = mod_embening.separa_silabas(txt)
 print(rx)
