@@ -11,6 +11,10 @@ def registrar(texto,lang='pt'):
     while '  ' in texto:
         texto = texto.replace('  ',' ')
 
+    words = texto.split(' ')
+    print(words)
+    quit()
+
     registrarWD(texto)
 
 def registrarWD(texto,lang='pt'):
