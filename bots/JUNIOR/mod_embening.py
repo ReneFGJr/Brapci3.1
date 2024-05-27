@@ -55,4 +55,5 @@ def registrarWD(texto,lang='pt'):
                 id = rw[0]
                 print(id)
                 wds.append(id)
+        print(texto)
         print(wds)
