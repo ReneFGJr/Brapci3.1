@@ -49,11 +49,9 @@ def registrarWD(texto,lang='pt'):
                     database.insert(qi)
 
                     row = database.query(qr)
-                else:
-                    #hello
-                    row = []
-                    x1 = 1
-            for rw in row:
-                id = rw[0]
-                wds.append(id)
+
+                ################ Palavras
+                for rw in row:
+                    id = rw[0]
+                    wds.append(id)
     print(wds)
