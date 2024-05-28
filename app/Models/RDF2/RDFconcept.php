@@ -15,7 +15,7 @@ class RDFconcept extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_cc','cc_class', 'cc_use', 'cc_pref_term',
+        'id_cc', 'cc_class', 'cc_use', 'cc_pref_term',
         'c_equivalent', 'cc_origin', 'cc_status',
         'cc_update', 'cc_origin'
     ];
@@ -45,142 +45,144 @@ class RDFconcept extends Model
     protected $afterDelete    = [];
 
     function le($id)
-        {
-            $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, id_n, cc_status, cc_created, cc_update, cc_version, id_c, cc_pref_term';
-            //$cp = '*';
-            $dc = $this
-                ->select($cp)
-                ->join('rdf_literal', 'cc_pref_term = id_n','left')
-                ->join('rdf_class', 'id_c = cc_class')
-                ->join('rdf_prefix', 'id_prefix = c_prefix')
-                ->where('id_cc',$id)
-                ->first();
+    {
+        $cp = 'id_cc, cc_use, prefix_ref, c_class, n_name, n_lang, id_n, cc_status, cc_created, cc_update, cc_version, id_c, cc_pref_term';
+        //$cp = '*';
+        $dc = $this
+            ->select($cp)
+            ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
+            ->join('rdf_class', 'id_c = cc_class')
+            ->join('rdf_prefix', 'id_prefix = c_prefix')
+            ->where('id_cc', $id)
+            ->first();
 
-            /* Data */
-            $dc['status'] = '200';
-            if ($dc['cc_status'] == 9)
-                {
-                    $dc['message'] = 'Register canceled';
-                    $dc['status'] = '404';
-                }
-
-            return $dc;
+        /* Data */
+        $dc['status'] = '200';
+        if (isset($dc['cc_status'])) {
+            if ($dc['cc_status'] == 9) {
+                $dc['message'] = 'Register canceled';
+                $dc['status'] = '404';
+            }
+        } else {
+            $dc['message'] = 'Register canceled';
+            $dc['status'] = '404';
         }
 
-    function searchTerm($term,$class)
-        {
-            $cp = 'id_cc as ID, n_name as Term, cc_use as use';
-            $dt = $this
-                ->select($cp)
-                ->join('brapci_rdf.rdf_literal','id_n = cc_pref_term')
-                ->where('cc_class',$class)
-                ->like('n_name',$term)
-                ->orderBy('n_name')
-                ->findAll();
-            return $dt;
-        }
+        return $dc;
+    }
+
+    function searchTerm($term, $class)
+    {
+        $cp = 'id_cc as ID, n_name as Term, cc_use as use';
+        $dt = $this
+            ->select($cp)
+            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+            ->where('cc_class', $class)
+            ->like('n_name', $term)
+            ->orderBy('n_name')
+            ->findAll();
+        return $dt;
+    }
 
     function createConcept($dt)
-        {
-            $RDFliteral = new \App\Models\RDF2\RDFliteral();
-            $d = [];
+    {
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $d = [];
 
-            /* Literal Value */
-            $d['cc_pref_term'] = $RDFliteral->register($dt['Name'],$dt['Lang']);
+        /* Literal Value */
+        $d['cc_pref_term'] = $RDFliteral->register($dt['Name'], $dt['Lang']);
 
-            /********************* Classe */
-            $RDFclass = new \App\Models\RDF2\RDFclass();
-            $class = $RDFclass->getClass($dt['Class']);
-            $d['cc_class'] = $class;
-            $d['cc_use'] = 0;
-            $d['cc_origin'] = '';
-            $d['cc_update'] = date("Y-m-d");
-            $d['cc_status'] = 1;
+        /********************* Classe */
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $class = $RDFclass->getClass($dt['Class']);
+        $d['cc_class'] = $class;
+        $d['cc_use'] = 0;
+        $d['cc_origin'] = '';
+        $d['cc_update'] = date("Y-m-d");
+        $d['cc_status'] = 1;
 
-            /* Verifica se existe a Classe */
-            if ($d['cc_class'] <= 0) { return -1; }
-
-            $DTI = $this
-                ->where('cc_class',$class)
-                ->where('cc_pref_term', $d['cc_pref_term'])
-                ->first();
-
-              if ($DTI != [])
-                    {
-                        $iDTC = $DTI['id_cc'];
-                    } else {
-                        $iDTC = $this->set($d)->insert();
-                    }
-            return $iDTC;
+        /* Verifica se existe a Classe */
+        if ($d['cc_class'] <= 0) {
+            return -1;
         }
+
+        $DTI = $this
+            ->where('cc_class', $class)
+            ->where('cc_pref_term', $d['cc_pref_term'])
+            ->first();
+
+        if ($DTI != []) {
+            $iDTC = $DTI['id_cc'];
+        } else {
+            $iDTC = $this->set($d)->insert();
+        }
+        return $iDTC;
+    }
 
     function totalProp($class)
-        {
+    {
+        return 0;
+    }
+    function totalClass($class)
+    {
+        $RDFclass = new \App\Models\RDF2\RDFclass;
+        if (sonumero($class) != $class) {
+            $class = $RDFclass->getClass($class);
+        }
+        $dt = $this
+            ->select('count(*) as total')
+            ->where('cc_class', $class)
+            ->first();
+        if ($dt == null) {
             return 0;
         }
-    function totalClass($class)
-        {
-            $RDFclass = new \App\Models\RDF2\RDFclass;
-            if (sonumero($class) != $class)
-                {
-                    $class = $RDFclass->getClass($class);
-                }
-            $dt = $this
-                ->select('count(*) as total')
-                ->where('cc_class',$class)
-                ->first();
-            if ($dt == null)
-                {
-                    return 0;
-                }
-            return($dt['total']);
-        }
+        return ($dt['total']);
+    }
 
     function getData($class)
-        {
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $RDFclass = new \App\Models\RDF2\RDFclass();
-            $class = $RDFclass->getClass($class);
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $class = $RDFclass->getClass($class);
 
-            $dt = $RDFconcept->getClassRegisters($class);
-            return $dt;
-        }
+        $dt = $RDFconcept->getClassRegisters($class);
+        return $dt;
+    }
 
     function getClassRegisters($class)
-        {
-            $cp = 'id_cc as ID, cc_use as use, n_name as label, c_class as Class';
-            $dt = $this
-                ->select($cp)
-                ->join('rdf_literal', 'cc_pref_term = id_n')
-                ->join('rdf_class', 'cc_class = id_c')
-                ->where('cc_class',$class)
-                ->findAll();
-            return $dt;
+    {
+        $cp = 'id_cc as ID, cc_use as use, n_name as label, c_class as Class';
+        $dt = $this
+            ->select($cp)
+            ->join('rdf_literal', 'cc_pref_term = id_n')
+            ->join('rdf_class', 'cc_class = id_c')
+            ->where('cc_class', $class)
+            ->findAll();
+        return $dt;
+    }
+
+    function updateStatus($id, $status)
+    {
+        $dt['cc_status'] = $status;
+        $this->set($dt)->where('id_cc', $id)->update();
+    }
+
+    function registerLiteral($idc, $name, $lang = '', $prop = '')
+    {
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+        $Language = new \App\Models\AI\NLP\Language();
+
+        $id_prop = $RDFproperty->getProperty($prop);
+        $name = $name;
+        if ($lang == '') {
+            $lang = $Language->getTextLanguage($name);
         }
 
-    function updateStatus($id,$status)
-        {
-            $dt['cc_status'] = $status;
-            $this->set($dt)->where('id_cc',$id)->update();
-        }
-
-    function registerLiteral($idc,$name,$lang='',$prop='')
-        {
-            $RDFdata = new \App\Models\RDF2\RDFdata();
-            $RDFliteral = new \App\Models\RDF2\RDFliteral();
-            $RDFproperty = new \App\Models\RDF2\RDFproperty();
-            $Language = new \App\Models\AI\NLP\Language();
-
-            $id_prop = $RDFproperty->getProperty($prop);
-            $name = $name;
-            if ($lang == '')
-                {
-                    $lang = $Language->getTextLanguage($name);
-                }
-
-            $lock = 1;
-            $lit = $RDFliteral->register($name, $lang, $lock);
-            $RDFdata->register($idc, $id_prop, 0, $lit);
-            return true;
-        }
+        $lock = 1;
+        $lit = $RDFliteral->register($name, $lang, $lock);
+        $RDFdata->register($idc, $id_prop, 0, $lit);
+        return true;
+    }
 }
