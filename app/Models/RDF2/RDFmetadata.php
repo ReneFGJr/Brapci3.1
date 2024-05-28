@@ -115,6 +115,12 @@ class RDFmetadata extends Model
         }
 
         $dd = [];
+        if (!isset($dt['concept']))
+            {
+                $dc['message'] = 'Register canceled';
+                $dc['status'] = '404';
+                return $dc;
+            }
 
         $class = $dt['concept']['c_class'];
         switch ($class) {
