@@ -64,6 +64,7 @@ import { EditConceptComponent } from './widget/edit-concept/edit-concept.compone
 import { AiProcessComponent } from './widget/ai-process/ai-process.component';
 import { TabsNavComponent } from './widget/tabs-nav/tabs-nav.component';
 import { BannerEbbcComponent } from './page/banner/banner-ebbc/banner-ebbc.component';
+import { Pg404Component } from './page/pg404/pg404.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { BannerEbbcComponent } from './page/banner/banner-ebbc/banner-ebbc.compo
     AiProcessComponent,
     TabsNavComponent,
     BannerEbbcComponent,
+    Pg404Component,
   ],
   imports: [
     CommonModule,
