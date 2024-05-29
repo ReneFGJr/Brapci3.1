@@ -3,6 +3,11 @@
   <app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
   <div class="container" *ngIf="source">
     <div class="row">
+  <app-banner-benancib
+    [section]="''"
+    [cover]="''"
+    [publisher]="''"
+  ></app-banner-benancib>
       <h1>{{ source.source.jnl_name }}</h1>
       <h4>{{ source.source.jnl_name_abrev }}</h4>
       <div *ngFor="let issue of source.source.issue" class="col-12 col-lg-4">
