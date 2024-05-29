@@ -142,6 +142,7 @@ class Fulltext extends Model
             return "";
         }
         //$txt = troca($txt,chr(10),chr(13));
+        $txt = troca($txt, chr(10), ' ');
         $txt = troca($txt, '•', '');
         $txt = troca($txt, '⇒', '');
         $txt = troca($txt, "'", '');
