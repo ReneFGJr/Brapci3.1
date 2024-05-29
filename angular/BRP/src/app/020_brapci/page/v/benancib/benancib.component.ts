@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-benancib',
-  templateUrl: './benancib.component.html',
-  styleUrls: ['./benancib.component.scss'],
+  templateUrl: './benancib.component.html'
 })
 export class BenancibComponent {
   @Input() public data: Array<any> | any;

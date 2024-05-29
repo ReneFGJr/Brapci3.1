@@ -222,7 +222,7 @@ class Index extends Model
             $sx = '';
             $sa = '';
             $sa .= '<br>';
-            for ($r=1;$r <= 7;$r++)
+            for ($r=1;$r <= 9;$r++)
                 {
                     $sa .= form_checkbox('chk'.$r, '1', (get("chk".$r))) . ' ' . lang('tools.p'.$r) . '<br>';
                 }
@@ -230,6 +230,16 @@ class Index extends Model
             $sx .= $Forms->textarea('',$sa);
 
             $txt = get("text");
+
+            if (get("chk8")) {
+                $sx .= '<li>' . lang('tools.p8') . ' - ' . date("H:i:s") . '</li>';
+                $txt = mb_convert_encoding($txt, 'ISO-8859-1','UTF-8');
+            }
+
+            if (get("chk9")) {
+                $sx .= '<li>' . lang('tools.p8') . ' - ' . date("H:i:s") . '</li>';
+                $txt = mb_convert_encoding($txt, 'UTF-8', 'ISO-8859-1');
+            }
 
             if (get("chk1"))
                 {

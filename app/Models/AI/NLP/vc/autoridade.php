@@ -1,7 +1,7 @@
 <?php
 $vc = [];
 
-$vc['Rene Faustino Gabriel Junior'] = '{person:"Rene Faustino Gabriel Junior"}';
+$vc['Rene Faustino Gabriel Junior'] = '{person:"Rene_Faustino_Gabriel_Junior"}';
 $vc['Leilah Santiago Bufrem'] = '{person:"Leilah Santiago Bufrem"}';
 $vc['José Simão de Paula Pinto'] = '{person:"José Simão de Paula Pinto"}';
 $vc['Elvis Fusco'] = '{person:"Elvis Fusco"}';
@@ -10,10 +10,20 @@ $vc['Luiz Mucheroni'] = '{person:"Luiz Mucheroni"}';
 $vc['Revista da Escola de Biblioteconomia da UFMG'] = '{journal:"Revista da Escola de Biblioteconomia da UFMG"}';
 $vc['Revista de Biblioteconomia & Comunicação'] = '{journal:"Revista de Biblioteconomia & Comunicação"}';
 $vc['Perspectivas em Ciência da Informação'] = '{journal:"Perspectivas em Ciência da Informação"}';
-$vc['Universidade de São Paulo'] = '{org:"Universidade de São Paulo"}';
 
+
+$vc['Universidade de São Paulo'] = '{org:"Universidade_de_São_Paulo"}';
+$vc['Universidade São Paulo'] = '{org:"Universidade_de_São_Paulo"}';
+$vc['Universidade Federal Fluminense'] = '{org:"Universidade_Federal_Fluminense"}';
+$vc['Universidade Estadual Paulista'] = '{org:"Universidade_Estadual_Paulista"}';
+$vc['Universidade Federal do Paraná'] = '{org:"Universidade_Federal_do_Paraná"}';
+$vc['Universidade Federal de Santa Catarina'] = '{org:"Universidade_Federal_de_Santa_Catarina"}';
+$vc['Universidade Federal do Rio de Janeiro'] = '{org:"Universidade_Federal_do_Rio_de_Janeiro"}';
+$vc['Universidade Federal Rural do Rio de Janeiro'] = '{org:"Universidade_Federal_Rural_do_Rio_de_Janeiro"}';
+$vc['Instituto Federal do Rio de Janeiro'] = '{org:"Instituto_Federal_do_Rio_de_Janeiro"}';
+
+$cv['Rede Nacional de Ensino e Pesquisa'] = '{org:"Rede_Nacional_de_Ensino_e_Pesquisa"}';
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
-
 
 $vc['Modelizando práticas para a socialização de informações'] = '{titulo}';
 $vc['Plataforma Informacional do Ecossistema Paulista de Inovação'] = '{titulo}';
@@ -22,29 +32,46 @@ $vc['Modelo Computacional e Semântico de Apoio'] = '{subtitulo}';
 $vc['Catálogo Coletivo Nacional de Publicações Seriadas'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 $vc['(CCN)'] = '{org:"Catálogo Coletivo Nacional de Publicações Seriadas"}';
 
-$vc['Universidade Federal do Paraná'] = '{org:"Universidade Federal do Paraná"}';
 $vc['UFPR'] = '{sigla:"UFPR"}';
-
-$vc['Brapci'] = '{sigla:"Brapci"}';
-$vc['BRAPCI'] = '{sigla:"Brapci"}';
-$vc['BASE REFERENCIAL DE ARTIGOS DE PERIÓDICOS EM CIÊNCIA DA INFORMAÇÃO'] = '{sigla:"Brapci"}';
-
-$vc['Curitiba'] = '{city:"Curitiba"}';
-
 $vc['ISSN'] = '{sigla:"ISSN"}';
 $vc['Ancib'] = '{sigla:"Ancib"}';
-$vc['Open Archives Iniciative Protocol for Metadata Harvesting'] = '{term:"OAI-PMH"}';
+$vc['USP'] = '{sigla:"USP"}';
+$vc['UESPI'] = '{sigla:"UESPI"}';
+$vc['UNB'] = '{sigla:"UnB"}';
+$vc['UnB'] = '{sigla:"UnB"}';
+$vc['UEMS'] = '{sigla:"UEMS"}';
+$vc['UFMG'] = '{sigla:"UFMG"}';
+$vc['UFRRJ'] = '{sigla:"UFRRJ"}';
+$vc['UNICAP'] = '{sigla:"UNICAP"}';
+$vc['UFRGS'] = '{sigla:"UFRGS"}';
+$vc['UNESP'] = '{sigla:"UNESP"}';
+$vc['FURG'] = '{sigla:"FURG"}';
+$vc['RNP'] = '{sigla:"RNP"}';
+$vc['IBICT'] = '{sigla:"IBICT"}';
+$vc['Ibict'] = '{sigla:"IBICT"}';
+$vc['CNPq'] = '{sigla:"CNPq"}';
+$vc['CAPES'] = '{sigla:"CAPES"}';
+$vc['GT-RDP'] = '{sigla:"GT-RDP"}';
+
+$vc['BrCris'] = '{sigla:"BrCris"}';
+$vc['BRCRIS'] = '{sigla:"BrCris"}';
+$vc['CRIS'] = '{sigla:"CRIS"}';
+
 
 /*********************** */
-$vc['OAIPMH'] = '{term:"OAI-PMH"}';
-$vc['OAI-PMH'] = '{term:"OAI-PMH"}';
-$vc['Big Data'] = '{term:"BigData"}';
+
+$vc['Submetido em:'] = '{data:"Submetido"}';
+
+$vc['Recebido em '] = '{data:"Recebido"}';
+$vc['Recebido em:'] = '{data:"Recebido"}';
+
+$vc['Aceito em '] = '{data:"Aceito"}';
+$vc['Aceito em:'] = '{data:"Aceito"}';
+$vc['Aprovado em:'] = '{data:"Aceito"}';
+$vc['Aprovado em '] = '{data:"Aceito"}';
+$vc['Aprovado na ConfOA:'] = '{data:"Aceito"}';
 
 
-
-
-
-
-
-$vc['Recebido em '] = '{"Recebido em "}';
-$vc['Aceito em '] = '{"Recebido em "}';
+$vc['Publicado em '] = '{data:"Publicado"}';
+$vc['Publicado em:'] = '{data:"Publicado"}';
+?>

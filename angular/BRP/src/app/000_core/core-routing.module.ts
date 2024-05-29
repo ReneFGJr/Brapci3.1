@@ -8,6 +8,7 @@ import { AboutComponent } from '../020_brapci/page/about/about.component';
 import { SearchBrapciAdvComponent } from '../020_brapci/page/search-brapci-adv/search-brapci-adv.component';
 import { IndexsComponent } from '../020_brapci/page/indexs/indexs.component';
 import { ExportComponent } from '../020_brapci/page/export/export.component';
+import { Pg404Component } from '../020_brapci/page/pg404/pg404.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'basket/selected', component: BasketedComponent },
   { path: 'basket/export/:id', component: ExportComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: '404', component: Pg404Component },
   {
     path: 'authority',
     loadChildren: () =>

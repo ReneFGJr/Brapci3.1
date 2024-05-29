@@ -7,8 +7,6 @@ import { ThemeModule } from '../010_thema/theme.module';
 import { ProceedingListComponent } from './page/proceeding-list/proceeding-list.component';
 import { ProceedingIssuesComponent } from './page/proceeding-issues/proceeding-issues.component';
 import { ProceedingsIssueViewComponent } from './page/proceedings-issue-view/proceedings-issue-view.component';
-import { EbbcComponent } from './banner/ebbc/ebbc.component';
-import { BenancibBannerComponent } from './banner/benancib/benancib.component';
 
 
 @NgModule({
@@ -17,13 +15,8 @@ import { BenancibBannerComponent } from './banner/benancib/benancib.component';
     ProceedingListComponent,
     ProceedingIssuesComponent,
     ProceedingsIssueViewComponent,
-    BenancibBannerComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [
-    CommonModule,
-    ProceddingsRoutingModule,
-    ThemeModule,
-  ],
+  imports: [CommonModule, ProceddingsRoutingModule, ThemeModule],
 })
 export class ProceddingsModule {}

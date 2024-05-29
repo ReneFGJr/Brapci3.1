@@ -64,11 +64,11 @@ class Abnt extends Model
 				if (isset($T['pt']))
 					{
 						$title = $T['pt'][0];
-					} elseIf ($T['es']) {
+					} elseIf (isset($T['es'])) {
 						$title = $T['es'][0];
-					} elseif ($T['en']) {
+					} elseif (isset($T['en'])) {
 						$title = $T['en'][0];
-					} elseif ($T['fr']) {
+					} elseif (isset($T['fr'])) {
 						$title = $T['fr'][0];
 					} else {
 						foreach($T as $lang=>$t)

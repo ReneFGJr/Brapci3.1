@@ -42,6 +42,7 @@ import { FilestorageComponent } from './page/v/filestorage/filestorage.component
 import { BookchapterComponent } from './page/v/bookchapter/bookchapter.component';
 import { BannerBenancibComponent } from './page/banner/banner-benancib/banner-benancib.component';
 import { BenancibComponent } from './page/v/benancib/benancib.component';
+import { EbbcComponent } from './page/v/ebbc/ebbc.component';
 import { SearchBrapciAdvComponent } from './page/search-brapci-adv/search-brapci-adv.component';
 import { SearchComponent } from './page/search/search.component';
 import { SearchResultComponent } from './page/search-result/search-result.component';
@@ -60,6 +61,10 @@ import { RemoveConceptComponent } from './widget/remove-concept/remove-concept.c
 import { Page404Component } from './widget/page404/page404.component';
 import { NumberComponent } from './page/v/number/number.component';
 import { EditConceptComponent } from './widget/edit-concept/edit-concept.component';
+import { AiProcessComponent } from './widget/ai-process/ai-process.component';
+import { TabsNavComponent } from './widget/tabs-nav/tabs-nav.component';
+import { BannerEbbcComponent } from './page/banner/banner-ebbc/banner-ebbc.component';
+import { Pg404Component } from './page/pg404/pg404.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +106,7 @@ import { EditConceptComponent } from './widget/edit-concept/edit-concept.compone
     BookchapterComponent,
     BannerBenancibComponent,
     BenancibComponent,
+    EbbcComponent,
     SearchBrapciAdvComponent,
     SearchComponent,
     SearchResultComponent,
@@ -116,6 +122,10 @@ import { EditConceptComponent } from './widget/edit-concept/edit-concept.compone
     Page404Component,
     NumberComponent,
     EditConceptComponent,
+    AiProcessComponent,
+    TabsNavComponent,
+    BannerEbbcComponent,
+    Pg404Component,
   ],
   imports: [
     CommonModule,

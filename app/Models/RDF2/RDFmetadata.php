@@ -115,6 +115,12 @@ class RDFmetadata extends Model
         }
 
         $dd = [];
+        if (!isset($dt['concept']['c_class']))
+            {
+                $dc['message'] = 'Register canceled';
+                $dc['status'] = '404';
+                return $dc;
+            }
 
         $class = $dt['concept']['c_class'];
         switch ($class) {
@@ -671,6 +677,8 @@ class RDFmetadata extends Model
             $simpleIssue = true;
             $dtIssue = $this->metadataIssue($dtIssue, $simpleIssue);
             $dr['Issue'] = $dtIssue;
+            if (isset($dtIssue['is_year']))
+            {
             $dr['year'] = $dtIssue['is_year'];
             if (isset($dtIssue['Publication'])) {
                 $dr['publisher'] = $dtIssue['Publication'];
@@ -678,6 +686,11 @@ class RDFmetadata extends Model
                 $dr['publisher'] = ':: Not informed Yet ::';
             }
             $dr['legend'] = $LEGEND->show($dtIssue);
+            } else {
+                $dr['legend'] = '###ERRO###';
+                $dr['publisher'] = ':: Not informed Yet ::';
+                $dr['year'] = '????';
+            }
         }
 
         /**************************************** Publisher */

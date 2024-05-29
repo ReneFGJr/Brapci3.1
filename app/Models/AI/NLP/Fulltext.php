@@ -47,7 +47,17 @@ class Fulltext extends Model
         if ($d2 == '') {
             $d2 = '101614';
         }
+
+        $sx .= h("FULLTEXT - PRE");
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
+        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
+
         $files = $this->files($d2);
+
+        if (!isset($files[0])) {
+            return "Arquivos não existem";
+            exit;
+        }
 
         if (isset($files[1])) {
             $sx .= $files[1];
@@ -62,47 +72,300 @@ class Fulltext extends Model
         $txt = file_get_contents($files[1]);
         $txt = $this->process($txt);
 
-        echo "FULLTEXT - PRE";
 
-        $txt = troca($txt,'[CR]','');
+        $txt = troca($txt, '[CR]', '');
         $txt = troca($txt, '  ', ' ');
 
+        $txt = '{structure:"Start"}' . chr(13) . $txt;
+        $txt .= chr(13). '{structure:"End"}' . chr(13);
+
+        /************ E-mail */
+        $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'email');
+        /************ DOI */
+        $pattern = '/10\.\d{4,9}\/[-._;()\/:A-Z0-9]+/i';
+        $txt = $this->findTxt($txt, $pattern, 'DOI');
+        /************ LINK */
+        $pattern = '/https?:\/\/[^\s]+/i';
+        $txt = $this->findTxt($txt, $pattern, 'link');
+        /*********************** MARCACAO PRIMARIA */
+
+        /*********************** METODOLOGIA */
+        require("vc/metodologia.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = trim(troca($txt, $t1, $t2));
+        }
+
+        /*********************** MARCACAO PRIMARIA */
+        $txtO = $txt;
+
+
+
+        /*********************** MARCACAO SECUNDARIA */
+
+        /*********************** AUTORIDADE */
         require("vc/autoridade.php");
-        foreach($vc as $t1=>$t2)
-            {
-                $txt = troca($txt,$t1,$t2);
-            }
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, $t1, $t2);
+        }
+
+        /*********************** DATA */
+        /************ Volume */
+        $pattern = '/\b(v\.|vol\.|volume)\s*\d+\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'vln');
+        /************ Numero */
+        $pattern = '/\b(n\.|num\.|número)\s*\d+\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'nmb');
+        /************ Página */
+        $pattern = '/\b(p\.|pp\.|página|páginas)\s*\d+(-\d+)?\b/i';
+        $txt = $this->findTxt($txt, $pattern, 'pgn');
+
         require("vc/data.php");
         foreach ($vc as $t1 => $t2) {
             $txt = troca($txt, $t1, $t2);
         }
 
-        require("vc/metodologia.php");
-        foreach ($vc as $t1 => $t2) {
-            $txt = troca($txt, $t1, $t2);
+        $txt = ascii($txt);
+        $txt = mb_strtoupper($txt);
+        $ch = ['.', ',', ';', '?', '!'];
+        foreach ($ch as $chr) {
+            $txt = troca($txt, $chr, ' ' . $chr);
         }
 
-        /************ E-mail */
-        $pattern = '/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i';
-        // Encontrar todos os e-mails no texto
-        preg_match_all($pattern, $txt, $matches);
-        foreach($matches as $ide=>$email)
-            {
-                if (is_array($email))
-                    {
-                        foreach($email as $ide2=>$email2)
-                            {
-                                $txt = troca($txt, $email2, '{email:"' . $email2 . '"}');
-                            }
+        require("vc/subject.php");
+        foreach ($vc as $t1 => $t2) {
+            $txt = troca($txt, ' ' . $t1 . ' ', ' ' . $t2 . ' ');
+        }
 
-                    } else {
-                        $txt = troca($txt, $email, '{email:"' . $email . '"}');
-                    }
-            }
+        foreach ($ch as $chr) {
+            $txt = troca($txt, ' ' . $chr, $chr);
+        }
 
+        require("vc/places.php");
+        foreach ($vc as $t1 => $t2) {
+            //$txt = troca($txt, $t1, $t2);
+        }
 
-        pre($txt);
+        $st = 'Resultados';
+        $txt = mb_strtolower($txt);
+
+        $st .= $this->abstract($txt, $d2);
+        $st .= $this->keywords($txt, $d2);
+        $st .= $this->sections($txtO, $d2);
+        $st .= $this->cited($txtO, $d2);
+
+        $txt = troca($txt, chr(13), '<br>');
+
+        $sx = '';
+        $sx .= bsc('<b>' . $files[1] . '</b>' . '<hr>', 12);
+        $sx .= bsc($txt, 8, 'small');
+        $sx .= bsc($st, 4);
+        $sx = bs($sx);
+
         return $sx;
+    }
+
+    function recoverValue($var,$txt)
+        {
+            $pos = 9999;
+            $secs = [];
+            $loop = 0;
+            while (($pos > 0) and ($loop < 10))
+                {
+                    $loop++;
+                    $varX = '{' . $var . ':';
+                    $pos = strpos($txt, $varX);
+                    if ($pos != '')
+                        {
+                            $s = substr($txt,$pos+1,100);
+                            $s = substr($s,0,strpos($s,'}'));
+
+                            $txt = troca($txt,$s,'{xxx}');
+
+                            $s = substr($s,strpos($s,'"')+1,strlen($s));
+                            $s = substr($s,0,strpos($s,'"'));
+                            $s = trim($s);
+                            array_push($secs,$s);
+                        }
+                }
+            return $secs;
+        }
+
+    function cited($txt,$ID)
+        {
+            $Cited = new \App\Models\Cited\Index();
+            $var = '{structure:"Referencia"}';
+            $pos = strpos($txt, $var) + strlen($var);
+            if ($pos > 0)
+                {
+                    $ref = substr($txt, $pos, strlen($txt));
+                    $ref = substr($ref, 0, strpos($ref, '{structure:"End"}'));
+                }
+            $sx = $Cited->process($ref,$ID);
+            return $sx;
+        }
+
+    function sections($txt, $ID)
+    {
+        $sx = 'Seções';
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $Language = new \App\Models\AI\NLP\Language();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+        $ky = $this->recoverValue('section',$txt);
+
+        foreach ($ky as $id => $key) {
+            $key = trim($key);
+            $lang = $Language->getTextLanguage_process($key);
+            if (strlen($key > 2)) {
+                $ky[$id] = ucfirst($key);
+                $dd = [];
+                $dd['Name'] = $ky[$id];
+                $dd['Lang'] = $lang;
+                $dd['Class'] = 'Section';
+                $IDC = $RDFconcept->createConcept($dd);
+
+                $id_prop = 'hasSectionOf';
+                $lit = 0;
+                $RDFdata->register($ID, $id_prop, $IDC, $lit);
+            }
+            $sx .= '<li>'.$key.'</li>';
+        }
+        return $sx;
+    }
+
+    function abstract($txt, $ID)
+    {
+        $sx = '';
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $Language = new \App\Models\AI\NLP\Language();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
+        $dt = $RDF->le($ID);
+        $prop = 'hasAbstract';
+        $dtt = $RDF->extract($dt, $prop, 'S');
+
+        if ($dtt == '') {
+            $sx .= h('Buscando resumo', 4);
+            $tx = substr($txt, strpos($txt, '{resumo}') + 8, strlen($txt));
+            $tx = substr($tx, 0, strpos($tx, '{'));
+            $tx = trim($tx);
+            $ln = explode('.', $tx);
+            $tx = '';
+            foreach ($ln as $idl => $line) {
+                $line = trim($line);
+                $tx .= ucfirst($line) . '. ';
+            }
+            $tx = troca($tx, '. .', '.');
+
+            $tx = trim($tx);
+            $lang = $Language->getTextLanguage_process($tx);
+            $lang = substr($lang, 0, 2);
+
+            if (strlen($tx) < 4000) {
+                $lit = $RDFliteral->register($tx, $lang);
+                $id_prop = 'hasAbstract';
+                $IDC = 0;
+                $RDFdata->register($ID, $id_prop, $IDC, $lit);
+                $sx .= '<li>Resumo incorporado</li>';
+                $sx .= '<p>' . $tx . '</p>';
+            } else {
+                $sx .= '<li>Resumo muito longo (' . strlen($tx) . ')</li>';
+            }
+        } else {
+            $sx .= '<li>Resumo OK</li>';
+        }
+        return $sx;
+    }
+
+    function keywords($txt, $ID)
+    {
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+
+        $tx = substr($txt, strpos($txt, '{keywords}'), strlen($txt));
+        if ($pos = strpos($tx, '{resumo}')) {
+            $tx = substr($tx, 0, $pos);
+        }
+        $tx = troca($tx, '{sigla:"', '');
+        $tx = troca($tx, '{keywords} ', '');
+        $tx = troca($tx, '"}', '');
+        $tx = troca($tx, '; ', ';');
+        $tx = troca($tx, ' ;', ';');
+        $tx = trim($tx);
+
+        /********** Termina com ponto */
+        if (substr($tx, strlen($tx) - 1, 1) == '.') {
+            $tx = substr($tx, 0, strlen($tx) - 1);
+        }
+
+        /********** KEYWORDS */
+        $tx = troca($tx, '.', ';');
+        $tx = troca($tx, ',', ';');
+        $ky = explode(';', $tx);
+        $lang = 'pt';
+
+        if (count($ky) > 6) {
+            $sx = bsmessage("ERRO DE KEYWORD");
+            return $sx;
+        }
+
+        foreach ($ky as $id => $key) {
+            $key = trim($key);
+            if (strlen($key > 2)) {
+                $ky[$id] = ucfirst($key);
+                $dd = [];
+                $dd['Name'] = $ky[$id];
+                $dd['Lang'] = $lang;
+                $dd['Class'] = 'Subject';
+                $IDC = $RDFconcept->createConcept($dd);
+
+                $id_prop = 'hasSubject';
+                $lit = 0;
+                $RDFdata->register($ID, $id_prop, $IDC, $lit);
+            }
+        }
+
+        $sx = '<ul>';
+        foreach ($ky as $id => $key) {
+            $sx .= '<li>' . $key . '</li>';
+        }
+        $sx .= '</ul>';
+        return $sx;
+    }
+
+    function findTxt($txt, $pattern, $var)
+    {
+        preg_match_all($pattern, $txt, $matches);
+        $match = [];
+        foreach ($matches[0] as $ide2 => $term2) {
+            $match[strzero(strlen($term2), 5) . $term2] = strlen($term2);
+        }
+        krsort($match);
+
+        foreach ($match as $term2 => $ide2) {
+            $term2 = substr($term2, 5, strlen($term2));
+            switch ($var) {
+                case 'vln':
+                    $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                    break;
+                case 'nmb':
+                    $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                    break;
+                case 'pgn':
+                    $termX = trim(substr($term2, strpos($term2, ' '), 20));
+                    break;
+                default:
+                    $termX = $term2;
+            }
+            if ($termX != '') {
+                $txt = troca($txt, $term2, '{' . $var . ':"' . $termX . '"}');
+            }
+        }
+        return $txt;
     }
 
     function files($id)
@@ -142,21 +405,41 @@ class Fulltext extends Model
             return "";
         }
         //$txt = troca($txt,chr(10),chr(13));
-        $txt = troca($txt, chr(10), ' ');
         $txt = troca($txt, '•', '');
         $txt = troca($txt, '⇒', '');
         $txt = troca($txt, "'", '');
         $txt = troca($txt, '"', '');
-        $txt = troca($txt, '“','');
+        $txt = troca($txt, '“', '');
         $txt = troca($txt, '“', '”');
+        $txt = troca($txt, '–','-');
+        $txt = troca($txt, 'GT ', 'GT');
+        $txt = troca($txt, 'GT - ', 'GT');
+        $txt = troca($txt, 'GT-', 'GT');
+        $txt = troca($txt, 'GT- ', 'GT');
+        $txt = troca($txt, 'GT ', 'GT');
 
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
         $txt = troca($txt, chr(13) . chr(13), '[CR]');
+
+        for ($r = 1; $r <= 9; $r++) {
+            $txt = troca($txt, 'v.' . $r, 'v. ' . $r);
+            $txt = troca($txt, 'vol.' . $r, 'v. ' . $r);
+            $txt = troca($txt, 'n.' . $r, 'n. ' . $r);
+            $txt = troca($txt, 'num.' . $r, 'n. ' . $r);
+            $txt = troca($txt, 'p.' . $r, 'p. ' . $r);
+        }
 
         while (strpos(' ' . $txt, chr(13) . chr(13))) {
             $txt = troca($txt, chr(13) . chr(13), chr(13));
         }
+
+        /******************* JUNTAR LINHAS * virgula e ponto e virgula */
+        $txt = troca($txt, ',' . chr(13), ', ');
+        $txt = troca($txt, ';' . chr(13), '; ');
+        $txt = troca($txt, ', ' . chr(13), ', ');
+        $txt = troca($txt, '; ' . chr(13), '; ');
+
         $ln = explode(chr(13), $txt);
         $end = false;
         $up = false;
@@ -179,25 +462,27 @@ class Fulltext extends Model
             }
         }
 
-        /********************************* caixa baixa */
+
+
+        /******************* JUNTAR LINHAS * caixa baixa */
         $lid = 0;
         foreach ($ln as $id => $line) {
             $line = trim($line);
-            $char = substr(ascii($line),0,1);
+            $char = substr(ascii($line), 0, 1);
             if ((($char >= 'a') and ($char <= 'z'))
                 or ($char == '(')
                 or ($char == ')')
                 or ($char == ',')
                 or ($char == ';')
-            )
-                {
-                    $tln = trim($ln[$lid]).' [CR]'.trim($line);
-                    $ln[$lid] = $tln;
-                    unset($ln[$id]);
-                } else {
-                    $lid = $id;
-                }
+            ) {
+                $tln = trim($ln[$lid]) . ' [CR]' . trim($line);
+                $ln[$lid] = $tln;
+                unset($ln[$id]);
+            } else {
+                $lid = $id;
+            }
         }
+
 
         /********************************* So numeros */
         foreach ($ln as $id => $line) {

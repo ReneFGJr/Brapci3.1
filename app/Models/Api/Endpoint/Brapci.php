@@ -56,10 +56,9 @@ class Brapci extends Model
     {
 
         header('Access-Control-Allow-Origin: *');
-        if ((get("test")=='') and (get("header") == ''))
-            {
-                header("Content-Type: application/json");
-            }
+        if ((get("test") == '') and (get("header") == '')) {
+            header("Content-Type: application/json");
+        }
 
         $RSP = [];
         $RSP['status'] = '200';
@@ -72,12 +71,11 @@ class Brapci extends Model
                 break;
             case 'setCookie':
                 $dd['status'] = '200';
-                if (isset($_SERVER['HTTP_COOKIE']))
-                    {
-                        $dd['cookie'] = md5($_SERVER['HTTP_COOKIE']);
-                    } else {
-                        $dd['cookie'] = md5(date("YmdHis"));
-                    }
+                if (isset($_SERVER['HTTP_COOKIE'])) {
+                    $dd['cookie'] = md5($_SERVER['HTTP_COOKIE']);
+                } else {
+                    $dd['cookie'] = md5(date("YmdHis"));
+                }
                 echo json_encode($dd);
                 exit;
                 break;
@@ -88,7 +86,7 @@ class Brapci extends Model
                 exit;
                 break;
             case 'indexs':
-                $RSP= $this->indexs($d2,$d3);
+                $RSP = $this->indexs($d2, $d3);
                 break;
             case 'page':
                 $WP = new \App\Models\WP\Index();
@@ -117,17 +115,16 @@ class Brapci extends Model
                 $RSP = $this->resume();
                 break;
             case 'search':
-                switch($d2)
-                    {
-                        case 'a1':
-                            echo "Search Advanced";
-                            exit;
-                            break;
-                        default:
-                            $RSP['strategy'] = array_merge($_POST, $_GET);
-                            $RSP['result'] = $this->search();
-                            break;
-                    }
+                switch ($d2) {
+                    case 'a1':
+                        echo "Search Advanced";
+                        exit;
+                        break;
+                    default:
+                        $RSP['strategy'] = array_merge($_POST, $_GET);
+                        $RSP['result'] = $this->search();
+                        break;
+                }
                 break;
             case 'source':
                 $RSP['source'] = $this->source($d2, $d3);
@@ -145,28 +142,29 @@ class Brapci extends Model
     }
 
     /******************************** indexs */
-    function indexs($t,$l='A',$lang='')
-        {
-            if ($l == '') { $l = 'A'; }
-            $RDF = new \App\Models\RDF2\RDF();
-            $RSP = [];
-            switch($t)
-                {
-                    case 'subject':
-                        $RSP['data'] = $RDF->index_list('Subject',$l,$lang);
-                        break;
-                    case 'author':
-                        $RSP['data'] = $RDF->index_list('Person', $l,'');
-                        break;
-                    case 'bodycompany':
-                        $RSP['data'] = $RDF->index_list('BodyCompany', $l);
-                        break;
-                    default:
-                    $RSP['status'] = 404;
-                    $RSP['message'] = 'Index '.$t.' not found';
-                }
-            return $RSP;
+    function indexs($t, $l = 'A', $lang = '')
+    {
+        if ($l == '') {
+            $l = 'A';
         }
+        $RDF = new \App\Models\RDF2\RDF();
+        $RSP = [];
+        switch ($t) {
+            case 'subject':
+                $RSP['data'] = $RDF->index_list('Subject', $l, $lang);
+                break;
+            case 'author':
+                $RSP['data'] = $RDF->index_list('Person', $l, '');
+                break;
+            case 'bodycompany':
+                $RSP['data'] = $RDF->index_list('BodyCompany', $l);
+                break;
+            default:
+                $RSP['status'] = 404;
+                $RSP['message'] = 'Index ' . $t . ' not found';
+        }
+        return $RSP;
+    }
     /******************************* UPLOAD */
     function upload()
     {
@@ -192,7 +190,7 @@ class Brapci extends Model
         return $RSP;
     }
 
-    function rdf($d1, $d2 ,$d3='',$d4='',$d5='')
+    function rdf($d1, $d2, $d3 = '', $d4 = '', $d5 = '')
     {
         $RSP = [];
         switch ($d1) {
@@ -201,7 +199,7 @@ class Brapci extends Model
                 $RSP = $RDFClass->get($d2);
                 break;
             default:
-                $RSP = $this->getAll($d2,$d3,$d4,$d5);
+                $RSP = $this->getAll($d2, $d3, $d4, $d5);
         }
         return $RSP;
     }
@@ -280,14 +278,13 @@ class Brapci extends Model
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
 
-        $dt = $Issues->where('is_source_issue',$issue)->first();
+        $dt = $Issues->where('is_source_issue', $issue)->first();
 
-        if ($dt == null)
-            {
-                echo "Vazio";
-                echo '<a href="'.PATH. '/api/rdf/in/'.$issue.'">IN</a>';
-                exit;
-            }
+        if ($dt == null) {
+            echo "Vazio";
+            echo '<a href="' . PATH . '/api/rdf/in/' . $issue . '">IN</a>';
+            exit;
+        }
 
         $dd = [];
 
@@ -300,7 +297,7 @@ class Brapci extends Model
         $dd['year'] = $dt['is_year'];
         $dd['id_jnl'] = $dt['is_source'];
 
-        $dj = $Source->where('id_jnl',$dt['is_source'])->first();
+        $dj = $Source->where('id_jnl', $dt['is_source'])->first();
         $dd['source']['name'] = $dj['jnl_name'];
         $dd['source']['rdf'] = $dj['jnl_frbr'];
         $dd['jnl_frbr'] = $dj['jnl_frbr'];
@@ -308,43 +305,39 @@ class Brapci extends Model
 
         $dt = $IssuesWorks
             ->join('brapci_elastic.dataset', 'ID = siw_work_rdf')
-            ->where('siw_issue',$issue)
+            ->where('siw_issue', $issue)
             ->orderBy('TITLE')
             ->findAll();
 
         $dw = [];
         $au = [];
         $wk = [];
-        foreach($dt as $id=>$line)
-            {
-                $dq = [];
-                $dq['ID'] = $line['siw_work_rdf'];
-                array_push($wk, $line['siw_work_rdf']);
-                $dq['LEGEND'] = $line['TITLE'];
-                $dq['AUTHORS'] = $line['AUTHORS'];
-                $dq['PDF'] = $line['PDF'];
-                $dq['SESSION'] = $line['SESSION'];
-                $dq['USE'] = $line['use'];
-                $aut = troca($dq['AUTHORS'],'; ',';');
-                $aut = explode(';',$aut);
-                foreach($aut as $ida=>$nome)
-                    {
-                        if (!isset($au[$nome]))
-                            {
-                                $au[$nome] = ['name'=>$nome,'ID'=>0,'total'=>1];
-                            } else {
-                                $au[$nome]['total'] = $au[$nome]['total'] + 1;
-                            }
-                    }
-                array_push($dw,$dq);
+        foreach ($dt as $id => $line) {
+            $dq = [];
+            $dq['ID'] = $line['siw_work_rdf'];
+            array_push($wk, $line['siw_work_rdf']);
+            $dq['LEGEND'] = $line['TITLE'];
+            $dq['AUTHORS'] = $line['AUTHORS'];
+            $dq['PDF'] = $line['PDF'];
+            $dq['SESSION'] = $line['SESSION'];
+            $dq['USE'] = $line['use'];
+            $aut = troca($dq['AUTHORS'], '; ', ';');
+            $aut = explode(';', $aut);
+            foreach ($aut as $ida => $nome) {
+                if (!isset($au[$nome])) {
+                    $au[$nome] = ['name' => $nome, 'ID' => 0, 'total' => 1];
+                } else {
+                    $au[$nome]['total'] = $au[$nome]['total'] + 1;
+                }
             }
+            array_push($dw, $dq);
+        }
         /******** Authors */
         ksort($au);
         $nm = [];
-        foreach($au as $name=>$line)
-            {
-                array_push($nm,$line);
-            }
+        foreach ($au as $name => $line) {
+            array_push($nm, $line);
+        }
         $dd['worksTotal'] = count($dt);
         $dd['works'] = $dw;
         $dd['worksID'] = $wk;
@@ -429,37 +422,40 @@ class Brapci extends Model
         $dt = $RDF->le($id);
 
         /*********************************** Importar dados */
-        if ($dt['data'] == [])
-            {
-                $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
-                $RDFtools->importRDF($id);
-                $dt = $RDF->le($id);
-            }
-        switch($v)
-            {
-                case 'v1':
-                    $RSP = $RDFmetadata->metadata($id);
-                    break;
-                default:
-                    $RSP = $RDFmetadata->metadata($id);
-                    break;
-            }
+        if ($dt['data'] == []) {
+            $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
+            $RDFtools->importRDF($id);
+            $dt = $RDF->le($id);
+        }
+        switch ($v) {
+            case 'v1':
+                $RSP = $RDFmetadata->metadata($id);
+                break;
+            default:
+                $RSP = $RDFmetadata->metadata($id);
+                break;
+        }
+
+        if (!isset($dt['concept']['c_class'])) {
+            $RSP['message'] = 'Register canceled';
+            $RSP['status'] = '404';
+        } else {
+
+            $RSP['Class'] = $dt['concept']['c_class'];
+            $RSP['Views'] = $Views->views($id);
+            $RSP['Download'] = $Downloads->views($id);
+            $RSP['Likes'] = $Likes->views($id);
 
 
-        $RSP['Class'] = $dt['concept']['c_class'];
-        $RSP['Views'] = $Views->views($id);
-        $RSP['Download'] = $Downloads->views($id);
-        $RSP['Likes'] = $Likes->views($id);
+            /************************************************* ABNT */
+            $ABNT = new \App\Models\Metadata\Abnt();
+            $VANVOUVER = new \App\Models\Metadata\Vancouver();
+            $APA = new \App\Models\Metadata\Apa();
 
-
-        /************************************************* ABNT */
-        $ABNT = new \App\Models\Metadata\Abnt();
-        $VANVOUVER = new \App\Models\Metadata\Vancouver();
-        $APA = new \App\Models\Metadata\Apa();
-
-        $RSP['cited']['abnt'] = $ABNT->show($RSP, substr($RSP['Class'], 0, 1));
-        $RSP['cited']['vancouver'] = $VANVOUVER->show($RSP, substr($RSP['Class'], 0, 1));
-        $RSP['cited']['apa'] = $APA->show($RSP, substr($RSP['Class'], 0, 1));
+            $RSP['cited']['abnt'] = $ABNT->show($RSP, substr($RSP['Class'], 0, 1));
+            $RSP['cited']['vancouver'] = $VANVOUVER->show($RSP, substr($RSP['Class'], 0, 1));
+            $RSP['cited']['apa'] = $APA->show($RSP, substr($RSP['Class'], 0, 1));
+        }
         echo json_encode($RSP);
         exit;
     }
@@ -488,7 +484,7 @@ class Brapci extends Model
         $RSP['row'] = $row;
         $l = explode(',', $row);
         $Elastic = new \App\Models\ElasticSearch\Search();
-        $dt = $Elastic->recoverList($l,'abnt');
+        $dt = $Elastic->recoverList($l, 'abnt');
         $RSP['ABNT'] = $dt;
         return $RSP;
     }

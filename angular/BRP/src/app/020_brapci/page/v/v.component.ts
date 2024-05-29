@@ -27,7 +27,9 @@ export class VComponent {
       this.brapciService.getId(this.id).subscribe(
         (res) => {
           this.data = res;
+          console.log(this.data)
           if (this.data.status == '404') {
+            console.log("Registro cancelado")
             this.router.navigate(['404']);
           } else {
             this.type = this.data.Class;
@@ -35,7 +37,7 @@ export class VComponent {
               if (this.data.Issue.jnl_rdf == 75) {
                 this.type = 'Benancib';
               } else if (this.data.Issue.jnl_rdf == 18) {
-                //this.type = 'EBBC';
+                this.type = 'EBBC';
               }
               console.log('TYPE:' + this.data.Issue.jnl_rdf);
             }
