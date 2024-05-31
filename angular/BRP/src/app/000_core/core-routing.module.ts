@@ -9,6 +9,7 @@ import { SearchBrapciAdvComponent } from '../020_brapci/page/search-brapci-adv/s
 import { IndexsComponent } from '../020_brapci/page/indexs/indexs.component';
 import { ExportComponent } from '../020_brapci/page/export/export.component';
 import { Pg404Component } from '../020_brapci/page/pg404/pg404.component';
+import { PqModule } from '../160_PQ/pq.module';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -56,6 +57,11 @@ const routes: Routes = [
       import('../120_proceddings/proceddings.module').then(
         (m) => m.ProceddingsModule
       ),
+  },
+  {
+    path: 'pq',
+    loadChildren: () =>
+      import('../160_PQ/pq.module').then((m) => m.PqModule),
   },
   {
     path: 'sources',
