@@ -232,6 +232,7 @@ class Index extends Model
                                         break;
                                     case 'dimensions_structured':
                                         /***** Dimensoes */
+                                        pre($vlr,false);
                                         $dm = $this->dimensoes($vlr);
                                         $dt['dimensoes_2'] = $dm;
                                         break;
