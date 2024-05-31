@@ -169,6 +169,8 @@ class Index extends Model
             $dt = [];
             $dt['authors'] = [];
 
+            pre($dta,false);
+
             foreach($dta as $ida=>$line)
                 {
                     foreach($line as $prop=>$vlr)
