@@ -48,7 +48,7 @@ class Books extends Model
             $ISBN = new \App\Models\ISBN\Index();
             $isbn = $ISBN->format($isbn);
             $RSP = [];
-            $RSP['isbn'] = $ISBN;
+            $RSP['isbn'] = $isbn;
 
             return $RSP;
         }
