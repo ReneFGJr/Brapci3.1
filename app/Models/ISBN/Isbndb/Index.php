@@ -94,7 +94,7 @@ class Index extends Model
                     if (isset($vlr[$var]))
                         {
                             $va = (array)$vlr[$var];
-                            $va = $this->convert($va['value'],$va['unit']).'cm';
+                            $va = $this->convertUnit($va['value'],$va['unit']).'cm';
                             $RSP[$n[$var]] = $va;
                         }
                 }
