@@ -76,6 +76,9 @@ class Book extends Model
                 echo json_encode($dt);
                 exit;
                 break;
+            case 'isbn':
+                echo "=$d2,$d3,$d4";
+                break;
             default:
                 $RSP['status'] = '500';
                 $RSP['message'] = 'Método não existe - ' . $d2;
