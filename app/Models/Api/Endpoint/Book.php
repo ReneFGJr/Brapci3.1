@@ -78,6 +78,9 @@ class Book extends Model
                 break;
             case 'isbn':
                 echo "=$d2,$d3,$d4";
+                $isbn = $d3;
+                $BooksServer = new \App\Models\BooksServer\Books();
+                $RSP = $BooksServer->search($isbn, '');
                 break;
             default:
                 $RSP['status'] = '500';
