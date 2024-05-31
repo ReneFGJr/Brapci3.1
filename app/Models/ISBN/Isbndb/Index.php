@@ -162,8 +162,7 @@ class Index extends Model
 
         $dt = [];
         $dt['authors'] = [];
-
-        pre($dta, false);
+        $dt['erros'] = '';
 
         foreach ($dta as $ida => $line) {
             foreach ($line as $prop => $vlr) {
@@ -259,17 +258,7 @@ class Index extends Model
                         $dt['dimensoes_2'] = $dm;
                         break;
                     default:
-                        echo 'Não localizado a propriedade ';
-                        echo $prop;
-                        echo '==>';
-                        if (is_array($vlr)) {
-                            pre($vlr, false);
-                        } else {
-                            pre($vlr, false);
-                            //echo '<b>'.$vlr.'</b>';
-                        }
-                        echo '<br>';
-                        exit;
+                        $dt['erros'].= 'Não localizado a propriedade ['. $prop.']. ';
                         break;
                 }
             }
