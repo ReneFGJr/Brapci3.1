@@ -51,13 +51,13 @@ class Book extends Model
     protected $afterDelete    = [];
 
     function index($d1, $d2, $d3, $d4)
-    {echo "OK";
-    exit;
+    {
         $RSP = [];
         header('Access-Control-Allow-Origin: *');
         if (get("test") == '') {
             header("Content-Type: application/json");
         }
+        echo '==>'.$d2;
         switch ($d2) {
             case 'vitrine':
                 $Book = new \App\Models\Base\Book();
