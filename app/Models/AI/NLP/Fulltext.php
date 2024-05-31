@@ -404,7 +404,7 @@ class Fulltext extends Model
         if ($txt == '') {
             return "";
         }
-        $txt = troca($txt, chr(10), chr(13));
+        //$txt = troca($txt,chr(10),chr(13));
         $txt = troca($txt, '•', '');
         $txt = troca($txt, '⇒', '');
         $txt = troca($txt, "'", '');
