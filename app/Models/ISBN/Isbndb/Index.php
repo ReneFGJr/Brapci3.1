@@ -119,7 +119,7 @@ class Index extends Model
                 $dv = round((float)$v * 4.53592) / 10;
                 break;
             default:
-                echo $unit;
+                $dv = '?'.$unit.'?';
                 exit;
         }
         return $dv;
