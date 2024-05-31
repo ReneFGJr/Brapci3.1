@@ -56,7 +56,7 @@ class Books extends Model
             /********* Caso não exista */
             $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
             $dt = json_decode($ISBNdb->search($isbn));
-            $RSP['isbnbd'] = $dt;
+            $RSP['isbnbd'] = $ISBNdb->convert($dt);
 
             return $RSP;
         }
