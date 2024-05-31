@@ -6,7 +6,7 @@
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2022 CC-BY
 @access public/private/apikey
-@example $URL/api/book/?isbn=97800000000
+@example $URL/api/book/isbn/97800000000
 @abstract API para consulta de metadados de livros com o ISBN
 */
 
@@ -57,7 +57,7 @@ class Book extends Model
         if (get("test") == '') {
             header("Content-Type: application/json");
         }
-        echo '==>'.$d2;
+
         switch ($d2) {
             case 'vitrine':
                 $Book = new \App\Models\Base\Book();
@@ -77,7 +77,6 @@ class Book extends Model
                 exit;
                 break;
             case 'isbn':
-                echo "=$d2,$d3,$d4";
                 $isbn = $d3;
                 $BooksServer = new \App\Models\BooksServer\Books();
                 $RSP = $BooksServer->search($isbn, '');
