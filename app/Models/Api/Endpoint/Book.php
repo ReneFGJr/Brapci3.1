@@ -57,37 +57,36 @@ class Book extends Model
         if (get("test") == '') {
             header("Content-Type: application/json");
         }
-        switch($d2)
-            {
-                case 'vitrine':
-                    $Book = new \App\Models\Base\Book();
-                    $dt = $Book->vitrine('');
-                    echo json_encode($dt);
-                    exit;
-                    break;
-                case 'submit':
-                    $PS = array_merge($_POST, $_GET);
-                    $booksSubmit = new \App\Models\Books\BooksSubmit();
-                    $booksSubmit->register($PS);
-                    $dt=[];
-                    $dt['status'] = '200';
-                    $dt['message'] = 'Registro salvo';
-                    $dt['data'] = $PS;
-                    echo json_encode($dt);
-                    exit;
-                    break;
-                default:
-                    $ISBN = new \App\Models\Functions\Isbn();
-                    $isbn = get("isbn");
-                    if ($isbn != '')
-                        {
-                            $BooksServer = new \App\Models\BooksServer\Books();
-                            $RSP = $BooksServer->search($isbn,'');
-                        }
-                    break;
-            }
+        switch ($d2) {
+            case 'vitrine':
+                $Book = new \App\Models\Base\Book();
+                $dt = $Book->vitrine('');
+                echo json_encode($dt);
+                exit;
+                break;
+            case 'submit':
+                $PS = array_merge($_POST, $_GET);
+                $booksSubmit = new \App\Models\Books\BooksSubmit();
+                $booksSubmit->register($PS);
+                $dt = [];
+                $dt['status'] = '200';
+                $dt['message'] = 'Registro salvo';
+                $dt['data'] = $PS;
+                echo json_encode($dt);
+                exit;
+                break;
+            default:
+                $RSP['status'] = '500';
+                $RSP['message'] = 'Método não existe - ' . $d2;
+                $ISBN = new \App\Models\Functions\Isbn();
+                $isbn = get("isbn");
+                if ($isbn != '') {
+                    $BooksServer = new \App\Models\BooksServer\Books();
+                    $RSP = $BooksServer->search($isbn, '');
+                }
+                break;
+        }
         echo json_encode($RSP);
         exit;
-
     }
 }
