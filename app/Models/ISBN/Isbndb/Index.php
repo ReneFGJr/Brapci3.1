@@ -96,11 +96,13 @@ class Index extends Model
             if (isset($vlr[$var])) {
                 $va = (array)$vlr[$var];
                 $un = 'cm';
-                pre($var,false);
-                if ((string)$var['unit'] == 'weight') {
+                $valor = $va['value'];
+                $unit = $va['unit'];
+
+                if ($var == 'weight') {
                     $un = 'kg';
                 }
-                $va = $this->convertUnit($va['value'], $va['unit']) .$un;
+                $va = $this->convertUnit($valor,$unit) .$un;
                 $RSP[$n[$var]] = $va;
             }
         }
