@@ -81,6 +81,22 @@ class Index extends Model
             return $sx;
         }
 
+    function dimensoesEX($vlr)
+        {
+            $RSP['peso'] = 0;
+            $RSP['largura'] = 0;
+            $RSP['comprimento'] = 0;
+            $RSP['altura'] = 0;
+            $v = ['length','width','weigth','height'];
+            foreach($v as $var)
+                {
+                    if (isset($vlr[$var]))
+                        {
+                            pre($vlr[$var]);
+                        }
+                }
+            return $RSP;
+        }
     function dimensoes($vlr)
         {
             $dim = [];
@@ -232,7 +248,6 @@ class Index extends Model
                                         break;
                                     case 'dimensions_structured':
                                         /***** Dimensoes */
-                                        pre($vlr,false);
                                         $dm = $this->dimensoes((array)$vlr);
                                         $dt['dimensoes_2'] = $dm;
                                         break;
