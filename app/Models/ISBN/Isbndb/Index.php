@@ -85,12 +85,12 @@ class Index extends Model
         $RSP['largura'] = 0;
         $RSP['comprimento'] = 0;
         $RSP['altura'] = 0;
-        $v = ['length', 'width', 'weigth', 'heigth'];
+        $v = ['length', 'width', 'weight', 'height'];
         $n = [
             'length' => 'comprimento',
             'width' => 'largura',
-            'weigth' => 'peso',
-            'heigth' => 'altura'
+            'weight' => 'peso',
+            'height' => 'altura'
         ];
         foreach ($v as $var) {
             if (isset($vlr[$var])) {
@@ -255,7 +255,6 @@ class Index extends Model
                         $dt['dimensoes'] = $dm;
                         break;
                     case 'dimensions_structured':
-                        pre($vlr,false);
                         /***** Dimensoes */
                         $dm = $this->dimensoesEX((array)$vlr);
                         $dt['dimensoes_2'] = $dm;
