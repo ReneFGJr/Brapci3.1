@@ -148,10 +148,6 @@ class Index extends Model
                                         break;
                                     case 'msrp':
                                         break;
-                                    case 'dimensions':
-                                        $dm = $this->dimensoes($vlr);
-                                        $dt['dimensoes'] = $dm;
-                                        break;
                                     case 'date_published':
                                         $dt['date'] = $vlr;
                                         break;
@@ -229,6 +225,15 @@ class Index extends Model
                                         break;
                                     case 'synopsis':
                                         $dt['abstract'] = $vlr;
+                                        break;
+                                    case 'dimensions':
+                                        $dm = $this->dimensoes($vlr);
+                                        $dt['dimensoes'] = $dm;
+                                        break;
+                                    case 'dimensions_structured':
+                                        /***** Dimensoes */
+                                        $dm = $this->dimensoes($vlr);
+                                        $dt['dimensoes_2'] = $dm;
                                         break;
                                      default:
                                         echo 'Não localizado a propriedade ';
