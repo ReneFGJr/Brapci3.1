@@ -49,8 +49,13 @@ class Books extends Model
             $isbn = $ISBN->format($isbn);
             $isbns = $ISBN->isbns($isbn);
             $RSP = [];
-            $RSP['isbn'] = $isbn;
             $RSP['isbns'] = $isbns;
+            $isbn = $isbns['isbn13'];
+            $RSP['isbn'] = $isbn;
+
+            /********* Caso não exista */
+            $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
+            $RSP['isbnbd'] = $ISBNdb->search($isbn);
 
             return $RSP;
         }
