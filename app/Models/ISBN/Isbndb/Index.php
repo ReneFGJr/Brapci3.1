@@ -238,7 +238,8 @@ class Index extends Model
                                             {
                                                 pre($vlr,false);
                                             } else {
-                                                echo '<b>'.$vlr.'</b>';
+                                                pre($vlr, false);
+                                                //echo '<b>'.$vlr.'</b>';
                                             }
                                         echo '<br>';
                                         exit;
