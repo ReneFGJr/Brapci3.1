@@ -116,7 +116,7 @@ class Index extends Model
                 $dv = round((float)$v * 254) / 100;
                 break;
             case 'pound':
-                $dv = round((float)$v * 453.592) / 1000;
+                $dv = round((float)$v * 4.53592) / 10;
                 break;
         }
         return $dv;
