@@ -115,9 +115,12 @@ class Index extends Model
             case 'inches':
                 $dv = round((float)$v * 254) / 100;
                 break;
-            case 'pound':
+            case 'pounds':
                 $dv = round((float)$v * 4.53592) / 10;
                 break;
+            default:
+                echo $unit;
+                exit;
         }
         return $dv;
     }
