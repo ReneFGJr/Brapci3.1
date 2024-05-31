@@ -52,6 +52,7 @@ class Book extends Model
 
     function index($d1, $d2, $d3, $d4)
     {
+        $RSP = [];
         header('Access-Control-Allow-Origin: *');
         if (get("test") == '') {
             header("Content-Type: application/json");
@@ -78,9 +79,15 @@ class Book extends Model
                 default:
                     $ISBN = new \App\Models\Functions\Isbn();
                     $isbn = get("isbn");
-                    $isbn = $ISBN->format($isbn);
-                    echo h($isbn);
-                    exit;
+                    if ($isbn != '')
+                        {
+                            $BooksServer = new \App\Models\BooksServer\Books();
+                            $RSP = $BooksServer->search($isbn,'');
+                        }
+                    break;
             }
+        echo json_encode($RSP);
+        exit;
+
     }
 }
