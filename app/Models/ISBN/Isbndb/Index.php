@@ -94,8 +94,13 @@ class Index extends Model
         ];
         foreach ($v as $var) {
             if (isset($vlr[$var])) {
+                $un = 'cm';
+                if ($var['unit'] == 'weight')
+                    {
+                        $un = 'kg';
+                    }
                 $va = (array)$vlr[$var];
-                $va = $this->convertUnit($va['value'], $va['unit']) . 'cm';
+                $va = $this->convertUnit($va['value'], $va['unit']) .$un;
                 $RSP[$n[$var]] = $va;
             }
         }
