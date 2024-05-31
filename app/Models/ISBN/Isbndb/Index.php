@@ -85,7 +85,7 @@ class Index extends Model
         $RSP['largura'] = 0;
         $RSP['comprimento'] = 0;
         $RSP['altura'] = 0;
-        $v = ['length', 'width', 'weigth', 'height'];
+        $v = ['length', 'width', 'weigth', 'heigth'];
         $n = [
             'length' => 'comprimento',
             'width' => 'largura',
