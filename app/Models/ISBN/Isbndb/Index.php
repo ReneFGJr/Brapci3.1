@@ -96,6 +96,7 @@ class Index extends Model
             if (isset($vlr[$var])) {
                 $va = (array)$vlr[$var];
                 $un = 'cm';
+                pre($var,false);
                 if ((string)$var['unit'] == 'weight') {
                     $un = 'kg';
                 }
