@@ -88,14 +88,31 @@ class Index extends Model
             $RSP['comprimento'] = 0;
             $RSP['altura'] = 0;
             $v = ['length','width','weigth','height'];
+            $n = ['comprimento','largura','peso','altura'];
             foreach($v as $var)
                 {
                     if (isset($vlr[$var]))
                         {
-                            pre($vlr[$var]);
+                            $va = (array)$vlr[$var];
+                            $va = $this->convert($va['value'],$va['unit']).'cm';
+                            $RSP[$n[$var]] = $va;
                         }
                 }
             return $RSP;
+        }
+    function convertUnit($v,$unit)
+        {
+            $dv = $v;
+            switch($unit)
+                {
+                    case 'inches':
+                        $dv = round((float)$v * 254) / 100;
+                    break;
+                    case 'pound':
+                        $dv = round((float)$v * 453.592) / 1000;
+                    break;
+                }
+            return $dv;
         }
     function dimensoes($vlr)
         {
