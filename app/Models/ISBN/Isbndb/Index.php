@@ -248,7 +248,7 @@ class Index extends Model
                                         break;
                                     case 'dimensions_structured':
                                         /***** Dimensoes */
-                                        $dm = $this->dimensoes((array)$vlr);
+                                        $dm = $this->dimensoesEX((array)$vlr);
                                         $dt['dimensoes_2'] = $dm;
                                         break;
                                      default:
