@@ -231,6 +231,8 @@ class Index extends Model
                         $dt['pages'] = $vlr . ' p.';
                         break;
                     case 'title_long':
+                        $vlr = troca($vlr, '(Em Portugues do Brasil)','');
+                        $vlr = trim($vlr);
                         $dt['title_long'] = $vlr;
                         break;
                     case 'title_long':
@@ -253,6 +255,7 @@ class Index extends Model
                         $dt['dimensoes'] = $dm;
                         break;
                     case 'dimensions_structured':
+                        pre($vlr,false);
                         /***** Dimensoes */
                         $dm = $this->dimensoesEX((array)$vlr);
                         $dt['dimensoes_2'] = $dm;
