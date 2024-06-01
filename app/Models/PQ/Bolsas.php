@@ -88,7 +88,6 @@ class Bolsas extends Model
 			}
 		}
 		ksort($bs);
-		pre($bs);
 		return $bs;
 	}
 
