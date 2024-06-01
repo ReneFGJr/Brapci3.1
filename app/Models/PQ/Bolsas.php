@@ -69,8 +69,8 @@ class Bolsas extends Model
 								} else {
 									$bd[$y] = 1;
 								}
-							$loop++;
-							if ($loop > 10)
+
+							if ($loop++ > 10)
 								{
 									break;
 								}
