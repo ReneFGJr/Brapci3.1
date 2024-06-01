@@ -58,16 +58,20 @@ class Pq extends Model
         switch($d2)
             {
                 case 'bolsa_ano':
-                    return $Bolsas->bolsa_ano();
+                    $RSP = $Bolsas->bolsa_ano();
                     break;
                 case 'bolsa_ano_tipo':
-                    return $Bolsas->bolsa_ano_tipo();
+                    $RSP =  $Bolsas->bolsa_ano_tipo();
+                    break;
                 case 'vigente':
                     return $this->collections($d2, $d3);
                     break;
                 default:
                     return $this->all();
             }
+
+            echo json_encode($RSP);
+            exit;
     }
 
     function collections($d1,$d2)
