@@ -53,9 +53,8 @@ class Pq extends Model
     function index($d1 = '', $d2 = '', $d3 = '')
     {
         $type = get("type");
-        pre($d1);
 
-        switch($d1)
+        switch($d2)
             {
                 case 'bolsa_ano':
                     return $this->bolsa_ano($d2, $d3);
