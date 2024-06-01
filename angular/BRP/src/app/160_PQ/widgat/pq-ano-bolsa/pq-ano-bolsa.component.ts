@@ -12,73 +12,100 @@ interface BolsaData {
 })
 export class PqAnoBolsaComponent {
   public data: Array<any> | any;
+  public barChartOptions = {
+    scaleShowVerticalLines: false,
+    responsive: true,
+  };
+
   public production: any;
-  public chart: Chart | any;
+  public table_label: Array<any> | any
 
   constructor(public brapciService: BrapciService) {}
 
   ngOnInit() {
     this.brapciService.api_post('pq/bolsa_ano_tipo').subscribe((res) => {
       this.data = res;
-      this.createChart2();
+      this.getTipoKeys()
+      this.createChart()
+      console.log(this.data.data['2']);
     });
   }
 
+  getTipoKeys(): string[] {
+    this.table_label = Object.keys(this.data.data);
+    return this.table_label
+  }
 
-  createChart2() {
-    let jsonData = this.data;
-    const labels = Object.keys(jsonData);
-    let data:Array<any> | any
-    console.log(labels);
+  createChart() {
+    this.production = new Chart('MyProduction', {
+      type: 'bar', //this denotes tha type of chart
 
-    const tiposBolsa = new Set<string>();
+      data: {
+        // values on X-Axis
+        labels: this.data.label,
 
-    labels.forEach((year: string) => {
-      Object.keys((jsonData as BolsaData)[year]).forEach((tipo: string) => {
-        tiposBolsa.add(tipo);
-      });
-    });
-
-    console.log(tiposBolsa);
-
-    tiposBolsa.forEach((tipo: string) => {
-      const dataset: ChartDataset<'line'> = {
-        label: tipo,
-        data: labels.map(
-          (year: string) => (jsonData as BolsaData)[year][tipo] || 0
-        ),
-        fill: false,
-        borderColor: this.getRandomColor(),
-        tension: 0.1,
-      };
-      console.log(data);
-      data.datasets.push(dataset);
-    });
-
-    this.chart = new Chart('myChart', {
-      type: 'line',
-      data: data,
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
+        datasets: [
+          {
+            label: 'PQ2',
+            data: this.data.data['2'],
+            backgroundColor: '#ff9900',
           },
+          {
+            label: 'PQ2C',
+            data: this.data.data['2C'],
+            backgroundColor: '#b26b2e',
+          },
+          {
+            label: 'PQ2B',
+            data: this.data.data['2B'],
+            backgroundColor: '#bf7326',
+          },
+          {
+            label: 'PQ2A',
+            data: this.data.data['2A'],
+            backgroundColor: '#cfA336',
+          },
+
+          {
+            label: 'PQ1D',
+            data: this.data.data['1D'],
+            backgroundColor: '#A52A2A',
+          },
+          {
+            label: 'PQ1C',
+            data: this.data.data['1C'],
+            backgroundColor: '#b24a4a',
+          },
+          {
+            label: 'PQ1B',
+            data: this.data.data['1B'],
+            backgroundColor: '#c06a6a',
+          },
+          {
+            label: 'PQ1A',
+            data: this.data.data['1A'],
+            backgroundColor: '#ce8a8a',
+          },
+        ],
+      },
+      options: {
+        plugins: {
           title: {
-            display: true,
-            text: 'Modalidades de Bolsa por Ano',
+            //display: false,
+            text: '',
+            position: 'right',
           },
         },
+        scales: {
+          x: {
+            stacked: true,
+          },
+          y: {
+            stacked: true,
+          },
+        },
+        aspectRatio: 2.5,
       },
     });
-  }
-
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
 }

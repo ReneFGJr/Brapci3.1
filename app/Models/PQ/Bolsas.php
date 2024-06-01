@@ -509,4 +509,51 @@ class Bolsas extends Model
 
 		return ($sx);
 	}
+	function resume_data($force = 0)
+	{
+		$file = '../.tmp/pq/bolsas.json';
+		if ((!file_exists($file)) or ($force == 1)) {
+			$dt = $this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
+			->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person')
+			->findAll();
+			$dd = array();
+
+			for ($r = 0; $r < count($dt); $r++) {
+				$line = $dt[$r];
+				$year_ini = substr($line['bs_start'], 0, 4);
+				$year_fim = substr($line['bs_start'], 0, 4);
+				$sigla = $line['mod_sigla'];
+				$nivel = $sigla . $line['bs_nivel'];
+				$nome = $line['bs_nome'];
+
+				$IES = $line['BS_IES'];
+				/******************************************************************* Ano */
+				if (isset($dd['year'][$year_ini][$nivel])) {
+					$dd['year'][$year_ini][$nivel]++;
+				} else {
+					$dd['year'][$year_ini][$nivel] = 1;
+				}
+				/******************************************************************* Modalidade */
+				if (isset($dd['person']['bolsista'][$nome][$nivel][$year_ini])) {
+					$dd['person']['bolsista'][$nome][$nivel][$year_ini]++;
+				} else {
+					$dd['person']['bolsista'][$nome][$nivel][$year_ini] = 1;
+				}
+			}
+			$dy = $dd['year'];
+			$dm = $dd['person'];
+			krsort($dy);
+			krsort($dm);
+			$dd['year'] = $dy;
+			$dd['person'] = $dm;
+
+			dircheck('../.tmp');
+			dircheck('../.tmp/pq');
+			$json = json_encode($dd);
+			file_put_contents($file, $json);
+		}
+		$json = file_get_contents($file);
+		$dd = json_decode($json);
+		return $dd;
+	}
 }

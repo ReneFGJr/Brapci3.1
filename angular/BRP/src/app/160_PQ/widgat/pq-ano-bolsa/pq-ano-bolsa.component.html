@@ -1,7 +1,30 @@
-<div class="mt-2"><b>Produção Científica por ano/tipo do autor</b></div>
+<!-------------------- Coluna-->
+<div class="mt-2"><b>Número de bolsistas PQ ativos por ano</b></div>
 <div
   class="chart-container"
   style="background-color: #efefef; border: 2px solid #ccc"
 >
   <canvas id="MyProduction">{{ production }}</canvas>
+</div>
+
+<!-- bolsa-table.component.html -->
+<div *ngIf="data.data">
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Ano</th>
+        <th width="30px" *ngFor="let year of data.label" class="border border-secondary text-center">
+        <div *ngIf="year >= 2000">{{ year - 2000 }} </div>
+        <div *ngIf="year < 2000">{{ year - 1900 }} </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of table_label; let idx = index">
+        <td class="border border-secondary text-center fw-bold">{{ i }}</td>
+        <td *ngFor="let it of data.data[i]" class="text-center small border border-secondary">
+        {{it}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
