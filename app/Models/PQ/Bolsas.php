@@ -60,8 +60,7 @@ class Bolsas extends Model
 				{
 					$yearI = round(substr($line['bs_start'],0,4));
 					$yearF = round(substr($line['bs_finish'],0,4));
-					echo $yearI.'='.$yearF;
-					exit;
+					$loop = 0;
 					for($y = $yearI; $y < $yearF;$y++)
 						{
 							if (isset($bd[$y]))
@@ -69,6 +68,11 @@ class Bolsas extends Model
 									$bd[$y] = $bd[$y] + 1;
 								} else {
 									$bd[$y] = 1;
+								}
+							$loop++;
+							if ($loop > 10)
+								{
+									break;
 								}
 						}
 				}
