@@ -58,8 +58,8 @@ class Bolsas extends Model
 			$bs = [];
 			foreach($dt as $id=>$line)
 				{
-					$yearI = $line['bs_start'];
-					$yearF = $line['bs_finish'];
+					$yearI = round(substr($line['bs_start'],0,4));
+					$yearF = round(substr($line['bs_finish'],0,4));
 					echo $yearI.'='.$yearF;
 					exit;
 					for($y = $yearI; $y < $yearF;$y++)
