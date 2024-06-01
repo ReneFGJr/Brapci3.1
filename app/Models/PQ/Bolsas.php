@@ -50,7 +50,7 @@ class Bolsas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function bolsa_ano()
+	function bolsa_ano_tipo()
 	{
 		$dt = $this
 			->where('bs_ativo', 1)
@@ -85,7 +85,7 @@ class Bolsas extends Model
 		return $bs;
 	}
 
-	function bolsa_ano_tipo()
+	function bolsa_ano()
 	{
 		$dt = $this
 			->where('bs_ativo', 1)
@@ -109,6 +109,7 @@ class Bolsas extends Model
 				}
 			}
 		}
+		pre($bs);
 		ksort($bs);
 		return $bs;
 	}
