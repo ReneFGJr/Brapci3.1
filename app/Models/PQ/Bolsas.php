@@ -62,6 +62,41 @@ class Bolsas extends Model
 			$loop = 0;
 			for ($y = $yearI; $y < $yearF; $y++) {
 				if ($y <= date("Y")) {
+					if (!isset($bs[$y])) {
+						$bs[$y] = [];
+					}
+
+					$mod = $line['bs_nivel'];
+
+					if (!isset($bs[$y][$mod]))
+						{
+							$bs[$y][$mod] = 1;
+						} else {
+							$bs[$y][$mod] = $bs[$y][$mod] + 1;
+						}
+				}
+
+				if ($loop++ > 10) {
+					break;
+				}
+			}
+		}
+		ksort($bs);
+		return $bs;
+	}
+
+	function bolsa_ano_tipo()
+	{
+		$dt = $this
+			->where('bs_ativo', 1)
+			->findAll();
+		$bs = [];
+		foreach ($dt as $id => $line) {
+			$yearI = round(substr($line['bs_start'], 0, 4));
+			$yearF = round(substr($line['bs_finish'], 0, 4));
+			$loop = 0;
+			for ($y = $yearI; $y < $yearF; $y++) {
+				if ($y <= date("Y")) {
 					if (isset($bs[$y])) {
 						$bs[$y] = $bs[$y] + 1;
 					} else {
