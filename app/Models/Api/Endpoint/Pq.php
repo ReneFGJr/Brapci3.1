@@ -53,7 +53,7 @@ class Pq extends Model
     function index($d1 = '', $d2 = '', $d3 = '')
     {
         $type = get("type");
-
+        pre($d1);
 
         switch($d1)
             {
