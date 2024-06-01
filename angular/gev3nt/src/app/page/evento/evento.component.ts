@@ -24,7 +24,7 @@ assign(id:string)
 ngOnInit()
   {
     this.brapciService.events().subscribe(
-      res=>{          
+      res=>{
           this.events = res
       }
     )

@@ -56,6 +56,21 @@ class Bolsas extends Model
 			->where('bs_ativo', 1)
 			->findAll();
 		$bs = [];
+		$ini = 1990;
+		$fim = date("Y");
+		$dz = [];
+		for ($y = $ini; $y<=$fim;$y++)
+			{
+				array_push($dz,0);
+			}
+		foreach ($dt as $id => $line) {
+			if (!isset($line['bs_nivel']))
+				{
+					$bs[$line['bs_nivel']] = $dz;
+				}
+		}
+
+		pre($bs);
 		foreach ($dt as $id => $line) {
 			$yearI = round(substr($line['bs_start'], 0, 4));
 			$yearF = round(substr($line['bs_finish'], 0, 4));

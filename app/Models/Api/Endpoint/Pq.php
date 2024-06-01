@@ -6,7 +6,8 @@
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2022 CC-BY
 @access public/private/apikey
-@example $PATH/api/pq/
+@example $PATH/api/pq/bolsa_ano
+@example $PATH/api/pq/bolsa_ano_tipo
 @abstract Mostra todas as fontes indexadas na Brapci, Parametros:<ul><li>Fontes: <a href="$PATH/api/source/">$PATH/api/source/</a></li><li>Coleções: <a href="$PATH/api/source/collections">$PATH/api/source/collections</a></li></ul>
 */
 
