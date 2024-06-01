@@ -64,6 +64,9 @@ class Bolsas extends Model
 				array_push($dz,0);
 			}
 		foreach ($dt as $id => $line) {
+			$nv = $line['bs_nivel'];
+			pre($line,false);
+			pre($nv);
 			if (!isset($line['bs_nivel']))
 				{
 					$bs[$line['bs_nivel']] = $dz;
