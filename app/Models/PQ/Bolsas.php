@@ -52,7 +52,7 @@ class Bolsas extends Model
 
 	function bolsa_ano_tipo()
 	{
-		$array_push($dz, 0); = [];
+		$label = [];
 		$dt = $this
 			->where('bs_ativo', 1)
 			->findAll();
