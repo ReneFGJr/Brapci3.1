@@ -51,65 +51,60 @@ class Bolsas extends Model
 	protected $afterDelete          = [];
 
 	function bolsa_ano()
-		{
-			$dt = $this
-				->where('bs_ativo',1)
-				->findAll();
-			$bs = [];
-			foreach($dt as $id=>$line)
-				{
-					$yearI = round(substr($line['bs_start'],0,4));
-					$yearF = round(substr($line['bs_finish'],0,4));
-					$loop = 0;
-					for($y = $yearI; $y < $yearF;$y++)
-						{
-							if (isset($bd[$y]))
-								{
-									$bd[$y] = $bd[$y] + 1;
-								} else {
-									$bd[$y] = 1;
-								}
-
-							if ($loop++ > 10)
-								{
-									break;
-								}
-						}
+	{
+		$dt = $this
+			->where('bs_ativo', 1)
+			->findAll();
+		$bs = [];
+		foreach ($dt as $id => $line) {
+			$yearI = round(substr($line['bs_start'], 0, 4));
+			$yearF = round(substr($line['bs_finish'], 0, 4));
+			$loop = 0;
+			for ($y = $yearI; $y < $yearF; $y++) {
+				if (isset($bd[$y])) {
+					$bs[$y] = $bs[$y] + 1;
+				} else {
+					$bs[$y] = 1;
 				}
-				ksort($bs);
-				return $bs;
+
+				if ($loop++ > 10) {
+					break;
+				}
+			}
 		}
+		ksort($bs);
+		return $bs;
+	}
 
 	function selo($dt)
-		{
-			$sx = '';
-			$sx .= '<div class="text-center p-1" style="width: 100%; border: 1px solid #000; border-radius: 10px;  line-height: 80%;">';
-			$sx .= '<span style="font-size: 16px;">'.$dt['bs_nivel'].'</span>';
-			$sx .= '<br>';
-			$sx .= '<b style="font-size: 12px; ">'.$dt['bs_ano'].'</b>';
-			$sx .= '</div>';
-			return $sx;
-		}
+	{
+		$sx = '';
+		$sx .= '<div class="text-center p-1" style="width: 100%; border: 1px solid #000; border-radius: 10px;  line-height: 80%;">';
+		$sx .= '<span style="font-size: 16px;">' . $dt['bs_nivel'] . '</span>';
+		$sx .= '<br>';
+		$sx .= '<b style="font-size: 12px; ">' . $dt['bs_ano'] . '</b>';
+		$sx .= '</div>';
+		return $sx;
+	}
 
 	function bolsas_pesquisador($id)
-		{
-			$dt = $this
-				->join('bolsistas', 'id_bs = bb_person')
-				->join('modalidades', 'id_mod = bs_tipo')
-				->where('bs_lattes',$id)
-				->findAll();
-			return($dt);
-		}
+	{
+		$dt = $this
+			->join('bolsistas', 'id_bs = bb_person')
+			->join('modalidades', 'id_mod = bs_tipo')
+			->where('bs_lattes', $id)
+			->findAll();
+		return ($dt);
+	}
 
 	function edit($id)
 	{
 		$this->id = $id;
-		$this->path = PATH . '/popup/pq_bolsa_edit/'.$id.'?id=' . $id . '&pq='.get('pq').'&';
+		$this->path = PATH . '/popup/pq_bolsa_edit/' . $id . '?id=' . $id . '&pq=' . get('pq') . '&';
 		$this->path_back = 'wclose';
-		if (get("pq") != '')
-			{
-				$_POST['bb_person'] = get("pq");
-			}
+		if (get("pq") != '') {
+			$_POST['bb_person'] = get("pq");
+		}
 		$sx = h(lang('pq.pq_editar'), 2);
 		$sx .= form($this);
 
@@ -118,16 +113,16 @@ class Bolsas extends Model
 	}
 
 	function btn_new($id)
-		{
-			$sx = '';
-			$Socials = new \App\Models\Socials();
-			$access = $Socials->getAccess("#ADM");
-			if ($access) {
-				$url = URL . '/popup/pq_bolsa_edit/?id=0&pq=' . $id;
-				$sx .= '<span class="ms-1">' . onclick($url, 800, 400) . bsicone('plus',20) . '</a></th>';
-			}
-			return $sx;
+	{
+		$sx = '';
+		$Socials = new \App\Models\Socials();
+		$access = $Socials->getAccess("#ADM");
+		if ($access) {
+			$url = URL . '/popup/pq_bolsa_edit/?id=0&pq=' . $id;
+			$sx .= '<span class="ms-1">' . onclick($url, 800, 400) . bsicone('plus', 20) . '</a></th>';
 		}
+		return $sx;
+	}
 
 	function historic_researcher($id)
 	{
@@ -146,18 +141,16 @@ class Bolsas extends Model
 		for ($r = 0; $r < count($dt); $r++) {
 			$line = $dt[$r];
 			$year = substr($line['bs_start'], 0, 4);
-			if ($access == true)
-			{
-				$link = onclick(URL . '/popup/pq_bolsa_edit/?id='.$line['id_bb'], 800, 400);
+			if ($access == true) {
+				$link = onclick(URL . '/popup/pq_bolsa_edit/?id=' . $line['id_bb'], 800, 400);
 				$linka = '</span>';
-				$link_del = confirm(URL . '/popup/pq_bolsa_delete/?id='.$line['id_bb'], 800, 400);
+				$link_del = confirm(URL . '/popup/pq_bolsa_delete/?id=' . $line['id_bb'], 800, 400);
 				$linka_del = '</span>';
 
 				$edit = '<div style="float: right;">';
 				$edit .= $link_del . bsicone('trash', 20) . $linka_del;
 				$edit .= $link . bsicone('edit', 20) . $linka;
 				$edit .= '</div>';
-
 			} else {
 				$link = '';
 				$link_del = '';
@@ -200,91 +193,96 @@ class Bolsas extends Model
 	}
 
 	function year_summary($tp = 0)
-		{
-			$AI_geo = new \App\Models\AI\Geo\Institution\Index();
-			$sx = '';
-			$RDF = new \App\Models\Rdf\RDF();
-			$data = date("Y-m-y");
-			$this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
-				->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person');
-			if ($tp == 1) {
-				$this->where("bs_finish >= '" . $data . "'");
-			}
-			$dt = $this->findAll();
-
-			$inst = array();
-			$tipo = array();
-			$venc = array();
-			$geo = array();
-
-			for ($r=0;$r < count($dt);$r++)
-				{
-					$line = $dt[$r];
-					$BS_IES = UpperCaseSQL($line['BS_IES']);
-					$BOLSA = $line['mod_sigla'].$line['bs_nivel'];
-					$YEAR = substr($line['bs_finish'],0,4);
-
-					/************ Institução */
-					if (!isset($inst[$BS_IES])) { $inst[$BS_IES] = 0; }
-					$inst[$BS_IES] = $inst[$BS_IES] + 1;
-
-					/************* Bolsa */
-					if (!isset($tipo[$BOLSA])) { $tipo[$BOLSA] = 0; }
-					$tipo[$BOLSA] = $tipo[$BOLSA] + 1;
-
-					/************** Vencimento */
-					if (!isset($venc[$YEAR])) { $venc[$YEAR] = 0; }
-					$venc[$YEAR] = $venc[$YEAR] + 1;
-
-					/************* GEO */
-					$GEO = $AI_geo->code($BS_IES);
-					if (!isset($geo[$GEO])) { $geo[$GEO] = 0; }
-					$geo[$GEO] = $geo[$GEO] + 1;
-				}
-
-			$sx .= '<table class="table">';
-			$sx .= '<tr><th>Instituição</th><th>Bolsa</th><th>Vencimento</th></tr>';
-			$sx .= '<tr>';
-			$sx .= '<td width="15%">';
-			$sx .= msg('brapci.total').' '.count($dt);
-			ksort($inst);
-			foreach ($inst as $key => $value) {
-				$sx .= '<br>'.$key.' '.$value;
-			}
-			$sx .= '</>';
-
-			$sx .= '<td width="15%">';
-			$sx .= msg('brapci.total') . ' ' . count($dt);
-			ksort($tipo);
-			foreach ($tipo as $key => $value) {
-				$sx .= '<br>' . $key . ' ' . $value;
-			}
-			$sx .= '</td>';
-
-			$sx .= '<td width="15%">';
-			$sx .= msg('brapci.total') . ' ' . count($dt);
-			ksort($venc);
-			foreach ($venc as $key => $value) {
-				$sx .= '<br>' . $key . ' ' . $value;
-			}
-			$sx .= '</td>';
-
-
-			$sx .= '<td width="55%">';
-			$states['title'] = 'Bolsistas PQ ativos por Estado';
-			$states['data'] = '';
-			foreach($geo as $key => $value)
-				{
-					$states['data'] .= "['".$key."', ".$value."],";
-				}
-			$sx .= view('HighChart/geo_brazil',$states);
-			$sx .= '</td>';
-
-			$sx .= '</tr>';
-			$sx .= '</table>';
-			return $sx;
-
+	{
+		$AI_geo = new \App\Models\AI\Geo\Institution\Index();
+		$sx = '';
+		$RDF = new \App\Models\Rdf\RDF();
+		$data = date("Y-m-y");
+		$this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
+			->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person');
+		if ($tp == 1) {
+			$this->where("bs_finish >= '" . $data . "'");
 		}
+		$dt = $this->findAll();
+
+		$inst = array();
+		$tipo = array();
+		$venc = array();
+		$geo = array();
+
+		for ($r = 0; $r < count($dt); $r++) {
+			$line = $dt[$r];
+			$BS_IES = UpperCaseSQL($line['BS_IES']);
+			$BOLSA = $line['mod_sigla'] . $line['bs_nivel'];
+			$YEAR = substr($line['bs_finish'], 0, 4);
+
+			/************ Institução */
+			if (!isset($inst[$BS_IES])) {
+				$inst[$BS_IES] = 0;
+			}
+			$inst[$BS_IES] = $inst[$BS_IES] + 1;
+
+			/************* Bolsa */
+			if (!isset($tipo[$BOLSA])) {
+				$tipo[$BOLSA] = 0;
+			}
+			$tipo[$BOLSA] = $tipo[$BOLSA] + 1;
+
+			/************** Vencimento */
+			if (!isset($venc[$YEAR])) {
+				$venc[$YEAR] = 0;
+			}
+			$venc[$YEAR] = $venc[$YEAR] + 1;
+
+			/************* GEO */
+			$GEO = $AI_geo->code($BS_IES);
+			if (!isset($geo[$GEO])) {
+				$geo[$GEO] = 0;
+			}
+			$geo[$GEO] = $geo[$GEO] + 1;
+		}
+
+		$sx .= '<table class="table">';
+		$sx .= '<tr><th>Instituição</th><th>Bolsa</th><th>Vencimento</th></tr>';
+		$sx .= '<tr>';
+		$sx .= '<td width="15%">';
+		$sx .= msg('brapci.total') . ' ' . count($dt);
+		ksort($inst);
+		foreach ($inst as $key => $value) {
+			$sx .= '<br>' . $key . ' ' . $value;
+		}
+		$sx .= '</>';
+
+		$sx .= '<td width="15%">';
+		$sx .= msg('brapci.total') . ' ' . count($dt);
+		ksort($tipo);
+		foreach ($tipo as $key => $value) {
+			$sx .= '<br>' . $key . ' ' . $value;
+		}
+		$sx .= '</td>';
+
+		$sx .= '<td width="15%">';
+		$sx .= msg('brapci.total') . ' ' . count($dt);
+		ksort($venc);
+		foreach ($venc as $key => $value) {
+			$sx .= '<br>' . $key . ' ' . $value;
+		}
+		$sx .= '</td>';
+
+
+		$sx .= '<td width="55%">';
+		$states['title'] = 'Bolsistas PQ ativos por Estado';
+		$states['data'] = '';
+		foreach ($geo as $key => $value) {
+			$states['data'] .= "['" . $key . "', " . $value . "],";
+		}
+		$sx .= view('HighChart/geo_brazil', $states);
+		$sx .= '</td>';
+
+		$sx .= '</tr>';
+		$sx .= '</table>';
+		return $sx;
+	}
 
 	function year_list($tp = 0)
 	{
@@ -306,16 +304,15 @@ class Bolsas extends Model
 				break;
 
 			default:
-				if ($tp==1)
-					{
-						$order = 'bs_nome, bs_start';
-						$class = "bs_nome";
-						$limit_char = 4;
-					} else {
-						$order = 'bs_start DESC, bs_nome';
-						$class = "bs_start";
-						$limit_char = 4;
-					}
+				if ($tp == 1) {
+					$order = 'bs_nome, bs_start';
+					$class = "bs_nome";
+					$limit_char = 4;
+				} else {
+					$order = 'bs_start DESC, bs_nome';
+					$class = "bs_start";
+					$limit_char = 4;
+				}
 				break;
 		}
 
@@ -370,7 +367,7 @@ class Bolsas extends Model
 			$nr++;
 
 			$linka = '</a>';
-			$link = '<a href="' . PATH . MODULE . 'pq/viewid/'. $line['bs_lattes'] . '" class="text-secondary">*';
+			$link = '<a href="' . PATH . MODULE . 'pq/viewid/' . $line['bs_lattes'] . '" class="text-secondary">*';
 
 			$sx .= '<tr>';
 			$sx .= '<td>' . $nr . '</td>';
@@ -398,15 +395,14 @@ class Bolsas extends Model
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
 			$sx .= '<div class="row">';
-			$sx .= bsc($nome,5);
+			$sx .= bsc($nome, 5);
 			foreach ($data as $mod => $years) {
 				$dd['bs_nivel'] = $mod;
 
-				foreach($years as $year => $t)
-					{
-						$dd['bs_ano'] = $year;
-						$sx .= bsc($this->selo($dd),1);
-					}
+				foreach ($years as $year => $t) {
+					$dd['bs_ano'] = $year;
+					$sx .= bsc($this->selo($dd), 1);
+				}
 			}
 			$sx .= '</div>';
 		}
@@ -465,53 +461,5 @@ class Bolsas extends Model
 
 
 		return ($sx);
-	}
-
-	function resume_data($force = 0)
-	{
-		$file = '../.tmp/pq/bolsas.json';
-		if ((!file_exists($file)) or ($force == 1)) {
-			$dt = $this->join('modalidades', 'modalidades.id_mod = bolsas.bs_tipo')
-				->join('bolsistas', 'bolsistas.id_bs = bolsas.bb_person')
-				->findAll();
-			$dd = array();
-
-			for ($r = 0; $r < count($dt); $r++) {
-				$line = $dt[$r];
-				$year_ini = substr($line['bs_start'], 0, 4);
-				$year_fim = substr($line['bs_start'], 0, 4);
-				$sigla = $line['mod_sigla'];
-				$nivel = $sigla . $line['bs_nivel'];
-				$nome = $line['bs_nome'];
-
-				$IES = $line['BS_IES'];
-				/******************************************************************* Ano */
-				if (isset($dd['year'][$year_ini][$nivel])) {
-					$dd['year'][$year_ini][$nivel]++;
-				} else {
-					$dd['year'][$year_ini][$nivel] = 1;
-				}
-				/******************************************************************* Modalidade */
-				if (isset($dd['person']['bolsista'][$nome][$nivel][$year_ini])) {
-					$dd['person']['bolsista'][$nome][$nivel][$year_ini]++;
-				} else {
-					$dd['person']['bolsista'][$nome][$nivel][$year_ini] = 1;
-				}
-			}
-			$dy = $dd['year'];
-			$dm = $dd['person'];
-			krsort($dy);
-			krsort($dm);
-			$dd['year'] = $dy;
-			$dd['person'] = $dm;
-
-			dircheck('../.tmp');
-			dircheck('../.tmp/pq');
-			$json = json_encode($dd);
-			file_put_contents($file, $json);
-		}
-		$json = file_get_contents($file);
-		$dd = json_decode($json);
-		return $dd;
 	}
 }
