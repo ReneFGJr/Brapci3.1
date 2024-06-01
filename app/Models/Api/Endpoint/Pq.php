@@ -52,13 +52,16 @@ class Pq extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '')
     {
+        $Bolsas = new \App\Models\PQ\Bolsas();
         $type = get("type");
 
         switch($d2)
             {
                 case 'bolsa_ano':
-                    return $this->bolsa_ano($d2, $d3);
+                    return $Bolsas->bolsa_ano();
                     break;
+                case 'bolsa_ano_tipo':
+                    return $Bolsas->bolsa_ano_tipo();
                 case 'vigente':
                     return $this->collections($d2, $d3);
                     break;
@@ -66,15 +69,6 @@ class Pq extends Model
                     return $this->all();
             }
     }
-
-    function bolsa_ano()
-        {
-            $Bolsas = new \App\Models\PQ\Bolsas();
-
-            $dt = $Bolsas->bolsa_ano();
-            $dt = json_encode($dt);
-            return $dt;
-        }
 
     function collections($d1,$d2)
         {
