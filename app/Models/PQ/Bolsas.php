@@ -52,6 +52,7 @@ class Bolsas extends Model
 
 	function bolsa_ano_tipo()
 	{
+		$array_push($dz, 0); = [];
 		$dt = $this
 			->where('bs_ativo', 1)
 			->findAll();
@@ -61,6 +62,7 @@ class Bolsas extends Model
 		$dz = [];
 		for ($y = $ini; $y<=$fim;$y++)
 			{
+				array_push($label, $y);
 				array_push($dz,0);
 			}
 		foreach ($dt as $id => $line) {
@@ -88,7 +90,9 @@ class Bolsas extends Model
 			}
 		}
 		ksort($bs);
-		return $bs;
+		$RSP['label'] = $label;
+		$RSP['data'] = $bs;
+		return $RSP;
 	}
 
 	function bolsa_ano()
