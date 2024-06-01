@@ -50,6 +50,30 @@ class Bolsas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function bolsa_ano()
+		{
+			$dt = $this
+				->where('bs_ativo',1)
+				->findAll();
+			$bs = [];
+			foreach($dt as $id=>$line)
+				{
+					$yearI = $line['bs_start'];
+					$yearF = $line['bs_finish'];
+					for($y = $yearI; $y < $yearF;$y++)
+						{
+							if (isset($bd[$y]))
+								{
+									$bd[$y] = $bd[$y] + 1;
+								} else {
+									$bd[$y] = 1;
+								}
+						}
+				}
+				ksort($bs);
+				return $bs;
+		}
+
 	function selo($dt)
 		{
 			$sx = '';
