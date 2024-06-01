@@ -71,25 +71,15 @@ class Bolsas extends Model
 				}
 		}
 
-		pre($bs);
 		foreach ($dt as $id => $line) {
 			$yearI = round(substr($line['bs_start'], 0, 4));
 			$yearF = round(substr($line['bs_finish'], 0, 4));
+			$mod = $line['bs_nivel'];
 			$loop = 0;
 			for ($y = $yearI; $y < $yearF; $y++) {
 				if ($y <= date("Y")) {
-					if (!isset($bs[$y])) {
-						$bs[$y] = [];
-					}
-
-					$mod = $line['bs_nivel'];
-
-					if (!isset($bs[$y][$mod]))
-						{
-							$bs[$y][$mod] = 1;
-						} else {
-							$bs[$y][$mod] = $bs[$y][$mod] + 1;
-						}
+					$pos = $y - $ini;
+					$bs[$mod][$pos] = $bs[$mod][$pos] + 1;
 				}
 
 				if ($loop++ > 10) {
@@ -98,6 +88,7 @@ class Bolsas extends Model
 			}
 		}
 		ksort($bs);
+		pre($bs);
 		return $bs;
 	}
 
