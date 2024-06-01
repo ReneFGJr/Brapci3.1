@@ -64,7 +64,7 @@ class Bolsas extends Model
 				array_push($dz,0);
 			}
 		foreach ($dt as $id => $line) {
-			$nv = $line['bs_nivel'];
+			$nv = trim($line['bs_nivel']);
 			if (!isset($bs[$nv]))
 				{
 					$bs[$nv] = $dz;
@@ -74,7 +74,7 @@ class Bolsas extends Model
 		foreach ($dt as $id => $line) {
 			$yearI = round(substr($line['bs_start'], 0, 4));
 			$yearF = round(substr($line['bs_finish'], 0, 4));
-			$mod = $line['bs_nivel'];
+			$mod = trim($line['bs_nivel']);
 			$loop = 0;
 			for ($y = $yearI; $y < $yearF; $y++) {
 				if ($y <= date("Y")) {
