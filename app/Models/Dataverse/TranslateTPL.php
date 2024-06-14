@@ -123,7 +123,7 @@ class TranslateTPL extends Model
                                 }
                         }
                     $fileD = troca($file,'/translate/','/translate/_');
-                    file_put_contents($fileD,$tx);
+                    file_put_contents($fileD, unicode_escape($tx));
                     file_put_contents($fileD.'_utf8', utf8_decode($tx));
                     $sx .= bsmessage(lang('brapci.exported_success'));
                     $sx .= '<ul>';
