@@ -157,7 +157,7 @@ class Translate extends Model
     {
         $str = explode("\n",$str);
         $t = json_encode($str);
-        $t = (array)json_decode($t);
+        //$t = (array)json_decode($t);
         pre($t);
         return $t;
     }
