@@ -140,7 +140,7 @@ class Translate extends Model
                                 }
                         }
                     $fileD = troca($file, '.properties', '_pt.properties');
-                    file_put_contents($fileD, trim(unicode_escape($tx), '"'));
+                    file_put_contents($fileD, trim($this->unicode_escape($tx), '"'));
                     file_put_contents($fileD.'_utf8', utf8_decode($tx));
                     $sx .= bsmessage(lang('brapci.exported_success'));
                     $sx .= '<ul>';
@@ -152,6 +152,11 @@ class Translate extends Model
                 }
             return $sx;
         }
+
+    function unicode_escape($str)
+    {
+        return json_encode($str);
+    }
 
     function upload()
         {
