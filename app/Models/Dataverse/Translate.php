@@ -156,8 +156,8 @@ class Translate extends Model
     function unicode_escape($str)
     {
         $str = explode("\n",$str);
-        pre($str);
         $t = json_encode($str);
+        $t = (array)json_decode($t);
         pre($t);
         return $t;
     }
