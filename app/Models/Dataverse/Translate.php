@@ -145,7 +145,7 @@ class Translate extends Model
                                 }
                         }
                     $fileD = troca($file, '.properties', '_pt.properties');
-                    file_put_contents($fileD, $tu, '"'));
+                    file_put_contents($fileD, $tu);
                     file_put_contents($fileD.'_utf8', utf8_decode($tx));
                     $sx .= bsmessage(lang('brapci.exported_success'));
                     $sx .= '<ul>';
