@@ -140,7 +140,7 @@ class Translate extends Model
                                 }
                         }
                     $fileD = troca($file, '.properties', '_pt.properties');
-                    file_put_contents($fileD, trim($this->unicode_escape($tx), '"'));
+                    file_put_contents($fileD, trim($this->convertSpecialCharsToUnicode($tx), '"'));
                     file_put_contents($fileD.'_utf8', utf8_decode($tx));
                     $sx .= bsmessage(lang('brapci.exported_success'));
                     $sx .= '<ul>';
@@ -153,13 +153,20 @@ class Translate extends Model
             return $sx;
         }
 
-    function unicode_escape($str)
+    function convertSpecialCharsToUnicode($string)
     {
-        $str = explode("\n",$str);
-        $t = json_encode($str);
-        //$t = (array)json_decode($t);
-        pre($t);
-        return $t;
+        $unicodeString = '';
+        for ($i = 0; $i < mb_strlen($string, 'UTF-8'); $i++) {
+            $char = mb_substr($string, $i, 1, 'UTF-8');
+            $code = mb_ord($char);
+            // Converte caracteres fora do intervalo ASCII (0-127) para \uXXXX
+            if ($code > 127) {
+                $unicodeString .= sprintf('\\u%04X', $code);
+            } else {
+                $unicodeString .= $char;
+            }
+        }
+        return $unicodeString;
     }
 
     function upload()
