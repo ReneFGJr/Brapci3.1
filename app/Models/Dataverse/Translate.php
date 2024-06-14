@@ -172,6 +172,7 @@ class Translate extends Model
             }
         }
         $unicodeString = troca($unicodeString,chr(10),'\n');
+        $unicodeString = troca($unicodeString, chr(13), '\n');
         return $unicodeString;
     }
 
