@@ -115,6 +115,7 @@ class Translate extends Model
                     $txt = file_get_contents($file);
                     $ln = explode(chr(10),$txt);
                     $tx = '';
+                    $tu = '';
                     foreach($ln as $id=>$l)
                         {
                             $c = substr($l,0,1);
@@ -122,6 +123,7 @@ class Translate extends Model
                                 {
                                     case '#':
                                         $tx .= $l.chr(10);
+                                        $tu .= $l . chr(10);
                                         break;
                                     default:
                                         if (($pos=strpos($l,'=')) > 0)
@@ -130,17 +132,20 @@ class Translate extends Model
                                                 if (isset($dd[$lb]))
                                                     {
                                                         $tx .= $lb.'='.$dd[$lb] . chr(10);
+                                                        $tu .= $lb . '=' . $this->convertSpecialCharsToUnicode($dd[$lb]) . chr(10);
                                                     } else {
                                                         $tx .= $l.chr(10);
+                                                        $tu .= $l . chr(10);
                                                     }
                                             } else {
                                                 $tx .= $l.chr(10);
+                                                $tu .= $l . chr(10);
                                             }
                                         break;
                                 }
                         }
                     $fileD = troca($file, '.properties', '_pt.properties');
-                    file_put_contents($fileD, trim($this->convertSpecialCharsToUnicode($tx), '"'));
+                    file_put_contents($fileD, $tu, '"'));
                     file_put_contents($fileD.'_utf8', utf8_decode($tx));
                     $sx .= bsmessage(lang('brapci.exported_success'));
                     $sx .= '<ul>';
