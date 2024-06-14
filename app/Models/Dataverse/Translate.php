@@ -171,7 +171,7 @@ class Translate extends Model
                 $unicodeString .= $char;
             }
         }
-        $unicodeString = troca($unicodeString,chr(10),'\n');
+        $unicodeString = troca($unicodeString,chr(10),'\r');
         $unicodeString = troca($unicodeString, chr(13), '\n');
         return $unicodeString;
     }
