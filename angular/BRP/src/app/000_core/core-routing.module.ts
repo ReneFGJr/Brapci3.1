@@ -10,6 +10,7 @@ import { IndexsComponent } from '../020_brapci/page/indexs/indexs.component';
 import { ExportComponent } from '../020_brapci/page/export/export.component';
 import { Pg404Component } from '../020_brapci/page/pg404/pg404.component';
 import { PqModule } from '../160_PQ/pq.module';
+import { PainelComponent } from '../020_brapci/page/painel/painel.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'basket/export/:id', component: ExportComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: '404', component: Pg404Component },
+  { path: 'painel/:id', component: PainelComponent },
   {
     path: 'authority',
     loadChildren: () =>
@@ -60,8 +62,7 @@ const routes: Routes = [
   },
   {
     path: 'pq',
-    loadChildren: () =>
-      import('../160_PQ/pq.module').then((m) => m.PqModule),
+    loadChildren: () => import('../160_PQ/pq.module').then((m) => m.PqModule),
   },
   {
     path: 'sources',

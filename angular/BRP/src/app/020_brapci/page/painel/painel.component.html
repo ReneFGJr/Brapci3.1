@@ -1,1 +1,31 @@
-<p>painel works!</p>
+<app-theme-header
+  [header]="header"
+  [data]="data"
+  *ngIf="data"
+></app-theme-header>
+<app-theme-navbar></app-theme-navbar>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-2 border-end border-secondary">
+      <app-painel-filter></app-painel-filter>
+    </div>
+
+    <div class="col-12 col-lg-10">
+      <div class="container-fluid">
+      <div class="row">
+      <div class="col-lg-4 col-12">
+        <app-painel-authors></app-painel-authors>
+      </div>
+      <div class="col-lg-4 col-12">
+        <app-painel-works></app-painel-works>
+      </div>
+    </div>
+    </div>
+    </div>
+
+
+  </div>
+</div>
+
+<app-theme-footer></app-theme-footer>

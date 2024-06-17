@@ -65,6 +65,11 @@ import { AiProcessComponent } from './widget/ai-process/ai-process.component';
 import { TabsNavComponent } from './widget/tabs-nav/tabs-nav.component';
 import { BannerEbbcComponent } from './page/banner/banner-ebbc/banner-ebbc.component';
 import { Pg404Component } from './page/pg404/pg404.component';
+import { PainelWorksComponent } from './widget/painel/works/works.component';
+import { CoauthorsComponent } from './widget/painel/coauthors/coauthors.component';
+import { YearComponent } from './widget/painel/year/year.component';
+import { PainelFilterComponent } from './widget/painel/filter/filter.component';
+import { AuthorsPainelComponent } from './widget/painel/authors/authors.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +131,11 @@ import { Pg404Component } from './page/pg404/pg404.component';
     TabsNavComponent,
     BannerEbbcComponent,
     Pg404Component,
+    PainelWorksComponent,
+    CoauthorsComponent,
+    YearComponent,
+    PainelFilterComponent,
+    AuthorsPainelComponent,
   ],
   imports: [
     CommonModule,
@@ -142,6 +152,7 @@ import { Pg404Component } from './page/pg404/pg404.component';
     PainelComponent,
     VComponent,
     BasketComponent,
+    AuthorsPainelComponent,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })
