@@ -186,6 +186,7 @@ class RDFmetadata extends Model
         }
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
+        pre($dx);
 
         $works = [];
         $coauthors = [];
