@@ -39,6 +39,8 @@ class Authority extends BaseController
         switch ($act) {
 
             case 'v':
+                return metarefresh('https://brapci.inf.br/v/'.$subact);
+                exit;
                 $V = new \App\Models\Base\V();
                 $sx .= $V->v($subact);
                 break;
