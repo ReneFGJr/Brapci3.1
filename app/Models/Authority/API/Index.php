@@ -167,8 +167,9 @@ class Index extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $name = get("term");
 
+        $faceted = True;
         $idc = $RDFclass->getClass('Person');
-        $row = $RDFconcept->searchTerm($name,$idc);
+        $row = $RDFconcept->searchTerm($name,$idc,$faceted);
 
         return $row;
         exit;

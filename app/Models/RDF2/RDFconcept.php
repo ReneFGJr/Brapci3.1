@@ -71,16 +71,21 @@ class RDFconcept extends Model
         return $dc;
     }
 
-    function searchTerm($term, $class)
+    function searchTerm($term, $class,$facted=false)
     {
         $cp = 'id_cc as ID, n_name as Term, cc_use as use';
-        $dt = $this
+        $this
             ->select($cp)
             ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
-            ->where('cc_class', $class)
-            ->like('n_name', $term)
-            ->orderBy('n_name')
-            ->findAll();
+            ->where('cc_class', $class);
+        $tn = explode(' ',$term);
+        foreach($tn as $idn=>$n)
+            {
+                $this->orlike('n_name', $term);
+            }
+
+        $this->orderBy('n_name');
+        $dt = $this->findAll();
         return $dt;
     }
 
