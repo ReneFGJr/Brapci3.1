@@ -191,7 +191,6 @@ class RDFmetadata extends Model
             {
                 if ($dy['use'] != 0)
                     {
-                        pre($dy);
                         unset($dx[$id]);
                     }
             }
