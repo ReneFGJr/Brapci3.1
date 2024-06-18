@@ -81,11 +81,11 @@ class RDFconcept extends Model
         $tn = explode(' ',$term);
         foreach($tn as $idn=>$n)
             {
-                $this->orlike('n_name', $term);
+                $this->like('n_name', $term);
             }
 
         $this->orderBy('n_name');
-        $dt = $this->findAll();
+        $dt = $this->findAll(1000);
         return $dt;
     }
 
