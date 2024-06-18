@@ -102,6 +102,9 @@ class MainPages extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
             case 'v':
+                $sx = file_get_contents('https://brapci.inf.br/#/v/'.$subact);
+                echo $sx;
+                exit;
                 $V = new \App\Models\Base\V();
                 $sx .= $V->v($subact);
                 break;
