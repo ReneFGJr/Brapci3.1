@@ -24,3 +24,6 @@ npm install highcharts highcharts-angular @highcharts/map-collection
 
 
 npm install highcharts highcharts-angular --save
+
+## Server-Side Rendering (SSR)
+ng add @nguniversal/express-engine
