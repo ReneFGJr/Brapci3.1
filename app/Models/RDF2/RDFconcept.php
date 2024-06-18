@@ -86,7 +86,7 @@ class RDFconcept extends Model
 
         $this->orderBy('n_name');
         $dt = $this->findAll(1000);
-        echo $this->getlastquery();
+        //echo $this->getlastquery();
         return $dt;
     }
 
