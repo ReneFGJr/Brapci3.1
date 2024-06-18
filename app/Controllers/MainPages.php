@@ -104,7 +104,7 @@ class MainPages extends BaseController
             case 'v':
                 $url = 'https://brapci.inf.br/#/v/' . $subact;
                 $sx = file_get_contents($url);
-                echo $sx;
+                return $sx;
                 exit;
                 $V = new \App\Models\Base\V();
                 $sx .= $V->v($subact);
