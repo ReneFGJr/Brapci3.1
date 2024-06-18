@@ -103,8 +103,7 @@ class MainPages extends BaseController
                 break;
             case 'v':
                 $url = 'https://brapci.inf.br/#/v/' . $subact;
-                echo h($url);
-                $sx = file_get_contents($url);
+                $sx = metarefresh($url);
                 return $sx;
                 exit;
                 $V = new \App\Models\Base\V();
