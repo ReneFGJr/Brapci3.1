@@ -103,6 +103,7 @@ class MainPages extends BaseController
                 break;
             case 'v':
                 $url = 'https://brapci.inf.br/#/v/' . $subact;
+                echo h($url);
                 $sx = file_get_contents($url);
                 return $sx;
                 exit;
