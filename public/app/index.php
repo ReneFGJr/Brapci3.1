@@ -1,13 +1,17 @@
 <?php
 $path = $_SERVER['PATH_INFO'];
 $pt = explode('/', $path);
-echo "<h1>PATH</h1>";
+
 if (isset($pt[1])) {
     switch ($pt[1]) {
         case 'res':
             res($pt);
             break;
+        case 'v':
+            header("Location: https://brapci.inf.br/#/v/" . $pt[2]);
+            break;
         default:
+          echo "<h1>PATH - RASTREAMENTO</h1>";
           print_r($pt);
     }
 }
