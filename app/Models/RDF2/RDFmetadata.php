@@ -186,15 +186,17 @@ class RDFmetadata extends Model
         }
         $dataset->orderBy('CLASS, YEAR desc');
         $dx = $dataset->findAll($limit);
-
+        echo count($dx);
         foreach($dx as $id=>$dy)
             {
                 if ($dy['use'] != 0)
                     {
                         pre($dy);
+                        unset($dx[$id]);
                     }
             }
-
+        echo '-'.count($dx);
+        exit;
         $works = [];
         $coauthors = [];
         $coath = [];
