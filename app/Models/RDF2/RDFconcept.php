@@ -81,7 +81,7 @@ class RDFconcept extends Model
         $tn = explode(' ',$term);
         foreach($tn as $idn=>$n)
             {
-                $this->like('n_name', $term);
+                $this->like('n_name', $n);
             }
 
         $this->orderBy('n_name');
