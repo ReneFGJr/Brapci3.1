@@ -5,8 +5,6 @@ import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/c
 import { BannerComponent } from './page/banner/banner.component';
 import { PainelComponent } from './page/painel/painel.component';
 import { PublicationsComponent } from './page/painel/publications/publications.component';
-import { AuthorsComponent } from './page/painel/authors/authors.component';
-import { KeywordsComponent } from './page/painel/keywords/keywords.component';
 import { SearchBrapciComponent } from './page/search-brapci/search-brapci.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -66,18 +64,17 @@ import { TabsNavComponent } from './widget/tabs-nav/tabs-nav.component';
 import { BannerEbbcComponent } from './page/banner/banner-ebbc/banner-ebbc.component';
 import { Pg404Component } from './page/pg404/pg404.component';
 import { PainelWorksComponent } from './widget/painel/works/works.component';
-import { CoauthorsComponent } from './widget/painel/coauthors/coauthors.component';
-import { YearComponent } from './widget/painel/year/year.component';
+import { CoauthorsPainelComponent } from './widget/painel/coauthors/coauthors.component';
 import { PainelFilterComponent } from './widget/painel/filter/filter.component';
 import { AuthorsPainelComponent } from './widget/painel/authors/authors.component';
+import { EditionsPainelComponent } from './widget/painel/editions/editions.component';
+import { YearsPainelComponent } from './widget/painel/years/years.component';
 
 @NgModule({
   declarations: [
     BannerComponent,
     PainelComponent,
     PublicationsComponent,
-    AuthorsComponent,
-    KeywordsComponent,
     SearchBrapciComponent,
     VComponent,
     ArticleComponent,
@@ -132,10 +129,11 @@ import { AuthorsPainelComponent } from './widget/painel/authors/authors.componen
     BannerEbbcComponent,
     Pg404Component,
     PainelWorksComponent,
-    CoauthorsComponent,
-    YearComponent,
+    CoauthorsPainelComponent,
     PainelFilterComponent,
     AuthorsPainelComponent,
+    EditionsPainelComponent,
+    YearsPainelComponent,
   ],
   imports: [
     CommonModule,
@@ -153,6 +151,8 @@ import { AuthorsPainelComponent } from './widget/painel/authors/authors.componen
     VComponent,
     BasketComponent,
     AuthorsPainelComponent,
+    BannerBenancibComponent,
+    BannerEbbcComponent,
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
 })

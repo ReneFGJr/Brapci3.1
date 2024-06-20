@@ -1,6 +1,6 @@
 <div *ngIf="source">
-  <app-banner-benancib *ngIf="source.source.id_jnl == 75"></app-banner-benancib>
-  <app-banner-ebbc *ngIf="source.source.id_jnl == 18"></app-banner-ebbc>
+  <app-banner-benancib *ngIf="source.source.id_jnl == '75'" [section]="'Enancib'"></app-banner-benancib>
+  <app-banner-ebbc *ngIf="source.source.id_jnl == 18" [section]="'EBBC'"></app-banner-ebbc>
 </div>
 <div class="container" *ngIf="source">
   <div class="row">

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./welcome-proceedings.component.scss']
 })
 export class WelcomeProceedingsComponent {
-
+  public header:Array<any> = [{header:[{title:"Hello"}]}]
 }

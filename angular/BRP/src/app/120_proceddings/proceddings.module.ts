@@ -7,7 +7,7 @@ import { ThemeModule } from '../010_thema/theme.module';
 import { ProceedingListComponent } from './page/proceeding-list/proceeding-list.component';
 import { ProceedingIssuesComponent } from './page/proceeding-issues/proceeding-issues.component';
 import { ProceedingsIssueViewComponent } from './page/proceedings-issue-view/proceedings-issue-view.component';
-
+import { CoreBrapciModule } from '../020_brapci/core-brapci.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +17,6 @@ import { ProceedingsIssueViewComponent } from './page/proceedings-issue-view/pro
     ProceedingsIssueViewComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule, ProceddingsRoutingModule, ThemeModule],
+  imports: [CommonModule, ProceddingsRoutingModule, ThemeModule, CoreBrapciModule],
 })
 export class ProceddingsModule {}
