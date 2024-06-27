@@ -13,7 +13,7 @@ def harvesting():
     row = database.query(qr)
 
     if not row == []:
-
+        print(row)
         # GET SETSPEC
         URL = str(row[0][0])
         JNL= str(row[0][2])
