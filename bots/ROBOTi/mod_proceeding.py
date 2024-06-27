@@ -10,6 +10,7 @@ def harvesting():
     qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token "
     qr += "from brapci.source_issue "
     qr += "where is_status = 0 limit 1"
+    print(qr)
     row = database.query(qr)
 
     if not row == []:
