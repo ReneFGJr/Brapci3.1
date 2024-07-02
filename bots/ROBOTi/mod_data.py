@@ -14,7 +14,7 @@ import mod_logs
 def literal_double(prop = 0):
     print("113/114 - Titulo ou Resumo duplicado")
     qr = "select * from ( "
-    qr += "SELECT d_r1, n_lang, count(*) as total  FROM `brapci_rdf.rdf_data` "
+    qr += "SELECT d_r1, n_lang, count(*) as total  FROM brapci_rdf.rdf_data "
     qr += "INNER JOIN brapci_rdf.rdf_literal ON d_literal = id_n "
     qr += f"WHERE `d_r2` = 0 AND d_p = {prop} "
     qr += "group by d_r1, n_lang "
