@@ -35,6 +35,10 @@ class Tools extends BaseController
                 $sx .= $Projects->index($subact,$id,$id2, $id3, $id4, $id5);
                 break;
 
+            case 'email':
+                $sx .= email_smtp_test();
+                break;
+
            default:
                 $sx .= $Tools->index($act,$subact,$id,$id2,$id3,$id4, $id5);
                 break;
