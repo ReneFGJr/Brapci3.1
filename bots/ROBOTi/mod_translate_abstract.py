@@ -33,24 +33,24 @@ def process(ID):
             print("Traduzindo do Espanhol para o Portugues")
             termPT = mod_GoogleTranslate.translate(termES,'pt')
             IDl = mod_literal.register(termPT,'pt')
-            mod_data.register(ID,"hasAbstract",0,IDl)
+            mod_data.register(ID,"hasAbstract",0,IDl,1)
             pt = True
 
         if (en) and (not pt):
             print("Traduzindo do Inglês para o Portugues")
             termPT = mod_GoogleTranslate.translate(termEN,'pt')
             IDl = mod_literal.register(termPT,'pt')
-            mod_data.register(ID,"hasAbstract",0,IDl)
+            mod_data.register(ID,"hasAbstract",0,IDl,1)
             pt = True
 
         if (pt) and (not en):
             print("Traduzindo ABSTRACT do Portugues para o Inglês")
             termEN = mod_GoogleTranslate.translate(termPT,'en')
             IDl = mod_literal.register(termEN,'en')
-            mod_data.register(ID,"hasAbstract",0,IDl)
+            mod_data.register(ID,"hasAbstract",0,IDl,1)
 
         if (pt) and (not es):
             print("Traduzindo ABSTRACT do Portugues para o Espanhol")
             termEN = mod_GoogleTranslate.translate(termPT,'es')
             IDl = mod_literal.register(termEN,'es')
-            mod_data.register(ID,"hasAbstract",0,IDl)
+            mod_data.register(ID,"hasAbstract",0,IDl,1)

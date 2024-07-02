@@ -52,7 +52,7 @@ def revalid():
     database.update(qd)
 
 
-def register(IDC,prop,IDP,IDliteral=0):
+def register(IDC,prop,IDP,IDliteral=0,ia=0):
     IDprop = mod_class.getClass(prop)
 
     qr = "select * from brapci_rdf.rdf_data "
@@ -63,9 +63,9 @@ def register(IDC,prop,IDP,IDliteral=0):
     row = database.query(qr)
     if row == []:
         qri = "insert into brapci_rdf.rdf_data "
-        qri += "(d_r1, d_r2, d_p, d_literal)"
+        qri += "(d_r1, d_r2, d_p, d_literal,d_ia)"
         qri += " values "
-        qri += f"({IDC},{IDP},{IDprop},{IDliteral});"
+        qri += f"({IDC},{IDP},{IDprop},{IDliteral},{ia});"
         database.insert(qri)
         row = database.query(qr)
     qd = "COMMIT"
