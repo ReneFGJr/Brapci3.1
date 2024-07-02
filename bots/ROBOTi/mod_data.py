@@ -11,8 +11,8 @@ import database
 import time
 import mod_logs
 
-def literal_double(prop=0)
-    print("112/113 - Titulo ou Resumo duplicado")
+def literal_double(prop = 0):
+    print("113/114 - Titulo ou Resumo duplicado")
     qr = "select * from ( "
     qr += "SELECT d_r1, n_lang, count(*) as total  FROM `rdf_data` "
     qr += "INNER JOIN rdf_literal ON d_literal = id_n "
