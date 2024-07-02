@@ -120,6 +120,12 @@ def run(parm):
         lp = mod_ontology.checkDataNull()
     if (act == '112'):
         mod_data.invert()
+    if (act == '113'):
+        #hasTitle
+        mod_data.literal_double(30)
+    if (act == '114'):
+        #hasAbstract
+        mod_data.literal_double(86)
     if (act == '120'):
         lp = mod_ontology.resume()
 

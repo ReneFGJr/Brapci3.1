@@ -11,6 +11,22 @@ import database
 import time
 import mod_logs
 
+def literal_double(prop=0)
+    print("112/113 - Titulo ou Resumo duplicado")
+    qr = "select * from ( "
+    qr += "SELECT d_r1, n_lang, count(*) as total  FROM `rdf_data` "
+    qr += "INNER JOIN rdf_literal ON d_literal = id_n "
+    qr += f"WHERE `d_r2` = 0 AND d_p = {prop} "
+    qr += "group by d_r1, n_lang "
+    qr += ") as tabela  "
+    qr += "WHERE total > 1;"
+
+    row = database.query(qr)
+    if row != []:
+        for item in row:
+            print(item)
+
+
 def invert():
     print("155 - Invertendo Propriedades")
     qr = "select id_d, d_r1, d_r2 from brapci_rdf.rdf_data "
