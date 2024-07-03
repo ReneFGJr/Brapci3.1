@@ -70,6 +70,9 @@ def check_utf8():
             dados = dados.decode('utf-8')
             dados = dados.encode('latin1')
             dados = dados.decode('utf-8', errors='backslashreplace')
+            dados = dados.replace(chr(227),'##')
+            print(dados.hex('.'))
+            sys.exit()
             dados2 = dados
             dados = str(dados)
 
