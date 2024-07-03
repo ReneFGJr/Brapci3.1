@@ -74,6 +74,8 @@ def check_utf8():
             dados2 = dados.encode('utf-8')
             segment_length = 16
 
+            print(dados2)
+
             dados2 = dados2.replace('\\xc3\\xa7','ç')
             dados2 = dados2.replace('\\xc3\\x95','õ')
             dados2 = dados2.replace('\\xc3\\x82','â')
