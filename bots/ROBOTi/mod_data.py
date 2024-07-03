@@ -35,7 +35,7 @@ def literal_double(prop = 0):
             pha = ['','']
             n = 0
             for item2 in row2:
-                pha[n] = row2[1]
+                pha[n] = item2[1]
 
             print("==>",pha)
 
