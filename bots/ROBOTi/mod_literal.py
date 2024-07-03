@@ -69,6 +69,7 @@ def check_utf8():
             dados = dados.decode('utf-8')
             dados = dados.encode('latin1')
             dados = dados.decode('utf-8', errors='backslashreplace')
+            dados2 = dados
             dados = str(dados)
             ok = 0
             if '\\x' in dados:
@@ -161,6 +162,7 @@ def check_utf8():
 
                 if '\\x' in dados:
                     print("====")
+                    print("ORIGINAL",dados2)
                     print("ERROR",dados)
                     dados = dados.encode('utf-8')
                     print(dados.hex(' '))
