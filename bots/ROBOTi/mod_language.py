@@ -61,6 +61,8 @@ def get_text_language_process(text):
             total = text.count(term)
             counter[language] += total
 
+    print(counter)
+
     return decision(counter)
 
 def decision(counter):
