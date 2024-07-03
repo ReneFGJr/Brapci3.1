@@ -47,6 +47,8 @@ class Search extends Model
         $SearchDB = new \App\Models\Functions\Search();
 
         $dt = $this->search($q, $type);
+        $dt['user'] = get("user");
+        $dt['section'] = get("section");
 
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS,
                         SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';

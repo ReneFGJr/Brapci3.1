@@ -53,6 +53,7 @@ export class BrapciService {
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
     let apikey = this.cookieService.get('section');
+    console.log("===SESSION== "+apikey)
     formData.append('user', apikey);
 
     for (const key in dt) {
