@@ -26,8 +26,14 @@ def literal_double(prop = 0):
     if row != []:
         for item in row:
             ID = item[0]
+            lang = item[1]
+            qn = "select * from brapci_rdf.rdf_data "
+            qn += " inner join brapci_rdf.rdf_literal ON id_n = d_literal "
+            qn += f" where d_r1 = {ID} and d_p = {prop} and d_lang = {lang} "
+            row2 = database.query(qn)
             print(item)
             print(ID)
+            print(row2)
 
 
 def invert():
