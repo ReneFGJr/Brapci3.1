@@ -2,6 +2,7 @@ import database
 import mod_logs
 import mod_nbr
 import unicodedata
+import sys
 
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
@@ -173,7 +174,7 @@ def check_utf8():
                         xdados = dados[i:i + segment_length]
                         print(xdados.hex(' '),xdados)
                         print("============================================================")
-                        quit
+                        sys.exit()
 
                 else:
                     ok = 1
