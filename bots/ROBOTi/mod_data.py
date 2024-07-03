@@ -36,7 +36,8 @@ def literal_double(prop = 0):
             n = 0
             for item2 in row2:
                 IDd = item2[3]
-                print("Item2",">>",item2)
+                print("Item2",">>")
+                print(item2)
                 pha[n] = item2[1]
                 n += 1
                 if n > 2:
