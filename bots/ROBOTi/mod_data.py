@@ -27,7 +27,7 @@ def literal_double(prop = 0):
         for item in row:
             ID = item[0]
             lang = item[1]
-            qn = "select d_r1, n_name, n_lang from brapci_rdf.rdf_data "
+            qn = "select d_r1, n_name, n_lang, id_d from brapci_rdf.rdf_data "
             qn += " inner join brapci_rdf.rdf_literal ON id_n = d_literal "
             qn += f" where d_r1 = {ID} and d_p = {prop} and n_lang = '{lang}' "
             qn += " order by id_d "
@@ -35,8 +35,11 @@ def literal_double(prop = 0):
             pha = ['','']
             n = 0
             for item2 in row2:
+                IDd = item2[3]
                 pha[n] = item2[1]
                 n += 1
+                if n > 2:
+                    break
 
             print("==>",pha)
 
