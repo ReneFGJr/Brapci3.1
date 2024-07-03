@@ -32,7 +32,7 @@ def literal_double(prop = 0):
             qn += f" where d_r1 = {ID} and d_p = {prop} and n_lang = '{lang}' "
             qn += " order by id_d "
             row2 = database.query(qn)
-            pha = []
+            pha = ['','']
             n = 0
             for item2 in row2:
                 pha[n] = row2[1]
