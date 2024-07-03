@@ -167,7 +167,7 @@ def check_utf8():
                     print("====")
                     print("ORIGINAL",dados2)
                     print("ERROR",dados)
-                    dados = dados.encode('utf-8')
+                    #dados = dados.encode('utf-8')
                     segment_length = 16
                     for i in range(0, len(dados), segment_length):
                         xdados = dados[i:i + segment_length]
