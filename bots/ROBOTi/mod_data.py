@@ -3,7 +3,7 @@ import json
 import string
 import array
 from colorama import Fore
-import mod_listidentify
+import mod_language
 import mod_literal
 import mod_concept
 import mod_class
@@ -36,9 +36,15 @@ def literal_double(prop = 0):
             n = 0
             for item2 in row2:
                 IDd = item2[3]
+                txt = item2[1]
+                lang = item2[2]
+
+
+
                 print("Item2",">>",n)
                 print(item2)
-                pha[n] = item2[1]
+                print(mod_language.detect_language(txt))  # Saída esperada: 'portuguese'
+                pha[n] = txt
                 n += 1
                 if n > 1:
                     break

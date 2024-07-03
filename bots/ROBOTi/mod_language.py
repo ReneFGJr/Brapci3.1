@@ -5,6 +5,25 @@ def detect(t):
         t = t[:-3]
     return [t,l]
 
+def detect_language(text):
+    portuguese_common_words = {'de', 'a', 'o', 'que', 'e', 'do', 'da', 'em', 'um', 'para'}
+    english_common_words = {'the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have', 'I'}
+    spanish_common_words = {'de', 'la', 'que', 'el', 'en', 'y', 'a', 'los', 'del', 'se'}
+    french_common_words = {'de', 'la', 'et', 'les', 'des', 'en', 'un', 'une', 'est', 'que'}
+
+    text_words = set(text.lower().split())
+
+    languages = {
+        'portuguese': len(text_words & portuguese_common_words),
+        'english': len(text_words & english_common_words),
+        'spanish': len(text_words & spanish_common_words),
+        'french': len(text_words & french_common_words)
+    }
+
+    detected_language = max(languages, key=languages.get)
+
+    return detected_language
+
 def check(lg):
     if (lg == 'pt.'):
         lg = 'pt'
