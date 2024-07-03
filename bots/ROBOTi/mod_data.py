@@ -37,7 +37,7 @@ def literal_double(prop = 0):
             for item2 in row2:
                 pha[n] = row2[1]
 
-            print(pha)
+            print("==>",pha)
 
 
 def invert():
