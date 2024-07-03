@@ -40,7 +40,7 @@ def literal_double(prop = 0):
                 print(item2)
                 pha[n] = item2[1]
                 n += 1
-                if n > 2:
+                if n > 1:
                     break
 
             print("==>",pha)
