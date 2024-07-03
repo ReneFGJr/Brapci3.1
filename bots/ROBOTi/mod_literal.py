@@ -82,7 +82,7 @@ def check_utf8():
 
             for i in range(0, len(dados2), segment_length):
                 xdados = dados2[i:i + segment_length]
-                print(xdados.hex(' '),xdados)
+                print("==<",xdados.hex(' '),xdados)
             print("============================================================")
             sys.exit()
             dados = str(dados)
