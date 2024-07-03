@@ -34,6 +34,7 @@ def literal_double(prop = 0):
             row2 = database.query(qn)
             pha = ['','']
             n = 0
+            print(row2)
             for item2 in row2:
                 IDd = item2[3]
                 txt = item2[1]
