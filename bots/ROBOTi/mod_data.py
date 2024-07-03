@@ -10,6 +10,7 @@ import mod_class
 import database
 import time
 import mod_logs
+import mod_ai_nlp
 
 def literal_double(prop = 0):
     print("113/114 - Titulo ou Resumo duplicado")
@@ -24,7 +25,9 @@ def literal_double(prop = 0):
     row = database.query(qr)
     if row != []:
         for item in row:
+            ID = row[0]
             print(item)
+            print(ID)
 
 
 def invert():
