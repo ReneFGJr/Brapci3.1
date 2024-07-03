@@ -7,6 +7,9 @@ if (isset($pt[1])) {
         case 'res':
             res($pt);
             break;
+        case 'article':
+            res($pt);
+            break;
         default:
           print_r($pt);
     }
