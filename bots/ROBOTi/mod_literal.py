@@ -177,7 +177,7 @@ def check_utf8():
                         xdados = dados[i:i + segment_length]
                         print(xdados.hex(' '),xdados)
                         print("============================================================")
-                        sys.exit()
+                        #sys.exit()
 
                 else:
                     ok = 1
