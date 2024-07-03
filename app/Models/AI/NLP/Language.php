@@ -309,9 +309,25 @@ class Language extends Model
 			'antes', 'dos', 'cuando', 'sí', 'casi', 'dijo',
 		);
 
+		$wordList['fr'] = array(
+			'la', 'he', 'che', 'rche', 'ue', 'en', 'st', 'est', 'ne', 'le', 'et',
+			'es', 'les', 'de', 'on', 'ion', 'tion', 'un', 'ur', 'ce', 'à', 'des',
+			'ues', 'ques', 'rs', 'ts', 'nts', 'ents', 'ns', 'our', 'pour', 'ux', 'aux',
+			'urs', 'eurs', 'é', 'té', 'nt', 'ent',
+		);
+
 
 		/************************************************************************/
 		$end['de'] = array();
+		$end['fr'] = array(
+			'la', 're', 'ec', 'ch', 'he', 'er', 'rc', 'ci', 'ie', 'en', 'nt',
+			'ti', 'iq', 'qu', 'ue', 'bi', 'ib', 'bl', 'li', 'io', 'ot', 'th',
+			'co', 'on', 'no', 'om', 'mi', 'es', 'st', 'un', 'ne', 'di', 'is',
+			'in', 'se', 'el', 'll', 'le', 'et', 'or', 'de', 'ge', 'pr', 'at',
+			'si', 'nf', 'fo', 'rm', 'ma', 'te', 'ra', 'ur', 'ce', 'ct', 'à',
+			'pe', 'lo', 've', 'rs', 'ts', 'ac', 'an', 'oc', 'me', 'ns', 'po',
+			'ou', 'eu', 'au', 'ut', 'ol',
+		);
 		$end['en'] = array(
 			'ic', 'ur', 'ir', 'air', 'ne', 'ry', 'ary', 'er', 'ter', 'tter', 'wn',
 			'own', 'by', 'is', 'his', 'en', 'me', 'ame', 'ge', 'll', 'ell', 'as',
@@ -435,10 +451,9 @@ class Language extends Model
 		);
 
 		$end['de'] = array();
-		$end['de'] = array();
-		$end['de'] = array();
-		$end['de'] = array();
 
+
+		$middle['fr'] = array();
 		$middle['de'] = array();
 		$middle['en'] = array(
 			'er', 'ri', 'ic', 'ar', 'rt', 'th', 'hu', 'ur', 'bl', 'la', 'ai',
