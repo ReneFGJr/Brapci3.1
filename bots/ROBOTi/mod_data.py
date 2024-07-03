@@ -25,7 +25,7 @@ def literal_double(prop = 0):
     row = database.query(qr)
     if row != []:
         for item in row:
-            ID = row[0]
+            ID = item[0]
             print(item)
             print(ID)
 
