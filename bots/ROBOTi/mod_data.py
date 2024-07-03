@@ -40,11 +40,10 @@ def literal_double(prop = 0):
                 lang = item2[2]
                 lang2 = mod_language.detect_language(txt)
 
-                print("Item2",">>",n)
-                print(item2)
-                print("Idioma registrado",lang,lang2)
-
                 if (lang != lang2):
+                    print("ID",IDd)
+                    print("Titulo",txt)
+                    print("Idioma registrado",lang,lang2)
                     break
 
                 pha[n] = txt
@@ -53,6 +52,7 @@ def literal_double(prop = 0):
                     break
 
             print("==>",pha)
+            break
 
 
 def invert():
