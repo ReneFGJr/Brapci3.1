@@ -53,7 +53,6 @@ class Search extends Model
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS,
                         SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
 
-
         if (!isset($dt['works'])) {
             $dt['status'] = '500';
             $dt['messagem'] = 'Erro de acesso ao servidor de busca';
