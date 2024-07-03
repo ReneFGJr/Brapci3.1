@@ -38,10 +38,15 @@ def literal_double(prop = 0):
                 IDd = item2[3]
                 txt = item2[1]
                 lang = item2[2]
+                lang2 = mod_language.detect_language(txt)
 
                 print("Item2",">>",n)
                 print(item2)
-                print(mod_language.detect_language(txt))
+                print("Idioma registrado",lang,lang2)
+
+                if (lang != lang2):
+                    break
+
                 pha[n] = txt
                 n += 1
                 if n > 1:
