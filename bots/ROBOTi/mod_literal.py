@@ -70,7 +70,10 @@ def check_utf8():
             dados = dados.encode('latin1')
             dados = dados.decode('utf-8', errors='backslashreplace')
             dados2 = dados
+
             dados = str(dados)
+
+            dados = dados.encode('utf-8')
 
             dados = dados.replace('\\xc3\\xe3\\x83', "ã")
             dados = dados.replace('\\xc3\\xa7','ç')
@@ -167,7 +170,7 @@ def check_utf8():
                     print("====")
                     print("ORIGINAL",dados2)
                     print("ERROR",dados)
-                    #dados = dados.encode('utf-8')
+
                     segment_length = 16
                     for i in range(0, len(dados), segment_length):
                         xdados = dados[i:i + segment_length]
