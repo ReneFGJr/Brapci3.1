@@ -39,11 +39,9 @@ def literal_double(prop = 0):
                 txt = item2[1]
                 lang = item2[2]
 
-
-
                 print("Item2",">>",n)
                 print(item2)
-                print(mod_language.detect_language(txt))  # Saída esperada: 'portuguese'
+                print(mod_language.detect_language(txt))
                 pha[n] = txt
                 n += 1
                 if n > 1:

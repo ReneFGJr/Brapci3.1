@@ -7,7 +7,7 @@ def detect(t):
         t = t[:-3]
     return [t,l]
 
-def get_text_language_process(text):
+def detect_language(text):
     text = text.lower()
     supported_languages = ['de', 'en', 'pt', 'es','fr']
 
@@ -60,8 +60,6 @@ def get_text_language_process(text):
         for term in terms:
             total = text.count(term)
             counter[language] += total
-
-    print(counter)
 
     return decision(counter)
 
