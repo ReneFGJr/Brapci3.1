@@ -66,10 +66,16 @@ def correct_utf8_encoding(data, IDn):
                 print("PH1",string_data)
 
                 # Corrigir a dupla codificação
-                corrected_string = string_data.encode('latin1').decode('utf-8')
-                corrected_string = corrected_string.replace('’','´')
+                try:
+                    corrected_string = string_data.encode('latin1').decode('utf-8')
+                    corrected_string = corrected_string.replace('’','´')
+                except Exception as e:
+                    print("Erro de conversão-------------------------------------------")
+                    print(e)
+                    print(data)
 
-                print("PH1",corrected_string)
+
+                print("PH2",corrected_string)
 
                 print("String corrigida:", string_data,'==>',corrected_string)
 
