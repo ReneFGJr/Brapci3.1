@@ -52,7 +52,7 @@ def correct_utf8_encoding(data):
             return data
         if (encoding == 'utf-8'):
             print(data)
-            data = data.decode('utf-8', errors='ignore').encode('ascii')
+            data = data.decode('utf-8', errors='ignore').encode('latin1', errors='ignore')
             print(data)
             x=a
             return data
