@@ -60,6 +60,7 @@ def correct_utf8_encoding(data, IDn):
                 print(data)
 
             if (b'\xc3' in data) or (b'\xc2' in data):
+                data = data.replace(b'\xc3\x82\xc2\x80',b'#--#')
 
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
@@ -72,7 +73,7 @@ def correct_utf8_encoding(data, IDn):
                     corrected_string = corrected_string.replace('’','´')
                 except Exception as e:
                     print("Origin::",data)
-                    data = data.replace(b'\xc3\x82\xc2\x80',b'##')
+
                     data = data.replace(b'\xc2\x9c',b'#')
                     data = data.replace(b'\xc2\x98',b'#')
                     data = data.replace(b'\xc2\xa2',b'#')
