@@ -72,6 +72,7 @@ def check_utf8():
         qr += " or n_name LIKE '%ã"+chr(129)+"%' "
         qr += " or n_name LIKE '%ã"+chr(130)+"%' "
         qr += " or n_name LIKE '%ã"+chr(157)+"%' "
+        qr += " )"
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
