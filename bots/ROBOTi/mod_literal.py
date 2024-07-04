@@ -58,6 +58,15 @@ def correct_utf8_encoding(data):
             print("Final",data)
             print("Final-2",str(data.decode('utf-8')))
             print("===================================")
+
+            # Primeira decodificação como UTF-8
+            string_data = data.decode('utf-8', errors='ignore')
+            print("Após primeira decodificação:", string_data)
+
+            # Corrigir a dupla codificação
+            corrected_string = string_data.encode('latin1').decode('utf-8')
+            print("String corrigida:", corrected_string)
+
             sys.exit()
             return data
         if (encoding == 'Windows-1252'):
