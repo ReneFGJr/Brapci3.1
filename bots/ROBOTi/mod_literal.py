@@ -56,9 +56,9 @@ def check_utf8():
         for row in rows:
             original_data = row[1]
             corrected_data = correct_utf8_encoding(original_data)
-            print("Original",original_data)
-            print("Code","==>",detect_encoding(original_data.encode()))
             if original_data != corrected_data:
+                print("Original",original_data)
+                print("Code","==>",detect_encoding(original_data.encode()))
                 print(f"Corrigindo: {original_data} -> {corrected_data}")
                 #sql_update = f"UPDATE {table} SET {column} = %s WHERE id = %s"
                 #cursor.execute(sql_update, (corrected_data, row['id']))
