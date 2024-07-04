@@ -72,6 +72,11 @@ def correct_utf8_encoding(data, IDn):
                     database.update(qu)
 
                 #sys.exit()
+            else:
+                print("************************")
+                print(data)
+                print("************************")
+                sys.exit()
             return data
         if (encoding == 'Windows-1252'):
             return data
