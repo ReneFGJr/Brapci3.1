@@ -110,6 +110,7 @@ def correct_utf8_encoding(data, IDn):
                     data = data.replace(b'\xc2\xb4',b'')
 
                     try:
+                        string_data = data.decode('utf-8', errors='ignore')
                         corrected_string = string_data.encode('latin1').decode('utf-8')
                         corrected_string = corrected_string.replace('’','´')
                     except Exception as e:
