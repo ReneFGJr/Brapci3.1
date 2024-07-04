@@ -63,7 +63,22 @@ def correct_utf8_encoding(data, IDn):
                 data = data.replace(b'\xc3\x82\xc2\x80',b'')
                 data = data.replace(b'\xc3\xa2\xc2\x80',b'')
 
+                data = data.replace(b'\xc2\x80',b'')
+                data = data.replace(b'\xc2\x81',b'')
+                data = data.replace(b'\xc2\x82',b'')
                 data = data.replace(b'\xc2\x83',b'')
+                data = data.replace(b'\xc2\x84',b'')
+                data = data.replace(b'\xc2\x85',b'')
+                data = data.replace(b'\xc2\x86',b'')
+                data = data.replace(b'\xc2\x87',b'')
+                data = data.replace(b'\xc2\x88',b'')
+                data = data.replace(b'\xc2\x8a',b'')
+                data = data.replace(b'\xc2\x8b',b'')
+                data = data.replace(b'\xc2\x8c',b'')
+                data = data.replace(b'\xc2\x8d',b'')
+                data = data.replace(b'\xc2\x8e',b'')
+                data = data.replace(b'\xc2\x8f',b'')
+                data = data.replace(b'\xc2\x90',b'')
                 data = data.replace(b'\xc2\x91',b'')
                 data = data.replace(b'\xc2\x93',b'-')
                 data = data.replace(b'\xc2\x98',b'')
@@ -93,10 +108,10 @@ def correct_utf8_encoding(data, IDn):
                     qu = "update brapci_rdf.rdf_literal "
                     qu += f" set n_name = '{corrected_string}' "
                     qu += f" where id_n = {IDn}"
-                    #   print(qu)
+                    print(qu)
                     # Aguardar o usuário pressionar "Enter"
                     #input("Pressione Enter para continuar...")
-                    database.update(qu)
+                    #database.update(qu)
                 if corrected_string.strip() == '':
                     corrected_string = '[VAZIO]'
                 return corrected_string
