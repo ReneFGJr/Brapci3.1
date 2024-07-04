@@ -61,6 +61,17 @@ def correct_utf8_encoding(data):
 def check_utf8():
         print("154 - Check UTF8")
         qr = f"SELECT id_n, n_name FROM brapci_rdf.rdf_literal"
+        qr += " where n_delete = 0 "
+        qr += " and (n_name LIKE '%Ã³%' "
+        qr += "  or n_name LIKE '%Ã©%' "
+        qr += " or n_name LIKE '%ã±%' "
+        qr += " or n_name LIKE '%ãº%' "
+        qr += " or n_name LIKE '%ã³%' "
+        qr += " or n_name LIKE '%ã¡%' "
+        qr += " or n_name LIKE '%ã"+chr(128)+"%' "
+        qr += " or n_name LIKE '%ã"+chr(129)+"%' "
+        qr += " or n_name LIKE '%ã"+chr(130)+"%' "
+        qr += " or n_name LIKE '%ã"+chr(157)+"%' "
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
