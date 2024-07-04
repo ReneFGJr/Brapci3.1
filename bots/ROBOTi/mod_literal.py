@@ -44,15 +44,15 @@ def correct_utf8_encoding(data):
 
 def check_utf8():
         qr = f"SELECT id_n, n_name FROM brapci_rdf.brapci_literal"
-            rows = database.query(qr)
-            for row in rows:
-                original_data = row['n_name']
-                corrected_data = correct_utf8_encoding(original_data)
+        rows = database.query(qr)
+        for row in rows:
+            original_data = row['n_name']
+            corrected_data = correct_utf8_encoding(original_data)
 
-                if original_data != corrected_data:
-                    print(f"Corrigindo: {original_data} -> {corrected_data}")
-                    #sql_update = f"UPDATE {table} SET {column} = %s WHERE id = %s"
-                    #cursor.execute(sql_update, (corrected_data, row['id']))
+            if original_data != corrected_data:
+                print(f"Corrigindo: {original_data} -> {corrected_data}")
+                #sql_update = f"UPDATE {table} SET {column} = %s WHERE id = %s"
+                #cursor.execute(sql_update, (corrected_data, row['id']))
 
 def check_utf8_old():
     qr = "select id_n, n_name "
