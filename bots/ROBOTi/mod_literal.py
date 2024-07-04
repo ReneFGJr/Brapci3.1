@@ -1,6 +1,7 @@
 import database
 import mod_logs
 import mod_nbr
+import chardet
 import unicodedata
 import sys
 import re
@@ -36,9 +37,14 @@ def check_end_dot():
             print('=SUBJECT=>',title, id_n)
             database.update(qu)
 
+def detect_encoding(data):
+    result = chardet.detect(data)
+    return result['encoding']
+
 def correct_utf8_encoding(data):
     try:
-        return data.encode('latin1').decode('utf8')
+        encoding = detect_encoding(data.encode('latin1'))
+        return data.encode('latin1').decode(encoding).encode('utf8').decode('utf8')
     except UnicodeDecodeError:
         return data
 
