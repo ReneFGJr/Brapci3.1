@@ -56,7 +56,7 @@ def correct_utf8_encoding(data):
             print(data)
             data = data.encode('utf-8', errors='ignore')
             print("Final",data)
-            print("Final-2",str(data.encode('Windows-1252')))
+            print("Final-2",str(data.decode('Windows-1252')))
             print("===================================")
             sys.exit()
             return data
