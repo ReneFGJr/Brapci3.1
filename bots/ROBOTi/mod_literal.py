@@ -51,23 +51,22 @@ def correct_utf8_encoding(data):
         if (encoding == 'TIS-620'):
             return data
         if (encoding == 'utf-8'):
-            print(data)
-            data = data.encode('utf-8', errors='ignore').decode('utf-8')
-            print(data)
-            data = data.encode('utf-8', errors='ignore')
-            print("Final",data)
-            print("Final-2",str(data.decode('utf-8')))
-            print("===================================")
 
-            # Primeira decodificação como UTF-8
-            string_data = data.decode('utf-8', errors='ignore')
-            print("Após primeira decodificação:", string_data)
+            if ((b'\xc3') in data) or ((b'\xc2') in data):
+                print(data)
+                data = data.encode('utf-8', errors='ignore').decode('utf-8')
+                print(data)
+                data = data.encode('utf-8', errors='ignore')
 
-            # Corrigir a dupla codificação
-            corrected_string = string_data.encode('latin1').decode('utf-8')
-            print("String corrigida:", corrected_string)
+                # Primeira decodificação como UTF-8
+                string_data = data.decode('utf-8', errors='ignore')
+                print("Após primeira decodificação:", string_data)
 
-            sys.exit()
+                # Corrigir a dupla codificação
+                corrected_string = string_data.encode('latin1').decode('utf-8')
+                print("String corrigida:", corrected_string)
+
+                sys.exit()
             return data
         if (encoding == 'Windows-1252'):
             return data
