@@ -54,8 +54,7 @@ def correct_utf8_encoding(data):
             return data
         if (encoding == 'Windows-1252'):
             print("===========1=",data)
-            data = data.decode('windows-1252')
-            data = data.encode()
+            data = data.decode('windows-1252').encode('')
             print("===========3=",data)
             x=a
             return data
