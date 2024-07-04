@@ -45,6 +45,7 @@ def correct_utf8_encoding(data):
     try:
         #encoding = detect_encoding(data.encode('latin1'))
         encoding = detect_encoding(data.encode())
+        print(data,encoding)
         return data.encode('utf8').decode(encoding).encode('latin1').decode('latin1')
     except UnicodeDecodeError:
         return data
