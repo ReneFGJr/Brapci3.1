@@ -124,8 +124,8 @@ def correct_utf8_encoding(data, IDn):
                     qu += f" where id_n = {IDn}"
                     print(qu)
                     # Aguardar o usuário pressionar "Enter"
-                    #input("Pressione Enter para continuar...")
-                    #database.update(qu)
+                    input("Pressione Enter para continuar...")
+                    database.update(qu)
                 if corrected_string.strip() == '':
                     corrected_string = '[VAZIO]'
                 return corrected_string
