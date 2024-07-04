@@ -62,6 +62,7 @@ def correct_utf8_encoding(data):
 
                 # Corrigir a dupla codificação
                 corrected_string = string_data.encode('latin1').decode('utf-8')
+                corrected_string = corrected_string.replace('’','´')
                 print("String corrigida:", corrected_string)
 
                 #sys.exit()
