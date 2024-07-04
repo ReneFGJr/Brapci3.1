@@ -128,6 +128,13 @@ def correct_utf8_encoding(data, IDn):
                     corrected_string = corrected_string.replace('[a3][a3]',"çõ")
                     corrected_string = corrected_string.replace('[a3]',"a")
                     corrected_string = corrected_string.replace('[9c]',"")
+
+                    corrected_string = corrected_string.replace('  ',' ')
+                    corrected_string = corrected_string.replace('  ',' ')
+                    corrected_string = corrected_string.replace('  ',' ')
+                    corrected_string = corrected_string.replace('  ',' ')
+                    corrected_string = corrected_string.replace('  ',' ')
+
                     qu = "update brapci_rdf.rdf_literal "
                     qu += f" set n_name = '{corrected_string}' "
                     qu += f" where id_n = {IDn}"
