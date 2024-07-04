@@ -56,6 +56,7 @@ def correct_utf8_encoding(data):
             print(data)
             data = data.encode('utf-8', errors='ignore')
             print("Final",data)
+            print("Final",str(data))
             print("===================================")
             sys.exit()
             return data
