@@ -125,6 +125,7 @@ def correct_utf8_encoding(data, IDn):
                 if IDn > 0:
                     corrected_string = corrected_string.replace('[!]',"´")
                     corrected_string = corrected_string.replace('[a~]',"ã")
+                    corrected_string = corrected_string.replace('aã',"ã")
                     corrected_string = corrected_string.replace('[a3][a3]',"çõ")
                     corrected_string = corrected_string.replace('[a3]',"a")
                     corrected_string = corrected_string.replace('[9c]',"")
