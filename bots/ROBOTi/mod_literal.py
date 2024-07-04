@@ -204,6 +204,8 @@ def check_utf8():
         qr += " or n_name LIKE '%ã"+chr(129)+"%' "
         qr += " or n_name LIKE '%ã"+chr(130)+"%' "
         qr += " or n_name LIKE '%ã"+chr(157)+"%' "
+        qr += " or n_name LIKE '%"+chr(194)+"%' "
+        qr += " or n_name LIKE '%"+chr(195)+"%' "
         qr += " )"
         qr += " limit 1000"
         rows = database.query(qr)
