@@ -117,6 +117,8 @@ def correct_utf8_encoding(data, IDn):
                 print("String corrigida:", string_data,'==>',corrected_string)
 
                 if IDn > 0:
+                    corrected_string = corrected_string.replace('[!]',"´")
+                    corrected_string = corrected_string.replace('[a~]',"ã")
                     qu = "update brapci_rdf.rdf_literal "
                     qu += f" set n_name = '{corrected_string}' "
                     qu += f" where id_n = {IDn}"
