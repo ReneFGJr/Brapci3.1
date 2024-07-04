@@ -44,7 +44,7 @@ def correct_utf8_encoding(data):
 
 def check_utf8():
         print("154 - Check UTF8")
-        qr = f"SELECT id_n, n_name FROM brapci_rdf.brapci_literal"
+        qr = f"SELECT id_n, n_name FROM brapci_rdf.rdf_literal"
         rows = database.query(qr)
         for row in rows:
             original_data = row['n_name']
