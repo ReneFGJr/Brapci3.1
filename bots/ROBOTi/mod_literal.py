@@ -73,8 +73,6 @@ def correct_utf8_encoding(data, IDn):
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
 
-                print("PH1",string_data)
-
                 # Corrigir a dupla codificação
                 try:
                     corrected_string = string_data.encode('latin1').decode('utf-8')
@@ -85,7 +83,6 @@ def correct_utf8_encoding(data, IDn):
                     print(e)
                     print(data)
                     sys.exit()
-                print("PH2",corrected_string)
 
                 print("String corrigida:", string_data,'==>',corrected_string)
 
