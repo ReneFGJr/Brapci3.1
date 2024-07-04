@@ -77,6 +77,7 @@ def correct_utf8_encoding(data, IDn):
                 print(data)
                 print("************************")
                 sys.exit()
+            print("==============UTF8-FIM")
             return data
         if (encoding == 'Windows-1252'):
             return data
