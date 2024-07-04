@@ -41,7 +41,7 @@ def detect_encoding(data):
     result = chardet.detect(data)
     return result['encoding']
 
-def correct_utf8_encoding(data):
+def correct_utf8_encoding(data, IDn):
     try:
         #encoding = detect_encoding(data.encode('latin1'))
         encoding = detect_encoding(data.encode())
@@ -64,6 +64,12 @@ def correct_utf8_encoding(data):
                 corrected_string = string_data.encode('latin1').decode('utf-8')
                 corrected_string = corrected_string.replace('’','´')
                 print("String corrigida:", corrected_string)
+
+                if IDn > 0:
+                    qu = "update brapci_rdf.rdf_literal "
+                    qu += f" set n_name = '{corrected_string}' "
+                    qu += f" where id_n = {IDn}"
+                    print(qu)
 
                 #sys.exit()
             return data
@@ -92,7 +98,8 @@ def check_utf8():
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
-            corrected_data = correct_utf8_encoding(original_data)
+            IDn = row[0]
+            corrected_data = correct_utf8_encoding(original_data,IDn)
             if original_data != corrected_data:
 
                 print("Code","==>",detect_encoding(original_data.encode()))
