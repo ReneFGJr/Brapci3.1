@@ -87,7 +87,7 @@ def correct_utf8_encoding(data, IDn):
                     qu = "update brapci_rdf.rdf_literal "
                     qu += f" set n_name = '{corrected_string}' "
                     qu += f" where id_n = {IDn}"
-                    database.update(qu)
+                    #database.update(qu)
 
                 return corrected_string
                 #sys.exit()
