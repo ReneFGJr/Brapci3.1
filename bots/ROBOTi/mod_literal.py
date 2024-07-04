@@ -74,6 +74,7 @@ def correct_utf8_encoding(data, IDn):
                     data = data.replace(b'\xc2\x9c',b'')
                     data = data.replace(b'\xc2\x98',b'')
                     data = data.replace(b'\xc2\xa2',b'')
+                    print("Replaced",data)
                     string_data = data.decode('utf-8', errors='ignore')
                     try:
                         byte_data = string_data.encode('latin1')
