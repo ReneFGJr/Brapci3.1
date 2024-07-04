@@ -126,6 +126,10 @@ def correct_utf8_encoding(data, IDn):
                     data = data.replace(b'\xc2\xba',b'')
                     data = data.replace(b'\xc3\x82',b'')
 
+                    data = data.replace(b'\xc3\xae',b'n')
+
+
+
                     try:
                         string_data = data.decode('utf-8', errors='ignore')
                         corrected_string = string_data.encode('latin1').decode('utf-8')
