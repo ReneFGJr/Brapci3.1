@@ -115,7 +115,7 @@ def correct_utf8_encoding(data, IDn):
                     data = data.replace(b'\xc2\xa6',b'')
 
                     data = data.replace(b'\xc2\xb4',b'')
-                    data = data.replace(b'\xc3\x82',b'[82]')
+                    data = data.replace(b'\xc3\x82',b'')
 
                     try:
                         string_data = data.decode('utf-8', errors='ignore')
