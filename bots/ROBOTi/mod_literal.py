@@ -51,19 +51,17 @@ def correct_utf8_encoding(data, IDn):
         if (encoding == 'TIS-620'):
             return data
         if (encoding == 'utf-8'):
-
             data = data.encode('utf-8', errors='ignore').decode('utf-8')
             data = data.encode('utf-8', errors='ignore')
             if (b'\xc3' in data) or (b'\xc2' in data):
 
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
-                print("Após primeira decodificação:", string_data)
 
                 # Corrigir a dupla codificação
                 corrected_string = string_data.encode('latin1').decode('utf-8')
                 corrected_string = corrected_string.replace('’','´')
-                print("String corrigida:", corrected_string)
+                print("String corrigida:", string_data,corrected_string)
 
                 if IDn > 0:
                     qu = "update brapci_rdf.rdf_literal "
@@ -71,6 +69,7 @@ def correct_utf8_encoding(data, IDn):
                     qu += f" where id_n = {IDn}"
                     database.update(qu)
 
+                return corrected_string
                 #sys.exit()
             else:
                 print("************************")
