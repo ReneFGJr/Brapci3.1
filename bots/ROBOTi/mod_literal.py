@@ -52,7 +52,7 @@ def correct_utf8_encoding(data):
             return data
         if (encoding == 'utf-8'):
 
-            if ((b'\xc3') in data) or ((b'\xc2') in data):
+            if (b'\xc3' in data) or (b'\xc2' in data):
                 print(data)
                 data = data.encode('utf-8', errors='ignore').decode('utf-8')
                 print(data)
