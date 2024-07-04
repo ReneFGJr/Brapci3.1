@@ -62,44 +62,6 @@ def correct_utf8_encoding(data, IDn):
             if (b'\xc3' in data) or (b'\xc2' in data):
                 print("Origin::",data)
 
-                data = data.replace(b'\xc3\x82\xc2\x80',b'')
-                data = data.replace(b'\xc3\xa3\xc3\xa3',b'[a]')
-
-
-                data = data.replace(b'\xc3\xa2',b'[!]')
-                data = data.replace(b'\xc3\xa3',b'[a3]')
-                data = data.replace(b'\xc3\xac',b'[a~]')
-
-
-                data = data.replace(b'\xc2\x80',b'')
-                data = data.replace(b'\xc2\x81',b'')
-                data = data.replace(b'\xc2\x82',b'')
-                data = data.replace(b'\xc2\x83',b'')
-                data = data.replace(b'\xc2\x84',b'')
-                data = data.replace(b'\xc2\x85',b'')
-                data = data.replace(b'\xc2\x86',b'')
-                data = data.replace(b'\xc2\x87',b'')
-                data = data.replace(b'\xc2\x88',b'')
-                data = data.replace(b'\xc2\x8a',b'')
-                data = data.replace(b'\xc2\x8b',b'')
-                data = data.replace(b'\xc2\x8c',b'')
-                data = data.replace(b'\xc2\x8d',b'')
-                data = data.replace(b'\xc2\x8e',b'')
-                data = data.replace(b'\xc2\x8f',b'')
-                data = data.replace(b'\xc2\x90',b'')
-                data = data.replace(b'\xc2\x91',b'')
-                data = data.replace(b'\xc2\x93',b'-')
-                data = data.replace(b'\xc2\x94',b'')
-                data = data.replace(b'\xc2\x96',b'')
-                data = data.replace(b'\xc2\x97',b'')
-                data = data.replace(b'\xc2\x95',b'')
-                data = data.replace(b'\xc2\x98',b'')
-                data = data.replace(b'\xc2\x99',b'')
-                data = data.replace(b'\xc2\x9c',b'[9c]')
-                data = data.replace(b'\xc2\x9d',b'')
-                data = data.replace(b'\xc2\xa2',b'')
-                data = data.replace(b'\xc2\xb4',b'')
-
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
 
@@ -108,17 +70,62 @@ def correct_utf8_encoding(data, IDn):
                     corrected_string = string_data.encode('latin1').decode('utf-8')
                     corrected_string = corrected_string.replace('’','´')
                 except Exception as e:
-                    print("Converted",data)
-                    print("Erro de conversão-------------------------------------------")
-                    print(e)
-                    print(data)
-                    sys.exit()
+                    data = data.replace(b'\xc3\x82\xc2\x80',b'')
+                    data = data.replace(b'\xc3\xa3\xc3\xa3',b'[a]')
+
+
+                    data = data.replace(b'\xc3\xa2',b'[!]')
+                    data = data.replace(b'\xc3\xa3',b'[a3]')
+                    data = data.replace(b'\xc3\xac',b'[a~]')
+
+
+                    data = data.replace(b'\xc2\x80',b'')
+                    data = data.replace(b'\xc2\x81',b'')
+                    data = data.replace(b'\xc2\x82',b'')
+                    data = data.replace(b'\xc2\x83',b'')
+                    data = data.replace(b'\xc2\x84',b'')
+                    data = data.replace(b'\xc2\x85',b'')
+                    data = data.replace(b'\xc2\x86',b'')
+                    data = data.replace(b'\xc2\x87',b'')
+                    data = data.replace(b'\xc2\x88',b'')
+                    data = data.replace(b'\xc2\x8a',b'')
+                    data = data.replace(b'\xc2\x8b',b'')
+                    data = data.replace(b'\xc2\x8c',b'')
+                    data = data.replace(b'\xc2\x8d',b'')
+                    data = data.replace(b'\xc2\x8e',b'')
+                    data = data.replace(b'\xc2\x8f',b'')
+                    data = data.replace(b'\xc2\x90',b'')
+                    data = data.replace(b'\xc2\x91',b'')
+                    data = data.replace(b'\xc2\x93',b'-')
+                    data = data.replace(b'\xc2\x94',b'')
+                    data = data.replace(b'\xc2\x96',b'')
+                    data = data.replace(b'\xc2\x97',b'')
+                    data = data.replace(b'\xc2\x95',b'')
+                    data = data.replace(b'\xc2\x98',b'')
+                    data = data.replace(b'\xc2\x99',b'')
+                    data = data.replace(b'\xc2\x9c',b'[9c]')
+                    data = data.replace(b'\xc2\x9d',b'')
+                    data = data.replace(b'\xc2\xa2',b'')
+                    data = data.replace(b'\xc2\xb4',b'')
+
+                    try:
+                        corrected_string = string_data.encode('latin1').decode('utf-8')
+                        corrected_string = corrected_string.replace('’','´')
+                    except Exception as e:
+                        print("Converted",data)
+                        print("Erro de conversão-------------------------------------------")
+                        print(e)
+                        print(data)
+                        sys.exit()
 
                 print("String corrigida:", string_data,'==>',corrected_string)
 
                 if IDn > 0:
                     corrected_string = corrected_string.replace('[!]',"´")
                     corrected_string = corrected_string.replace('[a~]',"ã")
+                    corrected_string = corrected_string.replace('[a3][a3]',"çõ")
+                    corrected_string = corrected_string.replace('[a3]',"a")
+                    corrected_string = corrected_string.replace('[9c]',"")
                     qu = "update brapci_rdf.rdf_literal "
                     qu += f" set n_name = '{corrected_string}' "
                     qu += f" where id_n = {IDn}"
