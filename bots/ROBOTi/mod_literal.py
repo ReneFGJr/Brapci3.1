@@ -61,8 +61,6 @@ def correct_utf8_encoding(data, IDn):
 
             if (b'\xc3' in data) or (b'\xc2' in data):
 
-                data = data.replace(b'\xc2\x9c',b'')
-                data = data.replace(b'\xc2\x98',b'')
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
 
@@ -73,6 +71,10 @@ def correct_utf8_encoding(data, IDn):
                     corrected_string = string_data.encode('latin1').decode('utf-8')
                     corrected_string = corrected_string.replace('’','´')
                 except Exception as e:
+                    data = data.replace(b'\xc2\x9c',b'')
+                    data = data.replace(b'\xc2\x98',b'')
+                    data = data.replace(b'\xc2\xa2',b'')
+                    string_data = data.decode('utf-8', errors='ignore')
                     try:
                         byte_data = string_data.encode('latin1')
                         # Decodificar novamente como UTF-8
