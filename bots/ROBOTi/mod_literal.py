@@ -51,6 +51,8 @@ def correct_utf8_encoding(data):
         if (encoding == 'TIS-620'):
             return data
         if (encoding == 'utf-8'):
+            print(data)
+            x=a
             return data
         if (encoding == 'Windows-1252'):
             return data
