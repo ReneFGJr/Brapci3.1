@@ -94,7 +94,8 @@ def correct_utf8_encoding(data, IDn):
                     qu += f" set n_name = '{corrected_string}' "
                     qu += f" where id_n = {IDn}"
                     #database.update(qu)
-
+                if corrected_string.strip() == '':
+                    corrected_string = '[VAZIO]'
                 return corrected_string
                 #sys.exit()
             else:
