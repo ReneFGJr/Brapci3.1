@@ -82,6 +82,7 @@ def correct_utf8_encoding(data, IDn):
                         byte_data = string_data.encode('latin1')
                         # Decodificar novamente como UTF-8
                         corrected_string = byte_data.decode('utf-8')
+                        print("Corrected",corrected_string)
                     except Exception as e:
                         print("Erro de conversão-------------------------------------------")
                         print(e)
