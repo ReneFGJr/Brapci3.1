@@ -52,10 +52,6 @@ def correct_utf8_encoding(data, IDn):
             return data
         if (encoding == 'utf-8'):
             try:
-                data = data.replace(b'\xc3\xa2\xc2\x80\xc2\x99','')
-                data = data.replace(b'\xc3\x82\xc2\x80\xc2\x9c','')
-                data = data.replace(b'\xc3\x82\xc2\x80\xc2\x9d','')
-
                 data = data.encode('utf-8', errors='ignore').decode('utf-8')
                 data = data.encode('utf-8', errors='ignore')
 
