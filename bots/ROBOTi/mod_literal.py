@@ -70,14 +70,15 @@ def correct_utf8_encoding(data, IDn):
                     corrected_string = string_data.encode('latin1').decode('utf-8')
                     corrected_string = corrected_string.replace('’','´')
                 except Exception as e:
+
+                    print("Erro de conversão #1#---------------------------------------")
+
                     data = data.replace(b'\xc3\x82\xc2\x80',b'')
                     data = data.replace(b'\xc3\xa3\xc3\xa3',b'[a]')
-
 
                     data = data.replace(b'\xc3\xa2',b'[!]')
                     data = data.replace(b'\xc3\xa3',b'[a3]')
                     data = data.replace(b'\xc3\xac',b'[a~]')
-
 
                     data = data.replace(b'\xc2\x80',b'')
                     data = data.replace(b'\xc2\x81',b'')
@@ -113,7 +114,7 @@ def correct_utf8_encoding(data, IDn):
                         corrected_string = corrected_string.replace('’','´')
                     except Exception as e:
                         print("Converted",data)
-                        print("Erro de conversão-------------------------------------------")
+                        print("Erro de conversão- #2# ---------------------------------------")
                         print(e)
                         print(data)
                         sys.exit()
