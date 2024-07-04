@@ -55,7 +55,7 @@ def correct_utf8_encoding(data):
             data = data.encode('utf-8', errors='ignore').decode('utf-8')
             print(data)
             data = data.encode('latin1', errors='ignore')
-            print(data)
+            print("Final",data)
             print("===================================")
             x=a
             return data
