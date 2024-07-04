@@ -60,6 +60,8 @@ def correct_utf8_encoding(data, IDn):
                 print(data)
 
             if (b'\xc3' in data) or (b'\xc2' in data):
+
+                data = data.replace(b'\xc2\x9c','')
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
 
