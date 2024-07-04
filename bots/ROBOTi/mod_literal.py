@@ -79,16 +79,18 @@ def correct_utf8_encoding(data, IDn):
                     #data = data.replace(b'\xc3\x82\xc2\xa0',b'')
 
 
-                    data = data.replace(b'\xc3\xa1',b'a')
+
                     data = data.replace(b'\xc3\xa2',b'[!]')
                     data = data.replace(b'\xc3\xa3',b'[a3]')
                     data = data.replace(b'\xc3\xac',b'[a~]')
                     data = data.replace(b'\xc3\xa7',b'[c,]')
-                    data = data.replace(b'\xc3\xaa',b'e')
 
-                    data = data.replace(b'\xc3\xba',b'u')
-                    data = data.replace(b'\xc3\xb3',b'o')
-                    data = data.replace(b'\xc3\xad',b'i')
+                    #data = data.replace(b'\xc3\xa1',b'a')
+                    #data = data.replace(b'\xc3\xaa',b'e')
+
+                    #data = data.replace(b'\xc3\xba',b'u')
+                    #data = data.replace(b'\xc3\xb3',b'o')
+                    #data = data.replace(b'\xc3\xad',b'i')
 
                     data = data.replace(b'\xc2\x80',b'')
                     data = data.replace(b'\xc2\x81',b'')
