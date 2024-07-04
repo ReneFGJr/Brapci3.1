@@ -54,7 +54,7 @@ def correct_utf8_encoding(data):
 
             data = data.encode('utf-8', errors='ignore').decode('utf-8')
             data = data.encode('utf-8', errors='ignore')
-            if (b'\xc3' in data) or (b'\xc2' in data) or (b'\xc3' in data):
+            if (b'\xc3' in data) or (b'\xc2' in data):
 
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
@@ -87,7 +87,7 @@ def check_utf8():
         qr += " or n_name LIKE '%ã"+chr(130)+"%' "
         qr += " or n_name LIKE '%ã"+chr(157)+"%' "
         qr += " )"
-        qr += " limit 10"
+        qr += " limit 20"
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
