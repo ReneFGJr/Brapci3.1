@@ -52,14 +52,12 @@ def correct_utf8_encoding(data):
             return data
         if (encoding == 'utf-8'):
             print(data)
-            if any(ord(char) > 127 for char in data):  # Se há caracteres não-ASCII
-                byte_data = data.encode('latin1')
-                final_string = byte_data.decode('utf-8', errors='ignore')
-                print("String final corrigida:", final_string)
-            else:
-                final_string = data
-                print("===0=>",byte_data)
-                print("===1=>",final_string)
+            data = data.encode('utf-8', errors='ignore').decode('utf-8')
+            print(data)
+            data = data.encode('utf-8', errors='ignore')
+            print("Final",data)
+            print("===================================")
+            sys.exit()
             return data
         if (encoding == 'Windows-1252'):
             return data
