@@ -79,6 +79,7 @@ def correct_utf8_encoding(data, IDn):
                     data = data.replace(b'\xc3\xa2',b'[!]')
                     data = data.replace(b'\xc3\xa3',b'[a3]')
                     data = data.replace(b'\xc3\xac',b'[a~]')
+                    data = data.replace(b'\xc3\xa2\xc2\x80\xc2\x99','')
 
                     data = data.replace(b'\xc2\x80',b'')
                     data = data.replace(b'\xc2\x81',b'')
