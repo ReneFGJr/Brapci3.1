@@ -51,10 +51,14 @@ def correct_utf8_encoding(data, IDn):
         if (encoding == 'TIS-620'):
             return data
         if (encoding == 'utf-8'):
-            data = data.encode('utf-8', errors='ignore').decode('utf-8')
-            data = data.encode('utf-8', errors='ignore')
-            print("==============UTF8")
-            print(data)
+            try:
+                data = data.encode('utf-8', errors='ignore').decode('utf-8')
+                data = data.encode('utf-8', errors='ignore')
+            except Exception as e:
+                print("Erro de conversão-------------------------------------------")
+                print(e)
+                print(data)
+
             if (b'\xc3' in data) or (b'\xc2' in data):
                 # Primeira decodificação como UTF-8
                 string_data = data.decode('utf-8', errors='ignore')
