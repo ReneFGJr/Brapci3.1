@@ -68,7 +68,7 @@ def correct_utf8_encoding(data):
                 corrected_string = string_data.encode('latin1').decode('utf-8')
                 print("String corrigida:", corrected_string)
 
-                sys.exit()
+                #sys.exit()
             return data
         if (encoding == 'Windows-1252'):
             return data
@@ -91,6 +91,7 @@ def check_utf8():
         qr += " or n_name LIKE '%ã"+chr(130)+"%' "
         qr += " or n_name LIKE '%ã"+chr(157)+"%' "
         qr += " )"
+        qr += " limit 10"
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
