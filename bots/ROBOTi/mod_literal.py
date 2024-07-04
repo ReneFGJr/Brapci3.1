@@ -3,6 +3,7 @@ import mod_logs
 import mod_nbr
 import unicodedata
 import sys
+import re
 
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
@@ -35,7 +36,25 @@ def check_end_dot():
             print('=SUBJECT=>',title, id_n)
             database.update(qu)
 
+def correct_utf8_encoding(data):
+    try:
+        return data.encode('latin1').decode('utf8')
+    except UnicodeDecodeError:
+        return data
+
 def check_utf8():
+        qr = f"SELECT id_n, n_name FROM brapci_rdf.brapci_literal"
+            rows = database.query(qr)
+            for row in rows:
+                original_data = row['n_name']
+                corrected_data = correct_utf8_encoding(original_data)
+
+                if original_data != corrected_data:
+                    print(f"Corrigindo: {original_data} -> {corrected_data}")
+                    #sql_update = f"UPDATE {table} SET {column} = %s WHERE id = %s"
+                    #cursor.execute(sql_update, (corrected_data, row['id']))
+
+def check_utf8_old():
     qr = "select id_n, n_name "
     qr += " from brapci_rdf.rdf_literal "
     qr += " where n_delete = 0 "
