@@ -46,6 +46,11 @@ def correct_utf8_encoding(data):
         #encoding = detect_encoding(data.encode('latin1'))
         encoding = detect_encoding(data.encode())
         print(data,'[',encoding,']')
+        if (encoding == 'ascii'):
+            return data
+        if (encoding == 'TIS-620'):
+            return data
+
         return data.encode('utf8').decode(encoding).encode('latin1').decode('latin1')
     except UnicodeDecodeError:
         return data
