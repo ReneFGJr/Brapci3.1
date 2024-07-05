@@ -25,9 +25,9 @@ def harvesting():
         print('URL',URL)
         print('Token:',token)
 
-        XML = oai_issue.getSetSpec(URL,JNL)
+        RSP = oai_issue.getSetSpec(URL,JNL)
 
-        print('Status:',XML['status'])
+        print('Status:',RSP)
 
         sys.exit()
 

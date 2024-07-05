@@ -17,7 +17,8 @@ def getSetSpec(URL,JNL):
     url = URL + '?verb=ListSets'
 
     # Fazendo a requisição HTTP
-    XML = []
+    XML = '400'
+
     try:
         response = requests.get(url, verify=False)
         response.raise_for_status()  # Levanta um erro se a requisição falhar
@@ -30,7 +31,7 @@ def getSetSpec(URL,JNL):
             setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
 
             mod_setSpec.register(setSpec,JNL,setName)
-        XML['status'] = '200'
+        XML = '200'
     except:
-        XML['status'] = '401'
+        XML = '501'
     return XML
