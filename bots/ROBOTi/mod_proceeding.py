@@ -9,7 +9,7 @@ from colorama import Fore
 import sys
 
 def harvesting():
-    qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token "
+    qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token, is_jnl "
     qr += "from brapci.source_issue "
     qr += "where is_status = 0 limit 1"
     row = database.query(qr)
@@ -19,13 +19,14 @@ def harvesting():
         # GET SETSPEC
         URL = str(row[0][0])
         JNL= str(row[0][2])
+        idJNL= str(row[0][5])
         ISSUE = str(row[0][3])
         token = str(row[0][4])
 
         print('URL',URL)
         print('Token:',token)
 
-        RSP = oai_issue.getSetSpec(URL,JNL)
+        RSP = oai_issue.getSetSpec(URL,idJNL)
 
         print('Status:',RSP)
 
