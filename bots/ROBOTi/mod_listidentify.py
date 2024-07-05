@@ -30,7 +30,7 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
     set = database.query(qr)
 
     if set != []:
-        idsetSpec = set[0][1]
+        idsetSpec = set[0][0]
         print("setSpec",idsetSpec)
         sys.exit()
 
