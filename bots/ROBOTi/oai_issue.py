@@ -6,6 +6,7 @@ import requests
 import xml.etree.ElementTree as ET
 import database
 import mod_setSpec
+import mod_listidentify
 from colorama import Fore
 
 table = 'brapci_oaipmh.oai_listidentify'
@@ -13,7 +14,7 @@ table = 'brapci_oaipmh.oai_listidentify'
 def register(ID,JNL):
     print("HELLO")
 
-def getListIdentifiers(URL,JNL, token):
+def getListIdentifiers(URL,JNL, token, ISSUE):
 
     # URL do XML
     if token != '':
@@ -39,6 +40,9 @@ def getListIdentifiers(URL,JNL, token):
             datestamp = set_element.find('{http://www.openarchives.org/OAI/2.0/}datestamp').text
             setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
             deleted = set_element.get('status') == 'deleted'  # Verifica se o status é 'deleted'
+
+            mod_listidentify.register(identifier,JNL,setSpec,datestamp,deleted,ISSUE):
+
 
             print(identifier,datestamp,setSpec,deleted)
     except:

@@ -30,7 +30,7 @@ def harvesting():
         print('Status:',RSP)
 
         if RSP == '200':
-            xml = oai_issue.getListIdentifiers(URL,JNL, token)
+            xml = oai_issue.getListIdentifiers(URL,JNL, token, ISSUE)
 
             sys.exit()
 
