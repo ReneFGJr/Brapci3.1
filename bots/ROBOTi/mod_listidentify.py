@@ -31,14 +31,12 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
 
     if set != []:
         idsetSpec = set[0][0]
-        print("setSpec",idsetSpec)
-        sys.exit()
 
         qr = "select * "
         qr += f"from {table} "
         qr += "where "
         qr += f" (oai_identifier = '{id}') "
-        qr += f"and (oai_setSpec = '{setSpec}') "
+        qr += f"and (oai_setSpec = '{idsetSpec}') "
         row = database.query(qr)
 
         update = datetime.datetime.now().strftime('%Y%m%d')
@@ -55,7 +53,7 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
             qi += " values \n"
             qi += f"({update},{status},{jnl},"
             qi += f"{issue}, '{id}','{stamp}',"
-            qi += f"{setSpec}, {deleted},0"
+            qi += f"{idsetSpec}, {deleted},0"
             qi += ")"
 
             print(qi)
