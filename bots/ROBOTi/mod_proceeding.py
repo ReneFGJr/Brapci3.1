@@ -29,36 +29,33 @@ def harvesting():
 
         print('Status:',RSP)
 
-        sys.exit()
+        if RSP == '200':
+            xml = oaipmh_ListIdentifiers.getURL(URL,token)
 
-        reg = mod_setSpec.getSetSpec(JNL)
+            # Phase IV - Check and Process XML File
+            if (xml['status'] == '200'):
+                # Phase IVa - Get setSpecs
+                setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
+                # Phase IVb - Registers setSpecs
+                setSpec = mod_setSpec.process(setSpec,reg)
+                # Phase IVc - Identifica Identify
+                identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,JNL)
+                # Pahse IVd - Registra Identify
+                mod_listidentify.registers(identifies,JNL,ISSUE)
 
-        xml = oaipmh_ListIdentifiers.getURL(URL,token)
-
-        # Phase IV - Check and Process XML File
-        if (xml['status'] == '200'):
-            # Phase IVa - Get setSpecs
-            setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
-            # Phase IVb - Registers setSpecs
-            setSpec = mod_setSpec.process(setSpec,reg)
-            # Phase IVc - Identifica Identify
-            identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,JNL)
-            # Pahse IVd - Registra Identify
-            mod_listidentify.registers(identifies,JNL,ISSUE)
-
-        #Phase V - Token
-        print(xml)
-        if (xml['status'] == '200'):
-            token = mod_source.token(xml)
-            if token == '':
-                updateIssue(ISSUE,token,1)
-                print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
-                loop = 0
-            else:
-                updateIssue(ISSUE,token,0)
-                print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
-                loop = 1
-            return loop
+            #Phase V - Token
+            print(xml)
+            if (xml['status'] == '200'):
+                token = mod_source.token(xml)
+                if token == '':
+                    updateIssue(ISSUE,token,1)
+                    print(Fore.GREEN+"Fim da coleta"+Fore.WHITE)
+                    loop = 0
+                else:
+                    updateIssue(ISSUE,token,0)
+                    print(Fore.YELLOW+"... Reprocessamento da Coleta "+Fore.GREEN+token+Fore.WHITE)
+                    loop = 1
+                return loop
         else:
             #mod_source.update(jnl,xml['status'],'')
             print("FIM")
