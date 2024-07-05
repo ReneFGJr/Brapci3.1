@@ -6,11 +6,37 @@ import requests
 import xml.etree.ElementTree as ET
 import database
 import mod_setSpec
+from colorama import Fore
 
 table = 'brapci_oaipmh.oai_listidentify'
 
 def register(ID,JNL):
     print("HELLO")
+
+def getListIdentifiers(URL,JNL, token):
+
+    # URL do XML
+    if token != '':
+        LINK = URL + '?verb=ListIdentifiers&resumptionToken=' + token
+    else:
+        LINK = URL + '?verb=ListIdentifiers&metadataPrefix=oai_dc'
+    print(Fore.YELLOW+"... Recuperando: "+Fore.GREEN+f"{LINK}"+Fore.WHITE)
+
+    # Fazendo a requisição HTTP
+    XML = '400'
+
+    try:
+        response = requests.get(url, verify=False)
+        response.raise_for_status()  # Levanta um erro se a requisição falhar
+
+        # Analisando o XML
+        root = ET.fromstring(response.content)
+
+        for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}set'):
+            setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
+            setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
+    except:
+        print("ERRO")
 
 def getSetSpec(URL,JNL):
     # URL do XML

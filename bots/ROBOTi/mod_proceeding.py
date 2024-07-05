@@ -30,6 +30,10 @@ def harvesting():
         print('Status:',RSP)
 
         if RSP == '200':
+            xml = oai_issue.getListIdentifiers(URL,JNL, token)
+
+            sys.exit()
+
             xml = oaipmh_ListIdentifiers.getURL(URL,token)
 
             # Phase IV - Check and Process XML File
