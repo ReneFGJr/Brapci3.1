@@ -34,9 +34,12 @@ def getListIdentifiers(URL,JNL, token):
 
         print(root)
 
-        for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}set'):
+        for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}header'):
+            identifier = set_element.find('{http://www.openarchives.org/OAI/2.0/}identifier').text
+            datestamp = set_element.find('{http://www.openarchives.org/OAI/2.0/}datestamp').text
             setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
-            setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
+
+            print(identifier,datestamp,setSpec)
     except:
         print("ERRO")
 
