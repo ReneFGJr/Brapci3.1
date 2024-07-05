@@ -35,7 +35,7 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
     stamp = stamp.replace('Z','')
 
     if row == []:
-        qi = f"insert into {table} "
+        qi = f"insert into {table} \n"
         qi += "(oai_update, oai_status, oai_id_jnl, "
         qi += "oai_issue, oai_identifier, oai_datestamp, "
         qi += "oai_setSpec, oai_deleted, oai_rdf"
