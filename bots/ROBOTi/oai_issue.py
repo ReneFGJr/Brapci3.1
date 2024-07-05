@@ -46,8 +46,8 @@ def getListIdentifiers(URL,JNL, token, ISSUE):
 
 
             print(identifier,datestamp,setSpec,deleted)
-    except:
-        print("ERRO")
+    except Exception as e:
+        print("ERRO",e)
 
 def getSetSpec(URL,JNL):
     # URL do XML
