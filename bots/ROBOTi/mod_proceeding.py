@@ -9,7 +9,7 @@ from colorama import Fore
 import sys
 
 def harvesting():
-    qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token, is_jnl "
+    qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token, is_source "
     qr += "from brapci.source_issue "
     qr += "where is_status = 0 limit 1"
     row = database.query(qr)
