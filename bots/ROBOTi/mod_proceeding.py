@@ -19,6 +19,9 @@ def harvesting():
         JNL= str(row[0][2])
         ISSUE = str(row[0][3])
         token = str(row[0][4])
+
+        print('URL',URL)
+        print('Token:',token)
         XML = getSetSpec(URL,JNL)
 
         print('Status:',XML['status'])
