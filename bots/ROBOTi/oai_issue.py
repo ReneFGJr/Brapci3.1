@@ -41,6 +41,9 @@ def getListIdentifiers(URL,JNL, token, ISSUE):
             setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
             deleted = set_element.get('status') == 'deleted'  # Verifica se o status é 'deleted'
 
+            datestamp = datestamp.replace('T',' ')
+            datestamp = datestamp.replace('Z','')
+
             mod_listidentify.register(identifier,JNL,setSpec,datestamp,deleted,ISSUE)
 
 
