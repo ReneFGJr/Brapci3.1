@@ -5,6 +5,7 @@
 import requests
 import xml.etree.ElementTree as ET
 import database
+import mod_setSpec
 
 table = 'brapci_oaipmh.oai_listidentify'
 
@@ -26,3 +27,5 @@ def getSetSpec(URL,JNL):
         setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
         setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
         print(setSpec,setName)
+
+        mod_setSpec.register(setSpec,JNL,setName)
