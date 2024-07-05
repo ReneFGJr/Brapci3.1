@@ -43,8 +43,6 @@ def getListIdentifiers(URL,JNL, token, ISSUE):
             datestamp = datestamp.replace('Z','')
 
             mod_listidentify.register(identifier,JNL,setSpec,datestamp,deleted,ISSUE)
-
-
             print(identifier,datestamp,setSpec,deleted)
     except Exception as e:
         print("ERRO",e)
