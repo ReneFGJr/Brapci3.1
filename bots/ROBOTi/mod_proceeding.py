@@ -72,6 +72,8 @@ def getSetSpec(url,JNL):
     LINK = url + '?verb=ListSets'
     xml = oaipmh_request.get(LINK)
 
+    print(xml)
+
     if (xml['status'] == '200'):
         oaipmh_ListIdentifiers.xml_setSpecList(xml,JNL)
 
