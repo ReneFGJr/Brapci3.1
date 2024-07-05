@@ -70,6 +70,8 @@ def updateIssue(issue,token,status=0):
 
 def getSetSpec(url,JNL):
     LINK = url + '?verb=ListSets'
+
+    print("...Coletando",LINK)
     xml = oaipmh_request.get(LINK)
 
     print(xml)
