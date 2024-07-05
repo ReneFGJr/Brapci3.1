@@ -24,7 +24,7 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
         status = 9
 
     # *********** ISSUE
-    qr = "select * from brapci_rdf.oai_setspec "
+    qr = "select * from brapci_oaipmh.oai_setspec "
     qr += f" where s_id = '{setSpec}' "
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
