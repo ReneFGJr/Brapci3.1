@@ -28,49 +28,52 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
     qr += f" where s_id = '{setSpec}' "
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
-    print(set)
-    sys.exit()
 
-    qr = "select * "
-    qr += f"from {table} "
-    qr += "where "
-    qr += f" (oai_identifier = '{id}') "
-    qr += f"and (oai_setSpec = '{setSpec}') "
-    row = database.query(qr)
+    if set != []:
+        idsetSpec = set[0][1]
+        print("setSpec",idsetSpec)
+        sys.exit()
 
-    update = datetime.datetime.now().strftime('%Y%m%d')
+        qr = "select * "
+        qr += f"from {table} "
+        qr += "where "
+        qr += f" (oai_identifier = '{id}') "
+        qr += f"and (oai_setSpec = '{setSpec}') "
+        row = database.query(qr)
 
-    stamp = stamp.replace('T',' ')
-    stamp = stamp.replace('Z','')
+        update = datetime.datetime.now().strftime('%Y%m%d')
 
-    if row == []:
-        qi = f"insert into {table} \n"
-        qi += "(oai_update, oai_status, oai_id_jnl, "
-        qi += "oai_issue, oai_identifier, oai_datestamp, "
-        qi += "oai_setSpec, oai_deleted, oai_rdf"
-        qi += ") \n"
-        qi += " values \n"
-        qi += f"({update},{status},{jnl},"
-        qi += f"{issue}, '{id}','{stamp}',"
-        qi += f"{setSpec}, {deleted},0"
-        qi += ")"
+        stamp = stamp.replace('T',' ')
+        stamp = stamp.replace('Z','')
 
-        print(qi)
-        database.insert(qi)
+        if row == []:
+            qi = f"insert into {table} \n"
+            qi += "(oai_update, oai_status, oai_id_jnl, "
+            qi += "oai_issue, oai_identifier, oai_datestamp, "
+            qi += "oai_setSpec, oai_deleted, oai_rdf"
+            qi += ") \n"
+            qi += " values \n"
+            qi += f"({update},{status},{jnl},"
+            qi += f"{issue}, '{id}','{stamp}',"
+            qi += f"{setSpec}, {deleted},0"
+            qi += ")"
 
-        print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id+Fore.WHITE)
-    else:
-        deleted_db = row[0][8]
-        id_oai = row[0][0]
-        if (deleted != deleted_db):
-            qu = f"update {table} set "
-            qu += f"oai_deleted = {deleted}, "
-            qu += f"oai_status = {status} "
-            qu += f"where id_oai = {id_oai} "
-            database.update(qu)
-            print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id+Fore.WHITE)
+            print(qi)
+            database.insert(qi)
+
+            print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id+Fore.WHITE)
         else:
-            print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
+            deleted_db = row[0][8]
+            id_oai = row[0][0]
+            if (deleted != deleted_db):
+                qu = f"update {table} set "
+                qu += f"oai_deleted = {deleted}, "
+                qu += f"oai_status = {status} "
+                qu += f"where id_oai = {id_oai} "
+                database.update(qu)
+                print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id+Fore.WHITE)
+            else:
+                print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
     return True
 
 def updateRDF(ID,rdf):
