@@ -32,6 +32,8 @@ def getListIdentifiers(URL,JNL, token):
         # Analisando o XML
         root = ET.fromstring(response.content)
 
+        print(root)
+
         for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}set'):
             setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
             setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
