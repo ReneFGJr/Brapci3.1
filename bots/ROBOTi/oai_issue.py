@@ -33,8 +33,6 @@ def getListIdentifiers(URL,JNL, token, ISSUE):
         # Analisando o XML
         root = ET.fromstring(response.content)
 
-        print(root)
-
         for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}header'):
             identifier = set_element.find('{http://www.openarchives.org/OAI/2.0/}identifier').text
             datestamp = set_element.find('{http://www.openarchives.org/OAI/2.0/}datestamp').text
