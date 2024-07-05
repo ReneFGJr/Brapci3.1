@@ -5,6 +5,7 @@ import oaipmh_ListIdentifiers
 import mod_listidentify
 import mod_source
 from colorama import Fore
+import sys
 
 def harvesting():
     qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token "
@@ -22,6 +23,9 @@ def harvesting():
 
         print('URL',URL)
         print('Token:',token)
+
+        sys.exit()
+
         XML = getSetSpec(URL,JNL)
 
         print('Status:',XML['status'])
