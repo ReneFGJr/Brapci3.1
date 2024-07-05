@@ -4,6 +4,7 @@ import mod_setSpec
 import oaipmh_ListIdentifiers
 import mod_listidentify
 import mod_source
+import oai_issue
 from colorama import Fore
 import sys
 
@@ -24,7 +25,7 @@ def harvesting():
         print('URL',URL)
         print('Token:',token)
 
-        XML = getSetSpec(URL,JNL)
+        XML = oai_issue.getSetSpec(URL,JNL)
 
         sys.exit()
 
