@@ -35,7 +35,6 @@ def get(LINK):
     except requests.exceptions.SSLError:
         pass
     except Exception as e:
-        print(" ")
         print(Fore.RED+"ERRO Request:",cnt.status_code,e,Fore.WHITE)
         print(f"... Erro request - OAIPMH - LisyIdentifiers")
         status_code = '500'
@@ -45,9 +44,8 @@ def get(LINK):
             status_code = '200'
             return {'content':cnt.text,'status':status_code}
         except Exception as e:
-            print(cnt.text)
             status_code = '501'
             print("... ERRO: 404",e)
-            print("... URL:",LINK)
+            print("URL:",LINK)
             print(f"... cnt.text empty - OAIPMH - LisyIdentifiers")
             return {'content':'','status':status_code}
