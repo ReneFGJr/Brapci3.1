@@ -27,9 +27,9 @@ def harvesting():
 
         XML = oai_issue.getSetSpec(URL,JNL)
 
-        sys.exit()
-
         print('Status:',XML['status'])
+
+        sys.exit()
 
         reg = mod_setSpec.getSetSpec(JNL)
 

@@ -17,15 +17,20 @@ def getSetSpec(URL,JNL):
     url = URL + '?verb=ListSets'
 
     # Fazendo a requisição HTTP
-    response = requests.get(url, verify=False)
-    response.raise_for_status()  # Levanta um erro se a requisição falhar
+    XML = []
+    try:
+        response = requests.get(url, verify=False)
+        response.raise_for_status()  # Levanta um erro se a requisição falhar
 
-    # Analisando o XML
-    root = ET.fromstring(response.content)
+        # Analisando o XML
+        root = ET.fromstring(response.content)
 
-    for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}set'):
-        setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
-        setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
-        print(setSpec,setName)
+        for set_element in root.findall('.//{http://www.openarchives.org/OAI/2.0/}set'):
+            setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
+            setName = set_element.find('{http://www.openarchives.org/OAI/2.0/}setName').text
 
-        mod_setSpec.register(setSpec,JNL,setName)
+            mod_setSpec.register(setSpec,JNL,setName)
+        XML['status'] = '200'
+    except:
+        XML['status'] = '401'
+    return XML
