@@ -23,6 +23,8 @@ def harvesting():
         ISSUE = str(row[0][3])
         token = str(row[0][4])
 
+        print(row)
+
         print('URL',URL)
         print('Token:',token)
 
@@ -31,7 +33,7 @@ def harvesting():
         print('Status:',RSP)
 
         if RSP == '200':
-            xml = oai_issue.getListIdentifiers(URL,JNL, token, ISSUE)
+            xml = oai_issue.getListIdentifiers(URL,idJNL, token, ISSUE)
 
             sys.exit()
 
