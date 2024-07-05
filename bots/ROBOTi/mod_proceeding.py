@@ -42,6 +42,7 @@ def harvesting():
             mod_listidentify.registers(identifies,JNL,ISSUE)
 
         #Phase V - Token
+        print(xml)
         if (xml['status'] == '200'):
             token = mod_source.token(xml)
             if token == '':
