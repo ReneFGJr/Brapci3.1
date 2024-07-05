@@ -45,6 +45,8 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
         qi += f"{issue}, '{id}','{stamp}',"
         qi += f"{setSpec}, {deleted},0"
         qi += ")"
+
+        print(qi)
         database.insert(qi)
 
         print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id+Fore.WHITE)
