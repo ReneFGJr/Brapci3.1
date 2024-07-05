@@ -35,6 +35,7 @@ def get(LINK):
     except requests.exceptions.SSLError:
         pass
     except Exception as e:
+        print(" ")
         print(Fore.RED+"ERRO Request:",cnt.status_code,e,Fore.WHITE)
         print(f"... Erro request - OAIPMH - LisyIdentifiers")
         status_code = '500'
