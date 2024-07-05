@@ -5,6 +5,7 @@
 import database
 import datetime
 import os
+import sys
 from colorama import Fore
 
 table = "brapci_oaipmh.oai_listidentify"
@@ -21,6 +22,13 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
     status = 1
     if (deleted == 1):
         status = 9
+
+    # *********** ISSUE
+    qr = "select * from brapci_rdf.oai_setspec "
+    qr += f" where s_id = '{setSpec}' "
+    qr += f" and s_id_jnl = {jnl} "
+    print(qr)
+    sys.exit()
 
     qr = "select * "
     qr += f"from {table} "
