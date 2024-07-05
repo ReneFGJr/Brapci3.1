@@ -23,8 +23,6 @@ def harvesting():
         ISSUE = str(row[0][3])
         token = str(row[0][4])
 
-        print(row)
-
         print('URL',URL)
         print('Token:',token)
 
