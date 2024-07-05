@@ -24,9 +24,9 @@ def harvesting():
         print('URL',URL)
         print('Token:',token)
 
-        sys.exit()
-
         XML = getSetSpec(URL,JNL)
+
+        sys.exit()
 
         print('Status:',XML['status'])
 
