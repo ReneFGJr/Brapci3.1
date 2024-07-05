@@ -26,7 +26,7 @@ def getListIdentifiers(URL,JNL, token):
     XML = '400'
 
     try:
-        response = requests.get(url, verify=False)
+        response = requests.get(LINK, verify=False)
         response.raise_for_status()  # Levanta um erro se a requisição falhar
 
         # Analisando o XML
