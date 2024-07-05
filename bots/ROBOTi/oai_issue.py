@@ -38,8 +38,9 @@ def getListIdentifiers(URL,JNL, token):
             identifier = set_element.find('{http://www.openarchives.org/OAI/2.0/}identifier').text
             datestamp = set_element.find('{http://www.openarchives.org/OAI/2.0/}datestamp').text
             setSpec = set_element.find('{http://www.openarchives.org/OAI/2.0/}setSpec').text
+            deleted = set_element.get('status') == 'deleted'  # Verifica se o status é 'deleted'
 
-            print(identifier,datestamp,setSpec)
+            print(identifier,datestamp,setSpec,deleted)
     except:
         print("ERRO")
 
