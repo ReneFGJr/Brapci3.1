@@ -441,20 +441,21 @@ class Bolsas extends Model
 
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
-			$sx .= '<div class="row">';
-			$sx .= bsc($nome, 5);
+			$sx .= '<table>';
+			$sx .= '<tr><td>'.$nome. '</td>';
 			foreach ($data as $mod => $years) {
 				$dd['bs_nivel'] = $mod;
 				$years = (array)$years;
-				pre($years,false);
+
 				ksort($years);
 
 				foreach ($years as $year => $t) {
 					$dd['bs_ano'] = $year;
-					$sx .= bsc($this->selo($dd), 1);
+					$sx .= '<td>'.$this->selo($dd). '</td>';
 				}
+				$sx .= '</tr>'.cr();
 			}
-			$sx .= '</div>';
+			$sx .= '</table>';
 		}
 		return $sx;
 	}
