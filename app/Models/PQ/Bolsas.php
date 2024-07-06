@@ -441,7 +441,7 @@ class Bolsas extends Model
 
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
-			print($data);
+			pre($data);
 			$sx .= '<div class="row">';
 			$sx .= bsc($nome, 5);
 			foreach ($data as $mod => $years) {
