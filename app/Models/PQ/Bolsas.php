@@ -438,10 +438,9 @@ class Bolsas extends Model
 		$bolsista = (array)$person['bolsista'];
 		$bolsa = array();
 		ksort($bolsista);
-
+		$sx .= '<table class="table">';
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
-			$sx .= '<table>';
 			$sx .= '<tr><td>'.$nome. '</td>';
 			foreach ($data as $mod => $years) {
 				$dd['bs_nivel'] = $mod;
@@ -453,10 +452,10 @@ class Bolsas extends Model
 					$dd['bs_ano'] = $year;
 					$sx .= '<td>'.$this->selo($dd). '</td>';
 				}
-				$sx .= '</tr>'.cr();
 			}
-			$sx .= '</table>';
+			$sx .= '</tr>' . cr();
 		}
+		$sx .= '</table>';
 		return $sx;
 	}
 
