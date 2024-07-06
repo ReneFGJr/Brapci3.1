@@ -441,6 +441,7 @@ class Bolsas extends Model
 
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
+			pre($data);
 			ksort($data);
 			$sx .= '<div class="row">';
 			$sx .= bsc($nome, 5);
