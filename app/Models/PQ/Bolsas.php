@@ -445,7 +445,8 @@ class Bolsas extends Model
 			$sx .= bsc($nome, 5);
 			foreach ($data as $mod => $years) {
 				$dd['bs_nivel'] = $mod;
-				pre($years);
+				$years = (array)$years;
+				pre($years,false);
 				ksort($years);
 
 				foreach ($years as $year => $t) {
