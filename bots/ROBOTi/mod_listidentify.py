@@ -11,6 +11,7 @@ from colorama import Fore
 table = "brapci_oaipmh.oai_listidentify"
 
 def registers(ids,jnl,issue=0):
+    print("ids",ids)
     for idr in ids:
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
