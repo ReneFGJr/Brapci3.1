@@ -313,6 +313,13 @@ def ListIdentiers():
     if not (roboti_task.valid(reg)):
         return False
 
+    import oai_journal
+
+    print(reg)
+    sys.exit()
+
+    oai_journal.getSetSpec(URL,JNL)
+
     xml = oaipmh_ListIdentifiers.getSetSpec(reg[0])
     if (xml['status'] == '200'):
         setSpec = oaipmh_ListIdentifiers.xml_setSpecList(xml,reg[0][0])
