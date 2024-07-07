@@ -184,6 +184,9 @@ def formatNr(nr):
     return nr
 
 def decode(n,lg,vl):
+
+    print("Source",n)
+    sys.exit()
     try:
         n = n.lower()
     except:
