@@ -26,7 +26,7 @@ def get(jnl):
     else:
         LINK = url + '?verb=ListIdentifiers&metadataPrefix=oai_dc'
     print(Fore.YELLOW+"... Recuperando: "+Fore.GREEN+f"{LINK}"+Fore.WHITE)
-    xml = oaipmh_request.get(LINK, verify=False)
+    xml = oaipmh_request.get(LINK)
     return xml
 
 def getURL(url,token=''):
