@@ -12,8 +12,6 @@ table = "brapci_oaipmh.oai_listidentify"
 
 def registers(ids,jnl,issue=0):
     for idr in ids:
-        print("ids",idr,ids[idr])
-        sys.exit()
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
         deleted = ids[idr]['deleted']
@@ -21,6 +19,8 @@ def registers(ids,jnl,issue=0):
     return True
 
 def register(id_reg,jnl,setSpec,stamp,deleted,issue):
+    print(id_reg,jnl,setSpec,stamp,deleted,issue)
+    sys.exit()
     status = 1
     if (deleted == 1):
         status = 9
