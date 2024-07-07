@@ -75,9 +75,11 @@ def create_issue_rdf(JNL,year,vol,nr):
     ID = "JNL:"+ID+":"+str(year)
     ID += '-'+vol
 
-    print(ID)
-    sys.exit()
+    lt = mod_literal.register(ID,'nn')
+    cl = mod_class.getClass('Issue')
+    Issue = mod_concept.register(cl,lt)
 
+    return Issue
 
 def create_issue(JNL,year,vol,nr):
 

@@ -44,9 +44,10 @@ def harvesting():
             if rdf_ISSUE == '0':
                 print("Criando ISSUE-RDF")
                 rdf_ISSUE = mod_issue.create_issue_rdf(idJNL,year,vol,nr)
+                qu = "update brapci.source_issue set is_source_issue = {rdf_ISSUE} where id_is = {ISSUE}"
+                database.update(qu)
 
-            sys.exit()
-            xml = oai_issue.getListIdentifiers(URL,idJNL, token, ISSUE)
+            xml = oai_issue.getListIdentifiers(URL,idJNL, token, rdf_ISSUE)
 
             sys.exit()
 
