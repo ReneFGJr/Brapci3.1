@@ -185,8 +185,6 @@ def formatNr(nr):
 
 def decode(n,lg,vl):
 
-    print("Source",n)
-    sys.exit()
     try:
         n = n.lower()
     except:
@@ -251,5 +249,8 @@ def decode(n,lg,vl):
         dc = dict(vol=vol,nr=nr,year=year,theme=theme)
     except Exception as e:
         print("Problema ao montar retorno",e)
+
+    print(dc)
+    sys.exit()
 
     return dc
