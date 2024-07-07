@@ -42,6 +42,7 @@ def harvesting():
         if RSP == '200':
             print(f"ID-ISSUE: {rdf_ISSUE}\nJNL {rdf_JOURNAL}\nYEAR:{year}\nVOL: {vol},{nr}")
             if rdf_ISSUE == 0:
+                print("Criando ISSUE-RDF")
                 rdf_ISSUE = mod_issue.create_issue(idJNL,year,vol,nr)
 
             sys.exit()
