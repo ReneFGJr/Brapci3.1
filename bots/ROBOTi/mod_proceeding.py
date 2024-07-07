@@ -43,7 +43,7 @@ def harvesting():
             print(f"ID-ISSUE: {rdf_ISSUE}\nJNL {rdf_JOURNAL}\nYEAR:{year}\nVOL: {vol},{nr}")
             if rdf_ISSUE == '0':
                 print("Criando ISSUE-RDF")
-                rdf_ISSUE = mod_issue.create_issue(idJNL,year,vol,nr)
+                rdf_ISSUE = mod_issue.create_issue_rdf(idJNL,year,vol,nr)
 
             sys.exit()
             xml = oai_issue.getListIdentifiers(URL,idJNL, token, ISSUE)
