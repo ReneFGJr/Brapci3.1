@@ -12,7 +12,7 @@ table = "brapci_oaipmh.oai_listidentify"
 
 def registers(ids,jnl,issue=0):
     for idr in ids:
-        print("ids",ids[idr])
+        print("ids",idr,ids[idr])
         sys.exit()
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
