@@ -73,8 +73,8 @@ def create_issue_rdf(JNL,year,vol,nr):
         ID = "0"+ID
 
     ID = "JNL:"+ID+":"+str(year)
-    ID += '-'+extract_numbers(vol)
-    ID += '-'+extract_numbers(nr)
+    ID += '-'+vol
+    ID += '-'+nr
 
     print(ID)
     sys.exit()
