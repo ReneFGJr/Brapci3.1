@@ -19,19 +19,18 @@ def registers(ids,jnl,issue=0):
     return True
 
 def register(id_reg,jnl,setSpec,stamp,deleted,issue):
-    print(id_reg,jnl,setSpec,stamp,deleted,issue)
-    sys.exit()
     status = 1
     if (deleted == 1):
         status = 9
 
     # *********** ISSUE
     qr = "select * from brapci_oaipmh.oai_setspec "
-    qr += f" where s_id = '{setSpec}' "
+    qr += f" where (s_id = '{setSpec}' or id_s = {setSpec}) "
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
 
     print("SetEspc",qr)
+    sys.exit()
 
     if set != []:
         idsetSpec = set[0][0]
