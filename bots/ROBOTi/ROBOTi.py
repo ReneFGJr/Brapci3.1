@@ -335,9 +335,6 @@ def ListIdentiers():
         # Phase IVc - Identifica Identify
         print("XXXXXXXXXXXXX IVc")
         identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,jnl)
-        print("identifies",identifies)
-        sys.exit()
-
         # Pahse IVd - Registra Identify
         print("XXXXXXXXXXXXX IVd")
         mod_listidentify.registers(identifies,jnl)
