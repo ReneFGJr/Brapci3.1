@@ -317,11 +317,13 @@ def ListIdentiers():
     URL = reg[0][1]
     JNL = reg[0][0]
 
+    oai_journal.getSetSpec(URL,JNL)
+
     print(f"{URL}\n{JNL}\n{reg}")
     sys.exit()
 
 
-    oai_journal.getSetSpec(URL,JNL)
+
 
     xml = oaipmh_ListIdentifiers.getSetSpec(reg[0])
     if (xml['status'] == '200'):
