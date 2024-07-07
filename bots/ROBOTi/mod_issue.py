@@ -42,6 +42,9 @@ def identify(rg):
             if year == '':
                 year = 9999
 
+            print(f"Year:{year}\nVol:{vol},\nNr.{nr}")
+            sys.exit()
+
             qr = 'select * from brapci.source_issue '
             qr += 'where '
             qr += 'is_source = '+str(JNL)
