@@ -2,11 +2,12 @@
 # @Data: 2023-12-24
 # @Title: Modulo de listidentify
 
+from colorama import Fore
 import database
 import datetime
 import os
 import sys
-from colorama import Fore
+
 
 table = "brapci_oaipmh.oai_listidentify"
 
@@ -39,8 +40,6 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue):
         qr += f"and (oai_setSpec = '{idsetSpec}') "
         row = database.query(qr)
 
-        print(qr)
-
         update = datetime.datetime.now().strftime('%Y%m%d')
 
         stamp = stamp.replace('T',' ')
@@ -71,9 +70,9 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue):
                 qu += f"oai_status = {status} "
                 qu += f"where id_oai = {id_oai} "
                 database.update(qu)
-                print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id+Fore.WHITE)
+                print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id_reg+Fore.WHITE)
             else:
-                print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
+                print(Fore.BLUE+"... Já existe "+Fore.GREEN+id_reg+Fore.WHITE)
     return True
 
 def updateRDF(ID,rdf):
