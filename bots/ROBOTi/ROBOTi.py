@@ -329,6 +329,8 @@ def ListIdentiers():
         # Phase IVa - Get setSpecs
         print("XXXXXXXXXXXXX IVa")
         setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
+        print("setSpec",setSpec)
+        sys.exit()
         # Phase IVb - Registers setSpecs
         print("XXXXXXXXXXXXX IVb")
         setSpec = mod_setSpec.process(setSpec,reg)
