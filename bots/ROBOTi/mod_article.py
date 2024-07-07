@@ -286,11 +286,9 @@ def article_data(IDC,rg,data,jnl):
                 row = database.query(qr)
                 IDsec = row[0][0]
 
-                print(row)
-                sys.exit()
-
                 if (IDsec == None or IDsec < 1):
                     print("Erro Section IDsec="+IDsec)
+                    sys.exit()
                     quit()
                 else:
                     print("...=>Section",IDsec)
