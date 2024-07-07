@@ -188,7 +188,7 @@ def decode(n,lg,vl):
     try:
         n = n.lower()
     except:
-        print("Erro no Lower da Legemda")
+        print("Erro no Lower da Legenda")
 
     n = n.replace('núm','n')
 
@@ -251,8 +251,5 @@ def decode(n,lg,vl):
         dc = dict(vol=vol,nr=nr,year=year,theme=theme)
     except Exception as e:
         print("Problema ao montar retorno",e)
-    print(n)
-    print(dc)
-    sys.exit()
 
     return dc
