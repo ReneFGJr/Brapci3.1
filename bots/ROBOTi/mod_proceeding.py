@@ -36,10 +36,10 @@ def harvesting():
         print('Status:',RSP)
 
         if RSP == '200':
-            print(f"JNL {JNL}\nYEAR:{year}\nVOL: {vol},{nr}")
+            print(f"JNL {idJNL}\nYEAR:{year}\nVOL: {vol},{nr}")
             sys.exit()
             if rdf_ISSUE == 0:
-                rdf_ISSUE = mod_issue.create_issue(JNL,year,vol,nr)
+                rdf_ISSUE = mod_issue.create_issue(idJNL,year,vol,nr)
 
             xml = oai_issue.getListIdentifiers(URL,idJNL, token, ISSUE)
 
