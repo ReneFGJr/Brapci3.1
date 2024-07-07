@@ -30,6 +30,7 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue):
     set = database.query(qr)
 
     print("SetEspc",qr)
+    print("SetEspc",set)
     sys.exit()
 
     if set != []:
