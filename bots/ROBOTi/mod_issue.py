@@ -190,6 +190,8 @@ def decode(n,lg,vl):
     except:
         print("Erro no Lower da Legemda")
 
+    n = n.replace('núm','n')
+
     try:
         vol = vl['vol']
         nr =  vl['nr']
