@@ -256,7 +256,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Language
             if (k == 'language'):
-                print("...ISSE-WORK-LANGUAGE")
+                print("...ISSUE-WORK-LANGUAGE")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -265,7 +265,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Journal
             if (k == 'journal'):
-                print("...ISSE-WORK-JOURNAL")
+                print("...ISSUE-WORK-JOURNAL")
                 ok = True
                 J = data[i][k]
                 J = J['id_jnl']
@@ -273,10 +273,10 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Journal
             if (k == 'section'):
-                print("...ISSE-WORK-SECTION")
                 ok = True
                 S = data[i][k]
                 ids = S['section']
+                print("...ISSUE-WORK-SECTION",ids)
 
                 qr = "select sc_rdf, sc_name, s_section from brapci_oaipmh.oai_setspec "
                 qr += "left join brapci.sections on s_section = id_sc "
