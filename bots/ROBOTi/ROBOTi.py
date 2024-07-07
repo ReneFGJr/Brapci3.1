@@ -273,7 +273,7 @@ def GetRecord():
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(1)
 
-    print(reg)
+    print(reg[0])
     sys.exit()
 
     if (reg == []):
