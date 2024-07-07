@@ -4,7 +4,7 @@
 
 import requests
 import xml.etree.ElementTree as ET
-import database
+#import database
 import mod_setSpec
 import mod_listidentify
 from colorama import Fore

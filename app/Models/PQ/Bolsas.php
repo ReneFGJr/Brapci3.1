@@ -50,6 +50,10 @@ class Bolsas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	public $id = 0;
+	public $path = '';
+	public $path_back = '';
+
 	function bolsa_ano_tipo()
 	{
 		$label = [];

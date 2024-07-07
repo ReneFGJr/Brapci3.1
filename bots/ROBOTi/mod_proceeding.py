@@ -5,11 +5,12 @@ import oaipmh_ListIdentifiers
 import mod_listidentify
 import mod_source
 import oai_issue
+import mod_issue
 from colorama import Fore
 import sys
 
 def harvesting():
-    qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token, is_source "
+    qr = "select is_url_oai, is_oai_token, is_source, id_is, is_oai_token, is_source, is_source_issue, is_year, is_vol_roman, is_nr "
     qr += "from brapci.source_issue "
     qr += "where is_status = 0 limit 1"
     row = database.query(qr)
@@ -22,6 +23,10 @@ def harvesting():
         idJNL= str(row[0][5])
         ISSUE = str(row[0][3])
         token = str(row[0][4])
+        rdf_ISSUE = str(row[0][6])
+        year = str(row[0][7])
+        vol = str(row[0][8])
+        nr = str(row[0][9])
 
         print('URL',URL)
         print('Token:',token)
@@ -31,6 +36,11 @@ def harvesting():
         print('Status:',RSP)
 
         if RSP == '200':
+            print(f"JNL {JNL}\nYEAR:{year}\nVOL: {vol},{nr}")
+            sys.exit()
+            if rdf_ISSUE == 0:
+                rdf_ISSUE = mod_issue.create_issue(JNL,year,vol,nr)
+
             xml = oai_issue.getListIdentifiers(URL,idJNL, token, ISSUE)
 
             sys.exit()
