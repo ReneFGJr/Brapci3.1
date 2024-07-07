@@ -30,7 +30,7 @@ def harvesting():
         year = str(row[0][7])
         vol = str(row[0][8])
         nr = str(row[0][9])
-        rdf_JOURNAL = str(row[10][9])
+        rdf_JOURNAL = str(row[0][10])
 
         print('URL',URL)
         print('Token:',token)
