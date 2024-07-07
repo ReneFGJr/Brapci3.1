@@ -15,6 +15,7 @@ def registers(ids,jnl,issue=0):
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
         deleted = ids[idr]['deleted']
+        print("IDR",idr)
         register(idr,jnl,setspec,date,deleted,issue)
     return True
 
