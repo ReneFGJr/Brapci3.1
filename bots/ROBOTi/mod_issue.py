@@ -27,8 +27,6 @@ def identify(rg):
 
         source = []
 
-        print(data)
-
         if (ISSUE == 0) or (ISSUE == None):
             for i in range(len(data)):
                 keys = data[i].keys()
