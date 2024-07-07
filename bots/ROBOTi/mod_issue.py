@@ -249,7 +249,7 @@ def decode(n,lg,vl):
         dc = dict(vol=vol,nr=nr,year=year,theme=theme)
     except Exception as e:
         print("Problema ao montar retorno",e)
-
+    print(n)
     print(dc)
     sys.exit()
 
