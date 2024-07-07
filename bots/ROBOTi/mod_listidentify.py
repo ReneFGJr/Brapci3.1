@@ -15,11 +15,10 @@ def registers(ids,jnl,issue=0):
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
         deleted = ids[idr]['deleted']
-        print("IDR",idr)
         register(idr,jnl,setspec,date,deleted,issue)
     return True
 
-def register(id,jnl,setSpec,stamp,deleted,issue):
+def register(id_reg,jnl,setSpec,stamp,deleted,issue):
     status = 1
     if (deleted == 1):
         status = 9
@@ -30,13 +29,15 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
 
+    print("SetEspc",qr)
+
     if set != []:
         idsetSpec = set[0][0]
 
         qr = "select * "
         qr += f"from {table} "
         qr += "where "
-        qr += f" (oai_identifier = '{id}') "
+        qr += f" (oai_identifier = '{id_reg}') "
         qr += f"and (oai_setSpec = '{idsetSpec}') "
         row = database.query(qr)
 
