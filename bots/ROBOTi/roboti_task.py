@@ -15,7 +15,7 @@ def nextGetRecords(status):
     cp += "is_url_oai "
     qr = f"select {cp} from brapci_oaipmh.oai_listidentify "
     qr += " inner join brapci.source_source on oai_id_jnl = id_jnl "
-    qr += " left join brapci.source_issue on oai_issue = id_is "
+    qr += " left join brapci.source_issue on oai_issue = is_source_issue "
     qr += " inner join brapci_oaipmh.oai_setspec on oai_setSpec = id_s "
     qr += f" where oai_status = {status} "
     qr += " order by oai_update "
