@@ -314,9 +314,12 @@ def ListIdentiers():
         return False
 
     import oai_journal
+    URL = reg[0][1]
+    JNL = reg[0][0]
 
-    print(reg)
+    print(f"URL\nJNL\mreg")
     sys.exit()
+
 
     oai_journal.getSetSpec(URL,JNL)
 
