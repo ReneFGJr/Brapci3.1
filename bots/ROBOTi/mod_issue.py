@@ -9,6 +9,7 @@ import mod_concept
 import mod_class
 import database
 import traceback
+import sys
 
 def identify(rg):
     ID = rg[0]
@@ -65,6 +66,19 @@ def identify(rg):
         row = []
 
     return row
+
+def create_issue_rdf(JNL,year,vol,nr):
+    ID = str(JNL)
+    while len(ID) < 5:
+        ID = "0"+ID
+
+    ID = "JNL:"+ID+":"+str(year)
+    ID += '-'+extract_numbers(vol)
+    ID += '-'+extract_numbers(nr)
+
+    print(ID)
+    sys.exit()
+
 
 def create_issue(JNL,year,vol,nr):
 
