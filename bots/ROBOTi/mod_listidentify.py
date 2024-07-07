@@ -28,7 +28,6 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
     qr += f" where s_id = '{setSpec}' "
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
-    print(qr)
 
     if set != []:
         idsetSpec = set[0][0]
@@ -39,6 +38,8 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
         qr += f" (oai_identifier = '{id}') "
         qr += f"and (oai_setSpec = '{idsetSpec}') "
         row = database.query(qr)
+
+        print(qr)
 
         update = datetime.datetime.now().strftime('%Y%m%d')
 
