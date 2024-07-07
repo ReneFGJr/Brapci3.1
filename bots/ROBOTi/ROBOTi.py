@@ -317,7 +317,7 @@ def ListIdentiers():
     URL = reg[0][1]
     JNL = reg[0][0]
 
-    print(f"{URL}\n{JNL}\mreg")
+    print(f"{URL}\n{JNL}\n{reg}")
     sys.exit()
 
 
