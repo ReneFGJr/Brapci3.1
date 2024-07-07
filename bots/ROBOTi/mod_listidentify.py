@@ -29,10 +29,6 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue):
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
 
-    print("SetEspc",qr)
-    print("SetEspc",set)
-    sys.exit()
-
     if set != []:
         idsetSpec = set[0][0]
 
