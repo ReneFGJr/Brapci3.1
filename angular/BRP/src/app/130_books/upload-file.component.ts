@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { FileUploadService } from './../000_core/010_services/file-upload.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 
@@ -8,52 +8,40 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class UploadFileComponent {
   selectedFile: File | null = null;
+  uploadProgress: number | null = null;
+  uploadedFileUrl: string | null = null;
+  uploadedFileName: string | null = null;
 
-  constructor(
-    private fileUploadService: FileUploadService,
-    private http: HttpClient
-  ) {}
-
-  @Output() newItemEvent = new EventEmitter<string>();
-
-  // Variable to store shortLink from api response
-  shortLink: string = '';
-  loading: boolean = false; // Flag variable
-  public file: File | any; // Variable to store file
-
-  ngOnInit(): void {}
-
-  // On file Select
-  onChange(event: any) {
-    this.file = event.target.files[0];
-  }
+  constructor(private http: HttpClient) {}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
-  // OnClick of button Upload
   onUpload() {
-    this.loading = !this.loading;
-    this.fileUploadService.upload(this.file).subscribe((event: any) => {
-      console.log('======FILE=1======');
-      this.newItemEvent.emit(event);
-      console.log(event.message);
-      console.log(event)
-      console.log('======FILE=2======');
-    });
-  }
-
-  onUploadNew() {
     if (this.selectedFile) {
       const formData = new FormData();
       formData.append('file', this.selectedFile, this.selectedFile.name);
 
-      this.http.post('YOUR_API_ENDPOINT', formData).subscribe((response) => {
-        console.log(response);
-      });
+      this.http
+        .post('https://cip.brapci.inf.br/api/book/submit', formData, {
+          reportProgress: true,
+          observe: 'events',
+        })
+        .subscribe((event) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.uploadProgress = Math.round(
+              (100 * event.loaded) / (event.total ?? 1)
+            );
+          } else if (event instanceof HttpResponse) {
+            this.uploadProgress = null;
+            this.uploadedFileUrl = 'URL_OF_YOUR_UPLOADED_FILE'; // Adjust based on your response
+            this.uploadedFileName = this.selectedFile?.name ?? '';
+          }
+        });
     } else {
       alert('No file selected');
     }
   }
+  @Output() newItemEvent = new EventEmitter<string>();
 }

@@ -1,38 +1,15 @@
-<div class="text-center p-2"
-    *ngIf="!shortLink"
-    [ngClass]="{
-      form_valid: shortLink,
-      form_invalid: !shortLink
-    }"
-  >
-    <input class="form-control" type="file"
-            (change)="onChange($event)">
-
-    <button (click)="onUpload()"
-        class="btn btn-success">
-        Upload
-    </button>
-</div>
-
-<!-- Shareable short link of  uploaded file -->
-<div class="container text-center jumbotron"
-    *ngIf="shortLink"
-    [ngClass]="{
-      form_valid: shortLink,
-      form_invalid: !shortLink
-    }"    >
-    <h2> Visit Here</h2>
-    <a href="{{shortLink}}">{{shortLink}}</a>
-</div>
-
-<!--Flag variable is used here-->
-<div class="container" *ngIf="loading">
-    <h3>Carregando ...</h3>
-</div>
-
-
 <div class="file-upload">
   <h2>File Upload</h2>
   <input type="file" (change)="onFileSelected($event)">
-  <button (click)="onUploadNew()">Upload</button>
+  <button (click)="onUpload()">Upload</button>
+
+  <div *ngIf="uploadProgress !== null">
+    <p>Progress: {{uploadProgress}}%</p>
+    <progress [value]="uploadProgress" max="100"></progress>
+  </div>
+
+  <div *ngIf="uploadedFileUrl">
+    <h3>Uploaded File</h3>
+    <a [href]="uploadedFileUrl" target="_blank">{{uploadedFileName}}</a>
+  </div>
 </div>
