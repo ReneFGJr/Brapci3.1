@@ -5,6 +5,8 @@ return[
         'bs_lattes'=>'ID do Lattes',
         'bolsista_vigentes' =>'Bolsistas PQ Vigentes',
         'bolsista_list'=>'Lista de todos os Bolsistas PQ e Bolsas',
+        'bolsista_renovacao'=>'Renovações de bolsas',
+        'bolsista_dataset'=>'Download do datasets do bolsistas',
         'bs_nome'=>'Nome do bolsista',
         'mod_modalidade'=>'Modalidade',
         'bs_start'=>'Início',

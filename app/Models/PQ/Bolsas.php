@@ -54,6 +54,38 @@ class Bolsas extends Model
 	public $path = '';
 	public $path_back = '';
 
+	function download()
+		{
+			$dt = $this
+				->join('brapci_pq.bolsistas', 'id_bs = bb_person')
+				->join('brapci_pq.modalidades', 'id_mod = bs_tipo')
+				->orderBy('bs_start, bs_nome')
+				->findAll();
+			$csv = 'ID,START,END,NAME,INSTITUTION,IDLATTES,MOD,NIVEL,BOLSA';
+			$sep = ',';
+			foreach($dt as $id=>$line)
+				{
+					$csv .= cr();
+					$csv .= "'".$line['id_bb']."'".$sep;
+					$csv .= "'" . $line['bs_start'] . "'" . $sep;
+					$csv .= "'" . $line['bs_finish'] . "'" . $sep;
+					$csv .= "'" . $line['bs_nome'] . "'" . $sep;
+					$csv .= "'" . $line['BS_IES'] . "'" . $sep;
+					$csv .= "'" . $line['bs_lattes'] . "'" . $sep;
+					$csv .= "'" . $line['mod_sigla'] . "'" . $sep;
+					$csv .= "'" . $line['bs_nivel'] . "'" . $sep;
+					$csv .= "'" . trim($line['mod_sigla']).trim($line['bs_nivel']) . "'";
+				}
+			$dir = '.tmp/pq/';
+			dircheck($dir);
+			$file = $dir . 'pq_bolsistas_'.date("Y_M").'.csv';
+			file_put_contents($file,$csv);
+			$msg = 'Click <a href="/'.$file.'">aqui</a> para download do Dataset';
+			$sx = bsmessage($msg);
+
+			return $sx;
+		}
+
 	function bolsa_ano_tipo()
 	{
 		$label = [];

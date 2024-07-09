@@ -97,6 +97,9 @@ class Index extends Model
 				$sx .= $this->subheader();
 				$sx .= $this->pq_bolsas();
 				break;
+
+			case 'pq_dataset':
+				$sx .= $this->dataset();
 				break;
 
 			case 'pq_bolsasistas':
@@ -220,6 +223,8 @@ class Index extends Model
 
 		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_bolsas' . '">' . lang('pq.bolsista_list') . '</a></li>';
 		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_ano' . '">' . lang('pq.bolsista_ano_list') . '</a></li>';
+		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_renew' . '">' . lang('pq.bolsista_renovacao') . '</a></li>';
+		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_dataset' . '">' . lang('pq.bolsista_dataset') . '</a></li>';
 
 		$sx .= '<li><a href="http://memoria2.cnpq.br/bolsistas-vigentes" target="_new">CNPq - ' . lang('pq.bolsista_ativos_cnpq') . '</a></li>';
 
@@ -237,4 +242,12 @@ class Index extends Model
 
 		return $sx;
 	}
+
+	function dataset()
+		{
+			$Bolsas = new \App\Models\PQ\Bolsas();
+			$sx = h("Dataset PQ");
+			$sx .= $Bolsas->download();
+			return $sx;
+		}
 }
