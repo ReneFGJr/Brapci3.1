@@ -126,7 +126,7 @@ class Docentes extends Model
                                     $etapa = ' ('.$etapa.'ª Etapa)';
                                 }
 
-                            $link = '<a href="' . PATH . '/dci/encargos/edit/' . $line['id_e'] . '" target="_blank">';
+                            $link = '<a href="' . PATH . '/dci/encargos/edit/' . $ddados['id_e'] . '" target="_blank">';
                             $linka = '</a>';
 
 
