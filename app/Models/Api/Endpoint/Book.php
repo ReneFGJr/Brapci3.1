@@ -68,7 +68,7 @@ class Book extends Model
             case 'submit':
                 $PS = array_merge($_POST, $_GET);
                 $booksSubmit = new \App\Models\Books\BooksSubmit();
-                $booksSubmit->register($PS);
+                $PS = $booksSubmit->register($PS);
                 $dt = [];
                 $dt['status'] = '200';
                 $dt['message'] = 'Registro salvo';
