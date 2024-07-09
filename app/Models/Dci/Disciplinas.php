@@ -238,7 +238,6 @@ class Disciplinas extends Model
                 $h_dia = $line['h_dia'];
                 $docente = $line['dc_nome'];
                 $curso = $line['c_curso'];
-                pre($line,false);
                 $hora = $line['id_h'];
                 if ($hora == '')
                     {
