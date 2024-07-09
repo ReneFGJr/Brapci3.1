@@ -126,8 +126,12 @@ class Docentes extends Model
                                     $etapa = ' ('.$etapa.'ª Etapa)';
                                 }
 
+                            $link = '<a href="' . PATH . '/dci/encargos/edit/' . $line['id_e'] . '" target="_blank">';
+                            $linka = '</a>';
+
+
                             $sala = $ddados['h_dia'].' '. $ddados['h_hora_ini'].' '. $ddados['h_hora_fim'];
-                            $sx .= '<td width="35%" style="background-color: $cor$;" class="border border-secondary">'.$ddados['di_codigo'].' - '.$ddados['di_disciplina'].
+                            $sx .= '<td width="35%" style="background-color: $cor$;" class="border border-secondary">'.$link.$ddados['di_codigo'].' - '.$ddados['di_disciplina'].$linka.
                                     ' <sup>'.$ddados['di_tipo'].$etapa.'</td>';
                             $sx .= '<td width="10%" style="background-color: $cor$;" class="border border-secondary text-center">' . $ddados['c_curso'].'</sup></td>';
                             $sx .= '<td width="2%" class="border border-secondary text-center">' . $ddados['e_turma'] . '</td>';
