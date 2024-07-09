@@ -11,6 +11,10 @@ import database
 import traceback
 import sys
 
+def updateSatus(idISSUE,status):
+    qu = f"update brapci.source_issue set is_status = {status} where id_is = {idISSUE}"
+    database.update(qu)
+
 def identify(rg):
     ID = rg[0]
     JNL = rg[6]
