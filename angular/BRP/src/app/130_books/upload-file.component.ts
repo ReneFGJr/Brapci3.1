@@ -35,7 +35,7 @@ export class UploadFileComponent {
             );
           } else if (event instanceof HttpResponse) {
             this.uploadProgress = null;
-            this.uploadedFileUrl = 'URL_OF_YOUR_UPLOADED_FILE'; // Adjust based on your response
+            this.uploadedFileUrl = 'https://cip.brapci.inf.br/api/book/submit'; // Adjust based on your response
             this.uploadedFileName = this.selectedFile?.name ?? '';
           }
         });
