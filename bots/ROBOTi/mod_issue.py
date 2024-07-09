@@ -9,6 +9,7 @@ import mod_concept
 import mod_class
 import database
 import traceback
+import sys
 
 def identify(rg):
     ID = rg[0]
@@ -41,6 +42,9 @@ def identify(rg):
             if year == '':
                 year = 9999
 
+            print(f"Year:{year}\nVol:{vol},\nNr.{nr}")
+            sys.exit()
+
             qr = 'select * from brapci.source_issue '
             qr += 'where '
             qr += 'is_source = '+str(JNL)
@@ -65,6 +69,20 @@ def identify(rg):
         row = []
 
     return row
+
+def create_issue_rdf(JNL,year,vol,nr):
+    ID = str(JNL)
+    while len(ID) < 5:
+        ID = "0"+ID
+
+    ID = "JNL:"+ID+":"+str(year)
+    ID += '-'+vol
+
+    lt = mod_literal.register(ID,'nn')
+    cl = mod_class.getClass('Issue')
+    Issue = mod_concept.register(cl,lt)
+
+    return Issue
 
 def create_issue(JNL,year,vol,nr):
 
@@ -164,10 +182,13 @@ def formatNr(nr):
     return nr
 
 def decode(n,lg,vl):
+
     try:
         n = n.lower()
     except:
-        print("Erro no Lower da Legemda")
+        print("Erro no Lower da Legenda")
+
+    n = n.replace('núm','n')
 
     try:
         vol = vl['vol']

@@ -31,7 +31,7 @@ def get(LINK):
     try:
         web = requests.Session()
         #cnt = web.get(LINK,verify=False, timeout=timeout, headers=headers, allow_redirects=True)
-        cnt = web.get(LINK, timeout=timeout, headers=headers)
+        cnt = web.get(LINK, timeout=timeout, headers=headers, verify=False)
     except requests.exceptions.SSLError:
         pass
     except Exception as e:

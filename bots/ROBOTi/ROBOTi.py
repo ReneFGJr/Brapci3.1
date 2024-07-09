@@ -313,9 +313,12 @@ def ListIdentiers():
     if not (roboti_task.valid(reg)):
         return False
 
-    xml = oaipmh_ListIdentifiers.getSetSpec(reg[0])
-    if (xml['status'] == '200'):
-        setSpec = oaipmh_ListIdentifiers.xml_setSpecList(xml,reg[0][0])
+    import oai_journal
+    URL = reg[0][1]
+    JNL = reg[0][0]
+    token = reg[0][4]
+
+    oai_journal.getSetSpec(URL,JNL)
 
     # Phase III - GetList
     jnl = reg[0][0]
@@ -324,12 +327,16 @@ def ListIdentiers():
     # Phase IV - Check and Process XML File
     if (xml['status'] == '200'):
         # Phase IVa - Get setSpecs
+        print("XXXXXXXXXXXXX IVa")
         setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
         # Phase IVb - Registers setSpecs
+        print("XXXXXXXXXXXXX IVb")
         setSpec = mod_setSpec.process(setSpec,reg)
         # Phase IVc - Identifica Identify
+        print("XXXXXXXXXXXXX IVc")
         identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,jnl)
         # Pahse IVd - Registra Identify
+        print("XXXXXXXXXXXXX IVd")
         mod_listidentify.registers(identifies,jnl)
 
     #Phase V - Token

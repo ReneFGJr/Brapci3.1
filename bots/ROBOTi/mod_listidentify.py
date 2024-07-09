@@ -2,11 +2,12 @@
 # @Data: 2023-12-24
 # @Title: Modulo de listidentify
 
+from colorama import Fore
 import database
 import datetime
 import os
 import sys
-from colorama import Fore
+
 
 table = "brapci_oaipmh.oai_listidentify"
 
@@ -18,14 +19,14 @@ def registers(ids,jnl,issue=0):
         register(idr,jnl,setspec,date,deleted,issue)
     return True
 
-def register(id,jnl,setSpec,stamp,deleted,issue):
+def register(id_reg,jnl,setSpec,stamp,deleted,issue):
     status = 1
     if (deleted == 1):
         status = 9
 
     # *********** ISSUE
     qr = "select * from brapci_oaipmh.oai_setspec "
-    qr += f" where s_id = '{setSpec}' "
+    qr += f" where (s_id = '{setSpec}' or id_s = {setSpec}) "
     qr += f" and s_id_jnl = {jnl} "
     set = database.query(qr)
 
@@ -35,7 +36,7 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
         qr = "select * "
         qr += f"from {table} "
         qr += "where "
-        qr += f" (oai_identifier = '{id}') "
+        qr += f" (oai_identifier = '{id_reg}') "
         qr += f"and (oai_setSpec = '{idsetSpec}') "
         row = database.query(qr)
 
@@ -55,11 +56,11 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
             qi += f"{issue}, '{id}','{stamp}',"
             qi += f"{idsetSpec}, {deleted},0"
             qi += ")"
-
             print(qi)
+            sys.exit()
             database.insert(qi)
 
-            print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id+Fore.WHITE)
+            print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id_reg+Fore.WHITE)
         else:
             deleted_db = row[0][8]
             id_oai = row[0][0]
@@ -69,9 +70,9 @@ def register(id,jnl,setSpec,stamp,deleted,issue):
                 qu += f"oai_status = {status} "
                 qu += f"where id_oai = {id_oai} "
                 database.update(qu)
-                print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id+Fore.WHITE)
+                print(Fore.YELLOW+"... atualizado "+Fore.GREEN+id_reg+Fore.WHITE)
             else:
-                print(Fore.BLUE+"... Já existe "+Fore.GREEN+id+Fore.WHITE)
+                print(Fore.BLUE+"... Já existe "+Fore.GREEN+id_reg+Fore.WHITE)
     return True
 
 def updateRDF(ID,rdf):

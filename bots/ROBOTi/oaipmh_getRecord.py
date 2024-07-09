@@ -262,6 +262,9 @@ def process(rg):
 def get(rg):
     identify = rg[1]
     url = rg[2]
+    url2 = rg[9]
+    if (url == ''):
+        url = url2
     ID = rg[0]
     urlIssue = str(rg[9])
 

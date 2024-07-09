@@ -11,9 +11,6 @@ from colorama import Fore
 
 table = 'brapci_oaipmh.oai_listidentify'
 
-def register(ID,JNL):
-    print("HELLO")
-
 def getListIdentifiers(URL,JNL, token, ISSUE):
 
     # URL do XML

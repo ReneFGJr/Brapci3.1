@@ -50,6 +50,10 @@ class Bolsas extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	public $id = 0;
+	public $path = '';
+	public $path_back = '';
+
 	function bolsa_ano_tipo()
 	{
 		$label = [];
@@ -438,21 +442,24 @@ class Bolsas extends Model
 		$bolsista = (array)$person['bolsista'];
 		$bolsa = array();
 		ksort($bolsista);
-
+		$sx .= '<table class="table">';
 		foreach ($bolsista as $name => $data) {
 			$nome = (string)$name;
-			$sx .= '<div class="row">';
-			$sx .= bsc($nome, 5);
+			$sx .= '<tr><td>'.$nome. '</td>';
 			foreach ($data as $mod => $years) {
 				$dd['bs_nivel'] = $mod;
+				$years = (array)$years;
+
+				ksort($years);
 
 				foreach ($years as $year => $t) {
 					$dd['bs_ano'] = $year;
-					$sx .= bsc($this->selo($dd), 1);
+					$sx .= '<td>'.$this->selo($dd). '</td>';
 				}
 			}
-			$sx .= '</div>';
+			$sx .= '</tr>' . cr();
 		}
+		$sx .= '</table>';
 		return $sx;
 	}
 

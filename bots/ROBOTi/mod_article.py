@@ -18,6 +18,7 @@ import mod_section
 import mod_issue
 import mod_source_issue_work
 import database
+import sys
 
 def process(rg):
     ID = rg[0]
@@ -163,7 +164,7 @@ def article_data(IDC,rg,data,jnl):
     if row != []:
         IDissue = row[0][3]
         if (IDissue > 0):
-            print("...ISSE-WORK")
+            print("...ISSUE-WORK")
             mod_data.register(IDissue,'hasIssueOf',IDC)
             mod_source_issue_work.register(jnl,IDissue,IDC)
         else:
@@ -180,7 +181,7 @@ def article_data(IDC,rg,data,jnl):
             ok = 0
             #################################### TITLE
             if (k == 'title'):
-                print("...ISSE-WORK-TITLE")
+                print("...ISSUE-WORK-TITLE")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -189,7 +190,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Abstract
             if (k == 'abstract'):
-                print("...ISSE-WORK-ABSTRACT")
+                print("...ISSUE-WORK-ABSTRACT")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -199,7 +200,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### URL
             if (k == 'http'):
-                print("...ISSE-WORK-HTTP")
+                print("...ISSUE-WORK-HTTP")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -209,7 +210,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### DOI
             if (k == 'DOI'):
-                print("...ISSE-WORK-DOI")
+                print("...ISSUE-WORK-DOI")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -222,7 +223,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Subject
             if (k == 'subject'):
-                print("...ISSE-WORK-SUBJECT")
+                print("...ISSUE-WORK-SUBJECT")
                 ok = True
                 T = data[i][k]
                 T = mod_subject.prepare(T)
@@ -232,7 +233,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Author
             if (k == 'author'):
-                print("...ISSE-WORK-AUTHOR")
+                print("...ISSUE-WORK-AUTHOR")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -242,13 +243,13 @@ def article_data(IDC,rg,data,jnl):
             if (k == 'license'):
                 ok = True
                 T = data[i][k]
-                print("...ISSE-WORK-LICENSE")
+                print("...ISSUE-WORK-LICENSE")
                 for it in range(len(T)):
                     mod_license.register_literal(IDC,T[it])
 
             #################################### datePub
             if (k == 'datePub'):
-                print("...ISSE-WORK-DATEPUB")
+                print("...ISSUE-WORK-DATEPUB")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -256,7 +257,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Language
             if (k == 'language'):
-                print("...ISSE-WORK-LANGUAGE")
+                print("...ISSUE-WORK-LANGUAGE")
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
@@ -265,7 +266,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Journal
             if (k == 'journal'):
-                print("...ISSE-WORK-JOURNAL")
+                print("...ISSUE-WORK-JOURNAL")
                 ok = True
                 J = data[i][k]
                 J = J['id_jnl']
@@ -273,19 +274,21 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Journal
             if (k == 'section'):
-                print("...ISSE-WORK-SECTION")
                 ok = True
                 S = data[i][k]
                 ids = S['section']
+                print("...ISSUE-WORK-SECTION",ids)
 
                 qr = "select sc_rdf, sc_name, s_section from brapci_oaipmh.oai_setspec "
                 qr += "left join brapci.sections on s_section = id_sc "
                 qr += f"where id_s = {ids}"
+
                 row = database.query(qr)
                 IDsec = row[0][0]
 
                 if (IDsec == None or IDsec < 1):
                     print("Erro Section IDsec="+IDsec)
+                    sys.exit()
                     quit()
                 else:
                     print("...=>Section",IDsec)
@@ -294,7 +297,7 @@ def article_data(IDC,rg,data,jnl):
 
             #################################### Source ISSUE
             if (k == 'source'):
-                print("...ISSE-WORK-SOURCE")
+                print("...ISSUE-WORK-SOURCE")
                 T = data[i][k]
                 ok = True
 
