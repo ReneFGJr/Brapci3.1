@@ -79,11 +79,12 @@ class RDFclassDomain extends Model
         {
         $cp = 'Prop.c_class as prop, ';
         $cp .= 'Range.c_class as range, ';
-        $cp .= 'id_cd, cd_domain';
+        $cp .= 'id_cd, cd_domain, rf_group, rf_order';
         $dt = $this
             ->select($cp)
             ->join('brapci_rdf.rdf_class as Prop', 'cd_property = Prop.id_c')
             ->join('brapci_rdf.rdf_class as Range', 'cd_range = Range.id_c')
+            ->join('brapci_rdf.rdf_form','rf_class = cd_domain')
             ->where('cd_domain', $class)
             ->findAll();
         return $dt;
