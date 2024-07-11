@@ -134,7 +134,7 @@ class BooksSubmit extends Model
                     $js = $js[0];
                     $js = (array)json_decode($js);
 
-                    if ($js['b_titulo'])
+                    if (isset($js['b_titulo']))
                         {
                             $sx .= '<b>';
                             $sx .= $link . (string)$js['b_titulo'].$linka;
