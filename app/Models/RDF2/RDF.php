@@ -137,8 +137,9 @@ class RDF extends Model
                     foreach($dt['Form'] as $id=>$lined)
                         {
                             $st .= '<tr>';
-                            $st .= '<td>';
+                            $st .= '<td width="15%">';
                             $st .= $lined['prop'];
+                            $st .= '==>';
                             $st .= '</td>';
                             $st .= '<td>';
                             $st .= $lined['range'];
