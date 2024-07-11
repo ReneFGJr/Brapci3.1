@@ -78,7 +78,7 @@ class RDFclassDomain extends Model
     function getForm($class = '')
         {
         $cp = 'Prop.c_class as prop, ';
-        $cp = 'Range.c_class as rang, ';
+        $cp .= 'Range.c_class as range, ';
         $cp .= 'id_cd, cd_domain';
         $dt = $this
             ->select($cp)
