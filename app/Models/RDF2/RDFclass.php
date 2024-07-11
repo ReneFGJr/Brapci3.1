@@ -134,6 +134,11 @@ class RDFclass extends Model
         return $dt;
         }
 
+    function listRange()
+        {
+            return [];
+        }
+
     function getClasses()
         {
             $cp = 'id_c as id, prefix_ref as prefix,c_class as Class,
