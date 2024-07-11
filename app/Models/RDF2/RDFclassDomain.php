@@ -79,7 +79,7 @@ class RDFclassDomain extends Model
         {
         $cp = 'Prop.c_class as prop, ';
         $cp = 'Range.c_class as rang, ';
-        $cp .= 'id_cd. cd_domain';
+        $cp .= 'id_cd, cd_domain';
         $dt = $this
             ->select($cp)
             ->join('brapci_rdf.rdf_class as Prop', 'cd_property = Prop.id_c')
