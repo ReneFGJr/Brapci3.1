@@ -133,7 +133,10 @@ class RDF extends Model
                     $sx .= anchor(PATH . '/rdf/Class/' . $d2 . '/reimport', 'Reimporta', ['class' => 'ms-2 btn btn-outline-warning']);
                     $sx .= anchor(PATH . '/api/rdf/in/all', 'Importa', ['class' => 'ms-2 btn btn-outline-danger']);
 
-                    $sx .= '========';
+                    foreach($dt['Form'] as $id=>$lined)
+                        {
+                            pre($lined);
+                        }
                 }
                 return bs(bsc($sx));
                 break;
