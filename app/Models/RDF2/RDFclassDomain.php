@@ -75,6 +75,19 @@ class RDFclassDomain extends Model
             return bs(bsc($sx,12));
         }
 
+    function getForm($class = '')
+        {
+        $cp = '*';
+        $dt = $this
+            ->select($cp)
+            ->join('brapci_rdf.rdf_class', 'cd_range = id_c')
+            ->where('cd_domain', $class)
+            ->findAll();
+        //-findAll()
+    pre($dt);
+        return $dt;
+        }
+
 
     function getResources($class = '', $prop = '')
     {

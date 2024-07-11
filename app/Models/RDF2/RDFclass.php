@@ -131,6 +131,10 @@ class RDFclass extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $dt['Range'] = $RDFclass->listRange($dt['id']);
 
+        $RDFclassDomain = new \App\Models\RDF2\RDFclassDomain();
+        $dt['From'] = $RDFclassDomain->getForm($dt['id']);
+
+
         return $dt;
         }
 
