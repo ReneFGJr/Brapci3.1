@@ -30,8 +30,6 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
     qr += f" and s_id_jnl = '{jnl}' "
     set = database.query(qr)
 
-    print("ISSUE",issue)
-
     if set != []:
         idsetSpec = set[0][0]
 
@@ -56,10 +54,10 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
             qi += ") \n"
             qi += " values \n"
             qi += f"({update},{status},{jnl},"
-            qi += f"{issue}, '{id}','{stamp}',"
+            qi += f"{issue}, '{id_reg}','{stamp}',"
             qi += f"{idsetSpec}, {deleted},0"
             qi += ")"
-            print(qi)
+            print("#########",qi)
             sys.exit()
             database.insert(qi)
 
