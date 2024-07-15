@@ -339,6 +339,8 @@ def ListIdentiers():
         print("XXXXXXXXXXXXX IVd")
         mod_listidentify.registers(identifies,jnl)
 
+        print("JNL",jnl)
+        print("Status",xml['status'])
     #Phase V - Token
     if (xml['status'] == '200'):
         token = mod_source.token(xml)
@@ -353,7 +355,7 @@ def ListIdentiers():
     else:
         mod_source.update(jnl,xml['status'],'')
 
-    print("JNL",jnl)
+
 
 ########################################### Início
 print("ROBOTi",version())
