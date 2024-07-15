@@ -37,9 +37,10 @@ def process(rg):
 
         try:
             doc = xmltodict.parse(docXML)
-        except:
+        except Exception as e:
             mod_listidentify.updateStatus(ID,1)
             print("Erro na estrutura do XML - Identify")
+            print("Erro",e)
             return False
 
         try:
