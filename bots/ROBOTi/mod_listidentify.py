@@ -12,7 +12,6 @@ import sys
 table = "brapci_oaipmh.oai_listidentify"
 
 def registers(ids,jnl,issue=0):
-    print("ISSUE",issue)
     for idr in ids:
         setspec = ids[idr]['setSpec']
         date = ids[idr]['date']
@@ -31,6 +30,8 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
     qr += f" and s_id_jnl = '{jnl}' "
     set = database.query(qr)
 
+    print("ISSUE",issue)
+
     if set != []:
         idsetSpec = set[0][0]
 
@@ -39,6 +40,7 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
         qr += "where "
         qr += f" (oai_identifier = '{id_reg}') "
         qr += f"and (oai_setSpec = '{idsetSpec}') "
+        qr += f"and (oai_id_jnl = {jnl})"
         row = database.query(qr)
 
         update = datetime.datetime.now().strftime('%Y%m%d')
