@@ -47,7 +47,6 @@ def identify(rg):
                 year = 9999
 
             print(f"Year:{year}\nVol:{vol},\nNr.{nr}")
-            sys.exit()
 
             qr = 'select * from brapci.source_issue '
             qr += 'where '
