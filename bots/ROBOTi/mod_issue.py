@@ -184,6 +184,8 @@ def formatNr(nr):
         nr = ''
 
     nr = nr.replace("'","")
+    nr = nr.replca('n. ','')
+
     return nr
 
 def decode(n,lg,vl):
