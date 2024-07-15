@@ -184,7 +184,7 @@ def formatNr(nr):
         nr = ''
 
     nr = nr.replace("'","")
-    nr = nr.replca('n. ','')
+    nr = nr.replace('n. ','')
 
     return nr
 
