@@ -19,7 +19,7 @@ def registers(ids,jnl,issue=0):
         register(idr,jnl,setspec,date,deleted,issue)
     return True
 
-def register(id_reg,jnl,setSpec,stamp,deleted,issue):
+def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
     status = 1
     if (deleted == 1):
         status = 9
