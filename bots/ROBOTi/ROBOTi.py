@@ -351,6 +351,7 @@ def ListIdentiers():
             loop = 1
         return loop
     else:
+        print("JNL",jnl)
         mod_source.update(jnl,xml['status'],'')
 
 ########################################### Início
