@@ -327,18 +327,18 @@ def ListIdentiers():
     # Phase IV - Check and Process XML File
     if (xml['status'] == '200'):
         # Phase IVa - Get setSpecs
-        print("XXXXXXXXXXXXX IVa")
+        print("XXXXXXXXXXXXX IVa XX")
         setSpec = oaipmh_ListIdentifiers.xml_setSpec(xml)
         # Phase IVb - Registers setSpecs
-        print("XXXXXXXXXXXXX IVb")
+        print("XXXXXXXXXXXXX IVb XX")
         setSpec = mod_setSpec.process(setSpec,reg)
         # Phase IVc - Identifica Identify
-        print("XXXXXXXXXXXXX IVc")
+        print("XXXXXXXXXXXXX IVc XX")
         identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,jnl)
         # Pahse IVd - Registra Identify
-        print("XXXXXXXXXXXXX IVd")
+        print("XXXXXXXXXXXXX IVd XX")
         mod_listidentify.registers(identifies,jnl)
-        print("XXXXXXXXXXXXX IVe")
+        print("XXXXXXXXXXXXX IVe XX")
         print("JNL",jnl)
         print("Status",xml['status'])
     #Phase V - Token
