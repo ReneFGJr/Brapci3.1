@@ -303,7 +303,7 @@ def identify_register(id_jnl,docXML):
     try:
         doc = xmltodict.parse(docXML)
     except:
-        print("Erro ao converter o XML - Identify")
+        print("Erro na estrutura do XML - Identify")
         return False
 
     doc = doc['OAI-PMH']
