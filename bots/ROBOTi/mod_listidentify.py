@@ -57,10 +57,7 @@ def register(id_reg,jnl,setSpec,stamp,deleted,issue=0):
             qi += f"{issue}, '{id_reg}','{stamp}',"
             qi += f"{idsetSpec}, {deleted},0"
             qi += ")"
-            print("#########",qi)
-            sys.exit()
             database.insert(qi)
-
             print(Fore.YELLOW+"... Inserido "+Fore.GREEN+id_reg+Fore.WHITE)
         else:
             deleted_db = row[0][8]
