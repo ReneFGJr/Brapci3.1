@@ -153,6 +153,7 @@ def formatVol(vol):
     vol = vol.replace(",","")
     if vol == 'v. ':
         vol = ''
+    vol = vol.replace('v. ','')
     return vol
 
 def formatNr(nr):
