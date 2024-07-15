@@ -337,9 +337,10 @@ def ListIdentiers():
         identifies = oaipmh_ListIdentifiers.xml_identifies(xml,setSpec,jnl)
         # Pahse IVd - Registra Identify
         print("XXXXXXXXXXXXX IVd XX")
+        print("JNL",jnl)
         mod_listidentify.registers(identifies,jnl)
         print("XXXXXXXXXXXXX IVe XX")
-        print("JNL",jnl)
+
         print("Status",xml['status'])
     #Phase V - Token
     if (xml['status'] == '200'):
