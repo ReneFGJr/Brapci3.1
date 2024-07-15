@@ -150,6 +150,7 @@ def formatVol(vol):
     else:
         vol = 'v. '+vol
     vol = vol.replace("'","")
+    vol = vol.replace(",","")
     if vol == 'v. ':
         vol = ''
     return vol
