@@ -40,6 +40,7 @@ def process(rg):
         BYPASS = 0
 
         if IDX == 0:
+            print("Method 01")
             IDX = check_method01(IDA,JNL)
 
         if (IDX > 0) and (BYPASS == 1):
