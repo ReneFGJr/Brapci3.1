@@ -16,6 +16,7 @@ def check_subject_thesa():
     qr += " and id_cc = cc_use "
     qr += " and n_lang = 'pt' "
     qr += " and n_name <> '' "
+    qr += " and not n_name like '%#%' "
     qr += " order by n_name, id_cc"
     qr += " limit 10 "
 
