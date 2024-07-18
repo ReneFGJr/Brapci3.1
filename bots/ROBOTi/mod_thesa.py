@@ -20,6 +20,8 @@ def check_subject_thesa():
     qr += " and not n_name like '(%' "
     qr += " and not n_name like '-%' "
     qr += " and not n_name like '&%' "
+    qr += " and not n_name like ',%' "
+    qr += " and not n_name like '/%' "
     qr += " order by n_name, id_cc"
     qr += " limit 10 "
 
