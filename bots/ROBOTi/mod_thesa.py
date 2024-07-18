@@ -1,6 +1,8 @@
 import database
 import mod_class
 
+url = 'http://thesa/api/'
+
 def createTerm(term,lang,th):
 
     return ""
@@ -34,5 +36,14 @@ def check_subject_thesa():
     row = database.query(qr)
 
     for line in row:
+        term = line[2]
+        lang = line[3]
         print("===========")
         print(line[2],line[3])
+        dt = []
+        dt['term'] = term
+        dt['lang'] = lang
+        thesa_api('term_add',dt)
+
+def thesa_api(verb,dt=[]):
+    print(url,verb,dt)
