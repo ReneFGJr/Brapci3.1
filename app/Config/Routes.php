@@ -44,6 +44,11 @@ $routes->post('/dci/(:any)', 'Dci::index/$1');
 $routes->get('/wp/', 'Wp::index/');
 $routes->get('/wp/(:any)', 'Wp::index/$1');
 
+/********** CHATBOOT */
+$routes->get('/chat/', 'Chatbot::index/');
+$routes->get('/chatbot/', 'Chatbot::index/');
+
+
 /********** DOWNLOAD */
 $routes->get('/catalog', 'Catalog::index');
 

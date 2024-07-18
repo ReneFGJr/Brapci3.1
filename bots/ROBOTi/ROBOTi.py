@@ -28,6 +28,7 @@ import mod_concept
 import mod_cited
 import mod_proceeding
 import mod_backup_mysql
+import mod_thesa
 from colorama import Fore
 
 def version():
@@ -181,6 +182,11 @@ def run(parm):
     ################### Cited
     if (act == '160'):
         mod_cited.cited()
+
+    ################### Thesa
+    if (act == '170'):
+        mod_thesa.check_subject_thesa()
+
 
     ################### Author
     if (act == '200'):
