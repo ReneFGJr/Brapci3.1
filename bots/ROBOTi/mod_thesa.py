@@ -54,14 +54,15 @@ def thesa_api(verb,dt=[]):
     print(url,verb)
     print(dt)
 
-    url = + verb
+    URL = url + verb
+    print(URL)
 
     headers = {
         "Content-Type": "application/json",
         "APIKEY2": "sua_api_key_aqui"
     }
 
-    response = requests.post(url, headers=headers, json=dt)
+    response = requests.post(URL, headers=headers, json=dt)
 
     if response.status_code == 200:
         print("Success:", response.json())
