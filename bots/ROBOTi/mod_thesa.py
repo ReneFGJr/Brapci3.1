@@ -14,6 +14,8 @@ def check_subject_thesa():
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
     qr += " and id_cc = cc_use "
+    qr += " and n_lang = 'pt' "
+    qr += " and n_name <> '' "
     qr += " order by n_name, id_cc"
     qr += " limit 10 "
 
