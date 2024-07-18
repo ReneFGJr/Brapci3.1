@@ -2,7 +2,7 @@ import database
 import mod_class
 import requests
 
-url = 'http://thesa/api/'
+url = 'https://www.ufrgs.br/thesa/v2/index.php/api/'
 th = 5
 apikey = '-023- d092 -3d09 -2390d'
 
