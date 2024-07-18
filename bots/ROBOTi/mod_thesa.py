@@ -55,6 +55,7 @@ def thesa_api(verb,dt=[]):
     print(dt)
 
     URL = url + verb
+    URL = URL.replace(' ','')
     print(URL)
 
     headers = {
