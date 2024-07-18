@@ -1,7 +1,10 @@
 import database
 import mod_class
+import requests
 
 url = 'http://thesa/api/'
+th = 5
+apikey = '-023- d092 -3d09 -2390d'
 
 def createTerm(term,lang,th):
 
@@ -43,8 +46,24 @@ def check_subject_thesa():
         dt = {}
         dt['term'] = term
         dt['lang'] = lang
+        dt['th'] = th
+        dt['APIKEY'] = apikey
         thesa_api('term_add',dt)
 
 def thesa_api(verb,dt=[]):
     print(url,verb)
     print(dt)
+
+    url = + verb
+
+    headers = {
+        "Content-Type": "application/json",
+        "APIKEY2": "sua_api_key_aqui"
+    }
+
+    response = requests.post(url, headers=headers, json=dt)
+
+    if response.status_code == 200:
+        print("Success:", response.json())
+    else:
+        print("Failed:", response.status_code, response.text)
