@@ -29,7 +29,10 @@ def check_subject_thesa():
     qr += " and n_name like 'Biblioteca%' "
 
     qr += " order by n_name, id_cc"
-    qr += " limit 10 "
+    qr += " limit 20 "
 
     row = database.query(qr)
-    print(row)
+
+    for line in row:
+        print("===========")
+        print(line[2],line[3])
