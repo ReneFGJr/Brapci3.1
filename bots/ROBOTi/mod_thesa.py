@@ -46,4 +46,5 @@ def check_subject_thesa():
         thesa_api('term_add',dt)
 
 def thesa_api(verb,dt=[]):
-    print(url,verb,dt)
+    print(url,verb)
+    print(dt)
