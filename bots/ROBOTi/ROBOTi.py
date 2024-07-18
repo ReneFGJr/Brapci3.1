@@ -28,7 +28,7 @@ import mod_concept
 import mod_cited
 import mod_proceeding
 import mod_backup_mysql
-import bots.ROBOTi.mod_thesa as mod_thesa
+import mod_thesa
 from colorama import Fore
 
 def version():
