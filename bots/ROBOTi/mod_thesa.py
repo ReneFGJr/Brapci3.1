@@ -40,7 +40,7 @@ def check_subject_thesa():
         lang = line[3]
         print("===========")
         print(line[2],line[3])
-        dt = []
+        dt = {}
         dt['term'] = term
         dt['lang'] = lang
         thesa_api('term_add',dt)
