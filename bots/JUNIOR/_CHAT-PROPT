@@ -1,0 +1,19 @@
+pip uninstall PyMuPDF
+pip uninstall fitz
+pip install PyMuPDF
+
+FUNCAO 1 - CONVERTER PDF EM TXT
+Com base nesses arquivos em PDF:
+
+FUNCAO 2 - Eliminar linhas duplicadas
+- Crie uma função que elimita números os das linhas com o nome clearTxt
+- Leia o arquivo txt/full_text.txt
+- Crie uma função que retorne array com a linha original, número da linha e o retorno da aplicação da função  clearLineTxt
+Na função clearTxt
+- Divida o texto, em cada linha deve ser um item de uma array contendo número da linha, conteúdo original, e conteúdo com a aplicação da função clearLineTxt
+- Não elimine linhas que estão vazias
+- Não elimine linhas que só comtem número e ou caracteres especiais
+- Elime as linhas que só comtem números
+- Analisando todo o texto elimine as linhas iguais
+- Mostre um texto com os resultados
+- Mostre um texto com as linhas eliminadas
