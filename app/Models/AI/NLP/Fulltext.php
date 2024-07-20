@@ -52,6 +52,8 @@ class Fulltext extends Model
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
+        $sx .= '<tt>'.$cmd.'</tt>';
+
         $files = $this->files($d2);
 
         if (!isset($files[0])) {
