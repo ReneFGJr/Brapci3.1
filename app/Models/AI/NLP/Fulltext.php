@@ -73,7 +73,7 @@ class Fulltext extends Model
 
         $txt = file_get_contents($files[1]);
         $txt = $this->process($txt);
-
+        $st = '';
         $sx .= bsc($txt, 8, 'small');
         $sx .= bsc($st, 4);
         $sx = bs($sx);
