@@ -49,6 +49,7 @@ class LabelPrint extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+
     function index($d1,$d2,$d3)
         {
             $dt = [];
