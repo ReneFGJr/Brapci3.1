@@ -106,9 +106,11 @@ class Abnt extends Model
 
 	function ref($dt, $url = True)
 	{
-		$URL = 'https://brapci.inf.br/index.php/res/v/';
+		#$URL = 'https://brapci.inf.br/index.php/res/v/';
+		$URL = 'https://handle.net/20.500.11959/brapci/';
 
 		$Class = $dt['Class'];
+		pre($dt);
 		/********************** Authors */
 		$authors = $this->ref_authors($dt['Authors']);
 		$title = $this->ref_title($dt['Title']);
