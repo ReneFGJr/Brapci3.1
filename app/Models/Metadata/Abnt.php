@@ -43,7 +43,8 @@ class Abnt extends Model
 	function short($dt, $url = True)
 	{
 		$ref = '';
-		$URL = 'https://brapci.inf.br/index.php/res/v/';
+		#$URL = 'https://brapci.inf.br/index.php/res/v/';
+		$URL = 'https://handle.net/20.500.11959/brapci/';
 
 		$Class = $dt['Class'];
 		$link = '<a href="'.$URL.$dt['ID'].'" target="_blank" class="link">';
