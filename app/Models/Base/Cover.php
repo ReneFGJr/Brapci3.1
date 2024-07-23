@@ -154,8 +154,8 @@ class Cover extends Model
 
         /************* Recupera o Livro */
 
-        pre($dt,false);
-        $img = trim($RDF->extract($dt, 'hasCover', 'F'));
+        $var = $RDF->extract($dt, 'hasCover', 'F');
+        $img = trim($var ?? '');
         if ($img == '') {
             $img = 'img/books/no_cover.png';
         }
