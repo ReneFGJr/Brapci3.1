@@ -87,7 +87,8 @@ class RIS extends Model
             array_push($RSP, 'PB  - ' . $Issue['journal']);
             array_push($RSP, 'JO  - ' . $Issue['journal']);
 
-            array_push($RSP, 'UR  - ' . 'https://brapci.inf.br/#v/' . $ln['ID']);
+            //array_push($RSP, 'UR  - ' . 'https://brapci.inf.br/#v/' . $ln['ID']);
+            array_push($RSP, 'UR  - ' . 'https://handle.net/20.500.11959/brapci/' . $ln['ID']);
 
             /* Volume */
             if ((isset($Issue['vol'])) and ($Issue['vol'] != '')) {
