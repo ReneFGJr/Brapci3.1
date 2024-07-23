@@ -110,7 +110,7 @@ class Abnt extends Model
 		$URL = 'https://handle.net/20.500.11959/brapci/';
 
 		$Class = $dt['Class'];
-		pre($dt);
+
 		/********************** Authors */
 		$authors = $this->ref_authors($dt['Authors']);
 		$title = $this->ref_title($dt['Title']);
