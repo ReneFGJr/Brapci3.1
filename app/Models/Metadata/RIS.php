@@ -48,9 +48,11 @@ class RIS extends Model
         array_push($RSP, 'TY  - ' . $TYPE);
 
         /* Autores */
-        foreach ($ln['Authors'] as $ida => $author) {
-            $name = nbr_author($author, 2);
-            array_push($RSP, 'AU  - ' . $name);
+        if (isset($ln['Authors'])) {
+            foreach ($ln['Authors'] as $ida => $author) {
+                $name = nbr_author($author, 2);
+                array_push($RSP, 'AU  - ' . $name);
+            }
         }
 
         /* Title */
@@ -78,55 +80,50 @@ class RIS extends Model
 
 
         /* Issue */
-        if (isset($ln['Issue']))
-            {
-                $Issue = (array)$ln['Issue'];
+        if (isset($ln['Issue'])) {
+            $Issue = (array)$ln['Issue'];
 
-                /* Publicação */
-                array_push($RSP, 'PB  - ' . $Issue['journal']);
-                array_push($RSP, 'JO  - ' . $Issue['journal']);
+            /* Publicação */
+            array_push($RSP, 'PB  - ' . $Issue['journal']);
+            array_push($RSP, 'JO  - ' . $Issue['journal']);
 
-                array_push($RSP, 'UR  - ' . 'https://brapci.inf.br/#v/'.$ln['ID']);
+            array_push($RSP, 'UR  - ' . 'https://brapci.inf.br/#v/' . $ln['ID']);
 
-                /* Volume */
-                if ((isset($Issue['vol'])) and ($Issue['vol'] != ''))
-                    {
-                        array_push($RSP, 'VL  - ' . sonumero($Issue['vol']));
-                    }
-                /* Number */
-                if ((isset($Issue['nr'])) and ($Issue['nr'] != '')) {
-                    array_push($RSP, 'IS  - ' . sonumero($Issue['nr']));
-                }
+            /* Volume */
+            if ((isset($Issue['vol'])) and ($Issue['vol'] != '')) {
+                array_push($RSP, 'VL  - ' . sonumero($Issue['vol']));
             }
+            /* Number */
+            if ((isset($Issue['nr'])) and ($Issue['nr'] != '')) {
+                array_push($RSP, 'IS  - ' . sonumero($Issue['nr']));
+            }
+        }
 
         /* Abstract */
         if (isset($ln['Abstract'])) {
             /* Title */
             $Title = (array)$ln['Abstract'];
             if (isset($Title['pt'])) {
-                array_push($RSP, 'AB  - ' . troca(troca($Title['pt'][0],chr(13),' '),chr(10),' '));
+                array_push($RSP, 'AB  - ' . troca(troca($Title['pt'][0], chr(13), ' '), chr(10), ' '));
             } elseif (isset($Title['es'])) {
-                array_push($RSP, 'AB  - ' . troca(troca($Title['es'][0],chr(13),' '),chr(10),' '));
+                array_push($RSP, 'AB  - ' . troca(troca($Title['es'][0], chr(13), ' '), chr(10), ' '));
             } elseif (isset($Title['en'])) {
-                array_push($RSP, 'AB  - ' . troca(troca($Title['en'][0],chr(13),' '),chr(10),' '));
+                array_push($RSP, 'AB  - ' . troca(troca($Title['en'][0], chr(13), ' '), chr(10), ' '));
             } elseif (isset($Title['fr'])) {
-                array_push($RSP, 'AB  - ' . troca(troca($Title['fr'][0],chr(13),' '),chr(10),' '));
+                array_push($RSP, 'AB  - ' . troca(troca($Title['fr'][0], chr(13), ' '), chr(10), ' '));
             }
         }
         /* Subjects */
-        if (isset($ln['Subject']))
-        {
-            foreach($ln['Subject'] as $lg=>$line)
-                {
-                    if (is_array($line))
-                        {
-                            foreach ($line as $idx => $word) {
-                                array_push($RSP, 'KW  - ' . $word);
-                            }
-                        } else {
-                            array_push($RSP, 'KW  - ' . $line);
-                        }
+        if (isset($ln['Subject'])) {
+            foreach ($ln['Subject'] as $lg => $line) {
+                if (is_array($line)) {
+                    foreach ($line as $idx => $word) {
+                        array_push($RSP, 'KW  - ' . $word);
+                    }
+                } else {
+                    array_push($RSP, 'KW  - ' . $line);
                 }
+            }
         }
 
         array_push($RSP, 'DB  - ' . 'BRAPCI');
@@ -137,10 +134,9 @@ class RIS extends Model
         /* Fim */
         array_push($RSP, 'ER  - ');
         $sx = '';
-        foreach($RSP as $ln=>$content)
-            {
-                $sx .= $content.chr(13);
-            }
+        foreach ($RSP as $ln => $content) {
+            $sx .= $content . chr(13);
+        }
         $sx .= chr(13);
         return $sx;
     }
