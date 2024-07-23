@@ -153,7 +153,7 @@ class Cover extends Model
         $dt = $RDF->le($id);
 
         /************* Recupera o Livro */
-        pre($dt);
+
         if (isset($dt['data']))
             {
                 $dt = $dt['data'];
