@@ -269,6 +269,8 @@ def get(rg):
     ID = rg[0]
     urlIssue = str(rg[9])
 
+    print(rg)
+
     substring = "http"
 
     print("==substring==",substring)
