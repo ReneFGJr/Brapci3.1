@@ -44,7 +44,7 @@ class Abnt extends Model
 	{
 		$ref = '';
 		#$URL = 'https://brapci.inf.br/index.php/res/v/';
-		$URL = 'https://handle.net/20.500.11959/brapci/';
+		$URL = 'hhttp://hdl.handle.net/20.500.11959/brapci/';
 
 		$Class = $dt['Class'];
 		$link = '<a href="'.$URL.$dt['ID'].'" target="_blank" class="link">';
@@ -107,7 +107,7 @@ class Abnt extends Model
 	function ref($dt, $url = True)
 	{
 		#$URL = 'https://brapci.inf.br/index.php/res/v/';
-		$URL = 'https://handle.net/20.500.11959/brapci/';
+		$URL = 'hhttp://hdl.handle.net/20.500.11959/brapci/';
 
 		$Class = $dt['Class'];
 
