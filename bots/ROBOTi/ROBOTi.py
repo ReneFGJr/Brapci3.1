@@ -287,6 +287,7 @@ def GetRecord():
 
     # Phase II - Coleta arquivos
     if (reg != []):
+        print(reg)
         for it in reg:
             oaipmh_getRecord.get(it)
 
