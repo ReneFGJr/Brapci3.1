@@ -172,6 +172,7 @@ def article_data(IDC,rg,data,jnl):
         else:
             print("Erro ISSUE inválido");
             quit()
+            create_issue_rdf
     else:
         print("OPS")
         quit()

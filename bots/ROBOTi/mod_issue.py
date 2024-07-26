@@ -58,6 +58,7 @@ def identify(rg):
 
             if (row == []):
                 row = create_issue(JNL,year,vol,nr)
+            print(row)
         else:
             print("ISSUE JÀ EXISTE")
 
@@ -87,8 +88,7 @@ def create_issue_rdf(JNL,year,vol,nr):
 
     return Issue
 
-def create_issue(JNL,year,vol,nr):
-
+def create_issue_rdf(JNL,year,vol,nr):
     JNLs = 'ISSUE:JNL:'+str(JNL)
     while len(JNLs) < 5:
         JNLs = '0' + JNLs
@@ -99,6 +99,11 @@ def create_issue(JNL,year,vol,nr):
     lt = mod_literal.register(JNLs,'nn')
     cl = mod_class.getClass('Issue')
     Issue = mod_concept.register(cl,lt)
+    return Issue
+
+def create_issue(JNL,year,vol,nr):
+
+    Issue = create_issue_rdf(JNL,year,vol,nr)
 
     qr = "select * from brapci.source_issue "
     qr += f"where is_source_issue = {Issue}"
