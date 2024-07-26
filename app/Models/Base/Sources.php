@@ -292,7 +292,7 @@ class Sources extends Model
         $sa .= '<td width="70%">' . $dt['oai_datestamp'] . '</td>';
         $sa .= '</tr>';
 
-        $link = '<a href="'.URL.'/#/v/'.$dt['oai_rdf'];
+        $link = '<a href="'.URL.'/#/v/'.$dt['oai_rdf'].'">';
         $linka = '</a>';
         $sa .= '<tr>';
         $sa .= '<td width="30%">' . lang('brapci.rdf') . '</td>';
