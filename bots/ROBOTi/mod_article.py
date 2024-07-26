@@ -108,8 +108,8 @@ def check_method01(id,jnl):
 def check_method02(data,jnl,id):
     jnl = data[0]
     IDjnl = jnl['journal']['id_jnl']
+    print("...Mtd02-Title")
     title = data[2]
-    print(data)
 
     TITLE = title['title'][0]
     TITLE = TITLE.replace('@pt','')
@@ -117,6 +117,7 @@ def check_method02(data,jnl,id):
     TITLE = TITLE.replace('@es','')
 
     issue = data[6]
+    print("...Mtd02-ISSUE")
     SOURCE = issue['source']
     YEAR = SOURCE['year']
 
