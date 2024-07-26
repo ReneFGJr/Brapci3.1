@@ -60,8 +60,9 @@ def identify(rg):
                 row = create_issue(JNL,year,vol,nr)
             else:
                 if row[3] == 0:
+                    print("Atualizando ISSUE")
                     ISSUE = create_issue_rdf(JNL,year,vol,nr)
-                    print(ISSUE)
+                    print("========",ISSUE)
                     updateISSUE(row[0],ISSUE)
                     sys.exit
         else:
