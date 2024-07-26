@@ -121,6 +121,8 @@ def check_method02(data,jnl,id):
     SOURCE = issue['source']
     YEAR = SOURCE['year']
 
+
+    print(f"...Mtd02-Dataset\nTitle:{TITLE}\nYear:{YEAR}")
     qr = f"select ID from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     qr += f" and YEAR = '{YEAR}' "
