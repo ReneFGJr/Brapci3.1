@@ -62,6 +62,7 @@ def identify(rg):
                 if row[3] == 0:
                     ISSUE = create_issue_rdf(JNL,year,vol,nr)
                     updateISSUE(row[0],ISSUE)
+                    sys.exit
         else:
             print("ISSUE JÀ EXISTE")
 
