@@ -623,6 +623,8 @@ class Export extends Model
                 }
             }
 
+            $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $idr;
+
             /**************************************************************/
             /**************************************************************/
             /**************************************************************/
@@ -636,7 +638,6 @@ class Export extends Model
                 $meta['KEYWORD'] = 0;
                 $meta['ABSTRACT'] = 0;
                 $meta['PDF'] = 0;
-                $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/'. $idr;
 
                 $ck = ['Collection'=>'COLLECTION','Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File'=>'PDF'];
                 foreach ($ck as $fld => $met) {
