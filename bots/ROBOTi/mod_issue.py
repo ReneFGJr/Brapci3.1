@@ -58,7 +58,10 @@ def identify(rg):
 
             if (row == []):
                 row = create_issue(JNL,year,vol,nr)
-            print(row)
+            else:
+                if row[3] == 0:
+                    ISSUE = create_issue_rdf(JNL,year,vol,nr)
+                    updateISSUE(row[0],ISSUE)
         else:
             print("ISSUE JÀ EXISTE")
 
@@ -73,6 +76,9 @@ def identify(rg):
         row = []
 
     return row
+def updateISSUE(id,ISSUE):
+    qu = f"update brapci.source_issue set is_source_issue = {ISSUE} where id_is = {id} and is_source_issue = 0"
+    database.update(qu)
 
 def create_issue_rdf(JNL,year,vol,nr):
     ID = str(JNL)
