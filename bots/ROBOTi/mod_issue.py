@@ -44,9 +44,9 @@ def identify(rg):
             nr = formatNr(source['nr'])
             year = source['year']
             if year == '':
-                year = 9999
+                year = 9994
 
-            print(f"Year:{year}\nVol:{vol},\nNr.{nr}")
+            print(f"Year:{year}\nVol:{vol},\nNr.{nr}\nSource:{JNL}")
 
             qr = 'select * from brapci.source_issue '
             qr += 'where '
