@@ -61,6 +61,7 @@ def identify(rg):
             else:
                 if row[3] == 0:
                     ISSUE = create_issue_rdf(JNL,year,vol,nr)
+                    print(ISSUE)
                     updateISSUE(row[0],ISSUE)
                     sys.exit
         else:
