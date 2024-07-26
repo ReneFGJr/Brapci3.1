@@ -59,6 +59,7 @@ def identify(rg):
             if (row == []):
                 row = create_issue(JNL,year,vol,nr)
             else:
+                print(row)
                 if row[3] == 0:
                     print("Atualizando ISSUE")
                     ISSUE = create_issue_rdf(JNL,year,vol,nr)
