@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../../../service/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/000_core/010_services/orcid.service';
 
 @Component({
   selector: 'app-oauth-login',
@@ -15,7 +16,8 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   public oauthForm: FormGroup = this.formBuilder.group({
@@ -51,6 +53,10 @@ export class LoginComponent {
   }
 
   onSubmit(f: NgForm) {}
+
+  OrcIDLogin() {
+    this.authService.login();
+  }
 
   showForgotPassword() {
     let prism = document.querySelector('.rec-prism');

@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthService {
   private clientId = 'APP-5SXE6F14K56K8RQN';
-  private redirectUri = 'http://localhost:4200/callback';
+  private redirectUri = 'https://brapci.inf.br/#/callback/orcid/';
   private tokenUrl = 'https://orcid.org/oauth/token';
   private authorizeUrl = 'https://orcid.org/oauth/authorize';
 

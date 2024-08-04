@@ -12,6 +12,7 @@ import { LoginComponent } from './page/oauth/main/login/login.component';
 import { PerfilComponent } from './page/perfil/perfil.component';
 import { ThemeModule } from '../010_thema/theme.module';
 import { ChangePasswordComponent } from './page/oauth/change-password/change-password.component';
+import { OrcidCallBackComponent } from './page/oauth/callback/orcid/orcid.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ChangePasswordComponent } from './page/oauth/change-password/change-pas
     LoginComponent,
     PerfilComponent,
     ChangePasswordComponent,
+    OrcidCallBackComponent,
   ],
   imports: [
     CommonModule,

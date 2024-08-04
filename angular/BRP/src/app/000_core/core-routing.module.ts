@@ -11,6 +11,7 @@ import { ExportComponent } from '../020_brapci/page/export/export.component';
 import { Pg404Component } from '../020_brapci/page/pg404/pg404.component';
 import { PqModule } from '../160_PQ/pq.module';
 import { PainelComponent } from '../020_brapci/page/painel/painel.component';
+import { OrcidCallBackComponent } from '../001_auth/page/oauth/callback/orcid/orcid.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: '404', component: Pg404Component },
   { path: 'painel/:id', component: PainelComponent },
+  { path: 'callback/orcid', component: OrcidCallBackComponent },
   {
     path: 'authority',
     loadChildren: () =>
