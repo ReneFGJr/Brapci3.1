@@ -133,6 +133,10 @@ class Socials extends Model
 		$response = curl_exec($ch);
 
 		echo h($url);
+		echo h($client_id);
+		echo h($client_secret);
+		echo h($redirect_uri);
+		exit;
 
 		// Verifica se houve algum erro na requisição cURL
 		if (curl_errno($ch)) {
