@@ -120,21 +120,33 @@ class Socials extends Model
 			'redirect_uri' => $redirect_uri
 		];
 
-		$options = [
-			'http' => [
-				'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-				'method' => 'POST',
-				'content' => http_build_query($data),
-			],
-		];
+		// Utilizando cURL ao invés de file_get_contents para melhor controle e depuração
+		$ch = curl_init($url);
 
-		$context = stream_context_create($options);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, [
+			'Content-Type: application/x-www-form-urlencoded'
+		]);
+
+		$response = curl_exec($ch);
+
 		echo h($url);
-		$response = file_get_contents($url, false, $context);
 
-		if ($response === FALSE) {
-			throw new Exception('Error fetching access token');
+		// Verifica se houve algum erro na requisição cURL
+		if (curl_errno($ch)) {
+			throw new Exception('Erro cURL: ' . curl_error($ch));
 		}
+
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+		curl_close($ch);
+
+		if ($httpCode !== 200) {
+			throw new Exception("Erro na requisição HTTP: $httpCode. Resposta: $response");
+		}
+
 		echo $response;
 		exit;
 		return json_decode($response, true);
