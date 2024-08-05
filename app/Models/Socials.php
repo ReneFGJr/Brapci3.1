@@ -142,7 +142,8 @@ class Socials extends Model
 		curl_close($ch);
 
 		if ($httpCode !== 200) {
-			throw new Exception("Erro na requisição HTTP: $httpCode. Resposta: $response");
+			echo "Erro na requisição HTTP: $httpCode. Resposta: $response";
+			exit;
 		}
 
 		echo $response;
