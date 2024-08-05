@@ -129,6 +129,7 @@ class Socials extends Model
 		];
 
 		$context = stream_context_create($options);
+		echo h($url);
 		$response = file_get_contents($url, false, $context);
 
 		if ($response === FALSE) {
