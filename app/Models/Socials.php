@@ -102,6 +102,54 @@ class Socials extends Model
 		return ($sx);
 	}
 
+
+	# Trocar o Código de Autorização pelo Token de Acesso
+	function getAccessToken($code)
+	{
+		$url = "https://orcid.org/oauth/token";
+		$client_id = getenv('clientId');
+		$client_secret  = getenv('client_secret');
+		$redirect_uri = getenv('redirectUri');
+
+
+		$data = [
+			'client_id' => $client_id,
+			'client_secret' => $client_secret,
+			'grant_type' => 'authorization_code',
+			'code' => $code,
+			'redirect_uri' => $redirect_uri
+		];
+
+		$options = [
+			'http' => [
+				'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+				'method' => 'POST',
+				'content' => http_build_query($data),
+			],
+		];
+
+		$context = stream_context_create($options);
+		$response = file_get_contents($url, false, $context);
+
+		if ($response === FALSE) {
+			throw new Exception('Error fetching access token');
+		}
+
+		print($response);
+
+		return json_decode($response, true);
+	}
+
+	function callback($type)
+		{
+			switch($type)
+				{
+					case 'orcid':
+						$code = get("code");
+						$dt = $this->getAccessToken($code);
+				}
+		}
+
 	function calcMD5($value = '', $id = 0)
 	{
 		if ($id == 0) {

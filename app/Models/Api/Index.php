@@ -77,6 +77,10 @@ class Index extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+            case 'callback':
+                $Socials = new \App\Models\Socials();
+                $sx = $Socials->callback($d2);
+                break;
             case 'cookies':
                 $this->cookies();
                 exit;

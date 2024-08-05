@@ -7,11 +7,11 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private clientId = 'APP-5SXE6F14K56K8RQN'
+  private clientId = 'APP-5SXE6F14K56K8RQN';
   /* private redirectUri = 'https://brapci.inf.br/#/callback/orcid/'; */
-  private redirectUri = 'https://cip.brapci.inf.br/callback/orcid'
-  private tokenUrl = 'https://orcid.org/oauth/token'
-  private authorizeUrl = 'https://orcid.org/oauth/authorize'
+  private redirectUri = 'https://cip.brapci.inf.br/api/callback/orcid';
+  private tokenUrl = 'https://orcid.org/oauth/token';
+  private authorizeUrl = 'https://orcid.org/oauth/authorize';
 
   constructor(private http: HttpClient) {}
 
