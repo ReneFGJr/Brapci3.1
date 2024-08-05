@@ -135,8 +135,6 @@ class Socials extends Model
 			throw new Exception('Error fetching access token');
 		}
 
-		print($response);
-
 		return json_decode($response, true);
 	}
 
