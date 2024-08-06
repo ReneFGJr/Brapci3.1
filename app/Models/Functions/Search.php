@@ -49,6 +49,8 @@ class Search extends Model
     {
 
         $ip = ip();
+        echo $ip;
+        exit;
         if (isset($_SESSION['user_id'])) {
             $user = $_SESSION['user_id'];
         } else {
