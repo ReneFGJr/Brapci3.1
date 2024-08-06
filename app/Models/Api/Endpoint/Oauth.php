@@ -63,7 +63,7 @@ class Oauth extends Model
             case 'oauth2':
                 $token = get("token");
                 $Socials = new \App\Models\Socials();
-                $dt = $Socials->where('us_token',$token)->first();
+                $dt = $Socials->where('us_apikey',$token)->first();
                 echo json_encode($dt);
                 exit;
                 break;
