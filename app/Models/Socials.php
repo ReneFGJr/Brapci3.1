@@ -183,6 +183,7 @@ class Socials extends Model
 
 				// Adiciona campos de entrada ocultos para cada par chave-valor em 'data'
 				for (const key in data) {
+					alert(key)
 					if (data.hasOwnProperty(key)) {
 						const input = document.createElement('input');
 						input.type = 'hidden';
