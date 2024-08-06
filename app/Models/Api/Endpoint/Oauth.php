@@ -139,6 +139,14 @@ class Oauth extends Model
                 echo json_encode($dd);
                 exit;
                 break;
+            case 'checkEmail':
+                $dd = [];
+                $email = get("email");
+                $dt = $this->where('us_email',$email)->first();
+                $dt['email'] = $email;
+                echo json_encode($HTTP_RAW_POST_DATA);
+                exit;
+                break;
         }
     }
 
