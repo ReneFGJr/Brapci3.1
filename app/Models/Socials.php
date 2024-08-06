@@ -178,7 +178,7 @@ class Socials extends Model
 			function redirectToPost(url, data) {
 				// Cria um formulário HTML
 				const form = document.createElement('form');
-				form.method = 'POST';
+				form.method = 'GET';
 				form.action = url;
 
 				// Adiciona campos de entrada ocultos para cada par chave-valor em 'data'
