@@ -170,8 +170,8 @@ class Socials extends Model
 		//echo $this->redirectToPost($url);
 		$response = json_decode($response, true);
 		$this->OrcIdToken($response,$token);
+		echo $this->redirectToPost($url);
 		exit;
-		return $response;
 	}
 
 	function OrcIdToken($data,$token)
@@ -202,7 +202,7 @@ class Socials extends Model
 
 					$dt = $this->where('us_login', $orcid)->first();
 				}
-				pre($dt);
+			return True;
 		}
 	function redirectToPost($url)
 		{
