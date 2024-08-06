@@ -143,8 +143,17 @@ class Oauth extends Model
                 $dd = [];
                 $email = get("email");
                 $Socials = new \App\Models\Socials();
-                $dt = $Socials->where('us_email',$email)->first();
-                $dt['email'] = $email;
+                $da = $Socials->where('us_email',$email)->first();
+                if ($da == [])
+                {
+                    $dt['nome'] = $da['us_nome'];
+                    $dt['email'] = $email;
+                    $dt['afiliacao'] = $da['us_affiliation'];
+                    $dt['status'] = '200';
+                } else {
+                    $dt['status'] = '400';
+                    $dt['message'] = 'e-mail not found';
+                }
                 echo json_encode($dt);
                 exit;
                 break;
