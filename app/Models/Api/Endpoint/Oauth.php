@@ -59,6 +59,8 @@ class Oauth extends Model
             header("Content-Type: application/json");
         }
 
+        echo h($d1);
+
         switch ($d1) {
             case 'oauth2':
                 $token = get("token");
