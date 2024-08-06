@@ -72,12 +72,12 @@ class Oauth extends Model
                         $RSP['status'] = '400';
                         $RSP['messagem'] = 'Token não validado';
                     } else {
-                        $displayName = $dt['us_name'];
+                        $displayName = $dt['us_nome'];
                         $givenName = '';
                         if (strpos($displayName,' '))
                             {
-                                $displayName = substr($dt['us_name'],0,strpos($dt['us_name'],' '));
-                                $givenName = trim(substr($dt['us_name'],strlen($displayName),100));
+                                $displayName = substr($dt['us_nome'],0,strpos($dt['us_name'],' '));
+                                $givenName = trim(substr($dt['us_nome'],strlen($displayName),100));
                             }
                         $RSP['status'] = '200';
                         $RSP['id'] = $dt['id_us'];
