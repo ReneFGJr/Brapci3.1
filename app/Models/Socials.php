@@ -165,40 +165,17 @@ class Socials extends Model
 			echo "Erro na requisição HTTP: $httpCode. Resposta: $response";
 			exit;
 		}
-
-		echo $response;
-		echo $this->redirectToPost(getenv('redirectLogin'),$response);
+		$url = getenv('redirectLogin').'?code='.md5($response);
+		echo $this->redirectToPost($url);
+		//,$response
 		exit;
 		return json_decode($response, true);
 	}
-	function redirectToPost($url, $data)
+	function redirectToPost($url)
 		{
 			$sx = "
 			<script>
-			function redirectToPost(url, data) {
-				// Cria um formulário HTML
-				const form = document.createElement('form');
-				form.method = 'GET';
-				form.action = url;
-
-				// Adiciona campos de entrada ocultos para cada par chave-valor em 'data'
-				for (const key in data) {
-					alert(key)
-					if (data.hasOwnProperty(key)) {
-						const input = document.createElement('input');
-						input.type = 'hidden';
-						input.name = key;
-						input.value = data[key];
-						form.appendChild(input);
-					}
-				}
-
-				// Anexa o formulário ao corpo do documento e o envia
-				document.body.appendChild(form);
-				form.submit();
-			}
-			alert($data);
-			redirectToPost('".$url."', $data);
+				window.location.replace('$url');
 			</script>
 			";
 			return $sx;
