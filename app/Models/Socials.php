@@ -173,8 +173,8 @@ class Socials extends Model
 	}
 	function redirectToPost($url, $data)
 		{
-			$sx = '<script>'.cr();
-			$sx .= "
+			$sx = "
+			<script>
 			function redirectToPost(url, data) {
 				// Cria um formulário HTML
 				const form = document.createElement('form');
@@ -198,6 +198,7 @@ class Socials extends Model
 			}
 			alert('OLA');
 			redirectToPost('".$url."', $data);
+			</script>
 			";
 			return $sx;
 		}
@@ -1852,7 +1853,7 @@ class Socials extends Model
 		  if (document.location.search.match(/type=embed/gi)) {
 			window.parent.postMessage("resize", "*");
 		  }
-		</script>
+		</>
 		<ul class="nav center" style="margin: 0% 20%; display: none;">
 		<li onclick="showLogin()">' . lang('social.social_login') . '</li>
 		<li onclick="showSignup()">' . lang('social.social_sign_up') . '</li>
