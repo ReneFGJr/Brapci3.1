@@ -7,11 +7,11 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private clientId = 'APP-5SXE6F14K56K8RQN';
+  private clientId = environment.clientId;
   /* private redirectUri = 'https://brapci.inf.br/#/callback/orcid/'; */
-  private redirectUri = 'https://cip.brapci.inf.br/api/callback/orcid';
-  private tokenUrl = 'https://orcid.org/oauth/token';
-  private authorizeUrl = 'https://orcid.org/oauth/authorize';
+  private redirectUri = environment.redirectUri
+  private tokenUrl = environment.tokenUrl
+  private authorizeUrl = environment.authorizeUrl
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class AuthService {
   getAccessToken(code: string) {
     const body = new HttpParams()
       .set('client_id', this.clientId)
-      .set('client_secret', '93a45b75-b66c-41bc-a13a-54aaf3746df4')
+      .set('client_secret', environment.client_secret)
       .set('grant_type', 'authorization_code')
       .set('code', code)
       .set('redirect_uri', this.redirectUri);

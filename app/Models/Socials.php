@@ -167,9 +167,40 @@ class Socials extends Model
 		}
 
 		echo $response;
+		echo $this->redirectToPost(getenv('redirectLogin'),$response);
 		exit;
 		return json_decode($response, true);
 	}
+	function redirectToPost($url, $data)
+		{
+			$sx = '<script>'.cr();
+			$sx .= "
+			function redirectToPost(url, data) {
+				// Cria um formulário HTML
+				const form = document.createElement('form');
+				form.method = 'POST';
+				form.action = url;
+
+				// Adiciona campos de entrada ocultos para cada par chave-valor em 'data'
+				for (const key in data) {
+					if (data.hasOwnProperty(key)) {
+						const input = document.createElement('input');
+						input.type = 'hidden';
+						input.name = key;
+						input.value = data[key];
+						form.appendChild(input);
+					}
+				}
+
+				// Anexa o formulário ao corpo do documento e o envia
+				document.body.appendChild(form);
+				form.submit();
+			}
+			alert('OLA');
+			redirectToPost('".$url."', $data);
+			";
+			return $sx;
+		}
 
 	function callback($type)
 		{
