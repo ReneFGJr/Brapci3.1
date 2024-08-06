@@ -61,8 +61,11 @@ class Oauth extends Model
 
         switch ($d1) {
             case 'oauth2':
-                $code = get("code");
-                pre("HELLO");
+                $token = get("token");
+                $Socials = new \App\Models\Socials();
+                $dt = $Socials->where('us_token',$token);
+                echo json_encode($dt);
+                exit;
                 break;
             case 'chagePassword':
                 $dd = $_POST;
