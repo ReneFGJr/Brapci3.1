@@ -53,6 +53,8 @@ class Views extends Model
             }
         $session = get("session");
 
+        pre($_SERVER);
+
         $data['a_v'] = $id;
         $data['a_IP'] = $ip;
         $data['a_user'] = $user;
