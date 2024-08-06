@@ -48,9 +48,6 @@ class Search extends Model
     function register($q='',$total=0)
     {
 
-        $ip = ip();
-        echo $ip;
-        exit;
         if (isset($_SESSION['user_id'])) {
             $user = $_SESSION['user_id'];
         } else {
@@ -65,7 +62,7 @@ class Search extends Model
         $data['s_type'] = get("type");
         $data['s_order'] = get("type");
         $data['s_total'] = $total;
-        $data['s_ip'] = $ip;
+        $data['s_ip'] = ip();
         $data['s_user'] = $user;
         $data['s_section'] = $section;
 
