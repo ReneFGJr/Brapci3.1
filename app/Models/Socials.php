@@ -165,17 +165,44 @@ class Socials extends Model
 			echo "Erro na requisição HTTP: $httpCode. Resposta: $response";
 			exit;
 		}
-		$url = getenv('redirectLogin').'/'.md5($response);
+		$token = md5($response);
+		$url = getenv('redirectLogin').'/'.$token;
 		//echo $this->redirectToPost($url);
 		$response = json_decode($response, true);
-		pre($response);
+		$this->OrcIdToken($response,$token);
 		exit;
 		return $response;
 	}
 
-	function OrcIdTOken()
+	function OrcIdToken($data,$token)
 		{
+			$name = $data['name'];
+			$orcid = $data['orcid'];
+			$type = $data['token_type'];
+			$dt = $this->where('us_login',$orcid)->first();
+			if ($dt == [])
+				{
+					$dt = [];
+					$dt['us_login'] = $orcid;
+					$dt['us_nome'] = $name;
+					$dt['us_email'] = '';
+					$dt['us_apikey'] = $token;
+					$dt['us_apikey_active'] = 1;
+					$dt['us_codigo'] = '';
+					$dt['us_link'] = '';
+					$dt['us_ativo'] = '1';
+					$dt['us_nivel'] = '1';
+					$dt['us_perfil'] = '';
+					$dt['us_oauth2'] = 'ORCID';
+					$dt['us_password'] = $token;
+					$dt['us_perfil_check'] = md5($token);
+					$dt['us_institution'] = '';
+					$dt['us_badge'] = '';
+					$this->set($dt)->insert();
 
+					$dt = $this->where('us_login', $orcid)->first();
+				}
+				pre($dt);
 		}
 	function redirectToPost($url)
 		{
