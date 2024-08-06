@@ -55,7 +55,7 @@ class Search extends Model
         }
         $section = get("section");
 
-        $ip = $_SESSION['__ci_last_regenerate'];
+        #$ip = $_SESSION['__ci_last_regenerate'];
         $data['s_date'] = date("Y-m-d");
         $data['s_hour'] = date("H:i:s");
         $data['s_query'] = $q;
