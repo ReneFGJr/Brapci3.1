@@ -59,8 +59,6 @@ class Oauth extends Model
             header("Content-Type: application/json");
         }
 
-        echo h($d1);
-
         switch ($d1) {
             case 'oauth2':
                 $token = get("token");
@@ -144,7 +142,8 @@ class Oauth extends Model
             case 'checkEmail':
                 $dd = [];
                 $email = get("email");
-                $dt = $this->where('us_email',$email)->first();
+                $Socials = new \App\Models\Socials();
+                $dt = $Socials->where('us_email',$email)->first();
                 $dt['email'] = $email;
                 echo json_encode($HTTP_RAW_POST_DATA);
                 exit;
