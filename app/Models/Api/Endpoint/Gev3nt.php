@@ -57,6 +57,23 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'checkEmail':
+                    $dd = [];
+                    $email = get("email");
+                    $Socials = new \App\Models\Gev3nt\Users();
+                    $da = $Socials->where('n_email', $email)->first();
+                    if ($da != []) {
+                        $dt['nome'] = $da['us_nome'];
+                        $dt['email'] = $email;
+                        $dt['afiliacao'] = $da['us_affiliation'];
+                        $dt['status'] = '200';
+                    } else {
+                        $dt['status'] = '400';
+                        $dt['message'] = 'e-mail not found';
+                    }
+                    echo json_encode($dt);
+                    exit;
+                    break;
                 case 'cancel_register':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $Gev3ntInscritos = new \App\Models\Gev3nt\Inscritos();

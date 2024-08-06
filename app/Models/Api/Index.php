@@ -127,7 +127,7 @@ class Index extends Model
                 $Find = new \App\Models\Api\Endpoint\Find();
                 $sx = $Find->index($d2,$d3,$d4);
                 break;
-            case 'gev3nt':
+            case 'g3vent':
                 $Gev3nt = new \App\Models\Api\Endpoint\Gev3nt();
                 $sx = $Gev3nt->index($d2, $d3, $d4);
                 break;
