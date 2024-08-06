@@ -166,8 +166,8 @@ class Socials extends Model
 			exit;
 		}
 		$url = getenv('redirectLogin').'/'.md5($response);
-		echo $this->redirectToPost($url);
-		//,$response
+		//echo $this->redirectToPost($url);
+		pre($response);
 		exit;
 		return json_decode($response, true);
 	}

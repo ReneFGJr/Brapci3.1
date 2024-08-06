@@ -13,6 +13,13 @@ export class OrcidCallBackComponent {
   ) {}
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      const id = params['id'];
+      if (id) {
+        alert(id);
+      }
+    });
+
     this.route.queryParams.subscribe((params) => {
       const code = params['code'];
       if (code) {

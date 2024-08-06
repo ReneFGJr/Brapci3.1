@@ -29,6 +29,7 @@ const routes: Routes = [
   { path: '404', component: Pg404Component },
   { path: 'painel/:id', component: PainelComponent },
   { path: 'callback/orcid', component: OrcidCallBackComponent },
+  { path: 'callback/orcid/:id', component: OrcidCallBackComponent },
   {
     path: 'authority',
     loadChildren: () =>
