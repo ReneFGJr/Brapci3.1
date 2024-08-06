@@ -18,7 +18,11 @@ export class BrapciService {
 
   public getId(id: number): Observable<Array<any>> {
     let url = 'brapci/get/v1/' + id;
-    let dt: Array<any> | any = [];
+
+    let session = this.cookieService.get('section');
+
+    let dt: Array<any> | any = [{ session: session }];
+    return this.api_post(url, dt);
 
     return this.api_post(url,dt)
   }

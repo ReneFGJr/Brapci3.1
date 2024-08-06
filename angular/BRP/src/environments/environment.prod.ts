@@ -7,4 +7,5 @@ export const environment = {
   tokenUrl: 'https://orcid.org/oauth/token',
   authorizeUrl: 'https://orcid.org/oauth/authorize',
   client_secret: '93a45b75-b66c-41bc-a13a-54aaf3746df4',
-}
+  version_system: 'v0.24.08.06',
+};

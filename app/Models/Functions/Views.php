@@ -15,7 +15,7 @@ class Views extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'a_user', 'a_IP', 'a_v'
+        'a_user', 'a_IP', 'a_v', 'a_session'
     ];
 
     // Dates
@@ -51,9 +51,12 @@ class Views extends Model
             } else {
                 $user = 0;
             }
+        $session = get("session");
+
         $data['a_v'] = $id;
         $data['a_IP'] = $ip;
         $data['a_user'] = $user;
+        $data['a_session'] = $session;
         $this->insert($data);
     }
 
