@@ -10,6 +10,9 @@ function ip()
     if ($ip == '::1') {
         $ip = '127.0.0.1';
     }
+    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
     return ($ip);
 }
 
