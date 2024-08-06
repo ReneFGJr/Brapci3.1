@@ -102,6 +102,26 @@ class Socials extends Model
 		return ($sx);
 	}
 
+	function api_key($id)
+	{
+		$sx = '';
+		$dt = $this->le($id);
+		if (isset($dt['us_apikey'])) {
+			$sx .= '<tt>APIKEY: ' . $dt['us_apikey'] . '</tt>';
+		} else {
+			$sx .= '<tt>APIKEY: ';
+			$sx .= $this->generateApiKey($id);
+			$sx .= '</tt>';
+		}
+		return $sx;
+	}
+
+	function createAPIKEY_user($id)
+	{
+		$dt = $this->le($id);
+		pre($dt);
+	}
+
 
 	# Trocar o Código de Autorização pelo Token de Acesso
 	function getAccessToken($code)
