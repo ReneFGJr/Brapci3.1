@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/000_core/010_services/orcid.service';
 import { UserService } from 'src/app/001_auth/service/user.service';
 
@@ -8,18 +8,26 @@ import { UserService } from 'src/app/001_auth/service/user.service';
   templateUrl: './orcid.component.html',
 })
 export class OrcidCallBackComponent {
+  public res:Array<any> | any
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
-        console.log("ID-oauth2:"+id)
-        console.log(this.userService.loginOauthHttp(id));
+        console.log('ID-oauth2:' + id);
+        this.res = this.userService.loginOauthHttp(id);
+        let loged = this.userService.checkLogin(this.res);
+        if (loged) {
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/404']);
+        }
       }
     });
 

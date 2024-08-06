@@ -64,10 +64,30 @@ class Oauth extends Model
                 $token = get("token");
                 $Socials = new \App\Models\Socials();
                 $dt = $Socials->where('us_apikey',$token)->first();
-                echo $Socials->getlastquery();
-                echo '<hr>';
-                echo json_encode($dt);
-                exit;
+                $RSP = [];
+
+                if ($dt == [])
+                    {
+
+                        $RSP['status'] = '400';
+                        $RSP['messagem'] = 'Token não validado';
+                    } else {
+                        $displayName = $dt['us_name'];
+                        $givenName = '';
+                        if (strpos($displayName,' '))
+                            {
+                                $displayName = substr($dt['us_name'],0,strpos($dt['us_name'],' '));
+                                $givenName = trim(substr($dt['us_name'],strlen($displayName),100));
+                            }
+                        $RSP['status'] = '200';
+                        $RSP['id'] = $dt['id_us'];
+                        $RSP['displayName'] = $displayName;
+                        $RSP['email'] = '';
+                        $RSP['givenName'] = $givenName;
+                        $RSP['token'] = $token;
+                        $RSP['persistentId'] = '';
+                        $RSP['admin'] = '';
+                    }
                 break;
             case 'chagePassword':
                 $dd = $_POST;
