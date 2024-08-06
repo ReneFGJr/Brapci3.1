@@ -76,7 +76,7 @@ class Oauth extends Model
                         $givenName = '';
                         if (strpos($displayName,' '))
                             {
-                                $displayName = substr($dt['us_nome'],0,strpos($dt['us_name'],' '));
+                                $displayName = substr($dt['us_nome'],0,strpos($dt['us_nome'],' '));
                                 $givenName = trim(substr($dt['us_nome'],strlen($displayName),100));
                             }
                         $RSP['status'] = '200';
