@@ -66,7 +66,6 @@ class Search extends Model
         $data['s_user'] = $user;
         $data['s_section'] = $section;
 
-        pre($data);
         $this->insert($data);
     }
 
