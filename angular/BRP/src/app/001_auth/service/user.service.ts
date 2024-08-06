@@ -98,10 +98,10 @@ export class UserService {
     );
   }
   /** Send Message */
-  public questionHttp(email:string,text:string) {
+  public questionHttp(email: string, text: string) {
     let url = `${this.url}socials/contact`;
 
-    console.log(url)
+    console.log(url);
 
     var formData: any = new FormData();
     formData.append('email', email);
@@ -133,6 +133,21 @@ export class UserService {
     var formData: any = new FormData();
     formData.append('user', login);
     formData.append('pwd', pass);
+
+    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+      (res) => res,
+      (error) => error
+    );
+  }
+
+  /* Login */
+  public loginOauthHttp(token: string): Observable<Array<any>> {
+    let url = `${this.url}socials/oauth2`;
+
+    console.log(url)
+
+    var formData: any = new FormData();
+    formData.append('token', token);
 
     return this.HttpClient.post<Array<any>>(url, formData).pipe(
       (res) => res,

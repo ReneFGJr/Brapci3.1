@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/000_core/010_services/orcid.service';
+import { UserService } from 'src/app/001_auth/service/user.service';
 
 @Component({
   selector: 'app-callback-orcid',
@@ -9,14 +10,16 @@ import { AuthService } from 'src/app/000_core/010_services/orcid.service';
 export class OrcidCallBackComponent {
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
-        alert(id);
+        console.log("ID-oauth2:"+id)
+        console.log(this.userService.loginOauthHttp(id));
       }
     });
 

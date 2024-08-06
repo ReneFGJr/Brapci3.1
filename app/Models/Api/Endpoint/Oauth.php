@@ -60,6 +60,10 @@ class Oauth extends Model
         }
 
         switch ($d1) {
+            case 'oauth2':
+                $code = get("code");
+                pre("HELLO");
+                break;
             case 'chagePassword':
                 $dd = $_POST;
                 $Socials = new \App\Models\Socials();
