@@ -48,7 +48,7 @@ class Search extends Model
     function register($q='',$total=0)
     {
 
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = IP();
         if (isset($_SESSION['user_id'])) {
             $user = $_SESSION['user_id'];
         } else {
