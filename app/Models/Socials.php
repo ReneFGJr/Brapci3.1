@@ -196,7 +196,7 @@ class Socials extends Model
 				document.body.appendChild(form);
 				form.submit();
 			}
-			alert('OLA');
+			alert($data);
 			redirectToPost('".$url."', $data);
 			</script>
 			";
