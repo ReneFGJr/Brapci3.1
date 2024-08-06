@@ -201,6 +201,11 @@ class Socials extends Model
 					$this->set($dt)->insert();
 
 					$dt = $this->where('us_login', $orcid)->first();
+				} else {
+					$da = [];
+					$da['us_apikey'] = $token;
+					$da['us_lastaccess'] = date("Y-m-d H:i:s");
+					$this->set($da)->where('id_us',$dt['id_us'])->update();
 				}
 			return True;
 		}
