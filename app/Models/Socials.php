@@ -165,7 +165,7 @@ class Socials extends Model
 			echo "Erro na requisição HTTP: $httpCode. Resposta: $response";
 			exit;
 		}
-		$url = getenv('redirectLogin').'?code='.md5($response);
+		$url = getenv('redirectLogin').'/'.md5($response);
 		echo $this->redirectToPost($url);
 		//,$response
 		exit;
