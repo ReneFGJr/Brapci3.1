@@ -88,6 +88,8 @@ class Oauth extends Model
                         $RSP['persistentId'] = '';
                         $RSP['admin'] = '';
                     }
+                echo json_encode($RSP);
+                exit;
                 break;
             case 'chagePassword':
                 $dd = $_POST;
