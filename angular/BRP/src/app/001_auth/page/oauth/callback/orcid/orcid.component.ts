@@ -18,27 +18,30 @@ export class OrcidCallBackComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
+      /***********************************************/
       const id = params['id'];
       if (id) {
-        console.log('ID-oauth2:' + id);
-        this.res = this.userService.loginOauthHttp(id);
-        let loged = this.userService.checkLogin(this.res);
-        if (loged) {
-          this.router.navigate(['/']);
-        } else {
-          this.router.navigate(['/404']);
-        }
-      }
-    });
-
-    this.route.queryParams.subscribe((params) => {
-      const code = params['code'];
-      if (code) {
-        this.authService.getAccessToken(code).subscribe((response) => {
-          console.log('Token de Acesso:', response);
-          // Salve o token e redirecione conforme necessário
+        this.userService.loginOauthHttp(id).subscribe((response) => {
+          let loged = this.userService.checkLogin(response);
+          if (loged) {
+            this.router.navigate(['/']);
+          } else {
+            this.router.navigate(['/404']);
+          }
         });
       }
+
+      /*************************************************/
+      this.route.queryParams.subscribe((params) => {
+        const code = params['code'];
+        if (code) {
+          this.authService.getAccessToken(code).subscribe((response) => {
+            console.log('Token de Acesso:', response);
+            // Salve o token e redirecione conforme necessário
+          });
+        }
+      });
+      /***********************************************/
     });
   }
 }

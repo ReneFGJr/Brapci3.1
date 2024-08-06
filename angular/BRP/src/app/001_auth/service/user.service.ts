@@ -38,6 +38,7 @@ export class UserService {
 
   /************************************************ CHECKLOGIN */
   public checkLogin(res: any): boolean {
+    console.log("==========",res)
     if (res['status'] == '200') {
       /*********************** Cookie */
       this.CookieService.set('token', res['token']);
@@ -60,6 +61,7 @@ export class UserService {
 
       return true;
     } else {
+      console.log("Dados incorretos")
       return false;
     }
   }
