@@ -167,10 +167,13 @@ class Socials extends Model
 		}
 		$url = getenv('redirectLogin').'/'.md5($response);
 		//echo $this->redirectToPost($url);
+		$response = json_decode($response, true);
 		pre($response);
 		exit;
-		return json_decode($response, true);
+		return $response;
 	}
+
+	function OrcIdTOken()
 	function redirectToPost($url)
 		{
 			$sx = "
