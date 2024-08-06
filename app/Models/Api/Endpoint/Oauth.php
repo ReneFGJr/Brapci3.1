@@ -145,7 +145,7 @@ class Oauth extends Model
                 $Socials = new \App\Models\Socials();
                 $dt = $Socials->where('us_email',$email)->first();
                 $dt['email'] = $email;
-                echo json_encode($HTTP_RAW_POST_DATA);
+                echo json_encode($dt);
                 exit;
                 break;
         }
