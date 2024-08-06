@@ -144,7 +144,7 @@ class Oauth extends Model
                 $email = get("email");
                 $Socials = new \App\Models\Socials();
                 $da = $Socials->where('us_email',$email)->first();
-                if ($da == [])
+                if ($da != [])
                 {
                     $dt['nome'] = $da['us_nome'];
                     $dt['email'] = $email;
