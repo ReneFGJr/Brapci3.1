@@ -64,6 +64,8 @@ class Oauth extends Model
                 $token = get("token");
                 $Socials = new \App\Models\Socials();
                 $dt = $Socials->where('us_apikey',$token)->first();
+                echo $Socials->getlastquery();
+                echo '<hr>';
                 echo json_encode($dt);
                 exit;
                 break;
