@@ -63,9 +63,10 @@ class Gev3nt extends Model
                     $Socials = new \App\Models\Gev3nt\Users();
                     $da = $Socials->where('n_email', $email)->first();
                     if ($da != []) {
-                        $dt['nome'] = $da['us_nome'];
-                        $dt['email'] = $email;
-                        $dt['afiliacao'] = $da['us_affiliation'];
+                        $dt['nome'] = $da['n_nome'];
+                        $dt['email'] = $da['n_email'];
+                        $dt['cracha'] = $da['n_cracha'];
+                        $dt['afiliacao'] = $da['n_afiliacao'];
                         $dt['status'] = '200';
                     } else {
                         $dt['status'] = '400';
