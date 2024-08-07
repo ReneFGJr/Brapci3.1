@@ -49,6 +49,8 @@ class Users extends Model
             ->where('n_email',$cpf)
             ->first();
 
+            echo $this->getlastquery();
+
             if ($dt=='')
                 {
                     $dt['n_nome'] = $cpf;
