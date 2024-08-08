@@ -135,6 +135,10 @@ class Index extends Model
                 $Sources = new \App\Models\Api\Endpoint\Sources();
                 $sx = $Sources->index($d2, $d3, $d4);
                 break;
+            case 'sitemap':
+                $Sources = new \App\Models\Api\Endpoint\Sitemap();
+                $sx = $Sources->index($d2, $d3, $d4);
+                break;
             case 'lattes':
                 $Lattes = new \App\Models\Api\Endpoint\Lattes();
                 $sx = $Lattes->index($d2,$d3,$d4);

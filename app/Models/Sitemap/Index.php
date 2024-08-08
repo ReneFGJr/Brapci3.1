@@ -97,10 +97,6 @@ class Index extends Model
                             $loop = false;
                         }
                 }
-
-            $link = '<a href="'.PATH.'sitemap.xml">SiteMap.xml</a>';
-
-            $sx = 'Sitemap was create at '.$link;
-            return $sx;
+            return True;
         }
 }
