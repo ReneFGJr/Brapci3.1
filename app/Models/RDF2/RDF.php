@@ -151,9 +151,8 @@ class RDF extends Model
 
                     /******************************************************************************************/
                     $dtr = $RDFconcept
-                        ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n')
+                        ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n','left')
                         ->where('cc_class', $dt['id'])
-                        ->groupBy('cc_class')
                         ->findAll(200);
 
                     $sx .= '<ul>';
