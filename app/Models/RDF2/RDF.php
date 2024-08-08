@@ -148,6 +148,24 @@ class RDF extends Model
                         }
                     $st .= '</table>';
                     $sx .= $st;
+
+                    /******************************************************************************************/
+                    $dtr = $RDFconcept
+                        ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n')
+                        ->where('cc_class', $dt['id'])
+                        ->groupBy('cc_class')
+                        ->findAll(200);
+
+                    $sx .= '<ul>';
+                    foreach($dtr as $idr=>$liner)
+                        {
+                            $sx .= '<li>';
+                            $sx .= '<a href="https://brapci.inf.br/#/v/'.$liner['id_cc'].'" target="_new">';
+                            $sx .= $liner['n_name'];
+                            $sx .= '</a>';
+                            $sx .= '</li>';
+                        }
+                    $sx .= '</ul>';
                 }
                 return bs(bsc($sx));
                 break;
