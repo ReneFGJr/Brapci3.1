@@ -68,6 +68,11 @@ export class RdfFormComponent {
       if (this.propriety == 'hasFileStorage') {
         this.type = 'pdf';
       }
+
+      if (this.propriety == 'hasLogotype') {
+        this.type = 'image';
+      }
+
       console.log(this.propriety);
       console.log('+++' + this.type);
       let url = this.brapciService.url + 'upload/' + this.type + '/' + this.ID;
@@ -75,6 +80,7 @@ export class RdfFormComponent {
       console.log(url);
 
       formData.append('file', this.file, this.file.name);
+      formData.append('property', this.propriety);
       const upload$ = this.http.post(url, formData);
       this.status = 'uploading';
 

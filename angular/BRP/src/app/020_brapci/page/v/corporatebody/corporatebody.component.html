@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-2"></div>
+    <div class="col-12 col-lg-10">
+      <h1>
+        {{ data.publisher }}
+        <a href="https://brapci.inf.br/#/v/{{ data.ID }}">
+          <i class="bi bi-link"></i>
+        </a>
+      </h1>
+      <!-- Acronios -->
+      <div *ngFor="let item of data.data">
+        <span *ngIf="item.Property == 'hasInstitutionAcronym'" class=""
+          >Sigla:
+          <a href="/#/v/{{item.ID}}" class="link">{{ item.Caption }}</a>
+        </span>
+      </div>
+
+      <!-- Type -->
+      <div *ngFor="let item of data.data">
+        <span *ngIf="item.Property == 'isTypeAcademicOrganization'" class=""
+          >Tipo:
+          <a href="/#/v/{{item.ID}}" class="link">{{ item.Caption }}</a>
+        </span>
+      </div>
+
+      <!-- Acronyos -->
+      <div *ngFor="let item of data.data">
+        <span *ngIf="item.Property == 'hasAdministrativeUnit'" class=""
+          >Administração:
+          <a href="/#/v/{{item.ID}}" class="link">{{ item.Caption }}</a>
+        </span>
+      </div>
+
+      <!-- Acronyos -->
+      <div class="mt-5">Membros:</div>
+      <div *ngFor="let item of data.data">
+          <li *ngIf="item.Property == 'altLabel'" class="">
+            <a href="/#/v/{{item.ID}}" class="link">{{ item.Caption }}</a>
+          </li>
+      </div>
+    </div>
+  </div>
+</div>

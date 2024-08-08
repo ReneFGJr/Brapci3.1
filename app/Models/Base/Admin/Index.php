@@ -73,6 +73,13 @@ class Index extends Model
                 $sx .= $Authors->search(get('text'));
                 $sx = bs(bsc($sx));
                 break;
+            case 'corporatebody':
+                $sx .= h("Ponto de acesso - Instituições");
+                $Authors = new \App\Models\Base\Authors();
+                $sx .= $Authors->form_search();
+                $sx .= $Authors->search(get('text'));
+                $sx = bs(bsc($sx));
+                break;
             case 'section':
                 $sx .= h("Sections");
                 $section = new \App\Models\Base\Sections();

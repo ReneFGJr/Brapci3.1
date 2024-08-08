@@ -69,6 +69,7 @@ import { PainelFilterComponent } from './widget/painel/filter/filter.component';
 import { AuthorsPainelComponent } from './widget/painel/authors/authors.component';
 import { EditionsPainelComponent } from './widget/painel/editions/editions.component';
 import { YearsPainelComponent } from './widget/painel/years/years.component';
+import { CorporatebodyComponent } from './page/v/corporatebody/corporatebody.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +135,7 @@ import { YearsPainelComponent } from './widget/painel/years/years.component';
     AuthorsPainelComponent,
     EditionsPainelComponent,
     YearsPainelComponent,
+    CorporatebodyComponent,
   ],
   imports: [
     CommonModule,

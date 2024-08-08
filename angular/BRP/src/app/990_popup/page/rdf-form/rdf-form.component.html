@@ -21,16 +21,17 @@
               <li>Name: {{ file.name }}</li>
               <li>Type: {{ file.type }}</li>
               <li>Size: {{ file.size }} bytes</li>
+              <li>ID: {{ ID }}</li>
             </ul>
           </section>
 
-          <button (click)="onUpload()">Upload the file</button>
+          <button (click)="onUpload()" class="btn btn-outline-primary">Enviar o arquivo</button>
 
           <section [ngSwitch]="status">
-            <p *ngSwitchCase="'uploading'">⏳ Uploading...</p>
-            <p *ngSwitchCase="'success'">✅ Done!</p>
-            <p *ngSwitchCase="'fail'">❌ Error!</p>
-            <p *ngSwitchDefault>😶 Waiting to upload...</p>
+            <p *ngSwitchCase="'uploading'">⏳ Carregando...</p>
+            <p *ngSwitchCase="'success'">✅ Concluído com sucesso!</p>
+            <p *ngSwitchCase="'fail'">❌ Erro ao enviar arquivo!</p>
+            <p *ngSwitchDefault>😶 Clique para enviar o arquivo</p>
           </section>
         </div>
       </div>

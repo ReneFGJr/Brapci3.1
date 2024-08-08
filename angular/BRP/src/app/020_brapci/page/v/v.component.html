@@ -30,6 +30,11 @@
   *ngIf="type == 'FileStorage'"
   [data]="data"
 ></app-brapci-filestorage>
+<app-brapci-corporatebody
+  *ngIf="type == 'CorporateBody'"
+  [data]="data"
+>
+</app-brapci-corporatebody>
 <app-generic *ngIf="type == 'Section'" [data]="data"></app-generic>
 
 <app-v-number *ngIf="type == 'Number'" [data]="data"></app-v-number>

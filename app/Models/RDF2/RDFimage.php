@@ -54,9 +54,17 @@ class RDFimage extends Model
         switch ($d1) {
             case 'cover':
                 $idc = $this->saveImage($ID);
-                $RDFdata->register($ID,'hasCover',$idc,0);
+                //$RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED '.$ID.'-'.$idc;
                 break;
+
+            case 'image':
+                $RSP = $this->saveImage($ID);
+                $RSP['id'] = $ID;
+                $RSP['files'] = $_FILES;
+                echo json_encode($RSP);
+                exit;
+
             case 'pdf':
                 $idc = $this->savePDF($ID);
                 //$RDFdata->register($ID, 'hasFileStorage', $idc, 0);
@@ -173,6 +181,13 @@ class RDFimage extends Model
 
     function saveImage($ID)
     {
+        $RSP = [];
+        if (!isset($_FILES['file']['name']))
+            {
+                $RSP['status'] = '500';
+                $RSP['message'] = 'Erro ao carregar o arquivo.';
+                return $RSP;
+            }
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
@@ -181,6 +196,9 @@ class RDFimage extends Model
         $name = md5($ID);
 
         $dire = $this->directory($ID);
+        $RSP['directory'] = $dire;
+        $RSP['property'] = get("property");
+
         $ext = '.xxx';
 
         switch ($type) {
@@ -190,10 +208,15 @@ class RDFimage extends Model
             case 'image/png':
                 $ext = '.png';
                 break;
+            case 'image/gif':
+                $ext = '.gif';
+                break;
             default:
                 $dd = [];
-                $dd['type'] = $type;
-                echo json_encode($dd);
+                $RSP['type'] = $type;
+                $RSP['status'] = '400';
+                $RSP['message'] = 'Format Invalid ('.$type.')';
+                echo json_encode($RSP);
                 exit;
         }
         $dest = $dire . 'image' . $ext;
@@ -205,13 +228,15 @@ class RDFimage extends Model
 
         /* Create concept */
         $dt = [];
-        $dt['Name'] = $name;
+        $dt['Name'] = $dire. $fileName;
         $dt['Lang'] = 'nn';
         $dt['Class'] = 'Image';
-        $idc = $RDFconcept->createConcept($dt);
+
+        $IDC = $RDFconcept->createConcept($dt);
+        $RSP['IDC'] = $IDC;
 
         /************************** Incula Imagem com Conceito */
-        $RDFdata->register($ID, 'hasCover', $idc, 0);
+        $RDFdata->register($ID, get("property"), $IDC, 0);
 
         /***************************************** ContentType */
         $dt = [];
@@ -219,29 +244,29 @@ class RDFimage extends Model
         $dt['Lang'] = 'nn';
         $dt['Class'] = 'ContentType';
         $idt = $RDFconcept->createConcept($dt);
-        $RDFdata->register($idc, 'hasContentType', $idt, 0);
+        $RDFdata->register($IDC, 'hasContentType', $idt, 0);
 
         /***************************************** Literal Directory */
         $name = $dire;
         $prop = 'hasFileDirectory';
         $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+        $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
         /***************************************** Literal hasFileName */
         $name = $fileName;
         $prop = 'hasFileName';
         $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+        $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
         /***************************************** Literal hasFileName */
-        $name = $fileName;
-        $prop = 'hasFileName';
+        $name = $size;
+        $prop = 'hasFileSize';
         $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+        $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
-        return $idc;
+        return $RSP;
     }
-    function directory($id,$pre='img/c')
+    function directory($id,$pre= '_repository/')
     {
         $id = strzero($id, 8);
         $file = $pre . substr($id, 0, 2) . '/' . substr($id, 2, 2) . '/' . substr($id, 4, 2) . '/' . substr($id, 6, 2) . '/';
