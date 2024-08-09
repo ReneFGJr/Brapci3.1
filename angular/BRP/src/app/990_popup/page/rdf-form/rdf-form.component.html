@@ -1,4 +1,4 @@
-<div class="aH">RDF Editor - {{class}}</div>
+<div class="aH">RDF Editor - {{ class }}</div>
 
 <!----------------------------------------------------- FORM -->
 <div class="container-fluid mt-3" *ngIf="xClass">
@@ -25,7 +25,9 @@
             </ul>
           </section>
 
-          <button (click)="onUpload()" class="btn btn-outline-primary">Enviar o arquivo</button>
+          <button (click)="onUpload()" class="btn btn-outline-primary">
+            Enviar o arquivo
+          </button>
 
           <section [ngSwitch]="status">
             <p *ngSwitchCase="'uploading'">⏳ Carregando...</p>
@@ -36,7 +38,9 @@
         </div>
       </div>
       <!---------------------------------- Form Concept -->
-      <div *ngIf="literal == false && xClass != 'Image' && xClass != 'FileStorage'">
+      <div
+        *ngIf="literal == false && xClass != 'Image' && xClass != 'FileStorage'"
+      >
         <form [formGroup]="searchForm">
           <label>Termos de busca</label>
           <div class="input-group mb-3">
@@ -109,15 +113,19 @@
       <!---------------------------------- Form Literal -->
       <div *ngIf="literal == true">
         <form [formGroup]="searchForm">
-        <label class="small">Texto</label>
-        <textarea class="form-control border border-secondary full"
-              id="text"
-              type="text"
-              placeholder="Digite aqui"
-              formControlName="text"
-         rows="5"></textarea>
-        <button class="btn btn-outline-primary mt-4" (click)="onSaveText()">Salvar</button>
-        <button class="btn btn-outline-warning ms-2 mt-4">Fechar</button>
+          <label class="small">Texto</label>
+          <textarea
+            class="form-control border border-secondary full"
+            id="text"
+            type="text"
+            placeholder="Digite aqui"
+            formControlName="text"
+            rows="5"
+          ></textarea>
+          <button class="btn btn-outline-primary mt-4" (click)="onSaveText()">
+            Salvar
+          </button>
+          <button class="btn btn-outline-warning ms-2 mt-4">Fechar</button>
         </form>
       </div>
     </div>
@@ -158,6 +166,16 @@
       <div *ngIf="selectedID">
         {{ selectedID }}
       </div>
+    </div>
+    <div class="col-12">
+      <button
+        class="btn btn-outline-danger"
+        type="button"
+        id="button-addon2"
+        (click)="closeAction()"
+      >
+        Fechar Janela
+      </button>
     </div>
   </div>
 </div>

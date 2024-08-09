@@ -52,9 +52,17 @@
       <div class="mt-5">Membros:</div>
       <div *ngFor="let item of data.data">
           <li *ngIf="item.Property == 'altLabel'" class="">
-            <a href="/#/v/{{item.ID}}" class="link">{{ item.Caption }}</a>
+            <a href="/#/v/{{item.ID}}" class="link" target="_blank">{{ item.Caption }}</a>
           </li>
       </div>
+
+      <!--------------- Administracao -->
+    <div>
+      <app-remove-concept [ID]="data.ID"></app-remove-concept>
+      <app-edit-concept [ID]="data.ID"></app-edit-concept>
+      <app-ai-process [ID]="data.ID"></app-ai-process>
+    </div>
+
     </div>
   </div>
 </div>

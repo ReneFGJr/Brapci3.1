@@ -26,11 +26,11 @@ export class RdfFormComponent {
   public tclass: Array<any> | any = [];
 
   /*************** Inport */
-  public propriety: string = 'hasAuthor'
-  public class: string = 'Article'
-  public xClass: string = ''
-  public ID: string = '0'
-  public text: string = ''
+  public propriety: string = 'hasAuthor';
+  public class: string = 'Article';
+  public xClass: string = '';
+  public ID: string = '0';
+  public text: string = '';
 
   /********************* BTN */
   public btn1: boolean = true;
@@ -59,6 +59,13 @@ export class RdfFormComponent {
       this.file = file;
     }
   }
+
+  closeAction()
+    {
+      alert("CLOSE")
+      window.opener.location.reload(); // Recarrega a página que abriu a pop-up
+      window.close(); // Fecha a pop-up
+    }
   //https://uploadcare.com/blog/how-to-upload-files-in-angular/
   onUpload() {
     if (this.file) {
@@ -99,8 +106,6 @@ export class RdfFormComponent {
 
   createConcept() {
     let vlr = this.searchForm.value['term'];
-    let dt = alert(vlr);
-    alert('Created');
     let url = 'rdf/createConcept/' + this.xClass;
     let data: Array<any> | any = { name: vlr };
     console.log(url);
@@ -174,25 +179,23 @@ export class RdfFormComponent {
       term: [this.term, Validators.required],
       ID: this.ID,
       prop: this.propriety,
-      text: this.text
+      text: this.text,
     });
   }
 
-  onSaveText()
-    {
-      let url = 'rdf/createLiteral';
-      let q = this.searchForm.value['text'];
-      alert('TEXTE - '+q)
-      let ID = this.searchForm.value['ID'];
-      let prop = this.searchForm.value['prop'];
+  onSaveText() {
+    let url = 'rdf/createLiteral';
+    let q = this.searchForm.value['text'];
+    alert('TEXTE - ' + q);
+    let ID = this.searchForm.value['ID'];
+    let prop = this.searchForm.value['prop'];
 
-      let data: Array<any> | any = { q: q, ID: ID, prop: prop };
+    let data: Array<any> | any = { q: q, ID: ID, prop: prop };
 
-      this.brapciService.api_post(url, data).subscribe((res) => {
-        console.log(res);
-      });
-
-    }
+    this.brapciService.api_post(url, data).subscribe((res) => {
+      console.log(res);
+    });
+  }
 
   submitAction() {
     let url = 'rdf/searchSelect';
