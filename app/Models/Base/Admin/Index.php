@@ -255,8 +255,10 @@ class Index extends Model
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
+        pre($d1);
+
             $t = $RDF->le($idx);
-            pre($t);
+
             $idc = $RDFclass->getClass('Person');
 
             /***************** Change Class */
