@@ -287,7 +287,16 @@ class Index extends Model
             $sx .= h($name,2);
             $sx .= $dt['concept']['c_class'];
             $sx .= '<hr>';
-            $sx .= '<a href="'.PATH. 'admin/person">Voltar</a>';
+            switch($dt['concept']['c_class'])
+                {
+                    case 'Person':
+                        $sx .= '<a href="' . PATH . 'admin/person">Voltar</a>';
+                        break;
+                    case 'CorporateBody':
+                        $sx .= '<a href="' . PATH . 'admin/corporatebody">Voltar</a>';
+                        break;
+                }
+
             $sx .= ' | ';
             $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/literal/' . $d1 .'">Editar Literal</a>';
             $sx .= ' | ';
