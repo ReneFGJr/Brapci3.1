@@ -1,6 +1,22 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-lg-2"></div>
+    <div class="col-12 col-lg-2">
+      <div *ngFor="let item of data.data">
+        <span *ngIf="item.Property == 'hasLogotype'" class=""
+          >
+          <img src="{{url}}{{ item.Caption }}" class="img-fluid">
+        </span>
+      </div>
+      <!-- ROR -->
+      <div *ngFor="let item of data.data">
+        <span *ngIf="item.Property == 'hasCorporateBodyRORID'" class="mt-5"
+          >
+          <a href="{{ item.Caption }}"  target="_blank" class="mt-4">
+            <img src="/assets/logo/ror-logo.svg" style="height: 30px;">
+          </a>
+        </span>
+      </div>
+    </div>
     <div class="col-12 col-lg-10">
       <h1>
         {{ data.publisher }}

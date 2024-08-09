@@ -228,7 +228,7 @@ class RDFimage extends Model
 
         /* Create concept */
         $dt = [];
-        $dt['Name'] = $dire. $fileName;
+        $dt['Name'] = $dest;
         $dt['Lang'] = 'nn';
         $dt['Class'] = 'Image';
 

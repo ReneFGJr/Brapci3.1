@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-brapci-corporatebody',
@@ -14,5 +15,6 @@ export class CorporatebodyComponent {
   ngOnInit(): void {
     this.header = [];
     this.header = { title: 'Institução' };
+    this.url = environment.image;
   }
 }
