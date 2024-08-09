@@ -256,9 +256,9 @@ class Index extends Model
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
             $t = $RDF->le($d1);
-            pre($t);
+            $class = $t['concept']['c_class'];
 
-            $idc = $RDFclass->getClass('Person');
+            $idc = $RDFclass->getClass($class);
 
             /***************** Change Class */
             if ($idx == 'change')
