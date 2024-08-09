@@ -75,9 +75,9 @@ class Index extends Model
                 break;
             case 'corporatebody':
                 $sx .= h("Ponto de acesso - Instituições");
-                $Authors = new \App\Models\Base\Authors();
-                $sx .= $Authors->form_search();
-                $sx .= $Authors->search(get('text'));
+                $CorporateBody = new \App\Models\Base\CorporateBody();
+                $sx .= $CorporateBody->form_search();
+                $sx .= $CorporateBody->search(get('text'));
                 $sx = bs(bsc($sx));
                 break;
             case 'section':
