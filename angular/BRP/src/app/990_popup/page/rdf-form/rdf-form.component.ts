@@ -62,8 +62,7 @@ export class RdfFormComponent {
 
   closeAction()
     {
-      alert("CLOSE")
-      window.opener.location.reload(); // Recarrega a página que abriu a pop-up
+      //window.opener.location.reload(); // Recarrega a página que abriu a pop-up
       window.close(); // Fecha a pop-up
     }
   //https://uploadcare.com/blog/how-to-upload-files-in-angular/
@@ -237,7 +236,7 @@ export class RdfFormComponent {
   keyUp() {}
 
   wclose() {
-    window.opener.location.reload();
+    //window.opener.location.reload();
     window.self.close();
   }
 }
