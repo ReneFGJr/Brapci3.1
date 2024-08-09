@@ -12,6 +12,7 @@ export class SearchAuthorityHomeComponent {
 
   public items: Array<any> | any;
   public nomes: Array<any> | any;
+  public corporate: Array<any> | any;
   public total: number = 0;
   public pag: number = 0;
 
@@ -24,6 +25,7 @@ export class SearchAuthorityHomeComponent {
     this.authorityService.searchList(term, type).subscribe((res) => {
       this.items = res;
       this.nomes = this.items.data.item;
+      this.corporate = this.items.data.corporate;
     });
   }
 }

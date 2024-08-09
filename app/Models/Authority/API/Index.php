@@ -112,8 +112,13 @@ class Index extends Model
         $RSP['total'] = $total;
         $RSP['page'] = $offset;
 
-        /********** DAdos */
+        /********** Dados */
         $RSP['item'] = $data;
+
+
+
+        $dataC = $this->search_base($n,'CorporateBody');
+        $RSP['corporate'] = $dataC;
 
         return $RSP;
     }
@@ -159,7 +164,7 @@ class Index extends Model
         return $idc;
     }
 
-    function search_base($n)
+    function search_base($n,$class='Person')
     {
         /*************** Busca RDF */
         $RDF = new \App\Models\RDF2\RDF();
@@ -168,7 +173,7 @@ class Index extends Model
         $name = get("term");
 
         $faceted = True;
-        $idc = $RDFclass->getClass('Person');
+        $idc = $RDFclass->getClass($class);
         $row = $RDFconcept->searchTerm($name,$idc,$faceted);
 
         return $row;

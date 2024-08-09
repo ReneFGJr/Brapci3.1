@@ -33,6 +33,8 @@ export class AuthorityService {
   public searchList(term: string, type: string): Observable<Array<any>> {
     let url = `${this.url}authority/search`;
 
+    console.log(url)
+
     /* ${term}/${type} */
     var formData: any = new FormData();
     formData.append('term', term);
