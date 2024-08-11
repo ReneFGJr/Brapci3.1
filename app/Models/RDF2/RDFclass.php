@@ -110,12 +110,16 @@ class RDFclass extends Model
             ->orderBy('c_class')
             ->first();
 
-            echo $this->getLastQuery();
 
         $dt['classTotal'] = $RDFconcept->totalClass($id);
         $dt['propTotal'] =  $RDFconcept->totalProp($id);;
 
-        pre($dt);
+        if (!isset($dt['Class']))
+            {
+                $RSP['status'] = '400';
+                $RSP['message'] = 'Class or Property not found';
+                return $RSP;
+            }
 
         switch ($dt['Class'])
             {
