@@ -167,7 +167,7 @@ class Rdf extends Model
                     break;
                 case 'get':
                     $RDFClass = new \App\Models\RDF2\RDFclass();
-                    $RSP = $RDFClass->get($d2);
+                    $RSP = $RDFClass->get($d3);
                     break;
                 case 'v':
                     $RSP = $RDF->v($d3);
