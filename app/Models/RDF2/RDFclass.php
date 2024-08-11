@@ -113,6 +113,8 @@ class RDFclass extends Model
         $dt['classTotal'] = $RDFconcept->totalClass($id);
         $dt['propTotal'] =  $RDFconcept->totalProp($id);;
 
+        pre($dt);
+
         switch ($dt['Class'])
             {
                 case 'C':
