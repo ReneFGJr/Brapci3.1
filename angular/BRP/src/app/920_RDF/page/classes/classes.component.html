@@ -1,6 +1,6 @@
 <h2>Classes</h2>
 <ul>
-<li *ngFor="let item of rdf['Classes']">
+<li *ngFor="let item of rdf">
 
 {{item.prefix}}:
 <a [routerLink]="['/rdf/v/'+item.Class]" routerLinkActive="router-link-active" class="link">
