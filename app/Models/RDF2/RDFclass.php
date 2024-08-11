@@ -110,6 +110,8 @@ class RDFclass extends Model
             ->orderBy('c_class')
             ->first();
 
+            echo $this->getLastQuery();
+
         $dt['classTotal'] = $RDFconcept->totalClass($id);
         $dt['propTotal'] =  $RDFconcept->totalProp($id);;
 
