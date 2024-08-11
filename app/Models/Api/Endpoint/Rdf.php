@@ -193,7 +193,7 @@ class Rdf extends Model
                     break;
                 default:
                     $RSP['Class'] = $RDFclass->getClasses();
-                    $RSP['Property'] = $RDFproperty->getProperty();
+                    $RSP['Property'] = $RDFproperty->getProperties();
                     break;
             }
         echo json_encode($RSP);
