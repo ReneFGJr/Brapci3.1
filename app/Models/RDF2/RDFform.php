@@ -288,6 +288,14 @@ class RDFform extends Model
             $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id), 10, 'border-top border-secondary mb-3');
         }
 
+        $GRP = $RSP['group'];
+        $GGR = [];
+        foreach($GRP as $id=>$line)
+            {
+                array_push($GGR,$line);
+            }
+        $RSP['group'] = $GRR;
+
         return $RSP;
     }
 
