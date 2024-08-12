@@ -247,23 +247,27 @@ class RDFform extends Model
         $PATH = 'https://brapci.inf.br/#/';
         $RSP['concept'] = $dt['concept'];
         $RSP['group'] = [];
+        $RSP['groups'] = [];
+
+        $RRR = [];
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
             if ($grp == '') { $grp = 'NnN'; }
             $cla = $linef['c_class'];
 
-            if (!isset($RSP['group'][$grp]))
+            if (!isset($RRR['group'][$grp]))
                 {
-                    $RSP['group'][$grp] = [];
-                    $RSP['group'][$grp]['Title'] = lang('brapci.' . $grp);
+                    $RRR['group'][$grp] = [];
+                    $RRR['group'][$grp]['Title'] = lang('brapci.' . $grp);
+                    array_push($RSP['groups'],$grp);
                 }
 
             if (!isset($RSP['group'][$grp][$cla]))
                 {
-                    $RSP['group'][$grp][$cla] = [];
-                    $RSP['group'][$grp][$cla]['Title'] = lang('brapci.' . $cla);
-                    $RSP['group'][$grp][$cla]['Prop'] = $cla;
-                    $RSP['group'][$grp][$cla]['PropID'] = $linef['id_c'];
+                    $RRR['group'][$grp][$cla] = [];
+                    $RRR['group'][$grp][$cla]['Title'] = lang('brapci.' . $cla);
+                    $RRR['group'][$grp][$cla]['Prop'] = $cla;
+                    $RRR['group'][$grp][$cla]['PropID'] = $linef['id_c'];
                 }
 
 
