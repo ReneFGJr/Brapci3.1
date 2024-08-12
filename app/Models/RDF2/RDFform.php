@@ -274,9 +274,6 @@ class RDFform extends Model
             $RSP['group'][$grp][$cla][$nr]['PropID'] = $linef['id_c'];
             $nr++;
 
-
-
-
             $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
             $linkEd .= bsicone('plus');
             $linkEd .= '</span>' . cr();
