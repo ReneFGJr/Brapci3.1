@@ -1,1 +1,5 @@
-<p>edit works!</p>
+{{data.group | json}}
+<div *ngFor="let item of data.group">
+<hr>
+{{item | json}}
+</div>

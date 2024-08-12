@@ -249,6 +249,7 @@ class RDFform extends Model
         $RSP['group'] = [];
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
+            if ($grp == '') { $grp = 'NnN'; }
             $cla = $linef['c_class'];
 
             if (!isset($RSP['group'][$grp]))
