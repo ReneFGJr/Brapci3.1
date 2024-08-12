@@ -5,6 +5,7 @@ import { MainRdfOntologyComponent } from './page/main-ontology/main-ontology.com
 import { RDFVComponent } from './page/v/v.component';
 import { RDFViewdataComponent } from './page/viewdata/viewdata.component';
 import { FormComponent } from './page/form/form.component';
+import { EditRDFComponent } from './page/edit/edit.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
     children: [
       { path: '', component: MainRdfOntologyComponent },
       { path: 'v/:id', component: RDFVComponent },
+      { path: 'a/:id', component: EditRDFComponent },
       { path: 'viewdata/:id', component: RDFViewdataComponent },
       { path: 'form/:id', component: FormComponent },
     ],

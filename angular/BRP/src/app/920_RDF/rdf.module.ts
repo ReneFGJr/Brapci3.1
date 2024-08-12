@@ -12,6 +12,7 @@ import { MainRdfOntologyComponent } from './page/main-ontology/main-ontology.com
 import { RDFVComponent } from './page/v/v.component';
 import { RDFViewdataComponent } from './page/viewdata/viewdata.component';
 import { FormComponent } from './page/form/form.component';
+import { EditRDFComponent } from './page/edit/edit.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { FormComponent } from './page/form/form.component';
     RDFVComponent,
     RDFViewdataComponent,
     FormComponent,
+    EditRDFComponent,
   ],
   imports: [
     CommonModule,
