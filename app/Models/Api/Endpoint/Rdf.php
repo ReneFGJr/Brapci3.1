@@ -81,6 +81,11 @@ class Rdf extends Model
         //header("Content-Type: application/json");
         switch($d2)
             {
+                case 'a':
+                    $RSP['status'] = '200';
+                    echo json_encode($RSP);
+                    exit;
+                    break;
                 case 'createLiteral':
                     $dd = [];
                     $dd['post'] = $_POST;
