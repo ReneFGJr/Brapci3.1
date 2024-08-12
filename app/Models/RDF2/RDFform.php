@@ -294,7 +294,7 @@ class RDFform extends Model
             {
                 array_push($GGR,$line);
             }
-        $RSP['group'] = $GRR;
+        $RSP['group'] = $GGR;
 
         return $RSP;
     }
