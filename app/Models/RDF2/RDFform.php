@@ -220,12 +220,54 @@ class RDFform extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $RDFclass = new \App\Models\RDF2\RDFclass();
 
+        $RSP = [];
+
         $dt = $RDF->le($id);
         if (!isset($dt['concept']['n_name'])) {
             echo $RDF->e404();
             exit;
         }
-        return $dt;
+
+        $cp = '*';
+        $cp = 'c_class, rf_group, id_c';
+
+        $df = $this
+            ->select($cp)
+            ->join('brapci_rdf.rdf_class', 'id_c = cd_property')
+            ->join('brapci_rdf.rdf_form', 'rf_class = cd_property', 'left')
+            ->where('cd_domain', $dt['concept']['id_c'])
+            ->groupby($cp)
+            ->orderBy('rf_order, rf_group')
+            ->findAll();
+
+        $xgrp = '';
+        $data = $dt['data'];
+        //$PATH = 'http://localhost:4200/#/';
+        $PATH = 'https://brapci.inf.br/#/';
+        $RSP['group'] = [];
+        foreach ($df as $idf => $linef) {
+            $grp = $linef['rf_group'];
+
+            if (!isset($RSP['group'][$grp]))
+                {
+                    $RSP['group'][$grp] = [];
+                }
+
+            $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
+            $linkEd .= bsicone('plus');
+            $linkEd .= '</span>' . cr();
+
+            if ($grp != $xgrp) {
+                $xgrp = $grp;
+                $sx .= '<tr>';
+                $sx .= '<th><h4>' . lang('brapci.' . $grp) . '</h4></th>';
+                $sx .= '</tr>';
+            }
+            $sx .= bsc('<span title="' . $linef['id_c'] . '">' . lang('rdf.' . $linef['c_class']) . '</span>' . $linkEd, 2, 'text-end');
+            $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id), 10, 'border-top border-secondary mb-3');
+        }
+
+        return $RSP;
     }
 
     function editRDF($id)
