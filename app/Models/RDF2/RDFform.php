@@ -266,13 +266,14 @@ class RDFform extends Model
             if (!isset($RSP['group'][$grp][$cla]))
                 {
                     $RSP['group'][$grp][$cla] = [];
-                    $nr = 0;
                 }
 
-            $RSP['group'][$grp][$cla][$nr]['Title'] = lang('brapci.' . $cla);
-            $RSP['group'][$grp][$cla][$nr]['Prop'] = $cla;
-            $RSP['group'][$grp][$cla][$nr]['PropID'] = $linef['id_c'];
-            $nr++;
+            $DDD = [];
+            $DDD['Title'] = lang('brapci.' . $cla);
+            $DDD['Prop'] = $cla;
+            $DDD['PropID'] = $linef['id_c'];
+
+            array_push($RSP['group'][$grp][$cla],$DDD);
 
             $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
             $linkEd .= bsicone('plus');
