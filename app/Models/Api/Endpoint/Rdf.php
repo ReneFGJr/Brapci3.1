@@ -82,6 +82,7 @@ class Rdf extends Model
         switch($d2)
             {
                 case 'a':
+                    $RSP = $RDP->editRDFapi($d3);
                     $RSP['status'] = '200';
                     echo json_encode($RSP);
                     exit;

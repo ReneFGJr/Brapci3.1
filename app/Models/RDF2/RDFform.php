@@ -215,6 +215,18 @@ class RDFform extends Model
         return $sx;
     }
 
+    function editRDFapi($id)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+
+        $dt = $RDF->le($id);
+        if (!isset($dt['concept']['n_name'])) {
+            echo $RDF->e404();
+            exit;
+        }
+    }
+
     function editRDF($id)
     {
         $sx = '';
