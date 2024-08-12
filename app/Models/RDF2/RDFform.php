@@ -221,6 +221,7 @@ class RDFform extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
 
         $RSP = [];
+        $sx = '';
 
         $dt = $RDF->le($id);
         if (!isset($dt['concept']['n_name'])) {
