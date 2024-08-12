@@ -1,8 +1,5 @@
-<hr>
-{{group | json }}
-<div *ngFor="let key of data.group">
-XXXXXXXXXXXXXXXXXXXX
+<div *ngFor="let group of data.groups | keyvalue">
+  <br>XXXXXXXXXXXXXXXXXXXX {{group.key}}
+  {{group.value | json}}
+  <div *ngFor="let val of group.value">1</div>
 </div>
-
-{{group.value}}
-{{group.keys}}

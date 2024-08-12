@@ -259,6 +259,7 @@ class RDFform extends Model
                 {
                     $RSP['group'][$grp] = [];
                     $RSP['group'][$grp]['Title'] = lang('brapci.' . $grp);
+                    $RSP['group'][$grp]['Acronic'] = $grp;
                     array_push($RSP['groups'],$grp);
                 }
 
@@ -269,6 +270,8 @@ class RDFform extends Model
                     $RSP['group'][$grp][$cla]['Prop'] = $cla;
                     $RSP['group'][$grp][$cla]['PropID'] = $linef['id_c'];
                 }
+
+
 
 
             $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
