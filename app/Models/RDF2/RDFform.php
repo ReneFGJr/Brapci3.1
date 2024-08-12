@@ -262,7 +262,7 @@ class RDFform extends Model
                     $RSP['group'][$grp][$cla] = [];
                     $RSP['group'][$grp][$cla]['Title'] = lang('brapci.' . $cla);
                     $RSP['group'][$grp][$cla]['Prop'] = $cla;
-                    $RSP['group'][$grp][$cla]['PropID'] = $df['id_c'];
+                    $RSP['group'][$grp][$cla]['PropID'] = $linef['id_c'];
                 }
 
 
