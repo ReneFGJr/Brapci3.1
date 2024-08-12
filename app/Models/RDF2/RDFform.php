@@ -254,11 +254,13 @@ class RDFform extends Model
             if (!isset($RSP['group'][$grp]))
                 {
                     $RSP['group'][$grp] = [];
+                    $RSP['group'][$grp]['Title'] = lang('brapci.' . $grp);
                 }
 
             if (!isset($RSP['group'][$grp][$cla]))
                 {
                     $RSP['group'][$grp][$cla] = [];
+                    $RSP['group'][$grp][$cla]['Title'] = lang('brapci.' . $cla);
                 }
 
 
