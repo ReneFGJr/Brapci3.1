@@ -251,11 +251,18 @@ class RDFform extends Model
         $RSP['group'] = [];
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
+            $cla = $linef['c_class'];
 
             if (!isset($RSP['group'][$grp]))
                 {
                     $RSP['group'][$grp] = [];
                 }
+
+            if (!isset($RSP['group'][$grp][$cla]))
+                {
+                    $RSP['group'][$grp][$cla] = [];
+                }
+
 
             $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
             $linkEd .= bsicone('plus');
