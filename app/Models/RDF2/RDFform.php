@@ -225,6 +225,7 @@ class RDFform extends Model
             echo $RDF->e404();
             exit;
         }
+        return $dt;
     }
 
     function editRDF($id)
