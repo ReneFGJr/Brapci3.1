@@ -249,7 +249,6 @@ class RDFform extends Model
         $RSP['group'] = [];
         $RSP['groups'] = [];
 
-        $RRR = [];
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
             if ($grp == '') { $grp = 'NnN'; }
@@ -257,17 +256,17 @@ class RDFform extends Model
 
             if (!isset($RRR['group'][$grp]))
                 {
-                    $RRR['group'][$grp] = [];
-                    $RRR['group'][$grp]['Title'] = lang('brapci.' . $grp);
+                    $RSP['group'][$grp] = [];
+                    $RSP['group'][$grp]['Title'] = lang('brapci.' . $grp);
                     array_push($RSP['groups'],$grp);
                 }
 
             if (!isset($RSP['group'][$grp][$cla]))
                 {
-                    $RRR['group'][$grp][$cla] = [];
-                    $RRR['group'][$grp][$cla]['Title'] = lang('brapci.' . $cla);
-                    $RRR['group'][$grp][$cla]['Prop'] = $cla;
-                    $RRR['group'][$grp][$cla]['PropID'] = $linef['id_c'];
+                    $RSP['group'][$grp][$cla] = [];
+                    $RSP['group'][$grp][$cla]['Title'] = lang('brapci.' . $cla);
+                    $RSP['group'][$grp][$cla]['Prop'] = $cla;
+                    $RSP['group'][$grp][$cla]['PropID'] = $linef['id_c'];
                 }
 
 
