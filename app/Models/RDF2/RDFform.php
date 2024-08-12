@@ -246,15 +246,16 @@ class RDFform extends Model
         //$PATH = 'http://localhost:4200/#/';
         $PATH = 'https://brapci.inf.br/#/';
         $RSP['concept'] = $dt['concept'];
-        $RSP['group'] = [];
         $RSP['groups'] = [];
+        $RSP['group'] = [];
+
 
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
             if ($grp == '') { $grp = 'NnN'; }
             $cla = $linef['c_class'];
 
-            if (!isset($RRR['group'][$grp]))
+            if (!isset($RSP['group'][$grp]))
                 {
                     $RSP['group'][$grp] = [];
                     $RSP['group'][$grp]['Title'] = lang('brapci.' . $grp);
