@@ -427,6 +427,7 @@ class Brapci extends Model
                     $RSP['resource'] = $dt2['concept']['n_name'] . ' (' . $dt2['concept']['c_class'] . ')';
                 } else {
                     $dt2 = $RDFliteral->where('id_n',$dt['d_literal']);
+                    pre($dt2,false);
                     $RSP['resource'] = $dt2['n_name'] . ' (Literal)';
                 }
 
