@@ -264,7 +264,7 @@ class RDFform extends Model
             $data[$grp]['title'] = $grp;
             $data[$grp]['property'] = $linef['c_class'];
             $data[$grp]['IDp'] = $linef['id_c'];
-            $data[$grp]['Data'] = $this->data_api($id,$linef['c_class']);
+            $data[$grp]['Data'] = $this->data_api($id,$linef['id_c']);
             array_push($FORM,$data);
         }
 
@@ -284,8 +284,9 @@ class RDFform extends Model
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $dt = $RDFdata
             ->where('d_r1',$id)
-            ->orWhere('d_r2',$id)
+            ->Where('d_p',$prop)
             ->findAll();
+            echo $RDFdata->getlastquery();
         pre($dt);
         foreach ($dt as $id => $line) {
             if ($line['Property'] == $prop) {
