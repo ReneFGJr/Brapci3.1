@@ -2,6 +2,7 @@
   <h1>=={{ item }}==</h1>
   <div class="container">
     <div *ngFor="let ln of data.form">
+      <div *ngIf="ln.group == item" class="row">
         <div class="col-12 col-lg-2 small text-end border-top border-secondary">
           {{ ln.property }} <i class="bi bi-plus-circle-fill handle" (click)="popup(id,ln.property)" title="Adicionar novo valor"></i>
         </div>
