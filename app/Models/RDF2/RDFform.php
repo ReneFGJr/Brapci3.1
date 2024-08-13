@@ -283,9 +283,11 @@ class RDFform extends Model
         $RSP = [];
         $sx = '';
         $cp = '*';
+        $cp1 = 'd_r1 as ID, id_c, id_n, c_class';
+        $cp2 = 'd_r2 as ID, id_c, id_n, c_class';
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $dt1 = $RDFdata
-            ->select($cp)
+            ->select($cp1)
             ->join('rdf_concept','d_r1 = id_cc','left')
             ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
             ->join('rdf_class','d_p = id_c')
@@ -295,7 +297,7 @@ class RDFform extends Model
             ->findAll();
 
         $dt2 = $RDFdata
-            ->select($cp)
+            ->select($cp2)
             ->join('rdf_concept', 'd_r1 = id_cc', 'left')
             ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
             ->join('rdf_class', 'd_p = id_c')
@@ -305,7 +307,7 @@ class RDFform extends Model
             ->findAll();
 
         $dt3 = $RDFdata
-            ->select($cp)
+            ->select($cp1)
             ->join('rdf_literal', 'd_literal = id_n', 'left')
             ->join('rdf_class', 'd_p = id_c')
             ->where('d_r1', $id)
