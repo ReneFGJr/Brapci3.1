@@ -281,14 +281,38 @@ class RDFform extends Model
     function data_api($id, $prop)
     {
         $sx = '';
+        $cp = '*';
         $RDFdata = new \App\Models\RDF2\RDFdata();
-        $dt = $RDFdata
+        $dt1 = $RDFdata
+            ->select($cp)
+            ->join('rdf_concept','d_r1 = id_cc','left')
+            ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
             ->where('d_r1',$id)
             ->Where('d_p',$prop)
+            ->Where('d_literal', '0')
             ->findAll();
-            echo $RDFdata->getlastquery();
-        pre($dt);
-        foreach ($dt as $id => $line) {
+
+        $dt2 = $RDFdata
+            ->select($cp)
+            ->join('rdf_concept', 'd_r1 = id_cc', 'left')
+            ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
+            ->where('d_r2', $id)
+            ->Where('d_p', $prop)
+            ->Where('d_literal', '0')
+            ->findAll();
+
+        $dt3 = $RDFdata
+            ->select($cp)
+            ->join('rdf_literal', 'd_literal = id_n', 'left')
+            ->where('d_r1', $id)
+            ->Where('d_p', $prop)
+            ->Where('d_literal <> 0')
+            ->findAll();
+
+        pre($dt1,false);
+        pre($dt2,false);
+        pre($dt3, false);
+        foreach ($dt1 as $id => $line) {
             if ($line['Property'] == $prop) {
                 if ($sx != '') {
                     $sx .= '<br>';
