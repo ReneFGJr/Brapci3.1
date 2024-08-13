@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class EditRDFComponent {
 
   delete(id: number) {
     // URL da página que você quer abrir
-    const url = 'https://brapci.inf.br/#/popup/rdf/delete/' + id;
+    //const url = 'https://brapci.inf.br/#/popup/rdf/delete/' + id + '/del';
+    const url = environment.path + '/#/popup/rdf/delete/' + id + '/del';
 
     alert(url)
 

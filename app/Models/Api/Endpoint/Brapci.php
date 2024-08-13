@@ -99,6 +99,9 @@ class Brapci extends Model
                 $Book = new \App\Models\Base\Book();
                 $RSP = $Book->vitrine(get("row") . get("q"));
                 break;
+            case 'data':
+                $RSP['result'] = $this->getData($d2);
+                break;
             case 'get':
                 $RSP['result'] = $this->get($d2, $d3);
                 break;
@@ -406,6 +409,13 @@ class Brapci extends Model
         echo json_encode($dt);
         exit;
     }
+
+    function getData($id)
+        {
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+            $dt = $RDFdata->where('id_d',$id)->first();
+            return $dt;
+        }
 
     function get($v, $id = 0)
     {

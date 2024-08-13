@@ -9,4 +9,5 @@ export const environment = {
   client_secret: '93a45b75-b66c-41bc-a13a-54aaf3746df4',
   version_system: 'v0.24.08.06',
   image: 'http://cip.brapci.inf.br/',
+  path: 'http://localhost:4200/',
 };
