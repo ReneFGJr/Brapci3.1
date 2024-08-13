@@ -109,8 +109,8 @@ class Rdf extends Model
                     $RDFdata = new \App\Models\RDF2\RDFdata();
                     $dt = $RDFdata->where('id_d', $d3)->first();
                     if ($dt != [])
-                        {
-                            //$RDFdata->where('id_d', $d2)->delete();
+                        {   pre($_POST);
+                            $RDFdata->where('id_d', $d3)->delete();
                             $RSP['status'] = '200';
                             $RSP['message'] = 'Removed';
                         } else {
