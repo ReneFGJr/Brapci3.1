@@ -414,23 +414,27 @@ class Brapci extends Model
         {
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RDFliteral = new \App\Models\RDF2\RDFliteral();
             $RDFdata = new \App\Models\RDF2\RDFdata();
             $dt = $RDFdata->where('id_d',$id)->first();
 
             $dt1 = $RDF->le($dt['d_r1']);
+            $RSP = [];
+            $RSP['concept'] = $dt1['concept']['n_name'] . ' (' . $dt1['concept']['c_class'] . ')';
             if ($dt['d_r1'] != 0)
                 {
                     $dt2 = $RDF->le($dt['d_r2']);
+                    $RSP['resource'] = $dt2['concept']['n_name'] . ' (' . $dt2['concept']['c_class'] . ')';
                 } else {
                     $dt2 = $RDFliteral->where('id_n',$dt['d_literal']);
+                    $RSP['resource'] = $dt2['n_name'] . ' (Literal)';
                 }
 
             $prop = $RDFclass->where('id_c',$dt['d_p']);
+            $RSP['Property'] = $prop['c_class'];
 
-            pre($dt1);
 
-
-            return $dt;
+            return $RSP;
         }
 
     function get($v, $id = 0)
