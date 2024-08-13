@@ -287,6 +287,7 @@ class RDFform extends Model
             ->select($cp)
             ->join('rdf_concept','d_r1 = id_cc','left')
             ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
+            ->join('rdf_class','d_p = id_c')
             ->where('d_r1',$id)
             ->Where('d_p',$prop)
             ->Where('d_literal', '0')
@@ -296,6 +297,7 @@ class RDFform extends Model
             ->select($cp)
             ->join('rdf_concept', 'd_r1 = id_cc', 'left')
             ->join('rdf_literal', 'cc_pref_term = id_n', 'left')
+            ->join('rdf_class', 'd_p = id_c')
             ->where('d_r2', $id)
             ->Where('d_p', $prop)
             ->Where('d_literal', '0')
@@ -304,6 +306,7 @@ class RDFform extends Model
         $dt3 = $RDFdata
             ->select($cp)
             ->join('rdf_literal', 'd_literal = id_n', 'left')
+            ->join('rdf_class', 'd_p = id_c')
             ->where('d_r1', $id)
             ->Where('d_p', $prop)
             ->Where('d_literal <> 0')
