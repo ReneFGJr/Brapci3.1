@@ -115,6 +115,8 @@ class Rdf extends Model
                     $dt = $RDFdata->where('id_d', $d3)->first();
                     if ($dt != []) {
                         $RDFdata->where('id_d', $d3)->delete();
+                        echo $RDFdata->getlastquery();
+                        exit;
                         $RSP['status'] = '200';
                         $RSP['message'] = 'Removed';
                     } else {
