@@ -108,8 +108,6 @@ class Rdf extends Model
                 $_POST['token'] = $key;
                 $RSP = $Socials->validToken();
 
-                pre($RSP);
-
                 if ($RSP['status'] = '200') {
                     $RDFdata = new \App\Models\RDF2\RDFdata();
                     $dt = $RDFdata->where('id_d', $d3)->first();
