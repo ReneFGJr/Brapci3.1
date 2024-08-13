@@ -116,6 +116,7 @@ class Rdf extends Model
                         } else {
                             $RSP['status'] = '400';
                             $RSP['message'] = 'Register not found';
+                            $RSP['ID'] = $d2;
                         }
                     echo json_encode($RSP);
                     exit;
