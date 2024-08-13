@@ -51,7 +51,7 @@ export class DeleteRDFComponent {
         window.self.close();
       } else {
         this.message = this.temp.message;
-      }
+      }console.log(this.temp)
     });
   }
 }

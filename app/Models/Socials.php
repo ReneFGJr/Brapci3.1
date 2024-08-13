@@ -1279,6 +1279,8 @@ class Socials extends Model
 			} else {
 				$RSP['status'] = '500';
 				$RSP['message'] = 'Token is empty';
+				$RSP['post'] = $_POST;
+				$RSP['get'] = $_GET;
 			}
 			return $RSP;
 		}
