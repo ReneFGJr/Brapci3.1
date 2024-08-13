@@ -5,7 +5,7 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-rdf-edit',
-  templateUrl: './edit.component.html'
+  templateUrl: './edit.component.html',
 })
 export class EditRDFComponent {
   public type: string = 'NA';
@@ -32,5 +32,31 @@ export class EditRDFComponent {
         console.log(this.data);
       });
     });
+  }
+
+  delete(id: number) {
+    // URL da página que você quer abrir
+    const url = 'https://brapci.inf.br/#/popup/rdf/delete/' + id;
+
+    alert(url)
+
+    // Defina as opções para a nova janela
+    const windowFeatures =
+      'toolbar=no, menubar=no, width=800, height=430, top=100, left=100';
+
+    // Abra a nova janela/popup
+    window.open(url, '_blank', windowFeatures);
+  }
+
+  popup(id: number, prop: string) {
+    // URL da página que você quer abrir
+    const url = 'https://brapci.inf.br/#/popup/rdf/add/' + id + '/' + prop;
+
+    // Defina as opções para a nova janela
+    const windowFeatures =
+      'toolbar=no, menubar=no, width=800, height=430, top=100, left=100';
+
+    // Abra a nova janela/popup
+    window.open(url, '_blank', windowFeatures);
   }
 }

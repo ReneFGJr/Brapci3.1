@@ -280,8 +280,8 @@ class RDFform extends Model
         $RSP = [];
         $sx = '';
         $cp = '*';
-        $cp1 = 'd_r1 as ID, id_c, id_n, c_class, n_name, n_lang';
-        $cp2 = 'd_r2 as ID, id_c, id_n, c_class, n_name, n_lang';
+        $cp1 = 'id_d, d_r1 as ID, id_c, id_n, c_class, n_name, n_lang';
+        $cp2 = 'id_d, d_r2 as ID, id_c, id_n, c_class, n_name, n_lang';
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $dt1 = $RDFdata
             ->select($cp2)

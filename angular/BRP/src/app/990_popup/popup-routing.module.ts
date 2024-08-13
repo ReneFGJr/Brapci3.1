@@ -9,6 +9,7 @@ const routes: Routes = [
     component: PopUpIndexComponent,
     children: [
       { path: 'rdf/add/:id/:prop', component: RdfFormComponent },
+      { path: 'rdf/delete/:id', component: RdfFormComponent },
     ],
   },
 ];

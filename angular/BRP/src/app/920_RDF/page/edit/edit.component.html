@@ -1,11 +1,24 @@
 <div class="col-12 col-lg-12" *ngFor="let item of group">
-=={{item}}==
-<div *ngFor="let ln of data.form">
-  <div *ngIf="ln.group == item">{{item}}
-    {{ln.property}}:
-  {{ln.n_name}}
-  </div>
-</div>
+  <h1>=={{ item }}==</h1>
+  <div class="container">
+    <div *ngFor="let ln of data.form">
+        <div class="col-12 col-lg-2 small text-end border-top border-secondary">
+          {{ ln.property }} <i class="bi bi-plus-circle-fill handle" (click)="popup(id,ln.property)" title="Adicionar novo valor"></i>
+        </div>
+        <div class="col-12 col-lg-10 mb-3 border-top border-secondary">
+          <ul>
+            <li *ngFor="let it of ln.Data" class="list-unstyled" (click)="delete(it.id_d)">
+            <i class="bi bi-trash me-2"></i>
+              <a href="/#/v/{{ it.ID }}" class="link">
+                {{ it.n_name }}
+              </a>
+              <sup>({{ it.n_lang }})</sup>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
 
-<hr>
+    <hr />
+  </div>
 </div>
