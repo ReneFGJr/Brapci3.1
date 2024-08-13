@@ -426,10 +426,13 @@ class Brapci extends Model
                     $dt2 = $RDF->le($dt['d_r2']);
                     $RSP['resource'] = $dt2['concept']['n_name'] . ' (' . $dt2['concept']['c_class'] . ')';
                 } else {
-                    pre($dt, false);
-                    $dt2 = $RDFliteral->where('id_n',$dt['d_literal'])->first();
-
-                    $RSP['resource'] = $dt2['n_name'] . ' (Literal)';
+                    if ($dt['d_literal'] > 0)
+                    {
+                        $dt2 = $RDFliteral->where('id_n', $dt['d_literal'])->first();
+                        $RSP['resource'] = $dt2['n_name'] . ' (Literal)';
+                    } else {
+                        $RSP['resource'] = '##VAZIO##'. ' (Literal)';
+                    }
                 }
 
             $prop = $RDFclass->where('id_c',$dt['d_p'])->first();
