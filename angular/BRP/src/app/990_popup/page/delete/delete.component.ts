@@ -40,6 +40,12 @@ export class DeleteRDFComponent {
     });
   }
 
+  close()
+    {
+              window.opener.location.reload();
+              window.self.close();
+    }
+
   exclude() {
     let url = 'rdf/delData/' + this.ID;
     this.brapciService.api_post(url).subscribe((res) => {
