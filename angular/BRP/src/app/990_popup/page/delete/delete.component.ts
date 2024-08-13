@@ -15,6 +15,7 @@ export class DeleteRDFComponent {
   sub: Array<any> | any;
   ID: string = '';
   propriety: string = '';
+  message: string = 'OLA';
 
   constructor(
     private brapciService: BrapciService,
@@ -28,15 +29,22 @@ export class DeleteRDFComponent {
     this.sub = this.route.params.subscribe((params) => {
       this.ID = params['id']; // (+) converts string 'id' to a number
       this.propriety = params['prop']; // (+) converts string 'id' to a number
-    {
-      let url = 'brapci/data/' + this.ID;
-        this.brapciService.api_post(url).subscribe(
-          (res) => {
-            this.data = res
-            console.log(res)
-          }
-        )
-    }
-    })
+      {
+        let url = 'brapci/data/' + this.ID;
+        this.brapciService.api_post(url).subscribe((res) => {
+          this.data = res;
+          console.log(res);
+        });
+      }
+    });
   }
+
+  exclude()
+    {
+        let url = 'rdf/delData/' + this.ID;
+        this.brapciService.api_post(url).subscribe((res) => {
+          console.log(res);
+        });
+      alert("Excluir: " + this.ID)
+    }
 }

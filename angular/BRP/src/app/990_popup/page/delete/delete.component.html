@@ -1,13 +1,31 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12" style="background-color: #F00000">
-      <h1 style="color: white;">Brapci Editor RDF</h1>
+    <div class="col-12" style="background-color: #f00000">
+      <h1 style="color: white">Brapci Editor RDF - Excluir</h1>
     </div>
   </div>
-  </div>
-<div class="container">
-  <div class="row">
-    <div *ngIf="busy" style="position:absolute; top:0px; right: 0px;">BUSY</div>
-    <div *ngIf="!busy" class="col-12">WORK</div>
-  </div>
 </div>
+<div class="container">
+    <div *ngIf="busy" style="position: absolute; top: 0px; right: 0px"  class="row">
+      BUSY
+    </div>
+    <div *ngIf="!busy && data" class="row mt-4">
+      <div *ngIf="data.result" class="col-lg-4 col-4">
+        Recurso:<br><b class="big">{{ data.result.concept }}</b>
+        </div>
+        <div *ngIf="data.result" class="col-lg-4 col-4">
+        Propriedade:<br><b class="big">{{ data.result.Property }}</b>
+        </div>
+        <div *ngIf="data.result" class="col-lg-4 col-4">
+        Recurso:<br><b class="big">{{ data.result.resource }}</b>
+      </div>
+
+      <div class="mt-4 col-12">
+      <button (click)="exclude()" class="btn btn-danger">Confirma exclusão</button>
+      </div>
+
+      <div class="mt-4 col-12 text-danger" *ngIf="message">{{message}}</div>
+    </div>
+
+
+  </div>

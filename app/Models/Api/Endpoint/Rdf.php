@@ -105,6 +105,20 @@ class Rdf extends Model
                     echo json_encode($dd);
                     exit;
                     break;
+                case 'delData':
+                    $RDFdata = new \App\Models\RDF2\RDFdata();
+                    $dt = $RDFdata->where('id_d', $d2)->first();
+                    if ($dt != [])
+                        {
+                            //$RDFdata->where('id_d', $d2)->delete();
+                            $RSP['status'] = '200';
+                            $RSP['message'] = 'Removed';
+                        } else {
+                            $RSP['status'] = '400';
+                            $RSP['message'] = 'Register not found';
+                        }
+                    echo json_encode($RSP);
+                    exit;
                 case 'deleteConcept':
                     $RDF = new \App\Models\RDF2\RDF();
                     $dd = $RDF->remove($d3);
