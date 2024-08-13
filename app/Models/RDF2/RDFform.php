@@ -251,6 +251,7 @@ class RDFform extends Model
         $RSP['concept'] = $dt['concept'];
 
         $GRP = [];
+        $GRPN = [];
         $FORM = [];
 
         foreach ($df as $idf => $linef) {
@@ -259,6 +260,7 @@ class RDFform extends Model
             if (!isset($GRP[$grp]))
                 {
                     $GRP[$grp] = $grp;
+                    array_push($GRPN,$grp);
                 }
             $data = [];
             $data[$grp]['title'] = $grp;
@@ -268,10 +270,8 @@ class RDFform extends Model
             array_push($FORM,$data);
         }
 
+        $RSP['groups'] = $GRPN;
         $RSP['form'] = $FORM;
-        $RSP['groups'] = $GRP;
-        $RSP['form'] = $FORM;
-
         return $RSP;
     }
 
