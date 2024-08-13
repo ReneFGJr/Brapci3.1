@@ -35,6 +35,11 @@ export class EditRDFComponent {
     });
   }
 
+  goURL(ID:string)
+    {
+      this.router.navigate(['/v/'+ID]);
+    }
+
   delete(id: number) {
     // URL da página que você quer abrir
     //const url = 'https://brapci.inf.br/#/popup/rdf/delete/' + id + '/del';

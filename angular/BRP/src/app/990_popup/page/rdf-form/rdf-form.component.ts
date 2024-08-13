@@ -203,11 +203,13 @@ export class RdfFormComponent {
     let prop = this.searchForm.value['prop'];
 
     let data: Array<any> | any = { q: q, ID: ID, prop: prop };
+    this.loading = true;
 
     this.brapciService.api_post(url, data).subscribe((res) => {
       this.concepts = res;
       this.selectedID = '';
       this.btnChecks();
+      this.loading = false;
     });
   }
 
@@ -233,7 +235,13 @@ export class RdfFormComponent {
     });
   }
 
-  keyUp() {}
+  keyUp(event: KeyboardEvent): void {
+    console.log('Tecla pressionada:', event.key);
+    // Você pode verificar a tecla específica com event.key ou event.code
+    if (event.key === 'Enter') {
+      this.submitAction()
+    }
+  }
 
   wclose() {
     window.opener.location.reload();

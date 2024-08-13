@@ -48,13 +48,13 @@
               id="term"
               type="term"
               placeholder="Digite aqui"
-              formControlName="term form-control"
+              formControlName="term"
               autofocus
               required
-              (keyup)="keyUp()"
+              (keyup)="keyUp($event)"
               aria-label="Termo de Busca"
               aria-describedby="button-addon2"
-              style="width: 500px"
+              style="width: 400px;"
             />
             <button
               class="btn btn-outline-secondary"
