@@ -236,7 +236,7 @@ export class RdfFormComponent {
   keyUp() {}
 
   wclose() {
-    //window.opener.location.reload();
+    window.opener.location.reload();
     window.self.close();
   }
 }

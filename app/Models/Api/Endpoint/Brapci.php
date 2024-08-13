@@ -423,6 +423,7 @@ class Brapci extends Model
             $RSP['concept'] = $dt1['concept']['n_name'] . ' (' . $dt1['concept']['c_class'] . ')';
             if ($dt['d_r1'] != 0)
                 {
+                    pre($dt);
                     $dt2 = $RDF->le($dt['d_r2']);
                     $RSP['resource'] = $dt2['concept']['n_name'] . ' (' . $dt2['concept']['c_class'] . ')';
                 } else {

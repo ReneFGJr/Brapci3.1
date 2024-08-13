@@ -8,8 +8,8 @@
         </div>
         <div class="col-12 col-lg-10 mb-3 border-top border-secondary">
           <ul>
-            <li *ngFor="let it of ln.Data" class="list-unstyled" (click)="delete(it.id_d)">
-            <i class="bi bi-trash me-2"></i>
+            <li *ngFor="let it of ln.Data" class="list-unstyled">
+            <i class="bi bi-trash me-2 handle"  (click)="delete(it.id_d)"></i>
               <a href="/#/v/{{ it.ID }}" class="link">
                 {{ it.n_name }}
               </a>

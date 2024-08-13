@@ -40,8 +40,6 @@ export class EditRDFComponent {
     //const url = 'https://brapci.inf.br/#/popup/rdf/delete/' + id + '/del';
     const url = environment.path + '/#/popup/rdf/delete/' + id + '/del';
 
-    alert(url)
-
     // Defina as opções para a nova janela
     const windowFeatures =
       'toolbar=no, menubar=no, width=800, height=430, top=100, left=100';

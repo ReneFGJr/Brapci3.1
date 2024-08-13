@@ -13,9 +13,10 @@ export class DeleteRDFComponent {
   busy: string = '';
   data: Array<any> | any;
   sub: Array<any> | any;
+  temp: Array<any> | any;
   ID: string = '';
   propriety: string = '';
-  message: string = 'OLA';
+  message: string = '';
 
   constructor(
     private brapciService: BrapciService,
@@ -39,12 +40,16 @@ export class DeleteRDFComponent {
     });
   }
 
-  exclude()
-    {
-        let url = 'rdf/delData/' + this.ID;
-        this.brapciService.api_post(url).subscribe((res) => {
-          console.log(res);
-        });
-      alert("Excluir: " + this.ID)
-    }
+  exclude() {
+    let url = 'rdf/delData/' + this.ID;
+    this.brapciService.api_post(url).subscribe((res) => {
+      this.temp = res;
+      this.message = this.temp.message;
+      if (this.temp.status == '200')
+        {
+          window.opener.location.reload();
+          window.self.close();
+        }
+    });
+  }
 }
