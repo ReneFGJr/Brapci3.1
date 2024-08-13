@@ -45,11 +45,13 @@ export class DeleteRDFComponent {
     this.brapciService.api_post(url).subscribe((res) => {
       this.temp = res;
       this.message = this.temp.message;
-      if (this.temp.status == '200')
-        {
-          //window.opener.location.reload();
-          //window.self.close();
-        }
+      console.log(this.temp.status);
+      if (this.temp.status == '200') {
+        window.opener.location.reload();
+        window.self.close();
+      } else {
+        this.message = this.temp.message;
+      }
     });
   }
 }

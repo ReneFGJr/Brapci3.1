@@ -104,7 +104,7 @@ class Rdf extends Model
                 exit;
                 break;
             case 'delData':
-                $key = get("key");
+                $key = get("user");
                 $_POST['token'] = $key;
                 $RSP = $Socials->validToken();
                 echo json_encode($RSP);
