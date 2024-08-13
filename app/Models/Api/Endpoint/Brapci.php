@@ -412,8 +412,24 @@ class Brapci extends Model
 
     function getData($id)
         {
+            $RDF = new \App\Models\RDF2\RDF();
+            $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFdata = new \App\Models\RDF2\RDFdata();
             $dt = $RDFdata->where('id_d',$id)->first();
+
+            $dt1 = $RDF->le($dt['d_r1']);
+            if ($dt['d_r1'] != 0)
+                {
+                    $dt2 = $RDF->le($dt['d_r2']);
+                } else {
+                    $dt2 = $RDFliteral->where('id_n',$dt['d_literal']);
+                }
+
+            $prop = $RDFclass->where('id_c',$dt['d_p']);
+
+            pre($dt1);
+
+
             return $dt;
         }
 
