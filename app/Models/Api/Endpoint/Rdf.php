@@ -107,7 +107,7 @@ class Rdf extends Model
                     break;
                 case 'delData':
                     $RDFdata = new \App\Models\RDF2\RDFdata();
-                    $dt = $RDFdata->where('id_d', $d2)->first();
+                    $dt = $RDFdata->where('id_d', $d3)->first();
                     if ($dt != [])
                         {
                             //$RDFdata->where('id_d', $d2)->delete();
@@ -116,7 +116,7 @@ class Rdf extends Model
                         } else {
                             $RSP['status'] = '400';
                             $RSP['message'] = 'Register not found';
-                            $RSP['ID'] = $d2;
+                            $RSP['ID'] = $d3;
                         }
                     echo json_encode($RSP);
                     exit;
