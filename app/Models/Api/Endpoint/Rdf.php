@@ -107,6 +107,8 @@ class Rdf extends Model
                 $key = get("key");
                 $_POST['token'] = $key;
                 $RSP = $Socials->validToken();
+                echo json_encode($RSP);
+                exit;
 
                 if ($RSP['status'] = '200') {
                     $RDFdata = new \App\Models\RDF2\RDFdata();
