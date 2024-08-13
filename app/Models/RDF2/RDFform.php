@@ -315,11 +315,9 @@ class RDFform extends Model
             ->Where('d_literal <> 0')
             ->findAll();
 
-        pre($dt1,false);
-        pre($dt2,false);
-        pre($dt3, false);
+        $dt = array_merge($dt1,$dt2,$dt3);
 
-        return $RSP;
+        return $dt;
     }
 
     function editRDF($id)
