@@ -1,4 +1,5 @@
-{{group}}
 <div class="col-12 col-lg-12" *ngFor="let item of group">
 {{item}}
+{{data.form[1][item] | json}}
+<hr>
 </div>
