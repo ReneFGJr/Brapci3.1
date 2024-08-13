@@ -47,8 +47,8 @@ export class DeleteRDFComponent {
       this.message = this.temp.message;
       if (this.temp.status == '200')
         {
-          window.opener.location.reload();
-          window.self.close();
+          //window.opener.location.reload();
+          //window.self.close();
         }
     });
   }
