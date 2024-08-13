@@ -1,5 +1,11 @@
 <div class="col-12 col-lg-12" *ngFor="let item of group">
-{{item}}
-{{data.form[1][item] | json}}
+=={{item}}==
+<div *ngFor="let ln of data.form">
+  <div *ngIf="ln.group == item">{{item}}
+    {{ln.property}}:
+  {{ln.n_name}}
+  </div>
+</div>
+
 <hr>
 </div>
