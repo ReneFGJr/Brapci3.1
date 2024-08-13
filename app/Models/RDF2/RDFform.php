@@ -230,14 +230,17 @@ class RDFform extends Model
         }
 
         $cp = '*';
-        $cp = 'c_class, rf_group, id_c';
+        //$cp = 'c_class, rf_group, id_c';
 
         $df = $this
             ->select($cp)
             ->join('brapci_rdf.rdf_class', 'id_c = cd_property')
             ->join('brapci_rdf.rdf_form', 'rf_class = cd_property', 'left')
+//            ->join('brapci_rdf.rdf_data', 'd_r1 = '.$id, 'left')
+//            ->join('brapci_rdf.rdf_concept', 'd_r1 = id_cc', 'left')
+//            ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n', 'left')
             ->where('cd_domain', $dt['concept']['id_c'])
-            ->groupby($cp)
+            //->groupby($cp)
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
@@ -258,9 +261,10 @@ class RDFform extends Model
                     $GRP[$grp] = $grp;
                 }
             $data = [];
-            $data['title'] = $grp;
-            $data['property'] = $linef['c_class'];
-            $data['IDp'] = $linef['id_c'];
+            $data[$grp]['title'] = $grp;
+            $data[$grp]['property'] = $linef['c_class'];
+            $data[$grp]['IDp'] = $linef['id_c'];
+            $data[$grp]['Data'] = $this->data_api($id,$linef['c_class']);
             array_push($FORM,$data);
         }
 
@@ -272,6 +276,39 @@ class RDFform extends Model
 
 
         return $RSP;
+    }
+
+    function data_api($id, $prop)
+    {
+        $sx = '';
+        $RDFdata = new \App\Models\RDF2\RDFdata();
+        $dt = $RDFdata
+            ->where('d_r1',$id)
+            ->orWhere('d_r2',$id)
+            ->findAll();
+        pre($dt);
+        foreach ($dt as $id => $line) {
+            if ($line['Property'] == $prop) {
+                if ($sx != '') {
+                    $sx .= '<br>';
+                }
+                $idD = $line['idD'];
+                /* Edit */
+                if ($line['Class'] == 'Literal') {
+                    $idL = $line['idL'];
+                    $sx .= '<span class="pointer text-red" onclick="newxy(\'' . PATH . '/popup/rdf/literal/' . $idL . '\',800,300);">' . bsicone('edit', 16) . '</span>';
+                }
+
+                /* Delete */
+                $sx .= '<span class="pointer text-red" onclick="newxy(\'' . PATH . '/popup/rdf/delete/' . $idD . '\',800,300);">' . bsicone('trash', 16) . '</span>';
+
+                /* Label */
+                $sx .= '&nbsp;';
+                $sx .= $line['Caption'];
+                $sx .= '<sup>' . $line['Lang'] . '</sup>';
+            }
+        }
+        return $sx;
     }
 
     function editRDF($id)
