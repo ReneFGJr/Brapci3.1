@@ -280,6 +280,7 @@ class RDFform extends Model
 
     function data_api($id, $prop)
     {
+        $RSP = [];
         $sx = '';
         $cp = '*';
         $RDFdata = new \App\Models\RDF2\RDFdata();
@@ -315,28 +316,8 @@ class RDFform extends Model
         pre($dt1,false);
         pre($dt2,false);
         pre($dt3, false);
-        foreach ($dt1 as $id => $line) {
-            if ($line['Property'] == $prop) {
-                if ($sx != '') {
-                    $sx .= '<br>';
-                }
-                $idD = $line['idD'];
-                /* Edit */
-                if ($line['Class'] == 'Literal') {
-                    $idL = $line['idL'];
-                    $sx .= '<span class="pointer text-red" onclick="newxy(\'' . PATH . '/popup/rdf/literal/' . $idL . '\',800,300);">' . bsicone('edit', 16) . '</span>';
-                }
 
-                /* Delete */
-                $sx .= '<span class="pointer text-red" onclick="newxy(\'' . PATH . '/popup/rdf/delete/' . $idD . '\',800,300);">' . bsicone('trash', 16) . '</span>';
-
-                /* Label */
-                $sx .= '&nbsp;';
-                $sx .= $line['Caption'];
-                $sx .= '<sup>' . $line['Lang'] . '</sup>';
-            }
-        }
-        return $sx;
+        return $RSP;
     }
 
     function editRDF($id)
