@@ -1,5 +1,4 @@
-<div *ngFor="let group of data.groups | keyvalue">
-  <br>XXXXXXXXXXXXXXXXXXXX {{group.key}}
-  {{group.value | json}}
-  <div *ngFor="let val of group.value">1</div>
+{{group}}
+<div class="col-12 col-lg-12" *ngFor="let item of group">
+{{item}}
 </div>

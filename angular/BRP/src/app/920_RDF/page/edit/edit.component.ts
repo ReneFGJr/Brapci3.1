@@ -5,8 +5,7 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 
 @Component({
   selector: 'app-rdf-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss'],
+  templateUrl: './edit.component.html'
 })
 export class EditRDFComponent {
   public type: string = 'NA';
@@ -29,7 +28,7 @@ export class EditRDFComponent {
       let url = 'rdf/a/' + this.id;
       this.brapciService.api_post(url).subscribe((res) => {
         this.data = res;
-        this.group = this.data.group;
+        this.group = this.data.groups;
         console.log(this.data);
       });
     });

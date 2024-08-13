@@ -246,56 +246,30 @@ class RDFform extends Model
         //$PATH = 'http://localhost:4200/#/';
         $PATH = 'https://brapci.inf.br/#/';
         $RSP['concept'] = $dt['concept'];
-        $RSP['groups'] = [];
-        $RSP['group'] = [];
 
+        $GRP = [];
+        $FORM = [];
 
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
             if ($grp == '') { $grp = 'NnN'; }
-            $cla = $linef['c_class'];
-
-            if (!isset($RSP['group'][$grp]))
+            if (!isset($GRP[$grp]))
                 {
-                    $RSP['group'][$grp] = [];
-                    $RSP['group'][$grp]['Title'] = lang('brapci.' . $grp);
-                    $RSP['group'][$grp]['Acronic'] = $grp;
-                    array_push($RSP['groups'],$grp);
+                    $GRP[$grp] = $grp;
                 }
-
-            if (!isset($RSP['group'][$grp][$cla]))
-                {
-                    $RSP['group'][$grp][$cla] = [];
-                }
-
-            $DDD = [];
-            $DDD['Title'] = lang('brapci.' . $cla);
-            $DDD['Prop'] = $cla;
-            $DDD['PropID'] = $linef['id_c'];
-
-            array_push($RSP['group'][$grp][$cla],$DDD);
-
-            $linkEd = '<span onclick="newxy2(\'' . $PATH . 'popup/rdf/add/' . $id . '/' . $linef['c_class'] . '\',1024,600);" class="cursor ms-1">';
-            $linkEd .= bsicone('plus');
-            $linkEd .= '</span>' . cr();
-
-            if ($grp != $xgrp) {
-                $xgrp = $grp;
-                $sx .= '<tr>';
-                $sx .= '<th><h4>' . lang('brapci.' . $grp) . '</h4></th>';
-                $sx .= '</tr>';
-            }
-            $sx .= bsc('<span title="' . $linef['id_c'] . '">' . lang('rdf.' . $linef['c_class']) . '</span>' . $linkEd, 2, 'text-end');
-            $sx .= bsc($this->show_data($data, $linef['c_class'], True, $id), 10, 'border-top border-secondary mb-3');
+            $data = [];
+            $data['title'] = $grp;
+            $data['property'] = $linef['c_class'];
+            $data['IDp'] = $linef['id_c'];
+            array_push($FORM,$data);
         }
 
-        $GRP = $RSP['group'];
-        $GGR = [];
-        foreach($GRP as $id=>$line)
-            {
-                array_push($GGR,$line);
-            }
-        $RSP['group'] = $GGR;
+        $RSP['form'] = $FORM;
+        $RSP['groups'] = $GRP;
+        $RSP['form'] = $FORM;
+
+        pre($RSP);
+
 
         return $RSP;
     }
