@@ -430,7 +430,8 @@ class Brapci extends Model
                     $RSP['resource'] = $dt2['n_name'] . ' (Literal)';
                 }
 
-            $prop = $RDFclass->where('id_c',$dt['d_p']);
+            $prop = $RDFclass->where('id_c',$dt['d_p'])->first();
+
             $RSP['Property'] = $prop['c_class'];
 
 
