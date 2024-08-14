@@ -4,8 +4,7 @@ import { LocalStorageService } from 'src/app/001_auth/service/local-storage.serv
 
 @Component({
   selector: 'app-remove-concept',
-  templateUrl: './remove-concept.component.html',
-  styleUrls: ['./remove-concept.component.scss'],
+  templateUrl: './remove-concept.component.html'
 })
 export class RemoveConceptComponent {
   @Input() ID:string = ''

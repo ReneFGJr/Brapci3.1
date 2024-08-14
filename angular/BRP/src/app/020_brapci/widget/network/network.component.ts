@@ -29,7 +29,6 @@ export class NetworkComponent {
   }
 
   ngOnChanges(): void {
-    console.log('CHANGE');
     this.updateNodesAndLinks();
   }
 

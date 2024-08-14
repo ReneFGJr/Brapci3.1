@@ -27,7 +27,6 @@ export class VComponent {
       this.brapciService.getId(this.id).subscribe(
         (res) => {
           this.data = res;
-          console.log(this.data)
           if (this.data.status == '404') {
             console.log("Registro cancelado")
             this.router.navigate(['404']);
@@ -66,7 +65,6 @@ export class VComponent {
                 }
               }
             }
-            console.log(this.chaves);
             this.header.title = this.chaves[0] + ' | Article';
           }
 

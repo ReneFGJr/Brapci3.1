@@ -10,10 +10,18 @@ export class LoveItComponent {
   @Input() public id: string = '';
 
   public loveit: string = '/assets/icone/love-it-off.svg';
+  public loveitValue: number = 0;
 
   constructor(public brapciService: BrapciService) {}
 
   changeit() {
-    alert("OK")
+    if (this.loveitValue == 0)
+      {
+        this.loveit = '/assets/icone/loveit-pulse.svg';
+        this.loveitValue = 1
+      } else {
+        this.loveit = '/assets/icone/love-it-off.svg';
+        this.loveitValue = 0;
+      }
   }
 }

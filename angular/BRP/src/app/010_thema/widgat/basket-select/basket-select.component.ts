@@ -9,7 +9,7 @@ import { UserService } from 'src/app/001_auth/service/user.service';
 })
 export class BasketSelectComponent {
   @Input() public data: Array<any> | any
-  public basketValue: Array<any> | any
+  public basketValue: Array<any> = []
   public total: number = 0;
   public total_result: number = 0;
 
@@ -20,11 +20,14 @@ export class BasketSelectComponent {
   ) {}
 
   ngOnInit() {
-    console.log("================")
-    console.log(this.data)
     this.total_result = this.data.length;
     this.basketValue = this.localStorageService.get('marked');
-    this.total = this.basketValue.length
+    if (this.basketValue)
+      {
+          this.total = this.basketValue.length
+      } else {
+        this.total = 0
+      }
   }
 
   selectAll() {

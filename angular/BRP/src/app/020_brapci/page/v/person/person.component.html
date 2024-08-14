@@ -14,7 +14,9 @@
       </div>
 
       <!-------------------- TagCloud-->
-      <div class="mt-2 d-none d-xl-block"><b>Nuvem de TAGs de assuntos do Autor</b></div>
+      <div class="mt-2 d-none d-xl-block">
+        <b>Nuvem de TAGs de assuntos do Autor</b>
+      </div>
       <!-- app.component.html -->
       <div
         style="background-color: #efefef; border: 2px solid #ccc"
@@ -34,7 +36,6 @@
       <!-------------------- NetWork-->
       <div class="mt-2"><b>Rede de coautoria</b></div>
       <app-network [data]="data"></app-network>
-
 
       <div *ngIf="data.works.Article">
         <h2 class="brp_h2 mt-4" *ngIf="data.works.Article.length > 0">
@@ -133,7 +134,13 @@
           {{ vars.name }}
         </li>
       </div>
-    </div>
+      </div>
+      <!--------------- Administracao -->
+      <div *ngIf="data">
+        <app-remove-concept [ID]="data.ID"></app-remove-concept>
+        <app-edit-concept [ID]="data.ID"></app-edit-concept>
+        <app-ai-process [ID]="data.ID"></app-ai-process>
+      </div>
   </div>
 </div>
 
