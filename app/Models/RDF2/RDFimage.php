@@ -67,7 +67,7 @@ class RDFimage extends Model
 
             case 'pdf':
                 $idc = $this->savePDF($ID);
-                //$RDFdata->register($ID, 'hasFileStorage', $idc, 0);
+                $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
                 //$status = 'SAVED ' . $ID . '-' . $idc;
                 $dd = [];
                 $dd['status'] = '200';
