@@ -143,9 +143,6 @@ class RDFimage extends Model
             $RSP['destinity'] = $dest;
             move_uploaded_file($tmp, $dest);
 
-            echo json_encode($RSP);
-            exit;
-
             /* Create concept */
             $dt = [];
             $name = $dest;
