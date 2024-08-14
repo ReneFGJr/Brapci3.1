@@ -64,6 +64,7 @@ class RDFimage extends Model
                 $RSP['files'] = $_FILES;
                 echo json_encode($RSP);
                 exit;
+                break;
 
             case 'pdf':
                 $idc = $this->savePDF($ID);
@@ -103,15 +104,16 @@ class RDFimage extends Model
         $ttt = 'Indefinido';
         $da['ID'] = $ID;
 
-        $fileName = $_FILES['file']['name'];
-        $tmp = $_FILES['file']['tmp_name'];
-        $type = $_FILES['file']['type'];
-        $size = $_FILES['file']['size'];
-        $ext = '.qqq';
-        $dire = '_repository';
-
-        switch ($ccClass)
+        if (isset($_FILES['file']))
             {
+            $fileName = $_FILES['file']['name'];
+            $tmp = $_FILES['file']['tmp_name'];
+            $type = $_FILES['file']['type'];
+            $size = $_FILES['file']['size'];
+            $ext = '.qqq';
+            $dire = '_repository';
+
+            switch ($ccClass) {
                 case 'Book':
                     $dire = $this->directory($ID, '_repository/book/');
                     $ttt = 'book';
@@ -124,7 +126,7 @@ class RDFimage extends Model
                 default:
                     echo json_encode($dd = [$ccClass, 'type']);
                     exit;
-                    $dd['Erro'] = $ccClass .' não foi mapeada';
+                    $dd['Erro'] = $ccClass . ' não foi mapeada';
                     echo json_encode($dd);
                     exit;
                     break;
@@ -132,47 +134,53 @@ class RDFimage extends Model
 
 
 
-        $dest = $dire . $ttt . $ext;
-        move_uploaded_file($tmp, $dest);
+            $dest = $dire . $ttt . $ext;
+            move_uploaded_file($tmp, $dest);
 
-        /* Create concept */
-        $dt = [];
-        $name = $dest;
-        $dt['Name'] = $name;
-        $dt['Lang'] = 'nn';
-        $dt['Class'] = 'FileStorage';
-        $idc = $RDFconcept->createConcept($dt);
+            /* Create concept */
+            $dt = [];
+            $name = $dest;
+            $dt['Name'] = $name;
+            $dt['Lang'] = 'nn';
+            $dt['Class'] = 'FileStorage';
+            $idc = $RDFconcept->createConcept($dt);
 
-        /************************** Incula Imagem com Conceito */
-        $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
+            /************************** Incula Imagem com Conceito */
+            $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
 
-        /***************************************** ContentType */
-        $dt = [];
-        $dt['Name'] = $type;
-        $dt['Lang'] = 'nn';
-        $dt['Class'] = 'ContentType';
-        $idt = $RDFconcept->createConcept($dt);
-        $RDFdata->register($idc, 'hasContentType', $idt, 0);
+            /***************************************** ContentType */
+            $dt = [];
+            $dt['Name'] = $type;
+            $dt['Lang'] = 'nn';
+            $dt['Class'] = 'ContentType';
+            $idt = $RDFconcept->createConcept($dt);
+            $RDFdata->register($idc, 'hasContentType', $idt, 0);
 
-        /***************************************** Literal Directory */
-        $name = $dire;
-        $prop = 'hasFileDirectory';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+            /***************************************** Literal Directory */
+            $name = $dire;
+            $prop = 'hasFileDirectory';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
 
-        /***************************************** Literal hasFileName */
-        $name = $fileName;
-        $prop = 'hasFileName';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
+            /***************************************** Literal hasFileName */
+            $name = $fileName;
+            $prop = 'hasFileName';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
-        $dd = [];
-        $dd['status'] = '200';
-        $dd['tmp'] = $tmp;
-        $dd['dest'] = $dest;
-        $dd['idc'] = $idc;
-        $dd['ID'] = $ID;
+            $dd = [];
+            $dd['status'] = '200';
+            $dd['tmp'] = $tmp;
+            $dd['dest'] = $dest;
+            $dd['idc'] = $idc;
+            $dd['ID'] = $ID;
+            } else {
+                $dd['status'] = '400';
+                $dd['message'] = 'File not put';
+                $dd['files'] = $_FILES;
+            }
+
         echo json_encode($dd);
         exit;
 
