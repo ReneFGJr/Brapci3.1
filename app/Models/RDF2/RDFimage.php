@@ -109,8 +109,6 @@ class RDFimage extends Model
         $RSP['message'] = 'Não finalizado';
         $RSP['files'] = $_FILES;
         $RSP['type'] = $ccClass;
-        echo json_encode($RSP);
-        exit;
 
         if (isset($_FILES['file']))
             {
@@ -126,6 +124,7 @@ class RDFimage extends Model
                     $dire = $this->directory($ID, '_repository/book/');
                     $ttt = 'book';
                     $ext = '.pdf';
+                    $RSP['directory'] = $dire;
                     break;
                 case 'pdfx':
                     $dire = $this->directory($ID);
@@ -140,9 +139,10 @@ class RDFimage extends Model
                     break;
             }
 
-
-
             $dest = $dire . $ttt . $ext;
+            $RSP['destinity'] = $dest;
+            echo json_encode($RSP);
+            exit;
             move_uploaded_file($tmp, $dest);
 
             /* Create concept */
