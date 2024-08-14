@@ -94,12 +94,6 @@ class RDFimage extends Model
 
     function savePDF($ID)
     {
-        $RSP = [];
-        $RSP['status'] = '501';
-        $RSP['message'] = 'Não finalizado';
-        $RSP['files'] = $_FILES;
-
-
         $RDF = new \App\Models\RDF2\RDF();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
@@ -110,6 +104,11 @@ class RDFimage extends Model
         $ttt = 'Indefinido';
         $da['ID'] = $ID;
 
+        $RSP = [];
+        $RSP['status'] = '502';
+        $RSP['message'] = 'Não finalizado';
+        $RSP['files'] = $_FILES;
+        $RSP['type'] = $ccClass;
         echo json_encode($RSP);
         exit;
 
