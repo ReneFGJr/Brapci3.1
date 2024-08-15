@@ -199,6 +199,7 @@ export class BookSubmitFormComponent {
             }
           }
           this.ID = response.PID[2];
+          console.log("ID: "+this.ID)
           this.changeStatus(2);
         },
         error: (error: any) => {
@@ -242,6 +243,8 @@ export class BookSubmitFormComponent {
       this.dt = this.FormBook.value;
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
         this.books = res;
+        console.log("=====")
+        console.log(this.books)
       });
       console.log('SUBMIT');
     }
