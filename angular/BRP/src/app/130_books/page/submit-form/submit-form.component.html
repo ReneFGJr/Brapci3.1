@@ -9,8 +9,32 @@
         <div class="container">
           <div [hidden]="submitted" class="row">
             <div class="col-12 col-lg-6">
+            <!-- Alert - already file-->
+            <div *ngIf="st==1" class="alert alert-success" role="alert">
+                  Esse Documento já foi enviado, porém está aguardando a confirmação do e-mail
+
+                  <p>Para reenviar o e-mail de confirmação clique no botão abaixo:</p>
+
+                  <button class="btn btn-outline-secondary" (click)="reloadPage()">Reenviar link de confirmação</button>
+
+            </div>
+
+            <div *ngIf="st==2" class="alert alert-success" role="alert">
+                  Esse Documento já está em avaliação, aguarde avaliação
+
+                        <section class="file-info">
+                          File details:
+                          <ul>
+                            <li>Name: {{ file.name }}</li>
+                            <li>Type: {{ file.type }}</li>
+                            <li>Size: {{ file.size }} bytes</li>
+                            <li>ID: {{ ID }}</li>
+                          </ul>
+                        </section>
+                  <button class="btn btn-outline-secondary" (click)="reloadPage()">Recarregar Página</button>
+            </div>
               <!------------ FILE PDF-->
-              <table width="100%">
+              <table width="100%" *ngIf="st == 0">
                 <tr>
                   <td
                     style="background: {{
@@ -79,9 +103,7 @@
                     2
                   </td>
                   <td [class.active]="status_02" style="padding: 0px 10px">
-                    ==> {{ ID }}
                     <!---- DADOS -->
-                    {{ status_02 }}
                     <div class="form-group">
                       <!--- AUTOR -->
                       <label for="b_autor" class="mt-0">{{ msg_autor }}</label>
@@ -208,7 +230,7 @@
               </table>
             </div>
             <div class="col-12 col-lg-6">
-              <app-book-term
+              <app-book-term *ngIf="st == 0"
                 [autor]="FormBook.value.b_autor"
                 [title]="FormBook.value.b_titulo"
                 [licence]="FormBook.value.b_licenca"

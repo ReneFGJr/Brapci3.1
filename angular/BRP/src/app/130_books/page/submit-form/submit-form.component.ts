@@ -97,6 +97,7 @@ export class BookSubmitFormComponent {
   property: string = '';
   type: string = '';
   ID: string = '0';
+  st: number = 0;
   status: string = '';
   xClass: string = 'pdfBOOK';
   color_status_01: string = '#00F';
@@ -106,6 +107,10 @@ export class BookSubmitFormComponent {
   status_01: boolean = false;
   status_02: boolean = true;
   status_03: boolean = true;
+
+  reloadPage() {
+    window.location.reload();
+  }
 
   changeStatus(status: any) {
     if (status == 1) {
@@ -175,6 +180,7 @@ export class BookSubmitFormComponent {
             }
           }
           this.ID = response.PID[2];
+          this.st = response.PID[3];
           this.FormBook.value.id_b = response.PID[2];
           this.changeStatus(2);
         },
@@ -218,8 +224,8 @@ export class BookSubmitFormComponent {
     if (this.FormBook.status == 'VALID') {
       this.FormBook.value.id_b = this.ID;
       this.dt = this.FormBook.value;
-      console.log("=============POST======")
-      console.log(this.dt)
+      console.log('=============POST======');
+      console.log(this.dt);
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
         this.books = res;
         console.log('=====');

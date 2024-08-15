@@ -228,7 +228,7 @@ class BooksSubmit extends Model
                     if (isset($PS['id_b'])) {
                         $dt['bs_title'] = "";
                         $dt['bs_post'] = $PSj;
-                        $dt['bs_STATUS'] = 1;
+                        $dt['bs_status'] = 1;
                         $this->set($dt)->where('id_bs', $PS['id_b'])->update();
                         $dt['id_b'] = $PS['id_b'];
                     }
