@@ -226,11 +226,11 @@ class BooksSubmit extends Model
             $dt = [];
             if (isset($PS['id_b']))
                 {
-                    $dt['bs_post'] = $PSj;
-                    if (isset($PS['id_bs'])) {
+                    if (isset($PS['id_b'])) {
                         $dt['bs_title'] = "";
                         $dt['bs_post'] = $PSj;
                         $this->set($dt)->where('id_bs', $PS['id_b'])->update();
+                        $dt['id_b'] = $PS['id_b'];
                     }
                     $RSP['ID'] = $dt['id_b'];
                     $RSP['status'] = '200';
