@@ -236,6 +236,7 @@ class BooksSubmit extends Model
                     $RSP = [];
                     $RSP['status'] = '500';
                     $RSP['message'] = 'ID do arquivo inválido';
+                    $RSP['psot'] = $PSj;
                 }
 
                 return $RSP;
