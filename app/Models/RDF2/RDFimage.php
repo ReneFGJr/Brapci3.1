@@ -42,6 +42,7 @@ class RDFimage extends Model
 
     function upload($d1='', $d2='')
     {
+        $RSP = [];
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $idc = 0;
         header('Access-Control-Allow-Origin: *');
@@ -86,7 +87,6 @@ class RDFimage extends Model
                 exit;
 
         }
-        $RSP = [];
         $RSP['id'] = $idc;
         $RSP['d1'] = $d1;
         $RSP['d2'] = $d2;
