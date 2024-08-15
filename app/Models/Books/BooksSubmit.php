@@ -16,7 +16,8 @@ class BooksSubmit extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_bs', 'bs_post', 'bs_status',
-        'bs_title', 'b_isbn', 'bs_rdf'
+        'bs_title', 'b_isbn', 'bs_rdf',
+        'bs_arquivo'
     ];
 
     // Dates
