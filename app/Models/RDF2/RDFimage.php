@@ -56,8 +56,9 @@ class RDFimage extends Model
             case 'pdfBOOK':
                 $BooksSubmit = new \App\Models\Books\BooksSubmit();
                 $RSP = [];
-                $RSP['file'] = $_FILES;
                 $RSP['PID'] = $BooksSubmit->registerPDF();
+                $RSP['status'] = '200';
+                echo json_encode($RSP);
                 break;
             case 'cover':
                 $idc = $this->saveImage($ID);
