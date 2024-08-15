@@ -43,6 +43,25 @@ class BooksSubmit extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function registerPDF()
+        {
+            $tmp = $_FILES['file']['tmp_name'];
+            $name = $_FILES['file']['name'];
+            $md5 = md5_file($tmp);
+            $dir = $this->directory();
+            $filename = $dir . $md5 . '.pdf';
+            $exist = file_exists($filename);
+            move_uploaded_file($tmp,$filename);
+            return [$md5,$exist];
+        }
+
+    function directory()
+        {
+            $dir = '.tmp/books/';
+            dircheck($dir);
+            return $dir;
+        }
+
     function view($id)
         {
             $sx = '';

@@ -146,12 +146,8 @@ export class BookSubmitFormComponent {
       //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
       console.log("==>"+url);
 
-      //formData.append('file', this.file, this.file.name);
+      formData.append('file', this.file, this.file.name);
       formData.append('property', this.property);
-
-      console.log(this.file)
-
-      console.log(url);
 
       const upload$ = this.http.post(url, formData);
       this.status = 'uploading';
