@@ -68,12 +68,7 @@ class Book extends Model
             case 'submit':
                 $PS = array_merge($_POST, $_GET);
                 $booksSubmit = new \App\Models\Books\BooksSubmit();
-                $PS = $booksSubmit->register($PS);
-                $dt = [];
-                $dt['status'] = '200';
-                $dt['message'] = 'Registro salvo';
-                $dt['data'] = $PS;
-                $dt['post'] = 1;
+                $dt = $booksSubmit->register();
                 echo json_encode($dt);
                 exit;
                 break;
