@@ -119,6 +119,11 @@ class BooksSubmit extends Model
             return $sx;
         }
 
+    function savePDF($id)
+        {
+
+        }
+
     function list($sta)
         {
             $sx = '';

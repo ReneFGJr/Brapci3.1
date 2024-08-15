@@ -52,12 +52,19 @@ class RDFimage extends Model
         $ID = $d2;
         $status = 'NONE';
         switch ($d1) {
+            case 'pdfBOOK':
+                $BooksSubmit = new \App\Models\Books\BooksSubmit();
+                $RSP = [];
+                $RSP['file'] = $_FILES;
+
+
+                echo json_encode($RSP);
+                break;
             case 'cover':
                 $idc = $this->saveImage($ID);
                 //$RDFdata->register($ID,'hasCover',$idc,0);
                 $status = 'SAVED '.$ID.'-'.$idc;
                 break;
-
             case 'image':
                 $RSP = $this->saveImage($ID);
                 $RSP['id'] = $ID;
@@ -65,7 +72,6 @@ class RDFimage extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
-
             case 'pdf':
                 $idc = $this->savePDF($ID);
                 $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
