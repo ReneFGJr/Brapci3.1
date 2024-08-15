@@ -224,7 +224,7 @@ class BooksSubmit extends Model
             $RSP = [];
             $RSP['idx'] = $PS;
             $dt = [];
-            if (isset($PS['id_b']))
+            if (isset($PS['id_bx']))
                 {
                     $dt['bs_post'] = $PSj;
                     if (isset($PS['b_titulo'])) {
