@@ -217,6 +217,16 @@ class BooksSubmit extends Model
             return $sx;
         }
 
+    function sendEmail($id)
+        {
+            $dt = $this->where('id_bs',$id)->first();
+            $email = 'renefgj@gmail.com';
+            $subject = 'Submissão de livro';
+            $text = 'Texto e link';
+            $to = [$email];
+            sendemail($to,$subject,$text);
+        }
+
     function register()
         {
             $PS = array_merge($_POST, $_GET);
@@ -235,6 +245,7 @@ class BooksSubmit extends Model
                     $RSP['ID'] = $dt['id_b'];
                     $RSP['st'] = 0;
                     $RSP['status'] = '200';
+                    $this->sendEmail($dt['id_b']);
                 } else {
                     $RSP['status'] = '500';
                     $RSP['message'] = 'ID do arquivo inválido';
