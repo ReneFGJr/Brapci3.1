@@ -142,28 +142,42 @@ export class BookSubmitFormComponent {
       const formData = new FormData();
       this.type = 'pdfBOOK';
 
-      let url = this.brapciService.url + 'upload/' + this.type + '/' + this.ID;
+      let url = this.brapciService.url + 'upload/' + this.type;
       //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
-      console.log(url);
+      console.log("==>"+url);
 
-      formData.append('file', this.file, this.file.name);
+      //formData.append('file', this.file, this.file.name);
       formData.append('property', this.property);
 
-      const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+      console.log(this.file)
 
-      const upload$ = this.http.post(url, formData, { headers });
+      console.log(url);
+
+      const upload$ = this.http.post(url, formData);
       this.status = 'uploading';
 
-      upload$.subscribe({
-        next: (x) => {
-          console.log(x);
-          this.status = 'success';
-        },
-        error: (error: any) => {
-          this.status = 'fail';
-          return error;
-        },
-      });
+    upload$.subscribe({
+      next: (response: any) => {
+        console.log('Upload bem-sucedido:', response);
+        this.status = 'success';
+
+        // Se a resposta for JSON, você pode acessá-la diretamente
+        const jsonResponse = response; // Supondo que a resposta já seja um objeto JSON
+        console.log('Resposta JSON:', jsonResponse);
+
+        // Exemplo de como acessar uma propriedade do JSON
+        if (jsonResponse.propertyName) {
+          console.log('Propriedade:', jsonResponse.propertyName);
+        }
+      },
+      error: (error: any) => {
+        console.error('Erro no upload:', error);
+        this.status = 'fail';
+      },
+      complete: () => {
+        console.log('Requisição completa');
+      },
+    });
     }
   }
 
@@ -191,12 +205,15 @@ export class BookSubmitFormComponent {
 
   onSubmit() {
     //this.submitted = true;
+    /*
     if (this.FormBook.status == 'VALID') {
       this.dt = this.FormBook.value;
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
         this.books = res;
       });
     }
+    */
+    console.log("SUBMIT")
   }
 
   addPDF(newItem: string) {

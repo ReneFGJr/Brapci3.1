@@ -56,7 +56,6 @@ class RDFimage extends Model
                 //$BooksSubmit = new \App\Models\Books\BooksSubmit();
                 $RSP = [];
                 $RSP['file'] = $_FILES;
-                echo json_encode($RSP);
                 break;
             case 'cover':
                 $idc = $this->saveImage($ID);
