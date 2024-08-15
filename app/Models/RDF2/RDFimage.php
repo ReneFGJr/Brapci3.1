@@ -65,6 +65,7 @@ class RDFimage extends Model
                         $RSP['message'] = 'Arquivo não enviado';
                     }
                 echo json_encode($RSP);
+                exit;
                 break;
             case 'cover':
                 $idc = $this->saveImage($ID);
