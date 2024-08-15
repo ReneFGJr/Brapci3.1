@@ -224,6 +224,39 @@ class BooksSubmit extends Model
             $subject = 'Submissão de livro';
             $text = 'Texto e link';
             $to = [$email];
+
+            /* Enviar e-mail */
+            $txt = '';
+            $txt .= '<table width="600" border=0>';
+            $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+            $txt .= '<tr><td>';
+            $txt .= 'Prezado autor ' . $name . ',<br>';
+            $txt .= '<br>';
+            $txt .= 'Seu cadastro foi realizado com sucesso em nossa plataforma, para ter acesso utilize essa credencial temporária.';
+            $txt .= '<br><br>';
+            $txt .= 'Disclaimer - Base de Dados de Livros Abertos<br>
+            <br>
+            Esta base de dados tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas. Todos os conteúdos disponíveis nesta plataforma foram cuidadosamente selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
+            <br>
+            Direitos Autorais e Licenças:
+            <br>
+            Os livros e materiais disponíveis nesta base de dados são de domínio público ou licenciados sob termos que permitem sua livre distribuição. No entanto, é responsabilidade dos usuários verificar a licença específica de cada obra antes de utilizá-la para fins comerciais ou redistribuição. Quaisquer usos fora do escopo permitido pela licença exigem a obtenção de permissão prévia do(s) titular(es) dos direitos autorais.
+            <br>
+            Limitação de Responsabilidade:
+            <br>
+            Embora nos esforcemos para garantir a precisão das informações e a conformidade legal dos materiais incluídos nesta base de dados, não nos responsabilizamos por eventuais erros, omissões, ou pela interpretação dos conteúdos pelos usuários. O uso dos materiais disponibilizados é de total responsabilidade do usuário.
+            <br>
+            Atualizações e Alterações:
+            <br>
+            Reservamo-nos o direito de atualizar ou remover qualquer material desta base de dados sem aviso prévio, a fim de garantir a conformidade com as leis de direitos autorais e as políticas da plataforma.
+            <br>
+            Contato:
+            <br>
+            Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.';
+            $txt .= '</td></tr></table>';
+            $subject = '[BRAPCI-LIVROS] ';
+            $subject .= 'Termo de submissão';
+
             sendemail($email,$subject,$text);
         }
 
