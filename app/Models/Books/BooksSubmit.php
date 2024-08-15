@@ -222,7 +222,7 @@ class BooksSubmit extends Model
             $PS = array_merge($_POST, $_GET);
             $PSj = json_encode($PS);
             $RSP = [];
-            $RSP['id'] = $PSj['id_b'];
+            $RSP['id'] = $PSj;
             $dt = [];
             if (isset($PSj['id_b']))
                 {
