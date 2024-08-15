@@ -40,10 +40,10 @@ class RDFimage extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function upload($d1, $d2)
+    function upload($d1='', $d2='')
     {
         $RDFdata = new \App\Models\RDF2\RDFdata();
-
+        $idc = 0;
         header('Access-Control-Allow-Origin: *');
         if (get("test") == '') {
             header("Content-Type: application/json");
@@ -56,7 +56,6 @@ class RDFimage extends Model
                 //$BooksSubmit = new \App\Models\Books\BooksSubmit();
                 $RSP = [];
                 $RSP['file'] = $_FILES;
-
                 echo json_encode($RSP);
                 break;
             case 'cover':
