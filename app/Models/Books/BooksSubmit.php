@@ -224,7 +224,7 @@ class BooksSubmit extends Model
             $subject = 'Submissão de livro';
             $text = 'Texto e link';
             $to = [$email];
-            sendemail($to,$subject,$text);
+            sendemail($email,$subject,$text);
         }
 
     function register()
