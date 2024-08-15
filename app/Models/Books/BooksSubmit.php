@@ -52,7 +52,20 @@ class BooksSubmit extends Model
             $filename = $dir . $md5 . '.pdf';
             $exist = file_exists($filename);
             move_uploaded_file($tmp,$filename);
-            return [$md5,$exist];
+
+            $dt = $this
+                ->where('bs_arquivo',$md5)
+                ->first();
+            if ($dt == [])
+                {
+                    $dd['bs_arquivo'] = $md5;
+                    $idc = $this->set($dd)->insert();
+                    $status = 0;
+                } else {
+                    $idc = $dt['id_bs'];
+                    $status = $dt['bs_status'];
+                }
+            return [$md5,$exist,$idc,$status];
         }
 
     function directory()

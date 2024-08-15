@@ -144,7 +144,6 @@ export class BookSubmitFormComponent {
 
       let url = this.brapciService.url + 'upload/' + this.type;
       //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
-      console.log("==>"+url);
 
       formData.append('file', this.file, this.file.name);
       formData.append('property', this.property);
@@ -155,11 +154,20 @@ export class BookSubmitFormComponent {
     upload$.subscribe({
       next: (response: any) => {
         console.log('Upload bem-sucedido:', response);
-        this.status = 'success';
 
         // Se a resposta for JSON, você pode acessá-la diretamente
         const jsonResponse = response; // Supondo que a resposta já seja um objeto JSON
-        console.log('Resposta JSON:', jsonResponse);
+        if (response.status == '200')
+          {
+            if (response.PID[1])
+              {
+                this.status = 'already';
+                console.log("Já existe uma submissão com esse arquivo")
+              } else {
+                this.status = 'success';
+                console.log('Arquivo novo');
+              }
+          }
 
         // Exemplo de como acessar uma propriedade do JSON
         if (jsonResponse.propertyName) {
