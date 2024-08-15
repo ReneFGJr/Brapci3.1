@@ -222,7 +222,7 @@ class BooksSubmit extends Model
             $dt = $this->where('id_bs',$id)->first();
             $email = 'renefgj@gmail.com';
             $subject = 'Submissão de livro';
-            $text = 'Texto e link';
+            $name = 'Rene Faustino Gabriel Junior';
             $to = [$email];
 
             /* Enviar e-mail */
@@ -257,7 +257,7 @@ class BooksSubmit extends Model
             $subject = '[BRAPCI-LIVROS] ';
             $subject .= 'Termo de submissão';
 
-            sendemail($email,$subject,$text);
+            sendemail($email,$subject,$txt);
         }
 
     function register()
