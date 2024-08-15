@@ -102,11 +102,7 @@ export class BookSubmitFormComponent {
       b_isbn: new FormControl(''),
       b_licenca: new FormControl('', [Validators.required]),
       b_source: new FormControl(''),
-      b_rdf: new FormControl(''),
-      b_pdf: new FormControl('', [Validators.required]),
       b_user: new FormControl(''),
-      b_termSubmit: new FormControl('', Validators.required),
-      b_check_01: new FormControl('', Validators.required),
     });
   }
 
@@ -126,6 +122,42 @@ export class BookSubmitFormComponent {
   ID: string = '';
   status: string = '';
   xClass: string = 'pdfBOOK';
+
+  color_status_01: string = '#00F';
+  color_status_02: string = '#CCC';
+  color_status_03: string = '#CCC';
+
+  status_01: boolean = false;
+  status_02: boolean = true;
+  status_03: boolean = true;
+
+  changeStatus(status: any) {
+    if (status == 1) {
+      this.status_01 = false;
+      this.status_02 = false;
+      this.status_03 = true;
+      this.color_status_01 = '#00F';
+      this.color_status_02 = '#CCC';
+      this.color_status_03 = '#CCC';
+    }
+    if (status == 2) {
+      this.status_01 = false;
+      this.status_02 = false;
+      this.status_03 = true;
+      this.color_status_01 = '#008';
+      this.color_status_02 = '#00F';
+      this.color_status_03 = '#CCC';
+    }
+
+    if (status == 3) {
+      this.status_01 = false;
+      this.status_02 = false;
+      this.status_03 = false;
+      this.color_status_01 = '#008';
+      this.color_status_02 = '#008';
+      this.color_status_03 = '#00F';
+    }
+  }
 
   // On file Select
   onChange(event: any) {
@@ -151,54 +183,52 @@ export class BookSubmitFormComponent {
       const upload$ = this.http.post(url, formData);
       this.status = 'uploading';
 
-    upload$.subscribe({
-      next: (response: any) => {
-        console.log('Upload bem-sucedido:', response);
+      upload$.subscribe({
+        next: (response: any) => {
+          console.log(response);
 
-        // Se a resposta for JSON, você pode acessá-la diretamente
-        const jsonResponse = response; // Supondo que a resposta já seja um objeto JSON
-        if (response.status == '200')
-          {
-            if (response.PID[1])
-              {
-                this.status = 'already';
-                console.log("Já existe uma submissão com esse arquivo")
-              } else {
-                this.status = 'success';
-                console.log('Arquivo novo');
-              }
+          // Se a resposta for JSON, você pode acessá-la diretamente
+          const jsonResponse = response; // Supondo que a resposta já seja um objeto JSON
+          if (response.status == '200') {
+            if (response.PID[3] != 0) {
+              this.status = 'already';
+              console.log('Já existe uma submissão com esse arquivo');
+            } else {
+              this.status = 'success';
+              console.log('Arquivo novo');
+            }
           }
-
-        // Exemplo de como acessar uma propriedade do JSON
-        if (jsonResponse.propertyName) {
-          console.log('Propriedade:', jsonResponse.propertyName);
-        }
-      },
-      error: (error: any) => {
-        console.error('Erro no upload:', error);
-        this.status = 'fail';
-      },
-      complete: () => {
-        console.log('Requisição completa');
-      },
-    });
+          this.ID = response.PID[2];
+          this.changeStatus(2);
+        },
+        error: (error: any) => {
+          console.error('Erro no upload:', error);
+          this.status = 'fail';
+        },
+        complete: () => {
+          console.log('Requisição completa');
+        },
+      });
     }
   }
 
   createForm(bookSubmit: BookSubmit) {
     this.FormBook = this.formBuilder.group({
-      id_b: new FormControl(0),
-      b_autor: new FormControl(''),
-      b_email: new FormControl(''),
-      b_titulo: new FormControl(''),
-      b_isbn: new FormControl(''),
-      b_licenca: new FormControl(''),
-      b_source: new FormControl(''),
-      b_rdf: new FormControl(''),
-      b_pdf: new FormControl(''),
-      b_user: new FormControl(''),
+      id_b: new FormControl(this.ID),
+      b_autor: new FormControl('', [Validators.required]),
+      b_email: new FormControl('', [Validators.required, Validators.email]),
+      b_titulo: new FormControl('', [Validators.required]),
+      b_licenca: new FormControl('', [Validators.required]),
       b_termSubmit: new FormControl(''),
-      b_check_01: new FormControl(''),
+    });
+
+    // Subscreve ao statusChanges para monitorar a mudança de status do formulário
+    this.FormBook.statusChanges.subscribe((status:string) => {
+      if (status === 'VALID') {
+        this.changeStatus(3);
+      } else {
+        this.changeStatus(2);
+      }
     });
   }
 
@@ -208,20 +238,12 @@ export class BookSubmitFormComponent {
   }
 
   onSubmit() {
-    //this.submitted = true;
-    /*
     if (this.FormBook.status == 'VALID') {
       this.dt = this.FormBook.value;
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
         this.books = res;
       });
+      console.log('SUBMIT');
     }
-    */
-    console.log("SUBMIT")
-  }
-
-  addPDF(newItem: string) {
-    this.FormBook.controls['b_pdf'].setValue(newItem);
-    console.log('Botão addPDF');
   }
 }
