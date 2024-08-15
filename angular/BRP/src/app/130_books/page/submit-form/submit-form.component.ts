@@ -224,12 +224,12 @@ export class BookSubmitFormComponent {
     if (this.FormBook.status == 'VALID') {
       this.FormBook.value.id_b = this.ID;
       this.dt = this.FormBook.value;
-      console.log('=============POST======');
-      console.log(this.dt);
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
         this.books = res;
-        console.log('=====');
-        console.log(this.books);
+        if (this.books.st == '1')
+          {
+            this.st = 10;
+          }
       });
       console.log('SUBMIT');
     }

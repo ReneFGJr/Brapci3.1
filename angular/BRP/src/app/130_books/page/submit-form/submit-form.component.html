@@ -14,10 +14,23 @@
                   Esse Documento já foi enviado, porém está aguardando a confirmação do e-mail
 
                   <p>Para reenviar o e-mail de confirmação clique no botão abaixo:</p>
-
+                  <br/>
                   <button class="btn btn-outline-secondary" (click)="reloadPage()">Reenviar link de confirmação</button>
-
             </div>
+
+            <div *ngIf="st==10" class="alert alert-success" role="alert">
+                  Um e-mail foi enviado, para autorilizar a catalogação do livro clique no link do e-mail.
+                  <br/>
+                  <button class="btn btn-outline-secondary" (click)="reloadPage()">Reenviar o link</button>
+                  <br/>
+                  <button class="btn btn-outline-secondary" (click)="reloadPage()">Fazer outro envio</button>
+            </div>
+
+            <div *ngIf="st==11" class="alert alert-success" role="alert">
+                  Um e-mail foi reenviado, para autorilizar a catalogação do livro clique no link do e-mail.
+                  <button class="btn btn-outline-secondary" (click)="reloadPage()">Fazer outro envio</button>
+            </div>
+
 
             <div *ngIf="st==2" class="alert alert-success" role="alert">
                   Esse Documento já está em avaliação, aguarde avaliação
