@@ -227,6 +227,7 @@ class BooksSubmit extends Model
                     $dt['bs_post'] = $PSj;
                     if (isset($PS['b_titulo'])) {
                         $dt['bs_title'] = $PS['b_titulo'];
+                        $dt['bs_post'] = json_encode($PS);
                         $this->set($dt)->where('id_bs',$dt['id_b'])->update();
                     }
                     $RSP['ID'] = $dt['id_b'];
