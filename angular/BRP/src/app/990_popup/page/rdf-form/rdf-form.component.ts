@@ -41,6 +41,7 @@ export class RdfFormComponent {
   status: 'initial' | 'uploading' | 'success' | 'fail' = 'initial'; // Variable to store file status
   file: File | null = null; // Variable to store file
 
+
   constructor(
     private fb: FormBuilder,
     private brapciService: BrapciService,

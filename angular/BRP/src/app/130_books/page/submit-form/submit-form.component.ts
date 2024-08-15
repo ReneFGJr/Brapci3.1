@@ -10,6 +10,9 @@ import {
 
 /* Class */
 import { BookSubmit } from '../../../000_class/book_submit';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/001_auth/service/local-storage.service';
 
 @Component({
   selector: 'app-book-submit-form',
@@ -30,12 +33,7 @@ export class BookSubmitFormComponent {
   public msg_licenca = 'Informe a licença da obra';
   public msg_check01 = 'Sou o autor ou organizador';
   private dt: Array<any> = [];
-  public books:Array<any>|any
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private brapciService: BrapciService
-  ) {}
+  public books: Array<any> | any;
 
   public logo_brapcilivros: string = 'assets/img/logo_brapci_livros_mini.png';
 
@@ -112,6 +110,62 @@ export class BookSubmitFormComponent {
     });
   }
 
+  constructor(
+    private fb: FormBuilder,
+    private brapciService: BrapciService,
+    private localStorageService: LocalStorageService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private http: HttpClient
+  ) {}
+
+  file: Array<any> | any;
+  property: string = '';
+  type: string = '';
+  ID: string = '';
+  status: string = '';
+  xClass: string = 'pdfBOOK';
+
+  // On file Select
+  onChange(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      this.status = '';
+      this.file = file;
+    }
+  }
+
+  onUpload() {
+    if (this.file) {
+      const formData = new FormData();
+      this.type = 'pdfBOOK';
+
+      console.log(this.property);
+      console.log('+++' + this.type);
+      let url = this.brapciService.url + 'upload/' + this.type + '/' + this.ID;
+      //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
+      console.log(url);
+
+      formData.append('file', this.file, this.file.name);
+      formData.append('property', this.property);
+      const upload$ = this.http.post(url, formData);
+      this.status = 'uploading';
+
+      upload$.subscribe({
+        next: (x) => {
+          console.log(x);
+          this.status = 'success';
+        },
+        error: (error: any) => {
+          this.status = 'fail';
+          return error;
+        },
+      });
+    }
+  }
+
   createForm(bookSubmit: BookSubmit) {
     this.FormBook = this.formBuilder.group({
       id_b: new FormControl(0),
@@ -146,6 +200,6 @@ export class BookSubmitFormComponent {
 
   addPDF(newItem: string) {
     this.FormBook.controls['b_pdf'].setValue(newItem);
-    console.log("Botão addPDF")
+    console.log('Botão addPDF');
   }
 }
