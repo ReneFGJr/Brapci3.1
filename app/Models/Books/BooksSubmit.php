@@ -222,20 +222,20 @@ class BooksSubmit extends Model
             $PS = array_merge($_POST, $_GET);
             $PSj = json_encode($PS);
             $RSP = [];
-            $RSP['idx'] = $PS;
             $dt = [];
             if (isset($PS['id_b']))
                 {
                     if (isset($PS['id_b'])) {
                         $dt['bs_title'] = "";
                         $dt['bs_post'] = $PSj;
+                        $dt['bs_STATUS'] = 1;
                         $this->set($dt)->where('id_bs', $PS['id_b'])->update();
                         $dt['id_b'] = $PS['id_b'];
                     }
                     $RSP['ID'] = $dt['id_b'];
+                    $RSP['st'] = 1;
                     $RSP['status'] = '200';
                 } else {
-
                     $RSP['status'] = '500';
                     $RSP['message'] = 'ID do arquivo inválido';
                     $RSP['post'] = $PSj;
