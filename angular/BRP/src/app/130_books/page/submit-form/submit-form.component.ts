@@ -10,7 +10,7 @@ import {
 
 /* Class */
 import { BookSubmit } from '../../../000_class/book_submit';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/001_auth/service/local-storage.service';
 
@@ -142,15 +142,16 @@ export class BookSubmitFormComponent {
       const formData = new FormData();
       this.type = 'pdfBOOK';
 
-      console.log(this.property);
-      console.log('+++' + this.type);
       let url = this.brapciService.url + 'upload/' + this.type + '/' + this.ID;
       //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
       console.log(url);
 
       formData.append('file', this.file, this.file.name);
       formData.append('property', this.property);
-      const upload$ = this.http.post(url, formData);
+
+      const headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
+
+      const upload$ = this.http.post(url, formData, { headers });
       this.status = 'uploading';
 
       upload$.subscribe({
