@@ -237,20 +237,20 @@ class BooksSubmit extends Model
             $txt .= 'Disclaimer - Base de Dados de Livros Abertos<br>
             <br>
             Esta base de dados tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas. Todos os conteúdos disponíveis nesta plataforma foram cuidadosamente selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
-            <br>
-            Direitos Autorais e Licenças:
+            <br><br>
+            <b>Direitos Autorais e Licenças:</b>
             <br>
             Os livros e materiais disponíveis nesta base de dados são de domínio público ou licenciados sob termos que permitem sua livre distribuição. No entanto, é responsabilidade dos usuários verificar a licença específica de cada obra antes de utilizá-la para fins comerciais ou redistribuição. Quaisquer usos fora do escopo permitido pela licença exigem a obtenção de permissão prévia do(s) titular(es) dos direitos autorais.
             <br>
-            Limitação de Responsabilidade:
+            <b>Limitação de Responsabilidade:</b>
             <br>
             Embora nos esforcemos para garantir a precisão das informações e a conformidade legal dos materiais incluídos nesta base de dados, não nos responsabilizamos por eventuais erros, omissões, ou pela interpretação dos conteúdos pelos usuários. O uso dos materiais disponibilizados é de total responsabilidade do usuário.
             <br>
-            Atualizações e Alterações:
+            <b>Atualizações e Alterações:</b>
             <br>
             Reservamo-nos o direito de atualizar ou remover qualquer material desta base de dados sem aviso prévio, a fim de garantir a conformidade com as leis de direitos autorais e as políticas da plataforma.
             <br>
-            Contato:
+            <b>Contato:</b>
             <br>
             Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.';
             $txt .= '</td></tr></table>';
