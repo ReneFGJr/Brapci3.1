@@ -13,7 +13,9 @@
               <table width="100%">
                 <tr>
                   <td
-                    style="background: {{color_status_01}}; color: white; font-size: 2em; text-align: center; padding: 10px 3px; border-radius: 10px;"
+                    style="background: {{
+                      color_status_01
+                    }}; color: white; font-size: 2em; text-align: center; padding: 10px 3px; border-radius: 10px;"
                     valign="top"
                   >
                     1
@@ -77,8 +79,9 @@
                     2
                   </td>
                   <td [class.active]="status_02" style="padding: 0px 10px">
+                    ==> {{ ID }}
                     <!---- DADOS -->
-                    {{status_02}}
+                    {{ status_02 }}
                     <div class="form-group">
                       <!--- AUTOR -->
                       <label for="b_autor" class="mt-0">{{ msg_autor }}</label>
@@ -177,25 +180,29 @@
                 </tr>
 
                 <!----------- SUBMIT-->
-                {{ID}}
+
                 <tr>
-                <td
-                  style="background: {{ color_status_03 }}; color: white; font-size: 2em; text-align: center; padding: 10px 3px; border-radius: 10px; "
-                  valign="top"
-                >3</td>
+                  <td
+                    style="background: {{
+                      color_status_03
+                    }}; color: white; font-size: 2em; text-align: center; padding: 10px 3px; border-radius: 10px; "
+                    valign="top"
+                  >
+                    3
+                  </td>
                   <td [class.active]="status_03" style="padding: 0px 10px">
-              <!--Submit-->
-              <button
-                [ngClass]="{
-                  'btn-outline-secondary': FormBook.status == 'INVALID',
-                  'btn-primary': FormBook.status == 'VALID'
-                }"
-                [disabled]="FormBook.status == 'INVALID'"
-                type="submit"
-                class="btn mt-3"
-              >
-                {{ msg_submit }}
-</button>
+                    <!--Submit-->
+                    <button
+                      [ngClass]="{
+                        'btn-outline-secondary': FormBook.status == 'INVALID',
+                        'btn-primary': FormBook.status == 'VALID'
+                      }"
+                      [disabled]="FormBook.status == 'INVALID'"
+                      type="submit"
+                      class="btn mt-3"
+                    >
+                      {{ msg_submit }}
+                    </button>
                   </td>
                 </tr>
               </table>

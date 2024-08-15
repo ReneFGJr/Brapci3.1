@@ -83,29 +83,6 @@ export class BookSubmitFormComponent {
     },
   ];
 
-  createForm2(bookSubmit: BookSubmit) {
-    this.FormBook = this.formBuilder.group({
-      id_b: new FormControl(0),
-      b_autor: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
-      b_email: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-      ]),
-      b_titulo: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
-      b_isbn: new FormControl(''),
-      b_licenca: new FormControl('', [Validators.required]),
-      b_source: new FormControl(''),
-      b_user: new FormControl(''),
-    });
-  }
-
   constructor(
     private fb: FormBuilder,
     private brapciService: BrapciService,
@@ -119,10 +96,9 @@ export class BookSubmitFormComponent {
   file: Array<any> | any;
   property: string = '';
   type: string = '';
-  ID: string = '';
+  ID: string = '0';
   status: string = '';
   xClass: string = 'pdfBOOK';
-
   color_status_01: string = '#00F';
   color_status_02: string = '#CCC';
   color_status_03: string = '#CCC';
@@ -199,7 +175,7 @@ export class BookSubmitFormComponent {
             }
           }
           this.ID = response.PID[2];
-          console.log("ID: "+this.ID)
+          this.FormBook.value.id_b = response.PID[2];
           this.changeStatus(2);
         },
         error: (error: any) => {
@@ -215,7 +191,7 @@ export class BookSubmitFormComponent {
 
   createForm(bookSubmit: BookSubmit) {
     this.FormBook = this.formBuilder.group({
-      id_b: new FormControl(this.ID),
+      id_b: new FormControl('0'),
       b_autor: new FormControl('', [Validators.required]),
       b_email: new FormControl('', [Validators.required, Validators.email]),
       b_titulo: new FormControl('', [Validators.required]),
@@ -224,7 +200,7 @@ export class BookSubmitFormComponent {
     });
 
     // Subscreve ao statusChanges para monitorar a mudança de status do formulário
-    this.FormBook.statusChanges.subscribe((status:string) => {
+    this.FormBook.statusChanges.subscribe((status: string) => {
       if (status === 'VALID') {
         this.changeStatus(3);
       } else {
@@ -240,11 +216,14 @@ export class BookSubmitFormComponent {
 
   onSubmit() {
     if (this.FormBook.status == 'VALID') {
+      this.FormBook.value.id_b = this.ID;
       this.dt = this.FormBook.value;
+      console.log("=============POST======")
+      console.log(this.dt)
       this.brapciService.api_post('book/submit', this.dt).subscribe((res) => {
         this.books = res;
-        console.log("=====")
-        console.log(this.books)
+        console.log('=====');
+        console.log(this.books);
       });
       console.log('SUBMIT');
     }

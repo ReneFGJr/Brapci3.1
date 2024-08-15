@@ -221,6 +221,8 @@ class BooksSubmit extends Model
         {
             $PS = array_merge($_POST, $_GET);
             $PSj = json_encode($PS);
+            $RSP = [];
+            $RSP['id'] = $PSj['id_b'];
             $dt = [];
             if (isset($PSj['id_b']))
                 {
@@ -233,7 +235,7 @@ class BooksSubmit extends Model
                     $RSP['ID'] = $dt['id_b'];
                     $RSP['status'] = '200';
                 } else {
-                    $RSP = [];
+
                     $RSP['status'] = '500';
                     $RSP['message'] = 'ID do arquivo inválido';
                     $RSP['post'] = $PSj;
