@@ -70,6 +70,10 @@ import { AuthorsPainelComponent } from './widget/painel/authors/authors.componen
 import { EditionsPainelComponent } from './widget/painel/editions/editions.component';
 import { YearsPainelComponent } from './widget/painel/years/years.component';
 import { CorporatebodyComponent } from './page/v/corporatebody/corporatebody.component';
+import { BannerBrapciLivrosComponent } from './page/banner/banner-brapci-livros/banner-brapci-livros.component';
+import { RecomendationComponent } from './page/recomendation/recomendation.component';
+import { KeywordsComponent } from './widget/keywords/keywords.component';
+import { SumaryComponent } from './widget/sumary/sumary.component';
 
 @NgModule({
   declarations: [
@@ -136,6 +140,10 @@ import { CorporatebodyComponent } from './page/v/corporatebody/corporatebody.com
     EditionsPainelComponent,
     YearsPainelComponent,
     CorporatebodyComponent,
+    BannerBrapciLivrosComponent,
+    RecomendationComponent,
+    KeywordsComponent,
+    SumaryComponent,
   ],
   imports: [
     CommonModule,
