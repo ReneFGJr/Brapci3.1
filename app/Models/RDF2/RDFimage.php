@@ -109,15 +109,15 @@ class RDFimage extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         /********************************************** */
 
-        $RSP = [];
-        $RSP['json'] = "HELLO";
-        exit;
-        return '';
-
         $da = $RDF->le($ID);
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
         $da['ID'] = $ID;
+
+        $RSP = [];
+        $RSP['json'] = "HELLO";
+        exit;
+        return '';
 
         $RSP = [];
         $RSP['status'] = '502';
