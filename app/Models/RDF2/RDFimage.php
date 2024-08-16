@@ -109,6 +109,11 @@ class RDFimage extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         /********************************************** */
 
+        $RSP = [];
+        $RSP['json'] = "HELLO";
+        exit;
+        return '';
+
         $da = $RDF->le($ID);
         $ccClass = $da['concept']['c_class'];
         $ttt = 'Indefinido';
@@ -245,12 +250,6 @@ class RDFimage extends Model
 
 
         $dest = $dire . 'image' . $ext;
-        $RSP['fase'] = '100';
-        $RSP['tmp'] = $tmp;
-        $RSP['dest'] = $dest;
-        echo json_encode($RSP);
-        exit;
-        return '';
         move_uploaded_file($tmp, $dest);
 
 
