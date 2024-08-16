@@ -156,6 +156,7 @@ class RDFimage extends Model
 
                 $dest = $dire . $ttt . $ext;
                 $RSP['destinity'] = $dest;
+                $RSP['source'] = $tmp;
                 move_uploaded_file($tmp, $dest);
 
                 /* Create concept */
@@ -260,8 +261,6 @@ class RDFimage extends Model
         $dest = $dire . 'image' . $ext;
         move_uploaded_file($tmp, $dest);
 
-
-
         try {
 
             /********************************************** */
@@ -276,11 +275,6 @@ class RDFimage extends Model
 
             $IDC = $RDFconcept->createConcept($dt);
             $RSP['IDC'] = $IDC;
-
-            return $RSP;
-            exit;
-
-
 
             /************************** Incula Imagem com Conceito */
             $RDFdata->register($ID, get("property"), $IDC, 0);
