@@ -120,10 +120,7 @@ class RDFimage extends Model
         $RSP['files'] = $_FILES;
         $RSP['type'] = $ccClass;
 
-        $RSP = [];
-        $RSP['json'] = "HELLO";
-        exit;
-        return '';
+
 
         if (isset($_FILES['file'])) {
             $fileName = $_FILES['file']['name'];
@@ -144,6 +141,10 @@ class RDFimage extends Model
                     $dire = $this->directory($ID);
                     $ttt = 'article';
                     $ext = '.xxx';
+                case 'pdf':
+                    $dire = $this->directory($ID);
+                    $ttt = 'documment';
+                    $ext = '.pdf';
                 default:
                     echo json_encode($dd = [$ccClass, 'type']);
                     exit;
