@@ -40,7 +40,7 @@ class RDFimage extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function upload($d1='', $d2='')
+    function upload($d1 = '', $d2 = '')
     {
         $RSP = [];
         $RDFdata = new \App\Models\RDF2\RDFdata();
@@ -56,21 +56,20 @@ class RDFimage extends Model
             case 'pdfBOOK':
                 $BooksSubmit = new \App\Models\Books\BooksSubmit();
                 $RSP = [];
-                if (isset($_FILES['file']))
-                    {
-                        $RSP['PID'] = $BooksSubmit->registerPDF();
-                        $RSP['status'] = '200';
-                    } else {
-                        $RSP['status'] = '400';
-                        $RSP['message'] = 'Arquivo não enviado';
-                    }
+                if (isset($_FILES['file'])) {
+                    $RSP['PID'] = $BooksSubmit->registerPDF();
+                    $RSP['status'] = '200';
+                } else {
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Arquivo não enviado';
+                }
                 echo json_encode($RSP);
                 exit;
                 break;
             case 'cover':
                 $idc = $this->saveImage($ID);
                 //$RDFdata->register($ID,'hasCover',$idc,0);
-                $status = 'SAVED '.$ID.'-'.$idc;
+                $status = 'SAVED ' . $ID . '-' . $idc;
                 break;
             case 'image':
                 $RSP = $this->saveImage($ID);
@@ -90,10 +89,9 @@ class RDFimage extends Model
                 break;
             default:
                 $dd = [];
-                $dd['erro'] = 'Tipo '.$d1.' não existe';
+                $dd['erro'] = 'Tipo ' . $d1 . ' não existe';
                 echo json_encode($dd);
                 exit;
-
         }
         $RSP['id'] = $idc;
         $RSP['d1'] = $d1;
@@ -122,8 +120,7 @@ class RDFimage extends Model
         $RSP['files'] = $_FILES;
         $RSP['type'] = $ccClass;
 
-        if (isset($_FILES['file']))
-            {
+        if (isset($_FILES['file'])) {
             $fileName = $_FILES['file']['name'];
             $tmp = $_FILES['file']['tmp_name'];
             $type = $_FILES['file']['type'];
@@ -193,11 +190,11 @@ class RDFimage extends Model
             $dd['dest'] = $dest;
             $dd['idc'] = $idc;
             $dd['ID'] = $ID;
-            } else {
-                $dd['status'] = '400';
-                $dd['message'] = 'File not put';
-                $dd['files'] = $_FILES;
-            }
+        } else {
+            $dd['status'] = '400';
+            $dd['message'] = 'File not put';
+            $dd['files'] = $_FILES;
+        }
 
         echo json_encode($dd);
         exit;
@@ -208,12 +205,11 @@ class RDFimage extends Model
     function saveImage($ID)
     {
         $RSP = [];
-        if (!isset($_FILES['file']['name']))
-            {
-                $RSP['status'] = '500';
-                $RSP['message'] = 'Erro ao carregar o arquivo.';
-                return $RSP;
-            }
+        if (!isset($_FILES['file']['name'])) {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Erro ao carregar o arquivo.';
+            return $RSP;
+        }
         $fileName = $_FILES['file']['name'];
         $tmp = $_FILES['file']['tmp_name'];
         $type = $_FILES['file']['type'];
@@ -241,7 +237,7 @@ class RDFimage extends Model
                 $dd = [];
                 $RSP['type'] = $type;
                 $RSP['status'] = '400';
-                $RSP['message'] = 'Format Invalid ('.$type.')';
+                $RSP['message'] = 'Format Invalid (' . $type . ')';
                 echo json_encode($RSP);
                 exit;
         }
@@ -261,38 +257,45 @@ class RDFimage extends Model
         $IDC = $RDFconcept->createConcept($dt);
         $RSP['IDC'] = $IDC;
 
-        /************************** Incula Imagem com Conceito */
-        $RDFdata->register($ID, get("property"), $IDC, 0);
+        try {
 
-        /***************************************** ContentType */
-        $dt = [];
-        $dt['Name'] = $type;
-        $dt['Lang'] = 'nn';
-        $dt['Class'] = 'ContentType';
-        $idt = $RDFconcept->createConcept($dt);
-        $RDFdata->register($IDC, 'hasContentType', $idt, 0);
+            /************************** Incula Imagem com Conceito */
+            $RDFdata->register($ID, get("property"), $IDC, 0);
 
-        /***************************************** Literal Directory */
-        $name = $dire;
-        $prop = 'hasFileDirectory';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+            /***************************************** ContentType */
+            $dt = [];
+            $dt['Name'] = $type;
+            $dt['Lang'] = 'nn';
+            $dt['Class'] = 'ContentType';
+            $idt = $RDFconcept->createConcept($dt);
+            $RDFdata->register($IDC, 'hasContentType', $idt, 0);
 
-        /***************************************** Literal hasFileName */
-        $name = $fileName;
-        $prop = 'hasFileName';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+            /***************************************** Literal Directory */
+            $name = $dire;
+            $prop = 'hasFileDirectory';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
-        /***************************************** Literal hasFileName */
-        $name = $size;
-        $prop = 'hasFileSize';
-        $lang = 'nn';
-        $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+            /***************************************** Literal hasFileName */
+            $name = $fileName;
+            $prop = 'hasFileName';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+
+            /***************************************** Literal hasFileName */
+            $name = $size;
+            $prop = 'hasFileSize';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+        } catch (\Exception $e) {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Erro ao salvar dados RDF: ' . $e->getMessage();
+            return $RSP;
+        }
 
         return $RSP;
     }
-    function directory($id,$pre= '_repository/')
+    function directory($id, $pre = '_repository/')
     {
         $id = strzero($id, 8);
         $file = $pre . substr($id, 0, 2) . '/' . substr($id, 2, 2) . '/' . substr($id, 4, 2) . '/' . substr($id, 6, 2) . '/';
