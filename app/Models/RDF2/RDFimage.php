@@ -218,50 +218,51 @@ class RDFimage extends Model
 
     function saveImage($ID)
     {
-        $RSP = [];
-        if (!isset($_FILES['file']['name'])) {
-            $RSP['status'] = '500';
-            $RSP['message'] = 'Erro ao carregar o arquivo.';
-            return $RSP;
-        }
-        $fileName = $_FILES['file']['name'];
-        $tmp = $_FILES['file']['tmp_name'];
-        $type = $_FILES['file']['type'];
-        $size = $_FILES['file']['size'];
-
-        $name = md5($ID);
-
-        $dire = $this->directory($ID);
-        $RSP['directory'] = $dire;
-        $RSP['property'] = get("property");
-
-        $ext = '.xxx';
-
-        switch ($type) {
-            case 'image/jpeg':
-                $ext = '.jpg';
-                break;
-            case 'image/png':
-                $ext = '.png';
-                break;
-            case 'image/gif':
-                $ext = '.gif';
-                break;
-            default:
-                $dd = [];
-                $RSP['type'] = $type;
-                $RSP['status'] = '400';
-                $RSP['message'] = 'Format Invalid (' . $type . ')';
-                echo json_encode($RSP);
-                exit;
-        }
-
-
-
-        $dest = $dire . 'image' . $ext;
-        move_uploaded_file($tmp, $dest);
-
         try {
+            $RSP = [];
+            if (!isset($_FILES['file']['name'])) {
+                $RSP['status'] = '500';
+                $RSP['message'] = 'Erro ao carregar o arquivo.';
+                return $RSP;
+            }
+            $fileName = $_FILES['file']['name'];
+            $tmp = $_FILES['file']['tmp_name'];
+            $type = $_FILES['file']['type'];
+            $size = $_FILES['file']['size'];
+
+            $name = md5($ID);
+
+            $dire = $this->directory($ID);
+            $RSP['directory'] = $dire;
+            $RSP['property'] = get("property");
+
+            $ext = '.xxx';
+
+            switch ($type) {
+                case 'image/jpeg':
+                    $ext = '.jpg';
+                    break;
+                case 'image/png':
+                    $ext = '.png';
+                    break;
+                case 'image/gif':
+                    $ext = '.gif';
+                    break;
+                default:
+                    $dd = [];
+                    $RSP['type'] = $type;
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Format Invalid (' . $type . ')';
+                    echo json_encode($RSP);
+                    exit;
+            }
+
+
+
+            $dest = $dire . 'image' . $ext;
+            move_uploaded_file($tmp, $dest);
+
+
 
             /********************************************** */
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
@@ -332,48 +333,55 @@ class RDFimage extends Model
         $tumb = '';
         $type = '';
 
-        foreach ($data as $id => $line) {
-            $prop = $line['Property'];
-            if ($prop == 'hasFileDirectory') {
-                $dir = $line['Caption'];
+        try {
+
+            foreach ($data as $id => $line) {
+                $prop = $line['Property'];
+                if ($prop == 'hasFileDirectory') {
+                    $dir = $line['Caption'];
+                }
+                if ($prop == 'hasContentType') {
+                    $type = $line['Caption'];
+                }
+
+                if ($prop == 'hasTumbNail') {
+                    $tumb = $line['Caption'];
+                }
             }
-            if ($prop == 'hasContentType') {
-                $type = $line['Caption'];
+
+            if ($dir != '') {
+                switch ($type) {
+                    case 'image/jpeg':
+                        $nfile = $dir . 'image.jpg';
+                        if (file_exists($nfile)) {
+                            $url = PATH . '/' . $nfile;
+                            return $url;
+                        } else {
+                            return PATH . '/img/cover/no_cover.png';
+                        }
+
+                        if (file_exists($tumb)) {
+                            return PATH . $tumb;
+                        }
+
+                        break;
+                    case 'image/png':
+                        $nfile = $dir . 'image.png';
+                        if (file_exists($nfile)) {
+                            return PATH . '/' . $nfile;
+                        }
+
+                        if (file_exists($tumb)) {
+                            return PATH . '/' . $tumb;
+                        }
+
+                        break;
+                }
             }
-
-            if ($prop == 'hasTumbNail') {
-                $tumb = $line['Caption'];
-            }
-        }
-
-        if ($dir != '') {
-            switch ($type) {
-                case 'image/jpeg':
-                    $nfile = $dir . 'image.jpg';
-                    if (file_exists($nfile)) {
-                        $url = PATH . '/' . $nfile;
-                        return $url;
-                    } else {
-                        return PATH . '/img/cover/no_cover.png';
-                    }
-
-                    if (file_exists($tumb)) {
-                        return PATH . $tumb;
-                    }
-
-                    break;
-                case 'image/png':
-                    $nfile = $dir . 'image.png';
-                    if (file_exists($nfile)) {
-                        return PATH . '/' . $nfile;
-                    }
-
-                    if (file_exists($tumb)) {
-                        return PATH . '/' . $tumb;
-                    }
-
-                    break;
-            }
+        } catch (\Exception $e) {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Erro ao salvar dados RDF: ' . $e->getMessage();
+            return $RSP;
         }
         return PATH . '/img/cover/no_cover.png';
     }
