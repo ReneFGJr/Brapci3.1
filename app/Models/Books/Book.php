@@ -42,8 +42,8 @@ class Book extends Model
 
     function create_book($dt)
         {
-            $isbn = sonumero($dt['bs_arquivo']);
-            $isbn = 'BOOK'.$isbn;
+            $isbn = sonumero($dt['b_isbn']);
+            $isbn = 'ISBN'.$isbn;
             $RDF = new \App\Models\RDF2\RDF();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $RDFdata = new \App\Models\RDF2\RDFdata();

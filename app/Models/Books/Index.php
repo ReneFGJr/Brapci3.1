@@ -56,6 +56,8 @@ class Index extends Model
                                     $Book = new \App\Models\Books\Book();
                                     $dt = $BookSubmit->find($d2);
                                     $dta = (array)json_decode($dt['bs_post']);
+                                    pre($dta);
+                                    $dta['bs_isbn'] = $dta['bs_arquivo'];
                                     $idc = $Book->create_book($dta);
                                     $dd['bs_rdf'] = $idc;
                                     $BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
