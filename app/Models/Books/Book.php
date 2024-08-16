@@ -84,8 +84,9 @@ class Book extends Model
             {
                 $file = strzero($idc, 8);
                 $file = substr($file,0,2).'/'.substr($file,2,2).'/'.substr($file,4,2).'/'.substr($file,6,2);
-                $file = '_repository/book/'.$file.'/book.pdf';
+                $file = '_repository/book/'.$file;
                 dircheck($file);
+                $file .= '/book.pdf';
                 return $file;
             }
 }
