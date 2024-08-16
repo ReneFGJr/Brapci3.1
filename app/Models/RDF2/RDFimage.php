@@ -241,11 +241,17 @@ class RDFimage extends Model
                 echo json_encode($RSP);
                 exit;
         }
+
+
+
         $dest = $dire . 'image' . $ext;
+        $RSP['fase'] = '100';
+        $RSP['tmp'] = $tmp;
+        $RSP['dest'] = $dest;
+        return $RSP;
         move_uploaded_file($tmp, $dest);
 
-        $RSP['fase'] = '100';
-        return $RSP;
+
 
         try {
 
