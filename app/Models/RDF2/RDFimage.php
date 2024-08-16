@@ -115,15 +115,15 @@ class RDFimage extends Model
         $da['ID'] = $ID;
 
         $RSP = [];
-        $RSP['json'] = "HELLO";
-        exit;
-        return '';
-
-        $RSP = [];
         $RSP['status'] = '502';
         $RSP['message'] = 'Não finalizado';
         $RSP['files'] = $_FILES;
         $RSP['type'] = $ccClass;
+
+        $RSP = [];
+        $RSP['json'] = "HELLO";
+        exit;
+        return '';
 
         if (isset($_FILES['file'])) {
             $fileName = $_FILES['file']['name'];
