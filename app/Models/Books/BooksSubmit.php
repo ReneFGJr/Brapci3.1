@@ -144,7 +144,8 @@ class BooksSubmit extends Model
 
     function show_pdf($dt)
         {
-            $html = PATH.'.tmp/books/55d80388ee1992f0b77491fc0997812d.pdf';
+            $file = $dt['bs_arquivo'];
+            $html = PATH.'.tmp/books/'.$file.'.pdf';
             $sx = $html.'
             <iframe src="'.$html.'" style="width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
                 Your browser doesnt support iframes
@@ -196,6 +197,7 @@ class BooksSubmit extends Model
             $dt = $this
                 ->select("count(*) as total, bs_status")
                 ->where('bs_status',1)
+                ->ORwhere('bs_status', 2)
                 ->groupBy('bs_status')
                 ->orderBy('bs_status')
                 ->findAll();
