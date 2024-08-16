@@ -244,20 +244,22 @@ class RDFimage extends Model
         $dest = $dire . 'image' . $ext;
         move_uploaded_file($tmp, $dest);
 
-        /********************************************** */
-        $RDFconcept = new \App\Models\RDF2\RDFconcept();
-        $RDFdata = new \App\Models\RDF2\RDFdata();
-
-        /* Create concept */
-        $dt = [];
-        $dt['Name'] = $dest;
-        $dt['Lang'] = 'nn';
-        $dt['Class'] = 'Image';
-
-        $IDC = $RDFconcept->createConcept($dt);
-        $RSP['IDC'] = $IDC;
-
         try {
+
+            /********************************************** */
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+
+            /* Create concept */
+            $dt = [];
+            $dt['Name'] = $dest;
+            $dt['Lang'] = 'nn';
+            $dt['Class'] = 'Image';
+
+            $IDC = $RDFconcept->createConcept($dt);
+            $RSP['IDC'] = $IDC;
+
+
 
             /************************** Incula Imagem com Conceito */
             $RDFdata->register($ID, get("property"), $IDC, 0);
