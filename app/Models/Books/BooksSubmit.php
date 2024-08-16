@@ -237,7 +237,7 @@ class BooksSubmit extends Model
             $txt .= 'Sua submissão foi registrada e será analisada, porém é necessário que concorde com os termos.';
             $txt .= '<br><br>';
             $txt .=
-            '<h2>Disclaimer - Brapci-Livros</h2><br>
+        '<h2>Disclaimer - Brapci-Livros</h2><br>
             A Brapci-Livros tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas.
             Todos os conteúdos disponíveis nesta plataforma foram selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
             Não existe cobrança para registrar ou acessar as obras.
@@ -259,7 +259,8 @@ class BooksSubmit extends Model
             <br><br>
             <b>Contato:</b>
             <br><br>
-            Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.
+            Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.<br>
+            <a href="https://brapci.inf.br/#/books">https://brapci.inf.br/#/books</a>
             <br><br>
             '.$btn_concordancia.'
             ';
