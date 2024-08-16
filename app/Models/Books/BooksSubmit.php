@@ -195,7 +195,7 @@ class BooksSubmit extends Model
             $sx = '';
             $dt = $this
                 ->select("count(*) as total, bs_status")
-                ->where('bs_status',0)
+                ->where('bs_status',1)
                 ->groupBy('bs_status')
                 ->orderBy('bs_status')
                 ->findAll();
