@@ -120,86 +120,93 @@ class RDFimage extends Model
         $RSP['files'] = $_FILES;
         $RSP['type'] = $ccClass;
 
+        try {
+
+            if (isset($_FILES['file'])) {
+                $fileName = $_FILES['file']['name'];
+                $tmp = $_FILES['file']['tmp_name'];
+                $type = $_FILES['file']['type'];
+                $size = $_FILES['file']['size'];
+                $ext = '.qqq';
+                $dire = '_repository';
+
+                switch ($ccClass) {
+                    case 'Book':
+                        $dire = $this->directory($ID, '_repository/book/');
+                        $ttt = 'book';
+                        $ext = '.pdf';
+                        $RSP['directory'] = $dire;
+                        break;
+                    case 'pdfx':
+                        $dire = $this->directory($ID);
+                        $ttt = 'article';
+                        $ext = '.xxx';
+                    case 'pdf':
+                        $dire = $this->directory($ID);
+                        $ttt = 'documment';
+                        $ext = '.pdf';
+                    default:
+                        echo json_encode($dd = [$ccClass, 'type']);
+                        exit;
+                        $dd['Erro'] = $ccClass . ' não foi mapeada';
+                        echo json_encode($dd);
+                        exit;
+                        break;
+                }
+
+                $dest = $dire . $ttt . $ext;
+                $RSP['destinity'] = $dest;
+                move_uploaded_file($tmp, $dest);
+
+                /* Create concept */
+                $dt = [];
+                $name = $dest;
+                $dt['Name'] = $name;
+                $dt['Lang'] = 'nn';
+                $dt['Class'] = 'FileStorage';
+                $idc = $RDFconcept->createConcept($dt);
+
+                /************************** Incula Imagem com Conceito */
+                $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
+
+                /***************************************** ContentType */
+                $dt = [];
+                $dt['Name'] = $type;
+                $dt['Lang'] = 'nn';
+                $dt['Class'] = 'ContentType';
+                $idt = $RDFconcept->createConcept($dt);
+                $RDFdata->register($idc, 'hasContentType', $idt, 0);
+
+                /***************************************** Literal Directory */
+                $name = $dire;
+                $prop = 'hasFileDirectory';
+                $lang = 'nn';
+                $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
 
-        if (isset($_FILES['file'])) {
-            $fileName = $_FILES['file']['name'];
-            $tmp = $_FILES['file']['tmp_name'];
-            $type = $_FILES['file']['type'];
-            $size = $_FILES['file']['size'];
-            $ext = '.qqq';
-            $dire = '_repository';
+                /***************************************** Literal hasFileName */
+                $name = $fileName;
+                $prop = 'hasFileName';
+                $lang = 'nn';
+                $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
 
-            switch ($ccClass) {
-                case 'Book':
-                    $dire = $this->directory($ID, '_repository/book/');
-                    $ttt = 'book';
-                    $ext = '.pdf';
-                    $RSP['directory'] = $dire;
-                    break;
-                case 'pdfx':
-                    $dire = $this->directory($ID);
-                    $ttt = 'article';
-                    $ext = '.xxx';
-                case 'pdf':
-                    $dire = $this->directory($ID);
-                    $ttt = 'documment';
-                    $ext = '.pdf';
-                default:
-                    echo json_encode($dd = [$ccClass, 'type']);
-                    exit;
-                    $dd['Erro'] = $ccClass . ' não foi mapeada';
-                    echo json_encode($dd);
-                    exit;
-                    break;
+                $dd = [];
+                $dd['status'] = '200';
+                $dd['tmp'] = $tmp;
+                $dd['dest'] = $dest;
+                $dd['idc'] = $idc;
+                $dd['ID'] = $ID;
+            } else {
+                $dd['status'] = '400';
+                $dd['message'] = 'File not put';
+                $dd['files'] = $_FILES;
             }
-
-            $dest = $dire . $ttt . $ext;
-            $RSP['destinity'] = $dest;
-            move_uploaded_file($tmp, $dest);
-
-            /* Create concept */
-            $dt = [];
-            $name = $dest;
-            $dt['Name'] = $name;
-            $dt['Lang'] = 'nn';
-            $dt['Class'] = 'FileStorage';
-            $idc = $RDFconcept->createConcept($dt);
-
-            /************************** Incula Imagem com Conceito */
-            $RDFdata->register($ID, 'hasFileStorage', $idc, 0);
-
-            /***************************************** ContentType */
-            $dt = [];
-            $dt['Name'] = $type;
-            $dt['Lang'] = 'nn';
-            $dt['Class'] = 'ContentType';
-            $idt = $RDFconcept->createConcept($dt);
-            $RDFdata->register($idc, 'hasContentType', $idt, 0);
-
-            /***************************************** Literal Directory */
-            $name = $dire;
-            $prop = 'hasFileDirectory';
-            $lang = 'nn';
-            $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
-
-
-            /***************************************** Literal hasFileName */
-            $name = $fileName;
-            $prop = 'hasFileName';
-            $lang = 'nn';
-            $RDFconcept->registerLiteral($idc, $name, $lang, $prop);
-
-            $dd = [];
-            $dd['status'] = '200';
-            $dd['tmp'] = $tmp;
-            $dd['dest'] = $dest;
-            $dd['idc'] = $idc;
-            $dd['ID'] = $ID;
-        } else {
-            $dd['status'] = '400';
-            $dd['message'] = 'File not put';
-            $dd['files'] = $_FILES;
+        } catch (\Exception $e) {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Erro ao salvar dados RDF: ' . $e->getMessage();
+            echo json_encode($RSP);
+            exit;
+            return $RSP;
         }
 
         echo json_encode($dd);
