@@ -225,6 +225,8 @@ class BooksSubmit extends Model
             $name = 'Rene Faustino Gabriel Junior';
             $to = [$email];
 
+            $btn_concordancia = '<a href="https://brapci.inf.br/#/books/disclaimer/'.$id.'/'.md5($id.'brapci_livros').'" style="padding: 5px 10px; border:1px solid #000; border-radius: 10px;">Concordo com os termos</a>
+
             /* Enviar e-mail */
             $txt = '';
             $txt .= '<table width="600" border=0>';
@@ -234,7 +236,8 @@ class BooksSubmit extends Model
             $txt .= '<br>';
             $txt .= 'Sua submissão foi registrada e será analisada, porém é necessário que concorde com os termos.';
             $txt .= '<br><br>';
-            $txt .= 'Disclaimer - Brapci-Livros<br>
+            $txt .=
+        'Disclaimer - Brapci-Livros<br>
             <br>
             Esta base de dados tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas. Todos os conteúdos disponíveis nesta plataforma foram selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
             <br><br>
@@ -252,7 +255,10 @@ class BooksSubmit extends Model
             <br><br>
             <b>Contato:</b>
             <br><br>
-            Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.';
+            Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.
+            <br><br>
+            '.$btn_concordancia.'
+            ';
             $txt .= '</td></tr></table>';
             $subject = '[BRAPCI-LIVROS] ';
             $subject .= 'Termo de submissão';
