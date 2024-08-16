@@ -244,6 +244,9 @@ class RDFimage extends Model
         $dest = $dire . 'image' . $ext;
         move_uploaded_file($tmp, $dest);
 
+        $RSP['fase'] = '100';
+        return $RSP;
+
         try {
 
             /********************************************** */
@@ -258,6 +261,9 @@ class RDFimage extends Model
 
             $IDC = $RDFconcept->createConcept($dt);
             $RSP['IDC'] = $IDC;
+
+            return $RSP;
+            exit;
 
 
 
