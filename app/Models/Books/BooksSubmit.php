@@ -232,26 +232,26 @@ class BooksSubmit extends Model
             $txt .= '<tr><td>';
             $txt .= 'Prezado autor ' . $name . ',<br>';
             $txt .= '<br>';
-            $txt .= 'Seu cadastro foi realizado com sucesso em nossa plataforma, para ter acesso utilize essa credencial temporária.';
+            $txt .= 'Sua submissão foi registrada e será analisada, porém é necessário que concorde com os termos.';
             $txt .= '<br><br>';
-            $txt .= 'Disclaimer - Base de Dados de Livros Abertos<br>
+            $txt .= 'Disclaimer - Brapci-Livros<br>
             <br>
-            Esta base de dados tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas. Todos os conteúdos disponíveis nesta plataforma foram cuidadosamente selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
+            Esta base de dados tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas. Todos os conteúdos disponíveis nesta plataforma foram selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
             <br><br>
             <b>Direitos Autorais e Licenças:</b>
             <br>
             Os livros e materiais disponíveis nesta base de dados são de domínio público ou licenciados sob termos que permitem sua livre distribuição. No entanto, é responsabilidade dos usuários verificar a licença específica de cada obra antes de utilizá-la para fins comerciais ou redistribuição. Quaisquer usos fora do escopo permitido pela licença exigem a obtenção de permissão prévia do(s) titular(es) dos direitos autorais.
-            <br>
+            <br><br>
             <b>Limitação de Responsabilidade:</b>
             <br>
             Embora nos esforcemos para garantir a precisão das informações e a conformidade legal dos materiais incluídos nesta base de dados, não nos responsabilizamos por eventuais erros, omissões, ou pela interpretação dos conteúdos pelos usuários. O uso dos materiais disponibilizados é de total responsabilidade do usuário.
-            <br>
+            <br><br>
             <b>Atualizações e Alterações:</b>
             <br>
             Reservamo-nos o direito de atualizar ou remover qualquer material desta base de dados sem aviso prévio, a fim de garantir a conformidade com as leis de direitos autorais e as políticas da plataforma.
-            <br>
+            <br><br>
             <b>Contato:</b>
-            <br>
+            <br><br>
             Caso identifique qualquer material que não deva estar disponível na base de dados ou tenha dúvidas sobre os termos de uso, entre em contato conosco pelo e-mail brapcici@gmail.com.';
             $txt .= '</td></tr></table>';
             $subject = '[BRAPCI-LIVROS] ';
