@@ -238,12 +238,16 @@ class BooksSubmit extends Model
             $txt .= '<br><br>';
             $txt .=
             '<h2>Disclaimer - Brapci-Livros</h2><br>
-            <br>
-            Esta base de dados tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas. Todos os conteúdos disponíveis nesta plataforma foram selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
+            A Brapci-Livros tem como objetivo promover o acesso gratuito a livros e materiais educativos de domínio público ou disponibilizados sob licenças abertas.
+            Todos os conteúdos disponíveis nesta plataforma foram selecionados para garantir que estejam em conformidade com as leis de direitos autorais e licenças aplicáveis.
+            Não existe cobrança para registrar ou acessar as obras.
             <br><br>
             <b>Direitos Autorais e Licenças:</b>
             <br>
-            Os livros e materiais disponíveis nesta base de dados são de domínio público ou licenciados sob termos que permitem sua livre distribuição. No entanto, é responsabilidade dos usuários verificar a licença específica de cada obra antes de utilizá-la para fins comerciais ou redistribuição. Quaisquer usos fora do escopo permitido pela licença exigem a obtenção de permissão prévia do(s) titular(es) dos direitos autorais.
+            Os livros e materiais disponíveis nesta base de dados são de domínio público ou licenciados sob termos que permitem sua livre distribuição.
+            Podem também ser disponibilizados com as dividas autorizações dos autores e da editora.
+            <br>
+            No entanto, é responsabilidade dos usuários verificar a licença específica de cada obra antes de utilizá-la para fins comerciais ou redistribuição. Quaisquer usos fora do escopo permitido pela licença exigem a obtenção de permissão prévia do(s) titular(es) dos direitos autorais.
             <br><br>
             <b>Limitação de Responsabilidade:</b>
             <br>
