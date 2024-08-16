@@ -13,6 +13,7 @@ import { BookSubmitBottomComponent } from './gadget/book-submit-bottom/book-subm
 import { VitrineBooksComponent } from './page/vitrine-books/vitrine-books.component';
 import { VitrineCategoriesComponent } from './page/vitrine-categories/vitrine-categories.component';
 import { VitrineSearchComponent } from './page/vitrine-search/vitrine-search.component';
+import { DisclaimerComponent } from './page/disclaimer/disclaimer.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { VitrineSearchComponent } from './page/vitrine-search/vitrine-search.com
     VitrineBooksComponent,
     VitrineCategoriesComponent,
     VitrineSearchComponent,
+    DisclaimerComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [

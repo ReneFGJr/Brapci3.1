@@ -282,12 +282,12 @@ class BooksSubmit extends Model
                     if (isset($PS['id_b'])) {
                         $dt['bs_title'] = "";
                         $dt['bs_post'] = $PSj;
-                        //$dt['bs_status'] = 1;
+                        $dt['bs_status'] = 1;
                         $this->set($dt)->where('id_bs', $PS['id_b'])->update();
                         $dt['id_b'] = $PS['id_b'];
                     }
                     $RSP['ID'] = $dt['id_b'];
-                    $RSP['st'] = 0;
+                    $RSP['st'] = 1;
                     $RSP['status'] = '200';
                     $this->sendEmail($dt['id_b']);
                 } else {
