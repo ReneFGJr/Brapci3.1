@@ -100,7 +100,7 @@ class Book extends Model
         $RSP['status'] = '201';
 
         $BOOK = $RDF2->le($IDBook);
-        $file = $RDF2->extract($BOOK, 'hasFileStorage','F');
+        $file = $RDF2->extract($BOOK, 'hasFileStorage','A');
         $BOOK['id'] = $file;
         return($BOOK);
 
