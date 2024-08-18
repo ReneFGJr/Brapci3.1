@@ -140,6 +140,7 @@ class Book extends Model
                 $IDn = $RDFliteral->register($name, $lang);
                 $RDFdata->register($IDch, $id_prop, 0, $IDn);
 
+                /*
                 $keywords = $line['KEYWORD'];
                 foreach ($keywords as $name) {
                     $dt = [];
@@ -151,7 +152,7 @@ class Book extends Model
                     $id_prop = 'hasSubject';
                     $RDFdata->register($IDch, $id_prop, $IDauth, 0);
                 }
-
+                */
                 array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=> $IDauth]);
 
             }
