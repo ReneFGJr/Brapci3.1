@@ -100,6 +100,8 @@ class Rdf extends Model
                     $RSP['status'] = '200';
                 } else {
                     $RSP['status'] = '500';
+                    $RSP['message'] = 'API KEY Error';
+                    $RSP['user'] = $USER;
                 }
 
                 echo json_encode($RSP);
