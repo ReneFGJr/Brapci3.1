@@ -98,7 +98,7 @@ class Book extends Model
         $Mark = new \App\Models\AI\NLP\Book\Sumary();
         $RSP['status'] = '201';
 
-        $BOOK = $RDF->le($IDBook);
+        $BOOK = $RDFdata->le($IDBook);
         return($BOOK);
 
         $txt = get("text");
