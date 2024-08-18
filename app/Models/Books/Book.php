@@ -135,7 +135,7 @@ class Book extends Model
 
                 /* Abstract */
                 $id_prop = 'hasAbstract';
-                $name = $line['ABSTRACR'];
+                $name = $line['ABSTRACT'];
                 $lang = $line['LANGUAGE'];
                 $IDn = $RDFliteral->register($name, $lang);
                 $RDFdata->register($IDch, $id_prop, 0, $IDn);
