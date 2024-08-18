@@ -127,6 +127,7 @@ class Sumary extends Model
         $linhas = explode("\n", $texto);
         $RSP = [];
         $RSP['length'] = strlen($texto);
+        $RSP['text'] = $texto;
 
         $model = [
             'TITLE' => '',
