@@ -217,6 +217,8 @@ class Sumary extends Model
         /* Pags inference */
         foreach($RSP as $id=>$rg)
             {
+                if (isset($rg['PAGE_END']))
+                {
                 if (($rg['PAGE_END'] == '') and ($rg['PAGE_START'] !== ''))
                     {
                         if (isset($RSP[$id+1]['PAGE_START']))
@@ -224,6 +226,7 @@ class Sumary extends Model
                                 $RSP[$id]['PAGE_END'] =  ''.($RSP[$id + 1]['PAGE_START'] - 1);
                             }
                     }
+                }
             }
 
 
