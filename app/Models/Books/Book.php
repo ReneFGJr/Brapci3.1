@@ -121,8 +121,16 @@ class Book extends Model
                 $RDFdata->register($IDch, $id_prop, 0, $IDn);
 
                 $authors = $line['AUTHORS'];
+                foreach($authors as $name)
+                    {
+                        $dt = [];
+                        $dt['Class'] = 'Person';
+                        $dt['Name'] = $name;
+                        $dt['Lang'] = 'nn';
+                        $IDauth = $RDF->createConcept($dt);
+                    }
 
-                array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=>$authors]);
+                array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=> $IDauth]);
 
             }
         return $TXT;
