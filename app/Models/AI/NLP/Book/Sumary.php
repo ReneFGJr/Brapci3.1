@@ -126,6 +126,7 @@ class Sumary extends Model
         $Language = new \App\Models\AI\NLP\Language();
         $linhas = explode("\n", $texto);
         $RSP = [];
+        $RSP['length'] = strlen($texto);
 
         $model = [
             'TITLE' => '',
