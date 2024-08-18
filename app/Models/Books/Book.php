@@ -119,7 +119,10 @@ class Book extends Model
                 $name = $line['TITLE'];
                 $lang = $line['LANGUAGE'];
                 $IDn = $RDFliteral->register($name,$lang);
-                $RDFdata->register($IDBook, $id_prop, 0, $IDn);
+                $RDFdata->register($IDch, $id_prop, 0, $IDn);
+
+                $authors = $line['LANGUAGE'];
+                $TXT['au'] = $authors;
 
             }
         return $TXT;
