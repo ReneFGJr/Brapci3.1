@@ -109,6 +109,121 @@ class Sumary extends Model
         return $sx;
     }
 
+    function markup($txt)
+        {
+            $RSP = $this->processarTexto($txt);
+            echo json_encode($RSP);
+            exit;
+        }
+
+    function processarTexto($texto)
+    {
+        $Language = new \App\Models\AI\NLP\Language();
+        $linhas = explode("\n", $texto);
+        $RSP = [];
+
+        $model = [
+            'TITLE' => '',
+            'LANGUAGE'=>'',
+            'AUTHORS' => [],
+            'ABSTRACT' => '',
+            'KEYWORD' => [],
+            'PAGE_START'=>'',
+            'PAGE_END'=>'',
+        ];
+
+        $ln = 0;
+        $dt = [];
+
+        foreach ($linhas as $linha) {
+            $ch = substr($linha,0,1);
+            $linha = substr($linha,1,strlen($linha));
+            $linha = trim($linha);
+
+            switch ($ch)
+                {
+                    /* TITULO */
+                    case '*':
+                        if ($ln > 0)
+                            {
+                                array_push($RSP,$dt);
+                            }
+                        $dt = $model;
+                        $pagi = '';
+                        $pagf = '';
+                        if (strpos($linha,'|'))
+                            {
+                                $pags = trim(substr($linha,strpos($linha,'|')+1,strlen($linha)));
+                                if (strpos($pags,'-'))
+                                    {
+                                        $pagf = trim(substr($pags, strpos($pags, '-')+1,10));
+                                        $pagi = trim(substr($pags,0,strpos($pags,'-')));
+                                    } else {
+                                        $pagi = trim($pags);
+                                    }
+                                $title = substr($linha, 0, strpos($linha, '|'));
+                            } else {
+                                $title = $linha;
+                            }
+                        $title = nbr_title($title);
+                        $dt['TITLE'] = $title;
+                        $dt['PAGE_START'] = $pagi;
+                        $dt['PAGE_END'] = $pagf;
+                        $dt['LANGUAGE'] = $Language->getTextLanguage($title);
+                        $ln = 1;
+                        break;
+                    case '#':
+                    /* AUTHORS */
+                        $linha = troca($linha,',',';');
+                        $authors = explode(';',$linha);
+                        foreach($authors as $id=>$nome)
+                            {
+                                //$authors[$id] = nbr_author($nome,3);
+                                $nome = trim($nome);
+                                $authors[$id] = nbr_author($nome,7);
+                            }
+                        $dt['AUTHORS'] = $authors;
+                        break;
+                    case '@':
+                        /* KEYWORD */
+                        $linha = troca($linha, ',', ';');
+                        $linha = troca($linha, '.', ';');
+                        $keywords = explode(';', $linha);
+                        foreach ($keywords as $id => $key) {
+                            //$authors[$id] = nbr_author($nome,3);
+                            $nome = trim($key);
+                            $keywords[$id] = nbr_author($key, 7);
+                        }
+                        $dt['KEYWORD'] = $keywords;
+                        break;
+
+                    case '$':
+                        /* RESUMO */
+                        $dt['ABSTRACT'] = $linha;
+                        break;
+                }
+        }
+
+        if ($ln > 0) {
+            array_push($RSP, $dt);
+        }
+
+        /* Pags inference */
+        foreach($RSP as $id=>$rg)
+            {
+                if (($rg['PAGE_END'] == '') and ($rg['PAGE_START'] !== ''))
+                    {
+                        if (isset($RSP[$id+1]['PAGE_START']))
+                            {
+                                $RSP[$id]['PAGE_END'] =  ''.($RSP[$id + 1]['PAGE_START'] - 1);
+                            }
+                    }
+            }
+
+
+        return $RSP;
+    }
+
     /**************************************** Processamento */
     function process($txt)
     {

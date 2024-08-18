@@ -591,8 +591,8 @@ class Language extends Model
 				$max = $value;
 			}
 		}
-		if ($lang == 'pt') {
-			$lang = 'pt-BR';
+		if ($lang == 'pt-BR') {
+			$lang = 'pt';
 		}
 		if ($lang == 'NaN') {
 			//echo '<h1>Language: '.$text.'<br>==>'.$lang;

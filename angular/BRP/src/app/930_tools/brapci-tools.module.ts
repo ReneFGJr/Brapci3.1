@@ -22,6 +22,8 @@ import { LotkaComponent } from './page/amostra/lotka.component';
 import { MenuRightSideComponent } from './page/amostra/menu-right-side/menu-right-side.component';
 import { QRCodeModule } from 'angularx-qrcode';
 import { QrcodeComponent } from './widget/qrcode/qrcode.component';
+import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.component';
+import { BrandToolsComponent } from './widget/brand-tools/brand-tools.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,8 @@ import { QrcodeComponent } from './widget/qrcode/qrcode.component';
     LotkaComponent,
     MenuRightSideComponent,
     QrcodeComponent,
+    SumaryToolsComponent,
+    BrandToolsComponent,
   ],
   imports: [
     CommonModule,

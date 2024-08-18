@@ -1,0 +1,38 @@
+<app-brand-tools></app-brand-tools>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <form [formGroup]="summaryForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="summary">Inserir Sumário:</label>
+          <textarea
+            id="summary"
+            formControlName="summaryText"
+            required
+            rows="20"
+            class="form-control full border border-secondary"
+          ></textarea>
+        </div>
+
+        <button type="submit" [disabled]="!summaryForm.valid" class="mt-2 btn btn-outline-primary">
+          Processar Sumário
+        </button>
+      </form>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div *ngIf="processedSummary">
+        <h3>Sumário Processado:</h3>
+          <li *ngFor="let entry of processedSummary">
+            <strong>Título:</strong> {{ entry.TITLE }}<br />
+            <strong>Autores:</strong>
+              <ul>
+              <li *ngFor="let nome of entry.AUTHORS"> {{nome}}</li>
+              </ul>
+            <strong>Página:</strong> {{ entry.PAGE_START }}
+            <span *ngIf="entry.PAGE_END">- {{entry.PAGE_END}}</span>
+          </li>
+      </div>
+    </div>
+  </div>
+</div>

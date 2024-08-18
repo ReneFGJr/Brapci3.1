@@ -8,6 +8,7 @@ import { PriceComponent } from './page/amostra/price.component';
 import { BradfordComponent } from './page/amostra/bradford.component';
 import { LotkaComponent } from './page/amostra/lotka.component';
 import { QrcodeComponent } from './widget/qrcode/qrcode.component';
+import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
       { path: 'bradford', component: BradfordComponent },
       { path: 'lotka', component: LotkaComponent },
       { path: 'qrcode', component: QrcodeComponent },
+      { path: 'summary/:id', component: SumaryToolsComponent },
     ],
   },
 ];

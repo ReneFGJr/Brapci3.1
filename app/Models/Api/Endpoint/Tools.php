@@ -55,6 +55,11 @@ class Tools extends Model
         $Net = new \App\Models\Tools\Net\Index();
         switch($d2)
             {
+                case 'mark':
+                    $Mark = new \App\Models\Ai\NLP\Book\Sumary();
+                    $txt = get("text");
+                    $Mark->markup($txt);
+                    break;
                 case 'txt4matrix':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;

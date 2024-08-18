@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 /* Modules */
 import { ThemeModule } from './010_thema/theme.module';
@@ -36,6 +36,7 @@ registerLocaleData(ptBr);
     NgbModule,
     ThemeModule,
     CoreBrapciModule,
+    FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     QRCodeModule,
