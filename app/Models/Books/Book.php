@@ -128,6 +128,9 @@ class Book extends Model
                         $dt['Name'] = $name;
                         $dt['Lang'] = 'nn';
                         $IDauth = $RDF->createConcept($dt);
+
+                        $id_prop = 'hasAuthor';
+                        $RDFdata->register($IDBook, $id_prop, $IDauth, 0);
                     }
 
                 array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=> $IDauth]);
