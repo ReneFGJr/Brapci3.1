@@ -8,13 +8,14 @@ import { Observable } from 'rxjs';
 })
 export class BrapciService {
   http: any;
+  url_post: string = ''
   constructor(
     private HttpClient: HttpClient,
-    private cookieService: CookieService,
-    ) {}
+    private cookieService: CookieService
+  ) {}
 
   public url: string = 'https://cip.brapci.inf.br/api/';
-  //public url: string = 'http://brp/api/';
+  public url_development: string = 'http://brp/api/';
 
   public getId(id: number): Observable<Array<any>> {
     let url = 'brapci/get/v1/' + id;
@@ -24,7 +25,7 @@ export class BrapciService {
     let dt: Array<any> | any = [{ session: session }];
     return this.api_post(url, dt);
 
-    return this.api_post(url,dt)
+    return this.api_post(url, dt);
   }
 
   public RDFapi(
@@ -48,25 +49,35 @@ export class BrapciService {
 
   public api(id: number, term: string, prop: string): Observable<Array<any>> {
     let url = 'rdf/search/';
-    let dt: Array<any> | any = [{ q: term, concept: id, propriey: prop}];
+    let dt: Array<any> | any = [{ q: term, concept: id, propriey: prop }];
     return this.api_post(url, dt);
   }
 
-  public api_post(type: string, dt: Array<any> = []): Observable<Array<any>> {
-    let url = `${this.url}` + type;
-    console.log(`Buscador: ${url}`);
+  public api_post(
+    type: string,
+    dt: Array<any> = [],
+    development: boolean = false
+  ): Observable<Array<any>> {
     var formData: any = new FormData();
     let apikey = this.cookieService.get('section');
-    console.log("===SESSION== "+apikey)
+
+    if (development) {
+      this.url_post = `${this.url_development}` + type;
+      console.log(`Buscador: ${this.url_post}`);
+      console.log('===SESSION== ' + apikey);
+    } else {
+      this.url_post = `${this.url}` + type;
+    }
+
     formData.append('user', apikey);
 
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
 
-    return this.HttpClient.post<Array<any>>(url, formData).pipe(
+    return this.HttpClient.post<Array<any>>(this.url_post, formData).pipe(
       (res) => res,
-      (error) => error,
+      (error) => error
     );
   }
 

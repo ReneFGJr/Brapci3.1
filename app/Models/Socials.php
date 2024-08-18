@@ -1273,7 +1273,7 @@ class Socials extends Model
 						$RSP['message'] = 'Success';
 						$RSP['perfil'] = $this->validGroups($RSP['ID']);
 					} else {
-						$RSP['status'] = '200';
+						$RSP['status'] = '500';
 						$RSP['message'] = 'APIKEY is invalid!';
 					}
 			} else {

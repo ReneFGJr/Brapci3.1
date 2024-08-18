@@ -85,6 +85,26 @@ class Rdf extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+            case 'summary':
+                $Books = new \App\Models\Books\Book();
+
+                $key = get("user");
+                $_POST['token'] = $key;
+                $USER = $Socials->validToken();
+                $RSP = [];
+
+                if ($USER['status'] == '200') {
+                    $Marked = get("text");
+                    $BookID = get("ID");
+                    $RSP = $Books->registerChapter($BookID,$Marked);
+                    $RSP['status'] = '200';
+                } else {
+                    $RSP['status'] = '500';
+                }
+
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'createLiteral':
                 $dd = [];
                 $dd['post'] = $_POST;

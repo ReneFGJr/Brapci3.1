@@ -19,24 +19,38 @@
           Processar Sumário
         </button>
       </form>
+
+      <div>
+      <b>Marcações</b><br/>
+      * - Título<br>
+      | - Páginas - Depois do Título (ex: | 44-49)<br>
+      # - Autores<br>
+      {{'@'}} - Palavras-chave<br>
+      $ - Resumo<br>
+      </div>
     </div>
 
     <div class="col-12 col-lg-6">
-      <div *ngIf="processedSummary">
-        <h3>Sumário Processado:</h3>
-          <li *ngFor="let entry of processedSummary">
-            <strong>Título:</strong> {{ entry.TITLE }}<br />
-            <strong>Autores:</strong>
-              <ul>
-              <li *ngFor="let nome of entry.AUTHORS"> {{nome}}</li>
-              </ul>
-            <strong>Página:</strong> {{ entry.PAGE_START }}
-            <span *ngIf="entry.PAGE_END">- {{entry.PAGE_END}}</span>
-          </li>
+      <div *ngIf="registredSummary">
+        <div class="text-center mb-4 bold mt-4">SUMÁRIO REGISTRADO</div>
+        {{registredSummary | json }}
       </div>
-          <button type="submit" [disabled]="!summaryForm.valid" class="mt-2 btn btn-outline-primary">
+      <div *ngIf="processedSummary">
+        <div class="text-center mb-4 bold mt-4">SUMÁRIO</div>
+          <div *ngFor="let entry of processedSummary">
+            <strong>{{ entry.TITLE }} <sup>{{entry.LANGUAGE}}</sup></strong><br />
+              <span *ngFor="let nome of entry.AUTHORS"> {{nome}}. </span>
+              <br/>
+            pag: {{ entry.PAGE_START }}
+            <span *ngIf="entry.PAGE_END">- {{entry.PAGE_END}}</span>
+            <br/>
+            <hr>
+          </div>
+          <button [disabled]="!summaryForm.valid" (click)="onProcess()" class="mt-2 btn btn-outline-primary">
           Cadastrar Sumário
         </button>
+      </div>
+
     </div>
   </div>
 </div>
