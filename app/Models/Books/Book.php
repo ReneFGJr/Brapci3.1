@@ -112,7 +112,6 @@ class Book extends Model
                 $id_prop = 'hasBookChapter';
                 $lit = 0;
                 $RDFdata->register($IDBook, $id_prop, $IDch, $lit);
-                array_push($TXT,['book'=> $IDBook,'bookChap'=>$IDch,'status'=>'Created']);
 
                 /* TItle */
                 $id_prop = 'hasTitle';
@@ -122,7 +121,8 @@ class Book extends Model
                 $RDFdata->register($IDch, $id_prop, 0, $IDn);
 
                 $authors = $line['LANGUAGE'];
-                $TXT['au'] = $authors;
+
+                array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=>$authors]);
 
             }
         return $TXT;
