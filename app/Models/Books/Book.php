@@ -99,9 +99,8 @@ class Book extends Model
         $Mark = new \App\Models\AI\NLP\Book\Sumary();
         $RSP['status'] = '201';
 
-        $BOOK = $RDFdata->le($IDBook);
+        $BOOK = $RDF2->le($IDBook);
         $file = $RDF2->extract($BOOK, 'hasFileStorage','F');
-        $BOOK = [];
         $BOOK['id'] = $file;
         return($BOOK);
 
