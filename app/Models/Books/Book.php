@@ -123,6 +123,8 @@ class Book extends Model
                 $authors = $line['AUTHORS'];
                 foreach($authors as $name)
                     {
+                        if (trim($name) != '')
+                        {
                         $dt = [];
                         $dt['Class'] = 'Person';
                         $dt['Name'] = $name;
@@ -131,6 +133,7 @@ class Book extends Model
 
                         $id_prop = 'hasAuthor';
                         $RDFdata->register($IDch, $id_prop, $IDauth, 0);
+                        }
                     }
 
                 /* Abstract */
@@ -139,6 +142,21 @@ class Book extends Model
                 $lang = $line['LANGUAGE'];
                 $IDn = $RDFliteral->register($name, $lang);
                 $RDFdata->register($IDch, $id_prop, 0, $IDn);
+
+                /* Subject */
+                $keyword = $line['KEYWORD'];
+                foreach ($keyword as $name) {
+                    if (trim($name) != '') {
+                        $dt = [];
+                        $dt['Class'] = 'Subject';
+                        $dt['Name'] = $name;
+                        $dt['Lang'] = 'nn';
+                        $IDauth = $RDF->createConcept($dt);
+
+                        $id_prop = 'hasSubject';
+                        $RDFdata->register($IDch, $id_prop, $IDauth, 0);
+                    }
+                }
 
                 /* Pagina */
                 $pag = $line['PAGE_START'];
