@@ -133,6 +133,25 @@ class Book extends Model
                         $RDFdata->register($IDch, $id_prop, $IDauth, 0);
                     }
 
+                /* Abstract */
+                $id_prop = 'hasAbstract';
+                $name = $line['ABSTRACR'];
+                $lang = $line['LANGUAGE'];
+                $IDn = $RDFliteral->register($name, $lang);
+                $RDFdata->register($IDch, $id_prop, 0, $IDn);
+
+                $keywords = $line['KEYWORD'];
+                foreach ($keywords as $name) {
+                    $dt = [];
+                    $dt['Class'] = 'Subject';
+                    $dt['Name'] = $name;
+                    $dt['Lang'] = 'nn';
+                    $IDauth = $RDF->createConcept($dt);
+
+                    $id_prop = 'hasSubject';
+                    $RDFdata->register($IDch, $id_prop, $IDauth, 0);
+                }
+
                 array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=> $IDauth]);
 
             }
