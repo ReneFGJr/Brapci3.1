@@ -88,6 +88,14 @@
     </div>
   </div>
 
+  <!--------------- Administracao -->
+  <div>
+    <app-remove-concept [ID]="data.ID"></app-remove-concept>
+    <app-edit-concept [ID]="data.ID"></app-edit-concept>
+    <app-ai-process [ID]="data.ID"></app-ai-process>
+    <app-tools-sumary *ngIf="data.Class=='Book'" [ID]="data.ID"></app-tools-sumary>
+  </div>
+
   <!---------------------------------------------- PART II-->
   <div class="container">
     <div class="row">

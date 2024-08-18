@@ -27,12 +27,26 @@ export class SumaryToolsComponent {
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       this.id = params['id']; // (+) converts string 'id' to a number
-      this.brapciService.api_post('get/v/'+this.id).subscribe((res) => {
+      //api/brapci/get/v1/199010
+      this.brapciService.api_post('brapci/get/v1/'+this.id).subscribe((res) => {
         console.log(res);
         this.book = res;
       });
     });
   }
+
+  onProcess()
+    {
+      let dt: Array<any> | any = {
+        text: this.processedSummary,
+        action: 'Summary',
+      };
+
+      this.brapciService.api_post('tools/mark', dt).subscribe((res) => {
+        console.log(res);
+        this.processedSummary = res;
+      });
+    }
 
   onSubmit() {
     let dt: Array<any> | any = {

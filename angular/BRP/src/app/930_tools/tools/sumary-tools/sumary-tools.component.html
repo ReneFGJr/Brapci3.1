@@ -1,7 +1,8 @@
 <app-brand-tools></app-brand-tools>
 <div class="container">
   <div class="row">
-    <div class="col-12 col-lg-6">
+  <div class="col-12 col-lg-12" *ngIf="book" [innerHTML]="book.cited.abnt"></div>
+    <div class="col-12 col-lg-6 mt-4">
       <form [formGroup]="summaryForm" (ngSubmit)="onSubmit()">
         <div>
           <label for="summary">Inserir Sumário:</label>
@@ -33,6 +34,9 @@
             <span *ngIf="entry.PAGE_END">- {{entry.PAGE_END}}</span>
           </li>
       </div>
+          <button type="submit" [disabled]="!summaryForm.valid" class="mt-2 btn btn-outline-primary">
+          Cadastrar Sumário
+        </button>
     </div>
   </div>
 </div>

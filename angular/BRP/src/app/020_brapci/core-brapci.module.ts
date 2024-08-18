@@ -74,6 +74,7 @@ import { BannerBrapciLivrosComponent } from './page/banner/banner-brapci-livros/
 import { RecomendationComponent } from './page/recomendation/recomendation.component';
 import { KeywordsComponent } from './widget/keywords/keywords.component';
 import { SumaryComponent } from './widget/sumary/sumary.component';
+import { ToolsSumaryComponent } from './widget/tools-sumary/tools-sumary.component';
 
 @NgModule({
   declarations: [
@@ -144,6 +145,7 @@ import { SumaryComponent } from './widget/sumary/sumary.component';
     RecomendationComponent,
     KeywordsComponent,
     SumaryComponent,
+    ToolsSumaryComponent,
   ],
   imports: [
     CommonModule,

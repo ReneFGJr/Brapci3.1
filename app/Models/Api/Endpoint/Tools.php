@@ -56,7 +56,7 @@ class Tools extends Model
         switch($d2)
             {
                 case 'mark':
-                    $Mark = new \App\Models\Ai\NLP\Book\Sumary();
+                    $Mark = new \App\Models\AI\NLP\Book\Sumary();
                     $txt = get("text");
                     $Mark->markup($txt);
                     break;
