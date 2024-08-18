@@ -120,7 +120,7 @@ class Book extends Model
                 $IDn = $RDFliteral->register($name,$lang);
                 $RDFdata->register($IDch, $id_prop, 0, $IDn);
 
-                $authors = $line['LANGUAGE'];
+                $authors = $line['AUTHORS'];
 
                 array_push($TXT, ['book' => $IDBook, 'bookChap' => $IDch, 'status' => 'Created','Authors'=>$authors]);
 
