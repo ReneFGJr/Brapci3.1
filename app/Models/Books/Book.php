@@ -107,8 +107,6 @@ class Book extends Model
             } else {
                 $file = '';
             }
-        $BOOK['file'] = $file;
-        return($BOOK);
 
         $txt = get("text");
         $RSP = $Mark->processarTexto($txt);
@@ -124,6 +122,13 @@ class Book extends Model
                 $id_prop = 'hasBookChapter';
                 $lit = 0;
                 $RDFdata->register($IDBook, $id_prop, $IDch, $lit);
+
+                /* Arquivo */
+                if ($file != '')
+                    {
+                        $id_prop = 'hasFileStorage';
+                        $RDFdata->register($IDch, $id_prop, $file, 0);
+                    }
 
                 /* TItle */
                 $id_prop = 'hasTitle';
