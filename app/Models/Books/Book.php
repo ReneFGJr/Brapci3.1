@@ -92,6 +92,7 @@ class Book extends Model
 
     function registerChapter($IDBook, $txt)
     {
+        $RDF2 = new \App\Models\RDF2\RDF();
         $RDF = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
@@ -99,6 +100,9 @@ class Book extends Model
         $RSP['status'] = '201';
 
         $BOOK = $RDFdata->le($IDBook);
+        $file = $RDF2->extract($BOOK, 'hasFileStorage','F');
+        $BOOK = [];
+        $BOOK['id'] = $file;
         return($BOOK);
 
         $txt = get("text");
