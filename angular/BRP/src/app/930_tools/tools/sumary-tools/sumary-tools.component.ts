@@ -47,8 +47,9 @@ export class SumaryToolsComponent {
     };
 
     console.log("--------",dt);
+    let dev = false
 
-    this.brapciService.api_post('rdf/summary', dt, true).subscribe((res) => {
+    this.brapciService.api_post('rdf/summary', dt).subscribe((res) => {
       console.log(res);
       this.registredSummary = res;
       //this.processedSummary = this.empty;

@@ -74,7 +74,7 @@ export class BrapciService {
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
-
+    console.log('URL', this.url_post)
     return this.HttpClient.post<Array<any>>(this.url_post, formData).pipe(
       (res) => res,
       (error) => error

@@ -112,6 +112,11 @@ class Sumary extends Model
     function markup($txt)
         {
             $RSP = $this->processarTexto($txt);
+            if ($txt == '')
+                {
+                    $RSP['status'] = '500';
+                    $RSP['message'] = 'Text is empty';
+                }
             echo json_encode($RSP);
             exit;
         }
