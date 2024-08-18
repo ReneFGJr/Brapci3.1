@@ -101,7 +101,13 @@ class Book extends Model
 
         $BOOK = $RDF2->le($IDBook);
         $file = $RDF2->extract($BOOK, 'hasFileStorage','A');
-        $BOOK['id'] = $file;
+        if (isset($file[0]))
+            {
+                $file = $file[0];
+            } else {
+                $file = '';
+            }
+        $BOOK['file'] = $file;
         return($BOOK);
 
         $txt = get("text");
