@@ -639,15 +639,26 @@ class RDFmetadata extends Model
 
     function metadataSummary($dt)
         {
+            $RDF = new \App\Models\RDF2\RDF();
             $RSP = [];
+            $IDS = [];
             foreach($dt['data'] as $line)
                 {
                     pre($line);
                     $prop = $line['Property'];
                     if ($prop == 'hasBookChapter') {
+                        $ID = $line['ID'];
+                        array_push($IDS,$ID);
+                        /**************************** DOCS */
+                        $dt = $RDF->le($ID);
+                        $meta = $this->metadataChapter($dt);
                     }
                 }
+        }
 
+    function metadataChapter($dt)
+        {
+            pre($dt);
         }
 
     function metadataWork($dt, $simple = false)
