@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-work-sumary',
@@ -7,9 +8,9 @@ import { Component, Input } from '@angular/core';
 })
 export class SumaryComponent {
   @Input() public data: Array<any> | any;
+  constructor(private router: Router) {}
 
-  redirect(ID:string)
-    {
-      alert(ID)
-    }
+  redirect(ID: string) {
+    this.router.navigate(['/v/' + ID]);
+  }
 }
