@@ -673,7 +673,7 @@ class RDFmetadata extends Model
                             $author .= $line['Caption'].'. ';
                         }
                     if (($prop == 'hasTitle') and ($lang == 'pt')) {
-                        $author .= $line['Caption'] . '. ';
+                        $title = $line['Caption'];
                     }
                     if ($prop == 'hasPageStart') {
                         $pagI = $line['Caption'];
