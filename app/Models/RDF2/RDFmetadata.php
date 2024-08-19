@@ -663,6 +663,8 @@ class RDFmetadata extends Model
             $author = '';
             $pagF = '';
             $pagI = '';
+            $titleALT = '';
+
             foreach($dt['data'] as $id=>$line)
                 {
                     $prop = $line['Property'];
@@ -675,12 +677,19 @@ class RDFmetadata extends Model
                     if (($prop == 'hasTitle') and ($lang == 'pt')) {
                         $title = $line['Caption'];
                     }
+                    if (($prop == 'hasTitle') and ($lang != 'pt')) {
+                        $titleALT = $line['Caption'];
+                    }
                     if ($prop == 'hasPageStart') {
                         $pagI = $line['Caption'];
                     }
                     if ($prop == 'hasPageEnd') {
                         $pagF = $line['Caption'];
                     }
+                }
+            if ($title == '')
+                {
+                    $title = $titleALT;
                 }
             $author = trim($author);
             $ref = $title.'<br><i>'.$author.'</i><br>p '.$pagI.'-'.$pagF;
