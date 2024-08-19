@@ -642,7 +642,7 @@ class RDFmetadata extends Model
             $RSP = [];
             foreach($dt['data'] as $line)
                 {
-                    echo $line['Property'].'<br>';
+                    echo $line['Property'].cr();
                 }
 
         }
