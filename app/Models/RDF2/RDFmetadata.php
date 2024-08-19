@@ -131,7 +131,9 @@ class RDFmetadata extends Model
                 return $this->metadataWork($dt);
                 break;
             case 'Book':
-                return $this->metadataWork($dt);
+                $RSP = $this->metadataWork($dt);
+                $RSP['summary'] = $this->metadataSummary($dt);
+                return $RSP;
                 break;
             case 'BookChapter':
                 return $this->metadataWork($dt);
@@ -634,6 +636,16 @@ class RDFmetadata extends Model
         }
         return $dr;
     }
+
+    function metadataSummary($dt)
+        {
+            $RSP = [];
+            foreach($dt['data'] as $line)
+                {
+                    pre($line);
+                }
+
+        }
 
     function metadataWork($dt, $simple = false)
     {
