@@ -644,7 +644,6 @@ class RDFmetadata extends Model
             $IDS = [];
             foreach($dt['data'] as $line)
                 {
-                    pre($line);
                     $prop = $line['Property'];
                     if ($prop == 'hasBookChapter') {
                         $ID = $line['ID'];
