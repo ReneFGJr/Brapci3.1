@@ -692,7 +692,7 @@ class RDFmetadata extends Model
                     $title = $titleALT;
                 }
             $author = trim($author);
-            $ref = $title.'<br><i>'.$author.'</i><br>p '.$pagI.'-'.$pagF;
+            $ref = '<b>'.$title. '</b> (p '.$pagI.'-'.$pagF.')<br><i>'.$author.'</i><br>';
             return $ref;
         }
 

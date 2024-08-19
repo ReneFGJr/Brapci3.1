@@ -1,1 +1,6 @@
-<h5>SUMÁRIO</h5>
+<div *ngIf=" data.summary" class="text-center mt-4">
+<span class="bold">SUMÁRIO</span>
+<div *ngFor="let item of data.summary" class="text-start mb-2">
+  <span [innerHTML]="item[1]" class="link" (click)="redirect(item[0])"></span>
+</div>
+</div>
