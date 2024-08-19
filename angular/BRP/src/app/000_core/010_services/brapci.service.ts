@@ -2,16 +2,21 @@ import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LocalStorageService } from './local-storage.service';
+import { UserService } from 'src/app/001_auth/service/user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrapciService {
   http: any;
-  url_post: string = ''
+  url_post: string = '';
+  public user: Array<any> | any;
+
   constructor(
     private HttpClient: HttpClient,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private userService: UserService
   ) {}
 
   public url: string = 'https://cip.brapci.inf.br/api/';
@@ -59,7 +64,9 @@ export class BrapciService {
     development: boolean = false
   ): Observable<Array<any>> {
     var formData: any = new FormData();
-    let apikey = this.cookieService.get('section');
+    let section = this.cookieService.get('section');
+    this.user = this.userService.getUser();
+    let apikey = this.user.token;
 
     if (development) {
       this.url_post = `${this.url_development}` + type;
@@ -69,12 +76,13 @@ export class BrapciService {
       this.url_post = `${this.url}` + type;
     }
 
+    formData.append('section', section);
     formData.append('user', apikey);
 
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
-    console.log('URL', this.url_post)
+    console.log('URL', this.url_post);
     return this.HttpClient.post<Array<any>>(this.url_post, formData).pipe(
       (res) => res,
       (error) => error
