@@ -654,6 +654,7 @@ class RDFmetadata extends Model
                         array_push($RSP,$meta);
                     }
                 }
+            return $RSP;
         }
 
     function metadataChapter($dt)
