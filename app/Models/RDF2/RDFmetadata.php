@@ -642,7 +642,10 @@ class RDFmetadata extends Model
             $RSP = [];
             foreach($dt['data'] as $line)
                 {
-                    echo $line['Property'].cr();
+                    pre($line);
+                    $prop = $line['Property'];
+                    if ($prop == 'hasBookChapter') {
+                    }
                 }
 
         }
