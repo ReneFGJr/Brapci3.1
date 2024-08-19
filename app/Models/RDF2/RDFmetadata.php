@@ -651,13 +651,38 @@ class RDFmetadata extends Model
                         /**************************** DOCS */
                         $dt = $RDF->le($ID);
                         $meta = $this->metadataChapter($dt);
+                        array_push($RSP,$meta);
                     }
                 }
         }
 
     function metadataChapter($dt)
         {
-            pre($dt);
+            $title = '';
+            $author = '';
+            $pag = '';
+            foreach($dt['data'] as $id=>$line)
+                {
+                    $prop = $line['Property'];
+                    $lang = $line['Lang'];
+
+                    if ($prop == 'hasAuthor')
+                        {
+                            $author .= $line['Caption'].'. ';
+                        }
+                    if (($prop == 'hasTitle') and ($lang == 'pt')) {
+                        $author .= $line['Caption'] . '. ';
+                    }
+                    if ($prop == 'hasPageStart') {
+                        $pagI = $line['Caption'];
+                    }
+                    if ($prop == 'hasPageEnd') {
+                        $pagF = $line['Caption'];
+                    }
+                }
+            $author = trim($author);
+            $ref = $title.'<br><i>'.$author.'</i><br>p '.$pagI.'-'.$pagF;
+            return $ref;
         }
 
     function metadataWork($dt, $simple = false)
