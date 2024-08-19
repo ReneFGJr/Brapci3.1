@@ -660,7 +660,8 @@ class RDFmetadata extends Model
         {
             $title = '';
             $author = '';
-            $pag = '';
+            $pagF = '';
+            $pagI = '';
             foreach($dt['data'] as $id=>$line)
                 {
                     $prop = $line['Property'];
