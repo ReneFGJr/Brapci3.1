@@ -651,7 +651,7 @@ class RDFmetadata extends Model
                         /**************************** DOCS */
                         $dt = $RDF->le($ID);
                         $meta = $this->metadataChapter($dt);
-                        array_push($RSP,$meta);
+                        array_push($RSP,[$ID,$meta]);
                     }
                 }
             return $RSP;
