@@ -38,7 +38,7 @@ def update_cited_doi(id,DOI):
     qu = "update brapci_cited.cited_article "
     qu += f" set cad_doi = '{DOI} "
     qu += f" where id_ca = {id}"
-    database.update(qr)
+    database.update(qu)
 
 def removeLiteral(ID,IDn):
     qr = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} and d_literal = {IDn} "
