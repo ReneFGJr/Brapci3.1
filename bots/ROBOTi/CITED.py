@@ -24,25 +24,28 @@ def processID(ID):
         getCITED(URL,ID)
 
 def getCITED(url,ID):
-    html = mod_http.getURL(url)
+    try:
+        html = mod_http.getURL(url)
 
-    cited = mod_xml_soup.readMeta(html,'citation_reference')
+        cited = mod_xml_soup.readMeta(html,'citation_reference')
 
-    # Lista os metadados encontrados
-    print("Citation References:")
-    cites = False
-    for meta in cited:
-        cites = True
-        print("=",meta.get('content'))
-
-    if cites == True:
-        print("Deleta citações autuais")
-        mod_cited.delete(ID)
-
+        # Lista os metadados encontrados
+        print("Citation References:")
+        cites = False
         for meta in cited:
-            REF = meta.get('content')
-            REF = REF.replace("'","´")
-            mod_cited.register(ID,REF)
+            cites = True
+            print("=",meta.get('content'))
+
+        if cites == True:
+            print("Deleta citações autuais")
+            mod_cited.delete(ID)
+
+            for meta in cited:
+                REF = meta.get('content')
+                REF = REF.replace("'","´")
+                mod_cited.register(ID,REF)
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
 
 
 print("RASPAGEM DE CITACOES 1.1")
