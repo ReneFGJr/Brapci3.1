@@ -10,4 +10,6 @@ def encontrar_doi(texto):
 
     if doi_encontrados:
         doi_encontrados = doi_encontrados[0]
+    if doi_encontrados == []:
+        doi_encontrados = ''
     return doi_encontrados
