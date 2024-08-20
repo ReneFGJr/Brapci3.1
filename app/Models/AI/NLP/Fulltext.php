@@ -78,7 +78,7 @@ class Fulltext extends Model
         $sxt = '<pre>';
         foreach($ttt as $id=>$kb)
             {
-                $sxt .= $kb;
+                $sxt .= $kb.chr(13);
             }
         $sxt .= '</pre>';
         $st = '';
