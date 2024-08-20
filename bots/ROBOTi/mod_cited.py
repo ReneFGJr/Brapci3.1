@@ -27,8 +27,8 @@ def locate():
     row = database.query(qr)
 
     for line in row:
-        print(line[13])
-        DOI = mod_doi.encontrar_doi(line[12])
+        cite = line[13]
+        DOI = mod_doi.encontrar_doi(cite)
         print("==>DOI",DOI)
         if (DOI != ''):
             id = line[0]
