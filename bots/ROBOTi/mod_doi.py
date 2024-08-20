@@ -20,3 +20,4 @@ def locate():
     for line in row:
         print(line[12])
         DOI = encontrar_doi(line[12])
+        print("DOI",DOI)
