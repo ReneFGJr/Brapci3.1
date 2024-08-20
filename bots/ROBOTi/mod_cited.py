@@ -1,4 +1,5 @@
 import database
+import mod_doi
 import re
 
 def cited():
@@ -16,6 +17,20 @@ def cited():
         register(ID,REF)
         removeLiteral(ID,IDn)
         print(ID,IDn,REF)
+
+def locate():
+    qr = "select * from brapci_cited.cited_article "
+    qr += " where ca_doi = '' "
+    qr += " and ca_text like '%10.%' "
+    qr += " and ca_text like '%doi%' "
+    qr += "limit 10 "
+    row = database.query(qr)
+
+    for line in row:
+        print(line[12])
+        DOI = mod_doi.encontrar_doi(line[12])
+        print("DOI",DOI)
+
 
 def removeLiteral(ID,IDn):
     qr = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} and d_literal = {IDn} "

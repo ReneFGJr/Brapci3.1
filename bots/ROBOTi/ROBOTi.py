@@ -29,7 +29,6 @@ import mod_cited
 import mod_proceeding
 import mod_backup_mysql
 import mod_thesa
-import mod_doi
 from colorama import Fore
 
 def version():
@@ -132,7 +131,7 @@ def run(parm):
         lp = mod_ontology.resume()
 
     if (act == 'doi'):
-        lp = mod_doi.locate()
+        lp = mod_cited.locate()
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()

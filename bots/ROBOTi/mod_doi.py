@@ -11,16 +11,3 @@ def encontrar_doi(texto):
     if doi_encontrados:
         doi_encontrados = doi_encontrados[0]
     return doi_encontrados
-
-def locate():
-    qr = "select * from brapci_cited.cited_article "
-    qr += " where ca_doi = '' "
-    qr += " and ca_text like '%10.%' "
-    qr += " and ca_text like '%doi%' "
-    qr += "limit 10 "
-    row = database.query(qr)
-
-    for line in row:
-        print(line[12])
-        DOI = encontrar_doi(line[12])
-        print("DOI",DOI)
