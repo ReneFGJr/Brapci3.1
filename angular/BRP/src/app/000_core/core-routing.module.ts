@@ -1,3 +1,4 @@
+import { Chart } from 'chart.js/auto';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './000_main/main/main.component';
@@ -37,6 +38,12 @@ const routes: Routes = [
         (m) => m.Core100Module
       ),
   },
+  {
+    path: 'chat',
+    loadChildren: () =>
+      import('../995_chat_ai/chat.module').then((m) => m.ChatModule),
+  },
+
   {
     path: 'dataset',
     loadChildren: () =>
