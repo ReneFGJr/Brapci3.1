@@ -35,6 +35,10 @@ def year_identify(referencia):
     # Encontrar o ano na referência
     anos = ano_pattern.findall(referencia)
 
+def delete(ID):
+    qr = "delete from brapci_cited.cited_article where ca_rdf = "+ID
+    row = database.query(qr)
+
 
 def register(ID,REF):
     qr = "select * from brapci_cited.cited_article "

@@ -2,6 +2,7 @@ import os
 import mod_http
 import mod_xml_soup
 import mod_class
+import mod_cited
 import database
 
 diretorio = '/data/Brapci3.1/bots/ROBOTi'
@@ -28,8 +29,15 @@ def getCITED(url,ID):
 
     # Lista os metadados encontrados
     print("Citation References:")
+    cited = False
     for meta in cited:
+        cited = True
         print("=",meta.get('content'))
+
+    if cited == True:
+        print("Deleta citações autuais")
+        mod_cited.delete(ID)
+
 
 print("RASPAGEM DE CITACOES 1.1")
 
