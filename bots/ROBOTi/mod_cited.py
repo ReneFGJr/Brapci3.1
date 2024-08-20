@@ -3,6 +3,7 @@ import mod_doi
 import re
 
 def cited():
+    print("DOI - Localizando DOI nos metadados")
     qr = "select id_n, d_r1, n_name from brapci_rdf.rdf_literal "
     qr += "inner join brapci_rdf.rdf_data ON id_n = d_literal "
     qr += "where n_name like '%/*ref*/%'"
@@ -19,6 +20,7 @@ def cited():
         print(ID,IDn,REF)
 
 def locate():
+    print("DOI - Localizando DOI nas referencias")
     qr = "select * from brapci_cited.cited_article "
     qr += " where ca_doi = '' "
     qr += " and ca_text like '%10.%' "
