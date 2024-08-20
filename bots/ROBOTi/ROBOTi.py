@@ -131,7 +131,8 @@ def run(parm):
         lp = mod_ontology.resume()
 
     if (act == 'doi'):
-        lp = mod_cited.locate()
+        mod_cited.locate()
+        mod_cited.cited()
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
