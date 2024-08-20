@@ -18,7 +18,8 @@ def processID(ID):
     row = database.query(qr)
 
     for ln in row:
-        print(ln[0])
+        URL = ln[0]
+        getCITED(URL,ID)
 
 def getCITED(url,ID):
     html = mod_http.getURL(url)
