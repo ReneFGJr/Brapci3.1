@@ -112,7 +112,9 @@ class Index extends Model
 
     function show($id)
     {
-        $dt = $this->where('ca_rdf', $id)->findAll();
+        $dt = $this
+            ->where('ca_rdf', $id)
+            ->findAll();
     }
 
     function zera()
@@ -285,6 +287,7 @@ class Index extends Model
         $dt =
             $this
             ->where("ca_rdf", round($id))
+            ->where("ca_status <> 9")
             ->orderBy('ca_ordem')
             ->findAll();
 

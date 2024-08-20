@@ -19,6 +19,14 @@ def cited():
         removeLiteral(ID,IDn)
         print(ID,IDn,REF)
 
+def longCited():
+    print("Marcando citações muitos longas")
+    qu = "UPDATE "
+    qu += "brapci_cited.cited_article "
+    qu += " set ca_status = 9 "
+    qu += "WHERE LENGTH(ca_text) > 1000;"
+    database.update(qu)
+
 def locate():
     print("DOI - Localizando DOI nas referencias")
     qr = "select * from brapci_cited.cited_article "

@@ -133,6 +133,7 @@ def run(parm):
     if (act == 'doi'):
         mod_cited.locate()
         mod_cited.cited()
+        mod_cited.longCited()
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
