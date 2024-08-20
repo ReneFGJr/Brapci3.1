@@ -40,6 +40,7 @@ def getCITED(url,ID):
 
         for meta in cited:
             REF = meta.get('content')
+            REF = REF.replace("'","´")
             mod_cited.register(ID,REF)
 
 
