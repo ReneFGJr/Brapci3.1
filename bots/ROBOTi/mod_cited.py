@@ -23,7 +23,7 @@ def locate():
     qr += " where ca_doi = '' "
     qr += " and ca_text like '%10.%' "
     qr += " and ca_text like '%doi%' "
-    qr += "limit 1000 "
+    qr += "limit 10  "
     row = database.query(qr)
 
     for line in row:
