@@ -29,12 +29,12 @@ def getCITED(url,ID):
 
     # Lista os metadados encontrados
     print("Citation References:")
-    cited = False
+    cites = False
     for meta in cited:
-        cited = True
+        cites = True
         print("=",meta.get('content'))
 
-    if cited == True:
+    if cites == True:
         print("Deleta citações autuais")
         mod_cited.delete(ID)
 
