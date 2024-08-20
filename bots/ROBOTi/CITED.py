@@ -40,7 +40,7 @@ def getCITED(url,ID):
 
         for meta in cited:
             REF = meta.get('content')
-            mod_cited.register(ID,REF):
+            mod_cited.register(ID,REF)
 
 
 print("RASPAGEM DE CITACOES 1.1")
