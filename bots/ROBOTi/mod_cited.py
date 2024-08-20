@@ -27,7 +27,7 @@ def locate():
     row = database.query(qr)
 
     for line in row:
-        print(line[12])
+        print(line[13])
         DOI = mod_doi.encontrar_doi(line[12])
         print("==>DOI",DOI)
         if (DOI != ''):
