@@ -38,6 +38,10 @@ def getCITED(url,ID):
         print("Deleta citações autuais")
         mod_cited.delete(ID)
 
+        for meta in cited:
+            REF = meta.get('content')
+            mod_cited.register(ID,REF):
+
 
 print("RASPAGEM DE CITACOES 1.1")
 
