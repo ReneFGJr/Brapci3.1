@@ -36,7 +36,7 @@ def locate():
 
 def update_cited_doi(id,DOI):
     qu = "update brapci_cited.cited_article "
-    qu += f" set cad_doi = '{DOI}' "
+    qu += f" set ca_doi = '{DOI}' "
     qu += f" where id_ca = {id}"
     database.update(qu)
 
