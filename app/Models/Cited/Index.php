@@ -287,7 +287,7 @@ class Index extends Model
         $dt =
             $this
             ->where("ca_rdf", round($id))
-            ->where("ca_status <> 9")
+            ->where("ca_status < 9")
             ->orderBy('ca_ordem')
             ->findAll();
 
