@@ -74,9 +74,15 @@ class Fulltext extends Model
         $txt = file_get_contents($files[1]);
         $txt = $this->process($txt);
         $ttt = explode(chr(10),$txt);
-        pre($ttt);
+
+        $sxt = '<pre>';
+        foreach($ttt as $id=>$kb)
+            {
+                $sxt .= $kb;
+            }
+        $sxt .= '</pre>';
         $st = '';
-        $sx .= bsc($txt, 8, 'small');
+        $sx .= bsc($sxt, 8, 'small');
         $sx .= bsc($st, 4);
         $sx = bs($sx);
 
