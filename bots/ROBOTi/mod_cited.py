@@ -30,7 +30,15 @@ def locate():
         print(line[12])
         DOI = mod_doi.encontrar_doi(line[12])
         print("DOI",DOI)
+        if (DOI != ''):
+            id = line[0]
+            update_cited_doi(id,DOI)
 
+def update_cited_doi(id,DOI):
+    qu = "update brapci_cited.cited_article "
+    qu += f" set cad_doi = '{DOI} "
+    qu += f" where id_ca = {id}"
+    print("QUERY",qu)
 
 def removeLiteral(ID,IDn):
     qr = f"delete from brapci_rdf.rdf_data where d_r1 = {ID} and d_literal = {IDn} "
