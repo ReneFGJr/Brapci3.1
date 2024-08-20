@@ -16,4 +16,7 @@ def locate():
     qr += " and ca_text like '%10.%' "
     qr += "limit 10 "
     row = database.query(qr)
-    print(row)
+
+    for line in row:
+        print(line[12])
+        DOI = encontrar_doi(line[12])
