@@ -8,6 +8,8 @@ def encontrar_doi(texto):
     # Procurar todos os DOI's no texto
     doi_encontrados = re.findall(padrao_doi, texto, re.IGNORECASE)
 
+    if doi_encontrados:
+        doi_encontrados = doi_encontrados[0]
     return doi_encontrados
 
 def locate():
