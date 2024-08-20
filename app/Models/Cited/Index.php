@@ -123,7 +123,7 @@ class Index extends Model
 
     function citation_by_author($ida, $type = '')
     {
-        $rdf = new rdf;
+        $rdf = new \App\Models\RDF2\RDF();
         $dt = $rdf->le_data($ida);
         $ob = $rdf->extract_id($dt, 'hasAuthor', $ida);
         return ($ob);
@@ -310,6 +310,7 @@ class Index extends Model
                     $sx .= '</li>';
                 } else {
                     $sx .= '<li>' . $l['ca_text'];
+                    $sx .= ' ' . $this->cited_type($l);
                 }
                 $sx .= '</li>';
             }
