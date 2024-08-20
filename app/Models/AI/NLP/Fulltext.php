@@ -52,6 +52,9 @@ class Fulltext extends Model
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/CITED.py ' . $d2;
+        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
+
         $sx .= '<tt>'.$cmd.'</tt>';
 
         $files = $this->files($d2);
@@ -85,6 +88,8 @@ class Fulltext extends Model
         $sx .= bsc($sxt, 8, 'small');
         $sx .= bsc($st, 4);
         $sx = bs($sx);
+
+        /* Citacoes */
 
         return $sx;
     }
