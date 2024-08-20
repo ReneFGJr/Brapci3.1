@@ -14,6 +14,7 @@ def locate():
     qr = "select * from brapci_cited.cited_article "
     qr += " where ca_doi = '' "
     qr += " and ca_text like '%10.%' "
+    qr += " and ca_text like '%doi%' "
     qr += "limit 10 "
     row = database.query(qr)
 
