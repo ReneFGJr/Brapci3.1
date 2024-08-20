@@ -20,6 +20,7 @@ def processID(ID):
 
     for ln in row:
         URL = ln[0]
+        print("Recuperando ",URL)
         getCITED(URL,ID)
 
 def getCITED(url,ID):
