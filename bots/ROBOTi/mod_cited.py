@@ -23,13 +23,13 @@ def locate():
     qr += " where ca_doi = '' "
     qr += " and ca_text like '%10.%' "
     qr += " and ca_text like '%doi%' "
-    qr += "limit 10 "
+    qr += "limit 1000 "
     row = database.query(qr)
 
     for line in row:
         print(line[12])
         DOI = mod_doi.encontrar_doi(line[12])
-        print("DOI",DOI)
+        print("==>DOI",DOI)
         if (DOI != ''):
             id = line[0]
             update_cited_doi(id,DOI)
