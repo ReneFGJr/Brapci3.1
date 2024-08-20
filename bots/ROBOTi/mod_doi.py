@@ -12,7 +12,7 @@ def encontrar_doi(texto):
 
 def locate():
     qr = "select * from brapci_cited.cited_article "
-    qr += " where ca_doi == '' "
+    qr += " where ca_doi = '' "
     qr += " and ca_text like '%10.%' "
     qr += "limit 10 "
     row = database.query(qr)
