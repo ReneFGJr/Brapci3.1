@@ -1,28 +1,34 @@
-.chat-window {
-  border: 1px solid #ccc;
-  padding: 10px;
-  width: 400px;
-  height: 500px;
+.chat-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
 .messages {
+  flex: 1;
   overflow-y: auto;
-  flex-grow: 1;
   margin-bottom: 10px;
 }
 
-.input-area {
+.message {
+  margin-bottom: 5px;
+}
+
+.input-container {
   display: flex;
 }
 
 input {
   flex: 1;
-  padding: 5px;
+  padding: 10px;
+  font-size: 16px;
 }
 
 button {
-  padding: 5px 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }

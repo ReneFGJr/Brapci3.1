@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ChatServiceService } from '../../service/chat-service.service';
+import { HttpHeaders } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-home-chat',
@@ -7,23 +9,36 @@ import { ChatServiceService } from '../../service/chat-service.service';
   styleUrls: ['./home-chat.component.scss'],
 })
 export class HomeChatComponent {
-  messages: Array<{ user: string; text: string }> = [];
-  messageText: string = '';
+  messages: { user: string; text: string }[] = [];
+  userMessage: string = '';
 
   constructor(private chatService: ChatServiceService) {}
 
-  sendMessage() {
-    if (this.messageText.trim() === '') return;
+  async sendMessage() {
+    if (this.userMessage.trim()) {
+      // Adiciona a mensagem do usuário ao chat
+      this.messages.push({ user: 'Você', text: this.userMessage });
 
-    this.messages.push({ user: 'You', text: this.messageText });
+      try {
+        // Envia a mensagem para a API e espera a resposta síncrona
+        const response = await this.chatService.sendMessageSync(
+          this.userMessage
+        );
 
-    this.chatService.sendMessage(this.messageText).subscribe((response) => {
-      this.messages.push({
-        user: 'Ollama',
-        text: response.response || 'Erro na resposta',
-      });
-    });
+        console.log(response)
 
-    this.messageText = '';
+        // Adiciona a resposta completa da API ao chat
+        this.messages.push({ user: 'Ollama', text: response });
+      } catch (error) {
+        // Trata erros na resposta da API
+        this.messages.push({
+          user: 'Ollama',
+          text: 'Erro ao processar a mensagem.',
+        });
+      }
+
+      // Limpa o campo de entrada do usuário
+      this.userMessage = '';
+    }
   }
 }
