@@ -82,6 +82,11 @@ class Index extends Model
 		$sx = h(trim(trim('AI ' . $act) . ' ' . $subact));
 
 		switch ($act) {
+			case 'ai':
+				$API = new \App\Models\AI\Index();
+				$sx .= $API->index($subact, $d1, $d2);
+				break;
+
 			case 'authority':
 				switch ($subact) {
 					case 'nameLowerCase':
