@@ -59,24 +59,12 @@ class Ai extends Model
         }
 
         switch ($d2) {
-            case 'vitrine':
-                $Book = new \App\Models\Base\Book();
-                $dt = $Book->vitrine('');
-                echo json_encode($dt);
-                exit;
+            case 'chat':
+                $RSP = [];
+                $CHAT = new \App\Models\AI\Chatbot\Index();
+                return $CHAT->chatQueryOllama($act, $subact);
                 break;
-            case 'submit':
-                $PS = array_merge($_POST, $_GET);
-                $booksSubmit = new \App\Models\Books\BooksSubmit();
-                $dt = $booksSubmit->register();
-                echo json_encode($dt);
-                exit;
-                break;
-            case 'isbn':
-                $isbn = $d3;
-                $BooksServer = new \App\Models\BooksServer\Books();
-                $RSP = $BooksServer->search($isbn, '');
-                break;
+
             default:
                 $RSP['status'] = '500';
                 $RSP['message'] = 'Método não existe - ' . $d2;
