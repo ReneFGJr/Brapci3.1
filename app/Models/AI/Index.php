@@ -79,12 +79,12 @@ class Index extends Model
 
 	function index($act = '', $subact = '', $d1 = '', $d2 = '')
 	{
-		$sx = h(trim(trim('AI ' . $act) . ' ' . $subact));
-
 		switch ($act) {
-			case 'ai':
-				$API = new \App\Models\AI\Index();
-				$sx .= $API->index($subact, $d1, $d2);
+			case 'chat':
+				$API = new \App\Models\AI\Chatbot\Index();
+				$RSP = $API->index($act, $subact, $d1, $d2);
+				echo json_encode($RSP);
+				exit;
 				break;
 
 			case 'authority':
@@ -135,40 +135,23 @@ class Index extends Model
 				break;
 
 			default:
-				$sx = $this->menu();
+				$this->menu();
+				exit;
 				break;
 		}
-		$sx = bs(bsc($sx, 12));
-		return $sx;
+
+		return [];
 	}
 
 	function menu()
 	{
+		$menu = [];
+		$menu['/api/ai/chat'] = 'Chat Ollama';
+		$menu['/api/ai/authority'] = 'Authority';
 
-		$menu['#AI - TERMS'] = 'AI (Terms)';
-		$menu[PATH . COLLECTION . '/wiki/'] = lang('ai.wiki');
+		echo json_encode($menu);
+		exit;
 
-		$menu['#AI'] = 'AI';
-		$menu[PATH . COLLECTION . '/file/upload'] = lang('ai.files_upload');
-		$menu[PATH . COLLECTION . '/file/pdf_to_text'] = lang('ai.files_pdf_to_text');
-		$menu[PATH . COLLECTION . '/nlp/book_sumary'] = lang('ai.book_sumary_identify');
-		$menu[PATH . COLLECTION . '/nlp/fulltext'] = lang('ai.fulltext_format');
-		$menu[PATH . COLLECTION . '/nlp/text_speech'] = lang('ai.text_speech');
-
-		$menu['#AI'] = 'AI & NLP';
-		$menu[PATH . COLLECTION . '/nlp/language'] = lang('ai.language');
-
-		$menu['#CHARBOT'] = lang('ai.chat_bot');
-		$menu[PATH . COLLECTION . '/chat/analyse'] = lang('ai.chat_analyse');
-		$menu[PATH . COLLECTION . '/skos'] = lang('ai.skos');
-
-		$sx = '';
-
-		$sx .= MENU($menu);
-		$img = '<img src="' . URL . '/img/chat/chat_boot.png" style="height: 50px;">';
-
-		$sx .= onclick(PATH . COLLECTION . '/chat', 800, 700, 'btn btn-outline-primary') . $img . 'ChatBot</span>';
-
-		return $sx;
+		return "";
 	}
 }

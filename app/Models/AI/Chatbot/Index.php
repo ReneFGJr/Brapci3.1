@@ -44,6 +44,22 @@ class Index extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	function index($d1)
+		{
+			$RSP = [];
+			$RSP['status'] = '500';
+			$RSP['message'] = 'Function '.$d1.' not exist';
+			switch($d1)
+				{
+					case 'chat':
+						$RSP['act'] = 'chat';
+						$RSP['status'] = '200';
+						$RSP['message'] = $this->chatQueryOllama();
+						break;
+				}
+			return $RSP;
+		}
+
 	function analyse()
 	{
 		$Analyse = new \App\Models\AI\Chatbot\Analyse();
@@ -53,14 +69,14 @@ class Index extends Model
 
 	function chatQueryOllama()
 	{
+		$TXT = '';
 		// URL do endpoint
 		$endpoint = "http://143.54.112.91:11434/api/generate";
 
 		// Verifica se o formulário foi enviado
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			// Obtém a mensagem enviada pelo usuário
-			$message = $_POST['message'];
-
+		$message = get("message");
+		if ($message != '')
+		{
 			// Configura os dados para envio
 			$data = array(
 				'model' => 'llama3',
@@ -92,6 +108,9 @@ class Index extends Model
 					$TXT .= (string)$response_data['response'];
 				}
 			}
+		} else {
+			echo json_encode('Pergunta vazia');
+			exit;
 		}
 		return $TXT;
 	}

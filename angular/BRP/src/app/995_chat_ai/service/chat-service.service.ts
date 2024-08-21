@@ -7,7 +7,7 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ChatServiceService {
-  private apiUrl = 'http://143.54.112.91:11434/api/generate';
+  private apiUrl = 'https://cip.brapci.inf.br/api/ai/chat';
 
   constructor(private http: HttpClient) {}
 
