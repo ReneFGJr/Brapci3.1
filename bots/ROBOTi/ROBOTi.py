@@ -134,6 +134,7 @@ def run(parm):
         mod_cited.locate()
         mod_cited.cited()
         mod_cited.longCited()
+        mod_cited.categorizeCited()
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()

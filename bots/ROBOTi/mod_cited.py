@@ -2,6 +2,18 @@ import database
 import mod_doi
 import re
 
+def categorizeCited():
+    print("Categorize Cited")
+    qr = "select * from brapci_cited.cited_article "
+    qr += " where ca_status = 0 "
+    qr += " and ca_tipo = 1 od ca_tipo is null "
+    qr += " order by id_ca "
+    qr += " limit 10 "
+    row = database.query(qr)
+
+    for line in row:
+        print(row)
+
 def cited():
     print("DOI - Localizando DOI nos metadados")
     qr = "select id_n, d_r1, n_name from brapci_rdf.rdf_literal "
