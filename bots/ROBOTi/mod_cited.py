@@ -15,7 +15,8 @@ def categorizeCited():
     for line in row:
         print(line)
         message = 'Com base nas categorias: Identifique o tipo dessa fonte e o ano da publicação, os tipos são: "Não Identificado" como "NI"; "Artigos" como "ARTICLE"; "Livro" como "BOOK"; "Cap. Livro" como "BOOK.CAP"; "Anais de eventos" como "PROCEEDINGS"; "Tese" como "THESE"; "Dissertação" como "DISSERTATION"; "TCC" como "TCC"; "Link de internet" como "LINK"; "Journal Diário" como "NEWSPAPPER"; "Filme" como "MOVIE"; "Revista semanal (Entreterimento)" como "MAGAZINE"; "Leis" como "LAW"; "Relatórios" como "REPORT"; "Normas técnicas" como "STANDART"; "Entrevista" como "INTERVIEW"; "Software" como "SOFTWARE"; "Patentes" como "PATENT"; "Base de dados" como "DATABASE"; "Notas de Pesquisa / Outros" como "OTHER"; "Nulo - Null" como "NULL";  Responda apenas o tipo, ponto e virgula e o ano, , informe número do grau de certeza de 0 a 9 entre colchetes, sendo o 0 menos confiável. A referência é '
-        message += line[0]
+        message += line[1]
+        ID = line[0]
 
         print("==========================================================")
         print(message)
