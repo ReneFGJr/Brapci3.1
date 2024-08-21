@@ -7,7 +7,8 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ChatServiceService {
-  private apiUrl = 'https://cip.brapci.inf.br/api/ai/chat';
+  //private apiUrl = 'https://cip.brapci.inf.br/api/ai/chat';
+  private apiUrl = 'http://brp/api/ai/chat';
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +21,9 @@ export class ChatServiceService {
       model: 'llama3',
       prompt: message,
     };
+
+    console.log('API', this.apiUrl);
+    console.log('BODY', body);
 
     try {
       const response = await firstValueFrom(

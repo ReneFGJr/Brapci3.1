@@ -83,8 +83,7 @@ class Index extends Model
 			case 'chat':
 				$API = new \App\Models\AI\Chatbot\Index();
 				$RSP = $API->index($act, $subact, $d1, $d2);
-				echo json_encode($RSP);
-				exit;
+				return $RSP;
 				break;
 
 			case 'authority':

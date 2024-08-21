@@ -57,7 +57,8 @@ class Index extends Model
 						$RSP['message'] = $this->chatQueryOllama();
 						break;
 				}
-			return $RSP;
+			echo json_encode($RSP);
+			exit;
 		}
 
 	function analyse()
@@ -70,6 +71,7 @@ class Index extends Model
 	function chatQueryOllama()
 	{
 		$TXT = '';
+		return 'teste';
 		// URL do endpoint
 		$endpoint = "http://143.54.112.91:11434/api/generate";
 
@@ -109,7 +111,7 @@ class Index extends Model
 				}
 			}
 		} else {
-			echo json_encode('Pergunta vazia');
+			echo json_encode(['message'=>'Pergunta vazia']);
 			exit;
 		}
 		return $TXT;
