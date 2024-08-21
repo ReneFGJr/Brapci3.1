@@ -17,7 +17,7 @@ export class ToolsIconsComponent {
     { name: 'Convert .net para Gephi)', url: 'net4gephi', type: 'T' },
   ];
 
-  public books = [
-    { name: 'Montar sumário', url: 'summary', type: 'T' },
-  ];
+  public books = [{ name: 'Montar sumário', url: 'summary', type: 'T' }];
+
+  public IA = [{ name: 'Chat', url: 'chat', type: 'T' }];
 }

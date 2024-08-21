@@ -15,7 +15,9 @@ class Index extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_m', 'm_message','m_ip'
+		'id_m',
+		'm_message',
+		'm_ip'
 	];
 
 	// Dates
@@ -43,47 +45,91 @@ class Index extends Model
 	protected $afterDelete          = [];
 
 	function analyse()
-		{
-			$Analyse = new \App\Models\AI\Chatbot\Analyse();
-			$sx = $Analyse->user_answers();
-			return $sx;
+	{
+		$Analyse = new \App\Models\AI\Chatbot\Analyse();
+		$sx = $Analyse->user_answers();
+		return $sx;
+	}
+
+	function chatQueryOllama()
+	{
+		// URL do endpoint
+		$endpoint = "http://143.54.112.91:11434/api/generate";
+
+		// Verifica se o formulário foi enviado
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			// Obtém a mensagem enviada pelo usuário
+			$message = $_POST['message'];
+
+			// Configura os dados para envio
+			$data = array(
+				'model' => 'llama3',
+				'prompt' => $message
+			);
+
+			// Inicializa o cURL
+			$ch = curl_init($endpoint);
+
+			// Configura as opções do cURL
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_POST, true);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+			// Executa a requisição e obtém a resposta
+			$response = curl_exec($ch);
+
+			// Fecha a sessão do cURL
+			curl_close($ch);
+
+			$RSP = explode('}', $response);
+			$TXT = '';
+
+			// Decodifica a resposta JSON
+			foreach ($RSP as $id => $txt) {
+				$response_data = json_decode($txt . '}', true);
+				if (isset($response_data['response'])) {
+					$TXT .= (string)$response_data['response'];
+				}
+			}
 		}
+		return $TXT;
+	}
 
 	function chat()
-		{
-			$sx = $this->chart_html();
-			echo '==>'.$sx;
-			exit;
-		}
+	{
+		$sx = $this->chart_html();
+		echo '==>' . $sx;
+		exit;
+	}
 
 	function query()
-		{
-			$name_bot = '<b>Bot:</b> ';
-			$dd = array();
-			//echo '===>'.$_POST['messageValue'];
-			$key = get("msg");
+	{
+		$name_bot = '<b>Bot:</b> ';
+		$dd = array();
+		//echo '===>'.$_POST['messageValue'];
+		$key = get("msg");
 
-			echo '<div class="text-right text-end"><span class="btn btn-primary p-1 text-right">&nbsp;'.$key. '&nbsp;</span></div>';
+		echo '<div class="text-right text-end"><span class="btn btn-primary p-1 text-right">&nbsp;' . $key . '&nbsp;</span></div>';
 
-			/************* Ativa LOG */
-			if (strlen($key != ''))
-				{
-					$dd['m_message'] = $key;
-					$dd['m_ip'] = ip();
-					//$this->insert($dd);
-				}
-
-			/*********************************** METHOD_AI */
-			$Method = new \App\Models\AI\Chatbot\ChatbotMethod();
-			echo $Method->index($key);
-
-			echo $name_bot;
-			echo lang('brapci.chat_down_know').' <i>'.$key. '</i>.';
-			exit;
+		/************* Ativa LOG */
+		if (strlen($key != '')) {
+			$dd['m_message'] = $key;
+			$dd['m_ip'] = ip();
+			//$this->insert($dd);
 		}
 
+		/*********************************** METHOD_AI */
+		$Method = new \App\Models\AI\Chatbot\ChatbotMethod();
+		echo $Method->index($key);
 
-/*
+		echo $name_bot;
+		echo lang('brapci.chat_down_know') . ' <i>' . $key . '</i>.';
+		exit;
+	}
+
+
+	/*
 conversa.train([
     'Oi?',
     'Eae, tudo certo?',
@@ -120,12 +166,12 @@ conversa.train([
 	function chart_html()
 	{
 		$id = 0;
-		$idade = '&nbsp;&nbsp;<sup style="font-size: 50%;">Idade Mental: '.$id.' anos</sup>';
+		$idade = '&nbsp;&nbsp;<sup style="font-size: 50%;">Idade Mental: ' . $id . ' anos</sup>';
 		$data['title'] = 'Chatbot';
-		$sx = view('Brapci/Headers/header',$data);
+		$sx = view('Brapci/Headers/header', $data);
 
 		/*************************************************************************** Header ****/
-		$sx .= bs(bsc('Chatbot' . $idade,12, 'h1 text-center bg-ai fixed-top p-2 text-white '));
+		$sx .= bs(bsc('Chatbot' . $idade, 12, 'h1 text-center bg-ai fixed-top p-2 text-white '));
 
 		/*************************************************************************** DashBoard */
 		$sa = '
@@ -188,6 +234,6 @@ conversa.train([
 				document.querySelector("#send").addEventListener("click", async () => { send(); });
 			</script>';
 
-			return $sx.$js;
+		return $sx . $js;
 	}
 }

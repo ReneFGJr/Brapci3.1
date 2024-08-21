@@ -82,6 +82,11 @@ class Index extends Model
 		$sx = h(trim(trim('AI ' . $act) . ' ' . $subact));
 
 		switch ($act) {
+			case 'chat':
+				$RSP = [];
+				$CHAT = new \App\Models\AI\Chatbot\Index();
+				return $CHAT->chatQueryOllama($act,$subact);
+				break;
 			case 'authority':
 				switch ($subact) {
 					case 'nameLowerCase':

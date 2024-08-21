@@ -64,6 +64,14 @@ class Index extends Model
 
         switch ($d1) {
 
+            case 'ai':
+                $AI = new \App\Models\AI\Index();
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['message'] = 'Service OK!';
+                $RSP = $AI->index($d2,$d3);
+                echo json_encode($RSP);
+                break;
             case 'status':
                 $RSP = [];
                 $RSP['status'] = '200';
