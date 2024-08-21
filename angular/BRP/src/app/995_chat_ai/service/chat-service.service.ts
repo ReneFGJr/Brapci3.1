@@ -1,27 +1,74 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { firstValueFrom, Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatServiceService {
-  private apiUrl = 'http://143.54.112.91:11434/api/generate'; // Substitua pela URL correta da API do Ollama
+  private apiUrl = 'http://143.54.112.91:11434/api/generate';
 
   constructor(private http: HttpClient) {}
+
+  async sendMessageSync(message: string): Promise<string> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const body = {
+      model: 'llama3',
+      prompt: message,
+    };
+
+    try {
+      const response = await firstValueFrom(
+        this.http
+          .post(this.apiUrl, body, { headers, responseType: 'text' })
+          .pipe(
+            map((response) => {
+              const parsedResponses = response
+                .split('\n')
+                .map((resp) => JSON.parse(resp));
+              const fullResponse = parsedResponses
+                .map((resp) => resp.response)
+                .join('');
+              return fullResponse;
+            })
+          )
+      );
+      return response;
+    } catch (error) {
+      console.error('Erro ao enviar mensagem:', error);
+      throw error;
+    }
+  }
 
   sendMessage(message: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      // Adicione outros headers, se necessário, como autenticação
     });
 
     const body = {
+      model: 'llama3', // Ajuste conforme necessário
       prompt: message,
-      model: "llama3"
-      // Adicione outros parâmetros conforme a especificação da API do Ollama
     };
 
-    return this.http.post<any>(this.apiUrl, body, { headers });
+    return this.http
+      .post(this.apiUrl, body, { headers, responseType: 'text' })
+      .pipe(
+        map((response) => {
+          try {
+            return JSON.parse(response); // Tenta fazer o parse da resposta como JSON
+          } catch (e) {
+            console.error('Falha ao fazer parse da resposta:', e);
+            return response; // Retorna a resposta bruta caso não seja JSON
+          }
+        }),
+        catchError((error) => {
+          console.error('Erro ao enviar mensagem:', error);
+          throw error; // Repassa o erro para ser tratado onde a função é chamada
+        })
+      );
   }
 }
