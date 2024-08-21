@@ -4,7 +4,7 @@ import re
 
 def categorizeCited():
     print("Categorize Cited")
-    qr = "select * from brapci_cited.cited_article "
+    qr = "select id_ca, ca_text from brapci_cited.cited_article "
     qr += " where ca_status = 0 "
     qr += " and (ca_tipo = 1 or ca_tipo is null) "
     qr += " order by id_ca "
