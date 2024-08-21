@@ -63,7 +63,6 @@ class Index extends Model
         }
 
         switch ($d1) {
-
             case 'ai':
                 $AI = new \App\Models\AI\Index();
                 $RSP = [];
