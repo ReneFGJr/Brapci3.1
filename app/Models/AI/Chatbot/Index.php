@@ -71,7 +71,7 @@ class Index extends Model
 	function chatQueryOllama()
 	{
 		$TXT = '';
-		return 'teste';
+
 		// URL do endpoint
 		$endpoint = "http://143.54.112.91:11434/api/generate";
 

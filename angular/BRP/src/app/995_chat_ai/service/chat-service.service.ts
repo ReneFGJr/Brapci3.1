@@ -15,11 +15,14 @@ export class ChatServiceService {
   async sendMessageSync(message: string): Promise<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': 'false',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE',
     });
 
     const body = {
-      model: 'llama3',
-      prompt: message,
+      message: message,
     };
 
     console.log('API', this.apiUrl);
