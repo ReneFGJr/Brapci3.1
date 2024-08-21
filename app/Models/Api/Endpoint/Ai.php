@@ -62,18 +62,12 @@ class Ai extends Model
             case 'chat':
                 $RSP = [];
                 $CHAT = new \App\Models\AI\Chatbot\Index();
-                return $CHAT->chatQueryOllama($act, $subact);
+                return $CHAT->chatQueryOllama($d1, $d2);
                 break;
 
             default:
                 $RSP['status'] = '500';
                 $RSP['message'] = 'Método não existe - ' . $d2;
-                $ISBN = new \App\Models\Functions\Isbn();
-                $isbn = get("isbn");
-                if ($isbn != '') {
-                    $BooksServer = new \App\Models\BooksServer\Books();
-                    $RSP = $BooksServer->search($isbn, '');
-                }
                 break;
         }
         echo json_encode($RSP);
