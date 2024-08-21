@@ -134,6 +134,8 @@ def run(parm):
         mod_cited.locate()
         mod_cited.cited()
         mod_cited.longCited()
+
+    if (act == 'cited'):
         mod_cited.categorizeCited()
 
     if (act == 'ontology'):
