@@ -1,7 +1,7 @@
 <?php
 /*
 @category API
-@package Brapci Book
+@package Brapci AI
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2022 CC-BY
