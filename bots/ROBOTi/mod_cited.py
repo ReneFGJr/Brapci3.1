@@ -22,7 +22,7 @@ def categorizeCited():
         message += '"Relatórios" como "REPORT"; "Normas técnicas" como "STANDART"; "Entrevista" como "INTERVIEW"; '
         message += '"Software" como "SOFTWARE"; "Patentes" como "PATENT"; "Base de dados" como "DATABASE"; '
         message += '"Notas de Pesquisa / Outros" como "OTHER"; "Nulo - Null" como "NULL". '
-        message += 'Se identificar duas obras na mesma referencia, sinalize com o grau de certeza igual a -1. '
+        message += 'Caso duas referências sinalize com o grau de certeza igual a -1. '
         message += 'Seja o mais preciso na analise. '
         message += 'Responda apenas o tipo, ponto e virgula e o ano da publicação, ponto e virgula e um valor entre 0 a 9 para o grau de certeza, sendo 0 menos confiável. '
         message += 'A referência é: '
