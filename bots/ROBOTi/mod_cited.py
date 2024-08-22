@@ -34,7 +34,12 @@ def categorizeCited():
         print("==========================================================")
         print(line[1])
         print("Bot: ")
-        mod_ai_brapci.chat(message)
+        RSP = mod_ai_brapci.chat(message)
+        print("===",RSP)
+        tipo = '1'
+        year = '9999'
+        qu = f"update brapci_cited.cited_article set ca_tipo = '{tipo}, ca_year = '{year}', ca_ai = 1"
+        print(qu)
 
 def cited():
     print("DOI - Localizando DOI nos metadados")

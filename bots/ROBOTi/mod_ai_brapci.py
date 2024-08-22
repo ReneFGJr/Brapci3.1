@@ -15,7 +15,8 @@ def chat(message):
     if response.status_code == 200:
         # Se a requisição for bem-sucedida, processar o JSON retornado
         data = response.json()
-        print(data)
+        return data
     else:
         # Caso haja um erro, exibir o status code
         print(f"Erro: {response.status_code}")
+        return "ERRO"

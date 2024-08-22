@@ -126,7 +126,7 @@ class Index extends Model
 		$T = explode('#',$TXT);
 		if (count($T) > 2)
 			{
-				$TXT = "DUPLO ".(count($T));
+				$TXT = "ERRO;0;".(count($T));
 			}
 		$TXT = troca($TXT, ' ', '');
 		$TXT = troca($TXT, '#', '');
