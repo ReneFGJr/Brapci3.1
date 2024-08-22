@@ -24,7 +24,7 @@ def categorizeCited():
         message += '"Notas de Pesquisa / Outros" como "OTHER"; "Nulo - Null" como "NULL". '
         message += 'Caso haja dúvida na referência marque o grau de certeza igual a -1. '
         message += 'Quanto mais adequado a referência, maior será o seu grau de certeza. '
-        message += 'Seja o mais preciso na analise. '
+        message += 'Seja Claro e Específico na analise. '
         message += 'Responda apenas o tipo, ponto e virgula e o ano da publicação, ponto e virgula e um valor entre 0 a 9 para o grau de certeza. '
         message += 'A referência é: '
         message += line[1]
