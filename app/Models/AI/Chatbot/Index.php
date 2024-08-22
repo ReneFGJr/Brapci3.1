@@ -125,6 +125,8 @@ class Index extends Model
 			{
 				$TXT = "DUPLO";
 			}
+		$TXT = troca($TXT,'/n','');
+		$TXT = troca($TXT, ' ', '');
 
 		return $TXT;
 	}
