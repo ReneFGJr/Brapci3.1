@@ -13,7 +13,6 @@ def categorizeCited():
     row = database.query(qr)
 
     for line in row:
-        print(line)
         message = 'Com base nas categorias: Identifique o tipo dessa fonte e o ano da publicação, os tipos são: '
         message += '"Não Identificado" como "NI"; "Artigos" como "ARTICLE"; "Livro" como "BOOK"; '
         message += '"Cap. Livro" como "BOOK.CAP"; "Anais de eventos" como "PROCEEDINGS"; "Tese" como "THESE"; '
