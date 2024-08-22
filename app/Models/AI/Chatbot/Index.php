@@ -120,8 +120,11 @@ class Index extends Model
 			exit;
 		}
 
-		$ss = json_decode($TXT);
-		pre($ss);
+		$T = explode('/n',$TXT);
+		if (count($T) > 1)
+			{
+				$TXT = "DUPLO";
+			}
 
 		return $TXT;
 	}
