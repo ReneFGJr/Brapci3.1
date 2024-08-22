@@ -81,7 +81,8 @@ class Index extends Model
 		{
 			// Configura os dados para envio
 			$data = array(
-				'model' => 'llama3',
+				//'model' => 'llama3',
+				'model' => 'gemma2',
 				'prompt' => $message
 			);
 
