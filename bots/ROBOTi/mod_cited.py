@@ -23,7 +23,8 @@ def categorizeCited():
         message += '"Relatórios" como "REPORT"; "Normas técnicas" como "STANDART"; "Entrevista" como "INTERVIEW"; '
         message += '"Software" como "SOFTWARE"; "Patentes" como "PATENT"; "Base de dados" como "DATABASE"; '
         message += '"Notas de Pesquisa / Outros" como "OTHER"; "Nulo - Null" como "NULL". '
-        message += 'Responda apenas o tipo, ponto e virgula e o ano da publicação e um número 0 a 9 sobre o grau de certeza, sendo o 0 menos confiável. A referência é '
+        message += 'Responda apenas o tipo, ponto e virgula e o ano da publicação, ponto e virgula e um valor entre 0 a 9 para o grau de certeza, sendo 0 menos confiável. '
+        message += 'A referência é: '
         message += line[1]
         ID = line[0]
 
