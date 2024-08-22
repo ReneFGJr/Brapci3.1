@@ -66,12 +66,8 @@ class Index extends Model
 		$Analyse = new \App\Models\AI\Chatbot\Analyse();
 		$sx = $Analyse->user_answers();
 
-		/********************************  */
-		$ss = '';
-		$js = json_decode($sx);
-		pre($js);
-
-		return $ss;
+		/******************************** */
+		return $sx;
 	}
 
 	function chatQueryOllama()
@@ -123,6 +119,9 @@ class Index extends Model
 			echo json_encode(['message'=>'Pergunta vazia']);
 			exit;
 		}
+
+		$ss = json_decode($TXT);
+		pre($ss);
 
 		return $TXT;
 	}
