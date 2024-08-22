@@ -124,7 +124,7 @@ class Index extends Model
 		$TXT = troca($TXT, chr(10), '#');
 
 		$T = explode('#',$TXT);
-		if (count($T) > 1)
+		if (count($T) > 2)
 			{
 				$TXT = "DUPLO ".(count($T));
 			}
