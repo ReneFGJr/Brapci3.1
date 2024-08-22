@@ -120,12 +120,14 @@ class Index extends Model
 			exit;
 		}
 
-		$T = explode('/n',$TXT);
+		$TXT = troca($TXT,chr(13),'#');
+		$TXT = troca($TXT, chr(10), '#');
+
+		$T = explode('#',$TXT);
 		if (count($T) > 1)
 			{
 				$TXT = "DUPLO";
 			}
-		$TXT = troca($TXT,'/n','');
 		$TXT = troca($TXT, ' ', '');
 
 		return $TXT;
