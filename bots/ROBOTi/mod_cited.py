@@ -23,6 +23,7 @@ def categorizeCited():
         message += '"Software" como "SOFTWARE"; "Patentes" como "PATENT"; "Base de dados" como "DATABASE"; '
         message += '"Notas de Pesquisa / Outros" como "OTHER"; "Nulo - Null" como "NULL". '
         message += 'Se identificar um erro, ou referencia duplicada, sinalize com o grau de certeza igual a -1. '
+        message += 'Seja o mais preciso na analise. '
         message += 'Responda apenas o tipo, ponto e virgula e o ano da publicação, ponto e virgula e um valor entre 0 a 9 para o grau de certeza, sendo 0 menos confiável. '
         message += 'A referência é: '
         message += line[1]
