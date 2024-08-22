@@ -29,8 +29,8 @@ def categorizeCited():
         ID = line[0]
 
         print("==========================================================")
-        print(message)
-        print("Bot")
+        print(line[1])
+        print("Bot: ")
         mod_ai_brapci.chat(message)
 
 def cited():
