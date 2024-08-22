@@ -84,7 +84,7 @@ class Index extends Model
 				//'model' => 'llama3.1',
 				//'model' => 'gemma2:27b',
 				//'model' => 'gemma2',
-				'model' => 'llama3.1',
+				'model' => 'llama3',
 				'prompt' => $message
 			);
 
