@@ -49,7 +49,7 @@ def categorizeCited():
         row = database.query(qr)
 
         if row != []:
-            tipoX = row[0]
+            tipoX = row[0][1]
             qu = f"update brapci_cited.cited_article set ca_tipo = '{tipoX}, ca_year = '{year}', ca_ai = {nivel}"
             print(qu)
         else:
