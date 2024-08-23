@@ -66,6 +66,11 @@ class Index extends Model
         }
 
         switch ($d1) {
+            case 'cited':
+                $Cited = new \App\Models\Cited\Index();
+                $RSP = $Cited->resumo_cited();
+                echo json_encode($RSP);
+                exit;
             case 'ai':
                 $AI = new \App\Models\AI\Index();
                 $RSP = [];

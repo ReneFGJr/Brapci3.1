@@ -48,6 +48,19 @@ class Index extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
+
+    function resumo_cited()
+        {
+            $cp = 'count(*) as total, ca_status, ca_tipo, ct_name';
+            $dt = $this
+                ->select($cp)
+                ->join('cited_type', 'ca_tipo = id_ct')
+                ->groupby('ca_status,ca_tipo, ct_name')
+                ->orderby('total desc')
+                ->findAll();
+            return $dt;
+        }
+
     function process($txt, $ID)
     {
         $ln = explode(chr(13), $txt);
