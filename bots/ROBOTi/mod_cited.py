@@ -7,7 +7,7 @@ def categorizeCited():
     print("Categorize Cited")
     qr = "select id_ca, ca_text from brapci_cited.cited_article "
     qr += " where ca_status = 0 "
-    qr += " and (ca_tipo = 1 or ca_tipo is null) "
+    qr += " and (ca_tipo = 0 or ca_tipo is null) "
     qr += " order by id_ca "
     qr += " limit 10 "
     row = database.query(qr)
@@ -51,9 +51,12 @@ def categorizeCited():
         if row != []:
             tipoX = row[0]
             tipoX = tipoX[0]
-            qu = f"update brapci_cited.cited_article set ca_tipo = '{tipoX}', ca_year = '{year}', ca_ai = {nivel}"
-            database.update(qu)
+            qu = f"update brapci_cited.cited_article set ca_status = 1,  ca_tipo = '{tipoX}', ca_year = '{year}', ca_ai = {nivel} where id_ca = {ID}"
+            #database.update(qu)
+            print(qu)
         else:
+            qu = f"update brapci_cited.cited_article set ca_status = 9,  ca_tipo = '0', ca_ai = 1 where id_ca = {ID}"
+            print(qu)
             print("########################### ERRO")
             print(tipo,year,nivel)
             print(row)
