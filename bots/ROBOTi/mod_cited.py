@@ -43,8 +43,18 @@ def categorizeCited():
         year = DDD[1]
         nivel = DDD[2]
 
-        qu = f"update brapci_cited.cited_article set ca_tipo = '{tipo}, ca_year = '{year}', ca_ai = {nivel}"
-        print(qu)
+        #****************************************************************************************************/
+        #Valida o tipo
+        qr = f"select * from brapci_cited.cited_type where ct_type = '{tipo}'"
+        row = database.query(qr)
+
+        if row != []:
+            qu = f"update brapci_cited.cited_article set ca_tipo = '{tipo}, ca_year = '{year}', ca_ai = {nivel}"
+            print(qu)
+        else:
+            print("########################### ERRO")
+            print(tipo,year,nivel)
+            print(row)
 
 def cited():
     print("DOI - Localizando DOI nos metadados")
