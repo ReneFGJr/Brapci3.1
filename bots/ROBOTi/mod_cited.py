@@ -50,6 +50,7 @@ def categorizeCited():
 
         if row != []:
             tipoX = row[0][1]
+            print("====",row)
             qu = f"update brapci_cited.cited_article set ca_tipo = '{tipoX}, ca_year = '{year}', ca_ai = {nivel}"
             print(qu)
         else:
