@@ -41,9 +41,9 @@ def categorizeCited():
 
         tipo = DDD[0]
         year = DDD[1]
-        novel = DDD[2]
+        nivel = DDD[2]
 
-        qu = f"update brapci_cited.cited_article set ca_tipo = '{tipo}, ca_year = '{year}', ca_ai = 1"
+        qu = f"update brapci_cited.cited_article set ca_tipo = '{tipo}, ca_year = '{year}', ca_ai = {nivel}"
         print(qu)
 
 def cited():
