@@ -35,9 +35,14 @@ def categorizeCited():
         print(line[1])
         print("Bot: ")
         RSP = mod_ai_brapci.chat(message)
-        print("===",RSP)
-        tipo = '1'
-        year = '9999'
+
+        MSG = RSP['message']
+        DDD = MSG.split(';')
+
+        tipo = DDD[0]
+        year = DDD[1]
+        novel = DDD[2]
+
         qu = f"update brapci_cited.cited_article set ca_tipo = '{tipo}, ca_year = '{year}', ca_ai = 1"
         print(qu)
 
