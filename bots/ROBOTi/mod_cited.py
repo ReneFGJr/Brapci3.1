@@ -9,7 +9,7 @@ def categorizeCited():
     qr += " where ca_status = 0 "
     qr += " and (ca_tipo = 0 or ca_tipo is null) "
     qr += " order by id_ca "
-    qr += " limit 100000 "
+    qr += " limit 100 "
     row = database.query(qr)
 
     for line in row:
