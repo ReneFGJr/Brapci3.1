@@ -138,6 +138,8 @@ class Gev3nt extends Model
                     $RSP['subscribe'] = $EventsInscritos->Subscribe();
                     $RSP['user'] = $Socials->getUserApi(get("apikey"));
                     $RSP['event'] = $Events->le(get("event"));
+                    $RSP['event_id'] = get("event");
+
                     $RSP['stauts'] = 1;
                     break;
 
