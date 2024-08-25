@@ -58,14 +58,14 @@ class EventsInscritos extends Model
 
     function Subscribe($id = 0, $user = 0)
     {
-        $Events = new \App\Models\Gev3nt\EventsInscricoesTipos();
+        $EventsInscricoesTipos = new \App\Models\Gev3nt\EventsInscricoesTipos();
         $event_type = get("event_type");
         if ($event_type != '')
             {
-                $RSP = $Events->register($id, $event_type, $user);
+                $RSP = $this->register($id, $event_type, $user);
             }
 
-        $RSP = $Events->inscricoes_type($id, $user);
+        $RSP = $EventsInscricoesTipos->inscricoes_type($id, $user);
         return $RSP;
     }
 }
