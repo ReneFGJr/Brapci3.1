@@ -146,6 +146,7 @@ class Gev3nt extends Model
 
                 default:
                 $RSP = $this->services($RSP);
+                $RSP['actual'] = $d1;
                 break;
             }
         echo json_encode($RSP);
