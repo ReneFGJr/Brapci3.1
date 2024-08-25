@@ -135,11 +135,11 @@ class Gev3nt extends Model
                     $Socials = new \App\Models\Gev3nt\Users();
                     $Events = new \App\Models\Gev3nt\Events();
                     $EventsInscritos = new \App\Models\Gev3nt\EventsInscritos();
-                    $RSP['subscribe'] = $EventsInscritos->Subscribe();
-                    $RSP['user'] = $Socials->getUserApi(get("apikey"));
-                    $RSP['event'] = $Events->le(get("event"));
-                    $RSP['event_id'] = get("event");
-
+                    $user = $Socials->getUserApi(get("apikey"));
+                    $event = $Events->le(get("event"));
+                    $RSP['user'] = $user;
+                    $RSP['event'] = $event;
+                    $RSP['subscribe'] = $EventsInscritos->Subscribe($user['id_n'], get("event"));
                     $RSP['stauts'] = 1;
                     break;
 
