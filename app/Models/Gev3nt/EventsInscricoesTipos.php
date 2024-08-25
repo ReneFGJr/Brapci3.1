@@ -40,9 +40,12 @@ class EventsInscricoesTipos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function inscricoes_type($id)
+    function inscricoes_type($id,$user=0)
         {
-            $dt = $this->where('ei_event',$id)->findAll();
+            $dt = $this
+                ->join('event_inscritos', '(id_ei = ein_tipo) and (ein_user = '.$user.')','LEFT')
+                ->where('ei_event',$id)
+                ->findAll();
             return $dt;
         }
 }
