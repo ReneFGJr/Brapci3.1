@@ -53,7 +53,7 @@ class Events extends Model
             $cp = '*';
             $dt = $this
                 ->select($cp)
-                ->join('event_inscritos', 'ein_event = id_e','LEFT')
+                ->join('event_inscritos', '(ein_event = id_e) and (ein_user = '.$user.')','LEFT')
                 ->where('e_sigin_until >= '.date("Y-m-d"))
                 ->orderby('e_sigin_until')
                 ->findAll();
