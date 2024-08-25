@@ -50,8 +50,7 @@ class EventsInscritos extends Model
 
     function register($ev, $tp, $user)
     {
-        $Events = new \App\Models\Gev3nt\EventsInscricoesTipos();
-        $dt = $Events
+        $dt = $this
             ->where("ein_user", $user)
             ->where('ein_tipo', $tp)
             ->first();
@@ -60,7 +59,7 @@ class EventsInscritos extends Model
             $dt['ein_event'] = $ev;
             $dt['ein_tipo'] = $tp;
             $dt['ein_user'] = $user;
-            $Events->set($dt)->insert();
+            $this->set($dt)->insert();
         }
     }
 
