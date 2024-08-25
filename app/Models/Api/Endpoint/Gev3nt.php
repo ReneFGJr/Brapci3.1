@@ -133,9 +133,11 @@ class Gev3nt extends Model
 
                 case 'subscribeType':
                     $Socials = new \App\Models\Gev3nt\Users();
-                    $Gev3nt = new \App\Models\Gev3nt\EventsInscritos();
-                    $RSP['subscribe'] = $Gev3nt->Subscribe();
+                    $Events = new \App\Models\Gev3nt\Events();
+                    $EventsInscritos = new \App\Models\Gev3nt\EventsInscritos();
+                    $RSP['subscribe'] = $EventsInscritos->Subscribe();
                     $RSP['user'] = $Socials->getUserApi(get("apikey"));
+                    $RSP['event'] = $Events->le(get("event"));
                     $RSP['stauts'] = 1;
                     break;
 

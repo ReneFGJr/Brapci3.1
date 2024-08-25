@@ -48,6 +48,12 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function le($id)
+        {
+            $dt = $this->where('id_e',$id)->first();
+            return $dt;
+        }
+
     function open_event($user='')
         {
             $cp = '*';
