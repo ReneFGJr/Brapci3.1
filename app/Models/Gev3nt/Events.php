@@ -52,7 +52,7 @@ class Events extends Model
         {
             $dt = $this
                 ->where('e_sigin_until >= '.date("Y-m-d"))
-                ->orderby('e_sign_until')
+                ->orderby('e_sigin_until')
                 ->findAll();
             return $dt;
 
