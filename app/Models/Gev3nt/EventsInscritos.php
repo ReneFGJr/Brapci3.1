@@ -40,10 +40,32 @@ class EventsInscritos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function Subscribe($id=0,$user=0)
-        {
-            $Events = new \App\Models\Gev3nt\EventsInscricoesTipos();
-            $RSP = $Events->inscricoes_type($id,$user);
-            return $RSP;
+    function register($ev, $tp, $user)
+    {
+        $Events = new \App\Models\Gev3nt\EventsInscricoesTipos();
+        $dt = $Events
+            ->where("ein_user", $user)
+            ->where('ein_tipo', $tp)
+            ->first();
+        if ($dt == []) {
+            $dd = [];
+            $dt['ein_event'] = $ev;
+            $dt['ein_tipo'] = $tp;
+            $dt['ein_user'] = $user;
+            $Events->set($dt)->insert();
         }
+    }
+
+    function Subscribe($id = 0, $user = 0)
+    {
+        $Events = new \App\Models\Gev3nt\EventsInscricoesTipos();
+        $event_type = get("event_type");
+        if ($event_type != '')
+            {
+                $RSP = $Events->register($id, $event_type, $user);
+            }
+
+        $RSP = $Events->inscricoes_type($id, $user);
+        return $RSP;
+    }
 }
