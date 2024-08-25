@@ -131,6 +131,11 @@ class Gev3nt extends Model
                     $RSP['uset'] = $_POST;
                     break;
 
+                case 'subscribeType':
+                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $RSP['stauts'] = 1;
+                    break;
+
                 case 'get':
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $RSP['event'] = $Gev3nt->getId($d2);
