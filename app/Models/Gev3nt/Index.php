@@ -102,6 +102,12 @@ class Index extends Model
         return $dt;
     }
 
+    function events_open()
+        {
+            $Event = new \App\Models\Gev3nt\Events();
+            return $Event->open_event();
+        }
+
     function events($type = 0)
     {
         $cp = 'id_e,e_name,e_sigla,e_data_i,e_data_f,e_img';
