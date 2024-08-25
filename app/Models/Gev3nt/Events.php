@@ -54,7 +54,6 @@ class Events extends Model
                 ->where('e_sigin_until >= '.date("Y-m-d"))
                 ->orderby('e_sigin_until')
                 ->findAll();
-            $dt['user'] = get("user");
             return $dt;
 
         }

@@ -128,6 +128,7 @@ class Gev3nt extends Model
                     $Gev3nt = new \App\Models\Gev3nt\Index();
                     $type = 1; //Eventos ativos
                     $RSP['events'] = $Gev3nt->events_open();
+                    $RSP['uset'] = $_POST;
                     break;
 
                 case 'get':
