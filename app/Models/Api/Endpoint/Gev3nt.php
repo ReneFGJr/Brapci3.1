@@ -132,7 +132,9 @@ class Gev3nt extends Model
                     break;
 
                 case 'subscribeType':
-                    $Gev3nt = new \App\Models\Gev3nt\Index();
+                    $Gev3nt = new \App\Models\Gev3nt\EventsInscritos();
+                    $RSP['subscribe'] = $Gev3nt->Subscribe();
+                    $RSP['user'] = get("apikey");
                     $RSP['stauts'] = 1;
                     break;
 

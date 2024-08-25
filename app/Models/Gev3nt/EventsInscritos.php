@@ -39,4 +39,9 @@ class EventsInscritos extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function Subscribe($id=0,$user=0)
+        {
+            return [];
+        }
 }
