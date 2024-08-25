@@ -71,6 +71,8 @@ class Gev3nt extends Model
                         if ($da['apikey'] == '')
                             {
                                 $dt['apikey'] = $Socials->createApikey($da['id_n']);
+                            } else {
+                                $dt['apikey'] = $da['apikey'];
                             }
                     } else {
                         $dt['status'] = '400';
