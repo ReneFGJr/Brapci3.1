@@ -4,11 +4,11 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class EventsInscritos extends Model
+class EventsInscricoesTipos extends Model
 {
     protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event_inscritos';
-    protected $primaryKey       = 'id_ein';
+    protected $table            = 'event_inscricoes';
+    protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -40,10 +40,9 @@ class EventsInscritos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function Subscribe($id=0,$user=0)
+    function inscricoes_type($id)
         {
-            $Events = new \App\Models\Gev3nt\EventsInscricoesTipos();
-            $RSP = $Events->inscricoes_type($id,$user);
-            return $RSP;
+            $dt = $this->where('ei_event',$id)->findAll();
+            return $dt;
         }
 }
