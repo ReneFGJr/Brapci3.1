@@ -1,12 +1,12 @@
 <?php
 /*
 @category API
-@package Eventos - Gev3nt
+@package Gev3nt - Eventos
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2022 CC-BY
 @access public/private/apikey
-@example $PATH/api/gev3nt/events
+@example $PATH/api/g3vent/events
 @abstract API Controle de eventos e certificados
 */
 
