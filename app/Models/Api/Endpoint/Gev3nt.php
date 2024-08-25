@@ -139,7 +139,7 @@ class Gev3nt extends Model
                     $event = $Events->le(get("event"));
                     $RSP['user'] = $user;
                     $RSP['event'] = $event;
-                    $RSP['subscribe'] = $EventsInscritos->Subscribe($user['id_n'], get("event"));
+                    $RSP['subscribe'] = $EventsInscritos->Subscribe(get("event"), $user['id_n']);
                     $RSP['stauts'] = 1;
                     break;
 
