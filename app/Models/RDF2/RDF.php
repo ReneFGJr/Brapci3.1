@@ -288,21 +288,6 @@ class RDF extends Model
                 $sx .= $RDFform->add($d2, $d3);
                 $sx .= '</div>';
                 break;
-            case 'delete':
-                $sx .= '<div class="text-center">';
-                ############################## DELETE
-                $conf = get("confirm");
-                if ($conf != '') {
-                    $sx .= '<h1 class="text-center">' . lang('brapci.excluded_item') . '</h1>';
-                    $sx .= '<span class="btn btn-outline-primary" onclick="wclose();">' . lang("brapci.close") . '</span>';
-                    $RDFdata->where('id_d', $d2)->delete();
-                    echo $RDFdata->getlastquery();
-                } else {
-                    $dt = $RDFdata
-                        ->find($d2);
-                    $sx .= '<a class="btn btn-outline-danger" href="' . PATH . '/popup/rdf/delete/' . $d2 . '?confirm=True">' . lang("brapci.exclude") . '</a>';
-                }
-                $sx .= '</div>';
         }
         return $sx;
     }
