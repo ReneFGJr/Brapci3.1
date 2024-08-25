@@ -63,6 +63,11 @@ class Users extends Model
         return $apiKey;
     }
 
+    function getUserApi($apikey) {
+        $dt = $this->where('apikey', $apikey)->first();
+        return $dt;
+    }
+
     function register($cpf,$id,$sta)
         {
             $dt = $this

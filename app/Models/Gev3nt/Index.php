@@ -104,7 +104,17 @@ class Index extends Model
 
     function events_open()
         {
+            $Social = new \App\Models\Gev3nt\Users();
             $Event = new \App\Models\Gev3nt\Events();
+            $dtUser = $Social->getUserApi(get("apikey"));
+            if ($dtUser == [])
+                {
+                    $dt = [];
+                    $dt['status'] = '401';
+                    $dt['message'] = 'Usuário não localizado';
+                    return $dt;
+                }
+
             return $Event->open_event();
         }
 

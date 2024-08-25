@@ -48,7 +48,7 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function open_event()
+    function open_event($user='')
         {
             $dt = $this
                 ->where('e_sigin_until >= '.date("Y-m-d"))
