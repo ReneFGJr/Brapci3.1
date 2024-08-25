@@ -4,25 +4,17 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class Events extends Model
+class EventsInscritos extends Model
 {
-    protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event';
-    protected $primaryKey       = 'id_e';
+    protected $DBGroup          = 'default';
+    protected $table            = 'event_inscritos';
+    protected $primaryKey       = 'id_ein';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'id_e',
-        'e_name',
-        'e_url',
-        'e_description',
-        'e_active',
-        'e_logo',
-        'e_sigin_until'
-    ];
+    protected $allowedFields    = [];
 
     // Dates
     protected $useTimestamps = false;
@@ -47,17 +39,4 @@ class Events extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    function open_event($user='')
-        {
-            $cp = '*';
-            $dt = $this
-                ->select($cp)
-                ->join('event_inscritos', 'ein_event = id_e','LEFT')
-                ->where('e_sigin_until >= '.date("Y-m-d"))
-                ->orderby('e_sigin_until')
-                ->findAll();
-            return $dt;
-
-        }
 }

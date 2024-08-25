@@ -114,8 +114,8 @@ class Index extends Model
                     $dt['message'] = 'Usuário não localizado';
                     return $dt;
                 }
-
-            return $Event->open_event();
+            $id_user = $dtUser['id_n'];
+            return $Event->open_event($id_user);
         }
 
     function events($type = 0)
