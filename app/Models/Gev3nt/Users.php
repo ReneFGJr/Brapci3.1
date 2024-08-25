@@ -16,7 +16,8 @@ class Users extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_n','n_nome','b_cracha','n_email',
-        'n_cpf','n_orcid'
+        'n_cpf','n_orcid',
+        'apikey'
     ];
 
     // Dates
@@ -42,6 +43,25 @@ class Users extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function createApikey($id, $length = 32)
+    {
+        // Caracteres que serão usados na geração da chave
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $apiKey = '';
+
+        // Gerar chave de API
+        for ($i = 0; $i < $length; $i++) {
+            $apiKey .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        $dd = [];
+        $dd['apikey'] = $apiKey;
+        $this->set($dd)->where('id_n', $id)->update();
+
+        return $apiKey;
+    }
 
     function register($cpf,$id,$sta)
         {

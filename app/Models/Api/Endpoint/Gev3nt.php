@@ -68,6 +68,10 @@ class Gev3nt extends Model
                         $dt['cracha'] = $da['n_cracha'];
                         $dt['afiliacao'] = $da['n_afiliacao'];
                         $dt['status'] = '200';
+                        if ($da['apikey'] == '')
+                            {
+                                $dt['apikey'] = $Socials->createApikey($da['id_n']);
+                            }
                     } else {
                         $dt['status'] = '400';
                         $dt['message'] = 'e-mail not found';
@@ -152,6 +156,7 @@ class Gev3nt extends Model
         echo json_encode($RSP);
         exit;
     }
+
     function services($RSP)
     {
         $srv = [];
