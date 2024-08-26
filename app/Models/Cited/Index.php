@@ -54,7 +54,8 @@ class Index extends Model
             $dt = $this
                 ->select('count(*) as total')
                 ->where('ca_rdf',$ID)
-                ->groupby("ca_rdf ");
+                ->groupby("ca_rdf ")
+                ->first();
             return $dt['total'];
         }
 
