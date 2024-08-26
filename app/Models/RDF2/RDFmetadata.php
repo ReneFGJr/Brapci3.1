@@ -628,7 +628,12 @@ class RDFmetadata extends Model
             foreach ($wk as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
-                $ref .= ' ('.$Cited->total_cited($line['ID']).')';
+                $cites = $Cited->total_cited($line['ID']);
+                if ($cites > 0)
+                    {
+                        $ref .= ' ('.$cites.')';
+                    }
+
                 array_push($works, $ref);
             }
             if (!$simple)
