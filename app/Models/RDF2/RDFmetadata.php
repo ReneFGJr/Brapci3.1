@@ -631,7 +631,7 @@ class RDFmetadata extends Model
                 $cites = $Cited->total_cited($line['ID']);
                 if ($cites > 0)
                     {
-                        $ref .= '<sup style="background-color: #000088;" class="p-1 text-white">'.$cites. '</sup>';
+                        $ref .= '<sup class="p-1 text-blue">('.$cites. ' refs)</sup>';
                     }
 
                 array_push($works, $ref);
