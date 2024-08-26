@@ -56,7 +56,6 @@ class Index extends Model
                 ->where('ca_rdf',$ID)
                 ->groupby("ca_rdf ")
                 ->first();
-            pre($dt);
             return $dt['total'];
         }
 
