@@ -631,7 +631,7 @@ class RDFmetadata extends Model
                 $cites = $Cited->total_cited($line['ID']);
                 if ($cites > 0)
                     {
-                        $ref .= ' ('.$cites.')';
+                        $ref .= '<sup><span class="p-1 small border border-primary text-white">'.$cites.'</span></sup>';
                     }
 
                 array_push($works, $ref);
