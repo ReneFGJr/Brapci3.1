@@ -49,6 +49,16 @@ class Index extends Model
     protected $afterDelete          = [];
 
 
+    function total_cited($ID)
+        {
+            $dt = $this
+                ->select('count(*) as total')
+                ->where('ca_rdf',$ID)
+                ->groupby("ca_rdf ");
+            return $dt['total'];
+        }
+
+
     function resumo_cited()
         {
             $cp = 'count(*) as total, ca_status, ca_tipo, ct_name';

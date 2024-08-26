@@ -605,6 +605,7 @@ class RDFmetadata extends Model
     function metadataIssue($dt, $simple = false)
     {
         $ABNT = new \App\Models\Metadata\Abnt();
+        $Cited = new \App\Models\Cited\Index();
         $Issues = new \App\Models\Base\Issues();
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
         $IDissue = $dt['concept']['id_cc'];
@@ -627,6 +628,7 @@ class RDFmetadata extends Model
             foreach ($wk as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
+                $ref .= ' ('.$Cited->total_cited($line['ID']).')';
                 array_push($works, $ref);
             }
             if (!$simple)
