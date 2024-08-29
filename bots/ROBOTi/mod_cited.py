@@ -15,7 +15,7 @@ def categorizeCitedByElastic():
 
     for line in row:
         ID = line[0]
-        url = "https://cip.brapci.inf.br/api/v/"+ID
+        url = "https://cip.brapci.inf.br/api/brapci/get/v1/"+ID
         print(url)
 
         # Fazer uma solicitação GET para a API
@@ -24,6 +24,8 @@ def categorizeCitedByElastic():
         # Verificar se a solicitação foi bem-sucedida (código de status 200)
         if response.status_code == 200:
             print("=>",ID,"OK")
+            data = response.json()
+            print(data.cites)
         else:
             print("=>",ID,"ERRO")
 
