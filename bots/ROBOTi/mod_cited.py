@@ -17,13 +17,13 @@ def categorizeCitedByElastic():
         ID = line[0]
         print(ID)
         url = "https://cip.brapci.inf.br/api/brapci/get/v1/"+str(ID)
-        print(url)
 
         # Fazer uma solicitação GET para a API
         response = requests.get(url)
 
         # Verificar se a solicitação foi bem-sucedida (código de status 200)
         if response.status_code == 200:
+            print(response)
             print("=>",ID,"OK")
             data = response.json()
             print(data.cites)
