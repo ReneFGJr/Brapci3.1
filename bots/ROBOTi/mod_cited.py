@@ -36,9 +36,7 @@ def categorizeCitedByElastic():
             number_of_cites = -1
 
         qu = "update brapci_elastic.dataset set cited = "+str(number_of_cites)+" where id_ds = "+str(id_ds)
-        print(qu)
-
-
+        database.update(qu)
 
 def categorizeCited():
     print("Categorize Cited")
