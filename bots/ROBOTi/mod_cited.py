@@ -2,6 +2,32 @@ import database
 import mod_doi
 import mod_ai_brapci
 import re
+import requests
+
+def categorizeCitedByElastic():
+    print("Categorize Cited by Elastic")
+
+    qr = "select ID from brapci_elastic.dataset "
+    qr += " where cited = -1 "
+    qr += " order by ID desc "
+    qr += " limit 10 "
+    row = database.query(qr)
+
+    for line in row:
+        ID = line[0]
+        url = "https://cip.brapci.inf.br/api/v/"+ID
+        print(url)
+
+        # Fazer uma solicitação GET para a API
+        response = requests.get(url)
+
+        # Verificar se a solicitação foi bem-sucedida (código de status 200)
+        if response.status_code == 200:
+            print("=>",ID,"OK")
+        else:
+            print("=>",ID,"ERRO")
+
+
 
 def categorizeCited():
     print("Categorize Cited")

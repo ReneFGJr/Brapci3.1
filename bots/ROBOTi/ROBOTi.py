@@ -189,6 +189,8 @@ def run(parm):
     ################### Cited
     if (act == '160'):
         mod_cited.cited()
+    if (act == '161'):
+        mod_cited.categorizeCitedByElastic()
 
     ################### Thesa
     if (act == '170'):
