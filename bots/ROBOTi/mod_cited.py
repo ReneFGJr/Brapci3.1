@@ -24,10 +24,13 @@ def categorizeCitedByElastic():
         # Verificar se a solicitação foi bem-sucedida (código de status 200)
         if response.status_code == 200:
             data = response.json()
-            print(data)
-            print("=>",ID,"OK")
-            data = response.json()
-            print(data.cites)
+            cites_value = data.get('cites')
+            # Verificando o número de cites
+            if cites_value:
+                number_of_cites = len(cites_value)
+            else:
+                number_of_cites = 0
+            print("=>",ID,"OK",number_of_cites)
         else:
             print("=>",ID,"ERRO")
 
