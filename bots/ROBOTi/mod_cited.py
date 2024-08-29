@@ -15,7 +15,7 @@ def categorizeCitedByElastic():
 
     for line in row:
         ID = line[0]
-        print(line)
+        print(ID)
         url = "https://cip.brapci.inf.br/api/brapci/get/v1/"+ID
         print(url)
 
