@@ -10,7 +10,7 @@ def categorizeCitedByElastic():
     qr = "select ID, id_ds from brapci_elastic.dataset "
     qr += " where cited = -1 "
     qr += " order by ID desc "
-    qr += " limit 10 "
+    qr += " limit 10000 "
     row = database.query(qr)
 
     for line in row:
