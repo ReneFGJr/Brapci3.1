@@ -7,7 +7,7 @@ import requests
 def categorizeCitedByElastic():
     print("Categorize Cited by Elastic")
 
-    qr = "select ID from brapci_elastic.dataset "
+    qr = "select ID, id_ds from brapci_elastic.dataset "
     qr += " where cited = -1 "
     qr += " order by ID desc "
     qr += " limit 10 "
@@ -15,7 +15,7 @@ def categorizeCitedByElastic():
 
     for line in row:
         ID = line[0]
-        print(ID)
+        id_ds = line[1]
         url = "https://cip.brapci.inf.br/api/brapci/get/v1/"+str(ID)
 
         # Fazer uma solicitação GET para a API
@@ -33,6 +33,10 @@ def categorizeCitedByElastic():
             print("=>",ID,"OK",number_of_cites)
         else:
             print("=>",ID,"ERRO")
+            number_of_cites = -1
+
+        qu = "update brapci_elastic.dataset set cited = "+str(number_of_cites)+" where id_ds = "+str(id_ds)
+        print(qu)
 
 
 
