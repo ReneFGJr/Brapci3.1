@@ -75,7 +75,7 @@ class Index extends Model
 		$TXT = '';
 
 		// URL do endpoint
-		#$endpoint = "http://143.54.112.91:11434/api/generate";
+		//$endpoint = "http://143.54.112.91:11434/api/generate";
 		$endpoint = "http://143.54.113.15:11434//api/generate";
 
 		// Verifica se o formulário foi enviado
