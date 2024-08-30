@@ -29,6 +29,7 @@ import mod_cited
 import mod_proceeding
 import mod_backup_mysql
 import mod_thesa
+import socket
 from colorama import Fore
 
 def version():
@@ -376,7 +377,15 @@ def ListIdentiers():
 ########################################### Início
 print("ROBOTi",version())
 print("===============================================")
-diretorio = '/data/Brapci3.1/bots/ROBOTi'
+hostname = socket.gethostname()
+print(hostname)
+
+if (hostname == 'DESKTOP-M0Q0TD7'):
+    diretorio = os.getcwd()
+else:
+    diretorio = '/data/Brapci3.1/bots/ROBOTi'
+
+print("Diretório",diretorio)
 os.chdir(diretorio)
 
 if (len(sys.argv) > 1):
