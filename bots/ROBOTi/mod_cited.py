@@ -74,6 +74,8 @@ def categorizeCited():
         MSG = RSP['message']
         DDD = MSG.split(';')
 
+        print(RSP)
+
         tipo = DDD[0]
         year = DDD[1]
         nivel = DDD[2]
