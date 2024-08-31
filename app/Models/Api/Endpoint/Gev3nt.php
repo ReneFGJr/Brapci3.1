@@ -16,9 +16,8 @@ use CodeIgniter\Model;
 
 class Gev3nt extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'genre';
-    protected $primaryKey       = 'id_gn';
+    protected $table            = 'gev3nt';
+    protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
