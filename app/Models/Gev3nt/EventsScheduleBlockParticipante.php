@@ -61,7 +61,7 @@ class EventsScheduleBlockParticipante extends Model
                 ->orderby('bp_ordem')
                 ->findAll();
 
-                $RSP['person'] = $dt;
+                $RSP[$id]['person'] = $dt;
             }
         return $RSP;
     }
