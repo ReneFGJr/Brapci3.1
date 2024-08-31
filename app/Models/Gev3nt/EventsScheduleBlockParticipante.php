@@ -67,7 +67,10 @@ class EventsScheduleBlockParticipante extends Model
         $RSP = [];
         foreach($DT as $id=>$line)
             {
-                pre($line);
+                if ($line['person'] != [])
+                    {
+                        array_push($RSP,$line);
+                    }
             }
         return $RSP;
     }
