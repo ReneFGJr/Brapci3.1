@@ -49,6 +49,7 @@ class EventsSchedule extends Model
                 ->where('sch_event',$ev)
                 ->findAll();
             $RSP = $dt;
+            echo $this->getlastquery();
             return $RSP;
 
         }
