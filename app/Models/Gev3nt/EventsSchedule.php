@@ -53,6 +53,7 @@ class EventsSchedule extends Model
 
             foreach($dt as $id=>$line)
                 {
+                    pre($line,false);
                     $dt[$id]['bloco'] = $EventsScheduleBlock->le($line['id_sch']);
                 }
             return $RSP;
