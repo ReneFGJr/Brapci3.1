@@ -57,6 +57,12 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'schedule':
+                    $EventsSchedule = new \App\Models\Gev3nt\EventsSchedule();
+                    $RSP = $EventsSchedule->agenda($d1);
+                    echo json_encode($RSP);
+                    exit;
+                    break;
                 case 'checkEmail':
                     $dd = [];
                     $email = get("email");
