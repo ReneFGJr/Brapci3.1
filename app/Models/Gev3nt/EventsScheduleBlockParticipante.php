@@ -44,7 +44,7 @@ class EventsScheduleBlockParticipante extends Model
 
     function le($ev)
     {
-        $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem, n_biografia';
+        $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem, n_biografia, bp_funcao';
         $dt = $this
             ->select($cp)
             ->join('events_names', 'bp_pessoa = id_n')
