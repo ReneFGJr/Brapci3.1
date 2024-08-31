@@ -59,11 +59,10 @@ class EventsScheduleBlockParticipante extends Model
                 ->where('bp_funcao', $tipo['id_tp'])
                 ->orderby('bp_ordem')
                 ->findAll();
-                echo $this->getlastquery();
                 $RSP[$id]['person'] = $dt;
             }
         $DT = $RSP;
-        pre($RSP);
+
         $RSP = [];
         foreach($DT as $id=>$line)
             {
