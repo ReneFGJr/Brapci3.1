@@ -50,10 +50,10 @@ class EventsScheduleBlock extends Model
             ->where('esb_day', $ev)
             ->findAll();
 
-        $RSP = $dt;
-        pre($dt);
-        $RSP['participantes'] = $EventsScheduleBlockParticipante->le($dt['id_esb']);
-
-        return $RSP;
+        foreach($dt as $id=>$line)
+            {
+                $dt[$id]['participantes'] = $EventsScheduleBlockParticipante->le($line['id_esb']);
+            }
+        return $dt;
     }
 }
