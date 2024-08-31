@@ -45,7 +45,7 @@ class EventsScheduleBlock extends Model
     function le($ev)
         {
             $dt = $this
-                ->where('id_esb',$ev)
+                ->where('esb_day',$ev)
                 ->findAll();
                 $RSP = $dt;
             return $RSP;
