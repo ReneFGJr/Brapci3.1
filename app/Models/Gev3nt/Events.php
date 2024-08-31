@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Events extends Model
 {
-    protected $DBGroup          = ' ';
+    protected $DBGroup          = 'gev3nt';
     protected $table            = 'event';
     protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;
