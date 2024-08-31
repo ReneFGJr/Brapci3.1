@@ -4,11 +4,11 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class EventsScheduleBlock extends Model
+class EventsScheduleBlockParticipante extends Model
 {
     protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event_schedule_bloco';
-    protected $primaryKey       = 'id_esb';
+    protected $table            = 'event_schedule_bloco_participante';
+    protected $primaryKey       = 'id_bp';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -44,14 +44,14 @@ class EventsScheduleBlock extends Model
 
     function le($ev)
     {
-        $EventsScheduleBlockParticipante = new \App\Models\Gev3nt\EventsScheduleBlockParticipante();
         $dt = $this
-            ->join('event_local', 'esb_local = id_lc')
+            ->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
             ->where('esb_day', $ev)
             ->findAll();
 
         $RSP = $dt;
-        $RSP['participantes'] = $EventsScheduleBlockParticipante->le($ev);
+
+
 
         return $RSP;
     }
