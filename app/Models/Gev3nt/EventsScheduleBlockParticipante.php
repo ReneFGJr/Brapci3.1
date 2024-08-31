@@ -45,11 +45,12 @@ class EventsScheduleBlockParticipante extends Model
     function le($ev)
     {
         $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem';
+        $cp = '*';
         $dt = $this
             ->select($cp)
             ->join('events_names', 'bp_pessoa = id_tp')
             ->join('corporateBody', 'n_afiliacao = id_cb','LEFT')
-            ->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
+            //->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
             ->where('bp_block', $ev)
             ->orderby('bp_ordem')
             ->findAll();
