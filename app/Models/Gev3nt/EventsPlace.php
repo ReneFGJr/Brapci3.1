@@ -4,11 +4,11 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class EventsSchedule extends Model
+class EventsPlace extends Model
 {
     protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event_schedule';
-    protected $primaryKey       = 'id_sch';
+    protected $table            = 'event_local';
+    protected $primaryKey       = 'id_lc';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -41,26 +41,4 @@ class EventsSchedule extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    function agenda($ev)
-        {
-            $EventsScheduleBlock = new \App\Models\Gev3nt\EventsScheduleBlock();
-            $dt = $this
-                ->select('sch_day, id_sch')
-                ->join('event_local', 'esb_local = id_lc')
-                ->where('sch_event',$ev)
-                ->findAll();
-            $RSP = $dt;
-
-            $RSP = [];
-
-            foreach($dt as $id=>$line)
-                {
-                    $line['bloco'] = $EventsScheduleBlock->le($line['id_sch']);
-
-                    array_push($RSP,$line);
-                }
-            return $RSP;
-
-        }
 }
