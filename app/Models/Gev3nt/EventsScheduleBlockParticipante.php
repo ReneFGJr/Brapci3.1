@@ -42,12 +42,12 @@ class EventsScheduleBlockParticipante extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function le($ev, $funcao)
+    function le($ev)
     {
         $EventsScheduleBlockTipo = new \App\Models\Gev3nt\EventsScheduleBlockTipo();
         $RSP = $EventsScheduleBlockTipo->orderby('id_tp')->findAll();
 
-        $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem, n_biografia, bp_funcao';
+        $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, bp_ordem, n_biografia';
 
         foreach($RSP as $id=>$tipo)
             {
@@ -55,9 +55,8 @@ class EventsScheduleBlockParticipante extends Model
                 ->select($cp)
                 ->join('events_names', 'bp_pessoa = id_n')
                 ->join('corporateBody', 'n_afiliacao = id_cb', 'LEFT')
-                ->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
                 ->where('bp_block', $ev)
-                ->where('bp_funcao', $funcao)
+                ->where('bp_funcao', $tipo['id_tp'])
                 ->orderby('bp_ordem')
                 ->findAll();
                 echo $this->getlastquery();
