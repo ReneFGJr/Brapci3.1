@@ -51,6 +51,7 @@ class EventsScheduleBlock extends Model
             ->findAll();
 
         $RSP = $dt;
+        pre($dt);
         $RSP['participantes'] = $EventsScheduleBlockParticipante->le($dt['id_esb']);
 
         return $RSP;
