@@ -16,7 +16,8 @@ use CodeIgniter\Model;
 
 class Gev3nt extends Model
 {
-    protected $table            = 'gev3nt';
+    protected $DBGroup          = 'gev3nt';
+    protected $table            = 'event';
     protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
