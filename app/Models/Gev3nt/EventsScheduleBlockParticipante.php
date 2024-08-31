@@ -46,7 +46,7 @@ class EventsScheduleBlockParticipante extends Model
     {
         $dt = $this
             ->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
-            ->where('esb_day', $ev)
+            ->where('bp_block', $ev)
             ->findAll();
 
         $RSP = $dt;
