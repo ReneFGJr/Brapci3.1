@@ -48,8 +48,8 @@ class EventsScheduleBlockParticipante extends Model
         $cp = '*';
         $dt = $this
             ->select($cp)
-            ->join('events_names', 'bp_pessoa = id_tp')
-            ->join('corporateBody', 'n_afiliacao = id_cb','LEFT')
+            ->join('events_names', 'bp_pessoa = id_n')
+            //->join('corporateBody', 'n_afiliacao = id_cb','LEFT')
             //->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
             ->where('bp_block', $ev)
             ->orderby('bp_ordem')
