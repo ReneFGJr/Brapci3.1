@@ -51,6 +51,8 @@ class EventsSchedule extends Model
                 ->findAll();
             $RSP = $dt;
 
+            pre($dt);
+
             foreach($dt as $id=>$line)
                 {
                     pre($line,false);
