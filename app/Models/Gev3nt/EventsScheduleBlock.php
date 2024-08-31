@@ -45,6 +45,7 @@ class EventsScheduleBlock extends Model
     function le($ev)
     {
         $dt = $this
+            ->join('event_local', 'esb_local = id_lc')
             ->where('esb_day', $ev)
             ->findAll();
 

@@ -47,7 +47,6 @@ class EventsSchedule extends Model
             $EventsScheduleBlock = new \App\Models\Gev3nt\EventsScheduleBlock();
             $dt = $this
                 ->select('sch_day, id_sch')
-                ->join('event_local', 'esb_local = id_lc')
                 ->where('sch_event',$ev)
                 ->findAll();
             $RSP = $dt;
