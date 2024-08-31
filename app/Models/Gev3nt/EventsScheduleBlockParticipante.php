@@ -45,13 +45,11 @@ class EventsScheduleBlockParticipante extends Model
     function le($ev, $funcao)
     {
         $EventsScheduleBlockTipo = new \App\Models\Gev3nt\EventsScheduleBlockTipo();
-        $dp = $EventsScheduleBlockTipo->findAll();
-
-        pre($dp);
+        $RSP = $EventsScheduleBlockTipo->findAll();
 
         $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem, n_biografia, bp_funcao';
-        $RSP = [];
-        foreach($dp as $id=>$tipo)
+
+        foreach($RSP as $id=>$tipo)
             {
                 $dt = $this
                 ->select($cp)
@@ -62,6 +60,8 @@ class EventsScheduleBlockParticipante extends Model
                 ->where('bp_funcao', $funcao)
                 ->orderby('bp_ordem')
                 ->findAll();
+
+                $RSP['person'] = $dt;
             }
         return $RSP;
     }
