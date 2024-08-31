@@ -51,12 +51,14 @@ class EventsSchedule extends Model
                 ->findAll();
             $RSP = $dt;
 
-            pre($dt);
+            $RSP = [];
 
             foreach($dt as $id=>$line)
                 {
                     pre($line,false);
-                    $dt[$id]['bloco'] = $EventsScheduleBlock->le($line['id_sch']);
+                    $line['bloco'] = $EventsScheduleBlock->le($line['id_sch']);
+
+                    array_push($RSP,$line);
                 }
             return $RSP;
 
