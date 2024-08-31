@@ -4,11 +4,11 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class EventsScheduleBlockParticipante extends Model
+class EventsScheduleBlockTipo extends Model
 {
     protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event_schedule_bloco_participante';
-    protected $primaryKey       = 'id_bp';
+    protected $table            = 'event_schedule_bloco_tipo_participante';
+    protected $primaryKey       = 'id_tp';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -42,27 +42,4 @@ class EventsScheduleBlockParticipante extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function le($ev, $funcao)
-    {
-        $EventsScheduleBlockTipo = new \App\Models\Gev3nt\EventsScheduleBlockTipo();
-        $dp = $EventsScheduleBlockTipo->findAll();
-
-        pre($dp);
-
-        $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem, n_biografia, bp_funcao';
-        $RSP = [];
-        foreach($dp as $id=>$tipo)
-            {
-                $dt = $this
-                ->select($cp)
-                ->join('events_names', 'bp_pessoa = id_n')
-                ->join('corporateBody', 'n_afiliacao = id_cb', 'LEFT')
-                ->join('event_schedule_bloco_tipo_participante', 'bp_funcao = id_tp')
-                ->where('bp_block', $ev)
-                ->where('bp_funcao', $funcao)
-                ->orderby('bp_ordem')
-                ->findAll();
-            }
-        return $RSP;
-    }
 }

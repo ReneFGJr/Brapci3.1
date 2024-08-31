@@ -52,7 +52,7 @@ class EventsScheduleBlock extends Model
 
         foreach($dt as $id=>$line)
             {
-                $dt[$id]['participantes'] = $EventsScheduleBlockParticipante->le($line['id_esb']);
+                $dt[$id]['participantes'] = $EventsScheduleBlockParticipante->le($line['id_esb'],1);
             }
         return $dt;
     }
