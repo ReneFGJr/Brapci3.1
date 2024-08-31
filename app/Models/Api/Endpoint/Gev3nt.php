@@ -58,8 +58,9 @@ class Gev3nt extends Model
         switch($d1)
             {
                 case 'schedule':
+                    $d2 = round($d2);
                     $EventsSchedule = new \App\Models\Gev3nt\EventsSchedule();
-                    $RSP = $EventsSchedule->agenda($d1);
+                    $RSP = $EventsSchedule->agenda($d2);
                     echo json_encode($RSP);
                     exit;
                     break;
