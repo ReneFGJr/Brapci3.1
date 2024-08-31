@@ -43,14 +43,12 @@ class EventsScheduleBlock extends Model
     protected $afterDelete    = [];
 
     function le($ev)
-        {
-            $dt = $this
-                ->where('esb_day',$ev)
-                ->findAll();
+    {
+        $dt = $this
+            ->where('esb_day', $ev)
+            ->findAll();
 
-                echo $this->getlastquery();
-                $RSP = $dt;
-            return $RSP;
-
-        }
+        $RSP = $dt;
+        return $RSP;
+    }
 }
