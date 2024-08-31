@@ -45,7 +45,7 @@ class EventsScheduleBlockParticipante extends Model
     function le($ev, $funcao)
     {
         $EventsScheduleBlockTipo = new \App\Models\Gev3nt\EventsScheduleBlockTipo();
-        $RSP = $EventsScheduleBlockTipo->findAll();
+        $RSP = $EventsScheduleBlockTipo->orderdy('id_tp')->findAll();
 
         $cp = 'n_nome, id_n, n_email, cb_nome, cb_sigla, tp_descricao, bp_ordem, n_biografia, bp_funcao';
 
