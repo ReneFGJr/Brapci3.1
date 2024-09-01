@@ -72,7 +72,6 @@ class Corporatename extends Model
                     $dd['pais'] = $line['pa_nome_pt'];
                     array_push($RSP,$dd);
                 }
-            pre($dt);
-            return $dt;
+            return $RSP;
         }
 }
