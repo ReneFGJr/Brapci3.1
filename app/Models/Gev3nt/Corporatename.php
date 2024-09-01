@@ -66,6 +66,7 @@ class Corporatename extends Model
             foreach($dt as $id=>$line)
                 {
                     $dd = [];
+                    pre($line);
                     $dd['name'] = $line[''];
                     $dd['sigle'] = $line[''];
                     $dd['pais'] = $line[''];
