@@ -61,7 +61,7 @@ class Corporatename extends Model
                     $this->like('cb_nome',$n);
                 }
             $this->orderby('cb_nome');
-            $dt = $this->findAll();
+            $dt = $this->findAll(50);
 
             if ($dt == [])
                 {
@@ -69,16 +69,16 @@ class Corporatename extends Model
                     $this->join('country', '(cb_pais = pa_sigla)');
                     $this->where('cb_sigla',$name);
                     $this->orderby('cb_nome');
-                    $dt = $this->findAll();
+                    $dt = $this->findAll(50);
                 }
             $RSP = [];
             foreach($dt as $id=>$line)
                 {
                     $dd = [];
-                    $dd['display'] = $line['cb_nome'].' ('.$line['cb_sigla'].')';
-                    $dd['name'] = $line['cb_nome'];
-                    $dd['sigle'] = $line['cb_sigla'];
-                    $dd['pais'] = $line['pa_nome_pt'];
+                    $dd['name'] = $line['cb_nome'].' ('.$line['cb_sigla'].') - '.$line['pa_nome_pt'];
+                    //$dd['name'] = $line['cb_nome'];
+                    //$dd['sigle'] = $line['cb_sigla'];
+                    //$dd['pais'] = $line['pa_nome_pt'];
                     array_push($RSP,$dd);
                 }
             return $RSP;
