@@ -70,7 +70,6 @@ class Corporatename extends Model
                     ->where('cb_sigla',$name)
                     ->orderby('cb_nome')
                     ->findAll(50);
-                    echo $this->getlastquery();
                 }
             $RSP = [];
             foreach($dt as $id=>$line)
