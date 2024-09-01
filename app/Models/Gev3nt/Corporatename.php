@@ -71,7 +71,7 @@ class Corporatename extends Model
                     ->orderby('cb_nome')
                     ->findAll(50);
                 }
-            $RSP = [];
+            $dd = [];
             foreach($dt as $id=>$line)
                 {
                     $dd = [];
@@ -79,8 +79,11 @@ class Corporatename extends Model
                     //$dd['name'] = $line['cb_nome'];
                     //$dd['sigle'] = $line['cb_sigla'];
                     //$dd['pais'] = $line['pa_nome_pt'];
-                    array_push($RSP,$dd);
+                    array_push($dd,$dd);
                 }
+            $RSP = [];
+            $RSP['query'] = $name;
+            $RSP['result'] = $dd;
             return $RSP;
         }
 }
