@@ -69,7 +69,6 @@ class Users extends Model
     function getUserApi($apikey) {
         $dt =
             $this
-            ->select('*')
             ->Join('corporateBody', 'id_cb = n_afiliacao')
             ->where('apikey', $apikey)
             ->first();

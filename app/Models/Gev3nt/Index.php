@@ -116,8 +116,6 @@ class Index extends Model
                     $dtUser = [];
                     $id_user = '';
                 }
-
-
             return $Event->open_event($id_user);
         }
 
