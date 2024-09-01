@@ -61,14 +61,10 @@ class Corporatename extends Model
             if ($dt == '')
                 {
                     $id = -1;
-                    $RSP = [];
-                    $RSP['message'] = $this->getlastquery();
-                    $RSP['status'] = '500';
-                    echo json_encode($RSP);
-                    exit;
                 } else {
                     $id = $dt['id_cb'];
                 }
+            return $id;
         }
 
     function searchName($name='')
