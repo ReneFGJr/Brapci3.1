@@ -70,7 +70,7 @@ class Gev3nt extends Model
                     $CorporateBody = new \App\Models\Gev3nt\Corporatename();
 
                     $name = get("name");
-                    $institution = get("institution");
+                    $institution = get("afiliacao");
                     $cpf = get("cpf");
                     $orcid = get("orcid");
                     $email = get("email");
@@ -86,7 +86,7 @@ class Gev3nt extends Model
                             if ($institution < 1)
                                 {
                                     $RSP['status'] = '501';
-                                    $RSP['message'] = 'Instituição não existe '. get("institution");
+                                    $RSP['message'] = 'Instituição não existe '. get("afiliacao");
                                     $RSP['post'] = $_POST;
                                 } else {
                                     $RSP = $Users->register($name, $institution, $cpf, $orcid, $email, $cracha);
