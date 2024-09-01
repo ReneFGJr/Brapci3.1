@@ -57,8 +57,16 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'corporateSearch':
+                    $RSP['post'] = $_POST;
+                    $CorporateBody = new \App\models\Gev3nt\CorporateBody();
+                    $RSP = $CorporateBody->search(get("q"));
+                    echo json_encode($RSP);
+                    exit;
+                    break;
+
                 case 'signup':
-                    $RSP['post  '] = $_POST;
+                    $RSP['post'] = $_POST;
                     echo json_encode($RSP);
                     exit;
                     break;
