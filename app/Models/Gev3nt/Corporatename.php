@@ -60,7 +60,8 @@ class Corporatename extends Model
                 {
                     $this->like('cb_nome',$n);
                 }
-            $this->orderby('cb_nome ');
+            $this->orlike('cb_nome', $name);
+            $this->orderby('cb_nome');
             $dt = $this->findAll();
             $RSP = [];
             foreach($dt as $id=>$line)
