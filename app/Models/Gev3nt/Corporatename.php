@@ -47,11 +47,11 @@ class Corporatename extends Model
 
     function le($id)
         {
-            $dt = $this->where('id_e',$id)->first();
+            $dt = $this->where('id_cb',$id)->first();
             return $dt;
         }
 
-    function search($name='')
+    function searchName($name='')
         {
             $name = explode(' ',$name);
             $this->select('*');

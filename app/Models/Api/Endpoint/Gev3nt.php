@@ -59,8 +59,8 @@ class Gev3nt extends Model
             {
                 case 'corporateSearch':
                     $RSP['post'] = $_POST;
-                    $CorporateBody = new \App\Models\Gev3nt\EventsSchedule();
-                    $RSP = $CorporateBody->search(get("q"));
+                    $CorporateBody = new \App\Models\Gev3nt\Corporatename();
+                    $RSP = $CorporateBody->searchName(get("q"));
                     echo json_encode($RSP);
                     exit;
                     break;
