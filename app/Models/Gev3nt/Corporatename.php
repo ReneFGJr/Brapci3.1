@@ -4,7 +4,7 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class CorporateBody extends Model
+class Corporatename extends Model
 {
     protected $DBGroup          = 'gev3nt';
     protected $table            = 'corporateBody';
