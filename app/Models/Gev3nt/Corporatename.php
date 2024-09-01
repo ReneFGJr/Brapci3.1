@@ -53,12 +53,19 @@ class Corporatename extends Model
 
     function recoverID($q)
         {
-            $dt = $this->select('*')
+            $q = trim($q);
+            $dt = $this
                 ->where('cb_nome', $q)
                 ->first();
+
             if ($dt == '')
                 {
                     $id = -1;
+                    $RSP = [];
+                    $RSP['message'] = $this->getlastquery();
+                    $RSP['status'] = '500';
+                    echo json_encode($RSP);
+                    exit;
                 } else {
                     $id = $dt['id_cb'];
                 }
@@ -66,6 +73,10 @@ class Corporatename extends Model
 
     function searchName($name='')
         {
+            if (strlen($name) < 2)
+                {
+                    return [];
+                }
             $name = explode(' ',$name);
             $this->select('*');
             $this->join('country', '(cb_pais = pa_sigla)');
