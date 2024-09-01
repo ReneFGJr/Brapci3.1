@@ -55,12 +55,21 @@ class Corporatename extends Model
         {
             $name = explode(' ',$name);
             $this->select('*');
+            $this->join('country', '(cb_pais = pa_sigla) and (cb_pais <> "")');
             foreach($name as $id=>$n)
                 {
                     $this->like('cb_nome',$n);
                 }
             $this->orderby('cb_nome ');
             $dt = $this->findAll();
+            $RSP = [];
+            foreach($dt as $id=>$line)
+                {
+                    $dd = [];
+                    $dd['name'] = $line[''];
+                    $dd['sigle'] = $line[''];
+                    $dd['pais'] = $line[''];
+                }
             pre($dt);
             return $dt;
         }
