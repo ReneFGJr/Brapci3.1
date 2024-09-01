@@ -66,10 +66,11 @@ class Corporatename extends Model
             foreach($dt as $id=>$line)
                 {
                     $dd = [];
-                    pre($line);
-                    $dd['name'] = $line[''];
-                    $dd['sigle'] = $line[''];
-                    $dd['pais'] = $line[''];
+                    $dd['display'] = $line['cb_nome'].' ('.$line['cb_sigla'].')';
+                    $dd['name'] = $line['cb_nome'];
+                    $dd['sigle'] = $line['cb_sigla'];
+                    $dd['pais'] = $line['pa_nome_pt'];
+                    array_push($RSP,$dd);
                 }
             pre($dt);
             return $dt;
