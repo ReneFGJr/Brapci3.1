@@ -60,7 +60,7 @@ class Corporatename extends Model
                 {
                     $this->like('cb_nome',$n);
                 }
-            $this->orlike('cb_nome', $name);
+            $this->orWhere('pa_sigla', $name);
             $this->orderby('cb_nome');
             $dt = $this->findAll();
             $RSP = [];
