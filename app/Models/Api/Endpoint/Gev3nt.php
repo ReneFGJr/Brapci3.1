@@ -58,7 +58,7 @@ class Gev3nt extends Model
         switch($d1)
             {
                 case 'signup':
-                    $RSP['post'] = $_POST;
+                    $RSP['post  '] = $_POST;
                     echo json_encode($RSP);
                     exit;
                     break;
@@ -89,6 +89,8 @@ class Gev3nt extends Model
                     } else {
                         $dt['status'] = '400';
                         $dt['message'] = 'e-mail not found';
+                        $dt['email'] = $email;
+                        $dt['check'] = md5(date("Y-m-d").$email);
                     }
                     echo json_encode($dt);
                     exit;
