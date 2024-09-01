@@ -56,7 +56,7 @@ class Corporatename extends Model
             $dt = $this->select('*')
                 ->where('cb_nome', $q)
                 ->first();
-            if ($dt == [])
+            if ($dt == '')
                 {
                     $id = -1;
                 } else {
