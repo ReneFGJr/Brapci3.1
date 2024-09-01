@@ -106,15 +106,18 @@ class Index extends Model
         {
             $Social = new \App\Models\Gev3nt\Users();
             $Event = new \App\Models\Gev3nt\Events();
-            $dtUser = $Social->getUserApi(get("apikey"));
-            if ($dtUser == [])
+            $api = get("apikey");
+
+            if (strlen($api) > 5)
                 {
-                    $dt = [];
-                    $dt['status'] = '401';
-                    $dt['message'] = 'Usuário não localizado';
-                    return $dt;
+                    $dtUser = $Social->getUserApi(get("apikey"));
+                    $id_user = $dtUser['id_n'];
+                } else {
+                    $dtUser = [];
+                    $id_user = '';
                 }
-            $id_user = $dtUser['id_n'];
+
+
             return $Event->open_event($id_user);
         }
 
