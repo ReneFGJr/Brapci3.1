@@ -112,7 +112,7 @@ class Gev3nt extends Model
                         $dt['nome'] = $da['n_nome'];
                         $dt['email'] = $da['n_email'];
                         $dt['cracha'] = $da['n_cracha'];
-                        $dt['afiliacao'] = $da['n_afiliacao'];
+                        $dt['afiliacao'] = $da['cb_nome'];
                         $dt['status'] = '200';
                         if ($da['apikey'] == '')
                             {
