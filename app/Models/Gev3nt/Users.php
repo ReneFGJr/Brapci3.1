@@ -67,7 +67,13 @@ class Users extends Model
     }
 
     function getUserApi($apikey) {
-        $dt = $this->where('apikey', $apikey)->first();
+        $cp = 'id_n, n_name, n_cracha, n_email, n_cpf, corporateBody.cb_name as n_afiliacao, n_biografia';
+        $dt =
+            $this
+            ->select($cp)
+            ->Join('corporateBody', 'id_cb = n_afiliacao')
+            ->where('apikey', $apikey)
+            ->first();
         return $dt;
     }
 
