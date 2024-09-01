@@ -76,6 +76,7 @@ class Corporatename extends Model
                 {
                     $dd = [];
                     $dd['name'] = $line['cb_nome'].' ('.$line['cb_sigla'].') - '.$line['pa_nome_pt'];
+                    $dd['name'] = $line['cb_nome'];
                     //$dd['name'] = $line['cb_nome'];
                     //$dd['sigle'] = $line['cb_sigla'];
                     //$dd['pais'] = $line['pa_nome_pt'];
