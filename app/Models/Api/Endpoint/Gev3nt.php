@@ -90,6 +90,7 @@ class Gev3nt extends Model
                                     $RSP['post'] = $_POST;
                                 } else {
                                     $RSP = $Users->register($name, $institution, $cpf, $orcid, $email, $cracha);
+                                    $RSP['status'] = '200';
                                 }
                         }
                     echo json_encode($RSP);
