@@ -81,9 +81,7 @@ class Corporatename extends Model
                     //$dd['pais'] = $line['pa_nome_pt'];
                     array_push($dd,$dd);
                 }
-            $RSP = [];
-            $RSP['query'] = $name;
-            $RSP['result'] = $dd;
+            $RSP = $dd;
             return $RSP;
         }
 }
