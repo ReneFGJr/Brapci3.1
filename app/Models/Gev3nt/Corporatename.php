@@ -65,11 +65,12 @@ class Corporatename extends Model
 
             if ($dt == [])
                 {
-                    $this->select('*');
-                    $this->join('country', '(cb_pais = pa_sigla)');
-                    $this->where('cb_sigla',$name);
-                    $this->orderby('cb_nome');
-                    $dt = $this->findAll(50);
+                    $dt = $this->select('*')
+                    ->join('country', '(cb_pais = pa_sigla)')
+                    ->where('cb_sigla',$name)
+                    ->orderby('cb_nome')
+                    ->findAll(50);
+                    echo $this->getlastquery();
                 }
             $RSP = [];
             foreach($dt as $id=>$line)
