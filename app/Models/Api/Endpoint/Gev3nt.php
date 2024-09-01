@@ -66,7 +66,31 @@ class Gev3nt extends Model
                     break;
 
                 case 'signup':
-                    $RSP['post'] = $_POST;
+                    $Users = new \App\Models\Gev3nt\Users();
+                    $CorporateBody = new \App\Models\Gev3nt\Corporatename();
+
+                    $name = get("name");
+                    $institution = get("name");
+                    $cpf = get("cpf");
+                    $orcid = get("orcid");
+                    $email = get("email");
+                    $cracha = get("cracha");
+                    $check = get("check");
+                    $RSP = [];
+                    if ($check != md5(date("Y-m-d").$email))
+                        {
+                            $RSP['status'] = '500';
+                            $RSP['message'] = 'Checksum do cadastro inválido';
+                        } else {
+                            $institution = $CorporateBody->recoverID($institution);
+                            if ($institution < 1)
+                                {
+                                    $RSP['status'] = '501';
+                                    $RSP['message'] = 'Instituição não existe';
+                                } else {
+                                    $RSP = $Users->register($name, $institution, $cpf, $orcid, $email, $cracha);
+                                }
+                        }
                     echo json_encode($RSP);
                     exit;
                     break;

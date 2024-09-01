@@ -17,6 +17,9 @@ class Users extends Model
     protected $allowedFields    = [
         'id_n','n_nome','b_cracha','n_email',
         'n_cpf','n_orcid',
+        'n_cracha',
+        'n_afiliacao',
+        'n_biografia',
         'apikey'
     ];
 
@@ -68,26 +71,22 @@ class Users extends Model
         return $dt;
     }
 
-    function register($cpf,$id,$sta)
+    function register($name,$institution,$cpf,$orcid,$email,$cracha)
         {
             $dt = $this
-            ->where('n_email',$cpf)
+            ->where('n_email', $email)
             ->first();
 
-            echo $this->getlastquery();
-
-            if ($dt=='')
+            if ($dt==[])
                 {
-                    $dt['n_nome'] = $cpf;
-                    $dt['n_cracha'] = $id;
-                    $dt['n_email'] = 1;
-                    $dt['n_nome'] = 1;
-                    $dt['n_nome'] = 1;
-                    $dt['n_nome'] = 1;
+                    $dt['n_nome'] = $name;
+                    $dt['n_cracha'] = $cracha;
+                    $dt['n_email'] = $email;
+                    $dt['n_orcid'] = $orcid;
+                    $dt['n_cpf'] = $cpf;
+                    $dt['n_afiliacao'] = $institution;
+                    $dt['n_biografia'] = '';
                     $this->set($dt)->insert($dt);
-                } else {
-                    $dt['ei_situacao'] = $sta;
-                    $this->set($dt)->where('id_ei',$dt['id_ei']);
                 }
         }
 

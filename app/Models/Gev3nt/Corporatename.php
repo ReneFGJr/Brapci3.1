@@ -51,6 +51,19 @@ class Corporatename extends Model
             return $dt;
         }
 
+    function recoverID($q)
+        {
+            $dt = $this->select('*')
+                ->where('cb_nome', $q)
+                ->first();
+            if ($dt == [])
+                {
+                    $id = -1;
+                } else {
+                    $id = $dt['id_cb'];
+                }
+        }
+
     function searchName($name='')
         {
             $name = explode(' ',$name);
