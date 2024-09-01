@@ -87,6 +87,7 @@ class Gev3nt extends Model
                                 {
                                     $RSP['status'] = '501';
                                     $RSP['message'] = 'Instituição não existe '. get("institution");
+                                    $RSP['post'] = $_POST;
                                 } else {
                                     $RSP = $Users->register($name, $institution, $cpf, $orcid, $email, $cracha);
                                 }
