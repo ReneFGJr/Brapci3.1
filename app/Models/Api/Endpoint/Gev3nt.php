@@ -69,7 +69,7 @@ class Gev3nt extends Model
                     $Users = new \App\Models\Gev3nt\Users();
                     $CorporateBody = new \App\Models\Gev3nt\Corporatename();
 
-                    $name = get("name");
+                    $name = get("nome");
                     $institution = get("afiliacao");
                     $cpf = get("cpf");
                     $orcid = get("orcid");
