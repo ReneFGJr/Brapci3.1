@@ -17,7 +17,7 @@ export class MainComponent {
     },
   ];
   public status_ok: number = 0;
-  public status_message: string = 'Carragando...';
+  public status_message: string = 'Carregando...';
 
   constructor(public brapciService: BrapciService) {}
 
