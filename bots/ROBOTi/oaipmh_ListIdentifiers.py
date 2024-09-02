@@ -117,26 +117,33 @@ def xml_identifies(xml,setSpec,jnl):
 
     for xdoc in doc['header']:
 
-        print(xdoc)
-        print("+======================================================")
-        id = xdoc['identifier']
-        date = xdoc['datestamp']
-
-        ############################ Registro deletado
-        deleted = 0
         try:
-            deleted = xdoc['@status']
-            if (deleted == 'deleted'):
-                deleted = 1
-        except Exception as e:
+            id = xdoc['identifier']
+            date = xdoc['datestamp']
+
+            ############################ Registro deletado
             deleted = 0
 
-        ############################ setSepc
-        if type(xdoc['setSpec']) is list:
-            spec = xdoc['setSpec'][0]
-        else:
-            spec = xdoc['setSpec']
 
-        ############################ Register
-        identifiers[id] = {'setSpec':setSpec[spec],'date':date,'deleted':deleted}
+            try:
+                deleted = xdoc['@status']
+                if (deleted == 'deleted'):
+                    deleted = 1
+            except Exception as e:
+                deleted = 0
+
+            ############################ setSepc
+            if type(xdoc['setSpec']) is list:
+                spec = xdoc['setSpec'][0]
+            else:
+                spec = xdoc['setSpec']
+
+            ############################ Register
+            identifiers[id] = {'setSpec':setSpec[spec],'date':date,'deleted':deleted}
+        ##/******* ERRO */
+        except Exception as e:
+            print("+======================================================")
+            print("XDOC",xdoc)
+            print("+======================================================")
+            deleted = 0
     return identifiers
