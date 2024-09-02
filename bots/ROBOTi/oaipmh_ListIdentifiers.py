@@ -114,11 +114,11 @@ def xml_identifies(xml,setSpec,jnl):
 
     doc = doc['ListIdentifiers']
 
-    print("XDOC",doc)
 
     for xdoc in doc['header']:
 
-
+        print(xdoc)
+        print("+======================================================")
         id = xdoc['identifier']
         date = xdoc['datestamp']
 
