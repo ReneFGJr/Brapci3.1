@@ -16,9 +16,9 @@ use CodeIgniter\Model;
 
 class Gev3nt extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'genre';
-    protected $primaryKey       = 'id_gn';
+    protected $DBGroup          = 'gev3nt';
+    protected $table            = 'event';
+    protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -57,16 +57,62 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'corporateSearch':
+                    $RSP['post'] = $_POST;
+                    $CorporateBody = new \App\Models\Gev3nt\Corporatename();
+                    $RSP = $CorporateBody->searchName(get("q"));
+                    echo json_encode($RSP);
+                    exit;
+                    break;
+
+                case 'signup':
+                    $Users = new \App\Models\Gev3nt\Users();
+                    $CorporateBody = new \App\Models\Gev3nt\Corporatename();
+
+                    $name = get("nome");
+                    $institution = get("afiliacao");
+                    $cpf = get("cpf");
+                    $orcid = get("orcid");
+                    $email = get("email");
+                    $cracha = get("cracha");
+                    $check = get("check");
+                    $RSP = [];
+                    if ($check != md5(date("Y-m-d").$email))
+                        {
+                            $RSP['status'] = '500';
+                            $RSP['message'] = 'Checksum do cadastro inválido';
+                        } else {
+                            $institution = $CorporateBody->recoverID($institution);
+                            if ($institution < 1)
+                                {
+                                    $RSP['status'] = '501';
+                                    $RSP['message'] = 'Instituição não existe a instituição '. get("afiliacao");
+                                    $RSP['post'] = $_POST;
+                                } else {
+                                    $RSP = $Users->register($name, $institution, $cpf, $orcid, $email, $cracha);
+                                    $RSP['status'] = '200';
+                                }
+                        }
+                    echo json_encode($RSP);
+                    exit;
+                    break;
+                case 'schedule':
+                    $d2 = round(sonumero('0'.$d2));
+                    $EventsSchedule = new \App\Models\Gev3nt\EventsSchedule();
+                    $RSP = $EventsSchedule->agenda($d2);
+                    echo json_encode($RSP);
+                    exit;
+                    break;
                 case 'checkEmail':
                     $dd = [];
                     $email = get("email");
                     $Socials = new \App\Models\Gev3nt\Users();
-                    $da = $Socials->where('n_email', $email)->first();
+                    $da = $Socials->Join('corporateBody', 'id_cb = n_afiliacao')->where('n_email', $email)->first();
                     if ($da != []) {
                         $dt['nome'] = $da['n_nome'];
                         $dt['email'] = $da['n_email'];
                         $dt['cracha'] = $da['n_cracha'];
-                        $dt['afiliacao'] = $da['n_afiliacao'];
+                        $dt['afiliacao'] = $da['cb_nome'];
                         $dt['status'] = '200';
                         if ($da['apikey'] == '')
                             {
@@ -77,6 +123,8 @@ class Gev3nt extends Model
                     } else {
                         $dt['status'] = '400';
                         $dt['message'] = 'e-mail not found';
+                        $dt['email'] = $email;
+                        $dt['check'] = md5(date("Y-m-d").$email);
                     }
                     echo json_encode($dt);
                     exit;

@@ -4,24 +4,18 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class Events extends Model
+class EventsSchedule extends Model
 {
     protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event';
-    protected $primaryKey       = 'id_e';
+    protected $table            = 'event_schedule';
+    protected $primaryKey       = 'id_sch';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_e',
-        'e_name',
-        'e_url',
-        'e_description',
-        'e_active',
-        'e_logo',
-        'e_sigin_until'
+        'id_sch',
     ];
 
     // Dates
@@ -48,33 +42,24 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function le($id)
+    function agenda($ev)
         {
-            $dt = $this->where('id_e',$id)->first();
-            return $dt;
-        }
+            $EventsScheduleBlock = new \App\Models\Gev3nt\EventsScheduleBlock();
+            $dt = $this
+                ->select('sch_day, id_sch')
+                ->where('sch_event',$ev)
+                ->findAll();
+            $RSP = $dt;
 
-    function open_event($user='')
-        {
-            $cp = '*';
+            $RSP = [];
 
-            if ($user != '')
+            foreach($dt as $id=>$line)
                 {
-                    $dt = $this
-                    ->select($cp)
-                    ->join('event_inscritos', '(ein_event = id_e) and (ein_user = ' . $user . ')', 'LEFT')
-                    ->where('e_sigin_until >= ' . date("Y-m-d"))
-                    ->orderby('e_sigin_until')
-                    ->findAll();
-                } else {
-                    $dt = $this
-                        ->select($cp)
-                        ->join('event_inscritos', '(ein_event = 0)', 'LEFT')
-                        ->where('e_sigin_until >= ' . date("Y-m-d"))
-                        ->orderby('e_sigin_until')
-                        ->findAll();
+                    $line['bloco'] = $EventsScheduleBlock->le($line['id_sch']);
+
+                    array_push($RSP,$line);
                 }
-            return $dt;
+            return $RSP;
 
         }
 }
