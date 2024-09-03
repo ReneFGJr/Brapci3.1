@@ -107,7 +107,7 @@ class Gev3nt extends Model
                     $dd = [];
                     $email = get("email");
                     $Socials = new \App\Models\Gev3nt\Users();
-                    $da = $Socials->Join('corporateBody', 'id_cb = n_afiliacao')->where('n_email', $email)->first();
+                    $da = $Socials->Join('corporateBody', 'id_cb = n_afiliacao','LEFT')->where('n_email', $email)->first();
                     if ($da != []) {
                         $dt['nome'] = $da['n_nome'];
                         $dt['email'] = $da['n_email'];
