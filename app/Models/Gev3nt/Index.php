@@ -111,7 +111,12 @@ class Index extends Model
             if (strlen($api) > 5)
                 {
                     $dtUser = $Social->getUserApi(get("apikey"));
-                    $id_user = $dtUser['id_n'];
+                    if (isset($dtUser['id_n']))
+                        {
+                            $id_user = $dtUser['id_n'];
+                        } else {
+                            $id_user = 0;
+                        }
                 } else {
                     $dtUser = [];
                     $id_user = '';
