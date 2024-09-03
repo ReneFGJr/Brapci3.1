@@ -196,6 +196,8 @@ class Gev3nt extends Model
                         } else {
                             $RSP['status'] = '500';
                             $RSP['apikey'] = get("apykey");
+                            $RSP['post'] = $_POST;
+                            $RSP['get'] = $_GET;
                         }
                     break;
 
