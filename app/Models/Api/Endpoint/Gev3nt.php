@@ -67,6 +67,7 @@ class Gev3nt extends Model
 
                 case 'update_perfil':
                     $Users = new \App\Models\Gev3nt\Users();
+                    $CorporateBody = new \App\Models\Gev3nt\Corporatename();
                     $apikey = get("apikey");
                     $dd = $_POST;
                     $RSP = [];
@@ -74,8 +75,10 @@ class Gev3nt extends Model
                     if ($apikey != '')
                         {
                             $dd = [];
+                            $institution = get("afiliacao");
+                            $institution = $CorporateBody->recoverID($institution);
                             $dt = $Users->register(
-                                get("nome"), get("afiliacao"),
+                                get("nome"), $institution,
                                 get("cpf"), get("orcid"),
                                 get("email"), get("cracha_ufrgs"),
                                 get("biografia"),  get("apikey"));
