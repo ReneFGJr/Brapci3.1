@@ -141,9 +141,9 @@ class Gev3nt extends Model
                         $dt['email'] = $da['n_email'];
                         $dt['cracha'] = $da['n_cracha'];
                         $dt['afiliacao'] = $da['cb_nome'];
-                        $dt['cpf'] = $da['cb_cpf'];
-                        $dt['biografia'] = $da['cb_biografia'];
-                        $dt['orcid'] = $da['cb_orcid'];
+                        $dt['cpf'] = $da['n_cpf'];
+                        $dt['biografia'] = $da['n_biografia'];
+                        $dt['orcid'] = $da['n_orcid'];
                         $dt['status'] = '200';
                         if ($da['apikey'] == '')
                             {
