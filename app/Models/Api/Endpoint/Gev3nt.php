@@ -75,7 +75,7 @@ class Gev3nt extends Model
                         {
                             $dd = [];
                             $Users->register(
-                                get("name"), get("afiliacao"),
+                                get("nome"), get("afiliacao"),
                                 get("cpf"), get("orcid"),
                                 get("email"), get("cracha"),
                                 get("biografia"),  get("apikey"));
