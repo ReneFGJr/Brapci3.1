@@ -68,6 +68,9 @@ class Gev3nt extends Model
                 case 'update_perfil':
                     $Users = new \App\Models\Gev3nt\Users();
                     $apikey = get("apikey");
+                    $dd = $_POST;
+                    $RSP = [];
+                    $RSP['post'] = $_POST;
                     if ($apikey != '')
                         {
                             $RSP = $Users->set($dd)->where('apikey', $apikey)->update();
