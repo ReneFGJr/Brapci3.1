@@ -75,7 +75,7 @@ class Users extends Model
         return $dt;
     }
 
-    function register($name,$institution,$cpf,$orcid,$email,$cracha)
+    function register($name,$institution,$cpf,$orcid,$email,$cracha,$apikey='')
         {
             $dt = $this
             ->where('n_email', $email)
@@ -91,6 +91,21 @@ class Users extends Model
                     $dt['n_afiliacao'] = $institution;
                     $dt['n_biografia'] = '';
                     $this->set($dt)->insert($dt);
+                } else {
+                    $dt['n_nome'] = $name;
+                    $dt['n_cracha'] = $cracha;
+                    $dt['n_email'] = $email;
+                    $dt['n_orcid'] = $orcid;
+                    $dt['n_cpf'] = $cpf;
+                    $dt['n_afiliacao'] = $institution;
+                    $dt['n_biografia'] = '';
+                    echo json_encode($dt);
+                    exit;
+                    if ($apikey != '')
+                        {
+                            $this->set($dt)->where('apikey', $apikey)->update();
+                        }
+
                 }
         }
 
