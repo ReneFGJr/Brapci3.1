@@ -73,7 +73,7 @@ class Gev3nt extends Model
                     $RSP['post'] = $_POST;
                     if ($apikey != '')
                         {
-                            $RSP = $Users->set($dd)->where('apikey', $apikey)->update();
+                            $RSP['return'] = $Users->set($dd)->where('apikey', $apikey)->update();
                         } else {
                             $RSP['status'] = '500';
                             $RSP['messagem'] = 'APIKEY inválida para esse usuário';
