@@ -65,6 +65,20 @@ class Gev3nt extends Model
                     exit;
                     break;
 
+                case 'update_perfil':
+                    $Users = new \App\Models\Gev3nt\Users();
+                    $apikey = get("apikey");
+                    if ($apikey != '')
+                        {
+                            $RSP = $Users->set($dd)->where('apikey', $apikey)->update();
+                        } else {
+                            $RSP['status'] = '500';
+                            $RSP['messagem'] = 'APIKEY inválida para esse usuário';
+                        }
+                        echo json_encode($RSP);
+                        exit;
+                    break;
+
                 case 'signup':
                     $Users = new \App\Models\Gev3nt\Users();
                     $CorporateBody = new \App\Models\Gev3nt\Corporatename();
