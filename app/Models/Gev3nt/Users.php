@@ -103,14 +103,13 @@ class Users extends Model
                     $dt['n_cpf'] = $cpf;
                     $dt['n_afiliacao'] = $institution;
                     $dt['n_biografia'] = $biografia;
-                    echo json_encode($dt);
-                    exit;
                     if ($apikey != '')
                         {
                             $this->set($dt)->where('apikey', $apikey)->update();
                         }
 
                 }
+            return $dt;
         }
 
 
