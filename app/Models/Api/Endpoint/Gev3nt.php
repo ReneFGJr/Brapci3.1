@@ -74,7 +74,7 @@ class Gev3nt extends Model
                     if ($apikey != '')
                         {
                             $dd = [];
-                            $Users->register(get("name"),get("cpf"),get("orcid"),get("email"),get("cracha"),get("apikey"));
+                            $Users->register(get("name"),get("cpf"),get("orcid"),get("email"), get("cracha"),get("biografia"), get("apikey"));
                             $RSP['return'] = $Users->set($dd)->where('apikey', $apikey)->update();
                         } else {
                             $RSP['status'] = '500';
