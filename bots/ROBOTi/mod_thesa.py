@@ -58,8 +58,13 @@ def thesa_local(term,lang,id):
     row = database.query(qr)
     if (row == []):
         print(term,' novo registro')
+        qi = "insert into  brapci_thesa.thesa_literal "
+        qi += f" (l_term,l_lang) value ('{term}','{lang}')"
+        database.insert(qi)
     else:
         print(term,' já existe')
+
+def thesa_register_local(term,lang,id)
 
 
 def thesa_api(verb,dt=[]):
