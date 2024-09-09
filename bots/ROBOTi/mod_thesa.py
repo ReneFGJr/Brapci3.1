@@ -52,7 +52,7 @@ def check_subject_thesa():
         thesa_local(term,lang,id)
         #thesa_api('term_add',dt)
 
-def thesa_local(term,lang,id)
+def thesa_local(term,lang,id):
     qr = "select * from brapci_thesa.thesa_literal "
     qr += f" where l_term = '{term}' "
     qr += f" and l_lang = '{lang}' "
