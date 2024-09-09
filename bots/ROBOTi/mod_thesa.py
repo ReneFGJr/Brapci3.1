@@ -65,7 +65,7 @@ def thesa_local(term,lang,id):
     if (row == []):
         print(term,' novo registro')
         qi = "insert into  brapci_thesa.thesa_literal "
-        qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date})"
+        qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date}')"
         database.insert(qi)
     else:
         print(term,' já existe')
