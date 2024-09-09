@@ -64,7 +64,8 @@ def thesa_local(term,lang,id):
     else:
         print(term,' já existe')
 
-def thesa_register_local(term,lang,id)
+def thesa_register_local(term,lang,id):
+    return True
 
 
 def thesa_api(verb,dt=[]):
