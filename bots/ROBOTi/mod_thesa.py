@@ -1,6 +1,7 @@
 import database
 import mod_class
 import requests
+from datetime import datetime
 
 url = 'https://www.ufrgs.br/thesa/v2/index.php/api/'
 th = 5
@@ -56,10 +57,15 @@ def thesa_local(term,lang,id):
     qr += f" where l_term = '{term}' "
     qr += f" and l_lang = '{lang}' "
     row = database.query(qr)
+    now = agora = datetime.now()
+
+    # Formata a data no formato YYYY-MM-DD
+    daet = now.strftime('%Y-%m-%d')
+
     if (row == []):
         print(term,' novo registro')
         qi = "insert into  brapci_thesa.thesa_literal "
-        qi += f" (l_term,l_lang) value ('{term}','{lang}')"
+        qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date})"
         database.insert(qi)
     else:
         print(term,' já existe')
