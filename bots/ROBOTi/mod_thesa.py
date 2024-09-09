@@ -41,6 +41,7 @@ def check_subject_thesa():
     for line in row:
         term = line[2]
         lang = line[3]
+        id = line[0]
         print("===========")
         print(line[2],line[3])
         dt = {}
@@ -48,7 +49,8 @@ def check_subject_thesa():
         dt['lang'] = lang
         dt['th'] = th
         dt['APIKEY'] = apikey
-        thesa_api('term_add',dt)
+        thesa_local(term,lang,id)
+        #thesa_api('term_add',dt)
 
 def thesa_local(term,lang,id)
     qr = "select * from brapci_thesa.thesa_literal "
