@@ -60,7 +60,7 @@ def thesa_local(term,lang,id):
     now = agora = datetime.now()
 
     # Formata a data no formato YYYY-MM-DD
-    daet = now.strftime('%Y-%m-%d')
+    date = now.strftime('%Y-%m-%d')
 
     if (row == []):
         print(term,' novo registro')
