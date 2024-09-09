@@ -63,7 +63,7 @@ def thesa_local(term,lang,id):
     date = now.strftime('%Y-%m-%d')
 
     if (row == []):
-        print(term,' novo registro')
+        print(term,lang,' new')
         qi = "insert into  brapci_thesa.thesa_literal "
         qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date}')"
         database.insert(qi)
