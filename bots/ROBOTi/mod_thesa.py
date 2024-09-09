@@ -50,6 +50,17 @@ def check_subject_thesa():
         dt['APIKEY'] = apikey
         thesa_api('term_add',dt)
 
+def thesa_local(term,lang,id)
+    qr = "select * from brapci_thesa.thesa_literal "
+    qr += f" where l_term = '{term}' "
+    qr += f" and l_lang = '{lang}' "
+    row = database.query(qr)
+    if (row == []):
+        print(term,' novo registro')
+    else:
+        print(term,' já existe')
+
+
 def thesa_api(verb,dt=[]):
     print(url,verb)
     print(dt)
