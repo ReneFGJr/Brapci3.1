@@ -34,6 +34,7 @@ def check_subject_thesa():
         dt['lang'] = lang
         dt['th'] = th
         dt['APIKEY'] = apikey
+        term = term.strip()
         thesa_local(term,lang,id)
         #thesa_api('term_add',dt)
 
@@ -53,7 +54,7 @@ def thesa_local(term,lang,id):
         qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date}')"
         database.insert(qi)
     else:
-        print(term,' já existe')
+        print(term,' ##########################')
 
 def thesa_register_local(term,lang,id):
     return True
