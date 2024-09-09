@@ -42,8 +42,7 @@ def check_subject_thesa():
         term = line[2]
         lang = line[3]
         id = line[0]
-        print("===========")
-        print(line[2],line[3])
+
         dt = {}
         dt['term'] = term
         dt['lang'] = lang
