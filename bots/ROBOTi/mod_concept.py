@@ -13,12 +13,10 @@ def remissives():
         print("Registros USE=>ID:", size)
 
         for ln in row:
-            print(ln)
             ID = ln[0]
             USE = ln[1]
             qu = f"update brapci_rdf.rdf_data set d_r1 = {USE} where d_r1 = {ID}"
-            print(qu)
-
+            database.update(qu)
 
 def UpdateUse():
     print("000 - Update USE")
