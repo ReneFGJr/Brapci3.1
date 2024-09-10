@@ -1,6 +1,7 @@
 import database
 import mod_class
 import requests
+import mod_GoogleTranslate
 from datetime import datetime
 
 url = 'https://www.ufrgs.br/thesa/v2/index.php/api/'
@@ -10,17 +11,35 @@ apikey = '-023- d092 -3d09 -2390d'
 
 ######################################################### AI DO THESA
 def IA_thesa(term,lang):
-    qr = "select * from brapci_thesa.thesa_literal "
-    qr += f" where l_term = '{term}' and l_lang = '{lang}'"
-    row = database.query(qr)
 
+    row = find(term,lang)
     if row == []:
         print("Termo novo ",term,lang)
     else:
+        ID = row[0]
         print(row)
+        xxxx
+        termPtID = find(term)
+        IDc = getThesaID(termPtID)
+        print(row)
+        termEN = mod_GoogleTranslate.translate(termPT,'en')
+        thesa_local(termEN,'en')
 
 def createTerm(term,lang,th):
     return ""
+
+def getThesaID(termID):
+    qr = f"select * from thesa_concept where c_term = termID"
+    row = database.query(qr)
+    print(row)
+
+def find(term,lang):
+    qr = "select * from brapci_thesa.thesa_literal "
+    qr += f" where l_term = '{term}' and l_lang = '{lang}'"
+    row = database.query(qr)
+    if row != []:
+        row = row[0]
+    return row
 
 def check_subject_thesa():
     print("Check Subject - Thesa")
