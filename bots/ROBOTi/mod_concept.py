@@ -4,7 +4,8 @@ import mod_logs
 def remissives():
     qr = "SELECT id_cc, cc_use FROM brapci_rdf.rdf_concept "
     qr += " INNER JOIN brapci_rdf.rdf_data ON id_cc = d_r1 "
-    qr += " WHERE cc_use <> id_cc;"
+    qr += " WHERE cc_use <> id_cc "
+    qr += " group by id_cc, cc_use "
     row = database.query(qr)
 
     print(row)
