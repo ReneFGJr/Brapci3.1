@@ -203,6 +203,8 @@ def run(parm):
     ################### ElasticSearch
     if (act == '180'):
         mod_elasticsearch.dataset_news()
+    if (act == '181'):
+        mod_elasticsearch.reindex()
 
 
     ################### Author

@@ -212,8 +212,6 @@ def reindex():
 
 
 def dataset_news():
-    reindex()
-
     qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0 order by id_ds desc"
     row = database.query(qr)
 
