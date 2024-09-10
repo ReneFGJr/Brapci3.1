@@ -34,7 +34,7 @@ def createTerm(term,lang,th):
     return ""
 
 def getThesaID(termID):
-    qr = f"select * from brapci_thesa.thesa_concept where c_term = termID"
+    qr = f"select * from brapci_thesa.thesa_concept where c_term = {termID}"
     row = database.query(qr)
     print(row)
 
