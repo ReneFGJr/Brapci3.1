@@ -23,10 +23,9 @@ def IA_thesa(term,lang):
     IDc = getThesaID(ID)
 
     print("==>",ID,TERM,LANG,IDc)
-    xxx
 
-    termEN = mod_GoogleTranslate.translate(termPT,'en')
-    thesa_local(termEN,'en')
+    termEN = mod_GoogleTranslate.translate(TERM,'en')
+    IDen = thesa_local(termEN,'en')
 
 def createTerm(term,lang,th):
     return ""
@@ -36,15 +35,15 @@ def getThesaID(termID):
     row = database.query(qr)
 
     if row == []:
-        return conceptRegister(termID)
+        return conceptRegister(termID,termID)
     else:
         return row[0][0]
 
-def conceptRegister(ID):
+def conceptRegister(ID,GR):
     qi = "insert into brapci_thesa.thesa_concept "
     qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
     qi += " values "
-    qi += f"(1,{ID},{ID},1,0)"
+    qi += f"(1,{GR},{ID},1,0)"
     database.insert(qi)
 
     return getThesaID(ID)
@@ -87,10 +86,7 @@ def check_subject_thesa():
         #thesa_api('term_add',dt)
 
 def thesa_local(term,lang,id=0):
-    qr = "select * from brapci_thesa.thesa_literal "
-    qr += f" where l_term = '{term}' "
-    qr += f" and l_lang = '{lang}' "
-    row = database.query(qr)
+    row = find(term,lang)
     now = agora = datetime.now()
 
     # Formata a data no formato YYYY-MM-DD
@@ -101,8 +97,10 @@ def thesa_local(term,lang,id=0):
         qi = "insert into  brapci_thesa.thesa_literal "
         qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date}')"
         database.insert(qi)
+        row = find(term,lang)
     else:
         print(term,' ########################## JA EXISTE')
+    return row[0][0]
 
 def thesa_register_local(term,lang,id):
     return True
