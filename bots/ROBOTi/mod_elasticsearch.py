@@ -184,11 +184,10 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Enviando dados para o servidor
         id = dt['id']
-        result = api.call(f'brapci3.4/{dt["type"]}/{id}', 'POST', dt)
+        result = api.call(f'brapci3.3/{dt["type"]}/{id}', 'POST', dt)
 
         # Atualizando o status
         sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
-
         print(sx)
         # Simulação de função exported (não implementada)
         # self.exported(id, 0)
@@ -201,14 +200,19 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
     return sx
 
+def update_status(ID,status)
+    qu = f"update brapci_elastic.dataset set new = {status} where id_ds = {ID}"
+    database.update(qu)
+
 def dataset_news():
-    qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0"
+    qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0 order by id_ds desc"
     row = database.query(qr)
 
     for ln in row:
         offset = 0
         dtt = 100
         limit = 10
+        ID = ln[0]
 
-        resultado = export_elasticsearch_v2_2(ln, offset, dtt, limit)
-        print(resultado)
+        export_elasticsearch_v2_2(ln, offset, dtt, limit)
+        update_status(ID,2)
