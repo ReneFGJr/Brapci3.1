@@ -2,7 +2,7 @@ import database
 import mod_logs
 
 def remissives():
-    qr = "SELECT id_cc, cc_use FROM rdf_concept INNER JOIN rdf_data ON id_cc = d_r1 WHERE cc_use <> id_cc;"
+    qr = "SELECT id_cc, cc_use FROM brapci_rdf.rdf_concept INNER JOIN brapci_rdf.rdf_data ON id_cc = d_r1 WHERE cc_use <> id_cc;"
     row = database.query(qr)
 
     for ln in row:
