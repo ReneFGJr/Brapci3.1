@@ -34,7 +34,6 @@ class ElasticSearchAPI:
         except Exception as e:
             return {'error': 'Exception', 'message': str(e)}
 
-
 def ascii(text):
     # Normaliza o texto para remover acentos e caracteres especiais
     text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
@@ -182,7 +181,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Enviando dados para o servidor
         id = dt['id']
-        result = api.call(f'brapci3.3/{id}', 'POST', dt)
+        result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
 
         # Atualizando o status
         try:
@@ -207,7 +206,14 @@ def update_status(ID,status):
     qu = f"update brapci_elastic.dataset set new = {status} where id_ds = {ID}"
     database.update(qu)
 
+def reindex():
+    qu = "update brapci_elastic.dataset set new = 1 where new = 4 or new = 2"
+    database.update(qu)
+
+
 def dataset_news():
+    reindex()
+
     qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0 order by id_ds desc"
     row = database.query(qr)
 
