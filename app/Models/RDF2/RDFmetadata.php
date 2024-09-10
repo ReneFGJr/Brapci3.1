@@ -915,7 +915,7 @@ class RDFmetadata extends Model
                         case 'subject':
                             foreach ($value as $ida => $linea) {
                                 $dd = [];
-                                pre($linea,false);
+                                pre($ida,$linea,false);
                                 $dd['name'] = 'DC.Subject';
                                 $dd['content'] = $linea['name'];
                                 Array_push($RSP, $dd);
