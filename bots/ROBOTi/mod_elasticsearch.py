@@ -49,15 +49,22 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         aabs = []
         asec = []
 
-        print("===",DT['Title'])
+        print("===",DT['Title'].values)
 
         # Título
         if 'Title' in DT:
             for ks in DT['Title'].values():
-                for term in ks.values():
-                    if term.strip():
-                        atit.append(ascii(term.lower()))
-                        full += f'{ascii(term.lower())} '
+                if isinstance(ks, dict):
+                    for term in ks.values():
+                        if term.strip():
+                            atit.append(ascii(term.lower()))
+                            full += f'{ascii(term.lower())} '
+                elif isinstance(ks, list):
+                    for term in ks:
+                        if term.strip():
+                            atit.append(ascii(term.lower()))
+                            full += f'{ascii(term.lower())} '
+        print("========================",atit)
 
         # Seções
         if 'Sections' in DT:
