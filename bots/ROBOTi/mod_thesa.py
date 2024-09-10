@@ -47,7 +47,7 @@ def conceptRegister(ID,GR):
     qi += f"(1,{GR},{ID},1,0)"
     database.insert(qi)
 
-    return getThesaID(ID)
+    return getThesaID(ID,GR)
 
 def find(term,lang):
     qr = "select * from brapci_thesa.thesa_literal "
