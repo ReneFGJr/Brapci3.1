@@ -79,23 +79,31 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
                             asec.append(ascii(term.lower().strip()))
 
         # Autores
-        idaa = {}
+       idaa = {}
         if 'Authors' in DT:
-            for ks in DT['Authors'].values():
-                if isinstance(ks, dict):
-                    for idk, term in ks.items():
-                        if idk not in idaa and term.strip():
-                            term_ascii = ascii(term)
-                            full += f'{term_ascii} '
-                            aaut.append(nbr_author(upper_case(term_ascii), 7))
-                            idaa[idk] = 1
-                elif isinstance(ks, list):
-                    for idx, term in enumerate(ks):
-                        if idx not in idaa and term.strip():
-                            term_ascii = ascii(term)
-                            full += f'{term_ascii} '
-                            aaut.append(nbr_author(upper_case(term_ascii), 7))
-                            idaa[idx] = 1
+            if isinstance(DT['Authors'], dict):
+                for ks in DT['Authors'].values():
+                    if isinstance(ks, dict):
+                        for idk, term in ks.items():
+                            if idk not in idaa and term.strip():
+                                term_ascii = ascii(term)
+                                full += f'{term_ascii} '
+                                aaut.append(nbr_author(upper_case(term_ascii), 7))
+                                idaa[idk] = 1
+                    elif isinstance(ks, list):
+                        for idx, term in enumerate(ks):
+                            if idx not in idaa and term.strip():
+                                term_ascii = ascii(term)
+                                full += f'{term_ascii} '
+                                aaut.append(nbr_author(upper_case(term_ascii), 7))
+                                idaa[idx] = 1
+            elif isinstance(DT['Authors'], list):
+                for idx, term in enumerate(DT['Authors']):
+                    if idx not in idaa and term.strip():
+                        term_ascii = ascii(term)
+                        full += f'{term_ascii} '
+                        aaut.append(nbr_author(upper_case(term_ascii), 7))
+                        idaa[idx] = 1
 
         # Palavras-chave
         if 'Keywords' in DT:
