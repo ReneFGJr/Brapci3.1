@@ -207,7 +207,7 @@ def update_status(ID,status):
     database.update(qu)
 
 def reindex():
-    qu = "update brapci_elastic.dataset set new = 1 where new = 4 or new = 2"
+    qu = "update brapci_elastic.dataset set new = 1 where ((new = 4) or (new = 2) or (new = 0)) and `use` = 0"
     database.update(qu)
 
 
