@@ -79,7 +79,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
                             asec.append(ascii(term.lower().strip()))
 
         # Autores
-       idaa = {}
+        idaa = {}
         if 'Authors' in DT:
             if isinstance(DT['Authors'], dict):
                 for ks in DT['Authors'].values():
