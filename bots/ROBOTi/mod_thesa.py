@@ -62,11 +62,22 @@ def getThesaID(termID,GRP):
         return row[0][0]
 
 def conceptRegister(ID,GR):
-    qi = "insert into brapci_thesa.thesa_concept "
-    qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
-    qi += " values "
-    qi += f"(1,{GR},{ID},1,0)"
-    database.insert(qi)
+    if (ID != GR):
+        qi = "insert into brapci_thesa.thesa_concept "
+        qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
+        qi += " values "
+        qi += f"(1,{GR},{ID},1,0)"
+        database.insert(qi)
+    else:
+        qi = "insert into brapci_thesa.thesa_concept "
+        qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
+        qi += " values "
+        qi += f"(1,0,{ID},1,0)"
+        database.insert(qi)
+
+        qu = "update brapci_thesa.thesa_concept set c_group = id_c where c_group = 0 "
+        database.update(qu)
+
 
     return getThesaID(ID,GR)
 
