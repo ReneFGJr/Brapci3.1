@@ -189,6 +189,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
             sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
             print(sx)
         except Exception as e:
+            print(e)
             return {'error': 'Exception', 'message': str(e)}
         # Simulação de função exported (não implementada)
         # self.exported(id, 0)
