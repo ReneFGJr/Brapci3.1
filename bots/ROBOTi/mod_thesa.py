@@ -17,7 +17,10 @@ def IA_thesa(term,lang):
         print("Termo novo ",term,lang)
     else:
         ID = row[0]
-        print(row)
+        TERM = row[1]
+        LANG = row[2]
+
+        print(ID,TERM,LANG)
         xxxx
         termPtID = find(term)
         IDc = getThesaID(termPtID)
