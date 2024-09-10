@@ -8,15 +8,16 @@ def remissives():
     qr += " group by id_cc, cc_use "
     row = database.query(qr)
 
-    size = row.len()
-    print("Registros USE=>ID ",size)
+    if row:
+        size = len(row)
+        print("Registros USE=>ID:", size)
 
-    for ln in row:
-        print(ln)
-        ID = ln[0]
-        USE = ln[1]
-        qu = f"update brapci_rdf.rdf_data set d_r1 = {USE} where d_r1 = {ID}"
-        print(qu)
+        for ln in row:
+            print(ln)
+            ID = ln[0]
+            USE = ln[1]
+            qu = f"update brapci_rdf.rdf_data set d_r1 = {USE} where d_r1 = {ID}"
+            print(qu)
 
 
 def UpdateUse():
