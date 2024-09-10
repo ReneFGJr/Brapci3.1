@@ -8,7 +8,7 @@ def remissives():
     qr += " group by id_cc, cc_use "
     row = database.query(qr)
 
-    size = row.length()
+    size = row.len()
     print("Registros USE=>ID ",size)
 
     for ln in row:
