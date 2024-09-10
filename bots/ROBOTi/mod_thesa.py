@@ -21,6 +21,7 @@ def IA_thesa():
         term = line[1]
         lang = line[2]
         print(term,lang)
+        translate(term,lang)
 
 def translate(term,lang):
 
