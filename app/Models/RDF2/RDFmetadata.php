@@ -917,7 +917,6 @@ class RDFmetadata extends Model
                             {
                                 foreach ($value as $ida => $linea) {
                                     $dd = [];
-                                    pre($ida,$linea,false);
                                     $dd['name'] = 'DC.Subject';
                                     $dd['content'] = $linea['name'];
                                     Array_push($RSP, $dd);
@@ -935,8 +934,6 @@ class RDFmetadata extends Model
                                             }
                                         }
                                     }
-
-
                             }
                             break;
 
