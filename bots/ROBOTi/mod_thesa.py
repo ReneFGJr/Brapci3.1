@@ -12,21 +12,23 @@ apikey = '-023- d092 -3d09 -2390d'
 ######################################################### AI DO THESA
 def IA_thesa(term,lang):
 
-    row = find(term,lang)
-    if row == []:
+    tID = find(TERM,LANG)
+    if tID == []:
         print("Termo novo ",term,lang)
-    else:
-        ID = row[0]
-        TERM = row[1]
-        LANG = row[2]
-        tID = find(TERM,LANG)
-        print(ID,TERM,LANG,tID)
-        xxx
+        thesa_local(term,lang)
 
-        IDc = getThesaID(termPtID)
-        print(row)
-        termEN = mod_GoogleTranslate.translate(termPT,'en')
-        thesa_local(termEN,'en')
+    ID = tID[0]
+    TERM = tID[1]
+    LANG = tID[2]
+    IDc = getThesaID(id)
+
+    print(ID,TERM,LANG,IDc)
+    xxx
+
+
+    print(row)
+    termEN = mod_GoogleTranslate.translate(termPT,'en')
+    thesa_local(termEN,'en')
 
 def createTerm(term,lang,th):
     return ""
@@ -73,7 +75,7 @@ def check_subject_thesa():
         thesa_local(term,lang,id)
         #thesa_api('term_add',dt)
 
-def thesa_local(term,lang,id):
+def thesa_local(term,lang,id=0):
     qr = "select * from brapci_thesa.thesa_literal "
     qr += f" where l_term = '{term}' "
     qr += f" and l_lang = '{lang}' "
@@ -89,7 +91,7 @@ def thesa_local(term,lang,id):
         qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date}')"
         database.insert(qi)
     else:
-        print(term,' ##########################')
+        print(term,' ########################## JA EXISTE')
 
 def thesa_register_local(term,lang,id):
     return True
