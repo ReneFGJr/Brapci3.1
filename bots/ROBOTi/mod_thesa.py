@@ -100,6 +100,7 @@ def thesa_local(term,lang,id=0):
         row = find(term,lang)
     else:
         print(term,' ########################## JA EXISTE')
+        print("=====================",row)
     return row[0][0]
 
 def thesa_register_local(term,lang,id):
