@@ -201,9 +201,6 @@ def dataset_news():
     row = database.query(qr)
 
     for ln in row:
-        print(ln)
-        # Exemplo de chamada da função
-
         offset = 0
         dtt = 100
         limit = 10
