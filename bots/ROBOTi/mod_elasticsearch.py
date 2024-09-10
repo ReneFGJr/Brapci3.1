@@ -150,15 +150,17 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         else:
             dt['collection'] = 'BK' if dt.get('Class') == 'Book' else 'EV'
 
-        dt['year'] = line['YEAR']
-        dt['type'] = line['CLASS']
+        dt['year'] = line[14]
+        dt['type'] = line[2]
         dt['language'] = DT.get('Idioma', [])
         dt['section'] = asec
         dt['doi'] = DT.get('DOI', '')
 
         # Enviando dados para o servidor
-        id = dt['id']
-        result = api.call(f'brapci3.3/{dt["type"]}/{id}', 'POST', dt)
+        id = dt[1]
+        print(dt)
+        xxx
+        # result = api.call(f'brapci3.3/{dt["type"]}/{id}', 'POST', dt)
 
         # Atualizando o status
         sx += f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})<br>'
