@@ -10,7 +10,7 @@ apikey = '-023- d092 -3d09 -2390d'
 
 ######################################################### AI DO THESA
 def IA_thesa(term,lang):
-    qr = "select * from thesa_literal "
+    qr = "select * from brapci_thesa.thesa_literal "
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
     row = database.query(qr)
 
