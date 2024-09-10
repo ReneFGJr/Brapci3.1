@@ -189,8 +189,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         # Atualizando o status
         sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
 
-        for value in sx.values():
-            print(value)  # Agora vai exibir os valores corretamente
+        print(sx)
         # Simulação de função exported (não implementada)
         # self.exported(id, 0)
 
