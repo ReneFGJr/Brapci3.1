@@ -36,6 +36,7 @@ def export_elasticsearch_v2_2(dta, offset, dtt, limit):
 
     for line in dta:
         dt = {}
+        print("===",line)
         dados = line[4]
         print(dados)
         DT = json.loads(line[4])
