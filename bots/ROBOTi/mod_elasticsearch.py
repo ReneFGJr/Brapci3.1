@@ -39,8 +39,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         DT = json.loads(line[4])
 
-        print(DT)
-
         full = ''
 
         aaut = []
@@ -64,7 +62,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
                         if term.strip():
                             atit.append(ascii(term.lower()))
                             full += f'{ascii(term.lower())} '
-        print("========================",atit)
 
         # Seções
         if 'Sections' in DT:
@@ -158,18 +155,18 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Enviando dados para o servidor
         id = dt[1]
-        print(dt)
-        xxx
-        # result = api.call(f'brapci3.3/{dt["type"]}/{id}', 'POST', dt)
+        result = api.call(f'brapci3.3/{dt["type"]}/{id}', 'POST', dt)
 
         # Atualizando o status
-        sx += f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})<br>'
+        sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
+
+        print(sx)
         # Simulação de função exported (não implementada)
         # self.exported(id, 0)
 
     # Verificando se continua a exportação
     if len(line) == limit:
-        sx += f'<meta http-equiv="refresh" content="1;url=/elasticsearch/update_index?offset={offset + limit}">'
+        sx += f'LIMITE'
     else:
         sx = 'Elastic Search Exported'
 
