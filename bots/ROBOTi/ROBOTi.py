@@ -207,7 +207,7 @@ def run(parm):
         print("REINDEXAR")
         mod_elasticsearch.reindex()
     if (act == '182'):
-        mod_thesa.IA_thesa("Biblioteca Escolar","pt")
+        mod_thesa.IA_thesa("Biblioteca Universitária","pt")
 
 
     ################### Author
