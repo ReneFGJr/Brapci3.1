@@ -22,7 +22,7 @@ def IA_thesa(term,lang):
     LANG = tID[2]
     IDc = getThesaID(id)
 
-    print(ID,TERM,LANG,IDc)
+    print("==>",ID,TERM,LANG,IDc)
     xxx
 
 
