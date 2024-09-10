@@ -28,6 +28,10 @@ def IA_thesa(term,lang):
     IDen = thesa_local(termEN,'en')
     getThesaID(IDen,IDc)
 
+    termEN = mod_GoogleTranslate.translate(TERM,'es')
+    IDen = thesa_local(termEN,'es')
+    getThesaID(IDen,IDc)
+
 def createTerm(term,lang,th):
     return ""
 
