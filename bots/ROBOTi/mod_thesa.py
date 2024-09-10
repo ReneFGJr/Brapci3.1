@@ -23,14 +23,26 @@ def IA_thesa(term,lang):
     IDc = getThesaID(ID,ID)
 
     print("==>",ID,TERM,LANG,IDc)
+    EN = checkExistConcept(ID,'en')
+    EN = checkExistConcept(ID,'es')
 
-    termEN = mod_GoogleTranslate.translate(TERM,'en')
-    IDen = thesa_local(termEN,'en')
-    getThesaID(IDen,IDc)
+    if EN:
+        termEN = mod_GoogleTranslate.translate(TERM,'en')
+        IDen = thesa_local(termEN,'en')
+        getThesaID(IDen,IDc)
 
-    termEN = mod_GoogleTranslate.translate(TERM,'es')
-    IDen = thesa_local(termEN,'es')
-    getThesaID(IDen,IDc)
+    if ES:
+        termEN = mod_GoogleTranslate.translate(TERM,'es')
+        IDen = thesa_local(termEN,'es')
+        getThesaID(IDen,IDc)
+
+def checkExistConcept(ID,lang):
+    qr = "select * thesa_concept "
+    qr = " join brapci_thesa.thesa_literal ON c_term = id_l and l_lang = '{lang}'"
+    qr = f" where c_group = {ID}"
+    print(qr)
+    xxxx
+
 
 def createTerm(term,lang,th):
     return ""
@@ -105,7 +117,6 @@ def thesa_local(term,lang,id=0):
         row = find(term,lang)
     else:
         print(term,' ########################## JA EXISTE')
-        print("=====================",row)
     return row[0]
 
 def thesa_register_local(term,lang,id):
