@@ -927,7 +927,6 @@ class RDFmetadata extends Model
                                         foreach ($value as $idioma => $lineb) {
                                             foreach ($lineb as $ida => $linea) {
                                                 $dd = [];
-                                                pre($ida, $linea, false);
                                                 $dd['name'] = 'DC.Subject';
                                                 $dd['content'] = $linea['name'];
                                                 Array_push($RSP, $dd);
