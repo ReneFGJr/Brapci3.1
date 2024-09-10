@@ -913,12 +913,30 @@ class RDFmetadata extends Model
 
                          /**************** DC.Subject */
                         case 'subject':
-                            foreach ($value as $ida => $linea) {
-                                $dd = [];
-                                pre($ida,$linea,false);
-                                $dd['name'] = 'DC.Subject';
-                                $dd['content'] = $linea['name'];
-                                Array_push($RSP, $dd);
+                        if (isset($value[0]))
+                            {
+                                foreach ($value as $ida => $linea) {
+                                    $dd = [];
+                                    pre($ida,$linea,false);
+                                    $dd['name'] = 'DC.Subject';
+                                    $dd['content'] = $linea['name'];
+                                    Array_push($RSP, $dd);
+                                }
+                            } else {
+                                if (isset($value['pt']) or (isset($value['en'])))
+                                    {
+                                        foreach ($value as $idioma => $lineb) {
+                                            foreach ($lineb as $ida => $linea) {
+                                                $dd = [];
+                                                pre($ida, $linea, false);
+                                                $dd['name'] = 'DC.Subject';
+                                                $dd['content'] = $linea['name'];
+                                                Array_push($RSP, $dd);
+                                            }
+                                        }
+                                    }
+
+
                             }
                             break;
 
