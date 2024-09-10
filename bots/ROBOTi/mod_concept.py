@@ -2,7 +2,7 @@ import database
 import mod_logs
 
 def remissives():
-    print("000 - Update USE->ID")
+    print("000 - Update USE->ID (RD_1)")
     qr = "SELECT id_cc, cc_use FROM brapci_rdf.rdf_concept "
     qr += " INNER JOIN brapci_rdf.rdf_data ON id_cc = d_r1 "
     qr += " WHERE cc_use <> id_cc "
@@ -17,6 +17,23 @@ def remissives():
             ID = ln[0]
             USE = ln[1]
             qu = f"update brapci_rdf.rdf_data set d_r1 = {USE} where d_r1 = {ID}"
+            database.update(qu)
+
+    print("000 - Update USE->ID rd_2")
+    qr = "SELECT id_cc, cc_use FROM brapci_rdf.rdf_concept "
+    qr += " INNER JOIN brapci_rdf.rdf_data ON id_cc = d_r2 "
+    qr += " WHERE cc_use <> id_cc "
+    qr += " group by id_cc, cc_use "
+    row = database.query(qr)
+
+    if row:
+        size = len(row)
+        print("Registros USE=>ID:", size)
+
+        for ln in row:
+            ID = ln[0]
+            USE = ln[1]
+            qu = f"update brapci_rdf.rdf_data set d_r2 = {USE} where d_r2 = {ID}"
             database.update(qu)
 
 def UpdateUse():
