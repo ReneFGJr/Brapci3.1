@@ -134,7 +134,7 @@ class Issues extends Model
                     if ($book == [])
                         {
                             echo metarefresh('',1);
-                            echo "Capítulo pedido, excluíndo $ID";
+                            echo "Capítulo perdido, excluíndo $ID";
                             $RDFconcept->updateStatus($ID,99);
                             exit;
                         }
