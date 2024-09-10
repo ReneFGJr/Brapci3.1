@@ -130,7 +130,7 @@ def export_elasticsearch_v2_2(dta, offset, dtt, limit):
     return sx
 
 def dataset_news():
-    qr = "select * from brapci_elastic.dataset where new = 1 and use = 0"
+    qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0"
     row = database.query(qr)
 
     for ln in row:
