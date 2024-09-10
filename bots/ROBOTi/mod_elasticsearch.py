@@ -125,6 +125,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Palavras-chave
         if 'Subject' in DT:
+            print(DT)
             for ks in DT['Subject'].values():
                 if isinstance(ks, dict):
                     for term in ks.values():
