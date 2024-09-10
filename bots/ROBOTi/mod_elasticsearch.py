@@ -134,7 +134,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
                             full += f'{ascii(term.lower())} '
 
         # Preenchendo dados
-        dt['id'] = line['ID']
+        dt['id'] = line[0]
         dt['full'] = full.strip()
         dt['keyword'] = akey
         dt['abstract'] = aabs
