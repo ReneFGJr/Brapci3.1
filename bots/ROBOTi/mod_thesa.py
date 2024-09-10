@@ -17,7 +17,8 @@ def IA_thesa():
     qr += " and id_c is null "
     qr += " limit 10 "
     row = database.query(qr)
-    print(row)
+    for line in row:
+        print(line)
 
 def translate(term,lang):
 
