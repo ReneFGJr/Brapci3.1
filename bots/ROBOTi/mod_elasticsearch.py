@@ -71,8 +71,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         aabs = []
         asec = []
 
-        print("===",DT['Title'].values)
-
         # Título
         if 'Title' in DT:
             for ks in DT['Title'].values():
