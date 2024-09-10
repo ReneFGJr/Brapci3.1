@@ -200,7 +200,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
     return sx
 
-def update_status(ID,status)
+def update_status(ID,status):
     qu = f"update brapci_elastic.dataset set new = {status} where id_ds = {ID}"
     database.update(qu)
 
