@@ -171,7 +171,12 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         else:
             dt['collection'] = 'BK' if dt.get('Class') == 'Book' else 'EV'
 
-        dt['year'] = line[14]
+        ano = line[14]
+        try:
+            ano = int(ano)
+        except ValueError:
+            ano = 9999
+        dt['year'] = ano
         dt['type'] = line[2]
         dt['language'] = DT.get('Idioma', [])
         dt['section'] = asec
