@@ -69,36 +69,61 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         # Seções
         if 'Sections' in DT:
             for ks in DT['Sections'].values():
-                for term in ks.values():
-                    if term.strip():
-                        asec.append(ascii(term.lower().strip()))
+                if isinstance(ks, dict):
+                    for term in ks.values():
+                        if term.strip():
+                            asec.append(ascii(term.lower().strip()))
+                elif isinstance(ks, list):
+                    for term in ks:
+                        if term.strip():
+                            asec.append(ascii(term.lower().strip()))
 
         # Autores
         idaa = {}
         if 'Authors' in DT:
             for ks in DT['Authors'].values():
-                for idk, term in ks.items():
-                    if idk not in idaa and term.strip():
-                        term_ascii = ascii(term)
-                        full += f'{term_ascii} '
-                        aaut.append(nbr_author(upper_case(term_ascii), 7))
-                        idaa[idk] = 1
+                if isinstance(ks, dict):
+                    for idk, term in ks.items():
+                        if idk not in idaa and term.strip():
+                            term_ascii = ascii(term)
+                            full += f'{term_ascii} '
+                            aaut.append(nbr_author(upper_case(term_ascii), 7))
+                            idaa[idk] = 1
+                elif isinstance(ks, list):
+                    for idx, term in enumerate(ks):
+                        if idx not in idaa and term.strip():
+                            term_ascii = ascii(term)
+                            full += f'{term_ascii} '
+                            aaut.append(nbr_author(upper_case(term_ascii), 7))
+                            idaa[idx] = 1
 
         # Palavras-chave
         if 'Keywords' in DT:
             for ks in DT['Keywords'].values():
-                for term in ks:
-                    if term.strip():
-                        akey.append(ascii(term.lower()))
-                        full += f'{ascii(term.lower())} '
+                if isinstance(ks, dict):
+                    for term in ks.values():
+                        if term.strip():
+                            akey.append(ascii(term.lower()))
+                            full += f'{ascii(term.lower())} '
+                elif isinstance(ks, list):
+                    for term in ks:
+                        if term.strip():
+                            akey.append(ascii(term.lower()))
+                            full += f'{ascii(term.lower())} '
 
         # Resumo
         if 'Abstract' in DT:
             for ks in DT['Abstract'].values():
-                for term in ks.values():
-                    if term.strip():
-                        aabs.append(ascii(term.lower()))
-                        full += f'{ascii(term.lower())} '
+                if isinstance(ks, dict):
+                    for term in ks.values():
+                        if term.strip():
+                            aabs.append(ascii(term.lower()))
+                            full += f'{ascii(term.lower())} '
+                elif isinstance(ks, list):
+                    for term in ks:
+                        if term.strip():
+                            aabs.append(ascii(term.lower()))
+                            full += f'{ascii(term.lower())} '
 
         # Preenchendo dados
         dt['id'] = line['ID']
@@ -125,8 +150,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Enviando dados para o servidor
         id = dt['id']
-        print(dt)
-        os.exit
         result = api.call(f'brapci3.3/{dt["type"]}/{id}', 'POST', dt)
 
         # Atualizando o status
@@ -135,7 +158,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         # self.exported(id, 0)
 
     # Verificando se continua a exportação
-    if len(dta) == limit:
+    if len(line) == limit:
         sx += f'<meta http-equiv="refresh" content="1;url=/elasticsearch/update_index?offset={offset + limit}">'
     else:
         sx = 'Elastic Search Exported'
