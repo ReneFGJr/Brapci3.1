@@ -25,8 +25,6 @@ def IA_thesa(term,lang):
     print("==>",ID,TERM,LANG,IDc)
     xxx
 
-
-    print(row)
     termEN = mod_GoogleTranslate.translate(termPT,'en')
     thesa_local(termEN,'en')
 
@@ -36,7 +34,20 @@ def createTerm(term,lang,th):
 def getThesaID(termID):
     qr = f"select * from brapci_thesa.thesa_concept where c_term = {termID}"
     row = database.query(qr)
-    print(row)
+
+    if row == []:
+        return conceptRegister(termID)
+    else:
+        return row[0][0]
+
+def conceptRegister(ID):
+    qi = "insert into brapci_thesa.thesa_concept "
+    qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
+    qi += " values "
+    qi += f"(1,{ID},{ID},1,0)"
+    database.insert(qi)
+
+    return getThesaID(ID)
 
 def find(term,lang):
     qr = "select * from brapci_thesa.thesa_literal "
