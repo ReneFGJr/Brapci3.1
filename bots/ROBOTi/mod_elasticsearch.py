@@ -214,5 +214,6 @@ def dataset_news():
         limit = 10
         ID = ln[0]
 
+        update_status(ID,4)
         export_elasticsearch_v2_2(ln, offset, dtt, limit)
         update_status(ID,2)
