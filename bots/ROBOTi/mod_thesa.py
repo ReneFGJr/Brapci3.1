@@ -18,7 +18,9 @@ def IA_thesa():
     qr += " limit 10 "
     row = database.query(qr)
     for line in row:
-        print(line)
+        term = line[1]
+        lang = line[2]
+        print(term,lang)
 
 def translate(term,lang):
 
