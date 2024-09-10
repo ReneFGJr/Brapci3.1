@@ -30,11 +30,13 @@ def IA_thesa(term,lang):
         termEN = mod_GoogleTranslate.translate(TERM,'en')
         IDen = thesa_local(termEN,'en')
         getThesaID(IDen,IDc)
+        print("Tradução para o Ingles",termEN)
 
     if ES:
-        termEN = mod_GoogleTranslate.translate(TERM,'es')
-        IDen = thesa_local(termEN,'es')
-        getThesaID(IDen,IDc)
+        termES = mod_GoogleTranslate.translate(TERM,'es')
+        IDes = thesa_local(termES,'es')
+        getThesaID(IDes,IDc)
+        print("Tradução para o espanhol",termES)
 
 def checkExistConcept(ID,lang):
     qr = "select * from brapci_thesa.thesa_concept "
