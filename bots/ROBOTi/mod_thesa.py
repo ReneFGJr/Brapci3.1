@@ -37,8 +37,8 @@ def IA_thesa(term,lang):
         getThesaID(IDen,IDc)
 
 def checkExistConcept(ID,lang):
-    qr = "select * thesa_concept "
-    qr += f" join brapci_thesa.thesa_literal ON c_term = id_l and l_lang = '{lang}'"
+    qr = "select * from thesa_concept "
+    qr += f" inner join brapci_thesa.thesa_literal ON c_term = id_l and l_lang = '{lang}'"
     qr += f" where c_group = {ID}"
     print(qr)
     xxxx
