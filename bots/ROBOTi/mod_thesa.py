@@ -19,10 +19,10 @@ def IA_thesa(term,lang):
         ID = row[0]
         TERM = row[1]
         LANG = row[2]
+        tID = find(TERM,LANG)
+        print(ID,TERM,LANG,tID)
+        xxx
 
-        print(ID,TERM,LANG)
-        xxxx
-        termPtID = find(term)
         IDc = getThesaID(termPtID)
         print(row)
         termEN = mod_GoogleTranslate.translate(termPT,'en')
