@@ -27,14 +27,14 @@ def upper_case(text):
     # Converte o texto para caixa baixa
     return text.upper()
 
-def export_elasticsearch_v2_2(dta, offset, dtt, limit):
+def export_elasticsearch_v2_2(line, offset, dtt, limit):
     api = ElasticSearchAPI()
     sx = f'Export ElasticSearch v2.2 - {offset} of {dtt}'
 
     percent = (offset / dtt * 100) if dtt > 0 else 100
     sx += f' ({percent:.1f}%)<hr>'
 
-    for line in dta:
+    if line:
         dt = {}
         print("===",line)
         dados = line[4]
