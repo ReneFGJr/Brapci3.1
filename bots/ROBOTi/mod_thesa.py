@@ -20,6 +20,7 @@ def IA_thesa():
     for line in row:
         term = line[1]
         lang = line[2]
+        print("----------------")
         print(term,lang)
         translate(term,lang)
 
