@@ -204,6 +204,7 @@ def run(parm):
     if (act == '180'):
         mod_elasticsearch.dataset_news()
     if (act == '181'):
+        print("REINDEXAR")
         mod_elasticsearch.reindex()
 
 
