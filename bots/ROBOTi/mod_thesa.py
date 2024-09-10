@@ -12,7 +12,7 @@ apikey = '-023- d092 -3d09 -2390d'
 ######################################################### AI DO THESA
 def IA_thesa(term,lang):
 
-    tID = find(TERM,LANG)
+    tID = find(term,lang)
     if tID == []:
         print("Termo novo ",term,lang)
         thesa_local(term,lang)
