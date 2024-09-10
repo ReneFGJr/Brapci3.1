@@ -10,7 +10,16 @@ apikey = '-023- d092 -3d09 -2390d'
 
 
 ######################################################### AI DO THESA
-def IA_thesa(term,lang):
+def IA_thesa():
+    qr = "select * from brapci_thesa.thesa_literal "
+    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
+    qr += " where l_lang = 'pt' "
+    qr += " and id_c is null "
+    qr += " limit 10 "
+    row = database.query(qr)
+    print(row)
+
+def translate(term,lang):
 
     tID = find(term,lang)
     if tID == []:
