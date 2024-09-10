@@ -36,9 +36,10 @@ def export_elasticsearch_v2_2(dta, offset, dtt, limit):
 
     for line in dta:
         dt = {}
-
+        dados = line[4]
+        print(dados)
         DT = json.loads(line[4])
-        print(DT)
+
         full = ''
 
         aaut = []
