@@ -26,13 +26,13 @@ def IA_thesa(term,lang):
     EN = checkExistConcept(ID,'en')
     ES = checkExistConcept(ID,'es')
 
-    if EN:
+    if not EN:
         termEN = mod_GoogleTranslate.translate(TERM,'en')
         IDen = thesa_local(termEN,'en')
         getThesaID(IDen,IDc)
         print("Tradução para o Ingles",termEN)
 
-    if ES:
+    if not ES:
         termES = mod_GoogleTranslate.translate(TERM,'es')
         IDes = thesa_local(termES,'es')
         getThesaID(IDes,IDc)
