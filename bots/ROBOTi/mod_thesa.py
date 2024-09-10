@@ -7,8 +7,19 @@ url = 'https://www.ufrgs.br/thesa/v2/index.php/api/'
 th = 5
 apikey = '-023- d092 -3d09 -2390d'
 
-def createTerm(term,lang,th):
 
+######################################################### AI DO THESA
+def IA_thesa(term,lang):
+    qr = "select * from thesa_literal "
+    qr += f" where l_term = '{term}' and l_lang = '{lang}'"
+    row = database.query(qr)
+
+    if row == []:
+        print("Termo novo ",term,lang)
+    else:
+        print(row)
+
+def createTerm(term,lang,th):
     return ""
 
 def check_subject_thesa():
