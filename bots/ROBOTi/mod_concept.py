@@ -7,8 +7,8 @@ def remissives():
 
     for ln in row:
         print(ln)
-        ID = row[0]
-        USE = row[1]
+        ID = ln[0]
+        USE = ln[1]
         qu = f"update * from brapci_rdf.rdf_data set d_r1 = {USE} where d_r1 = {ID}"
         print(qu)
 
