@@ -24,7 +24,7 @@ def IA_thesa(term,lang):
 
     print("==>",ID,TERM,LANG,IDc)
     EN = checkExistConcept(ID,'en')
-    EN = checkExistConcept(ID,'es')
+    ES = checkExistConcept(ID,'es')
 
     if EN:
         termEN = mod_GoogleTranslate.translate(TERM,'en')
@@ -40,8 +40,11 @@ def checkExistConcept(ID,lang):
     qr = "select * from thesa_concept "
     qr += f" inner join brapci_thesa.thesa_literal ON c_term = id_l and l_lang = '{lang}'"
     qr += f" where c_group = {ID}"
-    print(qr)
-    xxxx
+    row = database.query(qr)
+    if row == []:
+        return False
+    else:
+        return True
 
 
 def createTerm(term,lang,th):
