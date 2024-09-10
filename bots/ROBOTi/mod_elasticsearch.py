@@ -1,15 +1,39 @@
 import database
 import unicodedata
 import json
+import requests
 
 class ElasticSearchAPI:
     def __init__(self, server='http://143.54.112.91:9200/'):
         self.server = server
 
     def call(self, endpoint, method, data):
-        # Exemplo de chamada HTTP - você pode usar bibliotecas como `requests`
-        # Aqui, vamos apenas simular o retorno esperado
-        return {'result': 'created', '_version': 1}
+        url = self.server + endpoint
+
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        try:
+            if method == 'POST':
+                response = requests.post(url, headers=headers, data=json.dumps(data))
+            elif method == 'PUT':
+                response = requests.put(url, headers=headers, data=json.dumps(data))
+            elif method == 'GET':
+                response = requests.get(url, headers=headers)
+            elif method == 'DELETE':
+                response = requests.delete(url, headers=headers)
+
+            # Verifica se a resposta é válida (status code 2xx)
+            if response.status_code in range(200, 300):
+                return response.json()
+            else:
+                # Se houver erro, retorna o código e a mensagem de erro
+                return {'error': response.status_code, 'message': response.text}
+
+        except Exception as e:
+            return {'error': 'Exception', 'message': str(e)}
+
 
 def ascii(text):
     # Normaliza o texto para remover acentos e caracteres especiais
