@@ -149,6 +149,8 @@ def run(parm):
 
     if (act == 'check'):
         mod_concept.UpdateUse()
+        mod_concept.remissives()
+
         mod_ontology.classification()
         mod_literal.check_utf8()
         mod_literal.check_duplicate()

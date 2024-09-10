@@ -1,6 +1,18 @@
 import database
 import mod_logs
 
+def remissives():
+    qr = "SELECT id_cc, cc_use FROM rdf_concept INNER JOIN rdf_data ON id_cc = d_r1 WHERE cc_use <> id_cc;"
+    row = database.query(qr)
+
+    for ln in row:
+        print(ln)
+        ID = row[0]
+        USE = row[1]
+        qu = f"update * from brapci_rdf.rdf_data set d_r1 = {USE} where d_r1 = {ID}"
+        print(qu)
+
+
 def UpdateUse():
     print("000 - Update USE")
     qu = "update brapci_rdf.rdf_concept set cc_use = id_cc where cc_use = 0"
