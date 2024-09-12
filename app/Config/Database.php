@@ -637,7 +637,7 @@ class Database extends Config
         'hostname' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'brapci_controlled vocabularies',
+        'database' => 'brapci_thesa',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

@@ -7,16 +7,21 @@ use CodeIgniter\Model;
 class Thesaurus extends Model
 {
     protected $DBGroup          = 'vc';
-    protected $table            = 'thesaurus';
-    protected $primaryKey       = 'id_th';
+    protected $table            = 'thesa_concept';
+    protected $primaryKey       = 'id_c';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_th', 'th_name', 'th_url',
-        'th_status', 'th_about', 'updated_at'
+        'id_c',
+        'c_thesa',
+        'c_group',
+        'c_term',
+        'c_property',
+        'c_brapci',
+        'c_update'
     ];
     protected $TYPEdFields    = [
         'hidden', 'string*', 'string*',
@@ -64,7 +69,7 @@ class Thesaurus extends Model
                         $sx .= $this->viewid($d2);
                         break;
                     default:
-                        $sx .= tableview($this);
+                        $sx .= $this->tableview($this);
                         break;
                 }
 
@@ -91,35 +96,5 @@ class Thesaurus extends Model
                 return $sx;
             }
 
-        function btn_import($id)
-            {
-                $sx = '<a href="'.$this->path.'/import/'.$id.'" class="btn btn-outline-primary">';
-                $sx .= bsicone('import');
-                $sx .= ' ';
-                $sx .= lang('brapci.import');
-                $sx .= '</a>';
-                return $sx;
-            }
 
-        function header($dt)
-            {
-                $link = anchor($dt['th_url'],bsicone('url',32),['class'=>'']);
-                $sx = '';
-                $sx .= h($dt['th_name'].$link,2);
-
-                return bsc($sx);
-            }
-
-        function viewid($id)
-            {
-                $ThesaurusDescriptorsTh = new \App\Models\ControlledVocabulary\ThesaurusDescriptorsTh();
-                $dt = $this->find($id);
-                $sx = $this->header($dt);
-                $sx .= bsc($this->btn_import($id),12);
-
-                $sx .= bsc($ThesaurusDescriptorsTh->resume($id));
-
-                $sx = bs($sx);
-                return $sx;
-            }
 }
