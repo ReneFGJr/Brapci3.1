@@ -216,9 +216,12 @@ function tableview2($rows)
 
             $data = $rows[0];
             $fields = [];
+            $sx .= '<tr>';
             foreach ($data as $key => $value) {
                 array_push($fields,$key);
+                $sx .= '<th>'.$key.'</th>';
             }
+            $sx .= '</tr>';
 
             foreach($rows as $id=>$row)
                 {
