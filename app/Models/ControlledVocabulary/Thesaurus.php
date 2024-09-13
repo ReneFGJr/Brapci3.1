@@ -68,6 +68,10 @@ class Thesaurus extends Model
                     case 'viewid':
                         $sx .= $this->viewid($d2);
                         break;
+                    case 'view':
+                        $id = $d2;
+                        pre($id);
+                        break;
                     default:
                         $sx .= $this->tableview();
                         break;
