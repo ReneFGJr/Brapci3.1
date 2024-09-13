@@ -65,12 +65,9 @@ class Thesaurus extends Model
                     case 'import':
                         $sx .= $this->import($d2);
                         break;
-                    case 'viewid':
-                        $sx .= $this->viewid($d2);
-                        break;
                     case 'view':
                         $id = $d2;
-                        pre($id);
+                        $sx .= $this->viewid($d2);
                         break;
                     default:
                         $sx .= $this->tableview();
@@ -82,6 +79,15 @@ class Thesaurus extends Model
 
             return $sx;
         }
+
+        function viewid($id)
+            {
+                $dt = $this
+                    ->join('thesa_literal', 'id_l = c_term')
+                    ->where('id_c',$id)
+                    ->first();
+                pre($dt);
+            }
 
         function tableview()
             {
