@@ -81,7 +81,9 @@ class Thesaurus extends Model
 
         function tableview()
             {
-                $dt = $this->findAll(10);
+                $dt = $this
+                    ->join('thesa_literal', 'id_l = c_term')
+                    ->findAll(10);
                 $sx = tableview2($dt);
                 return $sx;
             }
