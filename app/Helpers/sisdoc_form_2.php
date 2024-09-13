@@ -177,7 +177,6 @@ function user_id()
 
 function tableview2($rows)
     {
-        pre($rows);
         $sx = '
                 <style>
                     table {
@@ -214,7 +213,8 @@ function tableview2($rows)
                 </thead>
                 <tbody>
             ';
-            foreach($rows as $id->$row)
+
+            foreach($rows as $id=>$row)
                 {
                     pre($row,false);
                     $sx .= '<tr>';
