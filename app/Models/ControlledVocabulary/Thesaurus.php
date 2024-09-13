@@ -81,10 +81,12 @@ class Thesaurus extends Model
 
         function tableview()
             {
+                $term = 'Biblioteca';
                 $dt = $this
                     ->select('id_c, l_term, l_lang')
                     ->join('thesa_literal', 'id_l = c_term')
                     ->where('l_lang','pt')
+                    ->like('l_term',$term)
                     ->orderBy('l_term')
                     ->findAll(1000);
                 $sx = tableview2($dt);
