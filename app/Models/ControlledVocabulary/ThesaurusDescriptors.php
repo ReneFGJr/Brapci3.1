@@ -48,6 +48,22 @@ class ThesaurusDescriptors extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function view($id)
+        {
+            $sx = '<table style="width: 100%">';
+            $dt = $this->le($id);
+            foreach($dt as $id=>$row)
+                {
+                    $sx .= '<tr>';
+                    $sx .= '<td>'.$row['p_name'].'</td>';
+                    $sx .= '<td>' . $row['l_term'] . '</td>';
+                    $sx .= '<td>' . $row['l_lang'] . '</td>';
+                    $sx .= '</tr>';
+                }
+            $sx .= '</table>';
+            return $sx;
+        }
+
     function le($id)
         {
             $cp = 'p_name, l_term, l_lang';

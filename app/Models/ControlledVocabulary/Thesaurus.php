@@ -90,8 +90,7 @@ class Thesaurus extends Model
                 $sx = '';
                 $sx .= bsc(h($dt['l_term']));
 
-                $dt = $ThesaurusDescriptors->le($id);
-                pre($dt);
+                $dt = $ThesaurusDescriptors->view($id);
                 return $sx;
             }
 
