@@ -231,7 +231,7 @@ function tableview2($rows)
                     let nameFilter = $(\'#filterName\').val().toLowerCase();
 
                     $(\'#myTable tbody tr\').each(function() {
-                        let name = $(this).find(\'td:nth-child(1)\').text().toLowerCase();
+                        let name = $(this).find(\'td:nth-child(2)\').text().toLowerCase();
 
                         // Exibe ou esconde a linha com base nos filtros
                         if (name.includes(nameFilter)) {
