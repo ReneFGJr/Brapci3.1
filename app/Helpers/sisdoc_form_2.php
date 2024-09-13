@@ -177,6 +177,7 @@ function user_id()
 
 function tableview2($rows)
     {
+        pre($rows);
         $sx = '
                 <style>
                     table {
