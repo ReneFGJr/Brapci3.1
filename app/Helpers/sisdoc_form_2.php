@@ -215,15 +215,17 @@ function tableview2($rows)
             ';
 
             $data = $rows[0];
+            $fields = [];
             foreach ($data as $key => $value) {
-                echo "Nome da variável: $key, Valor: $value\n";
+                array_push($key);
             }
 
             foreach($rows as $id=>$row)
                 {
-                    pre($row,false);
                     $sx .= '<tr>';
-                    $sx .= '<td>'.htmlspecialchars($row['name']).'</td>'.cr();
+                    foreach ($data as $key => $value) {
+                        $sx .= '<td>'.htmlspecialchars($row[$key]).'</td>'.cr();
+                    }
                     $sx .= '</tr>';
                 }
                 $sx .= '</tbody></table>';
