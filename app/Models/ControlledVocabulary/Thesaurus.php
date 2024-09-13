@@ -82,7 +82,7 @@ class Thesaurus extends Model
         function tableview()
             {
                 $dt = $this
-                    ->select('id_c','l_term','l_lang')
+                    ->select('id_c, l_term, l_lang')
                     ->join('thesa_literal', 'id_l = c_term')
                     ->findAll(10);
                 $sx = tableview2($dt);
