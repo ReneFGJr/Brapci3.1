@@ -199,9 +199,6 @@ function tableview2($rows)
             <label for="filterName">Nome:</label>
             <input type="text" id="filterName" placeholder="Filtrar por nome">
 
-            <label for="filterCity">Cidade:</label>
-            <input type="text" id="filterCity" placeholder="Filtrar por cidade">
-
             <!-- Tabela -->
             <table id="myTable">
                 <thead>
@@ -243,7 +240,6 @@ function tableview2($rows)
 
                     $(\'#myTable tbody tr\').each(function() {
                         let name = $(this).find(\'td:nth-child(1)\').text().toLowerCase();
-                        let city = $(this).find(\'td:nth-child(3)\').text().toLowerCase();
 
                         // Exibe ou esconde a linha com base nos filtros
                         if (name.includes(nameFilter) && city.includes(cityFilter)) {
