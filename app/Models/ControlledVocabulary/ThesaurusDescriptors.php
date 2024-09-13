@@ -50,8 +50,11 @@ class ThesaurusDescriptors extends Model
 
     function le($id)
         {
+            $cp = 'p_name, l_term, l_lang';
             $dt = $this
+                ->select($cp)
                 ->join('thesa_literal', 'c_term = id_l')
+                ->join('thesa_properties', 'id_pp = c_property')
                 ->where('c_group',$id)
                 ->orderby('l_term')
                 ->findAll();
