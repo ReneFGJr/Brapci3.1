@@ -201,24 +201,17 @@ function tableview2($rows)
 
             <!-- Tabela -->
             <table id="myTable">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Idade</th>
-                        <th>Cidade</th>
-                    </tr>
-                </thead>
                 <tbody>
             ';
 
             $data = $rows[0];
             $fields = [];
-            $sx .= '<tr>';
+            $sx .= ' <thead><tr>';
             foreach ($data as $key => $value) {
                 array_push($fields,$key);
                 $sx .= '<th>'.$key.'</th>';
             }
-            $sx .= '</tr>';
+            $sx .= '</tr></thead>';
 
             foreach($rows as $id=>$row)
                 {
