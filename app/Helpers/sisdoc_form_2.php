@@ -175,7 +175,7 @@ function user_id()
     return (0);
 }
 
-function tableview2($rows)
+function tableview2($rows,$th=[])
     {
         $sx = '
                 <style>
@@ -215,9 +215,16 @@ function tableview2($rows)
 
             foreach($rows as $id=>$row)
                 {
+                    $link = '';
+                    $linka = '';
+                    if (isset($th->path))
+                        {
+                            $link = '<a href="'.PATH.'">';
+                            $linka .= '</a>';
+                        }
                     $sx .= '<tr>';
                     foreach ($data as $key => $value) {
-                        $sx .= '<td>'.htmlspecialchars($row[$key]).'</td>'.cr();
+                        $sx .= '<td>'.$link.htmlspecialchars($row[$key]).$linka.'</td>'.cr();
                     }
                     $sx .= '</tr>';
                 }
