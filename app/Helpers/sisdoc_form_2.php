@@ -229,13 +229,12 @@ function tableview2($rows)
                 // Função para filtrar a tabela com base nos valores dos inputs
                 function filterTable() {
                     let nameFilter = $(\'#filterName\').val().toLowerCase();
-                    let cityFilter = $(\'#filterCity\').val().toLowerCase();
 
                     $(\'#myTable tbody tr\').each(function() {
                         let name = $(this).find(\'td:nth-child(1)\').text().toLowerCase();
 
                         // Exibe ou esconde a linha com base nos filtros
-                        if (name.includes(nameFilter) && city.includes(cityFilter)) {
+                        if (name.includes(nameFilter)) {
                             $(this).show();
                         } else {
                             $(this).hide();
