@@ -86,7 +86,10 @@ class Thesaurus extends Model
                     ->join('thesa_literal', 'id_l = c_term')
                     ->where('id_c',$id)
                     ->first();
-                pre($dt);
+                $sx = '';
+                $sx .= bsc(h($dt['l_term']));
+
+                return $sx;
             }
 
         function tableview()
