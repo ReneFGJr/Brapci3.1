@@ -7,15 +7,21 @@ use CodeIgniter\Model;
 class ThesaurusDescriptors extends Model
 {
     protected $DBGroup          = 'vc';
-    protected $table            = 'thesaurus_descriptors';
-    protected $primaryKey       = 'id_term';
+    protected $table            = 'thesa_concept';
+    protected $primaryKey       = 'id_c';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_term ', 'term_name', 'term_name_asc',
+        'id_c',
+        'c_thesa',
+        'c_group',
+        'c_term',
+        'c_property',
+        'c_brapci',
+        'c_update'
     ];
 
     // Dates
@@ -42,20 +48,13 @@ class ThesaurusDescriptors extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($term)
+    function le($id)
         {
             $dt = $this
-                ->where('term_name',$term)
-                ->first();
-
-            if ($dt == '')
-                {
-                    $dt['term_name'] = $term;
-                    $dt['term_name_asc'] = mb_strtolower(ascii($term));
-                    $idt = $this->set($dt)->insert();
-                } else {
-                    $idt = $dt['id_term'];
-                }
-            return $idt;
+                ->join('thesa_literal', 'c_term = id_l')
+                ->where('c_group',$id)
+                ->orderby('l_term')
+                ->findAll();
+            return $dt;
         }
 }

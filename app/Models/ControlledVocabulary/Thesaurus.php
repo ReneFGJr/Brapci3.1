@@ -82,6 +82,7 @@ class Thesaurus extends Model
 
         function viewid($id)
             {
+                $ThesaurusDescriptors = new \App\Models\ControlledVocabulary\ThesaurusDescriptors();
                 $dt = $this
                     ->join('thesa_literal', 'id_l = c_term')
                     ->where('id_c',$id)
@@ -89,6 +90,8 @@ class Thesaurus extends Model
                 $sx = '';
                 $sx .= bsc(h($dt['l_term']));
 
+                $dt = $ThesaurusDescriptors->le($id);
+                pre($dt);
                 return $sx;
             }
 
