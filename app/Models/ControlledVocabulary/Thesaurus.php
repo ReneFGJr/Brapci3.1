@@ -89,7 +89,7 @@ class Thesaurus extends Model
                     ->like('l_term',$term)
                     ->orderBy('l_term')
                     ->findAll(1000);
-                $sx = tableview2($dt,$this);
+                $sx = tableview2($dt,'admin/vc/');
                 return $sx;
             }
 
