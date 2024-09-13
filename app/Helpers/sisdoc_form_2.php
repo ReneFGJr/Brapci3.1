@@ -214,6 +214,11 @@ function tableview2($rows)
                 <tbody>
             ';
 
+            $data = $rows[0];
+            foreach ($data as $key => $value) {
+                echo "Nome da variável: $key, Valor: $value\n";
+            }
+
             foreach($rows as $id=>$row)
                 {
                     pre($row,false);
