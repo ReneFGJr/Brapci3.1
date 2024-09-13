@@ -222,7 +222,6 @@ function tableview2($rows)
                     $sx .= '</tr>';
                 }
                 $sx .= '</tbody></table>';
-
         $sx .= '
             <script>
             $(document).ready(function(){
