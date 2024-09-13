@@ -174,3 +174,81 @@ function user_id()
     }
     return (0);
 }
+
+function tableview2($rows)
+    {
+        $sx = '
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    table, th, td {
+                        border: 1px solid black;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                    }
+                </style>';
+
+        $sx .= '
+            <h1>Table with Filters</h1>
+
+            <!-- Filtros -->
+            <label for="filterName">Nome:</label>
+            <input type="text" id="filterName" placeholder="Filtrar por nome">
+
+            <label for="filterCity">Cidade:</label>
+            <input type="text" id="filterCity" placeholder="Filtrar por cidade">
+
+            <!-- Tabela -->
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Idade</th>
+                        <th>Cidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+            ';
+            foreach($rows as $id->$row)
+                {
+                    pre($row,false);
+                    $sx .= '<tr>';
+                    $sx .= '<td>'.htmlspecialchars($row['name']).'</td>'.cr();
+                    $sx .= '</tr>';
+                }
+                $sx .= '</tbody></table>';
+
+        $sx .= '
+            <script>
+            $(document).ready(function(){
+                // Função para filtrar a tabela com base nos valores dos inputs
+                function filterTable() {
+                    let nameFilter = $(\'#filterName\').val().toLowerCase();
+                    let cityFilter = $(\'#filterCity\').val().toLowerCase();
+
+                    $(\'#myTable tbody tr\').each(function() {
+                        let name = $(this).find(\'td:nth-child(1)\').text().toLowerCase();
+                        let city = $(this).find(\'td:nth-child(3)\').text().toLowerCase();
+
+                        // Exibe ou esconde a linha com base nos filtros
+                        if (name.includes(nameFilter) && city.includes(cityFilter)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                }
+
+                // Chama a função de filtragem quando os inputs mudarem
+                $(\'#filterName, #filterCity\').on(\'keyup\', function() {
+                    filterTable();
+                });
+            });
+            </script>';
+
+            return $sx;
+    }

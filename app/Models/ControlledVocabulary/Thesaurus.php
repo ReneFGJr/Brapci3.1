@@ -79,6 +79,13 @@ class Thesaurus extends Model
             return $sx;
         }
 
+        function tableview($t)
+            {
+                $dt = $this->findAll();
+                $sx = tableview2($dt);
+                return $sx;
+            }
+
         function import($id)
             {
                 $sx = '';
