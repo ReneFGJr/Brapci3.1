@@ -175,7 +175,7 @@ function user_id()
     return (0);
 }
 
-function tableview2($rows,$th=[])
+function tableview2($rows,$path)
     {
         $sx = '
                 <style>
@@ -219,7 +219,7 @@ function tableview2($rows,$th=[])
                     $linka = '';
                     if (isset($th->path))
                         {
-                            $link = '<a href="'.PATH.'">';
+                            $link = '<a href="'.PATH. $path.'/view/'.$row[$fields[0]].'">';
                             $linka .= '</a>';
                         }
                     $sx .= '<tr>';
