@@ -219,7 +219,7 @@ function tableview2($rows,$path='')
                     $linka = '';
                     if ($path != '')
                         {
-                            $link = '<a href="'.PATH. $path.'/view/'.$row[$fields[0]].'">';
+                            $link = '<a href="'.PATH. $path.'view/'.$row[$fields[0]].'">';
                             $linka .= '</a>';
                         }
                     $sx .= '<tr>';
