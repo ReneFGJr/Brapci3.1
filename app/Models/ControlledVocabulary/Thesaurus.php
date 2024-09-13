@@ -69,7 +69,7 @@ class Thesaurus extends Model
                         $sx .= $this->viewid($d2);
                         break;
                     default:
-                        $sx .= $this->tableview($this);
+                        $sx .= $this->tableview();
                         break;
                 }
 
@@ -79,7 +79,7 @@ class Thesaurus extends Model
             return $sx;
         }
 
-        function tableview($t)
+        function tableview()
             {
                 $dt = $this->findAll();
                 $sx = tableview2($dt);
