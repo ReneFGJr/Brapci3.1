@@ -217,7 +217,7 @@ function tableview2($rows)
             $data = $rows[0];
             $fields = [];
             foreach ($data as $key => $value) {
-                array_push($key);
+                array_push($fields,$key);
             }
 
             foreach($rows as $id=>$row)
