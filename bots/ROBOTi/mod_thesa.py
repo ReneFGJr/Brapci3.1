@@ -1,14 +1,109 @@
 import database
 import mod_class
 import requests
+import mod_GoogleTranslate
+from datetime import datetime
 
 url = 'https://www.ufrgs.br/thesa/v2/index.php/api/'
 th = 5
 apikey = '-023- d092 -3d09 -2390d'
 
-def createTerm(term,lang,th):
 
+######################################################### AI DO THESA
+def IA_thesa():
+    qr = "select * from brapci_thesa.thesa_literal "
+    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
+    qr += " where l_lang = 'pt' "
+    qr += " and id_c is null "
+    qr += " limit 10 "
+    row = database.query(qr)
+    for line in row:
+        term = line[1]
+        lang = line[2]
+        print("----------------")
+        print(term,lang)
+        translate(term,lang)
+
+def translate(term,lang):
+
+    tID = find(term,lang)
+    if tID == []:
+        print("Termo novo ",term,lang)
+        thesa_local(term,lang)
+
+    ID = tID[0]
+    TERM = tID[1]
+    LANG = tID[2]
+    IDc = getThesaID(ID,ID)
+
+    print("==>",ID,TERM,LANG,IDc)
+    EN = checkExistConcept(IDc,'en')
+    ES = checkExistConcept(IDc,'es')
+
+    print("TRADUCAO",EN,ES)
+
+    if not EN:
+        termEN = mod_GoogleTranslate.translate(TERM,'en')
+        IDen = thesa_local(termEN,'en')
+        getThesaID(IDen,IDc)
+        print("Tradução para o Ingles",termEN)
+
+    if not ES:
+        termES = mod_GoogleTranslate.translate(TERM,'es')
+        IDes = thesa_local(termES,'es')
+        getThesaID(IDes,IDc)
+        print("Tradução para o espanhol",termES)
+
+def checkExistConcept(ID,lang):
+    qr = "select * from brapci_thesa.thesa_concept "
+    qr += f" inner join brapci_thesa.thesa_literal ON c_term = id_l and l_lang = '{lang}'"
+    qr += f" where c_group = {ID}"
+    row = database.query(qr)
+    if row == []:
+        return False
+    else:
+        return True
+
+
+def createTerm(term,lang,th):
     return ""
+
+def getThesaID(termID,GRP):
+    qr = f"select * from brapci_thesa.thesa_concept where c_term = {termID}"
+    row = database.query(qr)
+
+    if row == []:
+        return conceptRegister(termID,GRP)
+    else:
+        return row[0][0]
+
+def conceptRegister(ID,GR):
+    if (ID != GR):
+        qi = "insert into brapci_thesa.thesa_concept "
+        qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
+        qi += " values "
+        qi += f"(1,{GR},{ID},1,0)"
+        database.insert(qi)
+    else:
+        qi = "insert into brapci_thesa.thesa_concept "
+        qi += "(c_thesa,c_group,c_term,c_property,c_brapci) "
+        qi += " values "
+        qi += f"(1,0,{ID},1,0)"
+        database.insert(qi)
+
+        qu = "update brapci_thesa.thesa_concept set c_group = id_c where c_group = 0 "
+        database.update(qu)
+
+
+    return getThesaID(ID,GR)
+
+def find(term,lang):
+    qr = "select * from brapci_thesa.thesa_literal "
+    qr += f" where l_term = '{term}' and l_lang = '{lang}'"
+    row = database.query(qr)
+    if row != []:
+        row = row[0]
+    return row
 
 def check_subject_thesa():
     print("Check Subject - Thesa")
@@ -17,38 +112,48 @@ def check_subject_thesa():
     qr = "select id_cc, cc_use, n_name, n_lang  "
     qr += " from brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += " left join brapci_thesa.thesa_literal ON l_term = n_name AND l_lang = n_lang "
     qr += f" where cc_class = {IDClass}"
-    qr += " and id_cc = cc_use "
-    qr += " and n_lang = 'pt' "
-    qr += " and n_name <> '' "
-    qr += " and not n_name like '%#%' "
-    qr += " and not n_name like '(%' "
-    qr += " and not n_name like '-%' "
-    qr += " and not n_name like '&%' "
-    qr += " and not n_name like ',%' "
-    qr += " and not n_name like '0%' "
-    qr += " and not n_name like '1%' "
-    qr += " and not n_name like '2%' "
-    qr += " and not n_name like '3%' "
-    qr += " and not n_name like '4%' "
-    qr += " and n_name like 'Biblioteca%' "
-
+    qr += " and id_l is null "
     qr += " order by n_name, id_cc"
-    qr += " limit 20 "
+    #qr += " limit 200 "
 
     row = database.query(qr)
 
     for line in row:
         term = line[2]
         lang = line[3]
-        print("===========")
-        print(line[2],line[3])
+        id = line[0]
+
         dt = {}
         dt['term'] = term
         dt['lang'] = lang
         dt['th'] = th
         dt['APIKEY'] = apikey
-        thesa_api('term_add',dt)
+        term = term.strip()
+        thesa_local(term,lang,id)
+        #thesa_api('term_add',dt)
+
+def thesa_local(term,lang,id=0):
+    row = find(term,lang)
+    now = agora = datetime.now()
+
+    # Formata a data no formato YYYY-MM-DD
+    date = now.strftime('%Y-%m-%d')
+
+    if (row == []):
+        print(term,lang,' new')
+        qi = "insert into  brapci_thesa.thesa_literal "
+        qi += f" (l_term,l_lang, l_update) value ('{term}','{lang}','{date}')"
+        database.insert(qi)
+        row = find(term,lang)
+    else:
+        print(term,' ########################## JA EXISTE')
+    return row[0]
+
+def thesa_register_local(term,lang,id):
+    return True
+
 
 def thesa_api(verb,dt=[]):
     print(url,verb)

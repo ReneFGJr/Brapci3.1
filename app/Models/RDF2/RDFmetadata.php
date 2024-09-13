@@ -738,7 +738,7 @@ class RDFmetadata extends Model
         }
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
-        $dr['subject'] = $this->arrayExtract($dd, 'hasSubject');
+        $dr['subject']['pt'] = $this->arrayExtract($dd, 'hasSubject');
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
         if ($year != null) {
@@ -913,11 +913,26 @@ class RDFmetadata extends Model
 
                          /**************** DC.Subject */
                         case 'subject':
-                            foreach ($value as $ida => $linea) {
-                                $dd = [];
-                                $dd['name'] = 'DC.Subject';
-                                $dd['content'] = $linea['name'];
-                                Array_push($RSP, $dd);
+                        if (isset($value[0]))
+                            {
+                                foreach ($value as $ida => $linea) {
+                                    $dd = [];
+                                    $dd['name'] = 'DC.Subject';
+                                    $dd['content'] = $linea['name'];
+                                    Array_push($RSP, $dd);
+                                }
+                            } else {
+                                if (isset($value['pt']) or (isset($value['en'])))
+                                    {
+                                        foreach ($value as $idioma => $lineb) {
+                                            foreach ($lineb as $ida => $linea) {
+                                                $dd = [];
+                                                $dd['name'] = 'DC.Subject';
+                                                $dd['content'] = $linea['name'];
+                                                Array_push($RSP, $dd);
+                                            }
+                                        }
+                                    }
                             }
                             break;
 

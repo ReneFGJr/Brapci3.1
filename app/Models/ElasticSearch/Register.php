@@ -69,6 +69,7 @@ class Register extends Model
 
         $type = 'prod';
 
+
         $API = new \App\Models\ElasticSearch\API();
         $sx = 'Export ElasticSearch v2.2 - ';
         $sx .= $offset . ' of ' . $dtt;

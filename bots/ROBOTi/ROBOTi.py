@@ -16,6 +16,7 @@ import mod_article
 import mod_subject
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
+import mod_elasticsearch
 import mod_issue
 import mod_dataset
 import mod_ontology
@@ -149,6 +150,8 @@ def run(parm):
 
     if (act == 'check'):
         mod_concept.UpdateUse()
+        mod_concept.remissives()
+
         mod_ontology.classification()
         mod_literal.check_utf8()
         mod_literal.check_duplicate()
@@ -196,6 +199,15 @@ def run(parm):
     ################### Thesa
     if (act == '170'):
         mod_thesa.check_subject_thesa()
+
+    ################### ElasticSearch
+    if (act == '180'):
+        mod_elasticsearch.dataset_news()
+    if (act == '181'):
+        print("REINDEXAR")
+        mod_elasticsearch.reindex()
+    if (act == '182'):
+        mod_thesa.IA_thesa()
 
 
     ################### Author
