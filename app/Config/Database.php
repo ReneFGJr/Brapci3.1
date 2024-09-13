@@ -232,6 +232,26 @@ class Database extends Config
         'port'     => 3306,
     ];
 
+    public $manuais = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => 'manuais',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
+
     public $pq = [
         'DSN'      => '',
         'hostname' => 'localhost',
@@ -850,6 +870,9 @@ class Database extends Config
 
         $this->management['username'] = getenv('database.default.username');
         $this->management['password'] = getenv('database.default.password');
+
+        $this->manuais['username'] = getenv('database.default.username');
+        $this->manuais['password'] = getenv('database.default.password');
 
 
     }

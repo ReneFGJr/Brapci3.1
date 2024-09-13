@@ -108,6 +108,11 @@ foreach($sc as $id=>$nm)
         $routes->get('/' . $nm . '/a/(:any)', 'MainPages::index/a/$1');
     }
 
+/********* MANUAL */
+$routes->get('/manual/', 'Manuais::index/$1/$2');
+$routes->post('/manual/(:any)/(:any)', 'Manuais::index/$1/$2');
+$routes->get('/manual/(:any)/(:any)', 'Manuais::index/$1/$2');
+
 /********* BENANCIB */
 $routes->get('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
 $routes->post('/benancib/(:any)/(:any)', 'Benancib::index/$1/$2');
