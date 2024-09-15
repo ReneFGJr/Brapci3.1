@@ -81,7 +81,7 @@ def process(ID):
 
 ########################################################################
 def recoverTerms(GRP):
-        cp = "id_c, c_brapci, c_group, l_name, l_lang "
+        cp = "id_c, c_brapci, c_group, l_term, l_lang "
         qr = f"select {cp} from brapci_thesa.thesa_concept "
         qr += " INNER JOIN brapci_thesa.thesa_literal ON c_term = id_l"
         qr += f" where c_group = {GRP} "
