@@ -31,9 +31,8 @@ def findRDF(term,lang):
     return ID
 
 def process(ID):
-    print("+++++++++++++++++++++++++++++","Processar Subjects")
+    print("= = = = = = = = = = = = = = =","Processar Subjects")
     IDProp = mod_class.getClass('hasSubject')
-    print("=ID Class=",IDProp,ID)
     cp = "id_cc, n_name, n_lang, d_r1, d_r2"
 
     ############################### Recupera Termos Subject
@@ -54,8 +53,9 @@ def process(ID):
         term = line[1]
         IDc  = line[0]
         GRP  = line[3]
+
         if (lang == 'pt'):
-            print("###### PORTUGUES")
+            print("###### PORTUGUES",term,lang)
             IDgrp = mod_thesa.translate(term,lang)
 
             ##### Criar conceitos no outros Idiomas
@@ -70,6 +70,7 @@ def process(ID):
                 if (IDbrapci == 0):
                     IDbrapci = mod_thesa.findConceptBrapci(termA,langA)
                     # Assicia o Artigo aos Assuntos
+                    print(" Registrando na Brapci",IDbrapci)
 
                 ##### Registra na Brapci
                 print("Register Brapci",ID,prop,IDbrapci)
