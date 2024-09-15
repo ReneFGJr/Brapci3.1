@@ -14,9 +14,13 @@ def process(ID):
     print("=ID Class=",IDProp,ID)
 
     qr = f"select * from brapci_rdf.rdf_data "
-    qr += f" where d_r2 = {ID} and d_p = {IDProp}"
-    print(qr)
+    qr += "inner join brapci_rdf.rdf_concept ON id_cc = d_r2 "
+    qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
+    qr += f" where d_r1 = {ID} and d_p = {IDProp}"
+
     row = database.query(qr)
+
+    keys = []
 
     for line in row:
         print("=======",line)
