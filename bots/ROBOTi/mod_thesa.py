@@ -98,7 +98,7 @@ def getThesaID(termID,GRP):
         GP = row[0][2]
         IDc = row[0][0]
         if (GRP != GP):
-            qu = "update brapci_thesa.thesa_concept set c_group = {} where id_c = {IDc}"
+            qu = f"update brapci_thesa.thesa_concept set c_group = {GRP} where id_c = {IDc}"
             print(row)
             print(qu)
             print("ERRO DE GRP",GRP,GP,IDc)
