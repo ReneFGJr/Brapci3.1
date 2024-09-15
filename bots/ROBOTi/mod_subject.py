@@ -82,19 +82,6 @@ def process(ID):
     print("#FIM#")
     sys.exit()
 
-
-    for line in row:
-        term = line[1]
-        lang = line[2]
-        IDt = mod_thesa.translate(term,lang)
-        print("=TERMO",term,lang,IDt)
-
-        rowGR = mod_thesa.findConceptBrapci(term,lang)
-        if (lang == 'pt'):
-            keysPT.append(rowGR)
-        print("BRAPCI ID ===",rowGR)
-
-    print("=GR+GR+GR+G+RG+",keysPT)
     return ID
 
 ########################################################################
