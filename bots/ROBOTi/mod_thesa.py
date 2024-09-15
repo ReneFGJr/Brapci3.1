@@ -121,13 +121,17 @@ def findGR(term,lang):
         row = row[0]
 
         ## ************************* Brapci
-        brapci = row[1]
-        ID = row[0]
+        IDbrapci = row[1]
+        IDsubject = row[0]
 
-        if brapci == 0:
+        if IDbrapci == 0:
             print("================== BRAPCI")
             # Recupera ID do subject do RDF
             RDFid = mod_subject.findRDF(term,lang)
+            qu = "update brapci_thesa.thesa_concept "
+            qu += f"set c_brapci = {IDbrapci} "
+            qu += f"where c_group = {IDsubject} "
+            print(qu)
             print(RDFid)
             xxx
     return row
