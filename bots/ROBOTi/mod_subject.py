@@ -11,7 +11,7 @@ def check_remissiva():
 
 def findRDF(term,lang):
     IDclass = mod_class.getClass('Subject')
-    qr = "SELECT * FROM brapci_rdf.rdf_concept "
+    qr = "SELECT id_cc FROM brapci_rdf.rdf_concept "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f"WHERE n_name = '{term}' "
     qr += f"and n_lang = '{lang}' "
