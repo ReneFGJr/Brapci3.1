@@ -15,7 +15,7 @@ def findRDF(term,lang):
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f"WHERE n_name = '{term}' "
     qr += f"and n_lang = '{lang}' "
-    qr += " abd id_cc = cc_use "
+    qr += " and id_cc = cc_use "
     qr += " order by id_cc"
     qr += " limit 1 "
 
