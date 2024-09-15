@@ -13,8 +13,12 @@ def process(ID):
     IDProp = mod_class.getClass('hasSubject')
     print("=ID Class=",IDProp,ID)
 
-    qr = f"select * from brapci_rdf.brapci_rdf_data where d_r2 = {ID} ans d_p = {IDProp}"
+    qr = f"select * from brapci_rdf.brapci_rdf_data "
+    qr += f" where d_r2 = {ID} and d_p = {IDProp}"
     row = database.query(qr)
+
+    for line in row:
+        print("=======",line)
     return ID
 
 def register_literal(IDC,term,lg):
