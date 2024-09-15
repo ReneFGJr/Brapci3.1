@@ -90,6 +90,7 @@ def createTerm(term,lang,th):
 
 def getThesaID(termID,GRP):
     qr = f"select * from brapci_thesa.thesa_concept where c_term = {termID}"
+    print("getThesaID",qr)
     row = database.query(qr)
 
     print("==>",row)
