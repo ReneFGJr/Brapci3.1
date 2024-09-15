@@ -98,7 +98,7 @@ def getThesaID(termID,GRP):
         GP = row[0][2]
         if (GRP != GP):
             print(row)
-            print("ERRO DE GRP")
+            print("ERRO DE GRP",GRP,GP)
             sys.exit()
         return row[0][0]
 
