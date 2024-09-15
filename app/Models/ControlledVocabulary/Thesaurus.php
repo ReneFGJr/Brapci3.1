@@ -99,6 +99,7 @@ class Thesaurus extends Model
             {
                 $sx = form_open();
                 $sx .= form_input('q','form-control full', 'form-control full');
+                $sx .= form_submit('filter');
                 $sx .= form_close();
                 return $sx;
             }
