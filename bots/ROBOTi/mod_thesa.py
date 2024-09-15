@@ -143,9 +143,6 @@ def findConceptBrapci(term,lang):
     qr += " limit 1"
     row = database.query(qr)
     row = row[0][0]
-    print(row)
-    xxx
-
     return row
 
 

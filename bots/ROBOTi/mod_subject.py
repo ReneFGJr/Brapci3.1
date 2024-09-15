@@ -48,6 +48,7 @@ def process(ID):
         lang = line[2]
         IDt = mod_thesa.translate(term,lang)
         print("=TERMO",term,lang,IDt)
+
         rowGR = mod_thesa.findConceptBrapci(term,lang)
         print("BRAPCI ID ===",rowGR)
 
