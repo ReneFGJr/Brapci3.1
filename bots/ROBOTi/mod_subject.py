@@ -87,7 +87,9 @@ def recoverTerms(GRP):
         qr += f" where c_group = {GRP} "
         row = database.query(qr)
 
-        print("Termos",GRP,row)
+        print("Termos",GRP)
+        for line in row:
+            print("==",line)
         sys.exit()
 
 def register_literal(IDC,term,lg):
