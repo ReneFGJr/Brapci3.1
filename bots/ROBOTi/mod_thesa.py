@@ -112,15 +112,21 @@ def conceptRegister(ID,GR):
     return getThesaID(ID,GR)
 
 def findGR(term,lang):
-    qr = "select * from brapci_thesa.thesa_literal "
+    qr = "select c_group, c_brapci, id_c from brapci_thesa.thesa_literal "
     qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
-
-    print("=GROUP=",qr)
-
     row = database.query(qr)
     if row != []:
         row = row[0]
+
+        ## ************************* Brapci
+        brapci = row[1]
+        ID = row[0]
+
+        if brapci == 0:
+            print("================== BRAPCI")
+            print(row)
+            xxx
     return row
 
 
