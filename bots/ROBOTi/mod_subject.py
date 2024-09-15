@@ -19,6 +19,7 @@ def findRDF(term,lang):
     qr += f"WHERE n_name = '{term}' "
     qr += f"and n_lang = '{lang}' "
     qr += " and id_cc = cc_use "
+    qr += f" and cc_class = {IDclass} "
     qr += " order by id_cc"
     qr += " limit 1 "
     row = database.query(qr)
