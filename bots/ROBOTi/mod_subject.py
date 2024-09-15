@@ -30,6 +30,9 @@ def process(ID):
         IDt = mod_thesa.translate(term,lang)
         print("=TERMO",term,lang,IDt)
         print("=======",line)
+        rowGR = mod_thesa.findGR(term,lang)
+        print("GRUPO===",rowGR)
+
     return ID
 
 def register_literal(IDC,term,lg):
