@@ -10,6 +10,7 @@ def check_remissiva():
     mod_author.check_remissiva()
 
 def process(ID):
+    print("+++++++++++++++++++++++++++++","KeyWords")
     IDProp = mod_class.getClass('hasSubject')
     print("=ID Class=",IDProp,ID)
 
