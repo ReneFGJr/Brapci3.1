@@ -15,6 +15,7 @@ def process(ID):
 
     qr = f"select * from brapci_rdf.rdf_data "
     qr += f" where d_r2 = {ID} and d_p = {IDProp}"
+    print(qr)
     row = database.query(qr)
 
     for line in row:
