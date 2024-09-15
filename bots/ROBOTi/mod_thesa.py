@@ -113,7 +113,7 @@ def conceptRegister(ID,GR):
 
 def findGR(term,lang):
     qr = "select * from brapci_thesa.thesa_literal "
-    qr = " left join brapci_thesa.thesa_concept ON c_term = id_l "
+    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
 
     print("=GROUP=",qr)
