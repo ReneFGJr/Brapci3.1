@@ -106,7 +106,7 @@ class Thesaurus extends Model
 
         function tableview()
             {
-                $term = 'Biblioteca';
+                $term = get("q");
                 $sx = '';
                 $sx .= $this->form();
 
