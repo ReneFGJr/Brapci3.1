@@ -9,6 +9,8 @@ import mod_author
 def check_remissiva():
     mod_author.check_remissiva()
 
+
+################################ Recupera ID do RDF (Subect)
 def findRDF(term,lang):
     IDclass = mod_class.getClass('Subject')
     qr = "SELECT id_cc FROM brapci_rdf.rdf_concept "
@@ -24,8 +26,7 @@ def findRDF(term,lang):
         ID = row[0][0]
     else:
         ID = 0
-    print("===ID Class=",IDclass,row,ID)
-    XXX
+    return ID
 
 def process(ID):
     print("+++++++++++++++++++++++++++++","KeyWords")
