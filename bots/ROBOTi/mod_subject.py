@@ -59,7 +59,7 @@ def process(ID):
 
             ##### Criar conceitos no outros Idiomas
             terms = recoverTerms(IDgrp)
-            prop = mod_class.getClass('hasSubject')
+            prop = 'hasSubject'
 
             for term in terms:
                 print(term)
