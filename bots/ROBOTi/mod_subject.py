@@ -73,10 +73,6 @@ def process(ID):
                 ##### Registra na Brapci
                 mod_data.register(ID,prop,IDbrapci,0,1)
 
-                print("Brapci Associado")
-                print(termA,langA,IDc)
-                sys.exit()
-
     print("#FIM#")
     sys.exit()
 
