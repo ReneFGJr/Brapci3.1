@@ -53,9 +53,9 @@ def register_literal_class(classe,name,lang):
     classe = mod_class.getClass(classe)
 
     IDl = mod_literal.register(name,lang)
+    IDc = register(classe,IDl)
 
-    print("Termo e Classe",IDl,classe)
-    sys.exit()
+    return IDc
 
 def register(cl,literal):
 
