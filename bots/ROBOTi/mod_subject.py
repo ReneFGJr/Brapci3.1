@@ -43,16 +43,20 @@ def process(ID):
 
     row = database.query(qr)
 
+    keysPT = []
+    keysEN = []
+    keysES = []
+
     ### Termos
     for line in row:
-        print(line)
+        lang = line[2]
+        if (lang == 'pt'):
+            print("###### PORTUGUES")
+            print(line)
 
     print("#FIM#")
     sys.exit()
 
-    keysPT = []
-    keysEN = []
-    keysES = []
 
     for line in row:
         term = line[1]
