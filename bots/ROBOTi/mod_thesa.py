@@ -64,6 +64,8 @@ def translate(term,lang):
         getThesaID(IDen,IDc)
         print("Tradução para o [Ingles]",termEN,IDen,IDc)
 
+        sys.exit()
+
     if not ES:
         termES = mod_GoogleTranslate.translate(TERM,'es')
         IDes = thesa_local(termES,'es')
@@ -90,6 +92,8 @@ def getThesaID(termID,GRP):
     qr = f"select * from brapci_thesa.thesa_concept where c_term = {termID}"
     row = database.query(qr)
 
+    print("==>",row)
+
     if row == []:
         return conceptRegister(termID,GRP)
     else:
@@ -111,7 +115,6 @@ def conceptRegister(ID,GR):
 
         qu = "update brapci_thesa.thesa_concept set c_group = id_c where c_group = 0 "
         database.update(qu)
-
 
     return getThesaID(ID,GR)
 
