@@ -131,21 +131,22 @@ def findConceptBrapci(term,lang):
             print("================== BRAPCI")
             # Recupera ID do subject do RDF
             IDbrapci = mod_subject.findRDF(term,lang)
+            if (IDbrapci == 0):
+                print("Concept não existe")
+                sys.exit()
+
             qu = "update brapci_thesa.thesa_concept "
             qu += f"set c_brapci = {IDbrapci} "
             qu += f"where id_c = {IDc} "
             database.update(qu)
             # Recupera
             row = database.query(qr)
+    else:
+        print("ERRO findConceptBrapci")
+        sys.exit()
 
-    qr = "select c_brapci from brapci_thesa.thesa_literal "
-    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
-    qr += f" where c_group = '{IDsubject}' "
-    qr += " and c_brapci <> 0 "
-    qr += " limit 1"
-    row = database.query(qr)
-    row = row[0][0]
-    return row
+    return IDbrapci
+
 
 
 def find(term,lang):

@@ -66,6 +66,7 @@ def process(ID):
                 termA = term[3]
                 langA = term[4]
                 if (IDbrapci == 0):
+                    IDbrapci = mod_thesa.findConceptBrapci(termA,langA)
                     # Criar o conceito na Brapci
                     print("Brapci zerado")
                 print(termA,langA,IDc)
