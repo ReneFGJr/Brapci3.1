@@ -134,13 +134,13 @@ def findConceptBrapci(term,lang):
             IDbrapci = mod_subject.findRDF(term,lang)
             if (IDbrapci == 0):
                 IDs = mod_concept.register_literal_class("Subject",term,lang)
-                print("Concept não existe",IDs,IDc)
-                sys.exit()
 
             qu = "update brapci_thesa.thesa_concept "
             qu += f"set c_brapci = {IDbrapci} "
             qu += f"where id_c = {IDc} "
             database.update(qu)
+
+            sys.exit()
             # Recupera
             row = database.query(qr)
     else:
