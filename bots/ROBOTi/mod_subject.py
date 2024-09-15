@@ -41,7 +41,9 @@ def process(ID):
 
     row = database.query(qr)
 
-    keys = []
+    keysPT = []
+    keysEN = []
+    keysES = []
 
     for line in row:
         term = line[1]
@@ -50,8 +52,11 @@ def process(ID):
         print("=TERMO",term,lang,IDt)
 
         rowGR = mod_thesa.findConceptBrapci(term,lang)
+        if (lang == 'pt'):
+            keysPT.append(rowGR)
         print("BRAPCI ID ===",rowGR)
 
+    print("=GR+GR+GR+G+RG+",keysPT)
     return ID
 
 def register_literal(IDC,term,lg):
