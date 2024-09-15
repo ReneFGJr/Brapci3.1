@@ -142,7 +142,7 @@ def findGR(term,lang):
     qr += " and c_brapci <> 0 "
     qr += " limit 1"
     row = database.query(qr)
-    row = row[0]
+    row = row[0][0]
     print(row)
     xxx
 
