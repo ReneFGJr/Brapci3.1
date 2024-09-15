@@ -69,6 +69,8 @@ def process(ID):
                     IDbrapci = mod_thesa.findConceptBrapci(termA,langA)
                     # Assicia o Artigo aos Assuntos
                     prop = mod_class.getClass('hasSubject')
+                    print("PROP",prop)
+                    sys.exit()
                     mod_data.register(ID,prop,IDbrapci,0,1)
                     print("Brapci Associado")
                 print(termA,langA,IDc)
