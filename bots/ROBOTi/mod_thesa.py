@@ -40,7 +40,7 @@ def translate(term,lang):
     ES = checkExistConcept(IDc,'es')
     PT = checkExistConcept(IDc,'pt')
 
-    print("TRADUCAO",EN,ES)
+    print("TRADUCAO",EN,ES,"ID:",ID)
 
     if not PT:
         if EN:
