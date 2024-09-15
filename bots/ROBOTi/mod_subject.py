@@ -5,6 +5,7 @@ import mod_data
 import mod_thesa
 import database
 import mod_author
+import sys
 
 def check_remissiva():
     mod_author.check_remissiva()
@@ -34,12 +35,17 @@ def process(ID):
     print("=ID Class=",IDProp,ID)
     cp = "id_cc, n_name, n_lang, d_r1, d_r2"
 
+
+    ############################### Recupera Termos Subject
     qr = f"select {cp} from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON id_cc = d_r2 "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f" where d_r1 = {ID} and d_p = {IDProp}"
 
     row = database.query(qr)
+
+    print("#FIM#")
+    sys.exit()
 
     keysPT = []
     keysEN = []
