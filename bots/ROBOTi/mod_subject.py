@@ -30,11 +30,10 @@ def findRDF(term,lang):
     return ID
 
 def process(ID):
-    print("+++++++++++++++++++++++++++++","KeyWords")
+    print("+++++++++++++++++++++++++++++","Processar Subjects")
     IDProp = mod_class.getClass('hasSubject')
     print("=ID Class=",IDProp,ID)
     cp = "id_cc, n_name, n_lang, d_r1, d_r2"
-
 
     ############################### Recupera Termos Subject
     qr = f"select {cp} from brapci_rdf.rdf_data "
@@ -43,6 +42,10 @@ def process(ID):
     qr += f" where d_r1 = {ID} and d_p = {IDProp}"
 
     row = database.query(qr)
+
+    ### Termos
+    for line in row:
+        print(line)
 
     print("#FIM#")
     sys.exit()
