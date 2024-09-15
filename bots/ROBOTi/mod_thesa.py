@@ -36,11 +36,23 @@ def translate(term,lang):
     LANG = tID[2]
     IDc = getThesaID(ID,ID)
 
-    print("==>",ID,TERM,LANG,IDc)
     EN = checkExistConcept(IDc,'en')
     ES = checkExistConcept(IDc,'es')
+    PT = checkExistConcept(IDc,'pt')
 
     print("TRADUCAO",EN,ES)
+
+    if not PT:
+        if EN:
+            termPT = mod_GoogleTranslate.translate(TERM,'pt')
+            IDen = thesa_local(termPT,'pt')
+            getThesaID(IDen,IDc)
+            print("Tradução para o Portugues do Inglês",termPT)
+        elif ES:
+            termPT = mod_GoogleTranslate.translate(TERM,'pt')
+            IDen = thesa_local(termPT,'pt')
+            getThesaID(IDen,IDc)
+            print("Tradução para o Portugues do Espanhol",termPT)
 
     if not EN:
         termEN = mod_GoogleTranslate.translate(TERM,'en')
@@ -53,6 +65,8 @@ def translate(term,lang):
         IDes = thesa_local(termES,'es')
         getThesaID(IDes,IDc)
         print("Tradução para o espanhol",termES)
+
+    return ID
 
 def checkExistConcept(ID,lang):
     qr = "select * from brapci_thesa.thesa_concept "

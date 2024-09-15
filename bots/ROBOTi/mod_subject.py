@@ -25,6 +25,10 @@ def process(ID):
     keys = []
 
     for line in row:
+        term = line[1]
+        lang = line[2]
+        IDt = mod_thesa.translate(term,lang)
+        print("=TERMO",term,lang.IDt)
         print("=======",line)
     return ID
 
