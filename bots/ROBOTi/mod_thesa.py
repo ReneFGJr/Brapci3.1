@@ -123,6 +123,7 @@ def findGR(term,lang):
         ## ************************* Brapci
         IDbrapci = line[1]
         IDsubject = line[0]
+        IDc = line[2]
 
         if IDbrapci == 0:
             print("================== BRAPCI")
@@ -130,7 +131,7 @@ def findGR(term,lang):
             IDbrapci = mod_subject.findRDF(term,lang)
             qu = "update brapci_thesa.thesa_concept "
             qu += f"set c_brapci = {IDbrapci} "
-            qu += f"where c_group = {IDsubject} "
+            qu += f"where id_c = {IDc} "
             database.update(qu)
             # Recupera
             row = database.query(qr)
