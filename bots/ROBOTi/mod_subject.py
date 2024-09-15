@@ -76,7 +76,7 @@ def process(ID):
                     print("    Representação na Brapci",IDbrapci)
 
                 ##### Registra na Brapci
-                print("Register Brapci",ID,prop,IDbrapci)
+                print("    RDF",ID,prop,IDbrapci)
                 mod_data.register(ID,prop,IDbrapci,0,1)
 
     print("#FIM#")
