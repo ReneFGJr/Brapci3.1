@@ -138,9 +138,11 @@ def findGR(term,lang):
 
     qr = "select c_brapci from brapci_thesa.thesa_literal "
     qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
-    qr += f" where c_group = '{IDsubject}'"
+    qr += f" where c_group = '{IDsubject}' "
+    qr += " and c_brapci <> 0 "
+    qr += " limit 1"
     row = database.query(qr)
-
+    row = row[0]
     print(row)
     xxx
 
