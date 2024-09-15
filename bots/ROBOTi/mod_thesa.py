@@ -1,5 +1,6 @@
 import database
 import mod_class
+import mod_subject
 import requests
 import mod_GoogleTranslate
 from datetime import datetime
@@ -125,6 +126,8 @@ def findGR(term,lang):
 
         if brapci == 0:
             print("================== BRAPCI")
+            # Recupera ID do subject do RDF
+            RDFid = mod_subject.findRDF(term,lang)
             print(row)
             xxx
     return row

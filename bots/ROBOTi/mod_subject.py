@@ -9,6 +9,16 @@ import mod_author
 def check_remissiva():
     mod_author.check_remissiva()
 
+def findRDF(term,lang):
+    IDclass = mod_class.getClass('Subject')
+    qr = "SELECT * FROM `rdf_concept` "
+    qr += "inner join rdf_literal ON cc_pref_term = id_n "
+    qr += f"WHERE n_name = '{term}' "
+    qr += f"and n_lang = '{lang}'; "
+
+    row = database.query(qr)
+    print("===ID Class=",IDclass,ID)
+
 def process(ID):
     print("+++++++++++++++++++++++++++++","KeyWords")
     IDProp = mod_class.getClass('hasSubject')
