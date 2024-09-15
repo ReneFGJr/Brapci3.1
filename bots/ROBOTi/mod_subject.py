@@ -50,9 +50,12 @@ def process(ID):
     ### Termos
     for line in row:
         lang = line[2]
+        term = line[1]
+        IDc  = line[0]
+        GRP  = line[3]
         if (lang == 'pt'):
             print("###### PORTUGUES")
-            print(line)
+            print(term,lang,IDc,GRP)
 
     print("#FIM#")
     sys.exit()
