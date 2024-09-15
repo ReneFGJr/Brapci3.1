@@ -127,7 +127,7 @@ def findGR(term,lang):
         if IDbrapci == 0:
             print("================== BRAPCI")
             # Recupera ID do subject do RDF
-            RDFid = mod_subject.findRDF(term,lang)
+            IDbrapci = mod_subject.findRDF(term,lang)
             qu = "update brapci_thesa.thesa_concept "
             qu += f"set c_brapci = {IDbrapci} "
             qu += f"where c_group = {IDsubject} "
