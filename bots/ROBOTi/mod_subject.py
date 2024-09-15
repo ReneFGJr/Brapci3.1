@@ -59,7 +59,16 @@ def process(ID):
 
             ##### Criar conceitos no outros Idiomas
             terms = recoverTerms(IDgrp)
-            print(term,lang,IDc,"GRP:",IDgrp)
+
+            for term in terms:
+                print(term)
+                IDbrapci = term[1]
+                termA = term[3]
+                langA = term[4]
+                if (IDbrapci == 0):
+                    # Criar o conceito na Brapci
+                    print("Brapci zerado")
+                print(termA,langA,IDc)
 
     print("#FIM#")
     sys.exit()
@@ -87,10 +96,7 @@ def recoverTerms(GRP):
         qr += f" where c_group = {GRP} "
         row = database.query(qr)
 
-        print("Termos",GRP)
-        for line in row:
-            print("==",line)
-        sys.exit()
+        return row
 
 def register_literal(IDC,term,lg):
 
