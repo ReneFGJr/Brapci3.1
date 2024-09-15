@@ -132,7 +132,7 @@ def findConceptBrapci(term,lang):
         if IDbrapci == 0:
             print("================== BRAPCI")
             # Recupera ID do subject do RDF
-            IDbrapci = mod_subject.findRDF(term,lang,'Subject')
+            IDbrapci = mod_subject.findRDF(term,lang)
             if (IDbrapci == 0):
                 IDbrapci = mod_concept.register_literal_class("Subject",term,lang)
 
