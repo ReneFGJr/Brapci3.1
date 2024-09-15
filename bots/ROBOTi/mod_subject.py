@@ -62,7 +62,7 @@ def process(ID):
             prop = 'hasSubject'
 
             for term in terms:
-                print(term)
+                print("TERMS",term)
                 IDbrapci = term[1]
                 termA = term[3]
                 langA = term[4]
