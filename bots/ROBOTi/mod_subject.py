@@ -18,11 +18,14 @@ def findRDF(term,lang):
     qr += " and id_cc = cc_use "
     qr += " order by id_cc"
     qr += " limit 1 "
-
-    print("===============",qr)
-
     row = database.query(qr)
-    print("===ID Class=",IDclass,row)
+
+    if row != []:
+        ID = row[0][0]
+    else:
+        ID = 0
+    print("===ID Class=",IDclass,row,ID)
+    XXX
 
 def process(ID):
     print("+++++++++++++++++++++++++++++","KeyWords")
