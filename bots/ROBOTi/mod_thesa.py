@@ -139,10 +139,8 @@ def findConceptBrapci(term,lang):
             qu = "update brapci_thesa.thesa_concept "
             qu += f"set c_brapci = {IDbrapci} "
             qu += f"where id_c = {IDc} "
-            print(qu)
             database.update(qu)
 
-            sys.exit()
             # Recupera
             row = database.query(qr)
     else:
