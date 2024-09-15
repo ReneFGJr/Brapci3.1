@@ -1,6 +1,7 @@
 import database
 import mod_logs
 import mod_class
+import mod_literal
 import sys
 
 def remissives():
@@ -51,7 +52,9 @@ def UpdateUse():
 def register_literal_class(classe,name,lang):
     classe = mod_class.getClass(classe)
 
-    print("Classe",classe)
+    IDl = mod_literal.register(name,lang)
+
+    print("Classe",IDl,classe)
     sys.exit()
 
 def register(cl,literal):

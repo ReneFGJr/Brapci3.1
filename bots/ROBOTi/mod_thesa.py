@@ -1,6 +1,7 @@
 import database
 import mod_class
 import mod_subject
+import mod_concept
 import requests
 import mod_GoogleTranslate
 import sys
@@ -132,7 +133,8 @@ def findConceptBrapci(term,lang):
             # Recupera ID do subject do RDF
             IDbrapci = mod_subject.findRDF(term,lang)
             if (IDbrapci == 0):
-                print("Concept não existe")
+                IDs = mod_concept.register_literal_class("Subject",term,lang)
+                print("Concept não existe",IDs)
                 sys.exit()
 
             qu = "update brapci_thesa.thesa_concept "
