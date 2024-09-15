@@ -67,8 +67,10 @@ def process(ID):
                 langA = term[4]
                 if (IDbrapci == 0):
                     IDbrapci = mod_thesa.findConceptBrapci(termA,langA)
-                    # Criar o conceito na Brapci
-                    print("Brapci zerado")
+                    # Assicia o Artigo aos Assuntos
+                    prop = mod_class.getClass('hasSubject')
+                    mod_data.register(ID,prop,IDbrapci,0,1)
+                    print("Brapci Associado")
                 print(termA,langA,IDc)
 
     print("#FIM#")
