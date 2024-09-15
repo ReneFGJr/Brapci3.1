@@ -100,10 +100,6 @@ def getThesaID(termID,GRP):
         if (GRP != GP):
             qu = f"update brapci_thesa.thesa_concept set c_group = {GRP} where id_c = {IDc}"
             database.update(qu)
-            print(row)
-            print(qu)
-            print("ERRO DE GRP",GRP,GP,IDc)
-            sys.exit()
         return row[0][0]
 
 def conceptRegister(ID,GR):
