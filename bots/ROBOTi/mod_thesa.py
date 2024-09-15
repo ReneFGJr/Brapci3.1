@@ -112,7 +112,7 @@ def conceptRegister(ID,GR):
 
     return getThesaID(ID,GR)
 
-def findGR(term,lang):
+def findConceptBrapci(term,lang):
     qr = "select c_group, c_brapci, id_c from brapci_thesa.thesa_literal "
     qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
