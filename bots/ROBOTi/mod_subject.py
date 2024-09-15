@@ -59,6 +59,7 @@ def process(ID):
 
             ##### Criar conceitos no outros Idiomas
             terms = recoverTerms(IDgrp)
+            prop = mod_class.getClass('hasSubject')
 
             for term in terms:
                 print(term)
@@ -68,12 +69,13 @@ def process(ID):
                 if (IDbrapci == 0):
                     IDbrapci = mod_thesa.findConceptBrapci(termA,langA)
                     # Assicia o Artigo aos Assuntos
-                    prop = mod_class.getClass('hasSubject')
-                    print("PROP",prop)
-                    sys.exit()
-                    mod_data.register(ID,prop,IDbrapci,0,1)
-                    print("Brapci Associado")
+
+                ##### Registra na Brapci
+                mod_data.register(ID,prop,IDbrapci,0,1)
+
+                print("Brapci Associado")
                 print(termA,langA,IDc)
+                sys.exit()
 
     print("#FIM#")
     sys.exit()
