@@ -63,14 +63,15 @@ def process(ID):
             prop = 'hasSubject'
 
             for term in terms:
-                print("TERMS",term)
                 IDbrapci = term[1]
                 termA = term[3]
                 langA = term[4]
+
+                print("    Processnado",termA,langA)
                 if (IDbrapci == 0):
                     IDbrapci = mod_thesa.findConceptBrapci(termA,langA)
                     # Assicia o Artigo aos Assuntos
-                    print(" Registrando na Brapci",IDbrapci)
+                    print("    Registrando na Brapci",IDbrapci)
 
                 ##### Registra na Brapci
                 print("Register Brapci",ID,prop,IDbrapci)
