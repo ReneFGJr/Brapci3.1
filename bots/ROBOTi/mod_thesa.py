@@ -3,6 +3,7 @@ import mod_class
 import mod_subject
 import requests
 import mod_GoogleTranslate
+import sys
 from datetime import datetime
 
 url = 'https://www.ufrgs.br/thesa/v2/index.php/api/'
@@ -31,6 +32,7 @@ def translate(term,lang):
     if tID == []:
         print("Termo novo ",term,lang)
         thesa_local(term,lang)
+        sys.exit()
 
     ID = tID[0]
     TERM = tID[1]
@@ -67,7 +69,7 @@ def translate(term,lang):
         getThesaID(IDes,IDc)
         print("Tradução para o espanhol",termES)
 
-    return ID
+    return IDc
 
 def checkExistConcept(ID,lang):
     qr = "select * from brapci_thesa.thesa_concept "

@@ -60,8 +60,8 @@ def process(ID):
             print("======",IDgrp)
 
             ##### Criar conceitos no outros Idiomas
-            terms = recoverTerms(GRP)
-            print(term,lang,IDc,"GRP:",GRP)
+            terms = recoverTerms(IDgrp)
+            print(term,lang,IDc,"GRP:",IDgrp)
 
     print("#FIM#")
     sys.exit()
