@@ -118,7 +118,7 @@ def conceptRegister(ID,GR):
 def findConceptBrapci(term,lang):
     classe = mod_class.getClass('Subject')
     qr = "select c_group, c_brapci, id_c from brapci_thesa.thesa_literal "
-    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l and c_class = {classe}"
+    qr += f" left join brapci_thesa.thesa_concept ON c_term = id_l and c_class = {classe}"
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
     row = database.query(qr)
     if row != []:
