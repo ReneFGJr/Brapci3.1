@@ -16,10 +16,10 @@ def findRDF(term,lang):
     qr += f"WHERE n_name = '{term}' "
     qr += f"and n_lang = '{lang}' "
 
-    print(+"===============",qr)
+    print("===============",qr)
 
     row = database.query(qr)
-    print("===ID Class=",IDclass,ID)
+    print("===ID Class=",IDclass,row)
 
 def process(ID):
     print("+++++++++++++++++++++++++++++","KeyWords")
