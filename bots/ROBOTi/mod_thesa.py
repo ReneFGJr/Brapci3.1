@@ -134,7 +134,7 @@ def findConceptBrapci(term,lang):
             IDbrapci = mod_subject.findRDF(term,lang)
             if (IDbrapci == 0):
                 IDs = mod_concept.register_literal_class("Subject",term,lang)
-                print("Concept não existe",IDs)
+                print("Concept não existe",IDs,IDc)
                 sys.exit()
 
             qu = "update brapci_thesa.thesa_concept "
