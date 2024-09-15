@@ -55,7 +55,9 @@ def process(ID):
         GRP  = line[3]
         if (lang == 'pt'):
             print("###### PORTUGUES")
-            mod_thesa.translate(term,lang)
+            IDgrp = mod_thesa.translate(term,lang)
+
+            print("======",IDgrp)
 
             ##### Criar conceitos no outros Idiomas
             terms = recoverTerms(GRP)
@@ -78,6 +80,8 @@ def process(ID):
 
     print("=GR+GR+GR+G+RG+",keysPT)
     return ID
+
+########################################################################
 def recoverTerms(GRP):
         qr = "select * from brapci_thesa.thesa_concept "
         qr += " INNER JOIN brapci_thesa.thesa_literal ON c_term = id_l"
