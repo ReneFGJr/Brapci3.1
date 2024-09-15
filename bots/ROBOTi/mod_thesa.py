@@ -96,9 +96,10 @@ def getThesaID(termID,GRP):
         return conceptRegister(termID,GRP)
     else:
         GP = row[0][2]
+        ID = row[0][0]
         if (GRP != GP):
             print(row)
-            print("ERRO DE GRP",GRP,GP)
+            print("ERRO DE GRP",GRP,GP,ID)
             sys.exit()
         return row[0][0]
 
