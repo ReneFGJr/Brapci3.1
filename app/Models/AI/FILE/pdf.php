@@ -70,6 +70,8 @@ class pdf extends Model
 		$dir = 'E:/Projeto/Bin/poppler/bin/';
 		$cmd = $dir . 'pdftotext.exe ' . $file;
 
+		$cmd = 'pdftotext '.$file.' '.$fileD;
+
 		if (!file_exists($file))
 			{
 				echo "ERRO $file";
