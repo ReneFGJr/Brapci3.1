@@ -62,7 +62,7 @@ def translate(term,lang):
         termEN = mod_GoogleTranslate.translate(TERM,'en')
         IDen = thesa_local(termEN,'en')
         getThesaID(IDen,IDc)
-        print("Tradução para o Ingles",termEN)
+        print("Tradução para o [Ingles]",termEN,IDen)
 
     if not ES:
         termES = mod_GoogleTranslate.translate(TERM,'es')
