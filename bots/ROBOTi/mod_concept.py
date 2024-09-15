@@ -1,5 +1,7 @@
 import database
 import mod_logs
+import mod_class
+import sys
 
 def remissives():
     print("000 - Update USE->ID (RD_1)")
@@ -45,6 +47,12 @@ def UpdateUse():
     database.update(qd)
 
     mod_logs.log('TASK_000',0)
+
+def register_literal_class(classe,name,lang):
+    classe = mod_class.getClass(classe)
+
+    print("Classe",classe)
+    sys.exit()
 
 def register(cl,literal):
 
