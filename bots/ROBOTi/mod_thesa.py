@@ -135,7 +135,7 @@ def findGR(term,lang):
             # Recupera
             row = database.query(qr)
 
-    qr = "select c_group, c_brapci, id_c from brapci_thesa.thesa_literal "
+    qr = "select c_brapci from brapci_thesa.thesa_literal "
     qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
     qr += f" where c_group = '{IDsubject}'"
     row = database.query(qr)
