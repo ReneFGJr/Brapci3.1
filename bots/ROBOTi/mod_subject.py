@@ -82,7 +82,7 @@ def process(ID):
 ########################################################################
 def recoverTerms(GRP):
         cp = "id_c, c_brapci, c_group, l_name, l_lang "
-        qr = "select {cp} from brapci_thesa.thesa_concept "
+        qr = f"select {cp} from brapci_thesa.thesa_concept "
         qr += " INNER JOIN brapci_thesa.thesa_literal ON c_term = id_l"
         qr += f" where c_group = {GRP} "
         row = database.query(qr)
