@@ -28,7 +28,7 @@ def process(ID):
         term = line[1]
         lang = line[2]
         IDt = mod_thesa.translate(term,lang)
-        print("=TERMO",term,lang.IDt)
+        print("=TERMO",term,lang,IDt)
         print("=======",line)
     return ID
 
