@@ -55,7 +55,12 @@ def process(ID):
         GRP  = line[3]
         if (lang == 'pt'):
             print("###### PORTUGUES")
-            print(term,lang,IDc,GRP)
+            mod_thesa.translate(term,lang)
+
+            ##### Criar conceitos no outros Idiomas
+            print("===",GRP)
+            #terms = mod_thesa.
+            print(term,lang,IDc,"GRP:",GRP)
 
     print("#FIM#")
     sys.exit()
