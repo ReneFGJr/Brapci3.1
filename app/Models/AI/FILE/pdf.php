@@ -76,6 +76,11 @@ class pdf extends Model
 				exit;
 			}
 
+		if (!file_exists($fileD)) {
+			echo "ERRO $fileD";
+			exit;
+		}
+
 		$rst = shell_exec($cmd);
 		$txt = file_get_contents($fileD);
 
