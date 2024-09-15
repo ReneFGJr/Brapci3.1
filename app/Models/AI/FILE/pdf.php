@@ -72,20 +72,20 @@ class pdf extends Model
 
 		$cmd = 'pdftotext '.$file.' '.$fileD;
 
-		if (!file_exists($file))
-			{
-				echo "ERRO $file";
-				exit;
-			}
+		echo '<pre>'.$cmd. '</pre>';
+
+		$rst = shell_exec($cmd);
+
+		if (!file_exists($file)) {
+			echo "ERRO $file";
+			exit;
+		}
 
 		if (!file_exists($fileD)) {
 			echo "ERRO $fileD";
 			exit;
 		}
 
-		echo '<pre>'.$cmd. '</pre>';
-
-		$rst = shell_exec($cmd);
 		$txt = file_get_contents($fileD);
 
 		$NLP = new \App\Models\AI\NLP\TextPrepare();
