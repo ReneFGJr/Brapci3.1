@@ -98,7 +98,7 @@ class Thesaurus extends Model
         function form()
             {
                 $sx = form_open();
-                $sx .= form_simple('q','form-contro full');
+                $sx .= form_input('q','form-contro full');
                 $sx .= form_close();
                 return $sx;
             }
