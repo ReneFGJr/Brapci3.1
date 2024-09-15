@@ -2,11 +2,17 @@ import mod_literal
 import mod_class
 import mod_concept
 import mod_data
+import mod_thesa
 import database
 import mod_author
 
 def check_remissiva():
     mod_author.check_remissiva()
+
+def process(ID):
+    IDClass = mod_class.getClass('hasSubject')
+    print("==",IDClass)
+    return ID
 
 def register_literal(IDC,term,lg):
 

@@ -5,6 +5,7 @@ os.chdir(diretorio)
 import mod_translate_title
 import mod_translate_abstract
 import mod_PDF
+import mod_subject
 import sys
 
 print("TRADUTOR 1.1")
@@ -15,6 +16,7 @@ if (len(sys.argv) > 1):
 
     mod_translate_title.process(ID)
     mod_translate_abstract.process(ID)
+    mod_subject.process(ID)
     mod_PDF.convert(ID)
 else:
     print("Without parameters")
