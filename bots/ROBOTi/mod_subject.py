@@ -14,7 +14,9 @@ def findRDF(term,lang):
     qr = "SELECT * FROM brapci_rdf.rdf_concept "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f"WHERE n_name = '{term}' "
-    qr += f"and n_lang = '{lang}'; "
+    qr += f"and n_lang = '{lang}' "
+
+    print(+"===============",qr)
 
     row = database.query(qr)
     print("===ID Class=",IDclass,ID)
