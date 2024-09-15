@@ -48,7 +48,6 @@ def process(ID):
         lang = line[2]
         IDt = mod_thesa.translate(term,lang)
         print("=TERMO",term,lang,IDt)
-        print("=======",line)
         rowGR = mod_thesa.findGR(term,lang)
         print("GRUPO===",rowGR)
 

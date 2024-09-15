@@ -118,11 +118,11 @@ def findGR(term,lang):
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
     row = database.query(qr)
     if row != []:
-        row = row[0]
+        line = row[0]
 
         ## ************************* Brapci
-        IDbrapci = row[1]
-        IDsubject = row[0]
+        IDbrapci = line[1]
+        IDsubject = line[0]
 
         if IDbrapci == 0:
             print("================== BRAPCI")
