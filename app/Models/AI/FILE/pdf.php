@@ -81,6 +81,8 @@ class pdf extends Model
 			exit;
 		}
 
+		echo $cmd;
+
 		$rst = shell_exec($cmd);
 		$txt = file_get_contents($fileD);
 
