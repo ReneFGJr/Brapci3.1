@@ -58,8 +58,7 @@ def process(ID):
             mod_thesa.translate(term,lang)
 
             ##### Criar conceitos no outros Idiomas
-            print("===",GRP)
-            #terms = mod_thesa.
+            terms = recoverTerms(GRP)
             print(term,lang,IDc,"GRP:",GRP)
 
     print("#FIM#")
@@ -79,6 +78,14 @@ def process(ID):
 
     print("=GR+GR+GR+G+RG+",keysPT)
     return ID
+def recoverTerms(GRP):
+        qr = "select * from brapci_thesa.thesa_concept "
+        qr += " INNER JOIN thesa_literal ON c_term = id_l"
+        qr += f" where c_group = {GRP} "
+        row = database.query(qr)
+
+        print(row)
+        sys.exit()
 
 def register_literal(IDC,term,lg):
 
