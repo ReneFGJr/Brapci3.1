@@ -132,7 +132,7 @@ def findGR(term,lang):
             qu += f"set c_brapci = {IDbrapci} "
             qu += f"where c_group = {IDsubject} "
             print(qu)
-            print(RDFid)
+            print(IDbrapci)
             xxx
     return row
 
