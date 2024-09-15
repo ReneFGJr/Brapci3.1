@@ -90,14 +90,16 @@ def createTerm(term,lang,th):
 
 def getThesaID(termID,GRP):
     qr = f"select * from brapci_thesa.thesa_concept where c_term = {termID}"
-    print("getThesaID",qr)
     row = database.query(qr)
-
-    print("==>",row)
 
     if row == []:
         return conceptRegister(termID,GRP)
     else:
+        GP = row[0][2]
+        if (GRP != GP):
+            print(row)
+            print("ERRO DE GRP")
+            sys.exit()
         return row[0][0]
 
 def conceptRegister(ID,GR):
