@@ -96,10 +96,12 @@ def getThesaID(termID,GRP):
         return conceptRegister(termID,GRP)
     else:
         GP = row[0][2]
-        ID = row[0][0]
+        IDc = row[0][0]
         if (GRP != GP):
+            qu = "update brapci_thesa.thesa_concept set c_group = {} where id_c = {IDc}"
             print(row)
-            print("ERRO DE GRP",GRP,GP,ID)
+            print(qu)
+            print("ERRO DE GRP",GRP,GP,IDc)
             sys.exit()
         return row[0][0]
 
