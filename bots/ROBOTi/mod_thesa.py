@@ -128,7 +128,7 @@ def findGR(term,lang):
             print("================== BRAPCI")
             # Recupera ID do subject do RDF
             RDFid = mod_subject.findRDF(term,lang)
-            print(row)
+            print(RDFid)
             xxx
     return row
 
