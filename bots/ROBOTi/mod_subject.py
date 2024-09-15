@@ -10,8 +10,11 @@ def check_remissiva():
     mod_author.check_remissiva()
 
 def process(ID):
-    IDClass = mod_class.getClass('hasSubject')
-    print("==",IDClass)
+    IDProp = mod_class.getClass('hasSubject')
+    print("=ID Class=",IDProp,ID)
+
+    qr = f"select * from brapci_rdf.brapci_rdf_data where d_r2 = {ID} ans d_p = {IDProp}"
+    row = database.query(qr)
     return ID
 
 def register_literal(IDC,term,lg):
