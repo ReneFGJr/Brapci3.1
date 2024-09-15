@@ -133,7 +133,7 @@ def findConceptBrapci(term,lang):
             # Recupera ID do subject do RDF
             IDbrapci = mod_subject.findRDF(term,lang)
             if (IDbrapci == 0):
-                IDs = mod_concept.register_literal_class("Subject",term,lang)
+                IDbrapci = mod_concept.register_literal_class("Subject",term,lang)
 
             qu = "update brapci_thesa.thesa_concept "
             qu += f"set c_brapci = {IDbrapci} "
