@@ -95,9 +95,20 @@ class Thesaurus extends Model
                 return $sx;
             }
 
+        function form()
+            {
+                $sx = form_open();
+                $sx .= form_simple('q','form-contro full');
+                $sx .= form_close();
+                return $sx;
+            }
+
         function tableview()
             {
                 $term = 'Biblioteca';
+                $sx = '';
+                $sx .= $this->form();
+
                 $dt = $this
                     ->select('id_c, l_term, l_lang')
                     ->join('thesa_literal', 'id_l = c_term')
@@ -105,7 +116,7 @@ class Thesaurus extends Model
                     ->like('l_term',$term)
                     ->orderBy('l_term')
                     ->findAll(1000);
-                $sx = tableview2($dt,'admin/vc/');
+                $sx .= tableview2($dt,'admin/vc/');
                 return $sx;
             }
 
