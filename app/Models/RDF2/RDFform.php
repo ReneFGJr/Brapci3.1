@@ -188,7 +188,7 @@ class RDFform extends Model
 
         /************* Exact */
         $RSP2 = $RDFconcept2
-            ->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use')
+            ->select('id_cc as ID, concat(n_name," | ",n_lang) as name, n_lang as lang, cc_use as use')
             ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n')
             ->where('id_cc = cc_use')
             ->where('n_name', $qr)
