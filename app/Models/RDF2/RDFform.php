@@ -178,6 +178,7 @@ class RDFform extends Model
         }
 
         $RDFconcept->whereIn('cc_class', $RG);
+        $RDFconcept->whereIn('cc_use <> id_cc');
         foreach ($Range as $idr => $name) {
             //$RDFconcept->orwhere('cc_class',$idr);
         }
