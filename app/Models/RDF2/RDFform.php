@@ -110,6 +110,7 @@ class RDFform extends Model
         $RDFdomain = new \App\Models\RDF2\RDFclassDomain();
 
         $q = get("q").get("term");
+        $qr = $q;
         $prop = get("prop");
         $ID = get("ID");
 
@@ -190,7 +191,7 @@ class RDFform extends Model
             ->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use')
             ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n')
             ->where('id_cc = cc_use')
-            ->where('n_name', $q)
+            ->where('n_name', $qr)
             ->findAll(100);
 
         $RSP = array_merge($RSP2, $RSP);
