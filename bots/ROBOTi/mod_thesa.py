@@ -46,8 +46,6 @@ def translate(term,lang):
 
     print("TRADUCAO",EN,ES,PT,"ID:",ID,TERM,IDc)
 
-    sys.exit()
-
     if not PT:
         if EN:
             termPT = mod_GoogleTranslate.translate(TERM,'pt')
