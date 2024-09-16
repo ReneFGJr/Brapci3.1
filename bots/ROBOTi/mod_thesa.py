@@ -78,6 +78,8 @@ def checkExistConcept(ID,lang):
     qr = "select * from brapci_thesa.thesa_concept "
     qr += f" inner join brapci_thesa.thesa_literal ON c_term = id_l and l_lang = '{lang}'"
     qr += f" where c_group = {ID}"
+
+    print(qr)
     row = database.query(qr)
     if row == []:
         return False
