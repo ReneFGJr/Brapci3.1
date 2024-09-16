@@ -165,7 +165,7 @@ class RDFform extends Model
         $RSP['data']['range'] = $RG;
 
         $RDFconcept->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use');
-        $RDFconcept->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n AND id_cc = cc_use');
+        $RDFconcept->join('brapci_rdf.rdf_literal', '(cc_pref_term = id_n) AND (id_cc = cc_use)');
 
         $q = explode(' ', trim($q));
 
