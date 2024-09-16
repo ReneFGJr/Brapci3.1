@@ -106,6 +106,7 @@ class RDFform extends Model
         $Class = new \App\Models\RDF2\RDFclass();
         $Property = new \App\Models\RDF2\RDFproperty();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFconcept2 = new \App\Models\RDF2\RDFconcept();
         $RDFdomain = new \App\Models\RDF2\RDFclassDomain();
 
         $q = get("q").get("term");
@@ -185,11 +186,12 @@ class RDFform extends Model
         $RSP = $RDFconcept->findAll(100);
 
         /************* Exact */
-        $RDFconcept->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use');
-        $RDFconcept->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n');
-        $RDFconcept->where('id_cc = cc_use');
-        $RDFconcept->where('n_name', $q);
-        $RSP2 = $RDFconcept->findAll(100);
+        $RSP2 = $RDFconcept2
+            ->select('id_cc as ID, n_name as name, n_lang as lang, cc_use as use')
+            ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n')
+            ->where('id_cc = cc_use')
+            ->where('n_name', $q)
+            ->findAll(100);
 
         $RSP = array_merge($RSP2, $RSP);
 
