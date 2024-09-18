@@ -188,7 +188,7 @@ class Database extends Config
             }
 
         echo '<pre>';
-        print_r($this->books);
+        print_r($this->thesa);
         exit;
 
         $this->brapci = $this->default;
