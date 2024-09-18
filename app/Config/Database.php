@@ -58,6 +58,7 @@ class Database extends Config
     public array $oai = [];
     public array $kanban = [];
     public array $search = [];
+    public array $elastic = [];
     public array $observatorio = [];
     public array $lattes = [];
     public array $click = [];
@@ -86,25 +87,7 @@ class Database extends Config
     public array $management = [];
     public array $manuais = [];
 
-    public $elastic  = [
-        'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'database' => 'brapci_elastic',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port'     => 3306,
-    ];
+
 
     /**
      * This database connection is used when running PHPUnit database tests.

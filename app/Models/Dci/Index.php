@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $DBGroup          = 'persistent_indicador';
-    protected $table            = 'persistent_id';
-    protected $primaryKey       = 'id_pi';
+    protected $DBGroup          = 'dci';
+    protected $table            = 'docentes';
+    protected $primaryKey       = 'id_dc';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
