@@ -139,9 +139,30 @@ class Database extends Config
         $this->books['password'] = getenv('database.default.password');
 
         $this->brapci = $this->default;
-        $this->brapci['database'] = 'brapci_books';
+        $this->brapci['database'] = 'brapci';
         $this->brapci['username'] = getenv('database.default.username');
         $this->brapci['password'] = getenv('database.default.password');
+
+
+        $this->brapci_cited = $this->default;
+        $this->brapci_cited['database'] = 'brapci';
+        $this->brapci_cited['username'] = getenv('database.default.username');
+        $this->brapci_cited['password'] = getenv('database.default.password');
+
+        $this->authority = $this->default;
+        $this->authority['database'] = 'brapci_authority';
+        $this->authority['username'] = getenv('database.default.username');
+        $this->authority['password'] = getenv('database.default.password');
+
+        $this->dci = $this->default;
+        $this->dci['database'] = 'dci';
+        $this->dci['username'] = getenv('database.default.username');
+        $this->dci['password'] = getenv('database.default.password');
+
+        $this->elastic = $this->default;
+        $this->elastic['database'] = 'brapci_elastic';
+        $this->elastic['username'] = getenv('database.default.username');
+        $this->elastic['password'] = getenv('database.default.password');
 
     }
 }
