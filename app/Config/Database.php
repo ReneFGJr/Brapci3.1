@@ -54,7 +54,6 @@ class Database extends Config
     public array $brapci = [];
     public array $brapci_cited = [];
     public array $authority = [];
-    public array $dci = [];
     public array $oai = [];
     public array $kanban = [];
     public array $search = [];
@@ -88,25 +87,19 @@ class Database extends Config
 
     public $elastic  = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'database' => 'brapci_elastic',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port'     => 3306,
+        'hostname' => 'localhost', 'username' => '', 'password' => '', 'database' => 'brapci_elastic',
+        'DBDriver' => 'MySQLi', 'DBPrefix' => '', 'pConnect' => false, 'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8', 'DBCollat' => 'utf8_general_ci', 'swapPre'  => '', 'encrypt'  => false, 'compress' => false,
+        'strictOn' => false, 'failover' => [],  'port'     => 3306,
     ];
 
-
+    public $dci  = [
+        'DSN'      => '',
+        'hostname' => 'localhost', 'username' => '', 'password' => '', 'database' => 'dci',
+        'DBDriver' => 'MySQLi', 'DBPrefix' => '', 'pConnect' => false, 'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8', 'DBCollat' => 'utf8_general_ci', 'swapPre'  => '', 'encrypt'  => false, 'compress' => false,
+        'strictOn' => false, 'failover' => [],  'port'     => 3306,
+    ];
     /**
      * This database connection is used when running PHPUnit database tests.
      *
@@ -174,8 +167,6 @@ class Database extends Config
         $this->authority['username'] = getenv('database.default.username');
         $this->authority['password'] = getenv('database.default.password');
 
-        $this->dci = $this->default;
-        $this->dci['database'] = 'dci';
         $this->dci['username'] = getenv('database.default.username');
         $this->dci['password'] = getenv('database.default.password');
 
