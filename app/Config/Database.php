@@ -54,6 +54,7 @@ class Database extends Config
     public array $brapci = [];
     public array $brapci_cited = [];
     public array $authority = [];
+    public array $dci  = [];
     public array $oai = [];
     public array $kanban = [];
     public array $search = [];
@@ -105,31 +106,6 @@ class Database extends Config
         'port'     => 3306,
     ];
 
-    public $dci  = [
-        'DSN'          => '',
-        'hostname'     => 'localhost',
-        'username'     => '',
-        'password'     => '',
-        'database'     => 'dci',
-        'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8mb4',
-        'DBCollat'     => 'utf8mb4_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => 3306,
-        'numberNative' => false,
-        'dateFormat'   => [
-            'date'     => 'Y-m-d',
-            'datetime' => 'Y-m-d H:i:s',
-            'time'     => 'H:i:s',
-        ],
-    ];
     /**
      * This database connection is used when running PHPUnit database tests.
      *
@@ -176,7 +152,9 @@ class Database extends Config
         $this->default['username'] = getenv('database.default.username');
         $this->default['password'] = getenv('database.default.password');
 
-        $db = ['books'=>'brapci_books','thesa'=>'thesa'];
+        $db = ['brapci'=>'brapci', 'cited'=> 'brapci_cited',
+                'books'=>'brapci_books','thesa'=>'thesa',
+                'dci'=>'dci'];
 
         foreach($db as $base=>$database)
             {
@@ -187,14 +165,7 @@ class Database extends Config
                 eval($a);
             }
 
-        echo '<pre>';
-        print_r($this->thesa);
-        exit;
 
-        $this->brapci = $this->default;
-        $this->brapci['database'] = 'brapci';
-        $this->brapci['username'] = getenv('database.default.username');
-        $this->brapci['password'] = getenv('database.default.password');
 
         $this->brapci_cited = $this->default;
         $this->brapci_cited['database'] = 'brapci';
