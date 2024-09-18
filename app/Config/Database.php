@@ -156,7 +156,6 @@ class Database extends Config
         $this->brapci['username'] = getenv('database.default.username');
         $this->brapci['password'] = getenv('database.default.password');
 
-
         $this->brapci_cited = $this->default;
         $this->brapci_cited['database'] = 'brapci';
         $this->brapci_cited['username'] = getenv('database.default.username');
@@ -174,6 +173,10 @@ class Database extends Config
         $this->elastic['database'] = 'brapci_elastic';
         $this->elastic['username'] = getenv('database.default.username');
         $this->elastic['password'] = getenv('database.default.password');
+
+        echo '<pre>';
+        print_r($this->dci);
+        exit;
 
     }
 }
