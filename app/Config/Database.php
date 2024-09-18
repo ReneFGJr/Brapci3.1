@@ -27,7 +27,7 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'sa',
+        'username'     => '',
         'password'     => '',
         'database'     => 'brapci',
         'DBDriver'     => 'MySQLi',
@@ -49,6 +49,41 @@ class Database extends Config
             'time'     => 'H:i:s',
         ],
     ];
+
+    public array $books = [];
+    public array $brapci_cited = [];
+    public array $authority = [];
+    public array $dci = [];
+    public array $oai = [];
+    public array $kanban = [];
+    public array $search = [];
+    public array $observatorio = [];
+    public array $lattes = [];
+    public array $click = [];
+    public array $gev3nt = [];
+    public array $patent = [];
+    public array $pgcd = [];
+    public array $capes = [];
+    public array $pq = [];
+    public array $find = [];
+    public array $find2 = [];
+    public array $elastic = [];
+    public array $bots = [];
+    public array $bibliofind = [];
+    public array $persistent_indicador = [];
+    public array $dataverse = [];
+    public array $guide = [];
+    public array $handle = [];
+
+    public array $openaire = [];
+    public array $wordpress = [];
+    public array $public = [];
+    public array $rdf = [];
+    public array $rdf2 = [];
+    public array $thesa = [];
+    public array $vc = [];
+    public array $management = [];
+    public array $manuais = [];
 
 
     /**
@@ -96,5 +131,11 @@ class Database extends Config
 
         $this->default['username'] = getenv('database.default.username');
         $this->default['password'] = getenv('database.default.password');
+
+        $this->books = $this->default;
+        $this->books['database'] = 'brapci_books';
+        $this->books['username'] = getenv('database.default.username');
+        $this->books['password'] = getenv('database.default.password');
+
     }
 }
