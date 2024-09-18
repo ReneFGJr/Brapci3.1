@@ -135,14 +135,46 @@ class Database extends Config
         $this->default['password'] = getenv('database.default.password');
 
         $db = [
-            'brapci' => 'brapci',
-            'cited' => 'brapci_cited',
+            'authority' => 'brapci_authority',
             'books' => 'brapci_books',
-            'thesa' => 'thesa',
+            'brapci' => 'brapci',
+            'pq' => 'brapci_pq',
+            'capes' => 'capes',
+            'cited' => 'brapci_cited',
+            'click'=>'brapci_click',
             'dci' => 'dci',
             'elastic' => 'brapci_elastic',
-            'click'=>'brapci_click'
+            'kanban' => 'kanban',
+            'find' => 'find',
+            'find2' => 'find2',
+            'bots' => 'brapci_bots',
+            'oai' => 'brapci_oaipmh',
+            'observatorio' => 'observatorio',
+            'lattes'=>'lattes',
+            'search' => 'search',
+            'gev3nt'=> 'gev3nt',
+            'patent'=> 'patent',
+            'rdf' => 'brapci_rdf',
+            'rdf2' => 'brapci_rdf2',
+            'thesa' => 'thesa'
         ];
+    /*
+
+    public array $bibliofind = [];
+    public array $persistent_indicador = [];
+    public array $dataverse = [];
+    public array $guide = [];
+    public array $handle = [];
+
+    public array $openaire = [];
+    public array $wordpress = [];
+    public array $public = [];
+
+    public array $thesa = [];
+    public array $vc = [];
+    public array $management = [];
+    public array $manuais = [];
+    */
 
         foreach ($db as $base => $database) {
             $a = '$this->' . $base . ' = $this->default;' . cr();
