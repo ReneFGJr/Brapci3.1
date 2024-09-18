@@ -140,7 +140,8 @@ class Database extends Config
             'books' => 'brapci_books',
             'thesa' => 'thesa',
             'dci' => 'dci',
-            'elastic' => 'brapci_elastic'
+            'elastic' => 'brapci_elastic',
+            'click'=>'brapci_click'
         ];
 
         foreach ($db as $base => $database) {

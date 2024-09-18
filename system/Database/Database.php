@@ -53,12 +53,8 @@ class Database
         }
 
         if (empty($params['DBDriver'])) {
-            echo '<pre>';
-            print_r($params);
-            echo '</pre>';
             throw new InvalidArgumentException('You have not selected a database type to connect to.');
         }
-
 
         assert($this->checkDbExtension($params['DBDriver']));
 
