@@ -176,17 +176,16 @@ class Database extends Config
         $this->default['username'] = getenv('database.default.username');
         $this->default['password'] = getenv('database.default.password');
 
-        $db = ['books'=>'brapci_books'];
+        $db = ['books'=>'brapci_books','thesa'=>'thesa'];
 
         foreach($db as $base=>$database)
             {
-                $a = '$this->'.$base.' = $this->default;';
+                $a = '$this->'.$base.' = $this->default;'.cr();
+                $a .= '$this->' . $base . '[\'database\'] = \'' . $database . '\';' . cr();
+                $a .= '$this->books[\'username\'] = getenv(\'database.default.username\');'.cr();
+                $a .= '$this->books[\'password\'] = getenv(\'database.default.password\');'.cr();
                 eval($a);
             }
-
-        $this->books['database'] = 'brapci_books';
-        $this->books['username'] = getenv('database.default.username');
-        $this->books['password'] = getenv('database.default.password');
 
         echo '<pre>';
         print_r($this->books);
