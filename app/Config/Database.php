@@ -68,7 +68,7 @@ class Database extends Config
     public array $pq = [];
     public array $find = [];
     public array $find2 = [];
-    public array $elastic = [];
+    //public array $elastic = [];
     public array $bots = [];
     public array $bibliofind = [];
     public array $persistent_indicador = [];
@@ -85,6 +85,26 @@ class Database extends Config
     public array $vc = [];
     public array $management = [];
     public array $manuais = [];
+
+    public $elastic  = [
+        'DSN'      => '',
+        'hostname' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'database' => 'brapci_elastic',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
+    ];
 
 
     /**
