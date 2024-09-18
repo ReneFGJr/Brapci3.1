@@ -81,6 +81,7 @@ class Database extends Config
     public array $public = [];
     public array $rdf = [];
     public array $rdfs = [];
+    public array $rdf2 = [];
     public array $thesa = [];
     public array $vc = [];
     public array $management = [];
@@ -156,6 +157,7 @@ class Database extends Config
             'patent'=> 'brapci_patent',
             'rdf' => 'brapci_rdf',
             'rdfs' => 'brapci_rdf',
+            'rdf2' => 'brapci_rdf',
             'thesa' => 'thesa'
         ];
     /*
