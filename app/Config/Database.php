@@ -141,7 +141,7 @@ class Database extends Config
             'brapci' => 'brapci',
             'pq' => 'brapci_pq',
             'capes' => 'capes',
-            'cited' => 'brapci_cited',
+            'brapci_cited' => 'brapci_cited',
             'click'=>'brapci_click',
             'dci' => 'dci',
             'elastic' => 'brapci_elastic',
