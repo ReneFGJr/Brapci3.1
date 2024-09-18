@@ -204,8 +204,5 @@ class Database extends Config
         $this->elastic['username'] = getenv('database.default.username');
         $this->elastic['password'] = getenv('database.default.password');
 
-        echo '<pre>';
-        print_r($this->dci);
-        exit;
     }
 }
