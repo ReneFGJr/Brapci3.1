@@ -69,7 +69,6 @@ class Database extends Config
     public array $pq = [];
     public array $find = [];
     public array $find2 = [];
-    //public array $elastic = [];
     public array $bots = [];
     public array $bibliofind = [];
     public array $persistent_indicador = [];
@@ -135,38 +134,21 @@ class Database extends Config
         $this->default['username'] = getenv('database.default.username');
         $this->default['password'] = getenv('database.default.password');
 
-        $db = ['brapci'=>'brapci', 'cited'=> 'brapci_cited',
-                'books'=>'brapci_books','thesa'=>'thesa',
-                'dci'=>'dci'];
+        $db = [
+            'brapci' => 'brapci',
+            'cited' => 'brapci_cited',
+            'books' => 'brapci_books',
+            'thesa' => 'thesa',
+            'dci' => 'dci',
+            'elastic' => 'brapci_elastic'
+        ];
 
-        foreach($db as $base=>$database)
-            {
-                $a = '$this->'.$base.' = $this->default;'.cr();
-                $a .= '$this->' . $base . '[\'database\'] = \'' . $database . '\';' . cr();
-                $a .= '$this->books[\'username\'] = getenv(\'database.default.username\');'.cr();
-                $a .= '$this->books[\'password\'] = getenv(\'database.default.password\');'.cr();
-                eval($a);
-            }
-
-
-
-        $this->brapci_cited = $this->default;
-        $this->brapci_cited['database'] = 'brapci';
-        $this->brapci_cited['username'] = getenv('database.default.username');
-        $this->brapci_cited['password'] = getenv('database.default.password');
-
-        $this->authority = $this->default;
-        $this->authority['database'] = 'brapci_authority';
-        $this->authority['username'] = getenv('database.default.username');
-        $this->authority['password'] = getenv('database.default.password');
-
-        $this->dci['username'] = getenv('database.default.username');
-        $this->dci['password'] = getenv('database.default.password');
-
-        $this->elastic = $this->default;
-        $this->elastic['database'] = 'brapci_elastic';
-        $this->elastic['username'] = getenv('database.default.username');
-        $this->elastic['password'] = getenv('database.default.password');
-
+        foreach ($db as $base => $database) {
+            $a = '$this->' . $base . ' = $this->default;' . cr();
+            $a .= '$this->' . $base . '[\'database\'] = \'' . $database . '\';' . cr();
+            $a .= '$this->' . $base . '[\'username\'] = getenv(\'database.default.username\');' . cr();
+            $a .= '$this->' . $base . '[\'password\'] = getenv(\'database.default.password\');' . cr();
+            eval($a);
+        }
     }
 }
