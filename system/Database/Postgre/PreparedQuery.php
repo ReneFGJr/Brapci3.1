@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -93,8 +95,7 @@ class PreparedQuery extends BasePreparedQuery
     /**
      * Returns the result object for the prepared query or false on failure.
      *
-     * @return resource|null
-     * @phpstan-return PgSqlResult|null
+     * @return PgSqlResult|null
      */
     public function _getResult()
     {

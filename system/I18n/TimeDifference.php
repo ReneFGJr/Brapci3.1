@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -16,6 +18,8 @@ use IntlCalendar;
 
 /**
  * Class TimeDifference
+ *
+ * @see \CodeIgniter\I18n\TimeDifferenceTest
  */
 class TimeDifference
 {
@@ -271,7 +275,7 @@ class TimeDifference
      *
      * @param string $name
      *
-     * @return mixed
+     * @return float|int|null
      */
     public function __get($name)
     {

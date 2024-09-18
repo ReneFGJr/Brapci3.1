@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -44,7 +46,7 @@ class Connection extends BaseConnection
      * FALSE or SQLSRV_CURSOR_FORWARD would increase performance,
      * but would disable num_rows() (and possibly insert_id())
      *
-     * @var mixed
+     * @var false|string
      */
     public $scrollable;
 
@@ -77,7 +79,7 @@ class Connection extends BaseConnection
      *
      * Identifiers that must NOT be escaped.
      *
-     * @var string[]
+     * @var list<string>
      */
     protected $_reserved_identifiers = ['*'];
 
@@ -121,7 +123,7 @@ class Connection extends BaseConnection
             unset($connection['UID'], $connection['PWD']);
         }
 
-        if (strpos($this->hostname, ',') === false && $this->port !== '') {
+        if (! str_contains($this->hostname, ',') && $this->port !== '') {
             $this->hostname .= ', ' . $this->port;
         }
 
@@ -162,6 +164,8 @@ class Connection extends BaseConnection
     /**
      * Keep or establish the connection if no queries have been sent for
      * a length of time exceeding the server's idle timeout.
+     *
+     * @return void
      */
     public function reconnect()
     {
@@ -171,6 +175,8 @@ class Connection extends BaseConnection
 
     /**
      * Close the database connection.
+     *
+     * @return void
      */
     protected function _close()
     {
@@ -190,7 +196,7 @@ class Connection extends BaseConnection
      */
     public function insertID(): int
     {
-        return $this->query('SELECT SCOPE_IDENTITY() AS insert_id')->getRow()->insert_id ?? 0;
+        return (int) ($this->query('SELECT SCOPE_IDENTITY() AS insert_id')->getRow()->insert_id ?? 0);
     }
 
     /**
@@ -231,7 +237,7 @@ class Connection extends BaseConnection
     /**
      * Returns an array of objects with index data
      *
-     * @return stdClass[]
+     * @return array<string, stdClass>
      *
      * @throws DatabaseException
      */
@@ -253,10 +259,10 @@ class Connection extends BaseConnection
             $_fields     = explode(',', trim($row->index_keys));
             $obj->fields = array_map(static fn ($v) => trim($v), $_fields);
 
-            if (strpos($row->index_description, 'primary key located on') !== false) {
+            if (str_contains($row->index_description, 'primary key located on')) {
                 $obj->type = 'PRIMARY';
             } else {
-                $obj->type = (strpos($row->index_description, 'nonclustered, unique') !== false) ? 'UNIQUE' : 'INDEX';
+                $obj->type = (str_contains($row->index_description, 'nonclustered, unique')) ? 'UNIQUE' : 'INDEX';
             }
 
             $retVal[$obj->name] = $obj;
@@ -269,7 +275,7 @@ class Connection extends BaseConnection
      * Returns an array of objects with Foreign key data
      * referenced_object_id  parent_object_id
      *
-     * @return stdClass[]
+     * @return array<string, stdClass>
      *
      * @throws DatabaseException
      */
@@ -335,15 +341,17 @@ class Connection extends BaseConnection
     /**
      * Returns an array of objects with field data
      *
-     * @return stdClass[]
+     * @return list<stdClass>
      *
      * @throws DatabaseException
      */
     protected function _fieldData(string $table): array
     {
-        $sql = 'SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION, COLUMN_DEFAULT
-			FROM INFORMATION_SCHEMA.COLUMNS
-			WHERE TABLE_NAME= ' . $this->escape(($table));
+        $sql = 'SELECT
+                COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, NUMERIC_PRECISION,
+                COLUMN_DEFAULT, IS_NULLABLE
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_NAME= ' . $this->escape(($table));
 
         if (($query = $this->query($sql)) === false) {
             throw new DatabaseException(lang('Database.failGetFieldData'));
@@ -355,13 +363,15 @@ class Connection extends BaseConnection
         for ($i = 0, $c = count($query); $i < $c; $i++) {
             $retVal[$i] = new stdClass();
 
-            $retVal[$i]->name    = $query[$i]->COLUMN_NAME;
-            $retVal[$i]->type    = $query[$i]->DATA_TYPE;
-            $retVal[$i]->default = $query[$i]->COLUMN_DEFAULT;
+            $retVal[$i]->name = $query[$i]->COLUMN_NAME;
+            $retVal[$i]->type = $query[$i]->DATA_TYPE;
 
             $retVal[$i]->max_length = $query[$i]->CHARACTER_MAXIMUM_LENGTH > 0
                 ? $query[$i]->CHARACTER_MAXIMUM_LENGTH
                 : $query[$i]->NUMERIC_PRECISION;
+
+            $retVal[$i]->nullable = $query[$i]->IS_NULLABLE !== 'NO';
+            $retVal[$i]->default  = $query[$i]->COLUMN_DEFAULT;
         }
 
         return $retVal;
@@ -436,11 +446,11 @@ class Connection extends BaseConnection
     /**
      * Select a specific database table to use.
      *
-     * @return mixed
+     * @return bool
      */
     public function setDatabase(?string $databaseName = null)
     {
-        if (empty($databaseName)) {
+        if ($databaseName === null || $databaseName === '') {
             $databaseName = $this->database;
         }
 
@@ -485,7 +495,7 @@ class Connection extends BaseConnection
     /**
      * Returns the last error encountered by this connection.
      *
-     * @return mixed
+     * @return array<string, int|string>
      *
      * @deprecated Use `error()` instead.
      */
@@ -534,7 +544,7 @@ class Connection extends BaseConnection
             return $this->dataCache['version'];
         }
 
-        if (! $this->connID || empty($info = sqlsrv_server_info($this->connID))) {
+        if (! $this->connID || ($info = sqlsrv_server_info($this->connID)) === []) {
             $this->initialize();
         }
 
@@ -546,7 +556,7 @@ class Connection extends BaseConnection
      *
      * Overrides BaseConnection::isWriteType, adding additional read query types.
      *
-     * @param mixed $sql
+     * @param string $sql
      */
     public function isWriteType($sql): bool
     {

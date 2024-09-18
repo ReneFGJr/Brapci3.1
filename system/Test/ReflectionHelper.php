@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -74,7 +76,12 @@ trait ReflectionHelper
     public static function setPrivateProperty($obj, $property, $value)
     {
         $refProperty = self::getAccessibleRefProperty($obj, $property);
-        $refProperty->setValue($obj, $value);
+
+        if (is_object($obj)) {
+            $refProperty->setValue($obj, $value);
+        } else {
+            $refProperty->setValue(null, $value);
+        }
     }
 
     /**

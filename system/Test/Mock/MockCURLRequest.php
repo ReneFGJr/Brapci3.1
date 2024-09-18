@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -34,6 +36,8 @@ class MockCURLRequest extends CURLRequest
 
     protected function sendRequest(array $curlOptions = []): string
     {
+        $this->response = clone $this->responseOrig;
+
         // Save so we can access later.
         $this->curl_options = $curlOptions;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -15,6 +17,8 @@ use CodeIgniter\Encryption\Exceptions\EncryptionException;
 
 /**
  * Encryption handling for OpenSSL library
+ *
+ * @see \CodeIgniter\Encryption\Handlers\OpenSSLHandlerTest
  */
 class OpenSSLHandler extends BaseHandler
 {
