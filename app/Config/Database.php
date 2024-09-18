@@ -150,8 +150,5 @@ class Database extends Config
             $a .= '$this->' . $base . '[\'password\'] = getenv(\'database.default.password\');' . cr();
             eval($a);
         }
-        echo '<pre>';
-        print_r($this->elastic);
-        exit;
     }
 }
