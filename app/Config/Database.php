@@ -51,6 +51,7 @@ class Database extends Config
     ];
 
     public array $books = [];
+    public array $brapci = [];
     public array $brapci_cited = [];
     public array $authority = [];
     public array $dci = [];
@@ -136,6 +137,11 @@ class Database extends Config
         $this->books['database'] = 'brapci_books';
         $this->books['username'] = getenv('database.default.username');
         $this->books['password'] = getenv('database.default.password');
+
+        $this->brapci = $this->default;
+        $this->brapci['database'] = 'brapci_books';
+        $this->brapci['username'] = getenv('database.default.username');
+        $this->brapci['password'] = getenv('database.default.password');
 
     }
 }
