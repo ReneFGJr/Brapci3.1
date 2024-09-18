@@ -150,12 +150,12 @@ class Database extends Config
             'bots' => 'brapci_bots',
             'oai' => 'brapci_oaipmh',
             'observatorio' => 'observatorio',
-            'lattes'=>'lattes',
-            'search' => 'search',
+            'lattes'=> 'brapci_lattes',
+            'search' => 'brapci_search',
             'gev3nt'=> 'gev3nt',
-            'patent'=> 'patent',
+            'patent'=> 'brapci_patent',
             'rdf' => 'brapci_rdf',
-            'rdf2' => 'brapci_rdf2',
+            'rdf2' => 'brapci_rdf',
             'thesa' => 'thesa'
         ];
     /*
