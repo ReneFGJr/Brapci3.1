@@ -181,6 +181,10 @@ class Database extends Config
         $this->books['username'] = getenv('database.default.username');
         $this->books['password'] = getenv('database.default.password');
 
+        echo '<pre>';
+        print_r($this->books);
+        exit;
+
         $this->brapci = $this->default;
         $this->brapci['database'] = 'brapci';
         $this->brapci['username'] = getenv('database.default.username');
