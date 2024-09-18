@@ -87,18 +87,48 @@ class Database extends Config
 
     public $elastic  = [
         'DSN'      => '',
-        'hostname' => 'localhost', 'username' => '', 'password' => '', 'database' => 'brapci_elastic',
-        'DBDriver' => 'MySQLi', 'DBPrefix' => '', 'pConnect' => false, 'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8', 'DBCollat' => 'utf8_general_ci', 'swapPre'  => '', 'encrypt'  => false, 'compress' => false,
-        'strictOn' => false, 'failover' => [],  'port'     => 3306,
+        'hostname' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'database' => 'brapci_elastic',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false,
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 3306,
     ];
 
     public $dci  = [
-        'DSN'      => '',
-        'hostname' => 'localhost', 'username' => '', 'password' => '', 'database' => 'dci',
-        'DBDriver' => 'MySQLi', 'DBPrefix' => '', 'pConnect' => false, 'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8', 'DBCollat' => 'utf8_general_ci', 'swapPre'  => '', 'encrypt'  => false, 'compress' => false,
-        'strictOn' => false, 'failover' => [],  'port'     => 3306,
+        'DSN'          => '',
+        'hostname'     => 'localhost',
+        'username'     => '',
+        'password'     => '',
+        'database'     => 'dci',
+        'DBDriver'     => 'MySQLi',
+        'DBPrefix'     => '',
+        'pConnect'     => false,
+        'DBDebug'      => true,
+        'charset'      => 'utf8mb4',
+        'DBCollat'     => 'utf8mb4_general_ci',
+        'swapPre'      => '',
+        'encrypt'      => false,
+        'compress'     => false,
+        'strictOn'     => false,
+        'failover'     => [],
+        'port'         => 3306,
+        'numberNative' => false,
+        'dateFormat'   => [
+            'date'     => 'Y-m-d',
+            'datetime' => 'Y-m-d H:i:s',
+            'time'     => 'H:i:s',
+        ],
     ];
     /**
      * This database connection is used when running PHPUnit database tests.
@@ -177,6 +207,5 @@ class Database extends Config
         echo '<pre>';
         print_r($this->dci);
         exit;
-
     }
 }
