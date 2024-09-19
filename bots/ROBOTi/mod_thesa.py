@@ -194,6 +194,7 @@ def check_subject_thesa():
         #thesa_api('term_add',dt)
 
 def thesa_local(term,lang,id=0):
+    term = term[:100]
     row = find(term,lang)
     now = agora = datetime.now()
 
