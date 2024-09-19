@@ -67,6 +67,12 @@ class Sources extends Model
     var $path_back = '';
     var $id = 0;
 
+    function le($id)
+        {
+            $dt = $this->find($id);
+            return $dt;
+        }
+
     function index($d1, $d2, $d3)
     {
         $this->path = base_url(PATH . MODULE . '/index/');
