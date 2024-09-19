@@ -66,6 +66,11 @@ class Index extends Model
         }
 
         switch ($d1) {
+            case 'indicadotor':
+                $Indicators = new \App\Models\Api\Endpoint\Indicators();
+                $RSP = $Indicators->index($d2,$d3,$d4);
+                echo json_encode($RSP);
+                exit;
             case 'cited':
                 $Cited = new \App\Models\Cited\Index();
                 $RSP = $Cited->resumo_cited();
