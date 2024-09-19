@@ -72,5 +72,9 @@ class ProducaoJournalAno extends Model
 				$dd['pjs_total'] = $line['total'];
 				$this->set($dd)->insert();
 		}
-
+		$RSP = [];
+		$RSP['status'] = '200';
+		$RSP['message'] = 'Reindex Success ['.$jid.']';
+		return $RSP;
+	}
 }
