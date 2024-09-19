@@ -61,10 +61,13 @@ class Indicators extends Model
                                     $ProducaoJournalAno->createIndex(16);
                                     $RSP['status'] = '200';
                                     $RSP['message'] = 'Indexes created';
+                                    break;
                                 case 'ProducaoJournalAno':
                                     $ProducaoJournalAno = new \App\Models\ICR\ProducaoJournalAno();
-                                    $RSP['data'] = $ProducaoJournalAno->get();
-
+                                    $RSP['data'] = $ProducaoJournalAno->get($d3);
+                                    $Source = new \App\Models\Base\Sources();
+                                    $RSP['journal'] = $Source->le($d3);
+                                    break;
                             }
                     default:
                         $RSP['status'] = '400';
