@@ -69,7 +69,7 @@ class Sources extends Model
 
     function le($id)
         {
-            $dt = $this->find($id);
+            $dt = $this->where('id_jnl',$id)->first();
             return $dt;
         }
 
