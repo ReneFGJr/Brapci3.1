@@ -66,6 +66,7 @@ class Indicators extends Model
                 $Source = new \App\Models\Base\Sources();
                 $RSP['journal'] = $Source->le($d3);
                 $RSP['jid'] = $d2;
+                $RSP['status'] = '200';
                 break;
 
             default:
