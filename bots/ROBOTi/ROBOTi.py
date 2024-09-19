@@ -140,6 +140,10 @@ def run(parm):
     if (act == 'cited'):
         mod_cited.categorizeCited()
 
+
+    if (act == 'thesa'):
+        mod_thesa.check_subject_thesa()
+
     if (act == 'ontology'):
         mod_concept.UpdateUse()
         mod_ontology.classification()

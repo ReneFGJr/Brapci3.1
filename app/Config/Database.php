@@ -63,6 +63,7 @@ class Database extends Config
     public array $lattes = [];
     public array $click = [];
     public array $gev3nt = [];
+    public array $icr = [];
     public array $patent = [];
     public array $pgcd = [];
     public array $capes = [];
@@ -139,6 +140,7 @@ class Database extends Config
             'authority' => 'brapci_authority',
             'books' => 'brapci_books',
             'brapci' => 'brapci',
+            'bots' => 'brapci_bots',
             'pq' => 'brapci_pq',
             'capes' => 'capes',
             'brapci_cited' => 'brapci_cited',
@@ -148,7 +150,7 @@ class Database extends Config
             'kanban' => 'kanban',
             'find' => 'find',
             'find2' => 'find2',
-            'bots' => 'brapci_bots',
+            'icr' => 'brapci_icr',
             'oai' => 'brapci_oaipmh',
             'observatorio' => 'observatorio',
             'lattes'=> 'brapci_lattes',
