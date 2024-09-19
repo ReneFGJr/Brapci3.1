@@ -71,7 +71,8 @@ class Indicators extends Model
                             }
                     default:
                         $RSP['status'] = '400';
-                        $RSP['message'] = 'Verb not informed. User: indicator/production/$JID'
+                        $RSP['message'] = 'Verb not informed. User: indicator/production/$JID';
+                        break;
                 }
             return $RSP;
         }
