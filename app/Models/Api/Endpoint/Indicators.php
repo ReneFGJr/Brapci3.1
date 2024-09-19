@@ -62,9 +62,10 @@ class Indicators extends Model
                 break;
             case 'ProducaoJournalAno':
                 $ProducaoJournalAno = new \App\Models\ICR\ProducaoJournalAno();
-                $RSP['data'] = $ProducaoJournalAno->get($d3);
+                $RSP['data'] = $ProducaoJournalAno->get($d2);
                 $Source = new \App\Models\Base\Sources();
                 $RSP['journal'] = $Source->le($d3);
+                $RSP['jid'] = $d2;
                 break;
 
             default:
