@@ -63,6 +63,7 @@ class ProducaoAutores extends Model
 					$names = explode(';',$names);
 					foreach($names as $id=>$name)
 						{
+							$name = trim($name);
 							if (!isset($AUTH[$name]))
 								{
 									$AUTH[$name] = 0;

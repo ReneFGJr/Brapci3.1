@@ -71,7 +71,7 @@ class Indicators extends Model
                 $RSP['jid'] = $d2;
                 $RSP['status'] = '200';
                 break;
-            case 'ProducaoAutores':
+            case 'ProducaoJournalAutores':
                 $ProducaoAutores = new \App\Models\ICR\ProducaoAutores();
                 $RSP['data'] = $ProducaoAutores->get($d2);
                 $RSP['jid'] = $d2;
