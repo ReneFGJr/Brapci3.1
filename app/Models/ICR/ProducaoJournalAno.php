@@ -61,7 +61,7 @@ class ProducaoJournalAno extends Model
 			$row = $Elastic
 				->select('count(*) as total, JOURNAL, YEAR')
 				->where('JOURNAL',$jid)
-				->where('`USE´`', 0)
+				->where('`USE`', 0)
 				->groupBy('JOURNAL,YEAR')
 				->orderBy('JOURNAL,YEAR')
 				->findAll();
