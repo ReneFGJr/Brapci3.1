@@ -15,11 +15,11 @@ define("PREFIX", '');
 
 class Api extends BaseController
 {
-    public function index($d1 = '', $d2 = '', $d3 = '', $d4 = '')
+    public function index($d1 = '', $d2 = '', $d3 ='', $d4 ='', $d5 ='', $d6 = '')
     {
         $sx = '';
         $API = new \App\Models\Api\Index();
-        $sx = $API->index($d1, $d2, $d3, $d4);
+        $sx = $API->index($d1, $d2, $d3, $d4, $d5, $d6);
         return $sx;
     }
 }

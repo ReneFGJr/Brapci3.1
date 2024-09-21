@@ -50,7 +50,7 @@ class Index extends Model
         return $sx;
     }
 
-    function index($d1, $d2, $d3, $d4)
+    function index($d1, $d2, $d3, $d4, $d5='',$d6='')
     {
         /* NAO USADO PARA AS APIS */
         header('Access-Control-Allow-Origin: *');
@@ -68,7 +68,7 @@ class Index extends Model
         switch ($d1) {
             case 'indicator':
                 $Indicators = new \App\Models\Api\Endpoint\Indicators();
-                $RSP = $Indicators->index($d2,$d3,$d4);
+                $RSP = $Indicators->index($d2,$d3,$d4,$d5,$d6);
                 echo json_encode($RSP);
                 exit;
             case 'cited':

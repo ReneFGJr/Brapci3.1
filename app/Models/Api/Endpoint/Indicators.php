@@ -49,7 +49,7 @@ class Indicators extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1 = '', $d2 = '', $d3 = '')
+    function index($d1 = '', $d2 = '', $d3 = '',$d4='')
     {
         $RSP['status'] = '500';
         switch ($d1) {
@@ -73,8 +73,9 @@ class Indicators extends Model
                 break;
             case 'ProducaoJournalAutores':
                 $ProducaoAutores = new \App\Models\ICR\ProducaoAutores();
-                $RSP['data'] = $ProducaoAutores->get($d2);
+                $RSP['data'] = $ProducaoAutores->get($d2,$d3,$d4);
                 $RSP['jid'] = $d2;
+                $RSP['periodo'] = $d3.'-'.$d4;
                 $RSP['status'] = '200';
                 break;
 
