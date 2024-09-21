@@ -61,6 +61,11 @@ class Indicators extends Model
             case 'ProducaoJournalAno':
                 $ProducaoJournalAno = new \App\Models\ICR\ProducaoJournalAno();
                 $RSP['data'] = $ProducaoJournalAno->get($d2);
+                if ($RSP['data'] == [])
+                    {
+                        $RSP = $ProducaoJournalAno->createIndex($d2);
+                        $RSP['data'] = $ProducaoJournalAno->get($d2);
+                    }
                 $Source = new \App\Models\Base\Sources();
                 $RSP['journal'] = $Source->le($d3);
                 $RSP['jid'] = $d2;

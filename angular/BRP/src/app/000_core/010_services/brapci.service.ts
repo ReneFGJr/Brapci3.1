@@ -10,6 +10,7 @@ import { UserService } from 'src/app/001_auth/service/user.service';
 })
 export class BrapciService {
   http: any;
+  apikey:string =  ''
   url_post: string = '';
   public user: Array<any> | any;
 
@@ -66,18 +67,24 @@ export class BrapciService {
     var formData: any = new FormData();
     let section = this.cookieService.get('section');
     this.user = this.userService.getUser();
-    let apikey = this.user.token;
+
+    if (!this.user)
+      {
+        this.apikey = '';
+      }
+      else {
+        this.apikey = this.user.token;
+      }
+
 
     if (development) {
       this.url_post = `${this.url_development}` + type;
-      console.log(`Buscador: ${this.url_post}`);
-      console.log('===SESSION== ' + apikey);
     } else {
       this.url_post = `${this.url}` + type;
     }
 
     formData.append('section', section);
-    formData.append('user', apikey);
+    formData.append('user', this.apikey);
 
     for (const key in dt) {
       formData.append(key, dt[key]);

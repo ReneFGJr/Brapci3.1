@@ -46,8 +46,9 @@ export class LoginComponent {
   public image_wait: string = 'assets/img/loading_gear.gif';
 
   ngOnInit() {
-    console.log('Login');
+    console.log('==============Login');
     if (this.userService.loged() == true) {
+      console.log("LOGADO?")
       this.router.navigate(['/']);
     }
   }

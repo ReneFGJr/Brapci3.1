@@ -75,6 +75,7 @@ import { RecomendationComponent } from './page/recomendation/recomendation.compo
 import { KeywordsComponent } from './widget/keywords/keywords.component';
 import { SumaryComponent } from './widget/sumary/sumary.component';
 import { ToolsSumaryComponent } from './widget/tools-sumary/tools-sumary.component';
+import { IcrProducaoAnoComponent } from './widget/icr-producao-ano/icr-producao-ano.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +147,7 @@ import { ToolsSumaryComponent } from './widget/tools-sumary/tools-sumary.compone
     KeywordsComponent,
     SumaryComponent,
     ToolsSumaryComponent,
+    IcrProducaoAnoComponent,
   ],
   imports: [
     CommonModule,

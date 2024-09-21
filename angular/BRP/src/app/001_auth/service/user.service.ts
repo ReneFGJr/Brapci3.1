@@ -29,7 +29,8 @@ export class UserService {
   public getUser() {
     this.user = this.LocalStorageService.get('user');
     if (this.user == null) {
-      return [];
+      this.LocalStorageService.set('user', this.user);
+      return null;
     } else {
       this.user = this.user[0];
       return this.user;

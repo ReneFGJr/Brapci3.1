@@ -14,7 +14,6 @@ export class JournalComponent {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private brapciService: BrapciService
   ) {
     this.page = '1';
   }
@@ -26,14 +25,6 @@ export class JournalComponent {
   ngOnInit() {
     this.activatedRoute.params.subscribe((res) => {
       this.params = res;
-      console.log(this.params);
-      /*
-      this.brapciService.sources(this.params.id).subscribe((res) => {
-        this.journal = res;
-        this.journal = this.journal.source;
-        this.issue = this.journal.issue;
-      });
-      */
     });
   }
 }

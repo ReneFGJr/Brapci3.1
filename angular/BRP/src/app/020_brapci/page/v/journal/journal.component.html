@@ -21,7 +21,7 @@
         (click)="selectPG('3')"
         class="ms-3 menu"
         [ngClass]="page == '3' ? 'active' : ''"
-        >Indexadores</a
+        >Indicadores</a
       >
       <a
         (click)="selectPG('4')"
@@ -154,7 +154,10 @@
         </div>
       </div>
       <!-- Pagin 3-->
-      <div *ngIf="page === '3'">Pag 3</div>
+      <div *ngIf="page === '3'">
+        <h1>Indicadores</h1>
+        <app-icr-producao-ano [jid]="data.id_jnl"></app-icr-producao-ano>
+      </div>
       <!-- Pagin 4-->
       <div *ngIf="page === '4'">Pag 4</div>
     </div>
