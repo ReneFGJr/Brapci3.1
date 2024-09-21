@@ -65,11 +65,9 @@ class ProducaoAutores extends Model
 			$names = $line['AUTHORS'];
 			$names = explode(';', $names);
 			$namesArt = [];
-			echo '=====================' . cr();
-			print_r($line);
+
 			foreach ($names as $id => $name) {
 				$name = trim($name);
-				echo $name.'<br>'.cr();
 				if (!isset($namesArt[$name])) {
 					if (!isset($AUTH[$name])) {
 						$AUTH[$name] = 0;
