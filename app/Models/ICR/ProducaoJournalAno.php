@@ -42,7 +42,7 @@ class ProducaoJournalAno extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function get($jid=16)
+	function get($jid)
 		{
 			$dt = $this
 				->select('pjs_journal as journal, pjs_ano as year, pjs_total as total')
