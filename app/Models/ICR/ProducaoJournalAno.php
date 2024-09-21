@@ -51,7 +51,7 @@ class ProducaoJournalAno extends Model
 			return $dt;
 		}
 
-	function createIndex($jid=16)
+	function createIndex($jid)
 		{
 			$sql = "TRUNCATE brapci_icr.".$this->table;
 			$this->db->query($sql);
