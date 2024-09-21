@@ -56,7 +56,7 @@ class Indicators extends Model
 
             case 'index':
                 $ProducaoJournalAno = new \App\Models\ICR\ProducaoJournalAno();
-                $RSP = $ProducaoJournalAno->createIndex(16);
+                $RSP = $ProducaoJournalAno->createIndex($d2);
                 break;
             case 'ProducaoJournalAno':
                 $ProducaoJournalAno = new \App\Models\ICR\ProducaoJournalAno();
