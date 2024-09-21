@@ -50,6 +50,7 @@ class ProducaoAutores extends Model
 				->where('YEAR >= '. $year_ini)
 				->where('YEAR <= ' . $year_end)
 				->findAll();
+				echo $this->getlastquery();
 			$AUTHORS = $this->analyse($dt);
 			return $AUTHORS;
 		}
