@@ -15,7 +15,11 @@ class ProducaoAutores extends Model
 	protected $useSoftDeletes       = false;
 	protected $protectFields        = true;
 	protected $allowedFields        = [
-		'id_pjs','pjs_journal','pjs_ano','pjs_tipo','pjs_total'
+		'id_pjs',
+		'pjs_journal',
+		'pjs_ano',
+		'pjs_tipo',
+		'pjs_total'
 	];
 
 	// Dates
@@ -42,39 +46,37 @@ class ProducaoAutores extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
-	function get($jid,$year_ini=2019,$year_end=2023)
-		{
-			$dt = $this
-				->select('YEAR, AUTHORS')
-				->where('JOURNAL',$jid)
-				->where('YEAR >= '. $year_ini)
-				->where('YEAR <= ' . $year_end)
-				->findAll();
-				echo $this->getlastquery();
-			$AUTHORS = $this->analyse($dt);
-			return $AUTHORS;
-		}
+	function get($jid, $year_ini = 2019, $year_end = 2023)
+	{
+		$dt = $this
+			->select('YEAR, AUTHORS')
+			->where('JOURNAL', $jid)
+			->where('YEAR >= ' . $year_ini)
+			->where('YEAR <= ' . $year_end)
+			->findAll();
+		$AUTHORS = $this->analyse($dt);
+		return $AUTHORS;
+	}
 
 	function analyse($dt)
-		{
-			$AUTH = [];
-			foreach($dt as $id=>$line)
-				{
-					$names = $line['AUTHORS'];
-					$names = explode(';',$names);
-					foreach($names as $id=>$name)
-						{
-							$name = trim($name);
-							if (!isset($AUTH[$name]))
-								{
-									$AUTH[$name] = 0;
-								}
-							$AUTH[$name] = $AUTH[$name] + 1;
-						}
+	{
+		$AUTH = [];
+		foreach ($dt as $id => $line) {
+			$names = $line['AUTHORS'];
+			$names = explode(';', $names);
+			$namesArt = [];
+			foreach ($names as $id => $name) {
+				$name = trim($name);
+				if (!isset($namesArt[$name])) {
+					if (!isset($AUTH[$name])) {
+						$AUTH[$name] = 0;
+					}
+					$AUTH[$name] = $AUTH[$name] + 1;
 				}
-			arsort($AUTH);
-			return $AUTH;
+				$namesArt[$name] = 1;
+			}
 		}
-
-
+		arsort($AUTH);
+		return $AUTH;
+	}
 }
