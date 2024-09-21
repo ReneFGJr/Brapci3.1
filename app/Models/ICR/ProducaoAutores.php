@@ -51,7 +51,7 @@ class ProducaoAutores extends Model
 				->where('YEAR <= ' . $year_ini)
 				->findAll();
 			$AUTHORS = $this->analyse($dt);
-			return $dt;
+			return $AUTHORS;
 		}
 
 	function analyse($dt)
