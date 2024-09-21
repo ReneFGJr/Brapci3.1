@@ -52,19 +52,19 @@ export class IcrProducaoAnoComponent {
         type: 'column',
       },
       title: {
-        text: 'Produção de trabalhos por ano',
+        text: 'Ano de produção',
       },
       xAxis: {
         categories: this.categories,
       },
       yAxis: {
         title: {
-          text: 'Valor',
+          text: 'Trabalhos publicados',
         },
       },
       series: [
         {
-          name: 'Dados do Ano',
+          name: 'Publicação anual',
           data: this.seriesData,
           type: 'column',
           dataLabels: {
