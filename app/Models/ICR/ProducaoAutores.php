@@ -48,7 +48,7 @@ class ProducaoAutores extends Model
 				->select('YEAR, AUTHORS')
 				->where('JOURNAL',$jid)
 				->where('YEAR >= '. $year_ini)
-				->where('YEAR <= ' . $year_ini)
+				->where('YEAR <= ' . $year_end)
 				->findAll();
 			$AUTHORS = $this->analyse($dt);
 			return $AUTHORS;
