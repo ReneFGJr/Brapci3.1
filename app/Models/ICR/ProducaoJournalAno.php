@@ -75,6 +75,7 @@ class ProducaoJournalAno extends Model
 		$RSP = [];
 		$RSP['status'] = '200';
 		$RSP['message'] = 'Reindex Success ['.$jid.']';
+		$RSP['journal'] = $jid;
 		return $RSP;
 	}
 }
