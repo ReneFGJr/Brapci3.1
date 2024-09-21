@@ -67,6 +67,7 @@ class ProducaoAutores extends Model
 			$namesArt = [];
 			foreach ($names as $id => $name) {
 				$name = trim($name);
+				echo $name.'<br>';
 				if (!isset($namesArt[$name])) {
 					if (!isset($AUTH[$name])) {
 						$AUTH[$name] = 0;
