@@ -68,9 +68,10 @@ class ProducaoAutores extends Model
 								{
 									$AUTH[$name] = 0;
 								}
-							$AUTH[$name] =+ 1;
+							$AUTH[$name] = $AUTH[$name] + 1;
 						}
 				}
+			ksort($AUTH);
 			pre($AUTH);
 		}
 
