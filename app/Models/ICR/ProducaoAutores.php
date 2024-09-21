@@ -66,6 +66,7 @@ class ProducaoAutores extends Model
 			$names = explode(';', $names);
 			$namesArt = [];
 			echo '=====================' . cr();
+			print_r($line);
 			foreach ($names as $id => $name) {
 				$name = trim($name);
 				echo $name.'<br>'.cr();
