@@ -71,7 +71,7 @@ class ProducaoAutores extends Model
 							$AUTH[$name] = $AUTH[$name] + 1;
 						}
 				}
-			rsort($AUTH);
+			arsort($AUTH);
 			return $AUTH;
 		}
 
