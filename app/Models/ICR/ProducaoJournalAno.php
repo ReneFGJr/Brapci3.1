@@ -55,10 +55,12 @@ class ProducaoJournalAno extends Model
 			$df = date("Y");
 			$df1 = date("Y")-5;
 			$df2 = date("Y") - 10;
+			$anos = 0;
 
 			foreach($dt as $id=>$line)
 				{
 					$YEAR = $line['year'];
+					$anos++;
 					if ($YEAR > $df1)
 						{
 							$works['media5'] = $works['media5'] + $line['total'];
@@ -68,6 +70,7 @@ class ProducaoJournalAno extends Model
 					}
 					$works['mediaTotal'] = $works['mediaTotal'] + $line['total'];
 				}
+			$works['total'] = $anos;
 			$this->trabalhos = $works;
 			return $dt;
 		}
