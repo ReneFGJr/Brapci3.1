@@ -46,6 +46,8 @@ class ProducaoAutores extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	public $total = 0;
+
 	function get($jid, $year_ini = 2019, $year_end = 2023)
 	{
 		$dt = $this
@@ -56,6 +58,7 @@ class ProducaoAutores extends Model
 			->where('`use`', 0)
 			->findAll();
 		$AUTHORS = $this->analyse($dt);
+		$this->total = count($dt);
 		return $AUTHORS;
 	}
 

@@ -82,6 +82,7 @@ class Indicators extends Model
                 $RSP['data'] = $ProducaoAutores->get($d2,$d3,$d4);
                 $RSP['jid'] = $d2;
                 $RSP['periodo'] = $d3.'-'.$d4;
+                $RSP['authors_total'] = $ProducaoAutores->total;
                 $RSP['status'] = '200';
                 break;
 
