@@ -42,12 +42,33 @@ class ProducaoJournalAno extends Model
 	protected $beforeDelete         = [];
 	protected $afterDelete          = [];
 
+	public $trabalhos = [];
+
 	function get($jid)
 		{
 			$dt = $this
 				->select('pjs_journal as journal, pjs_ano as year, pjs_total as total')
 				->where('pjs_journal',$jid)
 				->findAll();
+
+			$works = ['media5'=>0,'media10'=>0,'mediaTotal'=>0,'total'=>0];
+			$df = date("Y");
+			$df1 = date("Y")-5;
+			$df2 = date("Y") - 10;
+
+			foreach($dt as $id=>$line)
+				{
+					$YEAR = $line['year'];
+					if ($YEAR >= $df1)
+						{
+							$works['media5'] = $works['media5'] + 1;
+						}
+					if ($YEAR >= $df2) {
+						$works['media10'] = $works['media10'] + 1;
+					}
+					$works['mediaTotal'] = $works['mediaTotal'] + 1;
+				}
+			$this->trabalhos = $works;
 			return $dt;
 		}
 
@@ -77,6 +98,8 @@ class ProducaoJournalAno extends Model
 		$RSP['status'] = '200';
 		$RSP['message'] = 'Reindex Success ['.$jid.']';
 		$RSP['journal'] = $jid;
+
+
 		return $RSP;
 	}
 }

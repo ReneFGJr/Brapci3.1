@@ -65,6 +65,7 @@ class Indicators extends Model
                     {
                         $RSP = $ProducaoJournalAno->createIndex($d2);
                         $RSP['data'] = $ProducaoJournalAno->get($d2);
+                        $RSP['tabalhos'] = $ProducaoJournalAno->trabalhos;
                     }
                 $Source = new \App\Models\Base\Sources();
                 $RSP['journal'] = $Source->le($d3);

@@ -14,6 +14,8 @@ export class IcrProducaoAnoComponent {
   public categories: Array<any> | any;
   public seriesData: Array<any> | any;
 
+  public trabalhos: Array<any> | any;
+
   constructor(private brapciService: BrapciService) {}
 
   ngOnInit(): void {
@@ -21,7 +23,10 @@ export class IcrProducaoAnoComponent {
       .api_post('indicator/ProducaoJournalAno/' + this.jid)
       .subscribe((res) => {
         this.data = res;
+        this.trabalhos = this.data.trabalhos;
+
         this.data = this.data.data;
+
         //this.loadChart();
 
         if (Array.isArray(this.data)) {
@@ -38,15 +43,14 @@ export class IcrProducaoAnoComponent {
           console.error('this.data não é um array:', this.data);
         }
 
-        this.createBAR()
+        this.createBAR();
       });
   }
 
   public Highcharts: typeof Highcharts = Highcharts; // Reference Highcharts library
-  public chartOptions: Highcharts.Options | any
+  public chartOptions: Highcharts.Options | any;
 
-  createBAR()
-  {
+  createBAR() {
     this.chartOptions = {
       chart: {
         type: 'column',
