@@ -72,6 +72,12 @@ class Indicators extends Model
                 $RSP['status'] = '200';
                 break;
             case 'ProducaoJournalAutores':
+                if ($d3 == '') {
+                    $d3 = date("Y") - 5;
+                }
+                if ($d4 == '') {
+                    $d4 = date("Y");
+                }
                 $ProducaoAutores = new \App\Models\ICR\ProducaoAutores();
                 $RSP['data'] = $ProducaoAutores->get($d2,$d3,$d4);
                 $RSP['jid'] = $d2;

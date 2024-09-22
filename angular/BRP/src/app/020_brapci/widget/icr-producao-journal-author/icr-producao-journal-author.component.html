@@ -1,1 +1,14 @@
-{{ data | json }}
+<table style="border-bottom: 1px solid #888; width: 100%">
+  <thead>
+    <tr>
+      <th>Autor/Entidade</th>
+      <th>Produção</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data | keyvalue: sortByProduction">
+      <td>{{item.key}}</td>
+      <td>{{item.value}}</td>
+    </tr>
+  </tbody>
+</table>
