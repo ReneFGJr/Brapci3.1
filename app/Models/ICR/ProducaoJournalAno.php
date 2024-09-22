@@ -59,14 +59,14 @@ class ProducaoJournalAno extends Model
 			foreach($dt as $id=>$line)
 				{
 					$YEAR = $line['year'];
-					if ($YEAR >= $df1)
+					if ($YEAR > $df1)
 						{
-							$works['media5'] = $works['media5'] + 1;
+							$works['media5'] = $works['media5'] + $line['total'];
 						}
-					if ($YEAR >= $df2) {
-						$works['media10'] = $works['media10'] + 1;
+					if ($YEAR > $df2) {
+						$works['media10'] = $works['media10'] + $line['total'];
 					}
-					$works['mediaTotal'] = $works['mediaTotal'] + 1;
+					$works['mediaTotal'] = $works['mediaTotal'] + $line['total'];
 				}
 			$this->trabalhos = $works;
 			return $dt;
