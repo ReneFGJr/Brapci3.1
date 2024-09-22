@@ -16,7 +16,7 @@
     <div class="col-lg-3 col-6 border border-secondary p-3 rounded">
       Média trabalhos <br>últimos 5 anos
       <br /><br />
-      <span style="font-size: 2rem" class="bold">{{trabalhos.media5 / 5}}</span> trabalhos/ano
+      <span style="font-size: 2rem" class="bold">{{trabalhos.media5 / 5 | number: '1.1-1' }}</span> trabalhos/ano
     </div>
 
     <div class="col-lg-3 col-6 border border-secondary p-3 rounded">
@@ -28,7 +28,7 @@
     <div class="col-lg-3 col-6 border border-secondary p-3 rounded">
       Média trabalhos<br>últimos 10 anos
       <br /><br />
-      <span style="font-size: 2rem" class="bold">{{trabalhos.media10 / 10}}</span> trabalhos/ano
+      <span style="font-size: 2rem" class="bold">{{trabalhos.media10 / 10 | number: '1.1-1' }}</span> trabalhos/ano
     </div>
 
     <div class="col-lg-6 col-6 border border-secondary p-3 rounded">
@@ -40,7 +40,7 @@
     <div class="col-lg-6 col-6 border border-secondary p-3 rounded">
       Média de trabalhos publicados por ano
       <br /><br />
-      <span style="font-size: 2rem" class="bold">{{trabalhos.mediaTotal / trabalhos.mediaTotal}}</span> trabalhos/ano
+      <span style="font-size: 2rem" class="bold">{{ (trabalhos.mediaTotal / trabalhos.total) | number: '1.1-1' }}</span> trabalhos/ano
     </div>
 
   </div>
