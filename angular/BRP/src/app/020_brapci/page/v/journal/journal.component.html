@@ -159,7 +159,9 @@
         <app-icr-producao-ano [jid]="data.id_jnl"></app-icr-producao-ano>
       </div>
       <!-- Pagin 4-->
-      <div *ngIf="page === '4'">Pag 4</div>
+      <div *ngIf="page === '4'">
+      <app-icr-producao-journal-author [jid]="data.id_jnl"></app-icr-producao-journal-author>
+      </div>
     </div>
 
     <div style="height: 200px"></div>

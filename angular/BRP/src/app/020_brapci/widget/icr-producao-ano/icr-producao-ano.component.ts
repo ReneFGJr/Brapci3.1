@@ -62,6 +62,9 @@ export class IcrProducaoAnoComponent {
           text: 'Trabalhos publicados',
         },
       },
+      time: {
+        timezoneOffset: -60, // Exemplo de uma configuração de tempo
+      },
       series: [
         {
           name: 'Publicação anual',
@@ -75,72 +78,4 @@ export class IcrProducaoAnoComponent {
       ],
     };
   }
-
-  /*
-
-  loadChart(): void {
-    // Verifique se 'this.data' é um array antes de chamar '.map()'
-
-    /*
-
-
-
-    */
-
-  /*
-    const categories = this.jsonData.data.map((item) => item.year);
-    const seriesData = this.jsonData.data.map((item) =>
-      parseInt(item.total, 10)
-    );
-
-    console.log(categories);
-    console.log(seriesData);
-
-    this.chartOptions = {
-      chart: {
-        type: 'column',
-      },
-      title: {
-        text: 'Produção científica da publicação por ano',
-        align: 'left',
-      },
-      subtitle: {
-        text:
-          'Source: <a target="_blank" ' +
-          'href="https://brapci.inf.br/">Brapci</a>',
-        align: 'left',
-      },
-      xAxis: {
-        categories: ['USA', 'China', 'Brazil', 'EU', 'Argentina', 'India'],
-        crosshair: true,
-        accessibility: {
-          description: 'Countries',
-        },
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: '1000 metric tons (MT)',
-        },
-      },
-      tooltip: {
-        valueSuffix: ' (1000 MT)',
-      },
-      plotOptions: {
-        column: {
-          pointPadding: 0.2,
-          borderWidth: 0,
-        },
-      },
-      series: [
-        {
-          name: 'Corn',
-          data: [387749, 280000, 129000, 64300, 54000, 34300],
-          type: 'number',
-        },
-      ],
-    };
-
-  }
-  */
 }

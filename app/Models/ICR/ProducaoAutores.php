@@ -48,6 +48,11 @@ class ProducaoAutores extends Model
 
 	function get($jid, $year_ini = 2019, $year_end = 2023)
 	{
+		if ($year_ini == '') {
+			$year_ini = date("Y")-5; }
+		if ($year_end == '') {
+			$year_end = date("Y");
+		}
 		$dt = $this
 			->select('YEAR, AUTHORS')
 			->where('JOURNAL', $jid)
