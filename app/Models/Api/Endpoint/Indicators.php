@@ -70,7 +70,7 @@ class Indicators extends Model
                 $RSP['journal'] = $Source->le($d3);
                 $RSP['jid'] = $d2;
                 $RSP['status'] = '200';
-                $RSP['tabalhos'] = $ProducaoJournalAno->trabalhos;
+                $RSP['trabalhos'] = $ProducaoJournalAno->trabalhos;
                 break;
             case 'ProducaoJournalAutores':
                 if ($d3 == '') {

@@ -22,8 +22,10 @@ export class IcrProducaoAnoComponent {
     this.brapciService
       .api_post('indicator/ProducaoJournalAno/' + this.jid)
       .subscribe((res) => {
+        console.log('====================XX==');
         this.data = res;
         this.trabalhos = this.data.trabalhos;
+        console.log(this.trabalhos)
 
         this.data = this.data.data;
 
@@ -59,6 +61,7 @@ export class IcrProducaoAnoComponent {
         text: 'Ano de produção',
       },
       xAxis: {
+        type: 'value',
         categories: this.categories,
       },
       yAxis: {
@@ -67,7 +70,7 @@ export class IcrProducaoAnoComponent {
         },
       },
       time: {
-        timezoneOffset: -60, // Exemplo de uma configuração de tempo
+        useUTC: false, // Defina se necessário
       },
       series: [
         {
