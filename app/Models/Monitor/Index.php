@@ -66,8 +66,11 @@ class Index extends Model
 		$timeout = 2; // Timeout de 2 segundos para a conexão
 
 		$conexao = @fsockopen($ip, $porta, $errno, $errstr, $timeout);
-
-		return $conexao;
+		if ($conexao) {
+			return 'On';
+		} else {
+			return 'Off';
+		}
 	}
 
 	function checkIP()
@@ -86,7 +89,7 @@ class Index extends Model
 
 		foreach ($listaDeIPs as $IP => $server) {
 			$status = $this->verificarComputadores($IP);
-		print_r($status);
+
 			$CHK = [];
 			$CHK['ip'] = $IP;
 			$CHK['server'] = $server;
