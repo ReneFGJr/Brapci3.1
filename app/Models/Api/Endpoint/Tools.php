@@ -70,8 +70,10 @@ class Tools extends Model
                 case 'txt4net':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
+                    break;
                 case 'ris4marc':
                     header("Content-type: application/json; charset=utf-8");
+                    pre("OK");
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
