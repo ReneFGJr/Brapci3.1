@@ -1,11 +1,27 @@
+<!-- src/app/components/chat/chat.component.html -->
 <div class="chat-container">
   <div class="messages">
-    <div *ngFor="let message of messages" class="message">
-      <strong>{{ message.user }}:</strong> {{ message.text }}
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
+      <div class="message">
+        {{ msg.text }}
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="ollama">
+      <div class="message">Ollama está digitando...</div>
     </div>
   </div>
-  <div class="input-container">
-    <input [(ngModel)]="userMessage" placeholder="Digite sua mensagem..." />
-    <button (click)="sendMessage()">Enviar</button>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div class="input-area">
+    <input
+      type="text"
+      [(ngModel)]="userInput"
+      (keypress)="handleKeyPress($event)"
+      placeholder="Digite sua mensagem..."
+    />
+    <button (click)="sendMessage()" [disabled]="isLoading">Enviar</button>
   </div>
 </div>

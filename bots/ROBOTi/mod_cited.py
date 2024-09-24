@@ -67,6 +67,7 @@ def categorizeCited():
         ID = line[0]
 
         print("==========================================================")
+        print("===",line)
         print(line[1])
         print("Bot: ")
         RSP = mod_ai_brapci.chat(message)

@@ -1,34 +1,73 @@
+/* src/app/components/chat/chat.component.css */
 .chat-container {
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 10px;
+  height: 80vh;
 }
 
 .messages {
   flex: 1;
+  padding: 16px;
   overflow-y: auto;
-  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.user .message {
+  background-color: #0084ff;
+  color: white;
+  align-self: flex-end;
+}
+
+.ollama .message {
+  background-color: #e5e5ea;
+  color: black;
+  align-self: flex-start;
 }
 
 .message {
-  margin-bottom: 5px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
-.input-container {
+.input-area {
   display: flex;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  background-color: #fff;
 }
 
-input {
+.input-area input {
   flex: 1;
   padding: 10px;
-  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
 }
 
-button {
+.input-area button {
+  margin-left: 10px;
   padding: 10px 20px;
-  font-size: 16px;
+  border: none;
+  background-color: #0084ff;
+  color: white;
+  border-radius: 20px;
   cursor: pointer;
+}
+
+.input-area button:disabled {
+  background-color: #a0cfff;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  padding: 5px;
 }
