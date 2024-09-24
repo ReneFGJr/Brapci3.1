@@ -1,9 +1,20 @@
 <div class="container">
+<div class="row"><h1>Monitor de IPs</h1></div>
 <div class="row" *ngIf="data">
 <div class="col-lg-2 col-6" *ngFor="let item of data">
-  {{ item | json}}
-  <div *ngIf="item.status == 'On'" style="background-color: #AAFFAA;">ON</div>
-  <div *ngIf="item.status == 'Off'">Off</div>
+
+  <div *ngIf="item.status == 'On'" class="p-3 mb-3" style="background-color: #AAFFAA;">
+    <h1>ON</h1>
+    {{item.server}}
+    <br>
+    {{item.ip}}
+  </div>
+  <div *ngIf="item.status == 'Off'" style="background-color: #FFAAAA;">
+    <h1>OFF</h1>
+    {{item.server}}
+    <br>
+    {{item.ip}}
+  </div>
 </div>
 </div>
 <div class="row" *ngIf="!data">Carregando</div>
