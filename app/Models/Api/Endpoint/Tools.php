@@ -53,6 +53,7 @@ class Tools extends Model
     function index($d1, $d2, $d3, $d4)
     {
         $Net = new \App\Models\Tools\Net\Index();
+        header('Access-Control-Allow-Origin: *');
         switch($d2)
             {
                 case 'mark':
