@@ -72,6 +72,8 @@ class Tools extends Model
                 case 'ris4marc':
                     header('Access-Control-Allow-Origin: *');
                     header("Content-Type: application/json");
+                    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+                    header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
