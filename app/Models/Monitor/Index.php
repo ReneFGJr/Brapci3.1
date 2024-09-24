@@ -85,7 +85,6 @@ class Index extends Model
 		];
 
 		foreach ($listaDeIPs as $IP => $server) {
-			echo $IP.''.$server.'';
 			$status = $this->verificarComputadores($IP);
 
 			$CHK = [];
@@ -94,6 +93,7 @@ class Index extends Model
 			$CHK['status'] = $status;
 			array_push($RSP, $CHK);
 		}
+		pre($RSP);
 		return $RSP;
 	}
 }
