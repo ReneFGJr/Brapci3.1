@@ -56,6 +56,15 @@ class Tools extends Model
 
         switch($d2)
             {
+                case 'monitor':
+                    header('Access-Control-Allow-Origin: *');
+                    header("Content-Type: application/json");
+                    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+                    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+                    $Monitor = new \App\Models\Monitor\Index();
+                    $RSP = $Monitor->checkIP();
+                    echo json_encode($RSP);
+                    exit;
                 case 'mark':
                     $Mark = new \App\Models\AI\NLP\Book\Sumary();
                     $txt = get("text");
