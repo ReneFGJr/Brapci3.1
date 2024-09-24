@@ -10,6 +10,7 @@ import { LotkaComponent } from './page/amostra/lotka.component';
 import { QrcodeComponent } from './widget/qrcode/qrcode.component';
 import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.component';
 import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
+import { MonitorComponent } from './widget/monitor/monitor.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,7 @@ const routes: Routes = [
       { path: 'lotka', component: LotkaComponent },
       { path: 'qrcode', component: QrcodeComponent },
       { path: 'summary/:id', component: SumaryToolsComponent },
+      { path: 'monitor', component: MonitorComponent },
     ],
   },
 ];

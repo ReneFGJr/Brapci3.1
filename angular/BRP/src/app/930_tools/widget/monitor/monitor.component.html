@@ -1,0 +1,10 @@
+<div class="container">
+<div class="row" *ngIf="data">
+<div class="col-lg-2 col-6" *ngFor="let item of data">
+  {{ item | json}}
+  <div *ngIf="item.status == 'On'" style="background-color: #AAFFAA;">ON</div>
+  <div *ngIf="item.status == 'Off'">Off</div>
+</div>
+</div>
+<div class="row" *ngIf="!data">Carregando</div>
+</div>
