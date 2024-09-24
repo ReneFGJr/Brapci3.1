@@ -26,7 +26,7 @@ export class Ris4marcComponent {
       let dt: Array<any> | any = { text: textValue };
 
       this.brapciService
-        .api_post('tools/ris4mark/', dt)
+        .api_post('tools/ris4marc/', dt)
         .subscribe((res) => {
           console.log(res);
         });
