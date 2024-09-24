@@ -29,7 +29,6 @@ export class Ris4marcComponent {
       this.brapciService
         .api_post('tools/ris4marc', dt)
         .subscribe((res) => {
-          console.log(res)
           this.data = res
           this.result = this.data['response'];
         });

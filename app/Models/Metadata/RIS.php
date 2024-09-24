@@ -182,11 +182,29 @@ class RIS extends Model
                     case '245':
                         $value = nbr_title($value,2);
                         break;
+                    case '650':
+                        $value = explode(';',$value);
+                        break;
                 }
 
                 $marc21Tag = $risToMarc21Map[$tag];
                 // Formato básico MARC21: "campo $a valor"
-                $marc21 .= "{$marc21Tag}  \$a {$value}\n";
+                if (is_array($value))
+                    {
+                        foreach($value as $id=>$valueA)
+                            {
+                                $valueA = trim($valueA);
+                                if ($valueA != '')
+                                    {
+                                        $marc21 .= "{$marc21Tag}  \$a {$valueA}\n";
+                                    }
+
+                            }
+
+                    } else {
+                        $marc21 .= "{$marc21Tag}  \$a {$value}\n";
+                    }
+
 
                 if ($marc21Tag == '100') {
                     $risToMarc21Map['AU'] = '700';
