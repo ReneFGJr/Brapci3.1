@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class Ris4marcComponent {
   myForm: FormGroup;
   result: string = '';
+  data: Array<any> | any
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +29,8 @@ export class Ris4marcComponent {
       this.brapciService
         .api_post('tools/ris4marc/', dt)
         .subscribe((res) => {
-          console.log(res);
+          this.data = res
+          this.result = this.data['result']
         });
       console.log('Texto enviado: ', textValue);
     }
