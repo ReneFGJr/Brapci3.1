@@ -1,21 +1,6 @@
 <div class="container">
   <div class="row">
 
-    <!------------------------------ IA  -->
-    <div class="col-12 mt-5">
-      <h2>Chat IA Ollama</h2>
-    </div>
-    <div class="col-3 text-center" *ngFor="let item of IA">
-      <a
-        *ngIf="item.type == 'T'"
-        [routerLink]="['/'+item.url]"
-        routerLinkActive="router-link-active"
-        class="link"
-      >
-        <div class="cover full pt-3 pb-3">{{ item.name }}</div>
-      </a>
-    </div>
-
     <div class="col-12 mt-5">
       <h2>Ferramentas Bibliométricas</h2>
     </div>
@@ -30,6 +15,7 @@
       </a>
     </div>
     <!----------- Conceituais -->
+    <!--
     <div class="col-12">
       <h2 class="mt-5">Ferramentas Textuais / Conceituais</h2>
     </div>
@@ -43,7 +29,9 @@
         <div class="cover full pt-3 pb-3">{{ item.name }}</div>
       </a>
     </div>
+    -->
     <!------------------------------ Processamento de Livros  -->
+    <!--
     <div class="col-12 mt-5">
       <h2>Ferramentas para processamento de Livros</h2>
     </div>
@@ -57,5 +45,6 @@
         <div class="cover full pt-3 pb-3">{{ item.name }}</div>
       </a>
     </div>
+    -->
   </div>
 </div>
