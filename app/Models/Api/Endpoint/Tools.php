@@ -53,7 +53,6 @@ class Tools extends Model
     function index($d1, $d2, $d3, $d4)
     {
         $Net = new \App\Models\Tools\Net\Index();
-        header('Access-Control-Allow-Origin: *');
 
         switch($d2)
             {
@@ -71,11 +70,13 @@ class Tools extends Model
                     exit;
                     break;
                 case 'ris4marc':
-                    header("Content-type: application/json; charset=utf-8");
+                    header('Access-Control-Allow-Origin: *');
+                    header("Content-Type: application/json");
+
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
-                    $RSP['response'] = $RIS->risToMarc21($text);
+                    //$RSP['response'] = $RIS->risToMarc21($text);
                     $RSP['RIS'] = $text;
                     $RSP['post'] = $_POST;
                     echo json_encode($RSP);
