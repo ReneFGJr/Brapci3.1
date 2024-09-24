@@ -96,7 +96,6 @@ class Index extends Model
 			$CHK['status'] = $status;
 			array_push($RSP, $CHK);
 		}
-		pre($RSP);
 		return $RSP;
 	}
 }
