@@ -176,7 +176,14 @@ function risToMarc21($risData) {
         $value = substr($line, 6);  // O valor começa a partir do sexto caractere
 
         if (isset($risToMarc21Map[$tag])) {
-            $marc21Tag = $risToMarc21Map[$tag];
+            $value = $risToMarc21Map[$tag];
+            switch($tag)
+                {
+                    case '245':
+                        $value = nbr_title($vlue);
+                        break;
+                }
+            $marc21Tag = $value;
             // Formato básico MARC21: "campo $a valor"
             $marc21 .= "{$marc21Tag}  \$a {$value}\n";
 
