@@ -85,7 +85,10 @@ class Index extends Model
 		$resultados = $this->verificarComputadores($listaDeIPs);
 
 		foreach ($resultados as $ip => $status) {
-			array_push($RSP,"O computador com IP $ip está $status");
+			$CHK = [];
+			$CHK['ip'] = $ip;
+			$CHK['status'] = $status;
+			array_push($RSP,$CHK);
 		}
 		return $RSP;
 	}
