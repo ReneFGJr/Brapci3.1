@@ -176,15 +176,13 @@ class RIS extends Model
             $tag = substr($line, 0, 2); // Primeiros dois caracteres são a tag RIS
             $value = substr($line, 6);  // O valor começa a partir do sexto caractere
 
-            echo $tag.' ';
-
             if (isset($risToMarc21Map[$tag])) {
 
                 switch ($tag) {
-                    case '245':
+                    case 'TI':
                         $value = nbr_title($value,2);
                         break;
-                    case '650':
+                    case 'KW':
                         $value = explode(';',$value);
                         break;
                 }
