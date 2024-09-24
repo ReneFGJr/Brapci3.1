@@ -78,8 +78,8 @@ class Tools extends Model
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
-                    //$RSP['response'] = $RIS->risToMarc21($text);
-                    //$RSP['RIS'] = $text;
+                    $RSP['response'] = $RIS->risToMarc21($text);
+                    $RSP['RIS'] = $text;
                     $RSP['status'] = '200';
 
                     //$RSP['post'] = $_POST;

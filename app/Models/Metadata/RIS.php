@@ -179,6 +179,11 @@ function risToMarc21($risData) {
             $marc21Tag = $risToMarc21Map[$tag];
             // Formato básico MARC21: "campo $a valor"
             $marc21 .= "{$marc21Tag}  \$a {$value}\n";
+
+            if ($marc21Tag == '100')
+                {
+                    $risToMarc21Map['AU'] = '700';
+                }
         }
     }
 

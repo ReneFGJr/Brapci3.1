@@ -27,10 +27,11 @@ export class Ris4marcComponent {
       let dt: Array<any> | any = { text: textValue };
 
       this.brapciService
-        .api_post('tools/ris4marc/', dt)
+        .api_post('tools/ris4marc', dt)
         .subscribe((res) => {
+          console.log(res)
           this.data = res
-          this.result = this.data['result']
+          this.result = this.data['response'];
         });
       console.log('Texto enviado: ', textValue);
     }
