@@ -69,8 +69,25 @@ class Index extends Model
 		if ($conexao) {
 			return 'On';
 		} else {
+			// Tentativa de conexão via SMB (porta 445, Windows)
+			if ($this->verificarPorta($ip, 445)) {
+				return "On Windows";
+			}
 			return 'Off';
 		}
+	}
+
+	// Função auxiliar para verificar se uma porta específica está acessível
+	function verificarPorta($ip, $porta, $timeout = 2)
+	{
+		$conexao = @fsockopen($ip, $porta, $errno, $errstr, $timeout);
+
+		if ($conexao) {
+			fclose($conexao); // Fechar a conexão após o teste
+			return true;
+		}
+
+		return false;
 	}
 
 	function checkIP()
