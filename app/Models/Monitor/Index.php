@@ -86,7 +86,7 @@ class Index extends Model
 
 		foreach ($listaDeIPs as $IP => $server) {
 			$status = $this->verificarComputadores($IP);
-
+		print_r($status);
 			$CHK = [];
 			$CHK['ip'] = $IP;
 			$CHK['server'] = $server;
