@@ -69,6 +69,7 @@ class Tools extends Model
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
                 case 'ris4marc':
+                    header("Content-type: application/json; charset=utf-8");
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
