@@ -71,7 +71,7 @@ class Index extends Model
 		} else {
 			// Tentativa de conexão via SMB (porta 445, Windows)
 			if ($this->verificarPorta($ip, 445)) {
-				return "On Windows";
+				return "On";
 			}
 			return 'Off';
 		}
