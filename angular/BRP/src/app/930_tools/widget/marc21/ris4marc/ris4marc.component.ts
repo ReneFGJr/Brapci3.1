@@ -32,7 +32,6 @@ export class Ris4marcComponent {
           this.data = res
           this.result = this.data['response'];
         });
-      console.log('Texto enviado: ', textValue);
     }
   }
 }
