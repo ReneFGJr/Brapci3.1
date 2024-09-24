@@ -9,6 +9,7 @@ export class ToolsIconsComponent {
   public serv = [
     { name: 'Convert TXT to .NET', url: 'txt4net', type: 'B' },
     { name: 'Convert TXT to Matrix', url: 'txt4matrix', type: 'B' },
+    { name: 'Convert RIS to MARC21', url: 'ris4marc', type: 'B' },
   ];
 
   public conv = [

@@ -67,6 +67,12 @@ class Tools extends Model
                 case 'txt4net':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
+                case 'ristomarc':
+                    $RIS = new \App\Models\Metadata\RIS();
+                    $RSP = [];
+                    $RSP['response'] = $RIS->risToMarc21($d1);
+                    echo json_encode($RSP);
+                    exit;
                 break;
             }
     }

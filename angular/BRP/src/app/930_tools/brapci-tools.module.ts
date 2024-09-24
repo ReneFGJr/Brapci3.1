@@ -24,6 +24,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { QrcodeComponent } from './widget/qrcode/qrcode.component';
 import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.component';
 import { BrandToolsComponent } from './widget/brand-tools/brand-tools.component';
+import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { BrandToolsComponent } from './widget/brand-tools/brand-tools.component'
     QrcodeComponent,
     SumaryToolsComponent,
     BrandToolsComponent,
+    Ris4marcComponent,
   ],
   imports: [
     CommonModule,

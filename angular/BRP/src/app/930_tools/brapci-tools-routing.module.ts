@@ -9,6 +9,7 @@ import { BradfordComponent } from './page/amostra/bradford.component';
 import { LotkaComponent } from './page/amostra/lotka.component';
 import { QrcodeComponent } from './widget/qrcode/qrcode.component';
 import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.component';
+import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'txt4matrix', component: ToolsIconsComponent },
       { path: 'net4gephi', component: ToolsIconsComponent },
       { path: 'txt4char', component: ToolsIconsComponent },
+      { path: 'ris4marc', component: Ris4marcComponent },
       { path: 'txtChange', component: ToolsIconsComponent },
       { path: 'amostra', component: AmostraComponent },
       { path: 'price', component: PriceComponent },
