@@ -68,9 +68,10 @@ class Tools extends Model
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
                 case 'ristomarc':
+                    $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
-                    $RSP['response'] = $RIS->risToMarc21($d1);
+                    $RSP['response'] = $RIS->risToMarc21($text);
                     echo json_encode($RSP);
                     exit;
                 break;
