@@ -56,39 +56,42 @@ class Index extends Model
 		return $sx;
 	}
 
-	function verificarComputadores(array $listaIPs)
+	function verificarComputadores($ip)
 	{
 		$resultados = [];
 
-		foreach ($listaIPs as $ip) {
-			// Tentamos abrir uma conexão na porta 80 (HTTP) ou 443 (HTTPS)
-			$porta = 80;
-			$timeout = 2; // Timeout de 2 segundos para a conexão
 
-			$conexao = @fsockopen($ip, $porta, $errno, $errstr, $timeout);
+		// Tentamos abrir uma conexão na porta 80 (HTTP) ou 443 (HTTPS)
+		$porta = 80;
+		$timeout = 2; // Timeout de 2 segundos para a conexão
 
-			if ($conexao) {
-				$resultados[$ip] = 'Ligado';
-				fclose($conexao); // Fechar a conexão após o teste
-			} else {
-				$resultados[$ip] = 'Desligado ou inacessível';
-			}
-		}
+		$conexao = @fsockopen($ip, $porta, $errno, $errstr, $timeout);
 
-		return $resultados;
+		return $conexao;
 	}
 
 	function checkIP()
 	{
 		$RSP = [];
-		$listaDeIPs = ['143.54.113.96', '143.54.112.86', '143.54.112.219', '143.54.112.91', '143.54.113.60', '143.54.113.131', '143.54.112.77', '143.54.113.15'];
-		$resultados = $this->verificarComputadores($listaDeIPs);
+		$listaDeIPs = [
+			'143.54.113.96' => 'Venus',
+			'143.54.112.86' => 'Netuno',
+			'143.54.112.219' => 'Jupyter',
+			'143.54.112.91' => 'Saturno',
+			'143.54.113.60' => 'NAS',
+			'143.54.113.131' => 'TrueNAS',
+			'143.54.112.77' => 'Desktop DELL',
+			'143.54.113.15' => 'Desktop Rene'
+		];
 
-		foreach ($resultados as $ip => $status) {
+		foreach ($listaDeIPs as $IP => $server) {
+			$status = $this->verificarComputadores($IP);
+
 			$CHK = [];
-			$CHK['ip'] = $ip;
+			$CHK['ip'] = $IP;
+			$CHK['server'] = $server;
 			$CHK['status'] = $status;
-			array_push($RSP,$CHK);
+			array_push($RSP, $CHK);
 		}
 		return $RSP;
 	}
