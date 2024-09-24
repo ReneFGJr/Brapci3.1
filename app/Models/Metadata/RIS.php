@@ -180,7 +180,7 @@ class RIS extends Model
 
                 switch ($tag) {
                     case '245':
-                        $value = nbr_title($value);
+                        $value = nbr_title($value,2);
                         break;
                 }
 
