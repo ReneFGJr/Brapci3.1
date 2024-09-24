@@ -67,7 +67,7 @@ class Tools extends Model
                 case 'txt4net':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
-                case 'ristomarc':
+                case 'ris4marc':
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
