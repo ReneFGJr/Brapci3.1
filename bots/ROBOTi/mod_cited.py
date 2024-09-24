@@ -67,7 +67,6 @@ def categorizeCited():
         ID = line[0]
 
         print("==========================================================")
-        print("===",line)
         print(line[1])
         print("Bot: ")
         RSP = mod_ai_brapci.chat(message)
@@ -75,7 +74,7 @@ def categorizeCited():
         MSG = RSP['message']
         DDD = MSG.split(';')
 
-        print(RSP)
+        print("Resposta",RSP)
 
         tipo = DDD[0]
         year = DDD[1]
