@@ -142,58 +142,58 @@ class RIS extends Model
         return $sx;
     }
 
-function risToMarc21($risData) {
+    function risToMarc21($risData)
+    {
 
-    // Separa o arquivo RIS em linhas
-    $risLines = explode("\n", $risData);
+        // Separa o arquivo RIS em linhas
+        $risLines = explode("\n", $risData);
 
-    // Inicializa uma string para o formato MARC21
-    $marc21 = '';
+        // Inicializa uma string para o formato MARC21
+        $marc21 = '';
 
-    // Mapeamento simples de campos RIS para MARC21
-    $risToMarc21Map = [
-        'TY' => 'LDR',   // Tipo de referência
-        'AU' => '100',   // Autor principal
-        'TI' => '245',   // Título
-        'PY' => '260',   // Data de publicação
-        'JO' => '440',   // Nome do periódico
-        'SN' => '022',   // ISSN
-        'VL' => '300',   // Volume
-        'IS' => '362',   // Número
-        'SP' => '300',   // Páginas de início
-        'EP' => '300',   // Páginas de término
-        'PB' => '260',   // Editora
-        'CY' => '260',   // Local de publicação
-        'KW' => '650',   // Palavras-chave
-        'AB' => '520',   // Resumo
-        'UR' => '856',   // URL
-        'DO' => '024',   // DOI
-    ];
+        // Mapeamento simples de campos RIS para MARC21
+        $risToMarc21Map = [
+            'TY' => 'LDR',   // Tipo de referência
+            'AU' => '100',   // Autor principal
+            'TI' => '245',   // Título
+            'PY' => '260',   // Data de publicação
+            'JO' => '440',   // Nome do periódico
+            'SN' => '022',   // ISSN
+            'VL' => '300',   // Volume
+            'IS' => '362',   // Número
+            'SP' => '300',   // Páginas de início
+            'EP' => '300',   // Páginas de término
+            'PB' => '260',   // Editora
+            'CY' => '260',   // Local de publicação
+            'KW' => '650',   // Palavras-chave
+            'AB' => '520',   // Resumo
+            'UR' => '856',   // URL
+            'DO' => '024',   // DOI
+        ];
 
-    // Loop pelas linhas RIS e converte para MARC21
-    foreach ($risLines as $line) {
-        $tag = substr($line, 0, 2); // Primeiros dois caracteres são a tag RIS
-        $value = substr($line, 6);  // O valor começa a partir do sexto caractere
+        // Loop pelas linhas RIS e converte para MARC21
+        foreach ($risLines as $line) {
+            $tag = substr($line, 0, 2); // Primeiros dois caracteres são a tag RIS
+            $value = substr($line, 6);  // O valor começa a partir do sexto caractere
 
-        if (isset($risToMarc21Map[$tag])) {
-            $value = $risToMarc21Map[$tag];
-            switch($tag)
-                {
+            if (isset($risToMarc21Map[$tag])) {
+
+                switch ($tag) {
                     case '245':
-                        $value = nbr_title($vlue);
+                        $value = nbr_title($value);
                         break;
                 }
-            $marc21Tag = $value;
-            // Formato básico MARC21: "campo $a valor"
-            $marc21 .= "{$marc21Tag}  \$a {$value}\n";
 
-            if ($marc21Tag == '100')
-                {
+                $marc21Tag = $risToMarc21Map[$tag];
+                // Formato básico MARC21: "campo $a valor"
+                $marc21 .= "{$marc21Tag}  \$a {$value}\n";
+
+                if ($marc21Tag == '100') {
                     $risToMarc21Map['AU'] = '700';
                 }
+            }
         }
-    }
 
-    return $marc21;
-}
+        return $marc21;
+    }
 }
