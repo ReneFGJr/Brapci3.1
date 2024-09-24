@@ -69,6 +69,7 @@ class Tools extends Model
                     exit;
                 case 'ris4marc':
                     $text = get("text");
+                    print_r($text);
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
                     $RSP['response'] = $RIS->risToMarc21($text);
