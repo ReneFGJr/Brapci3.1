@@ -72,7 +72,6 @@ class Tools extends Model
                     break;
                 case 'ris4marc':
                     header("Content-type: application/json; charset=utf-8");
-                    pre("OK");
                     $text = get("text");
                     $RIS = new \App\Models\Metadata\RIS();
                     $RSP = [];
