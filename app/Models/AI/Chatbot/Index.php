@@ -87,6 +87,7 @@ class Index extends Model
 			$data = array(
 				//'model' => 'llama3.1',
 				'model' => 'gemma2:27b',
+				'use_gpu' => true,
 				//'model' => 'gemma2',
 				//'model' => 'llama3.1',
 				'prompt' => $message
