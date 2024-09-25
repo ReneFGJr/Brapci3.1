@@ -85,8 +85,8 @@ class Index extends Model
 		{
 			// Configura os dados para envio
 			$data = array(
-				//'model' => 'llama3.1',
-				'model' => 'gemma2:27b',
+				'model' => 'llama3.1',
+				//'model' => 'gemma2:27b',
 				'use_gpu' => true,
 				//'model' => 'gemma2',
 				//'model' => 'llama3.1',
