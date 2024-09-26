@@ -492,6 +492,7 @@ class Index extends Model
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
 				foreach ($dta as $i => $line) {
+					pre($line);
 					$ref = troca($line['ca_text'],"'","");
 					$ref = troca($ref, '"', '´');
 					$ref = troca($ref, chr(13),'');
