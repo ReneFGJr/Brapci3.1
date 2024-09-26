@@ -172,12 +172,12 @@ def categorizeYear():
 
 
 def year_identify(referencia):
-    # Padrão regex para identificar o ano
-    ano_pattern = re.compile(r'\b\d{4}\b')
-
-    # Encontrar o ano na referência
-    anos = ano_pattern.findall(referencia)
-    return anos
+    # Expressão regular para identificar o ano
+    match = re.search(r'(\d{4})', referencia)
+    if match:
+        return match.group(1)  # Retorna o ano encontrado
+    else:
+        return 9999  # Caso não encontre, retorna None
 
 def delete(ID):
     qr = "delete from brapci_cited.cited_article where ca_rdf = "+ID
