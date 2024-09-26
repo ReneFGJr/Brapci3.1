@@ -138,7 +138,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
                             full += f'{ascii(term.lower())} '
 
         # Resumo
-        if isinstance(DT['Abstract'], str) and 'Abstract' in DT:
+        if 'Abstract' in DT and isinstance(DT['Abstract'], str):
             for ks in DT['Abstract'].values():
                 if isinstance(ks, dict):
                     for term in ks.values():
