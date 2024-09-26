@@ -173,7 +173,11 @@ def categorizeBook():
             print("Basico",citacao)
             update_type(ID,2)
         else:
-            print("------",citacao)
+            if (identificacao_organizado(citacao)):
+                print("Organizado",citacao)
+                update_type(ID,2)
+            else:
+                print("------",citacao)
     sys.exit()
 
 def update_type(ID,type):
@@ -188,6 +192,16 @@ def identificacao_basica(referencia):
 
     # Verifica se a referência corresponde ao padrão de livro
     if padrao_livro.match(referencia):
+        return True
+    else:
+        return False
+
+def identificacao_organizado(referencia):
+    # Expressão regular para identificar uma referência de livro organizado
+    padrao_organizado = re.compile(r'^[A-Z][a-z]+, [A-Z][a-z]+\..+In: [A-Z][a-z]+, [A-Z][a-z]+(\., [A-Z][a-z]+\.)?\s*\(Ed\.|Eds\.\).+:.+, \d{4}\. p\. \d{1,4}-\d{1,4}\.$')
+
+    # Verifica se a referência corresponde ao padrão de livro organizado
+    if padrao_organizado.match(referencia):
         return True
     else:
         return False
