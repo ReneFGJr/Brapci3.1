@@ -485,9 +485,16 @@ class Index extends Model
 				break;
 			case 'cited':
 				$Cited = new \App\Models\Cited\Index();
+				$Cited->select("*");
 				foreach($dt as $i => $line) {
 					$sx .= $line['ID'];
 					$sx .= '=';
+					$Cited->orWhere('ca_rdf',$line['ID']);
+				}
+				$dt = $this->Cited->findAll();
+				foreach ($dt as $i => $line) {
+					$ref = troca($line['ca_text'],"'","");
+					$sx .= $line['ID'].';"'.$ref."'";
 				}
 				break;
 		}
