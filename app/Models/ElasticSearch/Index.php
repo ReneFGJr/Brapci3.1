@@ -486,11 +486,10 @@ class Index extends Model
 				$Cited->select("*");
 				$Cited->join("cited_type", "ca_tipo = id_ct");
 				$sel = [];
-				pre($dt);
+
 				foreach($dt as $i => $line) {
 					array_push($sel,$line['ID']);
 				}
-				pre($sel);
 				$Cited->orWhere('ca_rdf', $sel);
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
