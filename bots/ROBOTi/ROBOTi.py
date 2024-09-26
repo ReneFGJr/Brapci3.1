@@ -138,8 +138,8 @@ def run(parm):
         mod_cited.longCited()
 
     if (act == 'cited'):
+        mod_cited.categorizeYear()
         mod_cited.categorizeCited()
-
 
     if (act == 'thesa'):
         mod_thesa.check_subject_thesa()

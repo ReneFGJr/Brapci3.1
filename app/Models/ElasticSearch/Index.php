@@ -498,7 +498,7 @@ class Index extends Model
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll();
 
-				$sx = 'ID;TYPE;YEAR;REF'.cr();
+				$sx = 'ID;TYPE;DOI;YEAR;REF'.cr();
 				foreach ($dta as $i => $line) {
 					$ref = troca($line['ca_text'],"'","");
 					$ref = troca($ref, '"', '´');
@@ -506,6 +506,7 @@ class Index extends Model
 					$ref = troca($ref, chr(10), '');
 					$sx .= $line['ca_rdf'].';';
 					$sx .= $line['ct_type'] . ';';
+					$sx .= $line['ca_doi'] . ';';
 					$sx .= $line['ca_year'].';';
 
 					$sx .= '"'.$ref.'"';

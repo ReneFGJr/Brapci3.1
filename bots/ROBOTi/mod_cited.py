@@ -3,6 +3,7 @@ import mod_doi
 import mod_ai_brapci
 import re
 import requests
+import sys
 
 def categorizeCitedByElastic():
     print("Categorize Cited by Elastic")
@@ -160,12 +161,21 @@ def removeLiteral(ID,IDn):
         qr = f"delete from brapci_rdf.rdf_literal where id_n = {IDn} "
         database.update(qr)
 
+def categorizeYear():
+    qr = "select * from brapci_cited.cited_article where ca_year = 0 and ca_status < 9"
+    row = database.query(qr)
+
+    print(row)
+    sys.exit()
+
+
 def year_identify(referencia):
     # Padrão regex para identificar o ano
     ano_pattern = re.compile(r'\b\d{4}\b')
 
     # Encontrar o ano na referência
     anos = ano_pattern.findall(referencia)
+    return anos
 
 def delete(ID):
     qr = "delete from brapci_cited.cited_article where ca_rdf = "+ID
