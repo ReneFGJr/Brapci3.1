@@ -168,10 +168,10 @@ def categorizeBook():
 
     for line in row:
         citacao = line[1]
-        print("====",citacao)
         dados_livro = identificar_livro(citacao)
         if dados_livro:
             print("Dados da publicação:")
+            print("====",citacao)
             for chave, valor in dados_livro.items():
                 print(f"{chave.capitalize()}: {valor}")
         else:
@@ -183,8 +183,8 @@ def categorizeBook():
     sys.exit()
 
 def identificar_livro(citacao):
-    # Expressão regular para capturar autor, organizador, título, edição, cidade, editora e ano
-    pattern = r"(?P<autor>^[A-Z][A-Z\s]+, [A-Z][a-zçáéíóúãõâêîôû]+(?: de [A-Z][a-z]+)*\.?)\s*(?P<organizacao>\(org\.\))?\s(?P<titulo>.+?)\.\s(?P<edicao>\d{1,2}\.\s?ed\.)?\s(?P<cidade>[A-Za-z]+):\s(?P<editora>[^,]+),\s(?P<ano>\d{4})\."
+    # Expressão regular para capturar autor, título, cidade, editora e ano
+    pattern = r"(?P<autor>^[A-Z][A-Z\s]+, [A-Z][a-zçáéíóúãõâêîôû]+\.?)\s(?P<titulo>.+?)\.\s(?P<cidade>[A-Za-z]+):\s(?P<editora>[^,]+),\s(?P<ano>\d{4})\."
 
     match = re.search(pattern, citacao)
 
