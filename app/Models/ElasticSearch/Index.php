@@ -487,12 +487,12 @@ class Index extends Model
 				$Cited = new \App\Models\Cited\Index();
 				$Cited->select("*");
 				foreach($dt as $i => $line) {
-					$sx .= $line['ID'];
-					$sx .= '=';
 					$Cited->orWhere('ca_rdf',$line['ID']);
 				}
-				$dt = $Cited->findAll(10);
-				foreach ($dt as $i => $line) {
+				/************************************* Gerar arquivo */
+				$dta = $Cited->findAll(10);
+				pre($dta);
+				foreach ($dta as $i => $line) {
 					$ref = troca($line['ca_text'],"'","");
 					$ref = troca($ref, chr(13),'');
 					$ref = troca($ref, chr(10), '');
