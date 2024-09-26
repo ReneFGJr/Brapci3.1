@@ -173,6 +173,10 @@ def categorizeBook():
             print("Basico",citacao)
             update_type(ID,2)
         else:
+            if (identificacao_capitulo(citacao)):
+                print("Capitulo",citacao)
+                update_type(ID,2)
+
             if (identificacao_organizado(citacao)):
                 print("Organizado",citacao)
                 update_type(ID,2)
@@ -184,6 +188,29 @@ def update_type(ID,type):
     qu = f"update brapci_cited.cited_article set ca_tipo = '{type}' where id_ca = {ID}"
     print(f"Update Type {type} in {ID}")
     database.update(qu)
+
+def identificacao_capitulo(reference: str) -> bool:
+    # Expressão regular para detectar o formato de capítulo de livro
+    pattern = r"(In:\s[A-Z][a-z]+.*\.\s\w+\:\s\w+,\s\d{4}\.\sp\.\s\d+-\d+)"
+
+    # Verifica se a referência contém o padrão de capítulo de livro
+    match = re.search(pattern, reference)
+
+    if match:
+        return True
+    else:
+        return False
+
+def identificacao_autor_unico(referencia):
+    # Expressão regular para identificar uma referência de livro de autoria única
+    padrao_autor_unico = re.compile(r'^[A-Z][a-z]+, [A-Z][a-z]+\. .+\. [A-Z][a-z]+: .+, \d{4}\.$')
+
+    # Verifica se a referência corresponde ao padrão de livro de autoria única
+    if padrao_autor_unico.match(referencia):
+        return True
+    else:
+        return False
+
 
 
 def identificacao_basica(referencia):
