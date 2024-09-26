@@ -124,7 +124,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
                         idaa[idx] = 1
 
         # Palavras-chave
-        if isinstance(DT['Subject'], str) and 'Subject' in DT:
+        if 'Subject' in DT and isinstance(DT['Subject'], str):
             for ks in DT['Subject'].values():
                 if isinstance(ks, dict):
                     for term in ks.values():
