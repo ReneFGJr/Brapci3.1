@@ -168,13 +168,19 @@ def categorizeBook():
 
     for line in row:
         citacao = line[1]
+        ID = line[0]
         if identificacao_basica(citacao):
             print("Basico",citacao)
+            update_type(ID,2)
         else:
             print("------",citacao)
     sys.exit()
 
-import re
+def update_type(ID,type):
+    qu = f"update brapci_cited.cited_article set ca_tipo = '{type}' where id_ca = {ID}"
+    print(f"Update Type {type} in {ID}")
+    database.update(qu)
+
 
 def identificacao_basica(referencia):
     # Expressão regular para identificar uma referência de livro
