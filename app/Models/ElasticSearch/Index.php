@@ -422,7 +422,9 @@ class Index extends Model
 		foreach ($row as $id => $line) {
 			$Register->Orwhere('ID', $line);
 		}
-		$dt = $Register->findALl(20000);
+		$dt = $Register->findALl(2000);
+		echo $Register->getlastquery();
+		exit;
 		$sx = '';
 
 		switch ($tp) {
