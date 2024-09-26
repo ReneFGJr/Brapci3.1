@@ -514,7 +514,6 @@ class Index extends Model
 					$sx .= $ref.'"';
 					$sx .= cr();
 				}
-				pre($sx);
 				break;
 		}
 
