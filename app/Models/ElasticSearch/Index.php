@@ -487,9 +487,12 @@ class Index extends Model
 				$Cited->join("cited_type", "ca_tipo = id_ct");
 				$sel = [];
 
-				foreach($dt as $i => $line) {
-					$Cited->orWhere('ca_rdf', $sel);
+				foreach ($dt as $id => $line) {
+
+					$sx .= $line['ID'];
 				}
+				echo $sx;
+				exit;
 
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
