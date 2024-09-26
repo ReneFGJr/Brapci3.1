@@ -489,9 +489,9 @@ class Index extends Model
 
 				foreach ($dt as $id => $line) {
 
-					$sx .= '=>'.$line['ID'];
+					array_push($sel,$line['ID']);
 				}
-				echo json_encode($dt);
+				echo json_encode($sel);
 				exit;
 
 				/************************************* Gerar arquivo */
