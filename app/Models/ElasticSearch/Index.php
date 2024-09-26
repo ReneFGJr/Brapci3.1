@@ -489,9 +489,9 @@ class Index extends Model
 
 				foreach ($dt as $id => $line) {
 
-					$sx .= $line['ID'];
+					$sx .= '=>'.$line['ID'];
 				}
-				echo $sx;
+				echo '=='.$sx;
 				exit;
 
 				/************************************* Gerar arquivo */
