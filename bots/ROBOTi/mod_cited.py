@@ -166,8 +166,10 @@ def categorizeYear():
     row = database.query(qr)
 
     for line in row:
-        print(line)
-        print(year_identify(line[1]))
+        ID = line[0]
+        year = year_identify(line[1])
+        qu = "update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
+        print(qu)
     sys.exit()
 
 
