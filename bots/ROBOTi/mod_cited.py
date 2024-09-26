@@ -163,7 +163,7 @@ def removeLiteral(ID,IDn):
 
 ######################################################## categorizeBook
 def categorizeBook():
-    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0"
+    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 limit 10"
     row = database.query(qr)
 
     for line in row:
