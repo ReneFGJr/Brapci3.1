@@ -214,7 +214,7 @@ class Bolsas extends Model
 
 		$dt = $this
 			->join('bolsistas', 'id_bs = bb_person')
-			->join('modalidades', 'id_mod = bs_tipo', STR_PAD_LEFT)
+			->join('modalidades', 'id_mod = bs_tipo', 'LEFT')
 			->where('bb_person', $id)
 			->ORwhere('bs_lattes', $id)
 			->orderBy('bs_start DESC')
