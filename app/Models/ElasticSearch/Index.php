@@ -488,6 +488,7 @@ class Index extends Model
 				$Cited->select("*");
 				$Cited->join("cited_type", "ca_tipo = id_ct");
 				$sel = [];
+				pre($dt);
 				foreach($dt as $i => $line) {
 					array_push($sel,$line['ID']);
 				}
