@@ -171,10 +171,10 @@ def categorizeBook():
         dados_livro = identificar_livro(citacao)
         if dados_livro:
             print("Dados da publicação:")
-            print("====",citacao)
             for chave, valor in dados_livro.items():
                 print(f"{chave.capitalize()}: {valor}")
         else:
+            print("====",citacao)
             print("Nenhuma publicação de livro identificada.")
 
 #            qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
