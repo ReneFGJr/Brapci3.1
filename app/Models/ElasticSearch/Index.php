@@ -488,9 +488,9 @@ class Index extends Model
 				$sel = [];
 
 				foreach($dt as $i => $line) {
-					array_push($sel,$line['ID']);
+					$Cited->orWhere('ca_rdf', $sel);
 				}
-				$Cited->orWhere('ca_rdf', $sel);
+
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
 				echo $Cited->getlastquery();
