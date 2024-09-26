@@ -482,10 +482,8 @@ class Index extends Model
 				$sx .= chr(13);
 				break;
 			case 'cited':
-			echo "XXXXXXXXXXXXXXXXXXXXXX-OK";
-			exit;
 				$Cited = new \App\Models\Cited\Index();
-				//$Cited->select("*");
+				$Cited->select("*");
 				$Cited->join("cited_type", "ca_tipo = id_ct");
 				$sel = [];
 
@@ -499,7 +497,6 @@ class Index extends Model
 				}
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
-
 				echo json_encode($dta);
 				exit;
 
