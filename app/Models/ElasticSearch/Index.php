@@ -402,6 +402,9 @@ class Index extends Model
 				$string = '';
 				$tp = 'dataset';
 				break;
+			case 'cited':
+				$tp = 'cited';
+				break;
 		}
 
 		$Register = new \App\Models\ElasticSearch\Register();
@@ -420,7 +423,7 @@ class Index extends Model
 		foreach ($row as $id => $line) {
 			$Register->Orwhere('ID', $line);
 		}
-		$dt = $Register->findALl(2000);
+		$dt = $Register->findALl(20000);
 
 		$sx = '';
 
@@ -479,6 +482,13 @@ class Index extends Model
 				}
 				$sx .= $end;
 				$sx .= chr(13);
+				break;
+			case 'cited':
+				$Cited = new \App\Models\Cited\Index();
+				foreach($dt as $i => $line) {
+					$sx .= $line['ID'];
+					$sx .= '=';
+				}
 				break;
 		}
 
