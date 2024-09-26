@@ -135,8 +135,8 @@ def locate():
     row = database.query(qr)
 
     for line in row:
-        cite = line[13]
-        print(line)
+        cite = line[12]
+        print(cite)
         sys.exit()
         DOI = mod_doi.encontrar_doi(cite)
         print("==>DOI",DOI)
