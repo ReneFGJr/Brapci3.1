@@ -162,10 +162,12 @@ def removeLiteral(ID,IDn):
         database.update(qr)
 
 def categorizeYear():
-    qr = "select * from brapci_cited.cited_article where ca_year = 0 and ca_status < 9"
+    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_year = 0 and ca_status < 9"
     row = database.query(qr)
 
-    print(row)
+    for line in row:
+        print(line)
+        print(year_identify(line[1]))
     sys.exit()
 
 
