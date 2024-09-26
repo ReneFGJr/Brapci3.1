@@ -168,6 +168,7 @@ def categorizeBook():
 
     for line in row:
         citacao = row[1]
+        print("====",citacao)
         dados_livro = identificar_livro(citacao)
         if dados_livro:
             print("Dados da publicação:")
