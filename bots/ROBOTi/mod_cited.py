@@ -168,19 +168,24 @@ def categorizeBook():
 
     for line in row:
         citacao = line[1]
-        dados_livro = identificar_livro(citacao)
-        if dados_livro:
-            print("Dados da publicação:")
-            for chave, valor in dados_livro.items():
-                print(f"{chave.capitalize()}: {valor}")
+        if identificacao_basica(citacao):
+            print("Basico",citacao)
         else:
-            print("====",citacao)
-            print("Nenhuma publicação de livro identificada.")
-
-#            qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
-#            print(f"Update Year {year} in {ID}")
-#            database.update(qu)
+            print("------",citacao)
     sys.exit()
+
+import re
+
+def identificacao_basica(referencia):
+    # Expressão regular para identificar uma referência de livro
+    padrao_livro = re.compile(r'^[A-Z]+, [A-Z]\..+\. [A-Z].+:.+, \d{4}\.$')
+
+    # Verifica se a referência corresponde ao padrão de livro
+    if padrao_livro.match(referencia):
+        return True
+    else:
+        return False
+
 
 def identificar_livro(citacao):
     # Expressão regular para capturar autor, título, cidade, editora e ano
