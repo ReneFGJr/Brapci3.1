@@ -417,13 +417,13 @@ class Index extends Model
 		$dd['post'] = $_POST;
 		$dd['get'] = $_GET;
 
-
 		$cp = '*';
 		$Register->select($cp);
 		foreach ($row as $id => $line) {
 			$Register->Orwhere('ID', $line);
 		}
 		$dt = $Register->findALl(20000);
+		pre($dt);
 
 		$sx = '';
 
