@@ -504,11 +504,11 @@ class Index extends Model
 					$ref = troca($ref, '"', '´');
 					$ref = troca($ref, chr(13),'');
 					$ref = troca($ref, chr(10), '');
-					$sx .= $line['ca_rdf'].';"';
+					$sx .= $line['ca_rdf'].';';
 					$sx .= $line['ct_type'] . ';';
 					$sx .= $line['ca_year'].';';
 
-					$sx .= $ref.'"';
+					$sx .= '"'.$ref.'"';
 					$sx .= cr();
 				}
 				break;
