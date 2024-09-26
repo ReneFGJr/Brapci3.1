@@ -483,16 +483,15 @@ class Index extends Model
 				break;
 			case 'cited':
 				$Cited = new \App\Models\Cited\Index();
-				$Cited->select("*");
+				//$Cited->select("*");
 				$Cited->join("cited_type", "ca_tipo = id_ct");
 				$sel = [];
 
 				foreach ($dt as $id => $line) {
-					if ($sel == [])
-					{
-						$Cited->where('ca_rdf', $line['ID']);
+					if (empty($sel)) {
+						$Cited->where('ca_rdf', $line['ID']); // Uso de where no início
 					} else {
-						$Cited->Orwhere('ca_rdf', $line['ID']);
+						$Cited->orWhere('ca_rdf', $line['ID']); // Corrigido para orWhere() com "o" minúsculo
 					}
 					array_push($sel,$line['ID']);
 				}
