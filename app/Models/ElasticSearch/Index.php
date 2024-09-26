@@ -497,7 +497,6 @@ class Index extends Model
 				}
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
-				echo $Cited->getlastquery();
 
 				$sx = 'ID;TYPE;YEAR;REF'.cr();
 				foreach ($dta as $i => $line) {
