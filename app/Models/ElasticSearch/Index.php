@@ -482,6 +482,8 @@ class Index extends Model
 				$sx .= chr(13);
 				break;
 			case 'cited':
+			echo "XXXXXXXXXXXXXXXXXXXXXX-OK";
+			exit;
 				$Cited = new \App\Models\Cited\Index();
 				//$Cited->select("*");
 				$Cited->join("cited_type", "ca_tipo = id_ct");
