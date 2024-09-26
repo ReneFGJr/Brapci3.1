@@ -93,6 +93,31 @@
             </li>
           </ul>
         </li>
+
+        <li class="nav-item dropdown" *ngIf="user">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Ferramentas
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" [routerLink]="['/tools/']"
+                >Ferramentas bibliográficos</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['/ia/']"
+                >Inteligência Artificial</a
+              >
+            </li>
+          </ul>
+        </li>
       </ul>
       <!------------------ Login-->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

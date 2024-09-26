@@ -13,12 +13,10 @@ export class ToolsIconsComponent {
   ];
 
   public conv = [
-    { name: 'Convert UTF8/ISO8859', url: 'txt4char', type: 'T' },
-    { name: 'Troca Caracteres', url: 'txtChange', type: 'T' },
-    { name: 'Convert .net para Gephi)', url: 'net4gephi', type: 'T' },
+    /* { name: 'Convert UTF8/ISO8859', url: 'txt4char', type: 'T' }, */
+    /* { name: 'Troca Caracteres', url: 'txtChange', type: 'T' }, */
+    /* { name: 'Convert .net para Gephi)', url: 'net4gephi', type: 'T' }, */
   ];
 
   public books = [{ name: 'Montar sumário', url: 'summary', type: 'T' }];
-
-  public IA = [{ name: 'Chat', url: 'chat', type: 'T' }];
 }

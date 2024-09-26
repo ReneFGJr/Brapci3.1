@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { ChatServiceService } from '../../service/chat-service.service';
-import { HttpHeaders } from '@angular/common/http';
+import { OllamaService } from 'src/app/000_core/010_services/ollama.service';
 
+interface Message {
+  text: string;
+  sender: 'user' | 'ollama';
+}
 
 @Component({
   selector: 'app-home-chat',
@@ -9,36 +12,53 @@ import { HttpHeaders } from '@angular/common/http';
   styleUrls: ['./home-chat.component.scss'],
 })
 export class HomeChatComponent {
-  messages: { user: string; text: string }[] = [];
-  userMessage: string = '';
+  messages: Message[] = [];
+  userInput: string = '';
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
-  constructor(private chatService: ChatServiceService) {}
+  constructor(private ollamaService: OllamaService) {}
 
-  async sendMessage() {
-    if (this.userMessage.trim()) {
-      // Adiciona a mensagem do usuário ao chat
-      this.messages.push({ user: 'Você', text: this.userMessage });
+  ngOnInit(): void {
+    // Inicializar com uma mensagem de boas-vindas, se desejar
+    this.messages.push({
+      text: 'Olá! Como posso ajudar você hoje?',
+      sender: 'ollama',
+    });
+  }
 
-      try {
-        // Envia a mensagem para a API e espera a resposta síncrona
-        const response = await this.chatService.sendMessageSync(
-          this.userMessage
-        );
+  sendMessage(): void {
+    const messageText = this.userInput.trim();
+    if (!messageText) {
+      return;
+    }
 
-        console.log(response)
+    // Adicionar a mensagem do usuário à lista
+    this.messages.push({ text: messageText, sender: 'user' });
+    this.userInput = '';
+    this.isLoading = true;
+    this.errorMessage = '';
 
-        // Adiciona a resposta completa da API ao chat
-        this.messages.push({ user: 'Ollama', text: response });
-      } catch (error) {
-        // Trata erros na resposta da API
-        this.messages.push({
-          user: 'Ollama',
-          text: 'Erro ao processar a mensagem.',
-        });
-      }
+    // Enviar a mensagem para a API do Ollama
+    this.ollamaService.sendMessage(messageText).subscribe({
+      next: (response) => {
+        // Supondo que a resposta contenha a mensagem em 'response.reply'
+        const reply = response.reply || 'Desculpe, não entendi.';
+        this.messages.push({ text: reply, sender: 'ollama' });
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erro ao comunicar com Ollama:', error);
+        this.errorMessage =
+          'Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.';
+        this.isLoading = false;
+      },
+    });
+  }
 
-      // Limpa o campo de entrada do usuário
-      this.userMessage = '';
+  handleKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      this.sendMessage();
     }
   }
 }

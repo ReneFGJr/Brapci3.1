@@ -6,6 +6,7 @@ def encontrar_doi(texto):
     padrao_doi = r'\b(10\.\d{4,9}/[-._;()/:A-Z0-9]+)\b'
 
     # Procurar todos os DOI's no texto
+    texto = str(texto)
     doi_encontrados = re.findall(padrao_doi, texto, re.IGNORECASE)
 
     if doi_encontrados:

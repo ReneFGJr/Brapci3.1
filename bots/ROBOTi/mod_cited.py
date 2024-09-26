@@ -68,13 +68,14 @@ def categorizeCited():
 
         print("==========================================================")
         print(line[1])
+        print("Human: ",message)
         print("Bot: ")
         RSP = mod_ai_brapci.chat(message)
 
         MSG = RSP['message']
         DDD = MSG.split(';')
 
-        print(RSP)
+        print("Resposta",RSP)
 
         tipo = DDD[0]
         year = DDD[1]
@@ -134,10 +135,11 @@ def locate():
     row = database.query(qr)
 
     for line in row:
-        cite = line[13]
+        cite = line[12]
         DOI = mod_doi.encontrar_doi(cite)
-        print("==>DOI",DOI)
+
         if (DOI != ''):
+            print("==>DOI",DOI)
             id = line[0]
             update_cited_doi(id,DOI)
 
