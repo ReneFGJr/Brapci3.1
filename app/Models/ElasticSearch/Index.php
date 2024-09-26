@@ -493,9 +493,10 @@ class Index extends Model
 				$dta = $Cited->findAll(10);
 				foreach ($dta as $i => $line) {
 					$ref = troca($line['ca_text'],"'","");
+					$ref = troca($ref, '"', '´');
 					$ref = troca($ref, chr(13),'');
 					$ref = troca($ref, chr(10), '');
-					$sx .= $line['ca_rdf'].';"'.$ref."'";
+					$sx .= $line['ca_rdf'].';"'.$ref.'"';
 					$sx .= cr();
 				}
 				pre($sx);
