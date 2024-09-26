@@ -167,7 +167,8 @@ def categorizeYear():
 
     for line in row:
         ID = line[0]
-        year = year_identify(line[1])
+        ref = line[1]
+        year = year_identify(ref)
         qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
         print(qu)
     sys.exit()
