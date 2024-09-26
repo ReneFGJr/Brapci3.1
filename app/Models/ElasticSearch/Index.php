@@ -491,7 +491,7 @@ class Index extends Model
 					$sx .= '=';
 					$Cited->orWhere('ca_rdf',$line['ID']);
 				}
-				$dt = $this->Cited->findAll();
+				$dt = $Cited->findAll();
 				foreach ($dt as $i => $line) {
 					$ref = troca($line['ca_text'],"'","");
 					$ref = troca($ref, chr(13),'');
