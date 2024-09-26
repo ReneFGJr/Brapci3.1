@@ -482,6 +482,14 @@ class Brapci extends Model
             $RSP['Download'] = $Downloads->views($id);
             $RSP['Likes'] = $Likes->views($id);
 
+            /************************************************ worksID */
+            switch($RSP['Class'])
+                {
+                    case 'Issue':
+                    $RSP['worksID'] = $RDFmetadata->worksID;
+                    break;
+                }
+
 
             /************************************************* ABNT */
             $ABNT = new \App\Models\Metadata\Abnt();

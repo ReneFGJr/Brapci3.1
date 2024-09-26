@@ -20,7 +20,7 @@
     <div class="col-3 h3 border-bottom border-secondary">{{ data.is_year }}</div>
     <div class="col-3 h3 border-bottom border-secondary">{{ data.Class }}</div>
   </div>
-
+  <app-basket-select [data]="data.worksID"></app-basket-select>
   <div *ngIf="data">
     <app-brapci-banner-general
       [section]="data.is_year"

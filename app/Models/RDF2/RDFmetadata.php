@@ -40,6 +40,8 @@ class RDFmetadata extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public $worksID = [];
+
     function simpleMetadata($ID)
     {
         $RDF = new \App\Models\RDF2\RDF();
@@ -625,10 +627,12 @@ class RDFmetadata extends Model
 
             $wk = $IssuesWorks->issueWorks($IDissue);
             $works = [];
+            $worksID = [];
             foreach ($wk as $id => $line) {
                 $JSON = (array)json_decode($line['json']);
                 $ref = $ABNT->short($JSON, False);
                 $cites = $Cited->total_cited($line['ID']);
+                array_push($worksID,$line['ID']);
                 if ($cites > 0)
                     {
                         $ref .= '<sup class="p-1 text-blue">('.$cites. ' cites)</sup>';
@@ -636,6 +640,7 @@ class RDFmetadata extends Model
 
                 array_push($works, $ref);
             }
+            $this->worksID = $worksID;
             if (!$simple)
                 {
                     $dr['works'] = $works;
