@@ -170,7 +170,7 @@ def categorizeYear():
         ref = line[1]
         year = year_identify(ref)
         qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
-        print(qu)
+        database.update(qu)
     sys.exit()
 
 
