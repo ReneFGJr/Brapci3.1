@@ -488,14 +488,19 @@ class Index extends Model
 				$sel = [];
 
 				foreach ($dt as $id => $line) {
-
+					if ($sel == [])
+					{
+						$this->where('ca_rdf', $line['ID']);
+					} else {
+						$this->Orwhere('ca_rdf', $line['ID']);
+					}
 					array_push($sel,$line['ID']);
 				}
-				echo json_encode($sel);
-				exit;
-
 				/************************************* Gerar arquivo */
 				$dta = $Cited->findAll(10);
+	echo json_encode($dta);
+	exit;
+
 				$sx = 'ID;TYPE;YEAR;REF'.cr();
 				foreach ($dta as $i => $line) {
 					$ref = troca($line['ca_text'],"'","");
