@@ -486,6 +486,7 @@ class Index extends Model
 			case 'cited':
 				$Cited = new \App\Models\Cited\Index();
 				$Cited->select("*");
+				$Cited->join("cited_type", "ca_tipo = id_ct");
 				foreach($dt as $i => $line) {
 					$Cited->orWhere('ca_rdf',$line['ID']);
 				}
@@ -497,7 +498,9 @@ class Index extends Model
 					$ref = troca($ref, '"', '´');
 					$ref = troca($ref, chr(13),'');
 					$ref = troca($ref, chr(10), '');
-					$sx .= $line['ca_rdf'].';"'.$ref.'"';
+					$sx .= $line['ca_rdf'].';"';
+					$sx .= $line['ca_year'].';';
+					$sx .= $ref.'"';
 					$sx .= cr();
 				}
 				pre($sx);
