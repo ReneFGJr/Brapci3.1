@@ -136,6 +136,8 @@ def locate():
 
     for line in row:
         cite = line[13]
+        print(line)
+        sys.exit()
         DOI = mod_doi.encontrar_doi(cite)
         print("==>DOI",DOI)
         if (DOI != ''):
