@@ -137,8 +137,9 @@ def locate():
     for line in row:
         cite = line[12]
         DOI = mod_doi.encontrar_doi(cite)
-        print("==>DOI",DOI)
+
         if (DOI != ''):
+            print("==>DOI",DOI)
             id = line[0]
             update_cited_doi(id,DOI)
 
