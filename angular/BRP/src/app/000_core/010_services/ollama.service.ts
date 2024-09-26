@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class OllamaService {
   private apiUrl = 'https://cip.brapci.inf.br/api/ai/chat'; // Substitua pela URL real da API do Ollama
+  //private apiUrl = 'http://143.54.112.91:11434/api/generate'; // Substitua pela URL real da API do Ollama
+
   private apiKey = 'YOUR_OLLAMA_API_KEY'; // Substitua pela sua chave de API
 
   constructor(private http: HttpClient) {}
