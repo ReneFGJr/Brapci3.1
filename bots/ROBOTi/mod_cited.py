@@ -191,7 +191,7 @@ def update_type(ID,type):
 
 def identificacao_capitulo(reference: str) -> bool:
     # Expressão regular para detectar o formato de capítulo de livro
-    pattern = r"(In:\s[A-Z][a-z]+.*\.\s\w+\:\s\w+,\s\d{4}\.\sp\.\s\d+-\d+)"
+    pattern = r"In:\s[A-Z][a-z]+,\s[A-Z][a-z]+(\.\s)?[A-Z][a-z]+.*\.\s[A-Z][a-z]+:\s[A-Z][a-z]+,\s\d{4}\.\sp\.\s\d+-\d+"
 
     # Verifica se a referência contém o padrão de capítulo de livro
     match = re.search(pattern, reference)
