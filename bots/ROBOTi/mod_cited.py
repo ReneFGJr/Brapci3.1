@@ -179,7 +179,7 @@ def categorizeBook():
 #            qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
 #            print(f"Update Year {year} in {ID}")
 #            database.update(qu)
-        sys.exit()
+    sys.exit()
 
 def identificar_livro(citacao):
     # Expressão regular para capturar autor, título, cidade, editora e ano
