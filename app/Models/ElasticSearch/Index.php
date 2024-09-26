@@ -424,7 +424,6 @@ class Index extends Model
 		}
 		$dt = $Register->findALl(2000);
 		$sx = '';
-		pre($dt);
 
 		switch ($tp) {
 			case 'ris':
