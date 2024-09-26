@@ -495,8 +495,7 @@ class Index extends Model
 					$ref = troca($line['ca_text'],"'","");
 					$ref = troca($ref, chr(13),'');
 					$ref = troca($ref, chr(10), '');
-					pre($line);
-					$sx .= $line['ID'].';"'.$ref."'";
+					$sx .= $line['ca_rdf'].';"'.$ref."'";
 					$sx .= cr();
 				}
 				pre($sx);
