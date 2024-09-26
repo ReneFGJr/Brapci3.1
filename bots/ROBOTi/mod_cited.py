@@ -163,7 +163,7 @@ def removeLiteral(ID,IDn):
 
 ######################################################## categorizeBook
 def categorizeBook():
-    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 limit 50"
+    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 limit 500"
     row = database.query(qr)
 
     for line in row:
@@ -180,8 +180,8 @@ def categorizeBook():
             if (identificacao_organizado(citacao)):
                 print("Organizado",citacao)
                 update_type(ID,2)
-            else:
-                print("------",citacao)
+            #else:
+                #print("------",citacao)
     sys.exit()
 
 def update_type(ID,type):
