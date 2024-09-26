@@ -496,7 +496,7 @@ class Index extends Model
 					array_push($sel,$line['ID']);
 				}
 				/************************************* Gerar arquivo */
-				$dta = $Cited->findAll(10);
+				$dta = $Cited->findAll();
 
 				$sx = 'ID;TYPE;YEAR;REF'.cr();
 				foreach ($dta as $i => $line) {
