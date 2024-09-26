@@ -491,7 +491,7 @@ class Index extends Model
 
 					$sx .= '=>'.$line['ID'];
 				}
-				echo '=='.$sx;
+				echo json_encode($dt);
 				exit;
 
 				/************************************* Gerar arquivo */
