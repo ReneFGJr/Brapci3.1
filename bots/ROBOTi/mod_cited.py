@@ -161,6 +161,38 @@ def removeLiteral(ID,IDn):
         qr = f"delete from brapci_rdf.rdf_literal where id_n = {IDn} "
         database.update(qr)
 
+######################################################## categorizeBook
+def categorizeBook():
+    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_type = 0 and ca_status = 0"
+    row = database.query(qr)
+
+    for line in row:
+        citacao = row[1]
+        dados_livro = identificar_livro(citacao)
+        if dados_livro:
+            print("Dados da publicação:")
+            for chave, valor in dados_livro.items():
+                print(f"{chave.capitalize()}: {valor}")
+        else:
+            print("Nenhuma publicação de livro identificada.")
+
+#            qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
+#            print(f"Update Year {year} in {ID}")
+#            database.update(qu)
+        sys.exit()
+
+def identificar_livro(citacao):
+    # Expressão regular para capturar autor, título, cidade, editora e ano
+    pattern = r"(?P<autor>^[A-Z][A-Z\s]+, [A-Z][a-zçáéíóúãõâêîôû]+\.?)\s(?P<titulo>.+?)\.\s(?P<cidade>[A-Za-z]+):\s(?P<editora>[^,]+),\s(?P<ano>\d{4})\."
+
+    match = re.search(pattern, citacao)
+
+    if match:
+        return match.groupdict()  # Retorna um dicionário com os grupos capturados
+    else:
+        return None  # Caso não encontre, retorna None
+
+########################################################### Categorização Year
 def categorizeYear():
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_year = 0 and ca_status < 9"
     row = database.query(qr)
@@ -172,8 +204,6 @@ def categorizeYear():
         qu = f"update brapci_cited.cited_article set ca_year = '{year}' where id_ca = {ID}"
         print(f"Update Year {year} in {ID}")
         database.update(qu)
-    sys.exit()
-
 
 def year_identify(referencia):
     # Expressão regular para identificar o ano
