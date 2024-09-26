@@ -423,9 +423,6 @@ class Index extends Model
 			$Register->Orwhere('ID', $line);
 		}
 		$dt = $Register->findALl(20000);
-		echo $Register->getlastquery();
-		exit;
-
 		$sx = '';
 
 		switch ($tp) {
