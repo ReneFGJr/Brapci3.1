@@ -102,6 +102,8 @@ class Download extends BaseController
         {
             $ida = $dt['concept']['id_cc'];
 
+            pre($dt);
+
             $RDF = new \App\Models\RDF2\RDF();
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
                 /* Se não identificado o PDF */
