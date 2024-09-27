@@ -200,7 +200,7 @@ def identificao_cidade(reference: str) -> bool:
         'Malden','Lisboa','Janeiro','Alegre','Paulo',
         'Buenos Aires','Aires','Milano','Espanha',
         'Springer','Campinas','York','[S.l.]','Weilerswist','Sebastopol',
-        'Jersey',
+        'Jersey','Dordrecht',
         'São Paulo', 'Rio de Janeiro', 'Porto Alegre'
 
     ]
