@@ -43,7 +43,10 @@ def ascii(text):
 def remove_editorial():
     lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%']
     for q in lt:
-        qr = f"update brapci_elastic.dataset set status = 9 where like '{q}' "
+        if '%' in q:
+            qr = f"update brapci_elastic.dataset set status = 9 where like '{q}' "
+        else:
+            qr = f"update brapci_elastic.dataset set status = 9 where = '{q}' "
         database.update(qr)
 
 def nbr_author(name, max_authors=7):
