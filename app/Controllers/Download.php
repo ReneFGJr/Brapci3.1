@@ -129,8 +129,7 @@ class Download extends BaseController
                                 echo "ERROR 404 - Coleta PDF";
                                 exit;
                             }
-                        pre($links);
-                        exit;
+
                         $id = $RDF->extract($dt, 'hasFileStorage');
 
                         if (!isset($id[0])) {
