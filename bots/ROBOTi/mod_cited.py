@@ -187,7 +187,7 @@ def categorizeBook():
     sys.exit()
 def identificao_cidade(reference: str) -> bool:
     lista_cidades = [
-        'São Paulo', 'Rio de Janeiro', 'Porto Alegre', 'Curitiba', 'Brasília',
+        'Curitiba', 'Brasília',
         'Belo Horizonte', 'Recife', 'Salvador', 'Campinas', 'Florianópolis',
         'Fortaleza', 'Lisboa', 'Madrid', 'Barcelona', 'Londres', 'Nova Iorque',
         'Paris', 'Berlim', 'Tóquio', 'Milão','Washington','Chichester','Los Alamitos',
@@ -199,12 +199,12 @@ def identificao_cidade(reference: str) -> bool:
         'Austin','Cham','Heidelberg','Mahwah','Stanford','Uppsala',
         'Malden','Lisboa','Janeiro','Alegre','Paulo',
         'Buenos Aires','Aires','Milano','Espanha',
-        'Springer','Campinas','York','[S.l.]','Weilerswist'
+        'Springer','Campinas','York','[S.l.]','Weilerswist','Sebastopol',
+        'Jersey',
+        'São Paulo', 'Rio de Janeiro', 'Porto Alegre'
 
     ]
-
     cidades_encontradas = []
-
     for cidade in lista_cidades:
         if cidade+':' in reference:  # Verifica se a cidade está na string (comparação direta)
             cidades_encontradas.append(cidade)
