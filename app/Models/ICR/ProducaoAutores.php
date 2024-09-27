@@ -55,6 +55,7 @@ class ProducaoAutores extends Model
 			->where('JOURNAL', $jid)
 			->where('YEAR >= ' . $year_ini)
 			->where('YEAR <= ' . $year_end)
+			->where('status < 9')
 			->where('`use`', 0)
 			->findAll();
 		$AUTHORS = $this->analyse($dt);

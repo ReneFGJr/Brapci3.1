@@ -86,6 +86,7 @@ class ProducaoJournalAno extends Model
 				->select('count(*) as total, JOURNAL, YEAR')
 				->where('JOURNAL',$jid)
 				->where('`USE`', 0)
+				->where('STATUS < 9')
 				->groupBy('JOURNAL,YEAR')
 				->orderBy('JOURNAL,YEAR')
 				->findAll();
