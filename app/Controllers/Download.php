@@ -121,9 +121,17 @@ class Download extends BaseController
                                 if (trim($line['Property']) == 'hasUrl') {
                                     echo "<li>Method hasURL";
                                     array_push($links, $line['Caption']);
-                                    //$Download->download_methods($line, $ida);
                                     echo '</li>';
                                 }
+                            }
+                        if ($links != [])
+                            {
+                                $line = [];
+                                $line['Caption'] = $links[0];
+                                $Download->download_methods($line, $ida);
+                            } else {
+                                echo "ERROR 404 - Coleta PDF";
+                                exit;
                             }
                         pre($links);
                         exit;
