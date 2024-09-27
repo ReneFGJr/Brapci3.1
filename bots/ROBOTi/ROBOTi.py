@@ -165,6 +165,7 @@ def run(parm):
         mod_literal.check_all()
         mod_literal.check_title()
         mod_literal.check_end_dot()
+        mod_elasticsearch.remove_editorial()
         mod_dataset.check_type()
         mod_ontology.checkData()
 
