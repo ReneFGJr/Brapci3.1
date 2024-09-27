@@ -47,6 +47,7 @@ def remove_editorial():
             qr = f"update brapci_elastic.dataset set status = 9 where like '{q}' "
         else:
             qr = f"update brapci_elastic.dataset set status = 9 where = '{q}' "
+        print(qr)
         database.update(qr)
 
 def nbr_author(name, max_authors=7):
