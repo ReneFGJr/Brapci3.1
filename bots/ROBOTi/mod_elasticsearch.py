@@ -41,6 +41,7 @@ def ascii(text):
     return text.lower()
 
 def remove_editorial():
+    print("OK")
     lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%']
     for q in lt:
         qr = f"update brapci_elastic.dataset set status = 9 where like '{q}' "
