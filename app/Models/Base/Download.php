@@ -164,6 +164,7 @@ class Download extends Model
                 $txtFile = read_link($fileURL);
                 file_put_contents($filePDF, $txtFile);
                 $id = $this->create_FileStorage($idc, $filePDF);
+                exit;
                 echo metarefresh('', 1);
             }
         }
