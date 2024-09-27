@@ -48,7 +48,7 @@ class ProducaoAutores extends Model
 
 	public $total = 0;
 
-	function get($jid, $year_ini = 2019, $year_end = 2023)
+	function 	get($jid, $year_ini = 2019, $year_end = 2023)
 	{
 		$dt = $this
 			->select('YEAR, AUTHORS')
