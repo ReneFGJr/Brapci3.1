@@ -102,8 +102,6 @@ class Download extends BaseController
         {
             $ida = $dt['concept']['id_cc'];
 
-            pre($dt);
-
             $RDF = new \App\Models\RDF2\RDF();
                 $id = $RDF->extract($dt, 'hasFileStorage','A');
                 /* Se não identificado o PDF */
@@ -111,20 +109,24 @@ class Download extends BaseController
                     {
                         $Download = new \App\Models\Base\Download();
                         echo "Tentando recuperar PDF - v2";
+                        $links = [];
                         foreach($dt['data'] as $idz=>$line)
                             {
                                 if (trim($line['Property']) == 'hasRegisterId')
                                     {
                                         echo "<li>Method hasRegisterId";
-                                        $Download->download_methods($line, $ida);
+                                        array_push($links,$line);
+                                        //$Download->download_methods($line, $ida);
                                     }
                                 if (trim($line['Property']) == 'hasUrl') {
                                     echo "<li>Method hasURL";
-                                    $Download->download_methods($line, $ida);
+                                    array_push($links, $line);
+                                    //$Download->download_methods($line, $ida);
                                     echo '</li>';
                                 }
-
                             }
+                        pre($links);
+                        exit;
                         $id = $RDF->extract($dt, 'hasFileStorage');
 
                         if (!isset($id[0])) {
