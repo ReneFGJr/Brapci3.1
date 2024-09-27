@@ -175,8 +175,8 @@ def categorizeBook():
         else:
             if (identificao_cidade(citacao)):
                 print("Cidade",citacao)
-                sys.exit()
                 update_type(ID,2)
+                sys.exit()
             elif (identificacao_capitulo(citacao)):
                 print("Capitulo",citacao)
                 update_type(ID,2)
