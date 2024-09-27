@@ -114,14 +114,10 @@ class Download extends BaseController
                             {
                                 if (trim($line['Property']) == 'hasRegisterId')
                                     {
-                                        echo "<li>Method hasRegisterId";
                                         array_push($links,$line['Caption']);
-                                        //$Download->download_methods($line, $ida);
                                     }
                                 if (trim($line['Property']) == 'hasUrl') {
-                                    echo "<li>Method hasURL";
                                     array_push($links, $line['Caption']);
-                                    echo '</li>';
                                 }
                             }
                         if ($links != [])
