@@ -173,16 +173,34 @@ def categorizeBook():
             print("Basico",citacao)
             update_type(ID,2)
         else:
-            if (identificacao_capitulo(citacao)):
+            if (identificao_cidade(citacao)):
+                print("Cidade",citacao)
+                sys.exit()
+                update_type(ID,2)
+            elif (identificacao_capitulo(citacao)):
                 print("Capitulo",citacao)
                 update_type(ID,2)
-
-            if (identificacao_organizado(citacao)):
+            elif(identificacao_organizado(citacao)):
                 print("Organizado",citacao)
                 update_type(ID,2)
             #else:
                 #print("------",citacao)
     sys.exit()
+def identificao_cidade(reference: str) -> bool:
+    lista_cidades = [
+        'São Paulo', 'Rio de Janeiro', 'Porto Alegre', 'Curitiba', 'Brasília',
+        'Belo Horizonte', 'Recife', 'Salvador', 'Campinas', 'Florianópolis',
+        'Fortaleza', 'Lisboa', 'Madrid', 'Barcelona', 'Londres', 'Nova Iorque',
+        'Paris', 'Berlim', 'Tóquio', 'Milão'
+    ]
+
+    cidades_encontradas = []
+
+    for cidade in lista_cidades:
+        if cidade+':' in reference:  # Verifica se a cidade está na string (comparação direta)
+            cidades_encontradas.append(cidade)
+
+    return True if cidades_encontradas else False
 
 def update_type(ID,type):
     qu = f"update brapci_cited.cited_article set ca_tipo = '{type}' where id_ca = {ID}"
