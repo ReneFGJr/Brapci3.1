@@ -202,7 +202,9 @@ def identificao_cidade(reference: str) -> bool:
         'Springer','Campinas','York','[S.l.]','Weilerswist','Sebastopol',
         'Jersey','Dordrecht','Goiás','Montevideo','Wagga','Grande',
         'São Paulo', 'Rio de Janeiro', 'Porto Alegre',
-        'Westport','Sul','Florianópolis','Alexandria'
+        'Westport','Sul','Florianópolis','Alexandria','Petrópolis',
+        'Lanham','Farnham','Bruxelas','Genebra','Botucatu'
+
 
     ]
     cidades_encontradas = []
