@@ -192,7 +192,10 @@ def identificao_cidade(reference: str) -> bool:
         'Fortaleza', 'Lisboa', 'Madrid', 'Barcelona', 'Londres', 'Nova Iorque',
         'Paris', 'Berlim', 'Tóquio', 'Milão','Washington','Chichester','Los Alamitos',
         'Oxford','Medford','Princeton','Amsterdam',
-        'London','Baden-Baden','New York','Cambridge'
+        'London','Baden-Baden','New York','Cambridge',
+        'Boston','Stockholm','Swedish','Berlin',
+        'Chicago','Indianapolis','Marília','Boca Raton',
+        'Basel','United Kingdom','Illinois','Würzburg',
     ]
 
     cidades_encontradas = []
