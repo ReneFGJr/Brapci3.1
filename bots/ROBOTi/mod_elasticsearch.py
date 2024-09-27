@@ -44,9 +44,9 @@ def remove_editorial():
     lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%']
     for q in lt:
         if '%' in q:
-            qr = f"update brapci_elastic.dataset set status = 9 where like '{q}' "
+            qr = f"update brapci_elastic.dataset set status = 9 where TITLE like '{q}' "
         else:
-            qr = f"update brapci_elastic.dataset set status = 9 where = '{q}' "
+            qr = f"update brapci_elastic.dataset set status = 9 where TITLE = '{q}' "
         print(qr)
         database.update(qr)
 
