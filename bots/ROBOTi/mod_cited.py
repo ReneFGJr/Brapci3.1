@@ -203,7 +203,8 @@ def identificao_cidade(reference: str) -> bool:
         'Jersey','Dordrecht','Goiás','Montevideo','Wagga','Grande',
         'São Paulo', 'Rio de Janeiro', 'Porto Alegre',
         'Westport','Sul','Florianópolis','Alexandria','Petrópolis',
-        'Lanham','Farnham','Bruxelas','Genebra','Botucatu'
+        'Lanham','Farnham','Bruxelas','Genebra','Botucatu',
+        'Londrina'
 
 
     ]
