@@ -286,18 +286,16 @@ class Download extends Model
         $url = troca($url, '//seer.ufs.br/index.php/', '//periodicos.ufs.br/');
 
         if (strpos($url, 'article/view')) {
-            echo "Coletando $url<br>";
             $txt = read_link($url,'curl',True);
             $Otxt = $txt;
 
             if ($pos = strpos($txt, 'citation_pdf_url')) {
-                echo "Identificado Metadata 'citation_pdf_url'";
                 $txt = substr($txt, $pos, 300);
                 $st = 'content="';
                 $txt = substr($txt, strpos($txt, $st) + strlen($st), strlen($txt));
                 $txt = substr($txt, 0, strpos($txt, '"'));
                 if (substr($txt, 0, 4) == 'http') {
-                    echo "Localizado $txt";
+                    echo "<h4>Localizado $txt</h4>";
                     return $txt;
                 }
                 if (strpos($txt, 'noframes')) {

@@ -108,7 +108,6 @@ class Download extends BaseController
                 if (!isset($id[0]))
                     {
                         $Download = new \App\Models\Base\Download();
-                        echo "Tentando recuperar PDF - v2";
                         $links = [];
                         foreach($dt['data'] as $idz=>$line)
                             {
