@@ -40,6 +40,12 @@ def ascii(text):
     # Converte o texto para caixa baixa
     return text.lower()
 
+def remove_editorial():
+    lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%']
+    for q in lt:
+        qr = f"update brapci_elastic.dataset set status = 9 where like '{q}' "
+        print(qr)
+
 def nbr_author(name, max_authors=7):
     # Simulando o tratamento de autores
     return name
