@@ -190,7 +190,7 @@ def identificao_cidade(reference: str) -> bool:
         'São Paulo', 'Rio de Janeiro', 'Porto Alegre', 'Curitiba', 'Brasília',
         'Belo Horizonte', 'Recife', 'Salvador', 'Campinas', 'Florianópolis',
         'Fortaleza', 'Lisboa', 'Madrid', 'Barcelona', 'Londres', 'Nova Iorque',
-        'Paris', 'Berlim', 'Tóquio', 'Milão'
+        'Paris', 'Berlim', 'Tóquio', 'Milão','Washington'
     ]
 
     cidades_encontradas = []
