@@ -206,7 +206,7 @@ def refatureABNT():
 
 def converter_para_abnt(referencia):
     # Expressão regular para capturar os elementos da referência no estilo APA
-    regex = r"(?P<autor>.+?) \((?P<ano>\d{4})\). (?P<titulo>.+?)\. (?P<fonte>.+?), v. (?P<volume_paginas>.+?). (?P<doi>https?://\S+)"
+    regex = r"(?P<autor>.+?) \((?P<ano>\d{4})\). (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume_paginas>.+?). (?P<doi>https?://\S+)"
 
     # Usando a expressão regular para extrair os componentes
     match = re.match(regex, referencia)
@@ -226,7 +226,7 @@ def converter_para_abnt(referencia):
         autores_abnt = autores_abnt.replace(" & ", "; ").upper()
 
         # Formatando para o padrão ABNT
-        referencia_abnt = f"{autores_abnt} {titulo}. {fonte}, {volume_paginas}, {ano}. Disponível em: {doi}"
+        referencia_abnt = f"{autores_abnt} {titulo}. {fonte}, v. {volume_paginas}, {ano}. Disponível em: {doi}"
 
         return referencia_abnt
     else:
