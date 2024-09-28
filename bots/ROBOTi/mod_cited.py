@@ -191,7 +191,7 @@ def categorizeBook():
 def refatureABNT():
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 and "
     qr += "((ca_text like '%(20%') or (ca_text like '%(19%')) "
-    qr += "limit 10"
+    qr += "limit 100"
     row = database.query(qr)
     for line in row:
         id = line[0]
@@ -207,7 +207,7 @@ def refatureABNT():
 
 def converter_para_abnt(referencia):
     # Expressão regular para capturar os elementos da referência no estilo APA
-    regex = r"(?P<autor>.+?) \((?P<ano>\d{4})\). (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume_paginas>.+?). (?P<doi>https?://\S+)"
+    regex = r"(?P<autor>.+?) \((?P<ano>\d{4})\). (?P<titulo>.+?)\. (?P<fonte>.+?), v. (?P<volume_paginas>.+?). (?P<doi>https?://\S+)"
 
     # Usando a expressão regular para extrair os componentes
     match = re.match(regex, referencia)
