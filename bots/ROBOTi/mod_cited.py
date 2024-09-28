@@ -194,7 +194,6 @@ def refatureABNT():
     qr += "limit 10"
     row = database.query(qr)
     for line in row:
-        print(line)
         id = line[0]
         ref = line[1]
         conv = converter_para_abnt(ref)
