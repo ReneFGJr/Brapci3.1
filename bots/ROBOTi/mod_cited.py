@@ -227,6 +227,7 @@ def converter_para_abnt(referencia):
 
         # Formatando para o padrão ABNT
         referencia_abnt = f"{autores_abnt} {titulo}. {fonte}, v. {volume_paginas}, {ano}. Disponível em: {doi}"
+        referencia_abnt = referencia_abnt.replace("'","´")
 
         return referencia_abnt
     else:
