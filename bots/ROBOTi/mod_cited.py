@@ -196,10 +196,6 @@ def refatureABNT():
         id = line[0]
         ref = line[1]
         conv = mod_cited_abnt.converter_para_abnt(ref)
-        if (conv == '#####'):
-            conv = mod_cited_abnt.converter_para_abnt2(ref)
-        if (conv == '#####'):
-            conv = mod_cited_abnt.converter_para_abnt3(ref)
 
         if (conv != '#####'):
             print("Original:",ref)
