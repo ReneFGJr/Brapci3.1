@@ -190,7 +190,7 @@ def categorizeBook():
 ######################################################## categorizeBook
 def refatureABNT():
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 and "
-    qr += "(ca_text like '%(20%')) or (ca_text like '%(19%')) "
+    qr += "(ca_text like '%(20%') or (ca_text like '%(19%')) "
     qr += "limit 10"
     row = database.query(qr)
     print(row)
