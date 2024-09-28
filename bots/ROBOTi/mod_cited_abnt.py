@@ -10,8 +10,8 @@ def converter_para_abnt(referencia):
         r"(?P<autor>.+?) \((?P<ano>\d{4})\). (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume_paginas>.+?). (?P<doi>https?://\S+)",
         r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?); (?P<volume>\d+), (?P<paginas>e?\d+-e?\d+)\. doi: (?P<doi>\S+)",
         r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume>.+?)\((?P<suplemento>.+?)\), (?P<paginas>S?\d+-S?\d+)\. doi: (?P<doi>\S+)",
-        r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?); (?P<volume>\d+) \((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\."
-
+        r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?); (?P<volume>\d+) \((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\.",
+        r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?); (?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\."
     ]
 
     for regex in regexes:
