@@ -185,6 +185,48 @@ def categorizeBook():
             #else:
                 #print("------",citacao)
     sys.exit()
+
+########################################################### ABNT
+######################################################## categorizeBook
+def refatureABNT():
+    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 and "
+    qr += "(ca_text like '%(20%')) or (ca_text like '%(19%')) "
+    qr += "limit 10"
+    row = database.query(qr)
+    print(row)
+    sys.exit()
+
+def converter_para_abnt(referencia):
+    # Expressão regular para capturar os elementos da referência no estilo APA
+    regex = r"(?P<autor>.+?) \((?P<ano>\d{4})\). (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume_paginas>.+?). (?P<doi>https?://\S+)"
+
+    # Usando a expressão regular para extrair os componentes
+    match = re.match(regex, referencia)
+
+    if match:
+        # Extraindo os componentes
+        autor = match.group("autor")
+        ano = match.group("ano")
+        titulo = match.group("titulo")
+        fonte = match.group("fonte")
+        volume_paginas = match.group("volume_paginas")
+        doi = match.group("doi")
+
+        # Convertendo o autor para o formato ABNT
+        autores = autor.split(", ")
+        autores_abnt = f"{autores[1].strip()} {autores[0].strip()}." if len(autores) == 2 else autor
+        autores_abnt = autores_abnt.replace(" & ", "; ").upper()
+
+        # Formatando para o padrão ABNT
+        referencia_abnt = f"{autores_abnt} {titulo}. {fonte}, {volume_paginas}, {ano}. Disponível em: {doi}. Acesso em: [data]."
+
+        return referencia_abnt
+    else:
+        return "#####"
+
+# Exemplo de uso
+
+
 def identificao_cidade(reference: str) -> bool:
     lista_cidades = [
         'Curitiba', 'Brasília',
