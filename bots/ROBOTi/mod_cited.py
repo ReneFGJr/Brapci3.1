@@ -196,6 +196,9 @@ def refatureABNT():
         id = line[0]
         ref = line[1]
         conv = converter_para_abnt(ref)
+        if (conv == '#####'):
+            conv = converter_para_abnt2(ref)
+
         if (conv != '#####'):
             print("Original:",ref)
             print("Convertido:",conv)
@@ -203,6 +206,42 @@ def refatureABNT():
             update_cited(id,conv)
 
     sys.exit()
+
+import re
+
+def converter_para_abnt2(referencia):
+    # Expressão regular para capturar os elementos da referência no estilo APA
+    regex = r"(?P<autor>.+?) \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?);(?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>.+?)\.?(?P<doi> https?://\S+)?"
+
+    # Usando a expressão regular para extrair os componentes
+    match = re.match(regex, referencia)
+
+    if match:
+        # Extraindo os componentes
+        autor = match.group("autor")
+        ano = match.group("ano")
+        titulo = match.group("titulo")
+        fonte = match.group("fonte")
+        volume = match.group("volume")
+        numero = match.group("numero")
+        paginas = match.group("paginas")
+        doi = match.group("doi")
+
+        # Convertendo o autor para o formato ABNT
+        autores = autor.split(", ")
+        autores_abnt = "; ".join([f"{a.split()[1].upper()} {a.split()[0]}" for a in autores])
+
+        # Formatando para o padrão ABNT
+        referencia_abnt = f"{autores_abnt}. {titulo}. {fonte}, v. {volume}, n. {numero}, p. {paginas}, {ano}."
+
+        # Inclui o DOI se estiver presente
+        if doi:
+            referencia_abnt += f" Disponível em: {doi.strip()}. Acesso em: [data]."
+
+        return referencia_abnt
+    else:
+        return "#####"
+
 
 def converter_para_abnt(referencia):
     # Expressão regular para capturar os elementos da referência no estilo APA
