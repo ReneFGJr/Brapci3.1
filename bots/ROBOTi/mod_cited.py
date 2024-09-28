@@ -268,7 +268,7 @@ def identificao_cidade(reference: str) -> bool:
 
 def update_cited(ID,cited):
     qu = f"update brapci_cited.cited_article set ca_text = '{cited}' where id_ca = {ID}"
-    print(f"Update Type {type} in {ID}")
+    print(f"Update Text {cited} in {ID}")
 
     #database.update(qu)
 
