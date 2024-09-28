@@ -193,7 +193,14 @@ def refatureABNT():
     qr += "((ca_text like '%(20%') or (ca_text like '%(19%')) "
     qr += "limit 10"
     row = database.query(qr)
-    print(row)
+    for line in row:
+        print(line)
+        id = line[0]
+        ref = line[1]
+        conv = converter_para_abnt(ref)
+        print("Original:",ref)
+        print("Convertido:",conv)
+
     sys.exit()
 
 def converter_para_abnt(referencia):
