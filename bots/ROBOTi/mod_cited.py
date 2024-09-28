@@ -197,7 +197,7 @@ def refatureABNT():
         id = line[0]
         ref = line[1]
         conv = converter_para_abnt(ref)
-        if (conv != '####'):
+        if (conv != '#####'):
             print("Original:",ref)
             print("Convertido:",conv)
             print("============================")
