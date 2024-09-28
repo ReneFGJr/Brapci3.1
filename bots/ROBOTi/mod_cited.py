@@ -201,6 +201,7 @@ def refatureABNT():
             print("Original:",ref)
             print("Convertido:",conv)
             print("============================")
+            update_cited(id,conv)
 
     sys.exit()
 
@@ -264,6 +265,12 @@ def identificao_cidade(reference: str) -> bool:
             cidades_encontradas.append(cidade)
 
     return True if cidades_encontradas else False
+
+def update_cited(ID,cited):
+    qu = f"update brapci_cited.cited_article set ca_text = '{cited}' where id_ca = {ID}"
+    print(f"Update Type {type} in {ID}")
+
+    #database.update(qu)
 
 def update_type(ID,type):
     qu = f"update brapci_cited.cited_article set ca_tipo = '{type}' where id_ca = {ID}"
