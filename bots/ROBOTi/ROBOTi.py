@@ -138,6 +138,7 @@ def run(parm):
         mod_cited.longCited()
 
     if (act == 'cited'):
+        mod_cited.remove_spaces()
         mod_cited.refatureABNT()
         mod_cited.categorizeBook()
         mod_cited.categorizeYear()

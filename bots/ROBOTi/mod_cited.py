@@ -203,6 +203,17 @@ def refatureABNT():
             print("============================")
             update_cited(id,conv)
 
+def remove_spaces():
+    qr = "select id_ca,ca_text from brapci_cited.cited_article where like '% :%"
+    row = database.query(qr)
+    for line in row:
+        text = line[1]
+        text.replace(' :',':')
+        ID = line[0]
+        qu = f"update brapci_cited.cited_article set ca_text = '{text}' where id_ca = {ID}"
+        print(qu)
+    sys.exit()
+
 def recupera_cidades():
     lista_cidades = []
     qr = "select city_name from brapci_cited.city_place where 1"
