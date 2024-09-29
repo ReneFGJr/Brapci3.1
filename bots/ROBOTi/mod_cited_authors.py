@@ -20,17 +20,10 @@ def extract_authors_full(reference):
     # Encontrar todos os autores que seguem o padrão acima
     match = re.findall(padrao_autor, reference)
 
-    print("+===",match)
-
     if match:
-        authors_str = match.group(1).strip()
-
-        # Separar autores por ponto e vírgula, ou espaço seguido de letra maiúscula (para nomes sem ponto e vírgula)
-        authors = re.split(r';\s*|(?<=\w)\s+(?=[A-Z])', authors_str)
-
-        # Limpar e tratar "et al."
-        authors = [author if 'et al' not in author.lower() else 'et al.' for author in authors]
-
-        return [author.strip() for author in authors]
+        authors_str = match.group(1)
+        # Separar autores por ";" e remover espaços extras
+        authors = [author.strip() for author in authors_str.split(";")]
+        return authors
 
     return []
