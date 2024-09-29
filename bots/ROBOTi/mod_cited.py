@@ -129,7 +129,7 @@ def longCited():
 def locate():
     print("DOI - Localizando DOI nas referencias")
     qr = "select * from brapci_cited.cited_article "
-    qr += " where ca_doi = '' "
+    qr += " where (ca_doi = '' or ca_doi is null) "
     qr += " and ca_text like '%10.%' "
     qr += " and ca_text like '%doi%' "
     qr += "limit 1000  "
