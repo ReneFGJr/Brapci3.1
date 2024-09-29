@@ -203,8 +203,6 @@ def refatureABNT():
             print("============================")
             update_cited(id,conv)
 
-    sys.exit()
-
 def identificao_cidade(reference: str) -> bool:
     lista_cidades = [
         'Curitiba', 'Brasília',
