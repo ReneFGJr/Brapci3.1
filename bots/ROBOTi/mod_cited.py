@@ -209,8 +209,6 @@ def recupera_cidades():
     row = database.query(qr)
     for line in row:
         lista_cidades.append(line[0])
-    print(lista_cidades)
-    sys.exit
 
     return lista_cidades
 def identificao_cidade(reference: str) -> bool:
