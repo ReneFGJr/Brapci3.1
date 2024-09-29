@@ -183,9 +183,6 @@ def categorizeBook():
             elif(identificacao_organizado(citacao)):
                 print("Organizado",citacao)
                 update_type(ID,2)
-            #else:
-                #print("------",citacao)
-    sys.exit()
 
 ########################################################### ABNT
 ######################################################## categorizeBook
