@@ -213,7 +213,7 @@ def remove_spaces():
         ID = line[0]
         qu = f"update brapci_cited.cited_article set ca_text = '{text}' where id_ca = {ID}"
         print("====>",qu)
-        database.update(qu)
+        database.query(qu)
         print(".",end='.')
 
 def recupera_cidades():
