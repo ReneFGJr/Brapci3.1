@@ -433,6 +433,11 @@ a.pgcd_nav-item-active:hover {
 .type-law {
   background-color: #33ffff;
 }
+.type-dataset
+{
+  background-color: #5d9a71;
+}
+
 .type-report , .type-standard , .type-interview ,
 .type-software , .type-patent, .type-none
   {

@@ -452,7 +452,7 @@ class Index extends Model
                 break;
 
             case '50':
-                $sx = '<span class="type-patent radius5">&nbsp;' . msg('DATASET') . '&nbsp;</span>';
+                $sx = '<span class="type-dataset radius5">&nbsp;' . msg('DATASET') . '&nbsp;</span>';
                 break;
 
             default:
