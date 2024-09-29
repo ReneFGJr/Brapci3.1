@@ -163,6 +163,18 @@ class Sources extends Model
         return $sx;
     }
 
+    # API
+    function timeline()
+        {
+            $cp = 'jnl_name as journal, jnl_ano_inicio as started';
+            $dt = $this->select($cp)
+            ->where('jnl_collection','JA')
+            ->Orwhere('jnl_collection', 'JE')
+            ->orderby('jnl_ano_inicio')
+            ->findAll();
+            return $dt;
+        }
+
     function getCollections()
     {
         $c = [];
