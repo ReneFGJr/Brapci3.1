@@ -203,29 +203,19 @@ def refatureABNT():
             print("============================")
             update_cited(id,conv)
 
+def recupera_cidades():
+    lista_cidades = []
+    qr = "select city_name from brapci_cited.city_place where 1"
+    row = database.query(qr)
+    for line in row:
+        lista_cidades.add(line[0])
+    print(lista_cidades)
+    sys.exit
+
+    return lista_cidades
 def identificao_cidade(reference: str) -> bool:
-    lista_cidades = [
-        'Curitiba', 'Brasília',
-        'Belo Horizonte', 'Recife', 'Salvador', 'Campinas', 'Florianópolis',
-        'Fortaleza', 'Lisboa', 'Madrid', 'Barcelona', 'Londres', 'Nova Iorque',
-        'Paris', 'Berlim', 'Tóquio', 'Milão','Washington','Chichester','Los Alamitos',
-        'Oxford','Medford','Princeton','Amsterdam',
-        'London','Baden-Baden','New York','Cambridge',
-        'Boston','Stockholm','Swedish','Berlin',
-        'Chicago','Indianapolis','Marília','Boca Raton',
-        'Basel','United Kingdom','Illinois','Würzburg',
-        'Austin','Cham','Heidelberg','Mahwah','Stanford','Uppsala',
-        'Malden','Lisboa','Janeiro','Alegre','Paulo',
-        'Buenos Aires','Aires','Milano','Espanha',
-        'Springer','Campinas','York','[S.l.]','Weilerswist','Sebastopol',
-        'Jersey','Dordrecht','Goiás','Montevideo','Wagga','Grande',
-        'São Paulo', 'Rio de Janeiro', 'Porto Alegre',
-        'Westport','Sul','Florianópolis','Alexandria','Petrópolis',
-        'Lanham','Farnham','Bruxelas','Genebra','Botucatu',
-        'Londrina','Canada','Geneva','México','Hamburgo','janeiro','Cabo'
+    lista_cidades = recupera_cidades()
 
-
-    ]
     cidades_encontradas = []
     for cidade in lista_cidades:
         if cidade+':' in reference:  # Verifica se a cidade está na string (comparação direta)
