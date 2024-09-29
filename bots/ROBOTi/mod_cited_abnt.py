@@ -4,6 +4,7 @@ def converter_para_abnt(referencia):
     # Expressão regular para capturar os elementos da referência no estilo APA e outros formatos
     regexes = [
         # Expressões regulares para diferentes formatos
+        r"(?P<autor>.+?), \((?P<ano>\d{4})\) (?P<titulo>.+?)\. (?P<local>.+?): (?P<editora>.+)\.",
         r"(?P<autor>.+?) \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?);(?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>.+?)\. doi: (?P<doi>\S+)",
         r"(?P<autor>.+?) \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>.+?)\.?(?P<doi> https?://\S+)?",
         r"(?P<autor>.+?) \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?);(?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>.+?)\.?(?P<doi> https?://\S+)?",
@@ -13,9 +14,7 @@ def converter_para_abnt(referencia):
         r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?); (?P<volume>\d+) \((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\.",
         r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?); (?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\.",
         r"(?P<autor>.+?)\. (?P<titulo>.+?)\. (?P<fonte>.+?)\. (?P<ano>\d{4});(?P<volume>\d+)\((?P<numero>\d+)\):(?P<paginas>\d+-\d+)\. doi: (?P<doi>\S+)",
-        r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\.",
-        # Novo formato para o estilo fornecido:
-        r"(?P<autor>.+?), \((?P<ano>\d{4})\) (?P<titulo>.+?)\. (?P<local>.+?): (?P<editora>.+)\."
+        r"(?P<autor>.+?)\. \((?P<ano>\d{4})\)\. (?P<titulo>.+?)\. (?P<fonte>.+?), (?P<volume>\d+)\((?P<numero>\d+)\), (?P<paginas>\d+-\d+)\."
     ]
 
     for regex in regexes:
