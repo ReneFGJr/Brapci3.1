@@ -193,7 +193,6 @@ class Sources extends Model
                             $da = ['year'=>$year,'journals'=>$line];
                             array_push($dd, $da);
                         }
-                        pre($dd);
                         $dt = $dd;
                 }
             return $dt;
