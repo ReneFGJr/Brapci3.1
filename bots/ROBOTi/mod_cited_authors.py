@@ -14,8 +14,14 @@ def extract_authors(reference):
 def extract_authors_full(reference):
     # Regex para capturar os autores antes do título
     # Inclui palavras com letras maiúsculas e minúsculas, além de espaços para nomes compostos
-    pattern = r"^([A-ZÁÉÍÓÚÑáéíóúñ\.,;\s]+)\."
-    match = re.match(pattern, reference)
+    # Padrão para capturar autores no formato "SOBRENOME, Nome"
+    padrao_autor = r'([A-ZÁÉÍÓÚÑ]+(?: [A-ZÁÉÍÓÚÑ]+)*),\s*([A-Za-zÁÉÍÓÚáéíóúñÑ]+(?:\s+[A-Za-zÁÉÍÓÚáéíóúñÑ]+)*)'
+
+    # Encontrar todos os autores que seguem o padrão acima
+    match = re.findall(padrao_autor, reference)
+
+    print("+===",match)
+
     if match:
         authors_str = match.group(1).strip()
 
