@@ -184,7 +184,7 @@ class Sources extends Model
                                     {
                                         $dd[$year] = [];
                                     }
-                                array_push($dd[$year],['name'=>$line['journal']]);
+                                array_push($dd[$year],['name'=>$line['journal'],'year'=>$year]);
                             }
                         $dt = $dd;
                 }
