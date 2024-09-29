@@ -204,6 +204,8 @@ def refatureABNT():
             print("Convertido:",conv)
             print("============================")
             update_cited(id,conv)
+        else:
+            print(ref)
 
 def remove_spaces():
     print("Removendo espacos entre dois pontos")
