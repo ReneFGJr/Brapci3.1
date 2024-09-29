@@ -189,7 +189,7 @@ def categorizeBook():
 def extrairAutores():
     print("Extrair autores")
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 1 "
-    qr += " as AUTHORS is null limit 10"
+    qr += " and AUTHORS is null limit 10"
     row = database.query(qr)
     for line in row:
         id = line[0]
