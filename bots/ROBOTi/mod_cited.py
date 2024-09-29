@@ -185,6 +185,34 @@ def categorizeBook():
                 update_type(ID,2)
 
 ########################################################### ABNT
+######################################################## Extrair Autores
+def extrairAutores():
+    print("Extrair autores")
+    qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 1 "
+    qr += " as AUTHORS is null limit 10"
+    row = database.query(qr)
+    for line in row:
+        id = line[0]
+        ref = line[1]
+        conv = extract_authors(ref)
+        print(ref)
+        print("==",conv)
+        print(" ")
+    sys.exit()
+
+
+def extract_authors(reference):
+    # Regex para capturar os autores antes do título (até o primeiro ponto)
+    pattern = r"^([A-Z\.,;\s]+)\."
+    match = re.match(pattern, reference)
+    if match:
+        authors_str = match.group(1)
+        # Separar autores por ";" e remover espaços extras
+        authors = [author.strip() for author in authors_str.split(";")]
+        return authors
+    return []
+
+########################################################### ABNT
 ######################################################## categorizeBook
 def refatureABNT():
     print("Convertendo para ABNT")
