@@ -451,6 +451,10 @@ class Index extends Model
                 $sx = '<span class="type-patent radius5">&nbsp;' . msg('PATENT') . '&nbsp;</span>';
                 break;
 
+            case '50':
+                $sx = '<span class="type-patent radius5">&nbsp;' . msg('DATASET') . '&nbsp;</span>';
+                break;
+
             default:
                 $sx = '<span class="type-none radius5">&nbsp;' . msg('none') . $type . '&nbsp;</span>';
         }
