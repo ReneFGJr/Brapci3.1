@@ -208,12 +208,11 @@ def remove_spaces():
     row = database.query(qr)
     for line in row:
         text = line[1]
-        text.replace(' :',':')
-        text.replace("'","´")
+        text = text.replace(' :',':')
+        text = text.replace("'","´")
         ID = line[0]
         qu = f"update brapci_cited.cited_article set ca_text = '{text}' where id_ca = {ID}"
-        print("====>",qu)
-        database.query(qu)
+        database.update(qu)
         print(".",end='.')
 
 def recupera_cidades():
