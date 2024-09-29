@@ -190,8 +190,8 @@ class Sources extends Model
                         /***************************** */
                         $dd = [];
                         foreach ($dt as $year => $line) {
-                            $da = ['year'=>$year];
-                            array_push($dd, $line);
+                            $da = ['year'=>$year,'journals'=>$line];
+                            array_push($dd, $da);
                         }
                         pre($dd);
                         $dt = $dd;
