@@ -189,6 +189,7 @@ def categorizeBook():
 ########################################################### ABNT
 ######################################################## categorizeBook
 def refatureABNT():
+    print("Convertendo para ABNT")
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0 and "
     qr += "((ca_text like '%(20%') or (ca_text like '%(19%')) "
     row = database.query(qr)
@@ -204,6 +205,7 @@ def refatureABNT():
             update_cited(id,conv)
 
 def remove_spaces():
+    print("Removendo espacos entre dois pontos")
     qr = "select id_ca,ca_text from brapci_cited.cited_article where ca_text like '% :%'"
     row = database.query(qr)
     for line in row:
@@ -211,9 +213,8 @@ def remove_spaces():
         text = text.replace(' :',':')
         text = text.replace("'","´")
         ID = line[0]
-        qu = f"update brapci_cited.cited_article set ca_text = '{text}' where id_ca = {ID}"
-        database.update(qu)
-        print(".",end='.')
+        update_cited(ID,text)
+        print(".",end='')
 
 def recupera_cidades():
     lista_cidades = []
