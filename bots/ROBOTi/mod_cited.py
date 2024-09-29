@@ -5,6 +5,7 @@ import re
 import requests
 import sys
 import mod_cited_abnt
+import mod_cited_authors
 def categorizeCitedByElastic():
     print("Categorize Cited by Elastic")
 
@@ -194,23 +195,15 @@ def extrairAutores():
     for line in row:
         id = line[0]
         ref = line[1]
-        conv = extract_authors(ref)
+        conv = mod_cited_authors.extract_authors(ref)
+        if (conv == []):
+            conv = mod_cited_authors.extract_authors_full(ref)
         print(ref)
         print("==",conv)
         print(" ")
     sys.exit()
 
 
-def extract_authors(reference):
-    # Regex para capturar os autores antes do título (até o primeiro ponto)
-    pattern = r"^([A-Z\.,;\s]+)\."
-    match = re.match(pattern, reference)
-    if match:
-        authors_str = match.group(1)
-        # Separar autores por ";" e remover espaços extras
-        authors = [author.strip() for author in authors_str.split(";")]
-        return authors
-    return []
 
 ########################################################### ABNT
 ######################################################## categorizeBook
