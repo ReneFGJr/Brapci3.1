@@ -164,14 +164,30 @@ class Sources extends Model
     }
 
     # API
-    function timeline()
+    function timeline($tp=1)
         {
             $cp = 'jnl_name as journal, jnl_ano_inicio as started';
             $dt = $this->select($cp)
-            ->where('jnl_collection','JA')
-            ->Orwhere('jnl_collection', 'JE')
-            ->orderby('jnl_ano_inicio')
-            ->findAll();
+                ->where('jnl_collection', 'JA')
+                ->Orwhere('jnl_collection', 'JE')
+                ->orderby('jnl_ano_inicio')
+                ->findAll();
+
+            switch($tp)
+                {
+                    case '2':
+                        $dd = [];
+                        foreach($dt as $id=>$line)
+                            {
+                                $year = $line['started'];
+                                if (!isset($dd[$year]))
+                                    {
+                                        $dd[$year] = [];
+                                    }
+                                array_push($dd[$year],$line['journal']);
+                            }
+                        $dt = $dd;
+                }
             return $dt;
         }
 

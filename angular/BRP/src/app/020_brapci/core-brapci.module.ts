@@ -78,6 +78,7 @@ import { ToolsSumaryComponent } from './widget/tools-sumary/tools-sumary.compone
 import { IcrProducaoAnoComponent } from './widget/icr-producao-ano/icr-producao-ano.component';
 import { IcrProducaoJournalAuthorComponent } from './widget/icr-producao-journal-author/icr-producao-journal-author.component';
 import { TimelineJournalComponent } from './widget/timeline-journal/timeline-journal.component';
+import { TimelineComponent } from './page/timeline/timeline.component';
 
 @NgModule({
   declarations: [
@@ -152,6 +153,7 @@ import { TimelineJournalComponent } from './widget/timeline-journal/timeline-jou
     IcrProducaoAnoComponent,
     IcrProducaoJournalAuthorComponent,
     TimelineJournalComponent,
+    TimelineComponent,
   ],
   imports: [
     CommonModule,

@@ -66,7 +66,7 @@ class Brapci extends Model
         switch ($d1) {
             case 'timeline':
                 $Sources = new \App\Models\Base\Sources();
-                $RSP = $Sources->timeline();
+                $RSP = $Sources->timeline($d2);
                 echo json_encode($RSP);
                 exit;
                 break;

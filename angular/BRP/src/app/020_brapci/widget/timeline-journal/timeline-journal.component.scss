@@ -1,0 +1,101 @@
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #ddd;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .left {
+            left: 0;
+        }
+        .right {
+            left: 50%;
+        }
+        .content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .container.left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        .container.right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+        .left .content {
+            margin-left: 60px;
+        }
+        .right .content {
+            margin-right: 60px;
+        }
+        .date {
+            position: absolute;
+            width: 100px;
+            background-color: #ffc107;
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            top: 15px;
+            z-index: 1;
+        }
+        .left .date {
+            left: -120px;
+        }
+        .right .date {
+            right: -120px;
+        }
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            .container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            .container.left, .container.right {
+                left: 0%;
+            }
+            .left .date, .right .date {
+                left: -70px;
+            }
+            .left .content, .right .content {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }

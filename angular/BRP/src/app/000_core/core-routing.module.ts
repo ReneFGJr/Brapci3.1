@@ -13,6 +13,7 @@ import { Pg404Component } from '../020_brapci/page/pg404/pg404.component';
 import { PqModule } from '../160_PQ/pq.module';
 import { PainelComponent } from '../020_brapci/page/painel/painel.component';
 import { OrcidCallBackComponent } from '../001_auth/page/oauth/callback/orcid/orcid.component';
+import { TimelineComponent } from '../020_brapci/page/timeline/timeline.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'indexs/:type/:id', component: IndexsComponent },
   { path: 'v/:id', component: VComponent },
   { path: 'v', component: VComponent },
+  { path: 'timeline', component: TimelineComponent},
   { path: 'basket/selected', component: BasketedComponent },
   { path: 'basket/export/:id', component: ExportComponent },
   { path: 'dashboard', component: DashboardComponent },

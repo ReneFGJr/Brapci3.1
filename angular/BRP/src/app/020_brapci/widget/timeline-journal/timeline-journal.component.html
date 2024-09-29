@@ -1,1 +1,18 @@
-<p>timeline-journal works!</p>
+<div class="timeline">
+  <ng-container *ngFor="let item of data; let i = index">
+      <div
+        class="container"
+        [ngClass]="{ left: i % 2 === 0, right: i % 2 !== 0 }"
+      >
+        <div class="date">{{ item.started }}</div>
+        <div class="content">
+          <ng-container *ngFor="let itemX of data">
+            <div *ngIf="item.started === itemX.started">
+              <h2>{{ itemX.journal }}</h2>
+              <p>Year of foundation: {{ itemX.started }}</p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+</div>
