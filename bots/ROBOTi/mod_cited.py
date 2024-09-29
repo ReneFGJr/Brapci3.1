@@ -40,7 +40,7 @@ def categorizeCitedByElastic():
         database.update(qu)
 
 def categorizeCited():
-    print("Categorize Cited")
+    print("Categorizando Citações")
     qr = "select id_ca, ca_text from brapci_cited.cited_article "
     qr += " where ca_status = 0 "
     qr += " and (ca_tipo = 0 or ca_tipo is null) "
@@ -163,6 +163,7 @@ def removeLiteral(ID,IDn):
 
 ######################################################## categorizeBook
 def categorizeBook():
+    print("Categorizando livros")
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_tipo = 0 and ca_status = 0"
     row = database.query(qr)
 
@@ -301,6 +302,7 @@ def identificar_livro(citacao):
 
 ########################################################### Categorização Year
 def categorizeYear():
+    print("Categorizando ano de produção")
     qr = "select id_ca, ca_text from brapci_cited.cited_article where ca_year = 0 and ca_status < 9"
     row = database.query(qr)
 
