@@ -208,7 +208,7 @@ def recupera_cidades():
     qr = "select city_name from brapci_cited.city_place where 1"
     row = database.query(qr)
     for line in row:
-        lista_cidades.add(line[0])
+        lista_cidades.append(line[0])
     print(lista_cidades)
     sys.exit
 
