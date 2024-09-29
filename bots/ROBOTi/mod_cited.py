@@ -204,7 +204,7 @@ def refatureABNT():
             update_cited(id,conv)
 
 def remove_spaces():
-    qr = "select id_ca,ca_text from brapci_cited.cited_article where ca_text like '% :%"
+    qr = "select id_ca,ca_text from brapci_cited.cited_article where ca_text like '% :%'"
     row = database.query(qr)
     for line in row:
         text = line[1]
