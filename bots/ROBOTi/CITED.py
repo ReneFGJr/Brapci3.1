@@ -53,7 +53,7 @@ def getCITED(url,ID):
                 mod_cited.register(ID,REF)
 
                 x=a
-            x=b
+        x=b
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
 
