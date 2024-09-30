@@ -105,8 +105,6 @@ class Index extends Model
 			// Executa a requisição e obtém a resposta
 			$response = curl_exec($ch);
 
-			pre($response);
-
 			// Fecha a sessão do cURL
 			curl_close($ch);
 
@@ -117,13 +115,15 @@ class Index extends Model
 			foreach ($RSP as $id => $txt) {
 				$response_data = json_decode($txt . '}', true);
 				if (isset($response_data['response'])) {
-					$TXT .= (string)$response_data['response'].'-';
+					$TXT .= (string)$response_data['response'];
 				}
 			}
 		} else {
 			echo json_encode(['message'=>'Pergunta vazia']);
 			exit;
 		}
+
+		echo $TXT;
 
 		$TXT = troca($TXT,chr(13),'#');
 		$TXT = troca($TXT, chr(10), '#');
