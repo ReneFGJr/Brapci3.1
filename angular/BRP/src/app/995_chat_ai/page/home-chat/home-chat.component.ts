@@ -43,6 +43,8 @@ export class HomeChatComponent {
     this.ollamaService.sendMessage(messageText).subscribe({
       next: (response) => {
         // Supondo que a resposta contenha a mensagem em 'response.reply'
+        console.log("=========")
+        console.log(response)
         const reply = response.reply || 'Desculpe, não entendi.';
         this.messages.push({ text: reply, sender: 'ollama' });
         this.isLoading = false;
