@@ -12,7 +12,7 @@ os.chdir(diretorio)
 import mod_cited
 import sys
 
-def processID(ID,cites = False):
+def processID(ID):
     prop = mod_class.getClass("hasUrl")
     qr = "select n_name, n_lang from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n"
@@ -22,9 +22,9 @@ def processID(ID,cites = False):
     for ln in row:
         URL = ln[0]
         print("Recuperando ",URL)
-        getCITED(URL,ID,cites)
+        getCITED(URL,ID)
 
-def getCITED(url,ID,cites = False):
+def getCITED(url,ID):
     try:
         html = mod_http.getURL(url)
 
@@ -32,7 +32,7 @@ def getCITED(url,ID,cites = False):
 
         # Lista os metadados encontrados
         print("Citation References:")
-
+        cites = False
         for meta in cited:
             cites = True
             print("=",meta.get('content'))
@@ -49,8 +49,6 @@ def getCITED(url,ID,cites = False):
                 mod_cited.register(ID,REF)
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
-
-    x=a
 
 
 print("RASPAGEM DE CITACOES 1.1")
@@ -84,7 +82,7 @@ def autoHarvesting():
         ID = line[0]
         if updateCited(ID) == 0:
             print("======================",ID)
-            processID(ID,True)
+            processID(ID)
             updateCited(ID)
             updateCitedClassification(ID)
 
