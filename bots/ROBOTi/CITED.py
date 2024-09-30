@@ -78,7 +78,7 @@ def updateCitedClassification(ID):
 def autoHarvesting():
     qr = "select ID from brapci_elastic.dataset where cited_total = -1 and CLASS = 'Article' "
     qr += " and JOURNAL = 16 "
-    qr += "order by id_ds desc limit 1000"
+    qr += "order by ID desc limit 1000"
     row = database.query(qr)
 
     for line in row:
