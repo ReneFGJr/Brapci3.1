@@ -51,7 +51,7 @@ def getCITED(url,ID):
 print("RASPAGEM DE CITACOES 1.1")
 
 def updateCited(ID):
-    qr = f"SELECT count(*) as total FROM `cited_article` WHERE `ca_rdf` = {ID};"
+    qr = f"SELECT count(*) as total FROM brapci_cited.cited_article WHERE `ca_rdf` = {ID};"
     row = database.query(qr)
 
     print(row)
