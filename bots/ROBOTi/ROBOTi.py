@@ -143,7 +143,7 @@ def run(parm):
         mod_cited.refatureABNT()
         mod_cited.categorizeBook()
         mod_cited.categorizeYear()
-        mod_cited.categorizeCited()
+        #mod_cited.categorizeCited()
 
     if (act == 'thesa'):
         mod_thesa.check_subject_thesa()
