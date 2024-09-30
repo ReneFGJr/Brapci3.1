@@ -53,6 +53,8 @@ print("RASPAGEM DE CITACOES 1.1")
 def updateCited(ID):
     qr = f"SELECT count(*) as total FROM `cited_article` WHERE `ca_rdf` = {ID};"
     row = database.query(qr)
+
+    print(row)
     total = row[0][0]
     print("Total ",total)
 
