@@ -80,32 +80,34 @@ def categorizeCited():
 
         print("Resposta",RSP)
 
-        if RSP.length() > 30:
+        if len(RSP) > 30:
             print("ERRO")
-            sys.exit()
-
-        tipo = DDD[0]
-        year = DDD[1]
-        nivel = DDD[2]
-
-        #****************************************************************************************************/
-        #Valida o tipo
-        qr = f"select * from brapci_cited.cited_type where ct_type = '{tipo}'"
-        row = database.query(qr)
-
-        if row != []:
-            tipoX = row[0]
-            print("TIPO=>",tipoX)
-            tipoX = tipoX[0]
-            qu = f"update brapci_cited.cited_article set ca_status = 1,  ca_tipo = '{tipoX}', ca_year = '{year}', ca_ai = {nivel} where id_ca = {ID}"
-            database.update(qu)
-        else:
             qu = f"update brapci_cited.cited_article set ca_status = 9,  ca_tipo = '0', ca_ai = 1 where id_ca = {ID}"
             database.update(qu)
-            print(qu)
-            print("########################### ERRO")
-            print(tipo,year,nivel)
-            print(row)
+            sys.exit()
+        else:
+            tipo = DDD[0]
+            year = DDD[1]
+            nivel = DDD[2]
+
+            #****************************************************************************************************/
+            #Valida o tipo
+            qr = f"select * from brapci_cited.cited_type where ct_type = '{tipo}'"
+            row = database.query(qr)
+
+            if row != []:
+                tipoX = row[0]
+                print("TIPO=>",tipoX)
+                tipoX = tipoX[0]
+                qu = f"update brapci_cited.cited_article set ca_status = 1,  ca_tipo = '{tipoX}', ca_year = '{year}', ca_ai = {nivel} where id_ca = {ID}"
+                database.update(qu)
+            else:
+                qu = f"update brapci_cited.cited_article set ca_status = 9,  ca_tipo = '0', ca_ai = 1 where id_ca = {ID}"
+                database.update(qu)
+                print(qu)
+                print("########################### ERRO")
+                print(tipo,year,nivel)
+                print(row)
 
 def cited():
     print("DOI - Localizando DOI nos metadados")
