@@ -356,6 +356,8 @@ def register(ID,REF):
         qi += "(ca_rdf, ca_text, ca_status) "
         qi += " values "
         qi += f"('{ID}','{REF}',0)"
+        print(qi)
+        x=a
         try:
             database.insert(qi)
         except Exception as e:
