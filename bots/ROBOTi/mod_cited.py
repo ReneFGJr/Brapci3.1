@@ -46,7 +46,7 @@ def categorizeCited():
     qr += " where ca_status = 0 "
     qr += " and (ca_tipo = 0 or ca_tipo is null) "
     qr += " order by id_ca "
-    qr += " limit 100 "
+    qr += " limit 500 "
     row = database.query(qr)
 
     for line in row:
@@ -70,8 +70,7 @@ def categorizeCited():
         ID = line[0]
 
         print("==========================================================")
-        print(line[1])
-        print("Human: ",message)
+        print("Human: ",line[1])
         print("Bot: ")
         RSP = mod_ai_brapci.chat(message)
 
