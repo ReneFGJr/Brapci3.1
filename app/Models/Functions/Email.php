@@ -77,8 +77,6 @@ class Email extends Model
         $config['fromEmail'] = getenv('email.fromEmail');
         $config['fromName'] = getenv('email.fromName');
 
-        pre($config);
-
         $config['charset']    = 'utf-8';
         //$config['newline']    = "\r\n";
         $config['mailType'] = 'html';
