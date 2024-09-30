@@ -4,6 +4,7 @@ import mod_xml_soup
 import mod_class
 import mod_cited
 import database
+import requests
 
 diretorio = '/data/Brapci3.1/bots/ROBOTi'
 os.chdir(diretorio)
@@ -61,6 +62,13 @@ def updateCited(ID):
 
     return total
 
+def updateCitedClassification(ID):
+    # URL que deseja acessar
+    url = f"https://cip.brapci.inf.br/api/brapci/get/v1/{ID}}"
+
+    # Envia a solicitação GET para a URL
+    response = requests.get(url)
+
 def autoHarvesting():
     qr = "select ID from brapci_elastic.dataset where cited_total = -1 and CLASS = 'Article' "
     qr += " and JOURNAL = 16 "
@@ -74,6 +82,7 @@ def autoHarvesting():
             print("======================")
             processID(ID)
             updateCited(ID)
+            updateCitedClassification(ID)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
@@ -83,3 +92,4 @@ if (len(sys.argv) > 1):
         autoHarvesting()
     else:
         processID(ID)
+        updateCitedClassification(ID)
