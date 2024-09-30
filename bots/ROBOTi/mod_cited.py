@@ -350,14 +350,14 @@ def register(ID,REF):
     qr = "select * from brapci_cited.cited_article "
     qr += f" where ca_text = '{REF}' "
     qr += f" and ca_rdf = {ID}"
+    print(qr)
+    x=a
     row = database.query(qr)
     if not row:
         qi = "insert into brapci_cited.cited_article "
         qi += "(ca_rdf, ca_text, ca_status) "
         qi += " values "
         qi += f"('{ID}','{REF}',0)"
-        print(qi)
-        x=a
         try:
             database.insert(qi)
         except Exception as e:
