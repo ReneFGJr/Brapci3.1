@@ -64,6 +64,7 @@ def categorizeCited():
         message += 'Quanto mais adequado a referência, maior será o seu grau de certeza. '
         message += 'Seja Claro e Específico na analise. '
         message += 'Responda apenas o tipo, ponto e virgula e o ano da publicação, ponto e virgula e um valor entre 0 a 9 para o grau de certeza. '
+        message += 'Caso não consiga reconhecer a referência responda como "9999;NI;9". '
         message += 'A referência é: '
         message += line[1]
         ID = line[0]
