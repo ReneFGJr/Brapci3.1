@@ -72,7 +72,7 @@ class Email extends Model
         $config['SMTPHost'] = getenv('email.stmp');
         $config['SMTPUser'] = getenv('email.user_auth');
         $config['SMTPPass'] = getenv('email.password');
-        $config['SMTPPort'] = getenv('email.stmp_port');
+        $config['SMTPPort'] = (int)getenv('email.stmp_port');
         $cofngi['SMTPCrypto'] = '';
         $config['fromEmail'] = getenv('email.fromEmail');
         $config['fromName'] = getenv('email.fromName');
