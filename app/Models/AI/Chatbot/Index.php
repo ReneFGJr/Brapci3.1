@@ -115,7 +115,7 @@ class Index extends Model
 			foreach ($RSP as $id => $txt) {
 				$response_data = json_decode($txt . '}', true);
 				if (isset($response_data['response'])) {
-					$TXT .= (string)$response_data['response'];
+					$TXT .= (string)$response_data['response'].' ';
 				}
 			}
 		} else {
