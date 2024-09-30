@@ -53,12 +53,10 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4, $d5='',$d6='')
     {
         /* NAO USADO PARA AS APIS */
-        /*
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Origin', '*');
         header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        */
 
         if ((get("test") == '') and (get("code") == '')) {
             if (($d2 != 'import') and ($d2 != 'in') and ($d2 != 'searchSelect')) {
