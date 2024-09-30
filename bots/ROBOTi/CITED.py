@@ -51,7 +51,7 @@ def getCITED(url,ID):
 print("RASPAGEM DE CITACOES 1.1")
 
 def autoHarvesting():
-    qr = "select * from brapci_cited.dataset where cited_total = 0 and CLASS = 'Article' order by id_ds desc limit 10"
+    qr = "select * from brapci_elastic.dataset where cited_total = 0 and CLASS = 'Article' order by id_ds desc limit 10"
     row = database.query(qr)
 
     for line in row:
