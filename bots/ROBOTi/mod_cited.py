@@ -80,6 +80,10 @@ def categorizeCited():
 
         print("Resposta",RSP)
 
+        if RSP.length() > 30:
+            print("ERRO")
+            sys.exit()
+
         tipo = DDD[0]
         year = DDD[1]
         nivel = DDD[2]
