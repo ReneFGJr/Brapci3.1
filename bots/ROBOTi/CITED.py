@@ -50,8 +50,19 @@ def getCITED(url,ID):
 
 print("RASPAGEM DE CITACOES 1.1")
 
+def autoHarvesting():
+    qr = "select * from brapci_cited.dataset where cited_total = 0 and CLASS = 'Article' order by id_ds desc limit 10"
+    row = database.query(qr)
+
+    for line in row:
+        print(line)
+        print("======================")
+
 if (len(sys.argv) > 1):
     parm = sys.argv
     ID = parm[1]
 
-    processID(ID)
+    if (ID == 'auto'):
+
+    else:
+        processID(ID)
