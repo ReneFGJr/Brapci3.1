@@ -135,7 +135,7 @@ def longCited():
 
 def locate():
     print("DOI - Localizando DOI nas referencias")
-    qr = "select * from brapci_cited.cited_article "
+    qr = "select id_ca, ca_text, ca_doi from brapci_cited.cited_article "
     qr += " where (ca_doi = '' or ca_doi is null) "
     qr += " and ca_text like '%10.%' "
     qr += " and ca_text like '%doi%' "
@@ -143,7 +143,7 @@ def locate():
     row = database.query(qr)
 
     for line in row:
-        cite = line[12]
+        cite = line[1]
         DOI = mod_doi.encontrar_doi(cite)
 
         if (DOI != ''):
