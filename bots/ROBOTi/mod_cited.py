@@ -151,7 +151,6 @@ def locate():
             print("===>",cite)
             id = line[0]
             update_cited_doi(id,DOI)
-            sys.exit()
 
 def update_cited_doi(id,DOI):
     qu = "update brapci_cited.cited_article "
