@@ -74,8 +74,8 @@ def autoHarvesting():
 if (len(sys.argv) > 1):
     parm = sys.argv
     ID = parm[1]
-
-    if (ID == 'auto'):
+    print("Harvesting Cited in ",ID)
+    if (ID === 'auto'):
         autoHarvesting()
     else:
         processID(ID)
