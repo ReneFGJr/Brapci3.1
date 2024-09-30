@@ -90,6 +90,8 @@ class Email extends Model
             echo "Logo not found";
         }
 
+        pre($text);
+
         $this->email->initialize($config);
 
         $this->email->setFrom('brapcici@gmail.com', 'Brapci');
