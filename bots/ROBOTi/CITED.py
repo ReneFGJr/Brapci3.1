@@ -54,12 +54,12 @@ def updateCited(ID):
     qr = f"SELECT count(*) as total FROM brapci_cited.cited_article WHERE `ca_rdf` = {ID};"
     row = database.query(qr)
 
-    print(row)
     total = row[0][0]
-    print("Total ",total)
 
     qu = f"update brapci_elastic.dataset set cited_total = {total} WHERE `ID` = {ID};"
     row = database.update(qu)
+
+    return total
 
 def autoHarvesting():
     qr = "select ID from brapci_elastic.dataset where cited_total = -1 and CLASS = 'Article' order by id_ds desc limit 10"
@@ -68,9 +68,10 @@ def autoHarvesting():
     for line in row:
         print(line)
         ID = line[0]
-        print("======================")
-        processID(ID)
-        updateCited(ID)
+        if updateCited(ID) == 0:
+            print("======================")
+            processID(ID)
+            updateCited(ID)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
