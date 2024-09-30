@@ -67,6 +67,7 @@ def autoHarvesting():
 
     for line in row:
         print(line)
+        ID = line[0]
         print("======================")
         processID(ID)
         updateCited(ID)
