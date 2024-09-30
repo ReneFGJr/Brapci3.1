@@ -16,7 +16,7 @@ export class OllamaService {
   sendMessage(message: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.apiKey}`,
+      //Authorization: `Bearer ${this.apiKey}`,
     });
 
     const body = {

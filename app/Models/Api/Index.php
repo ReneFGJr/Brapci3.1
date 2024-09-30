@@ -83,7 +83,7 @@ class Index extends Model
                 $RSP['message'] = 'Service OK!';
                 $RSP = $AI->index($d2,$d3);
                 echo json_encode($RSP);
-                exit;
+                $sx = '';
                 break;
             case 'status':
                 $RSP = [];
