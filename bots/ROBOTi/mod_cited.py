@@ -80,7 +80,7 @@ def categorizeCited():
 
         print("Resposta",RSP)
 
-        if len(RSP) > 30:
+        if len(DDD) != 3:
             print("ERRO")
             qu = f"update brapci_cited.cited_article set ca_status = 9,  ca_tipo = '0', ca_ai = 1 where id_ca = {ID}"
             database.update(qu)
