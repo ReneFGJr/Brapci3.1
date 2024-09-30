@@ -342,7 +342,7 @@ def year_identify(referencia):
         return 9999  # Caso não encontre, retorna None
 
 def delete(ID):
-    qr = "delete from brapci_cited.cited_article where ca_rdf = "+ID
+    qr = f"delete from brapci_cited.cited_article where ca_rdf = {ID}"
     row = database.query(qr)
 
 
