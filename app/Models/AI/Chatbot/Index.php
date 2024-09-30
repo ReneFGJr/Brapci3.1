@@ -118,11 +118,14 @@ class Index extends Model
 					$TXT .= (string)$response_data['response'];
 				}
 			}
+			$dd = [];
+			$dd['message'] = $TXT;
+			return $dd;
 		} else {
 			echo json_encode(['message'=>'Pergunta vazia']);
 			exit;
 		}
-
+		/*************** */
 		echo $TXT;
 
 		$TXT = troca($TXT,chr(13),'#');
