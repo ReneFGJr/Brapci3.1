@@ -63,6 +63,6 @@ if (len(sys.argv) > 1):
     ID = parm[1]
 
     if (ID == 'auto'):
-
+        autoHarvesting()
     else:
         processID(ID)
