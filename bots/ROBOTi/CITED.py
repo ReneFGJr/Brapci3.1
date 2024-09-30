@@ -64,7 +64,7 @@ def updateCited(ID):
 
 def updateCitedClassification(ID):
     # URL que deseja acessar
-    url = f"https://cip.brapci.inf.br/api/brapci/get/v1/{ID}}"
+    url = f"https://cip.brapci.inf.br/api/brapci/get/v1/{ID}"
 
     # Envia a solicitação GET para a URL
     response = requests.get(url)
