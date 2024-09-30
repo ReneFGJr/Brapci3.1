@@ -50,6 +50,8 @@ def getCITED(url,ID,cites = False):
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
 
+    x=a
+
 
 print("RASPAGEM DE CITACOES 1.1")
 
