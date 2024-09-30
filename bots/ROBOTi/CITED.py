@@ -79,7 +79,7 @@ def autoHarvesting():
         print(line)
         ID = line[0]
         if updateCited(ID) == 0:
-            print("======================")
+            print("======================",ID)
             processID(ID)
             updateCited(ID)
             updateCitedClassification(ID)
