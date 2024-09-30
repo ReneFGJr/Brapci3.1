@@ -44,6 +44,7 @@ def getCITED(url,ID):
             for meta in cited:
                 REF = meta.get('content')
                 REF = REF.replace("'","´")
+                print("== ==",ID,REF)
                 mod_cited.register(ID,REF)
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
