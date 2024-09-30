@@ -50,13 +50,24 @@ def getCITED(url,ID):
 
 print("RASPAGEM DE CITACOES 1.1")
 
+def updateCited(ID):
+    qr = f"SELECT count(*) as total FROM `cited_article` WHERE `ca_rdf` = {ID};"
+    row = database.query(qr)
+    total = row[0][0]
+    print("Total ",total)
+
+    qu = f"update brapci_elastic.dataset set cited_total = {total} WHERE `ID` = {ID};"
+    row = database.update(qu)
+
 def autoHarvesting():
-    qr = "select ID from brapci_elastic.dataset where cited_total = 0 and CLASS = 'Article' order by id_ds desc limit 10"
+    qr = "select ID from brapci_elastic.dataset where cited_total = -1 and CLASS = 'Article' order by id_ds desc limit 10"
     row = database.query(qr)
 
     for line in row:
         print(line)
         print("======================")
+        processID(ID)
+        updateCited(ID)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
