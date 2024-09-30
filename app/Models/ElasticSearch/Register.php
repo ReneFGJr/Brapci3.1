@@ -62,7 +62,8 @@ class Register extends Model
         $dtt = $this->countAllResults();
         //$dtt = $this->countAllNews();
 
-        $dta = $this->where('new',1)
+        $dta = $this
+            ->where('new',1)
             ->where('use',0)
             ->orderBy('ID')
             ->FindAll($limit);
