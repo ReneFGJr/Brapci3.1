@@ -1,22 +1,21 @@
-<div *ngFor="let item of data">
-{{item | json}}
-</div>
-<div class="timeline">
-  <ng-container *ngFor="let item of data; let i = index">
-  {{item | json}}
-      <div
-        class="container"
-        [ngClass]="{ left: i % 2 === 0, right: i % 2 !== 0 }"
-      >
-        <div class="date">{{ item.started }}</div>
-        <div class="content">
-          <ng-container *ngFor="let itemX of data">
-            <div *ngIf="item.started === itemX.started">
-              <h2>{{ itemX.journal }}</h2>
-              <p>Year of foundation: {{ itemX.started }}</p>
-            </div>
-          </ng-container>
-        </div>
+<div class="container">
+  <div
+    *ngFor="let item of data; let i = index"
+    class="border-bottom border-secondary mb-3 row"
+  >
+    <div class="col-lg-6 text-end"
+    *ngIf="{ left: i % 2 === 0, right: i % 2 !== 0 }">{{item.year}}</div>
+    <div class="col-lg-6">{{item.journals | json}}</div>
+
+    <div
+      class="containerX col-lg-6"
+      *ngIf="{ left: i % 2 === 0, right: i % 2 !== 0 }"
+    >
+      {{ i }}
+      <h1 class="date">{{ item.year }}</h1>
+      <div class="col-lg-6" *ngIf="{ left: i % 2 === 0, right: i % 2 !== 0 }">
+        {{ item | json }}
       </div>
-    </ng-container>
+    </div>
+  </div>
 </div>
