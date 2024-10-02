@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $DBGroup          = 'default';
+    protected $DBGroup          = 'openaire';
     protected $table            = 'indices';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
