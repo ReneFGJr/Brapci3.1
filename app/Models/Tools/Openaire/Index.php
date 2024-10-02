@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Index extends Model
 {
     protected $DBGroup          = 'openaire';
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $table            = 'openaire';
+    protected $primaryKey       = 'id_openaire';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
