@@ -6,8 +6,8 @@ use CodeIgniter\Model;
 
 class ProjectsAPIs extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'brapci_tools.api_tools_project';
+    protected $DBGroup          = 'tools';
+    protected $table            = 'api_tools_project';
     protected $primaryKey       = 'id_atp';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;

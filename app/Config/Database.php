@@ -160,6 +160,7 @@ class Database extends Config
             'rdf' => 'brapci_rdf',
             'rdfs' => 'brapci_rdf',
             'rdf2' => 'brapci_rdf',
+            'tools' => 'tools',
             'thesa' => 'thesa'
         ];
     /*
