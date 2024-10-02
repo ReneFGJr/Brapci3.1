@@ -153,6 +153,7 @@ class Database extends Config
             'icr' => 'brapci_icr',
             'oai' => 'brapci_oaipmh',
             'observatorio' => 'observatorio',
+            'openaire' => 'openaire',
             'lattes'=> 'brapci_lattes',
             'search' => 'brapci_search',
             'gev3nt'=> 'gev3nt',
