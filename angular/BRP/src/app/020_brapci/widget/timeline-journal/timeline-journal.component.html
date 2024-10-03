@@ -1,21 +1,20 @@
 <div class="container">
-  <div
-    *ngFor="let item of data; let i = index"
-    class="border-bottom border-secondary mb-3 row"
-  >
-    <div class="col-lg-6 text-end"
-    *ngIf="{ left: i % 2 === 0, right: i % 2 !== 0 }">{{item.year}}</div>
-    <div class="col-lg-6">{{item.journals | json}}</div>
-
-    <div
-      class="containerX col-lg-6"
-      *ngIf="{ left: i % 2 === 0, right: i % 2 !== 0 }"
-    >
-      {{ i }}
-      <h1 class="date">{{ item.year }}</h1>
-      <div class="col-lg-6" *ngIf="{ left: i % 2 === 0, right: i % 2 !== 0 }">
-        {{ item | json }}
-      </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <!-- partial:index.partial.html -->
+      <h1>Timeline das revistas</h1>
+      <ul>
+        <li
+          *ngFor="let item of data; let i = index"
+          style="--accent-color: #41516c"
+        >
+          <div class="date">{{ item.year }}</div>
+          <div class="descr" *ngFor="let journal of item.journals">
+            <li><a href="/#/v/{{journal.ID}}" class="link bold">{{ journal.name}}</a></li>
+          </div>
+        </li>
+      </ul>
+      <!-- partial -->
     </div>
   </div>
 </div>
