@@ -400,7 +400,6 @@ class Index extends Model
                 $a = troca($a,'#','=');
                 if (trim($a) == '') { $a = 'NnN'; }
                 try {
-                    echo '===>'.$a;
                     $mm = $au[$a];
                 } catch (Exception $e)
                     {
