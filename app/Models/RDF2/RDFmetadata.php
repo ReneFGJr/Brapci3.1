@@ -125,12 +125,8 @@ class RDFmetadata extends Model
             }
 
         $class = $dt['concept']['c_class'];
-        echo $class;
+
         switch ($class) {
-            case 'Journal':
-                $RSP = $this->metadataGeral($dt);
-                $RSP['worksID'] = [];
-                break;
             case 'Issue':
                 return $this->metadataIssue($dt);
                 break;
@@ -148,11 +144,14 @@ class RDFmetadata extends Model
             case 'Proceeding':
                 return $this->metadataWork($dt);
                 break;
+            /*************** Journals */
             case 'Journals':
                 return $this->metadataSource($dt);
                 break;
             case 'Subject':
-                return $this->metadataSubject($dt);
+                $RSP = $this->metadataSubject($dt);
+                $RSP['worksID'] = [];
+                return $RSP;
                 break;
             case 'Section':
                 return $this->metadataGeral($dt);
