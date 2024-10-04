@@ -170,7 +170,7 @@ class Sources extends Model
             $dt = $this->select($cp)
                 ->where('jnl_collection', 'JA')
                 ->Orwhere('jnl_collection', 'JE')
-                ->orderby('jnl_ano_inicio')
+                ->orderby('jnl_ano_inicio desc')
                 ->findAll();
 
             switch($tp)
