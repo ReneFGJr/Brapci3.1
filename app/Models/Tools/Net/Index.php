@@ -393,6 +393,8 @@ class Index extends Model
                 }
             }
 
+            pre($au);
+
             for ($a = 0; $a < count($au); $a++) {
                 if (isset($au[$a])) {
                     $mm = $au[$a];
