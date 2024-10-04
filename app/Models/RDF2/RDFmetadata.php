@@ -146,11 +146,12 @@ class RDFmetadata extends Model
                 break;
             /*************** Journals */
             case 'Journals':
-                return $this->metadataSource($dt);
+                $RSP = $this->metadataSource($dt);
+                $RSP['worksID'] = [];
+                return $RSP;
                 break;
             case 'Subject':
                 $RSP = $this->metadataSubject($dt);
-                $RSP['worksID'] = [];
                 return $RSP;
                 break;
             case 'Section':
