@@ -397,6 +397,7 @@ class Index extends Model
             }
 
             for ($a = 0; $a < count($au); $a++) {
+                $a = troca($a,'#','=');
                 if (trim($a) == '') { $a = 'NnN'; }
                 try {
                     $mm = $au[$a];
