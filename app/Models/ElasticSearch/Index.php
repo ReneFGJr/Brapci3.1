@@ -115,6 +115,10 @@ class Index extends Model
 		return $sx;
 	}
 
+	function workdID($id) {
+		return [];
+	}
+
 	function problems($d1, $d2)
 	{
 		$RDF = new \App\Models\Rdf\RDF();
