@@ -4,6 +4,8 @@ namespace App\Models\Tools\Net;
 
 use CodeIgniter\Model;
 
+use function RectorPrefix20220609\dump_node;
+
 class Index extends Model
 {
     protected $DBGroup          = 'default';
@@ -397,6 +399,7 @@ class Index extends Model
             for ($a = 0; $a < count($au); $a++) {
                 if (trim($a) == '') { $a = 'NnN'; }
                 try {
+                    dump_node($a);
                     pre($a,false);
                     $mm = $au[$a];
                 } catch (Exception $e) { echo $e->getMessage(); exit; }
