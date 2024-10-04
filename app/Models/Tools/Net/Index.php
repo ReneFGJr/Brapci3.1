@@ -397,6 +397,7 @@ class Index extends Model
             for ($a = 0; $a < count($au); $a++) {
                 if (trim($a) == '') { $a = 'NnN'; }
                 try {
+                    pre($a,false);
                     $mm = $au[$a];
                 } catch (Exception $e) { echo $e->getMessage(); exit; }
 
