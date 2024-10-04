@@ -126,6 +126,9 @@ class RDFmetadata extends Model
 
         $class = $dt['concept']['c_class'];
         switch ($class) {
+            case 'Journal':
+                $RSP = $this->metadataGeral($dt);
+                break;
             case 'Issue':
                 return $this->metadataIssue($dt);
                 break;

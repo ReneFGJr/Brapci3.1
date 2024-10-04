@@ -79,6 +79,7 @@ import { IcrProducaoAnoComponent } from './widget/icr-producao-ano/icr-producao-
 import { IcrProducaoJournalAuthorComponent } from './widget/icr-producao-journal-author/icr-producao-journal-author.component';
 import { TimelineJournalComponent } from './widget/timeline-journal/timeline-journal.component';
 import { TimelineComponent } from './page/timeline/timeline.component';
+import { LabelComponent } from './widget/label/label.component';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,7 @@ import { TimelineComponent } from './page/timeline/timeline.component';
     IcrProducaoJournalAuthorComponent,
     TimelineJournalComponent,
     TimelineComponent,
+    LabelComponent,
   ],
   imports: [
     CommonModule,
