@@ -149,6 +149,7 @@ class RDFmetadata extends Model
                 $RSP = $this->metadataSource($dt);
                 $Elastic = new \App\Models\ElasticSearch\Index();
                 $RSP['worksID'] = $Elastic->workdID($ID);
+                return $RSP;
                 break;
             case 'Subject':
                 $RSP = $this->metadataSubject($dt);
