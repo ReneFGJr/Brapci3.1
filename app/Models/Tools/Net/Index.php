@@ -402,7 +402,10 @@ class Index extends Model
                     dump_node($a);
                     pre($a,false);
                     $mm = $au[$a];
-                } catch (Exception $e) { echo $e->getMessage(); exit; }
+                } catch (Exception $e)
+                    {
+                        $mm=0;
+                     }
 
                 if (isset($ns[$mm])) {
                     $ns[$mm] = $ns[$mm] + 1;
