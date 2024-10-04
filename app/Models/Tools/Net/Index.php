@@ -413,13 +413,15 @@ class Index extends Model
                     } else {
                         /*************** Outros autores ***********************/
                         for ($b = 0; $b < $a; $b++) {
-                            $ma = $au[$b];
-                            if (isset($nx[$ma][$mm])) {
-                                $nx[$ma][$mm] = $nx[$ma][$mm] + 1;
-                                $nx[$mm][$ma] = $nx[$mm][$ma] + 1;
-                            } else {
-                                $nx[$ma][$mm] = 1;
-                                $nx[$mm][$ma] = 1;
+                            if (isset($au['$b'])) {
+                                $ma = $au[$b];
+                                if (isset($nx[$ma][$mm])) {
+                                    $nx[$ma][$mm] = $nx[$ma][$mm] + 1;
+                                    $nx[$mm][$ma] = $nx[$mm][$ma] + 1;
+                                } else {
+                                    $nx[$ma][$mm] = 1;
+                                    $nx[$mm][$ma] = 1;
+                                }
                             }
                         }
                     }
