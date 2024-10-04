@@ -116,8 +116,8 @@ ul li .date::after {
 /* title descr */
 ul li .title,
 ul li .descr {
-  background: var(--bgColor);
   position: relative;
+  padding: 6px 0px 0px 0px;
   padding-inline: 1.5rem;
 }
 ul li .title {
@@ -133,17 +133,6 @@ ul li .descr {
 
 /* shadows */
 ul li .title::before,
-ul li .descr::before {
-  content: "";
-  position: absolute;
-  width: 90%;
-  height: 0.5rem;
-  background: rgba(0, 0, 0, 0.5);
-  left: 50%;
-  border-radius: 50%;
-  filter: blur(4px);
-  transform: translate(-50%, 50%);
-}
 ul li .title::before {
   bottom: calc(100% + 0.125rem);
 }

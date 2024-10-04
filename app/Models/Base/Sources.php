@@ -166,7 +166,7 @@ class Sources extends Model
     # API
     function timeline($tp=1)
         {
-            $cp = 'jnl_name as journal, jnl_ano_inicio as started, id_jnl as ID';
+            $cp = 'jnl_name as journal, jnl_ano_inicio as started, jnl_frbr as ID';
             $dt = $this->select($cp)
                 ->where('jnl_collection', 'JA')
                 ->Orwhere('jnl_collection', 'JE')
