@@ -395,6 +395,7 @@ class Index extends Model
             }
 
             for ($a = 0; $a < count($au); $a++) {
+                if (trim($a) == '') { $a = 'NnN'; }
                 $mm = $au[$a];
                 if (isset($ns[$mm])) {
                     $ns[$mm] = $ns[$mm] + 1;
