@@ -128,6 +128,7 @@ class RDFmetadata extends Model
         switch ($class) {
             case 'Journal':
                 $RSP = $this->metadataGeral($dt);
+                $RSP['worksID'] = [];
                 break;
             case 'Issue':
                 return $this->metadataIssue($dt);
