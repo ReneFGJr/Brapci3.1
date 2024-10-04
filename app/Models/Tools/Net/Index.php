@@ -245,10 +245,11 @@ class Index extends Model
                 $nn = $an[$z];
                 if (!isset($ax[$nn])) {
                     $nn = trim($nn);
-                    if ($nn != '') {
-                        array_push($ai, $nn);
-                        $ax[$nn] = $nn;
-                    }
+                    if ($nn != '')
+                        {
+                            array_push($ai, $nn);
+                            $ax[$nn] = $nn;
+                        }
                 }
             }
 
@@ -393,38 +394,32 @@ class Index extends Model
                 }
             }
 
-            pre($au);
-
             for ($a = 0; $a < count($au); $a++) {
-                if (isset($au[$a])) {
-                    $mm = $au[$a];
-                    if (isset($ns[$mm])) {
-                        $ns[$mm] = $ns[$mm] + 1;
+                $mm = $au[$a];
+                if (isset($ns[$mm])) {
+                    $ns[$mm] = $ns[$mm] + 1;
+                } else {
+                    $ns[$mm] = 1;
+                    array_push($nf, $mm);
+                }
+                /* monta matriz */
+                if ($a == 0) {
+                    /**************** Primeiro Autor **********************/
+                    if (isset($nx[$au[0]][$au[0]])) {
+                        $nx[$au[0]][$au[0]] = $nx[$au[0]][$au[0]] + 1;
                     } else {
-                        $ns[$mm] = 1;
-                        array_push($nf, $mm);
+                        $nx[$au[0]][$au[0]] = 1;
                     }
-                    /* monta matriz */
-                    if ($a == 0) {
-                        /**************** Primeiro Autor **********************/
-                        if (isset($nx[$au[0]][$au[0]])) {
-                            $nx[$au[0]][$au[0]] = $nx[$au[0]][$au[0]] + 1;
+                } else {
+                    /*************** Outros autores ***********************/
+                    for ($b = 0; $b < $a; $b++) {
+                        $ma = $au[$b];
+                        if (isset($nx[$ma][$mm])) {
+                            $nx[$ma][$mm] = $nx[$ma][$mm] + 1;
+                            $nx[$mm][$ma] = $nx[$mm][$ma] + 1;
                         } else {
-                            $nx[$au[0]][$au[0]] = 1;
-                        }
-                    } else {
-                        /*************** Outros autores ***********************/
-                        for ($b = 0; $b < $a; $b++) {
-                            if (isset($au['$b'])) {
-                                $ma = $au[$b];
-                                if (isset($nx[$ma][$mm])) {
-                                    $nx[$ma][$mm] = $nx[$ma][$mm] + 1;
-                                    $nx[$mm][$ma] = $nx[$mm][$ma] + 1;
-                                } else {
-                                    $nx[$ma][$mm] = 1;
-                                    $nx[$mm][$ma] = 1;
-                                }
-                            }
+                            $nx[$ma][$mm] = 1;
+                            $nx[$mm][$ma] = 1;
                         }
                     }
                 }
