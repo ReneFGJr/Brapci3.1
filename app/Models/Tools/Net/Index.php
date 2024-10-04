@@ -399,8 +399,6 @@ class Index extends Model
             for ($a = 0; $a < count($au); $a++) {
                 if (trim($a) == '') { $a = 'NnN'; }
                 try {
-                    dump_node($a);
-                    pre($a,false);
                     $mm = $au[$a];
                 } catch (Exception $e)
                     {
