@@ -76,7 +76,6 @@ class Certificados extends Model
     public function certificado($id=0)
         {
             $dt=$this->first();
-            pre($dt);
             $this->emite_certificado("RENE",8,$dt);
         }
 
