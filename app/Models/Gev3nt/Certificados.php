@@ -160,7 +160,7 @@ class Certificados extends Model
         $html = '<span>&nbsp;PAGE 1&nbsp;</span>
                 <p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">
                 CERTIFICADO.</p>
-                <table width="300px"><tr><td style="text-align: justify;">'.$textoCertificado. '</td></tr></table>';
+                <table width="320px"><tr><td style="text-align: justify;">'.$textoCertificado. '</td></tr></table>';
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
