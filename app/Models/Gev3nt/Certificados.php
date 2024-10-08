@@ -158,15 +158,6 @@ class Certificados extends Model
         );
 
 
-        // add a page
-        $pdf->AddPage();
-
-        // Print a text
-        $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 2&nbsp;</span>';
-        $pdf->writeHTML($html, true, false, true, false,
-            ''
-        );
-
         // --- example with background set on page ---
 
         // remove default header
