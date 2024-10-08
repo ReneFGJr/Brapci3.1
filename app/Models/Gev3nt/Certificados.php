@@ -54,6 +54,8 @@ class Certificados extends Model
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         dircheck('_repository/g3vent/certificados');
+        dircheck('.tmp');
+        dircheck('.tmp/qrcode/');
         // Caminho da imagem de fundo do certificado
         $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
@@ -73,7 +75,7 @@ class Certificados extends Model
         $qrCodePng = $writer->write($qrCode)->getString();
 
         // Caminho temporário para salvar o QR Code gerado
-        $caminhoQrCode = '.tmp/qr_' . time() . '.png';
+        $caminhoQrCode = '.tmp/qrcode/qr_' . time() . '.png';
         file_put_contents($caminhoQrCode, $qrCodePng);
 
         // Inicializar o TCPDF
@@ -102,7 +104,7 @@ class Certificados extends Model
         //$pdf->Image($caminhoQrCode, 10, 250, 30, 30, 'PNG');
 
         // Caminho para salvar o certificado
-        $caminhoCertificado = WRITEPATH . 'uploads/certificado_' . time() . '.pdf';
+        $caminhoCertificado = '.tmp/certificado/certificado_' . time() . '.pdf';
 
         // Salvar o PDF no servidor
         $pdf->Output($caminhoCertificado, 'F');
