@@ -161,8 +161,9 @@ class Certificados extends Model
                 <p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">
                 CERTIFICADO.</p>
                 <table width="320px"><tr><td style="text-align: justify;">'.$textoCertificado. '</td></tr></table>';
-
-        $html .= $dt['e_cidade'].' '.substr($dt['e_data'],8,2).' '.mes_extenso(substr($dt['e_data'],5,2)).' '.substr($dt['e_data'],0,4);
+        $day = round(substr($dt['e_data'], 8, 2));
+        if ($day == 1) { $day .= 'º'; }
+        $html .= $dt['e_cidade'].' '.$day.' '.mes_extenso(substr($dt['e_data'],5,2)).' '.substr($dt['e_data'],0,4);
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
