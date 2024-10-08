@@ -66,7 +66,6 @@ class Certificados extends Model
         $textoCertificado = "Certificamos que $nomeParticipante participou do evento com uma carga horária de $cargaHoraria horas.";
 
         // Criar um QR Code
-        /*
         $qrCode = new QrCode($textoCertificado);
         $qrCode->setSize(100);
         $qrCode->setMargin(10);
@@ -76,7 +75,6 @@ class Certificados extends Model
         // Caminho temporário para salvar o QR Code gerado
         $caminhoQrCode = '.tmp/qr_' . time() . '.png';
         file_put_contents($caminhoQrCode, $qrCodePng);
-        */
 
         // Inicializar o TCPDF
         $pdf = new TCPDF();
