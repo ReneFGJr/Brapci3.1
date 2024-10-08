@@ -1,0 +1,10 @@
+        /* Remover bullets e alinhar à esquerda */
+        .no-bullets {
+            list-style-type: none; /* Remove o bullet */
+            padding-left: 0; /* Remove o espaçamento à esquerda */
+            display: flex; /* Exibe os itens em linha */
+        }
+
+        .no-bullets li {
+            margin-right: 5px; /* Espaçamento entre os itens */
+        }

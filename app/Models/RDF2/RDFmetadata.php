@@ -218,7 +218,37 @@ class RDFmetadata extends Model
         $neta = [];
         $netd = [];
         $node = [];
+        $IDs = [];
+        $Photo = [];
 
+        /************************************** DT */
+        foreach($dt['data'] as $id=>$line)
+            {
+            $propertiesMap = [
+                'hasLattes' => 'lattes',
+                'hasOrcID' => 'orcid',
+                'hasGender' => 'gender',
+                'hasOpenAlexID' => 'OpenAlex',
+                'hasGoogleScholar' => 'GoogleScholar'
+            ];
+
+            foreach ($propertiesMap as $property => $key) {
+                if ($line['Property'] === $property) {
+                    $IDs[] = [$key => $line['Caption']];
+                }
+            }
+        }
+
+        /************************************** Photo */
+        if (isset($IDs['gender']))
+            {
+
+            } else {
+
+            }
+
+
+        /************************************** Data */
         $dta = get("di");
         if ($dta == '') {
             $dta = 1990;
@@ -363,6 +393,8 @@ class RDFmetadata extends Model
         }
         $dr['works'] = $works;
         $dr['coauthors'] = $coath;
+
+        $dr['IDs'] = $IDs;
 
         /************ Grafico Coautorias */
         arsort($coauthors);

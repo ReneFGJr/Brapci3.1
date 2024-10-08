@@ -1,0 +1,38 @@
+<ul class="no-bullets d-flex">
+  <!-- Loop pelos itens da lista icones -->
+  <li *ngFor="let item of icones" class="mr-3" title="Ícone de gênero">
+    <!-- Verifica se o gênero é Masculino -->
+    <ng-container *ngIf="item.gender == 'Masculino'">
+      <i class="bi bi-gender-male big" style="width: 150px;" title="Gênero Masculino"></i>
+    </ng-container>
+
+    <!-- Verifica se o gênero é Feminino -->
+    <ng-container *ngIf="item.gender == 'Feminino'">
+      <i class="bi bi-gender-female big" style="width: 150px;" title="Gênero Feminino"></i>
+    </ng-container>
+
+    <!-- Verifica se há um link para o Lattes -->
+    <ng-container *ngIf="item.lattes" class="no-bullets">
+      <a [href]="'https://lattes.cnpq.br/'+item.lattes" target="_blank" class="no-bullets link" title="Link para o Lattes">
+        <img src="/assets/icone/lattes.svg" style="height: 25px;">
+      </a>
+    </ng-container>
+
+    <!-- Verifica se há um link para o OrdID -->
+    <ng-container *ngIf="item.orcid" class="no-bullets">
+      <a [href]="'https://orcid.org/'+item.orcid" target="_blank" class="no-bullets link" title="Link para o OrcID">
+        <img src="/assets/icone/orcid.svg" style="height: 25px;">
+      </a>
+    </ng-container>
+
+    <!-- Verifica se há um link para o OrdID -->
+    <ng-container *ngIf="item.GoogleScholar" class="no-bullets">
+      <a [href]="'https://scholar.google.com.br/citations?hl=pt-BR&user='+item.GoogleScholar" target="_blank" class="no-bullets link" title="Link para o Google Acadêmico">
+        <img src="/assets/icone/googlescholar.svg" style="height: 25px;">
+      </a>
+    </ng-container>
+
+  </li>
+</ul>
+
+{{icones | json}}

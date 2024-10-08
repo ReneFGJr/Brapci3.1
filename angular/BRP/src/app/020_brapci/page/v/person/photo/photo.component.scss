@@ -1,0 +1,12 @@
+/* Estilo para a imagem de perfil */
+.profile-image {
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #302ca7;
+    //position: absolute;
+    //right: 20px; /* Alinhamento da imagem à direita */
+    //top: 60px; /* Alinhamento da imagem ao topo */
+}

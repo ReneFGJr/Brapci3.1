@@ -2,20 +2,21 @@
 <app-theme-navbar></app-theme-navbar>
 <app-authority-banner></app-authority-banner>
 <app-authority-search></app-authority-search>
-<div class="row">
-  <div class="col-12 col-lg-6">
-    <app-authority-item-list
-      [lista]="nomes"
-      *ngIf="nomes"
-    ></app-authority-item-list>
-  </div>
-  <div class="col-12 col-lg-6">
-    <app-authority-item-list
-      [lista]="corporate"
-      *ngIf="corporate"
-    ></app-authority-item-list>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <app-authority-item-list
+        [lista]="nomes"
+        *ngIf="nomes"
+      ></app-authority-item-list>
+    </div>
+    <div class="col-12 col-lg-6">
+      <app-authority-item-list
+        [lista]="corporate"
+        *ngIf="corporate"
+      ></app-authority-item-list>
+    </div>
   </div>
 </div>
-
 <div style="height: 15rem"></div>
 <app-theme-footer></app-theme-footer>
