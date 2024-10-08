@@ -55,7 +55,7 @@ class Certificados extends Model
     {
         dircheck('_repository/g3vent/certificados');
         // Caminho da imagem de fundo do certificado
-        $imagemFundo = WRITEPATH . 'uploads/imagem_fundo.jpg'; // Coloque a imagem no diretório 'writable/uploads';
+        $imagemFundo = WRITEPATH . 'uploads/imagem_fundo.jpg';
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {

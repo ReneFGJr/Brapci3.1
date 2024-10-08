@@ -59,7 +59,7 @@ class Gev3nt extends Model
             {
                 case 'certificate':
                     $Certificate = new \App\Models\Gev3nt\Certificados();
-                    echo json_encode($Certificate->certificado($d2,$d3);
+                    echo json_encode($Certificate->certificado($d2,$d3));
                     exit;
                     break;
                 case 'corporateSearch':
