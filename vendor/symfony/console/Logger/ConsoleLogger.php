@@ -29,7 +29,6 @@ class ConsoleLogger extends AbstractLogger
     public const INFO = 'info';
     public const ERROR = 'error';
 
-    private $output;
     private array $verbosityLevelMap = [
         LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
         LogLevel::ALERT => OutputInterface::VERBOSITY_NORMAL,
@@ -52,16 +51,15 @@ class ConsoleLogger extends AbstractLogger
     ];
     private bool $errored = false;
 
-    public function __construct(OutputInterface $output, array $verbosityLevelMap = [], array $formatLevelMap = [])
-    {
-        $this->output = $output;
+    public function __construct(
+        private OutputInterface $output,
+        array $verbosityLevelMap = [],
+        array $formatLevelMap = [],
+    ) {
         $this->verbosityLevelMap = $verbosityLevelMap + $this->verbosityLevelMap;
         $this->formatLevelMap = $formatLevelMap + $this->formatLevelMap;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function log($level, $message, array $context = []): void
     {
         if (!isset($this->verbosityLevelMap[$level])) {
@@ -109,9 +107,9 @@ class ConsoleLogger extends AbstractLogger
             if (null === $val || \is_scalar($val) || $val instanceof \Stringable) {
                 $replacements["{{$key}}"] = $val;
             } elseif ($val instanceof \DateTimeInterface) {
-                $replacements["{{$key}}"] = $val->format(\DateTime::RFC3339);
+                $replacements["{{$key}}"] = $val->format(\DateTimeInterface::RFC3339);
             } elseif (\is_object($val)) {
-                $replacements["{{$key}}"] = '[object '.\get_class($val).']';
+                $replacements["{{$key}}"] = '[object '.$val::class.']';
             } else {
                 $replacements["{{$key}}"] = '['.\gettype($val).']';
             }

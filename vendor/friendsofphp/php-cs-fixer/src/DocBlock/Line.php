@@ -25,10 +25,8 @@ final class Line
 {
     /**
      * The content of this line.
-     *
-     * @var string
      */
-    private $content;
+    private string $content;
 
     /**
      * Create a new line instance.
@@ -61,7 +59,7 @@ final class Line
      */
     public function containsUsefulContent(): bool
     {
-        return 0 !== Preg::match('/\\*\s*\S+/', $this->content) && '' !== trim(str_replace(['/', '*'], ' ', $this->content));
+        return Preg::match('/\*\s*\S+/', $this->content) && '' !== trim(str_replace(['/', '*'], ' ', $this->content));
     }
 
     /**
@@ -71,7 +69,7 @@ final class Line
      */
     public function containsATag(): bool
     {
-        return 0 !== Preg::match('/\\*\s*@/', $this->content);
+        return Preg::match('/\*\s*@/', $this->content);
     }
 
     /**
@@ -121,7 +119,7 @@ final class Line
     {
         $matched = Preg::match('/^(\h*\*)[^\r\n]*(\r?\n)$/', $this->content, $matches);
 
-        if (1 !== $matched) {
+        if (!$matched) {
             return;
         }
 

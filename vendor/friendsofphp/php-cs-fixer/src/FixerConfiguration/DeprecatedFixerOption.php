@@ -16,15 +16,9 @@ namespace PhpCsFixer\FixerConfiguration;
 
 final class DeprecatedFixerOption implements DeprecatedFixerOptionInterface
 {
-    /**
-     * @var FixerOptionInterface
-     */
-    private $option;
+    private FixerOptionInterface $option;
 
-    /**
-     * @var string
-     */
-    private $deprecationMessage;
+    private string $deprecationMessage;
 
     public function __construct(FixerOptionInterface $option, string $deprecationMessage)
     {
@@ -32,57 +26,36 @@ final class DeprecatedFixerOption implements DeprecatedFixerOptionInterface
         $this->deprecationMessage = $deprecationMessage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->option->getName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDescription(): string
     {
         return $this->option->getDescription();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasDefault(): bool
     {
         return $this->option->hasDefault();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDefault()
     {
         return $this->option->getDefault();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAllowedTypes(): ?array
     {
         return $this->option->getAllowedTypes();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAllowedValues(): ?array
     {
         return $this->option->getAllowedValues();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNormalizer(): ?\Closure
     {
         return $this->option->getNormalizer();

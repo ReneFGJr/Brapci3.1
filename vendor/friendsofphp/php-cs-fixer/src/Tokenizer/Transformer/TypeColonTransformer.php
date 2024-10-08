@@ -28,9 +28,6 @@ use PhpCsFixer\Tokenizer\Tokens;
  */
 final class TypeColonTransformer extends AbstractTransformer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getPriority(): int
     {
         // needs to run after ReturnRefTransformer and UseTransformer
@@ -38,17 +35,11 @@ final class TypeColonTransformer extends AbstractTransformer
         return -10;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRequiredPhpVersionId(): int
     {
-        return 70000;
+        return 7_00_00;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(Tokens $tokens, Token $token, int $index): void
     {
         if (!$token->equals(':')) {
@@ -56,6 +47,15 @@ final class TypeColonTransformer extends AbstractTransformer
         }
 
         $endIndex = $tokens->getPrevMeaningfulToken($index);
+
+        if (
+            \defined('T_ENUM') // @TODO: drop condition when PHP 8.1+ is required
+            && $tokens[$tokens->getPrevMeaningfulToken($endIndex)]->isGivenKind(T_ENUM)
+        ) {
+            $tokens[$index] = new Token([CT::T_TYPE_COLON, ':']);
+
+            return;
+        }
 
         if (!$tokens[$endIndex]->equals(')')) {
             return;
@@ -71,20 +71,11 @@ final class TypeColonTransformer extends AbstractTransformer
             $prevToken = $tokens[$prevIndex];
         }
 
-        $prevKinds = [T_FUNCTION, CT::T_RETURN_REF, CT::T_USE_LAMBDA];
-
-        if (\defined('T_FN')) { // @TODO: drop condition when PHP 7.4+ is required
-            $prevKinds[] = T_FN;
-        }
-
-        if ($prevToken->isGivenKind($prevKinds)) {
+        if ($prevToken->isGivenKind([T_FUNCTION, CT::T_RETURN_REF, CT::T_USE_LAMBDA, T_FN])) {
             $tokens[$index] = new Token([CT::T_TYPE_COLON, ':']);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCustomTokens(): array
     {
         return [CT::T_TYPE_COLON];

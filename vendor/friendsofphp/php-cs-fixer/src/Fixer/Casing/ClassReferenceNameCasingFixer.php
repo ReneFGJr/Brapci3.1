@@ -19,48 +19,45 @@ use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Analyzer\Analysis\NamespaceAnalysis;
-use PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer;
+use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\CT;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 final class ClassReferenceNameCasingFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
-            'When referencing a class it must be written using the correct casing.',
+            'When referencing an internal class it must be written using the correct casing.',
             [
                 new CodeSample("<?php\nthrow new \\exception();\n"),
             ]
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_STRING);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
-        $namespacesAnalyzer = new NamespacesAnalyzer();
+        $namespaceUsesAnalyzer = new NamespaceUsesAnalyzer();
         $classNames = $this->getClassNames();
 
-        foreach ($namespacesAnalyzer->getDeclarations($tokens) as $namespace) {
+        foreach ($tokens->getNamespaceDeclarations() as $namespace) {
+            $uses = [];
+
+            foreach ($namespaceUsesAnalyzer->getDeclarationsInNamespace($tokens, $namespace) as $use) {
+                $uses[strtolower($use->getShortName())] = true;
+            }
+
             foreach ($this->getClassReference($tokens, $namespace) as $reference) {
                 $currentContent = $tokens[$reference]->getContent();
                 $lowerCurrentContent = strtolower($currentContent);
 
-                if (isset($classNames[$lowerCurrentContent]) && $currentContent !== $classNames[$lowerCurrentContent]) {
+                if (isset($classNames[$lowerCurrentContent]) && $currentContent !== $classNames[$lowerCurrentContent] && !isset($uses[$lowerCurrentContent])) {
                     $tokens[$reference] = new Token([T_STRING, $classNames[$lowerCurrentContent]]);
                 }
             }
@@ -70,6 +67,7 @@ final class ClassReferenceNameCasingFixer extends AbstractFixer
     private function getClassReference(Tokens $tokens, NamespaceAnalysis $namespace): \Generator
     {
         static $notBeforeKinds;
+        static $blockKinds;
 
         if (null === $notBeforeKinds) {
             $notBeforeKinds = [
@@ -78,6 +76,7 @@ final class ClassReferenceNameCasingFixer extends AbstractFixer
                 T_CASE, // PHP 8.1 trait enum-case
                 T_CLASS,
                 T_CONST,
+                T_DOUBLE_ARROW,
                 T_DOUBLE_COLON,
                 T_FUNCTION,
                 T_INTERFACE,
@@ -85,8 +84,21 @@ final class ClassReferenceNameCasingFixer extends AbstractFixer
                 T_TRAIT,
             ];
 
+            if (\defined('T_NULLSAFE_OBJECT_OPERATOR')) {  // @TODO: drop condition when PHP 8.0+ is required
+                $notBeforeKinds[] = T_NULLSAFE_OBJECT_OPERATOR;
+            }
+
             if (\defined('T_ENUM')) { // @TODO: drop condition when PHP 8.1+ is required
                 $notBeforeKinds[] = T_ENUM;
+            }
+        }
+
+        if (null === $blockKinds) {
+            $blockKinds = ['before' => [','], 'after' => [',']];
+
+            foreach (Tokens::getBlockEdgeDefinitions() as $definition) {
+                $blockKinds['before'][] = $definition['start'];
+                $blockKinds['after'][] = $definition['end'];
             }
         }
 
@@ -104,6 +116,8 @@ final class ClassReferenceNameCasingFixer extends AbstractFixer
             }
 
             $prevIndex = $tokens->getPrevMeaningfulToken($index);
+            $nextIndex = $tokens->getNextMeaningfulToken($index);
+
             $isNamespaceSeparator = $tokens[$prevIndex]->isGivenKind(T_NS_SEPARATOR);
 
             if (!$isNamespaceSeparator && !$namespaceIsGlobal) {
@@ -120,7 +134,11 @@ final class ClassReferenceNameCasingFixer extends AbstractFixer
                 continue;
             }
 
-            if (!$tokens[$prevIndex]->isGivenKind([T_NEW]) && $tokens[$nextIndex]->equals('(')) {
+            if ($tokens[$prevIndex]->equalsAny($blockKinds['before']) && $tokens[$nextIndex]->equalsAny($blockKinds['after'])) {
+                continue;
+            }
+
+            if (!$tokens[$prevIndex]->isGivenKind(T_NEW) && $tokens[$nextIndex]->equalsAny(['(', ';', [T_CLOSE_TAG]])) {
                 continue;
             }
 
@@ -128,6 +146,9 @@ final class ClassReferenceNameCasingFixer extends AbstractFixer
         }
     }
 
+    /**
+     * @return array<string, string>
+     */
     private function getClassNames(): array
     {
         static $classes = null;

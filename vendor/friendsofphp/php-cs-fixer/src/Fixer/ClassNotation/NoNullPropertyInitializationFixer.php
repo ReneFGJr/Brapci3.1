@@ -25,9 +25,6 @@ use PhpCsFixer\Tokenizer\Tokens;
  */
 final class NoNullPropertyInitializationFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -51,24 +48,18 @@ class Foo {
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isAnyTokenKindsFound([T_CLASS, T_TRAIT]) && $tokens->isAnyTokenKindsFound([T_PUBLIC, T_PROTECTED, T_PRIVATE, T_VAR, T_STATIC]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         $inClass = [];
         $classLevel = 0;
 
         for ($index = 0, $count = $tokens->count(); $index < $count; ++$index) {
-            if ($tokens[$index]->isClassy()) {
+            if ($tokens[$index]->isGivenKind([T_CLASS, T_TRAIT])) { // Enums and interfaces do not have properties
                 ++$classLevel;
                 $inClass[$classLevel] = 1;
 

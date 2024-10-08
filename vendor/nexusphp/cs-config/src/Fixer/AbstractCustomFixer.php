@@ -32,12 +32,9 @@ abstract class AbstractCustomFixer extends AbstractFixer
         $namespace = static::$namespace ?? $nameParts[0];
         $name = substr(end($nameParts), 0, -\strlen('Fixer'));
 
-        return $namespace . '/' . Utils::camelCaseToUnderscore($name);
+        return $namespace.'/'.Utils::camelCaseToUnderscore($name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return self::name();

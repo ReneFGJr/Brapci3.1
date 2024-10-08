@@ -14,21 +14,20 @@ declare(strict_types=1);
 namespace Nexus\CsConfig\Fixer\Comment;
 
 use Nexus\CsConfig\Fixer\AbstractCustomFixer;
+use PhpCsFixer\Fixer\DeprecatedFixerInterface;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
 /**
  * Simple comments should have one space after the `//`.
+ *
+ * @deprecated
  */
-final class SpaceAfterCommentStartFixer extends AbstractCustomFixer
+final class SpaceAfterCommentStartFixer extends AbstractCustomFixer implements DeprecatedFixerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -40,9 +39,11 @@ final class SpaceAfterCommentStartFixer extends AbstractCustomFixer
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    public function getSuccessorsNames(): array
+    {
+        return ['single_line_comment_spacing'];
+    }
+
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_COMMENT);
@@ -58,9 +59,6 @@ final class SpaceAfterCommentStartFixer extends AbstractCustomFixer
         return 3;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = 1, $count = $tokens->count(); $index < $count; ++$index) {
@@ -81,17 +79,19 @@ final class SpaceAfterCommentStartFixer extends AbstractCustomFixer
                 continue;
             }
 
-            Preg::match('/^\/\/(\s*)(.+)/', $comment, $matches);
+            if (preg_match('/^\/\/(\s*)(.+)/', $comment, $matches) !== 1) {
+                continue;
+            }
 
             if (' ' === $matches[1]) {
                 continue;
             }
 
-            if (Preg::match('/\-+/', $matches[2]) === 1 || Preg::match('/\=+/', $matches[2]) === 1) {
+            if (preg_match('/\-+/', $matches[2]) === 1 || preg_match('/\=+/', $matches[2]) === 1) {
                 continue;
             }
 
-            $tokens[$index] = new Token([T_COMMENT, '// ' . $matches[2]]);
+            $tokens[$index] = new Token([T_COMMENT, '// '.$matches[2]]);
         }
     }
 }

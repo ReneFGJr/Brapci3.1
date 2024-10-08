@@ -19,16 +19,13 @@ namespace PhpCsFixer\FixerDefinition;
  */
 final class VersionSpecificCodeSample implements VersionSpecificCodeSampleInterface
 {
-    /**
-     * @var CodeSampleInterface
-     */
-    private $codeSample;
+    private CodeSampleInterface $codeSample;
+
+    private VersionSpecificationInterface $versionSpecification;
 
     /**
-     * @var VersionSpecificationInterface
+     * @param null|array<string, mixed> $configuration
      */
-    private $versionSpecification;
-
     public function __construct(
         string $code,
         VersionSpecificationInterface $versionSpecification,
@@ -38,25 +35,16 @@ final class VersionSpecificCodeSample implements VersionSpecificCodeSampleInterf
         $this->versionSpecification = $versionSpecification;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCode(): string
     {
         return $this->codeSample->getCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfiguration(): ?array
     {
         return $this->codeSample->getConfiguration();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isSuitableFor(int $version): bool
     {
         return $this->versionSpecification->isSatisfiedBy($version);

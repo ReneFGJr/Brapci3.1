@@ -27,9 +27,9 @@ final class FileRemoval
     /**
      * List of observed files to be removed.
      *
-     * @var array
+     * @var array<string, true>
      */
-    private $files = [];
+    private array $files = [];
 
     public function __construct()
     {
@@ -47,7 +47,7 @@ final class FileRemoval
      */
     public function __sleep(): array
     {
-        throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot serialize '.self::class);
     }
 
     /**
@@ -58,7 +58,7 @@ final class FileRemoval
      */
     public function __wakeup(): void
     {
-        throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
+        throw new \BadMethodCallException('Cannot unserialize '.self::class);
     }
 
     /**
@@ -77,6 +77,7 @@ final class FileRemoval
         if (isset($this->files[$path])) {
             unset($this->files[$path]);
         }
+
         $this->unlink($path);
     }
 
@@ -88,6 +89,7 @@ final class FileRemoval
         foreach ($this->files as $file => $value) {
             $this->unlink($file);
         }
+
         $this->files = [];
     }
 

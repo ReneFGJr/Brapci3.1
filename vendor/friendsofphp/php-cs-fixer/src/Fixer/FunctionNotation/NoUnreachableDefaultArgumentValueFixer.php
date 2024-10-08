@@ -28,9 +28,6 @@ use PhpCsFixer\Tokenizer\Tokens;
  */
 final class NoUnreachableDefaultArgumentValueFixer extends AbstractFixer
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -57,35 +54,19 @@ function example($foo = "two words", $bar) {}
         return 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isCandidate(Tokens $tokens): bool
     {
-        if (\PHP_VERSION_ID >= 70400 && $tokens->isTokenKindFound(T_FN)) {
-            return true;
-        }
-
-        return $tokens->isTokenKindFound(T_FUNCTION);
+        return $tokens->isAnyTokenKindsFound([T_FUNCTION, T_FN]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isRisky(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
-        $functionKinds = [T_FUNCTION];
-        if (\defined('T_FN')) {
-            $functionKinds[] = T_FN;
-        }
+        $functionKinds = [T_FUNCTION, T_FN];
 
         for ($i = 0, $l = $tokens->count(); $i < $l; ++$i) {
             if (!$tokens[$i]->isGivenKind($functionKinds)) {

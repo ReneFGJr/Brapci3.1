@@ -21,35 +21,26 @@ namespace PhpCsFixer\Linter;
  */
 final class CachingLinter implements LinterInterface
 {
-    /**
-     * @var LinterInterface
-     */
-    private $sublinter;
+    private LinterInterface $sublinter;
 
     /**
-     * @var array<int, LintingResultInterface>
+     * @var array<string, LintingResultInterface>
      */
-    private $cache = [];
+    private array $cache = [];
 
     public function __construct(LinterInterface $linter)
     {
         $this->sublinter = $linter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isAsync(): bool
     {
         return $this->sublinter->isAsync();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function lintFile(string $path): LintingResultInterface
     {
-        $checksum = crc32(file_get_contents($path));
+        $checksum = md5(file_get_contents($path));
 
         if (!isset($this->cache[$checksum])) {
             $this->cache[$checksum] = $this->sublinter->lintFile($path);
@@ -58,12 +49,9 @@ final class CachingLinter implements LinterInterface
         return $this->cache[$checksum];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function lintSource(string $source): LintingResultInterface
     {
-        $checksum = crc32($source);
+        $checksum = md5($source);
 
         if (!isset($this->cache[$checksum])) {
             $this->cache[$checksum] = $this->sublinter->lintSource($source);

@@ -17,7 +17,6 @@ use Nexus\CsConfig\Fixer\AbstractCustomFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
-use PhpCsFixer\Preg;
 use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 
@@ -26,9 +25,6 @@ use PhpCsFixer\Tokenizer\Tokens;
  */
 final class NoCodeSeparatorCommentFixer extends AbstractCustomFixer
 {
-    /**
-     * {@inheritDoc}
-     */
     public function getDefinition(): FixerDefinitionInterface
     {
         return new FixerDefinition(
@@ -48,9 +44,6 @@ final class NoCodeSeparatorCommentFixer extends AbstractCustomFixer
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isCandidate(Tokens $tokens): bool
     {
         return $tokens->isTokenKindFound(T_COMMENT);
@@ -66,9 +59,6 @@ final class NoCodeSeparatorCommentFixer extends AbstractCustomFixer
         return 2;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function applyFix(\SplFileInfo $file, Tokens $tokens): void
     {
         for ($index = 1, $count = $tokens->count(); $index < $count; ++$index) {
@@ -125,6 +115,6 @@ final class NoCodeSeparatorCommentFixer extends AbstractCustomFixer
 
     private function isCodeSeparatorComment(string $comment): bool
     {
-        return Preg::match('/^\/\/\s*[-|=]+$/', $comment) === 1;
+        return preg_match('/^\/\/\s*[-|=]+$/', $comment) === 1;
     }
 }
