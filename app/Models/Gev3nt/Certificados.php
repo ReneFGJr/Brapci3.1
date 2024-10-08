@@ -56,17 +56,13 @@ class Certificados extends Model
         // Define base directory paths
         $baseDir = '/tmp_brapci';
         $tmpDir = $baseDir.'/certificado';
-        $qrcodeDir = $tmpDir . 'qrcode/';
+        $qrcodeDir = $tmpDir . '/qrcode';
         $certificadoDir = $tmpDir;
 
         // Create directories if they don't exist
-        echo $baseDir.'<hr>';
         dircheck($baseDir);
-        echo $tmpDir . '<hr>';
         dircheck($tmpDir);
-        echo $qrcodeDir . '<hr>';
         dircheck($qrcodeDir);
-        echo $certificadoDir . '<hr>';
         dircheck($certificadoDir);
 
         // Caminho da imagem de fundo do certificado
@@ -117,7 +113,7 @@ class Certificados extends Model
         //$pdf->Image($caminhoQrCode, 10, 250, 30, 30, 'PNG');
 
         // Caminho para salvar o certificado
-        $caminhoCertificado = $certificadoDir . 'certificado_' . time() . '.pdf';
+        $caminhoCertificado = $certificadoDir . '/certificado_' . time() . '.pdf';
 
         // Salvar o PDF no servidor
         $pdf->Output($caminhoCertificado, 'F');
