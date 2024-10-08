@@ -112,8 +112,8 @@ class Certificados extends Model
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Nicola Asuni');
-        $pdf->SetTitle('TCPDF Example 051');
+        $pdf->SetAuthor($dt['e_ass_none_1']);
+        $pdf->SetTitle($dt['e_name']);
         $pdf->SetSubject('TCPDF Tutorial');
         $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -147,7 +147,7 @@ class Certificados extends Model
 
         // set font
         $pdf->SetFont('times', '',
-            48
+            14
         );
 
         // add a page
@@ -160,7 +160,7 @@ class Certificados extends Model
         $html = '<span>&nbsp;PAGE 1&nbsp;</span>
                 <p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">
                 CERTIFICADO.</p>
-                <div style="width: 400px; text-align: justify;">'.$textoCertificado.'</div>';
+                <div style="width: 300px; text-align: justify;">'.$textoCertificado.'</div>';
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
