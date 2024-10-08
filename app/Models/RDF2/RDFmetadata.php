@@ -221,7 +221,17 @@ class RDFmetadata extends Model
         $IDs = [];
 
         /************************************** DT */
-        pre($dt);
+        foreach($dt['data'] as $id=>$line)
+            {
+                switch($line['Property'])
+                    {
+                        case 'hasLattes':
+                            $dd = [];
+                            $dd['lattes'] = $line['Caption'];
+                            array_push($IDs,$dd);
+                        break;
+                    }
+            }
 
         $dta = get("di");
         if ($dta == '') {
@@ -367,6 +377,8 @@ class RDFmetadata extends Model
         }
         $dr['works'] = $works;
         $dr['coauthors'] = $coath;
+
+        $dr['IDs'] = $IDs;
 
         /************ Grafico Coautorias */
         arsort($coauthors);
