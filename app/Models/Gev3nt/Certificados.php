@@ -197,13 +197,6 @@ class Certificados extends Model
         $pdf->setPageMark();
 
 
-        // Print a text
-        $html = '<span style="color:white;text-align:center;font-weight:bold;font-size:80pt;">PAGE 3</span>';
-        $pdf->writeHTML($html, true, false, true, false,
-            ''
-        );
-
-
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         // set style for barcode
@@ -222,7 +215,23 @@ class Certificados extends Model
         $code = '111011101110111,010010001000010,010011001110010,010010000010010,010011101110010';
         $pdf->write2DBarcode($code, 'RAW', 80, 30, 30, 20, $style, 'N');
 
+        // write RAW2 2D Barcode
+        $code = '[111011101110111][010010001000010][010011001110010][010010000010010][010011101110010]';
+        $pdf->write2DBarcode($code, 'RAW2', 80, 60, 30, 20, $style, 'N');
+
         // ---------------------------------------------------------
+
+
+        // Print a text
+        $html = '<span style="color:white;text-align:center;font-weight:bold;font-size:80pt;">PAGE 3</span>';
+        $pdf->writeHTML(
+            $html,
+            true,
+            false,
+            true,
+            false,
+            ''
+        );
 
         //Close and output PDF document
         $pdf->Output();
