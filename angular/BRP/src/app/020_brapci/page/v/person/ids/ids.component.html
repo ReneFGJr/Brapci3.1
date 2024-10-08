@@ -1,0 +1,23 @@
+<ul class="no-bullets d-flex">
+  <!-- Loop pelos itens da lista icones -->
+  <li *ngFor="let item of icones" class="mr-3" title="Ícone de gênero">
+    <!-- Verifica se o gênero é Masculino -->
+    <ng-container *ngIf="item.gender == 'Masculino'">
+      <i class="bi bi-gender-male big" style="width: 150px;" title="Gênero Masculino"></i>
+    </ng-container>
+
+    <!-- Verifica se o gênero é Feminino -->
+    <ng-container *ngIf="item.gender == 'Feminino'">
+      <i class="bi bi-gender-female big" style="width: 150px;" title="Gênero Feminino"></i>
+    </ng-container>
+
+    <!-- Verifica se há um link para o Lattes -->
+    <ng-container *ngIf="item.lattes">
+      <a [href]="'https://lattes.cnpq.br/'+item.lattes" target="_blank" class="no-bullets" title="Link para o Lattes">
+        <i class="bi bi-person-lines-fill big" style="width: 150px;"></i>
+      </a>
+    </ng-container>
+  </li>
+</ul>
+
+{{icones | json}}

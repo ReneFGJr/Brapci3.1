@@ -81,6 +81,7 @@ import { TimelineJournalComponent } from './widget/timeline-journal/timeline-jou
 import { TimelineComponent } from './page/timeline/timeline.component';
 import { LabelComponent } from './widget/label/label.component';
 import { PhotoComponent } from './page/v/person/photo/photo.component';
+import { IdsComponent } from './page/v/person/ids/ids.component';
 
 @NgModule({
   declarations: [
@@ -158,6 +159,7 @@ import { PhotoComponent } from './page/v/person/photo/photo.component';
     TimelineComponent,
     LabelComponent,
     PhotoComponent,
+    IdsComponent,
   ],
   imports: [
     CommonModule,
