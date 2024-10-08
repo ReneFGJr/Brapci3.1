@@ -66,11 +66,11 @@ class Certificados extends Model
         dircheck($certificadoDir);
 
         // Caminho da imagem de fundo do certificado
-        $imagemFundo = WRITEPATH . 'uploads/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
+        $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {
-            return ['message' => 'Imagem de fundo não encontrada!'];
+            return ['status'=>'404','message' => 'Imagem de fundo não encontrada!'];
         }
 
         // Crie um texto para o QR Code
