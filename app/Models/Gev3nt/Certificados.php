@@ -139,6 +139,8 @@ class Certificados extends Model
 
         // remove default header
         $pdf->setPrintHeader(false);
+        $img_file = $imagemFundo;
+        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
 
 
 
