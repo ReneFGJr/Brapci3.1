@@ -10,6 +10,13 @@ use Endroid\QrCode\Writer\PngWriter;
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF
 {
+    private $background_image;
+
+    public function __construct($background_image, $orientation = 'P', $unit = 'mm', $format = 'A4', $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false)
+    {
+        parent::__construct($orientation, $unit, $format, $unicode, $encoding, $diskcache, $pdfa);
+        $this->background_image = $background_image;
+    }
     //Page header
     public function Header()
     {
@@ -20,8 +27,7 @@ class MYPDF extends TCPDF
         // disable auto-page-break
         $this->SetAutoPageBreak(false, 0);
         // set bacground image
-        $img_file = K_PATH_IMAGES . 'image_demo.jpg';;
-        $this->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+        $this->Image($this->background_image, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
         // restore auto-page-break status
         $this->SetAutoPageBreak($auto_page_break, $bMargin);
         // set the starting point for the page content
@@ -98,7 +104,7 @@ class Certificados extends Model
         }
 
         // create new PDF document
-        $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT,
+        $pdf = new MYPDF($imagemFundo, PDF_PAGE_ORIENTATION, PDF_UNIT,
             PDF_PAGE_FORMAT,
             true,
             'UTF-8',
