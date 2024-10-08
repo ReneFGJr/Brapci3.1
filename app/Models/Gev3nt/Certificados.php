@@ -60,9 +60,13 @@ class Certificados extends Model
         $certificadoDir = $tmpDir;
 
         // Create directories if they don't exist
+        echo $baseDir.'<hr>';
         dircheck($baseDir);
+        echo $tmpDir . '<hr>';
         dircheck($tmpDir);
+        echo $qrcodeDir . '<hr>';
         dircheck($qrcodeDir);
+        echo $certificadoDir . '<hr>';
         dircheck($certificadoDir);
 
         // Caminho da imagem de fundo do certificado
