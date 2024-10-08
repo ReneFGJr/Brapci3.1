@@ -127,7 +127,7 @@ class Certificados extends Model
         echo $dd['link'];
         exit;
 
-        return "Certificado gerado com sucesso: <a href='" .  . "' target='_blank'>Download Certificado</a>";
+        return $dd;
 
     }
 }
