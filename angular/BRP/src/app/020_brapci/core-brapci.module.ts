@@ -80,6 +80,7 @@ import { IcrProducaoJournalAuthorComponent } from './widget/icr-producao-journal
 import { TimelineJournalComponent } from './widget/timeline-journal/timeline-journal.component';
 import { TimelineComponent } from './page/timeline/timeline.component';
 import { LabelComponent } from './widget/label/label.component';
+import { PhotoComponent } from './page/v/person/photo/photo.component';
 
 @NgModule({
   declarations: [
@@ -156,6 +157,7 @@ import { LabelComponent } from './widget/label/label.component';
     TimelineJournalComponent,
     TimelineComponent,
     LabelComponent,
+    PhotoComponent,
   ],
   imports: [
     CommonModule,

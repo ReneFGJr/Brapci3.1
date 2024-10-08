@@ -218,6 +218,10 @@ class RDFmetadata extends Model
         $neta = [];
         $netd = [];
         $node = [];
+        $IDs = [];
+
+        /************************************** DT */
+        pre($dt);
 
         $dta = get("di");
         if ($dta == '') {
