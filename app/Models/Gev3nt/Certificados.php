@@ -132,6 +132,8 @@ class Certificados extends Model
 
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $img_file = $imagemFundo;
+        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
 
 
         // Crie um texto para o QR Code
@@ -151,6 +153,44 @@ class Certificados extends Model
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
+
+        $pdf->Output();
+        exit;
+
+
+        // --- example with background set on page ---
+    /*
+        // remove default header
+        $pdf->setPrintHeader(false);
+
+        // add a page
+        $pdf->AddPage();
+
+
+        // -- set new background ---
+
+        // get the current page break margin
+        $bMargin = $pdf->getBreakMargin();
+        // get current auto-page-break mode
+        $auto_page_break = $pdf->getAutoPageBreak();
+        // disable auto-page-break
+        $pdf->SetAutoPageBreak(false, 0);
+        // set bacground image
+        $img_file = $imagemFundo;
+        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+        // restore auto-page-break status
+        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+        // set the starting point for the page content
+        $pdf->setPageMark();
+
+
+        // Print a text
+        $html = '<span style="color:white;text-align:center;font-weight:bold;font-size:80pt;">PAGE 3</span>';
+        $pdf->writeHTML($html, true, false, true, false,
+            ''
+        );
+
+        // ---------------------------------------------------------
 
         //Close and output PDF document
         $pdf->Output();
@@ -232,6 +272,7 @@ class Certificados extends Model
         exit;
 
         return $dd;
+        */
 
     }
 }
