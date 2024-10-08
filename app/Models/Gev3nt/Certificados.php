@@ -56,6 +56,8 @@ class Certificados extends Model
         dircheck('_repository/g3vent/certificados');
         dircheck('.tmp');
         dircheck('.tmp/qrcode/');
+        dircheck('.tmp/certificado/');
+
         // Caminho da imagem de fundo do certificado
         $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
