@@ -158,8 +158,9 @@ class Certificados extends Model
 
 
         // Print a text
-        $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 1&nbsp;</span>
-<p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">You can set a full page background.</p>';
+        $html = '<span>&nbsp;PAGE 1&nbsp;</span>
+                <p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">
+                CERTIFICADO.</p>';
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
@@ -190,114 +191,6 @@ class Certificados extends Model
         exit;
 
 
-
-        // --- example with background set on page ---
-
-        // remove default header
-        $pdf->setPrintHeader(false);
-
-        // add a page
-        $pdf->AddPage();
-
-
-        // -- set new background ---
-
-        // get the current page break margin
-        $bMargin = $pdf->getBreakMargin();
-        // get current auto-page-break mode
-        $auto_page_break = $pdf->getAutoPageBreak();
-        // disable auto-page-break
-        $pdf->SetAutoPageBreak(false, 0);
-        // set bacground image
-        $img_file = $imagemFundo;
-        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-        // restore auto-page-break status
-        $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
-        // set the starting point for the page content
-        $pdf->setPageMark();
-
-
-        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-
-
-        // ---------------------------------------------------------
-
-
-        // Print a text
-        $html = '<span style="color:white;text-align:center;font-weight:bold;font-size:80pt;">PAGE 3</span>';
-        $pdf->writeHTML(
-            $html,
-            true,
-            false,
-            true,
-            false,
-            ''
-        );
-
-        //Close and output PDF document
-        $pdf->Output();
-        exit;
-
-        // Criar um QR Code
-        $qrCode = new QrCode($textoCertificado);
-        $qrCode->setSize(100);
-        $qrCode->setMargin(10);
-        $writer = new PngWriter();
-        $qrCodePng = $writer->write($qrCode)->getString();
-
-        // Caminho temporário para salvar o QR Code gerado
-        $caminhoQrCode = $qrcodeDir . 'qr_' . time() . '.png';
-        file_put_contents($caminhoQrCode, $qrCodePng);
-
-        // Inicializar o TCPDF
-        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4');
-        $pdf->SetCreator(PDF_CREATOR);
-        // remove default footer
-        $pdf->setPrintFooter(false);
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-        // set margins
-        $pdf->SetMargins(PDF_MARGIN_LEFT,
-            PDF_MARGIN_TOP,
-            PDF_MARGIN_RIGHT
-        );
-        $pdf->SetHeaderMargin(0);
-        $pdf->SetFooterMargin(0);
-
-        $pdf->SetAuthor('Sistema de Certificados');
-        $pdf->SetTitle('Certificado de Participação');
-        $pdf->SetSubject('Certificado');
-
-        // Adicionar uma página
-        $pdf->AddPage();
-
-        // Definir a imagem de fundo
-        $pdf->Image($imagemFundo, 0, 0, 230, 340, '', '', '', true, 300, '', false, false, 0);
-
-        // Print a text
-        $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 1&nbsp;</span>
-<p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">You can set a full page background.</p>';
-        $pdf->writeHTML($html, true, false, true, false,
-            ''
-        );
-
-        // Definir a posição e o estilo do texto
-        $pdf->SetFont('helvetica', 'B', 24);
-        $pdf->SetY(100);
-        $pdf->Cell(0, 10, $nomeParticipante . $pdf->getPageHeight(), 0, 1, 'C');
-
-        $pdf->SetFont('helvetica', '', 16);
-        $pdf->SetY(120);
-        $pdf->Cell(0, 10, "Carga Horária: $cargaHoraria horas", 0, 1, 'C');
-
-        // Adicionar o QR Code ao PDF
-        //$pdf->Image($caminhoQrCode, 10, 250, 30, 30, 'PNG');
 
         // Caminho para salvar o certificado
         $caminhoCertificado = $certificadoDir . '/certificado_' . time() . '.pdf';
