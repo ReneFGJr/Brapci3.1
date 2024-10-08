@@ -116,6 +116,20 @@ class Certificados extends Model
         $pdf->SetCreator(PDF_CREATOR);
         // remove default footer
         $pdf->setPrintFooter(false);
+        // set auto page breaks
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        $pdf->SetMargins(PDF_MARGIN_LEFT,
+            PDF_MARGIN_TOP,
+            PDF_MARGIN_RIGHT
+        );
+        $pdf->SetHeaderMargin(0);
+        $pdf->SetFooterMargin(0);
 
         $pdf->SetAuthor('Sistema de Certificados');
         $pdf->SetTitle('Certificado de Participação');
