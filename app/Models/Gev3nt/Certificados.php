@@ -54,9 +54,9 @@ class Certificados extends Model
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         // Define base directory paths
-        $baseDir = '/tmp_brapci';
-        $tmpDir = $baseDir.'/certificado';
-        $qrcodeDir = $tmpDir . '/qrcode';
+        $baseDir = '/tmp_brapci/';
+        $tmpDir = $baseDir.'certificado/';
+        $qrcodeDir = $tmpDir . 'qrcode/';
         $certificadoDir = $tmpDir;
 
         // Create directories if they don't exist
@@ -98,7 +98,7 @@ class Certificados extends Model
         $pdf->AddPage();
 
         // Definir a imagem de fundo
-        $pdf->Image($imagemFundo, 0, 0, 240, 320, '', '', '', true, 300, '', false, true, 0);
+        $pdf->Image($imagemFundo, 0, 0, 240, 320, '', '', '', false, 300, '', false, false, 0);
 
         // Definir a posição e o estilo do texto
         $pdf->SetFont('helvetica', 'B', 24);
