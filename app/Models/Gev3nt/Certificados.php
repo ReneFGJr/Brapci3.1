@@ -53,17 +53,24 @@ class Certificados extends Model
 
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
-        dircheck('_repository/g3vent/certificados');
-        dircheck('.tmp');
-        dircheck('.tmp/qrcode/');
-        dircheck('.tmp/certificado/');
+        // Define base directory paths
+        $baseDir = WRITEPATH . 'uploads/';
+        $tmpDir = WRITEPATH . '.tmp/';
+        $qrcodeDir = $tmpDir . 'qrcode/';
+        $certificadoDir = $tmpDir . 'certificado/';
+
+        // Create directories if they don't exist
+        dircheck($baseDir);
+        dircheck($tmpDir);
+        dircheck($qrcodeDir);
+        dircheck($certificadoDir);
 
         // Caminho da imagem de fundo do certificado
-        $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
+        $imagemFundo = WRITEPATH . 'uploads/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {
-            return ['message'=>'Imagem de fundo não encontrada!'];
+            return ['message' => 'Imagem de fundo não encontrada!'];
         }
 
         // Crie um texto para o QR Code
@@ -77,7 +84,7 @@ class Certificados extends Model
         $qrCodePng = $writer->write($qrCode)->getString();
 
         // Caminho temporário para salvar o QR Code gerado
-        $caminhoQrCode = '.tmp/qrcode/qr_' . time() . '.png';
+        $caminhoQrCode = $qrcodeDir . 'qr_' . time() . '.png';
         file_put_contents($caminhoQrCode, $qrCodePng);
 
         // Inicializar o TCPDF
@@ -106,15 +113,17 @@ class Certificados extends Model
         //$pdf->Image($caminhoQrCode, 10, 250, 30, 30, 'PNG');
 
         // Caminho para salvar o certificado
-        $caminhoCertificado = '.tmp/certificado/certificado_' . time() . '.pdf';
+        $caminhoCertificado = $certificadoDir . 'certificado_' . time() . '.pdf';
 
         // Salvar o PDF no servidor
         $pdf->Output($caminhoCertificado, 'F');
 
         // Remover o arquivo temporário do QR Code
         unlink($caminhoQrCode);
+
         print("Certificado gerado com sucesso: <a href='" . base_url('writable/uploads/' . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>");
 
         return "Certificado gerado com sucesso: <a href='" . base_url('writable/uploads/' . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>";
+
     }
 }
