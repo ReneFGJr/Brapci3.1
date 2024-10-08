@@ -177,7 +177,7 @@ class Certificados extends Model
 
         // QRCODE,H : QR-CODE Best error correction
         $pdf->write2DBarcode('https://cip.brapci.inf.br/api/g3vent/valid', 'QRCODE,H',
-            130,
+            160,
             180,
             40,
             40,
