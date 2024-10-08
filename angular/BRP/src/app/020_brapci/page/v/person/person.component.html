@@ -1,7 +1,17 @@
 <div class="container">
   <div class="row">
     <div class="col-12 col-xl-7">
-      <h1>{{ data.name }}</h1>
+      <div class="container">
+        <div class="row">
+          <div class="col-9">
+            <h1>{{ data.name }}</h1>
+          </div>
+          <div class="col-3">
+            <!-- Photo -->
+            <app-person-photo></app-person-photo>
+          </div>
+        </div>
+      </div>
 
       <app-basket-select [data]="data.worksID"></app-basket-select>
       <!-------------------- Coluna-->
@@ -76,9 +86,6 @@
 
     <!----------------------------- RIGHT SIDE-->
     <div class="col-xl-5 col-12">
-      <!-- Photo -->
-      <app-person-photo></app-person-photo>
-
       <div class="chart-container">
         <canvas id="MyChart" style="height: 300px; width: 100%">{{
           chart
@@ -137,13 +144,13 @@
           {{ vars.name }}
         </li>
       </div>
-      </div>
-      <!--------------- Administracao -->
-      <div *ngIf="data">
-        <app-remove-concept [ID]="data.ID"></app-remove-concept>
-        <app-edit-concept [ID]="data.ID"></app-edit-concept>
-        <app-ai-process [ID]="data.ID"></app-ai-process>
-      </div>
+    </div>
+    <!--------------- Administracao -->
+    <div *ngIf="data">
+      <app-remove-concept [ID]="data.ID"></app-remove-concept>
+      <app-edit-concept [ID]="data.ID"></app-edit-concept>
+      <app-ai-process [ID]="data.ID"></app-ai-process>
+    </div>
   </div>
 </div>
 

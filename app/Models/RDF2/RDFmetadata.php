@@ -226,7 +226,9 @@ class RDFmetadata extends Model
             $propertiesMap = [
                 'hasLattes' => 'lattes',
                 'hasOrcID' => 'lattes',
-                'hasGender' => 'gender'
+                'hasGender' => 'gender',
+                'hasOpenAlexID' => 'OpenAlex',
+                'hasGoogleScholar' => 'GoogleScholar'
             ];
 
             foreach ($propertiesMap as $property => $key) {
