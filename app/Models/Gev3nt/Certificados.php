@@ -81,10 +81,10 @@ class Certificados extends Model
                 ->where('id_i',$id)
                 ->first();
                 if (get("test")=='1') { pre($dt); }
-            $this->emite_certificado($dt['n_nome'],8,$dt);
+            $this->emite_certificado($dt['n_nome'],$dt);
         }
 
-    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8',$dt=[])
+    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $dt=[])
     {
         // Define base directory paths
         $baseDir = '/tmp_brapci/';
