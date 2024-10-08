@@ -1,4 +1,5 @@
-<app-brapci-banner-general  *ngIf="data"
+<app-brapci-banner-general
+  *ngIf="data"
   [publisher]="data.jnl_name"
 ></app-brapci-banner-general>
 
@@ -55,43 +56,89 @@
     <div class="col-12 col-lg-9">
       <!-- Pagin 1-->
       <div *ngIf="page === '1'">
-        <label class="small">Nome da publicação</label>
-        <br /><b>{{ data.jnl_name }}</b>
-        <br />
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <app-label
+                [label]="'Nome da publicação'"
+                [value]="data.jnl_name"
+              ></app-label>
+            </div>
+            <div class="col-12 col-lg-6">
+              <app-label
+                [label]="'Abreviatura'"
+                [value]="data.jnl_name_abrev"
+              ></app-label>
+            </div>
+            <div class="col-6 col-lg-3">
+              <app-label [label]="'ISSN'" [value]="data.jnl_issn"></app-label>
+            </div>
 
-        <label class="small mt-3">Abreviatura</label>
-        <br /><b>{{ data.jnl_name_abrev }}</b>
-        <br />
+            <div class="col-6 col-lg-3">
+              <app-label [label]="'eISSN'" [value]="data.jnl_eissn"></app-label>
+            </div>
 
-        <label class="small">ISSN</label>
-        <br />
-        <span *ngIf="data.jnl_issn" class="me-4"
-          ><b>{{ data.jnl_issn }}</b></span
-        >
-        <span *ngIf="data.jnl_eissn"
-          >eISSN: <b>{{ data.jnl_eissn }}</b></span
-        >
-        <br />
+            <div class="col-12 col-lg-3">
+              <app-label
+                [label]="'Vigências'"
+                [value]="data.jnl_ano_inicio + ' - ' + data.jnl_ano_final"
+              ></app-label>
+            </div>
 
-        <label class="small">Vigência</label>
-        <br /><b
-          >{{ data.jnl_ano_inicio }}-
-          <span *ngIf="data.jnl_ano_final > 0">{{
-            data.jnl_ano_final
-          }}</span></b
-        >
-        <br />
+            <div class="col-12 col-lg-3">
+              <app-label
+                [label]="'Cidade'"
+                [value]="data.geo.city.name"
+              ></app-label>
+            </div>
 
-        <div *ngIf="data.periodicidade">
-          <label class="small">Periodicidade</label>
-          <br /><b>{{ data.periodicidade }}</b>
-          <br />
+            <div class="col-12 col-lg-3">
+              <app-label
+                [label]="'Cidade - Latitude'"
+                [value]="data.geo.city.lat"
+              ></app-label>
+            </div>
+
+            <div class="col-12 col-lg-3">
+              <app-label
+                [label]="'Cidade - Longitude'"
+                [value]="data.geo.city.long"
+              ></app-label>
+            </div>
+
+            <div class="col-12">
+              <app-label
+                [label]="'Link da Revista'"
+                [value]="data.jnl_url"
+              ></app-label>
+            </div>
+
+            <div class="col-12 col-lg-3">
+              <app-label
+                [label]="'Pais'"
+                [value]="data.geo.country.name"
+              ></app-label>
+            </div>
+
+            <div class="col-12 col-lg-6" *ngIf="data.responsabilidade">
+              <app-label
+                [label]="'Responsabilidade'"
+                [value]="data.responsabilidadee"
+              ></app-label>
+            </div>
+
+
+            <div class="col-12 col-lg-3" *ngIf="data.periodicidade">
+              <app-label
+                [label]="'Periodicidade'"
+                [value]="data.periodicidade"
+              ></app-label>
+            </div>
+          </div>
         </div>
 
-        <div *ngIf="data.responsabilidade">
-          <label class="small">Responsabilidade</label>
-          <br /><b>{{ data.responsabilidade }}</b>
-          <br />
+        <div >
+
         </div>
 
         <div *ngIf="data.qualis">
@@ -100,39 +147,8 @@
           <br />
         </div>
 
-        <div *ngIf="data.jnl_url">
-          <label class="small">Link da Revista</label>
-          <br /><b
-            ><a href="{{ data.jnl_url }}" class="link" target="_blank">{{
-              data.jnl_url
-            }}</a></b
-          >
-          <br />
-        </div>
-
-        <!-- Cidade -->
-        <div *ngIf="data.geo.city" class="mt-2">
-          <label class="small">Cidade</label>
-          <br /><b>{{
-              data.geo.city.name
-            }}</b>
-          <br />
-          Lat.: {{data.geo.city.lat}}
-          Long.: {{data.geo.city.long}}
-        </div>
         <!-- Pais -->
-        <div *ngIf="data.geo.country">
-          <label class="small">Pais</label>
-          <br /><b>{{
-              data.geo.country.name
-            }}</b>
-          <br />
-
-          <app-label [label]="'URL'" [value]="data.jnl_url"></app-label>
-
-          <app-basket-select [data]="data.worksID"></app-basket-select>
-
-        </div>
+        <app-basket-select [data]="data.worksID"></app-basket-select>
       </div>
       <!-- Pagin 2-->
       <div *ngIf="page === '2'">
@@ -167,7 +183,9 @@
       </div>
       <!-- Pagin 4-->
       <div *ngIf="page === '4'">
-      <app-icr-producao-journal-author [jid]="data.id_jnl"></app-icr-producao-journal-author>
+        <app-icr-producao-journal-author
+          [jid]="data.id_jnl"
+        ></app-icr-producao-journal-author>
       </div>
     </div>
 
