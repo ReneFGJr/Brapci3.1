@@ -76,10 +76,11 @@ class Certificados extends Model
     public function certificado($id=0)
         {
             $dt=$this->first();
+            pre($dt);
             $this->emite_certificado("RENE",8,$dt);
         }
 
-    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8',$dt)
+    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8',$dt=[])
     {
         // Define base directory paths
         $baseDir = '/tmp_brapci/';
