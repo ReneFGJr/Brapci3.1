@@ -88,7 +88,7 @@ class Certificados extends Model
         file_put_contents($caminhoQrCode, $qrCodePng);
 
         // Inicializar o TCPDF
-        $pdf = new TCPDF();
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A4');
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Sistema de Certificados');
         $pdf->SetTitle('Certificado de Participação');
