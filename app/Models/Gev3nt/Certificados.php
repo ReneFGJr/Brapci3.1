@@ -54,11 +54,10 @@ class Certificados extends Model
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         // Define base directory paths
-        $WRITEPATH = '/data/Brapci3.1/public/.tmp/';
-        $baseDir = $WRITEPATH . 'certificado/';
-        $tmpDir = $WRITEPATH . '.tmp/';
+        $baseDir = 'public/.tmp';
+        $tmpDir = $baseDir.'/certificado';
         $qrcodeDir = $tmpDir . 'qrcode/';
-        $certificadoDir = $tmpDir . 'certificado/';
+        $certificadoDir = $tmpDir;
 
         // Create directories if they don't exist
         dircheck($baseDir);
@@ -122,9 +121,9 @@ class Certificados extends Model
         // Remover o arquivo temporário do QR Code
         unlink($caminhoQrCode);
 
-        print("Certificado gerado com sucesso: <a href='" . base_url($certificadoDir . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>");
+        print("Certificado gerado com sucesso: <a href='" . base_url('/.tmp/certificado/' . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>");
 
-        return "Certificado gerado com sucesso: <a href='" . base_url($certificadoDir . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>";
+        return "Certificado gerado com sucesso: <a href='" . base_url('/.tmp/certificado/' . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>";
 
     }
 }
