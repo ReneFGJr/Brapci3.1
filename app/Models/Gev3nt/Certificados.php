@@ -4,13 +4,8 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 use TCPDF;
-#use Endroid\QrCode\QrCode;
-#use Endroid\QrCode\Writer\PngWriter;
-
-use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
-use Endroid\QrCode\Encoding\Encoding;
-use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
 
 
 
