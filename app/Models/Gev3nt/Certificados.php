@@ -174,6 +174,8 @@ class Certificados extends Model
             ''
         );
 
+        $html = troca($html,'$nome', $nomeParticipante);
+
         // set style for barcode
         $style = array(
                 'border' => true,
