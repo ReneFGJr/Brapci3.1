@@ -76,7 +76,7 @@ class Certificados extends Model
     public function certificado($id=0)
         {
             $dt=$this
-                ->join('events_inscritos', 'ein_event = id_e')
+                ->join('events_inscritos', 'i_evento = id_e')
                 ->join('events_names', 'ein_user = id_n')
                 ->first();
                 if (get("test")=='1') { pre($dt); }
