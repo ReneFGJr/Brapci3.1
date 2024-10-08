@@ -184,6 +184,50 @@ class Certificados extends Model
         $code = '[111011101110111][010010001000010][010011001110010][010010000010010][010011101110010]';
         $pdf->write2DBarcode($code, 'RAW2', 80, 60, 30, 20, $style, 'N');
 
+        // QRCODE,L : QR-CODE Low error correction
+        $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,L',
+            20,
+            30,
+            50,
+            50,
+            $style,
+            'N'
+        );
+        $pdf->Text(20, 25, 'QRCODE L');
+
+        // QRCODE,M : QR-CODE Medium error correction
+        $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,M',
+            20,
+            90,
+            50,
+            50,
+            $style,
+            'N'
+        );
+        $pdf->Text(20, 85, 'QRCODE M');
+
+        // QRCODE,Q : QR-CODE Better error correction
+        $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,Q',
+            20,
+            150,
+            50,
+            50,
+            $style,
+            'N'
+        );
+        $pdf->Text(20, 145, 'QRCODE Q');
+
+        // QRCODE,H : QR-CODE Best error correction
+        $pdf->write2DBarcode('www.tcpdf.org', 'QRCODE,H',
+            20,
+            210,
+            50,
+            50,
+            $style,
+            'N'
+        );
+        $pdf->Text(20, 205, 'QRCODE H');
+
 
         //Close and output PDF document
         $pdf->Output();
