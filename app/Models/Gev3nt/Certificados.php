@@ -137,12 +137,6 @@ class Certificados extends Model
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-        // remove default header
-        $pdf->setPrintHeader(false);
-        $img_file = $imagemFundo;
-        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-
-
 
         // Crie um texto para o QR Code
         $textoCertificado = "Certificamos que $nomeParticipante participou do evento com uma carga horária de $cargaHoraria horas.";
@@ -154,6 +148,10 @@ class Certificados extends Model
 
         // add a page
         $pdf->AddPage();
+        // remove default header
+        $pdf->setPrintHeader(false);
+        $img_file = $imagemFundo;
+        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
 
         // Print a text
         $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 1&nbsp;</span>
