@@ -55,14 +55,12 @@ class Certificados extends Model
     {
         dircheck('_repository/g3vent/certificados');
         // Caminho da imagem de fundo do certificado
-        $imagemFundo = WRITEPATH . 'uploads/imagem_fundo.jpg'; // Coloque a imagem no diretório 'writable/uploads'
+        $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {
-            pre("OI2", false);
-            return 'Imagem de fundo não encontrada!';
+            return ['message'=>'Imagem de fundo não encontrada!'];
         }
-        pre("OI3", false);
 
         // Crie um texto para o QR Code
         $textoCertificado = "Certificamos que $nomeParticipante participou do evento com uma carga horária de $cargaHoraria horas.";
@@ -75,7 +73,7 @@ class Certificados extends Model
         $qrCodePng = $writer->write($qrCode)->getString();
 
         // Caminho temporário para salvar o QR Code gerado
-        $caminhoQrCode = WRITEPATH . 'uploads/qr_' . time() . '.png';
+        $caminhoQrCode = '.tmp/qr_' . time() . '.png';
         file_put_contents($caminhoQrCode, $qrCodePng);
 
         // Inicializar o TCPDF
