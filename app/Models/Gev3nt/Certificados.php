@@ -98,12 +98,12 @@ class Certificados extends Model
         $pdf->AddPage();
 
         // Definir a imagem de fundo
-        $pdf->Image($imagemFundo, 0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), '', '', '', false, 300, '', false, false, 0);
+        $pdf->Image($imagemFundo, 0, 0, 240, $pdf->getPageHeight(), '', '', '', false, 300, '', false, false, 0);
 
         // Definir a posição e o estilo do texto
         $pdf->SetFont('helvetica', 'B', 24);
         $pdf->SetY(100);
-        $pdf->Cell(0, 10, $nomeParticipante . $pdf->getPageWidth(), 0, 1, 'C');
+        $pdf->Cell(0, 10, $nomeParticipante . $pdf->getPageHeight(), 0, 1, 'C');
 
         $pdf->SetFont('helvetica', '', 16);
         $pdf->SetY(120);
