@@ -124,7 +124,7 @@ class Certificados extends Model
         $dd = [];
         $dd['link'] = base_url('/certificado/' . basename($caminhoCertificado));
         $dd['message'] = $dd['link'];
-        echo $dd['link'];
+        echo '<a href="'.$dd['link'].'" target="_blank">link</a>';
         exit;
 
         return $dd;
