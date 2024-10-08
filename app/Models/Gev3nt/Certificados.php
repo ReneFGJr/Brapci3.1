@@ -141,6 +141,13 @@ class Certificados extends Model
         // Definir a imagem de fundo
         $pdf->Image($imagemFundo, 0, 0, 230, 340, '', '', '', true, 300, '', false, false, 0);
 
+        // Print a text
+        $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 1&nbsp;</span>
+<p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">You can set a full page background.</p>';
+        $pdf->writeHTML($html, true, false, true, false,
+            ''
+        );
+
         // Definir a posição e o estilo do texto
         $pdf->SetFont('helvetica', 'B', 24);
         $pdf->SetY(100);
