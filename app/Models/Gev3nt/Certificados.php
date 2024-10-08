@@ -77,7 +77,7 @@ class Certificados extends Model
         {
             $dt=$this
                 ->join('events_inscritos', 'i_evento = id_e')
-                ->join('events_names', 'ein_user = id_n')
+                ->join('events_names', 'i_user = id_n')
                 ->first();
                 if (get("test")=='1') { pre($dt); }
             $this->emite_certificado("RENE",8,$dt);
