@@ -108,6 +108,7 @@ class Certificados extends Model
 
         // Remover o arquivo temporário do QR Code
         unlink($caminhoQrCode);
+        print("Certificado gerado com sucesso: <a href='" . base_url('writable/uploads/' . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>");
 
         return "Certificado gerado com sucesso: <a href='" . base_url('writable/uploads/' . basename($caminhoCertificado)) . "' target='_blank'>Download Certificado</a>";
     }
