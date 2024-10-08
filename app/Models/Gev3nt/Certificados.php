@@ -164,9 +164,7 @@ class Certificados extends Model
         // add a page
         $pdf->AddPage();
         // get the current page break margin
-        $bMargin = $pdf->getBreakMargin();
-        // get current auto-page-break mode
-        $auto_page_break = $pdf->AutoPageBreak;
+
         // disable auto-page-break
         // set bacground image
         $img_file = K_PATH_IMAGES . 'image_demo.jpg';;
