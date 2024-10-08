@@ -203,6 +203,25 @@ class Certificados extends Model
             ''
         );
 
+
+        // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        // set style for barcode
+        $style = array(
+            'border' => true,
+            'vpadding' => 'auto',
+            'hpadding' => 'auto',
+            'fgcolor' => array(0, 0, 0),
+            'bgcolor' => false, //array(255,255,255)
+            'module_width' => 1, // width of a single module in points
+            'module_height' => 1 // height of a single module in points
+        );
+
+        // write RAW 2D Barcode
+
+        $code = '111011101110111,010010001000010,010011001110010,010010000010010,010011101110010';
+        $pdf->write2DBarcode($code, 'RAW', 80, 30, 30, 20, $style, 'N');
+
         // ---------------------------------------------------------
 
         //Close and output PDF document
