@@ -170,11 +170,14 @@ class Certificados extends Model
         if ($day == 1) { $day .= 'º'; }
         $html .= '<br><br><br>';
         $html .= $dt['e_cidade'].' '.$day.' '.mes_extenso(substr($dt['e_data'],5,2)).' '.substr($dt['e_data'],0,4);
+
+        $html = troca($html, '$nome', $nomeParticipante);
+
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
 
-        $html = troca($html,'$nome', $nomeParticipante);
+
 
         // set style for barcode
         $style = array(
