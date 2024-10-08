@@ -38,7 +38,7 @@ class MYPDF extends TCPDF
 class Certificados extends Model
 {
     protected $DBGroup          = 'gev3nt';
-    protected $table            = 'event';
+    protected $table            = 'events';
     protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
@@ -47,12 +47,6 @@ class Certificados extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_e',
-        'e_name',
-        'e_url',
-        'e_description',
-        'e_active',
-        'e_logo',
-        'e_sigin_until'
     ];
 
     // Dates
@@ -79,9 +73,13 @@ class Certificados extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public certificado($id=0)
+        {
+            $dt=$this->first();
+            pre($dt);
+        }
 
-
-    public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
+    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         // Define base directory paths
         $baseDir = '/tmp_brapci/';
