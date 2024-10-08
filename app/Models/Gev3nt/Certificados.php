@@ -143,7 +143,7 @@ class Certificados extends Model
 
 
         // Crie um texto para o QR Code
-        $textoCertificado = "Certificamos que $nomeParticipante participou do evento com uma carga horária de $cargaHoraria horas.";
+        $textoCertificado = $dt['e_texto'];
 
         // set font
         $pdf->SetFont('times', '',
@@ -159,7 +159,8 @@ class Certificados extends Model
         // Print a text
         $html = '<span>&nbsp;PAGE 1&nbsp;</span>
                 <p stroke="0.2" fill="true" strokecolor="yellow" color="blue" style="font-family:helvetica;font-weight:bold;font-size:26pt;">
-                CERTIFICADO.</p>';
+                CERTIFICADO.</p>
+                <div style="width: 400px; text-align: justify;">'.$textoCertificado.'</div>;
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
