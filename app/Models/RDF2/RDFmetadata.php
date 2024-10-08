@@ -223,15 +223,18 @@ class RDFmetadata extends Model
         /************************************** DT */
         foreach($dt['data'] as $id=>$line)
             {
-                switch($line['Property'])
-                    {
-                        case 'hasLattes':
-                            $dd = [];
-                            $dd['lattes'] = $line['Caption'];
-                            array_push($IDs,$dd);
-                        break;
-                    }
+            $propertiesMap = [
+                'hasLattes' => 'lattes',
+                'hasOrcID' => 'lattes',
+                'hasGender' => 'gender'
+            ];
+
+            foreach ($propertiesMap as $property => $key) {
+                if ($line['Property'] === $property) {
+                    $IDs[] = [$key => $line['Caption']];
+                }
             }
+        }
 
         $dta = get("di");
         if ($dta == '') {
