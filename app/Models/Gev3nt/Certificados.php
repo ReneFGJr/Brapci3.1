@@ -53,7 +53,7 @@ class Certificados extends Model
 
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
-        pre("OI",false);
+        dircheck('_repository/g3vent/certificados');
         // Caminho da imagem de fundo do certificado
         $imagemFundo = WRITEPATH . 'uploads/imagem_fundo.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
