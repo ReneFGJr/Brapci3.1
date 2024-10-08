@@ -172,6 +172,7 @@ class Certificados extends Model
         $html .= $dt['e_cidade'].' '.$day.' '.mes_extenso(substr($dt['e_data'],5,2)).' '.substr($dt['e_data'],0,4);
 
         $html = troca($html, '$nome', $nomeParticipante);
+        $html = troca($html,'$titulo',$dt['i_titulo_trabalho']);
 
         $pdf->writeHTML($html, true, false, true, false,
             ''
