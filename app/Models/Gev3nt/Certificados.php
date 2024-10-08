@@ -53,14 +53,16 @@ class Certificados extends Model
 
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
-        pre("OI");
+        pre("OI",false);
         // Caminho da imagem de fundo do certificado
         $imagemFundo = WRITEPATH . 'uploads/imagem_fundo.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {
+            pre("OI2", false);
             return 'Imagem de fundo não encontrada!';
         }
+        pre("OI3", false);
 
         // Crie um texto para o QR Code
         $textoCertificado = "Certificamos que $nomeParticipante participou do evento com uma carga horária de $cargaHoraria horas.";
