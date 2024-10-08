@@ -219,6 +219,7 @@ class RDFmetadata extends Model
         $netd = [];
         $node = [];
         $IDs = [];
+        $Photo = [];
 
         /************************************** DT */
         foreach($dt['data'] as $id=>$line)
@@ -238,6 +239,16 @@ class RDFmetadata extends Model
             }
         }
 
+        /************************************** Photo */
+        if (isset($IDs['gender']))
+            {
+
+            } else {
+
+            }
+
+
+        /************************************** Data */
         $dta = get("di");
         if ($dta == '') {
             $dta = 1990;
