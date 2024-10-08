@@ -163,6 +163,7 @@ class Certificados extends Model
                 <table width="320px"><tr><td style="text-align: justify;">'.$textoCertificado. '</td></tr></table>';
         $day = round(substr($dt['e_data'], 8, 2));
         if ($day == 1) { $day .= 'º'; }
+        $html .= '<br><br><br>';
         $html .= $dt['e_cidade'].' '.$day.' '.mes_extenso(substr($dt['e_data'],5,2)).' '.substr($dt['e_data'],0,4);
         $pdf->writeHTML($html, true, false, true, false,
             ''
