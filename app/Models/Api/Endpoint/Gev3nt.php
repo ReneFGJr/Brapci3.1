@@ -57,6 +57,11 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'certificate':
+                    $Certificate = new \App\Models\Gev3nt\Certificados();
+                    $Certificate->certificado($d2,$d3);
+                    exit;
+                    break;
                 case 'corporateSearch':
                     $RSP['post'] = $_POST;
                     $CorporateBody = new \App\Models\Gev3nt\Corporatename();

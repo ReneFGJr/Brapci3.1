@@ -51,7 +51,7 @@ class Certificados extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function emitir($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
+    public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         // Caminho da imagem de fundo do certificado
         $imagemFundo = WRITEPATH . 'uploads/imagem_fundo.jpg'; // Coloque a imagem no diretório 'writable/uploads'
