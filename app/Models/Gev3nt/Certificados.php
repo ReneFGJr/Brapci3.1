@@ -54,7 +54,7 @@ class Certificados extends Model
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         // Define base directory paths
-        $baseDir = 'public/.tmp';
+        $baseDir = '/tmp_brapci';
         $tmpDir = $baseDir.'/certificado';
         $qrcodeDir = $tmpDir . 'qrcode/';
         $certificadoDir = $tmpDir;
@@ -62,7 +62,6 @@ class Certificados extends Model
         // Create directories if they don't exist
         echo $baseDir.'<hr>';
         dircheck($baseDir);
-        exit;
         echo $tmpDir . '<hr>';
         dircheck($tmpDir);
         echo $qrcodeDir . '<hr>';
