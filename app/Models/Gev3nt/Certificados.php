@@ -66,7 +66,7 @@ class Certificados extends Model
         dircheck($certificadoDir);
 
         // Caminho da imagem de fundo do certificado
-        $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo04.jpg'; // Coloque a imagem no diretório 'writable/uploads'
+        $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo01.jpg'; // Coloque a imagem no diretório 'writable/uploads'
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {
@@ -98,7 +98,7 @@ class Certificados extends Model
         $pdf->AddPage();
 
         // Definir a imagem de fundo
-        $pdf->Image($imagemFundo, 0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), '', '', '', false, 360, '', false, false, 0);
+        $pdf->Image($imagemFundo, 0, 0, $pdf->getPageWidth(), $pdf->getPageHeight(), '', '', '', false, 300, '', false, false, 0);
 
         // Definir a posição e o estilo do texto
         $pdf->SetFont('helvetica', 'B', 24);
