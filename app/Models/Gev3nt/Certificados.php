@@ -158,7 +158,7 @@ class Certificados extends Model
 
         // Print a text
         $html = '<span>'. $dt['e_name'].'</span>
-                <p stroke="0.2" style="font-family:helvetica;font-weight:bold;font-size:26pt;">
+                <p stroke="0.2" style="font-family:helvetica;font-weight:bold;font-size:26pt;margin-left: 80px;">
                 CERTIFICADO</p>
                 <table width="320px"><tr><td style="text-align: justify;">'.$textoCertificado. '</td></tr></table>';
         $day = round(substr($dt['e_data'], 8, 2));
