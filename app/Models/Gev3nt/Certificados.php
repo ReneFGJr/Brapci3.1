@@ -73,7 +73,7 @@ class Certificados extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public certificado($id=0)
+    public function certificado($id=0)
         {
             $dt=$this->first();
             pre($dt);
