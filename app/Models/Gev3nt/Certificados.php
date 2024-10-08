@@ -76,10 +76,10 @@ class Certificados extends Model
     public function certificado($id=0)
         {
             $dt=$this->first();
-            pre($dt);
+            $this->emite_certificado($dt['e_ass_none_1'],8,$dt);
         }
 
-    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
+    public function emite_certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8',$dt)
     {
         // Define base directory paths
         $baseDir = '/tmp_brapci/';
@@ -94,7 +94,8 @@ class Certificados extends Model
         dircheck($certificadoDir);
 
         // Caminho da imagem de fundo do certificado
-        $imagemFundo = '_repository/g3vent/certificados/feisc4_modelo01.jpg'; // Coloque a imagem no diretório 'writable/uploads'
+        $dirImage = '_repository/g3vent/';
+        $imagemFundo = $dirImage . $dt['e_background'];
 
         // Verifica se o arquivo de fundo existe
         if (!file_exists($imagemFundo)) {
