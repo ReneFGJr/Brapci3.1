@@ -54,7 +54,7 @@ class Certificados extends Model
     public function certificado($nomeParticipante = 'Fulano de Tal', $cargaHoraria = '8')
     {
         // Define base directory paths
-        $WRITEPATH = 'public/.tmp/';
+        $WRITEPATH = '/data/Brapci3.1/public/.tmp/';
         $baseDir = $WRITEPATH . 'certificado/';
         $tmpDir = $WRITEPATH . '.tmp/';
         $qrcodeDir = $tmpDir . 'qrcode/';
