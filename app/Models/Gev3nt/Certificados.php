@@ -155,10 +155,7 @@ class Certificados extends Model
         $pdf->AddPage();
         // remove default header
         $pdf->setPrintHeader(false);
-        $img_file = $imagemFundo;
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+
 
         // Print a text
         $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 1&nbsp;</span>
@@ -167,17 +164,6 @@ class Certificados extends Model
             ''
         );
 
-        // add a page
-        $pdf->AddPage();
-        // get the current page break margin
-
-        // disable auto-page-break
-        // set bacground image
-        $img_file = K_PATH_IMAGES . 'image_demo.jpg';;
-        $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-        // restore auto-page-break status
-        // set the starting point for the page content
-        $pdf->setPageMark();
 
         //Close and output PDF document
         $pdf->Output();
