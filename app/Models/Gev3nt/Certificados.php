@@ -137,6 +137,9 @@ class Certificados extends Model
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
+        // remove default header
+        $pdf->setPrintHeader(false);
+
 
 
         // Crie um texto para o QR Code
@@ -156,6 +159,11 @@ class Certificados extends Model
         $pdf->writeHTML($html, true, false, true, false,
             ''
         );
+
+        //Close and output PDF document
+        $pdf->Output();
+        exit;
+
 
 
         // --- example with background set on page ---
