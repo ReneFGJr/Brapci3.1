@@ -10,7 +10,6 @@ use Endroid\QrCode\Writer\PngWriter;
 // Extend the TCPDF class to create custom Header and Footer
 class MYPDF extends TCPDF
 {
-    public $image = K_PATH_IMAGES . 'image_demo.jpg';
     //Page header
     public function Header()
     {
@@ -21,7 +20,7 @@ class MYPDF extends TCPDF
         // disable auto-page-break
         $this->SetAutoPageBreak(false, 0);
         // set bacground image
-        $img_file = $this->image;
+        $img_file = K_PATH_IMAGES . 'image_demo.jpg';;
         $this->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
         // restore auto-page-break status
         $this->SetAutoPageBreak($auto_page_break, $bMargin);
@@ -135,8 +134,7 @@ class Certificados extends Model
         // set auto page breaks
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
 
 
         // Crie um texto para o QR Code
@@ -152,8 +150,9 @@ class Certificados extends Model
         // remove default header
         $pdf->setPrintHeader(false);
         $img_file = $imagemFundo;
+        // set image scale factor
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
         $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-        $this->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
 
         // Print a text
         $html = '<span style="background-color:yellow;color:blue;">&nbsp;PAGE 1&nbsp;</span>
