@@ -61,8 +61,8 @@ class Certificados extends Model
 
         // Create directories if they don't exist
         echo $baseDir.'<hr>';
-        exit;
         dircheck($baseDir);
+        exit;
         echo $tmpDir . '<hr>';
         dircheck($tmpDir);
         echo $qrcodeDir . '<hr>';
