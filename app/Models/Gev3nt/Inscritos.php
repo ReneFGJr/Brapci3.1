@@ -43,6 +43,18 @@ class Inscritos extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function lista_eventos()
+        {
+            $sql = "select * from event_schedule_bloco where esb_ativo = 1 order by esb_day, esb_event ";
+            $row = $this->db->query($sql);
+            print($row);
+        }
+
+    function lista_presenca($ev)
+        {
+
+        }
+
     function register($cpf,$id,$sta)
         {
             $dt = $this
@@ -62,5 +74,5 @@ class Inscritos extends Model
                 }
         }
 
-    
+
 }
