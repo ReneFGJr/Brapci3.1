@@ -174,11 +174,11 @@ $routes->get('/admin', 'Admin::index');
 
 
 /* G3event */
-$routes->get('/event/(:any)', 'G3event::index/$1');
-$routes->post('/event/(:any)', 'G3event::index/$1');
-$routes->get('/event/(:any)/(:any)', 'G3event::index/$1/$2');
-$routes->post('/event/(:any)/(:any)', 'G3event::index/$1/$2');
-$routes->get('/event', 'G3event::index');
+$routes->get('/event/(:any)', 'G3vent::index/$1');
+$routes->post('/event/(:any)', 'G3vent::index/$1');
+$routes->get('/event/(:any)/(:any)', 'G3vent::index/$1/$2');
+$routes->post('/event/(:any)/(:any)', 'G3vent::index/$1/$2');
+$routes->get('/event', 'G3vent::index');
 
 /********* PQ */
 $routes->get('/pq/(:any)', 'Pq::index/$1');
