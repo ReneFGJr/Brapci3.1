@@ -30,6 +30,10 @@ def check():
             info_autor = info_autor.replace(chr(10),' ')
             up = True
 
+        if ' ? ' in info_autor:
+            info_autor = info_autor.replace(' ? ','-')
+            up = True
+
         if ' -' in info_autor:
             info_autor = info_autor.replace(' -','-')
             up = True
