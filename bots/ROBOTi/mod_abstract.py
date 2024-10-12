@@ -19,7 +19,7 @@ def charSet():
         l_name_converted = html.unescape(l_name_html)
 
         # Atualiza o campo l_name com o valor convertido
-        qu = "UPDATE brapci_rdf.rdf_name SET n_name = '{l_name_converted}' WHERE id_n = {id_n}"
+        qu = f"UPDATE brapci_rdf.rdf_name SET n_name = '{l_name_converted}' WHERE id_n = {id_n}"
         print(l_name_html)
         print(qu)
         sys.exit()
