@@ -61,7 +61,7 @@ def solicitar_confirmacao():
     if resposta == '2':
         return 2
     elif resposta == 'n':
-        return 0
+        return -1
     else:
         print("Resposta inválida. Por favor, digite 's' para sim ou 'n' para não.")
         solicitar_confirmacao()  # Chama novamente a função para solicitar confirmação
@@ -99,7 +99,7 @@ def removeDouble(ID,lang,IDprop):
                 qd = f"delete from brapci_rdf.rdf_data where id_d = {ID2}"
             database.query(qd)
         else:
-            sys.exit()
+            print("#########SKIP")
 
 def grau_de_equivalencia(texto1, texto2):
 
