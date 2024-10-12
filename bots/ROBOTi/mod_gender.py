@@ -36,7 +36,7 @@ def check():
 
                 if (gender_data == 'indefinido'):
                     print("#Indefinido")
-                    //setGenere(line[1],IDprop,indefinido)
+                    # setGenere(line[1],IDprop,indefinido)
                 print(f"=I=> {line[2]}: {gender_data}")
             else:
                 print(f"Error: API request failed with status code {rsp.status_code}")
