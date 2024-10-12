@@ -27,8 +27,9 @@ def check():
         try:
             rsp = requests.get(url)
             if rsp.status_code == 200:
-                # Assuming the response is in JSON format
-                print(f"API Response for {line[2]}: {rsp.response}")
+                # A resposta é uma string
+                gender_data = rsp.text
+                print(f"API Response for {line[2]}: {gender_data}")
             else:
                 print(f"Error: API request failed with status code {rsp.status_code}")
         except Exception as e:
