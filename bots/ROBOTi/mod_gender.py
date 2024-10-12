@@ -28,7 +28,6 @@ def check():
             rsp = requests.get(url)
             if rsp.status_code == 200:
                 # Assuming the response is in JSON format
-                gender_data = rsp.json()
                 print(f"API Response for {line[2]}: {rsp}")
             else:
                 print(f"Error: API request failed with status code {rsp.status_code}")
