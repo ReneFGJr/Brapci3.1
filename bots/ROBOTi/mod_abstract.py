@@ -1,13 +1,31 @@
 import database
 import mod_class
 import sys
+import html
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
+def charSet():
+    qr = "SELECT id, l_name FROM rdf_name WHERE l_name LIKE '%&%;'"
+    row = database.query(qr)
+
+    for record in row:
+        record_id = record[0]
+        l_name_html = record[1]
+
+        # Converte as entidades HTML para texto normal
+        l_name_converted = convert_html_entities(l_name_html)
+
+        # Atualiza o campo l_name com o valor convertido
+        update_query = "UPDATE rdf_name SET l_name = %s WHERE id = %s"
+
+        print(update_query)
 
 def check_double():
+    charSet()
+    sys.exit()
     prop = 'hasAbstract'
     IDprop = mod_class.getClass(prop)
 
