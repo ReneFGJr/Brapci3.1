@@ -25,9 +25,7 @@ def check():
     indefinido = 99569
 
     for line in row:
-        print(line)
         url = 'https://cip.brapci.inf.br/api/gender?name=' + urllib.parse.quote(line[2])
-        print(url)
 
         try:
             rsp = requests.get(url)
