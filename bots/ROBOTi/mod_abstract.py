@@ -8,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 def charSet():
-    qr = "SELECT id, l_name FROM brapci_rdf.rdf_literal WHERE l_name LIKE '%&%;'"
+    qr = "SELECT id_n, l_name FROM brapci_rdf.rdf_literal WHERE l_name LIKE '%&%;'"
     row = database.query(qr)
 
     for record in row:
