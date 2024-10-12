@@ -96,6 +96,11 @@ def check():
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
+        info_autorO = info_autor.strip()
+        if info_autor != info_autorO:
+            info_autor = info_autorO
+            up = True
+
         if up == True:
             info_autor = info_autor.rstrip('-').strip()
             mod_literal.update_term(idn,info_autor)
