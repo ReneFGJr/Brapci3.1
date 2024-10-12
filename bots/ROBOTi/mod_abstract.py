@@ -46,9 +46,9 @@ def removeDouble(ID,lang,IDprop):
         qd = f"delete from brapci_rdf.rdf_data where id_d = {ID1}"
         database.query(qd)
     else:
-        print(ln1)
-        print(ln2)
-        ##sys.exit()
+        print("#1#",ln1)
+        print("#2#",ln2)
+        sys.exit()
 
 def grau_de_equivalencia(texto1, texto2):
 
