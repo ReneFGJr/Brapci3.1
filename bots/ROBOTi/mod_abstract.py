@@ -8,20 +8,29 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 def charSet():
-    qr = "SELECT id_n, n_name FROM brapci_rdf.rdf_literal WHERE n_name LIKE '%&%;'"
+    qr = "SELECT id_n, n_name FROM brapci_rdf.rdf_literal WHERE "
+    qr += "n_name LIKE '%&atilde;%' "
+    qr += "OR n_name LIKE '%&eacute;%' "
+    qr += "OR n_name LIKE '%&iacute;%' "
+    qr += "OR n_name LIKE '%&ocirc;%' "
+    qr += "OR n_name LIKE '%&uacute;%' "
+    qr += "OR n_name LIKE '%&ccedil;%' "
+    qr += "OR n_name LIKE '%&ntilde;%' "
+    qr += "OR n_name LIKE '%&quot;%' "
+    qr += "OR n_name LIKE '%&amp;%';"
     row = database.query(qr)
 
     for record in row:
         record_id = record[0]
-        l_name_html = record[1]
+        n_name_html = record[1]
 
         # Converte as entidades HTML para texto normal
-        l_name_converted = html.unescape(l_name_html).strip()
+        n_name_converted = html.unescape(n_name_html).strip()
 
-        # Atualiza o campo l_name com o valor convertido
-        qu = f"UPDATE brapci_rdf.rdf_literal SET n_name = '{l_name_converted}' WHERE id_n = {record_id}"
+        # Atualiza o campo n_name com o valor convertido
+        qu = f"UPDATE brapci_rdf.rdf_literal SET n_name = '{n_name_converted}' WHERE id_n = {record_id}"
         database.update(qu)
-        print(l_name_html)
+        print(n_name_html)
         print(qu)
         sys.exit()
 
