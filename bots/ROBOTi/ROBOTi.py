@@ -31,6 +31,7 @@ import mod_proceeding
 import mod_backup_mysql
 import mod_thesa
 import mod_gender
+import mod_person
 import socket
 from colorama import Fore
 
@@ -183,6 +184,9 @@ def run(parm):
 
     if (act == 'gender'):
         mod_gender.check()
+
+    if (act == 'persona'):
+        mod_person.check()
 
 
     #################### LITERAL
