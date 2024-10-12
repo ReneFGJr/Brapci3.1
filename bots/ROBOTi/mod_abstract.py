@@ -22,8 +22,6 @@ def check_double():
 
     row = database.query(qr)
     for line in row:
-        print(line)
-        print("=======================")
         ID = line[1]
         lang = line[2]
         removeDouble(ID,lang,IDprop)
