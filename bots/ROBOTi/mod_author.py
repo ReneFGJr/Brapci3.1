@@ -190,19 +190,6 @@ def remissive(ID1,ID2):
     mod_data.remicive(ID1,ID2)
 
 def register_literal(IDC,name):
-    name = nbr_author(name)
-
-    IDliteral = mod_literal.register(name,'nn')
-    IDClass = mod_class.getClass('Person')
-
-    IDCt = mod_concept.register(IDClass,IDliteral)
-    return mod_data.register(IDC,'hasAuthor',IDCt)
-
-def troca(texto, velho, novo):
-    return texto.replace(velho, novo)
-
-def nbr_author(xa, xp='1'):
-    xp = str(xp)
     if xa.strip() == '':
         return ""
 
@@ -244,29 +231,30 @@ def nbr_author(xa, xp='1'):
     er2 = ['DE', 'DA', 'DO', 'DOS', 'E', 'EM', 'DAS']
     NM2 = [nome for nome in NM if nome not in er2]
 
-    # Minusculas e abreviaturas
+    # Minusculas e abreviaturas, considerando acentuação
     Nm = [nome.lower() for nome in NM]
     Ni = [nome[0].upper() for nome in NM]
     Nf = []
 
     for r in range(len(NM)):
-        if ord(NM[r][0]) > 128:
-            Nf.append(NM[r][:2].upper() + NM[r][2:].lower())
-        else:
-            Nf.append(NM[r][0].upper() + NM[r][1:].lower())
+        nome = NM[r]
+        # Tratando acentuação corretamente
+        nome_formatado = nome[0].upper() + nome[1:].lower()
 
-        # Checa por hífens ou espaços e ajusta formatação
-        if '-' in Nf[r]:
-            partes = Nf[r].split('-')
-            Nf[r] = '-'.join([parte.capitalize() for parte in partes])
+        # Verifica por hífens ou espaços para formatar corretamente os compostos
+        if '-' in nome_formatado:
+            partes = nome_formatado.split('-')
+            nome_formatado = '-'.join([parte.capitalize() for parte in partes])
 
-        if ' ' in Nf[r]:
-            partes = Nf[r].split(' ')
-            Nf[r] = ' '.join([parte.capitalize() for parte in partes])
+        if ' ' in nome_formatado:
+            partes = nome_formatado.split(' ')
+            nome_formatado = ' '.join([parte.capitalize() for parte in partes])
 
         # Checa preposições
         if NM[r] in er2:
-            Nf[r] = Nm[r]
+            nome_formatado = nome.lower()
+
+        Nf.append(nome_formatado)
 
     # Formatação final conforme o valor de 'xp'
     name = ''
