@@ -16,7 +16,7 @@ def charSet():
         l_name_html = record[1]
 
         # Converte as entidades HTML para texto normal
-        l_name_converted = html.unescape(l_name_html)
+        l_name_converted = html.unescape(l_name_html).strip()
 
         # Atualiza o campo l_name com o valor convertido
         qu = f"UPDATE brapci_rdf.rdf_literal SET n_name = '{l_name_converted}' WHERE id_n = {record_id}"
