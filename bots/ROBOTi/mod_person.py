@@ -2,6 +2,7 @@ import mod_class
 import database
 import mod_data
 import mod_literal
+import mod_author
 
 def check():
     print("XXX - Check Personal Name")
@@ -107,6 +108,9 @@ def check():
             print(line[2])
             print(info_autor)
             print("======================")
+
+        print(info_autor))
+        print(mod_author.nbr_author(info_autor,1))
 
 def setName(IDC,prop,IDP):
     mod_data.register(IDC,prop,IDP,0,1)

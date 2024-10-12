@@ -4,6 +4,8 @@ import mod_concept
 import mod_data
 import database
 import mod_logs
+import re
+import unicodedata
 
 def check_use_zero():
     qr = "update "
@@ -196,28 +198,89 @@ def register_literal(IDC,name):
     IDCt = mod_concept.register(IDClass,IDliteral)
     return mod_data.register(IDC,'hasAuthor',IDCt)
 
-def nbr_author(n):
-    if ',' in n:
-        n = n.replace(',','')
-        print("NOME COM VIRGULA",n)
+def troca(texto, velho, novo):
+    return texto.replace(velho, novo)
 
-    nm = n.lower()
-    nm = nm.split(' ')
+def nbr_author(xa, xp=1):
+    if xa.strip() == '':
+        return ""
 
-    pre = ['de','da','e','do']
+    if not isinstance(xa, str) or not xa.isascii():
+        xa = xa.encode('utf-8', errors='ignore').decode('utf-8')
 
-    n = ''
-    for i in range(len(nm)):
-        na = nm[i]
-        na1 = na[:1]
-        na2 = na[1:]
+    # Preparação do texto
+    if ';' in xa:
+        xa = xa[:xa.index(';')]
 
-        for x in range(len(pre)):
-            if na == pre[x]:
-                na2 = na
-                na1 = ''
-        if n != '':
-            n += ' '
-        n += na1.upper()+na2
-    print(n)
-    return n
+    xa = troca(xa, ' -', '-')
+    xa = troca(xa, '- ', '-')
+
+    while '  ' in xa:
+        xa = troca(xa, '  ', ' ')
+
+    xa = xa.strip()
+
+    # Nome Sobrenome
+    if ',' in xa:
+        partes = xa.split(',', 1)
+        xa = f"{partes[1].strip()} {partes[0].strip()}"
+
+    # Divide Nomes
+    MN = xa.upper()
+    NMT = MN.split(' ')
+    NM = [nome for nome in NMT if nome != '']
+
+    # Sobrenomes falsos
+    er1 = ['JÚNIOR', 'JUNIOR', 'NETTO', 'NETO', 'SOBRINHO', 'FILHO', 'JR.', 'JR']
+    TOT = len(NM)
+
+    if NM[TOT-1] in er1:
+        if TOT > 1:
+            NM[TOT-2] += f" {NM[TOT-1]}"
+            NM.pop()
+
+    # Preposições
+    er2 = ['DE', 'DA', 'DO', 'DOS', 'E', 'EM', 'DAS']
+    NM2 = [nome for nome in NM if nome not in er2]
+
+    # Minusculas e abreviaturas
+    Nm = [nome.lower() for nome in NM]
+    Ni = [nome[0].upper() for nome in NM]
+    Nf = []
+
+    for r in range(len(NM)):
+        if ord(NM[r][0]) > 128:
+            Nf.append(NM[r][:2].upper() + NM[r][2:].lower())
+        else:
+            Nf.append(NM[r][0].upper() + NM[r][1:].lower())
+
+        # Checa por hífens ou espaços e ajusta formatação
+        if '-' in Nf[r]:
+            partes = Nf[r].split('-')
+            Nf[r] = '-'.join([parte.capitalize() for parte in partes])
+
+        if ' ' in Nf[r]:
+            partes = Nf[r].split(' ')
+            Nf[r] = ' '.join([parte.capitalize() for parte in partes])
+
+        # Checa preposições
+        if NM[r] in er2:
+            Nf[r] = Nm[r]
+
+    # Formatação final conforme o valor de 'xp'
+    name = ''
+    if xp == '1':  # Sobrenome e Nome
+        name = f"{NM[TOT-1]}, " + ' '.join(Nf[:TOT-1])
+    elif xp == '2':  # Sobrenome e Nome CURTO
+        name = f"{NM2[-1]}, " + ' '.join([f"{n[0]}." for n in NM2[:-1]])
+    elif xp == '3':  # Sobrenome e Nome CURTO sem ponto
+        name = f"{NM2[-1]} " + ''.join([n[0] for n in NM2[:-1]])
+    elif xp == '7':  # Nome e Sobrenome
+        name = ' '.join(Nf)
+    elif xp == '8':  # Somente primeira letra maiúscula
+        name = f"{Nf[0]} " + ' '.join(Nm)
+    else:
+        print(f"Method {xp} not implemented")
+        name = xa
+
+    return name.strip() if len(name.strip()) > 5 else ""
