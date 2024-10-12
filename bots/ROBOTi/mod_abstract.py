@@ -38,6 +38,8 @@ def removeDouble(ID,lang,IDprop):
 
     ln1 = row[0][1]
     ln2 = row[1][1]
+    print(ln1)
+    print(ln2)
     print(grau_de_equivalencia(ln1,ln2))
     sys.exit()
 
