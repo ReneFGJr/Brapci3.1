@@ -3,7 +3,7 @@ import mod_class
 import mod_concept
 import mod_data
 import database
-import request
+import requests
 
 def check():
     print("XXX - Check Personal Gender")
@@ -27,7 +27,7 @@ def check():
         print(url)
 
         try:
-            rsp = request.get(url)
+            rsp = requests.get(url)
             if rsp.status_code == 200:
                 # Assuming the response is in JSON format
                 gender_data = rsp.json()
