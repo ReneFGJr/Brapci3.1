@@ -54,7 +54,8 @@ class Genere extends Model
     {
         $name = get("name");
         if ($name != '') {
-            return $this->getGenere($name);
+            echo $this->getGenere($name);
+            exit;
         }
         return "NnN";
 
