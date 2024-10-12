@@ -22,6 +22,11 @@ def check():
         info_autor = line[2]
         idn = line[3]
 
+        if '\r' in line[2]:
+            pos_hifen = info_autor.replace('\r',' ')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
         if 'University' in line[2]:
             pos_hifen = info_autor.find('University')
             info_autor = info_autor[:pos_hifen].strip()
