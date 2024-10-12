@@ -22,6 +22,11 @@ def check():
         info_autor = line[2]
         idn = line[3]
 
+        if 'university' in line[2]:
+            pos_hifen = info_autor.find('university')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
         if '-Centro' in line[2]:
             pos_hifen = info_autor.find('-Centro')
             info_autor = info_autor[:pos_hifen].strip()
