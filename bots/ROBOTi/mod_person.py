@@ -109,7 +109,7 @@ def check():
             print(info_autor)
             print("======================")
 
-        info_autorO = mod_author.nbr_author(info_autor,1)
+        info_autorO = mod_author.nbr_author(info_autor,3)
         if info_autor != info_autorO:
             print(info_autor)
             print(info_autorO)
