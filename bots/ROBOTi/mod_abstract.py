@@ -20,6 +20,7 @@ def charSet():
 
         # Atualiza o campo l_name com o valor convertido
         qu = f"UPDATE brapci_rdf.rdf_name SET n_name = '{l_name_converted}' WHERE id_n = {record_id}"
+        database.update(qu)
         print(l_name_html)
         print(qu)
         sys.exit()
