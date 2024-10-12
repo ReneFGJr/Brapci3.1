@@ -21,7 +21,7 @@ def check():
         if 'niversidade' in line[2]:
             info_autor = line[2]
             pos_hifen = info_autor.find('niversidade')
-            nome_autor = info_autor[:pos_hifen].strip()
+            info_autor   = info_autor[:pos_hifen].strip()
             print(line[2],pos_hifen)
             print(info_autor)
             print("======================")
