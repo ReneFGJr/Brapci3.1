@@ -17,7 +17,7 @@ def check():
     qr += " and id_cc = cc_use "
     qr += " and id_d is null "
     qr += " order by n_name, id_cc"
-    qr += " limit 10"
+    qr += " limit 100"
 
     row = database.query(qr)
     masculino = 99567
