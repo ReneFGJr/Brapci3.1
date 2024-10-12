@@ -39,6 +39,7 @@ def check_double():
     charSet()
 
     prop = 'hasAbstract'
+    prop = 'hasTitle'
     IDprop = mod_class.getClass(prop)
 
     qr = "select * from ( "
