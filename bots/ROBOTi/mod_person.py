@@ -47,6 +47,11 @@ def check():
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
+        if '-Faculdad' in info_autor:
+            pos_hifen = info_autor.find('-Faculdad')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
         if '-institut' in info_autor:
             pos_hifen = info_autor.find('-institut')
             info_autor = info_autor[:pos_hifen].strip()
