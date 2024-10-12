@@ -18,7 +18,7 @@ def check():
 
     row = database.query(qr)
     for line in row:
-        if ('niversidade' in line[2]) or ('NIVERSIDADE' in line[2]):
+        if ('niversidad' in line[2]) or ('NIVERSIDAD' in line[2]):
             info_autor = line[2]
             idn = line[3]
             pos_hifen = info_autor.find('niversidade') - 1
