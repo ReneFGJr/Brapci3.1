@@ -63,8 +63,7 @@ def solicitar_confirmacao(ID):
     elif resposta == 'n':
         return -1
     else:
-        print("Resposta inválida. Por favor, digite 's' para sim ou 'n' para não.")
-        solicitar_confirmacao()  # Chama novamente a função para solicitar confirmação
+        return -1
 
 def removeDouble(ID,lang,IDprop):
     qr = "select id_d, n_name, n_lang, d_r1 "
