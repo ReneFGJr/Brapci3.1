@@ -45,7 +45,7 @@ def removeDouble(ID,lang,IDprop):
     print("===",ID,gr)
     if (gr > 90):
         qd = f"delete from brapci_rdf.rdf_data where id_d = {ID1}"
-        database.delete(qd)
+        database.query(qd)
         print(qd)
 
     sys.exit()
