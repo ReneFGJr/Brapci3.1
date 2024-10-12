@@ -113,7 +113,6 @@ def register(IDC,prop,IDP,IDliteral=0,ia=0):
         qri += f"({IDC},{IDP},{IDprop},{IDliteral},{ia});"
         database.insert(qri)
         row = database.query(qr)
-        print("      ",qri)
     qd = "COMMIT"
     database.update(qd)
 
