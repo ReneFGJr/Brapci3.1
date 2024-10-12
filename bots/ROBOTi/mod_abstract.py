@@ -74,6 +74,8 @@ def removeDouble(ID,lang,IDprop):
     qr += " order by id_n "
     row = database.query(qr)
 
+    print(row)
+
     ln1 = row[0][1]
     ln2 = row[1][1]
     ID1 = row[0][0]
