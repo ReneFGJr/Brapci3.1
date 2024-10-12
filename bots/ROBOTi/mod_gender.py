@@ -20,8 +20,8 @@ def check():
     qr += " limit 10"
 
     row = database.query(qr)
-    masc = 99567
-    femi = 99568
+    masculino = 99567
+    feminino = 99568
     indefinido = 99569
 
     for line in row:
@@ -38,6 +38,12 @@ def check():
                 if (gender_data == 'indefinido'):
                     print("#Indefinido")
                     setGenere(line[1],'hasGender',indefinido)
+                if (gender_data == 'masculino'):
+                    print("#masculino")
+                    setGenere(line[1],'hasGender',masculino)
+                if (gender_data == 'feminino'):
+                    print("#feminino")
+                    setGenere(line[1],'hasGender',feminino)
                 print(f"=I=> {line[2]}: {gender_data}")
             else:
                 print(f"Error: API request failed with status code {rsp.status_code}")
