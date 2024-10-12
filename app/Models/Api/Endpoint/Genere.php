@@ -56,10 +56,11 @@ class Genere extends Model
         if ($name != '') {
             echo $this->getGenere($name);
             exit;
+        } else {
+            $name = 'NaN';
+            echo $this->getGenere($name);
+            exit;
         }
-        return "NnN";
-
-        $Genere = new \App\Models\Authority\Genere();
     }
 
     function getGenere($name)
