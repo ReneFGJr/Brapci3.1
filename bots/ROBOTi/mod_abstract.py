@@ -91,7 +91,7 @@ def removeDouble(ID,lang,IDprop):
         print(" ")
         print("#2#",row[0][2],ln2)
         print(" ")
-        rsp = solicitar_confirmacao()
+        rsp = solicitar_confirmacao(ID)
         if (rsp > 0):
             if (rsp == 1):
                 qd = f"delete from brapci_rdf.rdf_data where id_d = {ID1}"
