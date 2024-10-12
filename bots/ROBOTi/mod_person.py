@@ -22,37 +22,47 @@ def check():
         info_autor = line[2]
         idn = line[3]
 
-        if chr(13) in line[2]:
+        if chr(13) in info_autor:
             pos_hifen = info_autor.replace(chr(13),' ')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
-        if 'University' in line[2]:
+        if chr(10) in info_autor:
+            pos_hifen = info_autor.replace(chr(10),' ')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
+        if '  ' in info_autor:
+            pos_hifen = info_autor.replace('  ',' ')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
+        if 'University' in info_autor:
             pos_hifen = info_autor.find('University')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
-        if '-institut' in line[2]:
+        if '-institut' in info_autor:
             pos_hifen = info_autor.find('-institut')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
-        if '- Institut' in line[2]:
+        if '- Institut' in info_autor:
             pos_hifen = info_autor.find('- Institut')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
-        if '-Institut' in line[2]:
+        if '-Institut' in info_autor:
             pos_hifen = info_autor.find('-Institut')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
-        if '-Centro' in line[2]:
+        if '-Centro' in info_autor:
             pos_hifen = info_autor.find('-Centro')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
-        if 'niversid' in line[2]:
+        if 'niversid' in info_autor:
             pos_hifen = info_autor.find('niversid') - 1
             info_autor = info_autor[:pos_hifen].strip()
             up = True
