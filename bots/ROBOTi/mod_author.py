@@ -202,6 +202,7 @@ def troca(texto, velho, novo):
     return texto.replace(velho, novo)
 
 def nbr_author(xa, xp='1'):
+    xp = str(xp)
     if xa.strip() == '':
         return ""
 
