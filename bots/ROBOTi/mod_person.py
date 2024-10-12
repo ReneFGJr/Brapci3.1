@@ -18,10 +18,10 @@ def check():
 
     row = database.query(qr)
     for line in row:
-        if ('niversidad' in line[2]) or ('NIVERSIDAD' in line[2]):
+        if 'niversid' in line[2]:
             info_autor = line[2]
             idn = line[3]
-            pos_hifen = info_autor.find('niversidade') - 1
+            pos_hifen = info_autor.find('niversid') - 1
             info_autor = info_autor[:pos_hifen].strip()
             info_autor = info_autor.rstrip('-').strip()
             mod_literal.update_term(idn,info_autor)
