@@ -22,8 +22,8 @@ def check():
         info_autor = line[2]
         idn = line[3]
 
-        if '\r' in line[2]:
-            pos_hifen = info_autor.replace('\r',' ')
+        if chr(13) in line[2]:
+            pos_hifen = info_autor.replace(chr(13),' ')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
