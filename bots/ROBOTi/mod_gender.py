@@ -15,7 +15,7 @@ def check():
     qr += f" left join brapci_rdf.rdf_data ON (d_r1 = id_cc) and (d_p = {IDprop})"
     qr += f" where cc_class = {IDClass}"
     qr += " and id_cc = cc_use "
-    qr += " and id_p is null "
+    qr += " and id_d is null "
     qr += " order by n_name, id_cc"
     qr += " limit 10"
 
