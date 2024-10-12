@@ -201,7 +201,7 @@ def register_literal(IDC,name):
 def troca(texto, velho, novo):
     return texto.replace(velho, novo)
 
-def nbr_author(xa, xp=1):
+def nbr_author(xa, xp='1'):
     if xa.strip() == '':
         return ""
 
