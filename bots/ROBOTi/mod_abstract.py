@@ -20,8 +20,9 @@ def charSet():
 
         # Atualiza o campo l_name com o valor convertido
         update_query = "UPDATE rdf_name SET l_name = '{l_name_converted}' WHERE id_n = {id_n}"
-
+        print(l_name_html)
         print(update_query)
+        sys.exit()
 
 def check_double():
     charSet()
