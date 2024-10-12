@@ -42,6 +42,13 @@ def removeDouble(ID,lang,IDprop):
     sys.exit()
 
 def grau_de_equivalencia(texto1, texto2):
+
+    # Garantindo que os textos sejam strings
+    if not isinstance(texto1, str):
+        texto1 = str(texto1) if texto1 is not None else ""
+    if not isinstance(texto2, str):
+        texto2 = str(texto2) if texto2 is not None else ""
+
     # Vetorização dos textos usando TF-IDF (Term Frequency - Inverse Document Frequency)
     vectorizer = TfidfVectorizer().fit_transform([texto1, texto2])
 
