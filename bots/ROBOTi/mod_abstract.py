@@ -28,7 +28,7 @@ def removeDouble(ID,lang,IDprop):
     qr = "select id_d, n_name, n_lang "
     qr += " FROM brapci_rdf.rdf_data "
     qr += " inner join brapci_rdf.rdf_literal ON d_literal = id_n "
-    qr += " where d_r1 = {ID} and d_p = {IDprop} and n_lang = '{lang}' "
+    qr += f" where d_r1 = {ID} and d_p = {IDprop} and n_lang = '{lang}' "
     qr += " order by id_n "
     row = database.query(qr)
     for line in row:
