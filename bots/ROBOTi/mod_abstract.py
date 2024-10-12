@@ -58,8 +58,10 @@ def check_double():
         removeDouble(ID,lang,IDprop)
 
 def solicitar_confirmacao(ID):
-    resposta = input(f"Tem certeza que deseja excluir {ID} (s/n/2): ").lower()
+    resposta = input(f"Tem certeza que deseja excluir {ID} (s/n/1/2): ").lower()
     if resposta == 's':
+        return 1
+    if resposta == '1':
         return 1
     if resposta == '2':
         return 2
