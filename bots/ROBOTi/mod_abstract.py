@@ -48,7 +48,7 @@ def removeDouble(ID,lang,IDprop):
     else:
         print(ln1)
         print(ln2)
-        sys.exit()
+        ##sys.exit()
 
 def grau_de_equivalencia(texto1, texto2):
 
