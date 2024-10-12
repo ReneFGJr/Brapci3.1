@@ -67,7 +67,7 @@ def check():
         if up == True:
             info_autor = info_autor.rstrip('-').strip()
             mod_literal.update_term(idn,info_autor)
-            print(line[2],pos_hifen)
+            print(line[2])
             print(info_autor)
             print("======================")
 
