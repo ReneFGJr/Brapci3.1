@@ -19,7 +19,7 @@ def charSet():
         l_name_converted = convert_html_entities(l_name_html)
 
         # Atualiza o campo l_name com o valor convertido
-        update_query = "UPDATE rdf_name SET l_name = %s WHERE id = %s"
+        update_query = "UPDATE rdf_name SET l_name = '{l_name_converted}' WHERE id_n = {id_n}"
 
         print(update_query)
 
