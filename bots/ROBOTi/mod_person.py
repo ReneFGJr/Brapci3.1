@@ -15,7 +15,6 @@ def check():
     qr += f" where cc_class = {IDClass}"
     qr += " and id_cc = cc_use "
     qr += " order by n_name, id_cc"
-    qr += " limit 10"
 
     row = database.query(qr)
     for line in row:
