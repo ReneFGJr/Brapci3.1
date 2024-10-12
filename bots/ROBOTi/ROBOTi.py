@@ -185,7 +185,7 @@ def run(parm):
     if (act == 'gender'):
         mod_gender.check()
 
-    if (act == 'persona'):
+    if (act == 'person'):
         mod_person.check()
 
 

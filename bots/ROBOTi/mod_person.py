@@ -19,7 +19,12 @@ def check():
     row = database.query(qr)
     for line in row:
         if 'niversidade' in line[2]:
-            print(line)
+            info_autor = line[2]
+            pos_hifen = info_autor.find('niversidade')
+            nome_autor = info_autor[:pos_hifen].strip()
+            print(line[2])
+            print(info_autor)
+            print("======================")
 
 def setGenere(IDC,prop,IDP):
     mod_data.register(IDC,prop,IDP,0,1)
