@@ -18,6 +18,8 @@ def charSet():
     qr += "OR n_name LIKE '%&ntilde;%' "
     qr += "OR n_name LIKE '%&quot;%' "
     qr += "OR n_name LIKE '%&amp;%';"
+    qr += "OR n_name LIKE '%&nbsp;%';"
+
     row = database.query(qr)
 
     for record in row:
