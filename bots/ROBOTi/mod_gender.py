@@ -2,6 +2,7 @@ import mod_class
 import database
 import requests
 import urllib.parse
+import mod_data
 
 def check():
     print("XXX - Check Personal Gender")
@@ -18,6 +19,9 @@ def check():
     qr += " limit 10"
 
     row = database.query(qr)
+    masc = 99567
+    femi = 99568
+    indefinido = 99569
 
     for line in row:
         print(line)
@@ -29,8 +33,15 @@ def check():
             if rsp.status_code == 200:
                 # A resposta é uma string
                 gender_data = rsp.text
-                print(f"API Response for {line[2]}: {gender_data}")
+
+                if (gender_data == 'indefinido'):
+                    print("#Indefinido")
+                    setGenere(line[1],IDprop,indefinido)
+                print(f"=I=> {line[2]}: {gender_data}")
             else:
                 print(f"Error: API request failed with status code {rsp.status_code}")
         except Exception as e:
             print(f"Exception occurred during API request: {str(e)}")
+
+def setGenere(IDC,prop,IDP):
+    mod_data.register(IDC,prop,IDP,0,1)
