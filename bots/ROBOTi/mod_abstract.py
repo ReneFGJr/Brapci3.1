@@ -8,8 +8,8 @@ def check_double():
 
     qr = "select * from ( "
     qr += "SELECT count(*) as total, d_r1, n_lang "
-    qr += "FROM `rdf_data`  "
-    qr += "inner join rdf_literal ON d_literal = id_n "
+    qr += "FROM brapci_rdf.rdf_data "
+    qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n "
     qr += f"where d_p = {prop} "
     qr += "group by d_r1, n_lang "
     qr += ") as tabela "
