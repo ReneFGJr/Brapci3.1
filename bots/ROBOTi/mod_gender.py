@@ -19,3 +19,6 @@ def check():
     qr += " limit 10"
 
     row = database.query(qr)
+
+    for line in row:
+        print(line)
