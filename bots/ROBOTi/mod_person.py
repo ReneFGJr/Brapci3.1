@@ -109,8 +109,10 @@ def check():
             print(info_autor)
             print("======================")
 
-        print(info_autor)
-        print(mod_author.nbr_author(info_autor,1))
+        info_autorO = mod_author.nbr_author(info_autor,1)
+        if info_autor != info_autorO:
+            print(info_autor)
+            print(info_autorO)
 
 def setName(IDC,prop,IDP):
     mod_data.register(IDC,prop,IDP,0,1)
