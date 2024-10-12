@@ -30,9 +30,7 @@ def charSet():
         # Atualiza o campo n_name com o valor convertido
         qu = f"UPDATE brapci_rdf.rdf_literal SET n_name = '{n_name_converted}' WHERE id_n = {record_id}"
         database.update(qu)
-        print(n_name_html)
-        print(qu)
-        sys.exit()
+
 
 def check_double():
     charSet()
