@@ -27,6 +27,16 @@ def check():
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
+        if '-institut' in line[2]:
+            pos_hifen = info_autor.find('-institut')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
+        if '-Institut' in line[2]:
+            pos_hifen = info_autor.find('-Institut')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
         if '-Centro' in line[2]:
             pos_hifen = info_autor.find('-Centro')
             info_autor = info_autor[:pos_hifen].strip()
