@@ -1,9 +1,7 @@
-import mod_literal
 import mod_class
-import mod_concept
-import mod_data
 import database
 import requests
+import urllib.parse
 
 def check():
     print("XXX - Check Personal Gender")
@@ -23,7 +21,7 @@ def check():
 
     for line in row:
         print(line)
-        url = 'https://cip.brapci.inf.br/api/gender?name=' + line[2]
+        url = 'https://cip.brapci.inf.br/api/gender?name=' + urllib.parse.quote(line[2])
         print(url)
 
         try:
