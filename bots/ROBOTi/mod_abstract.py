@@ -36,8 +36,8 @@ def removeDouble(ID,lang,IDprop):
     qr += " order by id_n "
     row = database.query(qr)
 
-    ln1 = row[0]
-    ln2 = row[1]
+    ln1 = row[0][1]
+    ln2 = row[1][1]
     print(grau_de_equivalencia(ln1,ln2))
     sys.exit()
 
