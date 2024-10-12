@@ -30,6 +30,7 @@ import mod_cited
 import mod_proceeding
 import mod_backup_mysql
 import mod_thesa
+import mod_gender
 import socket
 from colorama import Fore
 
@@ -179,6 +180,9 @@ def run(parm):
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
+
+    if (act == 'gender'):
+        mod_gender.check()
 
 
     #################### LITERAL
