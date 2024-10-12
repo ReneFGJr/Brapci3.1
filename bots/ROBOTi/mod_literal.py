@@ -517,6 +517,10 @@ def check_all():
     qd = "COMMIT"
     database.update(qd)
 
+def update_term(id,term):
+    qr = f"update brapci_rdf.rdf_literal set n_name = '{term}' where id_n = {id}"
+    row = database.update(qr)
+
 
 def register(term,lang):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{term}') and (n_lang = '{lang}')"
