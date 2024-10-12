@@ -27,9 +27,11 @@ def check_double():
         removeDouble(ID,lang,IDprop)
 
 def solicitar_confirmacao():
-    resposta = input("Tem certeza que deseja excluir? (s/n): ").lower()
+    resposta = input("Tem certeza que deseja excluir? (s/n/2): ").lower()
     if resposta == 's':
         return 1
+    if resposta == '2':
+        return 2
     elif resposta == 'n':
         return 0
     else:
@@ -47,6 +49,7 @@ def removeDouble(ID,lang,IDprop):
     ln1 = row[0][1]
     ln2 = row[1][1]
     ID1 = row[0][0]
+    ID2 = row[1][0]
 
     gr = grau_de_equivalencia(ln1,ln2)
     print("===",ID,gr)
@@ -56,8 +59,12 @@ def removeDouble(ID,lang,IDprop):
     else:
         print("#1#",ln1)
         print("#2#",ln2)
-        if (solicitar_confirmacao() == 1):
-            qd = f"delete from brapci_rdf.rdf_data where id_d = {ID1}"
+        rsp = solicitar_confirmacao()
+        if (rsp > 0):
+            if (rsp == 1):
+                qd = f"delete from brapci_rdf.rdf_data where id_d = {ID1}"
+            else:
+                qd = f"delete from brapci_rdf.rdf_data where id_d = {ID2}"
             database.query(qd)
         else:
             sys.exit()
