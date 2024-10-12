@@ -30,6 +30,14 @@ def check():
             info_autor = info_autor.replace(chr(10),' ')
             up = True
 
+        if ' -' in info_autor:
+            info_autor = info_autor.replace(' -','-')
+            up = True
+
+        if '- ' in info_autor:
+            info_autor = info_autor.replace('- ','-')
+            up = True
+
         if '  ' in info_autor:
             info_autor = info_autor.replace('  ',' ')
             up = True
@@ -41,11 +49,6 @@ def check():
 
         if '-institut' in info_autor:
             pos_hifen = info_autor.find('-institut')
-            info_autor = info_autor[:pos_hifen].strip()
-            up = True
-
-        if '- Institut' in info_autor:
-            pos_hifen = info_autor.find('- Institut')
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
