@@ -3,6 +3,7 @@ import mod_class
 import mod_concept
 import mod_data
 import database
+import request
 
 def check():
     print("XXX - Check Personal Gender")
@@ -22,3 +23,16 @@ def check():
 
     for line in row:
         print(line)
+        url = 'https://cip.brapci.inf.br/api/gender?name=' + line[2]
+        print(url)
+
+        try:
+            rsp = request.get(url)
+            if rsp.status_code == 200:
+                # Assuming the response is in JSON format
+                gender_data = rsp.json()
+                print(f"API Response for {line[2]}: {gender_data}")
+            else:
+                print(f"Error: API request failed with status code {rsp.status_code}")
+        except Exception as e:
+            print(f"Exception occurred during API request: {str(e)}")
