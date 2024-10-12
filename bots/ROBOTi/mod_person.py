@@ -80,6 +80,12 @@ def check():
             info_autor = info_autor[:pos_hifen].strip()
             up = True
 
+        if '-Fundaçao' in info_autor:
+            pos_hifen = info_autor.find('-Fundaçao')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
+
         if '-Centro' in info_autor:
             pos_hifen = info_autor.find('-Centro')
             info_autor = info_autor[:pos_hifen].strip()
