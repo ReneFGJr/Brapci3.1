@@ -35,7 +35,7 @@ def charSet():
 
 def check_double():
     charSet()
-    sys.exit()
+
     prop = 'hasAbstract'
     IDprop = mod_class.getClass(prop)
 
