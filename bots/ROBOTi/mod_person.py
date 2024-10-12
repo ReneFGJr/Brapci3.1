@@ -109,7 +109,7 @@ def check():
             print(info_autor)
             print("======================")
 
-        print(info_autor))
+        print(info_autor)
         print(mod_author.nbr_author(info_autor,1))
 
 def setName(IDC,prop,IDP):
