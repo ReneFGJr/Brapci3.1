@@ -18,11 +18,21 @@ def check():
 
     row = database.query(qr)
     for line in row:
+        up = False
+        info_autor = line[2]
+        idn = line[3]
+
+        if '-Centro' in line[2]:
+            pos_hifen = info_autor.find('-Centro')
+            info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
         if 'niversid' in line[2]:
-            info_autor = line[2]
-            idn = line[3]
             pos_hifen = info_autor.find('niversid') - 1
             info_autor = info_autor[:pos_hifen].strip()
+            up = True
+
+        if up == True:
             info_autor = info_autor.rstrip('-').strip()
             mod_literal.update_term(idn,info_autor)
             print(line[2],pos_hifen)
