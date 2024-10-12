@@ -102,17 +102,17 @@ def check():
             info_autor = info_autorO
             up = True
 
+        info_autorO = mod_author.nbr_author(info_autor,7)
+        if info_autor != info_autorO:
+            info_autor = info_autorO
+            up = True
+
         if up == True:
             info_autor = info_autor.rstrip('-').strip()
             mod_literal.update_term(idn,info_autor)
             print(line[2])
             print(info_autor)
             print("======================")
-
-        info_autorO = mod_author.nbr_author(info_autor,7)
-        if info_autor != info_autorO:
-            print("=O=>",info_autor)
-            print("=N=>",info_autorO)
 
 def setName(IDC,prop,IDP):
     mod_data.register(IDC,prop,IDP,0,1)
