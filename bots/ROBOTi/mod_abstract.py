@@ -19,9 +19,9 @@ def charSet():
         l_name_converted = convert_html_entities(l_name_html)
 
         # Atualiza o campo l_name com o valor convertido
-        update_query = "UPDATE rdf_name SET l_name = '{l_name_converted}' WHERE id_n = {id_n}"
+        qu = "UPDATE brapci_rdf.rdf_name SET l_name = '{l_name_converted}' WHERE id_n = {id_n}"
         print(l_name_html)
-        print(update_query)
+        print(qu)
         sys.exit()
 
 def check_double():
