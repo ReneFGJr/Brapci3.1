@@ -182,11 +182,9 @@ def run(parm):
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
 
-    if (act == 'gender'):
-        mod_gender.check()
-
     if (act == 'person'):
         mod_person.check()
+        mod_gender.check()
 
 
     #################### LITERAL
