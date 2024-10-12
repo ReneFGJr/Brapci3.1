@@ -8,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 def charSet():
-    qr = "SELECT id_n, l_name FROM brapci_rdf.rdf_literal WHERE l_name LIKE '%&%;'"
+    qr = "SELECT id_n, n_name FROM brapci_rdf.rdf_literal WHERE n_name LIKE '%&%;'"
     row = database.query(qr)
 
     for record in row:
@@ -19,7 +19,7 @@ def charSet():
         l_name_converted = convert_html_entities(l_name_html)
 
         # Atualiza o campo l_name com o valor convertido
-        qu = "UPDATE brapci_rdf.rdf_name SET l_name = '{l_name_converted}' WHERE id_n = {id_n}"
+        qu = "UPDATE brapci_rdf.rdf_name SET n_name = '{l_name_converted}' WHERE id_n = {id_n}"
         print(l_name_html)
         print(qu)
         sys.exit()
