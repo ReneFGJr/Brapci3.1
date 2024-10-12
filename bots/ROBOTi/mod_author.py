@@ -190,6 +190,20 @@ def remissive(ID1,ID2):
     mod_data.remicive(ID1,ID2)
 
 def register_literal(IDC,name):
+    name = nbr_author(name)
+
+    IDliteral = mod_literal.register(name,'nn')
+    IDClass = mod_class.getClass('Person')
+
+    IDCt = mod_concept.register(IDClass,IDliteral)
+    return mod_data.register(IDC,'hasAuthor',IDCt)
+
+def troca(texto, velho, novo):
+    return texto.replace(velho, novo)
+
+def nbr_author(xa, xp='1'):
+    xp = str(xp)
+
     if xa.strip() == '':
         return ""
 
