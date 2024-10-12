@@ -23,18 +23,15 @@ def check():
         idn = line[3]
 
         if chr(13) in info_autor:
-            pos_hifen = info_autor.replace(chr(13),' ')
-            info_autor = info_autor[:pos_hifen].strip()
+            info_autor = info_autor.replace(chr(13),' ')
             up = True
 
         if chr(10) in info_autor:
-            pos_hifen = info_autor.replace(chr(10),' ')
-            info_autor = info_autor[:pos_hifen].strip()
+            info_autor = info_autor.replace(chr(10),' ')
             up = True
 
         if '  ' in info_autor:
-            pos_hifen = info_autor.replace('  ',' ')
-            info_autor = info_autor[:pos_hifen].strip()
+            info_autor = info_autor.replace('  ',' ')
             up = True
 
         if 'University' in info_autor:
