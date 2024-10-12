@@ -9,6 +9,7 @@ import roboti_help
 import roboti_task
 import roboti_clear
 import mod_setSpec
+import mod_abstract
 import mod_listidentify
 import mod_source
 import mod_data
@@ -183,6 +184,8 @@ def run(parm):
         mod_subject.check_duplicate()
 
     if (act == 'person'):
+        mod_abstract.check_double()
+        sys.exit()
         mod_person.check()
         mod_gender.check()
 
