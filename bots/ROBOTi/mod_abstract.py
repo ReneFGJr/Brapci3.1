@@ -42,6 +42,7 @@ def removeDouble(ID,lang,IDprop):
     print(ln1)
     print(ln2)
     gr = grau_de_equivalencia(ln1,ln2)
+    print("===",ID,gr)
     if (gr > 90):
         qd = f"delete from brapci_rdf.rdf_data where id_d = {ID1}"
         print(qd)
