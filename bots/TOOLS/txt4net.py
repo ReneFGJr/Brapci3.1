@@ -10,12 +10,16 @@ def create_net_file_from_author_list(input_path, output_path):
 
     # Create a unique list of authors (nodes)
     authors = set()
+    edges = []  # To track edges between authors
+
     for group in groups:
         author_list = group.split(";")
-        for author in author_list:
-            author = author.strip()
-            if author:  # Ensure author is not an empty string
-                authors.add(author)
+        clean_authors = [author.strip() for author in author_list if author.strip()]
+        if len(clean_authors) > 1:  # Only process groups with more than one author
+            for i in range(len(clean_authors)):
+                for j in range(i + 1, len(clean_authors)):
+                    edges.append((clean_authors[i], clean_authors[j]))
+                    authors.update([clean_authors[i], clean_authors[j]])
 
     # Assign a unique ID to each author
     author_to_id = {author: idx + 1 for idx, author in enumerate(authors)}
@@ -27,17 +31,10 @@ def create_net_file_from_author_list(input_path, output_path):
         for author, author_id in author_to_id.items():
             net_file.write(f"{author_id} \"{author}\"\n")
 
-        # Write edges
-        net_file.write("*Edges\n")
-        for group in groups:
-            author_list = [author.strip() for author in group.split(";") if author.strip()]
-            if len(author_list) > 1:  # Only process groups with more than one author
-                for i in range(len(author_list)):
-                    for j in range(i + 1, len(author_list)):
-                        author1 = author_list[i]
-                        author2 = author_list[j]
-                        if author1 in author_to_id and author2 in author_to_id:
-                            net_file.write(f"{author_to_id[author1]} {author_to_id[author2]}\n")
+        # Write edges and include the number of edges
+        net_file.write(f"*Edges {len(edges)}\n")
+        for author1, author2 in edges:
+            net_file.write(f"{author_to_id[author1]} {author_to_id[author2]}\n")
 
 if __name__ == "__main__":
     # Ensure the correct number of arguments is provided
