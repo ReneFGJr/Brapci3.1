@@ -63,6 +63,11 @@ class Index extends Model
         return $saida;
     }
 
+    function download($env,$file)
+        {
+
+        }
+
     function index($d1, $d2, $d3, $d4 = '')
     {
         $sx = '';
@@ -75,6 +80,7 @@ class Index extends Model
                 $RSP['get'] = $_GET;
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
                 $RSP['response'] = $this->execPython('txt4net',$arg);
+                $RSP['url'] = PATH.'/download/'.$d2.'/'.get("fileO");
                 break;
             default:
                 $RSP = [];
