@@ -6,13 +6,17 @@ use CodeIgniter\Model;
 
 class Index extends Model
 {
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'like';
+    protected $table            = 'likes';
+    protected $primaryKey       = 'id_lk';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_lk','lk_user','lk_id',
+        'lk_status','lk_update'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,6 +47,11 @@ class Index extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function setID($id)
+        {
+
+        }
 
     function status()
         {

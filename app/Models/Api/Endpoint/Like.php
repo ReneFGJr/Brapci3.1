@@ -19,9 +19,9 @@ use CodeIgniter\Model;
 
 class Like extends Model
 {
-    protected $DBGroup          = 'default';
-    protected $table            = 'finds';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'like';
+    protected $table            = 'likes';
+    protected $primaryKey       = 'id_lk';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
@@ -60,8 +60,11 @@ class Like extends Model
 
         $RSP = [];
         $Like = new \App\Models\Like\Index();
+        $id = get("id");
 
         switch ($d1) {
+            case 'like':
+                $Like->setID($id);
             default:
                 $RSP = $Like->status();
                 $RSP['verb'] = $d1;

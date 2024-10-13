@@ -60,6 +60,7 @@ class Database extends Config
     public array $search = [];
     public array $elastic = [];
     public array $observatorio = [];
+    public array $liked = [];
     public array $lattes = [];
     public array $click = [];
     public array $gev3nt = [];
@@ -155,6 +156,7 @@ class Database extends Config
             'observatorio' => 'observatorio',
             'openaire' => 'openaire',
             'lattes'=> 'brapci_lattes',
+            'liked' => 'brapci_like',
             'search' => 'brapci_search',
             'gev3nt'=> 'gev3nt',
             'patent'=> 'brapci_patent',
