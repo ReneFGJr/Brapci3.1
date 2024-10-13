@@ -55,7 +55,7 @@ class Index extends Model
             // Define o diretório de destino
             $d1 = strtolower($d1);
             $d1 = troca($d1,' ','_');
-            $uploadFileDir = '../.tmp/'.$d1;
+            $uploadFileDir = '../.tmp/'.$d1.'/';
             dircheck($uploadFileDir);
             $dest_path = $uploadFileDir . $fileName;
 

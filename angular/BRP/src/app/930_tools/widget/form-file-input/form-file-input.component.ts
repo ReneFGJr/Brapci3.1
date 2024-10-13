@@ -1,5 +1,5 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
@@ -10,6 +10,7 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
   styleUrls: ['./form-file-input.component.scss'],
 })
 export class FormFileInputComponent {
+  @Input() public action: string = 'none'
   selectedFile: File | null = null;
   uploadProgress: number = 0;
 
@@ -48,7 +49,7 @@ export class FormFileInputComponent {
 
       console.log(this.propriety);
       console.log('+++' + this.type);
-      let url = this.brapciService.url + 'sendfile/' + this.type + '/' + this.ID;
+      let url = this.brapciService.url + 'sendfile/' + this.action;
       //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
       console.log(url);
 
