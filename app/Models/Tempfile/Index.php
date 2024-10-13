@@ -54,6 +54,7 @@ class Index extends Model
 
             // Define o diretório de destino
             $uploadFileDir = '../.tmp/sendtmp/';
+            dircheck($uploadFileDir);
             $dest_path = $uploadFileDir . $fileName;
 
             // Verifica se o diretório de upload existe, caso contrário, cria o diretório
