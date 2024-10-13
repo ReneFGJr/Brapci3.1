@@ -69,7 +69,8 @@ class Index extends Model
             if (move_uploaded_file($fileTmpPath, $dest_path)) {
                 $RSP['message'] = 'Arquivo enviado com sucesso.';
                 $RSP['status'] = '200';
-                $RSP['file'] = $fileNameO;
+                $RSP['fileO'] = $fileNameO;
+                $RSP['file'] = $fileName;
                 $RSP['action'] = $d1;
                 $RSP['dest'] = $dest_path;
             } else {
