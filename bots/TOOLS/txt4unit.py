@@ -7,6 +7,9 @@ def calculate_author_frequencies(input_file, output_file):
     with open(input_file, 'r', encoding='utf-8') as f_in:
         text = f_in.read()
 
+    text = text.replace('AUTHORS','')
+    text = text.replace('Authors','')
+
     # Splitting the text by author names using delimiters like ';' and '\n'
     authors = re.split(r'[;\n]', text)
 
