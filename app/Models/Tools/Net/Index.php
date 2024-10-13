@@ -56,7 +56,7 @@ class Index extends Model
                 $cmd = '/data/Brapci3.1/bots/TOOLS/txt4net.py';
                 $cmd .= ' ';
                 $cmd .= get("dest");
-                shell_exec($cmd);
+                $RSP['response'] = shell_exec($cmd);
                 $RSP['exec'] = $cmd;
                 break;
             default:
