@@ -1,0 +1,51 @@
+/* Estilo para a mensagem de "Processando arquivo" */
+.processing {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+}
+
+/* Definição da animação de ponto pulsante */
+.dots::after {
+  content: '...';
+  animation: dots 1.5s steps(3, end) infinite;
+}
+
+/* Animação dos três pontos */
+@keyframes dots {
+  0% {
+    content: '.';
+  }
+  10% {
+    content: '..';
+  }
+  20% {
+    content: '...';
+  }
+  30% {
+    content: '....';
+  }
+  40% {
+    content: '.....';
+  }
+  50% {
+    content: '......';
+  }
+  60% {
+    content: '.......';
+  }
+  70% {
+    content: '.......';
+  }
+  80% {
+    content: '........';
+  }
+  90% {
+    content: '.........';
+  }
+  100% {
+    content: '..........';
+  }
+
+}

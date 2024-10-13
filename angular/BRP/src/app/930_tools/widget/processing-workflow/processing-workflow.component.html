@@ -1,0 +1,62 @@
+<div class="container" class="mt-0">
+  <h1>txt4net</h1>
+  <p>
+    Converte linhas separadas por "ponto e virgula" em um arquivo do tipo .NET
+  </p>
+  <app-form-file-input
+    *ngIf="status==0"
+    [action]="'txt4net'"
+    (dataset)="updateDataset($event)"
+  ></app-form-file-input>
+
+  <div
+    class="row border border-secondary rounded-top p-2 fw-bolder"
+    *ngIf="dataset"
+    style="background-color: darkslateblue; color: white"
+  >
+    {{ toolsName }}
+  </div>
+
+  <!--------------------------------------- PROCESS -->
+  <div
+    class="row border border-secondary rounded-bottom pt-2 pb-2 p-0"
+    *ngIf="status==1"
+  >
+    <div class="col-12 col-lg-6">
+      <span style="font-size: 0.6em">Nome do arquivo:</span>
+      <br />
+      <span class="big">{{ dataset.file }}</span>
+    </div>
+
+    <div class="col-12 col-lg-6 pt-3 pb-3">
+      <button class="btn btn-primary full" (click)="process()">
+        {{ buttonName }}
+      </button>
+    </div>
+  </div>
+
+  <!--------- Processando -->
+  <div
+    class="row border border-secondary rounded-bottom pt-2 pb-2 p-0"
+    *ngIf="status==2"
+  >
+    <app-wait-processing></app-wait-processing>
+  </div>
+
+==>{{status}}
+  <!--------- Resultado -->
+  <div
+    class="row border border-secondary rounded-bottom pt-2 pb-2 p-0"
+    *ngIf="status==3"
+  >
+    <div class="col-12 col-lg-6">
+      <span style="font-size: 0.6em">Resultado</span>
+      <br />
+      {{data | json}}
+    </div>
+
+
+  </div>
+</div>
+
+<div style="height: 500px"></div>

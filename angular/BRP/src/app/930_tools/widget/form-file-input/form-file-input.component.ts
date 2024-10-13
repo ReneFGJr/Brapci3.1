@@ -1,5 +1,5 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
@@ -10,7 +10,8 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
   styleUrls: ['./form-file-input.component.scss'],
 })
 export class FormFileInputComponent {
-  @Input() public action: string = 'none'
+  @Input() public action: string = 'none';
+  @Output() dataset = new EventEmitter<Array<any>>();
   selectedFile: File | null = null;
   uploadProgress: number = 0;
 
@@ -21,6 +22,7 @@ export class FormFileInputComponent {
   public ID: string = '0';
   public text: string = '';
   public type: string = 'temp';
+  public filename: string = '';
 
   /********************* BTN */
   public btn1: boolean = true;
@@ -28,7 +30,7 @@ export class FormFileInputComponent {
   public btn3: boolean = true;
 
   /******************** File */
-  status: 'initial' | 'uploading' | 'success' | 'fail' = 'initial'; // Variable to store file status
+  status: 'initial' | 'ready' | 'uploading' | 'success' | 'fail' = 'initial'; // Variable to store file status
   file: File | null = null; // Variable to store file
 
   constructor(
@@ -39,53 +41,44 @@ export class FormFileInputComponent {
 
   // Função para capturar o arquivo selecionado
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    alert(this.selectedFile);
+    this.file = event.target.files[0]; // Corrigido para usar this.file
+    this.status = 'ready';
   }
 
+  // Função para fazer o upload sem exibir progresso
   onUpload() {
     if (this.file) {
       const formData = new FormData();
-
-      console.log(this.propriety);
-      console.log('+++' + this.type);
       let url = this.brapciService.url + 'sendfile/' + this.action;
-      //let url = 'http://brp/api/' + 'upload/' + this.type + '/' + this.ID
-      console.log(url);
 
       formData.append('file', this.file, this.file.name);
       formData.append('property', this.propriety);
+
       const upload$ = this.http.post(url, formData);
       this.status = 'uploading';
 
       upload$.subscribe({
-        next: (x) => {
-          console.log(x);
+        next: (x: any) => {
+          // Usa `any` para ignorar o erro de tipo
+          if (x.fileO) {
+            this.filename = x.fileO; // Agora atribui o valor de fileO a filename
+          }
           this.status = 'success';
+          this.dataset.emit(x);
         },
         error: (error: any) => {
           this.status = 'fail';
-          return error;
+          console.error('Erro no upload:', error);
         },
       });
     }
   }
 
-  // On file Select
-  onChange(event: any) {
-    const file: File = event.target.files[0];
-
-    if (file) {
-      this.status = 'initial';
-      this.file = file;
-    }
-  }
-
-  // Função para fazer o upload com percentagem e variável de controle
+  // Função para capturar arquivo e mostrar progresso de upload
   onSubmit() {
-    if (this.selectedFile) {
+    if (this.file) {
       const formData = new FormData();
-      formData.append('file', this.selectedFile);
+      formData.append('file', this.file);
 
       // Adicionando variável de controle, ex: "uploadType"
       const uploadType = 'backup'; // Exemplo de valor
@@ -97,7 +90,7 @@ export class FormFileInputComponent {
           observe: 'events',
         })
         .subscribe(
-          (event) => {
+          (event: any) => {
             if (event.type === HttpEventType.UploadProgress) {
               if (event.total) {
                 this.uploadProgress = Math.round(
@@ -106,9 +99,11 @@ export class FormFileInputComponent {
               }
             } else if (event.type === HttpEventType.Response) {
               console.log('Upload concluído:', event.body);
+              this.status = 'success';
             }
           },
           (error) => {
+            this.status = 'fail';
             console.error('Erro no upload:', error);
           }
         );

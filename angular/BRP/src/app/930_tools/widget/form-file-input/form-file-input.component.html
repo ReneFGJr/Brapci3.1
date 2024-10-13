@@ -1,31 +1,44 @@
-<h2>Single File Upload</h2>
+  <div class="row  border border-secondary rounded-top p-2 fw-bolder"
+        style="background-color: darkslateblue; color: white;">
+        UPLOAD de arquivos
+        </div>
 
-<input
-  type="file"
-  class="file-input-2"
-  (change)="onChange($event)"
-  #fileUpload
-/>
+  <div class="row border border-secondary rounded-bottom pt-2 pb-2 p-0 mb-2">
 
-<div *ngIf="file">
-  <section class="file-info">
-    File details:
-    <ul>
-      <li>Name: {{ file.name }}</li>
-      <li>Type: {{ file.type }}</li>
-      <li>Size: {{ file.size }} bytes</li>
-      <li>ID: {{ ID }}</li>
-    </ul>
-  </section>
+    <div class="col-12 col-lg-4">
+      <input
+        *ngIf="status != 'success'"
+        type="file"
+        class="file-input-2"
+        (change)="onFileSelected($event)"
+        #fileUpload
+      />
+      <div *ngIf="status == 'success'">
+        Arquivo enviado:
+        {{filename}}
+      </div>
+    </div>
+    <div class="col-12 col-lg-8">
+      <section class="file-info">
+        Detalhes do arquivo:
+        <ul *ngIf="file">
+          <li>Nome do arquivo: {{ file.name }}</li>
+          <li>Formato: {{ file.type }}</li>
+          <li>Tamanho: {{ file.size }} bytes</li>
+          <li *ngIf="action">Tool: {{ action }}</li>
+          <li *ngIf="filename">File: {{ filename }}</li>
+        </ul>
+      </section>
 
-  <section [ngSwitch]="status">
-    <p *ngSwitchCase="'uploading'">⏳ Carregando...</p>
-    <p *ngSwitchCase="'success'">✅ Concluído com sucesso!</p>
-    <p *ngSwitchCase="'fail'">❌ Erro ao enviar arquivo!</p>
-    <p *ngSwitchDefault>😶 Clique para enviar o arquivo</p>
-  </section>
-
-  <button (click)="onUpload()" class="btn btn-outline-primary">
-    Enviar o arquivo
-  </button>
-</div>
+      <section [ngSwitch]="status">
+        <p *ngSwitchCase="'uploading'">⏳ Carregando...</p>
+        <p *ngSwitchCase="'success'">✅ Concluído com sucesso!</p>
+        <p *ngSwitchCase="'fail'">❌ Erro ao enviar arquivo!</p>
+        <p *ngSwitchCase="'ready'">Clique no botão para enviar</p>
+        <p *ngSwitchDefault>😶 Selecione o arquivo para enviar</p>
+      </section>
+      <button *ngIf="status == 'ready'" (click)="onUpload()" class="btn btn-outline-primary">
+        Enviar o arquivo
+      </button>
+    </div>
+  </div>

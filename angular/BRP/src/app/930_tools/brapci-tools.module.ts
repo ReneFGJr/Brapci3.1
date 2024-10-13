@@ -26,6 +26,8 @@ import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.componen
 import { BrandToolsComponent } from './widget/brand-tools/brand-tools.component';
 import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 import { MonitorComponent } from './widget/monitor/monitor.component';
+import { ProcessingComponent } from './widget/processing/processing.component';
+import { ProcessingWorkflowComponent } from './widget/processing-workflow/processing-workflow.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { MonitorComponent } from './widget/monitor/monitor.component';
     BrandToolsComponent,
     Ris4marcComponent,
     MonitorComponent,
+    ProcessingComponent,
+    ProcessingWorkflowComponent,
   ],
   imports: [
     CommonModule,
