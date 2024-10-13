@@ -66,6 +66,12 @@ class Index extends Model
         }
 
         switch ($d1) {
+            case 'like':
+                $Like = new \App\Models\Api\Endpoint\Like();
+                $RSP = $Like->index($d2, $d3);
+                echo json_encode($RSP);
+                $sx = '';
+                break;
             case 'indicator':
                 $Indicators = new \App\Models\Api\Endpoint\Indicators();
                 $RSP = $Indicators->index($d2,$d3,$d4,$d5,$d6);

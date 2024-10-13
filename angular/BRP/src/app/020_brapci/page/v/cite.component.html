@@ -53,7 +53,8 @@
   >
     <div class="input-group">
       <!-- Input com bordas removidas -->
-      <input type="text" class="form-control border-0 small" #inputText value="{{citacao.abnt}}" readonly>
+      <textarea class="form-control border-0 small" style="overflow-y: hidden; overflow-x: hidden; " #inputText value="{{citacao.abnt}}" readonly>
+      </textarea>
 
       <!-- Botão de copiar -->
       <button class="btn btn-outline-0" type="button" (click)="copiarTexto(inputText.value)">
@@ -71,7 +72,8 @@
   >
     <div class="input-group">
       <!-- Input com bordas removidas -->
-      <input type="text" class="form-control border-0 small" #inputTextVAN value="{{citacao.vancouver}}" readonly>
+      <textarea class="form-control border-0 small" style="overflow-y: hidden; overflow-x: hidden; " #inputTextVAN value="{{citacao.vancouver}}" readonly>
+      </textarea>
 
       <!-- Botão de copiar -->
       <button class="btn btn-outline-0" type="button" (click)="copiarTexto(inputTextVAN.value)">
@@ -90,7 +92,8 @@
   >
     <div class="input-group">
       <!-- Input com bordas removidas -->
-      <input type="text" class="form-control border-0 small" #inputTextAPA value="{{citacao.apa}}" readonly>
+      <textarea class="form-control border-0 small" style="overflow-y: hidden; overflow-x: hidden; " #inputTextAPA value="{{citacao.apa}}" readonly>
+      </textarea>
 
       <!-- Botão de copiar -->
       <button class="btn btn-outline-0" type="button" (click)="copiarTexto(inputTextAPA.value)">

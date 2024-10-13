@@ -96,20 +96,12 @@ class Index extends Model
         $menu[URL . '/tools/lattes'] = lang('tools.my_researchers');
         $menu[URL . '/tools/lattes/search'] = lang('tools.lattes_search');
 
-        $menu['#' . lang('tools.ARS')] = lang('tools.ARS');
-        $menu[URL . '/tools/ars/txt4net'] = lang('tools.ARS_txt4net');
-        $menu[URL . '/tools/ars/txt4matrix'] = lang('tools.ARS_txt4matrix');
-        $menu[URL . '/tools/ars/txt4count'] = lang('tools.ARS_txt4count');
-
         $menu['#' . lang('tools.Clean')] = lang('tools.clean_tools');
         $menu[URL . '/tools/nlp/clean'] = lang('tools.clean_tools');
         $menu[URL . '/tools/nlp/thesa'] = lang('tools.clean_thesa');
 
         $menu['#' . lang('tools.NLP')] = lang('tools.nlp_tools');
         $menu[URL . '/tools/nlp'] = lang('tools.nlp_tools');
-
-        $menu['#' . lang('tools.Lattes')] = lang('tools.Lattes');
-        $menu[URL . '/tools/lattes/convert'] = lang('tools.lattes_convert_code');
 
 
         $sx = menu($menu);
