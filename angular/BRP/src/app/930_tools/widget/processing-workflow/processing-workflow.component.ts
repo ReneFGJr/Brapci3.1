@@ -28,7 +28,8 @@ export class ProcessingWorkflowComponent {
     this.datasetR = this.dataset;
     this.status = 2;
     console.log(this.endpoint)
-    this.brapciService.api_post(this.endpoint).subscribe(
+
+    this.brapciService.api_post(this.endpoint, this.dataset).subscribe(
       (res) => {
         this.data = res;
         console.log(this.data);

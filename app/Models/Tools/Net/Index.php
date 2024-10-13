@@ -50,6 +50,8 @@ class Index extends Model
                 $RSP = [];
                 $RSP['status'] = '200';
                 $RSP['file'] = get("file");
+                $RSP['post'] = $_POST;
+                $RSP['get'] = $_GET;
                 break;
             default:
                 $RSP = [];
