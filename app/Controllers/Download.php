@@ -95,7 +95,7 @@ class Download extends BaseController
                 echo $txt;
                 exit;
                 } else {
-                    echo "File not found";
+                    echo "File not found $file";
                 }
             exit;
         }
