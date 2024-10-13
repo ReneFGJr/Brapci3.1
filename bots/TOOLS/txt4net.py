@@ -1,5 +1,6 @@
 import sys
 import networkx as nx
+from unidecode import unidecode
 
 def criar_grafo_autores(arquivo_entrada, arquivo_saida):
     G = nx.Graph()
@@ -41,9 +42,14 @@ def abreviar_nome(nome_completo):
     # Divide o nome completo em partes
     nome_completo = nome_completo.replace(' de ',' ')
     nome_completo = nome_completo.replace(' do ',' ')
+    nome_completo = nome_completo.replace(' dos ',' ')
+    nome_completo = nome_completo.replace(' das ',' ')
     nome_completo = nome_completo.replace(' da ',' ')
     nome_completo = nome_completo.replace(' e ',' ')
     nome_completo = nome_completo.replace(' em ',' ')
+
+
+    nome_completo = unidecode(nome_completo)
     partes = nome_completo.split()
 
     # O sobrenome será a última parte
