@@ -111,6 +111,11 @@ class Index extends Model
                 $Kanban->index($d2, $d3);
                 exit;
                 break;
+            case 'sendfile':
+                $Tempfile = new \App\Models\Tempfile\Index();
+                $Tempfile->upload($d2, $d3);
+                exit;
+                break;
             case 'upload':
                 $RDFimage = new \App\Models\RDF2\RDFimage();
                 $RDFimage->upload($d2,$d3);

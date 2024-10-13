@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -8,37 +8,47 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./form-file-input.component.scss'],
 })
 export class FormFileInputComponent {
-  public fileName: string = '';
+  selectedFile: File | null = null;
+  uploadProgress: number = 0;
 
   constructor(private http: HttpClient) {}
-  public action: string = 'txt4net';
-  public uploadProgress: number = 0;
-  public uploadSub?: Subscription;
-  public uploadSubZ?: Subscription;
 
-  onFileSelected(event: Array<any> | any) {
-    const file: File = event.target.files[0];
-    if (file) {
-      console.log("Enviando");
-      this.fileName = file.name;
+  // Função para capturar o arquivo selecionado
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  // Função para fazer o upload com percentagem e variável de controle
+  onSubmit() {
+    if (this.selectedFile) {
       const formData = new FormData();
-      formData.append('file', file);
-      const upload$ = this.http.post(
-        'https://cip.brapci.inf.br/api/tools/' + this.action,
-        formData
-      );
-      upload$.subscribe();
-      console.log(upload$);
+      formData.append('file', this.selectedFile);
+
+      // Adicionando variável de controle, ex: "uploadType"
+      const uploadType = 'backup'; // Exemplo de valor
+      formData.append('uploadType', uploadType);
+
+      this.http
+        .post('https://cip.brapci.inf.br/api/upload/', formData, {
+          reportProgress: true,
+          observe: 'events',
+        })
+        .subscribe(
+          (event) => {
+            if (event.type === HttpEventType.UploadProgress) {
+              if (event.total) {
+                this.uploadProgress = Math.round(
+                  100 * (event.loaded / event.total)
+                );
+              }
+            } else if (event.type === HttpEventType.Response) {
+              console.log('Upload concluído:', event.body);
+            }
+          },
+          (error) => {
+            console.error('Erro no upload:', error);
+          }
+        );
     }
-  }
-
-  reset() {
-    this.uploadProgress = 0;
-    this.uploadSub = this.uploadSubZ;
-  }
-
-  cancelUpload() {
-    //this.uploadSub.unsubscribe();
-    this.reset();
   }
 }
