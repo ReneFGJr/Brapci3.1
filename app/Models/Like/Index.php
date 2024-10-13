@@ -52,7 +52,7 @@ class Index extends Model
         {
             $Social = new \App\Models\Socials();
             $dtUser = $Social->where('us_apikey', $user)->First();
-            pre($dtUser);
+
             if ($dtUser != [])
                 {
                     $userID = $dtUser['id_us'];
@@ -60,7 +60,23 @@ class Index extends Model
                     ->where('lk_user', $userID)
                     ->where('lk_id', $id)
                     ->findAll();
+
+                    if ($dt == [])
+                        {
+                            $dd = [];
+                            $dd['lk_user'] = $userID;
+                            $dd['lk_id'] = $id;
+                            $dd['lk_status'] = '1';
+                            $dd['lk_update'] = date("Y-m-d").'T'.date('H:i:s');
+                            $this->set($dd)->insert();
+                        }
+                    $RSP['status'] = '200';
+                    $RSP['message'] = 'Success - Marked '.$id;
+                } else {
+                    $RSP['status'] = '500';
+                    $RSP['message'] = 'Usuário inválido (apikey)';
                 }
+                return $RSP;
         }
 
     function status()
