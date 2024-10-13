@@ -113,7 +113,7 @@ class Index extends Model
                 break;
             case 'sendfile':
                 $Tempfile = new \App\Models\Tempfile\Index();
-                $Tempfile->upload($d2, $d3);
+                $Tempfile->upload($d2,$d3,$d4);
                 exit;
                 break;
             case 'upload':
