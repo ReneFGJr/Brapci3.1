@@ -19,6 +19,10 @@ export class LoveItComponent {
       {
         this.loveit = '/assets/icone/loveit-pulse.svg';
         this.loveitValue = 1
+        let data = [{ id: this.id }];
+        this.brapciService.api_post('like/like').subscribe((res) => {
+          console.log(res)
+        });
       } else {
         this.loveit = '/assets/icone/love-it-off.svg';
         this.loveitValue = 0;
