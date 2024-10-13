@@ -11,14 +11,14 @@
         routerLinkActive="router-link-active"
         class="link"
       >
-        <div class="cover full pt-3 pb-3">{{ item.name }}</div>
+        <div class="cover full pt-3 pb-3 rounded-2 mb-3" style="min-height: 80px;">{{ item.name }}</div>
       </a>
     </div>
     <!----------- Conceituais -->
-    <!--
     <div class="col-12">
       <h2 class="mt-5">Ferramentas Textuais / Conceituais</h2>
     </div>
+
     <div class="col-3 text-center" *ngFor="let item of conv" >
       <a
         *ngIf="item.type == 'T'"
@@ -29,7 +29,7 @@
         <div class="cover full pt-3 pb-3">{{ item.name }}</div>
       </a>
     </div>
-    -->
+
     <!------------------------------ Processamento de Livros  -->
     <!--
     <div class="col-12 mt-5">

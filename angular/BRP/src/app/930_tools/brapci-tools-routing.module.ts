@@ -12,6 +12,7 @@ import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.componen
 import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 import { MonitorComponent } from './widget/monitor/monitor.component';
 import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
+import { Txt4unit2Component } from './tools/txt4unit2/txt4unit2.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'txt4net', component: Txt4netComponent },
       { path: 'txt4matrix', component: ToolsIconsComponent },
       { path: 'txt4unit', component: Txt4unitComponent },
+      { path: 'txt4unit2', component: Txt4unit2Component },
       { path: 'net4gephi', component: ToolsIconsComponent },
       { path: 'txt4char', component: ToolsIconsComponent },
       { path: 'ris4marc', component: Ris4marcComponent },

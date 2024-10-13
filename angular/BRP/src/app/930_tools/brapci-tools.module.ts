@@ -29,6 +29,7 @@ import { MonitorComponent } from './widget/monitor/monitor.component';
 import { ProcessingComponent } from './widget/processing/processing.component';
 import { ProcessingWorkflowComponent } from './widget/processing-workflow/processing-workflow.component';
 import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
+import { Txt4unit2Component } from './tools/txt4unit2/txt4unit2.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
     ProcessingComponent,
     ProcessingWorkflowComponent,
     Txt4unitComponent,
+    Txt4unit2Component,
   ],
   imports: [
     CommonModule,
