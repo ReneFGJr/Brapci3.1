@@ -74,6 +74,14 @@ class Download extends BaseController
     function download_tools($d1,$d2,$d3)
         {
             echo '['.$d1.' ['.$d2.' ['.$d3;
+            $file = '../.tmp/'.$d1.'/'.$d2;
+            if (file_exists($file))
+                {
+                    pre($file);
+                } else {
+                    echo "File not found";
+                }
+            exit;
         }
 
     function download_export($file)
