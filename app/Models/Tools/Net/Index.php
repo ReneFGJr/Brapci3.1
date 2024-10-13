@@ -54,7 +54,7 @@ class Index extends Model
 
         // Monta o comando para executar o Python com o script e o argumento
         $cmd = "$python $script_python '$argumento'";
-        file_get_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
+        file_put_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
         $comando = escapeshellcmd($cmd);
 
         // Executa o script Python e captura a saída
