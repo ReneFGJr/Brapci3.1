@@ -13,7 +13,9 @@ def create_net_file_from_author_list(input_path, output_path):
     for group in groups:
         author_list = group.split(";")
         for author in author_list:
-            authors.add(author.strip())
+            author = author.strip()
+            if author:  # Ensure author is not an empty string
+                authors.add(author)
 
     # Assign a unique ID to each author
     author_to_id = {author: idx + 1 for idx, author in enumerate(authors)}
@@ -28,12 +30,12 @@ def create_net_file_from_author_list(input_path, output_path):
         # Write edges
         net_file.write("*Edges\n")
         for group in groups:
-            author_list = group.split(";")
-            if len(author_list) > 1:
+            author_list = [author.strip() for author in group.split(";") if author.strip()]
+            if len(author_list) > 1:  # Only process groups with more than one author
                 for i in range(len(author_list)):
                     for j in range(i + 1, len(author_list)):
-                        author1 = author_list[i].strip()
-                        author2 = author_list[j].strip()
+                        author1 = author_list[i]
+                        author2 = author_list[j]
                         if author1 in author_to_id and author2 in author_to_id:
                             net_file.write(f"{author_to_id[author1]} {author_to_id[author2]}\n")
 
