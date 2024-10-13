@@ -17,11 +17,11 @@ export class LoveItComponent {
   changeit() {
     if (this.loveitValue == 0)
       {
-        alert("OK")
         this.loveit = '/assets/icone/loveit-pulse.svg';
         this.loveitValue = 1
-        let data = [{ id: this.id }];
-        this.brapciService.api_post('like/liked').subscribe((res) => {
+        let dt: Array<any> | any = { id: this.id };
+        console.log(dt)
+        this.brapciService.api_post('like/liked',dt).subscribe((res) => {
           console.log(res)
         });
       } else {

@@ -48,9 +48,19 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function setID($id)
+    function setID($id,$user)
         {
-
+            $Social = new \App\Models\Socials();
+            $dtUser = $Social->where('us_apikey', $user)->First();
+            pre($dtUser);
+            if ($dtUser != [])
+                {
+                    $userID = $dtUser['id_us'];
+                    $dt = $this
+                    ->where('lk_user', $userID)
+                    ->where('lk_id', $id)
+                    ->findAll();
+                }
         }
 
     function status()

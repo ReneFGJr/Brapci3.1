@@ -66,7 +66,7 @@ class Like extends Model
 
         switch ($d1) {
             case 'liked':
-                $Like->setID($id);
+                $Like->setID($id,$user);
             default:
                 $RSP = $Like->status();
                 $RSP['verb'] = $d1;
