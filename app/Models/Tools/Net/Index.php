@@ -45,126 +45,11 @@ class Index extends Model
     function index($d1, $d2, $d3, $d4 = '')
     {
         $sx = '';
-        switch ($d1) {
-            case 'txt4matrix':
-                $chk = ['', '', '', '', ''];
-                if (get("author_abrev") != '') {
-                    $chk[0] = 'checked';
-                }
-                $sx = '';
-                $sa = h(lang('tools.ARS_txt4matrix'), 2);
-                $sa .= form_open_multipart();
-                $sa .= form_upload('files');
-                $sa .= form_submit('action', lang('brapci.send'));
-                $sa .= '<br>';
-                $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
-                $sa .= '<br>';
-                $sa .= '<br>';
-                $sa .= h(lang('tools.Options'), 2);
-                $sa .= form_checkbox('author_abrev', '1', $chk[0]) . ' ' . lang('tools.txt4net.author_abrev');
-                $sa .= form_close();
-
-                $sb = '';
-                $sb .= h('Instruções');
-                for ($r = 0; $r < 20; $r++) {
-                    $nn = 'tools.txt4net.line_' . $r;
-                    $ln = lang($nn);
-                    if ($nn != $ln) {
-                        $sb .= '<p>' . $ln . '</p>';
-                    }
-                }
-
-                $sx = bs(bsc($sa, 6) . bsc($sb, 6));
-
-                if (isset($_FILES['files']['tmp_name'])) {
-                    if ($_FILES['files']['error'] == 0) {
-                        $txt = file_get_contents($_FILES['files']['tmp_name']);
-                        $net = $this->csv_to_matrix_ocorrencia($txt, $chk);
-                        $this->file_download($net, '.csv');
-                    }
-                }
-                return $sx;
-                break;
-                break;
-            case 'txt4count':
-                $chk = ['', '', '', '', ''];
-                if (get("author_abrev") != '') {
-                    $chk[0] = 'checked';
-                }
-                $sx = '';
-                $sa = h(lang('tools.ARS_txt4count'), 2);
-                $sa .= form_open_multipart();
-                $sa .= form_upload('files');
-                $sa .= form_submit('action', lang('brapci.send'));
-                $sa .= '<br>';
-                $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
-                $sa .= '<br>';
-                $sa .= '<br>';
-                $sa .= h(lang('tools.Options'), 2);
-                $sa .= form_checkbox('author_abrev', '1', $chk[0]) . ' ' . lang('tools.txt4net.author_abrev');
-                $sa .= form_close();
-
-                $sb = '';
-                $sb .= h('Instruções');
-                for ($r = 0; $r < 20; $r++) {
-                    $nn = 'tools.txt4count.line_' . $r;
-                    $ln = lang($nn);
-                    if ($nn != $ln) {
-                        $sb .= '<p>' . ' ' . $ln . '</p>';
-                    }
-                }
-
-                $sx = bs(bsc($sa, 6) . bsc($sb, 6));
-
-                if (isset($_FILES['files']['tmp_name'])) {
-                    if ($_FILES['files']['error'] == 0) {
-                        $txt = file_get_contents($_FILES['files']['tmp_name']);
-                        $net = $this->csv_to_count($txt, $chk);
-                        $this->file_download($net, '.csv');
-                    }
-                }
-
-                return $sx;
-                break;
-
+        switch ($d2) {
             case 'txt4net':
-                $chk = ['', '', '', '', ''];
-                if (get("author_abrev") != '') {
-                    $chk[0] = 'checked';
-                }
-                $sx = '';
-                $sa = h(lang('tools.ARS_txt4net'), 2);
-                $sa .= form_open_multipart();
-                $sa .= form_upload('files');
-                $sa .= form_submit('action', lang('brapci.send'));
-                $sa .= '<br>';
-                $sa .= '<span class="small">Seleciona o arquivo para processar e click em enviar</span>';
-                $sa .= '<br>';
-                $sa .= '<br>';
-                $sa .= h(lang('tools.Options'), 2);
-                $sa .= form_checkbox('author_abrev', '1', $chk[0]) . ' ' . lang('tools.txt4net.author_abrev');
-                $sa .= form_close();
-
-                $sb = '';
-                $sb .= h('Instruções');
-                for ($r = 0; $r < 20; $r++) {
-                    $nn = 'tools.txt4net.line_' . $r;
-                    $ln = lang($nn);
-                    if ($nn != $ln) {
-                        $sb .= '<p>' . $ln . '</p>';
-                    }
-                }
-
-                $sx = bs(bsc($sa, 6) . bsc($sb, 6));
-
-                if (isset($_FILES['files']['tmp_name'])) {
-                    if ($_FILES['files']['error'] == 0) {
-                        $txt = file_get_contents($_FILES['files']['tmp_name']);
-                        $net = $this->csv_to_net($txt, $chk);
-                        $this->file_download($net, '.net');
-                    }
-                }
-                return $sx;
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['file'] = get("file");
                 break;
             default:
                 $RSP = [];
@@ -175,6 +60,7 @@ class Index extends Model
                 $RSP['FILES'] = $_FILES;
                 $RSP['REQUEST'] = $_REQUEST;
                 $RSP['d1'] = $d1;
+                $RSP['d2'] = $d2;
         }
 
         if (($d2 != 'import') and ($d2 != 'in')) {
