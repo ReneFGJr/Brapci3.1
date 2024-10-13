@@ -53,7 +53,9 @@ class Index extends Model
         $script_python = '/data/Brapci3.1/bots/TOOLS/'.$endpoint.'.py';
 
         // Monta o comando para executar o Python com o script e o argumento
-        $comando = escapeshellcmd("$python $script_python '$argumento'");
+        $cmd = "$python $script_python '$argumento'";
+        file_get_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
+        $comando = escapeshellcmd($cmd);
 
         // Executa o script Python e captura a saída
         $saida = shell_exec($comando);
