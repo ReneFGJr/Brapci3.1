@@ -82,6 +82,10 @@ class Tools extends Model
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
                     break;
+                case 'txt4unit2':
+                    $Net->index($d1, $d2, $d3, $d4);
+                    exit;
+                    break;
                 case 'ris4marc':
                     header('Access-Control-Allow-Origin: *');
                     header("Content-Type: application/json");
