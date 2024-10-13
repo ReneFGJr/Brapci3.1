@@ -34,7 +34,7 @@ if __name__ == "__main__":
 
     # Parse the input and output file paths
     input_file = sys.argv[1]
-    output_file = input_file.replace('.txt','_unit.txt')
+    output_file = input_file.replace('.txt','.csv')
 
     # Create the .net file
     calculate_author_frequencies(input_file, output_file)
