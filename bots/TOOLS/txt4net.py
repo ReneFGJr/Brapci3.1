@@ -1,40 +1,42 @@
 import sys
+import networkx as nx
 
-def create_net_file_from_author_list(input_path, output_path):
-    # Read the input file
-    with open(input_path, 'r', encoding='utf-8') as file:
-        content = file.read()
+def criar_grafo_autores(arquivo_entrada, arquivo_saida):
+    G = nx.Graph()
 
-    # Split the content into different groups of authors
-    groups = content.split("\n")
+    # Abrir o arquivo de entrada
+    with open(arquivo_entrada, 'r', encoding='utf-8') as f:
+        for linha in f:
+            # Dividir os autores na linha, removendo nomes vazios
+            autores = [autor.strip() for autor in linha.split(";") if autor.strip()]
 
-    # Create a unique list of authors (nodes)
-    authors = set()
-    edges = []  # To track edges between authors
+            # Adicionar arestas entre todos os pares de autores válidos
+            for i in range(len(autores)):
+                for j in range(i + 1, len(autores)):
+                    autor1 = autores[i]
+                    autor2 = autores[j]
 
-    for group in groups:
-        author_list = group.split(";")
-        clean_authors = [author.strip() for author in author_list if author.strip()]
-        if len(clean_authors) > 1:  # Only process groups with more than one author
-            for i in range(len(clean_authors)):
-                for j in range(i + 1, len(clean_authors)):
-                    edges.append((clean_authors[i], clean_authors[j]))
-                    authors.update([clean_authors[i], clean_authors[j]])
+                    if G.has_edge(autor1, autor2):
+                        # Se já existe uma aresta, incrementar o peso
+                        G[autor1][autor2]['weight'] += 1
+                    else:
+                        # Adicionar a aresta com peso 1
+                        G.add_edge(autor1, autor2, weight=1)
 
-    # Assign a unique ID to each author
-    author_to_id = {author: idx + 1 for idx, author in enumerate(authors)}
+    # Criar o arquivo .net para salvar o grafo
+    with open(arquivo_saida, 'w', encoding='utf-8') as f_out:
+        # Escrever os nós
+        f_out.write("*Vertices {}\n".format(len(G.nodes)))
+        for i, node in enumerate(G.nodes(), start=1):
+            f_out.write('{} "{}"\n'.format(i, node))
 
-    # Write the .net file
-    with open(output_path, 'w', encoding='utf-8') as net_file:
-        # Write vertices
-        net_file.write(f"*Vertices {len(authors)}\n")
-        for author, author_id in author_to_id.items():
-            net_file.write(f"{author_id} \"{author}\"\n")
+        # Escrever as arestas com pesos
+        f_out.write("*Edges\n")
+        for autor1, autor2, data in G.edges(data=True):
+            node1_index = list(G.nodes()).index(autor1) + 1
+            node2_index = list(G.nodes()).index(autor2) + 1
+            f_out.write('{} {} {}\n'.format(node1_index, node2_index, data['weight']))
 
-        # Write edges and include the number of edges
-        net_file.write(f"*Edges {len(edges)}\n")
-        for author1, author2 in edges:
-            net_file.write(f"{author_to_id[author1]} {author_to_id[author2]}\n")
 
 if __name__ == "__main__":
     # Ensure the correct number of arguments is provided
@@ -47,6 +49,6 @@ if __name__ == "__main__":
     output_file = input_file + '.net'
 
     # Create the .net file
-    create_net_file_from_author_list(input_file, output_file)
+    criar_grafo_autores(input_file, output_file)
 
     print({output_file})
