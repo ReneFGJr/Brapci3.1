@@ -30,7 +30,7 @@ class Download extends BaseController
         if ($id == 'temp') {
             return $this->download_tools($id2,$id3,$id4);
         }
-        pre($id);
+
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
@@ -73,7 +73,7 @@ class Download extends BaseController
 
     function download_tools($d1,$d2,$d3)
         {
-            echo $d1.' '.$d2.' '.$d3;
+            echo '['.$d1.' ['.$d2.' ['.$d3;
         }
 
     function download_export($file)
