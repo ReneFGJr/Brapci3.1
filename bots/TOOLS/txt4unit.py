@@ -1,5 +1,6 @@
 import sys
 import re
+from collections import Counter
 
 # Defining a function to calculate unique author frequencies
 def calculate_author_frequencies(text, output_file):
