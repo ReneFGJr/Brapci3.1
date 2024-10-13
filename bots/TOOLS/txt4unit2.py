@@ -23,11 +23,15 @@ def calculate_author_frequencies(input_file, output_file):
     sorted_authors = sorted(author_count.items(), key=lambda x: x[1], reverse=True)
 
     # Writing the result to the output file
+    n = 0
+    t = 0
     with open(output_file, 'w', encoding='utf-8') as f_out:
         # Write the frequencies ordered by count
-        f_out.write(f"TERMO;TOTAL\n")
+        f_out.write(f"#;TERMO;TOTAL;ACUMULADO\n")
         for author, count in sorted_authors:
-            f_out.write(f"{author};{count}\n")
+            n = n + 1
+            t = t + count
+            f_out.write(f"{n};{author};{count};{t}\n")
 
 if __name__ == "__main__":
     # Ensure the correct number of arguments is provided
