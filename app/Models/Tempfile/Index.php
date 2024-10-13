@@ -53,7 +53,9 @@ class Index extends Model
             $fileExtension = strtolower(end($fileNameCmps));
 
             // Define o diretório de destino
-            $uploadFileDir = '../.tmp/sendtmp/';
+            $d1 = strtolower($d1);
+            $d1 = troca($d1,' ','_');
+            $uploadFileDir = '../.tmp/'.$d1;
             dircheck($uploadFileDir);
             $dest_path = $uploadFileDir . $fileName;
 
