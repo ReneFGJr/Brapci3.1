@@ -76,9 +76,9 @@ class Download extends BaseController
             $file = '../.tmp/'.$d1.'/'.$d2;
             if (file_exists($file))
                 {
+            $ext = substr($d2, -3, 3);
+            pre($ext);
                 Header('Content-Description: File Transfer');
-                $ext = substr($d2,-3,3);
-                pre($ext);
                 Header('Content-Type: application/force-download');
                 Header('Content-Disposition: attachment; filename='.$d2);
                 $txt = file_get_contents($file);
