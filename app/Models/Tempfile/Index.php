@@ -51,13 +51,14 @@ class Index extends Model
             $fileType = $_FILES['file']['type'];
             $fileNameCmps = explode(".", $fileName);
             $fileExtension = strtolower(end($fileNameCmps));
+            $fileNameO = 'brapci_'.date("Ymd_His").'.txt';
 
             // Define o diretório de destino
             $d1 = strtolower($d1);
             $d1 = troca($d1,' ','_');
             $uploadFileDir = '../.tmp/'.$d1.'/';
             dircheck($uploadFileDir);
-            $dest_path = $uploadFileDir . $fileName;
+            $dest_path = $uploadFileDir . $fileNameO;
 
             // Verifica se o diretório de upload existe, caso contrário, cria o diretório
             if (!is_dir($uploadFileDir)) {
@@ -68,7 +69,7 @@ class Index extends Model
             if (move_uploaded_file($fileTmpPath, $dest_path)) {
                 $RSP['message'] = 'Arquivo enviado com sucesso.';
                 $RSP['status'] = '200';
-                $RSP['file'] = $fileName;
+                $RSP['file'] = $fileNameO;
                 $RSP['dest'] = $dest_path;
             } else {
                 $RSP['message'] = 'Houve um erro ao mover o arquivo para o diretório de upload.';
