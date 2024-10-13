@@ -61,6 +61,8 @@ class Like extends Model
         $RSP = [];
         $Like = new \App\Models\Like\Index();
         $id = get("id");
+        $user = get("user");
+        $RSP['ID'] = $id;
 
         switch ($d1) {
             case 'liked':
