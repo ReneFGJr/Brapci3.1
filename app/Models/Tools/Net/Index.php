@@ -52,6 +52,12 @@ class Index extends Model
                 $RSP['file'] = get("file");
                 $RSP['post'] = $_POST;
                 $RSP['get'] = $_GET;
+
+                $cmd = '/data/Brapci3.1/bots/TOOLS/txt4net.py';
+                $cmd .= ' ';
+                $cmd .= get("dest");
+                shell_exec($cmd);
+                $RSP['exec'] = $cmd;
                 break;
             default:
                 $RSP = [];
