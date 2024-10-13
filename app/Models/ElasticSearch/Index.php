@@ -117,7 +117,8 @@ class Index extends Model
 
 	function workdIDjournal($id) {
 		$dd = [];
-		$dt = $this
+		$Data = new \App\Models\ElasticSearch\Register();
+		$dt = $Data
 				->select('ID')
 				->where('JOURNAL',$id)
 				->findAll();
