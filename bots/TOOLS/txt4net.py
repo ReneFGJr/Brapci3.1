@@ -43,7 +43,7 @@ def abreviar_nome(nome_completo):
     nome_completo = nome_completo.replace(' do ','')
     nome_completo = nome_completo.replace(' da ','')
     nome_completo = nome_completo.replace(' e ','')
-    nome_completo = nome_completo.replace(' de ','')
+    nome_completo = nome_completo.replace(' em ','')
     partes = nome_completo.split()
 
     # O sobrenome será a última parte
