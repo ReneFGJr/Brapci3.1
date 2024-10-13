@@ -153,6 +153,9 @@
       <!-- Pagin 2-->
       <div *ngIf="page === '2'">
         <div class="container" *ngIf="data.issue_years">
+
+          <app-basket-select [data]="data.worksID"></app-basket-select>
+
           <div *ngFor="let ano of data.issue_years" class="row">
             <div class="col-12">
               <h2 class="mt-3">{{ ano }}</h2>
