@@ -122,8 +122,11 @@ class Index extends Model
 				->select('ID')
 				->where('JOURNAL',$id)
 				->findAll();
-		pre($dt);
-		return [];
+		foreach($dt as $ida=>$line)
+			{
+				array_push($dd,$line['ID']);
+			}
+		return $dd;
 	}
 
 	function problems($d1, $d2)
