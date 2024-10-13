@@ -1,4 +1,5 @@
 import sys
+import re
 
 # Defining a function to calculate unique author frequencies
 def calculate_author_frequencies(text, output_file):

@@ -5,10 +5,9 @@
   </p>
   <app-form-file-input
     *ngIf="status==0"
-    [action]="'txt4net'"
+    [action]="action"
     (dataset)="updateDataset($event)"
   ></app-form-file-input>
-
   <div
     class="row border border-secondary rounded-top p-2 fw-bolder"
     *ngIf="dataset"

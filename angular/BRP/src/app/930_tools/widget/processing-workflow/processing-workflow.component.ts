@@ -11,6 +11,7 @@ export class ProcessingWorkflowComponent {
   @Input() public toolsNameDescription: string = '';
   @Input() public buttonName: string = 'Converter para .NET';
   @Input() public endpoint: string = '';
+  @Input() public action: string = '';
 
   constructor(private brapciService: BrapciService) {}
 
