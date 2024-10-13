@@ -42,6 +42,25 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function execPython($endpoint='', $argumento='')
+    {
+        $cmd = '/data/Brapci3.1/bots/TOOLS/txt4net.py';
+        $cmd .= ' ';
+        $cmd .= get("dest");
+        $python = '/usr/bin/python3'; // Isso depende do seu sistema
+
+        // Caminho para o script Python
+        $script_python = '/data/Brapci3.1/bots/TOOLS/'.$endpoint.'.py';
+
+        // Monta o comando para executar o Python com o script e o argumento
+        $comando = escapeshellcmd("$python $script_python '$argumento'");
+
+        // Executa o script Python e captura a saída
+        $saida = shell_exec($comando);
+
+        return $saida;
+    }
+
     function index($d1, $d2, $d3, $d4 = '')
     {
         $sx = '';
@@ -52,12 +71,7 @@ class Index extends Model
                 $RSP['file'] = get("file");
                 $RSP['post'] = $_POST;
                 $RSP['get'] = $_GET;
-
-                $cmd = '/data/Brapci3.1/bots/TOOLS/txt4net.py';
-                $cmd .= ' ';
-                $cmd .= get("dest");
-                $RSP['response'] = shell_exec($cmd);
-                $RSP['exec'] = $cmd;
+                $RSP['response'] = $this->execPython('txt4net',$RSP['file']);
                 break;
             default:
                 $RSP = [];
@@ -141,11 +155,10 @@ class Index extends Model
                 $nn = $an[$z];
                 if (!isset($ax[$nn])) {
                     $nn = trim($nn);
-                    if ($nn != '')
-                        {
-                            array_push($ai, $nn);
-                            $ax[$nn] = $nn;
-                        }
+                    if ($nn != '') {
+                        array_push($ai, $nn);
+                        $ax[$nn] = $nn;
+                    }
                 }
             }
 
@@ -291,14 +304,15 @@ class Index extends Model
             }
 
             for ($a = 0; $a < count($au); $a++) {
-                $a = troca($a,'#','=');
-                if (trim($a) == '') { $a = 'NnN'; }
+                $a = troca($a, '#', '=');
+                if (trim($a) == '') {
+                    $a = 'NnN';
+                }
                 try {
                     $mm = $au[$a];
-                } catch (Exception $e)
-                    {
-                        $mm=0;
-                     }
+                } catch (Exception $e) {
+                    $mm = 0;
+                }
 
                 if (isset($ns[$mm])) {
                     $ns[$mm] = $ns[$mm] + 1;
