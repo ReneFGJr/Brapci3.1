@@ -40,17 +40,38 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function upload($d1,$d2,$d3)
-        {
-            $RSP = [];
-            switch($d1)
-                {
-                    case 'create':
-                        break;
-                    default:
-                        break;
-                }
-            return $RSP;
-        }
+    function upload($d1, $d2, $d3)
+    {
+        $RSP = [];
+        if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+            // Obtém informações do arquivo
+            $fileTmpPath = $_FILES['file']['tmp_name'];
+            $fileName = $_FILES['file']['name'];
+            $fileSize = $_FILES['file']['size'];
+            $fileType = $_FILES['file']['type'];
+            $fileNameCmps = explode(".", $fileName);
+            $fileExtension = strtolower(end($fileNameCmps));
 
+            // Define o diretório de destino
+            $uploadFileDir = './.tmp/';
+            $dest_path = $uploadFileDir . $fileName;
+
+            // Verifica se o diretório de upload existe, caso contrário, cria o diretório
+            if (!is_dir($uploadFileDir)) {
+                mkdir($uploadFileDir, 0777, true);
+            }
+
+            // Move o arquivo do local temporário para o destino final
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                $RSP['message'] = 'Arquivo enviado com sucesso.';
+                $RSP['status'] = '200';
+            } else {
+                $RSP['message'] = 'Houve um erro ao mover o arquivo para o diretório de upload.';
+                $RSP['status'] = '500';
+            }
+        } else {
+            $RSP['message'] = 'Erro no upload do arquivo.';
+            $RSP['status'] = '500';
+        }
+    }
 }
