@@ -66,6 +66,7 @@ class Index extends Model
                 $RSP['message'] = 'Arquivo enviado com sucesso.';
                 $RSP['status'] = '200';
                 $RSP['file'] = $fileName;
+                $RSP['dest'] = $dest_path;
             } else {
                 $RSP['message'] = 'Houve um erro ao mover o arquivo para o diretório de upload.';
                 $RSP['status'] = '500';
