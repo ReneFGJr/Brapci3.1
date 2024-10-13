@@ -148,7 +148,7 @@ class RDFmetadata extends Model
             case 'Journals':
                 $RSP = $this->metadataSource($dt);
                 $Elastic = new \App\Models\ElasticSearch\Index();
-                $RSP['worksID'] = $Elastic->workdID($ID);
+                $RSP['worksID'] = $Elastic->workdIDjournal($ID);
                 return $RSP;
                 break;
             case 'Subject':

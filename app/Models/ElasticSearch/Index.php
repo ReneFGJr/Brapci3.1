@@ -115,7 +115,13 @@ class Index extends Model
 		return $sx;
 	}
 
-	function workdID($id) {
+	function workdIDjournal($id) {
+		$dd = [];
+		$dt = $this
+				->select('ID')
+				->where('JOURNAL',$id)
+				->findAll();
+		pre($dt);
 		return [];
 	}
 
