@@ -8,7 +8,7 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
     with open(arquivo_entrada, 'r', encoding='utf-8') as f:
         for linha in f:
             # Dividir os autores na linha, removendo nomes vazios
-            autores = [autor.strip() for autor in linha.split(";") if autor.strip()]
+            autores = [abreviar_nome(autor.strip()) for autor in linha.split(";") if autor.strip()]
 
             # Adicionar arestas entre todos os pares de autores válidos
             for i in range(len(autores)):
@@ -37,6 +37,18 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
             node2_index = list(G.nodes()).index(autor2) + 1
             f_out.write('{} {} {}\n'.format(node1_index, node2_index, data['weight']))
 
+def abreviar_nome(nome_completo):
+    # Divide o nome completo em partes
+    partes = nome_completo.split()
+
+    # O sobrenome será a última parte
+    sobrenome = partes[-1]
+
+    # As iniciais serão as primeiras letras de todas as outras partes do nome
+    iniciais = ''.join([parte[0] + '.' for parte in partes[:-1]])
+
+    # Retorna no formato "Sobrenome, Iniciais"
+    return f"{sobrenome}, {iniciais}"
 
 if __name__ == "__main__":
     # Ensure the correct number of arguments is provided
