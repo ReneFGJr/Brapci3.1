@@ -48,8 +48,15 @@ def abreviar_nome(nome_completo):
     nome_completo = nome_completo.replace(' e ',' ')
     nome_completo = nome_completo.replace(' em ',' ')
 
-
     nome_completo = unidecode(nome_completo)
+    nome_completo = nome_completo.replace(' Junior','_JR')
+    nome_completo = nome_completo.replace(' Neto','_NETO')
+    nome_completo = nome_completo.replace(' Netto','_NETTO')
+    nome_completo = nome_completo.replace(' Sobrinho','_SOBRINHO')
+    nome_completo = nome_completo.replace(' Filho','_FILHO')
+    nome_completo = nome_completo.replace(' JR.','_JR')
+    nome_completo = nome_completo.replace(' JR','_JR')
+
     partes = nome_completo.split()
 
     # O sobrenome será a última parte
