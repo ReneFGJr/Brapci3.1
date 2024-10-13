@@ -70,7 +70,7 @@ class Index extends Model
                 $Like = new \App\Models\Api\Endpoint\Like();
                 $RSP = $Like->index($d2, $d3);
                 echo json_encode($RSP);
-                $sx = '';
+                exit;
                 break;
             case 'indicator':
                 $Indicators = new \App\Models\Api\Endpoint\Indicators();
