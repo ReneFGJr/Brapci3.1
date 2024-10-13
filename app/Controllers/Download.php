@@ -26,7 +26,7 @@ class Download extends BaseController
                 $this->download_export($id2);
             }
 
-        /* Bibliografia */
+        /* TOOLS download */
         if ($id == 'temp') {
             return $this->download_tools($id2,$id3,$id4);
         }
@@ -100,7 +100,6 @@ class Download extends BaseController
                         header('Content-Type: application/x-research-info-systems');
                         break;
                     case 'doc':
-
                         header('Content-Type: text/html');
                         break;
                     default:
