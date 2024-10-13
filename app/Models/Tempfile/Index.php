@@ -73,5 +73,6 @@ class Index extends Model
             $RSP['message'] = 'Erro no upload do arquivo.';
             $RSP['status'] = '500';
         }
+        return $RSP;
     }
 }
