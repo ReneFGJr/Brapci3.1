@@ -70,6 +70,7 @@ class Index extends Model
 
     function index($d1, $d2, $d3, $d4 = '')
     {
+        dircheck('/data/Brapci3.1/.tmp/'.$d2);
         $sx = '';
         switch ($d2) {
             case 'txt4unit':
