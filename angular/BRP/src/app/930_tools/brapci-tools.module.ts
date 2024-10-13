@@ -28,6 +28,7 @@ import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 import { MonitorComponent } from './widget/monitor/monitor.component';
 import { ProcessingComponent } from './widget/processing/processing.component';
 import { ProcessingWorkflowComponent } from './widget/processing-workflow/processing-workflow.component';
+import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ProcessingWorkflowComponent } from './widget/processing-workflow/proces
     MonitorComponent,
     ProcessingComponent,
     ProcessingWorkflowComponent,
+    Txt4unitComponent,
   ],
   imports: [
     CommonModule,

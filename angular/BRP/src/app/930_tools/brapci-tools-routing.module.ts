@@ -11,6 +11,7 @@ import { QrcodeComponent } from './widget/qrcode/qrcode.component';
 import { SumaryToolsComponent } from './tools/sumary-tools/sumary-tools.component';
 import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 import { MonitorComponent } from './widget/monitor/monitor.component';
+import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'viewdata/:id', component: ToolsIconsComponent },
       { path: 'txt4net', component: Txt4netComponent },
       { path: 'txt4matrix', component: ToolsIconsComponent },
+      { path: 'txt4unit', component: Txt4unitComponent },
       { path: 'net4gephi', component: ToolsIconsComponent },
       { path: 'txt4char', component: ToolsIconsComponent },
       { path: 'ris4marc', component: Ris4marcComponent },

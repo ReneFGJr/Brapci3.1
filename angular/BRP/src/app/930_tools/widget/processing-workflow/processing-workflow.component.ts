@@ -8,6 +8,7 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
 })
 export class ProcessingWorkflowComponent {
   @Input() public toolsName: string = 'TXT para .NET';
+  @Input() public toolsNameDescription: string = '';
   @Input() public buttonName: string = 'Converter para .NET';
   @Input() public endpoint: string = '';
 
@@ -24,10 +25,15 @@ export class ProcessingWorkflowComponent {
     this.status = 1;
   }
 
+  restart() {
+    this.status = 0;
+    this.dataset = null;
+  }
+
   process() {
     this.datasetR = this.dataset;
     this.status = 2;
-    console.log(this.endpoint)
+    console.log(this.endpoint);
 
     this.brapciService.api_post(this.endpoint, this.dataset).subscribe(
       (res) => {

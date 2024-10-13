@@ -72,12 +72,20 @@ class Index extends Model
     {
         $sx = '';
         switch ($d2) {
+            case 'txt4unit':
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['file'] = get("file");
+                $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
+                $RSP['response'] = $this->execPython('txt4net', $arg);
+                $file = get("fileO");
+                $file = troca($file,'.txt','_unit.txt');
+                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
+                break;
             case 'txt4net':
                 $RSP = [];
                 $RSP['status'] = '200';
                 $RSP['file'] = get("file");
-                $RSP['post'] = $_POST;
-                $RSP['get'] = $_GET;
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
                 $RSP['response'] = $this->execPython('txt4net',$arg);
                 $RSP['url'] = PATH.'/download/temp/'.$d2.'/'.get("fileO").'.net';

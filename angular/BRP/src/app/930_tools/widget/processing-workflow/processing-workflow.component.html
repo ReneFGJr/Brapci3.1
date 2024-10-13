@@ -1,7 +1,7 @@
 <div class="container" class="mt-0">
-  <h1>txt4net</h1>
+  <h1>{{toolsName}}</h1>
   <p>
-    Converte linhas separadas por "ponto e virgula" em um arquivo do tipo .NET
+    {{toolsNameDescription}}
   </p>
   <app-form-file-input
     *ngIf="status==0"
@@ -43,7 +43,6 @@
     <app-wait-processing></app-wait-processing>
   </div>
 
-==>{{status}}
   <!--------- Resultado -->
   <div
     class="row border border-secondary rounded-bottom pt-2 pb-2 p-0"
@@ -52,7 +51,9 @@
     <div class="col-12 col-lg-6">
       <span style="font-size: 0.6em">Resultado</span>
       <br />
-      {{data | json}}
+      <a href="{{data.url}}" class="btn btn-primary full">DOWNLOAD DO RESULTADO</a>
+      <br>
+      <button class="btn btn-secondary full mt-2" (click)="restart()">REINICIAR</button>
     </div>
 
 

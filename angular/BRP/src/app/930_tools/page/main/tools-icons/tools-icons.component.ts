@@ -10,6 +10,7 @@ export class ToolsIconsComponent {
     { name: 'Convert TXT to .NET', url: 'txt4net', type: 'B' },
     { name: 'Convert TXT to Matrix', url: 'txt4matrix', type: 'B' },
     { name: 'Convert RIS to MARC21', url: 'ris4marc', type: 'B' },
+    { name: 'Extrair Autor/Assuntos', url: 'txt4unit', type: 'B' },
   ];
 
   public conv = [
