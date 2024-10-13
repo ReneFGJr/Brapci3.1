@@ -19,7 +19,7 @@ use CodeIgniter\Model;
 
 class Like extends Model
 {
-    protected $DBGroup          = 'like';
+    protected $DBGroup          = 'liked';
     protected $table            = 'likes';
     protected $primaryKey       = 'id_lk';
     protected $useAutoIncrement = true;
