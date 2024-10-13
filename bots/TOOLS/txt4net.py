@@ -39,13 +39,13 @@ def create_net_file_from_author_list(input_path, output_path):
 
 if __name__ == "__main__":
     # Ensure the correct number of arguments is provided
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print("Usage: python3 txt4net.py <input_file> <output_file>")
         sys.exit(1)
 
     # Parse the input and output file paths
     input_file = sys.argv[1]
-    output_file = sys.argv[2]
+    output_file = input_file + '.net'
 
     # Create the .net file
     create_net_file_from_author_list(input_file, output_file)
