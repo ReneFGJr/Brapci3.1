@@ -78,7 +78,7 @@ class Index extends Model
                 $RSP['status'] = '200';
                 $RSP['file'] = get("file");
                 $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
-                $RSP['response'] = $this->execPython('txt4net', $arg);
+                $RSP['response'] = $this->execPython($d2, $arg);
                 $file = get("fileO");
                 $file = troca($file,'.txt','_unit.txt');
                 $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
