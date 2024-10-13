@@ -73,7 +73,8 @@ class Index extends Model
                 $RSP['file'] = get("file");
                 $RSP['post'] = $_POST;
                 $RSP['get'] = $_GET;
-                $RSP['response'] = $this->execPython('txt4net',$RSP['file']);
+                $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.$RSP['file'];
+                $RSP['response'] = $this->execPython('txt4net',$arg);
                 break;
             default:
                 $RSP = [];
