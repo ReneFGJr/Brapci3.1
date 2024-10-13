@@ -3,7 +3,10 @@ import re
 from collections import Counter
 
 # Defining a function to calculate unique author frequencies
-def calculate_author_frequencies(text, output_file):
+def calculate_author_frequencies(input_file, output_file):
+    with open(input_file, 'r', encoding='utf-8') as f_in:
+        text = f_in.read()
+
     # Splitting the text by author names using delimiters like ';' and '\n'
     authors = re.split(r'[;\n]', text)
 
@@ -13,10 +16,11 @@ def calculate_author_frequencies(text, output_file):
     # Counting the occurrences of each author
     author_count = Counter(authors)
 
-    # Criar o arquivo .net para salvar o grafo
+    # Writing the result to the output file
     with open(output_file, 'w', encoding='utf-8') as f_out:
-        # Escrever os nós
-        f_out.write(author_count)
+        # Write the frequencies to the file
+        for author, count in author_count.items():
+            f_out.write(f"{author}: {count}\n")
 
 if __name__ == "__main__":
     # Ensure the correct number of arguments is provided
@@ -26,7 +30,7 @@ if __name__ == "__main__":
 
     # Parse the input and output file paths
     input_file = sys.argv[1]
-    output_file = input_file.replace('.txt','__unit.txt')
+    output_file = input_file.replace('.txt','_unit.txt')
 
     # Create the .net file
     calculate_author_frequencies(input_file, output_file)
