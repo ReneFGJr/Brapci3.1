@@ -80,7 +80,7 @@ class Index extends Model
                 $RSP['get'] = $_GET;
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
                 $RSP['response'] = $this->execPython('txt4net',$arg);
-                $RSP['url'] = PATH.'/download/'.$d2.'/'.get("fileO");
+                $RSP['url'] = PATH.'/download/temp/'.$d2.'/'.get("fileO").'.net';
                 break;
             default:
                 $RSP = [];

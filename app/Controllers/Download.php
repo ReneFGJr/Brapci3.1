@@ -27,7 +27,7 @@ class Download extends BaseController
             }
 
         /* Bibliografia */
-        if ($id == 'tools') {
+        if ($id == 'temp') {
             $this->download_tools($id2,$id3,$id4);
         }
 
