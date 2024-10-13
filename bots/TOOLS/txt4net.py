@@ -39,11 +39,11 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
 
 def abreviar_nome(nome_completo):
     # Divide o nome completo em partes
-    nome_completo = nome_completo.replace(' de ','')
-    nome_completo = nome_completo.replace(' do ','')
-    nome_completo = nome_completo.replace(' da ','')
-    nome_completo = nome_completo.replace(' e ','')
-    nome_completo = nome_completo.replace(' em ','')
+    nome_completo = nome_completo.replace(' de ',' ')
+    nome_completo = nome_completo.replace(' do ',' ')
+    nome_completo = nome_completo.replace(' da ',' ')
+    nome_completo = nome_completo.replace(' e ',' ')
+    nome_completo = nome_completo.replace(' em ',' ')
     partes = nome_completo.split()
 
     # O sobrenome será a última parte
