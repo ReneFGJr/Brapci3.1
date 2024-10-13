@@ -27,11 +27,10 @@ class Download extends BaseController
             }
 
         /* Bibliografia */
-        pre($id);
         if ($id == 'temp') {
-            $this->download_tools($id2,$id3,$id4);
+            return $this->download_tools($id2,$id3,$id4);
         }
-
+        pre($id);
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($id);
 
