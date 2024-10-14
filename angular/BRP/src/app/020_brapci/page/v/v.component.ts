@@ -11,13 +11,14 @@ export class VComponent {
   public data: Array<any> | any;
   public sub: Array<any> | any;
   public chaves: Array<any> | any;
+  public userID: Array<any> | any;
   public id: number = 0;
   public header = { title: 'Brapci' };
 
   constructor(
     private brapciService: BrapciService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -28,7 +29,6 @@ export class VComponent {
         (res) => {
           this.data = res;
           if (this.data.status == '404') {
-            console.log("Registro cancelado")
             this.router.navigate(['404']);
           } else {
             this.type = this.data.Class;
@@ -37,8 +37,9 @@ export class VComponent {
                 this.type = 'Benancib';
               } else if (this.data.Issue.jnl_rdf == 18) {
                 this.type = 'EBBC';
+              } else {
+                console.log('TYPE:' + this.data.Issue.jnl_rdf);
               }
-              console.log('TYPE:' + this.data.Issue.jnl_rdf);
             }
           }
 

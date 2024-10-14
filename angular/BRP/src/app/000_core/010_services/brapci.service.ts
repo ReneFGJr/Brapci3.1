@@ -29,9 +29,9 @@ export class BrapciService {
     let session = this.cookieService.get('section');
 
     let dt: Array<any> | any = [{ session: session }];
-    return this.api_post(url, dt);
 
-    return this.api_post(url, dt);
+    let rsp =  this.api_post(url, dt);
+    return rsp
   }
 
   public RDFapi(
@@ -56,7 +56,8 @@ export class BrapciService {
   public api(id: number, term: string, prop: string): Observable<Array<any>> {
     let url = 'rdf/search/';
     let dt: Array<any> | any = [{ q: term, concept: id, propriey: prop }];
-    return this.api_post(url, dt);
+    let rsp = this.api_post(url, dt);
+    return rsp
   }
 
   public api_post(
@@ -76,7 +77,6 @@ export class BrapciService {
         this.apikey = this.user.token;
       }
 
-
     if (development) {
       this.url_post = `${this.url_development}` + type;
     } else {
@@ -89,11 +89,12 @@ export class BrapciService {
     for (const key in dt) {
       formData.append(key, dt[key]);
     }
-    console.log('URL', this.url_post);
+    // console.log('URL', this.url_post);
     return this.HttpClient.post<Array<any>>(this.url_post, formData).pipe(
       (res) => res,
-      (error) => error
+      (error) => error,
     );
+
   }
 
   public sources(type: string): Observable<Array<any>> {

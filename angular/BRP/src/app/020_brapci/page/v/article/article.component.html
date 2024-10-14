@@ -96,7 +96,7 @@
       <img [src]="rdf" height="32px" />
 
     <!--------------- Administracao -->
-    <div>
+    <div *ngIf="userID">
       <app-remove-concept [ID]="data.ID"></app-remove-concept>
       <app-edit-concept [ID]="data.ID"></app-edit-concept>
       <app-ai-process [ID]="data.ID"></app-ai-process>

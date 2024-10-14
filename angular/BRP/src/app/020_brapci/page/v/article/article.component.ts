@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class ArticleComponent {
   @Input() public data: Array<any> | any;
+  public userID: Array<any> | any = null;
 
   constructor(
     private brapciService: BrapciService,
@@ -35,13 +36,10 @@ export class ArticleComponent {
   objectValues = Object.values;
 
   ngOnInit(): void {
+    this.userID = this.localStorageService.get('user');
+
     this.header = [];
     this.header = { title: 'Artigo' };
-
-    //this.url = this.data.id;
-    //console.log(this.data);
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
   }
 
   ViewFull() {
