@@ -51,6 +51,28 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function getLike($id, $user)
+    {
+        $RSP = [];
+        $Social = new \App\Models\Socials();
+        $dtUser = $Social->where('us_apikey', $user)->First();
+
+        if ($dtUser != []) {
+            $userID = $dtUser['id_us'];
+            $dt = $this
+                ->where('lk_user', $userID)
+                ->where('lk_id', $id)
+                ->first();
+
+            if ($dt)
+                {
+                    $RSP['liked'] = $dt['lk_status'];
+                } else {
+                    $RSP['liked'] = 0;
+                }
+        }
+    }
+
     function setID($id, $user)
     {
         $Social = new \App\Models\Socials();

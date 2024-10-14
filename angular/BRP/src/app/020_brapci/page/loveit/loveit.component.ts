@@ -14,6 +14,14 @@ export class LoveItComponent {
 
   constructor(public brapciService: BrapciService) {}
 
+  ngOnInit()
+    {
+        let dt: Array<any> | any = { id: this.id };
+        this.brapciService.api_post('like/getLike', dt).subscribe((res) => {
+          console.log(res);
+        });
+    }
+
   changeit() {
     if (this.loveitValue == 0)
       {
