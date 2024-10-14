@@ -61,7 +61,7 @@ class Index extends Model
             $dt = $this
                 ->where('lk_user', $userID)
                 ->where('lk_id', $id)
-                ->findAll();
+                ->first();
 
             $dd = [];
             $dd['lk_user'] = $userID;
