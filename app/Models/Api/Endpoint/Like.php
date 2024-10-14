@@ -68,6 +68,9 @@ class Like extends Model
             case 'liked':
                 $RSP = $Like->setID($id,$user);
                 break;
+            case 'disliked':
+                $RSP = $Like->unsetID($id, $user);
+                break;
             default:
                 $RSP = $Like->status();
                 $RSP['verb'] = $d1;

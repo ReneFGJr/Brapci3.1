@@ -14,8 +14,11 @@ class Index extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_lk','lk_user','lk_id',
-        'lk_status','lk_update'
+        'id_lk',
+        'lk_user',
+        'lk_id',
+        'lk_status',
+        'lk_update'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -48,42 +51,75 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function setID($id,$user)
-        {
-            $Social = new \App\Models\Socials();
-            $dtUser = $Social->where('us_apikey', $user)->First();
+    function setID($id, $user)
+    {
+        $Social = new \App\Models\Socials();
+        $dtUser = $Social->where('us_apikey', $user)->First();
 
-            if ($dtUser != [])
-                {
-                    $userID = $dtUser['id_us'];
-                    $dt = $this
-                    ->where('lk_user', $userID)
-                    ->where('lk_id', $id)
-                    ->findAll();
+        if ($dtUser != []) {
+            $userID = $dtUser['id_us'];
+            $dt = $this
+                ->where('lk_user', $userID)
+                ->where('lk_id', $id)
+                ->findAll();
 
-                    if ($dt == [])
-                        {
-                            $dd = [];
-                            $dd['lk_user'] = $userID;
-                            $dd['lk_id'] = $id;
-                            $dd['lk_status'] = '1';
-                            $dd['lk_update'] = date("Y-m-d").'T'.date('H:i:s');
-                            $this->set($dd)->insert();
-                        }
-                    $RSP['status'] = '200';
-                    $RSP['message'] = 'Success - Marked '.$id;
-                } else {
-                    $RSP['status'] = '500';
-                    $RSP['message'] = 'Usuário inválido (apikey)';
+            $dd = [];
+            $dd['lk_user'] = $userID;
+            $dd['lk_id'] = $id;
+            $dd['lk_status'] = '1';
+            $dd['lk_update'] = date("Y-m-d") . 'T' . date('H:i:s');
+
+            if ($dt == []) {
+                $this->set($dd)->insert();
+            } else {
+                if ($dt['lk_status'] != 1) {
+                    $this->set($dd)->where('id_lk', $dt['id_lk'])->update();
                 }
-                return $RSP;
+            }
+            $RSP['status'] = '200';
+            $RSP['message'] = 'Success - Marked ' . $id;
+        } else {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Usuário inválido (apikey)';
         }
+        return $RSP;
+    }
+
+    function unsetID($id, $user)
+    {
+        $Social = new \App\Models\Socials();
+        $dtUser = $Social->where('us_apikey', $user)->First();
+
+        if ($dtUser != []) {
+            $userID = $dtUser['id_us'];
+            $dt = $this
+                ->where('lk_user', $userID)
+                ->where('lk_id', $id)
+                ->findAll();
+
+            $dd = [];
+            $dd['lk_status'] = '0';
+            $dd['lk_update'] = date("Y-m-d") . 'T' . date('H:i:s');
+
+            if ($dt != []) {
+                if ($dt['lk_status'] == 1) {
+                    $this->set($dd)->where('id_lk', $dt['id_lk'])->update();
+                }
+            }
+            $RSP['status'] = '200';
+            $RSP['message'] = 'Success - Dismarked ' . $id;
+        } else {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Usuário inválido (apikey)';
+        }
+        return $RSP;
+    }
 
     function status()
-        {
-            $RSP = [];
-            $RSP['post'] = $_POST;
-            $RSP['get'] = $_POST;
-            return $RSP;
-        }
+    {
+        $RSP = [];
+        $RSP['post'] = $_POST;
+        $RSP['get'] = $_POST;
+        return $RSP;
+    }
 }
