@@ -8,6 +8,6 @@ export const environment = {
   authorizeUrl: 'https://orcid.org/oauth/authorize',
   client_secret: '93a45b75-b66c-41bc-a13a-54aaf3746df4',
   image: 'https://cip.brapci.inf.br/',
-  version_system: 'v0.24.09.24',
+  version_system: 'v0.24.10.13',
   path: 'https://brapci.inf.br/',
 };
