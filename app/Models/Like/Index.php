@@ -54,6 +54,8 @@ class Index extends Model
     function getLike($id, $user)
     {
         $RSP = [];
+        $RSP['liked'] = 0;
+
         $Social = new \App\Models\Socials();
         $dtUser = $Social->where('us_apikey', $user)->First();
 
@@ -67,10 +69,9 @@ class Index extends Model
             if ($dt)
                 {
                     $RSP['liked'] = $dt['lk_status'];
-                } else {
-                    $RSP['liked'] = 0;
                 }
         }
+        return $RSP;
     }
 
     function setID($id, $user)
