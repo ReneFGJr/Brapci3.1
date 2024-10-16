@@ -84,7 +84,7 @@ class Users extends Model
                 $HD = explode(';', $name);
                 if (count($HD) == 2) {
                     $email = $HD[1];
-                    $nome = $HD[1];
+                    $nome = $HD[0];
 
                     if ($nome != 'USUARIO') {
                         $dt = $this->where('n_email', $email)->first();
