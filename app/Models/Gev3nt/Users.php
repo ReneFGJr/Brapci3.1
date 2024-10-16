@@ -72,7 +72,7 @@ class Users extends Model
             $names = explode(chr(13),$names);
             $nm = [];
             $HD = explode(';',$names[0]);
-            if (($HD[0] == 'USUARIO') and ($HD[1] == 'email') and (count($HD) == 2))
+            if (($HD[0] == 'USUARIO') and ($HD[1] == 'EMAIL') and (count($HD) == 2))
                 {
                     foreach($names as $id=>$name)
                         {
@@ -91,7 +91,10 @@ class Users extends Model
                         }
                 } else {
                     $RSP['status'] = '500';
-                    $RSP['message'] = 'Dados em formato inválido use [USUARIO;EMAIL] - '.$HD[0].'-'.$HD[1].'-'. count($HD);
+                    $RSP['message'] = 'Dados em formato inválido use [USUARIO;EMAIL]';
+                    $RSP['Rul1'] = ($HD[0] == 'USUARIO');
+                    $RSP['Rul2'] = ($HD[1] == 'EMAIL');
+                    $RSP['Rul3'] = count($HD);
                 }
             return $RSP;
         }
