@@ -93,9 +93,9 @@ class Users extends Model
                             $dd['n_nome'] = $nome;
                             $dd['n_email'] = $email;
                             //$this->set($dd)->insert();
-                            array_push($nm, ['nome' => $name, 'email' => $email, 'status' => 'insired']);
+                            array_push($nm, ['nome' => $nome, 'email' => $email, 'status' => 'inserted']);
                         } else {
-                            array_push($nm, ['nome' => $name, 'email' => $email, 'status' => 'already']);
+                            array_push($nm, ['nome' => $nome, 'email' => $email, 'status' => 'already']);
                         }
                     }
                 } else {
