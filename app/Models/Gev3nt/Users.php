@@ -72,7 +72,7 @@ class Users extends Model
             $names = explode(chr(13),$names);
             $nm = [];
             $HD = explode(';',$names[0]);
-            if (($H[0] == 'USUARIO') and ($H[1] == 'email') and (count($HD) == 2))
+            if (($HD[0] == 'USUARIO') and ($HD[1] == 'email') and (count($HD) == 2))
                 {
                     foreach($names as $id=>$name)
                         {
