@@ -67,6 +67,8 @@ class Gev3nt extends Model
                             break;
                         }
                     echo json_encode($RSP);
+                    exit;
+                    break;
                 case 'certificate':
                     $Certificate = new \App\Models\Gev3nt\Certificados();
                     echo json_encode($Certificate->certificado($d2,$d3));
