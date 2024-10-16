@@ -83,8 +83,11 @@ class Users extends Model
                             $email = $HD[1];
                             $nome = $HD[1];
 
-                            $dt = $this->where('n_email',$email)->first();
-                            pre($dt);
+                            if ($nome != 'USUARIO')
+                                {
+                                    $dt = $this->where('n_email',$email)->first();
+                                    pre($dt);
+                                }
                         }
                 } else {
 
