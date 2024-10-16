@@ -57,6 +57,16 @@ class Gev3nt extends Model
         $RSP['status'] = '200';
         switch($d1)
             {
+                case 'import':
+                    $RSP = [];
+                    switch($d2)
+                        {
+                            case 'user':
+                            $Users = new \App\Models\Gev3nt\Users();
+                            $RSP = $Users->importUserList();
+                            break;
+                        }
+                    echo json_encode($RSP);
                 case 'certificate':
                     $Certificate = new \App\Models\Gev3nt\Certificados();
                     echo json_encode($Certificate->certificado($d2,$d3));

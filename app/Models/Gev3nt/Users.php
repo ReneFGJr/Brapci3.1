@@ -66,6 +66,13 @@ class Users extends Model
         return $apiKey;
     }
 
+    function importUserList()
+        {
+            $names = get("text");
+            $names = explode(chr(13),$names);
+            return $names;
+        }
+
     function getUserApi($apikey) {
         $dt =
             $this
