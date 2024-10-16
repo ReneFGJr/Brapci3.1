@@ -62,9 +62,17 @@ class Gev3nt extends Model
                     switch($d2)
                         {
                             case 'user':
-                            $Users = new \App\Models\Gev3nt\Users();
-                            $RSP = $Users->importUserList();
-                            break;
+                                $Users = new \App\Models\Gev3nt\Users();
+                                $RSP = $Users->importUserList();
+                                break;
+                            case 'works':
+                                $Users = new \App\Models\Gev3nt\Users();
+                                $RSP = $Users->importUserList();
+                                break;
+                            case 'visited':
+                                $Users = new \App\Models\Gev3nt\Users();
+                                $RSP = $Users->importUserList();
+                                break;
                         }
                     echo json_encode($RSP);
                     exit;

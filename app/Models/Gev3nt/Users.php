@@ -85,6 +85,7 @@ class Users extends Model
                 if (count($HD) == 2) {
                     $email = $HD[1];
                     $nome = $HD[0];
+                    $nome = nbr_author($nome,7);
 
                     if ($nome != 'USUARIO') {
                         $dt = $this->where('n_email', $email)->first();
@@ -92,7 +93,7 @@ class Users extends Model
                             $dd = [];
                             $dd['n_nome'] = $nome;
                             $dd['n_email'] = $email;
-                            $this->set($dd)->insert();
+                            //$this->set($dd)->insert();
                             array_push($nm, ['nome' => $nome, 'email' => $email, 'status' => 'inserted']);
                         } else {
                             array_push($nm, ['nome' => $nome, 'email' => $email, 'status' => 'already']);
