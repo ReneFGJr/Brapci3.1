@@ -70,6 +70,25 @@ class Users extends Model
         {
             $names = get("text");
             $names = explode(chr(13),$names);
+            $nm = [];
+            $HD = explode(';',$names[0]);
+            if (($H[0] == 'USUARIO') and ($H[1] == 'email') and (count($HD) == 2))
+                {
+                    foreach($names as $id=>$name)
+                        {
+                            $name = troca($name,chr(13),'');
+                            $name = troca($name, chr(10), '');
+
+                            $HD = explode(';', $name);
+                            $email = $HD[1];
+                            $nome = $HD[1];
+
+                            $dt = $this->where('n_email',$email)->first();
+                            pre($dt);
+                        }
+                } else {
+
+                }
             return $names;
         }
 
