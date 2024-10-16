@@ -86,8 +86,20 @@ class Users extends Model
                             if ($nome != 'USUARIO')
                                 {
                                     $dt = $this->where('n_email',$email)->first();
-                                    pre($dt);
+                                    if (!$dt)
+                                        {
+                                            $dd = [];
+                                            $dd['n_nome'] = $nome;
+                                            $dd['n_email'] = $email;
+                                            //$this->set($dd)->insert();
+                                            array_push($nm,['nome'=>$name,'email'=>$email,'status'=>'insired']);
+                                        } else {
+                                            array_push($nm, ['nome' => $name, 'email' => $email, 'status' => 'already']);
+                                        }
                                 }
+                            $RSP['status'] = '200';
+                            $RSP['users'] = $nm;
+                            $RSP['message'] = 'Success';
                         }
                 } else {
                     $RSP['status'] = '500';
