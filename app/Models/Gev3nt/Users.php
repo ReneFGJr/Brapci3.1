@@ -87,7 +87,7 @@ class Users extends Model
                     $nome = $HD[0];
                     $nome = nbr_author($nome,7);
 
-                    if ($nome != 'USUARIO') {
+                    if (($nome != 'USUARIO') AND ($email != 'EMAIL')) {
                         $dt = $this->where('n_email', $email)->first();
                         if (!$dt) {
                             $dd = [];
