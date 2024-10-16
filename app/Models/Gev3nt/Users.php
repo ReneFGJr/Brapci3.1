@@ -91,7 +91,7 @@ class Users extends Model
                         }
                 } else {
                     $RSP['status'] = '500';
-                    $RSP['message'] = 'Dados em formato inválido use [USUARIO;EMAIL]';
+                    $RSP['message'] = 'Dados em formato inválido use [USUARIO;EMAIL] - '.$HD[0].'-'.$HD[1];
                 }
             return $RSP;
         }
