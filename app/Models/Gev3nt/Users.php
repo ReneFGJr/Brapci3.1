@@ -15,8 +15,12 @@ class Users extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_n','n_nome','b_cracha','n_email',
-        'n_cpf','n_orcid',
+        'id_n',
+        'n_nome',
+        'b_cracha',
+        'n_email',
+        'n_cpf',
+        'n_orcid',
         'n_cracha',
         'n_afiliacao',
         'n_biografia',
@@ -67,95 +71,95 @@ class Users extends Model
     }
 
     function importUserList()
-        {
-            $names = get("text");
-            $names = explode(chr(13),$names);
-            $nm = [];
-            $HD = explode(';',$names[0]);
-            if (($HD[0] == 'USUARIO') and ($HD[1] == 'EMAIL') and (count($HD) == 2))
-                {
-                    foreach($names as $id=>$name)
-                        {
-                            $name = troca($name,chr(13),'');
-                            $name = troca($name, chr(10), '');
+    {
+        $names = get("text");
+        $names = explode(chr(13), $names);
+        $nm = [];
+        $HD = explode(';', $names[0]);
+        if (($HD[0] == 'USUARIO') and ($HD[1] == 'EMAIL') and (count($HD) == 2)) {
+            foreach ($names as $id => $name) {
+                $name = troca($name, chr(13), '');
+                $name = troca($name, chr(10), '');
 
-                            $HD = explode(';', $name);
-                            $email = $HD[1];
-                            $nome = $HD[1];
+                $HD = explode(';', $name);
+                if (count($HD) == 2) {
+                    $email = $HD[1];
+                    $nome = $HD[1];
 
-                            if ($nome != 'USUARIO')
-                                {
-                                    $dt = $this->where('n_email',$email)->first();
-                                    if (!$dt)
-                                        {
-                                            $dd = [];
-                                            $dd['n_nome'] = $nome;
-                                            $dd['n_email'] = $email;
-                                            //$this->set($dd)->insert();
-                                            array_push($nm,['nome'=>$name,'email'=>$email,'status'=>'insired']);
-                                        } else {
-                                            array_push($nm, ['nome' => $name, 'email' => $email, 'status' => 'already']);
-                                        }
-                                }
-                            $RSP['status'] = '200';
-                            $RSP['users'] = $nm;
-                            $RSP['message'] = 'Success';
+                    if ($nome != 'USUARIO') {
+                        $dt = $this->where('n_email', $email)->first();
+                        if (!$dt) {
+                            $dd = [];
+                            $dd['n_nome'] = $nome;
+                            $dd['n_email'] = $email;
+                            //$this->set($dd)->insert();
+                            array_push($nm, ['nome' => $name, 'email' => $email, 'status' => 'insired']);
+                        } else {
+                            array_push($nm, ['nome' => $name, 'email' => $email, 'status' => 'already']);
                         }
+                    }
                 } else {
-                    $RSP['status'] = '500';
-                    $RSP['message'] = 'Dados em formato inválido use [USUARIO;EMAIL]';
-                    $RSP['Rul1'] = ($HD[0] == 'USUARIO');
-                    $RSP['Rul2'] = ($HD[1] == 'EMAIL');
-                    $RSP['Rul3'] = count($HD);
+                    array_push($nm, ['nome' => $name, 'email' => '', 'status' => 'invalid']);
                 }
-            return $RSP;
+                $RSP['status'] = '200';
+                $RSP['users'] = $nm;
+                $RSP['message'] = 'Success';
+            }
+        } else {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Dados em formato inválido use [USUARIO;EMAIL]';
+            $RSP['Rul1'] = ($HD[0] == 'USUARIO');
+            $RSP['Rul2'] = ($HD[1] == 'EMAIL');
+            $RSP['Rul3'] = count($HD);
         }
+        return $RSP;
+    }
 
-    function getUserApi($apikey) {
+    function getUserApi($apikey)
+    {
         $dt =
             $this
-            ->Join('corporateBody', 'id_cb = n_afiliacao','LEFT')
+            ->Join('corporateBody', 'id_cb = n_afiliacao', 'LEFT')
             ->where('apikey', $apikey)
             ->first();
         return $dt;
     }
 
     function register(
-            $name,$institution,
-            $cpf,$orcid,
-            $email,$cracha,
-            $biografia='',$apikey='')
-        {
-            $dt = $this
+        $name,
+        $institution,
+        $cpf,
+        $orcid,
+        $email,
+        $cracha,
+        $biografia = '',
+        $apikey = ''
+    ) {
+        $dt = $this
             ->where('n_email', $email)
             ->first();
 
-            if ($dt==[])
-                {
-                    $dt['n_nome'] = $name;
-                    $dt['n_cracha'] = $cracha;
-                    $dt['n_email'] = $email;
-                    $dt['n_orcid'] = $orcid;
-                    $dt['n_cpf'] = $cpf;
-                    $dt['n_afiliacao'] = $institution;
-                    $dt['n_biografia'] = $biografia;
-                    $this->set($dt)->insert($dt);
-                } else {
-                    $dt['n_nome'] = $name;
-                    $dt['n_cracha'] = $cracha;
-                    $dt['n_email'] = $email;
-                    $dt['n_orcid'] = $orcid;
-                    $dt['n_cpf'] = $cpf;
-                    $dt['n_afiliacao'] = $institution;
-                    $dt['n_biografia'] = $biografia;
-                    if ($apikey != '')
-                        {
-                            $this->set($dt)->where('apikey', $apikey)->update();
-                        }
-
-                }
-            return $dt;
+        if ($dt == []) {
+            $dt['n_nome'] = $name;
+            $dt['n_cracha'] = $cracha;
+            $dt['n_email'] = $email;
+            $dt['n_orcid'] = $orcid;
+            $dt['n_cpf'] = $cpf;
+            $dt['n_afiliacao'] = $institution;
+            $dt['n_biografia'] = $biografia;
+            $this->set($dt)->insert($dt);
+        } else {
+            $dt['n_nome'] = $name;
+            $dt['n_cracha'] = $cracha;
+            $dt['n_email'] = $email;
+            $dt['n_orcid'] = $orcid;
+            $dt['n_cpf'] = $cpf;
+            $dt['n_afiliacao'] = $institution;
+            $dt['n_biografia'] = $biografia;
+            if ($apikey != '') {
+                $this->set($dt)->where('apikey', $apikey)->update();
+            }
         }
-
-
+        return $dt;
+    }
 }
