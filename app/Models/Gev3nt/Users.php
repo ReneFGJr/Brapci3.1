@@ -72,6 +72,7 @@ class Users extends Model
 
     function importRegister()
     {
+        echo "OK";
         $Certificate = new \App\Models\Gev3nt\Certificate();
         $names = get("text");
         $names = explode(chr(13), $names);
