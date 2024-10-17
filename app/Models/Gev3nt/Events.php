@@ -64,6 +64,7 @@ class Events extends Model
                     ->select($cp)
                     ->join('event_inscritos', '(ein_event = id_e) and (ein_user = ' . $user . ')', 'LEFT')
                     ->where('e_sigin_until >= ' . date("Y-m-d"))
+                    ->where('e_active',1)
                     ->orderby('e_sigin_until')
                     ->findAll();
                 } else {
@@ -71,9 +72,11 @@ class Events extends Model
                         ->select($cp)
                         ->join('event_inscritos', '(ein_event = 0)', 'LEFT')
                         ->where('e_sigin_until >= ' . date("Y-m-d"))
+                        ->where('e_active', 1)
                         ->orderby('e_sigin_until')
                         ->findAll();
                 }
+                echo $this->getlastquery();
             return $dt;
 
         }
