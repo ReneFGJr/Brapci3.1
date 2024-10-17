@@ -77,7 +77,8 @@ class Users extends Model
             $ID = get("id");
             foreach($names as $id=>$names)
                 {
-                    pre($names);
+                    $dt = $this->where('n_email',$names)->first();
+                    pre($dt);
                 }
 
         }
