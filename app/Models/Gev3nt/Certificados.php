@@ -80,7 +80,7 @@ class Certificados extends Model
             $Users = new \App\Models\Gev3nt\Users();
             $dt = $Users
                     ->where('n_email',$email)
-                    ->findAll();
+                    ->first();
             if ($dt)
                 {
                     $RSP['status'] = '200';
