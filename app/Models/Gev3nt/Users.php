@@ -72,7 +72,7 @@ class Users extends Model
 
     function importUserReferee()
         {
-            $Certificate = new \App\Models\Gev3nt\Certificados();
+            $Certificate = new \App\Models\Gev3nt\Certificate();
             $names = get("text");
             $names = explode(chr(13), $names);
             $ID = get("id");
