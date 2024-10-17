@@ -84,7 +84,7 @@ class Users extends Model
                         {
                             $idn = $dt['id_n'];
 
-                            if ($this->certificate->Register($idn,$ID)==1)
+                            if ($this->Certificate->Register($idn,$ID)==1)
                                 {
                                     array_push($nn, $name . ' registrado');
                                 } else {
