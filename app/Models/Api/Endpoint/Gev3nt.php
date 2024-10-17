@@ -61,6 +61,10 @@ class Gev3nt extends Model
                     $RSP = [];
                     switch($d2)
                         {
+                            case 'referee':
+                                $Users = new \App\Models\Gev3nt\Users();
+                                $RSP = $Users->importUserReferee();
+                                break;
                             case 'user':
                                 $Users = new \App\Models\Gev3nt\Users();
                                 $RSP = $Users->importUserList();

@@ -70,6 +70,18 @@ class Users extends Model
         return $apiKey;
     }
 
+    function importUserReferee()
+        {
+            $names = get("text");
+            $names = explode(chr(13), $names);
+            $ID = get("id");
+            foreach($names as $id=>$names)
+                {
+                    pre($names);
+                }
+
+        }
+
     function importUserList()
     {
         $names = get("text");
