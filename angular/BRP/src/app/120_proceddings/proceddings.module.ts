@@ -8,6 +8,8 @@ import { ProceedingListComponent } from './page/proceeding-list/proceeding-list.
 import { ProceedingIssuesComponent } from './page/proceeding-issues/proceeding-issues.component';
 import { ProceedingsIssueViewComponent } from './page/proceedings-issue-view/proceedings-issue-view.component';
 import { CoreBrapciModule } from '../020_brapci/core-brapci.module';
+import { SearchSimpleFormComponent } from './search/search-simple-form/search-simple-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,8 +17,15 @@ import { CoreBrapciModule } from '../020_brapci/core-brapci.module';
     ProceedingListComponent,
     ProceedingIssuesComponent,
     ProceedingsIssueViewComponent,
+    SearchSimpleFormComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  imports: [CommonModule, ProceddingsRoutingModule, ThemeModule, CoreBrapciModule],
+  imports: [
+    CommonModule,
+    ProceddingsRoutingModule,
+    ThemeModule,
+    CoreBrapciModule,
+    ReactiveFormsModule,
+  ],
 })
 export class ProceddingsModule {}

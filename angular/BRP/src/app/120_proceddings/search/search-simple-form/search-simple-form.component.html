@@ -1,0 +1,60 @@
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="mb-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <label for="searchTerm">Buscar:</label>
+        <input
+          id="searchTerm"
+          formControlName="searchTerm"
+          placeholder="Digite o termo de busca"
+          class="form-control full border border-secondary rounded"
+        />
+      </div>
+
+      <div class="col-4 col-lg-2">
+        <label for="year">Ano:</label>
+        <select id="year" formControlName="year" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let year of [2024, 2023, 2022, 2021]" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 col-lg-2">
+        <label for="year">Ano:</label>
+        <select id="year" formControlName="year" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let year of [2024, 2023, 2022, 2021]" [value]="year">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 col-lg-2">
+        <label for="gt">Grupo de Trabalho (GT):</label>
+        <select id="gt" formControlName="gt" class="form-control">
+          <option value="">Todos</option>
+          <option *ngFor="let gt of ['GT1', 'GT2', 'GT3', 'GT4']" [value]="gt">
+            {{ gt }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-4 col-lg-4">
+        <label for="workType">Tipo de Trabalho:</label>
+        <select id="workType" formControlName="workType" class="form-control">
+          <option value="">Todos</option>
+          <option value="Resumo">Resumo</option>
+          <option value="Completo">Completo</option>
+        </select>
+      </div>
+
+      <div class="col-2 col-lg-2">
+        &nbsp;
+        <br>
+        <button type="submit" class="btn btn-outline-primary full">Buscar</button>
+      </div>
+    </div>
+  </div>
+</form>
