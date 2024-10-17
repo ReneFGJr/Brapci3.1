@@ -55,7 +55,6 @@ class Gev3nt extends Model
         header('Access-Control-Allow-Origin: *');
         $RSP = [];
         $RSP['status'] = '200';
-        echo $d1.'--'.$d2;
         switch($d1)
             {
                 case 'import':
