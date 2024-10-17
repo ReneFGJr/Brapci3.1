@@ -195,6 +195,8 @@ class Certificados extends Model
 
         $html = troca($html, '$nome', $nomeParticipante);
         $html = troca($html,'$titulo',$dt['i_titulo_trabalho']);
+        $html = troca($html, '$autores', $dt['i_autores']);
+        $html = troca($html, '$ch', $dt['i_carga_horaria']);
 
         $pdf->writeHTML($html, true, false, true, false,
             ''
