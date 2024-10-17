@@ -78,7 +78,11 @@ class Users extends Model
         $ID = get("id");
         $nn = [];
         foreach ($names as $line) {
-            pre($line);
+            $its = explode(';',$line);
+            $email = $its[0];
+            $titulo = $its[1];
+            $autores = $its[2];
+            $ch = $its[3];
             $dt = $this->where('n_email', $name)->first();
             if ($dt) {
                 $idn = $dt['id_n'];

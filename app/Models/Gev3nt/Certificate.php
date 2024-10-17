@@ -68,6 +68,8 @@ class Certificate extends Model
                     $dd['i_titulo_trabalho'] = $titulo;
                     $dd['i_autores'] = $autores;
                     $dd['i_carga_horaria'] = $ch;
+                    pre($dd);
+                    exit;
                     $this->set($dd)->insert();
                     return 1;
                 } else {
