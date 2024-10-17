@@ -52,6 +52,29 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function register($user=0,$event=0,$titulo='',$autores='',$ch=0)
+        {
+            $this->where('i_user', $user);
+            $this->where('i_evento',$event);
+            $this->where('i_titulo_trabalho', $titulo);
+            $this->where('i_autores', $autores);
+            $this->where('i_carga_horaria', $ch);
+            $dt = $this->first();
+            if (!$dt)
+                {
+                    $dd = [];
+                    $dd['i_user'] = $user;
+                    $dd['i_evento'] = $event;
+                    $dd['i_titulo_trabalho'] = $titulo;
+                    $dd['i_autores'] = $autores;
+                    $dd['i_carga_horaria'] = $ch;
+                    $this->set($dd)->insert();
+                    return 1;
+                } else {
+                    return 0;
+                }
+        }
+
     function importWorks() {
     }
 
