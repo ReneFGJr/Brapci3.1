@@ -77,6 +77,16 @@ class Certificados extends Model
         {
             $RSP = [];
             $RSP['status'] = '500';
+            $Users = new \App\Models\Gev3nt\Users();
+            $dt = $Users
+                    ->where('n_email',$email)
+                    ->findAll();
+            if ($dt)
+                {
+                    $RSP['status'] = '200';
+                    $RSP['data'] = $dt;
+                }
+
             return $RSP;
         }
 
