@@ -75,7 +75,7 @@ class Gev3nt extends Model
                                 break;
                             case 'listeners':
                                 $Users = new \App\Models\Gev3nt\Users();
-                                $RSP = $Users->importUserList();
+                                $RSP = $Users->importRegister();
                                 break;
                         }
                     echo json_encode($RSP);

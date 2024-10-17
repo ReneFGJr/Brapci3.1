@@ -70,6 +70,32 @@ class Users extends Model
         return $apiKey;
     }
 
+    function importRegister()
+    {
+        $Certificate = new \App\Models\Gev3nt\Certificate();
+        $names = get("text");
+        $names = explode(chr(13), $names);
+        $ID = get("id");
+        $nn = [];
+        foreach ($names as $id => $line) {
+            pre($line);
+            $dt = $this->where('n_email', $name)->first();
+            if ($dt) {
+                $idn = $dt['id_n'];
+
+                if ($Certificate->Register($idn, $ID, $titulo, $autores, $ch) == 1) {
+                    array_push($nn, $name . ' registrado');
+                } else {
+                    array_push($nn, $name . ' já registrado');
+                }
+            } else {
+                array_push($nn, $name . ' não localizado');
+            }
+        }
+        $RSP['data'] = $nn;
+        return $RSP;
+    }
+
     function importUserReferee()
         {
             $Certificate = new \App\Models\Gev3nt\Certificate();
