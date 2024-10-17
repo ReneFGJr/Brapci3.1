@@ -80,7 +80,6 @@ class Users extends Model
         foreach ($names as $line) {
             $its = explode('|',$line);
             $email = $its[0];
-            $titulo = $its[1];
             if (isset($its[1])) {
                 $titulo = $its[1];
             } else {
