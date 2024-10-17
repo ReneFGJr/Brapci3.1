@@ -73,6 +73,13 @@ class Certificados extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function certificateSearch($email)
+        {
+            $RSP = [];
+            $RSP['status'] = '500';
+            return $RSP;
+        }
+
     public function certificado($id=0)
         {
             $dt=$this

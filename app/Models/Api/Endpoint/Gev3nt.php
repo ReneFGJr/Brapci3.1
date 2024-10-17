@@ -77,6 +77,12 @@ class Gev3nt extends Model
                     echo json_encode($RSP);
                     exit;
                     break;
+                case 'certificateSearch':
+                    $Certificate = new \App\Models\Gev3nt\Certificados();
+                    $email = get("email");
+                    echo json_encode($Certificate->certificateSearch($email));
+                    exit;
+                    break;
                 case 'certificate':
                     $Certificate = new \App\Models\Gev3nt\Certificados();
                     echo json_encode($Certificate->certificado($d2,$d3));
