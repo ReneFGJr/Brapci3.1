@@ -95,9 +95,9 @@ class Users extends Model
                         } else {
                             array_push($nn, $name.' não localizado');
                         }
-                    pre($dt);
                 }
-
+            $RSP['data'] = $nn;
+            return $RSP;
         }
 
     function importUserList()
