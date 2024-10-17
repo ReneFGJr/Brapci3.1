@@ -79,6 +79,7 @@ class Certificados extends Model
             $RSP['status'] = '500';
             $Users = new \App\Models\Gev3nt\Users();
             $dt = $Users
+                    ->join('events_inscritos','i_user = id_n')
                     ->where('n_email',$email)
                     ->first();
             if ($dt)
