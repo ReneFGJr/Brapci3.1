@@ -74,6 +74,7 @@ class Users extends Model
     {
         $Certificate = new \App\Models\Gev3nt\Certificate();
         $names = get("text");
+        $names = troca($names,chr(10),'');
         $names = explode(chr(13), $names);
         $ID = get("id");
         $nn = [];
