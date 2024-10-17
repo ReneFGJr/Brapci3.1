@@ -4,7 +4,7 @@ namespace App\Models\Gev3nt;
 
 use CodeIgniter\Model;
 
-class Events extends Model
+class Certificate extends Model
 {
     protected $DBGroup          = 'gev3nt';
     protected $table            = 'events_inscritos';
@@ -52,7 +52,7 @@ class Events extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($user=0,$event=0,$titulo='',$autores='',$ch=0)
+    function Register($user=0,$event=0,$titulo='',$autores='',$ch=0)
         {
             $this->where('i_user', $user);
             $this->where('i_evento',$event);
