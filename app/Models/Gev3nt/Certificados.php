@@ -80,6 +80,7 @@ class Certificados extends Model
             $Users = new \App\Models\Gev3nt\Users();
             $dt = $Users
                     ->join('events_inscritos','i_user = id_n')
+                    ->join('events', 'id_e = i_evento')
                     ->where('n_email',$email)
                     ->first();
             if ($dt)
