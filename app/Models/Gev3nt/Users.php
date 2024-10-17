@@ -81,19 +81,36 @@ class Users extends Model
             $its = explode(';',$line);
             $email = $its[0];
             $titulo = $its[1];
-            $autores = $its[2];
-            $ch = $its[3];
-            $dt = $this->where('n_email', $name)->first();
+            if (isset($its[1])) {
+                $titulo = $its[1];
+            } else {
+                $titulo = '';
+            }
+
+            if (isset($its[2])) {
+                $autores = $its[2];
+            } else {
+                $autores = '';
+            }
+
+            if (isset($its[3]))
+                {
+                    $ch = $its[3];
+                } else {
+                    $ch = 0;
+                }
+
+            $dt = $this->where('n_email', $email)->first();
             if ($dt) {
                 $idn = $dt['id_n'];
 
                 if ($Certificate->Register($idn, $ID, $titulo, $autores, $ch) == 1) {
-                    array_push($nn, $name . ' registrado');
+                    array_push($nn, $email . ' registrado');
                 } else {
-                    array_push($nn, $name . ' já registrado');
+                    array_push($nn, $email . ' já registrado');
                 }
             } else {
-                array_push($nn, $name . ' não localizado');
+                array_push($nn, $email . ' não localizado');
             }
         }
         $RSP['data'] = $nn;
