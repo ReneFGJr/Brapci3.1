@@ -78,7 +78,7 @@ class Users extends Model
         $ID = get("id");
         $nn = [];
         foreach ($names as $line) {
-            $its = explode(';',$line);
+            $its = explode('|',$line);
             $email = $its[0];
             $titulo = $its[1];
             if (isset($its[1])) {
