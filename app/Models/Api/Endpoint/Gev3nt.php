@@ -69,7 +69,7 @@ class Gev3nt extends Model
                                 $Users = new \App\Models\Gev3nt\Users();
                                 $RSP = $Users->importUserList();
                                 break;
-                            case 'visited':
+                            case 'listeners':
                                 $Users = new \App\Models\Gev3nt\Users();
                                 $RSP = $Users->importUserList();
                                 break;
