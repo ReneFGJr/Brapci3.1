@@ -84,6 +84,7 @@ class Certificados extends Model
                     ->join('events_inscritos','i_user = id_n')
                     ->join('events', 'id_e = i_evento')
                     ->where('n_email',$email)
+                    ->orderBy('id_i desc')
                     ->findAll();
             if ($dt)
                 {
