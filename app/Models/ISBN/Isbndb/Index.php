@@ -174,7 +174,7 @@ class Index extends Model
         $dt['authors'] = [];
         $dt['erros'] = '';
 
-        if (!$dta)
+        if ($dta==[])
             {
                 echo "VAZIO";
                 exit;
