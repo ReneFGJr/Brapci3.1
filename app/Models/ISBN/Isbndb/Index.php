@@ -175,6 +175,7 @@ class Index extends Model
         $dt['erros'] = '';
 
         foreach ($dta as $ida => $line) {
+            pre($line);
             foreach ($line as $prop => $vlr) {
                 if ($prop == 'isbn13') {
                     $prop = 'isbn';
