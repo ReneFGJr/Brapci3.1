@@ -176,14 +176,7 @@ class Index extends Model
 
         $dta = (array)$dta;
 
-        pre($dta);
 
-        if (isset($dta['errorMessage']))
-            {
-                pre($dta);
-                echo "VAZIO";
-                exit;
-            }
 
         foreach ($dta as $ida => $line) {
 
