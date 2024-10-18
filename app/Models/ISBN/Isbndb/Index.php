@@ -174,7 +174,11 @@ class Index extends Model
         $dt['authors'] = [];
         $dt['erros'] = '';
 
-        pre($dt);
+        if (!$dta)
+            {
+                echo "VAZIO";
+                exit;
+            }
 
         foreach ($dta as $ida => $line) {
 
