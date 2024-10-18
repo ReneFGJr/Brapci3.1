@@ -174,8 +174,10 @@ class Index extends Model
         $dt['authors'] = [];
         $dt['erros'] = '';
 
+        pre($dt);
+
         foreach ($dta as $ida => $line) {
-            pre($line);
+
             foreach ($line as $prop => $vlr) {
                 if ($prop == 'isbn13') {
                     $prop = 'isbn';
