@@ -179,7 +179,7 @@ class Index extends Model
 
 
         foreach ($dta as $ida => $line) {
-
+            $line = (array)$line;
             foreach ($line as $prop => $vlr) {
                 if ($prop == 'isbn13') {
                     $prop = 'isbn';
