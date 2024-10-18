@@ -174,7 +174,7 @@ class Index extends Model
         $dt['authors'] = [];
         $dt['erros'] = '';
 
-        pre($dta,false);
+        pre($dta);
 
         if (isset($dta['errorMessage']))
             {
