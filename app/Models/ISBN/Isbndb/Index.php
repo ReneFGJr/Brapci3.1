@@ -174,9 +174,7 @@ class Index extends Model
         $dt['authors'] = [];
         $dt['erros'] = '';
 
-        pre($dta);
-
-        if ($dta==[])
+        if (isset($dta['errorMessage']) and ($dta['errorMessage'] == 'Not Found'))
             {
                 echo "VAZIO";
                 exit;
