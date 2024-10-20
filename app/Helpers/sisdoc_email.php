@@ -117,7 +117,6 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
         $config['mailType'] = 'html';
 
         $email = \Config\Services::email();
-        pre($config);
         $email->initialize($config);
     }
     /************************* Destinatarios */
@@ -148,6 +147,8 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
     $sx = '';
     $sx .= 'Enviando para: ' . $emails;
     $sx .= '<br />';
+
+pre($email);
 
     $email->send(false);
     $sx .= $email->printDebugger(['headers']);
