@@ -1372,7 +1372,7 @@ class Socials extends Model
 	function forgout()
 	{
 		$email = get("email");
-		$dt = $this->where('us_email', $email)->findAll()
+		$dt = $this->where('us_email', $email)->findAll();
 
 		if (count($dt) == 0) {
 			$sx = lang('social.email_not_found');
