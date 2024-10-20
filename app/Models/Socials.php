@@ -1374,6 +1374,8 @@ class Socials extends Model
 		$email = get("email");
 		$dt = $this->where('us_email', $email)->findAll();
 
+		pre($dt);
+
 		if (count($dt) == 0) {
 			$sx = lang('social.email_not_found');
 			return $sx;
