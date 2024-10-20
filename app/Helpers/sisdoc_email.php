@@ -58,6 +58,8 @@ function email_smtp_test()
         'wordWrap'  => true
     ];
 
+    pre($config,false);
+
     if ($smtpHost and $smtpPort and $fromEmail and $smtpUser) {
 
         $email->initialize($config);
