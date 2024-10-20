@@ -1417,7 +1417,7 @@ class Socials extends Model
 		$txt .= '<br><br><br>';
 		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
 
-		pre($email);
+		pre($email.'-'.$subject.'-'.$txt);
 		exit;
 		sendmail($email, $subject, $txt);
 
