@@ -107,6 +107,7 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
         $config['newline'] = chr(13) . chr(10);
         $config['mailType'] = 'html';
 
+        pre($config);
         $email->initialize($config);
     } else {
         $config['protocol'] = 'sendmail';
