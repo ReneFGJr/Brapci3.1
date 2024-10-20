@@ -81,6 +81,8 @@ class Email extends Model
         //$config['newline']    = "\r\n";
         $config['mailType'] = 'html';
 
+        pre($config,false);
+
         $filename = 'img/email/bg-email-hL3a.jpg';
         if (file_exists($filename)) {
             $this->email->attach($filename);
