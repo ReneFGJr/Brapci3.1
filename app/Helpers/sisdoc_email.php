@@ -58,8 +58,6 @@ function email_smtp_test()
         'wordWrap'  => true
     ];
 
-    pre($config,false);
-
     if ($smtpHost and $smtpPort and $fromEmail and $smtpUser) {
 
         $email->initialize($config);
@@ -147,8 +145,6 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
     $sx = '';
     $sx .= 'Enviando para: ' . $emails;
     $sx .= '<br />';
-
-pre($email);
 
     $email->send(false);
     $sx .= $email->printDebugger(['headers']);
