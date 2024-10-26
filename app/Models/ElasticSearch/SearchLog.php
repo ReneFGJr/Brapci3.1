@@ -53,9 +53,7 @@ class SearchLog extends Model
         if ($user != '')
             {
                 $userDT = $Social->validToken($user);
-                print(json_encode($userDT));
-                exit;
-                $user = $userDT['id_us'];
+                $user = $userDT['ID'];
             }
 
         $section = get("section");
