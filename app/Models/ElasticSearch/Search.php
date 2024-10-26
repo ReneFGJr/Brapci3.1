@@ -44,7 +44,7 @@ class Search extends Model
     {
         $Search = new \App\Models\ElasticSearch\Search();
         $Cover = new \App\Models\Base\Cover();
-        $SearchDB = new \App\Models\Functions\Search();
+        $SearchDB = new \App\Models\ElasticSearch\SearchLog();
 
         $dt = $this->search($q, $type);
         $dt['user'] = get("user");

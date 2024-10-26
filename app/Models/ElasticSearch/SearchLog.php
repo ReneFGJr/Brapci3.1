@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Functions;
+namespace App\Models\ElasticSearch;
 
 use CodeIgniter\Model;
 
-class Search extends Model
+class SearchLog extends Model
 {
     protected $DBGroup          = 'click';
     protected $table            = '_search';
