@@ -176,8 +176,18 @@ export class BrapciService {
     let url = `${this.url}brapci/search/v1`;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
+
+    this.user = this.userService.getUser();
+
+    if (!this.user) {
+      this.apikey = '';
+    } else {
+      this.apikey = this.user.token;
+    }
+
     formData.append('q', term);
     formData.append('offset', '1000');
+    formData.append('user', this.apikey);
 
     for (const key in dt) {
       formData.append(key, dt[key]);

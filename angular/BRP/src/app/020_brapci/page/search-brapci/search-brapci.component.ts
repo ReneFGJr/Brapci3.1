@@ -142,7 +142,7 @@ export class SearchBrapciComponent {
 
   clickadvanceSearch() {
     alert('Em desenvolvimento e testes, aguarde');
-    //this.router.navigate(['/search-adv']);
+    this.router.navigate(['/search-adv']);
   }
 
   fieldChange(v: string) {

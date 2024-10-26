@@ -1258,10 +1258,14 @@ class Socials extends Model
 			return $perfil;
 		}
 
-	function validToken()
+	function validToken($token='')
 		{
 			$RSP = [];
-			$token = get("token");
+			if($token == '')
+				{
+					$token = get("token");
+				}
+
 			if ($token != '') {
 				$dt = $this->where('us_apikey', $token)->First();
 				if ($dt != '')

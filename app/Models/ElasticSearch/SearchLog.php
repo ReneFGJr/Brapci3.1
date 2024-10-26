@@ -47,12 +47,15 @@ class SearchLog extends Model
 
     function register($q='',$total=0)
     {
+        $Social = new \App\Models\Socials();
 
-        if (isset($_SESSION['user_id'])) {
-            $user = $_SESSION['user_id'];
-        } else {
-            $user = 0;
-        }
+        $user = get("user");
+        if ($user != '')
+            {
+                $userDT = $Social->validToken($user);
+                $user = $userDT['id_us'];
+            }
+
         $section = get("section");
 
         #$ip = $_SESSION['__ci_last_regenerate'];
