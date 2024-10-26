@@ -49,6 +49,7 @@ class Search extends Model
         $dt = $this->search($q, $type);
         $dt['user'] = get("user");
         $dt['section'] = get("section");
+        $dt['post'] = $_POST;
 
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS,
                         SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
