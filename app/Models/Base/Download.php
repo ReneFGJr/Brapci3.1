@@ -57,7 +57,7 @@ class Download extends Model
                         {
                             $RSP['status'] = '200';
                             $RSP['message'] = 'Success';
-                            $RSP['full'] = file_get_contents($file);
+                            $RSP['full'] = file_get_contents($dir.$file);
                         }
                 }
         }
