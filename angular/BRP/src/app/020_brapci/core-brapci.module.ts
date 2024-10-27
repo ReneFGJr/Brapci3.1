@@ -82,6 +82,7 @@ import { TimelineComponent } from './page/timeline/timeline.component';
 import { LabelComponent } from './widget/label/label.component';
 import { PhotoComponent } from './page/v/person/photo/photo.component';
 import { IdsComponent } from './page/v/person/ids/ids.component';
+import { SearchAdvHelpComponent } from './widget/search-adv-help/search-adv-help.component';
 
 @NgModule({
   declarations: [
@@ -160,6 +161,7 @@ import { IdsComponent } from './page/v/person/ids/ids.component';
     LabelComponent,
     PhotoComponent,
     IdsComponent,
+    SearchAdvHelpComponent,
   ],
   imports: [
     CommonModule,

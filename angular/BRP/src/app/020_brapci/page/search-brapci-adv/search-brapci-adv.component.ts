@@ -8,22 +8,22 @@ import { BrapciService } from 'src/app/000_core/010_services/brapci.service';
   templateUrl: './search-brapci-adv.component.html',
 })
 export class SearchBrapciAdvComponent {
-  header: string = 'Busca avançada'
-  public year_start: number = 1962
-  public year_end: number = new Date().getFullYear() + 1
-  public term: Array<any> = []
-  public APIversion: String = 'a2'
-  public searchForm: FormGroup | any
-  public loading: boolean = false
-  public style: string = ''
-  public logo: string = '/assets/img/brand_brapci_shadown.png'
-  public form: Array<any> = []
-  public field: Array<any> = []
+  header: string = 'Busca avançada';
+  public year_start: number = 1962;
+  public year_end: number = new Date().getFullYear() + 1;
+  public term: Array<any> = [];
+  public APIversion: String = 'a2';
+  public searchForm: FormGroup | any;
+  public loading: boolean = false;
+  public style: string = '';
+  public logo: string = '/assets/img/brand_brapci_shadown.png';
+  public form: Array<any> = [];
+  public field: Array<any> = [];
 
-  public result: Array<any> = []
-  public results: Array<any> = []
-  public totalw:number = 0
-  public total:number = 0
+  public result: Array<any> = [];
+  public results: Array<any> = [];
+  public totalw: number = 0;
+  public total: number = 0;
   public works: Array<any> = [];
 
   public optionsType: Array<any> = [
@@ -40,13 +40,22 @@ export class SearchBrapciAdvComponent {
     { id: 3, name: 'NOT' },
   ];
 
+  public searchType: Array<any> = [
+    { id: 1, name: 'Match' },
+    { id: 2, name: 'Match_Phrase' },
+    { id: 3, name: 'Term' },
+    { id: 4, name: 'Prefix' },
+    { id: 5, name: 'Wildcard' },
+    { id: 6, name: 'query_string' },
+  ];
+
   public loaging_img: string = '/assets/img/loading.svg';
 
   constructor(
     private fb: FormBuilder,
     public router: Router,
     public brapciService: BrapciService
-    ) {}
+  ) {}
 
   createForm() {
     this.searchForm = this.fb.group({
@@ -63,7 +72,7 @@ export class SearchBrapciAdvComponent {
   }
 
   newField() {
-    let tp = [{ name: '', op: 0, type: 0 }];
+    let tp = [{ name: '', op: 0, field: 0, type: 0 }];
 
     this.form.push(tp);
   }
@@ -72,8 +81,8 @@ export class SearchBrapciAdvComponent {
     this.form[id][0].name = txt;
   }
 
-  onType(pos: string, id: number = 0) {
-    this.form[id][0].type = pos;
+  onField(pos: string, id: number = 0) {
+    this.form[id][0].field = pos;
   }
 
   onBoolean(tpt: string, id: number = 0) {
@@ -81,29 +90,33 @@ export class SearchBrapciAdvComponent {
     console.log(this.form[0]);
   }
 
+  onSearchType(tpt: string, id: number = 0) {
+    this.form[id][0].type = tpt;
+    console.log(this.form[0]);
+  }
+
   clickSearchBasic() {
     this.router.navigate(['/']);
   }
 
-  onAdvancedSearch()
-    {
-      var map = new Map();
-      console.log(this.searchForm.valid);
-        this.result = []
-        this.results = []
-        let term = this.searchForm.value.term;
-        this.loading = true;
+  onAdvancedSearch() {
+    var map = new Map();
+    console.log(this.searchForm.valid);
+    this.result = [];
+    this.results = [];
+    let term = this.searchForm.value.term;
+    this.loading = true;
 
-        let dataS = this.searchForm.value.year_start;
-        let dataF = this.searchForm.value.year_end;
-        let dt: Array<any> | any = { di: dataS, df: dataF };
+    let dataS = this.searchForm.value.year_start;
+    let dataF = this.searchForm.value.year_end;
+    let dt: Array<any> | any = { di: dataS, df: dataF };
 
-        this.totalw = 0;
+    this.totalw = 0;
 
-        this.brapciService.searchAdv(this.form).subscribe((res) => {
-          this.result = res;
-          console.log(res)
-          /*
+    this.brapciService.searchAdv(this.form).subscribe((res) => {
+      this.result = res;
+      console.log(res);
+      /*
           //this.results = this.result.works;
           this.works = [];
           let max = 5;
@@ -116,8 +129,8 @@ export class SearchBrapciAdvComponent {
           }
           //this.total = this.result.total;
           */
-          this.loading = false;
-        });
-    }
+      this.loading = false;
+    });
+  }
   onSearch() {}
 }
