@@ -233,17 +233,15 @@ class Search extends Model
                 break;
         }
 
-        $wd = explode(' ', $qp);
-        /*
-
+        $wd = explode(' ',$qp);
         foreach($wd as $id=>$word)
             {
                 $word = troca($word,'_',' ');
                 //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
-                //$strategy['must'][$id]['match_phrase'][$field] = ascii($word);
+                $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
             }
-        */
-        $strategy['must'][0]['query_string'][$field] = ascii($qp);
+
+
 
 
         //$query['multi_match']['fields'] = $fields;
