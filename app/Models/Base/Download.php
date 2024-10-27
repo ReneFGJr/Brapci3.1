@@ -47,9 +47,6 @@ class Download extends Model
 
         // Filtra apenas os arquivos
         foreach ($files as $file) {
-            if ($file !== '.' && $file !== '..') {
-                echo $file . "<br>";
-            }
 
             if (substr($file,0,5) == 'work_')
                 {
