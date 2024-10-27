@@ -58,11 +58,18 @@ class Download extends Model
                             $RSP['status'] = '200';
                             $RSP['message'] = 'Success';
                             $RSP['full'] = file_get_contents($dir.$file);
+                            $RSP['line'] = $this->explode_line($RSP['full']);
                         }
                 }
         }
         return $RSP;
     }
+
+    function explode_line($txt)
+        {
+            $ln = explode(chr(13),$txt);
+            return $ln;
+        }
 
     function show_resources($dt)
     {
