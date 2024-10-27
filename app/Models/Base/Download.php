@@ -55,6 +55,7 @@ class Download extends Model
                 {
                     $fileTXT = $file;
                     echo $file;
+                    echo '=='.substr($file,-3,3).'==';
                 }
         }
 
