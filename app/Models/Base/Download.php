@@ -44,6 +44,9 @@ class Download extends Model
     {
         $dir = $this->directory($idc);
         $files = scandir($dir);
+        $RSP = [];
+        $RSP['status'] = '404';
+        $RSP['message'] = 'File not found';
 
         // Filtra apenas os arquivos
         foreach ($files as $file) {
@@ -52,13 +55,13 @@ class Download extends Model
                 {
                     if (substr($file,-3,3)=='txt')
                         {
-                            $fileTXT = $file;
-                            echo $file;
-                            echo '==' . substr($file, -3, 3) . '==';
+                            $RSP['status'] = '200';
+                            $RSP['message'] = 'Success';
+                            $RSP['full'] = get_file_info($file);
                         }
                 }
         }
-
+        return $RSP;
     }
 
     function show_resources($dt)
