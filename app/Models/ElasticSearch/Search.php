@@ -242,7 +242,7 @@ class Search extends Model
                 //$strategy['must'][$id]['match_phrase'][$field] = ascii($word);
             }
         */
-        $strategy['must'][$id]['query_string'][$field] = ascii($qp);
+        $strategy['must'][0]['query_string'][$field] = ascii($qp);
 
 
         //$query['multi_match']['fields'] = $fields;
