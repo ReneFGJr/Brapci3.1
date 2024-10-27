@@ -53,9 +53,12 @@ class Download extends Model
 
             if (substr($file,0,5) == 'work_')
                 {
-                    $fileTXT = $file;
-                    echo $file;
-                    echo '=='.substr($file,-3,3).'==';
+                    if (substr($file,-3,3)=='txt')
+                        {
+                            $fileTXT = $file;
+                            echo $file;
+                            echo '==' . substr($file, -3, 3) . '==';
+                        }
                 }
         }
 
