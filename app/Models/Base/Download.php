@@ -67,6 +67,8 @@ class Download extends Model
 
     function explode_line($txt)
         {
+            $txt = troca($txt,chr(10),chr(13));
+            $txt = troca($txt, chr(13).chr(13), chr(13));
             $ln = explode(chr(13),$txt);
             return $ln;
         }
