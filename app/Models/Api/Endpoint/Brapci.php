@@ -64,6 +64,12 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'getText':
+                $Download = new \App\Models\Base\Download();
+                $RSP = $Download->getText($d2);
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'timeline':
                 $Sources = new \App\Models\Base\Sources();
                 $RSP = $Sources->timeline($d2);

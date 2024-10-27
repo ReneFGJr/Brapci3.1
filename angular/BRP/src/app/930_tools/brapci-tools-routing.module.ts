@@ -13,6 +13,7 @@ import { Ris4marcComponent } from './widget/marc21/ris4marc/ris4marc.component';
 import { MonitorComponent } from './widget/monitor/monitor.component';
 import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
 import { Txt4unit2Component } from './tools/txt4unit2/txt4unit2.component';
+import { AiLlmComponent } from './page/ai-llm/ai-llm.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     children: [
       { path: '', component: ToolsIconsComponent },
       { path: 'v/:id', component: ToolsIconsComponent },
+      { path: 'ai/:id', component: AiLlmComponent },
       { path: 'viewdata/:id', component: ToolsIconsComponent },
       { path: 'txt4net', component: Txt4netComponent },
       { path: 'txt4matrix', component: ToolsIconsComponent },

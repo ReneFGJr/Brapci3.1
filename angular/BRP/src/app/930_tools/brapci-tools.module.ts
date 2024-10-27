@@ -30,6 +30,7 @@ import { ProcessingComponent } from './widget/processing/processing.component';
 import { ProcessingWorkflowComponent } from './widget/processing-workflow/processing-workflow.component';
 import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
 import { Txt4unit2Component } from './tools/txt4unit2/txt4unit2.component';
+import { AiLlmComponent } from './page/ai-llm/ai-llm.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { Txt4unit2Component } from './tools/txt4unit2/txt4unit2.component';
     ProcessingWorkflowComponent,
     Txt4unitComponent,
     Txt4unit2Component,
+    AiLlmComponent,
   ],
   imports: [
     CommonModule,

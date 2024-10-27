@@ -40,6 +40,26 @@ class Download extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function getText($idc)
+    {
+        $dir = $this->directory($idc);
+        $files = scandir($dir);
+
+        // Filtra apenas os arquivos
+        foreach ($files as $file) {
+            if ($file !== '.' && $file !== '..') {
+                echo $file . "<br>";
+            }
+
+            if (substr($file,0,5) == 'work_')
+                {
+                    $fileTXT = $file;
+                    echo $file;
+                }
+        }
+
+    }
+
     function show_resources($dt)
     {
         $ok = 0;
@@ -113,10 +133,12 @@ class Download extends Model
             $name = 'ERRO';
         }
 
-        if (strpos($name, '/XIXENANCIB/')
-                or (strpos($name, 'xviiienancib/'))
-                or (strpos($name, 'http://'))
-                or (strpos($name, 'www.periodicos.ufpb.br/ojs/'))) {
+        if (
+            strpos($name, '/XIXENANCIB/')
+            or (strpos($name, 'xviiienancib/'))
+            or (strpos($name, 'http://'))
+            or (strpos($name, 'www.periodicos.ufpb.br/ojs/'))
+        ) {
             $nameO = $name;
             $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
@@ -124,7 +146,7 @@ class Download extends Model
             $name = troca($name, 'http://', 'https://');
 
             $RDFLiteral = new \App\Models\RDF2\RDFliteral();
-            $dtd = $RDFLiteral->where('n_name',$nameO)->first();
+            $dtd = $RDFLiteral->where('n_name', $nameO)->first();
             $ddd = $RDFLiteral->first();
             $ddd['n_name'] = $name;
             //$RDFLiteral->set($ddd)->where('id_n', $ddd['id_n'])->update();
@@ -139,12 +161,11 @@ class Download extends Model
             /******************************************************* Recupera via OCS2 */
             $fileURL = $this->ocs_2($url);
 
-            if ($fileURL == '')
-                {
-                    echo "Não foi possível acessar o PDF, provavelmente a revista não disponibilizou o arquivo.";
-                    echo '<hr>Clique no link acima para verificar na revista';
-                    return "";
-                }
+            if ($fileURL == '') {
+                echo "Não foi possível acessar o PDF, provavelmente a revista não disponibilizou o arquivo.";
+                echo '<hr>Clique no link acima para verificar na revista';
+                return "";
+            }
 
             if (substr($fileURL, 0, 4) == 'http') {
                 $dir = $this->directory($idc);
@@ -193,7 +214,7 @@ class Download extends Model
         /************ Atualizar Dataset */
         $Elastic = new \App\Models\ElasticSearch\Register();
         $dd['PDF'] = 1;
-        $Elastic->set($dd)->where('ID',$id)->update();
+        $Elastic->set($dd)->where('ID', $id)->update();
         return $r2;
     }
 
@@ -206,7 +227,7 @@ class Download extends Model
 
         $idp = $RDFproperty->getProperty($pr);
         $idl = $RDFLiteral->register($name, $lang);
-        echo 'LDL>'. $idl.'<br>';
+        echo 'LDL>' . $idl . '<br>';
         $idd = $RDFdata
             ->where('d_r1', $id)
             ->where('d_p', $idp)
@@ -238,7 +259,7 @@ class Download extends Model
             'hasFileSize' => 'Literal',
             'prefLabel' => 'Literal',
             'hasDateTime' => 'Date',
-            'hasFileStorage'=>'ID'
+            'hasFileStorage' => 'ID'
         ];
 
         $file = $dt['concept']['n_name'];
@@ -262,7 +283,7 @@ class Download extends Model
                         break;
                     case 'hasDateTime':
                         $date = date("Y-m-d");
-                        $this->updateLiteral($id,$pr,$date);
+                        $this->updateLiteral($id, $pr, $date);
                         break;
                     case 'prefLabel':
                         $file = date("Y-m-d");
@@ -285,7 +306,7 @@ class Download extends Model
         $url = troca($url, '//seer.ufs.br/index.php/', '//periodicos.ufs.br/');
 
         if (strpos($url, 'article/view')) {
-            $txt = read_link($url,'curl',True);
+            $txt = read_link($url, 'curl', True);
             $Otxt = $txt;
 
             if ($pos = strpos($txt, 'citation_pdf_url')) {
@@ -305,53 +326,46 @@ class Download extends Model
             }
 
             /********************* EBOOK */
-            if (strpos($Otxt,'_btn pdf') > 0)
-                {
-                    echo "<br>Methodo BTN PDF";
-                    $pos = strpos($Otxt, '_btn pdf');
-                    $txt = substr($Otxt,$pos,300);
-                    $txt = substr($txt,strpos($txt,'http'),300);
-                    $txt = substr($txt,0,strpos($txt,'"'));
+            if (strpos($Otxt, '_btn pdf') > 0) {
+                echo "<br>Methodo BTN PDF";
+                $pos = strpos($Otxt, '_btn pdf');
+                $txt = substr($Otxt, $pos, 300);
+                $txt = substr($txt, strpos($txt, 'http'), 300);
+                $txt = substr($txt, 0, strpos($txt, '"'));
 
-                    if (substr($txt,0,4) == 'http')
-                        {
-                            echo "<br>Lendo ".$txt;
-                            $Otxt = read_link($txt);
-                        }
+                if (substr($txt, 0, 4) == 'http') {
+                    echo "<br>Lendo " . $txt;
+                    $Otxt = read_link($txt);
                 }
+            }
 
             /********************* Article Download */
             if (strpos($Otxt, 'article/download/') > 0) {
                 $pos = strpos($Otxt, 'article/download/');
-                while (substr($Otxt,$pos,1) != '"')
-                    {
-                        $pos--;
-                    }
-                $txt = substr($Otxt,$pos+1,200);
-                $txt = substr($txt,0,strpos($txt,'"'));
-                if (substr($txt,0,4) == 'http')
-                    {
-                        return $txt;
-                    }
-
+                while (substr($Otxt, $pos, 1) != '"') {
+                    $pos--;
+                }
+                $txt = substr($Otxt, $pos + 1, 200);
+                $txt = substr($txt, 0, strpos($txt, '"'));
+                if (substr($txt, 0, 4) == 'http') {
+                    return $txt;
+                }
             }
 
 
 
             /********************* IFRAME */
-            if (strpos($txt,'<iframe')) {
-                $pos = strpos($txt,'<iframe');
-                $txt = substr($txt,$pos+13,300);
-                $txt = substr($txt,0,strpos($txt,'"'));
-                if (strpos($txt, '?file='))
-                    {
-                        $txt = substr($txt,strpos($txt, '?file=')+6,strlen($txt));
-                        $txt = urldecode($txt);
-                    }
-                if (substr($txt,0,4) == 'http')
-                    {
-                        return $txt;
-                    }
+            if (strpos($txt, '<iframe')) {
+                $pos = strpos($txt, '<iframe');
+                $txt = substr($txt, $pos + 13, 300);
+                $txt = substr($txt, 0, strpos($txt, '"'));
+                if (strpos($txt, '?file=')) {
+                    $txt = substr($txt, strpos($txt, '?file=') + 6, strlen($txt));
+                    $txt = urldecode($txt);
+                }
+                if (substr($txt, 0, 4) == 'http') {
+                    return $txt;
+                }
             }
         }
 
