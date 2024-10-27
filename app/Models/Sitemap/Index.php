@@ -90,7 +90,7 @@ class Index extends Model
                             $i++;
                         }
                     $sx .= '</urlset>';
-                    file_put_contents('sitemap_'.strzero($idn,2).'.xml', $sx);
+                    file_put_contents('.tmp/sitemap_'.strzero($idn,2).'.xml', $sx);
                     $idn++;
                     if (($i != $limit) or ($dt == []))
                         {
