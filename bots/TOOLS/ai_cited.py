@@ -101,6 +101,8 @@ def preparar_referencias(texto):
     # Pente Fino 1
     for i, ln in enumerate(lns):
         if not sys_io.soNumero(ln):
+            print(i,'=',ln)
+            print(i,'=',ln[i+1])
             lns[i] += lns[i+1]
             lns[i+1] = ''
 
