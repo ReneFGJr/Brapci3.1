@@ -77,7 +77,7 @@ def getNameFile(id):
         print("=======",fileO,"[[]]")
         if file_exists(fileO):
             file = fileO.replace('.pdf','.txt')
-            convertPDF4TXT(file,fileO)
+            convertPDF4TXT(fileO,file)
             return file
         else:
             print("Arquivo não localizado -",caminho,fileO)
