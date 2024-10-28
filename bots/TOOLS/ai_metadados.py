@@ -73,8 +73,6 @@ def remove_legendas(texto):
     for ln in linhas:
         textO += ln + '\n'
 
-    print(textO)
-
     return textO
 
 #Remove números
