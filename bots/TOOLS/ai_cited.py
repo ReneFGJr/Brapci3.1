@@ -108,8 +108,8 @@ def preparar_referencias(texto):
         strFIM2 = ln2[-3:]
 
         if (strINI != strINF):
-            linhas[idIn] += ' ## ' + ln.strip()
-            linhas[i] = '##@@$$'
+            linhas[idIn] += ' ' + ln.strip()
+            linhas[i] = ''
         else:
             if (strFIM1 == strFIM2):
                 linhas[idIn] += ' !! ' + strFIM2+ ' || '+ linhas[i+1]
