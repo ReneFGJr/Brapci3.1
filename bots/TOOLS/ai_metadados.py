@@ -52,7 +52,9 @@ def remove_legendas(texto):
     # Divide o texto em linhas
 
     linhas = sys_io.separar_por_linhas(texto)
-
+    print(linhas)
+    print("=x=x=x")
+    sys.exit()
     # Remove números de cada linha
     linhasO = [remover_numeros(linha) for linha in linhas]
 
