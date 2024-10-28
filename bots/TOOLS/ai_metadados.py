@@ -62,9 +62,9 @@ def remove_legendas(texto):
         if len(indices) > 1:  # Se a linha aparece mais de uma vez
             indices_duplicados.extend(indices)
 
-    for id in indices_duplicados:
-        print("==",id)
-        print("===",id)
+    for idln in indices_duplicados:
+        print("==",idln)
+        print("===",idln)
         ##linhas.pop(id)
 
     print(linhas)
