@@ -97,8 +97,9 @@ def preparar_referencias(texto):
     for i, ln in enumerate(linhas):
         strINI = ln[:2].upper()
         strINF = ln[:2]
-        strFIM1 = ln[-3:].upper()
-        strFIM2 = ln[-3:]
+        ln2 = ln.strip()
+        strFIM1 = ln2[-3:].upper()
+        strFIM2 = ln2[-3:]
 
         if (strINI != strINF):
             linhas[idIn] += ' ' + ln.strip()
