@@ -1,6 +1,7 @@
 import re
 
 def extract_keywords(text,id):
+    text = text.replace(chr(13),' ')
     # Use regex to find "Palavras-chave:" followed by any text until the end of the line
     match = re.search(r"Palavras-chave:\s*(.*)", text)
     if match:
