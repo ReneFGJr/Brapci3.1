@@ -18,6 +18,7 @@ def locale_referencias_type(text):
 
     # Percorre cada linha
     for linha in linhas:
+        print("==",linha)
         for wd in tp:
             # Verifica se a palavra-chave está na linha
             if wd in linha:
