@@ -76,6 +76,7 @@ def getNameFile(id):
         fileO = file_name_pdf(caminho)
         print("=======",fileO,"[[]]")
         if file_exists(fileO):
+            file = fileO.replace('.pdf','.txt')
             convertPDF4TXT(file,fileO)
             return file
         else:
@@ -87,7 +88,7 @@ def getNameFile(id):
 # Executa o comando pdftotext
 def convertPDF4TXT(input_pdf, output_txt):
     try:
-        subprocess.run(["pdftotext", '/data/Brapci3.1/bots/TOOLS/'+input_pdf, '/data/Brapci3.1/bots/TOOLS/'+output_txt], check=True)
+        subprocess.run(["pdftotext", input_pdf, output_txt], check=True)
         print(f"Arquivo convertido com sucesso para {output_txt}")
     except subprocess.CalledProcessError as e:
         print("Erro ao converter o arquivo PDF para texto:", e)
