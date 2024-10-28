@@ -14,7 +14,7 @@ def locale_referencias_type(text):
     for i in tp:
         ti = i + chr(10)
         if ti in text:
-            return i.chr(10)
+            return i+chr(10)
     return ""
 
 def extrair_referencias(texto):
