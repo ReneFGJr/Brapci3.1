@@ -100,6 +100,8 @@ def preparar_referencias(texto):
         ln2 = sys_io.remover_numeros(ln.strip())
         ln2 = ln2.replace('.','')
         ln2 = ln2.replace(' ','')
+        ln2 = ln2.replace('-','')
+        ln2 = ln2.replace('/','')
         ln2 = ln2.strip()
 
         strFIM1 = ln2[-3:].upper()
