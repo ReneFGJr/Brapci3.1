@@ -99,11 +99,11 @@ def preparar_referencias(texto):
         if (ln != ''):
             lns.append(ln)
     # Pente Fino 1
-    for i, ln in enumerate(lns):
-        print(i,'=',ln)
+
     for i, ln in enumerate(lns):
         if not sys_io.soNumero(ln):
             print(i,'=x=',ln)
+            print(i,'=z=',lns[i])
 
     # Gerar arquivo de referências
     ref = ''
