@@ -35,6 +35,7 @@ def extrair_referencias(texto):
 
     # Percorre cada linha
     for linha in linhas:
+        print("==",linha)
         if not ref_On:
             if start_section in linha:
                 ref_On = True
