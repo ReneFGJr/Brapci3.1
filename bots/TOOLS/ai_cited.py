@@ -87,6 +87,9 @@ def preparar_referencias(texto):
     texto = texto.replace(';','; ')
     texto = texto.replace('http: ','http:')
     texto = texto.replace('https: ','https:')
+    texto = texto.replace('º','º ')
+    texto = texto.replace('ª','ª ')
+
 
     linhas = sys_io.separar_por_linhas(texto)
     #for i,ln in linhas:
@@ -94,11 +97,17 @@ def preparar_referencias(texto):
     for i, ln in enumerate(linhas):
         strINI = ln[:2].upper()
         strINF = ln[:2]
+        strFIM1 = ln[2:]
+        strFIM2 = ln[2:]
         if (strINI != strINF):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
         else:
-            idIn = i
+            if (strFIM1 == strFIM2):
+                linhas[idIn] += ' ' + ln.strip()
+                linhas[i] = ''
+            else:
+                idIn = i
 
     for i, ln in enumerate(linhas):
         print(i,'=',ln)
