@@ -98,6 +98,7 @@ def preparar_referencias(texto):
         strINI = ln[:2].upper()
         strINF = ln[:2]
         ln2 = sys_io.remover_numeros(ln.strip())
+        ln2 = ln2.replace('.','')
         strFIM1 = ln2[-3:].upper()
         strFIM2 = ln2[-3:]
 
@@ -105,7 +106,10 @@ def preparar_referencias(texto):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
         else:
-            idIn = i
+            if (strFIM1 == strFIM2):
+                linhas[idIn] += ' ' + linhas[i+1]
+            else:
+                idIn = i
 
     for i, ln in enumerate(linhas):
         if (ln != ''):
