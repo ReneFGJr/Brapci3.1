@@ -35,10 +35,11 @@ def extrair_referencias(texto):
 
     # Percorre cada linha
     for linha in linhas:
-        print("==",linha)
+
         if not ref_On:
             if start_section in linha:
                 ref_On = True
+                print("==",linha)
         else:
             ref = ref + linha + '#' + chr(13)
     return ref
