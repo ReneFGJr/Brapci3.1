@@ -94,12 +94,12 @@ def preparar_referencias(texto):
                 idIn = i
 
     lns = []
-
     for i, ln in enumerate(linhas):
         ln = ln.strip()
         if (ln != ''):
             lns.append(ln)
     # Pente Fino 1
+    print(lns)
     for i, ln in enumerate(lns):
         if not sys_io.soNumero(ln):
             print(i,'=',ln)
