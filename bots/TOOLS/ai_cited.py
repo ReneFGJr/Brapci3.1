@@ -42,7 +42,7 @@ def saveCited(lista,idR):
                 qi = "insert into brapci_cited.cited_article "
                 qi += "(ca_text,ca_rdf,ca_journal_origem)"
                 qi += " values"
-                qi += f"('{ln}',{idR},{jnl)"
+                qi += f"('{ln}',{idR},{jnl})"
                 print(qi)
 
     else:
