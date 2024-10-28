@@ -10,7 +10,7 @@ def extrair_doi(linha):
 
 def extrair_handle(linha):
     # Expressão regular para capturar HANDLE (geralmente no formato "prefixo/sufixo")
-    padrao_handle = r'handle.net/\d+/\d+'
+    padrao_handle = r'hdl.handle.net/\d+/\d+'
     handles = []
     # Procura todos os HANDLES na linha
     handles.extend(re.findall(padrao_handle, linha))
