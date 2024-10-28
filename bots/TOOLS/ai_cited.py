@@ -58,7 +58,9 @@ def preparar_referencias(texto):
     texto = texto.replace(' \n',' ')
 
     # Letras
-    l = ['a','b','c','d','e','f','g','h']
+    ltrs = ['a','b','c','d','e','f','g','h']
+    for l in ltrs:
+        texto = texto.replace('\n'+l,l)
 
     # Ano isolado
     texto = texto.replace('\n20','20')
@@ -71,6 +73,8 @@ def preparar_referencias(texto):
     texto = texto.replace(',',', ')
     texto = texto.replace(':',': ')
     texto = texto.replace(';','; ')
+    texto = texto.replace('http: ','http:')
+    texto = texto.replace('https: ','https:')
 
     linhas = sys_io.separar_por_linhas(texto)
     for ln in linhas:
