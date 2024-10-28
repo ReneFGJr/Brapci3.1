@@ -83,12 +83,11 @@ def preparar_referencias(texto):
         if (strINI != strINF):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
-            print("=A=",i,linhas[i-1])
-            print("=1=",i,ln)
-            print("=x=x=x=x=x=x")
         else:
             idIn = i
 
+    for i, ln in enumerate(linhas):
+        print(i,ln)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
