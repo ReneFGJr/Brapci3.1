@@ -77,7 +77,11 @@ def preparar_referencias(texto):
     linhas = sys_io.separar_por_linhas(texto)
     #for i,ln in linhas:
     for i, ln in enumerate(linhas):
-        print("=",i,ln)
+        strINI = ln[:2].upper()
+        strINF = ln[:2]
+        if (strINI != strINF):
+            print("=1=",i,ln)
+            print("=A=",i,linhas[i-1])
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
