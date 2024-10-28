@@ -114,6 +114,7 @@ def preparar_referencias(texto):
         if (ln != ''):
             ln = ln.replace('  ',' ')
             ref += ln + '\n'
+            print("===",ln)
     return ref
 
 def locale_referencias_type(text):
