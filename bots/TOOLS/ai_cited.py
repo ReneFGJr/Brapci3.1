@@ -68,7 +68,6 @@ def preparar_referencias(texto):
     texto = texto.replace('\nAcesso',' Acesso')
     texto = texto.replace('\nDispon',' Dispon')
 
-
     texto = texto.replace(',',', ')
     texto = texto.replace(':',': ')
     texto = texto.replace(';','; ')
@@ -76,8 +75,8 @@ def preparar_referencias(texto):
     texto = texto.replace('https: ','https:')
 
     linhas = sys_io.separar_por_linhas(texto)
-    for ln in linhas:
-        print("=",ln)
+    for i,ln in linhas:
+        print("=",i,ln)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
