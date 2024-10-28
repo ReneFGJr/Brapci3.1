@@ -21,9 +21,15 @@ def extrair_emails(texto):
 
     return emails
 
+def saveFileD(fileN,arquivo):
+    # Salva a lista em um arquivo JSON
+    with open(fileN, "w", encoding="utf-8") as arquivo:
+        json.dump(lists, arquivo, ensure_ascii=False, indent=4)
+
+    return True
 
 ########################################### Início
-print("TOOLS e-mail",version())
+print("TOOLS AI",version())
 print("===============================================")
 
 if (len(sys.argv) > 1):
@@ -40,45 +46,45 @@ txt = sys_io.readfile(file)
 run = 0
 
 if (act == 'email'):
-    run = 1
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
     fileN = file.replace('.txt','_email.json')
+    saveFileD(fileN,lists)
 
 if (act == 'url'):
     run = 1
     print("Extrair URL")
     lists = ai_url.extrair_urls(txt)
     fileN = file.replace('.txt','_url.json')
+    saveFileD(fileN,lists)
 
 if (act == 'doi'):
     run = 1
     print("Extrair DOI")
     lists = ai_doi_handle.extrair_doi(txt)
     fileN = file.replace('.txt','_doi.json')
+    saveFileD(fileN,lists)
 
 if (act == 'handle'):
     run = 1
     print("Extrair HANDLE")
     lists = ai_doi_handle.extrair_handle(txt)
     fileN = file.replace('.txt','_handle.json')
+    saveFileD(fileN,lists)
 
 if (act == 'metadata'):
     run = 1
     print("Extrair Metadados")
     lists = ai_metadados.extrair_secoes_method_01(txt)
     fileN = file.replace('.txt','_metadados.json')
-
-    print(lists)
+    saveFileD(fileN,lists)
 
 if (act == 'cited'):
+    print("Extrair Citações")
     run = 1
     lists = ai_cited.extrair_referencias(txt,id)
     fileN = file.replace('.txt','_cited.json')
+    saveFileD(fileN,lists)
 
 if (run == 0):
     print(parm)
-else:
-    # Salva a lista em um arquivo JSON
-    with open(fileN, "w", encoding="utf-8") as arquivo:
-        json.dump(lists, arquivo, ensure_ascii=False, indent=4)
