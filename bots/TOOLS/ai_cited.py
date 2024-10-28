@@ -115,7 +115,7 @@ def preparar_referencias(texto):
 
     for i, ln in enumerate(linhas):
         if (ln != ''):
-            lns.add(ln)
+            lns.append(ln)
     for i, ln in enumerate(lns):
         if (ln != ''):
             print(i,ln)
