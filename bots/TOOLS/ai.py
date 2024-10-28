@@ -34,7 +34,10 @@ else:
 file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file)
 
+run = 0
+
 if (act == 'email'):
+    run = 1
     print("Extrair e-mail")
     emails = ai_email.extrair_emails(txt)
     fileN = file.replace('.txt','_email.json')
@@ -43,9 +46,13 @@ if (act == 'email'):
         json.dump(emails, arquivo, ensure_ascii=False, indent=4)
 
 if (act == 'url'):
+    run = 1
     print("Extrair URL")
     emails = ai_url.extrair_urls(txt)
     fileN = file.replace('.txt','_url.json')
     # Salva a lista em um arquivo JSON
     with open(fileN, "w", encoding="utf-8") as arquivo:
         json.dump(emails, arquivo, ensure_ascii=False, indent=4)
+
+if (run == 0):
+    print(parm)
