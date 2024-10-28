@@ -104,10 +104,6 @@ def preparar_referencias(texto):
     for i, ln in enumerate(lns):
         if not sys_io.soNumero(ln):
             print(i,'=x=',ln)
-            print(i,'=',ln[i+1])
-            lns[i] += lns[i+1]
-            print(i,'=',ln)
-            lns[i+1] = ''
 
     # Gerar arquivo de referências
     ref = ''
