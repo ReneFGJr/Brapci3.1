@@ -96,6 +96,7 @@ def preparar_referencias(texto):
     lns = []
 
     for i, ln in enumerate(linhas):
+        ln = ln.strip()
         if (ln != ''):
             lns.append(ln)
     # Pente Fino 1
@@ -104,6 +105,7 @@ def preparar_referencias(texto):
             print(i,'=',ln)
             print(i,'=',ln[i+1])
             lns[i] += lns[i+1]
+            print(i,'=',ln)
             lns[i+1] = ''
 
     # Gerar arquivo de referências
