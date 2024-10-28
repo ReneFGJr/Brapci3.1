@@ -70,6 +70,7 @@ def remove_legendas(texto):
         linhas.pop(idln)
 
     print(linhas)
+    sys.exit()
 
     return linhas
 
