@@ -34,7 +34,7 @@ else:
     act = 'email'
 
 file = sys_io.getNameFile(id)
-txt = sys_io.readfile(file) + '\n##FIM##'
+txt = sys_io.readfile(file)
 
 run = 0
 
