@@ -105,6 +105,8 @@ def preparar_referencias(texto):
             print(i,'=x=',ln)
             print(i,'=z=',lns[i])
 
+    sys.exit()
+
     # Gerar arquivo de referências
     ref = ''
     for i, ln in enumerate(lns):
