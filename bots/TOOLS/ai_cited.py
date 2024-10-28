@@ -97,7 +97,7 @@ def preparar_referencias(texto):
     for i, ln in enumerate(linhas):
         strINI = ln[:2].upper()
         strINF = ln[:2]
-        ln2 = ln.strip()
+        ln2 = sys_io.remover_numeros(ln.strip())
         strFIM1 = ln2[-3:].upper()
         strFIM2 = ln2[-3:]
 
