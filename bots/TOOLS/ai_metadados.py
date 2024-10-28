@@ -45,8 +45,11 @@ def extrair_referencias(texto):
     return ref.strip()
 
 def remove_legendas(texto):
-    linhas = sys_io.separar_por_linhas(texto)
-    linhasO = remover_numeros(linhas)
+    # Divide o texto em linhas
+    linhas = separar_por_linhas(texto)
+
+    # Remove números de cada linha
+    linhasO = [remover_numeros(linha) for linha in linhas]
 
     # Dicionário para armazenar as ocorrências e os índices
     contagem_indices = {}
@@ -62,13 +65,15 @@ def remove_legendas(texto):
         if len(indices) > 1:  # Se a linha aparece mais de uma vez
             indices_duplicados.extend(indices)
 
-    for idln in indices_duplicados:
-        print("==",idln)
-        print("===",idln)
-        ##linhas.pop(id)
+    # Remove as linhas duplicadas a partir dos índices, em ordem decrescente
+    for idln in sorted(indices_duplicados, reverse=True):
+        linhas.pop(idln)
 
     print(linhas)
-    #Remove números
+
+    return linhas
+
+#Remove números
 
 def remover_numeros(texto):
     return ''.join([char for char in texto if not char.isdigit()])
