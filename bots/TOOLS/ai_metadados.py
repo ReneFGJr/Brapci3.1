@@ -15,6 +15,7 @@ def locale_referencias_type(text):
     linhas = sys_io.separar_por_linhas(text)
 
     for linha in linhas:
+        print("==",linha)
         for wd in tp:
             if wd in text:
                 return wd.strip()
