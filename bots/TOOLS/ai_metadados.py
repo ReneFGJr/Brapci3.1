@@ -39,7 +39,7 @@ def extrair_referencias(texto):
             if start_section in linha:
                 ref_On = True
         else:
-            ref = ref + linha + chr(13)
+            ref = ref + linha + '#' + chr(13)
     return ref
 
 def extrair_secoes_method_01(texto):
