@@ -12,7 +12,7 @@ def locale_referencias_type(text):
     tp = ['REFERÊNCIAS']
 
     for i in tp:
-        print("->",tp)
+        print("->",i)
 
     return ""
 
