@@ -61,27 +61,6 @@ def preparar_referencias(texto):
     for l in ltrs:
         texto = texto.replace(l+'\n',l)
 
-
-
-
-    #texto = texto.replace(',\n',',')
-    #texto = texto.replace(':\n',':')
-
-    #texto = texto.replace(' \n',' ')
-    #texto = texto.replace('  ',' ')
-
-    # Letras
-    #ltrs = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','(',')',',',';',':','0','1','2','3','4','5','6','7','8','9','.']
-    #for l in ltrs:
-    #    texto = texto.replace('\n'+l,l)
-
-    # Ano isolado
-    #texto = texto.replace('\n20','20')
-    #texto = texto.replace('\n19','19')
-
-    #texto = texto.replace('\nAcesso',' Acesso')
-    #texto = texto.replace('\nDispon',' Dispon')
-
     texto = texto.replace(',',', ')
     texto = texto.replace(':',': ')
     texto = texto.replace(';','; ')
@@ -121,27 +100,12 @@ def preparar_referencias(texto):
     for i, ln in enumerate(linhas):
         if (ln != ''):
             lns.append(ln)
+
+    ref = ''
     for i, ln in enumerate(lns):
         if (ln != ''):
-            print(i,'====',ln)
-    sys.exit()
-
-    # Limpa e junta referências de volta, adicionando quebras de linha
-    resultado = []
-    referencia_temp = ""
-    for parte in referencias:
-        # Verifica se a parte parece ser o fim de uma referência
-        if parte.isupper() and referencia_temp:
-            resultado.append(referencia_temp.strip() + '.')
-            referencia_temp = parte
-        else:
-            referencia_temp += '. ' + parte if referencia_temp else parte
-
-    # Adiciona a última referência
-    if referencia_temp:
-        resultado.append(referencia_temp.strip() + '.')
-
-    return "\n".join(resultado)
+            ref += ln + '\n'
+    return ref
 
 def locale_referencias_type(text):
     tp = ['REFERÊNCIAS','Referências']
