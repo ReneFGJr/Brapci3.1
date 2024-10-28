@@ -82,7 +82,7 @@ if (act == 'cited'):
 
 if (act == 'keywords'):
     print("Extrair Keywords")
-    lists = ai_keywords.extrair_keywords(txt,id)
+    lists = ai_keywords.extract_keywords(txt,id)
     print(lists)
     sys.exit()
     fileN = file.replace('.txt','_keywords.json')
