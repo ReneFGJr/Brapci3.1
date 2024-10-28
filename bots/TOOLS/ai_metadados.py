@@ -14,7 +14,7 @@ def locale_referencias_type(text):
     for i in tp:
         ti = i + chr(10)
         if ti in text:
-            return i+chr(10)
+            return i.strip()
     return ""
 
 def extrair_referencias(texto):
@@ -27,6 +27,7 @@ def extrair_referencias(texto):
         lines = texto.splitlines()
         for i, line in enumerate(lines):
             if start_section in line.upper():
+                print("+++++++++++++++++++")
                 start_index = i
                 break
 
