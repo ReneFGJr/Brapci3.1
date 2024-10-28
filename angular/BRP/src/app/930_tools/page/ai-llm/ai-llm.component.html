@@ -1,13 +1,22 @@
 <h4>{{ id }}</h4>
 <div class="container">
   <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-6">
       <div
         *ngFor="let line of full.line"
         class="border-bottom border-secondary"
       >
         {{ line }}
       </div>
+    </div>
+
+    <div class="col-lg-6">
+    {{full.email | json}}
+      <ul>
+      <li *ngFor="let line of full.email">
+          {{line}}
+      </li>
+      </ul>
     </div>
   </div>
 </div>
