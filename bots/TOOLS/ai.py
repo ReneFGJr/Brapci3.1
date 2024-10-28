@@ -6,6 +6,7 @@ import sys_io
 import ai_email
 import ai_url
 import ai_doi_handle
+import ai_metadados
 
 def version():
     return "v0.24.10.27"
@@ -62,6 +63,13 @@ if (act == 'handle'):
     lists = ai_doi_handle.extrair_handle(txt)
     fileN = file.replace('.txt','_handle.json')
 
+if (act == 'metadata'):
+    run = 1
+    print("Extrair Metadados")
+    lists = ai_metadados.extrair_secoes_method_01(txt)
+    fileN = file.replace('.txt','__metadados.json')
+
+    print(lists)
 
 if (run == 0):
     print(parm)
