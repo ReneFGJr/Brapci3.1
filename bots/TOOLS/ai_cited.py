@@ -111,9 +111,14 @@ def preparar_referencias(texto):
             else:
                 idIn = i
 
+    lns = []
+
     for i, ln in enumerate(linhas):
         if (ln != ''):
-            print(i,'=',ln)
+            lns.add(ln)
+    for i, ln in enumerate(lns):
+        if (ln != ''):
+            print(i,ln)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
