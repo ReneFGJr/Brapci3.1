@@ -13,8 +13,10 @@ def locale_referencias_type(text):
 
     for i in tp:
         ti = i + chr(10)
+        te = i + '#'
+        text = text.replace(ti,te)
         if ti in text:
-            return i.strip()
+            return i.strip() + '#'
     return ""
 
 def extrair_referencias(texto):
