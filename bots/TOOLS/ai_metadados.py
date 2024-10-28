@@ -27,6 +27,7 @@ def locale_referencias_type(text):
 
 def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
+    texto = remove_legendas(texto)
     ref = ""
     ref_On = False
 
@@ -39,10 +40,37 @@ def extrair_referencias(texto):
             if start_section in linha:
                 ref_On = True
         else:
-            print("==", linha)
             ref += linha + '\n'
 
     return ref.strip()
+
+def remove_legendas(texto):
+    linhas = sys_io.separar_por_linhas(texto)
+    linhasO = remover_numeros(linhas)
+
+    # Dicionário para armazenar as ocorrências e os índices
+    contagem_indices = {}
+    for i, linha in enumerate(linhasO):
+        if linha in contagem_indices:
+            contagem_indices[linha].append(i)
+        else:
+            contagem_indices[linha] = [i]
+
+    # Filtra os índices das linhas que estão duplicadas
+    indices_duplicados = []
+    for indices in contagem_indices.values():
+        if len(indices) > 1:  # Se a linha aparece mais de uma vez
+            indices_duplicados.extend(indices)
+
+    for id in indices_duplicados:
+        linhas.pop(id)
+
+    print(linhas)
+    #Remove números
+
+def remover_numeros(texto):
+    return ''.join([char for char in texto if not char.isdigit()])
+
 
 def extrair_secoes_method_01(texto):
     secoes = {
