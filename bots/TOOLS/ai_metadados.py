@@ -63,7 +63,8 @@ def remove_legendas(texto):
             indices_duplicados.extend(indices)
 
     for id in indices_duplicados:
-        linhas.pop(id)
+        print("==",id,linha[id])
+        ##linhas.pop(id)
 
     print(linhas)
     #Remove números
