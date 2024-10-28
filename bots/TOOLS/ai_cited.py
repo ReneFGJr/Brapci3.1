@@ -51,9 +51,14 @@ def preparar_referencias(texto):
     texto = texto.replace('; ',';')
 
     texto = texto.replace(',\n',',')
+    texto = texto.replace('\n,',',')
+    texto = texto.replace('\n.','.')
     texto = texto.replace(';\n',';')
     texto = texto.replace(':\n',':')
     texto = texto.replace(' \n',' ')
+
+    # Letras
+    l = ['a','b','c','d','e','f','g','h']
 
     # Ano isolado
     texto = texto.replace('\n20','20')
