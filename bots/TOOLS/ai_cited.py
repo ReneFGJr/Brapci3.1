@@ -98,11 +98,13 @@ def preparar_referencias(texto):
     for i, ln in enumerate(linhas):
         if (ln != ''):
             lns.append(ln)
-
+    # Pente Fino 1
+    for i, ln in enumerate(lns):
+        if not sys_io.soNumero(ln):
+            print(ln)
     ref = ''
     for i, ln in enumerate(lns):
         if (ln != ''):
-            print(sys_io.soNumero(ln),ln)
             ln = ln.replace('  ',' ')
             ref += ln + '\n'
     return ref
