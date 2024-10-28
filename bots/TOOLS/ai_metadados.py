@@ -48,9 +48,9 @@ def extrair_referencias(texto):
 def remove_legendas(texto):
     textO = ''
     # Divide o texto em linhas
-    print(texto)
-    sys.exit()
+
     linhas = sys_io.separar_por_linhas(texto)
+    print(linhas)
 
     # Remove números de cada linha
     linhasO = [remover_numeros(linha) for linha in linhas]
