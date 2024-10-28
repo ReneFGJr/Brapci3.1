@@ -27,7 +27,7 @@ def locale_referencias_type(text):
 
 def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
-    texto = remove_legendas(texto) + '\r'
+    texto = remove_legendas(texto) + '\n'
     ref = ""
     ref_On = False
 
