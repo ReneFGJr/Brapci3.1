@@ -120,7 +120,7 @@ def preparar_referencias(texto):
     return "\n".join(resultado)
 
 def locale_referencias_type(text):
-    tp = ['REFERÊNCIAS']
+    tp = ['REFERÊNCIAS','Referências']
 
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(text)
