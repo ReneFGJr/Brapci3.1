@@ -69,7 +69,7 @@ def getNameFile(id):
     caminho = "../../public/_repository/" + "/".join(partes) + "/"
 
     file = file_name(caminho)
-    if file_exists(file):
+    if (file_exists(file)) & (file != ''):
         return file
     else:
         fileO = file_name_pdf(caminho)
