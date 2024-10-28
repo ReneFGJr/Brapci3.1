@@ -27,5 +27,9 @@ else:
 
 file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file)
-email = extrair_emails(txt)
-print(email)
+emails = extrair_emails(txt)
+
+print(file)
+# Salva a lista em um arquivo JSON
+#with open("email.json", "w", encoding="utf-8") as arquivo:
+#    json.dump(emails, arquivo, ensure_ascii=False, indent=4)
