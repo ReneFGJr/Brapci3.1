@@ -73,7 +73,7 @@ def getNameFile(id):
         return file
     else:
         fileO = file_name_pdf(caminho)
-        print("=======",file,"[[]]")
+        print("=======",fileO,"[[]]")
         if file_exists(file):
             print(file,fileO)
         else:
