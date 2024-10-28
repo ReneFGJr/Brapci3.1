@@ -34,7 +34,7 @@ def saveCited(lista,idR):
     row = database.query(qr)
     if row == []:
         ##################### Recupera Dados
-        qr = f"select JOURNAL, ID from brapci_elastic where ID = {idR}"
+        qr = f"select JOURNAL, ID from brapci_elastic.dataset where ID = {idR}"
         row2 = database.query(qr)
         print(row2)
         for ln in lista:
