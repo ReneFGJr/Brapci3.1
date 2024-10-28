@@ -8,6 +8,8 @@ def extract_keywords(text,id):
     match = re.search(r"Palavras-chave:\s*(.*?)(?=Abstract:)", text, re.DOTALL)
     if match:
         keywords = match.group(1).split(";")  # Split keywords separated by semicolons
-        return [keyword.strip().capitalize() for keyword in keywords]
+        keys =  [keyword.strip().capitalize() for keyword in keywords]
+
+        return keys
     else:
         return []  # Return an empty list if "Palavras-chave:" not found
