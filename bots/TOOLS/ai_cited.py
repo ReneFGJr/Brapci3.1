@@ -1,8 +1,9 @@
 import sys_io
 import re
 import sys
+import database
 
-def extrair_referencias(texto):
+def extrair_referencias(texto,idR):
     start_section = locale_referencias_type(texto)
     texto = sys_io.remove_legendas(texto)
 
@@ -25,10 +26,17 @@ def extrair_referencias(texto):
     print("========TIPO=",tipo)
     if (tipo == 'ABNT'):
         ref = preparar_referencias(ref)
-
-    print(ref)
-
+        saveCited(ref,idR)
     return ref
+
+def saveCited(lista,idR):
+    qr = f"select * from brapci_cited.cited_article where ca_rdf = {idR}"
+    row = database.query(qr)
+    if row == []:
+        for ln in lista:
+            print(ln)
+    else:
+        print("Já existe")
 
 def identificar_estilo_citacao(referencia):
     referencia = referencia.strip()
