@@ -66,6 +66,10 @@ class Index extends Model
         }
 
         switch ($d1) {
+            case 'brapci':
+                $Brapci = new \App\Models\Api\Endpoint\Brapci();
+                $sx = $Brapci->index($d2, $d3, $d4);
+                break;
             case 'like':
                 $Like = new \App\Models\Api\Endpoint\Like();
                 $RSP = $Like->index($d2, $d3);
@@ -139,10 +143,6 @@ class Index extends Model
             case 'authority':
                 $Authority = new \App\Models\Api\Endpoint\Authority();
                 $sx = $Authority->index($d2, $d3, $d4);
-                break;
-            case 'brapci':
-                $Brapci = new \App\Models\Api\Endpoint\Brapci();
-                $sx = $Brapci->index($d2, $d3, $d4);
                 break;
             case 'dataset':
                 $Datasets = new \App\Models\Api\Endpoint\Dataset();

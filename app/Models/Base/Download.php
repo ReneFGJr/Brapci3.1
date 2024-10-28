@@ -59,6 +59,15 @@ class Download extends Model
                             $RSP['message'] = 'Success';
                             $RSP['full'] = file_get_contents($dir.$file);
                             $RSP['line'] = $this->explode_line($RSP['full']);
+
+                            $fileEMAIL = troca($file,'.txt', '_email.json');
+                            if (file_exists($fileEMAIL))
+                                {
+                                    $RSP['email'] = json_decode(file_get_contents($fileEMAIL));
+                                } else {
+                                    $RSP['email'] = [];
+                                }
+
                         }
                 }
         }
