@@ -63,3 +63,41 @@ def getNameFile(id):
 ################################# Separa linhas
 def separar_por_linhas(texto):
     return texto.splitlines()
+
+################################# Remove Números
+def remover_numeros(texto):
+    return ''.join([char for char in texto if not char.isdigit()])
+
+################################ Remove Legendas
+def remove_legendas(texto):
+    textO = ''
+    # Divide o texto em linhas
+
+    linhas = separar_por_linhas(texto)
+
+    # Remove números de cada linha
+    linhasO = [remover_numeros(linha) for linha in linhas]
+
+    # Dicionário para armazenar as ocorrências e os índices
+    contagem_indices = {}
+    for i, linha in enumerate(linhasO):
+        if linha in contagem_indices:
+            contagem_indices[linha].append(i)
+        else:
+            contagem_indices[linha] = [i]
+
+    # Filtra os índices das linhas que estão duplicadas
+    indices_duplicados = []
+    for indices in contagem_indices.values():
+        if len(indices) > 1:  # Se a linha aparece mais de uma vez
+            indices_duplicados.extend(indices)
+
+    # Remove as linhas duplicadas a partir dos índices, em ordem decrescente
+    for idln in sorted(indices_duplicados, reverse=True):
+        if not '.' in linhas[idln]:
+            linhas.pop(idln)
+
+    for ln in linhas:
+        textO += ln + '\n'
+
+    return textO

@@ -7,6 +7,7 @@ import ai_email
 import ai_url
 import ai_doi_handle
 import ai_metadados
+import ai_cited
 
 def version():
     return "v0.24.10.27"
@@ -72,7 +73,7 @@ if (act == 'metadata'):
 
 if (act == 'cited'):
     run = 0
-    cited = ai_metadados.extrair_referencias(txt)
+    cited = ai_cited.extrair_referencias(txt)
     print(cited)
 
 if (run == 0):
