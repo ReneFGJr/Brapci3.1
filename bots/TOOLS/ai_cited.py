@@ -103,7 +103,7 @@ def preparar_referencias(texto):
     for i, ln in enumerate(lns):
         if not sys_io.soNumero(ln):
             print(i,'=x=',ln)
-            print(i,'=z=',lns[i])
+            print(i,'=z=',lns[i+1])
 
     sys.exit()
 
