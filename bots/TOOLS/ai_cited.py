@@ -48,11 +48,11 @@ def identificar_estilo_citacao(referencia):
 def preparar_referencias(texto):
     texto = texto.replace(', ',',')
     texto = texto.replace(': ',':')
+    texto = texto.replace('; ',';')
+
     texto = texto.replace(',\n',',')
-    texto = texto.replace(',\r',',')
-
+    texto = texto.replace(';\n',';')
     texto = texto.replace(':\n',':')
-
 
     texto = texto.replace(',',', ')
     texto = texto.replace(':',': ')
