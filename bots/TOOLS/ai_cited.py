@@ -34,7 +34,12 @@ def saveCited(lista,idR):
     row = database.query(qr)
     if row == []:
         for ln in lista:
-            print(ln)
+            qi = "insert into brapci_cited.cited_article "
+            qi += "(ca_text,ca_rdf)"
+            qi += " values"
+            qi += f"('{ln}',{idR})"
+            print(qi)
+
     else:
         print("Já existe")
 
