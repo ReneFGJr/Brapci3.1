@@ -21,8 +21,10 @@ def extrair_referencias(texto):
 
 
     tipo = identificar_estilo_citacao(texto)
-    print("=========",tipo)
-    ref = preparar_referencias(ref)
+    print("========TIPO=",tipo)
+    if (tipo == 'ABNT'):
+        print(ref)
+        #ref = preparar_referencias(ref)
 
     return ref.strip()
 
