@@ -14,28 +14,28 @@ def locale_referencias_type(text):
     for i in tp:
         ti = i + chr(10)
         if ti in text:
-            return ti
+            return i
     return ""
 
 def extrair_referencias(texto):
-    type = locale_referencias_type(texto)
-    print("====[",type,']')
+    start_section = locale_referencias_type(texto)
+    if start_section != '':
 
- # Encontrar o índice da seção de referências
-    start_section="REFERÊNCIAS"
-    start_index = None
-    for i, line in enumerate(texto):
-        if start_section in line.upper():
-            start_index = i
-            break
+    # Encontrar o índice da seção de referências
+        start_index = None
+        for i, line in enumerate(texto):
+            if start_section in line.upper():
+                start_index = i
+                break
 
-    # Verifica se a seção foi encontrada
-    if start_index is None:
-        return "Seção de referências não encontrada."
+        # Verifica se a seção foi encontrada
+        if start_index is None:
+            return "Seção de referências não encontrada."
 
-    # Extrair a partir do índice encontrado até o final do arquivo
-    references = "".join(texto[start_index:]).strip()
-    return references
+        # Extrair a partir do índice encontrado até o final do arquivo
+        references = "".join(texto[start_index:]).strip()
+        return references
+    return "none"
 
 def extrair_secoes_method_01(texto):
     secoes = {

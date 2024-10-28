@@ -72,7 +72,8 @@ if (act == 'metadata'):
 
 if (act == 'cited'):
     run = 0
-    ai_metadados.extrair_referencias(txt)
+    cited = ai_metadados.extrair_referencias(txt)
+    print(cited)
 
 if (run == 0):
     print(parm)
