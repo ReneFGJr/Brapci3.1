@@ -76,12 +76,16 @@ def preparar_referencias(texto):
 
     linhas = sys_io.separar_por_linhas(texto)
     #for i,ln in linhas:
+    idIn = 0
     for i, ln in enumerate(linhas):
         strINI = ln[:2].upper()
         strINF = ln[:2]
         if (strINI != strINF):
             print("=A=",i,linhas[i-1])
             print("=1=",i,ln)
+            print("=")
+        else:
+            idIn = i
 
     sys.exit()
 
