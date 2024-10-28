@@ -18,6 +18,21 @@ def readfile(nome_arquivo):
         print(f"O arquivo '{nome_arquivo}' não foi encontrado.")
         return ""
 
+######################################## FILENAME
+def file_name_pdf(diretorio):
+    try:
+        # Lista todos os arquivos no diretório
+        arquivos = os.listdir(diretorio)
+        for arquivo in arquivos:
+            if arquivo.endswith('.pdf'):
+                if arquivo.startswith("work_"):
+                    return diretorio + arquivo
+
+    except FileNotFoundError:
+        print(f"O diretório '{diretorio}' não foi encontrado.")
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
+    return ""
 
 ######################################## FILENAME
 def file_name(diretorio):
@@ -57,9 +72,12 @@ def getNameFile(id):
     if file_exists(file):
         return file
     else:
-        print("Arquivo não localizado -",caminho,file)
-        fileO = file.replace('.txt','.pdf')
-        print(file,fileO)
+        fileO = file_name_pdf(caminho)
+        if file_exists(file):
+            print(file,fileO)
+        else:
+            print("Arquivo não localizado -",caminho,file)
+
     return ""
 
 ################################# Separa linhas
