@@ -59,3 +59,7 @@ def getNameFile(id):
     else:
         print("Arquivo não localizado")
     return ""
+
+################################# Separa linhas
+def separar_por_linhas(texto):
+    return texto.splitlines()

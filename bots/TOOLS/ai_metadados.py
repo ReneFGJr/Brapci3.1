@@ -1,4 +1,5 @@
 import re
+import sys_io
 
 def extrair_metodologia(texto):
     Tini = ''
@@ -11,12 +12,12 @@ def extrair_metodologia(texto):
 def locale_referencias_type(text):
     tp = ['REFERÊNCIAS']
 
-    for i in tp:
-        ti = i + chr(13)
-        te = i + '#'
-        text = text.replace(ti,te)
-        if ti in text:
-            return i.strip() + '#'
+    linhas = sys_io.separar_por_linhas(text)
+
+    for linha in linhas:
+        for wd in tp:
+            if wd in text:
+                return wd.strip()
     return ""
 
 def extrair_referencias(texto):
