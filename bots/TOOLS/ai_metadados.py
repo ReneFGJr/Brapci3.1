@@ -27,7 +27,7 @@ def locale_referencias_type(text):
 
 def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
-    texto = remove_legendas(texto) + '\n'
+    texto = remove_legendas(texto)
     print(texto)
     ref = ""
     ref_On = False
@@ -48,7 +48,7 @@ def extrair_referencias(texto):
 def remove_legendas(texto):
     textO = ''
     # Divide o texto em linhas
-    linhas = sys_io.separar_por_linhas(texto)
+    linhas = sys_io.separar_por_linhas(texto + '\n')
 
     # Remove números de cada linha
     linhasO = [remover_numeros(linha) for linha in linhas]
