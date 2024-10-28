@@ -36,6 +36,9 @@ else:
 file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file) + '\n##FIM##'
 
+print(txt)
+sys.exit()
+
 run = 0
 
 if (act == 'email'):
