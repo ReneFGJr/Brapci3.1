@@ -66,7 +66,7 @@ if (act == 'metadata'):
     run = 1
     print("Extrair Metadados")
     lists = ai_metadados.extrair_secoes_method_01(txt)
-    fileN = file.replace('.txt','__metadados.json')
+    fileN = file.replace('.txt','_metadados.json')
 
     print(lists)
 
