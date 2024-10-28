@@ -12,7 +12,7 @@ def locale_referencias_type(text):
     tp = ['REFERÊNCIAS']
 
     for i in tp:
-        ti = i + chr(10)
+        ti = i + chr(13)
         te = i + '#'
         text = text.replace(ti,te)
         if ti in text:
