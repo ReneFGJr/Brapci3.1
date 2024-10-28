@@ -29,6 +29,8 @@ def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
     texto = remove_legendas(texto)
     print(texto)
+    print("===")
+    sys.exit()
     ref = ""
     ref_On = False
 
