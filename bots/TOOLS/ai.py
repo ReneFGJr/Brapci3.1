@@ -72,9 +72,9 @@ if (act == 'metadata'):
     print(lists)
 
 if (act == 'cited'):
-    run = 0
-    cited = ai_cited.extrair_referencias(txt)
-    print(cited)
+    run = 1
+    lists = ai_cited.extrair_referencias(txt)
+    fileN = file.replace('.txt','_cited.json')
 
 if (run == 0):
     print(parm)

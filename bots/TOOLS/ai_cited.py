@@ -107,12 +107,11 @@ def preparar_referencias(texto):
                 print(i,"OPS",ln)
 
     # Gerar arquivo de referências
-    ref = ''
+    ref = []
     for i, ln in enumerate(lns):
         if (ln != ''):
             ln = ln.replace('  ',' ')
-            ref += ln + '\n'
-            print("===",ln)
+            ref.append(ln)
     return ref
 
 def locale_referencias_type(text):
