@@ -58,6 +58,8 @@ def preparar_referencias(texto):
     texto = texto.replace('\n20','20')
     texto = texto.replace('\n19','19')
 
+    texto = texto.replace('\nAcesso',' Acesso')
+    texto = texto.replace('\nDispon',' Dispon')
 
 
     texto = texto.replace(',',', ')
