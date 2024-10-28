@@ -1,5 +1,9 @@
 import re
+import sys
 import sys_io
+
+def version():
+    return "v0.24.10.27"
 
 def extrair_emails(texto):
     # Expressão regular para detectar e-mails
@@ -9,8 +13,17 @@ def extrair_emails(texto):
     emails = re.findall(padrao_email, texto)
 
     return emails
-id = 309177
+
+
+########################################### Início
+print("TOOLS e-mail",version())
+print("===============================================")
+
+if (len(sys.argv) > 1):
+    parm = sys.argv
+    id = parm[1]
+else:
+    id = 309177
+
 file = sys_io.getNameFile(id)
-print("File",file)
 txt = sys_io.readfile(file)
-print(txt)
