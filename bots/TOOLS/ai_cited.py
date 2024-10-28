@@ -33,6 +33,10 @@ def saveCited(lista,idR):
     qr = f"select * from brapci_cited.cited_article where ca_rdf = {idR}"
     row = database.query(qr)
     if row == []:
+        ##################### Recupera Dados
+        qr = f"select JOURNAL, ID from brapci_elastic where ID = {idR}"
+        row2 = database.query(qr)
+        print(row2)
         for ln in lista:
             qi = "insert into brapci_cited.cited_article "
             qi += "(ca_text,ca_rdf)"
