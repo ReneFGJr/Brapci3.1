@@ -38,12 +38,11 @@ def extrair_referencias(texto):
         if not ref_On:
             if start_section in linha:
                 ref_On = True
-
         else:
-            print("==",linha)
-            ref = ref + linha + '#' + chr(13)
+            print("==", linha)
+            ref += linha + '\n'
 
-    return ref
+    return ref.strip()
 
 def extrair_secoes_method_01(texto):
     secoes = {
