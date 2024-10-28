@@ -68,6 +68,7 @@ def remove_legendas(texto):
 
     # Remove as linhas duplicadas a partir dos índices, em ordem decrescente
     for idln in sorted(indices_duplicados, reverse=True):
+        print(linhas[idln])
         linhas.pop(idln)
 
     for ln in linhas:
