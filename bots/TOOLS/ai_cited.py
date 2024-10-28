@@ -68,7 +68,9 @@ def preparar_referencias(texto):
     texto = texto.replace('.','. ')
     texto = texto.replace(';','; ')
 
-    print(texto)
+    linhas = sys_io.separar_por_linhas(texto)
+    for ln in linhas:
+        print("=",ln)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
