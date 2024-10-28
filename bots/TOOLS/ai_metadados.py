@@ -12,13 +12,14 @@ def locale_referencias_type(text):
     tp = ['REFERÊNCIAS']
 
     for i in tp:
-        print(tp)
+        print("->",tp)
 
     return ""
 
 def extrair_referencias(texto):
     type = locale_referencias_type(texto)
     print("====",type)
+
  # Encontrar o índice da seção de referências
     start_section="REFERÊNCIAS"
     start_index = None
