@@ -107,8 +107,8 @@ def preparar_referencias(texto):
         else:
             if (strFIM1 == strFIM2):
                 linhas[idIn] += ' ' + linhas[i+1]
-
-            idIn = i
+            else:
+                idIn = i
 
     for i, ln in enumerate(linhas):
         if (ln != ''):
