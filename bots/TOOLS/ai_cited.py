@@ -88,7 +88,6 @@ def preparar_referencias(texto):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
         else:
-            print('==',strFIM1,strFIM2)
             if (strFIM1 == strFIM2):
                 linhas[idIn] += ' ####!!#### ' + strFIM2+ ' ####||#### '+ linhas[i+1]
             else:
@@ -103,6 +102,7 @@ def preparar_referencias(texto):
     ref = ''
     for i, ln in enumerate(lns):
         if (ln != ''):
+            print(sys_io.soNumero(ln))
             ln = ln.replace('  ',' ')
             ref += ln + '\n'
     return ref

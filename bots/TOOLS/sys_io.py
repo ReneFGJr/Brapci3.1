@@ -101,3 +101,7 @@ def remove_legendas(texto):
         textO += ln + '\n'
 
     return textO
+
+################################## Verifique se existe numeros
+def soNumero(texto):
+    return any(char.isdigit() for char in texto)
