@@ -1,5 +1,6 @@
 import re
 import sys_io
+import sys
 
 def extrair_metodologia(texto):
     Tini = ''
@@ -22,6 +23,7 @@ def locale_referencias_type(text):
             if wd in linha:
                 print("============",wd)
                 return wd.strip()
+    sys.exit()
     return ""
 
 def extrair_referencias(texto):
