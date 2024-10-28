@@ -81,11 +81,11 @@ def preparar_referencias(texto):
         strINI = ln[:2].upper()
         strINF = ln[:2]
         if (strINI != strINF):
-            print("=A=",i,linhas[i-1])
-            print("=1=",i,ln)
-            print("=")
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
+            print("=A=",i,linhas[i-1])
+            print("=1=",i,ln)
+            print("=x=x=x=x=x=x")
         else:
             idIn = i
 
