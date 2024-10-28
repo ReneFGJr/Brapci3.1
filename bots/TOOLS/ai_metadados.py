@@ -27,7 +27,7 @@ def extrair_referencias(texto):
         lines = texto.splitlines()
         for i, line in enumerate(lines):
             if start_section in line.upper():
-                print("+++++++++++++++++++")
+                print("+++++++++++++++++++",i)
                 start_index = i
                 break
 
