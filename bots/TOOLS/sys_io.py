@@ -1,5 +1,6 @@
 import os
 
+######################################## READFILE
 def readfile(nome_arquivo):
     try:
         # Abre o arquivo no modo de leitura
@@ -12,21 +13,30 @@ def readfile(nome_arquivo):
         return None
 
 
-
-def ler_arquivos_diretorio(diretorio):
+######################################## FILENAME
+def file_name(diretorio):
     try:
         # Lista todos os arquivos no diretório
         arquivos = os.listdir(diretorio)
         for arquivo in arquivos:
             if arquivo.endswith('.txt'):
                 if arquivo.startswith("work_"):
-                    return diretorio + '/' + arquivo
+                    return diretorio + arquivo
+
     except FileNotFoundError:
         print(f"O diretório '{diretorio}' não foi encontrado.")
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
     return ""
 
+######################################## FILEEXIST
+def file_exists(file):
+    if os.path.isfile(file):
+        return True
+    else:
+        return False
+
+######################################## GET NAME
 def getNameFile(id):
     # Converte o id para string e preenche com zeros à esquerda até ter 8 caracteres
     id_str = str(id).zfill(8)
@@ -37,6 +47,9 @@ def getNameFile(id):
     # Monta o caminho com a estrutura ../../public/_repository/xx/xx/xx/xx/
     caminho = "../../public/_repository/" + "/".join(partes) + "/"
 
-    file = ler_arquivos_diretorio(caminho)
-
-    return file
+    file = file_name(caminho)
+    if file_exists(file):
+        return readfile(file)
+    else:
+        print("Arquivo não localizado")
+    return ""

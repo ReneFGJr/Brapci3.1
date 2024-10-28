@@ -13,3 +13,4 @@ id = 309177
 file = sys_io.getNameFile(id)
 print("File",file)
 txt = sys_io.readfile(file)
+print(txt)
