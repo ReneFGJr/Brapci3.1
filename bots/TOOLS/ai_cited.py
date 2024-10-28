@@ -77,14 +77,12 @@ def preparar_referencias(texto):
         strINI = ln[:2].upper()
         strINF = ln[:2]
         ln2 = sys_io.remover_numeros(ln.strip())
-        ln2 = ln2.replace('.','')
-        ln2 = ln2.replace(' ','')
         ln2 = ln2.replace('-','')
         ln2 = ln2.replace('/','')
         ln2 = ln2.strip()
 
-        strFIM1 = ln2[-3:].upper()
-        strFIM2 = ln2[-3:]
+        strFIM1 = ln2[-4:].upper()
+        strFIM2 = ln2[-4:]
 
         if (strINI != strINF):
             linhas[idIn] += ' ' + ln.strip()
