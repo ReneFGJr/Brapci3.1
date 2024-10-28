@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 ######################################## READFILE
 def readfile(nome_arquivo):
@@ -75,11 +76,21 @@ def getNameFile(id):
         fileO = file_name_pdf(caminho)
         print("=======",fileO,"[[]]")
         if file_exists(fileO):
-            print(file,fileO)
+            convertPDF4TXT(file,fileO)
+            return file
         else:
             print("Arquivo não localizado -",caminho,fileO)
 
     return ""
+
+################################# Convert PDF to TXT
+# Executa o comando pdftotext
+def convertPDF4TXT(input_pdf, output_txt):
+    try:
+        subprocess.run(["pdftotext", input_pdf, output_txt], check=True)
+        print(f"Arquivo convertido com sucesso para {output_txt}")
+    except subprocess.CalledProcessError as e:
+        print("Erro ao converter o arquivo PDF para texto:", e)
 
 ################################# Separa linhas
 def separar_por_linhas(texto):
