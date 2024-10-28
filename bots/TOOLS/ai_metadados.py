@@ -26,6 +26,10 @@ def locale_referencias_type(text):
     return ""
 
 def extrair_referencias(texto):
+    print(texto)
+    print("===")
+    sys.exit()
+
     start_section = locale_referencias_type(texto)
     texto = remove_legendas(texto)
     print(texto)
