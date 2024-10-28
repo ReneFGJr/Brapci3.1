@@ -39,6 +39,7 @@ def saveCited(lista,idR):
         if not (row2 == []):
             jnl = row2[0][0]
             for ln in lista:
+                ln = ln.replace("'","´")
                 qi = "insert into brapci_cited.cited_article "
                 qi += "(ca_text,ca_rdf,ca_journal_origem)"
                 qi += " values"
