@@ -88,10 +88,7 @@ def preparar_referencias(texto):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
         else:
-            if (strFIM1 == strFIM2):
-                linhas[idIn] += ' ####!!#### ' + strFIM2+ ' ####||#### '+ linhas[i+1]
-            else:
-                idIn = i
+            idIn = i
 
     lns = []
     for i, ln in enumerate(linhas):
