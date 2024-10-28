@@ -48,9 +48,12 @@ def identificar_estilo_citacao(referencia):
 def preparar_referencias(texto):
 
     # Letras
-    ltrs = ['0','1','2','3','4','5','6','7','8','9','(',')','[',']',',',';','-']
+    ltrs = ['0','1','2','3','4','5','6','7','8','9','(',')','[',']',',',';','-','.']
     for l in ltrs:
         texto = texto.replace('\n'+l,l)
+    ltrs = ['(',')','[',']',',',';','-']
+    for l in ltrs:
+        texto = texto.replace(l+'\n',l)
 
 
     #texto = texto.replace(', ',',')
