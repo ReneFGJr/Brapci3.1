@@ -20,7 +20,7 @@ def ler_arquivos_diretorio(diretorio):
         for arquivo in arquivos:
             if arquivo.endswith('.txt'):
                 if arquivo.startswith("work_"):
-                    return arquivo
+                    return diretorio + '/' + arquivo
     except FileNotFoundError:
         print(f"O diretório '{diretorio}' não foi encontrado.")
     except Exception as e:
