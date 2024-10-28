@@ -55,7 +55,7 @@ def getNameFile(id):
 
     file = file_name(caminho)
     if file_exists(file):
-        return readfile(file)
+        return file
     else:
         print("Arquivo não localizado")
     return ""
