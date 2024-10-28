@@ -80,11 +80,11 @@ def preparar_referencias(texto):
     #texto = texto.replace('\nAcesso',' Acesso')
     #texto = texto.replace('\nDispon',' Dispon')
 
-    #texto = texto.replace(',',', ')
-    #texto = texto.replace(':',': ')
-    #texto = texto.replace(';','; ')
-    #texto = texto.replace('http: ','http:')
-    #texto = texto.replace('https: ','https:')
+    texto = texto.replace(',',', ')
+    texto = texto.replace(':',': ')
+    texto = texto.replace(';','; ')
+    texto = texto.replace('http: ','http:')
+    texto = texto.replace('https: ','https:')
 
     linhas = sys_io.separar_por_linhas(texto)
     #for i,ln in linhas:
