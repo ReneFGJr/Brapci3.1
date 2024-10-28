@@ -74,10 +74,10 @@ def getNameFile(id):
     else:
         fileO = file_name_pdf(caminho)
         print("=======",fileO,"[[]]")
-        if file_exists(file):
+        if file_exists(fileO):
             print(file,fileO)
         else:
-            print("Arquivo não localizado -",caminho,file)
+            print("Arquivo não localizado -",caminho,fileO)
 
     return ""
 
