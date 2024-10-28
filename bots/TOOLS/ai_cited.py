@@ -1,5 +1,6 @@
 import sys_io
 import re
+import sys
 
 def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
@@ -23,8 +24,7 @@ def extrair_referencias(texto):
     tipo = identificar_estilo_citacao(texto)
     print("========TIPO=",tipo)
     if (tipo == 'ABNT'):
-        print(ref)
-        #ref = preparar_referencias(ref)
+        ref = preparar_referencias(ref)
 
     return ref.strip()
 
@@ -50,6 +50,9 @@ def preparar_referencias(texto):
     texto = texto.replace('\n', ' ')
     # Separa as referências por padrão em pontos finais que antecedem o próximo nome
     referencias = texto.split('. ')
+
+    print(referencias)
+    sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
     resultado = []
