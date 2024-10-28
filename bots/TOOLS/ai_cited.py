@@ -105,11 +105,7 @@ def preparar_referencias(texto):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
         else:
-            if (strFIM1 == strFIM2):
-                #linhas[idIn] += ' ' + linhas[i+1]
-                a=1
-            else:
-                idIn = i
+            idIn = i
 
     for i, ln in enumerate(linhas):
         if (ln != ''):
