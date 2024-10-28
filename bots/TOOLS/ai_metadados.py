@@ -12,12 +12,15 @@ def extrair_metodologia(texto):
 def locale_referencias_type(text):
     tp = ['REFERÊNCIAS']
 
+    # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(text)
 
+    # Percorre cada linha
     for linha in linhas:
-        print("==",linha)
+        print("==", linha)
         for wd in tp:
-            if wd in text:
+            # Verifica se a palavra-chave está na linha
+            if wd in linha:
                 return wd.strip()
     return ""
 
