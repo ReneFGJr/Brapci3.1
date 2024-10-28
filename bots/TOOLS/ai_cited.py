@@ -99,7 +99,7 @@ def preparar_referencias(texto):
         strINF = ln[:2]
         strFIM1 = ln[-3:].upper()
         strFIM2 = ln[-3:]
-        print("===>",strFIM2)
+        print("===>",strFIM1,strFIM2)
         if (strINI != strINF):
             linhas[idIn] += ' ' + ln.strip()
             linhas[i] = ''
