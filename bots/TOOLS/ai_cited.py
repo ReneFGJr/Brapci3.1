@@ -43,8 +43,7 @@ def saveCited(lista,idR):
                 qi += "(ca_text,ca_rdf,ca_journal_origem)"
                 qi += " values"
                 qi += f"('{ln}',{idR},{jnl})"
-                print(qi)
-
+                database.insert(qi)
     else:
         print("Já existe")
 
