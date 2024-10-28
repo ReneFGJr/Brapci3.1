@@ -46,34 +46,35 @@ def identificar_estilo_citacao(referencia):
     return "Desconhecido"
 
 def preparar_referencias(texto):
-    print(texto)
-    texto = texto.replace(', ',',')
-    texto = texto.replace(': ',':')
-    texto = texto.replace('; ',';')
 
-    texto = texto.replace(',\n',',')
-    texto = texto.replace(':\n',':')
 
-    texto = texto.replace(' \n',' ')
-    texto = texto.replace('  ',' ')
+    #texto = texto.replace(', ',',')
+    #texto = texto.replace(': ',':')
+    #texto = texto.replace('; ',';')
+
+    #texto = texto.replace(',\n',',')
+    #texto = texto.replace(':\n',':')
+
+    #texto = texto.replace(' \n',' ')
+    #texto = texto.replace('  ',' ')
 
     # Letras
-    ltrs = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','(',')',',',';',':','0','1','2','3','4','5','6','7','8','9','.']
-    for l in ltrs:
-        texto = texto.replace('\n'+l,l)
+    #ltrs = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','(',')',',',';',':','0','1','2','3','4','5','6','7','8','9','.']
+    #for l in ltrs:
+    #    texto = texto.replace('\n'+l,l)
 
     # Ano isolado
-    texto = texto.replace('\n20','20')
-    texto = texto.replace('\n19','19')
+    #texto = texto.replace('\n20','20')
+    #texto = texto.replace('\n19','19')
 
-    texto = texto.replace('\nAcesso',' Acesso')
-    texto = texto.replace('\nDispon',' Dispon')
+    #texto = texto.replace('\nAcesso',' Acesso')
+    #texto = texto.replace('\nDispon',' Dispon')
 
-    texto = texto.replace(',',', ')
-    texto = texto.replace(':',': ')
-    texto = texto.replace(';','; ')
-    texto = texto.replace('http: ','http:')
-    texto = texto.replace('https: ','https:')
+    #texto = texto.replace(',',', ')
+    #texto = texto.replace(':',': ')
+    #texto = texto.replace(';','; ')
+    #texto = texto.replace('http: ','http:')
+    #texto = texto.replace('https: ','https:')
 
     linhas = sys_io.separar_por_linhas(texto)
     #for i,ln in linhas:
