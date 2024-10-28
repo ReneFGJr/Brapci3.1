@@ -2,6 +2,29 @@ import re
 import sys_io
 import sys
 
+def preparar_referencias(texto):
+    # Substitui quebras de linha que não têm um espaço após para simplificar
+    texto = texto.replace('\n', ' ')
+    # Separa as referências por padrão em pontos finais que antecedem o próximo nome
+    referencias = texto.split('. ')
+
+    # Limpa e junta referências de volta, adicionando quebras de linha
+    resultado = []
+    referencia_temp = ""
+    for parte in referencias:
+        # Verifica se a parte parece ser o fim de uma referência
+        if parte.isupper() and referencia_temp:
+            resultado.append(referencia_temp.strip() + '.')
+            referencia_temp = parte
+        else:
+            referencia_temp += '. ' + parte if referencia_temp else parte
+
+    # Adiciona a última referência
+    if referencia_temp:
+        resultado.append(referencia_temp.strip() + '.')
+
+    return "\n".join(resultado)
+
 def extrair_metodologia(texto):
     Tini = ''
     Tfim = ''
@@ -41,6 +64,8 @@ def extrair_referencias(texto):
                 ref_On = True
         else:
             ref += linha + '\n'
+
+    ref = preparar_referencias(ref)
 
     return ref.strip()
 
