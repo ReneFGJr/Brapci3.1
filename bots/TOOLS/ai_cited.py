@@ -87,7 +87,7 @@ def preparar_referencias(texto):
             idIn = i
 
     for i, ln in enumerate(linhas):
-        print(i,ln)
+        print(i,'=',ln)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
