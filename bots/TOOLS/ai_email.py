@@ -26,4 +26,4 @@ else:
     id = 309177
 
 file = sys_io.getNameFile(id)
-##txt = sys_io.readfile(file)
+txt = sys_io.readfile(file)
