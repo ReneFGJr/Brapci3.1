@@ -55,9 +55,6 @@ def remove_legendas(texto):
 
     # Remove números de cada linha
     linhasO = [remover_numeros(linha) for linha in linhas]
-    print(linhasO)
-    print("=x=x=x")
-    sys.exit()
 
     # Dicionário para armazenar as ocorrências e os índices
     contagem_indices = {}
@@ -77,7 +74,7 @@ def remove_legendas(texto):
     for idln in sorted(indices_duplicados, reverse=True):
         print("==",linhasO[idln])
         linhas.pop(idln)
-
+    sys.exit()
     for ln in linhas:
         textO += ln + '\n'
 
