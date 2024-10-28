@@ -1,1 +1,13 @@
-<h4>{{id}}</h4>
+<h4>{{ id }}</h4>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-5">
+      <div
+        *ngFor="let line of full.line"
+        class="border-bottom border-secondary"
+      >
+        {{ line }}
+      </div>
+    </div>
+  </div>
+</div>
