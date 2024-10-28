@@ -44,7 +44,6 @@ if (act == 'email'):
     lists = ai_email.extrair_emails(txt)
     fileN = file.replace('.txt','_email.json')
 
-
 if (act == 'url'):
     run = 1
     print("Extrair URL")
