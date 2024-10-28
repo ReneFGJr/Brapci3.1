@@ -62,4 +62,5 @@ def getNameFile(id):
 
 ################################# Separa linhas
 def separar_por_linhas(texto):
+    texto += '\n'+'#FIM'+'\n'
     return texto.splitlines()
