@@ -24,7 +24,8 @@ def extrair_referencias(texto):
 
     # Encontrar o índice da seção de referências
         start_index = None
-        for i, line in enumerate(texto):
+        lines = texto.splitlines()
+        for i, line in enumerate(lines):
             print(i,line)
             if start_section in line.upper():
                 start_index = i
