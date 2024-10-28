@@ -26,10 +26,6 @@ def locale_referencias_type(text):
     return ""
 
 def extrair_referencias(texto):
-    print(texto)
-    print("===")
-    sys.exit()
-
     start_section = locale_referencias_type(texto)
     texto = remove_legendas(texto)
     print(texto)
@@ -77,6 +73,7 @@ def remove_legendas(texto):
 
     # Remove as linhas duplicadas a partir dos índices, em ordem decrescente
     for idln in sorted(indices_duplicados, reverse=True):
+        print("==",linhasO[idln])
         linhas.pop(idln)
 
     for ln in linhas:
