@@ -80,8 +80,9 @@ def preparar_referencias(texto):
         strINI = ln[:2].upper()
         strINF = ln[:2]
         if (strINI != strINF):
-            print("=1=",i,ln)
             print("=A=",i,linhas[i-1])
+            print("=1=",i,ln)
+
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
