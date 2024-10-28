@@ -45,6 +45,7 @@ def extrair_referencias(texto):
     return ref.strip()
 
 def remove_legendas(texto):
+    textO = ''
     # Divide o texto em linhas
     linhas = sys_io.separar_por_linhas(texto)
 
@@ -69,10 +70,10 @@ def remove_legendas(texto):
     for idln in sorted(indices_duplicados, reverse=True):
         linhas.pop(idln)
 
-    print(linhas)
-    sys.exit()
+    for ln in linhas:
+        textO += linha + '\n'
 
-    return linhas
+    return textO
 
 #Remove números
 
