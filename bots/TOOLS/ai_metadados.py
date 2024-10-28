@@ -1,5 +1,40 @@
 import re
 
+def extrair_metodologia(texto):
+    Tini = ''
+    Tfim = ''
+    if 'PROCEDIMENTOS METODOLÓGICOS' in texto:
+        Tini = 'PROCEDIMENTOS METODOLÓGICOS'
+    if 'METODOLOGIA' in texto:
+        Tini = 'PROCEDIMENTOS METODOLÓGICOS'
+
+def locale_referencias_type(text):
+    tp = ['REFERÊNCIAS']
+
+    for i in tp:
+        print(tp)
+
+    return ""
+
+def extrair_referencias(texto):
+    type = locale_referencias_type(texto)
+    print("====",type)
+ # Encontrar o índice da seção de referências
+    start_section="REFERÊNCIAS"
+    start_index = None
+    for i, line in enumerate(texto):
+        if start_section in line.upper():
+            start_index = i
+            break
+
+    # Verifica se a seção foi encontrada
+    if start_index is None:
+        return "Seção de referências não encontrada."
+
+    # Extrair a partir do índice encontrado até o final do arquivo
+    references = "".join(texto[start_index:]).strip()
+    return references
+
 def extrair_secoes_method_01(texto):
     secoes = {
         "Título": re.search(r"Artigo\s+(.*)", texto, re.IGNORECASE),
@@ -9,7 +44,7 @@ def extrair_secoes_method_01(texto):
         "Metodologia": re.search(r"PROCEDIMENTOS METODOLÓGICOS\s*(.*?)(?=\nRESULTADOS)", texto, re.IGNORECASE | re.DOTALL),
         "Resultados": re.search(r"RESULTADOS\s*(.*?)(?=\nCONCLUSÃO)", texto, re.IGNORECASE | re.DOTALL),
         "Conclusão": re.search(r"CONCLUSÃO\s*(.*?)(?=\nREFERÊNCIAS)", texto, re.IGNORECASE | re.DOTALL),
-        "Referencial Teórico": re.search(r"REFERENCIAL TEÓRICO\s*(.*?)(?=\nMETODOLOGIA)", texto, re.IGNORECASE | re.DOTALL)
+        "ReferencialTeórico": re.search(r"REFERENCIAL TEÓRICO\s*(.*?)(?=\nMETODOLOGIA)", texto, re.IGNORECASE | re.DOTALL)
     }
 
     extracoes = {}

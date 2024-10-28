@@ -70,6 +70,10 @@ if (act == 'metadata'):
 
     print(lists)
 
+if (act == 'cited'):
+    run = 0
+    ai_metadados.extrair_referencias(txt)
+
 if (run == 0):
     print(parm)
 else:
