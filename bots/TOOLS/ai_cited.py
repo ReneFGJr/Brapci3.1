@@ -46,12 +46,8 @@ def identificar_estilo_citacao(referencia):
     return "Desconhecido"
 
 def preparar_referencias(texto):
-    # Substitui quebras de linha que não têm um espaço após para simplificar
-    texto = texto.replace('\n', ' ')
-    # Separa as referências por padrão em pontos finais que antecedem o próximo nome
-    referencias = texto.split('. ')
 
-    print(referencias)
+    print(texto)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
