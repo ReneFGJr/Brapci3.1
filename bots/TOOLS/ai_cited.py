@@ -1,4 +1,47 @@
 import sys_io
+import re
+
+def extrair_referencias(texto):
+    start_section = locale_referencias_type(texto)
+    texto = sys_io.remove_legendas(texto)
+
+    ref = ""
+    ref_On = False
+
+    # Divide o texto em linhas
+    linhas = sys_io.separar_por_linhas(texto)
+
+    # Percorre cada linha
+    for linha in linhas:
+        if not ref_On:
+            if start_section in linha:
+                ref_On = True
+        else:
+            ref += linha + '\n'
+
+
+    tipo = identificar_estilo_citacao(texto)
+    print("=========",tipo)
+    ref = preparar_referencias(ref)
+
+    return ref.strip()
+
+def identificar_estilo_citacao(referencia):
+    referencia = referencia.strip()
+
+    # Padrões para identificar cada estilo
+    padroes = {
+        'ABNT': r'^[A-Z]+, [A-Z]\.|\([A-Z]\.\)|\bvol\.|ed\.|p\.\s\d+',
+        'Vancouver': r'^\d+|\b(?:[A-Z][a-z]+ )?[A-Z]\b',
+        'APA': r'^[A-Z][a-z]+, [A-Z]\. \([0-9]{4}\)|[A-Z]\. \([0-9]{4}\),'
+    }
+
+    # Detecta o estilo de referência com base nos padrões
+    for estilo, padrao in padroes.items():
+        if re.search(padrao, referencia):
+            return estilo
+
+    return "Desconhecido"
 
 def preparar_referencias(texto):
     # Substitui quebras de linha que não têm um espaço após para simplificar
@@ -36,25 +79,3 @@ def locale_referencias_type(text):
             if wd in linha:
                 return wd.strip()
     return ""
-
-def extrair_referencias(texto):
-    start_section = locale_referencias_type(texto)
-    texto = sys_io.remove_legendas(texto)
-
-    ref = ""
-    ref_On = False
-
-    # Divide o texto em linhas
-    linhas = sys_io.separar_por_linhas(texto)
-
-    # Percorre cada linha
-    for linha in linhas:
-        if not ref_On:
-            if start_section in linha:
-                ref_On = True
-        else:
-            ref += linha + '\n'
-
-    ref = preparar_referencias(ref)
-
-    return ref.strip()
