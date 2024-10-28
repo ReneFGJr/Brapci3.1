@@ -1,4 +1,5 @@
 import re
+import json
 import sys
 import sys_io
 
@@ -29,7 +30,7 @@ file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file)
 emails = extrair_emails(txt)
 
-print(file)
+fileN = file.replace('.txt','_email.json')
 # Salva a lista em um arquivo JSON
-#with open("email.json", "w", encoding="utf-8") as arquivo:
-#    json.dump(emails, arquivo, ensure_ascii=False, indent=4)
+with open(fileN, "w", encoding="utf-8") as arquivo:
+    json.dump(emails, arquivo, ensure_ascii=False, indent=4)
