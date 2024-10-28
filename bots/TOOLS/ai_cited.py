@@ -102,6 +102,7 @@ def preparar_referencias(texto):
     for i, ln in enumerate(lns):
         if not sys_io.soNumero(ln):
             print(ln)
+            sys.exit()
     ref = ''
     for i, ln in enumerate(lns):
         if (ln != ''):
