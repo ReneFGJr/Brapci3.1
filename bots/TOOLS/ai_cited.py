@@ -104,7 +104,7 @@ def preparar_referencias(texto):
         if not sys_io.soNumero(ln):
             try:
                 if (ln != ''):
-                    lns[i] = lns[i] + lns[i+1]
+                    lns[i] = lns[i] + ' ' + lns[i+1]
                     lns[i+1] = ''
             except:
                 print(i,"OPS",ln)
