@@ -9,7 +9,6 @@ def extract_keywords(text,id):
 
     if match:
         keywords = match.group(1).split(";")  # Split keywords separated by semicolons
-        print(keywords)
         keys =  [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
 
         return keys
