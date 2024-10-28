@@ -75,7 +75,8 @@ def preparar_referencias(texto):
     texto = texto.replace('https: ','https:')
 
     linhas = sys_io.separar_por_linhas(texto)
-    for i,ln in linhas:
+    #for i,ln in linhas:
+    for i, ln in enumerate(linhas):
         print("=",i,ln)
     sys.exit()
 
