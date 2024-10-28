@@ -118,7 +118,7 @@ def preparar_referencias(texto):
             lns.append(ln)
     for i, ln in enumerate(lns):
         if (ln != ''):
-            print(i,ln)
+            print(i,'====',ln)
     sys.exit()
 
     # Limpa e junta referências de volta, adicionando quebras de linha
