@@ -27,3 +27,5 @@ else:
 
 file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file)
+email = extrair_emails(txt)
+print(email)
