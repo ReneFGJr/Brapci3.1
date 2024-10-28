@@ -2,15 +2,21 @@ import os
 
 ######################################## READFILE
 def readfile(nome_arquivo):
+    if len(nome_arquivo) > 255:
+        print("Erro: O caminho do arquivo é muito longo.")
+        print(nome_arquivo)
+        return False
+
     try:
         # Abre o arquivo no modo de leitura
         with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
             # Lê o conteúdo do arquivo e armazena na variável
             conteudo = arquivo.read()
         return conteudo
+
     except FileNotFoundError:
         print(f"O arquivo '{nome_arquivo}' não foi encontrado.")
-        return None
+        return ""
 
 
 ######################################## FILENAME
