@@ -47,6 +47,7 @@ def identificar_estilo_citacao(referencia):
 
 def preparar_referencias(texto):
 
+    texto = texto.replace(',\n',',')
     print(texto)
     sys.exit()
 
