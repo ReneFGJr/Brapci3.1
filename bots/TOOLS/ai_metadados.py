@@ -12,8 +12,9 @@ def locale_referencias_type(text):
     tp = ['REFERÊNCIAS']
 
     for i in tp:
-        print("->",i)
-
+        ti = i + chr(10)
+        if ti in text:
+            return i
     return ""
 
 def extrair_referencias(texto):
