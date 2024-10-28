@@ -84,6 +84,8 @@ def preparar_referencias(texto):
             print("=A=",i,linhas[i-1])
             print("=1=",i,ln)
             print("=")
+            linhas[idIn] += ' ' + ln.strip()
+            linhas[i] = ''
         else:
             idIn = i
 
