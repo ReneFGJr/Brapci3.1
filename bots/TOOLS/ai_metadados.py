@@ -19,7 +19,7 @@ def locale_referencias_type(text):
 
 def extrair_referencias(texto):
     type = locale_referencias_type(texto)
-    print("====",type)
+    print("====[",type,']')
 
  # Encontrar o índice da seção de referências
     start_section="REFERÊNCIAS"
