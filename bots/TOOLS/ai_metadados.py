@@ -22,15 +22,12 @@ def locale_referencias_type(text):
             # Verifica se a palavra-chave está na linha
             if wd in linha:
                 return wd.strip()
-    sys.exit()
     return ""
 
 def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
     texto = remove_legendas(texto)
-    print(texto)
-    print("===")
-    sys.exit()
+
     ref = ""
     ref_On = False
 
