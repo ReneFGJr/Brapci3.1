@@ -8,6 +8,7 @@ import ai_url
 import ai_doi_handle
 import ai_metadados
 import ai_cited
+import ai_keywords
 
 def version():
     return "v0.24.10.27"
@@ -43,8 +44,6 @@ else:
 file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file)
 
-run = 0
-
 if (act == 'email'):
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
@@ -52,28 +51,24 @@ if (act == 'email'):
     saveFileD(fileN,lists)
 
 if (act == 'url'):
-    run = 1
     print("Extrair URL")
     lists = ai_url.extrair_urls(txt)
     fileN = file.replace('.txt','_url.json')
     saveFileD(fileN,lists)
 
 if (act == 'doi'):
-    run = 1
     print("Extrair DOI")
     lists = ai_doi_handle.extrair_doi(txt)
     fileN = file.replace('.txt','_doi.json')
     saveFileD(fileN,lists)
 
 if (act == 'handle'):
-    run = 1
     print("Extrair HANDLE")
     lists = ai_doi_handle.extrair_handle(txt)
     fileN = file.replace('.txt','_handle.json')
     saveFileD(fileN,lists)
 
 if (act == 'metadata'):
-    run = 1
     print("Extrair Metadados")
     lists = ai_metadados.extrair_secoes_method_01(txt)
     fileN = file.replace('.txt','_metadados.json')
@@ -81,10 +76,14 @@ if (act == 'metadata'):
 
 if (act == 'cited'):
     print("Extrair Citações")
-    run = 1
     lists = ai_cited.extrair_referencias(txt,id)
     fileN = file.replace('.txt','_cited.json')
     saveFileD(fileN,lists)
 
-if (run == 0):
-    print(parm)
+if (act == 'keywords'):
+    print("Extrair Keywords")
+    lists = ai_keywords.extrair_keywords(txt,id)
+    print(lists)
+    sys.exit()
+    fileN = file.replace('.txt','_keywords.json')
+    saveFileD(fileN,lists)
