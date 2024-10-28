@@ -104,6 +104,7 @@ def preparar_referencias(texto):
     ref = ''
     for i, ln in enumerate(lns):
         if (ln != ''):
+            ln = ln.replace('  ',' ')
             ref += ln + '\n'
     return ref
 
