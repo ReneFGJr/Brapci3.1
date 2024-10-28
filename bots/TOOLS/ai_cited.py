@@ -37,7 +37,7 @@ def saveCited(lista,idR):
         qr = f"select JOURNAL, ID from brapci_elastic.dataset where ID = {idR}"
         row2 = database.query(qr)
         if not (row2 == []):
-            jnl = row[0]
+            jnl = row2[0]
             for ln in lista:
                 qi = "insert into brapci_cited.cited_article "
                 qi += "(ca_text,ca_rdf,ca_journal_origem)"
