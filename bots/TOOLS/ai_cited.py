@@ -102,7 +102,7 @@ def preparar_referencias(texto):
     ref = ''
     for i, ln in enumerate(lns):
         if (ln != ''):
-            print(sys_io.soNumero(ln))
+            print(sys_io.soNumero(ln),ln)
             ln = ln.replace('  ',' ')
             ref += ln + '\n'
     return ref
