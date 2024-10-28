@@ -52,7 +52,6 @@ def preparar_referencias(texto):
 
     texto = texto.replace(',\n',',')
     texto = texto.replace(':\n',':')
-    texto = texto.replace('\n.','.')
 
     texto = texto.replace(' \n',' ')
     texto = texto.replace('  ',' ')
