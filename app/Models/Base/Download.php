@@ -65,7 +65,7 @@ class Download extends Model
                                 {
                                     $RSP['email'] = json_decode(file_get_contents($fileEMAIL));
                                 } else {
-                                    $RSP['email'] = [];
+                                    $RSP['email'] = ['none'];
                                 }
 
                         }
