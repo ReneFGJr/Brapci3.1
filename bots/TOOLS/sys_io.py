@@ -57,7 +57,7 @@ def getNameFile(id):
     if file_exists(file):
         return file
     else:
-        print("Arquivo não localizado")
+        print("Arquivo não localizado -",file)
         fileO = file.replace('.txt','.pdf')
         print(file,fileO)
     return ""
