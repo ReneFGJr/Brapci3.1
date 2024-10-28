@@ -46,8 +46,8 @@ def identificar_estilo_citacao(referencia):
     return "Desconhecido"
 
 def preparar_referencias(texto):
-
-    texto = texto.replace(',\n',',')
+    texto = texto.replace(',\n','x2,')
+    texto = texto.replace(',\r','x1,')
     print(texto)
     sys.exit()
 
