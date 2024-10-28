@@ -18,37 +18,29 @@ def locale_referencias_type(text):
 
     # Percorre cada linha
     for linha in linhas:
-        print("==",linha)
         for wd in tp:
             # Verifica se a palavra-chave está na linha
             if wd in linha:
-                print("============",wd)
                 return wd.strip()
     sys.exit()
     return ""
 
 def extrair_referencias(texto):
     start_section = locale_referencias_type(texto)
-    print("SECTION",start_section)
-    if start_section != '':
+    ref = ""
+    ref_On = False
 
-    # Encontrar o índice da seção de referências
-        start_index = None
-        lines = texto.splitlines()
-        for i, line in enumerate(lines):
-            if start_section in line.upper():
-                print("+++++++++++++++++++",i)
-                start_index = i
-                break
+    # Divide o texto em linhas
+    linhas = sys_io.separar_por_linhas(texto)
 
-        # Verifica se a seção foi encontrada
-        if start_index is None:
-            return "Seção de referências não encontrada."
-
-        # Extrair a partir do índice encontrado até o final do arquivo
-        references = "".join(texto[start_index:]).strip()
-        return references
-    return "none"
+    # Percorre cada linha
+    for linha in linhas:
+        if not ref_On:
+            if start_section in linha:
+                ref_On = True
+        else:
+            ref = ref + linha + chr(13)
+    return ref
 
 def extrair_secoes_method_01(texto):
     secoes = {
