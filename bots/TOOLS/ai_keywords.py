@@ -12,10 +12,10 @@ def extract_keywords(text,id):
         keywords = match.group(1).split(";")  # Split keywords separated by semicolons
         keys =  [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
 
-        url = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject'
+        url = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?name='
         for k in keys:
             data = {'name':k}
-            rst = mod_api.api_post(url,data)
+            rst = mod_api.api_post(url+k,data)
             print(rst)
 
         return keys
