@@ -14,7 +14,7 @@ def extract_keywords(text,id):
 
         url = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject'
         for k in keys:
-            data = ['name':k]
+            data = [{'name':k}]
             rst = mod_api.api_post(url,data)
             print(rst)
 
