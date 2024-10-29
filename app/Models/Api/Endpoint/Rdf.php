@@ -191,6 +191,7 @@ class Rdf extends Model
 
                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
                 break;
+
             case 'dataAdd':
                 /************************ REGISTRA */
                 $RDFClass = new \App\Models\RDF2\RDFclass();
