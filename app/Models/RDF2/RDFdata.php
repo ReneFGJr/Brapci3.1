@@ -54,7 +54,6 @@ class RDFdata extends Model
         $d['d_r2'] = $ID2;
         $d['d_p'] = $id_prop;
         $d['d_literal'] = $lit;
-        $d['dx'] = $ID2;
 
         if ((($ID2 == 0) and ($lit == 0)) or ($id_prop == 0)) {
             $RSP['message'] = "<br>OPS2 - registro inválido - PROP ($id_prop) - ID2 ($ID2)  - LIT ($lit)<br>";

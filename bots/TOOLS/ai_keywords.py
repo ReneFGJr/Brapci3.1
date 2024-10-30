@@ -25,7 +25,8 @@ def extract_keywords(text,id):
                         url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasSubject&resource={idr}'
                         print(url)
                     else:
-                        print(f"Resposta inesperada da API para '{k}': {rst}")
+                        print(f"Resposta inesperada da API para '{k}'")
+                        print(f"==>{rst}")
                 except Exception as e:
                     print("=================ERRO===========")
                     print(f"Erro ao processar a resposta da API para a palavra-chave '{k}': {e}")
