@@ -17,7 +17,7 @@ def extrair_referencias(texto,idR):
     for linha in linhas:
         if not ref_On:
             if start_section in linha:
-                print(start_section,linha)
+                print(start_section,'=',linha)
                 #ref_On = True
         else:
             ref += linha + '\n'
