@@ -28,11 +28,11 @@ def extract_keywords(text,id):
                         print("==>",rst)
                         url = 'https://cip.brapci.inf.br/api/rdf/dataAdd/?source=' + id + '&prop=hasSubject&resource=' + idr
                         print(url)
-                except:
+                except Exception as e:
                     print("=================ERRO===========")
-                    print(url)
+                    print(f"Erro ao processar a resposta da API para a palavra-chave '{k}': {e}")
+                    print(f"URL: {url}")
                     sys.exit()
-
         return keys
     else:
         return []  # Return an empty list if "Palavras-chave:" not found
