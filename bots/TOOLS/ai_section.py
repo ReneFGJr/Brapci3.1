@@ -52,7 +52,7 @@ def extrair_sessao(texto,id):
         url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasSectionOf&resource={IDs}'
         rst = mod_api.api_post(url, data)
 
-        url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hashasModalidadSection&resource={IDs}'
+        url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasModalidadSection&resource={IDs}'
         rst = mod_api.api_post(url, data)
         print(rst)
 
