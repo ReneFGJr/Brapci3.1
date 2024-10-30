@@ -5,7 +5,7 @@ import mod_api
 
 # Dicionário para mapeamento das sessões
 GT_SECTIONS = {
-    'GT- ESPECIAL': 'GT-ESPECIAL',
+    'GTESPECIAL': 'GT-ESPECIAL',
     'GT1 Estudos Históricos e Epistemológicos da Ciência da Informação': 'GT-01 (ENANCIB)',
     'GT2 Organização e Representação do Conhecimento': 'GT-02 (ENANCIB)',
     'GT3 Informação, Educação e Trabalho': 'GT-03 (ENANCIB)',
