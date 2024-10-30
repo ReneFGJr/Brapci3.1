@@ -5,6 +5,8 @@ import mod_api
 
 def locate_extrair_sessao(texto):
     Section = ''
+    if 'GT- ESPECIAL' in texto:
+        Section = 'GT-ESPECIAL'
     if 'GT 8 – Informação e Tecnologia' in texto:
         Section = 'GT-08 (ENANCIB)'
     if 'GT- 10 – Informação e Memória' in texto:
