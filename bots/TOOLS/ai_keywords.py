@@ -23,7 +23,7 @@ def extract_keywords(text,id):
                         idr = rst['id']
                         print("==>", rst)
                         url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasSubject&resource={idr}'
-                        print(url)
+                        rst = mod_api.api_post(url, data)
                     else:
                         print(f"Resposta inesperada da API para '{k}'")
                         print(f"==>{rst}")
