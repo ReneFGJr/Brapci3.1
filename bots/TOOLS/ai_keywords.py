@@ -11,11 +11,11 @@ def extract_keywords(text,id):
         keywords = match.group(1).split(";")
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
 
-        url = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?name='
+        urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?name='
         for k in keys:
             if k != '':
                 data = {'apikey': k}
-                rst = mod_api.api_post(url,data)
+                rst = mod_api.api_post(urlKey + k)
 
                 try:
                     # Verificar se 'rst' é um dicionário e possui a chave 'id'
