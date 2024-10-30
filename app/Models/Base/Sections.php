@@ -48,6 +48,17 @@ class Sections extends Model
         return $sx;
     }
 
+    function form_search()
+    {
+        $sx = '';
+        $sx .= form_open();
+        $sx .= form_label('Nome da sessão');
+        $sx .= form_input('text', get('text'), ['class' => 'border border-secondary full']);
+        $sx .= form_submit('action', 'Pesquisar', ['class' => 'mt-2']);
+        $sx .= form_close();
+        return $sx;
+    }
+
     function getSection($name)
     {
         $dt = $this->where('sc_name', $name)->first();
@@ -60,24 +71,45 @@ class Sections extends Model
 
     function create_sections()
         {
-            $RDF = new \App\Models\RDF2\RDF();
-            $RDFconcept = new \App\Models\RDF2\RDFconcept();
-
-            $dt = $this->where('sc_rdf',0)->findAll();
-
-            foreach($dt as $idx=>$line)
-                {
-
-                    $dc = [];
-                    $dc['Name'] = $line['sc_name'];
-                    $dc['Lang'] = 'pt';
-                    $dc['Class'] = 'Section';
-                    $IDC = $RDFconcept->createConcept($dc);
-                    $da['sc_rdf'] = $IDC;
-                    $this->set($da)->where('id_sc',$line['id_sc'])->update();
-                }
-
+        $sx = '';
+        $Sections = new \App\Models\Base\Sections();
+        $sx .= $Sections->form_search();
+        $sx .= $Sections->search(get('text'));
+        return $sx;
         }
+
+    function search($txt)
+    {
+        $sx = '';
+        if ($txt != '') {
+            $RDF = new \App\Models\RDF2\RDF();
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
+            $idc = $RDFclass->getClass('Person');
+
+            $sx = h($txt);
+            $dt = $RDFconcept
+                ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+                ->like('n_name', $txt)
+                ->where('cc_class', $idc)
+                ->findAll(100);
+            //$sx .= $RDFconcept->getlastquery();
+
+            foreach ($dt as $id => $line) {
+                $link = '<a href="' . PATH . 'admin/alias/' . $line['cc_use'] . '">';
+                $linka = '</a>';
+                if ($line['id_cc'] == $line['cc_use']) {
+                    $link .= '<b>';
+                    $linka = '</b>' . $linka;
+                } else {
+                    $linka = '';
+                    $link = '';
+                }
+                $sx .= '<li>' . $link . $line['n_name'] . ' (' . $line['id_cc'] . '-' . $line['cc_use'] . ')' . $linka . '</li>';
+            }
+        }
+        return $sx;
+    }
 
     function list_not_group()
     {
