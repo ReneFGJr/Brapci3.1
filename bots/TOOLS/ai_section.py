@@ -7,8 +7,8 @@ def locate_extrair_sessao(texto):
     Section = ''
     if 'GT- 10 – Informação e Memória' in texto:
         Section = 'GT-10 (ENANCIB)'
-    if 'GT- 10 – Informação e Memória' in texto:
-        Section = 'GT-10 (ENANCIB)'
+    if 'GT 12 – Informação, Estudos Étnico-Raciais, Gênero e Diversidade' in texto:
+        Section = 'GT-12 (ENANCIB)'
 
     return Section
 
@@ -16,6 +16,8 @@ def locate_extrair_modalidade(texto):
     Modalidade = ''
     if 'Modalidade: Resumo Expandido' in texto:
         Modalidade = 'Resumo Expandido'
+    if 'Modalidade: Trabalho Completo' in texto:
+        Modalidade = 'Trabalho Completo'
     return Modalidade
 
     return Section
