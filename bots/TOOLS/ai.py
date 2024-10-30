@@ -10,6 +10,7 @@ import ai_doi_handle
 import ai_metadados
 import ai_cited
 import ai_keywords
+import ai_section
 
 def version():
     return "v0.24.10.27"
@@ -82,6 +83,10 @@ if (act == 'cited'):
     lists = ai_cited.extrair_referencias(txt,id)
     fileN = file.replace('.txt','_cited.json')
     saveFileD(fileN,lists)
+
+if (act == 'section'):
+    print("Extrair Sessões")
+    lists = ai_section.extrair_sessao(txt,id)
 
 if (act == 'keywords'):
     print("Extrair Keywords")
