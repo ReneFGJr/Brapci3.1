@@ -7,6 +7,8 @@ def locate_extrair_sessao(texto):
     Section = ''
     texto = texto.replace('GT-','GT')
     texto = texto.replace(' –','')
+
+    print(texto[:100])
     if 'GT- ESPECIAL' in texto:
         Section = 'GT-ESPECIAL'
 
