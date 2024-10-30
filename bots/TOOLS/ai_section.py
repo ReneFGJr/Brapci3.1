@@ -38,7 +38,7 @@ def locate_extrair_sessao(texto):
     if 'GT10 Informação e Memória' in texto:
         Section = 'GT-10 (ENANCIB)'
 
-    if 'GT11 Informação, Educação e Trabalho' in texto:
+    if 'GT11 Informação e Saúde' in texto:
         Section = 'GT-11 (ENANCIB)'
 
     if 'GT12 Informação, Estudos Étnico-Raciais, Gênero e Diversidade' in texto:
