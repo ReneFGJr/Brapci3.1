@@ -7,41 +7,42 @@ def locate_extrair_sessao(texto):
     Section = ''
     texto = texto.replace('GT-','GT')
     texto = texto.replace(' –','')
+    texto = texto.replace('GT ','GT')
 
     print(texto[:100])
     if 'GT- ESPECIAL' in texto:
         Section = 'GT-ESPECIAL'
 
-    if 'GT 1 Informação, Educação e Trabalho' in texto:
+    if 'GT1 Informação, Educação e Trabalho' in texto:
         Section = 'GT-01 (ENANCIB)'
-    if 'GT 2 Informação, Educação e Trabalho' in texto:
+    if 'GT2 Informação, Educação e Trabalho' in texto:
         Section = 'GT-02 (ENANCIB)'
-    if 'GT 3 Informação, Educação e Trabalho' in texto:
+    if 'GT3 Informação, Educação e Trabalho' in texto:
         Section = 'GT-03 (ENANCIB)'
-    if 'GT 4 Informação, Educação e Trabalho' in texto:
+    if 'GT4 Informação, Educação e Trabalho' in texto:
         Section = 'GT-04 (ENANCIB)'
-    if 'GT 5 Informação, Educação e Trabalho' in texto:
+    if 'GT5 Informação, Educação e Trabalho' in texto:
         Section = 'GT-05 (ENANCIB)'
 
-    if 'GT 6 Informação, Educação e Trabalho' in texto:
+    if 'GT6 Informação, Educação e Trabalho' in texto:
         Section = 'GT-06 (ENANCIB)'
 
-    if 'GT 7 Informação, Educação e Trabalho' in texto:
+    if 'GT7 Informação, Educação e Trabalho' in texto:
         Section = 'GT-07 (ENANCIB)'
 
-    if 'GT 8 Informação e Tecnologia' in texto:
+    if 'GT8 Informação e Tecnologia' in texto:
         Section = 'GT-08 (ENANCIB)'
 
-    if 'GT 9 Informação, Educação e Trabalho' in texto:
+    if 'GT9 Informação, Educação e Trabalho' in texto:
         Section = 'GT-09 (ENANCIB)'
 
-    if 'GT 10 Informação e Memória' in texto:
+    if 'GT10 Informação e Memória' in texto:
         Section = 'GT-10 (ENANCIB)'
 
-    if 'GT 11 Informação, Educação e Trabalho' in texto:
+    if 'GT11 Informação, Educação e Trabalho' in texto:
         Section = 'GT-11 (ENANCIB)'
 
-    if 'GT 12 Informação, Estudos Étnico-Raciais, Gênero e Diversidade' in texto:
+    if 'GT12 Informação, Estudos Étnico-Raciais, Gênero e Diversidade' in texto:
         Section = 'GT-12 (ENANCIB)'
 
     return Section
