@@ -31,6 +31,6 @@ def extract_keywords(text,id):
                     print("=================ERRO===========")
                     print(f"Erro ao processar a resposta da API para a palavra-chave '{k}': {e}")
                     print(f"URL: {url}")
-        return keys
+        return True
     else:
-        return []  # Return an empty list if "Palavras-chave:" not found
+        return False
