@@ -146,5 +146,7 @@ def locale_referencias_type(text):
         for wd in tp:
             # Verifica se a palavra-chave está na linha
             if wd in linha:
-                return wd.strip()
+                wd = wd.strip()
+                if (wd == linha):
+                    return wd
     return ""
