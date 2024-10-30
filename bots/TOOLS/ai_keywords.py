@@ -32,6 +32,9 @@ def extract_keywords(text,id):
                 except:
                     print("=================ERRO===========")
                     print(rst)
+                    print("=================ERRO===========")
+                    print(url)
+                    sys.exit()
 
         return keys
     else:
