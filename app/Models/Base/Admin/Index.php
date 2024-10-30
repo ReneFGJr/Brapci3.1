@@ -284,6 +284,9 @@ class Index extends Model
             $sx .= '<hr>';
             switch($dt['concept']['c_class'])
                 {
+                    case 'Section':
+                        $sx .= '<a href="' . PATH . 'admin/section">Voltar</a>';
+                        break;
                     case 'Person':
                         $sx .= '<a href="' . PATH . 'admin/person">Voltar</a>';
                         break;
