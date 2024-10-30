@@ -20,5 +20,10 @@ def extrair_sessao(texto,id):
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Section?lang=pt&name='
         data = {'apikey': gt}
         rst = mod_api.api_post(urlKey + gt, data)
+        IDs = rst['id']
+
+        url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasSectionOf&resource={IDs}'
+        rst = mod_api.api_post(url, data)
+
         print(rst)
         #hasSectionOf
