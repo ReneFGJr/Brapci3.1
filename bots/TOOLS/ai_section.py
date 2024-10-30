@@ -5,13 +5,15 @@ import mod_api
 
 def locate_extrair_sessao(texto):
     Section = ''
+    texto = texto.replace('GT-','GT')
+    texto = texto.replace(' –','')
     if 'GT- ESPECIAL' in texto:
         Section = 'GT-ESPECIAL'
-    if 'GT 8 – Informação e Tecnologia' in texto:
+    if 'GT 8 Informação e Tecnologia' in texto:
         Section = 'GT-08 (ENANCIB)'
-    if 'GT- 10 – Informação e Memória' in texto:
+    if 'GT- 10 Informação e Memória' in texto:
         Section = 'GT-10 (ENANCIB)'
-    if 'GT 12 – Informação, Estudos Étnico-Raciais, Gênero e Diversidade' in texto:
+    if 'GT 12 Informação, Estudos Étnico-Raciais, Gênero e Diversidade' in texto:
         Section = 'GT-12 (ENANCIB)'
 
     return Section
