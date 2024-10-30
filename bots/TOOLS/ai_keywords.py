@@ -16,6 +16,7 @@ def extract_keywords(text,id):
         for k in keys:
             data = {'name':k}
             rst = mod_api.api_post(url+k,data)
+            print(rst)
             idr = rst['id']
             name = rst['Name']
 
