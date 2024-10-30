@@ -15,7 +15,7 @@ def extract_keywords(text,id):
         for k in keys:
             if k != '':
                 data = {'apikey': k}
-                rst = mod_api.api_post(urlKey + k)
+                rst = mod_api.api_post(urlKey + k, data)
 
                 try:
                     # Verificar se 'rst' é um dicionário e possui a chave 'id'
