@@ -19,7 +19,7 @@ def locate_extrair_sessao(texto):
         Section = 'GT-02 (ENANCIB)'
     if 'GT3 Informação, Educação e Trabalho' in texto:
         Section = 'GT-03 (ENANCIB)'
-    if 'GT4 Informação, Educação e Trabalho' in texto:
+    if 'GT4 Gestão da Informação e do Conhecimento' in texto:
         Section = 'GT-04 (ENANCIB)'
     if 'GT5 Política e Economia da Informação' in texto:
         Section = 'GT-05 (ENANCIB)'
