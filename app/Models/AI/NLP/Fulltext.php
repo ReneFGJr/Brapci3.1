@@ -49,23 +49,23 @@ class Fulltext extends Model
         }
 
         $sx .= h("FULLTEXT - PRE");
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py keywords' . $d2;
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py keywords ' . $d2;
         $sx .= '<p>'.$cmd.'</p>';
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py cited' . $d2;
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py cited ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py email' . $d2;
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py email ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py url' . $d2;
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py url ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py section' . $d2;
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py section ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
-        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py doi' . $d2;
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py doi ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
