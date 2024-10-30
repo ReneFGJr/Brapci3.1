@@ -8,7 +8,7 @@ GT_SECTIONS = {
     'GTESPECIAL': 'GT-ESPECIAL',
     'GT1 Estudos Históricos e Epistemológicos da Ciência da Informação': 'GT-01 (ENANCIB)',
     'GT2 Organização e Representação do Conhecimento': 'GT-02 (ENANCIB)',
-    'GT3 Informação, Educação e Trabalho': 'GT-03 (ENANCIB)',
+    'GT3 Mediação': 'GT-03 (ENANCIB)',
     'GT4 Gestão da Informação e do Conhecimento': 'GT-04 (ENANCIB)',
 #    'GT4 GESTÃO DA INFORMAÇÃO E DO CONHECIMENTO': 'GT-04 (ENANCIB)',
     'GT5 Informação e Economia da Informação': 'GT-05 (ENANCIB)',
