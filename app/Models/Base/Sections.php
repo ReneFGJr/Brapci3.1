@@ -85,7 +85,7 @@ class Sections extends Model
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
-            $idc = $RDFclass->getClass('Person');
+            $idc = $RDFclass->getClass('Section');
 
             $sx = h($txt);
             $dt = $RDFconcept
