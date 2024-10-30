@@ -20,14 +20,17 @@ def extract_keywords(text,id):
                 rst = mod_api.api_post(url+k,data)
                 print(rst)
 
-                idr = rst['id']
-                name = rst['Name']
+                try:
+                    idr = rst['id']
+                    name = rst['Name']
 
-                if name != '':
+                    if name != '':
+                        print(rst)
+                        print(rst['id'])
+                        url = 'https://cip.brapci.inf.br/api/rdf/addData/?source=' + id + '&prop=hasSubject&resource=' + idr
+                        print(url)
+                except:
                     print(rst)
-                    print(rst['id'])
-                    url = 'https://cip.brapci.inf.br/api/rdf/addData/?source=' + id + '&prop=hasSubject&resource=' + idr
-                    print(url)
 
         return keys
     else:
