@@ -160,7 +160,14 @@ class Rdf extends Model
                 $dd = [];
                 $dd['Class'] = $d3;
                 $dd['Name'] = get("name");
-                $dd['Lang'] = $Language->getTextLanguage($dd['Name']);
+                $lang = get("lang");
+                if ($lang == '')
+                    {
+                        $dd['Lang'] = $Language->getTextLanguage($dd['Name']);
+                    } else {
+                        $dd['Lang'] = $lang;
+                    }
+
                 $dd['id'] = $RDFconcept->createConcept($dd);
                 echo json_encode($dd);
                 exit;
