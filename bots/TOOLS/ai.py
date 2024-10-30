@@ -1,4 +1,5 @@
 import re
+import os
 import json
 import sys
 import sys_io
@@ -32,6 +33,8 @@ def saveFileD(fileN,arquivo):
 ########################################### Início
 print("TOOLS AI",version())
 print("===============================================")
+dir = '/data/Brapci3.1/bots/TOOLS'
+os.chdir(dir)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
