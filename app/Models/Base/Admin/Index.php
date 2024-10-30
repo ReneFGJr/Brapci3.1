@@ -256,18 +256,13 @@ class Index extends Model
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
             $t = $RDF->le($d1);
-            $class = $t['concept']['c_class'];
 
-            $idc = $RDFclass->getClass($class);
-
-            /***************** Change Class */
-            if ($idx == 'change')
+            if ($d3 == '')
                 {
-                    $idc = $RDFclass->getClass($d3);
-                    $dd = [];
-                    $dd['cc_class'] = $idc;
-                    $RDFconcept->set($dd)->where('id_cc',$d1)->update();
-                    $idx = 0;
+                    $class = $t['concept']['c_class'];
+                    $idc = $RDFclass->getClass($class);
+                } else {
+                    $idc = $d3;
                 }
 
             if (isset($_POST['ids']))
@@ -299,8 +294,6 @@ class Index extends Model
 
             $sx .= ' | ';
             $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/literal/' . $d1 .'">Editar Literal</a>';
-            $sx .= ' | ';
-            $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/alias/'.$d1.'/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
             $sx .= '<hr>';
 
             $txt = explode(' ',$name);
