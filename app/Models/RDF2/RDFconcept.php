@@ -163,7 +163,7 @@ class RDFconcept extends Model
             ->join('rdf_literal', 'cc_pref_term = id_n')
             ->join('rdf_class', 'cc_class = id_c')
             ->where('cc_class', $class)
-            ->where('cc_use == id_cc')
+            ->where('cc_use = id_cc')
             ->findAll();
         return $dt;
     }
