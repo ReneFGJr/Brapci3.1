@@ -27,7 +27,7 @@ def extract_keywords(text,id):
                         idr = rst['id']
                         print("==>",rst)
                         print(rst['id'])
-                        url = 'https://cip.brapci.inf.br/api/rdf/addData/?source=' + id + '&prop=hasSubject&resource=' + idr
+                        url = 'https://cip.brapci.inf.br/api/rdf/dataAdd/?source=' + id + '&prop=hasSubject&resource=' + idr
                         print(url)
                 except:
                     print("=================ERRO===========")

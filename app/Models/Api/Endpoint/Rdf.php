@@ -202,6 +202,8 @@ class Rdf extends Model
                 $lit = 0;
                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
                 $RSP = $RDFform->searchSelect('', '');
+                $RSP['get'] = $_GET;
+                $RSP['psot'] = $_POST;
                 break;
             case 'searchSelect':
                 $RSP = $RDFform->searchSelect($d3, $d4);
