@@ -1,4 +1,5 @@
 import re
+import sys
 import mod_api
 
 def extract_keywords(text,id):
@@ -17,6 +18,7 @@ def extract_keywords(text,id):
             data = {'name':k}
             rst = mod_api.api_post(url+k,data)
             print(rst)
+            sys.exit()
             idr = rst['id']
             name = rst['Name']
 
