@@ -15,18 +15,19 @@ def extract_keywords(text,id):
 
         url = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?name='
         for k in keys:
-            data = {'name':k}
-            rst = mod_api.api_post(url+k,data)
-            print(rst)
-            sys.exit()
-            idr = rst['id']
-            name = rst['Name']
-
-            if name != '':
+            if k != '':
+                data = {'name':k}
+                rst = mod_api.api_post(url+k,data)
                 print(rst)
-                print(rst['id'])
-                url = 'https://cip.brapci.inf.br/api/rdf/addData/?source=' + id + '&prop=hasSubject&resource=' + idr
-                print(url)
+
+                idr = rst['id']
+                name = rst['Name']
+
+                if name != '':
+                    print(rst)
+                    print(rst['id'])
+                    url = 'https://cip.brapci.inf.br/api/rdf/addData/?source=' + id + '&prop=hasSubject&resource=' + idr
+                    print(url)
 
         return keys
     else:
