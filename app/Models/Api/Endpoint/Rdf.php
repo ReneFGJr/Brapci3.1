@@ -200,8 +200,7 @@ class Rdf extends Model
                 $id_prop = $RDFClass->getClass(get("prop"));
                 $ID2 = get("resource");
                 $lit = 0;
-                $RDFdata->register($ID, $id_prop, $ID2, $lit);
-                $RSP = $RDFform->searchSelect('', '');
+                $RSP = $RDFdata->register($ID, $id_prop, $ID2, $lit);
                 $RSP['get'] = $_GET;
                 $RSP['psot'] = $_POST;
                 break;

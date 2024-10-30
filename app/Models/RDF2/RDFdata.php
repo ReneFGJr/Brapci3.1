@@ -56,7 +56,9 @@ class RDFdata extends Model
         $d['d_literal'] = $lit;
 
         if ((($ID2 == 0) and ($lit == 0)) or ($id_prop == 0)) {
-            echo "<br>OPS2 - registro inválido - PROP ($id_prop) - ID2 ($ID2)  - LIT ($lit)<br>";
+            $RSP['message'] = "<br>OPS2 - registro inválido - PROP ($id_prop) - ID2 ($ID2)  - LIT ($lit)<br>";
+            $RSP['status'] = '500';
+            return $RSP;
             exit;
         }
 
@@ -68,9 +70,16 @@ class RDFdata extends Model
             ->first();
         if ($dt == null) {
             $this->set($d)->insert();
+            $RSP['message'] = 'Success';
+            $RSP['status'] = '200';
+            return $RSP;
         } else {
             /* Update */
+            $RSP['message'] = 'Already';
+            $RSP['status'] = '200';
         }
+        $RSP['data'] = $d;
+        return $RSP;
     }
 
     function le($id)
