@@ -21,7 +21,7 @@ def extract_keywords(text,id):
                 print(rst)
 
                 try:
-                    print("=x=x>",rst)
+                    print("=x=x>",rst['Name'])
                     name = rst['Name']
 
                     if name != '':
