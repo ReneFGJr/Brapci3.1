@@ -277,6 +277,7 @@ class Metadata extends Model
             /* Ordena Session */
             $sectA = explode(';', $sectN);
             sort($sectA);
+            pre($sectA);
 
             $M['SESSION'] = implode(';',$sectA);
             $M['PUBLICATION'] = $PUBLI;
