@@ -405,6 +405,7 @@ class Brapci extends Model
         $au = [];
         $wk = [];
         foreach ($dt as $id => $line) {
+            $SESSION = $line['SESSION'];
             $dq = [];
             $dq['ID'] = $line['siw_work_rdf'];
             array_push($wk, $line['siw_work_rdf']);
@@ -422,7 +423,11 @@ class Brapci extends Model
                     $au[$nome]['total'] = $au[$nome]['total'] + 1;
                 }
             }
-            array_push($dw, $dq);
+            if (!isset($dw[$SESSION]))
+                {
+                    $dw[$SESSION] = [];
+                }
+            array_push($dw[$SESSION], $dq);
         }
         pre($dw);
         /******** Authors */
