@@ -273,7 +273,7 @@ class Metadata extends Model
 
             $M['KEYWORDS'] = $keyWD;
             $M['ABSTRACTS'] = $abstC;
-            $M['SECTION'] = $sectN;
+            $M['SESSION'] = $sectN;
             $M['PUBLICATION'] = $PUBLI;
 
             $this->metadata = $M;

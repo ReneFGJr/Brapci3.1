@@ -639,7 +639,7 @@ class Export extends Model
                 $meta['ABSTRACT'] = 0;
                 $meta['PDF'] = 0;
 
-                $ck = ['Collection'=>'COLLECTION','Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File'=>'PDF','Section'=> 'SESSION'];
+                $ck = ['Collection'=>'COLLECTION','Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File'=>'PDF'];
                 foreach ($ck as $fld => $met) {
                     if (isset($meta[$fld])) {
                         $meta[$met] = 1;
