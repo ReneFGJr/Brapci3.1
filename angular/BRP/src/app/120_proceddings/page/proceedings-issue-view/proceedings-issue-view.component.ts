@@ -21,7 +21,7 @@ export class ProceedingsIssueViewComponent {
     this.route.params.subscribe((params) => {
       this.id = +params['id']; // (+) converts string 'id' to a number
       console.log(this.id);
-      this.brapciService.issue(this.id).subscribe((res) => {
+      this.brapciService.api_post('brapci/issueV2/'+this.id).subscribe((res) => {
         this.source = res;
         console.log(res);
       });

@@ -1,6 +1,12 @@
 <div *ngIf="source">
-  <app-banner-benancib *ngIf="source.source.id_jnl == '75'" [section]="'Enancib'"></app-banner-benancib>
-  <app-banner-ebbc *ngIf="source.source.id_jnl == 18" [section]="'EBBC'"></app-banner-ebbc>
+  <app-banner-benancib
+    *ngIf="source.source.id_jnl == '75'"
+    [section]="'Enancib'"
+  ></app-banner-benancib>
+  <app-banner-ebbc
+    *ngIf="source.source.id_jnl == 18"
+    [section]="'EBBC'"
+  ></app-banner-ebbc>
 </div>
 <div class="container" *ngIf="source">
   <div class="row">
@@ -12,7 +18,7 @@
       </h2>
     </div>
     <div class="col-12">
-        <app-basket-select [data]="source.worksID"></app-basket-select>
+      <app-basket-select [data]="source.worksID"></app-basket-select>
     </div>
   </div>
 </div>
@@ -20,40 +26,55 @@
 <div class="container" *ngIf="source">
   <div class="row">
     <div class="col-2 text-center">
-        <span style="font-size: 40px">{{ source.worksTotal}}</span>
-        <br>
-        TRABALHOS
+      <span style="font-size: 40px">{{ source.worksTotal }}</span>
+      <br />
+      TRABALHOS
 
-        <br/><br/>
+      <br /><br />
 
-        <span class="mt-5" style="font-size: 40px">{{ source.authorsTotal}}</span>
-        <br>
-        AUTORES
+      <span class="mt-5" style="font-size: 40px">{{
+        source.authorsTotal
+      }}</span>
+      <br />
+      AUTORES
+
+      <br /><br />
+
+      <span class="mt-5" style="font-size: 40px">{{ 0 }}</span>
+      <br />
+      SESSÕES
     </div>
 
     <div class="col-10">
       WORKS
-      <ol>
-        <li
-          class="mt-2"
-          style="margin: 0; padding: 0"
-          *ngFor="let works of source.works"
-        >
-          <a [routerLink]="['/v/' + works.ID]"
-          [ngClass]="works.PDF == 1? 'text-primary':'text-danger'"
-          class="link">
-          {{ works.LEGEND}}
-          <br>
-          <span class="small"><i>{{ works.AUTHORS}}</i></span>
-          </a>
+      <ul>
+        <li><b>Nome da Sessão</b>
+          <ol>
+            <li
+              class="mt-2"
+              style="margin: 0; padding: 0"
+              *ngFor="let works of source.works"
+            >
+              <a
+                [routerLink]="['/v/' + works.ID]"
+                [ngClass]="works.PDF == 1 ? 'text-primary' : 'text-danger'"
+                class="link"
+              >
+                {{ works.LEGEND }}
+                <br />
+                <span class="small"
+                  ><i>{{ works.AUTHORS }}</i></span
+                >
+              </a>
+            </li>
+          </ol>
         </li>
-      </ol>
-
+      </ul>
       AUTORES
       <ol>
-      <li *ngFor="let author of source.authors">
-        {{ author.name }} <sup>{{author.total}}</sup>
-      </li>
+        <li *ngFor="let author of source.authors">
+          {{ author.name }} <sup>{{ author.total }}</sup>
+        </li>
       </ol>
     </div>
   </div>
