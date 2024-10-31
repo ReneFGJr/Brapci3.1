@@ -408,6 +408,7 @@ class Brapci extends Model
         $SESSIONx = '';
         foreach ($dt as $id => $line) {
             $SESSION = $line['SESSION'];
+            if ($SESSION == '') { $SESSION = 'no_section'; }
             if ($SESSION != $SESSIONx)
                 {
                     $IDs++;
