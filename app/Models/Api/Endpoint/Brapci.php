@@ -429,7 +429,7 @@ class Brapci extends Model
                 }
             array_push($dw[$SESSION], $dq);
         }
-        pre($dw);
+
         /******** Authors */
         ksort($au);
         $nm = [];
