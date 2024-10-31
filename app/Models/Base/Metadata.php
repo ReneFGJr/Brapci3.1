@@ -275,6 +275,7 @@ class Metadata extends Model
             $M['ABSTRACTS'] = $abstC;
 
             /* Ordena Session */
+            $sectN = troca($sectN,'; ','');
             $sectA = explode(';', $sectN);
             sort($sectA);
             pre($sectA);
