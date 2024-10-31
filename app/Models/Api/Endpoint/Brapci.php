@@ -120,7 +120,7 @@ class Brapci extends Model
             case 'issue':
                 $RSP = $this->issue($d2, $d3);
                 break;
-            case 'issuev2':
+            case 'issueV2':
                 $RSP = $this->issueV2($d2, $d3);
                 break;
             case 'oai':
