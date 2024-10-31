@@ -438,6 +438,7 @@ class Register extends Model
         $da['KEYWORDS'] = $data['KEYWORDS'];
         $da['ABSTRACTS'] = $data['ABSTRACTS'];
         $da['PUBLICATION'] = $data['PUBLICATION'];
+        $da['SESSION'] = $data['SESSION'];
         $da['URL'] = $data['URL'];
 
         /* verifica se tem o ISSUE */
