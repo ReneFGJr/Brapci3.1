@@ -278,9 +278,9 @@ class Metadata extends Model
             $sectN = troca($sectN,'; ',';');
             $sectA = explode(';', $sectN);
             sort($sectA);
-            pre($sectA);
+            $sectN = implode('; ',$sectA);
 
-            $M['SESSION'] = implode(';',$sectA);
+            $M['SESSION'] = $sectN;
             $M['PUBLICATION'] = $PUBLI;
 
             $this->metadata = $M;
