@@ -283,6 +283,8 @@ class Metadata extends Model
             $M['SESSION'] = $sectN;
             $M['PUBLICATION'] = $PUBLI;
 
+            pre($M);
+
             $this->metadata = $M;
             return $this->metadata;
         }
