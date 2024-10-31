@@ -47,13 +47,13 @@
 
     <div class="col-10">
       WORKS
-      <ul>
-        <li><b>Nome da Sessão</b>
+      <ul *ngFor="let wk of source.works">
+        <li><b>Nome da Sessão - {{ wk.name }}</b>
           <ol>
             <li
               class="mt-2"
               style="margin: 0; padding: 0"
-              *ngFor="let works of source.works"
+              *ngFor="let works of wk.data"
             >
               <a
                 [routerLink]="['/v/' + works.ID]"
