@@ -273,7 +273,12 @@ class Metadata extends Model
 
             $M['KEYWORDS'] = $keyWD;
             $M['ABSTRACTS'] = $abstC;
-            $M['SESSION'] = $sectN;
+
+            /* Ordena Session */
+            $sectA = explode(';', $sectN);
+            sort($sectA);
+
+            $M['SESSION'] = implode(';',$sectA);
             $M['PUBLICATION'] = $PUBLI;
 
             $this->metadata = $M;
