@@ -72,8 +72,6 @@ class Index extends Model
                 $sx .= $Projects->my_projects();
                 break;
             case 'nlp':
-            echo "OK";
-            exit;
                 $NLP = new \App\Models\AI\NLP\Index();
                 $sx .= $NLP->index($d2, $d3, $d4, $d5);
                 break;
