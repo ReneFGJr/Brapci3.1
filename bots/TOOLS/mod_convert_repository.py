@@ -20,6 +20,8 @@ def copy_files(dirO,dirD):
         if os.path.isfile(caminho_arquivo):  # Verifique se é um arquivo (não diretório)
             shutil.copy(caminho_arquivo, dirD)
             print(f'Arquivo {arquivo} copiado para {dirD}')
+def extrair_diretorio(caminho_arquivo):
+    return os.path.dirname(caminho_arquivo)
 
 def convert():
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
@@ -35,8 +37,9 @@ def convert():
         print(line)
         #Cria diretório
         id = line[0]
-        dirO = line[2]
+        dirO = '../../'+extrair_diretorio(line[2])
         dirD = directory(id)
-        copy_files(dirO,dirD)
+        print(dirO)
+        #copy_files(dirO,dirD)
 
 convert()
