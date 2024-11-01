@@ -110,7 +110,8 @@ def convert_work():
     print(qr)
 
     for line in row:
-        print("======================")
+        dirD = filename(line[2])
+        print("======================",dirD)
         print(line)
 
 convert_work()
