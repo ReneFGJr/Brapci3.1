@@ -29,7 +29,7 @@ def extract_keywords(text,id):
         sys.exit()
     else:
         print("======>",keyw,term)
-    exp = r"{keyw}\s*(.*?)(?={term})"
+    exp = f"{keyw}\s*(.*?)(?={term})"
     print("EXP",exp)
     match = re.search(exp, text, re.DOTALL)
 
