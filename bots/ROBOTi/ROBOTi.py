@@ -183,6 +183,11 @@ def run(parm):
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
 
+    if (act == 'keyword'):
+        mod_subject.removeOrfa()
+        sys.exit()
+        mod_subject.check_duplicate()
+
     if (act == 'person'):
         mod_abstract.check_double()
         sys.exit()
