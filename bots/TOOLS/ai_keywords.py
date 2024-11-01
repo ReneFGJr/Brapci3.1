@@ -7,8 +7,8 @@ def locateAbstract(text):
     for te in t:
         print("localizando ",te)
         if te in text:
-            print("======",te)
-    sys.exit()
+            return te
+    return ""
 
 def extract_keywords(text,id):
     text = text.replace(chr(10), ' ')
@@ -16,7 +16,12 @@ def extract_keywords(text,id):
     text = text.replace('Palavras-Chave','Palavras-chave')
     text = text.replace('Palavras Chave','Palavras-chave')
     term = locateAbstract(text)
-
+    if term == '':
+        print("Área não localizada")
+        sys.exit()
+    else:
+        print("======>",term)
+    sys.exit()
     match = re.search(r"Palavras-chave:\s*(.*?)(?="+term+")", text, re.DOTALL)
 
     if match:
