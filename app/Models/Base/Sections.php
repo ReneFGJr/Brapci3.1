@@ -73,8 +73,8 @@ class Sections extends Model
         {
         $sx = '';
         $Sections = new \App\Models\Base\Sections();
-        $sx .= $Sections->form_search();
-        $sx .= $Sections->search(get('text'));
+        $sx .= bs(bsc($Sections->form_search(),12));
+        $sx .= bs(bsc($Sections->search(get('text')),12));
         return $sx;
         }
 
