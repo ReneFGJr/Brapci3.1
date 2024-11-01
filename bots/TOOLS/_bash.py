@@ -64,5 +64,4 @@ ids_array
 
 for it in ids_array:
     print("=====",it)
-it = 258598
-exec(it)
+    exec(it)
