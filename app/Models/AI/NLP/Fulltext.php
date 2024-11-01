@@ -53,6 +53,8 @@ class Fulltext extends Model
         $sx .= '<p>'.$cmd.'</p>';
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
+        echo $sx;
+
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py cited ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
