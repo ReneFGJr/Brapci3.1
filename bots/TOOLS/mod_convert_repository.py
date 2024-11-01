@@ -40,7 +40,7 @@ def convert():
         print(line)
         #Cria diretório
         id = line[0]
-        dirO = '../../public/'+extrair_diretorio(line[2])
+        dirO = '../../public/'+line[2]
         dirD = directory(id)+filename(id)
         copy_file(dirO,dirD)
 
