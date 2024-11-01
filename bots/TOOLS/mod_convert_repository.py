@@ -115,7 +115,7 @@ def convert_work():
         dirD = dirO.replace('article_00','work_00')
         dirD = dirD.replace('.pdf','#00000.pdf')
         ID = line[2]
-        ID = ID[35:40]
+        ID = ID[32:39]
         print(f"=============================={id}=========={idL}")
         print(f"        [{dirD}]")
         print(f"        [{dirO}]")
