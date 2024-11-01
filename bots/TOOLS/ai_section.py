@@ -59,6 +59,8 @@ def extrair_sessao(texto, id):
     print("===",texto[:400])
     # Extrair e enviar sessão
     gt = locate_extrair_sessao(texto)
+    print(gt)
+    sys.exit()
     if gt:
         post_to_api(gt, 'hasSectionOf', id)
         print("Sessão:", gt)
