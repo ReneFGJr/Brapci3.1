@@ -43,7 +43,7 @@ def file_name(diretorio):
         # Lista todos os arquivos no diretório
         arquivos = os.listdir(diretorio)
         for arquivo in arquivos:
-            print("FILE",arquivo)
+            print(" = = = = = = = = = = FILE",arquivo)
             if arquivo.endswith('.txt'):
                 if arquivo.startswith("work_"):
                     return diretorio + arquivo
