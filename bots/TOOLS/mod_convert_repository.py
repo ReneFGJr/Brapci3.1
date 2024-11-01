@@ -103,7 +103,7 @@ def convert_work():
     qr = "SELECT D1.d_r1, id_n, n_name, D1.d_r2 FROM brapci_rdf.rdf_literal  "
     qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
     qr += f"WHERE `n_name` like '%/article_00%' "
-    qr += " limit 2"
+    #qr += " limit 2"
 
     row = database.query(qr)
     print("======================",id)
