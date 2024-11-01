@@ -13,12 +13,16 @@ def check_remissiva():
 def removeOrfa():
     IDclass = mod_class.getClass('Subject')
     qr = "SELECT id_cc FROM brapci_rdf.rdf_concept "
-    qr += "left join brapci_rdf.rdf_data ON d_d2 = id_cc "
+    qr += "left join brapci_rdf.rdf_data ON d_r2 = id_cc "
     qr += f"WHERE "
     qr += " id_cc = cc_use "
     qr += f" and cc_class = {IDclass} "
     qr += " and id_d is null"
-    print(qr)
+    row = database.query(qr)
+
+    for line in row:
+        id = line[0]
+        mod_concept.remove(id)
 
 
 ################################ Recupera ID do RDF (Subect)

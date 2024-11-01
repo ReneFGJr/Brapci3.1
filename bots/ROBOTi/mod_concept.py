@@ -57,6 +57,14 @@ def register_literal_class(classe,name,lang):
 
     return IDc
 
+def remove(id):
+    qu = f"delete from brapci_rdf.rdf_data where d_r1 = {id} or d_r2 = {id}"
+    database.update(qu)
+
+    qu = f"delete from brapci_rdf.rdf_concept where id_cc = {id}"
+    database.update(qu)
+
+
 def register(cl,literal):
 
     qr = "select * from brapci_rdf.rdf_concept "
