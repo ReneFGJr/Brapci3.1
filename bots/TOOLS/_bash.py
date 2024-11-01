@@ -24,6 +24,6 @@ with open(caminho_arquivo, 'r') as file:
 ids_array = np.array(dados)
 
 for it in ids_array:
-    print("=====",it)
+    print("==================================================================",it)
     if (it != ''):
         exec(it)
