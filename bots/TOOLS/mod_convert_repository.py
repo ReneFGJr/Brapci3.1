@@ -77,7 +77,7 @@ def convert(id):
 def convert_literal(id):
     qr = "SELECT D1.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
     qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
-    qr += f"WHERE `n_name` like '%_repository/{id}%' "
+    qr += f"WHERE `n_name` like '_repository/{id}%' "
 
     row = database.query(qr)
     print("======================",id)
@@ -89,16 +89,16 @@ def convert_literal(id):
         #Cria diretório
         id = line[0]
         idl = line[1]
-        print("==========",id)
+        print("==========",id,'idl',idl)
         dirO = '../../public/'+line[2]
         dirD = '../../public/'+directory(id)+filename(id)
         copy_file(dirO,dirD)
-        sys.exit()
         remover_arquivo(dirO)
 
         newFilename = directory(id)+filename(id)
 
         update_rdf_data(idl,newFilename)
+        sys.exit()
 
 convert_literal('0/')
 
