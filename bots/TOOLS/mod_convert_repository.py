@@ -2,6 +2,9 @@ import database
 import shutil
 import os
 
+def filename(id):
+    filename = 'work_'+str(id).zfill(8)+'#00000.pdf'
+    return filename
 
 def directory(id):
     dir = str(id).zfill(8)
@@ -13,13 +16,11 @@ def directory(id):
     os.makedirs(diretorio, exist_ok=True)
     return diretorio
 
-def copy_files(dirO,dirD):
-    # Copie todos os arquivos da origem para o destino
-    for arquivo in os.listdir(dirO):
-        caminho_arquivo = os.path.join(dirO, arquivo)
-        if os.path.isfile(caminho_arquivo):  # Verifique se é um arquivo (não diretório)
-            shutil.copy(caminho_arquivo, dirD)
-            print(f'Arquivo {arquivo} copiado para {dirD}')
+def copy_file(dirO,dirD):
+    if os.path.isfile(dirO):  # Verifique se é um arquivo (não diretório)
+        shutil.copy(dirO, dirD)
+        print(f'Arquivo {dirO} copiado para {dirD}')
+
 def extrair_diretorio(caminho_arquivo):
     return os.path.dirname(caminho_arquivo)
 
@@ -38,7 +39,7 @@ def convert():
         #Cria diretório
         id = line[0]
         dirO = '../../public/'+extrair_diretorio(line[2])
-        dirD = directory(id)
-        copy_files(dirO,dirD)
+        dirD = directory(id)+filename(id)
+        copy_file(dirO,dirD)
 
 convert()
