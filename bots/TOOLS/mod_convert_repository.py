@@ -110,12 +110,16 @@ def convert_work():
     print(qr)
 
     for line in row:
-        dirO = line[2]
+        idL = row[1]
+        dirO = '../../public/'+line[2]
         dirD = dirO.replace('article_00','work_00')
         dirD = dirD.replace('.pdf','#00000.pdf')
-        print(f"======================[{dirD}]")
-        print(f"======================[{dirO}]")
+        print(f"        [{dirD}]")
+        print(f"        [{dirO}]")
         print(line)
+        os.rename(dirO, dirD)
+        update_rdf_data(idL,dirD)
+        sys.exit()
 
 convert_work()
 sys.exit()
