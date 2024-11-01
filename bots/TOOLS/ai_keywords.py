@@ -2,6 +2,13 @@ import re
 import sys
 import mod_api
 
+def locateKeywords(text):
+    t = {'Palavras-chave:','Palavras-Chave:'}
+    for te in t:
+        if te in text:
+            return te
+    return ""
+
 def locateAbstract(text):
     t = {'Abstract:','ABSTRACT:','Abstract','ABSTRACT'}
     for te in t:
@@ -15,12 +22,17 @@ def extract_keywords(text,id):
     text = text.replace('Palavras-Chave','Palavras-chave')
     text = text.replace('Palavras Chave','Palavras-chave')
     term = locateAbstract(text)
-    if term == '':
-        print("Área não localizada")
+    keyw = locateKeywords(text)
+
+    if term == '' or keyw == '':
+        print(f"Área não localizada [{keyw}],[{term}]")
         sys.exit()
     else:
         print("======>",term)
-    match = re.search(r"Palavras-chave:\s*(.*?)(?={term})", text, re.DOTALL)
+    match = re.search(r"{keyword}\s*(.*?)(?={term})", text, re.DOTALL)
+
+    print(match)
+    sys.exit()
 
     if match:
         keywords = match.group(1).split(";")
