@@ -184,6 +184,7 @@ def run(parm):
         mod_subject.check_duplicate()
 
     if (act == 'keyword'):
+        print("=================KEYWORDS")
         mod_subject.removeOrfa()
         sys.exit()
         mod_subject.check_duplicate()
