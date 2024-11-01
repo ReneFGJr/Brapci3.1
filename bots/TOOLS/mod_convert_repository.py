@@ -8,7 +8,7 @@ def filename(id):
 
 def directory(id):
     dir = str(id).zfill(8)
-    diretorio = '../../public/_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
+    diretorio = '_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
 
     # Verifique se o diretório existe
     if not os.path.isdir(diretorio):
@@ -26,6 +26,12 @@ def copy_file(dirO,dirD):
 def extrair_diretorio(caminho_arquivo):
     return os.path.dirname(caminho_arquivo)
 
+def update_rdf_data(id,name):
+    qu = "update brapci_rdf.rdf_literal "
+    qu = f" set n_name = '{name}' "
+    qu = f" where id_n = {id} "
+    print(qu)
+
 def convert():
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
     qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
@@ -40,8 +46,13 @@ def convert():
         print(line)
         #Cria diretório
         id = line[0]
+        idl = line[1]
         dirO = '../../public/'+line[2]
-        dirD = directory(id)+filename(id)
+        dirD = '../../public/'+directory(id)+filename(id)
         copy_file(dirO,dirD)
+
+        newFilename = directory(id)+filename(id)
+
+        update_rdf_data(idl,newFilename)
 
 convert()
