@@ -29,17 +29,15 @@ def extract_keywords(text,id):
         sys.exit()
     else:
         print("======>",keyw,term)
-    exp = f"{keyw}\s*(.*?)(?={term})"
-    print("EXP",exp)
-    match = re.search(exp, text, re.DOTALL)
 
-    print(match)
-    sys.exit()
+    exp = f"{keyw}\s*(.*?)(?={term})"
+    match = re.search(exp, text, re.DOTALL)
 
     if match:
         keywords = match.group(1).split(";")
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
         print("KEYS",keys)
+        sys.exit()
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         for k in keys:
             if k != '':
