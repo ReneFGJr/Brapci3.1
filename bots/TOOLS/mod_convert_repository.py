@@ -39,7 +39,6 @@ def convert():
         id = line[0]
         dirO = '../../'+extrair_diretorio(line[2])
         dirD = directory(id)
-        print(dirO)
-        #copy_files(dirO,dirD)
+        copy_files(dirO,dirD)
 
 convert()
