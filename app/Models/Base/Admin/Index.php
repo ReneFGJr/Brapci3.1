@@ -370,7 +370,8 @@ class Index extends Model
 
             /******************************* FILTRO */
             $sx .= form_open();
-            $sx .= form_input('filter',get("filter"));
+            $sx .= 'Filtro: ';
+            $sx .= form_input('filter','',get("filter"));
             form_submit('action', 'Filter');
             $sx .= form_close();
             $dt = $RDF->le($d1);
