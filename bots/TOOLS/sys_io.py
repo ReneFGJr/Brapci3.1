@@ -97,6 +97,9 @@ def recoverHasFile(id):
     qr += f" where d_r1 = {id} and d_p = 80"
     row = database.query(qr)
     print(row)
+    for line in row:
+        return line[0]
+    print("########## ERRO - ID not found")
     sys.exit()
 
 
