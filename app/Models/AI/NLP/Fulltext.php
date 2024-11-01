@@ -42,8 +42,6 @@ class Fulltext extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '')
     {
-        pre("HELLO");
-
         $PDF = new \App\Models\AI\FILE\pdf();
         $sx = '';
         if ($d2 == '') {
@@ -54,8 +52,6 @@ class Fulltext extends Model
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py keywords ' . $d2;
         $sx .= '<p>'.$cmd.'</p>';
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
-
-        echo $sx;
 
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py cited ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
