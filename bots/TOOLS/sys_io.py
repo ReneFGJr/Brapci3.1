@@ -93,10 +93,10 @@ def getNameFile(id,loop=True):
     return ""
 
 def recoverHasFile(id):
-    qr = "select * from brapci_rdf.brapci_data "
-    qr += f" where d_r1 = {id}"
-
-    print(qr)
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += f" where d_r1 = {id} and d_p = 80"
+    row = database.query(qr)
+    print(row)
     sys.exit()
 
 
