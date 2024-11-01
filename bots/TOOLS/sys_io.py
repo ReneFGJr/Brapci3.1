@@ -59,7 +59,7 @@ def file_exists(file):
         return False
 
 ######################################## GET NAME
-def getNameFile(id):
+def getNameFile(id,loop=True):
     # Converte o id para string e preenche com zeros à esquerda até ter 8 caracteres
     id_str = str(id).zfill(8)
 
@@ -72,7 +72,10 @@ def getNameFile(id):
     file = file_name(caminho)
     if (file_exists(file)) & (file != ''):
         tamanho = os.path.getsize(file)
-        print("Size:",tamanho)
+        if (tamanho < 100):
+            if loop:
+                os.remove(file)
+                file = getNameFile(id,False)
         return file
     else:
         fileO = file_name_pdf(caminho)
