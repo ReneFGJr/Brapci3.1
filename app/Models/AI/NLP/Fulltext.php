@@ -42,6 +42,8 @@ class Fulltext extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '')
     {
+        pre("HELLO");
+
         $PDF = new \App\Models\AI\FILE\pdf();
         $sx = '';
         if ($d2 == '') {
