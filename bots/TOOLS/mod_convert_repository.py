@@ -3,7 +3,10 @@ import os
 
 
 def directory(id):
-    os.makedirs(caminho, exist_ok=True)
+    dir = str(id).zfill(8)
+    diretorio = dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[7:8]
+    print(diretorio)
+    #os.makedirs(caminho, exist_ok=True)
 
 def convert():
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
@@ -17,5 +20,8 @@ def convert():
     print("Convert")
     for line in row:
         print(line)
+        #Cria diretório
+        id = line[0]
+        directory(id)
 
 convert()
