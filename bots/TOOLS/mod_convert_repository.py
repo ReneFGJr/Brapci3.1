@@ -110,7 +110,7 @@ def convert_work():
     print(qr)
 
     for line in row:
-        idL = row[1]
+        idL = line[1]
         dirO = '../../public/'+line[2]
         dirD = dirO.replace('article_00','work_00')
         dirD = dirD.replace('.pdf','#00000.pdf')
