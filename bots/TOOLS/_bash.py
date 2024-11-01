@@ -60,4 +60,5 @@ ids_array
 
 for it in ids_array:
     print("=====",it)
-#exec()
+it = ids_array[0]
+exec()
