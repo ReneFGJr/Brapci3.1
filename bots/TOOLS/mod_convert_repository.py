@@ -30,7 +30,18 @@ def update_rdf_data(id,name):
     qu = "update brapci_rdf.rdf_literal "
     qu += f" set n_name = '{name}' "
     qu += f" where id_n = {id} "
-    print(qu)
+    database.update(qu)
+
+def remover_arquivo(caminho_arquivo):
+    try:
+        os.remove(caminho_arquivo)
+        print(f'Arquivo "{caminho_arquivo}" removido com sucesso.')
+    except FileNotFoundError:
+        print(f'O arquivo "{caminho_arquivo}" não foi encontrado.')
+    except PermissionError:
+        print(f'Sem permissão para remover o arquivo "{caminho_arquivo}".')
+    except Exception as e:
+        print(f'Erro ao remover o arquivo: {e}')
 
 def convert():
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
@@ -50,6 +61,7 @@ def convert():
         dirO = '../../public/'+line[2]
         dirD = '../../public/'+directory(id)+filename(id)
         copy_file(dirO,dirD)
+        remover_arquivo(dirO)
 
         newFilename = directory(id)+filename(id)
 
