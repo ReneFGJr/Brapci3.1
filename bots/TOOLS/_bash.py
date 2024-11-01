@@ -3,6 +3,7 @@ import subprocess
 def exec(id):
     id = str(id)
     # Executando outro script com argumentos
+    print("Processing",id)
     subprocess.run(["python3", "ai_section.py", id])
     subprocess.run(["python3", "ai_keywords.py", id])
 
