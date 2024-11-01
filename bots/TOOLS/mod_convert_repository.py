@@ -101,6 +101,16 @@ def convert_literal(id):
         sys.exit()
 
 convert_literal('0/')
+convert_literal('1')
+convert_literal('2')
+convert_literal('3')
+convert_literal('4')
+convert_literal('5')
+convert_literal('6')
+convert_literal('7')
+convert_literal('8')
+convert_literal('9')
+
 
 convert('0/')
 convert('1')
