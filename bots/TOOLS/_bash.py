@@ -4,8 +4,10 @@ def exec(id):
     id = str(id)
     # Executando outro script com argumentos
     print("Processing",id)
-    subprocess.run(["python3", "ai_section.py", id])
-    subprocess.run(["python3", "ai_keywords.py", id])
+    rst = subprocess.run(["python3", "ai_section.py", id])
+    print(rst)
+    rst = subprocess.run(["python3", "ai_keywords.py", id])
+    print(rst)
 
 
 import numpy as np
