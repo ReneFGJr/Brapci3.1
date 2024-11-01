@@ -1,18 +1,25 @@
 import database
+import shutil
 import os
 
 
 def directory(id):
     dir = str(id).zfill(8)
     diretorio = '../../_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
-    print(diretorio)
 
     # Verifique se o diretório existe
-    if os.path.isdir(diretorio):
-        print(f'O diretório "{diretorio}" existe.')
-    else:
-        print(f'O diretório "{diretorio}" não existe.')
+    if not os.path.isdir(diretorio):
+        print(f'O diretório "{diretorio}" foi criado.')
     os.makedirs(diretorio, exist_ok=True)
+    return diretorio
+
+def copy_files(dirO,dirD):
+    # Copie todos os arquivos da origem para o destino
+    for arquivo in os.listdir(dirO):
+        caminho_arquivo = os.path.join(dirO, arquivo)
+        if os.path.isfile(caminho_arquivo):  # Verifique se é um arquivo (não diretório)
+            shutil.copy(caminho_arquivo, dirD)
+            print(f'Arquivo {arquivo} copiado para {dirD}')
 
 def convert():
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
@@ -28,6 +35,8 @@ def convert():
         print(line)
         #Cria diretório
         id = line[0]
-        directory(id)
+        dirO = line[2]
+        dirD = directory(id)
+        copy_files(dirO,dirD)
 
 convert()
