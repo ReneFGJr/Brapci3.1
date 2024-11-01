@@ -118,7 +118,8 @@ def convert_work():
         print(f"        [{dirD}]")
         print(f"        [{dirO}]")
         print(line)
-        os.rename(dirO, dirD)
+
+        #os.rename(dirO, dirD)
         update_rdf_data(idL,dirD)
         sys.exit()
 
