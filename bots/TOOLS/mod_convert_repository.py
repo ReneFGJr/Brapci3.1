@@ -54,7 +54,7 @@ def convert(id):
 
     row = database.query(qr)
 
-    print("Convert")
+    print("Convert",id)
     for line in row:
         #Cria diretório
         id = line[0]
@@ -69,6 +69,11 @@ def convert(id):
 
         update_rdf_data(idl,newFilename)
 
+convert('0/')
+convert('1')
+convert('2')
+convert('3')
+convert('4')
 convert('5')
 convert('6')
 convert('7')
