@@ -43,7 +43,8 @@ class Index extends Model
     function index($d1='',$d2='',$d3='')
         {
             $sx = h(lang('tools.NLP'));
-            return $sx;
+            echo $sx;
+            exit;
             switch($d1)
                 {
                     case 'bot_affiliations':
