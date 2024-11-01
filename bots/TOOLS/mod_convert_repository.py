@@ -54,6 +54,7 @@ def convert(id):
     qr += f"WHERE `n_name` like '_repository/{id}%' "
 
     row = database.query(qr)
+    print("======================",id)
 
     print("Convert",id)
     for line in row:
