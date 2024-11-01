@@ -5,7 +5,7 @@ import os
 
 def directory(id):
     dir = str(id).zfill(8)
-    diretorio = '../../_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
+    diretorio = '../../public/_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
 
     # Verifique se o diretório existe
     if not os.path.isdir(diretorio):
@@ -37,7 +37,7 @@ def convert():
         print(line)
         #Cria diretório
         id = line[0]
-        dirO = '../../'+extrair_diretorio(line[2])
+        dirO = '../../public/'+extrair_diretorio(line[2])
         dirD = directory(id)
         copy_files(dirO,dirD)
 
