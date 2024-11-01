@@ -18,7 +18,7 @@ GT_SECTIONS = {
     'GT9 Museu, Patrimônio e Informação': 'GT-09 (ENANCIB)',
     'GT10 Informação e Memória': 'GT-10 (ENANCIB)',
     'GT11 Informação e Saúde': 'GT-11 (ENANCIB)',
-    'GT12 Informação, Estudos Étnico-Raciais, Gênero e Diversidade': 'GT-12 (ENANCIB)',
+    'GT12 Informação,': 'GT-12 (ENANCIB)',
 }
 
 # Função para localizar e extrair a sessão
