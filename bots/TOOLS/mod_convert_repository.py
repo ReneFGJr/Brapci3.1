@@ -55,6 +55,8 @@ def convert(id):
 
     row = database.query(qr)
     print("======================",id)
+    print(qr)
+    print("======================")
 
     print("Convert",id)
     for line in row:
