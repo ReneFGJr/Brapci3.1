@@ -18,11 +18,12 @@ GT_SECTIONS = {
     'GT9 Museu': 'GT-09 (ENANCIB)',
     'GT10 Informação': 'GT-10 (ENANCIB)',
     'GT11 Informação': 'GT-11 (ENANCIB)',
-    'GT12 Informação': 'GT-12 (ENANCIB)',
+    'GT12 Informação': 'GT-12 (ENANCIB)'
 }
 
 # Função para localizar e extrair a sessão
 def locate_extrair_sessao(texto):
+    texto = texto[:1200]
     texto = texto.replace('GT-', 'GT').replace('- ',' ').replace(' –', ' ').replace('–', '').replace('  ',' ').replace('GT ', 'GT').replace('GT0', 'GT').replace('&', 'e')
     print(texto[:100])
     for key, section in GT_SECTIONS.items():
