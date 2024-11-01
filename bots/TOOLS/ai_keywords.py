@@ -5,7 +5,6 @@ import mod_api
 def locateAbstract(text):
     t = {'Abstract:','ABSTRACT:','Abstract','ABSTRACT'}
     for te in t:
-        print("localizando ",te)
         if te in text:
             return te
     return ""
@@ -21,7 +20,7 @@ def extract_keywords(text,id):
         sys.exit()
     else:
         print("======>",term)
-    match = re.search(r"Palavras-chave:\s*(.*?)(?="+term+")", text, re.DOTALL)
+    match = re.search(r"Palavras-chave:\s*(.*?)(?={term})", text, re.DOTALL)
 
     if match:
         keywords = match.group(1).split(";")
