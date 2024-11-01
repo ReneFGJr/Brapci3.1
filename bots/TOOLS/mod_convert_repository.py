@@ -4,8 +4,14 @@ import os
 
 def directory(id):
     dir = str(id).zfill(8)
-    diretorio = '../../_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]
+    diretorio = '../../_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
     print(diretorio)
+
+    # Verifique se o diretório existe
+    if os.path.isdir(diretorio):
+        print(f'O diretório "{diretorio}" existe.')
+    else:
+        print(f'O diretório "{diretorio}" não existe.')
     #os.makedirs(caminho, exist_ok=True)
 
 def convert():
