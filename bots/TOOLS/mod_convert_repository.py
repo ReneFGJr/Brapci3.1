@@ -98,7 +98,6 @@ def convert_literal(id):
         newFilename = directory(id)+filename(id)
 
         update_rdf_data(idl,newFilename)
-        sys.exit()
 
 convert_literal('0/')
 convert_literal('1')
