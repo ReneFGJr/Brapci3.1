@@ -61,7 +61,7 @@ def convert(id):
 
     print("Convert",id)
     for line in row:
-        print(line)
+        print("==",line)
         sys.exit()
         #Cria diretório
         id = line[0]
