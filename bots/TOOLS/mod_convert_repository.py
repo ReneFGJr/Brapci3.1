@@ -9,3 +9,5 @@ def convert():
     row = database.query(qr)
     print("Convert")
     print(row)
+
+convert()
