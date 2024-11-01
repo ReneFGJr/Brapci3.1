@@ -111,7 +111,7 @@ def convert_work():
     qr += f"WHERE `n_name` like '%article_00{id}%' "
 
     qr = "SELECT id_cc, id_n, n_name   "
-    qr += "FROM `rdf_literal` INNER JOIN brapci_rdf.rdf_concept ON id_n = cc_pref_term WHERE `n_name` like '%article_00%';"
+    qr += "FROM brapci_rdf.rdf_literal INNER JOIN brapci_rdf.rdf_concept ON id_n = cc_pref_term WHERE `n_name` like '%article_00%';"
 
     row = database.query(qr)
     print("======================",id)
