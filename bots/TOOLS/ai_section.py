@@ -64,3 +64,5 @@ def extrair_sessao(texto, id):
         post_to_api(mod, 'hasSectionOf', id)
         post_to_api(mod, 'hasModalidadSection', id)
         print("Modalidade:", mod)
+    else:
+        print("ERRO Modalidade",mod)
