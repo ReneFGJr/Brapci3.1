@@ -54,6 +54,8 @@ def post_to_api(name, prop, id):
 
 # Função principal para extrair sessão e modalidade
 def extrair_sessao(texto, id):
+
+    print("===",texto[:400])
     # Extrair e enviar sessão
     gt = locate_extrair_sessao(texto)
     if gt:
