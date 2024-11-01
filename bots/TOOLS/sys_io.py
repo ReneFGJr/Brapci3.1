@@ -82,7 +82,7 @@ def getNameFile(id,loop=True):
         return file
     else:
         fileO = file_name_pdf(caminho)
-        print("=======",fileO,"[[]]")
+        print("=======",fileO,f"[[{caminho}]]")
         if file_exists(fileO):
             file = fileO.replace('.pdf','.txt')
             convertPDF4TXT(fileO,file)
