@@ -22,7 +22,7 @@ GT_SECTIONS = {
 
 # Função para localizar e extrair a sessão
 def locate_extrair_sessao(texto):
-    texto = texto.replace('GT-', 'GT').replace(' –', '').replace('–', '').replace('  ',' ').replace('GT ', 'GT').replace('GT0', 'GT').replace('&', 'e')
+    texto = texto.replace('GT-', 'GT').replace('- ','').replace(' –', '').replace('–', '').replace('  ',' ').replace('GT ', 'GT').replace('GT0', 'GT').replace('&', 'e')
     print(texto[:100])
     for key, section in GT_SECTIONS.items():
         if key in texto:
