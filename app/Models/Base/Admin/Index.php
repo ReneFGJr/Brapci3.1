@@ -367,6 +367,12 @@ class Index extends Model
 
 
             $sx = '';
+
+            /******************************* FILTRO */
+            $sx .= form_open();
+            $sx .= form_input('filter',get("filter"));
+            form_submit('action', 'Filter');
+            $sx .= form_close();
             $dt = $RDF->le($d1);
             $name = $dt['concept']['n_name'];
             $sx .= h($name,2);
