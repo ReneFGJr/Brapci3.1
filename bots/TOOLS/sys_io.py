@@ -1,5 +1,7 @@
 import os
+import sys
 import subprocess
+import database
 
 ######################################## READFILE
 def readfile(nome_arquivo):
@@ -86,8 +88,17 @@ def getNameFile(id,loop=True):
             return file
         else:
             print("Arquivo não localizado -",caminho,fileO)
+            recoverHasFile(id)
 
     return ""
+
+def recoverHasFile(id):
+    qr = "select * from brapci_rdf.brapci_data "
+    qr += f" where d_r1 = {id}"
+
+    print(qr)
+    sys.exit()
+
 
 ################################# Convert PDF to TXT
 # Executa o comando pdftotext
