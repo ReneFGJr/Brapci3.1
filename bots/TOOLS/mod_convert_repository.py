@@ -112,6 +112,7 @@ def convert_work():
     for line in row:
         dirO = line[2]
         dirD = dirO.replace('article_00','work_00')
+        dirD = dirO.replace('.pdf','#00000.pdf')
         print(f"======================[{dirD}]")
         print(f"======================[{dirO}]")
         print(line)
