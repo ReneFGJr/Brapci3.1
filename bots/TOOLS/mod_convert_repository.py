@@ -23,7 +23,8 @@ def copy_file(dirO,dirD):
     print(f"   Para:{dirD}")
     if os.path.isfile(dirO):  # Verifique se é um arquivo (não diretório)
         shutil.copy(dirO, dirD)
-        print(f'Arquivo {dirO} copiado para {dirD}')
+        print(f'    Arquivo {dirO}')
+        print(f'    copiado para {dirD}')
     else:
         print(f"Arquivo não localizado {dirO}")
 
