@@ -66,6 +66,9 @@ class Index extends Model
             case 'alias':
                 $sx .= $this->alias($subact,$id,$id2,$id3);
                 break;
+            case 'alias_rdf':
+                $sx .= $this->alias_rdf($subact, $id, $id2, $id3);
+                break;
             case 'person':
                 $sx .= h("Ponto de acesso - Pessoas");
                 $Authors = new \App\Models\Base\Authors();
@@ -249,26 +252,108 @@ class Index extends Model
             return bs(bsc($sx));
         }
 
-    function alias($d1,$idx,$d3,$d4)
+    function alias($d1, $idx, $d3, $d4)
+    {
+        $RDF = new \App\Models\RDF2\RDF();
+        $RDFclass = new \App\Models\RDF2\RDFclass();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
+
+        $t = $RDF->le($d1);
+        $class = $t['concept']['c_class'];
+
+        $idc = $RDFclass->getClass($class);
+
+        /***************** Change Class */
+        if ($idx == 'change') {
+            $idc = $RDFclass->getClass($d3);
+            $dd = [];
+            $dd['cc_class'] = $idc;
+            $RDFconcept->set($dd)->where('id_cc', $d1)->update();
+            $idx = 0;
+        }
+
+        if (isset($_POST['ids'])) {
+            $ids = $_POST['ids'];
+            foreach ($ids as $i => $idz) {
+                $dd['cc_use'] = $d1;
+                $RDFconcept->set($dd)->where('id_cc', $idz)->update();
+            }
+        }
+
+
+        $sx = '';
+        $dt = $RDF->le($d1);
+        $name = $dt['concept']['n_name'];
+        $sx .= h($name, 2);
+        $sx .= $dt['concept']['c_class'];
+        $sx .= '<hr>';
+        switch ($dt['concept']['c_class']) {
+            case 'Person':
+                $sx .= '<a href="' . PATH . 'admin/person">Voltar</a>';
+                break;
+            case 'CorporateBody':
+                $sx .= '<a href="' . PATH . 'admin/corporatebody">Voltar</a>';
+                break;
+        }
+
+        $sx .= ' | ';
+        $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/literal/' . $d1 . '">Editar Literal</a>';
+        $sx .= ' | ';
+        $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/alias/' . $d1 . '/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
+        $sx .= '<hr>';
+
+        $txt = explode(' ', $name);
+
+        $i = 0;
+        $sxa = '';
+        foreach ($txt as $l) {
+            $link = '<a href="' . PATH . 'admin/alias/' . $d1 . '/' . $i . '">';
+            $linka = '</a>';
+            $sx .= $link . $l . $linka . ' ';
+            $i++;
+        }
+        if ($idx == '') {
+            $idx = 0;
+        }
+
+        $dt = $RDFconcept
+            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+            ->like('n_name', $txt[$idx])
+            ->where('cc_class', $idc)
+            ->where('cc_use = id_cc')
+            ->where('id_cc <> ' . $d1)
+            ->orderBy('n_name')
+            ->findAll(1000);
+
+        $sa = form_open();
+        $sb = '';
+        foreach ($dt as $id => $line) {
+            $nn = $line['n_name'];
+            foreach ($txt as $l) {
+                $nn = troca($nn, $l, '<b>' . $l . '</b>');
+            }
+            $sa .= form_checkbox('ids[]', $line['id_cc']) . ' ' . $nn . '<br>';
+        }
+
+        $sa .= form_submit('action', 'Join');
+        $sa .= form_close();
+        $sx = bsc($sx, 12);
+        $sx .= bsc($sa, 6);
+        $sx .= bsc($sb, 6);
+        $sx = bs($sx);
+        return $sx;
+    }
+
+    function alias_rdf($d1,$idx,$d3,$d4)
         {
             $RDF = new \App\Models\RDF2\RDF();
             $RDFclass = new \App\Models\RDF2\RDFclass();
             $RDFconcept = new \App\Models\RDF2\RDFconcept();
 
             $t = $RDF->le($d1);
-            $class = $t['concept']['c_class'];
+            $class = $idx;
 
-            $idc = $RDFclass->getClass($class);
-
-            /***************** Change Class */
-            if ($idx == 'change')
-                {
-                    $idc = $RDFclass->getClass($d3);
-                    $dd = [];
-                    $dd['cc_class'] = $idc;
-                    $RDFconcept->set($dd)->where('id_cc',$d1)->update();
-                    $idx = 0;
-                }
+            $idc = $idx;
 
             if (isset($_POST['ids']))
                 {
