@@ -6,8 +6,8 @@ def exec(id):
     print("Processing",id)
     rst = subprocess.run(["python3", "ai.py","section", id])
     print(rst)
-    #rst = subprocess.run(["python3", "ai.py","keywords", id])
-    #print(rst)
+    rst = subprocess.run(["python3", "ai.py","keywords", id])
+    print(rst)
 
 
 import numpy as np
