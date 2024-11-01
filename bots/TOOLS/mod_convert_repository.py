@@ -109,7 +109,7 @@ def convert_work():
     print(qr)
     print("======================")
 
-convert_work('')
+convert_work()
 sys.exit()
 
 convert_literal('0/')
