@@ -71,6 +71,8 @@ def getNameFile(id):
 
     file = file_name(caminho)
     if (file_exists(file)) & (file != ''):
+        tamanho = os.path.getsize(file)
+        print("Size:",tamanho)
         return file
     else:
         fileO = file_name_pdf(caminho)
