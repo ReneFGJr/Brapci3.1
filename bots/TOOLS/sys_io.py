@@ -89,10 +89,7 @@ def getNameFile(id,loop=True):
             return file
         else:
             print("Arquivo não localizado -",caminho,fileO)
-            id2 = recoverHasFile(id)
-            print("ID2",id2)
-            return getNameFile(id2,False)
-
+            sys.exit()
     return ""
 
 def recoverHasFile(id):
