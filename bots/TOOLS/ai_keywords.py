@@ -2,12 +2,21 @@ import re
 import sys
 import mod_api
 
+def locateAbstract(text):
+    t = {'Abstract:','ABSTRACT:','Abstract','ABSTRACT'}
+    for te in t:
+        if te in text:
+            print("======",te)
+    sys.exit()
+
 def extract_keywords(text,id):
     text = text.replace(chr(10), ' ')
     text = text.replace('.', ';')
     text = text.replace('Palavras-Chave','Palavras-chave')
     text = text.replace('Palavras Chave','Palavras-chave')
-    match = re.search(r"Palavras-chave:\s*(.*?)(?=Abstract:)", text, re.DOTALL)
+    term = locateAbstract(text)
+
+    match = re.search(r"Palavras-chave:\s*(.*?)(?="+term+")", text, re.DOTALL)
 
     if match:
         keywords = match.group(1).split(";")
