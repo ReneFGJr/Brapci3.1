@@ -3,8 +3,8 @@ import subprocess
 def exec(id):
     id = str(id)
     # Executando outro script com argumentos
-    subprocess.run(["python3", "ai_section", id])
-    subprocess.run(["python3", "ai_keywords", id])
+    subprocess.run(["python3", "ai_section.py", id])
+    subprocess.run(["python3", "ai_keywords.py", id])
 
 
 import numpy as np
