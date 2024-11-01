@@ -116,7 +116,7 @@ def convert_work():
         dirD = dirD.replace('.pdf','#00000.pdf')
         ID = line[2]
         ID = ID[33:40]
-        dirD2 = directory(ID) + dirD[23:]
+        dirD2 = directory(ID) + dirD[24:]
         print(f"=============================={id}=========={idL}")
         print(f"        [{dirO}]")
         print(f"        [{dirD}]")
