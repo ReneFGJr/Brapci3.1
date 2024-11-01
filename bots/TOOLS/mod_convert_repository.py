@@ -99,6 +99,19 @@ def convert_literal(id):
 
         update_rdf_data(idl,newFilename)
 
+def convert_work():
+    qr = "SELECT D1.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
+    qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
+    qr += f"WHERE `n_name` like '%/article_%' "
+
+    row = database.query(qr)
+    print("======================",id)
+    print(qr)
+    print("======================")
+
+convert_work('')
+sys.exit()
+
 convert_literal('0/')
 convert_literal('1')
 convert_literal('2')
@@ -109,7 +122,6 @@ convert_literal('6')
 convert_literal('7')
 convert_literal('8')
 convert_literal('9')
-
 
 convert('0/')
 convert('1')
