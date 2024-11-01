@@ -3,7 +3,7 @@ import sys
 import mod_api
 
 def locateKeywords(text):
-    t = {'Palavras-chave:','Palavras-Chave:'}
+    t = {'Palavras–chave:','Palavras-Chave:'}
     for te in t:
         if te in text:
             return te
@@ -28,7 +28,7 @@ def extract_keywords(text,id):
         print(f"Área não localizada [{keyw}],[{term}]")
         sys.exit()
     else:
-        print("======>",term)
+        print("======>",keyw,term)
     match = re.search(r"{keyword}\s*(.*?)(?={term})", text, re.DOTALL)
 
     print(match)
