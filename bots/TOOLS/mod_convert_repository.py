@@ -46,11 +46,11 @@ def remover_arquivo(caminho_arquivo):
     except Exception as e:
         print(f'Erro ao remover o arquivo: {e}')
 
-def convert():
+def convert(id):
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
     qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
     qr += "JOIN brapci_rdf.rdf_data as D2 ON D2.d_r2 = D1.d_r1 "
-    qr += "WHERE `n_name` like '_repository/5%' "
+    qr += f"WHERE `n_name` like '_repository/{id}%' "
 
     row = database.query(qr)
 
@@ -69,4 +69,8 @@ def convert():
 
         update_rdf_data(idl,newFilename)
 
-convert()
+convert('5')
+convert('6')
+convert('7')
+convert('8')
+convert('9')
