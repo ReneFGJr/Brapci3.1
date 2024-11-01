@@ -21,7 +21,6 @@ def extract_keywords(text,id):
         sys.exit()
     else:
         print("======>",term)
-    sys.exit()
     match = re.search(r"Palavras-chave:\s*(.*?)(?="+term+")", text, re.DOTALL)
 
     if match:
@@ -33,6 +32,9 @@ def extract_keywords(text,id):
             if k != '':
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
+
+                print(k)
+                sys.exit()
 
                 try:
                     # Verificar se 'rst' é um dicionário e possui a chave 'id'
