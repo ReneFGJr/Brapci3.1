@@ -102,12 +102,16 @@ def convert_literal(id):
 def convert_work():
     qr = "SELECT D1.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
     qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
-    qr += f"WHERE `n_name` like '%/article_%' "
+    qr += f"WHERE `n_name` like '%/article_00%' "
+    qr += " limit 2"
 
     row = database.query(qr)
     print("======================",id)
     print(qr)
-    print("======================")
+
+    for line in row:
+        print("======================")
+        print(line)
 
 convert_work()
 sys.exit()
