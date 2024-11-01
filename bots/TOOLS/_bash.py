@@ -1,6 +1,7 @@
 import subprocess
 
 def exec(id):
+    id = str(id)
     # Executando outro script com argumentos
     subprocess.run(["python", "ai_section", id])
     subprocess.run(["python", "ai_keywords", id])
