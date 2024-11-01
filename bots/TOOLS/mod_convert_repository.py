@@ -4,7 +4,7 @@ import os
 
 def directory(id):
     dir = str(id).zfill(8)
-    diretorio = dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[7:8]
+    diretorio = '../../_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]
     print(diretorio)
     #os.makedirs(caminho, exist_ok=True)
 
