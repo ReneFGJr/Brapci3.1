@@ -28,8 +28,8 @@ def extrair_diretorio(caminho_arquivo):
 
 def update_rdf_data(id,name):
     qu = "update brapci_rdf.rdf_literal "
-    qu = f" set n_name = '{name}' "
-    qu = f" where id_n = {id} "
+    qu += f" set n_name = '{name}' "
+    qu += f" where id_n = {id} "
     print(qu)
 
 def convert():
