@@ -4,9 +4,9 @@ def exec(id):
     id = str(id)
     # Executando outro script com argumentos
     print("Processing",id)
-    rst = subprocess.run(["python3", "ai_section.py", id])
+    rst = subprocess.run(["python3", "ai.py","section", id])
     print(rst)
-    rst = subprocess.run(["python3", "ai_keywords.py", id])
+    rst = subprocess.run(["python3", "ai.py","keywords", id])
     print(rst)
 
 
