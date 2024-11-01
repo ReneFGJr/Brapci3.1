@@ -35,7 +35,6 @@ def update_rdf_data(id,name):
 def remover_arquivo(caminho_arquivo):
     try:
         os.remove(caminho_arquivo)
-        print(f'Arquivo "{caminho_arquivo}" removido com sucesso.')
     except FileNotFoundError:
         print(f'O arquivo "{caminho_arquivo}" não foi encontrado.')
     except PermissionError:
@@ -54,10 +53,10 @@ def convert():
 
     print("Convert")
     for line in row:
-        print(line)
         #Cria diretório
         id = line[0]
         idl = line[1]
+        print("==========",id)
         dirO = '../../public/'+line[2]
         dirD = '../../public/'+directory(id)+filename(id)
         copy_file(dirO,dirD)
