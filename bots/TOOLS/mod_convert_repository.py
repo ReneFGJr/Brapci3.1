@@ -61,8 +61,6 @@ def convert(id):
 
     print("Convert",id)
     for line in row:
-        print("==",line)
-        sys.exit()
         #Cria diretório
         id = line[0]
         idl = line[1]
@@ -120,6 +118,9 @@ def convert_work():
         print(f"        [{dirD}]")
         print(f"        [{dirO}]")
         print(" ")
+
+        print("==",line)
+        sys.exit()
 
         os.rename('../../public/'+dirO, '../../public/'+dirD)
         update_rdf_data(idL,dirD)
