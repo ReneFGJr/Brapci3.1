@@ -96,7 +96,7 @@ class Sections extends Model
             //$sx .= $RDFconcept->getlastquery();
 
             foreach ($dt as $id => $line) {
-                $link = '<a href="' . PATH . 'admin/alias/' . $line['cc_use'] . '/'.$idc.'">';
+                $link = '<a href="' . PATH . 'admin/alias_rdf/' . $line['cc_use'] . '/'.$idc.'">';
                 $linka = '</a>';
                 if ($line['id_cc'] == $line['cc_use']) {
                     $link .= '<b>';
