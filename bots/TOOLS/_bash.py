@@ -14,7 +14,7 @@ import numpy as np
 
 # Lista de IDs fornecida
 # Caminho do arquivo
-caminho_arquivo = 'dados.txt'
+caminho_arquivo = 'row.txt'
 
 # Leitura do arquivo e armazenamento dos dados em uma lista
 with open(caminho_arquivo, 'r') as file:
