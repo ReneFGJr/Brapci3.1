@@ -1,9 +1,10 @@
 import database
-import io
+import os
 
 
 def directory(id):
     os.makedirs(caminho, exist_ok=True)
+
 def convert():
     qr = "SELECT D2.d_r1, id_n, n_name FROM brapci_rdf.rdf_literal  "
     qr += "JOIN brapci_rdf.rdf_data as D1 ON D1.d_literal = id_n "
