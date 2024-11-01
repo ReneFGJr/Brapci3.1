@@ -7,5 +7,5 @@ def convert():
     qr += "WHERE `n_name` like '_repository/1%'; "
     qr += "limit 1 "
     row = database.query(qr)
-
+    print("Convert")
     print(row)
