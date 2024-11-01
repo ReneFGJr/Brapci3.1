@@ -110,8 +110,10 @@ def convert_work():
     print(qr)
 
     for line in row:
-        dirD = line[2]
+        dirO = line[2]
+        dirD = dirO.replace('article_00','work_00')
         print(f"======================[{dirD}]")
+        print(f"======================[{dirO}]")
         print(line)
 
 convert_work()
