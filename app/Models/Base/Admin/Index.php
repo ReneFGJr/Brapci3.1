@@ -384,8 +384,6 @@ class Index extends Model
 
             $sx .= ' | ';
             $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/literal/' . $d1 .'">Editar Literal</a>';
-            $sx .= ' | ';
-            $sx .= '<a class="btn-danger ms-5" href="' . PATH . 'admin/alias/'.$d1.'/change/CorporateBody">Mudar Classe [Corporate Body]</a>';
             $sx .= '<hr>';
 
             $txt = explode(' ',$name);
