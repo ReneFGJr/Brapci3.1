@@ -26,7 +26,7 @@ def extract_keywords(text,id):
     if match:
         keywords = match.group(1).split(";")
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
-
+        print("KEYS",keys)
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         for k in keys:
             if k != '':
