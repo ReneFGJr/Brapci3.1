@@ -406,7 +406,7 @@ class Index extends Model
 
             $dt = $RDFconcept
                 ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
-                ->like('n_name', $txt[$idx])
+                ->like('n_name', get("filter"))
                 ->where('cc_class', $idc)
                 ->where('cc_use = id_cc')
                 ->where('id_cc <> '.$d1)
