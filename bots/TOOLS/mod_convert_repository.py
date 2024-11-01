@@ -123,11 +123,8 @@ def convert_work():
         print(f"        [{dirD2}]")
         print(" ID = ",ID)
 
-        print("==",line)
-        sys.exit()
-
-        os.rename('../../public/'+dirO, '../../public/'+dirD)
-        update_rdf_data(idL,dirD)
+        os.rename('../../public/'+dirO, '../../public/'+dirD2)
+        update_rdf_data(idL,dirD2)
         sys.exit()
 
 convert_work()
