@@ -23,6 +23,7 @@ def removeOrfa():
     for line in row:
         id = line[0]
         mod_concept.remove(id)
+        print("Removido ",id)
 
 
 ################################ Recupera ID do RDF (Subect)
