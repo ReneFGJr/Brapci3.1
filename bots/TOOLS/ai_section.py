@@ -14,11 +14,11 @@ GT_SECTIONS = {
     'GT5 Política': 'GT-05 (ENANCIB)',
     'GT6 Informação': 'GT-06 (ENANCIB)',
     'GT7 Produção': 'GT-07 (ENANCIB)',
-    'GT8 Informação e Tecnologia': 'GT-08 (ENANCIB)',
-    'GT9 Museu, Patrimônio e Informação': 'GT-09 (ENANCIB)',
-    'GT10 Informação e Memória': 'GT-10 (ENANCIB)',
-    'GT11 Informação e Saúde': 'GT-11 (ENANCIB)',
-    'GT12 Informação,': 'GT-12 (ENANCIB)',
+    'GT8 Informação': 'GT-08 (ENANCIB)',
+    'GT9 Museu': 'GT-09 (ENANCIB)',
+    'GT10 Informação': 'GT-10 (ENANCIB)',
+    'GT11 Informação': 'GT-11 (ENANCIB)',
+    'GT12 Informação': 'GT-12 (ENANCIB)',
 }
 
 # Função para localizar e extrair a sessão
