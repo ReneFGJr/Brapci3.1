@@ -54,6 +54,7 @@ class Database extends Config
     public array $brapci = [];
     public array $brapci_cited = [];
     public array $authority = [];
+    public array $dataverse  = [];
     public array $dci  = [];
     public array $oai = [];
     public array $kanban = [];
@@ -146,6 +147,7 @@ class Database extends Config
             'capes' => 'capes',
             'brapci_cited' => 'brapci_cited',
             'click'=>'brapci_click',
+            'dataverse' => 'dataverse',
             'dci' => 'dci',
             'elastic' => 'brapci_elastic',
             'kanban' => 'kanban',
