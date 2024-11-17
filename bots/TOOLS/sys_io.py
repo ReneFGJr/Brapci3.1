@@ -112,6 +112,10 @@ def getNameFile(id,loop=True):
                     sys.exit()
     return fileD
 
+def filename(id):
+    filename = 'work_'+str(id).zfill(8)+'#00000.pdf'
+    return filename
+
 def getNameFileX(id,loop=True):
     # Converte o id para string e preenche com zeros à esquerda até ter 8 caracteres
     id_str = str(id).zfill(8)
@@ -120,27 +124,12 @@ def getNameFileX(id,loop=True):
     partes = [id_str[i:i+2] for i in range(0, len(id_str), 2)]
 
     # Monta o caminho com a estrutura ../../public/_repository/xx/xx/xx/xx/
-    caminho = "../../public/_repository/" + "/".join(partes) + "/"
+    caminho = "_repository/" + "/".join(partes) + "/"
 
-    file = file_name(caminho)
-    if (file_exists(file)) & (file != ''):
-        tamanho = os.path.getsize(file)
-        if (tamanho < 100):
-            if loop:
-                os.remove(file)
-                file = getNameFile(id,False)
-        return file
-    else:
-        fileO = file_name_pdf(caminho,id)
-        print("=======",fileO,f"[[{caminho}]]")
-        if file_exists(fileO):
-            file = fileO.replace('.pdf','.txt')
-            convertPDF4TXT(fileO,file)
-            return file
-        else:
-            print("Arquivo não localizado -",caminho,fileO)
-            sys.exit()
-    return ""
+    file = file_name(caminho) + filename(id)
+    file = file.replace('.pdf','.txt')
+    return file
+
 
 def recoverHasFile(id):
     qr = "select d_r2 from brapci_rdf.rdf_data "

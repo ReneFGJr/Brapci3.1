@@ -46,6 +46,8 @@ else:
     act = 'email'
 
 dirT = '../../public/'
+fileO = sys_io.getNameFileX(id)
+
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
 txt = sys_io.readfile(fileTXT)
@@ -53,37 +55,37 @@ txt = sys_io.readfile(fileTXT)
 if (act == 'email'):
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
-    fileN = file.replace('.txt','_email.json')
+    fileN = fileO.replace('.txt','_email.json')
     saveFileD(fileN,lists)
 
 if (act == 'url'):
     print("Extrair URL")
     lists = ai_url.extrair_urls(txt)
-    fileN = file.replace('.txt','_url.json')
+    fileN = fileO.replace('.txt','_url.json')
     saveFileD(fileN,lists)
 
 if (act == 'doi'):
     print("Extrair DOI")
     lists = ai_doi_handle.extrair_doi(txt)
-    fileN = file.replace('.txt','_doi.json')
+    fileN = fileO.replace('.txt','_doi.json')
     saveFileD(fileN,lists)
 
 if (act == 'handle'):
     print("Extrair HANDLE")
     lists = ai_doi_handle.extrair_handle(txt)
-    fileN = file.replace('.txt','_handle.json')
+    fileN = fileO.replace('.txt','_handle.json')
     saveFileD(fileN,lists)
 
 if (act == 'metadata'):
     print("Extrair Metadados")
     lists = ai_metadados.extrair_secoes_method_01(txt)
-    fileN = file.replace('.txt','_metadados.json')
+    fileN = fileO.replace('.txt','_metadados.json')
     saveFileD(fileN,lists)
 
 if (act == 'cited'):
     print("Extrair Citações")
     lists = ai_cited.extrair_referencias(txt,id)
-    fileN = file.replace('.txt','_cited.json')
+    fileN = fileO.replace('.txt','_cited.json')
     saveFileD(fileN,lists)
 
 if (act == 'section'):
@@ -93,5 +95,5 @@ if (act == 'section'):
 if (act == 'keywords'):
     print("Extrair Keywords")
     lists = ai_keywords.extract_keywords(txt,id)
-    fileN = file.replace('.txt','_keywords.json')
+    fileN = fileO.replace('.txt','_keywords.json')
     saveFileD(fileN,lists)
