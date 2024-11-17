@@ -79,6 +79,8 @@ def file_exists(file):
 def getNameFile(id,loop=True):
     files = mod_rdf.recover(id,'hasFileStorage')
     print("Files",files)
+    for line in files:
+        print(line)
     sys.exit()
     return files
 
