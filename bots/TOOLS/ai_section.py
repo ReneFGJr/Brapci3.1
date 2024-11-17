@@ -41,11 +41,11 @@ def locate_extrair_sessao(texto):
             posicao = texto.find(key)
             if posicao < maxPos:
                 maxPos = posicao
-                sectionX = key
+                sectionX = section
         if key.upper() in texto:
             if posicao < maxPos:
                 maxPos = posicao
-                sectionX = key
+                sectionX = section
     return sectionX
 
 # Função para localizar e extrair a modalidade
