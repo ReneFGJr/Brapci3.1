@@ -53,6 +53,7 @@ def recover_file_id(id):
     sys.exit()
 ######################################## FILENAME
 def file_name(diretorio):
+    dirT = '../../public/'
     try:
         # Lista todos os arquivos no diretório
         arquivos = os.listdir(diretorio)
