@@ -11,6 +11,7 @@ import ai_metadados
 import ai_cited
 import ai_keywords
 import ai_section
+import mod_convert_repository
 
 def version():
     return "v0.24.10.27"
@@ -47,6 +48,7 @@ else:
 
 dirT = '../../public/'
 fileO = sys_io.getNameFileX(id)
+mod_convert_repository.directory(id)
 
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
