@@ -23,7 +23,7 @@ def le(id):
     qr += f" where (d_r1 = {id}) "
     row = database.query(qr)
 
-    qr = "select id_cc, n_name, n_langm id_n from brapci_rdf.rdf_concept "
+    qr = "select id_cc, n_name, n_lang, id_n from brapci_rdf.rdf_concept "
     qr += "left join brapci_rdf.rdf_class on cc_class = id_c "
     qr += "left join brapci_rdf.rdf_literal on cc_pref_term = id_n "
     qr += f" where (id_cc = {id}) "
