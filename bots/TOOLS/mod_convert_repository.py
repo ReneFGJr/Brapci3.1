@@ -11,8 +11,6 @@ def directory(id):
     dir = str(id).zfill(8)
     diretorio = '../../public/_repository/'+dir[:2]+'/'+dir[2:4]+'/'+dir[4:6]+'/'+dir[6:8]+'/'
 
-    print(diretorio)
-
     # Verifique se o diretório existe
     if not os.path.isdir(diretorio):
         print(f'O diretório "{diretorio}" foi criado.')

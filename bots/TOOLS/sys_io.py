@@ -87,9 +87,10 @@ def getNameFile(id,loop=True):
             dirT = '../../public/'
             fileO = data['concept'][0][1]
             # MODELO ANTIGO
-            mod_convert_repository.directory(idR)
+            direD = mod_convert_repository.directory(idR)
 
             fileD = mod_convert_repository.filename(idR)
+            fileD = direD + fileD
             print(fileD,fileO)
 
             # Existe original
