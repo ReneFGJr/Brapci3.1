@@ -29,7 +29,7 @@ def le(id):
     qr += f" where (d_r1 = {id}) or (d_r2 = {id}) "
     row2 = database.query(qr)
 
-    dt = []
+    dt = {'concept':[], 'data':[]}
     dt['concept'] = row2
     dt['data'] = row
 
