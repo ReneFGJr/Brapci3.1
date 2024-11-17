@@ -3,7 +3,7 @@ import sys
 import mod_api
 
 def locateKeywords(text):
-    t = {'Palavras–chave:','Palavras-Chave:'}
+    t = {'Palavras–chave:','Palavras-Chave:','Palavras-chave:'}
     for te in t:
         if te in text:
             return te
