@@ -8,4 +8,6 @@ def recover(id,classe):
     row = database.query(qr)
 
     for line in row:
-        print(line)
+        Xclasse = line[0]
+        if classe == Xclasse:
+            print(line)
