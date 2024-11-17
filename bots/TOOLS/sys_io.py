@@ -87,6 +87,9 @@ def getNameFile(id,loop=True):
             # MODELO ANTIGO
             mod_convert_repository.directory(idR)
 
+            fileD = mod_convert_repository.filename(idR)
+            print(fileD)
+
     sys.exit()
     return files
 
