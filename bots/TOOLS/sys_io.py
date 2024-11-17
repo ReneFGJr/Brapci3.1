@@ -80,7 +80,9 @@ def getNameFile(id,loop=True):
     files = mod_rdf.recover(id,'hasFileStorage')
     print("Files",files)
     for line in files:
-        print(line)
+        idR = line
+        data = mod_rdf.le(idR)
+        print(data)
     sys.exit()
     return files
 
