@@ -48,7 +48,7 @@ else:
 dirT = '../../public/'
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
-txt = sys_io.readfile(dirT+file)
+txt = sys_io.readfile(file)
 
 print("FIM")
 sys.exit()
