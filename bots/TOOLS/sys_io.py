@@ -84,7 +84,6 @@ def getNameFile(id,loop=True):
         data = mod_rdf.le(idR)
 
         if data['data']== []:
-            print("XX",data['concept'])
             idN = data['concept'][0][3]
             dirT = '../../public/'
             fileO = data['concept'][0][1]
@@ -93,13 +92,13 @@ def getNameFile(id,loop=True):
 
             fileD = mod_convert_repository.filename(idR)
             fileD = direD + fileD
-            print(fileD,fileO)
 
             # Existe original
             if file_exists(dirT+fileO):
                 print("Transferindo arquivos")
                 mod_convert_repository.copy_file(dirT+fileO,dirT+fileD)
                 mod_convert_repository.update_rdf_data(idN,fileD)
+                return fileD
             else:
                 print(f"Arquivo {fileO} não existe")
 
