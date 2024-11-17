@@ -77,6 +77,11 @@ def file_exists(file):
 
 ######################################## GET NAME
 def getNameFile(id,loop=True):
+    file = mod_rdf.recover(id,'hasFileStorage')
+
+    print("FILES",file)
+
+def getNameFileX(id,loop=True):
     # Converte o id para string e preenche com zeros à esquerda até ter 8 caracteres
     id_str = str(id).zfill(8)
 
