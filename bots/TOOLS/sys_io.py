@@ -22,7 +22,7 @@ def readfile(nome_arquivo):
         return ""
 
 ######################################## FILENAME
-def file_name_pdf(diretorio):
+def file_name_pdf(diretorio,id):
     try:
         # Lista todos os arquivos no diretório
         arquivos = os.listdir(diretorio)
@@ -33,10 +33,16 @@ def file_name_pdf(diretorio):
 
     except FileNotFoundError:
         print(f"O diretório '{diretorio}' não foi encontrado.")
+        #****************************************** Recupera pelo ID ******
+        diretorio = recover_file_id(id)
+
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
     return ""
-
+######################################## RECOVER ONTOLOGY
+def recover_file_id(id):
+    print(id)
+    sys.exit()
 ######################################## FILENAME
 def file_name(diretorio):
     try:
@@ -81,7 +87,7 @@ def getNameFile(id,loop=True):
                 file = getNameFile(id,False)
         return file
     else:
-        fileO = file_name_pdf(caminho)
+        fileO = file_name_pdf(caminho,id)
         print("=======",fileO,f"[[{caminho}]]")
         if file_exists(fileO):
             file = fileO.replace('.pdf','.txt')
