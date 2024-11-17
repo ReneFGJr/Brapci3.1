@@ -3,6 +3,7 @@ import sys
 import subprocess
 import database
 import mod_rdf
+import mod_convert_repository
 
 ######################################## READFILE
 def readfile(nome_arquivo):
@@ -44,6 +45,10 @@ def file_name_pdf(diretorio,id):
 def recover_file_id(id):
     print(id)
     data = mod_rdf.recover(id,'hasFileStorage')
+
+    for line in data:
+        print("======>",line)
+        mod_convert_repository.directory(line)
     print(data)
     sys.exit()
 ######################################## FILENAME
