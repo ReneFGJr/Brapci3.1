@@ -79,7 +79,7 @@ def file_exists(file):
 def getNameFileTXT(fileO):
     dirT = '../../public/'
     fileTxt = fileO.replace('.pdf','.txt')
-    if not file_exists(dirT+fileO):
+    if not file_exists(dirT+fileTxt):
         print("Converter para TXT")
         convertPDF4TXT(dirT+fileO,dirT+fileTxt)
     return fileTxt
