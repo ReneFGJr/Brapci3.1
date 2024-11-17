@@ -43,7 +43,7 @@ def file_name_pdf(diretorio,id):
 ######################################## RECOVER ONTOLOGY
 def recover_file_id(id):
     print(id)
-    data = mod_rdf.recover(id)
+    data = mod_rdf.recover(id,'')
     sys.exit()
 ######################################## FILENAME
 def file_name(diretorio):
