@@ -94,17 +94,15 @@ def getNameFile(id,loop=True):
             fileD = direD + fileD
 
             # Existe original
-            if file_exists(dirT+fileO):
-                print("Transferindo arquivos")
-                mod_convert_repository.copy_file(dirT+fileO,dirT+fileD)
-                mod_convert_repository.update_rdf_data(idN,fileD)
-                return fileD
-            else:
-                print(f"Arquivo {fileO} não existe")
-
-
-    sys.exit()
-    return files
+            if not file_exists(dirT+fileD):
+                if file_exists(dirT+fileO):
+                    print("Transferindo arquivos")
+                    mod_convert_repository.copy_file(dirT+fileO,dirT+fileD)
+                    mod_convert_repository.update_rdf_data(idN,fileD)
+                else:
+                    print(f"Arquivo {fileO} não existe")
+                    sys.exit()
+    return fileD
 
 def getNameFileX(id,loop=True):
     # Converte o id para string e preenche com zeros à esquerda até ter 8 caracteres
