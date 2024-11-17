@@ -7,7 +7,11 @@ def recover(id,classe):
     qr += f" where (d_r1 = {id}) or (d_r2 = {id}) "
     row = database.query(qr)
 
+    rst = []
+
     for line in row:
         Xclasse = line[0]
         if classe == Xclasse:
-            print(line)
+            idR = line[2]
+            rst.append(idR)
+    return rst

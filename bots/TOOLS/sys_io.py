@@ -44,6 +44,7 @@ def file_name_pdf(diretorio,id):
 def recover_file_id(id):
     print(id)
     data = mod_rdf.recover(id,'hasFileStorage')
+    print(data)
     sys.exit()
 ######################################## FILENAME
 def file_name(diretorio):
