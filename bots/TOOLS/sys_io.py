@@ -17,7 +17,7 @@ def readfile(nome_arquivo):
             conteudo = arquivo.read()
         return conteudo
     except FileNotFoundError:
-        print(f"O arquivo '{nome_arquivo}' não foi encontrado.")
+        print(f"O arquivo '{dirT + nome_arquivo}' não foi encontrado. [404-3]")
         return ""
     except UnicodeDecodeError as e:
         print(f"Erro de decodificação: {e}")
