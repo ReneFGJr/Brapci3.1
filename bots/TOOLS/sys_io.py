@@ -34,7 +34,7 @@ def file_name_pdf(diretorio,id):
                     return diretorio + arquivo
 
     except FileNotFoundError:
-        print(f"O diretório '{diretorio}' não foi encontrado.")
+        print(f"O diretório '{diretorio}' não foi encontrado. [404-1]")
         #****************************************** Recupera pelo ID ******
         diretorio = recover_file_id(id)
 
