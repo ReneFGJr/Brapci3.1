@@ -49,9 +49,6 @@ dirT = '../../public/'
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
 txt = sys_io.readfile(fileTXT)
-print(txt)
-print("FIM")
-sys.exit()
 
 if (act == 'email'):
     print("Extrair e-mail")
