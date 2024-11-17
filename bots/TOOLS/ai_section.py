@@ -25,13 +25,19 @@ GT_SECTIONS = {
 def locate_extrair_sessao(texto):
     texto = texto[:1200]
     texto = texto.replace('GT-', 'GT').replace('- ',' ').replace(' –', ' ').replace('–', '').replace('  ',' ').replace('GT ', 'GT').replace('GT0', 'GT').replace('&', 'e')
-    print(texto[:100])
+    sectionX = ''
+    maxPos = 99999999
     for key, section in GT_SECTIONS.items():
         if key in texto:
-            return section
+            posicao = texto.find(key)
+            if posicao < maxPos:
+                maxPos = posicao
+                sectionX = key
         if key.upper() in texto:
-            return section
-    return ''
+            if posicao < maxPos:
+                maxPos = posicao
+                sectionX = key
+    return sectionX
 
 # Função para localizar e extrair a modalidade
 def locate_extrair_modalidade(texto):
@@ -61,7 +67,6 @@ def post_to_api(name, prop, id):
 # Função principal para extrair sessão e modalidade
 def extrair_sessao(texto, id):
 
-    print("===",texto[:400])
     # Extrair e enviar sessão
     gt = locate_extrair_sessao(texto)
     if gt:
