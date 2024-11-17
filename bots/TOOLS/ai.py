@@ -48,6 +48,9 @@ else:
 file = sys_io.getNameFile(id)
 txt = sys_io.readfile(file)
 
+print("FIM")
+sys.exit()
+
 if (act == 'email'):
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
