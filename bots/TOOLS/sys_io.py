@@ -7,6 +7,7 @@ import mod_convert_repository
 
 ######################################## READFILE
 def readfile(nome_arquivo):
+    dirT = '../../public/'
     if len(nome_arquivo) > 255:
         print("Erro: O caminho do arquivo é muito longo.")
         print(nome_arquivo)
@@ -14,7 +15,7 @@ def readfile(nome_arquivo):
 
     try:
         # Abre o arquivo no modo de leitura
-        with open(nome_arquivo, 'r', encoding='utf-8') as arquivo:
+        with open(dirT+nome_arquivo, 'r', encoding='utf-8') as arquivo:
             # Lê o conteúdo do arquivo e armazena na variável
             conteudo = arquivo.read()
         return conteudo
@@ -74,7 +75,10 @@ def file_exists(file):
         return True
     else:
         return False
-
+######################################## GET TXT
+def getNameFileTXT(file):
+    print("==",file)
+    sys.exit()
 ######################################## GET NAME
 def getNameFile(id,loop=True):
     files = mod_rdf.recover(id,'hasFileStorage')
