@@ -45,6 +45,8 @@ def locate_extrair_modalidade(texto):
         return 'Trabalho Completo'
     elif 'Artigo completo':
         return 'Trabalho Completo'
+    elif 'Modalidade da Apresentação: Pôster':
+        return 'Pôster'
     return ''
 
 # Função para fazer a chamada de API com o nome da sessão/modalidade
