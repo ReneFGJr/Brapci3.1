@@ -44,6 +44,7 @@ def locate_extrair_sessao(texto):
                 maxPos = posicao
                 sectionX = section
         if key.upper() in texto:
+            posicao = texto.find(key.upper())
             if posicao < maxPos:
                 maxPos = posicao
                 sectionX = section
