@@ -84,6 +84,7 @@ def getNameFile(id,loop=True):
         data = mod_rdf.le(idR)
 
         if data['data']== []:
+            print("XX",data['concept'])
             idN = data['concept'][0][3]
             dirT = '../../public/'
             fileO = data['concept'][0][1]
