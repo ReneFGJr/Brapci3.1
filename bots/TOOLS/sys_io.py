@@ -76,8 +76,13 @@ def file_exists(file):
     else:
         return False
 ######################################## GET TXT
-def getNameFileTXT(file):
-    print("==",file)
+def getNameFileTXT(fileO):
+    dirT = '../../public/'
+    fileTxt = fileO.replace('.pdf','.txt')
+    if not file_exists(dirT+fileO):
+        print("Converter para TXT")
+        convertPDF4TXT(dirT+fileO,dirT+fileTxt)
+    print("==",fileTxt)
     sys.exit()
 ######################################## GET NAME
 def getNameFile(id,loop=True):
