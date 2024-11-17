@@ -26,6 +26,7 @@ def extract_keywords(text,id):
 
     if term == '' or keyw == '':
         print(f"Área não localizada [{keyw}],[{term}]")
+        print(text[:1000])
         sys.exit()
     else:
         print("======>",keyw,term)
