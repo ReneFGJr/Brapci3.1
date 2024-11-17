@@ -48,7 +48,8 @@ else:
 
 dirT = '../../public/'
 fileO = sys_io.getNameFileX(id)
-fileO = mod_convert_repository.directory(id) + fileO
+fileO = dirT + mod_convert_repository.directory(id) + fileO
+print(fileO)
 
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
