@@ -83,7 +83,7 @@ def getNameFile(id,loop=True):
         idR = line
         data = mod_rdf.le(idR)
 
-        if data == []:
+        if data['data']== []:
             # MODELO ANTIGO
             mod_convert_repository.directory(idR)
 
