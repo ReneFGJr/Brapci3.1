@@ -82,7 +82,11 @@ def getNameFile(id,loop=True):
     for line in files:
         idR = line
         data = mod_rdf.le(idR)
-        print(data)
+
+        if data == []:
+            # MODELO ANTIGO
+            mod_convert_repository.directory(idR)
+
     sys.exit()
     return files
 
