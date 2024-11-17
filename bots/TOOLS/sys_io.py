@@ -63,7 +63,7 @@ def file_name(diretorio):
                     return diretorio + arquivo
 
     except FileNotFoundError:
-        print(f"O diretório '{diretorio}' não foi encontrado.")
+        print(f"O diretório '{diretorio}' não foi encontrado. [404-2]")
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
     return ""
