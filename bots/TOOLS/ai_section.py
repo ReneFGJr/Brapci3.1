@@ -59,11 +59,11 @@ def locate_extrair_modalidade(texto):
             posicao = texto.find(key)
             if posicao < maxPos:
                 maxPos = posicao
-                sectionX = key
+                sectionX = section
         if key.upper() in texto:
             if posicao < maxPos:
                 maxPos = posicao
-                sectionX = key
+                sectionX = section
     return sectionX
 
 # Função para fazer a chamada de API com o nome da sessão/modalidade
