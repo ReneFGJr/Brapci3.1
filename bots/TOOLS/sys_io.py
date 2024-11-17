@@ -84,12 +84,20 @@ def getNameFile(id,loop=True):
         data = mod_rdf.le(idR)
 
         if data['data']== []:
+            dirT = '../../public/'
             fileO = data['concept'][0][1]
             # MODELO ANTIGO
             mod_convert_repository.directory(idR)
 
             fileD = mod_convert_repository.filename(idR)
             print(fileD,fileO)
+
+            # Existe original
+            if file_exists(dirT+fileO):
+                print("Arquivo OK")
+            else:
+                print(f"Arquivo {fileO} não existe")
+
 
     sys.exit()
     return files
