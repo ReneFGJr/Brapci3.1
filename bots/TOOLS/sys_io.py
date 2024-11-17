@@ -95,6 +95,7 @@ def getNameFile(id,loop=True):
             # Existe original
             if file_exists(dirT+fileO):
                 print("Arquivo OK")
+                mod_convert_repository.copy_file(dirT+fileO,dirT+fileD)
             else:
                 print(f"Arquivo {fileO} não existe")
 
