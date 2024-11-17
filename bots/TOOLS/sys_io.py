@@ -112,6 +112,7 @@ def getNameFile(id,loop=True):
                     sys.exit()
         else:
             fileD = data['concept'][0][1]
+            print("=X+X=",fileD)
     return fileD
 
 def filename(id):
