@@ -110,6 +110,9 @@ def getNameFile(id,loop=True):
                 else:
                     print(f"Arquivo {fileO} não existe")
                     sys.exit()
+        else:
+            print(data)
+            sys.exit()
     return fileD
 
 def filename(id):
