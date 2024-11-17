@@ -82,8 +82,8 @@ def getNameFileTXT(fileO):
     if not file_exists(dirT+fileO):
         print("Converter para TXT")
         convertPDF4TXT(dirT+fileO,dirT+fileTxt)
-    print("==",fileTxt)
-    sys.exit()
+    return fileTxt
+
 ######################################## GET NAME
 def getNameFile(id,loop=True):
     files = mod_rdf.recover(id,'hasFileStorage')
