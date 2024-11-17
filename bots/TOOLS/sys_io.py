@@ -84,11 +84,12 @@ def getNameFile(id,loop=True):
         data = mod_rdf.le(idR)
 
         if data['data']== []:
+            fileO = data['concept'][1]
             # MODELO ANTIGO
             mod_convert_repository.directory(idR)
 
             fileD = mod_convert_repository.filename(idR)
-            print(fileD)
+            print(fileD,fileO)
 
     sys.exit()
     return files
