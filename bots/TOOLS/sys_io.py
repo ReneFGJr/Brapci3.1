@@ -56,7 +56,7 @@ def file_name(diretorio):
     dirT = '../../public/'
     try:
         # Lista todos os arquivos no diretório
-        arquivos = os.listdir(diretorio)
+        arquivos = os.listdir(dirT+diretorio)
         for arquivo in arquivos:
             print(" = = = = = = = = = FILE",arquivo)
             if arquivo.endswith('.txt'):
@@ -64,7 +64,7 @@ def file_name(diretorio):
                     return diretorio + arquivo
 
     except FileNotFoundError:
-        print(f"O diretório '{diretorio}' não foi encontrado. [404-2]")
+        print(f"O diretório '{dirT+diretorio}' não foi encontrado. [404-2]")
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
     return ""
