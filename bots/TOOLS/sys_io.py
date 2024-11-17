@@ -84,7 +84,7 @@ def getNameFile(id,loop=True):
         data = mod_rdf.le(idR)
 
         if data['data']== []:
-            fileO = data['concept']
+            fileO = data['concept'][0][1]
             # MODELO ANTIGO
             mod_convert_repository.directory(idR)
 
