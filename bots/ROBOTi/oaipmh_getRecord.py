@@ -98,6 +98,7 @@ def process(rg):
                 if type(TIT) is list:
                     for reg in TIT:
                         print("===",reg)
+                        print("type",   type(reg))
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
