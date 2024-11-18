@@ -95,6 +95,8 @@ def process(rg):
             ############################################# Author
             try:
                 TIT = RCN['dc:creator']
+                print("===",TIT)
+                print("type",   type(TIT))
                 if type(TIT) is list:
                     for reg in TIT:
                         print("===",reg)
