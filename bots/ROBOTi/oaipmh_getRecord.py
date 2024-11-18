@@ -98,6 +98,8 @@ def process(rg):
 
                 if type(TIT) is list:
                     for reg in TIT:
+                        if '#text' in reg:
+                            reg = reg['#text']
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
