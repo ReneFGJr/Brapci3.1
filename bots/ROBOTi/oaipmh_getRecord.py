@@ -101,7 +101,7 @@ def process(rg):
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
-                    print("===",reg)
+                    print("===",reg,type(TIT) is list)
                     print("type",   type(reg))
                     dc_author.append(mod_nbr.nbr_author(reg))
             except Exception as e:
