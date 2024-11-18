@@ -104,6 +104,7 @@ def process(rg):
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
+                    print("Single")
                     dc_author.append(mod_nbr.nbr_author(reg))
             except Exception as e:
                 print("Erro a processar o Author (creator)",e)
