@@ -46,7 +46,7 @@ def process(rg):
 
             print("+============================")
             print(IDX,IDA,JNL)
-            sys.exit()
+
 
         if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
@@ -95,7 +95,6 @@ def check_method01(id,jnl):
     qr += f"where n_name = '{ID}' or n_name = '{id}'"
     qr += "group by id_cc"
 
-    print(qr)
     row = database.query(qr)
 
     if row == []:
