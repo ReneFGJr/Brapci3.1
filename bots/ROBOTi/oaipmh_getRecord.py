@@ -97,6 +97,7 @@ def process(rg):
                 TIT = RCN['dc:creator']
                 if type(TIT) is list:
                     for reg in TIT:
+                        print("===",reg)
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
