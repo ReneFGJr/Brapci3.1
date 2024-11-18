@@ -101,8 +101,9 @@ def process(rg):
                         dc_author.append(mod_nbr.nbr_author(reg))
                 else:
                     reg = TIT
-                    print("===",reg,type(TIT) is list)
-                    print("type",   type(reg))
+                    if '#text' in reg:
+                        reg = reg['#text']
+
                     dc_author.append(mod_nbr.nbr_author(reg))
             except Exception as e:
                 print("Erro a processar o Author (creator)",e)
