@@ -250,6 +250,7 @@ def article_data(IDC,rg,data,jnl):
                 ok = True
                 T = data[i][k]
                 for it in range(len(T)):
+                    print("...Author",T)
                     mod_author.register_literal(IDC,T[it])
 
             #################################### Licence
