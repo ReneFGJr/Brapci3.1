@@ -198,6 +198,9 @@ def register_literal(IDC,name):
         # Exibe a linha do erro
         traceback.print_exc()
 
+    print(name)
+    sys.exit()
+
     try:
         IDliteral = mod_literal.register(name,'nn')
         IDClass = mod_class.getClass('Person')
