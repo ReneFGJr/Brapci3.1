@@ -263,26 +263,28 @@ def nbr_author(xa, xp='1'):
     Nm = [nome.lower() for nome in NM]
     Ni = [nome[0].upper() for nome in NM]
     Nf = []
+    try:
+        for r in range(len(NM)):
+            nome = NM[r]
+            # Tratando acentuação corretamente
+            nome_formatado = nome[0].upper() + nome[1:].lower()
 
-    for r in range(len(NM)):
-        nome = NM[r]
-        # Tratando acentuação corretamente
-        nome_formatado = nome[0].upper() + nome[1:].lower()
+            # Verifica por hífens ou espaços para formatar corretamente os compostos
+            if '-' in nome_formatado:
+                partes = nome_formatado.split('-')
+                nome_formatado = '-'.join([parte.capitalize() for parte in partes])
 
-        # Verifica por hífens ou espaços para formatar corretamente os compostos
-        if '-' in nome_formatado:
-            partes = nome_formatado.split('-')
-            nome_formatado = '-'.join([parte.capitalize() for parte in partes])
+            if ' ' in nome_formatado:
+                partes = nome_formatado.split(' ')
+                nome_formatado = ' '.join([parte.capitalize() for parte in partes])
 
-        if ' ' in nome_formatado:
-            partes = nome_formatado.split(' ')
-            nome_formatado = ' '.join([parte.capitalize() for parte in partes])
+            # Checa preposições
+            if NM[r] in er2:
+                nome_formatado = nome.lower()
 
-        # Checa preposições
-        if NM[r] in er2:
-            nome_formatado = nome.lower()
-
-        Nf.append(nome_formatado)
+            Nf.append(nome_formatado)
+    except Exception as e:
+        print("Erro na formação do nome",e,Nf)
 
     # Formatação final conforme o valor de 'xp'
     name = ''
