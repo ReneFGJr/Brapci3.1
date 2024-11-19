@@ -88,7 +88,9 @@ def removeCollon():
 
         name = line[2]
         nameC = nbr_author(name,7)
-        print(name,nameC)
+        idN = line[3]
+        qu = f"update brapci_rdf.rdf_literal set n_name = '{nameC}' where id_n = {idN}"
+        print(qu)
 
 
 def check_remissivaDB():
