@@ -192,7 +192,7 @@ def remissive(ID1,ID2):
 
 def register_literal(IDC,name):
     try:
-        name = nbr_author(name)
+        name = nbr_author(name,1)
     except Exception as e:
         print("Erro a processar o Author (name)",e,name)
         # Exibe a linha do erro
