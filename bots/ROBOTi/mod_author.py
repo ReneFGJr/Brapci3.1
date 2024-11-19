@@ -6,6 +6,7 @@ import database
 import mod_logs
 import re
 import unicodedata
+import traceback
 
 def check_use_zero():
     qr = "update "
@@ -194,6 +195,8 @@ def register_literal(IDC,name):
         name = nbr_author(name)
     except Exception as e:
         print("Erro a processar o Author (name)",e,name)
+        # Exibe a linha do erro
+        traceback.print_exc()
 
     try:
         IDliteral = mod_literal.register(name,'nn')
