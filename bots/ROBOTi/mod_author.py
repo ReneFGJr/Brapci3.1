@@ -90,6 +90,7 @@ def removeCollon():
         nameC = nbr_author(name,7)
         idN = line[3]
         qu = f"update brapci_rdf.rdf_literal set n_name = '{nameC}' where id_n = {idN}"
+        print("....",nameC)
         database.update(qu)
 
 
