@@ -212,7 +212,11 @@ def troca(texto, velho, novo):
     return texto.replace(velho, novo)
 
 def nbr_author(xa, xp='1'):
-    xp = str(xp)
+    try:
+        xp = str(xp)
+    except Exception as e:
+        print("Problema em converter o nome xp",e,xp)
+
 
     if xa.strip() == '':
         return ""
