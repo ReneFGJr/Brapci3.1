@@ -82,7 +82,7 @@ def removeCollon():
     qr += " and id_cc = cc_use "
     qr += " and n_name like '%,%'"
     qr += " order by n_name, id_cc"
-    qr += " limit 10"
+    qr += " limit 1000"
     row = database.query(qr)
     for line in row:
 
