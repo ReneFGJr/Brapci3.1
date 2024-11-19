@@ -103,6 +103,8 @@ def updateRDFid(ID,IDC):
     qr = f"update {table} set "
     qr += f"oai_rdf = {IDC} "
     qr += f"where id_oai = {ID} "
+
+    print(qr)
     database.update(qr)
 
 def updateStatus(ID,status):
