@@ -253,7 +253,7 @@ def article_data(IDC,rg,data,jnl):
                 for it in T:
                     print("...Author",it)
                     mod_author.register_literal(IDC,it)
-            sys.exit()
+                sys.exit()
 
             #################################### Licence
             if (k == 'license'):
