@@ -292,8 +292,6 @@ def nbr_author(xa, xp='1'):
     # Formatação final conforme o valor de 'xp'
     name = ''
     TOT = len(NM)
-    print("TOT",TOT)
-    print("NM",NM)
     if xp == '1':  # Sobrenome e Nome
         name = f"{NM[TOT-1]}, " + ' '.join(Nf[:TOT-1])
     elif xp == '2':  # Sobrenome e Nome CURTO
