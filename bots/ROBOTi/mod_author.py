@@ -71,6 +71,21 @@ def check_remissiva_old():
     mod_logs.log('TASK_202',dd)
     return ""
 
+def removeCollon():
+    print("206 - Check author com virgula")
+    IDClass = mod_class.getClass("Person")
+
+    qr = "select id_cc, cc_use, n_name  "
+    qr += " from brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where cc_class = {IDClass}"
+    qr += " and id_cc = cc_use "
+    qr += " and n_name like '%,%'"
+    qr += " order by n_name, id_cc"
+    qr += " limit 10"
+    row = database.query(qr)
+    print(row)
+
 def check_remissivaDB():
     print("205 - Check author remissive in database")
 
