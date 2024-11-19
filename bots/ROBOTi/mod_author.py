@@ -190,12 +190,22 @@ def remissive(ID1,ID2):
     mod_data.remicive(ID1,ID2)
 
 def register_literal(IDC,name):
-    name = nbr_author(name)
+    try:
+        name = nbr_author(name)
+    except Exception as e:
+        print("Erro a processar o Author (name)",e,name)
 
-    IDliteral = mod_literal.register(name,'nn')
-    IDClass = mod_class.getClass('Person')
+    try:
+        IDliteral = mod_literal.register(name,'nn')
+        IDClass = mod_class.getClass('Person')
+    except Exception as e:
+        print("Erro a registrar nbr name de pessoa",e,name)
 
-    IDCt = mod_concept.register(IDClass,IDliteral)
+    try:
+        IDCt = mod_concept.register(IDClass,IDliteral)
+    except Exception as e:
+        print("Erro a registrar o conceito do autor",e,IDClass,IDliteral)
+
     return mod_data.register(IDC,'hasAuthor',IDCt)
 
 def troca(texto, velho, novo):
