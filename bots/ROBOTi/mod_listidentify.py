@@ -101,13 +101,16 @@ def updateIssue(ID,issue):
         print("ERRO #23",e)
 
 def updateRDFid(ID,IDC):
-    print("Atualizando")
-    qr = f"update {table} set "
-    qr += f"oai_rdf = {IDC} "
-    qr += f"where id_oai = {ID} "
+    try:
+        print("Atualizando")
+        qr = f"update {table} set "
+        qr += f"oai_rdf = {IDC} "
+        qr += f"where id_oai = {ID} "
 
-    print(qr)
-    database.update(qr)
+        print(qr)
+        database.update(qr)
+    except:
+        print("ERRO ao gravar ",qr)
 
 def updateStatus(ID,status):
     update = datetime.datetime.now().strftime('%Y%m%d')

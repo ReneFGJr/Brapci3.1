@@ -320,6 +320,6 @@ def article_data(IDC,rg,data,jnl):
                 quit()
     #################################### Title
     mod_listidentify.updateStatus(rg[0],11)
+    mod_listidentify.updateRDFid(re[0],IDC)
 
     print("============================ FINALIZADO COM SUCESSO",rg[0],"IDC ",IDC)
-    mod_listidentify.updateRDFid(re[0],IDC)
