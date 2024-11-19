@@ -75,7 +75,7 @@ def removeCollon():
     print("206 - Check author com virgula")
     IDClass = mod_class.getClass("Person")
 
-    qr = "select id_cc, cc_use, n_name  "
+    qr = "select id_cc, cc_use, n_name, id_n  "
     qr += " from brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where cc_class = {IDClass}"
@@ -84,7 +84,12 @@ def removeCollon():
     qr += " order by n_name, id_cc"
     qr += " limit 10"
     row = database.query(qr)
-    print(row)
+    for line in row:
+
+        name = line[2]
+        nameC = nbr_author(name,7)
+        print(name,nameC)
+
 
 def check_remissivaDB():
     print("205 - Check author remissive in database")
