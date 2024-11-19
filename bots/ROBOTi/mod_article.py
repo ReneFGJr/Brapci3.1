@@ -249,6 +249,7 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSUE-WORK-AUTHOR")
                 ok = True
                 T = data[i][k]
+                print(T)
                 for it in range(len(T)):
                     print("...Author",T[it])
                     mod_author.register_literal(IDC,T[it])
