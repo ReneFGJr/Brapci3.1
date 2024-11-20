@@ -67,8 +67,8 @@ class Oaiservereditor extends Model
                 break;
 
             case 'listidentifiers':
-                $OaiServer = new \App\Models\OaiServer\ListRecords();
-                $dt = $OaiServer->list($d3);
+                $ListRecords = new \App\Models\OaiServer\ListRecords();
+                $dt = $ListRecords->list($d3);
                 echo json_encode($dt);
                 exit;
                 break;
