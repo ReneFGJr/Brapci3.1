@@ -57,7 +57,8 @@ class Oaiservereditor extends Model
         if (get("test") == '') {
             header("Content-Type: application/json");
         }
-
+        echo $d2;
+        exit;
         switch ($d2) {
             case 'repository':
                 $OaiServer = new \App\Models\OaiServer\Index();
