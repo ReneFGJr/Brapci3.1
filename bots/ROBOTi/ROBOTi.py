@@ -245,6 +245,8 @@ def run(parm):
         lp = mod_author.check_remissiva()
     if (act == '205'):
         lp = mod_author.check_remissivaDB()
+    if (act == '206'):
+        lp = mod_author.removeCollon()
 
     ################### Subject
     if (act == '210'):

@@ -100,6 +100,16 @@ def updateIssue(ID,issue):
     except Exception as e:
         print("ERRO #23",e)
 
+def updateRDFid(ID,IDC):
+    try:
+        print("Atualizando")
+        qr = f"update {table} set "
+        qr += f"oai_rdf = {IDC} "
+        qr += f"where id_oai = {ID} "
+        database.update(qr)
+    except:
+        print("ERRO ao gravar ",qr)
+
 def updateStatus(ID,status):
     update = datetime.datetime.now().strftime('%Y%m%d')
     now = datetime.datetime.now().strftime('%Y-%m-%d')

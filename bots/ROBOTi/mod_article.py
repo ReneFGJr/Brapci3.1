@@ -249,8 +249,9 @@ def article_data(IDC,rg,data,jnl):
                 print("...ISSUE-WORK-AUTHOR")
                 ok = True
                 T = data[i][k]
-                for it in range(len(T)):
-                    mod_author.register_literal(IDC,T[it])
+                for it in T:
+                    print("...Author",it)
+                    mod_author.register_literal(IDC,it)
 
             #################################### Licence
             if (k == 'license'):
@@ -319,4 +320,7 @@ def article_data(IDC,rg,data,jnl):
                 quit()
     #################################### Title
     mod_listidentify.updateStatus(rg[0],11)
+
+    mod_listidentify.updateRDFid(rg[0],IDC)
+
     print("============================ FINALIZADO COM SUCESSO",rg[0],"IDC ",IDC)

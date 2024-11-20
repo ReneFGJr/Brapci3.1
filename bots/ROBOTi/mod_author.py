@@ -6,6 +6,7 @@ import database
 import mod_logs
 import re
 import unicodedata
+import traceback
 
 def check_use_zero():
     qr = "update "
@@ -69,6 +70,29 @@ def check_remissiva_old():
 
     mod_logs.log('TASK_202',dd)
     return ""
+
+def removeCollon():
+    print("206 - Check author com virgula")
+    IDClass = mod_class.getClass("Person")
+
+    qr = "select id_cc, cc_use, n_name, id_n  "
+    qr += " from brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where cc_class = {IDClass}"
+    qr += " and id_cc = cc_use "
+    qr += " and n_name like '%,%'"
+    qr += " order by n_name, id_cc"
+    qr += " limit 1000"
+    row = database.query(qr)
+    for line in row:
+
+        name = line[2]
+        nameC = nbr_author(name,7)
+        idN = line[3]
+        qu = f"update brapci_rdf.rdf_literal set n_name = '{nameC}' where id_n = {idN}"
+        print("....",nameC)
+        database.update(qu)
+
 
 def check_remissivaDB():
     print("205 - Check author remissive in database")
@@ -190,19 +214,35 @@ def remissive(ID1,ID2):
     mod_data.remicive(ID1,ID2)
 
 def register_literal(IDC,name):
-    name = nbr_author(name)
+    try:
+        name = nbr_author(name,7)
+    except Exception as e:
+        print("Erro a processar o Author (name)",e,name)
+        # Exibe a linha do erro
+        traceback.print_exc()
 
-    IDliteral = mod_literal.register(name,'nn')
-    IDClass = mod_class.getClass('Person')
+    try:
+        IDliteral = mod_literal.register(name,'nn')
+        IDClass = mod_class.getClass('Person')
+    except Exception as e:
+        print("Erro a registrar nbr name de pessoa",e,name)
 
-    IDCt = mod_concept.register(IDClass,IDliteral)
+    try:
+        IDCt = mod_concept.register(IDClass,IDliteral)
+    except Exception as e:
+        print("Erro a registrar o conceito do autor",e,IDClass,IDliteral)
+
     return mod_data.register(IDC,'hasAuthor',IDCt)
 
 def troca(texto, velho, novo):
     return texto.replace(velho, novo)
 
 def nbr_author(xa, xp='1'):
-    xp = str(xp)
+    try:
+        xp = str(xp)
+    except Exception as e:
+        print("Problema em converter o nome xp",e,xp)
+
 
     if xa.strip() == '':
         return ""
@@ -249,29 +289,32 @@ def nbr_author(xa, xp='1'):
     Nm = [nome.lower() for nome in NM]
     Ni = [nome[0].upper() for nome in NM]
     Nf = []
+    try:
+        for r in range(len(NM)):
+            nome = NM[r]
+            # Tratando acentuação corretamente
+            nome_formatado = nome[0].upper() + nome[1:].lower()
 
-    for r in range(len(NM)):
-        nome = NM[r]
-        # Tratando acentuação corretamente
-        nome_formatado = nome[0].upper() + nome[1:].lower()
+            # Verifica por hífens ou espaços para formatar corretamente os compostos
+            if '-' in nome_formatado:
+                partes = nome_formatado.split('-')
+                nome_formatado = '-'.join([parte.capitalize() for parte in partes])
 
-        # Verifica por hífens ou espaços para formatar corretamente os compostos
-        if '-' in nome_formatado:
-            partes = nome_formatado.split('-')
-            nome_formatado = '-'.join([parte.capitalize() for parte in partes])
+            if ' ' in nome_formatado:
+                partes = nome_formatado.split(' ')
+                nome_formatado = ' '.join([parte.capitalize() for parte in partes])
 
-        if ' ' in nome_formatado:
-            partes = nome_formatado.split(' ')
-            nome_formatado = ' '.join([parte.capitalize() for parte in partes])
+            # Checa preposições
+            if NM[r] in er2:
+                nome_formatado = nome.lower()
 
-        # Checa preposições
-        if NM[r] in er2:
-            nome_formatado = nome.lower()
-
-        Nf.append(nome_formatado)
+            Nf.append(nome_formatado)
+    except Exception as e:
+        print("Erro na formação do nome",e,Nf)
 
     # Formatação final conforme o valor de 'xp'
     name = ''
+    TOT = len(NM)
     if xp == '1':  # Sobrenome e Nome
         name = f"{NM[TOT-1]}, " + ' '.join(Nf[:TOT-1])
     elif xp == '2':  # Sobrenome e Nome CURTO

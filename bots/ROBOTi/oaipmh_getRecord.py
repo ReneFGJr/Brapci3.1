@@ -111,7 +111,7 @@ def process(rg):
             except Exception as e:
                 print("Erro a processar o Author (creator)",e)
             print(dc_author)
-            sys.exit()
+
             ############################################# Assuntos
             try:
                 TIT = RCN['dc:subject']
