@@ -1,13 +1,13 @@
 <?php
 /*
 @category API
-@package Brapci Book
+@package Brapci OAI-PMH Server
 @name
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
-@copyright 2022 CC-BY
+@copyright 2024 CC-BY
 @access public/private/apikey
-@example $URL/api/book/isbn/97800000000
-@abstract API para consulta de metadados de livros com o ISBN
+@example $URL/api/oaiserver/list
+@abstract API para consulta de metadados servidores OAI-PMH Local
 */
 
 namespace App\Models\Api\Endpoint;
