@@ -57,19 +57,17 @@ class Oaiservereditor extends Model
         if (get("test") == '') {
             header("Content-Type: application/json");
         }
-        echo $d2;
-        exit;
-        switch ($d2) {
+        switch ($d1) {
             case 'repository':
                 $OaiServer = new \App\Models\OaiServer\Index();
-                $dt = $OaiServer->le($d3);
+                $dt = $OaiServer->le($d2);
                 echo json_encode($dt);
                 exit;
                 break;
 
             case 'listidentifiers':
                 $ListRecords = new \App\Models\OaiServer\ListRecords();
-                $dt = $ListRecords->list($d3);
+                $dt = $ListRecords->list($d2);
                 $dt['type'] = 'xxxxxxxxxxxxxxxxxx';
                 echo json_encode($dt);
                 exit;
