@@ -45,6 +45,12 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function le($id)
+        {
+            $dt = $this->find($id);
+            return $dt;
+        }
+
     function list()
         {
             $dt = $this->findAll();

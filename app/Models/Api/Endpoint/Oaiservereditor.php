@@ -59,9 +59,9 @@ class Oaiservereditor extends Model
         }
 
         switch ($d2) {
-            case 'repositories':
+            case 'repository':
                 $OaiServer = new \App\Models\OaiServer\Index();
-                $dt = $OaiServer->list();
+                $dt = $OaiServer->le($d3);
                 echo json_encode($dt);
                 exit;
                 break;
