@@ -66,6 +66,13 @@ class Oaiservereditor extends Model
                 exit;
                 break;
 
+            case 'listidentifiers':
+                $OaiServer = new \App\Models\OaiServer\ListRecords();
+                $dt = $OaiServer->list($d3);
+                echo json_encode($dt);
+                exit;
+                break;
+
             default:
                 $OaiServer = new \App\Models\OaiServer\Index();
                 $dt = $OaiServer->list();
