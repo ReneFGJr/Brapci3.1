@@ -155,6 +155,7 @@ class Database extends Config
             'handle' => 'handle.net',
             'icr' => 'brapci_icr',
             'oai' => 'brapci_oaipmh',
+            'oaiserver' => 'brapci_oaipmh_editor',
             'observatorio' => 'observatorio',
             'openaire' => 'openaire',
             'lattes'=> 'brapci_lattes',
