@@ -69,6 +69,7 @@ class Oaiservereditor extends Model
             case 'listidentifiers':
                 $ListRecords = new \App\Models\OaiServer\ListRecords();
                 $dt = $ListRecords->list($d3);
+                $dt['type'] = 'xxxxxxxxxxxxxxxxxx';
                 echo json_encode($dt);
                 exit;
                 break;
