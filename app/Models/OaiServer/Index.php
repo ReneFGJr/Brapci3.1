@@ -48,7 +48,7 @@ class Index extends Model
     function le($id)
         {
             $dt = $this->find($id);
-            return $dt;
+            return $dt[0];
         }
 
     function list()
