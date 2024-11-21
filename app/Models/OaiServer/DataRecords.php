@@ -92,7 +92,7 @@ class DataRecords extends Model
 
             foreach ($nameArray as $nameX) {
                 $dt['r_content'] = $nameX; // Atualiza 'r_content' para cada item do array
-                $dt['xxx'] = $dt['r_metadata'];
+                $dt['xxx'] = $nameX;
                 $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
             }
         } else {
