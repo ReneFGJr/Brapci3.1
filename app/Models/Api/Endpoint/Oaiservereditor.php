@@ -79,6 +79,13 @@ class Oaiservereditor extends Model
                 exit;
                 break;
 
+            case 'datarecord':
+                $DataRecords = new \App\Models\OaiServer\DataRecords();
+                $dt = $DataRecords->le($d2);
+                echo json_encode($dt);
+                exit;
+                break;
+
             case 'listidentifiers':
                 $ListRecords = new \App\Models\OaiServer\ListRecords();
                 $dt = $ListRecords->list($d2);

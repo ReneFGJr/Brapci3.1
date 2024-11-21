@@ -51,6 +51,12 @@ class DataRecords extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function le($id)
+        {
+            $dt = $this->first($id);
+            return $dt;
+        }
+
     function list($id)
         {
             $dt =
