@@ -14,7 +14,6 @@ class DataRecords extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_r',
         'r_record',
         'r_metadata',
         'r_lang',
@@ -61,8 +60,12 @@ class DataRecords extends Model
 
     function register($id,$dt)
         {
-            $this->set($dt)->where('id_r',$dt['id_r'])->update();
-            $dt = $this->where('id_r',$dt['id_r'])->first();
+            if ($id == 0)
+                {
+                    $this->set($dt)->where('id_r', $dt['id_r'])->insert();
+                } else {
+                    $this->set($dt)->where('id_r', $dt['id_r'])->update();
+                }
             return $dt;
         }
 
