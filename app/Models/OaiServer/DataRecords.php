@@ -87,8 +87,8 @@ class DataRecords extends Model
     function register($id, $dt)
     {
         if ($dt['r_metadata'] == '4') {
-            $name = (string)$dt['r_content'];
-            $nameArray = explode(';', $name); // Divide a string em um array usando ';' como delimitador
+            $nameY = (string)$dt['r_content'];
+            $nameArray = explode(';', trim($nameY)); // Divide a string em um array usando ';' como delimitador
             return $nameArray;
 
             foreach ($nameArray as $nameX) {
