@@ -88,6 +88,7 @@ class DataRecords extends Model
     {
         if ($dt['r_metadata'] == '4') {
             $name = (string)$dt['r_content'];
+            $name = troca($name,';','#');
             $nameArray = explode(';', $name); // Divide a string em um array usando ';' como delimitador
 
             foreach ($nameArray as $nameX) {
