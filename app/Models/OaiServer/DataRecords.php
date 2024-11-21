@@ -61,7 +61,8 @@ class DataRecords extends Model
 
     function register($id,$dt)
         {
-            $this->set($dt)->where('id_r',$id)->update();
+            $this->set($dt)->where('id_r',$dt['id_r'])->update();
+            $dt = $this->where('id_r',$dt['id_r'])->first();
             return $dt;
         }
 
