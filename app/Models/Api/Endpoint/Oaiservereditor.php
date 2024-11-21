@@ -95,7 +95,7 @@ class Oaiservereditor extends Model
 
             case 'updaterecord':
                 $DataRecords = new \App\Models\OaiServer\DataRecords();
-                $data = $_POST;
+                $data = array_merge($_POST,$_GET);
                 $id = get("id_r");
                 $dt = $DataRecords->register($id,$data);
                 echo json_encode($dt);

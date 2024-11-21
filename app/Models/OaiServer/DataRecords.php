@@ -86,7 +86,6 @@ class DataRecords extends Model
 
     function register($id, $dt)
     {
-        pre($dt);
         if (!isset($dt['r_metadata']))
             {
                 $dd = [];
