@@ -58,6 +58,13 @@ class DataRecords extends Model
             return $dt;
         }
 
+    function remove($id)
+        {
+            $this->where('id_r',$id)->delete();
+            $dt = $this->le($id);
+            return $dt;
+        }
+
     function register($id,$dt)
         {
             if ($id == 0)
