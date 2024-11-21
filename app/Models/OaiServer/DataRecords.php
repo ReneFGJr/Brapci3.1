@@ -97,23 +97,18 @@ class DataRecords extends Model
         if ($dt['r_metadata'] == '4') {
             $nameY = (string)$dt['r_content'];
             $nameY = troca($nameY, ';',';');
-            pre($nameY, false);
+
             // Decodificar a string URL (substitui %20 por espaços, etc.)
             $nameY = urldecode($nameY);
-            pre($nameY, false);
+
             // Corrigir possíveis problemas de encoding para UTF-8
             $nameY = mb_convert_encoding($nameY, 'UTF-8', 'auto');
-            pre($nameY, false);
 
             $nameArray = explode(';', trim($nameY)); // Divide a string em um array usando ';' como delimitador
-            pre($nameArray, true);
-            return $nameArray;
 
             foreach ($nameArray as $nameX) {
                 $nameX = troca($nameX,'.',' ');
                 $dt['r_content'] = trim($nameX); // Atualiza 'r_content' para cada item do array
-                $dt['xxx'] = $nameArray;
-                $dt['yyy'] = $dt;
                 $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
             }
         } else {
