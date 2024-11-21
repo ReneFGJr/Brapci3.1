@@ -86,11 +86,13 @@ class DataRecords extends Model
 
     function register($id,$dt)
         {
+
+
             if ($id == 0)
                 {
-                    $this->set($dt)->where('id_r', $dt['id_r'])->insert();
+                    //$this->set($dt)->where('id_r', $dt['id_r'])->insert();
                 } else {
-                    $this->set($dt)->where('id_r', $dt['id_r'])->update();
+                    //$this->set($dt)->where('id_r', $dt['id_r'])->update();
                 }
             return $dt;
         }
