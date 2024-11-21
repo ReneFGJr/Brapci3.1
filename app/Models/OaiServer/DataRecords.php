@@ -91,8 +91,9 @@ class DataRecords extends Model
             $nameArray = explode(';', $name); // Divide a string em um array usando ';' como delimitador
 
             foreach ($nameArray as $nameX) {
-                $dt['r_content'] = $nameX; // Atualiza 'r_content' para cada item do array
-                $dt['xxx'] = $nameX;
+                $nameX = troca($nameX,'.',' ');
+                $dt['r_content'] = trim($nameX); // Atualiza 'r_content' para cada item do array
+                $dt['xxx'] = $nameArray;
                 $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
             }
         } else {
