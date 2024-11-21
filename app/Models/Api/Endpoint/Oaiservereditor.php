@@ -65,6 +65,13 @@ class Oaiservereditor extends Model
                 exit;
                 break;
 
+            case 'metadata':
+                $Metadata = new \App\Models\OaiServer\Metadata();
+                $dt = $Metadata->list();
+                echo json_encode($dt);
+                exit;
+                break;
+
             case 'datarecords':
                 $DataRecords = new \App\Models\OaiServer\DataRecords();
                 $dt = $DataRecords->list($d2);
