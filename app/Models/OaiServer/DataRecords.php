@@ -107,10 +107,13 @@ class DataRecords extends Model
 
             $nameArray = explode(';', trim($nameY)); // Divide a string em um array usando ';' como delimitador
 
+            $id_ini = $dt['id_r'];
+
             foreach ($nameArray as $nameX) {
                 $nameX = troca($nameX,'.',' ');
                 $dt['r_content'] = trim($nameX); // Atualiza 'r_content' para cada item do array
-                $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
+                $this->registerSub($id_ini, $dt); // Chama a função 'registerSub' para cada item
+                $id_ini = 0;
             }
         } else {
             $dt['xxx'] = $dt['r_metadata'];
