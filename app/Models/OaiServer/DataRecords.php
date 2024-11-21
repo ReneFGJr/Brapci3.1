@@ -95,6 +95,7 @@ class DataRecords extends Model
                 $nameX = troca($nameX,'.',' ');
                 $dt['r_content'] = trim($nameX); // Atualiza 'r_content' para cada item do array
                 $dt['xxx'] = $nameArray;
+                $dt['yyy'] = $dt;
                 $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
             }
         } else {
