@@ -96,6 +96,7 @@ class DataRecords extends Model
 
         if ($dt['r_metadata'] == '4') {
             $nameY = (string)$dt['r_content'];
+            $nameY = troca($nameY, ';',';');
             pre($nameY, false);
             // Decodificar a string URL (substitui %20 por espaços, etc.)
             $nameY = urldecode($nameY);
