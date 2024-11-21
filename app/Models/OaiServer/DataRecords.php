@@ -84,15 +84,28 @@ class DataRecords extends Model
     }
 
 
-    function register($id,$dt)
-        {
+    function register($id, $dt)
+    {
+        if ($dt['r_metadata'] == 4) {
+            $name = $dt['r_content'];
+            $nameArray = explode(';', $name); // Divide a string em um array usando ';' como delimitador
 
+            foreach ($nameArray as $nameX) {
+                $dt['r_content'] = $nameX; // Atualiza 'r_content' para cada item do array
+                $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
+            }
+        } else {
+            $this->registerSub($id, $dt); // Processa diretamente se 'r_metadata' não for 4
+        }
+    }
 
+    function registerSub($id,$dt)
+            {
             if ($id == 0)
                 {
-                    //$this->set($dt)->where('id_r', $dt['id_r'])->insert();
+                    $this->set($dt)->where('id_r', $dt['id_r'])->insert();
                 } else {
-                    //$this->set($dt)->where('id_r', $dt['id_r'])->update();
+                    $this->set($dt)->where('id_r', $dt['id_r'])->update();
                 }
             return $dt;
         }
