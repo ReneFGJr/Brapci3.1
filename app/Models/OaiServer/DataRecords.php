@@ -86,6 +86,14 @@ class DataRecords extends Model
 
     function register($id, $dt)
     {
+        if (!isset($dt['r_metadata']))
+            {
+                $dd = [];
+                $dd['status'] = '500';
+                $dd['message'] = 'r_metadata not found';
+                return $dd;
+            }
+
         if ($dt['r_metadata'] == '4') {
             $nameY = (string)$dt['r_content'];
             $nameArray = explode(';', trim($nameY)); // Divide a string em um array usando ';' como delimitador
