@@ -59,12 +59,30 @@ class DataRecords extends Model
         }
 
     function remove($id)
-        {
-            $this->where('id_r',$id)->delete();
-            $dt = [];
-            $dt['status'] = '200';
-            return $dt;
+    {
+        // Validação do ID
+        if (!is_numeric($id) || $id <= 0) {
+            return ['status' => '400', 'message' => 'Invalid ID'];
         }
+
+        try {
+            // Verifica se o registro existe
+            $exists = $this->where('id_r', $id)->exists();
+            if (!$exists) {
+                return ['status' => '404', 'message' => 'Record not found'];
+            }
+
+            // Remove o registro
+            $this->where('id_r', $id)->delete();
+
+            // Retorna sucesso
+            return ['status' => '200', 'message' => 'Record deleted successfully'];
+        } catch (\Exception $e) {
+            // Retorna erro em caso de falha
+            return ['status' => '500', 'message' => 'Error deleting record: ' . $e->getMessage()];
+        }
+    }
+
 
     function register($id,$dt)
         {
