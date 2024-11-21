@@ -62,7 +62,7 @@ class DataRecords extends Model
     {
         // Validação do ID
         if (!is_numeric($id) || $id <= 0) {
-            return ['status' => '400', 'message' => 'Invalid ID'];
+            return ['status' => '400', 'message' => 'Invalid ID', 'ID'=> $id];
         }
 
         try {
