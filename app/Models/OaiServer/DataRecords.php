@@ -53,7 +53,9 @@ class DataRecords extends Model
 
     function le($id)
         {
-            $dt = $this->first($id);
+            $dt = $this
+                ->where('id_r',$id)
+                ->first($id);
             return $dt;
         }
 
