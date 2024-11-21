@@ -102,9 +102,10 @@ class DataRecords extends Model
             pre($nameY, false);
             // Corrigir possíveis problemas de encoding para UTF-8
             $nameY = mb_convert_encoding($nameY, 'UTF-8', 'auto');
-            pre($nameY,true);
+            pre($nameY, false);
 
             $nameArray = explode(';', trim($nameY)); // Divide a string em um array usando ';' como delimitador
+            pre($nameArray, true);
             return $nameArray;
 
             foreach ($nameArray as $nameX) {
