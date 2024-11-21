@@ -88,8 +88,7 @@ class Oaiservereditor extends Model
             case 'removerecords':
                 $DataRecords = new \App\Models\OaiServer\DataRecords();
                 $data = $_POST;
-                $id = get("id_r");
-                $dt = $DataRecords->remove($id, $data);
+                $dt = $DataRecords->remove($d2);
                 echo json_encode($dt);
                 exit;
                 break;
