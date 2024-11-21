@@ -61,7 +61,8 @@ class DataRecords extends Model
     function remove($id)
         {
             $this->where('id_r',$id)->delete();
-            $dt = $this->le($id);
+            $dt = [];
+            $dt['status'] = '200';
             return $dt;
         }
 
