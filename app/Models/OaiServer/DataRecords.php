@@ -95,6 +95,7 @@ class DataRecords extends Model
                 $this->registerSub($id, $dt); // Chama a função 'registerSub' para cada item
             }
         } else {
+            $dt['xxx'] = $dt['r_metadata'];
             $this->registerSub($id, $dt); // Processa diretamente se 'r_metadata' não for 4
         }
         return $dt;
