@@ -86,11 +86,12 @@ class DataRecords extends Model
 
     function register($id, $dt)
     {
-        if (!isset($dt['r_metadata']))
+        if ((!isset($dt['r_metadata'])) or ((!isset($dt['id_r']))))
             {
                 $dd = [];
                 $dd['status'] = '500';
-                $dd['message'] = 'r_metadata not found';
+                $dd['message'] = 'r_metadata or id_r not found';
+                $dd['data'] = $dt;
                 return $dd;
             }
 
