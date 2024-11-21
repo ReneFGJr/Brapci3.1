@@ -100,6 +100,7 @@ class DataRecords extends Model
             $nameY = urldecode($nameY);
             // Corrigir possíveis problemas de encoding para UTF-8
             $nameY = mb_convert_encoding($nameY, 'UTF-8', 'auto');
+            pre($nameY);
 
             $nameArray = explode(';', trim($nameY)); // Divide a string em um array usando ';' como delimitador
             return $nameArray;
