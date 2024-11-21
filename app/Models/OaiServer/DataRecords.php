@@ -86,7 +86,7 @@ class DataRecords extends Model
 
     function register($id, $dt)
     {
-        if ($dt['r_metadata'] == 4) {
+        if ($dt['r_metadata'] == '4') {
             $name = $dt['r_content'];
             $nameArray = explode(';', $name); // Divide a string em um array usando ';' como delimitador
 
@@ -97,6 +97,7 @@ class DataRecords extends Model
         } else {
             $this->registerSub($id, $dt); // Processa diretamente se 'r_metadata' não for 4
         }
+        return $dt;
     }
 
     function registerSub($id,$dt)
