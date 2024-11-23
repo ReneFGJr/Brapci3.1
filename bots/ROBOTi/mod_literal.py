@@ -386,7 +386,7 @@ def check_utf8_old():
                 dados = dados.replace('”','')
                 dados = dados.replace('“','')
                 dados = dados.replace('"','')
-                dados = dados.replace('𝑥̅','x')
+                dados = normalize_text(dados)
                 qu = f"update brapci_rdf.rdf_literal set n_name = '{dados}' where id_n = {id}"
                 database.insert(qu)
                 print("=================")
@@ -394,6 +394,8 @@ def check_utf8_old():
 
             print("=================================")
 
+def normalize_text(text):
+    return ''.join(c for c in unicodedata.normalize('NFKD', text) if unicodedata.category(c) != 'Mn')
 
 def check_duplicate():
     qr = "select * from "
