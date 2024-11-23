@@ -395,7 +395,18 @@ def check_utf8_old():
             print("=================================")
 
 def normalize_text(text):
-    return ''.join(c for c in unicodedata.normalize('NFKD', text) if unicodedata.category(c) != 'Mn')
+    text = remover_caracteres_especiais(text)
+    return ''.join(
+        c for c in unicodedata.normalize('NFKD', text)
+        if unicodedata.category(c) != 'Mn'
+    )
+
+def remover_caracteres_especiais(text):
+    # Normaliza e remove diacríticos
+    texto_normalizado = unicodedata.normalize('NFKD', text)
+    # Remove qualquer caractere não ASCII
+    texto_limpo = re.sub(r'[^\x00-\x7F]', '', texto_normalizado)
+    return texto_limpo
 
 def check_duplicate():
     qr = "select * from "
