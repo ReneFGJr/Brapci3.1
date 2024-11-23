@@ -403,7 +403,7 @@ def normalize_text(text):
 
 def remover_caracteres_especiais(text):
     # Normaliza e remove diacríticos
-    texto_normalizado = unicodedata.normalize('NFKD', text)
+    texto_normalizado = unicodedata.normalize('NFKD', texto)
     # Remove qualquer caractere não ASCII
     texto_limpo = re.sub(r'[^\x00-\x7F]', '', texto_normalizado)
     return texto_limpo
@@ -546,6 +546,7 @@ def update_term(id,term):
 
 
 def register(term,lang):
+    term = normalize_text(term)
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{term}') and (n_lang = '{lang}')"
     row = database.query(qr)
     if row == []:
