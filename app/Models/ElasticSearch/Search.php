@@ -145,6 +145,8 @@ class Search extends Model
             $dts[$ida] = $line;
         }
 
+        pre($dt);
+
         foreach($dt as $id=>$line)
             {
                 $line[$id]['work'] = $line;
