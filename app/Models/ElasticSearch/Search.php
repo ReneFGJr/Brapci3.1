@@ -122,8 +122,9 @@ class Search extends Model
             'from' => 0, // Offset
             'size' => 10, // Limite de resultados
         ];
-
-        $query['query']['bool']['must']['match']['collection'] = 'JA';
+        $filter = [];
+        $filter['must']['match']['collection'] = 'JA';
+        array_push($query['query']['bool'],$filter);
         pre($query);
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
