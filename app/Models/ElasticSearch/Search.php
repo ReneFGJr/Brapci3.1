@@ -73,7 +73,7 @@ class Search extends Model
                 'bool' => [
                     'must' => [
                         [
-                            'query_string' => [
+                            'match' => [
                                 'full' => $Term
                             ]
                         ]
