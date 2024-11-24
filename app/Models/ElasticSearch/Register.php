@@ -151,6 +151,7 @@ class Register extends Model
             }
 
             /*********************************************** KEYWORDS */
+            pre($DT);
             if (isset($DT['Keywords'])) {
                 $keys = (array)$DT['Keywords'];
                 pre($keys);
