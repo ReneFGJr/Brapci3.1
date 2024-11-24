@@ -65,8 +65,6 @@ class Search extends Model
             $data['from'] = $start;
             $data['query']['bool'] = $strategy;
 
-            $url = 'brapci3.3/_search';
-            $method = "POST";
             $Term = get("term");
 
             // Corpo da consulta
@@ -108,8 +106,7 @@ class Search extends Model
             //$dt = $API->call($url, $method, $data);
 
             $dt['stategy'] = $data;
-            pre($response);
-            return $dt;
+            return $response;
         }
 
     function tratar($q)
