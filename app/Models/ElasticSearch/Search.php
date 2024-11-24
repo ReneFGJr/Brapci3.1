@@ -115,14 +115,10 @@ class Search extends Model
                                 'fields' => ['full'],  // Campo(s) para buscar
                                 'default_operator' => 'AND', // Operador padrão
                             ]
-                        ]
-                    ],
-                    'must' => [
+                        ],
                         [
                             'match' => [
-                                'query' => 'JA', // Termo de busca
-                                'fields' => ['collection'],  // Campo(s) para buscar
-                                'default_operator' => 'AND', // Operador padrão
+                               'collection' => 'JA', // Operador padrão
                             ]
                         ]
                     ]
