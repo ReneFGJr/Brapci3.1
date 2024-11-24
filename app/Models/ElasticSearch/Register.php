@@ -68,6 +68,8 @@ class Register extends Model
             ->orderBy('ID desc')
             ->FindAll($limit);
 
+            pre($dta);
+
         $type = 'prod';
 
 
