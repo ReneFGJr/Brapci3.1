@@ -114,6 +114,9 @@ class Search extends Model
         if (!isset($dt['works'])) {
             $dt['works'] = [];
         }
+
+        pre($dt);
+
         echo (json_encode($dt));
         exit;
     }
