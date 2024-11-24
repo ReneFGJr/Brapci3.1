@@ -152,9 +152,10 @@ class Search extends Model
 
                 if (isset($dts[$ida]))
                     {
-                        pre($dt['work'][$id], false);
+                        pre($dt,false);
+                        pre($dt[$id]['work'], false);
                         $dt['work'][$id]['data'] = $dts[$ida];
-                        pre($dt['work'][$id], false);
+                        pre($dt[$id]['work'], false);
                     }
             }
 
