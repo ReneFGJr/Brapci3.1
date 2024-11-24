@@ -132,10 +132,10 @@ class Register extends Model
             $idaa = [];
             if (isset($DT['Authors'])) {
                 $keys = (array)$DT['Authors'];
-                pre($keys);
-                foreach ($keys as $lang => $ks) {
+                foreach ($keys as $id => $ks) {
                     $ks = (array)$ks;
                     foreach ($ks as $idk => $term) {
+                        echo "<br>==".$term;
                         if (!isset($idaa[$idk])) {
                             if (trim($term) != '') {
                                 $term = ascii($term);
@@ -149,6 +149,7 @@ class Register extends Model
                     }
                 }
             }
+            exit;
 
             /*********************************************** KEYWORDS */
             if (isset($DT['Keywords'])) {
