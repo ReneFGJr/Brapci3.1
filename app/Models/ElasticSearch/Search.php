@@ -145,7 +145,7 @@ class Search extends Model
         }
         $ds = $Search->findAll();
 
-        foreach($ds as $id->$line)
+        foreach($ds as $id=>$line)
             {
                 $line[$id]['work'] = $line;
                 pre($line);
