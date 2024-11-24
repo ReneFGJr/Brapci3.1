@@ -46,27 +46,7 @@ class Search extends Model
         $Cover = new \App\Models\Base\Cover();
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
 
-        ########################################## Busca
-        if (isset($_POST['version']))
-            {
-                $version = $_POST['version'];
-            } else {
-                $version = 'v1';
-            }
-
-        switch($version)
-            {
-                case 'v3':
-                $dt = $this->search_v3($q, $type);
-                break;
-                default:
-                $dt = $this->search($q, $type);
-                break;
-            }
-
-
-        $dt['searchVersion'] = $version;
-
+        $dt = $this->search($q, $type);
         $dt['user'] = get("user");
         $dt['section'] = get("section");
         $dt['post'] = $_POST;
@@ -179,12 +159,6 @@ class Search extends Model
         return $dr;
     }
 
-    function search_v3($q='',$type='')
-        {
-            $API = new \App\Models\ElasticSearch\API();
-            $strategy = [];
-        }
-
     function search($q = '', $type = '')
     {
         $start = round('0' . get('start'));
@@ -263,9 +237,8 @@ class Search extends Model
         foreach($wd as $id=>$word)
             {
                 $word = troca($word,'_',' ');
-            //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
-            //$strategy['must'][$id]['match_phrase'][$field] = ascii($word);
-            $strategy['must'][$id]['query_string'][$field] = ascii($word);
+                //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
+                $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
             }
 
 
