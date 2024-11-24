@@ -133,21 +133,8 @@ class Brapci extends Model
                 $RSP = $this->resume();
                 break;
             case 'search':
-                switch ($d2) {
-                    case 'a1':
-                        echo "Search Advanced";
-                        exit;
-                        break;
-                    case 'v2':
-                        $RSP['strategy'] = array_merge($_POST, $_GET);
-                        $RSP['result'] = $this->search();
-                        exit;
-                        break;
-                    default:
-                        $RSP['strategy'] = array_merge($_POST, $_GET);
-                        $RSP['result'] = $this->search();
-                        break;
-                }
+                $RSP['strategy'] = array_merge($_POST, $_GET);
+                $RSP['result'] = $this->search($d2);
                 break;
             case 'source':
                 $RSP['source'] = $this->source($d2, $d3);
@@ -622,8 +609,9 @@ class Brapci extends Model
         return $RSP;
     }
 
-    function search()
+    function search($version)
     {
+        /************** TERM */
         $term = get("q");
         if ($term == '')
             {
@@ -631,6 +619,7 @@ class Brapci extends Model
             }
         if ($term != '') {
             $Elastic = new \App\Models\ElasticSearch\Search();
+            $_POST['version'] = $version;
             return $Elastic->searchFull($term);
         } else {
             return [];

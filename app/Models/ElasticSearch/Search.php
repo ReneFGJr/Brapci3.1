@@ -46,7 +46,12 @@ class Search extends Model
         $Cover = new \App\Models\Base\Cover();
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
 
+        ########################################## Busca
+        $version = get("version");
+
         $dt = $this->search($q, $type);
+        $dt['version'] = $version;
+
         $dt['user'] = get("user");
         $dt['section'] = get("section");
         $dt['post'] = $_POST;
