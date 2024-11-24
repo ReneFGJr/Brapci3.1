@@ -105,11 +105,17 @@ class Search extends Model
 
         $dt['works'] = $this->worksRecover($result);
         $dt['works'] = $this->convertElastic($dt);
+        $dt['total'] = count($dt['works']);
 
         //$dt = $API->call($url, $method, $data);
 
         $dt['stategy'] = $data;
-        return $dt['works'];
+
+        if (!isset($dt['works'])) {
+            $dt['works'] = [];
+        }
+        echo (json_encode($dt));
+        exit;
     }
 
     function tratar($q) {}
