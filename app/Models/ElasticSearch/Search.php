@@ -132,7 +132,7 @@ class Search extends Model
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
         $Search->select($cp);
         $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
-        foreach ($dt['works'] as $id => $line) {
+        foreach ($dt as $id => $line) {
             $ida = $line['id'];
             if ($n == 0) {
                 $Search->where('ID', $ida);
@@ -149,11 +149,11 @@ class Search extends Model
             $dts[$ida] = $line;
         }
 
-        foreach ($dt['works'] as $idr => $line) {
+        foreach ($dt as $idr => $line) {
             $ida = $line['id'];
 
             if (isset($dts[$ida])) {
-                $dt['works'][$idr]['data'] = $dts[$ida];
+                $dt[$idr]['data'] = $dts[$ida];
             }
         }
         return $dt;
