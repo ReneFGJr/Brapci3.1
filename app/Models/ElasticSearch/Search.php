@@ -117,13 +117,14 @@ class Search extends Model
                             ]
                         ]
                     ],
-                    'filter' => [
+                    'must' => [
                         [
-                            'term' => [
-                                'collection' => $filterValue // Filtro no campo 'collection'
+                            'query_string' => [
+                                'query' => 'JA', // Termo de busca
+                                'fields' => ['collection'],  // Campo(s) para buscar
+                                'default_operator' => 'AND', // Operador padrão
                             ]
                         ]
-                    ]
                 ]
             ],
             'from' => 0, // Offset
