@@ -69,6 +69,8 @@ class Search extends Model
 
         // Corpo da consulta
         $query = [
+            'from' => $start, // Define o deslocamento
+            'size' => $offset,  // Quantidade de documentos retornados
             'query' => [
                 'bool' => [
                     'must' => [
@@ -304,7 +306,7 @@ class Search extends Model
             $start = 0;
         }
         if ($offset < 1) {
-            $offset = 100;
+            $offset = 10;
         }
 
         $API = new \App\Models\ElasticSearch\API();
