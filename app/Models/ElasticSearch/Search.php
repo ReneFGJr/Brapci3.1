@@ -147,9 +147,9 @@ class Search extends Model
 
         pre($dt);
 
-        foreach($dt as $id=>$line)
+        foreach($dt['works'] as $id=>$line)
             {
-                $line[$id]['work'] = $line;
+                $dt['work'][$id]['data'] = $line;
                 pre($line);
             }
 
