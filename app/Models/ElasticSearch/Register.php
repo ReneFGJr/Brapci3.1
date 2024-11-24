@@ -132,6 +132,7 @@ class Register extends Model
             $idaa = [];
             if (isset($DT['Authors'])) {
                 $keys = (array)$DT['Authors'];
+                pre($keys);
                 foreach ($keys as $lang => $ks) {
                     $ks = (array)$ks;
                     foreach ($ks as $idk => $term) {
