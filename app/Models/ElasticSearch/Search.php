@@ -161,7 +161,13 @@ class Search extends Model
     function worksRecover($dt)
     {
         $rsp = [];
-        $hits = $dt['hits']['hits'];
+        if (!isset($dt['hits']['hits']))
+            {
+                pre($dt);
+            } else {
+                $hits = $dt['hits']['hits'];
+            }
+
         for ($r = 0; $r < count($hits); $r++) {
             $line = $hits[$r];
             if (isset($line['_id'])) {
