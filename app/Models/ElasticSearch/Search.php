@@ -94,6 +94,20 @@ class Search extends Model
         $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES, 'default_operator' => 'OR'];
         array_push($query['query']['bool']['must'],$filter);
 
+        /******* Range */
+        $di = ((int)trim(get("year_start")) - 1);
+        $df = ((int)trim(get("year_end")) + 1);
+        if ($di < 0) {
+            $di = 1899;
+        }
+        if ($df == 1) {
+            $df = date("Y") + 1;
+        }
+        $range = [];
+        $range['range']['year'] = ['gt'=>$di,'lt'=>$df];
+        array_push($query['query']['bool']['must'], $filter);
+
+
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
