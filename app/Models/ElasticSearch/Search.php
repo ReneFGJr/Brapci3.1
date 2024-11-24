@@ -54,8 +54,16 @@ class Search extends Model
                 $version = 'v1';
             }
 
+        switch($version)
+            {
+                case 'v3':
+                $dt = $this->search_v3($q, $type);
+                break;
+                default:
+                $dt = $this->search($q, $type);
+                break;
+            }
 
-        $dt = $this->search($q, $type);
 
         $dt['searchVersion'] = $version;
 
@@ -171,6 +179,12 @@ class Search extends Model
         return $dr;
     }
 
+    function search_v3($q='',$type='')
+        {
+            $API = new \App\Models\ElasticSearch\API();
+            $strategy = [];
+        }
+
     function search($q = '', $type = '')
     {
         $start = round('0' . get('start'));
@@ -249,8 +263,9 @@ class Search extends Model
         foreach($wd as $id=>$word)
             {
                 $word = troca($word,'_',' ');
-                //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
-                $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
+            //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
+            //$strategy['must'][$id]['match_phrase'][$field] = ascii($word);
+            $strategy['must'][$id]['query_string'][$field] = ascii($word);
             }
 
 
