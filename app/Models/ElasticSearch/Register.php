@@ -68,8 +68,6 @@ class Register extends Model
             ->orderBy('ID desc')
             ->FindAll($limit);
 
-            pre($dta);
-
         $type = 'prod';
 
 
@@ -188,7 +186,7 @@ class Register extends Model
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
 
-            pre($DT);
+            pre($line);
 
             if (isset($DT['Issue'])) {
                 $Issue = (array)$DT['Issue'];
