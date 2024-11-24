@@ -51,11 +51,14 @@ class Search extends Model
             $start = round('0' . get('start'));
             $offset = round('0' . get('offset'));
 
-            $q = $this->tratar(get("term"));
+            $term = $this->tratar(get("term"));
             $dt['post'] = $_POST;
 
             /******************** Sources */
             $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year", "legend", "full");
+
+            /* Strategy */
+            $strategy['qurey']['match']['full'] = $term;
 
             /******************** Limites */
             $data['size'] = $offset;
