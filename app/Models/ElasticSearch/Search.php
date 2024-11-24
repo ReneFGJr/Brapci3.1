@@ -153,11 +153,9 @@ class Search extends Model
                 if (isset($dts[$ida]))
                     {
                         $dt['works'][$idr]['data'] = $dts[$ida];
-                        pre($dt);
                     }
             }
-
-        return $ds;
+        return $dt;
         }
 
     function worksRecover($dt)
