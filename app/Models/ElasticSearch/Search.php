@@ -110,7 +110,7 @@ class Search extends Model
             //$dt = $API->call($url, $method, $data);
 
             $dt['stategy'] = $data;
-            return $dt;
+            return $dt['works'];
         }
 
     function tratar($q)
