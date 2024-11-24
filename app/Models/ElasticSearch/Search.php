@@ -89,6 +89,7 @@ class Search extends Model
             'from' => $start, // Define o deslocamento
             'size' => $offset,  // Quantidade de documentos retornados
         ];
+        /******* Collection */
         $SOURCES = troca(get("collection"),',',' ');
         $filter = [];
         $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES, 'default_operator' => 'OR'];
@@ -97,12 +98,8 @@ class Search extends Model
         /******* Range */
         $di = ((int)trim(get("year_start")) - 1);
         $df = ((int)trim(get("year_end")) + 1);
-        if ($di < 0) {
-            $di = 1899;
-        }
-        if ($df == 1) {
-            $df = date("Y") + 1;
-        }
+        if ($di < 0) { $di = 1950; }
+        if ($df == 1) { $df = date("Y") + 1; }
         $range = [];
         $range['range']['year'] = ['gt'=>$di,'lt'=>$df];
         array_push($query['query']['bool']['must'], $range);
