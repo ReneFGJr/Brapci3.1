@@ -104,6 +104,9 @@ class Search extends Model
             $response = curl_exec($ch);
             $result = json_decode($response, true);
 
+            $dt['works'] = $this->worksRecover($result);
+            pre($dt);
+
             //$dt = $API->call($url, $method, $data);
 
             $dt['stategy'] = $data;
@@ -115,6 +118,46 @@ class Search extends Model
 
         }
 
+    function convertElastic($dt)
+        {
+        $Search = new \App\Models\ElasticSearch\Search();
+        /* Retorno */
+        $n = 0;
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
+        $Search->select($cp);
+        $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
+        foreach ($dt['works'] as $id => $line) {
+            $ida = $line['id'];
+            if ($n == 0) {
+                $Search->where('ID', $ida);
+            } else {
+                $Search->Orwhere('ID', $ida);
+            }
+            $n++;
+        }
+        $ds = $Search->findAll();
+        return $ds;
+        }
+
+    function worksRecover($dt)
+        {
+            $rsp = [];
+            $hits = $dt['hits']['hits'];
+            for ($r = 0; $r < count($hits); $r++) {
+                $line = $hits[$r];
+                if (isset($line['_id'])) {
+                    array_push($rsp, array(
+                        'id' => $line['_id'],
+                        'score' => $line['_score'],
+                        'type' => $line['_source']['type'],
+                        //'jnl' => $line['_source']['id_jnl'],
+                        'year' => $line['_source']['year'],
+                    ));
+                }
+            }
+            return $rsp;
+        }
+
     function searchFull($q = '', $type = '')
     {
         $Search = new \App\Models\ElasticSearch\Search();
@@ -122,12 +165,12 @@ class Search extends Model
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
 
         $dt = $this->search($q, $type);
+
         $dt['user'] = get("user");
         $dt['section'] = get("section");
         $dt['post'] = $_POST;
 
-        $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS,
-                        SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
 
         if (!isset($dt['works'])) {
             $dt['status'] = '500';
@@ -141,19 +184,7 @@ class Search extends Model
 
         /* Retorno */
         $n = 0;
-        $Search->select($cp);
-        $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
-        foreach ($dt['works'] as $id => $line) {
-            $ida = $line['id'];
-            if ($n == 0) {
-                $Search->where('ID', $ida);
-            } else {
-                $Search->Orwhere('ID', $ida);
-            }
-            $n++;
-        }
-
-        $ds = $Search->findAll();
+        $ds = $this->convertElastic($dt);
 
         /********************* Organiza Array Por ID */
         $dsr = [];
@@ -415,7 +446,6 @@ class Search extends Model
             $rsp['offset'] = $offset;
             $rsp['works'] = array();
             $hits = $dt['hits']['hits'];
-
             for ($r = 0; $r < count($hits); $r++) {
                 $line = $hits[$r];
                 if (isset($line['_id'])) {
