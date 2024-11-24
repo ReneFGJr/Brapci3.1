@@ -42,9 +42,31 @@ class Search extends Model
 
     function searchFull3()
         {
+            $API = new \App\Models\ElasticSearch\API();
+
             $dt = [];
+            $data = [];
+            $strategy = [];
+
+            $start = round('0' . get('start'));
+            $offset = round('0' . get('offset'));
+
             $q = $this->tratar(get("term"));
             $dt['post'] = $_POST;
+
+            /******************** Sources */
+            $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year", "legend", "full");
+
+            /******************** Limites */
+            $data['size'] = $offset;
+            $data['from'] = $start;
+            $data['query']['bool'] = $strategy;
+
+            $url = 'brapci3.3/_search';
+            $method = "POST";
+            $dt = $API->call($url, $method, $data);
+
+
             return $dt;
         }
 
