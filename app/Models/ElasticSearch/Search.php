@@ -67,9 +67,48 @@ class Search extends Model
 
             $url = 'brapci3.3/_search';
             $method = "POST";
-            $dt = $API->call($url, $method, $data);
+            $Term = get("term");
+
+            // Corpo da consulta
+            $query = [
+                'query' => [
+                    'bool' => [
+                        'must' => [
+                            [
+                                'match' => [
+                                    'full' => $Term
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ];
+
+            $host = 'http://localhost:9200'; // URL do Elasticsearch
+            $index = 'brapci3.3'; // Substitua pelo nome do índice
+            $searchTerm = 'biblioteca';
+
+            // Inicializa o cURL
+            $ch = curl_init();
+
+            // Configurações do cURL
+            curl_setopt_array($ch, [
+                CURLOPT_URL => "$host/$index/_search", // Endpoint para pesquisa
+                CURLOPT_RETURNTRANSFER => true,       // Retorna o resultado como string
+                CURLOPT_CUSTOMREQUEST => 'POST',      // Método HTTP
+                CURLOPT_POSTFIELDS => json_encode($query), // Corpo da requisição em JSON
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json' // Cabeçalho indicando JSON
+                ],
+            ]);
+
+            // Executa a consulta
+            $response = curl_exec($ch);
+
+            //$dt = $API->call($url, $method, $data);
 
             $dt['stategy'] = $data;
+            pre($response);
             return $dt;
         }
 
