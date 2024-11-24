@@ -135,7 +135,7 @@ class Register extends Model
                 foreach ($keys as $id => $ks) {
                     $ks = (array)$ks;
                     foreach ($ks as $idk => $term) {
-                        if (!isset($idaa[$idk])) {
+                        if (!isset($idaa[$term])) {
                             if (trim($term) != '') {
                                 $term = ascii($term);
                                 $full .= $term.' ';
