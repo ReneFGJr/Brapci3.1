@@ -50,7 +50,6 @@ class Search extends Model
         $version = get("version");
 
         $dt = $this->search($q, $type);
-        $dt['version'] = $version;
 
         $dt['user'] = get("user");
         $dt['section'] = get("section");
