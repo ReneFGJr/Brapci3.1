@@ -79,6 +79,7 @@ class Search extends Model
                             'query_string' => [
                                 'default_field' => $field,  // Campo(s) para buscar
                                 'query' => $Term, // Termo de busca
+                                'default_operator' => 'AND', // Operador padrão (opcional)
                             ]
                         ]
                     ]
@@ -89,7 +90,7 @@ class Search extends Model
         ];
         $SOURCES = troca(get("collection"),',',' ');
         $filter = [];
-        $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES];
+        $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES, 'default_operator' => 'OR'];
         array_push($query['query']['bool']['must'],$filter);
 
 
