@@ -618,9 +618,21 @@ class Brapci extends Model
                 $term = get("term");
             }
         if ($term != '') {
-            $Elastic = new \App\Models\ElasticSearch\Search();
+
+
+
+            /************************************ */
             $_POST['version'] = $version;
-            return $Elastic->searchFull($term);
+            $Elastic = new \App\Models\ElasticSearch\Search();
+            switch($version)
+                {
+                    case 'v3':
+                        return $Elastic->searchFull3();
+                        break;
+                    default:
+                        return $Elastic->searchFull($term);
+                        break;
+                }
         } else {
             return [];
         }

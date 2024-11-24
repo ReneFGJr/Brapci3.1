@@ -40,6 +40,17 @@ class Search extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function serachFull3()
+        {
+            $q = $this->tratar(get("term"));
+
+        }
+
+    function tratar($q)
+        {
+
+        }
+
     function searchFull($q = '', $type = '')
     {
         $Search = new \App\Models\ElasticSearch\Search();
