@@ -66,7 +66,7 @@ class Search extends Model
             $method = "POST";
             $dt = $API->call($url, $method, $data);
 
-
+            $dt['stategy'] = $data;
             return $dt;
         }
 
