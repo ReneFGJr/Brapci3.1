@@ -58,7 +58,7 @@ class Search extends Model
             $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year", "legend", "full");
 
             /* Strategy */
-            $strategy['query']['match']['full'] = $term;
+            $strategy['query']['match']['full'] = 'biblioteca';
 
             /******************** Limites */
             $data['size'] = $offset;
