@@ -103,6 +103,33 @@ class Search extends Model
         ];
         $query['query']['bool']['filter']['term']['collection'] = 'JA';
 
+        $filterValue = 'JA';
+
+        $query = [
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        [
+                            'query_string' => [
+                                'query' => $Term, // Termo de busca
+                                'fields' => ['full'],  // Campo(s) para buscar
+                                'default_operator' => 'AND', // Operador padrão
+                            ]
+                        ]
+                    ],
+                    'filter' => [
+                        [
+                            'term' => [
+                                'collection' => $filterValue // Filtro no campo 'collection'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            'from' => 0, // Offset
+            'size' => 10, // Limite de resultados
+        ];
+
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
 
