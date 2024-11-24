@@ -40,10 +40,12 @@ class Search extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function serachFull3()
+    function searchFull3()
         {
+            $dt = '';
             $q = $this->tratar(get("term"));
-
+            $dt['post'] = $_POST;
+            return $dt;
         }
 
     function tratar($q)
