@@ -61,7 +61,7 @@ class Search extends Model
         $strategy['query']['match']['full'] = 'biblioteca';
 
         /******************** Limites */
-        if ($offset == 0) { $offset = 1000; }
+        if ($offset == 0) { $offset = 10; }
         $dt['size'] = $offset;
         $dt['from'] = $start;
         //$dt['query']['bool'] = $strategy;
