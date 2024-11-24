@@ -61,6 +61,7 @@ class Search extends Model
         $strategy['query']['match']['full'] = 'biblioteca';
 
         /******************** Limites */
+        if ($offset == 0) { $offset = 1000; }
         $dt['size'] = $offset;
         $dt['from'] = $start;
         //$dt['query']['bool'] = $strategy;
@@ -70,16 +71,6 @@ class Search extends Model
         $Term = troca($Term, ' and ', ' AND ');
 
         $field = $this->field();
-        /************** Campo */
-
-        // Corpo da consulta
-        /*
-        $query = [
-            'from' => $start, // Define o deslocamento
-            'size' => $offset,  // Quantidade de documentos retornados
-            'query' => [ 'bool' => [ 'must' => [ ['query_string' => [
-                                'full' => $Term ] ] ] ] ] ];
-        */
 
         $query = [
             'from' => $start, // Define o deslocamento
