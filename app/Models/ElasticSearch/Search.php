@@ -103,13 +103,13 @@ class Search extends Model
         $response = curl_exec($ch);
         $result = json_decode($response, true);
 
-        $result = $this->worksRecover($result);
-        $dt['works'] = $this->convertElastic($result);
+        $dt['works'] = $this->worksRecover($result);
+        $dt['works'] = $this->convertElastic($dt);
 
         //$dt = $API->call($url, $method, $data);
 
         $dt['stategy'] = $data;
-        return $dt;
+        return $dt['works'];
     }
 
     function tratar($q) {}
