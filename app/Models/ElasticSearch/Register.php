@@ -65,7 +65,7 @@ class Register extends Model
         $dta = $this
             ->where('new',1)
             ->where('use',0)
-            ->orderBy('ID')
+            ->orderBy('ID desc')
             ->FindAll($limit);
 
         $type = 'prod';
@@ -128,7 +128,7 @@ class Register extends Model
                 }
             }
 
-            /*********************************************** KEYWORDS */
+            /*********************************************** Authors */
             $idaa = [];
             if (isset($DT['Authors'])) {
                 $keys = (array)$DT['Authors'];

@@ -121,6 +121,8 @@ class Elasticsearch extends BaseController
 
             case 'update_index':
                 $Register = new \App\Models\ElasticSearch\Register();
+                echo "OK";
+                exit;
                 $sx .= $Register->update_index();
                 break;
 
