@@ -135,7 +135,6 @@ class Register extends Model
                 foreach ($keys as $id => $ks) {
                     $ks = (array)$ks;
                     foreach ($ks as $idk => $term) {
-                        echo "<br>==".$term;
                         if (!isset($idaa[$idk])) {
                             if (trim($term) != '') {
                                 $term = ascii($term);
@@ -149,6 +148,7 @@ class Register extends Model
                     }
                 }
             }
+            pre($aaut);
             exit;
 
             /*********************************************** KEYWORDS */
