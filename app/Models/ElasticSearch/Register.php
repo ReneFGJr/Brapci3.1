@@ -155,14 +155,14 @@ class Register extends Model
                 $keys = (array)$DT['Subject'];
                 foreach ($keys as $lang => $ks) {
                     $ks = (array)$ks;
-                    pre($ks);
-                    foreach ($ks as $term => $idk) {
+                    foreach ($ks as $idk=>$term) {
                         if (trim($term) != '') {
                             array_push($akey, mb_strtolower(ascii($term)));
                             $full .= mb_strtolower(ascii($term)) . ' ';
                         }
                     }
                 }
+                pre($akey);
             }
 
             /*********************************************** ABSTRACT */
