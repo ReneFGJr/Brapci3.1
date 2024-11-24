@@ -139,7 +139,6 @@ class Brapci extends Model
                         exit;
                         break;
                     case 'v2':
-                        echo "Search Advanced";
                         $RSP['strategy'] = array_merge($_POST, $_GET);
                         $RSP['result'] = $this->search();
                         exit;
