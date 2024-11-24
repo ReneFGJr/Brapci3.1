@@ -151,12 +151,11 @@ class Register extends Model
             }
 
             /*********************************************** KEYWORDS */
-            pre($DT);
-            if (isset($DT['Keywords'])) {
-                $keys = (array)$DT['Keywords'];
-                pre($keys);
+            if (isset($DT['Subject'])) {
+                $keys = (array)$DT['Subject'];
                 foreach ($keys as $lang => $ks) {
                     $ks = (array)$ks;
+                    pre($ks);
                     foreach ($ks as $term => $idk) {
                         if (trim($term) != '') {
                             array_push($akey, mb_strtolower(ascii($term)));
