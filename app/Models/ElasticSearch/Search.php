@@ -145,9 +145,11 @@ class Search extends Model
             $dts[$ida] = $line;
         }
 
-        foreach($dt['works'] as $id=>$line)
+        foreach($dt['works'] as $idr=>$line)
             {
-                echo $id.'<hr>';
+                echo $idr.'<hr>';
+                echo $idr . '<hr>';
+                echo $idr . '<hr>';
                 pre($line);
                 $ida = $line['id'];
                 echo '==>'.$ida.'  id:'.$id;
