@@ -133,8 +133,7 @@ class Brapci extends Model
                 $RSP = $this->resume();
                 break;
             case 'search':
-                $RSP['strategy'] = array_merge($_POST, $_GET);
-                $RSP['result'] = $this->search($d2);
+                $RSP = $this->search($d2);
                 break;
             case 'source':
                 $RSP['source'] = $this->source($d2, $d3);
