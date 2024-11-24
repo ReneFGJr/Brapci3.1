@@ -103,8 +103,8 @@ class Search extends Model
         $response = curl_exec($ch);
         $result = json_decode($response, true);
 
-        $dt['works'] = $this->worksRecover($result);
-        $dt['works'] = $this->convertElastic($dt);
+        $rsp = $this->worksRecover($result);
+        $dt['works'] = $this->convertElastic($rsp);
         $dt['total'] = count($dt['works']);
 
         //$dt = $API->call($url, $method, $data);
