@@ -101,7 +101,7 @@ class Search extends Model
             'from' => $start, // Define o deslocamento
             'size' => $offset,  // Quantidade de documentos retornados
         ];
-        $query['query']['bool']['filter']['term']['collection'] = 'JA';
+
 
         $filterValue = 'JA';
 
@@ -112,21 +112,18 @@ class Search extends Model
                         [
                             'query_string' => [
                                 'query' => $Term, // Termo de busca
-                                'fields' => ['full'],  // Campo(s) para buscar
+                                'fields' => [$field],  // Campo(s) para buscar
                                 'default_operator' => 'AND', // Operador padrão
                             ]
                         ],
-                        [
-                            'match' => [
-                               'collection' => 'JA', // Operador padrão
-                            ]
-                        ]
                     ]
                 ]
             ],
             'from' => 0, // Offset
             'size' => 10, // Limite de resultados
         ];
+
+        $query['query']['bool']['must']['match']['collection'] = 'JA';
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
