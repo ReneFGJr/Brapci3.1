@@ -304,7 +304,7 @@ class Search extends Model
             $start = 0;
         }
         if ($offset < 1) {
-            $offset = 10;
+            $offset = 100;
         }
 
         $API = new \App\Models\ElasticSearch\API();
