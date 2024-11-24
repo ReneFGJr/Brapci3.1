@@ -66,23 +66,20 @@ class Search extends Model
         //$dt['query']['bool'] = $strategy;
 
         $Term = get("term");
+        $Term = troca($Term, ' and ', ' AND ');
+        $Term = troca($Term, ' and ', ' AND ');
+
+        $field = $this->field();
+        /************** Campo */
 
         // Corpo da consulta
+        /*
         $query = [
             'from' => $start, // Define o deslocamento
             'size' => $offset,  // Quantidade de documentos retornados
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        [
-                            'query_string' => [
-                                'full' => $Term
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
+            'query' => [ 'bool' => [ 'must' => [ ['query_string' => [
+                                'full' => $Term ] ] ] ] ] ];
+        */
 
         $query = [
             'from' => $start, // Define o deslocamento
@@ -90,7 +87,7 @@ class Search extends Model
             'query' => [
                 'query_string' => [
                     'query' => $Term, // Termo de busca
-                    'fields' => ['full'],  // Campo(s) para buscar
+                    'fields' => [$field],  // Campo(s) para buscar
                     'default_operator' => 'AND', // Operador padrão (opcional)
                 ]
             ]
@@ -123,13 +120,36 @@ class Search extends Model
 
         //$dt = $API->call($url, $method, $data);
 
-        $dt['stategy'] = $data;
+        $dt['stategy'] = $query;
 
         if (!isset($dt['works'])) {
             $dt['works'] = [];
         }
         echo (json_encode($dt));
         exit;
+    }
+
+    function field()
+    {
+        $flds = get("field");
+        switch ($flds) {
+            case 'AU':
+                $field = 'authors';
+                break;
+            case 'AB':
+                $field = 'abstract';
+                break;
+            case 'KW':
+                $field = 'keyword';
+                break;
+            case 'TI':
+                $field = 'title';
+                break;
+            default:
+                $field = 'full';
+                break;
+        }
+        return $field;
     }
 
     function tratar($q) {}
@@ -173,12 +193,11 @@ class Search extends Model
     function worksRecover($dt)
     {
         $rsp = [];
-        if (!isset($dt['hits']['hits']))
-            {
-                pre($dt);
-            } else {
-                $hits = $dt['hits']['hits'];
-            }
+        if (!isset($dt['hits']['hits'])) {
+            pre($dt);
+        } else {
+            $hits = $dt['hits']['hits'];
+        }
 
         for ($r = 0; $r < count($hits); $r++) {
             $line = $hits[$r];
@@ -218,7 +237,7 @@ class Search extends Model
         }
 
         /***************** Grava convulta */
-        $SearchDB->register($q, count($dt['works']),$type);
+        $SearchDB->register($q, count($dt['works']), $type);
 
         /* Retorno */
         $n = 0;
@@ -262,7 +281,7 @@ class Search extends Model
     {
         $abnt = new \App\Models\Metadata\Abnt();
 
-//        $ids = ['44753', '66834', '129525', '103527', '232822', '207369', '201576', '198429', '199459', '158229', '191669', '199474', '182143', '192377', '183471', '148646', '68600', '73005', '148533', '150006', '137762', '194448', '41471', '239382', '148937', '191894', '199529', '45298', '185071', '239429', '123402', '149044', '176510', '184011', '243169', '103816', '123091', '91338', '198347', '243463', '243332', '114738', '33017', '129496', '139913', '149765', '216239', '197946', '242864', '243289', '238061', '184002', '185084', '12794', '112498', '193505', '14734', '241180', '127650', '138080', '222457', '102369', '156962', '224989', '141371', '223909', '148648', '122077', '245795', '197375', '105324', '105548', '122900', '223838', '15931', '149212', '113706', '192816', '157125', '222541', '184972', '91689', '229171', '193331', '193747', '69208', '13487', '14586', '247906', '232841', '158672', '151632', '194198', '185077', '243487', '33878', '223822', '41859', '226185', '103551'];
+        //        $ids = ['44753', '66834', '129525', '103527', '232822', '207369', '201576', '198429', '199459', '158229', '191669', '199474', '182143', '192377', '183471', '148646', '68600', '73005', '148533', '150006', '137762', '194448', '41471', '239382', '148937', '191894', '199529', '45298', '185071', '239429', '123402', '149044', '176510', '184011', '243169', '103816', '123091', '91338', '198347', '243463', '243332', '114738', '33017', '129496', '139913', '149765', '216239', '197946', '242864', '243289', '238061', '184002', '185084', '12794', '112498', '193505', '14734', '241180', '127650', '138080', '222457', '102369', '156962', '224989', '141371', '223909', '148648', '122077', '245795', '197375', '105324', '105548', '122900', '223838', '15931', '149212', '113706', '192816', '157125', '222541', '184972', '91689', '229171', '193331', '193747', '69208', '13487', '14586', '247906', '232841', '158672', '151632', '194198', '185077', '243487', '33878', '223822', '41859', '226185', '103551'];
 
         $cp = 'ID as article_id, json, CLASS as type, YEAR as year';
         $this->select($cp);
@@ -280,15 +299,13 @@ class Search extends Model
         foreach ($dts as $id => $line) {
 
             $js = (array)json_decode($line['json']);
-            switch($tp)
-                {
-                    default:
-                    if (!isset($js['Authors']))
-                        {
-                            $js['Authors'] = [];
-                        }
+            switch ($tp) {
+                default:
+                    if (!isset($js['Authors'])) {
+                        $js['Authors'] = [];
+                    }
                     $ds =  $abnt->ref($js);
-                }
+            }
 
             $Class  = $js['Class'];
             if ($Class == 'Article') {
@@ -350,23 +367,19 @@ class Search extends Model
         $q = mb_strtolower($q);
 
         /*********** REMOVE O AND */
-        $q = trim(troca(' '.$q.' ',' and ',' '));
+        $q = trim(troca(' ' . $q . ' ', ' and ', ' '));
 
-        for ($r=0;$r < strlen($q);$r++)
-            {
-                $c = substr($q,$r,1);
-                if ($c == '"')
-                    {
-                        $aspas = !$aspas;
-                    }
-                else {
-                    if (($c == ' ') and ($aspas == true))
-                        {
-                            $c = '_';
-                        }
-                    $qp .= $c;
+        for ($r = 0; $r < strlen($q); $r++) {
+            $c = substr($q, $r, 1);
+            if ($c == '"') {
+                $aspas = !$aspas;
+            } else {
+                if (($c == ' ') and ($aspas == true)) {
+                    $c = '_';
                 }
+                $qp .= $c;
             }
+        }
 
         /******************** Fields */
         $flds = get("field");
@@ -389,13 +402,12 @@ class Search extends Model
                 break;
         }
 
-        $wd = explode(' ',$qp);
-        foreach($wd as $id=>$word)
-            {
-                $word = troca($word,'_',' ');
-                //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
-                $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
-            }
+        $wd = explode(' ', $qp);
+        foreach ($wd as $id => $word) {
+            $word = troca($word, '_', ' ');
+            //$strategy['must'][$id]['match_phrase']['full'] = ascii($word);
+            $strategy['must'][$id]['match_phrase'][$field] = ascii($word);
+        }
 
 
 
