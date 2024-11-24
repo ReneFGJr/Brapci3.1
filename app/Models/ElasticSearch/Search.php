@@ -105,6 +105,7 @@ class Search extends Model
             $result = json_decode($response, true);
 
             $dt['works'] = $this->worksRecover($result);
+            $dt['works2'] = $this->convertElastic($dt);
             pre($dt);
 
             //$dt = $API->call($url, $method, $data);
