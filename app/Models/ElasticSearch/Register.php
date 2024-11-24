@@ -153,6 +153,7 @@ class Register extends Model
             /*********************************************** KEYWORDS */
             if (isset($DT['Keywords'])) {
                 $keys = (array)$DT['Keywords'];
+                pre($keys);
                 foreach ($keys as $lang => $ks) {
                     $ks = (array)$ks;
                     foreach ($ks as $term => $idk) {
