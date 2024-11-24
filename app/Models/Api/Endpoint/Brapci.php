@@ -575,6 +575,9 @@ class Brapci extends Model
             case 'v1':
                 $RSP = $RDFmetadata->metadata($id);
                 break;
+            case 'v2':
+                $RSP = $RDFmetadata->metadata($id);
+                break;
             default:
                 $RSP = $RDFmetadata->metadata($id);
                 break;
