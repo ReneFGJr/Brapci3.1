@@ -242,9 +242,10 @@ class Register extends Model
                 $rst['result'] . ' v.' .
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
-                pre($id,false);
-                pre($line);
             $this->exported($id,0);
+            $dq = [];
+            $dq['new'] = 0;
+            $this->set($dq)->where('id_ds',$line['id_ds'])->update();
         }
 
         /****************************************************************************** LOOP */
