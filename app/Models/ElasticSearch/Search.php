@@ -125,8 +125,7 @@ class Search extends Model
 
         $dts = [];
         foreach ($dt['works'] as $id => $line) {
-            pre($line);
-            $ida = $line['ID'];
+            $ida = $line['id'];
             $dts[$ida] = $line;
         }
 
@@ -148,6 +147,7 @@ class Search extends Model
 
         foreach($ds as $id->$line)
             {
+                $line[$id]['work'] = $line;
                 pre($line);
             }
 
