@@ -42,7 +42,7 @@ class Search extends Model
 
     function searchFull3()
         {
-            $dt = '';
+            $dt = [];
             $q = $this->tratar(get("term"));
             $dt['post'] = $_POST;
             return $dt;
