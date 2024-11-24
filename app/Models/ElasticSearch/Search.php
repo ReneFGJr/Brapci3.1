@@ -102,11 +102,12 @@ class Search extends Model
 
             // Executa a consulta
             $response = curl_exec($ch);
+            $result = json_decode($response, true);
 
             //$dt = $API->call($url, $method, $data);
 
             $dt['stategy'] = $data;
-            return $response;
+            return $result;
         }
 
     function tratar($q)
