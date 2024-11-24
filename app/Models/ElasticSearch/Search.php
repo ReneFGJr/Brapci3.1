@@ -61,9 +61,9 @@ class Search extends Model
         $strategy['query']['match']['full'] = 'biblioteca';
 
         /******************** Limites */
-        $data['size'] = $offset;
-        $data['from'] = $start;
-        $data['query']['bool'] = $strategy;
+        $dt['size'] = $offset;
+        $dt['from'] = $start;
+        //$dt['query']['bool'] = $strategy;
 
         $Term = get("term");
 
@@ -84,7 +84,6 @@ class Search extends Model
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
-        $searchTerm = 'biblioteca';
 
         // Inicializa o cURL
         $ch = curl_init();
@@ -104,13 +103,13 @@ class Search extends Model
         $response = curl_exec($ch);
         $result = json_decode($response, true);
 
-        $dt['works'] = $this->worksRecover($result);
-        $dt['works'] = $this->convertElastic($dt);
+        $result = $this->worksRecover($result);
+        $dt['works'] = $this->convertElastic($result);
 
         //$dt = $API->call($url, $method, $data);
 
         $dt['stategy'] = $data;
-        return $dt['works'];
+        return $dt;
     }
 
     function tratar($q) {}
