@@ -121,7 +121,7 @@ class Search extends Model
             'from' => 0, // Offset
             'size' => 10, // Limite de resultados
         ];
-        $SOURCES = 'JE BK JA EV';
+        $SOURCES = troca(get("collection"),',',' ');
         $filter = [];
         $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES];
         array_push($query['query']['bool']['must'],$filter);
