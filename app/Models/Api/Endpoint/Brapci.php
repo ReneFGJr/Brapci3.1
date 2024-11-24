@@ -610,6 +610,8 @@ class Brapci extends Model
 
     function search($version)
     {
+        $RSP = [];
+        $RSP['strategy'] = array_merge($_POST, $_GET);
         /************** TERM */
         $term = get("q");
         if ($term == '')
@@ -617,9 +619,6 @@ class Brapci extends Model
                 $term = get("term");
             }
         if ($term != '') {
-
-
-
             /************************************ */
             $_POST['version'] = $version;
             $Elastic = new \App\Models\ElasticSearch\Search();
