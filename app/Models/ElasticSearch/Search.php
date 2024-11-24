@@ -40,6 +40,137 @@ class Search extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function searchFull3()
+    {
+        $API = new \App\Models\ElasticSearch\API();
+
+        $dt = [];
+        $data = [];
+        $strategy = [];
+
+        $start = round('0' . get('start'));
+        $offset = round('0' . get('offset'));
+
+        $term = $this->tratar(get("term"));
+        $dt['post'] = $_POST;
+
+        /******************** Sources */
+        $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year", "legend", "full");
+
+        /* Strategy */
+        $strategy['query']['match']['full'] = 'biblioteca';
+
+        /******************** Limites */
+        $data['size'] = $offset;
+        $data['from'] = $start;
+        $data['query']['bool'] = $strategy;
+
+        $Term = get("term");
+
+        // Corpo da consulta
+        $query = [
+            'query' => [
+                'bool' => [
+                    'must' => [
+                        [
+                            'match' => [
+                                'full' => $Term
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $host = 'http://localhost:9200'; // URL do Elasticsearch
+        $index = 'brapci3.3'; // Substitua pelo nome do índice
+        $searchTerm = 'biblioteca';
+
+        // Inicializa o cURL
+        $ch = curl_init();
+
+        // Configurações do cURL
+        curl_setopt_array($ch, [
+            CURLOPT_URL => "$host/$index/_search", // Endpoint para pesquisa
+            CURLOPT_RETURNTRANSFER => true,       // Retorna o resultado como string
+            CURLOPT_CUSTOMREQUEST => 'POST',      // Método HTTP
+            CURLOPT_POSTFIELDS => json_encode($query), // Corpo da requisição em JSON
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json' // Cabeçalho indicando JSON
+            ],
+        ]);
+
+        // Executa a consulta
+        $response = curl_exec($ch);
+        $result = json_decode($response, true);
+
+        $dt['works'] = $this->worksRecover($result);
+        $dt['works'] = $this->convertElastic($dt);
+
+        //$dt = $API->call($url, $method, $data);
+
+        $dt['stategy'] = $data;
+        return $dt['works'];
+    }
+
+    function tratar($q) {}
+
+    function convertElastic($dt)
+    {
+        $Search = new \App\Models\ElasticSearch\Search();
+
+        /* Retorno */
+        $n = 0;
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
+        $Search->select($cp);
+        $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
+        foreach ($dt['works'] as $id => $line) {
+            $ida = $line['id'];
+            if ($n == 0) {
+                $Search->where('ID', $ida);
+            } else {
+                $Search->Orwhere('ID', $ida);
+            }
+            $n++;
+        }
+        $ds = $Search->findAll();
+
+        $dts = [];
+        foreach ($ds as $id => $line) {
+            $ida = $line['ID'];
+            $dts[$ida] = $line;
+        }
+
+        foreach ($dt['works'] as $idr => $line) {
+            $ida = $line['id'];
+
+            if (isset($dts[$ida])) {
+                $dt['works'][$idr]['data'] = $dts[$ida];
+            }
+        }
+        return $dt;
+    }
+
+    function worksRecover($dt)
+    {
+        $rsp = [];
+        $hits = $dt['hits']['hits'];
+        for ($r = 0; $r < count($hits); $r++) {
+            $line = $hits[$r];
+            if (isset($line['_id'])) {
+                array_push($rsp, array(
+                    'id' => $line['_id'],
+                    'score' => $line['_score'],
+                    'type' => $line['_source']['type'],
+                    //'jnl' => $line['_source']['id_jnl'],
+                    'year' => $line['_source']['year'],
+                ));
+            }
+        }
+        return $rsp;
+    }
+    /***************************************** */
+
     function searchFull($q = '', $type = '')
     {
         $Search = new \App\Models\ElasticSearch\Search();
