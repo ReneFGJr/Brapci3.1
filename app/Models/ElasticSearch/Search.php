@@ -119,7 +119,7 @@ class Search extends Model
                     ],
                     'must' => [
                         [
-                            'query_string' => [
+                            'match' => [
                                 'query' => 'JA', // Termo de busca
                                 'fields' => ['collection'],  // Campo(s) para buscar
                                 'default_operator' => 'AND', // Operador padrão
