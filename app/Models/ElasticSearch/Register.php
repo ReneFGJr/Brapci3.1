@@ -185,8 +185,7 @@ class Register extends Model
             $dt['abstract'] = $aabs;
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
-
-            pre($line);
+            $dt['journal'] = $line['JOURNAL'];
 
             if (isset($DT['Issue'])) {
                 $Issue = (array)$DT['Issue'];
@@ -247,6 +246,8 @@ class Register extends Model
                 $rst['result'] . ' v.' .
                 $rst['_version'] .
                 ' (' . $dt['collection'] . ')<br>';
+                pre($id,false);
+                pre($line);
             $this->exported($id,0);
         }
 
