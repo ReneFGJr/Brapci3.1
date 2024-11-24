@@ -123,8 +123,8 @@ class Search extends Model
             'size' => 10, // Limite de resultados
         ];
         $filter = [];
-        $filter['must']['match']['collection'] = 'JA';
-        array_push($query['query']['bool'],$filter);
+        $filter['match']['collection'] = 'JA';
+        array_push($query['query']['bool']['must'],$filter);
         pre($query);
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
