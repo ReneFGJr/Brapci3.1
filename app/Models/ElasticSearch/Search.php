@@ -106,12 +106,11 @@ class Search extends Model
 
             $dt['works'] = $this->worksRecover($result);
             $dt['works'] = $this->convertElastic($dt);
-            pre($dt);
 
             //$dt = $API->call($url, $method, $data);
 
             $dt['stategy'] = $data;
-            return $result;
+            return $dt;
         }
 
     function tratar($q)
@@ -148,7 +147,6 @@ class Search extends Model
         foreach($dt['works'] as $idr=>$line)
             {
                 $ida = $line['id'];
-                echo '==>'.$ida.'  id:'.$id;
 
                 if (isset($dts[$ida]))
                     {
