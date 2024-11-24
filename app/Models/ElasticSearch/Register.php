@@ -206,7 +206,6 @@ class Register extends Model
                         case 'Proceeding':
                             $dt['collection'] = 'EV';
                             break;
-
                     }
 
             }
