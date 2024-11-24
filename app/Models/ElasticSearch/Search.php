@@ -115,7 +115,7 @@ class Search extends Model
                                 'fields' => [$field],  // Campo(s) para buscar
                                 'default_operator' => 'AND', // Operador padrão
                             ]
-                        ],
+                        ]
                     ]
                 ]
             ],
@@ -124,6 +124,7 @@ class Search extends Model
         ];
 
         $query['query']['bool']['must']['match']['collection'] = 'JA';
+        pre($query);
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
