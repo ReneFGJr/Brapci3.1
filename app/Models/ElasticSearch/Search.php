@@ -105,7 +105,7 @@ class Search extends Model
         }
         $range = [];
         $range['range']['year'] = ['gt'=>$di,'lt'=>$df];
-        array_push($query['query']['bool']['must'], $filter);
+        array_push($query['query']['bool']['must'], $range);
 
 
 
