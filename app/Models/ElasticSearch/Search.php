@@ -123,12 +123,6 @@ class Search extends Model
         {
         $Search = new \App\Models\ElasticSearch\Search();
 
-        $dts = [];
-        foreach ($dt['works'] as $id => $line) {
-            $ida = $line['id'];
-            $dts[$ida] = $line;
-        }
-
         /* Retorno */
         $n = 0;
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
@@ -145,7 +139,13 @@ class Search extends Model
         }
         $ds = $Search->findAll();
 
-        foreach($ds as $id=>$line)
+        $dts = [];
+        foreach ($ds as $id => $line) {
+            $ida = $line['ID'];
+            $dts[$ida] = $line;
+        }
+
+        foreach($dt as $id=>$line)
             {
                 $line[$id]['work'] = $line;
                 pre($line);
