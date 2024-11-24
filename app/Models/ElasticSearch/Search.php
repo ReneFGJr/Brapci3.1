@@ -69,8 +69,9 @@ class Search extends Model
         $Term = get("term");
         $Term = troca($Term, ' and ', ' AND ');
         $Term = troca($Term, ' and ', ' AND ');
+        $Term = strtolower(ascii($Term));
 
-        $field = strtolower(ascii($this->field()));
+        $field = $this->field();
         $query = [
             'query' => [
                 'bool' => [
