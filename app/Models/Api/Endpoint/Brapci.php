@@ -138,6 +138,12 @@ class Brapci extends Model
                         echo "Search Advanced";
                         exit;
                         break;
+                    case 'v2':
+                        echo "Search Advanced";
+                        $RSP['strategy'] = array_merge($_POST, $_GET);
+                        $RSP['result'] = $this->search();
+                        exit;
+                        break;
                     default:
                         $RSP['strategy'] = array_merge($_POST, $_GET);
                         $RSP['result'] = $this->search();
@@ -617,6 +623,10 @@ class Brapci extends Model
     function search()
     {
         $term = get("q");
+        if ($term == '')
+            {
+                $term = get("term");
+            }
         if ($term != '') {
             $Elastic = new \App\Models\ElasticSearch\Search();
             return $Elastic->searchFull($term);
