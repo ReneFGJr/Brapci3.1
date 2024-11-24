@@ -47,9 +47,16 @@ class Search extends Model
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
 
         ########################################## Busca
-        $version = get("version");
+        if (isset($_POST['data_post']['version']))
+            {
+                $version = $_POST['data_post']['version'];
+            } else {
+                $version = 'v1';
+            }
+
 
         $dt = $this->search($q, $type);
+        $dt['searchVersion'] = $version;
 
         $dt['user'] = get("user");
         $dt['section'] = get("section");
