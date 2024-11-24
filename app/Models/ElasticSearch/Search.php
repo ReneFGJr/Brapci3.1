@@ -111,8 +111,8 @@ class Search extends Model
                     'must' => [
                         [
                             'query_string' => [
-                                'query' => $Term, // Termo de busca
                                 'default_field' => $field,  // Campo(s) para buscar
+                                'query' => $Term, // Termo de busca
                             ]
                         ]
                     ]
