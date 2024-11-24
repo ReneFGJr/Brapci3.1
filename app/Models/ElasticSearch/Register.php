@@ -162,7 +162,6 @@ class Register extends Model
                         }
                     }
                 }
-                pre($akey);
             }
 
             /*********************************************** ABSTRACT */
