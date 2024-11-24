@@ -71,40 +71,6 @@ class Search extends Model
         $Term = troca($Term, ' and ', ' AND ');
 
         $field = $this->field();
-
-        $query = [
-            'from' => $start, // Define o deslocamento
-            'size' => $offset,  // Quantidade de documentos retornados
-            'query' => [
-                'query_string' => [
-                    'query' => $Term, // Termo de busca
-                    'fields' => [$field],  // Campo(s) para buscar
-                    'default_operator' => 'AND', // Operador padrão (opcional)
-                ]
-            ]
-        ];
-
-        $query = [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        [
-                            'query_string' => [
-                                'query' => $Term, // Termo de busca
-                                'fields' => [$field],  // Campo(s) para buscar
-                                'default_operator' => 'AND', // Operador padrão
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'from' => $start, // Define o deslocamento
-            'size' => $offset,  // Quantidade de documentos retornados
-        ];
-
-
-        $filterValue = 'JA';
-
         $query = [
             'query' => [
                 'bool' => [
@@ -118,8 +84,8 @@ class Search extends Model
                     ]
                 ]
             ],
-            'from' => 0, // Offset
-            'size' => 10, // Limite de resultados
+            'from' => $start, // Define o deslocamento
+            'size' => $offset,  // Quantidade de documentos retornados
         ];
         $SOURCES = troca(get("collection"),',',' ');
         $filter = [];
