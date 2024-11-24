@@ -80,7 +80,7 @@ class Search extends Model
                             'query_string' => [
                                 'default_field' => $field,  // Campo(s) para buscar
                                 'query' => $Term, // Termo de busca
-                                'default_operator' => 'AND', // Operador padrão (opcional)
+                                //'default_operator' => 'AND', // Operador padrão (opcional)
                             ]
                         ]
                     ]
