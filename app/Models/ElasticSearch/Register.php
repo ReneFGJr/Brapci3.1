@@ -142,14 +142,13 @@ class Register extends Model
                                 $term = UpperCase($term);
                                 $term = nbr_author($term,7);
                                 array_push($aaut, $term);
+                                $full .= ' '. mb_strtolower(ascii($term)) . ' ';
                             }
                             $idaa[$idk] = 1;
                         }
                     }
                 }
             }
-            pre($aaut);
-            exit;
 
             /*********************************************** KEYWORDS */
             if (isset($DT['Keywords'])) {
@@ -186,6 +185,8 @@ class Register extends Model
             $dt['abstract'] = $aabs;
             $dt['authors'] = $aaut;
             $dt['title'] = $atit;
+
+            pre($DT);
 
             if (isset($DT['Issue'])) {
                 $Issue = (array)$DT['Issue'];
