@@ -125,7 +125,7 @@ class Search extends Model
         $filter = [];
         $filter['match']['collection'] = 'JA';
         array_push($query['query']['bool']['must'],$filter);
-        pre($query);
+
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
