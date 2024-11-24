@@ -125,6 +125,7 @@ class Search extends Model
                                 'default_operator' => 'AND', // Operador padrão
                             ]
                         ]
+                    ]
                 ]
             ],
             'from' => 0, // Offset
