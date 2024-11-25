@@ -5,6 +5,20 @@ import chardet
 import unicodedata
 import sys
 import re
+from charset_normalizer import detect
+
+def correct_utf8_encoding(data, IDn):
+    try:
+        # Detectar codificação original
+        detection = detect(data.encode() if isinstance(data, str) else data)
+        encoding = detection['encoding']
+        print(f"Detected encoding: {encoding}")
+
+        # Continuar lógica como antes...
+    except Exception as e:
+        print("Error:", e)
+        return data
+
 
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
@@ -43,175 +57,62 @@ def detect_encoding(data):
 
 def correct_utf8_encoding(data, IDn):
     try:
-        #encoding = detect_encoding(data.encode('latin1'))
-        encoding = detect_encoding(data.encode())
-        print(data,'[',encoding,']')
-        if (encoding == 'ascii'):
-            return data
-        if (encoding == 'TIS-620'):
-            return data
-        if (encoding == 'utf-8'):
+        # Detectar codificação original
+        encoding = chardet.detect(data.encode() if isinstance(data, str) else data)['encoding']
+        print(f"Detected encoding: {encoding}")
+
+        if encoding in ['ascii', 'TIS-620', 'utf-8']:
+            # Decodificar como UTF-8
             try:
-                data = data.encode('utf-8', errors='ignore').decode('utf-8')
-                data = data.encode('utf-8', errors='ignore')
-
+                corrected_string = data.encode('utf-8').decode('utf-8')
             except Exception as e:
-                print("Erro de conversão-------------------------------------------")
-                print(e)
-                print(data)
+                print("Error decoding as UTF-8:", e)
+                return data
 
-            if (b'\xc3' in data) or (b'\xc2' in data):
-                print("Origin::",data)
+            # Tratar dupla codificação (caso comum)
+            try:
+                corrected_string = corrected_string.encode('latin1').decode('utf-8')
+            except Exception:
+                pass
 
-                # Primeira decodificação como UTF-8
-                string_data = data.decode('utf-8', errors='ignore')
+            # Substituir caracteres problemáticos
+            correction_map = {
+                '[!]': "´",
+                '[a~]': "ã",
+                '[c,]': "ç",
+                '[a3][a3]': "çõ",
+                '[a3]': "a",
+                '[9c]': "",
+                '[aa]': "á",
+                '[oh]': "ó",
+                '[eh]': "é"
+            }
 
-                # Corrigir a dupla codificação
-                try:
-                    corrected_string = string_data.encode('latin1').decode('utf-8')
-                    corrected_string = corrected_string.replace('’','´')
-                except Exception as e:
+            for key, value in correction_map.items():
+                corrected_string = corrected_string.replace(key, value)
 
-                    print("Erro de conversão #1#---------------------------------------")
+            # Normalizar espaços e outros problemas
+            corrected_string = corrected_string.replace('  ', ' ').strip()
+            corrected_string = corrected_string.replace("'", "´")
 
-                    #data = data.replace(b'\xc3\x82\xc2\x80',b'')
-                    #data = data.replace(b'\xc3\xa3\xc3\xa3',b'[a]')
-                    #data = data.replace(b'\xc3\x82\xc2\xa0',b'')
+            # Atualizar no banco de dados se necessário
+            if IDn > 0:
+                query = f"""
+                UPDATE brapci_rdf.rdf_literal
+                SET n_name = '{corrected_string}'
+                WHERE id_n = {IDn}
+                """
+                print(query)
+                # database.update(query)  # Uncomment if database connection is available
 
+            return corrected_string if corrected_string else '[VAZIO]'
 
+        elif encoding == 'Windows-1252':
+            return data  # Pode ser tratado se necessário
 
-                    data = data.replace(b'\xc3\xa2',b'[!]')
-                    data = data.replace(b'\xc3\xa3',b'[a3]')
-                    data = data.replace(b'\xc3\xac',b'[a~]')
-                    data = data.replace(b'\xc3\xa7',b'[c,]')
-                    data = data.replace(b'\xc3\x83\xc2\xb3',b'[oh]')
-                    data = data.replace(b'\xc3\x83',b'[aa]')
-
-
-                    data = data.replace(b'\xc2\xb4',b'[\']')
-
-
-                    #data = data.replace(b'\xc3\xa1',b'a')
-                    #data = data.replace(b'\xc3\xaa',b'e')
-
-                    #data = data.replace(b'\xc3\xba',b'u')
-
-                    #data = data.replace(b'\xc3\xad',b'i')
-
-                    data = data.replace(b'\xc2\x80',b'')
-                    data = data.replace(b'\xc2\x81',b'')
-                    data = data.replace(b'\xc2\x82',b'')
-                    data = data.replace(b'\xc2\x83',b'')
-                    data = data.replace(b'\xc2\x84',b'')
-                    data = data.replace(b'\xc2\x85',b'')
-                    data = data.replace(b'\xc2\x86',b'')
-                    data = data.replace(b'\xc2\x87',b'')
-                    data = data.replace(b'\xc2\x88',b'')
-                    data = data.replace(b'\xc2\x89',b'')
-                    data = data.replace(b'\xc2\x8a',b'')
-                    data = data.replace(b'\xc2\x8b',b'')
-                    data = data.replace(b'\xc2\x8c',b'')
-                    data = data.replace(b'\xc2\x8d',b'')
-                    data = data.replace(b'\xc2\x8e',b'')
-                    data = data.replace(b'\xc2\x8f',b'')
-                    data = data.replace(b'\xc2\x90',b'')
-                    data = data.replace(b'\xc2\x91',b'')
-                    data = data.replace(b'\xc2\x92',b'')
-                    data = data.replace(b'\xc2\x93',b'-')
-                    data = data.replace(b'\xc2\x94',b'')
-                    data = data.replace(b'\xc2\x96',b'')
-                    data = data.replace(b'\xc2\x97',b'')
-                    data = data.replace(b'\xc2\x95',b'')
-                    data = data.replace(b'\xc2\x98',b'')
-                    data = data.replace(b'\xc2\x99',b'')
-                    data = data.replace(b'\xc2\x9c',b'[9c]')
-                    data = data.replace(b'\xc2\x9d',b'')
-                    data = data.replace(b'\xc2\xa0',b'')
-                    data = data.replace(b'\xc2\xa1',b'')
-                    data = data.replace(b'\xc2\xa2',b'')
-                    data = data.replace(b'\xc2\xa3',b'')
-                    data = data.replace(b'\xc2\xa4',b'')
-                    data = data.replace(b'\xc2\xa5',b'')
-                    data = data.replace(b'\xc2\xa6',b'')
-                    data = data.replace(b'\xc2\xa7',b'')
-                    data = data.replace(b'\xc2\xa8',b'')
-                    data = data.replace(b'\xc2\xa9',b'')
-                    data = data.replace(b'\xc2\xaa',b'')
-                    data = data.replace(b'\xc2\xab',b'')
-                    data = data.replace(b'\xc2\xac',b'')
-                    data = data.replace(b'\xc2\xad',b'')
-                    data = data.replace(b'\xc2\xae',b'')
-                    data = data.replace(b'\xc2\xaf',b'')
-
-                    data = data.replace(b'\xc2\xb0',b'')
-                    data = data.replace(b'\xc2\xb1',b'')
-                    data = data.replace(b'\xc2\xb2',b'')
-                    data = data.replace(b'\xc2\xb3',b'')
-                    data = data.replace(b'\xc2\xb4',b'')
-                    data = data.replace(b'\xc2\xb5',b'')
-                    data = data.replace(b'\xc2\xba',b'')
-                    data = data.replace(b'\xc3\x82',b'')
-                    data = data.replace(b'\xc3\xa7',b'[c,]')
-                    data = data.replace(b'\xc3\xa9',b'[eh]')
-                    data = data.replace(b'\xc3\xae',b'n')
-
-                    data = data.replace(b'\xc3\xb3',b'[oh]')
-
-                    try:
-                        string_data = data.decode('utf-8', errors='ignore')
-                        corrected_string = string_data.encode('latin1').decode('utf-8')
-                        corrected_string = corrected_string.replace('’','´')
-                    except Exception as e:
-                        print("Converted",data)
-                        print("Erro de conversão- #2# ---------------------------------------")
-                        print(e)
-                        print(data)
-                        sys.exit()
-
-                corrected_string = corrected_string.replace('[!]',"´")
-                corrected_string = corrected_string.replace('[a~]',"ã")
-                corrected_string = corrected_string.replace('[c,]',"ç")
-                corrected_string = corrected_string.replace('aã',"ã")
-                corrected_string = corrected_string.replace('[a3][a3]',"çõ")
-                corrected_string = corrected_string.replace('[a3]',"a")
-                corrected_string = corrected_string.replace('[9c]',"")
-                corrected_string = corrected_string.replace('[\´]',"´")
-                corrected_string = corrected_string.replace('[aa]',"á")
-                corrected_string = corrected_string.replace('[oh]',"ó")
-                corrected_string = corrected_string.replace('[eh]',"é")
-
-
-                print("String corrigida:", string_data,'==>',corrected_string)
-
-                if IDn > 0:
-
-
-                    if '  ' in corrected_string:
-                        corrected_string = corrected_string.replace('  ',' ')
-
-                    corrected_string = corrected_string.replace("'","´")
-                    qu = "update brapci_rdf.rdf_literal "
-                    qu += f" set n_name = '{corrected_string}' "
-                    qu += f" where id_n = {IDn}"
-                    print(qu)
-                    # Aguardar o usuário pressionar "Enter"
-                    #input("Pressione Enter para continuar...")
-                    database.update(qu)
-                if corrected_string.strip() == '':
-                    corrected_string = '[VAZIO]'
-                return corrected_string
-                #sys.exit()
-            else:
-                print("************************")
-                print(data)
-                print("************************")
-                #sys.exit()
-            print("==============UTF8-FIM")
-            return data
-        if (encoding == 'Windows-1252'):
-            return data
         return data
-    except UnicodeDecodeError:
+    except UnicodeDecodeError as e:
+        print("UnicodeDecodeError:", e)
         return data
 
 def check_utf8():
