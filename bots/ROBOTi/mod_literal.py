@@ -102,8 +102,7 @@ def correct_utf8_encoding(data, IDn):
                 SET n_name = '{corrected_string}'
                 WHERE id_n = {IDn}
                 """
-                print(query)
-                # database.update(query)  # Uncomment if database connection is available
+                database.update(query)  # Uncomment if database connection is available
 
             return corrected_string if corrected_string else '[VAZIO]'
 
