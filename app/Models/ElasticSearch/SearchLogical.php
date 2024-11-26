@@ -197,7 +197,8 @@ class SearchLogical extends Model
                 $query['query']['bool']['must'] = [];
             }
         array_push($query['query']['bool']['must'], $range);
-        echo json_encode($query);
+        //echo json_encode($query);
+        pre($query);
         return $query;
     }
 
