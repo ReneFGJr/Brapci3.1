@@ -49,9 +49,20 @@ class SearchLogical extends Model
             $query = [];
             $term = troca($term,' or ',' OR ');
             $term = troca($term, ' and ', ' AND ');
-
+            $term = $this->separarPalavrasComAspas($term);
             pre($term);
         }
+
+    function separarPalavrasComAspas($texto)
+    {
+        // Usar expressão regular para capturar palavras entre aspas ou isoladas
+        preg_match_all('/"([^"]+)"|(\S+)/', $texto, $matches);
+
+        // Combinar os resultados das capturas e limpar os vazios
+        $resultados = array_filter(array_merge($matches[1], $matches[2]));
+
+        return $resultados;
+    }
 
     function method_v1()
     {
