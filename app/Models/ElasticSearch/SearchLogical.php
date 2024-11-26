@@ -49,7 +49,7 @@ class SearchLogical extends Model
         $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));
 
-        $term = $this->tratar(get("term"));
+        $term = get("term");
         $dt['post'] = $_POST;
 
         /******************** Sources */
