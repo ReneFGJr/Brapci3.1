@@ -45,44 +45,56 @@ class SearchLogical extends Model
     protected $afterDelete    = [];
 
     function make_search($term)
-        {
-            $query = [];
+    {
+        $query = [];
+        $field = $this->field(); // Define o campo padrão para a busca
+        $boo = 'must'; // Operador booleano padrão
+        $order = 0; // Para rastrear a ordem dos termos
 
-            $term = troca($term,' or ',' OR ');
-            $term = troca($term, ' and ', ' AND ');
-            $term = troca($term, '(', ' ( ');
-            $term = troca($term, ')', ' ) ');
-            $term = troca($term, '"', ' " ');
-            $term = $this->separarPalavrasComAspas($term);
+        // Normaliza o termo de entrada
+        $term = troca($term, ' or ', ' OR ');
+        $term = troca($term, ' and ', ' AND ');
+        $term = troca($term, '(', ' ( ');
+        $term = troca($term, ')', ' ) ');
+        $term = troca($term, '"', ' " ');
+        $term = $this->separarPalavrasComAspas($term); // Divide os termos mantendo trechos entre aspas
 
-            $boo = 'must';
-            $field = $this->field();
-            $query = [];
-            $o = 0;
+        // Itera pelos termos e constrói a consulta
+        foreach ($term as $t) {
+            $t = trim($t);
 
-            foreach($term as $id=>$t)
-                {
-                    $t = trim($t);
-                    switch($t)
-                        {
-                            case 'AND':
-                                $boo = 'must';
-                                break;
-                            case 'OR':
-                                $boo = 'should';
-                                break;
-                            default:
-                                if ($t != '')
-                                    {
-                                        $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND', 'ord' => $o++];
-                                        array_push($query, $qr);
-                                        pre($query,false);
-                                    }
-                        }
-                }
-            pre($term,false);
-            pre($query);
+            if ($t === '') {
+                continue; // Ignora termos vazios
+            }
+
+            switch ($t) {
+                case 'AND':
+                    $boo = 'must';
+                    break;
+
+                case 'OR':
+                    $boo = 'should';
+                    break;
+
+                default:
+                    // Adiciona o termo à consulta
+                    $query[] = [
+                        $boo => [
+                            'query_string' => [
+                                'default_field' => $field,
+                                'query' => $t,
+                                'default_operator' => 'AND',
+                            ],
+                            'ord' => $order++, // Incrementa a ordem
+                        ],
+                    ];
+                    break;
+            }
         }
+        print($_POSTquery);
+        return $query;
+    }
+
 
     function separarPalavrasComAspas($texto)
     {
