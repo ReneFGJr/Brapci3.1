@@ -87,6 +87,8 @@ class SearchLogical extends Model
                             ],
                             'ord' => $order++, // Incrementa a ordem
                         ];
+                        if (!isset($query[$boo])) {
+                        $query[$boo] = []; }
                         array_push($query[$boo],$qr);
                     break;
             }
