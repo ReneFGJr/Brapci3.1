@@ -85,15 +85,35 @@ class SearchLogical extends Model
     {
         $rsp = explode(' ', $texto);
         $RSP = [];
+        $join = false;
+        $tt = '';
+
         foreach($rsp as $id=>$t)
             {
                 $t = trim($t);
                 if ($t != '')
                     {
+                        if ($t == '"')
+                            {
+                                $join = !$join;
+                                if ($tt != '')
+                                    {
+                                        array_push($RSP, $tt);
+                                        $tt = '';
+                                    }
+                            } else {
+                                if ($join)
+                                    {
+                                        $tt = $tt . ' ' . $t;
+                                    } else {
+                                        array_push($RSP,$tt);
+                                        $tt = '';
+                                    }
+                            }
                         echo '<br>'.$t;
                     }
             }
-
+        pre($RSP);
         return $rsp;
     }
 
