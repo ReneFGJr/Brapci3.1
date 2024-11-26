@@ -85,7 +85,6 @@ class SearchLogical extends Model
                                 'query' => $t,
                                 'default_operator' => 'AND',
                             ],
-                            'ord' => $order++, // Incrementa a ordem
                         ];
                         if (!isset($query[$boo])) {
                         $query[$boo] = []; }
@@ -190,7 +189,7 @@ class SearchLogical extends Model
         if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
             $filter = [];
             $filter['must']['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
-            array_push($query['query']['bool'], $filter);
+            //array_push($query['query']['bool'], $filter);
         }
 
         /******* Range */
@@ -204,7 +203,7 @@ class SearchLogical extends Model
         }
         $range = [];
         $range['must']['range']['year'] = ['gt' => $di, 'lt' => $df];
-        array_push($query['query']['bool'], $range);
+        //array_push($query['query']['bool'], $range);
         echo json_encode($query);
         return $query;
     }
