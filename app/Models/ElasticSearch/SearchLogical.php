@@ -105,6 +105,7 @@ class SearchLogical extends Model
                                 if ($join)
                                     {
                                         $tt = $tt . ' ' . $t;
+                                        echo '<br>===>'.$tt;
                                     } else {
                                         array_push($RSP,$tt);
                                         $tt = '';
