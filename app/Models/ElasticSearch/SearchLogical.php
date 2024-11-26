@@ -176,8 +176,19 @@ class SearchLogical extends Model
         $query['from'] = $start; // Define o deslocamento
         $query['size'] = $offset;  // Quantidade de documentos retornados
 
-        /******* Collection */
+        /******* Journal */
+        $Journal = trim(troca(get("collection"), ',', ' '));
+        if (($Journal != 'JA JE EV BK') and ($Journal != '')) {
+            $filter = [];
+            if (!isset($query['query']['bool']['must'])) {
+                $query['query']['bool']['must'] = [];
+            }
+            $filter['query_string'] = ['default_field' => 'journal', 'query' => $Journal, 'default_operator' => 'AND'];
+            array_push($query['query']['bool']['must'], $filter);
+        }
 
+
+        /******* Collection */
         $SOURCES = trim(troca(get("collection"), ',', ' '));
         if (($SOURCES != 'JA JE EV BK') and ($SOURCES != '')){
             $filter = [];
