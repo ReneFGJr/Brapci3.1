@@ -204,7 +204,7 @@ class SearchLogical extends Model
         $range = [];
         $range['must']['range']['year'] = ['gt' => $di, 'lt' => $df];
         //array_push($query['query']['bool'], $range);
-        echo json_encode($query);
+        //echo json_encode($query);
         return $query;
     }
 

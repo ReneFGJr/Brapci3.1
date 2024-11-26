@@ -60,8 +60,6 @@ class Search extends Model
 
         /********************************************** Logica 2 */
 
-
-
         $host = 'http://localhost:9200'; // URL do Elasticsearch
         $index = 'brapci3.3'; // Substitua pelo nome do índice
 
