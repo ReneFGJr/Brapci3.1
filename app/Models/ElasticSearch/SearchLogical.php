@@ -52,6 +52,7 @@ class SearchLogical extends Model
             $term = troca($term, ' and ', ' AND ');
             $term = troca($term, '(', ' ( ');
             $term = troca($term, ')', ' ) ');
+            $term = troca($term, '"', ' " ');
             $term = $this->separarPalavrasComAspas($term);
 
             $boo = 'must';
