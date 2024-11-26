@@ -188,8 +188,12 @@ class SearchLogical extends Model
             $df = date("Y") + 1;
         }
         $range = [];
-        $range['must']['range']['year'] = ['gt' => $di, 'lt' => $df];
-        //array_push($query['query']['bool'], $range);
+        $range['range']['year'] = ['gt' => $di, 'lt' => $df];
+        if (!isset($query['bool']['must']))
+            {
+                $query['bool']['must'] = [];
+            }
+        array_push($query['query']['bool']['must'], $range);
         //echo json_encode($query);
         return $query;
     }
