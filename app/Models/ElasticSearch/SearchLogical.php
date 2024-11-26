@@ -82,7 +82,7 @@ class SearchLogical extends Model
                         $qr = [
                             'query_string' => [
                                 'default_field' => $field,
-                                'query' => $t,
+                                'query' => '"'.$t.'"',
                                 //'default_operator' => 'AND',
                             ],
                         ];
@@ -168,23 +168,7 @@ class SearchLogical extends Model
         $query['query']['bool'] = $this->make_search(get("term"));
         $query['from'] = $start; // Define o deslocamento
         $query['size'] = $offset;  // Quantidade de documentos retornados
-        $query2 = [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        [
-                            'query_string' => [
-                                'default_field' => $field,  // Campo(s) para buscar
-                                'query' => $Term, // Termo de busca
-                                //'default_operator' => 'AND', // Operador padrão (opcional)
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'from' => $start, // Define o deslocamento
-            'size' => $offset,  // Quantidade de documentos retornados
-        ];
+
         /******* Collection */
 
         $SOURCES = trim(troca(get("collection"), ',', ' '));
