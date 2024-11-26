@@ -84,7 +84,15 @@ class SearchLogical extends Model
     function separarPalavrasComAspas($texto)
     {
         $rsp = explode(' ', $texto);
-        pre($rsp);
+        $RSP = [];
+        foreach($rsp as $id=>$t)
+            {
+                $t = trim($t);
+                if ($t != '')
+                    {
+                        echo '<br>'.$t;
+                    }
+            }
 
         return $rsp;
     }
