@@ -113,6 +113,10 @@ class SearchLogical extends Model
                         echo '<br>'.$t;
                     }
             }
+        if ($tt != '') {
+            array_push($RSP, $tt);
+            $tt = '';
+        }
         pre($RSP);
         return $rsp;
     }
