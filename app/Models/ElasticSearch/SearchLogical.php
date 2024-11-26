@@ -48,8 +48,6 @@ class SearchLogical extends Model
     {
         $query = [];
         $field = $this->field(); // Define o campo padrão para a busca
-        $boo = 'must'; // Operador booleano padrão
-        $order = 0; // Para rastrear a ordem dos termos
 
         // Normaliza o termo de entrada
         $term = strtolower(ascii($term));
@@ -57,10 +55,18 @@ class SearchLogical extends Model
         $term = troca($term, ' and ', ' AND ');
         $term = troca($term, '(', ' ( ');
         $term = troca($term, ')', ' ) ');
-        $term = troca($term, '"', ' " ');
-        $term = $this->separarPalavrasComAspas($term); // Divide os termos mantendo trechos entre aspas
+        $termO = troca($term, '"', ' " ');
+        $term = $this->separarPalavrasComAspas($termO); // Divide os termos mantendo trechos entre aspas
 
-        // Itera pelos termos e constrói a consulta
+        $boo = 'must'; // Operador booleano padrão
+        $pOR = strpos($termO, ' OR ');
+        $pAND = strpos($termO, ' AND ');
+
+        if ($pAND < $pOR)
+            {
+                $boo = 'should';
+            }
+            // Itera pelos termos e constrói a consulta
         foreach ($term as $t) {
             $t = trim($t);
 
@@ -179,7 +185,7 @@ class SearchLogical extends Model
                 $query['query']['bool']['must'] = [];
             }
             $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
-            //array_push($query['query']['bool']['must'], $filter);
+            array_push($query['query']['bool']['must'], $filter);
         }
 
         /******* Range */
