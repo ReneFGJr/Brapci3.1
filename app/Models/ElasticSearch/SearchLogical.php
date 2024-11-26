@@ -75,8 +75,7 @@ class SearchLogical extends Model
                                 array_push($query,$qr);
                         }
                 }
-
-
+            pre($term,false);
             pre($query);
         }
 
