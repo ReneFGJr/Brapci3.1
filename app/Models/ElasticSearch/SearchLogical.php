@@ -76,6 +76,7 @@ class SearchLogical extends Model
                                     {
                                         $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND', 'ord' => $o++];
                                         array_push($query, $qr);
+                                        pre($query,false);
                                     }
                         }
                 }
