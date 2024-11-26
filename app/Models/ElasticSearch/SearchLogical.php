@@ -172,7 +172,7 @@ class SearchLogical extends Model
         /******* Collection */
 
         $SOURCES = trim(troca(get("collection"), ',', ' '));
-        if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
+        if (($SOURCES != 'JA JE EV BK') and ($SOURCES != '')){
             $filter = [];
             if (!isset($query['query']['bool']['must'])) {
                 $query['query']['bool']['must'] = [];
@@ -198,7 +198,7 @@ class SearchLogical extends Model
             }
         array_push($query['query']['bool']['must'], $range);
         //echo json_encode($query);
-        pre($query);
+        //pre($query);
         return $query;
     }
 
