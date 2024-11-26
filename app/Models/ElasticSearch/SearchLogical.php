@@ -47,6 +47,7 @@ class SearchLogical extends Model
     function make_search($term)
         {
             $query = [];
+            pre($term,false);
             $term = troca($term,' or ',' OR ');
             $term = troca($term, ' and ', ' AND ');
             $term = $this->separarPalavrasComAspas($term);
@@ -66,7 +67,7 @@ class SearchLogical extends Model
 
     function method_v1()
     {
-        $this->make_search(get("Term"));
+        $this->make_search(get("term"));
 
         $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));
