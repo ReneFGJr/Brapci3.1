@@ -47,7 +47,7 @@ class SearchLogical extends Model
     function make_search($term)
         {
             $query = [];
-            pre($term,false);
+
             $term = troca($term,' or ',' OR ');
             $term = troca($term, ' and ', ' AND ');
             $term = troca($term, '(', ' ( ');
@@ -57,6 +57,8 @@ class SearchLogical extends Model
             $boo = 'must';
             $field = $this->field();
             $query = [];
+
+            pre($term,false);
 
             foreach($term as $id=>$t)
                 {
