@@ -52,6 +52,7 @@ class SearchLogical extends Model
         $order = 0; // Para rastrear a ordem dos termos
 
         // Normaliza o termo de entrada
+        $term = ascii($term);
         $term = troca($term, ' or ', ' OR ');
         $term = troca($term, ' and ', ' AND ');
         $term = troca($term, '(', ' ( ');
