@@ -62,7 +62,7 @@ class SearchLogical extends Model
         preg_match_all('/"([^"]+)"|(\S+)/', $texto, $matches);
 
         // Combinar os resultados das capturas e limpar os vazios
-        $resultados = array_filter(array_merge($matches[1], $matches[2]));
+        $resultados = array_filter(array_merge($matches[2], $matches[1  ]));
 
         return $resultados;
     }
