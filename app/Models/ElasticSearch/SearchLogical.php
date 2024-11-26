@@ -183,12 +183,12 @@ class SearchLogical extends Model
             'size' => $offset,  // Quantidade de documentos retornados
         ];
         /******* Collection */
-        pre($query);
+
         $SOURCES = trim(troca(get("collection"), ',', ' '));
         if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
             $filter = [];
-            $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
-            array_push($query['query']['bool']['must'], $filter);
+            $filter['must']['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
+            array_push($query['query']['bool'], $filter);
         }
 
         /******* Range */
@@ -201,7 +201,7 @@ class SearchLogical extends Model
             $df = date("Y") + 1;
         }
         $range = [];
-        $range['range']['year'] = ['gt' => $di, 'lt' => $df];
+        $range['must']['range']['year'] = ['gt' => $di, 'lt' => $df];
         array_push($query['query']['bool']['must'], $range);
 
         return $query;
