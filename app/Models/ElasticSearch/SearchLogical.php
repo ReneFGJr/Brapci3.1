@@ -50,6 +50,8 @@ class SearchLogical extends Model
             pre($term,false);
             $term = troca($term,' or ',' OR ');
             $term = troca($term, ' and ', ' AND ');
+            $term = troca($term, '(', ' ( ');
+            $term = troca($term, ')', ' ) ');
             $term = $this->separarPalavrasComAspas($term);
             pre($term);
         }
