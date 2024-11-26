@@ -80,7 +80,7 @@ class Search extends Model
                             'query_string' => [
                                 'default_field' => $field,  // Campo(s) para buscar
                                 'query' => $Term, // Termo de busca
-                                'default_operator' => 'AND', // Operador padrão (opcional)
+                                'query_string' => 'AND', // Operador padrão (opcional)
                             ]
                         ]
                     ]
@@ -89,6 +89,11 @@ class Search extends Model
             'from' => $start, // Define o deslocamento
             'size' => $offset,  // Quantidade de documentos retornados
         ];
+
+        if (strpos(' OR ',$Term))
+            {
+                unset($query['query']['bool']['must']['query_string']['query_string']);
+            }
         /******* Collection */
         $SOURCES = troca(get("collection"),',',' ');
         if ($SOURCES != 'JA JE EV BK')
