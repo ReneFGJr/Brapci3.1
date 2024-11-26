@@ -177,7 +177,7 @@ class SearchLogical extends Model
         $query['size'] = $offset;  // Quantidade de documentos retornados
 
         /******* Journal */
-        $Journal = trim(troca(get("collection"), ',', ' '));
+        $Journal = trim(troca(get("journal"), ',', ' '));
         if (($Journal != 'JA JE EV BK') and ($Journal != '')) {
             $filter = [];
             if (!isset($query['query']['bool']['must'])) {
