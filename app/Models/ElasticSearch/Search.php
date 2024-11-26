@@ -80,7 +80,7 @@ class Search extends Model
                             'query_string' => [
                                 'default_field' => $field,  // Campo(s) para buscar
                                 'query' => $Term, // Termo de busca
-                                'query_string' => 'AND', // Operador padrão (opcional)
+                                'default_operator' => 'AND', // Operador padrão (opcional)
                             ]
                         ]
                     ]
@@ -89,8 +89,6 @@ class Search extends Model
             'from' => $start, // Define o deslocamento
             'size' => $offset,  // Quantidade de documentos retornados
         ];
-
-
         /******* Collection */
         $SOURCES = troca(get("collection"),',',' ');
         if ($SOURCES != 'JA JE EV BK')
