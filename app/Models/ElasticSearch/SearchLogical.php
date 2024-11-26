@@ -83,7 +83,7 @@ class SearchLogical extends Model
                             'query_string' => [
                                 'default_field' => $field,
                                 'query' => $t,
-                                'default_operator' => 'AND',
+                                //'default_operator' => 'AND',
                             ],
                         ];
                         if (!isset($query[$boo])) {
