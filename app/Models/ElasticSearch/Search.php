@@ -91,9 +91,12 @@ class Search extends Model
         ];
         /******* Collection */
         $SOURCES = troca(get("collection"),',',' ');
-        $filter = [];
-        $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES, 'default_operator' => 'OR'];
-        array_push($query['query']['bool']['must'],$filter);
+        if ($SOURCES != 'JA JE EV BK')
+            {
+                $filter = [];
+                $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES, 'default_operator' => 'OR'];
+                array_push($query['query']['bool']['must'],$filter);
+            }
 
         /******* Range */
         $di = ((int)trim(get("year_start")) - 1);
