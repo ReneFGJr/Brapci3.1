@@ -83,44 +83,47 @@ class SearchLogical extends Model
 
     function separarPalavrasComAspas($texto)
     {
-        $rsp = explode(' ', $texto.'  ');
-        $RSP = [];
-        $join = false;
-        $tt = '';
+        $palavras = explode(' ', $texto);
+        $resultado = [];
+        $agrupando = false;
+        $fraseAtual = '';
 
-        foreach($rsp as $id=>$t)
-            {
-                $t = trim($t);
-                if ($t != '')
-                    {
-                        if ($t == '"')
-                            {
-                                $join = !$join;
-                                if ($tt != '')
-                                    {
-                                        array_push($RSP, trim($tt));
-                                        $tt = '';
-                                    }
-                            } else {
-                                if ($join)
-                                    {
-                                        $tt = $tt . ' ' . $t;
-                                        echo '<br>===>'.$tt;
-                                    } else {
-                                        array_push($RSP,$t);
-                                        $tt = '';
-                                    }
-                            }
-                        echo '<br>'.$t;
-                    }
+        foreach ($palavras as $palavra) {
+            $palavra = trim($palavra);
+
+            if ($palavra === '') {
+                continue;
             }
-        if ($tt != '') {
-            array_push($RSP, trim($tt));
-            $tt = '';
+
+            if (strpos($palavra, '"') !== false) {
+                if ($agrupando) {
+                    // Fechando uma frase
+                    $fraseAtual .= ' ' . str_replace('"', '', $palavra);
+                    $resultado[] = $fraseAtual;
+                    $fraseAtual = '';
+                    $agrupando = false;
+                } else {
+                    // Iniciando uma nova frase
+                    $agrupando = true;
+                    $fraseAtual = str_replace('"', '', $palavra);
+                }
+            } elseif ($agrupando) {
+                // Continuando uma frase agrupada
+                $fraseAtual .= ' ' . $palavra;
+            } else {
+                // Adicionando palavras fora de agrupamento
+                $resultado[] = $palavra;
+            }
         }
-        pre($RSP);
-        return $rsp;
+
+        // Adiciona a última frase se necessário
+        if ($agrupando && $fraseAtual !== '') {
+            $resultado[] = $fraseAtual;
+        }
+
+        return $resultado;
     }
+
 
     function method_v1()
     {
