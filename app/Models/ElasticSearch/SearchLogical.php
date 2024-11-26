@@ -72,8 +72,11 @@ class SearchLogical extends Model
                                 $boo = 'should';
                                 break;
                             default:
-                                $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND','ord'=>$o++];
-                                array_push($query,$qr);
+                                if ($t != '')
+                                    {
+                                        $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND', 'ord' => $o++];
+                                        array_push($query, $qr);
+                                    }
                         }
                 }
             pre($term,false);
