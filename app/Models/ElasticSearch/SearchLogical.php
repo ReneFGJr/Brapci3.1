@@ -166,6 +166,8 @@ class SearchLogical extends Model
         $field = $this->field();
         $query = [];
         $query['query']['bool'] = $this->make_search(get("term"));
+        $query['from'] = $start; // Define o deslocamento
+        $query['size'] = $offset;  // Quantidade de documentos retornados
         $query2 = [
             'query' => [
                 'bool' => [
