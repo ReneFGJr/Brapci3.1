@@ -48,64 +48,17 @@ class Search extends Model
         $data = [];
         $strategy = [];
 
-        $start = round('0' . get('start'));
-        $offset = round('0' . get('offset'));
-
-        $term = $this->tratar(get("term"));
-        $dt['post'] = $_POST;
-
-        /******************** Sources */
-        $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year", "legend", "full");
-
-        /* Strategy */
-        $strategy['query']['match']['full'] = 'biblioteca';
-
-        /******************** Limites */
-        if ($offset == 0) { $offset = 10; }
-        $dt['size'] = $offset;
-        $dt['from'] = $start;
-        //$dt['query']['bool'] = $strategy;
-
-        $Term = get("term");
-        $Term = troca($Term, ' and ', ' AND ');
-        $Term = troca($Term, ' and ', ' AND ');
-        $Term = strtolower(ascii($Term));
-
-        $field = $this->field();
-        $query = [
-            'query' => [
-                'bool' => [
-                    'must' => [
-                        [
-                            'query_string' => [
-                                'default_field' => $field,  // Campo(s) para buscar
-                                'query' => $Term, // Termo de busca
-                                'default_operator' => 'AND', // Operador padrão (opcional)
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            'from' => $start, // Define o deslocamento
-            'size' => $offset,  // Quantidade de documentos retornados
-        ];
-        /******* Collection */
-        $SOURCES = troca(get("collection"),',',' ');
-        if ($SOURCES != 'JA JE EV BK')
+        $logica = 1;
+        $Logic = new \App\Models\ElasticSearch\SearchLogical();
+        switch($logica)
             {
-                $filter = [];
-                $filter['query_string']= ['default_field'=> 'collection', 'query'=>$SOURCES, 'default_operator' => 'OR'];
-                array_push($query['query']['bool']['must'],$filter);
+                case 1:
+                    $query = $Logic->method_v1();
+                    break;
             }
 
-        /******* Range */
-        $di = ((int)trim(get("year_start")) - 1);
-        $df = ((int)trim(get("year_end")) + 1);
-        if ($di < 0) { $di = 1950; }
-        if ($df == 1) { $df = date("Y") + 1; }
-        $range = [];
-        $range['range']['year'] = ['gt'=>$di,'lt'=>$df];
-        array_push($query['query']['bool']['must'], $range);
+
+        /********************************************** Logica 2 */
 
 
 
