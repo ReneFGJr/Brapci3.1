@@ -92,7 +92,7 @@ class Search extends Model
 
         if (strpos(' OR ',$Term))
             {
-                $query['query']['bool']['must']['query_string']['query_string'] = 'OR';
+                //$query['query']['bool']['must']['query_string']['query_string'] = 'OR';
                 //unset($query['query']['bool']['must']['query_string']['query_string']);
             }
         /******* Collection */
