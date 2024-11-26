@@ -118,7 +118,7 @@ class SearchLogical extends Model
 
         // Adiciona a última frase se necessário
         if ($agrupando && $fraseAtual !== '') {
-            $resultado[] = $fraseAtual;
+            $resultado[] = trim($fraseAtual);
         }
 
         return $resultado;
