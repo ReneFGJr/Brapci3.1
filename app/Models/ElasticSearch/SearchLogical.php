@@ -90,7 +90,7 @@ class SearchLogical extends Model
             'size' => $offset,  // Quantidade de documentos retornados
         ];
         /******* Collection */
-        $SOURCES = troca(get("collection"), ',', ' ');
+        $SOURCES = trim(troca(get("collection"), ',', ' '));
         if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
             $filter = [];
             $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
