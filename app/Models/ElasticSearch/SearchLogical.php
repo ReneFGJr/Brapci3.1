@@ -82,13 +82,10 @@ class SearchLogical extends Model
 
     function separarPalavrasComAspas($texto)
     {
-        // Usar expressão regular para capturar palavras entre aspas ou isoladas
-        preg_match_all('/"([^"]+)"|(\S+)/', $texto, $matches);
+        $rsp = explode(' ', $texto);
+        pre($rsp);
 
-        // Combinar os resultados das capturas e limpar os vazios
-        $resultados = array_filter(array_merge($matches[2], $matches[1  ]));
-
-        return $resultados;
+        return $rsp;
     }
 
     function method_v1()
