@@ -44,19 +44,26 @@ class SearchLogical extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function make_search($term)
+        {
+            $query = [];
+            $term = troca($term,' or ',' OR ');
+            $term = troca($term, ' and ', ' AND ');
+
+            pre($term);
+        }
+
     function method_v1()
     {
+        $this->make_search(get("Term"));
+
         $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));
 
-        $term = get("term");
         $dt['post'] = $_POST;
 
         /******************** Sources */
         $data['_source'] = array("article_id", "id_jnl", "type", "title", "abstract", "subject", "year", "legend", "full");
-
-        /* Strategy */
-        $strategy['query']['match']['full'] = 'biblioteca';
 
         /******************** Limites */
         if ($offset == 0) {
