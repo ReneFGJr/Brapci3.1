@@ -183,6 +183,7 @@ class SearchLogical extends Model
             'size' => $offset,  // Quantidade de documentos retornados
         ];
         /******* Collection */
+        pre($query);
         $SOURCES = trim(troca(get("collection"), ',', ' '));
         if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
             $filter = [];
