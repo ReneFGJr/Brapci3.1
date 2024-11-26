@@ -112,4 +112,27 @@ class SearchLogical extends Model
 
         return $query;
     }
+
+    function field()
+    {
+        $flds = get("field");
+        switch ($flds) {
+            case 'AU':
+                $field = 'authors';
+                break;
+            case 'AB':
+                $field = 'abstract';
+                break;
+            case 'KW':
+                $field = 'keyword';
+                break;
+            case 'TI':
+                $field = 'title';
+                break;
+            default:
+                $field = 'full';
+                break;
+        }
+        return $field;
+    }
 }
