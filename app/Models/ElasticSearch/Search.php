@@ -90,11 +90,7 @@ class Search extends Model
             'size' => $offset,  // Quantidade de documentos retornados
         ];
 
-        if (strpos(' OR ',$Term))
-            {
-                //$query['query']['bool']['must']['query_string']['query_string'] = 'OR';
-                //unset($query['query']['bool']['must']['query_string']['query_string']);
-            }
+
         /******* Collection */
         $SOURCES = troca(get("collection"),',',' ');
         if ($SOURCES != 'JA JE EV BK')
