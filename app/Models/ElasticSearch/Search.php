@@ -92,7 +92,8 @@ class Search extends Model
 
         if (strpos(' OR ',$Term))
             {
-                unset($query['query']['bool']['must']['query_string']['query_string']);
+                $query['query']['bool']['must']['query_string']['query_string'] = 'OR';
+                //unset($query['query']['bool']['must']['query_string']['query_string']);
             }
         /******* Collection */
         $SOURCES = troca(get("collection"),',',' ');
