@@ -91,7 +91,7 @@ class SearchLogical extends Model
                     break;
             }
         }
-        print($_POSTquery);
+        print($query);
         return $query;
     }
 
