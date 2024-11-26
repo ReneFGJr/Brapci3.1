@@ -53,7 +53,29 @@ class SearchLogical extends Model
             $term = troca($term, '(', ' ( ');
             $term = troca($term, ')', ' ) ');
             $term = $this->separarPalavrasComAspas($term);
-            pre($term);
+
+            $boo = 'must';
+            $field = $this->field();
+            $query = [];
+
+            foreach($term as $id=>$t)
+                {
+                    switch($t)
+                        {
+                            case 'AND':
+                                $boo = 'must';
+                                break;
+                            case 'OR':
+                                $boo = 'should';
+                                break;
+                            default:
+                                $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND'];
+                                array_push($query,$qr);
+                        }
+                }
+
+
+            pre($query);
         }
 
     function separarPalavrasComAspas($texto)
