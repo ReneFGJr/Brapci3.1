@@ -59,10 +59,9 @@ class SearchLogical extends Model
             $field = $this->field();
             $query = [];
 
-            pre($term,false);
-
             foreach($term as $id=>$t)
                 {
+                    $t = trim($t);
                     switch($t)
                         {
                             case 'AND':
@@ -118,7 +117,7 @@ class SearchLogical extends Model
 
         // Adiciona a última frase se necessário
         if ($agrupando && $fraseAtual !== '') {
-            $resultado[] = trim($fraseAtual);
+            $resultado[] = $fraseAtual;
         }
 
         return $resultado;
@@ -127,8 +126,6 @@ class SearchLogical extends Model
 
     function method_v1()
     {
-        $this->make_search(get("term"));
-
         $start = round('0' . get('start'));
         $offset = round('0' . get('offset'));
 
@@ -151,7 +148,9 @@ class SearchLogical extends Model
         $Term = strtolower(ascii($Term));
 
         $field = $this->field();
-        $query = [
+        $query = [];
+        $query['query']['bool'] = $this->make_search(get("term"));
+        $query2 = [
             'query' => [
                 'bool' => [
                     'must' => [
