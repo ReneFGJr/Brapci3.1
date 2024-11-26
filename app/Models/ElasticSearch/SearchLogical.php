@@ -174,8 +174,11 @@ class SearchLogical extends Model
         $SOURCES = trim(troca(get("collection"), ',', ' '));
         if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
             $filter = [];
-            $filter['must']['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
-            //array_push($query['query']['bool'], $filter);
+            if (!isset($query['query']['bool']['must'])) {
+                $query['query']['bool']['must'] = [];
+            }
+            $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
+            array_push($query['query']['bool']['must'], $filter);
         }
 
         /******* Range */
