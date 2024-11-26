@@ -91,7 +91,7 @@ class SearchLogical extends Model
         ];
         /******* Collection */
         $SOURCES = troca(get("collection"), ',', ' ');
-        if ($SOURCES != 'JA JE EV BK') {
+        if (($SOURCES != 'JA JE EV BK') or ($SOURCES == '')){
             $filter = [];
             $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
             array_push($query['query']['bool']['must'], $filter);
