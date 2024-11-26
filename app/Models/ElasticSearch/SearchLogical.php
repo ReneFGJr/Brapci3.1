@@ -58,6 +58,7 @@ class SearchLogical extends Model
             $boo = 'must';
             $field = $this->field();
             $query = [];
+            $o = 0;
 
             foreach($term as $id=>$t)
                 {
@@ -71,7 +72,7 @@ class SearchLogical extends Model
                                 $boo = 'should';
                                 break;
                             default:
-                                $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND'];
+                                $qr[$boo]['query_string'] = ['default_field' => $field, 'query' => $t, 'default_operator' => 'AND','ord'=>$o++];
                                 array_push($query,$qr);
                         }
                 }
