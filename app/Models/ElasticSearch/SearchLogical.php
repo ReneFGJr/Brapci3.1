@@ -98,7 +98,7 @@ class SearchLogical extends Model
                                 $join = !$join;
                                 if ($tt != '')
                                     {
-                                        array_push($RSP, $tt);
+                                        array_push($RSP, trim($tt));
                                         $tt = '';
                                     }
                             } else {
@@ -115,7 +115,7 @@ class SearchLogical extends Model
                     }
             }
         if ($tt != '') {
-            array_push($RSP, $tt);
+            array_push($RSP, trim($tt));
             $tt = '';
         }
         pre($RSP);
