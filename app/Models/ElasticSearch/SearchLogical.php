@@ -78,16 +78,16 @@ class SearchLogical extends Model
 
                 default:
                     // Adiciona o termo à consulta
-                    $query[] = [
-                        $boo => [
+
+                        $qr = [
                             'query_string' => [
                                 'default_field' => $field,
                                 'query' => $t,
                                 'default_operator' => 'AND',
                             ],
                             'ord' => $order++, // Incrementa a ordem
-                        ],
-                    ];
+                        ];
+                        array_push($query[$boo],$qr);
                     break;
             }
         }
