@@ -80,6 +80,7 @@ class Brapci extends Model
                 $Counter = new \App\Models\Tools\Counter();
                 $RSP = $Counter->counter($d2);
                 echo json_encode($RSP);
+                exit;
                 break;
             case 'export':
                 $Basket = new \App\Models\ElasticSearch\Index();
