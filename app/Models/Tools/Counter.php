@@ -6,13 +6,14 @@ use CodeIgniter\Model;
 
 class Counter extends Model
 {
-    protected $table            = 'counters';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'default';
+    protected $table            = 'guest';
+    protected $primaryKey       = 'id_count';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_count', 'count_value', 'count_last_ip'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -47,7 +48,17 @@ class Counter extends Model
     function counter()
         {
             $dt = $_SERVER;
-            $dt['counter'] = 150001;
+            $IP = IP();
+            $dt = $this->first();
+            $counter = $dt['count_value'];
+            if ($dt['count_last_ip'] != $IP)
+                {
+                    $counter++;
+                    $dd['count_value'] = $counter;
+                    $this->set($dd)->where('id_count > 0')->update();
+                }
+
+            $dt['counter'] = $counter++;
             return $dt;
         }
 }
