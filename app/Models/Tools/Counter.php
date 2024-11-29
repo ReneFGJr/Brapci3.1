@@ -55,6 +55,7 @@ class Counter extends Model
                 {
                     $counter++;
                     $dd['count_value'] = $counter;
+                    $dd['count_last_ip'] = $IP;
                     $this->set($dd)->where('id_count > 0')->update();
                 }
 
