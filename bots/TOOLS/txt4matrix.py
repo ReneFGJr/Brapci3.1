@@ -29,6 +29,7 @@ def criar_matriz_coautores(arquivo_entrada, arquivo_saida):
     matriz = nx.to_pandas_adjacency(G, weight='weight').fillna(0)
 
     # Salvar a matriz como arquivo Excel
+    print(arquivo_saida)
     matriz.to_excel(arquivo_saida, sheet_name='Coautoria')
 
     print(f"Matriz de coautoria salva em: {arquivo_saida}")
