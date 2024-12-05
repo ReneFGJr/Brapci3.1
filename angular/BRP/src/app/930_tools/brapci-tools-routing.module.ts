@@ -14,6 +14,7 @@ import { MonitorComponent } from './widget/monitor/monitor.component';
 import { Txt4unitComponent } from './tools/txt4unit/txt4unit.component';
 import { Txt4unit2Component } from './tools/txt4unit2/txt4unit2.component';
 import { AiLlmComponent } from './page/ai-llm/ai-llm.component';
+import { Txt4matrixComponent } from './tools/txt4matrix/txt4matrix.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
       { path: 'ai/:id', component: AiLlmComponent },
       { path: 'viewdata/:id', component: ToolsIconsComponent },
       { path: 'txt4net', component: Txt4netComponent },
-      { path: 'txt4matrix', component: ToolsIconsComponent },
+      { path: 'txt4matrix', component: Txt4matrixComponent },
       { path: 'txt4unit', component: Txt4unitComponent },
       { path: 'txt4unit2', component: Txt4unit2Component },
       { path: 'net4gephi', component: ToolsIconsComponent },
