@@ -55,7 +55,7 @@ def abreviar_nome(nome_completo):
 
 if __name__ == "__main__":
     # Verificar os argumentos fornecidos
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print("Uso: python script.py <arquivo_entrada> <arquivo_saida>")
         sys.exit(1)
 
