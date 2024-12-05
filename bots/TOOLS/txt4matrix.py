@@ -3,8 +3,9 @@ import networkx as nx
 from unidecode import unidecode
 import sys
 
-def criar_matriz_coautores(arquivo_entrada, arquivo_saida):
+def criar_matriz_coautores(arquivo_entrada):
     G = nx.Graph()
+    arquivo_saida = , arquivo_entrada.replace('.txt','.xlsx')
 
     # Ler o arquivo de entrada
     with open(arquivo_entrada, 'r', encoding='utf-8') as f:
@@ -61,8 +62,8 @@ if __name__ == "__main__":
     if arquivo_saida == '':
         arquivo_saida = arquivo_entrada.replace('.txt','.xlsx')
 
-    if len(sys.argv) != 3:
-        print("Uso: python script.py <arquivo_entrada> <arquivo_saida>")
+    if len(sys.argv) != 2:
+        print("Uso: python script.py <arquivo_entrada>")
         sys.exit(1)
 
 
