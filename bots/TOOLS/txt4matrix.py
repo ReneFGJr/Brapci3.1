@@ -65,4 +65,4 @@ if __name__ == "__main__":
     arquivo_entrada = sys.argv[1]
 
     # Criar a matriz de coautoria
-    criar_matriz_coautores(arquivo_entrada, arquivo_saida)
+    criar_matriz_coautores(arquivo_entrada)
