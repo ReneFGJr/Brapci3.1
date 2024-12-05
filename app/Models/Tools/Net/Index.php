@@ -44,9 +44,9 @@ class Index extends Model
 
     function execPython($endpoint='', $argumento='')
     {
-        $cmd = '/data/Brapci3.1/bots/TOOLS/txt4net.py';
-        $cmd .= ' ';
-        $cmd .= get("dest");
+        //$cmd = '/data/Brapci3.1/bots/TOOLS/txt4net.py';
+        //$cmd .= ' ';
+        //$cmd .= get("dest");
         $python = '/usr/bin/python3'; // Isso depende do seu sistema
 
         // Caminho para o script Python
@@ -73,6 +73,20 @@ class Index extends Model
         dircheck('/data/Brapci3.1/.tmp/'.$d2);
         $sx = '';
         switch ($d2) {
+            case 'txt4matrix':
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['file'] = get("file");
+                $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
+                $RSP['fileO'] = $arg;
+                $file = get("fileO");
+                $file = troca($file, '.txt', '.xlsx');
+
+                $RSP['response'] = $this->execPython($d2, $arg);
+                $file = get("fileO");
+                $file = troca($file, '.txt', '.xlsx');
+                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
+                break;
             case 'txt4unit':
                 $RSP = [];
                 $RSP['status'] = '200';
