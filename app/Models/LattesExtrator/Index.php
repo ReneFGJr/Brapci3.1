@@ -93,8 +93,6 @@ class Index extends Model
             if (!$this->fileNameUpdated($id)) {
                 $data = array();
                 $sx .= 'Harvesting '.$id.'<br>'.cr();
-                echo $url;
-                exit;
                 $txt = file_get_contents($url);
                 dircheck("../.tmp");
                 dircheck("../.tmp/Zip");
