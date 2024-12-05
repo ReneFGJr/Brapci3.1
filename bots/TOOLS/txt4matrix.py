@@ -3,9 +3,9 @@ import networkx as nx
 from unidecode import unidecode
 import sys
 
-def criar_planilha_assimetrica(arquivo_entrada):
+def criar_matriz_coautores(arquivo_entrada):
     G = nx.Graph()
-    arquivo_saida = arquivo_entrada.replace('.txt', '.xlsx')
+    arquivo_saida = arquivo_entrada.replace('.txt','.xlsx')
 
     # Ler o arquivo de entrada
     with open(arquivo_entrada, 'r', encoding='utf-8') as f:
@@ -26,23 +26,14 @@ def criar_planilha_assimetrica(arquivo_entrada):
                         # Adicionar uma aresta com peso inicial
                         G.add_edge(autor1, autor2, weight=1)
 
-    # Criar uma tabela assimétrica (lista de arestas com pesos)
-    edge_data = []
-    for autor1, autor2, data in G.edges(data=True):
-        edge_data.append({
-            'Autor 1': autor1,
-            'Autor 2': autor2,
-            'Peso': data['weight']
-        })
+    # Criar a matriz de adjacência
+    matriz = nx.to_pandas_adjacency(G, weight='weight').fillna(0)
 
-    # Converter a lista em um DataFrame
-    df = pd.DataFrame(edge_data)
-
-    # Salvar como arquivo Excel
+    # Salvar a matriz como arquivo Excel
     print(arquivo_saida)
-    df.to_excel(arquivo_saida, sheet_name='Coautoria', index=False)
+    matriz.to_excel(arquivo_saida, sheet_name='Coautoria')
 
-    print(f"Planilha de coautoria salva em: {arquivo_saida}")
+    print(f"Matriz de coautoria salva em: {arquivo_saida}")
 
 def abreviar_nome(nome_completo):
     # Normalizar o nome completo
@@ -65,11 +56,13 @@ def abreviar_nome(nome_completo):
 
 if __name__ == "__main__":
     # Verificar os argumentos fornecidos
+    # Obter caminhos dos arquivos
+
     if len(sys.argv) != 2:
         print("Uso: python script.py <arquivo_entrada>")
         sys.exit(1)
 
     arquivo_entrada = sys.argv[1]
 
-    # Criar a planilha assimétrica
-    criar_planilha_assimetrica(arquivo_entrada)
+    # Criar a matriz de coautoria
+    criar_matriz_coautores(arquivo_entrada)
