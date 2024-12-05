@@ -55,15 +55,17 @@ def abreviar_nome(nome_completo):
 
 if __name__ == "__main__":
     # Verificar os argumentos fornecidos
-    if len(sys.argv) != 2:
-        print("Uso: python script.py <arquivo_entrada> <arquivo_saida>")
-        sys.exit(1)
-
     # Obter caminhos dos arquivos
     arquivo_entrada = sys.argv[1]
     arquivo_saida = sys.argv[2]
     if arquivo_saida == '':
         arquivo_saida = arquivo_entrada.replace('.txt','.xlsx')
+
+    if len(sys.argv) != 3:
+        print("Uso: python script.py <arquivo_entrada> <arquivo_saida>")
+        sys.exit(1)
+
+
 
     # Criar a matriz de coautoria
     criar_matriz_coautores(arquivo_entrada, arquivo_saida)
