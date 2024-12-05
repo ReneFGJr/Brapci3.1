@@ -62,6 +62,8 @@ if __name__ == "__main__":
     # Obter caminhos dos arquivos
     arquivo_entrada = sys.argv[1]
     arquivo_saida = sys.argv[2]
+    if arquivo_saida == '':
+        arquivo_saida = arquivo_entrada.replace('.txt','.xlsx')
 
     # Criar a matriz de coautoria
     criar_matriz_coautores(arquivo_entrada, arquivo_saida)

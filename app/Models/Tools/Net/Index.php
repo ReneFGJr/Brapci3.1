@@ -82,7 +82,6 @@ class Index extends Model
                 $file = get("fileO");
                 $file = troca($file, '.txt', '.xlsx');
                 $RSP['fileO'] = $arg;
-                $RSP['fileD'] = $file;
                 $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
                 break;
             case 'txt4unit':
