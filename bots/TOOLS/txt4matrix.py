@@ -5,7 +5,7 @@ import sys
 
 def criar_matriz_coautores(arquivo_entrada):
     G = nx.Graph()
-    arquivo_saida = , arquivo_entrada.replace('.txt','.xlsx')
+    arquivo_saida = arquivo_entrada.replace('.txt','.xlsx')
 
     # Ler o arquivo de entrada
     with open(arquivo_entrada, 'r', encoding='utf-8') as f:
