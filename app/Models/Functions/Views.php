@@ -46,6 +46,17 @@ class Views extends Model
     {
         $ip = IP();
         $user = get("user");
+        if ($user != '')
+            {
+                $Social = new \App\Models\Socials();
+                $us = $Social->validToken($user);
+                if (isset($us['ID']))
+                    {
+                        $user = $us['ID'];
+                    } else {
+                        $user = -1;
+                    }
+            }
         $session = get("session");
 
         $data['a_v'] = $id;
