@@ -76,6 +76,10 @@ class Index extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+            case 'session':
+                echo json_encode($_SERVER);
+                exit;
+                break;
             case 'oaiserver':
                 $Like = new \App\Models\Api\Endpoint\Oaiservereditor();
                 $RSP = $Like->index($d2, $d3, $d4, $d5, $d6);
