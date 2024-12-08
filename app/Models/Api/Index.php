@@ -76,7 +76,17 @@ class Index extends Model
                 exit;
                 break;
             case 'session':
-                echo json_encode($_SERVER);
+                if (isset($_SERVER['HTTP_COOKIE']))
+                    {
+                        $session = md5($_SERVER['HTTP_COOKIE']);
+                    } else {
+                        $session = md5($_SERVER['HTTP_X_FORWARDED_FOR'].$_SERVER['REQUEST_TIME_FLOAT']);
+                    }
+                $dd = [];
+                $dd['session'] = $session;
+                $dd['status'] = '200';
+                $dd['message'] = 'Session created';
+                echo json_encode($dd);
                 exit;
                 break;
             case 'oaiserver':
