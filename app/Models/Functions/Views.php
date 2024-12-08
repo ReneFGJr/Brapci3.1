@@ -45,13 +45,7 @@ class Views extends Model
     function register($id)
     {
         $ip = IP();
-
-        if (isset($_SESSION['user_id']))
-            {
-                $user = $_SESSION['user_id'];
-            } else {
-                $user = 0;
-            }
+        $user = get("user");
         $session = get("session");
 
         $data['a_v'] = $id;

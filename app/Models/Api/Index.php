@@ -75,20 +75,6 @@ class Index extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
-            case 'session':
-                if (isset($_SERVER['HTTP_COOKIE']))
-                    {
-                        $session = md5($_SERVER['HTTP_COOKIE']);
-                    } else {
-                        $session = md5($_SERVER['HTTP_X_FORWARDED_FOR'].$_SERVER['REQUEST_TIME_FLOAT']);
-                    }
-                $dd = [];
-                $dd['session'] = $session;
-                $dd['status'] = '200';
-                $dd['message'] = 'Session created';
-                echo json_encode($dd);
-                exit;
-                break;
             case 'oaiserver':
                 $Like = new \App\Models\Api\Endpoint\Oaiservereditor();
                 $RSP = $Like->index($d2, $d3, $d4, $d5, $d6);
