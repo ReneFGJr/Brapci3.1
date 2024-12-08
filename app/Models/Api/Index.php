@@ -64,7 +64,7 @@ class Index extends Model
                 header("Content-Type: application/json");
             }
         }
-
+        echo $d1;
         switch ($d1) {
             case 'brapci':
                 $Brapci = new \App\Models\Api\Endpoint\Brapci();
