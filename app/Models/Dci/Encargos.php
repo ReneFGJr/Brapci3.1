@@ -25,7 +25,7 @@ class Encargos extends Model
     protected $typeFields    = [
         'hidden',
         'sql:id_sem:sem_descricao:semestre',
-        'sql:id_di:di_disciplina:(select id_di, concat(di_codigo,\' - \',di_disciplina) as di_disciplina from disciplinas) as disciplinas',
+        'sql:id_di:di_disciplina:(select id_di, concat(di_codigo,\' - \',di_disciplina) as di_disciplina from disciplinas order by di_codigo) as disciplinas',
         'sql:id_dc:dc_nome:docentes',
         'string',
         'sql:id_c:c_curso:curso',
