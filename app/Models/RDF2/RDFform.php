@@ -66,9 +66,6 @@ class RDFform extends Model
         /* Filter de Range of Classes */
         $concept = get("id");
 
-        /** */
-        $prop = 31;
-
         /************ Recupera o RANGE de possibilidades */
         $classes = [];
         $dtc = [];
