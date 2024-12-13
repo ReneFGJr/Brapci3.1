@@ -296,6 +296,7 @@ class RDFform extends Model
         {
             $RDFDomian = new \App\Models\RDF2\RDFclassDomain();
             $dt = $RDFDomian
+                ->join('brapci_rdf.rdf_class','cd_range = id_c')
                 ->where('cd_domain',$dom)
                 ->where('cd_property',$prop)
                 ->findAll();
