@@ -121,7 +121,7 @@ class Rdf extends Model
                 $dd['n_lang'] = get("q");
                 if ($dd['n_lang'] == '')
                     {
-                        $dd['n_lang'] = $lang = $Language->getTextLanguage($q);
+                        $dd['n_lang'] = $Language->getTextLanguage($q);
                     }
                 $idn = $d3;
 
