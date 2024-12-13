@@ -296,7 +296,7 @@ class RDFform extends Model
         $sx = '';
         $cp = '*';
         $cp1 = 'id_d, d_r1 as ID, d_r2 as ID2, id_c, id_n, c_class, n_name, n_lang';
-        $cp2 = 'id_d, d_r2 as ID, d_r2 as ID2, id_c, id_n, c_class, n_name, n_lang';
+        $cp2 = 'id_d, d_r2 as ID, d_r1 as ID2, id_c, id_n, c_class, n_name, n_lang';
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $dt1 = $RDFdata
             ->select($cp2)
