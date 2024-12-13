@@ -240,7 +240,7 @@ class RDFform extends Model
         }
 
         $cp = '*';
-        $cp = 'c_class, rf_group, id_c, rf_group, n_name, n_lang, id_n';
+        $cp = 'c_class, rf_group, id_c, rf_group';
 
         $df = $this
             ->select($cp)
