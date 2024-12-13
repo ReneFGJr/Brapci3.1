@@ -213,11 +213,11 @@ class Rdf extends Model
                 $RDFdata = new \App\Models\RDF2\RDFdata();
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $Language = new \App\Models\AI\NLP\Language();
-                $Literal = get("txt");
+                $Literal = get("q");
                 $lang = $Language->getTextLanguage($Literal);
 
                 $id_prop = $RDFClass->getClass(get("prop"));
-                $ID = get("source");
+                $ID = get("ID");
                 $ID2 = 0;
                 $lit = $RDFliteral->register($Literal, $lang);
 
