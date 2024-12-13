@@ -296,14 +296,25 @@ class RDFform extends Model
         {
             $RDFDomian = new \App\Models\RDF2\RDFclassDomain();
             $dt = $RDFDomian
+                ->select('c_class')
                 ->join('brapci_rdf.rdf_class','cd_range = id_c')
                 ->where('cd_domain',$dom)
                 ->where('cd_property',$prop)
                 ->findAll();
-            $dd = ['concept'=>false,'literal'=>false];
-            $dd['id'] = $dom;
-            $dd['prop'] = $prop;
-            $dd['res'] = $dt;
+            $dd = ['concept'=>false,'literal'=>false,'imagem'=>false,'pdf'=>false,'cover'=>false];
+            $dd['data'] = $dt;
+            foreach($dt as $id=>$line)
+                {
+                    switch ($line['c_class'])
+                        {
+                            case 'Literal':
+                                $dd['literal'] = True;
+                                break;
+                            default:
+                                $dd['concept'] = True;
+                                break;
+                        }
+                }
             return $dd;
         }
 
