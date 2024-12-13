@@ -222,11 +222,10 @@ class Rdf extends Model
                 $ID2 = 0;
                 $lit = $RDFliteral->register($Literal, $lang);
 
-                echo $lang . '-' . $id_prop.' - '.$ID.' - '.$lit;
-                exit;
-
-
                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
+                $RSP = [];
+                $RSP['status'] = '200';
+                return $RSP;
                 break;
 
             case 'dataAdd':
