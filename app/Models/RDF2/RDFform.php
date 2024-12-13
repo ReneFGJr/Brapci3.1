@@ -250,7 +250,7 @@ class RDFform extends Model
 //            ->join('brapci_rdf.rdf_concept', 'd_r1 = id_cc', 'left')
 //            ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n', 'left')
             ->where('cd_domain', $dt['concept']['id_c'])
-            ->groupby($cp)
+            //->groupby($cp)
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
@@ -286,6 +286,8 @@ class RDFform extends Model
 
         $RSP['groups'] = $GRPN;
         $RSP['form'] = $FORM;
+
+        pre($RSP);
 
         return $RSP;
     }
@@ -324,9 +326,9 @@ class RDFform extends Model
             ->join('rdf_class', 'd_p = id_c')
             ->where('d_r1', $id)
             ->Where('d_p', $prop)
+            ->where('d_r2', 0)
             ->Where('d_literal <> 0')
             ->findAll();
-
         $dt = array_merge($dt1,$dt2,$dt3);
 
         return $dt;
