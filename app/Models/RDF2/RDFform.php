@@ -283,7 +283,6 @@ class RDFform extends Model
         $RSP['groups'] = $GRPN;
         $RSP['form'] = $FORM;
 
-        pre($RSP);
         return $RSP;
     }
 
