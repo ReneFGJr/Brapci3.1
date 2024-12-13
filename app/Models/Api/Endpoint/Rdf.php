@@ -217,11 +217,9 @@ class Rdf extends Model
 
                 $lang = $Language->getTextLanguage($Literal);
 
-
-echo $lang;
-exit;
-
                 $id_prop = $RDFClass->getClass(get("prop"));
+                echo $lang.'-'.$id_prop;
+                exit;
                 $ID = get("ID");
                 $ID2 = 0;
                 $lit = $RDFliteral->register($Literal, $lang);
