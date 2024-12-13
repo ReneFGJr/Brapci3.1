@@ -277,7 +277,7 @@ class RDFform extends Model
             //$data['name'] = $grp;
             $data['property'] = $linef['c_class'];
             $data['IDp'] = $linef['id_c'];
-            $data['Allow'] = $this->data_allow($id,$linef['id_c']);
+            $data['Allow'] = $this->data_allow($dt['concept']['id_c'],$linef['id_c']);
             $data['Data'] = $this->data_api($id,$linef['id_c']);
             if (!isset($FORM[$grp]))
                 {
