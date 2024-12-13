@@ -214,6 +214,8 @@ class Rdf extends Model
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $Language = new \App\Models\AI\NLP\Language();
                 $Literal = get("q");
+                echo "OK";
+                exit;
                 $lang = $Language->getTextLanguage($Literal);
 
                 $id_prop = $RDFClass->getClass(get("prop"));
