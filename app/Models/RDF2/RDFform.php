@@ -254,6 +254,9 @@ class RDFform extends Model
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
+            echo $this->getlastquery();
+            exit;
+
         $xgrp = '';
         $data = $dt['data'];
         //$PATH = 'http://localhost:4200/#/';
