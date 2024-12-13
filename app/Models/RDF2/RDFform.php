@@ -281,7 +281,7 @@ class RDFform extends Model
                 {
                     $FORM[$grp] = [];
                 }
-            array_push($FORM,$data);
+            array_push($FORM[$grp],$data);
         }
 
         $RSP['groups'] = $GRPN;
