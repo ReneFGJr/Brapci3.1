@@ -225,7 +225,8 @@ class Rdf extends Model
                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
                 $RSP = [];
                 $RSP['status'] = '200';
-                return $RSP;
+                echo json_encode($RSP);
+                exit;
                 break;
 
             case 'dataAdd':
