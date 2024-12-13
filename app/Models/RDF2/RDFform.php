@@ -302,7 +302,7 @@ class RDFform extends Model
                 ->where('cd_property',$prop)
                 ->findAll();
             $dd = ['concept'=>false,'literal'=>false,'imagem'=>false,'pdf'=>false,'cover'=>false];
-            $dd['data'] = $dt;
+            $dd['type'] = $dt;
             foreach($dt as $id=>$line)
                 {
                     switch ($line['c_class'])
