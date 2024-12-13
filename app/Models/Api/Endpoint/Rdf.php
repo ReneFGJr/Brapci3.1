@@ -108,6 +108,31 @@ class Rdf extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+            case 'updateLiteral':
+                $dd = [];
+                $dd['post'] = $_POST;
+                $q = get("q");
+                $ID = get("ID");
+
+                /* Register IDn */
+
+                $dd = [];
+                $dd['n_name'] = get("q");
+                $dd['n_lang'] = get("q");
+                if ($dd['n_lang'] == '')
+                    {
+                        $dd['n_lang'] = $lang = $Language->getTextLanguage($q);
+                    }
+                $idn = $d3;
+
+                $RDFliteral->set($dd)->where('id_n',$idn)->update();
+
+                $dd['status'] = '200';
+                $dd['idn'] = $idn;
+                $dd['text'] = $dd['n_name'];
+                echo json_encode($dd);
+                exit;
+                break;
             case 'createLiteral':
                 $dd = [];
                 $dd['post'] = $_POST;
