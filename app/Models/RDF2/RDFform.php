@@ -263,6 +263,7 @@ class RDFform extends Model
         $GRP = [];
         $GRPN = [];
         $FORM = [];
+        $ALLOW = [];
 
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
@@ -276,6 +277,7 @@ class RDFform extends Model
             //$data['name'] = $grp;
             $data['property'] = $linef['c_class'];
             $data['IDp'] = $linef['id_c'];
+            $data['Allow'] = $this->data_allow($id,$linef['id_c']);
             $data['Data'] = $this->data_api($id,$linef['id_c']);
             if (!isset($FORM[$grp]))
                 {
@@ -289,6 +291,14 @@ class RDFform extends Model
 
         return $RSP;
     }
+
+    function data_allow($id,$prop)
+        {
+            $dd = [];
+            $dd['id'] = $id;
+            $dd['prop'] = $prop;
+            return $dd;
+        }
 
     function data_api($id, $prop)
     {
