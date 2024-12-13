@@ -240,7 +240,7 @@ class RDFform extends Model
         }
 
         $cp = '*';
-        //$cp = 'c_class, rf_group, id_c';
+        $cp = 'c_class, rf_group, id_c, rf_group, n_name, n_lang, id_n';
 
         $df = $this
             ->select($cp)
@@ -250,7 +250,7 @@ class RDFform extends Model
 //            ->join('brapci_rdf.rdf_concept', 'd_r1 = id_cc', 'left')
 //            ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n', 'left')
             ->where('cd_domain', $dt['concept']['id_c'])
-            //->groupby($cp)
+            ->groupby($cp)
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
