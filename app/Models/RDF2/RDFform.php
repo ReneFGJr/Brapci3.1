@@ -292,11 +292,17 @@ class RDFform extends Model
         return $RSP;
     }
 
-    function data_allow($id,$prop)
+    function data_allow($dom,$prop)
         {
-            $dd = [];
-            $dd['id'] = $id;
+            $RDFDomian = new \App\Models\RDF2\RDFclassDomain();
+            $dt = $RDFDomian
+                ->where('cd_domain',$dom)
+                ->where('cd_property',$prop)
+                ->findAll();
+            $dd = ['concept'=>false,'literal'=>false];
+            $dd['id'] = $dom;
             $dd['prop'] = $prop;
+            $dd['res'] = $dt;
             return $dd;
         }
 
