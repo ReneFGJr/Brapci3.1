@@ -250,7 +250,7 @@ class RDFform extends Model
 //            ->join('brapci_rdf.rdf_concept', 'd_r1 = id_cc', 'left')
 //            ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n', 'left')
             ->where('cd_domain', $dt['concept']['id_c'])
-            //->groupby($cp)
+            ->groupby($cp)
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
