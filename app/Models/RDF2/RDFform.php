@@ -273,10 +273,14 @@ class RDFform extends Model
                     array_push($GRPN,$grp);
                 }
             $data = [];
-            $data[$grp]['name'] = $grp;
-            $data[$grp]['property'] = $linef['c_class'];
-            $data[$grp]['IDp'] = $linef['id_c'];
-            $data[$grp]['Data'] = $this->data_api($id,$linef['id_c']);
+            //$data['name'] = $grp;
+            $data['property'] = $linef['c_class'];
+            $data['IDp'] = $linef['id_c'];
+            $data['Data'] = $this->data_api($id,$linef['id_c']);
+            if (!isset($FORM[$grp]))
+                {
+                    $FORM[$grp] = [];
+                }
             array_push($FORM,$data);
         }
 
