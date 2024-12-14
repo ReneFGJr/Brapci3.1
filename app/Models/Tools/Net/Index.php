@@ -84,7 +84,7 @@ class Index extends Model
 
                 $RSP['response'] = $this->execPython($d2, $arg);
                 $file = get("fileO");
-                $file = troca($file, '.txt', '.xlsx');
+                $file = troca($file, '.txt', '.csv');
                 $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
                 break;
             case 'txt4matrix':
