@@ -78,14 +78,8 @@ class Index extends Model
                 $RSP['status'] = '200';
                 $RSP['file'] = get("file");
                 $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
-                $RSP['fileO'] = $arg;
-                $file = get("fileO");
-                $file = troca($file, '.txt', '.csv');
-
-                $RSP['response'] = $this->execPython($d2, $arg);
-                $file = get("fileO");
-                $file = troca($file, '.txt', '.csv');
-                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
+                $RSP['response'] = $this->execPython('lotka', $arg);
+                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . get("fileO") . '.csv';
                 break;
             case 'txt4matrix':
                 $RSP = [];
