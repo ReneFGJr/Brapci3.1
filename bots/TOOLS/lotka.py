@@ -55,12 +55,12 @@ def salvar_resultados_csv(contagem_autores, distribuicao_lotka, nome_arquivo):
 if __name__ == "__main__":
     # Verificar se o número correto de argumentos foi fornecido
     if len(sys.argv) != 3:
-        print("Uso: python3 lotka.py <arquivo_entrada> <arquivo_saida>")
+        print("Uso: python3 lotka.py <arquivo_entrada>")
         sys.exit(1)
 
     # Obter os arquivos de entrada e saída da linha de comando
     arquivo_entrada = sys.argv[1]
-    arquivo_saida = sys.argv[2]
+    arquivo_saida = arquivo_entrada.replace('.txt','.csv')
 
     # Ler o arquivo de entrada
     try:
