@@ -76,4 +76,4 @@ if __name__ == "__main__":
     # Salvar os resultados em um arquivo CSV
     salvar_resultados_csv(contagem_autores, distribuicao_lotka, arquivo_saida)
 
-    print(f"Resultados salvos em {arquivo_saida}")
+    print(arquivo_saida)
