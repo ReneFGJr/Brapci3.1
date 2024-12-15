@@ -2,6 +2,7 @@ from collections import Counter
 import sys
 import openpyxl
 from openpyxl import Workbook
+from openpyxl.chart import BarChart, Reference
 
 def calcular_lei_de_lotka(lista_de_artigos):
     """
@@ -31,7 +32,7 @@ def calcular_lei_de_lotka(lista_de_artigos):
 
 def salvar_resultados_xlsx(contagem_autores, distribuicao_lotka, nome_arquivo):
     """
-    Salva os resultados da Lei de Lotka em um arquivo XLSX.
+    Salva os resultados da Lei de Lotka em um arquivo XLSX, incluindo gráficos em abas separadas.
 
     Args:
         contagem_autores (dict): Contagem de artigos por autor.
@@ -48,11 +49,33 @@ def salvar_resultados_xlsx(contagem_autores, distribuicao_lotka, nome_arquivo):
     for autor, quantidade in contagem_autores.items():
         ws_autores.append([autor, quantidade])
 
+    # Criar gráfico para contagem de autores
+    chart_autores = BarChart()
+    chart_autores.title = "Contagem de Autores"
+    chart_autores.x_axis.title = "Autores"
+    chart_autores.y_axis.title = "Número de Artigos"
+    data = Reference(ws_autores, min_col=2, min_row=1, max_row=len(contagem_autores) + 1)
+    labels = Reference(ws_autores, min_col=1, min_row=2, max_row=len(contagem_autores) + 1)
+    chart_autores.add_data(data, titles_from_data=True)
+    chart_autores.set_categories(labels)
+    ws_autores.add_chart(chart_autores, "D1")
+
     # Adicionar aba para distribuição de Lotka
     ws_lotka = wb.create_sheet(title="Distribuição de Lotka")
     ws_lotka.append(["Número de Artigos", "Número de Autores"])
     for num_artigos, num_autores in distribuicao_lotka.items():
         ws_lotka.append([num_artigos, num_autores])
+
+    # Criar gráfico para distribuição de Lotka
+    chart_lotka = BarChart()
+    chart_lotka.title = "Distribuição de Lotka"
+    chart_lotka.x_axis.title = "Número de Artigos"
+    chart_lotka.y_axis.title = "Número de Autores"
+    data_lotka = Reference(ws_lotka, min_col=2, min_row=1, max_row=len(distribuicao_lotka) + 1)
+    labels_lotka = Reference(ws_lotka, min_col=1, min_row=2, max_row=len(distribuicao_lotka) + 1)
+    chart_lotka.add_data(data_lotka, titles_from_data=True)
+    chart_lotka.set_categories(labels_lotka)
+    ws_lotka.add_chart(chart_lotka, "D1")
 
     # Salvar o arquivo Excel
     wb.save(nome_arquivo)
