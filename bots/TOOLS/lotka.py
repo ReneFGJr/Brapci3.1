@@ -54,7 +54,7 @@ def salvar_resultados_csv(contagem_autores, distribuicao_lotka, nome_arquivo):
 
 if __name__ == "__main__":
     # Verificar se o número correto de argumentos foi fornecido
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print("Uso: python3 lotka.py <arquivo_entrada>")
         sys.exit(1)
 
