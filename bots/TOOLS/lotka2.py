@@ -1,7 +1,6 @@
 from collections import Counter
+import csv
 import sys
-import openpyxl
-from openpyxl import Workbook
 
 def calcular_lei_de_lotka(lista_de_artigos):
     """
@@ -29,33 +28,29 @@ def calcular_lei_de_lotka(lista_de_artigos):
 
     return contagem_autores, distribuicao_lotka
 
-def salvar_resultados_xlsx(contagem_autores, distribuicao_lotka, nome_arquivo):
+def salvar_resultados_csv(contagem_autores, distribuicao_lotka, nome_arquivo):
     """
-    Salva os resultados da Lei de Lotka em um arquivo XLSX.
+    Salva os resultados da Lei de Lotka em um arquivo CSV.
 
     Args:
         contagem_autores (dict): Contagem de artigos por autor.
         distribuicao_lotka (dict): Distribuição da Lei de Lotka.
-        nome_arquivo (str): Nome do arquivo XLSX.
+        nome_arquivo (str): Nome do arquivo CSV.
     """
-    # Criar um workbook
-    wb = Workbook()
+    with open(nome_arquivo, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        # Escrever cabeçalho para contagem de autores
+        writer.writerow(["Autor", "Número de Artigos"])
+        for autor, quantidade in contagem_autores.items():
+            writer.writerow([autor, quantidade])
 
-    # Adicionar aba para contagem de autores
-    ws_autores = wb.active
-    ws_autores.title = "Contagem de Autores"
-    ws_autores.append(["Autor", "Número de Artigos"])
-    for autor, quantidade in contagem_autores.items():
-        ws_autores.append([autor, quantidade])
+        # Linha em branco
+        writer.writerow([])
 
-    # Adicionar aba para distribuição de Lotka
-    ws_lotka = wb.create_sheet(title="Distribuição de Lotka")
-    ws_lotka.append(["Número de Artigos", "Número de Autores"])
-    for num_artigos, num_autores in distribuicao_lotka.items():
-        ws_lotka.append([num_artigos, num_autores])
-
-    # Salvar o arquivo Excel
-    wb.save(nome_arquivo)
+        # Escrever cabeçalho para distribuição de Lotka
+        writer.writerow(["Número de Artigos", "Número de Autores"])
+        for num_artigos, num_autores in distribuicao_lotka.items():
+            writer.writerow([num_artigos, num_autores])
 
 if __name__ == "__main__":
     # Verificar se o número correto de argumentos foi fornecido
@@ -63,9 +58,9 @@ if __name__ == "__main__":
         print("Uso: python3 lotka.py <arquivo_entrada>")
         sys.exit(1)
 
-    # Obter o arquivo de entrada
+    # Obter os arquivos de entrada e saída da linha de comando
     arquivo_entrada = sys.argv[1]
-    arquivo_saida = arquivo_entrada.replace('.txt', '.xlsx')
+    arquivo_saida = arquivo_entrada.replace('.txt','.csv')
 
     # Ler o arquivo de entrada
     try:
@@ -78,7 +73,7 @@ if __name__ == "__main__":
     # Calcular a Lei de Lotka
     contagem_autores, distribuicao_lotka = calcular_lei_de_lotka(lista_de_artigos)
 
-    # Salvar os resultados em um arquivo XLSX
-    salvar_resultados_xlsx(contagem_autores, distribuicao_lotka, arquivo_saida)
+    # Salvar os resultados em um arquivo CSV
+    salvar_resultados_csv(contagem_autores, distribuicao_lotka, arquivo_saida)
 
-    print(f"Resultados salvos em: {arquivo_saida}")
+    print(arquivo_saida)
