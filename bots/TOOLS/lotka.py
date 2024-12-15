@@ -81,4 +81,4 @@ if __name__ == "__main__":
     # Salvar os resultados em um arquivo XLSX
     salvar_resultados_xlsx(contagem_autores, distribuicao_lotka, arquivo_saida)
 
-    print(f"Resultados salvos em: {arquivo_saida}")
+    print(arquivo_saida)
