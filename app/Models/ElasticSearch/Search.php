@@ -152,18 +152,18 @@ class Search extends Model
         $ds = $Search->findAll();
 
         $dts = [];
+        $JNL = [];
         foreach ($ds as $id => $line) {
             $ida = $line['ID'];
             $dts[$ida] = $line;
 
-            $Journal = $line['IDJ'];
-            if (isset($flt['JOURNAL'][$Journal] ))
+            if (!isset($JNL[$line['IDJ']]))
                 {
-                    $flt['JOURNAL'][$Journal]['total'] = 0;
-                    $flt['JOURNAL'][$Journal]['name'] = $line['JOURNAL'];
+                    $JNL[$line['IDJ']] = ['name'=>$line['JOURNAL'], 'total'=>0];
                 }
-            $flt['JOURNAL'][$Journal]['total'] = $flt['JOURNAL'][$Journal]['total'] + 1;
+
         }
+        pre($JNL);
 
         foreach ($dt as $idr => $line) {
             $ida = $line['id'];
