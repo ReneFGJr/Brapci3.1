@@ -161,6 +161,7 @@ class Search extends Model
                 {
                     $flt['JOURNAL'][$Journal] = 0;
                 }
+                pre($line);
             $flt['JOURNAL'][$Journal] = $flt['JOURNAL'][$Journal] + 1;
         }
 
