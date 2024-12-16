@@ -153,16 +153,26 @@ class Search extends Model
 
         $dts = [];
         $JNL = [];
+        $SBJ = [];
+        $CLA = [];
+
         foreach ($ds as $id => $line) {
             $ida = $line['ID'];
             $dts[$ida] = $line;
 
+            /******* Journals */
             if (!isset($JNL[$line['IDJ']]))
                 {
                     $JNL[$line['IDJ']] = ['name'=>$line['JOURNAL'], 'total'=>1];
                 } else {
                     $JNL[$line['IDJ']]['total'] = $JNL[$line['IDJ']]['total'] + 1;
                 }
+            /******* Classes */
+            if (!isset($CLA[$line['CLASS']])) {
+                $CLA[$line['CLASS']] = ['name' => $line['CLASS'], 'total' => 1];
+            } else {
+                $JCLANL[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
+            }
 
         }
 
@@ -174,6 +184,8 @@ class Search extends Model
             }
         }
         $flt['Journals'] = $JNL;
+        $flt['Types'] = $CLA;
+
         $this->filters = $flt;
         return $dt;
     }
