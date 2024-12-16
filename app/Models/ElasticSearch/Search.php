@@ -134,6 +134,7 @@ class Search extends Model
         $Search = new \App\Models\ElasticSearch\Search();
         $this->filters = [];
         $flt = [];
+        $flt['JOURNAL'] = [];
         /* Retorno */
         $n = 0;
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
@@ -154,7 +155,13 @@ class Search extends Model
         foreach ($ds as $id => $line) {
             $ida = $line['ID'];
             $dts[$ida] = $line;
-            pre($line);
+
+            $Journal = $line['JOURNAL'];
+            if (isset($flt['JOURNAL'][$Journal] ))
+                {
+                    $flt['JOURNAL'][$Journal] = 0;
+                }
+            $flt['JOURNAL'][$Journal] = $flt['JOURNAL'][$Journal] + 1;
         }
 
         foreach ($dt as $idr => $line) {
@@ -164,6 +171,7 @@ class Search extends Model
                 $dt[$idr]['data'] = $dts[$ida];
             }
         }
+        $this->filters = $flt;
         return $dt;
     }
 
