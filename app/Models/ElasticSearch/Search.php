@@ -197,6 +197,7 @@ class Search extends Model
         }
         $flt['Journals'] = $JNL;
         $flt['Types'] = $CLA;
+        arsort($KYZ);
         $flt['Kwywords'] = $KYZ;
 
         $this->filters = $flt;
