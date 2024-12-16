@@ -137,7 +137,7 @@ class Search extends Model
         $flt['JOURNAL'] = [];
         /* Retorno */
         $n = 0;
-        $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, JOURNAL as IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
         $Search->select($cp);
         $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
         foreach ($dt as $id => $line) {
@@ -156,13 +156,14 @@ class Search extends Model
             $ida = $line['ID'];
             $dts[$ida] = $line;
 
-            $Journal = $line['JOURNAL'];
+            $Journal = $line['IDJ'];
             if (isset($flt['JOURNAL'][$Journal] ))
                 {
-                    $flt['JOURNAL'][$Journal] = 0;
+                    $flt['JOURNAL'][$Journal]['total'] = 0;
+                    $flt['JOURNAL'][$Journal]['name'] = $line['JOURNAL'];
                 }
                 pre($line);
-            $flt['JOURNAL'][$Journal] = $flt['JOURNAL'][$Journal] + 1;
+            $flt['JOURNAL'][$Journal] = $flt['JOURNAL'][$Journal]['total'] + 1;
         }
 
         foreach ($dt as $idr => $line) {
