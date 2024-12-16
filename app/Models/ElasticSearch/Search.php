@@ -175,7 +175,7 @@ class Search extends Model
             }
             /******* Keywords */
             $keys = $line['KEYWORDS'];
-            $k = explode(';',$k);
+            $k = explode(';',$keys);
             foreach($k as $idk=>$kyw)
                 {
                     echo $idk.'==>'.$kyw;
