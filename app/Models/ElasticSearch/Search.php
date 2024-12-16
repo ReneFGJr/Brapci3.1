@@ -154,6 +154,7 @@ class Search extends Model
         foreach ($ds as $id => $line) {
             $ida = $line['ID'];
             $dts[$ida] = $line;
+            pre($line);
         }
 
         foreach ($dt as $idr => $line) {
@@ -162,8 +163,6 @@ class Search extends Model
             if (isset($dts[$ida])) {
                 $dt[$idr]['data'] = $dts[$ida];
             }
-
-            pre($line);
         }
         return $dt;
     }
