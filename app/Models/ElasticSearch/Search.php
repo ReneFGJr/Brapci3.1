@@ -83,6 +83,7 @@ class Search extends Model
 
         $rsp = $this->worksRecover($result);
         $dt['works'] = $this->convertElastic($rsp);
+        $dt['filters'] = $this->filtersElastic($rsp);
         $dt['total'] = count($dt['works']);
 
         //$dt = $API->call($url, $method, $data);
@@ -120,6 +121,11 @@ class Search extends Model
     }
 
     function tratar($q) {}
+
+    function filtersElastic($dt)
+        {
+            pre($dt);
+        }
 
     function convertElastic($dt)
     {
