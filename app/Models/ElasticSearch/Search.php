@@ -40,6 +40,8 @@ class Search extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public $filters = [];
+
     function searchFull3()
     {
         $API = new \App\Models\ElasticSearch\API();
@@ -124,13 +126,14 @@ class Search extends Model
 
     function filtersElastic($dt)
         {
-            pre($dt);
+            return $this->filters;
         }
 
     function convertElastic($dt)
     {
         $Search = new \App\Models\ElasticSearch\Search();
-
+        $this->filters = [];
+        $flt = [];
         /* Retorno */
         $n = 0;
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
@@ -159,6 +162,8 @@ class Search extends Model
             if (isset($dts[$ida])) {
                 $dt[$idr]['data'] = $dts[$ida];
             }
+
+            pre($line);
         }
         return $dt;
     }
