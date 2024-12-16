@@ -153,7 +153,7 @@ class Search extends Model
 
         $dts = [];
         $JNL = [];
-        $KYW = [];
+        $KYZ = [];
         $CLA = [];
 
         foreach ($ds as $id => $line) {
@@ -179,10 +179,10 @@ class Search extends Model
             foreach($k as $idk=>$kyw)
                 {
                     $kyw = trim($kyw);
-                    if (!isset($KYW[$kyw])) {
-                        $KYW[$kyw] = ['name' => $line[$kyw], 'total' => 1];
+                    if (!isset($KYZ[$kyw])) {
+                        $KYZ[$kyw] = ['name' => $line[$kyw], 'total' => 1];
                     } else {
-                        $KYW[$kyw]['total'] = $KYW[$kyw]['total'] + 1;
+                        $KYZ[$kyw]['total'] = $KYZ[$kyw]['total'] + 1;
                     }
                 }
 
