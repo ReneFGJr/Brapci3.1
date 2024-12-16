@@ -197,7 +197,7 @@ class Search extends Model
         }
         $flt['Journals'] = $JNL;
         $flt['Types'] = $CLA;
-        $flt['Kwywords'] = $KYW;
+        $flt['Kwywords'] = $KYZ;
 
         $this->filters = $flt;
         return $dt;
