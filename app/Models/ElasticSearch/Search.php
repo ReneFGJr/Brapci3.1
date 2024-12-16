@@ -161,7 +161,7 @@ class Search extends Model
                 {
                     $JNL[$line['IDJ']] = ['name'=>$line['JOURNAL'], 'total'=>1];
                 } else {
-                    $JNL[$line['IDJ']]['total'] =+ 1;
+                    $JNL[$line['IDJ']]['total'] = $JNL[$line['IDJ']]['total'] + 1;
                 }
 
         }
