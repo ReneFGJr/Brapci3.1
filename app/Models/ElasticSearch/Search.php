@@ -137,7 +137,7 @@ class Search extends Model
         $flt['JOURNAL'] = [];
         /* Retorno */
         $n = 0;
-        $cp = 'ID, id_jnl, jnl_name as JOURNAL, JOURNAL as IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, COVER as cover';
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, JOURNAL as IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, COVER as cover';
         $Search->select($cp);
         $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
         foreach ($dt as $id => $line) {
@@ -153,7 +153,7 @@ class Search extends Model
 
         $dts = [];
         $JNL = [];
-        $SBJ = [];
+        $KYW = [];
         $CLA = [];
 
         foreach ($ds as $id => $line) {
@@ -171,7 +171,20 @@ class Search extends Model
             if (!isset($CLA[$line['CLASS']])) {
                 $CLA[$line['CLASS']] = ['name' => $line['CLASS'], 'total' => 1];
             } else {
-                $JCLANL[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
+                $CLA[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
+            }
+            /******* Keywords */
+            $keys = $line['KEYWORDS'];
+            $k = explode(';',$k);
+            foreach($k as $idk=>$kyw)
+                {
+                    echo $idk.'==>'.$kyw;
+                    echo '<br>';
+                }
+            if (!isset($KYW[$line['KEYWORDS']])) {
+                $CLA[$line['CLASS']] = ['name' => $line['CLASS'], 'total' => 1];
+            } else {
+                $CLA[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
             }
 
         }
