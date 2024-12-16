@@ -108,6 +108,31 @@ class Rdf extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+            case 'updateLiteral':
+                $dd = [];
+                $dd['post'] = $_POST;
+                $q = get("q");
+                $ID = get("ID");
+
+                /* Register IDn */
+
+                $dd = [];
+                $dd['n_name'] = get("q");
+                $dd['n_lang'] = get("lang");
+                if ($dd['n_lang'] == '')
+                    {
+                        $dd['n_lang'] = $Language->getTextLanguage($q);
+                    }
+                $idn = $d3;
+
+                $RDFliteral->set($dd)->where('id_n',$idn)->update();
+
+                $dd['status'] = '200';
+                $dd['idn'] = $idn;
+                $dd['text'] = $dd['n_name'];
+                echo json_encode($dd);
+                exit;
+                break;
             case 'createLiteral':
                 $dd = [];
                 $dd['post'] = $_POST;
@@ -188,15 +213,20 @@ class Rdf extends Model
                 $RDFdata = new \App\Models\RDF2\RDFdata();
                 $RDFliteral = new \App\Models\RDF2\RDFliteral();
                 $Language = new \App\Models\AI\NLP\Language();
-                $Literal = get("txt");
+                $Literal = get("q");
+
                 $lang = $Language->getTextLanguage($Literal);
 
                 $id_prop = $RDFClass->getClass(get("prop"));
-                $ID = get("source");
+                $ID = get("ID");
                 $ID2 = 0;
                 $lit = $RDFliteral->register($Literal, $lang);
 
                 $RDFdata->register($ID, $id_prop, $ID2, $lit);
+                $RSP = [];
+                $RSP['status'] = '200';
+                echo json_encode($RSP);
+                exit;
                 break;
 
             case 'dataAdd':

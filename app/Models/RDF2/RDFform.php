@@ -66,9 +66,6 @@ class RDFform extends Model
         /* Filter de Range of Classes */
         $concept = get("id");
 
-        /** */
-        $prop = 31;
-
         /************ Recupera o RANGE de possibilidades */
         $classes = [];
         $dtc = [];
@@ -243,7 +240,7 @@ class RDFform extends Model
         }
 
         $cp = '*';
-        //$cp = 'c_class, rf_group, id_c';
+        $cp = 'c_class, rf_group, id_c, rf_group';
 
         $df = $this
             ->select($cp)
@@ -253,7 +250,7 @@ class RDFform extends Model
 //            ->join('brapci_rdf.rdf_concept', 'd_r1 = id_cc', 'left')
 //            ->join('brapci_rdf.rdf_literal', 'cc_pref_term = id_n', 'left')
             ->where('cd_domain', $dt['concept']['id_c'])
-            //->groupby($cp)
+            ->groupby($cp)
             ->orderBy('rf_order, rf_group')
             ->findAll();
 
@@ -266,6 +263,7 @@ class RDFform extends Model
         $GRP = [];
         $GRPN = [];
         $FORM = [];
+        $ALLOW = [];
 
         foreach ($df as $idf => $linef) {
             $grp = $linef['rf_group'];
@@ -276,25 +274,57 @@ class RDFform extends Model
                     array_push($GRPN,$grp);
                 }
             $data = [];
-            $data['group'] = $grp;
+            //$data['name'] = $grp;
             $data['property'] = $linef['c_class'];
             $data['IDp'] = $linef['id_c'];
+            $data['Allow'] = $this->data_allow($dt['concept']['id_c'],$linef['id_c']);
             $data['Data'] = $this->data_api($id,$linef['id_c']);
-            array_push($FORM,$data);
+            if (!isset($FORM[$grp]))
+                {
+                    $FORM[$grp] = [];
+                }
+            array_push($FORM[$grp],$data);
         }
 
         $RSP['groups'] = $GRPN;
         $RSP['form'] = $FORM;
+
         return $RSP;
     }
+
+    function data_allow($dom,$prop)
+        {
+            $RDFDomian = new \App\Models\RDF2\RDFclassDomain();
+            $dt = $RDFDomian
+                ->select('c_class')
+                ->join('brapci_rdf.rdf_class','cd_range = id_c')
+                ->where('cd_domain',$dom)
+                ->where('cd_property',$prop)
+                ->findAll();
+            $dd = ['concept'=>false,'literal'=>false,'imagem'=>false,'pdf'=>false,'cover'=>false];
+            $dd['type'] = $dt;
+            foreach($dt as $id=>$line)
+                {
+                    switch ($line['c_class'])
+                        {
+                            case 'Literal':
+                                $dd['literal'] = True;
+                                break;
+                            default:
+                                $dd['concept'] = True;
+                                break;
+                        }
+                }
+            return $dd;
+        }
 
     function data_api($id, $prop)
     {
         $RSP = [];
         $sx = '';
         $cp = '*';
-        $cp1 = 'id_d, d_r1 as ID, id_c, id_n, c_class, n_name, n_lang';
-        $cp2 = 'id_d, d_r2 as ID, id_c, id_n, c_class, n_name, n_lang';
+        $cp1 = 'id_d, d_r1 as ID, d_r2 as ID2, id_c, id_n, c_class, n_name, n_lang';
+        $cp2 = 'id_d, d_r2 as ID, d_r1 as ID2, id_c, id_n, c_class, n_name, n_lang';
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $dt1 = $RDFdata
             ->select($cp2)
@@ -322,9 +352,9 @@ class RDFform extends Model
             ->join('rdf_class', 'd_p = id_c')
             ->where('d_r1', $id)
             ->Where('d_p', $prop)
+            ->where('d_r2', 0)
             ->Where('d_literal <> 0')
             ->findAll();
-
         $dt = array_merge($dt1,$dt2,$dt3);
 
         return $dt;
