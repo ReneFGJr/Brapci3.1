@@ -178,6 +178,7 @@ class Search extends Model
             $k = explode(';',$keys);
             foreach($k as $idk=>$kyw)
                 {
+                    $kyw = trim($kyw);
                     echo $idk.'==>'.$kyw;
                     echo '<br>';
                 }
