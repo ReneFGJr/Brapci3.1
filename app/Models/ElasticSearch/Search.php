@@ -179,14 +179,12 @@ class Search extends Model
             foreach($k as $idk=>$kyw)
                 {
                     $kyw = trim($kyw);
-                    echo $idk.'==>'.$kyw;
-                    echo '<br>';
+                    if (!isset($KYW[$kyw])) {
+                        $KYW[$kyw] = ['name' => $line[$kyw], 'total' => 1];
+                    } else {
+                        $KYW[$kyw]['total'] = $KYW[$kyw]['total'] + 1;
+                    }
                 }
-            if (!isset($KYW[$line['KEYWORDS']])) {
-                $CLA[$line['CLASS']] = ['name' => $line['CLASS'], 'total' => 1];
-            } else {
-                $CLA[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
-            }
 
         }
 
@@ -199,6 +197,7 @@ class Search extends Model
         }
         $flt['Journals'] = $JNL;
         $flt['Types'] = $CLA;
+        $flt['Kwywords'] = $KYW;
 
         $this->filters = $flt;
         return $dt;
