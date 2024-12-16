@@ -180,7 +180,7 @@ class Search extends Model
                 {
                     $kyw = trim($kyw);
                     if (!isset($KYZ[$kyw])) {
-                        $KYZ[$kyw] = ['name' => $line[$kyw], 'total' => 1];
+                        $KYZ[$kyw] = ['name' => $kyw, 'total' => 1];
                     } else {
                         $KYZ[$kyw]['total'] = $KYZ[$kyw]['total'] + 1;
                     }
