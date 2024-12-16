@@ -179,6 +179,9 @@ class Search extends Model
             foreach($k as $idk=>$kyw)
                 {
                     $kyw = trim($kyw);
+                    $kyw = strtolower($kyw);
+                    $kyw = ucwords($kyw);
+
                     if (!isset($KYZ[$kyw])) {
                         $KYZ[$kyw] = ['name' => $kyw, 'total' => 1];
                     } else {
