@@ -165,7 +165,6 @@ class Search extends Model
                 }
 
         }
-        pre($JNL);
 
         foreach ($dt as $idr => $line) {
             $ida = $line['id'];
@@ -174,6 +173,7 @@ class Search extends Model
                 $dt[$idr]['data'] = $dts[$ida];
             }
         }
+        $flt['Journals'] = $JNL;
         $this->filters = $flt;
         return $dt;
     }
