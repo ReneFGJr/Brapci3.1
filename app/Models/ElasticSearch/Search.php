@@ -205,7 +205,7 @@ class Search extends Model
         $flt['keywords'] = $KYZ;
 
         $this->filters = $flt;
-        unset($array['json']);
+        unset($dt['json']);
         return $dt;
     }
 
