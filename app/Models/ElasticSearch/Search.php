@@ -191,6 +191,7 @@ class Search extends Model
                         }
                 }
 
+            }
         }
 
         foreach ($dt as $idr => $line) {
