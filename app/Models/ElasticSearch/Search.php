@@ -153,6 +153,7 @@ class Search extends Model
         $dts = [];
         $JNL = [];
         $KYZ = [];
+        $KYW = [];
         $CLA = [];
 
         foreach ($ds as $id => $line) {
@@ -192,6 +193,16 @@ class Search extends Model
             }
         }
 
+        arsort($KYZ);
+        foreach($KYZ as $name=>$total)
+            {
+                $dtt = [];
+                $dtt['name'] = $name;
+                $dtt['total'] = $total;
+                $dtt['ID'] = -1;
+                array_push($KYW,$dtt);
+            }
+
         foreach ($dt as $idr => $line) {
             $ida = $line['id'];
 
@@ -203,8 +214,7 @@ class Search extends Model
         }
         $flt['source'] = $JNL;
         $flt['types'] = $CLA;
-        arsort($KYZ);
-        $flt['keywords'] = $KYZ;
+        $flt['keywords'] = $KYW;
 
         $this->filters = $flt;
         return $dt;
