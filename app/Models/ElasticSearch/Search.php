@@ -133,7 +133,6 @@ class Search extends Model
         $Search = new \App\Models\ElasticSearch\Search();
         $this->filters = [];
         $flt = [];
-        $flt['JOURNAL'] = [];
         /* Retorno */
         $n = 0;
         $cp = 'ID, id_jnl, jnl_name as JOURNAL, JOURNAL as IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, COVER as cover, json';
