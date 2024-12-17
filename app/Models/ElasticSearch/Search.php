@@ -242,6 +242,7 @@ class Search extends Model
 
         /********************* Autores */
         arsort($ATX);
+        pre($ATX);
         foreach ($ATX as $name => $total) {
             $dtt = [];
             $dtt['name'] = $name;
