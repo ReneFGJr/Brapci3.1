@@ -52,12 +52,11 @@ class Search extends Model
 
         $logica = 1;
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
-        switch($logica)
-            {
-                case 1:
-                    $query = $Logic->method_v1();
-                    break;
-            }
+        switch ($logica) {
+            case 1:
+                $query = $Logic->method_v1();
+                break;
+        }
 
 
         /********************************************** Logica 2 */
@@ -125,9 +124,9 @@ class Search extends Model
     function tratar($q) {}
 
     function filtersElastic($dt)
-        {
-            return $this->filters;
-        }
+    {
+        return $this->filters;
+    }
 
     function convertElastic($dt)
     {
@@ -161,12 +160,11 @@ class Search extends Model
             $dts[$ida] = $line;
 
             /******* Journals */
-            if (!isset($JNL[$line['IDJ']]))
-                {
-                    $JNL[$line['IDJ']] = ['name'=>$line['JOURNAL'], 'total'=>1];
-                } else {
-                    $JNL[$line['IDJ']]['total'] = $JNL[$line['IDJ']]['total'] + 1;
-                }
+            if (!isset($JNL[$line['IDJ']])) {
+                $JNL[$line['IDJ']] = ['name' => $line['JOURNAL'], 'total' => 1];
+            } else {
+                $JNL[$line['IDJ']]['total'] = $JNL[$line['IDJ']]['total'] + 1;
+            }
             /******* Classes */
             if (!isset($CLA[$line['CLASS']])) {
                 $CLA[$line['CLASS']] = ['name' => $line['CLASS'], 'total' => 1];
@@ -175,9 +173,9 @@ class Search extends Model
             }
             /******* Keywords */
             $json = (array)json_decode($line['json']);
-            if (isset($json['Subject']['pt']))
-                {
-                    $k = (array)$json['Subject'];
+            if (isset($json['Subject'])) {
+                $k = (array)$json['Subject'];
+                if (isset($k['pt'])) {
                     $k = (array)$k['pt'];
                     foreach ($k as $idk => $kyw) {
                         $kyw = trim($kyw);
@@ -189,8 +187,8 @@ class Search extends Model
                         } else {
                             $KYZ[$kyw] = $KYZ[$kyw] + 1;
                         }
+                    }
                 }
-
             }
         }
 
