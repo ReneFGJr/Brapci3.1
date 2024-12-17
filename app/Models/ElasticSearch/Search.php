@@ -201,7 +201,7 @@ class Search extends Model
         $flt['Journals'] = $JNL;
         $flt['Types'] = $CLA;
         arsort($KYZ);
-        $flt['Kwywords'] = $KYZ;
+        $flt['Keywords'] = $KYZ;
 
         $this->filters = $flt;
         return $dt;
