@@ -151,6 +151,7 @@ class Search extends Model
         $ds = $Search->findAll();
 
         $dts = [];
+        $JNK = [];
         $JNL = [];
         $KYZ = [];
         $KYW = [];
@@ -161,11 +162,12 @@ class Search extends Model
             $dts[$ida] = $line;
 
             /******* Journals */
-            if (!isset($JNL[$line['IDJ']])) {
-                $JNL[$line['IDJ']] = ['name' => $line['JOURNAL'], 'total' => 1];
+            if (!isset($JNK[$line['IDJ']])) {
+                $JNK[$line['IDJ']] = ['name' => $line['JOURNAL'], 'total' => 1];
             } else {
-                $JNL[$line['IDJ']]['total'] = $JNL[$line['IDJ']]['total'] + 1;
+                $JNK[$line['IDJ']]['total'] = $JNK[$line['IDJ']]['total'] + 1;
             }
+
             /******* Classes */
             if (!isset($CLA[$line['CLASS']])) {
                 $CLA[$line['CLASS']] = ['name' => $line['CLASS'], 'total' => 1];
@@ -196,6 +198,17 @@ class Search extends Model
             }
         }
 
+        /********************* Journal */
+        arsort($JNK);
+        foreach ($JNK as $name => $total) {
+            $dtt = [];
+            $dtt['name'] = $name;
+            $dtt['total'] = $total;
+            $dtt['ID'] = -1;
+            array_push($JNL, $dtt);
+        }
+
+        /********************* Keyword */
         arsort($KYZ);
         foreach($KYZ as $name=>$total)
             {
