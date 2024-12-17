@@ -196,7 +196,9 @@ class Search extends Model
             $ida = $line['id'];
 
             if (isset($dts[$ida])) {
-                $dt[$idr]['data'] = $dts[$ida];
+                $dtt = $dts[$ida];
+                unset($dtt['json']);
+                $dt[$idr]['data'] = $dtt;
             }
         }
         $flt['source'] = $JNL;
@@ -205,7 +207,6 @@ class Search extends Model
         $flt['keywords'] = $KYZ;
 
         $this->filters = $flt;
-        unset($dt['json']);
         return $dt;
     }
 
