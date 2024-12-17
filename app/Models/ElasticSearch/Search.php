@@ -137,7 +137,7 @@ class Search extends Model
         $flt['JOURNAL'] = [];
         /* Retorno */
         $n = 0;
-        $cp = 'ID, id_jnl, jnl_name as JOURNAL, JOURNAL as IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, COVER as cover';
+        $cp = 'ID, id_jnl, jnl_name as JOURNAL, JOURNAL as IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, COVER as cover, json';
         $Search->select($cp);
         $Search->join('brapci.source_source', 'JOURNAL = id_jnl', 'LEFT');
         foreach ($dt as $id => $line) {
@@ -174,6 +174,8 @@ class Search extends Model
                 $CLA[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
             }
             /******* Keywords */
+            $json = json_decode($line['json']);
+            pre($json);
             $keys = $line['KEYWORDS'];
             $k = explode(';',$keys);
             foreach($k as $idk=>$kyw)
