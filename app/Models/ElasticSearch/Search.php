@@ -261,7 +261,7 @@ class Search extends Model
         }
         $flt['sources'] = $JNL;
         $flt['types'] = $CLA;
-        $flt['authors'] = $CLA;
+        $flt['authors'] = $ATH;
         $flt['keywords'] = $KYW;
 
         $this->filters = $flt;
