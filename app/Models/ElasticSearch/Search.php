@@ -214,6 +214,7 @@ class Search extends Model
                             } else {
                                 $ATX[$name] = $ATX[$name] + 1;
                             }
+                        }
                     }
             }
         }
