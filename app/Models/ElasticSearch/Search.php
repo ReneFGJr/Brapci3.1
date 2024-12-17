@@ -207,7 +207,7 @@ class Search extends Model
                         $name = trim($name);
                         $name = strtolower($kyw);
                         $name = preg_replace('/[^A-Za-z0-9 ]/', '', $name);
-                        $name = nbr_author($kyw,7);
+                        $name = nbr_author($name,7);
                         if (strlen($name) > 2) {
                             if (!isset($ATX[$name])) {
                                 $ATX[$name] = 1;
