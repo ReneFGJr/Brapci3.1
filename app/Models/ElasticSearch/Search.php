@@ -175,20 +175,20 @@ class Search extends Model
             }
             /******* Keywords */
             $json = json_decode($line['json']);
-            pre($json);
-            $keys = $line['KEYWORDS'];
-            $k = explode(';',$keys);
-            foreach($k as $idk=>$kyw)
+            if (isset($json['Subject']['pt']))
                 {
-                    $kyw = trim($kyw);
-                    $kyw = strtolower($kyw);
-                    $kyw = ucwords($kyw);
+                    $k = (array)$json['Subject'];
+                    $k = (array)$k['pt'];
+                    foreach ($k as $idk => $kyw) {
+                        $kyw = trim($kyw);
+                        $kyw = strtolower($kyw);
+                        $kyw = ucwords($kyw);
 
-                    if (!isset($KYZ[$kyw])) {
-                        $KYZ[$kyw] = 1;
-                    } else {
-                        $KYZ[$kyw] = $KYZ[$kyw] + 1;
-                    }
+                        if (!isset($KYZ[$kyw])) {
+                            $KYZ[$kyw] = 1;
+                        } else {
+                            $KYZ[$kyw] = $KYZ[$kyw] + 1;
+                        }
                 }
 
         }
