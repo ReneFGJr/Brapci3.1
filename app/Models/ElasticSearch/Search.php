@@ -246,7 +246,7 @@ class Search extends Model
             $dtt['ID'] = -1;
             array_push($ATH, $dtt);
         }
-        pre($ATH);
+
         foreach ($dt as $idr => $line) {
             $ida = $line['id'];
 
