@@ -228,7 +228,7 @@ class Search extends Model
                 $dt[$idr]['data'] = $dtt;
             }
         }
-        $flt['source'] = $JNL;
+        $flt['sources'] = $JNL;
         $flt['types'] = $CLA;
         $flt['keywords'] = $KYW;
 
