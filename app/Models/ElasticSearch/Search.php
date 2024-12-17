@@ -238,9 +238,7 @@ class Search extends Model
             }
 
         /********************* Autores */
-        pre($ATX);
         arsort($ATX);
-
         foreach ($ATX as $name => $total) {
             $dtt = [];
             $dtt['name'] = $name;
@@ -248,7 +246,7 @@ class Search extends Model
             $dtt['ID'] = -1;
             array_push($ATH, $dtt);
         }
-
+        pre($ATH);
         foreach ($dt as $idr => $line) {
             $ida = $line['id'];
 
