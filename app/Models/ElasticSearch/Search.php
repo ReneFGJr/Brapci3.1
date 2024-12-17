@@ -202,9 +202,9 @@ class Search extends Model
 
             if (isset($json['Authors'])) {
                 $auths = (array)$json['Authors'];
-                pre($auths);
                 foreach($auths as $id=>$name)
                     {
+                        pre($name);
                         $name = trim($name);
                         $name = strtolower($kyw);
                         $name = preg_replace('/[^A-Za-z0-9 ]/', '', $name);
