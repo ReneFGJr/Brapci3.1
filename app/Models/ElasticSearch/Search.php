@@ -161,10 +161,11 @@ class Search extends Model
             $dts[$ida] = $line;
 
             /******* Journals */
-            if (!isset($JNK[$line['IDJ']])) {
-                $JNK[$line['IDJ']] = ['name' => $line['JOURNAL'], 'total' => 1];
+            $name = $line['JOURNAL'];
+            if (!isset($JNK[$name])) {
+                $JNK[$name] = 1;
             } else {
-                $JNK[$line['IDJ']]['total'] = $JNK[$line['IDJ']]['total'] + 1;
+                $JNK[$name] = $JNK[$name] + 1;
             }
 
             /******* Classes */
