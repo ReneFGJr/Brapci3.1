@@ -155,6 +155,9 @@ class Search extends Model
         $KYZ = [];
         $KYW = [];
         $CLA = [];
+        $CLX = [];
+        $ATX = [];
+        $ATH = [];
 
         foreach ($ds as $id => $line) {
             $ida = $line['ID'];
@@ -195,6 +198,10 @@ class Search extends Model
                         }
                     }
                 }
+            }
+
+            if (isset($json['Authors'])) {
+                pre($json['Authors']);
             }
         }
 
