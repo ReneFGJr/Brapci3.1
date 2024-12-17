@@ -201,7 +201,20 @@ class Search extends Model
             }
 
             if (isset($json['Authors'])) {
-                pre($json['Authors']);
+                $auths = (array)$json['Authors'];
+                foreach($auths as $id=>$name)
+                    {
+                        $name = trim($name);
+                        $name = strtolower($kyw);
+                        $name = preg_replace('/[^A-Za-z0-9 ]/', '', $name);
+                        $name = nbr_author($kyw,7);
+                        if (strlen($name) > 2) {
+                            if (!isset($ATX[$name])) {
+                                $ATX[$name] = 1;
+                            } else {
+                                $ATX[$name] = $ATX[$name] + 1;
+                            }
+                    }
             }
         }
 
@@ -226,6 +239,16 @@ class Search extends Model
                 array_push($KYW,$dtt);
             }
 
+        /********************* Autores */
+        arsort($ATX);
+        foreach ($KYATXZ as $name => $total) {
+            $dtt = [];
+            $dtt['name'] = $name;
+            $dtt['total'] = $total;
+            $dtt['ID'] = -1;
+            array_push($ATH, $dtt);
+        }
+
         foreach ($dt as $idr => $line) {
             $ida = $line['id'];
 
@@ -237,6 +260,7 @@ class Search extends Model
         }
         $flt['sources'] = $JNL;
         $flt['types'] = $CLA;
+        $flt['authores'] = $CLA;
         $flt['keywords'] = $KYW;
 
         $this->filters = $flt;
