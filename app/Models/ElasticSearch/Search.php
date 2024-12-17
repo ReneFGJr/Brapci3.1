@@ -183,9 +183,9 @@ class Search extends Model
                     $kyw = ucwords($kyw);
 
                     if (!isset($KYZ[$kyw])) {
-                        $KYZ[$kyw] = ['name' => $kyw, 'total' => 1];
+                        $KYZ[$kyw] = 1;
                     } else {
-                        $KYZ[$kyw]['total'] = $KYZ[$kyw]['total'] + 1;
+                        $KYZ[$kyw] = $KYZ[$kyw] + 1;
                     }
                 }
 
