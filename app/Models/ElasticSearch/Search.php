@@ -181,6 +181,7 @@ class Search extends Model
                     foreach ($k as $idk => $kyw) {
                         $kyw = trim($kyw);
                         $kyw = strtolower($kyw);
+                        $kyw = preg_replace('/[^A-Za-z0-9 ]/', '', $kyw);
                         $kyw = nbr_title($kyw);
                         if (strlen($kyw) > 2)
                         {
