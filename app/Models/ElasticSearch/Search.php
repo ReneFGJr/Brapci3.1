@@ -212,7 +212,6 @@ class Search extends Model
                                 $ATX[$name] = $ATX[$name] + 1;
                             }
                         }
-                        pre($ATX);
                     }
             }
         }
@@ -239,8 +238,9 @@ class Search extends Model
             }
 
         /********************* Autores */
-        arsort($ATX);
         pre($ATX);
+        arsort($ATX);
+
         foreach ($ATX as $name => $total) {
             $dtt = [];
             $dtt['name'] = $name;
