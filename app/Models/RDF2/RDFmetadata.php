@@ -999,7 +999,6 @@ class RDFmetadata extends Model
 
                     }
             }
-            pre($RSP);
             return $RSP;
         }
 
