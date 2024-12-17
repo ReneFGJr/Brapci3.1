@@ -198,10 +198,10 @@ class Search extends Model
                 $dt[$idr]['data'] = $dts[$ida];
             }
         }
-        $flt['Journals'] = $JNL;
-        $flt['Types'] = $CLA;
+        $flt['source'] = $JNL;
+        $flt['types'] = $CLA;
         arsort($KYZ);
-        $flt['Keywords'] = $KYZ;
+        $flt['keywords'] = $KYZ;
 
         $this->filters = $flt;
         return $dt;
