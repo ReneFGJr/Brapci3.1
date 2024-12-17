@@ -174,7 +174,7 @@ class Search extends Model
                 $CLA[$line['CLASS']]['total'] = $CLA[$line['CLASS']]['total'] + 1;
             }
             /******* Keywords */
-            $json = json_decode($line['json']);
+            $json = (array)json_decode($line['json']);
             if (isset($json['Subject']['pt']))
                 {
                     $k = (array)$json['Subject'];
