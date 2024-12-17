@@ -181,12 +181,14 @@ class Search extends Model
                     foreach ($k as $idk => $kyw) {
                         $kyw = trim($kyw);
                         $kyw = strtolower($kyw);
-                        $kyw = ucwords($kyw);
-
-                        if (!isset($KYZ[$kyw])) {
-                            $KYZ[$kyw] = 1;
-                        } else {
-                            $KYZ[$kyw] = $KYZ[$kyw] + 1;
+                        $kyw = nbr_title($kyw);
+                        if (strlen($kyw) > 2)
+                        {
+                            if (!isset($KYZ[$kyw])) {
+                                $KYZ[$kyw] = 1;
+                            } else {
+                                $KYZ[$kyw] = $KYZ[$kyw] + 1;
+                            }
                         }
                     }
                 }
