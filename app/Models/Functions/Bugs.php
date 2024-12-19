@@ -92,13 +92,14 @@ class Bugs extends Model
     function register($id,$tp)
         {
             $Socials = new \App\Models\Socials();
-            $token = get("apiKey");
+            $token = get("user");
             $user = $Socials->validToken($token);
             $dt = $this
                 ->where('bug_v',$id)
                 ->where('bug_problem', $tp)
                 ->where('bug_status', 1)
                 ->findAll();
+
             if (count($dt) == 0)
             {
                 $data['bug_name'] = 'Anonyminous';
@@ -108,7 +109,7 @@ class Bugs extends Model
                 $data['bug_status'] = 1;
                 $data['bug_v'] = $id;
                 $this->set($data)->insert();
-                $data['post'] = $_POST;
+                $data['post'] = $user;
             } else {
                 $data['post'] = $_POST;
             }
