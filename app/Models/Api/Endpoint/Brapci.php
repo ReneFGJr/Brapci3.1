@@ -564,6 +564,16 @@ class Brapci extends Model
         /* Le Registro do RDF */
         $dt = $RDF->le($id);
 
+        if ($dt['cc_status'] == 9)
+            {
+                /* Cancelado */
+                $dd = [];
+                $dd['status'] = '404';
+                $dd['Class'] = 'Canceled';
+                $dd['message'] = 'Conceito não existe';
+                return $dd;
+            }
+
         /*********************************** Importar dados */
         if ($dt['data'] == []) {
             $RDFtools = new \App\Models\RDF2\RDFtoolsImport();
