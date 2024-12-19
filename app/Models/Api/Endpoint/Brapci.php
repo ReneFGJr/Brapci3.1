@@ -564,7 +564,7 @@ class Brapci extends Model
         /* Le Registro do RDF */
         $dt = $RDF->le($id);
 
-        if ($dt['cc_status'] == 9)
+        if ($dt['concept']['cc_status'] == 9)
             {
                 /* Cancelado */
                 $dd = [];
