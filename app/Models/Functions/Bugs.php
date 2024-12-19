@@ -94,6 +94,15 @@ class Bugs extends Model
             $Socials = new \App\Models\Socials();
             $token = get("user");
             $user = $Socials->validToken($token);
+            if ($user != [])
+                {
+                    $userID = $user['ID'];
+                    $userName = $user['user'];
+                } else {
+                    $userID = 0;
+                    $userName = 'Anonyminous';
+                }
+
             $dt = $this
                 ->where('bug_v',$id)
                 ->where('bug_problem', $tp)
@@ -102,8 +111,8 @@ class Bugs extends Model
 
             if (count($dt) == 0)
             {
-                $data['bug_name'] = 'Anonyminous';
-                $data['bug_user'] = 0;
+                $data['bug_name'] = $userName;
+                $data['bug_user'] = $userID;
                 $data['bug_problem'] = $tp;
                 $data['bug_IP'] = ip();
                 $data['bug_status'] = 1;
