@@ -569,7 +569,7 @@ class Brapci extends Model
                 /* Cancelado */
                 $dd = [];
                 $dd['status'] = '404';
-                $dd['Class'] = 'Canceled';
+                $dd['Concept']['Class'] = 'Canceled';
                 $dd['message'] = 'Conceito não existe';
                 return $dd;
             }
