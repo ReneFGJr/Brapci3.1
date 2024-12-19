@@ -107,8 +107,8 @@ class Bugs extends Model
                 $data['bug_IP'] = ip();
                 $data['bug_status'] = 1;
                 $data['bug_v'] = $id;
-                $data['post'] = $_POST;
                 $this->set($data)->insert();
+                $data['post'] = $_POST;
             }
             return $data;
         }
