@@ -109,6 +109,8 @@ class Bugs extends Model
                 $data['bug_v'] = $id;
                 $this->set($data)->insert();
                 $data['post'] = $_POST;
+            } else {
+                $data['post'] = $_POST;
             }
             return $data;
         }
