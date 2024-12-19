@@ -571,7 +571,8 @@ class Brapci extends Model
                 $dd['status'] = '404';
                 $dd['Class'] = 'Canceled';
                 $dd['message'] = 'Conceito não existe';
-                return $dd;
+                echo encode_json($dd);
+                exit;
             }
 
         /*********************************** Importar dados */
