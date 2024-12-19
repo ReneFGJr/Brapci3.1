@@ -64,6 +64,14 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'bug':
+                $Bug = new \App\Models\Functions\Bugs();
+                $id = get("id");
+                $bugs = get("bugs");
+                $RSP = $Bug->register($id,$bugs);
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'getText':
                 $Download = new \App\Models\Base\Download();
                 $RSP = $Download->getText($d2);

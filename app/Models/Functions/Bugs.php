@@ -91,6 +91,7 @@ class Bugs extends Model
 
     function register($id,$tp)
         {
+            $user = get("user");
             $dt = $this
                 ->where('bug_v',$id)
                 ->where('bug_problem', $tp)
