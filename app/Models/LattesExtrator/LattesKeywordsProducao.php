@@ -82,7 +82,7 @@ class LattesKeywordsProducao extends Model
                             $sx .= $name;
                             $xcap = $prod;
                         }
-                    $sx .= '"'.$line['ky_name'].'",';
+                    $sx .= ',"'.$line['ky_name'].'"';
                 }
             $sx .= cr();
 
