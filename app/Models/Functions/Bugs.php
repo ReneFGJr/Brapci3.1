@@ -118,9 +118,11 @@ class Bugs extends Model
                 $data['bug_status'] = 1;
                 $data['bug_v'] = $id;
                 $this->set($data)->insert();
-                $data['post'] = $user;
+                $data['message'] = 'Item registrado com sucesso';
+                $data['status'] = '200';
             } else {
-                $data['post'] = $_POST;
+                $data['message'] = 'Esse pedido já havia sido registrado';
+                $data['status'] = '202';
             }
             return $data;
         }
