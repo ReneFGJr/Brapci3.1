@@ -107,7 +107,7 @@ class Bugs extends Model
                 $data['bug_v'] = $id;
                 $this->set($data)->insert();
             }
-            return true;
+            return $data;
         }
 
     function list()
