@@ -91,7 +91,9 @@ class Bugs extends Model
 
     function register($id,$tp)
         {
-            $user = get("user");
+            $Socials = new \App\Models\Socials();
+            $token = get("apiKey");
+            $user = $Socials->validToken($token);
             $dt = $this
                 ->where('bug_v',$id)
                 ->where('bug_problem', $tp)
@@ -105,6 +107,7 @@ class Bugs extends Model
                 $data['bug_IP'] = ip();
                 $data['bug_status'] = 1;
                 $data['bug_v'] = $id;
+                $data['post'] = $_POST;
                 $this->set($data)->insert();
             }
             return $data;
