@@ -121,7 +121,7 @@ class Bugs extends Model
                 $data['message'] = 'Item registrado com sucesso';
                 $data['status'] = '200';
             } else {
-                $data['message'] = 'Esse pedido já havia sido registrado';
+                $data['message'] = 'Esse pedido já foi registrado';
                 $data['status'] = '202';
             }
             return $data;
