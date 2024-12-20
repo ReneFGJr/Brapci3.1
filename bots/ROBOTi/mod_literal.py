@@ -118,13 +118,12 @@ def check_utf8():
         qr += " or n_name LIKE '%ã"+chr(130)+"%' "
         qr += " or n_name LIKE '%ã"+chr(157)+"%' "
         qr += " )"
-        qr += " AND (n_charset = '')"
+        qr += " AND (n_charset = 'NI')"
         qr += " limit 1000"
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
             IDn = row[0]
-            print("==========",original_data)
             corrected_data = correct_utf8_encoding(original_data,IDn)
 
 def check_utf8_old():
