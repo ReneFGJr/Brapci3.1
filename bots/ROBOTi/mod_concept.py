@@ -59,7 +59,7 @@ def register_literal_class(classe,name,lang):
 
 def removeElastic():
     total = 0
-    qu = f"select * from brapci_elastic.dataset where status = 9"
+    qu = f"select ID from brapci_elastic.dataset where status = 9"
     row = database.query(qu)
     for item in row:
         total = total + 1
