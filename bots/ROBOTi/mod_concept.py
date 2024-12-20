@@ -65,6 +65,7 @@ def removeElastic():
         total = total + 1
         ID = item[0]
         print(item,ID)
+        remove(ID)
     print(f"Total de {total} itens removidos")
     return total
 
