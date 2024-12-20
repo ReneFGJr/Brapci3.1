@@ -124,6 +124,7 @@ def check_utf8():
         for row in rows:
             original_data = row[1]
             IDn = row[0]
+            print("==========",original_data)
             corrected_data = correct_utf8_encoding(original_data,IDn)
 
 def check_utf8_old():
