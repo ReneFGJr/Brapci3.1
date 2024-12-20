@@ -234,6 +234,8 @@ def run(parm):
         mod_thesa.IA_thesa()
     if (act == '183'):
         mod_elasticsearch.remove_editorial()
+    if (act == '184'):
+        mod_concept.removeElastic()
 
 
     ################### Author

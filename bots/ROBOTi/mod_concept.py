@@ -57,6 +57,15 @@ def register_literal_class(classe,name,lang):
 
     return IDc
 
+def removeElastic():
+    total = 0
+    qu = f"select * from brapci_elastic.dataset where status = 9"
+    row = database.query(qu)
+    for item in row:
+        total = total + 1
+        print(item)
+    return total
+
 def remove(id):
     qu = f"delete from brapci_rdf.rdf_data where d_r1 = {id} or d_r2 = {id}"
     database.update(qu)
