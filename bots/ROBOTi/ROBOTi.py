@@ -174,6 +174,7 @@ def run(parm):
         mod_elasticsearch.remove_editorial()
         mod_dataset.check_type()
         mod_ontology.checkData()
+        mod_concept.removeElastic()
 
         mod_author.check_dupla_remissiva()
         mod_author.check_remissiva()
@@ -183,6 +184,7 @@ def run(parm):
         mod_dataset.check_pbci()
         mod_subject.check_duplicate()
         mod_subject.removeOrfa()
+
 
     if (act == 'keyword'):
         print("=================KEYWORDS")
@@ -234,6 +236,8 @@ def run(parm):
         mod_thesa.IA_thesa()
     if (act == '183'):
         mod_elasticsearch.remove_editorial()
+    if (act == '184'):
+        mod_concept.removeElastic()
 
 
     ################### Author

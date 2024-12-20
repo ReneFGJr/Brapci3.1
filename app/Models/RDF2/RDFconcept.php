@@ -62,10 +62,12 @@ class RDFconcept extends Model
             if ($dc['cc_status'] == 9) {
                 $dc['message'] = 'Register canceled';
                 $dc['status'] = '404';
+                $dc['cc_status'] = 9;
             }
         } else {
             $dc['message'] = 'Register canceled';
             $dc['status'] = '404';
+            $dc['cc_status'] = 9;
         }
 
         return $dc;

@@ -7,19 +7,6 @@ import sys
 import re
 from charset_normalizer import detect
 
-def correct_utf8_encoding(data, IDn):
-    try:
-        # Detectar codificação original
-        detection = detect(data.encode() if isinstance(data, str) else data)
-        encoding = detection['encoding']
-        print(f"Detected encoding: {encoding}")
-
-        # Continuar lógica como antes...
-    except Exception as e:
-        print("Error:", e)
-        return data
-
-
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
     prop = 67
@@ -94,12 +81,13 @@ def correct_utf8_encoding(data, IDn):
             # Normalizar espaços e outros problemas
             corrected_string = corrected_string.replace('  ', ' ').strip()
             corrected_string = corrected_string.replace("'", "´")
-
+            charset = 'utf-8'
             # Atualizar no banco de dados se necessário
             if IDn > 0:
                 query = f"""
                 UPDATE brapci_rdf.rdf_literal
-                SET n_name = '{corrected_string}'
+                SET n_name = '{corrected_string}',
+                n_charset = '{charset}'
                 WHERE id_n = {IDn}
                 """
                 print(query)
@@ -120,7 +108,7 @@ def check_utf8():
         qr = f"SELECT id_n, n_name FROM brapci_rdf.rdf_literal"
         qr += " where n_delete = 0 "
         qr += " and (n_name LIKE '%Ã³%' "
-        qr += "  or n_name LIKE '%Ã©%' "
+        qr += " or n_name LIKE '%Ã©%' "
         qr += " or n_name LIKE '%ã±%' "
         qr += " or n_name LIKE '%ãº%' "
         qr += " or n_name LIKE '%ã³%' "
@@ -130,6 +118,7 @@ def check_utf8():
         qr += " or n_name LIKE '%ã"+chr(130)+"%' "
         qr += " or n_name LIKE '%ã"+chr(157)+"%' "
         qr += " )"
+        qr += " AND (n_charset = 'NI')"
         qr += " limit 1000"
         rows = database.query(qr)
         for row in rows:
