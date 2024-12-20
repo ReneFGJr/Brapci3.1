@@ -245,25 +245,14 @@ class Abnt extends Model
 	{
 		# Norma 6023:2018
 		$id = $dt['ID'];
-		if (isset($dt['title'])) {
-			$title = trim(html_entity_decode($dt['title']));
-			$title = trim(mb_strtolower($title));
-			$tu = mb_strtoupper($title);
-			$tu = mb_substr($tu, 0, 1);
-			$te = mb_substr($title, 1);
-			$title = $tu . $te;
-		} else {
-			$title = ':::none:::';
-		}
 
 		$tela = '';
-		$tela .= '';
-		if (isset($dt['authors'])) {
-			$authors = $dt['authors'] . '.';
-			$authors = troca($authors, '$$', '.');
-			$authors = troca($authors, '$', ';');
+		$tela .= $this->authors($dt);
 
-			$tela .= $authors;
+		if (isset($dt['title'])) {
+			$tela .= '<b>' . $dt['title'] . '</b>. ';
+		} else {
+			$tela .= '<b>::Sem título::</b>';
 		}
 		/**************** */
 		$vol = '';
