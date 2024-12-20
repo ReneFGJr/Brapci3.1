@@ -59,7 +59,11 @@ def register_literal_class(classe,name,lang):
 
 def removeElastic():
     total = 0
-    qu = f"select ID from brapci_elastic.dataset where status = 9 and JOURNAL = 75 and YEAR = 2023"
+    qu = f"select ID from brapci_elastic.dataset where status = 9 "
+    qu += " and ("
+    qu += " (JOURNAL = 75 and YEAR = 2023) "
+    qu += " or (JOURNAL = 12)"
+    qu += " ) "
     row = database.query(qu)
     for item in row:
         total = total + 1
