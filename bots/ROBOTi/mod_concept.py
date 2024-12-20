@@ -66,6 +66,8 @@ def removeElastic():
         ID = item[0]
         print(item,ID)
         remove(ID)
+        qr = f"delete from brapci_elastic.dataset where ID = '{ID}' "
+        database.update(qr)
     print(f"Total de {total} itens removidos")
     return total
 
