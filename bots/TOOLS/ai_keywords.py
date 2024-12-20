@@ -10,7 +10,7 @@ def locateKeywords(text):
     return ""
 
 def locateAbstract(text):
-    t = {'Abstract:','ABSTRACT:','Abstract','ABSTRACT'}
+    t = {'Abstract:','ABSTRACT:','Abstract','ABSTRACT','1 Introdução','1 INTRODUÇÃO'}
     for te in t:
         if te in text:
             return te
