@@ -120,7 +120,6 @@ def check_utf8():
         qr += " )"
         qr += " AND (n_charset = '')"
         qr += " limit 1000"
-        print(qr)
         rows = database.query(qr)
         for row in rows:
             original_data = row[1]
