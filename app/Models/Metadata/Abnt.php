@@ -271,6 +271,7 @@ class Abnt extends Model
 			$dri = $Issue->le($issueNR);
 			$jid = $dri['id_jnl'];
 		} else {
+			pre($dt);
 			$dri = [];
 			$jid = 0;
 			return "[erro abnt]";
