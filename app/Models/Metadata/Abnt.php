@@ -257,7 +257,7 @@ class Abnt extends Model
 		}
 
 		$tela = '';
-		$tela .= '<span class="abtn-article">';
+		$tela .= '';
 		if (isset($dt['authors'])) {
 			$authors = $dt['authors'] . '.';
 			$authors = troca($authors, '$$', '.');
