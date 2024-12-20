@@ -63,7 +63,8 @@ def removeElastic():
     row = database.query(qu)
     for item in row:
         total = total + 1
-        print(item)
+        ID = item[0]
+        print(item,ID)
     print(f"Total de {total} itens removidos")
     return total
 
