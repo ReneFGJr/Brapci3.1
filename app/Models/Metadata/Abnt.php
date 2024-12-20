@@ -243,6 +243,7 @@ class Abnt extends Model
 	}
 	function abnt_proceeding($dt)
 	{
+		# Norma 6023:2018
 		$id = $dt['ID'];
 		if (isset($dt['title'])) {
 			$title = trim(html_entity_decode($dt['title']));
@@ -265,64 +266,42 @@ class Abnt extends Model
 			$tela .= $authors;
 		}
 		/**************** */
-		if (isset($dt['issue_id'])) {
-			$issueNR = $dt['issue_id'];
-			$Issue = new \App\Models\Base\Issues();
-			$dri = $Issue->le($issueNR);
-			$jid = $dri['id_jnl'];
-		} else {
-			pre($dt);
-			$dri = [];
-			$jid = 0;
-			return "[erro abnt]";
-		}
+		$vol = '';
+		$nr = '';
+		$eve = '';
+		$nrR = '';
+		$year = '';
+		$local = '';
 
-		switch ($jid) {
-			case 75:
-				$tela .= '. ' . anchor(PATH . '/benancib' . '/v/' . $id, $title) . '. ';
-				break;
-			default:
-				$tela .= '. ' . anchor(PATH . '/proceedings' . '/v/' . $id, $title) . '. ';
-				break;
-		}
+		// SILVA, Maria A.; OLIVEIRA, João P. Bibliometria e ciência da informação: um estudo de caso.
+		//In: CONGRESSO BRASILEIRO DE CIÊNCIA DA INFORMAÇÃO, 27., 2024, Recife.
+		// Anais do XXVII Congresso Brasileiro de Ciência da Informação. Recife: ANCIB, 2024. p. 123-130.
+
+		if (isset($dt['Issue']))
+				{
+					$vol = trim($dt['Issue']['is_vol']);
+					$nr = trim($dt['Issue']['is_nr']);
+					$year = trim($dt['Issue']['is_year']);
+					$eve = trim($dt['Issue']['publisher']);
+					$nrR = trim($dt['Issue']['is_vol_roman']);
+				}
 
 		$tela .= '<i>In</i>: ';
-		$tela .= mb_strtoupper($dri['jnl_name']);
-		if ($dri['is_nr'] != '') {
-			$tela .= ', ' . $dri['is_nr'] . '.';
+		$tela .= mb_strtoupper($eve);
+		if ($nr != '') {
+			$tela .= ', ' . $nr . '.';
 		}
-		if ($dri['is_place'] != '') {
-			$tela .= ', ' . $dri['is_place'];
+		if ($year != '') {
+			$tela .= ', ' . $year;
 		}
-		if ($dri['is_year'] != '') {
-			$tela .= ', ' . $dri['is_year'];
-		}
-
-		if (isset($dri['legend']) and ($dri['lenged'] != '')) {
-			$tela .= '. ' . $dri['legend'];
+		if ($local != '') {
+			$tela .= ', ' . $local;
 		}
 
 		$tela .= '. <b>Anais</b> [.] ';
+		$tela .= $nrR.' '.$eve;
+		$tela .= ', ' . $year;
 
-		if ($dri['is_place'] != '') {
-			$tela .= ' ' . $dri['is_place'];
-		}
-		if ($dri['is_editor'] != '') { {
-				$tela .= ', ' . $dri['is_editor'];
-			}
-			if ($dri['jnl_editor'] != '') {
-				$tela .= ', ' . $dri['jnl_editor'];
-			} else {
-				# none
-			}
-		}
-		if ($dri['is_year'] != '') {
-			$tela .= ', ' . $dri['is_year'];
-		}
-
-		if (isset($dt['pages'])) {
-			$tela .= ', p ' . $dt['pages'];
-		}
 		$tela .= '.';
 
 		/******** LIMPAR */
