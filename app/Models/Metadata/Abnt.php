@@ -250,11 +250,13 @@ class Abnt extends Model
 		$tela .= $this->authors($dt);
 
 		if (isset($dt['title'])) {
-			$tela .= '<b>' . $dt['title'] . '</b>. ';
+			$tela .= ' <b>' . $dt['title'] . '</b>. ';
 		} else {
-			$tela .= '<b>::Sem título::</b>';
+			$tela .= ' <b>::Sem título::</b>';
 		}
 		/**************** */
+		$tela = trim($tela);
+
 		$vol = '';
 		$nr = '';
 		$eve = '';
