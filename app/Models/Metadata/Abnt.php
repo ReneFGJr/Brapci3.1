@@ -277,7 +277,7 @@ class Abnt extends Model
 					$nrR = trim($dt['Issue']['is_vol_roman']);
 				}
 
-		$tela .= '<i>In</i>: ';
+		$tela .= ' <i>In</i>: ';
 		$tela .= mb_strtoupper($eve);
 		if ($nr != '') {
 			$tela .= ', ' . $nr . '.';
