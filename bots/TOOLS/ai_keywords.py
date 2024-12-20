@@ -39,11 +39,13 @@ def extract_keywords(text,id):
         keywords = match.group(1).split(";")
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
+        tkey = 0
         for k in keys:
             if (len(k) >= 40):
                 stop = 1
 
-            if k != '' and len(k) < 40 and stop == 1:
+            if k != '' and len(k) < 40 and stop == 1 and tkey <= 6:
+                tkey = tkey + 1
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
 
