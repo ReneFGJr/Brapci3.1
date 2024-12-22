@@ -21,7 +21,7 @@ def check_double_title():
     qr += f" group by n_lang, d_r1"
     qr += f" ) as tabela"
     qr += f" where total > 1"
-    qr += f" ORDER BY n_lang, id_d ASC;"
+    qr += f" ORDER BY n_lang, id_d ASC"
     qr += f" limit 10 "
 
     row = database.query(qr)
