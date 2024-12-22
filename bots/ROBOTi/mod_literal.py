@@ -430,8 +430,8 @@ def check_trim():
         database.update(qru)
 
         dd = dd + 1
-        print('=1=>',name)
-        print('=2=>',nameX)
+        print('=1=>',id,name)
+        print('=2=>',id,nameX)
     qd = "COMMIT"
     database.update(qd)
     mod_logs.log('TASK_100',dd)
