@@ -14,10 +14,11 @@ def check_double_title():
     id = 197153
 
     qr = f"select * from ("
-    qr += f" SELECT max(id_d) as id_d, n_lang, count(*) as total"
+    qr += f" SELECT max(id_d) as id_d, d_r1, n_lang, count(*) as total"
     qr += f" FROM brapci_rdf.rdf_data "
     qr += f" INNER JOIN brapci_rdf.rdf_literal ON d_literal = id_n "
     qr += f" WHERE d_r1 = {id} AND d_p = {idClass} "
+    qr += f" group by n_lang, d_r1"
     qr += f" ) as tabela"
     qr += f" where total > 1"
     qr += f" ORDER BY n_lang, id_d ASC;"
