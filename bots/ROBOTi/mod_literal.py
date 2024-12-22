@@ -11,6 +11,15 @@ from charset_normalizer import detect
 def check_double_title():
     idClass = mod_class.getClass('hasTitle')
     print("Double Title",idClass)
+    id = 58968
+
+    qr = f"SELECT * FROM `rdf_data` WHERE `d_r1` = {id} AND `d_p` = {idClass} ORDER BY `id_d` ASC"
+    row = database.query(qr)
+
+    for line in row:
+        print(line)
+        print("=")
+
     sys.exit()
 
 def check_end_dot():
