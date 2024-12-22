@@ -5,10 +5,12 @@ import chardet
 import unicodedata
 import sys
 import re
+import mod_class
 from charset_normalizer import detect
 
 def check_double_title():
-    print("Double Title")
+    idClass = mod_class.getClass('hasTitle')
+    print("Double Title",idClass)
     sys.exit()
 
 def check_end_dot():
