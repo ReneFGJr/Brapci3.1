@@ -416,7 +416,7 @@ def check_trim():
         name = name.replace('br>','')
         name = name.replace('</br>','')
         name = name.replace('\u00A0', ' ')
-        name = name.replace('  ',' ')
+        name = name.replace('\u0020\u0020',' ')
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         #print(qru)
