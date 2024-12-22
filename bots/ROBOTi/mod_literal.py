@@ -366,6 +366,33 @@ def check_title():
         print('==>',title)
         database.update(qu)
 
+def hex_dump(data):
+    """
+    Exibe um dump hexadecimal de 16 bytes por linha.
+
+    Args:
+        data (bytes): Os dados para o dump (em formato de bytes ou string).
+
+    Returns:
+        str: Dump hexadecimal formatado.
+    """
+    if isinstance(data, str):
+        data = data.encode('utf-8')  # Converte strings para bytes
+
+    result = []
+    for offset in range(0, len(data), 16):
+        # Captura 16 bytes a partir do deslocamento
+        chunk = data[offset:offset+16]
+        # Gera a parte hexadecimal
+        hex_part = ' '.join(f"{byte:02x}" for byte in chunk)
+        # Gera a parte ASCII (substitui caracteres não imprimíveis por '.')
+        ascii_part = ''.join(chr(byte) if 32 <= byte <= 126 else '.' for byte in chunk)
+        # Adiciona a linha formatada ao resultado
+        result.append(f"{offset:08x}  {hex_part:<48}  {ascii_part}")
+
+    return '\n'.join(result)
+
+
 def check_trim():
     print("150 - check_trim")
     qr = f"select id_n,n_name from brapci_rdf.rdf_literal "
@@ -393,9 +420,9 @@ def check_trim():
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         #print(qru)
-        hex_representation = name.encode('utf-8').hex()
+
         print("Representação hexadecimal da string:")
-        print(hex_representation)
+        print(hex_dump(name))
 
         database.update(qru)
         dd = dd + 1
