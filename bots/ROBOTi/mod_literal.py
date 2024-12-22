@@ -31,7 +31,7 @@ def check_double_literal(Xclass):
         qu = f"delete from brapci_rdf.rdf_data where id_d = {idD}"
         database.update(qu)
         #print(qu)
-        print("= Deleting ",idD,ID)
+        print("= Deleting ",Xclass,idD,ID)
 
     sys.exit()
 
