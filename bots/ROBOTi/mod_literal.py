@@ -17,7 +17,7 @@ def check_double_title():
     qr += f" SELECT max(id_d) as id_d, d_r1, n_lang, count(*) as total"
     qr += f" FROM brapci_rdf.rdf_data "
     qr += f" INNER JOIN brapci_rdf.rdf_literal ON d_literal = id_n "
-    qr += f" WHERE d_r1 = {id} AND d_p = {idClass} "
+    qr += f" WHERE d_p = {idClass} "
     qr += f" group by n_lang, d_r1"
     qr += f" ) as tabela"
     qr += f" where total > 1"
@@ -28,7 +28,7 @@ def check_double_title():
     for line in row:
         idD = line[0]
         qu = f"delete from brapci_rdf.rdf_data where id_d = {idD}"
-        database.update(qu)
+        #database.update(qu)
         print(qu)
         print("=",line)
 
