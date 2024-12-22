@@ -10,8 +10,7 @@ from charset_normalizer import detect
 
 def check_double_literal(Xclass):
     idClass = mod_class.getClass(Xclass)
-    print("Double Title",idClass)
-    id = 197153
+    print("Double Title ",Xclass,idClass)
 
     qr = f"select * from ("
     qr += f" SELECT max(id_d) as id_d, d_r1, n_lang, count(*) as total"
