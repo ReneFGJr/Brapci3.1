@@ -8,8 +8,8 @@ import re
 import mod_class
 from charset_normalizer import detect
 
-def check_double_title():
-    idClass = mod_class.getClass('hasTitle')
+def check_double_literal(Xclass):
+    idClass = mod_class.getClass(Xclass)
     print("Double Title",idClass)
     id = 197153
 

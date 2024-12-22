@@ -216,7 +216,9 @@ def run(parm):
     if (act == '157'):
         mod_data.revalid()
     if (act == '158'):
-        lp = mod_literal.check_double_title()
+        lp = mod_literal.check_double_literal('hasTitle')
+    if (act == '159'):
+        lp = mod_literal.check_double_literal('hasAbstract')
 
     ################### Cited
     if (act == '160'):
