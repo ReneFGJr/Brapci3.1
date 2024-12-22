@@ -185,6 +185,9 @@ def run(parm):
         mod_subject.check_duplicate()
         mod_subject.removeOrfa()
 
+        mod_literal.check_double_literal('hasTitle')
+        mod_literal.check_double_literal('hasAbstract')
+
 
     if (act == 'keyword'):
         print("=================KEYWORDS")
