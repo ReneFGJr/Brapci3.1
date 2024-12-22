@@ -34,8 +34,6 @@ def check_double_literal(Xclass):
         t = t + 1
         print("= Deleting ",t,Xclass,idD,ID)
 
-    sys.exit()
-
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
     prop = 67
