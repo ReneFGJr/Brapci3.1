@@ -24,14 +24,15 @@ def check_double_literal(Xclass):
     qr += f" limit 1000 "
 
     row = database.query(qr)
-
+    t = 0
     for line in row:
         idD = line[0]
         ID = line[1]
         qu = f"delete from brapci_rdf.rdf_data where id_d = {idD}"
         database.update(qu)
         #print(qu)
-        print("= Deleting ",Xclass,idD,ID)
+        t = t + 1
+        print("= Deleting ",t,Xclass,idD,ID)
 
     sys.exit()
 
