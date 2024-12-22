@@ -391,6 +391,7 @@ def check_trim():
         name = name.replace('  ',' ')
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
+        print(qru)
         database.update(qru)
         dd = dd + 1
         print('=1=>',name)
