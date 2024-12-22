@@ -21,7 +21,7 @@ def check_double_literal(Xclass):
     qr += f" ) as tabela"
     qr += f" where total > 1"
     qr += f" ORDER BY n_lang, id_d ASC"
-    qr += f" limit 100 "
+    qr += f" limit 1000 "
 
     row = database.query(qr)
 
