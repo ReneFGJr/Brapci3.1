@@ -417,6 +417,9 @@ def check_trim():
         name = name.replace('</br>','')
         name = name.replace('\u00A0', ' ')
         name = name.replace('\u00AF', '-')
+        name = name.replace('\u00E2\u0080\u00AF', ' ')
+        name = name.replace('\u00E2\u0080\u0094', '-')
+        name = name.replace('\u00E2\u0080\u0093', '-')
         name = name.replace('\u0020\u0020',' ')
         if '  ' in name:
             name = name.replace('  ',' ')
