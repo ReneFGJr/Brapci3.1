@@ -417,6 +417,9 @@ def check_trim():
         name = name.replace('</br>','')
         name = name.replace('\u00A0', ' ')
         name = name.replace('\u0020\u0020',' ')
+        if '  ' in name:
+            name = name.replace('  ',' ')
+
         id = ln[0]
 
         print("Representação hexadecimal da string:")
