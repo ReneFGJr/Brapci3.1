@@ -215,6 +215,8 @@ def run(parm):
         mod_literal.check_end_dot()
     if (act == '157'):
         mod_data.revalid()
+    if (act == '158'):
+        lp = mod_literal.check_double_title()
 
     ################### Cited
     if (act == '160'):

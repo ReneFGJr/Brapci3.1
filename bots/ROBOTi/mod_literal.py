@@ -7,6 +7,10 @@ import sys
 import re
 from charset_normalizer import detect
 
+def check_double_title():
+    print("Double Title")
+    sys.exit()
+
 def check_end_dot():
     print("156 - Tratamento de assuntos com caracteres especiais")
     prop = 67
