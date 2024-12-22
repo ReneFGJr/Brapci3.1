@@ -29,9 +29,9 @@ def check_double_title():
     for line in row:
         idD = line[0]
         qu = f"delete from brapci_rdf.rdf_data where id_d = {idD}"
-        #database.update(qu)
-        print(qu)
-        print("=",line)
+        database.update(qu)
+        #print(qu)
+        print("= Deleting ",idD)
 
     sys.exit()
 
