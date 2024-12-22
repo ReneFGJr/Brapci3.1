@@ -392,6 +392,11 @@ def check_trim():
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         print(qru)
+
+        hex_representation = name.encode('utf-8').hex()
+        print("Representação hexadecimal da string:")
+        print(hex_representation)
+
         database.update(qru)
         dd = dd + 1
         print('=1=>',name)
