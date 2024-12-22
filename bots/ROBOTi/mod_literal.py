@@ -378,8 +378,8 @@ def check_trim():
     dd=0
     for ln in row:
         name = ln[1]
+        nameX = name
         name = name.strip().capitalize()
-        name = name.replace('  ',' ')
         name = name.replace(' :',':')
         name = name.replace(' .','.')
         name = name.replace('::',':')
@@ -388,11 +388,13 @@ def check_trim():
         name = name.replace('</sup>','')
         name = name.replace('br>','')
         name = name.replace('</br>','')
+        name = name.replace('  ',' ')
         id = ln[0]
         qru = f"update brapci_rdf.rdf_literal set n_name = '{name}' where id_n = {id}"
         database.update(qru)
         dd = dd + 1
-        print('==>',name)
+        print('=1=>',name)
+        print('=2=>',nameX)
     qd = "COMMIT"
     database.update(qd)
     mod_logs.log('TASK_100',dd)
