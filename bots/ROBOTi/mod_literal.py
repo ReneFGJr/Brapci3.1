@@ -23,7 +23,7 @@ def check_double_title():
     qr += f" ORDER BY n_lang, id_d ASC;"
 
     row = database.query(qr)
-
+    print(row)
     for line in row:
         print(line)
         print("=")
