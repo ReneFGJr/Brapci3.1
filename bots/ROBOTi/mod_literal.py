@@ -22,7 +22,7 @@ def check_double_title():
     qr += f" ) as tabela"
     qr += f" where total > 1"
     qr += f" ORDER BY n_lang, id_d ASC"
-    qr += f" limit 10 "
+    qr += f" limit 100 "
 
     row = database.query(qr)
 
