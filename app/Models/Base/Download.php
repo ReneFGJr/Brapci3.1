@@ -45,7 +45,16 @@ class Download extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($idc);
         $files = $RDF->extract($dt, 'hasFileStorage' , 'A');
-        pre($files);
+
+        if (count($files) > 0)
+            {
+                $idc = $files[0];
+                $dt = $RDF->le($idc);
+            } else {
+                return [];
+            }
+        pre($dt);
+
         $dir = $this->directory($idc);
         $files = scandir($dir);
         $RSP = [];
