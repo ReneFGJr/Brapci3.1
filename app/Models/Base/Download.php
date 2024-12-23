@@ -45,55 +45,50 @@ class Download extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $dt = $RDF->le($idc);
         $files = $RDF->extract($dt, 'hasFileStorage' , 'A');
+        $dir = $this->directory($idc);
 
         if (count($files) > 0)
             {
-                $idc = $files[0];
-                $dt = $RDF->le($idc);
+                $idf = $files[0];
+                $dt = $RDF->le($idf);
+                $file = $dt['concept']['n_name'];
             } else {
                 return [];
             }
-        pre($dt);
 
-        $dir = $this->directory($idc);
-        $files = scandir($dir);
         $RSP = [];
         $RSP['status'] = '404';
         $RSP['message'] = 'File not found';
 
-        // Filtra apenas os arquivos
-        foreach ($files as $file) {
+        if (file_exists($file))
+            {
+                echo "OK";
+            } else {
+                return $RSP;
+            }
 
-            if (substr($file,0,5) == 'work_')
+            $RSP['status'] = '200';
+            $RSP['message'] = 'Success';
+            $RSP['full'] = file_get_contents($dir.$file);
+            $RSP['line'] = $this->explode_line($RSP['full']);
+
+
+            $fileEMAIL = troca($file,'.txt', '_email.json');
+            if (file_exists($dir.$fileEMAIL))
                 {
-                    if (substr($file,-3,3)=='txt')
-                        {
-                            $RSP['status'] = '200';
-                            $RSP['message'] = 'Success';
-                            $RSP['full'] = file_get_contents($dir.$file);
-                            $RSP['line'] = $this->explode_line($RSP['full']);
-
-
-                            $fileEMAIL = troca($file,'.txt', '_email.json');
-                            if (file_exists($dir.$fileEMAIL))
-                                {
-                                    $RSP['email'] = json_decode(file_get_contents($dir.$fileEMAIL));
-                                } else {
-                                    $RSP['email'] = ['none'];
-                                }
-
-                            $fileEMAIL = troca($file,'.txt', '_cited.json');
-                            if (file_exists($dir.$fileEMAIL))
-                                {
-                                    $RSP['cited'] = json_decode(file_get_contents($dir.$fileEMAIL));
-                                } else {
-                                    $RSP['cited'] = ['none'];
-                                }
-
-                        }
+                    $RSP['email'] = json_decode(file_get_contents($dir.$fileEMAIL));
+                } else {
+                    $RSP['email'] = ['none'];
                 }
-        }
-        $RSP['file'] = $dir;
+
+            $fileEMAIL = troca($file,'.txt', '_cited.json');
+            if (file_exists($dir.$fileEMAIL))
+                {
+                    $RSP['cited'] = json_decode(file_get_contents($dir.$fileEMAIL));
+                } else {
+                    $RSP['cited'] = ['none'];
+                }
+
         return $RSP;
     }
 
@@ -124,16 +119,6 @@ class Download extends Model
         if (isset($dt['DOI'])) {
             $sx .= view('Brapci/Base/DOI', $dt);
             $ok = 1;
-        }
-        if (1 == 2) {
-            /*************************** DOWNLOAD PDF - AUTOBOT */
-            $DownloadBot = new \App\Models\Bots\DownloadPDF();
-            $sx .= $DownloadBot->toHarvesting($id_cc);
-            $URL = explode(';', $url);
-            for ($r = 0; $r < count($URL); $r++) {
-                $data['URL'] = $URL[$r];
-                $sx .= view('Brapci/Base/PDFno', $data);
-            }
         }
         return $sx;
     }
