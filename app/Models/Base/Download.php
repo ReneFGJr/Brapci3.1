@@ -80,6 +80,7 @@ class Download extends Model
                         }
                 }
         }
+        $RSP['file'] = $dir;
         return $RSP;
     }
 
