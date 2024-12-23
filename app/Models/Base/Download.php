@@ -77,8 +77,7 @@ class Download extends Model
             $RSP['message'] = 'Success';
             $RSP['file'] = $file;
             $RSP['fileTXT'] = $fileTXT;
-            return $RSP;
-            $RSP['full'] = file_get_contents($file);
+            $RSP['full'] = file_get_contents($fileTXT);
             //$RSP['line'] = $this->explode_line($RSP['full']);
             return $RSP;
 
