@@ -62,7 +62,7 @@ class Download extends Model
 
         if (file_exists($file))
             {
-
+                $fileTXT = troca($file,'.pdf','.txt');
             } else {
                 return $RSP;
             }
@@ -70,6 +70,7 @@ class Download extends Model
             $RSP['status'] = '200';
             $RSP['message'] = 'Success';
             $RSP['file'] = $file;
+            $RSP['fileTXT'] = $fileTXT;
             return $RSP;
             //$RSP['full'] = file_get_contents($dir.$file);
             //$RSP['line'] = $this->explode_line($RSP['full']);
