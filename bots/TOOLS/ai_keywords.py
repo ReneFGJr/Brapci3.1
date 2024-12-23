@@ -41,10 +41,11 @@ def extract_keywords(text,id):
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         tkey = 0
         print(keys)
-        sys.exit()
 
         for k in keys:
             if (len(k) >= 40):
+                stop = 1
+            if (len(k) <= 2):
                 stop = 1
 
             if k != '' and len(k) < 40 and stop == 1 and tkey <= 6:
