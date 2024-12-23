@@ -63,6 +63,12 @@ class Download extends Model
         if (file_exists($file))
             {
                 $fileTXT = troca($file,'.pdf','.txt');
+                if (file_exists($fileTXT))
+                    {
+                        $RSP['fileTXTexiste'] = "OK";
+                    } else {
+                        $RSP['fileTXTexiste'] = "OFF";
+                    }
             } else {
                 return $RSP;
             }
