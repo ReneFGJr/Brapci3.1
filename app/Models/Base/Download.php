@@ -62,13 +62,14 @@ class Download extends Model
 
         if (file_exists($file))
             {
-                echo "OK";
+
             } else {
                 return $RSP;
             }
 
             $RSP['status'] = '200';
             $RSP['message'] = 'Success';
+            $RSP['file'] = $file;
             return $RSP;
             //$RSP['full'] = file_get_contents($dir.$file);
             //$RSP['line'] = $this->explode_line($RSP['full']);
