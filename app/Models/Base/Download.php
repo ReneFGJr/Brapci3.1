@@ -78,6 +78,7 @@ class Download extends Model
             $RSP['file'] = $file;
             $RSP['fileTXT'] = $fileTXT;
             $TXT = file_get_contents($fileTXT);
+            pre($TXT);
             $RSP['full'] = json_decode('"' . $TXT . '"');
             //$RSP['line'] = $this->explode_line($RSP['full']);
             return $RSP;
