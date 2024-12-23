@@ -42,6 +42,9 @@ class Download extends Model
 
     function getText($idc)
     {
+        $RDF = new \App\Models\RDF2\RDF();
+        $dt = $RDF->le($idc);
+        pre($dt);
         $dir = $this->directory($idc);
         $files = scandir($dir);
         $RSP = [];
