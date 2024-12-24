@@ -49,7 +49,7 @@ class API extends Model
             switch($act)
                 {
                     case 'searchISBN':
-                        $RSP['ISBN'] = $this->searchISBN($d1);
+                        $RSP = $this->searchISBN($d1);
                         break;
                     default:
                         $RSP['message'] = 'Verb not found';
@@ -61,8 +61,12 @@ class API extends Model
 
     function searchISBN($ID)
         {
+            $Catalog = new \App\Models\FindServer\Catalog();
+            $RSP = [];
             $ISBN = new \App\Models\ISBN\Index();
-            $ID = $ISBN->isbns($ID);
+            $RSP['ISBN'] = $ISBN->isbns($ID);
+            $RSP['data'] = $Catalog->findISBN($RSP['ISBN']);
+
             return $ID;
         }
 }

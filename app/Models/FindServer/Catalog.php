@@ -50,4 +50,11 @@ class Catalog extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function findISBN($ISBN)
+        {
+            $id = $ISBN['ISBN']['isbn13'];
+            $dt = $this->where('w_ID',$id);
+            return $dt;
+        }
 }
