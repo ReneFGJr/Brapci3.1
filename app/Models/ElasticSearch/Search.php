@@ -58,12 +58,6 @@ class Search extends Model
                 break;
         }
 
-        /***************** Grava convulta */
-        $type = '1';
-        $SearchDB = new \App\Models\ElasticSearch\SearchLog();
-        $SearchDB->register($query, count($dt['works']), $type);
-
-
         /********************************************** Logica 2 */
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
@@ -100,6 +94,11 @@ class Search extends Model
             $dt['works'] = [];
         }
         echo (json_encode($dt));
+
+        /***************** Grava convulta */
+        $type = '1';
+        $SearchDB = new \App\Models\ElasticSearch\SearchLog();
+        $SearchDB->register($query, count($dt['works']), $type);
         exit;
     }
 
