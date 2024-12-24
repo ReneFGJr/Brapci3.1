@@ -58,6 +58,11 @@ class Search extends Model
                 break;
         }
 
+        /***************** Grava convulta */
+        $type = '1';
+        $SearchDB = new \App\Models\ElasticSearch\SearchLog();
+        $SearchDB->register($query, count($dt['works']), $type);
+
 
         /********************************************** Logica 2 */
 
