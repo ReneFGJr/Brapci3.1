@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\FindServer;
+namespace App\Models\Z3950;
 
 use CodeIgniter\Model;
 
-class API extends Model
+class Index extends Model
 {
-    protected $table            = 'apis';
+    protected $table            = 'indices';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -44,33 +44,43 @@ class API extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($act='',$d1='',$d2='')
-        {
-            switch($act)
-                {
-                    case 'searchISBN':
-                        $RSP = $this->searchISBN($d1);
-                        break;
-                    default:
-                        $RSP['message'] = 'Verb not found';
-                        break;
-                }
-            echo json_encode($RSP);
-            exit;
+    function searchZ3950ByISBN($isbn)
+    {
+        // Configuração do servidor Z39.50
+        $server = "z3950.bn.br:210/biblioteca";
+
+        // Inicializa uma conexão YAZ
+        $id = yaz_connect($server);
+
+        if (!$id) {
+            throw new Exception("Não foi possível conectar ao servidor Z39.50.");
         }
 
-    function searchISBN($ID)
-        {
-            $Catalog = new \App\Models\FindServer\Catalog();
-            $Services = new \App\Models\FindServer\Services();
-            $Z3950 = new \App\Models\Z3950\Index();
-            $RSP = [];
-            $ISBN = new \App\Models\ISBN\Index();
-            $RSP['ISBN'] = $ISBN->isbns($ID);
-            $RSP['data'] = $Catalog->findISBN($RSP['ISBN'])->findAll();
-            $RSP['isbnDB'] = $Services->getISBNdb($RSP['ISBN']['isbn13']);
-            $RSP['Z3050'] = $Z3950->searchZ3950ByISBN($RSP['ISBN']['isbn13']);
-            return $RSP;
+        // Configura o formato de apresentação (MARC21, XML, etc.)
+        yaz_syntax($id, "usmarc");
+
+        // Configura a consulta (campo 'isbn')
+        $query = "@attr 1=7 " . $isbn; // Atributo '1=7' para busca por ISBN
+        yaz_search($id, "rpn", $query);
+
+        // Executa a busca
+        yaz_wait();
+
+        // Verifica se houve erro
+        if (yaz_error($id) != "") {
+            throw new Exception("Erro: " . yaz_error($id));
         }
 
+        // Obtém o número de resultados
+        $hits = yaz_hits($id);
+        if ($hits == 0) {
+            return "Nenhum resultado encontrado para o ISBN $isbn.";
+        }
+
+        // Recupera o primeiro registro
+        $record = yaz_record($id, 1, "string");
+        yaz_close($id);
+
+        return $record;
+    }
 }
