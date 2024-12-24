@@ -7,13 +7,19 @@ use CodeIgniter\Model;
 class Catalog extends Model
 {
     protected $DBGroup          = 'findserver';
-    protected $table            = 'catalogs';
-    protected $primaryKey       = 'id';
+    protected $table            = 'find_work';
+    protected $primaryKey       = 'id_w';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_w','w_ID','w_TYPE',
+        'w_TITLE',
+        'w_AUTHORS',
+        'w_YEAR',
+        'w_PUBLISHER'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
