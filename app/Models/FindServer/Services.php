@@ -47,7 +47,7 @@ class Services extends Model
     function getISBNdb($ID)
     {
         $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
-        $dt = $ISBNdb->search($ID);
+        $dt = json_decode($ISBNdb->search($ID));
         return $dt;
     }
 }
