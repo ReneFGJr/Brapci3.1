@@ -153,7 +153,7 @@ class Database extends Config
             'kanban' => 'kanban',
             'find' => 'find',
             'find2' => 'find2',
-            'findserver' => 'findserver',
+            'findserver' => 'find_server',
             'handle' => 'handle.net',
             'icr' => 'brapci_icr',
             'oai' => 'brapci_oaipmh',
