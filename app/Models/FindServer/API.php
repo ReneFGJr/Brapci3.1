@@ -44,7 +44,7 @@ class API extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function api($act='',$d1='',$d2='')
+    function index($act='',$d1='',$d2='')
         {
             switch($act)
                 {
