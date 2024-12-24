@@ -4,9 +4,9 @@ namespace App\Models\FindServer;
 
 use CodeIgniter\Model;
 
-class API extends Model
+class Services extends Model
 {
-    protected $table            = 'apis';
+    protected $table            = 'services';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -44,31 +44,10 @@ class API extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($act='',$d1='',$d2='')
-        {
-            switch($act)
-                {
-                    case 'searchISBN':
-                        $RSP = $this->searchISBN($d1);
-                        break;
-                    default:
-                        $RSP['message'] = 'Verb not found';
-                        break;
-                }
-            echo json_encode($RSP);
-            exit;
-        }
-
-    function searchISBN($ID)
-        {
-            $Catalog = new \App\Models\FindServer\Catalog();
-            $Services = new \App\Models\FindServer\Services();
-            $RSP = [];
-            $ISBN = new \App\Models\ISBN\Index();
-            $RSP['ISBN'] = $ISBN->isbns($ID);
-            $RSP['data'] = $Catalog->findISBN($RSP['ISBN'])->findAll();
-            $RSP['isbnDB'] = $Services->getISBNdb($RSP['ISBN']['isbn13']);
-            return $RSP;
-        }
-
+    function getISBNdb($ID)
+    {
+        $ISBNdb = new \App\Models\ISBN\Isbndb\Index();
+        $dt = $ISBNdb->search($ID);
+        return $dt;
+    }
 }
