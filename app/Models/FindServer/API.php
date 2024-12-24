@@ -65,7 +65,7 @@ class API extends Model
             $RSP = [];
             $ISBN = new \App\Models\ISBN\Index();
             $RSP['ISBN'] = $ISBN->isbns($ID);
-            $RSP['data'] = $Catalog->findISBN($RSP['ISBN']);
+            $RSP['data'] = $Catalog->findISBN($RSP['ISBN'])->findAll();
 
             return $RSP;
         }
