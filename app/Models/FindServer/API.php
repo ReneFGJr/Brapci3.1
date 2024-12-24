@@ -67,6 +67,6 @@ class API extends Model
             $RSP['ISBN'] = $ISBN->isbns($ID);
             $RSP['data'] = $Catalog->findISBN($RSP['ISBN']);
 
-            return $ID;
+            return $RSP;
         }
 }
