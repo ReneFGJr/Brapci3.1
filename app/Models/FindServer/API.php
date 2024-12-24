@@ -69,7 +69,7 @@ class API extends Model
             $RSP['ISBN'] = $ISBN->isbns($ID);
             $RSP['data'] = $Catalog->findISBN($RSP['ISBN'])->findAll();
             $RSP['isbnDB'] = $Services->getISBNdb($RSP['ISBN']['isbn13']);
-            $RSP['Z3050'] = $Z3950->searchZ3950ByISBN($RSP['ISBN']['isbn13']);
+            $RSP['Z3050'] = $Z3950->searchByISBN($RSP['ISBN']['isbn13']);
             return $RSP;
         }
 
