@@ -53,8 +53,7 @@ class Catalog extends Model
 
     function findISBN($ISBN)
         {
-            pre($ISBN);
-            $id = $ISBN['ISBN']['isbn13'];
+            $id = $ISBN['isbn13'];
             $dt = $this->where('w_ID',$id);
             return $dt;
         }
