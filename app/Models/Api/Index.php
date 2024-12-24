@@ -165,6 +165,10 @@ class Index extends Model
                 $Find = new \App\Models\Api\Endpoint\Find();
                 $sx = $Find->index($d2,$d3,$d4);
                 break;
+            case 'findserver':
+                $FindServer = new \App\Models\Api\Endpoint\FindServer();
+                $sx = $FindServer->index($d2,$d3,$d4);
+                break;
             case 'g3vent':
                 $Gev3nt = new \App\Models\Api\Endpoint\Gev3nt();
                 $sx = $Gev3nt->index($d2, $d3, $d4);
