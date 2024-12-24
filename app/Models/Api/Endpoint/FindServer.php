@@ -50,4 +50,10 @@ class FindServer extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function index($d1,$d2,$d3)
+        {
+            $FindServer = new \App\Models\FindServer\API();
+            $FindServer->index($d1,$d2,$d3);
+        }
+
 }
