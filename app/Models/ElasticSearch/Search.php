@@ -98,7 +98,7 @@ class Search extends Model
         /***************** Grava convulta */
         $type = '1';
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
-        $SearchDB->register($query, count($dt['works']), $type);
+        $SearchDB->register(json_encode($query), count($dt['works']), $type);
         exit;
     }
 
