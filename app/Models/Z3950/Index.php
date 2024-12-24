@@ -52,6 +52,13 @@ class Index extends Model
 
     public function searchByISBN(string $isbn)
     {
+
+        if (function_exists('yaz_connect')) {
+            echo "A extensão PHP-YAZ está ativa!";
+        } else {
+            echo "A extensão PHP-YAZ NÃO está ativa!";
+            exit;
+        }
         // Conectar ao servidor Z39.50
         $id = yaz_connect($this->server);
 
