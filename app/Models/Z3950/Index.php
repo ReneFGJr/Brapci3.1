@@ -43,42 +43,41 @@ class Index extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    private $server;
 
-    function searchZ3950ByISBN($isbn)
+    public function __construct()
     {
-        // Configuração do servidor Z39.50
-        $server = "z3950.bn.br:210/biblioteca";
+        $this->server = "z3950.bn.br:210/biblioteca"; // Configurar o servidor Z39.50
+    }
 
-        // Inicializa uma conexão YAZ
-        $id = yaz_connect($server);
+    public function searchByISBN(string $isbn)
+    {
+        // Conectar ao servidor Z39.50
+        $id = yaz_connect($this->server);
 
         if (!$id) {
             throw new Exception("Não foi possível conectar ao servidor Z39.50.");
         }
 
-        // Configura o formato de apresentação (MARC21, XML, etc.)
+        // Definir o formato de resposta (ex.: MARC21)
         yaz_syntax($id, "usmarc");
 
-        // Configura a consulta (campo 'isbn')
-        $query = "@attr 1=7 " . $isbn; // Atributo '1=7' para busca por ISBN
+        // Construir e executar a consulta por ISBN
+        $query = "@attr 1=7 " . $isbn; // Atributo '1=7' para ISBN
         yaz_search($id, "rpn", $query);
 
-        // Executa a busca
+        // Aguarda a execução da consulta
         yaz_wait();
 
-        // Verifica se houve erro
+        // Verifica erros na resposta
         if (yaz_error($id) != "") {
             throw new Exception("Erro: " . yaz_error($id));
         }
 
-        // Obtém o número de resultados
-        $hits = yaz_hits($id);
-        if ($hits == 0) {
-            return "Nenhum resultado encontrado para o ISBN $isbn.";
-        }
-
-        // Recupera o primeiro registro
+        // Obter o primeiro registro
         $record = yaz_record($id, 1, "string");
+
+        // Fechar a conexão
         yaz_close($id);
 
         return $record;
