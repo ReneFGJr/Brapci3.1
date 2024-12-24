@@ -71,6 +71,7 @@ class Database extends Config
     public array $pq = [];
     public array $find = [];
     public array $find2 = [];
+    public array $findserver = [];
     public array $bots = [];
     public array $bibliofind = [];
     public array $persistent_indicador = [];
@@ -152,6 +153,7 @@ class Database extends Config
             'kanban' => 'kanban',
             'find' => 'find',
             'find2' => 'find2',
+            'findserver' => 'findserver',
             'handle' => 'handle.net',
             'icr' => 'brapci_icr',
             'oai' => 'brapci_oaipmh',
