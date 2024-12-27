@@ -50,8 +50,7 @@ class Counter extends Model
             $dt = $_SERVER;
             $IP = IP();
             $dt = $this->where('count_service',$service)->first();
-            $counter = $dt['count_value'];
-            pre($dt);
+
             if (!$dt)
                 {
                     $dt['count_service'] = $service;
@@ -62,6 +61,7 @@ class Counter extends Model
 
             if ($dt['count_last_ip'] != $IP)
                 {
+                    $counter = $dt['count_value'];
                     $counter++;
                     $dd['count_value'] = $counter;
                     $dd['count_last_ip'] = $IP;
