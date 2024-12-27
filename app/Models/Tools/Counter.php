@@ -51,7 +51,13 @@ class Counter extends Model
 
             $dt = $_SERVER;
             $IP = IP();
-            $dt = $this->where('count_service',$service)->first();
+            if ($service == '')
+                {
+                    $dt = $this->first();
+                } else {
+                    $dt = $this->where('count_service', $service)->first();
+                }
+
 
             if (!$dt)
                 {
