@@ -67,9 +67,9 @@ class Counter extends Model
                     $this->set($dt)->insert();
                 }
 
+            $counter = $dt['count_value'];
             if ($dt['count_last_ip'] != $IP)
                 {
-                    $counter = $dt['count_value'];
                     $counter++;
                     $dd['count_value'] = $counter;
                     $dd['count_last_ip'] = $IP;
