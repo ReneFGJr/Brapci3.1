@@ -13,7 +13,7 @@ class Counter extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id_count', 'count_value', 'count_last_ip'];
+    protected $allowedFields    = ['id_count', 'count_value', 'count_last_ip', 'count_value'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -45,18 +45,26 @@ class Counter extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function counter()
+    function counter($service='')
         {
             $dt = $_SERVER;
             $IP = IP();
-            $dt = $this->first();
+            $dt = $this->where('count_service',$service)->first();
             $counter = $dt['count_value'];
+            if (!$dt)
+                {
+                    $dt['count_service'] = $service;
+                    $dt['count_value'] = 0;
+                    $dt['count_last_ip'] = '0.0.0.0';
+                    $this->set($dt)->insert();
+                }
+
             if ($dt['count_last_ip'] != $IP)
                 {
                     $counter++;
                     $dd['count_value'] = $counter;
                     $dd['count_last_ip'] = $IP;
-                    $this->set($dd)->where('id_count > 0')->update();
+                    $this->set($dd)->where('count_service', $service)->update();
                 }
 
             $dt['counter'] = $counter++;
