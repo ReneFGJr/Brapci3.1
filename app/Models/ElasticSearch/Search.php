@@ -50,14 +50,18 @@ class Search extends Model
         // Verifica se os dados estão presentes
         if (isset($data['q'])) {
             // Exemplo de processamento dos termos booleanos
-            $response = [
-                'status' => 'success',
+            $q = get("q");
+            $works = [];
+
+            $RSP = [
+                'status' => '200',
                 'message' => 'Dados recebidos com sucesso.',
-                'terms' => $data['q'], // Retorna os termos para verificação
+                'terms' => $q, // Retorna os termos para verificação
+                'works' => $works
             ];
 
             // Envia a resposta como JSON
-            echo json_encode($response);
+            echo json_encode($RSP);
         } else {
             // Erro: Dados inválidos
             http_response_code(400);
