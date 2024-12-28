@@ -44,10 +44,12 @@ class Search extends Model
 
     function searchAdvancedFull()
         {
+            $works = [];
             $API = new \App\Models\ElasticSearch\API();
             $RSP = [];
             $RSP['post'] = $_POST;
             $RSP['get'] = $_GET;
+            $RSP['works'] = $works;
             echo (json_encode($RSP));
             exit;
         }
