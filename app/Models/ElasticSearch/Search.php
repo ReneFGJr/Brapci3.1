@@ -42,6 +42,15 @@ class Search extends Model
 
     public $filters = [];
 
+    function searchAdvancedFull()
+        {
+            $API = new \App\Models\ElasticSearch\API();
+            $RSP = [];
+            $RSP['post'] = $_POST;
+            echo (json_encode($RSP));
+            exit;
+        }
+
     function searchFull3()
     {
         $API = new \App\Models\ElasticSearch\API();

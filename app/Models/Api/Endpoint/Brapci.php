@@ -649,6 +649,9 @@ class Brapci extends Model
             $Elastic = new \App\Models\ElasticSearch\Search();
             switch($version)
                 {
+                    case 'a3':
+                        return $Elastic->searchAdvancedFull();
+                        break;
                     case 'v3':
                         return $Elastic->searchFull3();
                         break;
