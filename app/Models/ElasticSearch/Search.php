@@ -43,42 +43,43 @@ class Search extends Model
     public $filters = [];
 
     function searchAdvancedFull()
-        {
-            // Verifica se a requisição é do tipo POST
+    {
+        // Verifica se a requisição é do tipo POST
+        $data = $_POST;
 
-                // Verifica se os dados estão presentes
-                if (isset($data['q']) && is_array($data['q'])) {
-                    // Exemplo de processamento dos termos booleanos
-                    $response = [
-                        'status' => 'success',
-                        'message' => 'Dados recebidos com sucesso.',
-                        'terms' => $data['q'], // Retorna os termos para verificação
-                    ];
+        // Verifica se os dados estão presentes
+        if (isset($data['q']) && is_array($data['q'])) {
+            // Exemplo de processamento dos termos booleanos
+            $response = [
+                'status' => 'success',
+                'message' => 'Dados recebidos com sucesso.',
+                'terms' => $data['q'], // Retorna os termos para verificação
+            ];
 
-                    // Envia a resposta como JSON
-                    echo json_encode($response);
-                } else {
-                    // Erro: Dados inválidos
-                    http_response_code(400);
-                    echo json_encode([
-                        'status' => 'error',
-                        'message' => 'Dados inválidos. Certifique-se de enviar um JSON válido.',
-                    ]);
-                }
-            exit;
-
-            $works = [];
-            $API = new \App\Models\ElasticSearch\API();
-            $RSP = [];
-            $RSP['post'] = $_POST;
-            $RSP['get'] = $_GET;
-            $RSP['works'] = $works;
-
-            /* Montar query */
-
-            echo (json_encode($RSP));
-            exit;
+            // Envia a resposta como JSON
+            echo json_encode($response);
+        } else {
+            // Erro: Dados inválidos
+            http_response_code(400);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Dados inválidos. Certifique-se de enviar um JSON válido.',
+            ]);
         }
+        exit;
+
+        $works = [];
+        $API = new \App\Models\ElasticSearch\API();
+        $RSP = [];
+        $RSP['post'] = $_POST;
+        $RSP['get'] = $_GET;
+        $RSP['works'] = $works;
+
+        /* Montar query */
+
+        echo (json_encode($RSP));
+        exit;
+    }
 
     function searchFull3()
     {
@@ -230,8 +231,7 @@ class Search extends Model
                         $kyw = strtolower($kyw);
                         $kyw = preg_replace('/[^A-Za-z0-9 ]/', '', $kyw);
                         $kyw = nbr_title($kyw);
-                        if (strlen($kyw) > 2)
-                        {
+                        if (strlen($kyw) > 2) {
                             if (!isset($KYZ[$kyw])) {
                                 $KYZ[$kyw] = 1;
                             } else {
@@ -244,17 +244,16 @@ class Search extends Model
 
             if (isset($json['Authors'])) {
                 $auths = (array)$json['Authors'];
-                foreach($auths as $id=>$name)
-                    {
-                        $name = trim($name);
-                        if (strlen($name) > 2) {
-                            if (!isset($ATX[$name])) {
-                                $ATX[$name] = 1;
-                            } else {
-                                $ATX[$name] = $ATX[$name] + 1;
-                            }
+                foreach ($auths as $id => $name) {
+                    $name = trim($name);
+                    if (strlen($name) > 2) {
+                        if (!isset($ATX[$name])) {
+                            $ATX[$name] = 1;
+                        } else {
+                            $ATX[$name] = $ATX[$name] + 1;
                         }
                     }
+                }
             }
         }
 
@@ -270,14 +269,13 @@ class Search extends Model
 
         /********************* Keyword */
         arsort($KYZ);
-        foreach($KYZ as $name=>$total)
-            {
-                $dtt = [];
-                $dtt['name'] = $name;
-                $dtt['total'] = $total;
-                $dtt['ID'] = -1;
-                array_push($KYW,$dtt);
-            }
+        foreach ($KYZ as $name => $total) {
+            $dtt = [];
+            $dtt['name'] = $name;
+            $dtt['total'] = $total;
+            $dtt['ID'] = -1;
+            array_push($KYW, $dtt);
+        }
 
         /********************* Autores */
         arsort($ATX);
