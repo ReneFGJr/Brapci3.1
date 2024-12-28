@@ -44,10 +44,7 @@ class Search extends Model
 
     function searchAdvancedFull()
         {
-            $RSP = [];
-            $RSP['status'] = '200';
-            echo json_encode($RSP);
-            exit;
+
 
             $works = [];
             $API = new \App\Models\ElasticSearch\API();

@@ -643,6 +643,13 @@ class Brapci extends Model
             {
                 $term = get("term");
             }
+
+        $RSP = [];
+        $RSP['status'] = '200';
+        $RSP['term'] = $term;
+        echo json_encode($RSP);
+        exit;
+
         if ($term != '') {
             /************************************ */
             $_POST['version'] = $version;
