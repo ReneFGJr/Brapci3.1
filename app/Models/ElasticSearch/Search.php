@@ -51,6 +51,7 @@ class Search extends Model
         if (isset($data['q'])) {
             // Exemplo de processamento dos termos booleanos
             $q = get("q");
+            $q = troca($q,'"',"'");
             $works = [];
 
             $RSP = [
