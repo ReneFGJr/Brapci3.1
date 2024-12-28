@@ -45,9 +45,7 @@ class Search extends Model
     function searchAdvancedFull()
         {
             // Verifica se a requisição é do tipo POST
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                // Lê o corpo da requisição
-                $json = file_get_contents('php://input');
+                $json = $_POST['q'];
 
                 // Decodifica o JSON em um array associativo
                 $data = json_decode($json, true);
@@ -71,15 +69,7 @@ class Search extends Model
                         'message' => 'Dados inválidos. Certifique-se de enviar um JSON válido.',
                     ]);
                 }
-            } else {
-                // Erro: Método não permitido
-                http_response_code(405);
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'Método não permitido. Use POST.',
-                ]);
-            }
-        exit;
+            exit;
 
             $works = [];
             $API = new \App\Models\ElasticSearch\API();
