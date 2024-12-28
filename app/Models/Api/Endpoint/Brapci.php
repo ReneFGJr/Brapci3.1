@@ -647,6 +647,7 @@ class Brapci extends Model
         $RSP = [];
         $RSP['status'] = '200';
         $RSP['term'] = $term;
+        $RSP['post'] = $_POST;
         echo json_encode($RSP);
         exit;
 
