@@ -648,7 +648,44 @@ class Brapci extends Model
         $RSP['status'] = '200';
         $RSP['term'] = $term;
         $RSP['post'] = $_POST;
-        echo json_encode($RSP);
+
+        // Verifica se a requisição é do tipo POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Lê o corpo da requisição
+            $json = file_get_contents('php://input');
+
+            // Decodifica o JSON em um array associativo
+            $data = json_decode($json, true);
+
+            // Verifica se os dados estão presentes
+            if (isset($data['q']) && is_array($data['q'])) {
+                // Exemplo de processamento dos termos booleanos
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Dados recebidos com sucesso.',
+                    'terms' => $data['q'], // Retorna os termos para verificação
+                ];
+
+                // Envia a resposta como JSON
+                echo json_encode($response);
+            } else {
+                // Erro: Dados inválidos
+                http_response_code(400);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Dados inválidos. Certifique-se de enviar um JSON válido.',
+                ]);
+            }
+        } else {
+            // Erro: Método não permitido
+            http_response_code(405);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Método não permitido. Use POST.',
+            ]);
+        }
+
+//        echo json_encode($RSP);
         exit;
 
         if ($term != '') {
