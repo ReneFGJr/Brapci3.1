@@ -46,6 +46,8 @@ class Search extends Model
         {
             // Verifica se a requisição é do tipo POST
                 $json = $_POST['q'];
+                echo $json;
+                exit;
 
                 // Decodifica o JSON em um array associativo
                 $data = json_decode($json, true);
