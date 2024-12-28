@@ -48,7 +48,7 @@ class Search extends Model
         $data = $_POST;
 
         // Verifica se os dados estão presentes
-        if (isset($data['q']) && is_array($data['q'])) {
+        if (isset($data['q'])) {
             // Exemplo de processamento dos termos booleanos
             $response = [
                 'status' => 'success',
