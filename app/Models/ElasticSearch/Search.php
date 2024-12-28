@@ -45,8 +45,8 @@ class Search extends Model
     function searchAdvancedFull()
         {
             // Verifica se a requisição é do tipo POST
-                $json = $_POST['q'];
-                echo $json;
+                $json = (array)$_POST['q'];
+                print($json);
                 exit;
 
                 // Decodifica o JSON em um array associativo
