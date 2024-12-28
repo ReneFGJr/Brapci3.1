@@ -47,6 +47,7 @@ class Search extends Model
             $API = new \App\Models\ElasticSearch\API();
             $RSP = [];
             $RSP['post'] = $_POST;
+            $RSP['get'] = $_GET;
             echo (json_encode($RSP));
             exit;
         }
