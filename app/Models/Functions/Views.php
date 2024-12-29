@@ -52,7 +52,7 @@ class Views extends Model
                     $dt_user = $Socials->validToken($user);
                     $RSP = $_POST;
                 }
-
+            $RSP['uuu'] = $user;
             echo json_encode($RSP);
             exit;
         }
