@@ -80,7 +80,7 @@ class Search extends Model
     }
 
     function curlQuery($query)
-        {
+    {
         /********************************************** Logica 2 */
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
@@ -110,18 +110,19 @@ class Search extends Model
             $erros = (array)$result['error'];
             $erros = (array)$erros['failed_shards'];
             $messa = '';
-            foreach($erros as $ida=>$line)
-                {
-                    pre($line,false);
-                    $msg = $line['reason'];
-                    if (isset($msg['caused_by']))
-                        {
-                            $msg = $msg['caused_by'];
-                        }
-
-                    echo '<hr>';
-                    pre($msg);
+            foreach ($erros as $ida => $line) {
+                pre($line, false);
+                $msg = $line['reason'];
+                if (isset($msg['caused_by'])) {
+                    $msg = $msg['caused_by'];
+                    if (isset($msg['caused_by'])) {
+                        $msg = $msg['caused_by'];
+                    }
                 }
+
+                echo '<hr>';
+                pre($msg);
+            }
             pre($messa);
             exit;
         }
