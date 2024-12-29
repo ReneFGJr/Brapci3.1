@@ -59,7 +59,11 @@ class Views extends Model
                                 ->orderBy('id_a desc')
                                 ->findAll(10);
                         }
+                    $RSP['total'] = count($RSP['activity']);
+                } else {
+                    $RSP['total'] = 0;
                 }
+
             $RSP['uuu'] = $user;
             echo json_encode($RSP);
             exit;
