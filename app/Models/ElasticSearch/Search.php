@@ -53,6 +53,8 @@ class Search extends Model
 
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
             $query = $Logic->method_a1();
+
+            echo json_encode($query);
             $this->curlQuery($query);
         } else {
             // Erro: Dados inválidos
