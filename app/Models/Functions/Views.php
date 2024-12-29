@@ -52,7 +52,10 @@ class Views extends Model
                     $dt_user = $Socials->validToken($user);
                     if (isset($dt_user['ID']))
                         {
-                            $RSP['activity'] = $this->where('a_user',$dt_user['ID'])
+                            $RSP['activity'] =
+                                $this
+                                ->join('brapci_elastic.dataset','a_v = ID')
+                                ->where('a_user',$dt_user['ID'])
                                 ->orderBy('id_a desc')
                                 ->findAll(10);
                         }
