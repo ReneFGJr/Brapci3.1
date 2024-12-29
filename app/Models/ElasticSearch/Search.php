@@ -104,18 +104,19 @@ class Search extends Model
         $response = curl_exec($ch);
         $result = json_decode($response, true);
 
+        /******* Trata Erros */
+        if (isset($result['error'])) {
+            echo h("teste");
+            pre($result['failed_shards']);
+            exit;
+        }
+
         $rsp = $this->worksRecover($result);
         $dt['works'] = $this->convertElastic($rsp);
         $dt['filters'] = $this->filtersElastic($rsp);
         $dt['total'] = count($dt['works']);
 
-        /******* Trata Erros */
-        if (isset($result['error']))
-            {
-                echo h("teste");
-                pre($result['failed_shards']);
-                exit;
-            }
+
 
         //$dt = $API->call($url, $method, $data);
 
