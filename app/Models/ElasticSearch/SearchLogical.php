@@ -153,6 +153,12 @@ class SearchLogical extends Model
             $qr = troca($qr, ' and ', ' AND ');
             $qr = troca($qr, ' or ', ' OR ');
             $qr = troca($qr, ' not ', ' NOT ');
+            for ($r = 0;$r < 32;$r++)
+                {
+                    $qr = troca($qr, chr($r), ' ');
+                }
+
+
 
             $query = [];
             $query['query'] = [];
