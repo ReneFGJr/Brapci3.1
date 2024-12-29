@@ -46,7 +46,7 @@ class Views extends Model
         {
             $Socials = new \App\Models\Socials();
             $user = get("user");
-            $RSP = $_POST;
+            $RSP = [];
             if ($user != '')
                 {
                     $dt_user = $Socials->validToken($user);
@@ -63,8 +63,6 @@ class Views extends Model
                 } else {
                     $RSP['total'] = 0;
                 }
-
-            $RSP['uuu'] = $user;
             echo json_encode($RSP);
             exit;
         }
