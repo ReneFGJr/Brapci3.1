@@ -146,6 +146,26 @@ class SearchLogical extends Model
         return $resultado;
     }
 
+    function method_a1()
+        {
+            $qr = get("q");
+
+            $query = [];
+            $query['query'] = [];
+            $query['query']['bool'] = [];
+            $query['query']['bool']['must'] = [];
+            $query['size'] = 10;
+            $query['from'] = 0;
+
+            $q = [];
+            $q['query_string'] = [];
+            $q['query_string']['default_field'] = [];
+            $q['query_string']['default_field']['query'] = $qr;
+
+            array_push($query['query']['bool']['must'],$q);
+
+            return $query;
+        }
 
     function method_v1()
     {

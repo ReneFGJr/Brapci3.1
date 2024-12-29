@@ -50,8 +50,11 @@ class Search extends Model
         // Verifica se os dados estão presentes
         if (isset($data['q'])) {
             // Exemplo de processamento dos termos booleanos
-            $q = get("q");
-            $q = troca($q,'"',"'");
+
+            $Logic = new \App\Models\ElasticSearch\SearchLogical();
+            $query = $Logic->method_a1();
+            $this->curlQuery($query);
+
             $works = [];
 
             $RSP = [
@@ -72,18 +75,6 @@ class Search extends Model
             ]);
         }
         exit;
-
-        $works = [];
-        $API = new \App\Models\ElasticSearch\API();
-        $RSP = [];
-        $RSP['post'] = $_POST;
-        $RSP['get'] = $_GET;
-        $RSP['works'] = $works;
-
-        /* Montar query */
-
-        echo (json_encode($RSP));
-        exit;
     }
 
     function searchFull3()
@@ -96,12 +87,12 @@ class Search extends Model
 
         $logica = 1;
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
-        switch ($logica) {
-            case 1:
-                $query = $Logic->method_v1();
-                break;
-        }
+        $query = $Logic->method_v1();
+        $this->curlQuery($query);
+    }
 
+    function curlQuery($query)
+        {
         /********************************************** Logica 2 */
 
         $host = 'http://localhost:9200'; // URL do Elasticsearch
