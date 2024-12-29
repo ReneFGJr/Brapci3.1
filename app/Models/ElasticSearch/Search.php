@@ -133,7 +133,7 @@ class Search extends Model
                 $messa = troca($messa, 'at line','na linha');
                 $messa = troca($messa, 'column', 'coluna');
                 $messa = troca($messa, 'parse_exceptionEncountered', 'exceção de análise encontrada (parenteses)');
-                $messa = troca($messa, 'at line', 'na linha');
+                $messa = troca($messa, 'Was expecting', 'parametros inválidos');
                 $messa = troca($messa, 'at line', 'na linha');
                 $dt['erroMsg'] = $messa;
                 $dt['total'] = 0;
