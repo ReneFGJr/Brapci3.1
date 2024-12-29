@@ -112,6 +112,7 @@ class Search extends Model
         /******* Trata Erros */
         if (isset($result['error']))
             {
+                echo h("teste");
                 pre($result['failed_shards']);
                 exit;
             }
