@@ -110,8 +110,11 @@ class Search extends Model
         $dt['total'] = count($dt['works']);
 
         /******* Trata Erros */
-        pre($result);
-        exit;
+        if (isset($result['error']))
+            {
+                pre($result['failed_shards']);
+                exit;
+            }
 
         //$dt = $API->call($url, $method, $data);
 
