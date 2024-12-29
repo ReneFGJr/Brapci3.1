@@ -158,8 +158,6 @@ class SearchLogical extends Model
                     $qr = troca($qr, chr($r), ' ');
                 }
 
-
-
             $query = [];
             $query['query'] = [];
             $query['query']['bool'] = [];
