@@ -156,9 +156,10 @@ class Search extends Model
         $dt['stategy'] = $query;
 
         if (!isset($dt['works'])) {
+            pre($dt);
             $dt['works'] = [];
         } else {
-            pre($dt);
+
         }
         echo (json_encode($dt));
 
