@@ -48,7 +48,7 @@ class Search extends Model
         $data = get("q");
 
         // Verifica se os dados estão presentes
-        if (isset($data['q'])) {
+        if ($data != '') {
             // Exemplo de processamento dos termos booleanos
 
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
