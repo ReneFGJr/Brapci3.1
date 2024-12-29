@@ -49,18 +49,31 @@ class Views extends Model
             $RSP = [];
             $RSP['results'] = [];
             $RSP['search'] = '';
+            $works = [];
             if ($user != '')
                 {
                     $dt_user = $Socials->validToken($user);
                     if (isset($dt_user['ID']))
                         {
-                            $RSP['works'] =
+                            $cp = 'ID, id_jnl, JOURNAL, IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover, id_a';
+                            $dtw =
                                 $this
+                                ->select($cp)
                                 ->join('brapci_elastic.dataset','a_v = ID')
                                 ->where('a_user',$dt_user['ID'])
                                 ->orderBy('id_a desc')
                                 ->findAll(10);
+                            foreach($dtw as $idw=>$linew)
+                                {
+                                    $ddd = [];
+                                    $ddd['id'] = $linew['id_a'];
+                                    $ddd['score'] = 1;
+                                    $ddd['type'] = $linew['CLASS'];
+                                    $ddd['year'] = $linew['YEAR'];
+                                    $ddd['data'] = $linew;
+                                }
                         }
+
                     $RSP['total'] = count($RSP['works']);
                 } else {
                     $RSP['total'] = 0;
