@@ -109,6 +109,10 @@ class Search extends Model
         $dt['filters'] = $this->filtersElastic($rsp);
         $dt['total'] = count($dt['works']);
 
+        /******* Trata Erros */
+        pre($result);
+        exit;
+
         //$dt = $API->call($url, $method, $data);
 
         $dt['stategy'] = $query;
