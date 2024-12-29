@@ -114,6 +114,7 @@ class Search extends Model
                 {
                     pre($line,false);
                     $messa = $line['reason'];
+                    echo '<hr>';
                     pre($messa);
                 }
             pre($messa);
