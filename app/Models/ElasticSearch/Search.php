@@ -112,6 +112,7 @@ class Search extends Model
             $messa = '';
             foreach($erros as $ida=>$line)
                 {
+                    pre($line);
                     $messa .= $line->reason->caused_by->caused_by->parse_exception;
                 }
             pre($messa);
