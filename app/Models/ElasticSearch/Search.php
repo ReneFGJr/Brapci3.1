@@ -109,6 +109,10 @@ class Search extends Model
             echo h("teste");
             $erros = (array)$result['error'];
             $erros = (array)$erros['failed_shards'];
+            foreach($erros as $ida=>$line)
+                {
+                    pre($line);
+                }
             pre($erros);
             exit;
         }
