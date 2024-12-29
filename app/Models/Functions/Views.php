@@ -61,7 +61,7 @@ class Views extends Model
                                 ->orderBy('id_a desc')
                                 ->findAll(10);
                         }
-                    $RSP['total'] = count($RSP['activity']);
+                    $RSP['total'] = count($RSP['results']);
                 } else {
                     $RSP['total'] = 0;
                 }
