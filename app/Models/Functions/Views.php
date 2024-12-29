@@ -69,7 +69,8 @@ class Views extends Model
                             foreach($dtw as $idw=>$linew)
                                 {
                                     $tot++;
-                                       array_push($RSP['works']['day'], $linew);
+                                    $linew['last'] = 'hoje';
+                                    array_push($RSP['works'], $linew);
                                 }
                         }
                     $RSP['total'] = $tot;
