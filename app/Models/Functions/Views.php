@@ -71,13 +71,7 @@ class Views extends Model
                             foreach($dtw as $idw=>$linew)
                                 {
                                     $tot++;
-                                    $ddd = [];
-                                    $ddd['id'] = $linew['id_a'];
-                                    $ddd['score'] = 1;
-                                    $ddd['type'] = $linew['CLASS'];
-                                    $ddd['year'] = $linew['YEAR'];
-                                    $ddd['data'] = $linew;
-                                    array_push($RSP['works']['day'],$ddd);
+                                       array_push($RSP['works']['day'], $linew);
                                 }
                         }
                     $RSP['total'] = $tot;
