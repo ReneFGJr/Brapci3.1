@@ -126,6 +126,8 @@ class Search extends Model
                     }
                 }
                 $dt['erroMsg'] = $messa;
+                echo (json_encode($dt));
+                exit;
             }
         }
 
