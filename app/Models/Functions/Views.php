@@ -63,6 +63,7 @@ class Views extends Model
                                 ->select($cp)
                                 ->join('brapci_elastic.dataset','a_v = ID')
                                 ->where('a_user',$dt_user['ID'])
+                                ->groupBy($cp)
                                 ->orderBy('id_a desc')
                                 ->findAll(10);
                             foreach($dtw as $idw=>$linew)
