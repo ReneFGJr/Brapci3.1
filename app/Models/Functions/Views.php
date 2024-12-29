@@ -44,7 +44,15 @@ class Views extends Model
 
     function getActivities($id)
         {
+            $Socials = new \App\Models\Socials();
+            $user = get("user");
             $RSP = $_POST;
+            if ($user != '')
+                {
+                    $dt_user = $Socials->validToken($user);
+                    $RSP = $_POST;
+                }
+
             echo json_encode($RSP);
             exit;
         }
