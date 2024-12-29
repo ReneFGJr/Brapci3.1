@@ -154,7 +154,7 @@ class SearchLogical extends Model
             $query['query'] = [];
             $query['query']['bool'] = [];
             $query['query']['bool']['must'] = [];
-            $query['size'] = 10;
+            $query['size'] = 1000;
             $query['from'] = 0;
 
             $q = [];
