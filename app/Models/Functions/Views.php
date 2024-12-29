@@ -55,7 +55,7 @@ class Views extends Model
                     $dt_user = $Socials->validToken($user);
                     if (isset($dt_user['ID']))
                         {
-                            $cp = 'ID, id_jnl, JOURNAL, IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover, id_a';
+                            $cp = 'ID, JOURNAL as id_jnl, JOURNAL, IDJ, ISSUE, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover, id_a';
                             $dtw =
                                 $this
                                 ->select($cp)
