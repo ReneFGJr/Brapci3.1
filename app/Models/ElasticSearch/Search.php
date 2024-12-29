@@ -105,7 +105,7 @@ class Search extends Model
         $result = json_decode($response, true);
 
 
-        pre($response);
+        //pre($response);
 
         /******* Trata Erros */
         if (isset($result['error'])) {
