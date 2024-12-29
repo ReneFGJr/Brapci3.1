@@ -53,19 +53,9 @@ class Search extends Model
 
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
             $query = $Logic->method_a1();
+            echo json_encode($query);
+            exit;
             $this->curlQuery($query);
-
-            $works = [];
-
-            $RSP = [
-                'status' => '200',
-                'message' => 'Dados recebidos com sucesso.',
-                'terms' => $q, // Retorna os termos para verificação
-                'works' => $works
-            ];
-
-            // Envia a resposta como JSON
-            echo json_encode($RSP);
         } else {
             // Erro: Dados inválidos
             http_response_code(400);
