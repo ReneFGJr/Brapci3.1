@@ -149,6 +149,8 @@ class SearchLogical extends Model
     function method_a1()
         {
             $qr = get("q");
+            $qr = ascii($qr);
+            $qr = strtolower($qr);
 
             $qr = troca($qr, ' and ', ' AND ');
             $qr = troca($qr, ' or ', ' OR ');
