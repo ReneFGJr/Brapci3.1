@@ -109,11 +109,12 @@ class Search extends Model
             echo h("teste");
             $erros = (array)$result['error'];
             $erros = (array)$erros['failed_shards'];
+            $messa = '';
             foreach($erros as $ida=>$line)
                 {
-                    pre($line);
+                    $messa .= $line->reason->caused_by->caused_by->parse_exception;
                 }
-            pre($erros);
+            pre($messa);
             exit;
         }
 
