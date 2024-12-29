@@ -130,6 +130,11 @@ class Search extends Model
                             }
                     }
                 }
+                $messa = troca($messa, 'at line','na linha');
+                $messa = troca($messa, 'column', 'coluna');
+                $messa = troca($messa, 'parse_exceptionEncountered', 'exceção de análise encontrada');
+                $messa = troca($messa, 'at line', 'na linha');
+                $messa = troca($messa, 'at line', 'na linha');
                 $dt['erroMsg'] = $messa;
                 $dt['total'] = 0;
                 $dt['works'] = [];
