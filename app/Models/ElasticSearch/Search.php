@@ -45,7 +45,7 @@ class Search extends Model
     function searchAdvancedFull()
     {
         // Verifica se a requisição é do tipo POST
-        $data = $_POST;
+        $data = get("q");
 
         // Verifica se os dados estão presentes
         if (isset($data['q'])) {
