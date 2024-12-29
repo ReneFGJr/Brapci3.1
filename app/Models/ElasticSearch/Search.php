@@ -113,9 +113,14 @@ class Search extends Model
             foreach($erros as $ida=>$line)
                 {
                     pre($line,false);
-                    $messa = $line['reason'];
+                    $msg = $line['reason'];
+                    if (isset($msg['caused_by']))
+                        {
+                            $msg = $msg['caused_by'];
+                        }
+
                     echo '<hr>';
-                    pre($messa);
+                    pre($msg);
                 }
             pre($messa);
             exit;
