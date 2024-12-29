@@ -104,6 +104,9 @@ class Search extends Model
         $response = curl_exec($ch);
         $result = json_decode($response, true);
 
+
+        pre($response);
+
         /******* Trata Erros */
         if (isset($result['error'])) {
                 $erros = (array)$result['error'];
@@ -143,8 +146,6 @@ class Search extends Model
                 exit;
             }
         }
-
-        pre($result);
 
         $rsp = $this->worksRecover($result);
         $dt['works'] = $this->convertElastic($rsp);
