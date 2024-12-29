@@ -144,19 +144,18 @@ class Search extends Model
             }
         }
 
+        pre($result);
+
         $rsp = $this->worksRecover($result);
         $dt['works'] = $this->convertElastic($rsp);
         $dt['filters'] = $this->filtersElastic($rsp);
         $dt['total'] = count($dt['works']);
-
-
 
         //$dt = $API->call($url, $method, $data);
 
         $dt['stategy'] = $query;
 
         if (!isset($dt['works'])) {
-            pre($dt);
             $dt['works'] = [];
         } else {
 
