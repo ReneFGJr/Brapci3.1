@@ -46,9 +46,6 @@ class Search extends Model
     {
         // Verifica se a requisição é do tipo POST
         $data = get("q");
-        $data = troca($data, ' and ', ' AND ');
-        $data = troca($data, ' or ', ' OR ');
-        $data = troca($data, ' not ', ' NOT ');
 
         // Verifica se os dados estão presentes
         if ($data != '') {
