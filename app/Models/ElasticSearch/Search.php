@@ -117,6 +117,10 @@ class Search extends Model
                     $msg = $msg['caused_by'];
                     if (isset($msg['caused_by'])) {
                         $msg = $msg['caused_by'];
+                        if(isset($msg['type']))
+                            {
+                                $messa .= 'Erro: '.lang($msg['type']);
+                            }
                     }
                 }
 
