@@ -219,6 +219,11 @@ class Search extends Model
             }
             $n++;
         }
+        /************* */
+        if ($dt == [])
+            {
+                $Search->where('1=2');
+            }
         $ds = $Search->findAll();
 
         $dts = [];
