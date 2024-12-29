@@ -47,6 +47,8 @@ class Views extends Model
             $Socials = new \App\Models\Socials();
             $user = get("user");
             $RSP = [];
+            $RSP['results'] = [];
+            $RSP['search'] = '';
             if ($user != '')
                 {
                     $dt_user = $Socials->validToken($user);
