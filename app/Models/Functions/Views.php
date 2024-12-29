@@ -54,14 +54,14 @@ class Views extends Model
                     $dt_user = $Socials->validToken($user);
                     if (isset($dt_user['ID']))
                         {
-                            $RSP['results'] =
+                            $RSP['works'] =
                                 $this
                                 ->join('brapci_elastic.dataset','a_v = ID')
                                 ->where('a_user',$dt_user['ID'])
                                 ->orderBy('id_a desc')
                                 ->findAll(10);
                         }
-                    $RSP['total'] = count($RSP['results']);
+                    $RSP['total'] = count($RSP['works']);
                 } else {
                     $RSP['total'] = 0;
                 }
