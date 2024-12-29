@@ -42,6 +42,13 @@ class Views extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function getActivities($id)
+        {
+            $RSP = $_POST;
+            echo json_encode($RSP);
+            exit;
+        }
+
     function register($id)
     {
         $ip = IP();

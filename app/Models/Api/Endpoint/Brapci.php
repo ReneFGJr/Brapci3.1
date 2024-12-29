@@ -64,6 +64,10 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'activities':
+                $View = new \App\Models\Functions\Views();
+                $View->getActivities($d2);
+                break;
             case 'bug':
                 $Bug = new \App\Models\Functions\Bugs();
                 $id = get("id");
