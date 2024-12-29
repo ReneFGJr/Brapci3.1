@@ -57,7 +57,7 @@ class Views extends Model
                     $tot = 0;
                     if (isset($dt_user['ID']))
                         {
-                            $cp = 'ID, JOURNAL, ISSUE, YEAR, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover, id_a';
+                            $cp = 'ID, JOURNAL, ISSUE, YEAR, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover';
                             $dtw =
                                 $this
                                 ->select($cp)
