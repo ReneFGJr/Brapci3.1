@@ -71,10 +71,11 @@ class Views extends Model
                                     $ddd['type'] = $linew['CLASS'];
                                     $ddd['year'] = $linew['YEAR'];
                                     $ddd['data'] = $linew;
+                                    array_push($works,$ddd);
                                 }
                         }
-
-                    $RSP['total'] = count($RSP['works']);
+                    $RSP['works'] = $works;
+                    $RSP['total'] = count($works);
                 } else {
                     $RSP['total'] = 0;
                 }
