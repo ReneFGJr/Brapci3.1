@@ -50,7 +50,12 @@ class Views extends Model
             if ($user != '')
                 {
                     $dt_user = $Socials->validToken($user);
-                    $RSP = $dt_user;
+                    if (isset($dt_user['ID']))
+                        {
+                            $RSP['activity'] = $this->where('a_user',$dt_user['ID'])
+                                ->orderBy('id_a desc')
+                                ->findAll(10);
+                        }
                 }
             $RSP['uuu'] = $user;
             echo json_encode($RSP);
