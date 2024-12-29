@@ -126,6 +126,9 @@ class Search extends Model
                     }
                 }
                 $dt['erroMsg'] = $messa;
+                $dt['total'] = 0;
+                $dt['works'] = [];
+                $dt['filters'] = [];
                 echo (json_encode($dt));
                 exit;
             }
