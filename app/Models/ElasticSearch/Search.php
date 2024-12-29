@@ -106,12 +106,10 @@ class Search extends Model
 
         /******* Trata Erros */
         if (isset($result['error'])) {
-            echo h("teste");
-            $erros = (array)$result['error'];
+                $erros = (array)$result['error'];
             $erros = (array)$erros['failed_shards'];
             $messa = '';
             foreach ($erros as $ida => $line) {
-                pre($line, false);
                 $msg = $line['reason'];
                 if (isset($msg['caused_by'])) {
                     $msg = $msg['caused_by'];
