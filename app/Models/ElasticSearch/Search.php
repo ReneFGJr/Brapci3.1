@@ -119,16 +119,14 @@ class Search extends Model
                         $msg = $msg['caused_by'];
                         if(isset($msg['type']))
                             {
-                                $messa .= 'Erro: '.lang($msg['type']);
+                                $messa .= '<b>Erro</b>: '.lang($msg['type']);
+                                $messa .= $msg['reason'];
+                                $messa .= '<hr>';
                             }
                     }
                 }
-
-                echo '<hr>';
-                pre($msg);
+                $dt['erroMsg'] = $messa;
             }
-            pre($messa);
-            exit;
         }
 
         $rsp = $this->worksRecover($result);
