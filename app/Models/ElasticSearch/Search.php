@@ -121,9 +121,11 @@ class Search extends Model
                                 $m = $msg['reason'];
                                 if (strpos($m, 'Was expecting one of:'))
                                     {
-                                        $messa = substr($m,0,strpos($m, 'Was expecting one of:'));
+                                        $messa .= substr($m,0,strpos($m, 'Was expecting one of:'));
+                                    } else {
+                                        $messa .= $msg['reason'];
                                     }
-                                $messa .= $msg['reason'];
+
                                 $messa .= '<hr>';
                             }
                     }
