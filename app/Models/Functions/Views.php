@@ -52,7 +52,12 @@ class Views extends Model
             $works = [];
             if ($user != '')
                 {
+                    $RSP['works']['day'] = [];
+                    $RSP['works']['week'] = [];
+                    $RSP['works']['month'] = [];
+
                     $dt_user = $Socials->validToken($user);
+                    $tot = 0;
                     if (isset($dt_user['ID']))
                         {
                             $cp = 'ID, JOURNAL as id_jnl, JOURNAL, JOURNAL as IDJ, ISSUE, YEAR, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover, id_a';
@@ -65,17 +70,17 @@ class Views extends Model
                                 ->findAll(10);
                             foreach($dtw as $idw=>$linew)
                                 {
+                                    $tot++;
                                     $ddd = [];
                                     $ddd['id'] = $linew['id_a'];
                                     $ddd['score'] = 1;
                                     $ddd['type'] = $linew['CLASS'];
                                     $ddd['year'] = $linew['YEAR'];
                                     $ddd['data'] = $linew;
-                                    array_push($works,$ddd);
+                                    array_push($RSP['works']['day'],$ddd);
                                 }
                         }
-                    $RSP['works'] = $works;
-                    $RSP['total'] = count($works);
+                    $RSP['total'] = $tot;
                 } else {
                     $RSP['total'] = 0;
                 }
