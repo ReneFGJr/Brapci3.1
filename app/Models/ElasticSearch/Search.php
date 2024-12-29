@@ -118,6 +118,11 @@ class Search extends Model
                         if(isset($msg['type']))
                             {
                                 $messa .= '<b>Erro</b>: '.lang($msg['type']);
+                                $m = $msg['reason'];
+                                if (strpos($m, 'Was expecting one of:'))
+                                    {
+                                        $messa = substr($m,0,strpos($m, 'Was expecting one of:'));
+                                    }
                                 $messa .= $msg['reason'];
                                 $messa .= '<hr>';
                             }
