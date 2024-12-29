@@ -159,8 +159,7 @@ class SearchLogical extends Model
 
             $q = [];
             $q['query_string'] = [];
-            $q['query_string']['default_field'] = [];
-            $q['query_string']['default_field']['query'] = $qr;
+            $q['query_string']['query'] = $qr;
 
             array_push($query['query']['bool']['must'],$q);
 
