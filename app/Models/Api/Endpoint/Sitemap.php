@@ -60,7 +60,7 @@ class Sitemap extends Model
                         $Sitemap->create();
                         $RSP = [];
                         $RSP['status'] = '200';
-                        $RSP['message'] = 'Sitemap created';
+                        $RSP['message'] = 'Sitem    ap created';
                         $RSP['url'] = PATH.'.tmp/sitemap_01.xml';
                         break;
                     default:
