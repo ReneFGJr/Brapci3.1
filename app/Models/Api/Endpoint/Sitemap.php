@@ -61,10 +61,10 @@ class Sitemap extends Model
                         $RSP = [];
                         $RSP['status'] = '200';
                         $RSP['message'] = 'Sitemap created';
-                        $RSP['url'] = PATH.'sitemap.xml';
+                        $RSP['url'] = PATH.'.tmp/sitemap_01.xml';
                         break;
                     default:
-                        $txt = file_get_contents('sitemap.xml');
+                        $txt = file_get_contents('.tmp/sitemap_01.xml');
                         echo $txt;
                         exit;
                 }
