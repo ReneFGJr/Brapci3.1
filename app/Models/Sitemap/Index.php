@@ -81,7 +81,7 @@ class Index extends Model
                     foreach($dt as $id=>$line)
                         {
                             $sx .= '<url>'.cr();
-                            $url = 'https://brapci.inf.br/#/v/'.$line['ID'];
+                            $url = 'https://brapci.inf.br/v/'.$line['ID'];
                             $date = substr($line['create_at'],0,10);
                             $sx .= '<loc>'.$url.'</loc>'.cr();
                             $sx .= '<lastmod>' . $date . '</lastmod>' . cr();

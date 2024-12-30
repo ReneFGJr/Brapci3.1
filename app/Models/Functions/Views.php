@@ -52,7 +52,8 @@ class Views extends Model
                     $RSP['works'] = [];
 
                     $dt_user = $Socials->validToken($user);
-                    $tot = 0;                    if (isset($dt_user['ID']))
+                    $tot = 0;
+                    if (isset($dt_user['ID']))
                         {
                             $cp = 'ID, JOURNAL, ISSUE, YEAR, CLASS, SESSION, LEGEND, TITLE, AUTHORS, KEYWORDS, cover';
                             $dtw =
