@@ -25,8 +25,54 @@ def classSection(row):
 
     if 'Dossier' in Label:
         ids = 17
+    if 'Dossiê' in Label:
+        ids = 17
+
     if 'Anais' in Label:
         ids = 25
+
+
+    if 'Apresentação' in Label:
+        ids = 31
+    if 'Expediente' in Label:
+        ids = 6
+    if 'Avaliadores' in Label:
+        ids = 6
+    if 'Fórum' in Label:
+        ids = 59
+    if 'Traduções' in Label:
+        ids = 57
+    if 'Tradução' in Label:
+        ids = 57
+    if 'Errata' in Label:
+        ids = 58
+    if 'Sumário' in Label:
+        ids = 55
+    if 'SUMARIO' in Label:
+        ids = 55
+    if 'Prêmio' in Label:
+        ids = 52
+    if 'Homenagem' in Label:
+        ids = 48
+    if 'Obituário' in Label:
+        ids = 47
+    if 'In Memoriam' in Label:
+        ids = 47
+    if 'Obituário' in Label:
+        ids = 47
+    if 'Ensaios' in Label:
+        ids = 46
+    if 'Pecha Kucha' in Label:
+        ids = 42
+    if 'Pôster' in Label:
+        ids = 41
+    if 'Poster' in Label:
+        ids = 41
+    if 'Suplemento' in Label:
+        ids = 35
+
+
+
 
     if ids > 0:
         updateSection(row[0], ids)
