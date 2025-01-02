@@ -77,12 +77,9 @@ def classSection(row):
     if 'Palestra' in Label:
         ids = 10
 
-
-
-
     if ids > 0:
         updateSection(row[0], ids)
-    sys.exit()
+
 
 def updateSection(id_section, id_class):
     qu = f"update brapci_oaipmh.oai_setspec set s_section = {id_class} where id_s = {id_section}"
