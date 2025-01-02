@@ -700,7 +700,8 @@ class Brapci extends Model
                             $dd['total'] = $line['ind_total'];
                         }
                         pre($line);
-                    $data = date($line['ind_update'],'d/m/Y');
+                    $data = $line['ind_update'];
+                    $data = substr($data,0,10);
                     array_push($dr,$dd);
 
                 }
