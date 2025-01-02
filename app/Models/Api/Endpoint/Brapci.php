@@ -64,6 +64,9 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'statistics':
+                $RSP['statistics'] = $this->statistics();
+                break;
             case 'activities':
                 $View = new \App\Models\Functions\Views();
                 $View->getActivities($d2);
@@ -678,4 +681,11 @@ class Brapci extends Model
         $RSP['ABNT'] = $dt;
         return $RSP;
     }
+
+    function statistics()
+        {
+            $qr = "select * from brapci.statistics";
+            $dt = $this->query($qr)->getResultArray();
+            pre($dt);
+        }
 }
