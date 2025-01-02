@@ -28,9 +28,6 @@ def get_statistics():
     qr += " ORDER BY c_class ASC "
     row2 = database.query(qr)
     rows_to_insert = row + row2
-    print(row)
-
-    print(rows_to_insert)
 
     # Inserir novas estatísticas
     for ln in rows_to_insert:
@@ -39,7 +36,6 @@ def get_statistics():
         ind_total = ln[0]
 
         qi = f"INSERT INTO brapci.statistics (ind_name, ind_total) VALUES ('{ind_name}', '{ind_total}')"
-        print(qi)
         database.insert(qi)
         print(f"Registro inserido: ind_name={ind_name}, ind_total={ind_total}")
 
