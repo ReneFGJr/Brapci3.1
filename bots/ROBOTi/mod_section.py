@@ -7,7 +7,7 @@ import database
 table = "brapci.section"
 
 def classificationSection():
-    qr = f"select * from brapci_oaipmh.sectoai_setspec where s_section = 1969"
+    qr = f"select * from brapci_oaipmh.oai_setspec where s_section = 1969"
     row = database.query(qr)
 
     if row == []:
