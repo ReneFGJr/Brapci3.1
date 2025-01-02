@@ -70,6 +70,8 @@ def classSection(row):
         ids = 41
     if 'Suplemento' in Label:
         ids = 35
+    if 'Memória' in Label:
+        ids = 1
 
 
 
