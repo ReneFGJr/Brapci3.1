@@ -5,7 +5,7 @@ def get_statistics():
     row = database.query('SELECT count(*) as total, CLASS FROM brapci_elastic.dataset group by CLASS ')
     print(row)
 
-    qd = "delete from brapci_elastic.dataset where ind_name like 'ITEM_%'"
+    qd = "delete from brapci.statistics where ind_name like 'ITEM_%'"
     database.update(qd)
 
     for ln in row:
