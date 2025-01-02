@@ -687,6 +687,7 @@ class Brapci extends Model
             $qr = "select ind_name, ind_total from brapci.statistics";
             $dt = $this->query($qr)->getResultArray();
             $dr = [];
+            $data = date("Y-m-d H:i:s");
             foreach($dt as $id => $line)
                 {
                     $dd = [];
@@ -698,9 +699,13 @@ class Brapci extends Model
                             $dd['name'] = lang('brapci.' . $line['ind_name']);
                             $dd['total'] = $line['ind_total'];
                         }
+                    $data = date($line['ind_update'],'d/m/Y');
                     array_push($dr,$dd);
 
                 }
+            $dd = [];
+            $dd['data'] = $dr;
+            $dd['update'] = date("Y-m-d H:i:s");
             echo json_encode($dr);
             exit;
         }
