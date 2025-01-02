@@ -9,7 +9,7 @@ def get_statistics():
     database.update(qd)
 
     for ln in row:
-        qi = "insert into brapci.statistics (ind_name, ind_total) values ('ITEM_" + ln['CLASS'] + "', " + str(ln['total']) + ")"
+        qi = "insert into brapci.statistics (ind_name, ind_total) values ('ITEM_" + ln[1] + "', " + str(ln[0]) + ")"
         database.insert(qi)
         print(ln)
 
