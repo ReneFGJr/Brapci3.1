@@ -31,4 +31,12 @@ def get_statistics():
         database.insert(qi)
         print(f"Registro inserido: ind_name={ind_name}, ind_total={ind_total}")
 
+    qr = "SELECT cc_class, c_class, count(*) as total "
+    qr += "FROM brapci_rdf.rdf_concept "
+    qr += "inner join brapci_rdf.rdf_class ON cc_class = id_c "
+    qr += "where cc_use = id_cc "
+    qr += "group by cc_class, c_class  "
+    qr += "ORDER BY `rdf_class`.`c_class` ASC"
+    row = database.query(qr)
+    print(row)
     print("Atualização de estatísticas concluída.")
