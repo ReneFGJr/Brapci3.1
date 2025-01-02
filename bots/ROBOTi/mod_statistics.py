@@ -37,7 +37,7 @@ def get_statistics():
     qr += " where cc_use = id_cc "
     qr += " and ((id_c = 50) or (id_c = 13) or (id_c = 50) or (id_c = 9)) "
     qr += " group by cc_class, id_c "
-    qr += " ORDER BY `rdf_class`.`cc_class` ASC "
+    qr += " ORDER BY cc_class ASC "
     row = database.query(qr)
     print(row)
     print("Atualização de estatísticas concluída.")
