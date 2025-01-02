@@ -686,6 +686,16 @@ class Brapci extends Model
         {
             $qr = "select ind_name, ind_total from brapci.statistics";
             $dt = $this->query($qr)->getResultArray();
+            foreach($dt as $id => $line)
+                {
+                    if (sonumero($line['ind_total']) == $line['ind_total'])
+                        {
+                            $dt[$line['ind_name']] = number_format($line['ind_total'],0,',','.');
+                        } else {
+                            $dt[$line['ind_name']] = $line['ind_total'];
+                        }
+
+                }
             echo json_encode($dt);
             exit;
         }
