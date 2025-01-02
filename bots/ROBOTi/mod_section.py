@@ -3,6 +3,7 @@ import mod_class
 import mod_concept
 import mod_data
 import database
+import sys
 
 table = "brapci.section"
 
@@ -20,6 +21,7 @@ def classificationSection():
 
 def classSection(row):
     print(row)
+    sys.exit()
 
 def getSection(Name):
     qr = f"select sc_rdf from brapci.sections where sc_name = '{Name}'"
