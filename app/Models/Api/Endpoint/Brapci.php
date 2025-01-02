@@ -696,7 +696,7 @@ class Brapci extends Model
                         } else {
                             $dd[$line['ind_name']] = $line['ind_total'];
                         }
-                    array_push($dr,$dt);
+                    array_push($dr,$dd);
 
                 }
             echo json_encode($dr);
