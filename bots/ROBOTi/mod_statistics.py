@@ -18,6 +18,8 @@ def get_statistics():
     data_atual = datetime.now().strftime("%d/%m/%Y")
     rows_to_insert = row + [(data_atual, 'UPDATE')]
 
+    print(rows_to_insert)
+
     # Inserir novas estatísticas
     for ln in rows_to_insert:
         # Construir os valores para inserção
