@@ -684,7 +684,7 @@ class Brapci extends Model
 
     function statistics()
         {
-            $qr = "select ind_name, ind_total from brapci.statistics";
+            $qr = "select ind_name, ind_total, ind_update from brapci.statistics";
             $dt = $this->query($qr)->getResultArray();
             $dr = [];
             $data = date("Y-m-d H:i:s");
