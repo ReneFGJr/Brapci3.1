@@ -689,11 +689,12 @@ class Brapci extends Model
             $dr = [];
             foreach($dt as $id => $line)
                 {
+                    $dd = [];
                     if (sonumero($line['ind_total']) == $line['ind_total'])
                         {
-                            $dt[$line['ind_name']] = number_format($line['ind_total'],0,',','.');
+                            $dd[$line['ind_name']] = number_format($line['ind_total'],0,',','.');
                         } else {
-                            $dt[$line['ind_name']] = $line['ind_total'];
+                            $dd[$line['ind_name']] = $line['ind_total'];
                         }
                     array_push($dr,$dt);
 
