@@ -25,6 +25,8 @@ def classSection(row):
 
     if 'Dossier' in Label:
         ids = 17
+    if 'Anais' in Label:
+        ids = 25
 
     if ids > 0:
         updateSection(row[0], ids)
