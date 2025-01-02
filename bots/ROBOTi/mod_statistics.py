@@ -2,7 +2,7 @@ import database
 import sys
 
 def get_statistics():
-    row = database.query('SELECT count(*) as total, CLASS FROM brapci_elastic.dataset group CLASS ')
+    row = database.query('SELECT count(*) as total, CLASS FROM brapci_elastic.dataset group by CLASS ')
     print(row)
 
     qd = "delete from brapci_elastic.dataset where ind_name like 'ITEM_%'"
