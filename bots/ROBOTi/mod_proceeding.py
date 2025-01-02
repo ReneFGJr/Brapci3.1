@@ -14,7 +14,7 @@ def harvesting():
     qr += " is_source, is_source_issue, is_year, is_vol_roman, is_nr, "
     qr += " jnl_frbr "
     qr += "from brapci.source_issue "
-    qr += " inner join source_source ON is_source = id_jnl "
+    qr += " inner join brapci.source_source ON is_source = id_jnl "
     qr += "where is_status = 0 limit 1"
     row = database.query(qr)
 
