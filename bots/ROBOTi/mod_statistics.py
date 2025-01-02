@@ -10,7 +10,7 @@ def get_statistics():
     database.update(qd)
 
     data_atual = datetime.now()
-    row.append([data_atual.strftime("%d/%m/%Y"), 'UPDATE'])
+    row.append(data_atual.strftime("%d/%m/%Y"), 'UPDATE')
 
     for ln in row:
         qi = "insert into brapci.statistics (ind_name, ind_total) values ('ITEM_" + ln[1] + "', " + str(ln[0]) + ")"
