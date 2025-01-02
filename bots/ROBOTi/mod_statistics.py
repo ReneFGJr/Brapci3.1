@@ -36,8 +36,8 @@ def get_statistics():
     qr += "inner join brapci_rdf.rdf_class ON cc_class = id_c "
     qr += "where cc_use = id_cc "
     qr += " and ((id_c = 50) or (id_c = 13) or (id_c = 50) or (id_c = 9)) "
-    qr += "group by cc_class"
-    qr += "ORDER BY `rdf_class`.`c_class` ASC"
+    qr += "group by cc_class "
+    qr += "ORDER BY `rdf_class`.`c_class` ASC "
     row = database.query(qr)
     print(row)
     print("Atualização de estatísticas concluída.")
