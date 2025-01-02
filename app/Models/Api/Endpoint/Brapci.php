@@ -692,9 +692,11 @@ class Brapci extends Model
                     $dd = [];
                     if (sonumero($line['ind_total']) == $line['ind_total'])
                         {
-                            $dd[lang('brapci.'.$line['ind_name'])] = number_format($line['ind_total'],0,',','.');
+                            $dd['name'] = lang('brapci.'.$line['ind_name']);
+                            $dd['total'] = number_format($line['ind_total'],0,',','.');
                         } else {
-                            $dd[lang($line['ind_name'])] = $line['ind_total'];
+                            $dd['name'] = lang('brapci.' . $line['ind_name']);
+                            $dd['total'] = $line['ind_total'];
                         }
                     array_push($dr,$dd);
 
