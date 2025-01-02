@@ -200,9 +200,5 @@ return [
         'issues' => 'Fascículos',
         'Journal' => 'Publicação',
         'book_status_0' => 'Submetidos',
-        '' => '',
-
-
-
-
+        'ITEM_Article' => 'Total de artigos',
 ];
