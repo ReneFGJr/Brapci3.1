@@ -23,7 +23,7 @@ def get_statistics():
     qr += "FROM brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_class ON cc_class = id_c "
     qr += " where cc_use = id_cc "
-    qr += " and ((id_c = 50) or (id_c = 13) or (id_c = 50) or (id_c = 9) or (id_c = 14) or (id_c = 16)) "
+    qr += " and ((id_c = 50) or (id_c = 13) or (id_c = 50) or (id_c = 9) or (id_c = 14) or (id_c = 18)) "
     qr += " group by c_class, id_c "
     qr += " ORDER BY c_class ASC "
     row2 = database.query(qr)
