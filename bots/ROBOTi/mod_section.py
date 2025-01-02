@@ -20,10 +20,14 @@ def classificationSection():
     return 0
 
 def classSection(row):
-    print(row)
-    ids = 1
+    Label = row[3]
+    ids = -1
 
-    updateSection(row[0], ids)
+    if 'Dossier' in Label:
+        ids = 17
+
+    if ids > 0:
+        updateSection(row[0], ids)
     sys.exit()
 
 def updateSection(id_section, id_class):
