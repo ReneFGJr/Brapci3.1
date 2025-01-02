@@ -72,6 +72,10 @@ def classSection(row):
         ids = 35
     if 'Memória' in Label:
         ids = 1
+    if 'Editorial' in Label:
+        ids = 2
+    if 'Palestra' in Label:
+        ids = 10
 
 
 
