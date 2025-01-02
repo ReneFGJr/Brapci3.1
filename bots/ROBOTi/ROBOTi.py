@@ -34,6 +34,7 @@ import mod_backup_mysql
 import mod_thesa
 import mod_gender
 import mod_person
+import mod_statistics
 import socket
 from colorama import Fore
 
@@ -137,6 +138,9 @@ def run(parm):
         mod_data.literal_double(86)
     if (act == '120'):
         lp = mod_ontology.resume()
+
+    if (act == 'statistics'):
+        mod_statistics.get_statistics()
 
     if (act == 'doi'):
         mod_cited.locate()
