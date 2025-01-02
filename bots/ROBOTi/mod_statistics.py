@@ -26,7 +26,7 @@ def get_statistics():
         ind_name = f"ITEM_{ln[1]}"
         ind_total = ln[0]
 
-        qi = "INSERT INTO brapci.statistics (ind_name, ind_total) VALUES ('{ind_name}', '{ind_total}')"
+        qi = f"INSERT INTO brapci.statistics (ind_name, ind_total) VALUES ('{ind_name}', '{ind_total}')"
         print(qi)
         database.insert(qi)
         print(f"Registro inserido: ind_name={ind_name}, ind_total={ind_total}")
