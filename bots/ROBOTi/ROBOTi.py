@@ -349,6 +349,8 @@ def GetRecord():
     # Phase II - Coleta arquivos
     if (reg != []):
         for it in reg:
+            print(it)
+            sys.exit()
             oaipmh_getRecord.get(it)
 
     # Phase III - Fim do processo
