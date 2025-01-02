@@ -707,7 +707,7 @@ class Brapci extends Model
             $dd = [];
             $dd['data'] = $dr;
             $dd['update'] = date("Y-m-d H:i:s");
-            echo json_encode($dr);
+            echo json_encode($dd);
             exit;
         }
 }
