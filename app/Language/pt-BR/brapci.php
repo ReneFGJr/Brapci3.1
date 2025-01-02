@@ -201,4 +201,10 @@ return [
         'Journal' => 'Publicação',
         'book_status_0' => 'Submetidos',
         'ITEM_Article' => 'Total de artigos',
+        'ITEM_Book' => 'Total de Livros',
+        'ITEM_BookChapter' => 'Total de Capítulos de Livros',
+        'ITEM_Proceeding' => 'Total de trabalhos em eventos',
+        'ITEM_CorporateBody' => 'Total de Instituições',
+        'ITEM_FileStorage' => 'Total de arquivos',
+        'ITEM_Person' => 'Total de autores',
 ];
