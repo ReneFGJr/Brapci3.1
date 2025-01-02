@@ -699,7 +699,6 @@ class Brapci extends Model
                             $dd['name'] = lang('brapci.' . $line['ind_name']);
                             $dd['total'] = $line['ind_total'];
                         }
-                        pre($line);
                     $data = $line['ind_update'];
                     $data = substr($data,0,10);
                     array_push($dr,$dd);
