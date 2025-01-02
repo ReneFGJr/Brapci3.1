@@ -25,6 +25,7 @@ import mod_lattes
 import mod_author
 import mod_literal
 import mod_logs
+import mod_section
 import database
 import mod_concept
 import mod_cited
@@ -105,6 +106,8 @@ def run(parm):
         ProcessArticle()
 
     #******************** Proceeding */
+    if (act == '10'):
+        mod_section.classificationSection()
     if (act == '11'):
         mod_proceeding.harvesting()
     if (act == '12'):
