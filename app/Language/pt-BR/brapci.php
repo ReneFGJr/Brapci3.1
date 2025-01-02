@@ -207,4 +207,5 @@ return [
         'ITEM_CorporateBody' => 'Total de Instituições',
         'ITEM_FileStorage' => 'Total de arquivos',
         'ITEM_Person' => 'Total de autores',
+        'ITEM_Journals' => 'Total de fontes',
 ];

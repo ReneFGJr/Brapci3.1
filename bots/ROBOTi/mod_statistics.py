@@ -25,7 +25,7 @@ def get_statistics():
     qr += " where cc_use = id_cc "
     qr += " and ((id_c = 50) or (id_c = 13) or (id_c = 50) or (id_c = 9) or (id_c = 14) or (id_c = 18)) "
     qr += " group by c_class, id_c "
-    qr += " ORDER BY c_class ASC "
+    qr += " ORDER BY id_c, c_class ASC "
     row2 = database.query(qr)
     rows_to_insert = row + row2
 
