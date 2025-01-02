@@ -8,15 +8,15 @@ import sys
 table = "brapci.section"
 
 def classificationSection():
-    qr = f"select * from brapci_oaipmh.oai_setspec where s_section = 1969"
+    qr = f"select * from brapci_oaipmh.oai_setspec where s_section = 1969 and id_s <> 1969"
     row = database.query(qr)
 
     if row == []:
         print(f"Nenhum section para classificar")
     else:
         for r in row:
-            print(f"Classificando {r[0]}")
-            classSection(row)
+            print(f"Classificando {r[3]}")
+            classSection(r)
     return 0
 
 def classSection(row):
