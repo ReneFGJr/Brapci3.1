@@ -1,22 +1,35 @@
 import database
-import sys
 from datetime import datetime
 
 def get_statistics():
-    row = database.query('SELECT count(*) as total, CLASS FROM brapci_elastic.dataset group by CLASS ')
-    print(row)
+    # Obter estatísticas do banco de dados
+    row = database.query('SELECT count(*) as total, CLASS FROM brapci_elastic.dataset GROUP BY CLASS')
+    if not row:
+        print("Nenhuma estatística encontrada.")
+        return
 
-    qd = "delete from brapci.statistics where ind_name like 'ITEM_%'"
+    print("Estatísticas obtidas:", row)
+
+    # Limpar estatísticas antigas
+    qd = "DELETE FROM brapci.statistics WHERE ind_name LIKE 'ITEM_%'"
     database.update(qd)
 
-    data_atual = datetime.now()
-    row.append(data_atual.strftime("%d/%m/%Y"), 'UPDATE')
+    # Adicionar a linha de atualização com a data atual
+    data_atual = datetime.now().strftime("%d/%m/%Y")
+    rows_to_insert = row + [(data_atual, 'UPDATE')]
 
-    for ln in row:
-        qi = "insert into brapci.statistics (ind_name, ind_total) values ('ITEM_" + ln[1] + "', " + str(ln[0]) + ")"
-        database.insert(qi)
-        print(ln)
+    # Inserir novas estatísticas
+    for ln in rows_to_insert:
+        # Construir os valores para inserção
+        ind_name = f"ITEM_{ln[1]}"
+        ind_total = ln[0]
 
-    sys.exit()
+        # Usar um método seguro para inserir valores
+        qi = """
+            INSERT INTO brapci.statistics (ind_name, ind_total)
+            VALUES (%s, %s)
+        """
+        database.insert(qi, (ind_name, ind_total))
+        print(f"Registro inserido: ind_name={ind_name}, ind_total={ind_total}")
 
-    return stats
+    print("Atualização de estatísticas concluída.")
