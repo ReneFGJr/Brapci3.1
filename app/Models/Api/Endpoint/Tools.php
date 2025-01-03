@@ -82,6 +82,10 @@ class Tools extends Model
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
                     break;
+                case 'term4net':
+                    $Net->index($d1, $d2, $d3, $d4);
+                    exit;
+                    break;
                 case 'txt4unit':
                     $Net->index($d1, $d2, $d3, $d4);
                     exit;
