@@ -175,6 +175,16 @@ def check_subject_thesa():
     qr += f" where cc_class = {IDClass}"
     qr += " and id_l is null "
     qr += " order by n_name, id_cc"
+
+    qr = "SELECT id_cc, cc_use, n_name, n_lang "
+    qr += " FROM brapci_rdf.rdf_concept "
+    qr += " INNER JOIN brapci_rdf.rdf_literal ON id_n = cc_pref_term "
+    qr += " LEFT JOIN brapci_thesa.thesa_literal  "
+    qr += "   ON l_term COLLATE utf8mb4_unicode_ci = n_name COLLATE utf8mb4_unicode_ci "
+    qr += "      AND l_lang COLLATE utf8mb4_unicode_ci = n_lang COLLATE utf8mb4_unicode_ci "
+    qr += f" WHERE cc_class = {IDClass} "
+    qr += "   AND id_l IS NULL "
+    qr += " ORDER BY n_name COLLATE utf8mb4_unicode_ci, id_cc;"
     #qr += " limit 200 "
 
     row = database.query(qr)
