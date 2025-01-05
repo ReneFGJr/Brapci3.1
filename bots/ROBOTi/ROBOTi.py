@@ -347,9 +347,6 @@ def GetRecord():
     # Phase I - get Next Records
     reg = roboti_task.nextGetRecords(1)
 
-    print(reg)
-    sys.exit()
-
     if (reg == []):
         print("Removendo TASK GETRECORD")
         roboti_task.task_remove('GETRECORD')
