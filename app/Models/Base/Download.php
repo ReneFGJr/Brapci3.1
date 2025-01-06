@@ -187,6 +187,7 @@ class Download extends Model
             $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
             $name = troca($name, 'http://www.periodicos.ufpb.br/ojs/', 'https://www.pbcib.com/');
+            pre($dt);
             $name = troca($name, 'http://', 'https://');
 
             $RDFLiteral = new \App\Models\RDF2\RDFliteral();
