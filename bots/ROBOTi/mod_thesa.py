@@ -41,7 +41,7 @@ def IA_group_index(ID):
         condition += f"(c_brapci = {line[0]})"
 
     qr = "SELECT d_r1, count(*) as total FROM brapci_rdf.rdf_data "
-    qr += f"WHERE d_p = 67 and (condition) "
+    qr += f"WHERE d_p = 67 and ({condition}) "
     qr += "group by d_r1;"
 
     print(qr)
