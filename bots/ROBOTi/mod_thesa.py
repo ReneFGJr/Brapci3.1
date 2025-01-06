@@ -34,6 +34,7 @@ def IA_thesa2(ID):
     qr += " inner join brapci_rdf.rdf_class ON cc_class = id_c"
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where id_cc = {ID} and c_class = 'Subject' "
+    print(qr)
     row = database.query(qr)
     print("Dados do Subject",row)
     sys.exit()
