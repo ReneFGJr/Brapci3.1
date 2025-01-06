@@ -131,7 +131,7 @@ def check_subject_sql():
         IDuse = reg[3]
         IDc = reg[2]
 
-        qu = "update brapci_rdf.rdf_concept set cc_use = {IDuse} where id_cc = {IDc}"
+        qu = f"update brapci_rdf.rdf_concept set cc_use = {IDuse} where id_cc = {IDc}"
         print(reg)
         print(qu)
         sys.exit()
