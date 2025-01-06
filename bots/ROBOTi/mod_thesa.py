@@ -38,25 +38,26 @@ def IA_create_group(ID):
 
     if lang == 'en':
         termEN = TERM
-        # Termo original
-        IDen = thesa_local(termEN,'pt')
-
         termPT = mod_GoogleTranslate.translate(TERM,'pt')
-        IDpt = thesa_local(termPT,'pt')
-
         termES = mod_GoogleTranslate.translate(TERM,'es')
-        IDes = thesa_local(termES,'es')
 
-        GRP = IDpt
+    # Termo original
+    IDen = thesa_local(termEN,'pt')
+    IDpt = thesa_local(termPT,'pt')
+    IDes = thesa_local(termES,'es')
+    GRP = IDpt
 
-        conceptRegister(IDpt,GRP)
-        conceptRegister(IDen,GRP)
-        conceptRegister(IDes,GRP)
+    conceptRegister(IDpt,GRP)
+    conceptRegister(IDen,GRP)
+    conceptRegister(IDes,GRP)
 
-        findConceptBrapci(termPT,'pt')
-        findConceptBrapci(termEN,'en')
-        findConceptBrapci(termES,'es')
-        print(termPT,IDpt)
+    print("PT",termPT,IDpt)
+    findConceptBrapci(termPT,'pt')
+    print("PT",termEN,IDen)
+    findConceptBrapci(termEN,'en')
+    print("PT",termES,IDes)
+    findConceptBrapci(termES,'es')
+    print(termPT,IDpt)
 
     sys.exit()
 
