@@ -119,7 +119,7 @@ def register_literal(IDC,term,lg):
 
 def check_subject_sql():
     qr = "select * from ( "
-    qr += " SELECT n_name, n_lang, max(id_cc) as max, cc_class, count(*) as total "
+    qr += " SELECT n_name, n_lang, max(id_cc) as max, min(id_cc) as min, cc_class, count(*) as total "
     qr += " FROM brapci_rdf. rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON `cc_pref_term` = id_n "
     qr += " where cc_use = id_cc and cc_class = 65 "
