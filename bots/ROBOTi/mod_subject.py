@@ -94,6 +94,8 @@ def process(ID):
                 print("    RDF",ID,prop,IDbrapci)
                 mod_data.register(ID,prop,IDbrapci,0,1)
 
+                mod_thesa.IA_thesa2(IDbrapci)
+
     print("#FIM#")
     sys.exit()
 
