@@ -83,7 +83,10 @@ def IA_group_index(ID):
         row = database.query(qr)
         print("NOVO GRUPO",row)
 
-    sys.exit()
+    if row == []:
+        print("ERRO - GRUPO VAZIO")
+        sys.exit()
+
     condition = ''
     for line in row:
         if condition != '':
