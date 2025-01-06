@@ -117,6 +117,19 @@ def register_literal(IDC,term,lg):
     IDCt = mod_concept.register(IDClass,IDliteral)
     return mod_data.register(IDC,'hasSubject',IDCt)
 
+def check_subject_sql():
+    qr = "select * from ( "
+    qr += " SELECT n_name, n_lang, max(id_cc) as max, cc_class, count(*) as total "
+    qr += " FROM brapci_rdf. rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON `cc_pref_term` = id_n "
+    qr += " where cc_use = id_cc and cc_class = 65 "
+    qr += " group by n_name, n_lang, cc_class "
+    qr += " ) as tabela "
+    qr += " where total > 1"
+    row = database.query(qr)
+    for reg in row:
+        print(reg)
+
 def check_duplicate():
     print("Check Duplicate - Subject")
     IDClass = mod_class.getClass("Subject")

@@ -186,6 +186,7 @@ def run(parm):
 
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
+        mod_subject.check_subject_sql()
         mod_subject.check_duplicate()
         mod_subject.removeOrfa()
 
@@ -268,6 +269,7 @@ def run(parm):
 
     ################### Subject
     if (act == '210'):
+        lp = mod_subject.check_subject_sql()
         lp = mod_subject.check_duplicate()
     if (act == '211'):
         lp = mod_subject.check_remissiva()
