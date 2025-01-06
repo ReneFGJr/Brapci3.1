@@ -89,10 +89,14 @@ def IA_group_index(ID):
 
     condition = ''
     for line in row:
-        if condition != '':
-            condition += ' or '
-        condition += f"(d_r2 = {line[0]})"
+        if line[0] > 0:
+            if condition != '':
+                condition += ' or '
+            condition += f"(d_r2 = {line[0]})"
 
+    if condition == '':
+        print("ERRO - CONDIÇÃO VAZIA")
+        sys.exit()
     qr = "SELECT d_r1, count(*) as total FROM brapci_rdf.rdf_data "
     qr += f"WHERE d_p = 67 and ({condition}) "
     qr += "group by d_r1;"
