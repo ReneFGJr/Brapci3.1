@@ -126,7 +126,6 @@ def IA_group_index(ID):
                 IDliteral=0
                 ia = 5
                 mod_data.register(IDC,prop,IDL,IDliteral,ia)
-    sys.exit()
 
 def translate(term,lang):
 
