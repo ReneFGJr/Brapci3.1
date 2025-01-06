@@ -198,8 +198,13 @@ class Download extends Model
 
 
         if (substr($name, 0, 4) == 'http') {
-            pre($dt);
-            $name = troca($name, 'http://', 'https://');
+            if (strpos($name, 'rev-ib.unam.mx'))
+                {
+
+                } else {
+                    $name = troca($name, 'http://', 'https://');
+                }
+
             $url = $name;
             echo h('<a href="' . $url . '">' . $url . '</a>', 5);
 
