@@ -248,6 +248,8 @@ def run(parm):
         mod_elasticsearch.reindex()
     if (act == '182'):
         mod_thesa.IA_thesa()
+    if (act == 'thesa'):
+        mod_thesa.IA_thesa()
     if (act == '183'):
         mod_elasticsearch.remove_editorial()
     if (act == '184'):
