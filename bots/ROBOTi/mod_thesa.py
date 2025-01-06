@@ -25,7 +25,6 @@ def IA_thesa():
     qr += f" where id_cc = {ID}"
     row = database.query(qr)
     print(row)
-    sys.exit()
     IA_group_index(ID)
 
 def IA_group_index(ID):
@@ -38,6 +37,7 @@ def IA_group_index(ID):
     row = database.query(qr)
 
     print(row)
+    sys.exit()
     if row == []:
         print("Nao existe grupo")
         sys.exit()
