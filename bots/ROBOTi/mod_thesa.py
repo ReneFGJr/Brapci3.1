@@ -49,6 +49,14 @@ def IA_group_index(ID):
 
     row2 = database.query(qr)
     for line in row2:
+        IDC = line[0]
+        print("IDC",IDC)
+        for IDliteral in row:
+            prop = 67
+            IDL = IDliteral[0]
+            IDliteral=0
+            ia = 5
+            mod_data.register(IDC,prop,IDL,IDliteral,ia)
         print(line)
         sys.exit()
         mod_data.register(IDC,prop,IDP,IDliteral=0,ia=0)
