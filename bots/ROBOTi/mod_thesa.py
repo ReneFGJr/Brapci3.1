@@ -27,6 +27,15 @@ def IA_thesa():
     print(row)
     IA_group_index(ID)
 
+def IA_create_group(ID):
+    qr = "SELECT n_name, n_lang FROM brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where id_cc = {ID}"
+    row = database.query(qr)
+
+    print("===",row)
+    sys.exit()
+
 def IA_group_index(ID):
     # Recupera o grupo de termos
     qr = "Select c_brapci from brapci_thesa.thesa_concept "
@@ -39,6 +48,7 @@ def IA_group_index(ID):
     print(row)
     if row == []:
         print("Nao existe grupo")
+        IA_create_group(ID)
         sys.exit()
 
     condition = ''
