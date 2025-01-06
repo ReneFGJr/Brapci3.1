@@ -20,8 +20,13 @@ def IA_thesa():
     ID = 249972
 
     # Recupera o grupo de termos
-    qr = f"select * from brapci_thesa.thesa_concept where c_brapci = {ID} "
+    qr = "Select c_brapci from brapci_thesa.thesa_concept "
+    qr += "inner join ( "
+	qr += f"SELECT c_group as groupN FROM `thesa_concept` WHERE `c_brapci` = {ID} "
+    qr += ") as tabela "
+    qr += "ON c_group = groupN "
     row = database.query(qr)
+
     print(row)
     sys.exit()
 
