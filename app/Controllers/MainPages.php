@@ -102,7 +102,7 @@ class MainPages extends BaseController
                 $sx .= bs(bsc($Socials->index($subact, $id), 12));
                 break;
             case 'v':
-                $url = 'https://brapci.inf.br/#/v/' . $subact;
+                $url = 'https://brapci.inf.br/v/' . $subact;
                 $sx = metarefresh($url);
                 return $sx;
                 exit;
