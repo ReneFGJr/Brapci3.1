@@ -133,7 +133,7 @@ def translate(term,lang):
     if tID == []:
         print("Termo novo ",term,lang)
         thesa_local(term,lang)
-        sys.exit()
+        tID = find(term,lang)
 
     ID = tID[0]
     TERM = tID[1]
