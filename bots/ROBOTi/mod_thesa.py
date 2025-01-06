@@ -22,7 +22,7 @@ def IA_thesa():
     ID = 267904
     qr = "SELECT * FROM brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
-    qr += f"where id_cc = {ID}"
+    qr += f" where id_cc = {ID}"
     row = database.query(qr)
     print(row)
     sys.exit()
