@@ -20,7 +20,7 @@ def IA_thesa():
     ID = 249972
 
     qr = "select * from brapci_rdf.rdf_data "
-    qr += " where d_d2 = 249972 "
+    qr += " where d_r2 = 249972 "
     row = database.query(qr)
     print(row)
     sys.exit()
