@@ -198,8 +198,6 @@ def findConceptBrapci(term,lang):
     qr += f" left join brapci_thesa.thesa_concept ON c_term = id_l"
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
 
-    print(qr)
-
     row = database.query(qr)
     if row != []:
         line = row[0]
