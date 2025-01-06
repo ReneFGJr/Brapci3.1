@@ -52,7 +52,7 @@ def IA_group_index(ID):
         IDC = line[0]
         print("IDC",IDC)
         for IDliteral in row:
-            prop = 67
+            prop = 'hasSubject'
             IDL = IDliteral[0]
             IDliteral=0
             ia = 5
