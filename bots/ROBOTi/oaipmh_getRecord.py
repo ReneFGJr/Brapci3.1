@@ -286,8 +286,6 @@ def get(rg):
 
     if (type == 'EV'):
         url = urlIssue
-    print(url)
-    sys.exit()
 
     LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify
     print(Fore.YELLOW+"... Recuperando: "+Fore.GREEN+f"{LINK}"+Fore.WHITE)
