@@ -39,6 +39,8 @@ def IA_create_group(ID):
     if lang == 'en':
         termPT = mod_GoogleTranslate.translate(TERM,'pt')
         IDpt = thesa_local(termPT,'pt')
+        GRP = IDpt
+        conceptRegister(IDpt,GRP)
         print(termPT,IDpt)
 
     sys.exit()
