@@ -14,6 +14,18 @@ apikey = '-023- d092 -3d09 -2390d'
 
 ######################################################### AI DO THESA
 def IA_thesa():
+
+    # Termo da Brapci
+    ID = 249972
+
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += " where d_d2 = 249972 "
+    row = database.query(qr)
+    print(row)
+    sys.exit()
+
+
+
     qr = "select * from brapci_thesa.thesa_literal "
     qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
     qr += " where l_lang = 'pt' "
@@ -25,7 +37,6 @@ def IA_thesa():
         lang = line[2]
         print("----------------")
         print(term,lang)
-        translate(term,lang)
 
 def translate(term,lang):
 
