@@ -20,6 +20,11 @@ def IA_thesa():
     # Termo da Brapci
     ID = 249972
     ID = 267904
+    qr = "SELECT * FROM brapci_rdf.rdf_concept "
+    qr += "where id_c = {ID}"
+    row = database.query(qr)
+    print(row)
+    sys.exit()
     IA_group_index(ID)
 
 def IA_group_index(ID):
