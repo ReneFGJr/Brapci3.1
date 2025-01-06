@@ -19,7 +19,7 @@ def IA_thesa():
 
     # Termo da Brapci
     ID = 249972
-    ID = 267904
+    ID = 319271
     qr = "SELECT n_name, n_lang FROM brapci_rdf.rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
     qr += f" where id_cc = {ID}"
