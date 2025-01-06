@@ -19,7 +19,7 @@ def IA_thesa():
     # Termo da Brapci
     ID = 249972
 
-    qr = "select * from brapci_rdf.rdf_data "
+    qr = "select d_r1, d_p from brapci_rdf.rdf_data "
     qr += " where d_r2 = 249972 "
     row = database.query(qr)
     print(row)
