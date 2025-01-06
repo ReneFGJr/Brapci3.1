@@ -48,13 +48,14 @@ def IA_group_index(ID):
     row2 = database.query(qr)
     for line in row2:
         IDC = line[0]
-        print("IDC",IDC,line[1])
-        for IDliteral in row:
-            prop = 'hasSubject'
-            IDL = IDliteral[0]
-            IDliteral=0
-            ia = 5
-            mod_data.register(IDC,prop,IDL,IDliteral,ia)
+        if (line[1] < 3):
+            print("IDC",IDC,line[1])
+            for IDliteral in row:
+                prop = 'hasSubject'
+                IDL = IDliteral[0]
+                IDliteral=0
+                ia = 5
+                mod_data.register(IDC,prop,IDL,IDliteral,ia)
     sys.exit()
 
 def translate(term,lang):
