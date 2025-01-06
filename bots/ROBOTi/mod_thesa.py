@@ -206,6 +206,9 @@ def findConceptBrapci(term,lang):
         IDsubject = line[0]
         IDc = line[2]
 
+        print(line)
+        sys.exit()
+
         if IDbrapci == 0:
             print("================== BRAPCI")
             # Recupera ID do subject do RDF
