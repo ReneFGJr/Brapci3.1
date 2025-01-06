@@ -30,12 +30,24 @@ def IA_group_index(ID):
     row = database.query(qr)
 
     print(row)
+    if row == []:
+        print("Nao existe grupo")
+        sys.exit()
+
+    condition = ''
+    for line in row:
+        if condition != '':
+            condition += ' or '
+        condition += f"(c_brapci = {line[0]})"
+
+    qr = "SELECT d_r1, count(*) as total FROM brapci_rdf.rdf_data "
+    qr += f"WHERE d_p = 67 and (condition) "
+    qr += "group by d_r1;"
+
+    row2 = database.query(qr)
+    print(row2)
     sys.exit()
 
-
-    qr = "select d_r1, d_p from brapci_rdf.rdf_data "
-    qr += " where d_r2 = 249972 "
-    row = database.query(qr)
     print(row)
     sys.exit()
 
