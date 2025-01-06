@@ -53,9 +53,9 @@ def IA_create_group(ID):
 
     print("PT",termPT,IDpt)
     findConceptBrapci(termPT,'pt')
-    print("PT",termEN,IDen)
+    print("EN",termEN,IDen)
     findConceptBrapci(termEN,'en')
-    print("PT",termES,IDes)
+    print("ES",termES,IDes)
     findConceptBrapci(termES,'es')
     print(termPT,IDpt)
 
