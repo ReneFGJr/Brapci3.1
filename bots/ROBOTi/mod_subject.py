@@ -132,9 +132,7 @@ def check_subject_sql():
         IDc = reg[2]
 
         qu = f"update brapci_rdf.rdf_concept set cc_use = {IDuse} where id_cc = {IDc}"
-        print(reg)
-        print(qu)
-        sys.exit()
+        database.update(qu)
 
 def check_duplicate():
     print("Check Duplicate - Subject")
