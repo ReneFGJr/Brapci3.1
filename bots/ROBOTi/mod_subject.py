@@ -133,6 +133,7 @@ def check_subject_sql():
 
         qu = f"update brapci_rdf.rdf_concept set cc_use = {IDuse} where id_cc = {IDc}"
         database.update(qu)
+        print("...Corrigido (termo duplicado)",IDc,IDuse)
 
 def check_duplicate():
     print("Check Duplicate - Subject")
