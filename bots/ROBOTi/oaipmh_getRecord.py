@@ -284,10 +284,8 @@ def get(rg):
     print("==urlIssue==",urlIssue)
     print("==Collection==",type)
 
-    if substring in urlIssue:
+    if (type == 'EV'):
         url = urlIssue
-    if (type == 'JE' or type == 'JA'):
-        url = url2
     print(url)
     sys.exit()
 
