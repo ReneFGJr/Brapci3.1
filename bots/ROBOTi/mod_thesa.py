@@ -19,6 +19,7 @@ def IA_thesa():
 
     # Termo da Brapci
     ID = 249972
+    ID = 267904
     IA_group_index(ID)
 
 def IA_group_index(ID):
