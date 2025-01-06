@@ -19,6 +19,13 @@ def IA_thesa():
     # Termo da Brapci
     ID = 249972
 
+    # Recupera o grupo de termos
+    qr = f"select * from brapci_thesa.thesa_concept where c_term = {ID} "
+    row = database.query(qr)
+    print(row)
+    sys.exit()
+
+
     qr = "select d_r1, d_p from brapci_rdf.rdf_data "
     qr += " where d_r2 = 249972 "
     row = database.query(qr)
