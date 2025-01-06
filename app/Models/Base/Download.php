@@ -187,7 +187,6 @@ class Download extends Model
             $name = troca($name, '/XIXENANCIB/', '/XIX_ENANCIB/');
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
             $name = troca($name, 'http://www.periodicos.ufpb.br/ojs/', 'https://www.pbcib.com/');
-            pre($dt);
             $name = troca($name, 'http://', 'https://');
 
             $RDFLiteral = new \App\Models\RDF2\RDFliteral();
@@ -199,6 +198,7 @@ class Download extends Model
 
 
         if (substr($name, 0, 4) == 'http') {
+            pre($dt);
             $name = troca($name, 'http://', 'https://');
             $url = $name;
             echo h('<a href="' . $url . '">' . $url . '</a>', 5);
