@@ -48,7 +48,7 @@ def IA_group_index(ID):
     row2 = database.query(qr)
     for line in row2:
         IDC = line[0]
-        print("IDC",IDC)
+        print("IDC",IDC,line[1])
         for IDliteral in row:
             prop = 'hasSubject'
             IDL = IDliteral[0]
