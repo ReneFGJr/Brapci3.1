@@ -24,7 +24,7 @@ def IA_thesa():
     qr += " inner join brapci_rdf.rdf_class ON cc_class = id_c"
     qr += " LEFT JOIN brapci_thesa.thesa_concept ON c_brapci = d_r2 "
     qr += " WHERE d_p = 67 and c_brapci is null and c_class = 'Subject' "
-    qr += " limit 10 order by d_r2"
+    qr += " order by d_r2 limit 10"
     row = database.query(qr)
     for line in row:
         ID = line[0]
