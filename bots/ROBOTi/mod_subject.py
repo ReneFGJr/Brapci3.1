@@ -122,7 +122,7 @@ def check_subject_sql():
     qr += " SELECT n_name, n_lang, max(id_cc) as max, min(id_cc) as min, cc_class, count(*) as total "
     qr += " FROM brapci_rdf. rdf_concept "
     qr += " inner join brapci_rdf.rdf_literal ON `cc_pref_term` = id_n "
-    qr += " where cc_use = id_cc and cc_class = 65 "
+    qr += " where cc_use = id_cc and cc_class = 65 and n_name != '' "
     qr += " group by n_name, n_lang, cc_class "
     qr += " ) as tabela "
     qr += " where total > 1"
