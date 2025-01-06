@@ -37,7 +37,6 @@ def IA_group_index(ID):
     row = database.query(qr)
 
     print(row)
-    sys.exit()
     if row == []:
         print("Nao existe grupo")
         sys.exit()
