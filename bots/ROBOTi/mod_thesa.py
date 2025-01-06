@@ -42,7 +42,7 @@ def IA_create_group(ID):
         termES = mod_GoogleTranslate.translate(TERM,'es')
 
     # Termo original
-    IDen = thesa_local(termEN,'pt')
+    IDen = thesa_local(termEN,'en')
     IDpt = thesa_local(termPT,'pt')
     IDes = thesa_local(termES,'es')
     GRP = IDpt
