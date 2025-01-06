@@ -26,6 +26,7 @@ def IA_thesa():
     row = database.query(qr)
     for line in row:
         ID = line[0]
+        print("Processando ID",ID)
         IA_thesa2(ID)
 
 def IA_thesa2(ID):
