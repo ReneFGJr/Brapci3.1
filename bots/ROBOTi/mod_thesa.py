@@ -33,7 +33,7 @@ def IA_thesa2(ID):
     qr = "SELECT n_name, n_lang, c_class FROM brapci_rdf.rdf_concept "
     qr = " inner join brapci_rdf.rdf_class ON cc_class = id_c"
     qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
-    qr += f" where id_cc = {ID} amd c_class = 'Subject' "
+    qr += f" where id_cc = {ID} and c_class = 'Subject' "
     row = database.query(qr)
     print("Dados do Subject",row)
     IA_group_index(ID)
