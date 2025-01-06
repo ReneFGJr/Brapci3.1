@@ -33,7 +33,14 @@ def IA_create_group(ID):
     qr += f" where id_cc = {ID}"
     row = database.query(qr)
 
-    print("===",row)
+    lang = row[0][1]
+    TERM = row[0][0]
+
+    if lang == 'en':
+        termPT = mod_GoogleTranslate.translate(TERM,'pt')
+        IDpt = thesa_local(termPT,'pt')
+        print(termPT,IDpt)
+
     sys.exit()
 
 def IA_group_index(ID):
