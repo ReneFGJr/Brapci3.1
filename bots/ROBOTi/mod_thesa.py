@@ -75,11 +75,16 @@ def IA_group_index(ID):
     qr += "ON c_group = groupN "
     row = database.query(qr)
 
+    print(qr)
+    sys.exit()
+
     print(row)
     if row == []:
         print("Nao existe grupo")
         IA_create_group(ID)
         row = database.query(qr)
+        print("NOVO GRUPO",row)
+
 
     condition = ''
     for line in row:
