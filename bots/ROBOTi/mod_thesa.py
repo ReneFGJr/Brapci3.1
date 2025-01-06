@@ -44,6 +44,8 @@ def IA_group_index(ID):
     qr += f"WHERE d_p = 67 and (condition) "
     qr += "group by d_r1;"
 
+    print(qr)
+
     row2 = database.query(qr)
     print(row2)
     sys.exit()
