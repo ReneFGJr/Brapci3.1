@@ -37,8 +37,9 @@ def IA_create_group(ID):
     TERM = row[0][0]
 
     if lang == 'en':
+        termEN = TERM
         # Termo original
-        IDen = thesa_local(TERM,'pt')
+        IDen = thesa_local(termEN,'pt')
 
         termPT = mod_GoogleTranslate.translate(TERM,'pt')
         IDpt = thesa_local(termPT,'pt')
@@ -51,6 +52,10 @@ def IA_create_group(ID):
         conceptRegister(IDpt,GRP)
         conceptRegister(IDen,GRP)
         conceptRegister(IDes,GRP)
+
+        findConceptBrapci(termPT,'pt')
+        findConceptBrapci(termEN,'en')
+        findConceptBrapci(termES,'es')
         print(termPT,IDpt)
 
     sys.exit()
