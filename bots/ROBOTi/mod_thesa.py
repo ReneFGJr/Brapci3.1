@@ -51,7 +51,7 @@ def IA_group_index(ID):
     for line in row2:
         print(line)
         sys.exit()
-        mod_data.register(IDC,prop,IDP,IDliteral=0,ia=0):
+        mod_data.register(IDC,prop,IDP,IDliteral=0,ia=0)
     print(row2)
     sys.exit()
 
