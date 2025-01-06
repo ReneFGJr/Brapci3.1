@@ -18,15 +18,17 @@ def IA_thesa():
     print("IA Thesa")
     mod_subject.check_subject_sql()
 
-    qr = "SELECT d_r2 "
+    qr = "SELECT d_r2, id_d, c_class "
     qr += " FROM brapci_rdf.rdf_data "
+    qr += " INNER JOIN brapci_rdf.rdf_concept ON id_cc = d_r2 "
+    qr += " inner join brapci_rdf.rdf_class ON cc_class = id_c"
     qr += " LEFT JOIN brapci_thesa.thesa_concept ON c_brapci = d_r2 "
     qr += " WHERE d_p = 67 and c_brapci is null "
     qr += " limit 10 "
     row = database.query(qr)
     for line in row:
         ID = line[0]
-        print("Processando ID",ID)
+        print("Processando ID",line)
         IA_thesa2(ID)
 
 def IA_thesa2(ID):
