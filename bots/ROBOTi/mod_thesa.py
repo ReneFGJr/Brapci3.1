@@ -2,6 +2,7 @@ import database
 import mod_class
 import mod_subject
 import mod_concept
+import mod_data
 import requests
 import mod_GoogleTranslate
 import sys
@@ -47,6 +48,10 @@ def IA_group_index(ID):
     print(qr)
 
     row2 = database.query(qr)
+    for line in row2:
+        print(line)
+        sys.exit()
+        mod_data.register(IDC,prop,IDP,IDliteral=0,ia=0):
     print(row2)
     sys.exit()
 
