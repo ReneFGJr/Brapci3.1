@@ -16,6 +16,7 @@ apikey = '-023- d092 -3d09 -2390d'
 ######################################################### AI DO THESA
 def IA_thesa():
     print("IA Thesa")
+    mod_subject.check_subject_sql()
 
     # Termo da Brapci
     ID = 248177
