@@ -128,7 +128,13 @@ def check_subject_sql():
     qr += " where total > 1"
     row = database.query(qr)
     for reg in row:
+        IDuse = reg[3]
+        IDc = reg[2]
+
+        qu = "update brapci_rdf.rdf_concept set cc_use = {IDuse} where id_cc = {IDc}"
         print(reg)
+        print(qu)
+        sys.exit()
 
 def check_duplicate():
     print("Check Duplicate - Subject")
