@@ -155,9 +155,6 @@ def run(parm):
         mod_cited.categorizeYear()
         #mod_cited.categorizeCited()
 
-    if (act == 'thesa'):
-        mod_thesa.check_subject_thesa()
-
     if (act == 'ontology'):
         mod_concept.UpdateUse()
         mod_ontology.classification()
@@ -250,6 +247,7 @@ def run(parm):
         mod_thesa.IA_thesa()
     if (act == 'thesa'):
         mod_thesa.IA_thesa()
+        mod_thesa.check_subject_thesa()
     if (act == '183'):
         mod_elasticsearch.remove_editorial()
     if (act == '184'):

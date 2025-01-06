@@ -14,6 +14,7 @@ apikey = '-023- d092 -3d09 -2390d'
 
 ######################################################### AI DO THESA
 def IA_thesa():
+    print("IA Thesa")
 
     # Termo da Brapci
     ID = 249972
@@ -176,6 +177,7 @@ def find(term,lang):
     return row
 
 def check_subject_thesa():
+    return True
     print("Check Subject - Thesa")
     IDClass = mod_class.getClass("Subject")
 
