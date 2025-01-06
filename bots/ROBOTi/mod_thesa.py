@@ -19,7 +19,6 @@ def IA_thesa():
 
     # Termo da Brapci
     ID = 249972
-    ID = 174541
     IA_group_index(ID)
 
 def IA_group_index(ID):
@@ -46,8 +45,6 @@ def IA_group_index(ID):
     qr += f"WHERE d_p = 67 and ({condition}) "
     qr += "group by d_r1;"
 
-    print(qr)
-
     row2 = database.query(qr)
     for line in row2:
         IDC = line[0]
@@ -58,28 +55,7 @@ def IA_group_index(ID):
             IDliteral=0
             ia = 5
             mod_data.register(IDC,prop,IDL,IDliteral,ia)
-        print(line)
-        sys.exit()
-        mod_data.register(IDC,prop,IDP,IDliteral=0,ia=0)
-    print(row2)
     sys.exit()
-
-    print(row)
-    sys.exit()
-
-
-
-    qr = "select * from brapci_thesa.thesa_literal "
-    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
-    qr += " where l_lang = 'pt' "
-    qr += " and id_c is null "
-    qr += " limit 10 "
-    row = database.query(qr)
-    for line in row:
-        term = line[1]
-        lang = line[2]
-        print("----------------")
-        print(term,lang)
 
 def translate(term,lang):
 
