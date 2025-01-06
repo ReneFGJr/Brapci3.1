@@ -18,7 +18,9 @@ def IA_thesa():
 
     # Termo da Brapci
     ID = 249972
+    IA_group_index(ID)
 
+def IA_group_index(ID):
     # Recupera o grupo de termos
     qr = "Select c_brapci from brapci_thesa.thesa_concept "
     qr += "inner join ( "
