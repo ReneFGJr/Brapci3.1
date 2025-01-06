@@ -286,7 +286,8 @@ def get(rg):
 
     if substring in urlIssue:
         url = urlIssue
-
+    if (type == 'JE' or type == 'JA'):
+        url = url2
     print(url)
     sys.exit()
 
