@@ -553,9 +553,9 @@ class Index extends Model
                         $dt = $Elastic
                             ->select("ID")
                             ->where('PDF',0)
-                            ->where('ID > '.$d2)
+                            ->where('ID < '.$d2)
                             ->where('(CLASS = "Article" or CLASS="Proceeding")')
-                            ->orderby("ID")
+                            ->orderby("ID DESC")
                             ->findAll(5);
 
                         foreach($dt as $id=>$line)
