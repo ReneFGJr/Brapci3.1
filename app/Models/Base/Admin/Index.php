@@ -544,7 +544,7 @@ class Index extends Model
                 {
                     case 'harvesting':
                         if ($d2 == '') {
-                            $d2 = '0';
+                            $d2 = '999999';
                         }
 
                         $Elastic = new \App\Models\ElasticSearch\Register();
