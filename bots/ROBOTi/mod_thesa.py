@@ -2,6 +2,7 @@ import database
 import mod_class
 import mod_subject
 import mod_concept
+import mod_data
 import requests
 import mod_GoogleTranslate
 import sys
@@ -14,18 +15,116 @@ apikey = '-023- d092 -3d09 -2390d'
 
 ######################################################### AI DO THESA
 def IA_thesa():
-    qr = "select * from brapci_thesa.thesa_literal "
-    qr += " left join brapci_thesa.thesa_concept ON c_term = id_l "
-    qr += " where l_lang = 'pt' "
-    qr += " and id_c is null "
-    qr += " limit 10 "
+    print("IA Thesa")
+    mod_subject.check_subject_sql()
+
+    qr = "SELECT d_r2, id_d, c_class "
+    qr += " FROM brapci_rdf.rdf_data "
+    qr += " INNER JOIN brapci_rdf.rdf_concept ON id_cc = d_r2 "
+    qr += " inner join brapci_rdf.rdf_class ON cc_class = id_c"
+    qr += " LEFT JOIN brapci_thesa.thesa_concept ON c_brapci = d_r2 "
+    qr += " WHERE d_p = 67 and c_brapci is null and c_class = 'Subject' "
+    qr += " order by d_r2 limit 10"
     row = database.query(qr)
     for line in row:
-        term = line[1]
-        lang = line[2]
-        print("----------------")
-        print(term,lang)
-        translate(term,lang)
+        ID = line[0]
+        print("Processando ID",line)
+        IA_thesa2(ID)
+
+def IA_thesa2(ID):
+    # Termo da Brapci
+    qr = "SELECT n_name, n_lang, c_class FROM brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_class ON cc_class = id_c"
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where id_cc = {ID} and c_class = 'Subject' "
+    row = database.query(qr)
+    print("Dados do Subject",row)
+    IA_group_index(ID)
+
+def IA_create_group(ID):
+    qr = "SELECT n_name, n_lang FROM brapci_rdf.rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON id_n = cc_pref_term"
+    qr += f" where id_cc = {ID}"
+    row = database.query(qr)
+
+    lang = row[0][1]
+    TERM = row[0][0]
+
+    if lang == 'en':
+        termEN = TERM
+        termPT = mod_GoogleTranslate.translate(TERM,'pt')
+        termES = mod_GoogleTranslate.translate(TERM,'es')
+    if lang == 'es':
+        termES = TERM
+        termPT = mod_GoogleTranslate.translate(TERM,'pt')
+        termEN = mod_GoogleTranslate.translate(TERM,'en')
+    if lang == 'pt':
+        termPT = TERM
+        termEN = mod_GoogleTranslate.translate(TERM,'en')
+        termES = mod_GoogleTranslate.translate(TERM,'es')
+
+    # Termo original
+    IDen = thesa_local(termEN,'en')
+    IDpt = thesa_local(termPT,'pt')
+    IDes = thesa_local(termES,'es')
+    GRP = IDpt
+
+    conceptRegister(IDpt,GRP)
+    conceptRegister(IDen,GRP)
+    conceptRegister(IDes,GRP)
+
+    print("PT",termPT,IDpt)
+    findConceptBrapci(termPT,'pt')
+    print("EN",termEN,IDen)
+    findConceptBrapci(termEN,'en')
+    print("ES",termES,IDes)
+    findConceptBrapci(termES,'es')
+    print(termPT,IDpt)
+
+def IA_group_index(ID):
+    # Recupera o grupo de termos
+    qr = "Select c_brapci from brapci_thesa.thesa_concept "
+    qr += "inner join ( "
+    qr += f"SELECT c_group as groupN FROM brapci_thesa.thesa_concept WHERE c_brapci = {ID} "
+    qr += ") as tabela "
+    qr += "ON c_group = groupN "
+    row = database.query(qr)
+
+    if row == []:
+        print("Nao existe grupo")
+        IA_create_group(ID)
+        row = database.query(qr)
+        print("NOVO GRUPO",row)
+
+    if row == []:
+        print("ERRO - GRUPO VAZIO")
+        sys.exit()
+
+    condition = ''
+    for line in row:
+        if line[0] > 0:
+            if condition != '':
+                condition += ' or '
+            condition += f"(d_r2 = {line[0]})"
+
+    if condition == '':
+        print("ERRO - CONDIÇÃO VAZIA")
+        sys.exit()
+    qr = "SELECT d_r1, count(*) as total FROM brapci_rdf.rdf_data "
+    qr += f"WHERE d_p = 67 and ({condition}) "
+    qr += "group by d_r1;"
+
+    row2 = database.query(qr)
+    for line in row2:
+        IDC = line[0]
+        if (line[1] < 3):
+            print("IDC",IDC,line[1])
+            for IDliteral in row:
+                prop = 'hasSubject'
+                IDL = IDliteral[0]
+                IDliteral=0
+                ia = 5
+                mod_data.register(IDC,prop,IDL,IDliteral,ia)
 
 def translate(term,lang):
 
@@ -33,7 +132,7 @@ def translate(term,lang):
     if tID == []:
         print("Termo novo ",term,lang)
         thesa_local(term,lang)
-        sys.exit()
+        tID = find(term,lang)
 
     ID = tID[0]
     TERM = tID[1]
@@ -125,6 +224,7 @@ def findConceptBrapci(term,lang):
     qr = "select c_group, c_brapci, id_c from brapci_thesa.thesa_literal "
     qr += f" left join brapci_thesa.thesa_concept ON c_term = id_l"
     qr += f" where l_term = '{term}' and l_lang = '{lang}'"
+
     row = database.query(qr)
     if row != []:
         line = row[0]
@@ -165,6 +265,7 @@ def find(term,lang):
     return row
 
 def check_subject_thesa():
+    return True
     print("Check Subject - Thesa")
     IDClass = mod_class.getClass("Subject")
 
@@ -175,6 +276,16 @@ def check_subject_thesa():
     qr += f" where cc_class = {IDClass}"
     qr += " and id_l is null "
     qr += " order by n_name, id_cc"
+
+    qr = "SELECT id_cc, cc_use, n_name, n_lang "
+    qr += " FROM brapci_rdf.rdf_concept "
+    qr += " INNER JOIN brapci_rdf.rdf_literal ON id_n = cc_pref_term "
+    qr += " LEFT JOIN brapci_thesa.thesa_literal  "
+    qr += "   ON l_term COLLATE utf8mb4_unicode_ci = n_name COLLATE utf8mb4_unicode_ci "
+    qr += "      AND l_lang COLLATE utf8mb4_unicode_ci = n_lang COLLATE utf8mb4_unicode_ci "
+    qr += f" WHERE cc_class = {IDClass} "
+    qr += "   AND id_l IS NULL "
+    qr += " ORDER BY n_name COLLATE utf8mb4_unicode_ci, id_cc;"
     #qr += " limit 200 "
 
     row = database.query(qr)

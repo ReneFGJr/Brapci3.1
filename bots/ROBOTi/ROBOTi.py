@@ -34,6 +34,7 @@ import mod_backup_mysql
 import mod_thesa
 import mod_gender
 import mod_person
+import mod_statistics
 import socket
 from colorama import Fore
 
@@ -138,6 +139,9 @@ def run(parm):
     if (act == '120'):
         lp = mod_ontology.resume()
 
+    if (act == 'statistics'):
+        mod_statistics.get_statistics()
+
     if (act == 'doi'):
         mod_cited.locate()
         mod_cited.cited()
@@ -150,9 +154,6 @@ def run(parm):
         mod_cited.categorizeBook()
         mod_cited.categorizeYear()
         #mod_cited.categorizeCited()
-
-    if (act == 'thesa'):
-        mod_thesa.check_subject_thesa()
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
@@ -185,6 +186,7 @@ def run(parm):
 
         mod_dataset.check_duplicate()
         mod_dataset.check_pbci()
+        mod_subject.check_subject_sql()
         mod_subject.check_duplicate()
         mod_subject.removeOrfa()
 
@@ -244,6 +246,9 @@ def run(parm):
         mod_elasticsearch.reindex()
     if (act == '182'):
         mod_thesa.IA_thesa()
+    if (act == 'thesa'):
+        mod_thesa.IA_thesa()
+        mod_thesa.check_subject_thesa()
     if (act == '183'):
         mod_elasticsearch.remove_editorial()
     if (act == '184'):
@@ -264,6 +269,7 @@ def run(parm):
 
     ################### Subject
     if (act == '210'):
+        lp = mod_subject.check_subject_sql()
         lp = mod_subject.check_duplicate()
     if (act == '211'):
         lp = mod_subject.check_remissiva()

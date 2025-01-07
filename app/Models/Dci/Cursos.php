@@ -60,8 +60,8 @@ class Cursos extends Model
             $sx = '';
 
             $mn = [];
-            $mn['Departamento'] = PATH . '/dci/';
-            $mn['Cursos'] = PATH . '/dci/cursos/';
+            $mn['Departamento'] = base_url('/dci/');
+            $mn['Cursos'] = base_url('/dci/cursos/');
             $sx .= breadcrumbs($mn);
 
             switch($d1)

@@ -276,13 +276,15 @@ def get(rg):
         url = url2
     ID = rg[0]
     urlIssue = str(rg[9])
+    type = rg[11]
 
     substring = "http"
 
     print("==substring==",substring)
     print("==urlIssue==",urlIssue)
+    print("==Collection==",type)
 
-    if substring in urlIssue:
+    if (type == 'EV'):
         url = urlIssue
 
     LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify

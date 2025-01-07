@@ -200,9 +200,12 @@ return [
         'issues' => 'Fascículos',
         'Journal' => 'Publicação',
         'book_status_0' => 'Submetidos',
-        '' => '',
-
-
-
-
+        'ITEM_Article' => 'Total de artigos',
+        'ITEM_Book' => 'Total de livros',
+        'ITEM_BookChapter' => 'Total de capítulos de livros',
+        'ITEM_Proceeding' => 'Total de trabalhos em eventos',
+        'ITEM_CorporateBody' => 'Total de instituições',
+        'ITEM_FileStorage' => 'Total de arquivos',
+        'ITEM_Person' => 'Total de autores',
+        'ITEM_Journals' => 'Total de fontes',
 ];

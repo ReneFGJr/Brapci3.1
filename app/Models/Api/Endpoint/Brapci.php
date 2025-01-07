@@ -64,6 +64,9 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'statistics':
+                $RSP['statistics'] = $this->statistics();
+                break;
             case 'activities':
                 $View = new \App\Models\Functions\Views();
                 $View->getActivities($d2);
@@ -678,4 +681,33 @@ class Brapci extends Model
         $RSP['ABNT'] = $dt;
         return $RSP;
     }
+
+    function statistics()
+        {
+            $qr = "select ind_name, ind_total, ind_update from brapci.statistics";
+            $dt = $this->query($qr)->getResultArray();
+            $dr = [];
+            $data = date("Y-m-d");
+            foreach($dt as $id => $line)
+                {
+                    $dd = [];
+                    if (sonumero($line['ind_total']) == $line['ind_total'])
+                        {
+                            $dd['name'] = lang('brapci.'.$line['ind_name']);
+                            $dd['total'] = number_format($line['ind_total'],0,',','.');
+                        } else {
+                            $dd['name'] = lang('brapci.' . $line['ind_name']);
+                            $dd['total'] = $line['ind_total'];
+                        }
+                    $data = $line['ind_update'];
+                    $data = substr($data,0,10);
+                    array_push($dr,$dd);
+
+                }
+            $dd = [];
+            $dd['data'] = $dr;
+            $dd['update'] = $data;
+            echo json_encode($dd);
+            exit;
+        }
 }

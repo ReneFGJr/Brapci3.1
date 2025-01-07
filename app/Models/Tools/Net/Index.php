@@ -125,6 +125,14 @@ class Index extends Model
                 $RSP['response'] = $this->execPython('txt4net',$arg);
                 $RSP['url'] = PATH.'/download/temp/'.$d2.'/'.get("fileO").'.net';
                 break;
+            case 'term4net':
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['file'] = get("file");
+                $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
+                $RSP['response'] = $this->execPython('term4net', $arg);
+                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . get("fileO") . '.net';
+                break;
             default:
                 $RSP = [];
                 $RSP['status'] = '400';

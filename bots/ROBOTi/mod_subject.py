@@ -94,6 +94,8 @@ def process(ID):
                 print("    RDF",ID,prop,IDbrapci)
                 mod_data.register(ID,prop,IDbrapci,0,1)
 
+                mod_thesa.IA_thesa2(IDbrapci)
+
     print("#FIM#")
     sys.exit()
 
@@ -116,6 +118,24 @@ def register_literal(IDC,term,lg):
 
     IDCt = mod_concept.register(IDClass,IDliteral)
     return mod_data.register(IDC,'hasSubject',IDCt)
+
+def check_subject_sql():
+    qr = "select * from ( "
+    qr += " SELECT n_name, n_lang, max(id_cc) as max, min(id_cc) as min, cc_class, count(*) as total "
+    qr += " FROM brapci_rdf. rdf_concept "
+    qr += " inner join brapci_rdf.rdf_literal ON `cc_pref_term` = id_n "
+    qr += " where cc_use = id_cc and cc_class = 65 and n_name != '' "
+    qr += " group by n_name, n_lang, cc_class "
+    qr += " ) as tabela "
+    qr += " where total > 1"
+    row = database.query(qr)
+    for reg in row:
+        IDuse = reg[3]
+        IDc = reg[2]
+
+        qu = f"update brapci_rdf.rdf_concept set cc_use = {IDuse} where id_cc = {IDc}"
+        database.update(qu)
+        print("...Corrigido (termo duplicado)",IDc,IDuse)
 
 def check_duplicate():
     print("Check Duplicate - Subject")
