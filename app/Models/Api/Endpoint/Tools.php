@@ -65,7 +65,7 @@ class Tools extends Model
                     $RSP = $Monitor->checkIP();
                     echo json_encode($RSP);
                     exit;
-                case 'bookSubmit':
+                case 'upload':
                     echo json_encode(array_merge($_FILES,$_POST));
                     exit;
                     $Mark = new \App\Models\AI\NLP\Book\Sumary();
