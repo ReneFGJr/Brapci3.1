@@ -12,6 +12,7 @@ def harvestingPDF():
     qr = "select ID from brapci_elastic.dataset "
     qr += " where "
     qr += "(CLASS = 'Article' or CLASS='Proceeding')"
+    qr += " and PDF = 0 "
     qr += " order by ID DESC "
     qr += " limit 1"
     row = database.query(qr)
@@ -32,6 +33,10 @@ def existPDF(ID):
         return False
     else:
         return True
+
+def updatePDFdataset(ID,status):
+    qu = "update brapci_elastic from dataset "
+    qu += " ser "
 
 def getPDF(ID):
     print("Analisando ",ID)
