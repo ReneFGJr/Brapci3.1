@@ -115,6 +115,7 @@ def downloadPDF(url,ID):
     filename = fileName(ID)
     output_path = '../../public/'+filename
     try:
+        print(" ")
         print(f"Baixando ...: {ID}, {url}")
         response = requests.get(url, stream=True)
         response.raise_for_status()  # Verifica se houve algum erro no download
