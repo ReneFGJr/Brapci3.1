@@ -43,6 +43,7 @@ def updatePDFdataset(ID,status):
     database.update(qu)
 
 def download_methods(row):
+    linkPDF = ''
     link = row[0]
     ID = row[1]
     print("LINK",link)
@@ -66,11 +67,12 @@ def download_methods(row):
             print("OK1")
             pattern = r'https?://[^\\s"]*article/download/[^\\s"]*'
             links = re.findall(pattern, oTXT)
-            print("=======",links)
-
+            if links != []:
+                linkPDF = links[0]
         else:
             #updatePDFdataset(ID,-1)
             print("SKIP")
+        print("PDF LINK",linkPDF)
 
 
 def read_link(url, decode=False):
