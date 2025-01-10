@@ -20,8 +20,6 @@ def harvestingPDF():
     qr += " limit 10"
     row = database.query(qr)
 
-    print(row)
-
     for line in row:
         ID = line[0]
         getPDF(ID)
@@ -117,7 +115,7 @@ def downloadPDF(url,ID):
     filename = fileName(ID)
     output_path = '../../public/'+filename
     try:
-        print(f"Baixando ...: {url}")
+        print(f"Baixando ...: {ID}, {url}")
         response = requests.get(url, stream=True)
         response.raise_for_status()  # Verifica se houve algum erro no download
 
