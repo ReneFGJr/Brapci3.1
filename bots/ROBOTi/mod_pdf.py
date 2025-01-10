@@ -66,6 +66,7 @@ def download_methods(row):
             print("OK1")
         else:
             #updatePDFdataset(ID,-1)
+            print("SKIP")
 
 
 def read_link(url, decode=False):
