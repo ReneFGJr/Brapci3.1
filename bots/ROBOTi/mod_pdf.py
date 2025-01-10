@@ -23,6 +23,7 @@ def harvestingPDF():
     return ""
 
 def getPDF(ID):
+    print("Analisando ",ID)
     row = mod_concept.le(ID)
     prop = mod_class.getClass("hasFileStorage")
     qr = "select n_name, n_lang from brapci_rdf.rdf_data "
