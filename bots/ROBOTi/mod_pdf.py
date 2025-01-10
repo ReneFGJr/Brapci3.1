@@ -51,6 +51,7 @@ def getPDF(ID):
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n "
     qr += f" where d_r1 = {ID} and (d_p = {prop1} OR d_p = {prop2})"
+    print(qr)
     row = database.query(qr)
 
 
