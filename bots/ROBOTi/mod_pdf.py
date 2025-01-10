@@ -63,7 +63,6 @@ def download_methods(row):
 
     methodo = ''
     if 'article/view' in link:
-        print("... article/view")
         oTXT = read_link(link)
 
         #************************* citation_pdf_url
@@ -115,7 +114,6 @@ def download_methods(row):
         updatePDFdataset(ID,1)
         return False
     else:
-        print("PDF não encontrado")
         return True
 
 def fileName(ID):
