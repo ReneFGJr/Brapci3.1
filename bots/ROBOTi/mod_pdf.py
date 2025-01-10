@@ -10,9 +10,10 @@ import re
 import mod_literal
 import sys
 import urllib.parse
+import subprocess
 
 def harvestingPDF():
-    limit = 50
+    limit = 1
     print(f"Início da coleta de PDF -  {limit} registros")
     qr = "select ID from brapci_elastic.dataset "
     qr += " where "
@@ -64,7 +65,10 @@ def download_methods(row):
 
     methodo = ''
     if 'article/view' in link:
-        oTXT = read_link(link)
+        if ('revistas.ufpr.br' in link):
+            oTXT = read_link_curl(link)
+        else:
+            oTXT = read_link(link)
 
         #************************* citation_pdf_url
         if 'citation_pdf_url' in oTXT:
@@ -130,7 +134,7 @@ def download_methods(row):
         updatePDFdataset(ID,1)
         return False
     else:
-        updatePDFdataset(ID,-1)
+        #updatePDFdataset(ID,-1)
         return True
 
 def fileName(ID):
@@ -165,10 +169,27 @@ def downloadPDF(url,ID):
         print(f"### Erro ao baixar o arquivo: {e}",output_path)
         return ""
 
+def read_link_curl(url):
+    command = [
+    "curl",
+    "-X", "OPTIONS",
+    "-i",  # Para incluir os cabeçalhos na resposta
+    url
+    ]
+
+    # Executar o comando CURL
+    try:
+        result = subprocess.run(command, text=True, capture_output=True, check=True)
+        print("Saída do comando:")
+        print(result.stdout)  # Exibe a saída do comando
+    except subprocess.CalledProcessError as e:
+        print("Erro ao executar o comando:")
+        print(e.stderr)  # Exibe a mensagem de erro
+
 def read_link(url, decode=False):
     try:
-        #response = requests.get(url, timeout=10, verify=False)  # Timeout de 10 segundos
-        response = requests.post(url, timeout=10, verify=False)  # Timeout de 10 segundos
+        response = requests.get(url, timeout=10, verify=False)  # Timeout de 10 segundos
+
         response.raise_for_status()  # Levanta exceção se o status da resposta não for 200
         content = response.text
         if decode:
