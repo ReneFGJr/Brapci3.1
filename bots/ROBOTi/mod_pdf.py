@@ -77,6 +77,9 @@ def download_methods(row):
     if (linkPDF != ''):
         fileDownload = downloadPDF(linkPDF,ID)
 
+        if fileDownload == "":
+            return True
+
         # Cria valor literal
         IDn = mod_literal.register(fileDownload,'nn')
         IDClass = mod_class.getClass("FileStorage")
@@ -112,12 +115,13 @@ def fileName(ID):
     return full_path
 
 def downloadPDF(url,ID):
+    timeout = 60
     filename = fileName(ID)
     output_path = '../../public/'+filename
     try:
         print(" ")
         print(f"Baixando ...: {ID}, {url}")
-        response = requests.get(url, stream=True)
+        response = requests.get(url, stream=True, timeout=timeout)
         response.raise_for_status()  # Verifica se houve algum erro no download
 
         # Cria os diretórios se não existirem
