@@ -82,7 +82,7 @@ def download_methods(row):
 
             if linkPDF == '' and 'obj_galley_link file' in oTXT:
                 methodo = 'obj_galley_link'
-                pattern = r'href="([^"]*?)"'
+                pattern = r'<a\s+class="obj_galley_link file"\s+href="([^"]+)"'
                 links = re.findall(pattern, oTXT)
                 if links != []:
                     linkPDF = links[0]
