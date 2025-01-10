@@ -158,8 +158,6 @@ def downloadPDF(url,ID):
 
         if ('revistas.ufpr.br' in url):
             chuck = read_link_curl(url)
-            print(chuck)
-            sys.exit()
             with open(output_path, 'wb') as file:
                 file.write(file.write(chunk))
         else:
