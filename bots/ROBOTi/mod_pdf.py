@@ -58,13 +58,13 @@ def download_methods(row):
     else:
         link = link.replace('http://','https://')
 
-
+    methodo = ''
     if 'article/view' in link:
         oTXT = read_link(link)
 
         #************************* citation_pdf_url
         if 'citation_pdf_url' in oTXT:
-            print("OK1")
+            methodo = 'citation_pdf_url'
             pattern = r'https?://[^\\s"]*article/download/[^\\s"]*'
             links = re.findall(pattern, oTXT)
             if links != []:
@@ -89,6 +89,7 @@ def download_methods(row):
         print("... ID         : ",ID)
         print("... Link       : ",linkPDF)
         print("... Filename   : ",fileDownload)
+        print("... Methodo    : ",methodo)
         print("... ID Class   : ",IDClass)
         print("... ID literal : ",IDn)
         print("... ID concept : ",IDc)
