@@ -147,7 +147,7 @@ def downloadPDF(url,ID):
     try:
         print(" ")
         print(f"Baixando ...: {ID}, {url}")
-        response = requests.get(url, stream=True, timeout=timeout)
+        response = requests.get(url, stream=True, timeout=timeout, verify=False)
         response.raise_for_status()  # Verifica se houve algum erro no download
 
         # Cria os diretórios se não existirem
