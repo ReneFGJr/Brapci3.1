@@ -87,6 +87,7 @@ def download_methods(row):
         IDc = mod_concept.register(IDClass,IDn)
 
         print("==========================================")
+        print("... ID         : ",ID)
         print("... Filename   : ",linkPDF)
         print("... ID Class   : ",IDClass)
         print("... ID literal : ",IDn)
