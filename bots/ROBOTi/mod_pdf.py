@@ -75,7 +75,6 @@ def download_methods(row):
 
 
     if (linkPDF != ''):
-        print("PDF LINK",linkPDF)
         fileDownload = downloadPDF(linkPDF,ID)
 
         # Cria valor literal
@@ -116,7 +115,7 @@ def downloadPDF(url,ID):
     filename = fileName(ID)
     output_path = '../../public/'+filename
     try:
-        print(f"Baixando: {url}")
+        print(f"Baixando ...: {url}")
         response = requests.get(url, stream=True)
         response.raise_for_status()  # Verifica se houve algum erro no download
 
@@ -129,10 +128,9 @@ def downloadPDF(url,ID):
                 if chunk:  # Apenas escreve se houver conteúdo
                     file.write(chunk)
 
-        print(f"Arquivo salvo em: {output_path}")
         return filename
     except requests.RequestException as e:
-        print(f"Erro ao baixar o arquivo: {e}")
+        print(f"### Erro ao baixar o arquivo: {e}",output_path)
         return ""
 
 def read_link(url, decode=False):
