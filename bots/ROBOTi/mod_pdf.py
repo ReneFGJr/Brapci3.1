@@ -57,16 +57,6 @@ def download_methods(row):
         print(oTXT)
 
 def read_link(url, decode=False):
-    """
-    Lê o conteúdo de uma URL.
-
-    Args:
-        url (str): A URL a ser lida.
-        decode (bool): Se True, decodifica o conteúdo em unicode escape (útil para caracteres especiais).
-
-    Returns:
-        str: O conteúdo da página web ou uma string vazia em caso de erro.
-    """
     try:
         response = requests.get(url, timeout=10)  # Timeout de 10 segundos
         response.raise_for_status()  # Levanta exceção se o status da resposta não for 200
@@ -90,12 +80,12 @@ def getPDF(ID):
     qr = "select n_name, d_r1 from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n "
     qr += f" where d_r1 = {ID} and (d_p = {prop1} OR d_p = {prop2})"
-    print(qr)
+
     row = database.query(qr)
 
 
     print("=====================")
-    print(row)
+    download_methods(row)
 
 
 
