@@ -558,6 +558,10 @@ class Index extends Model
                             ->orderby("ID DESC")
                             ->findAll(5);
 
+                        $sx .= '<br>';
+                        $sx .= '<br>';
+                        $sx .= '<br>';
+
                         foreach($dt as $id=>$line)
                             {
                             $url = 'https://cip.brapci.inf.br//download/'.$line['ID'];
