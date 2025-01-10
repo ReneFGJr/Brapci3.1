@@ -80,9 +80,6 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
                 linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
-            print(linkPDF)
-            sys.exit()
-            print("S")
         else:
             print(link)
             print("SKIP")
@@ -118,6 +115,7 @@ def download_methods(row):
         updatePDFdataset(ID,1)
         return False
     else:
+        print("PDF não encontrado")
         return True
 
 def fileName(ID):
