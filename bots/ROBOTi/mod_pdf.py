@@ -47,7 +47,6 @@ def download_methods(row):
     linkPDF = ''
     link = row[0]
     ID = row[1]
-    print("LINK",link)
 
     link = link.replace('/XIXENANCIB/','/XIX_ENANCIB/')
     link = link.replace('/xviiienancib/','/XVIII_ENANCIB/')
@@ -88,6 +87,7 @@ def download_methods(row):
 
         print("==========================================")
         print("... ID         : ",ID)
+        print("... Link       : ",linkPDF)
         print("... Filename   : ",fileDownload)
         print("... ID Class   : ",IDClass)
         print("... ID literal : ",IDn)
@@ -147,10 +147,9 @@ def read_link(url, decode=False):
         return ""
 
 def getPDF(ID):
-    print("Analisando ",ID)
     ePDF = existPDF(ID)
     if ePDF:
-        print("PDF já existe")
+        print(ID," ... PDF já existe")
         return ""
 
     prop1 = mod_class.getClass("hasRegisterId")
