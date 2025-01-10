@@ -93,8 +93,8 @@ def download_methods(row):
         print("... ID concept : ",IDc)
 
         # Associa o FileStorage ao Trabalho
-        IDprop = mod_class.getClass("hasFileStorage")
-        mod_data.register(ID,IDprop,IDc,0)
+        #IDprop = mod_class.getClass("hasFileStorage")
+        mod_data.register(ID,"hasFileStorage",IDc,0)
 
         #Atualiza sistema
         updatePDFdataset(ID,1)
