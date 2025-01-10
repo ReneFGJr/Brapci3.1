@@ -9,7 +9,7 @@ import mod_literal
 import mod_GoogleTranslate
 
 def harvestingPDF():
-    qr = "select * from brapci_elastic.dataset "
+    qr = "select ID from brapci_elastic.dataset "
     qr += " where "
     qr += "(CLASS = 'Article' or CLASS='Proceeding')"
     qr += " order by ID DESC "
