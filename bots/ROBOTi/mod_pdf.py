@@ -4,7 +4,7 @@ import os
 import database
 import mod_data
 import mod_class
-import mod_concept
+import requests
 import mod_literal
 import mod_GoogleTranslate
 
@@ -37,6 +37,46 @@ def existPDF(ID):
 def updatePDFdataset(ID,status):
     qu = "update brapci_elastic from dataset "
     qu += " ser "
+
+def download_methods(row):
+    link = row[0]
+
+    link = link.replace('/XIXENANCIB/','/XIX_ENANCIB/')
+    link = link.replace('/xviiienancib/','/XVIII_ENANCIB/')
+    link = link.replace('http://www.periodicos.ufpb.br/ojs/','https://www.pbcib.com/')
+    link = link.replace('//seer.ufs.br/index.php/','//periodicos.ufs.br/')
+
+    if ('rev-ib.unam.mx' in link):
+        link = link
+    else:
+        link = link.replace('http://','https://')
+
+    print("LINK",link)
+    if 'article/view' in link:
+        oTXT = read_link(link)
+        print(oTXT)
+
+def read_link(url, decode=False):
+    """
+    Lê o conteúdo de uma URL.
+
+    Args:
+        url (str): A URL a ser lida.
+        decode (bool): Se True, decodifica o conteúdo em unicode escape (útil para caracteres especiais).
+
+    Returns:
+        str: O conteúdo da página web ou uma string vazia em caso de erro.
+    """
+    try:
+        response = requests.get(url, timeout=10)  # Timeout de 10 segundos
+        response.raise_for_status()  # Levanta exceção se o status da resposta não for 200
+        content = response.text
+        if decode:
+            return content.encode('utf-8').decode('unicode_escape')
+        return content
+    except requests.RequestException as e:
+        print(f"Erro ao acessar a URL: {e}")
+        return ""
 
 def getPDF(ID):
     print("Analisando ",ID)
