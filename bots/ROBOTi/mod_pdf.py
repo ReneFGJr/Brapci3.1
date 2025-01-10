@@ -22,10 +22,30 @@ def harvestingPDF():
     print("Fim da coleta de PDF")
     return ""
 
+def existPDF(ID):
+    prop = mod_class.getClass("hasFileStorage")
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
+    qr += f" where d_r1 = {ID} and d_p = {prop}"
+    row = database.query(qr)
+    if row == []:
+        return False
+    else:
+        return True
+
 def getPDF(ID):
     print("Analisando ",ID)
+    ePDF = existPDF(ID)
+    if ePDF:
+        print("PDF já existe")
+        return ""
+
     row = mod_concept.le(ID)
-    prop = mod_class.getClass("hasFileStorage")
+    print(row)
+
+
+
+
     qr = "select n_name, n_lang from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_rdf.rdf_class ON cc_class = id_c "
