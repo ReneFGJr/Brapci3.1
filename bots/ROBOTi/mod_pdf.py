@@ -157,7 +157,9 @@ def downloadPDF(url,ID):
         print(f"Baixando ...: {ID}, {url}")
 
         if ('revistas.ufpr.br' in url):
-            chuck = read_link_curl(url)
+            chunk = read_link_curl(url)
+            print(chunk)
+            sys.exit()
             with open(output_path, 'wb') as file:
                 file.write(file.write(chunk))
         else:
