@@ -99,6 +99,9 @@ def download_methods(row):
 
         #Atualiza sistema
         updatePDFdataset(ID,1)
+        return False
+    else:
+        return True
 
 def fileName(ID):
     work_number = 0
@@ -158,13 +161,11 @@ def getPDF(ID):
 
     row = database.query(qr)
 
-
-    print("=====================")
+    loop = True
     for line in row:
-        download_methods(line)
-
-
-
+        if loop:
+            loop = download_methods(line)
+    return loop
 
 def convert(ID):
     prop = mod_class.getClass("hasFileStorage")
