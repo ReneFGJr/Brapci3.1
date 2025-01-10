@@ -72,7 +72,7 @@ def download_methods(row):
                 linkPDF = links[0]
         elif 'article/download' in oTXT:
             methodo = 'citation_pdf_url'
-            pattern = r'https?://[^\\s"]*article/download/[^\\s"]*'
+            pattern = r'https?://[^\\s"]*download[^\\s"]*'
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
