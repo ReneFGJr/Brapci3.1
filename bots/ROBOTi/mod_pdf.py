@@ -45,11 +45,12 @@ def getPDF(ID):
         print("PDF já existe")
         return ""
 
-    prop = mod_class.getClass("hasRegisterId")
+    prop1 = mod_class.getClass("hasRegisterId")
+    prop2 = mod_class.getClass("hasUrl")
     qr = "select * from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_literal ON cc_pref_term = id_n "
-    qr += f" where d_r1 = {ID} and d_p = {prop}"
+    qr += f" where d_r1 = {ID} and (d_p = {prop1} OR d_p = {prop2})"
     row = database.query(qr)
 
 
