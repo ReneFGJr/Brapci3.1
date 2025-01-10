@@ -72,8 +72,14 @@ def download_methods(row):
         else:
             #updatePDFdataset(ID,-1)
             print("SKIP")
+
+
+    if (linkPDF != ''):
+        downloadPDF(linkPDF,ID)
         print("PDF LINK",linkPDF)
 
+def downloadPDF(linkPDF,ID):
+    print("Carregando PDF")
 
 def read_link(url, decode=False):
     try:
