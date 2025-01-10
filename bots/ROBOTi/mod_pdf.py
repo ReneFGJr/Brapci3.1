@@ -76,6 +76,7 @@ def download_methods(row):
             methodo = 'pdfJsViewer'
             pattern = r'file=(https%3A%2F%2F.+?)"'
             links = re.findall(pattern, oTXT)
+            print(oTXT)
             if links != []:
                 linkPDF = links[0]
                 linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
