@@ -4,6 +4,7 @@ import os
 import database
 import mod_data
 import mod_class
+import mod_concept
 import requests
 import re
 import mod_literal
@@ -75,11 +76,24 @@ def download_methods(row):
 
 
     if (linkPDF != ''):
-        downloadPDF(linkPDF,ID)
         print("PDF LINK",linkPDF)
+        fileDownload = downloadPDF(linkPDF,ID)
+
+        # Cria valor literal
+        Class = "FileStorage"
+        #mod_concept.register(idClass,idLiteral)
+
+def fileName(ID):
+    work_number = 0
+    id_str = f"{ID:08d}"
+    subdirectories = f"{id_str[:2]}/{id_str[2:4]}/{id_str[4:6]}/{id_str[6:]}"
+    file_name = f"work_{id_str}#{work_number:05d}.pdf"
+    full_path = os.path.join(subdirectories, file_name)
+    return full_path
 
 def downloadPDF(url,ID):
-    output_path = '../../.tmp/pdf_temp.pdf'
+    filename = fileName(ID)
+    output_path = '../../.tmp/'+filename
     try:
         print(f"Baixando: {url}")
         response = requests.get(url, stream=True)
@@ -92,9 +106,10 @@ def downloadPDF(url,ID):
                     file.write(chunk)
 
         print(f"Arquivo salvo em: {output_path}")
-
+        return output_path
     except requests.RequestException as e:
         print(f"Erro ao baixar o arquivo: {e}")
+        return ""
 
 def read_link(url, decode=False):
     try:
