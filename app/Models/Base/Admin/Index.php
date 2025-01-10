@@ -548,7 +548,7 @@ class Index extends Model
                         }
 
                         $Elastic = new \App\Models\ElasticSearch\Register();
-                        $sx .= h("OFFSET:".$d2,1);
+                        $sx .= h("OFFSET:".$d2,4);
 
                         $dt = $Elastic
                             ->select("ID")
@@ -556,11 +556,16 @@ class Index extends Model
                             ->where('ID < '.$d2)
                             ->where('(CLASS = "Article" or CLASS="Proceeding")')
                             ->orderby("ID DESC")
-                            ->findAll(5);
+                            ->findAll(1);
 
                         $sx .= '<br>';
                         $sx .= '<br>';
                         $sx .= '<br>';
+                        if (isset($dt[0]))
+                            {
+                                $sx .= '<DIV>ID: ' . $dt[0]['ID'] . '</DIV>';
+                            }
+
 
                         foreach($dt as $id=>$line)
                             {
