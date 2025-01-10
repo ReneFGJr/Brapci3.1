@@ -144,7 +144,7 @@ def run(parm):
         mod_statistics.get_statistics()
 
     if (act == 'pdf'):
-        mod_pdf.harvestingPDF(328794)
+        mod_pdf.harvestingPDF()
 
     if (act == 'doi'):
         mod_cited.locate()
