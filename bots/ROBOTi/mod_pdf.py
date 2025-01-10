@@ -65,7 +65,9 @@ def download_methods(row):
         if 'citation_pdf_url' in oTXT:
             print("OK1")
             pattern = r'https?://[^\\s"]*article/download/[^\\s"]*'
-            print(re.findall(pattern, oTXT))
+            links = re.findall(pattern, oTXT)
+            print("=======",links)
+
         else:
             #updatePDFdataset(ID,-1)
             print("SKIP")
