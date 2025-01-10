@@ -29,6 +29,7 @@ import mod_section
 import database
 import mod_concept
 import mod_cited
+import mod_pdf
 import mod_proceeding
 import mod_backup_mysql
 import mod_thesa
@@ -141,6 +142,9 @@ def run(parm):
 
     if (act == 'statistics'):
         mod_statistics.get_statistics()
+
+    if (act == 'pdf'):
+        mod_pdf.harvestingPDF(328794)
 
     if (act == 'doi'):
         mod_cited.locate()
