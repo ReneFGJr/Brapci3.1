@@ -160,6 +160,8 @@ def downloadPDF(url,ID):
             chunk = read_link_curl(url)
             with open(output_path, 'wb') as file:
                 file.write(file.write(chunk))
+            print(filename)
+            sys.exit()
         else:
             response = requests.get(url, stream=True, timeout=timeout, verify=False)
             response.raise_for_status()  # Verifica se houve algum erro no download
