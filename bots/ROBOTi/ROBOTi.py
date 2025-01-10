@@ -143,7 +143,6 @@ def run(parm):
     if (act == 'statistics'):
         mod_statistics.get_statistics()
 
-    print("ACT",act)
     if (act == 'pdf'):
         mod_pdf.harvestingPDF()
 
