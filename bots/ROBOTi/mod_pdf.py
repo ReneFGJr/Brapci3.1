@@ -36,10 +36,13 @@ def existPDF(ID):
 
 def updatePDFdataset(ID,status):
     qu = "update brapci_elastic from dataset "
-    qu += " ser "
+    qu += f" set PDF = {status} "
+    qu += f" where ID = {ID} "
+    database.update(qu)
 
 def download_methods(row):
     link = row[0]
+    ID = row[1]
     print("LINK",link)
 
     link = link.replace('/XIXENANCIB/','/XIX_ENANCIB/')
@@ -56,6 +59,13 @@ def download_methods(row):
     if 'article/view' in link:
         oTXT = read_link(link)
         print(oTXT)
+
+        #************************* citation_pdf_url
+        if 'citation_pdf_url' in oTXT:
+            print("OK1")
+        else:
+            updatePDFdataset(ID,-1)
+
 
 def read_link(url, decode=False):
     try:
