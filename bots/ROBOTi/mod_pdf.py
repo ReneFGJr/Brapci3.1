@@ -22,8 +22,6 @@ def harvestingPDF():
     qr += " limit 10"
     row = database.query(qr)
 
-    print(row)
-
     for line in row:
         ID = line[0]
         getPDF(ID)
@@ -164,6 +162,7 @@ def read_link(url, decode=False):
         return ""
 
 def getPDF(ID):
+    print("Processando coleta PDF ",ID)
     ePDF = existPDF(ID)
     if ePDF:
         print(ID," ... PDF já existe")
