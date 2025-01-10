@@ -79,7 +79,7 @@ def download_methods(row):
         print("PDF LINK",linkPDF)
 
 def downloadPDF(linkPDF,ID):
-    print("Carregando PDF")
+    print("Carregando PDF",ID,linkPDF)
 
 def read_link(url, decode=False):
     try:
