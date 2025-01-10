@@ -73,6 +73,14 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
 
+        if linkPDF == '' and 'citation_pdf_url' in oTXT:
+            methodo = 'citation_pdf_url'
+            pattern = r'<meta\s+name="citation_pdf_url"\s+content="([^"]+)"'
+            links = re.findall(pattern, oTXT)
+            if links != []:
+                linkPDF = links[0]
+
+
         # Download
         if linkPDF == '' and 'download' in oTXT:
             methodo = 'pdfJsViewer'
@@ -121,7 +129,7 @@ def download_methods(row):
         updatePDFdataset(ID,1)
         return False
     else:
-        updatePDFdataset(ID,-1)
+        #updatePDFdataset(ID,-1)
         return True
 
 def fileName(ID):
