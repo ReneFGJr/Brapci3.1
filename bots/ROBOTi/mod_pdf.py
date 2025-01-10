@@ -72,21 +72,25 @@ def download_methods(row):
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
-        elif 'download' in oTXT:
+
+        # Download
+        if linkPDF == '' and 'download' in oTXT:
             methodo = 'pdfJsViewer'
             pattern = r'file=(https%3A%2F%2F.+?)"'
             links = re.findall(pattern, oTXT)
+            print("*"*50)
             print(oTXT)
             if links != []:
                 linkPDF = links[0]
                 linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
 
-            if linkPDF == '' and 'obj_galley_link file' in oTXT:
-                methodo = 'obj_galley_link'
-                pattern = r'<a\s+class="obj_galley_link file"\s+href="([^"]+)"'
-                links = re.findall(pattern, oTXT)
-                if links != []:
-                    linkPDF = links[0]
+        # Download
+        if linkPDF == '' and 'obj_galley_link file' in oTXT:
+            methodo = 'obj_galley_link'
+            pattern = r'<a\s+class="obj_galley_link file"\s+href="([^"]+)"'
+            links = re.findall(pattern, oTXT)
+            if links != []:
+                linkPDF = links[0]
 
 
     if (linkPDF != ''):
