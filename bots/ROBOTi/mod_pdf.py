@@ -79,6 +79,12 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
                 linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
+        elif 'obj_galley_link file' in oTXT:
+            methodo = 'obj_galley_link'
+            pattern = r'href="([^"]*?)"'
+            links = re.findall(pattern, oTXT)
+            if links != []:
+                linkPDF = links[0]
         else:
             print(link)
             print("SKIP")
