@@ -72,6 +72,7 @@ def download_methods(row):
                 linkPDF = links[0]
         else:
             #updatePDFdataset(ID,-1)
+            print(link)
             print("SKIP")
 
 
