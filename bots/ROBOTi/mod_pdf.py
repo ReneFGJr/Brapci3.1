@@ -47,7 +47,7 @@ def getPDF(ID):
 
     prop1 = mod_class.getClass("hasRegisterId")
     prop2 = mod_class.getClass("hasUrl")
-    qr = "select * from brapci_rdf.rdf_data "
+    qr = "select n_name, d_r1 from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_literal ON d_literal = id_n "
     qr += f" where d_r1 = {ID} and (d_p = {prop1} OR d_p = {prop2})"
     print(qr)
