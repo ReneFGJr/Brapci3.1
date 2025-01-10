@@ -38,7 +38,7 @@ def existPDF(ID):
         return True
 
 def updatePDFdataset(ID,status):
-    qu = "update brapci_elastic from dataset "
+    qu = "update brapci_elastic.dataset "
     qu += f" set PDF = {status} "
     qu += f" where ID = {ID} "
     database.update(qu)
@@ -110,7 +110,7 @@ def fileName(ID):
 
 def downloadPDF(url,ID):
     filename = fileName(ID)
-    output_path = '../../'+filename
+    output_path = '../../public/'+filename
     try:
         print(f"Baixando: {url}")
         response = requests.get(url, stream=True)
