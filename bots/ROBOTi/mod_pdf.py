@@ -33,6 +33,8 @@ def getPDF(ID):
     qr += f" where d_r1 = {ID} and d_p = {prop}"
     row = database.query(qr)
 
+    print(row)
+
 
 def convert(ID):
     prop = mod_class.getClass("hasFileStorage")
