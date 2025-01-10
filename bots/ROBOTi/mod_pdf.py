@@ -81,7 +81,9 @@ def download_methods(row):
 
         # Cria valor literal
         IDn = mod_literal.register(fileDownload,'nn')
-        Class = "FileStorage"
+        IDClass = mod_class.getClass("FileStorage")
+
+        print("... ID Class ",IDClass)
         print("... ID literal ",IDn)
         #mod_concept.register(idClass,idLiteral)
 
