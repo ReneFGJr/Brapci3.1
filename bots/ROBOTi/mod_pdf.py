@@ -8,7 +8,7 @@ import mod_concept
 import requests
 import re
 import mod_literal
-import mod_GoogleTranslate
+import sys
 
 def harvestingPDF():
     qr = "select ID from brapci_elastic.dataset "
@@ -70,8 +70,16 @@ def download_methods(row):
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
+        elif 'article/download' in oTXT:
+            methodo = 'citation_pdf_url'
+            pattern = r'https?://[^\\s"]*article/download/[^\\s"]*'
+            links = re.findall(pattern, oTXT)
+            if links != []:
+                linkPDF = links[0]
+            print(links)
+            sys.exit()
+            print("S")
         else:
-            #updatePDFdataset(ID,-1)
             print(link)
             print("SKIP")
 
