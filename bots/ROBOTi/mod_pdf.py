@@ -17,7 +17,7 @@ def harvestingPDF():
     qr += " and PDF = 0 "
     qr += " and ID < 328661 "
     qr += " order by ID DESC "
-    qr += " limit 1"
+    qr += " limit 10"
     row = database.query(qr)
 
     for line in row:
