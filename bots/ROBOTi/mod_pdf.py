@@ -73,9 +73,8 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
         elif 'download' in oTXT:
-            print(oTXT)
-            methodo = 'article_download'
-            pattern = r'https?://[^\\s"]*download[^\\s"]*'
+            methodo = 'pdfJsViewer'
+            pattern = r'file=(https%3A%2F%2F.+?)"'
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
