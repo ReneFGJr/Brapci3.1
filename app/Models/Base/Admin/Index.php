@@ -566,7 +566,7 @@ class Index extends Model
                             }
                         if (count($dt) > 0)
                             {
-                                $sx .= metarefresh(PATH . 'admin/pdf/harvesting/' . $offset, 30);
+                                $sx .= metarefresh(PATH . 'admin/pdf/harvesting/' . $offset, 60);
                             } else {
                                 $sx .= h("FIM DA COLETA");
                             }
