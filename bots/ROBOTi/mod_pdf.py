@@ -40,6 +40,7 @@ def updatePDFdataset(ID,status):
 
 def download_methods(row):
     link = row[0]
+    print("LINK",link)
 
     link = link.replace('/XIXENANCIB/','/XIX_ENANCIB/')
     link = link.replace('/xviiienancib/','/XVIII_ENANCIB/')
@@ -51,7 +52,7 @@ def download_methods(row):
     else:
         link = link.replace('http://','https://')
 
-    print("LINK",link)
+
     if 'article/view' in link:
         oTXT = read_link(link)
         print(oTXT)
