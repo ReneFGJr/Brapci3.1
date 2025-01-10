@@ -85,7 +85,8 @@ def download_methods(row):
 
         print("... ID Class ",IDClass)
         print("... ID literal ",IDn)
-        #mod_concept.register(idClass,idLiteral)
+        IDc = mod_concept.register(IDClass,IDn)
+        print("... ID concept ",IDc)
 
 def fileName(ID):
     work_number = 0
