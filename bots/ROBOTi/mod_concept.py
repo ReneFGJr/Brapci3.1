@@ -4,6 +4,13 @@ import mod_class
 import mod_literal
 import sys
 
+def le(ID):
+    qr = "SELECT * FROM brapci_rdf.rdf_concept "
+    qr += " INNER JOIN brapci_rdf.rdf_data ON id_cc = d_r1 "
+    qr += f" WHERE id_cc = {ID} "
+    row = database.query(qr)
+    return row
+
 def remissives():
     print("000 - Update USE->ID (RD_1)")
     qr = "SELECT id_cc, cc_use FROM brapci_rdf.rdf_concept "
