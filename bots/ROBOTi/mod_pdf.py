@@ -70,6 +70,9 @@ def download_methods(row):
         else:
             oTXT = read_link(link)
 
+        if not isinstance(oTXT, str):
+            oTXT = ''
+
         #************************* citation_pdf_url
         if 'citation_pdf_url' in oTXT:
             methodo = 'citation_pdf_url'
