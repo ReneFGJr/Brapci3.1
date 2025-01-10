@@ -152,17 +152,28 @@ def downloadPDF(url,ID):
     try:
         print(" ")
         print(f"Baixando ...: {ID}, {url}")
-        response = requests.get(url, stream=True, timeout=timeout, verify=False)
-        response.raise_for_status()  # Verifica se houve algum erro no download
 
-        # Cria os diretórios se não existirem
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        if ('revistas.ufpr.br' in url):
+            chuck = read_link_curl(url)
+            print(chuck)
+            sys.exit()
+            with open(output_path, 'wb') as file:
+                file.write(file.write(chunk))
+        else:
+            response = requests.get(url, stream=True, timeout=timeout, verify=False)
+            response.raise_for_status()  # Verifica se houve algum erro no download
+            # Cria os diretórios se não existirem
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-        # Escreve o conteúdo do arquivo em chunks para evitar problemas de memória
-        with open(output_path, 'wb') as file:
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:  # Apenas escreve se houver conteúdo
-                    file.write(chunk)
+            # Escreve o conteúdo do arquivo em chunks para evitar problemas de memória
+            with open(output_path, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:  # Apenas escreve se houver conteúdo
+                        file.write(chunk)
+
+
+
+
 
         return filename
     except requests.RequestException as e:
