@@ -45,7 +45,14 @@ def getPDF(ID):
         print("PDF já existe")
         return ""
 
-    row = mod_concept.le(ID)
+    prop = mod_class.getClass("hasRegisterId")
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
+    qr += "inner join brapci_literal ON cc_pref_term = id_n "
+    qr += f" where d_r1 = {ID} and d_p = {prop}"
+    row = database.query(qr)
+
+
     print("=====================")
     print(row)
 
