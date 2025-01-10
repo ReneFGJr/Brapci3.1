@@ -13,6 +13,7 @@ def harvestingPDF():
     qr += " where "
     qr += "(CLASS = 'Article' or CLASS='Proceeding')"
     qr += " and PDF = 0 "
+    qr += " and ID < 328661 "
     qr += " order by ID DESC "
     qr += " limit 1"
     row = database.query(qr)
@@ -64,7 +65,7 @@ def download_methods(row):
         if 'citation_pdf_url' in oTXT:
             print("OK1")
         else:
-            updatePDFdataset(ID,-1)
+            #updatePDFdataset(ID,-1)
 
 
 def read_link(url, decode=False):
