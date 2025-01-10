@@ -67,6 +67,8 @@ def download_methods(row):
     if 'article/view' in link:
         if ('revistas.ufpr.br' in link):
             oTXT = read_link_curl(link)
+            print(oTXT)
+            sys.exit()
         else:
             oTXT = read_link(link)
 
