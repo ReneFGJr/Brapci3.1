@@ -80,7 +80,9 @@ def download_methods(row):
         fileDownload = downloadPDF(linkPDF,ID)
 
         # Cria valor literal
+        IDn = mod_literal.register(fileDownload,'nn')
         Class = "FileStorage"
+        print("... ID literal ",IDn)
         #mod_concept.register(idClass,idLiteral)
 
 def fileName(ID):
@@ -109,7 +111,7 @@ def downloadPDF(url,ID):
                     file.write(chunk)
 
         print(f"Arquivo salvo em: {output_path}")
-        return output_path
+        return filename
     except requests.RequestException as e:
         print(f"Erro ao baixar o arquivo: {e}")
         return ""

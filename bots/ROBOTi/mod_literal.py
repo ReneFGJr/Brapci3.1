@@ -504,8 +504,10 @@ def update_term(id,term):
     row = database.update(qr)
 
 
-def register(term,lang):
-    term = normalize_text(term)
+def register(term,lang,normalize=False):
+    if normalize:
+        term = normalize_text(term)
+
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{term}') and (n_lang = '{lang}')"
     row = database.query(qr)
     if row == []:
