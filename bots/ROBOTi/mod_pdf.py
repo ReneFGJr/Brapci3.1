@@ -83,10 +83,21 @@ def download_methods(row):
         IDn = mod_literal.register(fileDownload,'nn')
         IDClass = mod_class.getClass("FileStorage")
 
-        print("... ID Class ",IDClass)
-        print("... ID literal ",IDn)
+        # Cria o FileStorage
         IDc = mod_concept.register(IDClass,IDn)
-        print("... ID concept ",IDc)
+
+        print("==========================================")
+        print("... Filename   : ",linkPDF)
+        print("... ID Class   : ",IDClass)
+        print("... ID literal : ",IDn)
+        print("... ID concept : ",IDc)
+
+        # Associa o FileStorage ao Trabalho
+        IDprop = mod_class.getClass("hasFileStorage")
+        mod_data.register(ID,IDprop,IDc,0)
+
+        #Atualiza sistema
+        updatePDFdataset(ID,1)
 
 def fileName(ID):
     work_number = 0
