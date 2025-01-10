@@ -11,6 +11,7 @@ import mod_literal
 import sys
 
 def harvestingPDF():
+    print("Início da coleta de PDF -  10 registros")
     qr = "select ID from brapci_elastic.dataset "
     qr += " where "
     qr += "(CLASS = 'Article' or CLASS='Proceeding')"
