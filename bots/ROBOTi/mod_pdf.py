@@ -99,6 +99,9 @@ def downloadPDF(url,ID):
         response = requests.get(url, stream=True)
         response.raise_for_status()  # Verifica se houve algum erro no download
 
+        # Cria os diretórios se não existirem
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
         # Escreve o conteúdo do arquivo em chunks para evitar problemas de memória
         with open(output_path, 'wb') as file:
             for chunk in response.iter_content(chunk_size=8192):
