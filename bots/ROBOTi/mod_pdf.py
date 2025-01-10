@@ -88,7 +88,7 @@ def download_methods(row):
 
         print("==========================================")
         print("... ID         : ",ID)
-        print("... Filename   : ",linkPDF)
+        print("... Filename   : ",fileDownload)
         print("... ID Class   : ",IDClass)
         print("... ID literal : ",IDn)
         print("... ID concept : ",IDc)
