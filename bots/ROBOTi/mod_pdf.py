@@ -20,6 +20,8 @@ def harvestingPDF():
     qr += " limit 10"
     row = database.query(qr)
 
+    print(row)
+
     for line in row:
         ID = line[0]
         getPDF(ID)
