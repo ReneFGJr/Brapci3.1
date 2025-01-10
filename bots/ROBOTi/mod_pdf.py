@@ -86,7 +86,8 @@ def getPDF(ID):
 
 
     print("=====================")
-    download_methods(row)
+    for line in row:
+        download_methods(line)
 
 
 
