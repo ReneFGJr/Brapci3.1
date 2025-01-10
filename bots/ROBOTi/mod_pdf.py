@@ -105,12 +105,12 @@ def fileName(ID):
     id_str = f"{ID:08d}"
     subdirectories = f"{id_str[:2]}/{id_str[2:4]}/{id_str[4:6]}/{id_str[6:]}"
     file_name = f"work_{id_str}#{work_number:05d}.pdf"
-    full_path = os.path.join(subdirectories, file_name)
+    full_path = os.path.join('_repository',subdirectories, file_name)
     return full_path
 
 def downloadPDF(url,ID):
     filename = fileName(ID)
-    output_path = '../../.tmp/'+filename
+    output_path = '../../'+filename
     try:
         print(f"Baixando: {url}")
         response = requests.get(url, stream=True)
