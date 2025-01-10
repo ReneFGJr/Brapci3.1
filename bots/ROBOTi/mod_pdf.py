@@ -178,20 +178,19 @@ def downloadPDF(url,ID):
         return ""
 
 def read_link_curl(url):
-    command = [
-    "curl",
-    "-X", "OPTIONS",
-    "-i",  # Para incluir os cabeçalhos na resposta
-    url
-    ]
-
-    # Executar o comando CURL
+    command = ["curl", "-X", "OPTIONS", "-i", url]
     try:
-        result = subprocess.run(command, text=True, capture_output=True, check=True)
-        return result.stdout
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+        output = result.stdout
+        if not output.strip():
+            raise ValueError("Curl command returned empty output.")
+        return output
     except subprocess.CalledProcessError as e:
-        print("Erro ao executar o comando:")
-        print(e.stderr)  # Exibe a mensagem de erro
+        print("Erro ao executar o comando curl:", e.stderr)
+        return ""
+    except Exception as e:
+        print("Unexpected error:", e)
+        return ""
 
 def read_link(url, decode=False):
     try:
