@@ -78,8 +78,23 @@ def download_methods(row):
         downloadPDF(linkPDF,ID)
         print("PDF LINK",linkPDF)
 
-def downloadPDF(linkPDF,ID):
-    print("Carregando PDF",ID,linkPDF)
+def downloadPDF(url,ID):
+    output_path = '../../.tmp/pdf_temp.pdf'
+    try:
+        print(f"Baixando: {url}")
+        response = requests.get(url, stream=True)
+        response.raise_for_status()  # Verifica se houve algum erro no download
+
+        # Escreve o conteúdo do arquivo em chunks para evitar problemas de memória
+        with open(output_path, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:  # Apenas escreve se houver conteúdo
+                    file.write(chunk)
+
+        print(f"Arquivo salvo em: {output_path}")
+
+    except requests.RequestException as e:
+        print(f"Erro ao baixar o arquivo: {e}")
 
 def read_link(url, decode=False):
     try:
