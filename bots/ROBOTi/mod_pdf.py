@@ -62,6 +62,7 @@ def download_methods(row):
 
     methodo = ''
     if 'article/view' in link:
+        print("... article/view")
         oTXT = read_link(link)
 
         #************************* citation_pdf_url
