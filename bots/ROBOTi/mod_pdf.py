@@ -67,8 +67,6 @@ def download_methods(row):
     if 'article/view' in link:
         if ('revistas.ufpr.br' in link):
             oTXT = read_link_curl(link)
-            print(oTXT)
-            sys.exit()
         else:
             oTXT = read_link(link)
 
@@ -172,10 +170,6 @@ def downloadPDF(url,ID):
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:  # Apenas escreve se houver conteúdo
                         file.write(chunk)
-
-
-
-
 
         return filename
     except requests.RequestException as e:
