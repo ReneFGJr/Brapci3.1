@@ -9,6 +9,7 @@ import requests
 import re
 import mod_literal
 import sys
+import urllib.parse
 
 def harvestingPDF():
     print("Início da coleta de PDF -  10 registros")
@@ -78,7 +79,8 @@ def download_methods(row):
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
-            print(links)
+                linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
+            print(linkPDF)
             sys.exit()
             print("S")
         else:
