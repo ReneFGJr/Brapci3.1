@@ -188,8 +188,7 @@ def read_link_curl(url):
     # Executar o comando CURL
     try:
         result = subprocess.run(command, text=True, capture_output=True, check=True)
-        print("Saída do comando:")
-        print(result.stdout)  # Exibe a saída do comando
+        return result.stdout
     except subprocess.CalledProcessError as e:
         print("Erro ao executar o comando:")
         print(e.stderr)  # Exibe a mensagem de erro
