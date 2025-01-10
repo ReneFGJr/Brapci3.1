@@ -8,7 +8,16 @@ import mod_concept
 import mod_literal
 import mod_GoogleTranslate
 
-def harvestingPDF(ID):
+def harvestingPDF():
+    qr = "select * from brapci_elastic.dataset "
+    qr += " where "
+    qr += "(CLASS = 'Article' or CLASS='Proceeding')"
+    qr += " order by ID DESC "
+    qr += " limit 1"
+    row = database.query(qr)
+    print(row)
+
+def getPDF(ID):
     row = mod_concept.le(ID)
     prop = mod_class.getClass("hasFileStorage")
     qr = "select n_name, n_lang from brapci_rdf.rdf_data "
