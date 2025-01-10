@@ -5,6 +5,7 @@ import database
 import mod_data
 import mod_class
 import requests
+import re
 import mod_literal
 import mod_GoogleTranslate
 
@@ -63,6 +64,8 @@ def download_methods(row):
         #************************* citation_pdf_url
         if 'citation_pdf_url' in oTXT:
             print("OK1")
+            pattern = r'https?://[^\\s"]*article/download/[^\\s"]*'
+            print(re.findall(pattern, oTXT))
         else:
             #updatePDFdataset(ID,-1)
             print("SKIP")
