@@ -4,7 +4,7 @@ os.chdir(diretorio)
 
 import mod_translate_title
 import mod_translate_abstract
-import bots.ROBOTi.mod_pdf2 as mod_pdf2
+import bots.ROBOTi.mod_pdf as mod_pdf
 import mod_subject
 import sys
 
@@ -17,7 +17,7 @@ if (len(sys.argv) > 1):
     mod_translate_title.process(ID)
     mod_translate_abstract.process(ID)
     mod_subject.process(ID)
-    mod_pdf2.convert(ID)
+    mod_pdf.convert(ID)
 else:
     print("Without parameters")
     print("ex: TRADUCTOR 2343")
