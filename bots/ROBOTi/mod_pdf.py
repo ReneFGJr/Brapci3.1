@@ -41,10 +41,12 @@ def validaPDF():
     qr += f" limit {limit}"
     row = database.query(qr)
 
+    subDir = '../../public/'
+
     for line in row:
         ID = line[0]
         fileName = line[1]
-        if is_valid_pdf(fileName):
+        if is_valid_pdf(subDir + fileName):
             print(f"PDF válido: {ID}")
 
 def existPDF(ID):
