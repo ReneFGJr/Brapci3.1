@@ -157,12 +157,7 @@ def downloadPDF(url,ID):
         print(f"Baixando ...: {ID}, {url}")
 
         if ('revistas.ufpr.br' in url):
-            chunk = read_link_curl(url)
-            print(output_path)
-            with open(output_path, 'wb') as file:
-                file.write(file.write(chunk))
-
-            sys.exit()
+            download_pdf_with_curl(url,output_path)
         else:
             response = requests.get(url, stream=True, timeout=timeout, verify=False)
             response.raise_for_status()  # Verifica se houve algum erro no download
@@ -179,6 +174,23 @@ def downloadPDF(url,ID):
     except requests.RequestException as e:
         print(f"### Erro ao baixar o arquivo: {e}",output_path)
         return ""
+
+def download_pdf_with_curl(url, output_path):
+    try:
+        # Comando curl para baixar o arquivo
+        command = ["curl", "-o", output_path, url]
+
+        # Executa o comando curl
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
+
+        if result.returncode == 0:
+            print(f"Arquivo baixado com sucesso: {output_path}")
+        else:
+            print(f"Erro ao baixar o arquivo. Código de retorno: {result.returncode}")
+    except subprocess.CalledProcessError as e:
+        print(f"Erro ao executar o comando curl: {e.stderr}")
+    except Exception as e:
+        print(f"Erro inesperado: {e}")
 
 def read_link_curl(url):
     command = ["curl", "-X", "OPTIONS", "-i", url]
