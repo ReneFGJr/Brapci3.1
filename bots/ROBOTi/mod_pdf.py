@@ -113,9 +113,19 @@ def download_methods(row):
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
-                print("#### IMPLEMENTAR OBJ GALLEY PDF")
-                print(linkPDF)
-                sys.exit()
+                oTXT = read_link(linkPDF)
+                if 'pdfCanvasContainer' in oTXT:
+                    methodo = 'pdfJsViewer'
+                    pattern = r'file=(https%3A%2F%2F.+?)"'
+                    links = re.findall(pattern, oTXT)
+                    if links != []:
+                        linkPDF = links[0]
+                        linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
+                    print("#### IMPLEMENTAR OBJ GALLEY PDF")
+                    print(linkPDF)
+                    sys.exit()
+                else:
+                    linkPDF = ''
 
 
     if (linkPDF != ''):
