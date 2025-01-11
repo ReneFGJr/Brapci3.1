@@ -42,6 +42,8 @@ def validaPDF():
 
     subDir = '../../public/'
 
+    print("Total de Arquivos",len(row))
+
     for line in row:
         ID = line[0]
         IDd = line[2]
