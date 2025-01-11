@@ -13,7 +13,7 @@ import urllib.parse
 import subprocess
 
 def harvestingPDF():
-    limit = 1
+    limit = 50
     print(f"Início da coleta de PDF -  {limit} registros")
     qr = "select ID from brapci_elastic.dataset "
     qr += " where "
