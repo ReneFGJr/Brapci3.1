@@ -46,9 +46,7 @@ def validaPDF():
         ID = line[0]
         fileName = line[1]
         status = is_valid_pdf(subDir + fileName)
-        if  status > 0:
-            print(f"PDF válido: {ID}")
-        elif status == -1:
+        if status == -1:
             print(f"Arquivo não encontrado ({ID}): {fileName}")
         elif status == -2:
             print(f"Arquivo não é um PDF válido: {ID},{fileName}")
