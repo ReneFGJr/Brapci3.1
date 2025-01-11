@@ -34,7 +34,7 @@ def validaPDF():
     limit = 10
     print(f"Início da validação de PDF -  {limit} registros")
     prop = mod_class.getClass("hasFileStorage")
-    qr = "select d_r1, n_name from brapci_rdf.rdf_data "
+    qr = "select d_r1, n_name, id_cc from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f" where d_p = {prop}"
