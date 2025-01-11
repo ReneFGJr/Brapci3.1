@@ -56,7 +56,7 @@ def validaPDF():
             mod_data.delete(IDd)
         elif status == -2:
             print(f"Arquivo não é um PDF válido: {ID},{fileName}")
-            if '.txt' in fileName:
+            if '.txt' in fileName or '.htm' in fileName:
                 print(f"  ... removendo registro {IDd}")
                 mod_data.delete(IDd)
         elif status == -3:
