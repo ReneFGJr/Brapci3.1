@@ -38,7 +38,6 @@ def validaPDF():
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f" where d_p = {prop}"
-    qr += f" limit {limit}"
     row = database.query(qr)
 
     subDir = '../../public/'
@@ -55,6 +54,10 @@ def validaPDF():
             print(f"Arquivo não é um PDF válido: {ID}")
         elif status == -3:
             print(f"Erro ao verificar o arquivo: {ID}")
+
+        if status <= 0:
+            sys.exit()
+            #updatePDFdataset(ID,status)
     sys.exit()
 
 def existPDF(ID):
