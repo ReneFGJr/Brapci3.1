@@ -115,6 +115,7 @@ def download_methods(row):
                 linkPDF = links[0]
                 oTXT = read_link(linkPDF)
                 if 'pdfCanvasContainer' in oTXT:
+                    print("============")
                     methodo = 'pdfJsViewer'
                     pattern = r'file=(https%3A%2F%2F.+?)"'
                     links = re.findall(pattern, oTXT)
