@@ -144,6 +144,7 @@ def run(parm):
         mod_statistics.get_statistics()
 
     if (act == 'pdf'):
+        mod_pdf.validaPDF()
         mod_pdf.harvestingPDF()
 
     if (act == 'doi'):

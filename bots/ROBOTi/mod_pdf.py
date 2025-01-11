@@ -20,7 +20,6 @@ def harvestingPDF():
     qr += "(CLASS = 'Article' or CLASS='Proceeding')"
     qr += " and PDF = 0 "
     qr += " and status = 1 "
-    qr += " and ID < 328661 "
     qr += " order by ID DESC "
     qr += f" limit {limit}"
     row = database.query(qr)
@@ -30,6 +29,21 @@ def harvestingPDF():
         getPDF(ID)
     print("Fim da coleta de PDF")
     return ""
+
+def validaPDF():
+    limit = 10
+    print(f"Início da validação de PDF -  {limit} registros")
+    prop = mod_class.getClass("hasFileStorage")
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
+    qr += f" where d_p = {prop}"
+    qr += f" limit {limit}"
+    print(qr)
+    row = database.query(qr)
+
+    print(row[0])
+    sys.exit()
+    #is_valid_pdf
 
 def existPDF(ID):
     prop = mod_class.getClass("hasFileStorage")
@@ -47,6 +61,26 @@ def updatePDFdataset(ID,status):
     qu += f" set PDF = {status} "
     qu += f" where ID = {ID} "
     database.update(qu)
+
+def is_valid_pdf(file_path):
+    # Verifica se o arquivo existe
+    if not os.path.isfile(file_path):
+        print(f"Arquivo não encontrado: {file_path}")
+        return False
+
+    try:
+        # Abre o arquivo em modo binário e verifica o cabeçalho
+        with open(file_path, 'rb') as file:
+            header = file.read(4)  # Os primeiros 4 bytes de um arquivo PDF contêm '%PDF'
+            if header == b'%PDF':
+                print(f"Arquivo é um PDF válido: {file_path}")
+                return True
+            else:
+                print(f"Arquivo não é um PDF válido: {file_path}")
+                return False
+    except Exception as e:
+        print(f"Erro ao verificar o arquivo: {e}")
+        return False
 
 def download_methods(row):
     linkPDF = ''
