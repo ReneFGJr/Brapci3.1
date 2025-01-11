@@ -48,6 +48,7 @@ def validaPDF():
         fileName = line[1]
         if is_valid_pdf(subDir + fileName):
             print(f"PDF válido: {ID}")
+    sys.exit()
 
 def existPDF(ID):
     prop = mod_class.getClass("hasFileStorage")
