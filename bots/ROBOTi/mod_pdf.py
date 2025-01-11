@@ -46,8 +46,15 @@ def validaPDF():
     for line in row:
         ID = line[0]
         fileName = line[1]
-        if is_valid_pdf(subDir + fileName):
+        status = is_valid_pdf(subDir + fileName)
+        if  status > 0:
             print(f"PDF válido: {ID}")
+        elif status == -1
+            print(f"Arquivo não encontrado: {ID}")
+        elif status == -2:
+            print(f"Arquivo não é um PDF válido: {ID}")
+        elif status == -3:
+            print(f"Erro ao verificar o arquivo: {ID}")
     sys.exit()
 
 def existPDF(ID):
@@ -70,22 +77,18 @@ def updatePDFdataset(ID,status):
 def is_valid_pdf(file_path):
     # Verifica se o arquivo existe
     if not os.path.isfile(file_path):
-        print(f"Arquivo não encontrado: {file_path}")
-        return False
-
+        return -1
     try:
         # Abre o arquivo em modo binário e verifica o cabeçalho
         with open(file_path, 'rb') as file:
             header = file.read(4)  # Os primeiros 4 bytes de um arquivo PDF contêm '%PDF'
             if header == b'%PDF':
-                print(f"Arquivo é um PDF válido: {file_path}")
-                return True
+                return 1
             else:
-                print(f"Arquivo não é um PDF válido: {file_path}")
-                return False
+                return -2
     except Exception as e:
         print(f"Erro ao verificar o arquivo: {e}")
-        return False
+        return -3
 
 def download_methods(row):
     linkPDF = ''
