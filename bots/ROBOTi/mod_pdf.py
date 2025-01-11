@@ -137,7 +137,7 @@ def download_methods(row):
         updatePDFdataset(ID,1)
         return False
     else:
-        #updatePDFdataset(ID,-1)
+        updatePDFdataset(ID,-1)
         return True
 
 def fileName(ID):
