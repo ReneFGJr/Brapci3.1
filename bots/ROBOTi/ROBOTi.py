@@ -197,6 +197,8 @@ def run(parm):
         mod_literal.check_double_literal('hasTitle')
         mod_literal.check_double_literal('hasAbstract')
 
+        mod_pdf.harvestingPDF()
+
 
     if (act == 'keyword'):
         print("=================KEYWORDS")
