@@ -307,7 +307,7 @@ def getPDF(ID):
     row = database.query(qr)
 
     if row == []:
-    #    updatePDFdataset(ID,-10)
+        updatePDFdataset(ID,-10)
         print("Registro não encontrado")
         sys.exit()
     #    return ""
