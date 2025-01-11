@@ -113,6 +113,8 @@ def download_methods(row):
             links = re.findall(pattern, oTXT)
             if links != []:
                 linkPDF = links[0]
+                print(linkPDF)
+                sys.exit()
 
 
     if (linkPDF != ''):
