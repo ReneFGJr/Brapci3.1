@@ -49,11 +49,11 @@ def validaPDF():
         if  status > 0:
             print(f"PDF válido: {ID}")
         elif status == -1:
-            print(f"Arquivo não encontrado: {ID}")
+            print(f"Arquivo não encontrado ({ID}): {fileName}")
         elif status == -2:
-            print(f"Arquivo não é um PDF válido: {ID}")
+            print(f"Arquivo não é um PDF válido: {ID},{fileName}")
         elif status == -3:
-            print(f"Erro ao verificar o arquivo: {ID}")
+            print(f"Erro ao verificar o arquivo: {ID},{fileName}")
 
         if status <= 0:
             sys.exit()
