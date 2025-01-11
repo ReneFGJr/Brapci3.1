@@ -31,8 +31,7 @@ def harvestingPDF():
     return ""
 
 def validaPDF():
-    limit = 10
-    print(f"Início da validação de PDF -  {limit} registros")
+    print(f"Início da validação de PDF")
     prop = mod_class.getClass("hasFileStorage")
     qr = "select d_r1, n_name, id_d, id_cc from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
