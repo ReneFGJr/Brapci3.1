@@ -114,6 +114,7 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
                 oTXT = read_link(linkPDF)
+                print(oTXT)
                 if 'pdfCanvasContainer' in oTXT:
                     print("============")
                     methodo = 'pdfJsViewer'
