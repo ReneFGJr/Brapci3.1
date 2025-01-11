@@ -306,7 +306,10 @@ def getPDF(ID):
 
     row = database.query(qr)
 
-    print(row)
+    if row == []:
+        updatePDFdataset(ID,-10)
+        print("Registro não encontrado")
+        return ""
 
     loop = True
     for line in row:
