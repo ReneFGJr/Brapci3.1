@@ -13,7 +13,7 @@ import urllib.parse
 import subprocess
 
 def harvestingPDF():
-    limit = 5
+    limit = 20
     print(f"Início da coleta de PDF -  {limit} registros")
     qr = "select ID from brapci_elastic.dataset "
     qr += " where "
@@ -294,6 +294,7 @@ def getPDF(ID):
     print("Processando coleta PDF ",ID)
     ePDF = existPDF(ID)
     if ePDF:
+        updatePDFdataset(ID,1)
         print(ID," ... PDF já existe")
         return ""
 
