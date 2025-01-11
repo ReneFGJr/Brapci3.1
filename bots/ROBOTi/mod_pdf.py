@@ -193,8 +193,6 @@ def download_pdf_with_curl(url, output_path):
     except Exception as e:
         print(f"Erro inesperado: {e}")
 
-    sys.exit()
-
 def read_link_curl(url):
     command = ["curl", "-X", "OPTIONS", "-i", url]
     try:
