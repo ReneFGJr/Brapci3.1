@@ -62,9 +62,9 @@ def validaPDF():
             print(f"Erro ao verificar o arquivo: {ID},{fileName}")
 
         if status <= 0:
-            sys.exit()
+            print(f"  ... atualizando status {IDd}")
+            #sys.exit()
             #updatePDFdataset(ID,status)
-    sys.exit()
 
 def existPDF(ID):
     prop = mod_class.getClass("hasFileStorage")
