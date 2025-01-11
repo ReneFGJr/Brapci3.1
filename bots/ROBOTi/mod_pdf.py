@@ -34,7 +34,7 @@ def validaPDF():
     limit = 10
     print(f"Início da validação de PDF -  {limit} registros")
     prop = mod_class.getClass("hasFileStorage")
-    qr = "select d_r1, n_name, id_cc from brapci_rdf.rdf_data "
+    qr = "select d_r1, n_name, id_d, id_cc from brapci_rdf.rdf_data "
     qr += "inner join brapci_rdf.rdf_concept ON d_r2 = id_cc "
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f" where d_p = {prop}"
@@ -44,10 +44,16 @@ def validaPDF():
 
     for line in row:
         ID = line[0]
+        IDd = line[2]
+        IDc = line[3]
         fileName = line[1]
         status = is_valid_pdf(subDir + fileName)
         if status == -1:
             print(f"Arquivo não encontrado ({ID}): {fileName}")
+            if ('.txt' in fileName):
+                print(f"  ... removendo registro {IDd}")
+                sys.exit()
+                mod_data.delete(IDd)
         elif status == -2:
             print(f"Arquivo não é um PDF válido: {ID},{fileName}")
         elif status == -3:
