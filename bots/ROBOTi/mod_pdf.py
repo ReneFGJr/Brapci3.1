@@ -114,18 +114,13 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
                 oTXT = read_link(linkPDF)
-                print(oTXT)
                 if 'pdfJsViewer' in oTXT:
-                    print("============")
-                    methodo = 'pdfJsViewer'
+                    methodo = 'pdfJsViewer2'
                     pattern = r'<a\s+href="([^"]+)"[^>]*\bclass="[^"]*\bdownload\b[^"]*"'
                     links = re.findall(pattern, oTXT)
                     if links != []:
                         linkPDF = links[0]
                         linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
-                    print("#### IMPLEMENTAR OBJ GALLEY PDF")
-                    print(linkPDF)
-                    sys.exit()
                 else:
                     linkPDF = ''
 
