@@ -166,6 +166,9 @@ def register_literal(IDC,prop,name,lang):
         row = database.query(qr)
 
     return row
+def delete(IDd):
+    qd = f"delete from brapci_rdf.rdf_data where id_d = {IDd}"
+    database.update(qd)
 
 def DataDouble():
     print("100 - Check duplicate")
