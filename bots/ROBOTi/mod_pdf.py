@@ -157,6 +157,7 @@ def downloadPDF(url,ID):
         print(f"Baixando ...: {ID}, {url}")
 
         if ('revistas.ufpr.br' in url):
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
             download_pdf_with_curl(url,output_path)
         else:
             response = requests.get(url, stream=True, timeout=timeout, verify=False)
