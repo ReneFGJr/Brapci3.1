@@ -39,12 +39,13 @@ def validaPDF():
     qr += "inner join brapci_rdf.rdf_literal ON cc_pref_term = id_n "
     qr += f" where d_p = {prop}"
     qr += f" limit {limit}"
-    print(qr)
     row = database.query(qr)
 
-    print(row[0])
-    sys.exit()
-    #is_valid_pdf
+    for line in row:
+        ID = line[0]
+        fileName = line[1]
+        if is_valid_pdf(fileName):
+            print(f"PDF válido: {ID}")
 
 def existPDF(ID):
     prop = mod_class.getClass("hasFileStorage")
