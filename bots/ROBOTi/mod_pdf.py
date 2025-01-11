@@ -52,12 +52,12 @@ def validaPDF():
         status = is_valid_pdf(subDir + fileName)
         if status == -1:
             print(f"Arquivo não encontrado ({ID}): {fileName}")
-            if ('.txt' in fileName):
+        elif status == -2:
+            print(f"Arquivo não é um PDF válido: {ID},{fileName}")
+            if '.txt' in fileName:
                 print(f"  ... removendo registro {IDd}")
                 sys.exit()
                 mod_data.delete(IDd)
-        elif status == -2:
-            print(f"Arquivo não é um PDF válido: {ID},{fileName}")
         elif status == -3:
             print(f"Erro ao verificar o arquivo: {ID},{fileName}")
 
