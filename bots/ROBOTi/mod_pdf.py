@@ -306,6 +306,8 @@ def getPDF(ID):
 
     row = database.query(qr)
 
+    print(row)
+
     loop = True
     for line in row:
         if loop:
