@@ -113,7 +113,13 @@ class Abnt extends Model
 
 		/********************** Authors */
 		$authors = $this->ref_authors($dt['Authors']);
-		$title = $this->ref_title($dt['Title']);
+		if (isset($dt['Title']))
+			{
+				$title = $this->ref_title($dt['Title']);
+			} else {
+				$title = '::sem título::';
+			}
+
 		$legend = $this->ref_legend($dt['Issue']);
 		$ref = $authors . '. ' . $title . '. ' . $legend;
 		if ($url) {
