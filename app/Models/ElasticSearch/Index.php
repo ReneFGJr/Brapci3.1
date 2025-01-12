@@ -370,7 +370,7 @@ class Index extends Model
 						$sx .= h('Total: ' . count($dt), 6);
 						foreach ($dt as $id => $line) {
 							$link = '<a href="' .
-								'https://brapci.inf.br/#/v/' . $line['ID'] .
+								'https://brapci.inf.br/v/' . $line['ID'] .
 								'" target="_blank">';
 							$linka = '</a>';
 							$name = $line['CLASS'] . ': ' . $line['ID'];
