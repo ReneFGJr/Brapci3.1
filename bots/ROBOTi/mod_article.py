@@ -47,6 +47,8 @@ def process(rg):
             print("+============================")
             print(IDX,IDA,JNL)
 
+        print(IDX,"=============")
+        sys.exit()
 
         if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
@@ -94,9 +96,6 @@ def check_method01(id,jnl):
     qr += f"inner join brapci_rdf.rdf_concept ON d_r1 = id_cc "
     qr += f"where n_name = '{ID}' or n_name = '{id}'"
     qr += "group by id_cc"
-
-    print(qr)
-    sys.exit()
 
     row = database.query(qr)
 
