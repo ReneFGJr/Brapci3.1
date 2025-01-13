@@ -132,6 +132,8 @@ def check_method02(data,jnl,id):
     qr += f" and YEAR = '{YEAR}' "
     row = database.query(qr)
 
+    print(qr)
+
     if row == []:
         return 0
     else:
