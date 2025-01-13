@@ -88,6 +88,7 @@ def check_double_issue():
             oai_listidentify.chageStatusID(IDd,1)
             if (ln > 0):
                 oai_listidentify.zeraRDF(IDd)
+            ln = ln + 1
         mod_data.delete_data(ID)
 
     print("Total de ",len(row))
