@@ -8,5 +8,5 @@ def register(ID,JNL):
     print("HELLO")
 
 def chageStatus(ID,status):
-    qu = "update " + table + " set status = " + str(status) + ", oai_rdf = 0 where ID = " + str(ID)
+    qu = "update " + table + " set status = " + str(status) + ", oai_rdf = 0 where oai_rdf = " + str(ID)
     database.update(qu)
