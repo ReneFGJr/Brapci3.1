@@ -80,6 +80,10 @@ def check_double_issue():
         ID = line[0]
         print(line)
         sys.exit()
+        qr = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = " + str(ID)
+        row2 = database.query(qr)
+        print(row2)
+
         oai_listidentify.chageStatus(ID,1)
         mod_data.delete_data(ID)
 
