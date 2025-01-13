@@ -142,8 +142,10 @@ def check_method02(data,jnl,id):
         else:
             for line in row:
                 json_data = line[1]
-                if 'identifier' in json_data:
+                try:
                     print("=========ID==>",json_data['identifier'])
+                except:
+                    print("Não identificado")
                 print(json_data)
 
     sys.exit()
