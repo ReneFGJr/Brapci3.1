@@ -19,6 +19,8 @@ import mod_source
 
 import traceback
 import sys
+import os
+import time
 
 
 def process(rg):
@@ -272,35 +274,45 @@ def get(rg):
     identify = rg[1]
     url = rg[2]
     url2 = rg[9]
-    if (url == ''):
+    if url == '':
         url = url2
     ID = rg[0]
     urlIssue = str(rg[9])
-    type = rg[11]
+    file_type = rg[11]
 
     substring = "http"
 
-    print("==substring==",substring)
-    print("==urlIssue==",urlIssue)
-    print("==Collection==",type)
+    print("==substring==", substring)
+    print("==urlIssue==", urlIssue)
+    print("==Collection==", file_type)
 
-    if (type == 'EV'):
+    if file_type == 'EV':
         url = urlIssue
 
-    LINK = url + '?verb=GetRecord&metadataPrefix=oai_dc&identifier='+identify
-    print(Fore.YELLOW+"... Recuperando: "+Fore.GREEN+f"{LINK}"+Fore.WHITE)
+    LINK = url + f'?verb=GetRecord&metadataPrefix=oai_dc&identifier={identify}'
+    print(Fore.YELLOW + "... Recuperando: " + Fore.GREEN + f"{LINK}" + Fore.WHITE)
 
-    file = mod_listidentify.directory(ID)+'.getRecord.xml'
-    print(Fore.YELLOW+"... Arquivo: "+Fore.GREEN+f"{file}"+Fore.WHITE)
+    # Define o caminho do arquivo a ser salvo
+    file = mod_listidentify.directory(ID) + '.getRecord.xml'
+    print(Fore.YELLOW + "... Arquivo: " + Fore.GREEN + f"{file}" + Fore.WHITE)
 
-    xml = oaipmh_request.get(LINK)
-    if (xml['status'] == '200'):
-        txt = xml['content']
-        txt = txt.replace(chr(2),'')
-        f = open(file,'w')
-        f.write(txt)
-        f.close()
-    mod_listidentify.updateStatus(ID,5)
+    # Verifica se o arquivo já existe
+    if os.path.exists(file):
+        print(Fore.CYAN + f"... Arquivo já existe: {file}, pulando download." + Fore.WHITE)
+    else:
+        # Faz o download do arquivo apenas se não existir
+        xml = oaipmh_request.get(LINK)
+        if xml['status'] == '200':
+            txt = xml['content']
+            txt = txt.replace(chr(2), '')
+            with open(file, 'w') as f:
+                f.write(txt)
+            print(Fore.GREEN + f"... Download concluído: {file}" + Fore.WHITE)
+        else:
+            print(Fore.RED + f"... Erro ao recuperar o arquivo: {LINK}, status: {xml['status']}" + Fore.WHITE)
+
+    # Atualiza o status independentemente de ter feito o download
+    mod_listidentify.updateStatus(ID, 5)
     time.sleep(0.1)
 
     return True
