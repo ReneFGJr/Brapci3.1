@@ -63,6 +63,35 @@ def remove_duplicate():
         else:
             print("Falha na chamada da API: ", response.status_code)
 
+def check_double_issue():
+    prop = mod_class.getClass('isPartOfSource')
+    qr = "select * from brapci_rdf.rdf_data "
+    qr += f" where d_p = {prop} "
+    qr += "order by d_r2, id_d "
+    qr += "limit 20"
+    row = database.query(qr)
+
+    last = ''
+    lastID = ''
+    tot = 0
+
+    for item in row:
+        name = str(item[0]) + ' | ' + item[1]+' | ' + item[2]+' | ' + str(item[4])
+        ID = item[3]
+
+        if (name == last):
+            print(ID,lastID,name)
+            tot = tot + 1
+            qu = "update brapci_elastic.dataset "
+            qu += f" set `use` = {lastID} "
+            qu += f" where ID = {ID} "
+            print("===>",qu)
+            database.update(qu)
+
+        last = name
+        lastID = ID
+    print("Total",tot)
+    remove_duplicate()
 
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "

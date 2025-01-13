@@ -287,6 +287,8 @@ def run(parm):
     ################### Works
     if (act == '220'):
         lp = mod_dataset.check_duplicate()
+    if (act == '221'):
+        mod_dataset.check_double_issue()
 
     ################### Works
     if (act == '230'):
