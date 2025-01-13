@@ -147,6 +147,9 @@ def check_method02(data,OAIID,IDjnl):
 
                     # Verifique o valor do campo 'Identifier'
                     identifier = data.get('Identifier', '')
+                    identifier = identifier.strip().lower()
+                    OAIID = OAIID.strip().lower()
+
 
                     # Comparação com OAIID
                     if OAIID in identifier:
