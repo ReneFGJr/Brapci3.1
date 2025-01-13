@@ -127,7 +127,7 @@ def check_method02(data,jnl,id):
 
 
     print(f"...Mtd02-Dataset\nTitle:{TITLE}\nYear:{YEAR}")
-    qr = f"select * from brapci_elastic.dataset "
+    qr = f"select ID, json from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     qr += f" and YEAR = '{YEAR}' "
     row = database.query(qr)
