@@ -70,13 +70,12 @@ def check_double_issue():
     qr += f" WHERE d_p = {prop} "
     qr += " group by d_r2,d_p "
     qr += ") as tabela order by total desc "
-    qr += "limit 20"
-
-    print(qr)
 
     row = database.query(qr)
     for line in row:
         print(line)
+
+    print("Total de ",len(row))
 
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
