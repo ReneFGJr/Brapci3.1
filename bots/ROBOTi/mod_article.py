@@ -141,7 +141,8 @@ def check_method02(data,OAIID,IDjnl):
             return ID
         else:
             for line in row:
-                print("=====>",line[1])
+                if OAIID in line[1]:
+                    print("=====>",line[1])
 
     sys.exit()
 
