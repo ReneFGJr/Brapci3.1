@@ -150,9 +150,9 @@ def check_method02(data,jnl,id):
 
                     # Tenta acessar o campo 'identifier'
                     if 'identifier' in json_data:
-                        print("=========ID==>", json_data['identifier'])
+                        print("=========ID==>", json_data['Identifier'])
                     else:
-                        print("Chave 'identifier' não encontrada no JSON.")
+                        print("Chave 'Identifier' não encontrada no JSON.")
                 except Exception as e:
                     print(f"Erro ao processar JSON: {e}")
 
