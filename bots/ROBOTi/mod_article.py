@@ -94,9 +94,6 @@ def check_method01(id,jnl):
     qr += f"where n_name = '{ID}' or n_name = '{id}'"
     qr += "group by id_cc"
 
-    print("==",qr)
-    sys.exit()
-
     row = database.query(qr)
 
     if row == []:
@@ -112,7 +109,10 @@ def check_method01(id,jnl):
     print(row)
     quit()
 
-def check_method02(data,jnl,id):
+def check_method02(data,OAIID,jnl_nr):
+    print("OAIID",OAIID)
+    print("JNL",jnl_nr)
+    sys.exit()
     jnl = data[0]
     IDjnl = jnl['journal']['id_jnl']
     print("...Mtd02-Title")
