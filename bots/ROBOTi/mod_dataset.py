@@ -4,6 +4,7 @@ import mod_data
 import json
 import requests
 import sys
+import oai_listidentify
 
 def check_pbci():
     d = 0
@@ -77,11 +78,10 @@ def check_double_issue():
     row = database.query(qr)
     for line in row:
         ID = line[0]
-        print(line)
-        sys.exit()
         oai_listidentify.chageStatus(ID,1)
         mod_data.delete_data(ID)
         print(line)
+        sys.exit()
 
     print("Total de ",len(row))
 
