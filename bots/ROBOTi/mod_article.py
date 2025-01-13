@@ -39,7 +39,6 @@ def process(rg):
 
         #Verifica se existe o ID = METHODO 01
         BYPASS = 0
-        print(IDX,"============ 0 =")
 
         if IDX == 0:
             print("Method 01")
