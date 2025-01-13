@@ -79,6 +79,7 @@ def check_double_issue():
         ID = line[0]
         print(line)
         sys.exit()
+        oai_listidentify.chageStatus(ID,1)
         mod_data.delete_data(ID)
         print(line)
 
