@@ -638,7 +638,7 @@ class Export extends Model
                 $meta['KEYWORD'] = 0;
                 $meta['ABSTRACT'] = 0;
                 $meta['PDF'] = 0;
-                print($xline);
+                pre($cline);
                 $meta['OAI_ID'] = $dt['xline'];
 
                 $ck = ['Collection'=>'COLLECTION','Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File'=>'PDF'];
