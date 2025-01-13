@@ -69,7 +69,7 @@ def check_double_issue():
     qr += "SELECT d_r2, d_p, count(*) as total, max(id_d) as id_d FROM `rdf_data` "
     qr += f" WHERE d_p = {prop} "
     qr += " group by d_r2,d_p "
-    qr += ") as tabela orde by total desc "
+    qr += ") as tabela order by total desc "
     qr += "limit 20"
 
     print(qr)
