@@ -47,9 +47,6 @@ def process(rg):
             print("+============================")
             print(IDX,IDA,JNL)
 
-        print(IDX,"============ 1 =")
-        sys.exit()
-
         if (IDX > 0) and (BYPASS == 1):
             print(f"===Method #01 ({IDX}={ID})")
             mod_listidentify.updateRDF(ID,IDX)
@@ -64,7 +61,7 @@ def process(rg):
                 print("================== NAO FOI POSSIVEL IDENTIFICAD O METODO #2")
             else:
                 print("IDX==",IDX)
-
+        sys.exit()
         ########################################## Inserir Trabalho
         if (IDX == 0):
             if (TYPE == 'EV'):
