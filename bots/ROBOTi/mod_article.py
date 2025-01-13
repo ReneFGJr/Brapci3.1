@@ -145,7 +145,7 @@ def check_method02(data,OAIID,IDjnl):
                 # Verifique o valor do campo 'Identifier'
                 identifier = data.get('Identifier', '')
                 if OAIID in identifier:
-                    print("=====>",line[1])
+                    print("====FOUND=>",OAIID)
                 else:
                     print("=NOT FOUND=")
                     print(f"JSON: {identifier}")
