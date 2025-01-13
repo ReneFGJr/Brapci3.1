@@ -18,7 +18,8 @@ class Register extends Model
         'id_ds', 'ID', 'json', 'CLASS','COVER', 'COLLECTION',
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT', 'KEYWORDS','ABSTRACTS',
         'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION', 'PUBLICATION',
-        'LEGEND','new','use','URL'
+        'LEGEND','new','use','URL',
+        'OAI_ID'
     ];
 
     // Dates
