@@ -143,7 +143,7 @@ def check_method02(data,jnl,id):
             for line in row:
                 print("=====>",line[1])
 
-
+    print(row)
     sys.exit()
 
 
