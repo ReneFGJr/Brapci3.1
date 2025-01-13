@@ -23,11 +23,11 @@ import sys
 def process(rg):
     ID = rg[0]
     JNL = rg[6]
-    IDA = rg[1]
+    IDA = rg[1] #OAIID
     TYPE = rg[11]
     IDX = rg[5]
 
-    print(rg)
+    print("IDA",IDA)
     sys.exit()
 
     print(Fore.YELLOW+f"... Processando ISSUE {TYPE} ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
