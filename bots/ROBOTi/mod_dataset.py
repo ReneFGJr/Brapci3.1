@@ -78,9 +78,11 @@ def check_double_issue():
     row = database.query(qr)
     for line in row:
         ID = line[0]
+        print(line)
+        sys.exit()
         oai_listidentify.chageStatus(ID,1)
         mod_data.delete_data(ID)
-        print(line)
+
         sys.exit()
 
     print("Total de ",len(row))
