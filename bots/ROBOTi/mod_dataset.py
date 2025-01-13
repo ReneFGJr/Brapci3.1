@@ -80,13 +80,13 @@ def check_double_issue():
         ID = line[0]
         qr = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = " + str(ID)
         row2 = database.query(qr)
-        print(row2)
-        print(line)
-        sys.exit()
-
-        oai_listidentify.chageStatus(ID,1)
+        ln = 0
+        for line2 in row2:
+            IDd = line2[0]
+            oai_listidentify.chageStatusID(IDd,1)
+            if (ln > 0):
+                oai_listidentify.zeraRDF(IDd)
         mod_data.delete_data(ID)
-
         sys.exit()
 
     print("Total de ",len(row))
