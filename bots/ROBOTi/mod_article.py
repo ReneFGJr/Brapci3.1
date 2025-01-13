@@ -126,7 +126,6 @@ def check_method02(data,OAIID,IDjnl):
 
     print(f"...Mtd02-Dataset\n...Title:{TITLE}\nYear:{YEAR}")
     print(f"...{OAIID}")
-    sys.exit()
 
     qr = f"select ID, json from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
