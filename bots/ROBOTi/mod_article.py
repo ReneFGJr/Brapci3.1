@@ -140,9 +140,11 @@ def check_method02(data,jnl,id):
             ID = ID[0]
             return ID
         else:
-            json = row[1]
+            json_data = row[1]
+            if 'identifier' in json_data:
+                print("=========ID==>",json_data['identifier'])
             print(json)
-            print(json['identifier'])
+
     sys.exit()
 
 
