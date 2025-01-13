@@ -69,6 +69,7 @@ def check_double_issue():
     qr += f" where d_p = {prop} "
     qr += "order by d_r2, id_d "
     qr += "limit 20"
+    print(qr)
     row = database.query(qr)
 
 def check_duplicate():
