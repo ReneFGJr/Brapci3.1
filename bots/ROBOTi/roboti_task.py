@@ -4,6 +4,8 @@ from colorama import Fore
 
 def nextGetRecords(status):
     limit = 10
+    if (status == 1):
+        limit = 50
     if (status == 5):
         limit = 250
     if (status == 6):
