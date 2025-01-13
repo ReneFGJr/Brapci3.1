@@ -141,20 +141,7 @@ def check_method02(data,jnl,id):
             return ID
         else:
             for line in row:
-                json_data = line[1]  # Obtém o JSON da linha
-                try:
-                    # Certifique-se de carregar o JSON se ele for uma string
-                    import json
-                    if isinstance(json_data, str):
-                        json_data = json.loads(json_data)
-
-                    # Tenta acessar o campo 'identifier'
-                    if 'identifier' in json_data:
-                        print("=========ID==>", json_data['Identifier'])
-                    else:
-                        print("Chave 'Identifier' não encontrada no JSON.")
-                except Exception as e:
-                    print(f"Erro ao processar JSON: {e}")
+                print(line[1])
 
 
     sys.exit()
