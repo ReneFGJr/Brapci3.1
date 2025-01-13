@@ -27,9 +27,6 @@ def process(rg):
     TYPE = rg[11]
     IDX = rg[5]
 
-    print("IDA",IDA)
-    sys.exit()
-
     print(Fore.YELLOW+f"... Processando ISSUE {TYPE} ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     print("ID",ID)
     path = mod_listidentify.directory(ID)+'.getRecord.json'
@@ -96,6 +93,9 @@ def check_method01(id,jnl):
     qr += f"inner join brapci_rdf.rdf_concept ON d_r1 = id_cc "
     qr += f"where n_name = '{ID}' or n_name = '{id}'"
     qr += "group by id_cc"
+
+    print("==",qr)
+    sys.exit()
 
     row = database.query(qr)
 
