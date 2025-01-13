@@ -88,7 +88,6 @@ def check_double_issue():
             if (ln > 0):
                 oai_listidentify.zeraRDF(IDd)
         mod_data.delete_data(ID)
-        sys.exit()
 
     print("Total de ",len(row))
 
