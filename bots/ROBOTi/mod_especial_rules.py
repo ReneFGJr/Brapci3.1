@@ -9,4 +9,7 @@ def rule01():
 
     for line in row:
         print(line)
+        ID = line[0]
+        print("Removido trabalho ",ID," da Revista RPBCIB")
+        mod_concept.remove(ID)
         sys.exit()
