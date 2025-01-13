@@ -4,7 +4,7 @@ import mod_elasticsearch
 import sys
 
 def rule01():
-    limit = 10
+    limit = 1000
     # Remove os dados da Revista Pesquisa Brasileira em Ciência da Informação e Biblioteconomia (12) que não tem PDF
     qr = f"select ID,id_ds from brapci_elastic.dataset where JOURNAL = 12 and (`PDF` < 0) limit {limit}"
     row = database.query(qr)
