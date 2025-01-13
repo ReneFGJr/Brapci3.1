@@ -154,19 +154,16 @@ def check_method02(data,OAIID,IDjnl):
                     # Comparação com OAIID
                     if OAIID in identifier:
                         print("====FOUND====>", OAIID)
+                        sys.exit()
                     else:
-                        print("=NOT FOUND=")
-                        print(f"JSON Identifier: {identifier}")
+                        print(f"NOT FOUND JSON Identifier: {identifier}")
                 except json.JSONDecodeError as e:
                     # Trata erro ao carregar o JSON
                     print(f"Erro ao decodificar JSON: {e}")
                 except Exception as e:
                     # Trata outros erros inesperados
                     print(f"Erro inesperado: {e}")
-
-    sys.exit()
-
-
+    return 0
 ############################################## CONCEPT
 def create_proceeding(rg,data,jnl):
     create_article(rg,data,jnl,'Proceeding')
