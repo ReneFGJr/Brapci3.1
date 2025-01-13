@@ -121,11 +121,13 @@ def check_method02(data,OAIID,IDjnl):
     issue = data[6]
     print("...Mtd02-ISSUE")
     SOURCE = issue['source']
+    YEAR = SOURCE['year']
 
 
     print(f"...Mtd02-Dataset\n...Title:{TITLE}\nYear:{YEAR}")
     print(f"...{OAIID}")
     sys.exit()
+
     qr = f"select ID, json from brapci_elastic.dataset "
     qr += f" where TITLE = '{TITLE}' and JOURNAL = {IDjnl}"
     qr += f" and YEAR = '{YEAR}' "
