@@ -144,7 +144,7 @@ def check_method02(data,jnl,id):
                 json_data = line[1]
                 if 'identifier' in json_data:
                     print("=========ID==>",json_data['identifier'])
-                print(json)
+                print(json_data)
 
     sys.exit()
 
