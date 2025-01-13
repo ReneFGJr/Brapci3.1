@@ -124,8 +124,9 @@ def check_method02(data,jnl,id):
     print("...Mtd02-ISSUE")
     SOURCE = issue['source']
     YEAR = SOURCE['year']
-    OAIID = ""
-    print("SOURCE",data[1])
+    OAIID = "OAIOD"
+    print("xxxSOURCE",data)
+    sys.exit()
 
 
     print(f"...Mtd02-Dataset\n...Title:{TITLE}\nYear:{YEAR}")
