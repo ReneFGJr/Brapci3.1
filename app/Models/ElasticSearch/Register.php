@@ -437,6 +437,7 @@ class Register extends Model
         $da['json'] = json_encode($data);
         $da['CLASS'] = $data['Class'];
         $da['COVER'] = PATH. '/img/books/no_cover.png';
+        $da['OAI_ID'] = $data['OAI_ID'];
 
         $da['COLLECTION'] = $data['COLLECTION'];
 
