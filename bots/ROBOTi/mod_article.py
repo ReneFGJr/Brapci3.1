@@ -141,14 +141,25 @@ def check_method02(data,OAIID,IDjnl):
             return ID
         else:
             for line in row:
-                data = json.loads(line[1])
-                # Verifique o valor do campo 'Identifier'
-                identifier = data.get('Identifier', '')
-                if OAIID in identifier:
-                    print("====FOUND=>",OAIID)
-                else:
-                    print("=NOT FOUND=")
-                    print(f"JSON: {identifier}")
+                try:
+                    # Carrega o JSON da linha
+                    data = json.loads(line[1])
+
+                    # Verifique o valor do campo 'Identifier'
+                    identifier = data.get('Identifier', '')
+
+                    # Comparação com OAIID
+                    if OAIID in identifier:
+                        print("====FOUND====>", OAIID)
+                    else:
+                        print("=NOT FOUND=")
+                        print(f"JSON Identifier: {identifier}")
+                except json.JSONDecodeError as e:
+                    # Trata erro ao carregar o JSON
+                    print(f"Erro ao decodificar JSON: {e}")
+                except Exception as e:
+                    # Trata outros erros inesperados
+                    print(f"Erro inesperado: {e}")
 
     sys.exit()
 
