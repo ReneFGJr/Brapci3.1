@@ -27,6 +27,9 @@ def process(rg):
     TYPE = rg[11]
     IDX = rg[5]
 
+    print(rg)
+    sys.exit()
+
     print(Fore.YELLOW+f"... Processando ISSUE {TYPE} ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     print("ID",ID)
     path = mod_listidentify.directory(ID)+'.getRecord.json'
