@@ -5,4 +5,6 @@ def rule01():
     qr = "select ID from brapci_elastic.dataset where JOURNAL = 12 and `use` < 0"
     row = database.query(qr)
 
+    print(qr)
+
     print(row)
