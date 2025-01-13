@@ -69,7 +69,7 @@ def check_double_issue():
     qr += "SELECT d_r2, d_p, count(*) as total, max(id_d) as id_d FROM brapci_rdf.rdf_data "
     qr += f" WHERE d_p = {prop} "
     qr += " group by d_r2,d_p "
-    qr += ") as tabela where total > 1 order by total desc "
+    qr += ") as tabela where total > 1 order by d_r2, total desc "
 
     row = database.query(qr)
     for line in row:
