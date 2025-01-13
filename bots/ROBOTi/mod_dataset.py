@@ -78,7 +78,6 @@ def check_double_issue():
     row = database.query(qr)
     for line in row:
         ID = line[0]
-        ID = 22572
         print("Processando ",ID,"========================")
         qr = "select * from brapci_oaipmh.oai_listidentify where oai_rdf = " + str(ID)
         row2 = database.query(qr)
