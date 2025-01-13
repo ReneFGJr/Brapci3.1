@@ -143,7 +143,7 @@ def check_method02(data,jnl,id):
             json = row[1]
             print(json)
             print(json['identifier'])
-        sys.exit()
+    sys.exit()
 
 
 ############################################## CONCEPT
