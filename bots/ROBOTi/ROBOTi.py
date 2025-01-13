@@ -30,6 +30,7 @@ import database
 import mod_concept
 import mod_cited
 import mod_pdf
+import mod_especial_rules
 import mod_proceeding
 import mod_backup_mysql
 import mod_thesa
@@ -147,6 +148,7 @@ def run(parm):
         mod_pdf.harvestingPDF()
     if (act == 'pdfv'):
         mod_pdf.validaPDF()
+        mod_especial_rules.rule01()
 
     if (act == 'doi'):
         mod_cited.locate()
@@ -291,6 +293,11 @@ def run(parm):
         lp = mod_dataset.check_type()
     if (act == '231'):
         lp = mod_dataset.check_pbci()
+        mod_especial_rules.rule01()
+
+    if (act == '240'): # Rules
+        mod_especial_rules.rule01()
+
 
     if (act == 'lattesK'):
         file = parm[2]
