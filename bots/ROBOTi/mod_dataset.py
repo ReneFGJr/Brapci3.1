@@ -16,7 +16,7 @@ def check_pbci():
         abs = json.loads(abs)
         try:
             txt = abs['Abstract']['pt'][0]
-            if 'Acesso ao texto completo' in txt or 'http' in txt or 'acesso ao resumo' in txt:
+            if 'Acesso ao texto completo' in txt or 'http' in txt or 'acesso ao resumo' in txt or 'acesso ao texto completo' in txt:
                 qu = f"update brapci_elastic.dataset set `use` = -99 where ID = {ID}"
                 print(qu)
                 database.update(qu)
