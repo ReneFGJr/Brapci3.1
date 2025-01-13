@@ -140,7 +140,9 @@ def check_method02(data,jnl,id):
             ID = ID[0]
             return ID
         else:
-            print(row)
+            json = row[1]
+            print(json)
+            print(json['identifier'])
         sys.exit()
 
 
