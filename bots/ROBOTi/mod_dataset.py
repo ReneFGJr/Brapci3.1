@@ -73,6 +73,8 @@ def check_double_issue():
     qr += ") as tabela where total > 1 "
     qr += "limit 20"
 
+    print(qr)
+
     row = database.query(qr)
     for line in row:
         print(line)
