@@ -156,8 +156,6 @@ def check_method02(data,jnl,id):
                 except Exception as e:
                     print(f"Erro ao processar JSON: {e}")
 
-                # Exibe o JSON completo (para depuração)
-                print(json.dumps(json_data, indent=2))
 
     sys.exit()
 
