@@ -69,8 +69,10 @@ def check_double_issue():
     qr += f" where d_p = {prop} "
     qr += "order by d_r2, id_d "
     qr += "limit 20"
-    print(qr)
+
     row = database.query(qr)
+    for line in row:
+        print(line)
 
 def check_duplicate():
     qr = "select JOURNAL, TITLE, AUTHORS, ID, YEAR from brapci_elastic.dataset "
