@@ -39,6 +39,7 @@ def process(rg):
 
         #Verifica se existe o ID = METHODO 01
         BYPASS = 0
+        print(IDX,"============ 0 =")
 
         if IDX == 0:
             print("Method 01")
@@ -47,7 +48,7 @@ def process(rg):
             print("+============================")
             print(IDX,IDA,JNL)
 
-        print(IDX,"=============")
+        print(IDX,"============ 1 =")
         sys.exit()
 
         if (IDX > 0) and (BYPASS == 1):
