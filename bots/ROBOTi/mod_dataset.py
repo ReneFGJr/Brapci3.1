@@ -70,6 +70,7 @@ def check_double_issue():
     qr += f" WHERE d_p = {prop} "
     qr += " group by d_r2,d_p "
     qr += ") as tabela where total > 1 order by d_r2, total desc "
+    qr += " limit 1"
 
     row = database.query(qr)
     for line in row:
