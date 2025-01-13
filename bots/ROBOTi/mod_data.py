@@ -166,6 +166,11 @@ def register_literal(IDC,prop,name,lang):
         row = database.query(qr)
 
     return row
+
+def delete_data(IDp):
+    qd = f"delete from brapci_rdf.rdf_data where d_r1 = {IDp} or d_r2 = {IDp}"
+    database.update(qd)
+
 def delete(IDd):
     qd = f"delete from brapci_rdf.rdf_data where id_d = {IDd}"
     database.update(qd)
