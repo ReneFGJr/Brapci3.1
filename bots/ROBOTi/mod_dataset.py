@@ -66,10 +66,10 @@ def remove_duplicate():
 def check_double_issue():
     prop = mod_class.getClass('isPartOfSource')
     qr = "select * from ("
-    qr += "select max(id_d) as id_d, d_p, d_r2, count(*) as total from brapci_rdf.rdf_data "
+    qr += "select max(id_d) as id_d, d_p, d_r1, count(*) as total from brapci_rdf.rdf_data "
     qr += f" where d_p = {prop} "
-    qr += " group by d_r2, id_d "
-    qr += "order by d_r2, id_d "
+    qr += " group by d_r1, id_d "
+    qr += "order by d_r1, id_d "
     qr += ") as tabela where total > 1 "
     qr += "limit 20"
 
