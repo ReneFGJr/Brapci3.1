@@ -154,6 +154,7 @@ def check_method02(data,OAIID,IDjnl):
                     # Comparação com OAIID
                     if OAIID in identifier:
                         print("====FOUND====>", OAIID)
+                        print(line[1])
                         sys.exit()
                     else:
                         print(f"NOT FOUND JSON Identifier: {identifier}")
