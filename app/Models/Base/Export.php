@@ -638,7 +638,8 @@ class Export extends Model
                 $meta['KEYWORD'] = 0;
                 $meta['ABSTRACT'] = 0;
                 $meta['PDF'] = 0;
-                $meta['OAI_ID'] = $cline['n_name'];
+
+                $meta['OAI_ID'] = $cline['concept']['n_name'];
 
                 $ck = ['Collection'=>'COLLECTION','Subject' => 'KEYWORD', 'Abstract' => 'ABSTRACT', 'File'=>'PDF'];
                 foreach ($ck as $fld => $met) {
