@@ -222,6 +222,9 @@ def reindex():
     qu = "update brapci_elastic.dataset set new = 1 where ((new = 4) or (new = 2) or (new = 0)) and `use` = 0"
     database.update(qu)
 
+def remove(id):
+    qu = f"delete from brapci_elastic.dataset where (id_ds = {id})"
+    database.update(qu)
 
 def dataset_news():
     qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0 order by id_ds desc"
