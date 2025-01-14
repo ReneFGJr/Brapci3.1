@@ -16,6 +16,7 @@ def check_pbci():
     for ln in row:
         ID = ln[1]
         abs = ln[4] # JSON Field
+        print(ln)
         abs = json.loads(abs)
         try:
             txt = abs['Abstract']['pt'][0]
