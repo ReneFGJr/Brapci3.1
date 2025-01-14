@@ -839,14 +839,14 @@
 
     <title>Brapci3 - DrashDataBoard</title>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="180x180" href="http://cedap/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="http://cedap/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="16x16" href="http://cedap/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
     <!-- CSS -->
-    <link rel="stylesheet" href="http://cedap/css/bootstrap.css" />
-    <link rel="stylesheet" href="http://cedap/css/style.css?v0_0_9=" />
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/style.css?v0_0_9=" />
 
     <!-- CSS -->
-    <script src="http://cedap/js/bootstrap.js?v=5.0.2"></script>
+    <script src="/js/bootstrap.js?v=5.0.2"></script>
     <link href="<?= base_url('assets/bootstrap-icons/font/bootstrap-icons.css'); ?>" rel="stylesheet">
 </head>
