@@ -15,8 +15,7 @@ def check_pbci():
     row = database.query(qr)
     for ln in row:
         ID = ln[1]
-        abs = ln[4] # JSON Field
-        print(ln)
+        abs = ln[5] # JSON Field
         abs = json.loads(abs)
         try:
             txt = abs['Abstract']['pt'][0]
