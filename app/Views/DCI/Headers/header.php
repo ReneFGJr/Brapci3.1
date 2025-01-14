@@ -2,7 +2,6 @@
 <html>
 
 <head>
-    <script id="debugbar_loader" data-time="1735644058.301953" src="http://cedap/index.php?debugbar"></script>
     <script id="debugbar_dynamic_script"></script>
     <style id="debugbar_dynamic_style"></style>
     <script class="kint-rich-script">
