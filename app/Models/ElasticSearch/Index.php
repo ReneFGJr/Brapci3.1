@@ -478,7 +478,8 @@ class Index extends Model
 					$sx .= $linS;
 					foreach ($fld as $name) {
 						if (isset($line[$name])) {
-							$vlr = $line[$name];
+							$vlr = troca($line[$name],chr(13),' ');
+							$vlr = troca($vlr,chr(10),' ');
 
 							if ($vlr == sonumero($vlr)) {
 								$sx .= $pre . $vlr . $pos . $sep;
