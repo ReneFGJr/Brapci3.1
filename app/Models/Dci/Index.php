@@ -45,17 +45,39 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    public $semestreID = 0;
+    public $semestre = '';
+
     function index($d1='',$d2='',$d3='', $d4 ='', $d5 = '')
         {
+            $Semestre = new \App\Models\Dci\Semestre();
+            $this->semestreID = $Semestre->getSemestre('ID');
+            $this->semestre = $Semestre->getSemestre('');
+
+            if ($this->semestre == '')
+                {
+                    $d1 = 'semestre';
+                }
+
             $sem = 1;
             $sx = '';
-
             switch($d1)
                 {
                     case 'encargos':
-                        if (trim($d3)=='') { $d3 == 0;}
+                        if (trim($d2)=='') { $d2 == 0;}
                         $Encargos = new \App\Models\Dci\Encargos();
-                        $sx .= $Encargos->edit($d3);
+                        switch($d2)
+                            {
+                                case 'edit':
+                                    $sx .= $Encargos->edit($d3);
+                                    break;
+                                case 'new':
+                                    $sx .= $Encargos->new();
+                                    break;
+                                default:
+                                    $sx .= "MENU";
+                                    break;
+                            }
                         break;
                     case 'report':
                         switch($d2)
@@ -67,6 +89,7 @@ class Index extends Model
                             }
                         break;
                     case 'semestre':
+
                         $Disciplinas = new \App\Models\Dci\Disciplinas();
                         switch($d2)
                             {
@@ -81,7 +104,9 @@ class Index extends Model
                                 break;
 
                                 default:
-                                    $sx .= '[[['.$d2.']]]';
+                                    $Semestre = new \App\Models\Dci\Semestre();
+                                    $sx .= $Semestre->index($d1,$d2,$d3,$d4);
+                                    break;
                             }
 
 
@@ -109,22 +134,22 @@ class Index extends Model
 
                     default:
                         $mn = [];
-                        $mn['Departamento'] = PATH . '/dci/';
+                        $mn['Departamento'] = base_url('/dci/');
                         $sx .= breadcrumbs($mn);
 
-                        $menu[PATH . '/dci/docentes/'] = 'Docentes';
-                        $menu[PATH . '/dci/cursos/'] = 'Cursos';
-                        $menu[PATH . '/dci/disciplinas/'] = 'Disciplinas';
-                        $menu[PATH . '/dci/encargos/'] = 'Encargos';
-                        $menu[PATH . '/dci/salas/'] = 'Salas de Aula';
-                        $menu[PATH . '/dci/semestre/'] = 'Semestre';
+                        $menu[base_url('/dci/docentes/')] = 'Docentes';
+                        $menu[base_url('/dci/cursos/')] = 'Cursos';
+                        $menu[base_url('/dci/disciplinas/')] = 'Disciplinas';
+                        $menu[base_url('/dci/encargos/')] = 'Encargos';
+                        $menu[base_url('/dci/salas/')] = 'Salas de Aula';
+                        $menu[base_url('/dci/semestre/')] = 'Semestre';
                         $sa  = menu($menu);
 
 
                         $menu = [];
-                        $menu[PATH . '/dci/docentes/report/1'] = 'Relatório Docentes';
-                        $menu[PATH . '/dci/semestre/1/'] = 'Relatório Encargos/Dia';
-                        $menu[PATH . '/dci/semestre/2/'] = 'Relatório Encargos/Disciplina';
+                        $menu[base_url('/dci/docentes/report/1')] = 'Relatório Docentes';
+                        $menu[base_url('/dci/semestre/1/')] = 'Relatório Encargos/Dia';
+                        $menu[base_url('/dci/semestre/2/')] = 'Relatório Encargos/Disciplina';
                         $sb  = menu($menu);
 
                         $sx .= bs(bsc($sa,6).bsc($sb,6));

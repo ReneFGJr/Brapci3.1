@@ -16,7 +16,8 @@ class Encargos extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id_e', 'e_semestre', 'e_disciplina',
-        'e_docente', 'e_credito', 'e_curso',
+        'e_docente', 'e_credito',
+        'e_dia',
         'e_horario',
         'e_turma'
 
@@ -24,13 +25,13 @@ class Encargos extends Model
 
     protected $typeFields    = [
         'hidden',
-        'sql:id_sem:sem_descricao:semestre',
-        'sql:id_di:di_disciplina:(select id_di, concat(di_codigo,\' - \',di_disciplina) as di_disciplina from disciplinas order by di_codigo) as disciplinas  order by di_disciplina',
-        'sql:id_dc:dc_nome:docentes',
-        'string',
-        'sql:id_c:c_curso:curso',
-        'sql:id_h:h_hora:(select id_h, concat(h_dia,\' | \',h_hora_ini,\' - \',h_hora_fim) as h_hora from horario) as horario',
-        'string', 'string',
+        'qr:id_sem:sem_descricao:(select id_sem,sem_descricao from dci.semestre where sem_ativo = 1) as semestre ',
+        'qr:id_di:di_disciplina:(select id_di, concat(\' Etapa \', di_etapa,\' - \', di_codigo ,\' - \',di_disciplina) as di_disciplina from dci.disciplinas order by di_codigo) as disciplinas',
+        'qr:id_dc:dc_nome:dci.docentes',
+        'qr:cr_valor:cr_nome:dci.creditos',
+        'qr:hd_dia:hd_dia_name:dci.horario_dia',
+        'qr:id_hora:hora_inicio:dci.horario_hora',
+        'st'
 
     ];
 
@@ -96,7 +97,6 @@ class Encargos extends Model
                     $dc = $Disciplinas->find($disc);
 
                     $data['e_credito'] = $dc['di_crd'];
-                    $data['e_curso'] = $dc['di_curso'];
                     $data['e_semestre'] = $sem;
                     $data['e_disciplina'] = $disc;
                     $data['e_docente'] = $pro;
@@ -107,7 +107,7 @@ class Encargos extends Model
 
     function edit($id)
         {
-            $sx = '['.$id.']';
+            $sx = '';
             if ($id == '') { $id = 0; }
             $this->id = $id;
             $sx .= form($this);

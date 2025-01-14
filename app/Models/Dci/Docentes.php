@@ -46,8 +46,8 @@ class Docentes extends Model
         {
             $sx = '';
             $mn = [];
-            $mn['Departamento'] = PATH.'/dci/';
-            $mn['Docentes'] = PATH . '/dci/docentes/';
+            $mn['Departamento'] = base_url('/dci/');
+            $mn['Docentes'] = base_url('/dci/docentes/');
 
             switch($d1)
                 {
@@ -55,7 +55,7 @@ class Docentes extends Model
                         $sx .= $this->view($d2);
                         break;
                     case 'report':
-                        $sem = 1;
+                        $sem = 3;
                         $sx .= $this->report_encargos($sem);
                         break;
                     default:
@@ -72,9 +72,11 @@ class Docentes extends Model
             $dt = $this
                 //->select('id_e,e_docente,di_etapa,dc_nome,c_curso,e_turma,di_disciplina,di_codigo,di_tipo,di_crd,di_ch,di_ext,di_tipo,c_bg')
                 ->join('encargos', '(e_docente = id_dc) and (e_semestre = '.$sem.')')
-                ->join('curso', 'id_c = e_curso')
                 ->join('disciplinas', 'e_disciplina = id_di')
-                ->join('horario', 'e_horario = id_h', 'LEFT')
+                ->join('curso', 'id_c = di_curso')
+                ->join('horario_dia', 'e_dia = id_hd', 'LEFT')
+                ->join('horario_hora', 'e_horario = id_hora', 'LEFT')
+                ->join('semestre', 'e_semestre = id_sem', 'LEFT')
                 ->orderBy('dc_nome, di_disciplina')
                 ->findAll();
 
@@ -112,7 +114,7 @@ class Docentes extends Model
                     foreach($dados as $idd=>$ddados)
                         {
                             $nc++;
-                            $crt = $crt + $ddados['di_crd'];
+                            $crt = $crt + $ddados['e_credito'];
                             if ($nc > 1)
                                 {
                                     $sx .= '<tr>';
@@ -126,11 +128,11 @@ class Docentes extends Model
                                     $etapa = ' ('.$etapa.'ª Etapa)';
                                 }
 
-                            $link = '<a href="' . PATH . '/dci/encargos/edit/' . $ddados['id_e'] . '" target="_blank">';
+                            $link = '<a href="' . base_url('/dci/encargos/edit/' . $ddados['id_e']) . '" target="_blank">';
                             $linka = '</a>';
 
 
-                            $sala = $ddados['h_dia'].' '. $ddados['h_hora_ini'].' '. $ddados['h_hora_fim'];
+                            $sala = $ddados['hd_dia_name'].' '. $ddados['hora_inicio'];
                             $sx .= '<td width="35%" style="background-color: $cor$;" class="border border-secondary">'.$link.$ddados['di_codigo'].' - '.$ddados['di_disciplina'].$linka.
                                     ' <sup>'.$ddados['di_tipo'].$etapa.'</td>';
                             $sx .= '<td width="10%" style="background-color: $cor$;" class="border border-secondary text-center">' . $ddados['c_curso'].'</sup></td>';

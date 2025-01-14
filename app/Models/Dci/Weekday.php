@@ -137,7 +137,7 @@ class Weekday extends Model
             $dt = $Encargos
                 ->join('disciplinas','e_disciplina = id_di')
                 ->join('docentes', 'e_docente = id_dc')
-                ->join('curso', 'e_curso = id_c')
+                ->join('curso', 'di_curso = id_c')
                 ->join('sala_aula_hoario_sem', 'id_e = sa_encargo','LEFT')
                 ->where('e_semestre',$sem)
                 ->orderBy('c_curso, di_etapa')
