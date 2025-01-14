@@ -447,9 +447,8 @@ class Disciplinas extends Model
             'di_codigo' => 'text-center',
             'di_disciplina' => 'text-start',
             'dc_nome' => 'text-start',
-            'h_dia' => 'text-center',
-            'h_hora_ini' => 'text-center',
-            'h_hora_fim' => 'text-center',
+            'hd_dia_name' => 'text-center',
+            'hora_inicio' => 'text-center',
             'di_ch' => 'text-center'
         );
         $sh = '<tr>
@@ -458,7 +457,6 @@ class Disciplinas extends Model
                 <th>professor</th>
                 <th>dia</th>
                 <th>início</th>
-                <th>fim</th>
                 <th>CH</th>
                 </tr>';
         $xcurso = '';
