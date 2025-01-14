@@ -436,7 +436,7 @@ class Disciplinas extends Model
             ->join('encargos', 'e_disciplina = id_di')
             ->join('docentes', 'e_docente = id_dc', 'LEFT')
             ->join('horario_dia', 'e_dia = id_hd', 'LEFT')
-            ->join('horario_hora', 'e_hora = id_hora', 'LEFT')
+            ->join('horario_hora', 'e_horario = id_hora', 'LEFT')
             ->where('id_di > 0')
             //->where('id_h > 0')
             ->where('e_semestre', $sem)
