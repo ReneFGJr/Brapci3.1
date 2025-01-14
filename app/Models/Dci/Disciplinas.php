@@ -440,7 +440,7 @@ class Disciplinas extends Model
             ->where('id_di > 0')
             //->where('id_h > 0')
             ->where('e_semestre', $sem)
-            ->orderBy('id_c,di_codigo,di_etapa,h_hora_ini');
+            ->orderBy('id_c,di_codigo,di_etapa,hora_inicio');
         $dt = $this->findAll();
 
         $w = array(
