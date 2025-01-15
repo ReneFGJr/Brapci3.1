@@ -47,3 +47,5 @@ def extract_fapergs_editais(url):
     except requests.exceptions.RequestException as e:
         print(f"Erro ao acessar o site: {e}")
         return []
+
+editais_fapergs()
