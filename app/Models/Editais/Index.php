@@ -44,4 +44,10 @@ class Index extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function openEditais()
+        {
+            $dt = $this->findAll(10);
+            return $dt;
+        }
 }

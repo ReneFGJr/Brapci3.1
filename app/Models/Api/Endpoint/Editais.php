@@ -54,7 +54,7 @@ class Editais extends Model
 
     function index($d1, $d2, $d3)
     {
-        $Ediatis = new \App\Models\Editais\Index();
+        $Editais = new \App\Models\Editais\Index();
 
         header('Access-Control-Allow-Origin: *');
         if (get("test") == '') {
@@ -63,7 +63,7 @@ class Editais extends Model
 
         switch ($d1) {
             case 'open':
-                $RSP = $Ediatis->openEditais();
+                $RSP = $Editais->openEditais();
                 break;
         echo json_encode($RSP);
         exit;
