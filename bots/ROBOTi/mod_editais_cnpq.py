@@ -1,6 +1,6 @@
 # pip install requests beautifulsoup4
 import requests
-import editais
+import mod_editais
 from bs4 import BeautifulSoup
 
 
@@ -49,4 +49,4 @@ if response.status_code == 200:
         except:
             print("ops")
 
-    editais.register(1,titulo_chamada,'Aberto')
+    mod_editais.register(1,titulo_chamada,'Aberto')
