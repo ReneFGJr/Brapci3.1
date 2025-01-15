@@ -23,6 +23,8 @@ def extract_fapergs_editais(url):
         response = requests.get(url)
         response.raise_for_status()  # Verifica erros na requisição
 
+        print(response.content)
+
         # Parseando o conteúdo HTML
         soup = BeautifulSoup(response.content, 'html.parser')
 
