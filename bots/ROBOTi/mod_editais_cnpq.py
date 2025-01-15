@@ -1,6 +1,9 @@
 # pip install requests beautifulsoup4
 import requests
+import editais
 from bs4 import BeautifulSoup
+
+
 
 # URL da página de chamadas públicas abertas do CNPq
 url = "http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&filtro=abertas"
@@ -45,3 +48,5 @@ if response.status_code == 200:
             print(".",end='')
         except:
             print("ops")
+
+    editais.register(1,titulo_chamada,'Aberto')
