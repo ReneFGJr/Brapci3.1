@@ -1,6 +1,6 @@
 import database
 
-def register(agency,title,descricao,datai,dataf,status):
+def register(agency,title,descricao,status):
     qr = "select * from brapci_editais.editais "
     qr += f"where e_agencia = '"+str(agency)+"' and e_title = '"+title+"' "
     row = database.query(qr)
