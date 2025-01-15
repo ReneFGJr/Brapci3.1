@@ -24,10 +24,14 @@ if response.status_code == 200:
         try:
             titulo_chamada = chamada.find('h4').text.strip()
             descricao_chamada = chamada.find('p').text.strip()
+            # Extraindo informações de inscrições
+            inscricoes = chamada.find('div', class_='inscricao').find('li').text
+            print(f'Período de Inscrições: {inscricoes}')
 
             print(f"\nChamada {idx}:")
             print(f"Título: {titulo_chamada}")
             print(f"Descrição: {descricao_chamada}")
+            print(f"Inscrições: {inscricoes}")
         except AttributeError:
             print(f"\nChamada {idx}: Informações incompletas ou estrutura inesperada.")
 else:
