@@ -5,6 +5,7 @@ import pandas as pd
 def editais_fapergs():
     # URL da página de editais abertos da FAPERGS
     url = 'https://fapergs.rs.gov.br/abertos'
+    url = 'https://fapergs.rs.gov.br/_service/conteudo/pagedlistfilho?id=2042&templatename=pagina.listapagina.padrao&currentPage=1&pageSize=10'
 
     # Extraindo os editais
     editais = extract_fapergs_editais(url)
@@ -23,7 +24,10 @@ def extract_fapergs_editais(url):
         response = requests.get(url)
         response.raise_for_status()  # Verifica erros na requisição
 
-        print(response.content)
+        # Parseando o conteúdo JSON
+        data = response.content
+        data = data.json()
+        print(data)
 
         # Parseando o conteúdo HTML
         soup = BeautifulSoup(response.content, 'html.parser')
