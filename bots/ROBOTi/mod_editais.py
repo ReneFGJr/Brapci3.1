@@ -25,7 +25,7 @@ def register(agency,title,descricao,datai, dataf, link='', status=1):
         qr += "e_data_start = '"+datai+"', "
         qr += "e_data_end = '"+dataf+"', "
         qr += "e_url = '"+link+"' "
-        qr += "where id_e = "+str(ID)
+        qr += "where e_agencia = '"+str(agency)+"' and e_title = '"+title+"' "
         database.update(qr)
         return False
 
