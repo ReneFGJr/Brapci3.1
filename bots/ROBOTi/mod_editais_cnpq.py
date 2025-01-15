@@ -36,25 +36,32 @@ if response.status_code == 200:
             inscricoes_element = edital.find('div', class_='inscricao')
             inscricoes = inscricoes_element.text.strip() if inscricoes_element else "Informação não disponível"
 
+            # Extraindo link permanente do edital
+            link_permanente_element = edital.find('div', class_='link-permanente')
+            if link_permanente_element:
+                link_permanente_input = link_permanente_element.find('input', {'type': 'text'})
+                link_permanente = link_permanente_input['value'] if link_permanente_input else "Link não disponível"
+            else:
+                link_permanente = "Link não disponível"
+
             print(f"\nEdital {idx + 1}:")
             print(f"Título: {titulo_chamada}")
             print(f"Descrição: {descricao_chamada}")
             print(f"Período de Inscrições: {inscricoes}")
+            print(f"Link Permanente: {link_permanente}")
 
             # Registrar no módulo mod_editais
-            mod_editais.register(idx + 1, titulo_chamada, descricao_chamada, 'Aberto')
+            mod_editais.register(idx + 1, titulo_chamada, descricao_chamada, 'Aberto', link_permanente)
 
         except Exception as e:
             print(f"Erro ao processar edital {idx + 1}: {e}")
 
     # Coletar todos os links na página para referência
-
-
-    #links = soup.find_all('a')
-    #for link in links:
-    #    try:
-    #        print(f"Texto do Link: {link.text.strip()}, URL: {link['href']}")
-    #    except Exception as e:
-    #        print(f"Erro ao processar link: {e}")
+    links = soup.find_all('a')
+    for link in links:
+        try:
+            print(f"Texto do Link: {link.text.strip()}, URL: {link['href']}")
+        except Exception as e:
+            print(f"Erro ao processar link: {e}")
 else:
     print("Falha na requisição. Verifique a URL ou a conexão com a internet.")
