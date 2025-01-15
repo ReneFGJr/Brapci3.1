@@ -11,7 +11,7 @@ def register(agency,title,status):
     if len(row) == 0:
         qr = "insert into brapci_editais.editais "
         qr += "(e_agencia,e_title,e_status) values "
-        qr += "('"+str(agency)+"','"+title+"','"+status+"')"
+        qr += "('"+str(agency)+"','"+title+"','"+str(status)+"')"
         database.query(qr)
         return True
     else:
