@@ -38,7 +38,7 @@ def extract_fapergs_editais(url):
         matches = pattern.findall(content)
 
         # Organização dos dados extraídos
-        data = [{"link": f"https://example.com{match[0]}", "title": match[1]} for match in matches]
+        data = [{"link": f"https://fapergs.rs.gov.br{match[0]}", "title": match[1]} for match in matches]
 
         # Exibição dos dados
         for item in data:
