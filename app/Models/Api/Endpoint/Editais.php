@@ -25,7 +25,8 @@ class Editais extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'ev_count', 'id_ev'
+        'ev_count',
+        'id_ev'
     ];
 
     // Dates
@@ -65,7 +66,8 @@ class Editais extends Model
             case 'open':
                 $RSP = $Editais->openEditais();
                 break;
-        echo json_encode($RSP);
-        exit;
+                echo json_encode($RSP);
+                exit;
+        }
     }
 }
