@@ -49,4 +49,4 @@ if response.status_code == 200:
         except:
             print("ops")
 
-    mod_editais.register(1,titulo_chamada,'Aberto')
+    mod_editais.register(1,titulo_chamada,descricao_chamada,'Aberto')
