@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import sys
 import re
+import mod_editais
 
 def editais_fapergs():
     # URL da página de editais abertos da FAPERGS
@@ -45,6 +46,7 @@ def extract_fapergs_editais(url):
             print(f"Título: {item['title']}")
             print(f"Link: {item['link']}")
             print("-" * 80)
+            mod_editais.register(2,item['title'],'','','',item['link'])
 
     else:
         print(f'Erro na requisição: {response.status_code}')
