@@ -30,8 +30,9 @@ if response.status_code == 200:
             inscricoes = chamada.find('div', class_='inscricao').find('li').text
             print(f'Período de Inscrições: {inscricoes}')
 
-            # Encontra o link permanente
-            link_permanente = chamada.find('input', {'type': 'text'})['value'].strip()
+            # Encontra o link permanente diretamente pelo input com o valor
+            link_input = chamada.find_next('input', {'type': 'text'})
+            link_permanente = link_input['value'].strip() if link_input else 'Link não encontrado'
 
             print(f"\nChamada {idx}:")
             print(f"Título: {titulo_chamada}")
