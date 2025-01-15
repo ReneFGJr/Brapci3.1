@@ -30,10 +30,10 @@ if response.status_code == 200:
     titulo_chamada = soup.find('div', class_='content').find('h4').text
     descricao_chamada = soup.find('div', class_='content').find('p').text
     print(f'Título: {titulo_chamada}')
-    print(f'Descrição: {descricao_chamada}')
+    #print(f'Descrição: {descricao_chamada}')
 
     li_element = soup.find('li', {'tabindex': '0'})
-    print("Elemento <li> encontrado:", li_element.text.strip())
+    #print("Elemento <li> encontrado:", li_element.text.strip())
 
     h4_element = li_element.find('h4')
     print("Elemento <h4> encontrado:", h4_element.text.strip())
