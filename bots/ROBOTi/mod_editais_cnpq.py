@@ -1,50 +1,49 @@
+# pip install requests beautifulsoup4
 import requests
 from bs4 import BeautifulSoup
-import mod_editais
+
+def register()
 
 # URL da página de chamadas públicas abertas do CNPq
-url = "http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&filtro=abertas"
-print("Coletando", url)
-
+#url = "http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&filtro=abertas"
+#url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
+#url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&filtro=abertas&detalha=chamadaDivulgada&idDivulgacao=12005'
+url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
+print("Coletando",url)
 # Envia uma requisição GET para o servidor
 response = requests.get(url)
 
-print("RSP", response.status_code)
-
+print("RSP",response.status_code)
 # Verifica se a requisição foi bem-sucedida
 if response.status_code == 200:
+    # Cria uma instância de BeautifulSoup
     print("Processando Retorno")
 
-    # Cria uma instância de BeautifulSoup
+    with open('../../.tmp/__Conteudo.txt', 'w', encoding='utf-8') as arquivo:
+        arquivo.write(response.text)
+    #print(response.text)
+    soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Carregar o arquivo HTML
-    content = response.text
-    print(content)
+    # Extraindo informações de inscrições
+    inscricoes = soup.find('div', class_='inscricao').find('li').text
+    print(f'Período de Inscrições: {inscricoes}')
 
-    # Analisar o conteúdo HTML
-    soup = BeautifulSoup(content, 'html.parser')
+    # Extraindo título e descrição da chamada
+    titulo_chamada = soup.find('div', class_='content').find('h4').text
+    descricao_chamada = soup.find('div', class_='content').find('p').text
+    print(f'Título: {titulo_chamada}')
+    #print(f'Descrição: {descricao_chamada}')
 
-    # Estruturas para armazenar os dados extraídos
-    calls = []
+    li_element = soup.find('li', {'tabindex': '0'})
+    #print("Elemento <li> encontrado:", li_element.text.strip())
 
-    # Iterar sobre os elementos relevantes no HTML (ajuste os seletores conforme necessário)
-    for call in soup.find_all('div', class_='call-container'):  # Substitua pela classe correta
-        name = call.find('h3').get_text(strip=True) if call.find('h3') else 'N/A'
-        date = call.find('span', class_='date').get_text(strip=True) if call.find('span', class_='date') else 'N/A'
-        description = call.find('p', class_='description').get_text(strip=True) if call.find('p', class_='description') else 'N/A'
-        link = call.find('a', href=True)['href'] if call.find('a', href=True) else 'N/A'
+    h4_element = li_element.find('h4')
+    print("Elemento <h4> encontrado:", h4_element.text.strip())
 
-        calls.append({
-            'Nome da chamada': name,
-            'Data das inscrições': date,
-            'Descrição do edital': description,
-            'Link permanente': link
-        })
-
-    # Exibir os resultados
-    for call in calls:
-        print(f"Nome da chamada: {call['Nome da chamada']}")
-        print(f"Data das inscrições: {call['Data das inscrições']}")
-        print(f"Descrição do edital: {call['Descrição do edital']}")
-        print(f"Link permanente: {call['Link permanente']}")
-        print("-" * 40)
+    links = soup.find_all('a')
+    for link in links:
+        try:
+            #print(f'Texto do Link: {link.text}, URL: {link["href"]}')
+            print(".",end='')
+        except:
+            print("ops")
