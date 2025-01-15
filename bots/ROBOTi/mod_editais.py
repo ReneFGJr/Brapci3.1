@@ -10,6 +10,11 @@ def register(agency,title,descricao,datai, dataf, link='', status=1):
     qr += f"where e_agencia = '"+str(agency)+"' and e_title = '"+title+"' "
     row = database.query(qr)
 
+    if (datai == None):
+        datai = '1900-01-01'
+    if (dataf == None):
+        dataf = '1900-01-01'
+
     if status == 'Aberto':
         status = 1
 
@@ -26,8 +31,10 @@ def register(agency,title,descricao,datai, dataf, link='', status=1):
         qr = "update brapci_editais.editais set "
         qr += "e_description = '"+descricao+"', "
         qr += "e_status = '"+str(status)+"', "
-        qr += "e_data_start = '"+datai+"', "
-        qr += "e_data_end = '"+dataf+"', "
+        if (datai != '1900-01-01'):
+            qr += "e_data_start = '"+datai+"', "
+        if (dataf != '1900-01-01'):
+            qr += "e_data_start = '"+dataf+"', "
         qr += "e_url = '"+link+"' "
         qr += "where e_agencia = '"+str(agency)+"' and e_title = '"+title+"' "
         database.update(qr)
