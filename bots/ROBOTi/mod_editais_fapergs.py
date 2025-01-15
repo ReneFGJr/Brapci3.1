@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import sys
 
 def editais_fapergs():
     # URL da página de editais abertos da FAPERGS
@@ -19,6 +20,18 @@ def editais_fapergs():
         print("Nenhum edital encontrado ou ocorreu um erro.")
 
 def extract_fapergs_editais(url):
+    # Fazendo a requisição GET para a URL
+    response = requests.get(url)
+
+    # Verificando se a requisição foi bem-sucedida
+    if response.status_code == 200:
+        # Decodificando o conteúdo JSON e armazenando em uma variável
+        dados = response.json()
+        # Exibindo os dados
+        print(dados)
+    else:
+        print(f'Erro na requisição: {response.status_code}')
+    sys.exit()
     try:
         # Fazendo a solicitação ao site
         response = requests.get(url)
