@@ -7,8 +7,8 @@ use CodeIgniter\Model;
 class Index extends Model
 {
     protected $DBGroup          = 'editais';
-    protected $table            = 'indices';
-    protected $primaryKey       = 'id';
+    protected $table            = 'editais';
+    protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -47,7 +47,9 @@ class Index extends Model
 
     function openEditais()
         {
-            $dt = $this->findAll(10);
+            $dt = $this
+                ->join('agencias', 'e_agencia = id_ag')
+                ->findAll(10);
             return $dt;
         }
 }
