@@ -19,6 +19,7 @@ if response.status_code == 200:
 
     # Carregar o arquivo HTML
     content = response.text
+    print(content)
 
     # Analisar o conteúdo HTML
     soup = BeautifulSoup(content, 'html.parser')
