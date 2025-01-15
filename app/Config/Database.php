@@ -59,6 +59,7 @@ class Database extends Config
     public array $kanban = [];
     public array $search = [];
     public array $elastic = [];
+    public array $editais = [];
     public array $observatorio = [];
     public array $liked = [];
     public array $lattes = [];
@@ -149,6 +150,7 @@ class Database extends Config
             'click'=>'brapci_click',
             'dataverse' => 'dataverse',
             'dci' => 'dci',
+            'editais' => 'brapci_editais',
             'elastic' => 'brapci_elastic',
             'kanban' => 'kanban',
             'find' => 'find',
