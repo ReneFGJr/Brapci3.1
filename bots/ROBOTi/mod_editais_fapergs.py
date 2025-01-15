@@ -28,7 +28,7 @@ def extract_fapergs_editais(url):
         # Decodificando o conteúdo JSON e armazenando em uma variável
         dados = response.json()
         # Exibindo os dados
-        print(dados)
+        print(dados['body'])
     else:
         print(f'Erro na requisição: {response.status_code}')
     sys.exit()
