@@ -65,7 +65,6 @@ class Editais extends Model
         switch ($d1) {
             case 'open':
                 $RSP = $Editais->openEditais();
-                break;
                 echo json_encode($RSP);
                 exit;
         }
