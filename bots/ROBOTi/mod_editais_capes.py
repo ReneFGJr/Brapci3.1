@@ -1,4 +1,5 @@
 import requests
+import mod_editais
 from bs4 import BeautifulSoup
 
 def extract_capes_editais(url):
