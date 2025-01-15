@@ -18,6 +18,15 @@ def register(agency,title,descricao,datai, dataf, link='', status=1):
         database.insert(qr)
         return True
     else:
+        ID = row[0][0]
+        qr = "update brapci_editais.editais set "
+        qr += "e_description = '"+descricao+"', "
+        qr += "e_status = '"+str(status)+"', "
+        qr += "e_data_start = '"+datai+"', "
+        qr += "e_data_end = '"+dataf+"', "
+        qr += "e_url = '"+link+"' "
+        qr += "where id_e = "+str(ID)
+        database.update(qr)
         return False
 
 # Função para converter o intervalo de datas em duas variáveis
