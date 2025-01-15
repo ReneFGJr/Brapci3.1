@@ -17,6 +17,7 @@ import mod_article
 import mod_subject
 import oaipmh_ListIdentifiers
 import oaipmh_getRecord
+import mod_editais
 import mod_elasticsearch
 import mod_issue
 import mod_dataset
@@ -170,6 +171,8 @@ def run(parm):
         mod_ontology.checkLiteralExist()
         mod_ontology.checkDataNull()
         mod_ontology.checkDataInverse()
+    if (act == 'editais'):
+        mod_editais.editais()
 
     if (act == 'check'):
         mod_concept.UpdateUse()

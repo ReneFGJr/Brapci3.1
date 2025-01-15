@@ -2,46 +2,48 @@ import requests
 from bs4 import BeautifulSoup
 import mod_editais
 
-# URL da página de chamadas públicas abertas do CNPq
-url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
-print("Coletando", url)
+def editais_cnpq():
 
-# Envia uma requisição GET para o servidor
-response = requests.get(url)
-print("RSP", response.status_code)
+    # URL da página de chamadas públicas abertas do CNPq
+    url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
+    print("Coletando", url)
 
-# Verifica se a requisição foi bem-sucedida
-if response.status_code == 200:
-    print("Processando Retorno")
+    # Envia uma requisição GET para o servidor
+    response = requests.get(url)
+    print("RSP", response.status_code)
 
-    # Cria uma instância de BeautifulSoup
-    soup = BeautifulSoup(response.text, 'html.parser')
+    # Verifica se a requisição foi bem-sucedida
+    if response.status_code == 200:
+        print("Processando Retorno")
 
-    # Encontra todas as chamadas públicas
-    chamadas = soup.find_all('div', class_='content')
+        # Cria uma instância de BeautifulSoup
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Itera sobre as chamadas e extrai informações
-    for idx, chamada in enumerate(chamadas, start=1):
-        try:
-            titulo_chamada = chamada.find('h4').text.strip()
-            descricao_chamada = chamada.find('p').text.strip()
+        # Encontra todas as chamadas públicas
+        chamadas = soup.find_all('div', class_='content')
 
-            # Extraindo informações de inscrições
-            inscricoes = chamada.find('div', class_='inscricao').find('li').text
-            inscricoes = mod_editais.extrair_datas(inscricoes)
-            print(f'Período de Inscrições: {inscricoes}')
+        # Itera sobre as chamadas e extrai informações
+        for idx, chamada in enumerate(chamadas, start=1):
+            try:
+                titulo_chamada = chamada.find('h4').text.strip()
+                descricao_chamada = chamada.find('p').text.strip()
 
-            # Encontra o link permanente diretamente pelo input com o valor
-            link_input = chamada.find_next('input', {'type': 'text'})
-            link_permanente = link_input['value'].strip() if link_input else 'Link não encontrado'
+                # Extraindo informações de inscrições
+                inscricoes = chamada.find('div', class_='inscricao').find('li').text
+                inscricoes = mod_editais.extrair_datas(inscricoes)
+                print(f'Período de Inscrições: {inscricoes}')
 
-            print(f"\nChamada {idx}:")
-            print(f"Título: {titulo_chamada}")
-            print(f"Descrição: {descricao_chamada}")
-            print(f"Inscrições: {inscricoes}")
-            print(f"Link Permanente: {link_permanente}")
-            mod_editais.register(1,titulo_chamada,descricao_chamada,inscricoes[0],inscricoes[1],link_permanente)
-        except AttributeError:
-            print(f"\nChamada {idx}: Informações incompletas ou estrutura inesperada.")
-else:
-    print(f"Erro ao acessar a página. Código de status: {response.status_code}")
+                # Encontra o link permanente diretamente pelo input com o valor
+                link_input = chamada.find_next('input', {'type': 'text'})
+                link_permanente = link_input['value'].strip() if link_input else 'Link não encontrado'
+
+                print(f"\nChamada {idx}:")
+                print(f"Título: {titulo_chamada}")
+                print(f"Descrição: {descricao_chamada}")
+                print(f"Inscrições: {inscricoes}")
+                print(f"Link Permanente: {link_permanente}")
+                mod_editais.register(1,titulo_chamada,descricao_chamada,inscricoes[0],inscricoes[1],link_permanente)
+            except AttributeError:
+                print(f"\nChamada {idx}: Informações incompletas ou estrutura inesperada.")
+    else:
+        print(f"Erro ao acessar a página. Código de status: {response.status_code}")

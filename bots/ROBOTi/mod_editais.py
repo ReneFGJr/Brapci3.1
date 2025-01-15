@@ -1,5 +1,9 @@
 import database
 from datetime import datetime
+import mod_editais_cnpq
+
+def editais():
+    mod_editais_cnpq.editais_cnpq()
 
 def register(agency,title,descricao,datai, dataf, link='', status=1):
     qr = "select * from brapci_editais.editais "
