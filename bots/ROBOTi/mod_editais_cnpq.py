@@ -40,7 +40,7 @@ if response.status_code == 200:
             print(f"Descrição: {descricao_chamada}")
             print(f"Inscrições: {inscricoes}")
             print(f"Link Permanente: {link_permanente}")
-            #mod_editais.register(1,titulo_chamada,descricao_chamada,inscricoes)
+            mod_editais.register(1,titulo_chamada,descricao_chamada,inscricoes[0],inscricoes[1],link_permanente)
         except AttributeError:
             print(f"\nChamada {idx}: Informações incompletas ou estrutura inesperada.")
 else:

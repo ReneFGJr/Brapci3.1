@@ -1,7 +1,7 @@
 import database
 from datetime import datetime
 
-def register(agency,title,descricao,status):
+def register(agency,title,descricao,datai, dataf, link='', status=1):
     qr = "select * from brapci_editais.editais "
     qr += f"where e_agencia = '"+str(agency)+"' and e_title = '"+title+"' "
     row = database.query(qr)
@@ -11,9 +11,10 @@ def register(agency,title,descricao,status):
 
     if len(row) == 0:
         qr = "insert into brapci_editais.editais "
-        qr += "(e_agencia,e_title,e_description,e_status) values "
+        qr += "(e_agencia,e_title,e_description,e_status, e_data_start, e_data_end, e_url) values "
         qr += "('"+str(agency)+"','"+title+"','"+descricao+"',"
-        qr += "'"+str(status)+"')"
+        qr += "'"+str(status)+"'"
+        qr += ",'"+datai+"','"+dataf+"','"+link+"')"
         database.insert(qr)
         return True
     else:
