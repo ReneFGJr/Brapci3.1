@@ -50,7 +50,7 @@ class Index extends Model
             $dt = $this
                 ->join('agencias', 'e_agencia = id_ag')
                 ->where('e_data_end < ', date('Y-m-d'))
-                ->whereOr('e_data_end', '1900-01-01')
+                ->orwhere('e_data_end', '1900-01-01')
                 ->findAll(40);
             $dd = [];
             $dd['editais'] = $dt;
