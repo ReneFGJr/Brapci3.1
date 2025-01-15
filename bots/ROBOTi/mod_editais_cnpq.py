@@ -1,52 +1,58 @@
-# pip install requests beautifulsoup4
 import requests
-import mod_editais
 from bs4 import BeautifulSoup
-
-
+import mod_editais
 
 # URL da página de chamadas públicas abertas do CNPq
 url = "http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&filtro=abertas"
-url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
-url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&filtro=abertas&detalha=chamadaDivulgada&idDivulgacao=12005'
-url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
-print("Coletando",url)
+print("Coletando", url)
+
 # Envia uma requisição GET para o servidor
 response = requests.get(url)
 
-print("RSP",response.status_code)
+print("RSP", response.status_code)
+
 # Verifica se a requisição foi bem-sucedida
 if response.status_code == 200:
-    # Cria uma instância de BeautifulSoup
     print("Processando Retorno")
 
-    with open('../../.tmp/__Conteudo.txt', 'w', encoding='utf-8') as arquivo:
-        arquivo.write(response.text)
-    #print(response.text)
+    # Cria uma instância de BeautifulSoup
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Extraindo informações de inscrições
-    inscricoes = soup.find('div', class_='inscricao').find('li').text
-    print(f'Período de Inscrições: {inscricoes}')
+    # Busca todos os blocos que contêm editais
+    editais = soup.find_all('div', class_='content')
 
-    # Extraindo título e descrição da chamada
-    titulo_chamada = soup.find('div', class_='content').find('h4').text
-    descricao_chamada = soup.find('div', class_='content').find('p').text
-    print(f'Título: {titulo_chamada}')
-    #print(f'Descrição: {descricao_chamada}')
+    if not editais:
+        print("Nenhum edital encontrado na página.")
 
-    li_element = soup.find('li', {'tabindex': '0'})
-    #print("Elemento <li> encontrado:", li_element.text.strip())
+    for idx, edital in enumerate(editais):
+        try:
+            # Extraindo título da chamada
+            titulo_chamada = edital.find('h4').text.strip()
 
-    h4_element = li_element.find('h4')
-    print("Elemento <h4> encontrado:", h4_element.text.strip())
+            # Extraindo descrição da chamada
+            descricao_chamada = edital.find('p').text.strip()
 
+            # Extraindo informações adicionais, como período de inscrições
+            inscricoes_element = edital.find('div', class_='inscricao')
+            inscricoes = inscricoes_element.text.strip() if inscricoes_element else "Informação não disponível"
+
+            print(f"\nEdital {idx + 1}:")
+            print(f"Título: {titulo_chamada}")
+            print(f"Descrição: {descricao_chamada}")
+            print(f"Período de Inscrições: {inscricoes}")
+
+            # Registrar no módulo mod_editais
+            mod_editais.register(idx + 1, titulo_chamada, descricao_chamada, 'Aberto')
+
+        except Exception as e:
+            print(f"Erro ao processar edital {idx + 1}: {e}")
+
+    # Coletar todos os links na página para referência
     links = soup.find_all('a')
     for link in links:
         try:
-            #print(f'Texto do Link: {link.text}, URL: {link["href"]}')
-            print(".",end='')
-        except:
-            print("ops")
-
-    mod_editais.register(1,titulo_chamada,descricao_chamada,'Aberto')
+            print(f"Texto do Link: {link.text.strip()}, URL: {link['href']}")
+        except Exception as e:
+            print(f"Erro ao processar link: {e}")
+else:
+    print("Falha na requisição. Verifique a URL ou a conexão com a internet.")
