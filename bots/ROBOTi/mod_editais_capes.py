@@ -58,4 +58,6 @@ def extract_capes_editais(url):
 url = "https://www.gov.br/capes/pt-br/assuntos/editais-e-resultados-capes"
 editais_list = extract_capes_editais(url)
 for edital in editais_list:
-    print(f"Name: {edital['name']}, URL: {edital['url']}")
+    print(f"Name: {edital['name']}")
+    print(f"URL: {edital['url']}")
+    print("="*50)
