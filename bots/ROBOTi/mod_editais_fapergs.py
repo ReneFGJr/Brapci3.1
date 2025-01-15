@@ -40,7 +40,7 @@ def extract_fapergs_editais(url):
         # Parseando o conteúdo JSON
         data = response.content
         data = data.json()
-        print(data)
+        print(data['body'])
 
         # Parseando o conteúdo HTML
         soup = BeautifulSoup(response.content, 'html.parser')
