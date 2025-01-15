@@ -17,7 +17,7 @@ if response.status_code == 200:
     # Cria uma instância de BeautifulSoup
     print("Processando Retorno")
 
-    with open('.tmp/__Conteudo.txt', 'w', encoding='utf-8') as arquivo:
+    with open('../../.tmp/__Conteudo.txt', 'w', encoding='utf-8') as arquivo:
         arquivo.write(response.text)
     #print(response.text)
     soup = BeautifulSoup(response.text, 'html.parser')
