@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import mod_editais
 
 # URL da página de chamadas públicas abertas do CNPq
 url = 'http://memoria2.cnpq.br/web/guest/chamadas-publicas?p_p_id=resultadosportlet_WAR_resultadoscnpqportlet_INSTANCE_0ZaM&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&p_p_col_id=column-2&p_p_col_pos=1&p_p_col_count=2&filtro=abertas'
@@ -24,14 +25,21 @@ if response.status_code == 200:
         try:
             titulo_chamada = chamada.find('h4').text.strip()
             descricao_chamada = chamada.find('p').text.strip()
+
             # Extraindo informações de inscrições
             inscricoes = chamada.find('div', class_='inscricao').find('li').text
             print(f'Período de Inscrições: {inscricoes}')
+
+            # Encontra o link permanente
+            controls_div = chamada.find_next_sibling('div', class_='controls')
+            link_permanente = controls_div.find('input', {'type': 'text'})['value'].strip() if controls_div else 'Link não encontrado'
 
             print(f"\nChamada {idx}:")
             print(f"Título: {titulo_chamada}")
             print(f"Descrição: {descricao_chamada}")
             print(f"Inscrições: {inscricoes}")
+            print(f"Link Permanente: {link_permanente}")
+            #mod_editais.register(1,titulo_chamada,descricao_chamada,inscricoes)
         except AttributeError:
             print(f"\nChamada {idx}: Informações incompletas ou estrutura inesperada.")
 else:
