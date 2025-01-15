@@ -28,6 +28,7 @@ if response.status_code == 200:
 
             # Extraindo informações de inscrições
             inscricoes = chamada.find('div', class_='inscricao').find('li').text
+            inscricoes = mod_editais.extrair_datas(inscricoes)
             print(f'Período de Inscrições: {inscricoes}')
 
             # Encontra o link permanente diretamente pelo input com o valor

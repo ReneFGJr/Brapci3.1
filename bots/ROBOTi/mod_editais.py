@@ -1,4 +1,5 @@
 import database
+from datetime import datetime
 
 def register(agency,title,descricao,status):
     qr = "select * from brapci_editais.editais "
@@ -17,3 +18,13 @@ def register(agency,title,descricao,status):
         return True
     else:
         return False
+
+# Função para converter o intervalo de datas em duas variáveis
+def extrair_datas(intervalo):
+    try:
+        inicio, fim = intervalo.split(' a ')
+        data_inicio = datetime.strptime(inicio.strip(), '%d/%m/%Y').strftime('%Y-%m-%d')
+        data_fim = datetime.strptime(fim.strip(), '%d/%m/%Y').strftime('%Y-%m-%d')
+        return data_inicio, data_fim
+    except ValueError:
+        return None, None
