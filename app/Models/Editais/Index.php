@@ -50,6 +50,7 @@ class Index extends Model
             $dt = $this
                 ->join('agencias', 'e_agencia = id_ag')
                 ->findAll(10);
+                echo $this->getlastquery();
             return $dt;
         }
 }
