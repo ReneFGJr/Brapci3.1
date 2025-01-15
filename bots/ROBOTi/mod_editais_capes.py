@@ -1,14 +1,9 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from webdriver_manager.chrome import ChromeDriverManager
-import time
+import requests
+from bs4 import BeautifulSoup
 
-def extract_capes_editais_selenium(url):
+def extract_capes_editais(url):
     """
-    Extracts the names and URLs of open editais from the given CAPES page URL using Selenium.
+    Extracts the names and URLs of open editais from the given CAPES page URL.
 
     Args:
         url (str): URL of the CAPES editais page.
@@ -16,41 +11,38 @@ def extract_capes_editais_selenium(url):
     Returns:
         list of dict: A list containing dictionaries with 'name' and 'url' keys.
     """
-    # Configure Selenium WebDriver
-    options = Options()
-    options.add_argument('--headless')  # Run in headless mode
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-
     try:
-        # Load the webpage
-        driver.get(url)
-        time.sleep(3)  # Wait for the page to load fully
+        # Send a GET request to the provided URL
+        response = requests.get(url)
+        response.raise_for_status()
 
-        # Extract edital links
+        # Parse the HTML content
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        # Find the relevant sections containing the edital information
         editais = []
-        links = driver.find_elements(By.TAG_NAME, 'a')
+        for link in soup.find_all('li', href=True):
+            if 'edital' in link.get_text().lower():  # Filtering links with "edital" in the text
+                edital_name = link.get_text(strip=True)
+                edital_url = link['href']
 
-        for link in links:
-            text = link.text.strip()
-            href = link.get_attribute('href')
+                # Ensure full URL if the link is relative
+                if not edital_url.startswith('http'):
+                    edital_url = url.split('/pt-br/')[0] + edital_url
 
-            if text and 'edital' in text.lower():
-                editais.append({'name': text, 'url': href})
+                editais.append({
+                    'name': edital_name,
+                    'url': edital_url
+                })
 
         return editais
 
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    except requests.RequestException as e:
+        print(f"An error occurred while fetching the page: {e}")
         return []
-
-    finally:
-        driver.quit()
 
 # Example usage
 url = "https://www.gov.br/capes/pt-br/assuntos/editais-e-resultados-capes"
-editais_list = extract_capes_editais_selenium(url)
-
+editais_list = extract_capes_editais(url)
 for edital in editais_list:
     print(f"Name: {edital['name']}, URL: {edital['url']}")
