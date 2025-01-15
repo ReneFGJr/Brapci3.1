@@ -32,6 +32,7 @@ if response.status_code == 200:
 
             # Encontra o link permanente
             controls_div = chamada.find_next_sibling('div', class_='controls')
+            print(controls_div)
             link_permanente = controls_div.find('input', {'type': 'text'})['value'].strip() if controls_div else 'Link não encontrado'
 
             print(f"\nChamada {idx}:")
