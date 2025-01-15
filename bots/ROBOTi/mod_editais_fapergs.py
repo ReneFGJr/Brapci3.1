@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import sys
+import re
 
 def editais_fapergs():
     # URL da página de editais abertos da FAPERGS
@@ -28,7 +29,23 @@ def extract_fapergs_editais(url):
         # Decodificando o conteúdo JSON e armazenando em uma variável
         dados = response.json()
         # Exibindo os dados
-        print(dados['body'])
+        content = dados['body']
+
+        # Regex para capturar títulos e links
+        pattern = re.compile(r'<a href="([^"]+)"[^>]+title="[^"]+">([^<]+)</a>')
+
+        # Extração dos dados
+        matches = pattern.findall(content)
+
+        # Organização dos dados extraídos
+        data = [{"link": f"https://example.com{match[0]}", "title": match[1]} for match in matches]
+
+        # Exibição dos dados
+        for item in data:
+            print(f"Título: {item['title']}")
+            print(f"Link: {item['link']}")
+            print("-" * 80)
+
     else:
         print(f'Erro na requisição: {response.status_code}')
     sys.exit()
