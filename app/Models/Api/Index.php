@@ -76,8 +76,8 @@ class Index extends Model
                 exit;
                 break;
             case 'editais':
-                $Like = new \App\Models\Api\Endpoint\Editais();
-                $RSP = $Like->index($d2, $d3);
+                $Editais = new \App\Models\Api\Endpoint\Editais();
+                $RSP = $Editais->index($d2, $d3);
                 echo json_encode($RSP);
                 exit;
                 break;

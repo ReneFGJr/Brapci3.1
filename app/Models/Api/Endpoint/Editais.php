@@ -53,7 +53,7 @@ class Editais extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3)
+    function index($d1, $d2='', $d3='')
     {
         $Editais = new \App\Models\Editais\Index();
 
