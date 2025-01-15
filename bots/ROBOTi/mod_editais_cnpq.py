@@ -48,11 +48,13 @@ if response.status_code == 200:
             print(f"Erro ao processar edital {idx + 1}: {e}")
 
     # Coletar todos os links na página para referência
-    links = soup.find_all('a')
-    for link in links:
-        try:
-            print(f"Texto do Link: {link.text.strip()}, URL: {link['href']}")
-        except Exception as e:
-            print(f"Erro ao processar link: {e}")
+
+
+    #links = soup.find_all('a')
+    #for link in links:
+    #    try:
+    #        print(f"Texto do Link: {link.text.strip()}, URL: {link['href']}")
+    #    except Exception as e:
+    #        print(f"Erro ao processar link: {e}")
 else:
     print("Falha na requisição. Verifique a URL ou a conexão com a internet.")
