@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 def extract_capes_editais(url):
     """
-    Extracts the names and URLs of open editais from the given CAPES page URL.
+    Extracts the names and URLs of open editais from a specific section of the given CAPES page URL.
 
     Args:
         url (str): URL of the CAPES editais page.
@@ -19,14 +19,25 @@ def extract_capes_editais(url):
         # Parse the HTML content
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        print(response.content)
+        # Locate the specific div by its class and ID
+        target_div = soup.find('div', class_='tile tile-default', id='c132b11c-75ea-43d4-9615-7f732d7a933e')
+        if not target_div:
+            print("Target div not found.")
+            return []
 
-        # Find the relevant sections containing the edital information
+        # Locate the <ul> within the target div
+        ul = target_div.find('ul')
+        if not ul:
+            print("No <ul> found inside the target div.")
+            return []
+
+        # Extract the list items within the <ul>
         editais = []
-        for link in soup.find_all('li', href=True):
-            if 'edital' in link.get_text().lower():  # Filtering links with "edital" in the text
-                edital_name = link.get_text(strip=True)
-                edital_url = link['href']
+        for li in ul.find_all('li'):
+            a_tag = li.find('a')
+            if a_tag:
+                edital_name = a_tag.get_text(strip=True)
+                edital_url = a_tag['href']
 
                 # Ensure full URL if the link is relative
                 if not edital_url.startswith('http'):
