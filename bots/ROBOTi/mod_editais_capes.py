@@ -19,6 +19,8 @@ def extract_capes_editais(url):
         # Parse the HTML content
         soup = BeautifulSoup(response.content, 'html.parser')
 
+        print(response.content)
+
         # Find the relevant sections containing the edital information
         editais = []
         for link in soup.find_all('li', href=True):
