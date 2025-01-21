@@ -56,173 +56,123 @@ function nbr_title($t)
         return $sx;
     }
 
-function nbr_author($xa,$xp)
-    {
-        if (trim($xa) == '') { return ""; }
-        if (mb_detect_encoding($xa) != 'UTF-8')
-        {
-            $xa = utf8_encode($xa);
-        }
-        //$xa = 'RENE FAUSTINO DE GABRIEL- AÚNIOR';
-        /******************************** PREPARA *******/
-        if (strpos($xa,';'))
-            {
-                $xa = substr($xa,0,strpos($xa,';'));
-            }
-        $xa = troca($xa,' -','-');
-        $xa = troca($xa,'- ','-');
-        while (strpos($xa,'  ')) { $xa = troca($xa,'  ',' '); }
-        $xa = trim($xa);
-        /******************************* NOME SOBRENOME */
-        if (strpos($xa,',') > 0)
-            {
-                $xa = substr($xa,strpos($xa,',')+1,strlen($xa)).' '.substr($xa,0,strpos($xa,','));
-            }
-        /******************************* DIVIDE NOMES */
-        $MN = mb_strtoupper($xa);
-        $NMT = explode(' ',$MN);
-        $NM = array();
-        for ($r=0;$r < count($NMT);$r++)
-            {
-                if ($NMT[$r] != '') { $NM[] = $NMT[$r]; }
-            }
-
-        /***************************************** SOBRENOMES FALSOS */
-        $er1 = array('JÚNIOR',utf8_encode('JÚNIOR'), "JUNIOR", "JúNIOR", "NETTO", "NETO", "SOBRINHO", "FILHO", "JR.", "JR");
-        $TOT = count($NM);
-
-        if (in_array($NM[$TOT-1],$er1) == 1)
-            {
-                if (isset($NM[$TOT - 2]))
-                    {
-                        $NM[$TOT - 2] .= ' ' . $NM[$TOT - 1];
-                        unset($NM[$TOT - 1]);
-                        $TOT--;
-                    }
-            }
-
-        /****************************************** PREPOSICOES **************/
-        $er2 = array('DE','DA','DO','DOS','E','EM','DAS');
-        $NM2 = $NM;
-        for($nq=0;$nq < count($NM2);$nq++)
-            {
-                if (in_array($NM2[$nq], $er2) == 1)
-                    {
-                        unset($NM2[$nq]);
-                    }
-            }
-
-        /***************************************** MINUSCULAS E ABREVIATUDAS */
-        $Nm = array();
-        $Ni = array();
-        $Nf = array();
-
-        for ($r=0;$r < count($NM);$r++)
-            {
-                $Nm[$r] = mb_strtolower($NM[$r]);
-                $Ni[$r] = SUBSTR(mb_strtoupper($NM[$r]),0,1);
-
-                if (ord($Nm[$r][0]) > 128)
-                    {
-                        $Nf[$r] = mb_strtoupper(substr($NM[$r],0,2)).mb_strtolower(substr($NM[$r],2,strlen($NM[$r])));
-                    } else {
-                        $Nf[$r] = mb_strtoupper(substr($NM[$r],0,1)).mb_strtolower(substr($NM[$r],1,strlen($NM[$r])));
-                    }
-
-
-                $char = substr($NM[$r],0,1);
-                if ((strpos($Nf[$r],'-')) or (strpos($Nf[$r],' ')))
-                    {
-                        $n = $Nf[$r];
-                        $pos = strpos($n,'-');
-                        if ($pos)
-                            {
-                                $Nf[$r] = substr($n,0,$pos+1).mb_strtoupper(substr($n,$pos+1,1)).mb_strtolower(substr($n,$pos+2,strlen($n)));;
-                            }
-                        $pos = strpos($n,' ');
-                            if ($pos)
-                            {
-                                $Nf[$r] = substr($n,0,$pos+1).mb_strtoupper(substr($n,$pos+1,1)).mb_strtolower(substr($n,$pos+2,strlen($n)));;
-                            }
-                    }
-                /********************* checa preposições */
-                if (in_array($NM[$r],$er2))
-                    {
-                        $Nf[$r] = $Nm[$r];
-                    }
-            }
-
-        $name = '';
-        switch($xp)
-            {
-                    /* Sobrenome e Nome*/
-                    case '1':
-                        $name = $NM[$TOT-1];
-                        $name .= ', ';
-                        for ($r=0;$r < ($TOT-1);$r++)
-                            {
-                                $name .= $Nf[$r].' ';
-                            }
-                        break;
-
-                    /* Sobrenome e Nome CURTO*/
-                    case '2':
-                        $TOT = count($NM2);
-                        $nt = 1;
-                        foreach ($NM2 as $id=>$xname)
-                            {
-                                $Fname = $xname;
-
-                                if ($nt < $TOT)
-                                    {
-                                        $name .= substr($xname, 0, 1) . '. ';
-                                    }
-                                $nt++;
-
-                            }
-                        $Fname .= ', ';
-                        $name = $Fname.$name;
-                        break;
-
-                    /* Sobrenome e Nome CURTO sem ponto*/
-                    case '3':
-                        $TOT = count($NM2);
-                        foreach ($NM2 as $id => $xname) {
-                            $Fname = $xname;
-                            $name .= substr($xname, 0, 1);
-                        }
-                        $Fname .= ' ';
-                        $name = $Fname . $name;
-                        break;
-
-                    /* Nome e Sobrenome */
-                    case '7':
-                        for ($r=0;$r < ($TOT);$r++)
-                            {
-                                $name .= $Nf[$r].' ';
-                            }
-                        break;
-                    /* Somente primeira litra maíscula */
-                    case '8':
-                        $name = $Nf[0];
-                        for ($r=0;$r < ($TOT);$r++)
-                            {
-                                $name .= ' '.$Nm[$r];
-                            }
-                        break;
-                default:
-                    echo h($xa);
-                    echo "Method ".$xp." not implemented";
-                    $name = $xa;
-                    //exit;
-            }
-        $name = trim($name);
-        if (strlen($name) < 5)
-            {
-                $name = "";
-            }
-        return $name;
+function nbr_author($xa, $xp)
+{
+    if (trim($xa) == '') {
+        return "";
     }
+
+    // Corrigir encoding se necessário
+    if (mb_detect_encoding($xa) != 'UTF-8') {
+        $xa = mb_convert_encoding($xa, 'UTF-8', 'ISO-8859-1');
+    }
+
+    /******************************** PREPARA *******/
+
+    if (strpos($xa, ';')) {
+        $xa = substr($xa, 0, strpos($xa, ';'));
+    }
+    $xa = str_replace([' -', '- '], '-', $xa);
+    while (strpos($xa, '  ')) {
+        $xa = str_replace('  ', ' ', $xa);
+    }
+    $xa = trim($xa);
+
+    /******************************* NOME SOBRENOME */
+    if (strpos($xa, ',') > 0) {
+        $xa = substr($xa, strpos($xa, ',') + 1) . ' ' . substr($xa, 0, strpos($xa, ','));
+    }
+
+    /******************************* DIVIDE NOMES */
+    $MN = mb_strtoupper($xa);
+    $NMT = explode(' ', $MN);
+    $NM = array_filter($NMT, fn($name) => $name !== '');
+
+    /***************************************** SOBRENOMES FALSOS */
+    $er1 = ['JÚNIOR', 'JUNIOR', 'NETTO', 'NETO', 'SOBRINHO', 'FILHO', 'JR.', 'JR'];
+    $TOT = count($NM);
+
+    if (in_array($NM[$TOT - 1], $er1)) {
+        if (isset($NM[$TOT - 2])) {
+            $NM[$TOT - 2] .= ' ' . $NM[$TOT - 1];
+            unset($NM[$TOT - 1]);
+            $TOT--;
+        }
+    }
+
+    /****************************************** PREPOSICOES **************/
+    $er2 = ['DE', 'DA', 'DO', 'DOS', 'E', 'EM', 'DAS'];
+    $NM2 = array_diff($NM, $er2);
+
+    /***************************************** MINUSCULAS E ABREVIATURAS */
+    $Nm = [];
+    $Ni = [];
+    $Nf = [];
+
+    foreach ($NM as $r => $name) {
+        $Nm[$r] = mb_strtolower($name);
+        $Ni[$r] = mb_strtoupper($name[0]);
+        if (ord($name[0]) > 128) {
+            $Nf[$r] = mb_strtoupper(substr($name, 0, 2)) . mb_strtolower(substr($name, 2));
+        } else {
+            $Nf[$r] = mb_strtoupper($name[0]) . mb_strtolower(substr($name, 1));
+        }
+        if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
+            $n = $Nf[$r];
+            $pos = strpos($n, '-');
+            if ($pos) {
+                $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
+            }
+            $pos = strpos($n, ' ');
+            if ($pos) {
+                $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
+            }
+        }
+        if (in_array($name, $er2)) {
+            $Nf[$r] = $Nm[$r];
+        }
+    }
+
+    $name = '';
+    switch ($xp) {
+        case '1': // Sobrenome e Nome
+            $name = $NM[$TOT - 1] . ', ';
+            for ($r = 0; $r < ($TOT - 1); $r++) {
+                $name .= $Nf[$r] . ' ';
+            }
+            break;
+
+        case '2': // Sobrenome e Nome CURTO
+            $TOT = count($NM2);
+            $nt = 1;
+            foreach ($NM2 as $xname) {
+                $name .= ($nt < $TOT) ? substr($xname, 0, 1) . '. ' : $xname . ', ';
+                $nt++;
+            }
+            break;
+
+        case '3': // Sobrenome e Nome CURTO sem ponto
+            $name = implode('', array_map(fn($xname) => substr($xname, 0, 1), $NM2));
+            $name = end($NM2) . ' ' . $name;
+            break;
+
+        case '7': // Nome e Sobrenome
+            $name = implode(' ', $Nf);
+            break;
+
+        case '8': // Primeira letra maiúscula
+            $name = $Nf[0];
+            $name .= ' ' . implode(' ', $Nm);
+            break;
+
+        default:
+            echo "Method $xp not implemented";
+            $name = $xa;
+    }
+
+    return trim($name) ?: "";
+}
+
 
 function nbr_author2($xa, $tp)
     {
