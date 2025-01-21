@@ -112,38 +112,43 @@ def xml_identifies(xml,setSpec,jnl):
         print("Erro no XML",e)
         quit()
 
-    doc = doc['ListIdentifiers']
+    try:
+        doc = doc['ListIdentifiers']
 
 
-    for xdoc in doc['header']:
-
-        try:
-            id = xdoc['identifier']
-            date = xdoc['datestamp']
-
-            ############################ Registro deletado
-            deleted = 0
-
+        for xdoc in doc['header']:
 
             try:
-                deleted = xdoc['@status']
-                if (deleted == 'deleted'):
-                    deleted = 1
-            except Exception as e:
+                id = xdoc['identifier']
+                date = xdoc['datestamp']
+
+                ############################ Registro deletado
                 deleted = 0
 
-            ############################ setSepc
-            if type(xdoc['setSpec']) is list:
-                spec = xdoc['setSpec'][0]
-            else:
-                spec = xdoc['setSpec']
 
-            ############################ Register
-            identifiers[id] = {'setSpec':setSpec[spec],'date':date,'deleted':deleted}
-        ##/******* ERRO */
-        except Exception as e:
-            print("+======================================================")
-            print("XDOC",xdoc)
-            print("+======================================================")
-            deleted = 0
+                try:
+                    deleted = xdoc['@status']
+                    if (deleted == 'deleted'):
+                        deleted = 1
+                except Exception as e:
+                    deleted = 0
+
+                ############################ setSepc
+                if type(xdoc['setSpec']) is list:
+                    spec = xdoc['setSpec'][0]
+                else:
+                    spec = xdoc['setSpec']
+
+                ############################ Register
+                identifiers[id] = {'setSpec':setSpec[spec],'date':date,'deleted':deleted}
+            ##/******* ERRO */
+            except Exception as e:
+                print("+======================================================")
+                print("XDOC",xdoc)
+                print("+======================================================")
+                deleted = 0
+    except Exception as e:
+        mod_source.update(jnl,'501','')
+        print("Erro no XML",e)
+        quit()
     return identifiers
