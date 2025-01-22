@@ -29,7 +29,7 @@ class MainPages extends BaseController
         $data['bg'] = 'bg-primary';
         $data['bg_color'] = '#0000ff';
         $menu = array();
-        //$menu[PATH . '/'] = lang('brapci.journals');
+        $menu[PATH . '/'] = 'Home';
         //$menu[PATH . '/books'] = lang('brapci.books');
         //$menu[PATH . '/benancib'] = lang('brapci.benancib');
         //$menu[PATH . '/proceedings'] = lang('brapci.proceedings');
