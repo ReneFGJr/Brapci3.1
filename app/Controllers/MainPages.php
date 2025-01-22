@@ -149,7 +149,7 @@ class MainPages extends BaseController
 
                 //$Events = new \App\Models\Functions\Event();
                 //$sx .= $Events->index('cards');
-                $sx .= view('Brapci/Welcome', $data);
+                //$sx .= view('Brapci/Welcome', $data);
                 break;
         }
 
