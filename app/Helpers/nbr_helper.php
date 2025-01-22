@@ -121,6 +121,9 @@ function nbr_author($xa, $xp)
             $n = $Nf[$r];
             $pos = strpos($n, '-');
             if ($pos) {
+                echo "====";
+                echo $n;
+                echo "====";
                 pre($n,false);
                 $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
             }
