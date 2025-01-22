@@ -29,11 +29,11 @@ class MainPages extends BaseController
         $data['bg'] = 'bg-primary';
         $data['bg_color'] = '#0000ff';
         $menu = array();
-        $menu[PATH . '/'] = lang('brapci.journals');
-        $menu[PATH . '/books'] = lang('brapci.books');
-        $menu[PATH . '/benancib'] = lang('brapci.benancib');
-        $menu[PATH . '/proceedings'] = lang('brapci.proceedings');
-        $menu[PATH . '/autoridade'] = lang('brapci.authoritynames');
+        //$menu[PATH . '/'] = lang('brapci.journals');
+        //$menu[PATH . '/books'] = lang('brapci.books');
+        //$menu[PATH . '/benancib'] = lang('brapci.benancib');
+        //$menu[PATH . '/proceedings'] = lang('brapci.proceedings');
+        //$menu[PATH . '/autoridade'] = lang('brapci.authoritynames');
 
         $data['menu'] = $menu;
         $sx = '';
@@ -42,7 +42,7 @@ class MainPages extends BaseController
 
         $m = [];
         $m['Brapci'] = PATH;
-        $m[lang('brapci.journals')] = PATH.'/journals';
+        //$m[lang('brapci.journals')] = PATH.'/journals';
         $sx .= breadcrumbs($m);
 
         $act = trim($act);
@@ -147,8 +147,8 @@ class MainPages extends BaseController
                 $data['logo'] = view('Logos/logo_benancib');
                 $sx .= view('Brapci/Pages/search');
 
-                $Events = new \App\Models\Functions\Event();
-                $sx .= $Events->index('cards');
+                //$Events = new \App\Models\Functions\Event();
+                //$sx .= $Events->index('cards');
                 //$sx .= view('Brapci/Welcome', $data);
                 break;
         }

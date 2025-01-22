@@ -81,5 +81,8 @@
     </div>
 </div>
 <div class=" col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">
-    <h3 class="" style="">O que você está procurando?</h3>
+    <h3>Base de Dados em Ciência da Informação</h3>
 </div>
+
+<div class="mt-5 mb-5 text-center"><a href="https://brapci.inf.br">Acesse a Base de Dados</a></div>
+<div style="height: 400px;"></div>

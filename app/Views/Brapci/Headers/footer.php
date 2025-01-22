@@ -29,22 +29,22 @@ if (!isset($bg)) {
 
                 <ul class="list-unstyled mb-0">
                     <li>
-                        <a href="<?= PATH; ?>/" class="text-white">Brapci Revistas</a>
+                        <a href="https://brapci.inf.br/journals" class="text-white">Brapci Revistas</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/benancib" class="text-white">Benancib</a>
+                        <a href="https://brapci.inf.br/benancib" class="text-white">Benancib</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/proceedings" class="text-white">Brapci Eventos</a>
+                        <a href="https://brapci.inf.br/proceedings" class="text-white">Brapci Eventos</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/pq" class="text-white">Pesquisadores PQ</a>
+                        <a href="https://brapci.inf.br/pq">Pesquisadores PQ</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/books" class="text-white">Brapci Livros</a>
+                        <a href="https://brapci.inf.br/livros" class="text-white">Brapci Livros</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/autoridade" class="text-white">Autoridades</a>
+                        <a href="https://brapci.inf.br/authority" class="text-white">Autoridades</a>
                     </li>
                     <?php
                     if ($ADM == true) {
@@ -63,13 +63,13 @@ if (!isset($bg)) {
 
                 <ul class="list-unstyled">
                     <li>
-                        <a href="<?= PATH; ?>/about" class="text-white">Sobre a Brapci</a>
+                        <a href="https://brapci.inf.br/about/brapci" class="text-white">Sobre a Brapci</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/contact" class="text-white">Contato</a>
+                        <a href="https://brapci.inf.br/about/contact" class="text-white">Contato</a>
                     </li>
                     <li>
-                        <a href="<?= PATH; ?>/cited" class="text-white">Como citar</a>
+                        <a href="https://brapci.inf.br/about/brapci#cited" class="text-white">Como citar</a>
                     </li>
                 </ul>
             </div>
