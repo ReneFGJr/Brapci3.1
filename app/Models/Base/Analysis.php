@@ -54,7 +54,7 @@ class Analysis extends Model
 
             $data = get("worksID");
             $data = explode(',',$data);
-            $RSP['post'] = $data;
+            $RSP = $this->analysis_get_data($data);
             return $RSP;
         }
 
