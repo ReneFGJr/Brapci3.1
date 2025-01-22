@@ -120,7 +120,13 @@ function nbr_author($xa, $xp)
         if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
             $n = $Nf[$r];
             $pos = strpos($n, '-');
-            if (($pos) and (strlen($n) > 2)) {
+            if ($pos > 0) {
+                echo "====";
+                echo $n;
+                echo "====";
+
+                pre($n,false);
+
                 $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
             }
             $pos = strpos($n, ' ');
