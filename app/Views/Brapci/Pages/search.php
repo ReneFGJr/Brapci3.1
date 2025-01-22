@@ -84,4 +84,5 @@
     <h3>Base de Dados em Ciência da Informação</h3>
 </div>
 
-<div class="mt-5 mb-5 text-center"><a href="https://brapci.inf.br">Acesse a Brapci.inf.br</a></div>
+<div class="mt-5 mb-5 text-center"><a href="https://brapci.inf.br">Acesse a Base de Dados</a></div>
+<div style="height: 400px;"></div>
