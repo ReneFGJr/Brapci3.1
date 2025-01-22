@@ -5,18 +5,16 @@ $admin = '';
 $Socials = new \App\Models\Socials();
 if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
     $acesso = $Socials->nav_user();
-    if ($Socials->getAccess("#ADM#CAT"))
-        {
-            $admin = '
+    if ($Socials->getAccess("#ADM#CAT")) {
+        $admin = '
                 <li class="nav-item">
-                    <a class="nav-link-brp" title="' . lang('brapci.administrator') . '"  href="'.PATH . '/admin/' . COLLECTION.'">'.bsicone('gear').'</a>
+                    <a class="nav-link-brp" title="' . lang('brapci.administrator') . '"  href="' . PATH . '/admin/' . COLLECTION . '">' . bsicone('gear') . '</a>
                 </li>';
-         }
+    }
     $admin .= '
                 <li class="nav-item">
-                    <a class="nav-link-brp" title="'.lang('brapci.tools_bibliografic').'" href="' . PATH . '/tools/' . COLLECTION . '">' . bsicone('tools') . '</a>
+                    <a class="nav-link-brp" title="' . lang('brapci.tools_bibliografic') . '" href="' . PATH . '/tools/' . COLLECTION . '">' . bsicone('tools') . '</a>
                 </li>';
-
 } else {
     $acesso = '<li class="nav-item" style="list-style-type: none;">';
     $acesso .= '<button class="btn btn-outline-access" ';
@@ -52,7 +50,7 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
                     }
                 }
                 ?>
-                <?php require("_navbar_index.php");?>
+                <?php require("_navbar_index.php"); ?>
             </ul>
             <!--
             <form class="d-flex" action="<?= PATH . COLLECTION; ?>" role="search">
@@ -62,9 +60,9 @@ if ((isset($_SESSION['id'])) and ($_SESSION['id'] != '')) {
             -->
             <ul class="navbar-nav md-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link-brp" href="<?= PATH . '/about/' . COLLECTION; ?>"><?= lang('brapci.about'); ?></a>
+                    <a class="nav-link-brp" href="https://brapci.inf.br/about/brapci"><?= lang('brapci.about'); ?></a>
                 </li>
-                <?=$admin;?>
+                <?= $admin; ?>
             </ul>
             <?php echo $acesso; ?>
         </div>
