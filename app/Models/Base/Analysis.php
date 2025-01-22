@@ -57,4 +57,22 @@ class Analysis extends Model
             $RSP['post'] = $data;
             return $RSP;
         }
+
+    function analysis_get_data($data)
+        {
+            $Elastic = new \App\Models\ElasticSearch\Register();
+            $dt = $Elastic
+                    ->whereIn('ID', $data)
+                    ->findAll();
+
+            $RSP[] = $dt;
+            return $RSP;
+
+            $RSP = [];
+
+            $data = get("worksID");
+            $data = explode(',',$data);
+            $RSP['post'] = $data;
+            return $RSP;
+        }
 }
