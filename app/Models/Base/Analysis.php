@@ -69,7 +69,8 @@ class Analysis extends Model
             $RSP['YEARS'] = $this->analysis_year($dt);
             $RSP['AUTHORS'] = $this->analysis_meta($dt,'AUTHORS');
             $RSP['SUBJECTS'] = $this->analysis_meta($dt,'KEYWORDS');
-            $RSP['SECTIONS'] = $this->analysis_meta($dt, 'SESSION');
+            $RSP['SESSION'] = $this->analysis_meta($dt, 'SESSION');
+            $RSP['SESSION_SUB'] = $this->analysis_meta($dt, 'SESSION_SUB');
             $RSP['PUBLICATIONS'] = $this->analysis_meta($dt, 'PUBLICATION');
             $RSP['TYPES'] = $this->analysis_meta($dt, 'CLASS');
             $RSP['COLLECTION'] = $this->analysis_meta($dt, 'COLLECTION');
