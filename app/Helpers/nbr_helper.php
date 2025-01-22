@@ -120,9 +120,6 @@ function nbr_author($xa, $xp)
         if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
 
             $n = $Nf[$r];
-            echo '<br>' . $xa;
-            echo '<br>' . $n;
-            exit;
 
             $pos = strpos($n, '-');
             if ($pos > 0) {
