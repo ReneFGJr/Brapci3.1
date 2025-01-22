@@ -51,7 +51,10 @@ class Analysis extends Model
     function analysis($d1,$d2='',$d3='')
         {
             $RSP = [];
-            $RSP['post'] = $_POST;
+
+            $data = get("worksID");
+            $data = explode(',',$data);
+            $RSP['post'] = $data;
             return $RSP;
         }
 }
