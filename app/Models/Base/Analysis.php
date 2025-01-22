@@ -87,7 +87,7 @@ class Analysis extends Model
                 }
             }
         }
-        asort($AUTHORS);
+        arsort($AUTHORS);
         return $AUTHORS;
     }
 
