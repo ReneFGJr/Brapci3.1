@@ -58,8 +58,6 @@ function nbr_title($t)
 
 function nbr_author($xa, $xp)
 {
-    echo '<br>'.$xa;
-    exit;
     if (trim($xa) == '') {
         return "";
     }
@@ -120,6 +118,9 @@ function nbr_author($xa, $xp)
             $Nf[$r] = mb_strtoupper($name[0]) . mb_strtolower(substr($name, 1));
         }
         if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
+            echo '<br>' . $xa;
+            exit;
+
             $n = $Nf[$r];
             $pos = strpos($n, '-');
             if ($pos > 0) {
