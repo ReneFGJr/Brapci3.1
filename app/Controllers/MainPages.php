@@ -29,7 +29,7 @@ class MainPages extends BaseController
         $data['bg'] = 'bg-primary';
         $data['bg_color'] = '#0000ff';
         $menu = array();
-        $menu[PATH . '/'] = 'Home';
+        $menu[PATH . '/'] = lang('brapci.journals');
         //$menu[PATH . '/books'] = lang('brapci.books');
         //$menu[PATH . '/benancib'] = lang('brapci.benancib');
         //$menu[PATH . '/proceedings'] = lang('brapci.proceedings');
@@ -38,6 +38,7 @@ class MainPages extends BaseController
         $data['menu'] = $menu;
         $sx = '';
         $sx .= view('Brapci/Headers/header', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
 
         $m = [];
         $m['Brapci'] = PATH;
@@ -152,7 +153,7 @@ class MainPages extends BaseController
                 break;
         }
 
-        //$sx .= view('Brapci/Headers/footer', $data);
+        $sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
 
