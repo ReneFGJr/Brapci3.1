@@ -48,7 +48,7 @@ class Analysis extends Model
     protected $afterDelete    = [];
 
 
-    function index($d1,$d2='',$d3='')
+    function analysis($d1,$d2='',$d3='')
         {
             $RSP = [];
             $RSP['post'] = $_POST;
