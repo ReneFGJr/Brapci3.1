@@ -70,7 +70,6 @@ class Analysis extends Model
             $RSP['AUTHORS'] = $this->analysis_meta($dt,'AUTHORS');
             $RSP['SUBJECTS'] = $this->analysis_meta($dt,'KEYWORDS');
             $RSP['SECTIONS'] = $this->analysis_meta($dt, 'SESSION');
-            $RSP['S'] = $dt['SESSION'];
             return $RSP;
         }
 
