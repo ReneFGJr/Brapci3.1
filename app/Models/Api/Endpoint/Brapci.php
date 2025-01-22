@@ -67,6 +67,7 @@ class Brapci extends Model
             case 'analysis':
                 $Analysis = new \App\Models\Base\Analysis();
                 $RSP = $Analysis->analysis($d2);
+                break;
             case 'statistics':
                 $RSP['statistics'] = $this->statistics();
                 break;
