@@ -66,7 +66,7 @@ class Analysis extends Model
                     ->findAll();
 
             //$RSP[] = $dt;
-            $RSP['YEAR'] = $this->analysis_year($dt);
+            $RSP['YEARS'] = $this->analysis_year($dt);
             $RSP['AUTHORS'] = $this->analysis_meta($dt,'AUTHORS');
             $RSP['SUBJECTS'] = $this->analysis_meta($dt,'KEYWORDS');
             $RSP['SECTIONS'] = $this->analysis_meta($dt, 'SESSION');
