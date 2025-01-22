@@ -153,7 +153,7 @@ class MainPages extends BaseController
                 break;
         }
 
-        $sx .= view('Brapci/Headers/footer', $data);
+        //$sx .= view('Brapci/Headers/footer', $data);
         return $sx;
     }
 
