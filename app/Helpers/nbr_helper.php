@@ -58,6 +58,7 @@ function nbr_title($t)
 
 function nbr_author($xa, $xp)
 {
+    echo '<br>'.$xa;
     if (trim($xa) == '') {
         return "";
     }
