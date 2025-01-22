@@ -67,30 +67,30 @@ class Analysis extends Model
 
             //$RSP[] = $dt;
             $RSP['YEAR'] = $this->analysis_year($dt);
-            $RSP['AUTHORS'] = $this->analysis_authors($dt);
-            $RSP['SUBJECTS'] = [];
-            $RSP['SECTIONS'] = [];
+            $RSP['AUTHORS'] = $this->analysis_meta($dt,'AUTHORS');
+            $RSP['SUBJECTS'] = $this->analysis_meta($dt,'KEYWORDS');
+            $RSP['SECTIONS'] = $this->analysis_meta($dt, 'SESSION');
             return $RSP;
         }
 
-    function analysis_authors($data)
+    function analysis_meta($data,$FIELD)
     {
-        $AUTHORS = [];
+        $META = [];
         foreach ($data as $line) {
-            $dt = $line['AUTHORS'];
+            $dt = $line[$FIELD];
             $au = explode(';', $dt);
             foreach($au as $a) {
                 $a = trim($a);
                 if (strlen($a) > 0) {
-                    if (!isset($AUTHORS[$a])) {
-                        $AUTHORS[$a] = 0;
+                    if (!isset($META[$a])) {
+                        $META[$a] = 0;
                     }
-                    $AUTHORS[$a]++;
+                    $META[$a]++;
                 }
             }
         }
-        arsort($AUTHORS);
-        return $AUTHORS;
+        arsort($META);
+        return $META;
     }
 
     function analysis_year($data)
