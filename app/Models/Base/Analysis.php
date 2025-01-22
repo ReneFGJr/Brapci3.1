@@ -70,6 +70,26 @@ class Analysis extends Model
             return $RSP;
         }
 
+    function analysis_authors($data)
+    {
+        $AUTHORS = [];
+        foreach ($data as $line) {
+            $dt = $line['AUTHORS'];
+            $au = explode(';', $dt);
+            foreach($au as $a) {
+                $a = trim($a);
+                if (strlen($a) > 0) {
+                    if (!isset($AUTHORS[$a])) {
+                        $AUTHORS[$a] = 0;
+                    }
+                    $AUTHORS[$a]++;
+                }
+            }
+        }
+        asort($AUTHORS);
+        return $AUTHORS;
+    }
+
     function analysis_year($data)
         {
             $YEAR = [];
