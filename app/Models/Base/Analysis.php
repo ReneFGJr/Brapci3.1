@@ -68,6 +68,8 @@ class Analysis extends Model
             //$RSP[] = $dt;
             $RSP['YEAR'] = $this->analysis_year($dt);
             $RSP['AUTHORS'] = $this->analysis_authors($dt);
+            $RSP['SUBJECTS'] = [];
+            $RSP['SECTIONS'] = [];
             return $RSP;
         }
 
