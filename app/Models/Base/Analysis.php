@@ -65,14 +65,20 @@ class Analysis extends Model
                     ->whereIn('ID', $data)
                     ->findAll();
 
-            $RSP[] = $dt;
+            //$RSP[] = $dt;
+            $RSP['YEAR'] = $this->analysis_year($dt);
             return $RSP;
+        }
 
-            $RSP = [];
-
-            $data = get("worksID");
-            $data = explode(',',$data);
-            $RSP['post'] = $data;
-            return $RSP;
+    function analysis_year($data)
+        {
+            $YEAR = [];
+            foreach($data as $line)
+                {
+                    $year = substr($line['YEAR'],0,4);
+                    if (!isset($YEAR[$year])) { $YEAR[$year] = 0; }
+                    $YEAR[$year]++;
+                }
+            return $YEAR;
         }
 }
