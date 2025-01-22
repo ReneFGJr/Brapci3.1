@@ -118,10 +118,12 @@ function nbr_author($xa, $xp)
             $Nf[$r] = mb_strtoupper($name[0]) . mb_strtolower(substr($name, 1));
         }
         if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
-            echo '<br>' . $xa;
-            exit;
 
             $n = $Nf[$r];
+            echo '<br>' . $xa;
+            echo '<br>' . $n;
+            exit;
+
             $pos = strpos($n, '-');
             if ($pos > 0) {
                 echo "====";
