@@ -80,7 +80,7 @@ class Cited extends Model
 
     function clearHTTP($text)
     {
-        $t = ['Disponível em:', 'Acesso em','DOI:', 'http://', 'https://', 'www.'];
+        $t = ['Disponível em:','Disponível','Acesso em','DOI:', 'http://', 'https://', 'www.'];
         foreach ($t as $tt) {
             if (strpos($text, $tt) > 0) {
                 $text = substr($text, 0, strpos($text, $tt));
