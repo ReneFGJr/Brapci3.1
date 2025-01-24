@@ -58,9 +58,7 @@ class Cited extends Model
 
     function extrairAnoPublicacao(string $texto): ?int
     {
-        if (strpos($texto, 'http') !== false) {
-            $texto = substr($texto, 0, strpos($texto, 'http'));
-        }
+
         // Expressão regular para capturar um ano (quatro dígitos)
         $pattern = '/\\b(\\d{4})\\b/';
         preg_match_all($pattern, $texto, $matches);
@@ -101,6 +99,10 @@ class Cited extends Model
                 if (empty($publicacao)) {
                     continue;
                 }
+                if (strpos($publicacao, 'http') !== false) {
+                    $texto = substr($publicacao, 0, strpos($publicacao, 'http'));
+                }
+
                 $ano = $this->extrairAnoPublicacao($publicacao);
                 if ($ano === null) {
                     $invalid++;
