@@ -102,6 +102,8 @@ class Cited extends Model
         $anos = [];
         $anoAtual = (int)date("Y");
 
+        pre($publicacoes);
+
         foreach ($publicacoes as $publicacao) {
                 $ano = $this->extrairAnoPublicacao($publicacao);
                 $anos[] = $ano;
