@@ -53,9 +53,14 @@ class Tools extends Model
     function index($d1, $d2, $d3, $d4)
     {
         $Net = new \App\Models\Tools\Net\Index();
+        $Cited = new \App\Models\Tools\EMI\Cited();
 
         switch($d2)
             {
+                case 'halflive':
+                    $Cited->index($d1, $d2, $d3, $d4);
+                    exit;
+                    break;
                 case 'monitor':
                     header('Access-Control-Allow-Origin: *');
                     header("Content-Type: application/json");
