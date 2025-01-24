@@ -78,6 +78,17 @@ class Cited extends Model
         return null;
     }
 
+    function clearHTTP($text)
+    {
+        $t = ['Disponível em:', 'DOI:', 'http://', 'https://', 'www.'];
+        foreach ($t as $tt) {
+            if (strpos($text, $tt) > 0) {
+                $text = substr($text, 0, strpos($text, $tt));
+            }
+        }
+        return $text;
+    }
+
     function halflive($text, $anoAtual): ?float
     {
         $RSP = [];
@@ -99,9 +110,7 @@ class Cited extends Model
                 if (empty($publicacao)) {
                     continue;
                 }
-                if (strpos($publicacao, 'http') !== false) {
-                    $texto = substr($publicacao, 0, strpos($publicacao, 'http'));
-                }
+                $publicacao = $this->clearHTTP($publicacao);
 
                 $ano = $this->extrairAnoPublicacao($publicacao);
                 if ($ano === null) {
