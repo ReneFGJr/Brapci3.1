@@ -88,7 +88,7 @@ class Cited extends Model
         return null;
     }
 
-    function halflive($text): ?float
+    function halflive($text, $anoAtual = (int)date("Y")): ?float
     {
         $RSP = [];
         if ($text == '')
