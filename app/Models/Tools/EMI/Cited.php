@@ -102,12 +102,13 @@ class Cited extends Model
         $anos = [];
         $anoAtual = (int)date("Y");
 
-        pre($publicacoes);
 
         foreach ($publicacoes as $publicacao) {
                 $ano = $this->extrairAnoPublicacao($publicacao);
                 $anos[] = $ano;
         }
+
+        pre($anos);
 
         if (empty($anos)) {
             echo "Nenhum ano válido encontrado para calcular a meia-vida.\n";
