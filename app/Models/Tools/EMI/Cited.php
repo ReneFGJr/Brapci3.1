@@ -108,8 +108,6 @@ class Cited extends Model
                 $anos[] = $ano;
         }
 
-        pre($anos);
-
         if (empty($anos)) {
             echo "Nenhum ano válido encontrado para calcular a meia-vida.\n";
             return null;
