@@ -59,6 +59,13 @@ class Cited extends Model
     function halflive($text): ?float
     {
         $RSP = [];
+        if ($text == '')
+            {
+            $RSP['status'] = '500';
+            $RSP['message'] = 'Não existe referências para processar';
+            return $RSP;
+            }
+
         /**
          * Calcula a meia-vida da literatura com base no ano de publicação.
          *
@@ -78,7 +85,7 @@ class Cited extends Model
                 $partes = explode(",", $publicacao);
                 if (count($partes) < 2) {
                     $RSP['status'] = '500';
-                    $RSP['message'] = 'Erro ao processar a requisição';
+                    $RSP['message'] = 'Erro ao processar a requisição - '. $publicacao;
                     return $RSP;
                 }
 
