@@ -49,7 +49,8 @@ class Cited extends Model
         {
             case 'halflive':
                 $text = 'VANZ, Samile  Andrea de Souza; SANTIN, Dirce Maria.; PAVÃO, Caterina Marta Groposo. A bibliometria e as novas atribuições profissionais nas bibliotecas universitárias. InCID: Revista de Ciência da Informação e Documentação, [S. l.], v. 9, n. 1, p. 4-24, 2018. DOI: 10.11606/issn.2178-2075.v9i1p4-24. Disponível em: https://www.revistas.usp.br/incid/article/view/137741.  Acesso em: 17 set. 2022. ';
-                $RSP = $this->halflive($text);
+                $anoAtual = (int)date("Y");
+                $RSP = $this->halflive($text,$anoAtual);
                 echo json_encode($RSP);
                 exit;
                 break;
@@ -88,7 +89,7 @@ class Cited extends Model
         return null;
     }
 
-    function halflive($text, $anoAtual = (int)date("Y")): ?float
+    function halflive($text, $anoAtual): ?float
     {
         $RSP = [];
         if ($text == '')
