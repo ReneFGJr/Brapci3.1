@@ -96,15 +96,20 @@ class Cited extends Model
             $RSP['message'] = 'Não existe referências para processar';
             return $RSP;
             }
-
-        $publicacoes = explode("\n", $text);
+        $text = troca($text,chr(10),chr(13));
+        $publicacoes = explode(chr(13), $text);
         $anos = [];
         $anoAtual = (int)date("Y");
         $invalid = 0;
+        $cities = [];
 
 
         foreach ($publicacoes as $publicacao) {
+                if (empty($publicacao)) {
+                    continue;
+                }
                 $ano = $this->extrairAnoPublicacao($publicacao);
+                $cities[] = $publicacao;
                 if ($ano === null) {
                     $invalid++;
                     continue;
@@ -128,10 +133,10 @@ class Cited extends Model
         } else {
             $meiaVida = $anos[$medianIndex];
         }
-        $RSP['works'] = $publicacoes;
+        $RSP['works'] = $cities;
         $RSP['years'] = $anos;
         $RSP['halflive'] = $anoAtual - $meiaVida;
-        $RSP['cities'] = count($publicacoes);
+        $RSP['cities'] = count($cities);
         $RSP['invalid'] = $invalid;
         echo json_encode($RSP);
         exit;
