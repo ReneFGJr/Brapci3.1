@@ -124,8 +124,10 @@ class Cited extends Model
         } else {
             $meiaVida = $anos[$medianIndex];
         }
-            $RSP['works'] = $publicacoes;
+        $RSP['works'] = $publicacoes;
+        $RSP['years'] = $anos;
         $RSP['halflive'] = $anoAtual - $meiaVida;
+        pre($RSP);
         return $RSP;
     }
 }
