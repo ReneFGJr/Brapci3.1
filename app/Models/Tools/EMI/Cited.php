@@ -135,7 +135,8 @@ class Cited extends Model
         $RSP['halflive'] = $anoAtual - $meiaVida;
         $RSP['cities'] = count($publicacoes);
         $RSP['invalid'] = $invalid;
-        pre($RSP);
+        echo json_encode($RSP);
+        exit;
         return $RSP;
     }
 }
