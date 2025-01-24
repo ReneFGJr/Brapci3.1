@@ -58,6 +58,7 @@ class Cited extends Model
 
     function halflive($text): ?float
     {
+        $RSP = [];
         /**
          * Calcula a meia-vida da literatura com base no ano de publicação.
          *
@@ -109,8 +110,7 @@ class Cited extends Model
         } else {
             $meiaVida = $anos[$medianIndex];
         }
-        $RSP = [];
-        $RSP['works'] = $publicacoes;
+            $RSP['works'] = $publicacoes;
         $RSP['halflive'] = $anoAtual - $meiaVida;
         return $RSP;
     }
