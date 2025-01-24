@@ -151,10 +151,10 @@ class Cited extends Model
             $meiaVida = $anos[$medianIndex];
         }
         $RSP['works'] = $cities;
+        $RSP['worksInv'] = $citiesInv;
         $RSP['years'] = $anos;
         $RSP['halflive'] = $anoAtual - $meiaVida;
         $RSP['cities'] = count($cities);
-        $RSP['citiesInv'] = $citiesInv;
         $RSP['invalid'] = $invalid;
         $RSP['oldest'] = $oldest;
         $RSP['youngest'] = $youngest;
