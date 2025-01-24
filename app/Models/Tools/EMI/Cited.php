@@ -109,13 +109,16 @@ class Cited extends Model
                     continue;
                 }
                 $ano = $this->extrairAnoPublicacao($publicacao);
-                $cities[] = $publicacao;
                 if ($ano === null) {
                     $invalid++;
                     continue;
                 } else {
                     $anos[] = $ano;
                 }
+                $data = [];
+                $data['year'] = $ano;
+                $data['reference'] = $publicacao;
+                $cities[] = $data;
 
         }
 
