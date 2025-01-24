@@ -145,7 +145,8 @@ class Cited extends Model
 
         sort($anos);
         $totalAnos = count($anos);
-        $medianIndex = (int)floor($totalAnos / 2);
+        $medianIndex = (int)floor($totalAnos * 100 / 2);
+        $medianIndex = $medianIndex / 100;
 
         if ($totalAnos % 2 === 0) {
             $meiaVida = ($anos[$medianIndex - 1] + $anos[$medianIndex]) / 2;
