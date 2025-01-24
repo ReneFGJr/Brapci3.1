@@ -76,7 +76,9 @@ class Cited extends Model
                 // Separar o título e o ano da publicação
                 $partes = explode(",", $publicacao);
                 if (count($partes) < 2) {
-                    throw new \Exception("Formato inválido na publicação: $publicacao");
+                    $RSP['status'] = '500';
+                    $RSP['message'] = 'Erro ao processar a requisição';
+                    return $RSP;
                 }
 
                 $titulo = trim($partes[0]);
