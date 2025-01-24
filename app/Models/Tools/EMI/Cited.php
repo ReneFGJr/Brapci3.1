@@ -57,6 +57,37 @@ class Cited extends Model
         return $sx;
     }
 
+    function extrairAnoPublicacao(string $texto): ?int
+    {
+        /**
+         * Extrai o ano de publicação de um texto.
+         *
+         * Parâmetros:
+         *     texto (string): Texto que contém a referência bibliográfica.
+         *
+         * Retorno:
+         *     int|null: O ano de publicação ou null se não encontrado.
+         */
+
+        // Expressão regular para capturar um ano (quatro dígitos)
+        $pattern = '/\\b(\\d{4})\\b/';
+        preg_match_all($pattern, $texto, $matches);
+
+        if (!empty($matches[1])) {
+            // Iterar pelos anos encontrados para identificar o mais provável
+            foreach ($matches[1] as $ano) {
+                $ano = (int)$ano;
+                if ($ano >= 1500 && $ano <= (int)date("Y")) {
+                    // Retorna o primeiro ano que esteja dentro de um intervalo plausível
+                    return $ano;
+                }
+            }
+        }
+
+        // Retorna null se nenhum ano válido for encontrado
+        return null;
+    }
+
     function halflive($text): ?float
     {
         $RSP = [];
@@ -67,41 +98,13 @@ class Cited extends Model
             return $RSP;
             }
 
-        /**
-         * Calcula a meia-vida da literatura com base no ano de publicação.
-         *
-         * Parâmetros:
-         *     publicacoes (array): Lista de strings contendo as publicações com título e ano.
-         *
-         * Retorno:
-         *     float|null: Meia-vida calculada em anos ou null se não houver dados válidos.
-         */
         $publicacoes = explode("\n", $text);
         $anos = [];
         $anoAtual = (int)date("Y");
 
         foreach ($publicacoes as $publicacao) {
-            try {
-                // Separar o título e o ano da publicação
-                $partes = explode(",", $publicacao);
-                if (count($partes) < 2) {
-                    $RSP['status'] = '500';
-                    $RSP['message'] = 'Erro ao processar a requisição - '. $publicacao;
-                    return $RSP;
-                }
-
-                $titulo = trim($partes[0]);
-                $ano = trim(end($partes));
-
-                // Extrair o ano se for válido
-                if (ctype_digit($ano)) {
-                    $anos[] = (int)$ano;
-                } else {
-                    echo "Ano inválido na publicação: $publicacao\n";
-                }
-            } catch (Exception $e) {
-                echo $e->getMessage() . "\n";
-            }
+                $ano = $this->extrairAnoPublicacao($publicacao);
+                $anos[] = $ano;
         }
 
         if (empty($anos)) {
