@@ -58,16 +58,9 @@ class Cited extends Model
 
     function extrairAnoPublicacao(string $texto): ?int
     {
-        /**
-         * Extrai o ano de publicação de um texto.
-         *
-         * Parâmetros:
-         *     texto (string): Texto que contém a referência bibliográfica.
-         *
-         * Retorno:
-         *     int|null: O ano de publicação ou null se não encontrado.
-         */
-
+        if (strpos($texto, 'http') !== false) {
+            $texto = substr($texto, 0, strpos($texto, 'http'));
+        }
         // Expressão regular para capturar um ano (quatro dígitos)
         $pattern = '/\\b(\\d{4})\\b/';
         preg_match_all($pattern, $texto, $matches);
