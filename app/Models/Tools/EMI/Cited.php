@@ -102,11 +102,18 @@ class Cited extends Model
         $publicacoes = explode("\n", $text);
         $anos = [];
         $anoAtual = (int)date("Y");
+        $invalid = 0;
 
 
         foreach ($publicacoes as $publicacao) {
                 $ano = $this->extrairAnoPublicacao($publicacao);
-                $anos[] = $ano;
+                if ($ano === null) {
+                    $invalid++;
+                    continue;
+                } else {
+                    $anos[] = $ano;
+                }
+
         }
 
         if (empty($anos)) {
@@ -126,6 +133,8 @@ class Cited extends Model
         $RSP['works'] = $publicacoes;
         $RSP['years'] = $anos;
         $RSP['halflive'] = $anoAtual - $meiaVida;
+        $RSP['cities'] = count($publicacoes);
+        $RSP['invalid'] = $invalid;
         pre($RSP);
         return $RSP;
     }
