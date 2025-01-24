@@ -104,6 +104,7 @@ class Cited extends Model
         $anoAtual = (int)date("Y");
         $invalid = 0;
         $cities = [];
+        $citiesInv = [];
         $oldest = 9999;
         $youngest = 0;
 
@@ -117,6 +118,7 @@ class Cited extends Model
                 $ano = $this->extrairAnoPublicacao($publicacao);
                 if ($ano === null) {
                     $invalid++;
+                    $citiesInv[] = $publicacao;
                     continue;
                 } else {
                     $anos[] = $ano;
@@ -152,6 +154,7 @@ class Cited extends Model
         $RSP['years'] = $anos;
         $RSP['halflive'] = $anoAtual - $meiaVida;
         $RSP['cities'] = count($cities);
+        $RSP['citiesInv'] = $citiesInv;
         $RSP['invalid'] = $invalid;
         $RSP['oldest'] = $oldest;
         $RSP['youngest'] = $youngest;
