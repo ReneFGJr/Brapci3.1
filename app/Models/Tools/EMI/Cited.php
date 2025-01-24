@@ -117,8 +117,10 @@ class Cited extends Model
 
                 $ano = $this->extrairAnoPublicacao($publicacao);
                 if ($ano === null) {
-                    $invalid++;
-                    $citiesInv[] = $publicacao;
+                    if (strlen($publicacao) > 4) {
+                        $invalid++;
+                        $citiesInv[] = $publicacao;
+                    }
                     continue;
                 } else {
                     $anos[] = $ano;
