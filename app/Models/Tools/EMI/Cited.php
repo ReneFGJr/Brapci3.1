@@ -76,7 +76,7 @@ class Cited extends Model
                 // Separar o título e o ano da publicação
                 $partes = explode(",", $publicacao);
                 if (count($partes) < 2) {
-                    throw new Exception("Formato inválido na publicação: $publicacao");
+                    throw new \Exception("Formato inválido na publicação: $publicacao");
                 }
 
                 $titulo = trim($partes[0]);
