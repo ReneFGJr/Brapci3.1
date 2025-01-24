@@ -49,6 +49,8 @@ class Cited extends Model
         {
             case 'halflive':
                 $RSP = $this->halflive($d1, $d2, $d3, $d4);
+                echo json_encode($RSP);
+                exit;
                 break;
         }
         return $sx;
