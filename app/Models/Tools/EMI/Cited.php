@@ -104,6 +104,8 @@ class Cited extends Model
         $anoAtual = (int)date("Y");
         $invalid = 0;
         $cities = [];
+        $oldest = 9999;
+        $youngest = 0;
 
 
         foreach ($publicacoes as $publicacao) {
@@ -118,6 +120,12 @@ class Cited extends Model
                     continue;
                 } else {
                     $anos[] = $ano;
+                    if ($ano < $oldest) {
+                        $oldest = $ano;
+                    }
+                    if ($ano > $youngest) {
+                        $youngest = $ano;
+                    }
                 }
                 $data = [];
                 $data['year'] = $ano;
@@ -145,6 +153,8 @@ class Cited extends Model
         $RSP['halflive'] = $anoAtual - $meiaVida;
         $RSP['cities'] = count($cities);
         $RSP['invalid'] = $invalid;
+        $RSP['oldest'] = $oldest;
+        $RSP['youngest'] = $youngest;
         echo json_encode($RSP);
         exit;
         return $RSP;
