@@ -78,8 +78,6 @@ function nbr_author($xa, $xp)
     }
     $xa = trim($xa);
 
-    pre($xa,false);
-
     /******************************* NOME SOBRENOME */
     if (strpos($xa, ',') > 0) {
         $xa = substr($xa, strpos($xa, ',') + 1) . ' ' . substr($xa, 0, strpos($xa, ','));
@@ -137,6 +135,7 @@ function nbr_author($xa, $xp)
     }
 
     $name = '';
+    pre($NM,false);
     switch ($xp) {
         case '1': // Sobrenome e Nome
             $name = $NM[$TOT - 1] . ', ';
