@@ -135,12 +135,13 @@ function nbr_author($xa, $xp)
     }
 
     $name = '';
-    pre($NM,false);
     switch ($xp) {
         case '1': // Sobrenome e Nome
             $name = $NM[$TOT - 1] . ', ';
             for ($r = 0; $r < ($TOT - 1); $r++) {
-                $name .= $Nf[$r] . ' ';
+                if (isset($Nf[$r])) {
+                    $name .= $Nf[$r] . ' ';
+                }
             }
             break;
 
