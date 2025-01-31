@@ -56,7 +56,7 @@ class News extends Model
                             $sx .= '<span class="fw-bold mt-2" style="font-size: 1.4em; weigth: bold;">'.$ver.'</span><br>';
                             $xver = $ver;
                         }
-                    $sx .= '<span class="mb-2 bulletIT" title="'.$line['nw_description'].'">'.$line['nw_title'].'</span><br> ';
+                    $sx .= '<span class="mb-2 bulletIT small" title="'.$line['nw_description'].'">'.$line['nw_title'].'</span><br> ';
                 }
             $dd['text'] = $sx;
             $dd['status'] = '200';
