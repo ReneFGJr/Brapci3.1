@@ -10,6 +10,14 @@ def db():
       'database': 'brapci_oaipmh',
       'charset': 'utf8'
     }
+  elif (hostname == 'DESKTOP-1KULHVO'):
+    config = {
+      'user': 'root',
+      'password': '',
+      'host': 'localhost',
+      'database': 'brapci_repository',
+      'charset': 'utf8'
+    }
   else:
     config = {
       'user': 'root',
