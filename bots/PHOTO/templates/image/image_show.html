@@ -1,0 +1,19 @@
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-md-4">
+      <h4>{{ data[1] if data|length > 1 else 'Nome Desconhecido' }} <sup>ID:{{data[0]}}</sup></h4>
+    </div>
+    <div class="col-md-8 text-end" style="font-size: 9px">
+      {{ data[3] if data|length > 3 else '' }}
+      {{ data[4] if data|length > 4 else '?' }}x{{ data[5] if data|length > 5 else '?' }}
+      {{ "%.2f" | format((data[6] / 1024 / 1024) if (data|length > 6 and data[6] is number) else 0) }} MB
+      <br>DATA: {{ data[7] if data|length > 7 else 'Desconhecida' }}
+    </div>
+    <div class="col-md-10">
+      <img src="/imageView/{{ data[0]}}" style="width: 100%;" alt="Imagem">
+    </div>
+    <div class="col-md-2">
+    DADOS
+    </div>
+  </div>
+</div>

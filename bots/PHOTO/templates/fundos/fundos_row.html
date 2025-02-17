@@ -1,0 +1,17 @@
+<script>
+    function goUrl(url) {
+        window.location.href = url;
+    }
+</script>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            {% for d in data %}
+                <button class="btn btn-primary m-1" onclick="goUrl('/fundo/{{ d[0] }}')">
+                    {{ d[2] }}
+                </button>
+            {% endfor %}
+        </div>
+    </div>
+</div>
