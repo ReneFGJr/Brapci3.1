@@ -27,6 +27,9 @@ def process(rg):
     ID = rg[0]
     print(Fore.YELLOW+f"... Processando ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(rg[0])+'.getRecord.xml'
+    if os.path.isfile(path+'x'):
+        os.rename(path,path+'x',path)
+
     if not os.path.isfile(path):
         mod_listidentify.updateStatus(ID,1)
         print(Fore.RED,"... ERRO - File or found",path,Fore.WHITE)
@@ -293,7 +296,7 @@ def get(rg):
     print(Fore.YELLOW + "... Recuperando: " + Fore.GREEN + f"{LINK}" + Fore.WHITE)
 
     # Define o caminho do arquivo a ser salvo
-    file = mod_listidentify.directory(ID) + '.getRecord.xmlx'
+    file = mod_listidentify.directory(ID) + '.getRecord.xml'
     print(Fore.YELLOW + "... Arquivo: " + Fore.GREEN + f"{file}" + Fore.WHITE)
 
     # Verifica se o arquivo já existe
