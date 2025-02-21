@@ -280,6 +280,9 @@ def get(rg):
     urlIssue = str(rg[9])
     file_type = rg[11]
 
+    print(rg)
+    sys.exit()
+
     substring = "http"
 
     print("==substring==", substring)
