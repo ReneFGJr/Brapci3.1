@@ -280,17 +280,14 @@ def get(rg):
     urlIssue = str(rg[9])
     file_type = rg[11]
 
-    print(rg)
-    sys.exit()
-
     substring = "http"
 
     print("==substring==", substring)
     print("==urlIssue==", urlIssue)
     print("==Collection==", file_type)
 
-    if file_type == 'EV':
-        url = urlIssue
+    #if file_type == 'EV':
+    #    url = urlIssue
 
     LINK = url + f'?verb=GetRecord&metadataPrefix=oai_dc&identifier={identify}'
     print(Fore.YELLOW + "... Recuperando: " + Fore.GREEN + f"{LINK}" + Fore.WHITE)
