@@ -42,7 +42,7 @@ class RDFimage extends Model
 
     function getPhoto($ID) {
         $RDF = new \App\Models\RDF2\RDF();
-        $picture = base_url('/img/cover/no_cover.png');
+        $picture = base_url('/img/genre/no_image_she_he.jpg');
         return $picture;
     }
 
