@@ -28,6 +28,7 @@ def process(rg):
     print(Fore.YELLOW+f"... Processando ({ID}): "+Fore.GREEN+rg[1]+Fore.WHITE)
     path = mod_listidentify.directory(rg[0])+'.getRecord.xml'
     if os.path.isfile(path+'x'):
+        os.remove(path)
         os.rename(path,path+'x',path)
 
     if not os.path.isfile(path):
