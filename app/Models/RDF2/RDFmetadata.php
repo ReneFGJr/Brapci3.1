@@ -240,13 +240,8 @@ class RDFmetadata extends Model
         }
 
         /************************************** Photo */
-        if (isset($IDs['gender']))
-            {
-
-            } else {
-
-            }
-
+        $RDFImage = new \App\Models\RDF2\RDFimage();
+        $Photo = $RDFImage->getPhoto($dr['ID']);
 
         /************************************** Data */
         $dta = get("di");
@@ -395,6 +390,7 @@ class RDFmetadata extends Model
         $dr['coauthors'] = $coath;
 
         $dr['IDs'] = $IDs;
+        $dr['Photo'] = $Photo;
 
         /************ Grafico Coautorias */
         arsort($coauthors);

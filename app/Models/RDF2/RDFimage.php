@@ -40,6 +40,14 @@ class RDFimage extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function getPhoto($ID) {
+        $RDF = new \App\Models\RDF2\RDF();
+        $picture = base_url('/img/cover/no_cover.png');
+    }
+
+    function savePhoto($ID,$local) {}
+
+
     function upload($d1 = '', $d2 = '')
     {
         $RSP = [];
@@ -215,6 +223,8 @@ class RDFimage extends Model
 
         return $idc;
     }
+
+
 
     function saveImage($ID)
     {
