@@ -283,7 +283,7 @@ def get(rg):
     substring = "http"
 
     print("==substring==", substring)
-    print("==urlIssue==", urlIssue)
+    print("==urlIssue==", url)
     print("==Collection==", file_type)
 
     #if file_type == 'EV':
