@@ -31,6 +31,7 @@ def save_file(file_path, data):
 def process_action(action, text, file_output, doc_id=None):
     """Executa a ação especificada no texto e salva o resultado."""
     actions = {
+        "help": (lambda txt: "Ações disponíveis: " + ", ".join(actions.keys()), None),
         "email": (ai_email.extrair_emails, "_email.json"),
         "url": (ai_url.extrair_urls, "_url.json"),
         "doi": (ai_doi_handle.extrair_doi, "_doi.json"),
@@ -64,7 +65,7 @@ def main():
     os.chdir(base_dir)
 
     # Definir parâmetros
-    act, doc_id = sys.argv[1:3] if len(sys.argv) > 1 else ('email', '309177')
+    act, doc_id = sys.argv[1:3] if len(sys.argv) > 1 else ('help', None)
 
     public_dir = '/data/Brapci3.1/public/'
     file_path = os.path.join(public_dir, sys_io.getNameFile(doc_id))
