@@ -131,6 +131,7 @@ def getNameFileX(id,loop=True):
     caminho = "_repository/" + "/".join(partes) + "/"
 
     file = file_name(caminho) + filename(id)
+    print(caminho,file)
     file = file.replace('.pdf','.txt')
     return file
 
