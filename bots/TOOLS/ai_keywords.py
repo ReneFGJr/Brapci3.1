@@ -49,6 +49,8 @@ def extract_keywords(text,id):
             if (len(k) <= 2):
                 stop = 1
 
+            print("==>Processando:",k)
+
             if k != '' and len(k) < 40 and stop == 1 and tkey <= 6:
                 tkey = tkey + 1
                 data = {'apikey': k}
