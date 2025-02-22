@@ -28,10 +28,22 @@ def save_file(file_path, data):
         json.dump(data, arquivo, ensure_ascii=False, indent=4)
     return True
 
+def help():
+    print("HELP")
+    print("Actions:")
+    print("email: Extrai e-mails do texto.")
+    print("url: Extrai URLs do texto.")
+    print("doi: Extrai DOIs do texto.")
+    print("handle: Extrai Handles do texto.")
+    print("metadata: Extrai metadados do texto.")
+    print("cited: Extrai referências citadas do texto.")
+    print("section: Extrai seção do texto.")
+    print("keywords: Extrai palavras-chave do texto.")
+
+
 def process_action(action, text, file_output, doc_id=None):
     """Executa a ação especificada no texto e salva o resultado."""
     actions = {
-        "help": (lambda txt: "Ações disponíveis: " + ", ".join(actions.keys()), None),
         "email": (ai_email.extrair_emails, "_email.json"),
         "url": (ai_url.extrair_urls, "_url.json"),
         "doi": (ai_doi_handle.extrair_doi, "_doi.json"),
@@ -41,6 +53,8 @@ def process_action(action, text, file_output, doc_id=None):
         "section": (lambda txt, doc_id: ai_section.extrair_sessao(txt, doc_id), None),
         "keywords": (lambda txt, doc_id: ai_keywords.extract_keywords(txt, doc_id), "_keywords.json")
     }
+
+    help()
 
     if action in actions:
         extractor, extension = actions[action]
@@ -66,6 +80,10 @@ def main():
 
     # Definir parâmetros
     act, doc_id = sys.argv[1:3] if len(sys.argv) > 1 else ('help', None)
+
+    if doc_id is None:
+        help()
+        sys.exit()
 
     public_dir = '/data/Brapci3.1/public/'
     file_path = os.path.join(public_dir, sys_io.getNameFile(doc_id))
