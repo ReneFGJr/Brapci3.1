@@ -43,7 +43,7 @@ def extract_keywords(text,id):
         tkey = 0
 
         for k in keys:
-            if (len(k) >= 40):
+            if (len(k) >= 50):
                 stop = 1
             if (len(k) <= 2):
                 stop = 1
