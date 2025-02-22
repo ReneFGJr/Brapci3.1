@@ -41,7 +41,6 @@ def extract_keywords(text,id):
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         tkey = 0
-        print(keys)
 
         for k in keys:
             if (len(k) >= 40):

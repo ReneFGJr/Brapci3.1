@@ -14,90 +14,64 @@ import ai_section
 import mod_convert_repository
 
 def version():
+    """Retorna a versão do script."""
     return "v0.24.10.27"
 
 def extrair_emails(texto):
-    # Expressão regular para detectar e-mails
+    """Extrai e-mails de um texto usando regex."""
     padrao_email = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
+    return re.findall(padrao_email, texto)
 
-    # Busca todos os e-mails no texto
-    emails = re.findall(padrao_email, texto)
-
-    return emails
-
-def saveFileD(fileN,arquivo):
-    # Salva a lista em um arquivo JSON
-    with open(fileN, "w", encoding="utf-8") as arquivo:
-        json.dump(lists, arquivo, ensure_ascii=False, indent=4)
-
+def save_file(file_path, data):
+    """Salva dados em um arquivo JSON."""
+    with open(file_path, "w", encoding="utf-8") as arquivo:
+        json.dump(data, arquivo, ensure_ascii=False, indent=4)
     return True
 
-########################################### Início
-print("TOOLS AI",version())
-print("===============================================")
-dir = '/data/Brapci3.1/bots/TOOLS'
-os.chdir(dir)
+def process_action(action, text, file_output, doc_id=None):
+    """Executa a ação especificada no texto e salva o resultado."""
+    actions = {
+        "email": (ai_email.extrair_emails, "_email.json"),
+        "url": (ai_url.extrair_urls, "_url.json"),
+        "doi": (ai_doi_handle.extrair_doi, "_doi.json"),
+        "handle": (ai_doi_handle.extrair_handle, "_handle.json"),
+        "metadata": (ai_metadados.extrair_secoes_method_01, "_metadados.json"),
+        "cited": (lambda txt, doc_id: ai_cited.extrair_referencias(txt, doc_id), "_cited.json"),
+        "section": (lambda txt, doc_id: ai_section.extrair_sessao(txt, doc_id), None),
+        "keywords": (lambda txt, doc_id: ai_keywords.extract_keywords(txt, doc_id), "_keywords.json")
+    }
 
-if (len(sys.argv) > 1):
-    parm = sys.argv
-    id = parm[2]
-    act = parm[1]
-else:
-    id = 309177
-    act = 'email'
+    if action in actions:
+        extractor, extension = actions[action]
+        print(f"Executando ação: {action}")
 
-dirT = '/data/Brapci3.1/public/'
+        result = extractor(text, doc_id) if doc_id else extractor(text)
 
-file = dirT + sys_io.getNameFile(id)
-fileTXT = sys_io.getNameFileTXT(file)
-txt = sys_io.readfile(fileTXT)
-fileO = file
-print("=fileO=>",file)
+        if extension:
+            output_file = file_output.replace(".txt", extension)
+            save_file(output_file, result)
+            print(f"Dados salvos em {output_file}")
+    else:
+        print("Ação não reconhecida.")
 
+# Execução principal
+def main():
+    print("TOOLS AI", version())
+    print("=" * 47)
 
-if (act == 'email'):
-    print("Extrair e-mail")
-    lists = ai_email.extrair_emails(txt)
-    fileN = fileO.replace('.txt','_email.json')
-    saveFileD(fileN,lists)
+    base_dir = '/data/Brapci3.1/bots/TOOLS'
+    os.chdir(base_dir)
 
-if (act == 'url'):
-    print("Extrair URL")
-    lists = ai_url.extrair_urls(txt)
-    fileN = fileO.replace('.txt','_url.json')
-    saveFileD(fileN,lists)
+    # Definir parâmetros
+    act, doc_id = sys.argv[1:3] if len(sys.argv) > 1 else ('email', '309177')
 
-if (act == 'doi'):
-    print("Extrair DOI")
-    lists = ai_doi_handle.extrair_doi(txt)
-    fileN = fileO.replace('.txt','_doi.json')
-    saveFileD(fileN,lists)
+    public_dir = '/data/Brapci3.1/public/'
+    file_path = os.path.join(public_dir, sys_io.getNameFile(doc_id))
+    file_txt = sys_io.getNameFileTXT(file_path)
+    text_content = sys_io.readfile(file_txt)
 
-if (act == 'handle'):
-    print("Extrair HANDLE")
-    lists = ai_doi_handle.extrair_handle(txt)
-    fileN = fileO.replace('.txt','_handle.json')
-    saveFileD(fileN,lists)
+    print(f"Arquivo de entrada: {file_path}")
+    process_action(act, text_content, file_path, doc_id)
 
-if (act == 'metadata'):
-    print("Extrair Metadados")
-    lists = ai_metadados.extrair_secoes_method_01(txt)
-    fileN = fileO.replace('.txt','_metadados.json')
-    saveFileD(fileN,lists)
-
-if (act == 'cited'):
-    print("Extrair Citações")
-    lists = ai_cited.extrair_referencias(txt,id)
-    fileN = fileO.replace('.txt','_cited.json')
-    saveFileD(fileN,lists)
-
-if (act == 'section'):
-    print("Extrair Sessões")
-    lists = ai_section.extrair_sessao(txt,id)
-
-if (act == 'keywords'):
-    print("Extrair Keywords")
-    lists = ai_keywords.extract_keywords(txt,id)
-    print("==>",fileO)
-    fileN = fileO.replace('.txt','_keywords.json')
-    saveFileD(fileN,lists)
+if __name__ == "__main__":
+    main()
