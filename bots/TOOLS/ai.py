@@ -53,6 +53,7 @@ def process_action(action, text, file_output, doc_id=None):
             print(f"Dados salvos em {output_file}")
     else:
         print("Ação não reconhecida.")
+        print("Ações disponíveis:", list(actions.keys()))
 
 # Execução principal
 def main():
