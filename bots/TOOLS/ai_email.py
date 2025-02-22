@@ -1,6 +1,6 @@
 import re
 
-def extrair_emails(texto, id):
+def extrair_emails(texto, id=None):
     # Expressão regular para detectar e-mails
     padrao_email = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
 
