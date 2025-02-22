@@ -49,7 +49,6 @@ else:
 dirT = '/data/Brapci3.1/public/'
 
 file = dirT + sys_io.getNameFile(id)
-print("=file=>",file)
 fileTXT = sys_io.getNameFileTXT(file)
 txt = sys_io.readfile(fileTXT)
 print("=fileO=>",file)
