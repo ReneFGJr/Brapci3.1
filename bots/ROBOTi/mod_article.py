@@ -215,7 +215,6 @@ def article_data(IDC,rg,data,jnl):
         keys = data[i].keys()
         for k in keys:
             ok = 0
-            print("====",k)
             #################################### TITLE
             if (k == 'title'):
                 print("...ISSUE-WORK-TITLE")
