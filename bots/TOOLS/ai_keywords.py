@@ -51,7 +51,7 @@ def extract_keywords(text,id):
 
             print("==>Processando:",k)
 
-            if k != '' and len(k) < 40 and stop == 1 and tkey <= 6:
+            if k != '' and len(k) < 40 and stop == 0 and tkey <= 6:
                 tkey = tkey + 1
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
@@ -75,7 +75,7 @@ def extract_keywords(text,id):
                     print(f"URL: {url}")
             else:
                 print("=nao processado=>",k)
-                print(k != '',len(k) < 40,stop == 1,tkey <= 6)
+                print(k != '',len(k) < 40,stop == 0,tkey <= 6)
         return True
     else:
         return False
