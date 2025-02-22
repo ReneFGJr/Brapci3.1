@@ -4,7 +4,7 @@ os.chdir(diretorio)
 
 import mod_translate_title
 import mod_translate_abstract
-import bots.ROBOTi.mod_pdf as mod_pdf
+import mod_pdf
 import mod_subject
 import sys
 
