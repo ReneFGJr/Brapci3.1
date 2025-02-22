@@ -73,6 +73,8 @@ def extract_keywords(text,id):
                     print("=================ERRO===========")
                     print(f"Erro ao processar a resposta da API para a palavra-chave '{k}': {e}")
                     print(f"URL: {url}")
+            else:
+                print("=nao processado=>",k)
         return True
     else:
         return False
