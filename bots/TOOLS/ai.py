@@ -47,11 +47,8 @@ else:
     act = 'email'
 
 dirT = '/data/Brapci3.1/public/'
-fileO = sys_io.getNameFileX(id)
-fileO = dirT + mod_convert_repository.directory(id) + fileO
-print("=fileO=>",fileO)
 
-file = sys_io.getNameFile(id)
+file = dirT + sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
 txt = sys_io.readfile(fileTXT)
 print("=fileO=>",file)
