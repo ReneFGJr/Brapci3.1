@@ -48,9 +48,7 @@ else:
 
 dirT = '../../public/'
 fileO = sys_io.getNameFileX(id)
-print("==FileO",fileO)
 fileO = dirT + mod_convert_repository.directory(id) + fileO
-print(" FileO",fileO)
 
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
@@ -99,7 +97,5 @@ if (act == 'section'):
 if (act == 'keywords'):
     print("Extrair Keywords")
     lists = ai_keywords.extract_keywords(txt,id)
-    print("===",fileO)
-
     fileN = fileO.replace('.txt','_keywords.json')
     saveFileD(fileN,lists)
