@@ -30,8 +30,8 @@ def extract_keywords(text,id):
         sys.exit()
     print("=TERM & KEY Position=====>",keyw,term)
 
-#    exp = f"{keyw}\s*(.*?)(?={term})"
-    exp = f"{keyw}\\s*(.*?)(?={term})"
+    exp = f"{keyw}\s*(.*?)(?={term})"
+    #exp = f"{keyw}\\s*(.*?)(?={term})"
 
     match = re.search(exp, text, re.DOTALL)
     stop = 0
@@ -42,6 +42,8 @@ def extract_keywords(text,id):
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         tkey = 0
         print(keys)
+
+        sys.exit()
 
         for k in keys:
             if (len(k) >= 40):
