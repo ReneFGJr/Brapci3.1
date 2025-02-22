@@ -67,9 +67,8 @@ def process_action(action, text, file_output, doc_id):
         print("=" * 47)
         print(doc_id)
         print(len(text))
-        print(extension)
-        sys.exit()
 
+        result = extractor(text, doc_id) if doc_id else extractor(text)
 
         if extension:
             output_file = file_output.replace(".txt", extension)
