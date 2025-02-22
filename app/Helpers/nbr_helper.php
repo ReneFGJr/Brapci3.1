@@ -149,7 +149,11 @@ function nbr_author($xa, $xp)
             $TOT = count($NM2);
             $nt = 1;
             foreach ($NM2 as $xname) {
-                $name .= ($nt < $TOT) ? substr($xname, 0, 1) . '. ' : $xname . ', ';
+                if ($nt == $TOT) {
+                    $name .= $xname;
+                } else {
+                    $name .= ($nt < $TOT) ? substr($xname, 0, 1) . '. ' : $xname . ', ';
+                }
                 $nt++;
             }
             pre($NM2);
