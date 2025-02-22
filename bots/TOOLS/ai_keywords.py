@@ -30,7 +30,9 @@ def extract_keywords(text,id):
         sys.exit()
     print("=TERM & KEY Position=====>",keyw,term)
 
-    exp = f"{keyw}\s*(.*?)(?={term})"
+#    exp = f"{keyw}\s*(.*?)(?={term})"
+    exp = f"{keyw}\\s*(.*?)(?={term})"
+
     match = re.search(exp, text, re.DOTALL)
     stop = 0
 
