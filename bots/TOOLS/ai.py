@@ -31,6 +31,7 @@ def save_file(file_path, data):
 def help():
     print("HELP")
     print("Actions:")
+    print("All: Executa todas as ações disponíveis.")
     print("email: Extrai e-mails do texto.")
     print("url: Extrai URLs do texto.")
     print("doi: Extrai DOIs do texto.")
@@ -40,6 +41,10 @@ def help():
     print("section: Extrai seção do texto.")
     print("keywords: Extrai palavras-chave do texto.")
 
+def all_actions(text, file_output, doc_id=None):
+    act = ["email", "url", "doi", "handle", "metadata", "cited", "section", "keywords"]
+    for a in act:
+        process_action(a, text, file_output, doc_id)
 
 def process_action(action, text, file_output, doc_id=None):
     """Executa a ação especificada no texto e salva o resultado."""
@@ -91,7 +96,11 @@ def main():
     text_content = sys_io.readfile(file_txt)
 
     print(f"Arquivo de entrada: {file_path}")
-    process_action(act, text_content, file_path, doc_id)
+    if act =='All':
+        all_actions(text_content, file_path, doc_id)
+        sys.exit()
+    else:
+        process_action(act, text_content, file_path, doc_id)
 
 if __name__ == "__main__":
     main()
