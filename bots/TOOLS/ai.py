@@ -46,7 +46,7 @@ def all_actions(text, file_output, doc_id=None):
     for a in act:
         process_action(a, text, file_output, doc_id)
 
-def process_action(action, text, file_output, doc_id=None):
+def process_action(action, text, file_output, doc_id):
     """Executa a ação especificada no texto e salva o resultado."""
     actions = {
         "email": (ai_email.extrair_emails, "_email.json"),
