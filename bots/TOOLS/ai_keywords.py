@@ -28,8 +28,7 @@ def extract_keywords(text,id):
         print(f"Área não localizada [{keyw}],[{term}]")
         print(text[:2000])
         sys.exit()
-    else:
-        print("======>",keyw,term)
+    print("=TERM & KEY Position=====>",keyw,term)
 
     exp = f"{keyw}\s*(.*?)(?={term})"
     match = re.search(exp, text, re.DOTALL)
