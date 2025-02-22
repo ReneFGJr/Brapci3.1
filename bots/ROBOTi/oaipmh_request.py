@@ -26,7 +26,7 @@ def get(LINK):
     status_code = '000'
 
     data = {'v': 1}
-    timeout = 30
+    timeout = 90
 
     try:
         web = requests.Session()
