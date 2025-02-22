@@ -54,6 +54,8 @@ print("=fileO=>",fileO)
 file = sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
 txt = sys_io.readfile(fileTXT)
+print("=fileO=>",file)
+sys.exit()
 
 if (act == 'email'):
     print("Extrair e-mail")
