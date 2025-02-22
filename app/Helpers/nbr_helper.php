@@ -152,7 +152,7 @@ function nbr_author($xa, $xp)
                 $name .= ($nt < $TOT) ? substr($xname, 0, 1) . '. ' : $xname . ', ';
                 $nt++;
             }
-            pre($name);
+            pre($NM2);
             break;
 
         case '3': // Sobrenome e Nome CURTO sem ponto
