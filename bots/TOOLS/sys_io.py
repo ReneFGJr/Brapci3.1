@@ -7,17 +7,16 @@ import mod_convert_repository
 
 ######################################## READFILE
 def readfile(nome_arquivo):
-    dirT = '../../public/'
     if len(nome_arquivo) > 255:
         print("Erro: O caminho do arquivo é muito longo.")
         return False
 
     try:
-        with open(dirT + nome_arquivo, 'r', encoding='utf-8', errors='replace') as arquivo:
+        with open(nome_arquivo, 'r', encoding='utf-8', errors='replace') as arquivo:
             conteudo = arquivo.read()
         return conteudo
     except FileNotFoundError:
-        print(f"O arquivo '{dirT + nome_arquivo}' não foi encontrado. [404-3]")
+        print(f"O arquivo '{nome_arquivo}' não foi encontrado. [404-3]")
         return ""
     except UnicodeDecodeError as e:
         print(f"Erro de decodificação: {e}")
