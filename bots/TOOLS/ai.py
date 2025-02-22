@@ -64,7 +64,8 @@ def process_action(action, text, file_output, doc_id):
     if action in actions:
         extractor, extension = actions[action]
         print(f"Executando ação: {action}")
-
+        print("=" * 47)
+        print(doc_id)
         result = extractor(text, doc_id) if doc_id else extractor(text)
 
         if extension:
