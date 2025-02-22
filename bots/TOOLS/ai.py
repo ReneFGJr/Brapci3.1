@@ -51,8 +51,9 @@ dirT = '/data/Brapci3.1/public/'
 file = dirT + sys_io.getNameFile(id)
 fileTXT = sys_io.getNameFileTXT(file)
 txt = sys_io.readfile(fileTXT)
+fileO = file
 print("=fileO=>",file)
-sys.exit()
+
 
 if (act == 'email'):
     print("Extrair e-mail")
