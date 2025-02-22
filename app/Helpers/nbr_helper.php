@@ -156,7 +156,7 @@ function nbr_author($xa, $xp)
                 }
                 $nt++;
             }
-            pre($NM2);
+            pre($name);
             break;
 
         case '3': // Sobrenome e Nome CURTO sem ponto
