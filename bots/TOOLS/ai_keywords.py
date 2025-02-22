@@ -75,6 +75,7 @@ def extract_keywords(text,id):
                     print(f"URL: {url}")
             else:
                 print("=nao processado=>",k)
+                print(k != '',len(k) < 40,stop == 1,tkey <= 6)
         return True
     else:
         return False
