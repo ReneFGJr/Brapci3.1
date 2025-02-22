@@ -56,9 +56,6 @@ def extract_keywords(text,id):
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
 
-                print("==>",rst)
-                sys.exit()
-
                 try:
                     # Verificar se 'rst' é um dicionário e possui a chave 'id'
                     if isinstance(rst, dict) and 'id' in rst:
