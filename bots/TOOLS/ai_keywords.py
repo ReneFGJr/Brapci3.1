@@ -43,8 +43,6 @@ def extract_keywords(text,id):
         tkey = 0
         print(keys)
 
-        sys.exit()
-
         for k in keys:
             if (len(k) >= 40):
                 stop = 1
