@@ -20,6 +20,7 @@ def nbr_subject(n):
 
 def nbr_title(n,rows=[]):
     n2 = n.lower()
+    n2 = n2.replace('  ',' ')
     n2 = ' '+n2+' '
 
     for r in rows:
