@@ -389,9 +389,12 @@ def check_title():
         title = title.replace('”','')
         title = title.strip()
         title = mod_nbr.nbr_title(title)
-        qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
-        print('==>',title)
-        database.update(qu)
+        if title != item[1]:
+            qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
+            print('==>',title)
+            print(qu)
+            sys.exit()
+            #database.update(qu)
 
 def hex_dump(data):
     """
