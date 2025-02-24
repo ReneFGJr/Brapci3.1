@@ -28,6 +28,7 @@ def nbr_title(n):
     n2 = ' '+n2+' '
 
     for r in rows:
+        print(r)
         n2 = n2.replace(' '+r['word']+' ',' '+r['replace']+' ')
     n2 = n2.strip()
     return n2
