@@ -377,7 +377,7 @@ def check_double_name():
 def check_title():
     print("153 - Check Title")
 
-    qr = "select * from brapci_vc.words "
+    qr = "select * from brapci_vc.words ORDER BY LENGTH(w_word) DESC; "
     rows = database.query(qr)
 
     prop = 30
