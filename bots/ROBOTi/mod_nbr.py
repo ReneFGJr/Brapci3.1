@@ -1,3 +1,4 @@
+import database
 def nbr_author(n):
     n = n.replace("'","´")
     n2 = n
@@ -21,4 +22,12 @@ def nbr_title(n):
     n2 = n.lower()
     nA = n2[0:1].upper()
     n2 = nA+n2[1:]
+
+    qr = "select * from brapci_vc.words "
+    rows = database.query(qr)
+    n2 = ' '+n2+' '
+
+    for r in rows:
+        n2 = n2.replace(' '+r['word']+' ',' '+r['replace']+' ')
+    n2 = n2.strip()
     return n2

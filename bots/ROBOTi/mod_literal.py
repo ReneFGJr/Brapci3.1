@@ -378,7 +378,7 @@ def check_title():
     prop = 30
     qr = f"select id_n, n_name from brapci_rdf.rdf_data "
     qr += " inner join brapci_rdf.rdf_literal on id_n = d_literal"
-    qr += " where (n_lang = 'nn')"
+    qr += " where (n_lang in ('nn','pt','en','es'))"
     qr += f" and d_p = {prop} "
     row = database.query(qr)
     for item in row:
