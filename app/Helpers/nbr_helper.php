@@ -148,10 +148,16 @@ function nbr_author($xa, $xp)
         case '2': // Sobrenome e Nome CURTO
             $TOT = count($NM2);
             $nt = 1;
+            $nameA = '';
             foreach ($NM2 as $xname) {
-                $name .= ($nt < $TOT) ? substr($xname, 0, 1) . '. ' : $xname . ', ';
+                if ($nt == $TOT) {
+                    $nameA = $xname;
+                } else {
+                    $name .= ($nt < $TOT) ? substr($xname, 0, 1) . '. ' : $xname . ', ';
+                }
                 $nt++;
             }
+            $name = trim($nameA . ', ' . $name);
             break;
 
         case '3': // Sobrenome e Nome CURTO sem ponto

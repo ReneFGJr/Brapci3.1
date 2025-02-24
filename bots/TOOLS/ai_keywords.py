@@ -28,10 +28,11 @@ def extract_keywords(text,id):
         print(f"Área não localizada [{keyw}],[{term}]")
         print(text[:2000])
         sys.exit()
-    else:
-        print("======>",keyw,term)
+    print("=TERM & KEY Position=====>",keyw,term)
 
     exp = f"{keyw}\s*(.*?)(?={term})"
+    #exp = f"{keyw}\\s*(.*?)(?={term})"
+
     match = re.search(exp, text, re.DOTALL)
     stop = 0
 
@@ -40,15 +41,16 @@ def extract_keywords(text,id):
         keys = [keyword.strip().capitalize() for keyword in keywords if keyword.strip()]
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         tkey = 0
-        print(keys)
 
         for k in keys:
-            if (len(k) >= 40):
+            if (len(k) >= 50):
                 stop = 1
             if (len(k) <= 2):
                 stop = 1
 
-            if k != '' and len(k) < 40 and stop == 1 and tkey <= 6:
+            print("==>Processando:",k)
+
+            if k != '' and len(k) < 40 and stop == 0 and tkey <= 6:
                 tkey = tkey + 1
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
@@ -67,6 +69,9 @@ def extract_keywords(text,id):
                     print("=================ERRO===========")
                     print(f"Erro ao processar a resposta da API para a palavra-chave '{k}': {e}")
                     print(f"URL: {url}")
+            else:
+                print("=nao processado=>",k)
+                print(k != '',len(k) < 40,stop == 0,tkey <= 6)
         return True
     else:
         return False

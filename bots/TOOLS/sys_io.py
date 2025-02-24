@@ -7,17 +7,16 @@ import mod_convert_repository
 
 ######################################## READFILE
 def readfile(nome_arquivo):
-    dirT = '../../public/'
     if len(nome_arquivo) > 255:
         print("Erro: O caminho do arquivo é muito longo.")
         return False
 
     try:
-        with open(dirT + nome_arquivo, 'r', encoding='utf-8', errors='replace') as arquivo:
+        with open(nome_arquivo, 'r', encoding='utf-8', errors='replace') as arquivo:
             conteudo = arquivo.read()
         return conteudo
     except FileNotFoundError:
-        print(f"O arquivo '{dirT + nome_arquivo}' não foi encontrado. [404-3]")
+        print(f"O arquivo '{nome_arquivo}' não foi encontrado. [404-3]")
         return ""
     except UnicodeDecodeError as e:
         print(f"Erro de decodificação: {e}")
@@ -77,11 +76,10 @@ def file_exists(file):
         return False
 ######################################## GET TXT
 def getNameFileTXT(fileO):
-    dirT = '../../public/'
     fileTxt = fileO.replace('.pdf','.txt')
-    if not file_exists(dirT+fileTxt):
+    if not file_exists(fileTxt):
         print("Converter para TXT")
-        convertPDF4TXT(dirT+fileO,dirT+fileTxt)
+        convertPDF4TXT(fileO,fileTxt)
     return fileTxt
 
 ######################################## GET NAME
@@ -113,7 +111,6 @@ def getNameFile(id,loop=True):
                     sys.exit()
         else:
             fileD = data['concept'][0][1]
-            print("=X+X=",fileD)
     return fileD
 
 def filename(id):
