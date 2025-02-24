@@ -377,7 +377,7 @@ def check_double_name():
 def check_title():
     print("153 - Check Title")
     prop = 30
-    qr = f"select id_n, n_name from brapci_rdf.rdf_data "
+    qr = f"select id_n, n_name, n_lang from brapci_rdf.rdf_data "
     qr += " inner join brapci_rdf.rdf_literal on id_n = d_literal"
     qr += " where (n_lang in ('nn','pt','en','es'))"
     qr += f" and d_p = {prop} "
@@ -391,8 +391,9 @@ def check_title():
         title = title.replace('”','')
         title = title.strip()
         title = mod_nbr.nbr_title(title)
+        lang = item[2]
         if title != item[1]:
-            qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = 'pt' where id_n = {id_n}"
+            qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = '{lang}' where id_n = {id_n}"
             print('==>',title)
             print(qu)
             sys.exit()
