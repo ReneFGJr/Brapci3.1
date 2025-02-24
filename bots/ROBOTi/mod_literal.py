@@ -395,9 +395,7 @@ def check_title():
         if title != item[1]:
             qu = f"update brapci_rdf.rdf_literal set n_name = '{title}', n_lang = '{lang}' where id_n = {id_n}"
             print('==>',title)
-            print(qu)
-            sys.exit()
-            #database.update(qu)
+            database.update(qu)
 
 def hex_dump(data):
     """
