@@ -18,13 +18,11 @@ def nbr_subject(n):
     n2 = nA+n2[1:]
     return n2
 
-def nbr_title(n):
+def nbr_title(n,rows=[]):
     n2 = n.lower()
     nA = n2[0:1].upper()
     n2 = nA+n2[1:]
 
-    qr = "select * from brapci_vc.words "
-    rows = database.query(qr)
     n2 = ' '+n2+' '
 
     for r in rows:
