@@ -147,6 +147,8 @@ def run(parm):
 
     if (act == 'pdf'):
         mod_pdf.harvestingPDF()
+    if (act == 'getpdf'):
+        mod_pdf.getPDF(parm[2])
     if (act == 'pdfv'):
         mod_pdf.validaPDF()
         mod_especial_rules.rule01()
