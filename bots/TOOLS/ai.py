@@ -27,6 +27,8 @@ def extrair_emails(texto):
 
 def saveFileD(fileN,arquivo):
     # Salva a lista em um arquivo JSON
+    print(fileN)
+    return False
     with open(fileN, "w", encoding="utf-8") as arquivo:
         json.dump(lists, arquivo, ensure_ascii=False, indent=4)
 
