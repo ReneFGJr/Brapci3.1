@@ -181,6 +181,8 @@ def download_methods(row):
                         linkPDF = decoded_url = urllib.parse.unquote(linkPDF)
                 else:
                     linkPDF = ''
+    else:
+        print("  erro try recover PDF",link)
 
 
     if (linkPDF != ''):
