@@ -114,7 +114,10 @@ def download_methods(row):
     else:
         link = link.replace('http://','https://')
 
-    link = link.replace('https://enancib.marilia.unesp.br','http://enancib.marilia.unesp.br')
+    if 'enancib.marilia.unesp.br' in link:
+        link = link.replace('https://enancib.marilia.unesp.br','http://enancib.marilia.unesp.br')
+        link = link.replace('/view/','/viewPaper/')
+
 
     methodo = ''
     print("  try recover PDF",link)
