@@ -51,15 +51,15 @@ class Fulltext extends Model
         $sx .= h("FULLTEXT - PRE");
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/TOOLS/ai.py All ' . $d2;
         $sx .= '<p>'.$cmd.'</p>';
-        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
+        #$sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
         $sx .= h("FULLTEXT - TRADUTOR");
         $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/TRADUCTOR.py ' . $d2;
         $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
-#        $sx .= h("FULLTEXT - CITED");
-#        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/CITED.py ' . $d2;
-#        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
+        $sx .= h("FULLTEXT - CITED");
+        $cmd = '/usr/bin/python3 /data/Brapci3.1/bots/ROBOTi/CITED.py ' . $d2;
+        $sx .= troca(shell_exec($cmd), chr(10), '<br>');
 
         $sx .= '<tt>'.$cmd.'</tt>';
 
