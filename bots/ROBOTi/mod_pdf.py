@@ -146,7 +146,7 @@ def download_methods(row):
             if links != []:
                 linkPDF = links[0]
 
-
+        print(linkPDF)
         # Download
         if linkPDF == '' and 'download' in oTXT:
             methodo = 'pdfJsViewer'
