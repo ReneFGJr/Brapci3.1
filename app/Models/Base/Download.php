@@ -212,6 +212,8 @@ class Download extends Model
             echo h('<a href="' . $url . '">' . $url . '</a>', 5);
 
             /******************************************************* Recupera via OCS2 */
+            echo $url;
+            exit;
             $fileURL = $this->ocs_2($url);
 
             if ($fileURL == '') {
