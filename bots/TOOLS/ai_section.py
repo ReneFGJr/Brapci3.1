@@ -37,6 +37,8 @@ GT_MODALIDADE = {
     'Modalidade da apresentação: Comunicação Oral':'Trabalho Completo',
     'Modalidade de apresentação: Comunicação Oral':'Trabalho Completo',
     'Modalidade: Pecha Kucha':'Pecha Kucha',
+    'Comunicação Oral\n':'Trabalho Completo',
+    'Pôster\n':'Pôster',
 }
 
 # Função para localizar e extrair a sessão
