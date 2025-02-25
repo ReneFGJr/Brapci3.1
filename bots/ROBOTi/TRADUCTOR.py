@@ -14,10 +14,10 @@ if (len(sys.argv) > 1):
     parm = sys.argv
     ID = parm[1]
 
-    mod_translate_title.process(ID)
-    mod_translate_abstract.process(ID)
-    mod_subject.process(ID)
-    mod_pdf.convert(ID)
+    #mod_translate_title.process(ID)
+    #mod_translate_abstract.process(ID)
+    #mod_subject.process(ID)
+    #mod_pdf.convert(ID)
 else:
     print("Without parameters")
     print("ex: TRADUCTOR 2343")
