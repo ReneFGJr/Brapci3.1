@@ -23,6 +23,7 @@ GT_SECTIONS = {
 
 GT_MODALIDADE = {
     'Modalidade: Resumo Expandido':'Resumo Expandido',
+    'Modalidade: Resumo expandido':'Resumo Expandido',
     'Modalidade: Trabalho Completo':'Trabalho Completo',
     'Modalidade: Texto completo':'Trabalho Completo',
     'Modalidade: Trabalho completo':'Trabalho Completo',
