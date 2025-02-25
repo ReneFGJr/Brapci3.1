@@ -203,7 +203,7 @@ class Download extends Model
             or (strpos($name, 'XIX_ENANCIB'))
             )
                 {
-
+                    $name = troca($name, 'https://', 'http://');
                 } else {
                     $name = troca($name, 'http://', 'https://');
                 }
