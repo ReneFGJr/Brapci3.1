@@ -30,8 +30,9 @@ GT_MODALIDADE = {
     'Modalidade da Apresentação: Pôster':'Pôster',
     'Modalidade: Pôster':'Pôster',
     'Modalidade da Apresentação: Comunicação Oral':'Trabalho Completo',
+    'Modalidade da Apresentação: Comunicação Oral':'Trabalho Completo',
     'Modalidade de apresentação: Comunicação Oral':'Trabalho Completo',
-    'Modalidade: Pecha Kucha':'Pecha Kucha'
+    'Modalidade: Pecha Kucha':'Pecha Kucha',
 }
 
 # Função para localizar e extrair a sessão
@@ -55,8 +56,7 @@ def locate_extrair_sessao(texto):
 
 # Função para localizar e extrair a modalidade
 def locate_extrair_modalidade(texto):
-    texto = texto[:1200]
-    texto = texto.replace('GT-', 'GT').replace('- ',' ').replace(' –', ' ').replace('–', '').replace('  ',' ').replace('GT ', 'GT').replace('GT0', 'GT').replace('&', 'e')
+    texto = texto[:2100]
     sectionX = ''
     maxPos = 99999999
     for key, section in GT_MODALIDADE.items():
