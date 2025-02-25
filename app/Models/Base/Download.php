@@ -201,6 +201,7 @@ class Download extends Model
         if (substr($name, 0, 4) == 'http') {
             if ((strpos($name, 'rev-ib.unam.mx'))
             or (strpos($name, 'XIX_ENANCIB'))
+            or (strpos($name, 'XVIII_ENANCIB'))
             )
                 {
                     $name = troca($name, 'https://', 'http://');
