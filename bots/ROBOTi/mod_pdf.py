@@ -120,9 +120,9 @@ def download_methods(row):
 
 
     methodo = ''
-    print("  try recover PDF",link)
 
     if ('article/view' in link) or ('article/viewPaper' in link):
+        print("  try recover PDF",link)
         if ('revistas.ufpr.br' in link):
             oTXT = read_link_curl(link)
         else:
