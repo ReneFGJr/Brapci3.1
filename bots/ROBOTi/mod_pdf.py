@@ -115,6 +115,8 @@ def download_methods(row):
         link = link.replace('http://','https://')
 
     methodo = ''
+    print("  try recover PDF",link)
+
     if 'article/view' in link:
         if ('revistas.ufpr.br' in link):
             oTXT = read_link_curl(link)
