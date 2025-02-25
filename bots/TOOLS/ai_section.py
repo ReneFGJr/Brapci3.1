@@ -26,6 +26,7 @@ GT_MODALIDADE = {
     'Modalidade: Resumo expandido':'Resumo Expandido',
     'Modalidade: Trabalho Completo':'Trabalho Completo',
     'Modalidade: Texto completo':'Trabalho Completo',
+    'Modalidade: Texto Completo':'Trabalho Completo',
     'Modalidade: Trabalho completo':'Trabalho Completo',
     'Modalidade: trabalho completo':'Trabalho Completo',
     'Artigo completo':'Trabalho Completo',
