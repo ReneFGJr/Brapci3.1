@@ -188,9 +188,7 @@ class Download extends Model
             $name = troca($name, '/xviiienancib/', '/XVIII_ENANCIB/');
             $name = troca($name, 'http://www.periodicos.ufpb.br/ojs/', 'https://www.pbcib.com/');
             $name = troca($name, 'http://', 'https://');
-            if (strpos($name, 'XIX_ENANCIB')) {
-                $name = troca($name, 'https://', 'http://');
-            }
+
 
             $RDFLiteral = new \App\Models\RDF2\RDFliteral();
             $dtd = $RDFLiteral->where('n_name', $nameO)->first();
@@ -201,7 +199,9 @@ class Download extends Model
 
 
         if (substr($name, 0, 4) == 'http') {
-            if (strpos($name, 'rev-ib.unam.mx'))
+            if ((strpos($name, 'rev-ib.unam.mx'))
+            or (strpos($name, 'XIX_ENANCIB'))
+            )
                 {
 
                 } else {
