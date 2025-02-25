@@ -108,12 +108,13 @@ def download_methods(row):
     link = link.replace('/xviiienancib/','/XVIII_ENANCIB/')
     link = link.replace('http://www.periodicos.ufpb.br/ojs/','https://www.pbcib.com/')
     link = link.replace('//seer.ufs.br/index.php/','//periodicos.ufs.br/')
-    link = link.replace('https://enancib.marilia.unesp.br','http://enancib.marilia.unesp.br')
 
     if ('rev-ib.unam.mx' in link):
         link = link
     else:
         link = link.replace('http://','https://')
+
+    link = link.replace('https://enancib.marilia.unesp.br','http://enancib.marilia.unesp.br')
 
     methodo = ''
     print("  try recover PDF",link)
