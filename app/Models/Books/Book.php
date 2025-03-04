@@ -68,6 +68,9 @@ class Book extends Model
 
         $file = $this->directory($idfile);
         $prop = 'hasFileType';
+        $type = 'PDF';
+        $RDFconcept->registerLiteral($idfile, $type, '', $prop);
+
         $prop = 'hasFileSize';
         $size = filesize($fileO);
         $RDFconcept->registerLiteral($idfile, $size, '', $prop);
