@@ -59,6 +59,7 @@ class Book extends Model
         $idc = $RDFconcept->createConcept($dd);
 
         /********************************** TITLE */
+        pre($dt);
         $prop = 'hasTitle';
         $name = $dt['b_titulo'];
         $RDFconcept->registerLiteral($idc, $name, '', $prop);
