@@ -50,7 +50,7 @@ class Book extends Model
         $Language = new \App\Models\AI\NLP\Language();
 
         $dd['Class'] = 'Book';
-        $dd['Name'] = $dt['isbn'];
+        $dd['Name'] = $dt['b_isbn'];
         $dd['Lang'] = 'nn';
         //$dd['Name'] = $dt['b_titulo'];
         //$dd['Lang'] = $Language->getTextLanguage($dd['Name']);
