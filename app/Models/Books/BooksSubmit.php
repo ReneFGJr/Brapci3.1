@@ -287,8 +287,9 @@ class BooksSubmit extends Model
                             $dt['bs_title'] = $PS['file'];
                             $dt['bs_post'] = $PSj;
                             $dt['bs_status'] = 0;
+                            $dt['bs_email'] = $PS['email'];
                             $dt['bs_arquivo'] = $PS['fileO'];
-                            $this->insert($dt);
+                            $dt['id_b'] = $this->insert($dt);
                             $RSP['status'] = '200';
                             $RSP['message'] = 'Registro efetuado com sucesso';
                         } else {
@@ -296,7 +297,7 @@ class BooksSubmit extends Model
                             $RSP['message'] = 'Registro já existe na base de dados';
                             $dt['id_b'] = $dt['id_bs'];
                         }
-                    //$this->sendEmail($dt['id_b']);
+                    $this->sendEmail($dt['id_b']);
                 } else {
                     $RSP['status'] = '500';
                     $RSP['message'] = 'Arquivo vazio';
