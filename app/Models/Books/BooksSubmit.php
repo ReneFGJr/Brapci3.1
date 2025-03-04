@@ -289,7 +289,11 @@ class BooksSubmit extends Model
                             $dt['bs_status'] = 0;
                             $dt['bs_arquivo'] = $PS['fileO'];
                             $this->insert($dt);
+                            $RSP['status'] = '200';
+                            $RSP['message'] = 'Registro efetuado com sucesso';
                         } else {
+                            $RSP['status'] = '201';
+                            $RSP['message'] = 'Registro já existe na base de dados';
                             $dt['id_b'] = $dt['id_bs'];
                         }
                     //$this->sendEmail($dt['id_b']);
