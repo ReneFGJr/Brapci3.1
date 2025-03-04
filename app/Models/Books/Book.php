@@ -50,7 +50,7 @@ class Book extends Model
         $Language = new \App\Models\AI\NLP\Language();
 
         $dd['Class'] = 'Book';
-        $dd['Name'] = $dt['b_isbn'];
+        $dd['Name'] = $dt['isbn'];
         $dd['Lang'] = 'nn';
         //$dd['Name'] = $dt['b_titulo'];
         //$dd['Lang'] = $Language->getTextLanguage($dd['Name']);
@@ -58,14 +58,16 @@ class Book extends Model
 
 
         /********************************** FILE */
+        $file = $dt['fileO'];
         $prop = 'hasFileStorage';
         $dd['Class'] = 'FileStorage';
-        $dd['Name'] = $dt['fileO'];
+        $dd['Name'] = $file;
         $dd['Lang'] = 'nn';
+        pre($dd);
         $idfile = $RDFconcept->createConcept($dd);
 
         $file = $this->directory($idc);
-        $RDFconcept->register($idc, $prop, $idfile);
+        $RDFconcept->registerLiteral($idc, $file, '', $prop);
 
         return $idc;
     }
