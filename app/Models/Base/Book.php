@@ -40,6 +40,12 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function index($d1,$d2)
+        {
+            $dd = $_POST;
+            return $dd;
+        }
+
     function resume()
         {
             $BooksSubmit = new \App\Models\Books\BooksSubmit();

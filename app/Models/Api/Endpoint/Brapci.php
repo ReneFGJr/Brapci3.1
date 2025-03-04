@@ -134,7 +134,14 @@ class Brapci extends Model
                 break;
             case 'book':
                 $Book = new \App\Models\Base\Book();
-                $RSP = $Book->vitrine(get("row") . get("q"));
+                if ($d2 == '')
+                    {
+                        $RSP = $Book->vitrine(get("row") . get("q"));
+                    } else {
+                        $RSP = $Book->index($d2,$d3);
+                    }
+
+
                 break;
             case 'data':
                 $RSP['result'] = $this->getData($d2);
