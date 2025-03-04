@@ -45,6 +45,10 @@ class Book extends Model
             $dd = $_POST;
             switch($d1)
                 {
+                    case 'disclaimer':
+                        $BooksSubmit = new \App\Models\Books\BooksSubmit();
+                        $dd = $BooksSubmit->discalimer();
+                        break;
                     case 'submit':
                         $BooksSubmit = new \App\Models\Books\BooksSubmit();
                         $dd = $BooksSubmit->register();
