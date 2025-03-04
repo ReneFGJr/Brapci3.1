@@ -292,7 +292,7 @@ class BooksSubmit extends Model
                         } else {
                             $dt['id_b'] = $dt['id_bs'];
                         }
-                    $this->sendEmail($dt['id_b']);
+                    //$this->sendEmail($dt['id_b']);
                 } else {
                     $RSP['status'] = '500';
                     $RSP['message'] = 'Arquivo vazio';
