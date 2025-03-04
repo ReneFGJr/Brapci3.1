@@ -56,13 +56,18 @@ class BooksSubmit extends Model
         if (file_exists($file_path)) {
             // Define os cabeçalhos HTTP para download
             //header('Content-Description: File Transfer');
-            header('Content-Type: application/pdf'); // Define o tipo de arquivo
-            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"'); // Nome do arquivo
-            header('Expires: 0');
-            header('Cache-Control: must-revalidate');
-            header('Pragma: public');
-            header('Content-Length: ' . filesize($file_path));
+            //header('Content-Type: application/pdf'); // Define o tipo de arquivo
+            //header('Content-Disposition: attachment; filename="' . basename($file_path) . '"'); // Nome do arquivo
+            //header('Expires: 0');
+            //header('Cache-Control: must-revalidate');
+            //header('Pragma: public');
+            //header('Content-Length: ' . filesize($file_path));
 
+            // Define os cabeçalhos HTTP para visualizar no navegador
+            header('Content-Type: application/pdf'); // Tipo de arquivo
+            header('Content-Disposition: inline; filename="' . basename($file_path) . '"'); // Exibir no navegador
+            header('Content-Length: ' . filesize($file_path));
+            header('Accept-Ranges: bytes');
             // Envia o arquivo para o navegador
             readfile($file_path);
             exit;
