@@ -222,7 +222,7 @@ class BooksSubmit extends Model
     function sendEmail($id)
         {
             $dt = $this->where('id_bs',$id)->first();
-            $email = 'renefgj@gmail.com';
+            $email = $dt['bs_email'];
             $subject = 'Submissão de livro';
             $name = 'Rene Faustino Gabriel Junior';
             $to = [$email];
