@@ -55,7 +55,7 @@ class BooksSubmit extends Model
         // Verifica se o arquivo existe
         if (file_exists($file_path)) {
             // Define os cabeçalhos HTTP para download
-            header('Content-Description: File Transfer');
+            //header('Content-Description: File Transfer');
             header('Content-Type: application/pdf'); // Define o tipo de arquivo
             header('Content-Disposition: attachment; filename="' . basename($file_path) . '"'); // Nome do arquivo
             header('Expires: 0');
