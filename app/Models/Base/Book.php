@@ -43,6 +43,7 @@ class Book extends Model
     function index($d1,$d2)
         {
             $dd = $_POST;
+            $dd['action'] = $d1.'-'.$d2;
             return $dd;
         }
 
