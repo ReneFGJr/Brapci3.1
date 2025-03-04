@@ -51,7 +51,7 @@ class Index extends Model
             $fileType = $_FILES['file']['type'];
             $fileNameCmps = explode(".", $fileName);
             $fileExtension = strtolower(end($fileNameCmps));
-            $fileNameO = 'brapci_'.date("Ymd_His").'.txt';
+            $fileNameO = md5($fileName) . '.' . $fileExtension;
 
             // Define o diretório de destino
             $d1 = strtolower($d1);
