@@ -66,6 +66,9 @@ class Book extends Model
         $dd['Lang'] = 'nn';
         $idfile = $RDFconcept->createConcept($dd);
 
+        $prop = 'hasFileStorage';
+        $RDFdata->register($idc, $prop, $idfile, 0);
+
         $file = $this->directory($idfile);
         $prop = 'hasFileType';
         $type = 'PDF';
