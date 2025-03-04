@@ -40,14 +40,14 @@ class Book extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1,$d2)
+    function index($d1,$d2,$d3='')
         {
             $dd = $_POST;
             switch($d1)
                 {
                     case 'disclaimer':
                         $BooksSubmit = new \App\Models\Books\BooksSubmit();
-                        $dd = $BooksSubmit->discalimer();
+                        $dd = $BooksSubmit->discalimer($d2,$d3);
                         break;
                     case 'submit':
                         $BooksSubmit = new \App\Models\Books\BooksSubmit();

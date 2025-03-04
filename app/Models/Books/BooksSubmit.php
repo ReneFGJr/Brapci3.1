@@ -44,6 +44,16 @@ class BooksSubmit extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function discalimer($d2,$d3)
+        {
+            $id = $d2;
+            $md5 = $d3;
+            $dt = $this->where('id_bs',$id)->first();
+            $dt['bs_status'] = 1;
+            $this->set($dt)->where('id_bs',$id)->update();
+            return $dt;
+        }
+
     function registerPDF()
         {
             $tmp = $_FILES['file']['tmp_name'];
