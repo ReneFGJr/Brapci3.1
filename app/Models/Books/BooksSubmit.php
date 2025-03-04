@@ -44,6 +44,13 @@ class BooksSubmit extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function preview($id)
+    {
+        $BookSubmit = new \App\Models\Books\BooksSubmit();
+        $dt = $BookSubmit->find($id);
+        pre($dt);
+    }
+
     function discalimer($d2,$d3)
         {
             $id = $d2;

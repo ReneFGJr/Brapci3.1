@@ -41,13 +41,6 @@ class Index extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
-    function preview($id)
-        {
-            $BookSubmit = new \App\Models\Books\BooksSubmit();
-            $dt = $BookSubmit->find($id);
-            pre($dt);
-        }
-
     function index($d1='',$d2='',$d3='')
         {
             $sx = '';
