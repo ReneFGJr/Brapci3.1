@@ -49,39 +49,23 @@ class Book extends Model
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
         $Language = new \App\Models\AI\NLP\Language();
 
-        $isbn = md5_file('../.tmp/book/submit/'.$dt['file']);
-        echo '<br>'.$isbn;
-        exit;
         $dd['Class'] = 'Book';
-        $dd['Name'] = $isbn;
+        $dd['Name'] = $dt['isbn'];
         $dd['Lang'] = 'nn';
         //$dd['Name'] = $dt['b_titulo'];
         //$dd['Lang'] = $Language->getTextLanguage($dd['Name']);
         $idc = $RDFconcept->createConcept($dd);
 
-        /********************************** TITLE */
-        $prop = 'hasTitle';
-        $name = $dt['file'];
-        $RDFconcept->registerLiteral($idc, $name, '', $prop);
-
-        /********************************** LANGUAGE */
-        $prop = 'hasLanguageExpression';
-        $dd['Class'] = 'Language';
-        $dd['Name'] = $name;
-        $dd['Lang'] = 'nn';
-        $idl = $RDFconcept->createConcept($dd);
-        $id_prop = $RDFproperty->getProperty($prop);
-        $RDFdata->register($idc, $id_prop, $idl, 0);
 
         /********************************** FILE */
         $prop = 'hasFileStorage';
         $dd['Class'] = 'FileStorage';
-        $dd['Name'] = $name;
+        $dd['Name'] = $dt['fileO'];
         $dd['Lang'] = 'nn';
         $idfile = $RDFconcept->createConcept($dd);
 
         $file = $this->directory($idc);
-        $RDFconcept->registerLiteral($idc, $file, '', $prop);
+        $RDFconcept->register($idc, $prop, $idfile);
 
         return $idc;
     }
