@@ -72,6 +72,10 @@ class Book extends Model
         $size = filesize($fileO);
         $RDFconcept->registerLiteral($idfile, $size, '', $prop);
 
+        $prop = 'hasFileStorage';
+        $place = $file;
+        $RDFdata->registerLiteral($idfile, $place, '', $prop);
+
         $prop = 'prefLabel';
         $prop = 'hasDateTime';
 
