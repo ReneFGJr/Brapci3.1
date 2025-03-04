@@ -80,11 +80,10 @@ class Book extends Model
         $RDFconcept->registerLiteral($idfile, $place, '', $prop);
 
         copy($fileO, $file);
+        unlink($fileO);
 
-        $prop = 'prefLabel';
-        $prop = 'hasDateTime';
-
-
+        //$prop = 'prefLabel';
+        //$prop = 'hasDateTime';
 
         return $idc;
     }

@@ -61,7 +61,7 @@ class Index extends Model
                                     $BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
                                 break;
                             }
-                        //$BookSubmit->chache_status($d2, $d3);
+                        $BookSubmit->chache_status($d2, $d3);
                         $sx = bs(bsc($BookSubmit->view($d2), 12));
                         break;
                     break;
