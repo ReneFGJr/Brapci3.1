@@ -76,6 +76,8 @@ class Book extends Model
         $place = $file;
         $RDFconcept->registerLiteral($idfile, $place, '', $prop);
 
+        copy($fileO, $file);
+
         $prop = 'prefLabel';
         $prop = 'hasDateTime';
 
