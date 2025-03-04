@@ -41,6 +41,12 @@ class Index extends Model
     protected $beforeDelete         = [];
     protected $afterDelete          = [];
 
+    function preview($id)
+        {
+            $BookSubmit = new \App\Models\Books\BooksSubmit();
+            $dt = $BookSubmit->find($id);
+            pre($dt);
+        }
 
     function index($d1='',$d2='',$d3='')
         {
@@ -66,9 +72,13 @@ class Index extends Model
                         $sx = bs(bsc($BookSubmit->view($d2), 12));
                         break;
                     break;
+
+                    case 'preview':
+                        $sx = $BookSubmit->preview($d2);
+                        break;
                     case 'view':
-                    $sx = bs(bsc($BookSubmit->view($d2), 12));
-                    break;
+                        $sx = bs(bsc($BookSubmit->view($d2), 12));
+                        break;
 
                     case 'status':
                     $sx = bs(bsc($BookSubmit->list($d2),12,'small'));

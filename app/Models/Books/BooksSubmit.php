@@ -154,8 +154,7 @@ class BooksSubmit extends Model
 
     function show_pdf($dt)
         {
-            $file = $dt['bs_arquivo'];
-            $html = PATH.'.tmp/books/'.$file.'.pdf';
+            $html = PATH.'admin/book/preview/'.$dt['id_bs'];
             $sx = $html.'
             <iframe src="'.$html.'" style="width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
                 Your browser doesnt support iframes
