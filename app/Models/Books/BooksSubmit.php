@@ -129,7 +129,7 @@ class BooksSubmit extends Model
                 {
                     if ($dt['bs_rdf'] > 0)
                         {
-                            $url = PATH . 'a/' . $dt['bs_rdf'];
+                            $url = 'https://brapci.inf.br/admin/a/' . $dt['bs_rdf'];
                             echo metarefresh($url,0);
                             exit;
                         }
@@ -179,6 +179,7 @@ class BooksSubmit extends Model
                         $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/2" class="btn btn-outline-primary">' . lang('brapci.create_book') . '</a>';
                         $sx .= '<a href="' . PATH . 'admin/book/change/' . $id . '/9"  class="btn btn-outline-danger ms-2">' . lang('brapci.reject') . '</btn>';
                         $sx .= $btn;
+                        break;
                     default:
                         $sx .= 'No actions';
                     break;
