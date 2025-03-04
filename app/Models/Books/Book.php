@@ -63,10 +63,11 @@ class Book extends Model
         $dd['Class'] = 'FileStorage';
         $dd['Name'] = $file;
         $dd['Lang'] = 'nn';
-        pre($dd);
         $idfile = $RDFconcept->createConcept($dd);
 
-        $file = $this->directory($idc);
+        $file = $this->directory($idfile);
+        pre($file);
+
         $RDFconcept->registerLiteral($idc, $file, '', $prop);
 
         return $idc;
