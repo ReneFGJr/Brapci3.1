@@ -58,7 +58,7 @@ class Index extends Model
                                     $dta['b_isbn'] = md5_file("../.tmp/booksubmit/".$dt['bs_arquivo']);
                                     $idc = $Book->create_book($dta);
                                     $dd['bs_rdf'] = $idc;
-                                    $BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
+                                    //$BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
                                 break;
                             }
                         $BookSubmit->chache_status($d2, $d3);
