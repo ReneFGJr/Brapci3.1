@@ -49,6 +49,28 @@ class BooksSubmit extends Model
         $BookSubmit = new \App\Models\Books\BooksSubmit();
         $dt = $BookSubmit->find($id);
         pre($dt);
+
+        // Caminho do arquivo no servidor
+        $file_path = '../.tmp/booksubmit/'.$dt['bs_arquivo'];
+
+        // Verifica se o arquivo existe
+        if (file_exists($file_path)) {
+            // Define os cabeçalhos HTTP para download
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf'); // Define o tipo de arquivo
+            header('Content-Disposition: attachment; filename="' . basename($file_path) . '"'); // Nome do arquivo
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file_path));
+
+            // Envia o arquivo para o navegador
+            readfile($file_path);
+            exit;
+        } else {
+            echo "Arquivo não encontrado!";
+        }
+
     }
 
     function discalimer($d2,$d3)
