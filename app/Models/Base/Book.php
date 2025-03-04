@@ -43,6 +43,13 @@ class Book extends Model
     function index($d1,$d2)
         {
             $dd = $_POST;
+            switch($d1)
+                {
+                    case 'submit':
+                        $BooksSubmit = new \App\Models\Books\BooksSubmit();
+                        $dd = $BooksSubmit->register();
+                        break;
+                }
             $dd['action'] = $d1.'-'.$d2;
             return $dd;
         }

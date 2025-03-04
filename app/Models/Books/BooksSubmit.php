@@ -227,7 +227,7 @@ class BooksSubmit extends Model
             $name = 'Rene Faustino Gabriel Junior';
             $to = [$email];
 
-            $btn_concordancia = '<a href="https://brapci.inf.br/#/books/disclaimer/'.$id.'/'.md5($id.'brapci_livros').'" style="padding: 5px 10px; border:1px solid #000; border-radius: 10px;">Concordo com os termos</a>';
+            $btn_concordancia = '<a href="https://brapci.inf.br/books/disclaimer/'.$id.'/'.md5($id.'brapci_livros').'" style="padding: 5px 10px; border:1px solid #000; border-radius: 10px;">Concordo com os termos</a>';
 
             /* Enviar e-mail */
             $txt = '';
@@ -279,22 +279,23 @@ class BooksSubmit extends Model
             $PSj = json_encode($PS);
             $RSP = [];
             $dt = [];
-            if (isset($PS['id_b']))
+            if (isset($PS['fileO']))
                 {
-                    if (isset($PS['id_b'])) {
-                        $dt['bs_title'] = "";
-                        $dt['bs_post'] = $PSj;
-                        $dt['bs_status'] = 1;
-                        $this->set($dt)->where('id_bs', $PS['id_b'])->update();
-                        $dt['id_b'] = $PS['id_b'];
-                    }
-                    $RSP['ID'] = $dt['id_b'];
-                    $RSP['st'] = 1;
-                    $RSP['status'] = '200';
+                    $dt = $this->where('bs_arquivo', $PS['fileO'])->first();
+                    if ($dt == [])
+                        {
+                            $dt['bs_title'] = $PS['file'];
+                            $dt['bs_post'] = $PSj;
+                            $dt['bs_status'] = 0;
+                            $dt['bs_arquivo'] = $PS['fileO'];
+                            $this->insert($dt);
+                        } else {
+                            $dt['id_b'] = $dt['id_bs'];
+                        }
                     $this->sendEmail($dt['id_b']);
                 } else {
                     $RSP['status'] = '500';
-                    $RSP['message'] = 'ID do arquivo inválido';
+                    $RSP['message'] = 'Arquivo vazio';
                     $RSP['post'] = $PSj;
                 }
 
