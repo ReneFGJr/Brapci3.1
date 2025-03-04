@@ -48,7 +48,6 @@ class BooksSubmit extends Model
     {
         $BookSubmit = new \App\Models\Books\BooksSubmit();
         $dt = $BookSubmit->find($id);
-        pre($dt);
 
         // Caminho do arquivo no servidor
         $file_path = '../.tmp/booksubmit/'.$dt['bs_arquivo'];
@@ -68,6 +67,7 @@ class BooksSubmit extends Model
             readfile($file_path);
             exit;
         } else {
+            pre($dt);
             echo "Arquivo não encontrado!";
         }
 
