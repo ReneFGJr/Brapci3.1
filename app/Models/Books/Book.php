@@ -59,6 +59,7 @@ class Book extends Model
 
         /********************************** FILE */
         $file = $dt['fileO'];
+        $fileO = "../.tmp/booksubmit/" . $file;
         $prop = 'hasFileStorage';
         $dd['Class'] = 'FileStorage';
         $dd['Name'] = $file;
@@ -66,9 +67,15 @@ class Book extends Model
         $idfile = $RDFconcept->createConcept($dd);
 
         $file = $this->directory($idfile);
-        pre($file);
+        $prop = 'hasFileType';
+        $prop = 'hasFileSize';
+        $size = filesize($fileO);
+        $RDFconcept->registerLiteral($idfile, $size, '', $prop);
 
-        $RDFconcept->registerLiteral($idc, $file, '', $prop);
+        $prop = 'prefLabel';
+        $prop = 'hasDateTime';
+
+
 
         return $idc;
     }
