@@ -42,8 +42,6 @@ class Book extends Model
 
     function create_book($dt)
     {
-        $isbn = sonumero($dt['b_isbn']);
-        $isbn = 'ISBN' . $isbn;
         $RDF = new \App\Models\RDF2\RDF();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFdata = new \App\Models\RDF2\RDFdata();
@@ -51,6 +49,9 @@ class Book extends Model
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
         $Language = new \App\Models\AI\NLP\Language();
 
+        $isbn = md5_file('../.tmp/book/submit/'.$dt['file']);
+        echo '<br>'.$isbn;
+        exit;
         $dd['Class'] = 'Book';
         $dd['Name'] = $isbn;
         $dd['Lang'] = 'nn';
@@ -59,15 +60,14 @@ class Book extends Model
         $idc = $RDFconcept->createConcept($dd);
 
         /********************************** TITLE */
-        pre($dt);
         $prop = 'hasTitle';
-        $name = $dt['b_titulo'];
+        $name = $dt['file'];
         $RDFconcept->registerLiteral($idc, $name, '', $prop);
 
         /********************************** LANGUAGE */
         $prop = 'hasLanguageExpression';
         $dd['Class'] = 'Language';
-        $dd['Name'] = $Language->getTextLanguage($name);
+        $dd['Name'] = $name;
         $dd['Lang'] = 'nn';
         $idl = $RDFconcept->createConcept($dd);
         $id_prop = $RDFproperty->getProperty($prop);
@@ -75,6 +75,11 @@ class Book extends Model
 
         /********************************** FILE */
         $prop = 'hasFileStorage';
+        $dd['Class'] = 'FileStorage';
+        $dd['Name'] = $name;
+        $dd['Lang'] = 'nn';
+        $idfile = $RDFconcept->createConcept($dd);
+
         $file = $this->directory($idc);
         $RDFconcept->registerLiteral($idc, $file, '', $prop);
 
