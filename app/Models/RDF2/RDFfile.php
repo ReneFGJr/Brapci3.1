@@ -55,7 +55,7 @@ class RDFfile extends Model
                 $ext = '.gif';
                 break;
             default:
-                $ext = '.xxx';
+                $ext = '.pdf';
                 break;
         }
         return $ext;

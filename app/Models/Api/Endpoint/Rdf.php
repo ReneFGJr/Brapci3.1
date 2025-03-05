@@ -69,6 +69,7 @@ class Rdf extends Model
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $RDFimage = new \App\Models\RDF2\RDFimage();
+        $RDFfile = new \App\Models\RDF2\RDFfile();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFform = new \App\Models\RDF2\RDFform();
         $RDFrules = new \App\Models\RDF2\RDFrules();
@@ -122,7 +123,7 @@ class Rdf extends Model
                             $RSP = $RDFimage->saveImageRDF($ID,'hasCover',$file);
                             break;
                         case 'pdfFile':
-                            $RSP = $RDFimage->saveImageRDF($ID,'hasImage',$file);
+                            $RSP = $RDFfile->savePDF($ID, 'hasFileStorage',$file);
                             break;
                     }
                 break;
