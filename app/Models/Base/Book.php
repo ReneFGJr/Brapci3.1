@@ -71,12 +71,16 @@ class Book extends Model
             $Class = 'Book';
             $dt = $RDF2->recoverClass($Class,$q,0,12,'desc');
             $d = [];
-
+            $tot = 0;
             foreach($dt as $n=>$dta)
                 {
-                    $id = $dta['id_cc'];
-                    $dtm = $RDF2metadata->simpleMetadata($id);
-                    array_push($d,$dtm);
+                    if ($tot < 20)
+                    {
+                        $id = $dta['id_cc'];
+                        $dtm = $RDF2metadata->simpleMetadata($id);
+                        array_push($d,$dtm);
+                    }
+                    $tot++;
                 }
             return $d;
         }

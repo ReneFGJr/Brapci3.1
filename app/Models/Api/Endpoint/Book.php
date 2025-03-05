@@ -61,7 +61,8 @@ class Book extends Model
         switch ($d2) {
             case 'vitrine':
                 $Book = new \App\Models\Base\Book();
-                $dt = $Book->vitrine('');
+                $dt = [];
+                $dt['news'] = $Book->vitrine('');
                 echo json_encode($dt);
                 exit;
                 break;

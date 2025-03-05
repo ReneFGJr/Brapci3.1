@@ -80,7 +80,7 @@ class RDFimage extends Model
             $dest = $dir . 'image'.$ext;
 
             /**************************** Literal */
-            $idn = $RDFliteral->register($dest, 'nn');
+            $idn = $RDFliteral->register('https://cip.brapci.inf.br/'.$dest, 'nn');
 
             if ($idn <= 0)
                 {
