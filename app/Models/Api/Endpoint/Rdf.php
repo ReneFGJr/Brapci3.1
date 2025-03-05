@@ -286,6 +286,7 @@ class Rdf extends Model
                 if ($dt['Name'] == '') {
                     $RSP['status'] = '400';
                     $RSP['error'] = 'Name is empty';
+                    $RSP['data'] = $dt;
                 }
                 $idc = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
