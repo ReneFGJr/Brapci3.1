@@ -57,7 +57,13 @@ class RDFimage extends Model
             $dir = $this->directory($ID);
             $dest = $dir . 'image.jpg';
 
-            //move_uploaded_file($file, $dest);
+            /**************************** Literal */
+            $idn = $RDFliteral->register($dest, 'nn', 1);
+
+            /***************************** Data */
+            $RDFdata->register($ID, $propID, $idn, 0);
+
+            move_uploaded_file($file, $dest);
 
             $RSP = [];
             $RSP['prop'] = $prop;
