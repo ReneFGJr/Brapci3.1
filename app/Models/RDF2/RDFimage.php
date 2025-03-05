@@ -50,14 +50,22 @@ class RDFimage extends Model
 
     function saveImageRDF($ID,$prop,$file)
         {
-        $RDFproperty = new \App\Models\RDF2\RDFproperty();
-            $prop = $RDFproperty->getProperty($prop);
+            $RDFliteral = new \App\Models\RDF2\RDFliteral();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+            $RDFproperty = new \App\Models\RDF2\RDFproperty();
+            $propID = $RDFproperty->getProperty($prop);
+            $dir = $this->directory($ID);
+            $dest = $dir . 'image.jpg';
+
+            //move_uploaded_file($file, $dest);
+
             $RSP = [];
             $RSP['prop'] = $prop;
+            $RSP['propID'] = $propID;
             $RSP['ID'] = $ID;
             $RSP['file'] = $file;
+            $RSP['dest'] = $dest;
             $RSP['status'] = '200';
-            $RSP['propID'] = $prop;
             return $RSP;
         }
 
