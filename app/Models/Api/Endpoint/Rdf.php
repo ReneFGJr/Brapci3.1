@@ -111,7 +111,7 @@ class Rdf extends Model
                 break;
 
             /****************************************************** Cover */
-            case 'uploadCover':
+            case 'uploadFile':
                 $prop = get("prop");
                 $ID = get("ID");
                 $file = get("cover");
@@ -120,6 +120,9 @@ class Rdf extends Model
                     {
                         case "bookCover":
                             $RSP = $RDFimage->saveImageRDF($ID,'hasCover',$file);
+                            break;
+                        case 'pdfFile':
+                            $RSP = $RDFimage->saveImageRDF($ID,'hasImage',$file);
                             break;
                     }
                 break;
