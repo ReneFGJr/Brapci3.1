@@ -283,11 +283,6 @@ class Rdf extends Model
                 $dt['Name'] = trim(get("term"));
                 $dt['Lang'] = $Language->getTextLanguage($dt['Name']);
                 $dt['Class'] = get("class");
-                if ($dt['Name'] == '') {
-                    $RSP['status'] = '400';
-                    $RSP['error'] = 'Name is empty';
-                    $RSP['data'] = $dt;
-                }
                 $idc = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
 
@@ -301,6 +296,14 @@ class Rdf extends Model
                     $RSP['ID'] = $ID;
                     $RSP['IDc'] = $idc;
                     $RSP['prop'] = $prop;
+                } else {
+                    $RSP['status'] = '400';
+                    $RSP['error'] = 'Name is empty';
+                    $RSP['Name'] = $dt['Name'];
+                    $RSP['Lang'] = $dt['Lang'];
+                    $RSP['Class'] = $dt['Class'];
+                    $RSP['IDc'] = $idc;
+                    $RSP['data'] = $_POST;
                 }
                 break;
             default:
