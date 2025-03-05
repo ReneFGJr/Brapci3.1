@@ -279,8 +279,13 @@ class Rdf extends Model
                 break;
             case 'crtConceptAssociate':
                 $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                $dt = '';
+                $dt['Name'] = get("term");
+                $dt['Lang'] = $this->Language->getTextLanguage($dt['Name']);
+                $dt['Class'] = get("class");
+                $dt['ID'] = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
-                $RSP = $_POST;
+                $RSP = $dt;
                 break;
             default:
                 $RSP['Class'] = $RDFclass->getClasses();

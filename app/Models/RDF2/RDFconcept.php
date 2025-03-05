@@ -91,7 +91,7 @@ class RDFconcept extends Model
         //echo $this->getlastquery();
         return $dt;
     }
-
+    /********************************** Create Concept */
     function createConcept($dt)
     {
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
