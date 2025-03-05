@@ -281,7 +281,7 @@ class Rdf extends Model
                 /**************************** Create Concept */
                 $dt = [];
                 $dt['Name'] = get("term");
-                $dt['Lang'] = $this->Language->getTextLanguage($dt['Name']);
+                $dt['Lang'] = $Language->getTextLanguage($dt['Name']);
                 $dt['Class'] = get("class");
                 $idc = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
