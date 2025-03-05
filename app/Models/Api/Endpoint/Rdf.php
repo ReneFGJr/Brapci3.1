@@ -108,6 +108,11 @@ class Rdf extends Model
                 echo json_encode($RSP);
                 exit;
                 break;
+
+            /****************************************************** Cover */
+            case 'uploadCover':
+                $RSP = $_POST;
+                break;
             case 'updateLiteral':
                 $dd = [];
                 $dd['post'] = $_POST;
