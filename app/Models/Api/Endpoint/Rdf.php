@@ -278,14 +278,21 @@ class Rdf extends Model
                 }
                 break;
             case 'crtConceptAssociate':
-                $RDFconcept = new \App\Models\RDF2\RDFconcept();
-                $dt = '';
+                /**************************** Create Concept */
+                $dt = [];
                 $dt['Name'] = get("term");
                 $dt['Lang'] = $this->Language->getTextLanguage($dt['Name']);
                 $dt['Class'] = get("class");
-                $dt['ID'] = $RDFconcept->createConcept($dt);
+                $idc = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
-                $RSP = $dt;
+
+                /*************************** Create Property */
+                $ID = get("ID");
+                $prop = get("property");
+                $RDFdata->register($ID, $prop, $idc, 0);
+                $RSP['status'] = '200';
+                $RSP['ID'] = $ID;
+                $RSP['prop'] = $prop;
                 break;
             default:
                 $RSP['Class'] = $RDFclass->getClasses();
