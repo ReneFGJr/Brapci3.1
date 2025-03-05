@@ -296,6 +296,7 @@ class Rdf extends Model
                 $RDFdata->register($ID, $prop, $idc, 0);
                 $RSP['status'] = '200';
                 $RSP['ID'] = $ID;
+                $RSP['IDc'] = $idc;
                 $RSP['prop'] = $prop;
                 break;
             default:
