@@ -283,6 +283,7 @@ class Rdf extends Model
                 $dt['Name'] = trim(get("term"));
                 $dt['Lang'] = $Language->getTextLanguage($dt['Name']);
                 $dt['Class'] = get("type");
+
                 $idc = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
 

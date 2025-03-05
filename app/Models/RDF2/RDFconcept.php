@@ -96,9 +96,15 @@ class RDFconcept extends Model
     {
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $d = [];
+        $name = $dt['Name'];
+        if ($dt['Class'] == 'ISBN') {
+            $ISBN = new \App\Models\ISBN\Index();
+            $isbn = $ISBN->isbns($name);
+            $name = $isbn['isbn13'];
+        }
 
         /* Literal Value */
-        $d['cc_pref_term'] = $RDFliteral->register($dt['Name'], $dt['Lang']);
+        $d['cc_pref_term'] = $RDFliteral->register($name, $dt['Lang']);
 
         /********************* Classe */
         $RDFclass = new \App\Models\RDF2\RDFclass();
