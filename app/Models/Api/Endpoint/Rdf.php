@@ -68,6 +68,7 @@ class Rdf extends Model
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $RDFliteral = new \App\Models\RDF2\RDFliteral();
+        $RDFimage = new \App\Models\RDF2\RDFimage();
         $RDFdata = new \App\Models\RDF2\RDFdata();
         $RDFform = new \App\Models\RDF2\RDFform();
         $RDFrules = new \App\Models\RDF2\RDFrules();
@@ -111,8 +112,18 @@ class Rdf extends Model
 
             /****************************************************** Cover */
             case 'uploadCover':
+                $prop = get("prop");
+                $ID = get("ID");
+                $file = get("cover");
                 $RSP = $_POST;
+                switch($prop)
+                    {
+                        case "bookCover":
+                            $RSP = $RDFimage->saveImageRDF($ID,'hasCover',$file);
+                            break;
+                    }
                 break;
+
             case 'updateLiteral':
                 $dd = [];
                 $dd['post'] = $_POST;
@@ -138,6 +149,7 @@ class Rdf extends Model
                 echo json_encode($dd);
                 exit;
                 break;
+
             case 'createLiteral':
                 $dd = [];
                 $dd['post'] = $_POST;

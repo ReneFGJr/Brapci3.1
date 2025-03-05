@@ -48,6 +48,19 @@ class RDFimage extends Model
 
     function savePhoto($ID,$local) {}
 
+    function saveImageRDF($ID,$prop,$file)
+        {
+            $RDFclass = new \App\Models\RDF2\RDFclass();
+            $prop = $RDFclass->searchProperty($prop);
+            $RSP = [];
+            $RSP['prop'] = $prop;
+            $RSP['ID'] = $ID;
+            $RSP['file'] = $file;
+            $RSP['status'] = '200';
+            $RSP['propID'] = $prop;
+            return $RSP;
+        }
+
 
     function upload($d1 = '', $d2 = '')
     {
