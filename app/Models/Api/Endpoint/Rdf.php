@@ -280,9 +280,13 @@ class Rdf extends Model
             case 'crtConceptAssociate':
                 /**************************** Create Concept */
                 $dt = [];
-                $dt['Name'] = get("term");
+                $dt['Name'] = trim(get("term"));
                 $dt['Lang'] = $Language->getTextLanguage($dt['Name']);
                 $dt['Class'] = get("class");
+                if ($dt['Name'] == '') {
+                    $RSP['status'] = '400';
+                    $RSP['error'] = 'Name is empty';
+                }
                 $idc = $RDFconcept->createConcept($dt);
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
 
