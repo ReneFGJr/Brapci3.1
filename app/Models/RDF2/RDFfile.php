@@ -74,7 +74,7 @@ class RDFfile extends Model
             $dest = $dir . $filename;
 
             $dt = [];
-            $dt['Name'] = $filename;
+            $dt['Name'] = $dest;
             $dt['Lang'] = 'nn';
             $dt['Class'] = 'FileStorage';
             $idc = $RDFconcept->createConcept($dt);
