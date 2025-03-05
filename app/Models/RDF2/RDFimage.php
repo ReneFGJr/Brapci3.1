@@ -58,7 +58,15 @@ class RDFimage extends Model
             $dest = $dir . 'image.jpg';
 
             /**************************** Literal */
-            $idn = $RDFliteral->register($dest, 'nn', 1);
+            $idn = $RDFliteral->register($dest, 'nn');
+
+            if ($idn <= 0)
+                {
+                    $RSP = [];
+                    $RSP['status'] = '500';
+                    $RSP['message'] = 'Erro ao salvar dados RDF: ' . $e->getMessage();
+                    return $RSP;
+                }
 
             /***************************** Data */
             $RDFdata->register($ID, $propID, $idn, 0);
