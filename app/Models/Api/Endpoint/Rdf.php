@@ -277,6 +277,11 @@ class Rdf extends Model
                     $RSP = $RDFtools->importRDF($d3, true);
                 }
                 break;
+            case 'crtConceptAssociate':
+                $RDFconcept = new \App\Models\RDF2\RDFconcept();
+                //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
+                $RSP = $_POST;
+                break;
             default:
                 $RSP['Class'] = $RDFclass->getClasses();
                 $RSP['Property'] = $RDFproperty->getProperties();
