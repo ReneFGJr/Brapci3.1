@@ -79,6 +79,8 @@ class Index extends Model
             }
         } else {
             $RSP['message'] = 'Nenhum arquivo enviado.';
+            $RSP['post'] = $_POST;
+            $RSP['file'] = $_FILES;
             $RSP['status'] = '500';
         }
         return $RSP;
