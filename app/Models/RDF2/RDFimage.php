@@ -50,8 +50,8 @@ class RDFimage extends Model
 
     function saveImageRDF($ID,$prop,$file)
         {
-            $RDFclass = new \App\Models\RDF2\RDFclass();
-            $prop = $RDFclass->searchProperty($prop);
+        $RDFproperty = new \App\Models\RDF2\RDFproperty();
+            $prop = $RDFproperty->getProperties($prop);
             $RSP = [];
             $RSP['prop'] = $prop;
             $RSP['ID'] = $ID;
