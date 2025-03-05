@@ -48,6 +48,27 @@ class RDFimage extends Model
 
     function savePhoto($ID,$local) {}
 
+    function fileType($file)
+    {
+        $ext = '.xxx';
+        $type = mime_content_type($file);
+        switch ($type) {
+            case 'image/jpeg':
+                $ext = '.jpg';
+                break;
+            case 'image/png':
+                $ext = '.png';
+                break;
+            case 'image/gif':
+                $ext = '.gif';
+                break;
+            default:
+                $ext = '.xxx';
+                break;
+        }
+        return $ext;
+    }
+
     function saveImageRDF($ID,$prop,$file)
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
@@ -55,7 +76,8 @@ class RDFimage extends Model
             $RDFproperty = new \App\Models\RDF2\RDFproperty();
             $propID = $RDFproperty->getProperty($prop);
             $dir = $this->directory($ID);
-            $dest = $dir . 'image.jpg';
+            $ext = $this->fileType($file);
+            $dest = $dir . 'image'.$ext;
 
             /**************************** Literal */
             $idn = $RDFliteral->register($dest, 'nn');
@@ -71,7 +93,8 @@ class RDFimage extends Model
             /***************************** Data */
             $RDFdata->register($ID, $propID, 0, $idn);
 
-            move_uploaded_file($file, $dest);
+            copy($file, $dest);
+            unlink($file);
 
             $RSP = [];
             $RSP['prop'] = $prop;
