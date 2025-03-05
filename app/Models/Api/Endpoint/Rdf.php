@@ -292,13 +292,16 @@ class Rdf extends Model
                 //$RSP = $RDFconcept->createConceptAssociate($d3, $d4);
 
                 /*************************** Create Property */
-                $ID = get("ID");
-                $prop = get("property");
-                $RDFdata->register($ID, $prop, $idc, 0);
-                $RSP['status'] = '200';
-                $RSP['ID'] = $ID;
-                $RSP['IDc'] = $idc;
-                $RSP['prop'] = $prop;
+                if ($idc > 0)
+                {
+                    $ID = get("ID");
+                    $prop = get("property");
+                    $RDFdata->register($ID, $prop, $idc, 0);
+                    $RSP['status'] = '200';
+                    $RSP['ID'] = $ID;
+                    $RSP['IDc'] = $idc;
+                    $RSP['prop'] = $prop;
+                }
                 break;
             default:
                 $RSP['Class'] = $RDFclass->getClasses();
