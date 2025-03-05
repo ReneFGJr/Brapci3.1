@@ -69,7 +69,7 @@ class RDFimage extends Model
                 }
 
             /***************************** Data */
-            $RDFdata->register($ID, $propID, $idn, 0);
+            $RDFdata->register($ID, $propID, 0, $idn);
 
             move_uploaded_file($file, $dest);
 
