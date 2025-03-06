@@ -61,7 +61,11 @@ class Book extends Model
         $dd['idf'] = $idfile;
 
         $file = $this->directory($idfile);
+        $dd['fileO'] = $fileO;
         $dd['file'] = $file;
+
+
+        copy($fileO, $file);
 
         pre($dd);
         return $dd;
