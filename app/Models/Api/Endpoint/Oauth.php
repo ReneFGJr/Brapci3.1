@@ -52,14 +52,41 @@ class Oauth extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3)
+    function index($d1)
     {
         header('Access-Control-Allow-Origin: *');
         if ((get("test") == '') and (get("header") == '')) {
             header("Content-Type: application/json");
         }
 
+        $d2 = get("tamanho");
+        $d3 = get("caracteresEspeciais");
+        $d4 = get("menemonico");
+
         switch ($d1) {
+            case 'generatePassword':
+                if ($d2 == '') { $d2 = 12; }
+                if ($d3 == '') { $d3 = 0; }
+                if ($d4 == '') { $d4 = 0; }
+
+                $Password = new \App\Models\Password\Index();
+                $dd = [];
+                for ($r=0;$r < 10;$r++)
+                    {
+                        if ($d4)
+                            {
+                                $dd['pass'][] = $Password->gerarSenhaMnemotecnica();
+
+                            } else {
+                                $dd['pass'][] = $Password->gerarSenha(round($d2), $d3);
+                            }
+
+                    }
+
+                $dd['status'] = '200';
+                echo json_encode($dd);
+                exit;
+                break;
             case 'oauth2':
                 $token = get("token");
                 $Socials = new \App\Models\Socials();

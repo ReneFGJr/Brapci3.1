@@ -49,6 +49,46 @@ class Book extends Model
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
         $Language = new \App\Models\AI\NLP\Language();
 
+
+        /********************************** FILE */
+        $fileName = $dt['fileO'];
+        $fileO = "../.tmp/booksubmit/" . $fileName;
+        $prop = 'hasFileStorage';
+        $dd['Class'] = 'FileStorage';
+        $dd['Name'] = $fileName;
+        $dd['Lang'] = 'nn';
+        $idfile = $RDFconcept->createConcept($dd);
+        $dd['idf'] = $idfile;
+
+        $file = $this->directory($idfile);
+        $dd['fileO'] = $fileO;
+        $dd['file'] = $file;
+
+
+        copy($fileO, $file);
+
+        $prop = 'hasFileType';
+        $type = 'PDF';
+        $da['Class'] = 'FileType';
+        $da['Name'] = $type;
+        $da['Lang'] = 'nn';
+        $idType = $RDFconcept->createConcept($da);
+        $RDFdata->register($idfile, $prop, $idType, 0);
+
+        $prop = 'hasFileSize';
+        $size = filesize($fileO);
+        $RDFconcept->registerLiteral($idfile, $size, '', $prop);
+
+        copy($fileO, $file);
+        if (file_exists($file))
+        {
+            unlink($fileO);
+        }
+
+        $ddf = [];
+        $ddf['n_name'] = $file;
+        $RDFliteral->set($ddf)->where('n_name', $fileName)->update();
+
         $dd['Class'] = 'Book';
         $dd['Name'] = $dt['b_isbn'];
         $dd['Lang'] = 'nn';
@@ -57,33 +97,9 @@ class Book extends Model
         $idc = $RDFconcept->createConcept($dd);
 
 
-        /********************************** FILE */
-        $file = $dt['fileO'];
-        $fileO = "../.tmp/booksubmit/" . $file;
-        $prop = 'hasFileStorage';
-        $dd['Class'] = 'FileStorage';
-        $dd['Name'] = $file;
-        $dd['Lang'] = 'nn';
-        $idfile = $RDFconcept->createConcept($dd);
-
         $prop = 'hasFileStorage';
         $RDFdata->register($idc, $prop, $idfile, 0);
 
-        $file = $this->directory($idfile);
-        $prop = 'hasFileType';
-        $type = 'PDF';
-        $RDFconcept->registerLiteral($idfile, $type, '', $prop);
-
-        $prop = 'hasFileSize';
-        $size = filesize($fileO);
-        $RDFconcept->registerLiteral($idfile, $size, '', $prop);
-
-        $prop = 'hasFileStorage';
-        $place = $file;
-        $RDFconcept->registerLiteral($idfile, $place, '', $prop);
-
-        copy($fileO, $file);
-        unlink($fileO);
 
         //$prop = 'prefLabel';
         //$prop = 'hasDateTime';
