@@ -60,6 +60,16 @@ class Oauth extends Model
         }
 
         switch ($d1) {
+            case 'generatePassword':
+                if ($d2 == '') { $d2 = 8; }
+                if ($d3 == '') { $d3 = 1; }
+                $Password = new \App\Models\Password\Index();
+                $dd = [];
+                $dd['pass'][] = $Password->gerarSenha(round($d2), $d3);
+                $dd['status'] = '200';
+                echo json_encode($dd);
+                exit;
+                break;
             case 'oauth2':
                 $token = get("token");
                 $Socials = new \App\Models\Socials();
