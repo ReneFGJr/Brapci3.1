@@ -65,7 +65,11 @@ class Oauth extends Model
                 if ($d3 == '') { $d3 = 1; }
                 $Password = new \App\Models\Password\Index();
                 $dd = [];
-                $dd['pass'][] = $Password->gerarSenha(round($d2), $d3);
+                for ($r=0;$r < 10;$r++)
+                    {
+                        $dd['pass'][] = $Password->gerarSenha(round($d2), $d3);
+                    }
+
                 $dd['status'] = '200';
                 echo json_encode($dd);
                 exit;
