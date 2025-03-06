@@ -59,6 +59,28 @@ class Book extends Model
         $dd['Lang'] = 'nn';
         $idfile = $RDFconcept->createConcept($dd);
         $dd['idf'] = $idfile;
+
+        $file = $this->directory($idfile);
+        $dd['file'] = $file;
+
+        pre($dd);
+        return $dd;
+
+        $prop = 'hasFileType';
+        $type = 'PDF';
+        $RDFconcept->registerLiteral($idfile, $type, '', $prop);
+
+        $prop = 'hasFileSize';
+        $size = filesize($fileO);
+        $RDFconcept->registerLiteral($idfile, $size, '', $prop);
+
+        //$prop = 'hasFileStorage';
+        //$place = $file;
+        //$RDFconcept->registerLiteral($idfile, $place, '', $prop);
+
+        copy($fileO, $file);
+        //unlink($fileO);
+
         pre($dd);
         return $dd;
 
@@ -74,21 +96,7 @@ class Book extends Model
         $prop = 'hasFileStorage';
         $RDFdata->register($idc, $prop, $idfile, 0);
 
-        $file = $this->directory($idfile);
-        $prop = 'hasFileType';
-        $type = 'PDF';
-        $RDFconcept->registerLiteral($idfile, $type, '', $prop);
 
-        $prop = 'hasFileSize';
-        $size = filesize($fileO);
-        $RDFconcept->registerLiteral($idfile, $size, '', $prop);
-
-        $prop = 'hasFileStorage';
-        $place = $file;
-        $RDFconcept->registerLiteral($idfile, $place, '', $prop);
-
-        copy($fileO, $file);
-        unlink($fileO);
 
         //$prop = 'prefLabel';
         //$prop = 'hasDateTime';
