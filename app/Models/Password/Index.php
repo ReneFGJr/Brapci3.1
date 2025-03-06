@@ -48,26 +48,28 @@ class Index extends Model
     {
         // Lista de palavras simples para compor a senha
         $palavras = [
-            "casa",
-            "amor",
-            "sol",
-            "lua",
-            "paz",
-            "vida",
-            "tempo",
-            "flor",
-            "mar",
-            "rio",
-            "céu",
-            "terra",
-            "sorriso",
-            "alegria",
-            "fogo",
-            "vento"
+            "ciência",
+            "informação",
+            "tecnologia",
+            "dados",
+            "biblioteca",
+            "sistema",
+            "rede",
+            "acesso",
+            "mídia",
+            "digital",
+            "documento",
+            "conhecimento",
+            "conteúdo",
+            "usuário",
+            "interface",
+            "interação",
+            "serviço",
+            "plataforma"
         ];
 
         $senha = "";
-        $separator = "-"; // Separador entre as palavras
+        $separator = ""; // Separador entre as palavras
 
         // Concatena palavras até atingir o tamanho mínimo desejado (desconsiderando os separadores)
         while (strlen(str_replace($separator, '', $senha)) < $tamanho) {
@@ -75,11 +77,14 @@ class Index extends Model
             $palavra = $palavras[array_rand($palavras)];
             // Se for a primeira palavra, atribui diretamente
             if (empty($senha)) {
-                $senha = $palavra;
+                $senha = ucfirst($palavra);
             } else {
-                $senha .= $separator . $palavra;
+                $senha .= $separator . ucfirst($palavra);
             }
         }
+        $senha = troca($senha,'e','3');
+        $senha = troca($senha, 'o', '0');
+        $senha = troca($senha, 'i', '1');
 
         // Se solicitado, adiciona um caractere especial aleatório no final da senha
         if ($usarCaracteresEspeciais) {
