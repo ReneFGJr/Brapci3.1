@@ -85,6 +85,7 @@ class Index extends Model
         $senha = troca($senha,'e','3');
         $senha = troca($senha, 'o', '0');
         $senha = troca($senha, 'i', '1');
+        $senha = troca($senha, 'a', '@');
 
         // Se solicitado, adiciona um caractere especial aleatório no final da senha
         if ($usarCaracteresEspeciais) {
