@@ -80,7 +80,7 @@ class Book extends Model
         $RDFconcept->registerLiteral($idfile, $size, '', $prop);
 
         copy($fileO, $file);
-        if (file_exists($file)
+        if (file_exists($file))
         {
             unlink($fileO);
         }
