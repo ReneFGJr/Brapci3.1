@@ -56,7 +56,10 @@ class Index extends Model
                                     $dt = $BookSubmit->find($d2);
                                     $dta = (array)json_decode($dt['bs_post']);
                                     $dta['b_isbn'] = md5_file("../.tmp/booksubmit/".$dt['bs_arquivo']);
+
+                                    /*************** Criar Livro */
                                     $idc = $Book->create_book($dta);
+
                                     $dd['bs_rdf'] = $idc;
                                     $BookSubmit->set($dd)->where('id_bs', $dt['id_bs'])->update();
                                 break;

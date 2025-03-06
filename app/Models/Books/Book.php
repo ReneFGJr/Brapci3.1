@@ -49,13 +49,6 @@ class Book extends Model
         $RDFproperty = new \App\Models\RDF2\RDFproperty();
         $Language = new \App\Models\AI\NLP\Language();
 
-        $dd['Class'] = 'Book';
-        $dd['Name'] = $dt['b_isbn'];
-        $dd['Lang'] = 'nn';
-        //$dd['Name'] = $dt['b_titulo'];
-        //$dd['Lang'] = $Language->getTextLanguage($dd['Name']);
-        $idc = $RDFconcept->createConcept($dd);
-
 
         /********************************** FILE */
         $file = $dt['fileO'];
@@ -65,6 +58,18 @@ class Book extends Model
         $dd['Name'] = $file;
         $dd['Lang'] = 'nn';
         $idfile = $RDFconcept->createConcept($dd);
+        $dd['idf'] = $idfile;
+        pre($dd);
+        return $dd;
+
+        $dd['Class'] = 'Book';
+        $dd['Name'] = $dt['b_isbn'];
+        $dd['Lang'] = 'nn';
+        //$dd['Name'] = $dt['b_titulo'];
+        //$dd['Lang'] = $Language->getTextLanguage($dd['Name']);
+        $idc = $RDFconcept->createConcept($dd);
+
+
 
         $prop = 'hasFileStorage';
         $RDFdata->register($idc, $prop, $idfile, 0);
