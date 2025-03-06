@@ -79,18 +79,11 @@ class Book extends Model
         $size = filesize($fileO);
         $RDFconcept->registerLiteral($idfile, $size, '', $prop);
 
-        pre($dd);
-        return $dd;
-
-        //$prop = 'hasFileStorage';
-        //$place = $file;
-        //$RDFconcept->registerLiteral($idfile, $place, '', $prop);
-
         copy($fileO, $file);
-        //unlink($fileO);
-
-        pre($dd);
-        return $dd;
+        if (file_exists($file)
+        {
+            unlink($fileO);
+        }
 
         $dd['Class'] = 'Book';
         $dd['Name'] = $dt['b_isbn'];
@@ -100,10 +93,8 @@ class Book extends Model
         $idc = $RDFconcept->createConcept($dd);
 
 
-
         $prop = 'hasFileStorage';
         $RDFdata->register($idc, $prop, $idfile, 0);
-
 
 
         //$prop = 'prefLabel';
