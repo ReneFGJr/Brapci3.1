@@ -51,7 +51,7 @@ class Index extends Model
 
         // Se solicitado, adiciona caracteres especiais.
         if ($usarCaracteresEspeciais) {
-            $caracteres .= '!@#$%^&*()-_=+[]{}|;:,.<>?';
+            $caracteres .= '@#$%^&*=+[]{}|';
         }
 
         $senha = '';

@@ -61,7 +61,7 @@ class Oauth extends Model
 
         switch ($d1) {
             case 'generatePassword':
-                if ($d2 == '') { $d2 = 8; }
+                if ($d2 == '') { $d2 = 12; }
                 if ($d3 == '') { $d3 = 1; }
                 $Password = new \App\Models\Password\Index();
                 $dd = [];
