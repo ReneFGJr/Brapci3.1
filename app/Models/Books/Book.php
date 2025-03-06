@@ -51,11 +51,11 @@ class Book extends Model
 
 
         /********************************** FILE */
-        $file = $dt['fileO'];
-        $fileO = "../.tmp/booksubmit/" . $file;
+        $fileName = $dt['fileO'];
+        $fileO = "../.tmp/booksubmit/" . $fileName;
         $prop = 'hasFileStorage';
         $dd['Class'] = 'FileStorage';
-        $dd['Name'] = $file;
+        $dd['Name'] = $fileName;
         $dd['Lang'] = 'nn';
         $idfile = $RDFconcept->createConcept($dd);
         $dd['idf'] = $idfile;
@@ -84,6 +84,10 @@ class Book extends Model
         {
             unlink($fileO);
         }
+
+        $ddf = [];
+        $ddf['n_name'] = $file;
+        $RDFliteral->set($ddf)->where('n_name', $fileName)->update();
 
         $dd['Class'] = 'Book';
         $dd['Name'] = $dt['b_isbn'];
