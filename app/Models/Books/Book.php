@@ -67,16 +67,20 @@ class Book extends Model
 
         copy($fileO, $file);
 
-        pre($dd);
-        return $dd;
-
         $prop = 'hasFileType';
         $type = 'PDF';
-        $RDFconcept->registerLiteral($idfile, $type, '', $prop);
+        $da['Class'] = 'FileType';
+        $da['Name'] = $type;
+        $da['Lang'] = 'nn';
+        $idType = $RDFconcept->createConcept($da);
+        $RDFdata->register($idfile, $prop, $type, 0);
 
         $prop = 'hasFileSize';
         $size = filesize($fileO);
         $RDFconcept->registerLiteral($idfile, $size, '', $prop);
+
+        pre($dd);
+        return $dd;
 
         //$prop = 'hasFileStorage';
         //$place = $file;
