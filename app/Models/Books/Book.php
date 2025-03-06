@@ -73,7 +73,7 @@ class Book extends Model
         $da['Name'] = $type;
         $da['Lang'] = 'nn';
         $idType = $RDFconcept->createConcept($da);
-        $RDFdata->register($idfile, $prop, $type, 0);
+        $RDFdata->register($idfile, $prop, $idType, 0);
 
         $prop = 'hasFileSize';
         $size = filesize($fileO);
