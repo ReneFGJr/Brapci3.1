@@ -44,6 +44,52 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function gerarSenhaMnemotecnica($tamanho = 16, $usarCaracteresEspeciais = True)
+    {
+        // Lista de palavras simples para compor a senha
+        $palavras = [
+            "casa",
+            "amor",
+            "sol",
+            "lua",
+            "paz",
+            "vida",
+            "tempo",
+            "flor",
+            "mar",
+            "rio",
+            "céu",
+            "terra",
+            "sorriso",
+            "alegria",
+            "fogo",
+            "vento"
+        ];
+
+        $senha = "";
+        $separator = "-"; // Separador entre as palavras
+
+        // Concatena palavras até atingir o tamanho mínimo desejado (desconsiderando os separadores)
+        while (strlen(str_replace($separator, '', $senha)) < $tamanho) {
+            // Seleciona uma palavra aleatória da lista
+            $palavra = $palavras[array_rand($palavras)];
+            // Se for a primeira palavra, atribui diretamente
+            if (empty($senha)) {
+                $senha = $palavra;
+            } else {
+                $senha .= $separator . $palavra;
+            }
+        }
+
+        // Se solicitado, adiciona um caractere especial aleatório no final da senha
+        if ($usarCaracteresEspeciais) {
+            $caracteresEspeciais = '!@#$%^&*()';
+            $senha .= $caracteresEspeciais[random_int(0, strlen($caracteresEspeciais) - 1)];
+        }
+
+        return $senha;
+    }
+
     function gerarSenha($tamanho = 8, $usarCaracteresEspeciais = true)
     {
         // Conjunto básico de caracteres: letras minúsculas, maiúsculas e dígitos.
