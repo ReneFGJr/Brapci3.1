@@ -63,6 +63,24 @@ class Book extends Model
             $BooksSubmit = new \App\Models\Books\BooksSubmit();
             return $BooksSubmit->resume();
         }
+
+    function catalog()
+    {
+        $RDF2 = new \App\Models\RDF2\RDF();
+        $RDF2metadata = new \App\Models\RDF2\RDFmetadata();
+        $Class = 'Book';
+        $dt = $RDF2->recoverClass($Class, 0, 10000, 12, 'desc');
+        $d = [];
+        $tot = 0;
+        foreach ($dt as $n => $dta) {
+                $id = $dta['id_cc'];
+                $dtm = $RDF2metadata->simpleMetadata($id);
+                array_push($d, $dtm);
+                $tot++;
+        }
+        return $d;
+    }
+
     /*********** Funcoes da versão nova */
     function vitrine($q='')
         {

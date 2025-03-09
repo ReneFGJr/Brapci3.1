@@ -59,6 +59,13 @@ class Book extends Model
         }
 
         switch ($d2) {
+            case 'catalog':
+                $Book = new \App\Models\Base\Book();
+                $dt = [];
+                $dt['books'] = $Book->catalog('');
+                echo json_encode($dt);
+                exit;
+                break;
             case 'vitrine':
                 $Book = new \App\Models\Base\Book();
                 $dt = [];
