@@ -135,8 +135,9 @@ class Issues extends Model
                         {
                             echo metarefresh('',1);
                             echo "Capítulo perdido, excluíndo $ID";
-                            $RDFconcept->updateStatus($ID,99);
                             exit;
+                            $RDFconcept->updateStatus($ID,99);
+
                         }
                     $DB = $RDF->le($book[0]);
                     $ISU['year'] = $RDF->extract($DB, 'wasPublicationInDate');
