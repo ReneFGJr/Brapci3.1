@@ -1081,13 +1081,14 @@ class RDFmetadata extends Model
                 if ($nn == $class) {
                     foreach ($lang as $lg) {
                         if (isset($line[$lg])) {
-                            pre($line[$lg]);
-                            $rsp = $line[$lg][0];
-                            return ($rsp);
+                            foreach ($line[$lg] as $nameID => $ID) {
+                                return ($ID);
+                            }
                         }
                     }
                 }
             }
         }
+        return 0;
     }
 }
