@@ -330,6 +330,11 @@ class Abnt extends Model
 		if ($sx != '') {
 			$sx .= ' ';
 		}
+		/********* Regra do et.al */
+		if (strpos($sx, 'et al.')) {
+			$sx = troca($sx,'(Org.)','(Orgs.)');
+		}
+
 		if (isset($dt['title'])) {
 			$sx .= '<b>' . $dt['title'] . '</b>. ';
 		} else {
