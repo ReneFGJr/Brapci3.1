@@ -332,7 +332,7 @@ class Abnt extends Model
 		}
 		/********* Regra do et.al */
 		if (strpos($sx, 'et al.')) {
-			$sx = troca($sx,'(Org.)','(Orgs.)');
+			$sx = troca($sx,'(Org.)',''). ' (Orgs.)';
 		}
 
 		if (isset($dt['title'])) {
