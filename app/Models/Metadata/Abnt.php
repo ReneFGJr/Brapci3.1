@@ -325,7 +325,6 @@ class Abnt extends Model
 
 	function abnt_book($dt)
 	{
-		pre($dt);
 		$sx = '';
 		$sx .= $this->authors($dt);
 		if ($sx != '') {
@@ -409,6 +408,9 @@ class Abnt extends Model
 						$authors .= '; ';
 					}
 					$authors .= nbr_author(ascii($line['name']), 2);
+					if ($line['complement'] != '') {
+						$authors .= ' (' . $line['complement'].')';
+					}
 				}
 				$authors .= '. ';
 			} else {
