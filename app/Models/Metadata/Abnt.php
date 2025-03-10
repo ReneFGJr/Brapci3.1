@@ -353,7 +353,18 @@ class Abnt extends Model
 
 	function abnt_bookchapter($dt)
 	{
-		pre($dt);
+		if ((isset($dt['bookID'])) and ($dt['bookID'] != ''))
+			{
+				$RDFmetadata = new \App\Models\RDF2\RDFmetadata();
+				$bookID = $dt['bookID'];
+				$dtb = $RDFmetadata->metadata($bookID);
+				$ref = $this->abnt_book($dtb);
+				echo $ref;
+				exit;
+			} else {
+				$ref = 'ERRO';
+				return $ref;
+			}
 		$sx = '';
 		$sx .= $this->authors($dt);
 
