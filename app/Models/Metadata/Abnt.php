@@ -46,8 +46,6 @@ class Abnt extends Model
 		#$URL = 'https://brapci.inf.br/index.php/res/v/';
 		$URL = 'https://hdl.handle.net/20.500.11959/brapci/';
 
-		pre($dt);
-
 		$Class = $dt['Class'];
 		$link = '<a href="'.$URL.$dt['ID'].'" target="_blank" class="link">';
 		$linka = '</a>';
@@ -56,10 +54,6 @@ class Abnt extends Model
 			{
 				case 'Issue':
 					return "ISSUE - Construção";
-					break;
-				case 'BookChapter':
-					return "BookChapter - Construção";
-					break;
 			}
 
 		/******************************************************* */
@@ -217,6 +211,14 @@ class Abnt extends Model
 				$tela = $this->abnt_article($dt);
 				return $tela;
 				break;
+			case 'Book':
+				$tela = $this->abnt_book($dt);
+				return $tela;
+				break;
+			case 'BookChapter':
+				$tela = $this->abnt_bookchapter($dt);
+				return $tela;
+				break;
 			case 'Issue':
 				$tela = '';
 				if (isset($dt['publisher'])) {
@@ -351,6 +353,7 @@ class Abnt extends Model
 
 	function abnt_chapter($dt)
 	{
+		pre($dt);
 		$sx = '';
 		$sx .= $this->authors($dt);
 
@@ -416,6 +419,7 @@ class Abnt extends Model
 		return $sx;
 	}
 
+	function abnt_bookchapter($dt) {}
 
 	function abnt_article($dt)
 	{
