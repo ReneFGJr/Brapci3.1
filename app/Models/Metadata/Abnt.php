@@ -54,6 +54,10 @@ class Abnt extends Model
 			{
 				case 'Issue':
 					return "ISSUE - Construção";
+					break;
+				case 'BookChapter':
+					return "BookChapter - Construção";
+					break;
 			}
 
 		/******************************************************* */

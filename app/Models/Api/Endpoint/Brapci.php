@@ -140,8 +140,6 @@ class Brapci extends Model
                     } else {
                         $RSP = $Book->index($d2,$d3);
                     }
-
-
                 break;
             case 'data':
                 $RSP['result'] = $this->getData($d2);
