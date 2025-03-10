@@ -409,7 +409,7 @@ class Abnt extends Model
 					}
 					$authors .= nbr_author(ascii($line['name']), 2);
 					if (isset($line['complement'])) {
-						$authors .= ' (' . $line['complement'].')';
+						$authors .= ' ' . $line['complement'];
 					}
 				}
 				$authors .= '. ';
@@ -417,7 +417,7 @@ class Abnt extends Model
 				foreach ($dt['creator_author'] as $idk => $line) {
 					$authors .= nbr_author(ascii($line['name']), 2);
 					if (isset($line['complement'])) {
-						$authors .= ' (' . $line['complement'] . ')';
+						$authors .= ' ' . $line['complement'];
 					}
 					$authors .= '; <i>et al.</i> ';
 					break;
