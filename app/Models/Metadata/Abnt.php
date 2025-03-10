@@ -353,14 +353,13 @@ class Abnt extends Model
 
 	function abnt_bookchapter($dt)
 	{
+		$ref = '';
 		if ((isset($dt['bookID'])) and ($dt['bookID'] != ''))
 			{
 				$RDFmetadata = new \App\Models\RDF2\RDFmetadata();
 				$bookID = $dt['bookID'];
 				$dtb = $RDFmetadata->metadata($bookID);
 				$ref = $this->abnt_book($dtb);
-				echo $ref;
-				exit;
 			} else {
 				$ref = 'ERRO';
 				return $ref;
@@ -390,12 +389,8 @@ class Abnt extends Model
 			}
 		}
 
-		$sx .= '. In: ';
-		if (isset($dt['books'])) {
-			$sx .= $dt['books'];
-		} else {
-			$sx .= '[Fonte não localizada]';
-		}
+		$sx .= '. In: '.$ref;
+
 		return $sx;
 	}
 
