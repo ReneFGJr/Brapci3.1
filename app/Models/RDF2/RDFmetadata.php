@@ -772,7 +772,7 @@ class RDFmetadata extends Model
         $dr['creator_author'] = [];
         $dr['Authors'] = '';
         if (isset($dd['hasOrganizator'])) {
-            $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '(org)');
+            $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '(Org.)');
         } else {
             $dr['creator_author'] = $this->arrayExtract($dd, 'hasAuthor');
         }
