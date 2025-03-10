@@ -408,7 +408,7 @@ class Abnt extends Model
 						$authors .= '; ';
 					}
 					$authors .= nbr_author(ascii($line['name']), 2);
-					if ($line['complement'] != '') {
+					if (isset($line['complement'])) {
 						$authors .= ' (' . $line['complement'].')';
 					}
 				}
