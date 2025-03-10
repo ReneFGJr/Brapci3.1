@@ -1081,7 +1081,7 @@ class RDFmetadata extends Model
                 if ($nn == $class) {
                     foreach ($lang as $lg) {
                         if (isset($line[$lg])) {
-                            foreach ($line[$lg] as $nameID => $ID) {
+                            foreach ($line[$lg][0] as $nameID => $ID) {
                                 return ($ID);
                             }
                         }
@@ -1089,6 +1089,6 @@ class RDFmetadata extends Model
                 }
             }
         }
-        return 0;
+        return '';
     }
 }
