@@ -351,9 +351,9 @@ class Abnt extends Model
 		return $sx;
 	}
 
-	function abnt_chapter($dt)
+	function abnt_bookchapter($dt)
 	{
-		return "====";
+		pre($dt);
 		$sx = '';
 		$sx .= $this->authors($dt);
 
@@ -418,8 +418,6 @@ class Abnt extends Model
 		$sx = trim($sx);
 		return $sx;
 	}
-
-	function abnt_bookchapter($dt) {}
 
 	function abnt_article($dt)
 	{
