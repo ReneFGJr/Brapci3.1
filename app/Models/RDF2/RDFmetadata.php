@@ -779,7 +779,7 @@ class RDFmetadata extends Model
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
         $dr['subject']['pt'] = $this->arrayExtract($dd, 'hasSubject');
-        $dr['bookID'] = $this->simpleExtract($dd, 'hasBookChapter');
+        $dr['bookID'] = $this->simpleExtractID($dd, 'hasBookChapter');
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
         if ($year != null) {
@@ -1065,6 +1065,23 @@ class RDFmetadata extends Model
                     foreach ($lang as $lg) {
                         if (isset($line[$lg])) {
                             $rsp = key($line[$lg][0]);
+                            return ($rsp);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function simpleExtractID($dt, $class)
+    {
+        $lang = $this->langPref();
+        if (isset($dt[$class])) {
+            foreach ($dt as $nn => $line) {
+                if ($nn == $class) {
+                    foreach ($lang as $lg) {
+                        if (isset($line[$lg])) {
+                            $rsp = $line[$lg][0];
                             return ($rsp);
                         }
                     }
