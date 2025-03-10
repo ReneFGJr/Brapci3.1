@@ -56,6 +56,7 @@ class RDFmetadata extends Model
             'hasCover' => [],
             'hasSectionOf' => [],
             'hasAuthor' => [],
+            'hasOrganizator' => [],
         ];
 
         $da = $dt['data'];
