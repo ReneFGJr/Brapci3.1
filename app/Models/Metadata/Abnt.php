@@ -334,6 +334,7 @@ class Abnt extends Model
 		if (strpos($sx, 'et al.')) {
 			$sx = troca($sx,'(Org.)',''). ' (Orgs.). ';
 		}
+		$sx = troca($sx,' ;',';');
 
 		if (isset($dt['title'])) {
 			$sx .= '<b>' . $dt['title'] . '</b>. ';
