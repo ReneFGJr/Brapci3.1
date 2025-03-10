@@ -353,6 +353,7 @@ class Abnt extends Model
 
 	function abnt_bookchapter($dt)
 	{
+		pre($dt);
 		$sx = '';
 		$sx .= $this->authors($dt);
 
