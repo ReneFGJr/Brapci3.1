@@ -779,7 +779,7 @@ class RDFmetadata extends Model
         $dr['description'] = troca((string)$this->simpleExtract($dd, 'hasAbstract'), "\n", '');
         $dr['description'] = troca($dr['description'], "\r", '');
         $dr['subject']['pt'] = $this->arrayExtract($dd, 'hasSubject');
-        $dt['book'] = $this->simpleExtract($dd, 'hasBookChapter');
+        $dr['bookID'] = $this->simpleExtract($dd, 'hasBookChapter');
 
         $year = $this->simpleExtract($dd, 'wasPublicationInDate');
         if ($year != null) {
