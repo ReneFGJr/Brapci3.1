@@ -404,6 +404,7 @@ class Abnt extends Model
 			$authors = '';
 			if ($total <= 3) {
 				foreach ($dt['creator_author'] as $idk => $line) {
+					pre($line,false);
 					if ($authors != '') {
 						$authors .= '; ';
 					}
