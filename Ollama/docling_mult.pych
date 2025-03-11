@@ -16,6 +16,7 @@ def main():
 
     input_doc_path = Path("./docs/309177.pdf")
     output_dir = Path("txt")
+    print("Lendo arquivo")
 
     # Important: For operating with page images, we must keep them, otherwise the DocumentConverter
     # will destroy them for cleaning up memory.
@@ -100,4 +101,5 @@ def main():
     # dataset = dataset.map(transforms)
 
     if __name__ == "__main__":
+        print("Convertendo")
         main()
