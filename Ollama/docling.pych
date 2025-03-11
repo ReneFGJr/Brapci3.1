@@ -16,4 +16,5 @@ doc_filename = '309177'
 
 # Export Deep Search document JSON format:
 with (output_dir / f"{doc_filename}.json").open("w", encoding="utf-8") as fp:
-    fp.write(json.dumps(txt))
+    #fp.write(json.dumps(txt))
+    fp.write(txt)
