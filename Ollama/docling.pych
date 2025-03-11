@@ -1,8 +1,19 @@
 from docling.document_converter import DocumentConverter
+from pathlib import Path
+import json
 
 #
 # source = "https://arxiv.org/pdf/2408.09869"  # document per local path or URL
 source = 'docs/309177.pdf'
 converter = DocumentConverter()
 result = converter.convert(source)
-print(result.document.export_to_markdown())  # output: "## Docling Technical Report[..
+txt = result.document.export_to_markdown()
+
+## Export results
+output_dir = Path("txt")
+output_dir.mkdir(parents=True, exist_ok=True)
+doc_filename = '309177'
+
+# Export Deep Search document JSON format:
+with (output_dir / f"{doc_filename}.json").open("w", encoding="utf-8") as fp:
+    fp.write(json.dumps(txt))
