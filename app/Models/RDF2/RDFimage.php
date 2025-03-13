@@ -162,10 +162,10 @@ class RDFimage extends Model
             $dt['Lang'] = 'nn';
             $dt['Class'] = $Class;
 
-            return $dt;
-
             $IDC = $RDFconcept->createConcept($dt);
             $RSP['IDC'] = $IDC;
+
+            return $RSP;
 
             /************************** Incula Imagem com Conceito */
             $RDFdata->register($ID, get("property"), $IDC, 0);
