@@ -164,6 +164,7 @@ class RDFimage extends Model
 
             $IDC = $RDFconcept->createConcept($dt);
             $RSP['IDC'] = $IDC;
+            $RSP['data'] = $dt;
 
             return $RSP;
 
