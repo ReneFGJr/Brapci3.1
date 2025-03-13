@@ -138,6 +138,7 @@ class RDFimage extends Model
     function saveImageClass($ID,$Class,$prop,$file)
         {
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
+            $RDFconcept = new \App\Models\RDF2\RDFconcept();
             $RDFdata = new \App\Models\RDF2\RDFdata();
             $RDFproperty = new \App\Models\RDF2\RDFproperty();
             $propID = $RDFproperty->getProperty($prop);
@@ -161,8 +162,6 @@ class RDFimage extends Model
             $dt['Lang'] = 'nn';
             $dt['Class'] = $Class;
 
-            return $dt;
-
             $IDC = $RDFconcept->createConcept($dt);
             $RSP['IDC'] = $IDC;
 
@@ -179,14 +178,13 @@ class RDFimage extends Model
             $RDFdata->register($IDC, 'hasContentType', $idt, 0);
 
             /***************************************** Literal Directory */
-            $name = $dire;
+            $dir = $this->directory($IDC);
+            $name = $dir;
             $prop = 'hasFileDirectory';
             $lang = 'nn';
             $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
             /***************************************** Literal hasFileName */
-            $dir = $this->directory($ID);
-
             $fileName = $dir.$dest;
 
             $name = $fileName;
@@ -195,15 +193,17 @@ class RDFimage extends Model
             $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
             /***************************************** Literal hasFileName */
-            $name = $size;
+            $name = filesize($file);
             $prop = 'hasFileSize';
             $lang = 'nn';
             $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
 
-            copy($file, $defileNamest);
-            //unlink($file);
+            copy($file, $fileName);
+            unlink($file);
 
+            $ddn = [];
+            $ddn['n_name'] = PATH. $fileName;
             $RDFliteral->set($ddn)->where('n_name',$dest)->update();
 
             return $RSP;
