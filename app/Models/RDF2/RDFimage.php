@@ -44,6 +44,17 @@ class RDFimage extends Model
         $RDF = new \App\Models\RDF2\RDF();
         $picture = base_url('/img/genre/no_image_she_he.jpg');
 
+        $ph = [];
+
+        foreach($dt['data'] as $id => $line)
+            {
+                if ($line['Property'] == 'hasPhoto')
+                    {
+                        $ph = $line;
+                        pre($line);
+                    }
+            }
+
         pre($dt);
 
         return $picture;
