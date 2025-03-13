@@ -60,6 +60,15 @@ class RDFimage extends Model
                                         return $file;
                                     }
                             }
+
+                        pre($dt);
+
+                        foreach ($dtd['data'] as $id => $line2) {
+                            if ($line2['Property'] == 'hasFileName') {
+                                $file = base_url($line2['Caption']);
+                                return $file;
+                            }
+                        }
                     }
             }
         return $picture;
