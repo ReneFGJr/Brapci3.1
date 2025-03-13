@@ -206,6 +206,8 @@ class RDFimage extends Model
             $ddn['n_name'] = PATH. $fileName;
             $RDFliteral->set($ddn)->where('n_name',$dest)->update();
 
+            $RDFdata->register($ID, $propID, 0, $IDC);
+
             return $RSP;
         }
 
