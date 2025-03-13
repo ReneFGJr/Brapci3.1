@@ -69,10 +69,10 @@ class RDFimage extends Model
                 $genre = base_url($line['Caption']);
                 switch($genre)
                     {
-                        case 'Female':
+                        case 'Feminino':
                             $picture = base_url('/img/genre/no_image_she.jpg');
                             break;
-                        case 'male':
+                        case 'Masculino':
                             $picture = base_url('/img/genre/no_image_he.jpg');
                             break;
                     }
