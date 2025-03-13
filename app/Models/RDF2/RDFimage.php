@@ -77,7 +77,17 @@ class RDFimage extends Model
             $propID = $RDFproperty->getProperty($prop);
             $dir = $this->directory($ID);
             $ext = $this->fileType($file);
-            $dest = $dir . 'image'.$ext;
+
+            switch($prop)
+                {
+                    case 'hasPhoto':
+                        $dest = $dir . 'photo'.$ext;
+                        break;
+                    default:
+                        $dest = $dir . 'image'.$ext;
+                        break;
+                }
+
 
             /**************************** Literal */
             $idn = $RDFliteral->register('https://cip.brapci.inf.br/'.$dest, 'nn');

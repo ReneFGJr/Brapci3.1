@@ -122,6 +122,9 @@ class Rdf extends Model
                         case "bookCover":
                             $RSP = $RDFimage->saveImageRDF($ID,'hasCover',$file);
                             break;
+                        case "facePhoto":
+                            $RSP = $RDFimage->saveImageRDF($ID, 'hasPhoto', $file);
+                            break;
                         case 'pdfFile':
                             $RSP = $RDFfile->savePDF($ID, 'hasFileStorage',$file);
                             break;
