@@ -201,7 +201,7 @@ class RDFimage extends Model
             $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
 
-            copy($file, $fileName);
+            copy($file, 'public/'.$fileName);
             unlink($file);
 
             return $RSP;
