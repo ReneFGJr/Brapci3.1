@@ -57,15 +57,11 @@ class RDFimage extends Model
                                 if ($line2['Property'] == 'hasFileName')
                                     {
                                         $file = base_url($line2['Caption']);
+                                        return $file;
                                     }
                             }
-                        $img = $file;
-                        pre($img);
                     }
             }
-
-        pre($dt);
-
         return $picture;
     }
 
