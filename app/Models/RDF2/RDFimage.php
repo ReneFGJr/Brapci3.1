@@ -162,6 +162,8 @@ class RDFimage extends Model
             $dt['Lang'] = 'nn';
             $dt['Class'] = $Class;
 
+            return $dt;
+
             $IDC = $RDFconcept->createConcept($dt);
             $RSP['IDC'] = $IDC;
 
