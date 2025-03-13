@@ -63,12 +63,19 @@ class RDFimage extends Model
                     }
             }
 
-        pre($dt);
         /* Sem Imagem, só o genero */
         foreach ($dt['data'] as $id => $line) {
-            if ($line2['Property'] == 'hasFileName') {
-                $file = base_url($line2['Caption']);
-                return $file;
+            if ($line['Property'] == 'hasGender') {
+                $genre = base_url($line['Caption']);
+                switch($genre)
+                    {
+                        case '':
+                            $picture = base_url('/img/genre/no_image_she.jpg');
+                            break;
+                        case '':
+                            $picture = base_url('/img/genre/no_image_he.jpg');
+                            break;
+                    }
             }
         }
         return $picture;
