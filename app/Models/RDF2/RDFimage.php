@@ -62,12 +62,152 @@ class RDFimage extends Model
             case 'image/gif':
                 $ext = '.gif';
                 break;
+            case 'text/plain':
+                $ext = '.txt';
+                break;
+            case 'application/pdf':
+                $ext = '.pdf';
+                break;
+            case 'application/epub+zip':
+                $ext = '.epub';
+                break;
+            case 'application/zip':
+                $ext = '.zip';
+                break;
+            case 'application/x-rar':
+                $ext = '.rar';
+                break;
+            case 'application/msword':
+                $ext = '.doc';
+                break;
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                $ext = '.docx';
+                break;
+            case 'application/vnd.ms-excel':
+                $ext = '.xls';
+                break;
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                $ext = '.xlsx';
+                break;
+            case 'application/vnd.ms-powerpoint':
+                $ext = '.ppt';
+                break;
+            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+                $ext = '.pptx';
+                break;
+            case 'application/vnd.oasis.opendocument.text':
+                $ext = '.odt';
+                break;
+            case 'application/vnd.oasis.opendocument.spreadsheet':
+                $ext = '.ods';
+                break;
+            case 'application/vnd.oasis.opendocument.presentation':
+                $ext = '.odp';
+                break;
+            case 'application/vnd.oasis.opendocument.graphics':
+                $ext = '.odg';
+                break;
+            case 'application/vnd.oasis.opendocument.formula':
+                $ext = '.odf';
+                break;
+            case 'application/vnd.oasis.opendocument.chart':
+                $ext = '.odc';
+                break;
+            case 'application/vnd.oasis.opendocument.image':
+                $ext = '.odi';
+                break;
+            case 'application/vnd.oasis.opendocument.text-master':
+                $ext = '.odm';
+                break;
+            case 'application/vnd.oasis.opendocument.text-web':
+                $ext = '.odt';
+                break;
+            case 'application/vnd.oasis.opendocument.text-template':
+                $ext = '.ott';
+                break;
+            case 'application/rtf':
+                $ext = '.rdf';
+                break;
             default:
                 $ext = '.xxx';
                 break;
         }
         return $ext;
     }
+
+    function saveImageClass($ID,$Class,$prop,$file)
+        {
+            $RDFliteral = new \App\Models\RDF2\RDFliteral();
+            $RDFdata = new \App\Models\RDF2\RDFdata();
+            $RDFproperty = new \App\Models\RDF2\RDFproperty();
+            $propID = $RDFproperty->getProperty($prop);
+
+            switch($Class)
+                {
+                    case 'Photo':
+                        $dest = 'photo_'.strzero($ID,8).$ext;
+                        $Class = "FacePhoto";
+                        break;
+                    default:
+                        $dest = 'image' . strzero($ID, 8).$ext;
+                        $Class = "Image";
+                        break;
+                }
+
+            /* Create concept */
+            $dt = [];
+            $dt['Name'] = $dest;
+            $dt['Lang'] = 'nn';
+            $dt['Class'] = $Class;
+
+            return $dt;
+
+            $IDC = $RDFconcept->createConcept($dt);
+            $RSP['IDC'] = $IDC;
+
+            /************************** Incula Imagem com Conceito */
+            $RDFdata->register($ID, get("property"), $IDC, 0);
+
+            /***************************************** ContentType */
+            $dt = [];
+            $type = mime_content_type($file);
+            $dt['Name'] = $type;
+            $dt['Lang'] = 'nn';
+            $dt['Class'] = 'ContentType';
+            $idt = $RDFconcept->createConcept($dt);
+            $RDFdata->register($IDC, 'hasContentType', $idt, 0);
+
+            /***************************************** Literal Directory */
+            $name = $dire;
+            $prop = 'hasFileDirectory';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+
+            /***************************************** Literal hasFileName */
+            $dir = $this->directory($ID);
+            $ext = $this->fileType($file);
+
+            $fileName = $dir.$dest;
+
+            $name = $fileName;
+            $prop = 'hasFileName';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+
+            /***************************************** Literal hasFileName */
+            $name = $size;
+            $prop = 'hasFileSize';
+            $lang = 'nn';
+            $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+
+
+            copy($file, $defileNamest);
+            //unlink($file);
+
+            $RDFliteral->set($ddn)->where('n_name',update();
+
+            return $RSP;
+        }
 
     function saveImageRDF($ID,$prop,$file)
         {
@@ -81,6 +221,7 @@ class RDFimage extends Model
             switch($prop)
                 {
                     case 'hasPhoto':
+                        return $this->saveImageClass($ID,'Photo',$prop,$file);
                         $dest = $dir . 'photo'.$ext;
                         break;
                     default:
