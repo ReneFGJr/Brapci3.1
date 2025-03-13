@@ -58,12 +58,8 @@ class RDFimage extends Model
                                     {
                                         $file = base_url($line2['Caption']);
                                     }
-                                if ($line2['Property'] == 'hasFileDirectory')
-                                    {
-                                        $dir = $line2['Caption'];
-                                    }
                             }
-                        $img = $dir.$file;
+                        $img = $file;
                         pre($img);
                     }
             }
