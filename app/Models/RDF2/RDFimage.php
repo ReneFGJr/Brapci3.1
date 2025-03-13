@@ -166,10 +166,8 @@ class RDFimage extends Model
             $RSP['IDC'] = $IDC;
             $RSP['data'] = $dt;
 
-            return $RSP;
-
             /************************** Incula Imagem com Conceito */
-            $RDFdata->register($ID, get("property"), $IDC, 0);
+            $RDFdata->register($ID, $prop, $IDC, 0);
 
             /***************************************** ContentType */
             $dt = [];
@@ -194,6 +192,7 @@ class RDFimage extends Model
             $prop = 'hasFileName';
             $lang = 'nn';
             $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
+            $RSP['fileName'] = $fileName;
 
             /***************************************** Literal hasFileName */
             $name = filesize($file);
@@ -204,12 +203,6 @@ class RDFimage extends Model
 
             copy($file, $fileName);
             unlink($file);
-
-            $ddn = [];
-            $ddn['n_name'] = PATH. $fileName;
-            $RDFliteral->set($ddn)->where('n_name',$dest)->update();
-
-            $RDFdata->register($ID, $propID, 0, $IDC);
 
             return $RSP;
         }
