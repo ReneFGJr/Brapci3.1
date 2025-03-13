@@ -50,8 +50,9 @@ class RDFimage extends Model
             {
                 if ($line['Property'] == 'hasPhoto')
                     {
-                        $ph = $line;
-                        pre($line);
+                        $ID = $line['ID'];
+                        $dtd = $RDF->le($ID);
+                        pre($dtd);
                     }
             }
 
