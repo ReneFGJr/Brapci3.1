@@ -200,8 +200,9 @@ class RDFimage extends Model
             $lang = 'nn';
             $RDFconcept->registerLiteral($IDC, $name, $lang, $prop);
 
+            $RDP['fileO'] = $file;
 
-            copy($file, 'public/'.$fileName);
+            copy($file, $fileName);
             unlink($file);
 
             return $RSP;
