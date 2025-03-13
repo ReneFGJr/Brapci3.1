@@ -40,7 +40,7 @@ class RDFimage extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function getPhoto($ID) {
+    function getPhoto($dt) {
         $RDF = new \App\Models\RDF2\RDF();
         $picture = base_url('/img/genre/no_image_she_he.jpg');
 
