@@ -52,7 +52,19 @@ class RDFimage extends Model
                     {
                         $ID = $line['ID'];
                         $dtd = $RDF->le($ID);
-                        pre($dtd);
+                        foreach ($dtd['data'] as $id => $line2)
+                            {
+                                if ($line2['Property'] == 'hasFileName')
+                                    {
+                                        $file = base_url($line2['Caption']);
+                                    }
+                                if ($line2['Property'] == 'hasFileDirectory')
+                                    {
+                                        $dir = $line2['Caption'];
+                                    }
+                            }
+                        $img = $dir.$file;
+                        pre($img);
                     }
             }
 
