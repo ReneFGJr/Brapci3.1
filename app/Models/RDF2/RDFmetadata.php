@@ -242,6 +242,7 @@ class RDFmetadata extends Model
 
         /************************************** Photo */
         $RDFImage = new \App\Models\RDF2\RDFimage();
+        pre($dr);
         $Photo = $RDFImage->getPhoto($dr['ID']);
 
         /************************************** Data */
