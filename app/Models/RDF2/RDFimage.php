@@ -67,6 +67,7 @@ class RDFimage extends Model
         foreach ($dt['data'] as $id => $line) {
             if ($line['Property'] == 'hasGender') {
                 $genre = base_url($line['Caption']);
+                pre($genre);
                 switch($genre)
                     {
                         case 'Feminino':
