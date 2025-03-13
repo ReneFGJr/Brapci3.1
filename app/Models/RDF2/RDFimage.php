@@ -141,6 +141,7 @@ class RDFimage extends Model
             $RDFdata = new \App\Models\RDF2\RDFdata();
             $RDFproperty = new \App\Models\RDF2\RDFproperty();
             $propID = $RDFproperty->getProperty($prop);
+            $ext = $this->fileType($file);
 
             switch($Class)
                 {
@@ -185,7 +186,6 @@ class RDFimage extends Model
 
             /***************************************** Literal hasFileName */
             $dir = $this->directory($ID);
-            $ext = $this->fileType($file);
 
             $fileName = $dir.$dest;
 
@@ -204,7 +204,7 @@ class RDFimage extends Model
             copy($file, $defileNamest);
             //unlink($file);
 
-            $RDFliteral->set($ddn)->where('n_name',update();
+            $RDFliteral->set($ddn)->where('n_name',$dest)->update();
 
             return $RSP;
         }
