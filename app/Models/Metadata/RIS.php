@@ -139,7 +139,7 @@ class RIS extends Model
             $sx .= $content . chr(13);
         }
         $sx .= chr(13);
-        $sx = utf8_encode($sx);
+        $sx = ascii($sx);
         return $sx;
     }
 

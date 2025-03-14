@@ -387,12 +387,16 @@ class Index extends Model
 	/*************************************** EXPORT TO CSV */
 	function export($type)
 	{
+		$tp = 'csv';
 		switch ($type) {
 			case 'doc':
 				$tp='doc';
 				break;
 			case 'ris':
 				$tp = 'ris';
+				break;
+			case 'bibtex':
+				$tp = 'bibtex';
 				break;
 			case 'csv':
 				$begin = '';
@@ -445,6 +449,13 @@ class Index extends Model
 				foreach ($dt as $id => $line) {
 					$data = (array)json_decode($line['json']);
 					$sx .= $RIS->short($data).chr(13);
+				}
+				break;
+			case 'bibtex':
+				$Bibtex = new \App\Models\Metadata\Bibtex();
+				foreach ($dt as $id => $line) {
+					$data = (array)json_decode($line['json']);
+					$sx .= $Bibtex->short($data) . chr(13);
 				}
 				break;
 			case 'doc':
