@@ -70,7 +70,7 @@ class Bibtex extends Model
 			$authors = array_map(function ($author) {
 				return nbr_author($author, 2);
 			}, $ln['Authors']);
-			$bibtex .= "  author = {" . implode(' and ', $authors) . "},\n";
+			$bibtex .= "  author = {" . implode('; ', $authors) . "},\n";
 		}
 
 		// Title
