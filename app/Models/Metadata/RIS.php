@@ -88,7 +88,7 @@ class RIS extends Model
             array_push($RSP, 'JO  - ' . $Issue['journal']);
 
             //array_push($RSP, 'UR  - ' . 'https://brapci.inf.br/#v/' . $ln['ID']);
-            array_push($RSP, 'UR  - ' . 'https://handle.net/20.500.11959/brapci/' . $ln['ID']);
+            array_push($RSP, 'UR  - ' . 'https://hdl.handle.net/20.500.11959/brapci/' . $ln['ID']);
 
             /* Volume */
             if ((isset($Issue['vol'])) and ($Issue['vol'] != '')) {
@@ -139,6 +139,7 @@ class RIS extends Model
             $sx .= $content . chr(13);
         }
         $sx .= chr(13);
+        $sx = utf8_encode($sx);
         return $sx;
     }
 
