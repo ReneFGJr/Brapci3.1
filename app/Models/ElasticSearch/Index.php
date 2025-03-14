@@ -458,6 +458,13 @@ class Index extends Model
 					$sx .= $Bibtex->short($data) . chr(13);
 				}
 				break;
+			case 'ID':
+				$Bibtex = new \App\Models\Metadata\Bibtex();
+				foreach ($dt as $id => $line) {
+					$data = (array)json_decode($line['json']);
+					pre($data);
+				}
+				break;
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
 				foreach($dt as $id=>$line)
