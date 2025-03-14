@@ -389,6 +389,9 @@ class Index extends Model
 	{
 		$tp = 'csv';
 		switch ($type) {
+			case 'ID':
+				$tp = 'id';
+				break;
 			case 'doc':
 				$tp='doc';
 				break;
@@ -458,7 +461,7 @@ class Index extends Model
 					$sx .= $Bibtex->short($data) . chr(13);
 				}
 				break;
-			case 'ID':
+			case 'id':
 				$Bibtex = new \App\Models\Metadata\Bibtex();
 				foreach ($dt as $id => $line) {
 					$data = (array)json_decode($line['json']);
