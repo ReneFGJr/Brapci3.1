@@ -464,6 +464,8 @@ class Index extends Model
 					$data = (array)json_decode($line['json']);
 					pre($data);
 				}
+				echo "OK";
+				exit;
 				break;
 			case 'doc':
 				$ABNT = new \App\Models\Metadata\Abnt();
