@@ -60,29 +60,23 @@ class Download extends Model
         $RSP['status'] = '404';
         $RSP['message'] = 'File not found';
 
-        if (file_exists($file))
+        $fileMD = troca($file, '.pdf', '.md');
+        $fileTXT = troca($file, '.pdf', '.txt');
+
+        if (file_exists($fileMD))
             {
-                $fileTXT = troca($file,'.pdf','.txt');
-                if (file_exists($fileTXT))
-                    {
-                        $RSP['fileTXTexiste'] = "OK";
-                    } else {
-                        $RSP['fileTXTexiste'] = "OFF";
-                    }
-            } else {
-                return $RSP;
+                $TXT = file_get_contents($fileMD);
+                $file = $fileMD;
+            }
+        else if (file_exists($file))
+            {
+                $TXT = shell_exec('pdftotext '.$file.' '.$fileTXT);
+                $file = $fileTXT;
             }
 
             $RSP['status'] = '200';
             $RSP['message'] = 'Success';
             $RSP['file'] = $file;
-            $RSP['fileTXT'] = $fileTXT;
-            if (file_exists($fileTXT))
-                {
-                    $TXT = file_get_contents($fileTXT);
-                } else {
-                    $TXT = '';
-                }
             $RSP['full'] = $TXT;
             //$RSP['line'] = $this->explode_line($RSP['full']);
             return $RSP;
