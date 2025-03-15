@@ -8,7 +8,7 @@ def saveFileD(source):
     source_path = Path(source)
 
     if not source_path.exists():
-        print(f"Error: File '{source}' does not exist.")
+        print(f"Arquivo ja existe '{source}'")
         return
 
     # Create output filename
