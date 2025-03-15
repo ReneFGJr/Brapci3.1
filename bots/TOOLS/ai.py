@@ -12,6 +12,7 @@ import ai_cited
 import ai_keywords
 import ai_section
 import mod_convert_repository
+import mod_docling
 
 def version():
     return "v0.24.10.27"
@@ -87,11 +88,21 @@ if (act == 'All'):
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
     sys.exit()
+
+elif (act == 'docling'):
+    print("Extrair e-mail")
+    print("==>",fileO)
+    sys.exit()
+    lists = mod_docling.convert_md(txt)
+    fileN = fileO.replace('.pdf','_email.json')
+    saveFileD(fileN,lists)
+
 elif (act == 'email'):
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
     fileN = fileO.replace('.pdf','_email.json')
     saveFileD(fileN,lists)
+
 elif (act == 'url'):
     print("Extrair URL")
     lists = ai_url.extrair_urls(txt)
