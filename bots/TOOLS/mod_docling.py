@@ -12,8 +12,6 @@ def saveFileD(source):
 
     ## Export results
     doc_filename = source.replace('.pdf','.md')
-    print("FILE",doc_filename)
-    sys.exit()
 
     # Export Deep Search document JSON format:
     print("Exporting Deep Search document JSON format...")
