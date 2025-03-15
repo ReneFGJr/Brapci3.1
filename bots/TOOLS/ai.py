@@ -90,12 +90,8 @@ if (act == 'All'):
     sys.exit()
 
 elif (act == 'docling'):
-    print("Extrair e-mail")
-    print("==>",fileO)
-    sys.exit()
-    lists = mod_docling.convert_md(txt)
-    fileN = fileO.replace('.pdf','_email.json')
-    saveFileD(fileN,lists)
+    print("Extrair Markdown")
+    lists = mod_docling.saveFileD(fileO)
 
 elif (act == 'email'):
     print("Extrair e-mail")
