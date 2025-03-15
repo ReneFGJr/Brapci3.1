@@ -8,13 +8,13 @@ def saveFileD(source):
     source_path = Path(source)
 
     if not source_path.exists():
-        print(f"Arquivo ja existe '{source}'")
+        print(f"Error: File '{source}' does not exist.")
         return
 
     # Create output filename
     doc_filename = source_path.with_suffix('.md')
     if doc_filename.exists():
-        print(f"Error: File '{doc_filename}' already exists.")
+        print(f"Arquivo ja existe '{doc_filename}'")
         return
 
     # Initialize converter
