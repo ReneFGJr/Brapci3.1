@@ -159,7 +159,6 @@ class RDFdata extends Model
 
         $dt = array_merge($dtA, $dtB, $dtC);
         $dt = $this->auxiliar($dt);
-        pre($dt);
         return $dt;
     }
 
