@@ -145,5 +145,5 @@ elif (act == 'keywords'):
     saveFileD(fileN,lists)
 else:
     print("Ação não localizada")
-    print("email,url,doi,handle,metadata,cited,section,keywords")
+    print("email, url, doi, handle, metadata, cited, section, keywords, docling")
     sys.exit()
