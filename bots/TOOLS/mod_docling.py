@@ -34,7 +34,3 @@ def saveFileD(source):
 
     except Exception as e:
         print(f"Error during conversion: {e}")
-
-# Example usage
-
-saveFileD('/data/Brapci3.1/public/_repository/00/19/94/74/work_00199474#00000.pdf')
