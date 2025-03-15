@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Base;
+helper('markdown');
 
 use CodeIgniter\Model;
 
@@ -65,7 +66,7 @@ class Download extends Model
 
         if (file_exists($fileMD))
             {
-                $TXT = file_get_contents($fileMD);
+                $TXT = markdown_to_html(file_get_contents($fileMD));
                 $file = $fileMD;
             }
         else if (file_exists($file))
