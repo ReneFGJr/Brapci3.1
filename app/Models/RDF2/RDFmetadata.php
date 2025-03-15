@@ -1018,8 +1018,6 @@ class RDFmetadata extends Model
                 }
             }
         }
-        pre($dt);
-        pre($RSP);
         return $RSP;
     }
 
