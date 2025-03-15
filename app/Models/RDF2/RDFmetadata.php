@@ -770,6 +770,7 @@ class RDFmetadata extends Model
         $dr['title'] = troca((string)$this->simpleExtract($dd, 'hasTitle'), "\n", '');
         $dr['title'] = troca($dr['title'], "\r", '');
         $dr['creator_author'] = [];
+
         $dr['Authors'] = '';
         if (isset($dd['hasOrganizator'])) {
             $dr['creator_author'] = $this->arrayExtract($dd, 'hasOrganizator', '(org.)');
@@ -1017,6 +1018,8 @@ class RDFmetadata extends Model
                 }
             }
         }
+        pre($dt);
+        pre($RSP);
         return $RSP;
     }
 
