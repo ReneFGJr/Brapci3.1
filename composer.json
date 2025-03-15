@@ -14,6 +14,7 @@
         "ext-intl": "*",
         "ext-mbstring": "*",
         "endroid/qr-code": "^5.1",
+        "erusev/parsedown": "^1.7",
         "laminas/laminas-escaper": "^2.13",
         "psr/log": "^3.0",
         "setasign/fpdf": "^1.8"
