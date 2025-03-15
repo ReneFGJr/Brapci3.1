@@ -15,9 +15,9 @@ def saveFileD(source):
 
     # Export Deep Search document JSON format:
     print("Exporting Deep Search document JSON format...")
-    print(f"{doc_filename}.json")
+    print(f"{doc_filename}")
 
-    with (f"{doc_filename}.json").open("w", encoding="utf-8") as fp:
+    with (f"{doc_filename}").open("w", encoding="utf-8") as fp:
         #fp.write(json.dumps(txt))
         fp.write(txt)
 
