@@ -14,5 +14,4 @@ bots/ROBOTi/env.py
 .Google.json
 *.pyc
 .env
-*.py
 *.weights
