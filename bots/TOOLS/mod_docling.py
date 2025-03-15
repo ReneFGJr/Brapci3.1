@@ -11,15 +11,18 @@ def saveFileD(source):
         print(f"Error: File '{source}' does not exist.")
         return
 
+    # Create output filename
+    doc_filename = source_path.with_suffix('.md')
+    if doc_filename.exists():
+        print(f"Error: File '{doc_filename}' already exists.")
+        return
+
     # Initialize converter
     converter = DocumentConverter()
 
     try:
         result = converter.convert(str(source_path))
         txt = result.document.export_to_markdown()
-
-        # Create output filename
-        doc_filename = source_path.with_suffix('.md')
 
         # Export Markdown file
         print(f"Exporting Deep Search document JSON format to {doc_filename}")

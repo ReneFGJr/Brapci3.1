@@ -56,6 +56,9 @@ fileO = file
 print("=fileO=>",file)
 
 if (act == 'All'):
+    print("Gerar Markdown")
+    mod_docling.saveFileD(fileO)
+
     print("Extrair e-mail")
     lists = ai_email.extrair_emails(txt)
     fileN = fileO.replace('.pdf','_email.json')
