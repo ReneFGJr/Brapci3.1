@@ -11,6 +11,7 @@ def limpar_sessoes_antigas(diretorio, limite=50000):
     """
     hoje = datetime.now().date()
     arquivos_removidos = 0
+    arquivos_faltantes = 0
 
     try:
         # Lista todos os arquivos que começam com 'ci_session'
@@ -21,26 +22,27 @@ def limpar_sessoes_antigas(diretorio, limite=50000):
 
         for arquivo in arquivos:
             if arquivos_removidos >= limite:
-                break
 
-            caminho_completo = os.path.join(diretorio, arquivo)
+                caminho_completo = os.path.join(diretorio, arquivo)
 
-            if os.path.isfile(caminho_completo):
-                # Obtém a data de criação do arquivo
-                timestamp_criacao = os.path.getctime(caminho_completo)
-                data_criacao = datetime.fromtimestamp(timestamp_criacao).date()
+                if os.path.isfile(caminho_completo):
+                    # Obtém a data de criação do arquivo
+                    timestamp_criacao = os.path.getctime(caminho_completo)
+                    data_criacao = datetime.fromtimestamp(timestamp_criacao).date()
 
-                # Remove se não foi criado hoje
-                if data_criacao != hoje:
-                    os.remove(caminho_completo)
-                    arquivos_removidos += 1
-                    print(
-                        f"Removido ({arquivos_removidos}/{limite}): {arquivo}")
+                    # Remove se não foi criado hoje
+                    if data_criacao != hoje:
+                        os.remove(caminho_completo)
+                        arquivos_removidos += 1
+                        print(
+                            f"Removido ({arquivos_removidos}/{limite}): {arquivo}")
+                else:
+                    arquivos_faltantes = arquivos_faltantes + 1
 
 
 
         print(
-            f"Limpeza concluída. Total de arquivos removidos: {arquivos_removidos}"
+            f"Limpeza concluída. Total de arquivos removidos: {arquivos_removidos} / {arquivos_faltantes}"
         )
 
 
