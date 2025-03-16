@@ -37,6 +37,7 @@ import mod_backup_mysql
 import mod_thesa
 import mod_gender
 import mod_person
+import mod_session
 import mod_statistics
 import socket
 from colorama import Fore
@@ -165,6 +166,11 @@ def run(parm):
         mod_cited.categorizeBook()
         mod_cited.categorizeYear()
         #mod_cited.categorizeCited()
+
+    if (act == 'sessions'):
+        # Chamando a função
+        diretorio_sessoes = "/data/Brapci3.1/writable/session/"
+        mod_session.limpar_sessoes_antigas(diretorio_sessoes)
 
     if (act == 'ontology'):
         mod_concept.UpdateUse()
