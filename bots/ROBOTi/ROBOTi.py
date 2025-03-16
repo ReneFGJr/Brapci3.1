@@ -169,7 +169,7 @@ def run(parm):
 
     if (act == 'sessions'):
         # Chamando a função
-        diretorio_sessoes = "/data/site/.writable/sessions"
+        diretorio_sessoes = "/data/Brapci3.1/writable/session/"
         mod_session.limpar_sessoes_antigas(diretorio_sessoes)
 
     if (act == 'ontology'):
