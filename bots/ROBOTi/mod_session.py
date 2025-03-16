@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 
-def limpar_sessoes_antigas(diretorio, limite=50000):
+def limpar_sessoes_antigas(diretorio, limite=20000):
     """
     Remove até 'limite' arquivos do diretório especificado que começam com 'ci_session'
     e que não foram criados na data atual.
