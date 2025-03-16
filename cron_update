@@ -1,0 +1,9 @@
+cp cron.a bots/ROBOTi/.
+cp cron.b bots/ROBOTi/.
+cp cron.c bots/ROBOTi/.
+cp cron.d bots/ROBOTi/.
+cp cron.e bots/ROBOTi/.
+cp cron.f bots/ROBOTi/.
+cd bots
+cd ROBOTi
+chmod +x cron.*
