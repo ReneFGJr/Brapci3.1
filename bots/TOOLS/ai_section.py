@@ -36,6 +36,7 @@ GT_MODALIDADE = {
     'Modalidade da Apresentação: Comunicação Oral':'Trabalho Completo',
     'Modalidade da apresentação: Comunicação Oral':'Trabalho Completo',
     'Modalidade de apresentação: Comunicação Oral':'Trabalho Completo',
+    'Modalidade de apresentação: Comunicação oral':'Trabalho Completo',
     'Modalidade: Pecha Kucha':'Pecha Kucha',
     'Comunicação Oral\n':'Trabalho Completo',
     'Pôster\n':'Pôster',
