@@ -1,0 +1,2 @@
+cd /data/Brapci3.1/
+cp cron.* /data/Brapci3.1/bots/ROBOTi/.

@@ -1,0 +1,3 @@
+mkdir /backup/site/
+cd /data/Brapci3.1
+cp * /backup/site/. -R -v -u
