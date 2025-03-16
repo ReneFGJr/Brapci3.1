@@ -43,7 +43,7 @@ def limpar_sessoes_antigas(diretorio, limite=50000):
             f"Limpeza concluída. Total de arquivos removidos: {arquivos_removidos}"
         )
         print(
-            f"Total de arquivos restantes para remoção: {len(arquivos_restantes) - arquivos_removidos}"
+            f"Total de arquivos restantes para remoção: {len(arquivos_restantes)}"
         )
 
     except Exception as e:
