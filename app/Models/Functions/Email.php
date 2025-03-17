@@ -42,7 +42,10 @@ class Email extends Model
 
     function test()
     {
+        $email = 'renefgj@gmail.com';
+
         $sx = h('Email de teste', 1);
+        $sx .= '<p>Enviado para '.$email.'</p>';
 
         $sx = bs(bsc($sx, 12));
 
@@ -51,7 +54,8 @@ class Email extends Model
         $txt .= '<img src="cid:$image1" style="width: 600px;">';
         $txt .= h('Hello World!');
         $txt .= '<p>Welcome to Brapci 3.1!</p>';
-        $this->sendmail('renefgj@gmail.com', 'E-mail de teste', $txt);
+        //$this->sendmail($email, , $txt);
+        sendmail($email, 'E-mail de teste', $txt);
         return $sx;
     }
 
