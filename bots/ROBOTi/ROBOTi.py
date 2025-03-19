@@ -42,6 +42,14 @@ import mod_statistics
 import socket
 from colorama import Fore
 
+def logo():
+    print("██████╗  ██████╗ ██████╗  ██████╗ ████████╗" + Fore.BLUE + "██╗" + Fore.WHITE)
+    print("██╔══██╗██╔═══██╗██╔══██╗██╔═══██╗╚══██╔══╝" + Fore.BLUE + "   " + Fore.WHITE)
+    print("██████╔╝██║   ██║██████╔╝██║   ██║   ██║   " + Fore.BLUE + "██║" + Fore.WHITE)
+    print("██╔══██╗██║   ██║██╔══██╗██║   ██║   ██║   " + Fore.BLUE + "██║" + Fore.WHITE)
+    print("██║  ██║╚██████╔╝██████╔╝╚██████╔╝   ██║   " + Fore.BLUE + "██║" + Fore.WHITE)
+    print("╚═╝  ╚═╝ ╚═════╝ ╚═╝      ╚═════╝    ╚═╝   " + Fore.BLUE + "╚═╝" +Fore.WHITE)
+
 def version():
     return "v0.24.04.01"
 
@@ -75,6 +83,7 @@ def auto():
     return ""
 
 def run(parm):
+    print(logo())
     act = parm[1]
     print(Fore.BLUE+"Function: ",act)
     print(Fore.WHITE)
