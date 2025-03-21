@@ -448,7 +448,7 @@ def check_trim():
     for ln in row:
         name = ln[1]
         nameX = name
-        name = name.strip().capitalize()
+        name = name.strip()
         name = name.replace(' :',':')
         name = name.replace(' .','.')
         name = name.replace('::',':')
