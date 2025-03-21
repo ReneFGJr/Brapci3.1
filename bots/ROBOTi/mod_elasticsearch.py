@@ -41,6 +41,7 @@ def ascii(text):
     return text.lower()
 
 def remove_editorial():
+    print("183 - Removendo editoriais")
     lt = ['Editorial','Política editorial','Editorial %','Processo Editorial%',
           'Normas para publicação','Expediente','Expediente %','EDITORIAL, %', 'Normas de Publicação',
           'Apresentação %']
@@ -49,7 +50,6 @@ def remove_editorial():
             qr = f"update brapci_elastic.dataset set status = 2 where TITLE like '{q}' "
         else:
             qr = f"update brapci_elastic.dataset set status = 2 where TITLE = '{q}' "
-        print(qr)
         database.update(qr)
 
 def nbr_author(name, max_authors=7):
