@@ -69,89 +69,96 @@ def detect_encoding(data):
     result = chardet.detect(data)
     return result['encoding']
 
+
 def correct_utf8_encoding(data, IDn):
     try:
-        # Detectar codificação original
-        encoding = chardet.detect(data.encode() if isinstance(data, str) else data)['encoding']
+        # Detectar a codificação
+        if isinstance(data, str):
+            raw_data = data.encode('utf-8',
+                                   errors='ignore')  # já pode estar em str
+        else:
+            raw_data = data
+
+        detected = chardet.detect(raw_data)
+        encoding = detected.get('encoding', 'utf-8')
         print(f"Detected encoding: {encoding}")
 
-        if encoding in ['ascii', 'TIS-620', 'utf-8']:
-            # Decodificar como UTF-8
-            try:
-                corrected_string = data.encode('utf-8').decode('utf-8')
-            except Exception as e:
-                print("Error decoding as UTF-8:", e)
-                return data
+        # Decodifica usando a codificação detectada
+        try:
+            decoded = raw_data.decode(encoding, errors='replace')
+        except Exception as e:
+            print(f"Erro ao decodificar com {encoding}: {e}")
+            decoded = raw_data.decode('utf-8', errors='replace')  # fallback
 
-            # Tratar dupla codificação (caso comum)
-            try:
-                corrected_string = corrected_string.encode('latin1').decode('utf-8')
-            except Exception:
-                pass
+        # Tenta detectar e corrigir dupla codificação
+        try:
+            decoded = decoded.encode('latin1').decode('utf-8')
+        except Exception:
+            pass  # ignora se não for o caso
 
-            # Substituir caracteres problemáticos
-            correction_map = {
-                '[!]': "´",
-                '[a~]': "ã",
-                '[c,]': "ç",
-                '[a3][a3]': "çõ",
-                '[a3]': "a",
-                '[9c]': "",
-                '[aa]': "á",
-                '[oh]': "ó",
-                '[eh]': "é"
-            }
+        # Substituição de padrões conhecidos
+        correction_map = {
+            '[!]': "´",
+            '[a~]': "ã",
+            '[c,]': "ç",
+            '[a3][a3]': "çõ",
+            '[a3]': "a",
+            '[9c]': "",
+            '[aa]': "á",
+            '[oh]': "ó",
+            '[eh]': "é"
+        }
 
-            for key, value in correction_map.items():
-                corrected_string = corrected_string.replace(key, value)
+        for key, value in correction_map.items():
+            decoded = decoded.replace(key, value)
 
-            # Normalizar espaços e outros problemas
-            corrected_string = corrected_string.replace('  ', ' ').strip()
-            corrected_string = corrected_string.replace("'", "´")
-            charset = 'utf-8'
-            # Atualizar no banco de dados se necessário
-            if IDn > 0:
-                query = f"""
-                UPDATE brapci_rdf.rdf_literal
-                SET n_name = '{corrected_string}',
+        # Normaliza caracteres (remove acentos duplicados ou malformados)
+        decoded = unicodedata.normalize('NFKC', decoded)
+
+        # Substituições adicionais e limpeza
+        decoded = decoded.replace("'", "´").replace('  ', ' ').strip()
+
+        charset = 'utf-8'
+
+        # Atualiza no banco de dados
+        if IDn > 0:
+            query = f"""
+            UPDATE brapci_rdf.rdf_literal
+            SET n_name = '{decoded.replace("'", "´")}',
                 n_charset = '{charset}'
-                WHERE id_n = {IDn}
-                """
-                print(query)
-                database.update(query)  # Uncomment if database connection is available
+            WHERE id_n = {IDn}
+            """
+            print(query)
+            # database.update(query)  # descomente se a função de atualização estiver disponível
 
-            return corrected_string if corrected_string else '[VAZIO]'
+        return decoded if decoded else '[VAZIO]'
 
-        elif encoding == 'Windows-1252':
-            return data  # Pode ser tratado se necessário
-
-        return data
-    except UnicodeDecodeError as e:
-        print("UnicodeDecodeError:", e)
+    except Exception as e:
+        print(f"Erro geral na função correct_utf8_encoding: {e}")
         return data
 
 def check_utf8():
-        print("154 - Check UTF8")
-        qr = f"SELECT id_n, n_name FROM brapci_rdf.rdf_literal"
-        qr += " where n_delete = 0 "
-        qr += " and (n_name LIKE '%Ã³%' "
-        qr += " or n_name LIKE '%Ã©%' "
-        qr += " or n_name LIKE '%ã±%' "
-        qr += " or n_name LIKE '%ãº%' "
-        qr += " or n_name LIKE '%ã³%' "
-        qr += " or n_name LIKE '%ã¡%' "
-        qr += " or n_name LIKE '%ã"+chr(128)+"%' "
-        qr += " or n_name LIKE '%ã"+chr(129)+"%' "
-        qr += " or n_name LIKE '%ã"+chr(130)+"%' "
-        qr += " or n_name LIKE '%ã"+chr(157)+"%' "
-        qr += " )"
-        qr += " AND (n_charset = 'NI')"
-        qr += " limit 1000"
-        rows = database.query(qr)
-        for row in rows:
-            original_data = row[1]
-            IDn = row[0]
-            corrected_data = correct_utf8_encoding(original_data,IDn)
+    print("154 - Check UTF8")
+    qr = f"SELECT id_n, n_name FROM brapci_rdf.rdf_literal"
+    qr += " where n_delete = 0 "
+    qr += " and (n_name LIKE '%Ã³%' "
+    qr += " or n_name LIKE '%Ã©%' "
+    qr += " or n_name LIKE '%ã±%' "
+    qr += " or n_name LIKE '%ãº%' "
+    qr += " or n_name LIKE '%ã³%' "
+    qr += " or n_name LIKE '%ã¡%' "
+    qr += " or n_name LIKE '%ã"+chr(128)+"%' "
+    qr += " or n_name LIKE '%ã"+chr(129)+"%' "
+    qr += " or n_name LIKE '%ã"+chr(130)+"%' "
+    qr += " or n_name LIKE '%ã"+chr(157)+"%' "
+    qr += " )"
+    qr += " AND (n_charset = 'NI')"
+    qr += " limit 1000"
+    rows = database.query(qr)
+    for row in rows:
+        original_data = row[1]
+        IDn = row[0]
+        corrected_data = correct_utf8_encoding(original_data,IDn)
 
 def check_utf8_old():
     qr = "select id_n, n_name "
