@@ -128,8 +128,7 @@ def correct_utf8_encoding(data, IDn):
                 n_charset = '{charset}'
             WHERE id_n = {IDn}
             """
-            print(query)
-            # database.update(query)  # descomente se a função de atualização estiver disponível
+            database.update(query)  # descomente se a função de atualização estiver disponível
 
         return decoded if decoded else '[VAZIO]'
 
