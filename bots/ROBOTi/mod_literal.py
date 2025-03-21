@@ -491,7 +491,7 @@ def check_all():
         try:
             n = name2[0]
             if (n > chr(126)):
-                name2 = name2.strip().capitalize()
+                name2 = name2.strip()
                 if name2 != name:
                     save = True
                     print(name2)
