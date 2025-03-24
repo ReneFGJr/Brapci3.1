@@ -17,7 +17,7 @@ import mod_docling
 import database
 
 def toDO():
-    qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = ')"
+    qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = '')"
     row = database.query(qr)
 
     print(row)
