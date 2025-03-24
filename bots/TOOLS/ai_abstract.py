@@ -1,4 +1,5 @@
 import re,sys
+import database
 
 def extract_abstract(text,id):
     text = text.replace(chr(10), ' ')
@@ -8,8 +9,14 @@ def extract_abstract(text,id):
     tam = len(Resumo)
     if (tam > 100) and (tam < 1500):
         print("===>",Resumo)
+        saveAbstract(id,Resumo)
         return Resumo
     sys.exit()
+
+def saveAbstract(id,abstract):
+    qr = f"select * from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
+    row = database.query(qr)
+    print("==>",row)
 
 def extrair_resumo(texto):
     # Expressão regular para capturar o conteúdo entre "Resumo:" e "PALAVRAS-CHAVE"
@@ -26,4 +33,4 @@ def extrair_resumo(texto):
 
 
 #################
-    #resumo_extraido = extrair_resumo(conteudo)
+#resumo_extraido = extrair_resumo(conteudo)
