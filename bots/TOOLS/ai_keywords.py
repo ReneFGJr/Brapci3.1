@@ -22,6 +22,7 @@ def extract_keywords(text,id):
     text = text.replace(',', ';')
     text = text.replace('Palavras-Chave','Palavras-chave')
     text = text.replace('Palavras Chave','Palavras-chave')
+    text = text.replace('PALAVRAS-CHAVE:','Palavras-chave:')
     term = locateAbstract(text)
     keyw = locateKeywords(text)
 
