@@ -4,6 +4,7 @@ cp cron.c bots/ROBOTi/.
 cp cron.d bots/ROBOTi/.
 cp cron.e bots/ROBOTi/.
 cp cron.f bots/ROBOTi/.
+cp cron.backup bots/ROBOTi/.
 cd bots
 cd ROBOTi
 chmod +x cron.*
