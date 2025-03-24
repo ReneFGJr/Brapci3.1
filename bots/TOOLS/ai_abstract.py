@@ -21,7 +21,9 @@ def saveAbstract(id,abstract):
         database.update(qr)
         qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
         row = database.query(qr)
-    print("==>",row)
+    ID = row[0][0]
+    print("==>",ID)
+
 
 def extrair_resumo(texto):
     # Expressão regular para capturar o conteúdo entre "Resumo:" e "PALAVRAS-CHAVE"
