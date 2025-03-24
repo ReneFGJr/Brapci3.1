@@ -3,6 +3,7 @@ import os
 import json
 import sys
 import sys_io
+import database
 
 import ai_email
 import ai_url
@@ -156,4 +157,11 @@ if (len(sys.argv) > 1):
 else:
     id = 309177
     act = 'email'
-Xecute(id, act)
+
+if (act == 'X'):
+    print("Processando todos os itens")
+    qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and ABSTRACT = '' "
+    row = database.query(qr)
+    print(row)
+else:
+    Xecute(id, act)
