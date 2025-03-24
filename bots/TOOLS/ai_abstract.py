@@ -1,5 +1,6 @@
 import re,sys
 import database, mod_rdf
+from colorama import Fore
 
 def extract_abstract(text,id):
     print("=== Analisando Resumo")
@@ -26,6 +27,7 @@ def saveAbstract(id,abstract):
     qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
     row = database.query(qr)
     if row == []:
+        print(Fore.BLUE, "   Resumo salvo", Fore.WHITE)
         qr = f"insert into brapci_rdf.rdf_literal (n_name,n_lang) values ('{abstract}','pt')"
         database.update(qr)
         qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
