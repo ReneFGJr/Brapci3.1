@@ -15,12 +15,13 @@ def extract_abstract(text,id):
 
 def saveAbstract(id,abstract):
     qr = f"select * from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
+    print(qr)
     row = database.query(qr)
     if row == []:
         qr = "insert into brapci_rdf.rdf_literal (n_name,n_lang) values ('{abstract}','pt')"
-        database.update(qr)
+        #database.update(qr)
         qr = f"select * from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
-        row = database.query(qr)
+        #row = database.query(qr)
     print("==>",row)
 
 def extrair_resumo(texto):
