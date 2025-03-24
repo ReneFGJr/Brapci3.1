@@ -59,6 +59,7 @@ print("=fileO=>",file)
 
 if (act == 'All'):
     print("<h4>Gerar Markdown</h4>")
+    print(" Processoando ID",id)
     mod_docling.saveFileD(fileO)
 
     print("Extrair e-mail")
