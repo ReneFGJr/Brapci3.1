@@ -14,11 +14,12 @@ def extract_abstract(text,id):
     sys.exit()
 
 def saveAbstract(id,abstract):
+    print("=== Analisando Resumo")
     Prop = 86
     qr = f"select * form brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop})"
     row = database.query(qr)
     if row != []:
-        print("==>",row)
+        print("     Resumo já existe==>",row)
         return
 
     qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
