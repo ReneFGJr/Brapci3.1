@@ -14,7 +14,12 @@ import ai_section
 import ai_abstract
 import mod_convert_repository
 import mod_docling
+import database
 
+def toDO():
+    qr = "select * from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = ')"
+    row = database.query(qr)
+    print(row)
 
 def version():
     return "v0.24.10.27"
@@ -95,6 +100,10 @@ if (act == 'All'):
     saveFileD(fileN,lists)
     lists = ai_abstract.extract_abstract(txt, id)
     sys.exit()
+
+elif (act == 'X'):
+    print("Extrair Trabalhos")
+    lists = toDO()
 
 elif (act == 'docling'):
     print("Extrair Markdown")
