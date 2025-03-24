@@ -282,7 +282,7 @@ def nbr_author(xa, xp='1'):
             NM.pop()
 
     # Preposições
-    er2 = ['DE', 'DA', 'DO', 'DOS', 'E', 'EM', 'DAS']
+    er2 = ['DE', 'DA', 'DO', 'DOS', 'E', 'EM', 'DAS','OF']
     NM2 = [nome for nome in NM if nome not in er2]
 
     # Minusculas e abreviaturas, considerando acentuação
