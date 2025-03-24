@@ -21,7 +21,9 @@ def Xecute(id, act):
 
     dirT = '/data/Brapci3.1/public/'
 
+    print("===",id,act)
     file = dirT + sys_io.getNameFile(id)
+    print(file)
     fileTXT = sys_io.getNameFileTXT(file)
     txt = sys_io.readfile(fileTXT)
     fileO = file
