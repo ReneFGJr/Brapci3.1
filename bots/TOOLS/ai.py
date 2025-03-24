@@ -49,16 +49,17 @@ os.chdir(dir)
 
 if (len(sys.argv) > 1):
     parm = sys.argv
-    id = parm[2]
     act = parm[1]
+    if (act == 'X'):
+        print("Extrair Trabalhos")
+        lists = toDO()
+        sys.exit()
+    id = parm[2]
 else:
     id = 309177
     act = 'email'
 
-if (act == 'X'):
-    print("Extrair Trabalhos")
-    lists = toDO()
-    sys.exit()
+
 
 dirT = '/data/Brapci3.1/public/'
 
