@@ -2,6 +2,14 @@ import re,sys
 import database, mod_rdf
 
 def extract_abstract(text,id):
+    print("=== Analisando Resumo")
+    Prop = 86
+    qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop})"
+    row = database.query(qr)
+    if row != []:
+        print("     Resumo já existe==>", row)
+        return
+
     text = text.replace(chr(10), ' ')
     text = text.replace('.', ';')
     Resumo = extrair_resumo(text)
@@ -15,12 +23,6 @@ def extract_abstract(text,id):
 def saveAbstract(id,abstract):
     print("=== Analisando Resumo")
     Prop = 86
-    qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop})"
-    row = database.query(qr)
-    if row != []:
-        print("     Resumo já existe==>",row)
-        return
-
     qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
     row = database.query(qr)
     if row == []:
