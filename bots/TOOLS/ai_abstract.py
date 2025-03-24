@@ -1,5 +1,5 @@
 import re,sys
-import database
+import database, mod_rdf
 
 def extract_abstract(text,id):
     text = text.replace(chr(10), ' ')
@@ -22,6 +22,8 @@ def saveAbstract(id,abstract):
         qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{abstract}' and n_lang = 'pt'"
         row = database.query(qr)
     ID = row[0][0]
+    Prop = 86
+    mod_rdf.rdf_insert(id,Prop,0,ID)
     print("==>",ID)
 
 
