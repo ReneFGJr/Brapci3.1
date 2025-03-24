@@ -48,7 +48,8 @@ def logo():
     print("██████╔╝██║   ██║██████╔╝██║   ██║   ██║   " + Fore.BLUE + "██║" + Fore.WHITE)
     print("██╔══██╗██║   ██║██╔══██╗██║   ██║   ██║   " + Fore.BLUE + "██║" + Fore.WHITE)
     print("██║  ██║╚██████╔╝██████╔╝╚██████╔╝   ██║   " + Fore.BLUE + "██║" + Fore.WHITE)
-    print("╚═╝  ╚═╝ ╚═════╝ ╚═╝      ╚═════╝    ╚═╝   " + Fore.BLUE + "╚═╝" +Fore.WHITE)
+    print("╚═╝  ╚═╝ ╚═════╝ ╚═════╝  ╚═════╝    ╚═╝   " + Fore.BLUE +
+          "╚═╝" + Fore.WHITE)
 
 def version():
     return "v0.24.04.01"

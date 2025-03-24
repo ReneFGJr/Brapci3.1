@@ -19,6 +19,7 @@ def locateAbstract(text):
 def extract_keywords(text,id):
     text = text.replace(chr(10), ' ')
     text = text.replace('.', ';')
+    text = text.replace(',', ';')
     text = text.replace('Palavras-Chave','Palavras-chave')
     text = text.replace('Palavras Chave','Palavras-chave')
     term = locateAbstract(text)
