@@ -20,7 +20,12 @@ def toDO():
     qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = '')"
     row = database.query(qr)
 
-    print(row)
+    nome_arquivo = "toDO.sh"
+    with open(nome_arquivo, "w", encoding="utf-8") as arquivo:
+        for r in row:
+            id = r[0]
+            arquivo.write(f"python3 ai.py All {id}\n")
+    print("Arquivo gerado:",nome_arquivo)
 
 def version():
     return "v0.24.10.27"
