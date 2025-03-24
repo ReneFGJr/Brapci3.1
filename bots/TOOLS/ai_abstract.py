@@ -15,7 +15,7 @@ def extract_abstract(text,id):
 def saveAbstract(id,abstract):
     print("=== Analisando Resumo")
     Prop = 86
-    qr = f"select * form brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop})"
+    qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop})"
     row = database.query(qr)
     if row != []:
         print("     Resumo já existe==>",row)
