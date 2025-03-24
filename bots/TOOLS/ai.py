@@ -92,6 +92,7 @@ if (act == 'All'):
     print("==>",fileO)
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
+    lists = ai_abstract.extract_abstract(txt, id)
     sys.exit()
 
 elif (act == 'docling'):
