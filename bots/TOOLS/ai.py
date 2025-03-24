@@ -150,9 +150,9 @@ print("===============================================")
 dir = '/data/Brapci3.1/bots/TOOLS'
 os.chdir(dir)
 
-if (len(sys.argv) > 1):
+if (len(sys.argv) > 0):
     parm = sys.argv
-    if (len(parm) > 2):
+    if (len(parm) >= 2):
         id = parm[2]
     else:
         id = 0
