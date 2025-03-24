@@ -152,7 +152,7 @@ os.chdir(dir)
 
 if (len(sys.argv) > 0):
     parm = sys.argv
-    print(parm)
+    print(parm,len(parm))
     if (len(parm) >= 2):
         id = parm[2]
     else:
