@@ -5,8 +5,10 @@ def extract_abstract(text,id):
     text = text.replace('.', ';')
     Resumo = extrair_resumo(text)
 
-
-    print(len(Resumo),Resumo)
+    tam = len(Resumo)
+    if (tam > 100) and (tam < 1500):
+        print("===>",Resumo)
+        return Resumo
     sys.exit()
 
 def extrair_resumo(texto):
