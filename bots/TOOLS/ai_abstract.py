@@ -8,7 +8,6 @@ def extract_abstract(text,id):
 
     tam = len(Resumo)
     if (tam > 100) and (tam < 1500):
-        print("===>",Resumo)
         saveAbstract(id,Resumo)
         return Resumo
     sys.exit()
