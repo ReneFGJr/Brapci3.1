@@ -4,7 +4,9 @@ def extract_abstract(text,id):
     text = text.replace(chr(10), ' ')
     text = text.replace('.', ';')
     Resumo = extrair_resumo(text)
-    print(Resumo)
+
+
+    print(len(Resumo),Resumo)
     sys.exit()
 
 def extrair_resumo(texto):
