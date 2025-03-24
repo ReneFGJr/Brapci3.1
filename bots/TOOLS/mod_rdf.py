@@ -1,7 +1,7 @@
 import database
 
 def rdf_insert(id,Prop,id2,ID):
-    qr = f"select * form brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop}) and (d_r2 = {id2}) and (d_l = {ID})"
+    qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop}) and (d_r2 = {id2}) and (d_l = {ID})"
     row = database.query(qr)
     if row == []:
         qr = f"insert into brapci_rdf.rdf_data (d_r1,d_p,d_r2,d_literal) values ({id},{Prop},{id2},{ID})"
