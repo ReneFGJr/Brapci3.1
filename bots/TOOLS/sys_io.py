@@ -84,7 +84,6 @@ def getNameFileTXT(fileO):
 
 ######################################## GET NAME
 def getNameFile(id,loop=True):
-    fileD = ''
     files = mod_rdf.recover(id,'hasFileStorage')
     print("Files",files)
     for line in files:
