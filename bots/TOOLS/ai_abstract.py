@@ -1,5 +1,11 @@
-import re
+import re,sys
 
+def extract_abstract(text,id):
+    text = text.replace(chr(10), ' ')
+    text = text.replace('.', ';')
+    Resumo = extrair_resumo(text)
+    print(Resumo)
+    sys.exit()
 
 def extrair_resumo(texto):
     # Expressão regular para capturar o conteúdo entre "Resumo:" e "PALAVRAS-CHAVE"

@@ -11,8 +11,10 @@ import ai_metadados
 import ai_cited
 import ai_keywords
 import ai_section
+import ai_abstract
 import mod_convert_repository
 import mod_docling
+
 
 def version():
     return "v0.24.10.27"
@@ -142,6 +144,8 @@ elif (act == 'keywords'):
     print("==>",fileO)
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
+elif (act == 'abstract'):
+    lists = ai_abstract.extract_abstract(txt,id)
 else:
     print("Ação não localizada")
     print("email, url, doi, handle, metadata, cited, section, keywords, docling")
