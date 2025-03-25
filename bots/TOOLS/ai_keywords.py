@@ -1,6 +1,7 @@
 import re
 import sys
 import mod_api
+from colorama import Fore
 
 def locateKeywords(text):
     t = {
@@ -67,7 +68,6 @@ def extract_keywords(text,id):
                     # Verificar se 'rst' é um dicionário e possui a chave 'id'
                     if isinstance(rst, dict) and 'id' in rst:
                         idr = rst['id']
-                        print("==>", rst)
                         url = f'https://cip.brapci.inf.br/api/rdf/dataAdd/?source={id}&prop=hasSubject&resource={idr}'
                         rst = mod_api.api_post(url, data)
                     else:
@@ -78,7 +78,7 @@ def extract_keywords(text,id):
                     print(f"Erro ao processar a resposta da API para a palavra-chave '{k}': {e}")
                     print(f"URL: {url}")
             else:
-                print("=nao processado=>",k)
+                print(Fore.RED,"=nao processado=>",k,Fore.WHITE)
                 print(k != '',len(k) < 40,stop == 0,tkey <= 6)
         return True
     else:
