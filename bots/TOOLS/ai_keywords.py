@@ -48,7 +48,7 @@ def extract_keywords(text,id):
         tkey = 0
 
         for k in keys:
-            if (len(k) >= 50):
+            if (len(k) >= 55):
                 print("Termo muito longo: ",len(k),k)
                 stop = 1
             if (len(k) <= 2):
