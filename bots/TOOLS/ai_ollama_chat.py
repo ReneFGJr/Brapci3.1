@@ -2,7 +2,7 @@ import requests
 
 
 def extrair_palavras_chave(texto,
-                           modelo='deepseek-r1:14b',
+                           modelo='llama3.3',
                            temperatura=0,
                            url='https://ollama.brapci.inf.br/api/chat'):
     # Mensagem no formato do Ollama
