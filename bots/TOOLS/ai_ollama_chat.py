@@ -8,14 +8,10 @@ def extrair_palavras_chave(texto,
     # Mensagem no formato do Ollama
     print("   Modelo Ollama:",modelo)
 
-    prompt = f"Mostre somente as palavras chaves separadas por ponto e virgula. \
-          Não mostre nenhum outra informação além das palavras-chave. \
-          Responda em português. \
-          Antes das palavras-chave, insira a palavra-chave: Palavras-chave: \
-          Extraia as palavras-chave do seguinte texto, mostre somente palavras chaves composta (mais de dois termos): "
+    prompt = f"Extraia cinco palavras-chave desse texto, inclua 'palavras-chave:' ao mostrá-las: "
 
     mensagens = [{
-        "role": "system",
+        "role": "user",
         "content": prompt
     },{
         "role": "user",
