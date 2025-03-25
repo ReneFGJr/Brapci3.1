@@ -7,16 +7,22 @@ def extrair_palavras_chave(texto,
                            url='https://ollama.brapci.inf.br/api/chat'):
     # Mensagem no formato do Ollama
     print("   Modelo Ollama:",modelo)
-    mensagens = [{
-        "role":
-        "user",
-        "content":
-        f"Mostre somente as palavras chaves separadas por ponto e virgula. \
+
+    prompt = f"Mostre somente as palavras chaves separadas por ponto e virgula. \
           Não mostre nenhum outra informação além das palavras-chave. \
+          Responda em português. \
           Antes das palavras-chave, insira a palavra-chave: Palavras-chave: \
           Extraia as palavras-chave do seguinte texto, mostre somente palavras chaves composta (mais de dois termos): \
-          \"\n\n{texto}\""
+
+    mensagens = [{
+        "role": "system",
+        "content": prompt
+    },{
+        "role": "user",
+        "content": texto
     }]
+
+    print(mensagens)
 
     # Payload da requisição
     payload = {
