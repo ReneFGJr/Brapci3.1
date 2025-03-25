@@ -1,6 +1,6 @@
 import re
 import sys
-import mod_api
+import mod_api, ai_ollama_chat
 from colorama import Fore
 
 def locateKeywords(text):
@@ -19,6 +19,10 @@ def locateAbstract(text):
         if te in text:
             return te
     return ""
+
+def extract_keywords_ollama(text,id):
+    rsp = ai_ollama_chat.extrair_palavras_chave(text)
+    print("==>",rsp)
 
 def extract_keywords(text,id):
     text = text.replace(chr(10), ' ')

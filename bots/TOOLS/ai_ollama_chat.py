@@ -10,7 +10,11 @@ def extrair_palavras_chave(texto,
         "role":
         "user",
         "content":
-        f"Extraia as palavras-chave do seguinte texto:\n\n{texto}"
+        f"Extraia as palavras-chave do seguinte texto, mostre somente palavras chaves composta (mais de dois termos). \
+          Mostre somente as palavras chaves separadas por ponto e virgula: \
+          Não mostre nenhum outra informação além das palavras-chave. \
+          Antes das palavras-chave, insira a palavra-chave: Palavras-chave: \
+          \n\n{texto}"
     }]
 
     # Payload da requisição
