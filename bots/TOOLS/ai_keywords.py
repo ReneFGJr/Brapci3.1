@@ -47,8 +47,10 @@ def extract_keywords(text,id):
         urlKey = 'https://cip.brapci.inf.br/api/rdf/createConcept/Subject?lang=pt&name='
         tkey = 0
 
+        size = 55
+
         for k in keys:
-            if (len(k) >= 55):
+            if (len(k) >= size):
                 print("Termo muito longo: ",len(k),k)
                 stop = 1
             if (len(k) <= 2):
@@ -56,7 +58,7 @@ def extract_keywords(text,id):
 
             print("==>Processando:",k)
 
-            if k != '' and len(k) < 40 and stop == 0 and tkey <= 6:
+            if k != '' and len(k) < size and stop == 0 and tkey <= 6:
                 tkey = tkey + 1
                 data = {'apikey': k}
                 rst = mod_api.api_post(urlKey + k, data)
