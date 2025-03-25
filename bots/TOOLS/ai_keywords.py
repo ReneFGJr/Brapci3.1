@@ -52,12 +52,12 @@ def extract_keywords(text,id):
 
         for k in keys:
             if (len(k) >= size):
-                print("Termo muito longo: ",len(k),k)
+                print("Termo muito longo: ",Fore.RED,len(k),k,Fore.WHITE)
                 stop = 1
             if (len(k) <= 2):
                 stop = 1
 
-            print("==>Processando:",k)
+            print("==>Processando:",Fore.BLUE,k,Fore.WHITE)
 
             if k != '' and len(k) < size and stop == 0 and tkey <= 6:
                 tkey = tkey + 1
