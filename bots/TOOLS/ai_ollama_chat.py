@@ -12,7 +12,7 @@ def extrair_palavras_chave(texto,
           Não mostre nenhum outra informação além das palavras-chave. \
           Responda em português. \
           Antes das palavras-chave, insira a palavra-chave: Palavras-chave: \
-          Extraia as palavras-chave do seguinte texto, mostre somente palavras chaves composta (mais de dois termos): \
+          Extraia as palavras-chave do seguinte texto, mostre somente palavras chaves composta (mais de dois termos): "
 
     mensagens = [{
         "role": "system",
