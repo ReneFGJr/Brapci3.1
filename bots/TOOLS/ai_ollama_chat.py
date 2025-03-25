@@ -6,6 +6,7 @@ def extrair_palavras_chave(texto,
                            temperatura=0,
                            url='https://ollama.brapci.inf.br/api/chat'):
     # Mensagem no formato do Ollama
+    print("   Modelo Ollama:",modelo)
     mensagens = [{
         "role":
         "user",
