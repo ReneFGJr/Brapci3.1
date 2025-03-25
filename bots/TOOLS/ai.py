@@ -163,7 +163,7 @@ elif (act == 'keywords'):
     fileN = fileO.replace('.pdf','_keywords.json')
     saveFileD(fileN,lists)
 elif (act == 'keywordsOllama'):
-    print("Extrair Keywords")
+    print("Extrair Keywords Ollama")
     lists = ai_keywords.extract_keywords_ollama(txt, id)
     print("==>", fileO)
     #fileN = fileO.replace('.pdf', '_keywords.json')
