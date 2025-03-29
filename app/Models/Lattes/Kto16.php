@@ -64,7 +64,6 @@ class Kto16 extends Model
             $n = trim($n);
             if (substr($n, 0, 1) == 'K') {
                 $dt = $this->where('kn_idk',$n)->first();
-                pre($dt);
                 if (!$dt) {
                     $this->register($n);
                     $RSP = 'NAO LOCALIZADO';
