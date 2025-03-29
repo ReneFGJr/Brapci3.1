@@ -52,16 +52,13 @@ class Lattes extends Model
 
     function index($d1,$d2,$d3)
         {
-            echo "==".$d1;
+            echo "==".$d1.'=='.$d2;
             switch($d1)
                 {
                     case 'convert':
-                    echo "OK";
                         //$API = new \App\Models\Api\Lattes\KtoN();
                         $API = new \App\Models\Lattes\Kto16();
-                        echo "OK";
                         $RSP = $API->convert_KtoN($d2);
-                        echo "OK";
                         echo $RSP;
                         exit;
                 }
