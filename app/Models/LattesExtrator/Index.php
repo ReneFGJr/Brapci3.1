@@ -128,8 +128,8 @@ class Index extends Model
 
                 $zip = new \ZipArchive();
                 $res = $zip->open($fileZip);
-                pre($res);
-                echo "OK2";
+                pre($res,false);
+                echo " - OK2";
                 exit;
 
                 if ($res === TRUE) {
