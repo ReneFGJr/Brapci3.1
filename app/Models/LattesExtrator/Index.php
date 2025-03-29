@@ -127,8 +127,8 @@ class Index extends Model
                     }
 
                 $zip = new \ZipArchive();
-                echo "OK";
                 $res = $zip->open($fileZip);
+                pre($res);
                 echo "OK2";
                 exit;
 
