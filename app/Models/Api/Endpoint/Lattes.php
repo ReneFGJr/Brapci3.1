@@ -52,6 +52,7 @@ class Lattes extends Model
 
     function index($d1,$d2,$d3)
         {
+            echo "==".$d1;
             switch($d1)
                 {
                     case 'convert':
