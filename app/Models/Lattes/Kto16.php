@@ -114,7 +114,6 @@ class Kto16 extends Model
             /********************************** CHECK */
             if ($check == 1) {
                 $this->set($_POST)->where('id_kn', $id)->update();
-                $this->dir_update($id);
                 $sb = bsmessage('Atualizado', 1);
                 $sb .= metarefresh(PATH . 'admin/lattes/kton/1', 1);
             } else {
