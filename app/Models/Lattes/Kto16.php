@@ -75,6 +75,7 @@ class Kto16 extends Model
     function convert_KtoN($n)
     {
         $n = trim($n);
+        echo "N=" . $n . "<br>";
         $rsp = array();
         if (substr($n, 0, 1) != 'K') {
             $rsp['erro'] = '400';
