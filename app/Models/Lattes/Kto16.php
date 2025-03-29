@@ -63,7 +63,7 @@ class Kto16 extends Model
     function kton($n)
         {
             $n = trim($n);
-            if (substr($n, 0, 1) != 'K') {
+            if (substr($n, 0, 1) == 'K') {
                 $dt = $this->where('kn_idk',$n)->first();
                 $RSP = $dt['kn_idn'];
             } else {
@@ -75,7 +75,6 @@ class Kto16 extends Model
     function convert_KtoN($n)
     {
         $n = trim($n);
-        echo "N=" . $n . "<br>";
         $rsp = array();
         if (substr($n, 0, 1) != 'K') {
             $rsp['erro'] = '400';
