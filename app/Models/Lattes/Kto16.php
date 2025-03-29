@@ -55,8 +55,7 @@ class Kto16 extends Model
             $data['kn_idk'] = $k;
             $data['kn_idn'] = '';
             $data['kn_status'] = 1;
-            $kto16 = new \App\Models\Lattes\Kto16tmp();
-            $kto16->set($data)->insert();
+            $this->set($data)->insert();
         }
     }
 
@@ -65,7 +64,13 @@ class Kto16 extends Model
             $n = trim($n);
             if (substr($n, 0, 1) == 'K') {
                 $dt = $this->where('kn_idk',$n)->first();
-                $RSP = $dt['kn_idn'];
+                if ($dt == []) {
+                    $this->register($n);
+                    $RSP = 'NAO LOCALIZADO';
+                } else {
+                    $RSP = $dt['kn_idn'];
+                }
+
             } else {
                 $RSP = 'ERRO';
             }
