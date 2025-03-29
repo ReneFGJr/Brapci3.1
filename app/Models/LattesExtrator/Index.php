@@ -129,6 +129,7 @@ class Index extends Model
                 $zip = new \ZipArchive();
                 $res = $zip->open($fileZip);
                 if ($res === TRUE) {
+                    print("Extraindo arquivo $fileZip<br>");
                     $zip->extractTo('../.tmp/Lattes/');
                     $zip->close();
 
