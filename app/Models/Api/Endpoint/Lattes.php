@@ -56,9 +56,12 @@ class Lattes extends Model
             switch($d1)
                 {
                     case 'convert':
+                    echo "OK";
                         //$API = new \App\Models\Api\Lattes\KtoN();
                         $API = new \App\Models\Lattes\Kto16();
+                        echo "OK";
                         $RSP = $API->convert_KtoN($d2);
+                        echo "OK";
                         echo $RSP;
                         exit;
                 }
