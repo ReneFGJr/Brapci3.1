@@ -89,8 +89,10 @@ return [
         'catalog' => 'Catálogo',
         'harvesting_status_0' => 'Para coletar',
         'harvesting_status_1' => 'Coletado Lattes',
+        'harvesting_status_5' => 'Coletado',
         'harvesting_status_8' => 'Coletando ... (ou erro)',
         'harvesting_status_9' => 'Erro de Coleta',
+        'harvesting_status_10' => 'Finalizando',
 
         'academoc.formation' => 'Formação Acadêmica',
         'oai_status_0' => 'Para coletar',

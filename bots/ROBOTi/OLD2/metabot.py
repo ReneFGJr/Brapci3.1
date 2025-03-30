@@ -93,7 +93,7 @@ def GetRecord():
         if (len(xml) > 0):
             brapci_base.updateRegisterStatus(id_reg,5)
     else:
-        print("Nengum registro para coletar")
+        print("Nenhum registro para coletar")
 
 def getNextIdentify():
     # ************************ Recupera proxima coleta *
