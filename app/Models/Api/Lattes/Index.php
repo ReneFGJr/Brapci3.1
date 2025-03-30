@@ -125,6 +125,8 @@ class Index extends Model
             /* PHASE IV ******************* Checa se existe arquivo *****/
 
             $sx .= '<br>Harvesting ' . $id_lattes;
+            $sx .= '<br>Folder ' . getcwd();
+
             $file_xml = '../../.tmp/lattes/' . $id_lattes . '.xml';
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
