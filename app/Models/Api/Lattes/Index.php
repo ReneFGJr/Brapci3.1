@@ -116,9 +116,7 @@ class Index extends Model
             $id_lattes = $dt['hx_id_lattes'];
 
             /******************* Altera Status para Em Coleta */
-            $dt = array();
-            $dt['hx_status'] = 8;
-            $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+            $ProjectsHarvestingXml->set(['hx_status'=>8])->where('hx_id_lattes', $id_lattes)->update();
 
             /* PHASE III ******************************* Coleta dadados */
             $LT = new \App\Models\LattesExtrator\Index();
@@ -130,12 +128,10 @@ class Index extends Model
             $file_xml = '../.tmp/lattes/' . $id_lattes . '.xml';
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
-                /******************* Altera Status para Coletado */
-                $dt = array();
-                $dt['hx_status'] = 1;
-                $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+                /******************* Altera Status para Em Coleta */
+                $ProjectsHarvestingXml->set(['hx_status'=>2])->where('hx_id_lattes', $id_lattes)->update();
             } else {
-                $sx .= "<br>File $file_xml OK";
+                $sx .= '<br><span style="color: red">File '.$file_xml.' Not OK</span>';
             }
 
             /* PHASE V ****************** Recupera dados do Pesquisador *****/
