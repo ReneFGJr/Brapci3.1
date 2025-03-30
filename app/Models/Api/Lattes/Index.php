@@ -108,6 +108,7 @@ class Index extends Model
 
         /* PHASE II - MARCA REGISTRO DE ATUALIZACAO */
         $dta['updated_at'] = date("Y-m-d H:i:s");
+        $dta['hx_status'] = '9';
         $ProjectsHarvestingXml->set($dta)->where('hx_project', $prj)->update();
 
         /* SE EXISTE DADOS PARA COLETAR vai para proxima faase ****************/
@@ -116,7 +117,7 @@ class Index extends Model
             $id_lattes = $dt['hx_id_lattes'];
 
             /******************* Altera Status para Em Coleta */
-            $ProjectsHarvestingXml->set(['hx_status'=>8])->where('hx_id_lattes', $id_lattes)->update();
+            $ProjectsHarvestingXml->set(['hx_status'=>-1])->where('hx_id_lattes', $id_lattes)->update();
 
             /* PHASE III ******************************* Coleta dadados */
             $LT = new \App\Models\LattesExtrator\Index();
