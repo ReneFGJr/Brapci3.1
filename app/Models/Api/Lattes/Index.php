@@ -113,6 +113,7 @@ class Index extends Model
 
             /******************* Altera Status para Em Coleta */
             $ProjectsHarvestingXml->updateStatus(1,$id_lattes);
+            exit;
 
             /* PHASE III ******************************* Coleta dadados */
             $LT = new \App\Models\LattesExtrator\Index();
