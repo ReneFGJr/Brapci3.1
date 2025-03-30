@@ -218,6 +218,9 @@ class ProjectsHarvestingXml extends Model
 
     function updateStatus($status, $id_lattes)
     {
+        if (strlen($id_lattes) != 16) {
+            return false;
+        }
         $dt['hx_status'] = $status;
         $dt['updated_at'] = date("Y-m-d H:i:s");
         $this->set($dt)->where('hx_id_lattes', $id_lattes)->update();
