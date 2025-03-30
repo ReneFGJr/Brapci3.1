@@ -106,10 +106,6 @@ class Index extends Model
             ->orderby("updated_at")
             ->first();
 
-        /* PHASE II - MARCA REGISTRO DE ATUALIZACAO */
-        pre($dt);
-        $ProjectsHarvestingXml->set($dta)->where('hx_project', $prj)->update();
-
         /* SE EXISTE DADOS PARA COLETAR vai para proxima faase ****************/
         if ($dt != '') {
 
@@ -131,10 +127,10 @@ class Index extends Model
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
                 /******************* Altera Status para Em Coleta */
-                $ProjectsHarvestingXml->set(['hx_status'=>2])->where('hx_id_lattes', $id_lattes)->update();
-                echo $ProjectsHarvestingXml->getLastQuery();
+                $ProjectsHarvestingXml->updateStatus(2, $id_lattes);
             } else {
                 $sx .= '<br><span style="color: red">File '.$file_xml.' Not OK</span>';
+                $ProjectsHarvestingXml->updateStatus(9, $id_lattes);
             }
 
             /* PHASE V ****************** Recupera dados do Pesquisador *****/
