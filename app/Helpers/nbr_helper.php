@@ -93,6 +93,8 @@ function nbr_author($xa, $xp)
     $er1 = ['JÚNIOR', 'JUNIOR', 'NETTO', 'NETO', 'SOBRINHO', 'FILHO', 'JR.', 'JR'];
     $TOT = count($NM);
 
+    pre($NM);
+
     if (in_array($NM[$TOT - 1], $er1)) {
         if (isset($NM[$TOT - 2])) {
             $NM[$TOT - 2] .= ' ' . $NM[$TOT - 1];
@@ -121,7 +123,7 @@ function nbr_author($xa, $xp)
         if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
             $n = $Nf[$r];
             $pos = strpos($n, '-');
-            pre($NM);
+
             if ($pos) {
                 $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
             }
