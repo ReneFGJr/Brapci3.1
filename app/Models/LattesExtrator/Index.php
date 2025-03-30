@@ -56,9 +56,9 @@ class Index extends Model
     function fileName($id)
     {
         dircheck('../.tmp');
-        dircheck('../.tmp/Lattes/');
+        dircheck('../.tmp/lattes/');
         dircheck('../.tmp/Zip/');
-        $file = "../.tmp/Lattes/" . $id . '.xml';
+        $file = "../.tmp/lattes/" . $id . '.xml';
         return $file;
     }
 
