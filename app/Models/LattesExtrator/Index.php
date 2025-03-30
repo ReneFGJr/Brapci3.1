@@ -107,8 +107,6 @@ class Index extends Model
                 echo "<br>Resultado da soma: " . $output;
             }
 
-            pre($filename);
-
             /***** Processar Dados */
             $myXMLData = file_get_contents($filename);
             $xml = simplexml_load_string($myXMLData);
