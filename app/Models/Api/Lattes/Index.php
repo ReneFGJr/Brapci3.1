@@ -125,7 +125,7 @@ class Index extends Model
             /* PHASE IV ******************* Checa se existe arquivo *****/
 
             $sx .= '<br>Harvesting ' . $id_lattes;
-            $file_xml = '../.tmp/lattes/' . $id_lattes . '.xml';
+            $file_xml = '../../.tmp/lattes/' . $id_lattes . '.xml';
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
                 /******************* Altera Status para Em Coleta */
