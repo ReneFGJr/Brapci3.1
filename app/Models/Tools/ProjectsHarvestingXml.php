@@ -212,6 +212,13 @@ class ProjectsHarvestingXml extends Model
         return "";
     }
 
+    function updateStatus($status, $id_lattes)
+    {
+        $dt['hx_status'] = $status;
+        $dt['updated_at'] = date("Y-m-d H:i:s");
+        $this->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+    }
+
     function register($idp, $lattes)
     {
         $sx = '';
