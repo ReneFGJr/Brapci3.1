@@ -93,6 +93,7 @@ class Index extends Model
     {
         echo metarefresh('', 60);
         echo '<br>  Agente===>'.agent();
+        echo '<br>'.metarefresh('', 5);
         $sx = '';
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
         $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
@@ -146,8 +147,6 @@ class Index extends Model
             $dt['hx_status'] = 5;
             $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
             $sx .= cr() . 'Updated';
-
-            $sx .= metarefresh('',2);
 
             echo $sx;
             exit;
