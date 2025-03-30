@@ -87,63 +87,7 @@ class Index extends Model
         if (strlen($id) == 16) {
 
             $filename = $this->fileName($id);
-            $url = 'https://brapci.inf.br/ws/api/?verb=lattes&q=' . trim($id);
-            $sx .= '<hr>'.$url.'<br>';
-            $sx .= 'Colentado Lattes' . date("Y-m-d H:i:s") . '<br>';
-            if (!$this->fileNameUpdated($id)) {
-                $data = array();
-                $sx .= 'Harvesting '.$id.'<br>'.cr();
-                $txt = file_get_contents($url);
-                dircheck("../.tmp");
-                dircheck("../.tmp/Zip");
-                $fileZip = '../.tmp/Zip/lattes.zip';
-
-                if (strlen($txt) == 0)
-                    {
-                        $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
-                        $sx .= "ERRO: o arquivo está vazio";
-                        $sx .= '<br/>'.$url;
-
-                        $dt = array();
-                        $dt['hx_name'] = "#ERRO";
-                        $dt['hx_updated'] = date("Y-m-d");
-                        $dt['updated_at'] = date("Y-m-d H:i:s");
-                        $dt['hx_status'] = 9;
-                        $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id)->update();
-                        return "";
-                        exit;
-                    }
-
-                file_put_contents($fileZip, $txt);
-
-                $type = mime_content_type($fileZip);
-                if ($type == 'application/json')
-                    {
-                        $sx .= "ERRO";
-                        $txt = file_get_contents($fileZip);
-                        $dt = (array)json_decode($txt);
-                        $sx .= ' '.$dt['erro'];
-                        $sx .= '<br>' . $dt['description'];
-                    }
-
-                $zip = new \ZipArchive();
-                $res = $zip->open($fileZip);
-                if ($res === TRUE) {
-                    $zip->extractTo('../.tmp/Lattes/');
-                    $zip->close();
-
-                    if (!file_exists($filename))
-                        {
-                            $sx .= "Erro ao abrir o arquivo ".$filename;
-                            exit;
-                        }
-                } else {
-                    echo bsmessage("ERRO na descompactação em $fileZip", 3);
-                    exit;
-                }
-            } else {
-                $sx .= "CACHED";
-            }
+            pre($filename);
 
             /***** Processar Dados */
             $myXMLData = file_get_contents($filename);

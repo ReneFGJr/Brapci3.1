@@ -16,8 +16,8 @@ def extract_lattes(lattes_id):
     log.append(f"Coletando Lattes {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}<br>")
 
     if not file_is_updated(lattes_id):
-        zip_dir = "../.tmp/Zip"
-        lattes_dir = "../.tmp/Lattes"
+        zip_dir = "../../.tmp/Zip"
+        lattes_dir = "../../.tmp/Lattes"
         os.makedirs(zip_dir, exist_ok=True)
         os.makedirs(lattes_dir, exist_ok=True)
 
@@ -64,7 +64,7 @@ def file_is_updated(lattes_id):
 
 def get_lattes_filename(lattes_id):
     # Gera o caminho para o arquivo XML extraído do Lattes
-    return f"../.tmp/Lattes/{lattes_id}.xml"
+    return f"../../.tmp/Lattes/{lattes_id}.xml"
 
 def update_harvest_error(lattes_id):
     # Atualiza status de erro na base de dados
@@ -72,6 +72,9 @@ def update_harvest_error(lattes_id):
 
 
 if __name__ == "__main__":
+    dir = '/data/Brapci3.1/bots/TOOLS'
+    os.chdir(dir)
+
     # Verificar se o número correto de argumentos foi fornecido
     if len(sys.argv) != 2:
         print("Uso: python3 mod_lattes.py IDlattes")
