@@ -62,7 +62,6 @@ class ProjectsHarvestingXml extends Model
 
             echo $this->getLastQuery();
 
-        pre($dt);
         $sta = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         for ($r = 0; $r < count($dt); $r++) {
             $line = $dt[$r];
