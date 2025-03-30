@@ -93,8 +93,6 @@ function nbr_author($xa, $xp)
     $er1 = ['JÚNIOR', 'JUNIOR', 'NETTO', 'NETO', 'SOBRINHO', 'FILHO', 'JR.', 'JR'];
     $TOT = count($NM);
 
-    pre($NM);
-
     if (in_array($NM[$TOT - 1], $er1)) {
         if (isset($NM[$TOT - 2])) {
             $NM[$TOT - 2] .= ' ' . $NM[$TOT - 1];
@@ -112,29 +110,34 @@ function nbr_author($xa, $xp)
     $Ni = [];
     $Nf = [];
 
-    foreach ($NM as $r => $name) {
-        $Nm[$r] = mb_strtolower($name);
-        $Ni[$r] = mb_strtoupper($name[0]);
-        if (ord($name[0]) > 128) {
-            $Nf[$r] = mb_strtoupper(substr($name, 0, 2)) . mb_strtolower(substr($name, 2));
-        } else {
-            $Nf[$r] = mb_strtoupper($name[0]) . mb_strtolower(substr($name, 1));
-        }
-        if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
-            $n = $Nf[$r];
-            $pos = strpos($n, '-');
+    if (count($NM) > 1)
+    {
+        foreach ($NM as $r => $name) {
+            $Nm[$r] = mb_strtolower($name);
+            $Ni[$r] = mb_strtoupper($name[0]);
+            if (ord($name[0]) > 128) {
+                $Nf[$r] = mb_strtoupper(substr($name, 0, 2)) . mb_strtolower(substr($name, 2));
+            } else {
+                $Nf[$r] = mb_strtoupper($name[0]) . mb_strtolower(substr($name, 1));
+            }
+            if (strpos($Nf[$r], '-') || strpos($Nf[$r], ' ')) {
+                $n = $Nf[$r];
+                $pos = strpos($n, '-');
 
-            if ($pos) {
-                $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
+                if ($pos) {
+                    $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
+                }
+                $pos = strpos($n, ' ');
+                if ($pos) {
+                    $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
+                }
             }
-            $pos = strpos($n, ' ');
-            if ($pos) {
-                $Nf[$r] = substr($n, 0, $pos + 1) . mb_strtoupper($n[$pos + 1]) . mb_strtolower(substr($n, $pos + 2));
+            if (in_array($name, $er2)) {
+                $Nf[$r] = $Nm[$r];
             }
         }
-        if (in_array($name, $er2)) {
-            $Nf[$r] = $Nm[$r];
-        }
+    } else {
+        return  mb_strtoupper(substr($xa, 0, 2)) . mb_strtolower(substr($xa, 2));
     }
 
     $name = '';
