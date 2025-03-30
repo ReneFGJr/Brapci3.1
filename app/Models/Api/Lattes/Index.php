@@ -92,7 +92,7 @@ class Index extends Model
     function harvesting_next($prj)
     {
         echo metarefresh('', 60);
-        echo '===>'.agent();
+        echo '<br>  Agente===>'.agent();
         $sx = '';
         $LattesExtrator = new \App\Models\LattesExtrator\Index();
         $ProjectsHarvestingXml = new \App\Models\Tools\ProjectsHarvestingXml();
@@ -130,6 +130,10 @@ class Index extends Model
             $file_xml = '../.tmp/lattes/' . $id_lattes . '.xml';
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
+                /******************* Altera Status para Coletado */
+                $dt = array();
+                $dt['hx_status'] = 1;
+                $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
             } else {
                 $sx .= "<br>File $file_xml OK";
             }
