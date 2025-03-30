@@ -85,19 +85,28 @@ class Index extends Model
         $dt['id'] = $id;
 
         if (strlen($id) == 16) {
-
+            $harvesting = true;
             $filename = $this->fileName($id);
-            if (!file_exists($filename))
-                {
+            if (file_exists($filename)) {
+                $fileTime = filectime($filename);
+                $now = time();
+                $diffDays = ($now - $fileTime) / (60 * 60 * 24); // diferença em dias
 
-                } else {
-                    $dt = filectime($filename);
-                    $data = date("Ymd", $dt);
-                    $now = date("Ymd");
-                    if ($data == $now) {
-                        return 'Arquivo já existe!';
-                    }
+                if ($diffDays <= 45) {
+                    $harvesting = false;
+                    echo 'Arquivo já existe e foi coletado há menos de 45 dias!';
                 }
+            }
+
+            if ($harvesting) {
+                // Chama script.py com dois argumentos: 5 e 10
+                $command = escapeshellcmd("python3 script.py 5 10");
+                $output = shell_exec($command);
+
+                // Mostra o resultado na tela
+                echo "Resultado da soma: " . $output;
+            }
+
             pre($filename);
 
             /***** Processar Dados */
