@@ -127,7 +127,7 @@ class Index extends Model
             $sx .= '<br>Harvesting ' . $id_lattes;
             $sx .= '<br>Folder ' . getcwd();
 
-            $file_xml = '../../.tmp/lattes/' . $id_lattes . '.xml';
+            $file_xml = getcwd().'../.tmp/lattes/' . $id_lattes . '.xml';
             if (file_exists($file_xml)) {
                 $sx .= '<br>File XML OK';
                 /******************* Altera Status para Em Coleta */
