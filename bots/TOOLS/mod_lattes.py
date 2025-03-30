@@ -1,4 +1,4 @@
-import os
+import os, sys
 import requests
 import zipfile
 import mimetypes
@@ -69,3 +69,12 @@ def get_lattes_filename(lattes_id):
 def update_harvest_error(lattes_id):
     # Atualiza status de erro na base de dados
     print(f"[ERRO] Atualização falhou para ID {lattes_id}")
+
+
+if __name__ == "__main__":
+    # Verificar se o número correto de argumentos foi fornecido
+    if len(sys.argv) != 2:
+        print("Uso: python3 mod_lattes.py IDlattes")
+        sys.exit(1)
+    else:
+        print(extract_lattes(sys.argv[1]))
