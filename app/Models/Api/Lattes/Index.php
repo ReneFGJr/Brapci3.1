@@ -143,7 +143,7 @@ class Index extends Model
             $dt['hx_name'] = $dta['lt_name'];
             $dt['hx_updated'] = $dta['lt_atualizacao'];
             $dt['updated_at'] = date("Y-m-d H:i:s");
-            $dt['hx_status'] = 1;
+            $dt['hx_status'] = 5;
             $ProjectsHarvestingXml->set($dt)->where('hx_id_lattes', $id_lattes)->update();
             $sx .= cr() . 'Updated';
 
