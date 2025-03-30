@@ -132,6 +132,7 @@ class Index extends Model
                 $sx .= '<br>File XML OK';
                 /******************* Altera Status para Em Coleta */
                 $ProjectsHarvestingXml->set(['hx_status'=>2])->where('hx_id_lattes', $id_lattes)->update();
+                echo $ProjectsHarvestingXml->getLastQuery();
             } else {
                 $sx .= '<br><span style="color: red">File '.$file_xml.' Not OK</span>';
             }
