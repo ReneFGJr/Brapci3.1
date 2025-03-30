@@ -218,6 +218,7 @@ class ProjectsHarvestingXml extends Model
 
     function updateStatus($status, $id_lattes)
     {
+        pre($id_lattes);
         if (strlen($id_lattes) != 16) {
             return false;
         }
