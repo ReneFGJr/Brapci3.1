@@ -87,6 +87,17 @@ class Index extends Model
         if (strlen($id) == 16) {
 
             $filename = $this->fileName($id);
+            if (!file_exists($filename))
+                {
+
+                } else {
+                    $dt = filectime($filename);
+                    $data = date("Ymd", $dt);
+                    $now = date("Ymd");
+                    if ($data == $now) {
+                        return 'Arquivo já existe!';
+                    }
+                }
             pre($filename);
 
             /***** Processar Dados */
