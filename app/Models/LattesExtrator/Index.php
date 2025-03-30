@@ -100,11 +100,11 @@ class Index extends Model
 
             if ($harvesting) {
                 // Chama script.py com dois argumentos: 5 e 10
-                $command = escapeshellcmd("python3 script.py 5 10");
+                $command = escapeshellcmd("python3 /data/Brapci3.1/bots/TOOLS/mod_lattes.py $id");
                 $output = shell_exec($command);
 
                 // Mostra o resultado na tela
-                echo "Resultado da soma: " . $output;
+                echo "<br>Resultado da soma: " . $output;
             }
 
             pre($filename);
