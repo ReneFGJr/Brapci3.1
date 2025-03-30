@@ -218,13 +218,16 @@ class ProjectsHarvestingXml extends Model
 
     function updateStatus($status, $id_lattes)
     {
-        pre(strlen($id_lattes));
-        if (strlen($id_lattes) != 16) {
-            return false;
+        try {
+            if (strlen($id_lattes) != 16) {
+                return;
+            }
+            $dt['hx_status'] = $status;
+            $dt['updated_at'] = date("Y-m-d H:i:s");
+            $this->set($dt)->where('hx_id_lattes', $id_lattes)->update();
+        } catch (\Exception $e) {
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
         }
-        $dt['hx_status'] = $status;
-        $dt['updated_at'] = date("Y-m-d H:i:s");
-        $this->set($dt)->where('hx_id_lattes', $id_lattes)->update();
     }
 
     function register($idp, $lattes)
