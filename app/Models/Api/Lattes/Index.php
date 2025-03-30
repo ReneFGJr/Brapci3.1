@@ -107,8 +107,7 @@ class Index extends Model
             ->first();
 
         /* PHASE II - MARCA REGISTRO DE ATUALIZACAO */
-        $dta['updated_at'] = date("Y-m-d H:i:s");
-        pre($dta);
+        pre($dt);
         $ProjectsHarvestingXml->set($dta)->where('hx_project', $prj)->update();
 
         /* SE EXISTE DADOS PARA COLETAR vai para proxima faase ****************/
