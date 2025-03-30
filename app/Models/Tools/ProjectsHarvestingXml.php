@@ -60,6 +60,8 @@ class ProjectsHarvestingXml extends Model
             ->groupBy('hx_status')
             ->findAll();
 
+            echo $this->getLastQuery();
+
         pre($dt);
         $sta = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         for ($r = 0; $r < count($dt); $r++) {
