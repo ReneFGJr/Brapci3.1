@@ -162,7 +162,7 @@ export class BrapciService {
     let url = `${this.url}brapci/search/a1`;
     console.log(`Buscador: ${url}`);
     var formData: any = new FormData();
-    formData.append('offset', '1000');
+    formData.append('offset', '5000');
 
     formData.append('data', dt);
 
