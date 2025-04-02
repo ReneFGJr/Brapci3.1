@@ -287,6 +287,8 @@ def read_link_curl(url):
         return ""
 
 def read_link(url, decode=False):
+    url = url.replace('https://revistascientificas.filo.uba.ar',
+                      'http://revistascientificas.filo.uba.ar')
     try:
         response = requests.get(url, timeout=60, verify=False)  # Timeout de 10 segundos
 
