@@ -84,19 +84,19 @@ function sendmail($to = array(), $subject = '', $body = '', $attachs = array(), 
 }
 function sendemail($to = array(), $subject = '', $body = '', $attachs = array(), $images = array())
 {
-    if (getenv("email.type") == 'smtp') {
+    if (getenv("EMAIL_TYPE") == 'smtp') {
         $email = \Config\Services::email();
 
         $config = array();
         $config['protocol'] = 'smtp';
         $config['wordWrap'] = true;
-        $config['SMTPHost'] = getenv('email.stmp');
-        $config['SMTPUser'] = getenv('email.user_auth');
-        $config['SMTPPass'] = getenv('email.password');
-        $config['SMTPPort'] = getenv('email.stmp_port');
+        $config['SMTPHost'] = getenv('EMAIL_SMTP');
+        $config['SMTPUser'] = getenv('EMAIL_USER_AUTH');
+        $config['SMTPPass'] = getenv('EMAIL_PASSWORD');
+        $config['SMTPPort'] = getenv('EMAIL_SMTP_PORT');
         $cofngi['SMTPCrypto'] = '';
-        $config['fromEmail'] = getenv('email.fromEmail');
-        $config['fromName'] = getenv('email.fromName');
+        $config['fromEmail'] = getenv('EMAIL_FROM');
+        $config['fromName'] = getenv('EMAIL_FROM_NAME');
 
         $config['UseTLS'] = false;
         $config['FromLineOverride'] = true;
@@ -119,7 +119,7 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
     }
     /************************* Destinatarios */
     $emails = '';
-    $email->setFrom(getenv('email.user_auth'), getenv('email.fromName'));
+    $email->setFrom(getenv('EMAIL_USER_AUTH'), getenv('EMAIL_FROM'));
 
     $filename = 'img/email/bg-email-hL3a.jpg';
     if (file_exists($filename)) {
