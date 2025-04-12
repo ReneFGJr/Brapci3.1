@@ -1420,7 +1420,9 @@ class Socials extends Model
 		$txt .= '</center>';
 		$txt .= '<br><br><br>';
 		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
-
+		$emails = [];
+		array_push($emails, $email);
+		array_push($emails, 'brapcici@gmail.com');
 		sendmail($email, $subject, $txt);
 
 		return $sx;
