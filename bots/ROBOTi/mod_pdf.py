@@ -287,8 +287,10 @@ def read_link_curl(url):
         return ""
 
 def read_link(url, decode=False):
+    url = url.replace('https://revistascientificas.filo.uba.ar',
+                      'http://revistascientificas.filo.uba.ar')
     try:
-        response = requests.get(url, timeout=10, verify=False)  # Timeout de 10 segundos
+        response = requests.get(url, timeout=60, verify=False)  # Timeout de 10 segundos
 
         response.raise_for_status()  # Levanta exceção se o status da resposta não for 200
         content = response.text
@@ -299,7 +301,8 @@ def read_link(url, decode=False):
         print(f"Erro ao acessar a URL: {e}")
         return ""
 
-def getPDF(ID):
+def getPDF(
+    ID):
     print("Processando coleta PDF ",ID)
     ePDF = existPDF(ID)
     if ePDF:
