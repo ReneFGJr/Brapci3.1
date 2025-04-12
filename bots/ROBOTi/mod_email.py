@@ -6,6 +6,13 @@ import os
 from pathlib import Path
 
 def send_email(to_email, subject, body, debug=True):
+    # Caminho relativo ao .env (../../.env)
+    env_path = Path(__file__).resolve().parents[2] / '.env'
+
+    if not env_path.exists():
+        print(f"❌ Arquivo .env não encontrado em: {env_path}")
+        return  # Ou: raise FileNotFoundError(f".env não encontrado: {env_path}")
+
     # Carrega o .env de ../../.env
     env_path = Path(__file__).resolve().parents[2] / '.env'
     load_dotenv(dotenv_path=env_path)
