@@ -8,7 +8,7 @@ namespace App\Models\Api\Endpoint;
 @author Rene Faustino Gabriel Junior <renefgj@gmail.com>
 @copyright 2023 CC-BY
 @access public/private/apikey
-@example https://brapci.inf.br/api/lattes/convert/K2999994T9
+@example https://cip.brapci.inf.br/api/lattes/convert/K2999994T9
 @abstract API para uso do Lattes
 */
 
