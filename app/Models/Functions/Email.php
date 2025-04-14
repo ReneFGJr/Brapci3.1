@@ -73,13 +73,13 @@ class Email extends Model
 
         $config['wordWrap'] = true;
         $config['protocol'] = 'smtp';
-        $config['SMTPHost'] = getenv('email.stmp');
-        $config['SMTPUser'] = getenv('email.user_auth');
-        $config['SMTPPass'] = getenv('email.password');
-        $config['SMTPPort'] = (int)getenv('email.stmp_port');
+        $config['SMTPHost'] = getenv('email_stmp');
+        $config['SMTPUser'] = getenv('email_user_auth');
+        $config['SMTPPass'] = getenv('email_password');
+        $config['SMTPPort'] = (int)getenv('email_stmp_port');
         $cofngi['SMTPCrypto'] = '';
-        $config['fromEmail'] = getenv('email.fromEmail');
-        $config['fromName'] = getenv('email.fromName');
+        $config['fromEmail'] = getenv('email_fromEmail');
+        $config['fromName'] = getenv('email_fromName');
 
         $config['charset']    = 'utf-8';
         //$config['newline']    = "\r\n";

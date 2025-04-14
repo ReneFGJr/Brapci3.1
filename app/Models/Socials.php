@@ -446,7 +446,7 @@ class Socials extends Model
 	function admin_email_config()
 	{
 		$sx = '';
-		$type = getenv("email.type");
+		$type = getenv("email_type");
 		if ($type == '') {
 			$sx .= bsmessage(lang('social.email_not_configured'));
 
@@ -455,35 +455,35 @@ class Socials extends Model
 			# E-MAIL
 			#--------------------------------------------------------------------
 			# options: sendmail, smtp
-			email.type = \'sendmail\'
-			email.stmp = \'\';
-			email.stmp_port = \'\';
-			email.email_from = \'\';
-			email.password = \'\';
-			email.user_auth = \'\';
+			email_type = \'sendmail\'
+			email_stmp = \'\';
+			email_stmp_port = \'\';
+			email_email_from = \'\';
+			email_password = \'\';
+			email_user_auth = \'\';
 			</pre>';
 
 			return $sx;
 		}
 		$sx .= h(lang('social.email_config'), 3);
 		$sx .= lang('social.email_method') . ': <b>' . $type . '</b><br>';
-		$sx .= lang('social.stmp') . ': <b>' . getenv("email.stmp") . '</b><br>';
-		$sx .= lang('social.stmp_port') . ': <b>' . getenv("email.stmp_port") . '</b><br>';
-		$sx .= lang('social.email_from') . ': <b>' . getenv("email.email_from")  . '</b><br>';
-		$sx .= lang('social.password') . ': <b>' . str_pad("", strlen(getenv("email.password")), "*")  . '</b><br>';
-		$sx .= lang('social.user_auth') . ': <b>' . getenv("email.user_auth")  . '</b><br>';
+		$sx .= lang('social.stmp') . ': <b>' . getenv("email_stmp") . '</b><br>';
+		$sx .= lang('social.stmp_port') . ': <b>' . getenv("email_stmp_port") . '</b><br>';
+		$sx .= lang('social.email_from') . ': <b>' . getenv("email_email_from")  . '</b><br>';
+		$sx .= lang('social.password') . ': <b>' . str_pad("", strlen(getenv("email_password")), "*")  . '</b><br>';
+		$sx .= lang('social.user_auth') . ': <b>' . getenv("email_user_auth")  . '</b><br>';
 		$sx .= '<hr>';
 		$sx .= '<pre>
 			#--------------------------------------------------------------------
 			# E-MAIL
 			#--------------------------------------------------------------------
 			# options: sendmail, smtp
-			email.type = \'sendmail\'
-			email.stmp = \'\';
-			email.stmp_port = \'\';
-			email.email_from = \'\';
-			email.password = \'\';
-			email.user_auth = \'\';
+			email_type = \'sendmail\'
+			email_stmp = \'\';
+			email_stmp_port = \'\';
+			email_email_from = \'\';
+			email_password = \'\';
+			email_user_auth = \'\';
 			</pre>';
 
 		return $sx;
@@ -1420,8 +1420,10 @@ class Socials extends Model
 		$txt .= '</center>';
 		$txt .= '<br><br><br>';
 		$subject = '[' . getenv('app.project_name') . '] ' . lang('social.forgout_email_title');
-
-
+		$emails = [];
+		array_push($emails, $email);
+		array_push($emails, 'brapcici@gmail.com');
+		sendmail($email, $subject, $txt);
 
 		return $sx;
 	}
