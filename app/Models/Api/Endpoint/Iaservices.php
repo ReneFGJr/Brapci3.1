@@ -66,7 +66,7 @@ class Iaservices extends Model
             header("Content-Type: application/json");
         }
 
-        switch ($d2) {
+        switch ($d1) {
             case 'list':
                 $RSP = [];
                 $dt = $this->findAll();
