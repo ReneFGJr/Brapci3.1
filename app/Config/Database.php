@@ -60,6 +60,7 @@ class Database extends Config
     public array $search = [];
     public array $elastic = [];
     public array $editais = [];
+    public array $IA = [];
     public array $observatorio = [];
     public array $liked = [];
     public array $lattes = [];
@@ -157,6 +158,7 @@ class Database extends Config
             'find2' => 'find2',
             'findserver' => 'find_server',
             'handle' => 'handle.net',
+            'IA' => 'IA',
             'icr' => 'brapci_icr',
             'oai' => 'brapci_oaipmh',
             'oaiserver' => 'brapci_oaipmh_editor',
