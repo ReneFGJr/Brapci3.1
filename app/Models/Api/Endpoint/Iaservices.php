@@ -16,7 +16,7 @@ use CodeIgniter\Model;
 
 class Iaservices extends Model
 {
-    protected $DBGroup          = 'IA';
+    protected $DBGroup          = 'AI';
     protected $table            = 'links';
     protected $primaryKey       = 'id_lk';
     protected $useAutoIncrement = true;
