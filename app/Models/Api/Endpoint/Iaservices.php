@@ -58,7 +58,7 @@ class Iaservices extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3, $d4)
+    function index($d1, $d2='', $d3='', $d4='')
     {
         $RSP = [];
         header('Access-Control-Allow-Origin: *');
