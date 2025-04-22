@@ -67,7 +67,7 @@ class Iaservices extends Model
         }
 
         switch ($d2) {
-            case 'chat':
+            case 'list':
                 $RSP = [];
                 $dt = $this->findAll();
                 echo json_encode($dt);
