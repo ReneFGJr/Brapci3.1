@@ -65,7 +65,7 @@ class Index extends Model
             }
         }
         switch ($d1) {
-            case 'iaServices':
+            case 'ai':
                 $Iaservices = new \App\Models\Api\Endpoint\Iaservices();
                 $sx = $Iaservices->index($d2, $d3, $d4);
                 break;
