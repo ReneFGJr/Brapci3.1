@@ -65,6 +65,10 @@ class Index extends Model
             }
         }
         switch ($d1) {
+            case 'ai':
+                $Iaservices = new \App\Models\Api\Endpoint\Iaservices();
+                $sx = $Iaservices->index($d2, $d3, $d4);
+                break;
             case 'brapci':
                 $Brapci = new \App\Models\Api\Endpoint\Brapci();
                 $sx = $Brapci->index($d2, $d3, $d4);

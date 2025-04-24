@@ -49,7 +49,7 @@ class Database extends Config
             'time'     => 'H:i:s',
         ],
     ];
-
+    public array $AI = [];
     public array $books = [];
     public array $brapci = [];
     public array $brapci_cited = [];
@@ -140,6 +140,7 @@ class Database extends Config
         $this->default['password'] = getenv('database.default.password');
 
         $db = [
+            'AI' => 'AI',
             'authority' => 'brapci_authority',
             'books' => 'brapci_books',
             'brapci' => 'brapci',
