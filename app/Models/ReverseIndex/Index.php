@@ -72,6 +72,12 @@ class Index extends Model
 		foreach ($docs as $k => $v) {
 			$docsx[$k] = $v[0]['id_w'];
 		}
+		if (count($docsx) == 0) {
+			$RSP['status'] = '400';
+			$RSP['msg'] = 'Bad Request';
+			$RSP['data'] = 'Invalid action';
+			return $RSP;
+		}
 		$recoverDocs = new \App\Models\ReverseIndex\RiAuthorsDocs();
 		$docsR = $recoverDocs->recoverDocs($docsx);
 
