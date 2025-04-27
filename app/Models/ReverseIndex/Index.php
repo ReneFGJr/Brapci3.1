@@ -69,15 +69,18 @@ class Index extends Model
 			$docs[] = $this->where('w_name', $v)->findAll($limit);
 		}
 		$docsx = [];
-		foreach ($docs as $k => $v) {
-			$docsx[$k] = $v[0]['id_w'];
-		}
-		if (count($docsx) == 0) {
+
+		if (count($docs) == 0) {
 			$RSP['status'] = '400';
 			$RSP['msg'] = 'Bad Request';
 			$RSP['data'] = 'Invalid action';
 			return $RSP;
 		}
+
+		foreach ($docs as $k => $v) {
+			$docsx[$k] = $v[0]['id_w'];
+		}
+
 		$recoverDocs = new \App\Models\ReverseIndex\RiAuthorsDocs();
 		$docsR = $recoverDocs->recoverDocs($docsx);
 
