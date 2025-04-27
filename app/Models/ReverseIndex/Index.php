@@ -78,8 +78,11 @@ class Index extends Model
 		}
 
 		foreach ($docs as $k => $v) {
-			pre($v,false);
-			$docsx[$k] = $v[0]['id_w'];
+			if (isset($v[0]['id_w'])) {
+				$docsx[$k] = $v[0]['id_w'];
+			} else {
+				$docsx[$k] = 0;
+			}
 		}
 
 		$recoverDocs = new \App\Models\ReverseIndex\RiAuthorsDocs();
