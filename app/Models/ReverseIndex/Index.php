@@ -78,6 +78,7 @@ class Index extends Model
 		}
 
 		foreach ($docs as $k => $v) {
+			pre($v,false);
 			$docsx[$k] = $v[0]['id_w'];
 		}
 
