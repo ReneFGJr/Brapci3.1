@@ -58,7 +58,7 @@ class Index extends Model
 	function query_author()
 	{
 		$RSP = [];
-		$q = get('q');
+		$q = trim(get('q'));
 		$limit = get('limit');
 		if ($limit == '') $limit = 50;
 
