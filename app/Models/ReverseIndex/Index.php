@@ -57,42 +57,39 @@ class Index extends Model
 
 	function query_author()
 	{
+		$RiAuthors = new \App\Models\ReverseIndex\RiAuthors();
 		$RSP = [];
 		$q = trim(get('q'));
+		$names = explode(' ', $q);
 		$limit = get('limit');
-		if ($limit == '') $limit = 50;
-
-		$w = explode(' ', $q);
-
-		$docs = [];
-		foreach ($w as $k => $v) {
-			$docs[] = $this->where('w_name', $v)->findAll($limit);
-		}
-		$docsx = [];
-
-		if (count($docs) == 0) {
-			$RSP['status'] = '400';
-			$RSP['msg'] = 'Bad Request';
-			$RSP['data'] = 'Invalid action';
-			return $RSP;
+		if ($limit == '') {
+			$limit = 30;
 		}
 
-		foreach ($docs as $k => $v) {
-			if (isset($v[0]['id_w'])) {
-				$docsx[$k] = $v[0]['id_w'];
-			} else {
-				$docsx[$k] = 0;
-			}
+		$names = preg_split('/\s+/', $q);
+
+		$model = new RiAuthors();
+
+		// Agrupa os where para buscar todos os termos em ANY order
+		$model->groupStart();
+		foreach ($names as $name) {
+			$model->orLike('au_name', $name);
 		}
+		$model->groupEnd();
 
-		$recoverDocs = new \App\Models\ReverseIndex\RiAuthorsDocs();
-		$docsR = $recoverDocs->recoverDocs($docsx);
+		$results = $model
+			->orderBy('au_name', 'ASC')
+			->limit($limit)
+			->findAll();
 
-		$RSP['status'] = '200';
-		$RSP['msg'] = 'OK';
-		$RSP['data'] = $w;
-		$RSP['docs'] = $docsR;
+		// Formata resposta para o autocomplete
+		$payload = array_map(function ($row) {
+			return [
+				'id'   => $row['id_au'],       // ajuste o campo de ID conforme seu schema
+				'name' => $row['au_name'],
+			];
+		}, $results);
 
-		return $RSP;
+		return $payload;
 	}
 }
