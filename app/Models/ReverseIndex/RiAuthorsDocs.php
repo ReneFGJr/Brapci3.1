@@ -4,11 +4,11 @@ namespace App\Models\ReverseIndex;
 
 use CodeIgniter\Model;
 
-class Index extends Model
+class RiAuthorsDocs extends Model
 {
 	protected $DBGroup              = 'elastic';
-	protected $table                = 'ri_words';
-	protected $primaryKey           = 'id_w';
+	protected $table                = 'ri_authors_docs';
+	protected $primaryKey           = 'id_ad';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
 	protected $returnType           = 'array';
@@ -55,31 +55,43 @@ class Index extends Model
 		return $RSP;
 	}
 
-	function query_author()
+	function recoverDocs($docs = [])
 	{
 		$RSP = [];
-		$q = get('q');
-		$limit = get('limit');
-		if ($limit == '') $limit = 50;
-
-		$w = explode(' ', $q);
-
-		$docs = [];
-		foreach ($w as $k => $v) {
-			$docs[] = $this->where('w_name', $v)->findAll($limit);
+		if (empty($docs)) {
+			$RSP['status'] = '400';
+			$RSP['msg'] = 'Bad Request';
+			$RSP['data'] = 'Invalid action';
+			return $RSP;
 		}
-		$docsx = [];
-		foreach ($docs as $k => $v) {
-			$docsx[$k] = $v[0]['id_w'];
+
+		$dt = $this->select('ad_author, ad_doc')
+				->whereIn('ad_author', $docs)
+				->groupBy('ad_author, ad_doc')
+				->findAll();
+		$AUTHORS = [];
+
+		foreach ($dt as $key => $value) {
+			$ndDoc = $value['ad_doc'];
+			if (!isset($AUTHORS[$ndDoc])) {
+				$AUTHORS[$ndDoc] = 0;
+			}
+			$AUTHORS[$ndDoc]++;
 		}
-		$recoverDocs = new \App\Models\ReverseIndex\RiAuthorsDocs();
-		$docsR = $recoverDocs->recoverDocs($docsx);
 
-		$RSP['status'] = '200';
-		$RSP['msg'] = 'OK';
-		$RSP['data'] = $w;
-		$RSP['docs'] = $docsR;
+		/******************* Seleção */
+		$doa = [];
+		foreach ($AUTHORS as $k => $v) {
+			if ($v == count($docs)) {
+				$doa[] = $k;
+			}
+		}
 
+		$RiAuthors = new \App\Models\ReverseIndex\RiAuthors();
+		$RSP = $RiAuthors
+			->select('*')
+			->whereIn('id_au', $doa)
+			->findAll();
 		return $RSP;
 	}
 }
