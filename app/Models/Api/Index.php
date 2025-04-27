@@ -65,6 +65,12 @@ class Index extends Model
             }
         }
         switch ($d1) {
+            case 'sri':
+                $Sri = new \App\Models\ReverseIndex\Index();
+                $RSP = $Sri->index($d2, $d3, $d4, $d5, $d6);
+                echo json_encode($RSP);
+                exit;
+                break;
             case 'ai':
                 $Iaservices = new \App\Models\Api\Endpoint\Iaservices();
                 $sx = $Iaservices->index($d2, $d3, $d4);

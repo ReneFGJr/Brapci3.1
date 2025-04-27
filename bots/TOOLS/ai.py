@@ -12,9 +12,11 @@ import ai_cited
 import ai_keywords
 import ai_section
 import ai_abstract
+
 import mod_convert_repository
-import mod_docling
 import database
+
+import mod_small_world
 
 def toDO():
     qr = "select ID from brapci_elastic.dataset where JOURNAL = 75 and (ABSTRACT = '' OR KEYWORDS = '')"
@@ -67,16 +69,20 @@ else:
 
 
 dirT = '/data/Brapci3.1/public/'
-
-file = dirT + sys_io.getNameFile(id)
-fileTXT = sys_io.getNameFileTXT(file)
-txt = sys_io.readfile(fileTXT)
-fileO = file
-print("=fileO=>",file)
+#file = dirT + sys_io.getNameFile(id)
+#fileTXT = sys_io.getNameFileTXT(file)
+#txt = sys_io.readfile(fileTXT)
+#fileO = file
+fileO = 'x'
 
 if (act == 'All'):
+    print("Extrair Trabalhos")
+
+    print("=fileO=>",file)
+
     print("<h4>Gerar Markdown</h4>")
     print(" Processoando ID",id)
+    import mod_docling
     mod_docling.saveFileD(fileO)
 
     print("Extrair e-mail")
@@ -168,9 +174,10 @@ elif (act == 'keywordsOllama'):
     print("==>", fileO)
     #fileN = fileO.replace('.pdf', '_keywords.json')
     #saveFileD(fileN, lists)
-
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
+elif (act == 'smallWorld'):
+    mod_small_world.proccess()
 else:
     print("Ação não localizada")
     print("email, url, doi, handle, metadata, cited, section, keywords, docling")

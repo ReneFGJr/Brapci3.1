@@ -2,7 +2,6 @@ import socket
 
 def db():
   hostname = socket.gethostname()
-  print("=========",hostname)
   if (hostname == 'DESKTOP-M0Q0TD7'):
     config = {
       'user': 'root',
