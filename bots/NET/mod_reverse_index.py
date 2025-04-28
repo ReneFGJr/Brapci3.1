@@ -6,7 +6,8 @@ def index(word: str, doc_id: int):
     wd = split_string(word)
     for w in wd:
         ida = register_word(w)
-        register_word_doc(ida, doc_id)
+        if (ida > 0):
+            register_word_doc(ida, doc_id)
 
 def register_word_doc(word: str, doc_id: int):
     qr = f"SELECT id_ad  FROM brapci_elastic.ri_authors_docs WHERE ad_author  = {word} and ad_doc = {doc_id}"
