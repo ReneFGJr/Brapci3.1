@@ -132,6 +132,8 @@ class Metadata extends Model
         /************************************************************** PROPERTIES **/
         $authF = [];
         $keyWD = '';
+        $keyWDen = '';
+        $keyWDes = '';
         $abstC = '';
         $sectN = '';
         $PUBLI = '';
@@ -191,13 +193,20 @@ class Metadata extends Model
                             ##################################### KEYWORDS
                             if ($cls == 'Subject')
                                 {
-                                    pre($line);
-
-                                    if ($keyWD != '')
-                                    {
-                                        $keyWD .= '; ';
+                                    switch($line['Lang']) {
+                                        case 'en':
+                                            if ($keyWDen != '') { $keyWDen .= '; '; }
+                                            $keyWDen = trim($line['Caption']);
+                                            break;
+                                        case 'pt':
+                                            if ($keyWD != '') { $keyWD .= '; '; }
+                                            $keyWD = trim($line['Caption']);
+                                            break;
+                                        case 'es':
+                                            if ($keyWDes != '') { $keyWDes .= '; '; }
+                                            $keyWDes = trim($line['Caption']);
+                                            break;
                                     }
-                                    $keyWD .= trim($line['Caption']);
                                 }
                             ##################################### abstract
                             if ($cls == 'Abstract') {
@@ -274,7 +283,9 @@ class Metadata extends Model
             }
 
             $M['KEYWORDS'] = $keyWD;
-            $M['ABSTRACTS'] = $abstC;
+            $M['KEYWORDS_EN'] = $keyWDen;
+            $M['KEYWORDS_ES'] = $keyWDes;
+            $M['KEYWORDS_FR'] = '';
 
             /* Ordena Session */
             $sectN = troca($sectN,'; ',';');

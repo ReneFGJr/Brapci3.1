@@ -19,6 +19,9 @@ class Register extends Model
         'JOURNAL', 'ISSUE', 'YEAR', 'KEYWORD', 'ABSTRACT', 'KEYWORDS','ABSTRACTS',
         'PDF', 'updated_at', 'status', 'AUTHORS', 'TITLE', 'SESSION', 'PUBLICATION',
         'LEGEND','new','use','URL',
+        'KEYWORD_EN',
+        'KEYWORD_ES',
+        'KEYWORD_FR',
         'OAI_ID'
     ];
 
