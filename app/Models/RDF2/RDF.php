@@ -208,13 +208,13 @@ class RDF extends Model
 
     function index_list($i, $l = 'A', $lang = '')
     {
-        $cp = 'n_name, n_lang, id_cc';
+        $cp = 'n_name, n_lang, id_cc, id_n';
         $RDFclass = new \App\Models\RDF2\RDFclass();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $idc = $RDFclass->getClass($i);
         $RDFconcept
             ->select($cp)
-            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term, id_n')
+            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
             ->where('cc_class', $idc)
             ->where('id_cc = cc_use')
             ->where("substring(n_name,1,1) = '$l'");
