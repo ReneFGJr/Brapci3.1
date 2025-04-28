@@ -486,6 +486,10 @@ class Brapci extends Model
 
         $Issues = new \App\Models\Base\Issues();
         $dt['issue'] = $Issues->issuesRow($dt['id_jnl']);
+
+        $Elastic = new \App\Models\ElasticSearch\Register();
+        $works = $Elastic->getWorksSource($d1);
+        $dt['worksID'] = $works;
         return $dt;
     }
 

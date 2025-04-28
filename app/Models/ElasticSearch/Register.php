@@ -262,6 +262,11 @@ class Register extends Model
         return $sx;
     }
 
+    function getWorksSource($ID)
+        {
+            $dt = $this->select("ID")->where('JOURNAL ', $ID)->findAll();
+            return $dt;
+        }
     function exported($id,$new)
         {
             $dta = [];
