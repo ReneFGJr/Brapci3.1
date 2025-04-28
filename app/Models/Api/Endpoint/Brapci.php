@@ -64,6 +64,10 @@ class Brapci extends Model
         $RSP['status'] = '200';
 
         switch ($d1) {
+            case 'setTermLang':
+                $Terms = new \App\Models\RDF2\RDFliteral();
+                $RSP = $Terms->setTermLang($d2, $d3);
+                echo json_encode($RSP);
             case 'analysis':
                 $Analysis = new \App\Models\Base\Analysis();
                 $RSP = $Analysis->analysis($d2);

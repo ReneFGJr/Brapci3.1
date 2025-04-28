@@ -81,6 +81,12 @@ class RDFliteral extends Model
             return $ID;
         }
 
+        function setTermLang($id,$lang='pt')
+            {
+                $ID = $this->set(['n_lang'=>$lang])->where('id_n',$id)->update();
+                return $ID;
+            }
+
         function ascii()
             {
                 $sx = '';
