@@ -85,7 +85,7 @@ class RDFliteral extends Model
             {
                 $ID = $this->set(['n_lang'=>$lang])->where('id_n',$id)->update();
                 $RSP = [];
-                $RSP['id'] = $ID;
+                $RSP['id'] = $id;
                 $RSP['lang'] = $lang;
                 $RSP['status'] = '200';
                 $RSP['msg'] = 'Language set to: '.$lang;
