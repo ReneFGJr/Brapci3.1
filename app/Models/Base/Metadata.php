@@ -287,6 +287,8 @@ class Metadata extends Model
             $M['KEYWORDS_ES'] = $keyWDes;
             $M['KEYWORDS_FR'] = '';
 
+            $M['ABSTRACTS'] = $abstC;
+
             /* Ordena Session */
             $sectN = troca($sectN,'; ',';');
             $sectA = explode(';', $sectN);
