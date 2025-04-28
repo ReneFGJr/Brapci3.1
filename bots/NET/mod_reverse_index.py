@@ -36,6 +36,8 @@ def register_word(word: str):
     word = word[0:200]
     print(f"Word2: {word}")
     sys.exit()
+    if word.length() < 5:
+        return 0
     # Registra a palavra no índice invertido
     qr = f"SELECT id_w FROM brapci_elastic.ri_words WHERE w_name = '{word}'"
     row = database.query(qr)
