@@ -84,7 +84,13 @@ class RDFliteral extends Model
         function setTermLang($id,$lang='pt')
             {
                 $ID = $this->set(['n_lang'=>$lang])->where('id_n',$id)->update();
-                return $ID;
+                $RSP = [];
+                $RSP['id'] = $ID;
+                $RSP['lang'] = $lang;
+                $RSP['status'] = '200';
+                $RSP['msg'] = 'Language set to: '.$lang;
+                echo json_encode($RSP);
+                exit;
             }
 
         function ascii()
