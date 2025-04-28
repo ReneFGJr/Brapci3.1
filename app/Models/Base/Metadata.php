@@ -191,6 +191,8 @@ class Metadata extends Model
                             ##################################### KEYWORDS
                             if ($cls == 'Subject')
                                 {
+                                    pre($line);
+
                                     if ($keyWD != '')
                                     {
                                         $keyWD .= '; ';
