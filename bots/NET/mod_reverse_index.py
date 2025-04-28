@@ -36,7 +36,7 @@ def register_word(word: str):
     print(f"Word1: {word}")
     word = word[0:200]
     print(f"Word2: {word}")
-    sys.exit()
+
     if word.length() < 5:
         return 0
     # Registra a palavra no índice invertido
