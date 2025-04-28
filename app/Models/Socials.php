@@ -62,7 +62,7 @@ class Socials extends Model
 	var $path_back;
 	var $id = 0;
 	var $error = 0;
-	var $site = 'https://brapci.inf.br/#/';
+	var $site = 'https://brapci.inf.br/';
 
 	function chagePassword($apikey,$pass)
 		{
