@@ -33,11 +33,9 @@ def split_string(string: str) -> list[str]:
     return palavras
 
 def register_word(word: str):
-    print(f"Word1: {word}")
     word = word[0:200]
-    print(f"Word2: {word}")
 
-    if len(word) < 5:
+    if (len(word) < 5) or (len(word) > 50):
         return 0
     # Registra a palavra no índice invertido
     qr = f"SELECT id_w FROM brapci_elastic.ri_words WHERE w_name = '{word}'"
