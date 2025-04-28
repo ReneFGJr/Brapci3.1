@@ -196,15 +196,15 @@ class Metadata extends Model
                                     switch($line['Lang']) {
                                         case 'en':
                                             if ($keyWDen != '') { $keyWDen .= '; '; }
-                                            $keyWDen = trim($line['Caption']);
+                                            $keyWDen .= trim($line['Caption']);
                                             break;
                                         case 'pt':
                                             if ($keyWD != '') { $keyWD .= '; '; }
-                                            $keyWD = trim($line['Caption']);
+                                            $keyWD .= trim($line['Caption']);
                                             break;
                                         case 'es':
                                             if ($keyWDes != '') { $keyWDes .= '; '; }
-                                            $keyWDes = trim($line['Caption']);
+                                            $keyWDes .= trim($line['Caption']);
                                             break;
                                     }
                                 }
