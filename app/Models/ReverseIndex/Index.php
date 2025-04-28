@@ -73,7 +73,7 @@ class Index extends Model
 		// Agrupa os where para buscar todos os termos em ANY order
 		$model->groupStart();
 		foreach ($names as $name) {
-			$model->orLike('au_name', $name);
+			$model->Like('au_name', $name);
 		}
 		$model->groupEnd();
 
