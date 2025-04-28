@@ -214,7 +214,7 @@ class RDF extends Model
         $idc = $RDFclass->getClass($i);
         $RDFconcept
             ->select($cp)
-            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term')
+            ->join('brapci_rdf.rdf_literal', 'id_n = cc_pref_term, id_n')
             ->where('cc_class', $idc)
             ->where('id_cc = cc_use')
             ->where("substring(n_name,1,1) = '$l'");
