@@ -489,7 +489,13 @@ class Brapci extends Model
 
         $Elastic = new \App\Models\ElasticSearch\Register();
         $works = $Elastic->getWorksSource($d1);
-        $dt['worksID'] = $works;
+        $w = [];
+        foreach ($works as $id => $line) {
+            if (isset($line['ID'])) {
+                array_push($w, $line['ID']);
+            }
+        }
+        $dt['worksID'] = $w;
         return $dt;
     }
 
