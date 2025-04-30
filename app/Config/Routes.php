@@ -31,8 +31,10 @@ $routes->get('/chat/', 'Chatbot::index/');
 $routes->get('/chatbot/', 'Chatbot::index/');
 
 
-/********** DOWNLOAD */
-$routes->get('/catalog', 'Catalog::index');
+/********** CDU */
+$routes->get('/cdu', 'Cdu::index');
+$routes->get('/cdu/(:any)', 'Cdu::index/$1');
+$routes->post('/cdu/(:any)', 'Cdu::index/$1');
 
 /********** DOWNLOAD */
 $routes->get('/download', 'Download::index');

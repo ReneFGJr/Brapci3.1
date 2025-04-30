@@ -53,6 +53,7 @@ class Database extends Config
     public array $books = [];
     public array $brapci = [];
     public array $brapci_cited = [];
+    public array $CDU = [];
     public array $authority = [];
     public array $dci  = [];
     public array $oai = [];
@@ -148,6 +149,7 @@ class Database extends Config
             'bots' => 'brapci_bots',
             'pq' => 'brapci_pq',
             'capes' => 'capes',
+            'CDU' => 'CDU',
             'brapci_cited' => 'brapci_cited',
             'click'=>'brapci_click',
             'dataverse' => 'dataverse',
