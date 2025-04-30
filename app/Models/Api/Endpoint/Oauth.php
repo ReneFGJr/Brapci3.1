@@ -152,7 +152,7 @@ class Oauth extends Model
                     } else {
                         $dd = $_POST;
                         $dd['status'] = '500';
-                        $dd['message'] = lang('brapci.error');
+                        $dd['message'] = lang('brapci.error - password incorrect');
                     }
                 echo json_encode($dd);
                 exit;
