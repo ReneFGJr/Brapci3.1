@@ -18,7 +18,8 @@ class Questions extends Model
         'q_statement',
         'q_ask',
         'q_comentary',
-        'q_group'
+        'q_group',
+        'q_used'
     ];
 
     protected bool $allowEmptyInserts = false;

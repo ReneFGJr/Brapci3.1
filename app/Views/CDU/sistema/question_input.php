@@ -21,7 +21,7 @@
       <div class="mb-3">
         <label for="id_q" class="form-label">ID da Questão</label>
         <input
-          type="text"
+          type="hidden"
           name="id_q"
           id="id_q"
           value="<?= set_value('id_q') ?>"
@@ -46,11 +46,11 @@
       </div>
 
       <div class="mb-3">
-        <label for="q_ask" class="form-label">Pergunta</label>
+        <label for="q_ask" class="form-label">Possibilidades</label>
         <textarea
           name="q_ask"
           id="q_ask"
-          rows="2"
+          rows="6"
           class="form-control <?= isset($validation) && $validation->hasError('q_ask') ? 'is-invalid' : '' ?>"
         ><?= set_value('q_ask') ?></textarea>
         <div class="invalid-feedback">
@@ -59,7 +59,7 @@
       </div>
 
       <div class="mb-3">
-        <label for="q_comentary" class="form-label">Comentário</label>
+        <label for="q_comentary" class="form-label">Resposta</label>
         <textarea
           name="q_comentary"
           id="q_comentary"

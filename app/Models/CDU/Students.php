@@ -82,5 +82,8 @@ class Students extends Model
         return $this->db->affectedRows();
     }
 
-    function getStudents($id = 0) {}
+    function getStudent($id = 0) {
+        $dt = $this->where('us_cracha', $id)->first();
+        return $dt;
+    }
 }

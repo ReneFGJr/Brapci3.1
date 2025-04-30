@@ -14,15 +14,21 @@ define("COLLECTION", '/catalog');
 define("PREFIX", '');
 define("MODULE", 'catalog');
 define("LIBRARY", '0000');
+define("URLa",'https://cip.brapci.inf.br/cdu/');
+
 
 class Cdu extends BaseController
 {
     public function index($act = '', $d1 = '', $d2 = '', $d3 = '', $d4 = '')
     {
         $sx = '';
+        $sx .= view('CDU/header');
         switch ($act) {
             case '':
                 $sx = 'HELLO';
+                break;
+            case 'test':
+                $sx = $this->test($d1);
                 break;
             case 'avaliation':
                 $sx = $this->avaliation();
@@ -39,9 +45,25 @@ class Cdu extends BaseController
         return $sx;
     }
 
+    function test($cracha)
+        {
+            $sx = '';
+            $sx .= view('CDU/header');
+            $Students = new \App\Models\CDU\Students();
+            $Avaliation = new \App\Models\CDU\Avaliation();
+            $dtu = $Students->getStudent($cracha);
+            if ($dtu == []) {
+                return 'NOK';
+            } else {
+                $sx .= view('CDU/aluno/profile', $dtu);
+                $Avaliation->makeTest($cracha);
+                $sx .= $Avaliation->showTest($cracha);
+            }
+            return $sx;
+        }
+
     public function questions()
     {
-        $URL = 'http://brapci/';
         $data = [];
         $data = [
             'validation' => null,
@@ -66,7 +88,7 @@ class Cdu extends BaseController
                 echo "ERRO";
             } else {
                 $model = new \App\Models\CDU\Questions();
-echo "OK";
+
                 $model->insert([
                     'id_q'        => $this->request->getPost('id_q'),
                     'q_statement' => $this->request->getPost('q_statement'),
@@ -74,23 +96,16 @@ echo "OK";
                     'q_comentary' => $this->request->getPost('q_comentary'),
                     'q_group'     => $this->request->getPost('q_group'),
                 ]);
-                return redirect()->to('/cdu/questions');
+                return redirect()->to(URLa . ('/cdu/questions'));
             }
         }
-        $data['url'] = $URL . ('/cdu/questions');
+        $data['url'] = URLa . ('/cdu/questions');
         return view('CDU/sistema/question_input', $data);
     }
 
 
-    public function avaliation()
-    {
-        $sx = $this->formulario();
-        return $sx;
-    }
-
     function import()
     {
-        $URL = 'http://brapci/';
         $data = [];
 
         $meth = UpperCase($this->request->getMethod());
@@ -118,11 +133,11 @@ echo "OK";
         $data['title'] = 'Importação de Alunos';
         $data['description'] = 'Cole aqui a lista de alunos, um por linha. Exemplo:';
         $data['sample'] = '1	GRAD	123123	FULANA PEIXOTO SAILVA	';
-        $data['url'] = $URL.('/cdu/import');
+        $data['url'] = URLa.('/cdu/import');
         return view('/CDU/sistema/textarea', $data);
     }
 
-    public function formulario()
+    public function avaliation()
     {
         // Carrega o helper de formulários e o serviço de validação
         helper(['form']);
