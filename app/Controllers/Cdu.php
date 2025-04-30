@@ -25,7 +25,7 @@ class Cdu extends BaseController
         $sx .= view('CDU/header');
         switch ($act) {
             case '':
-                $sx = 'HELLO';
+                $sx = 'CDU - Classificação Decimal Universal';
                 break;
             case 'test':
                 $sx = $this->test($d1);
@@ -165,7 +165,7 @@ class Cdu extends BaseController
                 // Se passar, trate o dado (por exemplo, salvar ou redirecionar)
                 $cracha = $this->request->getPost('cracha');
                 // … faça o que for preciso com $cracha …
-                return redirect()->to('/aluno/sucesso');
+                return redirect()->to(URLa.'/cdu/test/' . $cracha);
             }
         }
         return view('CDU/aluno/formulario', $data);
