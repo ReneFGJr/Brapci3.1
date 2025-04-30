@@ -64,9 +64,15 @@ class Oauth extends Model
         $d4 = get("menemonico");
 
         switch ($d1) {
-            case 'check-change-password':
+            case 'chagePassword':
                 $Social = new \App\Models\Socials();
                 $dd = $Social->validRecover(get("apikey"));
+                echo json_encode($dd);
+                exit;
+                break;
+            case 'check-change-password':
+                $Social = new \App\Models\Socials();
+                $dd = $Social->chagePassword(get("apikey"),get("password"));
                 echo json_encode($dd);
                 exit;
                 break;
