@@ -19,7 +19,7 @@
             </div>
         <?php endif ?>
 
-        <?= form_open('aluno/formulario') ?>
+        <?= form_open($url) ?>
 
             <div class="mb-3">
                 <label for="cracha" class="form-label">Crachá (8 dígitos)</label>

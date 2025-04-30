@@ -165,9 +165,12 @@ class Cdu extends BaseController
                 // Se passar, trate o dado (por exemplo, salvar ou redirecionar)
                 $cracha = $this->request->getPost('cracha');
                 // … faça o que for preciso com $cracha …
+                echo "O";
+                exit;
                 return $this->test($cracha);
             }
         }
+        $data['url'] = URLa . ('avaliation');
         return view('CDU/aluno/formulario', $data);
     }
 }
