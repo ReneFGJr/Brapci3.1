@@ -149,7 +149,7 @@ class Database extends Config
             'bots' => 'brapci_bots',
             'pq' => 'brapci_pq',
             'capes' => 'capes',
-            'CDU' => 'CDU',
+            'CDU' => 'cdu',
             'brapci_cited' => 'brapci_cited',
             'click'=>'brapci_click',
             'dataverse' => 'dataverse',
