@@ -47,16 +47,14 @@ class Cdu extends BaseController
             'validation' => null,
         ];
 
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             $rules = [
-                'id_q'        => 'required|integer',
                 'q_statement' => 'required|string',
                 'q_ask'       => 'required|string',
                 'q_comentary' => 'permit_empty|string',
                 'q_group'     => 'required|string',
             ];
             $errors = [
-                'id_q'        => ['required' => 'O campo ID é obrigatório.', 'integer' => 'Deve ser um número inteiro.'],
                 'q_statement' => ['required' => 'Enunciado é obrigatório.'],
                 'q_ask'       => ['required' => 'Pergunta é obrigatória.'],
                 'q_comentary' => ['string'   => 'Comentário inválido.'],
@@ -65,9 +63,10 @@ class Cdu extends BaseController
 
             if (! $this->validate($rules, $errors)) {
                 $data['validation'] = $this->validator;
+                echo "ERRO";
             } else {
                 $model = new \App\Models\CDU\Questions();
-
+echo "OK";
                 $model->insert([
                     'id_q'        => $this->request->getPost('id_q'),
                     'q_statement' => $this->request->getPost('q_statement'),

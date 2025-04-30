@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class Questions extends Model
 {
+    protected $DBGroup          = 'CDU';
     protected $table            = 'questions';
     protected $primaryKey       = 'id_q';
     protected $useAutoIncrement = true;
