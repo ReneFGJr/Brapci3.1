@@ -67,8 +67,7 @@ class Cdu extends BaseController
                 $data['validation'] = $this->validator;
             } else {
                 $model = new \App\Models\CDU\Questions();
-                echo "OK";
-                exit;
+
                 $model->insert([
                     'id_q'        => $this->request->getPost('id_q'),
                     'q_statement' => $this->request->getPost('q_statement'),
@@ -76,7 +75,7 @@ class Cdu extends BaseController
                     'q_comentary' => $this->request->getPost('q_comentary'),
                     'q_group'     => $this->request->getPost('q_group'),
                 ]);
-                return redirect()->to('/questoes/success');
+                return redirect()->to('/cdu/questions');
             }
         }
         $data['url'] = $URL . ('/cdu/questions');
