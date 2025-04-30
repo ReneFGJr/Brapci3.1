@@ -15,6 +15,7 @@ define("PREFIX", '');
 define("MODULE", 'catalog');
 define("LIBRARY", '0000');
 define("URLa",'https://cip.brapci.inf.br/cdu/');
+//define("URLa", 'http://brapci/cdu/');
 
 
 class Cdu extends BaseController
@@ -144,7 +145,7 @@ class Cdu extends BaseController
         $data = [];
 
         // Se vier um POST, valida
-        if ($this->request->getMethod() === 'post') {
+        if ($this->request->getMethod() === 'POST') {
             // Define regras: required, numeric, exatamente 8 dígitos
             $rules = [
                 'cracha' => [
@@ -161,12 +162,10 @@ class Cdu extends BaseController
             if (! $this->validate($rules)) {
                 // Se falhar, envia os erros para a view
                 $data['validation'] = $this->validator;
+
             } else {
                 // Se passar, trate o dado (por exemplo, salvar ou redirecionar)
                 $cracha = $this->request->getPost('cracha');
-                // … faça o que for preciso com $cracha …
-                echo "O";
-                exit;
                 return $this->test($cracha);
             }
         }
