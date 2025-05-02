@@ -49,7 +49,7 @@ class Search extends Model
         $limit = 100;
         $user = get("user");
         if ($user != '') {
-            $limit = 50000;
+            $limit = -1;
         }
 
         // Verifica se os dados estão presentes
@@ -58,6 +58,7 @@ class Search extends Model
 
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
             $query = $Logic->method_a1($limit);
+            pre($query);
 
             $this->curlQuery($query);
         } else {
