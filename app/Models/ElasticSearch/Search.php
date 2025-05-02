@@ -58,7 +58,6 @@ class Search extends Model
 
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
             $query = $Logic->method_a1($limit);
-            pre($query);
 
             $this->curlQuery($query);
         } else {
