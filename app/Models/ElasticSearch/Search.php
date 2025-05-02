@@ -46,13 +46,16 @@ class Search extends Model
     {
         // Verifica se a requisição é do tipo POST
         $data = get("q");
+        $limit = 100;
+
+        return $data;
 
         // Verifica se os dados estão presentes
         if ($data != '') {
             // Exemplo de processamento dos termos booleanos
 
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
-            $query = $Logic->method_a1();
+            $query = $Logic->method_a1($limit);
             $this->curlQuery($query);
         } else {
             // Erro: Dados inválidos

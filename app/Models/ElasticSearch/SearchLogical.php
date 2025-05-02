@@ -146,7 +146,7 @@ class SearchLogical extends Model
         return $resultado;
     }
 
-    function method_a1()
+    function method_a1($limit = 100)
         {
             $qr = get("q");
             $qr = ascii($qr);
@@ -164,7 +164,7 @@ class SearchLogical extends Model
             $query['query'] = [];
             $query['query']['bool'] = [];
             $query['query']['bool']['must'] = [];
-            $query['size'] = 1000;
+            $query['size'] = $limit;
             $query['from'] = 0;
 
             $q = [];
