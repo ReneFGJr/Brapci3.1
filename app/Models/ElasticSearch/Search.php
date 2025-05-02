@@ -49,7 +49,7 @@ class Search extends Model
         $limit = 100;
         $user = get("user");
         if ($user != '') {
-            $limit = 100000;
+            $limit = 10000;
         }
 
         // Verifica se os dados estão presentes
