@@ -47,6 +47,7 @@ class Search extends Model
         // Verifica se a requisição é do tipo POST
         $data = get("q");
         $limit = 100;
+        return $_POST;
 
         return $data;
 
