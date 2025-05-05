@@ -1364,6 +1364,10 @@ class Socials extends Model
 					->update();
 				$RSP['status'] = '200';
 				$RSP['message'] = 'Success';
+				$RSP['user'] = $dt['us_nome'];
+				$RSP['ID'] = $dt['id_us'];
+				$RSP['email'] = $dt['us_email'];
+				$RSP['apikey'] = $dt['us_apikey'];
 			} else {
 				$RSP['status'] = '500';
 				$RSP['message'] = 'Password is invalid!';

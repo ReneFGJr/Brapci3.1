@@ -291,13 +291,11 @@ class Oauth extends Model
         pre($rsp);
 
 
-        if (strpos($rsp, 'ERROR')) {
+        if ($rsp['status'] != '400') {
             $dd['status'] = '400';
             $dd['message'] = 'User or Password incorrect';
             return $dd;
         } else {
-            if (isset($_SESSION['apikey'])) {
-                $admin = 0;
                 $nome = $_SESSION['user'];
                 $dd['status'] = '200';
                 $dd['message'] = 'Loged';
