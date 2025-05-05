@@ -85,6 +85,7 @@ class Socials extends Model
 					*/
 					$RSP['status'] = '200';
 					$RSP['message'] = 'Senha validada com sucesso!';
+					$RSP['data'] = $dt;
 				} else {
 					$RSP['status'] = '404';
 					$RSP['message'] = 'Senha não validada!';
