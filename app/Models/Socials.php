@@ -77,7 +77,7 @@ class Socials extends Model
 				$RSP['message'] = 'Senha não informada!';
 				return $RSP;
 			}
-			if ($pass2 != $pass2) {
+			if ($pass2 != $pass1) {
 				$RSP['status'] = '404';
 				$RSP['message'] = 'Senhas diferentes!';
 				return $RSP;
