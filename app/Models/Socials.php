@@ -78,6 +78,7 @@ class Socials extends Model
 				{
 					$dq = [];
 					$dq['us_password'] = $password;
+					$dq['us_password'] = $pass;
 					$dq['us_recover'] = '';
 					$dq['us_autenticador'] = 'MD5';
 					pre($dq);
