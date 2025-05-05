@@ -1337,7 +1337,6 @@ class Socials extends Model
 		$pwd = get("pwd");
 		$dt = $this->user_exists($user);
 
-		pre($pwd);
 		if ($pwd == '')
 			{
 				$RSP['status'] = '500';
