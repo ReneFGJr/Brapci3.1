@@ -64,12 +64,22 @@ class Socials extends Model
 	var $error = 0;
 	var $site = 'https://brapci.inf.br/';
 
-	function chagePassword($apikey,$pass)
+	function chagePassword($apikey,$pass1,$pass2)
 		{
 			$RSP = [];
 			if ($apikey == '') {
 				$RSP['status'] = '404';
 				$RSP['message'] = 'APIKEY não informada!';
+				return $RSP;
+			}
+			if ($pass1 == '') {
+				$RSP['status'] = '404';
+				$RSP['message'] = 'Senha não informada!';
+				return $RSP;
+			}
+			if ($pass2 != $pass2) {
+				$RSP['status'] = '404';
+				$RSP['message'] = 'Senhas diferentes!';
 				return $RSP;
 			}
 			$dt = $this->where('us_recover',$apikey)->first();
