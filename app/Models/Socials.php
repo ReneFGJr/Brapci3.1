@@ -1337,7 +1337,7 @@ class Socials extends Model
 		$pwd = get("pwd");
 		$dt = $this->user_exists($user);
 
-		if ($pwd == '')
+		if (trim($pwd) == '')
 			{
 				$RSP['status'] = '500';
 				$RSP['message'] = 'Password is empty!';
