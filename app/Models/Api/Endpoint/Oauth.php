@@ -305,7 +305,7 @@ class Oauth extends Model
 
                 /********************************** */
                 $adminX = 0;
-                $ddp = (string)$Socials->validGroups($_SESSION['id']);
+                $ddp = (string)$Socials->validGroups($dd['id']);
                 if (strpos(' '. $ddp,'#ADM') > 0)
                     {
                         $adminX = 1;
