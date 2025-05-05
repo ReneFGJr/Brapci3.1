@@ -1349,31 +1349,30 @@ class Socials extends Model
 						$this->set($dq)->where('id_us',$dt['id_us'])->update();
 						$dt[0]['us_apikey'] = $apikey;
 					}
-				$RSP['pass1'] = $dt['us_password'];
-				$RSP['pass2'] = md5($pwd);
-				return $RSP;
 
-				$this->log_insert($dt[0]['id_us']);
+
+				$this->log_insert($dt['id_us']);
 
 				/* Atualiza último acesso */
-				$id = $dt[0]['id_us'];
-				$token = $dt[0]['us_password'];
+				$id = $dt['id_us'];
+				$token = $dt['us_password'];
 
 				$data = array('us_lastaccess'=>date("Y-m-d H:i:s"));
 				$this
 					->set($data)
 					->where('id_us',$id)
 					->update();
+				$RSP['status'] = '200';
+				$RSP['message'] = 'Success';
 			} else {
-				$sx .= '<h2>' . lang('ERROR') . '<h2>';
-				$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
+				$RSP['status'] = '500';
+				$RSP['message'] = 'Password is invalid!';
 			}
 		} else {
-			$sx .= '<h2>' . lang('social.user_error') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
+			$RSP['status'] = '500';
+			$RSP['message'] = 'User not found!';
 		}
-		pre($sx);
-		return $sx;
+		return $RSP;
 	}
 
 	function getRecoverKey($email)
