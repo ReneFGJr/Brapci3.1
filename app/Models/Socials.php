@@ -83,12 +83,12 @@ class Socials extends Model
 				return $RSP;
 			}
 			$dt = $this->where('us_recover',$apikey)->first();
-			$password = md5($pass);
+			$password = md5($pass1);
 			if ($dt != [])
 				{
 					$dq = [];
 					$dq['us_password'] = $password;
-					$dq['us_password'] = $pass;
+					$dq['us_password'] = $pass1;
 					$dq['us_recover'] = '';
 					$dq['us_autenticador'] = 'MD5';
 					pre($dq);
