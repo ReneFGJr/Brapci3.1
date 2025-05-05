@@ -288,7 +288,8 @@ class Oauth extends Model
         $Socials = new \App\Models\Socials();
         $rsp = $Socials->signin();
 
-        $rsp = strip_tags($rsp);
+        pre($rsp);
+
 
         if (strpos($rsp, 'ERROR')) {
             $dd['status'] = '400';
