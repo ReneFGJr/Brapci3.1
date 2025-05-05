@@ -82,6 +82,7 @@ class Socials extends Model
 					$this
 					->set('us_password', $password)
 					->set('us_recover', '')
+					->set('us_autenticador','MD5')
 					->where('id_us', $dt['id_us'])
 					->update();
 
