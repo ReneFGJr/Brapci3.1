@@ -286,25 +286,21 @@ class Oauth extends Model
         $dd = [];
         $dd['process'] = date("Y-m-d H:i:s");
         $Socials = new \App\Models\Socials();
-        $rsp = $Socials->signin();
-
-        pre($rsp);
+        $RSP = $Socials->signin();
 
 
-        if ($rsp['status'] != '400') {
-            $dd['status'] = '400';
-            $dd['message'] = 'User or Password incorrect';
-            return $dd;
+        if ($RSP['status'] != '400') {
+            $RSP['message'] = 'User or Password incorrect';
+            return $RSP;
         } else {
-                $nome = $_SESSION['user'];
                 $dd['status'] = '200';
-                $dd['message'] = 'Loged';
                 $dd['message'] = 'Loged2';
-                $dd['id'] = $_SESSION['id'];
-                $dd['email'] = $_SESSION['email'];
+                $dd['id'] = $RSP['ID'];
+                $dd['email'] = $RSP['email'];
+                $nome = $RSP['user'];
                 $dd['givenName'] = trim(substr($nome, 0, strpos($nome, ' ')));
                 $dd['sn'] = trim(substr($nome, strpos($nome, ' '), strlen($nome)));
-                $dd['token'] = $_SESSION['apikey'];
+                $dd['token'] = $RSP['apikey'];
                 $dd['persistent-id'] = PATH . 'api/socials/apikey/' . $dd['token'];
 
                 /********************************** */
