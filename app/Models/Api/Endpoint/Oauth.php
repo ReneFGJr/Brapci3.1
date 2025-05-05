@@ -76,6 +76,7 @@ class Oauth extends Model
                 echo json_encode($dd);
                 exit;
                 break;
+
             case 'generatePassword':
                 if ($d2 == '') { $d2 = 12; }
                 if ($d3 == '') { $d3 = 0; }

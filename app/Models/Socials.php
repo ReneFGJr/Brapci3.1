@@ -71,6 +71,9 @@ class Socials extends Model
 				$RSP['status'] = '404';
 				$RSP['message'] = 'APIKEY não informada!';
 				return $RSP;
+			} else {
+				$RSP = $_POST;
+				return $RSP;
 			}
 			$dt = $this->where('us_recover',$apikey)->first();
 			$password = md5($pass);
