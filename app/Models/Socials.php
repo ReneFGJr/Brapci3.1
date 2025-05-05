@@ -66,19 +66,30 @@ class Socials extends Model
 
 	function chagePassword($apikey,$pass)
 		{
+			$RSP = [];
+			if ($apikey == '') {
+				$RSP['status'] = '404';
+				$RSP['message'] = 'APIKEY não informada!';
+				return $RSP;
+			}
 			$dt = $this->where('us_recover',$apikey)->first();
 			$password = md5($pass);
 			if ($dt != [])
 				{
+					/*
 					$this
 					->set('us_password', $password)
 					->set('us_recover', '')
 					->where('id_us', $dt['id_us'])
 					->update();
-					return True;
+					*/
+					$RSP['status'] = '200';
+					$RSP['message'] = 'Senha validada com sucesso!';
 				} else {
-					return false;
+					$RSP['status'] = '404';
+					$RSP['message'] = 'Senha não validada!';
 				}
+				return $RSP;
 		}
 
 	function user()
