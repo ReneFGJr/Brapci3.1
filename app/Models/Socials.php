@@ -76,15 +76,14 @@ class Socials extends Model
 			$password = md5($pass);
 			if ($dt != [])
 				{
-					/*
 					$this
 					->set('us_password', $password)
 					->set('us_recover', '')
 					->where('id_us', $dt['id_us'])
 					->update();
-					*/
+
 					$RSP['status'] = '200';
-					$RSP['message'] = 'Senha validada com sucesso!';
+					$RSP['message'] = 'Senha atualizada com sucesso!';
 					$RSP['fullname'] = $dt['us_nome'];
 					$RSP['email'] = $dt['us_email'];
 				} else {
