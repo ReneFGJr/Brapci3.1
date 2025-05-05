@@ -176,7 +176,6 @@ class Oauth extends Model
                 exit;
             case  'signin':
                 $dd = $this->signin();
-                pre($dd);
                 echo json_encode($dd);
                 exit;
                 break;
