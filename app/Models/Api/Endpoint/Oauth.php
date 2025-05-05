@@ -286,6 +286,8 @@ class Oauth extends Model
         $dd['process'] = date("Y-m-d H:i:s");
         $Socials = new \App\Models\Socials();
         $rsp = $Socials->signin();
+        pre($rsp);
+        exit;
         $rsp = strip_tags($rsp);
 
         if (strpos($rsp, 'ERROR')) {
