@@ -1337,6 +1337,8 @@ class Socials extends Model
 		$pwd = get("pwd");
 		$dt = $this->user_exists($user);
 
+		pre($pwd);
+
 		if (isset($dt)) {
 
 			if ($dt['us_password'] == md5($pwd)) {
