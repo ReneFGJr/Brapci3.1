@@ -1451,6 +1451,7 @@ class Socials extends Model
 			} else {
 				$key = $this->getRecoverKey($dt['email']);
 				$dt['status'] = '200';
+				$dt['messagem'] = 'APIkey Válida';
 			}
 		} else {
 			$dt['status'] = '500';
