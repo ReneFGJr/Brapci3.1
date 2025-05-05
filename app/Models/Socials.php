@@ -1357,13 +1357,6 @@ class Socials extends Model
 			}
 
 		if (isset($dt)) {
-			$dt['pass2'] = $pwd;
-			$dt['pass3'] = md5($pwd);
-			$dt['pass4'] = $dt['us_password'];
-			$dt['pass5'] = md5("448545ct");
-			$dt['pass6'] = md5("448545cT");
-			$dt['pass7'] = md5("448545");
-			pre($dt);
 
 			if ($dt['us_password'] == md5($pwd)) {
 				if(($dt['us_apikey'] == '') or ($dt['us_apikey'] == null))
