@@ -315,12 +315,7 @@ class Oauth extends Model
                         $adminX = 1;
                     }
                 $dd['admin'] = $adminX;
-            } else {
-                $dd['status'] = '400';
-                $dd['message'] = 'Error Login';
-                $dd['user'] = get("user");
             }
-        }
         return $dd;
     }
 }
