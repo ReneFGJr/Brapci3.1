@@ -76,10 +76,13 @@ class Socials extends Model
 			$password = md5($pass);
 			if ($dt != [])
 				{
+					$dq = [];
+					$dq['us_password'] = $password;
+					$dq['us_recover'] = '';
+					$dq['us_autenticador'] = 'MD5';
+					pre($dq);
 					$this
-					->set('us_password', $password)
-					->set('us_recover', '')
-					->set('us_autenticador','MD5')
+					->set($dq)
 					->where('id_us', $dt['id_us'])
 					->update();
 
