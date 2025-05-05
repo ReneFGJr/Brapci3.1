@@ -90,7 +90,6 @@ class Socials extends Model
 					$dq['us_password'] = $password;
 					$dq['us_recover'] = '';
 					$dq['us_autenticador'] = 'MD5';
-					pre($dq);
 					$this
 					->set($dq)
 					->where('id_us', $dt['id_us'])
