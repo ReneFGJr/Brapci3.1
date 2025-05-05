@@ -1331,32 +1331,28 @@ class Socials extends Model
 
 	function signin()
 	{
+		$RSP = [];
 		$sx = '';
 		$user = get("user");
 		$pwd = get("pwd");
 		$dt = $this->user_exists($user);
 
-		if (isset($dt[0])) {
+		if (isset($dt)) {
 
-			if ($dt[0]['us_password'] == md5($pwd)) {
-				if(($dt[0]['us_apikey'] == '') or ($dt[0]['us_apikey'] == null))
+			if ($dt['us_password'] == md5($pwd)) {
+				if(($dt['us_apikey'] == '') or ($dt['us_apikey'] == null))
 					{
-						$apikey = md5($dt[0]['us_password'] . $dt[0]['us_login']);
+						$apikey = md5($dt['us_password'] . $dt[0]['us_login']);
 						$dq = [];
 						$dq['us_apikey'] = $apikey;
 						$dq['us_apikey_active'] = 1;
-						$this->set($dq)->where('id_us',$dt[0]['id_us'])->update();
+						$this->set($dq)->where('id_us',$dt['id_us'])->update();
 						$dt[0]['us_apikey'] = $apikey;
 					}
-				$_SESSION['id'] = $dt[0]['id_us'];
-				$_SESSION['user'] = $dt[0]['us_nome'];
-				$_SESSION['email'] = $dt[0]['us_email'];
-				$_SESSION['apikey'] = $dt[0]['us_apikey'];
-				$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
-				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
+				$RSP['pass1'] = $dt['us_password'];
+				$RSP['pass2'] = md5($pwd);
+				return $RSP;
 
-				$sx .= '<h2>' . lang('social.success') . '<h2>';
-				$sx .= '<meta http-equiv="refresh" content="2;URL=\'' . PATH . '\'">';
 				$this->log_insert($dt[0]['id_us']);
 
 				/* Atualiza último acesso */
@@ -1605,7 +1601,7 @@ class Socials extends Model
 	{
 		$dt = array();
 		if (strlen($email) > 0) {
-			$dt = $this->where('us_email', $email)->findAll();
+			$dt = $this->where('us_email', $email)->first();
 		}
 		return $dt;
 	}
