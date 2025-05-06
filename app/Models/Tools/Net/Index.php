@@ -90,8 +90,6 @@ class Index extends Model
         $sx = '';
         switch ($d2) {
             case 'dijkstra':
-            echo "OK";
-            exit;
                 $RSP = [];
                 $RSP['status'] = '200';
                 $names = [];
@@ -100,6 +98,8 @@ class Index extends Model
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
 
                 $RSP = $this->execPython('dijkstra',$names);
+                echo "==";
+                pre($RSP);
                 header('Access-Control-Allow-Origin: *');
                 header("Content-Type: application/json");
                 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
