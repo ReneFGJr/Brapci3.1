@@ -118,7 +118,7 @@ def fetch_author_lists():
         authors = [normalize(a) for a in cell.split(';') if a.strip()]
         # Remove duplicatas dentro do mesmo paper
         unique = list(dict.fromkeys(authors))
-        print(unique)
+        print(unique[0])
         sys.exit(0)
         if len(unique) > 1:
             author_lists.append(unique)
