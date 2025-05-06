@@ -66,8 +66,10 @@ def display_result(path, dist):
         'Passo': list(range(1, len(path) + 1)),
         'Nó': path
     })
-    print("\nCaminho mínimo encontrado:")
-    print(df.to_string(index=False))
+    RSP = []
+    RSP['path'] = df.to_string(index=False)
+    print(RSP)
+
     print(f"\nDistância mínima de '{path[0]}' até '{path[-1]}': {dist}")
 
 
