@@ -154,36 +154,15 @@ def write_pajek(all_authors, edges):
     print(f"Arquivo Pajek gerado: {filename}")
 
 #***************************** Extrai autores
-def extract_authors(net_path: str, output_path: str):
-    """
-    Lê um arquivo Pajek .net, extrai os nomes da seção *Vertices
-    e salva cada nome em uma linha no arquivo de saída.
-    """
-    vertices_section = False
-    author_pattern = re.compile(r'^\s*\d+\s+"(.+)"')  # captura o texto entre aspas
-
-    if not os.path.exists(output_path):
-        print(f"Arquivo {output_path} não encontrado. Criando novo arquivo.")
-        sys.exit()
-
-    with open(net_path, 'r', encoding='utf-8') as fin, \
-         open(output_path, 'w', encoding='utf-8') as fout:
-
-        for line in fin:
-            # Início da seção de vértices
-            if line.strip().lower().startswith('*vertices'):
-                vertices_section = True
-                continue
-
-            # Quando encontrar outra seção, encerra a leitura de vértices
-            if vertices_section and line.strip().startswith('*'):
-                break
-
-            if vertices_section:
-                match = author_pattern.match(line)
-                if match:
-                    name = match.group(1).strip()
-                    fout.write(name + '\n')
+def extract_authors(authors, output_path: str):
+    for i, author in enumerate(authors):
+        # Remove acentos e caracteres especiais
+        author = re.sub(r'[^a-zA-Z0-9\s]', '', author)
+        # Normaliza espaços e capitalização
+        author = ' '.join(author.split()).title()
+        authors[i] = author
+        print(author)
+    sys.exit(0)
 
     print(f"✔ {output_path} gerado com sucesso.")
 ############################################## Indice reverso
@@ -313,10 +292,9 @@ if __name__ == "__main__":
         print("  Criando rede de coautoria")
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
-        print(all_authors)
 
         print("  Exportando autores")
-        extract_authors(filename, '../../.tmp/authors.txt')
+        extract_authors(all_authors, '../../.tmp/authors.txt')
         print("  Criando índice invertido")
         index, authors = build_inverted_index(filename)
         print("  Exportando para o elasticsearch")
