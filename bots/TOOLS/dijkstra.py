@@ -302,6 +302,7 @@ if __name__ == "__main__":
 
     filename = '../../.tmp/brapci.json'
     if not os.path.exists(filename):
+        print("Reindexando Brapci...")
         author_lists = fetch_author_lists()
         export_elastic_database(author_lists)
         all_authors, edges = build_vertices_edges(author_lists)
