@@ -5,8 +5,8 @@ def db():
   if (hostname == 'DESKTOP-M0Q0TD7'):
     config = {
       'user': 'root',
-      'password': '448545ct',
-      'host': '143.54.112.91',
+      'password': '',
+      'host': 'localhost',
       'database': 'brapci_oaipmh',
       'charset': 'utf8'
     }

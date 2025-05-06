@@ -1,5 +1,7 @@
 import mysql.connector
 import env
+
+
 def query(qr):
     resultados = []
     try:
@@ -16,7 +18,6 @@ def query(qr):
         # Buscar todos os resultados
         resultados = cursor.fetchall()
 
-
     except mysql.connector.Error as erro:
         print("Erro de Banco de Dados #31:", erro)
         print(qr)
@@ -29,8 +30,11 @@ def query(qr):
             print("Conexão já estava finalizadas")
 
     return resultados
+
+
 def update(qr):
     return insert(qr)
+
 
 def insert(qr):
     try:

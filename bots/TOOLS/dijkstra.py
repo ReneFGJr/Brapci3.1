@@ -108,13 +108,16 @@ def normalize(name: str) -> str:
 def fetch_author_lists():
     """Busca todos os campos AUTHORS e retorna lista de listas de autores."""
     qr = (f"SELECT AUTHORS FROM brapci_elastic.dataset where AUTHORS <> ''")
+    print("OK2")
     rows = database.query(qr)
+    print("OK3")
 
     author_lists = []
     for (cell,) in rows:
         if not cell:
             continue
         # Divide por ';' e normaliza cada nome
+        print(f"  {cell}")
         authors = [normalize(a) for a in cell.split(';') if a.strip()]
         # Remove duplicatas dentro do mesmo paper
         unique = list(dict.fromkeys(authors))
@@ -313,15 +316,12 @@ if __name__ == "__main__":
         print("  Criando rede de coautoria")
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
-        print("  Salvando índice")
-        index, authors = build_inverted_index(filename)
-
-        save_index_to_file(index, authors, filename.replace('.net', '.json'))
         print("  Exportando autores")
         extract_authors(filename, '../../.tmp/authors.txt')
         print("  Criando índice invertido")
-
+        index, authors = build_inverted_index(filename)
         print("  Exportando para o elasticsearch")
         export_elastic_database(authors)
-
+        print("  Salvando índice")
+        save_index_to_file(index, authors, filename.replace('.net', '.json'))
     print(main(source, target))
