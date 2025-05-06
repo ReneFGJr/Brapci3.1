@@ -96,7 +96,7 @@ class Index extends Model
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
-
+                echo "Start";
                 $RSP = $this->execPython('dijkstra',$names);
                 echo "==";
                 pre($RSP);
