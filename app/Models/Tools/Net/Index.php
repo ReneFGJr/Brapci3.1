@@ -54,6 +54,7 @@ class Index extends Model
 
         // Monta o comando para executar o Python com o script e o argumento
         if (is_array($argumento)) {
+            pre($argumento);
             $arg = explode('"', $argumento);
             pre($arg);
             $argumento = '';
