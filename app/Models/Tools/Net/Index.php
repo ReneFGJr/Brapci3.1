@@ -60,7 +60,7 @@ class Index extends Model
                 if ($val == '') {
                     continue;
                 }
-                $arg .= ' "' . $val . '"';
+                $arg .= " '" . $val . "'";
             }
             $argumento = $arg;
             $cmd = "$python $script_python $argumento";
