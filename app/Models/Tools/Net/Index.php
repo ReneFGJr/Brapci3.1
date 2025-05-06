@@ -90,6 +90,8 @@ class Index extends Model
         $sx = '';
         switch ($d2) {
             case 'dijkstra':
+            echo "OK";
+            exit;
                 $RSP = [];
                 $RSP['status'] = '200';
                 $names = [];

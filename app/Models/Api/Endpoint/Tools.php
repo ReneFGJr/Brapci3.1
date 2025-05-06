@@ -58,7 +58,7 @@ class Tools extends Model
         switch($d2)
             {
                 case 'dijkstra':
-                    $RSP = $Net->index($d1, $d2, $d3, $d4);
+                    $Net->index($d1, $d2, $d3, $d4);
                     exit;
                     break;
                 case 'halflive':
