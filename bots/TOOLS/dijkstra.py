@@ -154,20 +154,30 @@ def write_pajek(all_authors, edges):
     print(f"Arquivo Pajek gerado: {filename}")
 
 #***************************** Extrai autores
+import re
+
+
 def extract_authors(authors, output_path: str):
-    for i, author in enumerate(authors):
+    cleaned_authors = []
+
+    for author in authors:
         # Remove acentos e caracteres especiais
         author = re.sub(r'[^a-zA-Z0-9\s]', '', author)
         # Normaliza espaços e capitalização
         author = ' '.join(author.split()).title()
-        authors[i] = author
-        print(author)
+        cleaned_authors.append(author)
+
+    # Remove duplicatas e ordena alfabeticamente (ignorando maiúsculas)
+    unique_authors = sorted(set(cleaned_authors), key=lambda x: x.lower())
+
     # Salva a lista de autores em um arquivo de texto
     with open(output_path, 'w', encoding='utf-8') as f:
-        for author in authors:
+        for author in unique_authors:
             f.write(f"{author}\n")
 
     print(f"✔ {output_path} gerado com sucesso.")
+
+
 ############################################## Indice reverso
 def normalize_token(tok: str) -> str:
     """
