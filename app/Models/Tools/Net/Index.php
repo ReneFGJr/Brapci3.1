@@ -76,9 +76,8 @@ class Index extends Model
             case 'dijkstra':
                 $RSP = [];
                 $RSP['status'] = '200';
-                $RSP['file'] = get("file");
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
-                $RSP['response'] = $this->execPython('txt4net',$arg);
+                $RSP['response'] = $this->execPython('dijkstra',$arg);
                 break;
             case 'lotka':
                 $RSP = [];
