@@ -313,12 +313,15 @@ if __name__ == "__main__":
         print("  Criando rede de coautoria")
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
+        print("  Salvando índice")
+        index, authors = build_inverted_index(filename)
+
+        save_index_to_file(index, authors, filename.replace('.net', '.json'))
         print("  Exportando autores")
         extract_authors(filename, '../../.tmp/authors.txt')
         print("  Criando índice invertido")
-        index, authors = build_inverted_index(filename)
+
         print("  Exportando para o elasticsearch")
         export_elastic_database(authors)
-        print("  Salvando índice")
-        save_index_to_file(index, authors, filename.replace('.net', '.json'))
+
     print(main(source, target))
