@@ -276,6 +276,10 @@ def query_index(json_path: str, query: str) -> list:
     txt = [authors[i] for i in sorted(result_idxs)]
     return txt
 
+def export_elastic_database(author_lists):
+    print(author_lists)
+    sys.exit(0)
+
 
 if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'
@@ -299,6 +303,7 @@ if __name__ == "__main__":
     filename = '../../.tmp/brapci.json'
     if not os.path.exists(filename):
         author_lists = fetch_author_lists()
+        export_elastic_database(author_lists)
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
         extract_authors(filename, '../../.tmp/authors.txt')
