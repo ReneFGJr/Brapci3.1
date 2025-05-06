@@ -290,7 +290,7 @@ if __name__ == "__main__":
     source = sys.argv[1].replace('"','')
     target = sys.argv[2].replace('"','')
 
-    filename = '../../.tmp/brapci.net'
+    filename = '../../.tmp/brapci.json'
     print("Source 2", source)
     if not os.path.exists(filename):
         print("Source 3", source)
