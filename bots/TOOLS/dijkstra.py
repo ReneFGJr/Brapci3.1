@@ -304,8 +304,33 @@ def export_elastic_database(author_lists):
         # Remove acentos e caracteres especiais
 
         nome = normalizar_frase(name)
-        print(id,nome)
+        register_authors(nome, id)
     sys.exit(0)
+
+def register_authors(authors,doc_id):
+    """
+    Registra autores no banco de dados.
+    """
+    for word in authors:
+        qr = "select id_word from brapci_elastic.ri_words where word = '" + word + "'"
+        rows = database.query(qr)
+        if len(rows) == 0:
+            qr = "INSERT INTO brapci_elastic.ri_words (word) VALUES ('" + word + "')"
+            database.insert(qr)
+            qr = "SELECT LAST_INSERT_ID()"
+            rows = database.query(qr)
+            word = rows[0][0]
+        else:
+            word = rows[0][0]
+        # Verifica se já existe a relação entre autor e documento
+        qr = f"SELECT COUNT(*) FROM brapci_elastic.ri_authors_docs WHERE id_au = {doc_id} AND id_word = {word}"
+        rows = database.query(qr)
+        if rows[0][0] > 0:
+            # Insere a relação entre autor e documento
+            qr = f"INSERT INTO brapci_elastic.ri_authors_docs (id_au, id_word) VALUES ({doc_id}, {word})"
+            database.insert(qr)
+
+    print("Autores registrados com sucesso.")
 
 if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'
