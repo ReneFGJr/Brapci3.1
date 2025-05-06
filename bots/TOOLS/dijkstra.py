@@ -99,7 +99,7 @@ def main(source, target):
     print("File",file)
     with open(file, 'w', encoding='utf-8') as f:
         f.write(rsp)
-    print(file)
+    return file
 
 #*********************************** Gera o de grafo ***************************
 def normalize(name: str) -> str:
@@ -298,4 +298,4 @@ if __name__ == "__main__":
         extract_authors(filename, '../../.tmp/authors.txt')
         index, authors = build_inverted_index(filename)
         save_index_to_file(index, authors, filename.replace('.net', '.json'))
-    main(source, target)
+    print(main(source, target))
