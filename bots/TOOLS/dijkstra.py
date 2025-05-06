@@ -275,11 +275,14 @@ def bsmain():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
         exit(1)
-    source = sys.argv[1].replace('\"','')
-    target = sys.argv[2].replace('\"','')
+
+    source = sys.argv[1].replace('"','')
+    target = sys.argv[2].replace('"','')
+    print(f"Origem: {source}, Destino: {target}")
+
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
         author_lists = fetch_author_lists()
