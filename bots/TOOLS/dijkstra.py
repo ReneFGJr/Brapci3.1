@@ -155,10 +155,16 @@ def write_pajek(all_authors, edges):
 import re
 
 
+def remove_accents(text):
+    # Transforma caracteres acentuados em seus equivalentes sem acento
+    return ''.join(c for c in unicodedata.normalize('NFD', text)
+                   if unicodedata.category(c) != 'Mn')
+
 def extract_authors(authors, output_path: str):
     cleaned_authors = []
 
     for author in authors:
+        author = remove_accents(author)  # Remove acentos
         # Remove acentos e caracteres especiais
         author = re.sub(r'[^a-zA-Z0-9\s]', '', author)
         # Normaliza espaços e capitalização
