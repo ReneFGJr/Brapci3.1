@@ -94,7 +94,7 @@ class Index extends Model
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
-                $RSP['response'] = $this->execPython('dijkstra',$names);
+                return $this->execPython('dijkstra',$names);
                 break;
             case 'lotka':
                 $RSP = [];
