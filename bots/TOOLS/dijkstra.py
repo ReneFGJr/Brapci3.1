@@ -293,15 +293,18 @@ def export_elastic_database(author_lists):
         database.insert(qr)
 
     #******************************** ri_authors
-    qr = "TRUNCATE brapci_elastic.ri_authors"
+    qr = "TRUNCATE brapci_elastic.ri_words"
+    database.query(qr)
+    qr = "TRUNCATE brapci_elastic.ri_authors_docs"
     database.query(qr)
 
     qr = "SELECT id_au, au_name FROM brapci_elastic.ri_authors"
     rows = database.query(qr)
     for (id, name) in rows:
         # Remove acentos e caracteres especiais
+
         nome = normalizar_frase(name)
-        print(nome)
+        print(id,nome)
     sys.exit(0)
 
 if __name__ == "__main__":
