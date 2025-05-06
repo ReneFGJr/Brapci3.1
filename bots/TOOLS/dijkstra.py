@@ -162,6 +162,10 @@ def extract_authors(net_path: str, output_path: str):
     vertices_section = False
     author_pattern = re.compile(r'^\s*\d+\s+"(.+)"')  # captura o texto entre aspas
 
+    if not os.path.exists(output_path):
+        print(f"Arquivo {output_path} não encontrado. Criando novo arquivo.")
+        sys.exit()
+
     with open(net_path, 'r', encoding='utf-8') as fin, \
          open(output_path, 'w', encoding='utf-8') as fout:
 
