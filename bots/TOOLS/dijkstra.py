@@ -293,6 +293,7 @@ if __name__ == "__main__":
     filename = '../../.tmp/brapci.json'
     print("Source 2", source)
     if not os.path.exists(filename):
+        print("Arquivo não encontrado, gerando grafo...",filename)
         print("Source 3", source)
         author_lists = fetch_author_lists()
         all_authors, edges = build_vertices_edges(author_lists)
