@@ -54,6 +54,8 @@ class Index extends Model
 
         // Monta o comando para executar o Python com o script e o argumento
         $cmd = "$python $script_python '$argumento'";
+        echo $cmd;
+        exit;
         file_put_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
         $comando = escapeshellcmd($cmd);
 
@@ -76,8 +78,11 @@ class Index extends Model
             case 'dijkstra':
                 $RSP = [];
                 $RSP['status'] = '200';
+                $names = [];
+                array_push($names, get("source"));
+                array_push($names, get("target"));
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
-                $RSP['response'] = $this->execPython('dijkstra',$arg);
+                $RSP['response'] = $this->execPython('dijkstra',$names);
                 break;
             case 'lotka':
                 $RSP = [];
