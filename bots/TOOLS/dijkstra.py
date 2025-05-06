@@ -99,7 +99,7 @@ def main(source, target):
     print("File",file)
     with open(file, 'w', encoding='utf-8') as f:
         f.write(rsp)
-    return file
+    return rsp
 
 #*********************************** Gera o de grafo ***************************
 def normalize(name: str) -> str:
