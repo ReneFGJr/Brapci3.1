@@ -275,6 +275,11 @@ def bsmain():
 
 
 if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
+        exit(1)
+    source = sys.argv[2]
+    target = sys.argv[3]
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
         author_lists = fetch_author_lists()
@@ -283,4 +288,4 @@ if __name__ == "__main__":
         extract_authors(filename, '../../.tmp/authors.txt')
         index, authors = build_inverted_index(filename)
         save_index_to_file(index, authors, filename.replace('.net', '.json'))
-    main()
+    main(source, target)
