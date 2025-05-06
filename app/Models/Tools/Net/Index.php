@@ -67,13 +67,14 @@ class Index extends Model
         } else {
             $cmd = "$python $script_python '$argumento'";
         }
-echo $cmd;
+
         file_put_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
         $comando = escapeshellcmd($cmd);
 
         // Executa o script Python e captura a saída
         $saida = shell_exec($comando);
 
+        echo $saida;
         return $saida;
     }
 
