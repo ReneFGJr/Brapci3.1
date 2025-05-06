@@ -273,6 +273,12 @@ def query_index(json_path: str, query: str) -> list:
     return txt
 
 def export_elastic_database(author_lists):
+    qr = "TRUNCATE `dataset`"
+    database.query(qr)
+    for i, authors in enumerate(author_lists):
+        qr = "INSERT INTO `dataset` (`AUTHORS`) VALUES (%s)"
+        print(qr)
+
     print(author_lists)
     sys.exit(0)
 
