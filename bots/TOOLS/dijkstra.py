@@ -70,9 +70,13 @@ def display_result(path, dist):
     print(df.to_string(index=False))
     print(f"\nDistância mínima de '{path[0]}' até '{path[-1]}': {dist}")
 
-def main():
+
+def main(source, target):
+    if len(sys.argv) != 2:
+        print("Uso: python dijkstra.py <nó de destino>")
+        exit(1)
     graph = load_graph('../../.tmp/brapci.net')
-    source, target = choose_nodes(graph)
+    #source, target = choose_nodes(graph)
     path, dist = compute_shortest_path(graph, source, target)
     display_result(path, dist)
 
