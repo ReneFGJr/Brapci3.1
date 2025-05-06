@@ -351,7 +351,7 @@ if __name__ == "__main__":
                 print(f"Arquivo {unlink} removido.")
         sys.exit(0)
 
-    filename = '../../.tmp/brapci.json'
+    filename = '../../.tmp/brapci.netks '
     if not os.path.exists(filename):
         print("Reindexando Brapci...")
         print("  01-Lista de autores (juntos)")
