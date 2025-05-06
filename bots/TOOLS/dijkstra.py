@@ -58,26 +58,23 @@ def compute_shortest_path(graph, source, target):
             exit(0)
     return path, dist
 
+
 def display_result(path, dist):
     """
-    Exibe o caminho em DataFrame e imprime distância.
+    Exibe o caminho em DataFrame e retorna resultado em formato JSON.
     """
-    df = pd.DataFrame({
-        'Passo': list(range(1, len(path) + 1)),
-        'Nó': path
-    })
+    df = pd.DataFrame({'step': list(range(1, len(path) + 1)), 'node': path})
 
-    df = pd.DataFrame({'Passo': list(range(1, len(path) + 1)), 'Nó': path})
-    RSP = {}
-    RSP['path'] = df
-    print(RSP)
-    print(df.to_string(index=False))
-    RSP = []
-    RSP['path'] = df
-    print(RSP)
-    print(df.to_string(index=False))
+    result = {
+        'path': df.to_dict(orient='records'),  # lista de passos
+        'distance': dist,
+        'origin': path[0],
+        'target': path[-1]
+    }
 
-    print(f"\nDistância mínima de '{path[0]}' até '{path[-1]}': {dist}")
+    json_result = json.dumps(result, ensure_ascii=False, indent=2)
+    print(json_result)
+    return json_result
 
 
 def main(source, target):
