@@ -97,6 +97,7 @@ class Index extends Model
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $file = $this->execPython('dijkstra',$names);
+                echo $file;
                 exit;
                 break;
             case 'lotka':
