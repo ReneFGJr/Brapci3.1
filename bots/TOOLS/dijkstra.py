@@ -278,8 +278,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
         exit(1)
-    source = sys.argv[2]
-    target = sys.argv[3]
+    source = sys.argv[1]
+    target = sys.argv[2]
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
         author_lists = fetch_author_lists()
