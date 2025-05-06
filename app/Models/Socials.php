@@ -177,8 +177,6 @@ class Socials extends Model
 
 		$response = curl_exec($ch);
 
-		pre($response);
-
 		// Verifica se houve algum erro na requisição cURL
 		if (curl_errno($ch)) {
 			throw new Exception('Erro cURL: ' . curl_error($ch));
