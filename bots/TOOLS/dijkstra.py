@@ -151,8 +151,6 @@ def write_pajek(all_authors, edges):
         for u, v in edges:
             f.write(f"{u} {v} 1\n")  # peso=1 para cada coautoria
 
-    print(f"Arquivo Pajek gerado: {filename}")
-
 #***************************** Extrai autores
 import re
 
@@ -332,8 +330,6 @@ def register_authors(authors,doc_id):
             # Insere a relação entre autor e documento
             qr = f"INSERT INTO brapci_elastic.ri_authors_docs (ad_doc , ad_author ) VALUES ({doc_id}, '{word}')"
             database.insert(qr)
-
-    print("Autores registrados com sucesso.")
 
 if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'

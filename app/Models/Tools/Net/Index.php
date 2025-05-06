@@ -67,7 +67,7 @@ class Index extends Model
         } else {
             $cmd = "$python $script_python '$argumento'";
         }
-
+echo $cmd;
         file_put_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
         $comando = escapeshellcmd($cmd);
 
@@ -97,7 +97,6 @@ class Index extends Model
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $file = $this->execPython('dijkstra',$names);
-                echo $file;
                 exit;
                 break;
             case 'lotka':
