@@ -313,6 +313,7 @@ if __name__ == "__main__":
         print("  Criando rede de coautoria")
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
+        print(all_authors)
 
         print("  Exportando autores")
         extract_authors(filename, '../../.tmp/authors.txt')
