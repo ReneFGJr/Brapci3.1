@@ -73,7 +73,6 @@ def display_result(path, dist):
     }
 
     json_result = json.dumps(result, ensure_ascii=False, indent=2)
-    print(json_result)
     return json_result
 
 
