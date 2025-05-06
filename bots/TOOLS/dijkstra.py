@@ -268,29 +268,7 @@ def bsmain():
             print(f"  - {name}")
     else:
         print("Nenhum autor encontrado para essa consulta.")
-def bsmain2():
 
-    filename = '../../.tmp/brapci.net'
-
-    index, authors = build_inverted_index(filename)
-    print(f"Índice invertido criado para {len(authors)} autores.\n")
-
-    while True:
-        try:
-            q = input("Buscar autor (parte do nome, ENTER para sair): ").strip()
-            if not q:
-                break
-            matches = query_authors(index, authors, q)
-            if matches:
-                print(f"Encontrei {len(matches)} autor(es):")
-                for name in matches:
-                    print(f"  - {name}")
-            else:
-                print("Nenhum autor encontrado para essa consulta.")
-            print()
-        except (KeyboardInterrupt, EOFError):
-            print("\nSaindo.")
-            break
 
 if __name__ == "__main__":
     filename = '../../.tmp/brapci.net'
@@ -301,4 +279,4 @@ if __name__ == "__main__":
         extract_authors(filename, '../../.tmp/authors.txt')
         index, authors = build_inverted_index(filename)
         save_index_to_file(index, authors, filename.replace('.net', '.json'))
-    bsmain()
+    main()
