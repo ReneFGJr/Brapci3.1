@@ -94,11 +94,6 @@ def main(source, target):
     #source, target = choose_nodes(graph)
     path, dist = compute_shortest_path(graph, source, target)
     rsp = display_result(path, dist)
-
-    file = fileTempName()
-    print("File",file)
-    with open(file, 'w', encoding='utf-8') as f:
-        f.write(rsp)
     return rsp
 
 #*********************************** Gera o de grafo ***************************

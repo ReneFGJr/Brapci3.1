@@ -87,13 +87,18 @@ class Index extends Model
         $sx = '';
         switch ($d2) {
             case 'dijkstra':
+                header('Access-Control-Allow-Origin: *');
+                header("Content-Type: application/json");
+                header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+                header("Access-Control-Allow-Headers: Content-Type, Authorization");
                 $RSP = [];
                 $RSP['status'] = '200';
                 $names = [];
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $file = $this->execPython('dijkstra',$names);
-                $RSP['url'] = $file;
+                echo $file;
+                exit;
                 break;
             case 'lotka':
                 $RSP = [];
