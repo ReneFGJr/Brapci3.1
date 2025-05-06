@@ -53,6 +53,18 @@ class Index extends Model
         $script_python = '/data/Brapci3.1/bots/TOOLS/'.$endpoint.'.py';
 
         // Monta o comando para executar o Python com o script e o argumento
+        if (is_array($argumento)) {
+            $arg = implode('"', $argumento);
+            $argumento = '';
+            foreach ($arg as $key => $val) {
+                $val = trim($val);
+                if ($val == '') {
+                    continue;
+                }
+                $argumento .= ' "' . $val . '"';
+            }
+
+        }
         $cmd = "$python $script_python '$argumento'";
         echo $cmd;
         exit;
