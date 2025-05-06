@@ -291,7 +291,9 @@ if __name__ == "__main__":
     target = sys.argv[2].replace('"','')
 
     filename = '../../.tmp/brapci.net'
+    print("Source 2", source)
     if not os.path.exists(filename):
+        print("Source 3", source)
         author_lists = fetch_author_lists()
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
