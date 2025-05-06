@@ -72,9 +72,6 @@ def display_result(path, dist):
 
 
 def main(source, target):
-    if len(sys.argv) != 2:
-        print("Uso: python dijkstra.py <nó de destino>")
-        exit(1)
     graph = load_graph('../../.tmp/brapci.net')
     #source, target = choose_nodes(graph)
     path, dist = compute_shortest_path(graph, source, target)
@@ -275,7 +272,7 @@ def bsmain():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 3:
         print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
         exit(1)
 
