@@ -362,10 +362,14 @@ if __name__ == "__main__":
 
         print("  03-Exportando autores")
         extract_authors(all_authors, '../../.tmp/authors.txt')
+
         print("  04-Criando índice invertido")
         index, authors = build_inverted_index('../../.tmp/authors.txt')
-        print("  05-Exportando para o elasticsearch")
-        export_elastic_database(authors)
-        print("  06-Salvando índice")
+
+        print("  05-Salvando índice")
         save_index_to_file(index, authors, filename.replace('.net', '.json'))
+
+        print("  06-Exportando para o elasticsearch")
+        export_elastic_database(authors)
+
     print(main(source, target))
