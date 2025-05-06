@@ -66,6 +66,12 @@ def display_result(path, dist):
         'Passo': list(range(1, len(path) + 1)),
         'Nó': path
     })
+
+    df = pd.DataFrame({'Passo': list(range(1, len(path) + 1)), 'Nó': path})
+    RSP = {}
+    RSP['path'] = df
+    print(RSP)
+    print(df.to_string(index=False))
     RSP = []
     RSP['path'] = df
     print(RSP)
