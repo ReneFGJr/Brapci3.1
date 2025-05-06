@@ -293,7 +293,8 @@ if __name__ == "__main__":
     target = sys.argv[2].replace('"','')
 
     if (source == 'clear'):
-        unlinks = {'../../../.tmp/brapci.json','../../../.tmp/brapci.net','../../../.tmp/authors.txt'}
+        unlinks = {'../../.tmp/brapci.json','../../.tmp/brapci.net','../../.tmp/authors.txt'}
+        print("Removendo arquivos temporários...")
         for unlink in unlinks:
             if os.path.exists(unlink):
                 os.remove(unlink)
