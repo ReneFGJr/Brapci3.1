@@ -290,6 +290,9 @@ if __name__ == "__main__":
     source = sys.argv[1].replace('"','')
     target = sys.argv[2].replace('"','')
 
+    print("Source",source)
+    sys.exit(0)
+
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
         author_lists = fetch_author_lists()
