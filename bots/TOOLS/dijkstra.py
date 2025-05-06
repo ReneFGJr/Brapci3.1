@@ -9,6 +9,19 @@ from collections import defaultdict
 import unicodedata
 import json
 
+
+def fileTempName():
+    # Gera um diretório temporário
+    temp_dir = tempfile.gettempdir()
+
+    # Gera um nome de arquivo único
+    random_filename = f"{uuid.uuid4().hex}.txt"
+
+    # Caminho completo do arquivo
+    file_path = os.path.join(temp_dir, random_filename)
+
+    return file_path
+
 def load_graph(path='../../.tmp/brapci.net'):
     """
     Carrega o grafo no formato Pajek a partir do arquivo especificado.
@@ -269,17 +282,6 @@ def query_index(json_path: str, query: str) -> list:
     txt = [authors[i] for i in sorted(result_idxs)]
     return txt
 
-def fileTempName():
-    # Gera um diretório temporário
-    temp_dir = tempfile.gettempdir()
-
-    # Gera um nome de arquivo único
-    random_filename = f"{uuid.uuid4().hex}.txt"
-
-    # Caminho completo do arquivo
-    file_path = os.path.join(temp_dir, random_filename)
-
-    print(f"Arquivo temporário: {file_path}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
