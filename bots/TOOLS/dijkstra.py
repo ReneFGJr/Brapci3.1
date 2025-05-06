@@ -277,7 +277,10 @@ def query_index(json_path: str, query: str) -> list:
     return txt
 
 def export_elastic_database(author_lists):
-    print(author_lists)
+    for i, lst in enumerate(author_lists):
+        if len(lst) > 1:
+            authors = ', '.join(lst)
+            print(f"  {i+1} - {authors}")
     sys.exit(0)
 
 
