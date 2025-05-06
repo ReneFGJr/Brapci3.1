@@ -290,9 +290,6 @@ if __name__ == "__main__":
     source = sys.argv[1].replace('"','')
     target = sys.argv[2].replace('"','')
 
-    print("Source",source)
-    sys.exit(0)
-
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
         author_lists = fetch_author_lists()
@@ -301,4 +298,6 @@ if __name__ == "__main__":
         extract_authors(filename, '../../.tmp/authors.txt')
         index, authors = build_inverted_index(filename)
         save_index_to_file(index, authors, filename.replace('.net', '.json'))
+    print("Source 2",source)
+    sys.exit(0)
     print(main(source, target))
