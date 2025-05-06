@@ -312,10 +312,10 @@ def register_authors(authors,doc_id):
     Registra autores no banco de dados.
     """
     for word in authors:
-        qr = "select id_word from brapci_elastic.ri_words where word = '" + word + "'"
+        qr = "select id_w from brapci_elastic.ri_words where word = '" + word + "'"
         rows = database.query(qr)
         if len(rows) == 0:
-            qr = "INSERT INTO brapci_elastic.ri_words (word) VALUES ('" + word + "')"
+            qr = "INSERT INTO brapci_elastic.ri_words (w_name) VALUES ('" + word + "')"
             database.insert(qr)
             qr = "SELECT LAST_INSERT_ID()"
             rows = database.query(qr)
