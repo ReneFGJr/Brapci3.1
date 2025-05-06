@@ -277,13 +277,7 @@ def query_index(json_path: str, query: str) -> list:
     return txt
 
 def export_elastic_database(author_lists):
-    # Ordena as listas de autores alfabeticamente por primeiro autor (ou toda a string concatenada)
-    sorted_lists = sorted(author_lists, key=lambda lst: ', '.join(lst).lower())
-
-    for i, lst in enumerate(sorted_lists):
-        if len(lst) > 1:
-            authors = ', '.join(lst)
-            print(f"  {i+1} - {authors}")
+    print(author_lists)
     sys.exit(0)
 
 
