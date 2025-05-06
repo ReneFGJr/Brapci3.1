@@ -57,6 +57,10 @@ class Tools extends Model
 
         switch($d2)
             {
+                case 'dijkstra':
+                    $Net->index($d1, $d2, $d3, $d4);
+                    exit;
+                    break;
                 case 'halflive':
                     $Cited->index($d1, $d2, $d3, $d4);
                     exit;

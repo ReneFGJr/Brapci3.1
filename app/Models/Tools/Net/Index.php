@@ -73,6 +73,13 @@ class Index extends Model
         dircheck('/data/Brapci3.1/.tmp/'.$d2);
         $sx = '';
         switch ($d2) {
+            case 'dijkstra':
+                $RSP = [];
+                $RSP['status'] = '200';
+                $RSP['file'] = get("file");
+                $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
+                $RSP['response'] = $this->execPython('txt4net',$arg);
+                break;
             case 'lotka':
                 $RSP = [];
                 $RSP['status'] = '200';
