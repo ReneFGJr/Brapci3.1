@@ -321,12 +321,10 @@ def register_authors(authors,doc_id):
             qi = "INSERT INTO brapci_elastic.ri_words (w_name) VALUES ('" + word + "')"
             database.insert(qi)
             rows = database.query(qr)
-            print(rows)
             word = rows[0][0]
         else:
             word = rows[0][0]
 
-        print(f"ID: {word} - Autor: {authors}")
         # Verifica se já existe a relação entre autor e documento
         qr = f"SELECT ad_doc FROM brapci_elastic.ri_authors_docs WHERE ad_doc  = {doc_id} AND ad_author  = '{word}'"
         rows = database.query(qr)
