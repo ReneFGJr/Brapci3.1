@@ -295,7 +295,6 @@ def bsmain2():
 if __name__ == "__main__":
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
-        print(f"Arquivo {filename} não encontrado.")
         author_lists = fetch_author_lists()
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
