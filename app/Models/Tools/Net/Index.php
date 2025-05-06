@@ -73,9 +73,6 @@ class Index extends Model
 
         // Executa o script Python e captura a saída
         $saida = shell_exec($comando);
-        pre($saida);
-
-        echo $saida;
         return $saida;
     }
 
