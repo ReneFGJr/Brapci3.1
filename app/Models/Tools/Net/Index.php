@@ -93,7 +93,7 @@ class Index extends Model
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $file = $this->execPython('dijkstra',$names);
-                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $file;
+                $RSP['url'] = $file;
                 break;
             case 'lotka':
                 $RSP = [];
