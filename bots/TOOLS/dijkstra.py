@@ -275,8 +275,9 @@ def query_index(json_path: str, query: str) -> list:
 def export_elastic_database(author_lists):
     qr = "TRUNCATE `dataset`"
     database.query(qr)
+
     for i, authors in enumerate(author_lists):
-        qr = "INSERT INTO `dataset` (`AUTHORS`) VALUES (%s)"
+        qr = "INSERT INTO `dataset` (`AUTHORS`) VALUES ('"+authors+"')"
         print(qr)
 
     print(author_lists)
