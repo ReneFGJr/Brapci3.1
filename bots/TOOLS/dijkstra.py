@@ -283,6 +283,9 @@ def query_index(json_path: str, query: str) -> list:
 
 
 if __name__ == "__main__":
+    dir = '/data/Brapci3.1/bots/TOOLS'
+    os.chdir(dir)
+
     if len(sys.argv) < 3:
         print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
         exit(1)
