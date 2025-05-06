@@ -315,9 +315,8 @@ def register_authors(authors,doc_id):
         qr = "select id_w from brapci_elastic.ri_words where word = '" + word + "'"
         rows = database.query(qr)
         if len(rows) == 0:
-            qr = "INSERT INTO brapci_elastic.ri_words (w_name) VALUES ('" + word + "')"
-            database.insert(qr)
-            qr = "SELECT LAST_INSERT_ID()"
+            qi = "INSERT INTO brapci_elastic.ri_words (w_name) VALUES ('" + word + "')"
+            database.insert(qi)
             rows = database.query(qr)
             print(rows)
             word = rows[0][0]
