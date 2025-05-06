@@ -273,11 +273,11 @@ def query_index(json_path: str, query: str) -> list:
     return txt
 
 def export_elastic_database(author_lists):
-    qr = "TRUNCATE `brapci_elastic.ri_authors`"
+    qr = "TRUNCATE brapci_elastic.ri_authors"
     database.query(qr)
 
     for i, authors in enumerate(author_lists):
-        qr = "INSERT INTO `brapci_elastic.ri_authors` (`au_name`) VALUES ('" + authors + "')"
+        qr = "INSERT INTO brapci_elastic.ri_authors (`au_name`) VALUES ('" + authors + "')"
         database.insert(qr)
 
 if __name__ == "__main__":
