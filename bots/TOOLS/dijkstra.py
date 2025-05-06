@@ -303,11 +303,17 @@ if __name__ == "__main__":
     filename = '../../.tmp/brapci.json'
     if not os.path.exists(filename):
         print("Reindexando Brapci...")
+        print("  Lista de autores")
         author_lists = fetch_author_lists()
+        print("  Exportando para o elasticsearch")
         export_elastic_database(author_lists)
+        print("  Criando rede de coautoria")
         all_authors, edges = build_vertices_edges(author_lists)
         write_pajek(all_authors, edges)
+        print("  Exportando autores")
         extract_authors(filename, '../../.tmp/authors.txt')
+        print("  Criando índice invertido")
         index, authors = build_inverted_index(filename)
+        print("  Salvando índice")
         save_index_to_file(index, authors, filename.replace('.net', '.json'))
     print(main(source, target))
