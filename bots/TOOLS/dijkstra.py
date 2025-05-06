@@ -98,8 +98,7 @@ def main(source, target):
     file = fileTempName()
     print("File",file)
     with open(file, 'w', encoding='utf-8') as f:
-        for name in rsp:
-            f.write(name + '\n')
+        f.write(rsp)
     print(file)
 
 #*********************************** Gera o de grafo ***************************
