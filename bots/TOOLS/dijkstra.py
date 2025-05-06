@@ -296,13 +296,13 @@ def export_elastic_database(author_lists):
     qr = "TRUNCATE brapci_elastic.ri_authors"
     database.query(qr)
 
-    qr = "SELECT id, au_name FROM brapci_elastic.ri_authors"
+    qr = "SELECT id_au, au_name FROM brapci_elastic.ri_authors"
     rows = database.query(qr)
     for (id, name) in rows:
         # Remove acentos e caracteres especiais
         nome = normalizar_frase(name)
         print(nome)
-        exit(0)
+    sys.exit(0)
 
 if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'
