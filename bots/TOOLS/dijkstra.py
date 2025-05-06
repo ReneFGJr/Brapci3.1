@@ -289,11 +289,12 @@ if __name__ == "__main__":
     target = sys.argv[2].replace('"','')
 
     if (source == 'clear'):
-        unlink = '../../../.tmp/brapci.json'
-        if os.path.exists(unlink):
-            os.remove(unlink)
-            print(f"Arquivo {unlink} removido.")
-            sys.exit(0)
+        unlinks = {'../../../.tmp/brapci.json','../../../.tmp/brapci.net','../../../.tmp/authors.txt'}
+        for unlink in unlinks:
+            if os.path.exists(unlink):
+                os.remove(unlink)
+                print(f"Arquivo {unlink} removido.")
+        sys.exit(0)
 
     filename = '../../.tmp/brapci.json'
     if not os.path.exists(filename):
