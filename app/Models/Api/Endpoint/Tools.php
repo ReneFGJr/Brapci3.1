@@ -58,7 +58,12 @@ class Tools extends Model
         switch($d2)
             {
                 case 'dijkstra':
-                    $Net->index($d1, $d2, $d3, $d4);
+                    $RSP = $Net->index($d1, $d2, $d3, $d4);
+                    header('Access-Control-Allow-Origin: *');
+                    header("Content-Type: application/json");
+                    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+                    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+                    echo $RSP;
                     exit;
                     break;
                 case 'halflive':
