@@ -284,7 +284,6 @@ if __name__ == "__main__":
 
     source = sys.argv[1].replace('"','')
     target = sys.argv[2].replace('"','')
-    print(f"Origem: {source}, Destino: {target}")
 
     filename = '../../.tmp/brapci.net'
     if not os.path.exists(filename):
