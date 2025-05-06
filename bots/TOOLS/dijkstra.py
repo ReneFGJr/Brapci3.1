@@ -81,7 +81,12 @@ def main(source, target):
     #source, target = choose_nodes(graph)
     path, dist = compute_shortest_path(graph, source, target)
     rsp = display_result(path, dist)
-    print(rsp)
+
+    file = fileTempName()
+    with open(file, 'w', encoding='utf-8') as f:
+        for name in rsp:
+            f.write(name + '\n')
+    print(file)
 
 #*********************************** Gera o de grafo ***************************
 def normalize(name: str) -> str:
@@ -261,11 +266,7 @@ def query_index(json_path: str, query: str) -> list:
 
     # Retorna nomes conforme índices ordenados
     txt = [authors[i] for i in sorted(result_idxs)]
-    file = fileTempName()
-    with open(file, 'w', encoding='utf-8') as f:
-        for name in txt:
-            f.write(name + '\n')
-    print(file)
+    return txt
 
 def fileTempName():
     # Gera um diretório temporário
