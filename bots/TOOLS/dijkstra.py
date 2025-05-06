@@ -80,7 +80,8 @@ def main(source, target):
     graph = load_graph('../../.tmp/brapci.net')
     #source, target = choose_nodes(graph)
     path, dist = compute_shortest_path(graph, source, target)
-    display_result(path, dist)
+    rsp = display_result(path, dist)
+    print(rsp)
 
 #*********************************** Gera o de grafo ***************************
 def normalize(name: str) -> str:
@@ -277,10 +278,6 @@ def fileTempName():
     file_path = os.path.join(temp_dir, random_filename)
 
     print(f"Arquivo temporário: {file_path}")
-
-
-
-
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
