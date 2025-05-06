@@ -278,11 +278,7 @@ def export_elastic_database(author_lists):
 
     for i, authors in enumerate(author_lists):
         qr = "INSERT INTO `ri_authors` (`au_name`) VALUES ('" + authors + "')"
-        print(qr)
-
-    print(author_lists)
-    sys.exit(0)
-
+        database.insert(qr)
 
 if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'
