@@ -264,7 +264,7 @@ def query_index(json_path: str, query: str) -> list:
     with open(file, 'w', encoding='utf-8') as f:
         for name in txt:
             f.write(name + '\n')
-    return file
+    print(file)
 
 def fileTempName():
     # Gera um diretório temporário
