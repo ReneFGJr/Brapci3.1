@@ -162,7 +162,10 @@ def extract_authors(authors, output_path: str):
         author = ' '.join(author.split()).title()
         authors[i] = author
         print(author)
-    sys.exit(0)
+    # Salva a lista de autores em um arquivo de texto
+    with open(output_path, 'w', encoding='utf-8') as f:
+        for author in authors:
+            f.write(f"{author}\n")
 
     print(f"✔ {output_path} gerado com sucesso.")
 ############################################## Indice reverso
