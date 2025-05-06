@@ -72,6 +72,7 @@ class Index extends Model
         $comando = escapeshellcmd($cmd);
 
         // Executa o script Python e captura a saída
+        echo $comando;
         $saida = shell_exec($comando);
 
         echo $saida;
