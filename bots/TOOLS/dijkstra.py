@@ -67,8 +67,9 @@ def display_result(path, dist):
         'Nó': path
     })
     RSP = []
-    RSP['path'] = df.to_string(index=False)
+    RSP['path'] = df
     print(RSP)
+    print(df..to_string(index=False))
 
     print(f"\nDistância mínima de '{path[0]}' até '{path[-1]}': {dist}")
 
