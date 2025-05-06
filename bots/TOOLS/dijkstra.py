@@ -119,7 +119,9 @@ def fetch_author_lists():
         # Remove duplicatas dentro do mesmo paper
         unique = list(dict.fromkeys(authors))
         print(unique[0])
-        sys.exit(0)
+        for i in range(0, len(unique)):
+            unique[i] = remove_accents(unique[i])
+
         if len(unique) > 1:
             author_lists.append(unique)
     return author_lists
