@@ -272,6 +272,18 @@ def query_index(json_path: str, query: str) -> list:
     txt = [authors[i] for i in sorted(result_idxs)]
     return txt
 
+
+def normalizar_frase(frase):
+    # Remove acentos e converte para ASCII
+    frase_ascii = unicodedata.normalize('NFKD',
+                                        frase).encode('ASCII',
+                                                      'ignore').decode('utf-8')
+    # Converte para caixa baixa
+    frase_ascii = frase_ascii.lower()
+    # Separa todas as palavras (ignorando pontuações)
+    palavras = re.findall(r'\b\w+\b', frase_ascii)
+    return palavras
+
 def export_elastic_database(author_lists):
     qr = "TRUNCATE brapci_elastic.ri_authors"
     database.query(qr)
@@ -279,6 +291,18 @@ def export_elastic_database(author_lists):
     for i, authors in enumerate(author_lists):
         qr = "INSERT INTO brapci_elastic.ri_authors (`au_name`) VALUES ('" + authors + "')"
         database.insert(qr)
+
+    #******************************** ri_authors
+    qr = "TRUNCATE brapci_elastic.ri_authors"
+    database.query(qr)
+
+    qr = "SELECT id, au_name FROM brapci_elastic.ri_authors"
+    rows = database.query(qr)
+    for (id, name) in rows:
+        # Remove acentos e caracteres especiais
+        nome = normalizar_frase(name)
+        print(nome)
+        exit(0)
 
 if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'
