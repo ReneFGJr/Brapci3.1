@@ -94,7 +94,14 @@ class Index extends Model
                 array_push($names, get("source"));
                 array_push($names, get("target"));
                 $arg = '/data/Brapci3.1/.tmp/'.$d2.'/'.get("fileO");
-                return $this->execPython('dijkstra',$names);
+
+                $RSP = $this->execPython('dijkstra',$names);
+                header('Access-Control-Allow-Origin: *');
+                header("Content-Type: application/json");
+                header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+                header("Access-Control-Allow-Headers: Content-Type, Authorization");
+                echo $RSP;
+                exit;
                 break;
             case 'lotka':
                 $RSP = [];
