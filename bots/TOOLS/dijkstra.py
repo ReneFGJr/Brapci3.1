@@ -2,7 +2,7 @@ import networkx as nx
 import pandas as pd
 from itertools import combinations
 import database
-import os
+import os, tempfile, uuid
 import re
 import sys
 from collections import defaultdict
@@ -260,21 +260,27 @@ def query_index(json_path: str, query: str) -> list:
         result_idxs &= idxs
 
     # Retorna nomes conforme índices ordenados
-    return [authors[i] for i in sorted(result_idxs)]
+    txt = [authors[i] for i in sorted(result_idxs)]
+    file = fileTempName()
+    with open(file, 'w', encoding='utf-8') as f:
+        for name in txt:
+            f.write(name + '\n')
+    return file
+
+def fileTempName():
+    # Gera um diretório temporário
+    temp_dir = tempfile.gettempdir()
+
+    # Gera um nome de arquivo único
+    random_filename = f"{uuid.uuid4().hex}.txt"
+
+    # Caminho completo do arquivo
+    file_path = os.path.join(temp_dir, random_filename)
+
+    print(f"Arquivo temporário: {file_path}")
 
 
-###################################
-def bsmain():
-    filename = '../../.tmp/brapci.json'
-    #################### Consulta
-    query = ' '.join(sys.argv[2:])
-    results = query_index(filename, query)
-    if results:
-        print(f"Encontrei {len(results)} autor(es):")
-        for name in results:
-            print(f"  - {name}")
-    else:
-        print("Nenhum autor encontrado para essa consulta.")
+
 
 
 if __name__ == "__main__":
