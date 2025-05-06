@@ -63,9 +63,11 @@ class Index extends Model
                 $arg .= ' "' . $val . '"';
             }
             $argumento = $arg;
-
+            $cmd = "$python $script_python $argumento";
+        } else {
+            $cmd = "$python $script_python '$argumento'";
         }
-        $cmd = "$python $script_python '$argumento'";
+
         echo $cmd;
         exit;
         file_put_contents('/data/Brapci3.1/.tmp/CMD',$cmd);
