@@ -277,7 +277,7 @@ def export_elastic_database(author_lists):
     database.query(qr)
 
     for i, authors in enumerate(author_lists):
-        qr = "INSERT INTO `dataset` (`AUTHORS`) VALUES ('"+authors+"')"
+        qr = "INSERT INTO `ri_authors` (`au_name`) VALUES ('" + authors + "')"
         print(qr)
 
     print(author_lists)
