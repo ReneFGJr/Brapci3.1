@@ -69,16 +69,16 @@ else:
 
 
 dirT = '/data/Brapci3.1/public/'
-#file = dirT + sys_io.getNameFile(id)
-#fileTXT = sys_io.getNameFileTXT(file)
-#txt = sys_io.readfile(fileTXT)
-#fileO = file
-fileO = 'x'
+file = dirT + sys_io.getNameFile(id)
+fileTXT = sys_io.getNameFileTXT(file)
+txt = sys_io.readfile(fileTXT)
+fileO = file
+#fileO = 'x'
 
 if (act == 'All'):
     print("Extrair Trabalhos")
 
-    print("=fileO=>",file)
+    print("=fileO=>",fileO)
 
     print("<h4>Gerar Markdown</h4>")
     print(" Processoando ID",id)
