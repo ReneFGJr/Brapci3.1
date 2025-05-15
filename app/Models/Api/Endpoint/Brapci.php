@@ -454,6 +454,7 @@ class Brapci extends Model
             $aut = troca($dq['AUTHORS'], '; ', ';');
             $aut = explode(';', $aut);
             $totalCo = count($aut);
+            $totAut = $totAut + $totalCo;
             if (!isset($coA[$totalCo])) {
                 $coA[$totalCo] = 1;
             } else {
@@ -463,7 +464,7 @@ class Brapci extends Model
                 if ($nome == '') {
                     continue;
                 }
-                $totAut++;
+
                 if (!isset($au[$nome])) {
                     $au[$nome] = ['name' => $nome, 'ID' => 0, 'total' => 1];
                 } else {
