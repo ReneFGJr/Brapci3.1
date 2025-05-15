@@ -396,6 +396,7 @@ class Brapci extends Model
         $IssuesWorks = new \App\Models\Base\IssuesWorks();
 
         $dt = $Issues->where('is_source_issue', $issue)->first();
+        $totAut = 0;
 
         if ($dt == null) {
             echo "Vazio";
@@ -429,6 +430,7 @@ class Brapci extends Model
         $dw = [];
         $au = [];
         $wk = [];
+        $coA = [];
         $IDs = -1;
         $SESSIONx = '';
         foreach ($dt as $id => $line) {
@@ -451,7 +453,17 @@ class Brapci extends Model
             $dq['USE'] = $line['use'];
             $aut = troca($dq['AUTHORS'], '; ', ';');
             $aut = explode(';', $aut);
+            $totalCo = count($aut);
+            if (!isset($coA[$totalCo])) {
+                $coA[$totalCo] = 1;
+            } else {
+                $coA[$totalCo] += 1;
+            }
             foreach ($aut as $ida => $nome) {
+                if ($nome == '') {
+                    continue;
+                }
+                $totAut++;
                 if (!isset($au[$nome])) {
                     $au[$nome] = ['name' => $nome, 'ID' => 0, 'total' => 1];
                 } else {
@@ -472,6 +484,8 @@ class Brapci extends Model
         $dd['works'] = $dw;
         $dd['worksID'] = $wk;
         $dd['authors'] = $nm;
+        $dd['totalAuthors'] = $totAut;
+        $dd['coAuthors'] = $coA;
         $dd['authorsTotal'] = count($au);
         return $dd;
     }
