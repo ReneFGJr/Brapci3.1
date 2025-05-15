@@ -474,6 +474,12 @@ class Brapci extends Model
 
             array_push($dw[$IDs]['data'], $dq);
         }
+        /******** Co-Authors */
+        $coAA = [];
+        foreach ($coA as $id => $line) {
+               $coDD = ['name' => $id, 'total' => $line];
+               array_push($coAA, $coDD);
+        }
 
         /******** Authors */
         ksort($au);
@@ -486,7 +492,7 @@ class Brapci extends Model
         $dd['worksID'] = $wk;
         $dd['authors'] = $nm;
         $dd['totalAuthors'] = $totAut;
-        $dd['coAuthors'] = $coA;
+        $dd['coAuthors'] = $coAA;
         $dd['coAuthorsMedia'] = round(100*$totAut / count($dt))/100;
         $dd['authorsTotal'] = count($au);
         return $dd;
