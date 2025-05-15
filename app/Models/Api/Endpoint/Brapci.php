@@ -487,7 +487,7 @@ class Brapci extends Model
         $dd['authors'] = $nm;
         $dd['totalAuthors'] = $totAut;
         $dd['coAuthors'] = $coA;
-        $dd['coAuthorsMedia'] = round(10*$totAut / count($dt))/10;
+        $dd['coAuthorsMedia'] = round(100*$totAut / count($dt))/100;
         $dd['authorsTotal'] = count($au);
         return $dd;
     }
