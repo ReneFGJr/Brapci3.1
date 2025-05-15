@@ -476,6 +476,7 @@ class Brapci extends Model
         }
         /******** Co-Authors */
         $coAA = [];
+        ksort($coA);
         foreach ($coA as $id => $line) {
                $coDD = ['name' => $id, 'total' => $line];
                array_push($coAA, $coDD);
