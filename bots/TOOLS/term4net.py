@@ -32,7 +32,7 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
         for i, node in enumerate(nodes_list, start=1):
             grau = G.degree(node)
             # Definir tamanho do nó baseado no grau
-            fator = "2" if grau > 5 else "1"
+            fator = "2.0000" if grau > 5 else "1.0000"
             f_out.write(
                 f'{i} "{node}" ellipse x_fact {fator} y_fact {fator} fos 1 ic LightYellow lc Blue \n'
             )
