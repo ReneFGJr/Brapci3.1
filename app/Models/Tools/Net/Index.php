@@ -52,9 +52,6 @@ class Index extends Model
         // Caminho para o script Python
         $script_python = '/data/Brapci3.1/bots/TOOLS/'.$endpoint.'.py';
 
-        echo $script_python;
-        exit;
-
         // Monta o comando para executar o Python com o script e o argumento
         if (is_array($argumento)) {
             $arg = '';
