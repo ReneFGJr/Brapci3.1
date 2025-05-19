@@ -158,7 +158,12 @@ class Index extends Model
                 $RSP['file'] = get("file");
                 $arg = '/data/Brapci3.1/.tmp/' . $d2 . '/' . get("fileO");
                 $RSP['response'] = $this->execPython('term4net', $arg);
-                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . get("fileO") . '.net';
+                $fileName = get("fileO");
+                $fileName = troca($fileName, '.txt', '');
+                $fileName = troca($fileName, '.csv', '');
+                $fileName = troca($fileName, '.xls', '');
+                $fileName = troca($fileName, '.xlsx', '');
+                $RSP['url'] = PATH . '/download/temp/' . $d2 . '/' . $fileName . '.net';
                 break;
             default:
                 $RSP = [];
