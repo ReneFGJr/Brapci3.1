@@ -9,44 +9,39 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
     # Abrir o arquivo de entrada
     with open(arquivo_entrada, 'r', encoding='utf-8') as f:
         for linha in f:
-            # Dividir os autores na linha, removendo nomes vazios
             autores = [
                 autor.strip() for autor in linha.split(";") if autor.strip()
             ]
-
-            # Adicionar arestas entre todos os pares de autores válidos
             for i in range(len(autores)):
                 for j in range(i + 1, len(autores)):
                     autor1 = autores[i]
                     autor2 = autores[j]
 
                     if G.has_edge(autor1, autor2):
-                        # Se já existe uma aresta, incrementar o peso
                         G[autor1][autor2]['weight'] += 1
                     else:
-                        # Adicionar a aresta com peso 1
                         G.add_edge(autor1, autor2, weight=1)
 
-    # Criar o arquivo .net para salvar o grafo
-    with open(arquivo_saida, 'w', encoding='utf-8') as f_out:
-        # Escrever os nós
-        f_out.write("*Vertices {}\n".format(len(G.nodes)))
-        for i, node in enumerate(G.nodes(), start=1):
-            f_out.write('{} "{}"\n'.format(i, node))
+    # Lista de nós ordenada para garantir consistência de índices
+    nodes_list = list(G.nodes())
 
-        # Escrever as arestas com pesos
+    # Criar o arquivo .net
+    with open(arquivo_saida, 'w', encoding='utf-8') as f_out:
+        f_out.write("*Vertices {}\n".format(len(nodes_list)))
+        for i, node in enumerate(nodes_list, start=1):
+            grau = G.degree(node)
+            # Definir tamanho do nó baseado no grau
+            fator = "2.0000" if grau > 5 else "1.0000"
+            f_out.write(
+                f'{i} "{node}" ellipse x_fact {fator} y_fact {fator} fos 1 ic LightYellow lc Blue \n'
+            )
+
+        # Escrever as arestas
         f_out.write("*Edges\n")
         for autor1, autor2, data in G.edges(data=True):
-            node1_index = list(G.nodes()).index(autor1) + 1
-            node2_index = list(G.nodes()).index(autor2) + 1
-            f_out.write('{} {} {}\n'.format(node1_index, node2_index,
-                                            data['weight']))
-
-    # Mostrar o total de edges (grau) de cada nó
-    print("\n--- Total de conexões por autor ---")
-    for autor in G.nodes():
-        print(f"{autor}: {G.degree(autor)} conexões")
-
+            node1_index = nodes_list.index(autor1) + 1
+            node2_index = nodes_list.index(autor2) + 1
+            f_out.write(f'{node1_index} {node2_index} {data["weight"]}\n')
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -54,3 +49,4 @@ if __name__ == "__main__":
         sys.exit(1)
 
     input_file = sys.argv[1]
+    criar_grafo_autores(input_file, input_file.replace('.txt', '.net'))
