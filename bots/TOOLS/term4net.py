@@ -27,6 +27,7 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
 
     # Criar o arquivo .net
     with open(arquivo_saida, 'w', encoding='utf-8') as f_out:
+        f_out.write('#term4net\n')
         f_out.write("*Vertices X {}\n".format(len(nodes_list)))
         for i, node in enumerate(nodes_list, start=1):
             grau = G.degree(node)

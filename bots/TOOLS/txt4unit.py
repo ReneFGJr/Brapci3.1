@@ -24,6 +24,7 @@ def calculate_author_frequencies(input_file, output_file):
 
     # Writing the result to the output file
     with open(output_file, 'w', encoding='utf-8') as f_out:
+        f.write('#txt4unit\n')
         # Write the frequencies in alphabetical order
         f_out.write(f"TERMO;TOTAL\n")
         for author, count in sorted_authors:

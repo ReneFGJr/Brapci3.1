@@ -26,6 +26,7 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
 
     # Criar o arquivo .net para salvar o grafo
     with open(arquivo_saida, 'w', encoding='utf-8') as f_out:
+        f.write('#txt4net\n')
         # Escrever os nós
         f_out.write("*Vertices {}\n".format(len(G.nodes)))
         for i, node in enumerate(G.nodes(), start=1):
