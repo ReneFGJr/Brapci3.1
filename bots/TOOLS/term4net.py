@@ -2,6 +2,7 @@ import sys
 import networkx as nx
 from unidecode import unidecode
 
+
 def criar_grafo_autores(arquivo_entrada, arquivo_saida):
     G = nx.Graph()
 
@@ -9,7 +10,9 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
     with open(arquivo_entrada, 'r', encoding='utf-8') as f:
         for linha in f:
             # Dividir os autores na linha, removendo nomes vazios
-            autores = [autor.strip() for autor in linha.split(";") if autor.strip()]
+            autores = [
+                autor.strip() for autor in linha.split(";") if autor.strip()
+            ]
 
             # Adicionar arestas entre todos os pares de autores válidos
             for i in range(len(autores)):
@@ -36,19 +39,18 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
         for autor1, autor2, data in G.edges(data=True):
             node1_index = list(G.nodes()).index(autor1) + 1
             node2_index = list(G.nodes()).index(autor2) + 1
-            f_out.write('{} {} {}\n'.format(node1_index, node2_index, data['weight']))
+            f_out.write('{} {} {}\n'.format(node1_index, node2_index,
+                                            data['weight']))
+
+    # Mostrar o total de edges (grau) de cada nó
+    print("\n--- Total de conexões por autor ---")
+    for autor in G.nodes():
+        print(f"{autor}: {G.degree(autor)} conexões")
+
 
 if __name__ == "__main__":
-    # Ensure the correct number of arguments is provided
     if len(sys.argv) != 2:
-        print("Usage: python3 term4net.py <input_file> <output_file>")
+        print("Usage: python3 term4net.py <input_file>")
         sys.exit(1)
 
-    # Parse the input and output file paths
     input_file = sys.argv[1]
-    output_file = input_file + '.net'
-
-    # Create the .net file
-    criar_grafo_autores(input_file, output_file)
-
-    print({output_file})
