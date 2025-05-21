@@ -181,7 +181,11 @@ elif (act == 'keywordsOllama'):
     #saveFileD(fileN, lists)
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
+
+########## Small World
 elif (act == 'smallWorld'):
+    mod_small_world.proccess()
+elif (act == 'sw'):
     mod_small_world.proccess()
 else:
     print("Ação não localizada")
