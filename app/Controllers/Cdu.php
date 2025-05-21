@@ -28,6 +28,12 @@ class Cdu extends BaseController
             case '':
                 $sx = 'CDU - Classificação Decimal Universal';
                 break;
+            case 'download':
+                $sx = $this->downloadXML($d1);
+                break;
+            case 'import':
+                $sx = $this->importXML();
+                break;
             case 'test':
                 $sx = $this->test($d1);
                 break;
@@ -62,6 +68,40 @@ class Cdu extends BaseController
             }
             return $sx;
         }
+    public function downloadXML($id)
+        {
+            $QuizMoodleQuestion = new \App\Models\CDU\QuizMoodleQuestion();
+            $xmlString = $QuizMoodleQuestion->exportMoodleQuiz($id);
+            // 6) Define headers e envia como download
+            $filename = 'moodle_quiz_' . date('Ymd_His') . '.xml';
+            return $this->response
+                ->setBody($xmlString)
+                ->setHeader('Content-Type', 'application/xml; charset=UTF-8')
+                ->setHeader('Content-Disposition', "attachment; filename=\"$filename\"")
+                ->setStatusCode(200);
+
+        }
+
+    public function importXML()
+    {
+        $QuizMoodleQuestion = new \App\Models\CDU\QuizMoodleQuestion();
+        $IO = new \App\Models\Io\Files();
+
+        $data = [];
+        $data['title'] = 'Importação de Alunos';
+        $data['description'] = 'Cole aqui a lista de alunos, um por linha. Exemplo:';
+        $data['sample'] = '1	GRAD	123123	FULANA PEIXOTO SAILVA	';
+        $data['url'] = URLa . ('/cdu/import');
+        $sx = $IO->fileUpload('files','');
+
+        if (isset($_FILES['fileToUpload']))
+            {
+                $files = $_FILES['fileToUpload']['tmp_name'];
+                $QuizMoodleQuestion->importMoodleQuiz($files);
+                pre($_FILES, false);
+            }
+        return $sx;
+    }
 
     public function questions()
     {

@@ -61,7 +61,10 @@ if (len(sys.argv) > 1):
         print("Extrair Trabalhos")
         lists = toDO()
         sys.exit()
-    id = parm[2]
+    if (len(sys.argv) > 2):
+        id = parm[2]
+    else:
+        id = 0
 else:
     id = 309177
     act = 'email'
