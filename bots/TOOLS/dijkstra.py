@@ -345,12 +345,15 @@ if __name__ == "__main__":
     dir = '/data/Brapci3.1/bots/TOOLS'
     os.chdir(dir)
 
-    if len(sys.argv) < 3:
-        print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
-        exit(1)
-
-    source = sys.argv[1].replace('"','')
-    target = sys.argv[2].replace('"','')
+    if len(sys.argv) < 2:
+        if len(sys.argv) < 1:
+            print("Uso: python dijkstra.py <nó de origem> <nó de destino>")
+            exit(1)
+    source = sys.argv[1].replace('"', '')
+    if len(sys.argv) > 1:
+        target = sys.argv[2].replace('"','')
+    else:
+        target = 'clear'
 
     if ((source == 'clear') or (target == 'clear')):
         unlinks = {'../../.tmp/brapci.json','../../.tmp/brapci.net','../../.tmp/authors.txt'}
