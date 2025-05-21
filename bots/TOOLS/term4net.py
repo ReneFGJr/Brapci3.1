@@ -24,6 +24,8 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
 
     # Lista de nós ordenada para garantir consistência de índices
     nodes_list = list(G.nodes())
+    posX = 0
+    posY = 0
 
     # Criar o arquivo .net
     with open(arquivo_saida, 'w', encoding='utf-8') as f_out:
@@ -33,8 +35,12 @@ def criar_grafo_autores(arquivo_entrada, arquivo_saida):
             grau = G.degree(node)
             # Definir tamanho do nó baseado no grau
             fator = "2.0000" if grau > 5 else "1.0000"
+            posX += 10
+            if (posX % 100) == 0:
+                posY += 10
+                posX = 0
             f_out.write(
-                f'{i} "{node}" ellipse x_fact {fator} y_fact {fator} fos 1 ic LightYellow lc Blue \n'
+                f'{i} "{node}" {posX} {fator} {posY} \n'
             )
 
         # Escrever as arestas
