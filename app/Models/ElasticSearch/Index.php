@@ -443,7 +443,7 @@ class Index extends Model
 		foreach ($row as $id => $line) {
 			$Register->Orwhere('ID', $line);
 		}
-		if (get('apikey') != '') {
+		if (get('user') != '') {
 			$limit = 9999999;
 		} else{
 			$limit = 2000;
