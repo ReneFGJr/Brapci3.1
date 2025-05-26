@@ -79,6 +79,7 @@ class Database extends Config
     public array $persistent_indicador = [];
     public array $dataverse = [];
     public array $guide = [];
+    public array $software = [];
     public array $handle = [];
 
     public array $openaire = [];
@@ -176,7 +177,9 @@ class Database extends Config
             'rdf2' => 'brapci_rdf',
             'reverseindex' => 'brapci_network',
             'tools' => 'brapci_tools',
-            'thesa' => 'thesa'
+            'thesa' => 'thesa',
+            'software' => 'software',
+            'guide' => 'guide',
         ];
     /*
 

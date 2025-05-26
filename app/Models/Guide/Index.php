@@ -76,6 +76,7 @@ class Index extends Model
                         $menu[PATH.'/guide/course/'] = lang('brapci.course');
                         $menu[PATH . '/guide/manual/'] = lang('brapci.manual');
                         $menu[PATH . '/guide/dataverse/'] = lang('brapci.dataverse_install');
+                        $menu[PATH . '/guide/software/'] = lang('brapci.software');
                         $sx .= menu($menu);
                         $sx = bs(bsc($sx));
                 }

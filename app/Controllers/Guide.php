@@ -41,6 +41,14 @@ class Guide extends BaseController
         $act = trim($act);
 
         switch ($act) {
+            case 'software':
+                $data['page_title'] = lang('brapci.software');
+                $data['bg'] = 'bg-success';
+                $data['bg_color'] = '#00ff00';
+                $data['menu'][PATH . '/guide/software'] = lang('brapci.software');
+                $Guide = new \App\Models\Guide\Software\Index();
+                $sx .= $Guide->index($subact, $id);
+                break;
             case 'popup':
                 $sx = view('Brapci/Headers/header', $data);
                 $Guide = new \App\Models\Guide\Index();
