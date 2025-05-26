@@ -443,7 +443,12 @@ class Index extends Model
 		foreach ($row as $id => $line) {
 			$Register->Orwhere('ID', $line);
 		}
-		$dt = $Register->findALl(2000);
+		if (get('user') != '') {
+			$limit = 9999999;
+		} else{
+			$limit = 2000;
+		}
+		$dt = $Register->findALl($limit);
 		$sx = '';
 
 		switch ($tp) {

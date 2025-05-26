@@ -54,4 +54,4 @@ def proccess():
     with open(output_file, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
-    print(f"Arquivo Pajek gerado com vértices e arestas: {output_file}")
+    print(f"    Arquivo gerado: {output_file}")

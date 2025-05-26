@@ -61,7 +61,10 @@ if (len(sys.argv) > 1):
         print("Extrair Trabalhos")
         lists = toDO()
         sys.exit()
-    id = parm[2]
+    if (len(sys.argv) > 2):
+        id = parm[2]
+    else:
+        id = 0
 else:
     id = 309177
     act = 'email'
@@ -69,11 +72,13 @@ else:
 
 
 dirT = '/data/Brapci3.1/public/'
-file = dirT + sys_io.getNameFile(id)
-fileTXT = sys_io.getNameFileTXT(file)
-txt = sys_io.readfile(fileTXT)
-fileO = file
-#fileO = 'x'
+if (id != 0):
+    file = dirT + sys_io.getNameFile(id)
+    fileTXT = sys_io.getNameFileTXT(file)
+    txt = sys_io.readfile(fileTXT)
+    fileO = file
+else:
+    fileO = 'x'
 
 if (act == 'All'):
     print("Extrair Trabalhos")
@@ -176,7 +181,11 @@ elif (act == 'keywordsOllama'):
     #saveFileD(fileN, lists)
 elif (act == 'abstract'):
     lists = ai_abstract.extract_abstract(txt,id)
+
+########## Small World
 elif (act == 'smallWorld'):
+    mod_small_world.proccess()
+elif (act == 'sw'):
     mod_small_world.proccess()
 else:
     print("Ação não localizada")

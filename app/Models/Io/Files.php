@@ -88,6 +88,19 @@ class Files extends Model
 		return $header;
 	}
 
+	function fileUpload()
+		{
+			$sx = '
+				<h1>' . msg('upload_file') . '</h1>
+				<form method="post" enctype="multipart/form-data">
+				Select image to upload:
+				<input type="file" name="fileToUpload" id="fileToUpload">
+				<input type="submit" value="Upload Image" name="submit">
+				</form>
+				';
+			return $sx;
+		}
+
 
 	function upload($id = '', $tpy = '')
 	{
