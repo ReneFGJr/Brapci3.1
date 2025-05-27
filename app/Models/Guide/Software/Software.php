@@ -52,6 +52,33 @@ class Software extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function createSoftware($id)
+    {
+        $dt = [];
+        if ($id == 0) {
+            $dt['title'] = 'Create New Software';
+            $dt['form_action'] = site_url('/guide/software/save');
+            $dt['form_method'] = 'post';
+            $dt['software'] = [
+                'id_s' => '',
+                's_name' => '',
+                's_description' => '',
+                's_url' => '',
+                's_version' => '',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+        } else {
+            $dt['software'] = $this->find($id);
+            $dt['title'] = $dt['software']['s_name'] . ' - Edit Software';
+            $dt['form_action'] = site_url('/guide/software/save');
+            $dt['form_method'] = 'post';
+
+        }
+
+        $sx = view('Software/SoftwareEdit', $dt);
+        return $sx;
+    }
+
     function viewSoftware($id = '')
     {
         $d = $this->select('id_s, s_name, s_description, s_url, s_version, created_at');
@@ -68,14 +95,14 @@ class Software extends Model
         return $sx;
     }
 
-    function listSoftware($d1='',$d2='')
+    function listSoftware($d1 = '', $d2 = '')
     {
 
         $d = $this->select('id_s, s_name, s_description, s_url, s_version, created_at');
         $dt = [];
         $dt['softwares'] = $this->findAll();
 
-        $sx = view('Software/SoftwareList',$dt);
+        $sx = view('Software/SoftwareList', $dt);
         return $sx;
     }
 }

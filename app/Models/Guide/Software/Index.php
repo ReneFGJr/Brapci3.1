@@ -55,6 +55,26 @@ class Index extends Model
                 $OperationalSystem = new \App\Models\Guide\Software\OperationalSystem();
                 $sx = $OperationalSystem->listOS();
                 break;
+            case 'save':
+                if (!isset($_POST['id_s'])) {
+                    $dd = $Software->where('s_name', $_POST['s_name'])
+                        ->where('s_version', $_POST['s_version'])
+                        ->first();
+                    if ($dd == [])
+                    {
+                        $Software->set($_POST)->insert();
+                    }
+                } else {
+                    $sx = $Software->saveSoftware($_POST);
+                }
+                $sx = $this->index('list');
+                break;
+            case 'create':
+                $sx = $Software->createSoftware($id);
+                break;
+            case 'edit':
+                $sx = $Software->createSoftware($id);
+                break;
             case 'list':
                 $sx = $Software->listSoftware();
                 break;
@@ -68,7 +88,6 @@ class Index extends Model
                 $sx = "Invalid action: $act";
 
                 $menu = [];
-
                 $menu[PATH . '/guide/software/list'] = lang('brapci.software');
                 $menu[PATH . '/guide/software/os'] = lang('brapci.os');
                 $sx .= menu($menu);
