@@ -60,6 +60,7 @@ class SoftwareSteps extends Model
         $d->where('st_software', $id);
         $d->orderBy('st_order', 'ASC');
         $dt = [];
+        $dt['id'] = $id;
         $dt['steps'] = $this->findAll();
         $dt['softwareName'] = 'Software';
         $sx = view('Software/SoftwareSteps', $dt);

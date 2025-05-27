@@ -52,6 +52,32 @@ class Software extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function saveStep($dt)
+        {
+            pre($dt);
+        }
+
+    function createSteps($id)
+        {
+        $SoftwareSteps = new \App\Models\Guide\Software\SoftwareSteps();
+        $dt = [];
+
+            $dt['title'] = 'Create New Software';
+            $dt['form_action'] = site_url('/guide/software/saveStep');
+            $dt['form_method'] = 'post';
+            $dt['software'] = [
+                'id_s' => '',
+                's_name' => '',
+                's_description' => '',
+                's_url' => '',
+                's_version' => '',
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+
+        $sx = view('Software/SoftwareStepsEdit', $dt);
+        return $sx;
+        }
+
     function createSoftware($id)
     {
         $dt = [];

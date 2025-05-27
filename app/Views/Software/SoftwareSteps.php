@@ -11,7 +11,11 @@
     </style>
 
     <div class="container py-5">
-        <h2 class="mb-4">Passos para: <?= esc($softwareName) ?></h2>
+        <h2 class="mb-4">Passos para: <?= esc($softwareName) ?>
+            <a href="<?php echo site_url('guide/software/steps_create/'.$id); ?>" class="btn btn-success float-end">
+                +
+            </a>
+        </h2>
 
         <?php if (empty($steps)): ?>
             <div class="alert alert-warning">Nenhum passo encontrado para este software.</div>

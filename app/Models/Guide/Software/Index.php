@@ -55,6 +55,12 @@ class Index extends Model
                 $OperationalSystem = new \App\Models\Guide\Software\OperationalSystem();
                 $sx = $OperationalSystem->listOS();
                 break;
+            case 'steps_create':
+                $sx = $Software->createSteps($id);
+                break;
+            case 'saveStep':
+                $sx = $Software->saveStep($_POST);
+                break;
             case 'save':
                 if (!isset($_POST['id_s'])) {
                     $dd = $Software->where('s_name', $_POST['s_name'])
