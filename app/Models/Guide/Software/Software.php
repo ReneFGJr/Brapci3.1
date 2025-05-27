@@ -55,7 +55,8 @@ class Software extends Model
     function createSoftware($id)
     {
         $dt = [];
-        if ($id == 0) {
+
+        if ($id == 0 or $id == '' ) {
             $dt['title'] = 'Create New Software';
             $dt['form_action'] = site_url('/guide/software/save');
             $dt['form_method'] = 'post';
