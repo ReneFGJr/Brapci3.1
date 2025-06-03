@@ -30,4 +30,39 @@ class Dci extends BaseController
         $sx .= view('DCI/Headers/footer', $data);
         return $sx;
     }
+
+    public function capes($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
+    {
+        $sx = '';
+        $data['page_title'] = 'CAPES';
+        $data['bg'] = 'bg-brapcilivros';
+        $sx = '';
+        $sx .= view('DCI/Headers/header', $data);
+        $sx .= view('DCI/Headers/navbar', $data);
+        $Capes = new \App\Models\Capes\Capes();
+
+        if (get("ppg") != '') {
+            $Capes->setPpg(get("ppg"));
+            $PPG = get("ppg");
+            $d2 = '';
+        } else {
+            $PPG = $Capes->getPpg();
+        }
+
+        switch ($d2) {
+            case 'view':
+                $dd = [];
+                $dd['ppg'] = $Capes->getPpg();
+                $dd['sf'] = $Capes->view($d3);
+                $sx .= view('Capes/form_ppg', $dd);
+                break;
+            default:
+                $dd = [];
+                $dd['ppg'] = $Capes->getPpg();
+                $dd['sf'] = $Capes->view();
+                $sx .= view('Capes/form_ppg', $dd);
+                break;
+        }
+        return $sx;
+    }
 }

@@ -17,6 +17,10 @@ $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
 $routes->put('/api/(:any)', 'Api::index/$1');
 
+$routes->get('/capes', 'Dci::capes');
+$routes->get('/capes(:any)', 'Dci::capes/$1');
+$routes->post('/capes(:any)', 'Dci::capes/$1');
+
 /* Original */
 /********* CRAWLER */
 $routes->get('/dci/', 'Dci::index/');

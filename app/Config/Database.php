@@ -152,6 +152,7 @@ class Database extends Config
             'capes' => 'capes',
             'CDU' => 'cdu',
             'brapci_cited' => 'brapci_cited',
+            'capes' => 'capes',
             'click'=>'brapci_click',
             'dataverse' => 'dataverse',
             'dci' => 'dci',
