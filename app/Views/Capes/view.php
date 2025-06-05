@@ -46,9 +46,6 @@
     </head>
 
     <body>
-        <h2>Exibindo registro CAPES ID = <?= esc($registro['ID']) ?></h2>
-
-
         <div class="nav-buttons">
             <?php if ($prevId !== null): ?>
                 <a href="<?= site_url('capes/view/' . $prevId) ?>">&laquo; Anterior</a>
@@ -107,21 +104,5 @@
                 </td>
             </tr>
 
-            <!-- A partir de C1 até C10, usamos input type="number" -->
-            <?php for ($i = 1; $i <= 10; $i++):
-                $campo = 'C' . $i;
-                // tentamos converter para inteiro (caso já tenha número), senão deixamos em branco
-                $valorNumerico = is_numeric($registro[$campo]) ? (int) $registro[$campo] : '';
-            ?>
-                <tr>
-                    <td><?= esc($campo) ?></td>
-                    <td>
-                        <input
-                            type="number"
-                            name="<?= esc($campo) ?>"
-                            value="<?= esc($valorNumerico) ?>"
-                            readonly>
-                    </td>
-                </tr>
-            <?php endfor; ?>
+
         </table>

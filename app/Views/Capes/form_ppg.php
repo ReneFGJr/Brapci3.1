@@ -9,6 +9,8 @@
                 <br>
                 <input type="submit" value="Filtrar" class="btn btn-primary mt-2">
             </form>
+
+            <?php echo $form;?>
         </div>
         <div class="col-md-9">
             <?= $sf; ?>

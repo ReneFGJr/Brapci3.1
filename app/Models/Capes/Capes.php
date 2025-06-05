@@ -24,7 +24,8 @@ class Capes extends Model
         'C7',
         'C8',
         'C9',
-        'C10'
+        'C10',
+        'STATUS'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -56,6 +57,7 @@ class Capes extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public $data = [];
 
     public function getNextId(int $currentId): ?int
     {
@@ -95,6 +97,7 @@ class Capes extends Model
             $id = $first['ID'];
         }
 
+        $this->saved();
         // Tenta buscar o registro atual
         $registro = $this
             ->where('CD_PROGRAMA', $this->getPpg())
@@ -104,6 +107,7 @@ class Capes extends Model
             return "VOLTAR 2";
         }
 
+        $this->data = $registro;
         // Busca IDs do registro anterior e próximo
         $prevId = $this->getPrevId($id);
         $nextId = $this->getNextId($id);
@@ -141,9 +145,57 @@ class Capes extends Model
                 $dd = [];
                 $dd['ppg'] = get("ppg");
                 $dd['sf'] = $this->view();
+                $dd['form']  = view('Capes/form_item', $this->data);
+
                 $sx = view('Capes/form_ppg', $dd);
                 break;
         }
         return $sx;
+    }
+
+    function saved()
+    {
+        $action = get("action");
+        if ($action == 'save') {
+            $id = get("id");
+            if ($id != '') {
+                $dd = [];
+                $dd['C1'] = get("C1");
+                $dd['C2'] = get("C2");
+                $dd['C3'] = get("C3");
+                $dd['C4'] = get("C4");
+                $dd['C5'] = get("C5");
+                $dd['C6'] = get("C6");
+
+                $TOTAL = 0;
+                $set = 0;
+                for($r=1;$r <= 6; $r++) {
+                    $C = 'C'.$r;
+                    if (isset($dd[$C]) && is_numeric($dd[$C])) {
+                        $TOTAL += $dd[$C];
+                        $set++;
+                    }
+                    if ($set == 6)
+                        {
+                            $dd['C7'] = $TOTAL;
+                            $dd['STATUS'] = 1;
+                        } else 	{
+                            $dd['C7'] = 0;
+                            $dd['STATUS'] = 0;
+                        }
+                }
+
+                // Salva os dados
+                $this->set($dd)->where('ID',$id)->update();
+            }
+        }
+        $ppg = get("ppg");
+        if ($ppg == '') {
+            $ppg = $this->getPpg();
+        }
+        if ($ppg != '') {
+            $this->setPpg($ppg);
+        }
+        $this->data = [];
     }
 }

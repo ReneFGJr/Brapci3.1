@@ -54,12 +54,14 @@ class Dci extends BaseController
                 $dd = [];
                 $dd['ppg'] = $Capes->getPpg();
                 $dd['sf'] = $Capes->view($d3);
+                $dd['form'] = view('Capes/form_item', $Capes->data);
                 $sx .= view('Capes/form_ppg', $dd);
                 break;
             default:
                 $dd = [];
                 $dd['ppg'] = $Capes->getPpg();
                 $dd['sf'] = $Capes->view();
+                $dd['form'] = view('Capes/form_item', $Capes->data);
                 $sx .= view('Capes/form_ppg', $dd);
                 break;
         }
