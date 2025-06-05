@@ -114,7 +114,7 @@ class Capes extends Model
             'prevId'   => $prevId,
             'nextId'   => $nextId,
         ];
-        return view('capes/view', $data);
+        return view('Capes/view', $data);
     }
 
     public function setPpg($ppg)
