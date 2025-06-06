@@ -71,7 +71,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
     print(line)
 
     if line:
-        dt = []
+        dt = {}
         dt['class'] = line[2]
         dt['collection'] = line[3]
         print(dt)
