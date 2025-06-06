@@ -78,13 +78,13 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         dt['year'] = line[16]
 
         json = line[5]
+        print(json)
         if json:
             try:
                 JS = json.loads(json)
             except json.JSONDecodeError as e:
                 print(f"JSON Decode Error: {e}")
                 JS = {}
-        full = line[6]
 
         print(JS)
         sys.exit()
