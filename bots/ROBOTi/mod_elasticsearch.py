@@ -87,6 +87,24 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         keywords = JS.get("keywords", [])  # Usa .get() para evitar erro caso a chave não exista
         print(keywords)
 
+        json_str = '''<cole aqui o JSON que você postou, entre aspas triplas>'''
+        data = json.loads(json_str)
+
+        # Extrair keywords em português
+        keywords_pt = data.get("KEYWORDS", "")
+        lista_keywords_pt = [kw.strip() for kw in keywords_pt.split(";") if kw.strip()]
+
+        # Extrair keywords em inglês
+        keywords_en = data.get("KEYWORDS_EN", "")
+        lista_keywords_en = [kw.strip() for kw in keywords_en.split(";") if kw.strip()]
+
+        # Extrair keywords em espanhol
+        keywords_es = data.get("KEYWORDS_ES", "")
+        lista_keywords_es = [kw.strip() for kw in keywords_es.split(";") if kw.strip()]
+
+        print("Palavras-chave [pt]:", lista_keywords_pt)
+        print("Palavras-chave [en]:", lista_keywords_en)
+        print("Palavras-chave [es]:", lista_keywords_es)
         sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
