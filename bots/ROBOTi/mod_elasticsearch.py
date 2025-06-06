@@ -1,6 +1,6 @@
 import database
 import unicodedata
-import json
+import json,sys
 import requests
 
 class ElasticSearchAPI:
@@ -193,6 +193,8 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Enviando dados para o servidor
         id = dt['id']
+        print(dt)
+        sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
         # Atualizando o status
