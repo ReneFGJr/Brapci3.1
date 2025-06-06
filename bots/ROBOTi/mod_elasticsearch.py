@@ -94,7 +94,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         all_authors = []
 
-        for authors in data.get("Authors", {}).values():
+        for authors in data.get("Authors").values():
             all_authors.extend(authors)
 
 
