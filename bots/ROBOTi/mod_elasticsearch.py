@@ -83,6 +83,10 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
             print(f"[ERRO] JSON malformado: {json_str}")
             print(e)
             return
+
+        keywords = JS.get("keywords", [])  # Usa .get() para evitar erro caso a chave não exista
+        print(keywords)
+
         print(JS)
         sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
