@@ -71,7 +71,15 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
     if line:
         dt = {}
-        print(line[4])
+        if not line[4].strip():
+            print(f"[ERRO] JSON vazio em offset={offset}, linha={line}")
+            return  # ou continue, dependendo da lógica
+        try:
+            DT = json.loads(line[4])
+        except json.JSONDecodeError as e:
+            print(f"[ERRO] JSON malformado: {line[4]}")
+            print(f"[EXCEÇÃO] {e}")
+            return
         print("====================")
         DT = json.loads(line[4])
         print("====================")
