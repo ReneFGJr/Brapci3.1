@@ -68,7 +68,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
     percent = (offset / dtt * 100) if dtt > 0 else 100
     sx += f' ({percent:.1f}%)<hr>'
-    print(line)
 
     if line:
         dt = {}
@@ -85,7 +84,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
             print(e)
             return
 
-        print(JS)
         sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
