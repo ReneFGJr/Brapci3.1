@@ -231,7 +231,9 @@ def remove(id):
 def dataset_news():
     qr = "select * from brapci_elastic.dataset where new = 1 and  `use` = 0 order by id_ds desc"
     row = database.query(qr)
-
+    if not row:
+        print("No new dataset found.")
+        return
     for ln in row:
         offset = 0
         dtt = 100
