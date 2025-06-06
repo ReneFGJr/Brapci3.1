@@ -71,7 +71,10 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
     print(line)
 
     if line:
-        print(line['ABSTRACT'])
+        dt = []
+        dt['class'] = line[2]
+        dt['collection'] = line[3]
+        print(dt)
         sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
