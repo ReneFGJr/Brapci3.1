@@ -68,6 +68,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
     percent = (offset / dtt * 100) if dtt > 0 else 100
     sx += f' ({percent:.1f}%)<hr>'
+    print(line)
 
     if line:
         dt = {}
@@ -80,9 +81,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
             print(f"[ERRO] JSON malformado: {line[5]}")
             print(f"[EXCEÇÃO] {e}")
             return
-        print("====================")
         DT = json.loads(line[5])
-        print("====================")
 
         full = ''
 
