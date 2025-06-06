@@ -77,14 +77,13 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         dt['collection'] = line[4]
         dt['year'] = line[16]
 
-        json = line[5]
-        print(json)
-        if json:
-            try:
-                JS = json.loads(json)
-            except json.JSONDecodeError as e:
-                print(f"JSON Decode Error: {e}")
-                JS = {}
+        json_str = line[5]  # ← use um nome diferente
+        try:
+            JS = json.loads(json_str)
+        except json.JSONDecodeError as e:
+            print(f"[ERRO] JSON malformado: {json_str}")
+            print(e)
+            return
 
         print(JS)
         sys.exit()
