@@ -92,10 +92,10 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         for lang_terms in data.get("Subject", {}).values():
             all_keywords.extend(lang_terms)
 
-        all_authors = []
+        authors_info = data.get("authors", [])
+        author_names = [a["name"] for a in authors_info if "name" in a]
 
-        for authors in data.get("Authors").values():
-            all_authors.extend(authors)
+        print("Autores:", author_names)
 
 
         print("Todas as palavras-chave:", all_keywords)
