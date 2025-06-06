@@ -92,21 +92,9 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         for lang_terms in data.get("Subject", {}).values():
             all_keywords.extend(lang_terms)
 
+
+
         print("Todas as palavras-chave:", all_keywords)
-        keywords_pt = data.get("Subject", "pt")
-        lista_keywords_pt = [kw.strip() for kw in keywords_pt.split(";") if kw.strip()]
-
-        # Extrair keywords em inglês
-        keywords_en = data.get("Subject", "es")
-        lista_keywords_en = [kw.strip() for kw in keywords_en.split(";") if kw.strip()]
-
-        # Extrair keywords em espanhol
-        keywords_es = data.get("Subject", "en")
-        lista_keywords_es = [kw.strip() for kw in keywords_es.split(";") if kw.strip()]
-
-        print("Palavras-chave [pt]:", lista_keywords_pt)
-        print("Palavras-chave [en]:", lista_keywords_en)
-        print("Palavras-chave [es]:", lista_keywords_es)
         sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
