@@ -71,7 +71,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
     if line:
         dt = {}
-
+        print(line)
         DT = json.loads(line[4])
 
         full = ''
