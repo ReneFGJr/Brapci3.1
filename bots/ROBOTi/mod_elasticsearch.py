@@ -84,11 +84,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
             print(e)
             return
 
-        keywords = JS.get("keywords", [])  # Usa .get() para evitar erro caso a chave não exista
-        print(keywords)
-
-        json_str = '''<cole aqui o JSON que você postou, entre aspas triplas>'''
-        data = json.loads(json_str)
+        data = JS
 
         # Extrair keywords em português
         all_keywords = []
