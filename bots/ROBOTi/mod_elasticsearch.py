@@ -76,9 +76,17 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         dt['class'] = line[3]
         dt['collection'] = line[4]
         dt['year'] = line[16]
-        full = line[5]
 
-        print(dt)
+        json = line[5]
+        if json:
+            try:
+                JS = json.loads(json)
+            except json.JSONDecodeError as e:
+                print(f"JSON Decode Error: {e}")
+                JS = {}
+        full = line[6]
+
+        print(JS)
         sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
