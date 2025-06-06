@@ -91,6 +91,9 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         data = json.loads(json_str)
 
         # Extrair keywords em português
+        keywords = data.get("keywords", [])
+        print("====================================")
+        print(keywords)
         keywords_pt = data.get("Subject", "pt")
         lista_keywords_pt = [kw.strip() for kw in keywords_pt.split(";") if kw.strip()]
 
