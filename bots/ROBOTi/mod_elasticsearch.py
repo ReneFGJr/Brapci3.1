@@ -91,15 +91,15 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         data = json.loads(json_str)
 
         # Extrair keywords em português
-        keywords_pt = data.get("KEYWORDS", "")
+        keywords_pt = data.get("Subject", "pt")
         lista_keywords_pt = [kw.strip() for kw in keywords_pt.split(";") if kw.strip()]
 
         # Extrair keywords em inglês
-        keywords_en = data.get("KEYWORDS_EN", "")
+        keywords_en = data.get("Subject", "es")
         lista_keywords_en = [kw.strip() for kw in keywords_en.split(";") if kw.strip()]
 
         # Extrair keywords em espanhol
-        keywords_es = data.get("KEYWORDS_ES", "")
+        keywords_es = data.get("Subject", "en")
         lista_keywords_es = [kw.strip() for kw in keywords_es.split(";") if kw.strip()]
 
         print("Palavras-chave [pt]:", lista_keywords_pt)
