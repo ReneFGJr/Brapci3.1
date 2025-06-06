@@ -193,7 +193,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         # Enviando dados para o servidor
         id = dt['id']
-        result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
+        result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
         # Atualizando o status
         try:
