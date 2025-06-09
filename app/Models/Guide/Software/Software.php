@@ -54,7 +54,14 @@ class Software extends Model
 
     function saveStep($dt)
         {
-            pre($dt);
+            //pre($dt);
+            $SoftwareSteps = new \App\Models\Guide\Software\SoftwareSteps();
+            if ($dt['id_st'] != '') {
+                $SoftwareSteps->set($dt)->where('id_st',$dt['id_st'])->update();;
+            } else {
+                $SoftwareSteps->set($dt)->insert();
+            }
+            return '<meta http-equiv="refresh" content="0; url=' . site_url('/guide/software/view/' . $dt['st_software']) . '">';
         }
 
     function createSteps($id)
@@ -62,15 +69,21 @@ class Software extends Model
         $SoftwareSteps = new \App\Models\Guide\Software\SoftwareSteps();
         $dt = [];
 
+        $ord = $SoftwareSteps->selectMax('st_order')->where('st_software', $id)->first();
+        $ord = $ord['st_order'] + 1;
+
             $dt['title'] = 'Create New Software';
             $dt['form_action'] = site_url('/guide/software/saveStep');
             $dt['form_method'] = 'post';
-            $dt['software'] = [
-                'id_s' => '',
+            $dt['step'] = [
+                'id_st' => '',
+                'st_software' => $id,
+                'st_order' => $ord,
                 's_name' => '',
                 's_description' => '',
                 's_url' => '',
                 's_version' => '',
+                'st_so' => '1',
                 'created_at' => date('Y-m-d H:i:s')
             ];
 
