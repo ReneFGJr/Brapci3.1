@@ -120,7 +120,7 @@ class Avaliation extends Model
                         if ($q != []) {
                             $txt = troca($q['q_ask'], chr(13), '<br>');
                             $txt = troca($q['q_ask'], chr(10), '<br>');
-                            $sx .= '<div class="col-12">';
+                            $sx .= '<div class="col-12 mt-4">';
                             $sx .= '<h4>Questão '.$i.' - '. $q['q_statement'].'</h4>';
                             $sx .= 'No Moodle explique como você chegou a essa resposta, em detalhes (quais instrumentos consultou, como utilizou, quais os termos identificados).<br>';
                             $sx .= '<p style="font-size: 22px; color: blue;">'.$txt.'</p>';
