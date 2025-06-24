@@ -83,6 +83,8 @@ class Avaliation extends Model
                 $gr[15] = 1;
                 $gr[16] = 1;
                 $gr[17] = 1;
+                $gr[18] = 1;
+                $gr[19] = 1;
                 $i = 0;
                 $av = [];
                 $av['av_student'] = $cracha;
