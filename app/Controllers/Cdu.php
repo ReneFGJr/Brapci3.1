@@ -68,6 +68,7 @@ class Cdu extends BaseController
             }
             return $sx;
         }
+
     public function downloadXML($id)
         {
             $QuizMoodleQuestion = new \App\Models\CDU\QuizMoodleQuestion();
@@ -79,7 +80,6 @@ class Cdu extends BaseController
                 ->setHeader('Content-Type', 'application/xml; charset=UTF-8')
                 ->setHeader('Content-Disposition', "attachment; filename=\"$filename\"")
                 ->setStatusCode(200);
-
         }
 
     public function importXML()
