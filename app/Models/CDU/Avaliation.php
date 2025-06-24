@@ -72,16 +72,16 @@ class Avaliation extends Model
             if ($dt == []) {
 
                 $gr = [];
-                $gr[11] = 2;
+                $gr[4] = 2;
+                $gr[6] = 1;
+                $gr[7] = 1;
+                $gr[11] = 1;
                 $gr[12] = 1;
                 $gr[13] = 1;
                 $gr[14] = 1;
                 $gr[15] = 1;
                 $gr[16] = 1;
                 $gr[17] = 1;
-                $gr[18] = 1;
-                $gr[19] = 1;
-                $gr[20] = 1;
                 $i = 0;
                 $av = [];
                 $av['av_student'] = $cracha;
