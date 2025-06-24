@@ -72,9 +72,10 @@ class Avaliation extends Model
             if ($dt == []) {
 
                 $gr = [];
-                $gr[4] = 2;
+                $gr[4] = 1;
                 $gr[6] = 1;
                 $gr[7] = 1;
+                $gr[8] = 1;
                 $gr[11] = 1;
                 $gr[12] = 1;
                 $gr[13] = 1;
