@@ -118,10 +118,12 @@ class Avaliation extends Model
                     if (isset($dt['av_q' . $i])) {
                         $q = $Questions->where('id_q', $dt['av_q' . $i])->first();
                         if ($q != []) {
+                            $txt = troca($q['q_ask'], chr(13), '<br>');
+                            $txt = troca($q['q_ask'], chr(10), '<br>');
                             $sx .= '<div class="col-12">';
                             $sx .= '<h4>Questão '.$i.' - '. $q['q_statement'].'</h4>';
                             $sx .= 'No Moodle explique como você chegou a essa resposta, em detalhes (quais instrumentos consultou, como utilizou, quais os termos identificados).<br>';
-                            $sx .= '<p style="font-size: 22px; color: blue;">'.troca($q['q_ask'],chr(13),'<br>').'</p>';
+                            $sx .= '<p style="font-size: 22px; color: blue;">'.$txt.'</p>';
                             //$sx .= '<p style="color: green">Resposta: '.$q['q_comentary'].'</p>';
                             $sx .= '</div>';
                         }
