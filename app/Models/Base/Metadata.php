@@ -170,10 +170,6 @@ class Metadata extends Model
 
                     foreach ($p as $prp => $cls) {
 
-                        if ($prop == 'hasDOI') {
-                            pre($line);
-                        }
-
                         if ($prop == $prp) {
 
                             if (!isset($M[$cls])) {
@@ -181,7 +177,7 @@ class Metadata extends Model
                             }
 
                             ##################################### LITERAL
-                            if ($cls =='Literal') {
+                            if ($class == 'Literal') {
                                 pre($line);
                                 if (!isset($M[$cls])) {
                                     $M[$cls] = $value;
