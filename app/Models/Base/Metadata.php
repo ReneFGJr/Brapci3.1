@@ -300,6 +300,9 @@ class Metadata extends Model
             $M['PUBLICATION'] = $PUBLI;
 
             $this->metadata = $M;
+            if (isset($M['DOI'])) {
+                pre($M);
+            }
             return $this->metadata;
         }
     }
