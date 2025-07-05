@@ -156,11 +156,12 @@ class Metadata extends Model
             'hasFileStorage' => 'File',
             'hasSectionOf'=> 'Section',
             'isPartOfSource','Journal',
-            'hasDOI','DOI'
+            'hasDOI','DOI',
         ];
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
+                pre($line);
 
                 if (isset($line['Class'])) {
                     $class = trim($line['Class']);
