@@ -155,7 +155,8 @@ class Metadata extends Model
             'isPlaceOfPublication' => 'Place',
             'hasFileStorage' => 'File',
             'hasSectionOf'=> 'Section',
-            'isPartOfSource','Journal'
+            'isPartOfSource','Journal',
+            'hasDOI','DOI'
         ];
 
         if (isset($meta['data'])) {

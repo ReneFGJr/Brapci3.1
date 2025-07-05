@@ -612,6 +612,7 @@ class Export extends Model
             /**************************************************************/
             $Metadata->metadata($cline, $xline);
             $meta = $Metadata->metadata;
+            pre($meta);
             echo $this->difTime($di, hrtime(), 'Pos ' . ($nm++) . ' Metadata ' . $xline['id_cc']);
 
             $delete = 0;
@@ -623,10 +624,15 @@ class Export extends Model
                 }
             }
 
-            $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $idr;
-
             /* DOI */
-            pre($meta);
+            if (isset($meta['DOI']) and ($meta['DOI'] != '')) {
+                $meta['DOI'] = trim($meta['DOI']);
+                if (strpos($meta['DOI'], 'http') === false) {
+                    $meta['DOI'] = 'https://doi.org/' . $meta['DOI'];
+                }
+            } else {
+                $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $idr;
+            }
 
             /**************************************************************/
             /**************************************************************/
