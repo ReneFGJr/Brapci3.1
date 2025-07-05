@@ -161,7 +161,9 @@ class Metadata extends Model
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
-                pre($line);
+                if ($line['Property'] == 'hasDOI') {
+                    pre($line);
+                }
 
                 if (isset($line['Class'])) {
                     $class = trim($line['Class']);
