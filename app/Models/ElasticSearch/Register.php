@@ -22,7 +22,7 @@ class Register extends Model
         'KEYWORD_EN',
         'KEYWORD_ES',
         'KEYWORD_FR',
-        'OAI_ID'
+        'OAI_ID','DOI'
     ];
 
     // Dates
@@ -228,9 +228,9 @@ class Register extends Model
 
             $dt['section'] = $asec;
             if (isset($DT['DOI'])) {
-                $dt['doi'] = $DT['DOI'];
+                $dt['DOI'] = $DT['DOI'];
             } else {
-                $dt['doi'] = '';
+                $dt['DOI'] = '';
             }
 
             $dt['full'] = $full;
