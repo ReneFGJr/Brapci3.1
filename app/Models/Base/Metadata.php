@@ -161,10 +161,6 @@ class Metadata extends Model
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
-                if ($line['Property'] == 'hasDOI') {
-                    pre($line);
-                }
-
                 if (isset($line['Class'])) {
                     $class = trim($line['Class']);
                     $value = $line['Caption'];
@@ -173,11 +169,18 @@ class Metadata extends Model
                     $ID = $line['ID'];
 
                     foreach ($p as $prp => $cls) {
-                        echo $prop.'=>'.$prp . ' = ' . $cls . '<br>';
+
                         if ($prop == $prp) {
 
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
+                            }
+
+                            ##################################### LITERAL
+                            if ($cls =='Literal') {
+                                if (!isset($M[$cls])) {
+                                    $M[$cls] = $value;
+                                }
                             }
 
                             ##################################### PUBLICATION
