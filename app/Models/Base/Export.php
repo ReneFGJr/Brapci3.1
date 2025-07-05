@@ -632,6 +632,7 @@ class Export extends Model
                 $meta['URL'] = $meta['DOI'];
             } else {
                 $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $idr;
+                $meta['DOI'] = '';
             }
 
             /**************************************************************/
