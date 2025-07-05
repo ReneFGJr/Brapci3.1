@@ -150,17 +150,19 @@ class Metadata extends Model
             'wasPublicationInDate' => 'Year',
             'hasISBN' => 'ISBN',
             'hasTitle' => 'Title',
+            'hasDOI'=> 'DOI',
             'hasClassificationCDD' => 'CDD',
             'hasClassificationCDU' => 'CDU',
             'isPlaceOfPublication' => 'Place',
             'hasFileStorage' => 'File',
             'hasSectionOf'=> 'Section',
-            'isPartOfSource','Journal',
-            'hasDOI','DOI',
+            'isPartOfSource','Journal'
         ];
+
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
+
                 if (isset($line['Class'])) {
                     $class = trim($line['Class']);
                     $value = $line['Caption'];
@@ -171,17 +173,8 @@ class Metadata extends Model
                     foreach ($p as $prp => $cls) {
 
                         if ($prop == $prp) {
-
                             if (!isset($M[$cls])) {
                                 $M[$cls] = [];
-                            }
-
-                            ##################################### LITERAL
-                            if ($class == 'Literal') {
-                                pre($line);
-                                if (!isset($M[$cls])) {
-                                    $M[$cls] = $value;
-                                }
                             }
 
                             ##################################### PUBLICATION
@@ -308,7 +301,6 @@ class Metadata extends Model
 
             $this->metadata = $M;
             pre($M);
-
             return $this->metadata;
         }
     }
