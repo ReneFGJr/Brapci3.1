@@ -177,6 +177,7 @@ return [
         'upload_file' => 'Subir novo arquivo',
         'Indexes'=>'Índices',
         'index_CorporateBody' => 'Instituições',
+        'index_proceeding' => 'Anais de Eventos',
         'index_Person' => 'Autores',
         'index_Subject' => 'Assuntos',
         'already_registered' => '<span class="text-success mb-bold">Já cadastrado</span>',
