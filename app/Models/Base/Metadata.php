@@ -158,7 +158,6 @@ class Metadata extends Model
             'isPartOfSource','Journal',
             'hasDOI','DOI'
         ];
-pre($meta);
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
