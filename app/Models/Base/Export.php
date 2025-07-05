@@ -624,7 +624,7 @@ class Export extends Model
             }
 
             /* DOI */
-            if (isset($meta['DOI']) and ($meta['DOI'] != '')) {
+            if (isset($meta['DOI'][0]) and ($meta['DOI'][0] != '')) {
                 $meta['DOI'] = trim($meta['DOI'][0]);
                 if (strpos($meta['DOI'], 'http') === false) {
                     $meta['DOI'] = 'https://doi.org/' . $meta['DOI'];
