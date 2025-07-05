@@ -457,6 +457,7 @@ class Register extends Model
         $da['PUBLICATION'] = $data['PUBLICATION'];
         $da['SESSION'] = $data['SESSION'];
         $da['URL'] = $data['URL'];
+        $da['DOI'] = $data['DOI'];
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {
