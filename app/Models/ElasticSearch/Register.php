@@ -454,6 +454,7 @@ class Register extends Model
         $da['ABSTRACTS'] = $data['ABSTRACTS'];
         $da['PUBLICATION'] = $data['PUBLICATION'];
         $da['SESSION'] = $data['SESSION'];
+        pre($data);
         $da['URL'] = $data['URL'];
 
         /* verifica se tem o ISSUE */
