@@ -178,6 +178,7 @@ class Metadata extends Model
 
                             ##################################### LITERAL
                             if ($cls =='Literal') {
+                                pre($line);
                                 if (!isset($M[$cls])) {
                                     $M[$cls] = $value;
                                 }
