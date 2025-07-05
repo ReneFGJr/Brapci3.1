@@ -158,7 +158,7 @@ class Metadata extends Model
             'isPartOfSource','Journal',
             'hasDOI','DOI'
         ];
-
+pre($meta);
         if (isset($meta['data'])) {
             $data = $meta['data'];
             foreach ($data as $idl => $line) {
@@ -300,9 +300,7 @@ class Metadata extends Model
             $M['PUBLICATION'] = $PUBLI;
 
             $this->metadata = $M;
-            if (isset($M['DOI'])) {
-                pre($M);
-            }
+            pre($M);
             return $this->metadata;
         }
     }
