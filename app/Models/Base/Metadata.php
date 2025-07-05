@@ -170,6 +170,10 @@ class Metadata extends Model
 
                     foreach ($p as $prp => $cls) {
 
+                        if ($prop == 'hasDOI') {
+                            pre($line);
+                        }
+
                         if ($prop == $prp) {
 
                             if (!isset($M[$cls])) {
