@@ -229,8 +229,10 @@ class Register extends Model
             $dt['section'] = $asec;
             if (isset($DT['DOI'])) {
                 $dt['DOI'] = $DT['DOI'];
+                $dt['URL'] = '<a href="' . $dt['DOI'] . '" target="_blank">' . $dt['DOI'] . '</a>';
             } else {
                 $dt['DOI'] = '';
+                $dt['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $dt['id'];
             }
 
             $dt['full'] = $full;
@@ -454,7 +456,6 @@ class Register extends Model
         $da['ABSTRACTS'] = $data['ABSTRACTS'];
         $da['PUBLICATION'] = $data['PUBLICATION'];
         $da['SESSION'] = $data['SESSION'];
-        pre($data);
         $da['URL'] = $data['URL'];
 
         /* verifica se tem o ISSUE */
