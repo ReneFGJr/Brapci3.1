@@ -299,7 +299,7 @@ class Metadata extends Model
             $M['PUBLICATION'] = $PUBLI;
 
             $this->metadata = $M;
-            pre($M);
+            pre($meta);
 
             return $this->metadata;
         }
