@@ -486,6 +486,13 @@ class Abnt extends Model
 
 		$tela .= '.';
 
+		/******************* DOI */
+		$DOI = trim($dt['DOI'] ?? '');
+		if ($DOI != '') {
+			$tela .= ' <i>DOI:</i> ';
+			$tela .= '<a href="https://doi.org/' . $DOI . '" target="_blank">' . $DOI . '</a>';
+		}
+
 		/******** LIMPAR */
 		$tela = troca($tela, ' ,', ',');
 		$tela = troca($tela, ';.', '.');
