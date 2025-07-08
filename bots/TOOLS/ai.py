@@ -99,6 +99,7 @@ if (act == 'All'):
     fileN = fileO.replace('.pdf','_url.json')
     saveFileD(fileN,lists)
     print("Extrair DOI")
+    ai_doi_handle.doi(txt, id)
     lists = ai_doi_handle.extrair_doi(txt)
     fileN = fileO.replace('.pdf','_doi.json')
     saveFileD(fileN,lists)
