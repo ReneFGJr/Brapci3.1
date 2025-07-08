@@ -10,7 +10,7 @@ def doi(linha, ID):
     """
     dois = extrair_doi(linha)
     if (len(dois) > 0):
-        print(dois[0])
+        print('DOI: ',dois[0])
         DOI = dois[0]
         Class = 45
         Prop = 75
