@@ -1,7 +1,7 @@
 import database
 import sys
 
-def rdf_insert_concept(Classe,pref_term):
+def rdf_insert_concept(Classe,pref_term,Prop):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{pref_term}')"
     row = database.query(qr)
     if row == []:
@@ -22,11 +22,9 @@ def rdf_insert_concept(Classe,pref_term):
 
         qr = f"select * from brapci_rdf.rdf_concept where cc_class = {Classe} and cc_pref_term = {idT}"
         row = database.query(qr)
-    print(row)
-    sys.exit(0)
 
-
-    print(qr)
+    ID = row[0][0]
+    rdf_insert(ID,Prop,0,idT)
 
 def rdf_insert(id,Prop,id2,ID):
     qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop}) and (d_r2 = {id2}) and (d_literal = {ID})"
