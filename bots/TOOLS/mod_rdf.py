@@ -17,8 +17,8 @@ def rdf_insert_concept(Classe,pref_term):
     qr = f"select * from brapci_rdf.rdf_concept where cc_class = {Classe} and cc_pref_term = {idT}"
     row = database.query(qr)
     if row == []:
-        qr = f"insert into brapci_rdf.rdf_concept (cc_class,cc_pref_term) values ({Classe},{idT})"
-        database.insert(qr)
+        qr = f"insert into brapci_rdf.rdf_concept (cc_class,cc_pref_term, cc_use, c_equivalent, cc_origin, cc_status, cc_versions) values ({Classe},{idT},0,0,'',1','1')"
+        database.update(qr)
 
         qr = f"select * from brapci_rdf.rdf_concept where cc_class = {Classe} and cc_pref_term = {idT}"
         row = database.query(qr)
