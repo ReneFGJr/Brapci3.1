@@ -7,8 +7,9 @@ def doi(linha):
     :param linha: Linha de texto que pode conter DOIs.
     :return: Lista de DOIs encontrados.
     """
-    dois = extrair_doi(linha)
-    print(dois)
+    dois = extrair_doi(linha, id)
+    if (len(dois) > 0):
+        print(dois)
     sys.exit(0)
     return dois
 
