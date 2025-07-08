@@ -1,6 +1,6 @@
 import re
 import sys
-
+import mod_rdf
 
 def doi(linha, ID):
     """
@@ -11,6 +11,11 @@ def doi(linha, ID):
     dois = extrair_doi(linha)
     if (len(dois) > 0):
         print(dois[0])
+        DOI = dois[0]
+        class = 45
+        prop = 75
+        mod_rdf.rdf_insert_concept(class, DOI)
+
     sys.exit(0)
     return dois
 

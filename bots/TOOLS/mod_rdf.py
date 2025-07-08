@@ -1,4 +1,18 @@
 import database
+import sys
+
+def rdf_insert_concept(classe,pref_term):
+    qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{pref_term}')"
+    print(qr)
+    sys.exit(0)
+    row = database.query(qr)
+    if row == []:
+        qr = f"insert into brapci_rdf.rdf_concept (id_cc,cc_class,cc_pref_term) values ({id},{classe},{pref_term})"
+        database.update(qr)
+    else:
+        qr = f"update brapci_rdf.rdf_concept set cc_class = {classe}, cc_pref_term = {pref_term} where id_cc = {id}"
+        database.update(qr)
+    return
 
 def rdf_insert(id,Prop,id2,ID):
     qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop}) and (d_r2 = {id2}) and (d_literal = {ID})"
