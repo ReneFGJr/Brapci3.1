@@ -12,9 +12,9 @@ def doi(linha, ID):
     if (len(dois) > 0):
         print(dois[0])
         DOI = dois[0]
-        class = 45
-        prop = 75
-        mod_rdf.rdf_insert_concept(class, DOI)
+        Class = 45
+        Prop = 75
+        mod_rdf.rdf_insert_concept(Class, DOI)
 
     sys.exit(0)
     return dois
