@@ -10,7 +10,7 @@ def doi(linha, ID):
     """
     dois = extrair_doi(linha)
     if (len(dois) > 0):
-        print(dois)
+        print(dois[0])
     sys.exit(0)
     return dois
 
