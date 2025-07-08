@@ -15,6 +15,8 @@ def rdf_insert_concept(Classe,pref_term):
 
     ########################################################## Concept
     qr = f"select * from brapci_rdf.rdf_concept where cc_class = {Classe} and cc_pref_term = {idT}"
+    print(qr)
+    sys.exit(0)
     row = database.query(qr)
     if row == []:
         qr = f"insert into brapci_rdf.rdf_concept (cc_class,cc_pref_term) values ({Classe},{idT})"
