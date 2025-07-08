@@ -22,7 +22,7 @@ class Register extends Model
         'KEYWORD_EN',
         'KEYWORD_ES',
         'KEYWORD_FR',
-        'OAI_ID'
+        'OAI_ID','DOI'
     ];
 
     // Dates
@@ -228,9 +228,11 @@ class Register extends Model
 
             $dt['section'] = $asec;
             if (isset($DT['DOI'])) {
-                $dt['doi'] = $DT['DOI'];
+                $dt['DOI'] = $DT['DOI'];
+                $dt['URL'] = '<a href="' . $dt['DOI'] . '" target="_blank">' . $dt['DOI'] . '</a>';
             } else {
-                $dt['doi'] = '';
+                $dt['DOI'] = '';
+                $dt['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $dt['id'];
             }
 
             $dt['full'] = $full;
@@ -455,6 +457,7 @@ class Register extends Model
         $da['PUBLICATION'] = $data['PUBLICATION'];
         $da['SESSION'] = $data['SESSION'];
         $da['URL'] = $data['URL'];
+        $da['DOI'] = $data['DOI'];
 
         /* verifica se tem o ISSUE */
         if (isset($data['Issue']['ID'])) {

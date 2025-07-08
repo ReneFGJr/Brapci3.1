@@ -623,7 +623,17 @@ class Export extends Model
                 }
             }
 
-            $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $idr;
+            /* DOI */
+            if (isset($meta['DOI'][0]) and ($meta['DOI'][0] != '')) {
+                $meta['DOI'] = trim($meta['DOI'][0]);
+                if (strpos($meta['DOI'], 'http') === false) {
+                    $meta['DOI'] = 'https://doi.org/' . $meta['DOI'];
+                }
+                $meta['URL'] = $meta['DOI'];
+            } else {
+                $meta['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $idr;
+                $meta['DOI'] = '';
+            }
 
             /**************************************************************/
             /**************************************************************/

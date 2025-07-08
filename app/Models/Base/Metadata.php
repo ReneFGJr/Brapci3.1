@@ -150,6 +150,7 @@ class Metadata extends Model
             'wasPublicationInDate' => 'Year',
             'hasISBN' => 'ISBN',
             'hasTitle' => 'Title',
+            'hasDOI'=> 'DOI',
             'hasClassificationCDD' => 'CDD',
             'hasClassificationCDU' => 'CDU',
             'isPlaceOfPublication' => 'Place',
