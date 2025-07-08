@@ -1,7 +1,7 @@
 import database
 import sys
 
-def rdf_insert_concept(classe,pref_term):
+def rdf_insert_concept(Classe,pref_term):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{pref_term}')"
     row = database.query(qr)
     if row == []:
@@ -14,10 +14,10 @@ def rdf_insert_concept(classe,pref_term):
         idT = row[0][0]
 
     ########################################################## Concept
-    qr = f"select * from brapci_rdf.rdf_insert_concept where cc_class = {classe} and cc_pref_term = {idT}"
+    qr = f"select * from brapci_rdf.rdf_insert_concept where cc_class = {Classe} and cc_pref_term = {idT}"
     row = database.query(qr)
     if row == []:
-        qr = f"insert into brapci_rdf.rdf_concept (id_cc,cc_class,cc_pref_term) values ({id},{classe},{pref_term})"
+        qr = f"insert into brapci_rdf.rdf_concept (cc_class,cc_pref_term) values ({Classe},{idT})"
         #database.update(qr)
     print(qr)
 
