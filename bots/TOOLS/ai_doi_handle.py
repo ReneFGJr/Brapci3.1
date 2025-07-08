@@ -14,7 +14,7 @@ def doi(linha, ID):
         DOI = dois[0]
         Class = 45
         Prop = 75
-        mod_rdf.rdf_insert_concept(Class, DOI, Prop)
+        mod_rdf.rdf_insert_concept(Class, DOI, Prop, ID)
 
     sys.exit(0)
     return dois
