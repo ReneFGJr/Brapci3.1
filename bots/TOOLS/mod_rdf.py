@@ -18,7 +18,13 @@ def rdf_insert_concept(Classe,pref_term):
     row = database.query(qr)
     if row == []:
         qr = f"insert into brapci_rdf.rdf_concept (cc_class,cc_pref_term) values ({Classe},{idT})"
-        #database.update(qr)
+        database.update(qr)
+        qr = f"select * from brapci_rdf.rdf_insert_concept where cc_class = {Classe} and cc_pref_term = {idT}"
+        row = database.update(qr)
+    print(row)
+    sys.exit(0)
+
+
     print(qr)
 
 def rdf_insert(id,Prop,id2,ID):
