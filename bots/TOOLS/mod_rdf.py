@@ -3,7 +3,16 @@ import sys
 
 def rdf_insert_concept(classe,pref_term):
     qr = f"select * from brapci_rdf.rdf_literal where (n_name = '{pref_term}')"
-    print(qr)
+    row = database.query(qr)
+    if row == []:
+        qr = f"insert into brapci_rdf.rdf_literal (n_name,n_lang) values ('{pref_term}','nn')"
+        database.update(qr)
+        qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{pref_term}'"
+        row = database.query(qr)
+        id = row[0][0]
+    else:
+        id = row[0][0]
+    print(id)
     sys.exit(0)
     row = database.query(qr)
     if row == []:
