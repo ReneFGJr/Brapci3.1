@@ -9,12 +9,12 @@ def rdf_insert_concept(classe,pref_term):
         database.update(qr)
         qr = f"select id_n from brapci_rdf.rdf_literal where n_name = '{pref_term}'"
         row = database.query(qr)
-        id = row[0][0]
+        idT = row[0][0]
     else:
-        id = row[0][0]
+        idT = row[0][0]
 
     ########################################################## Concept
-    qr = f"select * from brapci_rdf.rdf_insert_concept where cc_class = {classe} and cc_pref_term = {id}"
+    qr = f"select * from brapci_rdf.rdf_insert_concept where cc_class = {classe} and cc_pref_term = {idT}"
     row = database.query(qr)
     if row == []:
         qr = f"insert into brapci_rdf.rdf_concept (id_cc,cc_class,cc_pref_term) values ({id},{classe},{pref_term})"
