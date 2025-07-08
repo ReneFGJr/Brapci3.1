@@ -141,6 +141,7 @@ elif (act == 'url'):
 
 elif (act == 'doi'):
     print("Extrair DOI")
+    ai_doi_handle = ai_doi_handle.doi(txt)
     lists = ai_doi_handle.extrair_doi(txt)
     fileN = fileO.replace('.pdf','_doi.json')
     saveFileD(fileN,lists)
