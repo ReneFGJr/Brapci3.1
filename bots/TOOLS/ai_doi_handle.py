@@ -16,8 +16,6 @@ def doi(linha, ID):
         Prop = 75
         mod_rdf.rdf_insert_concept(Class, DOI, Prop, ID)
 
-    sys.exit(0)
-    return dois
 
 def extrair_doi(linha):
     # Expressão regular para capturar DOI (formato básico)

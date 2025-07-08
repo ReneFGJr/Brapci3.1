@@ -14,17 +14,7 @@ def rdf_insert_concept(Classe,pref_term,Prop,IDo):
         idT = row[0][0]
 
     ########################################################## Concept
-    qr = f"select * from brapci_rdf.rdf_concept where cc_class = {Classe} and cc_pref_term = {idT}"
-    row = database.query(qr)
-    if row == []:
-        qr = f"insert into brapci_rdf.rdf_concept (cc_class,cc_pref_term, cc_use, c_equivalent, cc_origin, cc_status, cc_version, cc_update) values ({Classe},{idT},0,0,'',1,'1','1900-01-01')"
-        database.update(qr)
-
-        qr = f"select * from brapci_rdf.rdf_concept where cc_class = {Classe} and cc_pref_term = {idT}"
-        row = database.query(qr)
-
-    ID = row[0][0]
-    rdf_insert(IDo, Prop, ID, 0)
+    rdf_insert(IDo, Prop, 0, idT)
 
 def rdf_insert(id,Prop,id2,ID):
     qr = f"select * from brapci_rdf.rdf_data where (d_r1 = {id}) and (d_p = {Prop}) and (d_r2 = {id2}) and (d_literal = {ID})"
