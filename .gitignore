@@ -15,3 +15,5 @@ bots/ROBOTi/env.py
 *.pyc
 .env
 *.weights
+*.bin
+*.sqlite3
