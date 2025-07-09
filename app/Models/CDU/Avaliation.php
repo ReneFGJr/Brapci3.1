@@ -124,7 +124,7 @@ class Avaliation extends Model
                             $sx .= '<h4>Questão '.$i.' - '. $q['q_statement'].'</h4>';
                             $sx .= 'No Moodle explique como você chegou a essa resposta, em detalhes (quais instrumentos consultou, como utilizou, quais os termos identificados).<br>';
                             $sx .= '<p style="font-size: 22px; color: blue;">'.$txt.'</p>';
-                            //$sx .= '<p style="color: green">Resposta: '.$q['q_comentary'].'</p>';
+                            $sx .= '<p style="color: green">Resposta: '.$q['q_comentary'].'</p>';
                             $sx .= '</div>';
                         }
                     }
