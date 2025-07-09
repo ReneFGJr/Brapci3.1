@@ -22,7 +22,7 @@ splitter = CharacterTextSplitter(chunk_size=300, chunk_overlap=50)
 texts = splitter.split_documents(docs)
 
 # Passo 3: Embeddings + Chroma
-embeddings = OllamaEmbeddings(model="llama3")
+embeddings = OllamaEmbeddings(model="llama3.1")
 db = Chroma.from_documents(texts, embeddings, persist_directory="./db_rag")
 db.persist()
 
