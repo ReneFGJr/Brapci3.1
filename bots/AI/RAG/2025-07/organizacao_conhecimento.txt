@@ -1,0 +1,5 @@
+
+    Organização do Conhecimento é um campo da Ciência da Informação que estuda os métodos de representação, estruturação e recuperação da informação.
+    Ela abrange áreas como classificação, indexação, catalogação, taxonomias e ontologias. Seu objetivo é facilitar o acesso à informação,
+    permitindo que usuários encontrem e compreendam conteúdos relevantes. A Organização do Conhecimento é fundamental em bibliotecas, arquivos, museus e bases digitais.
+    
