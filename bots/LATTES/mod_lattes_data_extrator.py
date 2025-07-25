@@ -17,5 +17,4 @@ def extract_element(element, tag, data_dict):
             data_dict[tag] = None  # Tag vazia
     else:
         data_dict[tag] = None  # Tag não encontrada
-
-    print("Elemento não encontrado:", data_dict)
+    return data_dict
