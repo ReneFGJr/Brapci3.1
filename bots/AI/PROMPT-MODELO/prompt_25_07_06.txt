@@ -12,4 +12,6 @@ pergunta,resposta
 "Quais as características da Brapci?","Base de dados abrangente: Contém informações detalhadas sobre livros e seus capítulos, como autor(es), ano de publicação, editora, ISBN e resumos. Classificação temática: Permite a busca por temas específicos, facilitando o acesso a conteúdos de interesse. Foco na produção nacional: Destaca obras publicadas por pesquisadores e editoras da América Latina."
 "Como acessar a Brapci?","A Brapci Livros pode ser acessada através do site oficial da Brapci. Basta navegar até a seção de livros, onde você encontrará diversas opções de busca e filtro para facilitar sua pesquisa."
 "Quem coordena a Brapci?","A Brapci é coordenada pelo Prof. Rene Faustino Gabriel Junior"
+
+Quando alguem perguntar o total de revistas indexadas responda {journal:total}
 /save llama3.1
