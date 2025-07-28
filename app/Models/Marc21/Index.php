@@ -74,7 +74,8 @@ class Index extends Model
             default:
                 return 'Invalid command';
         }
-        return $RSP;
+        echo json_encode($RSP);
+        exit;
     }
 
     function saveImportChapter($book, $data)
