@@ -145,6 +145,9 @@ class Index extends Model
 
         /* Pagination */
         $pagination = $this->get300($data);
+        if ($pagination[0] != '') {
+            $RDFdata->register($IDch, 'hasPageStart', $pagination[0], 0);
+        }
         pre($data, false);
         pre($pagination);
         return true;
