@@ -154,9 +154,22 @@ class Index extends Model
             $pag = $RDFliteral->register($pagination[1]);
             $RDFdata->register($IDch, 'hasPageEnd', 0, $pag);
         }
-        pre($data, false);
-        pre($pagination);
-        return true;
+
+        $IDch = $RDFconcept->createConcept(['Name' => 'Capítulo de livro', 'Class' => 'Section', 'Lang' => 'pt']);
+        $RDFdata->register($IDch, 'hasSectionOf', $IDch, 0);
+
+        $RSP['status'] = '200';
+        $RSP['message'] = 'Chapter imported successfully';
+        $RSP['data'] = [
+            'book' => $book,
+            'chapter' => $IDch,
+            'title' => $title,
+            'authors' => $authors,
+            'resumo' => $resumo,
+            'keywords' => $keywords,
+            'pagination' => $pagination
+        ];
+        return $RSP;
     }
 
     function get300($data)
