@@ -108,7 +108,7 @@ class Index extends Model
 
 
         echo "Chapter ID: $IDch\n";
-        pre($Book);
+        pre($data);
 
         return true;
     }
