@@ -166,7 +166,12 @@ class Index extends Model
                 break;
             }
         }
-        $pagination = trim($pagination);
+        $pagination = troca($pagination,'p.','');
+        if (strpos($pagination, '-') !== false) {
+            $pagination = explode('-', $pagination);
+        } else {
+            $pagination = [$pagination, ''];
+        }
         return $pagination;
     }
 
