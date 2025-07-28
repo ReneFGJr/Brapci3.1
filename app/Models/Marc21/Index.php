@@ -96,7 +96,7 @@ class Index extends Model
         $Label = $ISBN.'_03';
         $dt = [];
         $dt['Name'] = $Label;
-        $dt['Type'] = 'BookChapter';
+        $dt['Class'] = 'BookChapter';
         $dt['Lang'] = 'nn';
         $IDch = $RDFconcept->createConcept($dt);
         echo "Chapter ID: $IDch\n";
