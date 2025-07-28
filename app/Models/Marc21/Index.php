@@ -173,8 +173,6 @@ class Index extends Model
                 $pagx = $pagination[0];
                 $pagination[0] = $pagination[1];
                 $pagination[1] = $pagx;
-            } else {
-                $pagination = $pagination[0] . '-' . $pagination[1];
             }
         } else {
             $pagination = [$pagination, ''];
