@@ -138,16 +138,7 @@ class Index extends Model
         }
         return $authors;
     }
-
-        // Logic to extract authors from the Marc21 data
-        // This function should contain the logic to retrieve authors from the data
-        // Implementation details would depend on the specific requirements.
-        $authors = [];
-        // Example: Assuming we have a way to extract authors from the data
-        // $authors = extractAuthorsFromData($data);
-        return $authors;
-    }
-
+    /*********** GET TÌTULO */
     function get245($data)
     {
         $title = '';
