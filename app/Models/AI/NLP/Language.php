@@ -55,6 +55,9 @@ class Language extends Model
 		if ($lang == 'pt-BR') {
 			return 'pt';
 		}
+		if ($lang == 'pt_BR') {
+			return 'pt';
+		}
 		if ($lang == 'pt-PT') {
 			return 'pt';
 		}
