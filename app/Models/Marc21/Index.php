@@ -142,7 +142,6 @@ Insira a paginação';
                 }
             }
         }
-        pre($data);
         return $data;
     }
 }
