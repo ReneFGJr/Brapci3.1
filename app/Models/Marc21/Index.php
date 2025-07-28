@@ -134,6 +134,7 @@ class Index extends Model
 
         /* Keywords */
         $keywords = $this->get650($data);
+        pre($data,false);
         pre($keywords);
 
 
