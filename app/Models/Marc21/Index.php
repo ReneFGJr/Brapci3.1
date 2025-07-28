@@ -284,9 +284,12 @@ class Index extends Model
 
     function prompt()
     {
-        return ['Catalogue em formato marc21 todos os 11 capítulos, gere uma abstract e palavras-chave.
+        return ['prompt'=>
+'Catalogue em formato marc21 todos os 11 capítulos, gere uma abstract (com 250 palavras) e cinco palavras-chave.
 Coloque os autores no campo 700, separe os marcadores
-Insira a paginação'];
+Insira a paginação.
+Gere e mostre o código MARC para cada um dos capitulos, com todos os campos
+'];
 
     }
 
