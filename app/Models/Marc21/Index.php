@@ -131,6 +131,7 @@ class Index extends Model
                 break;
             }
         }
+        $title = nbr_title($title);
         $title = trim($title);
         return $title;
     }
