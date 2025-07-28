@@ -150,6 +150,10 @@ class Index extends Model
             $pag = $RDFliteral->register($pagination[0]);
             $RDFdata->register($IDch, 'hasPageStart', 0, $pag);
         }
+        if ($pagination[1] != '') {
+            $pag = $RDFliteral->register($pagination[1]);
+            $RDFdata->register($IDch, 'hasPageEnd', 0, $pag);
+        }
         pre($data, false);
         pre($pagination);
         return true;
