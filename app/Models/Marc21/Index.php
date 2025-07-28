@@ -83,7 +83,7 @@ class Index extends Model
             return false;
         }
         $RDF = new \App\Models\RDF2\RDF();
-        $RDFconcept = new \App\Models\RDF2\RDFConcept();
+        $RDFconcept = new \App\Models\RDF2\RDFconcept();
         $Book = $RDF->le($book);
 
         $ISBN = $RDF->extract($Book, 'hasISBN');
