@@ -169,6 +169,13 @@ class Index extends Model
         $pagination = troca($pagination,'p.','');
         if (strpos($pagination, '-') !== false) {
             $pagination = explode('-', $pagination);
+            if ($pagination[0] > $pagination[1]) {
+                $pagx = $pagination[0];
+                $pagination[0] = $pagination[1];
+                $pagination[1] = $pagx;
+            } else {
+                $pagination = $pagination[0] . '-' . $pagination[1];
+            }
         } else {
             $pagination = [$pagination, ''];
         }
