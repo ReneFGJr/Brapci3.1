@@ -105,6 +105,12 @@ class Index extends Model
 
         /* Title */
         $title = $this->get245($data);
+        if (empty($title)) {
+            $RSP['status'] = '404';
+            $RSP['message'] = 'Title not found';
+            return $RSP;
+        }
+        $RDFdata->register($book, 'hasTitle', 0, $title);
         echo "Title: $title\n";
 
 
