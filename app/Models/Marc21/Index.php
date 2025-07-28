@@ -103,6 +103,9 @@ class Index extends Model
 
         $RDFdata->registre($book, 'hasBookChapter', $IDch);
 
+        /* Title */
+
+
 
         echo "Chapter ID: $IDch\n";
         pre($Book);
