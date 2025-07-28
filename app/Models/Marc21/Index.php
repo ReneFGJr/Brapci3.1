@@ -125,7 +125,12 @@ class Index extends Model
 
         /* Resumo */
         $resumo = $this->get520($data);
-        pre($resumo);
+        if (empty($resumo)) {
+            $RSP['status'] = '404';
+            $RSP['message'] = 'Resumo not found';
+            return $RSP;
+        }
+        $RDFdata->register($IDch, 'hasAbstract', 0, $resumo);
         pre($data);
 
 
