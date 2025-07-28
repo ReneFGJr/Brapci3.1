@@ -84,6 +84,9 @@ class Index extends Model
         }
         $RDF = new \App\Models\RDF2\RDF();
         $Book = $RDF->le($book);
+
+        $ISBN = $RDF->extract($Book, 'hasISBN');
+        echo "<h1>".$ISBN."</h1>";
         pre($Book);
 
         return true;
