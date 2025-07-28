@@ -167,8 +167,8 @@ class Index extends Model
             $RDFdata->register($IDch, 'hasPageEnd', 0, $pag);
         }
 
-        $IDch = $RDFconcept->createConcept(['Name' => 'Capítulo de livro', 'Class' => 'Section', 'Lang' => 'pt']);
-        $RDFdata->register($IDch, 'hasSectionOf', $IDch, 0);
+        $IDchap = $RDFconcept->createConcept(['Name' => 'Capítulo de livro', 'Class' => 'Section', 'Lang' => 'pt']);
+        $RDFdata->register($IDch, 'hasSectionOf', $IDchap, 0);
 
         $RSP['status'] = '200';
         $RSP['message'] = 'Chapter imported successfully';
