@@ -110,7 +110,7 @@ class Index extends Model
             $RSP['message'] = 'Title not found';
             return $RSP;
         }
-        $RDFdata->register($book, 'hasTitle', 0, $title);
+        $RDFdata->register($IDch, 'hasTitle', 0, $title);
         echo "Title: $title\n";
 
 
