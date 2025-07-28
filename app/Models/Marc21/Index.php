@@ -83,10 +83,23 @@ class Index extends Model
             return false;
         }
         $RDF = new \App\Models\RDF2\RDF();
+        $RDFconcept = new \App\Models\RDF2\RDFConcept();
         $Book = $RDF->le($book);
 
         $ISBN = $RDF->extract($Book, 'hasISBN');
-        echo "<h1>".$ISBN."</h1>";
+        if (empty($ISBN)) {
+         $RSP['status'] = '404';
+         $RSP['message'] = 'ISBN not found';
+         return $RSP;
+        }
+
+        $Label = $ISBN.'_03';
+        $dt = [];
+        $dt['Name'] = $Label;
+        $dt['Type'] = 'BookChapter';
+        $dt['Lang'] = 'nn';
+        $IDch = $RDFconcept->createConcept($dt);
+        echo "Chapter ID: $IDch\n";
         pre($Book);
 
         return true;
