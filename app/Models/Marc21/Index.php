@@ -314,14 +314,12 @@ Gere o código MARC21 para esse capítulo com os campos como no exemplo
 =245  10$aAlém do acesso aberto: desafios e perspectivas na era dos dados científicos abertos
 =300  ##$a78-95 p.
 =520  ##$aO capítulo examina os desafios e as perspectivas da abertura de dados científicos, indo além do acesso aberto às publicações. Aborda as motivações, barreiras, princípios FAIR, infraestrutura necessária e questões éticas, legais e culturais. Destaca a importância da curadoria, das políticas institucionais e da mudança cultural na ciência.
-=650  #7$aDados científicos abertos
-=650  #7$aPrincípios FAIR
-=650  #7$aCuradoria de dados
-=650  #7$aReprodutibilidade científica
-=650  #7$aInfraestrutura digital
-=700  1#$aHenrique Oliveira da Silva
-=700  1#$aRosa Helena Cunha Vidal
-
+=650  #7$aCiência aberta
+=650  #7$aEpistemologia
+=650  #7$aInclusão
+=700  1#$aFabiano Couto Corrêa da Silva
+=700  1#$aLaura Vilela Rodrigues Rezende
+=700  1#$aElaine Rosangela de Oliveira Lucas
             ';
             return $txt;
         }
