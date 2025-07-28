@@ -144,9 +144,11 @@ class Index extends Model
 
 
         /* Pagination */
+        $RDFliteral = new \App\Models\RDF2\RDFliteral();
         $pagination = $this->get300($data);
         if ($pagination[0] != '') {
-            $RDFdata->register($IDch, 'hasPageStart', 0, $pagination[0]);
+            $pag = $RDFliteral->register($pagination[0]);
+            $RDFdata->register($IDch, 'hasPageStart', 0, $pag);
         }
         pre($data, false);
         pre($pagination);
