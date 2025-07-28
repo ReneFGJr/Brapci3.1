@@ -141,16 +141,33 @@ class Index extends Model
             $IDk = $RDFconcept->createConcept(['Name' => $keyword, 'Class' => 'Subject', 'Lang' => 'pt']);
             $RDFdata->register($IDch, 'hasSubject', $IDk, 0);
         }
-        pre($data,false);
-        pre($keywords);
 
 
-
-
-        echo "Chapter ID: $IDch\n";
-        pre($data);
-
+        /* Pagination */
+        $pagination = $this->get300($data);
+        pre($data, false);
+        pre($pagination);
         return true;
+    }
+
+    function get300($data)
+    {
+        $pagination = '';
+        if (isset($data['300'])) {
+            $pagination = $data['300'][0];
+        }
+        if (isset($data['=300'])) {
+            $pagination = $data['=300'][0];
+        }
+        $t = explode('$', $pagination);
+        foreach ($t as $v) {
+            if (strpos($v, 'a') === 0) {
+                $pagination = substr($v, 1);
+                break;
+            }
+        }
+        $pagination = trim($pagination);
+        return $pagination;
     }
 
     function get650($data)
