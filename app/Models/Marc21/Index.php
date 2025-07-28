@@ -122,6 +122,10 @@ class Index extends Model
             $IDa = $RDFconcept->createConcept(['Name' => $author, 'Class' => 'Person', 'Lang' => 'nn']);
             $RDFdata->register($IDch, 'hasAuthor', $IDa, 0);
         }
+
+        /* Resumo */
+        $resumo = $this->get520($data);
+        pre($resumo);
         pre($data);
 
 
@@ -130,6 +134,26 @@ class Index extends Model
         pre($data);
 
         return true;
+    }
+
+    function get520($data)
+    {
+        $resumo = '';
+        if (isset($data['520'])) {
+            $resumo = $data['520'][0];
+        }
+        if (isset($data['=520'])) {
+            $resumo = $data['=520'][0];
+        }
+        $t = explode('$', $resumo);
+        foreach ($t as $v) {
+            if (strpos($v, 'a') === 0) {
+                $resumo = substr($v, 1);
+                break;
+            }
+        }
+        $resumo = trim($resumo);
+        return $resumo;
     }
 
     function get700($data)
