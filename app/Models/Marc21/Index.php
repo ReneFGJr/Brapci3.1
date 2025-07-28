@@ -321,14 +321,14 @@ Gere o código MARC21 para esse capítulo com os campos como no exemplo
     function sample()
         {
             $txt = '
-245  10$aProposta de automação da curadoria de metadados com machine learning
-300  ##$a121-138 p.
-520  ##$aExplora o uso de algoritmos de aprendizado de máquina para automatizar a curadoria de metadados em repositórios digitais. Apresenta um modelo supervisionado, descreve seu desenvolvimento e discute os desafios e benefícios da automação nesse contexto.
-650  #7$aCuradoria de metadados
-650  #7$aAprendizado de máquina
-650  #7$aAutomação
-650  #7$aRepositórios digitais
+245  10$aPesquisa reprodutível aberta: desafios, práticas e tecnologias
+300  ##$a121-140 p.
+520  ##$aAborda a importância da reprodutibilidade na ciência aberta, distinguindo-a da replicabilidade. Discute os desafios técnicos, culturais e institucionais, e apresenta ferramentas e políticas que promovem práticas científicas mais transparentes e confiáveis.
+650  #7$aPesquisa reprodutível
 650  #7$aCiência aberta
+650  #7$aCompartilhamento de dados
+650  #7$aTecnologia científica
+650  #7$aTransparência científica
             ';
             return $txt;
         }
