@@ -311,15 +311,14 @@ Gere o código MARC21 para esse capítulo com os campos como no exemplo
     function sample()
         {
             $txt = '
-=245  10$aAlém do acesso aberto: desafios e perspectivas na era dos dados científicos abertos
-=300  ##$a78-95 p.
-=520  ##$aO capítulo examina os desafios e as perspectivas da abertura de dados científicos, indo além do acesso aberto às publicações. Aborda as motivações, barreiras, princípios FAIR, infraestrutura necessária e questões éticas, legais e culturais. Destaca a importância da curadoria, das políticas institucionais e da mudança cultural na ciência.
-=650  #7$aCiência aberta
-=650  #7$aEpistemologia
-=650  #7$aInclusão
-=700  1#$aFabiano Couto Corrêa da Silva
-=700  1#$aLaura Vilela Rodrigues Rezende
-=700  1#$aElaine Rosangela de Oliveira Lucas
+245  10$aProposta de automação da curadoria de metadados com machine learning
+300  ##$a121-138 p.
+520  ##$aExplora o uso de algoritmos de aprendizado de máquina para automatizar a curadoria de metadados em repositórios digitais. Apresenta um modelo supervisionado, descreve seu desenvolvimento e discute os desafios e benefícios da automação nesse contexto.
+650  #7$aCuradoria de metadados
+650  #7$aAprendizado de máquina
+650  #7$aAutomação
+650  #7$aRepositórios digitais
+650  #7$aCiência aberta
             ';
             return $txt;
         }
