@@ -155,7 +155,7 @@ class Index extends Model
             if (strpos($key, '650') === 0) {
                 foreach ($value as $keyword) {
                     if (strpos($keyword, '$a')) {
-                        $author = substr($keyword, strpos($keyword, '$a') + 2);
+                        $keyword = substr($keyword, strpos($keyword, '$a') + 2);
                     }
                     $keywords[] = nbr_author($keyword, 7);
                 }
