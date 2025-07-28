@@ -101,7 +101,7 @@ class Index extends Model
         $dt['Lang'] = 'nn';
         $IDch = $RDFconcept->createConcept($dt);
 
-        $RDFdata->registre($book, 'hasBookChapter', $IDch);
+        $RDFdata->register($book, 'hasBookChapter', $IDch,0);
 
         /* Title */
 
