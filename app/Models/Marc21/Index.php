@@ -121,6 +121,7 @@ class Index extends Model
             }
             pre($author);
             $IDa = $RDFconcept->createConcept(['Name' => $author, 'Class' => 'Person', 'Lang' => 'nn']);
+            pre($IDa);
             $RDFdata->register($IDch, 'hasAuthor', 0, $IDa);
             echo "Author: $author\n";
         }
