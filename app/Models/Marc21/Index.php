@@ -53,13 +53,16 @@ class Index extends Model
 
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '', $d6 = '')
     {
-        $sx = '';
         if (empty($d1)) {
-            return 'API Marc21';
+            $RSP = [];
+            $RSP['status'] = '200';
+            $RSP['message'] = 'Marc21 API is running';
+            $RSP['data'] = [];
+            return $RSP;
         }
         switch ($d1) {
             case 'index':
-                $sx = $this->prompt();
+                $RSP = $this->prompt();
                 break;
             case 'importChapter':
                 $data = $this->import();
@@ -71,7 +74,7 @@ class Index extends Model
             default:
                 return 'Invalid command';
         }
-        return $sx;
+        return $RSP;
     }
 
     function saveImportChapter($book, $data)
@@ -281,9 +284,10 @@ class Index extends Model
 
     function prompt()
     {
-        return 'Catalogue em formato marc21 todos os 11 capítulos, gere uma abstract e palavras-chave.
+        return ['Catalogue em formato marc21 todos os 11 capítulos, gere uma abstract e palavras-chave.
 Coloque os autores no campo 700, separe os marcadores
-Insira a paginação';
+Insira a paginação'];
+
     }
 
     function sample()
