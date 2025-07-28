@@ -65,8 +65,18 @@ class Index extends Model
                 $RSP = $this->prompt();
                 break;
             case 'importChapter':
+                if ($d2 == '') {
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Book ID is required';
+                    return $RSP;
+                }
+                if ($d3 == '') {
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Chapter data is required';
+                    return $RSP;
+                }
                 $data = $this->import();
-                $RSP = $this->saveImportChapter($d2,$data);
+                $RSP = $this->saveImportChapter($d2,$data,$d3);
                 break;
             case 'sample':
                 $sx = $this->sample();
@@ -77,7 +87,7 @@ class Index extends Model
         return $RSP;
     }
 
-    function saveImportChapter($book, $data)
+    function saveImportChapter($book, $data,$nr)
     {
         // Logic to save the imported chapter data
         // This function should contain the logic to process and save the chapter data
@@ -97,7 +107,7 @@ class Index extends Model
          return $RSP;
         }
 
-        $Label = $ISBN.'_05';
+        $Label = $ISBN.'_'.$nr;
         $dt = [];
         $dt['Name'] = $Label;
         $dt['Class'] = 'BookChapter';
