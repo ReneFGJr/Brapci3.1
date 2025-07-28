@@ -58,7 +58,7 @@ class RDFdata extends Model
         if ($lit != sonumero($lit)) {
             $lit = trim($lit);
             $RDFliteral = new \App\Models\RDF2\RDFliteral();
-            $lit = $RDFliteral->getLiteral($lit);
+            $lit = $RDFliteral->register($lit);
             $d['d_literal'] = $lit;
         }
 
