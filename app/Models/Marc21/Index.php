@@ -291,21 +291,37 @@ Insira a paginação.
 Gere e mostre o código MARC para cada um dos capitulos, com todos os campos
 '];
 
+$prop = ['Gere um resumo do capitulo 3 com 250 palavras e identifique 5 palavras-chave
+Gere o código MARC21 para esse capítulo com os campos como no exemplo
+
+245  10$aAcesso aberto: um ensaio sobre suas dinâmicas e derivações
+300  ##$a58-77 p.
+520  ##$aDiscute o desenvolvimento do acesso aberto, suas motivações, modelos econômicos e desafios. Analisa o papel da tecnologia e da política no avanço desse movimento.
+650  #7$aAcesso aberto
+650  #7$aComunicação científica
+650  #7$aPublicações
+650  #7$aModelos de negócios
+650  #7$aTecnologia
+700  1#$aSarita Albagli
+700  1#$aMarcos Sfair Sunye
+'];
+
     }
 
     function sample()
         {
             $txt = '
-=245  10$aAcesso aberto: um ensaio sobre suas dinâmicas e derivações
-=300  ##$a58-77 p.
-=520  ##$aDiscute o desenvolvimento do acesso aberto, suas motivações, modelos econômicos e desafios. Analisa o papel da tecnologia e da política no avanço desse movimento.
-=650  #7$aAcesso aberto
-=650  #7$aComunicação científica
-=650  #7$aPublicações
-=650  #7$aModelos de negócios
-=650  #7$aTecnologia
-=700  1#$aSarita Albagli
-=700  1#$aMarcos Sfair Sunye
+=245  10$aAlém do acesso aberto: desafios e perspectivas na era dos dados científicos abertos
+=300  ##$a78-95 p.
+=520  ##$aO capítulo examina os desafios e as perspectivas da abertura de dados científicos, indo além do acesso aberto às publicações. Aborda as motivações, barreiras, princípios FAIR, infraestrutura necessária e questões éticas, legais e culturais. Destaca a importância da curadoria, das políticas institucionais e da mudança cultural na ciência.
+=650  #7$aDados científicos abertos
+=650  #7$aPrincípios FAIR
+=650  #7$aCuradoria de dados
+=650  #7$aReprodutibilidade científica
+=650  #7$aInfraestrutura digital
+=700  1#$aHenrique Oliveira da Silva
+=700  1#$aRosa Helena Cunha Vidal
+
             ';
             return $txt;
         }
