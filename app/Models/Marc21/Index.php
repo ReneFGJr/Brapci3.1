@@ -115,6 +115,14 @@ class Index extends Model
 
         /* Authors */
         $authors = $this->get700($data);
+        foreach ($authors as $author) {
+            if (empty($author)) {
+                continue;
+            }
+            $IDa = $RDFconcept->createConcept(['Name' => $author, 'Class' => 'Person', 'Lang' => 'nn']);
+            $RDFdata->register($IDch, 'hasAuthor', 0, $IDa);
+            echo "Author: $author\n";
+        }
         pre($authors);
 
 
