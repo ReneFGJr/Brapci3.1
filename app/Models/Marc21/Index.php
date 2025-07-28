@@ -113,12 +113,39 @@ class Index extends Model
         $RDFdata->register($IDch, 'hasTitle', 0, $title);
         echo "Title: $title\n";
 
+        /* Authors */
+        $authors = $this->get700($data);
+        pre($authors);
+
 
 
         echo "Chapter ID: $IDch\n";
         pre($data);
 
         return true;
+    }
+
+    function get700($data)
+    {
+        $authors = [];
+        foreach ($data as $key => $value) {
+            if ($key == '=700') { $key = '700'; }
+            if (strpos($key, '700') === 0) {
+                foreach ($value as $author) {
+                    $authors[] = nbr_author($author,7);
+                }
+            }
+        }
+        return $authors;
+    }
+
+        // Logic to extract authors from the Marc21 data
+        // This function should contain the logic to retrieve authors from the data
+        // Implementation details would depend on the specific requirements.
+        $authors = [];
+        // Example: Assuming we have a way to extract authors from the data
+        // $authors = extractAuthorsFromData($data);
+        return $authors;
     }
 
     function get245($data)
