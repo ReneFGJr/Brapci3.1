@@ -159,7 +159,7 @@ class Index extends Model
                         $keyword = substr($keyword, strpos($keyword, '$a') + 2);
                         $keyword = strtolower($keyword);
                     }
-                    $keywords[] = nbr_author($keyword, 7);
+                    $keywords[] = nbr_title($keyword, 7);
                 }
             }
         }
