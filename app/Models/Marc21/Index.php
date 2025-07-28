@@ -120,10 +120,18 @@ class Index extends Model
         $title = '';
         if (isset($data['245'])) {
             $title = $data['245'][0];
-            if (isset($data['245'][1])) {
-                $title .= ' ' . $data['245'][1];
+        }
+        if (isset($data['=245'])) {
+            $title = $data['245'][0];
+        }
+        $t = explode('$', $title);
+        foreach ($t as $v) {
+            if (strpos($v, 'a') === 0) {
+                $title = substr($v, 1);
+                break;
             }
         }
+        $title = trim($title);
         return $title;
     }
 
