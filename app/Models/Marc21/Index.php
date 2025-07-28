@@ -84,6 +84,7 @@ class Index extends Model
         }
         $RDF = new \App\Models\RDF2\RDF();
         $RDFconcept = new \App\Models\RDF2\RDFconcept();
+        $RDFdata = new \App\Models\RDF2\RDFdata();
         $Book = $RDF->le($book);
 
         $ISBN = $RDF->extract($Book, 'hasISBN');
@@ -99,6 +100,10 @@ class Index extends Model
         $dt['Class'] = 'BookChapter';
         $dt['Lang'] = 'nn';
         $IDch = $RDFconcept->createConcept($dt);
+
+        $RDFdata->registre($book, 'hasBookChapter', $IDch);
+
+
         echo "Chapter ID: $IDch\n";
         pre($Book);
 
