@@ -321,14 +321,16 @@ Gere o código MARC21 para esse capítulo com os campos como no exemplo
     function sample()
         {
             $txt = '
-245  10$aPesquisa reprodutível aberta: desafios, práticas e tecnologias
-300  ##$a121-140 p.
-520  ##$aAborda a importância da reprodutibilidade na ciência aberta, distinguindo-a da replicabilidade. Discute os desafios técnicos, culturais e institucionais, e apresenta ferramentas e políticas que promovem práticas científicas mais transparentes e confiáveis.
-650  #7$aPesquisa reprodutível
+245  10$aRevisão por pares aberta
+300  ##$a111-130 p.
+520  ##$aO capítulo apresenta a revisão por pares aberta como uma prática que promove a transparência e a colaboração na avaliação científica. Discute suas modalidades, benefícios, desafios e exemplos práticos, destacando sua relevância no contexto da ciência aberta.
+650  #7$aRevisão por pares aberta
+650  #7$aAvaliação científica
+650  #7$aTransparência
 650  #7$aCiência aberta
-650  #7$aCompartilhamento de dados
-650  #7$aTecnologia científica
-650  #7$aTransparência científica
+650  #7$aComunicação científica
+700  1#$aPatricia Pedri
+
             ';
             return $txt;
         }
