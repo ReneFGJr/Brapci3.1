@@ -131,7 +131,11 @@ class Index extends Model
             return $RSP;
         }
         $RDFdata->register($IDch, 'hasAbstract', 0, $resumo);
-        pre($data);
+
+        /* Keywords */
+        $keywords = $this->get650($data);
+        pre($keywords);
+
 
 
 
@@ -139,6 +143,25 @@ class Index extends Model
         pre($data);
 
         return true;
+    }
+
+    function get650($data)
+    {
+        $keywords = [];
+        foreach ($data as $key => $value) {
+            if ($key == '=650') {
+                $key = '650';
+            }
+            if (strpos($key, '650') === 0) {
+                foreach ($value as $keyword) {
+                    if (strpos($keyword, '$a')) {
+                        $author = substr($keyword, strpos($keyword, '$a') + 2);
+                    }
+                    $keywords[] = nbr_author($keyword, 7);
+                }
+            }
+        }
+        return $keywords;
     }
 
     function get520($data)
