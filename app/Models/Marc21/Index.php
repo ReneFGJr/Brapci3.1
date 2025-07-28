@@ -97,7 +97,7 @@ class Index extends Model
          return $RSP;
         }
 
-        $Label = $ISBN.'_03';
+        $Label = $ISBN.'_04';
         $dt = [];
         $dt['Name'] = $Label;
         $dt['Class'] = 'BookChapter';
