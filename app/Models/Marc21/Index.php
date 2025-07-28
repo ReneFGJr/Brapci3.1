@@ -104,6 +104,8 @@ class Index extends Model
         $RDFdata->register($book, 'hasBookChapter', $IDch,0);
 
         /* Title */
+        $title = $this->get245($data);
+        echo "Title: $title\n";
 
 
 
@@ -111,6 +113,18 @@ class Index extends Model
         pre($data);
 
         return true;
+    }
+
+    function get245($data)
+    {
+        $title = '';
+        if (isset($data['245'])) {
+            $title = $data['245'][0];
+            if (isset($data['245'][1])) {
+                $title .= ' ' . $data['245'][1];
+            }
+        }
+        return $title;
     }
 
     function prompt()
