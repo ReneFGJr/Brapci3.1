@@ -111,7 +111,6 @@ class Index extends Model
             return $RSP;
         }
         $RDFdata->register($IDch, 'hasTitle', 0, $title);
-        echo "Title: $title\n";
 
         /* Authors */
         $authors = $this->get700($data);
