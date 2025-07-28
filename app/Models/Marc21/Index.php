@@ -133,7 +133,7 @@ class Index extends Model
             if (strpos($key, '700') === 0) {
                 foreach ($value as $author) {
                     if (strpos($author, '$a')) {
-                        $author = substr($author, 2);
+                        $author = substr($author, strpos($author, '$a') + 2);
                     }
                     $authors[] = nbr_author($author,7);
                 }
