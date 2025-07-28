@@ -122,7 +122,7 @@ class Index extends Model
             $title = $data['245'][0];
         }
         if (isset($data['=245'])) {
-            $title = $data['245'][0];
+            $title = $data['=245'][0];
         }
         $t = explode('$', $title);
         foreach ($t as $v) {
