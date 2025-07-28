@@ -156,6 +156,7 @@ class Index extends Model
                 foreach ($value as $keyword) {
                     if (strpos($keyword, '$a')) {
                         $keyword = substr($keyword, strpos($keyword, '$a') + 2);
+                        $keyword = strtolower($keyword);
                     }
                     $keywords[] = nbr_author($keyword, 7);
                 }
