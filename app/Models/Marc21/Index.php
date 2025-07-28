@@ -134,6 +134,13 @@ class Index extends Model
 
         /* Keywords */
         $keywords = $this->get650($data);
+        foreach ($keywords as $keyword) {
+            if (empty($keyword)) {
+                continue;
+            }
+            $IDk = $RDFconcept->createConcept(['Name' => $keyword, 'Class' => 'Subject', 'Lang' => 'pt']);
+            $RDFdata->register($IDch, 'hasSubject', $IDk, 0);
+        }
         pre($data,false);
         pre($keywords);
 
