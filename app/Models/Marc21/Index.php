@@ -132,6 +132,9 @@ class Index extends Model
             if ($key == '=700') { $key = '700'; }
             if (strpos($key, '700') === 0) {
                 foreach ($value as $author) {
+                    if (strpos($author, '$a') === 0) {
+                        $author = substr($author, 2);
+                    }
                     $authors[] = nbr_author($author,7);
                 }
             }
