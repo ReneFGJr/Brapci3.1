@@ -44,8 +44,6 @@ class Download extends BaseController
 
         $class = $dt['concept']['c_class'];
 
-        pre($dt);
-
         switch ($class) {
             case 'Article':
                 $id = $this->download_01($dt);
