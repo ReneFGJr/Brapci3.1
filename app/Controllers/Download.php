@@ -20,8 +20,6 @@ class Download extends BaseController
 {
     function download($id ='', $id2 ='', $id3 ='', $id4 = '')
     {
-        echo "OK $id";
-        exit;
         /* Bibliografia */
         if ($id == 'bib')
             {
@@ -45,6 +43,8 @@ class Download extends BaseController
             }
 
         $class = $dt['concept']['c_class'];
+
+        pre($dt);
 
         switch ($class) {
             case 'Article':
