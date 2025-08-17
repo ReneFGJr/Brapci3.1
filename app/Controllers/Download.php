@@ -20,6 +20,8 @@ class Download extends BaseController
 {
     function download($id ='', $id2 ='', $id3 ='', $id4 = '')
     {
+        echo "OK $id";
+        exit;
         /* Bibliografia */
         if ($id == 'bib')
             {
