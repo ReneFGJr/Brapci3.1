@@ -209,6 +209,9 @@ class Register extends Model
                     case 'Book':
                         $dt['collection'] = 'BK';
                         break;
+                    case 'BookChapter':
+                        $dt['collection'] = 'BC';
+                        break;
                     case 'Proceeding':
                         $dt['collection'] = 'EV';
                         break;
