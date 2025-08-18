@@ -233,6 +233,8 @@ class SearchLogical extends Model
             array_push($query['query']['bool']['must'], $filter);
         }
 
+
+
         /******* Range */
         $di = ((int)trim(get("year_start")) - 1);
         $df = ((int)trim(get("year_end")) + 1);
@@ -251,6 +253,10 @@ class SearchLogical extends Model
         array_push($query['query']['bool']['must'], $range);
         //echo json_encode($query);
         //pre($query);
+        if (get("teste") != "") {
+            pre($query);
+        }
+
         return $query;
     }
 
