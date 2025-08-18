@@ -72,7 +72,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
     if line:
         dt = {}
 
-        json_str = line[7]  # ← use um nome diferente
+        json_str = line[6]  # ← use um nome diferente
         try:
             JS = json.loads(json_str)
         except json.JSONDecodeError as e:
@@ -94,14 +94,14 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         author_names = [a["name"] for a in authors_info if "name" in a]
 
         dt = {}
-        dt['id'] = line[1]
-        dt['class'] = line[5]
-        dt['collection'] = line[6]
-        dt['year'] = line[18]
+        dt['id'] = line[0]
+        dt['class'] = line[4]
+        dt['collection'] = line[5]
+        dt['year'] = line[17]
         dt['authors'] = author_names
         dt['keywords'] = all_keywords
         dt['abstract'] = all_abstract
-        dt['journal'] = line[8]
+        dt['journal'] = line[7]
         dt['langage'] = []
         print(dt)
         sys.exit()
