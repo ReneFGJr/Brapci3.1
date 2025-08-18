@@ -88,7 +88,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         for lang_terms in data.get("Subject", {}).values():
             all_keywords.extend(lang_terms)
 
-        all_abstract = data.get("Abstract", {})
+        all_abstract = data.get("Abstract", {}).get('pt')
 
         print(all_abstract)
         sys.exit()
