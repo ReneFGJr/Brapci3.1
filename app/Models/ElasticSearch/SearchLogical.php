@@ -234,8 +234,6 @@ class SearchLogical extends Model
             array_push($query['query']['bool']['must'], $filter);
         }
 
-
-
         /******* Range */
         $di = ((int)trim(get("year_start")) - 1);
         $df = ((int)trim(get("year_end")) + 1);

@@ -191,6 +191,8 @@ class Register extends Model
             $dt['title'] = $atit;
             $dt['journal'] = $line['JOURNAL'];
 
+            pre($DT);
+
             if (isset($DT['Issue'])) {
                 $Issue = (array)$DT['Issue'];
                 $idj = $Issue['id_jnl'];
