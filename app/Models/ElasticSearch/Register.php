@@ -49,7 +49,184 @@ class Register extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function update_index()
+    public function update_index()
+    {
+        $Source = new \App\Models\Base\Sources();
+        $API    = new \App\Models\ElasticSearch\API();
+
+        $type   = 'prod';
+        $limit  = 100;
+        $offset = (int) (get('offset') ?? 0);
+
+        // Builder base com os MESMOS filtros usados na busca
+        $base = $this->where('new', 1)->where('use', 0);
+
+        // Total com os mesmos filtros
+        // Em CI4, countAllResults($reset=false) evita resetar o builder
+        $dtt = $base->countAllResults(false);
+
+        // Busca paginada e ordenada
+        $dta = $base->orderBy('ID', 'DESC')->findAll($limit, $offset);
+
+        // Cabeçalho de status
+        $percent = ($dtt > 0) ? ($offset / max($dtt, 1) * 100) : 100;
+        $sx  = 'Export ElasticSearch v2.2 - ' . $offset . ' of ' . $dtt;
+        $sx .= ' (' . number_format($percent, 1) . '%)';
+        $sx .= '<hr>';
+
+        // Helpers internos
+        $norm = static function ($s) {
+            $s = is_string($s) ? trim($s) : '';
+            if ($s === '') return '';
+            return mb_strtolower(ascii($s));
+        };
+
+        $collect = static function (array $DT, string $field) use ($norm): array {
+            $out = [];
+            $bag = (array)($DT[$field] ?? []);
+            foreach ($bag as $lang => $items) {
+                foreach ((array)$items as $term) {
+                    $t = $norm($term);
+                    if ($t !== '') {
+                        $out[] = $t;
+                    }
+                }
+            }
+            return $out;
+        };
+
+        $collectAuthors = static function (array $DT, &$full) use ($norm): array {
+            $authors = [];
+            $seen = [];
+            $bag = (array)($DT['Authors'] ?? []);
+            foreach ($bag as $group) {
+                foreach ((array)$group as $raw) {
+                    $raw = (string)$raw;
+                    $rawAscii = ascii($raw);
+                    $key = $norm($rawAscii);
+                    if ($key === '' || isset($seen[$key])) {
+                        continue;
+                    }
+
+                    // manter no texto completo (formas ascii e normalizada)
+                    $full .= $rawAscii . ' ' . $key . ' ';
+
+                    // Padroniza exibição do autor
+                    $display = UpperCase($rawAscii);
+                    $display = nbr_author($display, 7);
+                    $authors[] = $display;
+
+                    $seen[$key] = true;
+                }
+            }
+            return $authors;
+        };
+
+        foreach ($dta as $line) {
+            $DT   = (array) json_decode($line['json'], true);
+            $full = '';
+
+            // TITLE
+            $atit = $collect($DT, 'Title');
+            foreach ($atit as $t) {
+                $full .= $t . ' ';
+            }
+
+            // SECTIONS
+            $asec = $collect($DT, 'Sections');
+
+            // KEYWORDS
+            $akey = $collect($DT, 'Subject');
+            foreach ($akey as $k) {
+                $full .= $k . ' ';
+            }
+
+            // ABSTRACT
+            $aabs = $collect($DT, 'Abstract');
+            foreach ($aabs as $a) {
+                $full .= $a . ' ';
+            }
+
+            // AUTHORS (dedup + normalização + adiciona no full)
+            $aaut = $collectAuthors($DT, $full);
+
+            // Montagem do documento
+            $dt = [
+                'id'       => (int)$line['ID'],
+                'keyword'  => $akey,
+                'abstract' => $aabs,
+                'authors'  => $aaut,
+                'title'    => $atit,
+                'journal'  => $line['JOURNAL'] ?? '',
+                'year'     => $line['YEAR'] ?? '',
+                'type'     => $line['CLASS'] ?? '',
+                'section'  => $asec,
+                'language' => $DT['Idioma'] ?? [],
+                'full'     => trim($full),
+            ];
+
+            // Collection (Issue->id_jnl -> collection) + mapeamento por tipo
+            $dt['collection'] = 'ER'; // default
+            if (!empty($DT['Issue'])) {
+                $Issue = (array)$DT['Issue'];
+                if (!empty($Issue['id_jnl'])) {
+                    $DTS = $Source->find((int)$Issue['id_jnl']);
+                    if (!empty($DTS['jnl_collection'])) {
+                        $dt['collection'] = $DTS['jnl_collection'];
+                    }
+                }
+            }
+
+            switch ($line['CLASS'] ?? '') {
+                case 'Book':
+                    $dt['collection'] = 'BK';
+                    break;
+                case 'BookChapter':
+                    $dt['collection'] = 'BC';
+                    break;
+                case 'Proceeding':
+                    $dt['collection'] = 'EV';
+                    break;
+            }
+
+            // DOI / URL
+            if (!empty($DT['DOI'])) {
+                $doi = (string)$DT['DOI'];
+                // Se não vier com http, presume DOI e monta link resolvido
+                $href = (stripos($doi, 'http') === 0) ? $doi : ('https://doi.org/' . ltrim($doi, '/'));
+                $dt['DOI'] = $doi;
+                $dt['URL'] = '<a href="' . $href . '" target="_blank">' . $href . '</a>';
+            } else {
+                $dt['DOI'] = '';
+                $dt['URL'] = 'https://hdl.handle.net/20.500.11959/brapci/' . $dt['id'];
+            }
+
+            // Envio ao ES
+            // Servidor 2
+            $API->server = 'http://143.54.112.91:9200/';
+            $rst = $API->call('brapci3.3/' . $type . '/' . $dt['id'], 'POST', $dt);
+
+            $sx .= $dt['id'] . ' => ' . ($rst['result'] ?? '-') .
+                ' v.' . ($rst['_version'] ?? '-') .
+                ' (' . $dt['collection'] . ')<br>';
+
+            // Marca como exportado / atualiza flags
+            $this->exported($dt['id'], 0);
+            $this->set(['new' => 0])->where('id_ds', $line['id_ds'])->update();
+        }
+
+        // Próxima página ou fim
+        if (count($dta) === $limit) {
+            $sx .= metarefresh(PATH . '/elasticsearch/update_index?offset=' . ($offset + $limit), 1);
+        } else {
+            $sx = bsmessage('Elastic Search Exported', 1);
+        }
+
+        return bs(bsc($sx, 12));
+    }
+
+
+    function update_index_old()
     {
         $full = '';
 
