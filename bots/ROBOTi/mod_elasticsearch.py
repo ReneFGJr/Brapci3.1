@@ -76,6 +76,9 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         dt['collection'] = line[4]
         dt['year'] = line[16]
 
+        print(dt)
+        sys.exit()
+
         json_str = line[5]  # ← use um nome diferente
         try:
             JS = json.loads(json_str)
