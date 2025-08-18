@@ -204,7 +204,7 @@ class Register extends Model
                 }
             }
 
-            switch ($dt['Class'])
+            switch ($line['Class'])
                 {
                     case 'Book':
                         $dt['collection'] = 'BK';
