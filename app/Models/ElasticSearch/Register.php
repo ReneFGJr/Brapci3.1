@@ -204,6 +204,8 @@ class Register extends Model
                 }
             }
 
+            pre($line);
+
             switch ($line['Class'])
                 {
                     case 'Book':
