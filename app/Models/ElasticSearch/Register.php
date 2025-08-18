@@ -191,7 +191,6 @@ class Register extends Model
             $dt['title'] = $atit;
             $dt['journal'] = $line['JOURNAL'];
 
-            pre($DT);
 
             if (isset($DT['Issue'])) {
                 $Issue = (array)$DT['Issue'];
@@ -203,18 +202,15 @@ class Register extends Model
                 } else {
                     $dt['collection'] = 'ER';
                 }
-            } else {
-                switch ($dt['Class'])
-                    {
-                        case 'Book':
-                            $dt['collection'] = 'BK';
-                            break;
-                        case 'Proceeding':
-                            $dt['collection'] = 'EV';
-                            break;
-                    }
-
-            }
+            switch ($dt['Class'])
+                {
+                    case 'Book':
+                        $dt['collection'] = 'BK';
+                        break;
+                    case 'Proceeding':
+                        $dt['collection'] = 'EV';
+                        break;
+                }
             /**************************************************** */
             //$dt['collection']
 
