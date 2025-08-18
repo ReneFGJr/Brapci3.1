@@ -103,8 +103,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         dt['abstract'] = all_abstract
         dt['journal'] = line[7]
         dt['langage'] = []
-        print(dt)
-        sys.exit()
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
         # Atualizando o status
