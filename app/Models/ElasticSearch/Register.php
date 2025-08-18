@@ -202,6 +202,8 @@ class Register extends Model
                 } else {
                     $dt['collection'] = 'ER';
                 }
+            }
+
             switch ($dt['Class'])
                 {
                     case 'Book':
