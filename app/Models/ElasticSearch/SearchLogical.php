@@ -229,7 +229,8 @@ class SearchLogical extends Model
             if (!isset($query['query']['bool']['must'])) {
                 $query['query']['bool']['must'] = [];
             }
-            $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
+            //$filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES, 'default_operator' => 'OR'];
+            $filter['query_string'] = ['default_field' => 'collection', 'query' => $SOURCES];
             array_push($query['query']['bool']['must'], $filter);
         }
 
