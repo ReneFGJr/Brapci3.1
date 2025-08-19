@@ -99,15 +99,14 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             # Extrair keywords em português
             all_keywords = []
 
-            for lang_terms in data.get("Subject", {}).values():
-                all_keywords.extend(lang_terms)
+
+            all_keywords = data.get("Subject", {}).get('pt')
 
             all_abstract = data.get("Abstract", {}).get('pt')
 
             section = line[14]
 
-            authors_info = data.get("authors", [])
-            author_names = [a["name"] for a in authors_info if "name" in a]
+            author_names = data.get("authors", [])
 
             dt = {}
             dt['id'] = line[0]
@@ -115,8 +114,8 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['title'] = ascii(line[10])
             dt['collection'] = line[5]
             dt['year'] = line[17]
-            dt['authors'] = ascii(author_names)
-            dt['keywords'] = ascii(all_keywords)
+            dt['authors'] = (author_names)
+            dt['keywords'] = (all_keywords)
             dt['abstract'] = ascii(all_abstract)
             dt['journal'] = ascii(line[7])
             dt['langage'] = []
