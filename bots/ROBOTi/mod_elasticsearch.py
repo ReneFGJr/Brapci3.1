@@ -140,10 +140,10 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['full'] = full
             dt['DOI'] = line[3]
             dt['URL'] = line[24]
-            id = line[1]
             result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
 
-            update_status(id,0)
+            id_ln = line[0]
+            update_status(id_ln,0)
 
             # Atualizando o status
             try:
