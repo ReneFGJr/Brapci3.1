@@ -86,28 +86,22 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
         if line:
             dt = {}
-            ID = line[1]
 
             json_str = line[6]  # ← use um nome diferente
             try:
                 JS = json.loads(json_str)
             except json.JSONDecodeError as e:
-                print(f"[ERRO] JSON malformado: {json_str} id:{ID}")
+                print(f"[ERRO] JSON malformado: {json_str}")
                 print(e)
+                return
 
             data = JS
 
             # Extrair keywords em português
             all_keywords = []
 
-            try:
-                all_keywords = data.get("Subject", {}).get('pt')
-            except Exception as e:
-                try:
-                    all_keywords = data.get("Subject", {}).get('nn')
-                except Exception as e:
-                    print(f"[ERRO 2] Falha ao extrair keywords: {e} id:{ID}")
 
+            all_keywords = data.get("Subject", {}).get('pt')
             Xkeywords = ''
 
             keywords = []
@@ -146,11 +140,9 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['full'] = full
             dt['DOI'] = line[3]
             dt['URL'] = line[24]
-
             result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
 
             id_ln = line[0]
-            print(id_ln)
             update_status(id_ln,0)
 
             # Atualizando o status
@@ -158,7 +150,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                 sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
                 tot = tot + 1
                 if (tot % 100) == 0:
-                    print(". ",tot,id_ln)
+                    print(". ",tot)
 
             except Exception as e:
                 print("+=============================== ERRO")
@@ -179,7 +171,6 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
 def update_status(ID,status):
     qu = f"update brapci_elastic.dataset set new = {status} where id_ds = {ID}"
-    print(qu)
     database.update(qu)
 
 def reindex():
