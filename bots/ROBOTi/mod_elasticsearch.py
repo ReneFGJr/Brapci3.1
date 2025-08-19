@@ -90,19 +90,25 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
 
         all_abstract = data.get("Abstract", {}).get('pt')
 
+        section = line[14]
+
         authors_info = data.get("authors", [])
         author_names = [a["name"] for a in authors_info if "name" in a]
 
         dt = {}
         dt['id'] = line[0]
         dt['class'] = line[4]
+        dt['title'] = ascii(line[10])
         dt['collection'] = line[5]
         dt['year'] = line[17]
-        dt['authors'] = author_names
-        dt['keywords'] = all_keywords
-        dt['abstract'] = all_abstract
-        dt['journal'] = line[7]
+        dt['authors'] = ascii(author_names)
+        dt['keywords'] = ascii(all_keywords)
+        dt['abstract'] = ascii(all_abstract)
+        dt['journal'] = ascii(line[7])
         dt['langage'] = []
+        dt['full'] = []
+        dt['section'] = ascii(section)
+        dt['type'] = type
         id = line[0]
         result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
