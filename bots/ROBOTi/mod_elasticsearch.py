@@ -125,7 +125,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['class'] = line[4]
             dt['title'] = ascii(line[10])
             dt['collection'] = line[5]
-            dt['year'] = "'"+line[17]+"'"
+            dt['year'] = "'"+str(line[17])+"'"
             dt['authors'] = (author_names)
             dt['keywords'] = (keywords)
             dt['abstract'] = ascii(all_abstract)
