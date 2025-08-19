@@ -106,7 +106,6 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                 try:
                     all_keywords = data.get("Subject", {}).get('nn')
                 except Exception as e:
-                    print(data)
                     print(f"[ERRO 2] Falha ao extrair keywords: {e}")
 
             Xkeywords = ''
