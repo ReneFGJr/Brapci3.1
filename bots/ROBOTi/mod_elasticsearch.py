@@ -93,7 +93,6 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             except json.JSONDecodeError as e:
                 print(f"[ERRO] JSON malformado: {json_str}")
                 print(e)
-                return
 
             data = JS
 
