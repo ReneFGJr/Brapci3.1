@@ -101,7 +101,14 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             # Extrair keywords em português
             all_keywords = []
 
-            all_keywords = data.get("Subject", {}).get('pt')
+            try:
+                all_keywords = data.get("Subject", {}).get('pt')
+            except Exception as e:
+                try:
+                    all_keywords = data.get("Subject", {}).get('nn')
+                except Exception as e:
+                    print(f"[ERRO] Falha ao extrair keywords: {e}")
+
             Xkeywords = ''
 
             keywords = []
