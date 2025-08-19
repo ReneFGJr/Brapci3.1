@@ -78,6 +78,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
     api = ElasticSearchAPI()
     sx = f'Export ElasticSearch v2.2 - {offset} of {dtt}'
     print(sx)
+    tot = 0
 
     for line in row:
         percent = (offset / dtt * 100) if dtt > 0 else 100
@@ -145,7 +146,9 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             # Atualizando o status
             try:
                 sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
-                print(sx)
+                tot  = tot + 1
+                if (tot % 100) == 0:
+                    print(".",end="")
             except Exception as e:
                 print("+=============================== ERRO")
                 print(result)
