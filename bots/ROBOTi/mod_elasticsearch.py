@@ -106,7 +106,8 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
             section = line[14]
 
-            author_names = data.get("authors", [])
+            author_namesX = data.get("authors", [])
+            author_names = [a["name"] for a in author_namesX if "name" in a]
 
             dt = {}
             dt['id'] = line[0]
