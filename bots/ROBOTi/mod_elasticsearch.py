@@ -284,7 +284,6 @@ def dataset_news():
     offset = 0
     dtt = 100
     limit = 100
-    ID = ln[0]
 
     rst = export_elasticsearch_v2_3(row, offset, dtt, limit)
     print(rst)
