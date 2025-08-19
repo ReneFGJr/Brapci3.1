@@ -80,8 +80,6 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
     print(sx)
 
     for line in row:
-        print(f"Processing line: {line}")
-
         percent = (offset / dtt * 100) if dtt > 0 else 100
         sx += f' ({percent:.1f}%)<hr>'
 
