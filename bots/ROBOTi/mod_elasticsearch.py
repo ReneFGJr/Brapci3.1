@@ -102,6 +102,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
             all_keywords = data.get("Subject", {}).get('pt')
             Xkeywords = ''
+            print(f"Keywords: {all_keywords}")
             for kw in all_keywords:
                 Xkeywords += ascii(kw) + ' '
             print(Xkeywords)
