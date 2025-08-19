@@ -86,6 +86,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
         if line:
             dt = {}
+            ID = line[1]
 
             json_str = line[6]  # ← use um nome diferente
             try:
@@ -99,7 +100,6 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
             # Extrair keywords em português
             all_keywords = []
-
 
             all_keywords = data.get("Subject", {}).get('pt')
             Xkeywords = ''
@@ -140,7 +140,8 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['full'] = full
             dt['DOI'] = line[3]
             dt['URL'] = line[24]
-            result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
+
+            result = api.call(f'brapci3.3/prod/{ID}', 'POST', dt)
 
             id_ln = line[0]
             update_status(id_ln,0)
@@ -150,7 +151,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                 sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
                 tot = tot + 1
                 if (tot % 100) == 0:
-                    print(". ",tot)
+                    print(". ",tot,ID,id_ln)
 
             except Exception as e:
                 print("+=============================== ERRO")
