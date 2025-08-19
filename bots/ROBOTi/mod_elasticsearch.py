@@ -281,15 +281,17 @@ def dataset_news():
         print("No new dataset found.")
         return
 
+    offset = 0
+    dtt = 100
+    limit = 100
+    ID = ln[0]
+
     rst = export_elasticsearch_v2_3(row, offset, dtt, limit)
     print(rst)
     sys.exit()
 
     for ln in row:
-        offset = 0
-        dtt = 100
-        limit = 10
-        ID = ln[0]
+
 
         update_status(ID,4)
         export_elasticsearch_v2_2(ln, offset, dtt, limit)
