@@ -148,7 +148,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                 sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
                 tot  = tot + 1
                 if (tot % 100) == 0:
-                    print(".",end="")
+                    print(".",end=".")
             except Exception as e:
                 print("+=============================== ERRO")
                 print(result)
@@ -189,13 +189,4 @@ def dataset_news():
     dtt = 100
     limit = 100
 
-    rst = export_elasticsearch_v2_2(row, offset, dtt, limit)
-    print(rst)
-    sys.exit()
-
-    for ln in row:
-
-
-        update_status(ID,4)
-        export_elasticsearch_v2_2(ln, offset, dtt, limit)
-        update_status(ID,2)
+    export_elasticsearch_v2_2(row, offset, dtt, limit)
