@@ -156,7 +156,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                 sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
                 tot = tot + 1
                 if (tot % 100) == 0:
-                    print(". ",tot)
+                    print(". ",tot,id_ln)
 
             except Exception as e:
                 print("+=============================== ERRO")
