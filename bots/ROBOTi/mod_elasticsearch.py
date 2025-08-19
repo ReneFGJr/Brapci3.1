@@ -2,6 +2,8 @@ import database
 import unicodedata
 import json,sys
 import requests
+import unicodedata
+import re
 
 class ElasticSearchAPI:
     def __init__(self, server='http://143.54.112.91:9200/'):
@@ -34,11 +36,18 @@ class ElasticSearchAPI:
         except Exception as e:
             return {'error': 'Exception', 'message': str(e)}
 
-def ascii(text):
-    # Normaliza o texto para remover acentos e caracteres especiais
-    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
-    # Converte o texto para caixa baixa
-    return text.lower()
+def ascii(texto):
+    if texto is None:
+        return ""
+    # 1) remover acentos
+    nfkd = unicodedata.normalize("NFKD", str(texto))
+    sem_acentos = "".join(ch for ch in nfkd if not unicodedata.combining(ch))
+    # 2) caixa baixa
+    sem_acentos = sem_acentos.lower()
+    # 3) manter só letras a-z, dígitos e espaços
+    apenas_basico = re.sub(r"[^a-z0-9\s]", " ", sem_acentos)
+    # 4) colapsar espaços
+    return re.sub(r"\s+", " ", apenas_basico).strip()
 
 def remove_editorial():
     print("183 - Removendo editoriais")
