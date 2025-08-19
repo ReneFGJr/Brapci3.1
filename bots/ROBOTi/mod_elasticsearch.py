@@ -149,6 +149,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['DOI'] = line[3]
             dt['URL'] = line[24]
 
+
             result = api.call(f'brapci3.3/prod/{ID}', 'POST', dt)
 
             id_ln = line[0]
