@@ -86,12 +86,13 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
         if line:
             dt = {}
+            ID = line[1]
 
             json_str = line[6]  # ← use um nome diferente
             try:
                 JS = json.loads(json_str)
             except json.JSONDecodeError as e:
-                print(f"[ERRO] JSON malformado: {json_str}")
+                print(f"[ERRO] JSON malformado: {json_str} id:{ID}")
                 print(e)
 
             data = JS
@@ -105,7 +106,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                 try:
                     all_keywords = data.get("Subject", {}).get('nn')
                 except Exception as e:
-                    print(f"[ERRO 2] Falha ao extrair keywords: {e}")
+                    print(f"[ERRO 2] Falha ao extrair keywords: {e} id:{ID}")
 
             Xkeywords = ''
 
