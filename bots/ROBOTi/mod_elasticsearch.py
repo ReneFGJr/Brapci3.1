@@ -141,14 +141,12 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             id = line[0]
             result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
 
-            print(id)
             update_status(id,0)
 
             # Atualizando o status
             try:
                 sx = f'{id} => {result["result"]} v.{result["_version"]} ({dt["collection"]})'
                 tot  = tot + 1
-                print("X",end="")
                 if (tot % 100) == 0:
                     print(".",end="")
             except Exception as e:
