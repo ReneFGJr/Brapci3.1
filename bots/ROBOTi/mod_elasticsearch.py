@@ -111,7 +111,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             for author in author_namesX:
                 if "name" in author:
                     author_names.append(author["name"])
-
+            full = ascii(line[10]) + ' ' + ascii(all_abstract) + ' ' + ' '.join(author_names) + ' ' + ascii(line[7]) + ' ' + ascii(section)
             dt = {}
             dt['id'] = line[0]
             dt['class'] = line[4]
@@ -126,8 +126,8 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['full'] = []
             dt['section'] = ascii(section)
             dt['type'] = line[4]
+            dt['full'] = full
             id = line[0]
-            print(dt)
             result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
             # Atualizando o status
