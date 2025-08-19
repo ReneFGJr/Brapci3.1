@@ -90,7 +90,6 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
             return
 
         data = JS
-        print(data)
 
         # Extrair keywords em português
         all_keywords = []
@@ -101,6 +100,7 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         all_abstract = data.get("Abstract", {}).get('pt')
 
         section = line[14]
+        print("======== Section",section)
 
         authors_info = data.get("authors", [])
         author_names = [a["name"] for a in authors_info if "name" in a]
