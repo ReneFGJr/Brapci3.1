@@ -127,6 +127,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['section'] = ascii(section)
             dt['type'] = line[4]
             id = line[0]
+            print(dt)
             result = api.call(f'brapci3.4/prod/{id}', 'POST', dt)
 
             # Atualizando o status
