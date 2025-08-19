@@ -111,7 +111,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             for author in author_namesX:
                 if "name" in author:
                     author_names.append(author["name"])
-            full = ascii(line[10]) + ' ' + ascii(all_abstract) + ' ' + ' '.join(author_names) + ' ' + ascii(line[7]) + ' ' + ascii(section)
+            full = ascii(line[10]) + ' ' + ascii(all_abstract) + ' '.join(author_names) + ' '.join(all_keywords)
             dt = {}
             dt['id'] = line[0]
             dt['class'] = line[4]
