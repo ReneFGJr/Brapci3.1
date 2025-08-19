@@ -128,7 +128,9 @@ def export_elasticsearch_v2_2(line, offset, dtt, limit):
         except Exception as e:
             print("+=============================== ERRO")
             print(result)
+            sys.exit()
             return {'error': 'Exception', 'message': str(e)}
+
         # Simulação de função exported (não implementada)
         # self.exported(id, 0)
 
