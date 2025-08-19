@@ -104,9 +104,11 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             Xkeywords = ''
 
             if all_keywords != None:
+                keywords = []
+
                 for kw in all_keywords:
                     Xkeywords += ascii(kw) + ' '
-                print(Xkeywords)
+                    keywords.append(ascii(kw))
 
             all_abstract = data.get("Abstract", {}).get('pt')
 
@@ -125,7 +127,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['collection'] = line[5]
             dt['year'] = line[17]
             dt['authors'] = (author_names)
-            dt['keywords'] = (all_keywords)
+            dt['keywords'] = (keywords)
             dt['abstract'] = ascii(all_abstract)
             dt['journal'] = ascii(line[7])
             dt['langage'] = []
