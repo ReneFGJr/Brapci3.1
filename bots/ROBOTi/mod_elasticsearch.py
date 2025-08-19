@@ -147,10 +147,10 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['DOI'] = line[3]
             dt['URL'] = line[24]
 
-            print(dt)
             result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
 
             id_ln = line[0]
+            print(id_ln)
             update_status(id_ln,0)
 
             # Atualizando o status
@@ -179,6 +179,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
 
 def update_status(ID,status):
     qu = f"update brapci_elastic.dataset set new = {status} where id_ds = {ID}"
+    print(qu)
     database.update(qu)
 
 def reindex():
