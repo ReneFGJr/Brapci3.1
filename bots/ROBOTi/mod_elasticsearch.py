@@ -123,10 +123,8 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
                     author_names.append(author["name"])
             full = ascii(line[10]) + ' ' + ascii(all_abstract) + ' '.join(author_names)  + ' ' + Xkeywords
 
-            print(line)
-            sys.exit()
             dt = {}
-            dt['id'] = line[0]
+            dt['id'] = line[1]
             dt['class'] = line[4]
             dt['title'] = ascii(line[10])
             dt['collection'] = line[5]
@@ -142,7 +140,7 @@ def export_elasticsearch_v2_2(row, offset, dtt, limit):
             dt['full'] = full
             dt['DOI'] = line[3]
             dt['URL'] = line[24]
-            id = line[0]
+            id = line[1]
             result = api.call(f'brapci3.3/prod/{id}', 'POST', dt)
 
             update_status(id,0)
