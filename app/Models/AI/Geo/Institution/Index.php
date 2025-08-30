@@ -67,6 +67,10 @@ class Index extends Model
             'UFC'=>'ce',
             'UFAL'=>'al',
             'UFS'=>'se',
+            'UFG'=>'go',
+            'UFPA'=>'pa',
+            'UFAM'=>'am',
+            'UFTO'=>'to'
             );
 
             if (isset($uf[$name]))
