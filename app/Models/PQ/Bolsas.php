@@ -319,7 +319,6 @@ class Bolsas extends Model
 
 			/************* GEO */
 			$GEO = $AI_geo->code($BS_IES);
-			echo "===".$BS_IES." == ".$GEO."<br>";
 			if (!isset($geo[$GEO])) {
 				$geo[$GEO] = 0;
 			}
