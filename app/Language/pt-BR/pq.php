@@ -15,4 +15,5 @@ return[
         'nr'=>'#',
         'bolsista_ano_list'=>'Bolsistas por ano',
         'bolsista_ativos_cnpq'=>'Site CNPq (Bolsistas ativos)',
+        'bolsista_ativos_cnpq_busca'=>'Site CNPq (Bolsistas ativos) - Busca'
 ];

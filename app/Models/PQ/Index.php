@@ -227,6 +227,7 @@ class Index extends Model
 		$sx .= '<li><a href="' . PATH . MODULE . 'pq/pq_dataset' . '">' . lang('pq.bolsista_dataset') . '</a></li>';
 
 		$sx .= '<li><a href="http://memoria2.cnpq.br/bolsistas-vigentes" target="_new">CNPq - ' . lang('pq.bolsista_ativos_cnpq') . '</a></li>';
+		$sx .= '<li><a href="http://plsql1.cnpq.br/divulg/RESULTADO_PQ_102003.curso" target="_new">CNPq - ' . lang('pq.bolsista_ativos_cnpq_busca') . '</a></li>';
 
 		$url = 'http://plsql1.cnpq.br/divulg/RESULTADO_PQ_102003.prc_comp_cmt_links?V_COD_DEMANDA=200310&V_TPO_RESULT=CURSO&V_COD_AREA_CONHEC=60700009&V_COD_CMT_ASSESSOR=AC';
 		$sx .= '<li><a href="'.$url.'" target="_new">CNPq - ' . lang('pq.bolsista_ativos_cnpq') . ' - Em Folha</a></li>';
