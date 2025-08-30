@@ -319,6 +319,7 @@ class Bolsas extends Model
 
 			/************* GEO */
 			$GEO = $AI_geo->code($BS_IES);
+			echo "===".$BS_IES." == ".$GEO."<br>";
 			if (!isset($geo[$GEO])) {
 				$geo[$GEO] = 0;
 			}
@@ -334,7 +335,7 @@ class Bolsas extends Model
 		foreach ($inst as $key => $value) {
 			$sx .= '<br>' . $key . ' ' . $value;
 		}
-		$sx .= '</>';
+		$sx .= '</br>';
 
 		$sx .= '<td width="15%">';
 		$sx .= msg('brapci.total') . ' ' . count($dt);
