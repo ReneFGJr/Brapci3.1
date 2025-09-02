@@ -148,7 +148,7 @@ class Find extends Model
 
             $exit = proc_close($proc);
 
-            print("========",$exit);
+            print("========".$exit);
 
             if ($exit === 0) {
                 $data = json_decode($stdout, true);
