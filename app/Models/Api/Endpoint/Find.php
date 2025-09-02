@@ -125,6 +125,39 @@ class Find extends Model
     {
         $Find = new \App\Models\Find\Books\Db\Find();
         $Find->getISBN($isbn);
+
+        /******* Retorna se vazio */
+
+            $cmd = '/usr/bin/python3 ../bots/TOOLS/mod_z39.50.py '.$isbn; // ou /caminho/do/venv/bin/python
+            $descriptors = [
+            0 => ['pipe', 'r'], // stdin
+            1 => ['pipe', 'w'], // stdout
+            2 => ['pipe', 'w'], // stderr
+            ];
+
+            $proc = proc_open($cmd, $descriptors, $pipes);
+            if (!is_resource($proc)) { http_response_code(500); exit('Falha ao iniciar o Python'); }
+
+            $payload = json_encode(['x' => 2, 'y' => 3]);
+
+            fwrite($pipes[0], $payload);
+            fclose($pipes[0]);
+
+            $stdout = stream_get_contents($pipes[1]); fclose($pipes[1]);
+            $stderr = stream_get_contents($pipes[2]); fclose($pipes[2]);
+
+            $exit = proc_close($proc);
+
+            if ($exit === 0) {
+                $data = json_decode($stdout, true);
+                var_dump($data); // ['ok'=>true,'sum'=>5]
+            } else {
+                // logar o erro do Python
+                error_log("Python error: $stderr");
+                http_response_code(500);
+                echo 'Erro ao executar script Python';
+            }
+
     }
 
     function saveField()
@@ -279,6 +312,7 @@ class Find extends Model
         {
             $Z3950 = new \App\Models\Find\Books\Db\Z3950();
             $RSP = $Z3950->index($d1,$d2);
+            pre($RSP);
             exit;
         }
 
@@ -290,6 +324,9 @@ class Find extends Model
         $RSP = [];
 
         switch ($d1) {
+            case 'getISBN':
+                $RSP = $this->getISBN($d2);
+                break;
             case 'z39.50':
                 $RSP = $this->z3950($d2,$d3);
                 break;
