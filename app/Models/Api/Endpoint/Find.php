@@ -151,6 +151,8 @@ class Find extends Model
             print("========".$exit);
 
             if ($exit === 0) {
+                $MARC21 = new \App\Models\Marc21\Index();
+                $RSP = $MARC21->process($stdout);
                 echo '<pre>';
                 echo $stdout;
                 echo '</pre>';
