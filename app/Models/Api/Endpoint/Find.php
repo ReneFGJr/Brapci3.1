@@ -148,6 +148,8 @@ class Find extends Model
 
             $exit = proc_close($proc);
 
+            print("========",$exit);
+
             if ($exit === 0) {
                 $data = json_decode($stdout, true);
                 var_dump($data); // ['ok'=>true,'sum'=>5]
