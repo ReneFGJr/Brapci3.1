@@ -51,6 +51,11 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function process($tx)
+        {
+            pre($tx);
+        }
+
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '', $d6 = '')
     {
         if (empty($d1)) {
