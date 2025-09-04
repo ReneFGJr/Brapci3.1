@@ -60,11 +60,9 @@ class RDFdata extends Model
         }
         $prop = $prop['id_c'];
 
-        pre($prop);
-
         $dt = $this
             ->where('d_r1', $idc)
-            ->where('d_p', $prop['id_c'])
+            ->where('d_p', $prop)
             ->where('d_literal', $idliteral)
             ->where('d_r2', $ida)
             ->first();
