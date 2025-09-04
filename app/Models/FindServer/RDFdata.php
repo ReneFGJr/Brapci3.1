@@ -51,6 +51,21 @@ class RDFdata extends Model
         $RDFclass = new \App\Models\FindServer\RDFclass();
         $prop = $RDFclass->getClass($prop);
 
+        if ($literal != '') {
+            $RDFliteral = new \App\Models\FindServer\RDFliteral();
+            $idliteral = $RDFliteral->createLiteral($literal);
+        } else {
+            $idliteral = 0;
+        }
+
+        $dt = $this->where('d_r1', $idc)
+            ->where('d_p', $prop['id'])
+            ->where('d_literal', $idliteral)
+            ->where('d_r2', $ida)
+            ->first();
+        pre($dt);
+
+
         pre($prop);
         $data = [
             'id_cc' => $idc,
