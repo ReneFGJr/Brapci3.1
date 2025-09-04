@@ -163,7 +163,7 @@ class Find extends Model
         foreach ($marcs as $id => $marc) {
             if (substr($marc, 0, 2) == '[]') {
                 $marc = troca($marc, '[] ', '');
-                $marc = utf8_decode($marc);
+                //$marc = utf8_encode($marc);
                 $RSP = $MARC21->marc21($marc,$isbn);
             }
         }
