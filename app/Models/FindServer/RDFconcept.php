@@ -75,7 +75,7 @@ class RDFconcept extends Model
             ];
             $this->insert($data);
             $dt = $this->where('cc_class', $id_class)
-                ->where('cc_pref_term', $lt['id'])
+                ->where('cc_pref_term', $lt['id_n'])
                 ->first();
         }
         return $dt;
