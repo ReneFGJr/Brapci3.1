@@ -137,8 +137,8 @@ class Find extends Model
 
     function getISBN($isbn)
     {
-        $Find = new \App\Models\Find\Books\Db\Find();
-        $dt = $Find->getISBN($isbn);
+        $Find = new \App\Models\FindServer\Catalog();
+        $dt = $Find->findISBN($isbn);
 
         /******* Retorna se vazio */
         if ($dt == []) {
