@@ -63,8 +63,8 @@ class RDFliteral extends Model
             ];
             $this->insert($data);
             $r = $this
-                ->where('literal', $name)
-                ->where('lang', $lang)
+                ->where('n_name', $name)
+                ->where('n_lang', $lang)
                 ->first();
         }
         return $r;
