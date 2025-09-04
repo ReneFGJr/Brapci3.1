@@ -100,6 +100,9 @@ class Index extends Model
         if (substr($title, -1) == '.') {
             $title = substr($title, 0, -1);
         }
+        if (substr($title, -1) == ':') {
+            $title = substr($title, 0, -1);
+        }
 
         $title = troca($title, ': :', ':');
         $title = troca($title, ' :', ':');
