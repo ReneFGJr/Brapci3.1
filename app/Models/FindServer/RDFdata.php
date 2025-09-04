@@ -6,8 +6,9 @@ use CodeIgniter\Model;
 
 class RDFdata extends Model
 {
-    protected $table            = 'rdfdatas';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'findserver';
+    protected $table            = 'rdf_data';
+    protected $primaryKey       = 'id_d';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
