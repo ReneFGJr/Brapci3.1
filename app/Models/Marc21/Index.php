@@ -163,6 +163,7 @@ class Index extends Model
             $idC = $RDF->createConcept('Book',$name,'pt_BR');
 
             foreach ($dt['authors'] as $k => $author) {
+                $author = nbr_author($author,7);
                 pre($author);
             }
 
