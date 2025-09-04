@@ -138,7 +138,7 @@ class Index extends Model
 
     function marc21($txt,$isbn)
         {
-            $txt = utf8_encode($txt);
+            $txt = utf8_decode($txt);
             $marcArr = $this->marc21_to_array($txt);
             $meta    = $this->marc_extract_metadata($marcArr);
 
