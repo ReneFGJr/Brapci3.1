@@ -59,6 +59,8 @@ class RDFdata extends Model
             $idliteral = 0;
         }
 
+        pre($prop);
+
         $dt = $this
             ->where('d_r1', $idc)
             ->where('d_p', $prop['id_c'])
