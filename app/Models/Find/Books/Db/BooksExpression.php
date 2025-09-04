@@ -168,9 +168,10 @@ class BooksExpression extends Model
     {
         $isbn = sonumero($isbn);
         $dt = $this
-            ->join('books', 'be_title = id_bk')
-            ->where('be_isbn13', $isbn)
+            ->where('i_identifier', $isbn)
             ->first();
+
+        pre($dt);
 
         if ($dt != '') {
             $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
