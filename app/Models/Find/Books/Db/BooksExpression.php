@@ -85,7 +85,7 @@ class BooksExpression extends Model
         $Books = new \App\Models\Find\Books\Db\Books();
         $Authors = new \App\Models\Find\Books\Db\Authors();
         $idt = $Books->register($titulo);
-
+        pre($dt);
         $Lang = new \App\Models\AI\NLP\Language();
         if (isset($dt['language'])) {
             $lg = $Lang->normalize($dt['language']);
