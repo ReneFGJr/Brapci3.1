@@ -53,7 +53,7 @@ class RDFdata extends Model
 
         if ($literal != '') {
             $RDFliteral = new \App\Models\FindServer\RDFliteral();
-            $idliteral = $RDFliteral->createLiteral($literal);
+            $idliteral = $RDFliteral->getLiteral($literal,'pt_BR',true);
         } else {
             $idliteral = 0;
         }
