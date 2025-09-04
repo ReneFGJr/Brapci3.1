@@ -53,10 +53,9 @@ class Catalog extends Model
 
     function findISBN($ISBN)
         {
-            $id = $ISBN['isbn13'];
             $dt = $this
                 ->join('find_publisher', 'w_PUBLISHER = id_pb', 'left')
-                ->where('w_ID',$id);
+                ->where('w_ID',$ISBN);
             return $dt;
         }
 }
