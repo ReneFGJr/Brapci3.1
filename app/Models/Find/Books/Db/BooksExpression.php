@@ -7,18 +7,29 @@ use CodeIgniter\Model;
 class BooksExpression extends Model
 {
     protected $DBGroup          = 'find';
-    protected $table            = 'books_expression';
-    protected $primaryKey       = 'id_be';
+    protected $table            = 'find_item';
+    protected $primaryKey       = 'id_i';
     protected $useAutoIncrement = true;
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id_be', 'be_title', 'be_authors',
-        'be_year', 'be_cover', 'be_rdf',
-        'be_isbn13', 'be_isbn10', 'be_type',
-        'be_lang', 'be_status'
+        'id_i',
+        'i_tombo',
+        'i_manitestation',
+        'i_search',
+        'i_titulo',
+        'i_author',
+        'i_year',
+        'i_publisher',
+        'i_isbn',
+        'i_language',
+        'i_edition',
+        'i_volume',
+
+
+
     ];
 
     // Dates
@@ -47,14 +58,14 @@ class BooksExpression extends Model
     var $data = [];
 
     function existISBN($isbn)
-        {
-            $isbn = sonumero($isbn);
-            $dt = $this->where('be_isbn13',$isbn)->first();
-            return ($dt != '');
-        }
+    {
+        $isbn = sonumero($isbn);
+        $dt = $this->where('be_isbn13', $isbn)->first();
+        return ($dt != '');
+    }
 
     function registerEmpty($isbn)
-        {
+    {
         $ISBN = new \App\Models\Functions\Isbn();
         $dt = [];
         $dt['title'] = '[Sem titulo localizado ISBN:' . $isbn . ']';
@@ -65,7 +76,7 @@ class BooksExpression extends Model
         $RSP['isbn'] = $isbn;
         $RSP['message'] = 'ISBN Inserido com sucesso';
         return $this->register($RSP, $dt);
-        }
+    }
 
     function register($RSP, $dt)
     {
@@ -141,9 +152,12 @@ class BooksExpression extends Model
         }
 
 
+        /**** Registra autores */
+        //$RDFdata = new \App\Models\Find\Rdf\RDFdata();
         if (isset($dt['authors'])) {
-
-
+            foreach ($dt['authors'] as $author) {
+                $ida = $Authors->register($author);
+            }
         }
 
         $RSP['status'] = '205';
@@ -151,28 +165,27 @@ class BooksExpression extends Model
     }
 
     function getISBN($isbn)
-        {
-            $isbn = sonumero($isbn);
-            $dt = $this
-                    ->join('books', 'be_title = id_bk')
-                    ->where('be_isbn13', $isbn)
-                    ->first();
+    {
+        $isbn = sonumero($isbn);
+        $dt = $this
+            ->join('books', 'be_title = id_bk')
+            ->where('be_isbn13', $isbn)
+            ->first();
 
-            if ($dt != '')
-                {
-                    $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
-                    $dt['authors'] = $BooksResponsability->getResposability($dt['be_rdf']);
+        if ($dt != '') {
+            $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
+            $dt['authors'] = $BooksResponsability->getResposability($dt['be_rdf']);
 
-                    $BooksManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
-                    $dt['data'] = $BooksManifestation->getData($dt['be_rdf']);
+            $BooksManifestation = new \App\Models\Find\Books\Db\BooksManifestation();
+            $dt['data'] = $BooksManifestation->getData($dt['be_rdf']);
 
-                    $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
-                    $dt['item'] = $BooksLibrary->getItens($isbn);
-                } else {
-                    $dt = [];
-                }
-            return $dt;
+            $BooksLibrary = new \App\Models\Find\Books\Db\BooksLibrary();
+            $dt['item'] = $BooksLibrary->getItens($isbn);
+        } else {
+            $dt = [];
         }
+        return $dt;
+    }
 
     function exists($isbn)
     {

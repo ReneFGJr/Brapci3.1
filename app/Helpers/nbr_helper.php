@@ -58,6 +58,12 @@ function nbr_title($t)
 
 function nbr_author($xa, $xp)
 {
+    $xa = trim($xa);
+    /* Remove ponto no final */
+    if (substr($xa,-1) == '.') {
+        $xa = substr($xa,0,-1);
+    }
+
     if (trim($xa) == '') {
         return "";
     }

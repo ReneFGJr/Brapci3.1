@@ -87,6 +87,6 @@ if __name__ == "__main__":
     if isinstance(resultado, list):
         print("Resultados encontrados:")
         for res in resultado:
-            print("------> " + res)
+            print("[] " + res)
     else:
         print(resultado)

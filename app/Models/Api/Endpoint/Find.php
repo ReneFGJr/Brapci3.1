@@ -52,6 +52,7 @@ class Find extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public $fileCache = '';
 
     function search($q = '', $class = '')
     {
@@ -121,50 +122,107 @@ class Find extends Model
         $Find->listStatus($status);
     }
 
+    function cacheISBN($isbn)
+    {
+        $dir = '../.tmp/.cache/isbn/';
+        dircheck($dir);
+        $file = $dir . $isbn . '.txt';
+        $this->fileCache = $file;
+        if (file_exists($file)) {
+            $data = file_get_contents($file);
+            return $data;
+        }
+        return '';
+    }
+
     function getISBN($isbn)
     {
         $Find = new \App\Models\Find\Books\Db\Find();
-        $Find->getISBN($isbn);
+        $dt = $Find->getISBN($isbn);
 
         /******* Retorna se vazio */
+        if ($dt == []) {
+            $txt = $this->cacheISBN($isbn);
+        } else {
+            echo json_encode($dt);
+            exit;
+        }
 
-            $cmd = '/usr/bin/python3 ../bots/TOOLS/mod_z39.50.py '.$isbn; // ou /caminho/do/venv/bin/python
-            $descriptors = [
+        if ($txt == '') {
+            $txt = $this->runPython($isbn);
+        }
+
+        $MARC21 = new \App\Models\Marc21\Index();
+
+        $marcs = explode("\n", $txt);
+        foreach ($marcs as $id => $marc) {
+            if (substr($marc, 0, 2) == '[]') {
+                $marc = troca($marc, '[] ', '');
+                $marc = utf8_encode($marc);
+                $RSP = $MARC21->marc21($marc,$isbn);
+
+                pre($RSP);
+            }
+        }
+        pre($marcs);
+    }
+    /********************************************************** RUN PYTHON */
+    function runPython($isbn)
+    {
+        $cmd = '/usr/bin/python3 ../bots/TOOLS/mod_z39.50.py ' . $isbn; // ou /caminho/do/venv/bin/python
+        if ($_SERVER['SERVER_ADDR'] == '::1') {
+            $exe = 'C:\Users\renef\AppData\Local\Programs\Python\Python313\python.exe';
+            $pprg = '../bots/TOOLS/mod_z39.50.py';
+            if (!file_exists($exe)) {
+                $exe = 'C:\Users\renef\AppData\Local\Programs\Python\Python311\python.exe';
+                echo "Usando o Python 3.11";
+            } else {
+                echo "Usando o Python 3.13";
+            }
+
+            if (!file_exists($pprg)) {
+                echo 'Programa do Python não encontrado';
+                exit;
+            }
+            //$exe = troca($exe, '\\', '/');
+            $cmd = $exe . ' ../bots/TOOLS/mod_z39.50.py ' . $isbn;
+            echo $cmd;
+        }
+        $descriptors = [
             0 => ['pipe', 'r'], // stdin
             1 => ['pipe', 'w'], // stdout
             2 => ['pipe', 'w'], // stderr
-            ];
+        ];
 
-            $proc = proc_open($cmd, $descriptors, $pipes);
-            if (!is_resource($proc)) { http_response_code(500); exit('Falha ao iniciar o Python'); }
+        $proc = proc_open($cmd, $descriptors, $pipes);
+        if (!is_resource($proc)) {
+            http_response_code(500);
+            exit('Falha ao iniciar o Python');
+        }
 
-            $payload = json_encode(['x' => 2, 'y' => 3]);
+        $payload = json_encode(['x' => 2, 'y' => 3]);
 
-            fwrite($pipes[0], $payload);
-            fclose($pipes[0]);
+        fwrite($pipes[0], $payload);
+        fclose($pipes[0]);
 
-            $stdout = stream_get_contents($pipes[1]); fclose($pipes[1]);
-            $stderr = stream_get_contents($pipes[2]); fclose($pipes[2]);
+        $stdout = stream_get_contents($pipes[1]);
+        fclose($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+        fclose($pipes[2]);
 
-            $exit = proc_close($proc);
+        $exit = proc_close($proc);
 
-            print("========".$exit);
-
-            if ($exit === 0) {
-                $MARC21 = new \App\Models\Marc21\Index();
-                $RSP = $MARC21->process($stdout);
-                echo '<pre>';
-                echo $stdout;
-                echo '</pre>';
-                $data = json_decode($stdout, true);
-                var_dump($data); // ['ok'=>true,'sum'=>5]
-            } else {
-                // logar o erro do Python
-                error_log("Python error: $stderr");
-                http_response_code(500);
-                echo 'Erro ao executar script Python';
-            }
-
+        if ($exit === 0) {
+            /*************************** Salva */
+            file_put_contents($this->fileCache, $stdout);
+            /*************************** Processa */
+        } else {
+            // logar o erro do Python
+            error_log("Python error: $stderr");
+            http_response_code(500);
+            echo 'Erro ao executar script Python';
+        }
+        return $stdout;
     }
 
     function saveField()
@@ -273,55 +331,50 @@ class Find extends Model
         $p = get("p");
         $lit = get("literal");
 
-        if (sonumero($p) != ($p))
-            {
-                $p = $RDF->class($p);
-            }
+        if (sonumero($p) != ($p)) {
+            $p = $RDF->class($p);
+        }
 
-        if (($r1 > 0) and ($r2 > 0) and ($p > 0) and ($lit == ''))
-            {
-                $RDF->prop($r1, $p, $r2, 0);
-            }
+        if (($r1 > 0) and ($r2 > 0) and ($p > 0) and ($lit == '')) {
+            $RDF->prop($r1, $p, $r2, 0);
+        }
         $RSP['data'] = $_POST;
         $RSP['data']['prop'] = $p;
         return $RSP;
     }
 
-    function concept($d2,$d3)
-        {
+    function concept($d2, $d3)
+    {
 
-            $RSP = $this->check();
-            $RSP['verb'] = $d2;
+        $RSP = $this->check();
+        $RSP['verb'] = $d2;
 
-            if ($RSP['status'] == '200')
-                {
-                    $name = get("term");
-                    $class = get("class");
-                    $RSP = [];
-                    if (($name=='') or ($class==''))
-                        {
-                            $RSP['status'] = '400';
-                            $RSP['message'] = 'Termo ou Classem branco';
-                        } else {
-                            $RDF = new \App\Models\Find\Rdf\RDF();
-                            if (($class = 'Person') or ($class= "CorporateBody"))
-                                {
-                                    $name = nbr_author($name,7);
-                                }
-                            $id = $RDF->concept($name, $class);
-                            $RSP['status'] = '200';
-                            $RSP['rdf'] = $id;
-                        }
+        if ($RSP['status'] == '200') {
+            $name = get("term");
+            $class = get("class");
+            $RSP = [];
+            if (($name == '') or ($class == '')) {
+                $RSP['status'] = '400';
+                $RSP['message'] = 'Termo ou Classem branco';
+            } else {
+                $RDF = new \App\Models\Find\Rdf\RDF();
+                if (($class = 'Person') or ($class = "CorporateBody")) {
+                    $name = nbr_author($name, 7);
                 }
-            return $RSP;
+                $id = $RDF->concept($name, $class);
+                $RSP['status'] = '200';
+                $RSP['rdf'] = $id;
+            }
         }
-    function z3950($d1,$d2)
-        {
-            $Z3950 = new \App\Models\Find\Books\Db\Z3950();
-            $RSP = $Z3950->index($d1,$d2);
-            pre($RSP);
-            exit;
-        }
+        return $RSP;
+    }
+    function z3950($d1, $d2)
+    {
+        $Z3950 = new \App\Models\Find\Books\Db\Z3950();
+        $RSP = $Z3950->index($d1, $d2);
+        pre($RSP);
+        exit;
+    }
 
     function index($d1, $d2 = '', $d3 = '')
     {
@@ -332,10 +385,13 @@ class Find extends Model
 
         switch ($d1) {
             case 'getISBN':
+                if ($d2 == '') {
+                    $d2 = get("query");
+                }
                 $RSP = $this->getISBN($d2);
                 break;
             case 'z39.50':
-                $RSP = $this->z3950($d2,$d3);
+                $RSP = $this->z3950($d2, $d3);
                 break;
             case 'saveRDF':
                 $RSP = $this->saveRDF();
@@ -396,7 +452,7 @@ class Find extends Model
             'getISBN' => 'getISBN',
             'getPlace' => 'getPlace',
             'search' => 'search',
-            'concept'=>'concept/add'
+            'concept' => 'concept/add'
         ];
         $RSP['services'] = $srv;
         return $RSP;

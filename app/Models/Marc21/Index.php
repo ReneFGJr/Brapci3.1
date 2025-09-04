@@ -92,6 +92,226 @@ class Index extends Model
         return $RSP;
     }
 
+    function trataTitle($title)
+    {
+        if (substr($title, -1) == ',') {
+            $title = substr($title, 0, -1);
+        }
+        if (substr($title, -1) == '.') {
+            $title = substr($title, 0, -1);
+        }
+
+        $title = troca($title, ': :', ':');
+        $title = troca($title, ' :', ':');
+        $title = troca($title, '[', '');
+        $title = troca($title, ']', '');
+        $title = troca($title, '/', '');
+        $title = troca($title, '\\', '');
+        $title = troca($title, '*', '');
+        $title = troca($title, '?', '');
+        $title = troca($title, '"', '');
+        $title = troca($title, '<', '');
+        $title = troca($title, '>', '');
+        $title = troca($title, '|', '');
+        $title = trim($title);
+        return $title;
+    }
+
+
+    function trataData($data)
+    {
+        $data = sonumero($data);
+        if (strlen($data) == 4) {
+            return $data;
+        }
+        if (strlen($data) == 8) {
+            return substr($data, 0, 4);
+        }
+        if (strlen($data) == 6) {
+            return substr($data, 0, 4);
+        }
+        if (strlen($data) > 4) {
+            return substr($data, -4);
+        }
+        return '0';
+    }
+
+    function marc21($txt,$isbn)
+        {
+            $marcArr = $this->marc21_to_array($txt);
+            $meta    = $this->marc_extract_metadata($marcArr);
+
+            $dt = [];
+            $dt['title'] = $this->trataTitle($meta['title'] ?? '[Sem título]');
+            $dt['place'] = $this->trataTitle($meta['publication']['place'] ?? '[Sem Local]');
+            $dt['publisher'] = $this->trataTitle($meta['publication']['publisher'] ?? '[Sem Editora]');
+            $dt['date'] = $this->trataData($meta['publication']['date'] ?? '');
+            $dt['isbn13'] = sonumero($meta['isbn'] ?? '');
+            $dt['language'] = $meta['publication']['language'] ?? 'pt_BR';
+            $dt['authors'] = $meta['authors'] ?? ['[Sem Autor]'];
+            $dt['status'] = '1';
+            foreach ($dt['authors'] as $k => $v) {
+                $dt['authors'][$k] = nbr_author($v, 7);
+            }
+
+            $BookExpression = new \App\Models\Find\Books\Db\BooksExpression();
+            $RSP = [];
+            $BookExpression->register($RSP,$dt);
+
+            pre($dt,false);
+            //pre($marcArr);
+            pre($meta);
+        }
+
+    function marc21_to_array(string $marcRaw): array
+    {
+        $marc = trim(preg_replace('/\s+/', ' ', $marcRaw)); // normaliza espaços
+
+        // 1) Extrair leader (tudo antes da 1ª tag no padrão dddII|)
+        $leader = '';
+        $rest   = $marc;
+        if (preg_match('/^(.*?)(?=\d{3}[0-9_]{2}\|)/s', $marc, $m)) {
+            $leader = trim($m[1]);
+            $rest   = substr($marc, strlen($m[0]));
+        }
+
+        // 2) Quebrar por campos (lookahead mantém o início de cada campo)
+        $fieldsRaw = preg_split('/(?=\d{3}[0-9_]{2}\|)/', $rest, -1, PREG_SPLIT_NO_EMPTY);
+
+        $fields = [];
+        foreach ($fieldsRaw as $chunk) {
+            $chunk = trim($chunk);
+
+            // Tag (3), indicadores (2), depois vem "|"
+            if (!preg_match('/^(?<tag>\d{3})(?<ind>[0-9_]{2})\|(?<subs>.*)$/', $chunk, $mm)) {
+                // fallback: às vezes pode vir controle sem subcampos (raro nesse formato)
+                if (preg_match('/^(?<tag>\d{3})(?<ind>[0-9_]{2})(?<data>.+)$/', $chunk, $mc)) {
+                    $tag = $mc['tag'];
+                    $ind = $mc['ind'];
+                    $fields[$tag][] = [
+                        'ind1'      => $ind[0] ?? ' ',
+                        'ind2'      => $ind[1] ?? ' ',
+                        'subfields' => [],
+                        'control'   => trim($mc['data']),
+                        'raw'       => $chunk,
+                    ];
+                }
+                continue;
+            }
+
+            $tag = $mm['tag'];
+            $ind = $mm['ind'];
+            $sub = $mm['subs'];
+
+            // 3) Parse de subcampos: "|aValor A|bValor B|cValor C"
+            $subfields = [];
+            // Garante que começa com '|'
+            if ($sub !== '' && $sub[0] !== '|') {
+                $sub = '|' . $sub;
+            }
+            // Divide por '|', ignorando o 1º vazio
+            $parts = array_values(array_filter(explode('|', $sub), fn($v) => $v !== ''));
+
+            foreach ($parts as $p) {
+                $code = substr($p, 0, 1);
+                $val  = trim(substr($p, 1));
+                if ($code === false || $val === false) {
+                    continue;
+                }
+                // Agrupa múltiplos subcampos com a mesma letra
+                $subfields[$code][] = $val;
+            }
+
+            $fields[$tag][] = [
+                'ind1'      => $ind[0] ?? ' ',
+                'ind2'      => $ind[1] ?? ' ',
+                'subfields' => $subfields,
+                'raw'       => $chunk,
+            ];
+        }
+
+        return [
+            'leader' => $leader,
+            'fields' => $fields,
+        ];
+    }
+
+    /**
+     * Helper: extrai metadados comuns a partir do array do MARC.
+     * Ajuste conforme necessidade (outros campos/subcampos).
+     */
+    function marc_extract_metadata(array $marc): array
+    {
+        $f = $marc['fields'] ?? [];
+
+        $getFirst = function ($tag, $code) use ($f) {
+            if (!isset($f[$tag])) return null;
+            foreach ($f[$tag] as $occ) {
+                if (!empty($occ['subfields'][$code][0])) {
+                    return $occ['subfields'][$code][0];
+                }
+            }
+            return null;
+        };
+
+        $getAll = function ($tag, $code) use ($f) {
+            $out = [];
+            if (!isset($f[$tag])) return $out;
+            foreach ($f[$tag] as $occ) {
+                if (!empty($occ['subfields'][$code])) {
+                    foreach ($occ['subfields'][$code] as $v) {
+                        $out[] = $v;
+                    }
+                }
+            }
+            return $out;
+        };
+
+        // Título (245 a, b) e responsabilidade (245 c)
+        $title      = trim(($getFirst('245', 'a') ?? '') . (($b = $getFirst('245', 'b')) ? ' : ' . $b : ''));
+        $statement  = $getFirst('245', 'c'); // responsabilidade
+        // Publicação (260 a: lugar; b: editora; c: data)
+        $pub_place  = $getFirst('260', 'a');
+        $publisher  = $getFirst('260', 'b');
+        $pub_date   = $getFirst('260', 'c');
+        // Descrição física (300 a, c)
+        $extent     = $getFirst('300', 'a');
+        $dim        = $getFirst('300', 'c');
+        // ISBN (020 a)
+        $isbn       = $getFirst('020', 'a');
+        // Classificação (082 a)
+        $ddc        = $getFirst('082', 'a');
+        // Assuntos (650 a, x)
+        $subjects_a = $getAll('650', 'a');
+        $subjects_x = $getAll('650', 'x');
+        $subjects   = array_values(array_filter(array_merge($subjects_a, $subjects_x)));
+
+        // Autores (em alguns dumps vêm em 100/700; no seu exemplo, autores podem estar em outros campos)
+        $mainAuthor = $getFirst('100', 'a');             // autor principal, se existir
+        $others     = $getAll('700', 'a');               // autores secundários
+        $authors    = array_values(array_filter(array_merge([$mainAuthor], $others)));
+
+        return [
+            'leader'        => $marc['leader'] ?? '',
+            'title'         => $title ?: null,
+            'responsibility' => $statement,
+            'publication'   => [
+                'place'     => $pub_place,
+                'publisher' => $publisher,
+                'date'      => $pub_date,
+            ],
+            'physical'      => [
+                'extent'    => $extent,
+                'dimensions' => $dim,
+            ],
+            'isbn'          => $isbn,
+            'ddc'           => $ddc,
+            'subjects'      => $subjects,
+            'authors'       => $authors,
+            'raw_fields'    => $marc['fields'] ?? [],
+        ];
+    }
+
     function saveImportChapter($book, $data,$nr)
     {
         // Logic to save the imported chapter data
