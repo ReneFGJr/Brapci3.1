@@ -14,6 +14,9 @@
 
 function nbr_title($t)
 {
+    if (substr($t,-1) == '.') {
+        $t = substr($t, 0, -1);
+    }
     $prep = array();
     $file = '../.temp/oa/prepositions-pt-BR.php';
     if (file_exists($file)) {

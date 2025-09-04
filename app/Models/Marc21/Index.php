@@ -51,11 +51,6 @@ class Index extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function process($tx)
-        {
-            pre($tx);
-        }
-
     function index($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '', $d6 = '')
     {
         if (empty($d1)) {
@@ -92,6 +87,17 @@ class Index extends Model
         return $RSP;
     }
 
+    function trantaPagina($p)
+        {
+            $p = troca($p,':','');
+            $p = troca($p, '/', '');
+            if (strpos($p,'p.') !== false) {
+                $p = substr($p,0,strpos($p,'p.'));
+            }
+            $p = sonumero($p).' p.';
+            return $p;
+        }
+
     function trataTitle($title)
     {
         if (substr($title, -1) == ',') {
@@ -103,6 +109,11 @@ class Index extends Model
         if (substr($title, -1) == ':') {
             $title = substr($title, 0, -1);
         }
+        if (substr($title, -1) == ';') {
+            $title = substr($title, 0, -1);
+        }
+
+        $title = trim($title);
 
         $title = troca($title, ': :', ':');
         $title = troca($title, ' :', ':');
@@ -139,9 +150,125 @@ class Index extends Model
         return '0';
     }
 
+    /**
+     * Gera uma string MARC21 a partir de um array no formato informado.
+     * - Usa $ como delimitador de subcampo.
+     * - 020, 100, 245, 264, 300, 082, 650
+     */
+    function renderMARC21(array $rec): string
+    {
+        $getFirst = function (string $prop) use ($rec) {
+            if (!isset($rec['data']) || !is_array($rec['data'])) return null;
+            foreach ($rec['data'] as $it) {
+                if (($it['property'] ?? '') === $prop) return $it['literal'] ?? null;
+            }
+            return null;
+        };
+
+        $getAll = function (string $prop) use ($rec) {
+            $out = [];
+            if (!isset($rec['data']) || !is_array($rec['data'])) return $out;
+            foreach ($rec['data'] as $it) {
+                if (($it['property'] ?? '') === $prop && isset($it['literal'])) {
+                    $out[] = $it['literal'];
+                }
+            }
+            return $out;
+        };
+
+        // 020 - ISBN
+        $isbn = null;
+        if (isset($rec['concept']['pref_term'])) {
+            // aceita "ISBN:978..." ou só o número
+            $pref = $rec['concept']['pref_term'];
+            if (preg_match('/(\d{9,17}X?)/i', $pref, $m)) {
+                $isbn = $m[1];
+            }
+        }
+
+        // 100 - Autor pessoal
+        $author = $getFirst('hasAuthor');
+
+        // 245 - Título e responsabilidade
+        $titleFull = $getFirst('hasTitle') ?? '';
+        $title = $titleFull;
+        $subtitle = null;
+        if (strpos($titleFull, ':') !== false) {
+            [$t, $s] = array_map('trim', explode(':', $titleFull, 2));
+            $title = $t;
+            $subtitle = $s;
+        }
+
+        // 264 - Local, Editora, Data
+        $place = $getFirst('isPlacePublisher');
+        $publisher = $getFirst('isPublisher');
+        $date = $getFirst('dateOfPublication');
+
+        // 300 - Páginas
+        $pages = $getFirst('hasPage');
+
+        // 082 - CDD
+        $cdd = $getFirst('hasClassificationCDD');
+
+        // 650 - Assuntos (vários)
+        $subjects = $getAll('hasSubject');
+
+        // Montagem dos campos
+        $lines = [];
+
+        if ($isbn) {
+            $lines[] = sprintf("020    \$a %s", $isbn);
+        }
+
+        if ($author) {
+            // Indicadores: 1_ → entrada principal de nome pessoal
+            $lines[] = sprintf("100 1_ \$a %s.", rtrim($author, '.'));
+        }
+
+        // 245: indicador 1 = número de entradas secundárias (0/1) depende de 1XX; se tiver 100, usa 1
+        // indicador 2 = número de caracteres a serem desconsiderados para ordenação; aqui mantemos 0
+        $ind1 = $author ? '1' : '0';
+        $t245 = "245 {$ind1}0 \$a " . $title;
+        if ($subtitle) {
+            $t245 .= " : \$b " . $subtitle;
+        }
+        if ($author) {
+            $t245 .= " / \$c " . $author . ".";
+        }
+        $lines[] = $t245;
+
+        // 264 _1 (publicação)
+        if ($place || $publisher || $date) {
+            $partes = [];
+            if ($place)     $partes[] = "\$a " . rtrim($place, ' :;,.');
+            if ($publisher) $partes[] = "\$b " . rtrim($publisher, ' :;,.');
+            if ($date)      $partes[] = "\$c " . rtrim($date, ' :;,.');
+            $lines[] = "264 _1 " . implode(" ", $partes);
+        }
+
+        // 300 (extensão)
+        if ($pages) {
+            $lines[] = "300    \$a " . rtrim($pages, ' ;,');
+        }
+
+        // 082 (CDD)
+        if ($cdd) {
+            // Indicadores “04” são comuns p/ edição/entrada; ajusta conforme sua política
+            $lines[] = "082 04 \$a " . $cdd;
+        }
+
+        // 650 (Assuntos)
+        foreach ($subjects as $s) {
+            // Indicadores _4: “4” para fonte local; ajuste conforme vocabulário controlado
+            $lines[] = "650 _4 \$a " . rtrim($s, ' .') . ".";
+        }
+
+        return implode(PHP_EOL, $lines) . PHP_EOL;
+    }
+
     function marc21($txt,$isbn)
         {
-            $txt = utf8_decode($txt);
+            //$txt = utf8_decode($txt);
             $marcArr = $this->marc21_to_array($txt);
             $meta    = $this->marc_extract_metadata($marcArr);
 
@@ -162,17 +289,58 @@ class Index extends Model
             $name = 'ISBN:'.$isbn;
             $idC = $RDF->createConcept('Book',$name,'pt_BR');
 
+            /********* Autores */
             foreach ($dt['authors'] as $k => $author) {
                 $author = nbr_author($author,7);
                 $idA = $RDF->createConcept('Person', $author, 'pt_BR');
                 $RDFdata->register($idC,'hasAuthor', $idA,0);
-                pre($author);
+            }
+
+            /********* Título */
+            $RDFdata->register($idC,'hasTitle', '0', $dt['title']);
+
+            /********* Editora */
+            $publisher = $dt['publisher'];
+            $idP = $RDF->createConcept('CorporateBody', $publisher, 'pt_BR');
+            $RDFdata->register($idC, 'isPublisher', $idP, 0);
+
+            /********* Local */
+            $place = $dt['place'];
+            $idL = $RDF->createConcept('Place', $place, 'pt_BR');
+            $RDFdata->register($idC, 'isPlacePublisher', $idL, 0);
+
+            /********* Date  */
+            if ($dt['date'] != '0') {
+                $idD = $RDF->createConcept('Date', $dt['date'], 'pt_BR');
+                $RDFdata->register($idC, 'dateOfPublication', $idD,0);
+            }
+
+            /**************** Subjects */
+            if (isset($meta['subjects'])) {
+                foreach ($meta['subjects'] as $subject) {
+                    $subject = nbr_title($subject,7);
+                    $idS = $RDF->createConcept('Subject', $subject, 'pt_BR');
+                    $RDFdata->register($idC, 'hasSubject', $idS, 0);
+                }
+            }
+
+            /***************** CDD */
+            if (isset($meta['ddc'])) {
+                $ddc = $this->trataTitle($meta['ddc']);
+                $idD = $RDF->createConcept('CDD', $ddc, 'pt_BR');
+                $RDFdata->register($idC, 'hasClassificationCDD', $idD, 0);
+            }
+
+            /************ Paginas */
+            if (isset($meta['physical']['extent'])) {
+                $pages = $this->trantaPagina($meta['physical']['extent']);
+                $idPg = $RDF->createConcept('Pages', $pages, 'pt_BR');
+                $RDFdata->register($idC, 'hasPage', $idPg, 0);
             }
 
 
-            pre($dt,false);
-            //pre($marcArr);
-            pre($meta);
+            $c = $RDF->le($idC);
+            return $c;
         }
 
     function marc21_to_array(string $marcRaw): array

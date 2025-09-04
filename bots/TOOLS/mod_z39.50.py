@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import sys
 
 
 def extract_marc_records(html: str) -> list:
@@ -78,10 +79,14 @@ def consulta_zbib(isbn: str):
     return resultados
 
 
+
+
 # Exemplo de uso:
 if __name__ == "__main__":
     # Exemplo com ISBN fornecido diretamente; também pode ser solicitado via input()
-    isbn_input = '9788573597691'
+    if (len(sys.argv) > 1):
+        print(sys.argv)
+    isbn_input = sys.argv[1]
     resultado = consulta_zbib(isbn_input)
 
     if isinstance(resultado, list):

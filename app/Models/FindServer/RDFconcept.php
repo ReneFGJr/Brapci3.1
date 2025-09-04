@@ -47,6 +47,23 @@ class RDFconcept extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function le($id)
+    {
+        $cp = 'id_cc as ID, c_class as Class, cc_version as version, cc_use as use, L1.n_name as pref_term, n_lang as lang, cc_origin as origin';
+        $dt = $this
+            ->select($cp)
+            ->join('rdf_class', 'cc_class = id_c', 'left')
+            ->join('rdf_literal L1', 'cc_pref_term = L1.id_n', 'left')
+            ->where('id_cc', $id)
+            ->first();
+        $RSP = [];
+        $RSP['concept'] = $dt;
+
+        $RDFdata = new \App\Models\FindServer\RDFdata();
+        $RSP['data'] = $RDFdata->le($id);
+        return $RSP;
+    }
+
     function createConcept($class, $name, $lang = 'pt_BR')
     {
         $RDFclass = new \App\Models\FindServer\RDFclass();

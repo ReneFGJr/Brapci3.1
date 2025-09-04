@@ -138,6 +138,10 @@ class Find extends Model
     function getISBN($isbn)
     {
         $Find = new \App\Models\FindServer\Catalog();
+        $ISBN = new \App\Models\ISBN\Index();
+        $ISBN = $ISBN->isbns($isbn);
+        $isbn = $ISBN['isbn13'];
+
         $dt = $Find->findISBN($isbn);
 
         /******* Retorna se vazio */
@@ -155,16 +159,19 @@ class Find extends Model
         $MARC21 = new \App\Models\Marc21\Index();
 
         $marcs = explode("\n", $txt);
+        $RSP = [];
         foreach ($marcs as $id => $marc) {
             if (substr($marc, 0, 2) == '[]') {
                 $marc = troca($marc, '[] ', '');
                 $marc = utf8_encode($marc);
                 $RSP = $MARC21->marc21($marc,$isbn);
-
-                pre($RSP);
             }
         }
-        pre($marcs);
+        echo '<pre>';
+        pre($RSP,false);
+        echo $MARC21->renderMARC21($RSP);
+        echo '</pre>';
+        exit;
     }
     /********************************************************** RUN PYTHON */
     function runPython($isbn)
@@ -174,8 +181,12 @@ class Find extends Model
             $exe = 'C:\Users\renef\AppData\Local\Programs\Python\Python313\python.exe';
             $pprg = '../bots/TOOLS/mod_z39.50.py';
             if (!file_exists($exe)) {
-                $exe = 'C:\Users\renef\AppData\Local\Programs\Python\Python311\python.exe';
-                echo "Usando o Python 3.11";
+                $exe = 'C:\Users\renef\AppData\Local\Programs\Python\Python312\python.exe';
+                if (!file_exists($exe)) {
+                    $exe = 'C:\Users\renef\AppData\Local\Programs\Python\Python311\python.exe';
+                    echo "Usando o Python 3.11";
+                } else
+                    echo "Usando o Python 3.12";
             } else {
                 echo "Usando o Python 3.13";
             }
@@ -186,7 +197,6 @@ class Find extends Model
             }
             //$exe = troca($exe, '\\', '/');
             $cmd = $exe . ' ../bots/TOOLS/mod_z39.50.py ' . $isbn;
-            echo $cmd;
         }
         $descriptors = [
             0 => ['pipe', 'r'], // stdin

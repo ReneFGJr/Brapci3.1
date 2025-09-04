@@ -65,12 +65,6 @@ class Index extends Model
             }
         }
         switch ($d1) {
-            case 'marc21':
-                $API = new \App\Models\Marc21\Index();
-                $RSP = $API->index($d2, $d3, $d4, $d5, $d6);
-                echo json_encode($RSP);
-                exit;
-                break;
             case 'sri':
                 $Sri = new \App\Models\ReverseIndex\Index();
                 $RSP = $Sri->index($d2, $d3, $d4, $d5, $d6);

@@ -14,7 +14,12 @@ class RDFdata extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'd_r1','d_r2','d_p','d_literal','d_o','d_user'
+        'd_r1',
+        'd_r2',
+        'd_p',
+        'd_literal',
+        'd_o',
+        'd_user'
     ];
 
     protected bool $allowEmptyInserts = false;
@@ -47,20 +52,78 @@ class RDFdata extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function register($idc,$prop,$ida,$literal)
+    function le($id)
+    {
+
+        $cp = 'd_r2 as ID, P.c_class as property, C2.c_class as Class, L2.n_name as literal, L2.n_lang as lang';
+        $dt1 = $this
+            ->select($cp)
+            ->join('rdf_concept R1', 'd_r1 = R1.id_cc', 'left')
+            ->join('rdf_class C1', 'R1.cc_class = C1.id_c', 'left')
+            ->join('rdf_literal L1', 'd_literal = L1.id_n', 'left')
+            ->join('rdf_class P', 'd_p = P.id_c', 'left')
+            ->join('rdf_concept R2', 'd_r2 = R2.id_cc', 'left')
+            ->join('rdf_class C2', 'R2.cc_class = C2.id_c', 'left')
+            ->join('rdf_literal L2', 'R2.cc_pref_term = L2.id_n', 'left')
+            ->where('d_r1', $id)
+            ->where('d_r2 !=', 0)
+            ->findAll();
+
+        $dt2 = $this
+            ->select($cp)
+            ->join('rdf_concept R1', 'd_r1 = R1.id_cc', 'left')
+            ->join('rdf_class C1', 'R1.cc_class = C1.id_c', 'left')
+            ->join('rdf_literal L1', 'd_literal = L1.id_n', 'left')
+            ->join('rdf_class P', 'd_p = P.id_c', 'left')
+            ->join('rdf_concept R2', 'd_r2 = R2.id_cc', 'left')
+            ->join('rdf_class C2', 'R2.cc_class = C2.id_c', 'left')
+            ->join('rdf_literal L2', 'R2.cc_pref_term = L2.id_n', 'left')
+            ->where('d_r2', $id)
+            ->findAll();
+
+        $cp = 'd_r2 as ID, P.c_class as property, "Literal" as Class, L2.n_name as literal, L2.n_lang as lang';
+        $dt3 = $this
+            ->select($cp)
+            ->join('rdf_concept R1', 'd_r1 = R1.id_cc', 'left')
+            ->join('rdf_class C1', 'R1.cc_class = C1.id_c', 'left')
+            ->join('rdf_literal L1', 'd_literal = L1.id_n', 'left')
+            ->join('rdf_class P', 'd_p = P.id_c', 'left')
+            ->join('rdf_literal L2', 'd_literal = L2.id_n', 'left')
+            ->where('d_r1', $id)
+            ->where('d_literal !=', 0)
+            ->findAll();
+        return array_merge($dt1, $dt2, $dt3);
+    }
+
+
+
+    function register($idc, $prop, $ida, $literal)
     {
         $RDFclass = new \App\Models\FindServer\RDFclass();
         $prop = $RDFclass->getClass($prop);
-
-        if ($literal != '') {
-            $RDFliteral = new \App\Models\FindServer\RDFliteral();
-            $idliteral = $RDFliteral->getLiteral($literal,'pt_BR',true);
-            $idliteral = $idliteral['id_n'];
-        } else {
-            $idliteral = 0;
-        }
         $prop = $prop['id_c'];
 
+        if ($ida == '0') {
+            $ida == 0;
+        }
+        $literal = trim($literal);
+        if (($literal == '0') or ($literal == 0)) {
+            $idliteral = 0;
+        } else {
+            if ($literal != '') {
+                $RDFliteral = new \App\Models\FindServer\RDFliteral();
+
+                $lit = $RDFliteral->getLiteral($literal, 'pt_BR', true);
+
+                if (!isset($lit['id_n'])) {
+                    echo "Erro na criação do literal $literal<br>";
+                    pre($lit);
+                }
+                $idliteral = $lit['id_n'];
+            }
+        }
+
+        /* Verifica se existe */
         $dt = $this
             ->where('d_r1', $idc)
             ->where('d_p', $prop)
@@ -76,6 +139,7 @@ class RDFdata extends Model
                 'd_r2' => $ida,
                 'd_user' => 1
             ];
+
             $this->insert($data);
             $dt = $this
                 ->where('d_r1', $idc)
