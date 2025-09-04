@@ -58,6 +58,7 @@ class RDFdata extends Model
         } else {
             $idliteral = 0;
         }
+        $prop = $prop['id_c'];
 
         pre($prop);
 
