@@ -167,11 +167,8 @@ class Find extends Model
                 $RSP = $MARC21->marc21($marc,$isbn);
             }
         }
-        echo '<pre>';
-        pre($RSP,false);
-        echo $MARC21->renderMARC21($RSP);
-        echo '</pre>';
-        exit;
+
+        return $RSP;
     }
     /********************************************************** RUN PYTHON */
     function runPython($isbn)
