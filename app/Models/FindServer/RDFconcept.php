@@ -78,7 +78,7 @@ class RDFconcept extends Model
                 ->where('cc_pref_term', $lt['id_n'])
                 ->first();
         }
-        return $dt;
+        return $dt['id_cc'];
     }
 
 }
