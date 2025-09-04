@@ -67,33 +67,23 @@ class RDFdata extends Model
             ->where('d_literal', $idliteral)
             ->where('d_r2', $ida)
             ->first();
-        pre($dt);
 
-
-        pre($prop);
-        $data = [
-            'id_cc' => $idc,
-            'c_property' => $prop,
-            'id_literal' => $idliteral,
-            'id_authority' => $ida
-        ];
-
-        $r = $this
-            ->where('id_cc', $idc)
-            ->where('c_property', $prop)
-            ->where('id_literal', $idliteral)
-            ->where('id_authority', $ida)
-            ->first();
-
-        if (!isset($r['id'])) {
+        if (!isset($dt['id_d'])) {
+            $data = [
+                'd_r1' => $idc,
+                'd_p' => $prop,
+                'd_literal' => $idliteral,
+                'd_r2' => $ida,
+                'd_user' => 1
+            ];
             $this->insert($data);
-            $r = $this
-                ->where('id_cc', $idc)
-                ->where('c_property', $prop)
-                ->where('id_literal', $idliteral)
-                ->where('id_authority', $ida)
+            $dt = $this
+                ->where('d_r1', $idc)
+                ->where('d_p', $prop)
+                ->where('d_literal', $idliteral)
+                ->where('d_r2', $ida)
                 ->first();
         }
-        return $r['id'];
+        return $dt['id_d'];
     }
 }
