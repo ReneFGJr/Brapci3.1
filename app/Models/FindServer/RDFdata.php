@@ -12,7 +12,9 @@ class RDFdata extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'd_r1','d_r2','d_p','d_literal','d_o','d_user'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +45,36 @@ class RDFdata extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function register($idc,$prop,$ida,$literal)
+    {
+        $RDFclass = new \App\Models\FindServer\RDFclass();
+        $prop = $RDFclass->getClass($prop);
+
+        pre($prop);
+        $data = [
+            'id_cc' => $idc,
+            'c_property' => $prop,
+            'id_literal' => $idliteral,
+            'id_authority' => $ida
+        ];
+
+        $r = $this
+            ->where('id_cc', $idc)
+            ->where('c_property', $prop)
+            ->where('id_literal', $idliteral)
+            ->where('id_authority', $ida)
+            ->first();
+
+        if (!isset($r['id'])) {
+            $this->insert($data);
+            $r = $this
+                ->where('id_cc', $idc)
+                ->where('c_property', $prop)
+                ->where('id_literal', $idliteral)
+                ->where('id_authority', $ida)
+                ->first();
+        }
+        return $r['id'];
+    }
 }

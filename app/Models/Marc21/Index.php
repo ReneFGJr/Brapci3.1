@@ -157,13 +157,14 @@ class Index extends Model
 
             /*************************** Criar Livro (Conceito) */
             $RDF = new \App\Models\FindServer\RDFconcept();
-
+            $RDFdata = new \App\Models\FindServer\RDFdata();
 
             $name = 'ISBN:'.$isbn;
             $idC = $RDF->createConcept('Book',$name,'pt_BR');
 
             foreach ($dt['authors'] as $k => $author) {
                 $author = nbr_author($author,7);
+                $RDFdata->register($idC,'hasAuthor',$author,0);
                 pre($author);
             }
 
