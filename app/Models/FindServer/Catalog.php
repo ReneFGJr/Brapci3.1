@@ -56,6 +56,7 @@ class Catalog extends Model
             $dt = $this
                 ->join('find_publisher', 'w_PUBLISHER = id_pb', 'left')
                 ->where('w_ID',$ISBN);
+                pre($dt);
             return $dt;
         }
 }
