@@ -61,13 +61,13 @@ class RDFconcept extends Model
         $lt = $RDFliteral->getLiteral($name, $lang, true);
 
         $dt = $this->where('cc_class', $id_class)
-            ->where('cc_pref_term', $lt['id'])
+            ->where('cc_pref_term', $lt['id_n'])
             ->first();
         if ($dt == null || !isset($dt['id_cc'])) {
             $data = [
                 'cc_class'     => $id_class,
                 'cc_use'       => 0,
-                'cc_pref_term' => $lt['id'],
+                'cc_pref_term' => $lt['id_n'],
                 'cc_origin'    => 'import',
                 'cc_status'    => 1,
                 'cc_library'   => 1,
