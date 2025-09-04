@@ -171,8 +171,6 @@ class BooksExpression extends Model
             ->where('i_identifier', $isbn)
             ->first();
 
-        pre($dt);
-
         if ($dt != '') {
             $BooksResponsability = new \App\Models\Find\Books\Db\Authors();
             $dt['authors'] = $BooksResponsability->getResposability($dt['be_rdf']);
