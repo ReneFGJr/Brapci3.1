@@ -53,7 +53,7 @@ class RDFliteral extends Model
             ->where('n_name', $name)
             ->where('n_lang', $lang)
             ->first();
-        if (!isset($r['id']) && ($create == true)) {
+        if (!isset($r['id_n']) && ($create == true)) {
             $data = [
                 'n_name' => $name,
                 'n_lang'   => $lang,
