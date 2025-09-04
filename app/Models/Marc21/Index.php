@@ -154,9 +154,6 @@ class Index extends Model
                 $dt['authors'][$k] = nbr_author($v, 7);
             }
 
-            $BookExpression = new \App\Models\Find\Books\Db\BooksExpression();
-            $RSP = [];
-            $BookExpression->register($RSP,$dt);
 
             pre($dt,false);
             //pre($marcArr);
