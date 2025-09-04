@@ -64,7 +64,7 @@ class RDFdata extends Model
             ->where('d_r1', $idc)
             ->where('d_p', $prop)
             ->where('d_literal', $idliteral)
-            ->where('d_r2', $ida)
+            //->where('d_r2', $ida)
             ->first();
         pre($dt);
 
