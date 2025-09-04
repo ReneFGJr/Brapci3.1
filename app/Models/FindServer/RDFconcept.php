@@ -6,13 +6,16 @@ use CodeIgniter\Model;
 
 class RDFconcept extends Model
 {
-    protected $table            = 'rdfconcepts';
-    protected $primaryKey       = 'id';
+    protected $DBGroup          = 'findserver';
+    protected $table            = 'rdf_concept';
+    protected $primaryKey       = 'id_cc';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_cc','cc_class','cc_use','cc_pref_term','cc_origin','cc_status','cc_library','c_equivalent'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +46,39 @@ class RDFconcept extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    function createConcept($class, $name, $lang = 'pt_BR')
+    {
+        $RDFclass = new \App\Models\FindServer\RDFclass();
+        $cl = $RDFclass->getClass($class);
+        if (isset($cl['id_c'])) {
+            $id_class = $cl['id_c'];
+        } else {
+            return 0;
+        }
+
+        $RDFliteral = new \App\Models\FindServer\RDFliteral();
+        $lt = $RDFliteral->getLiteral($name, $lang, true);
+
+        $dt = $this->where('cc_class', $id_class)
+            ->where('cc_pref_term', $lt['id'])
+            ->first();
+        if ($dt == null || !isset($dt['id_cc'])) {
+            $data = [
+                'cc_class'     => $id_class,
+                'cc_use'       => 0,
+                'cc_pref_term' => $lt['id'],
+                'cc_origin'    => 'import',
+                'cc_status'    => 1,
+                'cc_library'   => 1,
+                'c_equivalent'=> ''
+            ];
+            $this->insert($data);
+            $dt = $this->where('cc_class', $id_class)
+                ->where('cc_pref_term', $lt['id'])
+                ->first();
+        }
+        return $dt;
+    }
+
 }

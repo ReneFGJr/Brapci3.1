@@ -156,13 +156,11 @@ class Index extends Model
             $dt['status'] = '1';
 
             /*************************** Criar Livro (Conceito) */
-            $RDF = new \App\Models\FindServer\RDFclass();
-            $Class = $RDF->getClass('Book');
-            if (empty($Class)) {
-                return ['status' => '500', 'message' => 'Class Book not found in RDFClass table'];
-            }
+            $RDF = new \App\Models\FindServer\RDFconcept();
+
 
             $name = 'ISBN:'.$isbn;
+            $idC = $RDF->createConcept('Book',$name,'pt_BR');
             pre($name);
 
             foreach ($dt['authors'] as $k => $v) {
