@@ -165,6 +165,7 @@ class Index extends Model
             foreach ($dt['authors'] as $k => $author) {
                 $author = nbr_author($author,7);
                 $idA = $RDF->createConcept('Person', $author, 'pt_BR');
+                pre($idA);
                 $RDFdata->register($idC,'hasAuthor', $idA,0);
                 pre($author);
             }
