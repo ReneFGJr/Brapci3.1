@@ -154,6 +154,17 @@ class Index extends Model
             $dt['language'] = $meta['publication']['language'] ?? 'pt_BR';
             $dt['authors'] = $meta['authors'] ?? ['[Sem Autor]'];
             $dt['status'] = '1';
+
+            /*************************** Criar Livro (Conceito) */
+            $RDF = new \App\Models\FindServer\RDFclass();
+            $Class = $RDF->getClass('Book');
+            if (empty($Class)) {
+                return ['status' => '500', 'message' => 'Class Book not found in RDFClass table'];
+            }
+
+            $name = 'ISBN:'.$isbn;
+            pre($name);
+
             foreach ($dt['authors'] as $k => $v) {
                 $dt['authors'][$k] = nbr_author($v, 7);
             }
