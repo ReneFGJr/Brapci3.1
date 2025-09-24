@@ -120,5 +120,9 @@ if (!isset($bg)) {
         © <?= date("Y"); ?> Copyright:
         <a class="text-white" href="https://brapci.inf.br/">Brapci</a>
     </div>
+
+    <!-- Elfsight Number Counter | Untitled Number Counter -->
+    <script src="https://elfsightcdn.com/platform.js" async></script>
+    <div class="elfsight-app-707605f6-dbad-43df-a3ca-c6ba18d4eb2c" data-elfsight-app-lazy></div>
     <!-- Copyright -->
 </footer>
