@@ -179,6 +179,12 @@ $routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin', 'Admin::index');
 
 
+/* ********* KANBAN */
+$routes->get('/kanban', 'Kanban::index');
+$routes->post('/kanban/store', 'Kanban::store');
+$routes->post('/kanban/update/(:num)', 'Kanban::update/$1');
+$routes->post('/kanban/(:any)/comment', 'Kanban::addComment/$1');
+
 /* G3event */
 $routes->get('/event/(:any)', 'G3vent::index/$1');
 $routes->post('/event/(:any)', 'G3vent::index/$1');
