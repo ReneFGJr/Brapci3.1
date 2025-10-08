@@ -72,6 +72,22 @@ class Avaliation extends Model
             if ($dt == []) {
 
                 $gr = [];
+            $gr[1] = 1;
+            $gr[2] = 1;
+            $gr[3] = 1;
+            $gr[4] = 1;
+            $gr[5] = 1;
+            $gr[6] = 1;
+            $gr[7] = 1;
+            $gr[8] = 1;
+            $gr[9] = 1;
+            $gr[10] = 2;
+            $gr[12] = 2;
+            $gr[13] = 2;
+            $gr[15] = 2;
+            $gr[16] = 2;
+                /*
+                $gr[11] = 2;
                 $gr[4] = 1;
                 $gr[6] = 1;
                 $gr[7] = 1;
@@ -85,6 +101,7 @@ class Avaliation extends Model
                 $gr[17] = 1;
                 $gr[18] = 1;
                 $gr[19] = 1;
+                */
                 $i = 0;
                 $av = [];
                 $av['av_student'] = $cracha;
@@ -124,7 +141,7 @@ class Avaliation extends Model
                             $sx .= '<h4>Questão '.$i.' - '. $q['q_statement'].'</h4>';
                             $sx .= 'No Moodle explique como você chegou a essa resposta, em detalhes (quais instrumentos consultou, como utilizou, quais os termos identificados).<br>';
                             $sx .= '<p style="font-size: 22px; color: blue;">'.$txt.'</p>';
-                            $sx .= '<p style="color: green">Resposta: '.$q['q_comentary'].'</p>';
+                           // $sx .= '<p style="color: green">Resposta: '.$q['q_comentary'].'</p>';
                             $sx .= '</div>';
                         }
                     }
