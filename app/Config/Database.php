@@ -181,7 +181,7 @@ class Database extends Config
             'thesa' => 'thesa',
             'software' => 'software',
             'guide' => 'guide',
-            'bookmarks' => 'bookmarks',
+            'bookmarks' => 'bookmark',
         ];
     /*
 
