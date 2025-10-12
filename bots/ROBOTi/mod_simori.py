@@ -167,7 +167,7 @@ def simori_harvesting(repo_id: int):
             print(f"⚠️ Erro ao coletar {identifier}: {e}\n")
 
         # Delay opcional para não sobrecarregar o servidor remoto
-        time.sleep(0.5)  # 0.5 segundos
+        # time.sleep(0.5)  # 0.5 segundos
 
     print("🏁 Coleta finalizada para o repositório.")
     print(f"🔙 Retorne à página: /repository/show/{repo_id}")
