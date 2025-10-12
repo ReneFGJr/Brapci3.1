@@ -1,4 +1,4 @@
-<?= $this->extend('main') ?>
+<?= $this->extend('bookmarks/main') ?>
 <?= $this->section('content') ?>
 
 <div class="container py-4">
