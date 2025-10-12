@@ -24,7 +24,7 @@
                     <td><img src="<?= esc($b['favicon']) ?>" width="16"></td>
                     <td><?= esc($b['title']) ?></td>
                     <td><a href="<?= esc($b['url']) ?>" target="_blank"><?= esc($b['url']) ?></a></td>
-                    <td><?= esc($b['folder']) ?></td>
+                    <td><?= esc($b['f_title']) ?></td>
                     <td><?= esc($b['date_added']) ?></td>
                 </tr>
             <?php endforeach; ?>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\BookmarkModel;
+use Google\Service\CloudResourceManager\Folder;
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
 $session = \Config\Services::session();
@@ -12,12 +13,51 @@ class Bookmarks extends BaseController
     public function index()
     {
         $model = new BookmarkModel();
-        $data['bookmarks'] = $model->findAll();
+        $data['bookmarks'] =
+            $model
+                ->join('folder', 'folder.id_f = bookmarks.folder_id', 'left')
+                ->findAll();
         return view('bookmarks/index', $data);
+    }
+
+    function folder()
+    {
+        $model = new \App\Models\FolderModel();
+        $data['folders'] = $model->orderBy('f_title', 'ASC')->findAll();
+        return view('bookmarks/folder/index', $data);
+    }
+
+    function link($id)
+    {
+        $model = new \App\Models\BookmarkModel();
+        $data = $model->find($id);
+        $count = $data['clicks'] + 1;
+        $model->update($id, ['clicks' => $count, 'click_last' => date('Y-m-d H:i:s')]);
+
+        return redirect()->to($data['url']);
+    }
+
+    function folderView($id)
+    {
+        $model = new BookmarkModel();
+        $data['bookmarks'] =
+            $model
+                ->where('folder_id', $id)
+                ->join('folder', 'folder.id_f = bookmarks.folder_id', 'left')
+                ->findAll();
+
+        $folderModel = new \App\Models\FolderModel();
+        $data['folder'] = $folderModel->find($id);
+
+        return view('bookmarks/folder/view', $data);
     }
 
     public function import()
     {
+        $Folder = new \App\Models\FolderModel();
+        $Folder->convert();
+        exit;
+
         helper('filesystem');
         $file = WRITEPATH . 'uploads/Bookmarks'; // copie o arquivo para esta pasta
 
