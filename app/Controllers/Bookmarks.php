@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\BookmarkModel;
 
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
+$session = \Config\Services::session();
+
 class Bookmarks extends BaseController
 {
     public function index()
