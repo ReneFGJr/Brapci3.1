@@ -91,16 +91,9 @@ def simori_triples(repo_id):
         output.append(msg)
 
     # 🔹 Finalização
-    final_msg = (
-        "<hr>🏁 Extração finalizada para o repositório.<br>"
-        f'<a href="/repository/show/{repo_id}" '
-        'class="btn btn-sm btn-outline-primary mt-3">'
-        '<i class="bi bi-arrow-left"></i> Voltar ao Repositório</a>'
-    )
-    output.append(final_msg)
-
+    final_msg = "🏁 Extração finalizada para o repositório."
     # Retorna HTML consolidado (para exibição via Flask ou Jinja)
-    return output
+    return final_msg
 
 def get_register(base_url: str, identifier: str, record: dict):
     base_url = base_url + "?verb=GetRecord&metadataPrefix=oai_dc&identifier=" + identifier
