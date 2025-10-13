@@ -168,7 +168,7 @@ def simori_harvesting(repo_id: int):
 
 if __name__ == "__main__":
     # Exemplo de execução direta
-    repo_id = 90  # ID do repositório a ser processado
+    repo_id = 89 # ID do repositório a ser processado
     result_html = simori_harvesting(repo_id)
     result_html = result_html + simori_triples(repo_id)
     print(result_html)  # Ou renderizar via Flask/Jinja conforme necessário
