@@ -35,7 +35,7 @@ class OaiTriplesModel:
         # implementação da extração de triples (a partir do XML, por ex.)
         print(f"Extraindo triples de {record[1]}...")
 
-def simori_harvesting():
+def simori_main():
     query = "SELECT repository, count(*) as total FROM simori.oai_records WHERE deleted = 0 AND harvesting = 0 group by repository"
     repositories = database.query(query)
 

@@ -224,7 +224,7 @@ def run(parm):
         mod_literal.check_double_literal('hasAbstract')
 
         mod_pdf.harvestingPDF()
-        mod_simori.simori_harvesting()
+        mod_simori.simori_main()
 
 
     if (act == 'keyword'):
@@ -288,7 +288,7 @@ def run(parm):
         mod_concept.removeElastic()
 
     if (act == '185'):
-        mod_simori.simori_harvesting()
+        mod_simori.simori_main()
 
 
     ################### Author
