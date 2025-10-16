@@ -155,7 +155,7 @@ def simori_harvesting(repo_id: int):
     for idx, record in enumerate(records, start=1):
         identifier = (record[2] or "").strip()
         processed += 1
-        if processed % 10 == 0:
+        if processed % 20000 == 0:
             return f"Processados {processed} de {total} registros..."
         if not identifier:
             continue
