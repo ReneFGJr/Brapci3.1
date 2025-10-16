@@ -150,10 +150,13 @@ def simori_harvesting(repo_id: int):
     oai_url = repo[4].rstrip("/")
     print(f"🌐 Iniciando coleta no repositório: {repo[1]} ({oai_url})")
     print(f"🔸 Total de registros a coletar: {len(records)}\n")
-
+    processed = 0
     # 🔹 3. Para cada registro, baixa o XML via GetRecord
     for idx, record in enumerate(records, start=1):
         identifier = (record[2] or "").strip()
+        processed += 1
+        if processed % 10 == 0:
+            return f"Processados {processed} de {total} registros..."
         if not identifier:
             continue
 

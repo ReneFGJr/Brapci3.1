@@ -287,7 +287,7 @@ def run(parm):
     if (act == '184'):
         mod_concept.removeElastic()
 
-    if (act == '185'):
+    if (act == '190'):
         mod_simori.simori_main()
 
 
