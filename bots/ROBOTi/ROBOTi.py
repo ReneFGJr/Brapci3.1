@@ -5,7 +5,7 @@
 
 import os
 import sys
-from bots.ROBOTi import mod_simori
+import mod_simori
 import roboti_help
 import roboti_task
 import roboti_clear
