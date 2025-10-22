@@ -178,6 +178,13 @@ $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin', 'Admin::index');
 
+/********* BOOKMARKS */
+$routes->get('bookmarks', 'Bookmarks::index');
+$routes->get('bookmarks/search', 'Bookmarks::search');
+$routes->get('bookmarks/import', 'Bookmarks::import');
+$routes->get('bookmarks/folder', 'Bookmarks::folder');
+$routes->get('bookmarks/folders/view/(:any)', 'Bookmarks::folderView/$1');
+$routes->get('bookmarks/link/(:any)', 'Bookmarks::link/$1');
 
 /* ********* KANBAN */
 $routes->get('/kanban', 'Kanban::index');

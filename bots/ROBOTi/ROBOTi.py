@@ -5,6 +5,7 @@
 
 import os
 import sys
+import mod_simori
 import roboti_help
 import roboti_task
 import roboti_clear
@@ -223,6 +224,7 @@ def run(parm):
         mod_literal.check_double_literal('hasAbstract')
 
         mod_pdf.harvestingPDF()
+        mod_simori.simori_main()
 
 
     if (act == 'keyword'):
@@ -284,6 +286,9 @@ def run(parm):
         mod_elasticsearch.remove_editorial()
     if (act == '184'):
         mod_concept.removeElastic()
+
+    if (act == '190'):
+        mod_simori.simori_main()
 
 
     ################### Author
