@@ -215,6 +215,7 @@ class Socials extends Model
 		}
 
 		$responseData = json_decode($response, true);
+		pre($responseData);
 
 		// Log de retorno
 		log_message('debug', 'Google OAuth response: ' . print_r($responseData, true));
