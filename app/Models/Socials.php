@@ -173,6 +173,8 @@ class Socials extends Model
 			'redirect_uri' => $redirect_uri
 		];
 
+		pre($data);
+
 
 		// Utilizando cURL ao invés de file_get_contents para melhor controle e depuração
 		$ch = curl_init($url);
