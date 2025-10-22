@@ -188,7 +188,7 @@ class Socials extends Model
 			'redirect_uri'  => $redirect_uri
 		];
 
-		pre($data);
+
 
 		// Log para depuração
 		log_message('debug', 'Google OAuth request: ' . print_r($data, true));
