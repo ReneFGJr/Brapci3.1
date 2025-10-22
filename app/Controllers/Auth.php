@@ -34,7 +34,8 @@ class Auth extends Controller
             'prompt'        => 'select_account'
         ]);
 
-        pre($url);
+        print_r($url);
+        exit;
 
         return redirect()->to($url);
     }
