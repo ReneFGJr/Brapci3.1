@@ -168,67 +168,8 @@ class Socials extends Model
 	# Trocar o Código de Autorização pelo Token de Acesso
 	public function getAccessToken($code, $type = 'google')
 	{
-		if ($type == 'google') {
-			$url = "https://oauth2.googleapis.com/token";
-			$client_id     = getenv('google.client_id');     // ✅ use underscore, igual no .env
-			$client_secret = getenv('google.client_secret');
-			$redirect_uri  = getenv('google.redirect_uri');  // ✅ deve ser o mesmo cadastrado no Console
-		} elseif ($type == 'orcid') {
-			$url = "https://orcid.org/oauth/token";
-			$client_id     = getenv('orcid.client_id');
-			$client_secret = getenv('orcid.client_secret');
-			$redirect_uri  = getenv('orcid.redirect_uri');
-		}
-
-		$data = [
-			'client_id'     => $client_id,
-			'client_secret' => $client_secret,
-			'grant_type'    => 'authorization_code',
-			'code'          => $code,
-			'redirect_uri'  => $redirect_uri
-		];
-
-
-
-		// Log para depuração
-		log_message('debug', 'Google OAuth request: ' . print_r($data, true));
-
-		$ch = curl_init($url);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
-
-		$response = curl_exec($ch);
-
-		if (curl_errno($ch)) {
-			throw new \Exception('Erro cURL: ' . curl_error($ch));
-		}
-
-		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		curl_close($ch);
-
-		// Verificação de status HTTP
-		if ($httpCode !== 200) {
-			echo "Erro na requisição HTTP: $httpCode. Resposta: $response";
-			exit;
-		}
-
-		$responseData = json_decode($response, true);
-		pre($responseData);
-
-		// Log de retorno
-		log_message('debug', 'Google OAuth response: ' . print_r($responseData, true));
-
-		// Aqui você pode salvar o token no banco ou sessão
-		$token = md5($response);
-		$urlRedirect = getenv('redirectLogin') . '/' . $token;
-
-		// Seu método customizado (opcional)
-		$this->OrcIdToken($responseData, $token);
-
-		echo $this->redirectToPost($urlRedirect);
-		exit;
+		$Auth = new \App\Models\Oauth2\Auth();
+		$Auth->callback();
 	}
 
 
