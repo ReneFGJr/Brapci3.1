@@ -251,6 +251,9 @@ class Socials extends Model
 					case 'orcid':
 						$code = get("code");
 						$dt = $this->getAccessToken($code);
+					case 'google':
+						$code = get("code");
+						$dt = $this->getAccessToken($code);
 				}
 		}
 
