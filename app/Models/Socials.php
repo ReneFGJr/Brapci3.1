@@ -20,18 +20,36 @@ class Socials extends Model
 	protected $protectFields        = true;
 	var $allowedFields        =
 	[
-		'id_us', 'us_nome', 'us_email', 'us_affiliation',
-		'us_image', 'us_genero', 'us_verificado',
-		'us_login', 'us_password', 'us_autenticador',
-		'us_oauth2', 'us_lastaccess', 'us_apikey_active', 'us_apikey', 'us_recover'
+		'id_us',
+		'us_nome',
+		'us_email',
+		'us_affiliation',
+		'us_image',
+		'us_genero',
+		'us_verificado',
+		'us_login',
+		'us_password',
+		'us_autenticador',
+		'us_oauth2',
+		'us_lastaccess',
+		'us_apikey_active',
+		'us_apikey',
+		'us_recover'
 	];
 
 	var $typeFields        = [
-		'hi', 'string:100*',
-		'string:100*', 'string:100*',
-		'hidden', 'hidden', 'hidden',
-		'hidden', 'hidden', 'hidden',
-		'hidden', 'up'
+		'hi',
+		'string:100*',
+		'string:100*',
+		'string:100*',
+		'hidden',
+		'hidden',
+		'hidden',
+		'hidden',
+		'hidden',
+		'hidden',
+		'hidden',
+		'up'
 	];
 
 	// Dates
@@ -64,47 +82,46 @@ class Socials extends Model
 	var $error = 0;
 	var $site = 'https://brapci.inf.br/';
 
-	function chagePassword($apikey,$pass1,$pass2)
-		{
-			$RSP = [];
-			if ($apikey == '') {
-				$RSP['status'] = '404';
-				$RSP['message'] = 'APIKEY não informada!';
-				return $RSP;
-			}
-			if ($pass1 == '') {
-				$RSP['status'] = '404';
-				$RSP['message'] = 'Senha não informada!';
-				return $RSP;
-			}
-			if ($pass2 != $pass1) {
-				$RSP['status'] = '404';
-				$RSP['message'] = 'Senhas diferentes!';
-				return $RSP;
-			}
-			$dt = $this->where('us_recover',$apikey)->first();
-			$password = md5($pass1);
-			if ($dt != [])
-				{
-					$dq = [];
-					$dq['us_password'] = $password;
-					$dq['us_recover'] = '';
-					$dq['us_autenticador'] = 'MD5';
-					$this
-					->set($dq)
-					->where('id_us', $dt['id_us'])
-					->update();
-
-					$RSP['status'] = '200';
-					$RSP['message'] = 'Senha atualizada com sucesso!';
-					$RSP['fullname'] = $dt['us_nome'];
-					$RSP['email'] = $dt['us_email'];
-				} else {
-					$RSP['status'] = '404';
-					$RSP['message'] = 'Senha não validada!';
-				}
-				return $RSP;
+	function chagePassword($apikey, $pass1, $pass2)
+	{
+		$RSP = [];
+		if ($apikey == '') {
+			$RSP['status'] = '404';
+			$RSP['message'] = 'APIKEY não informada!';
+			return $RSP;
 		}
+		if ($pass1 == '') {
+			$RSP['status'] = '404';
+			$RSP['message'] = 'Senha não informada!';
+			return $RSP;
+		}
+		if ($pass2 != $pass1) {
+			$RSP['status'] = '404';
+			$RSP['message'] = 'Senhas diferentes!';
+			return $RSP;
+		}
+		$dt = $this->where('us_recover', $apikey)->first();
+		$password = md5($pass1);
+		if ($dt != []) {
+			$dq = [];
+			$dq['us_password'] = $password;
+			$dq['us_recover'] = '';
+			$dq['us_autenticador'] = 'MD5';
+			$this
+				->set($dq)
+				->where('id_us', $dt['id_us'])
+				->update();
+
+			$RSP['status'] = '200';
+			$RSP['message'] = 'Senha atualizada com sucesso!';
+			$RSP['fullname'] = $dt['us_nome'];
+			$RSP['email'] = $dt['us_email'];
+		} else {
+			$RSP['status'] = '404';
+			$RSP['message'] = 'Senha não validada!';
+		}
+		return $RSP;
+	}
 
 	function user()
 	{
@@ -149,123 +166,124 @@ class Socials extends Model
 
 
 	# Trocar o Código de Autorização pelo Token de Acesso
-	function getAccessToken($code, $type = 'google')
+	public function getAccessToken($code, $type = 'google')
 	{
-
 		if ($type == 'google') {
 			$url = "https://oauth2.googleapis.com/token";
-			$client_id = getenv('google.clientId');
-			$client_secret  = getenv('google.client_secret');
-			$redirect_uri = getenv('google.redirectUri');
+			$client_id     = getenv('google.client_id');     // ✅ use underscore, igual no .env
+			$client_secret = getenv('google.client_secret');
+			$redirect_uri  = getenv('google.redirect_uri');  // ✅ deve ser o mesmo cadastrado no Console
 		} elseif ($type == 'orcid') {
 			$url = "https://orcid.org/oauth/token";
-			$client_id = getenv('clientId');
-			$client_secret  = getenv('client_secret');
-			$redirect_uri = getenv('redirectUri');
+			$client_id     = getenv('orcid.client_id');
+			$client_secret = getenv('orcid.client_secret');
+			$redirect_uri  = getenv('orcid.redirect_uri');
 		}
 
-
 		$data = [
-			'client_id' => $client_id,
+			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'grant_type' => 'authorization_code',
-			'code' => $code,
-			'redirect_uri' => $redirect_uri
+			'grant_type'    => 'authorization_code',
+			'code'          => $code,
+			'redirect_uri'  => $redirect_uri
 		];
 
-		pre($data,false);
+		// Log para depuração
+		log_message('debug', 'Google OAuth request: ' . print_r($data, true));
 
-		// Utilizando cURL ao invés de file_get_contents para melhor controle e depuração
 		$ch = curl_init($url);
-
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, [
-			'Content-Type: application/x-www-form-urlencoded'
-		]);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
 
 		$response = curl_exec($ch);
 
-		// Verifica se houve algum erro na requisição cURL
 		if (curl_errno($ch)) {
-			throw new Exception('Erro cURL: ' . curl_error($ch));
+			throw new \Exception('Erro cURL: ' . curl_error($ch));
 		}
 
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
 		curl_close($ch);
 
+		// Verificação de status HTTP
 		if ($httpCode !== 200) {
 			echo "Erro na requisição HTTP: $httpCode. Resposta: $response";
 			exit;
 		}
+
+		$responseData = json_decode($response, true);
+
+		// Log de retorno
+		log_message('debug', 'Google OAuth response: ' . print_r($responseData, true));
+
+		// Aqui você pode salvar o token no banco ou sessão
 		$token = md5($response);
-		$url = getenv('redirectLogin').'/'.$token;
-		//echo $this->redirectToPost($url);
-		$response = json_decode($response, true);
-		$this->OrcIdToken($response,$token);
-		echo $this->redirectToPost($url);
+		$urlRedirect = getenv('redirectLogin') . '/' . $token;
+
+		// Seu método customizado (opcional)
+		$this->OrcIdToken($responseData, $token);
+
+		echo $this->redirectToPost($urlRedirect);
 		exit;
 	}
 
-	function OrcIdToken($data,$token)
-		{
-			$name = $data['name'];
-			$orcid = $data['orcid'];
-			$type = $data['token_type'];
-			$dt = $this->where('us_login',$orcid)->first();
-			if ($dt == [])
-				{
-					$dt = [];
-					$dt['us_login'] = $orcid;
-					$dt['us_nome'] = $name;
-					$dt['us_email'] = '';
-					$dt['us_apikey'] = $token;
-					$dt['us_apikey_active'] = 1;
-					$dt['us_codigo'] = '';
-					$dt['us_link'] = '';
-					$dt['us_ativo'] = '1';
-					$dt['us_nivel'] = '1';
-					$dt['us_perfil'] = '';
-					$dt['us_oauth2'] = 'ORCID';
-					$dt['us_password'] = $token;
-					$dt['us_perfil_check'] = md5($token);
-					$dt['us_institution'] = '';
-					$dt['us_badge'] = '';
-					$this->set($dt)->insert();
 
-					$dt = $this->where('us_login', $orcid)->first();
-				} else {
-					$da = [];
-					$da['us_apikey'] = $token;
-					$da['us_lastaccess'] = date("Y-m-d H:i:s");
-					$this->set($da)->where('id_us',$dt['id_us'])->update();
-				}
-			return True;
+	function OrcIdToken($data, $token)
+	{
+		$name = $data['name'];
+		$orcid = $data['orcid'];
+		$type = $data['token_type'];
+		$dt = $this->where('us_login', $orcid)->first();
+		if ($dt == []) {
+			$dt = [];
+			$dt['us_login'] = $orcid;
+			$dt['us_nome'] = $name;
+			$dt['us_email'] = '';
+			$dt['us_apikey'] = $token;
+			$dt['us_apikey_active'] = 1;
+			$dt['us_codigo'] = '';
+			$dt['us_link'] = '';
+			$dt['us_ativo'] = '1';
+			$dt['us_nivel'] = '1';
+			$dt['us_perfil'] = '';
+			$dt['us_oauth2'] = 'ORCID';
+			$dt['us_password'] = $token;
+			$dt['us_perfil_check'] = md5($token);
+			$dt['us_institution'] = '';
+			$dt['us_badge'] = '';
+			$this->set($dt)->insert();
+
+			$dt = $this->where('us_login', $orcid)->first();
+		} else {
+			$da = [];
+			$da['us_apikey'] = $token;
+			$da['us_lastaccess'] = date("Y-m-d H:i:s");
+			$this->set($da)->where('id_us', $dt['id_us'])->update();
 		}
+		return True;
+	}
 	function redirectToPost($url)
-		{
-			$sx = "
+	{
+		$sx = "
 			<script>
 				window.location.replace('$url');
 			</script>
 			";
-			return $sx;
-		}
+		return $sx;
+	}
 
 	function callback($type)
-		{
-			switch($type)
-				{
-					case 'orcid':
-						$code = get("code");
-						$dt = $this->getAccessToken($code);
-					case 'google':
-						$code = get("code");
-						$dt = $this->getAccessToken($code);
-				}
+	{
+		switch ($type) {
+			case 'orcid':
+				$code = get("code");
+				$dt = $this->getAccessToken($code);
+			case 'google':
+				$code = get("code");
+				$dt = $this->getAccessToken($code);
 		}
+	}
 
 	function calcMD5($value = '', $id = 0)
 	{
@@ -354,7 +372,7 @@ class Socials extends Model
 				$sx .= $this->perfil($id);
 				break;
 
-				/********************************************* USERS */
+			/********************************************* USERS */
 			case 'users':
 				$sx .= $cab;
 				switch ($id) {
@@ -384,7 +402,7 @@ class Socials extends Model
 						break;
 				}
 				break;
-				/********************************************* GROUPS */
+			/********************************************* GROUPS */
 			case 'groups':
 				$sx .= $cab;
 				$sx .= $this->groups();
@@ -394,12 +412,12 @@ class Socials extends Model
 				$sx .= $this->group_user_edit($id);
 				break;
 
-				/********************************************* PERFIS */
+			/********************************************* PERFIS */
 			case 'perfis':
 				$sx .= $cab;
 				$bread = array();
 				$bread["Social"] = PATH . COLLECTION;
-				$bread["Perfil"] = PATH . COLLECTION.'/perfis';
+				$bread["Perfil"] = PATH . COLLECTION . '/perfis';
 				$sx .= breadcrumbs($bread);
 				$sx .= $this->perfis($id, $dt);
 				break;
@@ -585,27 +603,29 @@ class Socials extends Model
 			/********************************************* Check */
 			$tp = explode('#', $t);
 			$wh = '';
-			foreach($tp as $id=>$pf)
-				{
-					if ($pf != '') {
-						if ($wh != '') { $wh .= ' or ';}
-						$wh .= "(pe_abrev = '#$pf')";
+			foreach ($tp as $id => $pf) {
+				if ($pf != '') {
+					if ($wh != '') {
+						$wh .= ' or ';
 					}
+					$wh .= "(pe_abrev = '#$pf')";
 				}
+			}
 			$user_id = $this->getUser();
 			$sql = "select * from users_perfil_attrib
 						inner join users_perfil ON id_pe = pa_perfil
 						where (pa_user = $user_id)";
-			if ($wh != '') { $sql .= "and ($wh)"; }
+			if ($wh != '') {
+				$sql .= "and ($wh)";
+			}
 
 			$db = $this->db->query($sql);
 			$db = $db->getresult();
-			if (count($db) > 0)
-				{
-					return true;
-				} else {
-					return false;
-				}
+			if (count($db) > 0) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		return false;
 	}
@@ -708,11 +728,11 @@ class Socials extends Model
 		return $sx;
 	}
 
-	function perfis($cmd = '',$id=0)
+	function perfis($cmd = '', $id = 0)
 	{
 		/****************************** Config DataBase */
 		$this->setPerfilDB();
-		$this->path = PATH . COLLECTION .'/perfis';
+		$this->path = PATH . COLLECTION . '/perfis';
 
 		switch ($cmd) {
 			case 'viewid':
@@ -787,10 +807,17 @@ class Socials extends Model
 		$this->primaryKey = "id_us";
 		$this->allowedFields =
 			[
-				'id_us', 'us_nome', 'us_email',
-				'us_image', 'us_genero', 'us_verificado',
-				'us_login', 'us_password', 'us_autenticador',
-				'us_oauth2', 'us_lastaccess'
+				'id_us',
+				'us_nome',
+				'us_email',
+				'us_image',
+				'us_genero',
+				'us_verificado',
+				'us_login',
+				'us_password',
+				'us_autenticador',
+				'us_oauth2',
+				'us_lastaccess'
 			];
 
 		$this->typeFields =
@@ -798,9 +825,14 @@ class Socials extends Model
 				'hi',
 				'st100*',
 				'st100*',
-				'hi', 'hi', 'hi',
-				'st50', 'hidden', 'hi',
-				'hi', 'up'
+				'hi',
+				'hi',
+				'hi',
+				'st50',
+				'hidden',
+				'hi',
+				'hi',
+				'up'
 			];
 	}
 
@@ -914,10 +946,9 @@ class Socials extends Model
 			$sx .= $this->my_library($dt);
 			$logs = $this->logs($id);
 			$rese = '';
-			if (function_exists("my_reasearchs"))
-				{
-					$rese = my_reasearchs($id);
-				}
+			if (function_exists("my_reasearchs")) {
+				$rese = my_reasearchs($id);
+			}
 			$setings = $this->my_setings($id);
 			$sx .= bs(
 				bsc($setings, 4) .
@@ -1209,10 +1240,9 @@ class Socials extends Model
 
 	function perfil_show_header($dt)
 	{
-		if (!isset($dt['id_us']))
-			{
-				return "perfil_show_header - void";
-			}
+		if (!isset($dt['id_us'])) {
+			return "perfil_show_header - void";
+		}
 		$sx = '
 			<div class="card card-body blur shadow-blur mx-4 mt-n6 overflow-hidden">
 			<div class="row gx-4">
@@ -1280,79 +1310,74 @@ class Socials extends Model
 	}
 
 	function validGroups($ID)
-		{
-			$sql = "select * from users_group
+	{
+		$sql = "select * from users_group
 							LEFT JOIN users_group_members ON id_gr = grm_group
 							LEFT JOIN users ON grm_user = id_us
 							where grm_user = " . $ID . "
 							order by gr_name, us_nome";
-			$db = $this->db->query($sql);
-			$dt = $db->getResult();
-			$perfil = '';
-			foreach($dt as $id=>$line)
-				{
-					$perfil .= $line->gr_hash;
-				}
-			return $perfil;
+		$db = $this->db->query($sql);
+		$dt = $db->getResult();
+		$perfil = '';
+		foreach ($dt as $id => $line) {
+			$perfil .= $line->gr_hash;
+		}
+		return $perfil;
+	}
+
+	function validToken($token = '')
+	{
+		$RSP = [];
+		if ($token == '') {
+			$token = get("token");
 		}
 
-	function validToken($token='')
-		{
-			$RSP = [];
-			if($token == '')
-				{
-					$token = get("token");
-				}
-
-			if ($token != '') {
-				$dt = $this->where('us_apikey', $token)->First();
-				if ($dt != '')
-					{
-						$RSP['status'] = '200';
-						$RSP['user'] = $dt['us_nome'];
-						$RSP['ID'] = $dt['id_us'];
-						$RSP['email'] = $dt['us_email'];
-						$RSP['message'] = 'Success';
-						$RSP['perfil'] = $this->validGroups($RSP['ID']);
-					} else {
-						$RSP['status'] = '500';
-						$RSP['message'] = 'APIKEY is invalid!';
-					}
+		if ($token != '') {
+			$dt = $this->where('us_apikey', $token)->First();
+			if ($dt != '') {
+				$RSP['status'] = '200';
+				$RSP['user'] = $dt['us_nome'];
+				$RSP['ID'] = $dt['id_us'];
+				$RSP['email'] = $dt['us_email'];
+				$RSP['message'] = 'Success';
+				$RSP['perfil'] = $this->validGroups($RSP['ID']);
 			} else {
 				$RSP['status'] = '500';
-				$RSP['message'] = 'Token is empty';
-				$RSP['post'] = $_POST;
-				$RSP['get'] = $_GET;
+				$RSP['message'] = 'APIKEY is invalid!';
 			}
-			return $RSP;
+		} else {
+			$RSP['status'] = '500';
+			$RSP['message'] = 'Token is empty';
+			$RSP['post'] = $_POST;
+			$RSP['get'] = $_GET;
 		}
+		return $RSP;
+	}
 
 	function token()
-		{
-			$sx = '';
-			$token = get("token");
+	{
+		$sx = '';
+		$token = get("token");
 
-			if ($token != '')
-				{
-					$dt = $this->where('us_apikey',$token)->FindAll();
-					if ($dt != '')
-						{
-							$_SESSION['id'] = $dt[0]['id_us'];
-							$_SESSION['user'] = $dt[0]['us_nome'];
-							$_SESSION['email'] = $dt[0]['us_email'];
-							$_SESSION['apikey'] = $dt[0]['us_apikey'];
-							$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
-							$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
-							$sx .= metarefresh('/',0);
-						}
-				}
-
-			$sx .= form_open();
-			$sx .= form_password('token',$token,'full');
-			$sx .= form_submit('action','send');
-			$sx .= form_close();
-			return $sx;
+		if ($token != '') {
+			$dt = $this->where('us_apikey', $token)->FindAll();
+			if ($dt != '') {
+				$_SESSION['id'] = $dt[0]['id_us'];
+				$_SESSION['user'] = $dt[0]['us_nome'];
+				$_SESSION['email'] = $dt[0]['us_email'];
+				$_SESSION['apikey'] = $dt[0]['us_apikey'];
+				$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
+				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
+				$sx .= metarefresh('/', 0);
+			}
 		}
+
+		$sx .= form_open();
+		$sx .= form_password('token', $token, 'full');
+		$sx .= form_submit('action', 'send');
+		$sx .= form_close();
+		return $sx;
+	}
 
 	function signin()
 	{
@@ -1362,25 +1387,23 @@ class Socials extends Model
 		$pwd = get("pwd");
 		$dt = $this->user_exists($user);
 
-		if (trim($pwd) == '')
-			{
-				$RSP['status'] = '500';
-				$RSP['message'] = 'Password is empty!';
-				return $RSP;
-			}
+		if (trim($pwd) == '') {
+			$RSP['status'] = '500';
+			$RSP['message'] = 'Password is empty!';
+			return $RSP;
+		}
 
 		if (isset($dt)) {
 
 			if ($dt['us_password'] == md5($pwd)) {
-				if(($dt['us_apikey'] == '') or ($dt['us_apikey'] == null))
-					{
-						$apikey = md5($dt['us_password'] . $dt[0]['us_login']);
-						$dq = [];
-						$dq['us_apikey'] = $apikey;
-						$dq['us_apikey_active'] = 1;
-						$this->set($dq)->where('id_us',$dt['id_us'])->update();
-						$dt[0]['us_apikey'] = $apikey;
-					}
+				if (($dt['us_apikey'] == '') or ($dt['us_apikey'] == null)) {
+					$apikey = md5($dt['us_password'] . $dt[0]['us_login']);
+					$dq = [];
+					$dq['us_apikey'] = $apikey;
+					$dq['us_apikey_active'] = 1;
+					$this->set($dq)->where('id_us', $dt['id_us'])->update();
+					$dt[0]['us_apikey'] = $apikey;
+				}
 
 
 				$this->log_insert($dt['id_us']);
@@ -1389,10 +1412,10 @@ class Socials extends Model
 				$id = $dt['id_us'];
 				$token = $dt['us_password'];
 
-				$data = array('us_lastaccess'=>date("Y-m-d H:i:s"));
+				$data = array('us_lastaccess' => date("Y-m-d H:i:s"));
 				$this
 					->set($data)
-					->where('id_us',$id)
+					->where('id_us', $id)
 					->update();
 				$RSP['status'] = '200';
 				$RSP['message'] = 'Success';
@@ -1412,10 +1435,10 @@ class Socials extends Model
 	}
 
 	function getRecoverKey($email)
-		{
-			$key =  md5(date("Ymd") . $email);
-			return $key;
-		}
+	{
+		$key =  md5(date("Ymd") . $email);
+		return $key;
+	}
 
 
 	function forgout()
@@ -1432,14 +1455,14 @@ class Socials extends Model
 			$email = $user['us_email'];
 			$key = $this->getRecoverKey($email);
 			$dd['us_recover'] = $key;
-			$this->set($dd)->where('id_us',$user['id_us'])->update();
+			$this->set($dd)->where('id_us', $user['id_us'])->update();
 		}
 		$sx = '<b>' . lang('social.email_send_your_account') . '</b><br>';
 		$sx .= '<span class="small">' . lang('social.forgout_info') . '</span>';
 
 
 		$_SESSION['forgout'] = $key;
-		$link = $this->site .'social/pass/' . $key;
+		$link = $this->site . 'social/pass/' . $key;
 		$link_html = '<a href="' . $link . '">' . lang('social.forgout_email_link') . '</a>';
 
 		/*********************************/
@@ -1599,11 +1622,12 @@ class Socials extends Model
 			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
 		} else {
 			$sx .= '<h2>' . lang('social.user_already') . '<h2>';
-			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';		}
+			$sx .= '<span class="singin" onclick="showLogin()">' . lang('social.return') . '</span>';
+		}
 		return $sx;
 	}
 
-	function user_add($user='', $name='', $inst='')
+	function user_add($user = '', $name = '', $inst = '')
 	{
 		$pw1 = substr(md5($user), 0, 6);
 		$data = [
