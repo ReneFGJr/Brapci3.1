@@ -12,6 +12,10 @@ $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
 
+$routes->get('/auth/login', 'Auth::login');
+$routes->get('/auth/callback', 'Auth::callback');
+$routes->get('/logout', 'Auth::logout');
+
 $routes->get('/api', 'Api::index');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');

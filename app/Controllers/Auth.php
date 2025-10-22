@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models\Oauth2;
+namespace App\Controllers;
+
 use CodeIgniter\Controller;
+use App\Models\Oauth2\UserModel;
 
 class Auth extends Controller
 {
