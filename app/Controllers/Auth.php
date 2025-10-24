@@ -41,8 +41,11 @@ class Auth extends Controller
 
     public function status()
         {
-            pre($_SESSION);
-        }
+            pre($_SESSION,false);
+            $userData = $_SESSION['userOAUTH2'];
+            $Socials = new \App\Models\Socials();
+            $Socials->OAUTH2_user($userData);
+    }
 
     public function callback()
     {
