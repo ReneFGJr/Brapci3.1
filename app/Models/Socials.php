@@ -102,6 +102,28 @@ class Socials extends Model
 				}
 			echo "<hr>-Phase III-<br>";
 			$dt = $this->where('us_email', $email)->first();
+			if (!$dt)
+				{
+					$dt = [];
+					$dt['us_login'] = $login;
+					$dt['us_nome'] = $name;
+					$dt['us_email'] = $email;
+					$dt['us_affiliation'] = '';
+					$dt['us_image'] = $image;
+					$dt['us_genero'] = '';
+					$dt['us_verificado'] = '1';
+					$dt['us_oauth2'] = $oauth2;
+					$dt['us_password'] = md5(random_bytes(16));
+					$dt['us_autenticador'] = 'OAUTH2';
+					$dt['us_lastaccess'] = date("Y-m-d H:i:s");
+					$dt['us_apikey_active'] = 1;
+					$dt['us_apikey'] = bin2hex(random_bytes(16));
+					$dt['us_recover'] = '';
+
+					$this->set($dt)->insert();
+
+					$dt = $this->where('us_email', $email)->first();
+				}
 			pre($dt);
 		}
 
