@@ -36,10 +36,6 @@ class Auth extends Controller
             'access_type'   => 'offline',
             'prompt'        => 'select_account'
         ]);
-
-        print_r($url);
-        exit;
-
         return redirect()->to($url);
     }
 
@@ -54,17 +50,23 @@ class Auth extends Controller
         $sessionState = session()->get('oauth_state');
 
         if (!$state || $state !== $sessionState) {
+            echo "Invalid state.";
+            exit;
             return redirect()->to('/')->with('error', 'Invalid state.');
         }
 
         $code = $this->request->getVar('code');
         if (!$code) {
+            echo "Authorization code missing.";
+            exit;
             return redirect()->to('/')->with('error', 'Authorization code missing.');
         }
 
         // Troca o código por token
         $tokenData = $this->getAccessToken($code);
         if (isset($tokenData['error'])) {
+            echo "Failed to obtain token.";
+            exit;
             return redirect()->to('/')->with('error', 'Failed to obtain token.');
         }
 
@@ -72,6 +74,7 @@ class Auth extends Controller
         $userData = $this->getUserInfo($tokenData['access_token']);
 
         // Salvar ou atualizar no banco
+        pre($userData);
         $userModel = new UserModel();
         $user = $userModel->firstOrCreate($userData);
 
