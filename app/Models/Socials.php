@@ -88,7 +88,6 @@ class Socials extends Model
 		{
 			echo '<style>body { background-color: #2b0e0eff; color: #ffffff;}</style>';
 			$oauth2 = '';
-			pre($data);
 			if ($data['type']=='google')
 				{
 					$login = $data['sub'];
