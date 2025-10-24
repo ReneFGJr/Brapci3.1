@@ -48,8 +48,10 @@ class Auth extends Controller
             if (!$token) {
                 echo "Não logado";
                 exit;
+            } else {
+                echo 'http://localhost:4200/callback/' . $token;
             }
-            return redirect()->to('https://brapci.inf.br/callback2/' . $token);
+            return redirect()->to('https://brapci.inf.br/callback/' . $token);
     }
 
     /**
@@ -92,7 +94,7 @@ class Auth extends Controller
             return redirect()->to('/')->with('error', 'Error processing user data.');
         }
 
-        return redirect()->to('https://brapci.inf.br/callback2/' . $token);
+        return redirect()->to('https://brapci.inf.br/callback/' . $token);
     }
 
     private function getAccessToken($code)
