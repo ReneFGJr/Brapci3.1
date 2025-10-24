@@ -74,14 +74,14 @@ class Auth extends Controller
 
         // Obter dados do usuário
         $userData = $this->getUserInfo($tokenData['access_token']);
+        $userData['type'] = 'google';
+
+        $Socials = new \App\Models\Socials();
+        $Socials->OAUTH2_user($userData);
 
         // Salvar ou atualizar no banco
         pre($userData);
-        $userModel = new UserModel();
-        $user = $userModel->firstOrCreate($userData);
 
-        // Armazenar na sessão
-        session()->set('user', $user);
 
         return redirect()->to('/dashboard');
     }

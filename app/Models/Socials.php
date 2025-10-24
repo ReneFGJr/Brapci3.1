@@ -82,6 +82,27 @@ class Socials extends Model
 	var $error = 0;
 	var $site = 'https://brapci.inf.br/';
 
+
+	/************************** OAUTH2 */
+	function OAUTH2_user($data)
+		{
+			$oauth2 = '';
+			if ($data['type']=='google')
+				{
+					$login = $data['sub'];
+					$name = $data['name'];
+					$email = $data['email'];
+					$image = $data['picture'];
+					$oauth2 = 'GOOGLE';
+				}
+			if ($oauth2 == '')
+				{
+					return false;
+				}
+			$dt = $this->where('us_login', $login)->first();
+			pre($dt);
+		}
+
 	function chagePassword($apikey, $pass1, $pass2)
 	{
 		$RSP = [];
