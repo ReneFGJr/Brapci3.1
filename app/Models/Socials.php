@@ -86,7 +86,7 @@ class Socials extends Model
 	/************************** OAUTH2 */
 	function OAUTH2_user($data)
 		{
-			echo '<style>body { background-color: #2b0e0eff; color: #fff; }</style>';
+			echo '<style>body { background-color: #2b0e0eff; color: #ffffff;}</style>';
 			$oauth2 = '';
 			pre($data);
 			if ($data['type']=='google')
@@ -101,7 +101,8 @@ class Socials extends Model
 				{
 					return false;
 				}
-			$dt = $this->where('us_login', $login)->first();
+			echo "<hr>-Phase III-<br>";
+			$dt = $this->where('us_email', $login)->first();
 			pre($dt);
 		}
 
