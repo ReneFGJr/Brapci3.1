@@ -43,6 +43,7 @@ class Auth extends Controller
         {
             pre($_SESSION,false);
             $userData = $_SESSION['userOAUTH2'];
+            echo "<hr>-Phase II-<br>";
             $Socials = new \App\Models\Socials();
             $Socials->OAUTH2_user($userData);
     }

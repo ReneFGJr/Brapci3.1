@@ -87,6 +87,7 @@ class Socials extends Model
 	function OAUTH2_user($data)
 		{
 			$oauth2 = '';
+			pre($data);
 			if ($data['type']=='google')
 				{
 					$login = $data['sub'];
