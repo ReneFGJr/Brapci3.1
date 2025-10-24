@@ -14,6 +14,7 @@ $routes->set404Override();
 
 $routes->get('/auth/login', 'Auth::login');
 $routes->get('/auth/callback', 'Auth::callback');
+$routes->get('/auth/status', 'Auth::status');
 $routes->get('/logout', 'Auth::logout');
 
 $routes->get('/api', 'Api::index');

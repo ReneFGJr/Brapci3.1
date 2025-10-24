@@ -40,6 +40,11 @@ class Auth extends Controller
         return redirect()->to($url);
     }
 
+    public function status()
+        {
+            pre($_SESSION);
+        }
+
     public function callback()
     {
         $state = $this->request->getVar('state');
