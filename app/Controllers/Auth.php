@@ -44,7 +44,12 @@ class Auth extends Controller
         {
             $userData = $_SESSION['userOAUTH2'];
             $Socials = new \App\Models\Socials();
-            echo $Socials->OAUTH2_user($userData);
+            $token = $Socials->OAUTH2_user($userData);
+            if (!$token) {
+                echo "Não logado";
+                exit;
+            }
+            return redirect()->to('https://brapci.inf.br/callback2/' . $token);
     }
 
     /**
