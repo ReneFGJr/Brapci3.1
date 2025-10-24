@@ -86,6 +86,7 @@ class Socials extends Model
 	/************************** OAUTH2 */
 	function OAUTH2_user($data)
 		{
+			echo '<style>body { background-color: #2b0e0eff; color: #fff; }</style>';
 			$oauth2 = '';
 			pre($data);
 			if ($data['type']=='google')
