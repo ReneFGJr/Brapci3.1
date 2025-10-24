@@ -51,6 +51,7 @@ class Auth extends Controller
             } else {
                 echo 'http://localhost:4200/callback/' . $token;
             }
+            exit;
             return redirect()->to('https://brapci.inf.br/callback/' . $token);
     }
 
