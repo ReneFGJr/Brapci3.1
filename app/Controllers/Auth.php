@@ -49,6 +49,8 @@ class Auth extends Controller
         $state = $this->request->getVar('state');
         $sessionState = session()->get('oauth_state');
 
+        print($sessionState);
+
         if (!$state || $state !== $sessionState) {
             echo "Invalid state.";
             exit;
