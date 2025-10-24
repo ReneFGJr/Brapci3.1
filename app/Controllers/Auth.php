@@ -83,13 +83,12 @@ class Auth extends Controller
         $_SESSION['userOAUTH2'] = $userData;
 
         $Socials = new \App\Models\Socials();
-        $Socials->OAUTH2_user($userData);
-
-        // Salvar ou atualizar no banco
-        pre($userData);
-
-
-        return redirect()->to('/dashboard');
+        $token = $Socials->OAUTH2_user($userData);
+        if ($token == '') {
+            echo "Error processing user data.";
+            exit;
+        }
+        return redirect()->to('https://brapci.inf.br/callback2/'+$token);
     }
 
     private function getAccessToken($code)

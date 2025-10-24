@@ -86,7 +86,6 @@ class Socials extends Model
 	/************************** OAUTH2 */
 	function OAUTH2_user($data)
 		{
-			echo '<style>body { background-color: #2b0e0eff; color: #ffffff;}</style>';
 			$oauth2 = '';
 			if ($data['type']=='google')
 				{
@@ -100,7 +99,6 @@ class Socials extends Model
 				{
 					return false;
 				}
-			echo "<hr>-Phase III-<br>";
 			$dt = $this->where('us_email', $email)->first();
 			if (!$dt)
 				{
@@ -120,11 +118,12 @@ class Socials extends Model
 					$dt['us_apikey'] = bin2hex(random_bytes(16));
 					$dt['us_recover'] = '';
 
-					$this->set($dt)->insert();
+					$id = $this->set($dt)->insert();
+					$this->api_key($id);
 
 					$dt = $this->where('us_email', $email)->first();
 				}
-			pre($dt);
+			return $dt['us_apikey'];
 		}
 
 	function chagePassword($apikey, $pass1, $pass2)
