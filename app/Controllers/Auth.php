@@ -5,6 +5,9 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use App\Models\Oauth2\UserModel;
 
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
+$session = \Config\Services::session();
+
 class Auth extends Controller
 {
     private $googleClient;
