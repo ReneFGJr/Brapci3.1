@@ -76,6 +76,8 @@ class Auth extends Controller
         $userData = $this->getUserInfo($tokenData['access_token']);
         $userData['type'] = 'google';
 
+        $_SESSION['userOAUTH2'] = $userData;
+
         $Socials = new \App\Models\Socials();
         $Socials->OAUTH2_user($userData);
 
