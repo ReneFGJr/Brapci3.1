@@ -86,7 +86,7 @@ class Auth extends Controller
             echo "Error processing user data.";
             exit;
         }
-        return redirect()->to('https://brapci.inf.br/callback2/'+$token);
+        return redirect()->to('https://brapci.inf.br/callback2/'.$token);
     }
 
     private function getAccessToken($code)
