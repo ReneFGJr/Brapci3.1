@@ -49,13 +49,13 @@ class Auth extends Controller
         $state = $this->request->getVar('state');
         $sessionState = session()->get('oauth_state');
 
-        pre($sessionState);
-
+        /*
         if (!$state || $state !== $sessionState) {
             echo "Invalid state.";
             exit;
             return redirect()->to('/')->with('error', 'Invalid state.');
         }
+        */
 
         $code = $this->request->getVar('code');
         if (!$code) {
