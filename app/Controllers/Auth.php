@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\Oauth2\UserModel;
+use App\Models\Socials;
 
 helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
 $session = \Config\Services::session();
@@ -46,47 +47,47 @@ class Auth extends Controller
             echo $Socials->OAUTH2_user($userData);
     }
 
+    /**
+     * Etapa 2 – Callback do Google
+     */
     public function callback()
     {
-        $state = $this->request->getVar('state');
-        $sessionState = session()->get('oauth_state');
+        $state         = $this->request->getVar('state');
+        $sessionState  = session()->get('oauth_state');
 
-        /*
+        // ✅ validação do state
         if (!$state || $state !== $sessionState) {
-            echo "Invalid state.";
-            exit;
+            session()->remove('oauth_state');
             return redirect()->to('/')->with('error', 'Invalid state.');
         }
-        */
+
+        session()->remove('oauth_state'); // remove após uso
 
         $code = $this->request->getVar('code');
         if (!$code) {
-            echo "Authorization code missing.";
-            exit;
             return redirect()->to('/')->with('error', 'Authorization code missing.');
         }
 
-        // Troca o código por token
+        // 🔄 troca code por token
         $tokenData = $this->getAccessToken($code);
-        if (isset($tokenData['error'])) {
-            echo "Failed to obtain token.";
-            exit;
+        if (!isset($tokenData['access_token'])) {
             return redirect()->to('/')->with('error', 'Failed to obtain token.');
         }
 
-        // Obter dados do usuário
+        // 👤 obtém dados do usuário
         $userData = $this->getUserInfo($tokenData['access_token']);
         $userData['type'] = 'google';
 
         $_SESSION['userOAUTH2'] = $userData;
 
-        $Socials = new \App\Models\Socials();
+        $Socials = new Socials();
         $token = $Socials->OAUTH2_user($userData);
-        if ($token == '') {
-            echo "Error processing user data.";
-            exit;
+
+        if (!$token) {
+            return redirect()->to('/')->with('error', 'Error processing user data.');
         }
-        return redirect()->to('https://brapci.inf.br/callback2/'.$token);
+
+        return redirect()->to('https://brapci.inf.br/callback2/' . $token);
     }
 
     private function getAccessToken($code)
