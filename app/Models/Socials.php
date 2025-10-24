@@ -101,7 +101,7 @@ class Socials extends Model
 					return false;
 				}
 			echo "<hr>-Phase III-<br>";
-			$dt = $this->where('us_email', $login)->first();
+			$dt = $this->where('us_email', $email)->first();
 			pre($dt);
 		}
 
