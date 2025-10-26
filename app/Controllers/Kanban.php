@@ -15,7 +15,7 @@ class Kanban extends BaseController
         $taskModel = new TaskModel();
         $tasks = $taskModel->findAll();
 
-        return view('kanban/index', ['tasks' => $tasks]);
+        return view('Kanban/index', ['tasks' => $tasks]);
     }
 
     public function update($id)
@@ -27,7 +27,7 @@ class Kanban extends BaseController
 
     public function create()
     {
-        return view('kanban/create');
+        return view('Kanban/create');
     }
 
     public function store()

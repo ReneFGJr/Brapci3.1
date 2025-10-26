@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Sep 30, 2025 at 07:46 AM
+-- Generation Time: Oct 26, 2025 at 07:02 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `task_id` int NOT NULL,
   `user_id` int NOT NULL,
-  `comment` text NOT NULL,
+  `comment` text  NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `task_id` (`task_id`),
