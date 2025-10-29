@@ -15,6 +15,10 @@
             <a class="navbar-brand fw-bold" href="<?= base_url('/bookmarks') ?>">
                 <i class="bi bi-bookmarks"></i> Bookmark Manager
             </a>
+
+            <a class="text-light" href="<?= base_url('/bookmarks/folder') ?>">
+                <i class="bi bi-folder"></i>
+            </a>
         </div>
     </nav>
 

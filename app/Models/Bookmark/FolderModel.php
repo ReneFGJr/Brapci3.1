@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Bookmark;
 
 use CodeIgniter\Model;
 
@@ -18,6 +18,7 @@ class FolderModel extends Model
         'f_folder',
         'f_access',
         'f_user',
+        'f_description',
         'created_at'
     ];
 

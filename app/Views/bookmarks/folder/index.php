@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="mb-0"><i class="bi bi-folder2-open"></i> Minhas Pastas</h2>
-        <a href="<?= base_url('folders/new') ?>" class="btn btn-primary">
+        <a href="<?= base_url('bookmarks/folders/new') ?>" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Nova Pasta
         </a>
     </div>

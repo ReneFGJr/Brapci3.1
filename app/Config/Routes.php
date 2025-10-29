@@ -184,12 +184,17 @@ $routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin', 'Admin::index');
 
 /********* BOOKMARKS */
-$routes->get('bookmarks', 'Bookmarks::index');
 $routes->get('bookmarks/search', 'Bookmarks::search');
 $routes->get('bookmarks/import', 'Bookmarks::import');
 $routes->get('bookmarks/folder', 'Bookmarks::folder');
+$routes->get('/bookmarks/site/new/(:any)', 'Bookmarks::siteNew/$1');
+$routes->post('bookmarks/site/save', 'Bookmarks::siteSave');
+$routes->get('bookmarks/site/delete/(:num)', 'Bookmarks::siteDelete/$1');
+$routes->post('bookmarks/folder/save', 'Bookmarks::folderSave');
+$routes->get('bookmarks/folders/new', 'Bookmarks::folderNew');
 $routes->get('bookmarks/folders/view/(:any)', 'Bookmarks::folderView/$1');
 $routes->get('bookmarks/link/(:any)', 'Bookmarks::link/$1');
+$routes->get('bookmarks', 'Bookmarks::index');
 
 /* ********* KANBAN */
 $routes->get('/kanban', 'Kanban::index');
