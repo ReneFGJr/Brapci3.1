@@ -3,6 +3,7 @@
 namespace App\Models\ElasticSearch;
 
 use CodeIgniter\Model;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class Search extends Model
 {
@@ -71,6 +72,60 @@ class Search extends Model
         exit;
     }
 
+    /********************************** ElasticSearch */
+    function saveSearchToElastic(string $queryTerm): array
+    {
+        // === 1. Cliente Elasticsearch ===
+        $client = ClientBuilder::create()
+            ->setHosts(['http://localhost:9200'])
+            ->build();
+
+        // === 2. Extrai sintagmas ===
+        $tokens = explode(' ', trim($queryTerm));
+        $sintagmas = [];
+
+        for ($i = 0; $i < count($tokens); $i++) {
+            for ($j = $i; $j < count($tokens); $j++) {
+                $slice = array_slice($tokens, $i, $j - $i + 1);
+                $sintagmas[] = implode(' ', $slice);
+            }
+        }
+
+        // Remove duplicados
+        $sintagmas = array_unique($sintagmas);
+
+        // === 3. Guarda o histórico na sessão ===
+        if (!isset($_SESSION['search_history'])) {
+            $_SESSION['search_history'] = [];
+        }
+
+        $_SESSION['search_history'][] = [
+            'query' => $queryTerm,
+            'sintagmas' => $sintagmas,
+            'timestamp' => date('c')
+        ];
+
+        // === 4. Indexa no Elasticsearch ===
+        $params = [
+            'index' => 'search_logs',
+            'body'  => [
+                'user'       => get("user") ?? 'guest',
+                'query'      => $queryTerm,
+                'sintagmas'  => $sintagmas,
+                'timestamp'  => date('c'),
+                'session_id' => session_id(),
+                'ip'         => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
+            ]
+        ];
+
+        $response = $client->index($params);
+
+        return [
+            'indexed' => $response['result'] ?? 'unknown',
+            'data' => $params['body']
+        ];
+    }
+
     function searchFull3()
     {
         $API = new \App\Models\ElasticSearch\API();
@@ -115,7 +170,7 @@ class Search extends Model
 
         /******* Trata Erros */
         if (isset($result['error'])) {
-                $erros = (array)$result['error'];
+            $erros = (array)$result['error'];
             $erros = (array)$erros['failed_shards'];
             $messa = '';
             foreach ($erros as $ida => $line) {
@@ -124,22 +179,20 @@ class Search extends Model
                     $msg = $msg['caused_by'];
                     if (isset($msg['caused_by'])) {
                         $msg = $msg['caused_by'];
-                        if(isset($msg['type']))
-                            {
-                                $messa .= '<b>Erro</b>: '.lang($msg['type']);
-                                $m = $msg['reason'];
-                                if (strpos($m, 'Was expecting one of:'))
-                                    {
-                                        $messa .= substr($m,0,strpos($m, 'Was expecting one of:'));
-                                    } else {
-                                        $messa .= $msg['reason'];
-                                    }
-
-                                $messa .= '<hr>';
+                        if (isset($msg['type'])) {
+                            $messa .= '<b>Erro</b>: ' . lang($msg['type']);
+                            $m = $msg['reason'];
+                            if (strpos($m, 'Was expecting one of:')) {
+                                $messa .= substr($m, 0, strpos($m, 'Was expecting one of:'));
+                            } else {
+                                $messa .= $msg['reason'];
                             }
+
+                            $messa .= '<hr>';
+                        }
                     }
                 }
-                $messa = troca($messa, 'at line','na linha');
+                $messa = troca($messa, 'at line', 'na linha');
                 $messa = troca($messa, 'column', 'coluna');
                 $messa = troca($messa, 'parse_exceptionEncountered', 'exceção de análise encontrada (parenteses)');
                 $messa = troca($messa, 'Was expecting', 'parametros inválidos');
@@ -165,7 +218,6 @@ class Search extends Model
         if (!isset($dt['works'])) {
             $dt['works'] = [];
         } else {
-
         }
         echo (json_encode($dt));
 
@@ -226,10 +278,9 @@ class Search extends Model
             $n++;
         }
         /************* */
-        if ($dt == [])
-            {
-                $Search->where('1=2');
-            }
+        if ($dt == []) {
+            $Search->where('1=2');
+        }
         $ds = $Search->findAll();
 
         $dts = [];
