@@ -291,6 +291,7 @@ class Oauth extends Model
         if ($RSP['status'] != '200') {
             $dd['status'] = '400';
             $dd['message'] = 'User or Password incorrect';
+            $dd['data'] = $RSP;
             return $dd;
         } else {
                 $dd['status'] = '200';
