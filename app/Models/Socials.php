@@ -1385,6 +1385,7 @@ class Socials extends Model
 
 			if ($dt['us_password'] == md5($pwd)) {
 				if (($dt['us_apikey'] == '') or ($dt['us_apikey'] == null)) {
+					pre($dt);
 					$apikey = md5($dt['us_password'] . $dt[0]['us_login']);
 					$dq = [];
 					$dq['us_apikey'] = $apikey;
