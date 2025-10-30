@@ -76,9 +76,9 @@ class Search extends Model
     function saveSearchToElastic(string $queryTerm): array
     {
         $queryTerm = normalizarTexto($queryTerm);
-        $queryTerm = troca($queryTerm,' and ','');
-        $queryTerm = troca($queryTerm,' or ','');
-        $queryTerm = troca($queryTerm,' not ','');
+        $queryTerm = troca($queryTerm,' and ',' ');
+        $queryTerm = troca($queryTerm,' or ',' ');
+        $queryTerm = troca($queryTerm,' not ',' ');
         // === 1. Cliente Elasticsearch ===
         $client = ClientBuilder::create()
             ->setHosts(['http://localhost:9200'])
