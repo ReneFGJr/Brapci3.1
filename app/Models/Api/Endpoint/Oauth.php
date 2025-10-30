@@ -72,6 +72,7 @@ class Oauth extends Model
                 break;
             case 'chagePassword':
                 $Social = new \App\Models\Socials();
+                exit;
                 $dd = $Social->chagePassword(get("apikey"),get("pass1"),get("pass2"));
                 echo json_encode($dd);
                 exit;
