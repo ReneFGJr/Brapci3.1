@@ -134,12 +134,12 @@ class Search extends Model
         $data = [];
         $strategy = [];
 
+        $this->saveSearchToElastic(get("term"));    
+
         $logica = 1;
         $Logic = new \App\Models\ElasticSearch\SearchLogical();
         $query = $Logic->method_v1();
-        $this->curlQuery($query);
-
-        $this->saveSearchToElastic(get("term"));
+        $this->curlQuery($query);        
     }
 
     function curlQuery($query)
