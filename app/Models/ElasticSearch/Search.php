@@ -75,6 +75,8 @@ class Search extends Model
     /********************************** ElasticSearch */
     function saveSearchToElastic(string $queryTerm): array
     {
+        $queryTerm = normalizarTexto($queryTerm);
+        
         // === 1. Cliente Elasticsearch ===
         $client = ClientBuilder::create()
             ->setHosts(['http://localhost:9200'])
@@ -114,7 +116,7 @@ class Search extends Model
                 'sintagmas'  => $sintagmas,
                 'timestamp'  => date('c'),
                 'session_id' => session_id(),
-                'ip'         => $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1'
+                'ip'         => ip() ?? '127.0.0.1'
             ]
         ];
 

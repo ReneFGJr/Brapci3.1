@@ -21,6 +21,36 @@ require('sisdoc_drag_drop.php');
 require('sisdoc_help.php');
 require('sisdoc_email.php');
 
+/**
+ * Remove acentos, caracteres especiais e converte para caixa baixa
+ *
+ * @param string $string Texto original
+ * @return string Texto normalizado
+ */
+function normalizarTexto(string $string): string
+{
+    // 1️⃣ Remove espaços extras nas bordas
+    $string = trim($string);
+
+    // 2️⃣ Converte para UTF-8 (garante consistência)
+    $string = mb_convert_encoding($string, 'UTF-8', mb_list_encodings());
+
+    // 3️⃣ Remove acentos e diacríticos
+    $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
+
+    // 4️⃣ Remove caracteres não alfanuméricos (mantém espaços e hífens se quiser)
+    $string = preg_replace('/[^a-zA-Z0-9\s-]/', '', $string);
+
+    // 5️⃣ Converte para minúsculas
+    $string = mb_strtolower($string, 'UTF-8');
+
+    // 6️⃣ Remove múltiplos espaços e normaliza
+    $string = preg_replace('/\s+/', ' ', $string);
+
+    return trim($string);
+}
+
+
 function clog($msg)
 {
     $time = date("Y-m-d H:i:s");
