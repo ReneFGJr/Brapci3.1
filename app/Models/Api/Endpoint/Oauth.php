@@ -71,13 +71,8 @@ class Oauth extends Model
                 exit;
                 break;
             case 'chagePassword':
-                $Social = new \App\Models\Socials();
-                $dd = [];
-                $dd['status'] = '500';
-                $dd['post'] = $_POST;
-
-                
-                //$dd = $Social->chagePassword(get("apikey"),get("pass1"),get("pass2"));
+                $Social = new \App\Models\Socials();             
+                $dd = $Social->chagePassword(get("apikey"),get("pass1"),get("pass2"));
                 echo json_encode($dd);
                 exit;
                 break;
