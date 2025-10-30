@@ -86,14 +86,8 @@ class Search extends Model
 
         // === 2. Extrai sintagmas ===
         $tokens = explode(' ', trim($queryTerm));
-        $sintagmas = [];
-
-        for ($i = 0; $i < count($tokens); $i++) {
-            for ($j = $i; $j < count($tokens); $j++) {
-                $slice = array_slice($tokens, $i, $j - $i + 1);
-                $sintagmas[] = implode(' ', $slice);
-            }
-        }
+        $sintagmas = $tokens;
+        $sintagmas[] = $queryTerm;
 
         // Remove duplicados
         $sintagmas = array_unique($sintagmas);
