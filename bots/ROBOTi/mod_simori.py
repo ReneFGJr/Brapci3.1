@@ -192,6 +192,10 @@ def simori_harvesting(repo_id: int):
             xml = get_register(oai_url, identifier, record)
             xml = xml.replace("//", "") if xml else None
             query = "update simori.oai_records set xml = '"+xml+"', harvesting = 1, status = 1 where id = "+str(record[0])
+            print(query)
+            database.execute(query)
+            print("--------------")
+
             database.update2(
                 "simori.oai_records",
                 {"xml": xml, "harvesting": 1, "status": 1},
@@ -200,6 +204,7 @@ def simori_harvesting(repo_id: int):
             )
         except Exception as e:
             print(f"⚠️ Erro ao coletar {identifier}: {e}\n")
+            sys.exit()
 
         # Delay opcional para não sobrecarregar o servidor remoto
         # time.sleep(0.5)  # 0.5 segundos
