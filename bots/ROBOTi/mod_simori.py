@@ -193,15 +193,15 @@ def simori_harvesting(repo_id: int):
             xml = xml.replace("//", "") if xml else None
             query = "update simori.oai_records set xml = '"+xml+"', harvesting = 1, status = 1 where id = "+str(record[0])
             print(query)
-            database.execute(query)
+            database.query(query)
             print("--------------")
-
-            database.update2(
-                "simori.oai_records",
-                {"xml": xml, "harvesting": 1, "status": 1},
-                where="id = %s",
-                params=(record[0],)
-            )
+            
+            #database.update2(
+            #    "simori.oai_records",
+            #    {"xml": xml, "harvesting": 1, "status": 1},
+            #    where="id = %s",
+            #    params=(record[0],)
+            #)
         except Exception as e:
             print(f"⚠️ Erro ao coletar {identifier}: {e}\n")
             sys.exit()
