@@ -204,7 +204,7 @@ def simori_harvesting(repo_id: int):
             #)
         except Exception as e:
             print(f"⚠️ Erro ao coletar {identifier}: {e}\n")
-            sys.exit()
+            #sys.exit()
 
         # Delay opcional para não sobrecarregar o servidor remoto
         # time.sleep(0.5)  # 0.5 segundos
