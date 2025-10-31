@@ -105,12 +105,39 @@ def simori_triples(repo_id):
     # Retorna HTML consolidado (para exibição via Flask ou Jinja)
     return final_msg
 
-def get_register(base_url: str, identifier: str, record: dict):
-    base_url = base_url + "?verb=GetRecord&metadataPrefix=oai_dc&identifier=" + identifier
-    response = requests.get(base_url, {}, timeout=15)
-    response.raise_for_status()
-    xml = response.text
-    return xml
+def get_register(base_url: str, identifier: str, record: dict, retries: int = 3, delay: int = 2):
+    """
+    Baixa o XML de um registro OAI-PMH com tratamento de erros HTTP, SSL e tempo limite.
+    """
+    # 🔹 Remove www. se causar erro de certificado (como o da FURG)
+    base_url = base_url.replace("://www.", "://")
+
+    # 🔹 Monta a URL final
+    url = f"{base_url}?verb=GetRecord&metadataPrefix=oai_dc&identifier={identifier}"
+
+    attempt = 0
+    while attempt < retries:
+        try:
+            response = requests.get(url, timeout=30, verify=False)  # SSL ignorado apenas para compatibilidade
+            if response.status_code == 200:
+                return response.text
+            else:
+                print(f"⚠️ HTTP {response.status_code} para {identifier} (tentativa {attempt+1}/{retries})")
+                # Repositórios DSpace antigos às vezes retornam 500 para coleções "ri/"
+                if response.status_code == 500 and '/ri/' in identifier:
+                    print(f"⏭️ Pulando coleção: {identifier}")
+                    return None
+        except requests.exceptions.RequestException as e:
+            print(f"⚠️ Erro na requisição ({type(e).__name__}): {e} (tentativa {attempt+1}/{retries})")
+
+        attempt += 1
+        time.sleep(delay)
+
+    # 🔹 Após todas as tentativas, salva log e retorna None
+    log_msg = f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] Falha ao coletar {identifier} ({url})\n"
+    with open("logs/oai_errors.log", "a", encoding="utf-8") as f:
+        f.write(log_msg)
+    return None
 
 def simori_harvesting(repo_id: int):
     repo_model = RepositorioModel()
