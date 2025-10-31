@@ -20,7 +20,7 @@ class OaiRecordModel:
         return database.query(sql, (repository, status, deleted, harvesting))
 
     def update(self, record_id, data):
-
+        print(data)
         database.update2("simori.oai_records", data, where="id = %s", params=(record_id,))
 
 
