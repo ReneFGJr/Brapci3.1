@@ -190,7 +190,7 @@ def simori_harvesting(repo_id: int):
         print(f"🔹 [{idx}/{len(records)}] Coletando: {identifier}")
         try:
             xml = get_register(oai_url, identifier, record)
-            xml = xml.replace("//", "") if xml else None
+            # xml = xml.replace("//", "") if xml else None
             query = "update simori.oai_records set xml = '"+xml+"', harvesting = 1, status = 1 where id = "+str(record[0])
             print(query)
             database.query(query)
