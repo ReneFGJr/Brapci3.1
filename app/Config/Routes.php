@@ -183,6 +183,12 @@ $routes->get('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->post('/admin/(:any)/(:any)', 'Admin::index/$1/$2');
 $routes->get('/admin', 'Admin::index');
 
+/********* OJS */
+$routes->get('ojs', 'OJS::index');
+$routes->post('ojs/send', 'OJS::send');
+$routes->get('ojs/journal', 'OJS::journal');
+
+
 /********* BOOKMARKS */
 $routes->get('bookmarks/search', 'Bookmarks::search');
 $routes->get('bookmarks/import', 'Bookmarks::import');
