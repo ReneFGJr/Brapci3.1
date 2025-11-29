@@ -17,6 +17,7 @@ class Bookmarks extends BaseController
         $data['bookmarks'] =
             $model
             ->join('folder', 'folder.id_f = bookmarks.folder_id', 'left')
+            ->orderBy('folder.f_title', 'ASC')
             ->findAll();
         return view('bookmarks/index', $data);
     }
@@ -158,6 +159,7 @@ class Bookmarks extends BaseController
         $data['bookmarks'] = $model
             ->like('title', $query)
             ->orLike('url', $query)
+            ->orderBy('title', 'ASC')
             ->findAll();
 
         return view('bookmarks/index', $data);
