@@ -75,6 +75,7 @@ class Search extends Model
     /********************************** ElasticSearch */
     function saveSearchToElastic(string $queryTerm): array
     {
+        return [];
         $queryTerm = normalizarTexto($queryTerm);
         $queryTerm = troca($queryTerm,' and ',' ');
         $queryTerm = troca($queryTerm,' or ',' ');
