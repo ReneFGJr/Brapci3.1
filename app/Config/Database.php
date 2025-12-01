@@ -171,7 +171,7 @@ class Database extends Config
             'lattes'=> 'brapci_lattes',
             'liked' => 'brapci_like',
             'search' => 'brapci_search',
-            'g3vent'=> 'g3vent',
+            'g3vent'=> 'gev3nt',
             'patent'=> 'brapci_patent',
             'rdf' => 'brapci_rdf',
             'rdfs' => 'brapci_rdf',
