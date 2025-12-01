@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class EventsInscricoesTipos extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'event_inscricoes';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;

@@ -37,7 +37,7 @@ class MYPDF extends TCPDF
 
 class Certificados extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'events';
     protected $primaryKey       = 'id_e';
     protected $useAutoIncrement = true;

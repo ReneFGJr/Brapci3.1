@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Corporatename extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'corporateBody';
     protected $primaryKey       = 'id_cb';
     protected $useAutoIncrement = true;

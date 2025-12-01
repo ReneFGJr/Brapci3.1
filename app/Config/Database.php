@@ -65,7 +65,7 @@ class Database extends Config
     public array $liked = [];
     public array $lattes = [];
     public array $click = [];
-    public array $gev3nt = [];
+    public array $g3vent = [];
     public array $icr = [];
     public array $patent = [];
     public array $pgcd = [];
@@ -171,7 +171,7 @@ class Database extends Config
             'lattes'=> 'brapci_lattes',
             'liked' => 'brapci_like',
             'search' => 'brapci_search',
-            'gev3nt'=> 'gev3nt',
+            'g3vent'=> 'g3vent',
             'patent'=> 'brapci_patent',
             'rdf' => 'brapci_rdf',
             'rdfs' => 'brapci_rdf',

@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class EventsPlace extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'event_local';
     protected $primaryKey       = 'id_lc';
     protected $useAutoIncrement = true;

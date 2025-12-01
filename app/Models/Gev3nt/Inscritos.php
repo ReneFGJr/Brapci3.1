@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Inscritos extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'event_inscritos';
     protected $primaryKey       = 'id_ei';
     protected $useAutoIncrement = true;
@@ -47,7 +47,9 @@ class Inscritos extends Model
         {
             $sql = "select * from event_schedule_bloco where esb_ativo = 1 order by esb_day, esb_event ";
             $row = $this->db->query($sql);
-            print($row);
+            $row = $row->getResultArray();
+            $sx = '';
+            return $sx;
         }
 
     function lista_presenca($ev)

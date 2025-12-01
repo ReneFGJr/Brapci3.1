@@ -20,6 +20,8 @@ class Guide extends BaseController
 {
     public function index($act = '', $subact = '', $id = '', $id2 = '',$d3='',$d4='')
     {
+        echo "OK";
+        exit;
         $Issues = new \App\Models\Base\Issues();
         $data['page_title'] = 'Brapci-Guide';
         $data['GOOGLEID'] = 'UA-12713129-1';

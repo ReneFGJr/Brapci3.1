@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class EventsInscritos extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'event_inscritos';
     protected $primaryKey       = 'id_ein';
     protected $useAutoIncrement = true;

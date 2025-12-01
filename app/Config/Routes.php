@@ -213,7 +213,19 @@ $routes->get('/event/(:any)', 'G3vent::index/$1');
 $routes->post('/event/(:any)', 'G3vent::index/$1');
 $routes->get('/event/(:any)/(:any)', 'G3vent::index/$1/$2');
 $routes->post('/event/(:any)/(:any)', 'G3vent::index/$1/$2');
-$routes->get('/event', 'G3vent::index');
+$routes->get('g3vent/pessoas', 'G3vent::pessoas');
+$routes->get('g3vent/import', 'G3vent::import');
+$routes->get('g3vent/events', 'G3vent::events');
+$routes->get('g3vent/event/edit/(:any)', 'G3vent::events_edit/$1');
+$routes->get('g3vent/event/view/(:any)', 'G3vent::events_view/$1');
+$routes->get('g3vent/event/register/(:any)', 'G3vent::events_register/$1');
+$routes->post('g3vent/event/register/(:any)', 'G3vent::events_register/$1');
+$routes->post('g3vent/event/update/(:any)', 'G3vent::events_update/$1');
+$routes->post('g3vent/import', 'G3vent::importRun');
+$routes->get('g3vent', 'G3vent::index');
+
+
+
 
 /********* PQ */
 $routes->get('/pq/(:any)', 'Pq::index/$1');

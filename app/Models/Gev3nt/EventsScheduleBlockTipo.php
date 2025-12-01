@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class EventsScheduleBlockTipo extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'event_schedule_bloco_tipo_participante';
     protected $primaryKey       = 'id_tp';
     protected $useAutoIncrement = true;

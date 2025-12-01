@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Users extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'events_names';
     protected $primaryKey       = 'id_n';
     protected $useAutoIncrement = true;

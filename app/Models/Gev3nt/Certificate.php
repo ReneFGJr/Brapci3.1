@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class Certificate extends Model
 {
-    protected $DBGroup          = 'gev3nt';
+    protected $DBGroup          = 'g3vent';
     protected $table            = 'events_inscritos';
     protected $primaryKey       = 'id_i';
     protected $useAutoIncrement = true;
