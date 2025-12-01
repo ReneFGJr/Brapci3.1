@@ -128,6 +128,7 @@
           <option value="a_fazer" <?= $task['status']=='a_fazer'?'selected':'' ?>>A Fazer</option>
           <option value="fazendo" <?= $task['status']=='fazendo'?'selected':'' ?>>Fazendo</option>
           <option value="revisar" <?= $task['status']=='revisar'?'selected':'' ?>>Revisar</option>
+          <option value="concluido" <?= $task['status']=='concluido'?'selected':'' ?>>Concluído</option>
         </select>
       </div>
 
