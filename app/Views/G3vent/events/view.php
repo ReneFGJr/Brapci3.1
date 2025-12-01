@@ -31,7 +31,10 @@
 
                 <tr>
                     <th>Total Inscritos</th>
-                    <td><?= esc($inscritos['total']) ?></td>
+                    <td>
+                    <?= esc($inscritos['total']) ?> 
+                    / 
+                    <?= esc($certificados['total']) ?></td>
                 </tr>                
 
                 <tr>

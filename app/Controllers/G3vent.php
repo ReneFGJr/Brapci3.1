@@ -153,6 +153,7 @@ class G3vent extends BaseController
     {
         $EventInscritosModel = new \App\Models\G3vent\EventInscritosModel();
         $EventsNamesModel = new \App\Models\G3vent\EventsNamesModel();
+        $EventsInscritosModel = new \App\Models\G3vent\EventsInscritosModel();
         $data = [];
         $sx = '';
         $sx .= view('G3vent/Headers/header', $data);
@@ -186,6 +187,19 @@ class G3vent extends BaseController
                                             {
                                                 $idx = $EventInscritosModel->set($data)->insert();
                                             }
+
+                                        $data['i_evento'] = $id_e;
+                                        $data['i_user']   = $dt['id_n'];
+                                        $data['i_status'] = 1;
+                                        $data['i_cracha'] = 1;
+                                        $dtx = $EventsInscritosModel
+                                            ->where('i_evento', $id_e)
+                                            ->where('i_user', $dt['id_n'])
+                                            ->first();
+                                        if (!isset($dtx['id_i']))
+                                            {
+                                                $idx = $EventsInscritosModel->set($data)->insert();
+                                            }
                                     }
                             }
                     }
@@ -217,6 +231,13 @@ class G3vent extends BaseController
             ->where('ein_event', $id_e)
             ->groupBy('ein_event')
             ->first();    
+        $data['certificados'] = (new \App\Models\G3vent\EventsInscritosModel())
+            ->select('count(*) as total')
+            ->where('i_evento', $id_e)
+            ->groupBy('i_evento')
+            ->first();
+        if (!isset($data['inscritos']['total'])) { $data['inscritos']['total'] = 0; }
+        if (!isset($data['certificados']['total'])) { $data['certificados']['total'] = 0; }
         $sx .= view('G3vent/events/view', $data);
         $sx .= view('G3vent/Headers/footer', $data);
         return $sx;
