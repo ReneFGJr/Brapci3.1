@@ -160,7 +160,7 @@ class G3vent extends BaseController
 
         $data = get("lista");
         $lines = explode("\n", $data);
-        if (count($lines) > 0)
+        if (strlen($data) > 10)
             {                
                 foreach ($lines as $line)
                     {
@@ -169,16 +169,23 @@ class G3vent extends BaseController
                             {
                                 $email = trim($line);
                                 $dt = $EventsNamesModel->where('n_email', $email)->first();
-                                pre($dt);
                                 if (isset($dt['id_n']))
                                     {
                                         // Inscrever no evento
                                         $data = [];
-                                        $data['en_event'] = $id_e;
-                                        $data['en_name']  = $dt['id_n'];
-                                        $data['en_inscr'] = date("Y-m-d H:i:s");
+                                        $data['ein_event'] = $id_e;
+                                        $data['ein_user']  = $dt['id_n'];
+                                        $data['ein_tipo'] = 1;
+                                        $data['ein_data'] = date("Y-m-d H:i:s");     
                                         
-                                        $idx = $EventInscritosModel->set($data)->insert();
+                                        $dte = $EventInscritosModel
+                                            ->where('ein_event', $id_e)
+                                            ->where('ein_user', $dt['id_n'])
+                                            ->first();
+                                        if (!isset($dte['id_en']))
+                                            {
+                                                $idx = $EventInscritosModel->set($data)->insert();
+                                            }
                                     }
                             }
                     }
