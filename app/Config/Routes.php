@@ -209,20 +209,16 @@ $routes->post('/kanban/update/(:num)', 'Kanban::update/$1');
 $routes->post('/kanban/(:any)/comment', 'Kanban::addComment/$1');
 
 /* G3event */
-$routes->get('/event/(:any)', 'G3vent::index/$1');
-$routes->post('/event/(:any)', 'G3vent::index/$1');
-$routes->get('/event/(:any)/(:any)', 'G3vent::index/$1/$2');
-$routes->post('/event/(:any)/(:any)', 'G3vent::index/$1/$2');
-$routes->get('g3vent/pessoas', 'G3vent::pessoas');
-$routes->get('g3vent/import', 'G3vent::import');
-$routes->get('g3vent/events', 'G3vent::events');
-$routes->get('g3vent/event/edit/(:any)', 'G3vent::events_edit/$1');
-$routes->get('g3vent/event/view/(:any)', 'G3vent::events_view/$1');
-$routes->get('g3vent/event/register/(:any)', 'G3vent::events_register/$1');
-$routes->post('g3vent/event/register/(:any)', 'G3vent::events_register/$1');
-$routes->post('g3vent/event/update/(:any)', 'G3vent::events_update/$1');
-$routes->post('g3vent/import', 'G3vent::importRun');
-$routes->get('g3vent', 'G3vent::index');
+$routes->get('event/pessoas', 'G3vent::pessoas');
+$routes->get('event/import', 'G3vent::import');
+$routes->get('event/events', 'G3vent::events');
+$routes->get('event/event/edit/(:any)', 'G3vent::events_edit/$1');
+$routes->get('event/event/view/(:any)', 'G3vent::events_view/$1');
+$routes->get('event/event/register/(:any)', 'G3vent::events_register/$1');
+$routes->post('event/event/register/(:any)', 'G3vent::events_register/$1');
+$routes->post('event/event/update/(:any)', 'G3vent::events_update/$1');
+$routes->post('event/import', 'G3vent::importRun');
+$routes->get('event', 'G3vent::index');
 
 
 

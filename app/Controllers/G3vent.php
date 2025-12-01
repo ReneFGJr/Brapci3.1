@@ -97,7 +97,7 @@ class G3vent extends BaseController
         }
         
 
-        return redirect()->to(base_url('g3vent/pessoas'));
+        return redirect()->to(base_url('event/pessoas'));
     }
 
     public function pessoas()
@@ -146,7 +146,7 @@ class G3vent extends BaseController
         $data['e_keywords']    = trim(get('e_keywords'));
         $data['e_data']        = trim(get('e_data'));
         $EventsModel->where('id_e', $id_e)->set($data)->update();
-        return redirect()->to(base_url('g3vent/event/view/' . $id_e));
+        return redirect()->to(base_url('event/event/view/' . $id_e));
     }
 
     function events_register($id_e)
@@ -182,7 +182,7 @@ class G3vent extends BaseController
                                     }
                             }
                     }
-                    return redirect()->to(base_url('g3vent/event/view/' . $id_e));
+                    return redirect()->to(base_url('event/event/view/' . $id_e));
             }
 
         $EventsModel = new \App\Models\G3vent\EventsModel();

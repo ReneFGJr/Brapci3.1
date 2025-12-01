@@ -12,13 +12,13 @@ $semestre = $Semestre->getSemestre('');
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="<?= base_url('g3vent/pessoas') ?>" >
+                    <a class="nav-link" href="<?= base_url('event/pessoas') ?>" >
                         Pessoas
                     </a>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="<?= base_url('g3vent/events') ?>" >
+                    <a class="nav-link" href="<?= base_url('event/events') ?>" >
                         Eventos
                     </a>
                 </li>                

@@ -135,16 +135,16 @@
         </div>
 
         <div class="card-footer d-flex justify-content-between">
-            <a href="<?= base_url('g3vent/events') ?>" class="btn btn-secondary">
+            <a href="<?= base_url('event/events') ?>" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Voltar
             </a>
 
-            <a href="<?= base_url('g3vent/event/register/' . $event['id_e']) ?>" 
+            <a href="<?= base_url('event/event/register/' . $event['id_e']) ?>" 
                class="btn btn-primary">
                 <i class="bi bi-pencil-square"></i> Inscrever Participantes
             </a>            
 
-            <a href="<?= base_url('g3vent/event/edit/' . $event['id_e']) ?>" 
+            <a href="<?= base_url('event/event/edit/' . $event['id_e']) ?>" 
                class="btn btn-primary">
                 <i class="bi bi-pencil-square"></i> Editar
             </a>

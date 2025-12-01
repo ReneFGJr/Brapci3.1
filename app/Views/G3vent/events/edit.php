@@ -3,7 +3,7 @@
     <h3><i class="bi bi-pencil-square"></i> Editar Certificado</h3>
     <hr>
 
-    <form action="<?= base_url('g3vent/event/update/' . $event['id_e']) ?>" method="post">
+    <form action="<?= base_url('event/event/update/' . $event['id_e']) ?>" method="post">
         <?= csrf_field() ?>
 
         <div class="mb-3">

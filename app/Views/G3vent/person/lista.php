@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3><i class="bi bi-people"></i> Lista de Participantes (n= <?= count($pessoas); ?>)</h3>
 
-        <a href="<?= base_url('g3vent/import') ?>" class="btn btn-success">
+        <a href="<?= base_url('event/import') ?>" class="btn btn-success">
             <i class="bi bi-upload"></i> Importar Nomes
         </a>
     </div>

@@ -4,7 +4,7 @@
     <h3><i class="bi bi-upload"></i> Importar Usuários</h3>
     <p class="text-muted">Cole a lista de nomes e e-mails abaixo. Um por linha.</p>
 
-    <form action="<?= base_url('g3vent/import') ?>" method="post">
+    <form action="<?= base_url('event/import') ?>" method="post">
         <?= csrf_field() ?>
 
         <div class="mb-3">

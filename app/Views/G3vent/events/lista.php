@@ -26,12 +26,12 @@
                         <td><?= esc($e['e_data']) ?></td>
                         <td><?= esc($e['e_cidade']) ?></td>
                         <td>
-                            <a href="<?= base_url('g3vent/event/edit/' . $e['id_e']) ?>" 
+                            <a href="<?= base_url('event/event/edit/' . $e['id_e']) ?>" 
                                class="btn btn-primary btn-sm">
                                 <i class="bi bi-pencil-square"></i> Editar
                             </a>
 
-                            <a href="<?= base_url('g3vent/event/view/' . $e['id_e']) ?>" 
+                            <a href="<?= base_url('event/event/view/' . $e['id_e']) ?>" 
                                class="btn btn-success btn-sm">
                                 <i class="bi bi-pencil-square"></i> Ver
                             </a>                            
