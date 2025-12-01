@@ -30,6 +30,11 @@
                 </tr>
 
                 <tr>
+                    <th>Total Inscritos</th>
+                    <td><?= esc($inscritos['total']) ?></td>
+                </tr>                
+
+                <tr>
                     <th>Palavras-chave</th>
                     <td><?= esc($event['e_keywords']) ?></td>
                 </tr>

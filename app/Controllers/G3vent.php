@@ -212,6 +212,11 @@ class G3vent extends BaseController
         $sx .= 'Ver Evento';
         $data = [];
         $data['event'] = $EventsModel->where('id_e', $id_e)->first();
+        $data['inscritos'] = (new \App\Models\G3vent\EventInscritosModel())
+            ->select('count(*) as total')
+            ->where('ein_event', $id_e)
+            ->groupBy('ein_event')
+            ->first();    
         $sx .= view('G3vent/events/view', $data);
         $sx .= view('G3vent/Headers/footer', $data);
         return $sx;
