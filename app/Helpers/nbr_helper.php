@@ -160,7 +160,7 @@ function nbr_author($xa, $xp)
                 {
                     $name = $NM[$TOT - 1] . ', ';
                 } else {
-                    $name = $NM[0] . ', ';
+                    $name = 'ERROR';
                 }             
             
             for ($r = 0; $r < ($TOT - 1); $r++) {
