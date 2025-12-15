@@ -101,6 +101,7 @@ function nbr_author($xa, $xp)
     /***************************************** SOBRENOMES FALSOS */
     $er1 = ['JÚNIOR', 'JUNIOR', 'NETTO', 'NETO', 'SOBRINHO', 'FILHO', 'JR.', 'JR'];
     $TOT = count($NM);
+    pre($NM);
     if ($TOT > 1)
     {
         if (in_array($NM[$TOT - 1], $er1)) {
