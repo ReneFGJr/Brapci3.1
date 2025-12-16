@@ -188,6 +188,12 @@ $routes->get('ojs', 'OJS::index');
 $routes->post('ojs/send', 'OJS::send');
 $routes->get('ojs/journal', 'OJS::journal');
 
+/********* BrapciLAB */
+//$routes->group('lab', ['filter' => 'auth'], function ($routes) {
+$routes->group('labs', function ($routes) {
+    $routes->get('', 'BrapciLab::home');
+});
+
 
 /********* BOOKMARKS */
 $routes->get('bookmarks/search', 'Bookmarks::search');
