@@ -101,7 +101,7 @@ function nbr_author($xa, $xp)
     /***************************************** SOBRENOMES FALSOS */
     $er1 = ['JÚNIOR', 'JUNIOR', 'NETTO', 'NETO', 'SOBRINHO', 'FILHO', 'JR.', 'JR'];
     $TOT = count($NM);
-    if ($TOT > 1)
+    if ($TOT > 2)
     {
         if (in_array($NM[$TOT - 1], $er1)) {
             if (isset($NM[$TOT - 2])) {
@@ -156,7 +156,13 @@ function nbr_author($xa, $xp)
     $name = '';
     switch ($xp) {
         case '1': // Sobrenome e Nome
-            $name = $NM[$TOT - 1] . ', ';
+            if (isset($NM[$TOT - 1]))
+                {
+                    $name = $NM[$TOT - 1] . ', ';
+                } else {
+                    $name = 'ERROR';
+                }             
+            
             for ($r = 0; $r < ($TOT - 1); $r++) {
                 if (isset($Nf[$r])) {
                     $name .= $Nf[$r] . ' ';
