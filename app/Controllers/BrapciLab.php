@@ -4,12 +4,13 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\BrapciLabs\ResearchProjectModel;
+use App\Models\BrapciLabs\CodebookModel;
 
 /* SESSION */
 
 $language = \Config\Services::language();
 
-helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie', 'highchart']);
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie', 'highchart', 'text']);
 $session = \Config\Services::session();
 
 define("URL", getenv("app.baseURL"));
@@ -22,11 +23,13 @@ define("COLLECTION", '/benancib');
 class BrapciLab extends BaseController
 {
     protected $projectModel;
+    protected $codebookModel;
     protected $session;
 
     public function __construct()
     {
         $this->projectModel = new ResearchProjectModel();
+        $this->codebookModel = new CodebookModel();
         $this->session      = session();
     }
 
@@ -42,6 +45,23 @@ class BrapciLab extends BaseController
         }
 
         return view('BrapciLabs/home', $data);
+    }
+
+    /**
+     * Lista projetos para seleção
+     */
+    public function codebook()
+    {
+        $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
+        $ownerId = 1; // temporário
+        $projectId = session('project_id');
+        $data = [
+            'projects' => $this->projectModel->getByOwner($ownerId),
+            'current'  => $this->session->get('project_id'),
+            'codebooks' => $this->codebookModel->getByProject($projectId)
+        ];
+
+        return view('brapcilabs/widget/codebook/view', $data);
     }
 
     /**

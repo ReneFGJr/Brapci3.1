@@ -4,7 +4,7 @@
 <div class="content">
 
     <!-- Cabeçalho do Projeto (widget informativo) -->
-    <?= view('BrapciLabs/widgets/project_header', ['project' => $project ?? null]); ?>
+    <?= view('BrapciLabs/widget/projects/header', ['project' => $project ?? null]); ?>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">CodeBook do Projeto</h4>

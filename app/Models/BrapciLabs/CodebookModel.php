@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class CodebookModel extends Model
 {
+    protected $DBGroup    = 'brapci_labs';
     protected $table      = 'project_codebook';
     protected $primaryKey = 'id';
 

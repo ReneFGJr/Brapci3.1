@@ -194,6 +194,7 @@ $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('projects/select', 'BrapciLab::selectProject');
     $routes->post('projects/set', 'BrapciLab::setProject');
+    $routes->get('codebook', 'BrapciLab::codebook');
 });
 
 
