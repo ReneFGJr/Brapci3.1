@@ -1,37 +1,27 @@
-
 <?= view('BrapciLabs/layout/header'); ?>
 <!-- Sidebar -->
-<?=  view('BrapciLabs/layout/sidebar'); ?>
+<?= view('BrapciLabs/layout/sidebar'); ?>
 <!-- Conteúdo -->
 <div class="content">
 
     <!-- Top -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h3>Dashboard</h3>
-            <small class="text-muted">Welcome back, John</small>
-        </div>
-        <div class="d-flex align-items-center gap-3">
-            <select class="form-select">
-                <option>Last Week</option>
-                <option>Last Month</option>
-            </select>
-            <i class="bi bi-bell"></i>
-            <strong>John Smith</strong>
-        </div>
+        <?= view('BrapciLabs/widget/projects/header') ?>
     </div>
 
     <!-- Cards -->
     <div class="row g-4 mb-4">
-        <?= view("BrapciLabs/widget/cards/card_1",['size'=>4]) ?>
+        <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'Trabalhos', 'info' => '0 selecionados']) ?>
+        <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'Autores', 'info' => '0 selecionados']) ?>
+        <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'CodeBook', 'info' => '0 anotações']) ?>
 
         <div class="col-md-4">
             <div class="card card-dashboard p-3">
                 <h6>Expenses</h6>
                 <h4>$1850.20</h4>
                 <div class="fake-bars mt-3">
-                    <?php for($i=0;$i<10;$i++): ?>
-                        <span class="active" style="height:<?= rand(20,60) ?>px"></span>
+                    <?php for ($i = 0; $i < 10; $i++): ?>
+                        <span class="active" style="height:<?= rand(20, 60) ?>px"></span>
                     <?php endfor ?>
                 </div>
             </div>
@@ -86,4 +76,5 @@
 </div>
 
 </body>
+
 </html>

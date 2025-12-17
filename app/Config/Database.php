@@ -93,6 +93,7 @@ class Database extends Config
     public array $vc = [];
     public array $management = [];
     public array $manuais = [];
+    public array $brapci_labs = [];
 
 
 
@@ -182,6 +183,7 @@ class Database extends Config
             'software' => 'software',
             'guide' => 'guide',
             'bookmarks' => 'bookmark',
+            'brapci_labs' => 'brapci_labs',
         ];
     /*
 

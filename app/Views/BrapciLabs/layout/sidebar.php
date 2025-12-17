@@ -1,8 +1,8 @@
 <div class="sidebar p-4">
     <img src="<?= base_url('assets/BrapciLabs/logo_brapci_labs.png') ?>" class="img-fluid mb-4" alt="Brapci Labs Logo">
 
-    <a class="active"><i class="bi bi-house"></i> Dashboard</a>
-    <a><i class="bi bi-people"></i> Customers</a>
+    <a class="active" href="<?= base_url('labs/projects/select') ?>"><i class="bi bi-house"></i> Projetos</a>
+    <a><i class="bi bi-people"></i> Autoridades</a>
     <a><i class="bi bi-clipboard-check"></i> Activities</a>
     <a><i class="bi bi-bar-chart"></i> Reports</a>
 

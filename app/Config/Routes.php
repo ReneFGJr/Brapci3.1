@@ -192,6 +192,8 @@ $routes->get('ojs/journal', 'OJS::journal');
 //$routes->group('lab', ['filter' => 'auth'], function ($routes) {
 $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
+    $routes->get('projects/select', 'BrapciLab::selectProject');
+    $routes->post('projects/set', 'BrapciLab::setProject');
 });
 
 
