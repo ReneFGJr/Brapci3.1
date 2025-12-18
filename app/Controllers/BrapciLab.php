@@ -47,6 +47,8 @@ class BrapciLab extends BaseController
                 : null;
         }
 
+        pre($projectId);
+
         $data['codebookCount'] = $this->codebookModel->countByProject($projectId);
         $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
 
