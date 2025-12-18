@@ -47,7 +47,11 @@ class BrapciLab extends BaseController
                 : null;
         }
 
-        pre($projectId);
+        if ($projectId === null) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
 
         $data['codebookCount'] = $this->codebookModel->countByProject($projectId);
         $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
