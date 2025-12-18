@@ -193,7 +193,7 @@ $routes->get('ojs/journal', 'OJS::journal');
 $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('projects/select', 'BrapciLab::selectProject');
-    $routes->post('codebook/set', 'BrapciLab::setProject');
+    $routes->post('projects/set', 'BrapciLab::setProject');
 
     $routes->group('project', ['filter' => 'projectRequired'], function ($routes) {
         $routes->get('codebook', 'BrapciLab::codebook');
