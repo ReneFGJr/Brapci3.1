@@ -81,7 +81,7 @@ class BrapciLab extends BaseController
             'authors' => $this->projectAuthorModel->getByProject($projectId)
         ];
 
-        return view('brapcilabs/widget/authors/view', $data);
+        return view('BrapciLabs/widget/authors/view', $data);
     }
 
     public function authors_import($id = null)
@@ -180,7 +180,7 @@ class BrapciLab extends BaseController
             'codebooks' => $this->codebookModel->getByProject($projectId)
         ];
 
-        return view('brapcilabs/widget/codebook/view', $data);
+        return view('BrapciLabs/widget/codebook/view', $data);
     }
 
     /* ===============================
@@ -260,7 +260,7 @@ class BrapciLab extends BaseController
             'codebook' => $this->codebookModel->find($id)
         ];
 
-        return view('brapcilabs/widget/codebook/show', $data);
+        return view('BrapciLabs/widget/codebook/show', $data);
     }
 
     /**
