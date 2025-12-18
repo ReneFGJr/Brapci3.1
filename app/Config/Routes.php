@@ -193,8 +193,22 @@ $routes->get('ojs/journal', 'OJS::journal');
 $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('projects/select', 'BrapciLab::selectProject');
-    $routes->post('projects/set', 'BrapciLab::setProject');
-    $routes->get('codebook', 'BrapciLab::codebook');
+    $routes->post('codebook/set', 'BrapciLab::setProject');
+
+    $routes->group('project', ['filter' => 'projectRequired'], function ($routes) {
+        $routes->get('codebook', 'BrapciLab::codebook');
+        $routes->get('codebook/view/(:num)', 'BrapciLab::codebook_view/$1');
+        $routes->get('codebook/new', 'BrapciLab::newCodebook');
+        $routes->post('codebook/create', 'BrapciLab::createCodebook');
+        $routes->get('codebook/edit/(:num)', 'BrapciLab::editCodebook/$1');
+        $routes->post('codebook/update/(:num)', 'BrapciLab::updateCodebook/$1');
+        $routes->post('codebook/delete/(:num)', 'BrapciLab::deleteCodebook/$1');
+        /******* Authors */
+        $routes->get('authors', 'BrapciLab::authors');
+        $routes->get('authors/import', 'BrapciLab::authors_import');
+        $routes->post('authors/import', 'BrapciLab::authors_import');
+
+    });
 });
 
 

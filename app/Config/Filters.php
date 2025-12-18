@@ -36,6 +36,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         // ✅ ADICIONADO
         'auth' => \App\Filters\AuthFilter::class,
+        'projectRequired' => \App\Filters\ProjectRequiredFilter::class,
     ];
 
     /**

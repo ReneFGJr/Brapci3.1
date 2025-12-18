@@ -66,6 +66,11 @@
             border-radius: 50%;
             background: #ccc;
         }
+
+        .link {
+            text-decoration: none;
+            color: #5b2be0;
+        }
     </style>
 </head>
 <body>

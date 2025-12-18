@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\BrapciLabs\ResearchProjectModel;
 use App\Models\BrapciLabs\CodebookModel;
+use App\Models\BrapciLabs\ProjectAuthorModel;
 
 /* SESSION */
 
@@ -24,12 +25,14 @@ class BrapciLab extends BaseController
 {
     protected $projectModel;
     protected $codebookModel;
+    protected $projectAuthorModel;
     protected $session;
 
     public function __construct()
     {
         $this->projectModel = new ResearchProjectModel();
         $this->codebookModel = new CodebookModel();
+        $this->projectAuthorModel = new ProjectAuthorModel();
         $this->session      = session();
     }
 
@@ -44,8 +47,117 @@ class BrapciLab extends BaseController
                 : null;
         }
 
+        $data['codebookCount'] = $this->codebookModel->countByProject($projectId);
+        $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
+
         return view('BrapciLabs/home', $data);
     }
+
+    private function getProjectsID()
+    {
+        $projectId = session('project_id');
+        if ($projectId) {
+            return $projectId;
+        } else {
+            return 0;
+        }
+
+    }
+
+    /**** authors */
+    public function authors()
+    {
+        $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
+        $ownerId = 1; // temporário
+        $projectId = $this->getProjectsID();
+        $data = [
+            'current' => $projectId,
+            'authors' => $this->projectAuthorModel->getByProject($projectId)
+        ];
+
+        return view('brapcilabs/widget/authors/view', $data);
+    }
+
+    public function authors_import($id = null)
+    {
+        $projectId = session('project_id');
+
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+
+        $text = trim($this->request->getPost('authors'));
+
+        if (empty($text)) {
+            return redirect()->back()
+                ->with('error', 'Nenhum autor informado.');
+        }
+
+        $lines = preg_split('/\r\n|\r|\n/', $text);
+
+        $inserted = 0;
+        $skipped  = 0;
+        $errors   = [];
+
+        foreach ($lines as $lineNumber => $line) {
+
+            $line = trim($line);
+
+            if ($line === '') {
+                continue;
+            }
+
+            // Esperado: Nome | lattes_id | brapci_id
+            $parts = array_map('trim', explode('|', $line));
+
+            if (count($parts) < 3) {
+                $parts = [$parts[0],'',0];
+            }
+
+            [$nome, $lattesId, $brapciId] = $parts;
+
+            /* ===============================
+           VALIDAÇÃO DO NOME
+        =============================== */
+            if (!preg_match('/^[\p{L}\s]+$/u', $nome)) {
+                $errors[] = "Linha " . ($lineNumber + 1) . ": nome do autor inválido (use apenas letras e espaços).";
+                continue;
+            }
+
+            /* ===============================
+           VALIDAÇÃO DO BRAPCI ID
+        =============================== */
+            // Evita duplicação no projeto
+            $nome = nbr_author($nome,7);
+            if ($this->projectAuthorModel->existsInProject((string)$nome, $projectId)) {
+                $skipped++;
+                continue;
+            }
+
+            $data = [
+                'nome'       => $nome,
+                'project_id' => $projectId
+            ];
+
+            $this->projectAuthorModel->set($data)->insert();
+            $inserted++;
+        }
+
+        /* ===============================
+       FEEDBACK AO USUÁRIO
+    =============================== */
+        if (!empty($errors)) {
+            session()->setFlashdata('warning', implode('<br>', $errors));
+        }
+
+        return redirect()
+            ->to('/labs/project/authors')
+            ->with('success', "Autores inseridos: {$inserted}. Ignorados: {$skipped}.");
+    }
+
+
 
     /**
      * Lista projetos para seleção
@@ -55,13 +167,94 @@ class BrapciLab extends BaseController
         $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
         $ownerId = 1; // temporário
         $projectId = session('project_id');
+
         $data = [
             'projects' => $this->projectModel->getByOwner($ownerId),
-            'current'  => $this->session->get('project_id'),
+            'current'  => $projectId,
             'codebooks' => $this->codebookModel->getByProject($projectId)
         ];
 
         return view('brapcilabs/widget/codebook/view', $data);
+    }
+
+    /* ===============================
+       INCLUIR
+    =============================== */
+    public function newCodebook()
+    {
+        return view('BrapciLabs/widget/codebook/form', [
+            'action' => 'create'
+        ]);
+    }
+
+    public function createCodebook()
+    {
+        $tags = $this->request->getPost('tags');
+        $tags = array_map('trim', explode(',', $tags));
+
+        $this->codebookModel->insert([
+            'project_id' => session('project_id'),
+            'title'      => $this->request->getPost('title'),
+            'content'    => $this->request->getPost('content'),
+            'tags'       => json_encode($tags),
+            'created_by' => session('user_id')
+        ]);
+
+        return redirect()->to('/labs/project/codebook')
+            ->with('success', 'Anotação criada com sucesso.');
+    }
+
+    /* ===============================
+       EDITAR
+    =============================== */
+    public function editCodebook($id)
+    {
+        $projectId = session('project_id');
+
+        return view('BrapciLabs/widget/codebook/form', [
+            'codebook' => $this->codebookModel->getOne($id, $projectId),
+            'action'   => 'update'
+        ]);
+    }
+
+    public function updateCodebook($id)
+    {
+        $tags = $this->request->getPost('tags');
+        $tags = array_map('trim', explode(',', $tags));
+        $this->codebookModel->update($id, [
+            'title'   => $this->request->getPost('title'),
+            'content' => $this->request->getPost('content'),
+            'tags'    => json_encode($tags)
+        ]);
+
+        return redirect()->to('/labs/project/codebook/view/' . $id)
+            ->with('success', 'Anotação atualizada.');
+    }
+
+    /* ===============================
+       EXCLUIR
+    =============================== */
+    public function deleteCodebook($id)
+    {
+        $this->codebookModel->delete($id);
+
+        return redirect()->to('/labs/project/codebook')
+            ->with('success', 'Anotação excluída.');
+    }
+
+
+
+    public function codebook_view($id = null)
+    {
+        $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
+        $ownerId = 1; // temporário
+        $projectId = $this->getProjectsID();
+        $data = [
+            'current'  => $this->session->get('project_id'),
+            'codebook' => $this->codebookModel->find($id)
+        ];
+
+        return view('brapcilabs/widget/codebook/show', $data);
     }
 
     /**

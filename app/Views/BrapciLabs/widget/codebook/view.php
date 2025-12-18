@@ -9,12 +9,11 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h4 class="mb-0">CodeBook do Projeto</h4>
 
-        <!-- botão futuro -->
-        <!--
-        <a href="<?= base_url('labs/codebook/new') ?>" class="btn btn-sm btn-primary">
-            Nova anotação
+        <!-- botão NOVO CODEBOOK -->
+        <a href="<?= base_url('labs/project/codebook/new') ?>"
+            class="btn btn-sm btn-primary">
+            ➕ Novo CodeBook
         </a>
-        -->
     </div>
 
     <?php if (empty($codebooks)): ?>
@@ -35,7 +34,10 @@
                         <div class="card-body d-flex flex-column">
 
                             <h5 class="card-title">
-                                <?= esc($cb['title']) ?>
+                                <a href="<?= base_url('labs/project/codebook/view/' . $cb['id']) ?>"
+                                    class="link">
+                                    <?= esc($cb['title']) ?>
+                                </a>
                             </h5>
 
                             <p class="card-text text-muted small">
@@ -58,16 +60,6 @@
                             </div>
 
                         </div>
-
-                        <!-- área de ações (futuro) -->
-                        <!--
-                        <div class="card-footer bg-white text-end">
-                            <a href="<?= base_url('labs/codebook/view/' . $cb['id']) ?>"
-                               class="btn btn-sm btn-outline-primary">
-                                Ver
-                            </a>
-                        </div>
-                        -->
 
                     </div>
 

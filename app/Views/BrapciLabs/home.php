@@ -12,8 +12,26 @@
     <!-- Cards -->
     <div class="row g-4 mb-4">
         <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'Trabalhos', 'info' => '0 selecionados']) ?>
-        <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'Autores', 'info' => '0 selecionados']) ?>
-        <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'CodeBook', 'info' => '<a href="'.base_url('labs/codebook').'">0 anotações</a>']) ?>
+
+        <!-- Autores Card -->
+        <?= view("BrapciLabs/widget/cards/card_1", [
+            'size'  => 4,
+            'title' => 'Autores',
+            'info'  => $codebookCount > 0
+                ? '<a href="' . base_url('labs/project/authors') . '" class="link">'
+                . $authorsCount . ' autores</a>'
+                : 'sem autores'
+        ]) ?>
+
+        <!-- CodeBook Card -->
+        <?= view("BrapciLabs/widget/cards/card_1", [
+            'size'  => 4,
+            'title' => 'CodeBook',
+            'info'  => $codebookCount > 0
+                ? '<a href="' . base_url('labs/project/codebook') . '" class="link">'
+                . $codebookCount . ' anotações</a>'
+                : 'sem codebook'
+        ]) ?>
 
         <div class="col-md-4">
             <div class="card card-dashboard p-3">
