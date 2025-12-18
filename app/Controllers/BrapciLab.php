@@ -275,7 +275,7 @@ class BrapciLab extends BaseController
             'current'  => $this->session->get('project_id')
         ];
 
-        return view('brapcilabs/projects/select', $data);
+        return view('brapciLabs/projects/select', $data);
     }
 
     public function setProject()
