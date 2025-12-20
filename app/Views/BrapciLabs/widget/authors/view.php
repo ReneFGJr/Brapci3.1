@@ -22,14 +22,14 @@
             </a>
 
             <!-- Remover duplicações -->
-            <a href="<?= base_url('labs/project/authors/deduplicate/' . $project['id']) ?>"
+            <a href="<?= base_url('labs/project/authors/deduplicate') ?>"
                 class="btn btn-outline-warning btn-sm"
                 onclick="return confirm('Deseja remover autores duplicados deste projeto?')">
                 🧹 Remover duplicações
             </a>
 
             <!-- Checar IDs -->
-            <a href="<?= base_url('labs/project/authors/check-ids/' . $project['id']) ?>"
+            <a href="<?= base_url('labs/project/authors/check-ids') ?>"
                 class="btn btn-outline-info btn-sm">
                 🔍 Checar ID dos pesquisadores
             </a>

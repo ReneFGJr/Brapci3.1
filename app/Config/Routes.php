@@ -207,6 +207,8 @@ $routes->group('labs', function ($routes) {
         $routes->get('authors', 'BrapciLab::authors');
         $routes->get('authors/import', 'BrapciLab::authors_import');
         $routes->post('authors/import', 'BrapciLab::authors_import');
+        $routes->get('authors/deduplicate', 'BrapciLab::authors_deduplicate');
+        $routes->get('authors/check-ids', 'BrapciLab::check_ids');
 
     });
 });

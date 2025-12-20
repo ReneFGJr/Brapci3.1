@@ -88,6 +88,7 @@ class BrapciLab extends BaseController
         if (!empty($q)) {
             $model->like('nome', $q);
         }
+        $model->orderBy('nome', 'ASC');
 
         $authors = $model->paginate(25);
         $pager   = $model->pager;
@@ -117,6 +118,22 @@ class BrapciLab extends BaseController
         ];
 
         return view('BrapciLabs/widget/authors/view', $data);
+    }
+
+    public function check_ids()
+    {
+        $projectId = session('project_id');
+
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+        $removed = $this->projectAuthorModel->check_ids($projectId);
+
+        return redirect()
+            ->to('/labs/project/authors')
+            ->with('success', "Autores duplicados removidos: {$removed}.");
     }
 
 
