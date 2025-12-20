@@ -73,16 +73,52 @@ class BrapciLab extends BaseController
     /**** authors */
     public function authors()
     {
-        $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
-        $ownerId = 1; // temporário
+        $ownerId  = $this->session->get('user_id');
+        $ownerId  = 1; // temporário
         $projectId = $this->getProjectsID();
+
+        $q = $this->request->getGet('q');
+
+        // =============================
+        // BUILDER PARA PAGINAÇÃO
+        // =============================
+        $model = $this->projectAuthorModel;
+        $model->where('project_id', $projectId);
+
+        if (!empty($q)) {
+            $model->like('nome', $q);
+        }
+
+        $authors = $model->paginate(25);
+        $pager   = $model->pager;
+
+        // =============================
+        // BUILDER PARA CONTAGEM TOTAL
+        // =============================
+        $countModel = clone $this->projectAuthorModel;
+        $countModel->where('project_id', $projectId);
+
+        if (!empty($q)) {
+            $countModel->like('nome', $q);
+        }
+
+        $total = $countModel->countAllResults();
+
+        // =============================
+        // DATA
+        // =============================
         $data = [
             'current' => $projectId,
-            'authors' => $this->projectAuthorModel->getByProject($projectId)
+            'project' => $this->projectModel->find($projectId),
+            'authors' => $authors,
+            'pager'   => $pager,
+            'q'       => $q,
+            'total'   => $total
         ];
 
         return view('BrapciLabs/widget/authors/view', $data);
     }
+
 
     public function authors_import($id = null)
     {
