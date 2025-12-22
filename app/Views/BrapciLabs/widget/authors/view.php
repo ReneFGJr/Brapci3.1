@@ -122,7 +122,15 @@
                                     </td>
 
                                     <td>
-                                        <?= $a['brapci_id'] ?: '<span class="text-muted">—</span>' ?>
+                                        <?php
+                                        if ($a['brapci_id'] > 0) {
+                                            echo '<a href="' . 'https://brapci.inf.br/v/' . $a['brapci_id'] . '" class="link" target="_blank">'
+                                                . esc($a['brapci_id']) .
+                                                '</a>';
+                                        } else {
+                                            echo '<span class="text-muted">—</span>';
+                                        }
+                                        ?>
                                     </td>
 
                                     <td class="text-end">

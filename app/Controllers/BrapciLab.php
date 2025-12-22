@@ -123,17 +123,19 @@ class BrapciLab extends BaseController
     public function check_ids()
     {
         $projectId = session('project_id');
+        $data = [
+            'current' => $projectId,
+            'project' => $this->projectModel->find($projectId),
+        ];
 
         if (! $projectId) {
             return redirect()
                 ->to('/labs/projects/select')
                 ->with('error', 'Selecione um projeto para continuar.');
         }
-        $removed = $this->projectAuthorModel->check_ids($projectId);
+        $checked = $this->projectAuthorModel->check_ids($projectId, $data);
 
-        return redirect()
-            ->to('/labs/project/authors')
-            ->with('success', "Autores duplicados removidos: {$removed}.");
+        return $checked;
     }
 
 

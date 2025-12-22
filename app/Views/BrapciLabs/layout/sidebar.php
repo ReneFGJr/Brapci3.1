@@ -5,11 +5,11 @@
 
     <a class="active" href="<?= base_url('labs/projects/select') ?>"><i class="bi bi-house"></i> Projetos</a>
     <a><i class="bi bi-people"></i> Autoridades</a>
-    <a><i class="bi bi-clipboard-check"></i> Activities</a>
-    <a><i class="bi bi-bar-chart"></i> Reports</a>
+    <a href="<?= base_url('labs/api-library') ?>"><i class="bi bi-clipboard-check"></i> Biblioteca API</a>
+        <a><i class="bi bi-bar-chart"></i> Reports</a>
 
-    <hr>
+        <hr>
 
-    <a><i class="bi bi-gear"></i> Settings</a>
-    <a><i class="bi bi-box-arrow-right"></i> Log out</a>
+        <a><i class="bi bi-gear"></i> Settings</a>
+        <a><i class="bi bi-box-arrow-right"></i> Log out</a>
 </div>

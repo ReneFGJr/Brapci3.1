@@ -60,40 +60,93 @@ class ProjectAuthorModel extends Model
 
 
     /******************************** */
-    function check_ids($projectId)
+    public function check_ids($projectId,$data)
     {
-        $this->select('id, nome, lattes_id, brapci_id, project_id')
-        //->where('brapci_id','')
-        ->where('project_id', $projectId);
-        $authors = $this->findAll();
+        @ini_set('output_buffering', 'off');
+        @ini_set('zlib.output_compression', false);
+        @ini_set('implicit_flush', true);
+        ob_implicit_flush(true);
 
-        // Lógica para checar IDs dos autores vinculados a projetos
-        foreach ($authors as $ln)
-        {
-            if ($ln['brapci_id'] == '')
-            {
-                // Buscar BRAPCI ID via API
-                $url = 'https://cip.brapci.inf.br/api/authority/search?term='.$ln['nome'];
-                echo '<br>: '.$url;
+        while (ob_get_level() > 0) {
+            ob_end_flush();
+        }
+        ob_implicit_flush(true);
+
+
+        // Views iniciais
+        echo view('BrapciLabs/layout/header');
+        echo view('BrapciLabs/layout/sidebar');
+        echo '<div class="content">';
+        echo view('BrapciLabs/widget/projects/header', $data);
+        echo view('BrapciLabs/widget/process/index');
+        echo '</div>';
+
+        echo str_repeat(' ', 1024);
+        flush();
+
+        // Buscar autores
+        $this->select('id, nome, lattes_id, brapci_id, project_id')
+            ->where('project_id', $projectId);
+
+        $authors = $this->findAll();
+        $total   = count($authors);
+        $step    = 0;
+
+        foreach ($authors as $ln) {
+            $step++;
+
+            echo "
+        <script>
+            document.getElementById('process').innerHTML =
+            'Processando {$step} de {$total}: {$ln['nome']}';
+        </script>
+        ";
+            echo str_repeat(' ', 1024);
+            flush();
+
+            if ($ln['brapci_id'] == '') {
+
                 $dt = $this->searchAuthority($ln['nome']);
+
+                if (!isset($dt['data']['item'])) {
+                    continue;
+                }
+
                 $IDB = 0;
-                foreach($dt['data']['item'] as $aut)
-                {
-                    if ($this->normalizeString($aut['Term']) == $this->normalizeString($ln['nome']))
-                    {
+                foreach ($dt['data']['item'] as $aut) {
+                    if (
+                        $this->normalizeString($aut['Term']) ===
+                        $this->normalizeString($ln['nome'])
+                    ) {
                         $IDB = $aut['use'];
+                        break;
                     }
                 }
-                if ($IDB != 0)
-                {
-                    echo '<br>-- Atualizando ID do autor '.$ln['nome'].' para '.$IDB;
-                    $this->update($ln['id'], ['brapci_id'=>$IDB]);
+
+                if ($IDB) {
+                    $this->update($ln['id'], [
+                        'brapci_id' => $IDB
+                    ]);
                 }
+                sleep(1); // simula tempo (opcional)
+            } else {
+                usleep(10000); // simula tempo (opcional)
             }
         }
 
+        // Finalização
+        echo "
+    <script>
+        document.getElementById('process').innerHTML =
+        '<strong>Processo concluído com sucesso.</strong>';
+    </script>
+    ";
+        echo str_repeat(' ', 1024);
+        flush();
+
         exit;
     }
+
 
     private function normalizeString(string $str): string
     {

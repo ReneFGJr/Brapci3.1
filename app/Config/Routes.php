@@ -195,6 +195,16 @@ $routes->group('labs', function ($routes) {
     $routes->get('projects/select', 'BrapciLab::selectProject');
     $routes->post('projects/set', 'BrapciLab::setProject');
 
+    $routes->group('api-library', function ($routes) {
+        $routes->get('/', 'BrapciLabsApiLibrary::index');
+        $routes->get('create', 'BrapciLabsApiLibrary::create');
+        $routes->post('store', 'BrapciLabsApiLibrary::store');
+        $routes->get('edit/(:num)', 'BrapciLabsApiLibrary::edit/$1');
+        $routes->post('update/(:num)', 'BrapciLabsApiLibrary::update/$1');
+        $routes->get('delete/(:num)', 'BrapciLabsApiLibrary::delete/$1');
+        $routes->get('show/(:num)', 'BrapciLabsApiLibrary::show/$1');
+    });
+
     $routes->group('project', ['filter' => 'projectRequired'], function ($routes) {
         $routes->get('codebook', 'BrapciLab::codebook');
         $routes->get('codebook/view/(:num)', 'BrapciLab::codebook_view/$1');
