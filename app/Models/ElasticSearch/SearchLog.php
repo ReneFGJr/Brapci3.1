@@ -47,12 +47,19 @@ class SearchLog extends Model
 
     function report($cmd='', $d1='', $d2='')
     {
-        $sx = '';
-        $dt = $this->select('s_query, count(*) as total')->like('s_query','Inteligencia artificial')->groupBy('s_query')->findAll(10);
+        $sx = '<table>';
+        $dt = $this
+                ->select('s_query, count(*) as total')
+                ->like('s_query','Inteligencia artificial')
+                ->groupBy('s_query')
+                ->findAll(10);
         foreach($dt as $line)
             {
+                $sx .= '<tr><td>';
                 $sx .= $line['s_query'] . '<br>';
+                $sx .= '</td><td>' . $line['total'] . '</td></tr>';
             }
+            $sx .= '</table>';
             echo $sx;
         return $sx;
     }
