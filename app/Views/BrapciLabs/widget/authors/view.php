@@ -23,14 +23,14 @@
 
             <!-- Remover duplicações -->
             <a href="<?= base_url('labs/project/authors/deduplicate') ?>"
-                class="btn btn-outline-warning btn-sm"
+                class="btn btn-outline-secondary btn-sm ms-2"
                 onclick="return confirm('Deseja remover autores duplicados deste projeto?')">
                 🧹 Remover duplicações
             </a>
 
             <!-- Checar IDs -->
             <a href="<?= base_url('labs/project/authors/check-ids') ?>"
-                class="btn btn-outline-info btn-sm">
+                class="btn btn-outline-secondary btn-sm ms-2">
                 🔍 Checar ID dos pesquisadores
             </a>
 
@@ -108,7 +108,10 @@
                             <?php foreach ($authors as $a): ?>
                                 <tr>
 
-                                    <td><?= esc($a['nome']) ?></td>
+                                    <td>
+                                        <a href="<?= base_url('labs/project/authors/view/' . $a['brapci_id']) ?>" class="link" target="_blank">
+                                        <?= esc($a['nome']) ?></td>
+                                        </a>
 
                                     <td>
                                         <?php if (!empty($a['lattes_id'])): ?>
