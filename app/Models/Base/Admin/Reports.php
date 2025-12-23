@@ -40,10 +40,15 @@ class Reports extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    function index($d1, $d2, $d3)
+    function index($d1='', $d2='', $d3='')
     {
         $sx = '';
         switch ($d1) {
+            case 'searchs':
+                $SearchLog = new \App\Models\ElasticSearch\SearchLog();
+                $sx .= $SearchLog->report('index', $d2, $d3
+               
+                break;
             case 'catalog_manutention':
                 $sx .= $this->catalog_manutention($d2, $d3);
                 break;

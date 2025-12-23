@@ -45,6 +45,15 @@ class SearchLog extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    function report($cmd='', $d1='', $d2='')
+    {
+        $sx = '';
+        $dt = $this->select('s_query')->like('s_query','Inteligencia artificial')->findAll(10);
+        pre($dt);
+
+        return $sx;
+    }
+
     function register($q='',$total=0)
     {
         $Social = new \App\Models\Socials();
