@@ -32,6 +32,10 @@ class Admin extends BaseController
                 $sx .= view('Brapci/Headers/navbar', $data);
                 switch($act)
                     {
+                        case 'repoorts':
+                            $Reports = new \App\Models\Base\Admin\Reports();
+                            $sx .= $Reports->index($sub);
+                            
                         case 'upload_cover':
                             $Cover = new \App\Models\Base\Cover();
                             $sx = view('Brapci/Headers/header', $data);
