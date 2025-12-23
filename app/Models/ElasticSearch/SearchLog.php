@@ -53,7 +53,7 @@ class SearchLog extends Model
             {
                 $sx .= $line['s_query'] . '<br>';
             }
-
+            echo $sx;
         return $sx;
     }
 
