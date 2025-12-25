@@ -30,6 +30,38 @@ class ProjectAuthorModel extends Model
     protected $validationMessages = [];
 
     /**************************** Search */
+    public function searchAuthorityLattes(string $term): array
+    {
+        $url = 'http://200.130.0.48:5000/persons/nome/' . strtolower(urlencode($term));
+        $url = str_replace('+', '%20', $url);
+        $client = \Config\Services::curlrequest([
+            'verify'  => false,   // 🔴 DESATIVA SSL (apenas desenvolvimento)
+            'timeout' => 10
+        ]);
+
+        try {
+            $response = $client->get($url, [
+                'headers' => [
+                    'Accept' => 'application/json'
+                ]
+            ]);
+
+            if ($response->getStatusCode() !== 200) {
+                pre('Erro na API CIP',false);
+                pre($response,false);
+                flush();
+                exit;
+                return [];
+            }
+
+            return json_decode($response->getBody(), true) ?? [];
+        } catch (\Throwable $e) {
+            log_message('error', 'Erro na API CIP: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+
     public function searchAuthority(string $term): array
     {
         $url = 'https://cip.brapci.inf.br/api/authority/search?term=' . urlencode($term);
@@ -62,6 +94,8 @@ class ProjectAuthorModel extends Model
     /******************************** */
     public function check_ids($projectId,$data)
     {
+        set_time_limit(600); // 10 minutos
+
         @ini_set('output_buffering', 'off');
         @ini_set('zlib.output_compression', false);
         @ini_set('implicit_flush', true);
@@ -104,6 +138,30 @@ class ProjectAuthorModel extends Model
             echo str_repeat(' ', 1024);
             flush();
 
+            /***************** Lattes ID */
+            if ($ln['lattes_id'] == '') {
+
+                $dt = $this->searchAuthorityLattes($ln['nome']);
+                echo '<div class="col-12 card mb-4 shadow-sm border-0"><div class="card-body">';
+                $IDB = '';
+
+                foreach ($dt as $key => $dti) {
+                    $IDB = $key;
+                    echo "<strong>Lattes ID encontrado:</strong> $IDB <br>";
+                }
+                echo '</div></div>';
+
+                if ($IDB) {
+                    $this->update($ln['id'], [
+                        'lattes_id' => $IDB
+                    ]);
+                }
+                sleep(1); // simula tempo (opcional)
+            } else {
+                usleep(10000); // simula tempo (opcional)
+            }
+
+            /***************** Brapci ID */
             if ($ln['brapci_id'] == '') {
 
                 $dt = $this->searchAuthority($ln['nome']);
