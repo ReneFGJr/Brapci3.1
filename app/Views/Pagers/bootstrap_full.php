@@ -1,29 +1,29 @@
-<?php if ($pager->hasPrevious() || $pager->hasNext()): ?>
+<?php $links = $pager->links(); ?>
 
-    <nav aria-label="Paginação">
-        <ul class="pagination pagination-sm justify-content-center">
+<?php if (! empty($links)): ?>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
 
             <?php if ($pager->hasPrevious()): ?>
                 <li class="page-item">
                     <a class="page-link" href="<?= $pager->getPrevious() ?>">&laquo;</a>
                 </li>
-            <?php endif; ?>
+            <?php endif ?>
 
-            <?php foreach ($pager->links() as $link): ?>
+            <?php foreach ($links as $link): ?>
                 <li class="page-item <?= $link['active'] ? 'active' : '' ?>">
                     <a class="page-link" href="<?= $link['uri'] ?>">
                         <?= $link['title'] ?>
                     </a>
                 </li>
-            <?php endforeach; ?>
+            <?php endforeach ?>
 
             <?php if ($pager->hasNext()): ?>
                 <li class="page-item">
                     <a class="page-link" href="<?= $pager->getNext() ?>">&raquo;</a>
                 </li>
-            <?php endif; ?>
+            <?php endif ?>
 
         </ul>
     </nav>
-
 <?php endif; ?>

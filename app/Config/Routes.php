@@ -194,6 +194,8 @@ $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
     $routes->get('projects/select', 'BrapciLab::selectProject');
     $routes->post('projects/set', 'BrapciLab::setProject');
+    $routes->get('importRIS', 'BrapciLab::uploadRIS');
+    $routes->post('importRIS', 'BrapciLab::importRIS');
 
     $routes->group('api-library', function ($routes) {
         $routes->get('/', 'BrapciLabsApiLibrary::index');
@@ -213,12 +215,16 @@ $routes->group('labs', function ($routes) {
         $routes->get('codebook/edit/(:num)', 'BrapciLab::editCodebook/$1');
         $routes->post('codebook/update/(:num)', 'BrapciLab::updateCodebook/$1');
         $routes->post('codebook/delete/(:num)', 'BrapciLab::deleteCodebook/$1');
+
         /******* Authors */
         $routes->get('authors', 'BrapciLab::authors');
         $routes->get('authors/import', 'BrapciLab::authors_import');
         $routes->post('authors/import', 'BrapciLab::authors_import');
         $routes->get('authors/deduplicate', 'BrapciLab::authors_deduplicate');
         $routes->get('authors/check-ids', 'BrapciLab::check_ids');
+
+        /******* Workds */
+        $routes->get('works', 'BrapciLab::works');
 
     });
 });

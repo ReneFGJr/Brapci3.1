@@ -11,13 +11,24 @@
 
     <!-- Cards -->
     <div class="row g-4 mb-4">
-        <?= view("BrapciLabs/widget/cards/card_1", ['size' => 4, 'title' => 'Trabalhos', 'info' => '0 selecionados']) ?>
+        <?= view("BrapciLabs/widget/cards/card_1", [
+            'size'  => 4,
+            'title' => 'Trabalhos <a href="' . base_url('labs/importRIS').'"
+           class="ms-2 text-decoration-none"
+           title="Importar trabalhos (RIS)">
+            <i class="bi bi-file-earmark-arrow-up"></i>
+        </a>',
+            'info'  => $worksCount > 0
+                ? '<a href="' . base_url('labs/project/works') . '" class="link">'
+                . $worksCount . ' trabalhos</a>'
+                : 'sem trabalhos'
+        ]) ?>
 
         <!-- Autores Card -->
         <?= view("BrapciLabs/widget/cards/card_1", [
             'size'  => 4,
             'title' => 'Autores',
-            'info'  => $codebookCount > 0
+            'info'  => $authorsCount > 0
                 ? '<a href="' . base_url('labs/project/authors') . '" class="link">'
                 . $authorsCount . ' autores</a>'
                 : 'sem autores'

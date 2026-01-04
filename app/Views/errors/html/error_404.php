@@ -7,7 +7,7 @@
 <body>
     <div class="wrap text-center">
         <h1>Concept Not Found - Conceito não localizado</h1>
-        <img src="<?=URL.'/img/thema/404.png';?>">
+        <img src="<?=base_url('img/thema/404.png');?>">
 
         <p>
             <?php if (! empty($message) && $message !== '(null)') : ?>

@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use App\Models\BrapciLabs\ResearchProjectModel;
 use App\Models\BrapciLabs\CodebookModel;
 use App\Models\BrapciLabs\ProjectAuthorModel;
+use App\Models\BrapciLabs\RisModel;
+use Google\Service\BigtableAdmin\Split;
 
 /* SESSION */
 
@@ -26,6 +28,7 @@ class BrapciLab extends BaseController
     protected $projectModel;
     protected $codebookModel;
     protected $projectAuthorModel;
+    protected $risModel;
     protected $session;
 
     public function __construct()
@@ -33,6 +36,7 @@ class BrapciLab extends BaseController
         $this->projectModel = new ResearchProjectModel();
         $this->codebookModel = new CodebookModel();
         $this->projectAuthorModel = new ProjectAuthorModel();
+        $this->risModel = new RisModel();
         $this->session      = session();
     }
 
@@ -55,7 +59,7 @@ class BrapciLab extends BaseController
 
         $data['codebookCount'] = $this->codebookModel->countByProject($projectId);
         $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
-
+        $data['worksCount'] = $this->risModel->countByProject($projectId); // implementar contagem de obras
         return view('BrapciLabs/home', $data);
     }
 
@@ -70,7 +74,7 @@ class BrapciLab extends BaseController
 
     }
 
-    /**** authors */
+    /**** Authors */
     public function authors()
     {
         $ownerId  = $this->session->get('user_id');
@@ -352,5 +356,172 @@ class BrapciLab extends BaseController
         $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();
         $data['projects'] = $ResearchProjectModel->findAll();
         return view('BrapciLabs/projects', $data);
+    }
+
+    /*************** WORKS */
+    public function uploadRIS()
+    {
+        $projectId = session('project_id');
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+
+        $data = [
+            'project_id' => $projectId,
+            'title' => 'Importação RIS'
+        ];
+
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+        echo view('BrapciLabs/ris/upload');
+        echo view('BrapciLabs/layout/footer');
+    }
+
+
+    public function importRIS()
+    {
+        $projectId = session('project_id');
+
+        if (! $projectId) {
+            return redirect()
+                ->to('/labs/projects/select')
+                ->with('error', 'Selecione um projeto para continuar.');
+        }
+
+        $file = $this->request->getFile('ris_file');
+
+        if (! $file || ! $file->isValid()) {
+            return redirect()->back()->with('error', 'Arquivo inválido');
+        }
+
+        // Leitura robusta do RIS (Windows/Linux/Mac)
+        $content = file_get_contents($file->getTempName());
+        $content = str_replace(["\r\n", "\r"], "\n", $content);
+        $lines   = explode("\n", $content);
+
+        $records = [];
+        $current = [];
+
+        foreach ($lines as $line) {
+
+            $line = trim($line);
+
+            // Fim do registro RIS
+            if ($line === 'ER  -') {
+                if (!empty($current)) {
+                    $records[] = $current;
+                }
+                $current = [];
+                continue;
+            }
+
+            // Campo RIS
+            if (preg_match('/^([A-Z0-9]{2})  - (.*)$/', $line, $m)) {
+                $current[$m[1]][] = trim($m[2]);
+            }
+        }
+
+        $model    = new RisModel();
+        $inserted = 0;
+        $ignored  = 0;
+
+        foreach ($records as $r) {
+
+            $title    = $r['TI'][0] ?? null;
+            $authors  = isset($r['AU']) ? implode('; ', $r['AU']) : null;
+            $journal  = $r['JO'][0] ?? ($r['T2'][0] ?? null);
+            $year     = isset($r['PY'][0]) ? (int) $r['PY'][0] : null;
+            $doi      = $r['DO'][0] ?? null;
+            $abstract = $r['AB'][0] ?? null;
+            $type     = $r['TY'][0] ?? null;
+            $url      = $r['UR'][0] ?? null;
+
+            // 🔹 Keywords (KW)
+            $keywords = isset($r['KW'])
+                ? implode('; ', array_unique($r['KW']))
+                : null;
+
+            // Hash para deduplicação (por projeto)
+            $hash = hash(
+                'sha256',
+                json_encode([$projectId, $title, $authors, $journal, $year, $doi])
+            );
+
+            if ($model->existsHash($hash, $projectId)) {
+                $ignored++;
+                continue;
+            }
+
+            $model->insert([
+                'project_id' => $projectId,
+                'ris_type'   => $type,
+                'title'      => $title,
+                'authors'    => $authors,
+                'journal'    => $journal,
+                'url'        => $url,
+                'year'       => $year,
+                'doi'        => $doi,
+                'abstract'   => $abstract,
+                'keywords'   => $keywords,
+                'raw_hash'   => $hash
+            ]);
+
+            $inserted++;
+        }
+
+        return redirect()->back()->with(
+            'success',
+            "Importação concluída. Inseridos: {$inserted} | Ignorados (duplicados): {$ignored}"
+        );
+    }
+
+    /**** Works */
+    public function works()
+    {
+        $ownerId   = 1; // temporário
+        $projectId = $this->getProjectsID();
+
+        $q = $this->request->getGet('q');
+
+        // =============================
+        // MODEL PARA LISTAGEM + PAGINAÇÃO
+        // =============================
+        $model = new \App\Models\BrapciLabs\RisModel();
+        $model->where('project_id', $projectId);
+
+        if (!empty($q)) {
+            $model->like('title', $q);
+        }
+
+        $model->orderBy('title', 'ASC');
+
+        $data['works'] = $model->paginate(25);
+        $data['pager'] = $model->pager;
+
+        // =============================
+        // MODEL PARA CONTAGEM TOTAL
+        // =============================
+        $countModel = new \App\Models\BrapciLabs\RisModel();
+        $countModel->where('project_id', $projectId);
+
+        if (!empty($q)) {
+            $countModel->like('title', $q);
+        }
+
+        $data['total'] = $countModel->countAllResults();
+
+        // =============================
+        // OUTROS DADOS
+        // =============================
+        $data['q']       = $q;
+        $data['current'] = $projectId;
+        $data['project'] = $this->projectModel->find($projectId);
+
+        echo view('BrapciLabs/layout/header', $data['project']);
+        echo view('BrapciLabs/layout/sidebar');
+        echo view('BrapciLabs/widget/works/index', $data);
+        echo view('BrapciLabs/layout/footer');
     }
 }
