@@ -93,6 +93,11 @@ class ArticleModel extends Model
             'abstract' => [
                 'pt_BR' => 'Este artigo apresenta um estudo sobre o uso da API do OJS para automação de submissões e atualização de metadados via PHP.'
             ],
+            'keywords' => [
+                'pt_BR' => [
+                    'OJS',
+                ]
+            ],
 
             // 🔹 Keywords (palavras-chave)
             // Deve ser um array de arrays, com locale como chave
@@ -101,8 +106,8 @@ class ArticleModel extends Model
             ]
         ];
 
-        $submissionId = 28;
-        $publicationId = 28;
+        $submissionId = 38;
+        $publicationId = 38;
 
         $this->insertAuthor($submissionId, $publicationId);
 

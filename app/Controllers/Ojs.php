@@ -16,6 +16,8 @@ class Ojs extends Controller
         return view('OJS/form_upload');
     }
 
+
+
     public function journal()
     {
         $client = \Config\Services::curlrequest();
