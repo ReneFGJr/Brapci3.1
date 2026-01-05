@@ -188,6 +188,15 @@ $routes->get('ojs', 'OJS::index');
 $routes->post('ojs/send', 'OJS::send');
 $routes->get('ojs/journal', 'OJS::journal');
 
+$routes->group('events', function ($routes) {
+    $routes->get('/', 'Event::index');
+    $routes->get('create', 'Event::create');
+    $routes->post('store', 'Event::store');
+    $routes->get('edit/(:num)', 'Event::edit/$1');
+    $routes->post('update/(:num)', 'Event::update/$1');
+    $routes->get('delete/(:num)', 'Event::delete/$1');
+});
+
 /********* BrapciLAB */
 //$routes->group('lab', ['filter' => 'auth'], function ($routes) {
 $routes->group('labs', function ($routes) {
