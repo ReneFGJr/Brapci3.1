@@ -23,11 +23,23 @@
                         <td><?= esc($e['ev_name']) ?></td>
                         <td><?= esc($e['ev_place']) ?></td>
                         <td><?= $e['ev_data_start'] ?></td>
-                        <td>
-                            <a href="<?= site_url('events/edit/' . $e['id_ev']) ?>">Editar</a> |
+                        <td class="text-nowrap">
+                            <a href="<?= site_url('events/edit/' . $e['id_ev']) ?>"
+                                class="btn btn-sm btn-outline-primary"
+                                title="Editar evento"
+                                aria-label="Editar evento">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+
                             <a href="<?= site_url('events/delete/' . $e['id_ev']) ?>"
-                                onclick="return confirm('Confirma exclusão?')">Excluir</a>
+                                class="btn btn-sm btn-outline-danger"
+                                title="Excluir evento"
+                                aria-label="Excluir evento"
+                                onclick="return confirm('Confirma exclusão?')">
+                                <i class="bi bi-trash"></i>
+                            </a>
                         </td>
+
                     </tr>
                 <?php endforeach ?>
             </table>
