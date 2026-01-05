@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Events\EventModel;
 
+helper('sisdoc_forms');
+
 class Event extends BaseController
 {
     protected $eventModel;
