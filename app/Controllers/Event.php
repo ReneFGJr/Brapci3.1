@@ -33,7 +33,7 @@ class Event extends BaseController
 
 
         return $this->headerPage() . view('Events/index', [
-            'events' => $this->eventModel->findAll()
+            'events' => $this->eventModel->orderBy('ev_data_start', 'ASC')->findAll()
         ]);
     }
 
