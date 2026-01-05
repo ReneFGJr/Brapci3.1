@@ -64,7 +64,7 @@ if ($session->has('id') && $session->get('id')) {
                     <?php endforeach ?>
                 <?php endif ?>
 
-                <?= view('_navbar_index') ?>
+                <?= view('Brapci/Headers/_navbar_index') ?>
             </ul>
 
             <!-- Menu lateral -->
