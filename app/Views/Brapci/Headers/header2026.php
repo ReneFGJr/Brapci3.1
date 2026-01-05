@@ -8,6 +8,7 @@ $ga = [
 ];
 
 define('URL', base_url());
+define('COLLECTION', 'brapci');
 ?>
 
 <head>
