@@ -70,7 +70,7 @@ class Event extends BaseController
 
     public function edit($id)
     {
-        return view('Events/form', [
+        return $this->headerPage() . view('Events/form', [
             'event' => $this->eventModel->find($id)
         ]);
     }
