@@ -14,14 +14,14 @@ if ($session->has('id') && $session->get('id')) {
     $acesso = $Socials->nav_user();
 
     if ($Socials->getAccess('#ADM#CAT')) {
-        $admin .= view('partials/navbar_item', [
+        $admin .= view('Brapci/Headers/partials/navbar_item', [
             'title' => lang('brapci.administrator'),
             'url'   => site_url('admin/' . COLLECTION),
             'icon'  => bsicone('gear')
         ]);
     }
 
-    $admin .= view('partials/navbar_item', [
+    $admin .= view('Brapci/Headers/partials/navbar_item', [
         'title' => lang('brapci.tools_bibliografic'),
         'url'   => site_url('tools/' . COLLECTION),
         'icon'  => bsicone('tools')
