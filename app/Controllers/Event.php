@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\Event\EventModel;
+use App\Models\Events\EventModel;
 
 class Event extends BaseController
 {
@@ -15,14 +15,14 @@ class Event extends BaseController
 
     public function index()
     {
-        return view('event/index', [
+        return view('Events/index', [
             'events' => $this->eventModel->findAll()
         ]);
     }
 
     public function create()
     {
-        return view('event/form');
+        return view('Events/form');
     }
 
     public function store()
@@ -48,12 +48,12 @@ class Event extends BaseController
             'ev_image'       => $imageName
         ]);
 
-        return redirect()->to('/event')->with('success', 'Evento criado');
+        return redirect()->to('/events')->with('success', 'Evento criado');
     }
 
     public function edit($id)
     {
-        return view('event/form', [
+        return view('Events/form', [
             'event' => $this->eventModel->find($id)
         ]);
     }
@@ -85,7 +85,7 @@ class Event extends BaseController
             'ev_image'       => $imageName
         ]);
 
-        return redirect()->to('/event')->with('success', 'Evento atualizado');
+        return redirect()->to('/events')->with('success', 'Evento atualizado');
     }
 
     public function delete($id)
@@ -97,6 +97,6 @@ class Event extends BaseController
         }
 
         $this->eventModel->delete($id);
-        return redirect()->to('/event')->with('success', 'Evento removido');
+        return redirect()->to('/events')->with('success', 'Evento removido');
     }
 }
