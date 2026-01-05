@@ -21,6 +21,7 @@ class RisModel extends Model
         'project_id',
         'abstract',
         'keywords',
+        'status',
         'raw_hash'
     ];
 
@@ -38,6 +39,9 @@ class RisModel extends Model
 
     public function countByProject(int $projectId): int
     {
-        return $this->where('project_id', $projectId)->countAllResults();
+        return $this
+            ->where('project_id', $projectId)
+            ->where('status >= 0')
+            ->countAllResults();
     }
 }

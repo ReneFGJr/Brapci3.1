@@ -490,6 +490,7 @@ class BrapciLab extends BaseController
         // =============================
         $model = new \App\Models\BrapciLabs\RisModel();
         $model->where('project_id', $projectId);
+        $model->where('status >=', 0);
 
         if (!empty($q)) {
             $model->like('title', $q);
