@@ -22,7 +22,9 @@
                         </td>
                         <td><?= esc($e['ev_name']) ?></td>
                         <td><?= esc($e['ev_place']) ?></td>
-                        <td><?= $e['ev_data_start'] ?></td>
+                        <td>
+                            <nobr><?= $e['ev_data_start'] ?></nobr>
+                        </td>
                         <td class="text-nowrap">
                             <a href="<?= site_url('events/edit/' . $e['id_ev']) ?>"
                                 class="btn btn-sm btn-outline-primary"
