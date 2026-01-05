@@ -82,6 +82,8 @@ class Event extends BaseController
 
         $file = $this->request->getFile('ev_image');
         if ($file && $file->isValid()) {
+            echo FCPATH;
+            exit;
             if ($imageName && file_exists(FCPATH . '_repository/events/' . $imageName)) {
                 unlink(FCPATH . '_repository/events/' . $imageName);
             }
