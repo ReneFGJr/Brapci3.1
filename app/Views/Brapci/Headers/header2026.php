@@ -6,6 +6,8 @@ $page_title = $page_title ?? 'Brapci - Homepage';
 $ga = [
     'GOOGLEID' => 'G-HSS9RYF8ZS'
 ];
+
+define('URL', base_url());
 ?>
 
 <head>
