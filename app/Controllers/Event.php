@@ -82,11 +82,11 @@ class Event extends BaseController
 
         $file = $this->request->getFile('ev_image');
         if ($file && $file->isValid()) {
-            if ($imageName && file_exists(FCPATH . 'uploads/events/' . $imageName)) {
-                unlink(FCPATH . 'uploads/events/' . $imageName);
+            if ($imageName && file_exists(FCPATH . '_repository/events/' . $imageName)) {
+                unlink(FCPATH . '_repository/events/' . $imageName);
             }
             $imageName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/events', $imageName);
+            $file->move(FCPATH . '_repository/events', $imageName);
         }
 
         $this->eventModel->update($id, [
