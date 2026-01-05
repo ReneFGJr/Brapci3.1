@@ -17,7 +17,13 @@ class Event extends BaseController
 
     public function index()
     {
-        return view('Events/index', [
+        $data['page_title'] = 'Brapci';
+        $data['bg'] = 'bg-admin';
+        $sx = '';
+        $sx .= view('Brapci/Headers/header', $data);
+        $sx .= view('Brapci/Headers/navbar', $data);
+
+        return $sx . view('Events/index', [
             'events' => $this->eventModel->findAll()
         ]);
     }
