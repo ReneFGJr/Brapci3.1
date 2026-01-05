@@ -16,15 +16,21 @@ class Event extends BaseController
         $this->eventModel = new EventModel();
     }
 
+    private function headerPage($title = 'Eventos')
+    {
+        $data['page_title'] = $title;
+        $data['metadata'] = meta([
+            ['name' => 'description', 'content' => 'Eventos do Brapci'],
+            ['name' => 'keywords', 'content' => 'eventos, brapci, conferências, workshops']
+        ]);
+        return view('Brapci/Headers/header2026', $data) . view('Brapci/Menus/menu2026', $data);
+    }
+
     public function index()
     {
-        $data['page_title'] = 'Brapci';
-        $data['bg'] = 'bg-admin';
-        $sx = '';
-        $sx .= view('Brapci/Headers/header2026', $data);
-        $sx .= view('Brapci/Headers/navbar2026', $data);
 
-        return $sx . view('Events/index', [
+
+        return $this->headerPage() . view('Events/index', [
             'events' => $this->eventModel->findAll()
         ]);
     }
