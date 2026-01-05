@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Events\EventModel;
 
-helper('sisdoc_forms');
+helper(['boostrap', 'url', 'sisdoc_forms', 'form', 'nbr', 'sessions', 'cookie']);
+$session = \Config\Services::session();
 
 class Event extends BaseController
 {
