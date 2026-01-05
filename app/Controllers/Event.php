@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\EventModel;
+use App\Models\Event\EventModel;
 
 class Event extends BaseController
 {
