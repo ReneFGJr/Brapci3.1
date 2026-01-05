@@ -20,7 +20,7 @@ class Event extends BaseController
         $data['page_title'] = 'Brapci';
         $data['bg'] = 'bg-admin';
         $sx = '';
-        $sx .= view('Brapci/Headers/header', $data);
+        $sx .= view('Brapci/Headers/header2026', $data);
         $sx .= view('Brapci/Headers/navbar', $data);
 
         return $sx . view('Events/index', [
