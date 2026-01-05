@@ -496,7 +496,7 @@ class BrapciLab extends BaseController
             $model->like('title', $q);
         }
 
-        $model->orderBy('title', 'ASC');
+        $model->orderBy('status, title', 'ASC');
 
         $data['works'] = $model->paginate(25);
         $data['pager'] = $model->pager;
