@@ -24,7 +24,8 @@ class Event extends BaseController
             ['name' => 'description', 'content' => 'Eventos do Brapci'],
             ['name' => 'keywords', 'content' => 'eventos, brapci, conferências, workshops']
         ]);
-        return view('Brapci/Headers/header2026', $data) . view('Brapci/Menus/menu2026', $data);
+        return view('Brapci/Headers/header2026', $data) .
+            view('Brapci/Headers/navbar2026', $data);
     }
 
     public function index()
