@@ -21,7 +21,7 @@ class Event extends BaseController
         $data['bg'] = 'bg-admin';
         $sx = '';
         $sx .= view('Brapci/Headers/header2026', $data);
-        $sx .= view('Brapci/Headers/navbar', $data);
+        $sx .= view('Brapci/Headers/navbar2026', $data);
 
         return $sx . view('Events/index', [
             'events' => $this->eventModel->findAll()
