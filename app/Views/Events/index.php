@@ -17,10 +17,11 @@
                     <tr>
                         <td>
                             <?php if ($e['ev_image']):
-                            if (substr($e['ev_image'], 0, 4) == 'http'):
-                                echo '<img src="' . esc($e['ev_image']) . '" width="80">';
-                            else:
-                                echo '<img src="' . base_url('uploads/events/' . $e['ev_image']) . '" width="80">';
+                                if (substr($e['ev_image'], 0, 4) == 'http'):
+                                    echo '<img src="' . esc($e['ev_image']) . '" width="80">';
+                                else:
+                                    echo '<img src="' . base_url('uploads/events/' . $e['ev_image']) . '" width="80">';
+                                endif;
                             endif; ?>
                         </td>
                         <td><?= esc($e['ev_name']) ?></td>
