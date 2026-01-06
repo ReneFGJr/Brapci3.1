@@ -325,6 +325,76 @@ class BrapciLab extends BaseController
     /**
      * Lista projetos para seleção
      */
+
+    public function new()
+    {
+        $data = [
+            'title'   => 'Novo projeto',
+            'action'  => site_url('labs/projects/create'),
+            'project' => null
+        ];
+
+        return view('BrapciLabs/projects/form', $data);
+    }
+
+    public function edit(int $id)
+    {
+        $project = $this->projectModel->find($id);
+
+        if (!$project) {
+            return redirect()
+                ->to(site_url('labs/projects'))
+                ->with('error', 'Projeto não encontrado');
+        }
+
+        $data = [
+            'title'   => 'Editar projeto',
+            'action'  => site_url('labs/projects/update/' . $id),
+            'project' => $project
+        ];
+
+        return view('BrapciLabs/projects/form', $data);
+    }
+
+    public function create()
+    {
+        $user_id = 1;        
+        $data = $this->request->getPost();
+        $dt = [
+            'project_name' => $data['project_name'],
+            'description'  => $data['description'],
+            'owner_id'      => $user_id // dono do projeto
+        ];
+        $dt = $this->projectModel->insert($dt);
+
+        return redirect()
+            ->to(site_url('labs'))
+            ->with('success', 'Projeto criado com sucesso');
+    }
+
+    public function update(int $id)
+    {
+        $project = $this->projectModel->find($id);
+
+        if (!$project) {
+            return redirect()
+                ->to(site_url('labs/projects'))
+                ->with('error', 'Projeto não encontrado');
+        }
+
+        $data = $this->request->getPost();
+
+        $this->projectModel->update($id, [
+            'project_name' => $data['project_name'],
+            'description'  => $data['description'],
+            'status'       => $data['status']
+        ]);
+
+        return redirect()
+            ->to(site_url('labs'))
+            ->with('success', 'Projeto atualizado com sucesso');
+    }
+
     public function selectProject()
     {
         $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth

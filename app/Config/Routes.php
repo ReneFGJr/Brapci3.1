@@ -201,8 +201,18 @@ $routes->group('events', function ($routes) {
 //$routes->group('lab', ['filter' => 'auth'], function ($routes) {
 $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
-    $routes->get('projects/select', 'BrapciLab::selectProject');
-    $routes->post('projects/set', 'BrapciLab::setProject');
+
+    $routes->group('projects', function ($routes) {
+        $routes->get('select', 'BrapciLab::selectProject');
+        $routes->post('set', 'BrapciLab::setProject');
+        $routes->get('new', 'BrapciLab::new');
+        $routes->get('edit/(:num)', 'BrapciLab::edit/$1');
+        $routes->post('update/(:num)', 'BrapciLab::update/$1');
+        $routes->post('create', 'BrapciLab::create');
+    });
+
+
+
     $routes->get('importRIS', 'BrapciLab::uploadRIS');
     $routes->post('importRIS', 'BrapciLab::importRIS');
 

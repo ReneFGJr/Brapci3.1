@@ -28,7 +28,6 @@ class ResearchProjectModel extends Model
     protected $validationRules = [
         'project_name' => 'required|min_length[3]|max_length[255]',
         'owner_id'     => 'required|integer',
-        'status'       => 'required|in_list[planejado,em_andamento,concluido,suspenso,cancelado]'
     ];
 
     protected $validationMessages = [
