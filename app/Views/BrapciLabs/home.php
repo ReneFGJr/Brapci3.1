@@ -27,7 +27,11 @@
         <!-- Autores Card -->
         <?= view("BrapciLabs/widget/cards/card_1", [
             'size'  => 4,
-            'title' => 'Autores',
+            'title' => 'Autores <a href="' . base_url('labs/project/authors').'"
+           class="ms-2 text-decoration-none"
+           title="Importar trabalhos (RIS)">
+            <i class="bi bi-file-earmark-arrow-up"></i>
+            </a>',            
             'info'  => $authorsCount > 0
                 ? '<a href="' . base_url('labs/project/authors') . '" class="link">'
                 . $authorsCount . ' autores</a>'

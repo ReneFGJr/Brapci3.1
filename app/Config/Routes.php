@@ -211,6 +211,15 @@ $routes->group('labs', function ($routes) {
         $routes->post('create', 'BrapciLab::create');
     });
 
+    $routes->group('oai', function ($routes) {
+        $routes->get('', 'BrapciLab::OAIwelcome');
+        $routes->get('select', 'BrapciLab::selectRepository');
+        $routes->get('select/(:num)', 'BrapciLab::setRepository/$1');
+        $routes->get('identify', 'BrapciLab::OAIidentify');
+        $routes->get('sets', 'BrapciLab::OAIlistarSets');
+        
+    });    
+
 
 
     $routes->get('importRIS', 'BrapciLab::uploadRIS');

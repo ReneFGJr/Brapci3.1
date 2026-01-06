@@ -32,18 +32,20 @@
                           rows="4"><?= esc($project['description'] ?? '') ?></textarea>
             </div>
 
+            <?php
+            $status = ['planejado','em_andamento','concluido','suspenso','cancelado'];
+            ?>
+
             <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-select">
-                    <option value="ativo" <?= (($project['status'] ?? '') == 'ativo') ? 'selected' : '' ?>>
-                        Ativo
-                    </option>
-                    <option value="inativo" <?= (($project['status'] ?? '') == 'inativo') ? 'selected' : '' ?>>
-                        Inativo
-                    </option>
+                    <?php foreach ($status as $stat): ?>
+                        <option value="<?= $stat ?>" <?= (($project['status'] ?? '') == $stat) ? 'selected' : '' ?>>
+                            <?= ucfirst(str_replace('_', ' ', $stat)) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
-
         </div>
 
         <div class="card-footer text-end">

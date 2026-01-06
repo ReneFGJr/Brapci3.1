@@ -184,6 +184,7 @@ class Database extends Config
             'guide' => 'guide',
             'bookmarks' => 'bookmark',
             'brapci_labs' => 'brapci_labs',
+            'simori' => 'simori',
         ];
     /*
 

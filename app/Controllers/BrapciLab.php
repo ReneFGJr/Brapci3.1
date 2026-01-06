@@ -7,6 +7,7 @@ use App\Models\BrapciLabs\ResearchProjectModel;
 use App\Models\BrapciLabs\CodebookModel;
 use App\Models\BrapciLabs\ProjectAuthorModel;
 use App\Models\BrapciLabs\RisModel;
+use App\Models\BrapciLabs\Simori;
 use Google\Service\BigtableAdmin\Split;
 
 /* SESSION */
@@ -30,6 +31,7 @@ class BrapciLab extends BaseController
     protected $projectAuthorModel;
     protected $risModel;
     protected $session;
+    protected $repository;
 
     public function __construct()
     {
@@ -38,6 +40,7 @@ class BrapciLab extends BaseController
         $this->projectAuthorModel = new ProjectAuthorModel();
         $this->risModel = new RisModel();
         $this->session      = session();
+        $this->repository = new Simori();
     }
 
     public function home()
@@ -594,5 +597,72 @@ class BrapciLab extends BaseController
         echo view('BrapciLabs/layout/sidebar');
         echo view('BrapciLabs/widget/works/index', $data);
         echo view('BrapciLabs/layout/footer');
+    }
+
+    /**************************** OAI */
+    public function OAIwelcome()
+    {
+        $Simori = new \App\Models\BrapciLabs\Simori();
+        $dt = $Simori->findAll();
+        $data = [
+            'title' => 'OAI Harvest – Coletor OAI-PMH',
+            'repositoryID' => $Simori->getProjectsID()
+        ];
+
+        echo view('BrapciLabs/oai/welcome', $data);
+    }
+    public function selectRepository()
+{
+    $model = new \App\Models\BrapciLabs\Simori();
+
+    $data = [
+        'repositories' => $model->findAll(),
+    ];
+
+    return view('oaiHarvest/select_repository', $data);
+}
+    public function OAIlistarSets()
+    {
+        // URL OAI-PMH que retorna ListSets
+        $oaiUrl = "https://www.lume.ufrgs.br/oai/request?verb=ListSets";
+
+        // Faz a requisição
+        $xmlString = @file_get_contents($oaiUrl);
+
+        if ($xmlString === false) {
+            return $this->response->setJSON([
+                'error' => 'Não foi possível acessar o endpoint OAI'
+            ])->setStatusCode(500);
+        }
+
+        // Converte XML em objeto
+        $xml = simplexml_load_string($xmlString);
+
+        if (!$xml) {
+            return $this->response->setJSON([
+                'error' => 'Erro ao parsear XML'
+            ]);
+        }
+
+        // Namespace do OAI
+        $namespaces = $xml->getNamespaces(true);
+
+        // Acessa ListSets
+        $sets = $xml->ListSets->set ?? [];
+
+        $colecoes = [];
+
+        foreach ($sets as $set) {
+            $setSpec = (string) $set->setSpec;
+            $setName = (string) $set->setName;
+
+            $colecoes[] = [
+                'setSpec' => $setSpec,
+                'setName' => $setName
+            ];
+        }
+
+        // Retorna JSON das coleções
+        return $this->response->setJSON($colecoes);
     }
 }
