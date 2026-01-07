@@ -361,7 +361,7 @@ class BrapciLab extends BaseController
 
     public function create()
     {
-        $user_id = 1;        
+        $user_id = 1;
         $data = $this->request->getPost();
         $dt = [
             'project_name' => $data['project_name'],
@@ -619,7 +619,7 @@ class BrapciLab extends BaseController
         'repositories' => $model->findAll(),
     ];
 
-    return view('oaiHarvest/select_repository', $data);
+    return view('BrapciLabs/oai/select_repository', $data);
 }
     public function OAIlistarSets()
     {
