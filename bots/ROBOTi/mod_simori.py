@@ -198,7 +198,7 @@ def simori_harvesting(repo_id: int):
             if not xml:
                 print("⚠️ XML vazio, pulando registro.")
                 continue
-
+            xml = xml.encode("utf-8", errors="replace").decode("utf-8")
             database.query(update_sql, (xml, record_id))
             processed += 1
 
