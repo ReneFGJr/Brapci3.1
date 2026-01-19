@@ -187,7 +187,7 @@ def simori_harvesting(repo_id: int):
         if not identifier:
             continue
 
-        print(f"🔹 [{idx}/{len(records)}] Coletando: {identifier}")
+        print(f"🔹 [{idx}/{len(records)}] Coletando SIMORI: {identifier}")
         try:
             xml = get_register(oai_url, identifier, record)
             # xml = xml.replace("//", "") if xml else None
