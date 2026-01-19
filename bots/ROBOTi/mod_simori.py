@@ -161,8 +161,7 @@ def simori_harvesting(repo_id: int):
         repository=repo_id,
         status=0,
         deleted=0,
-        harvesting=0,
-        xml_not_null=True
+        harvesting=0
     )
 
     if not records:
