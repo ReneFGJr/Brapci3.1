@@ -209,7 +209,10 @@ def simori_harvesting(repo_id: int):
             print(f"⚠️ Erro ao coletar {identifier}: {e}")
 
     print("🏁 Coleta finalizada para o repositório.")
-    print(f"
+    print(f"✔ Total processado: {processed}")
+    print(f"🔙 Retorne à página: /repository/show/{repo_id}")
+
+    return "Coleta concluída."
 
 
 if __name__ == "__main__":
