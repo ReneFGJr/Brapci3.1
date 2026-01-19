@@ -142,24 +142,21 @@ def get_register(base_url: str, identifier: str, record: dict, retries: int = 3,
 def simori_harvesting(repo_id: int):
     repo_model = RepositorioModel()
     record_model = OaiRecordModel()
-    triples_model = OaiTriplesModel()
-    set_model = OaiSetModel()
 
     """
-    Coleta os registros de um repositório OAI e salva o XML de cada registro.
+    Coleta registros OAI-PMH e salva o XML bruto no banco.
     """
 
     # 🔹 Recupera informações do repositório
     repo = repo_model.find_by_id(repo_id)
     if not repo:
-        return "Repositório não encontrado."
-
-    if not repo:
         print("❌ Repositório não encontrado.")
         return "Repositório não encontrado."
 
-    # 🔹 Busca registros ainda não coletados
-    # 🔹 Seleciona registros válidos para processamento
+    repo = repo[0]
+    oai_url = repo[4].rstrip("/")
+
+    # 🔹 Busca registros pendentes
     records = record_model.find_all(
         repository=repo_id,
         status=0,
@@ -168,50 +165,52 @@ def simori_harvesting(repo_id: int):
         xml_not_null=True
     )
 
-    total = len(records)
-
     if not records:
         print("ℹ️ Nenhum registro pendente de coleta.")
         return "Nenhum registro pendente de coleta."
-    repo = repo[0]
-    oai_url = repo[4].rstrip("/")
-    print(f"🌐 Iniciando coleta no repositório: {repo[1]} ({oai_url})")
-    print(f"🔸 Total de registros a coletar: {len(records)}\n")
+
+    total = len(records)
     processed = 0
-    # 🔹 3. Para cada registro, baixa o XML via GetRecord
+
+    print(f"🌐 Iniciando coleta no repositório: {repo[1]} ({oai_url})")
+    print(f"🔸 Total de registros a coletar: {total}\n")
+
+    update_sql = """
+        UPDATE simori.oai_records
+        SET xml = %s,
+            harvesting = 1,
+            status = 1
+        WHERE id = %s
+    """
+
     for idx, record in enumerate(records, start=1):
         identifier = (record[2] or "").strip()
-        processed += 1
-        if processed % 10000 == 0:
-            return f"Processados {processed} de {total} registros..."
+        record_id = record[0]
+
         if not identifier:
             continue
 
-        print(f"🔹 [{idx}/{len(records)}] Coletando SIMORI: {identifier}")
+        print(f"🔹 [{idx}/{total}] Coletando SIMORI: {identifier}")
+
         try:
             xml = get_register(oai_url, identifier, record)
-            # xml = xml.replace("//", "") if xml else None
-            query = "update simori.oai_records set xml = '"+xml+"', harvesting = 1, status = 1 where id = "+str(record[0])
-            print(query)
-            database.query(query)
-            print("--------------")
-            
-            #database.update2(
-            #    "simori.oai_records",
-            #    {"xml": xml, "harvesting": 1, "status": 1},
-            #    where="id = %s",
-            #    params=(record[0],)
-            #)
-        except Exception as e:
-            print(f"⚠️ Erro ao coletar {identifier}: {e}\n")
-            #sys.exit()
 
-        # Delay opcional para não sobrecarregar o servidor remoto
-        # time.sleep(0.5)  # 0.5 segundos
+            if not xml:
+                print("⚠️ XML vazio, pulando registro.")
+                continue
+
+            database.query(update_sql, (xml, record_id))
+            processed += 1
+
+            if processed % 10000 == 0:
+                print(f"📊 Processados {processed} de {total} registros...")
+
+        except Exception as e:
+            print(f"⚠️ Erro ao coletar {identifier}: {e}")
 
     print("🏁 Coleta finalizada para o repositório.")
-    print(f"🔙 Retorne à página: /repository/show/{repo_id}")
-    return "Coleta concluída."
+    print(f"
+
 
 if __name__ == "__main__":
     # Exemplo de execução direta
