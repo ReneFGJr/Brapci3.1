@@ -8,7 +8,7 @@ def db():
       'password': '',
       'host': 'localhost',
       'database': 'brapci_oaipmh',
-      'charset': 'utf8'
+      'charset': 'utf8mb4'
     }
   elif (hostname == 'DESKTOP-1KULHVO'):
     config = {
@@ -16,7 +16,7 @@ def db():
       'password': '',
       'host': 'localhost',
       'database': 'brapci_repository',
-      'charset': 'utf8'
+      'charset': 'utf8mb4'
     }
   else:
     config = {
@@ -24,7 +24,7 @@ def db():
       'password': '448545ct',
       'host': '127.0.0.1',
       'database': 'brapci_oaipmh',
-      'charset': 'utf8'
+      'charset': 'utf8mb4'
     }
   return config
 
