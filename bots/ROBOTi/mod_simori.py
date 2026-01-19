@@ -203,7 +203,9 @@ def simori_harvesting(repo_id: int):
             processed += 1
 
             if processed % 10000 == 0:
+                xml = '<status>ERROR: Timeout reached</status>'
                 print(f"📊 Processados {processed} de {total} registros...")
+                database.query(update_sql, (xml, record_id))
 
         except Exception as e:
             print(f"⚠️ Erro ao coletar {identifier}: {e}")
