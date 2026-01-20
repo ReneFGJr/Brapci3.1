@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFData extends Model
 {
 	var $DBGroup              = 'rdf';
-	var $table                = PREFIX . 'rdf_data';
+	var $table                = 'rdf_data';
 	protected $primaryKey           = 'id_d';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
