@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RDFData extends Model
 {
 	var $DBGroup              = 'rdf';
-	var $table                = 'rdf_data';
+	var $table                = PREFIX . 'rdf_data';
 	protected $primaryKey           = 'id_d';
 	protected $useAutoIncrement     = true;
 	protected $insertID             = 0;
@@ -382,7 +382,7 @@ class RDFData extends Model
 			n2.n_lang as n_lang2
 			";
 		$sql .= "from " . PREFIX . "rdf_data ";
-		$sql .= "left join " . PREFIX . "rdf_literal as rdf_name ON d_literal = rdf_name.id_n ";
+		$sql .= "left join " . PREFIX . "rdf_name ON d_literal = rdf_name.id_n ";
 		$sql .= "left join " . PREFIX . "rdf_class ON rdf_data.d_p = rdf_class.id_c ";
 		$sql .= "left join " . PREFIX . "rdf_prefix ON rdf_class.c_prefix = rdf_prefix.id_prefix ";
 
