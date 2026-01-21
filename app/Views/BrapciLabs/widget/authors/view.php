@@ -11,7 +11,7 @@
     ================================ -->
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
 
-        <h4 class="mb-0">Autores do Projeto</h4>
+        <h4 class="mb-0">Autores selecionados</h4>
 
         <div class="btn-group">
 
@@ -109,7 +109,7 @@
                                 <tr>
 
                                     <td>
-                                        <a href="<?= base_url('labs/project/authors/view/' . $a['brapci_id']) ?>" class="link" target="_blank">
+                                        <a href="<?= base_url('labs/authority/view/' . $a['id']) ?>" class="link" target="_blank">
                                         <?= esc($a['nome']) ?></td>
                                         </a>
 
@@ -138,7 +138,7 @@
 
                                     <td class="text-end">
                                         <form method="post"
-                                            action="<?= base_url('labs/project/authors/delete/' . $a['id']) ?>"
+                                            action="<?= base_url('labs/authority/delete/' . $a['id']) ?>"
                                             onsubmit="return confirm('Remover este autor do projeto?')"
                                             class="d-inline">
 

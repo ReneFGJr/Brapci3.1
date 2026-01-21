@@ -202,6 +202,20 @@ $routes->group('events', function ($routes) {
 $routes->group('labs', function ($routes) {
     $routes->get('', 'BrapciLab::home');
 
+    $routes->group('authority', function ($routes) {
+        $routes->get('(:any)', 'BrapciLab::index_authority/$1');
+        $routes->get('(:any)/(:any)', 'BrapciLab::index_authority/$1/$2');
+        $routes->get('(:any)/(:any)/(:any)', 'BrapciLab::index_authority/$1/$2/$3');
+        $routes->get('', 'BrapciLab::index_authority');
+    });
+
+    $routes->group('works', function ($routes) {
+        $routes->get('(:any)', 'BrapciLab::index_works/$1');
+        $routes->get('(:any)/(:any)', 'BrapciLab::index_works/$1/$2');
+        $routes->get('(:any)/(:any)/(:any)', 'BrapciLab::index_works/$1/$2/$3');
+        $routes->get('', 'BrapciLab::index_works');
+    });
+
     $routes->group('projects', function ($routes) {
         $routes->get('select', 'BrapciLab::selectProject');
         $routes->post('set', 'BrapciLab::setProject');
@@ -217,8 +231,8 @@ $routes->group('labs', function ($routes) {
         $routes->get('select/(:num)', 'BrapciLab::setRepository/$1');
         $routes->get('identify', 'BrapciLab::OAIidentify');
         $routes->get('sets', 'BrapciLab::OAIlistarSets');
-        
-    });    
+
+    });
 
 
 

@@ -91,6 +91,13 @@
                                     <i class="bi bi-eye"></i>
                                 </button>
 
+                                <a href="<?= base_url('labs/works/view/' . $w['id']) ?>"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-secondary"
+                                    title="Acessar trabalho">
+                                    <i class="bi bi-box"></i>
+                                </a>
+
                                 <?php if (!empty($w['url'])): ?>
                                     <a href="<?= esc($w['url']) ?>"
                                         target="_blank"

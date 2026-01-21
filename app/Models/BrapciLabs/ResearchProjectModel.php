@@ -4,6 +4,8 @@ namespace App\Models\BrapciLabs;
 
 use CodeIgniter\Model;
 
+$session = \Config\Services::session();
+
 class ResearchProjectModel extends Model
 {
     protected $DBGroup          = 'brapci_labs';
@@ -38,6 +40,15 @@ class ResearchProjectModel extends Model
             'required' => 'O dono do projeto é obrigatório.'
         ]
     ];
+
+    function getProjectsID()
+    {
+        if (isset($_SESSION['project_id'])) {
+            return $_SESSION['project_id'];
+        } else {
+            return 0;
+        }
+    }
 
     /**
      * Retorna projetos por dono

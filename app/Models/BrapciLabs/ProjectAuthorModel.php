@@ -29,6 +29,16 @@ class ProjectAuthorModel extends Model
 
     protected $validationMessages = [];
 
+    private function getProjectsID()
+    {
+        $projectId = session('project_id');
+        if ($projectId) {
+            return $projectId;
+        } else {
+            return 0;
+        }
+    }
+
     /**************************** Search */
     public function searchAuthorityLattes(string $term): array
     {

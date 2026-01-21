@@ -66,70 +66,16 @@ class BrapciLab extends BaseController
         return view('BrapciLabs/home', $data);
     }
 
-    private function getProjectsID()
-    {
-        $projectId = session('project_id');
-        if ($projectId) {
-            return $projectId;
-        } else {
-            return 0;
-        }
-
-    }
-
     /**** Authors */
     public function authors()
     {
-        $ownerId  = $this->session->get('user_id');
-        $ownerId  = 1; // temporário
-        $projectId = $this->getProjectsID();
-
-        $q = $this->request->getGet('q');
-
-        // =============================
-        // BUILDER PARA PAGINAÇÃO
-        // =============================
-        $model = $this->projectAuthorModel;
-        $model->where('project_id', $projectId);
-
-        if (!empty($q)) {
-            $model->like('nome', $q);
-        }
-        $model->orderBy('nome', 'ASC');
-
-        $authors = $model->paginate(25);
-        $pager   = $model->pager;
-
-        // =============================
-        // BUILDER PARA CONTAGEM TOTAL
-        // =============================
-        $countModel = clone $this->projectAuthorModel;
-        $countModel->where('project_id', $projectId);
-
-        if (!empty($q)) {
-            $countModel->like('nome', $q);
-        }
-
-        $total = $countModel->countAllResults();
-
-        // =============================
-        // DATA
-        // =============================
-        $data = [
-            'current' => $projectId,
-            'project' => $this->projectModel->find($projectId),
-            'authors' => $authors,
-            'pager'   => $pager,
-            'q'       => $q,
-            'total'   => $total
-        ];
-
-        return view('BrapciLabs/widget/authors/view', $data);
+        $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+        return $BrapciAuthorityModel->list();
     }
 
     public function check_ids()
     {
-        $projectId = session('project_id');
+        $projectId = $this->projectModel->getProjectsID();
         $data = [
             'current' => $projectId,
             'project' => $this->projectModel->find($projectId),
@@ -316,7 +262,7 @@ class BrapciLab extends BaseController
     {
         $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
         $ownerId = 1; // temporário
-        $projectId = $this->getProjectsID();
+        $projectId = $this->projectModel->getProjectsID();
         $data = [
             'current'  => $this->session->get('project_id'),
             'codebook' => $this->codebookModel->find($id)
@@ -550,11 +496,68 @@ class BrapciLab extends BaseController
         );
     }
 
+    /**** Authority */
+    public function index_authority($d1 = '', $d2 = '', $d3 = '', $d4 = '', $d5 = '')
+    {
+        $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+        $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
+        $data = [];
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+
+        switch ($d1) {
+            case 'update':
+                switch ($d2) {
+                    case 'Brapci':
+                        $data = $ProjectAuthorModel->where('id',$d3)->first();
+                        if ($data['brapci_id']==0){
+                            echo 'Autor sem BRAPCI ID.';
+                            break;
+                        } else {
+                            $d3b = $data['brapci_id'];
+                            $data = $BrapciAuthorityModel->updateFromApi($d3b);
+                            echo $BrapciAuthorityModel->view($d3);
+                        }
+                        break;
+                    default:
+                        echo 'Fonte de autoridade desconhecida.';
+                        break;
+                }
+                break;
+            case 'view':
+                echo $BrapciAuthorityModel->view($d2);
+                break;
+            default:
+                $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
+                return $BrapciAuthorityModel->list();
+                break;
+        }
+        echo view('BrapciLabs/layout/footer');
+    }
+
     /**** Works */
+    public function index_works($d1='',$d2='',$d3='',$d4='',$d5='')
+    {
+        $BrapciWorksModel = new \App\Models\BrapciLabs\BrapciWorksModel();
+        $data = [];
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+
+        switch($d1){
+            case 'view':
+                echo $BrapciWorksModel->show_cited_work($d2);
+                break;
+            default:
+                echo '<center>';
+                echo $d1;
+        }
+        echo view('BrapciLabs/layout/footer');
+    }
+
     public function works()
     {
         $ownerId   = 1; // temporário
-        $projectId = $this->getProjectsID();
+        $projectId = $this->projectModel->getProjectsID();
 
         $q = $this->request->getGet('q');
 
