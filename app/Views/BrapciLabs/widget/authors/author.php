@@ -1,12 +1,11 @@
 <div class="content">
-
     <!-- Cabeçalho do Projeto -->
     <?= view('BrapciLabs/widget/projects/header', ['project' => $project ?? null]); ?>
 
     <!-- ===============================
          AÇÕES GERAIS
     ================================ -->
-    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
 
         <div>
             <h4 class="mb-1">
@@ -30,7 +29,7 @@
     <div class="card shadow-sm border-0">
         <div class="card-body">
 
-            <h5 class="card-title mb-4">
+            <h5 class="card-title mb-1">
                 <i class="bi bi-info-circle me-1 text-primary"></i>
                 Detalhes do Autor
             </h5>
@@ -106,5 +105,9 @@
 
         </div>
     </div>
-
+    <?php
+    if (!empty($data['brapci'])) {
+        echo view('BrapciLabs/widget/authors/brapci', ['brapci' => $data['brapci']]);
+    }
+    ?>
 </div>

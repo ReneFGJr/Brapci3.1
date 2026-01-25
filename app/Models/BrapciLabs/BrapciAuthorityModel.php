@@ -110,7 +110,15 @@ class BrapciAuthorityModel extends Model
     {
         $ProjectAuthorModel = new \App\Models\BrapciLabs\ProjectAuthorModel();
         $data = $ProjectAuthorModel->find($id);
-        echo view('BrapciLabs/widget/authors/author', ['author' => $data, 'project' => null]);
+        if ($data['brapci_id'] == 0) {
+            echo 'Autor não possui BRAPCI ID definido.';
+            return 0;
+        }
+
+        $brapci = $this->where('brapci_id', $data['brapci_id'])->first();
+        $data['brapci'] = (array)json_decode($brapci['brapci_xml'] ?? null);
+
+        echo view('BrapciLabs/widget/authors/author', ['author' => $data, 'project' => null, 'data' => $data]);
 
         // Exemplo de implementação para retornar um ID de projeto
         // Substitua isso pela lógica real conforme necessário
