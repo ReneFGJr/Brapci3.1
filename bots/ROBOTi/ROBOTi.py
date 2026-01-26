@@ -171,11 +171,13 @@ def run(parm):
         mod_cited.longCited()
 
     if (act == 'cited'):
+        mod_cited.harvesting()
         #mod_cited.extrairAutores()
         mod_cited.remove_spaces()
         mod_cited.refatureABNT()
         mod_cited.categorizeBook()
         mod_cited.categorizeYear()
+
         #mod_cited.categorizeCited()
 
     if (act == 'sessions'):

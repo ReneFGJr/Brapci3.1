@@ -6,6 +6,12 @@ import requests
 import sys
 import mod_cited_abnt
 import mod_cited_authors
+
+def harvesting():
+    print("Harvesting Cited by Articles")
+    meta = 'citation_reference'
+
+
 def categorizeCitedByElastic():
     print("Categorize Cited by Elastic")
 
