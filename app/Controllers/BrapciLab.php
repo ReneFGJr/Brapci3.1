@@ -602,6 +602,33 @@ class BrapciLab extends BaseController
         echo view('BrapciLabs/layout/footer');
     }
 
+    /***************************** AI */
+    public function AIwelcome($d1='',$d2='',$d3='',$d4='',$d5='')
+    {
+        $AiToolsModel = new \App\Models\BrapciLabs\AiToolsModel();
+        $data = [
+            'title' => 'AI Tools – Ferramentas de Inteligência Artificial',
+        ];
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+
+        switch($d1){
+            case 'view':
+                echo $AiToolsModel->view($d2);
+                break;
+            default:
+                $data = [
+                    'title' => 'AI Tools – Ferramentas de Inteligência Artificial',
+                    'tools' => $AiToolsModel->getAllOrdered()
+                ];
+                echo view('BrapciLabs/ai/welcome', $data);
+                break;
+        }
+
+
+        echo view('BrapciLabs/layout/footer');
+    }
+
     /**************************** OAI */
     public function OAIwelcome()
     {

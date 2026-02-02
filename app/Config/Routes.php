@@ -231,7 +231,14 @@ $routes->group('labs', function ($routes) {
         $routes->get('select/(:num)', 'BrapciLab::setRepository/$1');
         $routes->get('identify', 'BrapciLab::OAIidentify');
         $routes->get('sets', 'BrapciLab::OAIlistarSets');
+    });
 
+    $routes->group('ai', function ($routes) {
+        $routes->get('', 'BrapciLab::AIwelcome');
+        $routes->get('(:any)', 'BrapciLab::AIwelcome/$1');
+        $routes->get('(:any)/(:any)', 'BrapciLab::AIwelcome/$1/$2');
+        $routes->get('(:any)/(:any)/(:any)', 'BrapciLab::AIwelcome/$1/$2/$3');
+        $routes->get('(:any)/(:any)/(:any)/(:any)', 'BrapciLab::AIwelcome/$1/$2/$3/$4');
     });
 
 
