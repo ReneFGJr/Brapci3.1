@@ -45,7 +45,9 @@ class BrapciLab extends BaseController
 
     public function home()
     {
-        $data = [];
+        $data = [];    
+        
+        pre(session()->get());
 
         $projectId = session('project_id');
         if ($projectId) {
@@ -68,7 +70,7 @@ class BrapciLab extends BaseController
 
     /**** Authors */
     public function authors()
-    {
+    {        
         $BrapciAuthorityModel = new \App\Models\BrapciLabs\BrapciAuthorityModel();
         return $BrapciAuthorityModel->list();
     }
