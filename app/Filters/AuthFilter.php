@@ -11,12 +11,7 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        echo '<pre>';
-        echo '<hr>';
-        print_r(session()->get());
-        print_r(session()->get('us_nome'));
-        exit;
-        if (! session()->get('logged_in')) {
+        if (! session()->get('user')) {
             return redirect()->to('/login');
         }
     }
