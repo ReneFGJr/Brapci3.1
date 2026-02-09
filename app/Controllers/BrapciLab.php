@@ -323,7 +323,18 @@ class BrapciLab extends BaseController
 
     public function profile()
     {
-        echo "OL";
+        $data = [
+            'title' => 'Configurações do usuário',
+        ];
+        $useID = $this->session->get('user_id'); // ajuste conforme seu auth
+        $Socials = new \App\Models\Socials();
+        $data = $Socials->where('id_us', $useID)->findAll();
+        pre($data);
+
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+        echo view('BrapciLabs/profile', $data);
+        echo view('BrapciLabs/layout/footer');
     }
 
     public function update(int $id)
