@@ -50,6 +50,15 @@
         </div>
 
         <!-- ===============================
+             RESUMOS
+        ================================ -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+            <a href="<?= base_url('labs/works/cloud_keys') ?>" title="Nuvem de Palavras" class="link"><i class="bi bi-cloud"></i></a>
+            </div>
+        </div>
+
+        <!-- ===============================
              TABELA DE TRABALHOS
         ================================ -->
         <div class="table-responsive">
