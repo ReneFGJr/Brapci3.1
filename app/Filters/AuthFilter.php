@@ -12,7 +12,6 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         echo '<pre>';
-        print_r($_SESSION);
         echo '<hr>';
         print_r(session());
         exit;
