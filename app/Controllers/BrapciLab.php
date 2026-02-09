@@ -364,7 +364,6 @@ class BrapciLab extends BaseController
     public function selectProject()
     {
         $ownerId = $this->session->get('user_id'); // ajuste conforme seu auth
-        $ownerId = 1; // temporário
         $data = [
             'projects' => $this->projectModel->getByOwner($ownerId),
             'current'  => $this->session->get('project_id')
