@@ -329,7 +329,6 @@ class BrapciLab extends BaseController
         $useID = $this->session->get('user_id'); // ajuste conforme seu auth
         $Socials = new \App\Models\Socials();
         $data = $Socials->where('id_us', $useID)->findAll();
-        pre($data);
 
         echo view('BrapciLabs/layout/header', $data);
         echo view('BrapciLabs/layout/sidebar');
