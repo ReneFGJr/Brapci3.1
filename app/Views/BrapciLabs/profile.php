@@ -240,43 +240,7 @@
                     </dl>
                 </div>
             </div>
-        </div>
-
-        <!-- API Key -->
-        <div class="col-12">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center">
-                    <span>
-                        <i class="bi bi-key"></i> API Key
-                    </span>
-                    <span class="badge bg-info text-dark">
-                        Ativa
-                    </span>
-                </div>
-                <div class="card-body">
-                    <div class="input-group">
-                        <input type="password"
-                               id="apikey"
-                               class="form-control"
-                               value="<?= esc($session['apikey'] ?? '') ?>"
-                               readonly>
-                        <button class="btn btn-outline-secondary"
-                                type="button"
-                                onclick="toggleApiKey()">
-                            <i class="bi bi-eye"></i>
-                        </button>
-                        <button class="btn btn-outline-primary"
-                                type="button"
-                                onclick="navigator.clipboard.writeText('<?= esc($session['apikey'] ?? '') ?>')">
-                            <i class="bi bi-clipboard"></i>
-                        </button>
-                    </div>
-                    <small class="text-muted d-block mt-2">
-                        Esta chave concede acesso à API. Não compartilhe.
-                    </small>
-                </div>
-            </div>
-        </div>
+        </div>        
 
         <!-- Metadados da Sessão -->
         <div class="col-12">
