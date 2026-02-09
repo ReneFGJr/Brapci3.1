@@ -173,9 +173,141 @@
 pre($session);
 ?>
 
+<?php
+/**
+ * View: Sessão do Usuário
+ * Variável esperada: $session (array)
+ */
+?>
+
+<div class="container py-4">
+
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+            <div>
+                <h3 class="mb-0">
+                    <i class="bi bi-shield-lock"></i> Sessão do Usuário
+                </h3>
+                <small class="text-muted">
+                    Informações da sessão atualmente ativa
+                </small>
+            </div>
+            <span class="badge bg-success">
+                Sessão ativa
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Identidade -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light fw-bold">
+                    <i class="bi bi-person-badge"></i> Identidade
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">User ID</dt>
+                        <dd class="col-sm-8"><?= esc($session['user_id'] ?? '—') ?></dd>
+
+                        <dt class="col-sm-4">Nome</dt>
+                        <dd class="col-sm-8"><?= esc($session['user'] ?? '—') ?></dd>
+
+                        <dt class="col-sm-4">E-mail</dt>
+                        <dd class="col-sm-8"><?= esc($session['email'] ?? '—') ?></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Segurança -->
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light fw-bold">
+                    <i class="bi bi-lock"></i> Segurança
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Access</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-primary">
+                                <?= esc($session['access'] ?? '—') ?>
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-4">Check</dt>
+                        <dd class="col-sm-8">
+                            <code><?= esc($session['check'] ?? '—') ?></code>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Key -->
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light fw-bold d-flex justify-content-between align-items-center">
+                    <span>
+                        <i class="bi bi-key"></i> API Key
+                    </span>
+                    <span class="badge bg-info text-dark">
+                        Ativa
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="password"
+                               id="apikey"
+                               class="form-control"
+                               value="<?= esc($session['apikey'] ?? '') ?>"
+                               readonly>
+                        <button class="btn btn-outline-secondary"
+                                type="button"
+                                onclick="toggleApiKey()">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-outline-primary"
+                                type="button"
+                                onclick="navigator.clipboard.writeText('<?= esc($session['apikey'] ?? '') ?>')">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                    <small class="text-muted d-block mt-2">
+                        Esta chave concede acesso à API. Não compartilhe.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metadados da Sessão -->
+        <div class="col-12">
+            <div class="card bg-light border-0">
+                <div class="card-body d-flex justify-content-between flex-wrap">
+                    <small class="text-muted">
+                        <strong>Última regeneração:</strong>
+                        <?= isset($session['__ci_last_regenerate'])
+                            ? date('d/m/Y H:i:s', $session['__ci_last_regenerate'])
+                            : '—' ?>
+                    </small>
+
+                    <small class="text-muted">
+                        <strong>URL anterior:</strong>
+                        <?= esc($session['_ci_previous_url'] ?? '—') ?>
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 <script>
 function toggleApiKey() {
     const input = document.getElementById('apikey');
     input.type = input.type === 'password' ? 'text' : 'password';
 }
 </script>
+
