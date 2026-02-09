@@ -10,10 +10,10 @@
     <a href="<?= base_url('labs/api-library') ?>"><i class="bi bi-clipboard-check"></i> Biblioteca API</a>
     <a href="<?= base_url('labs/ai') ?>"><i class="bi bi-tools"></i> AI Tools</a>
     <a href="<?= base_url('labs/oai') ?>"><i class="bi bi-tools"></i> OAI/PMH Tools</a>
-    <a><i class="bi bi-bar-chart"></i> Reports</a>
+    <a href="<?= base_url('labs/reports') ?>"><i class="bi bi-bar-chart"></i> Reports</a>
 
     <hr>
 
-    <a><i class="bi bi-gear"></i> Settings</a>
+    <a href="<?= base_url('labs/profile') ?>"><i class="bi bi-gear"></i> Settings</a>
     <a><i class="bi bi-box-arrow-right"></i> Log out</a>
 </div>
