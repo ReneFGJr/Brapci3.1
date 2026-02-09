@@ -55,7 +55,7 @@ class ResearchProjectModel extends Model
      */
     public function getByOwner(int $ownerId)
     {
-        return $this->findAll();
+        return $this->where('owner_id', $ownerId)->findAll();
         //return $this->where('owner_id', $ownerId)->findAll();
     }
 
