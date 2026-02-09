@@ -199,7 +199,8 @@ $routes->group('events', function ($routes) {
 
 /********* BrapciLAB */
 //$routes->group('lab', ['filter' => 'auth'], function ($routes) {
-$routes->group('labs', function ($routes) {
+//$routes->group('labs', function ($routes) {
+$routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
 
     $routes->group('authority', function ($routes) {
