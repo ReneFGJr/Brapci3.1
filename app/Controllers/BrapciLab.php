@@ -321,7 +321,7 @@ class BrapciLab extends BaseController
             ->with('success', 'Projeto criado com sucesso');
     }
 
-    public function profile(int $id)
+    public function profile()
     {
         echo "OL";
     }
