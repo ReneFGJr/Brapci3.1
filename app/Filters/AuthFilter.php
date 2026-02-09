@@ -13,7 +13,8 @@ class AuthFilter implements FilterInterface
     {
         echo '<pre>';
         echo '<hr>';
-        print_r(session());
+        print_r(session()->get());
+        print_r(session()->get('us_nome'));
         exit;
         if (! session()->get('logged_in')) {
             return redirect()->to('/login');
