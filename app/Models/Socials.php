@@ -1356,7 +1356,21 @@ class Socials extends Model
 				$_SESSION['apikey'] = $dt[0]['us_apikey'];
 				$_SESSION['access'] = substr(md5('#ADMIN'), 6, 6);
 				$_SESSION['check'] = substr($_SESSION['id'] . $_SESSION['id'], 0, 10);
+
+				$session = session();
+
+				$session->set([
+					'user_id' => $dt[0]['id_us'],
+					'user'    => $dt[0]['us_nome'],
+					'email'   => $dt[0]['us_email'],
+					'apikey'  => $dt[0]['us_apikey'],
+					'access'  => substr(md5('#ADMIN'), 6, 6),
+					'check'   => substr($dt[0]['id_us'] . $dt[0]['id_us'], 0, 10),
+				]);
+
 				$sx .= metarefresh('/', 0);
+
+
 			}
 		}
 
