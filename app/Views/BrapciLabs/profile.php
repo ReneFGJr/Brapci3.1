@@ -170,10 +170,6 @@
 </div>
 
 <?php
-pre($session);
-?>
-
-<?php
 /**
  * View: Sessão do Usuário
  * Variável esperada: $session (array)
