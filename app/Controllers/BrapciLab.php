@@ -330,7 +330,7 @@ class BrapciLab extends BaseController
         $Socials = new \App\Models\Socials();
         $data = [];
         $data['user'] = $Socials->where('id_us', $useID)->first();
-        $data['sessions'] = session()->get();
+        $data['session'] = session()->get();
 
         echo view('BrapciLabs/layout/header', $data);
         echo view('BrapciLabs/layout/sidebar');
