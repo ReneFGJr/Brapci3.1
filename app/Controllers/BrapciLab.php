@@ -321,6 +321,11 @@ class BrapciLab extends BaseController
             ->with('success', 'Projeto criado com sucesso');
     }
 
+    public function profile(int $id)
+    {
+        echo "OL";
+    }
+
     public function update(int $id)
     {
         $project = $this->projectModel->find($id);

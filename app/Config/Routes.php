@@ -202,6 +202,7 @@ $routes->group('events', function ($routes) {
 //$routes->group('labs', function ($routes) {
 $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     $routes->get('', 'BrapciLab::home');
+    $routes->get('profile', 'BrapciLab::profile');
 
     $routes->group('authority', function ($routes) {
         $routes->get('(:any)', 'BrapciLab::index_authority/$1');
