@@ -169,6 +169,10 @@
     </div>
 </div>
 
+<?php
+pre($session);
+?>
+
 <script>
 function toggleApiKey() {
     const input = document.getElementById('apikey');
