@@ -97,7 +97,6 @@ class Iaservices extends Model
                 fclose($pipes[2]);
 
                 $returnCode = proc_close($process);
-                pre($output);
 
                 if ($returnCode !== 0) {
                     echo json_encode([
@@ -108,9 +107,8 @@ class Iaservices extends Model
                 }
 
                 $response = json_decode($output, true);
-
                 print_r($response);
-
+                exit;
                 break;
 
             default:
