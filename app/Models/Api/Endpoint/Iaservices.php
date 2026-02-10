@@ -93,12 +93,11 @@ class Iaservices extends Model
                 $output = stream_get_contents($pipes[1]);
                 $error  = stream_get_contents($pipes[2]);
 
-                echo "OK2";
-
                 fclose($pipes[1]);
                 fclose($pipes[2]);
 
                 $returnCode = proc_close($process);
+                pre($returnCode);
 
                 if ($returnCode !== 0) {
                     echo json_encode([
