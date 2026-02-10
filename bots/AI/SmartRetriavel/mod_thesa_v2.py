@@ -2,10 +2,13 @@ import json
 import requests
 import unicodedata
 import re
+from pathlib import Path
 from difflib import get_close_matches
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "llama3.2"
+
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # ========= Normalização =========
@@ -18,7 +21,9 @@ def normalize(text: str) -> str:
 
 # ========= Carregar vocabulário =========
 def load_authorized_terms(json_path: str):
-    with open(json_path, "r", encoding="utf-8") as f:
+    json_file = BASE_DIR / json_path
+
+    with open(json_file, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     terms = []
