@@ -1,121 +1,110 @@
 import json
 import requests
-from pathlib import Path
+import unicodedata
+import re
+from difflib import get_close_matches
+
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL = "llama3.2"
 
 
-def download_json(url: str, output_file: str) -> None:
-    """
-    Faz o download de uma URL que retorna JSON
-    e salva o conteúdo em um arquivo .json
+# ========= Normalização =========
+def normalize(text: str) -> str:
+    text = text.lower()
+    text = unicodedata.normalize("NFD", text)
+    text = "".join(c for c in text if unicodedata.category(c) != "Mn")
+    return text
 
-    :param url: URL da API
-    :param output_file: caminho do arquivo JSON de saída
-    """
 
-    try:
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()  # erro HTTP (404, 500, etc.)
+# ========= Carregar vocabulário =========
+def load_authorized_terms(json_path: str):
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-        # Converte resposta para JSON
-        data = response.json()
+    terms = []
+    for entry in data:
+        for term, lang in entry.items():
+            #if lang == "por":
+            terms.append(term)
+    return terms
 
-        # Garante que o diretório existe
-        output_path = Path(output_file)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Salva em arquivo JSON formatado
-        with output_path.open("w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+# ========= Chamada ao Ollama =========
+def ollama_interpret(question: str):
+    prompt = f"""
+Você é um sistema de apoio à indexação controlada.
 
-        print(f"Arquivo salvo com sucesso em: {output_path}")
+Regras:
+- Identifique APENAS conceitos centrais
+- NÃO explique
+- NÃO use frases completas
+- NÃO invente termos
+- Retorne APENAS termos conceituais curtos, separados por vírgula
 
-    except requests.exceptions.RequestException as e:
-        print(f"Erro ao acessar a URL: {e}")
-
-    except json.JSONDecodeError:
-        print("Erro: a resposta não é um JSON válido")
-
-import json
-from pathlib import Path
-from typing import List, Dict
-
-def gerar_contexto_vc(
-    input_json: str,
-    output_txt: str,
-    fonte: str = "Vocabulário Controlado – Thesa / UFRGS"
-) -> None:
-    """
-    Gera um arquivo de contexto textual a partir de um vocabulário controlado em JSON,
-    seguindo boas práticas para uso em RAG e LLMs (modelo Brapci).
-
-    :param input_json: caminho do arquivo vc.json
-    :param output_txt: caminho do arquivo de contexto final (.txt)
-    :param fonte: fonte institucional do vocabulário
-    """
-
-    input_path = Path(input_json)
-    output_path = Path(output_txt)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    with input_path.open("r", encoding="utf-8") as f:
-        dados: List[Dict] = json.load(f)
-
-    blocos = []
-
-    for item in dados:
-        termo = item.get("term", "").strip()
-        definicoes = item.get("definition", [])
-
-        if not termo or not definicoes:
-            continue
-
-        # Prioriza definição em português (heurística simples)
-        definicao_pt = next(
-            (d for d in definicoes if any(p in d.lower() for p in [" é ", " são ", " refere-se", "utiliza"])),
-            definicoes[0]
-        )
-
-        definicao_pt = " ".join(definicao_pt.split())
-
-        bloco = f"""[CONCEITO]
-[TERMO]: {termo}
-
-[DEFINIÇÃO]:
-{definicao_pt}
+Pergunta:
+{question}
 """
-        blocos.append(bloco)
 
-    contexto_final = "\n".join(blocos)
+    payload = {
+        "model": MODEL,
+        "prompt": prompt,
+        "stream": False,
+        "options": {
+            "temperature": 0,
+            "top_p": 0.1,
+            "seed": 42
+        }
+    }
 
-    with output_path.open("w", encoding="utf-8") as f:
-        f.write(contexto_final)
+    response = requests.post(
+        OLLAMA_URL,
+        json=payload,
+        timeout=60
+    )
+    response.raise_for_status()
 
-    print(f"✅ Contexto gerado com sucesso em: {output_path}")
-
-from pathlib import Path
-
-
-def carregar_contexto(path_contexto: str) -> str:
-    """
-    Lê um arquivo de texto de contexto e retorna seu conteúdo como string.
-    Ideal para uso como contexto em Ollama / RAG.
-
-    :param path_contexto: caminho do arquivo de contexto (.txt)
-    :return: conteúdo do arquivo como string
-    """
-    contexto_path = Path(path_contexto)
-
-    if not contexto_path.exists():
-        raise FileNotFoundError(f"Arquivo de contexto não encontrado: {contexto_path}")
-
-    with contexto_path.open("r", encoding="utf-8") as f:
-        return f.read().strip()
+    text = response.json()["response"]
+    concepts = [c.strip() for c in text.split(",") if c.strip()]
+    return concepts
 
 
+# ========= Alinhamento com vocabulário =========
+def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
+    normalized_vocab = {normalize(t): t for t in authorized_terms}
+    matched_terms = set()
+
+    for concept in concepts:
+        norm_concept = normalize(concept)
+        matches = get_close_matches(
+            norm_concept,
+            normalized_vocab.keys(),
+            n=3,
+            cutoff=cutoff
+        )
+        for m in matches:
+            matched_terms.add(normalized_vocab[m])
+
+    return sorted(matched_terms)
+
+
+# ========= Função principal RAG =========
+def rag_query(question: str, json_path: str):
+    authorized_terms = load_authorized_terms(json_path)
+
+    llm_concepts = ollama_interpret(question)
+    aligned_terms = align_with_vocabulary(llm_concepts, authorized_terms)
+
+    return {
+        "pergunta_original": question,
+        "conceitos_interpretados_pelo_llm": llm_concepts,
+        "termos_autorizados_alinhados": aligned_terms,
+        "modelo_llm": "llama3.2 (Ollama)",
+        "fonte_vocabulario": "por.json"
+    }
+
+
+# ========= Execução =========
 if __name__ == "__main__":
-    url = "https://www.ufrgs.br/thesa/api/ai_rad_json/6/eng"
-    arquivo_saida = "data/vc.json"
-
-    download_json(url, arquivo_saida)
-
-
+    pergunta = "Como a IAG é utilizada na catalogação de livros?"
+    resultado = rag_query(pergunta, "data/por.json")
+    print(json.dumps(resultado, ensure_ascii=False, indent=2))
