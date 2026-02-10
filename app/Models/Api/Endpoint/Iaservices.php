@@ -75,7 +75,7 @@ class Iaservices extends Model
                 break;
             case 'smartretriavel':
                 $RSP = [];
-                $pergunta = "O que é inteligência artificial?";
+                $pergunta = "O que é o SmartRetriavel?";
                 $python = "/data/Brapci3.1/bots/AI/SmartRetriavel/venv/bin/python";
                 $script = "/data/Brapci3.1/bots/AI/SmartRetriavel/smartretriavel.py";
                 //$script = "/data/Brapci3.1/bots/AI/SmartRetriavel/check.py";
