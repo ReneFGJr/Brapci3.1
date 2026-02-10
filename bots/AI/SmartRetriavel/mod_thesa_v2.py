@@ -39,10 +39,6 @@ import json
 from pathlib import Path
 from typing import List, Dict
 
-def gerar_contexto_vc_json(
-    
-)
-
 def gerar_contexto_vc(
     input_json: str,
     output_txt: str,
