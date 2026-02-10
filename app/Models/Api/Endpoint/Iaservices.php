@@ -106,8 +106,8 @@ class Iaservices extends Model
                     exit;
                 }
 
-                $response = json_decode($output, true);
-                pre($response);
+                //$response = json_decode($output, true);
+                pre($output);
                 exit;
                 break;
 
