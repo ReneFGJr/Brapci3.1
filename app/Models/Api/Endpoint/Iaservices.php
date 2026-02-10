@@ -78,7 +78,7 @@ class Iaservices extends Model
                 $pergunta = "O que é inteligência artificial?";
                 $python = "/data/Brapci3.1/bots/AI/SmartRetriavel/venv/bin/python";
                 $script = "/data/Brapci3.1/bots/AI/SmartRetriavel/smartretriavel.py";
-                $script = "/data/Brapci3.1/bots/AI/SmartRetriavel/check.py";
+                //$script = "/data/Brapci3.1/bots/AI/SmartRetriavel/check.py";
                 $cmd = [
                     $python,
                     $script,
