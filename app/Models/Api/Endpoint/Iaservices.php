@@ -73,6 +73,43 @@ class Iaservices extends Model
                 echo json_encode($dt);
                 exit;
                 break;
+            case 'smartretriavel':
+                $RSP = [];
+                $pergunta = "O que é inteligência artificial?";
+                $python = "/data/Brapci3.1/bots/AI/SmartRetriavel/venv/bin/python";
+                $script = "/data/Brapci3.1/bots/AI/SmartRetriavel/smartretriavel.py";
+                $cmd = [
+                    $python,
+                    $script,
+                    $pergunta
+                ];
+                $descriptorspec = [
+                    1 => ["pipe", "w"], // stdout
+                    2 => ["pipe", "w"], // stderr
+                ];
+
+                $process = proc_open($cmd, $descriptorspec, $pipes);
+                $output = stream_get_contents($pipes[1]);
+                $error  = stream_get_contents($pipes[2]);
+
+                fclose($pipes[1]);
+                fclose($pipes[2]);
+
+                $returnCode = proc_close($process);
+
+                if ($returnCode !== 0) {
+                    echo json_encode([
+                        "status" => "error",
+                        "message" => $error
+                    ]);
+                    exit;
+                }
+
+                $response = json_decode($output, true);
+
+                print_r($response);
+
+                break;
 
             default:
                 $RSP['status'] = '500';
