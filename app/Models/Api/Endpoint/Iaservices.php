@@ -97,7 +97,7 @@ class Iaservices extends Model
                 fclose($pipes[2]);
 
                 $returnCode = proc_close($process);
-                pre($returnCode);
+                pre($output);
 
                 if ($returnCode !== 0) {
                     echo json_encode([
