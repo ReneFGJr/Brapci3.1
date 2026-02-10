@@ -113,9 +113,8 @@ class Iaservices extends Model
                     exit;
                 }
 
-                //$response = json_decode($output, true);
-                pre($output);
-                exit;
+                $response = json_decode($output, true);
+                $RSP = $response;
                 break;
 
             default:
