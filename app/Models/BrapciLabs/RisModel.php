@@ -30,6 +30,13 @@ class RisModel extends Model
     /**
      * Verifica se já existe um registro pelo hash
      */
+
+    public function brapciID($url)
+    {
+        $url = str_replace('https://hdl.handle.net/20.500.11959/brapci/','',$url);
+        $url = round($url);
+        return $url;
+    }
     public function existsHash(string $hash, int $projectId): bool
     {
         return $this->where('raw_hash', $hash)

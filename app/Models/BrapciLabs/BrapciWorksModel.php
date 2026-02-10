@@ -16,6 +16,64 @@ class BrapciWorksModel extends Model
 
     protected $useTimestamps = false;
 
+    function search()
+    {
+        echo '<div class="alert alert-info content">Busca avançada</div>';
+        echo '<div class="content">';
+
+        $RisModel = new \App\Models\BrapciLabs\RisModel();        
+        $ElasticSearchModel = new \App\Models\Api\Endpoint\Brapci();
+        $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();        
+
+        $projectID = $ResearchProjectModel->getProjectsID();
+        $W = $RisModel->where('project_id', $projectID)->findAll();
+        $Works = [];
+        foreach ($W as $row) {            
+            $BrapciID = $RisModel->brapciID($row['url']);
+            $Works[$BrapciID] = $row;
+        }
+        
+        $dt['search'] = get("search");
+        $dt['type'] = get("type");
+        $q = get("q");
+        if ($q == '') {
+            $q = $dt['search'];
+            $_POST['q'] = $q;
+        }
+        $sx = '<div class="content">';
+        $sx = '';
+        
+        if ($q == '') {
+        
+            $sx .= 'Busca vazia';
+            $sx .= '</div>';
+            return $sx;
+        } else {
+            $_POST['user'] = session()->get('apikey');
+            $Elastic = new \App\Models\ElasticSearch\Search();
+            $RSP = (array)$Elastic->searchAdvancedFull();            
+
+            $Corpus = [];
+            $type = get("type");
+            if ($type == 'ris')
+                {
+                    foreach ($RSP['works'] as $row) {
+                        $idw = $row['id'];  
+                        if (isset($Works[$idw])) {
+                            $Corpus[] = $Works[$idw];
+                            unset($Works[$idw]);
+                        } else {
+                            /************* Não localizado */                            
+                        }
+                    }
+                }
+            /**************************************************** Corpus */     
+            $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus,'title' => 'Resultados encontrados', 'class' => 'text-primary']);
+            $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works,'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
+        }
+        return $sx;
+    }
+
     function cloud_keys($id)
     {
         $sx = '';

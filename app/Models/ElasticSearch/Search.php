@@ -60,7 +60,7 @@ class Search extends Model
             $Logic = new \App\Models\ElasticSearch\SearchLogical();
             $query = $Logic->method_a1($limit);
 
-            $this->curlQuery($query);
+            return $this->curlQuery($query, false);
         } else {
             // Erro: Dados inválidos
             http_response_code(400);
@@ -141,11 +141,15 @@ class Search extends Model
         $this->curlQuery($query);        
     }
 
-    function curlQuery($query)
+    function curlQuery($query, $echoResult = true)
     {
         /********************************************** Logica 2 */
-
-        $host = 'http://localhost:9200'; // URL do Elasticsearch
+        if ($_SERVER['HTTP_HOST'] == 'brapci')
+        {
+            $host = 'http://143.54.112.91:9200'; // URL do Elasticsearch
+        } else {
+            $host = 'http://localhost:9200'; // URL do Elasticsearch
+        }
         $index = 'brapci3.3'; // Substitua pelo nome do índice
 
         // Inicializa o cURL
@@ -220,13 +224,20 @@ class Search extends Model
             $dt['works'] = [];
         } else {
         }
-        echo (json_encode($dt));
+
+
 
         /***************** Grava convulta */
         $type = '1';
         $SearchDB = new \App\Models\ElasticSearch\SearchLog();
         $SearchDB->register(json_encode($query), count($dt['works']), $type);
-        exit;
+        
+        if ($echoResult) {
+            echo (json_encode($dt));
+            exit;
+        } else {
+            return $dt;
+        }
     }
 
     function field()

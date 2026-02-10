@@ -177,7 +177,6 @@ class SearchLogical extends Model
             $q['query_string']['query'] = $qr;
 
             array_push($query['query']['bool']['must'],$q);
-
             return $query;
         }
 

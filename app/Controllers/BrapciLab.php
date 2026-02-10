@@ -560,6 +560,9 @@ class BrapciLab extends BaseController
         echo view('BrapciLabs/layout/sidebar');
 
         switch($d1){
+            case 'search':
+                echo $BrapciWorksModel->search();
+                break;
             case 'cloud_keys':
                 $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();
                 $prj = $ResearchProjectModel->getProjectsID();

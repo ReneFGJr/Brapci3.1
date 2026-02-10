@@ -212,10 +212,11 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
     });
 
     $routes->group('works', function ($routes) {
+        $routes->post('search', 'BrapciLab::index_works/search');
         $routes->get('(:any)', 'BrapciLab::index_works/$1');
         $routes->get('(:any)/(:any)', 'BrapciLab::index_works/$1/$2');
         $routes->get('(:any)/(:any)/(:any)', 'BrapciLab::index_works/$1/$2/$3');
-        $routes->get('', 'BrapciLab::index_works');
+        $routes->get('', 'BrapciLab::index_works');        
     });
 
     $routes->group('projects', function ($routes) {

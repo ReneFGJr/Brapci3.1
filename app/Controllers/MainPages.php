@@ -146,6 +146,13 @@ class MainPages extends BaseController
                 $id = 75;
                 $data['logo'] = view('Logos/logo_benancib');
                 $sx .= view('Brapci/Pages/search');
+                $syst = ['Labs'=>'/labs'];
+                foreach ($syst as $name => $link) {
+                    $sx .= '<center><a href="' . $link . '" class="btn btn-primary m-2">' . $name . '</a></center>';
+                }
+                if ($_SERVER['HTTP_HOST'] == 'brapci') {
+                    $sx .= '<center><a href="http://brapci/social/token/?token=ff63a314d1ddd425517550f446e4175e" class="btn btn-primary">Login with Local User</a></center>';
+                }
 
                 //$Events = new \App\Models\Functions\Event();
                 //$sx .= $Events->index('cards');
