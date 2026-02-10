@@ -10,6 +10,11 @@ MODEL = "llama3.2"
 
 BASE_DIR = Path(__file__).resolve().parent
 
+# ========= Thesa =========
+def getThesa(id):
+    url = "https://www.ufrgs.br/thesa/api/ai_rag_json/"+str(id)+"/por"
+    arquivo_saida = "data/por.json"
+    download_json(url, arquivo_saida)
 
 # ========= Normalização =========
 def normalize(text: str) -> str:
