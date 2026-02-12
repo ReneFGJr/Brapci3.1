@@ -13,7 +13,7 @@
     <div class="row g-4 mb-4">
         <?= view("BrapciLabs/widget/cards/card_1", [
             'size'  => 4,
-            'title' => 'Trabalhos <a href="' . base_url('labs/importRIS').'"
+            'title' => 'Trabalhos <a href="' . base_url('labs/importRIS') . '"
            class="ms-2 text-decoration-none"
            title="Importar trabalhos (RIS)">
             <i class="bi bi-file-earmark-arrow-up"></i>
@@ -27,11 +27,11 @@
         <!-- Autores Card -->
         <?= view("BrapciLabs/widget/cards/card_1", [
             'size'  => 4,
-            'title' => 'Autores <a href="' . base_url('labs/project/authors').'"
+            'title' => 'Autores <a href="' . base_url('labs/project/authors') . '"
            class="ms-2 text-decoration-none"
            title="Importar trabalhos (RIS)">
             <i class="bi bi-file-earmark-arrow-up"></i>
-            </a>',            
+            </a>',
             'info'  => $authorsCount > 0
                 ? '<a href="' . base_url('labs/project/authors') . '" class="link">'
                 . $authorsCount . ' autores</a>'
@@ -53,6 +53,21 @@
                 <?= view('BrapciLabs/ris/search_elastic') ?>
             </div>
         </div>
+
+        <!-- Autores Card -->
+        <?= view("BrapciLabs/widget/cards/card_1", [
+            'size'  => 4,
+            'title' => 'Colaboradores <a href="' . base_url('labs/project/collaborators') . '"
+           class="ms-2 text-decoration-none"
+           title="Gerenciar colaboradores">
+            <i class="bi bi-file-earmark-arrow-up"></i>
+            </a>',
+            'info'  => $collaboratorsCount > 0
+                ? '<a href="' . base_url('labs/project/collaborators') . '" class="link">'
+                . $collaboratorsCount . ' colaboradores</a>'
+                : 'sem colaboradores'
+        ]) ?>
+
 
         <div class="col-md-4">
             <div class="card card-dashboard p-3">

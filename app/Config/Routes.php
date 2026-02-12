@@ -216,7 +216,7 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
         $routes->get('(:any)', 'BrapciLab::index_works/$1');
         $routes->get('(:any)/(:any)', 'BrapciLab::index_works/$1/$2');
         $routes->get('(:any)/(:any)/(:any)', 'BrapciLab::index_works/$1/$2/$3');
-        $routes->get('', 'BrapciLab::index_works');        
+        $routes->get('', 'BrapciLab::index_works');
     });
 
     $routes->group('projects', function ($routes) {
@@ -267,6 +267,12 @@ $routes->group('labs', ['filter' => 'auth'], function ($routes) {
         $routes->get('codebook/edit/(:num)', 'BrapciLab::editCodebook/$1');
         $routes->post('codebook/update/(:num)', 'BrapciLab::updateCodebook/$1');
         $routes->post('codebook/delete/(:num)', 'BrapciLab::deleteCodebook/$1');
+
+        $routes->get('collaborators', 'BrapciLab::index_project');
+        $routes->get('collaborators/(:any)', 'BrapciLab::index_project/$1');
+        $routes->post('collaborators/(:any)', 'BrapciLab::index_project/$1');
+        $routes->post('collaborators/(:any)/(:any)', 'BrapciLab::index_project/$1/$2');
+        $routes->post('collaborators/(:any)/(:any)/(:any)', 'BrapciLab::index_project/$1/$2/$3');
 
         /******* Authors */
         $routes->get('authors', 'BrapciLab::authors');

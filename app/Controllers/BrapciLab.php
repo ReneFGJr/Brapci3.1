@@ -32,6 +32,7 @@ class BrapciLab extends BaseController
     protected $risModel;
     protected $session;
     protected $repository;
+    protected $collaborators;
 
     public function __construct()
     {
@@ -41,6 +42,7 @@ class BrapciLab extends BaseController
         $this->risModel = new RisModel();
         $this->session      = session();
         $this->repository = new Simori();
+        $this->collaborators = new \App\Models\BrapciLabs\ResearchProjectsCollaboratorsModel();
     }
 
     public function home()
@@ -63,6 +65,7 @@ class BrapciLab extends BaseController
         $data['codebookCount'] = $this->codebookModel->countByProject($projectId);
         $data['authorsCount'] = $this->projectAuthorModel->countByProject($projectId); // implementar contagem de autores
         $data['worksCount'] = $this->risModel->countByProject($projectId); // implementar contagem de obras
+        $data['collaboratorsCount'] = $this->collaborators->countByProject($projectId); // implementar contagem de colaboradores
         return view('BrapciLabs/home', $data);
     }
 
@@ -369,7 +372,17 @@ class BrapciLab extends BaseController
             'current'  => $this->session->get('project_id')
         ];
 
-        return view('BrapciLabs/projects/select', $data);
+        $sx = view('BrapciLabs/projects/select', $data);
+
+        /*************/
+        $ResearchProjectsCollaboratorsModel = new \App\Models\BrapciLabs\ResearchProjectsCollaboratorsModel();
+        $data = [
+            'projects' => $ResearchProjectsCollaboratorsModel->getProjects($ownerId),
+            'current'  => $this->session->get('project_id')
+        ];
+        $sx .= view('BrapciLabs/projects/select_with_collaborator', $data);
+
+        return $sx;
     }
 
     public function setProject()
@@ -650,6 +663,61 @@ class BrapciLab extends BaseController
         }
 
 
+        echo view('BrapciLabs/layout/footer');
+    }
+
+    /*************************** Projects */
+    function index_project($d1='',$d2='',$d3='',$d4='',$d5='')
+    {
+        $projectId = session('project_id');
+        $ResearchProjectsCollaboratorsModel = new \App\Models\BrapciLabs\ResearchProjectsCollaboratorsModel();
+        $data = [];
+        echo view('BrapciLabs/layout/header', $data);
+        echo view('BrapciLabs/layout/sidebar');
+
+        switch($d1){
+            case 'add':
+                $dt = $ResearchProjectsCollaboratorsModel
+                    ->where('rpc_user', get("user_id"))
+                    ->where('rpc_project', $projectId)
+                    ->first();
+                $dd = [
+                        'rpc_user' => get("user_id"),
+                        'rpc_project' => $projectId,
+                        'rpc_role' => 1 // Colaborador
+                    ];
+                if (!$dt) {
+                    $ResearchProjectsCollaboratorsModel->set($dd)->insert();
+                }
+                return redirect()->to('/labs/project/collaborators')->with('success', 'Colaborador removido com sucesso.');
+                break;
+            case 'delete':
+                $ResearchProjectsCollaboratorsModel->where('id_rpc', $d2)->where('rpc_project', $projectId)->delete();
+                return redirect()->to('/labs/project/collaborators')->with('success', 'Colaborador removido com sucesso.');
+            case 'search':
+                $Socials = new \App\Models\Socials();
+                $q = get("q");
+                $cp = 'us_nome, min(id_us) as id_us, us_institution, us_email';
+                $data['search_results'] =
+                $Socials
+                    ->select($cp)
+                    ->where('us_nome', $q)
+                    ->orLike('us_nome', $q)
+                    ->orLike('us_email', $q)
+                    ->groupBy('us_nome, us_institution, us_email')
+                    ->orderBy('us_nome', 'ASC')
+                    ->findAll();
+                $data['collaborators'] = $ResearchProjectsCollaboratorsModel->getByProject($projectId);
+                echo view('BrapciLabs/projects/collaborators', ['collaborators' => $data['collaborators'], 'project_id' => $projectId, 'search_results' => $data['search_results']]);
+                break;
+            case 'view':
+                echo $ResearchProjectsCollaboratorsModel->view($d2);
+                break;
+            default:
+                $data['collaborators'] = $ResearchProjectsCollaboratorsModel->getByProject($projectId);
+                echo view('BrapciLabs/projects/collaborators', ['collaborators' => $data['collaborators'], 'project_id' => $projectId]);
+                break;
+        }
         echo view('BrapciLabs/layout/footer');
     }
 

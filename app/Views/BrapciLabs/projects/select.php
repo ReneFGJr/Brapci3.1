@@ -5,7 +5,7 @@
 
     <!-- Título + Novo Projeto -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3>Selecionar Projeto de Pesquisa</h3>
+        <h3>Selecionar Meus Projetos de Pesquisa</h3>
 
         <a href="<?= site_url('labs/projects/new') ?>" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Novo projeto
