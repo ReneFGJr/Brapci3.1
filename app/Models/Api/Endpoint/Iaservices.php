@@ -78,10 +78,10 @@ class Iaservices extends Model
                 $pergunta = get("q");
 
                 if ($pergunta == '') {
+                    $RSP = [];
                     $RSP['status'] = '400';
                     $RSP['message'] = 'Parâmetro "q" é obrigatório.';
-                    $response = json_decode($RSP, true);
-                    echo $response;
+                    echo json_encode($RSP);
                     exit;
                 }
                 $python = "/data/Brapci3.1/bots/AI/SmartRetriavel/venv/bin/python";
