@@ -41,7 +41,11 @@
         <!-- CodeBook Card -->
         <?= view("BrapciLabs/widget/cards/card_1", [
             'size'  => 4,
-            'title' => 'CodeBook',
+            'title' => 'CodeBook <a href="' . base_url('labs/project/codebook/new') . '"
+                class="ms-2 text-decoration-none"
+                title="Importar trabalhos (RIS)">
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                    </a>',
             'info'  => $codebookCount > 0
                 ? '<a href="' . base_url('labs/project/codebook') . '" class="link">'
                 . $codebookCount . ' anotações</a>'
