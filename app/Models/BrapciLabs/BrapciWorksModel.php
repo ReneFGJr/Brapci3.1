@@ -45,6 +45,7 @@ public function search_smart()
         echo '<div class="content">';
         $PRG = troca($PATH,'public','bots/SmartSearch/data/Brapci3.1/bots/SmartSearch/search_smart.py');
         $PATH = troca($PATH,'public','bots/SmartSearch/venv/bin/python');
+        echo $PATH.' '.$PRG;
         
         echo '<h1>'.$PRG.'</h1>';  
         echo '<h1>'.$PATH.'</h1>';  
