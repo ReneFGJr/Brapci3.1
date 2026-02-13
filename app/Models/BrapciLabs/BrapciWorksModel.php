@@ -22,10 +22,13 @@ class BrapciWorksModel extends Model
         switch($type)
             {
             case 'smart':
-                $this->search_smart();
+                echo $this->search_smart();
+                break;
+            case 'ris':
+                echo $this->search_base_ris();
                 break;
             default:
-                $this->search_general();
+                echo '========================================================> '.$type;
                 break;
         }        
     }
@@ -83,7 +86,7 @@ public function search_smart()
         $data = json_decode($output, true);
         pre($data);
     }
-    function search_general()
+    function search_base_ris()
         {
         echo '<div class="alert alert-info content">Busca avançada</div>';
         echo '<div class="content">';
