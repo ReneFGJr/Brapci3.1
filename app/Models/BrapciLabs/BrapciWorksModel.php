@@ -18,6 +18,66 @@ class BrapciWorksModel extends Model
 
     function search()
     {
+        $type = get("type");
+        switch($type)
+            {
+            case 'smart':
+                $this->search_smart();
+                break;
+            default:
+                $this->search_general();
+                break;
+        }        
+    }
+public function search_smart()
+    {
+        $query = get('q');
+
+        if (!$query) {
+            return json_encode([
+                'status' => 'error',
+                'message' => 'Parâmetro q é obrigatório'
+            ]);
+        }
+
+        // Caminho absoluto do script
+        $PATH = $_SERVER['DOCUMENT_ROOT'];
+        echo '<div class="content">';
+        echo '<h1>'.$PATH.'</h1>';
+        pre($_SERVER);
+        $scriptPath = WRITEPATH . 'scripts/search_smart.py';
+
+        // Escapa o parâmetro para segurança
+        $escapedQuery = escapeshellarg($query);
+
+        // Comando
+        $command = "python3 $scriptPath $escapedQuery";
+
+        // Executa
+        $output = shell_exec($command);
+
+        if (!$output) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Erro ao executar Python'
+            ]);
+        }
+
+        // Decodifica JSON retornado pelo Python
+        $data = json_decode($output, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'JSON inválido retornado pelo Python',
+                'raw_output' => $output
+            ]);
+        }
+
+        return $this->response->setJSON($data);       
+    }
+    function search_general()
+        {
         echo '<div class="alert alert-info content">Busca avançada</div>';
         echo '<div class="content">';
 
