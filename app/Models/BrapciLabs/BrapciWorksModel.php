@@ -42,44 +42,46 @@ public function search_smart()
 
         // Caminho absoluto do script
         $PATH = $_SERVER['DOCUMENT_ROOT'];
-        echo '<div class="content">';
-        $PRG = troca($PATH,'public','bots/SmartSearch/data/Brapci3.1/bots/SmartSearch/search_smart.py');
-        $PATH = troca($PATH,'public','bots/SmartSearch/venv/bin/python');
-        echo $PATH.' '.$PRG;
         
-        echo '<h1>'.$PRG.'</h1>';  
-        echo '<h1>'.$PATH.'</h1>';  
-        pre($_SERVER);
-        $scriptPath = WRITEPATH . 'scripts/search_smart.py';
+        echo '<div class="content">';
+        if (strpos($PATH, 'www/Brapci3.1')) {
+            $PRG =      troca($PATH,'public','bots/AI/SmartRetriavel/smartretriavel.py');
+            $PYTHON =   troca($PATH,'public','bots/AI/SmartRetriavel/venv/Scripts/python.exe');
+            $CMD = $PYTHON.' '.$PRG;
+        } else {
+            $PRG = troca($PATH,'public','bots/AI/SmartRetriavel/smartretriavel.py');
+            $PYTHON = troca($PATH,'public','bots/AI/SmartRetriavel/venv/bin/python');
+            $CMD = $PYTHON.' '.$PRG;
+        }
+        echo '<h1>'.$CMD.'</h1>';
+
+        if (!file_exists($PRG)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "Script não encontrado: $PRG"
+            ]);
+            exit;
+        }
+        if (!file_exists($PATH)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "Python não encontrado: $PATH"
+            ]);
+            exit;
+        }   
 
         // Escapa o parâmetro para segurança
         $escapedQuery = escapeshellarg($query);
 
         // Comando
-        $command = "python3 $scriptPath $escapedQuery";
+        $command = "$CMD $escapedQuery";
 
         // Executa
         $output = shell_exec($command);
 
-        if (!$output) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Erro ao executar Python'
-            ]);
-        }
-
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'JSON inválido retornado pelo Python',
-                'raw_output' => $output
-            ]);
-        }
-
-        return $this->response->setJSON($data);       
+        pre($data);
     }
     function search_general()
         {
