@@ -43,7 +43,11 @@ public function search_smart()
         // Caminho absoluto do script
         $PATH = $_SERVER['DOCUMENT_ROOT'];
         echo '<div class="content">';
-        echo '<h1>'.$PATH.'</h1>';
+        $PRG = troca($PATH,'public','bots/SmartSearch/data/Brapci3.1/bots/SmartSearch/search_smart.py');
+        $PATH = troca($PATH,'public','bots/SmartSearch/venv/bin/python');
+        
+        echo '<h1>'.$PRG.'</h1>';  
+        echo '<h1>'.$PATH.'</h1>';  
         pre($_SERVER);
         $scriptPath = WRITEPATH . 'scripts/search_smart.py';
 
