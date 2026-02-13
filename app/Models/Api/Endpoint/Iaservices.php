@@ -76,8 +76,13 @@ class Iaservices extends Model
             case 'smartretriavel':
                 $RSP = [];
                 $pergunta = get("q");
+
                 if ($pergunta == '') {
-                    $pergunta = "O que é o SmartRetriavel?";
+                    $RSP['status'] = '400';
+                    $RSP['message'] = 'Parâmetro "q" é obrigatório.';
+                    $response = json_decode($RSP, true);
+                    echo $response;
+                    exit;
                 }
                 $python = "/data/Brapci3.1/bots/AI/SmartRetriavel/venv/bin/python";
                 $script = "/data/Brapci3.1/bots/AI/SmartRetriavel/smartretriavel.py";
