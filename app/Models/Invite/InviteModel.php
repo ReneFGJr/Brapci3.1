@@ -139,7 +139,7 @@ class InviteModel extends Model
             [$filePath] // anexo DOCX
         );
 
-        return $email;
+        return '<div class="container"><div class="row"><div class="col-12">'.$email. '</div></div></div>';
     }
 
 
