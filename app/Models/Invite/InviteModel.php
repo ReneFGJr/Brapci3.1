@@ -111,9 +111,9 @@ class InviteModel extends Model
         $txt .= '<br><br>';
         $txt .= 'A BRAPCI constitui-se como uma importante fonte de disseminação e visibilidade da produção científica na área de Ciência da Informação, contribuindo para a preservação, organização e ampliação do acesso ao conhecimento científico.';
         $txt .= '<br><br>';
-        $txt .= 'Informamos que não há qualquer custo para a indexação da revista na base. Como requisito técnico, é necessário apenas que o protocolo OAI-PMH esteja ativo e acessível, possibilitando a coleta automatizada dos metadados para integração ao sistema.';
+        $txt .= 'Informamos que não há qualquer custo para a indexação da publicação na base. Como requisito técnico, é necessário apenas que o protocolo OAI-PMH esteja ativo e acessível, possibilitando a coleta automatizada dos metadados para integração ao sistema.';
         $txt .= '<br><br>';
-        $txt .= 'Encaminhamos, em anexo, o formulário de indexação em formato DOCX. Solicitamos, gentilmente, que o documento seja preenchido e reenviado para este mesmo endereço eletrônico, a fim de darmos continuidade ao processo de avaliação e inclusão.';
+        $txt .= 'Encaminhamos, em anexo, o formulário de indexação em formato DOCX. Solicitamos, gentilmente, que o documento seja preenchido e assinado, posteriormente enviado para a equipe da BRAPCI via e-mail ou por meio de um link fornecido no formulário.';
         $txt .= '<br><br>';
         $txt .= 'Colocamo-nos à disposição para quaisquer esclarecimentos adicionais.';
         $txt .= '<br><br>';
