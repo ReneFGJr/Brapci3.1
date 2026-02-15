@@ -98,7 +98,7 @@ class InviteModel extends Model
 
         /* Corpo do e-mail */
         $txt  = '<body style="background-color: #EEE;"><center>';
-        $txt .= '<table width="600" border="1" cellpadding="0">';
+        $txt .= '<table width="600" border="0" cellpadding="0" style="background-color: #FFF;">';
         $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
         $txt .= '<tr><td style="padding: 5px;">';
         $txt .= '<h3>Convite para Indexação na BRAPCI</h3>';
@@ -125,6 +125,7 @@ class InviteModel extends Model
         $txt .= '</td></tr>';
 
         $txt .= '</table>';
+        $txt .= '<span style="height: 100px;"></span>';
         $txt .= '</body>';
 
         $subject = '[BRAPCI] Convite para Indexação da Revista ' . $journal;
