@@ -108,13 +108,14 @@ class InviteModel extends Model
         $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
 
         $txt .= 'A equipe da <strong>BRAPCI – Base de Dados Referencial de Artigos de Periódicos em Ciência da Informação</strong> ';
-        $txt .= 'tem a satisfação de convidar a revista:<br><br>';
+        $txt .= 'tem a satisfação de convidar sua publicação ';
 
-        $txt .= '<strong>' . esc($journal) . '</strong><br><br>';
+        $txt .= '<strong>' . esc($journal) . '</strong>';
 
-        $txt .= 'para integrar nosso índice bibliográfico.<br><br>';
+        $txt .= ' para integrar nosso índice bibliográfico.<br><br>';
 
         $txt .= 'Em anexo segue o formulário de indexação em formato DOCX. ';
+        $txt .= '<br><br>';
         $txt .= 'Solicitamos, por gentileza, que o documento seja preenchido e reenviado para este mesmo e-mail.<br><br>';
 
         $txt .= 'Permanecemos à disposição para quaisquer esclarecimentos.<br><br>';
