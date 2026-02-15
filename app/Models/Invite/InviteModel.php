@@ -79,33 +79,74 @@ class InviteModel extends Model
                 }
             return $sx;
         }
-
     function send_email($id)
-        {
-            $dt = $this->where('id_iv',$id)->first();
-            $name = $dt['iv_contact_name'];
-            $user = $dt['iv_contact'];
-            $journal = $dt['iv_journal'];
+    {
+        $dt = $this->where('id_iv', $id)->first();
 
-            /* Enviar e-mail */
-            $txt = '';
-            $txt .= '<table width="600" border=0>';
-            $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
-            $txt .= '<tr><td>';
-            $txt .= 'Prezado usuário ' . $name . ',<br>';
-            $txt .= '<br>';
-            $txt .= 'Convite.';
-            $txt .= '<br><br>';
-            $txt .= '<b>'.$journal.'</b><br>';
-            $txt .= 'Usuário: ' . $user . '<br>';
-            $txt .= '</td></tr></table>';
-            $subject = '[BRAPCI] ';
-            $subject .= lang('social.social_user_add');
-            //sendemail($user, $subject, $txt);
-
-            $email = sendemail("renefgj@gmail.com", $subject, $txt);
-            pre($email);
+        if (!$dt) {
+            return false;
         }
+
+        $name    = $dt['iv_contact_name'];
+        $user    = $dt['iv_contact']; // email do editor
+        $journal = $dt['iv_journal'];
+
+        /* Caminho do formulário DOCX */
+        $filePath = WRITEPATH . 'docs/formulario_indexacao_brapci.docx';
+        if (!file_exists($filePath))
+        {
+            echo "Arquivo não localizado.";
+            echo '<hr>';
+            echo $filePath;
+            exit;
+        }
+
+        /* Corpo do e-mail */
+        $txt  = '';
+        $txt .= '<table width="600" border="0" cellpadding="10">';
+        $txt .= '<tr><td>';
+        $txt .= '<h3>Convite para Indexação na BRAPCI</h3>';
+        $txt .= '</td></tr>';
+
+        $txt .= '<tr><td>';
+        $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
+
+        $txt .= 'A equipe da <strong>BRAPCI – Base de Dados Referencial de Artigos de Periódicos em Ciência da Informação</strong> ';
+        $txt .= 'tem a satisfação de convidar a revista:<br><br>';
+
+        $txt .= '<strong>' . esc($journal) . '</strong><br><br>';
+
+        $txt .= 'para integrar nosso índice bibliográfico.<br><br>';
+
+        $txt .= 'Em anexo segue o formulário de indexação em formato DOCX. ';
+        $txt .= 'Solicitamos, por gentileza, que o documento seja preenchido e reenviado para este mesmo e-mail.<br><br>';
+
+        $txt .= 'Permanecemos à disposição para quaisquer esclarecimentos.<br><br>';
+
+        $txt .= 'Atenciosamente,<br>';
+        $txt .= '<strong>Equipe BRAPCI</strong><br>';
+        $txt .= 'https://brapci.inf.br';
+        $txt .= '</td></tr>';
+
+        $txt .= '</table>';
+
+        $subject = '[BRAPCI] Convite para Indexação da Revista ' . $journal;
+
+        /*
+     * Caso sua função sendemail aceite anexo:
+     * sendemail($to, $subject, $message, $attachments = [])
+     */
+        $user = 'renefgj@gmail.com';
+        $email = sendemail(
+            $user,
+            $subject,
+            $txt,
+            [$filePath] // anexo DOCX
+        );
+
+        return $email;
+    }
+
 
     function view($id)
         {
