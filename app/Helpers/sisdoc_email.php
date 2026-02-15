@@ -140,7 +140,7 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
     /********* Atachs */
     foreach ($attachs as $fileID=>$file)
         {
-            pre($file);
+            $email->attach($file);
         }
 
     //$email->setCC('another@another-example.com');
