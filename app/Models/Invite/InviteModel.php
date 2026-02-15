@@ -97,14 +97,14 @@ class InviteModel extends Model
         $filePath = $PATH . '_Documments/TERMOS/Modelo/Termo de autorização a Brapci para a indexação.docx';
 
         /* Corpo do e-mail */
-        $txt  = '<center>';
-        $txt .= '<table width="600" border="0" cellpadding="10">';
+        $txt  = '<body style="background-color: #EEE;"><center>';
+        $txt .= '<table width="600" border="1" cellpadding="10">';
         $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
         $txt .= '<tr><td>';
         $txt .= '<h3>Convite para Indexação na BRAPCI</h3>';
         $txt .= '</td></tr>';
 
-        $txt .= '<tr><td style="padding: 5px;">';
+        $txt .= '<tr><td style="padding: 5px; border: 1px solid #000;">';
         $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
 
         $txt .= 'A equipe da <strong>BRAPCI – Base de Dados Referencial de Artigos de Periódicos em Ciência da Informação</strong> ';
@@ -125,6 +125,7 @@ class InviteModel extends Model
         $txt .= '</td></tr>';
 
         $txt .= '</table>';
+        $txt .= '</body>';
 
         $subject = '[BRAPCI] Convite para Indexação da Revista ' . $journal;
 

@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PhpParser\Node\Stmt\Foreach_;
 
 function email_smtp_test()
 {
@@ -135,6 +136,12 @@ function sendemail($to = array(), $subject = '', $body = '', $attachs = array(),
         $email->setTo($to);
         $emails = $to;
     }
+
+    /********* Atachs */
+    foreach ($attachs as $fileID=>$file)
+        {
+            pre($file);
+        }
 
     //$email->setCC('another@another-example.com');
     //$email->setBCC('them@their-example.com');
