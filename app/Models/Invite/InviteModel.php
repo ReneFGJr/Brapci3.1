@@ -107,18 +107,14 @@ class InviteModel extends Model
         $txt .= '<tr><td style="padding: 5px;">';
         $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
 
-        $txt .= 'A equipe da <strong>BRAPCI – Base de Dados Referencial de Artigos de Periódicos em Ciência da Informação</strong> ';
-        $txt .= 'tem a satisfação de convidar sua publicação ';
-
-        $txt .= '<strong>' . esc($journal) . '</strong>';
-
-        $txt .= ' para integrar nosso índice bibliográfico.<br><br>';
-
-        $txt .= 'Em anexo segue o formulário de indexação em formato DOCX. ';
+        $txt .= 'A equipe da BRAPCI – Base de Dados em Ciência da Informação tem a honra de convidar a publicação <strong>' . esc($journal) . '</strong> a integrar nosso índice bibliográfico.';
         $txt .= '<br><br>';
-        $txt .= 'Solicitamos, por gentileza, que o documento seja preenchido e reenviado para este mesmo e-mail.<br><br>';
-
-        $txt .= 'Permanecemos à disposição para quaisquer esclarecimentos.<br><br>';
+        $txt .= 'A BRAPCI constitui-se como uma importante fonte de disseminação e visibilidade da produção científica na área de Ciência da Informação, contribuindo para a preservação, organização e ampliação do acesso ao conhecimento científico.';
+        $txt .= '<br><br>';
+        $txt .= 'Encaminhamos, em anexo, o formulário de indexação em formato DOCX. Solicitamos, gentilmente, que o documento seja preenchido e reenviado para este mesmo endereço eletrônico, a fim de darmos continuidade ao processo de avaliação e inclusão.';
+        $txt .= '<br><br>';
+        $txt .= 'Colocamo-nos à disposição para quaisquer esclarecimentos adicionais.';
+        $txt .= '<br><br>';
 
         $txt .= 'Atenciosamente,<br>';
         $txt .= '<strong>Equipe BRAPCI</strong><br>';
