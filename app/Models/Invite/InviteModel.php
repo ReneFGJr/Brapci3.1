@@ -91,43 +91,83 @@ class InviteModel extends Model
         $name    = $dt['iv_contact_name'];
         $user    = $dt['iv_contact']; // email do editor
         $journal = $dt['iv_journal'];
+        $language = $dt['iv_language'];
 
         /* Caminho do formulário DOCX */
         $PATH = '../';
         $filePath = $PATH . '_Documments/TERMOS/Modelo/Termo de autorização a Brapci para a indexação.docx';
 
-        /* Corpo do e-mail */
-        $txt  = '<body style="background-color: #EEE;"><center>';
-        $txt .= '<table width="600" border="0" cellpadding="0" style="background-color: #FFF;">';
-        $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
-        $txt .= '<tr><td style="padding: 5px;">';
-        $txt .= '<h3>Convite para Indexação na BRAPCI</h3>';
-        $txt .= '</td></tr>';
+        switch($language)
+            {
+                case 'esp':
+                /* Cuerpo del correo electrónico */
+                $txt  = '<body style="background-color: #EEE;"><center>';
+                $txt .= '<table width="600" border="0" cellpadding="0" style="background-color: #FFF;">';
+                $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+                $txt .= '<tr><td style="padding: 5px;">';
+                $txt .= '<h3>Invitación para la Indexación en BRAPCI</h3>';
+                $txt .= '</td></tr>';
 
-        $txt .= '<tr><td style="padding: 5px;">';
-        $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
+                $txt .= '<tr><td style="padding: 5px;">';
+                $txt .= 'Estimado(a) <strong>' . esc($name) . '</strong>,<br><br>';
 
-        $txt .= 'A equipe da Base de Dados em Ciência da Informação (BRAPCI) tem a honra de convidar a sua publicação <strong>' . esc($journal) . '</strong> a integrar nosso índice bibliográfico.';
-        $txt .= '<br><br>';
-        $txt .= 'A BRAPCI constitui-se como uma importante fonte de disseminação e visibilidade da produção científica na área de Ciência da Informação, contribuindo para a preservação, organização e ampliação do acesso ao conhecimento científico.';
-        $txt .= '<br><br>';
-        $txt .= 'Informamos que não há qualquer custo para a indexação da publicação na base. Como requisito técnico, é necessário apenas que o protocolo OAI-PMH esteja ativo e acessível, possibilitando a coleta automatizada dos metadados para integração ao sistema.';
-        $txt .= '<br><br>';
-        $txt .= 'Encaminhamos, em anexo, o formulário de indexação em formato DOCX. Solicitamos, gentilmente, que o documento seja preenchido e assinado, posteriormente enviado para a equipe da BRAPCI via e-mail ou por meio de um link fornecido no formulário.';
-        $txt .= '<br><br>';
-        $txt .= 'Colocamo-nos à disposição para quaisquer esclarecimentos adicionais.';
-        $txt .= '<br><br>';
+                $txt .= 'El equipo de la Base de Datos en Ciencia de la Información (BRAPCI) tiene el honor de invitar a su publicación <strong>' . esc($journal) . '</strong> a formar parte de nuestro índice bibliográfico.';
+                $txt .= '<br><br>';
+                $txt .= 'BRAPCI se constituye como una importante fuente de difusión y visibilidad de la producción científica en el área de Ciencia de la Información, contribuyendo a la preservación, organización y ampliación del acceso al conocimiento científico.';
+                $txt .= '<br><br>';
+                $txt .= 'Informamos que no existe ningún costo para la indexación de la publicación en la base. Como requisito técnico, solo es necesario que el protocolo OAI-PMH esté activo y accesible, lo que permitirá la recolección automatizada de los metadatos para su integración al sistema.';
+                $txt .= '<br><br>';
+                $txt .= 'Adjuntamos el formulario de indexación en formato DOCX. Solicitamos, amablemente, que el documento sea completado y firmado, y posteriormente enviado al equipo de BRAPCI por correo electrónico o mediante el enlace indicado en el propio formulario.';
+                $txt .= '<br><br>';
+                $txt .= 'Quedamos a su disposición para cualquier aclaración adicional.';
+                $txt .= '<br><br>';
 
-        $txt .= 'Atenciosamente,<br>';
-        $txt .= '<strong>Equipe BRAPCI</strong><br>';
-        $txt .= 'https://brapci.inf.br';
-        $txt .= '</td></tr>';
+                $txt .= 'Atentamente,<br>';
+                $txt .= '<strong>Equipo BRAPCI</strong><br>';
+                $txt .= 'https://brapci.inf.br';
+                $txt .= '</td></tr>';
 
-        $txt .= '</table>';
-        $txt .= '<span style="height: 100px;"></span>';
-        $txt .= '</body>';
+                $txt .= '</table>';
+                $txt .= '<span style="height: 100px;"></span>';
+                $txt .= '</body>';
 
-        $subject = '[BRAPCI] Convite para Indexação da Revista ' . $journal;
+                $subject = '[BRAPCI] Invitación para la Indexación de la Revista ' . $journal;
+                break;
+           default:
+                /* Corpo do e-mail */
+                $txt  = '<body style="background-color: #EEE;"><center>';
+                $txt .= '<table width="600" border="0" cellpadding="0" style="background-color: #FFF;">';
+                $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
+                $txt .= '<tr><td style="padding: 5px;">';
+                $txt .= '<h3>Convite para Indexação na BRAPCI</h3>';
+                $txt .= '</td></tr>';
+
+                $txt .= '<tr><td style="padding: 5px;">';
+                $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
+
+                $txt .= 'A equipe da Base de Dados em Ciência da Informação (BRAPCI) tem a honra de convidar a sua publicação <strong>' . esc($journal) . '</strong> a integrar nosso índice bibliográfico.';
+                $txt .= '<br><br>';
+                $txt .= 'A BRAPCI constitui-se como uma importante fonte de disseminação e visibilidade da produção científica na área de Ciência da Informação, contribuindo para a preservação, organização e ampliação do acesso ao conhecimento científico.';
+                $txt .= '<br><br>';
+                $txt .= 'Informamos que não há qualquer custo para a indexação da publicação na base. Como requisito técnico, é necessário apenas que o protocolo OAI-PMH esteja ativo e acessível, possibilitando a coleta automatizada dos metadados para integração ao sistema.';
+                $txt .= '<br><br>';
+                $txt .= 'Encaminhamos, em anexo, o formulário de indexação em formato DOCX. Solicitamos, gentilmente, que o documento seja preenchido e assinado, posteriormente enviado para a equipe da BRAPCI via e-mail ou por meio de um link fornecido no formulário.';
+                $txt .= '<br><br>';
+                $txt .= 'Colocamo-nos à disposição para quaisquer esclarecimentos adicionais.';
+                $txt .= '<br><br>';
+
+                $txt .= 'Atenciosamente,<br>';
+                $txt .= '<strong>Equipe BRAPCI</strong><br>';
+                $txt .= 'https://brapci.inf.br';
+                $txt .= '</td></tr>';
+
+                $txt .= '</table>';
+                $txt .= '<span style="height: 100px;"></span>';
+                $txt .= '</body>';
+
+                $subject = '[BRAPCI] Convite para Indexação da Revista ' . $journal;
+                break;
+            }
 
         /*
      * Caso sua função sendemail aceite anexo:
