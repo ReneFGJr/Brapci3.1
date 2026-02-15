@@ -44,41 +44,42 @@ class InviteModel extends Model
 
     protected $skipValidation = false;
 
-    function index($d1='',$d2='')
-        {
-            $sx = '';
-            switch($d1)
-                {
-                    case 'view':
-                        $sx .= $this->view($d2);
-                        break;
-                    case 'status':
-                        $sx .= $this->status_row($d2);
-                    break;
+    function index($d1 = '', $d2 = '')
+    {
+        $sx = '';
+        switch ($d1) {
+            case 'view':
+                $sx .= $this->view($d2);
+                break;
+            case 'status':
+                $sx .= $this->status_row($d2);
+                break;
 
-                    case 'create':
-                        $sx .= $this->create();
-                    break;
+            case 'create':
+                $sx .= $this->create();
+                break;
 
-                    case 'store':
-                        $sx .= $this->store();
-                    break;
+            case 'store':
+                $sx .= $this->store();
+                break;
 
-                    case 'resend':
-                        /* Enviar ou reenviar convite */
-                        $sx .= $this->send_email($d2);
-                        break;
+            case 'resend':
+                /* Enviar ou reenviar convite */
+                $sx .= $this->send_email($d2);
+                break;
 
-                    case 'resume':
-                        $dt = $this->resume();
-                        $sx = view('Invite/resume', ['resume' => $dt]);
-                        break;
-                    default:
-                        $sx = $this->index('resume');
-                        break;
-                }
-            return $sx;
+            case 'resume':
+                $dt = $this->resume();
+                $sx = view('Invite/resume', ['resume' => $dt]);
+                break;
+            default:
+                $sx = $this->index('resume');
+                break;
         }
+        return $sx;
+    }
+
+
     function send_email($id)
     {
         $dt = $this->where('id_iv', $id)->first();
@@ -94,22 +95,16 @@ class InviteModel extends Model
         /* Caminho do formulário DOCX */
         $PATH = '../';
         $filePath = $PATH . '_Documments/TERMOS/Modelo/Termo de autorização a Brapci para a indexação.docx';
-        if (!file_exists($filePath))
-        {
-            echo "Arquivo não localizado.";
-            echo '<hr>';
-            echo $filePath;
-            exit;
-        }
 
         /* Corpo do e-mail */
-        $txt  = '';
+        $txt  = '<center>';
         $txt .= '<table width="600" border="0" cellpadding="10">';
+        $txt .= '<tr><td><img src="cid:$image1" style="width: 100%;"></td></tr>';
         $txt .= '<tr><td>';
         $txt .= '<h3>Convite para Indexação na BRAPCI</h3>';
         $txt .= '</td></tr>';
 
-        $txt .= '<tr><td>';
+        $txt .= '<tr><td style="padding: 5px;">';
         $txt .= 'Prezado(a) <strong>' . esc($name) . '</strong>,<br><br>';
 
         $txt .= 'A equipe da <strong>BRAPCI – Base de Dados Referencial de Artigos de Periódicos em Ciência da Informação</strong> ';
@@ -150,29 +145,29 @@ class InviteModel extends Model
 
 
     function view($id)
-        {
-            $dt = $this->where('id_iv',$id)->first();
-            return view('Invite/view_header',['invite'=>$dt, 'status'=>$this->status()])
-            . view('Invite/view_actions',['status'=>$dt['iv_status'],'invite'=>$dt]);
-        }
+    {
+        $dt = $this->where('id_iv', $id)->first();
+        return view('Invite/view_header', ['invite' => $dt, 'status' => $this->status()])
+            . view('Invite/view_actions', ['status' => $dt['iv_status'], 'invite' => $dt]);
+    }
 
     function status_row($status)
-        {
-            $dt = $this->getStatus($status);
-            $sx = view('Invite/row_show', ['invites' => $dt, 'status'=>$this->status()]);
-            return $sx;
-        }
+    {
+        $dt = $this->getStatus($status);
+        $sx = view('Invite/row_show', ['invites' => $dt, 'status' => $this->status()]);
+        return $sx;
+    }
 
     function getStatus($status)
-        {
-            $dt =
-            $this->where('iv_status',$status)
-            ->orderBy('created_at','DESC')
+    {
+        $dt =
+            $this->where('iv_status', $status)
+            ->orderBy('created_at', 'DESC')
             ->findAll();
 
 
-            return $dt;
-        }
+        return $dt;
+    }
 
     public function create()
     {
@@ -189,10 +184,9 @@ class InviteModel extends Model
         $model = new InviteModel();
 
         $data = [];
-        foreach($_POST as $var=>$value)
-            {
-                $dt[$var] = get($var);
-            }
+        foreach ($_POST as $var => $value) {
+            $dt[$var] = get($var);
+        }
 
         $model->set($dt)->insert();
         $sx = $this->index('resume');
@@ -200,47 +194,44 @@ class InviteModel extends Model
     }
 
     function status()
-        {
-            $sta = [];
-            $sta[0] = 'Inválido';
-            $sta[1] = 'Enviar e-mail do Convite enviado';
-            $sta[2] = 'Convite enviado';
-            $sta[3] = 'Convite em análise';
-            $sta[4] = 'Instruções enviadas para o editor';
-            $sta[5] = 'Checagem de indexação';
-            $sta[8] = 'Revista Indexada na Brapci';
-            $sta[9] = 'Convite RECUSADO';
-            $sta[10] = 'Convite ACEITO';
-            return $sta;
-        }
+    {
+        $sta = [];
+        $sta[0] = 'Inválido';
+        $sta[1] = 'Enviar e-mail do Convite enviado';
+        $sta[2] = 'Convite enviado';
+        $sta[3] = 'Convite em análise';
+        $sta[4] = 'Instruções enviadas para o editor';
+        $sta[5] = 'Checagem de indexação';
+        $sta[8] = 'Revista Indexada na Brapci';
+        $sta[9] = 'Convite RECUSADO';
+        $sta[10] = 'Convite ACEITO';
+        return $sta;
+    }
 
     function statusProcess($dt)
-        {
-            $sta = $this->status();
-            foreach($dt as $id=>$dd)
-                {
-                    if (isset($dd['status']))
-                        {
-                            $idSta = round($dd['status']);
-                            $dt[$id]['description'] = $sta[$idSta];
-                        }
-                }
-            return $dt;
+    {
+        $sta = $this->status();
+        foreach ($dt as $id => $dd) {
+            if (isset($dd['status'])) {
+                $idSta = round($dd['status']);
+                $dt[$id]['description'] = $sta[$idSta];
+            }
         }
+        return $dt;
+    }
 
     function resume()
-        {
-            $dt = $this
-                ->select("count(*) as total, iv_status as status, '' as descritpion")
-                ->groupby('iv_status')
-                ->findAll();
+    {
+        $dt = $this
+            ->select("count(*) as total, iv_status as status, '' as descritpion")
+            ->groupby('iv_status')
+            ->findAll();
 
 
-            if (!$dt)
-                {
-                    $dt[] = ["total"=>0, "status"=>'1', 'description'=>''];
-                }
-            $dt = $this->statusProcess($dt);
-            return $dt;
+        if (!$dt) {
+            $dt[] = ["total" => 0, "status" => '1', 'description' => ''];
         }
+        $dt = $this->statusProcess($dt);
+        return $dt;
+    }
 }
