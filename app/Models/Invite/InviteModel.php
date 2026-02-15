@@ -84,6 +84,15 @@ class InviteModel extends Model
     {
         $dt = $this->where('id_iv', $id)->first();
 
+        if ($dt['iv_status'] != '1')
+            {
+                $sx = '<div class="container"><div class="row"><div class="col-12">';
+                $sx .= bsmessage('Convite não está liberado para enviar e-mail',2);
+                $sx .= '</div></div></div>';
+                $sx .= '</div>';
+                return $sx;
+            }
+
         if (!$dt) {
             return false;
         }
@@ -173,13 +182,15 @@ class InviteModel extends Model
      * Caso sua função sendemail aceite anexo:
      * sendemail($to, $subject, $message, $attachments = [])
      */
-        $user = 'renefgj@gmail.com';
         $email = sendemail(
             $user,
             $subject,
             $txt,
             [$filePath] // anexo DOCX
         );
+
+        $dd['iv_status'] = '2';
+        $dt = $this->set($dd)->where('id_iv', $id)->update();
 
         return '<div class="container"><div class="row"><div class="col-12">'.$email. '</div></div></div>';
     }
