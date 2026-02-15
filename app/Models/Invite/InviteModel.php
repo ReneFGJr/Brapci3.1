@@ -83,9 +83,9 @@ class InviteModel extends Model
     function send_email($id)
         {
             $dt = $this->where('id_iv',$id)->first();
-            pre($dt);
-            $name = $dt[''];
-
+            $name = $dt['iv_contact_name'];
+            $user = $dt['iv_contact'];
+            $journal = $dt['iv_journal'];
 
             /* Enviar e-mail */
             $txt = '';
@@ -94,16 +94,16 @@ class InviteModel extends Model
             $txt .= '<tr><td>';
             $txt .= 'Prezado usuário ' . $name . ',<br>';
             $txt .= '<br>';
-            $txt .= 'Seu cadastro foi realizado com sucesso em nossa plataforma, para ter acesso utilize essa credencial temporária.';
+            $txt .= 'Convite.';
             $txt .= '<br><br>';
+            $txt .= '<b>'.$journal.'</b><br>';
             $txt .= 'Usuário: ' . $user . '<br>';
-            $txt .= 'Senha:' . $pw1 . '<br>';
             $txt .= '</td></tr></table>';
             $subject = '[BRAPCI] ';
             $subject .= lang('social.social_user_add');
-            sendemail($user, $subject, $txt);
+            //sendemail($user, $subject, $txt);
 
-            $email = sendemail("renefgj@gmail.com",'teste','teste html');
+            $email = sendemail("renefgj@gmail.com", $subject, $txt);
             pre($email);
         }
 
