@@ -92,7 +92,8 @@ class InviteModel extends Model
         $journal = $dt['iv_journal'];
 
         /* Caminho do formulário DOCX */
-        $filePath = WRITEPATH . 'docs/formulario_indexacao_brapci.docx';
+        $PATH = '../';
+        $filePath = $PATH . '_Documments/TERMOS/Modelo/Termo de autorização a Brapci para a indexação.docx';
         if (!file_exists($filePath))
         {
             echo "Arquivo não localizado.";
