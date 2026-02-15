@@ -92,6 +92,11 @@ class Sources extends Model
                 $sx = $this->view($d2);
                 break;
 
+            case 'Invitation':
+                $Invite = new \App\Models\Invite\InviteModel();
+                $sx = $Invite->index($d2,$d3);
+                break;
+
             case 'list':
                 switch ($d2) {
                     case '0':
@@ -714,6 +719,7 @@ class Sources extends Model
         $items['/journals/list/0'] = lang('brapci.sources');
         if ($access) {
             $items['/admin' . $mod . '/tableview'] = 'TableView';
+            $items['/admin' . $mod . '/Invitation'] = 'Invite - Convites para Indexar';
         }
 
         $sb = menu($items);
