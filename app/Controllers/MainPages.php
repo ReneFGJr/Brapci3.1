@@ -164,6 +164,11 @@ class MainPages extends BaseController
         return $sx;
     }
 
+    function screensaver()
+        {
+            return view('ScreenSaver/screensaver');
+        }
+
 
 
     function services()

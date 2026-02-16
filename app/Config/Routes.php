@@ -17,6 +17,8 @@ $routes->get('/auth/callback', 'Auth::callback');
 $routes->get('/auth/status', 'Auth::status');
 $routes->get('/logout', 'Auth::logout');
 
+$routes->get('/screensaver', 'MainPages::screensaver');
+
 $routes->get('/api', 'Api::index');
 $routes->get('/api/(:any)', 'Api::index/$1');
 $routes->post('/api/(:any)', 'Api::index/$1');
