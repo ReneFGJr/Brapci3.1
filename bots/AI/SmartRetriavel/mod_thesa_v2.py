@@ -186,7 +186,7 @@ def getThesa(id):
         return ""
     
     
-    url = "https://www.ufrgs.br/thesa/api/ai_rag_json/"+str(id)+"/por"
+    url = "https://www.ufrgs.br/thesa/api/ai_rag2_json/"+str(id)+"/por"
     arquivo_saida = dir + "/data/thesa_"+str(id)+".json"
     download_json(url, arquivo_saida)
 
