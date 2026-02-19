@@ -225,7 +225,14 @@ function process_smartretriavel($data, $vc, $net)
                 }
         }
     echo '<tt>'.$st.'</tt>';
-    pre($data,false);
+    echo '<hr>';
+    foreach($data['conceitos_interpretados_pelo_llm'] as $term)
+        {
+            echo '<tt>'.$term.'</tt><br>';
+        }
+    foreach ($data['conceitos_interpretados_pelo_llm'] as $term) {
+            echo '<tt class="text-primary">' . $term . '</tt><br>';
+        }
     return $st;
 }
 
