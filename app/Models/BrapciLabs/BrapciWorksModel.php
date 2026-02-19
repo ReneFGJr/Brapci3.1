@@ -198,7 +198,7 @@ function process_smartretriavel($data, $vc, $net)
             if (!isset($ivc['term']) || !isset($ivc['concept'])) {
                 continue;
             }
-                        
+
             $IDc = $ivc['concept'];
             $termO = $ivc['term'];
             if (isset($T[$IDc]))
@@ -211,6 +211,16 @@ function process_smartretriavel($data, $vc, $net)
 
         }
     }
+    $st = '';
+    foreach($T as $IDc=>$terms)
+        {
+            foreach($terms as $IDt=>$termO)
+                {
+                    if ($st != '') { $st .= ' OR '; }
+                    $st .= '("'.$termO.'")';
+                }
+        }
+    pre($st,false);
     pre($data,false);
     pre($T);
 
