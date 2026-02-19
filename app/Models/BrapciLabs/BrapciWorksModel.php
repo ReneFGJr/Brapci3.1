@@ -164,6 +164,10 @@ class BrapciWorksModel extends Model
                             $termo = [];
                             foreach($vc as $idv=>$ivc)
                                 {
+                                    if (!isset($ivc['term']))
+                                        {
+                                            pre($ivc);
+                                        }
                                     if ($ivc['term'] == $term)
                                         {
                                             echo '<h5>'.$term.'</h5>';
