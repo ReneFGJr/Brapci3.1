@@ -187,11 +187,8 @@ function process_smartretriavel($data, $vc, $net)
                 $IDc = $ivc['concept'];
 
                 if (!isset($T[$IDc])) {
-                    $T[$IDc] = [];
+                    $T[$IDc] = 1;
                 }
-
-                // adiciona sem sobrescrever
-                $T[$IDc][] = $ivc['term'] . '@' . $ivc['lang'];
             }
         }
     }
