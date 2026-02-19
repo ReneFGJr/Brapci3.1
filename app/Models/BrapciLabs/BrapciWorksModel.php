@@ -234,7 +234,6 @@ class BrapciWorksModel extends Model
         }
         echo '</div>';
 
-        echo '<div>';
         echo '<div class="col-2">';
         echo '<br>Conceitos seleciondas: ';
         echo '<div>';
