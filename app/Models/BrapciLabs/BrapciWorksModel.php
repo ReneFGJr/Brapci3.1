@@ -49,7 +49,7 @@ class BrapciWorksModel extends Model
                             . DIRECTORY_SEPARATOR . 'SmartRetriavel'
                             . DIRECTORY_SEPARATOR . 'venv'
                             . DIRECTORY_SEPARATOR . 'Scripts'
-                            . DIRECTORY_SEPARATOR . 'python.exe';            
+                            . DIRECTORY_SEPARATOR . 'python.exe';
             $CMD = $PYTHON . ' ' . $PRG;
         } else {
             $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/updateVC.py');
@@ -141,12 +141,16 @@ class BrapciWorksModel extends Model
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
         $net = '';
-        $this->process_smartretriavel($data,$vocabulary,$net);
-        pre($data);
+        $q = $this->process_smartretriavel($data,$vocabulary,$net);
+        $_POST['q'] = $q;
+        $_POST['type'] = 'ris';
+        echo '</div>';
+        $this->search_base_ris();
+        return "";
     }
 
     /**
-     * ***************************** SmartRetriavel 
+     * ***************************** SmartRetriavel
      */
 
 function process_smartretriavel($data, $vc, $net)
