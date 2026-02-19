@@ -66,6 +66,7 @@ Regras:
 - NÃO invente termos
 - Escolha os termos específicos
 - NÃO escolha termos genéricos
+- Responda em CAIXA ALTA
 - Retorne APENAS termos conceituais curtos, separados por vírgula
 
 Pergunta:
