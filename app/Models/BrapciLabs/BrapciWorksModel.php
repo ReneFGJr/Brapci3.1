@@ -226,15 +226,20 @@ function process_smartretriavel($data, $vc, $net)
         }
     echo '<tt>'.$st.'</tt>';
     echo '<hr>';
-        echo '<br>Conceitos interpretados: ';
+    echo '<div>';
+    echo '<br>Conceitos interpretados: ';
     foreach($data['conceitos_interpretados_pelo_llm'] as $term)
         {
             echo '<tt class="btn btn-danger">'.$term.'</tt>.';
         }
+    echo '</div>';
+
+    echo '<div>';
     echo '<br>Conceitos seleciondas: ';
     foreach ($data['termos_autorizados_alinhados'] as $term) {
             echo '<tt class="btn btn-primary">' . $term . '</tt>.';
         }
+    echo '</div>';
     return $st;
 }
 
