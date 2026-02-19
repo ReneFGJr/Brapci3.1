@@ -13,7 +13,7 @@ def main():
     # Tudo depois do nome do script vira a pergunta
     pergunta = " ".join(sys.argv[1:])
 
-    resultado = mod_thesa_v2.rag_query(pergunta, "data/por.json")
+    resultado = mod_thesa_v2.rag_query(pergunta, 'thesa_6.json')
 
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
 
