@@ -145,8 +145,7 @@ class BrapciWorksModel extends Model
         $_POST['q'] = $q;
         $_POST['type'] = 'ris';
         echo '</div>';
-        pre($_POST);
-        $this->search_base_ris();
+        echo $this->search_base_ris();
         return "";
     }
 
