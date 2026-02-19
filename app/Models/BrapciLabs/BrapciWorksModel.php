@@ -162,6 +162,7 @@ class BrapciWorksModel extends Model
                             $termo = [];
                             foreach($vc as $idv=>$ivc)
                                 {
+                                    pre($ivc);
                                     $IDc = $ivc['concept'];
                                     $termo = $ivc['term'].'@'.$ivc['lang'];
                                     $T[$IDc][] = $termo;
