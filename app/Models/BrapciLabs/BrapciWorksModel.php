@@ -159,9 +159,12 @@ class BrapciWorksModel extends Model
                         {
                             $term = ascii($term);
                             $exist = false;
+                            $termo = [];
                             foreach($vc as $idv=>$ivc)
                                 {
-                                    pre($ivc);
+                                    $IDc = $ivc['concept'];
+                                    $termo = $ivc['term'].'@'.$ivc['lang'];
+                                    $T[$IDc][] = $termo
                                 }
                         }
                 pre($T, false);
