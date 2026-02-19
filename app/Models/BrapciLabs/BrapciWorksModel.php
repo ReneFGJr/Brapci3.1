@@ -230,7 +230,7 @@ class BrapciWorksModel extends Model
         echo '</div>';
         echo '<div class="col-10">';
         foreach ($data['conceitos_interpretados_pelo_llm'] as $term) {
-            echo '<tt class="btn btn-danger">' . $term . '</tt>.';
+            echo '<tt class="btn btn-danger ms-1 mb-1">' . $term . '</tt>.';
         }
         echo '</div>';
 
@@ -240,7 +240,7 @@ class BrapciWorksModel extends Model
         echo '<div>';
         echo '<div class="col-10">';
         foreach ($data['termos_autorizados_alinhados'] as $term) {
-            echo '<tt class="btn btn-primary">' . $term . '</tt>.';
+            echo '<tt class="btn btn-primary ms-1 mb-1">' . $term . '</tt>.';
         }
         echo '</div>';
         echo '</div>';
