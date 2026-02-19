@@ -151,8 +151,20 @@ class BrapciWorksModel extends Model
 
     function process_smartretriavel($data,$vc,$net)
     {
+                $T = [];
                 $t = $data['conceitos_interpretados_pelo_llm'];
                 $t = array_merge($t,$data['termos_autorizados_alinhados']);
+
+                foreach($t as $id=>$term)
+                        {
+                            $term = ascii($term);
+                            $exist = false;
+                            foreach($vc as $idv=>$ivc)
+                                {
+                                    pre($ivc);
+                                }
+                        }
+                pre($T, false);
                 pre($data,false);
                 pre($vc,false);
                 pre($t);
