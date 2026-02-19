@@ -4,6 +4,7 @@ import unicodedata
 import re
 from pathlib import Path
 from difflib import get_close_matches
+import os
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "llama3.2"
@@ -18,19 +19,39 @@ def normalize(text: str) -> str:
     return text
 
 
+import json
+from pathlib import Path
+
 # ========= Carregar vocabulário =========
 def load_authorized_terms(json_path: str):
     json_file = BASE_DIR / json_path
 
-    with open(json_file, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    # 🔎 Verifica se existe
+    if not json_file.exists():
+        print(f"❌ Arquivo não encontrado: {json_file}")
+        return []
 
-    terms = []
-    for entry in data:
-        for term, lang in entry.items():
-            #if lang == "por":
-            terms.append(term)
-    return terms
+    # 🔎 Verifica se é arquivo (e não diretório)
+    if not json_file.is_file():
+        print(f"⚠ Caminho não é um arquivo válido: {json_file}")
+        return []
+
+    try:
+        with open(json_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        terms = []
+        for entry in data:
+            for term, lang in entry.items():
+                # if lang == "por":
+                terms.append(term)
+
+        return terms
+
+    except Exception as e:
+        print(f"❌ Erro ao carregar JSON: {e}")
+        return []
+
 
 
 # ========= Chamada ao Ollama =========
