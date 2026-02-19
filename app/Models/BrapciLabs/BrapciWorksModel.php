@@ -226,9 +226,7 @@ function process_smartretriavel($data, $vc, $net)
         }
     echo '<tt>'.$st.'</tt>';
     pre($data,false);
-
-
-    return $T;
+    return $st;
 }
 
 
