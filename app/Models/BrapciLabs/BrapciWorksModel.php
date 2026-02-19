@@ -153,6 +153,8 @@ class BrapciWorksModel extends Model
     {
                 $t = $data['conceitos_interpretados_pelo_llm'];
                 $t = array_merge($t,$data['termos_autorizados_alinhados']);
+                pre($data,false);
+                pre($vc,false);
                 pre($t);
 
     }
