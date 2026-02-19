@@ -191,6 +191,7 @@ function process_smartretriavel($data, $vc, $net)
             }
         }
     }
+    pre($data,false);
     pre($T);
 
     return $T;
