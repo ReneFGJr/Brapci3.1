@@ -214,9 +214,8 @@ function process_smartretriavel($data, $vc, $net)
     $st = '';
     foreach($T as $IDc=>$terms)
         {
-            foreach($terms as $IDt=>$termO)
+            foreach($terms as $termO=>$KeyT)
                 {
-                    pre($terms);
                     if ($st != '') { $st .= ' OR '; }
                     $st .= '("'.$termO.'")';
                 }
