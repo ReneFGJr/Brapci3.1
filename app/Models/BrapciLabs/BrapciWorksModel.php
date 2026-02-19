@@ -170,6 +170,7 @@ function process_smartretriavel($data, $vc, $net)
     foreach ($t as $term) {
 
         $term = ascii($term); // normaliza
+        $term = strtolower($term);
 
         foreach ($vc as $ivc) {
 
@@ -178,7 +179,10 @@ function process_smartretriavel($data, $vc, $net)
                 continue;
             }
 
-            if (ascii($ivc['term']) == $term) {
+            $termO = ascii($ivc['term']);
+            $termO = strtolower($termO);
+
+            if ($termO == $term) {
 
                 $IDc = $ivc['concept'];
 
