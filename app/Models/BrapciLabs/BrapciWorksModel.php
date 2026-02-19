@@ -40,16 +40,16 @@ class BrapciWorksModel extends Model
             $root = dirname($_SERVER['DOCUMENT_ROOT']); // sobe um nível
 
             $PRG = $root . DIRECTORY_SEPARATOR . 'bots'
-                        . DIRECTORY_SEPARATOR . 'AI'
-                        . DIRECTORY_SEPARATOR . 'SmartRetriavel'
-                        . DIRECTORY_SEPARATOR . 'updateVC.py';
+                . DIRECTORY_SEPARATOR . 'AI'
+                . DIRECTORY_SEPARATOR . 'SmartRetriavel'
+                . DIRECTORY_SEPARATOR . 'updateVC.py';
 
             $PYTHON = $root . DIRECTORY_SEPARATOR . 'bots'
-                            . DIRECTORY_SEPARATOR . 'AI'
-                            . DIRECTORY_SEPARATOR . 'SmartRetriavel'
-                            . DIRECTORY_SEPARATOR . 'venv'
-                            . DIRECTORY_SEPARATOR . 'Scripts'
-                            . DIRECTORY_SEPARATOR . 'python.exe';
+                . DIRECTORY_SEPARATOR . 'AI'
+                . DIRECTORY_SEPARATOR . 'SmartRetriavel'
+                . DIRECTORY_SEPARATOR . 'venv'
+                . DIRECTORY_SEPARATOR . 'Scripts'
+                . DIRECTORY_SEPARATOR . 'python.exe';
             $CMD = $PYTHON . ' ' . $PRG;
         } else {
             $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/updateVC.py');
@@ -141,7 +141,7 @@ class BrapciWorksModel extends Model
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
         $net = '';
-        $q = $this->process_smartretriavel($data,$vocabulary,$net);
+        $q = $this->process_smartretriavel($data, $vocabulary, $net);
         $_POST['q'] = $q;
         $_POST['type'] = 'ris';
         echo '</div>';
@@ -153,95 +153,100 @@ class BrapciWorksModel extends Model
      * ***************************** SmartRetriavel
      */
 
-function process_smartretriavel($data, $vc, $net)
-{
-    $T = [];
+    function process_smartretriavel($data, $vc, $net)
+    {
+        $T = [];
 
-    // 🔹 Junta os termos vindos do LLM e os autorizados
-    $t = [];
+        // 🔹 Junta os termos vindos do LLM e os autorizados
+        $t = [];
 
-    if (isset($data['conceitos_interpretados_pelo_llm'])) {
-        $t = array_merge($t, $data['conceitos_interpretados_pelo_llm']);
-    }
+        if (isset($data['conceitos_interpretados_pelo_llm'])) {
+            $t = array_merge($t, $data['conceitos_interpretados_pelo_llm']);
+        }
 
-    if (isset($data['termos_autorizados_alinhados'])) {
-        $t = array_merge($t, $data['termos_autorizados_alinhados']);
-    }
+        if (isset($data['termos_autorizados_alinhados'])) {
+            $t = array_merge($t, $data['termos_autorizados_alinhados']);
+        }
 
-    // 🔹 Normaliza termos
-    $t = array_unique($t);
+        // 🔹 Normaliza termos
+        $t = array_unique($t);
 
-    foreach ($t as $term) {
+        foreach ($t as $term) {
 
-        $term = ascii($term); // normaliza
-        $term = strtolower($term);
+            $term = ascii($term); // normaliza
+            $term = strtolower($term);
 
-        foreach ($vc as $ivc) {
+            foreach ($vc as $ivc) {
 
-            // segurança
-            if (!isset($ivc['term']) || !isset($ivc['concept'])) {
-                continue;
+                // segurança
+                if (!isset($ivc['term']) || !isset($ivc['concept'])) {
+                    continue;
+                }
+
+                $termO = ascii($ivc['term']);
+                $termO = strtolower($termO);
+
+                if ($termO == $term) {
+
+                    $IDc = $ivc['concept'];
+
+                    if (!isset($T[$IDc])) {
+                        $T[$IDc] = [];
+                    }
+                }
             }
 
-            $termO = ascii($ivc['term']);
-            $termO = strtolower($termO);
-
-            if ($termO == $term) {
+            /******************************* Parte II */
+            foreach ($vc as $ivc) {
+                // segurança
+                if (!isset($ivc['term']) || !isset($ivc['concept'])) {
+                    continue;
+                }
 
                 $IDc = $ivc['concept'];
-
-                if (!isset($T[$IDc])) {
-                    $T[$IDc] = [];
+                $termO = $ivc['term'];
+                if (isset($T[$IDc])) {
+                    if (!isset($T[$IDc][$termO])) {
+                        $T[$IDc][$termO] = 1;
+                    }
                 }
             }
         }
-
-        /******************************* Parte II */
-        foreach ($vc as $ivc) {
-            // segurança
-            if (!isset($ivc['term']) || !isset($ivc['concept'])) {
-                continue;
+        $st = '';
+        foreach ($T as $IDc => $terms) {
+            foreach ($terms as $termO => $KeyT) {
+                if ($st != '') {
+                    $st .= ' OR ';
+                }
+                $st .= '("' . $termO . '")';
             }
-
-            $IDc = $ivc['concept'];
-            $termO = $ivc['term'];
-            if (isset($T[$IDc]))
-                {
-                    if (!isset($T[$IDc][$termO]))
-                        {
-                            $T[$IDc][$termO] = 1;
-                        }
-                }
-
         }
-    }
-    $st = '';
-    foreach($T as $IDc=>$terms)
-        {
-            foreach($terms as $termO=>$KeyT)
-                {
-                    if ($st != '') { $st .= ' OR '; }
-                    $st .= '("'.$termO.'")';
-                }
+        echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>' . $st . '</tt></div>';
+        echo '<hr>';
+        echo '<div class="container">';
+        echo '<div class="row">';
+        echo '<div class="col-2">';
+        echo '<br>Conceitos interpretados: ';
+        echo '</div>';
+        echo '<div class="col-10">';
+        foreach ($data['conceitos_interpretados_pelo_llm'] as $term) {
+            echo '<tt class="btn btn-danger m-1">' . $term . '</tt>.';
         }
-    echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>'.$st. '</tt></div>';
-    echo '<hr>';
-    echo '<div>';
-    echo '<br>Conceitos interpretados: ';
-    foreach($data['conceitos_interpretados_pelo_llm'] as $term)
-        {
-            echo '<tt class="btn btn-danger">'.$term.'</tt>.';
-        }
-    echo '</div>';
+        echo '</div>';
 
-    echo '<div>';
-    echo '<br>Conceitos seleciondas: ';
-    foreach ($data['termos_autorizados_alinhados'] as $term) {
+        echo '<div>';
+        echo '<div class="col-2">';
+        echo '<br>Conceitos seleciondas: ';
+        echo '<div>';
+        echo '<div class="col-10">';
+        foreach ($data['termos_autorizados_alinhados'] as $term) {
             echo '<tt class="btn btn-primary">' . $term . '</tt>.';
         }
-    echo '</div>';
-    return $st;
-}
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        return $st;
+    }
 
 
     function loadThesaurusTerms(string $filePath): array
