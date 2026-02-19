@@ -164,7 +164,7 @@ class BrapciWorksModel extends Model
                                 {
                                     $IDc = $ivc['concept'];
                                     $termo = $ivc['term'].'@'.$ivc['lang'];
-                                    $T[$IDc][] = $termo
+                                    $T[$IDc][] = $termo;
                                 }
                         }
                 pre($T, false);
