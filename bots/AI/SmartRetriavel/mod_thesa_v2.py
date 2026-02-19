@@ -175,23 +175,27 @@ def getThesa(id):
     from pathlib import Path
     
     dir = os.getcwd()
-    dir = dir.replace(r"public",r"bots/AI/SmartRetriavel/") 
+    dir = dir.replace(r"public",r"bots/AI/SmartRetriavel") 
     print(dir)
+    if dir.endswith(("/", "\\")):
+        dir = caminho.rstrip("/\\")  # remove ambos    
     caminho = Path(dir)
 
     if not caminho.exists() and caminho.is_dir():
         print("Directory not found!")
         return ""
+    
+    
     url = "https://www.ufrgs.br/thesa/api/ai_rag_json/"+str(id)+"/por"
     arquivo_saida = dir + "/data/thesa_"+str(id)+".json"
     download_json(url, arquivo_saida)
 
     url = "https://www.ufrgs.br/thesa/api/ai_terms_json/"+str(id)+"/por"
-    arquivo_saida = dir + "data/thesa_"+str(id)+"_terms.json"
+    arquivo_saida = dir + "/data/thesa_"+str(id)+"_terms.json"
     download_json(url, arquivo_saida)
 
     url = "https://www.ufrgs.br/thesa/api/ai_pajek/"+str(id)+"/net"
-    arquivo_saida = dir + "data/thesa_"+str(id)+".net"
+    arquivo_saida = dir + "/data/thesa_"+str(id)+".net"
     download(url, arquivo_saida)          
 
 
