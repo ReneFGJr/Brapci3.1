@@ -105,7 +105,7 @@ class BrapciWorksModel extends Model
         } else {
             $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
             $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
-            $VC = troca($PATH, 'public', 'bots/AI/SmartRetriavel/data');
+            $VC = troca($PATH, 'public', 'bots/AI/SmartRetriavel/data/');
             $CMD = $PYTHON . ' ' . $PRG;
         }
         echo '<h4>' . $CMD . '</h4>';
