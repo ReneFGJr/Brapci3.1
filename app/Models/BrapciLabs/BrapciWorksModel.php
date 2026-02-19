@@ -230,7 +230,7 @@ class BrapciWorksModel extends Model
         echo '</div>';
         echo '<div class="col-10">';
         foreach ($data['conceitos_interpretados_pelo_llm'] as $term) {
-            echo '<tt class="btn btn-danger m-1">' . $term . '</tt>.';
+            echo '<tt class="btn btn-danger">' . $term . '</tt>.';
         }
         echo '</div>';
 
