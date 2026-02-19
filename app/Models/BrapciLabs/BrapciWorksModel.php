@@ -177,8 +177,9 @@ class BrapciWorksModel extends Model
                                     
                                 }
                         }
+                echo '<h4>T</h4>';
                 pre($T, false);
-                
+                echo '<h4>VC</h4>';                
                 pre($vc,false);
                 pre($t);
 
