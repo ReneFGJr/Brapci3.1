@@ -10,12 +10,6 @@ MODEL = "llama3.2"
 
 BASE_DIR = Path(__file__).resolve().parent
 
-# ========= Thesa =========
-def getThesa(id):
-    url = "https://www.ufrgs.br/thesa/api/ai_rag_json/"+str(id)+"/por"
-    arquivo_saida = "data/por.json"
-    download_json(url, arquivo_saida)
-
 # ========= Normalização =========
 def normalize(text: str) -> str:
     text = text.lower()
@@ -109,7 +103,7 @@ def rag_query(question: str, json_path: str):
         "conceitos_interpretados_pelo_llm": llm_concepts,
         "termos_autorizados_alinhados": aligned_terms,
         "modelo_llm": "llama3.2 (Ollama)",
-        "fonte_vocabulario": "por.json"
+        "fonte_vocabulario": json_path
     }
 
 # ========= Download Library ======
@@ -170,6 +164,7 @@ def download_json(url: str, output_file: str) -> None:
     except json.JSONDecodeError:
         print("Erro: a resposta não é um JSON válido")
 
+# ========= Thesa =========
 def getThesa(id):
     import os
     from pathlib import Path
@@ -202,5 +197,6 @@ def getThesa(id):
 # ========= Execução =========
 if __name__ == "__main__":
     pergunta = "Como a IAG é utilizada na catalogação de livros?"
-    resultado = rag_query(pergunta, "data/por.json")
+    source = 'thesa_6.json'
+    resultado = rag_query(pergunta, source)
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
