@@ -256,9 +256,7 @@ function process_smartretriavel($data, $vc, $net)
 
     function search_base_ris()
     {
-        echo '<div class="alert alert-info content">Busca avançada</div>';
         echo '<div class="content">';
-
         $RisModel = new \App\Models\BrapciLabs\RisModel();
         $ElasticSearchModel = new \App\Models\Api\Endpoint\Brapci();
         $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();
