@@ -216,11 +216,12 @@ function process_smartretriavel($data, $vc, $net)
         {
             foreach($terms as $IDt=>$termO)
                 {
+                    pre($termO);
                     if ($st != '') { $st .= ' OR '; }
                     $st .= '("'.$termO.'")';
                 }
         }
-    pre($st,false);
+    echo '<tt>'.$st.'</tt>';
     pre($data,false);
     pre($T);
 
