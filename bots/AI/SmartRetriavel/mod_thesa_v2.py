@@ -64,6 +64,7 @@ Regras:
 - NÃO explique
 - NÃO use frases completas
 - NÃO invente termos
+- escolha os termos mais relevantes e específicos
 - Retorne APENAS termos conceituais curtos, separados por vírgula
 
 Pergunta:
@@ -152,7 +153,7 @@ def download(url: str, output_file: str) -> None:
         print(f"Erro ao acessar a URL: {e}")
         print("URL: "+url)
 
-        
+
 def download_json(url: str, output_file: str) -> None:
     """
     Faz o download de uma URL que retorna JSON
@@ -189,19 +190,19 @@ def download_json(url: str, output_file: str) -> None:
 def getThesa(id):
     import os
     from pathlib import Path
-    
+
     dir = os.getcwd()
-    dir = dir.replace(r"public",r"bots/AI/SmartRetriavel") 
+    dir = dir.replace(r"public",r"bots/AI/SmartRetriavel")
     print(dir)
     if dir.endswith(("/", "\\")):
-        dir = caminho.rstrip("/\\")  # remove ambos    
+        dir = caminho.rstrip("/\\")  # remove ambos
     caminho = Path(dir)
 
     if not caminho.exists() and caminho.is_dir():
         print("Directory not found!")
         return ""
-    
-    
+
+
     url = "https://www.ufrgs.br/thesa/api/ai_rag2_json/"+str(id)+"/por"
     arquivo_saida = dir + "/data/thesa_"+str(id)+".json"
     download_json(url, arquivo_saida)
@@ -212,7 +213,7 @@ def getThesa(id):
 
     url = "https://www.ufrgs.br/thesa/api/ai_pajek/"+str(id)+"/net"
     arquivo_saida = dir + "/data/thesa_"+str(id)+".net"
-    download(url, arquivo_saida)          
+    download(url, arquivo_saida)
 
 
 # ========= Execução =========
