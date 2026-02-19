@@ -60,6 +60,7 @@ def ollama_interpret(question: str):
 Você é um sistema de apoio à indexação controlada.
 
 Regras:
+- Classifique a pergunta usando APENAS os termos mais relevantes para indexação.
 - Identifique APENAS conceitos centrais
 - NÃO explique
 - NÃO use frases completas
