@@ -100,13 +100,15 @@ class BrapciWorksModel extends Model
         if (strpos($PATH, 'www/Brapci3.1')) {
             $PRG =      troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
             $PYTHON =   troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/Scripts/python.exe');
+            $VC =       troca($PATH, 'public', 'bots/AI/SmartRetriavel/data/');
             $CMD = $PYTHON . ' ' . $PRG;
         } else {
             $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
             $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
+            $VC = troca($PATH, 'public', 'bots/AI/SmartRetriavel/data');
             $CMD = $PYTHON . ' ' . $PRG;
         }
-        echo '<h1>' . $CMD . '</h1>';
+        echo '<h4>' . $CMD . '</h4>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
@@ -123,6 +125,10 @@ class BrapciWorksModel extends Model
             exit;
         }
 
+        /******************* Load VC */
+        $VC .= 'thesa_6_terms.json';
+        $vocabulary = $this->loadThesaurusTerms($VC);
+
         // Escapa o parâmetro para segurança
         $escapedQuery = escapeshellarg($query);
 
@@ -134,8 +140,47 @@ class BrapciWorksModel extends Model
 
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
+        $net = '';
+        $this->process_smartretriavel($data,$vocabulary,$net);
         pre($data);
     }
+
+    /**
+     * ***************************** SmartRetriavel 
+     */
+
+    function process_smartretriavel($data,$vc,$net)
+    {
+                $t = $data['conceitos_interpretados_pelo_llm'];
+                $t = array_merge($t,$data['termos_autorizados_alinhados']);
+                pre($t);
+
+    }
+
+    function loadThesaurusTerms(string $filePath): array
+    {
+        // Verifica se o arquivo existe
+        if (!file_exists($filePath)) {
+            pre("Arquivo não encontrado: " . $filePath);
+        }
+
+        // Lê o conteúdo do arquivo
+        $jsonContent = file_get_contents($filePath);
+
+        if ($jsonContent === false) {
+            throw new Exception("Erro ao ler o arquivo: " . $filePath);
+        }
+
+        // Decodifica o JSON
+        $data = json_decode($jsonContent, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Erro ao decodificar JSON: " . json_last_error_msg());
+        }
+
+        return $data;
+    }
+
     function search_base_ris()
     {
         echo '<div class="alert alert-info content">Busca avançada</div>';
