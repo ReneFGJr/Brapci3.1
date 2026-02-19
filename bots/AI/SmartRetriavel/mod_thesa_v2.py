@@ -64,7 +64,8 @@ Regras:
 - NÃO explique
 - NÃO use frases completas
 - NÃO invente termos
-- escolha os termos mais relevantes e específicos
+- Escolha os termos específicos
+- NÃO escolha termos genéricos
 - Retorne APENAS termos conceituais curtos, separados por vírgula
 
 Pergunta:
