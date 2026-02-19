@@ -233,6 +233,7 @@ function process_smartretriavel($data, $vc, $net)
     foreach ($data['conceitos_interpretados_pelo_llm'] as $term) {
             echo '<tt class="text-primary">' . $term . '</tt><br>';
         }
+    pre($data);
     return $st;
 }
 
