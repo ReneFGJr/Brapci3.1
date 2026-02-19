@@ -224,7 +224,7 @@ function process_smartretriavel($data, $vc, $net)
                     $st .= '("'.$termO.'")';
                 }
         }
-    echo '<tt>'.$st.'</tt>';
+    echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>'.$st. '</tt></div>';
     echo '<hr>';
     echo '<div>';
     echo '<br>Conceitos interpretados: ';
