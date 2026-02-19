@@ -10,17 +10,14 @@ class BrapciWorksModel extends Model
     protected $table      = 'cited_works';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = [
-
-    ];
+    protected $allowedFields = [];
 
     protected $useTimestamps = false;
 
     function search()
     {
         $type = get("type");
-        switch($type)
-            {
+        switch ($type) {
             case 'smart':
                 echo $this->search_smart();
                 break;
@@ -28,35 +25,38 @@ class BrapciWorksModel extends Model
                 echo $this->search_base_ris();
                 break;
             default:
-                echo '========================================================> '.$type;
+                echo '========================================================> ' . $type;
                 break;
-        }        
-    }
-public function search_smart()
-    {
-        $query = get('q');
-
-        if (!$query) {
-            return json_encode([
-                'status' => 'error',
-                'message' => 'Parâmetro q é obrigatório'
-            ]);
         }
+    }
 
+    public function updateVC()
+    {
         // Caminho absoluto do script
         $PATH = $_SERVER['DOCUMENT_ROOT'];
-        
+
         echo '<div class="content">';
         if (strpos($PATH, 'www/Brapci3.1')) {
-            $PRG =      troca($PATH,'public','bots/AI/SmartRetriavel/smartretriavel.py');
-            $PYTHON =   troca($PATH,'public','bots/AI/SmartRetriavel/venv/Scripts/python.exe');
-            $CMD = $PYTHON.' '.$PRG;
+            $root = dirname($_SERVER['DOCUMENT_ROOT']); // sobe um nível
+
+            $PRG = $root . DIRECTORY_SEPARATOR . 'bots'
+                        . DIRECTORY_SEPARATOR . 'AI'
+                        . DIRECTORY_SEPARATOR . 'SmartRetriavel'
+                        . DIRECTORY_SEPARATOR . 'updateVC.py';
+
+            $PYTHON = $root . DIRECTORY_SEPARATOR . 'bots'
+                            . DIRECTORY_SEPARATOR . 'AI'
+                            . DIRECTORY_SEPARATOR . 'SmartRetriavel'
+                            . DIRECTORY_SEPARATOR . 'venv'
+                            . DIRECTORY_SEPARATOR . 'Scripts'
+                            . DIRECTORY_SEPARATOR . 'python.exe';            
+            $CMD = $PYTHON . ' ' . $PRG;
         } else {
-            $PRG = troca($PATH,'public','bots/AI/SmartRetriavel/smartretriavel.py');
-            $PYTHON = troca($PATH,'public','bots/AI/SmartRetriavel/venv/bin/python');
-            $CMD = $PYTHON.' '.$PRG;
+            $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/updateVC.py');
+            $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
+            $CMD = $PYTHON . ' ' . $PRG;
         }
-        echo '<h1>'.$CMD.'</h1>';
+        echo '<h5>' . $CMD . '</h5>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
@@ -71,7 +71,57 @@ public function search_smart()
                 'message' => "Python não encontrado: $PATH"
             ]);
             exit;
-        }   
+        }
+
+        // Comando
+        $command = "$CMD";
+
+        // Executa
+        $output = shell_exec($command);
+
+        // Decodifica JSON retornado pelo Python
+        pre($output);
+    }
+    public function search_smart()
+    {
+        $query = get('q');
+
+        if (!$query) {
+            return json_encode([
+                'status' => 'error',
+                'message' => 'Parâmetro q é obrigatório'
+            ]);
+        }
+
+        // Caminho absoluto do script
+        $PATH = $_SERVER['DOCUMENT_ROOT'];
+
+        echo '<div class="content">';
+        if (strpos($PATH, 'www/Brapci3.1')) {
+            $PRG =      troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
+            $PYTHON =   troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/Scripts/python.exe');
+            $CMD = $PYTHON . ' ' . $PRG;
+        } else {
+            $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel.py');
+            $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
+            $CMD = $PYTHON . ' ' . $PRG;
+        }
+        echo '<h1>' . $CMD . '</h1>';
+
+        if (!file_exists($PRG)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "Script não encontrado: $PRG"
+            ]);
+            exit;
+        }
+        if (!file_exists($PATH)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "Python não encontrado: $PATH"
+            ]);
+            exit;
+        }
 
         // Escapa o parâmetro para segurança
         $escapedQuery = escapeshellarg($query);
@@ -87,22 +137,22 @@ public function search_smart()
         pre($data);
     }
     function search_base_ris()
-        {
+    {
         echo '<div class="alert alert-info content">Busca avançada</div>';
         echo '<div class="content">';
 
-        $RisModel = new \App\Models\BrapciLabs\RisModel();        
+        $RisModel = new \App\Models\BrapciLabs\RisModel();
         $ElasticSearchModel = new \App\Models\Api\Endpoint\Brapci();
-        $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();        
+        $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();
 
         $projectID = $ResearchProjectModel->getProjectsID();
         $W = $RisModel->where('project_id', $projectID)->findAll();
         $Works = [];
-        foreach ($W as $row) {            
+        foreach ($W as $row) {
             $BrapciID = $RisModel->brapciID($row['url']);
             $Works[$BrapciID] = $row;
         }
-        
+
         $dt['search'] = get("search");
         $dt['type'] = get("type");
         $q = get("q");
@@ -112,34 +162,33 @@ public function search_smart()
         }
         $sx = '<div class="content">';
         $sx = '';
-        
+
         if ($q == '') {
-        
+
             $sx .= 'Busca vazia';
             $sx .= '</div>';
             return $sx;
         } else {
             $_POST['user'] = session()->get('apikey');
             $Elastic = new \App\Models\ElasticSearch\Search();
-            $RSP = (array)$Elastic->searchAdvancedFull();            
+            $RSP = (array)$Elastic->searchAdvancedFull();
 
             $Corpus = [];
             $type = get("type");
-            if ($type == 'ris')
-                {
-                    foreach ($RSP['works'] as $row) {
-                        $idw = $row['id'];  
-                        if (isset($Works[$idw])) {
-                            $Corpus[] = $Works[$idw];
-                            unset($Works[$idw]);
-                        } else {
-                            /************* Não localizado */                            
-                        }
+            if ($type == 'ris') {
+                foreach ($RSP['works'] as $row) {
+                    $idw = $row['id'];
+                    if (isset($Works[$idw])) {
+                        $Corpus[] = $Works[$idw];
+                        unset($Works[$idw]);
+                    } else {
+                        /************* Não localizado */
                     }
                 }
-            /**************************************************** Corpus */     
-            $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus,'title' => 'Resultados encontrados', 'class' => 'text-primary']);
-            $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works,'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
+            }
+            /**************************************************** Corpus */
+            $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary']);
+            $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
         }
         return $sx;
     }
@@ -255,7 +304,7 @@ public function search_smart()
 
         return view('BrapciLabs/ref/view', [
             'work_id' => $id,
-            'data' =>$dt,
+            'data' => $dt,
             'data_cited' => $dtcited,
             'IDbrapci' => $IDbrapci
 

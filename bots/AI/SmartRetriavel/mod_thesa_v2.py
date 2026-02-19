@@ -112,6 +112,88 @@ def rag_query(question: str, json_path: str):
         "fonte_vocabulario": "por.json"
     }
 
+# ========= Download Library ======
+def download(url: str, output_file: str) -> None:
+    """
+    Faz o download de uma URL que retorna TEXTO
+    e salva o conteúdo em um arquivo.
+    """
+
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+
+        # Garante que o diretório existe
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Salva como texto
+        with output_path.open("w", encoding="utf-8") as f:
+            f.write(response.text)
+
+        print(f"Arquivo salvo com sucesso em: {output_path}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao acessar a URL: {e}")
+        print("URL: "+url)
+
+        
+def download_json(url: str, output_file: str) -> None:
+    """
+    Faz o download de uma URL que retorna JSON
+    e salva o conteúdo em um arquivo .json
+
+    :param url: URL da API
+    :param output_file: caminho do arquivo JSON de saída
+    """
+
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()  # erro HTTP (404, 500, etc.)
+
+        # Converte resposta para JSON
+        data = response.json()
+
+        # Garante que o diretório existe
+        output_path = Path(output_file)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Salva em arquivo JSON formatado
+        with output_path.open("w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+        print(f"Arquivo salvo com sucesso em: {output_path}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao acessar a URL: {e}")
+
+    except json.JSONDecodeError:
+        print("Erro: a resposta não é um JSON válido")
+
+def getThesa(id):
+    import os
+    from pathlib import Path
+    
+    dir = os.getcwd()
+    dir = dir.replace(r"public",r"bots/AI/SmartRetriavel/") 
+    print(dir)
+    caminho = Path(dir)
+
+    if not caminho.exists() and caminho.is_dir():
+        print("Directory not found!")
+        return ""
+    url = "https://www.ufrgs.br/thesa/api/ai_rag_json/"+str(id)+"/por"
+    arquivo_saida = dir + "/data/thesa_"+str(id)+".json"
+    download_json(url, arquivo_saida)
+
+    url = "https://www.ufrgs.br/thesa/api/ai_terms_json/"+str(id)+"/por"
+    arquivo_saida = dir + "data/thesa_"+str(id)+"_terms.json"
+    download_json(url, arquivo_saida)
+
+    url = "https://www.ufrgs.br/thesa/api/ai_pajek/"+str(id)+"/net"
+    arquivo_saida = dir + "data/thesa_"+str(id)+".net"
+    download(url, arquivo_saida)          
+
 
 # ========= Execução =========
 if __name__ == "__main__":

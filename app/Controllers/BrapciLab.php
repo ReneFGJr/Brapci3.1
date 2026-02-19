@@ -573,6 +573,9 @@ class BrapciLab extends BaseController
         echo view('BrapciLabs/layout/sidebar');
 
         switch($d1){
+            case 'updateVC':
+                echo $BrapciWorksModel->updateVC();
+                break;            
             case 'search':
                 echo $BrapciWorksModel->search();
                 break;
