@@ -187,9 +187,23 @@ function process_smartretriavel($data, $vc, $net)
                 $IDc = $ivc['concept'];
 
                 if (!isset($T[$IDc])) {
-                    $T[$IDc] = 1;
+                    $T[$IDc] = [];
                 }
             }
+        }
+
+        /******************************* Parte II */
+        foreach ($vc as $ivc) {
+            $IDc = $ivc['concept'];
+            $termO = $ivc['term'];
+            if (isset($T[$IDc]))
+                {
+                    if (!isset($T[$IDc][$termO]))
+                        {
+                            $T[$IDc][$termO] = 1;
+                        }
+                }
+
         }
     }
     pre($data,false);
