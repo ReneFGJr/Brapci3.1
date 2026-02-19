@@ -225,7 +225,7 @@ class BrapciWorksModel extends Model
         echo '<hr>';
         echo '<div class="container">';
         echo '<div class="row">';
-        echo '<div class="col-2">';
+        echo '<div class="col-2 mb-2">';
         echo '<br>Conceitos interpretados: ';
         echo '</div>';
         echo '<div class="col-10">';
@@ -234,7 +234,7 @@ class BrapciWorksModel extends Model
         }
         echo '</div>';
 
-        echo '<div class="col-2">';
+        echo '<div class="col-2 mb-2">';
         echo '<br>Conceitos seleciondas: ';
         echo '</div>';
         echo '<div class="col-10">';
