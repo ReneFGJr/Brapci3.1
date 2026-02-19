@@ -64,9 +64,7 @@ Regras:
 - NÃO explique
 - NÃO use frases completas
 - NÃO invente termos
-- Escolha os termos específicos
-- NÃO escolha termos genéricos
-- Responda em CAIXA ALTA
+- Selecione apenas termos específicos
 - Retorne APENAS termos conceituais curtos, separados por vírgula
 
 Pergunta:
