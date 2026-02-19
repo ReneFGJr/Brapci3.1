@@ -172,9 +172,13 @@ class BrapciWorksModel extends Model
                                     if ($ivc['term'] == $term)
                                         {
                                             echo '<h5>'.$term.'</h5>';
-                                            pre($ivc);
-                                        }
-                                    
+                                            $IDc = $ivc['concept'];
+                                            if (!isset($T[$IDc]))
+                                                {
+                                                    $T[$IDc] = [];
+                                                }
+                                            $T[$IDc] = $ivc['term'].'@'.$ivc['lang'];
+                                        }                                    
                                 }
                         }
                 echo '<h4>T</h4>';
