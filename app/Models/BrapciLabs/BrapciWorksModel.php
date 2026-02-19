@@ -155,6 +155,8 @@ class BrapciWorksModel extends Model
                 $t = $data['conceitos_interpretados_pelo_llm'];
                 $t = array_merge($t,$data['termos_autorizados_alinhados']);
 
+                pre($data,false);
+
                 foreach($t as $id=>$term)
                         {
                             $term = ascii($term);
@@ -162,22 +164,12 @@ class BrapciWorksModel extends Model
                             $termo = [];
                             foreach($vc as $idv=>$ivc)
                                 {
-                                    if (!isset($ivc['concept']))
-                                        {
-                                            pre($ivc);
-                                        }
-                                    $IDc = $ivc['concept'];
-                                    $termo = $ivc['term'].'@'.$ivc['lang'];
-                                    if (!isset($T[$IDc]))
-                                            {
-                                                $T[$IDc][] = [];
-                                            }
-                                    $T[$IDc][] = $termo;
+
                                     
                                 }
                         }
                 pre($T, false);
-                pre($data,false);
+                
                 pre($vc,false);
                 pre($t);
 
