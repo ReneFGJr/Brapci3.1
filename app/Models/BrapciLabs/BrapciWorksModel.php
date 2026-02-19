@@ -167,7 +167,7 @@ class BrapciWorksModel extends Model
                                     if (!isset($ivc['term']))
                                         {
                                             echo "OPS ZZZZZZZZZZZZZZZZZZZZ";    
-                                            pre($ivc);
+                                            continue;
                                         }
                                     if ($ivc['term'] == $term)
                                         {
