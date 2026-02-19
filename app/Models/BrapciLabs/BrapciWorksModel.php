@@ -149,45 +149,53 @@ class BrapciWorksModel extends Model
      * ***************************** SmartRetriavel 
      */
 
-    function process_smartretriavel($data,$vc,$net)
-    {
-                $T = [];
-                $t = $data['conceitos_interpretados_pelo_llm'];
-                $t = array_merge($t,$data['termos_autorizados_alinhados']);
+function process_smartretriavel($data, $vc, $net)
+{
+    $T = [];
 
-                pre($data,false);
+    // 🔹 Junta os termos vindos do LLM e os autorizados
+    $t = [];
 
-                foreach($t as $id=>$term)
-                        {
-                            $term = ascii($term);
-                            $exist = false;
-                            $termo = [];
-                            foreach($vc as $idv=>$ivc)
-                                {
-                                    if (!isset($ivc['term']))
-                                        {
-                                            echo "OPS ZZZZZZZZZZZZZZZZZZZZ";    
-                                            continue;
-                                        }
-                                    if ($ivc['term'] == $term)
-                                        {
-                                            echo '<h5>'.$term.'</h5>';
-                                            $IDc = $ivc['concept'];
-                                            if (!isset($T[$IDc]))
-                                                {
-                                                    $T[$IDc] = [];
-                                                }
-                                            $T[$IDc] = $ivc['term'].'@'.$ivc['lang'];
-                                        }                                    
-                                }
-                        }
-                echo '<h4>T</h4>';
-                pre($T, false);
-                echo '<h4>VC</h4>';                
-                pre($vc,false);
-                pre($t);
-
+    if (isset($data['conceitos_interpretados_pelo_llm'])) {
+        $t = array_merge($t, $data['conceitos_interpretados_pelo_llm']);
     }
+
+    if (isset($data['termos_autorizados_alinhados'])) {
+        $t = array_merge($t, $data['termos_autorizados_alinhados']);
+    }
+
+    // 🔹 Normaliza termos
+    $t = array_unique($t);
+
+    foreach ($t as $term) {
+
+        $term = ascii($term); // normaliza
+
+        foreach ($vc as $ivc) {
+
+            // segurança
+            if (!isset($ivc['term']) || !isset($ivc['concept'])) {
+                continue;
+            }
+
+            if (ascii($ivc['term']) == $term) {
+
+                $IDc = $ivc['concept'];
+
+                if (!isset($T[$IDc])) {
+                    $T[$IDc] = [];
+                }
+
+                // adiciona sem sobrescrever
+                $T[$IDc][] = $ivc['term'] . '@' . $ivc['lang'];
+            }
+        }
+    }
+    pre($T);
+
+    return $T;
+}
+
 
     function loadThesaurusTerms(string $filePath): array
     {
