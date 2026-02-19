@@ -194,6 +194,11 @@ function process_smartretriavel($data, $vc, $net)
 
         /******************************* Parte II */
         foreach ($vc as $ivc) {
+            // segurança
+            if (!isset($ivc['term']) || !isset($ivc['concept'])) {
+                continue;
+            }
+                        
             $IDc = $ivc['concept'];
             $termO = $ivc['term'];
             if (isset($T[$IDc]))
