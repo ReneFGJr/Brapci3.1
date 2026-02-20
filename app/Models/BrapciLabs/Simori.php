@@ -22,4 +22,10 @@ class Simori extends Model
         // Substitua isso pela lógica real conforme necessário
         return 0; // Retorna um ID fixo para demonstração
     }
+
+    function contarRepositorios()
+    {
+        // Conta o número total de repositórios na tabela
+        return $this->countAll();
+    }
 }
