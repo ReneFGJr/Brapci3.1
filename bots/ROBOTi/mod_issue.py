@@ -14,7 +14,7 @@ import sys
 
 def checkDuplicateIssue(JNL=0):
     ### Check Name of Issue
-    checkNamesIsse()
+    checkNamesIssue()
 
     ### Check Duplicate Issues
     qr = """
@@ -39,7 +39,7 @@ def checkDuplicateIssue(JNL=0):
     return row
 
 
-def checkNamesIsseVol():
+def checkNamesIssue():
     qr = """
         select id_is, is_vol, is_nr,
         is_vol_original, is_nr_original
