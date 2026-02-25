@@ -37,8 +37,10 @@ def checkDuplicateIssue(JNL=0):
     return row
 
 def checkNamesIsse():
-    qr = "select * from brapci.is_need_review "
-    qr = " where is_vol like '%vol%'"
+    qr = """
+            select * from brapci.is_need_review
+            where is_vol like '%vol%'
+        """
     row = database.query(qr)
     for r in row:
         print(r)
