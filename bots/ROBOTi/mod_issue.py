@@ -44,7 +44,7 @@ def checkNamesIsse():
     row = database.query(qr)
     for r in row:
         vol = normalizar_volume(r[1])
-        print(r[0],r[1],vol)
+        print(r[0],r[1],'==>',vol)
     sys.exit()
 
 
