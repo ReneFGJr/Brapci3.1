@@ -15,6 +15,7 @@ import sys
 def checkDuplicateIssue(JNL=0):
     ### Check Name of Issue
     checkNamesIssue()
+    sys.exit()
 
     ### Check Duplicate Issues
     qr = """
