@@ -13,6 +13,8 @@ import sys
 
 
 def checkDuplicateIssue(JNL=0):
+    checkNamesIsse()
+    sys.exit()
     qr = """
         SELECT *
         FROM (
@@ -33,6 +35,14 @@ def checkDuplicateIssue(JNL=0):
     print("Duplicate Issues:", len(row))
 
     return row
+
+def checkNamesIsse():
+    qr = "select * from brapci.is_need_review "
+    qr = " where is_vol like '%vol%'"
+    row = database.query(qr)
+    for r in row:
+        print(r)
+    sys.exit()
 
 
 
