@@ -44,7 +44,10 @@ def checkNamesIsse():
     row = database.query(qr)
     for r in row:
         vol = normalizar_volume(r[1])
-        print(r[0],r[1],'==>',vol)
+        if (vol == ''):
+            print("ERRO: Volume não identificado",r[0],r[1])
+        else:
+            print(r[0],r[1],'==>',vol)
     sys.exit()
 
 
