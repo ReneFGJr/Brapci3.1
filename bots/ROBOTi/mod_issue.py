@@ -40,12 +40,16 @@ def checkNamesIsse():
     qr = """
             select id_is, is_vol, is_nr from brapci.source_issue
             where is_vol like '%vol%'
+            and is_need_review = 0
         """
     row = database.query(qr)
     for r in row:
         vol = normalizar_volume(r[1])
         if (vol == ''):
             print("ERRO: Volume não identificado",r[0],r[1])
+            qq = "update brapci.source_issue set is_vol = '', is_need_review = 1 where id_is = " + str(
+                r[0])
+            database.update(qq)
         else:
             print(r[0],r[1],'==>',vol)
     sys.exit()
