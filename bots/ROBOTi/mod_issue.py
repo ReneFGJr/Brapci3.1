@@ -11,17 +11,23 @@ import database
 import traceback
 import sys
 
+
 def checkDuplicateIssue(JNL=0):
-    qr = 'select * from ( '
-    qr += '    SELECT `d_r2`, d_p, count(*) as total FROM `rdf_data` '
-	qr += '    WHERE d_p = 31'
-	qr += '    group by d_r2, d_p'
-    qr += '    ) as issues'
-    qr += '    WHERE total > 1'
-	qr += '    order by total desc;'
+    qr = """
+        SELECT *
+        FROM (
+            SELECT d_r2, d_p, COUNT(*) AS total
+            FROM brapci_rdf.rdf_data
+            WHERE d_p = 31
+            GROUP BY d_r2, d_p
+        ) AS issues
+        WHERE total > 1
+        ORDER BY total DESC;
+    """
+
     row = database.query(qr)
 
-    print("Duplicate Issues: ",len(row))
+    print("Duplicate Issues:", len(row))
 
     for r in row:
         print(r)
