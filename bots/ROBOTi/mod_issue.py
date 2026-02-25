@@ -10,6 +10,7 @@ import mod_class
 import database
 import traceback
 import sys
+import unicodedata
 
 
 def checkDuplicateIssue(JNL=0):
@@ -102,16 +103,21 @@ import re
 import unicodedata
 
 
+# ===============================
+# Normalização de Número
+# ===============================
 def normalizar_numero(texto: str) -> str:
     """
     Normaliza diferentes representações de número de fascículo.
 
-    Exemplos:
-        'nº esp.' -> 'n. esp.'
-        'n. 1esp' -> 'n. 1 esp.'
-        'esp' -> 'n. esp.'
-        'n. esp. 2. sem.' -> 'n. esp. 2'
-        'no 26-27' -> 'n. 26-27'
+    Trata:
+        n.º esp.
+        n. 1esp
+        esp
+        n. esp. II
+        no 26-27
+        n. IV
+        II-III
     """
 
     if not texto:
@@ -123,43 +129,104 @@ def normalizar_numero(texto: str) -> str:
 
     texto = texto.lower().strip()
 
-    # Normaliza marcadores de número
+    # Normaliza marcadores
     texto = re.sub(r'\b(no|nº|numero|num)\b', 'n.', texto)
+
+    # Corrige casos tipo 1esp
+    texto = re.sub(r'(\d)(esp)', r'\1 esp', texto)
 
     # Detecta especial
     tem_especial = bool(re.search(r'\besp\b', texto))
 
-    # Extrai número ou intervalo
-    match = re.search(r'\d+\s*-\s*\d+|\d+', texto)
+    # ===============================
+    # 1️⃣ Intervalo arábico
+    # ===============================
+    match_intervalo = re.search(r'\d+\s*-\s*\d+', texto)
+    if match_intervalo:
+        intervalo = match_intervalo.group().replace(" ", "")
+        if tem_especial:
+            return f"n. esp. {intervalo}"
+        return f"n. {intervalo}"
 
-    numero = ""
-    if match:
-        numero = match.group().replace(" ", "")
+    # ===============================
+    # 2️⃣ Número arábico simples
+    # ===============================
+    match_arabico = re.search(r'\d+', texto)
+    if match_arabico:
+        numero = match_arabico.group()
+        if tem_especial:
+            return f"n. esp. {numero}"
+        return f"n. {numero}"
 
-    # Construção final
-    if tem_especial and numero:
-        return f"n. esp. {numero}"
+    # ===============================
+    # 3️⃣ Intervalo romano (II-III)
+    # ===============================
+    match_intervalo_romano = re.search(r'\b[ivxlcdm]+\s*-\s*[ivxlcdm]+\b',
+                                       texto)
+    if match_intervalo_romano:
+        partes = re.split(r'\s*-\s*', match_intervalo_romano.group())
+        n1 = romano_para_int(partes[0])
+        n2 = romano_para_int(partes[1])
+        if tem_especial:
+            return f"n. esp. {n1}-{n2}"
+        return f"n. {n1}-{n2}"
 
+    # ===============================
+    # 4️⃣ Romano simples
+    # ===============================
+    match_romano = re.search(r'\b[ivxlcdm]+\b', texto)
+    if match_romano:
+        numero = romano_para_int(match_romano.group())
+        if numero > 0:
+            if tem_especial:
+                return f"n. esp. {numero}"
+            return f"n. {numero}"
+
+    # ===============================
+    # 5️⃣ Apenas especial
+    # ===============================
     if tem_especial:
         return "n. esp."
-
-    if numero:
-        return f"n. {numero}"
 
     return ""
 
 
+# ===============================
+# Conversor Romano → Inteiro
+# ===============================
+def romano_para_int(romano: str) -> int:
+    valores = {'i': 1, 'v': 5, 'x': 10, 'l': 50, 'c': 100, 'd': 500, 'm': 1000}
+
+    romano = romano.lower()
+    total = 0
+    prev = 0
+
+    for char in reversed(romano):
+        valor = valores.get(char, 0)
+        if valor < prev:
+            total -= valor
+        else:
+            total += valor
+        prev = valor
+
+    return total
+
+
+# ===============================
+# Normalização de Volume
+# ===============================
 def normalizar_volume(texto: str) -> str:
     """
-    Normaliza diferentes representações de volume para o padrão:
-    v. <numero>
+    Normaliza representações de volume para:
+        v. <numero>
 
-    Exemplos:
-        'v. vol 5'     -> 'v. 5'
-        'vol 53'       -> 'v. 53'
-        'v. vol 19'    -> 'v. 19'
-        'v. volumen'   -> ''
-        'volumen'      -> ''
+    Aceita:
+        v. vol 5
+        vol 53
+        v. XIX
+        volume xii
+        v. xxiv
+        vol. iii
     """
 
     if not texto:
@@ -169,17 +236,24 @@ def normalizar_volume(texto: str) -> str:
     texto = unicodedata.normalize("NFKD", texto)
     texto = texto.encode("ASCII", "ignore").decode("utf-8")
 
-    # Minúsculas e strip
     texto = texto.lower().strip()
 
-    # Extrai primeiro número encontrado
-    match = re.search(r'\d+', texto)
+    # Remove palavras irrelevantes
+    texto = re.sub(r'\b(volume|volumen|vol)\b', '', texto)
 
-    if match:
-        numero = match.group()
-        return f"v. {numero}"
+    # 1️⃣ Primeiro tenta número arábico
+    match_arabico = re.search(r'\d+', texto)
+    if match_arabico:
+        return f"v. {match_arabico.group()}"
 
-    # Se não tiver número, retorna vazio
+    # 2️⃣ Tenta número romano
+    match_romano = re.search(r'\b[ivxlcdm]+\b', texto)
+    if match_romano:
+        romano = match_romano.group()
+        numero = romano_para_int(romano)
+        if numero > 0:
+            return f"v. {numero}"
+
     return ""
 
 
