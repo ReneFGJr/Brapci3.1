@@ -157,6 +157,9 @@ def run(parm):
     if (act == 'statistics'):
         mod_statistics.get_statistics()
 
+    if (act == 'issue'):
+        mod_issue.checkDuplicateIssue()
+
     if (act == 'pdf'):
         mod_pdf.harvestingPDF()
     if (act == 'getpdf'):

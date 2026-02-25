@@ -11,6 +11,23 @@ import database
 import traceback
 import sys
 
+def checkDuplicateIssue(JNL=0):
+    qr = 'select * from ( '
+    qr += '    SELECT `d_r2`, d_p, count(*) as total FROM `rdf_data` '
+	qr += '    WHERE d_p = 31'
+	qr += '    group by d_r2, d_p'
+    qr += '    ) as issues'
+    qr += '    WHERE total > 1'
+	qr += '    order by total desc;'
+    row = database.query(qr)
+
+    print("Duplicate Issues: ",len(row))
+
+    for r in row:
+        print(r)
+
+    return row
+
 def updateSatus(idISSUE,status):
     qu = f"update brapci.source_issue set is_status = {status} where id_is = {idISSUE}"
     database.update(qu)
