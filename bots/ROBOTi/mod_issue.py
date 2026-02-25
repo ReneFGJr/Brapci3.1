@@ -43,8 +43,47 @@ def checkNamesIsse():
         """
     row = database.query(qr)
     for r in row:
-        print(r)
+        vol = normalizar_volume(r[1])
+        print(r[0],r[1],vol)
     sys.exit()
+
+
+import re
+import unicodedata
+
+
+def normalizar_volume(texto: str) -> str:
+    """
+    Normaliza diferentes representações de volume para o padrão:
+    v. <numero>
+
+    Exemplos:
+        'v. vol 5'     -> 'v. 5'
+        'vol 53'       -> 'v. 53'
+        'v. vol 19'    -> 'v. 19'
+        'v. volumen'   -> ''
+        'volumen'      -> ''
+    """
+
+    if not texto:
+        return ""
+
+    # Remove acentos
+    texto = unicodedata.normalize("NFKD", texto)
+    texto = texto.encode("ASCII", "ignore").decode("utf-8")
+
+    # Minúsculas e strip
+    texto = texto.lower().strip()
+
+    # Extrai primeiro número encontrado
+    match = re.search(r'\d+', texto)
+
+    if match:
+        numero = match.group()
+        return f"v. {numero}"
+
+    # Se não tiver número, retorna vazio
+    return ""
 
 
 
