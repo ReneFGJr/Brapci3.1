@@ -27,12 +27,14 @@ def checkDuplicateIssue(JNL=0):
 
     row = database.query(qr)
 
-    print("Duplicate Issues:", len(row))
-
     for r in row:
         print(r)
 
+    print("Duplicate Issues:", len(row))
+
     return row
+
+
 
 def updateSatus(idISSUE,status):
     qu = f"update brapci.source_issue set is_status = {status} where id_is = {idISSUE}"
