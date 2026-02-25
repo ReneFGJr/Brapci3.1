@@ -40,7 +40,7 @@ def checkNamesIsse():
     qr = """
             select id_is, is_vol, is_nr from brapci.source_issue
             where is_need_review = 0
-            limit 100
+            limit 1000
         """
     row = database.query(qr)
     for r in row:
