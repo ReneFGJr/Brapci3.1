@@ -38,31 +38,114 @@ def checkDuplicateIssue(JNL=0):
 
     return row
 
-def checkNamesIsse():
+
+def checkNamesIsseVol():
     qr = """
-            select id_is, is_vol, is_nr from brapci.source_issue
-            where is_need_review = 0
-            limit 1000
-        """
+        select id_is, is_vol, is_nr,
+        is_vol_original, is_nr_original
+        from brapci.source_issue
+        where is_need_review = 0
+        limit 1000
+    """
+
     row = database.query(qr)
+
     for r in row:
-        vol = normalizar_volume(r[1])
-        if (vol == ''):
-            print("ERRO: Volume não identificado",r[0],r[1])
-            print(r[0], r[1], '==>', vol)
-            qq = "update brapci.source_issue set is_need_review = 1, is_vol_original = '"+r[1]+"' where id_is = " + str(
-                r[0])
+        id_is = r[0]
+        vol_original = r[1] or ""
+        nr_original = r[2] or ""
+        is_vol_original = r[3] or ""
+        is_nr_original = r[4] or ""
+
+        vol = normalizar_volume(vol_original)
+        nr = normalizar_numero(nr_original)
+
+        # Escapa aspas simples
+        vol_original_sql = vol_original.replace("'", "''")
+        nr_original_sql = nr_original.replace("'", "''")
+
+        if vol == "":
+            print("ERRO: Volume não identificado", id_is, vol_original)
+
+            if (is_vol_original != ""):
+                vol_original_sql = is_vol_original.replace("'", "''")
+            if (is_nr_original != ""):
+                nr_original_sql = is_nr_original.replace("'", "''")
+            qq = f"""
+                update brapci.source_issue
+                set is_need_review = 1,
+                    is_vol_original = '{vol_original_sql}',
+                    is_nr_original = '{nr_original_sql}'
+                where id_is = {id_is}
+            """
             database.update(qq)
+
         else:
-            print(r[0],r[1],'==>',vol)
-            qq = "update brapci.source_issue set is_vol = '" + vol + "', is_need_review = 10, is_vol_original = '" + r[
-                1] + "' where id_is = " + str(r[0])
+            print(id_is, vol_original, "==>", vol, "|", nr_original, "==>", nr)
+
+            qq = f"""
+                update brapci.source_issue
+                set is_vol = '{vol}',
+                    is_nr = '{nr}',
+                    is_need_review = 10,
+                    is_vol_original = '{vol_original_sql}',
+                    is_nr_original = '{nr_original_sql}'
+                where id_is = {id_is}
+            """
             database.update(qq)
+
     return True
 
 
 import re
 import unicodedata
+
+
+def normalizar_numero(texto: str) -> str:
+    """
+    Normaliza diferentes representações de número de fascículo.
+
+    Exemplos:
+        'nº esp.' -> 'n. esp.'
+        'n. 1esp' -> 'n. 1 esp.'
+        'esp' -> 'n. esp.'
+        'n. esp. 2. sem.' -> 'n. esp. 2'
+        'no 26-27' -> 'n. 26-27'
+    """
+
+    if not texto:
+        return ""
+
+    # Remove acentos
+    texto = unicodedata.normalize("NFKD", texto)
+    texto = texto.encode("ASCII", "ignore").decode("utf-8")
+
+    texto = texto.lower().strip()
+
+    # Normaliza marcadores de número
+    texto = re.sub(r'\b(no|nº|numero|num)\b', 'n.', texto)
+
+    # Detecta especial
+    tem_especial = bool(re.search(r'\besp\b', texto))
+
+    # Extrai número ou intervalo
+    match = re.search(r'\d+\s*-\s*\d+|\d+', texto)
+
+    numero = ""
+    if match:
+        numero = match.group().replace(" ", "")
+
+    # Construção final
+    if tem_especial and numero:
+        return f"n. esp. {numero}"
+
+    if tem_especial:
+        return "n. esp."
+
+    if numero:
+        return f"n. {numero}"
+
+    return ""
 
 
 def normalizar_volume(texto: str) -> str:
