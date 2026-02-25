@@ -13,8 +13,10 @@ import sys
 
 
 def checkDuplicateIssue(JNL=0):
+    ### Check Name of Issue
     checkNamesIsse()
-    sys.exit()
+
+    ### Check Duplicate Issues
     qr = """
         SELECT *
         FROM (
@@ -56,7 +58,7 @@ def checkNamesIsse():
             qq = "update brapci.source_issue set is_vol = '" + vol + "', is_need_review = 10, is_vol_original = '" + r[
                 1] + "' where id_is = " + str(r[0])
             database.update(qq)
-    sys.exit()
+    return True
 
 
 import re
