@@ -48,13 +48,13 @@ def checkNamesIsse():
         if (vol == ''):
             print("ERRO: Volume não identificado",r[0],r[1])
             print(r[0], r[1], '==>', vol)
-            qq = "update brapci.source_issue set is_vol = '', is_need_review = 1 where id_is = " + str(
+            qq = "update brapci.source_issue set is_vol = '', is_need_review = 1, is_vol_original = '"+r[1]+"' where id_is = " + str(
                 r[0])
             #database.update(qq)
         else:
             print(r[0],r[1],'==>',vol)
-            qq = "update brapci.source_issue set is_vol = '"+vol+"', is_need_review = 10 where id_is = " + str(
-                r[0])
+            qq = "update brapci.source_issue set is_vol = '" + vol + "', is_need_review = 10, is_vol_original = '" + r[
+                1] + "' where id_is = " + str(r[0])
             database.update(qq)
     sys.exit()
 
