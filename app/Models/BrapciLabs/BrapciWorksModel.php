@@ -337,7 +337,7 @@ class BrapciWorksModel extends Model
         $dt = $RisModel
             ->select($cp)
             ->where('project_id', $id)
-            ->findAll(5);
+            ->findAll();
 
         /************************************ */
         // ===== Processamento =====
@@ -409,6 +409,17 @@ class BrapciWorksModel extends Model
 
         $sx .= view('BrapciLabs/graph/highchart_tagcloud', [
             'data' => array_values($freq)
+        ]);
+
+        /****** Terms list */
+        $terms = [];
+        foreach($tags as $id=>$term) {
+            $terms[] = $term['label'];
+        }
+        sort($terms);
+
+        $sx .= view('BrapciLabs/list/taglist', [
+            'tags' => $terms
         ]);
         return $sx;
     }
