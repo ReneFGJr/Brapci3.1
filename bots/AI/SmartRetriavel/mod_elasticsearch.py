@@ -13,7 +13,7 @@ def search_elastic_with_expansion(
         es_host="http://localhost:9200",
         size=50):
 
-    es = Elasticsearch(es_host)
+    es = ElasticsearchWarning(es_host)
 
     must_clauses = []
 
