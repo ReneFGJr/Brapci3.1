@@ -397,14 +397,12 @@ class BrapciWorksModel extends Model
         }
         $Corpus = [];
         $type = get("type");
-        if ($type == 'ris') {
-            foreach ($IDs as $idw) {
-                if (isset($Works[$idw])) {
-                    $Corpus[] = $Works[$idw];
-                    unset($Works[$idw]);
-                } else {
-                    /************* Não localizado */
-                }
+        foreach ($IDs as $idw) {
+            if (isset($Works[$idw])) {
+                $Corpus[] = $Works[$idw];
+                unset($Works[$idw]);
+            } else {
+                /************* Não localizado */
             }
         }
         /**************************************************** Corpus */
