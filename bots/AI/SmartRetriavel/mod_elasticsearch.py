@@ -68,4 +68,6 @@ def search_elastic_with_expansion(
     # 🔹 Extrai apenas os IDs
     ids = [hit["_source"]["id"] for hit in response["hits"]["hits"]]
 
+    print(ids)
+
     return ids
