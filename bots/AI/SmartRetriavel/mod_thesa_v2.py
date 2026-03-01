@@ -197,7 +197,7 @@ def process_smartretriavel_py(data, thesaurus):
     - Normaliza
     - Descobre conceitos
     - Expande todas as variações
-    - Monta string booleana
+    - Retorna ARRAY estruturado (sem operador AND)
     """
 
     T = {}
@@ -213,32 +213,30 @@ def process_smartretriavel_py(data, thesaurus):
     # 🔹 Normaliza e remove duplicados
     terms = list(set([normalize(t) for t in terms]))
 
-    # 🔹 Descobre quais conceitos foram ativados
+    # 🔹 Descobre conceitos ativados
     for term in terms:
-
         for concept, variations in thesaurus.items():
             if term in variations:
                 if concept not in T:
-                    T[concept] = {}
+                    T[concept] = set()
 
-    # 🔹 Expande todas as variações de cada conceito ativado
+    # 🔹 Expande todas as variações de cada conceito
     for concept in T.keys():
         for variation in thesaurus[concept]:
-            T[concept][variation] = 1
+            T[concept].add(variation)
 
-    # 🔹 Monta string booleana
-    boolean_query = []
+    # 🔹 Converte para array estruturado
+    expanded_array = []
+
     for concept, variations in T.items():
-        group = []
-        for term in variations.keys():
-            group.append(f'"{term}"')
-        boolean_query.append("(" + " OR ".join(group) + ")")
-
-    final_query = " AND ".join(boolean_query)
+        expanded_array.append({
+            "concept": concept,
+            "variations": sorted(list(variations))
+        })
 
     return {
         "conceitos_identificados": list(T.keys()),
-        "consulta_expandida": final_query
+        "consulta_expandida_array": expanded_array
     }
 
 
