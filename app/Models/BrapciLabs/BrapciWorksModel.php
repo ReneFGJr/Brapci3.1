@@ -134,13 +134,11 @@ class BrapciWorksModel extends Model
 
         // Comando
         $command = "$CMD $escapedQuery";
-        echo '<h1>'.$command.'</h1>';
-        exit;
 
         // Executa
         $output = shell_exec($command);
 
-        pre($output,false);
+        pre($output,true);
 
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
