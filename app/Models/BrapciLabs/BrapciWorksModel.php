@@ -199,8 +199,6 @@ class BrapciWorksModel extends Model
                 }
             }
 
-            pre($T);
-
             /******************************* Parte II */
             foreach ($vc as $ivc) {
                 // segurança
@@ -217,6 +215,9 @@ class BrapciWorksModel extends Model
                 }
             }
         }
+
+        pre($T);
+
         $st = '';
         foreach ($T as $IDc => $terms) {
             foreach ($terms as $termO => $KeyT) {
