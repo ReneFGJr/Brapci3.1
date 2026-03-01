@@ -129,7 +129,6 @@ class BrapciWorksModel extends Model
         echo '<h4>SmartRetriavel</h4>';
         echo '<p><b>Query:</b> ' . $query . '</p>';
         echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a></p>';
-        echo '<p>'.$CMD.'</p>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
@@ -155,9 +154,11 @@ class BrapciWorksModel extends Model
 
         // Comando
         $command = "$CMD $escapedQuery 2>&1";
+        echo '<p>' . $command . '</p>';
 
         // Executa
         $output = shell_exec($command);
+        print($output);
 
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
