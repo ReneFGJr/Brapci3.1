@@ -111,7 +111,7 @@ class BrapciWorksModel extends Model
         }
         echo '<h4>SmartRetriavel</h4>';
         echo '<p><b>Query:</b> ' . $query . '</p>';
-        echo '<p><b>Vocabulário:</b> Thesaurus ' . $thesaVC . '</p>';
+        echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a></p>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
