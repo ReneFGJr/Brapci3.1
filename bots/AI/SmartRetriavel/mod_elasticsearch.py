@@ -1,4 +1,5 @@
 from elasticsearch import Elasticsearch
+import sys
 
 
 def search_elastic_with_expansion(
@@ -66,6 +67,9 @@ def search_elastic_with_expansion(
             "bool": bool_query
         }
     }
+
+    print(query_body)
+    sys.exit()
 
     response = es.search(index=index_name, body=query_body)
 
