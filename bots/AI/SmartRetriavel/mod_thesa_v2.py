@@ -261,20 +261,6 @@ def rag_query_v2(question: str, json_path: str):
 
     return base_result
 
-def rag_query(question: str, json_path: str):
-    authorized_terms = load_authorized_terms(json_path)
-
-    llm_concepts = ollama_interpret(question)
-    aligned_terms = align_with_vocabulary(llm_concepts, authorized_terms)
-
-    return {
-        "pergunta_original": question,
-        "conceitos_interpretados_pelo_llm": llm_concepts,
-        "termos_autorizados_alinhados": aligned_terms,
-        "modelo_llm": "llama3.2 (Ollama)",
-        "fonte_vocabulario": json_path
-    }
-
 # ========= Download Library ======
 def download(url: str, output_file: str) -> None:
     """
