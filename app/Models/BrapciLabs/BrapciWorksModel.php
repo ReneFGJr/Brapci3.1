@@ -382,7 +382,7 @@ class BrapciWorksModel extends Model
         return $data;
     }
 
-    function show_base_row($ID)
+    function show_base_row($IDs)
         {
         echo '<div class="content">';
         $RisModel = new \App\Models\BrapciLabs\RisModel();
@@ -395,10 +395,22 @@ class BrapciWorksModel extends Model
             $BrapciID = $RisModel->brapciID($row['url']);
             $Works[$BrapciID] = $row;
         }
-        pre($Works);
         $Corpus = [];
-
+        $type = get("type");
+        if ($type == 'ris') {
+            foreach ($IDs as $idw) {
+                if (isset($Works[$idw])) {
+                    $Corpus[] = $Works[$idw];
+                    unset($Works[$idw]);
+                } else {
+                    /************* Não localizado */
+                }
+            }
         }
+        /**************************************************** Corpus */
+        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary']);
+        $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
+    }
 
     function search_base_ris()
     {
