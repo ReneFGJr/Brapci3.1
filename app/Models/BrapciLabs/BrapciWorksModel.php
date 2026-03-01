@@ -174,8 +174,6 @@ class BrapciWorksModel extends Model
         // 🔹 Normaliza termos
         $t = array_unique($t);
 
-        pre($t);
-
         foreach ($t as $term) {
 
             $term = ascii($term); // normaliza
@@ -200,6 +198,8 @@ class BrapciWorksModel extends Model
                     }
                 }
             }
+
+            pre($T);
 
             /******************************* Parte II */
             foreach ($vc as $ivc) {
