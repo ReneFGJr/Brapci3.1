@@ -164,18 +164,12 @@ class BrapciWorksModel extends Model
         // Decodifica JSON retornado pelo Python
         $data = (array)json_decode($output, true);
 
-        echo "------<pre>";
-        pre($data);
-        echo '</pre>';
-
         $net = '';
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
-        $_POST['q'] = $q;
-        $_POST['type'] = 'ris';
+        $ID = $data['ids'] ?? [];
 
-        pre($_POST);
         echo '</div>';
-        echo $this->search_base_ris();
+        echo $this->show_base_row($ID);
         return "";
     }
 
@@ -388,6 +382,24 @@ class BrapciWorksModel extends Model
         return $data;
     }
 
+    function show_base_row($ID)
+        {
+        echo '<div class="content">';
+        $RisModel = new \App\Models\BrapciLabs\RisModel();
+        $ResearchProjectModel = new \App\Models\BrapciLabs\ResearchProjectModel();
+
+        $projectID = $ResearchProjectModel->getProjectsID();
+        $W = $RisModel->where('project_id', $projectID)->findAll();
+        $Works = [];
+        foreach ($W as $row) {
+            $BrapciID = $RisModel->brapciID($row['url']);
+            $Works[$BrapciID] = $row;
+        }
+        pre($Works);
+        $Corpus = [];
+
+        }
+
     function search_base_ris()
     {
         echo '<div class="content">';
@@ -414,7 +426,6 @@ class BrapciWorksModel extends Model
         $sx = '';
 
         if ($q == '') {
-
             $sx .= 'Busca vazia';
             $sx .= '</div>';
             return $sx;
