@@ -189,8 +189,80 @@ def align_with_vocabulary(concepts, authorized_terms, cutoff=0.70):
 
     return sorted(matched_terms)
 
+# =========
+def process_smartretriavel_py(data, thesaurus):
+    """
+    Replica a lógica do PHP:
+    - Junta termos LLM + termos autorizados
+    - Normaliza
+    - Descobre conceitos
+    - Expande todas as variações
+    - Monta string booleana
+    """
+
+    T = {}
+
+    # 🔹 Junta termos
+    terms = []
+    if "conceitos_interpretados_pelo_llm" in data:
+        terms += data["conceitos_interpretados_pelo_llm"]
+
+    if "termos_autorizados_alinhados" in data:
+        terms += data["termos_autorizados_alinhados"]
+
+    # 🔹 Normaliza e remove duplicados
+    terms = list(set([normalize(t) for t in terms]))
+
+    # 🔹 Descobre quais conceitos foram ativados
+    for term in terms:
+
+        for concept, variations in thesaurus.items():
+            if term in variations:
+                if concept not in T:
+                    T[concept] = {}
+
+    # 🔹 Expande todas as variações de cada conceito ativado
+    for concept in T.keys():
+        for variation in thesaurus[concept]:
+            T[concept][variation] = 1
+
+    # 🔹 Monta string booleana
+    boolean_query = []
+    for concept, variations in T.items():
+        group = []
+        for term in variations.keys():
+            group.append(f'"{term}"')
+        boolean_query.append("(" + " OR ".join(group) + ")")
+
+    final_query = " AND ".join(boolean_query)
+
+    return {
+        "conceitos_identificados": list(T.keys()),
+        "consulta_expandida": final_query
+    }
+
 
 # ========= Função principal RAG =========
+def rag_query_v2(question: str, json_path: str):
+
+    thesaurus = load_thesaurus(json_path)
+    authorized_terms = load_authorized_terms(json_path)
+
+    llm_concepts = ollama_interpret(question)
+    aligned_terms = align_with_vocabulary(llm_concepts, authorized_terms)
+
+    base_result = {
+        "pergunta_original": question,
+        "conceitos_interpretados_pelo_llm": llm_concepts,
+        "termos_autorizados_alinhados": aligned_terms
+    }
+
+    expanded = process_smartretriavel_py(base_result, thesaurus)
+
+    base_result.update(expanded)
+
+    return base_result
+
 def rag_query(question: str, json_path: str):
     authorized_terms = load_authorized_terms(json_path)
 
@@ -291,6 +363,6 @@ def getThesa(id):
 # ========= Execução =========
 if __name__ == "__main__":
     pergunta = "Como a IAG é utilizada na catalogação de livros?"
-    source = 'thesa_6.json'
+    source = 'thesa_25.json'
     resultado = rag_query(pergunta, source)
     print(json.dumps(resultado, ensure_ascii=False, indent=2))

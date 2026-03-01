@@ -21,7 +21,7 @@ def main():
     if not os.path.exists(memory):
         mod_thesa_v2.getThesa(MM)
 
-    resultado = mod_thesa_v2.rag_query(pergunta, memory)
+    resultado = mod_thesa_v2.rag_query_v2(pergunta, memory)
 
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
 
