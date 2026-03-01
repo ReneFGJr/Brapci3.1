@@ -1,10 +1,11 @@
+import re
+import os
 import json
+from pathlib import Path
+import pandas as pd
 import requests
 import unicodedata
-import re
-from pathlib import Path
 from difflib import get_close_matches
-import os
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "llama3.2"
@@ -12,16 +13,90 @@ VERSION_THESA = "v2.2026.03.01"
 
 BASE_DIR = Path(__file__).resolve().parent
 
+# ========= Recursos de debug =========
+def load_thesaurus(json_path):
+    """
+    Converte o JSON do tesauro em:
+    {conceito_canonico: [lista_variacoes]}
+    """
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    thesaurus = {}
+
+    for entry in data:
+        terms = list(entry.keys())
+        canonical = normalize_text(terms[0])
+        variations = [normalize_text(t) for t in terms]
+        thesaurus[canonical] = variations
+
+    return thesaurus
+
+
+def calculate_concept_relevance(df, thesaurus,
+                                weight_title=3.0,
+                                weight_keywords=2.0,
+                                weight_abstract=1.0):
+    """
+    Calcula relevância conceitual usando tesauro controlado.
+    Retorna ranking + score por conceito.
+    """
+
+    results = []
+
+    for _, row in df.iterrows():
+
+        title = normalize(row.get("title", ""))
+        abstract = normalize(row.get("abstract", ""))
+        keywords = normalize(row.get("keywords", ""))
+
+        doc_score = 0
+        concept_hits = {}
+
+        for concept, variations in thesaurus.items():
+
+            pattern = re.compile(
+                r"\b(" + "|".join(map(re.escape, variations)) + r")\b"
+            )
+
+            count = 0
+            count += len(pattern.findall(title)) * weight_title
+            count += len(pattern.findall(keywords)) * weight_keywords
+            count += len(pattern.findall(abstract)) * weight_abstract
+
+            if count > 0:
+                concept_hits[concept] = count
+                doc_score += count
+
+        results.append({
+            "id": row["id"],
+            "year": row.get("year"),
+            "title": row.get("title"),
+            "relevance_score": doc_score,
+            "concepts_found": concept_hits
+        })
+
+    result_df = pd.DataFrame(results)
+
+    if result_df["relevance_score"].max() > 0:
+        result_df["relevance_norm"] = (
+            result_df["relevance_score"] /
+            result_df["relevance_score"].max()
+        )
+    else:
+        result_df["relevance_norm"] = 0
+
+    return result_df.sort_values(
+        by="relevance_score",
+        ascending=False
+    )
+
 # ========= Normalização =========
 def normalize(text: str) -> str:
     text = text.lower()
     text = unicodedata.normalize("NFD", text)
     text = "".join(c for c in text if unicodedata.category(c) != "Mn")
     return text
-
-
-import json
-from pathlib import Path
 
 # ========= Carregar vocabulário =========
 def load_authorized_terms(json_path: str):

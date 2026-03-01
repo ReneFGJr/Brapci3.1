@@ -575,8 +575,11 @@ class BrapciLab extends BaseController
         switch($d1){
             case 'updateVC':
                 echo $BrapciWorksModel->updateVC();
-                break;            
+                break;
             case 'search':
+                echo $BrapciWorksModel->search_v2();
+                break;
+            case 'search2':
                 echo $BrapciWorksModel->search();
                 break;
             case 'cloud_keys':

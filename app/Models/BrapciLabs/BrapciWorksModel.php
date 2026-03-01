@@ -14,6 +14,22 @@ class BrapciWorksModel extends Model
 
     protected $useTimestamps = false;
 
+    function search_v2()
+    {
+        $type = get("type");
+        switch ($type) {
+            case 'smart':
+                echo $this->search_smart_v2();
+                break;
+            case 'ris':
+                echo $this->search_base_ris();
+                break;
+            default:
+                echo '========================================================> ' . $type;
+                break;
+        }
+    }
+
     function search()
     {
         $type = get("type");
@@ -82,6 +98,78 @@ class BrapciWorksModel extends Model
         // Decodifica JSON retornado pelo Python
         pre($output);
     }
+
+    public function search_smart_v2()
+    {
+        $query = get('q');
+        $thesaVC = 25;
+
+        if (!$query) {
+            return json_encode([
+                'status' => 'error',
+                'message' => 'Parâmetro q é obrigatório'
+            ]);
+        }
+
+        // Caminho absoluto do script
+        $PATH = $_SERVER['DOCUMENT_ROOT'];
+
+        echo '<div class="content">';
+        if (strpos($PATH, 'www/Brapci3.1') !== false) {
+            $PRG =      troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel2.py');
+            $PYTHON =   troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/Scripts/python.exe');
+            $VC =       troca($PATH, 'public', 'bots/AI/SmartRetriavel/data/');
+            $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
+        } else {
+            $PRG = troca($PATH, 'public', 'bots/AI/SmartRetriavel/smartretriavel2.py');
+            $PYTHON = troca($PATH, 'public', 'bots/AI/SmartRetriavel/venv/bin/python');
+            $VC = troca($PATH, 'public', 'bots/AI/SmartRetriavel/data/');
+            $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
+        }
+        echo '<h4>SmartRetriavel</h4>';
+        echo '<p><b>Query:</b> ' . $query . '</p>';
+        echo '<p><b>Vocabulário:</b><a href="https://www.ufrgs.br/thesa/web/thesa/' . $thesaVC . '" target="_blank"> Thesaurus ' . $thesaVC . '</a></p>';
+        echo '<p>'.$CMD.'</p>';
+
+        if (!file_exists($PRG)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "Script não encontrado: $PRG"
+            ]);
+            exit;
+        }
+        if (!file_exists($PYTHON)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => "Python não encontrado: $PYTHON"
+            ]);
+            exit;
+        }
+
+        /******************* Load VC */
+        $VC .= 'thesa_25_terms.json';
+        $vocabulary = $this->loadThesaurusTerms($VC);
+
+        // Escapa o parâmetro para segurança
+        $escapedQuery = escapeshellarg($query);
+
+        // Comando
+        $command = "$CMD $escapedQuery 2>&1";
+
+        // Executa
+        $output = shell_exec($command);
+
+        // Decodifica JSON retornado pelo Python
+        $data = json_decode($output, true);
+        $net = '';
+        $q = $this->process_smartretriavel($data, $vocabulary, $net);
+        $_POST['q'] = $q;
+        $_POST['type'] = 'ris';
+        echo '</div>';
+        echo $this->search_base_ris();
+        return "";
+    }
+
     public function search_smart()
     {
         $query = get('q');
