@@ -26,8 +26,8 @@ def load_thesaurus(json_path):
 
     for entry in data:
         terms = list(entry.keys())
-        canonical = normalize_text(terms[0])
-        variations = [normalize_text(t) for t in terms]
+        canonical = normalize(terms[0])
+        variations = [normalize(t) for t in terms]
         thesaurus[canonical] = variations
 
     return thesaurus
