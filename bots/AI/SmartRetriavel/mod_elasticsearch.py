@@ -1,5 +1,9 @@
-from elasticsearch import Elasticsearch
 import json
+import warnings
+#from elasticsearch import Elasticsearch
+from elasticsearch import ElasticsearchWarning
+
+warnings.filterwarnings("ignore", category=ElasticsearchWarning)
 
 
 def search_elastic_with_expansion(
