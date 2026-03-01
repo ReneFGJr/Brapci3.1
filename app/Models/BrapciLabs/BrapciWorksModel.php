@@ -162,7 +162,7 @@ class BrapciWorksModel extends Model
 
 
         // Decodifica JSON retornado pelo Python
-        $data = $output;
+        $data = (array)json_decode($output, true);
 
         echo "------<pre>";
         pre($output);
