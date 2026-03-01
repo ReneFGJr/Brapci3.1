@@ -85,6 +85,7 @@ class BrapciWorksModel extends Model
     public function search_smart()
     {
         $query = get('q');
+        $thesaVC = 25;
 
         if (!$query) {
             return json_encode([
@@ -109,6 +110,8 @@ class BrapciWorksModel extends Model
             $CMD = escapeshellarg($PYTHON) . ' ' . escapeshellarg($PRG);
         }
         echo '<h4>SmartRetriavel</h4>';
+        echo '<p><b>Query:</b> ' . $query . '</p>';
+        echo '<p><b>Vocabulário:</b> Thesaurus ' . $thesaVC . '</p>';
 
         if (!file_exists($PRG)) {
             echo json_encode([
