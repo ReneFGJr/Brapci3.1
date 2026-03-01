@@ -217,15 +217,22 @@ class BrapciWorksModel extends Model
         }
 
         $st = '';
+        $inc = 0;
         foreach ($T as $IDc => $terms) {
+            if ($inc > 0) {
+                $st .= ' AND ';
+            }
             $st .= '(';
+            $inx = 0;
             foreach ($terms as $termO => $KeyT) {
-                if ($st != '') {
+                if ($inx > 0) {
                     $st .= ' OR ';
                 }
                 $st .= '"' . $termO . '"';
+                $inx++;
            }
            $st .= ')';
+           $inc++;
         }
         echo '<div class="border border-secondary p-1"><h5>Estratégia de Busca</h5><tt>' . $st . '</tt></div>';
         echo '<hr>';
