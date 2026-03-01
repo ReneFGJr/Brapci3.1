@@ -31,7 +31,7 @@ def main():
     for hit in resultado_el["hits"]["hits"]:
         print("===>",hit["_source"]["title"])
 
-    print(json.dumps(resultado, ensure_ascii=False, indent=2))
+    #print(json.dumps(resultado, ensure_ascii=False, indent=2))
 
 if __name__ == "__main__":
     main()

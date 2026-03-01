@@ -62,8 +62,6 @@ def search_elastic_with_expansion(
         }
     }
 
-    print(query_body)
-
     response = es.search(index=index_name, body=query_body)
 
     return response
