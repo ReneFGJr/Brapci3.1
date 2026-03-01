@@ -70,7 +70,6 @@ def search_elastic_with_expansion(
     }
 
     print(json.dumps(query_body, indent=2, ensure_ascii=False))
-    sys.exit()
 
     response = es.search(index=index_name, body=query_body)
 
