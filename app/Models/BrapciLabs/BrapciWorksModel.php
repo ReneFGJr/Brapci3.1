@@ -137,6 +137,8 @@ class BrapciWorksModel extends Model
 
         // Executa
         $output = shell_exec($command);
+        echo '<h4>Python Output</h4>';
+        echo '<p>'.$command.'</p>';
 
         pre($output,true);
 
