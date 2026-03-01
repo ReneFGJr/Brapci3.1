@@ -1,7 +1,7 @@
 import sys
 import json
 import os
-import mod_thesa_v2
+import mod_thesa_v2, mod_elasticsearch
 
 def main():
     if len(sys.argv) < 2:
@@ -22,6 +22,14 @@ def main():
         mod_thesa_v2.getThesa(MM)
 
     resultado = mod_thesa_v2.rag_query_v2(pergunta, memory)
+
+    resultado = mod_elasticsearch.search_elastic_with_expansion(
+        consulta_expandida_array=resultado["consulta_expandida_array"],
+        id_list=[351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
+    )
+
+    for hit in resultado["hits"]["hits"]:
+        print(hit["_source"]["title"])
 
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
 
