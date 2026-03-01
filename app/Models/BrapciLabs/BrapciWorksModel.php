@@ -236,8 +236,9 @@ class BrapciWorksModel extends Model
         $data = json_decode($output, true);
         $net = '';
 
-        echo "------";
+        echo "------<pre>";
         PRE($data);
+        echo '</pre>';
 
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
         $_POST['q'] = $q;
