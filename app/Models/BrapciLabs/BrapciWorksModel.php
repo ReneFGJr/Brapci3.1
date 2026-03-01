@@ -166,6 +166,8 @@ class BrapciWorksModel extends Model
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
         $_POST['q'] = $q;
         $_POST['type'] = 'ris';
+
+        pre($_POST);
         echo '</div>';
         echo $this->search_base_ris();
         return "";
@@ -248,6 +250,9 @@ class BrapciWorksModel extends Model
     function process_smartretriavel($data, $vc, $net)
     {
         $T = [];
+
+        echo "------";
+        PRE($data);
 
         // 🔹 Junta os termos vindos do LLM e os autorizados
         $t = [];
