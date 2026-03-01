@@ -3,8 +3,7 @@ from elasticsearch import Elasticsearch
 
 def search_elastic_with_expansion(
         consulta_expandida_array,
-        #id_list,
-        id_list=None,
+        id_list=None,  # agora opcional
         index_name="brapci3.3",
         es_host="http://localhost:9200",
         size=50):
@@ -12,7 +11,7 @@ def search_elastic_with_expansion(
     """
     Consulta ElasticSearch usando:
     - consulta_expandida_array (conceitos + variações)
-    - filtro por lista de IDs
+    - filtro opcional por lista de IDs
     """
 
     es = Elasticsearch(es_host)
@@ -46,20 +45,25 @@ def search_elastic_with_expansion(
             }
         })
 
-    # 🔹 Query final
+    # 🔹 Estrutura base
+    bool_query = {
+        "must": must_clauses
+    }
+
+    # 🔹 Só adiciona filtro se id_list existir
+    if id_list:
+        bool_query["filter"] = [
+            {
+                "terms": {
+                    "id": id_list
+                }
+            }
+        ]
+
     query_body = {
         "size": size,
         "query": {
-            "bool": {
-                "must": must_clauses,
-                "filter": [
-                    {
-                        "terms": {
-                            "id": id_list
-                        }
-                    }
-                ]
-            }
+            "bool": bool_query
         }
     }
 
