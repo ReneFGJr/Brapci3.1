@@ -396,7 +396,6 @@ class BrapciWorksModel extends Model
             $Works[$BrapciID] = $row;
         }
         $Corpus = [];
-        $type = get("type");
         foreach ($IDs as $idw) {
             if (isset($Works[$idw])) {
                 $Corpus[] = $Works[$idw];

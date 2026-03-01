@@ -16,7 +16,8 @@ def main():
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
-    IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
+    #IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
+    IDS = None
     memory = os.path.join(base_dir, 'data', 'thesa_{}.json'.format(MM))
 
     if not os.path.exists(memory):
