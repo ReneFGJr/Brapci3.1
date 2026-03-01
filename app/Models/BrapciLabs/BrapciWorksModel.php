@@ -408,8 +408,10 @@ class BrapciWorksModel extends Model
             }
         }
         /**************************************************** Corpus */
+        $sx = '';
         $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Corpus, 'title' => 'Resultados encontrados', 'class' => 'text-primary']);
         $sx .= view('BrapciLabs/ris/search_result_ris', ['Works' => $Works, 'title' => 'Resultados não encontrados no <i>corpus</i> do projeto', 'class' => 'text-warning']);
+        return $sx;
     }
 
     function search_base_ris()
