@@ -235,6 +235,10 @@ class BrapciWorksModel extends Model
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
         $net = '';
+
+        echo "------";
+        PRE($data);
+
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
         $_POST['q'] = $q;
         $_POST['type'] = 'ris';
@@ -250,9 +254,6 @@ class BrapciWorksModel extends Model
     function process_smartretriavel($data, $vc, $net)
     {
         $T = [];
-
-        echo "------";
-        PRE($data);
 
         // 🔹 Junta os termos vindos do LLM e os autorizados
         $t = [];
