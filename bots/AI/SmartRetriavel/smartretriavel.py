@@ -14,7 +14,7 @@ def main():
     # Tudo depois do nome do script vira a pergunta
     pergunta = " ".join(sys.argv[1:])
 
-    MM = 6
+    MM = 25
     memory = 'data/thesa_{}.json'.format(MM)
 
     if not os.path.exists(memory):
