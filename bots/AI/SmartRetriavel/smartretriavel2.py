@@ -28,10 +28,7 @@ def main():
         id_list=[351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
     )
     print("=======================================")
-    for hit in resultado_el["hits"]["hits"]:
-        print("===>",hit["_source"]["title"])
-
-    #print(json.dumps(resultado, ensure_ascii=False, indent=2))
+    print(resultado_el)
 
 if __name__ == "__main__":
     main()
