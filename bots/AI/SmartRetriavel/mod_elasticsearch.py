@@ -4,7 +4,7 @@ from elasticsearch import Elasticsearch
 def search_elastic_with_expansion(
         consulta_expandida_array,
         id_list,
-        index_name="brapci",
+        index_name="brapci3.3",
         es_host="http://localhost:9200",
         size=50):
 
