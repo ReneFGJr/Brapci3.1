@@ -16,6 +16,7 @@ def main():
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     MM = 25
+    IDS = [351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
     memory = os.path.join(base_dir, 'data', 'thesa_{}.json'.format(MM))
 
     if not os.path.exists(memory):
@@ -25,7 +26,7 @@ def main():
 
     resultado_el = mod_elasticsearch.search_elastic_with_expansion(
         consulta_expandida_array=resultado["consulta_expandida_array"],
-        id_list=[351955, 351956, 351959, 351960, 351961, 351962, 351963, 351964, 351965, 351966]
+        id_list=IDS
     )
     print(resultado_el)
 
