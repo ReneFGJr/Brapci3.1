@@ -28,7 +28,11 @@ def main():
         consulta_expandida_array=resultado["consulta_expandida_array"],
         id_list=IDS
     )
-    print(resultado_el)
+
+    resultado["ids"] = resultado_el
+
+    print(resultado)
+
 
 if __name__ == "__main__":
     main()
