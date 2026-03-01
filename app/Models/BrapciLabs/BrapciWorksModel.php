@@ -232,13 +232,15 @@ class BrapciWorksModel extends Model
         // Executa
         $output = shell_exec($command);
 
+        echo "------<pre>";
+        pre($output);
+        echo '</pre>';
+
         // Decodifica JSON retornado pelo Python
         $data = json_decode($output, true);
         $net = '';
 
-        echo "------<pre>";
-        PRE($output);
-        echo '</pre>';
+
 
         $q = $this->process_smartretriavel($data, $vocabulary, $net);
         $_POST['q'] = $q;
