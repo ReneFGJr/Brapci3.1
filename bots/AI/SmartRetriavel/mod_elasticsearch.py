@@ -49,7 +49,7 @@ def search_elastic_with_expansion(
 
     # 🔹 Estrutura base
     bool_query = {
-        "must": must_clauses
+        "should": must_clauses
     }
 
     # 🔹 Só adiciona filtro se id_list existir
